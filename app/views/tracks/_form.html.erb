@@ -1,0 +1,19 @@
+<%= form_for @track, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :gpx, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.file_field :gpx %>
+    </div>
+  </div>
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                tracks_path, :class => 'btn' %>
+  </div>
+<% end %>

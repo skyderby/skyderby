@@ -1,0 +1,44 @@
+<%- model_class = Track -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:gpx_file_name) %></th>
+      <th><%= model_class.human_attribute_name(:gpx_content_type) %></th>
+      <th><%= model_class.human_attribute_name(:gpx_file_size) %></th>
+      <th><%= model_class.human_attribute_name(:gpx_updated_at) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tracks.each do |track| %>
+      <tr>
+        <td><%= link_to track.id, track_path(track) %></td>
+        <td><%= track.name %></td>
+        <td><%= track.gpx_file_name %></td>
+        <td><%= track.gpx_content_type %></td>
+        <td><%= track.gpx_file_size %></td>
+        <td><%= track.gpx_updated_at %></td>
+        <td><%=l track.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_track_path(track), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      track_path(track),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_track_path,
+            :class => 'btn btn-primary' %>

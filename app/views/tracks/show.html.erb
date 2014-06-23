@@ -1,0 +1,221 @@
+<%- model_class = Track -%>
+
+  <script type="text/javascript" charset="utf-8">
+    $(function() {
+
+      $("#elevation_distance_chart").highcharts({
+        chart: {
+          renderTo: "elevation_distance_chart",
+          type: "areaspline"
+        },
+        title: {
+          text: "Пройдено по высоте/по горизонту"
+        },
+        plotOptions: {
+          areaspline: {
+            fillOpacity: 0.3,
+            marker: {
+              radius: 1
+            }
+          }
+        },
+        tooltip: {
+          shared: true,
+          crosshairs: true,
+          valueSuffix: ' m'
+        },
+        credits: {
+          enabled: false
+        },
+        series: [{
+          name: "Высота",
+          pointInterval: 10,
+          data: <%= @track.get_elev_chart_data.to_json %>
+          },
+          {
+          name: "Расстояние",
+          pointInterval: 10,
+          data: <%= @track.get_dist_chart_data.to_json %>}
+        ]  
+      });
+
+      $("#speeds_chart").highcharts({
+        title: {
+          text: "Вертикальная и горизонтальная скорость"
+        },
+        plotOptions: {
+          series: {
+            marker: {
+              enabled: true,
+              radius: 1
+            }
+          }
+        },
+        yAxis: [{ //Speed yAxis
+          labels: {
+            style: { 
+              color: Highcharts.getOptions().colors[1]
+            }
+          },
+          title: {
+            text: "Скорость, Км/ч",
+            style: {
+              color: Highcharts.getOptions().colors[1]
+            }
+          }
+        }],
+        tooltip: {
+          shared: true,
+          crosshairs: true,
+          valueDecimals: 2
+        },
+        credits: {
+          enabled: false
+        },
+
+        series: [{
+          name: "Гор. Скорость",
+          data: <%= @track.get_h_speed_chart_data.to_json %>
+        },
+        {
+          name: "Верт. Скорость",
+          data: <%= @track.get_v_speed_chart_data.to_json %>
+        }]
+      });
+
+      $("#glideratio_chart").highcharts({
+        title: {
+          text: "Качество полета"
+        },
+        plotOptions: {
+          series: {
+            marker: {
+              enabled: true,
+              radius: 1
+            }
+          }
+        },
+        tooltip: {
+          shared: true,
+          crosshairs: true,
+          valueDecimals: 2
+          },
+        credits: {
+          enabled: false
+        },
+        series: [{
+          name: "Качество",
+          data: <%= @track.get_gr_chart_data.to_json %>
+        }],
+        legend: {
+          enabled: false,
+        }
+      });
+ 
+    });
+  </script>
+
+  <div class="page-header">
+  <table style="width:100%">
+      <tbody>
+        <tr>
+          <td>
+            <h1>Mr.Bird | <%=t '.title', :default => model_class.model_name.human %> #<%= @track.id %></h1>
+          </td>
+          <td style="text-align:right">
+            <%= link_to t('.back', :default => t("helpers.links.back")),
+                        tracks_path, :class => 'btn'  %>
+            <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                        edit_track_path(@track), :class => 'btn' %>
+            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                        track_path(@track),
+                        :method => 'delete',
+                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :class => 'btn btn-danger' %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+ 
+  </div>
+  <dl class="dl-horizontal">
+    <table class="">
+      <tbody>
+        <tr>
+          <td>
+            <dt><strong>Distance:</strong></dt>
+            <dd><%= @track.get_distance.to_i %> m</dd>
+          </td>
+          <td>
+            <dt><strong>Avg. H speed:</strong></dt>
+            <dd><%= @track.get_avg_horizontal_speed.to_i %> km/h</dd>
+          </td>
+        <tr>
+          <td>
+            <dt><strong>Elevation:</strong></dt>
+            <dd><%= @track.get_elevation.to_i %> m</dd>
+          </td>
+          <td>
+            <dt><strong>Avg. V speed:</strong></dt>
+            <dd><%= @track.get_avg_vertical_speed.to_i %> km/h</dd>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <dt><strong>Flight time:</strong></dt>
+            <dd><%= @track.get_flight_time.to_i %> s</dd>
+          </td>
+          <td>
+            <dt><strong>G/R:</strong></dt>
+            <dd><%= @track.get_glide_ratio.round 2 %></dd>
+          </td>
+        </tr>
+      </tbody>
+    </table> 
+  </dl>
+    
+  <div id="glideratio_chart" style="width:100%; height:250px"></div>
+  <div id="speeds_chart" style="width:100%; height:400px;"></div>
+  <div id="elevation_distance_chart" style="width:100%; height:400px;"></div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Время (отн)</th>
+        <th>Широта</th>
+        <th>Долгота</th>
+        <th>Высота</th>
+        <th>Расстояние</th>
+        <th>Верт. скорость</th>
+        <th>Гор. скорость</th>
+        <th>Время (абс)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @track.points.each do |point| %>
+        <tr>
+          <td><%= point.fl_time %></td>
+          <td><%= point.latitude %></td>
+          <td><%= point.longitude %></td>
+          <td><%= point.elevation %></td>
+          <td><%= point.distance %></td>
+          <td><%= point.v_speed %></td>
+          <td><%= point.h_speed %></td>
+          <td><%= point.point_created_at %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <!--<dl class="dl-horizontal">
+    <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+    <dd><%= @track.name %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:gpx_file_name) %>:</strong></dt>
+    <dd><%= @track.gpx_file_name %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:gpx_content_type) %>:</strong></dt>
+    <dd><%= @track.gpx_content_type %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:gpx_file_size) %>:</strong></dt>
+    <dd><%= @track.gpx_file_size %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:gpx_updated_at) %>:</strong></dt>
+    <dd><%= @track.gpx_updated_at %></dd>
+  </dl>-->

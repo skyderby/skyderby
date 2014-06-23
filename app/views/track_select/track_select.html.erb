@@ -1,0 +1,28 @@
+<div class='page-header'>
+  <h1>Файл содержит несколько треков</h1>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Номер</th>
+      <th>Имя</th>
+      <th>Время</th>
+      <th>Длительность</th>
+      <th>Мин. высота</th>
+      <th>Макс. высота</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tracklist.each_with_index do |item, index| %>
+      <tr>
+        <td><%= index %></td>
+        <td><%= link_to item, {:controller => 'tracks', :action => 'new', :cache_id => @key, :index => index} %></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

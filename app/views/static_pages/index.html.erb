@@ -1,0 +1,45 @@
+<% provide(:title, 'Home') %>
+<script type="text/javascript" charset="utf-8">
+  function checkFile(e) {
+    var file_list = e.files;
+    for (var i = 0, file; file = file_list[i]; i++) {
+      var FileName = file.name;
+      var FileExtension = FileName.split('.')[FileName.split('.').length - 1].toLowerCase();
+      var FileSize = file.size;
+      var FileSizeMb = (file.size / 10485760).toFixed(2);
+      var txt = "";
+
+      if (!(FileExtension === "gpx" || FileExtension === "csv"))  {
+        txt += "Расширение файла : " + FileExtension + "\n\n";
+        txt += "Пожалуйтса, выберите файл с расширением csv или gpx.\n\n";
+      }
+      if (FileSize > 1048576) {
+        txt += "Размер файла : " + FileSizeMb + " Мб \n\n";
+        txt += "Размер файла не должен превышать 1 Мб";
+      }
+      if (!(txt === "")) {
+        alert(txt);
+        e.value = "";
+      }
+    }
+  }
+</script>
+
+<div class="page-header">
+  <h1>Выберите файл для загрузки</h1>
+</div>
+  
+<%= form_tag '/select_track', multipart: true, :class => 'form-horizontal' do %>
+  <%= label_tag "track_file", "Путь к файлу:", :class => 'control-label' %>
+  <div class="form-group">
+    <div class="col-sm-10">
+      <%= file_field_tag "track_file", {:onChange => 'checkFile(this)'}  %>
+    </div>
+  </div>
+  <p class='help-block'>Поддерживаются файлы в формате csv и gpx</p>
+  <div class='form-group'>
+    <div class='col-sm-10'>
+      <%= submit_tag 'Загрузить', :class => 'btn btn-default' %>
+    </div>
+  </div
+<% end %>
