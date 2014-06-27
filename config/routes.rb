@@ -1,11 +1,17 @@
 TrackingDerby::Application.routes.draw do
 
-  resources :tracks, :path => "track"
+  #resources :tracks, :path => "track"
+  match '/tracks', :to  => 'tracks#index', :as => :track, :via => :get
+  match '/track/:id', :to => 'tracks#show', :as => 'show_track', :via => :get
+  match '/tracks/new', :to => 'tracks#new', :as => :new, :via => [:get, :post]
+
+  match '/select_track', :to => 'track_select#track_select', :as => :track_select, :via => [:post, :get]
+
+  match '/about', :to => 'static_pages#about', :as => :about, :via => :get
 
   root 'static_pages#index'
 
-  post 'select_track' => 'track_select#track_select'
-  get 'select_track' => 'track_select#track_select'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

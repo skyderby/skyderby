@@ -7,9 +7,14 @@ class TrackSelectController < ApplicationController
     
     # Проверим был ли выбран файл
     if param_file == nil
-      redirect_to :back
+      redirect_to :controller => 'static_pages', :action => 'index'
       return
     end
+
+    @name = params[:name]
+    @suit = params[:suit]
+    @location = params[:location]
+    @comment = params[:comment]
 
     @tracklist = []
     track_file = param_file.read
@@ -43,7 +48,10 @@ class TrackSelectController < ApplicationController
 
     # Если трек всего один - страницу выбора пропускаем
     if @tracklist.count == 1
-      redirect_to :controller => 'tracks', :action => 'new', :cache_id => @key, :index => 0
+      redirect_to :controller => 'tracks', :action => 'new', 
+                    :cache_id => @key, :index => 0, 
+                    :name => @name, :suit => @suit,
+                    :location => @location, :comment => @comment
     end
   end
 

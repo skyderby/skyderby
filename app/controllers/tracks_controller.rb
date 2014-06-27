@@ -16,10 +16,9 @@ class TracksController < ApplicationController
   def new
 
     @trackfile = Rails.cache.read(params[:cache_id])
-    @track_index = params[:index]
-    @pilot_name = params[:name]
     
-    @track = Track.new :trackfile =>  @trackfile, :track_index =>  @track_index, :name => @pilot_name
+    @track = Track.new :trackfile =>  @trackfile, :track_index => params[:index], :name => params[:name], :suit => params[:suit],
+                        :location => params[:location], :comment => params[:comment]
 
     if @track.save 
       redirect_to :action => 'show', :id => @track.id

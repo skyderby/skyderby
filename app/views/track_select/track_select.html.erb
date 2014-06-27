@@ -17,7 +17,9 @@
     <% @tracklist.each_with_index do |item, index| %>
       <tr>
         <td><%= index %></td>
-        <td><%= link_to item, {:controller => 'tracks', :action => 'new', :cache_id => @key, :index => index} %></td>
+        <td><%= link_to item, {:controller => 'tracks', :action => 'new', :name => @name,
+                                :cache_id => @key, :index => index, :suit => @suit, 
+                                :location => @location, :comment => @comment} %></td>
         <td></td>
         <td></td>
         <td></td>

@@ -99,10 +99,10 @@ class Track < ActiveRecord::Base
 
   def calc_distance a, b
     rad_per_deg = Math::PI/180  # PI / 180
-    rkm = 6371                  # Earth radius in kilometers
-    rm = rkm * 1000             # Radius in meters
+    rkm = 6371                  # Радиус земли в километрах
+    rm = rkm * 1000
 
-    dlon_rad = (b[1]-a[1]) * rad_per_deg  # Delta, converted to rad
+    dlon_rad = (b[1]-a[1]) * rad_per_deg
     dlat_rad = (b[0]-a[0]) * rad_per_deg
 
     lat1_rad, lon1_rad = a.map! {|i| i * rad_per_deg }
@@ -111,15 +111,21 @@ class Track < ActiveRecord::Base
     a = Math.sin(dlat_rad/2)**2 + Math.cos(lat1_rad) * Math.cos(lat2_rad) * Math.sin(dlon_rad/2)**2
     c = 2 * Math.asin(Math.sqrt(a))
 
-    rm * c # Delta in meters
+    rm * c # Расстояние в метрах
   end
 
   def process_track_points track_points
 
+    min_h = track_points.min_by{ |x| x['elevation'] }['elevation'];
+
     # Пока не придумал что делать с 5 Гц и 10 Гц файлами - оставляю только первую запись по дате создания
     track_points.uniq!{ |x| DateTime.strptime(x['point_created_at'], '%Y-%m-%dT%H:%M:%S') }
     # Обрежем все точки выше минимума (предполагаю Земли) на 50 метров
-    track_points.reject!{ |x| x['elevation'] < (track_points.min_by{ |x| x['elevation'] }['elevation'] + 50) }
+    track_points.reject!{ |x| x['elevation'] < (min_h + 50) }
+    # Уменьшим высоту во всех точках на минимальную. (корректировка относительно уровня земли)
+    track_points.each do |x|
+      x['elevation'] -= min_h
+    end
     # Расчет дистанции и времени полета
     fl_time = 0
 
@@ -279,10 +285,29 @@ class Track < ActiveRecord::Base
     return arr
   end
 
+  def get_charts_data
+    arr = []
+    prev_point = nil
+  
+    points.each do |point|
 
+      if prev_point != nil
+        arr << {"fl_time" => point.point_created_at - prev_point.point_created_at,
+                'elevation_diff' => (prev_point.elevation - point.elevation).to_i,
+                'elevation' => point.elevation.to_i,
+                'distance' => point.distance.to_i,
+                'h_speed' => point.h_speed.round(2),
+                'v_speed' => point.v_speed.round(2),
+                'glrat' => (point.h_speed.round(2) / point.v_speed.round(2)).round(2)
+                }
+      end
 
+      prev_point = point
 
+    end
 
+    return arr.to_json.html_safe
 
+  end
 
 end

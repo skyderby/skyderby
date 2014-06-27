@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140622114128) do
+ActiveRecord::Schema.define(version: 20140627104442) do
 
   create_table "points", force: true do |t|
     t.integer  "tracksegment_id"
@@ -33,11 +33,10 @@ ActiveRecord::Schema.define(version: 20140622114128) do
   create_table "tracks", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "gpx_file_name"
-    t.string   "gpx_content_type"
-    t.integer  "gpx_file_size"
-    t.datetime "gpx_updated_at"
+    t.datetime "lastviewed_at"
+    t.string   "suit"
+    t.text     "comment"
+    t.string   "location"
   end
 
   create_table "tracksegments", force: true do |t|

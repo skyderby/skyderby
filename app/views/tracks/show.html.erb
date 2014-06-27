@@ -1,221 +1,309 @@
 <%- model_class = Track -%>
 
   <script type="text/javascript" charset="utf-8">
-    $(function() {
 
-      $("#elevation_distance_chart").highcharts({
-        chart: {
-          renderTo: "elevation_distance_chart",
-          type: "areaspline"
-        },
-        title: {
-          text: "Пройдено по высоте/по горизонту"
-        },
-        plotOptions: {
-          areaspline: {
-            fillOpacity: 0.3,
-            marker: {
-              radius: 1
-            }
-          }
-        },
-        tooltip: {
-          shared: true,
-          crosshairs: true,
-          valueSuffix: ' m'
-        },
-        credits: {
-          enabled: false
-        },
-        series: [{
-          name: "Высота",
-          pointInterval: 10,
-          data: <%= @track.get_elev_chart_data.to_json %>
-          },
-          {
-          name: "Расстояние",
-          pointInterval: 10,
-          data: <%= @track.get_dist_chart_data.to_json %>}
-        ]  
-      });
+    $(function() { 
+        
+      var charts_data = <%= @track.get_charts_data %>;
 
-      $("#speeds_chart").highcharts({
-        title: {
-          text: "Вертикальная и горизонтальная скорость"
-        },
-        plotOptions: {
-          series: {
-            marker: {
-              enabled: true,
-              radius: 1
-            }
+      $(document).ready(function() {
+
+        $("#range_selector").ionRangeSlider({
+          min: 0,
+          max: 4000,
+          type: 'double',
+          step: 50,
+          prettify: false,
+          hasGrid: true,
+          from: 0,
+          to: 4000,
+          onFinish: function (obj) {      // callback is called on slider action is finished
+            set_chart_data(obj.toNumber, obj.fromNumber);
           }
-        },
-        yAxis: [{ //Speed yAxis
-          labels: {
-            style: { 
-              color: Highcharts.getOptions().colors[1]
-            }
+        });
+
+        $("#elevation_distance_chart").highcharts({
+          chart: {
+            type: "spline"
           },
           title: {
-            text: "Скорость, Км/ч",
-            style: {
-              color: Highcharts.getOptions().colors[1]
-            }
-          }
-        }],
-        tooltip: {
-          shared: true,
-          crosshairs: true,
-          valueDecimals: 2
-        },
-        credits: {
-          enabled: false
-        },
-
-        series: [{
-          name: "Гор. Скорость",
-          data: <%= @track.get_h_speed_chart_data.to_json %>
-        },
-        {
-          name: "Верт. Скорость",
-          data: <%= @track.get_v_speed_chart_data.to_json %>
-        }]
-      });
-
-      $("#glideratio_chart").highcharts({
-        title: {
-          text: "Качество полета"
-        },
-        plotOptions: {
-          series: {
-            marker: {
-              enabled: true,
-              radius: 1
-            }
-          }
-        },
-        tooltip: {
-          shared: true,
-          crosshairs: true,
-          valueDecimals: 2
+            text: "Пройдено по высоте/по горизонту"
           },
-        credits: {
-          enabled: false
-        },
-        series: [{
-          name: "Качество",
-          data: <%= @track.get_gr_chart_data.to_json %>
-        }],
-        legend: {
-          enabled: false,
-        }
+          plotOptions: {
+            series: {
+              marker: {
+                radius: 1
+              }
+            }
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: 'Дистанция, м'
+            }
+          },
+          tooltip: {
+            shared: true,
+            crosshairs: true,
+            valueSuffix: ' m'
+          },
+          credits: {
+            enabled: false
+          },
+          series: [{
+            name: 'Пройдено по высоте',
+            pointInterval: 10,
+          },
+          {
+            name: 'Пройдено Расстояние',
+            pointInterval: 10
+          },
+          {
+            name: 'Высота',
+            type: 'area',
+            fillOpacity: 0.3,
+            color: Highcharts.getOptions().colors[0],
+            lineWidth: 1,
+            marker: {
+                radius: 0
+            }
+          }]  
+        });
+
+        $("#speeds_chart").highcharts({
+          chart: {
+            type: 'spline'
+          },
+          title: {
+            text: "Вертикальная и горизонтальная скорость"
+          },
+          plotOptions: {
+            series: {
+              marker: {
+                enabled: true,
+                radius: 1
+              }
+            }
+          },
+          yAxis: [{ //Speed yAxis
+            min: 0,
+            labels: {
+              style: { 
+                color: Highcharts.getOptions().colors[1]
+              }
+            },
+            title: {
+              text: "Скорость, Км/ч",
+              style: {
+                color: Highcharts.getOptions().colors[1]
+              }
+            }
+          }],
+          tooltip: {
+            shared: true,
+            crosshairs: true,
+            valueDecimals: 2
+          },
+          credits: {
+            enabled: false
+          },
+          series: [{
+            name: "Гор. Скорость"
+          },
+          {
+            name: "Верт. Скорость"
+          }]
+        });
+
+        $("#glideratio_chart").highcharts({
+          chart: {
+            type: 'spline'
+          },
+          title: {
+            text: "Качество полета"
+          },
+          plotOptions: {
+            series: {
+              marker: {
+                enabled: true,
+                radius: 1
+              }
+            }
+          },
+          tooltip: {
+            shared: true,
+            crosshairs: true,
+            valueDecimals: 2
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: null
+            }
+          },
+          credits: {
+            enabled: false
+          },
+          series: [{
+            name: "Качество",
+            data: <%= @track.get_gr_chart_data.to_json %>
+          }],
+          legend: {
+            enabled: false,
+          }
+        });
+        
+        set_chart_data(4000, 0);
+
       });
+
+      function set_chart_data(max_val, min_val) {
+
+        var dist_data = [];
+        var elev_data = [];
+        var heights_data = [];
+        var h_speed = [];
+        var v_speed = [];
+        var gr = [];
+
+        var avg_h_speed = 0;
+        var avg_v_speed = 0;
+        var avg_gr = 0;
+
+        var min_h_speed = 0;
+        var max_h_speed = 0;
+
+        var min_v_speed = 0;
+        var max_v_speed = 0;
+
+        var min_gr = 0;
+        var max_gr = 0;
+
+        var fl_time = 1;
+        var dist = 0;
+        var elev = 0;
+
+        max_val = typeof max_val !== 'undefined' ? max_val : 100000;
+        min_val = typeof min_val !== 'undefined' ? min_val : 0;
+
+        for (var index in charts_data) {
+
+          if (charts_data[index].elevation < max_val && charts_data[index].elevation > min_val) {
+            dist += charts_data[index].distance;
+            elev += charts_data[index].elevation_diff;
+
+            elev_data.push([fl_time, elev]);
+            dist_data.push([fl_time, dist]);
+
+            heights_data.push([fl_time, charts_data[index].elevation]);
+            h_speed.push([fl_time, charts_data[index].h_speed]);
+            v_speed.push([fl_time, charts_data[index].v_speed]);
+
+            gr.push([fl_time, charts_data[index].glrat]);
+
+            fl_time += charts_data[index].fl_time;
+
+            min_h_speed = min_h_speed == 0 || min_h_speed > charts_data[index].h_speed ? charts_data[index].h_speed : min_h_speed;
+            max_h_speed = max_h_speed == 0 || max_h_speed < charts_data[index].h_speed ? charts_data[index].h_speed : max_h_speed;
+
+            min_v_speed = min_v_speed == 0 || min_v_speed > charts_data[index].v_speed ? charts_data[index].v_speed : min_v_speed;
+            max_v_speed = max_v_speed == 0 || max_v_speed < charts_data[index].v_speed ? charts_data[index].v_speed : max_v_speed;
+            
+            min_gr = min_gr == 0 || min_gr > charts_data[index].glrat ? charts_data[index].glrat : min_gr;
+            max_gr = max_gr == 0 || max_gr < charts_data[index].glrat ? charts_data[index].glrat : max_gr;
+
+          }
+        };
  
+        var ed_chart = $('#elevation_distance_chart').highcharts();
+        ed_chart.series[0].setData(elev_data);
+        ed_chart.series[1].setData(dist_data);
+        ed_chart.series[2].setData(heights_data);
+
+        var sp_chart = $('#speeds_chart').highcharts();
+        sp_chart.series[0].setData(h_speed);
+        sp_chart.series[1].setData(v_speed);
+
+        var gr_chart = $('#glideratio_chart').highcharts();
+        gr_chart.series[0].setData(gr);
+
+        $('#dd_distance').text(dist.toString() + ' м');
+        $('#dd_elevation').text(elev.toString() + ' м');
+        $('#dd_fl_time').text(fl_time.toString() + ' с');
+        
+        $('#p_min_v_speed').text(min_v_speed.toFixed(0).toString() + '...');
+        $('#p_max_v_speed').text('...' + max_v_speed.toFixed(0).toString());
+        $('#p_avg_v_speed').text(Math.round(elev / fl_time * 3.6).toString());
+        
+        $('#p_min_h_speed').text(min_h_speed.toFixed(0).toString() + '...');
+        $('#p_max_h_speed').text('...' + max_h_speed.toFixed(0).toString());
+        $('#p_avg_h_speed').text(Math.round(dist / fl_time * 3.6).toString());
+
+        $('#p_min_gr').text(min_gr.toFixed(2).toString() + '...');
+        $('#p_max_gr').text('...' + max_gr.toFixed(2).toString());
+        $('#p_avg_gr').text((Math.round(dist / fl_time * 3.6) / Math.round(elev / fl_time * 3.6)).toFixed(2).toString());
+
+      };
+
     });
+
   </script>
 
+
   <div class="page-header">
-  <table style="width:100%">
-      <tbody>
-        <tr>
-          <td>
-            <h1>Mr.Bird | <%=t '.title', :default => model_class.model_name.human %> #<%= @track.id %></h1>
-          </td>
-          <td style="text-align:right">
-            <%= link_to t('.back', :default => t("helpers.links.back")),
-                        tracks_path, :class => 'btn'  %>
-            <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                        edit_track_path(@track), :class => 'btn' %>
-            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                        track_path(@track),
-                        :method => 'delete',
-                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                        :class => 'btn btn-danger' %>
-          </td>
-        </tr>
-      </tbody>
-    </table>
- 
+    <h1><%= @track.name %> | Трек #<%= @track.id %> <small>Вингсьют: <%= @track.suit %></small> </h1>
   </div>
-  <dl class="dl-horizontal">
-    <table class="">
-      <tbody>
-        <tr>
-          <td>
-            <dt><strong>Distance:</strong></dt>
-            <dd><%= @track.get_distance.to_i %> m</dd>
-          </td>
-          <td>
-            <dt><strong>Avg. H speed:</strong></dt>
-            <dd><%= @track.get_avg_horizontal_speed.to_i %> km/h</dd>
-          </td>
-        <tr>
-          <td>
-            <dt><strong>Elevation:</strong></dt>
-            <dd><%= @track.get_elevation.to_i %> m</dd>
-          </td>
-          <td>
-            <dt><strong>Avg. V speed:</strong></dt>
-            <dd><%= @track.get_avg_vertical_speed.to_i %> km/h</dd>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <dt><strong>Flight time:</strong></dt>
-            <dd><%= @track.get_flight_time.to_i %> s</dd>
-          </td>
-          <td>
-            <dt><strong>G/R:</strong></dt>
-            <dd><%= @track.get_glide_ratio.round 2 %></dd>
-          </td>
-        </tr>
-      </tbody>
-    </table> 
-  </dl>
-    
+
+  <div class="row">
+    <div class="col-md-3">
+      <dl class="dl-horizontal">
+        <dt><strong>Дистанция:</strong></dt>
+        <dd id="dd_distance"></dd>
+        <dt><strong>Перепад высот:</strong></dt>
+        <dd id="dd_elevation"></dd>
+        <dt><strong>Продолжительность:</strong></dt>
+        <dd id="dd_fl_time"></dd>
+      </dl>
+    </div>
+    <div class="col-md-5">
+      <dl class="dl-horizontal">
+        <dt class="d-term"><strong>Горизонт. скорость:</strong></dt>
+        <dd id="dd_h_speed">
+          <div id="p_min_h_speed" class="min-val"></div>
+          <div id="p_avg_h_speed" class="avg-val"></div>
+          <div id="p_max_h_speed" class="max-val"></div>
+          <div class="val-unit"> км/ч</div>
+        </dd>
+        <dt class="d-term"><strong>Верт. скорость:</strong></dt>
+        <dd id="dd_v_speed">
+          <p id="p_min_v_speed" class="min-val"></p>
+          <p id="p_avg_v_speed" class="avg-val"></p>
+          <p id="p_max_v_speed" class="max-val"></p>
+          <p class="val-unit"> км/ч</p>
+        </dd>
+        <dt><strong>Качество полета:</strong></dt>
+        <dd id="dd_gr">
+          <p id="p_min_gr" class="min-val"></p>
+          <p id="p_avg_gr" class="avg-val"></p>
+          <p id="p_max_gr" class="max-val"></p>
+        </dd>
+      </dl>
+    </div>
+  </div>
+
+  <div style="margin-top: 10px;"></div>
+
+  <div id="content_row" class="row">
+    <div class="" style="float:none;margin-left:auto;margin-right:auto;width:97%">
+      <input type="text" id="range_selector" name="example_name" value="" />
+    </div>
+  </div>
+
   <div id="glideratio_chart" style="width:100%; height:250px"></div>
   <div id="speeds_chart" style="width:100%; height:400px;"></div>
   <div id="elevation_distance_chart" style="width:100%; height:400px;"></div>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Время (отн)</th>
-        <th>Широта</th>
-        <th>Долгота</th>
-        <th>Высота</th>
-        <th>Расстояние</th>
-        <th>Верт. скорость</th>
-        <th>Гор. скорость</th>
-        <th>Время (абс)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @track.points.each do |point| %>
-        <tr>
-          <td><%= point.fl_time %></td>
-          <td><%= point.latitude %></td>
-          <td><%= point.longitude %></td>
-          <td><%= point.elevation %></td>
-          <td><%= point.distance %></td>
-          <td><%= point.v_speed %></td>
-          <td><%= point.h_speed %></td>
-          <td><%= point.point_created_at %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <blockquote>
+    <small><%= @track.comment %></small>
+  </blockquote> 
 
-  <!--<dl class="dl-horizontal">
-    <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
-    <dd><%= @track.name %></dd>
-    <dt><strong><%= model_class.human_attribute_name(:gpx_file_name) %>:</strong></dt>
-    <dd><%= @track.gpx_file_name %></dd>
-    <dt><strong><%= model_class.human_attribute_name(:gpx_content_type) %>:</strong></dt>
-    <dd><%= @track.gpx_content_type %></dd>
-    <dt><strong><%= model_class.human_attribute_name(:gpx_file_size) %>:</strong></dt>
-    <dd><%= @track.gpx_file_size %></dd>
-    <dt><strong><%= model_class.human_attribute_name(:gpx_updated_at) %>:</strong></dt>
-    <dd><%= @track.gpx_updated_at %></dd>
-  </dl>-->
