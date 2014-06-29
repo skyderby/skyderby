@@ -5,20 +5,21 @@
     $(function() { 
         
       var charts_data = <%= @track.get_charts_data %>;
+      var max_height = <%= @track.get_max_height %>;
 
       $(document).ready(function() {
 
         $("#range_selector").ionRangeSlider({
-          min: 0,
-          max: 4000,
+          min: max_height,
+          max: 0,
           type: 'double',
           step: 50,
           prettify: false,
           hasGrid: true,
-          from: 0,
-          to: 4000,
+          from: max_height,
+          to: 0,
           onFinish: function (obj) {      // callback is called on slider action is finished
-            set_chart_data(obj.toNumber, obj.fromNumber);
+            set_chart_data(obj.fromNumber, obj.toNumber);
           }
         });
 
@@ -145,8 +146,7 @@
             enabled: false
           },
           series: [{
-            name: "Качество",
-            data: <%= @track.get_gr_chart_data.to_json %>
+            name: "Качество"
           }],
           legend: {
             enabled: false,

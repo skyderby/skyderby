@@ -10,15 +10,18 @@ class TracksController < ApplicationController
   # GET /tracks/1
   # GET /tracks/1.json
   def show
+    @track.update(:lastviewed_at => Time.now)
   end
 
   # GET /tracks/new
   def new
 
-    @trackfile = Rails.cache.read(params[:cache_id])
+    flight_data = Rails.cache.read(params[:cache_id])
     
-    @track = Track.new :trackfile =>  @trackfile, :track_index => params[:index], :name => params[:name], :suit => params[:suit],
-                        :location => params[:location], :comment => params[:comment]
+    @track = Track.new :trackfile => {'data' => flight_data['data'], 'type' => flight_data['type']}, 
+                        :track_index => params[:index], :name => flight_data['name'], 
+                        :suit => flight_data['suit'], :location => flight_data['location'],
+                        :comment => flight_data['comment']
 
     if @track.save 
       redirect_to :action => 'show', :id => @track.id
@@ -38,7 +41,7 @@ class TracksController < ApplicationController
   # POST /tracks.json
   def create
     @track = Track.new(track_params)
-
+#
     respond_to do |format|
       if @track.save
         format.html { redirect_to @track, notice: 'Track was successfully created.' }

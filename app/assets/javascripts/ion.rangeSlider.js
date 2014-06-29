@@ -272,29 +272,57 @@
 
 
                 // fix diapason
-                if (settings.from < settings.min) {
+                if (settings.min < settings.max) {
+                  
+                  if (settings.from < settings.min) {
+                      settings.from = settings.min;
+                  }
+                  if (settings.from > settings.max) {
+                      settings.from = settings.min;
+                  }
+
+                  if (settings.to < settings.min) {
+                      settings.to = settings.max;
+                  }
+                  if (settings.to > settings.max) {
+                      settings.to = settings.max;
+                  }
+
+                  if (settings.type === "double") {
+                      if (settings.from > settings.to) {
+                          settings.from = settings.to;
+                      }
+                      if (settings.to < settings.from) {
+                          settings.to = settings.from;
+                      }
+                  }
+
+                }
+                else {
+
+                  if (settings.from > settings.min) {
                     settings.from = settings.min;
-                }
-                if (settings.from > settings.max) {
-                    settings.from = settings.min;
-                }
+                  }
+                  if (settings.from < settings.max) {
+                    settings.from = settings.max;
+                  }
 
-                if (settings.to < settings.min) {
+                  if (settings.to > settings.min) {
+                    settings.to = settings.min;
+                  }
+                  if (settings.to < settings.max) {
                     settings.to = settings.max;
-                }
-                if (settings.to > settings.max) {
-                    settings.to = settings.max;
-                }
+                  }
 
-                if (settings.type === "double") {
-                    if (settings.from > settings.to) {
-                        settings.from = settings.to;
+                  if (settings.type === "double") {
+                    if (settings.from < settings.to) {
+                      settings.from = settings.to;
                     }
-                    if (settings.to < settings.from) {
-                        settings.to = settings.from;
+                    if (settings.to > settings.from) {
+                      settings.to = settings.from;
                     }
+                  }
                 }
-
 
                 var prettify = function (num) {
                     var n = num.toString();
@@ -725,11 +753,23 @@
                         nums.fromPers = nums.fromX / fullWidth * 100;
                         _from = (diapason / 100 * nums.fromPers) + settings.min;
                         nums.fromNumber = Math.round(_from / settings.step) * settings.step;
-                        if (nums.fromNumber < settings.min) {
+                        if (settings.min < settings.max) {
+                          if (nums.fromNumber < settings.min) {
                             nums.fromNumber = settings.min;
+                          }
+                        } else {
+                          if (nums.fromNumber > settings.min) {
+                            nums.fromNumber = settings.min;
+                          }
                         }
-                        if (nums.fromNumber > settings.max) {
-                            nums.fromNumber = settings.max;
+                        if (settings.min < settings.max) {
+                          if (nums.toNumber > settings.max) {
+                              nums.toNumber = settings.max;
+                          }
+                        } else {
+                          if (nums.toNumber < settings.max) {
+                            nums.toNumber = settings.max;
+                          }
                         }
 
                         if (stepFloat) {
@@ -746,16 +786,28 @@
                         nums.fromPers = nums.fromX / fullWidth * 100;
                         _from = (diapason / 100 * nums.fromPers) + settings.min;
                         nums.fromNumber = Math.round(_from / settings.step) * settings.step;
-                        if (nums.fromNumber < settings.min) {
+                        if (settings.min < settings.max) {
+                          if (nums.fromNumber < settings.min) {
                             nums.fromNumber = settings.min;
+                          }
+                        } else {
+                          if (nums.fromNumber > settings.min) {
+                            nums.fromNumber = settings.min;
+                          }
                         }
 
                         nums.toX = $.data($toSlider[0], "x") || parseInt($toSlider[0].style.left, 10) || $toSlider.position().left;
                         nums.toPers = nums.toX / fullWidth * 100;
                         _to = (diapason / 100 * nums.toPers) + settings.min;
                         nums.toNumber = Math.round(_to / settings.step) * settings.step;
-                        if (nums.toNumber > settings.max) {
+                        if (settings.min < settings.max) {
+                          if (nums.toNumber > settings.max) {
+                              nums.toNumber = settings.max;
+                          }
+                        } else {
+                          if (nums.toNumber < settings.max) {
                             nums.toNumber = settings.max;
+                          }
                         }
 
                         if (stepFloat) {

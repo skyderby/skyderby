@@ -65,6 +65,7 @@ GEM
     mini_portile (0.6.0)
     minitest (4.7.5)
     multi_json (1.10.1)
+    mysql2 (0.3.16)
     nokogiri (1.6.2.1)
       mini_portile (= 0.6.0)
     paperclip (3.5.4)
@@ -141,6 +142,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   less-rails-bootstrap
+  mysql2
   nokogiri
   paperclip (~> 3.0)
   rails (= 4.0.2)

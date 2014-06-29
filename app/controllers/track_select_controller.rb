@@ -11,11 +11,6 @@ class TrackSelectController < ApplicationController
       return
     end
 
-    @name = params[:name]
-    @suit = params[:suit]
-    @location = params[:location]
-    @comment = params[:comment]
-
     @tracklist = []
     track_file = param_file.read
 
@@ -41,7 +36,9 @@ class TrackSelectController < ApplicationController
       return
     end
 
-    flight_data = {'data' => track_file, 'type' => content_type}
+    flight_data = {'data' => track_file, 'type' => content_type, 
+                    'name' => params[:name], 'suit' => params[:suit], 
+                    'location' => params[:location], 'comment' => params[:comment]}
 
     @key = SecureRandom.uuid.to_s
     Rails.cache.write(@key, flight_data)
@@ -49,15 +46,13 @@ class TrackSelectController < ApplicationController
     # Если трек всего один - страницу выбора пропускаем
     if @tracklist.count == 1
       redirect_to :controller => 'tracks', :action => 'new', 
-                    :cache_id => @key, :index => 0, 
-                    :name => @name, :suit => @suit,
-                    :location => @location, :comment => @comment
+                    :cache_id => @key, :index => 0
     end
   end
 
   private
-    def track_select_params
-      params.reauire(:track_select).permit(:name, :track_file)
-    end
+    #def track_select_params
+    #  params.reauire(:track_select).permit(:name, :track_file)
+    #end
 
 end
