@@ -26,7 +26,7 @@ class TracksController < ApplicationController
     if @track.save 
       redirect_to :action => 'show', :id => @track.id
     else
-      redirect_to :controller => 'static_pages', :action => 'index'
+      redirect_to :controller => 'static_pages', :action => 'upload_error'
     end
 
     return

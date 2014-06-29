@@ -1,25 +1,27 @@
+<script type="text/javascript" charset="utf-8">
+  $(document).ready(function($) {
+    $(".clickableRow").click(function() {
+      window.document.location = $(this).data("url");
+    });
+  });
+</script>
+
 <div class='page-header'>
   <h1>Файл содержит несколько треков</h1>
 </div>
 
-<table class="table table-striped">
+<table class="table table-hover">
   <thead>
     <tr>
       <th>Номер</th>
       <th>Имя</th>
-      <th>Время</th>
-      <th>Мин. высота</th>
-      <th>Макс. высота</th>
     </tr>
   </thead>
   <tbody>
     <% @tracklist.each_with_index do |item, index| %>
-      <tr>
-        <td><%= index %></td>
-        <td><%= link_to item, {:controller => 'tracks', :action => 'new', :cache_id => @key, :index => index} %></td>
-        <td></td>
-        <td></td>
-        <td></td>
+      <tr class='clickableRow' style='cursor: pointer' data-url="<%= new_track_path(:cache_id => @key, :index => index) %>">
+        <td class="text-info"><%= index %></td>
+        <td class="text-info"><%= item %></td>
       </tr>
     <% end %>
   </tbody>

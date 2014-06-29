@@ -2,11 +2,8 @@ class Track < ActiveRecord::Base
 
   attr_accessor :trackfile, :track_index
 
-  #validates_presence_of :points
-
   has_many :tracksegments, :dependent => :destroy
   has_many :points, :through => :tracksegments
-  #after_create :parse_file
   before_save :parse_file
 
   def get_charts_data
@@ -14,9 +11,8 @@ class Track < ActiveRecord::Base
     prev_point = nil
   
     points.each do |point|
-
       if prev_point != nil
-        arr << {"fl_time" => point.point_created_at - prev_point.point_created_at,
+        arr << {'fl_time' => point.point_created_at - prev_point.point_created_at,
                 'elevation_diff' => (prev_point.elevation - point.elevation).to_i,
                 'elevation' => point.elevation.to_i,
                 'distance' => point.distance.to_i,
@@ -25,19 +21,14 @@ class Track < ActiveRecord::Base
                 'glrat' => (point.h_speed.round(2) / point.v_speed.round(2)).round(2)
                 }
       end
-
       prev_point = point
-
     end
 
     return arr.to_json.html_safe
-
   end
 
   def get_max_height
-
-    return points.maximum(:elevation)
-
+    return points.maximum(:elevation).to_i
   end
 
   private
@@ -61,7 +52,9 @@ class Track < ActiveRecord::Base
 
     def get_file_format header
 
-      headers_hash = {'flysight' => ['time','lat','lon','hMSL','velN','velE','velD','hAcc','vAcc','sAcc','gpsFix','numSV']}
+      headers_hash = {'flysight' => ['time','lat','lon','hMSL','velN','velE','velD','hAcc','vAcc','sAcc','gpsFix','numSV'],
+                      'columbusV900' => ['INDEX','TAG','DATE','TIME','LATITUDE N/S','LONGITUDE E/W','HEIGHT','SPEED','HEADING','VOX']}
+
       file_format = headers_hash.select{|key,hash| hash == header}.keys[0]
       return file_format
 
@@ -71,7 +64,15 @@ class Track < ActiveRecord::Base
 
       if format == 'flysight'
         return nil if row[1].to_f == 0.0 
-        return { 'latitude' => row[1].to_f, 'longitude' => row[2].to_f, 'elevation' => row[3].to_f, 'point_created_at' => row[0].to_s }
+        return {'latitude' => row[1].to_f, 'longitude' => row[2].to_f, 'elevation' => row[3].to_f, 'point_created_at' => row[0].to_s}
+      elsif format == 'columbusV900'
+        return nil if row[6].to_f == 0.0
+        return {'latitude' => (row[4][0..(row[4].length-2)] * (row[4][row[4].length-1] == 'N' ? 1 : -1)).to_f,
+                'longitude' => (row[5][0..(row[5].length-2)] * (row[5][row[5].length-1] == 'E' ? 1 : 01)).to_f, 
+                'elevation' => row[6].to_f, 
+                'point_created_at' => DateTime.strptime('20' + row[2].to_s + 'T' + row[3].to_s, '%Y%m%dT%H%M%S').strftime('%Y-%m-%dT%H:%M:%S')}
+      else 
+        return nil
       end
 
     end
@@ -94,11 +95,9 @@ class Track < ActiveRecord::Base
         end
 
         track_points << parse_csv_row(row, file_format)
-
       end
 
       track_points.compact!
-
       return track_points
     end
 
@@ -181,15 +180,6 @@ class Track < ActiveRecord::Base
         fl_time += 1
       end
 
-      # Скользящее среднее
-      #track_points.each_index do |i|
-      #  if i > 0 && i < (track_points.count - 1) 
-      #   #sma = track_points[i-(sma_size-3)..i + (sma_size-3)].map{ |x| x['elevation'] }.inject(0.0){ |sum, el| sum + el} / sma_size
-      #    sma = (track_points[i-1]['elevation'] + track_points[i+1]['elevation']) / 2 
-      #    track_points[i]['elevation'] = sma
-      #  end
-      #end
-
       # Медианный фильтр для расстояния и высоты
       track_points.each_index do |i|
         
@@ -206,19 +196,10 @@ class Track < ActiveRecord::Base
         
       end
 
-      # Low Pass Filter
-      #lpf_k = 0.7
-      #track_points.each_index do |i|
-      #  if i>1
-      #    track_points[i]['elevation'] = track_points[i-1]['elevation'] * lpf_k + track_points[i]['elevation'] * (1-lpf_k)
-      #  end
-      #end
-
       # Обрежем все точки до первой, где вертикальная скорость превысила 20 км/ч
       track_points = track_points.drop_while { |x| x['v_speed'] < 20 }
 
       return track_points
-
     end
 
     def record_track_points track_points
