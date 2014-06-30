@@ -67,7 +67,7 @@ class Track < ActiveRecord::Base
     def parse_csv_row(row, format)
 
       if format == 'flysight'
-        return nil if row[1].to_f == 0.0 
+        return nil if (row[1].to_f == 0.0 || row[8].to_i > 70)
         return {'latitude' => row[1].to_f, 'longitude' => row[2].to_f, 'elevation' => row[3].to_f, 'point_created_at' => row[0].to_s}
       elsif format == 'columbusV900'
         return nil if row[6].to_f == 0.0
@@ -158,12 +158,16 @@ class Track < ActiveRecord::Base
 
     def process_track_points track_points
 
-      min_h = track_points.min_by{ |x| x['elevation'] }['elevation'];
-
       # Пока не придумал что делать с 5 Гц и 10 Гц файлами - оставляю только первую запись по дате создания
       track_points.uniq!{ |x| DateTime.strptime(x['point_created_at'], '%Y-%m-%dT%H:%M:%S') }
+
+      min_h = track_points.min_by{ |x| x['elevation'] }['elevation'];
+      max_h = track_points.max_by{ |x| x['elevation'] }['elevation'];
+
       # Обрежем все точки выше минимума (предполагаю Земли) на 50 метров
       track_points.reject!{ |x| x['elevation'] < (min_h + 50) }
+      # Обрежем все точки предшествующие максимальной высоте
+      track_points = track_points.drop_while { |x| x['elevation'] < max_h }
       # Уменьшим высоту во всех точках на минимальную. (корректировка относительно уровня земли)
       track_points.each do |x|
         x['elevation'] -= min_h
@@ -201,7 +205,7 @@ class Track < ActiveRecord::Base
       end
 
       # Обрежем все точки до первой, где вертикальная скорость превысила 20 км/ч
-      track_points = track_points.drop_while { |x| x['v_speed'] < 20 }
+      track_points = track_points.drop_while { |x| x['v_speed'] < 25 }
 
       return track_points
     end
