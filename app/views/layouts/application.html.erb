@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Летай! Соревнуйся! Побеждай!</title>
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <div role="navigation" class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Главная</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li>
+              <%= link_to 'Треки', :controller => 'tracks', :action => 'index' %>
+            </li>
+            <li>
+              <%= link_to 'О проекте', :controller => 'static_pages', :action => 'about' %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <%= yield %>
+    </div>
+
+    <div class="navbar navbar-default navbar-static-bottom">
+      <div class="container">
+        <p class="copyright">© 2014 Александр Кунин.</p>
+      </div>
+    </div>
+
+  </body>
+</html>

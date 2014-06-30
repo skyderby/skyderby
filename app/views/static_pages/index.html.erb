@@ -1,0 +1,83 @@
+<% provide(:title, 'Home') %>
+<script type="text/javascript" charset="utf-8">
+  function checkFile(e) {
+    var file_list = e.files;
+    for (var i = 0, file; file = file_list[i]; i++) {
+      var FileName = file.name;
+      var FileExtension = FileName.split('.')[FileName.split('.').length - 1].toLowerCase();
+      var FileSize = file.size;
+      var FileSizeMb = (file.size / 10485760).toFixed(2);
+      var txt = "";
+
+      if (!(FileExtension === "gpx" || FileExtension === "csv"))  {
+        txt += "Расширение файла : " + FileExtension + "\n\n";
+        txt += "Пожалуйтса, выберите файл с расширением csv или gpx.\n\n";
+      }
+      if (FileSize > 1048576) {
+        txt += "Размер файла : " + FileSizeMb + " Мб \n\n";
+        txt += "Размер файла не должен превышать 1 Мб";
+      }
+      if (!(txt === "")) {
+        alert(txt);
+        e.value = "";
+      }
+    }
+  }
+</script>
+
+<div class="page-header">
+  <h1>Летай! Соревнуйся! Побеждай! <small> Альфа версия. Это еще не Бета.</small></h1>
+</div>
+  
+<div class="jumbotron col-sm-8">
+  <h2>Посмотреть и оценить трек:</h2>
+  <%= form_tag '/select_track', multipart: true, :class => 'form-horizontal', :role => 'form' do %>
+    <div class="form-group">
+      <%= label_tag 'name', 'Вас зовут:', :class => 'col-sm-3 control-label', :for => 'name' %>
+      <div class="col-sm-9">
+        <%= text_field_tag 'name', nil, :class => 'form-control', :placeholder => 'Имя Ф.', :type => 'text' %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= label_tag 'suit', 'Вы летаете в:', :class => 'col-sm-3 control-label', :for => 'suit' %>
+      <div class="col-sm-9">
+        <%= text_field_tag 'suit', nil, :class => 'form-control', :placeholder => 'Модель вингсьюта', :type => 'text' %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= label_tag 'location', 'Локация:', :class => 'col-sm-3 control-label', :for => 'location' %>
+      <div class="col-sm-9">
+        <%= text_field_tag 'location', nil, :class => 'form-control', :placeholder => 'ДЗ, горы, и т.д.', :type => 'text' %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= label_tag "track_file", "Файл трека:", :class => 'col-sm-3 control-label', :for => 'track_file' %>
+      <div class="col-sm-9">
+        <%= file_field_tag "track_file", {:onChange => 'checkFile(this)'}  %>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-3 col-sm-9">
+        <h4 class='help-block'>Поддерживаются файлы в формате csv и gpx</h4>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= label_tag 'Комментарий:', nil, :class => 'col-sm-3 control-label', :for => 'comment' %>
+      <div class="col-sm-9">
+        <%= text_area_tag 'comment', nil, :class => 'form-control', :rows => 3, :placeholder => 'Пара слов о Вашем полете' %>
+      </div>
+    </div>
+    <div class='form-group'>
+      <div class='col-sm-offset-3 col-sm-9'>
+        <%= submit_tag 'Загрузить', :class => 'btn btn-default' %>
+      </div>
+    </div
+  <% end %>
+</div>
+<div class="col-sm-8">
+  <h3>Или</h3>
+</div>
+<div class="jumbotron col-sm-8">
+  <h2>Посоревноваться:</h2>
+  <h4 class="help-block">Скоро будет</h4>
+</div>

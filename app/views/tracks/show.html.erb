@@ -1,0 +1,328 @@
+<%- model_class = Track -%>
+
+  <script type="text/javascript" charset="utf-8">
+
+    $(function() { 
+        
+      var charts_data = <%= @track.get_charts_data %>;
+      var max_height = <%= @track.get_max_height %>;
+      var charts_array = [];
+
+      $(document).ready(function() {
+
+        $("#range_selector").ionRangeSlider({
+          min: max_height,
+          max: 0,
+          type: 'double',
+          step: 50,
+          prettify: false,
+          hasGrid: true,
+          from: max_height,
+          to: 0,
+          onFinish: function (obj) {      // callback is called on slider action is finished
+            set_chart_data(obj.fromNumber, obj.toNumber);
+          }
+        });
+
+        charts_array[0] = new Highcharts.Chart({
+          chart: {
+            type: 'spline',
+            renderTo: 'elevation_distance_chart'
+          },
+          title: {
+            text: "Пройдено по высоте/по горизонту"
+          },
+          plotOptions: {
+            series: {
+              marker: {
+                radius: 1
+              },
+              point: {
+                events: {
+                  mouseOver: function () {
+                    syncTooltip(this.series.chart.container, this.x);
+                    }
+                }
+              }
+            }
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: 'Дистанция, м'
+            }
+          },
+          tooltip: {
+            shared: true,
+            crosshairs: true,
+            valueSuffix: ' m'
+          },
+          credits: {
+            enabled: false
+          },
+          series: [{
+            name: 'Пройдено по высоте',
+            pointInterval: 10,
+          },
+          {
+            name: 'Пройдено Расстояние',
+            pointInterval: 10
+          },
+          {
+            name: 'Высота',
+            type: 'area',
+            fillOpacity: 0.3,
+            color: Highcharts.getOptions().colors[0],
+            lineWidth: 1,
+            marker: {
+                radius: 0
+            }
+          }]  
+        });
+
+        charts_array[1] = new Highcharts.Chart({
+          chart: {
+            type: 'spline',
+            renderTo: 'speeds_chart'
+          },
+          title: {
+            text: "Вертикальная и горизонтальная скорость"
+          },
+          plotOptions: {
+            series: {
+              marker: {
+                enabled: true,
+                radius: 1
+              }
+            }
+          },
+          yAxis: [{ //Speed yAxis
+            min: 0,
+            labels: {
+              style: { 
+                color: Highcharts.getOptions().colors[1]
+              }
+            },
+            title: {
+              text: "Скорость, Км/ч",
+              style: {
+                color: Highcharts.getOptions().colors[1]
+              }
+            }
+          }],
+          tooltip: {
+            shared: true,
+            crosshairs: true,
+            valueDecimals: 2
+          },
+          credits: {
+            enabled: false
+          },
+          series: [{
+            name: "Гор. Скорость"
+          },
+          {
+            name: "Верт. Скорость"
+          }]
+        });
+
+        charts_array[2] = new Highcharts.Chart({
+          chart: {
+            type: 'spline',
+            renderTo: 'glideratio_chart'
+          },
+          title: {
+            text: "Качество полета"
+          },
+          plotOptions: {
+            series: {
+              marker: {
+                enabled: true,
+                radius: 1
+              }
+            }
+          },
+          tooltip: {
+            shared: true,
+            crosshairs: true,
+            valueDecimals: 2
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: null
+            }
+          },
+          credits: {
+            enabled: false
+          },
+          series: [{
+            name: "Качество"
+          }],
+          legend: {
+            enabled: false,
+          }
+        });
+        
+        set_chart_data(4000, 0);
+
+      });
+
+      function set_chart_data(max_val, min_val) {
+
+        var dist_data = [];
+        var elev_data = [];
+        var heights_data = [];
+        var h_speed = [];
+        var v_speed = [];
+        var gr = [];
+
+        var avg_h_speed = 0;
+        var avg_v_speed = 0;
+        var avg_gr = 0;
+
+        var min_h_speed = 0;
+        var max_h_speed = 0;
+
+        var min_v_speed = 0;
+        var max_v_speed = 0;
+
+        var min_gr = 0;
+        var max_gr = 0;
+
+        var fl_time = 1;
+        var dist = 0;
+        var elev = 0;
+
+        max_val = typeof max_val !== 'undefined' ? max_val : 100000;
+        min_val = typeof min_val !== 'undefined' ? min_val : 0;
+
+        for (var index in charts_data) {
+
+          if (charts_data[index].elevation < max_val && charts_data[index].elevation > min_val) {
+            dist += charts_data[index].distance;
+            elev += charts_data[index].elevation_diff;
+
+            elev_data.push([fl_time, elev]);
+            dist_data.push([fl_time, dist]);
+
+            heights_data.push([fl_time, charts_data[index].elevation]);
+            h_speed.push([fl_time, charts_data[index].h_speed]);
+            v_speed.push([fl_time, charts_data[index].v_speed]);
+
+            gr.push([fl_time, charts_data[index].glrat]);
+
+            fl_time += charts_data[index].fl_time;
+
+            min_h_speed = min_h_speed == 0 || min_h_speed > charts_data[index].h_speed ? charts_data[index].h_speed : min_h_speed;
+            max_h_speed = max_h_speed == 0 || max_h_speed < charts_data[index].h_speed ? charts_data[index].h_speed : max_h_speed;
+
+            min_v_speed = min_v_speed == 0 || min_v_speed > charts_data[index].v_speed ? charts_data[index].v_speed : min_v_speed;
+            max_v_speed = max_v_speed == 0 || max_v_speed < charts_data[index].v_speed ? charts_data[index].v_speed : max_v_speed;
+            
+            min_gr = min_gr == 0 || min_gr > charts_data[index].glrat ? charts_data[index].glrat : min_gr;
+            max_gr = max_gr == 0 || max_gr < charts_data[index].glrat ? charts_data[index].glrat : max_gr;
+
+          }
+        };
+ 
+        var ed_chart = $('#elevation_distance_chart').highcharts();
+        ed_chart.series[0].setData(elev_data);
+        ed_chart.series[1].setData(dist_data);
+        ed_chart.series[2].setData(heights_data);
+
+        var sp_chart = $('#speeds_chart').highcharts();
+        sp_chart.series[0].setData(h_speed);
+        sp_chart.series[1].setData(v_speed);
+
+        var gr_chart = $('#glideratio_chart').highcharts();
+        gr_chart.series[0].setData(gr);
+
+        $('#dd_distance').text(dist.toString() + ' м');
+        $('#dd_elevation').text(elev.toString() + ' м');
+        $('#dd_fl_time').text(fl_time.toString() + ' с');
+        
+        $('#p_min_v_speed').text(min_v_speed.toFixed(0).toString() + '...');
+        $('#p_max_v_speed').text('...' + max_v_speed.toFixed(0).toString());
+        $('#p_avg_v_speed').text(Math.round(elev / fl_time * 3.6).toString());
+        
+        $('#p_min_h_speed').text(min_h_speed.toFixed(0).toString() + '...');
+        $('#p_max_h_speed').text('...' + max_h_speed.toFixed(0).toString());
+        $('#p_avg_h_speed').text(Math.round(dist / fl_time * 3.6).toString());
+
+        $('#p_min_gr').text(min_gr.toFixed(2).toString() + '...');
+        $('#p_max_gr').text('...' + max_gr.toFixed(2).toString());
+        $('#p_avg_gr').text((Math.round(dist / fl_time * 3.6) / Math.round(elev / fl_time * 3.6)).toFixed(2).toString());
+
+      };
+      
+      function syncTooltip(container, p) {
+        var i;
+        //for (i = 0; i < charts_array.length; i++) {
+        //  if (container.id != charts_array[i].container.id) 
+        //    charts_array[i].tooltip.refresh(charts_array[i].series[0].data[p]);
+        //}
+      };
+
+    });
+
+  </script>
+
+
+  <div class="page-header">
+    <h1><%= @track.name %> | Трек #<%= @track.id %> <small>Вингсьют: <%= @track.suit %></small> </h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <dl class="dl-horizontal">
+        <dt><strong>Дистанция:</strong></dt>
+        <dd id="dd_distance"></dd>
+        <dt><strong>Перепад высот:</strong></dt>
+        <dd id="dd_elevation"></dd>
+        <dt><strong>Продолжительность:</strong></dt>
+        <dd id="dd_fl_time"></dd>
+      </dl>
+    </div>
+    <div class="col-md-5">
+      <dl class="dl-horizontal">
+        <dt class="d-term"><strong>Горизонт. скорость:</strong></dt>
+        <dd id="dd_h_speed">
+          <div id="p_min_h_speed" class="min-val"></div>
+          <div id="p_avg_h_speed" class="avg-val"></div>
+          <div id="p_max_h_speed" class="max-val"></div>
+          <div class="val-unit"> км/ч</div>
+        </dd>
+        <dt class="d-term"><strong>Верт. скорость:</strong></dt>
+        <dd id="dd_v_speed">
+          <p id="p_min_v_speed" class="min-val"></p>
+          <p id="p_avg_v_speed" class="avg-val"></p>
+          <p id="p_max_v_speed" class="max-val"></p>
+          <p class="val-unit"> км/ч</p>
+        </dd>
+        <dt><strong>Качество полета:</strong></dt>
+        <dd id="dd_gr">
+          <p id="p_min_gr" class="min-val"></p>
+          <p id="p_avg_gr" class="avg-val"></p>
+          <p id="p_max_gr" class="max-val"></p>
+        </dd>
+      </dl>
+    </div>
+  </div>
+
+  <div style="margin-top: 10px;"></div>
+
+  <div id="content_row" class="row">
+    <div class="" style="float:none;margin-left:auto;margin-right:auto;width:97%">
+      <input type="text" id="range_selector" name="example_name" value="" />
+    </div>
+  </div>
+
+  <div id="glideratio_chart" style="width:100%; height:250px"></div>
+  <div id="speeds_chart" style="width:100%; height:400px;"></div>
+  <div id="elevation_distance_chart" style="width:100%; height:400px;"></div>
+
+  <blockquote>
+    <small><%= @track.comment %></small>
+  </blockquote> 
+
