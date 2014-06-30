@@ -1,6 +1,21 @@
 
 <script src="//google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 
+<h3>Используемые компоненты:</h3>
+<dl>
+  <dt>Используемый фреймворк:</dt>
+  <dd>Ruby on Rails</dd>
+  <dt>Верстка страниц:</dt>
+  <dd>Bootstrap 3.0</dd>
+  <dt>Построение графиков:</dt>
+  <dd>Highcharts</dd>
+  <dt>Слайдер для выбора диапазона:</dt>
+  <dd>Ion.RangeSlider</dd>
+</dl>
+
+<h3>Следите за ходом проекта на:
+<a href="http://issues.ipkunin.ru/projects/tracking-derby/roadmap">issues.ipkunin.ru/tracking-derby</a></h3>
+
 <div class="panel-group" id="accordion">
   <div class="panel panel-default">
     <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
@@ -31,47 +46,56 @@
 
   def process_track_points track_points
 
-    min_h = track_points.min_by{ |x| x['elevation'] }['elevation'];
-
-    # Пока не придумал что делать с 5 Гц и 10 Гц файлами - оставляю только одну запись в секунду
+    # Пока не придумал что делать с 5 Гц и 10 Гц файлами - оставляю только первую запись по дате создания
     track_points.uniq!{ |x| DateTime.strptime(x['point_created_at'], '%Y-%m-%dT%H:%M:%S') }
-    # Обрежем все точки выше минимума (предполагаю Земли) на 50 метров
-    track_points.reject!{ |x| x['elevation'] < (min_h + 50) } 
-    # Уменьшим высоту во всех точках на минимальную. (корректировка относительно уровня земли)
-    track_points.each do |x|   
-      x['elevation'] -= min_h  
-    end
 
-    # Расчет дистанции и скоростей
+    min_h = track_points.min_by{ |x| x['elevation'] }['elevation'];
+    max_h = track_points.max_by{ |x| x['elevation'] }['elevation'];
+
+    # Обрежем все точки выше минимума (предполагаю Земли) на 50 метров
+    track_points.reject!{ |x| x['elevation'] < (min_h + 50) }
+    # Обрежем все точки предшествующие максимальной высоте
+    track_points = track_points.drop_while { |x| x['elevation'] < max_h }
+    # Уменьшим высоту во всех точках на минимальную. (корректировка относительно уровня земли)
+    track_points.each do |x|
+      x['elevation'] -= min_h
+    end
+    # Расчет дистанции и времени полета
     fl_time = 0
 
-    track_points.each_index do |i|  
+    track_points.each_index do |i|
       point = track_points[i]
-      point['distance'] = 0 if i == 0 
+      point['fl_time'] = fl_time
+      point['distance'] = 0 if i == 0
       if i > 0
         prev_point = track_points.at(i-1)
         point['distance'] = calc_distance [prev_point['latitude'], prev_point['longitude']], [point['latitude'], point['longitude']] 
         point['h_speed'] = point['distance'] * 3.6
         point['v_speed'] = (prev_point['elevation'] - point['elevation']) * 3.6
       end
+      fl_time += 1
     end
-                                                                   
-    # Медианный фильтр для расстояния, высоты и скоростей
-    track_points.each_index do |i|
-      point = track_points[i]
 
+    # Медианный фильтр для расстояния и высоты
+    track_points.each_index do |i|
+      
+      point = track_points[i]
+      
       median_start = [0, i-1].max
       median_end  = [track_points.count-1, i+1].min
-
+      
       median_points = [track_points[median_start], point, track_points[median_end]]
       point['distance']  = median_points.map { |x| x['distance'] }.sort[1]
       point['elevation'] = median_points.map { |x| x['elevation'] }.sort[1]
       point['h_speed']   = median_points.map { |x| x['h_speed'] || 0 }.sort[1]
       point['v_speed']   = median_points.map { |x| x['v_speed'] || 0 }.sort[1]
+      
     end
 
     # Обрежем все точки до первой, где вертикальная скорость превысила 20 км/ч
-    track_points = track_points.drop_while { |x| x['v_speed'] < 20 }
+    track_points = track_points.drop_while { |x| x['v_speed'] < 25 }
+
+    return track_points
   end
         </pre>
       </div>
