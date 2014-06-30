@@ -34,15 +34,19 @@ class Track < ActiveRecord::Base
   private
     def parse_file
 
+      track_points = []
+
       if self.new_record?
-        if trackfile['type'] == 'text/csv'
+        if trackfile['ext'] == '.csv'
           track_points = parse_csv trackfile['data'], track_index
-        else
+        elsif trackfile['ext'] == '.gpx'
           doc = Nokogiri::XML(trackfile['data'])
           track_points = parse_xml doc, track_index
         end
       
-        if !track_points.empty?
+        if track_points.empty?
+          return false
+        else
           processed_track_points = process_track_points track_points
           record_track_points processed_track_points
         end

@@ -7,7 +7,7 @@ class TrackSelectController < ApplicationController
     
     # Проверим был ли выбран файл
     if param_file == nil
-      redirect_to :controller => 'static_pages', :action => 'index'
+      redirect_to :controller => 'static_pages', :action => 'upload_error'
       return
     end
 
@@ -16,10 +16,11 @@ class TrackSelectController < ApplicationController
 
     content_type = param_file.content_type
 
-    puts content_type
-    if content_type == 'text/csv'
+    filename =  param_file.original_filename
+    ext = filename.downcase[filename.length - 4..filename.length-1]
+    if ext == '.csv'
       @tracklist << 'main'
-    else
+    elsif ext == '.gpx'
       doc = Nokogiri::XML(track_file)
       doc.root.elements.each do |node|
         if node.node_name.eql? 'trk'
@@ -28,6 +29,9 @@ class TrackSelectController < ApplicationController
           end
         end
       end
+    else
+      redirect_to :controller => 'static_pages', :action => 'upload_error'
+      return
     end
 
     # Проверим, содержит ли файл треки
@@ -36,7 +40,7 @@ class TrackSelectController < ApplicationController
       return
     end
 
-    flight_data = {'data' => track_file, 'type' => content_type, 
+    flight_data = {'data' => track_file, 'ext' => ext, 
                     'name' => params[:name], 'suit' => params[:suit], 
                     'location' => params[:location], 'comment' => params[:comment]}
 

@@ -4,7 +4,12 @@ gem 'rails', '4.0.2'
 
 gem 'mysql2', :group => :production
 
-gem 'sqlite3', :group => [:development, :test]
+
+group :development, :test do
+  gem 'sqlite3' 
+  gem 'rspec'
+  gem 'rspec-rails'
+end
 
 gem 'sass-rails', '~> 4.0.0'
 gem 'coffee-rails', '~> 4.0.0'
@@ -15,7 +20,6 @@ gem 'twitter-bootstrap-rails'
 
 
 gem 'jquery-rails'
-gem 'paperclip', '~>3.0'
 gem 'nokogiri'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
