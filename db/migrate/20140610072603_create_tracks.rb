@@ -5,6 +5,5 @@ class CreateTracks < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_attachment :tracks, :gpx
   end
 end

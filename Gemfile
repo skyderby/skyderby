@@ -4,7 +4,6 @@ gem 'rails', '4.0.2'
 
 gem 'mysql2', :group => :production
 
-
 group :development, :test do
   gem 'sqlite3' 
   gem 'rspec'
