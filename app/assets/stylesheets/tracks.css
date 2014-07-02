@@ -13,3 +13,15 @@
 .d-term {
   width: 200px;
 }
+
+           
+.dropdown-container .dropdown {
+  margin-top:15px;
+  margin-left:27px;
+  width: 40px;
+}
+
+.glyphicon {
+  margin-left:1px;
+  margin-top:2px;
+}      
