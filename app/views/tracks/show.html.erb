@@ -201,31 +201,15 @@
           },
           yAxis: [{ //Speed yAxis
             min: 0,
-            labels: {
-              style: { 
-                color: Highcharts.getOptions().colors[1]
-              }
-            },
             title: {
-              text: "Скорость, Км/ч",
-              style: {
-                color: Highcharts.getOptions().colors[1]
-              }
+              text: "Скорость, Км/ч"
             }
           },
           { // Elev, dist yAxis
             min: 0,
             tickInterval: 500,
-            labels: {
-              style: {
-                color: Highcharts.getOptions().colors[0]
-              }
-            },
             title: {
-              text: 'Высота, Расстояние, м',
-              style: {
-                color: Highcharts.getOptions().colors[0]
-              }
+              text: 'Высота, Расстояние, м'
             },
             opposite: true
           },
@@ -233,16 +217,8 @@
             min: 0,
             max: 5,
             tickInterval: 0.5,
-            labels: {
-              style: {
-                color: Highcharts.getOptions().colors[2]
-              }
-            },
             title: {
-              text: 'Качество полета',
-              style: {
-                color: Highcharts.getOptions().colors[2]
-              }
+              text: 'Качество полета'
             },
             opposite: true
           }
@@ -257,27 +233,33 @@
           },
           series: [{
             name: "Гор. Скорость",
-            yAxis: 0
+            yAxis: 0,
+            color: Highcharts.getOptions().colors[2]
           },
           {
             name: "Верт. Скорость",
-            yAxis: 0
+            yAxis: 0,
+            color: Highcharts.getOptions().colors[0]
           },
           {
             name: "Качество полета",
-            yAxis: 2
+            yAxis: 2,
+            color: Highcharts.getOptions().colors[3]
           },
           {
             name: "Высота",
-            yAxis: 1
+            yAxis: 1,
+            color: Highcharts.getOptions().colors[5]
           },
           {
             name: "Дистанция",
-            yAxis: 1
+            yAxis: 1,
+            color: Highcharts.getOptions().colors[6]
           },
           {
             name: "Пройдено по высоте",
-            yAxis: 1
+            yAxis: 1,
+            color: Highcharts.getOptions().colors[4]
           }]
         });
 
