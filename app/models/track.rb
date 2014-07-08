@@ -13,8 +13,8 @@ class Track < ActiveRecord::Base
     points.each do |point|
       if prev_point != nil
         arr << {'fl_time' => point.point_created_at - prev_point.point_created_at,
-                'elevation_diff' => (prev_point.elevation - point.elevation).to_i,
-                'elevation' => point.elevation.to_i,
+                'elevation_diff' => (prev_point.elevation - point.elevation).round(2),
+                'elevation' => point.elevation.round(2),
                 'distance' => point.distance.to_i,
                 'h_speed' => point.h_speed.round(2),
                 'v_speed' => point.v_speed.round(2),

@@ -341,10 +341,6 @@
 
                 point.distance = Math.round(current_point.distance * k);
                 point.fl_time = Math.round(current_point.fl_time * k);
-
-                point.elevation = current_point.elevation;
-                point.v_speed = current_point.v_speed;
-                point.h_speed = current_point.h_speed;
               }
             }
 
@@ -353,10 +349,12 @@
             dist += point.distance;
             elev += point.elevation_diff;
 
-            elev_data.push([fl_time, elev]);
+            console.log(point.elevation.toString() + ' - ' + point.elevation_diff.toString() + ' - ' + elev);
+
+            elev_data.push([fl_time, Math.round(elev)]);
             dist_data.push([fl_time, dist]);
 
-            heights_data.push([fl_time, point.elevation]);
+            heights_data.push([fl_time, Math.round(point.elevation)]);
             h_speed.push([fl_time, point.h_speed]);
             v_speed.push([fl_time, point.v_speed]);
 
@@ -384,15 +382,16 @@
               var k = point.elevation_diff / current_point.elevation_diff;
 
               point.fl_time = current_point.fl_time * k;
+              point.elevation = min_val;
               point.distance = Math.round(current_point.distance * k);
 
               dist += point.distance;
               elev += point.elevation_diff;
 
-              elev_data.push([fl_time, elev]);
+              elev_data.push([fl_time, Math.round(elev)]);
               dist_data.push([fl_time, dist]);
 
-              heights_data.push([fl_time, point.elevation]);
+              heights_data.push([fl_time, Math.round(point.elevation)]);
               h_speed.push([fl_time, point.h_speed]);
               v_speed.push([fl_time, point.v_speed]);
 
@@ -423,7 +422,7 @@
         ad_chart.series[5].setData(elev_data);
 
         $('#dd_distance').text(dist.toString() + ' м');
-        $('#dd_elevation').text(elev.toString() + ' м');
+        $('#dd_elevation').text(elev.toFixed(0) + ' м');
         $('#dd_fl_time').text(fl_time.toString() + ' с');
         
         $('#p_min_v_speed').text(min_v_speed.toFixed(0) + '...');
