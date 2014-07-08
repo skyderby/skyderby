@@ -427,17 +427,17 @@
         $('#dd_elevation').text(elev.toString() + ' м');
         $('#dd_fl_time').text(fl_time.toString() + ' с');
         
-        $('#p_min_v_speed').text(min_v_speed.toFixed(0).toString() + '...');
-        $('#p_max_v_speed').text('...' + max_v_speed.toFixed(0).toString());
+        $('#p_min_v_speed').text(min_v_speed.toFixed(0) + '...');
+        $('#p_max_v_speed').text('...' + max_v_speed.toFixed(0));
         $('#p_avg_v_speed').text(Math.round(elev / fl_time * 3.6).toString());
         
-        $('#p_min_h_speed').text(min_h_speed.toFixed(0).toString() + '...');
-        $('#p_max_h_speed').text('...' + max_h_speed.toFixed(0).toString());
+        $('#p_min_h_speed').text(min_h_speed.toFixed(0) + '...');
+        $('#p_max_h_speed').text('...' + max_h_speed.toFixed(0));
         $('#p_avg_h_speed').text(Math.round(dist / fl_time * 3.6).toString());
 
-        $('#p_min_gr').text(min_gr.toFixed(2).toString() + '...');
-        $('#p_max_gr').text('...' + max_gr.toFixed(2).toString());
-        $('#p_avg_gr').text((dist / elev).toFixed(2).toString());
+        $('#p_min_gr').text(min_gr.toFixed(2) + '...');
+        $('#p_max_gr').text('...' + max_gr.toFixed(2));
+        $('#p_avg_gr').text((dist / elev).toFixed(2));
 
       };
       
