@@ -12,6 +12,16 @@
       var range_from = max_height;
       var range_to = 0;
       
+      // Clone Function
+      function clone(obj) {
+        if (null == obj || "object" != typeof obj) return obj;
+        var copy = obj.constructor();
+        for (var attr in obj) {
+          if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
+        }
+        return copy;
+      }
+
       $('#toggle_multi').click(function(e) {
         e.preventDefault();
         $('#single-chart').hide();
@@ -279,61 +289,119 @@
 
       function set_chart_data() {
 
-        var dist_data = [];
-        var elev_data = [];
-        var heights_data = [];
-        var h_speed = [];
-        var v_speed = [];
-        var gr = [];
+        var dist_data = [],
+          elev_data = [],
+          heights_data = [],
+          h_speed = [],
+          v_speed = [],
+          gr = [],
 
-        var avg_h_speed = 0;
-        var avg_v_speed = 0;
-        var avg_gr = 0;
+          avg_h_speed = 0,
+          avg_v_speed = 0,
+          avg_gr = 0,
 
-        var min_h_speed = 0;
-        var max_h_speed = 0;
+          min_h_speed = 0,
+          max_h_speed = 0,
 
-        var min_v_speed = 0;
-        var max_v_speed = 0;
+          min_v_speed = 0,
+          max_v_speed = 0,
 
-        var min_gr = 0;
-        var max_gr = 0;
+          min_gr = 0,
+          max_gr = 0,
 
-        var fl_time = 1;
-        var dist = 0;
-        var elev = 0;
+          fl_time = 0,
+          dist = 0,
+          elev = 0;
 
         max_val = typeof range_from !== 'undefined' ? range_from : 100000;
         min_val = typeof range_to !== 'undefined' ? range_to : 0;
 
-        for (var index in charts_data) {
+        var isFirst = true,
+            isLast = false;
 
-          if (charts_data[index].elevation < max_val && charts_data[index].elevation > min_val) {
-            dist += charts_data[index].distance;
-            elev += charts_data[index].elevation_diff;
+        for (var index in charts_data) {
+          
+          var current_point = charts_data[index];
+          var point = {};
+
+          isLast = true;
+
+          if (current_point.elevation <= max_val && current_point.elevation >= min_val) {
+
+            point = clone(current_point);
+
+            // Корректировка выбранного диапазона
+            if (isFirst) {
+            
+              isFirst = false;
+              if (current_point.elevation != max_val && charts_data.hasOwnProperty(index-1)) {
+
+                point.elevation_diff = max_val - current_point.elevation;
+                
+                var k = point.elevation_diff / current_point.elevation_diff;
+
+                point.distance = Math.round(current_point.distance * k);
+                point.fl_time = Math.round(current_point.fl_time * k);
+
+                point.elevation = current_point.elevation;
+                point.v_speed = current_point.v_speed;
+                point.h_speed = current_point.h_speed;
+              }
+            }
+
+            isLast = false;
+
+            dist += point.distance;
+            elev += point.elevation_diff;
 
             elev_data.push([fl_time, elev]);
             dist_data.push([fl_time, dist]);
 
-            heights_data.push([fl_time, charts_data[index].elevation]);
-            h_speed.push([fl_time, charts_data[index].h_speed]);
-            v_speed.push([fl_time, charts_data[index].v_speed]);
+            heights_data.push([fl_time, point.elevation]);
+            h_speed.push([fl_time, point.h_speed]);
+            v_speed.push([fl_time, point.v_speed]);
 
-            gr.push([fl_time, charts_data[index].glrat]);
+            gr.push([fl_time, point.glrat]);
 
-            fl_time += charts_data[index].fl_time;
+            fl_time += point.fl_time;
 
-            min_h_speed = min_h_speed == 0 || min_h_speed > charts_data[index].h_speed ? charts_data[index].h_speed : min_h_speed;
-            max_h_speed = max_h_speed == 0 || max_h_speed < charts_data[index].h_speed ? charts_data[index].h_speed : max_h_speed;
+            min_h_speed = min_h_speed == 0 || min_h_speed > point.h_speed ? point.h_speed : min_h_speed;
+            max_h_speed = max_h_speed == 0 || max_h_speed < point.h_speed ? point.h_speed : max_h_speed;
 
-            min_v_speed = min_v_speed == 0 || min_v_speed > charts_data[index].v_speed ? charts_data[index].v_speed : min_v_speed;
-            max_v_speed = max_v_speed == 0 || max_v_speed < charts_data[index].v_speed ? charts_data[index].v_speed : max_v_speed;
+            min_v_speed = min_v_speed == 0 || min_v_speed > point.v_speed ? point.v_speed : min_v_speed;
+            max_v_speed = max_v_speed == 0 || max_v_speed < point.v_speed ? point.v_speed : max_v_speed;
             
-            min_gr = min_gr == 0 || min_gr > charts_data[index].glrat ? charts_data[index].glrat : min_gr;
-            max_gr = max_gr == 0 || max_gr < charts_data[index].glrat ? charts_data[index].glrat : max_gr;
-
+            min_gr = min_gr == 0 || min_gr > point.glrat ? point.glrat : min_gr;
+            max_gr = max_gr == 0 || max_gr < point.glrat ? point.glrat : max_gr;
           }
-        };
+
+          if (isLast && elev_data.length > 0) {
+            if (current_point.elevation <= min_val && charts_data.hasOwnProperty(index - 1)) {
+
+              point = clone(current_point);
+              prev_point = charts_data[index - 1];
+
+              point.elevation_diff = prev_point.elevation - min_val;
+              var k = point.elevation_diff / current_point.elevation_diff;
+
+              point.fl_time = current_point.fl_time * k;
+              point.distance = Math.round(current_point.distance * k);
+
+              dist += point.distance;
+              elev += point.elevation_diff;
+
+              elev_data.push([fl_time, elev]);
+              dist_data.push([fl_time, dist]);
+
+              heights_data.push([fl_time, point.elevation]);
+              h_speed.push([fl_time, point.h_speed]);
+              v_speed.push([fl_time, point.v_speed]);
+
+              gr.push([fl_time, point.glrat]);
+            }
+            break;
+          }
+        }
  
         var ed_chart = $('#elevation_distance_chart').highcharts();
         ed_chart.series[0].setData(elev_data);
@@ -369,7 +437,7 @@
 
         $('#p_min_gr').text(min_gr.toFixed(2).toString() + '...');
         $('#p_max_gr').text('...' + max_gr.toFixed(2).toString());
-        $('#p_avg_gr').text((Math.round(dist / fl_time * 3.6) / Math.round(elev / fl_time * 3.6)).toFixed(2).toString());
+        $('#p_avg_gr').text((dist / elev).toFixed(2).toString());
 
       };
       
