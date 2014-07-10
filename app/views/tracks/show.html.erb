@@ -66,13 +66,6 @@
             series: {
               marker: {
                 radius: 1
-              },
-              point: {
-                events: {
-                  mouseOver: function () {
-                    syncTooltip(this.series.chart.container, this.x);
-                    }
-                }
               }
             }
           },
@@ -169,11 +162,10 @@
               marker: {
                 enabled: true,
                 radius: 1
-              }
+              },
             }
           },
           tooltip: {
-            shared: true,
             crosshairs: true,
             valueDecimals: 2
           },
@@ -349,8 +341,6 @@
             dist += point.distance;
             elev += point.elevation_diff;
 
-            console.log(point.elevation.toString() + ' - ' + point.elevation_diff.toString() + ' - ' + elev);
-
             elev_data.push([fl_time, Math.round(elev)]);
             dist_data.push([fl_time, dist]);
 
@@ -439,14 +429,6 @@
 
       };
       
-      function syncTooltip(container, p) {
-        var i;
-        //for (i = 0; i < charts_array.length; i++) {
-        //  if (container.id != charts_array[i].container.id) 
-        //    charts_array[i].tooltip.refresh(charts_array[i].series[0].data[p]);
-        //}
-      };
-
     });
 
   </script>

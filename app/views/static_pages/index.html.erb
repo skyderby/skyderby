@@ -6,7 +6,7 @@
       var FileName = file.name;
       var FileExtension = FileName.split('.')[FileName.split('.').length - 1].toLowerCase();
       var FileSize = file.size;
-      var FileSizeMb = (file.size / 10485760).toFixed(2);
+      var FileSizeMb = (file.size / 1048576).toFixed(2);
       var txt = "";
 
       if (!(FileExtension === "gpx" || FileExtension === "csv"))  {
@@ -18,11 +18,43 @@
         txt += "Размер файла не должен превышать 1 Мб";
       }
       if (!(txt === "")) {
-        alert(txt);
+        bootstrap_alert.warning(txt);
         e.value = "";
       }
     }
-  }
+  };
+
+  $(document).ready(function() {
+    bootstrap_alert = function() {}
+    bootstrap_alert.warning = function(message) {
+    $('#alert-placeholder').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><span>'+message+'</span></div>')
+    }
+    
+    $('form').submit( function( e ) {
+      var form_valid = true;
+      $('#alert-placeholder').empty();
+
+      if ($('#name').val().length === 0 || !$('#name').val().trim()) {
+        bootstrap_alert.warning('Вы не указали как Вас зовут.');
+        form_valid = false;
+      }
+      if ($('#suit').val().length === 0 || !$('#suit').val().trim()) {
+        bootstrap_alert.warning('Вы не указали в чем Вы летали этот полет.');
+        form_valid = false;
+      }
+      if ($('#location').val().length === 0 || !$('#location').val().trim()) {
+        bootstrap_alert.warning('Вы не указали где Вы летали.');
+        form_valid = false;
+      }
+      if ($('#track_file').val().length === 0 || !$('#track_file').val().trim()) {
+        bootstrap_alert.warning('Вы не выбрали файл.');
+        form_valid = false;
+      }
+      if (!form_valid)
+        e.preventDefault();
+
+    });
+  });
 </script>
 
 <div class="page-header">
@@ -71,7 +103,8 @@
       <div class='col-sm-offset-3 col-sm-9'>
         <%= submit_tag 'Загрузить', :class => 'btn btn-default' %>
       </div>
-    </div
+    </div>
+    <div id='alert-placeholder'></div>
   <% end %>
 </div>
 <div class="col-sm-8">
