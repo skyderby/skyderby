@@ -62,7 +62,8 @@ class TrackSelectController < ApplicationController
           end # track attr loop
           
           @tracklist << {'name' => track_name, 
-                        'elev' => h_up.to_i.to_s + ' ↑ ' + h_down.to_i.to_s + ' ↓ ', 
+                        'h_up' => h_up.to_i.to_s,
+                        'h_down' => h_down.to_i.to_s, 
                         'points_count' => points_count}
 
         end # if name.eql? 'trk'

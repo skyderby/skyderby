@@ -24,7 +24,7 @@
       <tr class='clickableRow' style='cursor: pointer' data-url="<%= new_track_path(:cache_id => @key, :index => index) %>">
         <td class="text-info"><%= index %></td>
         <td class="text-info"><%= item['name'] %></td>
-        <td class="text-info"><%= item['elev'] %> м</td>
+        <td class="text-info">+<%= item['h_up'] %> -<%= item['h_down'] %> м</td>
         <td class="text-info"><%= item['points_count'] %></td>
       </tr>
     <% end %>
