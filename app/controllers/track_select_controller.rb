@@ -28,18 +28,28 @@ class TrackSelectController < ApplicationController
         if node.node_name.eql? 'trk'
           
           track_name = ''
-          h_arr = []
-          t_arr = []
-          
+          points_count = 0
+          h_up = 0
+          h_down = 0
+          prev_height = nil
+
           node.elements.each do |node_attr|
             
             if node_attr.node_name.eql? 'trkseg'
               
               node_attr.elements.each do |trpoint|
                 
+                points_count += 1
+
                 trpoint.elements.each do |point_node|
                   
-                  h_arr << point_node.text.to_f if point_node.name.eql? 'ele'
+                  if point_node.name.eql? 'ele'
+                    if !prev_height.nil?
+                      h_up += (point_node.text.to_f - prev_height) if prev_height < point_node.text.to_f
+                      h_down += (prev_height - point_node.text.to_f) if prev_height > point_node.text.to_f
+                    end
+                    prev_height = point_node.text.to_f
+                  end
 
                 end # point node loop
 
@@ -51,7 +61,9 @@ class TrackSelectController < ApplicationController
 
           end # track attr loop
           
-          @tracklist << {'name' => track_name, 'elev' => (h_arr.max - h_arr.min).to_i, 'duration' => h_arr.count}
+          @tracklist << {'name' => track_name, 
+                        'elev' => h_up.to_i.to_s + ' ↑ ' + h_down.to_i.to_s + ' ↓ ', 
+                        'points_count' => points_count}
 
         end # if name.eql? 'trk'
       
