@@ -165,9 +165,24 @@ class Track < ActiveRecord::Base
       max_h = track_points.max_by{ |x| x['elevation'] }['elevation'];
 
       # Обрежем все точки выше минимума (предполагаю Земли) на 50 метров
-      track_points.reject!{ |x| x['elevation'] < (min_h + 50) }
-      # Обрежем все точки предшествующие максимальной высоте
-      track_points = track_points.drop_while { |x| x['elevation'] < max_h }
+      tmp_points = []
+      track_points.each do |x|
+        tmp_points << x
+        if x['elevation'] <= (min_h + 50)
+          break
+        end
+      end
+
+      # Развернем массив и обрежем все точки после достижения максимальной высоты
+      track_points = []
+      tmp_points.reverse!
+      tmp_points.each do |x|
+        track_points << x
+        if x['elevation'] >= max_h -15
+          break
+        end
+      end
+      track_points.reverse!
       # Уменьшим высоту во всех точках на минимальную. (корректировка относительно уровня земли)
       track_points.each do |x|
         x['elevation'] -= min_h
