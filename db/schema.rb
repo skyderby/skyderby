@@ -28,11 +28,7 @@ ActiveRecord::Schema.define(version: 20140627104442) do
     t.float    "h_speed"
   end
 
-#<<<<<<< HEAD
-#  add_index "points", ["tracksegment_id"], name: "index_points_on_tracksegment_id"
-#=======
-  add_index "points", ["tracksegment_id"], name: "index_points_on_tracksegment_id", using: :btree
-#>>>>>>> origin/master
+  add_index "points", ["tracksegment_id"], name: "index_points_on_tracksegment_id"
 
   create_table "tracks", force: true do |t|
     t.string   "name"
@@ -49,10 +45,6 @@ ActiveRecord::Schema.define(version: 20140627104442) do
     t.datetime "updated_at"
   end
 
-#<<<<<<< HEAD
-#  add_index "tracksegments", ["track_id"], name: "index_tracksegments_on_track_id"
-#=======
-  add_index "tracksegments", ["track_id"], name: "index_tracksegments_on_track_id", using: :btree
-#>>>>>>> origin/master
+  add_index "tracksegments", ["track_id"], name: "index_tracksegments_on_track_id"
 
 end

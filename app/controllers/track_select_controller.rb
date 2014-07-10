@@ -21,17 +21,47 @@ class TrackSelectController < ApplicationController
     if ext == '.csv'
       @tracklist << 'main'
     elsif ext == '.gpx'
+      
       doc = Nokogiri::XML(track_file)
       doc.root.elements.each do |node|
+        
         if node.node_name.eql? 'trk'
+          
+          track_name = ''
+          h_arr = []
+          t_arr = []
+          
           node.elements.each do |node_attr|
-            @tracklist << node_attr.text.to_s if node_attr.name.eql? 'name'
-          end
-        end
-      end
+            
+            if node_attr.node_name.eql? 'trkseg'
+              
+              node_attr.elements.each do |trpoint|
+                
+                trpoint.elements.each do |point_node|
+                  
+                  h_arr << point_node.text.to_f if point_node.name.eql? 'ele'
+
+                end # point node loop
+
+              end # trpoint loop
+
+            elsif node_attr.node_name.eql? 'name'
+              track_name = node_attr.text.to_s
+            end
+
+          end # track attr loop
+          
+          @tracklist << {'name' => track_name, 'elev' => (h_arr.max - h_arr.min).to_i, 'duration' => h_arr.count}
+
+        end # if name.eql? 'trk'
+      
+      end # doc root loop
+    
     else
+
       redirect_to :controller => 'static_pages', :action => 'upload_error'
       return
+    
     end
 
     # Проверим, содержит ли файл треки
