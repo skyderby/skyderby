@@ -212,6 +212,10 @@ class Track < ActiveRecord::Base
 
     def record_track_points track_points
 
+      if track_points.count < 10
+        return false
+      end
+
       trkseg = Tracksegment.new
       
       track_points.each do |trkpoint|
@@ -229,6 +233,5 @@ class Track < ActiveRecord::Base
       self.tracksegments << trkseg
     
     end
-
     
 end
