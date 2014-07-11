@@ -10,15 +10,15 @@
     <div role="navigation" class="navbar navbar-default navbar-static-top">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="/"><%= t :home %></a>
+          <%= link_to t(:header_home), root_url, :class => 'navbar-brand' %>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li>
-              <%= link_to 'Треки', :controller => 'tracks', :action => 'index' %>
+              <%= link_to t(:header_tracks), :controller => 'tracks', :action => 'index' %>
             </li>
             <li>
-              <%= link_to 'О проекте', :controller => 'static_pages', :action => 'about' %>
+              <%= link_to t(:header_about), :controller => 'static_pages', :action => 'about' %>
             </li>
           </ul>
         </div>
@@ -31,7 +31,7 @@
 
     <div class="navbar navbar-default navbar-static-bottom">
       <div class="container">
-        <p class="copyright">© 2014 Александр Кунин.</p>
+        <p class="copyright">© 2014 <%=t :footer_owner %></p>
       </div>
     </div>
 

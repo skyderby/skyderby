@@ -10,12 +10,12 @@
       var txt = "";
 
       if (!(FileExtension === "gpx" || FileExtension === "csv"))  {
-        txt += "Расширение файла : " + FileExtension + "\n\n";
-        txt += "Пожалуйтса, выберите файл с расширением csv или gpx.\n\n";
+        txt += <%=t :index_file_ext_w1_html %> + FileExtension + "\n\n";
+        txt += <%=t :index_file_ext_w2_html %>;
       }
       if (FileSize > 1048576) {
-        txt += "Размер файла : " + FileSizeMb + " Мб \n\n";
-        txt += "Размер файла не должен превышать 1 Мб";
+        txt += <%=t :index_file_size_w1_html %> + FileSizeMb + " Мб \n\n";
+        txt += <%=t :index_file_size_w2_html %>;
       }
       if (!(txt === "")) {
         bootstrap_alert.warning(txt);
@@ -50,28 +50,28 @@
       $('#alert-placeholder').empty();
 
       if ($('#name').val().length === 0 || !$('#name').val().trim()) {
-        bootstrap_alert.warning('Вы не указали как Вас зовут.');
+        bootstrap_alert.warning(<%=t :index_name_warn_html %>);
         form_valid = false;
       } else {
         $.cookie('name', $('#name').val(), { expires: 365, path: '/' });
       }
 
       if ($('#suit').val().length === 0 || !$('#suit').val().trim()) {
-        bootstrap_alert.warning('Вы не указали в чем Вы летали этот полет.');
+        bootstrap_alert.warning(<%=t :index_suit_warn_html %>);
         form_valid = false;
       } else {
         $.cookie('suit', $('#suit').val(), { expires: 365, path: '/' });
       }
 
       if ($('#location').val().length === 0 || !$('#location').val().trim()) {
-        bootstrap_alert.warning('Вы не указали где Вы летали.');
+        bootstrap_alert.warning(<%=t :index_loc_warn_html %>);
         form_valid = false;
       } else {
         $.cookie('location', $('#location').val(), { expires: 365, path: '/' });
       }
 
       if ($('#track_file').val().length === 0 || !$('#track_file').val().trim()) {
-        bootstrap_alert.warning('Вы не выбрали файл.');
+        bootstrap_alert.warning(<%=t :index_file_warn_html %>);
         form_valid = false;
       }
       if (!form_valid)
@@ -86,55 +86,55 @@
 </div>
   
 <div class="jumbotron col-sm-8">
-  <h2>Посмотреть и оценить трек:</h2>
+  <h2><%=t :index_form_title %></h2>
   <%= form_tag '/select_track', multipart: true, :class => 'form-horizontal', :role => 'form' do %>
     <div class="form-group">
-      <%= label_tag 'name', 'Вас зовут:', :class => 'col-sm-3 control-label', :for => 'name' %>
+      <%= label_tag 'name', t(:index_form_name), :class => 'col-sm-3 control-label', :for => 'name' %>
       <div class="col-sm-9">
-        <%= text_field_tag 'name', nil, :class => 'form-control', :placeholder => 'Имя Ф.', :type => 'text' %>
+        <%= text_field_tag 'name', nil, :class => 'form-control', :placeholder => t(:index_form_name_plh), :type => 'text' %>
       </div>
     </div>
     <div class="form-group">
-      <%= label_tag 'suit', 'Вы летаете в:', :class => 'col-sm-3 control-label', :for => 'suit' %>
+      <%= label_tag 'suit', t(:index_form_suit), :class => 'col-sm-3 control-label', :for => 'suit' %>
       <div class="col-sm-9">
-        <%= text_field_tag 'suit', nil, :class => 'form-control', :placeholder => 'Модель вингсьюта', :type => 'text' %>
+        <%= text_field_tag 'suit', nil, :class => 'form-control', :placeholder => t(:index_form_suit_plh), :type => 'text' %>
       </div>
     </div>
     <div class="form-group">
-      <%= label_tag 'location', 'Локация:', :class => 'col-sm-3 control-label', :for => 'location' %>
+      <%= label_tag 'location', t(:index_form_location), :class => 'col-sm-3 control-label', :for => 'location' %>
       <div class="col-sm-9">
-        <%= text_field_tag 'location', nil, :class => 'form-control', :placeholder => 'ДЗ, горы, и т.д.', :type => 'text' %>
+        <%= text_field_tag 'location', nil, :class => 'form-control', :placeholder => t(:index_form_location_plh), :type => 'text' %>
       </div>
     </div>
     <div class="form-group">
-      <%= label_tag "track_file", "Файл трека:", :class => 'col-sm-3 control-label', :for => 'track_file' %>
+      <%= label_tag "track_file", t(:index_form_file), :class => 'col-sm-3 control-label', :for => 'track_file' %>
       <div class="col-sm-9">
         <%= file_field_tag "track_file", {:onChange => 'checkFile(this)'}  %>
       </div>
     </div>
     <div class="form-group">
       <div class="col-sm-offset-3 col-sm-9">
-        <h4 class='help-block'>Поддерживаются файлы в формате csv и gpx</h4>
+        <h4 class='help-block'><%=t :index_form_help %></h4>
       </div>
     </div>
     <div class="form-group">
-      <%= label_tag 'Комментарий:', nil, :class => 'col-sm-3 control-label', :for => 'comment' %>
+      <%= label_tag t(:index_form_comment), nil, :class => 'col-sm-3 control-label', :for => 'comment' %>
       <div class="col-sm-9">
-        <%= text_area_tag 'comment', nil, :class => 'form-control', :rows => 3, :placeholder => 'Пара слов о Вашем полете' %>
+        <%= text_area_tag 'comment', nil, :class => 'form-control', :rows => 3, :placeholder => t(:index_form_comment_plh) %>
       </div>
     </div>
     <div class='form-group'>
       <div class='col-sm-offset-3 col-sm-9'>
-        <%= submit_tag 'Загрузить', :class => 'btn btn-default' %>
+        <%= submit_tag t(:index_form_submit), :class => 'btn btn-default' %>
       </div>
     </div>
     <div id='alert-placeholder'></div>
   <% end %>
 </div>
 <div class="col-sm-8">
-  <h3>Или</h3>
+  <h3><%=t :index_or %></h3>
 </div>
 <div class="jumbotron col-sm-8">
-  <h2>Посоревноваться:</h2>
-  <h4 class="help-block">Скоро будет</h4>
+  <h2><%=t :index_comp_title %></h2>
+  <h4 class="help-block"><%=t :index_coming %></h4>
 </div>

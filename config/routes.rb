@@ -1,6 +1,6 @@
 TrackingDerby::Application.routes.draw do
 
-  scope "(/:locale)", locale: /#{I18n.available_locales.join("|")}/ do
+  scope "/(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
     match '/tracks', :to  => 'tracks#index', :as => :track, :via => :get
     match '/track/:id', :to => 'tracks#show', :as => 'show_track', :via => :get
     match '/tracks/new', :to => 'tracks#new', :as => :new_track, :via => [:get, :post]

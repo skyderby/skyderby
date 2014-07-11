@@ -1,6 +1,36 @@
 ru:
 # Application
-  home: "Главная"
+  header_home: 'Главная'
+  header_tracks: 'Треки'
+  header_about: 'О проекте'
+  footer_owner: 'Александр Кунин.'
 # index page
-  index_title: "Летай! Соревнуйся! Побеждай!"
-  index_subtitle: "Альфа версия. Это еще не Бета."
+  index_title: 'Летай! Соревнуйся! Побеждай!'
+  index_subtitle: 'Альфа версия. Это еще не Бета.'
+#
+  index_form_title: 'Посмотреть и оценить трек:'
+  index_form_name: 'Вас зовут:'
+  index_form_name_plh: 'Имя Ф.'
+  index_form_suit: 'Вы летаете в:'
+  index_form_suit_plh: 'Модель вингсьюта'
+  index_form_location: 'Локация:'
+  index_form_location_plh: 'ДЗ, горы, и т.д.'
+  index_form_file: "Файл трека:"
+  index_form_help: 'Поддерживаются файлы в формате csv и gpx'
+  index_form_comment: 'Комментарий:'
+  index_form_comment_plh: 'Пара слов о Вашем полете'
+  index_form_submit: 'Загрузить'
+#
+  index_name_warn_html: "'Вы не указали как Вас зовут.'"
+  index_suit_warn_html: "'Вы не указали в чем Вы летали этот полет.'"
+  index_loc_warn_html: "'Вы не указали где Вы летали.'"
+  index_file_warn_html: "'Вы не выбрали файл.'"
+  index_file_ext_w1_html: "'Расширение файла : '"
+  index_file_ext_w2_html: "'Пожалуйтса, выберите файл с расширением csv или gpx'"
+  index_file_size_w1_html: "'Размер файла : '"
+  index_file_size_w2_html: "'Размер файла не должен превышать 1 Мб'"
+#
+  index_or: 'Или'
+#
+  index_comp_title: 'Посоревноваться:'
+  index_coming: 'Скоро будет'

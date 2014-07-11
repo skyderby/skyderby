@@ -1,29 +1,36 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-#index page
+# Application
+  header_home: 'Home'
+  header_tracks: 'Tracks'
+  header_about: 'About'
+  footer_owner: 'Aleksandr Kunin.'
+# index page
   index_title: "Fly! Compete! Win!"
   index_subtitle: "Alpha version. It isn't Beta yet."
-  home: "Home"
-#tracks index page
-
-#track show page
+#
+  index_form_title: ''
+  index_form_name: 'Your name is:'
+  index_form_name_plh: 'John D.'
+  index_form_suit: 'You are flying in:'
+  index_form_suit_plh: 'Wingsuit model'
+  index_form_location: 'It was in:'
+  index_form_location_plh: 'Some DZ, some cliffs, etc'
+  index_form_file: 'File with track:'
+  index_form_help: 'Supported csv (Columbus, FlySight) and gpx format'
+  index_form_comment: 'Comment:'
+  index_form_comment_plh: 'Spread few words about your flight'
+  index_form_submit: 'Upload'
+#
+  index_name_warn_html: "'Name field have to be filled'"
+  index_suit_warn_html: "'Suit field have to be filled'"
+  index_loc_warn_html: "'Place field have to be filled'"
+  index_file_warn_html: "'You did not select file to upload'"
+  index_file_ext_w1_html: "'File extension: '"
+  index_file_ext_w2_html: "'Supported only csv and gpx formats'"
+  index_file_size_w1_html: "'File size : '"
+  index_file_size_w2_html: "'Max file size is 1 Mb'"
+#
+  index_or: 'Or'
+#
+  index_comp_title: 'Compete:'
+  index_coming: 'Coming soon'
