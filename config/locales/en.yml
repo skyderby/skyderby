@@ -20,4 +20,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+#index page
+  index_title: "Fly! Compete! Win!"
+  index_subtitle: "Alpha version. It isn't Beta yet."
+  home: "Home"
+#tracks index page
+
+#track show page

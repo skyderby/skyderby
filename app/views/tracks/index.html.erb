@@ -23,7 +23,7 @@
   </thead>
   <tbody>
     <% @tracks.each do |track| %>
-      <tr class="clickableRow" style="cursor: pointer" data-url="<%= show_track_path(track) %>">
+      <tr class="clickableRow" style="cursor: pointer" data-url="<%= show_track_path(:id => track.id) %>">
         <td class="text-info"><%= track.id %></td>
         <td class="text-info"><%= track.name %></td>
         <td class="text-info"><%= track.suit %></td>
