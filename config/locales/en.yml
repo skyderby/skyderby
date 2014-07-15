@@ -11,20 +11,20 @@ en:
   index_form_title: ''
   index_form_name: 'Your name is:'
   index_form_name_plh: 'John D.'
-  index_form_suit: 'You are flying in:'
+  index_form_suit: "You're flying a:"
   index_form_suit_plh: 'Wingsuit model'
-  index_form_location: 'It was in:'
+  index_form_location: 'It was at:'
   index_form_location_plh: 'Some DZ, some cliffs, etc'
   index_form_file: 'File with track:'
   index_form_help: 'Supported csv (Columbus, FlySight) and gpx format'
   index_form_comment: 'Comment:'
-  index_form_comment_plh: 'Spread few words about your flight'
+  index_form_comment_plh: 'Share a few words about your flight'
   index_form_submit: 'Upload'
 #
-  index_name_warn_html: "'Name field have to be filled'"
-  index_suit_warn_html: "'Suit field have to be filled'"
-  index_loc_warn_html: "'Place field have to be filled'"
-  index_file_warn_html: "'You did not select file to upload'"
+  index_name_warn_html: "'Name field has to be filled'"
+  index_suit_warn_html: "'Suit field has to be filled'"
+  index_loc_warn_html: "'Place field has to be filled'"
+  index_file_warn_html: "'Select a file to upload'"
   index_file_ext_w1_html: "'File extension: '"
   index_file_ext_w2_html: "'Supported only csv and gpx formats'"
   index_file_size_w1_html: "'File size : '"

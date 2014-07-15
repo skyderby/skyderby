@@ -26,6 +26,7 @@
         e.preventDefault();
         $('#single-chart').hide();
         $('#multiple-charts').show();
+        set_chart_data();
         $.cookie('view_type', 'multi', { expires: 365, path: '/' });
       });
 
@@ -33,6 +34,7 @@
         e.preventDefault();
         $('#multiple-charts').hide();
         $('#single-chart').show();
+        set_chart_data();
         $.cookie('view_type', 'single', { expires: 365, path: '/' });
       });
 
@@ -391,25 +393,36 @@
           }
         }
  
-        var ed_chart = $('#elevation_distance_chart').highcharts();
-        ed_chart.series[0].setData(elev_data);
-        ed_chart.series[1].setData(dist_data);
-        ed_chart.series[2].setData(heights_data);
+        if ($('#elevation_distance_chart').css('display') !== 'none') {
+          var ed_chart = $('#elevation_distance_chart').highcharts();
+          ed_chart.series[0].setData(elev_data, false);
+          ed_chart.series[1].setData(dist_data, false);
+          ed_chart.series[2].setData(heights_data, false);
+          ed_chart.redraw();
+        }
 
-        var sp_chart = $('#speeds_chart').highcharts();
-        sp_chart.series[0].setData(h_speed);
-        sp_chart.series[1].setData(v_speed);
+        if ($('#speeds_chart').css('display') !== 'none') {
+          var sp_chart = $('#speeds_chart').highcharts();
+          sp_chart.series[0].setData(h_speed, false);
+          sp_chart.series[1].setData(v_speed, false);
+          sp_chart.redraw();
+        }
 
-        var gr_chart = $('#glideratio_chart').highcharts();
-        gr_chart.series[0].setData(gr);
+        if ($('#glideratio_chart').css('display') !== 'none') {
+          var gr_chart = $('#glideratio_chart').highcharts();
+          gr_chart.series[0].setData(gr);
+        }
 
-        var ad_chart = $('#all_data_chart').highcharts();
-        ad_chart.series[0].setData(h_speed);
-        ad_chart.series[1].setData(v_speed);
-        ad_chart.series[2].setData(gr);
-        ad_chart.series[3].setData(heights_data);
-        ad_chart.series[4].setData(dist_data);
-        ad_chart.series[5].setData(elev_data);
+        if ($('#all_data_chart').css('display') !== 'none') {
+          var ad_chart = $('#all_data_chart').highcharts();
+          ad_chart.series[0].setData(h_speed, false);
+          ad_chart.series[1].setData(v_speed, false);
+          ad_chart.series[2].setData(gr, false);
+          ad_chart.series[3].setData(heights_data, false);
+          ad_chart.series[4].setData(dist_data, false);
+          ad_chart.series[5].setData(elev_data, false);
+          ad_chart.redraw();
+        }
 
         $('#dd_distance').text(dist.toString() + ' м');
         $('#dd_elevation').text(elev.toFixed(0) + ' м');
