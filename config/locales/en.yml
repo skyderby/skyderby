@@ -8,7 +8,7 @@ en:
   index_title: "Fly! Compete! Win!"
   index_subtitle: "Alpha version. It isn't Beta yet."
 #
-  index_form_title: ''
+  index_form_title: 'Look and analyze your track:'
   index_form_name: 'Your name is:'
   index_form_name_plh: 'John D.'
   index_form_suit: "You're flying a:"
@@ -34,3 +34,11 @@ en:
 #
   index_comp_title: 'Compete:'
   index_coming: 'Coming soon'
+# track select page
+  ts_title: 'Select a track to upload'
+  ts_t_number: '#'
+  ts_t_name: 'Name'
+  ts_t_elev: 'Elevation'
+  ts_t_pt_cnt: 'Points count'
+#  
+  m_unit: 'm'

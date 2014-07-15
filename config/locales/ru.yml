@@ -34,3 +34,11 @@ ru:
 #
   index_comp_title: 'Посоревноваться:'
   index_coming: 'Скоро будет'
+# track select page
+  ts_title: 'Выберите трек для загрузки'
+  ts_t_number: 'Номер'
+  ts_t_name: 'Имя трека'
+  ts_t_elev: 'Перепад высот'
+  ts_t_pt_cnt: 'Количество точек'
+#  
+  m_unit: 'м'

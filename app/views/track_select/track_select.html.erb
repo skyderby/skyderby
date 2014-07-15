@@ -7,16 +7,16 @@
 </script>
 
 <div class='page-header'>
-  <h1>Файл содержит несколько треков</h1>
+  <h1><%=t :ts_title %></h1>
 </div>
 
 <table class="table table-hover">
   <thead>
     <tr>
-      <th>Номер</th>
-      <th>Имя</th>
-      <th>Пройдено по высоте</th>
-      <th>Количество точек</th>
+      <th><%=t :ts_t_number %></th>
+      <th><%=t :ts_t_name %></th>
+      <th><%=t :ts_t_elev %></th>
+      <th><%=t :ts_t_pt_cnt %></th>
     </tr>
   </thead>
   <tbody>
@@ -24,7 +24,7 @@
       <tr class='clickableRow' style='cursor: pointer' data-url="<%= new_track_path(:cache_id => @key, :index => index) %>">
         <td class="text-info"><%= index %></td>
         <td class="text-info"><%= item['name'] %></td>
-        <td><p class="text-primary" style="display:inline"><%= item['h_up'] %>↑</p><p class="text-success" style="display:inline"> <%= item['h_down'] %>↓</p>  м</td>
+        <td><p class="text-primary" style="display:inline"><%= item['h_up'] %>↑</p><p class="text-success" style="display:inline"> <%= item['h_down'] %>↓</p> <%=t :m_unit %></td>
         <td class="text-info"><%= item['points_count'] %></td>
       </tr>
     <% end %>

@@ -87,7 +87,7 @@
   
 <div class="jumbotron col-sm-8">
   <h2><%=t :index_form_title %></h2>
-  <%= form_tag '/select_track', multipart: true, :class => 'form-horizontal', :role => 'form' do %>
+  <%= form_tag track_select_path, multipart: true, :class => 'form-horizontal', :role => 'form' do %>
     <div class="form-group">
       <%= label_tag 'name', t(:index_form_name), :class => 'col-sm-3 control-label', :for => 'name' %>
       <div class="col-sm-9">
