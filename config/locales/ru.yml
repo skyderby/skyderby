@@ -40,5 +40,13 @@ ru:
   ts_t_name: 'Имя трека'
   ts_t_elev: 'Перепад высот'
   ts_t_pt_cnt: 'Количество точек'
+# tracks index page
+  ti_title: 'Загруженные треки:'
+  ti_t_number: 'Номер'
+  ti_t_name: 'Пилот'
+  ti_t_suit: 'Вингсьют'
+  ti_t_place: 'Локация'
+  ti_t_comment: 'Комментарий'
+  ti_t_uploaded_at: 'Дата загрузки'
 #  
   m_unit: 'м'

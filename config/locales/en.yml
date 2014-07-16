@@ -40,5 +40,13 @@ en:
   ts_t_name: 'Name'
   ts_t_elev: 'Elevation'
   ts_t_pt_cnt: 'Points count'
-#  
+# tracks index page
+  ti_title: 'Recently uploaded tracks:'
+  ti_t_number: '#'
+  ti_t_name: 'Pilot'
+  ti_t_suit: 'Wingsuit'
+  ti_t_place: 'Place'
+  ti_t_comment: 'Comment'
+  ti_t_uploaded_at: 'Uploaded at'
+#
   m_unit: 'm'
