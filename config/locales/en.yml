@@ -48,5 +48,14 @@ en:
   ti_t_place: 'Place'
   ti_t_comment: 'Comment'
   ti_t_uploaded_at: 'Uploaded at'
+# about page
+  ap_comp_t: 'Application works on:'
+  ap_comp_lng: 'Language and backend framework:'
+  ap_comp_fef: 'Frontend framework:'
+  ap_comp_charts: 'Charts framework:'
+  ap_comp_rs: 'Range selector:'
+  ap_roadmap: "Project's roadmap:"
+  ap_trpr: "Track's data processing source code"
+  ap_fepr: 'Frontend data processing'
 #
   m_unit: 'm'

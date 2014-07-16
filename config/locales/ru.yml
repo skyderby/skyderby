@@ -48,5 +48,48 @@ ru:
   ti_t_place: 'Локация'
   ti_t_comment: 'Комментарий'
   ti_t_uploaded_at: 'Дата загрузки'
-#  
+# about page
+  ap_comp_t: 'Используемые компоненты:'
+  ap_comp_lng: 'Используемый фреймворк:'
+  ap_comp_fef: 'Верстка страниц:'
+  ap_comp_charts: 'Построение графиков:'
+  ap_comp_rs: 'Слайдер для выбора диапазона:'
+  ap_roadmap: 'Следите за ходом проекта на:'
+  ap_trpr: 'Исходный код расчета трека на стороне сервера'
+  ap_fepr: 'Подготовка данных на стороне браузера'
+# track show
+  tsh_eldstch_html: "'Пройдено по высоте/по горизонту'"
+  tsh_eldst_dst_html: "'Дистанция, м'"
+  tsh_eldst_el_s_html: "'Пройдено по высоте'"
+  tsh_eldst_dst_s_html: "'Пройдено Расстояние'"
+  tsh_eldst_h_s_html: "'Высота'"
+  tsh_spdch_html: "'Вертикальная и горизонтальная скорость'"
+  tsh_spd_ax_html: "'Скорость, Км/ч'"
+  tsh_spd_hs_html: "'Гор. Скорость'"
+  tsh_spd_vs_html: "'Верт. Скорость'"
+  tsh_grch_html: "'Качество полета'"
+  tsh_gr_s_html: "'Качество'"
+  tsh_adc_html: "'Информация о полете'"
+  tsh_adc_sp_y_html: "'Скорость, Км/ч'"
+  tsh_adc_ed_y_html: "'Высота, Расстояние, м'"
+  tsh_adc_gr_y_html: "'Качество полета'"
+  tsh_adc_hspd_html: "'Гор. Скорость'"
+  tsh_adc_vspd_html: "'Верт. Скорость'"
+  tsh_adc_gr_s_html: "'Качество полета'"
+  tsh_adc_h_s_html: "'Высота'"
+  tsh_adc_dst_html: "'Дистанция'"
+  tsh_adc_ele_html: "'Пройдено по высоте'"
+  tsh_title_track: 'Трек'
+  tsh_title_suit: 'Вингсьют'
+  tsh_menu_header: 'Отображение показателей'
+  tsh_menu_sep: 'На разных графиках'
+  tsh_menu_one: 'На одном графике'
+  tsh_dt_dist: 'Дистанция:'
+  tsh_dt_elev: 'Перепад высот:'
+  tsh_dt_dur: 'Продолжительность:'
+  tsh_dt_hspd: 'Горизонт. скорость:'
+  tsh_dt_vspd: 'Верт. скорость:'
+  tsh_dt_gr: 'Качество полета:'
+# 
   m_unit: 'м'
+  kmh_unit: 'км/ч'

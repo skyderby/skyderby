@@ -62,7 +62,7 @@
             marginLeft: 70
           },
           title: {
-            text: "Пройдено по высоте/по горизонту"
+            text: <%=t :tsh_eldstch_html %>
           },
           plotOptions: {
             series: {
@@ -74,7 +74,7 @@
           yAxis: {
             min: 0,
             title: {
-              text: 'Дистанция, м'
+              text: <%=t :tsh_eldst_dst_html %>
             }
           },
           tooltip: {
@@ -86,15 +86,15 @@
             enabled: false
           },
           series: [{
-            name: 'Пройдено по высоте',
+            name: <%=t :tsh_eldst_el_s_html %>,
             pointInterval: 10,
           },
           {
-            name: 'Пройдено Расстояние',
+            name: <%=t :tsh_eldst_dst_s_html %>,
             pointInterval: 10
           },
           {
-            name: 'Высота',
+            name: <%=t :tsh_eldst_h_s_html %>,
             type: 'area',
             fillOpacity: 0.3,
             color: Highcharts.getOptions().colors[0],
@@ -111,7 +111,7 @@
             marginLeft: 70
           },
           title: {
-            text: "Вертикальная и горизонтальная скорость"
+            text: <%=t :tsh_spdch_html %>
           },
           plotOptions: {
             series: {
@@ -129,7 +129,7 @@
               }
             },
             title: {
-              text: "Скорость, Км/ч",
+              text: <%=t :tsh_spd_ax_html %>,
               style: {
                 color: Highcharts.getOptions().colors[1]
               }
@@ -144,10 +144,10 @@
             enabled: false
           },
           series: [{
-            name: "Гор. Скорость"
+            name: <%=t :tsh_spd_hs_html %>
           },
           {
-            name: "Верт. Скорость"
+            name: <%=t :tsh_spd_vs_html %>
           }]
         });
 
@@ -157,7 +157,7 @@
             marginLeft: 70
           },
           title: {
-            text: "Качество полета"
+            text: <%=t :tsh_grch_html %>
           },
           plotOptions: {
             series: {
@@ -181,7 +181,7 @@
             enabled: false
           },
           series: [{
-            name: "Качество"
+            name: <%=t :tsh_gr_s_html %>
           }],
           legend: {
             enabled: false,
@@ -193,7 +193,7 @@
             type: 'spline'
           },
           title: {
-            text: "Информация о полете"
+            text: <%=t :tsh_adc_html %>
           },
           plotOptions: {
             series: {
@@ -206,14 +206,14 @@
           yAxis: [{ //Speed yAxis
             min: 0,
             title: {
-              text: "Скорость, Км/ч"
+              text: <%=t :tsh_adc_html %>
             }
           },
           { // Elev, dist yAxis
             min: 0,
             tickInterval: 500,
             title: {
-              text: 'Высота, Расстояние, м'
+              text: <%=t :tsh_adc_ed_y_html %>
             },
             opposite: true
           },
@@ -222,7 +222,7 @@
             max: 5,
             tickInterval: 0.5,
             title: {
-              text: 'Качество полета'
+              text: <%=t :tsh_adc_gr_y_html %>
             },
             opposite: true
           }
@@ -236,32 +236,32 @@
             enabled: false
           },
           series: [{
-            name: "Гор. Скорость",
+            name: <%=t :tsh_adc_hspd_html %>,
             yAxis: 0,
             color: Highcharts.getOptions().colors[2]
           },
           {
-            name: "Верт. Скорость",
+            name: <%=t :tsh_adc_vspd_html %>,
             yAxis: 0,
             color: Highcharts.getOptions().colors[0]
           },
           {
-            name: "Качество полета",
+            name: <%=t :tsh_adc_gr_s_html %>,
             yAxis: 2,
             color: Highcharts.getOptions().colors[1]
           },
           {
-            name: "Высота",
+            name: <%=t :tsh_adc_h_s_html %>,
             yAxis: 1,
             color: '#aaa'
           },
           {
-            name: "Дистанция",
+            name: <%=t :tsh_adc_dst_html %>,
             yAxis: 1,
             color: Highcharts.getOptions().colors[5]
           },
           {
-            name: "Пройдено по высоте",
+            name: <%=t :tsh_adc_ele_html %>,
             yAxis: 1,
             color: Highcharts.getOptions().colors[3]
           }]
@@ -450,7 +450,7 @@
   <div class="page-header">
     <div class="row">
       <div class="col-md-11">
-        <h1><%= @track.name %> | Трек #<%= @track.id %> <small>Вингсьют: <%= @track.suit %></small></h1>
+        <h1><%= @track.name %> | <%=t :tsh_title_track %> #<%= @track.id %> <small><%=t :tsh_title_suit %>: <%= @track.suit %></small></h1>
       </div>
       <div class="dropdown-container col-md-1">
         <div class="dropdown">
@@ -458,9 +458,9 @@
             <span class="glyphicon glyphicon-cog"></span>
           </button>
           <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
-            <li role="presentation" class="dropdown-header">Отображение показателей</li>
-            <li role="presentation"><a id="toggle_multi" role="menuitem" tabindex="-1" href="">На разных графиках</a></li>
-            <li role="presentation"><a id="toggle_single" role="menuitem" tabindex="-1" href="">На одном графике</a></li>
+            <li role="presentation" class="dropdown-header"><%=t :tsh_menu_header %></li>
+            <li role="presentation"><a id="toggle_multi" role="menuitem" tabindex="-1" href=""><%=t :tsh_menu_sep %></a></li>
+            <li role="presentation"><a id="toggle_single" role="menuitem" tabindex="-1" href=""><%=t :tsh_menu_one %></a></li>
           </ul>
         </div>
       </div>
@@ -470,31 +470,31 @@
   <div class="row">
     <div class="col-md-3">
       <dl class="dl-horizontal">
-        <dt><strong>Дистанция:</strong></dt>
+        <dt><strong><%=t :tsh_dt_dist %></strong></dt>
         <dd id="dd_distance"></dd>
-        <dt><strong>Перепад высот:</strong></dt>
+        <dt><strong><%=t :tsh_dt_elev %></strong></dt>
         <dd id="dd_elevation"></dd>
-        <dt><strong>Продолжительность:</strong></dt>
+        <dt><strong><%=t :tsh_dt_dur %></strong></dt>
         <dd id="dd_fl_time"></dd>
       </dl>
     </div>
     <div class="col-md-5">
       <dl class="dl-horizontal">
-        <dt class="d-term"><strong>Горизонт. скорость:</strong></dt>
+        <dt class="d-term"><strong><%=t :tsh_dt_hspd %></strong></dt>
         <dd id="dd_h_speed">
           <div id="p_min_h_speed" class="min-val"></div>
           <div id="p_avg_h_speed" class="avg-val"></div>
           <div id="p_max_h_speed" class="max-val"></div>
-          <div class="val-unit"> км/ч</div>
+          <div class="val-unit"> <%=t :kmh_unit %></div>
         </dd>
-        <dt class="d-term"><strong>Верт. скорость:</strong></dt>
+        <dt class="d-term"><strong><%=t :tsh_dt_vspd %></strong></dt>
         <dd id="dd_v_speed">
           <p id="p_min_v_speed" class="min-val"></p>
           <p id="p_avg_v_speed" class="avg-val"></p>
           <p id="p_max_v_speed" class="max-val"></p>
-          <p class="val-unit"> км/ч</p>
+          <p class="val-unit"> <%=t :kmh_unit %></p>
         </dd>
-        <dt><strong>Качество полета:</strong></dt>
+        <dt><strong><%=t :tsh_dt_gr %></strong></dt>
         <dd id="dd_gr">
           <p id="p_min_gr" class="min-val"></p>
           <p id="p_avg_gr" class="avg-val"></p>
