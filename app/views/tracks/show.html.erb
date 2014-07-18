@@ -24,6 +24,10 @@
 
       $('#toggle_multi').click(function(e) {
         e.preventDefault();
+
+        $('#li_toggle_single').removeClass('active');
+        $('#li_toggle_multi').addClass('active');
+        
         $('#single-chart').hide();
         $('#multiple-charts').show();
         set_chart_data();
@@ -32,6 +36,10 @@
 
       $('#toggle_single').click(function(e) {
         e.preventDefault();
+
+        $('#li_toggle_single').removeClass('active');
+        $('#li_toggle_multi').addClass('active');
+
         $('#multiple-charts').hide();
         $('#single-chart').show();
         set_chart_data();
@@ -271,9 +279,11 @@
 
         view_type = $.cookie('view_type');
         if (view_type == 'single') {
+          $('#li_toggle_single').addClass('active');
           $('#single-chart').show();
           $('#multiple-charts').hide();
         } else {
+          $('#li_toggle_multi').addClass('active');
           $('#single-chart').hide();
           $('#multiple-charts').show();
         }
@@ -459,8 +469,16 @@
           </button>
           <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
             <li role="presentation" class="dropdown-header"><%=t :tsh_menu_header %></li>
-            <li role="presentation"><a id="toggle_multi" role="menuitem" tabindex="-1" href=""><%=t :tsh_menu_sep %></a></li>
-            <li role="presentation"><a id="toggle_single" role="menuitem" tabindex="-1" href=""><%=t :tsh_menu_one %></a></li>
+            <li role="presentation" id='li_toggle_multi'>
+              <a id="toggle_multi" role="menuitem" tabindex="-1" href="">
+                <%=t :tsh_menu_sep %>
+              </a>
+            </li>
+            <li role="presentation" id='li_toggle_single'>
+              <a id="toggle_single" role="menuitem" tabindex="-1" href="">
+                <%=t :tsh_menu_one %>
+              </a>
+            </li>
           </ul>
         </div>
       </div>

@@ -57,5 +57,39 @@ en:
   ap_roadmap: "Project's roadmap:"
   ap_trpr: "Track's data processing source code"
   ap_fepr: 'Frontend data processing'
+# track show
+  tsh_eldstch_html: "'Elevation/Distance'"
+  tsh_eldst_dst_html: "'Distance, m'"
+  tsh_eldst_el_s_html: "'Elevation'"
+  tsh_eldst_dst_s_html: "'Distance'"
+  tsh_eldst_h_s_html: "'Height'"
+  tsh_spdch_html: "'Vertical and ground speed'"
+  tsh_spd_ax_html: "'Speed, km/h'"
+  tsh_spd_hs_html: "'Ground speed'"
+  tsh_spd_vs_html: "'Vertical speed'"
+  tsh_grch_html: "'Glide ratio'"
+  tsh_gr_s_html: "'Glide ratio'"
+  tsh_adc_html: "'Flight details'"
+  tsh_adc_sp_y_html: "'Speed, km/h'"
+  tsh_adc_ed_y_html: "'Height, Distance, m'"
+  tsh_adc_gr_y_html: "'Glide ratio'"
+  tsh_adc_hspd_html: "'Ground speed'"
+  tsh_adc_vspd_html: "'Vertical speed'"
+  tsh_adc_gr_s_html: "'Glide ratio'"
+  tsh_adc_h_s_html: "'Height'"
+  tsh_adc_dst_html: "'Distance'"
+  tsh_adc_ele_html: "'Elevation'"
+  tsh_title_track: 'Track'
+  tsh_title_suit: 'Suit'
+  tsh_menu_header: 'Show data:'
+  tsh_menu_sep: 'On separate charts'
+  tsh_menu_one: 'On single chart'
+  tsh_dt_dist: 'Distance:'
+  tsh_dt_elev: 'Elevation:'
+  tsh_dt_dur: 'Duration:'
+  tsh_dt_hspd: 'Ground Speed:'
+  tsh_dt_vspd: 'Vertical speed:'
+  tsh_dt_gr: 'Glide ratio:'
 #
   m_unit: 'm'
+  kmh_unit: 'km/h'
