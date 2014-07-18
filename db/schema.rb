@@ -16,19 +16,19 @@ ActiveRecord::Schema.define(version: 20140627104442) do
   create_table "points", force: true do |t|
     t.integer  "tracksegment_id"
     t.integer  "fl_time"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.float    "elevation"
+    t.float    "latitude",         limit: 24
+    t.float    "longitude",        limit: 24
+    t.float    "elevation",        limit: 24
     t.string   "description"
     t.datetime "point_created_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "distance"
-    t.float    "v_speed"
-    t.float    "h_speed"
+    t.float    "distance",         limit: 24
+    t.float    "v_speed",          limit: 24
+    t.float    "h_speed",          limit: 24
   end
 
-  add_index "points", ["tracksegment_id"], name: "index_points_on_tracksegment_id"
+  add_index "points", ["tracksegment_id"], name: "index_points_on_tracksegment_id", using: :btree
 
   create_table "tracks", force: true do |t|
     t.string   "name"
@@ -45,6 +45,6 @@ ActiveRecord::Schema.define(version: 20140627104442) do
     t.datetime "updated_at"
   end
 
-  add_index "tracksegments", ["track_id"], name: "index_tracksegments_on_track_id"
+  add_index "tracksegments", ["track_id"], name: "index_tracksegments_on_track_id", using: :btree
 
 end

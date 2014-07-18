@@ -1,6 +1,7 @@
+#coding: utf-8
 module ApplicationHelper
   def lang_presentation(l_code)
-    l_array = {:en => 'English', :ru => "Русский"}
+    l_array = {:en => 'English', :ru => 'Русский'}
     return l_array[l_code]
   end
 
