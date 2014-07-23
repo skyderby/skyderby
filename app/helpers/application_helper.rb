@@ -1,4 +1,14 @@
 module ApplicationHelper
+
+  def page_title(title)
+    base_title = I18n.t :index_title
+    if title.empty?
+      base_title
+    else
+      title
+    end
+  end
+
   def lang_presentation(l_code)
     l_array = {:en => 'English', :ru => "Русский"}
     return l_array[l_code]

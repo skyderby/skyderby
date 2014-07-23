@@ -1,4 +1,5 @@
 <%- model_class = Track -%>
+<% provide :title, "#{t :tsh_title_track} ##{@track.id} | #{@track.name}" %>
 
   <script type="text/javascript" charset="utf-8">
 
@@ -12,6 +13,9 @@
       var range_from = max_height;
       var range_to = 0;
       
+      var mft_k = 3.280839895;
+      var in_imperial = false;
+
       // Clone Function
       function clone(obj) {
         if (null == obj || "object" != typeof obj) return obj;
@@ -37,13 +41,47 @@
       $('#toggle_single').click(function(e) {
         e.preventDefault();
 
-        $('#li_toggle_single').removeClass('active');
-        $('#li_toggle_multi').addClass('active');
+        $('#li_toggle_single').addClass('active');
+        $('#li_toggle_multi').removeClass('active');
 
         $('#multiple-charts').hide();
         $('#single-chart').show();
         set_chart_data();
         $.cookie('view_type', 'single', { expires: 365, path: '/' });
+      });
+
+      $('#toggle_metric').click(function(e) {
+        e.preventDefault();
+
+        if ($('#li_toggle_metric').hasClass('active')) 
+          return;
+          
+        $('#li_toggle_metric').addClass('active');
+        $('#li_toggle_imperial').removeClass('active');
+        
+        in_imperial = false;
+
+        updateRangeSelector();
+        updateUnits();
+        set_chart_data();
+        $.cookie('units', 'metric', { expires: 365, path: '/' });
+      });
+
+      $('#toggle_imperial').click(function(e) {
+        e.preventDefault();
+
+        if ($('#li_toggle_imperial').hasClass('active'))
+          return;
+
+        $('#li_toggle_metric').removeClass('active');
+        $('#li_toggle_imperial').addClass('active');
+
+        in_imperial = true;
+
+        updateRangeSelector();
+        updateUnits();
+        set_chart_data();
+        $.cookie('units', 'imperial', { expires: 365, path: '/'});
       });
 
       $(document).ready(function() {
@@ -58,8 +96,13 @@
           from: max_height,
           to: 0,
           onFinish: function (obj) {      // callback is called on slider action is finished
-            range_from = obj.fromNumber;
-            range_to = obj.toNumber;
+            if (in_imperial) {
+              range_from = obj.fromNumber / mft_k;
+              range_to = obj.toNumber / mft_k;
+            } else {
+              range_from = obj.fromNumber;
+              range_to = obj.toNumber;
+            }
             set_chart_data();
           }
         });
@@ -82,13 +125,12 @@
           yAxis: {
             min: 0,
             title: {
-              text: <%=t :tsh_eldst_dst_html %>
+              text: ''
             }
           },
           tooltip: {
             shared: true,
-            crosshairs: true,
-            valueSuffix: ' m'
+            crosshairs: true
           },
           credits: {
             enabled: false
@@ -137,7 +179,7 @@
               }
             },
             title: {
-              text: <%=t :tsh_spd_ax_html %>,
+              text: '',
               style: {
                 color: Highcharts.getOptions().colors[1]
               }
@@ -146,7 +188,7 @@
           tooltip: {
             shared: true,
             crosshairs: true,
-            valueDecimals: 2
+            valueDecimals: 0
           },
           credits: {
             enabled: false
@@ -219,7 +261,6 @@
           },
           { // Elev, dist yAxis
             min: 0,
-            tickInterval: 500,
             title: {
               text: <%=t :tsh_adc_ed_y_html %>
             },
@@ -275,8 +316,6 @@
           }]
         });
 
-        set_chart_data();
-
         view_type = $.cookie('view_type');
         if (view_type == 'single') {
           $('#li_toggle_single').addClass('active');
@@ -288,7 +327,64 @@
           $('#multiple-charts').show();
         }
 
+        units = $.cookie('units');
+        if (units == 'imperial') {
+          $('#li_toggle_imperial').addClass('active');
+          in_imperial = true;
+        } else {
+          $('#li_toggle_metric').addClass('active');
+          in_imperial = false;
+        }
+
+        set_chart_data();
+        updateRangeSelector();
+        updateUnits();
+
       });
+
+      function updateUnits() {
+        var unit = <%=t :kmh_unit_html %>
+        if (in_imperial)
+          unit = <%=t :mph_unit_html %>;
+
+        $('.val-unit').text(unit); 
+
+        $('#elevation_distance_chart').highcharts().yAxis[0].update({
+          title: {
+            text: <%=t :tsh_eldst_dst_html %> + ', ' + (in_imperial ? <%=t :ft_unit_html %> : <%=t :m_unit_html %>)
+            }
+        });
+        $('#speeds_chart').highcharts().yAxis[0].update({
+          title: {
+            text: <%=t :tsh_spd_ax_html %> + ', ' + (in_imperial ? <%=t :mph_unit_html %> : <%=t :kmh_unit_html %>)
+          }
+        });
+        $('#all_data_chart').highcharts().yAxis[0].update({
+          title: {
+            text: <%=t :tsh_adc_sp_y_html %> + ', ' + (in_imperial ? <%=t :mph_unit_html %> : <%=t :kmh_unit_html %>)
+          }
+        });
+        $('#all_data_chart').highcharts().yAxis[1].update({
+          title: {
+            text: <%=t :tsh_adc_ed_y_html %> + ', ' + (in_imperial ? <%=t :ft_unit_html %> : <%=t :m_unit_html %>)
+          }
+        });
+
+      }
+
+      function updateRangeSelector() {
+        if (in_imperial) {
+          $('#range_selector').ionRangeSlider('update', {
+              min: Math.round(max_height * mft_k),
+              from: Math.round(range_from * mft_k),
+              to: Math.round(range_to * mft_k) });
+        } else {
+          $('#range_selector').ionRangeSlider('update', {
+              min: max_height,
+              from: range_from,
+              to: range_to });
+        }
+      };
 
       function set_chart_data() {
 
@@ -314,7 +410,15 @@
 
           fl_time = 0,
           dist = 0,
-          elev = 0;
+          elev = 0,
+            
+          mft_un_k = 1,
+          km_m_k = 1;
+
+        if (in_imperial) {
+          mft_un_k = mft_k;
+          km_m_k = 1.6093;
+        }
 
         max_val = typeof range_from !== 'undefined' ? range_from : 100000;
         min_val = typeof range_to !== 'undefined' ? range_to : 0;
@@ -353,12 +457,11 @@
             dist += point.distance;
             elev += point.elevation_diff;
 
-            elev_data.push([fl_time, Math.round(elev)]);
-            dist_data.push([fl_time, dist]);
-
-            heights_data.push([fl_time, Math.round(point.elevation)]);
-            h_speed.push([fl_time, point.h_speed]);
-            v_speed.push([fl_time, point.v_speed]);
+            elev_data.push([fl_time, Math.round(elev * mft_un_k)]);
+            dist_data.push([fl_time, Math.round(dist * mft_un_k)]);
+            h_speed.push([fl_time, Math.round(point.h_speed / km_m_k)]);
+            v_speed.push([fl_time, Math.round(point.v_speed / km_m_k)]);
+            heights_data.push([fl_time, Math.round(point.elevation * mft_un_k)]);
 
             gr.push([fl_time, point.glrat]);
 
@@ -390,12 +493,11 @@
               dist += point.distance;
               elev += point.elevation_diff;
 
-              elev_data.push([fl_time, Math.round(elev)]);
-              dist_data.push([fl_time, dist]);
-
-              heights_data.push([fl_time, Math.round(point.elevation)]);
-              h_speed.push([fl_time, point.h_speed]);
-              v_speed.push([fl_time, point.v_speed]);
+              elev_data.push([fl_time, Math.round(elev * mft_un_k)]);
+              dist_data.push([fl_time, Math.round(dist * mft_un_kk)]);
+              h_speed.push([fl_time, Math.round(point.h_speed / km_m_k)]);
+              v_speed.push([fl_time, Math.round(point.v_speed / km_m_k)]);
+              heights_data.push([fl_time, Math.round(point.elevation * mft_un_k)]);
 
               gr.push([fl_time, point.glrat]);
             }
@@ -403,7 +505,7 @@
           }
         }
  
-        if ($('#elevation_distance_chart').css('display') !== 'none') {
+        if ($('#multiple-charts').css('display') !== 'none') {
           var ed_chart = $('#elevation_distance_chart').highcharts();
           ed_chart.series[0].setData(elev_data, false);
           ed_chart.series[1].setData(dist_data, false);
@@ -411,14 +513,14 @@
           ed_chart.redraw();
         }
 
-        if ($('#speeds_chart').css('display') !== 'none') {
+        if ($('#multiple-charts').css('display') !== 'none') {
           var sp_chart = $('#speeds_chart').highcharts();
           sp_chart.series[0].setData(h_speed, false);
           sp_chart.series[1].setData(v_speed, false);
           sp_chart.redraw();
         }
 
-        if ($('#glideratio_chart').css('display') !== 'none') {
+        if ($('#multiple-charts').css('display') !== 'none') {
           var gr_chart = $('#glideratio_chart').highcharts();
           gr_chart.series[0].setData(gr);
         }
@@ -434,17 +536,22 @@
           ad_chart.redraw();
         }
 
-        $('#dd_distance').text(dist.toString() + ' м');
-        $('#dd_elevation').text(elev.toFixed(0) + ' м');
-        $('#dd_fl_time').text(fl_time.toString() + ' с');
+        if (in_imperial){
+          $('#dd_distance').text(Math.round(dist * mft_k).toString() + ' ' + <%=t :ft_unit_html %>);
+          $('#dd_elevation').text((elev * mft_k).toFixed(0) + ' ' + <%=t :ft_unit_html %>);
+        } else {
+          $('#dd_distance').text(dist.toString() + ' ' + <%=t :m_unit_html %>);
+          $('#dd_elevation').text(elev.toFixed(0) + ' ' + <%=t :m_unit_html %>);
+        }
+        $('#dd_fl_time').text(fl_time.toString() + ' ' + <%=t :t_unit_html %>);
         
-        $('#p_min_v_speed').text(min_v_speed.toFixed(0) + '...');
-        $('#p_max_v_speed').text('...' + max_v_speed.toFixed(0));
-        $('#p_avg_v_speed').text(Math.round(elev / fl_time * 3.6).toString());
+        $('#p_min_v_speed').text((min_v_speed / km_m_k).toFixed(0) + '...');
+        $('#p_max_v_speed').text('...' + (max_v_speed / km_m_k).toFixed(0));
+        $('#p_avg_v_speed').text(Math.round((elev / fl_time * 3.6) / km_m_k).toString());
         
-        $('#p_min_h_speed').text(min_h_speed.toFixed(0) + '...');
-        $('#p_max_h_speed').text('...' + max_h_speed.toFixed(0));
-        $('#p_avg_h_speed').text(Math.round(dist / fl_time * 3.6).toString());
+        $('#p_min_h_speed').text((min_h_speed / km_m_k).toFixed(0) + '...');
+        $('#p_max_h_speed').text('...' + (max_h_speed / km_m_k).toFixed(0));
+        $('#p_avg_h_speed').text(Math.round((dist / fl_time * 3.6) / km_m_k).toString());
 
         $('#p_min_gr').text(min_gr.toFixed(2) + '...');
         $('#p_max_gr').text('...' + max_gr.toFixed(2));
@@ -477,6 +584,17 @@
             <li role="presentation" id='li_toggle_single'>
               <a id="toggle_single" role="menuitem" tabindex="-1" href="">
                 <%=t :tsh_menu_one %>
+              </a>
+            </li>
+            <li role="presentation" class="dropdown-header"><%=t :tsh_units_header %></li>
+            <li role="presentation" id='li_toggle_metric'>
+              <a id="toggle_metric" role="menuitem" tabindex="-1" href="">
+                <%=t :tsh_m_units_metric %>
+              </a>
+            </li>
+            <li role="presentation" id='li_toggle_imperial'>
+              <a id="toggle_imperial" role="menuitem" tabindex="-1" href="">
+                <%=t :tsh_m_units_imperial %>
               </a>
             </li>
           </ul>

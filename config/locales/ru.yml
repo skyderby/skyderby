@@ -59,19 +59,19 @@ ru:
   ap_fepr: 'Подготовка данных на стороне браузера'
 # track show
   tsh_eldstch_html: "'Пройдено по высоте/по горизонту'"
-  tsh_eldst_dst_html: "'Дистанция, м'"
+  tsh_eldst_dst_html: "'Дистанция'"
   tsh_eldst_el_s_html: "'Пройдено по высоте'"
   tsh_eldst_dst_s_html: "'Пройдено Расстояние'"
   tsh_eldst_h_s_html: "'Высота'"
   tsh_spdch_html: "'Вертикальная и горизонтальная скорость'"
-  tsh_spd_ax_html: "'Скорость, Км/ч'"
+  tsh_spd_ax_html: "'Скорость'"
   tsh_spd_hs_html: "'Гор. Скорость'"
   tsh_spd_vs_html: "'Верт. Скорость'"
   tsh_grch_html: "'Качество полета'"
   tsh_gr_s_html: "'Качество'"
   tsh_adc_html: "'Информация о полете'"
-  tsh_adc_sp_y_html: "'Скорость, Км/ч'"
-  tsh_adc_ed_y_html: "'Высота, Расстояние, м'"
+  tsh_adc_sp_y_html: "'Скорость'"
+  tsh_adc_ed_y_html: "'Высота, Расстояние'"
   tsh_adc_gr_y_html: "'Качество полета'"
   tsh_adc_hspd_html: "'Гор. Скорость'"
   tsh_adc_vspd_html: "'Верт. Скорость'"
@@ -90,6 +90,14 @@ ru:
   tsh_dt_hspd: 'Горизонт. скорость:'
   tsh_dt_vspd: 'Верт. скорость:'
   tsh_dt_gr: 'Качество полета:'
+  tsh_units_header: 'Единицы измерения:'
+  tsh_m_units_metric: 'Метрические (м, км/ч)'
+  tsh_m_units_imperial: 'Имперские (футы, мили/ч)'
 # 
   m_unit: 'м'
+  m_unit_html: "'м'"
+  ft_unit_html: "'фт'"
   kmh_unit: 'км/ч'
+  t_unit_html: "'с'"
+  kmh_unit_html: "'км/ч'"
+  mph_unit_html: "'миль/ч'"
