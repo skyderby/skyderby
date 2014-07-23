@@ -57,6 +57,7 @@ class Track < ActiveRecord::Base
     def get_file_format header
 
       headers_hash = {'flysight' => ['time','lat','lon','hMSL','velN','velE','velD','hAcc','vAcc','sAcc','gpsFix','numSV'],
+                      'flysight2' => ['time','lat','lon','hMSL','velN','velE','velD','hAcc','vAcc','sAcc','heading','cAcc','gpsFix','numSV'],
                       'columbusV900' => ['INDEX','TAG','DATE','TIME','LATITUDE N/S','LONGITUDE E/W','HEIGHT','SPEED','HEADING','VOX']}
 
       file_format = headers_hash.select{|key,hash| hash == header}.keys[0]
@@ -66,7 +67,7 @@ class Track < ActiveRecord::Base
 
     def parse_csv_row(row, format)
 
-      if format == 'flysight'
+      if (format == 'flysight' || format =='flysight2')
         return nil if (row[1].to_f == 0.0 || row[8].to_i > 70)
         return {'latitude' => row[1].to_f, 'longitude' => row[2].to_f, 'elevation' => row[3].to_f, 'point_created_at' => row[0].to_s}
       elsif format == 'columbusV900'
