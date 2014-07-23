@@ -59,19 +59,19 @@ en:
   ap_fepr: 'Frontend data processing'
 # track show
   tsh_eldstch_html: "'Elevation/Distance'"
-  tsh_eldst_dst_html: "'Distance, m'"
+  tsh_eldst_dst_html: "'Distance'"
   tsh_eldst_el_s_html: "'Elevation'"
   tsh_eldst_dst_s_html: "'Distance'"
   tsh_eldst_h_s_html: "'Height'"
   tsh_spdch_html: "'Vertical and ground speed'"
-  tsh_spd_ax_html: "'Speed, km/h'"
+  tsh_spd_ax_html: "'Speed'"
   tsh_spd_hs_html: "'Ground speed'"
   tsh_spd_vs_html: "'Vertical speed'"
   tsh_grch_html: "'Glide ratio'"
   tsh_gr_s_html: "'Glide ratio'"
   tsh_adc_html: "'Flight details'"
-  tsh_adc_sp_y_html: "'Speed, km/h'"
-  tsh_adc_ed_y_html: "'Height, Distance, m'"
+  tsh_adc_sp_y_html: "'Speed'"
+  tsh_adc_ed_y_html: "'Height, Distance'"
   tsh_adc_gr_y_html: "'Glide ratio'"
   tsh_adc_hspd_html: "'Ground speed'"
   tsh_adc_vspd_html: "'Vertical speed'"
@@ -90,6 +90,14 @@ en:
   tsh_dt_hspd: 'Ground Speed:'
   tsh_dt_vspd: 'Vertical speed:'
   tsh_dt_gr: 'Glide ratio:'
+  tsh_units_header: 'Units:'
+  tsh_m_units_metric: 'Metric'
+  tsh_m_units_imperial: 'Imperial'
 #
   m_unit: 'm'
+  m_unit_html: "'m'"
+  ft_unit_html: "'ft'"
+  t_unit_html: "'s'"
   kmh_unit: 'km/h'
+  kmh_unit_html: "'km/h'"
+  mph_unit_html: "'mph'"
