@@ -16,6 +16,8 @@
       var mft_k = 3.280839895;
       var in_imperial = false;
 
+      var index_cache = [];
+
       // Clone Function
       function clone(obj) {
         if (null == obj || "object" != typeof obj) return obj;
@@ -119,6 +121,13 @@
             series: {
               marker: {
                 radius: 1
+              },
+              point: {
+                events: {
+                  mouseOver: function() {
+                      syncTooltip('elevation_distance_chart', this.x);
+                    }
+                }
               }
             }
           },
@@ -138,10 +147,16 @@
           series: [{
             name: <%=t :tsh_eldst_el_s_html %>,
             pointInterval: 10,
+            tooltip: {
+              valueSuffix: ''
+            }
           },
           {
             name: <%=t :tsh_eldst_dst_s_html %>,
-            pointInterval: 10
+            pointInterval: 10,
+            tooltip: {
+              valueSuffix: ''
+            }
           },
           {
             name: <%=t :tsh_eldst_h_s_html %>,
@@ -151,6 +166,9 @@
             lineWidth: 1,
             marker: {
                 radius: 0
+            },
+            tooltip: {
+              valueSuffix: ''
             }
           }]  
         });
@@ -168,6 +186,13 @@
               marker: {
                 enabled: true,
                 radius: 1
+              },
+              point: {
+                events: {
+                  mouseOver: function() {
+                      syncTooltip('speeds_chart', this.x);
+                    }
+                }
               }
             }
           },
@@ -194,10 +219,16 @@
             enabled: false
           },
           series: [{
-            name: <%=t :tsh_spd_hs_html %>
+            name: <%=t :tsh_spd_hs_html %>,
+            tooltip: {
+              valueSuffix: ''
+            }
           },
           {
-            name: <%=t :tsh_spd_vs_html %>
+            name: <%=t :tsh_spd_vs_html %>,
+            tooltip: {
+              valueSuffix: ''
+            }
           }]
         });
 
@@ -215,6 +246,13 @@
                 enabled: true,
                 radius: 1
               },
+              point: {
+                events: {
+                  mouseOver: function() {
+                      syncTooltip('glideratio_chart', this.x);
+                    }
+                }
+              }
             }
           },
           tooltip: {
@@ -231,7 +269,10 @@
             enabled: false
           },
           series: [{
-            name: <%=t :tsh_gr_s_html %>
+            name: <%=t :tsh_gr_s_html %>,
+            tooltip: {
+              valueSuffix: ''
+            }
           }],
           legend: {
             enabled: false,
@@ -279,7 +320,6 @@
           tooltip: {
             shared: true,
             crosshairs: true,
-            valueDecimals: 2
           },
           credits: {
             enabled: false
@@ -287,32 +327,56 @@
           series: [{
             name: <%=t :tsh_adc_hspd_html %>,
             yAxis: 0,
-            color: Highcharts.getOptions().colors[2]
+            color: Highcharts.getOptions().colors[2],
+            tooltip: {
+              valueSuffix: '',
+              valueDecimals: 0
+            }
           },
           {
             name: <%=t :tsh_adc_vspd_html %>,
             yAxis: 0,
-            color: Highcharts.getOptions().colors[0]
+            color: Highcharts.getOptions().colors[0],
+            tooltip: {
+              valueSuffix: '',
+              valueDecimals: 0
+            }
           },
           {
             name: <%=t :tsh_adc_gr_s_html %>,
             yAxis: 2,
-            color: Highcharts.getOptions().colors[1]
+            color: Highcharts.getOptions().colors[1],
+            tooltip: {
+              valueSuffix: '',
+              valueDecimals: 2
+            }
           },
           {
             name: <%=t :tsh_adc_h_s_html %>,
             yAxis: 1,
-            color: '#aaa'
+            color: '#aaa',
+            tooltip: {
+              valueSuffix: '',
+              valueDecimals: 0             
+            }
           },
           {
             name: <%=t :tsh_adc_dst_html %>,
             yAxis: 1,
-            color: Highcharts.getOptions().colors[5]
+            color: Highcharts.getOptions().colors[5],
+            tooltip: {
+              valueSuffix: '',
+              valueDecimals: 0
+            }
           },
           {
             name: <%=t :tsh_adc_ele_html %>,
             yAxis: 1,
-            color: Highcharts.getOptions().colors[3]
+            color: Highcharts.getOptions().colors[3],
+            tooltip: {
+              valueSuffix: '',
+              valueDecimals: 0
+            }
           }]
         });
 
@@ -343,31 +407,89 @@
       });
 
       function updateUnits() {
-        var unit = <%=t :kmh_unit_html %>
-        if (in_imperial)
-          unit = <%=t :mph_unit_html %>;
 
-        $('.val-unit').text(unit); 
+        var speed_unit = (in_imperial ? <%=t :mph_unit_html %> : <%=t :kmh_unit_html %>);
+        var dist_unit = (in_imperial ? <%=t :ft_unit_html %> : <%=t :m_unit_html %>);
 
-        $('#elevation_distance_chart').highcharts().yAxis[0].update({
+
+        $('.val-unit').text(speed_unit); 
+
+        // elevation/distance chart
+        var chart = $('#elevation_distance_chart').highcharts();
+        chart.yAxis[0].update({
           title: {
-            text: <%=t :tsh_eldst_dst_html %> + ', ' + (in_imperial ? <%=t :ft_unit_html %> : <%=t :m_unit_html %>)
-            }
-        });
-        $('#speeds_chart').highcharts().yAxis[0].update({
-          title: {
-            text: <%=t :tsh_spd_ax_html %> + ', ' + (in_imperial ? <%=t :mph_unit_html %> : <%=t :kmh_unit_html %>)
+            text: <%=t :tsh_eldst_dst_html %> + ', ' + dist_unit
           }
         });
-        $('#all_data_chart').highcharts().yAxis[0].update({
+        chart.series[0].update({
+          tooltip: {
+            valueSuffix: ' ' + dist_unit,
+          },
+        });
+        chart.series[1].update({
+          tooltip: {
+            valueSuffix: ' ' + dist_unit,
+          },
+        });
+        chart.series[2].update({
+          tooltip: {
+            valueSuffix: ' ' + dist_unit,
+          },
+        });
+
+        // speeds chart
+        var chart = $('#speeds_chart').highcharts();
+        chart.yAxis[0].update({
+          title: {
+            text: <%=t :tsh_spd_ax_html %> + ', ' + speed_unit
+          }
+        });
+        chart.series[0].update({
+          tooltip: {
+            valueSuffix: ' ' + speed_unit,
+          },
+        });
+        chart.series[1].update({
+          tooltip: {
+            valueSuffix: ' ' + speed_unit,
+          },
+        });
+
+        var chart = $('#all_data_chart').highcharts();
+        chart.yAxis[0].update({
           title: {
             text: <%=t :tsh_adc_sp_y_html %> + ', ' + (in_imperial ? <%=t :mph_unit_html %> : <%=t :kmh_unit_html %>)
           }
         });
-        $('#all_data_chart').highcharts().yAxis[1].update({
+        chart.yAxis[1].update({
           title: {
             text: <%=t :tsh_adc_ed_y_html %> + ', ' + (in_imperial ? <%=t :ft_unit_html %> : <%=t :m_unit_html %>)
           }
+        });
+        chart.series[0].update({
+          tooltip: {
+            valueSuffix: ' ' + speed_unit,
+          },
+        });
+        chart.series[1].update({
+          tooltip: {
+            valueSuffix: ' ' + speed_unit,
+          },
+        });
+        chart.series[3].update({
+          tooltip: {
+            valueSuffix: ' ' + dist_unit,
+          },
+        });
+        chart.series[4].update({
+          tooltip: {
+            valueSuffix: ' ' + dist_unit,
+          },
+        });
+        chart.series[5].update({
+          tooltip: {
+            valueSuffix: ' ' + dist_unit,
+          },
         });
 
       }
@@ -385,6 +507,32 @@
               to: range_to });
         }
       };
+
+      function syncTooltip(container_id, x) {
+        index = index_cache.indexOf(x);
+
+        if (container_id !== 'glideratio_chart') {
+          chart = $('#glideratio_chart').highcharts();
+          p = chart.series[0].data[index];
+          chart.tooltip.refresh(p);
+          chart.xAxis[0].drawCrosshair({ chartX: p.plotX, chartY: p.plotY}, p);
+        }
+
+        if (container_id !== 'speeds_chart') {
+          chart = $('#speeds_chart').highcharts();
+          p1 = chart.series[0].data[index];
+          chart.tooltip.refresh([p1, chart.series[1].data[index]]);
+          chart.xAxis[0].drawCrosshair({ chartX: p1.plotX, chartY: p1.plotY}, p1);
+        }
+
+        if (container_id !== 'elevation_distance_chart') {
+          chart = $('#elevation_distance_chart').highcharts();
+          p1 = chart.series[0].data[index];
+          chart.tooltip.refresh([p1, chart.series[1].data[index], chart.series[2].data[index]]);
+          chart.xAxis[0].drawCrosshair({ chartX: p1.plotX, chartY: p1.plotY}, p1);
+        }
+
+      }
 
       function set_chart_data() {
 
@@ -422,6 +570,8 @@
 
         max_val = typeof range_from !== 'undefined' ? range_from : 100000;
         min_val = typeof range_to !== 'undefined' ? range_to : 0;
+
+        index_cache = [];
 
         var isFirst = true,
             isLast = false;
@@ -462,10 +612,11 @@
             h_speed.push([fl_time, Math.round(point.h_speed / km_m_k)]);
             v_speed.push([fl_time, Math.round(point.v_speed / km_m_k)]);
             heights_data.push([fl_time, Math.round(point.elevation * mft_un_k)]);
+            index_cache.push(fl_time);
 
             gr.push([fl_time, point.glrat]);
 
-            fl_time += point.fl_time;
+            fl_time += Math.round(point.fl_time * 10) / 10;
 
             min_h_speed = min_h_speed == 0 || min_h_speed > point.h_speed ? point.h_speed : min_h_speed;
             max_h_speed = max_h_speed == 0 || max_h_speed < point.h_speed ? point.h_speed : max_h_speed;
@@ -494,10 +645,11 @@
               elev += point.elevation_diff;
 
               elev_data.push([fl_time, Math.round(elev * mft_un_k)]);
-              dist_data.push([fl_time, Math.round(dist * mft_un_kk)]);
+              dist_data.push([fl_time, Math.round(dist * mft_un_k)]);
               h_speed.push([fl_time, Math.round(point.h_speed / km_m_k)]);
               v_speed.push([fl_time, Math.round(point.v_speed / km_m_k)]);
               heights_data.push([fl_time, Math.round(point.elevation * mft_un_k)]);
+              index_cache.push(fl_time);
 
               gr.push([fl_time, point.glrat]);
             }
@@ -543,7 +695,7 @@
           $('#dd_distance').text(dist.toString() + ' ' + <%=t :m_unit_html %>);
           $('#dd_elevation').text(elev.toFixed(0) + ' ' + <%=t :m_unit_html %>);
         }
-        $('#dd_fl_time').text(fl_time.toString() + ' ' + <%=t :t_unit_html %>);
+        $('#dd_fl_time').text(fl_time.toFixed(1) + ' ' + <%=t :t_unit_html %>);
         
         $('#p_min_v_speed').text((min_v_speed / km_m_k).toFixed(0) + '...');
         $('#p_max_v_speed').text('...' + (max_v_speed / km_m_k).toFixed(0));
