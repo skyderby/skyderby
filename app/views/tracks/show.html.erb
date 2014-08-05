@@ -10,8 +10,16 @@
       // Максимальная высота трека
       var max_height = <%= @track.get_max_height %>;
       
-      var range_from = max_height;
-      var range_to = 0;
+      var param_from = <%= @f %>;
+      var param_to = <%= @t %>; 
+
+      if (param_from <= param_to || param_from > max_height || param_to >= max_height) {
+        param_from = -1;
+        param_to = -1;
+      }
+
+      var range_from = param_from == -1 ? max_height : param_from;
+      var range_to = param_to == -1 ? 0 : param_to;
       
       var mft_k = 3.280839895;
       var in_imperial = false;
@@ -105,6 +113,7 @@
               range_from = obj.fromNumber;
               range_to = obj.toNumber;
             }
+            window.history.replaceState({}, document.title, "?f=" + range_from + "&t=" + range_to);
             set_chart_data();
           }
         });
@@ -714,7 +723,6 @@
     });
 
   </script>
-
 
   <div class="page-header">
     <div class="row">

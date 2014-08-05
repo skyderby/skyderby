@@ -10,7 +10,15 @@ class TracksController < ApplicationController
   # GET /tracks/1
   # GET /tracks/1.json
   def show
+
     @track.update(:lastviewed_at => Time.now)
+
+    @f = params[:f]
+    @t = params[:t]
+
+    @f = -1 if @f.nil?
+    @t = -1 if @t.nil?
+
   end
 
   # GET /tracks/new

@@ -22,7 +22,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @tracks.each do |track| %>
+    <% @tracks.reverse_each do |track| %>
       <tr class="clickableRow" style="cursor: pointer" data-url="<%= show_track_path(:id => track.id) %>">
         <td class="text-info"><%= track.id %></td>
         <td class="text-info"><%= track.name %></td>
