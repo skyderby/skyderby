@@ -1,0 +1,78 @@
+<div role="navigation" class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <%= link_to t(:header_home), root_url, :class => 'navbar-brand' %>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+          <%= link_to t(:header_tracks), track_path %>
+        </li>
+        <li>
+          <%= link_to t(:header_about), about_path %>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <% if user_signed_in? %>
+          <li class='dropdown'>
+            <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
+              <%= current_user.email %>
+              <span class="glyphicon glyphicon-user"></span>
+              <b class='caret'></b>
+            </a>
+            <ul class='dropdown-menu'>
+              <li>
+                <%= link_to t(:header_sign_out), destroy_user_session_path, :method => :delete %>
+              </li>
+            </ul>
+          </li>
+        <% else %>
+          <li class='dropdown'>
+            <a href='#' class='dropdown-toggle' data-toggle='dropdown'><%=t :header_sign_in %><b class='caret'></b></a>
+            <ul class='dropdown-menu login-menu'>
+              <li>
+                <div class='row'>
+                  <div class='col-md-12'>
+                    <%= form_for(:user, :url => session_path(:user), :class => 'form', :role => 'form') do |f| %>
+                      <div class='form-group'>
+                        <%= label_tag 'user_email', 'Email address', :for => 'user_email', :class => 'sr-only' %>
+                        <%= f.text_field :email, :class => 'form-control', :type => 'email', :placeholder => t(:header_login_email) %>
+                      </div>
+                      <div class='form-group'>
+                        <%= label_tag 'user_password', 'Password', :for => 'user_password', :class => 'sr-only' %>
+                        <%= f.password_field :password, :class => 'form-control', :placeholder => t(:header_password) %>
+                      </div>
+                      <div class='checkbox'>
+                        <label>
+                          <%= f.check_box :remember_me %><%=t :header_remember_me %>
+                        </label>
+                      </div>
+                      <div class='form-group'>
+                        <%= f.submit t(:header_sign_in), :class => 'btn btn-success btn-block' %>
+                      </div>
+                      <%= link_to t(:header_forgot_pass), new_password_path(:user) %>
+                    <% end %>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <%= link_to t(:header_sign_up), new_user_registration_path %>
+          </li>
+        <% end %>
+
+
+        <% if !controller.controller_name.eql? 'track_select' %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <%= image_tag asset_path('blank.gif'), class: "flag flag-#{ I18n.locale}" %>
+              <span class="caret"></span>
+            </a>
+            <%= lang_menu %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
