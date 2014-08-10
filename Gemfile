@@ -8,6 +8,7 @@ group :development, :test do
   gem 'sqlite3' 
   gem 'rspec'
   gem 'rspec-rails'
+  gem 'quiet_assets'
 end
 
 gem 'sass-rails', '~> 4.0.0'
@@ -19,6 +20,8 @@ gem 'twitter-bootstrap-rails'
 
 gem 'jquery-rails'
 gem 'nokogiri'
+gem 'devise'
+gem 'cancan'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 

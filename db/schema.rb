@@ -11,24 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140627104442) do
+ActiveRecord::Schema.define(version: 20140806155427) do
 
   create_table "points", force: true do |t|
     t.integer  "tracksegment_id"
     t.integer  "fl_time"
-    t.float    "latitude",         limit: 24
-    t.float    "longitude",        limit: 24
-    t.float    "elevation",        limit: 24
+    t.float    "latitude"
+    t.float    "longitude"
+    t.float    "elevation"
     t.string   "description"
     t.datetime "point_created_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "distance",         limit: 24
-    t.float    "v_speed",          limit: 24
-    t.float    "h_speed",          limit: 24
+    t.float    "distance"
+    t.float    "v_speed"
+    t.float    "h_speed"
   end
 
-  add_index "points", ["tracksegment_id"], name: "index_points_on_tracksegment_id", using: :btree
+  add_index "points", ["tracksegment_id"], name: "index_points_on_tracksegment_id"
 
   create_table "tracks", force: true do |t|
     t.string   "name"
@@ -37,7 +37,10 @@ ActiveRecord::Schema.define(version: 20140627104442) do
     t.string   "suit"
     t.text     "comment"
     t.string   "location"
+    t.integer  "user_id"
   end
+
+  add_index "tracks", ["user_id"], name: "index_tracks_on_user_id"
 
   create_table "tracksegments", force: true do |t|
     t.integer  "track_id"
@@ -45,6 +48,24 @@ ActiveRecord::Schema.define(version: 20140627104442) do
     t.datetime "updated_at"
   end
 
-  add_index "tracksegments", ["track_id"], name: "index_tracksegments_on_track_id", using: :btree
+  add_index "tracksegments", ["track_id"], name: "index_tracksegments_on_track_id"
+
+  create_table "users", force: true do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
 end

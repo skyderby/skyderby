@@ -44,7 +44,7 @@
       $('#location').val(location);
     }
 
-    $('form').submit( function( e ) {
+    $('#track_upload_form').submit( function( e ) {
       var form_valid = true;
       $('#alert-placeholder').empty();
 
@@ -86,7 +86,7 @@
   
 <div class="jumbotron col-sm-8">
   <h2><%=t :index_form_title %></h2>
-  <%= form_tag track_select_path, multipart: true, :class => 'form-horizontal', :role => 'form' do %>
+  <%= form_tag track_select_path, multipart: true, :class => 'form-horizontal', :role => 'form', :id => 'track_upload_form' do %>
     <div class="form-group">
       <%= label_tag 'name', t(:index_form_name), :class => 'col-sm-3 control-label', :for => 'name' %>
       <div class="col-sm-9">

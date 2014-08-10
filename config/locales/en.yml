@@ -4,6 +4,13 @@ en:
   header_tracks: 'Tracks'
   header_about: 'About'
   footer_owner: 'Aleksandr Kunin.'
+  header_sign_in: 'Sign in'
+  header_sign_up: 'Sign up'
+  header_sign_out: 'Sign out'
+  header_login_email: 'Email address'
+  header_password: 'Password'
+  header_remember_me: 'Remember me'
+  header_forgot_pass: 'Forgot your password?'
 # index page
   index_title: "Fly! Compete! Win!"
   index_subtitle: "Alpha version. It isn't Beta yet."

@@ -3,6 +3,13 @@ ru:
   header_home: 'Главная'
   header_tracks: 'Треки'
   header_about: 'О проекте'
+  header_sign_in: 'Войти'
+  header_sign_up: 'Зарегистрироваться'
+  header_sign_out: 'Выйти'
+  header_login_email: 'Адрес эл.почты'
+  header_password: 'Пароль'
+  header_remember_me: 'Запомнить меня'
+  header_forgot_pass: 'Забыли пароль?'
   footer_owner: 'Александр Кунин.'
 # index page
   index_title: 'Летай! Соревнуйся! Побеждай!'

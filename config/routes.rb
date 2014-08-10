@@ -11,6 +11,9 @@ TrackingDerby::Application.routes.draw do
     match '/upload_error', :to => 'static_pages#upload_error', :as => :upload_error, :via => :get
 
     get '/:locale' => 'static_pages#index'
+    devise_for :users
+    match '/profile/:id', :to => 'users#show', :as => :profile, :via => :get
+
     root 'static_pages#index'
   end
 
