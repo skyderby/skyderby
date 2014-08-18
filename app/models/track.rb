@@ -25,11 +25,11 @@ class Track < ActiveRecord::Base
       prev_point = point
     end
 
-    return arr.to_json.html_safe
+    arr.to_json.html_safe
   end
 
   def get_max_height
-    return points.maximum(:elevation).to_i
+    points.maximum(:elevation).to_i
   end
 
   private
@@ -61,14 +61,13 @@ class Track < ActiveRecord::Base
                       'flysight2' => ['time','lat','lon','hMSL','velN','velE','velD','hAcc','vAcc','sAcc','heading','cAcc','gpsFix','numSV'],
                       'columbusV900' => ['INDEX','TAG','DATE','TIME','LATITUDE N/S','LONGITUDE E/W','HEIGHT','SPEED','HEADING','VOX']}
 
-      file_format = headers_hash.select{|key,hash| hash == header}.keys[0]
-      return file_format
+      headers_hash.select{|key,hash| hash == header}.keys[0]
 
     end
 
     def parse_csv_row(row, format)
 
-      if (format == 'flysight' || format =='flysight2')
+      if (format == 'flysight') || (format =='flysight2')
         return nil if (row[1].to_f == 0.0 || row[8].to_i > 70)
         return {'latitude' => row[1].to_f, 'longitude' => row[2].to_f, 'elevation' => row[3].to_f, 'point_created_at' => row[0].to_s}
       elsif format == 'columbusV900'
@@ -104,7 +103,6 @@ class Track < ActiveRecord::Base
       end
 
       track_points.compact!
-      return track_points
     end
 
     def parse_xml(doc, track_index)
@@ -166,25 +164,26 @@ class Track < ActiveRecord::Base
       min_h = track_points.min_by{ |x| x['elevation'] }['elevation'];
       max_h = track_points.max_by{ |x| x['elevation'] }['elevation'];
 
-      # Обрежем все точки выше минимума (предполагаю Земли) на 50 метров
+      # Развернем массив и обрежем все точки после достижения максимальной высоты
       tmp_points = []
+      track_points.reverse!
       track_points.each do |x|
         tmp_points << x
+        if x['elevation'] >= max_h -15
+          break
+        end
+      end
+
+      # Обрежем все точки ниже минимума (предполагаю Земли) + 50 метров
+      track_points = []
+      tmp_points.reverse!
+      tmp_points.each do |x|
+        track_points << x
         if x['elevation'] <= (min_h + 50)
           break
         end
       end
 
-      # Развернем массив и обрежем все точки после достижения максимальной высоты
-      track_points = []
-      tmp_points.reverse!
-      tmp_points.each do |x|
-        track_points << x
-        if x['elevation'] >= max_h -15
-          break
-        end
-      end
-      track_points.reverse!
       # Уменьшим высоту во всех точках на минимальную. (корректировка относительно уровня земли)
       track_points.each do |x|
         x['elevation'] -= min_h
@@ -224,7 +223,7 @@ class Track < ActiveRecord::Base
       # Обрежем все точки до первой, где вертикальная скорость превысила 20 км/ч
       track_points = track_points.drop_while { |x| x['v_speed'] < 25 }
 
-      return track_points
+      track_points
     end
 
     def record_track_points track_points
