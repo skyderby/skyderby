@@ -12,6 +12,13 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap-datepicker
 //= require twitter/bootstrap
 //= require turbolinks
 //= require_tree .
+
+$(document).ready(function($) {
+    $(".clickableRow").click(function() {
+        window.document.location = $(this).data("url");
+    });
+});

@@ -24,6 +24,15 @@
   };
 
   $(document).ready(function() {
+
+    $(".datepicker").datepicker({
+      format: "dd.mm.yyyy",
+      startDate: 0,
+      language: "ru",
+      autoclose: true,
+      todayHighlight: true
+    });
+
     bootstrap_alert = function() {}
     bootstrap_alert.warning = function(message) {
     $('#alert-placeholder').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><span>'+message+'</span></div>')
@@ -135,6 +144,34 @@
 </div>
 <div class="jumbotron col-sm-8">
   <h2><%=t :index_comp_title %></h2>
-  <h4 class="help-block"><%=t :index_coming %></h4>
-        
+  <% if user_signed_in? %>
+      <!-- Button trigger modal -->
+      <button class="btn btn-default" data-toggle="modal" data-target="#newEventModal">
+        Создать мероприятие
+      </button>
+
+      <%= render :partial => 'new_event_form' %>
+
+  <% else %>
+    <h4 class="help-block">Создание мероприятий доступно только авторизованным пользователям.</h4>
+  <% end %>
+  <h2>Будущие соревнования:</h2>
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>Событие</th>
+      <th>Дата начала</th>
+      <th>Дата окончания</th>
+    </tr>
+    </thead>
+    <tbody>
+      <% @coming_events.each do |e| %>
+        <tr class='clickableRow' style="cursor: pointer" data-url="<%= event_path(:id => e.id) %>">
+          <td class='text-info'><%= e.name %></td>
+          <td class='text-info'><%= e.start_at %></td>
+          <td class='text-info'><%= e.end_at %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>

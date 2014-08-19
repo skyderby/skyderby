@@ -14,14 +14,18 @@ end
 gem 'sass-rails', '~> 4.0.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'less-rails-bootstrap'
-gem 'therubyracer'
-gem 'twitter-bootstrap-rails'
 
+gem 'therubyracer'
+
+gem 'twitter-bootstrap-rails'
+gem 'bootstrap-datepicker-rails'
+gem 'less-rails-bootstrap'
 gem 'jquery-rails'
+
 gem 'nokogiri'
 gem 'devise'
-gem 'cancan'
+gem 'cancancan'
+gem 'rails_admin'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 

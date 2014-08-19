@@ -19,4 +19,6 @@
 /public/system
 /public/assets
 
+/.idea
+
 Gemfile.lock

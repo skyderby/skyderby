@@ -11,6 +11,7 @@ ru:
   header_remember_me: 'Запомнить меня'
   header_forgot_pass: 'Забыли пароль?'
   footer_owner: 'Александр Кунин.'
+  header_admin_panel: 'Панель администратора'
 # index page
   index_title: 'Летай! Соревнуйся! Побеждай!'
   index_subtitle: 'Альфа версия. Это еще не Бета.'
@@ -41,6 +42,14 @@ ru:
 #
   index_comp_title: 'Посоревноваться:'
   index_coming: 'Скоро будет'
+#
+  new_event_form_title: 'Новое мероприятие'
+  event_form_name: 'Имя'
+  event_form_place: 'Локация'
+  event_form_start_at: 'Период с'
+  event_form_end_at: 'по'
+  event_form_range_from: 'Соревновательный диапазон с'
+  event_form_range_to: 'по'
 # track select page
   ts_title: 'Выберите трек для загрузки'
   ts_t_number: 'Номер'

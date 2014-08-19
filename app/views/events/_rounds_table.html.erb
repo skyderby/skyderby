@@ -1,0 +1,18 @@
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th>Дисциплина</th>
+    <th>Название</th>
+    <th>Действия</th>
+  </tr>
+  </thead>
+  <tbody id="rounds_table_body">
+  <% @event.rounds.each do |t| %>
+    <%= render :partial => 'round', locals: {round: t } %>
+  <% end %>
+  </tbody>
+</table>
+
+<button class="btn btn-default" data-toggle="modal" data-target="#newRoundEventModal">
+  Добавить раунд
+</button>

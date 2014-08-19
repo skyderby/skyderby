@@ -21,6 +21,11 @@
               <b class='caret'></b>
             </a>
             <ul class='dropdown-menu'>
+              <% if current_user.has_role? :admin %>
+                <li>
+                  <%= link_to t(:header_admin_panel), rails_admin_path %>
+                </li>
+              <% end %>
               <li>
                 <%= link_to t(:header_sign_out), destroy_user_session_path, :method => :delete %>
               </li>

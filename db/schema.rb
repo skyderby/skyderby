@@ -11,7 +11,63 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140806155427) do
+ActiveRecord::Schema.define(version: 20140818203003) do
+
+  create_table "assignments", force: true do |t|
+    t.integer "user_id"
+    t.integer "role_id"
+  end
+
+  add_index "assignments", ["user_id"], name: "index_assignments_on_user_id"
+
+  create_table "competitors", force: true do |t|
+    t.integer  "event_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "competitors", ["event_id"], name: "index_competitors_on_event_id"
+
+  create_table "disciplines", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "event_tracks", force: true do |t|
+    t.integer  "round_id"
+    t.integer  "track_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "event_tracks", ["round_id"], name: "index_event_tracks_on_round_id"
+
+  create_table "events", force: true do |t|
+    t.string   "name"
+    t.string   "place"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.integer  "comp_range_from"
+    t.integer  "comp_range_to"
+    t.text     "descriprion"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "organizers", force: true do |t|
+    t.integer  "event_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "orgs_admin"
+    t.boolean  "competitiors_admin"
+    t.boolean  "rounds_admin"
+    t.boolean  "tracks_admin"
+  end
+
+  add_index "organizers", ["event_id"], name: "index_organizers_on_event_id"
 
   create_table "points", force: true do |t|
     t.integer  "tracksegment_id"
@@ -29,6 +85,20 @@ ActiveRecord::Schema.define(version: 20140806155427) do
   end
 
   add_index "points", ["tracksegment_id"], name: "index_points_on_tracksegment_id"
+
+  create_table "roles", force: true do |t|
+    t.string "name"
+  end
+
+  create_table "rounds", force: true do |t|
+    t.string   "name"
+    t.integer  "event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "discipline_id"
+  end
+
+  add_index "rounds", ["event_id"], name: "index_rounds_on_event_id"
 
   create_table "tracks", force: true do |t|
     t.string   "name"
@@ -63,6 +133,10 @@ ActiveRecord::Schema.define(version: 20140806155427) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "last_name"
+    t.string   "first_name"
+    t.integer  "total_jumps"
+    t.integer  "wingsuit_jumps"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

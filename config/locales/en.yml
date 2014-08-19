@@ -11,6 +11,7 @@ en:
   header_password: 'Password'
   header_remember_me: 'Remember me'
   header_forgot_pass: 'Forgot your password?'
+  header_admin_panel: 'Admin dashboard'
 # index page
   index_title: "Fly! Compete! Win!"
   index_subtitle: "Alpha version. It isn't Beta yet."
@@ -41,6 +42,14 @@ en:
 #
   index_comp_title: 'Compete:'
   index_coming: 'Coming soon'
+#
+  new_event_form_title: 'New event'
+  event_form_name: 'Name'
+  event_form_place: 'Place'
+  event_form_start_at: 'Period from'
+  event_form_end_at: 'to'
+  event_form_range_from: 'Competition range from'
+  event_form_range_to: 'to'
 # track select page
   ts_title: 'Select a track to upload'
   ts_t_number: '#'
