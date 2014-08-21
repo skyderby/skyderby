@@ -17,7 +17,8 @@ class EventsController < ApplicationController
   end
 
   def show
-    @round = @event.rounds.new
+    @round = Round.new
+    @org = Organizer.new
   end
 
   def destroy

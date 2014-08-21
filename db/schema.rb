@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140818203003) do
+ActiveRecord::Schema.define(version: 20140821153049) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -56,13 +56,17 @@ ActiveRecord::Schema.define(version: 20140818203003) do
     t.datetime "updated_at"
   end
 
+  create_table "manufacturers", force: true do |t|
+    t.string "name"
+  end
+
   create_table "organizers", force: true do |t|
     t.integer  "event_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "orgs_admin"
-    t.boolean  "competitiors_admin"
+    t.boolean  "competitors_admin"
     t.boolean  "rounds_admin"
     t.boolean  "tracks_admin"
   end
@@ -137,9 +141,23 @@ ActiveRecord::Schema.define(version: 20140818203003) do
     t.string   "first_name"
     t.integer  "total_jumps"
     t.integer  "wingsuit_jumps"
+    t.string   "name"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+
+  create_table "wingsuits", force: true do |t|
+    t.integer "manufacturer_id"
+    t.integer "ws_class_id"
+    t.string  "name"
+  end
+
+  add_index "wingsuits", ["manufacturer_id"], name: "index_wingsuits_on_manufacturer_id"
+  add_index "wingsuits", ["ws_class_id"], name: "index_wingsuits_on_ws_class_id"
+
+  create_table "ws_classes", force: true do |t|
+    t.string "name"
+  end
 
 end

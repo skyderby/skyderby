@@ -1,0 +1,5 @@
+﻿.autocomplete-suggestions { z-index: 1151 !important; border: 1px solid #999; background: #FFF; cursor: default; overflow: auto; -webkit-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); -moz-box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); box-shadow: 1px 4px 3px rgba(50, 50, 50, 0.64); }
+.autocomplete-suggestion { z-index: 1151 !important; padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-no-suggestion { z-index: 1151 !important; padding: 2px 5px;}
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }

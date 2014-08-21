@@ -1,5 +1,7 @@
 TrackingDerby::Application.routes.draw do
 
+  get '/users/autocomplete'
+
   scope "/(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
 
     match '/tracks', :to  => 'tracks#index', :as => :track, :via => :get
@@ -23,7 +25,9 @@ TrackingDerby::Application.routes.draw do
     get '/:locale' => 'static_pages#index'
 
     devise_for :users
-    match '/profile/:id', :to => 'users#show', :as => :profile, :via => :get
+    match '/users/:id', :to => 'users#show', :as => :user, :via => :get
+    match '/users/:id/edit', :to => 'users#edit', :as => :edit_user, :via => :get
+    patch '/users/:id' => 'users#update'
 
     mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 

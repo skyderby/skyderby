@@ -2,33 +2,71 @@
 
 <script type="text/javascript" charset="utf-8">
   $(document).ready(function($) {
-    $(".clickableRow").click(function() {
-      window.document.location = $(this).data("url");
-    });
+
   });
 </script>
 
-<div class='page-header'>
-  <h1>Профиль пользователя: <%= @user.email %></h1>
-</div>
+<div class="row">
 
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th><%=t :ts_t_number %></th>
-      <th><%=t :ts_t_name %></th>
-      <th><%=t :ts_t_elev %></th>
-      <th><%=t :ts_t_pt_cnt %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @user.tracks.each do |track| %>
-      <tr class='clickableRow' style="cursor: pointer" data-url="<%= show_track_path(:id => track.id) %>">
-        <td class='text-info'><%= track.id %></td>
-        <td class='text-info'></td>
-        <td class='text-info'></td>
-        <td class='text-info'></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <div class="col-md-2 col-xs-2">
+    <img src="/assets/blank_photo.jpg" class="img-responsive img-rounded" alt="Responsive image">
+    <%= link_to 'Редактировать', edit_user_path(@user), :class => "btn btn-info"  %>
+  </div>
+
+  <div class="tabbable col-md-9">
+    <div class='page-header'>
+      <h1><%= @user.name %></h1>
+    </div>
+
+    <ul class="nav nav-tabs" id="tabs" data-tabs="tabs">
+      <li class="active"><a href="#overview" data-toggle="tab">Информация</a></li>
+      <li><a href="#tracks" data-toggle="tab">Треки пользователя</a></li>
+      <li><a href="#competitions" data-toggle="tab">Участие в соревнованиях</a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="overview">
+
+        <div class="col-md-9">
+          <p><strong>Страна:</strong> Россия</p>
+          <p><strong>Прыжков всего:</strong> 250</p>
+          <p><strong>из них в вингсьюте:</strong> 150</p>
+          <p><strong>из них за последние 12 мес:</strong> 50</p>
+        </div>
+
+      </div>
+
+      <div class="tab-pane" id="tracks">
+
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th><%=t :ts_t_number %></th>
+              <th><%=t :ts_t_name %></th>
+              <th><%=t :ts_t_elev %></th>
+              <th><%=t :ts_t_pt_cnt %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @user.tracks.each do |track| %>
+              <tr class='clickableRow' style="cursor: pointer" data-url="<%= show_track_path(:id => track.id) %>">
+                <td class='text-info'><%= track.id %></td>
+                <td class='text-info'></td>
+                <td class='text-info'></td>
+                <td class='text-info'></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="tab-pane" id="competitions">
+        <h2>Участие в соревнованиях</h2>
+
+        <p>Этот пилот еще не участвовал в соревнованиях</p>
+
+      </div>
+    </div>
+  </div>
+</div>

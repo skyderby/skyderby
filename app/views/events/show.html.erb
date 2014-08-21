@@ -1,127 +1,35 @@
 <%- model_class = Event -%>
 
 <div class='page-header'>
-  <h1>Событие: <%= @event.name %></h1>
+  <h1>Событие: <%= @event.name %> <small>До начала 45 дней</small></h1>
 </div>
 
-<!-- Организаторы -->
+<div class="tabbable">
+  <ul class="nav nav-tabs" id="tabs" data-tabs="tabs">
+    <li class="disabled"><a href="#results">Результаты</a></li>
+    <li class="active"><a href="#overview" data-toggle="tab">Обзор</a></li>
+    <li><a href="#competitors" data-toggle="tab">Участники</a></li>
+    <li><a href="#admin" data-toggle="tab">Администрирование</a></li>
+  </ul>
 
-<!-- Modal -->
-<div class="modal fade" id="newOrgEventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Добавление организатора</h4>
-      </div>
-      <%= form_tag edit_event_path, :class => 'form-horizontal', :role => 'form', :id => 'edit_orgs_event_form' do %>
-        <div class="modal-body">
-          <div class="form-group">
-            <%= label_tag t(:event_org), nil, :class => 'control-label', :for => 'name' %>
-            <div>
-              <%= text_field_tag 'user', nil, :class => 'form-control' %>
-            </div>
-          </div>
-          <div class="form-group">
-            <%= label_tag t(:event_form_place), nil, :class => 'control-label', :for => 'place' %>
-            <div>
-              <%= text_field_tag 'place', nil, :class => 'form-control', :placeholder => 'Локация', :type => 'text' %>
-            </div>
-          </div>
-          <div class="form-group">
-            <%= label_tag t(:event_form_start_at), nil, :class => 'control-label', :for => 'start_at' %>
-            <%= text_field_tag 'start_at', nil, :class => 'form-control datepicker' %>
-            <%= label_tag t(:event_form_end_at), nil, :class => 'control-label', :for => 'end_at' %>
-            <%= text_field_tag 'end_at', nil, :class => 'form-control datepicker', :type => 'date' %>
-          </div>
-          <div class="form-group">
-            <%= label_tag t(:event_form_range_from), nil, :class => 'control-label', :for => 'comp_range_from' %>
-            <%= text_field_tag 'comp_range_from', nil, :class => 'form-control' %>
-            <%= label_tag t(:event_form_range_to), nil, :class => 'control-label', :for => 'comp_range_to' %>
-            <%= text_field_tag 'comp_range_to', nil, :class => 'form-control' %>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-          <%= submit_tag t(:index_form_event_submit), :class => "btn btn-primary" %>
-        </div>
-      <% end %>
+  <div class="tab-content">
+    <div class="tab-pane" id="results">
+      <h2>Результаты соревнований</h2>
+    </div>
+
+    <div class="tab-pane active" id="overview">
+
+      <h2>Описание</h2>
+      <%= simple_format @event.descriprion %>
+
+    </div>
+
+    <div class="tab-pane" id="competitors">
+      <%= render :partial => 'competitors_table' %>
+    </div>
+
+    <div class="tab-pane" id="admin">
+      <%= render :partial => 'admin_tab' %>
     </div>
   </div>
 </div>
-
-<%= render :partial => 'orgs_table' %>
-
-<!-- Раунды -->
-
-<%= render :partial => 'add_round_form' %>
-<%= render :partial => 'rounds_table' %>
-
-<!-- Участники -->
-
-<!-- Modal -->
-<div class="modal fade" id="newRoundEventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Добавление раунда</h4>
-      </div>
-      <%= form_tag edit_event_path, :class => 'form-horizontal', :role => 'form', :id => 'edit_orgs_event_form' do %>
-        <div class="modal-body">
-          <div class="form-group">
-            <%= label_tag t(:event_org), nil, :class => 'control-label', :for => 'name' %>
-            <div>
-              <%= text_field_tag 'user', nil, :class => 'form-control' %>
-            </div>
-          </div>
-          <div class="form-group">
-            <%= label_tag t(:event_form_place), nil, :class => 'control-label', :for => 'place' %>
-            <div>
-              <%= text_field_tag 'place', nil, :class => 'form-control', :placeholder => 'Локация', :type => 'text' %>
-            </div>
-          </div>
-          <div class="form-group">
-            <%= label_tag t(:event_form_start_at), nil, :class => 'control-label', :for => 'start_at' %>
-            <%= text_field_tag 'start_at', nil, :class => 'form-control datepicker' %>
-            <%= label_tag t(:event_form_end_at), nil, :class => 'control-label', :for => 'end_at' %>
-            <%= text_field_tag 'end_at', nil, :class => 'form-control datepicker', :type => 'date' %>
-          </div>
-          <div class="form-group">
-            <%= label_tag t(:event_form_range_from), nil, :class => 'control-label', :for => 'comp_range_from' %>
-            <%= text_field_tag 'comp_range_from', nil, :class => 'form-control' %>
-            <%= label_tag t(:event_form_range_to), nil, :class => 'control-label', :for => 'comp_range_to' %>
-            <%= text_field_tag 'comp_range_to', nil, :class => 'form-control' %>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-          <%= submit_tag t(:index_form_event_submit), :class => "btn btn-primary" %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-</div>
-
-<table class="table table-hover">
-  <thead>
-  <tr>
-    <th>Соревнующиеся</th>
-    <th>Действия</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% @event.competitors.each do |t| %>
-    <tr class='clickableRow' style="cursor: pointer" data-url="<%= show_track_path(:id => track.id) %>">
-      <td class='text-info'><%= t.name %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
-
-<!-- Button trigger modal -->
-<button class="btn btn-default" data-toggle="modal" data-target="#newRoundEventModal">
-  Добавить соревнующегося
-</button>
-
-<!-- Заявки на участие!!! -->

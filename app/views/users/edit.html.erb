@@ -1,0 +1,7 @@
+<%= form_for @user do |f| %>
+  <%= f.label 'Фамилия' %>
+  <%= f.text_field :last_name %>
+  <%= f.label 'Имя' %>
+  <%= f.text_field :first_name %>
+  <%= f.submit 'Сохранить' %>
+<% end %>

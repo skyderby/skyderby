@@ -27,6 +27,9 @@
                 </li>
               <% end %>
               <li>
+                <%= link_to 'Профиль', user_path(current_user) %>
+              </li>
+              <li>
                 <%= link_to t(:header_sign_out), destroy_user_session_path, :method => :delete %>
               </li>
             </ul>
