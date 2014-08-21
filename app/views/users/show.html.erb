@@ -1,16 +1,10 @@
 <%- model_class = User -%>
 
-<script type="text/javascript" charset="utf-8">
-  $(document).ready(function($) {
-
-  });
-</script>
-
 <div class="row">
 
   <div class="col-md-2 col-xs-2">
     <img src="/assets/blank_photo.jpg" class="img-responsive img-rounded" alt="Responsive image">
-    <%= link_to 'Редактировать', edit_user_path(@user), :class => "btn btn-info"  %>
+    <%= link_to 'Редактировать', edit_user_registration_path, :class => "btn btn-info"  %>
   </div>
 
   <div class="tabbable col-md-9">

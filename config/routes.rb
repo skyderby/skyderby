@@ -24,7 +24,8 @@ TrackingDerby::Application.routes.draw do
 
     get '/:locale' => 'static_pages#index'
 
-    devise_for :users
+    devise_for :users, :controllers => { registrations: 'registrations' }
+
     match '/users/:id', :to => 'users#show', :as => :user, :via => :get
     match '/users/:id/edit', :to => 'users#edit', :as => :edit_user, :via => :get
     patch '/users/:id' => 'users#update'
