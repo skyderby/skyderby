@@ -27,6 +27,7 @@ gem 'devise'
 gem 'cancancan'
 gem 'rails_admin'
 gem 'paperclip'
+gem 'gmaps4rails'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
