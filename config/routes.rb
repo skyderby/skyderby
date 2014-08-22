@@ -24,11 +24,11 @@ TrackingDerby::Application.routes.draw do
 
     get '/:locale' => 'static_pages#index'
 
-    devise_for :users, :controllers => { registrations: 'registrations' }
+    devise_for :users
 
-    match '/users/:id', :to => 'users#show', :as => :user, :via => :get
-    match '/users/:id/edit', :to => 'users#edit', :as => :edit_user, :via => :get
-    patch '/users/:id' => 'users#update'
+    resources :users, :only => :show do
+      resources :user_wingsuits
+    end
 
     mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 

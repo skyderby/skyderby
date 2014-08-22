@@ -3,6 +3,8 @@ class Track < ActiveRecord::Base
   attr_accessor :trackfile, :track_index
 
   belongs_to :user
+  belongs_to :event_track
+
   has_many :tracksegments, :dependent => :destroy
   has_many :points, :through => :tracksegments
   before_save :parse_file

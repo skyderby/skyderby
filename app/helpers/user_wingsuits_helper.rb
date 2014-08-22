@@ -1,0 +1,2 @@
+module UserWingsuitsHelper
+end

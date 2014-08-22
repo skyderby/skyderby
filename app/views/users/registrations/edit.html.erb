@@ -1,29 +1,86 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<h2>Редактирование профиля <%= current_user.name %></h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'form-horizontal' }) do |f| %>
   <%= devise_error_messages! %>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, autofocus: true %></div>
+  <div class="form-group">
+    <%= f.label 'Фамилия', class: 'col-sm-2 control-label', :for => :last_name %>
+    <div class="col-sm-6">
+      <%= f.text_field :last_name, autofocus: true, class: 'form-control'  %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label 'Имя', class: 'col-sm-2 control-label', :for => :first_name %>
+    <div class="col-sm-6">
+      <%= f.text_field :first_name, class: 'form-control'  %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label 'Фото', class: 'col-sm-2 control-label', :for => :userpic %>
+    <div class="col-sm-6">
+      <%= f.file_field :userpic %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label 'Прыжков всего', class: 'col-sm-2 control-label', :for => :first_name  %>
+    <div class="col-sm-6">
+      <%= f.number_field :total_jumps, class: 'form-control'  %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label 'Прыжков в вингсьюте', class: 'col-sm-2 control-label', :for => :first_name  %>
+    <div class="col-sm-6">
+      <%= f.number_field :wingsuit_jumps, class: 'form-control'  %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label 'E-mail', class: 'col-sm-2 control-label', :for => :email %>
+    <div class="col-sm-6">
+      <%= f.email_field :email, class: 'form-control' %>
+    </div>
+  </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>
 
-  <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "off" %></div>
+  <div class="form-group">
+    <%= f.label 'Пароль', class: 'col-sm-2 control-label', :for => :password %>
+    <div class="col-sm-6">
+      <%= f.password_field :password, autocomplete: "off", class: 'form-control', :placeholder => 'Оставьте пустым если не планируете менять пароль'  %>
+    </div>
+  </div>
 
-  <div><%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
 
-  <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "off" %></div>
+  <div class="form-group">
+    <%= f.label 'Подтверждение', class: 'col-sm-2 control-label', :for => :password_confirmation %>
+    <div class="col-sm-6">
+      <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', :placeholder => 'Оставьте пустым если не планируете менять пароль' %>
+    </div>
+  </div>
 
-  <div><%= f.submit "Update" %></div>
+  <div class="form-group">
+    <%= f.label 'Текущий пароль', class: 'col-sm-2 control-label', :for => :current_password %>
+    <div class="col-sm-6">
+      <%= f.password_field :current_password, autocomplete: "off", class: 'form-control', :placeholder => 'Необходимо ввести текущий пароль для подтверждения изменений' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-6">
+      <%= f.submit "Обновить", class: "btn btn-primary" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-6">
+      <%= render "users/shared/links" %>
+    </div>
+  </div>
+
 <% end %>
-
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
-<%= link_to "Back", :back %>
