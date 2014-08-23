@@ -8,6 +8,9 @@ class User < ActiveRecord::Base
   has_many :competitors
   has_many :events, :through => :competitors
 
+  has_many :participation_forms
+  has_many :invitations
+
   has_many :assignments
   has_many :roles, :through => :assignments
 
