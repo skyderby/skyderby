@@ -1,0 +1,65 @@
+<div class="modal fade" id="newParticipationFormModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Заявка на участие</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-md-8">
+            <dl class="dl-horizontal">
+              <dt><strong>Фамилия:</strong></dt>
+              <dd><%= current_user.user_profile.last_name if current_user.user_profile %></dd>
+              <dt><strong>Имя:</strong></dt>
+              <dd><%= current_user.user_profile.first_name if current_user.user_profile %></dd>
+              <dt><strong>Прыжков всего:</strong></dt>
+              <dd><%= current_user.user_profile.jumps_total if current_user.user_profile %></dd>
+              <dt><strong>за 12 мес.:</strong></dt>
+              <dd><%= current_user.user_profile.jumps_last_year if current_user.user_profile %></dd>
+              <dt><strong>в вингсьюте:</strong></dt>
+              <dd><%= current_user.user_profile.jumps_wingsuit if current_user.user_profile %></dd>
+            </dl>
+          </div>
+          <div class="col-md-4">
+            <% if current_user.user_profile %>
+              <%= image_tag(current_user.user_profile.userpic.url(:medium), :class => "img-responsive img-rounded") %>
+            <% else %>
+              <%= image_tag '/images/thumb/missing.png', :class => 'img-responsive img-rounded' %>
+            <% end %>
+          </div>
+        </div>
+        <hr>
+
+        <%= form_for [@event, @participation_form], :html => {:class => 'form-horizontal', :role => 'form'} do |f| %>
+
+          <div class="form-group">
+            <%= f.label :wingsuit_id, "Вингсьют", class: 'col-sm-2 control-label' %>
+            <div class="col-sm-6">
+              <%= text_field_tag 'Вингсьют', nil, :class => 'form-control wingsuit-autocomplete' %>
+              <%= f.hidden_field :wingsuit_id, :id => 'wingsuit-id' %>
+            </div>
+            <div class="col-sm-4" id="wingsuit-class"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <h4><strong>Дополнительно:</strong></h4>
+              <%= simple_format @event.form_info %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-12">
+              <%= f.text_area :additional_info, :class => 'form-control', :rows => 3 %>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+          <%= f.submit "Отправить", :class => "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

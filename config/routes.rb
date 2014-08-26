@@ -1,6 +1,7 @@
 TrackingDerby::Application.routes.draw do
 
   get '/users/autocomplete'
+  get '/wingsuits/autocomplete'
 
   scope "/(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
 
@@ -18,6 +19,7 @@ TrackingDerby::Application.routes.draw do
     resources :events do
       resources :organizers
       resources :rounds
+      resources :participation_forms
       resources :competitors
       resources :event_tracks
     end
@@ -26,8 +28,9 @@ TrackingDerby::Application.routes.draw do
 
     devise_for :users
 
-    resources :users, :only => :show do
+    resources :users do
       resources :user_wingsuits
+      resources :user_profile
     end
 
     mount RailsAdmin::Engine => '/admin', as: 'rails_admin'

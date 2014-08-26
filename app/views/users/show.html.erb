@@ -3,20 +3,30 @@
 <div class="row">
 
   <div class="col-md-2">
-    <%= image_tag(@user.userpic.url(:medium), :class => "img-responsive img-rounded") %>
+    <% if @user.user_profile %>
+      <%= image_tag(@user.user_profile.userpic.url(:medium), :class => "img-responsive img-rounded") %>
+    <% else %>
+      <%= image_tag '/images/medium/missing.png', :class => 'img-responsive img-rounded' %>
+    <% end %>
   </div>
   <div class='page-header col-md-10'>
     <div class="col-md-11">
-        <h1><%= @user.name %></h1>
-      </div>
-
-      <div class="col-md-1">
-        <% if current_user == @user %>
-          <%= link_to content_tag(:span, nil, :class => 'glyphicon glyphicon-pencil'),
-                    edit_user_registration_path,
-                    :class => "btn btn-default edit"  %>
+      <h1>
+        <% if @user.user_profile && !@user.user_profile.name.blank? %>
+          <%= @user.user_profile.name %>
+        <% else %>
+          <%= @user.email %>
         <% end %>
-      </div>
+      </h1>
+    </div>
+
+    <div class="col-md-1">
+      <% if current_user == @user %>
+        <%= link_to content_tag(:span, nil, :class => 'glyphicon glyphicon-pencil'),
+                  edit_user_registration_path,
+                  :class => "btn btn-default edit"  %>
+      <% end %>
+    </div>
 
   </div>
 
@@ -35,10 +45,11 @@
     <div class="tab-content">
       <div class="tab-pane active" id="overview">
 
-        <p><strong>Страна:</strong> Россия</p>
-        <p><strong>Прыжков всего:</strong> 250</p>
-        <p><strong>из них в вингсьюте:</strong> 150</p>
-        <p><strong>из них за последние 12 мес:</strong> 50</p>
+        <% if @user.user_profile %>
+          <p><strong>Прыжков всего:</strong> <%= @user.user_profile.jumps_total %></p>
+          <p><strong>из них в вингсьюте:</strong> <%= @user.user_profile.jumps_wingsuit %></p>
+          <p><strong>из них за последние 12 мес:</strong> <%= @user.user_profile.jumps_last_year %></p>
+        <% end %>
 
       </div>
 

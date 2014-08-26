@@ -11,7 +11,7 @@
   <% @event.competitors.each_with_index do |t, index| %>
     <tr class='clickableRow' style="cursor: pointer" data-url="#">
       <td class='text-info'><%= index + 1 %></td>
-      <td class='text-info'><%= t.user.last_name + ' ' + t.user.first_name %></td>
+      <td class='text-info'><%= t.user.user_profile.name %></td>
       <td class='text-info'>Advanced</td>
       <td class='text-info'>Ghost 3</td>
     </tr>

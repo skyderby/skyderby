@@ -1,8 +1,19 @@
 <%- model_class = Event -%>
 
-<div class='page-header'>
-  <h1>Событие: <%= @event.name %> <small>До начала 45 дней</small></h1>
+<div class="row">
+  <div class='page-header col-md-12'>
+    <div class="col-md-10">
+      <h1>Событие: <%= @event.name %> <small>До начала <%= (@event.start_at - Time.zone.now).to_i / 1.day %> дн.</small></h1>
+    </div>
+    <div class="col-md-2">
+      <button class='btn btn-success event-request' data-toggle="modal" data-target="#newParticipationFormModal">
+        Заявка на участие
+      </button>
+    </div>
+  </div>
 </div>
+
+<%= render :partial => 'new_participation_form' %>
 
 <div class="tabbable">
   <ul class="nav nav-tabs" id="tabs" data-tabs="tabs">
@@ -16,18 +27,13 @@
     <div class="tab-pane" id="results">
       <h2>Результаты соревнований</h2>
     </div>
-
     <div class="tab-pane active" id="overview">
-
       <h2>Описание</h2>
       <%= simple_format @event.descriprion %>
-
     </div>
-
     <div class="tab-pane" id="competitors">
       <%= render :partial => 'competitors_table' %>
     </div>
-
     <div class="tab-pane" id="admin">
       <%= render :partial => 'admin_tab' %>
     </div>

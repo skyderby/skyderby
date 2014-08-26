@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822161223) do
+ActiveRecord::Schema.define(version: 20140826102648) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20140822161223) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "participation_form_id"
   end
 
   add_index "competitors", ["event_id"], name: "index_competitors_on_event_id"
@@ -54,7 +55,15 @@ ActiveRecord::Schema.define(version: 20140822161223) do
     t.text     "descriprion"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "form_info"
   end
+
+  create_table "invitations", force: true do |t|
+    t.integer "user_id"
+    t.integer "event_id"
+  end
+
+  add_index "invitations", ["user_id"], name: "index_invitations_on_user_id"
 
   create_table "manufacturers", force: true do |t|
     t.string "name"
@@ -72,6 +81,13 @@ ActiveRecord::Schema.define(version: 20140822161223) do
   end
 
   add_index "organizers", ["event_id"], name: "index_organizers_on_event_id"
+
+  create_table "participation_forms", force: true do |t|
+    t.integer "user_id"
+    t.integer "event_id"
+    t.text    "additional_info"
+    t.integer "wingsuit_id"
+  end
 
   create_table "points", force: true do |t|
     t.integer  "tracksegment_id"
@@ -124,9 +140,25 @@ ActiveRecord::Schema.define(version: 20140822161223) do
 
   add_index "tracksegments", ["track_id"], name: "index_tracksegments_on_track_id"
 
+  create_table "user_profiles", force: true do |t|
+    t.string   "last_name"
+    t.string   "first_name"
+    t.string   "name"
+    t.integer  "jumps_total"
+    t.integer  "jumps_wingsuit"
+    t.integer  "jumps_last_year"
+    t.string   "userpic_file_name"
+    t.string   "userpic_content_type"
+    t.integer  "userpic_file_size"
+    t.datetime "userpic_updated_at"
+    t.integer  "user_id"
+  end
+
+  add_index "user_profiles", ["user_id"], name: "index_user_profiles_on_user_id"
+
   create_table "user_wingsuits", force: true do |t|
     t.integer "user_id"
-    t.integer "wingsuits_id"
+    t.integer "wingsuit_id"
   end
 
   add_index "user_wingsuits", ["user_id"], name: "index_user_wingsuits_on_user_id"
@@ -144,15 +176,6 @@ ActiveRecord::Schema.define(version: 20140822161223) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "last_name"
-    t.string   "first_name"
-    t.integer  "total_jumps"
-    t.integer  "wingsuit_jumps"
-    t.string   "name"
-    t.string   "userpic_file_name"
-    t.string   "userpic_content_type"
-    t.integer  "userpic_file_size"
-    t.datetime "userpic_updated_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

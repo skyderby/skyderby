@@ -19,6 +19,7 @@ class EventsController < ApplicationController
   def show
     @round = Round.new
     @org = Organizer.new
+    @participation_form = ParticipationForm.new
   end
 
   def destroy

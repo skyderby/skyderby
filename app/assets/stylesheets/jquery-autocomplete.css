@@ -3,3 +3,4 @@
 .autocomplete-no-suggestion { z-index: 1151 !important; padding: 2px 5px;}
 .autocomplete-selected { background: #F0F0F0; }
 .autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+.autocomplete-group { background-color: rgb(231, 231, 231); border-top: 1px solid rgb(140, 155, 187); padding-left: 6px; font-size: 13px; }

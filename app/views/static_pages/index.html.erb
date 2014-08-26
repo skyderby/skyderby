@@ -144,7 +144,7 @@
 </div>
 <div class="jumbotron col-sm-8">
   <h2><%=t :index_comp_title %></h2>
-  <% if user_signed_in? %>
+  <% if (user_signed_in?) && (can? :create, @event) %>
       <!-- Button trigger modal -->
       <button class="btn btn-default" data-toggle="modal" data-target="#newEventModal">
         Создать мероприятие
@@ -153,9 +153,9 @@
       <%= render :partial => 'new_event_form' %>
 
   <% else %>
-    <h4 class="help-block">Создание мероприятий доступно только авторизованным пользователям.</h4>
+    <h4 class="help-block">Создание мероприятий в данный момент доступно только для участников программы тестирования.</h4>
   <% end %>
-  <h2>Будущие соревнования:</h2>
+  <h2>Предстоящие соревнования:</h2>
   <table class="table table-hover">
     <thead>
     <tr>
@@ -168,8 +168,8 @@
       <% @coming_events.each do |e| %>
         <tr class='clickableRow' style="cursor: pointer" data-url="<%= event_path(:id => e.id) %>">
           <td class='text-info'><%= e.name %></td>
-          <td class='text-info'><%= e.start_at %></td>
-          <td class='text-info'><%= e.end_at %></td>
+          <td class='text-info'><%= e.start_at.strftime("%m.%d.%Y") %></td>
+          <td class='text-info'><%= e.end_at.strftime("%m.%d.%Y") %></td>
         </tr>
       <% end %>
     </tbody>

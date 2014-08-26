@@ -27,4 +27,13 @@ $(document).ready(function($) {
             alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
         }
     });
+
+    $('.wingsuit-autocomplete').autocomplete({
+        serviceUrl: '/wingsuits/autocomplete',
+        onSelect: function (suggestion) {
+            $('#wingsuit-id').val(suggestion.data);
+            $('#wingsuit-class').text(suggestion.ws_class);
+        },
+        categories: true
+    });
 });

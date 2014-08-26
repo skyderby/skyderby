@@ -1,5 +1,5 @@
 class Competitor < ActiveRecord::Base
   belongs_to :event
   belongs_to :user
-  belongs_to :based_on, :as => :participatable, :polymorphic => true
+  belongs_to :participation_form
 end

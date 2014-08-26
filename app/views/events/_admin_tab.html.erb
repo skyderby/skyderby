@@ -65,7 +65,7 @@
   <tbody>
   <% @event.competitors.each do |t| %>
     <tr class='clickableRow' style="cursor: pointer" data-url="#">
-      <td class='text-info'><%= t.user.last_name + " " + t.user.first_name %></td>
+      <td class='text-info'><%= t.user.user_profile.name %></td>
     </tr>
   <% end %>
   </tbody>

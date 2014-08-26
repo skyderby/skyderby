@@ -16,8 +16,17 @@
         <% if user_signed_in? %>
           <li class='dropdown'>
             <a href='#' class='dropdown-toggle' data-toggle='dropdown'>
-              <%= current_user.name %>
-              <%= image_tag current_user.userpic.url(:thumb), :class => 'img-rounded img-50' %>
+              <% if current_user.user_profile %>
+                <% if current_user.user_profile.name.blank? %>
+                  <%= current_user.email %>
+                <% else %>
+                  <%= current_user.user_profile.name %>
+                <% end %>
+                <%= image_tag current_user.user_profile.userpic.url(:thumb), :class => 'img-rounded img-50' %>
+              <% else %>
+                <%= current_user.email %>
+                <%= image_tag '/images/thumb/missing.png', :class => 'img-rounded img-50' %>
+              <% end %>
             </a>
             <ul class='dropdown-menu'>
               <% if current_user.has_role? :admin %>
