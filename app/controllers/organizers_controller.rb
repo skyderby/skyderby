@@ -1,3 +1,4 @@
+# encoding: utf-8
 class OrganizersController < ApplicationController
   def create
     org_params = params[:organizer].permit(:user_id, :orgs_admin,

@@ -1,3 +1,4 @@
+# encoding: utf-8
 class ParticipationFormsController < ApplicationController
 
   def create

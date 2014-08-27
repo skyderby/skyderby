@@ -1,3 +1,4 @@
+# encoding: utf-8
 class RoundsController < ApplicationController
   def create
     round_params = params[:round].permit(:name, :discipline)

@@ -33,11 +33,11 @@ class User < ActiveRecord::Base
     roles.any? { |r| r.name.underscore.to_sym == role_sym }
   end
 
-  def has_pf? event
+  def has_pf?(event)
     event.participation_forms.include? self
   end
 
-  def event_admin? event
+  def event_admin?(event)
     event.organizers.include?(self) || has_role?(:admin)
   end
 

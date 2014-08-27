@@ -1,3 +1,4 @@
+# encoding: utf-8
 class DisciplinesController < ApplicationController
   before_action :set_discipline, only: [:show, :edit, :update, :destroy]
 
