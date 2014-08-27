@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
   end
 
   def event_admin?(event)
-    event.organizers.include?(self) || has_role?(:admin)
+    Organizer.where("event_id = ? AND user_id = ?", event.id, self.id) || has_role?(:admin)
   end
 
   private
