@@ -24,7 +24,21 @@ class ParticipationFormsController < ApplicationController
   end
 
   def decline
+    @pf = ParticipationForm.find(params[:id])
 
+    respond_to do |format|
+
+      if @pf.update :status => :declined
+        format.html { redirect_to @pf.event, notice: 'Заявка отклонена'}
+        format.js {}
+        format.json {}
+      else
+        format.html { redirect_to @pf.event, notice: 'Во время обновления заявки произошла ошибка'}
+        format.js {}
+        format.json {}
+      end
+
+    end
   end
 
 end

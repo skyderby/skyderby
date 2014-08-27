@@ -10,7 +10,7 @@
 
           <div class="col-md-2">
             <% if pf.user.user_profile %>
-              <%= image_tag(pf.user.user_profile.userpic.url(:thumb), :class => "img-rounded") %>
+              <%= image_tag(pf.user.user_profile.userpic.url(:thumb), :class => 'img-rounded') %>
             <% else %>
               <%= image_tag '/images/thumb/missing.png', :class => 'img-responsive img-rounded' %>
             <% end %>
@@ -31,11 +31,11 @@
 
           <div class="col-md-2">
             <%= form_for [@event, pf], :url => {:controller => 'participation_forms', :action => 'Approve', :event_id => @event.id}, :html => {:role => 'form'} do |f| %>
-              <%= f.submit "Подтвердить", :class => "btn btn-primary" %>
+              <%= f.submit 'Подтвердить', :class => 'btn btn-primary' %>
             <% end %>
             <br>
             <%= form_for [@event, pf], :url => {:controller => 'participation_forms', :action => 'Decline', :event_id => @event.id}, :html => {:role => 'form'} do |f| %>
-              <%= f.submit "Отклонить", :class => "btn btn-primary" %>
+              <%= f.submit 'Отклонить', :class => 'btn btn-primary' %>
             <% end %>
           </div>
 

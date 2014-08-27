@@ -24,7 +24,7 @@
           </div>
           <div class="col-md-4">
             <% if current_user.user_profile %>
-              <%= image_tag(current_user.user_profile.userpic.url(:medium), :class => "img-responsive img-rounded") %>
+              <%= image_tag(current_user.user_profile.userpic.url(:medium), :class => 'img-responsive img-rounded') %>
             <% else %>
               <%= image_tag '/images/thumb/missing.png', :class => 'img-responsive img-rounded' %>
             <% end %>
@@ -35,7 +35,7 @@
         <%= form_for [@event, @participation_form], :html => {:class => 'form-horizontal', :role => 'form'} do |f| %>
 
           <div class="form-group">
-            <%= f.label :wingsuit_id, "Вингсьют", class: 'col-sm-2 control-label' %>
+            <%= f.label :wingsuit_id, 'Вингсьют', class: 'col-sm-2 control-label' %>
             <div class="col-sm-6">
               <%= text_field_tag 'Вингсьют', nil, :class => 'form-control wingsuit-autocomplete' %>
               <%= f.hidden_field :wingsuit_id, :id => 'wingsuit-id' %>
@@ -57,7 +57,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-          <%= f.submit "Отправить", :class => "btn btn-primary" %>
+          <%= f.submit 'Отправить', :class => 'btn btn-primary' %>
         </div>
       <% end %>
     </div>

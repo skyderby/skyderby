@@ -15,6 +15,7 @@ Discipline.create(:name => 'Speed')
 Discipline.create(:name => 'Distance')
 Discipline.create(:name => 'Time')
 
+t_class = WsClass.create(:name => 'TrackSuit')
 r_class = WsClass.create(:name => 'Rookie')
 i_class = WsClass.create(:name => 'Intermediate')
 a_class = WsClass.create(:name => 'Advanced')
@@ -50,7 +51,11 @@ Wingsuit.create(:name => 'Vampire 5', :manufacturer => pf, :ws_class => a_class)
 Wingsuit.create(:name => 'Vampire Race', :manufacturer => pf, :ws_class => a_class)
 
 Wingsuit.create(:name => 'Venom', :manufacturer => pf, :ws_class => a_class)
+Wingsuit.create(:name => 'Venom Power', :manufacturer => pf, :ws_class => a_class)
 Wingsuit.create(:name => 'Viper', :manufacturer => pf, :ws_class => a_class)
+
+Wingsuit.create(:name => 'Track suit', :manufacturer => pf, :ws_class => t_class)
+Wingsuit.create(:name => 'Power tracking suit', :manufacturer => pf, :ws_class => t_class)
 
 # Tony Suit
 ts = Manufacturer.create(:name => 'Tony Suit')
@@ -76,6 +81,8 @@ Wingsuit.create(:name => 'Rebel Series', :manufacturer => ts, :ws_class => a_cla
 Wingsuit.create(:name => 'Jedei Series', :manufacturer => ts, :ws_class => a_class)
 Wingsuit.create(:name => 'Fusion Series', :manufacturer => ts, :ws_class => a_class)
 Wingsuit.create(:name => 'Scorpion Series', :manufacturer => ts, :ws_class => a_class)
+
+Wingsuit.create(:name => 'Masai tracking suit', :manufacturer => ts, :ws_class => t_class)
 
 # Bird Man
 bm = Manufacturer.create(:name => 'Bird Man')
@@ -111,6 +118,8 @@ Wingsuit.create(:name => 'MTR 3', :manufacturer => sf, :ws_class => i_class)
 
 Wingsuit.create(:name => 'Fleet', :manufacturer => sf, :ws_class => a_class)
 Wingsuit.create(:name => 'Fury', :manufacturer => sf, :ws_class => a_class)
+
+Wingsuit.create(:name => 'Cruise', :manufacturer => sf, :ws_class => t_class)
 
 # Pressurized
 pr = Manufacturer.create(:name => 'Pressurized')
@@ -157,6 +166,8 @@ Wingsuit.create(:name => 'Barracuda', :manufacturer => ia, :ws_class => i_class)
 Wingsuit.create(:name => 'Shark', :manufacturer => ia, :ws_class => a_class)
 Wingsuit.create(:name => 'Manta', :manufacturer => ia, :ws_class => a_class)
 
+Wingsuit.create(:name => 'Tracking suit', :manufacturer => ia, :ws_class => t_class)
+
 # Alien Suit
 as = Manufacturer.create(:name => 'Alien Suit')
 
@@ -174,9 +185,18 @@ Wingsuit.create(:name => 'Swift', :manufacturer => ss, :ws_class => i_class)
 Wingsuit.create(:name => 'Colugo', :manufacturer => ss, :ws_class => a_class)
 Wingsuit.create(:name => 'Aura', :manufacturer => ss, :ws_class => a_class)
 
+Wingsuit.create(:name => 'Sumo track suit', :manufacturer => ss, :ws_class => t_class)
+
 # Parasuit
 ps = Manufacturer.create(:name => 'Parasuit')
 
 Wingsuit.create(:name => 'Joy', :manufacturer => ps, :ws_class => i_class)
 Wingsuit.create(:name => 'Chimera', :manufacturer => ss, :ws_class => a_class)
 
+Wingsuit.create(:name => 'Track suit', :manufacturer => ps, :ws_class => t_class)
+
+# Baseguru
+
+bg = Manufacturer.create(:name => 'Baseguru')
+
+Wingsuit.create(:name => 'Track suit', :manufacturer => bg, :ws_class => t_class)

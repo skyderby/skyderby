@@ -115,9 +115,9 @@
       </div>
     </div>
     <div class="form-group">
-      <%= label_tag "track_file", t('.track_form.file'), :class => 'col-sm-3 control-label', :for => 'track_file' %>
+      <%= label_tag 'track_file', t('.track_form.file'), :class => 'col-sm-3 control-label', :for => 'track_file' %>
       <div class="col-sm-9">
-        <%= file_field_tag "track_file", {:onChange => 'checkFile(this)'}  %>
+        <%= file_field_tag 'track_file', {:onChange => 'checkFile(this)'}  %>
       </div>
     </div>
     <div class="form-group">
@@ -165,8 +165,8 @@
       <% @coming_events.each do |e| %>
         <tr class='clickableRow' style="cursor: pointer" data-url="<%= event_path(:id => e.id) %>">
           <td class='text-info'><%= e.name %></td>
-          <td class='text-info'><%= e.start_at.strftime("%d.%m.%Y") if e.start_at %></td>
-          <td class='text-info'><%= e.end_at.strftime("%d.%m.%Y") if e.start_at %></td>
+          <td class='text-info'><%= e.start_at.strftime('%d.%m.%Y') if e.start_at %></td>
+          <td class='text-info'><%= e.end_at.strftime('%d.%m.%Y') if e.start_at %></td>
         </tr>
       <% end %>
     </tbody>

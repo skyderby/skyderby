@@ -13,7 +13,7 @@ class RoundsController < ApplicationController
         format.js {}
         format.json { render json: @round, status: :created, location: @round }
       else
-        format.html { render action: "new"}
+        format.html { render action: 'new' }
         format.json { render json: @round.errors, status: :unprocessable_entity }
       end
     end

@@ -3,35 +3,35 @@
   <%= devise_error_messages! %>
 
   <div class="form-group">
-    <%= f.label :email, class: "col-sm-2 control-label" %>
+    <%= f.label :email, class: 'col-sm-2 control-label' %>
     <div class="col-sm-6">
-      <%= f.email_field :email, class: "form-control" %>
+      <%= f.email_field :email, class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :password, class: "col-sm-2 control-label" %>
+    <%= f.label :password, class: 'col-sm-2 control-label' %>
     <div class="col-sm-6">
-      <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
+      <%= f.password_field :password, autocomplete: 'off', class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label :password_confirmation, class: "col-sm-2 control-label" %>
+    <%= f.label :password_confirmation, class: 'col-sm-2 control-label' %>
     <div class="col-sm-6">
-      <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control" %>
+      <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-6">
-      <%= f.submit "Sign up", class: "btn btn-primary" %>
+      <%= f.submit 'Sign up', class: 'btn btn-primary' %>
     </div>
   </div>
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-6">
-      <%= render "devise/shared/links" %>
+      <%= render 'devise/shared/links' %>
     </div>
   </div>
 <% end %>

@@ -4,7 +4,7 @@
 
   <div class="col-md-2">
     <% if @user.user_profile %>
-      <%= image_tag(@user.user_profile.userpic.url(:medium), :class => "img-responsive img-rounded") %>
+      <%= image_tag(@user.user_profile.userpic.url(:medium), :class => 'img-responsive img-rounded') %>
     <% else %>
       <%= image_tag '/images/medium/missing.png', :class => 'img-responsive img-rounded' %>
     <% end %>
@@ -24,7 +24,7 @@
       <% if current_user == @user %>
         <%= link_to content_tag(:span, nil, :class => 'glyphicon glyphicon-pencil'),
                   edit_user_registration_path,
-                  :class => "btn btn-default edit"  %>
+                  :class => 'btn btn-default edit' %>
       <% end %>
     </div>
 

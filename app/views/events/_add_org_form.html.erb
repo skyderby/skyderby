@@ -8,13 +8,13 @@
       <%= form_for [@event, @org], remote: true,:html => {:class => 'form-horizontal', :role => 'form'} do |f| %>
         <div class="modal-body">
           <div class="form-group">
-            <%= f.label "Пользователь", :class => 'col-sm-3 control-label', :for => 'name' %>
+            <%= f.label 'Пользователь', :class => 'col-sm-3 control-label', :for => 'name' %>
             <div class="col-sm-9">
-              <%= f.text_field :user, :class => 'form-control user-autocomplete', :placeholder => "Начните вводить фамилию или имя" %>
+              <%= f.text_field :user, :class => 'form-control user-autocomplete', :placeholder => 'Начните вводить фамилию или имя' %>
             </div>
           </div>
           <div class="form-group">
-            <%= f.label "Права доступа:", :class => 'col-sm-3 control-label' %>
+            <%= f.label 'Права доступа:', :class => 'col-sm-3 control-label' %>
 
             <div class="col-sm-9">
               <div class="checkbox">
@@ -42,7 +42,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
-          <%= f.submit "Добавить", :class => "btn btn-primary" %>
+          <%= f.submit 'Добавить', :class => 'btn btn-primary' %>
         </div>
       <% end %>
     </div>

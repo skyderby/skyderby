@@ -5,7 +5,7 @@ class StaticPagesController < ApplicationController
     @track = Track.new
     @event = Event.new
 
-    @coming_events = Event.limit(5).order("start_at asc")
+    @coming_events = Event.limit(5).order('start_at asc')
   end
 
   def about

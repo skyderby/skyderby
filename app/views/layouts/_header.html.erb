@@ -35,7 +35,7 @@
                 </li>
               <% end %>
               <li>
-                <%= link_to t('Application.header.profile'), user_path(current_user) %>
+                <%= link_to t('application.header.profile'), user_path(current_user) %>
               </li>
               <li>
                 <%= link_to t('application.header.sign_out'), destroy_user_session_path, :method => :delete %>

@@ -6,7 +6,7 @@ class Wingsuit < ActiveRecord::Base
 
   def self.suggestions_by_name query
     suggestions = []
-    wingsuits = Wingsuit.where("LOWER(name) LIKE LOWER(?)", "%#{query}%")
+    wingsuits = Wingsuit.where('LOWER(name) LIKE LOWER(?)', "%#{query}%")
     wingsuits.each do |x|
       suggestions << {:value => x.name, :category => x.manufacturer.name , :ws_class => x.ws_class.name, :data => x.id}
     end

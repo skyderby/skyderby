@@ -51,7 +51,7 @@
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-8">
-      <%= f.submit "Обновить", class: "btn btn-primary" %>
+      <%= f.submit 'Обновить', class: 'btn btn-primary' %>
     </div>
   </div>
 
@@ -88,7 +88,7 @@
         <div class="form-group">
           <%= f.label 'Пароль', class: 'col-sm-4 control-label', :for => :password %>
           <div class="col-sm-7">
-            <%= f.password_field :password, autocomplete: "off", class: 'form-control', :placeholder => 'Оставьте пустым если не планируете менять пароль'  %>
+            <%= f.password_field :password, autocomplete: 'off', class: 'form-control', :placeholder => 'Оставьте пустым если не планируете менять пароль'  %>
           </div>
         </div>
 
@@ -96,20 +96,20 @@
         <div class="form-group">
           <%= f.label 'Подтверждение', class: 'col-sm-4 control-label', :for => :password_confirmation %>
           <div class="col-sm-7">
-            <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', :placeholder => 'Оставьте пустым если не планируете менять пароль' %>
+            <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control', :placeholder => 'Оставьте пустым если не планируете менять пароль' %>
           </div>
         </div>
 
         <div class="form-group">
           <%= f.label 'Текущий пароль', class: 'col-sm-4 control-label', :for => :current_password %>
           <div class="col-sm-7">
-            <%= f.password_field :current_password, autocomplete: "off", class: 'form-control', :placeholder => 'Необходимо ввести текущий пароль для подтверждения изменений' %>
+            <%= f.password_field :current_password, autocomplete: 'off', class: 'form-control', :placeholder => 'Необходимо ввести текущий пароль для подтверждения изменений' %>
           </div>
         </div>
 
         <div class="form-group">
           <div class="col-sm-offset-4 col-sm-7">
-            <%= f.submit "Обновить", class: "btn btn-primary" %>
+            <%= f.submit 'Обновить', class: 'btn btn-primary' %>
           </div>
         </div>
 

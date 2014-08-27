@@ -67,6 +67,8 @@ en:
       units_header: 'Units:'
       m_units_metric: 'Metric'
       m_units_imperial: 'Imperial'
+    edit:
+
   static_pages:
     index:
       title: "Fly! Compete! Win!"
