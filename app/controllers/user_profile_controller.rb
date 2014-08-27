@@ -17,7 +17,7 @@ class UserProfileController < ApplicationController
   def profile_params
     params.require(:user_profile).permit(:first_name, :last_name,
                                          :jumps_total, :jumps_wingsuit,
-                                         :jumps_last_year)
+                                         :jumps_last_year, :userpic)
   end
 
 end
