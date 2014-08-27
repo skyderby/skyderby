@@ -165,8 +165,8 @@
       <% @coming_events.each do |e| %>
         <tr class='clickableRow' style="cursor: pointer" data-url="<%= event_path(:id => e.id) %>">
           <td class='text-info'><%= e.name %></td>
-          <td class='text-info'><%= e.start_at.strftime("%d.%m.%Y") %></td>
-          <td class='text-info'><%= e.end_at.strftime("%d.%m.%Y") %></td>
+          <td class='text-info'><%= e.start_at.strftime("%d.%m.%Y") if e.start_at %></td>
+          <td class='text-info'><%= e.end_at.strftime("%d.%m.%Y") if e.start_at %></td>
         </tr>
       <% end %>
     </tbody>

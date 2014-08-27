@@ -11,7 +11,7 @@
     <th>Действия</th>
   </tr>
   </thead>
-  <tbody>s
+  <tbody>
   <% @event.organizers.each do |t| %>
     <tr class='clickableRow' style="cursor: pointer" data-url="<%= event_organizer_path(:id => t.id, :event_id => @event.id) %>">
       <td class='text-info'><%= t.user.user_profile.name %></td>

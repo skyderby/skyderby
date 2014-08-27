@@ -44,6 +44,8 @@ class User < ActiveRecord::Base
   private
 
   def build_profile
-    self.profile.build if self.new_record?
+    if self.new_record?
+      self.user_profile = UserProfile.new(:user => self)
+    end
   end
 end
