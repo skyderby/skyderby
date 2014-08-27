@@ -34,11 +34,11 @@ class User < ActiveRecord::Base
   end
 
   def has_pf?(event)
-    event.participation_forms.include? self
+    ParticipationForm.where('event_id = ? AND user_id = ?', event.id, self.id).present?
   end
 
   def event_admin?(event)
-    Organizer.where("event_id = ? AND user_id = ?", event.id, self.id) || has_role?(:admin)
+    Organizer.where('event_id = ? AND user_id = ?', event.id, self.id).present? || has_role?(:admin)
   end
 
   private
