@@ -1,0 +1,2 @@
+class UserWingsuitsController < ApplicationController
+end

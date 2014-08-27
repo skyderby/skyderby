@@ -8,21 +8,21 @@
 </script>
 
 <div class="page-header">
-  <h1><%=t :ti_title %></h1>
+  <h1><%=t '.title' %></h1>
 </div>
 <table class="table table-hover">
   <thead>
     <tr>
-      <th><%=t :ti_t_number %></th>
-      <th><%=t :ti_t_name %></th>
-      <th><%=t :ti_t_suit %></th>
-      <th><%=t :ti_t_place %></th>
-      <th><%=t :ti_t_comment %></th>
-      <th><%=t :ti_t_uploaded_at %></th>
+      <th><%=t '.number' %></th>
+      <th><%=t '.name' %></th>
+      <th><%=t '.suit' %></th>
+      <th><%=t '.place' %></th>
+      <th><%=t '.comment' %></th>
+      <th><%=t '.uploaded_at' %></th>
     </tr>
   </thead>
   <tbody>
-    <% @tracks.each do |track| %>
+    <% @tracks.reverse_each do |track| %>
       <tr class="clickableRow" style="cursor: pointer" data-url="<%= show_track_path(:id => track.id) %>">
         <td class="text-info"><%= track.id %></td>
         <td class="text-info"><%= track.name %></td>

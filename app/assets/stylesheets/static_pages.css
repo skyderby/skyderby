@@ -10,3 +10,12 @@ pre.prettyprint {
 .panel-heading {
   cursor: pointer;
 }
+
+.login-menu {
+  padding: 15px;
+  min-width: 250px;
+}
+
+.datepicker {
+  z-index: 1151 !important;
+}

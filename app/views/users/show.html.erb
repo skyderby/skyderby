@@ -1,0 +1,92 @@
+<%- model_class = User -%>
+
+<div class="row">
+
+  <div class="col-md-2">
+    <% if @user.user_profile %>
+      <%= image_tag(@user.user_profile.userpic.url(:medium), :class => "img-responsive img-rounded") %>
+    <% else %>
+      <%= image_tag '/images/medium/missing.png', :class => 'img-responsive img-rounded' %>
+    <% end %>
+  </div>
+  <div class='page-header col-md-10'>
+    <div class="col-md-11">
+      <h1>
+        <% if @user.user_profile && !@user.user_profile.name.blank? %>
+          <%= @user.user_profile.name %>
+        <% else %>
+          <%= @user.email %>
+        <% end %>
+      </h1>
+    </div>
+
+    <div class="col-md-1">
+      <% if current_user == @user %>
+        <%= link_to content_tag(:span, nil, :class => 'glyphicon glyphicon-pencil'),
+                  edit_user_registration_path,
+                  :class => "btn btn-default edit"  %>
+      <% end %>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-md-9 col-md-offset-2">
+  <div class="tabbable">
+
+    <ul class="nav nav-tabs" id="tabs" data-tabs="tabs">
+      <li class="active"><a href="#overview" data-toggle="tab">Информация</a></li>
+      <li><a href="#tracks" data-toggle="tab">Треки пользователя <span class="badge"><%= @user.tracks.count %></span></a></li>
+      <li><a href="#competitions" data-toggle="tab">Участие в соревнованиях <span class="badge"><%= @user.events.count %></span></a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="overview">
+
+        <% if @user.user_profile %>
+          <p><strong>Прыжков всего:</strong> <%= @user.user_profile.jumps_total %></p>
+          <p><strong>из них в вингсьюте:</strong> <%= @user.user_profile.jumps_wingsuit %></p>
+          <p><strong>из них за последние 12 мес:</strong> <%= @user.user_profile.jumps_last_year %></p>
+        <% end %>
+
+      </div>
+
+      <div class="tab-pane" id="tracks">
+
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Вингсьют</th>
+              <th>Локация</th>
+              <th>Комментарий</th>
+              <th>Дата загрузки</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @user.tracks.each do |track| %>
+              <tr class='clickableRow' style="cursor: pointer" data-url="<%= show_track_path(:id => track.id) %>">
+                <td class='text-info'><%= track.id %></td>
+                <td class='text-info'><%= track.suit %></td>
+                <td class='text-info'><%= track.location %></td>
+                <td class="text-muted"><%= track.comment %></td>
+                <td class='text-info'><%= track.created_at %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="tab-pane" id="competitions">
+        <h2>Участие в соревнованиях</h2>
+
+        <p>Этот пилот еще не участвовал в соревнованиях</p>
+
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

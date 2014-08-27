@@ -1,7 +1,18 @@
+#coding: utf-8
 module ApplicationHelper
+
+  def page_title(title)
+    base_title = I18n.t 'static_pages.index.title'
+    if title.empty?
+      base_title
+    else
+      title
+    end
+  end
+
   def lang_presentation(l_code)
-    l_array = {:en => 'English', :ru => "Русский"}
-    return l_array[l_code]
+    l_array = {:en => 'English', :ru => 'Русский'}
+    l_array[l_code]
   end
 
   def lang_menu
@@ -12,4 +23,20 @@ module ApplicationHelper
       end
     end
   end
+
+  def bootstrap_class_for(flash_type)
+    case flash_type
+      when "success"
+        "alert-success"   # Green
+      when "error"
+        "alert-danger"    # Red
+      when "alert"
+        "alert-warning"   # Yellow
+      when "notice"
+        "alert-info"      # Blue
+      else
+        flash_type.to_s
+    end
+  end
+
 end

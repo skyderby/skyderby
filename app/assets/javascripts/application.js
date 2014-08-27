@@ -12,6 +12,28 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap-datepicker
 //= require twitter/bootstrap
-//= require turbolinks
 //= require_tree .
+
+$(document).ready(function($) {
+    $(".clickableRow").click(function() {
+        window.document.location = $(this).data("url");
+    });
+
+    $('.user-autocomplete').autocomplete({
+        serviceUrl: '/users/autocomplete',
+        onSelect: function (suggestion) {
+            alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+        }
+    });
+
+    $('.wingsuit-autocomplete').autocomplete({
+        serviceUrl: '/wingsuits/autocomplete',
+        onSelect: function (suggestion) {
+            $('#wingsuit-id').val(suggestion.data);
+            $('#wingsuit-class').text(suggestion.ws_class);
+        },
+        categories: true
+    });
+});

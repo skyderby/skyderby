@@ -1,37 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Летай! Соревнуйся! Побеждай!</title>
+    <title><%= page_title(yield(:title)) %></title>
     <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
     <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <div role="navigation" class="navbar navbar-default navbar-static-top">
-      <div class="container">
-        <div class="navbar-header">
-          <%= link_to t(:header_home), root_url, :class => 'navbar-brand' %>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li>
-              <%= link_to t(:header_tracks), :controller => 'tracks', :action => 'index' %>
-            </li>
-            <li>
-              <%= link_to t(:header_about), :controller => 'static_pages', :action => 'about' %>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <% if !controller.controller_name.eql? 'track_select' %>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <%= image_tag 'blank.gif', class: "flag flag-#{ I18n.locale}" %>
-                  <span class="caret"></span>
-                </a>
-                <%= lang_menu %>
-              </li>
-            <% end %>
-          </ul>
+    <%= render 'layouts/header' %>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7">
+          <% flash.each do |type, message| %>
+            <div class="alert <%= bootstrap_class_for(type) %> alert-dismissable fade in">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <%= message %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
@@ -39,12 +25,6 @@
     <div class="container">
       <%= yield %>
     </div>
-
-    <div class="navbar navbar-default navbar-static-bottom">
-      <div class="container">
-        <p class="copyright">© 2014 <%=t :footer_owner %></p>
-      </div>
-    </div>
-
+    <%= render 'layouts/footer' %>
   </body>
 </html>
