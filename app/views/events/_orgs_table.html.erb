@@ -11,15 +11,15 @@
     <th>Действия</th>
   </tr>
   </thead>
-  <tbody>
+  <tbody>s
   <% @event.organizers.each do |t| %>
-    <tr class='clickableRow' style="cursor: pointer" data-url="<%= show_track_path(:id => track.id) %>">
-      <td class='text-info'><%= t.user.name %></td>
+    <tr class='clickableRow' style="cursor: pointer" data-url="<%= event_organizer_path(:id => t.id, :event_id => @event.id) %>">
+      <td class='text-info'><%= t.user.user_profile.name %></td>
       <td class='text-info'><%= t.orgs_admin %></td>
       <td class='text-info'><%= t.rounds_admin %></td>
       <td class='text-info'><%= t.competitors_admin %></td>
       <td class='text-info'><%= t.tracks_admin %></td>
-      <td class='text-info'>Редактировать Удалить</td>
+      <td class='text-info'></td>
     </tr>
   <% end %>
   </tbody>

@@ -13,37 +13,37 @@
       <%= form_for @event, :html => {:class => 'form-horizontal', :role => 'form', :id => 'new_event_form'} do |f| %>
         <div class="modal-body">
           <div class="form-group">
-            <%= f.label t(:event_form_name), :class => 'col-sm-4 control-label', :for => 'name' %>
+            <%= f.label t('static_pages.index.events.form.name'), :class => 'col-sm-4 control-label', :for => 'name' %>
             <div class="col-sm-8">
               <%= f.text_field :name, :class => 'form-control', :placeholder => 'Имя мероприятия', :type => 'text' %>
             </div>
           </div>
           <div class="form-group">
-            <%= f.label t(:event_form_place), :class => 'col-sm-4 control-label', :for => 'place' %>
+            <%= f.label t('static_pages.index.events.form.place'), :class => 'col-sm-4 control-label', :for => 'place' %>
             <div class="col-sm-8">
               <%= f.text_field :place, :class => 'form-control', :placeholder => 'Локация', :type => 'text' %>
             </div>
           </div>
           <div class="form-group">
-            <%= f.label t(:event_form_start_at), :class => 'col-sm-4 control-label', :for => 'start_at' %>
+            <%= f.label t('static_pages.index.events.form.start_at'), :class => 'col-sm-4 control-label', :for => 'start_at' %>
             <div class="col-sm-8">
               <%= f.text_field :start_at, :class => 'form-control datepicker' %>
             </div>
           </div>
           <div class="form-group">
-            <%= f.label t(:event_form_end_at), :class => 'col-sm-4 control-label', :for => 'end_at' %>
+            <%= f.label t('static_pages.index.events.form.end_at'), :class => 'col-sm-4 control-label', :for => 'end_at' %>
             <div class="col-sm-8">
               <%= f.text_field :end_at, :class => 'form-control datepicker', :type => 'date' %>
             </div>
           </div>
           <div class="form-group">
-            <%= f.label t(:event_form_range_from), :class => 'col-sm-4 control-label', :for => 'comp_range_from' %>
+            <%= f.label t('static_pages.index.events.form.range_from'), :class => 'col-sm-4 control-label', :for => 'comp_range_from' %>
             <div class="col-sm-8">
               <%= f.text_field :comp_range_from, :class => 'form-control' %>
             </div>
           </div>
           <div class="form-group">
-            <%= f.label t(:event_form_range_to), :class => 'col-sm-4 control-label', :for => 'comp_range_to' %>
+            <%= f.label t('static_pages.index.events.form.range_to'), :class => 'col-sm-4 control-label', :for => 'comp_range_to' %>
             <div class="col-sm-8">
               <%= f.text_field :comp_range_to, :class => 'form-control' %>
             </div>

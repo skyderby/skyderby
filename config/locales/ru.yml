@@ -1,119 +1,132 @@
 ru:
-# Application
-  header_home: 'Главная'
-  header_tracks: 'Треки'
-  header_about: 'О проекте'
-  header_sign_in: 'Войти'
-  header_sign_up: 'Зарегистрироваться'
-  header_sign_out: 'Выйти'
-  header_login_email: 'Адрес эл.почты'
-  header_password: 'Пароль'
-  header_remember_me: 'Запомнить меня'
-  header_forgot_pass: 'Забыли пароль?'
-  footer_owner: 'Александр Кунин.'
-  header_admin_panel: 'Панель администратора'
-# index page
-  index_title: 'Летай! Соревнуйся! Побеждай!'
-  index_subtitle: 'Альфа версия. Это еще не Бета.'
-#
-  index_form_title: 'Посмотреть и оценить трек:'
-  index_form_name: 'Вас зовут:'
-  index_form_name_plh: 'Имя Ф.'
-  index_form_suit: 'Вы летаете в:'
-  index_form_suit_plh: 'Модель вингсьюта'
-  index_form_location: 'Локация:'
-  index_form_location_plh: 'ДЗ, горы, и т.д.'
-  index_form_file: "Файл трека:"
-  index_form_help: 'Поддерживаются файлы в формате csv и gpx'
-  index_form_comment: 'Комментарий:'
-  index_form_comment_plh: 'Пара слов о Вашем полете'
-  index_form_submit: 'Загрузить'
-#
-  index_name_warn_html: "'Вы не указали как Вас зовут.'"
-  index_suit_warn_html: "'Вы не указали в чем Вы летали этот полет.'"
-  index_loc_warn_html: "'Вы не указали где Вы летали.'"
-  index_file_warn_html: "'Вы не выбрали файл.'"
-  index_file_ext_w1_html: "'Расширение файла : '"
-  index_file_ext_w2_html: "'Пожалуйтса, выберите файл с расширением csv или gpx'"
-  index_file_size_w1_html: "'Размер файла : '"
-  index_file_size_w2_html: "'Размер файла не должен превышать 1 Мб'"
-#
-  index_or: 'Или'
-#
-  index_comp_title: 'Посоревноваться:'
-  index_coming: 'Скоро будет'
-#
-  new_event_form_title: 'Новое мероприятие'
-  event_form_name: 'Имя'
-  event_form_place: 'Локация'
-  event_form_start_at: 'Период с'
-  event_form_end_at: 'по'
-  event_form_range_from: 'Соревновательный диапазон с'
-  event_form_range_to: 'по'
-# track select page
-  ts_title: 'Выберите трек для загрузки'
-  ts_t_number: 'Номер'
-  ts_t_name: 'Имя трека'
-  ts_t_elev: 'Перепад высот'
-  ts_t_pt_cnt: 'Количество точек'
-# tracks index page
-  ti_title: 'Загруженные треки:'
-  ti_t_number: 'Номер'
-  ti_t_name: 'Пилот'
-  ti_t_suit: 'Вингсьют'
-  ti_t_place: 'Локация'
-  ti_t_comment: 'Комментарий'
-  ti_t_uploaded_at: 'Дата загрузки'
-# about page
-  ap_comp_t: 'Используемые компоненты:'
-  ap_comp_lng: 'Используемый фреймворк:'
-  ap_comp_fef: 'Верстка страниц:'
-  ap_comp_charts: 'Построение графиков:'
-  ap_comp_rs: 'Слайдер для выбора диапазона:'
-  ap_roadmap: 'Следите за ходом проекта на:'
-  ap_trpr: 'Исходный код расчета трека на стороне сервера'
-  ap_fepr: 'Подготовка данных на стороне браузера'
-# track show
-  tsh_eldstch_html: "'Пройдено по высоте/по горизонту'"
-  tsh_eldst_dst_html: "'Дистанция'"
-  tsh_eldst_el_s_html: "'Пройдено по высоте'"
-  tsh_eldst_dst_s_html: "'Пройдено Расстояние'"
-  tsh_eldst_h_s_html: "'Высота'"
-  tsh_spdch_html: "'Вертикальная и горизонтальная скорость'"
-  tsh_spd_ax_html: "'Скорость'"
-  tsh_spd_hs_html: "'Гор. Скорость'"
-  tsh_spd_vs_html: "'Верт. Скорость'"
-  tsh_grch_html: "'Качество полета'"
-  tsh_gr_s_html: "'Качество'"
-  tsh_adc_html: "'Информация о полете'"
-  tsh_adc_sp_y_html: "'Скорость'"
-  tsh_adc_ed_y_html: "'Высота, Расстояние'"
-  tsh_adc_gr_y_html: "'Качество полета'"
-  tsh_adc_hspd_html: "'Гор. Скорость'"
-  tsh_adc_vspd_html: "'Верт. Скорость'"
-  tsh_adc_gr_s_html: "'Качество полета'"
-  tsh_adc_h_s_html: "'Высота'"
-  tsh_adc_dst_html: "'Дистанция'"
-  tsh_adc_ele_html: "'Пройдено по высоте'"
-  tsh_title_track: 'Трек'
-  tsh_title_suit: 'Вингсьют'
-  tsh_menu_header: 'Отображение показателей'
-  tsh_menu_sep: 'На разных графиках'
-  tsh_menu_one: 'На одном графике'
-  tsh_dt_dist: 'Дистанция:'
-  tsh_dt_elev: 'Перепад высот:'
-  tsh_dt_dur: 'Продолжительность:'
-  tsh_dt_hspd: 'Горизонт. скорость:'
-  tsh_dt_vspd: 'Верт. скорость:'
-  tsh_dt_gr: 'Качество полета:'
-  tsh_units_header: 'Единицы измерения:'
-  tsh_m_units_metric: 'Метрические (м, км/ч)'
-  tsh_m_units_imperial: 'Имперские (футы, мили/ч)'
-# 
-  m_unit: 'м'
-  m_unit_html: "'м'"
-  ft_unit_html: "'фт'"
-  kmh_unit: 'км/ч'
-  t_unit_html: "'с'"
-  kmh_unit_html: "'км/ч'"
-  mph_unit_html: "'миль/ч'"
+  application:
+    header:
+      home: 'Главная'
+      tracks: 'Треки'
+      about: 'О проекте'
+      sign_in: 'Войти'
+      sign_up: 'Зарегистрироваться'
+      sign_out: 'Выйти'
+      login_email: 'Адрес эл.почты'
+      password: 'Пароль'
+      remember_me: 'Запомнить меня'
+      forgot_pass: 'Забыли пароль?'
+      profile: "Профиль"
+      admin_panel: 'Панель администратора'
+    footer:
+      owner: 'Александр Кунин.'
+  track_select:
+    track_select:
+      title: 'Выберите трек для загрузки'
+      number: 'Номер'
+      name: 'Имя трека'
+      elev: 'Перепад высот'
+      pt_cnt: 'Количество точек'
+  tracks:
+    index:
+      title: 'Загруженные треки:'
+      number: 'Номер'
+      name: 'Пилот'
+      suit: 'Вингсьют'
+      place: 'Локация'
+      comment: 'Комментарий'
+      uploaded_at: 'Дата загрузки'
+    show:
+      eldstch_html: "'Пройдено по высоте/по горизонту'"
+      eldst_dst_html: "'Дистанция'"
+      eldst_el_s_html: "'Пройдено по высоте'"
+      eldst_dst_s_html: "'Пройдено Расстояние'"
+      eldst_h_s_html: "'Высота'"
+      spdch_html: "'Вертикальная и горизонтальная скорость'"
+      spd_ax_html: "'Скорость'"
+      spd_hs_html: "'Гор. Скорость'"
+      spd_vs_html: "'Верт. Скорость'"
+      grch_html: "'Качество полета'"
+      gr_s_html: "'Качество'"
+      adc_html: "'Информация о полете'"
+      adc_sp_y_html: "'Скорость'"
+      adc_ed_y_html: "'Высота, Расстояние'"
+      adc_gr_y_html: "'Качество полета'"
+      adc_hspd_html: "'Гор. Скорость'"
+      adc_vspd_html: "'Верт. Скорость'"
+      adc_gr_s_html: "'Качество полета'"
+      adc_h_s_html: "'Высота'"
+      adc_dst_html: "'Дистанция'"
+      adc_ele_html: "'Пройдено по высоте'"
+      title_track: 'Трек'
+      title_suit: 'Вингсьют'
+      menu_header: 'Отображение показателей'
+      menu_sep: 'На разных графиках'
+      menu_one: 'На одном графике'
+      dt_dist: 'Дистанция:'
+      dt_elev: 'Перепад высот:'
+      dt_dur: 'Продолжительность:'
+      dt_hspd: 'Горизонт. скорость:'
+      dt_vspd: 'Верт. скорость:'
+      dt_gr: 'Качество полета:'
+      units_header: 'Единицы измерения:'
+      m_units_metric: 'Метрические (м, км/ч)'
+      m_units_imperial: 'Имперские (футы, мили/ч)'
+  static_pages:
+    index:
+      title: 'Летай! Соревнуйся! Побеждай!'
+      subtitle: 'Бета'
+      track_form:
+        title: 'Посмотреть и оценить трек:'
+        name: 'Вас зовут:'
+        name_plh: 'Имя Ф.'
+        suit: 'Вы летаете в:'
+        suit_plh: 'Модель вингсьюта'
+        location: 'Локация:'
+        location_plh: 'ДЗ, горы, и т.д.'
+        file: "Файл трека:"
+        help: 'Поддерживаются файлы в формате csv и gpx'
+        comment: 'Комментарий:'
+        comment_plh: 'Пара слов о Вашем полете'
+        submit: 'Загрузить'
+        warnings:
+          name_html: "'Вы не указали как Вас зовут.'"
+          suit_html: "'Вы не указали в чем Вы летали этот полет.'"
+          loc_html: "'Вы не указали где Вы летали.'"
+          file_html: "'Вы не выбрали файл.'"
+          file_ext_w1_html: "'Расширение файла : '"
+          file_ext_w2_html: "'Пожалуйтса, выберите файл с расширением csv или gpx'"
+          file_size_w1_html: "'Размер файла : '"
+          file_size_w2_html: "'Размер файла не должен превышать 1 Мб'"
+      or: 'Или'
+      events:
+        title: 'Посоревноваться:'
+        coming: 'Скоро будет'
+        create: 'Создать событие'
+        future: 'Предстоящие соревнования'
+        betatestersonly: 'Создание мероприятий в данный момент доступно только для участников программы тестирования.'
+        table:
+          event: 'Событие'
+          starts: 'Дата начала'
+          ends: 'Дата окончания'
+        form:
+          title: 'Новое мероприятие'
+          name: 'Имя'
+          place: 'Локация'
+          start_at: 'Период с'
+          end_at: 'по'
+          range_from: 'Соревновательный диапазон с'
+          range_to: 'по'
+    about:
+      comp_t: 'Используемые компоненты:'
+      comp_lng: 'Используемый фреймворк:'
+      comp_fef: 'Верстка страниц:'
+      comp_charts: 'Построение графиков:'
+      comp_rs: 'Слайдер для выбора диапазона:'
+      roadmap: 'Следите за ходом проекта на:'
+      trpr: 'Исходный код расчета трека на стороне сервера'
+      fepr: 'Подготовка данных на стороне браузера'
+  units:
+    m: 'м'
+    m_html: "'м'"
+    ft_html: "'фт'"
+    kmh: 'км/ч'
+    t_html: "'с'"
+    kmh_html: "'км/ч'"
+    mph_html: "'миль/ч'"
+

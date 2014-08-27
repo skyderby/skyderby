@@ -19,7 +19,12 @@ TrackingDerby::Application.routes.draw do
     resources :events do
       resources :organizers
       resources :rounds
-      resources :participation_forms
+      resources :participation_forms, :only => [:create] do
+        collection do
+          post 'Approve'
+          post 'Decline'
+        end
+      end
       resources :competitors
       resources :event_tracks
     end

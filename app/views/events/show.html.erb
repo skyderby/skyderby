@@ -6,21 +6,35 @@
       <h1>Событие: <%= @event.name %> <small>До начала <%= (@event.start_at - Time.zone.now).to_i / 1.day %> дн.</small></h1>
     </div>
     <div class="col-md-2">
-      <button class='btn btn-success event-request' data-toggle="modal" data-target="#newParticipationFormModal">
-        Заявка на участие
-      </button>
+      <% if current_user %>
+        <% if current_user.has_pf? @event %>
+          <button class="btn btn-default event-request disabled">
+            Заявка в обработке
+          </button>
+        <% else %>
+          <button class='btn btn-success event-request' data-toggle="modal" data-target="#newParticipationFormModal">
+            <span class="glyphicon glyphicon-plus"></span> Заявка на участие
+          </button>
+        <% end %>
+      <% end %>
     </div>
   </div>
 </div>
 
-<%= render :partial => 'new_participation_form' %>
+<% if current_user %>
+  <%= render :partial => 'new_participation_form' %>
+<% end %>
 
 <div class="tabbable">
   <ul class="nav nav-tabs" id="tabs" data-tabs="tabs">
     <li class="disabled"><a href="#results">Результаты</a></li>
-    <li class="active"><a href="#overview" data-toggle="tab">Обзор</a></li>
+    <li class="active"><a href="#overview" data-toggle="tab">Информация</a></li>
+    <li class="disabled"><a>Правила</a></li>
+    <li class="disabled"><a>Информация об аэродроме и выброске</a></li>
     <li><a href="#competitors" data-toggle="tab">Участники</a></li>
-    <li><a href="#admin" data-toggle="tab">Администрирование</a></li>
+    <% if current_user && current_user.event_admin?(@event) %>
+      <li><a href="#admin" data-toggle="tab">Управление</a></li>
+    <% end %>
   </ul>
 
   <div class="tab-content">
@@ -34,8 +48,10 @@
     <div class="tab-pane" id="competitors">
       <%= render :partial => 'competitors_table' %>
     </div>
-    <div class="tab-pane" id="admin">
-      <%= render :partial => 'admin_tab' %>
-    </div>
+    <% if current_user && current_user.event_admin?(@event) %>
+      <div class="tab-pane" id="admin">
+        <%= render :partial => 'admin_tab' %>
+      </div>
+    <% end %>
   </div>
 </div>

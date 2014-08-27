@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140826102648) do
+ActiveRecord::Schema.define(version: 20140826210326) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -87,6 +87,8 @@ ActiveRecord::Schema.define(version: 20140826102648) do
     t.integer "event_id"
     t.text    "additional_info"
     t.integer "wingsuit_id"
+    t.integer "status",          default: 0
+    t.text    "comment",         default: "0"
   end
 
   create_table "points", force: true do |t|

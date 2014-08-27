@@ -23,12 +23,22 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+
+  def self.search_by_name query
+    User.where("LOWER(name) LIKE LOWER(?)", "%#{query}%")
+  end
+
+
   def has_role?(role_sym)
     roles.any? { |r| r.name.underscore.to_sym == role_sym }
   end
 
-  def self.search_by_name query
-    User.where("LOWER(name) LIKE LOWER(?)", "%#{query}%")
+  def has_pf? event
+    event.participation_forms.include? self
+  end
+
+  def event_admin? event
+    event.organizers.include?(self) || has_role?(:admin)
   end
 
   private

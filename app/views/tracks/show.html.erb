@@ -1,5 +1,5 @@
 <%- model_class = Track -%>
-<% provide :title, "#{t :tsh_title_track} ##{@track.id} | #{@track.name}" %>
+<% provide :title, "#{t '.title_track' } ##{@track.id} | #{@track.name}" %>
 
   <script type="text/javascript" charset="utf-8">
 
@@ -124,7 +124,7 @@
             marginLeft: 70
           },
           title: {
-            text: <%=t :tsh_eldstch_html %>
+            text: <%=t '.eldstch_html' %>
           },
           plotOptions: {
             series: {
@@ -154,21 +154,21 @@
             enabled: false
           },
           series: [{
-            name: <%=t :tsh_eldst_el_s_html %>,
+            name: <%=t '.eldst_el_s_html' %>,
             pointInterval: 10,
             tooltip: {
               valueSuffix: ''
             }
           },
           {
-            name: <%=t :tsh_eldst_dst_s_html %>,
+            name: <%=t '.eldst_dst_s_html' %>,
             pointInterval: 10,
             tooltip: {
               valueSuffix: ''
             }
           },
           {
-            name: <%=t :tsh_eldst_h_s_html %>,
+            name: <%=t '.eldst_h_s_html' %>,
             type: 'area',
             fillOpacity: 0.3,
             color: Highcharts.getOptions().colors[0],
@@ -188,7 +188,7 @@
             marginLeft: 70
           },
           title: {
-            text: <%=t :tsh_spdch_html %>
+            text: <%=t '.spdch_html' %>
           },
           plotOptions: {
             series: {
@@ -228,13 +228,13 @@
             enabled: false
           },
           series: [{
-            name: <%=t :tsh_spd_hs_html %>,
+            name: <%=t '.spd_hs_html' %>,
             tooltip: {
               valueSuffix: ''
             }
           },
           {
-            name: <%=t :tsh_spd_vs_html %>,
+            name: <%=t '.spd_vs_html' %>,
             tooltip: {
               valueSuffix: ''
             }
@@ -247,7 +247,7 @@
             marginLeft: 70
           },
           title: {
-            text: <%=t :tsh_grch_html %>
+            text: <%=t '.grch_html' %>
           },
           plotOptions: {
             series: {
@@ -278,7 +278,7 @@
             enabled: false
           },
           series: [{
-            name: <%=t :tsh_gr_s_html %>,
+            name: <%=t '.gr_s_html' %>,
             tooltip: {
               valueSuffix: ''
             }
@@ -293,7 +293,7 @@
             type: 'spline'
           },
           title: {
-            text: <%=t :tsh_adc_html %>
+            text: <%=t '.adc_html' %>
           },
           plotOptions: {
             series: {
@@ -306,13 +306,13 @@
           yAxis: [{ //Speed yAxis
             min: 0,
             title: {
-              text: <%=t :tsh_adc_html %>
+              text: <%=t '.adc_html' %>
             }
           },
           { // Elev, dist yAxis
             min: 0,
             title: {
-              text: <%=t :tsh_adc_ed_y_html %>
+              text: <%=t '.adc_ed_y_html' %>
             },
             opposite: true
           },
@@ -321,7 +321,7 @@
             max: 5,
             tickInterval: 0.5,
             title: {
-              text: <%=t :tsh_adc_gr_y_html %>
+              text: <%=t '.adc_gr_y_html' %>
             },
             opposite: true
           }
@@ -334,7 +334,7 @@
             enabled: false
           },
           series: [{
-            name: <%=t :tsh_adc_hspd_html %>,
+            name: <%=t '.adc_hspd_html' %>,
             yAxis: 0,
             color: Highcharts.getOptions().colors[2],
             tooltip: {
@@ -343,7 +343,7 @@
             }
           },
           {
-            name: <%=t :tsh_adc_vspd_html %>,
+            name: <%=t '.adc_vspd_html' %>,
             yAxis: 0,
             color: Highcharts.getOptions().colors[0],
             tooltip: {
@@ -352,7 +352,7 @@
             }
           },
           {
-            name: <%=t :tsh_adc_gr_s_html %>,
+            name: <%=t '.adc_gr_s_html' %>,
             yAxis: 2,
             color: Highcharts.getOptions().colors[1],
             tooltip: {
@@ -361,7 +361,7 @@
             }
           },
           {
-            name: <%=t :tsh_adc_h_s_html %>,
+            name: <%=t '.adc_h_s_html' %>,
             yAxis: 1,
             color: '#aaa',
             tooltip: {
@@ -370,7 +370,7 @@
             }
           },
           {
-            name: <%=t :tsh_adc_dst_html %>,
+            name: <%=t '.adc_dst_html' %>,
             yAxis: 1,
             color: Highcharts.getOptions().colors[5],
             tooltip: {
@@ -379,7 +379,7 @@
             }
           },
           {
-            name: <%=t :tsh_adc_ele_html %>,
+            name: <%=t '.adc_ele_html' %>,
             yAxis: 1,
             color: Highcharts.getOptions().colors[3],
             tooltip: {
@@ -417,8 +417,8 @@
 
       function updateUnits() {
 
-        var speed_unit = (in_imperial ? <%=t :mph_unit_html %> : <%=t :kmh_unit_html %>);
-        var dist_unit = (in_imperial ? <%=t :ft_unit_html %> : <%=t :m_unit_html %>);
+        var speed_unit = (in_imperial ? <%=t 'units.mph_html' %> : <%=t 'units.kmh_html' %>);
+        var dist_unit = (in_imperial ? <%=t 'units.ft_html' %> : <%=t 'units.m_html' %>);
 
 
         $('.val-unit').text(speed_unit); 
@@ -427,7 +427,7 @@
         var chart = $('#elevation_distance_chart').highcharts();
         chart.yAxis[0].update({
           title: {
-            text: <%=t :tsh_eldst_dst_html %> + ', ' + dist_unit
+            text: <%=t '.eldst_dst_html' %> + ', ' + dist_unit
           }
         });
         chart.series[0].update({
@@ -450,7 +450,7 @@
         var chart = $('#speeds_chart').highcharts();
         chart.yAxis[0].update({
           title: {
-            text: <%=t :tsh_spd_ax_html %> + ', ' + speed_unit
+            text: <%=t '.spd_ax_html' %> + ', ' + speed_unit
           }
         });
         chart.series[0].update({
@@ -467,12 +467,12 @@
         var chart = $('#all_data_chart').highcharts();
         chart.yAxis[0].update({
           title: {
-            text: <%=t :tsh_adc_sp_y_html %> + ', ' + (in_imperial ? <%=t :mph_unit_html %> : <%=t :kmh_unit_html %>)
+            text: <%=t '.adc_sp_y_html' %> + ', ' + (in_imperial ? <%=t 'units.mph_html' %> : <%=t 'units.kmh_html' %>)
           }
         });
         chart.yAxis[1].update({
           title: {
-            text: <%=t :tsh_adc_ed_y_html %> + ', ' + (in_imperial ? <%=t :ft_unit_html %> : <%=t :m_unit_html %>)
+            text: <%=t '.adc_ed_y_html' %> + ', ' + (in_imperial ? <%=t 'units.ft_html' %> : <%=t 'units.m_html' %>)
           }
         });
         chart.series[0].update({
@@ -698,13 +698,13 @@
         }
 
         if (in_imperial){
-          $('#dd_distance').text(Math.round(dist * mft_k).toString() + ' ' + <%=t :ft_unit_html %>);
-          $('#dd_elevation').text((elev * mft_k).toFixed(0) + ' ' + <%=t :ft_unit_html %>);
+          $('#dd_distance').text(Math.round(dist * mft_k).toString() + ' ' + <%=t 'units.ft_html' %>);
+          $('#dd_elevation').text((elev * mft_k).toFixed(0) + ' ' + <%=t 'units.ft_html' %>);
         } else {
-          $('#dd_distance').text(dist.toString() + ' ' + <%=t :m_unit_html %>);
-          $('#dd_elevation').text(elev.toFixed(0) + ' ' + <%=t :m_unit_html %>);
+          $('#dd_distance').text(dist.toString() + ' ' + <%=t 'units.m_html' %>);
+          $('#dd_elevation').text(elev.toFixed(0) + ' ' + <%=t 'units.m_html' %>);
         }
-        $('#dd_fl_time').text(fl_time.toFixed(1) + ' ' + <%=t :t_unit_html %>);
+        $('#dd_fl_time').text(fl_time.toFixed(1) + ' ' + <%=t 'units.t_html' %>);
         
         $('#p_min_v_speed').text((min_v_speed / km_m_k).toFixed(0) + '...');
         $('#p_max_v_speed').text('...' + (max_v_speed / km_m_k).toFixed(0));
@@ -718,7 +718,7 @@
         $('#p_max_gr').text('...' + max_gr.toFixed(2));
         $('#p_avg_gr').text((dist / elev).toFixed(2));
 
-      };
+      }
       
     });
 
@@ -727,7 +727,7 @@
   <div class="page-header">
     <div class="row">
       <div class="col-md-11">
-        <h1><%= @track.name %> | <%=t :tsh_title_track %> #<%= @track.id %> <small><%=t :tsh_title_suit %>: <%= @track.suit %></small></h1>
+        <h1><%= @track.name %> | <%=t '.title_track' %> #<%= @track.id %> <small><%=t '.title_suit' %>: <%= @track.suit %></small></h1>
       </div>
       <div class="dropdown-container col-md-1">
         <div class="dropdown">
@@ -735,26 +735,26 @@
             <span class="glyphicon glyphicon-cog"></span>
           </button>
           <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
-            <li role="presentation" class="dropdown-header"><%=t :tsh_menu_header %></li>
+            <li role="presentation" class="dropdown-header"><%=t '.menu_header' %></li>
             <li role="presentation" id='li_toggle_multi'>
               <a id="toggle_multi" role="menuitem" tabindex="-1" href="">
-                <%=t :tsh_menu_sep %>
+                <%=t '.menu_sep' %>
               </a>
             </li>
             <li role="presentation" id='li_toggle_single'>
               <a id="toggle_single" role="menuitem" tabindex="-1" href="">
-                <%=t :tsh_menu_one %>
+                <%=t '.menu_one' %>
               </a>
             </li>
-            <li role="presentation" class="dropdown-header"><%=t :tsh_units_header %></li>
+            <li role="presentation" class="dropdown-header"><%=t '.units_header' %></li>
             <li role="presentation" id='li_toggle_metric'>
               <a id="toggle_metric" role="menuitem" tabindex="-1" href="">
-                <%=t :tsh_m_units_metric %>
+                <%=t '.m_units_metric' %>
               </a>
             </li>
             <li role="presentation" id='li_toggle_imperial'>
               <a id="toggle_imperial" role="menuitem" tabindex="-1" href="">
-                <%=t :tsh_m_units_imperial %>
+                <%=t '.m_units_imperial' %>
               </a>
             </li>
           </ul>
@@ -766,31 +766,31 @@
   <div class="row">
     <div class="col-md-3">
       <dl class="dl-horizontal">
-        <dt><strong><%=t :tsh_dt_dist %></strong></dt>
+        <dt><strong><%=t '.dt_dist' %></strong></dt>
         <dd id="dd_distance"></dd>
-        <dt><strong><%=t :tsh_dt_elev %></strong></dt>
+        <dt><strong><%=t '.dt_elev' %></strong></dt>
         <dd id="dd_elevation"></dd>
-        <dt><strong><%=t :tsh_dt_dur %></strong></dt>
+        <dt><strong><%=t '.dt_dur' %></strong></dt>
         <dd id="dd_fl_time"></dd>
       </dl>
     </div>
     <div class="col-md-5">
       <dl class="dl-horizontal">
-        <dt class="d-term"><strong><%=t :tsh_dt_hspd %></strong></dt>
+        <dt class="d-term"><strong><%=t '.dt_hspd' %></strong></dt>
         <dd id="dd_h_speed">
           <div id="p_min_h_speed" class="min-val"></div>
           <div id="p_avg_h_speed" class="avg-val"></div>
           <div id="p_max_h_speed" class="max-val"></div>
-          <div class="val-unit"> <%=t :kmh_unit %></div>
+          <div class="val-unit"> <%=t 'units.kmh' %></div>
         </dd>
-        <dt class="d-term"><strong><%=t :tsh_dt_vspd %></strong></dt>
+        <dt class="d-term"><strong><%=t '.dt_vspd' %></strong></dt>
         <dd id="dd_v_speed">
           <p id="p_min_v_speed" class="min-val"></p>
           <p id="p_avg_v_speed" class="avg-val"></p>
           <p id="p_max_v_speed" class="max-val"></p>
-          <p class="val-unit"> <%=t :kmh_unit %></p>
+          <p class="val-unit"> <%=t 'units.kmh' %></p>
         </dd>
-        <dt><strong><%=t :tsh_dt_gr %></strong></dt>
+        <dt><strong><%=t '.dt_gr' %></strong></dt>
         <dd id="dd_gr">
           <p id="p_min_gr" class="min-val"></p>
           <p id="p_avg_gr" class="avg-val"></p>

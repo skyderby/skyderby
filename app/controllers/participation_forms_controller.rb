@@ -18,4 +18,12 @@ class ParticipationFormsController < ApplicationController
 
   end
 
+  def approve
+
+  end
+
+  def decline
+
+  end
+
 end

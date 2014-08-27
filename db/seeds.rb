@@ -6,8 +6,10 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+#TODO - first or create
 Role.create(:name => :admin)
 Role.create(:name => :user)
+Role.create(:name => :create_events)
 
 Discipline.create(:name => 'Speed')
 Discipline.create(:name => 'Distance')

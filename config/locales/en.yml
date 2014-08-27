@@ -1,119 +1,131 @@
 en:
-# Application
-  header_home: 'Home'
-  header_tracks: 'Tracks'
-  header_about: 'About'
-  footer_owner: 'Aleksandr Kunin.'
-  header_sign_in: 'Sign in'
-  header_sign_up: 'Sign up'
-  header_sign_out: 'Sign out'
-  header_login_email: 'Email address'
-  header_password: 'Password'
-  header_remember_me: 'Remember me'
-  header_forgot_pass: 'Forgot your password?'
-  header_admin_panel: 'Admin dashboard'
-# index page
-  index_title: "Fly! Compete! Win!"
-  index_subtitle: "Alpha version. It isn't Beta yet."
-#
-  index_form_title: 'Look and analyze your track:'
-  index_form_name: 'Your name is:'
-  index_form_name_plh: 'John D.'
-  index_form_suit: "You're flying a:"
-  index_form_suit_plh: 'Wingsuit model'
-  index_form_location: 'It was at:'
-  index_form_location_plh: 'Some DZ, some cliffs, etc'
-  index_form_file: 'File with track:'
-  index_form_help: 'Supported csv (Columbus, FlySight) and gpx format'
-  index_form_comment: 'Comment:'
-  index_form_comment_plh: 'Share a few words about your flight'
-  index_form_submit: 'Upload'
-#
-  index_name_warn_html: "'Name field has to be filled'"
-  index_suit_warn_html: "'Suit field has to be filled'"
-  index_loc_warn_html: "'Place field has to be filled'"
-  index_file_warn_html: "'Select a file to upload'"
-  index_file_ext_w1_html: "'File extension: '"
-  index_file_ext_w2_html: "'Supported only csv and gpx formats'"
-  index_file_size_w1_html: "'File size : '"
-  index_file_size_w2_html: "'Max file size is 1 Mb'"
-#
-  index_or: 'Or'
-#
-  index_comp_title: 'Compete:'
-  index_coming: 'Coming soon'
-#
-  new_event_form_title: 'New event'
-  event_form_name: 'Name'
-  event_form_place: 'Place'
-  event_form_start_at: 'Period from'
-  event_form_end_at: 'to'
-  event_form_range_from: 'Competition range from'
-  event_form_range_to: 'to'
-# track select page
-  ts_title: 'Select a track to upload'
-  ts_t_number: '#'
-  ts_t_name: 'Name'
-  ts_t_elev: 'Elevation'
-  ts_t_pt_cnt: 'Points count'
-# tracks index page
-  ti_title: 'Recently uploaded tracks:'
-  ti_t_number: '#'
-  ti_t_name: 'Pilot'
-  ti_t_suit: 'Wingsuit'
-  ti_t_place: 'Place'
-  ti_t_comment: 'Comment'
-  ti_t_uploaded_at: 'Uploaded at'
-# about page
-  ap_comp_t: 'Application works on:'
-  ap_comp_lng: 'Language and backend framework:'
-  ap_comp_fef: 'Frontend framework:'
-  ap_comp_charts: 'Charts framework:'
-  ap_comp_rs: 'Range selector:'
-  ap_roadmap: "Project's roadmap:"
-  ap_trpr: "Track's data processing source code"
-  ap_fepr: 'Frontend data processing'
-# track show
-  tsh_eldstch_html: "'Elevation/Distance'"
-  tsh_eldst_dst_html: "'Distance'"
-  tsh_eldst_el_s_html: "'Elevation'"
-  tsh_eldst_dst_s_html: "'Distance'"
-  tsh_eldst_h_s_html: "'Height'"
-  tsh_spdch_html: "'Vertical and ground speed'"
-  tsh_spd_ax_html: "'Speed'"
-  tsh_spd_hs_html: "'Ground speed'"
-  tsh_spd_vs_html: "'Vertical speed'"
-  tsh_grch_html: "'Glide ratio'"
-  tsh_gr_s_html: "'Glide ratio'"
-  tsh_adc_html: "'Flight details'"
-  tsh_adc_sp_y_html: "'Speed'"
-  tsh_adc_ed_y_html: "'Height, Distance'"
-  tsh_adc_gr_y_html: "'Glide ratio'"
-  tsh_adc_hspd_html: "'Ground speed'"
-  tsh_adc_vspd_html: "'Vertical speed'"
-  tsh_adc_gr_s_html: "'Glide ratio'"
-  tsh_adc_h_s_html: "'Height'"
-  tsh_adc_dst_html: "'Distance'"
-  tsh_adc_ele_html: "'Elevation'"
-  tsh_title_track: 'Track'
-  tsh_title_suit: 'Suit'
-  tsh_menu_header: 'Show data:'
-  tsh_menu_sep: 'On separate charts'
-  tsh_menu_one: 'On single chart'
-  tsh_dt_dist: 'Distance:'
-  tsh_dt_elev: 'Elevation:'
-  tsh_dt_dur: 'Duration:'
-  tsh_dt_hspd: 'Ground Speed:'
-  tsh_dt_vspd: 'Vertical speed:'
-  tsh_dt_gr: 'Glide ratio:'
-  tsh_units_header: 'Units:'
-  tsh_m_units_metric: 'Metric'
-  tsh_m_units_imperial: 'Imperial'
-#
-  m_unit: 'm'
-  m_unit_html: "'m'"
-  ft_unit_html: "'ft'"
-  t_unit_html: "'s'"
-  kmh_unit: 'km/h'
-  kmh_unit_html: "'km/h'"
-  mph_unit_html: "'mph'"
+  application:
+    header:
+      home: 'Home'
+      tracks: 'Tracks'
+      about: 'About'
+      sign_in: 'Sign in'
+      sign_up: 'Sign up'
+      sign_out: 'Sign out'
+      login_email: 'Email address'
+      password: 'Password'
+      remember_me: 'Remember me'
+      forgot_pass: 'Forgot your password?'
+      admin_panel: 'Admin dashboard'
+      profile: 'Profile'
+    footer:
+      owner: 'Aleksandr Kunin.'
+  track_select:
+    track_select:
+      title: 'Select a track to upload'
+      number: '#'
+      name: 'Name'
+      elev: 'Elevation'
+      pt_cnt: 'Points count'
+  tracks:
+    index:
+      title: 'Recently uploaded tracks:'
+      number: '#'
+      name: 'Pilot'
+      suit: 'Wingsuit'
+      place: 'Place'
+      comment: 'Comment'
+      uploaded_at: 'Uploaded at'
+    show:
+      eldstch_html: "'Elevation/Distance'"
+      eldst_dst_html: "'Distance'"
+      eldst_el_s_html: "'Elevation'"
+      eldst_dst_s_html: "'Distance'"
+      eldst_h_s_html: "'Height'"
+      spdch_html: "'Vertical and ground speed'"
+      spd_ax_html: "'Speed'"
+      spd_hs_html: "'Ground speed'"
+      spd_vs_html: "'Vertical speed'"
+      grch_html: "'Glide ratio'"
+      gr_s_html: "'Glide ratio'"
+      adc_html: "'Flight details'"
+      adc_sp_y_html: "'Speed'"
+      adc_ed_y_html: "'Height, Distance'"
+      adc_gr_y_html: "'Glide ratio'"
+      adc_hspd_html: "'Ground speed'"
+      adc_vspd_html: "'Vertical speed'"
+      adc_gr_s_html: "'Glide ratio'"
+      adc_h_s_html: "'Height'"
+      adc_dst_html: "'Distance'"
+      adc_ele_html: "'Elevation'"
+      title_track: 'Track'
+      title_suit: 'Suit'
+      menu_header: 'Show data:'
+      menu_sep: 'On separate charts'
+      menu_one: 'On single chart'
+      dt_dist: 'Distance:'
+      dt_elev: 'Elevation:'
+      dt_dur: 'Duration:'
+      dt_hspd: 'Ground Speed:'
+      dt_vspd: 'Vertical speed:'
+      dt_gr: 'Glide ratio:'
+      units_header: 'Units:'
+      m_units_metric: 'Metric'
+      m_units_imperial: 'Imperial'
+  static_pages:
+    index:
+      title: "Fly! Compete! Win!"
+      subtitle: "Beta"
+      track_form:
+        title: 'See and analyze your track:'
+        name: 'Your name is:'
+        name_plh: 'John D.'
+        suit: "You're flying a:"
+        suit_plh: 'Wingsuit model'
+        location: 'It was at:'
+        location_plh: 'Some DZ, some cliffs, etc'
+        file: 'File with track:'
+        help: 'Supported csv (Columbus, FlySight) and gpx format'
+        comment: 'Comment:'
+        comment_plh: 'Share a few words about your flight'
+        submit: 'Upload'
+        warnings:
+          name_html: "'Name field has to be filled'"
+          suit_html: "'Suit field has to be filled'"
+          loc_html: "'Place field has to be filled'"
+          file_html: "'Select a file to upload'"
+          file_ext_w1_html: "'File extension: '"
+          file_ext_w2_html: "'Supported only csv and gpx formats'"
+          file_size_w1_html: "'File size : '"
+          file_size_w2_html: "'Max file size is 1 Mb'"
+      or: 'Or'
+      events:
+        title: 'Compete:'
+        coming: 'Coming soon'
+        create: 'Create event'
+        future: 'Future events'
+        betatestersonly: 'Create new event allowed only for beta testing participants.'
+        table:
+          event: 'Event'
+          starts: 'Starts'
+          ends: 'Ends'
+        form:
+          title: 'New event'
+          name: 'Name'
+          place: 'Place'
+          start_at: 'Period from'
+          end_at: 'to'
+          range_from: 'Competition range from'
+          range_to: 'to'
+    about:
+      comp_t: 'Application works on:'
+      comp_lng: 'Language and backend framework:'
+      comp_fef: 'Frontend framework:'
+      comp_charts: 'Charts framework:'
+      comp_rs: 'Range selector:'
+      roadmap: "Project's roadmap:"
+      trpr: "Track's data processing source code"
+      fepr: 'Frontend data processing'
+  units:
+    m: 'm'
+    m_html: "'m'"
+    ft_html: "'ft'"
+    t_html: "'s'"
+    kmh: 'km/h'
+    kmh_html: "'km/h'"
+    mph_html: "'mph'"

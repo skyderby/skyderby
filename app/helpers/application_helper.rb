@@ -2,7 +2,7 @@
 module ApplicationHelper
 
   def page_title(title)
-    base_title = I18n.t :index_title
+    base_title = I18n.t 'static_pages.index.title'
     if title.empty?
       base_title
     else
@@ -12,7 +12,7 @@ module ApplicationHelper
 
   def lang_presentation(l_code)
     l_array = {:en => 'English', :ru => 'Русский'}
-    return l_array[l_code]
+    l_array[l_code]
   end
 
   def lang_menu
