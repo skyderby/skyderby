@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   has_many :assignments
   has_many :roles, :through => :assignments
 
-  before_save :build_profile
+  before_save :build_profile, :assign_default_role
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -28,13 +28,15 @@ class User < ActiveRecord::Base
     User.where('LOWER(name) LIKE LOWER(?)', "%#{query}%")
   end
 
-
   def has_role?(role_sym)
     roles.any? { |r| r.name.underscore.to_sym == role_sym }
   end
 
-  def has_pf?(event)
-    ParticipationForm.where('event_id = ? AND user_id = ?', event.id, self.id).present?
+  def pf_status(event)
+    pf = ParticipationForm.where('event_id = ? AND user_id = ?', event.id, self.id)
+    if pf.present?
+      pf.first.status
+    end
   end
 
   def event_admin?(event)
@@ -46,6 +48,12 @@ class User < ActiveRecord::Base
   def build_profile
     if self.new_record?
       self.user_profile = UserProfile.new(:user => self, :last_name => '', :first_name => '')
+    end
+  end
+
+  def assign_default_role
+    if self.new_record?
+      self.assignments << Assignment.new(:user => self, :role => Role.find_by(:name => 'user'))
     end
   end
 end

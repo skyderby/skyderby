@@ -20,14 +20,28 @@ class ParticipationFormsController < ApplicationController
   end
 
   def approve
+    @pf = ParticipationForm.find(params[:id])
 
+    event = @pf.event
+    event.competitors.create :user => @pf.user, :wingsuit => @pf.wingsuit, :participation_form => @pf
+
+    respond_to do |format|
+      if @pf.update :status => :approved
+        format.html { redirect_to @pf.event, notice: 'Заявка подтверждена'}
+        format.js {}
+        format.json {}
+      else
+        format.html { redirect_to @pf.event, notice: 'Во время обновления заявки произошла ошибка'}
+        format.js {}
+        format.json {}
+      end
+    end
   end
 
   def decline
     @pf = ParticipationForm.find(params[:id])
 
     respond_to do |format|
-
       if @pf.update :status => :declined
         format.html { redirect_to @pf.event, notice: 'Заявка отклонена'}
         format.js {}
@@ -37,7 +51,6 @@ class ParticipationFormsController < ApplicationController
         format.js {}
         format.json {}
       end
-
     end
   end
 

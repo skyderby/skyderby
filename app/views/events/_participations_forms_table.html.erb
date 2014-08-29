@@ -1,47 +1,13 @@
 <h3 class="text-danger">Не обработанные заявки</h3>
 <div class="top-buffer">
-
-  <% @event.participation_forms.each do |pf| %>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title"><%= pf.user.user_profile.name %></h3>
-      </div>
-      <div class="panel-body">
-
-          <div class="col-md-2">
-            <% if pf.user.user_profile %>
-              <%= image_tag(pf.user.user_profile.userpic.url(:thumb), :class => 'img-rounded') %>
-            <% else %>
-              <%= image_tag '/images/thumb/missing.png', :class => 'img-responsive img-rounded' %>
-            <% end %>
-          </div>
-
-          <div class="col-md-8">
-            <div class="container">
-              <strong>Прыжков всего/за 12 мес./в вингсьюте:</strong>
-              <%= pf.user.user_profile.jumps_total if pf.user.user_profile %> /
-              <%= pf.user.user_profile.jumps_last_year if pf.user.user_profile %> /
-              <%= pf.user.user_profile.jumps_wingsuit if pf.user.user_profile %>
-              <br>
-              <strong>Вингсьют/Класс:</strong> <%= pf.wingsuit.name %> ( <%= pf.wingsuit.ws_class.name %> )
-              <br>
-              <strong>Дополнительная информация:</strong> <%= simple_format pf.additional_info %>
-            </div>
-          </div>
-
-          <div class="col-md-2">
-            <%= form_for [@event, pf], :url => {:controller => 'participation_forms', :action => 'Approve', :event_id => @event.id}, :html => {:role => 'form'} do |f| %>
-              <%= f.submit 'Подтвердить', :class => 'btn btn-primary' %>
-            <% end %>
-            <br>
-            <%= form_for [@event, pf], :url => {:controller => 'participation_forms', :action => 'Decline', :event_id => @event.id}, :html => {:role => 'form'} do |f| %>
-              <%= f.submit 'Отклонить', :class => 'btn btn-primary' %>
-            <% end %>
-          </div>
-
-        </div>
-      </div>
-
+  <% @event.participation_forms.where(:status => 'active').each do |pf| %>
+    <%= render :partial => 'participation_form', locals: {pf: pf} %>
   <% end %>
 </div>
+
 <h3 class="text-info">Обработанные заявки</h3>
+<div class="top-buffer">
+  <% @event.participation_forms.where.not(:status => 'active').each do |pf| %>
+    <%= render :partial => 'participation_form', locals: {pf: pf} %>
+  <% end %>
+</div>

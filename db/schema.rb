@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140826210326) do
+ActiveRecord::Schema.define(version: 20140829051724) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20140826210326) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "participation_form_id"
+    t.integer  "wingsuit_id"
   end
 
   add_index "competitors", ["event_id"], name: "index_competitors_on_event_id"
@@ -88,7 +89,7 @@ ActiveRecord::Schema.define(version: 20140826210326) do
     t.text    "additional_info"
     t.integer "wingsuit_id"
     t.integer "status",          default: 0
-    t.text    "comment"
+    t.text    "comment",         default: "0"
   end
 
   create_table "points", force: true do |t|
@@ -154,6 +155,9 @@ ActiveRecord::Schema.define(version: 20140826210326) do
     t.integer  "userpic_file_size"
     t.datetime "userpic_updated_at"
     t.integer  "user_id"
+    t.integer  "height"
+    t.integer  "weight"
+    t.integer  "shirt_size"
   end
 
   add_index "user_profiles", ["user_id"], name: "index_user_profiles_on_user_id"

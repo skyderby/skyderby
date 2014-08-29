@@ -3,6 +3,7 @@ class Wingsuit < ActiveRecord::Base
   belongs_to :ws_class
   has_many :user_wingsuits
   has_many :users, :through => :user_wingsuits
+  has_many :competitors
 
   def self.suggestions_by_name query
     suggestions = []

@@ -1,5 +1,5 @@
 class ParticipationForm < ActiveRecord::Base
-  enum status: [ :active, :approve, :declined ]
+  enum status: [ :active, :approved, :declined ]
 
   belongs_to :user
   belongs_to :event
