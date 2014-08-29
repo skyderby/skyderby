@@ -12,12 +12,12 @@
     .col-md-8
       .container
         %strong= 'Прыжков всего/за 12 мес./в вингсьюте:'
-        "#{pf.user.user_profile.jumps_total if pf.user.user_profile} /
+        #{pf.user.user_profile.jumps_total if pf.user.user_profile} /
         #{pf.user.user_profile.jumps_last_year if pf.user.user_profile} /
-        #{pf.user.user_profile.jumps_wingsuit if pf.user.user_profile}"
+        #{pf.user.user_profile.jumps_wingsuit if pf.user.user_profile}
         %br
         %strong= 'Вингсьют/Класс:'
-        "#{pf.wingsuit.name} ( #{pf.wingsuit.ws_class.name} )"
+        #{pf.wingsuit.name} ( #{pf.wingsuit.ws_class.name} )
         %br
         %strong= 'Дополнительная информация:'
         = simple_format pf.additional_info
