@@ -23,17 +23,17 @@
   .col-md-10.col-md-offset-2
     .tabbable
 
-      %ul.nav.nav-tabs#tabs{:data => {:tabs => "tabs"}}
+      %ul.nav.nav-tabs#tabs{:data => {:tabs => 'tabs'}}
         %li.active
-          %a{:href => "#overview", :data => {:toggle => "tab"}}
+          %a{:href => '#overview', :data => {:toggle => 'tab'}}
             = 'Информация'
         %li
-          %a{:href => "#tracks", :data => {:toggle=>"tab"}}
+          %a{:href => '#tracks', :data => {:toggle=>'tab'}}
             = 'Треки пользователя'
             %span.badge
               = @user.tracks.count
         %li
-          %a{:href => "#competitions", :data => {:toggle => "tab"}}
+          %a{:href => '#competitions', :data => {:toggle => 'tab'}}
             = 'Участие в соревнованиях'
             %span.badge
               = @user.events.count
