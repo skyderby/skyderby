@@ -1,0 +1,14 @@
+%table.table.table-hover
+  %thead
+    %tr
+      %th= '№'
+      %th= 'Участник'
+      %th= 'Класс'
+      %th= 'Вингсьют'
+  %tbody
+  - @event.competitors.each_with_index do |t, index|
+    %tr.clickableRow
+      %td.text-info= index + 1
+      %td.text-info= t.user.user_profile.name
+      %td.text-info= t.wingsuit.ws_class.name
+      %td.text-info= t.wingsuit.name

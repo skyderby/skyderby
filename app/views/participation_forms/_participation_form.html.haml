@@ -1,0 +1,37 @@
+.panel.panel-default
+  .panel-heading
+    %h3.panel-title= pf.user.user_profile.name
+
+  .panel-body
+    .col-md-2
+      - if pf.user.user_profile
+        = image_tag(pf.user.user_profile.userpic.url(:thumb), :class => 'img-rounded')
+      - else
+        = image_tag '/images/thumb/missing.png', :class => 'img-responsive img-rounded'
+
+    .col-md-8
+      .container
+        %strong= 'Прыжков всего/за 12 мес./в вингсьюте:'
+        "#{pf.user.user_profile.jumps_total if pf.user.user_profile} /
+        #{pf.user.user_profile.jumps_last_year if pf.user.user_profile} /
+        #{pf.user.user_profile.jumps_wingsuit if pf.user.user_profile}"
+        %br
+        %strong= 'Вингсьют/Класс:'
+        "#{pf.wingsuit.name} ( #{pf.wingsuit.ws_class.name} )"
+        %br
+        %strong= 'Дополнительная информация:'
+        = simple_format pf.additional_info
+
+    - if pf.status.eql? 'declined'
+      .col-md-2
+        %button.btn.btn-danger.disabled= 'Отклонена'
+    - elsif pf.status.eql? 'approved'
+      .col-md-2
+        %button.btn.btn-success.disabled= 'Подтверждена'
+    - else
+      .col-md-2{:id => "pf_#{pf.id}_actions"}
+        = form_for [@event, pf], remote: true, :url => {:controller => 'participation_forms', :action => 'approve', :event_id => @event.id, :id => pf.id}, :html => {:role => 'form'} do |f|
+          = f.submit 'Подтвердить', :class => 'btn btn-primary'
+        %br
+        = form_for [@event, pf], remote: true, :url => {:controller => 'participation_forms', :action => 'decline', :event_id => @event.id, :id => pf.id}, :html => {:role => 'form'} do |f|
+          = f.submit 'Отклонить', :class => 'btn btn-primary'
