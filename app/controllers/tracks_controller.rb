@@ -22,18 +22,16 @@ class TracksController < ApplicationController
 
     flight_data = Rails.cache.read(params[:cache_id])
     
-    @track = Track.new :trackfile => {'data' => flight_data['data'], 'ext' => flight_data['ext']}, 
-                        :track_index => params[:index], :name => flight_data['name'], 
-                        :suit => flight_data['suit'], :location => flight_data['location'],
-                        :comment => flight_data['comment']
+    @track = Track.new :trackfile => {:data => flight_data[:data], :ext => flight_data[:ext]},
+                        :track_index => params[:index], :name => flight_data[:name],
+                        :suit => flight_data[:suit], :location => flight_data[:location],
+                        :comment => flight_data[:comment]
 
     if @track.save 
       redirect_to :action => 'show', :id => @track.id
     else
       redirect_to :controller => 'static_pages', :action => 'upload_error'
     end
-
-    return
 
   end
 

@@ -45,7 +45,7 @@ class TrackSelectController < ApplicationController
                 trpoint.elements.each do |point_node|
                   
                   if point_node.name.eql? 'ele'
-                    if !prev_height.nil?
+                    unless prev_height.nil?
                       h_up += (point_node.text.to_f - prev_height) if prev_height < point_node.text.to_f
                       h_down += (prev_height - point_node.text.to_f) if prev_height > point_node.text.to_f
                     end
@@ -62,10 +62,10 @@ class TrackSelectController < ApplicationController
 
           end # track attr loop
           
-          @tracklist << {'name' => track_name, 
-                        'h_up' => h_up.to_i.to_s,
-                        'h_down' => h_down.to_i.to_s, 
-                        'points_count' => points_count}
+          @tracklist << {:name => track_name,
+                        :h_up => h_up.to_i.to_s,
+                        :h_down => h_down.to_i.to_s,
+                        :points_count => points_count}
 
         end # if name.eql? 'trk'
       
@@ -84,9 +84,9 @@ class TrackSelectController < ApplicationController
       return
     end
 
-    flight_data = {'data' => track_file, 'ext' => ext, 
-                    'name' => params[:name], 'suit' => params[:suit], 
-                    'location' => params[:location], 'comment' => params[:comment]}
+    flight_data = {:data => track_file, :ext => ext,
+                    :name => params[:name], :suit => params[:suit],
+                    :location => params[:location], :comment => params[:comment]}
 
     @key = SecureRandom.uuid.to_s
     Rails.cache.write(@key, flight_data)
