@@ -131,7 +131,7 @@
   - if (user_signed_in?) && (can? :create, @event)
     %button.btn.btn-default{:data => {:toggle => 'modal', :target => '#newEventModal'}}
       = t '.events.create'
-    = render :partial => 'new_event_form'
+    = render :partial => 'events/new_event_form'
   - else
     %h4.help-block= t '.events.betatestersonly'
 

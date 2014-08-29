@@ -1,0 +1,15 @@
+%h2= 'Раунды'
+
+%table.table.table-hover
+  %thead
+    %tr
+      %th= 'Название'
+      %th= 'Дисциплина'
+      %th= 'Действия'
+  %tbody#rounds_table_body
+  - @event.rounds.each do |t|
+    = render :partial => 'round', locals: {round: t }
+
+%button.btn.btn-default{:data => {:toggle => "modal", :target => "#newRoundEventModal"}}= 'Добавить раунд'
+
+%hr
