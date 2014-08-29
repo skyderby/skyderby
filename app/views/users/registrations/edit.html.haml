@@ -1,0 +1,116 @@
+%h2
+  = 'Редактирование профиля'
+  - if @user.user_profile
+    = @user.user_profile.name
+  - else
+    = @user.email
+
+= form_for [@user, @user.user_profile], :html => {:class => 'form-horizontal'} do |f|
+  .form-group
+    = f.label 'Фамилия', class: 'col-sm-2 control-label', :for => :last_name
+    .col-sm-6
+      = f.text_field :last_name, autofocus: true, class: 'form-control'
+
+  .form-group
+    = f.label 'Имя', class: 'col-sm-2 control-label', :for => :first_name
+    .col-sm-6
+      = f.text_field :first_name, class: 'form-control'
+
+  .form-group
+    = f.label 'Фото', class: 'col-sm-2 control-label', :for => :userpic
+    .col-sm-6
+      = f.file_field :userpic
+
+  .form-group
+    = f.label 'Номер телефона', class: 'col-sm-2 control-label', :for => :phone_number
+    .col-sm-6
+      = f.text_field :phone_number, class: 'form-control'
+
+  .form-group
+    = f.label 'Прыжков всего', class: 'col-sm-2 control-label', :for => :jumps_total
+    .col-sm-6
+      = f.number_field :jumps_total, class: 'form-control'
+
+  .form-group
+    = f.label 'из них за 12 мес.', class: 'col-sm-2 control-label', :for => :jumps_last_year
+    .col-sm-6
+      = f.number_field :jumps_last_year, class: 'form-control'
+
+  .form-group
+    = f.label 'Прыжков в вингсьюте', class: 'col-sm-2 control-label', :for => :jumps_wingsuit
+    .col-sm-6
+      = f.number_field :jumps_wingsuit, class: 'form-control'
+
+  .form-group
+    = f.label 'из них за 12 мес.', class: 'col-sm-2 control-label', :for => :jumps_wingsuit_last_year
+    .col-sm-6
+      = f.number_field :jumps_wingsuit_last_year, class: 'form-control'
+
+  .form-group
+    = f.label 'Рост', class: 'col-sm-2 control-label', :for => :height
+    .col-sm-6
+      = f.number_field :height, class: 'form-control'
+
+  .form-group
+    = f.label 'Вес', class: 'col-sm-2 control-label', :for => :weight
+    .col-sm-6
+      = f.number_field :weight, class: 'form-control'
+
+  .form-group
+    = f.label 'Размер футболки', class: 'col-sm-2 control-label', :for => :shirt_size
+    .col-sm-6
+      = f.number_field :shirt_size, class: 'form-control'
+
+  .form-group
+    .col-sm-offset-2.col-sm-8
+      = f.submit 'Обновить', class: 'btn btn-primary'
+
+%a.col-sm-offset-2{:data => {:toggle =>'modal', :target => '#CredentialsModal'}}
+  = 'Изменение адреса эл. почты или пароля'
+
+.modal.fade{:id => 'CredentialsModal', :tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{:type => "button", :data => {:dismiss => "modal"}}
+          %span{:aria => {:hidden => "true"}}
+            &times;
+            %span.sr-only
+              Close
+
+        %h4.modal-title#myModalLabel
+          = 'Изменение регистрационных данных'
+
+      %br
+
+      = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'form-horizontal' }) do |f|
+        = devise_error_messages!
+
+        .form-group
+          = f.label 'E-mail', class: 'col-sm-4 control-label', :for => :email
+          .col-sm-7
+            = f.email_field :email, class: 'form-control'
+
+        - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+          %div
+            Currently waiting confirmation for:
+            = resource.unconfirmed_email
+
+        .form-group
+          = f.label 'Пароль', class: 'col-sm-4 control-label', :for => :password
+          .col-sm-7
+            = f.password_field :password, autocomplete: 'off', class: 'form-control', :placeholder => 'Оставьте пустым если не планируете менять пароль'
+
+        .form-group
+          = f.label 'Подтверждение', class: 'col-sm-4 control-label', :for => :password_confirmation
+          .col-sm-7
+            = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control', :placeholder => 'Оставьте пустым если не планируете менять пароль'
+
+        .form-group
+          = f.label 'Текущий пароль', class: 'col-sm-4 control-label', :for => :current_password
+          .col-sm-7
+            = f.password_field :current_password, autocomplete: 'off', class: 'form-control', :placeholder => 'Необходимо ввести текущий пароль для подтверждения изменений'
+
+        .form-group
+          .col-sm-offset-4.col-sm-7
+            = f.submit 'Обновить', class: 'btn btn-primary'
