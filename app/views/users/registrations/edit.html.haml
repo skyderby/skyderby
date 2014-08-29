@@ -27,14 +27,29 @@
       = f.text_field :phone_number, class: 'form-control'
 
   .form-group
+    = f.label 'Профиль Facebook', class: 'col-sm-2 control-label', :for => :facebook_profile
+    .col-sm-6
+      = f.text_field :facebook_profile, class: 'form-control'
+
+  .form-group
+    = f.label 'Профиль ВКонтакте', class: 'col-sm-2 control-label', :for => :vk_profile
+    .col-sm-6
+      = f.text_field :vk_profile, class: 'form-control'
+
+  .form-group
     = f.label 'Прыжков всего', class: 'col-sm-2 control-label', :for => :jumps_total
     .col-sm-6
       = f.number_field :jumps_total, class: 'form-control'
 
   .form-group
-    = f.label 'из них за 12 мес.', class: 'col-sm-2 control-label', :for => :jumps_last_year
+    = f.label 'за 12 мес.', class: 'col-sm-2 control-label', :for => :jumps_last_year
     .col-sm-6
       = f.number_field :jumps_last_year, class: 'form-control'
+
+  .form-group
+    = f.label 'за 3 мес.', class: 'col-sm-2 control-label', :for => :jumps_last_3m
+    .col-sm-6
+      = f.number_field :jumps_last_3m, class: 'form-control'
 
   .form-group
     = f.label 'Прыжков в вингсьюте', class: 'col-sm-2 control-label', :for => :jumps_wingsuit
@@ -42,9 +57,14 @@
       = f.number_field :jumps_wingsuit, class: 'form-control'
 
   .form-group
-    = f.label 'из них за 12 мес.', class: 'col-sm-2 control-label', :for => :jumps_wingsuit_last_year
+    = f.label 'за 12 мес.', class: 'col-sm-2 control-label', :for => :jumps_wingsuit_last_year
     .col-sm-6
       = f.number_field :jumps_wingsuit_last_year, class: 'form-control'
+
+  .form-group
+    = f.label 'за 3 мес.', class: 'col-sm-2 control-label', :for => :jumps_wingsuit_last_3m
+    .col-sm-6
+      = f.number_field :jumps_wingsuit_last_3m, class: 'form-control'
 
   .form-group
     = f.label 'Рост', class: 'col-sm-2 control-label', :for => :height
@@ -59,7 +79,7 @@
   .form-group
     = f.label 'Размер футболки', class: 'col-sm-2 control-label', :for => :shirt_size
     .col-sm-6
-      = f.number_field :shirt_size, class: 'form-control'
+      = f.text_field :shirt_size, class: 'form-control'
 
   .form-group
     .col-sm-offset-2.col-sm-8

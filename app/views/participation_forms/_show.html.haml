@@ -11,14 +11,35 @@
 
     .col-md-8
       .container
-        %strong= 'Прыжков всего/за 12 мес./в вингсьюте:'
+        %strong= 'Прыжков всего/за 12 мес./за 3 мес.:'
         - if pf.user.user_profile
           #{pf.user.user_profile.jumps_total} /
           #{pf.user.user_profile.jumps_last_year} /
-          #{pf.user.user_profile.jumps_wingsuit}
+          #{pf.user.user_profile.jumps_last_3m}
+        %br
+        %strong= 'В вингсьюте всего/за 12 мес./за 3 мес.:'
+        - if pf.user.user_profile
+          #{pf.user.user_profile.jumps_wingsuit} /
+          #{pf.user.user_profile.jumps_wingsuit_last_year} /
+          #{pf.user.user_profile.jumps_wingsuit_last_3m}
         %br
         %strong= 'Вингсьют/Класс:'
         #{pf.wingsuit.name} ( #{pf.wingsuit.ws_class.name} )
+        %br
+        %strong= 'Рост/Вес:'
+        #{pf.user.user_profile.height} / #{pf.user.user_profile.weight}
+        %br
+        %strong= 'Контактный телефон:'
+        #{pf.user.user_profile.phone_number}
+        %br
+        %strong= 'Контактный email:'
+        #{pf.user.email}
+        %br
+        %strong= 'Профиль Facebook:'
+        #{pf.user.user_profile.facebook_profile}
+        %br
+        %strong= 'Профиль ВКонтакт:'
+        #{pf.user.user_profile.vk_profile}
         %br
         %strong= 'Дополнительная информация:'
         = simple_format pf.additional_info

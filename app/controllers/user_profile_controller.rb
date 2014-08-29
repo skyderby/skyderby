@@ -18,7 +18,9 @@ class UserProfileController < ApplicationController
     params.require(:user_profile).permit(:first_name, :last_name,
                                          :jumps_total, :jumps_wingsuit,
                                          :jumps_last_year, :jumps_wingsuit_last_year,
+                                         :jumps_last_3m, :jumps_wingsuit_last_3m,
                                          :userpic, :phone_number,
+                                         :facebook_profile, :vk_profile,
                                          :height, :weight, :shirt_size)
   end
 
