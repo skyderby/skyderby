@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140829051724) do
+ActiveRecord::Schema.define(version: 20140829070857) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -158,6 +158,8 @@ ActiveRecord::Schema.define(version: 20140829051724) do
     t.integer  "height"
     t.integer  "weight"
     t.integer  "shirt_size"
+    t.integer  "jumps_wingsuit_last_year"
+    t.string   "phone_number"
   end
 
   add_index "user_profiles", ["user_id"], name: "index_user_profiles_on_user_id"

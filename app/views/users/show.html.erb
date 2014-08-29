@@ -46,9 +46,15 @@
       <div class="tab-pane active" id="overview">
 
         <% if @user.user_profile %>
-          <p><strong>Прыжков всего:</strong> <%= @user.user_profile.jumps_total %></p>
-          <p><strong>из них в вингсьюте:</strong> <%= @user.user_profile.jumps_wingsuit %></p>
-          <p><strong>из них за последние 12 мес:</strong> <%= @user.user_profile.jumps_last_year %></p>
+          <p><strong>Прыжков всего / за 12 мес.:</strong> <%= @user.user_profile.jumps_total %> / <%= @user.user_profile.jumps_last_year %></p>
+          <p><strong>из них в вингсьюте / за 12 мес.:</strong> <%= @user.user_profile.jumps_wingsuit %> / <%= @user.user_profile.jumps_wingsuit_last_year %></p>
+        <% end %>
+
+        <% if @user == current_user %>
+          <h3>Информация видна только Вам:</h3>
+          <p><strong>Рост:</strong> <%= @user.user_profile.height %></p>
+          <p><strong>Вес:</strong> <%= @user.user_profile.weight %></p>
+          <p><strong>Размер футболки:</strong> <%= @user.user_profile.shirt_size %></p>
         <% end %>
 
       </div>
