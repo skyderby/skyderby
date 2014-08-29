@@ -7,14 +7,15 @@
       - if pf.user.user_profile
         = image_tag(pf.user.user_profile.userpic.url(:thumb), :class => 'img-rounded')
       - else
-        = image_tag '/images/thumb/missing.png', :class => 'img-responsive img-rounded'
+        = image_tag '/images/thumb/missing.png', :class => 'img-rounded'
 
     .col-md-8
       .container
         %strong= 'Прыжков всего/за 12 мес./в вингсьюте:'
-        #{pf.user.user_profile.jumps_total if pf.user.user_profile} /
-        #{pf.user.user_profile.jumps_last_year if pf.user.user_profile} /
-        #{pf.user.user_profile.jumps_wingsuit if pf.user.user_profile}
+        - if pf.user.user_profile
+          #{pf.user.user_profile.jumps_total} /
+          #{pf.user.user_profile.jumps_last_year} /
+          #{pf.user.user_profile.jumps_wingsuit}
         %br
         %strong= 'Вингсьют/Класс:'
         #{pf.wingsuit.name} ( #{pf.wingsuit.ws_class.name} )
