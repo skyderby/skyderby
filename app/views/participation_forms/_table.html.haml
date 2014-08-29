@@ -1,9 +1,9 @@
 %h3.text-danger= 'Не обработанные заявки'
 .top-buffer
   - @event.participation_forms.where(:status => 'active').each do |pf|
-    = render :partial => 'participation_forms/participation_form', locals: {pf: pf}
+    = render :partial => 'participation_forms/show', locals: {pf: pf}
 
 %h3.text-info= 'Обработанные заявки'
 .top-buffer
   - @event.participation_forms.where.not(:status => 'active').each do |pf|
-    = render :partial => 'participation_forms/participation_form', locals: {pf: pf}
+    = render :partial => 'participation_forms/show', locals: {pf: pf}

@@ -1,5 +1,3 @@
-<%- model_class = Event -%>
-
 <div class="row">
   <div class='page-header col-md-12'>
     <div class="col-md-10">
@@ -30,7 +28,7 @@
 </div>
 
 <% if current_user %>
-  <%= render :partial => 'new_participation_form' %>
+  <%= render :partial => 'participation_forms/new' %>
 <% end %>
 
 <div class="tabbable">

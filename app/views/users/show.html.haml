@@ -44,12 +44,22 @@
           - if @user.user_profile
             %p
               %strong
-                = 'Прыжков всего / за 12 мес.:'
-              = "#{@user.user_profile.jumps_total} / #{@user.user_profile.jumps_last_year}"
+                = 'Прыжков всего / за 12 мес. / за 3 мес.:'
+              #{@user.user_profile.jumps_total} /
+              #{@user.user_profile.jumps_last_year} /
+              #{@user.user_profile.jumps_last_3m}
             %p
               %strong
-                = 'из них в вингсьюте / за 12 мес.:'
-              = "#{@user.user_profile.jumps_wingsuit} / #{@user.user_profile.jumps_wingsuit_last_year}"
+                = 'из них в вингсьюте / за 12 мес. / за 3 мес.:'
+              #{@user.user_profile.jumps_wingsuit} /
+              #{@user.user_profile.jumps_wingsuit_last_year} /
+              #{@user.user_profile.jumps_wingsuit_last_3m}
+            %p
+              %strong= 'Профиль Facebook:'
+              #{@user.user_profile.facebook_profile}
+            %p
+              %strong= 'Профиль ВКонтакте:'
+              #{@user.user_profile.vk_profile}
 
           - if @user == current_user
             %h3
