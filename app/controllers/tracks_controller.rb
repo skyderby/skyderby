@@ -2,14 +2,10 @@
 class TracksController < ApplicationController
   before_action :set_track, only: [:show, :edit, :update, :destroy]
 
-  # GET /tracks
-  # GET /tracks.json
   def index
     @tracks = Track.all
   end
 
-  # GET /tracks/1
-  # GET /tracks/1.json
   def show
 
     @track.update(:lastviewed_at => Time.now)
@@ -22,7 +18,6 @@ class TracksController < ApplicationController
 
   end
 
-  # GET /tracks/new
   def new
 
     flight_data = Rails.cache.read(params[:cache_id])
@@ -40,10 +35,6 @@ class TracksController < ApplicationController
 
     return
 
-  end
-
-  # GET /tracks/1/edit
-  def edit
   end
 
   # POST /tracks
