@@ -1,0 +1,150 @@
+:javascript
+  function checkFile(e) {
+    var file_list = e.files;
+    for (var i = 0, file; file = file_list[i]; i++) {
+      var FileName = file.name;
+      var FileExtension = FileName.split('.')[FileName.split('.').length - 1].toLowerCase();
+      var FileSize = file.size;
+      var FileSizeMb = (file.size / 1048576).toFixed(2);
+      var txt = "";
+
+      if (!(FileExtension === "gpx" || FileExtension === "csv"))  {
+        txt += "#{t '.track_form.warnings.file_ext_w1_html'}" + FileExtension + "\n\n";
+        txt += "#{t '.track_form.warnings.file_ext_w2_html'}";
+      }
+      if (FileSize > 1048576) {
+        txt += "#{t '.track_form.warnings.file_size_w1_html'}" + FileSizeMb + " Мб \n\n";
+        txt += "#{t '.track_form.warnings.file_size_w2_html'}";
+      }
+      if (!(txt === "")) {
+        bootstrap_alert.warning(txt);
+        e.value = "";
+      }
+    }
+  };
+
+  $(document).ready(function() {
+
+    bootstrap_alert = function() {}
+    bootstrap_alert.warning = function(message) {
+    $('#alert-placeholder').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><span>'+message+'</span></div>')
+    };
+    
+    var name = $.cookie('name');
+    if (typeof name !== 'undefined' && name.trim()) {
+      $('#name').val(name);
+    }
+    
+    var suit = $.cookie('suit');
+    if (typeof suit !== 'undefined' && suit.trim()) {
+      $('#suit').val(suit);
+    }
+
+    var location = $.cookie('location');
+    if (typeof location !== 'undefined' && location.trim()) {
+      $('#location').val(location);
+    }
+
+    $('#track_upload_form').submit( function( e ) {
+      var form_valid = true;
+      $('#alert-placeholder').empty();
+
+      if ($('#name').val().length === 0 || !$('#name').val().trim()) {
+        bootstrap_alert.warning("#{t '.track_form.warnings.name_html'}");
+        form_valid = false;
+      } else {
+        $.cookie('name', $('#name').val(), { expires: 365, path: '/' });
+      }
+
+      if ($('#suit').val().length === 0 || !$('#suit').val().trim()) {
+        bootstrap_alert.warning("#{t '.track_form.warnings.suit_html'}");
+        form_valid = false;
+      } else {
+        $.cookie('suit', $('#suit').val(), { expires: 365, path: '/' });
+      }
+
+      if ($('#location').val().length === 0 || !$('#location').val().trim()) {
+        bootstrap_alert.warning("#{t '.track_form.warnings.loc_html'}");
+        form_valid = false;
+      } else {
+        $.cookie('location', $('#location').val(), { expires: 365, path: '/' });
+      }
+
+      if ($('#track_file').val().length === 0 || !$('#track_file').val().trim()) {
+        bootstrap_alert.warning("#{t '.track_form.warnings.file_html'}");
+        form_valid = false;
+      }
+      if (!form_valid)
+        e.preventDefault();
+    });
+  });
+
+.page-header
+  %h1
+    =t '.title'
+    %small
+      =t '.subtitle'
+
+.jumbotron.col-sm-8
+  %h2=t '.track_form.title'
+  = form_tag track_select_path, multipart: true, :class => 'form-horizontal', :role => 'form', :id => 'track_upload_form' do
+    .form-group
+      = label_tag 'name', t('.track_form.name'), :class => 'col-sm-3 control-label', :for => 'name'
+      .col-sm-9
+        = text_field_tag 'name', nil, :class => 'form-control', :placeholder => t('.track_form.name_plh'), :type => 'text'
+
+    .form-group
+      = label_tag 'suit', t('.track_form.suit'), :class => 'col-sm-3 control-label', :for => 'suit'
+      .col-sm-9
+        = text_field_tag 'suit', nil, :class => 'form-control', :placeholder => t('.track_form.suit_plh'), :type => 'text'
+
+    .form-group
+      = label_tag 'location', t('.track_form.location'), :class => 'col-sm-3 control-label', :for => 'location'
+      .col-sm-9
+        = text_field_tag 'location', nil, :class => 'form-control', :placeholder => t('.track_form.location_plh'), :type => 'text'
+
+    .form-group
+      = label_tag 'track_file', t('.track_form.file'), :class => 'col-sm-3 control-label', :for => 'track_file'
+      .col-sm-9
+        = file_field_tag 'track_file', {:onChange => 'checkFile(this)'}
+
+    .form-group
+      .col-sm-offset-3.col-sm-9
+        %h4.help-block=t '.track_form.help'
+
+    .form-group
+      = label_tag t('.track_form.comment'), nil, :class => 'col-sm-3 control-label', :for => 'comment'
+      .col-sm-9
+        = text_area_tag 'comment', nil, :class => 'form-control', :rows => 3, :placeholder => t('.track_form.comment_plh')
+
+    .form-group
+      .col-sm-offset-3.col-sm-9
+        = submit_tag t('.track_form.submit'), :class => 'btn btn-default'
+
+    %div#alert-placeholder
+
+.col-sm-8
+  %h3=t '.or'
+
+.jumbotron.col-sm-8
+  %h2=t '.events.title'
+  - if (user_signed_in?) && (can? :create, @event)
+    %button.btn.btn-default{:data => {:toggle => 'modal', :target => '#newEventModal'}}
+      = t '.events.create'
+    = render :partial => 'new_event_form'
+  - else
+    %h4.help-block= t '.events.betatestersonly'
+
+  %h2= t '.events.future'
+  %table.table.table-hover
+    %thead
+      %tr
+        %th= t '.events.table.event'
+        %th= t '.events.table.starts'
+        %th= t '.events.table.ends'
+    %tbody
+      - @coming_events.each do |e|
+        %tr.clickableRow{:data => {:url => event_path(:id => e.id)}}
+          %td.text-info= e.name
+          %td.text-info= e.start_at.strftime('%d.%m.%Y') if e.start_at
+          %td.text-info= e.end_at.strftime('%d.%m.%Y') if e.start_at

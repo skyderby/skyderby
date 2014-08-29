@@ -17,6 +17,7 @@
 //= require_tree .
 
 $(document).ready(function($) {
+
     $(".clickableRow").click(function() {
         window.document.location = $(this).data("url");
     });
@@ -36,4 +37,13 @@ $(document).ready(function($) {
         },
         categories: true
     });
+
+    $('.datepicker').datepicker({
+        format: 'dd.mm.yyyy',
+        startDate: 0,
+        language: 'ru',
+        autoclose: true,
+        todayHighlight: true
+    });
+
 });
