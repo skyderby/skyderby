@@ -1,0 +1,91 @@
+.row
+  .col-md-2
+    -if @user.user_profile
+      = image_tag(@user.user_profile.userpic.url(:medium), :class => 'img-responsive img-rounded')
+    - else
+      = image_tag '/images/medium/missing.png', :class => 'img-responsive img-rounded'
+
+  .page-header.col-md-10
+    .col-md-11
+      %h1
+        - if @user.user_profile && !@user.user_profile.name.blank?
+          = @user.user_profile.name
+        - else
+          = @user.email
+
+    .col-md-1
+      - if current_user == @user
+        = link_to content_tag(:span, nil, :class => 'glyphicon glyphicon-pencil'),
+                  edit_user_registration_path,
+                  :class => 'btn btn-default edit'
+
+.row
+  .col-md-10.col-md-offset-2
+    .tabbable
+
+      %ul.nav.nav-tabs#tabs{:data => {:tabs => "tabs"}}
+        %li.active
+          %a{:href => "#overview", :data => {:toggle => "tab"}}
+            = 'Информация'
+        %li
+          %a{:href => "#tracks", :data => {:toggle=>"tab"}}
+            = 'Треки пользователя'
+            %span.badge
+              = @user.tracks.count
+        %li
+          %a{:href => "#competitions", :data => {:toggle => "tab"}}
+            = 'Участие в соревнованиях'
+            %span.badge
+              = @user.events.count
+
+      .tab-content
+        .tab-pane.active#overview
+
+          - if @user.user_profile
+            %p
+              %strong
+                = 'Прыжков всего / за 12 мес.:'
+              = "#{@user.user_profile.jumps_total} / #{@user.user_profile.jumps_last_year}"
+            %p
+              %strong
+                = 'из них в вингсьюте / за 12 мес.:'
+              = "#{@user.user_profile.jumps_wingsuit} / #{@user.user_profile.jumps_wingsuit_last_year}"
+
+          - if @user == current_user
+            %h3
+              = 'Информация видна только Вам:'
+            %p
+              %strong
+                = 'Рост:'
+              = @user.user_profile.height
+            %p
+              %strong
+                = 'Вес:'
+              = @user.user_profile.weight
+            %p
+              %strong
+                = 'Размер футболки:'
+              = @user.user_profile.shirt_size
+
+        .tab-pane#tracks
+
+          %table.table.table-hover
+            %thead
+              %tr
+                %th= '#'
+                %th= 'Вингсьют'
+                %th= 'Локация'
+                %th= 'Комментарий'
+                %th= 'Дата загрузки'
+            %tbody
+              - @user.tracks.each do |track|
+                %tr.clickableRow{:data => {:url => show_track_path(:id => track.id)}}
+                  %td.text-info= track.id
+                  %td.text-info= track.suit
+                  %td.text-info= track.location
+                  %td.text-muted= track.comment
+                  %td.text-info= track.created_at
+
+        .tab-pane#competitions
+          %h2= 'Участие в соревнованиях'
+          %p= 'Этот пилот еще не участвовал в соревнованиях'
