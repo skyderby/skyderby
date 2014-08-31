@@ -1,15 +1,16 @@
 .modal.fade#newEventModal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
   .modal-dialog
     .modal-content
-      .modal-header
-        %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
-          %span{:aria => {:hidden => 'true'}}
-            &times;
-          %span.sr-only
-            Close
-        %h4.modal-title#myModalLabel = 'Новое событие'
-
       = form_for @event, :html => {:class => 'form-horizontal', :role => 'form', :id => 'new_event_form'} do |f|
+        .modal-header
+          %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
+            %span{:aria => {:hidden => 'true'}}
+              &times;
+            %span.sr-only
+              Close
+          %h4.modal-title#myModalLabel= 'Новое событие'
+
+
         .modal-body
           .form-group
             = f.label t('static_pages.index.events.form.name'), :class => 'col-sm-4 control-label', :for => 'name'
@@ -42,5 +43,5 @@
               = f.text_field :comp_range_to, :class => 'form-control'
 
         .modal-footer
-          %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}} ='Отмена'
+          %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}='Отмена'
           = f.submit 'Далее', :class => 'btn btn-primary'
