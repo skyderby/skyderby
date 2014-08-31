@@ -1,0 +1,16 @@
+.modal.fade#newParticipationFormModal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
+          %span{:aria => {:hidden => 'true'}}
+            &times;
+          %span.sr-only
+            Close
+        %h4.modal-title#myModalLabel= 'Не заполнен профиль'
+
+      .modal-body
+        .h4= 'Для подачи заявки необходимо иметь полностью заполненный профиль'
+      .modal-footer
+        %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}= 'Отмена'
+        = link_to 'Перейти к профилю', edit_user_registration_path, :class => 'btn btn-primary'

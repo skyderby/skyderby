@@ -4,10 +4,8 @@
       %h1
         = 'Событие:'
         = @event.name
-          %small
-            = 'До начала '
-            = (@event.start_at - Time.zone.now).to_i / 1.day
-            = 'дн.'
+        %small= "До начала #{(@event.start_at - Time.zone.now).to_i / 1.day} дн."
+
     .col-md-2
       - if current_user
         - if current_user.pf_status(@event) == 'active'
@@ -20,28 +18,36 @@
           %button.btn.btn-danger.event-request.disabled= 'Заявка отклонена'
 
         - else
-          %button.btn.btn-success.event-request{:data => {:toggle => "modal", :target => "#newParticipationFormModal"}}
+          %button.btn.btn-success.event-request{:data => {:toggle => 'modal', :target => '#newParticipationFormModal'}}
             %span.glyphicon.glyphicon-plus
             = 'Заявка на участие'
+      - else
+        %button.btn.btn-success.event-request{:data => {:toggle => 'modal', :target => '#newParticipationFormModal'}}
+          %span.glyphicon.glyphicon-plus
+          = 'Заявка на участие'
 
-- if current_user
+- if current_user && current_user.completed_profile?
   = render :partial => 'participation_forms/new'
+- elsif current_user
+  = render :partial => 'user_profile/complete_profile'
+- else
+  = render :partial => 'users/sign_in_sign_up_modal'
 
 .tabbable
-  %ul.nav.nav-tabs#tabs{:data => {:tabs => "tabs"}}
+  %ul.nav.nav-tabs#tabs{:data => {:tabs => 'tabs'}}
     %li.disabled
-      %a{:href => "#results"}= 'Результаты'
+      %a{:href => '#results'}= 'Результаты'
     %li.active
-      %a{:href => "#overview", :data => {:toggle => "tab"}}= 'Информация'
+      %a{:href => '#overview', :data => {:toggle => 'tab'}}= 'Информация'
     %li.disabled
       %a= 'Правила'
     %li.disabled
       %a= 'Информация об аэродроме и выброске'
     %li
-      %a{:href => "#competitors", :data => {:toggle => "tab"}}= 'Участники'
+      %a{:href => '#competitors', :data => {:toggle => 'tab'}}= 'Участники'
     - if current_user && current_user.event_admin?(@event)
       %li
-        %a{:href => "#admin", :data => {:toggle => "tab"}}= 'Управление'
+        %a{:href => '#admin', :data => {:toggle => 'tab'}}= 'Управление'
 
   .tab-content
     .tab-pane#results

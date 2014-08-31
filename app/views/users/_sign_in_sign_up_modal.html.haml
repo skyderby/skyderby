@@ -1,0 +1,17 @@
+.modal.fade#newParticipationFormModal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
+          %span{:aria => {:hidden => 'true'}}
+            &times;
+          %span.sr-only
+            Close
+        %h4.modal-title#myModalLabel= 'Войдите или зарегистрируйтесь'
+
+      .modal-body
+        %h4= 'Для участия в соревновании Вам необходимо'
+        = link_to 'Войти', new_session_path(:user), :class => 'btn btn-default'
+        = 'или'
+        = link_to 'Зарегистрироваться', new_registration_path(:user), :class => 'btn btn-default'
+        = 'и иметь полностью заполненный профиль'
