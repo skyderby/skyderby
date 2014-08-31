@@ -12,6 +12,7 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'quiet_assets'
+  gem 'mailcatcher'
 end
 
 group :test do
