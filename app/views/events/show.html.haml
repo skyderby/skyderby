@@ -1,0 +1,59 @@
+.row
+  .page-header.col-md-12
+    .col-md-10
+      %h1
+        = 'Событие:'
+        = @event.name
+          %small
+            = 'До начала '
+            = (@event.start_at - Time.zone.now).to_i / 1.day
+            = 'дн.'
+    .col-md-2
+      - if current_user
+        - if current_user.pf_status(@event) == 'active'
+          %button.btn.btn-default.event-request.disabled= 'Заявка в обработке'
+
+        - elsif current_user.pf_status(@event) == 'approved'
+          %button.btn.btn-success.event-request.disabled= 'Заявка подтверждена'
+
+        - elsif current_user.pf_status(@event) == 'declined'
+          %button.btn.btn-danger.event-request.disabled= 'Заявка отклонена'
+
+        - else
+          %button.btn.btn-success.event-request{:data => {:toggle => "modal", :target => "#newParticipationFormModal"}}
+            %span.glyphicon.glyphicon-plus
+            = 'Заявка на участие'
+
+- if current_user
+  = render :partial => 'participation_forms/new'
+
+.tabbable
+  %ul.nav.nav-tabs#tabs{:data => {:tabs => "tabs"}}
+    %li.disabled
+      %a{:href => "#results"}= 'Результаты'
+    %li.active
+      %a{:href => "#overview", :data => {:toggle => "tab"}}= 'Информация'
+    %li.disabled
+      %a= 'Правила'
+    %li.disabled
+      %a= 'Информация об аэродроме и выброске'
+    %li
+      %a{:href => "#competitors", :data => {:toggle => "tab"}}= 'Участники'
+    - if current_user && current_user.event_admin?(@event)
+      %li
+        %a{:href => "#admin", :data => {:toggle => "tab"}}= 'Управление'
+
+  .tab-content
+    .tab-pane#results
+      %h2= 'Результаты соревнований'
+
+    .tab-pane.active#overview
+      %h2= 'Описание'
+      = simple_format @event.descriprion
+
+    .tab-pane#competitors
+      = render :partial => 'competitors_table'
+
+    - if current_user && current_user.event_admin?(@event)
+      .tab-pane#admin
+        = render :partial => 'admin_tab'
