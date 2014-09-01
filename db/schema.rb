@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140831192708) do
+ActiveRecord::Schema.define(version: 20140901082713) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -35,6 +35,15 @@ ActiveRecord::Schema.define(version: 20140831192708) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "event_documents", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "attached_file_file_name"
+    t.string   "attached_file_content_type"
+    t.integer  "attached_file_file_size"
+    t.datetime "attached_file_updated_at"
   end
 
   create_table "event_tracks", force: true do |t|
@@ -89,7 +98,7 @@ ActiveRecord::Schema.define(version: 20140831192708) do
     t.text    "additional_info"
     t.integer "wingsuit_id"
     t.integer "status",          default: 0
-    t.text    "comment"
+    t.text    "comment",         default: "0"
   end
 
   create_table "points", force: true do |t|

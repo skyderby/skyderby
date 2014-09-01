@@ -7,7 +7,7 @@
       %th= 'Вингсьют'
   %tbody
   - @event.competitors.each_with_index do |t, index|
-    %tr.clickableRow
+    %tr.clickableRow{:data => {:url => user_path(:id => t.user.id)}}
       %td.text-info= index + 1
       %td.text-info= t.user.user_profile.name
       %td.text-info= t.wingsuit.ws_class.name

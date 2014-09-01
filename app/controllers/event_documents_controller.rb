@@ -1,0 +1,3 @@
+class EventDocumentsController < ApplicationController
+
+end
