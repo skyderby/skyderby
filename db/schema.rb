@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140829204022) do
+ActiveRecord::Schema.define(version: 20140901082713) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -35,6 +35,15 @@ ActiveRecord::Schema.define(version: 20140829204022) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "event_documents", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "attached_file_file_name"
+    t.string   "attached_file_content_type"
+    t.integer  "attached_file_file_size"
+    t.datetime "attached_file_updated_at"
   end
 
   create_table "event_tracks", force: true do |t|
@@ -188,8 +197,13 @@ ActiveRecord::Schema.define(version: 20140829204022) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
   end
 
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 

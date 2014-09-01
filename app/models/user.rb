@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
 
 
@@ -41,6 +41,23 @@ class User < ActiveRecord::Base
 
   def event_admin?(event)
     Organizer.where('event_id = ? AND user_id = ?', event.id, self.id).present? || has_role?(:admin)
+  end
+
+  def completed_profile?
+    [:first_name, :last_name,
+      :jumps_total, :jumps_wingsuit,
+      :jumps_last_year, :jumps_wingsuit_last_year,
+      :jumps_last_3m, :jumps_wingsuit_last_3m, :phone_number,
+      :height, :weight, :shirt_size].each do |x|
+
+      if self.user_profile[x].blank?
+        return false
+      end
+
+    end
+
+    true
+
   end
 
   private

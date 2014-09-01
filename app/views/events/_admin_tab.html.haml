@@ -1,17 +1,17 @@
 .abbable.col-md-12
   %ul.nav.nav-pills.nav-stacked.col-md-2{:role =>'tablist'}
     %li.active
-      %a{:href => "#tab1", :data => {:toggle => "tab"}}
+      %a{:href => '#tab1', :data => {:toggle => 'tab'}}
         = 'Заявки'
         - if @event.participation_forms.count > 0
           %span.badge.pull-right
             = @event.participation_forms.count
     %li
-      %a{:href => "#tab2", :data => {:toggle => "tab"}}= 'Раунды'
+      %a{:href => '#tab2', :data => {:toggle => 'tab'}}= 'Раунды'
     %li
-      %a{:href => "#tab3", :data => {:toggle => "tab"}}= 'Организаторы'
+      %a{:href => '#tab3', :data => {:toggle => 'tab'}}= 'Организаторы'
     %li
-      %a{:href => "#tab4", :data => {:toggle => "tab"}}= 'Описание'
+      %a{:href => '#tab4', :data => {:toggle => 'tab'}}= 'Описание'
 
   .tab-content.col-md-10
     .tab-pane.active#tab1

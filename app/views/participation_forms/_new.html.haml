@@ -1,9 +1,9 @@
-.modal.fade#newParticipationFormModal{:tabindex => "-1", :role => "dialog", :aria => {:labelledby => "myModalLabel", :hidden => "true"}}
+.modal.fade#newParticipationFormModal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
   .modal-dialog
     .modal-content
       .modal-header
-        %button.close{:type => "button", :data => {:dismiss => "modal"}}
-          %span{:aria => {:hidden => "true"}}
+        %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
+          %span{:aria => {:hidden => 'true'}}
             &times;
           %span.sr-only
             Close
@@ -67,5 +67,5 @@
               = f.text_area :additional_info, :class => 'form-control', :rows => 3
 
           .modal-footer
-            %button.btn.btn-default{:type => "button", :data => {:dismiss => "modal"}}= 'Отмена'
+            %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}= 'Отмена'
             = f.submit 'Отправить', :class => 'btn btn-primary'

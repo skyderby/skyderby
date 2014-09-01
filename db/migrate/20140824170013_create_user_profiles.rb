@@ -19,7 +19,6 @@ class CreateUserProfiles < ActiveRecord::Migration
     remove_column :users, :name
     remove_column :users, :total_jumps
     remove_column :users, :wingsuit_jumps
-    remove_column :users, :userpic
 
   end
 end
