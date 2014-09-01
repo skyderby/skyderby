@@ -1,0 +1,2 @@
+module EventDocumentsHelper
+end
