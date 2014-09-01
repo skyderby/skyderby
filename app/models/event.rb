@@ -6,4 +6,5 @@ class Event < ActiveRecord::Base
   has_many :rounds
   has_many :participation_forms
   has_many :invitations
+  has_many :event_documents
 end
