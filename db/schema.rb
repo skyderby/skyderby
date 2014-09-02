@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140901082713) do
+ActiveRecord::Schema.define(version: 20140901171358) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -44,7 +44,10 @@ ActiveRecord::Schema.define(version: 20140901082713) do
     t.string   "attached_file_content_type"
     t.integer  "attached_file_file_size"
     t.datetime "attached_file_updated_at"
+    t.integer  "event_id"
   end
+
+  add_index "event_documents", ["event_id"], name: "index_event_documents_on_event_id"
 
   create_table "event_tracks", force: true do |t|
     t.integer  "round_id"
@@ -98,7 +101,7 @@ ActiveRecord::Schema.define(version: 20140901082713) do
     t.text    "additional_info"
     t.integer "wingsuit_id"
     t.integer "status",          default: 0
-    t.text    "comment"
+    t.text    "comment",         default: "0"
   end
 
   create_table "points", force: true do |t|

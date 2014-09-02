@@ -39,8 +39,8 @@
       %a{:href => '#results'}= 'Результаты'
     %li.active
       %a{:href => '#overview', :data => {:toggle => 'tab'}}= 'Информация'
-    %li.disabled
-      %a= 'Правила'
+    %li
+      %a{:href => '#docs', :data => {:toggle => 'tab'}}= 'Документы'
     %li.disabled
       %a= 'Информация об аэродроме и выброске'
     %li
@@ -56,6 +56,10 @@
     .tab-pane.active#overview
       %h2= 'Описание'
       = simple_format @event.descriprion
+
+    .tab-pane#docs
+      %h2= 'Документы'
+      = render :partial => 'event_documents/docs_table', :locals => {:show_delete_link => false}
 
     .tab-pane#competitors
       = render :partial => 'competitors_table'

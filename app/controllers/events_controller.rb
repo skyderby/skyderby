@@ -29,6 +29,7 @@ class EventsController < ApplicationController
   def show
     @round = Round.new
     @org = Organizer.new
+    @doc = EventDocument.new
     @participation_form = ParticipationForm.new
   end
 
