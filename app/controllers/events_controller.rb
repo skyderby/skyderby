@@ -22,7 +22,7 @@ class EventsController < ApplicationController
   end
 
   def update
-    @event.update params[:event].permit(:name, :place, :comp_range_from, :comp_range_to, :descriprion, :form_info)
+    @event.update params[:event].permit(:name, :place, :comp_range_from, :comp_range_to, :descriprion, :form_info, :dz_info)
     redirect_to @event, notice: 'Данные успешно обновлены.'
   end
 
