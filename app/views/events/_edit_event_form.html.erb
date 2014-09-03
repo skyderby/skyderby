@@ -43,6 +43,12 @@
       </div>
     </div>
     <div class="form-group">
+      <%= f.label 'Информация об аэродроме', :class => 'col-sm-3 control-label', :for => 'form_info' %>
+      <div class="col-sm-9">
+        <%= f.text_area :dz_info, :class => 'form-control', :rows => 10 %>
+      </div>
+    </div>
+    <div class="form-group">
       <%= f.label 'Дополнительная информация для заявки', :class => 'col-sm-3 control-label', :for => 'form_info' %>
       <div class="col-sm-9">
         <%= f.text_area :form_info, :class => 'form-control', :rows => 10 %>

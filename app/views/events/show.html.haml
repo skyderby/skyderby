@@ -39,10 +39,10 @@
       %a{:href => '#results'}= 'Результаты'
     %li.active
       %a{:href => '#overview', :data => {:toggle => 'tab'}}= 'Информация'
-    %li.disabled
-      %a= 'Правила'
-    %li.disabled
-      %a= 'Информация об аэродроме и выброске'
+    %li
+      %a{:href => '#docs', :data => {:toggle => 'tab'}}= 'Документы'
+    %li
+      %a{:href => '#dz_info', :data => {:toggle => 'tab'}}= 'Информация об аэродроме'
     %li
       %a{:href => '#competitors', :data => {:toggle => 'tab'}}= 'Участники'
     - if current_user && current_user.event_admin?(@event)
@@ -56,6 +56,13 @@
     .tab-pane.active#overview
       %h2= 'Описание'
       = simple_format @event.descriprion
+
+    .tab-pane#docs
+      %h2= 'Документы'
+      = render :partial => 'event_documents/docs_table', :locals => {:show_delete_link => false}
+
+    .tab-pane#dz_info
+      = simple_format @event.dz_info
 
     .tab-pane#competitors
       = render :partial => 'competitors_table'

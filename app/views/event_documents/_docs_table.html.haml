@@ -1,0 +1,12 @@
+.top-buffer
+  - @event.event_documents.each do |doc|
+    .panel.panel-default
+      .panel-body
+        .col-md-10
+          %h3= "Заголовок: #{doc.name}"
+          = "Описание: #{doc.description}"
+        .col-md-2
+          %a.btn.btn-default{:href => doc.attached_file.url}= 'Скачать'
+          - if show_delete_link
+            %br
+            = link_to 'Удалить', [@event, doc], :confirm => 'Вы уверены, что хотите удалить документ?', :method => :delete, :class => 'btn btn-danger top-buffer'
