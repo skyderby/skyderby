@@ -44,7 +44,7 @@
           </li>
         <% else %>
           <li class='dropdown'>
-            <a href='#' class='dropdown-toggle' data-toggle='dropdown'><%=t 'application.header.sign_in' %><b class='caret'></b></a>
+            <a href='#' class='dropdown-toggle' data-toggle='dropdown'><%=t 'application.header.sign_in' %> <i class='fa fa-caret-down'></i></a>
             <ul class='dropdown-menu login-menu'>
               <li>
                 <div class='row'>
@@ -83,7 +83,7 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <%= image_tag asset_path('blank.gif'), class: "flag flag-#{ I18n.locale}" %>
-              <span class="caret"></span>
+              <i class="fa fa-caret-down"></i>
             </a>
             <%= lang_menu %>
           </li>

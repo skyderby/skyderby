@@ -19,11 +19,11 @@
 
         - else
           %button.btn.btn-success.event-request{:data => {:toggle => 'modal', :target => '#newParticipationFormModal'}}
-            %span.glyphicon.glyphicon-plus
+            %i.fa.fa-plus
             = 'Заявка на участие'
       - else
         %button.btn.btn-success.event-request{:data => {:toggle => 'modal', :target => '#newParticipationFormModal'}}
-          %span.glyphicon.glyphicon-plus
+          %i.fa.fa-plus
           = 'Заявка на участие'
 
 - if current_user && current_user.completed_profile?
