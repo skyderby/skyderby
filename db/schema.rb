@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 20140901082713) do
     t.text    "additional_info"
     t.integer "wingsuit_id"
     t.integer "status",          default: 0
-    t.text    "comment",         default: "0"
+    t.text    "comment"
   end
 
   create_table "points", force: true do |t|
