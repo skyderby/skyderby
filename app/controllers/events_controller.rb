@@ -1,6 +1,6 @@
 # encoding: utf-8
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :update, :destroy]
+  before_action :set_event, only: [:show, :update, :destroy, :results]
 
   def index
   end
@@ -22,7 +22,11 @@ class EventsController < ApplicationController
   end
 
   def update
-    @event.update params[:event].permit(:name, :place, :comp_range_from, :comp_range_to, :descriprion, :form_info, :dz_info)
+    @event.update params[:event].permit(:name, :place,
+                                        :comp_range_from, :comp_range_to,
+                                        :descriprion, :form_info, :dz_info,
+                                        :merge_intermediate_and_rookie,
+                                        :allow_tracksuits)
     redirect_to @event, notice: 'Данные успешно обновлены.'
   end
 
@@ -30,7 +34,13 @@ class EventsController < ApplicationController
     @round = Round.new
     @org = Organizer.new
     @doc = EventDocument.new
+    @track = EventTrack.new
     @participation_form = ParticipationForm.new
+    @results = @event.results
+  end
+
+  def results
+    render layout: 'full_screen'
   end
 
   def destroy

@@ -79,11 +79,20 @@
     });
   });
 
+.clouds-bg
+-#.bws-logo
+
 .page-header
   %h1
     =t '.title'
     %small
       =t '.subtitle'
+
+-#.jumbotron-event.col-sm-8
+  .event-bg
+  .event-logo
+  .event-text
+
 
 .jumbotron.col-sm-8
   %h2=t '.track_form.title'
@@ -123,28 +132,29 @@
 
     %div#alert-placeholder
 
-.col-sm-8
-  %h3=t '.or'
+-#.col-sm-8
+-#  %h3=t '.or'
 
 .jumbotron.col-sm-8
-  %h2=t '.events.title'
-  - if (user_signed_in?) && (can? :create, @event)
-    %button.btn.btn-default{:data => {:toggle => 'modal', :target => '#newEventModal'}}
-      = t '.events.create'
-    = render :partial => 'events/new_event_form'
-  - else
-    %h4.help-block= t '.events.betatestersonly'
+  -#%h2=t '.events.title'
+  -#- else
+  -#  %h4.help-block= t '.events.betatestersonly'
 
   %h2= t '.events.future'
   %table.table.table-hover
-    %thead
-      %tr
-        %th= t '.events.table.event'
-        %th= t '.events.table.starts'
-        %th= t '.events.table.ends'
+    -#%thead
+    -#  %tr
+    -#    %th= t '.events.table.event'
+    -#    %th= t '.events.table.starts'
+    -#    %th= t '.events.table.ends'
     %tbody
       - @coming_events.each do |e|
         %tr.clickableRow{:data => {:url => event_path(:id => e.id)}}
           %td.text-info= e.name
           %td.text-info= e.start_at.strftime('%d.%m.%Y') if e.start_at
+          %td= '-'
           %td.text-info= e.end_at.strftime('%d.%m.%Y') if e.start_at
+  - if (user_signed_in?) && (can? :create, @event)
+    %button.btn.btn-default{:data => {:toggle => 'modal', :target => '#newEventModal'}}
+      = t '.events.create'
+    = render :partial => 'events/new_event_form'

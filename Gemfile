@@ -3,9 +3,11 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.5'
 
 group :production do
-  gem 'mysql2'
-  gem 'therubyracer'
+
 end
+
+gem 'mysql2'
+gem 'therubyracer'
 
 group :development, :test do
   gem 'sqlite3' 

@@ -1,0 +1,41 @@
+.top-buffer
+  %button.btn.btn-default{:data => {:toggle => 'modal', :target => '#newTrackModal'}}= 'Добавить трек'
+.top-buffer
+
+.modal.fade#newTrackModal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
+  .modal-dialog
+    .modal-content
+      = form_for [@event, @track], :html => {:class => 'form-horizontal', :role => 'form', :id => 'new_doc_form', :multipart => true} do |f|
+        .modal-header
+          %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
+            %span{:aria => {:hidden => 'true'}}
+              &times;
+            %span.sr-only
+              Close
+          %h4.modal-title#myModalLabel= 'Новый трек'
+
+
+        .modal-body
+          .form-group
+            = f.label 'Участник', :class => 'col-sm-4 control-label', :for => 'name'
+            .col-sm-8
+              = f.collection_select :competitor_id, @event.competitors, :id, :user_name
+
+          .form-group
+            = f.label 'Раунд', :class => 'col-sm-4 control-label', :for => 'round'
+            .col-sm-8
+              = f.collection_select :round_id, @event.rounds, :id, :name_with_discipline
+
+          .form-group
+            = f.label 'Трек', :class => 'col-sm-4 control-label', :for => 'track'
+            .col-sm-8
+              = f.collection_select :track_id, Track.all, :id, :presentation
+
+          .form-group
+            = f.label 'Результат', :class => 'col-sm-4 control-label', :for => 'result'
+            .col-sm-8
+              = f.number_field :result, :class => 'form-control', :step => '0.01'
+
+        .modal-footer
+          %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}='Отмена'
+          = f.submit 'Добавить', :class => 'btn btn-primary'

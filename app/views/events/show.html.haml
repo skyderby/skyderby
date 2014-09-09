@@ -4,7 +4,8 @@
       %h1
         = 'Событие:'
         = @event.name
-        %small= "До начала #{(@event.start_at - Time.zone.now).to_i / 1.day} дн."
+        - if Time.zone.now < @event.start_at
+          %small= "До начала #{(@event.start_at - Time.zone.now).to_i / 1.day} дн."
 
     .col-md-2
       - if current_user
@@ -35,8 +36,8 @@
 
 .tabbable
   %ul.nav.nav-tabs#tabs{:data => {:tabs => 'tabs'}}
-    %li.disabled
-      %a{:href => '#results'}= 'Результаты'
+    %li
+      %a{:href => '#results', :data => {:toggle => 'tab'}}= 'Результаты'
     %li.active
       %a{:href => '#overview', :data => {:toggle => 'tab'}}= 'Информация'
     %li
@@ -52,6 +53,8 @@
   .tab-content
     .tab-pane#results
       %h2= 'Результаты соревнований'
+      = render :partial => 'event_tracks/new_track'
+      = render :partial => 'event_tracks/results_table'
 
     .tab-pane.active#overview
       %h2= 'Описание'

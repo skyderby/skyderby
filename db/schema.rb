@@ -11,14 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140902053906) do
+ActiveRecord::Schema.define(version: 20140907205015) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
     t.integer "role_id"
   end
 
-  add_index "assignments", ["user_id"], name: "index_assignments_on_user_id"
+  add_index "assignments", ["user_id"], name: "index_assignments_on_user_id", using: :btree
 
   create_table "competitors", force: true do |t|
     t.integer  "event_id"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20140902053906) do
     t.integer  "wingsuit_id"
   end
 
-  add_index "competitors", ["event_id"], name: "index_competitors_on_event_id"
+  add_index "competitors", ["event_id"], name: "index_competitors_on_event_id", using: :btree
 
   create_table "disciplines", force: true do |t|
     t.string   "name"
@@ -47,16 +47,18 @@ ActiveRecord::Schema.define(version: 20140902053906) do
     t.integer  "event_id"
   end
 
-  add_index "event_documents", ["event_id"], name: "index_event_documents_on_event_id"
+  add_index "event_documents", ["event_id"], name: "index_event_documents_on_event_id", using: :btree
 
   create_table "event_tracks", force: true do |t|
     t.integer  "round_id"
     t.integer  "track_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "competitor_id"
+    t.float    "result",        limit: 24
   end
 
-  add_index "event_tracks", ["round_id"], name: "index_event_tracks_on_round_id"
+  add_index "event_tracks", ["round_id"], name: "index_event_tracks_on_round_id", using: :btree
 
   create_table "events", force: true do |t|
     t.string   "name"
@@ -70,6 +72,8 @@ ActiveRecord::Schema.define(version: 20140902053906) do
     t.datetime "updated_at"
     t.text     "form_info"
     t.text     "dz_info"
+    t.boolean  "merge_intermediate_and_rookie"
+    t.boolean  "allow_tracksuits"
   end
 
   create_table "invitations", force: true do |t|
@@ -77,7 +81,7 @@ ActiveRecord::Schema.define(version: 20140902053906) do
     t.integer "event_id"
   end
 
-  add_index "invitations", ["user_id"], name: "index_invitations_on_user_id"
+  add_index "invitations", ["user_id"], name: "index_invitations_on_user_id", using: :btree
 
   create_table "manufacturers", force: true do |t|
     t.string "name"
@@ -94,7 +98,7 @@ ActiveRecord::Schema.define(version: 20140902053906) do
     t.boolean  "tracks_admin"
   end
 
-  add_index "organizers", ["event_id"], name: "index_organizers_on_event_id"
+  add_index "organizers", ["event_id"], name: "index_organizers_on_event_id", using: :btree
 
   create_table "participation_forms", force: true do |t|
     t.integer "user_id"
@@ -102,25 +106,25 @@ ActiveRecord::Schema.define(version: 20140902053906) do
     t.text    "additional_info"
     t.integer "wingsuit_id"
     t.integer "status",          default: 0
-    t.text    "comment",         default: "0"
+    t.text    "comment"
   end
 
   create_table "points", force: true do |t|
     t.integer  "tracksegment_id"
     t.integer  "fl_time"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.float    "elevation"
+    t.float    "latitude",         limit: 24
+    t.float    "longitude",        limit: 24
+    t.float    "elevation",        limit: 24
     t.string   "description"
     t.datetime "point_created_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "distance"
-    t.float    "v_speed"
-    t.float    "h_speed"
+    t.float    "distance",         limit: 24
+    t.float    "v_speed",          limit: 24
+    t.float    "h_speed",          limit: 24
   end
 
-  add_index "points", ["tracksegment_id"], name: "index_points_on_tracksegment_id"
+  add_index "points", ["tracksegment_id"], name: "index_points_on_tracksegment_id", using: :btree
 
   create_table "roles", force: true do |t|
     t.string "name"
@@ -134,7 +138,7 @@ ActiveRecord::Schema.define(version: 20140902053906) do
     t.integer  "discipline_id"
   end
 
-  add_index "rounds", ["event_id"], name: "index_rounds_on_event_id"
+  add_index "rounds", ["event_id"], name: "index_rounds_on_event_id", using: :btree
 
   create_table "tracks", force: true do |t|
     t.string   "name"
@@ -146,7 +150,7 @@ ActiveRecord::Schema.define(version: 20140902053906) do
     t.integer  "user_id"
   end
 
-  add_index "tracks", ["user_id"], name: "index_tracks_on_user_id"
+  add_index "tracks", ["user_id"], name: "index_tracks_on_user_id", using: :btree
 
   create_table "tracksegments", force: true do |t|
     t.integer  "track_id"
@@ -154,7 +158,7 @@ ActiveRecord::Schema.define(version: 20140902053906) do
     t.datetime "updated_at"
   end
 
-  add_index "tracksegments", ["track_id"], name: "index_tracksegments_on_track_id"
+  add_index "tracksegments", ["track_id"], name: "index_tracksegments_on_track_id", using: :btree
 
   create_table "user_profiles", force: true do |t|
     t.string   "last_name"
@@ -179,14 +183,14 @@ ActiveRecord::Schema.define(version: 20140902053906) do
     t.integer  "jumps_wingsuit_last_3m"
   end
 
-  add_index "user_profiles", ["user_id"], name: "index_user_profiles_on_user_id"
+  add_index "user_profiles", ["user_id"], name: "index_user_profiles_on_user_id", using: :btree
 
   create_table "user_wingsuits", force: true do |t|
     t.integer "user_id"
     t.integer "wingsuit_id"
   end
 
-  add_index "user_wingsuits", ["user_id"], name: "index_user_wingsuits_on_user_id"
+  add_index "user_wingsuits", ["user_id"], name: "index_user_wingsuits_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -207,9 +211,9 @@ ActiveRecord::Schema.define(version: 20140902053906) do
     t.string   "unconfirmed_email"
   end
 
-  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "wingsuits", force: true do |t|
     t.integer "manufacturer_id"
@@ -217,8 +221,8 @@ ActiveRecord::Schema.define(version: 20140902053906) do
     t.string  "name"
   end
 
-  add_index "wingsuits", ["manufacturer_id"], name: "index_wingsuits_on_manufacturer_id"
-  add_index "wingsuits", ["ws_class_id"], name: "index_wingsuits_on_ws_class_id"
+  add_index "wingsuits", ["manufacturer_id"], name: "index_wingsuits_on_manufacturer_id", using: :btree
+  add_index "wingsuits", ["ws_class_id"], name: "index_wingsuits_on_ws_class_id", using: :btree
 
   create_table "ws_classes", force: true do |t|
     t.string "name"
