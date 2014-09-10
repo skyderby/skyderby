@@ -97,5 +97,7 @@
                   %td.text-info= track.created_at
 
         .tab-pane#competitions
-          %h2= 'Участие в соревнованиях'
-          %p= 'Этот пилот еще не участвовал в соревнованиях'
+          %h2= 'Участие в соревнованиях:'
+          - @user.competitors.each do |comp|
+            =link_to comp.event.name, event_path(:id => comp.event.id)
+            %br
