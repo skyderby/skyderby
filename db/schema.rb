@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 20140902053906) do
     t.integer  "event_id"
   end
 
-  add_index "event_documents", ["event_id"], name: "index_event_documents_on_event_id"
+  add_index "event_documents", ["event_id"], name: "index_event_documents_on_event_id", using: :btree
 
   create_table "event_tracks", force: true do |t|
     t.integer  "round_id"
