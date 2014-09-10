@@ -3,6 +3,7 @@ class EventsController < ApplicationController
   before_action :set_event, only: [:show, :update, :destroy, :results]
 
   def index
+    @event = Event.new
   end
 
   def create
