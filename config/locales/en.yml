@@ -3,7 +3,7 @@ en:
     header:
       home: 'Home'
       tracks: 'Tracks'
-      about: 'About'
+      about: 'Algorithms'
       sign_in: 'Sign in'
       sign_up: 'Sign up'
       sign_out: 'Sign out'
@@ -15,6 +15,7 @@ en:
       profile: 'Profile'
       track_analizer: "Tracks analizer"
       upload_track: "Upload track"
+      competitions: "GPS Performance"
     footer:
       owner: 'Aleksandr Kunin, Aleksandr Razorenov. BWS'
   track_select:
