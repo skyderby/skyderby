@@ -8,6 +8,9 @@ class Event < ActiveRecord::Base
   has_many :invitations
   has_many :event_documents
 
+  scope :coming, lambda { where('DATE(end_at) > ?', Date.today)}
+  scope :completed, lambda { where('DATE(end_at) < ?', Date.today)}
+
   def results
     # TODO: if event.type.eql? Time_Distance_Speed_PL
     process_result query_result

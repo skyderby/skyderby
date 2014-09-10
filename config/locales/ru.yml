@@ -2,7 +2,7 @@ ru:
   application:
     header:
       home: 'Главная'
-      tracks: 'Треки'
+      tracks: 'Список треков'
       about: 'О проекте'
       sign_in: 'Войти'
       sign_up: 'Зарегистрироваться'
@@ -13,8 +13,10 @@ ru:
       forgot_pass: 'Забыли пароль?'
       profile: "Профиль"
       admin_panel: 'Панель администратора'
+      track_analizer: 'Анализ треков'
+      upload_track: "Загрузить трек"
     footer:
-      owner: 'Александр Кунин.'
+      owner: 'Александр Кунин, Александр Разорёнов, BWS'
   track_select:
     track_select:
       title: 'Выберите трек для загрузки'
@@ -112,6 +114,7 @@ ru:
           end_at: 'по'
           range_from: 'Соревновательный диапазон с'
           range_to: 'по'
+        completed: "Прошедшие события:"
     about:
       comp_t: 'Используемые компоненты:'
       comp_lng: 'Используемый фреймворк:'

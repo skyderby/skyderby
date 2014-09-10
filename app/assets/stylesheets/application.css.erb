@@ -14,6 +14,28 @@
  *= require_tree .
  */
 
+html, body {
+  height: 100%;
+}
+
+body, p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size:   13px;
+  line-height: 18px;
+}
+
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -50px;
+  padding: 0 0 50px;
+}
+
+#footer {
+  height: 50px;
+}
+
 .img-50 {
   height: 20px;
   width: 20px;
@@ -35,44 +57,8 @@
   z-index: -100;
 }
 
-.bws-logo {
-  opacity: 0.7;
-  position: fixed;
-  margin-right: -100;
-  height: 100%;
-  width: 100%;
-  background: url(<%= asset_path('bws-cut.png') %>) no-repeat bottom right fixed;
-  -o-background-size: auto 70%;
-  -webkit-background-size: auto 70%;
-  -moz-background-size: auto 70%;
-  background-size: auto 70%;
-  z-index: -50;
-}
 
-.jumbotron-event {
-  height: 400px;
-}
-.event-bg {
-  opacity: 0.6;
-  position: absolute;
-  background: url(<%= asset_path('event-bg.png') %>) no-repeat;
-  background-size: contain;
-  height: 100%;
-  width: 100%;
-}
 
-.event-logo {
-  position: absolute;
-  background: url(<%= asset_path('event-logo.png') %>) no-repeat;
-  background-size: contain;
-  height: 100%;
-  width: 100%;
-}
-
-.event-text {
-  position: absolute;
-  background: url(<%= asset_path('event-text.png') %>) no-repeat;
-  background-size: contain;
-  height: 100%;
-  width: 100%;
+.datepicker {
+  z-index: 1151 !important;
 }

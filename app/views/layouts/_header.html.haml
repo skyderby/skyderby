@@ -6,7 +6,16 @@
     .navbar-collapse.collapse
       %ul.nav.navbar-nav
         %li
-          = link_to t('application.header.tracks'), track_path
+          = link_to 'GPS Performance', events_path
+        %li.dropdown
+          %a.dropdown-toggle{:href => '#', :data => {:toggle => 'dropdown'}}
+            = t('application.header.track_analizer')
+            %i.fa.fa-caret-down
+          %ul.dropdown-menu
+            %li
+              %a{:href => '#', :data => {:toggle => 'modal', :target => '#newTrackModal'}}= t('application.header.upload_track')
+            %li
+              = link_to t('application.header.tracks'), track_path
         %li
           = link_to t('application.header.about'), about_path
 
@@ -66,3 +75,5 @@
               = image_tag asset_path('blank.gif'), class: "flag flag-#{ I18n.locale}"
               %i.fa.fa-caret-down
             = lang_menu
+
+= render partial: 'tracks/new_track'
