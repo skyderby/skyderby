@@ -3,7 +3,7 @@ ru:
     header:
       home: 'Главная'
       tracks: 'Список треков'
-      about: 'О проекте'
+      about: 'Алгоритмы'
       sign_in: 'Войти'
       sign_up: 'Зарегистрироваться'
       sign_out: 'Выйти'
@@ -15,6 +15,7 @@ ru:
       admin_panel: 'Панель администратора'
       track_analizer: 'Анализ треков'
       upload_track: "Загрузить трек"
+      competitions: "Соревнования"
     footer:
       owner: 'Александр Кунин, Александр Разорёнов, BWS'
   track_select:

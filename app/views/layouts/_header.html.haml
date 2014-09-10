@@ -6,7 +6,7 @@
     .navbar-collapse.collapse
       %ul.nav.navbar-nav
         %li
-          = link_to 'GPS Performance', events_path
+          = link_to t('application.header.competitions'), events_path
         %li.dropdown
           %a.dropdown-toggle{:href => '#', :data => {:toggle => 'dropdown'}}
             = t('application.header.track_analizer')
@@ -16,8 +16,8 @@
               %a{:href => '#', :data => {:toggle => 'modal', :target => '#newTrackModal'}}= t('application.header.upload_track')
             %li
               = link_to t('application.header.tracks'), track_path
-        %li
-          = link_to t('application.header.about'), about_path
+            %li.divider
+            %li= link_to t('application.header.about'), about_path
 
       %ul.nav.navbar-nav.navbar-right
 
