@@ -15,7 +15,7 @@
 
     .col-md-1
       - if current_user == @user
-        = link_to content_tag(:span, nil, :class => 'glyphicon glyphicon-pencil'),
+        = link_to content_tag(:span, nil, :class => 'fa fa-pencil'),
                   edit_user_registration_path,
                   :class => 'btn btn-default edit'
 

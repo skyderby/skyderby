@@ -1,0 +1,70 @@
+/*Общие стили для событий*/
+
+.event-request { margin-top:15px }
+
+/*GPS Performance Borki 2014*/
+
+.bws-logo {
+  opacity: 0.7;
+  position: fixed;
+  margin-right: -100;
+  height: 100%;
+  width: 100%;
+  background: url(<%= asset_path('bws-cut.png') %>) no-repeat bottom right fixed;
+  -o-background-size: auto 70%;
+  -webkit-background-size: auto 70%;
+  -moz-background-size: auto 70%;
+  background-size: auto 70%;
+  z-index: -50;
+}
+
+.jumbotron-event {
+  width: 600px;
+  height: 400px;
+}
+
+.event-bg {
+  opacity: 0.6;
+  position: absolute;
+  background: url(<%= asset_path('event-bg.png') %>) no-repeat;
+  background-size: contain;
+  height: 100%;
+  width: 100%;
+}
+
+.event-logo {
+  position: absolute;
+  background: url(<%= asset_path('event-logo.png') %>) no-repeat;
+  background-size: contain;
+  height: 100%;
+  width: 100%;
+}
+
+.event-text {
+  position: absolute;
+  background: url(<%= asset_path('event-text.png') %>) no-repeat;
+  background-size: contain;
+  height: 100%;
+  width: 100%;
+}
+
+#event-buttons {
+  position: absolute;
+  top: 55%;
+  left: 310px;
+  /*left: 47.5%;*/
+}
+
+#details-button {
+  opacity: 0.8;
+  background: url(<%= asset_path('details-button.png') %>) no-repeat;
+  background-size: cover;
+  display:block;
+  text-indent:-9999em;
+  height : 40px;
+  width: 155px;
+}
+
+/*#details-button:active {*/
+  /*background: url(<%= asset_path('details-button-pressed.png') %>) no-repeat*/
+/*}*/

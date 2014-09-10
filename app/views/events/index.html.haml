@@ -1,0 +1,27 @@
+
+.jumbotron.col-sm-8
+
+  %h2= t 'static_pages.index.events.future'
+  %table.table.table-hover
+    %tbody
+      - Event.coming.each do |e|
+        %tr.clickableRow{:data => {:url => event_path(:id => e.id)}}
+          %td.text-info= e.name
+          %td.text-info= e.start_at.strftime('%d.%m.%Y') if e.start_at
+          %td= '-'
+          %td.text-info= e.end_at.strftime('%d.%m.%Y') if e.start_at
+
+  %h2= t 'static_pages.index.events.completed'
+  %table.table.table-hover
+    %tbody
+      - Event.completed.each do |e|
+        %tr.clickableRow{:data => {:url => event_path(:id => e.id)}}
+          %td.text-info= e.name
+          %td.text-info= e.start_at.strftime('%d.%m.%Y') if e.start_at
+          %td= '-'
+          %td.text-info= e.end_at.strftime('%d.%m.%Y') if e.start_at
+
+  - if (user_signed_in?) && (can? :create, @event)
+    %button.btn.btn-default{:data => {:toggle => 'modal', :target => '#newEventModal'}}
+      = t 'static_pages.index.events.create'
+    = render :partial => 'events/new_event_form'

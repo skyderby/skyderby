@@ -7,24 +7,29 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <%= render 'layouts/header' %>
+    <div id="wrap">
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-7">
-          <% flash.each do |type, message| %>
-            <div class="alert <%= bootstrap_class_for(type) %> alert-dismissable fade in">
-              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-              <%= message %>
-            </div>
-          <% end %>
+      <%= render 'layouts/header' %>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-7">
+            <% flash.each do |type, message| %>
+              <div class="alert <%= bootstrap_class_for(type) %> alert-dismissable fade in">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <%= message %>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
+
+      <div class="container">
+        <%= yield %>
+      </div>
+
     </div>
 
-    <div class="container">
-      <%= yield %>
-    </div>
     <%= render 'layouts/footer' %>
   </body>
 </html>

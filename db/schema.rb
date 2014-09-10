@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140902053906) do
+ActiveRecord::Schema.define(version: 20140907205015) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -54,6 +54,8 @@ ActiveRecord::Schema.define(version: 20140902053906) do
     t.integer  "track_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "competitor_id"
+    t.float    "result",        limit: 24
   end
 
   add_index "event_tracks", ["round_id"], name: "index_event_tracks_on_round_id", using: :btree
@@ -70,6 +72,8 @@ ActiveRecord::Schema.define(version: 20140902053906) do
     t.datetime "updated_at"
     t.text     "form_info"
     t.text     "dz_info"
+    t.boolean  "merge_intermediate_and_rookie"
+    t.boolean  "allow_tracksuits"
   end
 
   create_table "invitations", force: true do |t|

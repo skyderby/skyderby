@@ -7,6 +7,7 @@ FactoryGirl.define do
     email
     password 'secret'
     password_confirmation 'secret'
+    confirmed_at Time.now
   end
 
   factory :role do

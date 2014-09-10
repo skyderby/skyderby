@@ -1,0 +1,34 @@
+%table.table.table-bordered
+  %thead
+    %tr
+      %td{:rowspan => 2}= '№'
+      %td{:rowspan => 2}= 'Спортсмен / вингсьют'
+      %td{:colspan => (@event.time_rounds.count + 1)}= 'Time'
+      %td{:colspan => (@event.distance_rounds.count + 1)}= 'Distance'
+      %td{:colspan => (@event.speed_rounds.count + 1)}= 'Speed'
+      %td{:rowspan => 2}= 'Total, %'
+    %tr
+      - @event.time_rounds.each do |r|
+        %td= r.name
+      %td= '%'
+      - @event.distance_rounds.each do |r|
+        %td= r.name
+      %td= '%'
+      - @event.speed_rounds.each do |r|
+        %td= r.name
+      %td= '%'
+  %tbody
+    - @event.results.each do |k, v|
+      %tr
+        %td.text-danger.bg-warning{:colspan => 12}= k.to_s.capitalize
+      - v.each_with_index do |x, i|
+        %tr
+          %td= i + 1
+          %td= x[:competitor][:name] + ' (' + x[:competitor][:wingsuit] + ')'
+          - x[:time].each do |r|
+            %td= r[:name]
+          - x[:distance].each do |r|
+            %td= r[:name]
+          - x[:speed].each do |r|
+            %td= r[:name]
+          %td= x[:competitor][:total]

@@ -1,0 +1,79 @@
+.navbar.navbar-default.navbar-static-top{:role => 'navigation'}
+  .container
+    .navbar-header
+      = link_to t('application.header.home'), root_url, :class => 'navbar-brand'
+
+    .navbar-collapse.collapse
+      %ul.nav.navbar-nav
+        %li
+          = link_to 'GPS Performance', events_path
+        %li.dropdown
+          %a.dropdown-toggle{:href => '#', :data => {:toggle => 'dropdown'}}
+            = t('application.header.track_analizer')
+            %i.fa.fa-caret-down
+          %ul.dropdown-menu
+            %li
+              %a{:href => '#', :data => {:toggle => 'modal', :target => '#newTrackModal'}}= t('application.header.upload_track')
+            %li
+              = link_to t('application.header.tracks'), track_path
+        %li
+          = link_to t('application.header.about'), about_path
+
+      %ul.nav.navbar-nav.navbar-right
+
+        - if user_signed_in?
+          %li.dropdown
+            %a.dropdown-toggle{:href => '#', :data => {:toggle => 'dropdown'}}
+              - if current_user.user_profile
+                - if current_user.user_profile.name.blank?
+                  = current_user.email
+                - else
+                  = current_user.user_profile.name
+
+                = image_tag current_user.user_profile.userpic.url(:thumb), :class => 'img-rounded img-50'
+              - else
+                = current_user.email
+                = image_tag '/images/thumb/missing.png', :class => 'img-rounded img-50'
+
+            %ul.dropdown-menu
+              - if current_user.has_role? :admin
+                %li
+                  = link_to t('application.header.admin_panel'), rails_admin_path
+              %li
+                = link_to t('application.header.profile'), user_path(current_user)
+              %li
+                = link_to t('application.header.sign_out'), destroy_user_session_path, :method => :delete
+        - else
+          %li.dropdown
+            %a.dropdown-toggle{:href => '#', :data => {:toggle => 'dropdown'}}
+              =t 'application.header.sign_in'
+              %i.fa.fa-caret-down'
+            %ul.dropdown-menu.login-menu
+              %li
+                .row
+                  .col-md-12
+                    = form_for(:user, :url => session_path(:user), :class => 'form', :role => 'form') do |f|
+                      .form-group
+                        = label_tag 'user_email', 'Email address', :for => 'user_email', :class => 'sr-only'
+                        = f.text_field :email, :class => 'form-control', :type => 'email', :placeholder => t('application.header.login_email')
+                      .form-group
+                        = label_tag 'user_password', 'Password', :for => 'user_password', :class => 'sr-only'
+                        = f.password_field :password, :class => 'form-control', :placeholder => t('application.header.password')
+                      .checkbox
+                        %label
+                          = f.check_box :remember_me
+                          =t('application.header.remember_me')
+                      .form-group
+                        = f.submit t('application.header.sign_in'), :class => 'btn btn-success btn-block'
+                    = link_to t('application.header.forgot_pass'), new_password_path(:user)
+          %li
+            = link_to t('application.header.sign_up'), new_user_registration_path
+
+        - unless controller.controller_name.eql? 'track_select'
+          %li.dropdown
+            %a.dropdown-toggle{:href => '#', :data => {:toggle => 'dropdown'}}
+              = image_tag asset_path('blank.gif'), class: "flag flag-#{ I18n.locale}"
+              %i.fa.fa-caret-down
+            = lang_menu
+
+= render partial: 'tracks/new_track'

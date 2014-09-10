@@ -28,6 +28,10 @@ class User < ActiveRecord::Base
     User.where('LOWER(name) LIKE LOWER(?)', "%#{query}%")
   end
 
+  def name
+    self.user_profile.name
+  end
+
   def has_role?(role_sym)
     roles.any? { |r| r.name.underscore.to_sym == role_sym }
   end

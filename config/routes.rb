@@ -28,6 +28,11 @@ TrackingDerby::Application.routes.draw do
       resources :competitors
       resources :event_tracks
       resources :event_documents
+
+      member do
+        get 'results'
+      end
+
     end
 
     get '/:locale' => 'static_pages#index'

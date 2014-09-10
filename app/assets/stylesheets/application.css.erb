@@ -14,6 +14,28 @@
  *= require_tree .
  */
 
+html, body {
+  height: 100%;
+}
+
+body, p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size:   13px;
+  line-height: 18px;
+}
+
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -50px;
+  padding: 0 0 50px;
+}
+
+#footer {
+  height: 50px;
+}
+
 .img-50 {
   height: 20px;
   width: 20px;
@@ -21,3 +43,22 @@
 
 .top-buffer { margin-top: 20px }
 .clickableRow { cursor: pointer }
+
+.clouds-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: url(<%= asset_path('background.jpg') %>) no-repeat center center;
+  background-size: cover !important;
+  background-attachment: fixed !important;
+  background-color: #fff;
+  z-index: -100;
+}
+
+
+
+.datepicker {
+  z-index: 1151 !important;
+}

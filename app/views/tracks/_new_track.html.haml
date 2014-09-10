@@ -1,0 +1,48 @@
+.modal.fade#newTrackModal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
+  .modal-dialog
+    .modal-content
+      = form_tag track_select_path, multipart: true, :class => 'form-horizontal', :role => 'form', :id => 'track_upload_form' do
+        .modal-header
+          %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
+            %span{:aria => {:hidden => 'true'}}
+              &times;
+            %span.sr-only
+              Close
+          %h4.modal-title#myModalLabel= t 'static_pages.index.track_form.title'
+
+        .modal-body
+          .form-group
+            = label_tag 'name', t('static_pages.index.track_form.name'), :class => 'col-sm-3 control-label', :for => 'name'
+            .col-sm-9
+              = text_field_tag 'name', nil, :class => 'form-control', :placeholder => t('static_pages.index.track_form.name_plh'), :type => 'text'
+
+          .form-group
+            = label_tag 'suit', t('static_pages.index.track_form.suit'), :class => 'col-sm-3 control-label', :for => 'suit'
+            .col-sm-9
+              = text_field_tag 'suit', nil, :class => 'form-control', :placeholder => t('static_pages.index.track_form.suit_plh'), :type => 'text'
+
+          .form-group
+            = label_tag 'location', t('static_pages.index.track_form.location'), :class => 'col-sm-3 control-label', :for => 'location'
+            .col-sm-9
+              = text_field_tag 'location', nil, :class => 'form-control', :placeholder => t('static_pages.index.track_form.location_plh'), :type => 'text'
+
+          .form-group
+            = label_tag 'track_file', t('static_pages.index.track_form.file'), :class => 'col-sm-3 control-label', :for => 'track_file'
+            .col-sm-9
+              = file_field_tag 'track_file', {:onChange => 'checkFile(this)'}
+
+          .form-group
+            .col-sm-offset-3.col-sm-9
+              %h4.help-block=t 'static_pages.index.track_form.help'
+
+          .form-group
+            = label_tag t('static_pages.index.track_form.comment'), nil, :class => 'col-sm-3 control-label', :for => 'comment'
+            .col-sm-9
+              = text_area_tag 'comment', nil, :class => 'form-control', :rows => 3, :placeholder => t('static_pages.index.track_form.comment_plh')
+
+          %div#alert-placeholder
+
+        .modal-footer
+          %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}='Отмена'
+          = submit_tag t('static_pages.index.track_form.submit'), :class => 'btn btn-default'
+

@@ -34,6 +34,10 @@ class Track < ActiveRecord::Base
     points.maximum(:elevation).to_i
   end
 
+  def presentation
+    "#{self.name} | #{self.suit} | #{self.comment}"
+  end
+
   private
 
   def parse_file

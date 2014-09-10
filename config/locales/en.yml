@@ -13,8 +13,10 @@ en:
       forgot_pass: 'Forgot your password?'
       admin_panel: 'Admin dashboard'
       profile: 'Profile'
+      track_analizer: "Tracks analizer"
+      upload_track: "Upload track"
     footer:
-      owner: 'Aleksandr Kunin.'
+      owner: 'Aleksandr Kunin, Aleksandr Razorenov. BWS'
   track_select:
     track_select:
       title: 'Select a track to upload'
@@ -114,6 +116,7 @@ en:
           end_at: 'to'
           range_from: 'Competition range from'
           range_to: 'to'
+        completed: "Completed events:"
     about:
       comp_t: 'Application works on:'
       comp_lng: 'Language and backend framework:'
