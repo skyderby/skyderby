@@ -2,12 +2,10 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.1.5'
 
-group :production do
-
-end
+gem 'therubyracer'
+gem 'libv8', '3.16.14.3'
 
 gem 'mysql2'
-gem 'therubyracer'
 
 group :development, :test do
   gem 'sqlite3' 
