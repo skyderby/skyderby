@@ -1,3 +1,6 @@
+:javascript
+  var event_id = #{@event.id}
+
 .row
   .page-header.col-md-12
     .col-md-10
@@ -53,8 +56,8 @@
   .tab-content
     .tab-pane#results
       %h2= 'Результаты соревнований'
-      -#= render :partial => 'event_tracks/new_track'
-      -#= render :partial => 'event_tracks/results_table'
+      = render :partial => 'event_tracks/new_track'
+      = render :partial => 'event_tracks/results_table'
 
     .tab-pane.active#overview
       %h2= 'Описание'

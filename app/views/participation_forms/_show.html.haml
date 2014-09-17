@@ -24,7 +24,10 @@
           #{pf.user.user_profile.jumps_wingsuit_last_3m}
         %br
         %strong= 'Вингсьют/Класс:'
-        #{pf.wingsuit.name} ( #{pf.wingsuit.ws_class.name} )
+        - ws_class = pf.wingsuit.ws_class.name.downcase.to_sym
+        - if ws_class.eql?(:rookie) && merge_intermediate_and_rookie
+          - ws_class = :intermediate
+        #{pf.wingsuit.name} ( #{ws_class.to_s.capitalize} )
         %br
         %strong= 'Рост/Вес:'
         #{pf.user.user_profile.height} / #{pf.user.user_profile.weight}

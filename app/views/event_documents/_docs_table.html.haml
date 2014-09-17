@@ -1,10 +1,11 @@
 .top-buffer
   - @event.event_documents.each do |doc|
     .panel.panel-default
+      .panel-heading
+        %h3.panel-title= doc.name
       .panel-body
         .col-md-10
-          %h3= "Заголовок: #{doc.name}"
-          = "Описание: #{doc.description}"
+          = doc.description
         .col-md-2
           %a.btn.btn-default{:href => doc.attached_file.url}= 'Скачать'
           - if show_delete_link

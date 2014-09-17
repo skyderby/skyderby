@@ -41,6 +41,7 @@ class EventsController < ApplicationController
   end
 
   def results
+    @results = @event.results
     render layout: 'full_screen'
   end
 

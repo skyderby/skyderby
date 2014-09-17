@@ -122,14 +122,14 @@
             = f.password_field :password, autocomplete: 'off', class: 'form-control', :placeholder => 'Оставьте пустым если не планируете менять пароль'
 
         .form-group
-          = f.label 'Подтверждение', class: 'col-sm-4 control-label', :for => :password_confirmation
-          .col-sm-7
-            = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control', :placeholder => 'Оставьте пустым если не планируете менять пароль'
-
-        .form-group
           = f.label 'Текущий пароль', class: 'col-sm-4 control-label', :for => :current_password
           .col-sm-7
             = f.password_field :current_password, autocomplete: 'off', class: 'form-control', :placeholder => 'Необходимо ввести текущий пароль для подтверждения изменений'
+
+        .form-group
+          = f.label 'Подтверждение', class: 'col-sm-4 control-label', :for => :password_confirmation
+          .col-sm-7
+            = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control', :placeholder => 'Оставьте пустым если не планируете менять пароль'
 
         .form-group
           .col-sm-offset-4.col-sm-7
