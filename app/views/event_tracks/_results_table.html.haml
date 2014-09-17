@@ -13,16 +13,16 @@
     %tr
       - @event.time_rounds.each do |r|
         %td= r.name
-        %td= 'Баллы'
-      %td= 'Баллы'
+        %td= '%'
+      %td= '%'
       - @event.distance_rounds.each do |r|
         %td= r.name
-        %td= 'Баллы'
-      %td= 'Баллы'
+        %td= '%'
+      %td= '%'
       - @event.speed_rounds.each do |r|
         %td= r.name
-        %td= 'Баллы'
-      %td= 'Баллы'
+        %td= '%'
+      %td= '%'
   %tbody
     - @results.each do |val|
       %tr
