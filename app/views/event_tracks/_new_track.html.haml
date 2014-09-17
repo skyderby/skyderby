@@ -1,8 +1,8 @@
 .top-buffer
-  %button.btn.btn-default{:data => {:toggle => 'modal', :target => '#newTrackModal'}}= 'Добавить трек'
+  %button.btn.btn-default{:data => {:toggle => 'modal', :target => '#newEventTrackModal'}}= 'Добавить трек'
 .top-buffer
 
-.modal.fade#newTrackModal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
+.modal.fade#newEventTrackModal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
   .modal-dialog
     .modal-content
       = form_for [@event, @track], :html => {:class => 'form-horizontal', :role => 'form', :id => 'new_doc_form', :multipart => true} do |f|
