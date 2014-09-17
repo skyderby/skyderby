@@ -112,6 +112,7 @@ class Track < ActiveRecord::Base
     track_points.compact!
   end
 
+  # TODO: refactor that
   def parse_xml(doc, track_index)
 
     track_points = []

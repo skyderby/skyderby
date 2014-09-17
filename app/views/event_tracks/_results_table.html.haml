@@ -3,32 +3,73 @@
     %tr
       %td{:rowspan => 2}= '№'
       %td{:rowspan => 2}= 'Спортсмен / вингсьют'
-      %td{:colspan => (@event.time_rounds.count + 1)}= 'Time'
-      %td{:colspan => (@event.distance_rounds.count + 1)}= 'Distance'
-      %td{:colspan => (@event.speed_rounds.count + 1)}= 'Speed'
-      %td{:rowspan => 2}= 'Total, %'
+      - if @event.time_rounds.count > 0
+        %td{:colspan => (@event.time_rounds.count * 2 + 1)}= 'Time'
+      - if @event.distance_rounds.count > 0
+        %td{:colspan => (@event.distance_rounds.count * 2 + 1)}= 'Distance'
+      - if @event.speed_rounds.count > 0
+        %td{:colspan => (@event.speed_rounds.count * 2 + 1)}= 'Speed'
+      %td{:rowspan => 2}= 'Итого баллов'
     %tr
       - @event.time_rounds.each do |r|
         %td= r.name
+        %td= '%'
       %td= '%'
       - @event.distance_rounds.each do |r|
         %td= r.name
+        %td= '%'
       %td= '%'
       - @event.speed_rounds.each do |r|
         %td= r.name
+        %td= '%'
       %td= '%'
   %tbody
-    - @event.results.each do |k, v|
+    - @results.each do |val|
       %tr
-        %td.text-danger.bg-warning{:colspan => 12}= k.to_s.capitalize
-      - v.each_with_index do |x, i|
+        - total_columns = 3 + @event.time_rounds.count * 2 + 1 + @event.distance_rounds.count * 2 + 1 + @event.speed_rounds.count * 2 + 1
+        %td.text-danger.bg-warning{:colspan => total_columns}= val.ws_class.to_s.capitalize
+      - val.competitors.each_with_index do |comp, ind|
         %tr
-          %td= i + 1
-          %td= x[:competitor][:name] + ' (' + x[:competitor][:wingsuit] + ')'
-          - x[:time].each do |r|
-            %td= r[:name]
-          - x[:distance].each do |r|
-            %td= r[:name]
-          - x[:speed].each do |r|
-            %td= r[:name]
-          %td= x[:competitor][:total]
+          %td= ind + 1
+          %td= comp[:name] + ' (' + comp[:wingsuit] + ')'
+
+          - @event.time_rounds.each do |r|
+            - res = comp.time.find { |f| f[:id] == r.id }
+            - if res.nil?
+              %td= ' - '
+              %td= ' - '
+            - else
+              %td= res[:result]
+              %td= res[:points]
+          - if comp.time_points.nil?
+            %td= ' - '
+          - else
+            %td= comp.time_points
+
+          - @event.distance_rounds.each do |r|
+            - res = comp.distance.find { |f| f[:id] == r.id }
+            - if res.nil?
+              %td= ' - '
+              %td= ' - '
+            - else
+              %td= res[:result]
+              %td= res[:points]
+          - if comp.distance_points.nil?
+            %td= ' - '
+          - else
+            %td= comp.distance_points
+
+          - @event.speed_rounds.each do |r|
+            - res = comp.speed.find { |f| f[:id] == r.id }
+            - if res.nil?
+              %td= ' - '
+              %td= ' - '
+            - else
+              %td= res[:result]
+              %td= res[:points]
+          - if comp.speed_points.nil?
+            %td= ' - '
+          - else
+            %td= comp.speed_points
+
+          %td= comp[:total]

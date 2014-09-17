@@ -2,13 +2,14 @@
   %thead
     %tr
       %th= '№'
-      %th= 'Участник'
-      %th= 'Класс'
+      %th= 'Класс / Участник'
       %th= 'Вингсьют'
   %tbody
-  - @event.competitors.each_with_index do |t, index|
-    %tr.clickableRow{:data => {:url => user_path(:id => t.user.id)}}
-      %td.text-info= index + 1
-      %td.text-info= t.user.user_profile.name
-      %td.text-info= t.wingsuit.ws_class.name
-      %td.text-info= t.wingsuit.name
+  - @event.competitors_table.each do |val|
+    %tr
+      %td.text-danger.bg-warning{:colspan => 3}= val.ws_class.to_s.capitalize
+    - val.competitors.each_with_index do |comp, ind|
+      %tr.clickableRow{:data => {:url => user_path(:id => comp.user_id)}}
+        %td= ind + 1
+        %td= comp[:name] + ' (' + comp[:wingsuit] + ')'
+        %td.text-info= comp[:wingsuit]
