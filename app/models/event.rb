@@ -74,50 +74,53 @@ class Event < ActiveRecord::Base
 
   private
 
-  # returns active-record relation
   def query_result
-    Competitor.where(:event_id => self.id)
+
+    Competitor.select('competitors.*, rounds.*, event_tracks.*, ws_classes.name ws_class')
                 .joins('LEFT OUTER JOIN rounds ON rounds.event_id = competitors.event_id')
                 .joins('LEFT OUTER JOIN wingsuits ON wingsuits.id = competitors.wingsuit_id')
                 .joins('LEFT OUTER JOIN ws_classes ON ws_classes.id = wingsuits.ws_class_id')
                 .joins('LEFT OUTER JOIN event_tracks ON event_tracks.competitor_id = competitors.id AND round_id = rounds.id')
-                .select('competitors.*, rounds.*, event_tracks.*, ws_classes.name ws_class')
+                .where(:event_id => self.id)
+                .to_a.map(&:serializable_hash)
+
+  end
+
+  def query_max_results
+
+    Round.select('rounds.id, max(event_tracks.result) max_result')
+          .where(:event_id => 2)
+          .joins('LEFT OUTER JOIN event_tracks ON event_tracks.round_id = rounds.id')
+          .group('rounds.id')
+          .to_a.map(&:serializable_hash)
+
   end
 
   def process_results
-    # returns structure:
-    # -Class (Advanced, Intermediate, Rookie, Tracksuit)
-    # --Competitor
-    # ---Time
-    # ----Round
-    # ----Result
-    # ----%}
-    # ---Distance
-    # ----Round
-    # ----Result
-    # ----%}
-    # ---Speed
-    # ----Round
-    # ----Result
-    # ----%}
-    # ---Total, %
 
     advanced_comps = Results_struct.new(:advanced, true, [])
     intermediate_comps = Results_struct.new(:intermediate, true, [])
     rookie_comps = Results_struct.new(:rookie, !self.merge_intermediate_and_rookie, [])
     tracksuit_comps = Results_struct.new(:tracksuit, self.allow_tracksuits, [])
 
+    max_results = query_max_results
+
     self.competitors.each do |comp|
 
-      comp_el = Competitor_struct.new(comp.user.name, comp.id, comp.user.id, comp.wingsuit.name, [], nil, [], nil, [], nil, nil)
+      comp_el = Competitor_struct.new(comp.user.name, comp.id, comp.user.id, comp.wingsuit.name, [], 0, [], 0, [], 0, 0)
 
       comp.event_tracks.each do |ev_track|
+
+        max = max_results.find { |rnd| rnd['id'] == ev_track.round.id }
+        points = 0
+        points = (ev_track.result / max['max_result'] * 100).to_i unless max.nil?
+
         if ev_track.round.discipline == Discipline.time
-          comp_el.time << {:id => ev_track.round.id, :result => ev_track.result, :points => 0}
+          comp_el.time << {:id => ev_track.round.id, :result => ev_track.result, :points => points}
         elsif ev_track.round.discipline == Discipline.distance
-          comp_el.distance << {:id => ev_track.round.id, :result => ev_track.result, :points => 0}
+          comp_el.distance << {:id => ev_track.round.id, :result => ev_track.result, :points => points}
         elsif ev_track.round.discipline == Discipline.speed
-          comp_el.speed << {:id => ev_track.round.id, :result => ev_track.result, :points => 0}
+          comp_el.speed << {:id => ev_track.round.id, :result => ev_track.result, :points => points}
         end
       end
       comp_el.total = 0
@@ -139,9 +142,26 @@ class Event < ActiveRecord::Base
     end
 
     # total calc and sorting
-    # time_rounds.each do |r|
-    #   max_val = advanced_comps.competitors.max_by { |x| }
-    # end
+    time_rounds_count = time_rounds.count
+    distance_rounds_count = distance_rounds.count
+    speed_rounds_count = distance_rounds.count
+
+    [advanced_comps, intermediate_comps, rookie_comps, tracksuit_comps].each do |comp_class|
+      comp_class.competitors.each do |comp|
+
+        if time_rounds_count != 0
+          comp.time_points = comp.time.map{ |round| round[:points] }.inject(0, :+) / time_rounds_count
+        end
+        if distance_rounds_count !=0
+          comp.distance_points = comp.distance.map{ |round| round[:points] }.inject(0, :+) / distance_rounds_count
+        end
+        if speed_rounds_count != 0
+          comp.speed_points = comp.speed.map{ |round| round[:points] }.inject(0, :+) / speed_rounds_count
+        end
+
+        comp.total = comp.time_points + comp.distance_points + comp.speed_points
+      end
+    end
 
     results_ary = []
     results_ary << advanced_comps
@@ -151,60 +171,6 @@ class Event < ActiveRecord::Base
 
     results_ary
 
-    # self.event_tracks.each do |x|
-    #   flat_results << {:class => ws_class(x.competitor), :competitor => x.competitor,
-    #                        :discipline => x.round.discipline, :round => x.round, :result => x.result}
-    # end
-    #
-    # results_by_class = {:advanced => [], :intermediate => []}
-    # results_by_class[:rookie] = []
-    # results_by_class[:tracksuit] = []
-    #
-    # self.competitors.each do |x|
-    #     results_by_class[ws_class x] << {:competitor => {:id => x.id, :name => x.user.name, :wingsuit => x.wingsuit.name},
-    #                                                           :time => [], :distance => [], :speed => [], :total => nil}
-    # end
-    #
-    # time_rounds.each do |x|
-    #   results_by_class.each do |key, klass|
-    #     klass.each do |competitor|
-    #       competitor[:time] << {:id => x.id, :name => x.name, :result => nil}
-    #     end
-    #   end
-    # end
-    #
-    # distance_rounds.each do |x|
-    #   results_by_class.each do |key, klass|
-    #     klass.each do |competitor|
-    #       competitor[:distance] << {:id => x.id, :name => x.name, :result => nil}
-    #     end
-    #   end
-    # end
-    #
-    # speed_rounds.each do |x|
-    #   results_by_class.each do |key, klass|
-    #     klass.each do |competitor|
-    #       competitor[:speed] << {:id => x.id, :name => x.name, :result => nil}
-    #     end
-    #   end
-    # end
-    #
-    # results_by_class.each do |key, klass|
-    #   klass.each do |competitor|
-    #     competitor[:time] << {:id => 'Total', :name => 'Total', :result => nil}
-    #     competitor[:distance] << {:id => 'Total', :name => 'Total', :result => nil}
-    #     competitor[:speed] << {:id => 'Total', :name => 'Total', :result => nil}
-    #   end
-    # end
-    #
-    # if self.merge_intermediate_and_rookie
-    #   results_by_class[:intermediate] += results_by_class[:rookie]
-    #   results_by_class.delete :rookie
-    # end
-    #
-    # #query_result.to_a.map(&:serializable_hash)
-    #
-    # results_by_class
   end
 
   def ws_class(competitor)
