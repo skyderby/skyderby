@@ -29,9 +29,9 @@ $(document).ready(function($) {
         }
     });
 
-    $('.wingsuit-event-autocomplete').autocomplete({
+    $('.wingsuit-autocomplete').autocomplete({
         serviceUrl: '/wingsuits/autocomplete',
-        params: {event_id: event_id},
+        params: {event_id: $('.wingsuit-autocomplete').data("event")},
         onSelect: function (suggestion) {
             $('#wingsuit-id').val(suggestion.data);
             $('#wingsuit-class').text(suggestion.ws_class);

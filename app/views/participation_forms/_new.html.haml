@@ -52,7 +52,7 @@
           .form-group
             = f.label :wingsuit_id, 'Вингсьют', class: 'col-sm-2 control-label'
             .col-sm-6
-              = text_field_tag 'Вингсьют', nil, :class => 'form-control wingsuit-event-autocomplete'
+              = text_field_tag 'Вингсьют', nil, :class => 'form-control wingsuit-autocomplete', :data => {:event => @event.id}
               = f.hidden_field :wingsuit_id, :id => 'wingsuit-id'
             .col-sm-4#wingsuit-class
 
