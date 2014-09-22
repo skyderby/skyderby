@@ -11,5 +11,5 @@
     - val.competitors.each_with_index do |comp, ind|
       %tr.clickableRow{:data => {:url => user_path(:id => comp.user_id)}}
         %td= ind + 1
-        %td= comp[:name] + ' (' + comp[:wingsuit] + ')'
+        %td= comp[:name]
         %td.text-info= comp[:wingsuit]
