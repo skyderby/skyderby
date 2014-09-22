@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140907205015) do
+ActiveRecord::Schema.define(version: 20140922182654) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -35,6 +35,14 @@ ActiveRecord::Schema.define(version: 20140907205015) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "dropzones", force: true do |t|
+    t.string "name"
+    t.string "name_eng"
+    t.float  "latitude",    limit: 24
+    t.float  "longitude",   limit: 24
+    t.text   "information"
   end
 
   create_table "event_documents", force: true do |t|
@@ -181,6 +189,7 @@ ActiveRecord::Schema.define(version: 20140907205015) do
     t.string   "vk_profile"
     t.integer  "jumps_last_3m"
     t.integer  "jumps_wingsuit_last_3m"
+    t.integer  "dropzone_id"
   end
 
   add_index "user_profiles", ["user_id"], name: "index_user_profiles_on_user_id", using: :btree
