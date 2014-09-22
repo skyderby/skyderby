@@ -1,28 +1,35 @@
 %table.table.table-bordered
   %thead
     %tr
-      %td{:rowspan => 2}= '№'
-      %td{:rowspan => 2}= 'Спортсмен / вингсьют'
+      %td{:rowspan => 3}= '№'
+      %td{:rowspan => 3}= 'Спортсмен / вингсьют'
       - if @event.time_rounds.count > 0
         %td{:colspan => (@event.time_rounds.count * 2 + 1)}= 'Time'
       - if @event.distance_rounds.count > 0
         %td{:colspan => (@event.distance_rounds.count * 2 + 1)}= 'Distance'
       - if @event.speed_rounds.count > 0
         %td{:colspan => (@event.speed_rounds.count * 2 + 1)}= 'Speed'
-      %td{:rowspan => 2}= 'Итого баллов'
+      %td{:rowspan => 3}= 'Итого баллов'
     %tr
       - @event.time_rounds.each do |r|
-        %td= r.name
-        %td= '%'
-      %td= '%'
+        %td{:colspan => 2}= r.name
+      %td{:rowspan => 2}= '%'
       - @event.distance_rounds.each do |r|
-        %td= r.name
-        %td= '%'
-      %td= '%'
+        %td{:colspan => 2}= r.name
+      %td{:rowspan => 2}= '%'
       - @event.speed_rounds.each do |r|
-        %td= r.name
+        %td{:colspan => 2}= r.name
+      %td{:rowspan => 2}= '%'
+    %tr
+      - @event.time_rounds.each do |r|
+        %td= '[сек]'
         %td= '%'
-      %td= '%'
+      - @event.distance_rounds.each do |r|
+        %td= '[м]'
+        %td= '%'
+      - @event.speed_rounds.each do |r|
+        %td= '[км/ч]'
+        %td= '%'
   %tbody
     - @results.each do |val|
       %tr
@@ -41,7 +48,7 @@
             - else
               %td= res[:result]
               %td= res[:points]
-          - if comp.time_points.nil?
+          - if comp.time_points.nil? || comp.time_points == 0
             %td= ' - '
           - else
             %td= comp.time_points
@@ -54,7 +61,7 @@
             - else
               %td= res[:result]
               %td= res[:points]
-          - if comp.distance_points.nil?
+          - if comp.distance_points.nil? || comp.distance_points == 0
             %td= ' - '
           - else
             %td= comp.distance_points
@@ -67,7 +74,7 @@
             - else
               %td= res[:result]
               %td= res[:points]
-          - if comp.speed_points.nil?
+          - if comp.speed_points.nil? || comp.speed_points == 0
             %td= ' - '
           - else
             %td= comp.speed_points
