@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140922182654) do
+ActiveRecord::Schema.define(version: 20140923064319) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -190,6 +190,7 @@ ActiveRecord::Schema.define(version: 20140922182654) do
     t.integer  "jumps_last_3m"
     t.integer  "jumps_wingsuit_last_3m"
     t.integer  "dropzone_id"
+    t.string   "homeDZ_name"
   end
 
   add_index "user_profiles", ["user_id"], name: "index_user_profiles_on_user_id", using: :btree

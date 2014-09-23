@@ -31,6 +31,9 @@
                 #{current_user.user_profile.jumps_wingsuit_last_year} /
                 #{current_user.user_profile.jumps_wingsuit_last_3m}
               %p
+                %strong= 'Домашняя ДЗ:'
+                =current_user.user_profile.homeDZ_name
+              %p
                 %strong= 'Рост/Вес/Размер футболки:'
                 #{current_user.user_profile.height} /
                 #{current_user.user_profile.weight} /

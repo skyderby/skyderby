@@ -29,6 +29,9 @@
           - ws_class = :intermediate
         #{pf.wingsuit.name} ( #{ws_class.to_s.capitalize} )
         %br
+        %strong= 'Домашняя ДЗ:'
+        =pf.user.user_profile.homeDZ_name
+        %br
         %strong= 'Рост/Вес:'
         #{pf.user.user_profile.height} / #{pf.user.user_profile.weight}
         %br

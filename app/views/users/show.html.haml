@@ -55,6 +55,9 @@
               #{@user.user_profile.jumps_wingsuit_last_year} /
               #{@user.user_profile.jumps_wingsuit_last_3m}
             %p
+              %strong= 'Домашняя ДЗ:'
+              =@user.user_profile.homeDZ_name
+            %p
               %strong= 'Профиль Facebook:'
               #{@user.user_profile.facebook_profile}
             %p
