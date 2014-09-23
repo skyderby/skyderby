@@ -7,6 +7,12 @@ class ParticipationFormsController < ApplicationController
     event = Event.find(params[:event_id])
     user = current_user
 
+    puts form_params[:wingsuit_id]
+    if form_params[:wingsuit_id].blank?
+      redirect_to :back, alert: 'Заявка не отправлена. В заявке необходимо выбрать вингсьют.'
+      return
+    end
+
     @participation_form = ParticipationForm.new :user => user, :event => event,
                        :wingsuit => Wingsuit.find(form_params[:wingsuit_id]),
                        :additional_info => form_params[:additional_info]
