@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
   end
 
   def completed_profile?
-    [:first_name, :last_name,
+    [:first_name, :last_name, :homeDZ_name,
       :jumps_total, :jumps_wingsuit,
       :jumps_last_year, :jumps_wingsuit_last_year,
       :jumps_last_3m, :jumps_wingsuit_last_3m, :phone_number,
