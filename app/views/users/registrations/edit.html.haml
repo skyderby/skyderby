@@ -67,6 +67,11 @@
       = f.number_field :jumps_wingsuit_last_3m, class: 'form-control'
 
   .form-group
+    = f.label 'Домашняя ДЗ', class: 'col-sm-2 control-label', :for => :homeDZ_name
+    .col-sm-6
+      = f.text_field :homeDZ_name, class: 'form-control'
+
+  .form-group
     = f.label 'Рост', class: 'col-sm-2 control-label', :for => :height
     .col-sm-6
       = f.number_field :height, class: 'form-control'
