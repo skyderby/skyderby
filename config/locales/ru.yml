@@ -17,7 +17,7 @@ ru:
       upload_track: "Загрузить трек"
       competitions: "Соревнования"
     footer:
-      owner: 'Александр Кунин'
+      owner: 'Александр Кунин, Александр Разорёнов, BWS'
   track_select:
     track_select:
       title: 'Выберите трек для загрузки'

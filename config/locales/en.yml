@@ -17,7 +17,7 @@ en:
       upload_track: "Upload track"
       competitions: "GPS Performance"
     footer:
-      owner: 'Aleksandr Kunin'
+      owner: 'Aleksandr Kunin, Aleksandr Razorenov, BWS'
   track_select:
     track_select:
       title: 'Select a track to upload'
