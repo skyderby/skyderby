@@ -10,7 +10,7 @@ class Ability
 
     if user
 
-      can [:update], Track, user: user
+      can [:update], Track, user: user  # Редактирование собственных треков
 
       if user.has_role? :admin
 
@@ -21,9 +21,7 @@ class Ability
       end
 
       if user.has_role? :create_events
-
         can [:create, :update], Event
-
       end
 
     end
