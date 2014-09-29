@@ -10,7 +10,7 @@ class Ability
 
     if user
 
-      can [:update, :destroy], Track, user: user
+      can [:update], Track, user: user
 
       if user.has_role? :admin
 
