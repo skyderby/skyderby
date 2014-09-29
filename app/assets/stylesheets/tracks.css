@@ -1,7 +1,4 @@
-/*
-  Place all the styles related to the matching controller here.
-  They will automatically be included in application.css.
-*/
+
 .min-val, .avg-val, .max-val, .val-unit {
   display: inline;
 }
@@ -24,4 +21,31 @@
 .glyphicon {
   margin-left:1px;
   margin-top:2px;
-}      
+}
+
+.range-selector {
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+  width: 97%
+}
+
+#glideratio_chart {
+  width:100%;
+  height:250px;
+}
+
+#speeds_chart {
+  width:100%;
+  height:400px;
+}
+
+#elevation_distance_chart {
+  width:100%;
+  height:400px;
+}
+
+#all_data_chart {
+  width:100%;
+  height:600px;
+}

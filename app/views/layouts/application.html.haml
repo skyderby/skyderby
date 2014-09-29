@@ -14,7 +14,8 @@
           .col-md-7
             - flash.each do |type, message|
               .alert.alert-dismissable.fade-in{:class => bootstrap_class_for(type)}
-                %button.close{:type => "button", :data => {:dismiss => "alert"}, :aria => {:hidden => "true"}}&times;
+                %button.close{:type => "button", :data => {:dismiss => "alert"}, :aria => {:hidden => "true"}}
+                  &times;
                 = message
 
       .container

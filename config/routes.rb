@@ -5,14 +5,19 @@ TrackingDerby::Application.routes.draw do
 
   scope '/(:locale)', locale: /#{I18n.available_locales.join('|')}/ do
 
-    match '/tracks', :to  => 'tracks#index', :as => :track, :via => :get
-    match '/track/:id', :to => 'tracks#show', :as => :show_track, :via => :get
-    match '/tracks/new', :to => 'tracks#new', :as => :new_track, :via => [:get, :post]
-
-    match '/select_track', :to => 'track_select#track_select', :as => :track_select, :via => [:post, :get]
-
+    # Статические страницы и маршруты
     match '/about', :to => 'static_pages#about', :as => :about, :via => :get
-    match '/upload_error', :to => 'static_pages#upload_error', :as => :upload_error, :via => :get
+
+    # Ресурсы
+
+    resources :tracks, :only => [:index, :show, :new, :destroy] do
+      collection do
+        post 'select'
+        get 'upload_error'
+      end
+    end
+    # Для обратной совместимости
+    match '/track/:id', :to => 'tracks#show', :via => :get
 
     resources :disciplines
 

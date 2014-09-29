@@ -19,12 +19,7 @@ en:
     footer:
       owner: 'Aleksandr Kunin, Aleksandr Razorenov, BWS'
   track_select:
-    track_select:
-      title: 'Select a track to upload'
-      number: '#'
-      name: 'Name'
-      elev: 'Elevation'
-      pt_cnt: 'Points count'
+
   tracks:
     index:
       title: 'Recently uploaded tracks:'
@@ -70,8 +65,18 @@ en:
       units_header: 'Units:'
       m_units_metric: 'Metric'
       m_units_imperial: 'Imperial'
-    edit:
-
+      delete_confirmation: "Are you sure you want delete this track?"
+      delete: "Delete"
+      manage: "Manage"
+    select:
+      title: 'Select a track to upload'
+      number: '#'
+      name: 'Name'
+      elev: 'Elevation'
+      pt_cnt: 'Points count'
+    upload_error:
+      header: "File upload error"
+      text: "Please, send file with track on ab@ipkunin.ru. I'll email you when find what cause the error."
   static_pages:
     index:
       title: "Fly! Compete! Win!"
@@ -98,6 +103,7 @@ en:
           file_ext_w2_html: "'Supported only csv and gpx formats'"
           file_size_w1_html: "'File size : '"
           file_size_w2_html: "'Max file size is 1 Mb'"
+        kind: "Kind of jump:"
       or: 'Or'
       events:
         title: 'Compete:'

@@ -1,7 +1,7 @@
 .modal.fade#newTrackModal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
   .modal-dialog
     .modal-content
-      = form_tag track_select_path, multipart: true, :class => 'form-horizontal', :role => 'form', :id => 'track_upload_form' do
+      = form_tag select_tracks_path, multipart: true, :class => 'form-horizontal', :role => 'form', :id => 'track_upload_form' do
         .modal-header
           %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
             %span{:aria => {:hidden => 'true'}}
@@ -27,6 +27,16 @@
               = text_field_tag 'location', nil, :class => 'form-control', :placeholder => t('static_pages.index.track_form.location_plh'), :type => 'text'
 
           .form-group
+            = label_tag 'kind', t('static_pages.index.track_form.kind'), :class => 'col-sm-3 control-label', :for => 'kind'
+            .btn-group.col-sm-9{:data => {:toggle => 'buttons'}}
+              %label.btn.btn-default.active
+                = radio_button_tag 'kind', '0', true
+                = 'Skydive'
+              %label.btn.btn-default
+                = radio_button_tag 'kind', '1'
+                = 'B.A.S.E'
+
+          .form-group
             = label_tag 'track_file', t('static_pages.index.track_form.file'), :class => 'col-sm-3 control-label', :for => 'track_file'
             .col-sm-9
               = file_field_tag 'track_file', {:onChange => 'checkFile(this)'}
@@ -45,4 +55,3 @@
         .modal-footer
           %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}='Отмена'
           = submit_tag t('static_pages.index.track_form.submit'), :class => 'btn btn-default'
-

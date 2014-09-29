@@ -9,7 +9,7 @@
         %td{:colspan => (@event.distance_rounds.count * 2 + 1)}= 'Distance'
       - if @event.speed_rounds.count > 0
         %td{:colspan => (@event.speed_rounds.count * 2 + 1)}= 'Speed'
-      %td{:rowspan => 3}= 'Итого баллов'
+      %td{:rowspan => 3}= 'Итого'
     %tr
       - @event.time_rounds.each do |r|
         %td{:colspan => 2}= r.name
@@ -43,39 +43,48 @@
           - @event.time_rounds.each do |r|
             - res = comp.time.find { |f| f[:id] == r.id }
             - if res.nil?
-              %td= ' - '
-              %td= ' - '
+              %td
+              %td
             - else
-              %td= res[:result]
-              %td= res[:points]
+              - link_to_track = track_path(:id => res[:track_id],
+                                                :f => @event.comp_range_from,
+                                                :t => @event.comp_range_to)
+              %td.clickableRow{:data => {:url => link_to_track}}= res[:result]
+              %td.text-center.clickableRow{:data => {:url => link_to_track}}= res[:points]
           - if comp.time_points.nil? || comp.time_points == 0
-            %td= ' - '
+            %td
           - else
             %td= comp.time_points
 
           - @event.distance_rounds.each do |r|
             - res = comp.distance.find { |f| f[:id] == r.id }
             - if res.nil?
-              %td= ' - '
-              %td= ' - '
+              %td
+              %td
             - else
-              %td= res[:result]
-              %td= res[:points]
+              - link_to_track = track_path(:id => res[:track_id],
+                                                :f => @event.comp_range_from,
+                                                :t => @event.comp_range_to)
+              %td.clickableRow{:data => {:url => link_to_track}}= res[:result]
+              %td.text-center.clickableRow{:data => {:url => link_to_track}}= res[:points]
           - if comp.distance_points.nil? || comp.distance_points == 0
-            %td= ' - '
+            %td
           - else
             %td= comp.distance_points
 
           - @event.speed_rounds.each do |r|
             - res = comp.speed.find { |f| f[:id] == r.id }
             - if res.nil?
-              %td= ' - '
-              %td= ' - '
+              %td
+              %td
             - else
-              %td= res[:result]
-              %td= res[:points]
+              - link_to_track = track_path(:id => res[:track_id],
+                                                :f => @event.comp_range_from,
+                                                :t => @event.comp_range_to)
+              %td.clickableRow{:data => {:url => link_to_track}}= res[:result]
+              %td.text-center.clickableRow{:data => {:url => link_to_track}}= res[:points]
           - if comp.speed_points.nil? || comp.speed_points == 0
-            %td= ' - '
+            %td
           - else
             %td= comp.speed_points
 

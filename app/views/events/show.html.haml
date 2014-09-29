@@ -19,13 +19,33 @@
           %button.btn.btn-danger.event-request.disabled= 'Заявка отклонена'
 
         - else
+          - if @event.reg_starts && @event.reg_ends
+            - if Time.zone.now > @event.reg_starts && Time.zone.now < @event.reg_ends
+              %button.btn.btn-success.event-request{:data => {:toggle => 'modal', :target => '#newParticipationFormModal'}}
+                %i.fa.fa-plus
+                = 'Заявка на участие'
+            - elsif Time.zone.now > @event.reg_ends
+              %button.btn.btn-default.event-request.disabled= 'Регистрация завершена'
+            - else
+              %button.btn.btn-default.event-request.disabled= 'Регистрация еще не началась'
+          - else
+            %button.btn.btn-success.event-request{:data => {:toggle => 'modal', :target => '#newParticipationFormModal'}}
+              %i.fa.fa-plus
+              = 'Заявка на участие'
+      - else
+        - if @event.reg_starts && @event.reg_ends
+          - if Time.zone.now > @event.reg_starts && Time.zone.now < @event.reg_ends
+            %button.btn.btn-success.event-request{:data => {:toggle => 'modal', :target => '#newParticipationFormModal'}}
+              %i.fa.fa-plus
+              = 'Заявка на участие'
+          - elsif Time.zone.now > @event.reg_ends
+            %button.btn.btn-default.event-request.disabled= 'Регистрация завершена'
+          - else
+            %button.btn.btn-default.event-request.disabled= 'Регистрация еще не началась'
+        - else
           %button.btn.btn-success.event-request{:data => {:toggle => 'modal', :target => '#newParticipationFormModal'}}
             %i.fa.fa-plus
             = 'Заявка на участие'
-      - else
-        %button.btn.btn-success.event-request{:data => {:toggle => 'modal', :target => '#newParticipationFormModal'}}
-          %i.fa.fa-plus
-          = 'Заявка на участие'
 
 - if current_user && current_user.completed_profile?
   = render :partial => 'participation_forms/new'

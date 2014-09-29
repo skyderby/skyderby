@@ -12,7 +12,7 @@
       %th=t '.uploaded_at'
   %tbody
     - @tracks.reverse_each do |track|
-      %tr.clickableRow{:data => {:url => show_track_path(:id => track.id)}}
+      %tr.clickableRow{:data => {:url => track_path(:id => track.id)}}
         %td.text-info= track.id
         %td.text-info= track.name
         %td.text-info= track.suit

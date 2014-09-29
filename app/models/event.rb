@@ -49,6 +49,10 @@ class Event < ActiveRecord::Base
 
     end
 
+    [advanced_comps, intermediate_comps, rookie_comps, tracksuit_comps].each do |comp_class|
+      comp_class.competitors.sort_by! { |x| x.name.downcase }
+    end
+
     results_ary = []
     results_ary << advanced_comps
     results_ary << intermediate_comps
@@ -116,11 +120,20 @@ class Event < ActiveRecord::Base
         points = (ev_track.result / max['max_result'] * 100).to_i unless max.nil?
 
         if ev_track.round.discipline == Discipline.time
-          comp_el.time << {:id => ev_track.round.id, :result => ev_track.result, :points => points}
+          comp_el.time << {:id => ev_track.round.id,
+                           :result => ev_track.result,
+                           :points => points,
+                           :track_id => ev_track.track_id}
         elsif ev_track.round.discipline == Discipline.distance
-          comp_el.distance << {:id => ev_track.round.id, :result => ev_track.result, :points => points}
+          comp_el.distance << {:id => ev_track.round.id,
+                               :result => ev_track.result.to_i,
+                               :points => points,
+                               :track_id => ev_track.track_id}
         elsif ev_track.round.discipline == Discipline.speed
-          comp_el.speed << {:id => ev_track.round.id, :result => ev_track.result, :points => points}
+          comp_el.speed << {:id => ev_track.round.id,
+                            :result => ev_track.result.to_i,
+                            :points => points,
+                            :track_id => ev_track.track_id}
         end
       end
       comp_el.total = 0
@@ -161,6 +174,8 @@ class Event < ActiveRecord::Base
 
         comp.total = comp.time_points + comp.distance_points + comp.speed_points
       end
+
+      comp_class.competitors.sort_by! { |x| -x.total }
     end
 
     results_ary = []

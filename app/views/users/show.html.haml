@@ -92,7 +92,7 @@
                 %th= 'Дата загрузки'
             %tbody
               - @user.tracks.each do |track|
-                %tr.clickableRow{:data => {:url => show_track_path(:id => track.id)}}
+                %tr.clickableRow{:data => {:url => track_path(:id => track.id)}}
                   %td.text-info= track.id
                   %td.text-info= track.suit
                   %td.text-info= track.location

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140923064319) do
+ActiveRecord::Schema.define(version: 20140928172855) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -82,6 +82,8 @@ ActiveRecord::Schema.define(version: 20140923064319) do
     t.text     "dz_info"
     t.boolean  "merge_intermediate_and_rookie"
     t.boolean  "allow_tracksuits"
+    t.date     "reg_starts"
+    t.date     "reg_ends"
   end
 
   create_table "invitations", force: true do |t|
@@ -156,6 +158,7 @@ ActiveRecord::Schema.define(version: 20140923064319) do
     t.text     "comment"
     t.string   "location"
     t.integer  "user_id"
+    t.integer  "kind",          default: 0
   end
 
   add_index "tracks", ["user_id"], name: "index_tracks_on_user_id", using: :btree

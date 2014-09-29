@@ -6,10 +6,13 @@ class Ability
     user ||= User.new # guest user (not logged in)
 
     can :read, :all
+    can :create, Track
 
     if user
 
-      if (user.has_role? :admin)
+      can [:update, :destroy], Track, user: user
+
+      if user.has_role? :admin
 
         can :access, :rails_admin       # only allow admin users to access Rails Admin
         can :dashboard                  # allow access to dashboard
