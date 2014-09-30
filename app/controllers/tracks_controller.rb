@@ -4,7 +4,7 @@ class TracksController < ApplicationController
   before_action :set_track, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tracks = Track.all
+    @tracks = Track.all.includes(:wingsuit)
   end
 
   def show
@@ -27,17 +27,20 @@ class TracksController < ApplicationController
     authorize! :create, Track
 
     flight_data = Rails.cache.read(params[:cache_id])
-    
+
+    wingsuit = nil
+    wingsuit = Wingsuit.find(flight_data[:ws_id]) if flight_data[:ws_id].present?
+
     @track = Track.new :trackfile => {:data => flight_data[:data], :ext => flight_data[:ext]},
                         :track_index => params[:index], :name => flight_data[:name],
                         :suit => flight_data[:suit], :location => flight_data[:location],
                         :kind => flight_data[:kind], :comment => flight_data[:comment],
-                        :user => current_user
+                        :user => current_user, :wingsuit => wingsuit
 
     if @track.save 
-      redirect_to :action => 'show', :id => @track.id
+      redirect_to track_path(@track.id)
     else
-      redirect_to :controller => 'tracks', :action => 'upload_error'
+      redirect_to upload_error_tracks_path
     end
 
   end
@@ -87,7 +90,7 @@ class TracksController < ApplicationController
     end
   end
 
-  def select
+  def choose
     authorize! :create, Track
 
     require 'nokogiri'
@@ -102,8 +105,6 @@ class TracksController < ApplicationController
 
     @tracklist = []
     track_file = param_file.read
-
-    content_type = param_file.content_type
 
     filename =  param_file.original_filename
     ext = filename.downcase[filename.length - 4..filename.length-1]
@@ -175,7 +176,7 @@ class TracksController < ApplicationController
     flight_data = {:data => track_file, :ext => ext,
                    :name => params[:name], :suit => params[:suit],
                    :location => params[:location], :kind => params[:kind].to_i,
-                   :comment => params[:comment]}
+                   :comment => params[:comment], :ws_id => params[:wingsuit_id]}
 
     @key = SecureRandom.uuid.to_s
     Rails.cache.write(@key, flight_data)

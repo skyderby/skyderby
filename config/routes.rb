@@ -12,7 +12,7 @@ TrackingDerby::Application.routes.draw do
 
     resources :tracks, :only => [:index, :show, :new, :destroy] do
       collection do
-        post 'select'
+        post 'choose'
         get 'upload_error'
       end
     end

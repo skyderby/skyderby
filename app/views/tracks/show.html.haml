@@ -728,7 +728,7 @@
     .col-md-11
       %h1
         = "#{@track.name} | #{t '.title_track'} ##{@track.id}"
-        %small="#{t '.title_suit'} : #{@track.suit}"
+        %small="#{t '.title_suit'} : #{@track.wingsuit.present? ? @track.wingsuit.name : @track.suit}"
 
     .dropdown-container.col-md-1
       .dropdown

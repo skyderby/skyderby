@@ -12,7 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap-datepicker
+//= require bootstrap-datepicker/core
+//= require bootstrap-datepicker/locales/bootstrap-datepicker.ru.js
 //= require twitter/bootstrap
 //= require_tree .
 
@@ -29,12 +30,21 @@ $(document).ready(function($) {
         }
     });
 
-    $('.wingsuit-autocomplete').autocomplete({
+    var ws_field = $('.wingsuit-autocomplete');
+    ws_field.autocomplete({
         serviceUrl: '/wingsuits/autocomplete',
-        params: {event_id: $('.wingsuit-autocomplete').data("event")},
+        params: {event_id: ws_field.data("event")},
         onSelect: function (suggestion) {
-            $('#wingsuit-id').val(suggestion.data);
-            $('#wingsuit-class').text(suggestion.ws_class);
+
+            var ws_id_field = $('#wingsuit-id');
+            if (ws_id_field !== 'undefined') {
+                ws_id_field.val(suggestion.data);
+            }
+
+            var ws_class_field = $('#wingsuit-class');
+            if (ws_class_field !== 'undefined'){
+                ws_class_field.text(suggestion.ws_class);
+            }
         },
         categories: true
     });

@@ -5,6 +5,8 @@ class Track < ActiveRecord::Base
   attr_accessor :trackfile, :track_index
 
   belongs_to :user
+  belongs_to :wingsuit
+
   has_one :event_track
 
   has_many :tracksegments, :dependent => :destroy
