@@ -115,12 +115,14 @@ ru:
           ends: 'Дата окончания'
         form:
           title: 'Новое мероприятие'
-          name: 'Имя'
-          place: 'Локация'
-          start_at: 'Период с'
-          end_at: 'по'
-          range_from: 'Соревновательный диапазон с'
-          range_to: 'по'
+          name: 'Имя:'
+          place: 'Локация:'
+          start_at: 'Период:'
+          end_at: ' - '
+          range_from: 'Соревновательный диапазон:'
+          range_to: ' - '
+          reg_start_at: "Регистрация:"
+          reg_end_at: "-"
         completed: "Прошедшие события:"
     about:
       comp_t: 'Используемые компоненты:'

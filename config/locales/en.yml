@@ -117,12 +117,14 @@ en:
           ends: 'Ends'
         form:
           title: 'New event'
-          name: 'Name'
-          place: 'Place'
-          start_at: 'Period from'
-          end_at: 'to'
-          range_from: 'Competition range from'
-          range_to: 'to'
+          name: 'Name:'
+          place: 'Place:'
+          start_at: 'Period:'
+          reg_start_at: 'Registration:'
+          reg_end_at: ' - '
+          end_at: ' - '
+          range_from: 'Competition range:'
+          range_to: ' - '
         completed: "Completed events:"
     about:
       comp_t: 'Application works on:'
