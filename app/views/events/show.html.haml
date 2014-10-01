@@ -2,7 +2,6 @@
   .page-header.col-md-12
     .col-md-10
       %h1
-        = 'Событие:'
         = @event.name
         - if Time.zone.now < @event.start_at
           %small= "До начала #{(@event.start_at - Time.zone.now).to_i / 1.day} дн."
@@ -10,42 +9,42 @@
     .col-md-2
       - if current_user
         - if current_user.pf_status(@event) == 'active'
-          %button.btn.btn-default.event-request.disabled= 'Заявка в обработке'
+          %button.btn.btn-default.event-request.disabled= t('events.show.pf.in_process')
 
         - elsif current_user.pf_status(@event) == 'approved'
-          %button.btn.btn-success.event-request.disabled= 'Заявка подтверждена'
+          %button.btn.btn-success.event-request.disabled= t('events.show.pf.approved')
 
         - elsif current_user.pf_status(@event) == 'declined'
-          %button.btn.btn-danger.event-request.disabled= 'Заявка отклонена'
+          %button.btn.btn-danger.event-request.disabled= t('events.show.pf.declined')
 
         - else
           - if @event.reg_starts && @event.reg_ends
             - if Time.zone.now > @event.reg_starts && Time.zone.now < @event.reg_ends
               %button.btn.btn-success.event-request{:data => {:toggle => 'modal', :target => '#newParticipationFormModal'}}
                 %i.fa.fa-plus
-                = 'Заявка на участие'
+                = t('events.show.pf.title')
             - elsif Time.zone.now > @event.reg_ends
-              %button.btn.btn-default.event-request.disabled= 'Регистрация завершена'
+              %button.btn.btn-default.event-request.disabled= t('events.show.reg.finished')
             - else
-              %button.btn.btn-default.event-request.disabled= 'Регистрация еще не началась'
+              %button.btn.btn-default.event-request.disabled= t('events.show.reg.not_starts')
           - else
             %button.btn.btn-success.event-request{:data => {:toggle => 'modal', :target => '#newParticipationFormModal'}}
               %i.fa.fa-plus
-              = 'Заявка на участие'
+              = t('events.show.pf.title')
       - else
         - if @event.reg_starts && @event.reg_ends
           - if Time.zone.now > @event.reg_starts && Time.zone.now < @event.reg_ends
             %button.btn.btn-success.event-request{:data => {:toggle => 'modal', :target => '#newParticipationFormModal'}}
               %i.fa.fa-plus
-              = 'Заявка на участие'
+              = t('events.show.pf.title')
           - elsif Time.zone.now > @event.reg_ends
-            %button.btn.btn-default.event-request.disabled= 'Регистрация завершена'
+            %button.btn.btn-default.event-request.disabled= t('events.show.reg.finished')
           - else
-            %button.btn.btn-default.event-request.disabled= 'Регистрация еще не началась'
+            %button.btn.btn-default.event-request.disabled= t('events.show.reg.not_starts')
         - else
           %button.btn.btn-success.event-request{:data => {:toggle => 'modal', :target => '#newParticipationFormModal'}}
             %i.fa.fa-plus
-            = 'Заявка на участие'
+            = t('events.show.pf.title')
 
 - if current_user && current_user.completed_profile?
   = render :partial => 'participation_forms/new'
@@ -57,18 +56,18 @@
 .tabbable
   %ul.nav.nav-tabs#tabs{:data => {:tabs => 'tabs'}}
     %li
-      %a{:href => '#results', :data => {:toggle => 'tab'}}= 'Результаты'
+      %a{:href => '#results', :data => {:toggle => 'tab'}}= t('events.show.results')
     %li.active
-      %a{:href => '#overview', :data => {:toggle => 'tab'}}= 'Информация'
+      %a{:href => '#overview', :data => {:toggle => 'tab'}}= t('events.show.overview')
     %li
-      %a{:href => '#docs', :data => {:toggle => 'tab'}}= 'Документы'
+      %a{:href => '#docs', :data => {:toggle => 'tab'}}= t('events.show.docs')
     %li
-      %a{:href => '#dz_info', :data => {:toggle => 'tab'}}= 'Информация об аэродроме'
+      %a{:href => '#dz_info', :data => {:toggle => 'tab'}}= t('events.show.dz_info')
     %li
-      %a{:href => '#competitors', :data => {:toggle => 'tab'}}= 'Участники'
+      %a{:href => '#competitors', :data => {:toggle => 'tab'}}= t('events.show.competitors')
     - if current_user && current_user.event_admin?(@event)
       %li
-        %a{:href => '#admin', :data => {:toggle => 'tab'}}= 'Управление'
+        %a{:href => '#admin', :data => {:toggle => 'tab'}}= t('events.show.managing')
 
   .tab-content
     .tab-pane#results

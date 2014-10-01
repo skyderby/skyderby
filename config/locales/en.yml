@@ -109,7 +109,7 @@ en:
         title: 'Compete:'
         coming: 'Coming soon'
         create: 'Create event'
-        future: 'Future events'
+        future: 'Future events:'
         betatestersonly: 'Create new event allowed only for beta testing participants.'
         table:
           event: 'Event'
@@ -143,3 +143,19 @@ en:
     kmh: 'km/h'
     kmh_html: "'km/h'"
     mph_html: "'mph'"
+  events:
+    show:
+      pf:
+        in_process: "In process"
+        approved: "Approved"
+        declined: "Declined"
+        title: "Participation form"
+      reg:
+        finished: "Registration finished"
+        not_starts: "Registration isn't starts yet"
+      results: "Scoreboard"
+      overview: "Overview"
+      docs: "Documents"
+      dz_info: "About DZ"
+      competitors: "Competitors"
+      managing: "Управление"

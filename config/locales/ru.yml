@@ -142,3 +142,19 @@ ru:
     kmh_html: "'км/ч'"
     mph_html: "'миль/ч'"
 
+  events:
+    show:
+      pf:
+        in_process: "Заявка в обработке"
+        approved: "Заявка подтверждена"
+        declined: "Заявка отклонена"
+        title: "Заявка на участие"
+      reg:
+        not_starts: "Регистрация еще не началась"
+        finished: "Регистрация завершена"
+      results: "Результаты"
+      overview: "Информация"
+      docs: "Документы"
+      dz_info: "Информация об аэродроме"
+      competitors: "Участники"
+      managing: "Управление"
