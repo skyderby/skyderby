@@ -8,6 +8,9 @@ class StaticPagesController < ApplicationController
     @coming_events = Event.limit(5).order('start_at asc')
   end
 
+  def terms
+  end
+
   def about
   end
 

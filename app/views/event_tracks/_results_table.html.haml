@@ -1,35 +1,35 @@
 %table.table.table-bordered
   %thead
     %tr
-      %td{:rowspan => 3}= '№'
+      %td.text-center{:rowspan => 3}= '№'
       %td{:rowspan => 3}= 'Спортсмен / вингсьют'
       - if @event.time_rounds.count > 0
-        %td{:colspan => (@event.time_rounds.count * 2 + 1)}= 'Time'
+        %td.text-center{:colspan => (@event.time_rounds.count * 2 + 1)}= 'Time'
       - if @event.distance_rounds.count > 0
-        %td{:colspan => (@event.distance_rounds.count * 2 + 1)}= 'Distance'
+        %td.text-center{:colspan => (@event.distance_rounds.count * 2 + 1)}= 'Distance'
       - if @event.speed_rounds.count > 0
-        %td{:colspan => (@event.speed_rounds.count * 2 + 1)}= 'Speed'
-      %td{:rowspan => 3}= 'Итого'
+        %td.text-center{:colspan => (@event.speed_rounds.count * 2 + 1)}= 'Speed'
+      %td.text-center{:rowspan => 3}= 'Итого'
     %tr
       - @event.time_rounds.each do |r|
-        %td{:colspan => 2}= r.name
-      %td{:rowspan => 2}= '%'
+        %td.text-center{:colspan => 2}= r.name
+      %td.text-center{:rowspan => 2}= '%'
       - @event.distance_rounds.each do |r|
-        %td{:colspan => 2}= r.name
-      %td{:rowspan => 2}= '%'
+        %td.text-center{:colspan => 2}= r.name
+      %td.text-center{:rowspan => 2}= '%'
       - @event.speed_rounds.each do |r|
-        %td{:colspan => 2}= r.name
-      %td{:rowspan => 2}= '%'
+        %td.text-center{:colspan => 2}= r.name
+      %td.text-center{:rowspan => 2}= '%'
     %tr
       - @event.time_rounds.each do |r|
-        %td= '[сек]'
-        %td= '%'
+        %td.text-center= '[сек]'
+        %td.text-center= '%'
       - @event.distance_rounds.each do |r|
-        %td= '[м]'
-        %td= '%'
+        %td.text-center= '[м]'
+        %td.text-center= '%'
       - @event.speed_rounds.each do |r|
-        %td= '[км/ч]'
-        %td= '%'
+        %td.text-center= '[км/ч]'
+        %td.text-center= '%'
   %tbody
     - @results.each do |val|
       %tr
@@ -37,7 +37,7 @@
         %td.text-danger.bg-warning{:colspan => total_columns}= val.ws_class.to_s.capitalize
       - val.competitors.each_with_index do |comp, ind|
         %tr
-          %td= ind + 1
+          %td= "#{ind + 1}."
           %td= comp[:name] + ' (' + comp[:wingsuit] + ')'
 
           - @event.time_rounds.each do |r|

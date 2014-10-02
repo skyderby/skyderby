@@ -723,82 +723,83 @@
 
   });
 
-.page-header
+.container.top-buffer
+  .page-header
+    .row
+      .col-md-11
+        %h1
+          = "#{@track.name} | #{t '.title_track'} ##{@track.id}"
+          %small="#{t '.title_suit'} : #{@track.wingsuit.present? ? @track.wingsuit.name : @track.suit}"
+
+      .dropdown-container.col-md-1
+        .dropdown
+          %button.btn.btn-default.dropdown-toggle#dropdownMenu1{:type => 'button', :data => {:toggle => 'dropdown'}}
+            %i.fa.fa-cog
+          %ul.dropdown-menu.dropdown-menu-right{:role => 'menu', :aria => {:labelledby => 'dropdownMenu1'}}
+            %li.dropdown-header{:role => 'presentation'}=t '.menu_header'
+            %li#li_toggle_multi{:role => 'presentation'}
+              %a#toggle_multi{:role => 'menuitem', :tabindex => '-1', :href=>'#'}=t '.menu_sep'
+            %li#li_toggle_single{:role => 'presentation'}
+              %a#toggle_single{:role => 'menuitem', :tabindex => '-1', :href => '#'}=t '.menu_one'
+            %li.dropdown-header{:role => 'presentation'}=t '.units_header'
+            %li#li_toggle_metric{:role => 'presentation'}
+              %a#toggle_metric{:role => 'menuitem', :tabindex => '-1', :href => '#'}=t '.m_units_metric'
+            %li#li_toggle_imperial{:role => 'presentation'}
+              %a#toggle_imperial{:role => 'menuitem', :tabindex => '-1', :href => '#'}=t '.m_units_imperial'
+            - if user_signed_in? && (current_user == @track.user || (can? :manage, :tracks))
+              %li.dropdown-header{:role => 'presentation'}= t('tracks.show.manage')
+              %li{:role => 'presentation'}
+                = link_to t('tracks.show.delete'), @track, :method => :delete, :data => {:confirm => t('.delete_confirmation')}, :role => 'menuitem'
+
   .row
-    .col-md-11
-      %h1
-        = "#{@track.name} | #{t '.title_track'} ##{@track.id}"
-        %small="#{t '.title_suit'} : #{@track.wingsuit.present? ? @track.wingsuit.name : @track.suit}"
+    .col-md-3
+      %dl.dl-horizontal
+        %dt
+          %strong=t '.dt_dist'
+        %dd#dd_distance
+        %dt
+          %strong=t '.dt_elev'
+        %dd#dd_elevation
+        %dt
+          %strong=t '.dt_dur'
+        %dd#dd_fl_time
+    .col-md-5
+      %dl.dl-horizontal
+        %dt.d-term
+          %strong=t '.dt_hspd'
+        %dd#dd_h_speed
+          .min-val#p_min_h_speed
+          .avg-val#p_avg_h_speed
+          .max-val#p_max_h_speed
+          .val-unit=t 'units.kmh'
+        %dt.d-term
+          %strong=t '.dt_vspd'
+        %dd#dd_v_speed
+          %p.min-val#p_min_v_speed
+          %p.avg-val#p_avg_v_speed
+          %p.max-val#p_max_v_speed
+          %p.val-unit=t 'units.kmh'
+        %dt
+          %strong=t '.dt_gr'
+        %dd#dd_gr
+          %p.min-val#p_min_gr
+          %p.avg-val#p_avg_gr
+          %p.max-val#p_max_gr
 
-    .dropdown-container.col-md-1
-      .dropdown
-        %button.btn.btn-default.dropdown-toggle#dropdownMenu1{:type => 'button', :data => {:toggle => 'dropdown'}}
-          %i.fa.fa-cog
-        %ul.dropdown-menu.dropdown-menu-right{:role => 'menu', :aria => {:labelledby => 'dropdownMenu1'}}
-          %li.dropdown-header{:role => 'presentation'}=t '.menu_header'
-          %li#li_toggle_multi{:role => 'presentation'}
-            %a#toggle_multi{:role => 'menuitem', :tabindex => '-1', :href=>'#'}=t '.menu_sep'
-          %li#li_toggle_single{:role => 'presentation'}
-            %a#toggle_single{:role => 'menuitem', :tabindex => '-1', :href => '#'}=t '.menu_one'
-          %li.dropdown-header{:role => 'presentation'}=t '.units_header'
-          %li#li_toggle_metric{:role => 'presentation'}
-            %a#toggle_metric{:role => 'menuitem', :tabindex => '-1', :href => '#'}=t '.m_units_metric'
-          %li#li_toggle_imperial{:role => 'presentation'}
-            %a#toggle_imperial{:role => 'menuitem', :tabindex => '-1', :href => '#'}=t '.m_units_imperial'
-          - if user_signed_in? && (current_user == @track.user || (can? :manage, :tracks))
-            %li.dropdown-header{:role => 'presentation'}= t('tracks.show.manage')
-            %li{:role => 'presentation'}
-              = link_to t('tracks.show.delete'), @track, :method => :delete, :data => {:confirm => t('.delete_confirmation')}, :role => 'menuitem'
+  .top-buffer-10
 
-.row
-  .col-md-3
-    %dl.dl-horizontal
-      %dt
-        %strong=t '.dt_dist'
-      %dd#dd_distance
-      %dt
-        %strong=t '.dt_elev'
-      %dd#dd_elevation
-      %dt
-        %strong=t '.dt_dur'
-      %dd#dd_fl_time
-  .col-md-5
-    %dl.dl-horizontal
-      %dt.d-term
-        %strong=t '.dt_hspd'
-      %dd#dd_h_speed
-        .min-val#p_min_h_speed
-        .avg-val#p_avg_h_speed
-        .max-val#p_max_h_speed
-        .val-unit=t 'units.kmh'
-      %dt.d-term
-        %strong=t '.dt_vspd'
-      %dd#dd_v_speed
-        %p.min-val#p_min_v_speed
-        %p.avg-val#p_avg_v_speed
-        %p.max-val#p_max_v_speed
-        %p.val-unit=t 'units.kmh'
-      %dt
-        %strong=t '.dt_gr'
-      %dd#dd_gr
-        %p.min-val#p_min_gr
-        %p.avg-val#p_avg_gr
-        %p.max-val#p_max_gr
+  .row#content_row
+    .range-selector
+      %input#range_selector{:type => 'text', :name => 'example_name' , :value => ''}
 
-.top-buffer-10
+  #multiple-charts
+    #glideratio_chart
+    #speeds_chart
+    #elevation_distance_chart
 
-.row#content_row
-  .range-selector
-    %input#range_selector{:type => 'text', :name => 'example_name' , :value => ''}
+  #single-chart
+    #all_data_chart
 
-#multiple-charts
-  #glideratio_chart
-  #speeds_chart
-  #elevation_distance_chart
-
-#single-chart
-  #all_data_chart
-
-%blockquote
-  %small= @track.comment
+  %blockquote
+    %small= @track.comment
 

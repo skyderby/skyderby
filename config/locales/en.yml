@@ -1,7 +1,7 @@
 en:
   application:
     header:
-      home: 'Home'
+      home: 'SKYDERBY'
       tracks: 'Tracks'
       about: 'Algorithms'
       sign_in: 'Sign in'
@@ -17,7 +17,7 @@ en:
       upload_track: "Upload track"
       competitions: "GPS Performance"
     footer:
-      owner: 'Aleksandr Kunin, Aleksandr Razorenov, BWS'
+      owner: 'Aleksandr Kunin'
   track_select:
 
   tracks:

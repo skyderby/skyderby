@@ -1,7 +1,7 @@
 ru:
   application:
     header:
-      home: 'Главная'
+      home: 'SKY DERBY'
       tracks: 'Список треков'
       about: 'Алгоритмы'
       sign_in: 'Войти'
@@ -17,7 +17,7 @@ ru:
       upload_track: "Загрузить трек"
       competitions: "Соревнования"
     footer:
-      owner: 'Александр Кунин, Александр Разорёнов, BWS'
+      owner: 'Александр Кунин'
   tracks:
     index:
       title: 'Загруженные треки:'

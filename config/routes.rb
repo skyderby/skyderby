@@ -7,6 +7,7 @@ TrackingDerby::Application.routes.draw do
 
     # Статические страницы и маршруты
     match '/about', :to => 'static_pages#about', :as => :about, :via => :get
+    match '/terms', :to => 'static_pages#terms', :as => :terms, :via => :get
 
     # Ресурсы
 

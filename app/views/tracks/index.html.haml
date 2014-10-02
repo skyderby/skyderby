@@ -1,21 +1,22 @@
-.page-header
-  %h1=t '.title'
+.container.top-buffer
+  .page-header
+    %h1=t '.title'
 
-%table.table.table-hover
-  %thead
-    %tr
-      %th=t '.number'
-      %th=t '.name'
-      %th=t '.suit'
-      %th=t '.place'
-      %th=t '.comment'
-      %th=t '.uploaded_at'
-  %tbody
-    - @tracks.reverse_each do |track|
-      %tr.clickableRow{:data => {:url => track_path(:id => track.id)}}
-        %td.text-info= track.id
-        %td.text-info= track.name
-        %td.text-info= track.wingsuit.present? ? track.wingsuit.name : track.suit
-        %td.text-info= track.location
-        %td.text-muted= track.comment
-        %td.text-info= track.created_at
+  %table.table.table-hover
+    %thead
+      %tr
+        %th=t '.number'
+        %th=t '.name'
+        %th=t '.suit'
+        %th=t '.place'
+        %th=t '.comment'
+        %th=t '.uploaded_at'
+    %tbody
+      - @tracks.reverse_each do |track|
+        %tr.clickableRow{:data => {:url => track_path(:id => track.id)}}
+          %td.text-info= track.id
+          %td.text-info= track.name
+          %td.text-info= track.wingsuit.present? ? track.wingsuit.name : track.suit
+          %td.text-info= track.location
+          %td.text-muted= track.comment
+          %td.text-info= track.created_at

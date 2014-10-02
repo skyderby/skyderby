@@ -9,16 +9,16 @@
     #wrap
       = render 'layouts/header'
 
-      .container
-        .row
-          .col-md-7
-            - flash.each do |type, message|
-              .alert.alert-dismissable.fade-in{:class => bootstrap_class_for(type)}
-                %button.close{:type => 'button', :data => {:dismiss => 'alert'}, :aria => {:hidden => 'true'}}
-                  &times;
-                = message
+      - if flash.count > 0
+        .container
+          .row
+            .col-md-7
+              - flash.each do |type, message|
+                .alert.alert-dismissable.fade-in{:class => bootstrap_class_for(type)}
+                  %button.close{:type => 'button', :data => {:dismiss => 'alert'}, :aria => {:hidden => 'true'}}
+                    &times;
+                  = message
 
-      .container
-        = yield
+      = yield
 
     = render 'layouts/footer'
