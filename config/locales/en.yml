@@ -1,7 +1,7 @@
 en:
   application:
     header:
-      home: 'SKYDERBY'
+      home: 'SKY DERBY'
       tracks: 'Tracks'
       about: 'Algorithms'
       sign_in: 'Sign in'
@@ -18,6 +18,7 @@ en:
       competitions: "GPS Performance"
     footer:
       owner: 'Aleksandr Kunin'
+      fb_page: "Application's facebook page"
   track_select:
 
   tracks:
@@ -127,6 +128,8 @@ en:
           range_from: 'Competition range:'
           range_to: ' - '
         completed: "Completed events:"
+      desc: "GPS Tracks analyzer and GPS perfomance competition front-end"
+      goto_event: "Go to event >>"
     about:
       comp_t: 'Application works on:'
       comp_lng: 'Language and backend framework:'
@@ -151,6 +154,8 @@ en:
         approved: "Approved"
         declined: "Declined"
         title: "Participation form"
+        pending: "Pending participation forms"
+        completed: "Completed participation forms"
       reg:
         finished: "Registration finished"
         not_starts: "Registration isn't starts yet"
@@ -159,4 +164,27 @@ en:
       docs: "Documents"
       dz_info: "About DZ"
       competitors: "Competitors"
-      managing: "Управление"
+      managing: "Managing"
+      class_comp: "Class / Competitor"
+      pfs: "Part. forms"
+  pf:
+    jumps: "Jumps total/in 12 m/in 3 m:"
+    ws_jumps: "Wingsuit jumps total/in 12 m/in 3m:"
+    ws_class: "Wingsuit/Class"
+    home_dz: "Home DZ:"
+    height_weight: "Height/Weight:"
+    shirt_size: "T-Shirt size:"
+    phone: "Contact phone:"
+    email: "Contact email:"
+    fb: "Facebook profile:"
+    vk: "VK.com profile:"
+    additional_info: "Additional info:"
+    approve: "Approve"
+    decline: "Decline"
+  rounds:
+    new: "New round"
+    name: "Round's name:"
+    discipline: "Discipline:"
+  general:
+    cancel: "Cancel"
+    create: "Create"

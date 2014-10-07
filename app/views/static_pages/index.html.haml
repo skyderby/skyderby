@@ -9,7 +9,7 @@
         %h1
           = t('.title')
           %small= t('.subtitle')
-        %p= 'Анализ GPS треков и проведение соревнований в формате GPS Performance.'
+        %p= t('static_pages.index.desc')
         %a.btn.btn-success.btn-lg{:href => '#', :data => {:toggle => 'modal', :target => '#newTrackModal'}}
           %i.fa.fa-upload
           = t('application.header.upload_track')
@@ -22,4 +22,4 @@
       %h2= 'Menzelinsk Sky Race'
       %p= '6-8 сентября на аэродроме Мензелинск прошли соревнования в дисциплинах Время, Дальность, Скорость. В соревнованиях приняли участие спортсмены из 11 городов.'
       %p
-        %a{:href => event_path( :id => 2 )}= 'На страницу события >>'
+        %a{:href => event_path( :id => 2 )}= t('static_pages.index.goto_event')
