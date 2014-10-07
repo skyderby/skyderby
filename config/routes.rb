@@ -11,10 +11,13 @@ TrackingDerby::Application.routes.draw do
 
     # Ресурсы
 
-    resources :tracks, :only => [:index, :show, :new, :destroy] do
+    resources :tracks, :only => [:index, :new, :show, :update, :destroy] do
       collection do
         post 'choose'
         get 'upload_error'
+      end
+      member do
+        get 'edit'
       end
     end
     # Для обратной совместимости

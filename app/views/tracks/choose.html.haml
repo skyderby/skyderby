@@ -1,20 +1,21 @@
-.page-header
-  %h1=t '.title'
+.container
+  .page-header
+    %h1=t '.title'
 
-%table.table.table-hover
-  %thead
-    %tr
-      %th=t '.number'
-      %th=t '.name'
-      %th=t '.elev'
-      %th=t '.pt_cnt'
-  %tbody
-    - @tracklist.each_with_index do |item, index|
-      %tr.clickableRow{:data => {:url => new_track_path(:cache_id => @key, :index => index)}}
-        %td.text-info= index
-        %td.text-info= item[:name]
-        %td
-          %p.text-primary{:style => 'display:inline'}#{item[:h_up]}↑
-          %p.text-success{:style => 'display:inline'}#{item[:h_down]}↓
-          =t 'units.m'
-        %td.text-info= item[:points_count]
+  %table.table.table-hover
+    %thead
+      %tr
+        %th=t '.number'
+        %th=t '.name'
+        %th=t '.elev'
+        %th=t '.pt_cnt'
+    %tbody
+      - @tracklist.each_with_index do |item, index|
+        %tr.clickableRow{:data => {:url => new_track_path(:cache_id => @key, :index => index)}}
+          %td.text-info= index
+          %td.text-info= item[:name]
+          %td
+            %p.text-primary{:style => 'display:inline'}#{item[:h_up]}↑
+            %p.text-success{:style => 'display:inline'}#{item[:h_down]}↓
+            =t 'units.m'
+          %td.text-info= item[:points_count]

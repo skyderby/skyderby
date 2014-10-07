@@ -19,10 +19,6 @@ class TracksController < ApplicationController
 
   end
 
-  def edit
-
-  end
-
   def new
     authorize! :create, Track
 
@@ -42,6 +38,10 @@ class TracksController < ApplicationController
     else
       redirect_to upload_error_tracks_path
     end
+
+  end
+
+  def edit
 
   end
 
@@ -67,8 +67,14 @@ class TracksController < ApplicationController
   def update
     authorize! :update, @track
 
+    track_upd_params = track_params
+    track_upd_params[:wingsuit] = nil
+    track_upd_params[:wingsuit] = Wingsuit.find(track_upd_params[:ws_id]) if track_upd_params[:ws_id].present?
+
+    track_upd_params[:kind] = track_upd_params[:kind].to_i
+
     respond_to do |format|
-      if @track.update(track_params)
+      if @track.update(track_upd_params)
         format.html { redirect_to @track, notice: 'Track was successfully updated.' }
         format.json { head :no_content }
       else
@@ -199,6 +205,8 @@ class TracksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def track_params
-      params.require(:track).permit(:name, :cache_id, :index)
+      params.require(:track).permit(:name, :ws_id, :suit, :kind, :location,
+                                    :ff_start, :ff_end, :wingsuit_id,
+                                    :comment, :cache_id, :index)
     end
 end

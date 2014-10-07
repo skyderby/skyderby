@@ -10,7 +10,7 @@
       = render 'layouts/header'
 
       - if flash.count > 0
-        .container
+        .container.top-buffer
           .row
             .col-md-7
               - flash.each do |type, message|

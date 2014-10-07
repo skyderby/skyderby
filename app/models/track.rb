@@ -76,7 +76,19 @@ class Track < ActiveRecord::Base
   end
 
   def get_max_height
-    points.maximum(:elevation).to_i
+    get_track_data.max_by { |x| x[:elevation] }[:elevation].round
+  end
+
+  def get_min_height
+    get_track_data.min_by { |x| x[:elevation] }[:elevation].round
+  end
+
+  def get_heights_data
+    get_track_data(false).map{ |p| [p[:fl_time_abs], p[:elevation]] }.to_json.html_safe
+  end
+
+  def get_duration
+    get_track_data(false).map{ |p| p[:fl_time] }.inject(0, :+)
   end
 
   def presentation
@@ -85,13 +97,16 @@ class Track < ActiveRecord::Base
 
   private
 
-  def get_track_data
+  def get_track_data(trim = true)
     arr = []
     prev_point = nil
+    fl_time = 0
 
     points.each do |point|
       if prev_point != nil
+        fl_time += point.point_created_at - prev_point.point_created_at
         arr << {:fl_time => point.point_created_at - prev_point.point_created_at,
+                :fl_time_abs => fl_time,
                 :elevation_diff => (prev_point.elevation - point.elevation).round(2),
                 :elevation => point.elevation.round(2),
                 :distance => point.distance.to_i,
@@ -103,7 +118,19 @@ class Track < ActiveRecord::Base
       prev_point = point
     end
 
+    if trim
+      if ff_start.present?
+        arr = arr.drop_while{ |x| x[:fl_time_abs] < ff_start}
+      end
+      if ff_end.present?
+        arr.reverse!
+        arr = arr.drop_while{ |x| x[:fl_time_abs] > ff_end}
+        arr.reverse!
+      end
+    end
+
     arr
+
   end
 
   def parse_file
@@ -236,46 +263,30 @@ class Track < ActiveRecord::Base
     track_points.uniq!{ |x| DateTime.strptime(x[:point_created_at], '%Y-%m-%dT%H:%M:%S') }
 
     min_h = track_points.min_by{ |x| x[:elevation] }[:elevation]
-    max_h = track_points.max_by{ |x| x[:elevation] }[:elevation]
-
-    # Развернем массив и обрежем все точки после достижения максимальной высоты
-    tmp_points = []
-    track_points.reverse!
-    track_points.each do |x|
-      tmp_points << x
-      if x[:elevation] >= (max_h - 15)
-        break
-      end
-    end
-
-    # Обрежем все точки ниже минимума (предполагаю Земли) + 50 метров
-    track_points = []
-    tmp_points.reverse!
-    tmp_points.each do |x|
-      track_points << x
-      if x[:elevation] <= (min_h + 50)
-        break
-      end
-    end
-
     # Уменьшим высоту во всех точках на минимальную. (корректировка относительно уровня земли)
     track_points.each do |x|
       x[:elevation] -= min_h
     end
+
+    min_h = track_points.min_by{ |x| x[:elevation] }[:elevation]
+    max_h = track_points.max_by{ |x| x[:elevation] }[:elevation]
+
     # Расчет дистанции и времени полета
     fl_time = 0
 
     track_points.each_index do |i|
       point = track_points[i]
-      point[:fl_time] = fl_time
       point[:distance] = 0 if i == 0
       if i > 0
         prev_point = track_points.at(i-1)
         point[:distance] = calc_distance [prev_point[:latitude], prev_point[:longitude]], [point[:latitude], point[:longitude]]
         point[:h_speed] = point[:distance] * 3.6
         point[:v_speed] = (prev_point[:elevation] - point[:elevation]) * 3.6
+        datetime_1 = DateTime.strptime(point[:point_created_at], '%Y-%m-%dT%H:%M:%S')
+        datetime_2 = DateTime.strptime(prev_point[:point_created_at], '%Y-%m-%dT%H:%M:%S')
+        fl_time += (datetime_1 - datetime_2) * 1.days
       end
-      fl_time += 1
+      point[:fl_time] = fl_time
     end
 
     # Медианный фильтр для расстояния и высоты
@@ -294,8 +305,18 @@ class Track < ActiveRecord::Base
 
     end
 
-    # Обрежем все точки до первой, где вертикальная скорость превысила 20 км/ч
-    track_points.drop_while { |x| x[:v_speed] < 25 }
+    # Развернем массив и найдем точку после достижения максимальной высоты и набору скорости в 25 км/ч
+    track_points.reverse!
+    self.ff_start = track_points.detect { |x| x[:elevation] >= (max_h - 15) }[:fl_time]
+    track_points.reverse!
+    self.ff_start = track_points.detect { |x| (x[:fl_time] > self.ff_start && x[:v_speed] > 25) }[:fl_time]
+
+    # Найдем первую точку ниже минимума (предполагаю Земли) + 50 метров
+    #
+    self.ff_end = track_points.detect { |x| x[:elevation] < (min_h + 50) }[:fl_time]
+
+    # track_points.reverse!
+    track_points
 
   end
 

@@ -49,3 +49,8 @@
   width:100%;
   height:600px;
 }
+
+.time-selector {
+  margin-left: 60px;
+  margin-right: 10px;
+}

@@ -66,7 +66,8 @@ ru:
       delete_confirmation: "Вы уверены, что хотите удалить этот трек?"
       delete: "Удалить"
       manage: "Редактирование"
-    select:
+      edit: "Редактировать"
+    choose:
       title: 'Выберите трек для загрузки'
       number: 'Номер'
       name: 'Имя трека'
@@ -78,7 +79,7 @@ ru:
   static_pages:
     index:
       title: 'Летай! Соревнуйся! Побеждай!'
-      subtitle: 'Бета'
+      subtitle: 'Все еще бета'
       track_form:
         title: 'Посмотреть и оценить трек:'
         name: 'Вас зовут:'

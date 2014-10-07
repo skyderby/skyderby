@@ -68,7 +68,8 @@ en:
       delete_confirmation: "Are you sure you want delete this track?"
       delete: "Delete"
       manage: "Manage"
-    select:
+      edit: "Edit"
+    choose:
       title: 'Select a track to upload'
       number: '#'
       name: 'Name'
@@ -80,7 +81,7 @@ en:
   static_pages:
     index:
       title: "Fly! Compete! Win!"
-      subtitle: "Beta"
+      subtitle: "It's still Beta"
       track_form:
         title: 'See and analyze your track:'
         name: 'Your name is:'
