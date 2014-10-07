@@ -1,3 +1,9 @@
 #footer
   .container
-    %p.copyright= "© 2014 #{t 'application.footer.owner'}"
+    .row
+      .col-sm-8
+        %p.copyright= "Copyright © #{t 'application.footer.owner'} 2014"
+      .col-sm-4
+        %a{:href => 'https://www.facebook.com/skyderby.ru'}= t('application.footer.fb_page')
+        %br
+        %a{:href => 'mailto:ab@ipkunin.ru'}= 'support: ab@ipkunin.ru'

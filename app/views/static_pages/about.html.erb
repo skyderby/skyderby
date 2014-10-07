@@ -1,17 +1,19 @@
 
 <script src="http://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 
-<div class="panel-group" id="accordion">
-  <div class="panel panel-default">
-    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
-      <h4 class="panel-title">
-        <a class="accordion-toggle"><%=t '.trpr' %></a>
-      </h4>
-    </div>
-    <div id="collapseOne" class="panel-collapse collapse">
-      <div class="panel-body">
+<div class="container top-buffer">
 
-        <pre class="prettyprint">
+  <div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+      <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
+        <h4 class="panel-title">
+          <a class="accordion-toggle"><%=t '.trpr' %></a>
+        </h4>
+      </div>
+      <div id="collapseOne" class="panel-collapse collapse">
+        <div class="panel-body">
+
+          <pre class="prettyprint">
     def distance a, b       
       rad_per_deg = Math::PI/180  # PI / 180
       rkm = 6371                  # Радиус земли в километрах     
@@ -98,17 +100,17 @@
 
       return track_points
     end
-       </pre>
+         </pre>
+        </div>
       </div>
-    </div>
-    <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo">
-      <h4 class="panel-title">
-        <a class="accordion-toggle"><%=t '.fepr' %></a>
-      </h4>
-    </div>
-    <div id="collapseTwo" class="panel-collapse collapse">
-      <div class="panel-body">
-        <pre class="prettyprint">
+      <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#collapseTwo">
+        <h4 class="panel-title">
+          <a class="accordion-toggle"><%=t '.fepr' %></a>
+        </h4>
+      </div>
+      <div id="collapseTwo" class="panel-collapse collapse">
+        <div class="panel-body">
+          <pre class="prettyprint">
       function set_chart_data() {
 
         var dist_data = [],
@@ -263,7 +265,8 @@
 
       };
  
-        </pre>
+          </pre>
+        </div>
       </div>
     </div>
   </div>

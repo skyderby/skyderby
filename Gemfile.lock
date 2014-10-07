@@ -302,7 +302,6 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 4.0.0)
   sdoc
-  sqlite3
   therubyracer
   twitter-bootstrap-rails
   uglifier (>= 1.3.0)

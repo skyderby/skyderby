@@ -1,7 +1,7 @@
 en:
   application:
     header:
-      home: 'Home'
+      home: 'SKY DERBY'
       tracks: 'Tracks'
       about: 'Algorithms'
       sign_in: 'Sign in'
@@ -17,14 +17,10 @@ en:
       upload_track: "Upload track"
       competitions: "GPS Performance"
     footer:
-      owner: 'Aleksandr Kunin, Aleksandr Razorenov, BWS'
+      owner: 'Aleksandr Kunin'
+      fb_page: "Application's facebook page"
   track_select:
-    track_select:
-      title: 'Select a track to upload'
-      number: '#'
-      name: 'Name'
-      elev: 'Elevation'
-      pt_cnt: 'Points count'
+
   tracks:
     index:
       title: 'Recently uploaded tracks:'
@@ -70,12 +66,23 @@ en:
       units_header: 'Units:'
       m_units_metric: 'Metric'
       m_units_imperial: 'Imperial'
-    edit:
-
+      delete_confirmation: "Are you sure you want delete this track?"
+      delete: "Delete"
+      manage: "Manage"
+      edit: "Edit"
+    choose:
+      title: 'Select a track to upload'
+      number: '#'
+      name: 'Name'
+      elev: 'Elevation'
+      pt_cnt: 'Points count'
+    upload_error:
+      header: "File upload error"
+      text: "Please, send file with track on ab@ipkunin.ru. I'll email you when find what cause the error."
   static_pages:
     index:
       title: "Fly! Compete! Win!"
-      subtitle: "Beta"
+      subtitle: "It's still Beta"
       track_form:
         title: 'See and analyze your track:'
         name: 'Your name is:'
@@ -98,12 +105,13 @@ en:
           file_ext_w2_html: "'Supported only csv and gpx formats'"
           file_size_w1_html: "'File size : '"
           file_size_w2_html: "'Max file size is 1 Mb'"
+        kind: "Kind of jump:"
       or: 'Or'
       events:
         title: 'Compete:'
         coming: 'Coming soon'
         create: 'Create event'
-        future: 'Future events'
+        future: 'Future events:'
         betatestersonly: 'Create new event allowed only for beta testing participants.'
         table:
           event: 'Event'
@@ -111,13 +119,17 @@ en:
           ends: 'Ends'
         form:
           title: 'New event'
-          name: 'Name'
-          place: 'Place'
-          start_at: 'Period from'
-          end_at: 'to'
-          range_from: 'Competition range from'
-          range_to: 'to'
+          name: 'Name:'
+          place: 'Place:'
+          start_at: 'Period:'
+          reg_start_at: 'Registration:'
+          reg_end_at: ' - '
+          end_at: ' - '
+          range_from: 'Competition range:'
+          range_to: ' - '
         completed: "Completed events:"
+      desc: "GPS Tracks analyzer and GPS perfomance competition front-end"
+      goto_event: "Go to event >>"
     about:
       comp_t: 'Application works on:'
       comp_lng: 'Language and backend framework:'
@@ -135,3 +147,44 @@ en:
     kmh: 'km/h'
     kmh_html: "'km/h'"
     mph_html: "'mph'"
+  events:
+    show:
+      pf:
+        in_process: "In process"
+        approved: "Approved"
+        declined: "Declined"
+        title: "Participation form"
+        pending: "Pending participation forms"
+        completed: "Completed participation forms"
+      reg:
+        finished: "Registration finished"
+        not_starts: "Registration isn't starts yet"
+      results: "Scoreboard"
+      overview: "Overview"
+      docs: "Documents"
+      dz_info: "About DZ"
+      competitors: "Competitors"
+      managing: "Managing"
+      class_comp: "Class / Competitor"
+      pfs: "Part. forms"
+  pf:
+    jumps: "Jumps total/in 12 m/in 3 m:"
+    ws_jumps: "Wingsuit jumps total/in 12 m/in 3m:"
+    ws_class: "Wingsuit/Class"
+    home_dz: "Home DZ:"
+    height_weight: "Height/Weight:"
+    shirt_size: "T-Shirt size:"
+    phone: "Contact phone:"
+    email: "Contact email:"
+    fb: "Facebook profile:"
+    vk: "VK.com profile:"
+    additional_info: "Additional info:"
+    approve: "Approve"
+    decline: "Decline"
+  rounds:
+    new: "New round"
+    name: "Round's name:"
+    discipline: "Discipline:"
+  general:
+    cancel: "Cancel"
+    create: "Create"

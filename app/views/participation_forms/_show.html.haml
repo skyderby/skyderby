@@ -11,58 +11,58 @@
 
     .col-md-8
       .container
-        %strong= 'Прыжков всего/за 12 мес./за 3 мес.:'
+        %strong= t('pf.jumps')
         - if pf.user.user_profile
           #{pf.user.user_profile.jumps_total} /
           #{pf.user.user_profile.jumps_last_year} /
           #{pf.user.user_profile.jumps_last_3m}
         %br
-        %strong= 'В вингсьюте всего/за 12 мес./за 3 мес.:'
+        %strong= t('pf.ws_jumps')
         - if pf.user.user_profile
           #{pf.user.user_profile.jumps_wingsuit} /
           #{pf.user.user_profile.jumps_wingsuit_last_year} /
           #{pf.user.user_profile.jumps_wingsuit_last_3m}
         %br
-        %strong= 'Вингсьют/Класс:'
+        %strong= t('pf.ws_class')
         - ws_class = pf.wingsuit.ws_class.name.downcase.to_sym
         - if ws_class.eql?(:rookie) && merge_intermediate_and_rookie
           - ws_class = :intermediate
         #{pf.wingsuit.name} ( #{ws_class.to_s.capitalize} )
         %br
-        %strong= 'Домашняя ДЗ:'
+        %strong= t('pf.home_dz')
         =pf.user.user_profile.homeDZ_name
         %br
-        %strong= 'Рост/Вес:'
+        %strong= t('pf.height_weight')
         #{pf.user.user_profile.height} / #{pf.user.user_profile.weight}
         %br
-        %strong= 'Размер футболки:'
+        %strong= t('pf.shirt_size')
         =pf.user.user_profile.shirt_size
         %br
-        %strong= 'Контактный телефон:'
+        %strong= t('pf.phone')
         #{pf.user.user_profile.phone_number}
         %br
-        %strong= 'Контактный email:'
+        %strong= t('pf.email')
         #{pf.user.email}
         %br
-        %strong= 'Профиль Facebook:'
+        %strong= t('pf.fb')
         #{pf.user.user_profile.facebook_profile}
         %br
-        %strong= 'Профиль ВКонтакт:'
+        %strong= t('pf.vk')
         #{pf.user.user_profile.vk_profile}
         %br
-        %strong= 'Дополнительная информация:'
+        %strong= t('pf.additional_info')
         = simple_format pf.additional_info
 
     - if pf.status.eql? 'declined'
       .col-md-2
-        %button.btn.btn-danger.disabled= 'Отклонена'
+        %button.btn.btn-danger.disabled= t('events.show.pf.declined')
     - elsif pf.status.eql? 'approved'
       .col-md-2
-        %button.btn.btn-success.disabled= 'Подтверждена'
+        %button.btn.btn-success.disabled= t('events.show.pf.approved')
     - else
       .col-md-2{:id => "pf_#{pf.id}_actions"}
         = form_for [@event, pf], remote: true, :url => {:controller => 'participation_forms', :action => 'approve', :event_id => @event.id, :id => pf.id}, :html => {:role => 'form'} do |f|
-          = f.submit 'Подтвердить', :class => 'btn btn-primary'
+          = f.submit t('pf.approve'), :class => 'btn btn-primary'
         %br
         = form_for [@event, pf], remote: true, :url => {:controller => 'participation_forms', :action => 'decline', :event_id => @event.id, :id => pf.id}, :html => {:role => 'form'} do |f|
-          = f.submit 'Отклонить', :class => 'btn btn-primary'
+          = f.submit t('pf.decline'), :class => 'btn btn-primary'

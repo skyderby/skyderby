@@ -5,8 +5,7 @@ class EventTracksController < ApplicationController
     event = Event.find(params[:event_id])
     et = EventTrack.new :competitor => Competitor.find(et_params[:competitor_id]),
                    :track => Track.find(et_params[:track_id]),
-                   :round => Round.find(et_params[:round_id]),
-                   :result => et_params[:result]
+                   :round => Round.find(et_params[:round_id])
     if et.save
       redirect_to event, :notice => 'Трек успешно прикреплен.'
     else
@@ -16,6 +15,6 @@ class EventTracksController < ApplicationController
 
   private
   def et_params
-    params.require(:event_track).permit(:competitor_id, :track_id, :round_id, :result)
+    params.require(:event_track).permit(:competitor_id, :track_id, :round_id)
   end
 end

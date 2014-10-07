@@ -8,7 +8,6 @@ gem 'libv8', '3.16.14.3'
 gem 'mysql2'
 
 group :development, :test do
-  gem 'sqlite3' 
   gem 'rspec'
   gem 'rspec-rails'
   gem 'quiet_assets'

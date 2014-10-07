@@ -1,0 +1,159 @@
+:javascript
+  var chart_data = #{@track.get_heights_data},
+    max_rel_time = #{@track.get_duration},
+    range_from = #{@track.ff_start.nil? ? 0 : @track.ff_start},
+    range_to = #{@track.ff_end.nil? ? @track.get_duration : @track.ff_end};
+
+  $(document).ready(function() {
+
+    $("#time-selector").ionRangeSlider({
+      min: 0,
+      max: max_rel_time,
+      type: 'double',
+      step: 1,
+      prettify: false,
+      hasGrid: true,
+      from: range_from,
+      to: range_to,
+      onChange: function (obj) {
+        range_from = obj.fromNumber;
+        range_to = obj.toNumber;
+        set_plot_bands();
+      }
+    });
+
+    $('#heights-chart').highcharts({
+      chart: {
+        type: 'area'
+      },
+      title: {
+        text: 'График высот'
+      },
+      plotOptions: {
+        series: {
+          marker: {
+            radius: 1
+          }
+        }
+      },
+      xAxis: {
+      plotBands: [{
+          color: 'gray',
+          from: 0,
+          to: 0,
+          id: 'plotband-start'
+        },
+        {
+          color: 'gray',
+          from: 0,
+          to: 0,
+          id: 'plotband-end'
+        },
+      ]},
+      tooltip: {
+        crosshairs: true
+      },
+      credits: {
+        enabled: false
+      },
+      series: [{
+        name: 'Высота',
+        pointInterval: 10,
+        tooltip: {
+          valueSuffix: ' м'
+        },
+        data: chart_data
+      }]
+    });
+    set_plot_bands();
+
+  });
+
+  function set_plot_bands() {
+    chart = $('#heights-chart').highcharts();
+    chart.xAxis[0].removePlotBand('plotband-start');
+    chart.xAxis[0].removePlotBand('plotband-end');
+
+    chart.xAxis[0].addPlotBand({
+                    from: 0,
+                    to: range_from,
+                    color: 'gray',
+                    id: 'plotband-start'
+                });
+
+    chart.xAxis[0].addPlotBand({
+                    from: range_to,
+                    to: max_rel_time,
+                    color: 'gray',
+                    id: 'plotband-end'
+                });
+
+    $('#ff_start').val(range_from);
+    $('#ff_end').val(range_to);
+  };
+
+.container.top-buffer
+  .row
+    .col-sm-12#heights-chart
+    .col-sm-12
+      .time-selector
+        %input#time-selector{:type => 'text', :name => 'time-selector' , :value => ''}
+  %hr
+  = form_for @track, :html => {:class => 'form-horizontal', :role => 'form', :id => 'track_upload_form'} do |f|
+    = f.hidden_field 'ff_start', :id => 'ff_start'
+    = f.hidden_field 'ff_end', :id => 'ff_end'
+    .row
+      .form-group
+        = f.label 'name', t('static_pages.index.track_form.name'), :class => 'col-sm-2 control-label', :for => 'name'
+        .col-sm-4
+          = f.text_field 'name', :class => 'form-control', :placeholder => t('static_pages.index.track_form.name_plh'), :type => 'text'
+    .row
+      .form-group
+        = f.label 'suit', t('static_pages.index.track_form.suit'), :class => 'col-sm-2 control-label', :for => 'suit'
+        .col-sm-4
+          = f.text_field 'suit', :class => 'form-control wingsuit-autocomplete', :placeholder => t('static_pages.index.track_form.suit_plh'), :type => 'text'
+          = f.hidden_field 'wingsuit_id', :id => 'wingsuit-id'
+
+    .row
+      .form-group
+        = f.label 'location', t('static_pages.index.track_form.location'), :class => 'col-sm-2 control-label', :for => 'location'
+        .col-sm-4
+          = f.text_field 'location', :class => 'form-control', :placeholder => t('static_pages.index.track_form.location_plh'), :type => 'text'
+
+    .row
+      .form-group
+        = f.label 'kind', t('static_pages.index.track_form.kind'), :class => 'col-sm-2 control-label', :for => 'kind'
+        .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
+          - if @track.kind == 0
+            %label.btn.btn-default.active
+              = f.radio_button 'kind', 0
+              = 'Skydive'
+          - else
+            %label.btn.btn-default
+              = f.radio_button 'kind', 0
+              = 'Skydive'
+
+          - if @track.kind == 1
+            %label.btn.btn-default
+              = f.radio_button 'kind', 1
+              = 'B.A.S.E'
+          - else
+            %label.btn.btn-default.active
+              = f.radio_button 'kind', 1
+              = 'B.A.S.E'
+
+    .row
+      .form-group
+        = f.label t('static_pages.index.track_form.comment'), nil, :class => 'col-sm-2 control-label', :for => 'comment'
+        .col-sm-4
+          = f.text_area 'comment', :class => 'form-control', :rows => 3, :placeholder => t('static_pages.index.track_form.comment_plh')
+
+    .row
+      .col-sm-4
+        %div#alert-placeholder
+
+    .row
+      .col-sm-4.col-sm-offset-2
+        = link_to 'Отмена', @track, :class => 'btn btn-default'
+        = f.submit 'Сохранить', :class => 'btn btn-default'
+  .top-buffer

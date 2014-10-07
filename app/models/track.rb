@@ -1,37 +1,94 @@
 class Track < ActiveRecord::Base
 
+  enum kind: [ :skydive, :base ]
+
   attr_accessor :trackfile, :track_index
 
   belongs_to :user
-  belongs_to :event_track
+  belongs_to :wingsuit
+
+  has_one :event_track
 
   has_many :tracksegments, :dependent => :destroy
   has_many :points, :through => :tracksegments
   before_save :parse_file
 
-  def get_charts_data
-    arr = []
+  def calc_results(range_from, range_to)
+
+    fl_time = 0
+    distance = 0
+    speed = 0
+
+    is_first = true
     prev_point = nil
-  
-    points.each do |point|
-      if prev_point != nil
-        arr << {:fl_time => point.point_created_at - prev_point.point_created_at,
-                :elevation_diff => (prev_point.elevation - point.elevation).round(2),
-                :elevation => point.elevation.round(2),
-                :distance => point.distance.to_i,
-                :h_speed => point.h_speed.round(2),
-                :v_speed => point.v_speed.round(2),
-                :glrat => (point.h_speed.round(2) / point.v_speed.round(2)).round(2)
-                }
+
+    track_points = get_track_data
+    track_points.each do |current_point|
+
+      is_last = true
+
+      if current_point[:elevation] <= range_from && current_point[:elevation] >= range_to
+
+        is_last = false
+
+        if is_first
+          is_first = false
+          if current_point[:elevation] != range_from && prev_point.present?
+            elev_diff = range_from - current_point[:elevation]
+            k = elev_diff / current_point[:elevation_diff]
+            fl_time = (current_point[:fl_time] * k).round(1)
+            distance = (current_point[:distance] * k).round(0)
+          end
+          next
+        end
+
+        fl_time += current_point[:fl_time].round(1)
+        distance += current_point[:distance].round(0)
+
       end
-      prev_point = point
+
+      if is_last && fl_time > 0
+        if current_point[:elevation] <= range_to
+          elev_diff = prev_point[:elevation] - range_to
+          k = elev_diff / current_point[:elevation_diff]
+          fl_time += (current_point[:fl_time] * k).round(1)
+          distance += (current_point[:distance] * k).round(0)
+        end
+        break
+      end
+
+      prev_point = current_point
+
     end
 
-    arr.to_json.html_safe
+    fl_time = fl_time.round(1)
+    distance = distance.round(0)
+    speed = (distance / fl_time * 3.6).round(0)
+
+    {:fl_time => fl_time,
+     :distance => distance,
+     :speed => speed}
+
+  end
+
+  def get_charts_data
+    get_track_data.to_json.html_safe
   end
 
   def get_max_height
-    points.maximum(:elevation).to_i
+    get_track_data.max_by { |x| x[:elevation] }[:elevation].round
+  end
+
+  def get_min_height
+    get_track_data.min_by { |x| x[:elevation] }[:elevation].round
+  end
+
+  def get_heights_data
+    get_track_data(false).map{ |p| [p[:fl_time_abs], p[:elevation]] }.to_json.html_safe
+  end
+
+  def get_duration
+    get_track_data(false).map{ |p| p[:fl_time] }.inject(0, :+)
   end
 
   def presentation
@@ -39,6 +96,42 @@ class Track < ActiveRecord::Base
   end
 
   private
+
+  def get_track_data(trim = true)
+    arr = []
+    prev_point = nil
+    fl_time = 0
+
+    points.each do |point|
+      if prev_point != nil
+        fl_time += point.point_created_at - prev_point.point_created_at
+        arr << {:fl_time => point.point_created_at - prev_point.point_created_at,
+                :fl_time_abs => fl_time,
+                :elevation_diff => (prev_point.elevation - point.elevation).round(2),
+                :elevation => point.elevation.round(2),
+                :distance => point.distance.to_i,
+                :h_speed => point.h_speed.round(2),
+                :v_speed => point.v_speed.round(2),
+                :glrat => (point.h_speed.round(2) / point.v_speed.round(2)).round(2)
+        }
+      end
+      prev_point = point
+    end
+
+    if trim
+      if ff_start.present?
+        arr = arr.drop_while{ |x| x[:fl_time_abs] < ff_start}
+      end
+      if ff_end.present?
+        arr.reverse!
+        arr = arr.drop_while{ |x| x[:fl_time_abs] > ff_end}
+        arr.reverse!
+      end
+    end
+
+    arr
+
+  end
 
   def parse_file
 
@@ -64,9 +157,9 @@ class Track < ActiveRecord::Base
 
   def get_file_format(header)
 
-    headers_hash = {:flysight => ['time','lat','lon','hMSL','velN','velE','velD','hAcc','vAcc','sAcc','gpsFix','numSV'],
-                    :flysight2 => ['time','lat','lon','hMSL','velN','velE','velD','hAcc','vAcc','sAcc','heading','cAcc','gpsFix','numSV'],
-                    :columbusV900 => ['INDEX','TAG','DATE','TIME','LATITUDE N/S','LONGITUDE E/W','HEIGHT','SPEED','HEADING','VOX']}
+    headers_hash = {:flysight => %w(time lat lon hMSL velN velE velD hAcc vAcc sAcc gpsFix numSV),
+                    :flysight2 => %w(time lat lon hMSL velN velE velD hAcc vAcc sAcc heading cAcc gpsFix numSV),
+                    :columbusV900 => %w(INDEX TAG DATE TIME LATITUDE\ N/S LONGITUDE\ E/W HEIGHT SPEED HEADING VOX)}
 
     headers_hash.select{|key,hash| hash == header}.keys[0]
 
@@ -170,46 +263,30 @@ class Track < ActiveRecord::Base
     track_points.uniq!{ |x| DateTime.strptime(x[:point_created_at], '%Y-%m-%dT%H:%M:%S') }
 
     min_h = track_points.min_by{ |x| x[:elevation] }[:elevation]
-    max_h = track_points.max_by{ |x| x[:elevation] }[:elevation]
-
-    # Развернем массив и обрежем все точки после достижения максимальной высоты
-    tmp_points = []
-    track_points.reverse!
-    track_points.each do |x|
-      tmp_points << x
-      if x[:elevation] >= max_h -15
-        break
-      end
-    end
-
-    # Обрежем все точки ниже минимума (предполагаю Земли) + 50 метров
-    track_points = []
-    tmp_points.reverse!
-    tmp_points.each do |x|
-      track_points << x
-      if x[:elevation] <= (min_h + 50)
-        break
-      end
-    end
-
     # Уменьшим высоту во всех точках на минимальную. (корректировка относительно уровня земли)
     track_points.each do |x|
       x[:elevation] -= min_h
     end
+
+    min_h = track_points.min_by{ |x| x[:elevation] }[:elevation]
+    max_h = track_points.max_by{ |x| x[:elevation] }[:elevation]
+
     # Расчет дистанции и времени полета
     fl_time = 0
 
     track_points.each_index do |i|
       point = track_points[i]
-      point[:fl_time] = fl_time
       point[:distance] = 0 if i == 0
       if i > 0
         prev_point = track_points.at(i-1)
         point[:distance] = calc_distance [prev_point[:latitude], prev_point[:longitude]], [point[:latitude], point[:longitude]]
         point[:h_speed] = point[:distance] * 3.6
         point[:v_speed] = (prev_point[:elevation] - point[:elevation]) * 3.6
+        datetime_1 = DateTime.strptime(point[:point_created_at], '%Y-%m-%dT%H:%M:%S')
+        datetime_2 = DateTime.strptime(prev_point[:point_created_at], '%Y-%m-%dT%H:%M:%S')
+        fl_time += (datetime_1 - datetime_2) * 1.days
       end
-      fl_time += 1
+      point[:fl_time] = fl_time
     end
 
     # Медианный фильтр для расстояния и высоты
@@ -228,8 +305,18 @@ class Track < ActiveRecord::Base
 
     end
 
-    # Обрежем все точки до первой, где вертикальная скорость превысила 20 км/ч
-    track_points.drop_while { |x| x[:v_speed] < 25 }
+    # Развернем массив и найдем точку после достижения максимальной высоты и набору скорости в 25 км/ч
+    track_points.reverse!
+    self.ff_start = track_points.detect { |x| x[:elevation] >= (max_h - 15) }[:fl_time]
+    track_points.reverse!
+    self.ff_start = track_points.detect { |x| (x[:fl_time] > self.ff_start && x[:v_speed] > 25) }[:fl_time]
+
+    # Найдем первую точку ниже минимума (предполагаю Земли) + 50 метров
+    #
+    self.ff_end = track_points.detect { |x| x[:elevation] < (min_h + 50) }[:fl_time]
+
+    # track_points.reverse!
+    track_points
 
   end
 
