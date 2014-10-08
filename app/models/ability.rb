@@ -10,7 +10,7 @@ class Ability
 
     if user
 
-      can [:edit], Track, user: user  # Редактирование собственных треков
+      can [:update], Track, user: user  # Редактирование собственных треков
 
       if user.has_role? :admin
 
