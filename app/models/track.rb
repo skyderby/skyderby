@@ -76,11 +76,11 @@ class Track < ActiveRecord::Base
   end
 
   def get_max_height
-    get_track_data.max_by { |x| x[:elevation] }[:elevation].round
+    get_track_data.max_by{ |x| x[:elevation] }[:elevation].round
   end
 
   def get_min_height
-    get_track_data.min_by { |x| x[:elevation] }[:elevation].round
+    get_track_data.min_by{ |x| x[:elevation] }[:elevation].round
   end
 
   def get_heights_data
@@ -122,7 +122,7 @@ class Track < ActiveRecord::Base
       if ff_start.present?
         arr = arr.drop_while{ |x| x[:fl_time_abs] < ff_start}
       end
-      if ff_end.present?
+      if ff_end.present? && ff_end > 0 && (ff_start.blank? || ff_end > ff_start)
         arr.reverse!
         arr = arr.drop_while{ |x| x[:fl_time_abs] > ff_end}
         arr.reverse!
