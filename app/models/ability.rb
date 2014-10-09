@@ -10,7 +10,8 @@ class Ability
 
     if user
 
-      can [:update], Track, user: user  # Редактирование собственных треков
+      can [:update], Track, :user => user  # Редактирование собственных треков
+      can [:destroy], Track, :user => user, :event_track => nil # Удаление собственных треков
 
       if user.has_role? :admin
 
