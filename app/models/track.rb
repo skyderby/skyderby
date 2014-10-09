@@ -143,6 +143,8 @@ class Track < ActiveRecord::Base
       elsif trackfile[:ext] == '.gpx'
         doc = Nokogiri::XML(trackfile[:data])
         track_points = parse_xml doc, track_index
+      elsif trackfile[:ext] == '.tes'
+        track_points = parse_tes trackfile[:data]
       end
 
       if track_points.empty?
@@ -240,6 +242,32 @@ class Track < ActiveRecord::Base
 
   end
 
+  def parse_tes(doc)
+    unpacked_string = doc.unpack('SLLLS' * (doc.length / 16))
+    track_points = []
+
+    for x in 0..(unpacked_string.count / 5 - 1)
+      track_points << {:latitude => unpacked_string[x * 5 + 2] / 1.0e7,
+                  :longitude => unpacked_string[x * 5 + 3] / 1.0e7,
+                  :elevation => unpacked_string[x * 5 + 4],
+                  :point_created_at => unpacked_string[x * 5 + 1]}
+    end
+
+    track_points.each do |x|
+      binarydate = x[:point_created_at].to_s(2).reverse
+
+      year = "20#{binarydate[26..31].reverse.to_i(2).to_s}"
+      month = binarydate[22..25].reverse.to_i(2)
+      month = month < 10 ? "0#{month}" : month.to_s
+      day = binarydate[17..21].reverse.to_i(2).to_s
+      hour = binarydate[12..16].reverse.to_i(2).to_s
+      min = binarydate[6..11].reverse.to_i(2).to_s
+      sec = binarydate[0..5].reverse.to_i(2).to_s
+
+      x[:point_created_at] = "#{year}-#{month}-#{day}T#{hour}:#{min}:#{sec}"
+    end
+  end
+
   def calc_distance(a, b)
     rad_per_deg = Math::PI/180  # PI / 180
     rkm = 6371                  # Радиус земли в километрах
@@ -279,12 +307,15 @@ class Track < ActiveRecord::Base
       point[:distance] = 0 if i == 0
       if i > 0
         prev_point = track_points.at(i-1)
-        point[:distance] = calc_distance [prev_point[:latitude], prev_point[:longitude]], [point[:latitude], point[:longitude]]
-        point[:h_speed] = point[:distance] * 3.6
-        point[:v_speed] = (prev_point[:elevation] - point[:elevation]) * 3.6
+
         datetime_1 = DateTime.strptime(point[:point_created_at], '%Y-%m-%dT%H:%M:%S')
         datetime_2 = DateTime.strptime(prev_point[:point_created_at], '%Y-%m-%dT%H:%M:%S')
-        fl_time += (datetime_1 - datetime_2) * 1.days
+        fl_time_diff = (datetime_1 - datetime_2) * 1.days
+        fl_time += fl_time_diff
+
+        point[:distance] = calc_distance [prev_point[:latitude], prev_point[:longitude]], [point[:latitude], point[:longitude]]
+        point[:h_speed] = point[:distance] / fl_time_diff * 3.6
+        point[:v_speed] = (prev_point[:elevation] - point[:elevation]) / fl_time_diff * 3.6
       end
       point[:fl_time] = fl_time
     end
