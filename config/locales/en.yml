@@ -102,7 +102,7 @@ en:
           loc_html: "'Place field has to be filled'"
           file_html: "'Select a file to upload'"
           file_ext_w1_html: "'File extension: '"
-          file_ext_w2_html: "'Supported only csv and gpx formats'"
+          file_ext_w2_html: "'Supported only csv, tes and gpx formats'"
           file_size_w1_html: "'File size : '"
           file_size_w2_html: "'Max file size is 1 Mb'"
         kind: "Kind of jump:"

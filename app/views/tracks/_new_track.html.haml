@@ -8,7 +8,7 @@
       var FileSizeMb = (file.size / 1048576).toFixed(2);
       var txt = "";
 
-      if (!(FileExtension === "gpx" || FileExtension === "csv"))  {
+      if (!(FileExtension === "gpx" || FileExtension === "csv" || FileExtension === "tes"))  {
           txt += #{t 'static_pages.index.track_form.warnings.file_ext_w1_html'} + FileExtension + "\n\n";
           txt += #{t 'static_pages.index.track_form.warnings.file_ext_w2_html'};
       }

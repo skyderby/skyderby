@@ -114,7 +114,7 @@ class TracksController < ApplicationController
 
     filename =  param_file.original_filename
     ext = filename.downcase[filename.length - 4..filename.length-1]
-    if ext == '.csv'
+    if ext == '.csv' || ext == '.tes'
       @tracklist << 'main'
     elsif ext == '.gpx'
 
