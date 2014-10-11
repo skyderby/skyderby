@@ -731,16 +731,17 @@
 .container
   .page-header
     .row
-      .col-md-10
+      .col-md-9
         %h1
           = "#{@track.name} | #{t '.title_track'} ##{@track.id}"
           %small="#{t '.title_suit'}: #{@track.wingsuit.present? ? @track.wingsuit.name : @track.suit}, @#{@track.location}"
 
-      .dropdown-container.col-md-2
-        %button.btn.btn-default
-          %i.fa.fa-compass
-          = link_to 'Google maps', google_maps_track_path(@track)
-        .dropdown
+      .dropdown-container.col-md-3
+        .pull-right
+          %a.btn.btn-default{:href => google_maps_track_path(@track), :target => '_blank'}
+            %i.fa.fa-compass
+            = 'Google maps'
+
           %button.btn.btn-default.dropdown-toggle#dropdownMenu1{:type => 'button', :data => {:toggle => 'dropdown'}}
             %i.fa.fa-cog
           %ul.dropdown-menu.dropdown-menu-right{:role => 'menu', :aria => {:labelledby => 'dropdownMenu1'}}

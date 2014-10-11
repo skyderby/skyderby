@@ -6,8 +6,6 @@
 
 :javascript
 
-  var max_height = #{@track.get_max_height};
-  var min_height = #{@track.get_min_height};
   var map_data = #{@track.get_charts_data};
   var handler;
 
@@ -16,46 +14,71 @@
     handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
       draw_polyline();
     });
-
-    $("#range-selector").ionRangeSlider({
-      min: max_height,
-      max: min_height,
-      type: 'double',
-      step: 50,
-      prettify: false,
-      hasGrid: true,
-      from: max_height,
-      to: min_height,
-      onFinish: function (obj) {
-
-      }
-    });
   });
 
+  function speed_group(speed) {
+    if (speed > 250) {
+      return 6;
+    } else if (speed > 220) {
+      return 5;
+    } else if (speed > 190) {
+      return 4;
+    } else if (speed > 160) {
+      return 3;
+    } else if (speed > 130) {
+      return 2;
+    } else {
+      return 1;
+    }
+  }
   function draw_polyline() {
     var polyline = [];
+    var prev_point = null;
 
     for (var index in map_data) {
       current_point = map_data[index];
-      if (current_point.elevation <= max_height && current_point.elevation >= min_height) {
+      if (polyline.length == 0 || (speed_group(prev_point.h_speed) == speed_group(current_point.h_speed))) {
         polyline.push({'lat': current_point.latitude, 'lng': current_point.longitude});
+      } else {
+        handler.addPolyline(polyline,
+                              { strokeColor: $('.hl' + speed_group(prev_point.h_speed)).css( "background-color" ),
+                              strokeOpacity: 1, strokeWeight: 6});
+        polyline = [];
+        polyline.push({'lat': prev_point.latitude, 'lng': prev_point.longitude});
       }
+      prev_point = current_point;
     }
 
-    handler.addPolyline(polyline, { strokeColor: '#FF0000', strokeOpacity: 0.5, strokeWeight: 6});
-    handler.bounds.extend(polyline[0]);
-    handler.bounds.extend(polyline[ polyline.length - 1]);
+    handler.addPolyline(polyline,
+                        { strokeColor: $('.hl' + speed_group(prev_point.h_speed)).css( "background-color" ),
+                        strokeOpacity: 1, strokeWeight: 6});
+    handler.bounds.extend({'lat': map_data[0].latitude, 'lng': map_data[0].longitude});
+    handler.bounds.extend({'lat': map_data[map_data.length - 1].latitude, 'lng': map_data[map_data.length - 1].longitude});
     handler.fitMapToBounds();
   }
 
 .container
   .row
-    .col-sm-12#map{:style => 'height: 500px;'}
-  .row
+    .col-sm-12#map{:style => 'height: 600px;'}
+  .row#speed-grades
+    .col-sm-2.text-center.hl1= "< 130 #{t 'units.kmh'}"
+    .col-sm-2.text-center.hl2= "130 - 160 #{t 'units.kmh'}"
+    .col-sm-2.text-center.hl3= "160 - 190 #{t 'units.kmh'}"
+    .col-sm-2.text-center.hl4= "190 - 220 #{t 'units.kmh'}"
+    .col-sm-2.text-center.hl5= "220 - 250 #{t 'units.kmh'}"
+    .col-sm-2.text-center.hl6= "> 250 #{t 'units.kmh'}"
+  .row#gr-grades{:style => 'display: none'}
+    .col-sm-2.text-center.hl1= '< 1.50'
+    .col-sm-2.text-center.hl2= '1.50 - 2.0'
+    .col-sm-2.text-center.hl3= '2.00 - 2.50'
+    .col-sm-2.text-center.hl4= '2.50 - 3.00'
+    .col-sm-2.text-center.hl5= '3.00 - 3.50'
+    .col-sm-2.text-center.hl6= '> 3.50'
+  .row{:style => 'display: none'}
     .col-sm-11.top-buffer
       %label_tag= 'Highlight:'
       .btn-group{:data => {:toggle => 'buttons'}}
         %label.btn.btn-default.active
-          %input{:type => "radio", :name => 'highlight', :value => 'speed'}= 'Ground speed'
+          %input{:type => 'radio', :name => 'highlight', :value => 'speed'}= 'Ground speed'
         %label.btn.btn-default
-          %input{:type => "radio", :name => 'highlight', :value => 'gr'}= 'G/R'
+          %input{:type => 'radio', :name => 'highlight', :value => 'gr'}= 'G/R'
