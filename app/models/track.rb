@@ -109,6 +109,8 @@ class Track < ActiveRecord::Base
                 :fl_time_abs => fl_time,
                 :elevation_diff => (prev_point.elevation - point.elevation).round(2),
                 :elevation => point.elevation.round(2),
+                :latitude => point.latitude,
+                :longitude => point.longitude,
                 :distance => point.distance.to_i,
                 :h_speed => point.h_speed.round(2),
                 :v_speed => point.v_speed.round(2),

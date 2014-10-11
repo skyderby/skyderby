@@ -1,0 +1,61 @@
+%script{:type => 'text/javascript',
+        :src  => '//maps.google.com/maps/api/js?v=3.13&amp;sensor=false&amp;libraries=geometry'}
+
+%script{:type => 'text/javascript',
+        :src  => '//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js'}
+
+:javascript
+
+  var max_height = #{@track.get_max_height};
+  var min_height = #{@track.get_min_height};
+  var map_data = #{@track.get_charts_data};
+  var handler;
+
+  $(document).ready(function($) {
+    handler = Gmaps.build('Google');
+    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+      draw_polyline();
+    });
+
+    $("#range-selector").ionRangeSlider({
+      min: max_height,
+      max: min_height,
+      type: 'double',
+      step: 50,
+      prettify: false,
+      hasGrid: true,
+      from: max_height,
+      to: min_height,
+      onFinish: function (obj) {
+
+      }
+    });
+  });
+
+  function draw_polyline() {
+    var polyline = [];
+
+    for (var index in map_data) {
+      current_point = map_data[index];
+      if (current_point.elevation <= max_height && current_point.elevation >= min_height) {
+        polyline.push({'lat': current_point.latitude, 'lng': current_point.longitude});
+      }
+    }
+
+    handler.addPolyline(polyline, { strokeColor: '#FF0000', strokeOpacity: 0.5, strokeWeight: 6});
+    handler.bounds.extend(polyline[0]);
+    handler.bounds.extend(polyline[ polyline.length - 1]);
+    handler.fitMapToBounds();
+  }
+
+.container
+  .row
+    .col-sm-12#map{:style => 'height: 500px;'}
+  .row
+    .col-sm-11.top-buffer
+      %label_tag= 'Highlight:'
+      .btn-group{:data => {:toggle => 'buttons'}}
+        %label.btn.btn-default.active
+          %input{:type => "radio", :name => 'highlight', :value => 'speed'}= 'Ground speed'
+        %label.btn.btn-default
+          %input{:type => "radio", :name => 'highlight', :value => 'gr'}= 'G/R'

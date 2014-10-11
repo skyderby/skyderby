@@ -15,6 +15,7 @@
 //= require bootstrap-datepicker/core
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.ru.js
 //= require twitter/bootstrap
+//= require gmaps/google
 //= require_tree .
 
 $(document).ready(function($) {

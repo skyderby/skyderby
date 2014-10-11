@@ -731,12 +731,15 @@
 .container
   .page-header
     .row
-      .col-md-11
+      .col-md-10
         %h1
           = "#{@track.name} | #{t '.title_track'} ##{@track.id}"
           %small="#{t '.title_suit'}: #{@track.wingsuit.present? ? @track.wingsuit.name : @track.suit}, @#{@track.location}"
 
-      .dropdown-container.col-md-1
+      .dropdown-container.col-md-2
+        %button.btn.btn-default
+          %i.fa.fa-compass
+          = link_to 'Google maps', google_maps_track_path(@track)
         .dropdown
           %button.btn.btn-default.dropdown-toggle#dropdownMenu1{:type => 'button', :data => {:toggle => 'dropdown'}}
             %i.fa.fa-cog

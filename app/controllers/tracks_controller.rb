@@ -1,7 +1,7 @@
 # encoding: utf-8
 class TracksController < ApplicationController
 
-  before_action :set_track, only: [:show, :edit, :update, :destroy]
+  before_action :set_track, only: [:show, :google_maps, :edit, :update, :destroy]
 
   def index
     @tracks = Track.all.includes(:wingsuit)
@@ -16,6 +16,10 @@ class TracksController < ApplicationController
 
     @f = -1 if @f.nil?
     @t = -1 if @t.nil?
+
+  end
+
+  def google_maps
 
   end
 
