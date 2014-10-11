@@ -18,6 +18,7 @@ TrackingDerby::Application.routes.draw do
       end
       member do
         get 'edit'
+        get 'google_maps'
       end
     end
     # Для обратной совместимости

@@ -12,10 +12,8 @@
 }
 
            
-.dropdown-container .dropdown {
+.dropdown-container {
   margin-top:15px;
-  margin-left:27px;
-  width: 40px;
 }
 
 .glyphicon {
@@ -53,4 +51,34 @@
 .time-selector {
   margin-left: 60px;
   margin-right: 10px;
+}
+
+.hl1 {
+  background-color: rgb(45, 126, 46);
+  color: rgb(244, 244, 244);
+}
+
+.hl2 {
+    background-color: rgb(66, 192, 67);
+    color: rgb(244, 244, 244);
+}
+
+.hl3 {
+    background-color: rgb(217, 206, 52);
+    color: rgb(244, 244, 244);
+}
+
+.hl4 {
+    background-color: rgb(228, 103, 15);
+    color: rgb(244, 244, 244);
+}
+
+.hl5 {
+    background-color: rgb(231, 0, 12);
+    color: rgb(244, 244, 244);
+}
+
+.hl6 {
+    background-color: rgb(96, 0, 12);
+    color: rgb(244, 244, 244);
 }
