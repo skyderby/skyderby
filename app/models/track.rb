@@ -338,6 +338,9 @@ class Track < ActiveRecord::Base
 
     end
 
+    self.ff_start = 0
+    self.ff_end = fl_time
+
     # Развернем массив и найдем точку после достижения максимальной высоты и набору скорости в 25 км/ч
     track_points.reverse!
     start_point = track_points.detect { |x| x[:elevation] >= (max_h - 15) }
@@ -349,7 +352,7 @@ class Track < ActiveRecord::Base
 
     # Найдем первую точку ниже минимума (предполагаю Земли) + 50 метров
     end_point = track_points.detect { |x| x[:elevation] < (min_h + 50) }
-    self.ff_end = end_point.nil? ? fl_time : end_point[:fl_time]
+    self.ff_end = end_point[:fl_time] if end_point.present?
 
     track_points
 
