@@ -15,6 +15,19 @@
 // Font Awesome
 @import "fontawesome/font-awesome";
 
+//@import "twitter/bootstrap/sprites.less";
+
+// Your custom LESS stylesheets goes here
+//
+// Since bootstrap was imported above you have access to its mixins which
+// you may use and inherit here
+//
+// If you'd like to override bootstrap's own variables, you can do so here as well
+// See http://twitter.github.com/bootstrap/customize.html#variables for their names and documentation
+//
+// Example:
+// @linkColor: #ff0000;
+
 #map img {
   max-width: none;
 }
@@ -64,7 +77,7 @@
   box-sizing: border-box;
   display: block;
   position: relative;
-//  margin-bottom: 40px;
+  //  margin-bottom: 40px;
 }
 
 .index-header h1 {
@@ -94,15 +107,48 @@
   text-shadow: rgba(0, 0, 0, 0.0980392) 0px 1px 0px;
 }
 
-//@import "twitter/bootstrap/sprites.less";
+.how-it-works {
 
-// Your custom LESS stylesheets goes here
-//
-// Since bootstrap was imported above you have access to its mixins which
-// you may use and inherit here
-//
-// If you'd like to override bootstrap's own variables, you can do so here as well
-// See http://twitter.github.com/bootstrap/customize.html#variables for their names and documentation
-//
-// Example:
-// @linkColor: #ff0000;
+  background-clip: border-box;
+  background-origin: padding-box;
+
+
+  -webkit-background-clip: border-box;
+  -webkit-background-origin: padding-box;
+  -webkit-background-size: 66% 3px;
+
+  background: asset-url('line.png') no-repeat center 227px;
+  background-size: 66% 3px;
+
+  text-align: center;
+}
+
+#first-step-hiw {
+  background: asset-url('app-logo.png') no-repeat center 10px;
+  height: 200px;
+}
+
+#second-step-hiw {
+  background: asset-url('app-logo.png') no-repeat center 10px;
+  height: 200px;
+}
+
+#third-step-hiw {
+  background: asset-url('app-logo.png') no-repeat center 10px;
+  height: 200px;
+}
+
+.step-number-hiw {
+  text-align: center;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+  color: rgb(245,245,245);
+
+  background: asset-url('spot.png') no-repeat center center;
+
+  height: 26px;
+
+  margin-top: 15px;
+}

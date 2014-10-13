@@ -17,6 +17,33 @@
         %img.img-responsive{:src => asset_path('app-logo.png')}
 
 .container.top-buffer
+  .row.how-it-works
+    .col-lg-4.col-md-4.col-sm-4
+      #first-step-hiw
+      .step-number-hiw= '1'
+      %p= 'Возьмите GPS и совершите полет'
+    .col-lg-4.col-md-4.col-sm-4
+      #second-step-hiw
+      .step-number-hiw= '2'
+      %p= 'Загрузите и выберите диапазон свободного падения'
+    .col-lg-4.col-md-4.col-sm-4
+      #third-step-hiw
+      .step-number-hiw= '3'
+      %p= 'Анализируйте, делайте выводы, летайте лучше'
+
+
+.container.top-buffer
+  .row.supported-formats
+    .col-lg-3.col-md-3.col-sm-3
+      #gpx-sf
+    .col-lg-3.col-md-3.col-sm-3
+      #fs-sf
+    .col-lg-3.col-md-3.col-sm-3
+      #garmin-sf
+    .col-lg-3.col-md-3.col-sm-3
+      #wintec-sf
+
+.container.top-buffer
   .row
     .col-6.col-sm-6.col-lg-4
       %h2= 'Menzelinsk Sky Race'
