@@ -1,9 +1,20 @@
 #footer
   .container
     .row
-      .col-sm-8
+      .col-sm-4
         %p.copyright= "Copyright © #{t 'application.footer.owner'} 2014"
       .col-sm-4
-        %a{:href => 'https://www.facebook.com/skyderby.ru'}= t('application.footer.fb_page')
-        %br
-        %a{:href => 'mailto:ab@ipkunin.ru'}= 'support: ab@ipkunin.ru'
+        %p= 'Статистика:'
+        %p
+          = "Загружено треков: #{Track.count}"
+          %br
+          = "Зарегистрировано пилотов: #{User.count}"
+      .col-sm-4
+        %p
+          %a{:href => 'https://www.facebook.com/skyderby.ru'}
+            %i.fa.fa-facebook-square
+            = t('application.footer.fb_page')
+          %br
+          %a{:href => 'mailto:ab@ipkunin.ru'}
+            %i.fa.fa-mail-forward
+            = 'ab@ipkunin.ru'
