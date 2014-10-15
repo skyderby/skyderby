@@ -29,7 +29,7 @@ de:
       comment: 'Kommentar'
       uploaded_at: 'Hochgeladen am'
     show:
-      eldstch_html: "'Zurückgelegt in der Höhe/horizontal"
+      eldstch_html: "'Zurückgelegt in der Höhe/horizontal'"
       eldst_dst_html: "'Strecke'"
       eldst_el_s_html: "'Zurückgelegt in der Höhe'"
       eldst_dst_s_html: "'Zurückgelegte Strecke'"
@@ -44,8 +44,8 @@ de:
       adc_sp_y_html: "'Geschwindigkeit'"
       adc_ed_y_html: "'Höhe, Entfernung'"
       adc_gr_y_html: "'Flugqualität'"
-      adc_hspd_html: "'Horizontale Geschwindigkeit''"
-      adc_vspd_html: "'Vertikale Geschwindigkeit''"
+      adc_hspd_html: "'Horizontale Geschwindigkeit'"
+      adc_vspd_html: "'Vertikale Geschwindigkeit'"
       adc_gr_s_html: "'Flugqualität'"
       adc_h_s_html: "'Höhe'"
       adc_dst_html: "'Entfernung'"
