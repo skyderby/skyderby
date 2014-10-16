@@ -20,7 +20,9 @@ class TracksController < ApplicationController
   end
 
   def google_maps
+  end
 
+  def google_earth
   end
 
   def new
