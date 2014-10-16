@@ -3,7 +3,7 @@ ru:
     header:
       home: 'SKY DERBY'
       tracks: 'Список треков'
-      about: 'Алгоритмы'
+      about: 'О проекте'
       sign_in: 'Войти'
       sign_up: 'Зарегистрироваться'
       sign_out: 'Выйти'
