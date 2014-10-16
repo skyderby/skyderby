@@ -731,13 +731,17 @@
 .container
   .page-header
     .row
-      .col-md-9
+      .col-md-8
         %h1
           = "#{@track.name} | #{t '.title_track'} ##{@track.id}"
           %small="#{t '.title_suit'}: #{@track.wingsuit.present? ? @track.wingsuit.name : @track.suit}, @#{@track.location}"
 
-      .dropdown-container.col-md-3
+      .dropdown-container.col-md-4
         .pull-right
+          - if @track.ge_enabled
+            %a.btn.btn-default{:href => google_earth_track_path(@track), :target => '_blank'}
+              %i.fa.fa-compass
+              = 'Google earth'
           %a.btn.btn-default{:href => google_maps_track_path(@track), :target => '_blank'}
             %i.fa.fa-compass
             = 'Google maps'
