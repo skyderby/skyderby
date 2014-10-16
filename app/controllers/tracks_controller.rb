@@ -1,7 +1,7 @@
 # encoding: utf-8
 class TracksController < ApplicationController
 
-  before_action :set_track, only: [:show, :google_maps, :edit, :update, :destroy]
+  before_action :set_track, only: [:show, :google_maps, :google_earth, :edit, :update, :destroy]
 
   def index
     @tracks = Track.all.includes(:wingsuit)
@@ -20,7 +20,9 @@ class TracksController < ApplicationController
   end
 
   def google_maps
+  end
 
+  def google_earth
   end
 
   def new
@@ -35,7 +37,7 @@ class TracksController < ApplicationController
                         :track_index => params[:index], :name => flight_data[:name],
                         :suit => flight_data[:suit], :location => flight_data[:location],
                         :kind => flight_data[:kind], :comment => flight_data[:comment],
-                        :user => current_user, :wingsuit => wingsuit
+                        :user => current_user, :wingsuit => wingsuit, :ge_enabled => true
 
     if @track.save 
       redirect_to track_path(@track.id)
@@ -46,7 +48,6 @@ class TracksController < ApplicationController
   end
 
   def edit
-
   end
 
   # POST /tracks
