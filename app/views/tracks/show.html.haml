@@ -816,6 +816,7 @@
   #single-chart
     #all_data_chart
 
-  %blockquote
-    %small= @track.comment
+  - if @track.comment.present?
+    %blockquote
+      %small= @track.comment
 
