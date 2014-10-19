@@ -29,7 +29,7 @@ de:
       comment: 'Kommentar'
       uploaded_at: 'Hochgeladen am'
     show:
-      eldstch_html: "'Zurückgelegt in der Höhe/horizontal"
+      eldstch_html: "'Zurückgelegt in der Höhe/horizontal'"
       eldst_dst_html: "'Strecke'"
       eldst_el_s_html: "'Zurückgelegt in der Höhe'"
       eldst_dst_s_html: "'Zurückgelegte Strecke'"
@@ -44,8 +44,8 @@ de:
       adc_sp_y_html: "'Geschwindigkeit'"
       adc_ed_y_html: "'Höhe, Entfernung'"
       adc_gr_y_html: "'Flugqualität'"
-      adc_hspd_html: "'Horizontale Geschwindigkeit''"
-      adc_vspd_html: "'Vertikale Geschwindigkeit''"
+      adc_hspd_html: "'Horizontale Geschwindigkeit'"
+      adc_vspd_html: "'Vertikale Geschwindigkeit'"
       adc_gr_s_html: "'Flugqualität'"
       adc_h_s_html: "'Höhe'"
       adc_dst_html: "'Entfernung'"
@@ -128,10 +128,16 @@ de:
         completed: "Vergangene Veranstaltungen:"
       desc: "Die Analyse der GPS Tracks und die Durchführung der Wettkämpfe im Format GPS Performance."
       goto_event: "Auf die Seite Ereignisse >>"
+      supported_formats: "Unterstützte Dateiformate und Geräte:"
+      stats: "Statistik:"
+      stats_tracks: "Hochgeladene Tracks:"
+      stats_pilots: "Registrierte Piloten:"
     about:
       roadmap: 'Verfolgen Sie den Projektfortschritt auf:'
       trpr: 'Aufbereitung der Daten auf der Server-Seite'
       fepr: 'Aufbereitung der Daten auf der Browser-Seite'
+      developer: "Web-Etwickler - Aleksandr Kunin"
+      de_translate: "Webseite-Übersetzung ins Deutsche - Tetyana Holm"
   units:
     m: 'm'
     m_html: "'m'"

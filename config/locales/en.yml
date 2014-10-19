@@ -3,7 +3,7 @@ en:
     header:
       home: 'SKY DERBY'
       tracks: 'Tracks'
-      about: 'Algorithms'
+      about: 'About project'
       sign_in: 'Sign in'
       sign_up: 'Sign up'
       sign_out: 'Sign out'
@@ -18,7 +18,7 @@ en:
       competitions: "GPS Performance"
     footer:
       owner: 'Aleksandr Kunin'
-      fb_page: "Application's facebook page"
+      fb_page: "Application's page"
   track_select:
 
   tracks:
@@ -130,6 +130,10 @@ en:
         completed: "Completed events:"
       desc: "GPS Tracks analyzer and GPS perfomance competition front-end"
       goto_event: "Go to event >>"
+      supported_formats: "Supported file formats and GPS loggers:"
+      stats: "Statistics:"
+      stats_tracks: "Uploaded tracks:"
+      stats_pilots: "Registered pilots:"
     about:
       comp_t: 'Application works on:'
       comp_lng: 'Language and backend framework:'
@@ -139,6 +143,8 @@ en:
       roadmap: "Project's roadmap:"
       trpr: "Track's data processing source code"
       fepr: 'Frontend data processing'
+      developer: "App developing - Aleksandr Kunin"
+      de_translate: "Deutsch translate by Tatiana Holm"
   units:
     m: 'm'
     m_html: "'m'"
