@@ -143,6 +143,8 @@ en:
       roadmap: "Project's roadmap:"
       trpr: "Track's data processing source code"
       fepr: 'Frontend data processing'
+      developer: "App developing - Aleksandr Kunin"
+      de_translate: "Deutsch translate by Tatiana Holm"
   units:
     m: 'm'
     m_html: "'m'"

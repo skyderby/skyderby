@@ -136,6 +136,8 @@ de:
       roadmap: 'Verfolgen Sie den Projektfortschritt auf:'
       trpr: 'Aufbereitung der Daten auf der Server-Seite'
       fepr: 'Aufbereitung der Daten auf der Browser-Seite'
+      developer: "Web-Etwickler - Aleksandr Kunin"
+      de_translate: "Webseite-Übersetzung ins Deutsche - Tetyana Holm"
   units:
     m: 'm'
     m_html: "'m'"
