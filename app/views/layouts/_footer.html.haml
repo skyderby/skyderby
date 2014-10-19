@@ -4,14 +4,14 @@
       .col-sm-4
         %p.copyright= "Copyright © #{t 'application.footer.owner'} 2014"
       .col-sm-4
-        %p= 'Статистика:'
+        %p= t('static_pages.index.stats')
         %p
-          = "Загружено треков: #{Track.count}"
+          = t('static_pages.index.stats_tracks') + ' ' + Track.count.to_s
           %br
-          = "Зарегистрировано пилотов: #{User.count}"
+          = t('static_pages.index.stats_pilots') + ' ' + User.count.to_s
       .col-sm-4
         %p
-          %a{:href => 'https://www.facebook.com/skyderby.ru'}
+          %a{:href => about_path}
             %i.fa.fa-fw.fa-info
             = t('application.header.about')
           %br

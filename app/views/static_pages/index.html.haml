@@ -16,29 +16,29 @@
       .col-3.hidden-xs.col-sm-3
         %img.img-responsive{:src => asset_path('app-logo.png')}
 
-.container.top-buffer
-  .row
-    .col-sm-12
-      %h2= 'Как с этим работать:'
-  .row.how-it-works
-    .col-lg-4.col-md-4.col-sm-4
-      #first-step-hiw
-      .step-number-hiw= '1'
-      %p= 'Летайте с GPS логгером'
-    .col-lg-4.col-md-4.col-sm-4
-      #second-step-hiw
-      .step-number-hiw= '2'
-      %p= 'Загружайте треки'
-    .col-lg-4.col-md-4.col-sm-4
-      #third-step-hiw
-      .step-number-hiw= '3'
-      %p= 'Анализируйте, летайте лучше'
+-#.container.top-buffer
+-#  .row
+-#    .col-sm-12
+-#      %h2= 'Как с этим работать:'
+-#  .row.how-it-works
+-#    .col-lg-4.col-md-4.col-sm-4
+-#      #first-step-hiw
+-#      .step-number-hiw= '1'
+-#      %p= 'Летайте с GPS логгером'
+-#    .col-lg-4.col-md-4.col-sm-4
+-#      #second-step-hiw
+-#      .step-number-hiw= '2'
+-#      %p= 'Загружайте треки'
+-#    .col-lg-4.col-md-4.col-sm-4
+-#      #third-step-hiw
+-#      .step-number-hiw= '3'
+-#      %p= 'Анализируйте, летайте лучше'
 
-%hr
+-#%hr
 .container.top-buffer
   .row
     .col-sm-12
-      %h2= 'Поддерживаемые форматы и приборы:'
+      %h2= t('static_pages.index.supported_formats')
   .row.supported-formats
     .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
       #gpx-sf

@@ -130,6 +130,10 @@ en:
         completed: "Completed events:"
       desc: "GPS Tracks analyzer and GPS perfomance competition front-end"
       goto_event: "Go to event >>"
+      supported_formats: "Supported file formats and GPS loggers:"
+      stats: "Statistics:"
+      stats_tracks: "Uploaded tracks:"
+      stats_pilots: "Registered pilots:"
     about:
       comp_t: 'Application works on:'
       comp_lng: 'Language and backend framework:'
