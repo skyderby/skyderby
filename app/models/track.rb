@@ -75,6 +75,14 @@ class Track < ActiveRecord::Base
     get_track_data.to_json.html_safe
   end
 
+  def get_earth_data
+    data = get_track_data.map { |x| {:latitude => x[:latitude],
+                                      :longitude => x[:longitude],
+                                      :h_speed => x[:h_speed],
+                                      :elevation => x[:abs_altitude].nil? ? x[:elevation] : x[:abs_altitude]} }
+    data.to_json.html_safe
+  end
+
   def get_max_height
     get_track_data.max_by{ |x| x[:elevation] }[:elevation].round
   end
@@ -109,6 +117,7 @@ class Track < ActiveRecord::Base
                 :fl_time_abs => fl_time,
                 :elevation_diff => (prev_point.elevation - point.elevation).round(2),
                 :elevation => point.elevation.round(2),
+                :abs_altitude => point.abs_altitude,
                 :latitude => point.latitude,
                 :longitude => point.longitude,
                 :distance => point.distance.to_i,
@@ -172,14 +181,25 @@ class Track < ActiveRecord::Base
   def parse_csv_row(row, format)
 
     if (format == :flysight) || (format ==:flysight2)
+
       return nil if (row[1].to_f == 0.0 || row[8].to_i > 70)
-      {:latitude => row[1].to_f, :longitude => row[2].to_f, :elevation => row[3].to_f, :point_created_at => row[0].to_s}
+
+      {:latitude => row[1].to_f,
+       :longitude => row[2].to_f,
+       :elevation => row[3].to_f,
+       :abs_altitude => row[3].to_f,
+       :point_created_at => row[0].to_s}
+
     elsif format == :columbusV900
+
       return nil if row[6].to_f == 0.0
+
       {:latitude => (row[4][0..(row[4].length-2)] * (row[4][row[4].length-1] == 'N' ? 1 : -1)).to_f,
         :longitude => (row[5][0..(row[5].length-2)] * (row[5][row[5].length-1] == 'E' ? 1 : 01)).to_f,
         :elevation => row[6].to_f,
+        :abs_altitude => row[6].to_f,
         :point_created_at => DateTime.strptime('20' + row[2].to_s + 'T' + row[3].to_s, '%Y%m%dT%H%M%S').strftime('%Y-%m-%dT%H:%M:%S')}
+
     else
       nil
     end
@@ -228,6 +248,7 @@ class Track < ActiveRecord::Base
                 point_hash = {:latitude => trpoint.attr('lat').to_f, :longitude => trpoint.attr('lon').to_f}
                 trpoint.elements.each do |node|
                   point_hash[:elevation] = node.text.to_f if node.name.eql? 'ele'
+                  point_hash[:abs_altitude] = node.text.to_f if node.name.eql? 'ele'
                   point_hash[:point_created_at] = node.text.to_s if node.name.eql? 'time'
                 end
                 track_points << point_hash

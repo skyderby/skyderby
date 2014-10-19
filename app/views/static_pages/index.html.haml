@@ -16,10 +16,45 @@
       .col-3.hidden-xs.col-sm-3
         %img.img-responsive{:src => asset_path('app-logo.png')}
 
+-#.container.top-buffer
+-#  .row
+-#    .col-sm-12
+-#      %h2= 'Как с этим работать:'
+-#  .row.how-it-works
+-#    .col-lg-4.col-md-4.col-sm-4
+-#      #first-step-hiw
+-#      .step-number-hiw= '1'
+-#      %p= 'Летайте с GPS логгером'
+-#    .col-lg-4.col-md-4.col-sm-4
+-#      #second-step-hiw
+-#      .step-number-hiw= '2'
+-#      %p= 'Загружайте треки'
+-#    .col-lg-4.col-md-4.col-sm-4
+-#      #third-step-hiw
+-#      .step-number-hiw= '3'
+-#      %p= 'Анализируйте, летайте лучше'
+
+-#%hr
 .container.top-buffer
   .row
-    .col-6.col-sm-6.col-lg-4
-      %h2= 'Menzelinsk Sky Race'
-      %p= '6-8 сентября на аэродроме Мензелинск прошли соревнования в дисциплинах Время, Дальность, Скорость. В соревнованиях приняли участие спортсмены из 11 городов.'
-      %p
-        %a{:href => event_path( :id => 2 )}= t('static_pages.index.goto_event')
+    .col-sm-12
+      %h2= t('static_pages.index.supported_formats')
+  .row.supported-formats
+    .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
+      #gpx-sf
+    .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
+      #fs-sf
+    .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
+      #garmin-sf
+    .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
+      #wintec-sf
+    .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
+      #columbus-sf
+
+-#.container.top-buffer
+-#  .row
+-#    .col-6.col-sm-6.col-lg-4
+-#      %h2= 'Menzelinsk Sky Race'
+-#      %p= '6-8 сентября на аэродроме Мензелинск прошли соревнования в дисциплинах Время, Дальность, Скорость. В соревнованиях приняли участие спортсмены из 11 городов.'
+-#      %p
+-#        %a{:href => event_path( :id => 2 )}= t('static_pages.index.goto_event')

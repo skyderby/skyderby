@@ -1,0 +1,192 @@
+de:
+  application:
+    header:
+      home: 'SKY DERBY'
+      tracks: 'Trackliste'
+      about: 'Über uns'
+      sign_in: 'Einloggen'
+      sign_up: 'Registrieren'
+      sign_out: 'Ausloggen'
+      login_email: 'E-Mail Adresse'
+      password: 'Passwort'
+      remember_me: 'Merken'
+      forgot_pass: 'Passwort vergessen?'
+      profile: "Profil"
+      admin_panel: 'Administrator-Panel'
+      track_analizer: 'Trackanalyse'
+      upload_track: "Track hochladen"
+      competitions: "Wettkampf"
+    footer:
+      owner: 'Aleksandr Kunin'
+      fb_page: "Facebook Seite"
+  tracks:
+    index:
+      title: 'Geladene Tracks:'
+      number: 'Nummer'
+      name: 'Pilot'
+      suit: 'Wingsuit'
+      place: 'Ort'
+      comment: 'Kommentar'
+      uploaded_at: 'Hochgeladen am'
+    show:
+      eldstch_html: "'Zurückgelegt in der Höhe/horizontal'"
+      eldst_dst_html: "'Strecke'"
+      eldst_el_s_html: "'Zurückgelegt in der Höhe'"
+      eldst_dst_s_html: "'Zurückgelegte Strecke'"
+      eldst_h_s_html: "'Höhe'"
+      spdch_html: "'Vertikale und horizontale Geschwindigkeit'"
+      spd_ax_html: "'Geschwindigkeit'"
+      spd_hs_html: "'Horizontale Geschwindigkeit'"
+      spd_vs_html: "'Vertikale Geschwindigkeit'"
+      grch_html: "'Flugqualität'"
+      gr_s_html: "'Qualität'"
+      adc_html: "'Fluginformation'"
+      adc_sp_y_html: "'Geschwindigkeit'"
+      adc_ed_y_html: "'Höhe, Entfernung'"
+      adc_gr_y_html: "'Flugqualität'"
+      adc_hspd_html: "'Horizontale Geschwindigkeit'"
+      adc_vspd_html: "'Vertikale Geschwindigkeit'"
+      adc_gr_s_html: "'Flugqualität'"
+      adc_h_s_html: "'Höhe'"
+      adc_dst_html: "'Entfernung'"
+      adc_ele_html: "'Zurückgelegt in der Höhe'"
+      title_track: 'Track'
+      title_suit: 'Wingsuit'
+      menu_header: 'Merkmalanzeige'
+      menu_sep: 'Auf unterschiedlichen Grafiken'
+      menu_one: 'Auf einer Grafik'
+      dt_dist: 'Entfernung:'
+      dt_elev: 'Höhendifferenz:'
+      dt_dur: 'Dauer:'
+      dt_hspd: 'Horizontale Geschwindigkeit:'
+      dt_vspd: 'Vertikale Geschwindigkeit:'
+      dt_gr: 'Flugqualität:'
+      units_header: 'Maßeinheit:'
+      m_units_metric: 'Metrisches Einheitssystem (m, km/h.)'
+      m_units_imperial: 'Имперские (футы, мили/ч)'
+      delete_confirmation: "Sind Sie sicher, daß Sie diesen Track entfernen möchten?"
+      delete: "Entfernen"
+      manage: "Korrektur"
+      edit: "Korrigieren"
+    choose:
+      title: 'Track aussuchen zum hochladen'
+      number: 'Nummer'
+      name: 'Trackname'
+      elev: 'Höhenunterschied'
+      pt_cnt: 'Anzahl der Punkte'
+    upload_error:
+      header: "Fehler beim Lesen der Datei"
+      text: "Bitte schicken Sie die Datei an folgende E-Mail Adresse ab@ipkunin.ru. Geben Sie bitte an mit welchem Gerät es aufgenommen wurde. Sobald der Fehler gefunden und behoben wurde, werde ich mich bei Ihnen melden."
+  static_pages:
+    index:
+      title: 'Flieg! Nimm am Wettbewerb teil! Gewinne!'
+      subtitle: 'Immernoch beta'
+      track_form:
+        title: 'Track anschauen und bewerten:'
+        name: 'Ihr Name:'
+        name_plh: 'Vor- und Nachname.'
+        suit: 'Sie fliegen mit:'
+        suit_plh: 'Wingsuitmodell'
+        location: 'Ort:'
+        location_plh: 'Flughafen, Berge usw.'
+        file: "Track Datei:"
+        help: 'Es werden folgende Formate unterstützt: csv и gpx'
+        comment: 'Kommentar:'
+        comment_plh: 'Ein Paar Worte über Ihren Flug'
+        submit: 'Hochladen'
+        warnings:
+          name_html: "'Sie haben Ihren Vor- und Nachnamen nicht angegeben.'"
+          suit_html: "'Sie haben nicht angegeben womit Sie diesen Flug geflogen sind.'"
+          loc_html: "'Sie haben nicht angegeben wo Sie geflogen sind.'"
+          file_html: "'Sie haben die Datei nicht ausgesucht.'"
+          file_ext_w1_html: "'Dateityp : '"
+          file_ext_w2_html: "'Bitte suchen Sie den Dateityp mit csv, tes oder gpx aus'"
+          file_size_w1_html: "'Dateigröße : '"
+          file_size_w2_html: "'Die Dateigröße darf nicht größer sein als 1 MB'"
+        kind: "Art des Sprunges:"
+      or: 'oder'
+      events:
+        title: 'Am Wettbewerb teilnehmen:'
+        coming: 'kommt bald'
+        create: 'Veranstaltung erstellen'
+        future: 'Zukünftige Veranstaltungen:'
+        betatestersonly: ' Die Möglichkeit der Veranstaltungerstellung ist im Moment nur für die Teilnehmer des Programms freigegeben.'
+        table:
+          event: 'Veranstaltung'
+          starts: 'Datum des Beginns'
+          ends: 'Datum des Endes'
+        form:
+          title: 'Neue Veranstaltung'
+          name: 'Name:'
+          place: 'Ort:'
+          start_at: 'Zeitraum:'
+          end_at: ' - '
+          range_from: 'Wettkampfbereich:'
+          range_to: ' - '
+          reg_start_at: "Anmeldung:"
+          reg_end_at: "-"
+        completed: "Vergangene Veranstaltungen:"
+      desc: "Die Analyse der GPS Tracks und die Durchführung der Wettkämpfe im Format GPS Performance."
+      goto_event: "Auf die Seite Ereignisse >>"
+      supported_formats: "Unterstützte Dateiformate und Geräte:"
+      stats: "Statistik:"
+      stats_tracks: "Hochgeladene Tracks:"
+      stats_pilots: "Registrierte Piloten:"
+    about:
+      roadmap: 'Verfolgen Sie den Projektfortschritt auf:'
+      trpr: 'Aufbereitung der Daten auf der Server-Seite'
+      fepr: 'Aufbereitung der Daten auf der Browser-Seite'
+      developer: "Web-Etwickler - Aleksandr Kunin"
+      de_translate: "Webseite-Übersetzung ins Deutsche - Tetyana Holm"
+  units:
+    m: 'm'
+    m_html: "'m'"
+    ft_html: "'Fuß'"
+    kmh: 'km/h'
+    t_html: "'Sek'"
+    kmh_html: "'km/h'"
+    mph_html: "'mi/h'"
+
+  events:
+    show:
+      pf:
+        in_process: "Ihre Anfrage wird bearbeitet"
+        approved: "Ihre Anfrage wurde bestätigt"
+        declined: "Ihre Anfrage wurde abgelehnt"
+        title: "Anfrage auf Teilnahme"
+        pending: "Nicht bearbeitete Anfragen"
+        completed: "Bearbeitete Anfragen"
+      reg:
+        not_starts: "Die Anmeldung hat noch nicht begonnen"
+        finished: "Die Anmeldung ist beendet"
+      results: "Ergebnisse"
+      overview: "Information"
+      docs: "Dokumente"
+      dz_info: "Information über den Flughafen"
+      competitors: "Teilnehmer"
+      managing: "Verwaltung"
+      class_comp: "Klasse / Teilnehmer"
+      pfs: "Anfragen"
+      rounds: "Runden"
+      orgs: "Organisatoren"
+  pf:
+    jumps: "Sprünge insgesamt/in 12 Monaten/in 3 Monaten:"
+    ws_jumps: "Mit Wingsuit insgesamt/in 12 Monaten/in 3 Monaten:"
+    ws_class: "Wingsuit/Klasse:"
+    home_dz: "Heimisch Flughafen:"
+    height_weight: "Größe/Gewicht:"
+    shirt_size: "Größe des T-Shirts:"
+    phone: "Telefon:"
+    email: "E-Mail Adresse:"
+    fb: "Facebook-Profil:"
+    vk: "VK.com-Profil:"
+    additional_info: "Ergänzende Information:"
+    approve: "Bestätigen"
+    decline: "Ablehnen"
+  rounds:
+    new: "Runde hinzufügen"
+    name: "Name der Runde:"
+    discipline: "Fachdisziplin:"
+  general:
+    cancel: "Abbrechen"
+    create: "Hinzufügen"

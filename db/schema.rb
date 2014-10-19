@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141006195650) do
+ActiveRecord::Schema.define(version: 20141016072241) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(version: 20141006195650) do
     t.float    "distance",         limit: 24
     t.float    "v_speed",          limit: 24
     t.float    "h_speed",          limit: 24
+    t.float    "abs_altitude",     limit: 24
   end
 
   add_index "points", ["tracksegment_id"], name: "index_points_on_tracksegment_id", using: :btree
@@ -162,6 +163,7 @@ ActiveRecord::Schema.define(version: 20141006195650) do
     t.integer  "wingsuit_id"
     t.integer  "ff_start"
     t.integer  "ff_end"
+    t.boolean  "ge_enabled"
   end
 
   add_index "tracks", ["user_id"], name: "index_tracks_on_user_id", using: :btree
