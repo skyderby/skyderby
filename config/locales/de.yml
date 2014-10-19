@@ -128,6 +128,10 @@ de:
         completed: "Vergangene Veranstaltungen:"
       desc: "Die Analyse der GPS Tracks und die Durchführung der Wettkämpfe im Format GPS Performance."
       goto_event: "Auf die Seite Ereignisse >>"
+      supported_formats: "Unterstützte Dateiformate und Geräte:"
+      stats: "Statistik:"
+      stats_tracks: "Hochgeladene Tracks:"
+      stats_pilots: "Registrierte Piloten:"
     about:
       roadmap: 'Verfolgen Sie den Projektfortschritt auf:'
       trpr: 'Aufbereitung der Daten auf der Server-Seite'
