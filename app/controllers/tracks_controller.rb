@@ -23,6 +23,9 @@ class TracksController < ApplicationController
   end
 
   def google_earth
+    unless @track.ge_enabled
+      redirect_to track_path(@track)
+    end
   end
 
   def new

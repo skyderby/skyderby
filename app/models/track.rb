@@ -78,6 +78,7 @@ class Track < ActiveRecord::Base
   def get_earth_data
     data = get_track_data.map { |x| {:latitude => x[:latitude],
                                       :longitude => x[:longitude],
+                                      :h_speed => x[:h_speed],
                                       :elevation => x[:abs_altitude].nil? ? x[:elevation] : x[:abs_altitude]} }
     data.to_json.html_safe
   end
