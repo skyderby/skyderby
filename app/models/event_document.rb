@@ -2,6 +2,7 @@ class EventDocument < ActiveRecord::Base
   belongs_to :event
 
   has_attached_file :attached_file
+  validates :name, presence: true
   validates :attached_file, :attachment_presence => true
   validates_with AttachmentSizeValidator, :attributes => :attached_file, :less_than => 5.megabytes
   # validates_attachment_content_type :attached_file, :content_type => {

@@ -13,23 +13,29 @@ class DisciplinesController < ApplicationController
   end
 
   def create
-    @discipline = Discipline.new(params[:discipline].permit(:name))
+    @discipline = Discipline.new(discipline_params)
 
-    @discipline.save
-    redirect_to discipline_path(@discipline)
+    if @discipline.save
+      redirect_to @discipline
+    else
+      render 'new'
+    end
   end
 
   def update
-
   end
 
   def destroy
-
   end
 
   private
-    def set_discipline
-      @discipline = Discipline.find(params[:id])
-    end
+
+  def set_discipline
+    @discipline = Discipline.find(params[:id])
+  end
+
+  def discipline_params
+    params[:discipline].permit(:name)
+  end
 
 end
