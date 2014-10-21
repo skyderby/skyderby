@@ -1,16 +1,14 @@
 class Track < ActiveRecord::Base
+  attr_accessor :trackfile, :track_index
+  belongs_to :user
+  belongs_to :wingsuit
+  has_one :event_track
+  has_many :tracksegments, :dependent => :destroy
+  has_many :points, :through => :tracksegments
 
   enum kind: [ :skydive, :base ]
 
-  attr_accessor :trackfile, :track_index
-
-  belongs_to :user
-  belongs_to :wingsuit
-
-  has_one :event_track
-
-  has_many :tracksegments, :dependent => :destroy
-  has_many :points, :through => :tracksegments
+  validates :name, :location, :suit, presence: true
   before_save :parse_file
 
   def calc_results(range_from, range_to)
@@ -385,10 +383,10 @@ class Track < ActiveRecord::Base
       return false
     end
 
-    trkseg = Tracksegment.new
+    trkseg = Tracksegment.create!
 
-    track_points.each do |trkpoint|
-      trkseg.points << Point.new(trkpoint)
+    Point.create (track_points) do |point|
+      point.tracksegment = trkseg
     end
 
     self.tracksegments << trkseg
