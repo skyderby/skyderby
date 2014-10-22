@@ -5,8 +5,7 @@ class Ability
 
     user ||= User.new # guest user (not logged in)
 
-    can :read, Track, :visibility => [Track.visibilities[:public_track], Track.visibilities[:unlisted_track]]
-
+    can :read, Track, :visibility => ['public_track', 'unlisted_track']
     can :create, Track
 
     if user
