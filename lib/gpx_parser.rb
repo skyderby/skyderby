@@ -1,0 +1,2 @@
+class GPXParser < TrackParser
+end

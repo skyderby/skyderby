@@ -1,0 +1,2 @@
+class CSVParser < TrackParser
+end
