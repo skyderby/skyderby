@@ -41,7 +41,7 @@ class TracksController < ApplicationController
     flight_data = Rails.cache.read(params[:cache_id])
 
     @track = Track.new flight_data.except(:data, :ext, :ws_id)
-    @track.wingsuit = Wingsuit.find(flight_data[:ws_id]) if flight_data[:ws_id].present?
+    @track.wingsuit = Wingsuit.find(flight_data[:wingsuit_id]) if flight_data[:wingsuit_id].present?
     @track.user = current_user
     @track.ge_enabled = true
 
