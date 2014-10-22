@@ -5,13 +5,14 @@ class Ability
 
     user ||= User.new # guest user (not logged in)
 
-    can :read, :all
+    can :read, Track, :visibility => [Track.visibilities[:public_track], Track.visibilities[:unlisted_track]]
+
     can :create, Track
 
     if user
 
-      can [:update], Track, :user => user  # Редактирование собственных треков
-      can [:destroy], Track, :user => user, :event_track => nil # Удаление собственных треков
+      can [:read, :update], Track, :user => user  # Редактирование собственных треков
+      can :destroy, Track, :user => user, :event_track => nil # Удаление собственных треков
 
       if user.has_role? :admin
 

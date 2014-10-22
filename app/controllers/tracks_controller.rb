@@ -4,10 +4,12 @@ class TracksController < ApplicationController
   before_action :set_track, only: [:show, :google_maps, :google_earth, :edit, :update, :destroy]
 
   def index
-    @tracks = Track.all.includes(:wingsuit)
+    @tracks = Track.public_track.includes(:wingsuit)
   end
 
   def show
+
+    authorize! :read, @track
 
     @track.update(:lastviewed_at => Time.now)
 
@@ -20,12 +22,17 @@ class TracksController < ApplicationController
   end
 
   def google_maps
+    authorize! :read, @track
   end
 
   def google_earth
+
     unless @track.ge_enabled
       redirect_to track_path(@track)
     end
+
+    authorize! :read, @track
+
   end
 
   def new
@@ -33,17 +40,16 @@ class TracksController < ApplicationController
 
     flight_data = Rails.cache.read(params[:cache_id])
 
-    wingsuit = nil
-    wingsuit = Wingsuit.find(flight_data[:ws_id]) if flight_data[:ws_id].present?
+    @track = Track.new flight_data.except(:data, :ext, :ws_id)
+    @track.wingsuit = Wingsuit.find(flight_data[:ws_id]) if flight_data[:ws_id].present?
+    @track.user = current_user
+    @track.ge_enabled = true
 
-    @track = Track.new :trackfile => {:data => flight_data[:data], :ext => flight_data[:ext]},
-                        :track_index => params[:index], :name => flight_data[:name],
-                        :suit => flight_data[:suit], :location => flight_data[:location],
-                        :kind => flight_data[:kind], :comment => flight_data[:comment],
-                        :user => current_user, :wingsuit => wingsuit, :ge_enabled => true
+    @track.trackfile = flight_data.slice(:data, :ext)
+    @track.track_index = params[:index]
 
-    if @track.save 
-      redirect_to track_path(@track.id)
+    if @track.save
+      redirect_to current_user ? edit_track_path(@track) : track_path(@track)
     else
       redirect_to upload_error_tracks_path
     end
@@ -76,10 +82,8 @@ class TracksController < ApplicationController
     authorize! :update, @track
 
     track_upd_params = track_params
-    track_upd_params[:wingsuit] = nil
-    track_upd_params[:wingsuit] = Wingsuit.find(track_upd_params[:ws_id]) if track_upd_params[:ws_id].present?
-
-    track_upd_params[:kind] = track_upd_params[:kind].to_i
+    #track_upd_params[:wingsuit] = nil
+    #track_upd_params[:wingsuit] = Wingsuit.find(track_upd_params[:wingsuit_id]) if track_upd_params[:wingsuit_id].present?
 
     respond_to do |format|
       if @track.update(track_upd_params)
@@ -189,7 +193,7 @@ class TracksController < ApplicationController
 
     flight_data = {:data => track_file, :ext => ext,
                    :name => params[:name], :suit => params[:suit],
-                   :location => params[:location], :kind => params[:kind].to_i,
+                   :location => params[:location], :kind => params[:kind],
                    :comment => params[:comment], :ws_id => params[:wingsuit_id]}
 
     @key = SecureRandom.uuid.to_s
@@ -213,8 +217,8 @@ class TracksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def track_params
-      params.require(:track).permit(:name, :ws_id, :suit, :kind, :location,
+      params.require(:track).permit(:name, :suit, :kind, :location,
                                     :ff_start, :ff_end, :wingsuit_id,
-                                    :comment, :cache_id, :index)
+                                    :comment, :cache_id, :index, :visibility)
     end
 end

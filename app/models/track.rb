@@ -6,7 +6,8 @@ class Track < ActiveRecord::Base
   has_many :tracksegments, :dependent => :destroy
   has_many :points, :through => :tracksegments
 
-  enum kind: [ :skydive, :base ]
+  enum kind: [:skydive, :base]
+  enum visibility: [:public_track, :unlisted_track, :private_track]
 
   validates :name, :location, :suit, presence: true
   before_save :parse_file

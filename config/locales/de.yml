@@ -77,6 +77,8 @@ de:
     upload_error:
       header: "Fehler beim Lesen der Datei"
       text: "Bitte schicken Sie die Datei an folgende E-Mail Adresse ab@ipkunin.ru. Geben Sie bitte an mit welchem Gerät es aufgenommen wurde. Sobald der Fehler gefunden und behoben wurde, werde ich mich bei Ihnen melden."
+    edit:
+      visibility: "Visibility:"
   static_pages:
     index:
       title: 'Flieg! Nimm am Wettbewerb teil! Gewinne!'
@@ -190,3 +192,4 @@ de:
   general:
     cancel: "Abbrechen"
     create: "Hinzufügen"
+    save: "Save"

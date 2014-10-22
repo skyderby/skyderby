@@ -79,6 +79,8 @@ en:
     upload_error:
       header: "File upload error"
       text: "Please, send file with track on ab@ipkunin.ru. I'll email you when find what cause the error."
+    edit:
+      visibility: "Visibility:"
   static_pages:
     index:
       title: "Fly! Compete! Win!"
@@ -194,3 +196,4 @@ en:
   general:
     cancel: "Cancel"
     create: "Create"
+    save: "Save"

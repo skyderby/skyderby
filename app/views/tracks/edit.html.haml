@@ -102,58 +102,59 @@
   = form_for @track, :html => {:class => 'form-horizontal', :role => 'form', :id => 'track_upload_form'} do |f|
     = f.hidden_field 'ff_start', :id => 'ff_start'
     = f.hidden_field 'ff_end', :id => 'ff_end'
-    .row
-      .form-group
-        = f.label 'name', t('static_pages.index.track_form.name'), :class => 'col-sm-2 control-label', :for => 'name'
-        .col-sm-4
-          = f.text_field 'name', :class => 'form-control', :placeholder => t('static_pages.index.track_form.name_plh'), :type => 'text'
-    .row
-      .form-group
-        = f.label 'suit', t('static_pages.index.track_form.suit'), :class => 'col-sm-2 control-label', :for => 'suit'
-        .col-sm-4
-          = f.text_field 'suit', :class => 'form-control wingsuit-autocomplete', :placeholder => t('static_pages.index.track_form.suit_plh'), :type => 'text'
-          = f.hidden_field 'wingsuit_id', :id => 'wingsuit-id'
+    .form-group
+      = f.label 'name', t('static_pages.index.track_form.name'), :class => 'col-sm-2 control-label', :for => 'name'
+      .col-sm-4
+        = f.text_field 'name', :class => 'form-control', :placeholder => t('static_pages.index.track_form.name_plh'), :type => 'text'
+    .form-group
+      = f.label 'suit', t('static_pages.index.track_form.suit'), :class => 'col-sm-2 control-label', :for => 'suit'
+      .col-sm-4
+        = f.text_field 'suit', :class => 'form-control wingsuit-autocomplete', :placeholder => t('static_pages.index.track_form.suit_plh'), :type => 'text'
+        = f.hidden_field 'wingsuit_id', :id => 'wingsuit-id', :value => @track.wingsuit_id
 
-    .row
-      .form-group
-        = f.label 'location', t('static_pages.index.track_form.location'), :class => 'col-sm-2 control-label', :for => 'location'
-        .col-sm-4
-          = f.text_field 'location', :class => 'form-control', :placeholder => t('static_pages.index.track_form.location_plh'), :type => 'text'
+    .form-group
+      = f.label 'location', t('static_pages.index.track_form.location'), :class => 'col-sm-2 control-label', :for => 'location'
+      .col-sm-4
+        = f.text_field 'location', :class => 'form-control', :placeholder => t('static_pages.index.track_form.location_plh'), :type => 'text'
 
-    .row
-      .form-group
-        = f.label 'kind', t('static_pages.index.track_form.kind'), :class => 'col-sm-2 control-label', :for => 'kind'
-        .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
-          - if @track.kind == 0
-            %label.btn.btn-default.active
-              = f.radio_button 'kind', 0
-              = 'Skydive'
-          - else
-            %label.btn.btn-default
-              = f.radio_button 'kind', 0
-              = 'Skydive'
+    .form-group
+      = f.label 'kind', t('static_pages.index.track_form.kind'), :class => 'col-sm-2 control-label', :for => 'kind'
+      .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
+        %label.btn.btn-default{ :class => ('active' if @track.skydive?) }
+          = f.radio_button 'kind', 'skydive'
+          = 'Skydive'
 
-          - if @track.kind == 1
-            %label.btn.btn-default
-              = f.radio_button 'kind', 1
-              = 'B.A.S.E'
-          - else
-            %label.btn.btn-default.active
-              = f.radio_button 'kind', 1
-              = 'B.A.S.E'
+        %label.btn.btn-default{ :class => ('active' if @track.base?) }
+          = f.radio_button 'kind', 'base'
+          = 'B.A.S.E'
 
-    .row
-      .form-group
-        = f.label t('static_pages.index.track_form.comment'), nil, :class => 'col-sm-2 control-label', :for => 'comment'
-        .col-sm-4
-          = f.text_area 'comment', :class => 'form-control', :rows => 3, :placeholder => t('static_pages.index.track_form.comment_plh')
+    .form-group
+      = f.label t('static_pages.index.track_form.comment'), nil, :class => 'col-sm-2 control-label', :for => 'comment'
+      .col-sm-4
+        = f.text_area 'comment', :class => 'form-control', :rows => 3, :placeholder => t('static_pages.index.track_form.comment_plh')
 
-    .row
+    .form-group
+      = f.label 'visibility', t('tracks.edit.visibility'), :class => 'col-sm-2 control-label', :for => 'visibility'
+      .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
+        %label.btn.btn-default{ :class => ('active' if @track.public_track?) }
+          = f.radio_button 'visibility', 'public_track'
+          = 'Public'
+        %label.btn.btn-default{ :class => ('active' if @track.unlisted_track?) }
+          = f.radio_button 'visibility', 'unlisted_track'
+          = 'Unlisted'
+        %label.btn.btn-default{ :class => ('active' if @track.private_track?) }
+          = f.radio_button 'visibility', 'private_track'
+          = 'Private'
+
+    .form-group
       .col-sm-4
         %div#alert-placeholder
 
-    .row
-      .col-sm-4.col-sm-offset-2
-        = link_to 'Отмена', @track, :class => 'btn btn-default'
-        = f.submit 'Сохранить', :class => 'btn btn-default'
+    .form-group
+      .col-sm-3.col-sm-offset-2
+        = link_to t('general.cancel'), @track, :class => 'btn btn-default'
+        = f.submit t('general.save'), :class => 'btn btn-success'
+      .col-sm-1
+        = link_to t('tracks.show.delete'), @track, :method => :delete, :data => {:confirm => t('tracks.show.delete_confirmation')}, :class => 'btn btn-danger'
+
   .top-buffer
