@@ -5,10 +5,10 @@
   $(function() {
 
     // Массив хэшей содержащий данные трека
-    var charts_data = #{@track.get_charts_data};
+    var charts_data = #{@track.charts_data};
     // Максимальная высота трека
-    var max_height = #{@track.get_max_height};
-    var min_height = #{@track.get_min_height};
+    var max_height = #{@track.max_height};
+    var min_height = #{@track.min_height};
 
     var param_from = #{@f};
     var param_to = #{@t};
