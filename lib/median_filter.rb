@@ -23,7 +23,7 @@ class MedianFilter
 
   def process_values(values)
 
-    half_step = @step / 2 - 1
+    half_step = (@step - 1) / 2
 
     values.each_index do |i|
 
@@ -33,7 +33,9 @@ class MedianFilter
                         item,
                         values[ [values.count - 1, i + half_step].min ] ]
 
-      @keys.each { |key| item[key] = median_points.map { |x| x[key] || 0 }.sort[half_step] }
+      @keys.each do |key|
+        item[key] = median_points.map { |x| x[key] || 0 }.sort[half_step]
+      end
 
     end
     

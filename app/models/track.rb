@@ -69,7 +69,7 @@ class Track < ActiveRecord::Base
       parser = ParserSelector::choose(trackfile[:data], trackfile[:ext])
       return false if parser.nil?
 
-      track_points = parser.parse track_index
+      track_points = parser.parse track_index.to_i
       track_points.process_data!
 
       return false if track_points.points.count < 10

@@ -131,7 +131,7 @@ class TrackPoints
   # Медианный фильтр для расстояния, высоты, скоростей
   def median_filter!
     median_filter = MedianFilter.new(3, [:distance, :elevation, :h_speed, :v_speed])
-    median_filter.filter! @points
+    @points = median_filter.filter @points
   end
 
   def calc_parameters!
