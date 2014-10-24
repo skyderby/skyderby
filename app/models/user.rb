@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
 
-  def self.search_by_name query
+  def self.search_by_name(query)
     User.where('LOWER(name) LIKE LOWER(?)', "%#{query}%")
   end
 

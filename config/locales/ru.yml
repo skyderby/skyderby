@@ -1,4 +1,30 @@
 ru:
+  activerecord:
+    attributes:
+      track:
+        id: '#'
+        name: 'Пилот'
+        suit: 'Вингсьют'
+        place: 'Локация'
+        comment: 'Комментарий'
+        uploaded_at: 'Дата загрузки'
+      user_profile:
+        last_name: "Фамилия:"
+        first_name: "Имя:"
+        photo: "Фото"
+        phone_number: "Номер телефона"
+        facebook_profile: "Профиль Facebook"
+        vk_profile: "Профиль ВКонтакте"
+        jumps_total: "Прыжков всего:"
+        jumps_last_year: "12 мес."
+        jumps_last_3m: "3 мес."
+        wingsuit_jumps_total: "Прыжков в вингсьюте:"
+        wingsuit_jumps_last_year: "12 мес."
+        wingsuit_jumps_last_3m: "3 мес."
+        home_DZ: "Домашняя ДЗ:"
+        height: "Рост:"
+        weight: "Вес"
+        shirt_size: "Размер футболки:"
   application:
     header:
       home: 'SKY DERBY'
@@ -22,12 +48,6 @@ ru:
   tracks:
     index:
       title: 'Загруженные треки:'
-      number: 'Номер'
-      name: 'Пилот'
-      suit: 'Вингсьют'
-      place: 'Локация'
-      comment: 'Комментарий'
-      uploaded_at: 'Дата загрузки'
     show:
       eldstch_html: "'Пройдено по высоте/по горизонту'"
       eldst_dst_html: "'Дистанция'"
@@ -198,3 +218,24 @@ ru:
     cancel: "Отмена"
     create: "Добавить"
     save: "Сохранить"
+    update: "Обновить"
+  users:
+    profile:
+      show:
+        jumps: "Прыжков всего/за 12 мес./за 3 мес.:"
+        ws_jumps: "В вингсьюте всего/за 12 мес./за 3 мес.:"
+        ws_class: "Вингсьют/Класс:"
+        home_dz: "Домашняя ДЗ:"
+        height: "Рост:"
+        weight: "Вес:"
+        shirt_size: "Размер футболки:"
+        phone: "Контактный телефон:"
+        email: "Контактный email:"
+        fb: "Профиль Facebook:"
+        vk: "Профиль ВКонтакте:"
+        events: "Участие в соревнованиях:"
+        suit: "Вингсьют"
+      edit:
+        title: 'Редактирование профиля'
+        edit_email_pass: "Изменение адреса эл. почты или пароля"
+        edit_reg_data: "Изменение регистрационных данных"

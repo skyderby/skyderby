@@ -1,6 +1,6 @@
 RailsAdmin.config do |config|
 
-  config.main_app_name = ['Tracks', 'BackOffice']
+  config.main_app_name = %w(Tracks BackOffice)
 
   ### Popular gems integration
 
