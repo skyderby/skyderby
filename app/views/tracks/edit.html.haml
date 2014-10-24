@@ -1,8 +1,8 @@
 :javascript
-  var chart_data = #{@track.get_heights_data},
-    max_rel_time = #{@track.get_duration},
+  var chart_data = #{@track.heights_data},
+    max_rel_time = #{@track.duration},
     range_from = #{@track.ff_start.nil? ? 0 : @track.ff_start},
-    range_to = #{@track.ff_end.nil? ? @track.get_duration : @track.ff_end};
+    range_to = #{@track.ff_end.nil? ? @track.duration : @track.ff_end};
 
   $(document).ready(function() {
 
