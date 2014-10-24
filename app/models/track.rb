@@ -21,9 +21,7 @@ class Track < ActiveRecord::Base
   end
 
   def earth_data
-    track_data.points.map { |x| {:latitude => x[:latitude],
-                                  :longitude => x[:longitude],
-                                  :h_speed => x[:h_speed],
+    track_data.points.map { |x| {:latitude => x[:latitude], :longitude => x[:longitude], :h_speed => x[:h_speed],
                                   :elevation => x[:abs_altitude].nil? ? x[:elevation] : x[:abs_altitude]} }
                       .to_json.html_safe
   end
