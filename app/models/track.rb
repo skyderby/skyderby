@@ -1,3 +1,6 @@
+
+require 'track_parser'
+
 class Track < ActiveRecord::Base
   attr_accessor :trackfile, :track_index
   belongs_to :user
@@ -145,20 +148,17 @@ class Track < ActiveRecord::Base
 
   def parse_file
 
-    require 'track_parser'
-
     if self.new_record?
 
       parser_class = TrackParser.parser(trackfile[:data], trackfile[:ext])
       parser = parser_class.new(trackfile[:data], trackfile[:ext])
       track_points = parser.parse track_index
 
-      if track_points.empty?
-        return false
-      else
-        processed_track_points = process_track_points track_points
-        record_track_points processed_track_points
-      end
+      return false if track_points.empty?
+
+      processed_track_points = process_track_points track_points
+      record_track_points processed_track_points
+
     end
 
   end
