@@ -10,8 +10,8 @@
     var max_height = #{@track.max_height};
     var min_height = #{@track.min_height};
 
-    var param_from = #{@f};
-    var param_to = #{@t};
+    var param_from = #{params[:f].nil? ? -1 : params[:f]};
+    var param_to = #{params[:t].nil? ? -1 : params[:t]};
 
     if (param_from <= param_to || param_from > max_height || param_to >= max_height) {
       param_from = -1;
