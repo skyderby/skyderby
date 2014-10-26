@@ -1,6 +1,7 @@
 require 'geospatial'
 require 'velocity'
 require 'median_filter'
+include MedianFilter
 
 class TrackPoints
 
@@ -110,9 +111,13 @@ class TrackPoints
       prev_point = point
     end
 
+    read_min_max_h
+
+  end
+
+  def read_min_max_h
     @min_h = @points.min_by { |x| x[:elevation] }[:elevation]
     @max_h = @points.max_by { |x| x[:elevation] }[:elevation]
-
   end
 
   # Приведение прочитанных данных к формату 1 Гц
@@ -130,21 +135,18 @@ class TrackPoints
 
   # Медианный фильтр для расстояния, высоты, скоростей
   def median_filter!
-    median_filter = MedianFilter.new(3, [:distance, :elevation, :h_speed, :v_speed])
-    @points = median_filter.filter @points
+    @points = MedianFilter.process( @points,
+                                   3,
+                                   [:distance, :elevation, :h_speed, :v_speed] )
   end
 
   def calc_parameters!
 
-    @min_h = @points.min_by{ |x| x[:elevation] }[:elevation]
-    @max_h = @points.max_by{ |x| x[:elevation] }[:elevation]
+    prev_point = nil
 
-    @points.each_index do |i|
-      point = @points[i]
-      point[:distance] = 0 if i == 0
-      if i > 0
-        prev_point = @points.at(i-1)
-
+    @points.each do |point|
+      point[:distance] = 0 if prev_point.nil?
+      unless prev_point.nil?
         datetime_1 = DateTime.strptime(point[:point_created_at], '%Y-%m-%dT%H:%M:%S')
         datetime_2 = DateTime.strptime(prev_point[:point_created_at], '%Y-%m-%dT%H:%M:%S')
         fl_time_diff = (datetime_1 - datetime_2) * 1.days
@@ -155,6 +157,7 @@ class TrackPoints
         point[:v_speed] = Velocity.to_kmh((prev_point[:elevation] - point[:elevation]) / fl_time_diff)
       end
       point[:fl_time] = @fl_time
+      prev_point = point
     end
 
   end
