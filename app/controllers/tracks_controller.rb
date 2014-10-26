@@ -8,17 +8,8 @@ class TracksController < ApplicationController
   end
 
   def show
-
     authorize! :read, @track
-
     @track.update(:lastviewed_at => Time.now)
-
-    @f = params[:f]
-    @t = params[:t]
-
-    @f = -1 if @f.nil?
-    @t = -1 if @t.nil?
-
   end
 
   def google_maps
@@ -26,13 +17,10 @@ class TracksController < ApplicationController
   end
 
   def google_earth
-
     unless @track.ge_enabled
       redirect_to track_path(@track)
     end
-
     authorize! :read, @track
-
   end
 
   def new
