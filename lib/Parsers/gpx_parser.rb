@@ -6,7 +6,7 @@ class GPXParser < TrackParser
     @index = index
     @current_track = 0
 
-    @track_points = TrackPoints.new
+    @track_points = []
     parse_gpx @track_data
     @track_points
   end
@@ -47,7 +47,7 @@ class GPXParser < TrackParser
         point[:abs_altitude] = node.text.to_f if node.name.eql? 'ele'
         point[:point_created_at] = node.text.to_s if node.name.eql? 'time'
       end
-      @track_points.points << point
+      @track_points << point
     end
   end
 end

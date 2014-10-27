@@ -4,9 +4,9 @@ require 'track_points'
 class CSVParser < TrackParser
 
   def parse(index = 0)
-    track_points = TrackPoints.new
+    track_points = []
     CSV.parse(track_data) do |row|
-      track_points.add parse_row(row)
+      track_points << parse_row(row)
     end
     track_points.compact!
   end
