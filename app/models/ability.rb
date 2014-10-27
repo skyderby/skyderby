@@ -7,6 +7,7 @@ class Ability
 
     can :read, Track, :visibility => ['public_track', 'unlisted_track']
     can :create, Track
+    can [:update, :destroy], Track, :user => nil, :lastviewed_at => nil
 
     if user
 

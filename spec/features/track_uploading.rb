@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Uploading tracks', :type => :feature do
+describe 'Supporting GPS data formats', :type => :feature do
 
   before do
     @gpx_one_track  = "#{Rails.root}/spec/support/tracks/one_track.gpx"
@@ -18,7 +18,7 @@ describe 'Uploading tracks', :type => :feature do
 
     upload @gpx_one_track
 
-    expect(page).to have_content ('Александр К. | Трек #')
+    expect(page).to have_xpath('.//div[@id="heights-chart"]')
 
   end
 
@@ -34,7 +34,7 @@ describe 'Uploading tracks', :type => :feature do
 
     visit page.find(:xpath, "//table/tbody/tr[1]")['data-url']
 
-    expect(page).to have_content ('Александр К. | Трек #')
+    expect(page).to have_xpath('.//div[@id="heights-chart"]')
 
   end
 
@@ -47,7 +47,7 @@ describe 'Uploading tracks', :type => :feature do
 
     upload @tes_wintec
 
-    expect(page).to have_content ('Александр К. | Трек #')
+    expect(page).to have_xpath('.//div[@id="heights-chart"]')
 
   end
 
@@ -60,7 +60,7 @@ describe 'Uploading tracks', :type => :feature do
 
     upload @csv_flysight
 
-    expect(page).to have_content ('Александр К. | Трек #')
+    expect(page).to have_xpath('.//div[@id="heights-chart"]')
 
   end
 
@@ -73,8 +73,59 @@ describe 'Uploading tracks', :type => :feature do
 
     upload @csv_columbus
 
-    expect(page).to have_content ('Александр К. | Трек #')
+    expect(page).to have_xpath('.//div[@id="heights-chart"]')
 
+  end
+
+end
+
+describe 'Allow unregistered user edit and delete unviewed track', :type => :feature do
+
+  before do
+    @track = "#{Rails.root}/spec/support/tracks/flysight.csv"
+  end
+
+  it 'Allow edit track' do
+    visit root_path
+    within '.index-header' do
+      click_link 'Загрузить трек'
+    end
+
+    upload @track
+
+    expect(page).to have_xpath('.//div[@id="heights-chart"]')
+
+    click_button 'Сохранить'
+
+    expect(page).to have_content('Александр К. | Трек #')
+
+  end
+
+  it 'Allow delete track' do
+    visit root_path
+    within '.index-header' do
+      click_link 'Загрузить трек'
+    end
+
+    upload @track
+
+    expect(page).to have_xpath('.//div[@id="heights-chart"]')
+
+    click_link 'Удалить'
+
+    expect(page).to have_content('Загруженные треки:')
+  end
+
+  it 'Restrict access to edit again' do
+    visit edit_track_path(:id => Track.last.id)
+    click_button 'Сохранить'
+    expect(page).to have_content('You are not authorized to access this page.')
+  end
+
+  it 'Restrict access to delete after show' do
+    visit edit_track_path(:id => Track.last.id)
+    click_link 'Удалить'
+    expect(page).to have_content('You are not authorized to access this page.')
   end
 
 end

@@ -37,7 +37,7 @@ class TracksController < ApplicationController
     @track.track_index = params[:index].to_i
 
     if @track.save
-      redirect_to current_user ? edit_track_path(@track) : track_path(@track)
+      redirect_to edit_track_path(@track)
     else
       redirect_to upload_error_tracks_path
     end
