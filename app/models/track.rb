@@ -1,4 +1,5 @@
-require 'track_points_processor'
+require 'tracks/points'
+require 'tracks/points_processor'
 
 class Track < ActiveRecord::Base
   belongs_to :user

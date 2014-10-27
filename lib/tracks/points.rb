@@ -1,4 +1,3 @@
-
 class TrackPoints
 
   attr_reader :points
