@@ -24,7 +24,7 @@ module ParserSelector
           when :flysight, :flysight2
             FlySightParser.new data, extension
           when :columbusV900
-            Columbus_Parser.new data, extension
+            ColumbusParser.new data, extension
           else
             nil
         end

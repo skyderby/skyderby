@@ -1,5 +1,4 @@
 require 'csv'
-require 'track_points'
 
 class CSVParser < TrackParser
 

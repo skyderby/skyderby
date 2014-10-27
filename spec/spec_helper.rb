@@ -19,9 +19,11 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'capybara/rspec'
+require 'support/features/upload_helper'
 
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
+  config.include Features::UploadHelpers
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction

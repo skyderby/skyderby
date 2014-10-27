@@ -15,7 +15,7 @@ class ColumbusParser < CSVParser
 
   protected
 
-  def parse_row
+  def parse_row(row)
     return nil if row[6].to_f == 0.0
 
     { :latitude => parse_latitude(row),
