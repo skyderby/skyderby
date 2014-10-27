@@ -34,7 +34,7 @@ class TracksController < ApplicationController
     @track.ge_enabled = true
 
     @track.trackfile = flight_data.slice(:data, :ext)
-    @track.track_index = params[:index]
+    @track.track_index = params[:index].to_i
 
     if @track.save
       redirect_to current_user ? edit_track_path(@track) : track_path(@track)

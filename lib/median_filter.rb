@@ -35,7 +35,7 @@ module MedianFilter
 
   end
 
-  def process(values, window_size, keys)
+  def self.process(values, window_size, keys)
 
     median_filter = MFilter.new(window_size, keys)
     median_filter.process values

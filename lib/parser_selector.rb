@@ -15,12 +15,12 @@ module ParserSelector
       :columbusV900 => %w(INDEX TAG DATE TIME LATITUDE\ N/S LONGITUDE\ E/W HEIGHT SPEED HEADING VOX)
     }.freeze
 
-  def choose(data, extension)
+  def self.choose(data, extension)
 
     case extension
       when '.csv'
 
-        case file_format(data)
+        case csv_file_format(data)
           when :flysight, :flysight2
             FlySightParser.new data, extension
           when :columbusV900
@@ -39,7 +39,7 @@ module ParserSelector
 
   end
 
-  def file_format(rows)
+  def self.csv_file_format(rows)
 
     format = nil
 
