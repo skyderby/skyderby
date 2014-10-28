@@ -93,13 +93,24 @@
   };
 
 .container.top-buffer
-  .row
-    .col-sm-12#heights-chart
-    .col-sm-12
-      .time-selector
-        %input#time-selector{:type => 'text', :name => 'time-selector' , :value => ''}
-  %hr
   = form_for @track, :html => {:class => 'form-horizontal', :role => 'form', :id => 'track_upload_form'} do |f|
+
+    .row
+      .col-sm-11
+        = link_to t('general.cancel'), @track, :class => 'btn btn-default'
+        = f.submit t('general.save'), :class => 'btn btn-success'
+      .col-sm-1
+        .pull-right
+          = link_to t('tracks.show.delete'), @track, :method => :delete, :data => {:confirm => t('tracks.show.delete_confirmation')}, :class => 'btn btn-danger'
+
+    %hr
+
+    .row
+      .col-sm-12#heights-chart
+      .col-sm-12
+        .time-selector
+          %input#time-selector{:type => 'text', :name => 'time-selector' , :value => ''}
+    %hr
     = f.hidden_field 'ff_start', :id => 'ff_start'
     = f.hidden_field 'ff_end', :id => 'ff_end'
     .form-group
@@ -133,28 +144,31 @@
       .col-sm-4
         = f.text_area 'comment', :class => 'form-control', :rows => 3, :placeholder => t('static_pages.index.track_form.comment_plh')
 
-    .form-group
-      = f.label 'visibility', t('tracks.edit.visibility'), :class => 'col-sm-2 control-label', :for => 'visibility'
-      .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
-        %label.btn.btn-default{ :class => ('active' if @track.public_track?) }
-          = f.radio_button 'visibility', 'public_track'
-          = 'Public'
-        %label.btn.btn-default{ :class => ('active' if @track.unlisted_track?) }
-          = f.radio_button 'visibility', 'unlisted_track'
-          = 'Unlisted'
-        %label.btn.btn-default{ :class => ('active' if @track.private_track?) }
-          = f.radio_button 'visibility', 'private_track'
-          = 'Private'
+    - if user_signed_in?
+      .form-group
+        = f.label 'visibility', t('tracks.edit.visibility'), :class => 'col-sm-2 control-label', :for => 'visibility'
+        .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
+          %label.btn.btn-default{ :class => ('active' if @track.public_track?) }
+            = f.radio_button 'visibility', 'public_track'
+            = 'Public'
+          %label.btn.btn-default{ :class => ('active' if @track.unlisted_track?) }
+            = f.radio_button 'visibility', 'unlisted_track'
+            = 'Unlisted'
+          %label.btn.btn-default{ :class => ('active' if @track.private_track?) }
+            = f.radio_button 'visibility', 'private_track'
+            = 'Private'
 
     .form-group
       .col-sm-4
         %div#alert-placeholder
 
-    .form-group
-      .col-sm-3.col-sm-offset-2
+    %hr
+    .row
+      .col-sm-11
         = link_to t('general.cancel'), @track, :class => 'btn btn-default'
         = f.submit t('general.save'), :class => 'btn btn-success'
       .col-sm-1
-        = link_to t('tracks.show.delete'), @track, :method => :delete, :data => {:confirm => t('tracks.show.delete_confirmation')}, :class => 'btn btn-danger'
+        .pull-right
+          = link_to t('tracks.show.delete'), @track, :method => :delete, :data => {:confirm => t('tracks.show.delete_confirmation')}, :class => 'btn btn-danger'
 
   .top-buffer
