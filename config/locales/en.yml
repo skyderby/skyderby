@@ -1,4 +1,30 @@
 en:
+  activerecord:
+    attributes:
+      track:
+        id: '#'
+        name: 'Pilot'
+        suit: 'Wingsuit'
+        place: 'Place'
+        comment: 'Comment'
+        uploaded_at: 'Uploaded at'
+      user_profile:
+        last_name: "Last name:"
+        first_name: "First name:"
+        photo: "Photo"
+        phone_number: "Phone number:"
+        facebook_profile: "Facebook profile:"
+        vk_profile: "VK profile:"
+        jumps_total: "Jumps total:"
+        jumps_last_year: "12 m."
+        jumps_last_3m: "3 m."
+        wingsuit_jumps_total: "Wingsuit jumps total:"
+        wingsuit_jumps_last_year: "12 m."
+        wingsuit_jumps_last_3m: "3 m."
+        home_DZ: "Home DZ:"
+        height: "Height:"
+        weight: "Weight:"
+        shirt_size: "T-shirt size:"
   application:
     header:
       home: 'SKY DERBY'
@@ -24,12 +50,6 @@ en:
   tracks:
     index:
       title: 'Recently uploaded tracks:'
-      number: '#'
-      name: 'Pilot'
-      suit: 'Wingsuit'
-      place: 'Place'
-      comment: 'Comment'
-      uploaded_at: 'Uploaded at'
     show:
       eldstch_html: "'Elevation/Distance'"
       eldst_dst_html: "'Distance'"
@@ -197,3 +217,10 @@ en:
     cancel: "Cancel"
     create: "Create"
     save: "Save"
+    update: "Update"
+  users:
+    profile:
+      edit:
+        title: 'Profile'
+        edit_email_pass: "Edit email or password"
+        edit_reg_data: "Email and password"

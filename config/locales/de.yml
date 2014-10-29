@@ -1,4 +1,30 @@
 de:
+  activerecord:
+    attributes:
+      track:
+        id: '#'
+        name: 'Pilot'
+        suit: 'Wingsuit'
+        place: 'Ort'
+        comment: 'Kommentar'
+        uploaded_at: 'Hochgeladen am'
+      user_profile:
+        last_name: "Last name:"
+        first_name: "First name:"
+        photo: "Photo"
+        phone_number: "Telefon:"
+        facebook_profile: "Facebook-Profil:"
+        vk_profile: "VK.com-Profil:"
+        jumps_total: "Sprünge insgesamt:"
+        jumps_last_year: "in 12 Monaten"
+        jumps_last_3m: "in 3 Monaten"
+        wingsuit_jumps_total: "Mit Wingsuit insgesamt:"
+        wingsuit_jumps_last_year: "in 12 Monaten"
+        wingsuit_jumps_last_3m: "in 3 Monaten"
+        home_DZ: "Heimisch Flughafen:"
+        height: "Größe:"
+        weight: "Gewicht:"
+        shirt_size: "Größe des T-Shirts:"
   application:
     header:
       home: 'SKY DERBY'
@@ -22,12 +48,6 @@ de:
   tracks:
     index:
       title: 'Geladene Tracks:'
-      number: 'Nummer'
-      name: 'Pilot'
-      suit: 'Wingsuit'
-      place: 'Ort'
-      comment: 'Kommentar'
-      uploaded_at: 'Hochgeladen am'
     show:
       eldstch_html: "'Zurückgelegt in der Höhe/horizontal'"
       eldst_dst_html: "'Strecke'"
@@ -148,7 +168,6 @@ de:
     t_html: "'Sek'"
     kmh_html: "'km/h'"
     mph_html: "'mi/h'"
-
   events:
     show:
       pf:
@@ -193,3 +212,10 @@ de:
     cancel: "Abbrechen"
     create: "Hinzufügen"
     save: "Save"
+    update: "Update"
+  users:
+    profile:
+      edit:
+        title: 'Profile'
+        edit_email_pass: "Edit email or password"
+        edit_reg_data: "Email and password"

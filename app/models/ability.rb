@@ -5,7 +5,7 @@ class Ability
 
     user ||= User.new # guest user (not logged in)
 
-    can :read, Track, :visibility => ['public_track', 'unlisted_track']
+    can :read, Track, :visibility => %w(public_track unlisted_track)
     can :create, Track
     can [:update, :destroy], Track, :user => nil, :lastviewed_at => nil
 

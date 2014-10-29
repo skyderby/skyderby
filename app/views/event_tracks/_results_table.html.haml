@@ -21,13 +21,13 @@
         %td.text-center{:colspan => 2}= r.name
       %td.text-center{:rowspan => 2}= '%'
     %tr
-      - @event.time_rounds.each do |r|
+      - @event.time_rounds.each do |_|
         %td.text-center= '[сек]'
         %td.text-center= '%'
-      - @event.distance_rounds.each do |r|
+      - @event.distance_rounds.each do |_|
         %td.text-center= '[м]'
         %td.text-center= '%'
-      - @event.speed_rounds.each do |r|
+      - @event.speed_rounds.each do |_|
         %td.text-center= '[км/ч]'
         %td.text-center= '%'
   %tbody
