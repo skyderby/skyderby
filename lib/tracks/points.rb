@@ -90,11 +90,11 @@ class TrackPoints
   end
 
   def min_h
-    @points.min_by { |x| x[:elevation] }[:elevation]
+    trimmed.min_by { |x| x[:elevation] }[:elevation]
   end
 
   def max_h
-    @points.max_by { |x| x[:elevation] }[:elevation]
+    trimmed.max_by { |x| x[:elevation] }[:elevation]
   end
 
   private

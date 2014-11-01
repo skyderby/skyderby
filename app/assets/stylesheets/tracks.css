@@ -21,11 +21,20 @@
   margin-top:2px;
 }
 
-.range-selector {
-  float: none;
-  margin-left: auto;
-  margin-right: auto;
-  width: 97%
+#content-row {
+    height: 60px;
+}
+
+#btn-range-edit {
+  float: left;
+  width: 50px;
+  margin-left: 5px;
+  padding-top: 14px;
+}
+
+#slider-range-selector {
+  margin-left: 65px;
+  width: auto;
 }
 
 #glideratio_chart {
