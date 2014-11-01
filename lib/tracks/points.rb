@@ -16,12 +16,73 @@ class TrackPoints
 
   def trimmed
 
-    track_points = @points
+    track_points = @points.clone
     if @ff_start.present?
        track_points = track_points.drop_while{ |x| x[:fl_time_abs] < @ff_start}
     end
     if @ff_end.present? && @ff_end > 0 && (@ff_start.blank? || @ff_end > @ff_start)
       track_points = track_points.reverse.drop_while{ |x| x[:fl_time_abs] > @ff_end}.reverse
+    end
+
+    track_points
+
+  end
+
+  def trim_interpolize(range_from, range_to)
+
+    track_points = []
+    is_first = true
+    prev_point = nil
+
+    @points.each do |curr|
+
+      current_point = curr.clone
+
+      is_last = true
+
+      if current_point[:elevation] <= range_from && current_point[:elevation] >= range_to
+
+        is_last = false
+
+        if is_first
+
+          is_first = false
+
+          if current_point[:elevation] != range_from && prev_point.present?
+            elev_diff = range_from - current_point[:elevation]
+            k = elev_diff / current_point[:elevation_diff]
+            current_point[:fl_time] = (current_point[:fl_time] * k).round(1)
+            current_point[:distance] = (current_point[:distance] * k).round(0)
+            current_point[:elevation_diff] = elev_diff
+
+            track_points << current_point
+
+          end
+
+          next
+
+        end
+
+        track_points << current_point
+
+      end
+
+      if is_last && !track_points.empty?
+        if current_point[:elevation] <= range_to
+          elev_diff = prev_point[:elevation] - range_to
+          k = elev_diff / current_point[:elevation_diff]
+          current_point[:fl_time] = (current_point[:fl_time] * k).round(1)
+          current_point[:distance] = (current_point[:distance] * k).round(0)
+          current_point[:elevation_diff] = elev_diff
+
+          track_points << current_point
+
+        end
+        break
+      end
+
+      prev_point = current_point
+
     end
 
     track_points

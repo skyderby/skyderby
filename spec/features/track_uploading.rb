@@ -16,9 +16,7 @@ describe 'Supporting GPS data formats', :type => :feature do
       click_link 'Загрузить трек'
     end
 
-    upload @gpx_one_track
-
-    expect(page).to have_xpath('.//div[@id="heights-chart"]')
+    expect{ upload @gpx_one_track }.to change(Track, :count).by(1)
 
   end
 
@@ -32,9 +30,7 @@ describe 'Supporting GPS data formats', :type => :feature do
 
     expect(page).to have_content ('Выберите трек для загрузки')
 
-    visit page.find(:xpath, "//table/tbody/tr[1]")['data-url']
-
-    expect(page).to have_xpath('.//div[@id="heights-chart"]')
+    expect{ visit page.find(:xpath, "//table/tbody/tr[1]")['data-url'] }.to change(Track, :count).by(1)
 
   end
 
@@ -45,9 +41,7 @@ describe 'Supporting GPS data formats', :type => :feature do
       click_link 'Загрузить трек'
     end
 
-    upload @tes_wintec
-
-    expect(page).to have_xpath('.//div[@id="heights-chart"]')
+    expect{ upload @tes_wintec }.to change(Track, :count).by(1)
 
   end
 
@@ -58,9 +52,7 @@ describe 'Supporting GPS data formats', :type => :feature do
       click_link 'Загрузить трек'
     end
 
-    upload @csv_flysight
-
-    expect(page).to have_xpath('.//div[@id="heights-chart"]')
+    expect{ upload @csv_flysight }.to change(Track, :count).by(1)
 
   end
 
@@ -71,9 +63,7 @@ describe 'Supporting GPS data formats', :type => :feature do
       click_link 'Загрузить трек'
     end
 
-    upload @csv_columbus
-
-    expect(page).to have_xpath('.//div[@id="heights-chart"]')
+    expect{ upload @csv_columbus }.to change(Track, :count).by(1)
 
   end
 
@@ -95,8 +85,8 @@ describe 'Allow unregistered user edit and delete unviewed track', :type => :fea
 
     expect(page).to have_xpath('.//div[@id="heights-chart"]')
 
-    click_button 'Сохранить'
-
+    # click_button 'Сохранить'
+    page.all('Сохранить')[0].click
     expect(page).to have_content('Александр К. | Трек #')
 
   end
@@ -118,7 +108,7 @@ describe 'Allow unregistered user edit and delete unviewed track', :type => :fea
 
   it 'Restrict access to edit again' do
     visit edit_track_path(:id => Track.last.id)
-    click_button 'Сохранить'
+    page.all('Сохранить')[0].click
     expect(page).to have_content('You are not authorized to access this page.')
   end
 
