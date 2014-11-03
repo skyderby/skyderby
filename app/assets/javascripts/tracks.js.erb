@@ -349,17 +349,7 @@ function set_chart_data() {
 
 }
 
-function show_track_on_document_ready() {
-
-  init_units();
-  init_view_type();
-
-  set_chart_data();
-  updateRangeSelector();
-  updateUnits();
-}
-
-$(document).ready(function() {
+function init_objects() {
 
   $('#toggle_multi').click(function (e) {
     e.preventDefault();
@@ -433,7 +423,7 @@ $(document).ready(function() {
     prettify: false,
     hasGrid: true,
     from: max_height,
-    to: 0,
+    to: min_height,
     onFinish: function (obj) {      // callback is called on slider action is finished
       if (in_imperial) {
         range_from = obj.fromNumber / mft_k;
@@ -753,4 +743,16 @@ $(document).ready(function() {
       }]
   });
 
-});
+}
+
+function show_track_on_document_ready() {
+
+  init_units();
+  init_view_type();
+
+  init_objects();
+
+  set_chart_data();
+  updateRangeSelector();
+  updateUnits();
+}
