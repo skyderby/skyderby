@@ -45,6 +45,7 @@ class TracksController < ApplicationController
   end
 
   def edit
+    redirect_to @track unless can? :update, @track
   end
 
   # POST /tracks
