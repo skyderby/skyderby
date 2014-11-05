@@ -1,9 +1,9 @@
-.modal.fade#newRoundEventModal{:tabindex => "-1", :role => "dialog", :aria => {:labelledby => "myModalLabel", :hidden => "true"}}
+.modal.fade#newRoundEventModal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
   .modal-dialog
     .modal-content
       .modal-header
-        %button.close{:type => "button", :data => {:dismiss => "modal"}}
-          %span{:aria => {:hidden => "true"}}
+        %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
+          %span{:aria => {:hidden => 'true'}}
             &times;
             %span.sr-only= 'Close'
         %h4.modal-title#myModalLabel= t('rounds.new')
@@ -19,5 +19,5 @@
               = f.collection_select :discipline, Discipline.all,
                                       :id, :name, {:promt => true}, {:class => 'form-control'}
         .modal-footer
-          %button.btn.btn-default{:type => "button", :data => {:dismiss => "modal"}}= t('general.cancel')
+          %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}= t('general.cancel')
           = f.submit t('general.create'), :class => 'btn btn-primary'

@@ -1,4 +1,30 @@
 de:
+  activerecord:
+    attributes:
+      track:
+        id: '#'
+        name: 'Pilot'
+        suit: 'Wingsuit'
+        place: 'Ort'
+        comment: 'Kommentar'
+        uploaded_at: 'Hochgeladen am'
+      user_profile:
+        last_name: "Last name:"
+        first_name: "First name:"
+        photo: "Photo:"
+        phone_number: "Telefon:"
+        facebook_profile: "Facebook-Profil:"
+        vk_profile: "VK.com-Profil:"
+        jumps_total: "Sprünge insgesamt:"
+        jumps_last_year: "in 12 Monaten"
+        jumps_last_3m: "in 3 Monaten"
+        wingsuit_jumps_total: "Mit Wingsuit insgesamt:"
+        wingsuit_jumps_last_year: "in 12 Monaten"
+        wingsuit_jumps_last_3m: "in 3 Monaten"
+        home_DZ: "Heimisch Flughafen:"
+        height: "Größe:"
+        weight: "Gewicht:"
+        shirt_size: "Größe des T-Shirts:"
   application:
     header:
       home: 'SKY DERBY'
@@ -22,12 +48,6 @@ de:
   tracks:
     index:
       title: 'Geladene Tracks:'
-      number: 'Nummer'
-      name: 'Pilot'
-      suit: 'Wingsuit'
-      place: 'Ort'
-      comment: 'Kommentar'
-      uploaded_at: 'Hochgeladen am'
     show:
       eldstch_html: "'Zurückgelegt in der Höhe/horizontal'"
       eldst_dst_html: "'Strecke'"
@@ -63,11 +83,12 @@ de:
       dt_gr: 'Flugqualität:'
       units_header: 'Maßeinheit:'
       m_units_metric: 'Metrisches Einheitssystem (m, km/h.)'
-      m_units_imperial: 'Имперские (футы, мили/ч)'
+      m_units_imperial: 'Imperiale Einheiten (Fuß, mi/h)'
       delete_confirmation: "Sind Sie sicher, daß Sie diesen Track entfernen möchten?"
-      delete: "Entfernen"
       manage: "Korrektur"
-      edit: "Korrigieren"
+      range_from: "Bereich von"
+      range_to: " - "
+      edit_range: "Bereich bearbeiten"
     choose:
       title: 'Track aussuchen zum hochladen'
       number: 'Nummer'
@@ -77,6 +98,13 @@ de:
     upload_error:
       header: "Fehler beim Lesen der Datei"
       text: "Bitte schicken Sie die Datei an folgende E-Mail Adresse ab@ipkunin.ru. Geben Sie bitte an mit welchem Gerät es aufgenommen wurde. Sobald der Fehler gefunden und behoben wurde, werde ich mich bei Ihnen melden."
+    edit:
+      visibility: "Datenschutz:"
+      public: "Öffentlich "
+      unlisted: "Nicht gelistet"
+      private: "Privat"
+      elev_chart_html: "'Höhe'"
+      elevation_html: "'Höhe'"
   static_pages:
     index:
       title: 'Flieg! Nimm am Wettbewerb teil! Gewinne!'
@@ -132,12 +160,17 @@ de:
       stats: "Statistik:"
       stats_tracks: "Hochgeladene Tracks:"
       stats_pilots: "Registrierte Piloten:"
+      analyze: "Analysieren"
+      select_free_fall_range: "Wählen freien Fall Bereich"
+      upload_a_file: "Track hochladen"
+      how_it_works: "Es ist ziemlich einfach:"
     about:
       roadmap: 'Verfolgen Sie den Projektfortschritt auf:'
       trpr: 'Aufbereitung der Daten auf der Server-Seite'
       fepr: 'Aufbereitung der Daten auf der Browser-Seite'
       developer: "Web-Etwickler - Aleksandr Kunin"
       de_translate: "Webseite-Übersetzung ins Deutsche - Tetyana Holm"
+      logo_designed_by: "Das Logo wurde von Julia Makoweewa entworfen"
   units:
     m: 'm'
     m_html: "'m'"
@@ -146,7 +179,6 @@ de:
     t_html: "'Sek'"
     kmh_html: "'km/h'"
     mph_html: "'mi/h'"
-
   events:
     show:
       pf:
@@ -190,3 +222,20 @@ de:
   general:
     cancel: "Abbrechen"
     create: "Hinzufügen"
+    save: "Speichern"
+    update: "Aktualisierung"
+    delete: "Entfernen"
+    edit: "Korrigieren"
+  users:
+    profile:
+      show:
+        jumps: "Sprünge insgesamt/in 12 Monaten/in 3 Monaten:"
+        ws_jumps: "Mit Wingsuit insgesamt/in 12 Monaten/in 3 Monaten:"
+        events: "Wettkampf"
+        information: "Information"
+        tracks: "Tracks"
+        private_info: "Die Informationen sind nur für Sie sichtbar:"
+      edit:
+        title: 'Profile'
+        edit_email_pass: "Ändern Sie E-Mail-Adresse oder Passwort"
+        edit_reg_data: "E-mail-adresse oder passwort"

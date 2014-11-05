@@ -1,4 +1,30 @@
 ru:
+  activerecord:
+    attributes:
+      track:
+        id: '#'
+        name: 'Пилот'
+        suit: 'Вингсьют'
+        place: 'Локация'
+        comment: 'Комментарий'
+        uploaded_at: 'Дата загрузки'
+      user_profile:
+        last_name: "Фамилия:"
+        first_name: "Имя:"
+        photo: "Фото:"
+        phone_number: "Номер телефона:"
+        facebook_profile: "Профиль Facebook:"
+        vk_profile: "Профиль ВКонтакте:"
+        jumps_total: "Прыжков всего:"
+        jumps_last_year: "12 мес."
+        jumps_last_3m: "3 мес."
+        wingsuit_jumps_total: "Прыжков в вингсьюте:"
+        wingsuit_jumps_last_year: "12 мес."
+        wingsuit_jumps_last_3m: "3 мес."
+        home_DZ: "Домашняя ДЗ:"
+        height: "Рост:"
+        weight: "Вес:"
+        shirt_size: "Размер футболки:"
   application:
     header:
       home: 'SKY DERBY'
@@ -22,12 +48,6 @@ ru:
   tracks:
     index:
       title: 'Загруженные треки:'
-      number: 'Номер'
-      name: 'Пилот'
-      suit: 'Вингсьют'
-      place: 'Локация'
-      comment: 'Комментарий'
-      uploaded_at: 'Дата загрузки'
     show:
       eldstch_html: "'Пройдено по высоте/по горизонту'"
       eldst_dst_html: "'Дистанция'"
@@ -65,9 +85,10 @@ ru:
       m_units_metric: 'Метрические (м, км/ч)'
       m_units_imperial: 'Имперские (футы, мили/ч)'
       delete_confirmation: "Вы уверены, что хотите удалить этот трек?"
-      delete: "Удалить"
       manage: "Редактирование"
-      edit: "Редактировать"
+      edit_range: "Редактирование диапазона"
+      range_from: "Диапазон с:"
+      range_to: "по:"
     choose:
       title: 'Выберите трек для загрузки'
       number: 'Номер'
@@ -77,6 +98,13 @@ ru:
     upload_error:
       header: "Ошибка при чтении файла"
       text: "Пожалуйста, отправьте загружаемый файл по адресу ab@ipkunin.ru, указав каким устройством он был записан. После реализации поддержки данного формата я напишу Вам."
+    edit:
+      visibility: "Параметры доступа:"
+      public: "Открытый"
+      unlisted: "Доступ по ссылке"
+      private: "Ограниченный"
+      elev_chart_html: "'График высот'"
+      elevation_html: "'Высота'"
   static_pages:
     index:
       title: 'Летай! Соревнуйся! Побеждай!'
@@ -132,6 +160,10 @@ ru:
       stats: "Статистика:"
       stats_tracks: "Загружено треков:"
       stats_pilots: "Зарегистрировано пилотов:"
+      analyze: "Анализируйте"
+      select_free_fall_range: "Выберите диапазон свободного падения"
+      upload_a_file: "Загрузите трек"
+      how_it_works: "Это очень просто:"
     about:
       comp_t: 'Используемые компоненты:'
       comp_lng: 'Используемый фреймворк:'
@@ -141,8 +173,9 @@ ru:
       roadmap: 'Следите за ходом проекта на:'
       trpr: 'Исходный код расчета трека на стороне сервера'
       fepr: 'Подготовка данных на стороне браузера'
-      developer: "Разработка приложения - Александр Кунин"
+      developer: "Приложение разработано Александром Куниным"
       de_translate: "Немецкая локализация выполнена Татьяной Гольм"
+      logo_designed_by: "Логотип разработан Юлией Маковеевой"
   units:
     m: 'м'
     m_html: "'м'"
@@ -151,7 +184,6 @@ ru:
     t_html: "'с'"
     kmh_html: "'км/ч'"
     mph_html: "'миль/ч'"
-
   events:
     show:
       pf:
@@ -195,3 +227,20 @@ ru:
   general:
     cancel: "Отмена"
     create: "Добавить"
+    save: "Сохранить"
+    update: "Обновить"
+    delete: "Удалить"
+    edit: "Редактировать"
+  users:
+    profile:
+      show:
+        jumps: "Прыжков всего/за 12 мес./за 3 мес.:"
+        ws_jumps: "В вингсьюте всего/за 12 мес./за 3 мес.:"
+        events: "Участие в соревнованиях"
+        information: "Информация"
+        tracks: "Треки пользователя"
+        private_info: "Информация видна только Вам:"
+      edit:
+        title: 'Редактирование профиля'
+        edit_email_pass: "Изменение адреса эл. почты или пароля"
+        edit_reg_data: "Изменение регистрационных данных"

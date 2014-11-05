@@ -1,4 +1,30 @@
 en:
+  activerecord:
+    attributes:
+      track:
+        id: '#'
+        name: 'Pilot'
+        suit: 'Wingsuit'
+        place: 'Place'
+        comment: 'Comment'
+        uploaded_at: 'Uploaded at'
+      user_profile:
+        last_name: "Last name:"
+        first_name: "First name:"
+        photo: "Photo:"
+        phone_number: "Phone number:"
+        facebook_profile: "Facebook profile:"
+        vk_profile: "VK profile:"
+        jumps_total: "Jumps total:"
+        jumps_last_year: "12 m."
+        jumps_last_3m: "3 m."
+        wingsuit_jumps_total: "Wingsuit jumps total:"
+        wingsuit_jumps_last_year: "12 m."
+        wingsuit_jumps_last_3m: "3 m."
+        home_DZ: "Home DZ:"
+        height: "Height:"
+        weight: "Weight:"
+        shirt_size: "T-shirt size:"
   application:
     header:
       home: 'SKY DERBY'
@@ -24,12 +50,6 @@ en:
   tracks:
     index:
       title: 'Recently uploaded tracks:'
-      number: '#'
-      name: 'Pilot'
-      suit: 'Wingsuit'
-      place: 'Place'
-      comment: 'Comment'
-      uploaded_at: 'Uploaded at'
     show:
       eldstch_html: "'Elevation/Distance'"
       eldst_dst_html: "'Distance'"
@@ -67,9 +87,10 @@ en:
       m_units_metric: 'Metric'
       m_units_imperial: 'Imperial'
       delete_confirmation: "Are you sure you want delete this track?"
-      delete: "Delete"
       manage: "Manage"
-      edit: "Edit"
+      edit_range: "Edit range"
+      range_from: "Range from:"
+      range_to: "to:"
     choose:
       title: 'Select a track to upload'
       number: '#'
@@ -79,6 +100,13 @@ en:
     upload_error:
       header: "File upload error"
       text: "Please, send file with track on ab@ipkunin.ru. I'll email you when find what cause the error."
+    edit:
+      visibility: "Visibility:"
+      public: "Public"
+      unlisted: "Unlisted"
+      private: "Private"
+      elev_chart_html: "'Elevation'"
+      elevation_html: "'Elevation'"
   static_pages:
     index:
       title: "Fly! Compete! Win!"
@@ -134,6 +162,10 @@ en:
       stats: "Statistics:"
       stats_tracks: "Uploaded tracks:"
       stats_pilots: "Registered pilots:"
+      how_it_works: "It is pretty simple:"
+      upload_a_file: "Upload a file"
+      select_free_fall_range: "Select free fall range"
+      analyze: "Analyze"
     about:
       comp_t: 'Application works on:'
       comp_lng: 'Language and backend framework:'
@@ -143,8 +175,9 @@ en:
       roadmap: "Project's roadmap:"
       trpr: "Track's data processing source code"
       fepr: 'Frontend data processing'
-      developer: "App developing - Aleksandr Kunin"
+      developer: "App developed by Aleksandr Kunin"
       de_translate: "Deutsch translate by Tatiana Holm"
+      logo_designed_by: "Logo designed by Julia Makoveeva"
   units:
     m: 'm'
     m_html: "'m'"
@@ -194,3 +227,20 @@ en:
   general:
     cancel: "Cancel"
     create: "Create"
+    save: "Save"
+    update: "Update"
+    delete: "Delete"
+    edit: "Edit"
+  users:
+    profile:
+      show:
+        jumps: "Jumps total/in 12 m/in 3 m:"
+        ws_jumps: "Wingsuit jumps total/in 12 m/in 3m:"
+        events: "Events"
+        information: "Information"
+        tracks: "Tracks"
+        private_info: "Private information (only you can see it):"
+      edit:
+        title: 'Profile'
+        edit_email_pass: "Edit email or password"
+        edit_reg_data: "Email and password"

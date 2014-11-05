@@ -92,6 +92,7 @@ class Event < ActiveRecord::Base
 
   def query_max_results
 
+    # TODO: where(:event_id => 2) !!!
     Round.select('rounds.id, max(event_tracks.result) max_result')
           .where(:event_id => 2)
           .joins('LEFT OUTER JOIN event_tracks ON event_tracks.round_id = rounds.id')

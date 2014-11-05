@@ -5,12 +5,12 @@
   %table.table.table-hover
     %thead
       %tr
-        %th=t '.number'
-        %th=t '.name'
-        %th=t '.suit'
-        %th=t '.place'
-        %th=t '.comment'
-        %th=t '.uploaded_at'
+        %th=t 'activerecord.attributes.track.id'
+        %th=t 'activerecord.attributes.track.name'
+        %th=t 'activerecord.attributes.track.suit'
+        %th=t 'activerecord.attributes.track.place'
+        %th=t 'activerecord.attributes.track.comment'
+        %th=t 'activerecord.attributes.track.uploaded_at'
     %tbody
       - @tracks.reverse_each do |track|
         %tr.clickableRow{:data => {:url => track_path(:id => track.id)}}

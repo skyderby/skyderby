@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141016072241) do
+ActiveRecord::Schema.define(version: 20141022100008) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -164,6 +164,7 @@ ActiveRecord::Schema.define(version: 20141016072241) do
     t.integer  "ff_start"
     t.integer  "ff_end"
     t.boolean  "ge_enabled"
+    t.integer  "visibility",    default: 0
   end
 
   add_index "tracks", ["user_id"], name: "index_tracks_on_user_id", using: :btree

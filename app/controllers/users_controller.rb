@@ -3,17 +3,13 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update]
 
   def autocomplete
-    query = params[:query].downcase
-    @users = User.search_by_name query
-    suggestions = []
-    @users.each do |x|
-      suggestions << {:value => (x.name), :data => x.id}
-    end
-    @response = {:query => query, :suggestions => suggestions}.to_json
+
+    @response = User.suggestions_by_name params[:query].downcase
 
     respond_to do |format|
       format.json { render :json => @response }
     end
+
   end
 
   def show

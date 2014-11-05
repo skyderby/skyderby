@@ -41,6 +41,11 @@
         $('#suit').val(suit);
     }
 
+    var wingsuit_id = $.cookie('wingsuit_id');
+    if (typeof wingsuit_id !== 'undefined' && wingsuit_id.trim()) {
+        $('#wingsuit-id').val(wingsuit_id);
+    }
+
     var location = $.cookie('location');
     if (typeof location !== 'undefined' && location.trim()) {
         $('#location').val(location);
@@ -62,6 +67,7 @@
           form_valid = false;
       } else {
           $.cookie('suit', $('#suit').val(), { expires: 365, path: '/' });
+          $.cookie('wingsuit_id', $('#wingsuit-id').val(), { expires: 365, path: '/' });
       }
 
       if ($('#location').val().length === 0 || !$('#location').val().trim()) {
@@ -113,10 +119,10 @@
             = label_tag 'kind', t('static_pages.index.track_form.kind'), :class => 'col-sm-3 control-label', :for => 'kind'
             .btn-group.col-sm-9{:data => {:toggle => 'buttons'}}
               %label.btn.btn-default.active
-                = radio_button_tag 'kind', '0', true
+                = radio_button_tag 'kind', 'skydive', true
                 = 'Skydive'
               %label.btn.btn-default
-                = radio_button_tag 'kind', '1'
+                = radio_button_tag 'kind', 'base'
                 = 'B.A.S.E'
 
           .form-group
@@ -137,4 +143,4 @@
 
         .modal-footer
           %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}=t('general.cancel')
-          = submit_tag t('static_pages.index.track_form.submit'), :class => 'btn btn-default'
+          = submit_tag t('static_pages.index.track_form.submit'), :class => 'btn btn-success'

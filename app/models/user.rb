@@ -24,8 +24,16 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
 
-  def self.search_by_name query
-    User.where('LOWER(name) LIKE LOWER(?)', "%#{query}%")
+  def self.suggestions_by_name(query)
+
+    users = User.where('LOWER(name) LIKE LOWER(?)', "%#{query}%")
+
+    suggestions = []
+    users.each do |x|
+      suggestions << {:value => (x.name), :data => x.id}
+    end
+    {:query => query, :suggestions => suggestions}.to_json
+
   end
 
   def name

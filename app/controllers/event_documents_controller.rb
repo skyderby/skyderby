@@ -1,25 +1,36 @@
 # encoding: utf-8
 class EventDocumentsController < ApplicationController
 
+  before_action :set_document, only: [:destroy]
+
   def create
-    doc_params = params[:event_document].permit(:name, :description, :attached_file)
-    event = Event.find(params[:event_id])
-    doc = EventDocument.new :name => doc_params[:name], :description => doc_params[:description],
-                            :attached_file => doc_params[:attached_file], :event => event
-    if doc.save
-      redirect_to event, :notice => 'Документ успешно создан'
+    @event = Event.find params[:event_id]
+
+    @document = EventDocument.new document_params
+    @document.event = @event
+
+    if @document.save
+      redirect_to @event, :notice => 'Документ успешно создан'
     else
-      redirect_to event, :alert => 'Возникла ошибка при записи документа'
+      redirect_to @event, :alert => 'Возникла ошибка при записи документа'
     end
   end
 
   def destroy
-    doc = EventDocument.find(params[:id])
-    event = Event.find(params[:event_id])
-    doc.destroy
-    respond_to do |format|
-      format.html{ redirect_to event}
+    if @document.destroy
+      redirect_to event_path(params[:event_id])
+    else
+      redirect_to @document
     end
   end
 
+  private
+
+  def document_params
+    params[:event_document].permit(:name, :description, :attached_file)
+  end
+
+  def set_document
+    @document = EventDocument.find(params[:id])
+  end
 end
