@@ -11,10 +11,10 @@ ru:
       user_profile:
         last_name: "Фамилия:"
         first_name: "Имя:"
-        photo: "Фото"
-        phone_number: "Номер телефона"
-        facebook_profile: "Профиль Facebook"
-        vk_profile: "Профиль ВКонтакте"
+        photo: "Фото:"
+        phone_number: "Номер телефона:"
+        facebook_profile: "Профиль Facebook:"
+        vk_profile: "Профиль ВКонтакте:"
         jumps_total: "Прыжков всего:"
         jumps_last_year: "12 мес."
         jumps_last_3m: "3 мес."
@@ -23,7 +23,7 @@ ru:
         wingsuit_jumps_last_3m: "3 мес."
         home_DZ: "Домашняя ДЗ:"
         height: "Рост:"
-        weight: "Вес"
+        weight: "Вес:"
         shirt_size: "Размер футболки:"
   application:
     header:
@@ -85,9 +85,7 @@ ru:
       m_units_metric: 'Метрические (м, км/ч)'
       m_units_imperial: 'Имперские (футы, мили/ч)'
       delete_confirmation: "Вы уверены, что хотите удалить этот трек?"
-      delete: "Удалить"
       manage: "Редактирование"
-      edit: "Редактировать"
     choose:
       title: 'Выберите трек для загрузки'
       number: 'Номер'
@@ -154,6 +152,10 @@ ru:
       stats: "Статистика:"
       stats_tracks: "Загружено треков:"
       stats_pilots: "Зарегистрировано пилотов:"
+      analyze: "Анализируйте"
+      select_free_fall_range: "Выберите диапазон свободного падения"
+      upload_a_file: "Загрузите трек"
+      how_it_works: "Это очень просто:"
     about:
       comp_t: 'Используемые компоненты:'
       comp_lng: 'Используемый фреймворк:'
@@ -174,7 +176,6 @@ ru:
     t_html: "'с'"
     kmh_html: "'км/ч'"
     mph_html: "'миль/ч'"
-
   events:
     show:
       pf:
@@ -220,22 +221,17 @@ ru:
     create: "Добавить"
     save: "Сохранить"
     update: "Обновить"
+    delete: "Удалить"
+    edit: "Редактировать"
   users:
     profile:
       show:
         jumps: "Прыжков всего/за 12 мес./за 3 мес.:"
         ws_jumps: "В вингсьюте всего/за 12 мес./за 3 мес.:"
-        ws_class: "Вингсьют/Класс:"
-        home_dz: "Домашняя ДЗ:"
-        height: "Рост:"
-        weight: "Вес:"
-        shirt_size: "Размер футболки:"
-        phone: "Контактный телефон:"
-        email: "Контактный email:"
-        fb: "Профиль Facebook:"
-        vk: "Профиль ВКонтакте:"
-        events: "Участие в соревнованиях:"
-        suit: "Вингсьют"
+        events: "Участие в соревнованиях"
+        information: "Информация"
+        tracks: "Треки пользователя"
+        private_info: "Информация видна только Вам:"
       edit:
         title: 'Редактирование профиля'
         edit_email_pass: "Изменение адреса эл. почты или пароля"

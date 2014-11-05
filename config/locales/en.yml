@@ -11,7 +11,7 @@ en:
       user_profile:
         last_name: "Last name:"
         first_name: "First name:"
-        photo: "Photo"
+        photo: "Photo:"
         phone_number: "Phone number:"
         facebook_profile: "Facebook profile:"
         vk_profile: "VK profile:"
@@ -87,9 +87,7 @@ en:
       m_units_metric: 'Metric'
       m_units_imperial: 'Imperial'
       delete_confirmation: "Are you sure you want delete this track?"
-      delete: "Delete"
       manage: "Manage"
-      edit: "Edit"
     choose:
       title: 'Select a track to upload'
       number: '#'
@@ -156,6 +154,10 @@ en:
       stats: "Statistics:"
       stats_tracks: "Uploaded tracks:"
       stats_pilots: "Registered pilots:"
+      how_it_works: "It is pretty simple:"
+      upload_a_file: "Upload a file"
+      select_free_fall_range: "Select free fall range"
+      analyze: "Analyze"
     about:
       comp_t: 'Application works on:'
       comp_lng: 'Language and backend framework:'
@@ -219,8 +221,17 @@ en:
     create: "Create"
     save: "Save"
     update: "Update"
+    delete: "Delete"
+    edit: "Edit"
   users:
     profile:
+      show:
+        jumps: "Jumps total/in 12 m/in 3 m:"
+        ws_jumps: "Wingsuit jumps total/in 12 m/in 3m:"
+        events: "Events"
+        information: "Information"
+        tracks: "Tracks"
+        private_info: "Private information (only you can see it):"
       edit:
         title: 'Profile'
         edit_email_pass: "Edit email or password"

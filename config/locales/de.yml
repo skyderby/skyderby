@@ -11,7 +11,7 @@ de:
       user_profile:
         last_name: "Last name:"
         first_name: "First name:"
-        photo: "Photo"
+        photo: "Photo:"
         phone_number: "Telefon:"
         facebook_profile: "Facebook-Profil:"
         vk_profile: "VK.com-Profil:"
@@ -85,9 +85,7 @@ de:
       m_units_metric: 'Metrisches Einheitssystem (m, km/h.)'
       m_units_imperial: 'Имперские (футы, мили/ч)'
       delete_confirmation: "Sind Sie sicher, daß Sie diesen Track entfernen möchten?"
-      delete: "Entfernen"
       manage: "Korrektur"
-      edit: "Korrigieren"
     choose:
       title: 'Track aussuchen zum hochladen'
       number: 'Nummer'
@@ -154,6 +152,10 @@ de:
       stats: "Statistik:"
       stats_tracks: "Hochgeladene Tracks:"
       stats_pilots: "Registrierte Piloten:"
+      analyze: "Analysieren"
+      select_free_fall_range: "Wählen freien Fall Bereich"
+      upload_a_file: "Track hochladen"
+      how_it_works: "Es ist ziemlich einfach:"
     about:
       roadmap: 'Verfolgen Sie den Projektfortschritt auf:'
       trpr: 'Aufbereitung der Daten auf der Server-Seite'
@@ -211,11 +213,20 @@ de:
   general:
     cancel: "Abbrechen"
     create: "Hinzufügen"
-    save: "Save"
-    update: "Update"
+    save: "Speichern"
+    update: "Aktualisierung"
+    delete: "Entfernen"
+    edit: "Korrigieren"
   users:
     profile:
+      show:
+        jumps: "Sprünge insgesamt/in 12 Monaten/in 3 Monaten:"
+        ws_jumps: "Mit Wingsuit insgesamt/in 12 Monaten/in 3 Monaten:"
+        events: "Wettkampf"
+        information: "Information"
+        tracks: "Tracks"
+        private_info: "Die Informationen sind nur für Sie sichtbar:"
       edit:
         title: 'Profile'
-        edit_email_pass: "Edit email or password"
-        edit_reg_data: "Email and password"
+        edit_email_pass: "Ändern Sie E-Mail-Adresse oder Passwort"
+        edit_reg_data: "E-mail-adresse oder passwort"

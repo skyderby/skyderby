@@ -13,7 +13,7 @@ class GPXParser < TrackParser
 
   private
 
-  def parse_gpx track_data
+  def parse_gpx(track_data)
     doc = Nokogiri::XML(track_data)
     doc.root.elements.each do |node|
       parse_tracks(node)

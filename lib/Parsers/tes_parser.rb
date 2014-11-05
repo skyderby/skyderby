@@ -16,12 +16,12 @@ class TESParser < TrackParser
     track_points = []
     unpacked_string = @track_data.unpack('SLLLS' * (@track_data.length / 16))
 
-    for x in 0..(unpacked_string.count / 5 - 1)
+    (0..(unpacked_string.count / 5 - 1)).each { |x|
       track_points << {:latitude => unpacked_string[x * 5 + 2] / 1.0e7,
                        :longitude => unpacked_string[x * 5 + 3] / 1.0e7,
                        :elevation => unpacked_string[x * 5 + 4],
                        :point_created_at => parse_datetime(unpacked_string[x * 5 + 1])}
-    end
+    }
 
     track_points
   end

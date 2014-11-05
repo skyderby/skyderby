@@ -27,6 +27,276 @@
 
     $(document).ready(function() {
 
+      $('#elevation_distance_chart').highcharts({
+          chart: {
+            type: 'spline',
+            marginLeft: 70
+          },
+          title: {
+            text: #{t 'tracks.show.eldstch_html'}
+          },
+          plotOptions: {
+            series: {
+              marker: {
+                radius: 1
+              },
+              point: {
+                events: {
+                  mouseOver: function() {
+                    syncTooltip('elevation_distance_chart', this.x);
+                  }
+                }
+              }
+            }
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: ''
+            }
+          },
+          tooltip: {
+            shared: true,
+            crosshairs: true
+          },
+          credits: {
+            enabled: false
+          },
+          series: [{
+            name: #{t 'tracks.show.eldst_el_s_html'},
+            pointInterval: 10,
+            tooltip: {
+              valueSuffix: ''
+            }
+          },
+            {
+              name: #{t 'tracks.show.eldst_dst_s_html'},
+              pointInterval: 10,
+              tooltip: {
+                valueSuffix: ''
+              }
+            },
+            {
+              name: #{t 'tracks.show.eldst_h_s_html'},
+              type: 'area',
+              fillOpacity: 0.3,
+              color: Highcharts.getOptions().colors[0],
+              lineWidth: 1,
+              marker: {
+                radius: 0
+              },
+              tooltip: {
+                valueSuffix: ''
+              }
+            }]
+        });
+
+        $('#speeds_chart').highcharts({
+          chart: {
+            type: 'spline',
+            marginLeft: 70
+          },
+          title: {
+            text: #{t 'tracks.show.spdch_html'}
+          },
+          plotOptions: {
+            series: {
+              marker: {
+                enabled: true,
+                radius: 1
+              },
+              point: {
+                events: {
+                  mouseOver: function() {
+                    syncTooltip('speeds_chart', this.x);
+                  }
+                }
+              }
+            }
+          },
+          yAxis: [{ //Speed yAxis
+            min: 0,
+            labels: {
+              style: {
+                color: Highcharts.getOptions().colors[1]
+              }
+            },
+            title: {
+              text: '',
+              style: {
+                color: Highcharts.getOptions().colors[1]
+              }
+            }
+          }],
+          tooltip: {
+            shared: true,
+            crosshairs: true,
+            valueDecimals: 0
+          },
+          credits: {
+            enabled: false
+          },
+          series: [{
+            name: #{t 'tracks.show.spd_hs_html'},
+            tooltip: {
+              valueSuffix: ''
+            }
+          },
+            {
+              name: #{t 'tracks.show.spd_vs_html'},
+              tooltip: {
+                valueSuffix: ''
+              }
+            }]
+        });
+
+        $('#glideratio_chart').highcharts({
+          chart: {
+            type: 'spline',
+            marginLeft: 70
+          },
+          title: {
+            text: #{t 'tracks.show.grch_html'}
+          },
+          plotOptions: {
+            series: {
+              marker: {
+                enabled: true,
+                radius: 1
+              },
+              point: {
+                events: {
+                  mouseOver: function() {
+                    syncTooltip('glideratio_chart', this.x);
+                  }
+                }
+              }
+            }
+          },
+          tooltip: {
+            crosshairs: true,
+            valueDecimals: 2
+          },
+          yAxis: {
+            min: 0,
+            title: {
+              text: ' '
+            }
+          },
+          credits: {
+            enabled: false
+          },
+          series: [{
+            name: #{t 'tracks.show.gr_s_html'},
+            tooltip: {
+              valueSuffix: ''
+            }
+          }],
+          legend: {
+            enabled: false
+          }
+        });
+
+        $('#all_data_chart').highcharts({
+          chart: {
+            type: 'spline'
+          },
+          title: {
+            text: #{t 'tracks.show.adc_html'}
+          },
+          plotOptions: {
+            series: {
+              marker: {
+                enabled: true,
+                radius: 1
+              }
+            }
+          },
+          yAxis: [{ //Speed yAxis
+            min: 0,
+            title: {
+              text: #{t 'tracks.show.adc_html'}
+            }
+          },
+            { // Elev, dist yAxis
+              min: 0,
+              title: {
+                text: #{t 'tracks.show.adc_ed_y_html'}
+              },
+              opposite: true
+            },
+            { // GR yAxis
+              min: 0,
+              max: 5,
+              tickInterval: 0.5,
+              title: {
+                text: #{t 'tracks.show.adc_gr_y_html'}
+              },
+              opposite: true
+            }
+          ],
+          tooltip: {
+            shared: true,
+            crosshairs: true
+          },
+          credits: {
+            enabled: false
+          },
+          series: [{
+            name: #{t 'tracks.show.adc_hspd_html'},
+            yAxis: 0,
+            color: Highcharts.getOptions().colors[2],
+            tooltip: {
+              valueSuffix: '',
+              valueDecimals: 0
+            }
+          },
+            {
+              name: #{t 'tracks.show.adc_vspd_html'},
+              yAxis: 0,
+              color: Highcharts.getOptions().colors[0],
+              tooltip: {
+                valueSuffix: '',
+                valueDecimals: 0
+              }
+            },
+            {
+              name: #{t 'tracks.show.adc_gr_s_html'},
+              yAxis: 2,
+              color: Highcharts.getOptions().colors[1],
+              tooltip: {
+                valueSuffix: '',
+                valueDecimals: 2
+              }
+            },
+            {
+              name: #{t 'tracks.show.adc_h_s_html'},
+              yAxis: 1,
+              color: '#aaa',
+              tooltip: {
+                valueSuffix: '',
+                valueDecimals: 0
+              }
+            },
+            {
+              name: #{t 'tracks.show.adc_dst_html'},
+              yAxis: 1,
+              color: Highcharts.getOptions().colors[5],
+              tooltip: {
+                valueSuffix: '',
+                valueDecimals: 0
+              }
+            },
+            {
+              name: #{t 'tracks.show.adc_ele_html'},
+              yAxis: 1,
+              color: Highcharts.getOptions().colors[3],
+              tooltip: {
+                valueSuffix: '',
+                valueDecimals: 0
+              }
+            }]
+        });
      show_track_on_document_ready();
 
     });
@@ -67,10 +337,10 @@
             - if user_signed_in? && (current_user == @track.user || (can? :update, :tracks))
               %li.dropdown-header{:role => 'presentation'}= t('tracks.show.manage')
               %li{:role => 'presentation'}
-                = link_to t('tracks.show.edit'), edit_track_path(@track), :role => 'menuitem'
+                = link_to t('general.edit'), edit_track_path(@track), :role => 'menuitem'
               - if can? :destroy, @track
                 %li{:role => 'presentation'}
-                  = link_to t('tracks.show.delete'), @track, :method => :delete, :data => {:confirm => t('.delete_confirmation')}, :role => 'menuitem'
+                  = link_to t('general.delete'), @track, :method => :delete, :data => {:confirm => t('.delete_confirmation')}, :role => 'menuitem'
 
   .row
     .col-md-3
@@ -96,16 +366,16 @@
         %dt.d-term
           %strong=t '.dt_vspd'
         %dd#dd_v_speed
-          %p.min-val#p_min_v_speed
-          %p.avg-val#p_avg_v_speed
-          %p.max-val#p_max_v_speed
-          %p.val-unit=t 'units.kmh'
+          .min-val#p_min_v_speed
+          .avg-val#p_avg_v_speed
+          .max-val#p_max_v_speed
+          .val-unit=t 'units.kmh'
         %dt
           %strong=t '.dt_gr'
         %dd#dd_gr
-          %p.min-val#p_min_gr
-          %p.avg-val#p_avg_gr
-          %p.max-val#p_max_gr
+          .min-val#p_min_gr
+          .avg-val#p_avg_gr
+          .max-val#p_max_gr
 
   %hr.top-buffer-10
 

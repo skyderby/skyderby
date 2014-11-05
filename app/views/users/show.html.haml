@@ -27,15 +27,15 @@
         %ul.nav.nav-tabs#tabs{:data => {:tabs => 'tabs'}}
           %li.active
             %a{:href => '#overview', :data => {:toggle => 'tab'}}
-              = 'Информация'
+              = t('users.profile.show.information')
           %li
             %a{:href => '#tracks', :data => {:toggle=>'tab'}}
-              = 'Треки пользователя'
+              = t('users.profile.show.tracks')
               %span.badge
                 = @user.tracks.count
           %li
             %a{:href => '#competitions', :data => {:toggle => 'tab'}}
-              = 'Участие в соревнованиях'
+              = t('users.profile.show.events')
               %span.badge
                 = @user.events.count
 
@@ -56,29 +56,29 @@
                 #{@user.user_profile.jumps_wingsuit_last_year} /
                 #{@user.user_profile.jumps_wingsuit_last_3m}
               %p
-                %strong= t('users.profile.show.home_dz')
+                %strong= t('activerecord.attributes.user_profile.home_DZ')
                 =@user.user_profile.homeDZ_name
               %p
-                %strong= t('users.profile.show.fb')
+                %strong= t('activerecord.attributes.user_profile.facebook_profile')
                 #{@user.user_profile.facebook_profile}
               %p
-                %strong= t('users.profile.show.vk')
+                %strong= t('activerecord.attributes.user_profile.vk_profile')
                 #{@user.user_profile.vk_profile}
 
             - if @user == current_user
               %h3
-                = 'Информация видна только Вам:'
+                = t('users.profile.show.private_info')
               %p
                 %strong
-                  = t('users.profile.show.height')
+                  = t('activerecord.attributes.user_profile.height')
                 = @user.user_profile.height
               %p
                 %strong
-                  = t('users.profile.show.weight')
+                  = t('activerecord.attributes.user_profile.weight')
                 = @user.user_profile.weight
               %p
                 %strong
-                  = t('users.profile.show.shirt_size')
+                  = t('activerecord.attributes.user_profile.shirt_size')
                 = @user.user_profile.shirt_size
 
           .tab-pane#tracks
