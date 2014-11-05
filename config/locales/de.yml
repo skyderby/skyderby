@@ -86,6 +86,9 @@ de:
       m_units_imperial: 'Imperiale Einheiten (Fuß, mi/h)'
       delete_confirmation: "Sind Sie sicher, daß Sie diesen Track entfernen möchten?"
       manage: "Korrektur"
+      range_from: "Bereich von"
+      range_to: " - "
+      edit_range: "Bereich bearbeiten"
     choose:
       title: 'Track aussuchen zum hochladen'
       number: 'Nummer'

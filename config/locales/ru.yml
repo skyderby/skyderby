@@ -86,6 +86,9 @@ ru:
       m_units_imperial: 'Имперские (футы, мили/ч)'
       delete_confirmation: "Вы уверены, что хотите удалить этот трек?"
       manage: "Редактирование"
+      edit_range: "Редактирование диапазона"
+      range_from: "Диапазон с:"
+      range_to: "по:"
     choose:
       title: 'Выберите трек для загрузки'
       number: 'Номер'

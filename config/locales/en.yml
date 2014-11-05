@@ -88,6 +88,9 @@ en:
       m_units_imperial: 'Imperial'
       delete_confirmation: "Are you sure you want delete this track?"
       manage: "Manage"
+      edit_range: "Edit range"
+      range_from: "Range from:"
+      range_to: "to:"
     choose:
       title: 'Select a track to upload'
       number: '#'
