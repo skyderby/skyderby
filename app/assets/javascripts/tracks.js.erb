@@ -15,95 +15,6 @@ var in_imperial,
 
     index_cache = [];
 
-function updateUnits() {
-
-  var chart;
-  var speed_unit = (in_imperial ? <%= I18n.t 'units.mph_html' %> : <%= I18n.t 'units.kmh_html' %>);
-  var dist_unit = (in_imperial ? <%= I18n.t 'units.ft_html'%> : <%= I18n.t 'units.m_html' %>);
-
-
-  $('.val-unit').text(speed_unit);
-
-  // elevation/distance chart
-  chart = $('#elevation_distance_chart').highcharts();
-  chart.yAxis[0].update({
-    title: {
-      text: <%= I18n.t 'tracks.show.eldst_dst_html' %> + ', ' + dist_unit
-    }
-  });
-  chart.series[0].update({
-    tooltip: {
-      valueSuffix: ' ' + dist_unit
-    }
-  });
-  chart.series[1].update({
-    tooltip: {
-      valueSuffix: ' ' + dist_unit
-    }
-  });
-  chart.series[2].update({
-    tooltip: {
-      valueSuffix: ' ' + dist_unit
-    }
-  });
-
-  // speeds chart
-  chart = $('#speeds_chart').highcharts();
-  chart.yAxis[0].update({
-    title: {
-      text: <%= I18n.t 'tracks.show.spd_ax_html' %> + ', ' + speed_unit
-    }
-  });
-  chart.series[0].update({
-    tooltip: {
-      valueSuffix: ' ' + speed_unit
-    }
-  });
-  chart.series[1].update({
-    tooltip: {
-      valueSuffix: ' ' + speed_unit
-    }
-  });
-
-  chart = $('#all_data_chart').highcharts();
-  chart.yAxis[0].update({
-    title: {
-      text: <%= I18n.t 'tracks.show.adc_sp_y_html' %> + ', ' + (in_imperial ? <%= I18n.t 'units.mph_html' %> : <%= I18n.t 'units.kmh_html' %>)
-    }
-  });
-  chart.yAxis[1].update({
-    title: {
-      text: <%= I18n.t 'tracks.show.adc_ed_y_html' %> + ', ' + (in_imperial ? <%= I18n.t 'units.ft_html' %> : <%= I18n.t 'units.m_html' %>)
-    }
-  });
-  chart.series[0].update({
-    tooltip: {
-      valueSuffix: ' ' + speed_unit
-    }
-  });
-  chart.series[1].update({
-    tooltip: {
-      valueSuffix: ' ' + speed_unit
-    }
-  });
-  chart.series[3].update({
-    tooltip: {
-      valueSuffix: ' ' + dist_unit
-    }
-  });
-  chart.series[4].update({
-    tooltip: {
-      valueSuffix: ' ' + dist_unit
-    }
-  });
-  chart.series[5].update({
-    tooltip: {
-      valueSuffix: ' ' + dist_unit
-    }
-  });
-
-}
-
 function updateRangeSelector() {
   if (in_imperial) {
     $('#range-selector').ionRangeSlider('update', {
@@ -413,28 +324,6 @@ function init_objects() {
     updateUnits();
     set_chart_data();
     $.cookie('units', 'imperial', { expires: 365, path: '/'});
-  });
-
-  $("#range-selector").ionRangeSlider({
-    min: max_height,
-    max: min_height,
-    type: 'double',
-    step: 50,
-    prettify: false,
-    hasGrid: true,
-    from: max_height,
-    to: min_height,
-    onFinish: function (obj) {      // callback is called on slider action is finished
-      if (in_imperial) {
-        range_from = obj.fromNumber / mft_k;
-        range_to = obj.toNumber / mft_k;
-      } else {
-        range_from = obj.fromNumber;
-        range_to = obj.toNumber;
-      }
-      window.history.replaceState({}, document.title, "?f=" + range_from + "&t=" + range_to);
-      set_chart_data();
-    }
   });
 
   $('#range-from, #range-to').keypress(function (e) {

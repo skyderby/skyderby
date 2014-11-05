@@ -99,6 +99,11 @@ en:
       text: "Please, send file with track on ab@ipkunin.ru. I'll email you when find what cause the error."
     edit:
       visibility: "Visibility:"
+      public: "Public"
+      unlisted: "Unlisted"
+      private: "Private"
+      elev_chart_html: "'Elevation'"
+      elevation_html: "'Elevation'"
   static_pages:
     index:
       title: "Fly! Compete! Win!"

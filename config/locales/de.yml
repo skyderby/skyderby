@@ -83,7 +83,7 @@ de:
       dt_gr: 'Flugqualität:'
       units_header: 'Maßeinheit:'
       m_units_metric: 'Metrisches Einheitssystem (m, km/h.)'
-      m_units_imperial: 'Имперские (футы, мили/ч)'
+      m_units_imperial: 'Imperiale Einheiten (Fuß, mi/h)'
       delete_confirmation: "Sind Sie sicher, daß Sie diesen Track entfernen möchten?"
       manage: "Korrektur"
     choose:
@@ -96,7 +96,12 @@ de:
       header: "Fehler beim Lesen der Datei"
       text: "Bitte schicken Sie die Datei an folgende E-Mail Adresse ab@ipkunin.ru. Geben Sie bitte an mit welchem Gerät es aufgenommen wurde. Sobald der Fehler gefunden und behoben wurde, werde ich mich bei Ihnen melden."
     edit:
-      visibility: "Visibility:"
+      visibility: "Datenschutz:"
+      public: "Öffentlich "
+      unlisted: "Nicht gelistet"
+      private: "Privat"
+      elev_chart_html: "'Höhe'"
+      elevation_html: "'Höhe'"
   static_pages:
     index:
       title: 'Flieg! Nimm am Wettbewerb teil! Gewinne!'

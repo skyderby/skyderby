@@ -27,7 +27,7 @@
         type: 'area'
       },
       title: {
-        text: 'График высот'
+        text: #{t '.elev_chart_html'}
       },
       plotOptions: {
         series: {
@@ -57,10 +57,10 @@
         enabled: false
       },
       series: [{
-        name: 'Высота',
+        name: #{t '.elevation_html'},
         pointInterval: 10,
         tooltip: {
-          valueSuffix: ' м'
+          valueSuffix: #{t 'units.m_html'}
         },
         data: chart_data
       }]
@@ -101,7 +101,7 @@
         = f.submit t('general.save'), :class => 'btn btn-success'
       .col-sm-1
         .pull-right
-          = link_to t('tracks.show.delete'), @track, :method => :delete, :data => {:confirm => t('tracks.show.delete_confirmation')}, :class => 'btn btn-danger'
+          = link_to t('general.delete'), @track, :method => :delete, :data => {:confirm => t('tracks.show.delete_confirmation')}, :class => 'btn btn-danger'
 
     %hr
 
@@ -150,13 +150,13 @@
         .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
           %label.btn.btn-default{ :class => ('active' if @track.public_track?) }
             = f.radio_button 'visibility', 'public_track'
-            = 'Public'
+            = t('tracks.edit.public')
           %label.btn.btn-default{ :class => ('active' if @track.unlisted_track?) }
             = f.radio_button 'visibility', 'unlisted_track'
-            = 'Unlisted'
+            = t('tracks.edit.unlisted')
           %label.btn.btn-default{ :class => ('active' if @track.private_track?) }
             = f.radio_button 'visibility', 'private_track'
-            = 'Private'
+            = t('tracks.edit.private')
 
     .form-group
       .col-sm-4
@@ -169,6 +169,6 @@
         = f.submit t('general.save'), :class => 'btn btn-success'
       .col-sm-1
         .pull-right
-          = link_to t('tracks.show.delete'), @track, :method => :delete, :data => {:confirm => t('tracks.show.delete_confirmation')}, :class => 'btn btn-danger'
+          = link_to t('general.delete'), @track, :method => :delete, :data => {:confirm => t('tracks.show.delete_confirmation')}, :class => 'btn btn-danger'
 
   .top-buffer
