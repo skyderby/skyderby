@@ -160,9 +160,9 @@ de:
       stats: "Statistik:"
       stats_tracks: "Hochgeladene Tracks:"
       stats_pilots: "Registrierte Piloten:"
-      analyze: "Analysieren"
-      select_free_fall_range: "Wählen freien Fall Bereich"
-      upload_a_file: "Track hochladen"
+      analyze: "Analysiere"
+      select_free_fall_range: "Wähle den freifall bereich"
+      upload_a_file: "Lade den Track hoch"
       how_it_works: "Es ist ziemlich einfach:"
     about:
       roadmap: 'Verfolgen Sie den Projektfortschritt auf:'
