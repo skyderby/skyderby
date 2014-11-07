@@ -1,14 +1,19 @@
 .container
-  %h2= t('devise.confirmations.new.resend_confirmation_instructions')
+  .page-header
+    %h2= t('devise.confirmations.new.resend_confirmation_instructions')
 
-  = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
+  = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post, class: 'form-horizontal' }) do |f|
     = devise_error_messages!
 
-    %div
-      = f.label :email, t('activerecord.attributes.user.email')
-      %br
-      = f.email_field :email, autofocus: true
+    .form-group
+      = f.label :email, t('activerecord.attributes.user.email'), class: 'col-sm-2 control-label'
+      .col-sm-6
+        = f.email_field :email, autofocus: true, class: 'form-control'
 
-    %div= f.submit t('devise.confirmations.new.resend_confirmation_instructions')
+    .form-group
+      .col-sm-6.col-sm-offset-2
+        = f.submit t('devise.confirmations.new.resend_confirmation_instructions'), class: 'btn btn-primary'
 
-  = render 'users/shared/links'
+    .form-group
+      .col-sm-6.col-sm-offset-2
+        = render 'users/shared/links'
