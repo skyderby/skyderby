@@ -339,6 +339,24 @@ function init_objects() {
     $('#range-to').val(Math.round(range_to * k));
   });
 
+  $('#edit-range').on('shown.bs.modal', function () {
+    $('#range-from').focus();
+  });
+
+  $('#range-from').keydown(function (e) {
+    if (e.which == 9 || e.which == 13) {
+      $('#range-to').focus();
+      e.preventDefault();
+    }
+  });
+
+  $('#range-to').keydown(function (e) {
+    if (e.which == 9 || e.which == 13) {
+      $('#apply-new-range').focus();
+      e.preventDefault();
+    }
+  });
+
   $('#apply-new-range').click(function () {
     var tmp_range_from = $('#range-from').val();
     var tmp_range_to = $('#range-to').val();

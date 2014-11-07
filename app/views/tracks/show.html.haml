@@ -526,10 +526,10 @@
         .form-inline
           %label.control-label
             = t('tracks.show.range_from')
-          %input.form-control#range-from{:type => 'number'}
+          %input.form-control#range-from{:type => 'number', :align => 'right'}
           %label.control-label
             = t('tracks.show.range_to')
-          %input.form-control#range-to{:type => 'number'}
+          %input.form-control#range-to{:type => 'number', :align => 'right'}
 
       .modal-footer
         %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}= t('general.cancel')
