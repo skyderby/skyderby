@@ -58,9 +58,19 @@
             text: #{t 'tracks.show.eldstch_html'}
           },
           plotOptions: {
-            series: {
+            spline: {
               marker: {
                 enabled: false
+              }
+            },
+            area: {
+              marker: {
+                enabled: false
+              }
+            },
+            series: {
+              marker: {
+                radius: 1
               },
               point: {
                 events: {
@@ -104,9 +114,6 @@
               fillOpacity: 0.3,
               color: Highcharts.getOptions().colors[0],
               lineWidth: 1,
-              marker: {
-                radius: 0
-              },
               tooltip: {
                 valueSuffix: ''
               }
@@ -122,9 +129,14 @@
             text: #{t 'tracks.show.spdch_html'}
           },
           plotOptions: {
-            series: {
+            spline: {
               marker: {
                 enabled: false
+              }
+            },
+            series: {
+              marker: {
+                radius: 1
               },
               point: {
                 events: {
@@ -180,9 +192,14 @@
             text: #{t 'tracks.show.grch_html'}
           },
           plotOptions: {
-            series: {
+            spline: {
               marker: {
                 enabled: false
+              }
+            },
+            series: {
+              marker: {
+                radius: 1
               },
               point: {
                 events: {
@@ -225,9 +242,14 @@
             text: #{t 'tracks.show.adc_html'}
           },
           plotOptions: {
-            series: {
+            spline: {
               marker: {
                 enabled: false
+              }
+            },
+            series: {
+              marker: {
+                radius: 1
               }
             }
           },
