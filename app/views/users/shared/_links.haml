@@ -11,7 +11,7 @@
   %br
 
 - if devise_mapping.confirmable? && controller_name != 'confirmations'
-  = link_to t('devise.shared.links.didn_t_receive_confirmation_instructions'), new_user_confirmation_path(resource_name)
+  = link_to t('devise.shared.links.didn_t_receive_confirmation_instructions'), new_user_confirmation_path
   %br
 
 - if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks'

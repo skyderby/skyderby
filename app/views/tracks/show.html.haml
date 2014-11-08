@@ -58,6 +58,16 @@
             text: #{t 'tracks.show.eldstch_html'}
           },
           plotOptions: {
+            spline: {
+              marker: {
+                enabled: false
+              }
+            },
+            area: {
+              marker: {
+                enabled: false
+              }
+            },
             series: {
               marker: {
                 radius: 1
@@ -104,9 +114,6 @@
               fillOpacity: 0.3,
               color: Highcharts.getOptions().colors[0],
               lineWidth: 1,
-              marker: {
-                radius: 0
-              },
               tooltip: {
                 valueSuffix: ''
               }
@@ -122,9 +129,13 @@
             text: #{t 'tracks.show.spdch_html'}
           },
           plotOptions: {
+            spline: {
+              marker: {
+                enabled: false
+              }
+            },
             series: {
               marker: {
-                enabled: true,
                 radius: 1
               },
               point: {
@@ -181,9 +192,13 @@
             text: #{t 'tracks.show.grch_html'}
           },
           plotOptions: {
+            spline: {
+              marker: {
+                enabled: false
+              }
+            },
             series: {
               marker: {
-                enabled: true,
                 radius: 1
               },
               point: {
@@ -227,9 +242,13 @@
             text: #{t 'tracks.show.adc_html'}
           },
           plotOptions: {
+            spline: {
+              marker: {
+                enabled: false
+              }
+            },
             series: {
               marker: {
-                enabled: true,
                 radius: 1
               }
             }
@@ -526,10 +545,10 @@
         .form-inline
           %label.control-label
             = t('tracks.show.range_from')
-          %input.form-control#range-from{:type => 'number'}
+          %input.form-control#range-from{:type => 'number', :align => 'right'}
           %label.control-label
             = t('tracks.show.range_to')
-          %input.form-control#range-to{:type => 'number'}
+          %input.form-control#range-to{:type => 'number', :align => 'right'}
 
       .modal-footer
         %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}= t('general.cancel')
