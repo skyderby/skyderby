@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141022100008) do
+ActiveRecord::Schema.define(version: 20141114120410) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 20141022100008) do
     t.boolean  "allow_tracksuits"
     t.date     "reg_starts"
     t.date     "reg_ends"
+    t.boolean  "finished"
   end
 
   create_table "invitations", force: true do |t|
