@@ -14,7 +14,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'quiet_assets'
   gem 'mailcatcher'
-  gem 'rack-mini-profiler'
+  # gem 'rack-mini-profiler'
 end
 
 group :test do
