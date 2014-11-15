@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
 
   def self.suggestions_by_name(query)
 
-    users = User.where('LOWER(name) LIKE LOWER(?)', "%#{query}%")
+    users = User.joins(:user_profile).where('LOWER(name) LIKE LOWER(?)', "%#{query}%")
 
     suggestions = []
     users.each do |x|

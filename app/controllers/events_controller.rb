@@ -42,6 +42,7 @@ class EventsController < ApplicationController
       @doc = EventDocument.new
       @track = EventTrack.new
       @participation_form = ParticipationForm.new
+      @competitor = Competitor.new
     end
 
   end
