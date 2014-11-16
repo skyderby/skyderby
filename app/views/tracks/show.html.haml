@@ -169,18 +169,33 @@
           credits: {
             enabled: false
           },
-          series: [{
-            name: #{t 'tracks.show.spd_hs_html'},
-            tooltip: {
-              valueSuffix: ''
-            }
-          },
+          series:
+          [
+            {
+              name: #{t 'tracks.show.spd_hs_html'},
+              tooltip: {
+                valueSuffix: ''
+              }
+            },
             {
               name: #{t 'tracks.show.spd_vs_html'},
               tooltip: {
                 valueSuffix: ''
               }
-            }]
+            },
+            {
+              name: 'Raw ground speed',
+              tooltip: {
+                valueSuffix: ''
+              }
+            },
+            {
+              name: 'Raw vertical speed',
+              tooltip: {
+                valueSuffix: ''
+              }
+            }
+          ]
         });
 
         $('#glideratio_chart').highcharts({
@@ -223,12 +238,20 @@
           credits: {
             enabled: false
           },
-          series: [{
-            name: #{t 'tracks.show.gr_s_html'},
-            tooltip: {
-              valueSuffix: ''
+          series: [
+            {
+              name: #{t 'tracks.show.gr_s_html'},
+              tooltip: {
+                valueSuffix: ''
+              }
+            },
+            {
+              name: 'Raw g/r'
+              tooltip: {
+                valueSuffix: ''
+              }
             }
-          }],
+          ],
           legend: {
             enabled: false
           }
