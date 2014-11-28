@@ -91,6 +91,9 @@ en:
       edit_range: "Edit range"
       range_from: "Range from:"
       range_to: "to:"
+      raw_ground_speed: "'Ground speed (Raw)'"
+      raw_vertical_speed: "'Vertical speed (Raw)'"
+      raw_gr: "'G/R (Raw)'"
     choose:
       title: 'Select a track to upload'
       number: '#'

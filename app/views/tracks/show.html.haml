@@ -173,24 +173,36 @@
           [
             {
               name: #{t 'tracks.show.spd_hs_html'},
+              color: '#52A964',
               tooltip: {
                 valueSuffix: ''
               }
             },
             {
               name: #{t 'tracks.show.spd_vs_html'},
+              color: '#A7414E',
               tooltip: {
                 valueSuffix: ''
               }
             },
             {
-              name: 'Raw ground speed',
+              name: #{t 'tracks.show.raw_ground_speed'},
+              type: 'line',
+              color: '#AAE3CC',
+              enableMouseTracking: false,
+              lineWidth: 7,
+              visible: false,
               tooltip: {
                 valueSuffix: ''
               }
             },
             {
-              name: 'Raw vertical speed',
+              name: #{t 'tracks.show.raw_vertical_speed'},
+              type: 'line',
+              color: '#DFAFAD',
+              enableMouseTracking: false,
+              lineWidth: 7,
+              visible: false,
               tooltip: {
                 valueSuffix: ''
               }
@@ -241,20 +253,22 @@
           series: [
             {
               name: #{t 'tracks.show.gr_s_html'},
+              color: '#37889B',
               tooltip: {
                 valueSuffix: ''
-              }
+              },
+              zIndex: 2
             },
             {
-              name: 'Raw g/r'
-              tooltip: {
-                valueSuffix: ''
-              }
+              name: #{t 'tracks.show.raw_gr'},
+              type: 'line',
+              color: '#A6CDCE',
+              lineWidth: 7,
+              enableMouseTracking: false,
+              zIndex: 1,
+              visible: false
             }
-          ],
-          legend: {
-            enabled: false
-          }
+          ]
         });
 
         $('#all_data_chart').highcharts({
@@ -306,7 +320,9 @@
           credits: {
             enabled: false
           },
-          series: [{
+          series:
+          [
+            {
             name: #{t 'tracks.show.adc_hspd_html'},
             yAxis: 0,
             color: Highcharts.getOptions().colors[2],
@@ -359,7 +375,8 @@
                 valueSuffix: '',
                 valueDecimals: 0
               }
-            }]
+            }
+          ]
         });
      show_track_on_document_ready();
 

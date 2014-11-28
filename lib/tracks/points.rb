@@ -1,3 +1,6 @@
+require 'median_filter'
+require 'moving_average'
+
 class TrackPoints
 
   attr_reader :points
@@ -106,6 +109,14 @@ class TrackPoints
 
     read_points(track)
 
+    @points = MedianFilter.process( @points,
+                                    3,
+                                    [:h_speed, :v_speed] )
+
+    @points = MovingAverage.process @points, 5, [:h_speed, :v_speed]
+
+    calc_gr @points
+
   end
 
   def read_points(track)
@@ -116,23 +127,27 @@ class TrackPoints
     fl_time = 0
 
     points.each do |point|
-      if prev_point != nil
+      if prev_point
 
         fl_time_diff = point.point_created_at - prev_point.point_created_at
         fl_time += fl_time_diff
 
-        @points << {:fl_time => fl_time_diff,
+        elevation_diff = (prev_point.elevation - point.elevation).round(2)
+        raw_h = Velocity.to_kmh(point.distance / fl_time_diff)
+        raw_v = Velocity.to_kmh(elevation_diff) / fl_time_diff
+
+        @points << { :fl_time => fl_time_diff,
                     :fl_time_abs => fl_time,
-                    :elevation_diff => (prev_point.elevation - point.elevation).round(2),
+                    :elevation_diff => elevation_diff,
                     :elevation => point.elevation.round(2),
                     :abs_altitude => point.abs_altitude,
                     :latitude => point.latitude,
                     :longitude => point.longitude,
                     :distance => point.distance.to_i,
-                    :h_speed => point.h_speed.round(2),
-                    :v_speed => point.v_speed.round(2),
-                    :glrat => (point.h_speed.round(2) / point.v_speed.round(2)).round(2)
-        }
+                    :h_speed => point.h_speed.round,
+                    :v_speed => point.v_speed.round,
+                    :raw_h_speed => raw_h,
+                    :raw_v_speed => raw_v }
 
       end
       prev_point = point
@@ -140,4 +155,10 @@ class TrackPoints
 
   end
 
+  def calc_gr points
+    points.each do |p|
+      p[:raw_gr] = p[:raw_v_speed] == 0 ? 0 : (p[:raw_h_speed] / p[:raw_v_speed]).round(2)
+      p[:glrat] = (p[:h_speed].to_f / p[:v_speed]).round(2)
+    end
+  end
 end

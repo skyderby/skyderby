@@ -89,6 +89,9 @@ de:
       range_from: "Bereich von"
       range_to: " - "
       edit_range: "Bereich bearbeiten"
+      raw_ground_speed: "'Horizontale Geschwindigkeit (Roh)'"
+      raw_vertical_speed: "'Vertikale Geschwindigkeit (Roh)'"
+      raw_gr: "'Qualität (Roh)'"
     choose:
       title: 'Track aussuchen zum hochladen'
       number: 'Nummer'
