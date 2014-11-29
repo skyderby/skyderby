@@ -11,7 +11,7 @@ module ApplicationHelper
   end
 
   def lang_presentation(l_code)
-    l_array = {:en => 'English', :ru => 'Русский', :de => 'Deutsch'}
+    l_array = {:en => 'English', :ru => 'Русский', :de => 'Deutsch', :es => 'Spanish'}
     l_array[l_code]
   end
 
