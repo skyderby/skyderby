@@ -1,4 +1,4 @@
-- provide :title, "#{t '.title_track' } ##{@track.id} | #{@track.name}"
+- provide :title, title(@track)
 
 :javascript
 
@@ -478,8 +478,9 @@
     .row
       .col-md-8
         %h1
-          = "#{@track.name} | #{t '.title_track'} ##{@track.id}"
-          %small="#{t '.title_suit'}: #{@track.wingsuit.present? ? @track.wingsuit.name : @track.suit}, @#{@track.location}"
+          =header @track
+          %small
+            =subheader @track
 
       .dropdown-container.col-md-4
         .pull-right
@@ -490,6 +491,10 @@
           %a.btn.btn-default{:href => google_maps_track_path(@track), :target => '_blank'}
             %i.fa.fa-compass
             = 'Google maps'
+          -#- if @track.has_video
+          -#  %a.btn.btn-default{:href => replay_track_path(@track), :target => '_blank'}
+          -#    %i.fa.fa-video-camera
+          -#    = 'Video replay'
 
           %button.btn.btn-default.dropdown-toggle#dropdownMenu1{:type => 'button', :data => {:toggle => 'dropdown'}}
             %i.fa.fa-cog
