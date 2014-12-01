@@ -86,7 +86,7 @@ describe 'Allow unregistered user edit and delete unviewed track', :type => :fea
     expect(page).to have_xpath('.//div[@id="heights-chart"]')
 
     # click_button 'Сохранить'
-    page.all('Сохранить')[0].click
+    page.all('input[value="Сохранить"]')[0].click
     expect(page).to have_content('Александр К. | Трек #')
 
   end
@@ -101,20 +101,20 @@ describe 'Allow unregistered user edit and delete unviewed track', :type => :fea
 
     expect(page).to have_xpath('.//div[@id="heights-chart"]')
 
-    click_link 'Удалить'
+    page.all('a.btn.btn-danger[data-method="delete"]')[0].click
 
     expect(page).to have_content('Загруженные треки:')
   end
 
   it 'Restrict access to edit again' do
     visit edit_track_path(:id => Track.last.id)
-    page.all('Сохранить')[0].click
+    page.all('input[value="Сохранить"]')[0].click
     expect(page).to have_content('You are not authorized to access this page.')
   end
 
   it 'Restrict access to delete after show' do
     visit edit_track_path(:id => Track.last.id)
-    click_link 'Удалить'
+    page.all('a.btn.btn-danger[data-method="delete"]')[0].click
     expect(page).to have_content('You are not authorized to access this page.')
   end
 
