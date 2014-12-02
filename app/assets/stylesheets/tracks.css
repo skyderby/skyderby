@@ -1,24 +1,40 @@
 
-.min-val, .avg-val, .max-val, .val-unit {
-  display: inline;
+.avg-val, .val-unit {
+    display: inline;
 }
 
+.min-max {
+    display: inline-block;
+    margin-left: 3px;
+    margin-right: 5px;
+}
+
+.param {
+    margin-top: -10px;
+    color: #888;
+}
+
+.track-data {
+    border-right: solid 2px #515151;
+    color: #515151;
+    font-size: x-large;
+}
 .min-val, .max-val {
-  color: #aaa;
+    color: #888;
 }
 
 .d-term {
-  width: 200px;
+    width: 200px;
 }
 
            
 .dropdown-container {
-  margin-top:15px;
+    margin-top:15px;
 }
 
 .glyphicon {
-  margin-left:1px;
-  margin-top:2px;
+    margin-left:1px;
+    margin-top:2px;
 }
 
 #content-row {
@@ -26,45 +42,45 @@
 }
 
 #btn-range-edit {
-  float: left;
-  width: 50px;
-  margin-left: 5px;
-  padding-top: 14px;
+    float: left;
+    width: 50px;
+    margin-left: 5px;
+    padding-top: 14px;
 }
 
 #slider-range-selector {
-  margin-left: 65px;
-  width: auto;
+    margin-left: 65px;
+    width: auto;
 }
 
 #glideratio_chart {
-  width:100%;
-  height:300px;
+    width:100%;
+    height:300px;
 }
 
 #speeds_chart {
-  width:100%;
-  height:400px;
+    width:100%;
+    height:400px;
 }
 
 #elevation_distance_chart {
-  width:100%;
-  height:400px;
+    width:100%;
+    height:400px;
 }
 
 #all_data_chart {
-  width:100%;
-  height:600px;
+    width:100%;
+    height:600px;
 }
 
 .time-selector {
-  margin-left: 60px;
-  margin-right: 10px;
+    margin-left: 60px;
+    margin-right: 10px;
 }
 
 .hl1 {
-  background-color: rgb(45, 126, 46);
-  color: rgb(244, 244, 244);
+    background-color: rgb(45, 126, 46);
+    color: rgb(244, 244, 244);
 }
 
 .hl2 {
