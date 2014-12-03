@@ -77,12 +77,12 @@ en:
       menu_header: 'Show data:'
       menu_sep: 'On separate charts'
       menu_one: 'On single chart'
-      dt_dist: 'Distance:'
-      dt_elev: 'Elevation:'
-      dt_dur: 'Duration:'
-      dt_hspd: 'Ground Speed:'
-      dt_vspd: 'Vertical speed:'
-      dt_gr: 'Glide ratio:'
+      dt_dist: 'Distance'
+      dt_elev: 'Elevation'
+      dt_dur: 'Duration'
+      dt_hspd: 'Ground Speed'
+      dt_vspd: 'Vertical speed'
+      dt_gr: 'Glide ratio'
       units_header: 'Units:'
       m_units_metric: 'Metric'
       m_units_imperial: 'Imperial'
@@ -91,6 +91,9 @@ en:
       edit_range: "Edit range"
       range_from: "Range from:"
       range_to: "to:"
+      raw_ground_speed: "'Ground speed (Raw)'"
+      raw_vertical_speed: "'Vertical speed (Raw)'"
+      raw_gr: "'G/R (Raw)'"
     choose:
       title: 'Select a track to upload'
       number: '#'
@@ -177,12 +180,13 @@ en:
       fepr: 'Frontend data processing'
       developer: "App developed by Aleksandr Kunin"
       de_translate: "Deutsch translate by Tatiana Holm"
+      es_translate: "Spanish translate by Ekaterina Larina"
       logo_designed_by: "Logo designed by Julia Makoveeva"
   units:
     m: 'm'
     m_html: "'m'"
     ft_html: "'ft'"
-    t_html: "'s'"
+    t_unit: "s"
     kmh: 'km/h'
     kmh_html: "'km/h'"
     mph_html: "'mph'"

@@ -1,6 +1,6 @@
 # encoding: utf-8
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :update, :destroy, :results]
+  before_action :set_event, only: [:show, :finished, :update, :destroy, :results]
 
   def index
     @event = Event.new
@@ -23,22 +23,32 @@ class EventsController < ApplicationController
   end
 
   def update
-    @event.update params[:event].permit(:name, :place,
-                                        :comp_range_from, :comp_range_to,
-                                        :descriprion, :form_info, :dz_info,
-                                        :start_at, :end_at, :reg_starts, :reg_ends,
-                                        :merge_intermediate_and_rookie,
-                                        :allow_tracksuits)
-    redirect_to @event, notice: 'Данные успешно обновлены.'
+    if @event.update event_params
+      redirect_to @event, notice: 'Данные успешно обновлены.'
+    else
+      redirect_to @event, notice: 'При сохранении произошла ошибка.'
+    end
   end
 
   def show
-    @round = Round.new
-    @org = Organizer.new
-    @doc = EventDocument.new
-    @track = EventTrack.new
-    @participation_form = ParticipationForm.new
+
     @results = @event.results
+
+    if @event.finished
+      render :finished
+    else
+      @round = Round.new
+      @org = Organizer.new
+      @doc = EventDocument.new
+      @track = EventTrack.new
+      @participation_form = ParticipationForm.new
+      @competitor = Competitor.new
+    end
+
+  end
+
+  def finished
+
   end
 
   def results
@@ -52,5 +62,14 @@ class EventsController < ApplicationController
   private
   def set_event
     @event = Event.find(params[:id])
+  end
+
+  def event_params
+    params[:event].permit(:name, :place,
+                          :comp_range_from, :comp_range_to,
+                          :descriprion, :form_info, :dz_info,
+                          :start_at, :end_at, :reg_starts, :reg_ends,
+                          :merge_intermediate_and_rookie,
+                          :allow_tracksuits, :finished)
   end
 end

@@ -1,4 +1,4 @@
-- provide :title, "#{t '.title_track' } ##{@track.id} | #{@track.name}"
+- provide :title, title(@track)
 
 :javascript
 
@@ -94,13 +94,15 @@
           credits: {
             enabled: false
           },
-          series: [{
-            name: #{t 'tracks.show.eldst_el_s_html'},
-            pointInterval: 10,
-            tooltip: {
-              valueSuffix: ''
-            }
-          },
+          series:
+          [
+            {
+              name: #{t 'tracks.show.eldst_el_s_html'},
+              pointInterval: 10,
+              tooltip: {
+                valueSuffix: ''
+              }
+            },
             {
               name: #{t 'tracks.show.eldst_dst_s_html'},
               pointInterval: 10,
@@ -117,7 +119,8 @@
               tooltip: {
                 valueSuffix: ''
               }
-            }]
+            }
+            ]
         });
 
         $('#speeds_chart').highcharts({
@@ -169,18 +172,45 @@
           credits: {
             enabled: false
           },
-          series: [{
-            name: #{t 'tracks.show.spd_hs_html'},
-            tooltip: {
-              valueSuffix: ''
-            }
-          },
+          series:
+          [
             {
-              name: #{t 'tracks.show.spd_vs_html'},
+              name: #{t 'tracks.show.spd_hs_html'},
+              color: '#52A964',
               tooltip: {
                 valueSuffix: ''
               }
-            }]
+            },
+            {
+              name: #{t 'tracks.show.spd_vs_html'},
+              color: '#A7414E',
+              tooltip: {
+                valueSuffix: ''
+              }
+            },
+            {
+              name: #{t 'tracks.show.raw_ground_speed'},
+              type: 'line',
+              color: '#AAE3CC',
+              enableMouseTracking: false,
+              lineWidth: 7,
+              visible: false,
+              tooltip: {
+                valueSuffix: ''
+              }
+            },
+            {
+              name: #{t 'tracks.show.raw_vertical_speed'},
+              type: 'line',
+              color: '#DFAFAD',
+              enableMouseTracking: false,
+              lineWidth: 7,
+              visible: false,
+              tooltip: {
+                valueSuffix: ''
+              }
+            }
+          ]
         });
 
         $('#glideratio_chart').highcharts({
@@ -223,15 +253,25 @@
           credits: {
             enabled: false
           },
-          series: [{
-            name: #{t 'tracks.show.gr_s_html'},
-            tooltip: {
-              valueSuffix: ''
+          series: [
+            {
+              name: #{t 'tracks.show.gr_s_html'},
+              color: '#37889B',
+              tooltip: {
+                valueSuffix: ''
+              },
+              zIndex: 2
+            },
+            {
+              name: #{t 'tracks.show.raw_gr'},
+              type: 'line',
+              color: '#A6CDCE',
+              lineWidth: 7,
+              enableMouseTracking: false,
+              zIndex: 1,
+              visible: false
             }
-          }],
-          legend: {
-            enabled: false
-          }
+          ]
         });
 
         $('#all_data_chart').highcharts({
@@ -283,7 +323,9 @@
           credits: {
             enabled: false
           },
-          series: [{
+          series:
+          [
+            {
             name: #{t 'tracks.show.adc_hspd_html'},
             yAxis: 0,
             color: Highcharts.getOptions().colors[2],
@@ -336,7 +378,8 @@
                 valueSuffix: '',
                 valueDecimals: 0
               }
-            }]
+            }
+          ]
         });
      show_track_on_document_ready();
 
@@ -351,7 +394,8 @@
     var dist_unit = (in_imperial ? #{t 'units.ft_html'} : #{t 'units.m_html'});
 
 
-    $('.val-unit').text(speed_unit);
+    $('.spd-unit').text(speed_unit);
+    $('.dst-unit').text(dist_unit);
 
     // elevation/distance chart
     chart = $('#elevation_distance_chart').highcharts();
@@ -397,12 +441,12 @@
     chart = $('#all_data_chart').highcharts();
     chart.yAxis[0].update({
       title: {
-        text: #{I18n.t 'tracks.show.adc_sp_y_html'} + ', ' + (in_imperial ? #{I18n.t 'units.mph_html'} : #{t 'units.kmh_html'})
+        text: #{t 'tracks.show.adc_sp_y_html'} + ', ' + speed_unit
       }
     });
     chart.yAxis[1].update({
       title: {
-        text: #{t 'tracks.show.adc_ed_y_html'} + ', ' + (in_imperial ? #{t 'units.ft_html'}  : #{t 'units.m_html'})
+        text: #{t 'tracks.show.adc_ed_y_html'} + ', ' + dist_unit
       }
     });
     chart.series[0].update({
@@ -438,8 +482,9 @@
     .row
       .col-md-8
         %h1
-          = "#{@track.name} | #{t '.title_track'} ##{@track.id}"
-          %small="#{t '.title_suit'}: #{@track.wingsuit.present? ? @track.wingsuit.name : @track.suit}, @#{@track.location}"
+          =header @track
+          %small
+            =subheader @track
 
       .dropdown-container.col-md-4
         .pull-right
@@ -450,6 +495,10 @@
           %a.btn.btn-default{:href => google_maps_track_path(@track), :target => '_blank'}
             %i.fa.fa-compass
             = 'Google maps'
+          -#- if @track.has_video
+          -#  %a.btn.btn-default{:href => replay_track_path(@track), :target => '_blank'}
+          -#    %i.fa.fa-video-camera
+          -#    = 'Video replay'
 
           %button.btn.btn-default.dropdown-toggle#dropdownMenu1{:type => 'button', :data => {:toggle => 'dropdown'}}
             %i.fa.fa-cog
@@ -472,42 +521,102 @@
                 %li{:role => 'presentation'}
                   = link_to t('general.delete'), @track, :method => :delete, :data => {:confirm => t('.delete_confirmation')}, :role => 'menuitem'
 
-  .row
-    .col-md-3
-      %dl.dl-horizontal
-        %dt
-          %strong=t '.dt_dist'
-        %dd#dd_distance
-        %dt
-          %strong=t '.dt_elev'
-        %dd#dd_elevation
-        %dt
-          %strong=t '.dt_dur'
-        %dd#dd_fl_time
-    .col-md-5
-      %dl.dl-horizontal
-        %dt.d-term
-          %strong=t '.dt_hspd'
-        %dd#dd_h_speed
-          .min-val#p_min_h_speed
-          .avg-val#p_avg_h_speed
-          .max-val#p_max_h_speed
-          .val-unit=t 'units.kmh'
-        %dt.d-term
-          %strong=t '.dt_vspd'
-        %dd#dd_v_speed
-          .min-val#p_min_v_speed
-          .avg-val#p_avg_v_speed
-          .max-val#p_max_v_speed
-          .val-unit=t 'units.kmh'
-        %dt
-          %strong=t '.dt_gr'
-        %dd#dd_gr
-          .min-val#p_min_gr
-          .avg-val#p_avg_gr
-          .max-val#p_max_gr
+  -#.row
+  -#  .col-md-3
+  -#    %dl.dl-horizontal
+  -#      %dt
+  -#        %strong=t '.dt_dist'
+  -#      %dd
+  -#      %dt
+  -#        %strong=t '.dt_elev'
+  -#      %dd
+  -#      %dt
+  -#        %strong=t '.dt_dur'
+  -#      %dd
+  -#  .col-md-5
+  -#    %dl.dl-horizontal
+  -#      %dt.d-term
+  -#        %strong=t '.dt_hspd'
+  -#      %dd#dd_h_speed
+  -#
+  -#
+  -#      %dt.d-term
+  -#        %strong=t '.dt_vspd'
+  -#      %dd#dd_v_speed
+  -#
+  -#      %dt
+  -#        %strong=t '.dt_gr'
+  -#      %dd#dd_gr
 
-  %hr.top-buffer-10
+
+  .row
+    .col-md-11.col-md-offset-1.col-sm-12
+      .row
+        .col-md-4.col-sm-4.col-xs-6
+          .param-val
+            .avg-val.fa-3x#dd_distance
+            .dst-unit.fa-2x= t 'units.m_html'
+          .param
+            %i.fa.fa-fw.fa-lg.fa-arrows-h
+            =t '.dt_dist'
+        .col-md-4.col-sm-4.col-xs-6
+          .param-val
+            .avg-val.fa-3x#p_avg_h_speed
+            .min-max.text-right
+              .max-val
+                %span#p_max_h_speed
+                %i.fa.fa-lg.fa-caret-up
+              .min-val
+                %span#p_min_h_speed
+                %i.fa.fa-lg.fa-caret-down.min-val-caret
+            .spd-unit.fa-2x=t 'units.kmh'
+          .param
+            %i.fa.fa-fw.fa-lg.fa-long-arrow-right
+            =t '.dt_hspd'
+        .col-md-4.col-sm-4.col-xs-6
+          .param-val
+            .avg-val.fa-3x#p_avg_gr
+            .min-max.text-right
+              .max-val
+                %span#p_max_gr
+                %i.fa.fa-lg.fa-caret-up
+              .min-val
+                %span#p_min_gr
+                %i.fa.fa-lg.fa-caret-down.min-val-caret
+          .param
+            %i.fa.fa-fw.fa-lg.fa-ellipsis-h
+            =t '.dt_gr'
+
+        .col-md-4.col-sm-4.col-xs-6
+          .param-val
+            .avg-val.fa-3x#dd_elevation
+            .dst-unit.fa-2x= t 'units.m_html'
+          .param
+            %i.fa.fa-fw.fa-lg.fa-arrows-v
+            =t '.dt_elev'
+        .col-md-4.col-sm-4.col-xs-6
+          .param-val
+            .avg-val.fa-3x#p_avg_v_speed
+            .min-max.text-right
+              .min-val
+                %span#p_max_v_speed
+                %i.fa.fa-lg.fa-caret-up
+              .max-val
+                %span#p_min_v_speed
+                %i.fa.fa-lg.fa-caret-down.min-val-caret
+            .spd-unit.fa-2x=t 'units.kmh'
+          .param
+            %i.fa.fa-fw.fa-lg.fa-long-arrow-down
+            =t '.dt_vspd'
+        .col-md-4.col-sm-4.col-xs-6
+          .param-val
+            .avg-val.fa-3x#dd_fl_time
+            .time-unit.fa-2x= t 'units.t_unit'
+          .param
+            %i.fa.fa-fw.fa-lg.fa-clock-o
+            =t '.dt_dur'
+
+  %hr.top-buffer
 
   .row#content-row
     .col-sm-12

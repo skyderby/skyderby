@@ -97,8 +97,8 @@
 
     .row
       .col-sm-11
-        = link_to t('general.cancel'), @track, :class => 'btn btn-default'
         = f.submit t('general.save'), :class => 'btn btn-success'
+        = link_to t('general.cancel'), @track, :class => 'btn btn-default'
       .col-sm-1
         .pull-right
           = link_to t('general.delete'), @track, :method => :delete, :data => {:confirm => t('tracks.show.delete_confirmation')}, :class => 'btn btn-danger'
@@ -165,8 +165,8 @@
     %hr
     .row
       .col-sm-11
-        = link_to t('general.cancel'), @track, :class => 'btn btn-default'
         = f.submit t('general.save'), :class => 'btn btn-success'
+        = link_to t('general.cancel'), @track, :class => 'btn btn-default'
       .col-sm-1
         .pull-right
           = link_to t('general.delete'), @track, :method => :delete, :data => {:confirm => t('tracks.show.delete_confirmation')}, :class => 'btn btn-danger'

@@ -75,12 +75,12 @@ de:
       menu_header: 'Merkmalanzeige'
       menu_sep: 'Auf unterschiedlichen Grafiken'
       menu_one: 'Auf einer Grafik'
-      dt_dist: 'Entfernung:'
-      dt_elev: 'Höhendifferenz:'
-      dt_dur: 'Dauer:'
-      dt_hspd: 'Horizontale Geschwindigkeit:'
-      dt_vspd: 'Vertikale Geschwindigkeit:'
-      dt_gr: 'Flugqualität:'
+      dt_dist: 'Entfernung'
+      dt_elev: 'Höhendifferenz'
+      dt_dur: 'Dauer'
+      dt_hspd: 'Horizontale Geschwindigkeit'
+      dt_vspd: 'Vertikale Geschwindigkeit'
+      dt_gr: 'Flugqualität'
       units_header: 'Maßeinheit:'
       m_units_metric: 'Metrisches Einheitssystem (m, km/h.)'
       m_units_imperial: 'Imperiale Einheiten (Fuß, mi/h)'
@@ -89,6 +89,9 @@ de:
       range_from: "Bereich von"
       range_to: " - "
       edit_range: "Bereich bearbeiten"
+      raw_ground_speed: "'Horizontale Geschwindigkeit (Roh)'"
+      raw_vertical_speed: "'Vertikale Geschwindigkeit (Roh)'"
+      raw_gr: "'Qualität (Roh)'"
     choose:
       title: 'Track aussuchen zum hochladen'
       number: 'Nummer'
@@ -176,7 +179,7 @@ de:
     m_html: "'m'"
     ft_html: "'Fuß'"
     kmh: 'km/h'
-    t_html: "'Sek'"
+    t_unit: "Sek"
     kmh_html: "'km/h'"
     mph_html: "'mi/h'"
   events:

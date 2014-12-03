@@ -1,7 +1,6 @@
 require 'geospatial'
 require 'velocity'
 require 'parser_selector'
-require 'median_filter'
 
 module TrackPointsProcessor
 
@@ -18,7 +17,6 @@ module TrackPointsProcessor
       filter_by_freq!
       corr_elevation!
       calc_parameters!
-      median_filter!
 
       @points
 
@@ -59,13 +57,6 @@ module TrackPointsProcessor
         prev_point = point
       end
 
-    end
-
-    # Медианный фильтр для расстояния, высоты, скоростей
-    def median_filter!
-      @points = MedianFilter.process( @points,
-                                      3,
-                                      [:distance, :elevation, :h_speed, :v_speed] )
     end
 
   end

@@ -1,9 +1,11 @@
 class Round < ActiveRecord::Base
   belongs_to :event
   has_many :event_tracks
-  belongs_to :discipline
+
+  enum discipline: [:time, :distance, :speed]
 
   def name_with_discipline
-    self.discipline.name + ' - ' + self.name
+    self.discipline.to_s.humanize + ' - ' + self.name
   end
+
 end

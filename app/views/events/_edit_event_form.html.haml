@@ -65,4 +65,11 @@
 
     .form-group
       .col-sm-9.col-sm-offset-3
+        .checkbox
+          %label
+            = f.check_box :finished
+            = 'Завершено'
+
+    .form-group
+      .col-sm-9.col-sm-offset-3
         = f.submit 'Сохранить', :class => 'btn btn-primary'

@@ -36,7 +36,8 @@ $(document).ready(function($) {
     $('.user-autocomplete').autocomplete({
         serviceUrl: '/users/autocomplete',
         onSelect: function (suggestion) {
-            alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+            var idfield = $(this).data('idfield');
+            $(idfield).val(suggestion.data);
         }
     });
 
@@ -56,7 +57,8 @@ $(document).ready(function($) {
         params: {event_id: ws_field.data("event")},
         onSelect: function (suggestion) {
 
-            var ws_id_field = $('#wingsuit-id');
+            var idfield = $(this).data('idfield');
+            var ws_id_field = $(idfield);
             if (ws_id_field !== 'undefined') {
                 ws_id_field.val(suggestion.data);
             }

@@ -12,6 +12,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'quiet_assets'
   gem 'mailcatcher'
+  # gem 'rack-mini-profiler'
 end
 
 group :test do
@@ -26,6 +27,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 
 gem 'twitter-bootstrap-rails'
+gem 'font-awesome-less'
 gem 'bootstrap-datepicker-rails'
 gem 'less-rails-bootstrap'
 gem 'jquery-rails'

@@ -31,7 +31,7 @@ class Event < ActiveRecord::Base
 
     self.competitors.each do |comp|
 
-      comp_el = Competitor_struct.new(comp.user.name, comp.id, comp.user.id, comp.wingsuit.name, [], nil, [], nil, [], nil, nil)
+      comp_el = Competitor_struct.new(comp.user_name, comp.id, comp.user_id, comp.wingsuit.name, [], nil, [], nil, [], nil, nil)
 
       if ws_class(comp) == :advanced
         advanced_comps.competitors << comp_el
@@ -65,15 +65,15 @@ class Event < ActiveRecord::Base
 
   # TODO scopes for rounds
   def time_rounds
-    rounds_by_discipline Discipline.time
+    rounds_by_discipline :time
   end
 
   def distance_rounds
-    rounds_by_discipline Discipline.distance
+    rounds_by_discipline :distance
   end
 
   def speed_rounds
-    rounds_by_discipline Discipline.speed
+    rounds_by_discipline :speed
   end
 
   private
@@ -112,7 +112,7 @@ class Event < ActiveRecord::Base
 
     self.competitors.each do |comp|
 
-      comp_el = Competitor_struct.new(comp.user.name, comp.id, comp.user.id, comp.wingsuit.name, [], 0, [], 0, [], 0, 0)
+      comp_el = Competitor_struct.new(comp.user_name, comp.id, comp.user_id, comp.wingsuit.name, [], 0, [], 0, [], 0, 0)
 
       comp.event_tracks.each do |ev_track|
 
@@ -120,17 +120,17 @@ class Event < ActiveRecord::Base
         points = 0
         points = (ev_track.result / max['max_result'] * 100).to_i unless max.nil?
 
-        if ev_track.round.discipline == Discipline.time
+        if ev_track.round.time?
           comp_el.time << {:id => ev_track.round.id,
                            :result => ev_track.result,
                            :points => points,
                            :track_id => ev_track.track_id}
-        elsif ev_track.round.discipline == Discipline.distance
+        elsif ev_track.round.distance?
           comp_el.distance << {:id => ev_track.round.id,
                                :result => ev_track.result.to_i,
                                :points => points,
                                :track_id => ev_track.track_id}
-        elsif ev_track.round.discipline == Discipline.speed
+        elsif ev_track.round.speed?
           comp_el.speed << {:id => ev_track.round.id,
                             :result => ev_track.result.to_i,
                             :points => points,
