@@ -1,5 +1,5 @@
 
-.avg-val, .val-unit {
+.avg-val, .spd-unit, .dst-unit, .time-unit {
     display: inline;
 }
 
@@ -9,8 +9,25 @@
     margin-right: 5px;
 }
 
+.min-val-caret {
+    vertical-align: 0px;
+}
+
+/*.min-val, .max-val {*/
+    /*color: #888;*/
+/*}*/
+
+.max-val {
+    color: #4b725a;
+}
+
+.min-val {
+    color: #9a3558;
+}
+
 .param {
     margin-top: -10px;
+    margin-bottom: 10px;
     color: #888;
 }
 
@@ -18,9 +35,6 @@
     border-right: solid 2px #515151;
     color: #515151;
     font-size: x-large;
-}
-.min-val, .max-val {
-    color: #888;
 }
 
 .d-term {

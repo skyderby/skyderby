@@ -186,7 +186,7 @@ en:
     m: 'm'
     m_html: "'m'"
     ft_html: "'ft'"
-    t_html: "'s'"
+    t_unit: "s"
     kmh: 'km/h'
     kmh_html: "'km/h'"
     mph_html: "'mph'"
