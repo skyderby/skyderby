@@ -25,20 +25,10 @@ TrackingDerby::Application.routes.draw do
     # Для обратной совместимости
     match '/track/:id', :to => 'tracks#show', :via => :get
 
-    resources :disciplines
-
     resources :events do
-      resources :organizers
       resources :rounds
-      resources :participation_forms, :only => [:create] do
-        collection do
-          patch 'approve'
-          patch 'decline'
-        end
-      end
       resources :competitors
       resources :event_tracks
-      resources :event_documents
 
       member do
         get 'results'
@@ -51,7 +41,6 @@ TrackingDerby::Application.routes.draw do
     devise_for :users
 
     resources :users do
-      resources :user_wingsuits
       resources :user_profile
     end
 

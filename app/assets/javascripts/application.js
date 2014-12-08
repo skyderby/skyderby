@@ -27,6 +27,11 @@ function clone(obj) {
     return copy;
 }
 
+function capitaliseFirstLetter(string)
+{
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 $(document).ready(function($) {
 
     $(".clickableRow").click(function() {

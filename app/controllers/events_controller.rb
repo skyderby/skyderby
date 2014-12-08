@@ -32,22 +32,14 @@ class EventsController < ApplicationController
 
   def show
 
-    @results = @event.results
+    # @results = @event.results
+    @results = []
 
-    if @event.finished
-      render :finished
-    else
-      @round = Round.new
-      @org = Organizer.new
-      @doc = EventDocument.new
-      @track = EventTrack.new
-      @participation_form = ParticipationForm.new
-      @competitor = Competitor.new
-    end
-
-  end
-
-  def finished
+    # else
+    #   @round = Round.new
+    #   @track = EventTrack.new
+    #   @competitor = Competitor.new
+    # end
 
   end
 

@@ -1,95 +1,98 @@
-.container
+:javascript
+  var status = "#{@event.status}";
+  var sections = #{@event.sections.to_json};
+  var rounds_by_discipline = #{@event.rounds_by_discipline.to_json};
+  var competitors_by_section = #{@event.competitors_by_section.to_json};
+  var units_for_discipline = {
+    time: #{t 'units.t_unit_html'},
+    distance: #{t 'units.kmh_html'},
+    speed: #{t 'units.m_html'}
+  };
+
+  $(document).ready( function() {
+    on_event_document_ready();
+  })
+
+.container.top-buffer
   .row
-    .page-header.col-md-12
-      .col-md-10
-        %h1
-          = @event.name
-          - if Time.zone.now < @event.start_at
-            %small= "До начала #{(@event.start_at - Time.zone.now).to_i / 1.day} дн."
+    .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
+      %label.btn.btn-default{ :class => ('active' if @event.draft?) }
+        %input#draft{:type => 'radio', :name => 'options', :autocomplete => 'off'}
+        = 'Черновик'
+      %label.btn.btn-default{ :class => ('active' if @event.published?) }
+        %input#published{:type => 'radio', :name => 'options', :autocomplete => 'off'}
+        = 'Опубликовано'
+      %label.btn.btn-default{ :class => ('active' if @event.finished?) }
+        %input#finished{:type => 'radio', :name => 'options', :autocomplete => 'off'}
+        = 'Завершено'
 
-      .col-md-2
-        - if current_user
-          - if current_user.pf_status(@event) == 'active'
-            %button.btn.btn-default.event-request.disabled= t('events.show.pf.in_process')
+  .row
+    .col-md-12.text-center
+      %h1= @event.name
+  %hr
+  .row
+    .col-md-12
+      %h3= 'Соревновательный диапазон: 3000 - 2000 м'
+  .row
+    .col-md-12
+      %button.btn.btn-default#button-add-class
+        %i.fa.fa-plus
+        = 'Класс'
+      %button.btn.btn-default#button-add-competitor
+        %i.fa.fa-plus
+        = 'Участник'
+      %button.btn.btn-default#button-add-round
+        %i.fa.fa-plus
+        = 'Раунд'
 
-          - elsif current_user.pf_status(@event) == 'approved'
-            %button.btn.btn-success.event-request.disabled= t('events.show.pf.approved')
+  .row.top-buffer
+    .col-md-12
+      %table.table.table-bordered#results-table
 
-          - elsif current_user.pf_status(@event) == 'declined'
-            %button.btn.btn-danger.event-request.disabled= t('events.show.pf.declined')
+  .row
+    .col-md-3
+      %h2= 'Спонсор'
+    .col-md-3
+      %h2= 'Спонсор'
+    .col-md-3
+      %h2= 'Спонсор'
+    .col-md-3
+      %h2= 'Спонсор'
 
-          - else
-            - if @event.reg_starts && @event.reg_ends
-              - if Time.zone.now > @event.reg_starts && Time.zone.now < @event.reg_ends
-                %button.btn.btn-success.event-request{:data => {:toggle => 'modal', :target => '#newParticipationFormModal'}}
-                  %i.fa.fa-plus
-                  = t('events.show.pf.title')
-              - elsif Time.zone.now > @event.reg_ends
-                %button.btn.btn-default.event-request.disabled= t('events.show.reg.finished')
-              - else
-                %button.btn.btn-default.event-request.disabled= t('events.show.reg.not_starts')
-            - else
-              %button.btn.btn-success.event-request{:data => {:toggle => 'modal', :target => '#newParticipationFormModal'}}
-                %i.fa.fa-plus
-                = t('events.show.pf.title')
-        - else
-          - if @event.reg_starts && @event.reg_ends
-            - if Time.zone.now > @event.reg_starts && Time.zone.now < @event.reg_ends
-              %button.btn.btn-success.event-request{:data => {:toggle => 'modal', :target => '#newParticipationFormModal'}}
-                %i.fa.fa-plus
-                = t('events.show.pf.title')
-            - elsif Time.zone.now > @event.reg_ends
-              %button.btn.btn-default.event-request.disabled= t('events.show.reg.finished')
-            - else
-              %button.btn.btn-default.event-request.disabled= t('events.show.reg.not_starts')
-          - else
-            %button.btn.btn-success.event-request{:data => {:toggle => 'modal', :target => '#newParticipationFormModal'}}
-              %i.fa.fa-plus
-              = t('events.show.pf.title')
+  .row
+    .col-md-3
+      %h2= 'Ссылка на событие'
+    .col-md-3
+      %h2= 'Ссылка на событие'
 
-  - if current_user && current_user.completed_profile?
-    = render :partial => 'participation_forms/new'
-  - elsif current_user
-    = render :partial => 'user_profile/complete_profile'
-  - else
-    = render :partial => 'users/sign_in_sign_up_modal'
-
-  .tabbable
-    %ul.nav.nav-tabs#tabs{:data => {:tabs => 'tabs'}}
-      %li
-        %a{:href => '#results', :data => {:toggle => 'tab'}}= t('events.show.results')
-      %li.active
-        %a{:href => '#overview', :data => {:toggle => 'tab'}}= t('events.show.overview')
-      %li
-        %a{:href => '#docs', :data => {:toggle => 'tab'}}= t('events.show.docs')
-      %li
-        %a{:href => '#dz_info', :data => {:toggle => 'tab'}}= t('events.show.dz_info')
-      %li
-        %a{:href => '#competitors', :data => {:toggle => 'tab'}}= t('events.show.competitors')
-      - if current_user && current_user.event_admin?(@event)
-        %li
-          %a{:href => '#admin', :data => {:toggle => 'tab'}}= t('events.show.managing')
-
-    .tab-content
-      .tab-pane#results
-        - if current_user && current_user.event_admin?(@event)
-          = render :partial => 'event_tracks/new_track'
-        = render :partial => 'event_tracks/results_table'
-
-      .tab-pane.active#overview
-        %h2= t('events.show.overview')
-        = simple_format @event.descriprion
-
-      .tab-pane#docs
-        %h2= t('events.show.docs')
-        = render :partial => 'event_documents/docs_table', :locals => {:show_delete_link => false}
-
-      .tab-pane#dz_info
-        = simple_format @event.dz_info
-
-      .tab-pane#competitors
-        = render :partial => 'competitors_table'
-
-      - if current_user && current_user.event_admin?(@event)
-        .tab-pane#admin
-          = render :partial => 'admin_tab'
+-# Modals
+.modal.fade#competitor-form-modal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
+  .modal-dialog
+    .modal-content
+      %form.form-horizontal#competitor-form{:role => 'form'}
+        .modal-header
+          %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
+            %span{:aria => {:hidden => 'true'}}
+              &times;
+            %span.sr-only
+              Close
+          %h4.modal-title#competitor-form-modal-title= ''
+        .modal-body
+          .form-group
+            %label.col-sm-2.control-label= 'Пилот'
+            .col-sm-10
+              %input.form-control.user-autocomplete#competitor-profile{:placeholder => 'Начните вводить имя или фамилию...', :data => {:idfield => '#competitor-profile-id'}}
+              %input#competitor-profile-id{:type => 'hidden'}
+          .form-group
+            %label.col-sm-2.control-label= 'Костюм'
+            .col-sm-10
+              %input.form-control.wingsuit-autocomplete#competitor-wingsuit{:placeholder => 'Начните вводить название...', :data => {:idfield => '#competitor-wingsuit-id'}}
+              %input#competitor-wingsuit-id{:type => 'hidden'}
+          .form-group
+            %label.col-sm-2.control-label= 'Класс'
+            .col-sm-10
+              %input.form-control#competitor-class
+              %input#competitor-section-id{:type => 'hidden'}
+        .modal-footer
+          %input.btn.btn-primary{:data => {:dismiss => 'modal'}, :value => "#{t 'general.save'}"}
+          %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}= t 'general.cancel'

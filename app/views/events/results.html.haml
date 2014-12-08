@@ -1,3 +1,6 @@
 .container-fluid
+
   %h1.text-center.text-info= @event.name
+  %h2.text-center.text-muted= 'Соревновательный диапазон: 3000 - 2000 м'
+
   =render partial: 'event_tracks/results_table'

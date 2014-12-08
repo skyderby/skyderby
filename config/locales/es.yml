@@ -185,6 +185,7 @@ es:
     m_html: "'m'"
     ft_html: "'pie'"
     t_unit: "seg"
+    t_unit_html: "'seg'"
     kmh: 'km/h'
     kmh_html: "'km/h'"
     mph_html: "'millas/h'"

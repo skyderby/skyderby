@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141114210652) do
+ActiveRecord::Schema.define(version: 20141205203426) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -25,18 +25,11 @@ ActiveRecord::Schema.define(version: 20141114210652) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "participation_form_id"
     t.integer  "wingsuit_id"
     t.string   "name"
   end
 
   add_index "competitors", ["event_id"], name: "index_competitors_on_event_id", using: :btree
-
-  create_table "disciplines", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "dropzones", force: true do |t|
     t.string "name"
@@ -45,18 +38,6 @@ ActiveRecord::Schema.define(version: 20141114210652) do
     t.float  "longitude",   limit: 24
     t.text   "information"
   end
-
-  create_table "event_documents", force: true do |t|
-    t.string   "name"
-    t.text     "description"
-    t.string   "attached_file_file_name"
-    t.string   "attached_file_content_type"
-    t.integer  "attached_file_file_size"
-    t.datetime "attached_file_updated_at"
-    t.integer  "event_id"
-  end
-
-  add_index "event_documents", ["event_id"], name: "index_event_documents_on_event_id", using: :btree
 
   create_table "event_tracks", force: true do |t|
     t.integer  "round_id"
@@ -72,53 +53,15 @@ ActiveRecord::Schema.define(version: 20141114210652) do
   create_table "events", force: true do |t|
     t.string   "name"
     t.string   "place"
-    t.datetime "start_at"
-    t.datetime "end_at"
-    t.integer  "comp_range_from"
-    t.integer  "comp_range_to"
-    t.text     "descriprion"
+    t.integer  "range_from"
+    t.integer  "range_to"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "form_info"
-    t.text     "dz_info"
-    t.boolean  "merge_intermediate_and_rookie"
-    t.boolean  "allow_tracksuits"
-    t.date     "reg_starts"
-    t.date     "reg_ends"
-    t.boolean  "finished"
+    t.integer  "status"
   end
-
-  create_table "invitations", force: true do |t|
-    t.integer "user_id"
-    t.integer "event_id"
-  end
-
-  add_index "invitations", ["user_id"], name: "index_invitations_on_user_id", using: :btree
 
   create_table "manufacturers", force: true do |t|
     t.string "name"
-  end
-
-  create_table "organizers", force: true do |t|
-    t.integer  "event_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "orgs_admin"
-    t.boolean  "competitors_admin"
-    t.boolean  "rounds_admin"
-    t.boolean  "tracks_admin"
-  end
-
-  add_index "organizers", ["event_id"], name: "index_organizers_on_event_id", using: :btree
-
-  create_table "participation_forms", force: true do |t|
-    t.integer "user_id"
-    t.integer "event_id"
-    t.text    "additional_info"
-    t.integer "wingsuit_id"
-    t.integer "status",          default: 0
-    t.text    "comment"
   end
 
   create_table "points", force: true do |t|
@@ -148,11 +91,18 @@ ActiveRecord::Schema.define(version: 20141114210652) do
     t.integer  "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "discipline_id"
     t.integer  "discipline"
   end
 
   add_index "rounds", ["event_id"], name: "index_rounds_on_event_id", using: :btree
+
+  create_table "sections", force: true do |t|
+    t.string  "name"
+    t.integer "order"
+    t.integer "event_id"
+  end
+
+  add_index "sections", ["event_id"], name: "index_sections_on_event_id", using: :btree
 
   create_table "tracks", force: true do |t|
     t.string   "name"
@@ -184,35 +134,17 @@ ActiveRecord::Schema.define(version: 20141114210652) do
     t.string   "last_name"
     t.string   "first_name"
     t.string   "name"
-    t.integer  "jumps_total"
-    t.integer  "jumps_wingsuit"
-    t.integer  "jumps_last_year"
     t.string   "userpic_file_name"
     t.string   "userpic_content_type"
     t.integer  "userpic_file_size"
     t.datetime "userpic_updated_at"
     t.integer  "user_id"
-    t.integer  "height"
-    t.integer  "weight"
-    t.integer  "jumps_wingsuit_last_year"
-    t.string   "phone_number"
-    t.string   "shirt_size"
     t.string   "facebook_profile"
     t.string   "vk_profile"
-    t.integer  "jumps_last_3m"
-    t.integer  "jumps_wingsuit_last_3m"
     t.integer  "dropzone_id"
-    t.string   "homeDZ_name"
   end
 
   add_index "user_profiles", ["user_id"], name: "index_user_profiles_on_user_id", using: :btree
-
-  create_table "user_wingsuits", force: true do |t|
-    t.integer "user_id"
-    t.integer "wingsuit_id"
-  end
-
-  add_index "user_wingsuits", ["user_id"], name: "index_user_wingsuits_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -245,9 +177,5 @@ ActiveRecord::Schema.define(version: 20141114210652) do
 
   add_index "wingsuits", ["manufacturer_id"], name: "index_wingsuits_on_manufacturer_id", using: :btree
   add_index "wingsuits", ["ws_class_id"], name: "index_wingsuits_on_ws_class_id", using: :btree
-
-  create_table "ws_classes", force: true do |t|
-    t.string "name"
-  end
 
 end

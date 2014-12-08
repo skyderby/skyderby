@@ -1,20 +1,38 @@
 class Event < ActiveRecord::Base
-  has_many :event_tracks, through: :rounds
-  has_many :users, through: :competitors
-  has_many :organizers
-  has_many :competitors
   has_many :rounds
-  has_many :participation_forms
-  has_many :invitations
-  has_many :event_documents
+  has_many :event_tracks, through: :rounds
 
-  scope :coming, lambda { where('DATE(end_at) > ?', Date.today)}
-  scope :completed, lambda { where('DATE(end_at) < ?', Date.today)}
+  has_many :sections
+  has_many :competitors
+  has_many :users, through: :competitors
+
+  enum status: [:draft, :published, :finished]
+
 
   Results_struct = Struct.new(:ws_class, :usage, :competitors)
   Competitor_struct = Struct.new(:name, :id, :user_id, :wingsuit, :time,
                                  :time_points, :distance, :distance_points,
                                  :speed, :speed_points, :total)
+
+  def rounds_by_discipline
+    disciplines_rounds = {}
+    rounds.each do |round|
+      disciplines_rounds[round.discipline] = [] if disciplines_rounds[round.discipline].nil?
+      disciplines_rounds[round.discipline] << round
+    end
+    disciplines_rounds
+  end
+
+  def competitors_by_section
+    competitors_sections = {}
+    competitors.includes(user: :user_profile).includes(:wingsuit).each do |comp|
+      competitors_sections['Advanced'] = [] if competitors_sections['Advanced'].nil?
+      competitors_sections['Advanced'] << {:id => comp.id,
+                                           :name => comp.user.name, :user_id => comp.user.id,
+                                           :wingsuit => comp.wingsuit.name, :wingsuit_id => comp.wingsuit.id}
+    end
+    competitors_sections
+  end
 
   def results
     # TODO: if event.type.eql? Time_Distance_Speed_PL
@@ -193,8 +211,8 @@ class Event < ActiveRecord::Base
     competitor.wingsuit.ws_class.name.downcase.to_sym
   end
 
-  def rounds_by_discipline(discipline)
-    self.rounds.where(:discipline => discipline).order(:name)
-  end
+  # def rounds_by_discipline(discipline)
+  #   self.rounds.where(:discipline => discipline).order(:name)
+  # end
 
 end

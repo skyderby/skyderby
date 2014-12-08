@@ -186,6 +186,7 @@ ru:
     ft_html: "'фт'"
     kmh: 'км/ч'
     t_unit: "с"
+    t_unit_html: "'с'"
     kmh_html: "'км/ч'"
     mph_html: "'миль/ч'"
   events:

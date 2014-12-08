@@ -3,13 +3,7 @@ class WingsuitsController < ApplicationController
 
   def autocomplete
     query = params[:query].downcase
-    event_id = params[:event_id]
-    if event_id.present?
-      event = Event.find(event_id)
-      suggestions = Wingsuit.suggestions_by_name query, event
-    else
-      suggestions = Wingsuit.suggestions_by_name query
-    end
+    suggestions = Wingsuit.suggestions_by_name query
 
     @response = {:query => query, :suggestions => suggestions}.to_json
 

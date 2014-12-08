@@ -8,8 +8,7 @@ class EventTrack < ActiveRecord::Base
   before_save :calc_result
 
   def calc_result
-    results_calculator = ResultsCalculator.new(self.track, self.round)
-    self.result = results_calculator.calculate
+    self.result = ResultsCalculator.calculate(track, round)
   end
 
 end

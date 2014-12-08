@@ -188,6 +188,7 @@ en:
     ft_html: "'ft'"
     t_unit: "s"
     kmh: 'km/h'
+    t_unit_html: "'s'"
     kmh_html: "'km/h'"
     mph_html: "'mph'"
   events:

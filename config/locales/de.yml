@@ -180,6 +180,7 @@ de:
     ft_html: "'Fuß'"
     kmh: 'km/h'
     t_unit: "Sek"
+    t_unit_html: "'Sek'"
     kmh_html: "'km/h'"
     mph_html: "'mi/h'"
   events:
