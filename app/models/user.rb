@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
 
     suggestions = []
     users.each do |x|
-      suggestions << {:value => (x.name), :data => x.id}
+      suggestions << {:value => (x.name), :id => x.id ,:profile_id => x.user_profile.id, :last_name => x.user_profile.last_name, :first_name => x.user_profile.first_name}
     end
     {:query => query, :suggestions => suggestions}.to_json
 

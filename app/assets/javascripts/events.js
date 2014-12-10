@@ -18,12 +18,32 @@ function on_event_document_ready() {
         $('#competitor-form-modal').modal('show');
     });
 
+    $('#competitor-form-modal').on('shown.bs.modal', function() {
+        $('#competitor-last-name').focus();
+    });
+
     $('.edit-competitor').on('click'), function() {
         $('#competitor-form-modal-title').text('Участник: Редактирование');
         row = $(this).closest('tr');
 
         $('#competitor-form-modal').modal('show');
-    }
+    };
+
+    $('.competitor-profile-autocomplete').autocomplete({
+        serviceUrl: '/users/autocomplete',
+        preserveInput: true,
+        onSelect: function (suggestion) {
+
+            var id_field = $(this).data('idfield');
+            var name_field = $(this).data('firstnamefield');
+
+            $(this).val(suggestion.last_name);
+            $(name_field).val(suggestion.first_name);
+            $(id_field).val(suggestion.profile_id);
+
+            $('#competitor-wingsuit').focus();
+        }
+    });
 }
 
 //////////////////////////////////////////////////////
