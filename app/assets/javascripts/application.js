@@ -59,13 +59,13 @@ $(document).ready(function($) {
     var ws_field = $('.wingsuit-autocomplete');
     ws_field.autocomplete({
         serviceUrl: '/wingsuits/autocomplete',
-        params: {event_id: ws_field.data("event")},
+        groupBy: 'category',
         onSelect: function (suggestion) {
 
             var idfield = $(this).data('idfield');
             var ws_id_field = $(idfield);
             if (ws_id_field !== 'undefined') {
-                ws_id_field.val(suggestion.data);
+                ws_id_field.val(suggestion.data.id);
             }
 
             var ws_class_field = $('#wingsuit-class');
