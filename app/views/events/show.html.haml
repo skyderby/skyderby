@@ -1,8 +1,10 @@
 :javascript
+  var event_id = #{@event.id};
   var status = "#{@event.status}";
   var sections = #{@event.sections.to_json};
   var rounds_by_discipline = #{@event.rounds_by_discipline.to_json};
-  var competitors_by_section = #{@event.competitors_by_section.to_json};
+  var sections = #{@event.sections.to_json}
+  var competitors = #{@event.competitors_info.to_json};
   var units_for_discipline = {
     time: #{t 'units.t_unit_html'},
     distance: #{t 'units.kmh_html'},
@@ -66,11 +68,41 @@
       %h2= 'Ссылка на событие'
 
 -# Modals
+
+-#Section modal
+
+.modal.fade#section-form-modal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
+  .modal-dialog
+    .modal-content
+      %form.form-horizontal#section-form{:action => '#', :role => 'form'}
+        %input#section-form-action{:type => 'hidden'}
+
+        .modal-header
+          %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
+            %span{:aria => {:hidden => 'true'}}
+              &times;
+            %span.sr-only
+              Close
+          %h4.modal-title#section-form-modal-title= ''
+
+        .modal-body
+          .form-group
+            %span.col-sm-3.control-label= 'Класс:'
+            .col-sm-9
+              %input.form-control#section-name
+              %input#section-id{:type => 'hidden'}
+
+        .modal-footer
+          %input.btn.btn-primary#submit-section-form{:data => {:dismiss => 'modal'}, :value => "#{t 'general.save'}"}
+          %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}= t 'general.cancel'
+
+-#Competitor modal
+
 .modal.fade#competitor-form-modal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
   .modal-dialog
     .modal-content
       %form.form-horizontal#competitor-form{:role => 'form'}
-
+        %input#competitor-id{:type => 'hidden'}
         .modal-header
           %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
             %span{:aria => {:hidden => 'true'}}
@@ -96,8 +128,7 @@
           .form-group
             %span.col-sm-3.control-label= 'Класс:'
             .col-sm-9
-              %input.form-control#competitor-class
-              %input#competitor-section-id{:type => 'hidden'}
+              %select.form-control#competitor-section
         .modal-footer
-          %input.btn.btn-primary{:data => {:dismiss => 'modal'}, :value => "#{t 'general.save'}"}
+          %input.btn.btn-primary#submit-competitor-form{:data => {:dismiss => 'modal'}, :value => "#{t 'general.save'}"}
           %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}= t 'general.cancel'

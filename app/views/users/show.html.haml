@@ -21,87 +21,24 @@
                     :class => 'btn btn-default edit'
 
   .row
-    .col-md-10.col-md-offset-2
-      .tabbable
+    %table.table.table-hover
+      %thead
+        %tr
+          %th= t('activerecord.attributes.track.id')
+          %th= t('activerecord.attributes.track.suit')
+          %th= t('activerecord.attributes.track.place')
+          %th= t('activerecord.attributes.track.comment')
+          %th= t('activerecord.attributes.track.uploaded_at')
+      %tbody
+        - @user.tracks.each do |track|
+          %tr.clickableRow{:data => {:url => track_path(:id => track.id)}}
+            %td.text-info= track.id
+            %td.text-info= track.suit
+            %td.text-info= track.location
+            %td.text-muted= track.comment
+            %td.text-info= track.created_at
 
-        %ul.nav.nav-tabs#tabs{:data => {:tabs => 'tabs'}}
-          %li.active
-            %a{:href => '#overview', :data => {:toggle => 'tab'}}
-              = t('users.profile.show.information')
-          %li
-            %a{:href => '#tracks', :data => {:toggle=>'tab'}}
-              = t('users.profile.show.tracks')
-              %span.badge
-                = @user.tracks.count
-          %li
-            %a{:href => '#competitions', :data => {:toggle => 'tab'}}
-              = t('users.profile.show.events')
-              %span.badge
-                = @user.events.count
-
-        .tab-content
-          .tab-pane.active#overview
-
-            - if @user.user_profile
-              %p
-                %strong
-                  = t('users.profile.show.jumps')
-                #{@user.user_profile.jumps_total} /
-                #{@user.user_profile.jumps_last_year} /
-                #{@user.user_profile.jumps_last_3m}
-              %p
-                %strong
-                  = t('users.profile.show.ws_jumps')
-                #{@user.user_profile.jumps_wingsuit} /
-                #{@user.user_profile.jumps_wingsuit_last_year} /
-                #{@user.user_profile.jumps_wingsuit_last_3m}
-              %p
-                %strong= t('activerecord.attributes.user_profile.home_DZ')
-                =@user.user_profile.homeDZ_name
-              %p
-                %strong= t('activerecord.attributes.user_profile.facebook_profile')
-                #{@user.user_profile.facebook_profile}
-              %p
-                %strong= t('activerecord.attributes.user_profile.vk_profile')
-                #{@user.user_profile.vk_profile}
-
-            - if @user == current_user
-              %h3
-                = t('users.profile.show.private_info')
-              %p
-                %strong
-                  = t('activerecord.attributes.user_profile.height')
-                = @user.user_profile.height
-              %p
-                %strong
-                  = t('activerecord.attributes.user_profile.weight')
-                = @user.user_profile.weight
-              %p
-                %strong
-                  = t('activerecord.attributes.user_profile.shirt_size')
-                = @user.user_profile.shirt_size
-
-          .tab-pane#tracks
-
-            %table.table.table-hover
-              %thead
-                %tr
-                  %th= t('activerecord.attributes.track.id')
-                  %th= t('activerecord.attributes.track.suit')
-                  %th= t('activerecord.attributes.track.place')
-                  %th= t('activerecord.attributes.track.comment')
-                  %th= t('activerecord.attributes.track.uploaded_at')
-              %tbody
-                - @user.tracks.each do |track|
-                  %tr.clickableRow{:data => {:url => track_path(:id => track.id)}}
-                    %td.text-info= track.id
-                    %td.text-info= track.suit
-                    %td.text-info= track.location
-                    %td.text-muted= track.comment
-                    %td.text-info= track.created_at
-
-          .tab-pane#competitions
-            %h2= t('users.profile.show.events')
-            - @user.competitors.each do |comp|
-              =link_to comp.event.name, event_path(:id => comp.event.id)
-              %br
+    %h2= t('users.profile.show.events')
+    - @user.competitors.each do |comp|
+      =link_to comp.event.name, event_path(:id => comp.event.id)
+      %br

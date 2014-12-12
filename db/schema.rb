@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141205203426) do
+ActiveRecord::Schema.define(version: 20141210180104) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20141205203426) do
     t.datetime "updated_at"
     t.integer  "wingsuit_id"
     t.string   "name"
+    t.integer  "section_id"
   end
 
   add_index "competitors", ["event_id"], name: "index_competitors_on_event_id", using: :btree

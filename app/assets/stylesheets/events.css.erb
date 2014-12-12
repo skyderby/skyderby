@@ -6,25 +6,24 @@
   display: none;
 }
 
-.edit-competitor {
+.edit-competitor, .edit-section {
   margin-left: 10px;
 }
-.delete-competitor {
+
+.delete-competitor, .delete-section {
   margin-left: 5px;
 }
 
-td .edit-competitor {
-  visibility: hidden;
-}
-
-td:hover .edit-competitor {
-  visibility: visible;
-}
-
+td .edit-section,
+td .edit-competitor,
+td .delete-section,
 td .delete-competitor {
   visibility: hidden;
 }
 
-td:hover .delete-competitor {
+td:hover .edit-section,
+td:hover .delete-section,
+td:hover .edit-competitor,
+td:hover .delete-competitor{
   visibility: visible;
 }

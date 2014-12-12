@@ -23,15 +23,18 @@ class Event < ActiveRecord::Base
     disciplines_rounds
   end
 
-  def competitors_by_section
-    competitors_sections = {}
-    competitors.includes(user: :user_profile).includes(:wingsuit).each do |comp|
-      competitors_sections['Advanced'] = [] if competitors_sections['Advanced'].nil?
-      competitors_sections['Advanced'] << {:id => comp.id,
-                                           :name => comp.user.name, :user_id => comp.user.id,
-                                           :wingsuit => comp.wingsuit.name, :wingsuit_id => comp.wingsuit.id}
+  def competitors_info
+    competitors.includes(user: :user_profile).includes(:wingsuit).to_a.map do |comp|
+      { :id => comp.id,
+        :user_id => comp.user.id,
+        :profile_id => comp.user.user_profile.id,
+        :name => comp.user.user_profile.name,
+        :first_name => comp.user.user_profile.first_name,
+        :last_name => comp.user.user_profile.last_name,
+        :section_id => comp.section_id,
+        :wingsuit => comp.wingsuit.name,
+        :wingsuit_id => comp.wingsuit.id }
     end
-    competitors_sections
   end
 
   def results

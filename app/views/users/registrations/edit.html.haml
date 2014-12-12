@@ -22,59 +22,6 @@
         = f.file_field :userpic
 
     .form-group
-      = f.label t('activerecord.attributes.user_profile.phone_number'), class: 'col-sm-2 control-label', :for => :phone_number
-      .col-sm-4
-        = f.text_field :phone_number, class: 'form-control'
-
-    .form-group
-      = f.label t('activerecord.attributes.user_profile.facebook_profile'), class: 'col-sm-2 control-label', :for => :facebook_profile
-      .col-sm-4
-        = f.text_field :facebook_profile, class: 'form-control'
-
-    .form-group
-      = f.label t('activerecord.attributes.user_profile.vk_profile'), class: 'col-sm-2 control-label', :for => :vk_profile
-      .col-sm-4
-        = f.text_field :vk_profile, class: 'form-control'
-
-    .form-group
-      = f.label t('activerecord.attributes.user_profile.jumps_total'), class: 'col-sm-2 control-label', :for => :jumps_total
-      .col-sm-10
-        .form-inline
-          = f.number_field :jumps_total, class: 'form-control'
-          = f.label t('activerecord.attributes.user_profile.jumps_last_year'), class: 'control-label', :for => :jumps_last_year
-          = f.number_field :jumps_last_year, class: 'form-control'
-          = f.label t('activerecord.attributes.user_profile.jumps_last_3m'), class: 'control-label', :for => :jumps_last_3m
-          = f.number_field :jumps_last_3m, class: 'form-control'
-
-    .form-group
-      = f.label t('activerecord.attributes.user_profile.wingsuit_jumps_total'), class: 'col-sm-2 control-label', :for => :jumps_wingsuit
-      .col-sm-10
-        .form-inline
-          = f.number_field :jumps_wingsuit, class: 'form-control'
-          = f.label t('activerecord.attributes.user_profile.wingsuit_jumps_last_year'), class: 'control-label', :for => :jumps_wingsuit_last_year
-          = f.number_field :jumps_wingsuit_last_year, class: 'form-control'
-          = f.label t('activerecord.attributes.user_profile.wingsuit_jumps_last_3m'), class: 'control-label', :for => :jumps_wingsuit_last_3m
-          = f.number_field :jumps_wingsuit_last_3m, class: 'form-control'
-
-    .form-group
-      = f.label t('activerecord.attributes.user_profile.home_DZ'), class: 'col-sm-2 control-label', :for => :homeDZ_name
-      .col-sm-4
-        = f.text_field :homeDZ_name, class: 'form-control'
-
-    .form-group
-      = f.label t('activerecord.attributes.user_profile.height'), class: 'col-sm-2 control-label', :for => :height
-      .col-sm-10
-        .form-inline
-          = f.number_field :height, class: 'form-control'
-          = f.label t('activerecord.attributes.user_profile.weight'), class: 'control-label', :for => :weight
-          = f.number_field :weight, class: 'form-control'
-
-    .form-group
-      = f.label t('activerecord.attributes.user_profile.shirt_size'), class: 'col-sm-2 control-label', :for => :shirt_size
-      .col-sm-1
-        = f.text_field :shirt_size, class: 'form-control'
-
-    .form-group
       .col-sm-offset-2.col-sm-8
         = f.submit t('general.update'), class: 'btn btn-primary'
 

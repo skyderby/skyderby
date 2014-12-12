@@ -1,7 +1,9 @@
 TrackingDerby::Application.routes.draw do
 
+  # AJAX locale independent actions
   get '/users/autocomplete'
   get '/wingsuits/autocomplete'
+  post '/competitors/update'
 
   scope '/(:locale)', locale: /#{I18n.available_locales.join('|')}/ do
 
@@ -35,8 +37,6 @@ TrackingDerby::Application.routes.draw do
       end
 
     end
-
-    get '/:locale' => 'static_pages#index'
 
     devise_for :users
 
