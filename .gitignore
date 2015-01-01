@@ -19,6 +19,8 @@
 /public/assets
 
 /.idea
+*.swp
+/tags
 
 *.swp
 
