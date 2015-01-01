@@ -128,7 +128,13 @@
           .form-group
             = label_tag 'track_file', t('static_pages.index.track_form.file'), :class => 'col-sm-3 control-label', :for => 'track_file'
             .col-sm-9
-              = file_field_tag 'track_file', {:onChange => 'checkFile(this)'}
+              .input-group
+                %input.form-control{:type => "text", :readonly => true}
+                %span.input-group-btn
+                  %span.btn.btn-default.btn-file
+                    Browse&hellip; 
+                    %input#track_file{:name => 'track_file', :type => "file", :onChange => 'checkFile(this)'}
+              -# = file_field_tag 'track_file', 
 
           .form-group
             .col-sm-offset-3.col-sm-9

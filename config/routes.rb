@@ -1,9 +1,21 @@
 TrackingDerby::Application.routes.draw do
 
   # AJAX locale independent actions
-  get '/users/autocomplete'
-  get '/wingsuits/autocomplete'
-  post '/competitors/update'
+  namespace :api do
+
+    resources :sections, :only => [:create, :update, :destroy] do
+      collection do
+        post 'reorder'
+      end
+    end
+
+    resources :competitors, :only => [:create, :update, :destroy]
+    resources :events, :only => [:update]
+
+    get '/users/autocomplete'
+    get '/wingsuits/autocomplete'
+
+  end
 
   scope '/(:locale)', locale: /#{I18n.available_locales.join('|')}/ do
 

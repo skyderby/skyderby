@@ -20,4 +20,8 @@
 
 /.idea
 
+*.swp
+
+/tags
+
 Gemfile.lock

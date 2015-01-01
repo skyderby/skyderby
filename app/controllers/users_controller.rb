@@ -2,18 +2,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update]
 
-  def autocomplete
-
-    @response = User.suggestions_by_name params[:query].downcase
-
-    respond_to do |format|
-      format.json { render :json => @response }
-    end
-
-  end
-
   def show
-
   end
 
   def edit

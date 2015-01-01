@@ -1,10 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.5'
-
-group :production do
-
-end
+gem 'rails', '4.1.2'
 
 gem 'mysql2'
 gem 'therubyracer'
@@ -14,13 +10,13 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'quiet_assets'
   gem 'mailcatcher'
+  gem 'better_errors'
   # gem 'rack-mini-profiler'
 end
 
 group :test do
   gem 'factory_girl_rails'
   gem 'capybara'
-  gem 'guard-rspec'
   gem 'database_cleaner'
 end
 
@@ -35,7 +31,7 @@ gem 'less-rails-bootstrap'
 gem 'jquery-rails'
 
 gem 'nokogiri'
-gem 'devise'
+gem 'devise', git: "https://github.com/plataformatec/devise.git", branch: "lm-rails-4-2"
 gem 'cancancan'
 gem 'rails_admin'
 gem 'paperclip', '3.4.2'

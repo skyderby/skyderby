@@ -1,42 +1,15 @@
-:javascript
-  var event_id = #{@event.id};
-  var status = "#{@event.status}";
-  var sections = #{@event.sections.to_json};
-  var rounds_by_discipline = #{@event.rounds_by_discipline.to_json};
-  var sections = #{@event.sections.to_json}
-  var competitors = #{@event.competitors_info.to_json};
-  var units_for_discipline = {
-    time: #{t 'units.t_unit_html'},
-    distance: #{t 'units.kmh_html'},
-    speed: #{t 'units.m_html'}
-  };
 
-  $(document).ready( function() {
-    on_event_document_ready();
-  })
+- units = {:time => t('units.t_unit'), :distance => t('units.kmh'), :speed => t('units.m')}
+.event-data{:data => {:details => @event.details.to_json.html_safe, :units => units.to_json, :locale => locale}}
 
 .container.top-buffer
   .row
-    .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
-      %label.btn.btn-default{ :class => ('active' if @event.draft?) }
-        %input#draft{:type => 'radio', :name => 'options', :autocomplete => 'off'}
-        = 'Черновик'
-      %label.btn.btn-default{ :class => ('active' if @event.published?) }
-        %input#published{:type => 'radio', :name => 'options', :autocomplete => 'off'}
-        = 'Опубликовано'
-      %label.btn.btn-default{ :class => ('active' if @event.finished?) }
-        %input#finished{:type => 'radio', :name => 'options', :autocomplete => 'off'}
-        = 'Завершено'
-
-  .row
     .col-md-12.text-center
       %h1= @event.name
-  %hr
-  .row
-    .col-md-12
-      %h3= 'Соревновательный диапазон: 3000 - 2000 м'
-  .row
-    .col-md-12
+      %h3= "Соревновательный диапазон: #{@event.range_from} - #{@event.range_to} м"
+
+  .row.top-buffer
+    .col-md-7
       %button.btn.btn-default#button-add-class
         %i.fa.fa-plus
         = 'Класс'
@@ -46,7 +19,18 @@
       %button.btn.btn-default#button-add-round
         %i.fa.fa-plus
         = 'Раунд'
-
+    .col-md-5
+      .pull-right
+        .btn-group{:data => {:toggle => 'buttons'}}
+          %label.btn.btn-default{ :class => ('active' if @event.draft?) }
+            %input#draft{:type => 'radio', :name => 'event-status', :value => 'draft',:autocomplete => 'off'}
+            = 'Черновик'
+          %label.btn.btn-default{ :class => ('active' if @event.published?) }
+            %input#published{:type => 'radio', :name => 'event-status', :value => 'published',:autocomplete => 'off'}
+            = 'Опубликовано'
+          %label.btn.btn-default{ :class => ('active' if @event.finished?) }
+            %input#finished{:type => 'radio', :name => 'event-status', :value => 'finished',:autocomplete => 'off'}
+            = 'Завершено'
   .row.top-buffer
     .col-md-12
       %table.table.table-bordered#results-table
@@ -69,13 +53,13 @@
 
 -# Modals
 
--#Section modal
+-# Section modal
 
 .modal.fade#section-form-modal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
   .modal-dialog
     .modal-content
       %form.form-horizontal#section-form{:action => '#', :role => 'form'}
-        %input#section-form-action{:type => 'hidden'}
+        %input#section-id{:type => 'hidden'}
 
         .modal-header
           %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
@@ -90,7 +74,6 @@
             %span.col-sm-3.control-label= 'Класс:'
             .col-sm-9
               %input.form-control#section-name
-              %input#section-id{:type => 'hidden'}
 
         .modal-footer
           %input.btn.btn-primary#submit-section-form{:data => {:dismiss => 'modal'}, :value => "#{t 'general.save'}"}
