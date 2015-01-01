@@ -19,5 +19,7 @@
 /public/assets
 
 /.idea
+*.swp
+/tags
 
 Gemfile.lock
