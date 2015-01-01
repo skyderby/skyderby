@@ -1,0 +1,2 @@
+module Api::WingsuitsHelper
+end
