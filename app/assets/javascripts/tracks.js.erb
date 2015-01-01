@@ -70,6 +70,8 @@ function set_chart_data() {
   index_cache = [];
 
   var isFirst = true,
+      start_found = false,
+      end_found = false,
       isLast = false;
 
   for (var index in charts_data) {
@@ -77,9 +79,10 @@ function set_chart_data() {
     var current_point = charts_data[index];
     var point = {};
 
-    isLast = true;
+    start_found = start_found || current_point.elevation <= max_val; 
+    end_found = end_found || current_point.elevation < min_val;
 
-    if (current_point.elevation <= max_val && current_point.elevation >= min_val) {
+    if (start_found && !end_found)  {
 
       point = clone(current_point);
 
@@ -98,8 +101,6 @@ function set_chart_data() {
 
         }
       }
-
-      isLast = false;
 
       dist += point.distance;
       elev += point.elevation_diff;
@@ -129,7 +130,7 @@ function set_chart_data() {
       max_gr = max_gr == 0 || max_gr == null || max_gr < point.glrat ? point.glrat : max_gr;
     }
 
-    if (isLast && elev_data.length > 0) {
+    if (end_found && elev_data.length > 0) {
       if (current_point.elevation <= min_val && charts_data.hasOwnProperty(index - 1)) {
 
         point = clone(current_point);
