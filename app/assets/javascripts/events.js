@@ -1,7 +1,9 @@
 
-var Competition = {};
-var Units = {};
-var locale = '';
+var Competition = {},
+    Units = {},
+    locale = '',
+    Templates = {};
+
 //////////////////////////////////////////
 // COMMON FUNCTIONS
 
@@ -15,6 +17,9 @@ function init(){
     $.extend(Units, event_data.data('units'));
 
     locale = event_data.data('locale');
+
+    init_templates();
+
     // Binding events
 
     $('#button-add-class').on('click', on_button_add_class_click);
@@ -44,39 +49,66 @@ function init(){
     });
 }
 
-function new_section(id, name, order) {
+function init_templates() {
 
-    return $('<tbody>')
-        .attr('id', 'section_' + id)
-        .attr('data-id', id)
-        .attr('data-order', order)
-        .append($('<tr>')
-            .addClass('head-row')
-            .attr('id', 'section_' + id + '_head_row')
-            .append($('<td>')
-                .attr('id', 'section_' + id + '_name_cell')
-                .attr('colspan', window.row_length)
-                .text(name)
-                .addClass('bg-info')
+    Templates.section = _.template([
+            '<tbody id="section_<%= id %>" data-id="<%= id %>" data-order="<%= order %>">',
+                '<tr id="section_<%= id %>_head_row" class="head-row">',
+                    '<td id="section_<%= id %>_name_cell" class="bg-info" colspan="<%= row_length %>">',
+                        '<%= name %>',
+                        '<a href="#" class="edit-section">',
+                            '<i class="fa fa-pencil text-muted"></i>',
+                        '</a>',
+                        '<span class="pipe-edit-section text-muted">|</span>',
+                        '<a href="#" class="section-up">',
+                            '<i class="fa fa-chevron-up text-muted"></i>',
+                        '</a>',
+                        '<a href="#" class="section-down">',
+                            '<i class="fa fa-chevron-down text-muted"></i>',
+                        '</a>',
+                        '<span class="pipe-edit-section text-muted">|</span>',
+                        '<a href="#" class="delete-section">',
+                            '<i class="fa fa-times-circle text-muted"></i>',
+                        '</a>',
+                    '</td>',
+            '</tbody>'].join('\n'));
+}
 
-                .append($('<a>').addClass('edit-section').attr('href', '#')
-                    .append($('<i>').addClass('fa fa-pencil text-muted')))
+function new_section(params) {
 
-                .append($('<span>').addClass('pipe-edit-section text-muted').text('|'))
-
-                .append($('<a>').addClass('section-up').attr('href', '#')
-                    .append($('<i>').addClass('fa fa-chevron-up text-muted')))
-
-                .append($('<a>').addClass('section-down').attr('href', '#')
-                    .append($('<i>').addClass('fa fa-chevron-down text-muted')))
-
-                .append($('<span>').addClass('pipe-edit-section text-muted').text('|'))
-
-                 .append($('<a>').addClass('delete-section').attr('href', '#')
-                    .append($('<i>').addClass('fa fa-times-circle text-muted')))
-                
-        )
-    );
+    return Templates.section(params);
+    
+    // return $('<tbody>')
+    //     .attr('id', 'section_' + id)
+    //     .attr('data-id', id)
+    //     .attr('data-order', order)
+    //     .append($('<tr>')
+    //         .addClass('head-row')
+    //         .attr('id', 'section_' + id + '_head_row')
+    //         .append($('<td>')
+    //             .attr('id', 'section_' + id + '_name_cell')
+    //             .attr('colspan', window.row_length)
+    //             .text(name)
+    //             .addClass('bg-info')
+    //
+    //             .append($('<a>').addClass('edit-section').attr('href', '#')
+    //                 .append($('<i>').addClass('fa fa-pencil text-muted')))
+    //
+    //             .append($('<span>').addClass('pipe-edit-section text-muted').text('|'))
+    //
+    //             .append($('<a>').addClass('section-up').attr('href', '#')
+    //                 .append($('<i>').addClass('fa fa-chevron-up text-muted')))
+    //
+    //             .append($('<a>').addClass('section-down').attr('href', '#')
+    //                 .append($('<i>').addClass('fa fa-chevron-down text-muted')))
+    //
+    //             .append($('<span>').addClass('pipe-edit-section text-muted').text('|'))
+    //
+    //              .append($('<a>').addClass('delete-section').attr('href', '#')
+    //                 .append($('<i>').addClass('fa fa-times-circle text-muted')))
+    //             
+    //     )
+    // );
 }
 
 function set_row_numbers() {
@@ -640,7 +672,7 @@ function render_table() {
 
     //Rows: sections
     $.each(Competition.sections, function (index, value) {
-        table.append(new_section(value.id, value.name, value.order));
+        table.append(new_section({id: value.id, name: value.name, order: value.order}));
     });
 
     table.append($('<tbody>').attr('id', 'without_section'));

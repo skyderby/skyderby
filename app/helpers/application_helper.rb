@@ -4,9 +4,9 @@ module ApplicationHelper
   def page_title(title)
     base_title = I18n.t 'static_pages.index.title'
     if title.empty?
-      base_title
+      'Skyderby: ' + base_title
     else
-      title
+      'Skyderby: ' + title
     end
   end
 
