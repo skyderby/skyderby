@@ -6,8 +6,15 @@
 .container.top-buffer
   .row
     .col-md-12.text-center
-      %h1= @event.name
-      %h3= "Соревновательный диапазон: #{@event.range_from} - #{@event.range_to} м"
+      %h1
+        %small
+          %i.fa.fa-fw
+        %span#title-competition-name= @event.name
+        %small
+          %a.edit-event{:href => '#'}
+            %i.fa.fa-fw.fa-pencil.text-muted
+
+      %h3#title-competition-range= "Соревновательный диапазон: #{@event.range_from} - #{@event.range_to} м"
 
   .row.top-buffer
     .col-md-7
@@ -36,23 +43,41 @@
     .col-md-12
       %table.table.table-bordered#results-table
 
-  .row
-    .col-md-3
-      %h2= 'Спонсор'
-    .col-md-3
-      %h2= 'Спонсор'
-    .col-md-3
-      %h2= 'Спонсор'
-    .col-md-3
-      %h2= 'Спонсор'
-
-  .row
-    .col-md-3
-      %h2= 'Ссылка на событие'
-    .col-md-3
-      %h2= 'Ссылка на событие'
-
 -# Modals
+
+-# Event settings modal
+.modal.fade#event-form-modal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
+  .modal-dialog
+    .modal-content
+      %form.form-horizontal#event-form{:action => '#', :role => 'form'}
+        %input#event-id{:type => 'hidden'}
+
+        .modal-header
+          %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
+            %span{:aria => {:hidden => 'true'}}
+              &times;
+            %span.sr-only
+              Close
+          %h4.modal-title#event-form-modal-title= ''
+
+        .modal-body
+          .form-group
+            %span.col-sm-5.control-label= 'Название:'
+            .col-sm-7
+              %input.form-control#event-name
+
+          .form-group.row
+            %span.col-sm-5.control-label= 'Соревонвательный диапазон:'
+            .col-sm-3
+              %input.form-control#range-from
+            %span.col-sm-1.text-center= ' - '
+            .col-sm-3
+              %input.form-control#range-to
+
+        .modal-footer
+          %input.btn.btn-primary#submit-event-form{:data => {:dismiss => 'modal'}, :value => "#{t 'general.save'}"}
+          %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}= t 'general.cancel'
+
 
 -# Section modal
 

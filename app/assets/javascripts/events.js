@@ -26,11 +26,15 @@ function init(){
 
     $('#submit-section-form').on('click', on_submit_section_form);
 
+    $('#submit-event-form').on('click', on_submit_event_form);
+
     $('#button-add-competitor').on('click', on_button_add_competitor_click);
 
     $('#competitor-form-modal').on('shown.bs.modal', on_competitor_modal_shown);
 
     $('#section-form-modal').on('shown.bs.modal', on_section_modal_shown);
+
+    $('#event-form-modal').on('shown.bs.modal', on_edit_event_modal_shown);
 
     $('#results-table')
         .on('click', '.edit-competitor', on_link_edit_competitor_click)
@@ -41,7 +45,10 @@ function init(){
 
     $('#submit-competitor-form').on('click', on_submit_competitor_form);
 
-    $(document).on('change', 'input:radio[name="event-status"]', on_change_event_status);
+    $(document)
+        .on('change', 'input:radio[name="event-status"]', on_change_event_status)
+        .on('click', '.edit-event', on_link_edit_event_click);
+
     $('.competitor-profile-autocomplete').autocomplete({
         serviceUrl: '/api/users/autocomplete',
         preserveInput: true,
@@ -478,11 +485,44 @@ function on_change_event_status() {
     send_event_update_request(Competition.id, {status: $(this).val()});
 }
 
+function on_link_edit_event_click(e) {
+
+    e.preventDefault();
+
+    $('#event-form-modal-title').text('Событие: редактирование');
+    $('#event-name').val(Competition.name);
+    $('#range-from').val(Competition.range_from);
+    $('#range-to').val(Competition.range_to);
+
+    $('#event-form-modal').modal('show');
+
+}
+
+function on_edit_event_modal_shown() {
+    $('#event-name').focus();
+}
+
+function on_submit_event_form() {
+    send_event_update_request(Competition.id, {
+        name: $('#event-name').val(),
+        range_from: $('#range-from').val(),
+        range_to: $('#range-to').val()
+    });
+}
 //////////////////////////////////////////////////////
 // AJAX CALLBACKS: Event
 
 function success_event_update(data, status, jqXHR) {
+    
+    Competition.name = data.name;
+    Competition.range_from = data.range_from;
+    Competition.range_to = data.range_to;
+
     Competition.status = data.status;
+    
+    $('#title-competition-name').text(Competition.name);
+    $('#title-competition-range').text('Соревновательный диапазон: ' + Competition.range_from + ' - ' + Competition.range_to + ' м');
+
 }
 
 //////////////////////////////////////////////////////
