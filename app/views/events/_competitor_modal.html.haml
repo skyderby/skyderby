@@ -1,0 +1,34 @@
+.modal.fade#competitor-form-modal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
+  .modal-dialog
+    .modal-content
+      %form.form-horizontal#competitor-form{:role => 'form'}
+        %input#competitor-id{:type => 'hidden'}
+        .modal-header
+          %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
+            %span{:aria => {:hidden => 'true'}}
+              &times;
+            %span.sr-only
+              Close
+          %h4.modal-title#competitor-form-modal-title= ''
+
+        .modal-body
+          .form-group.row
+            %span.col-sm-3.control-label= 'Фамилия:'
+            .col-sm-4
+              %input.form-control.competitor-profile-autocomplete#competitor-last-name{:data => {:idField => '#competitor-profile-id', :firstNameField => '#competitor-first-name'}}
+            %span.col-sm-1.control-label= 'Имя:'
+            .col-sm-4
+              %input.form-control#competitor-first-name
+            %input#competitor-profile-id{:type => 'hidden'}
+          .form-group
+            %span.col-sm-3.control-label= 'Костюм:'
+            .col-sm-9
+              %input.form-control.wingsuit-autocomplete#competitor-wingsuit{:placeholder => 'Название модели (Vampire, Jedei, Colugo, Track suit)', :data => {:idfield => '#competitor-wingsuit-id'}}
+              %input#competitor-wingsuit-id{:type => 'hidden'}
+          .form-group
+            %span.col-sm-3.control-label= 'Класс:'
+            .col-sm-9
+              %select.form-control#competitor-section
+        .modal-footer
+          %input.btn.btn-primary#submit-competitor-form{:data => {:dismiss => 'modal'}, :value => "#{t 'general.save'}"}
+          %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}= t 'general.cancel'

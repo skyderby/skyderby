@@ -1,0 +1,32 @@
+.modal.fade#event-form-modal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
+  .modal-dialog
+    .modal-content
+      %form.form-horizontal#event-form{:action => '#', :role => 'form'}
+        %input#event-id{:type => 'hidden'}
+
+        .modal-header
+          %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
+            %span{:aria => {:hidden => 'true'}}
+              &times;
+            %span.sr-only
+              Close
+          %h4.modal-title#event-form-modal-title= ''
+
+        .modal-body
+          .form-group
+            %span.col-sm-5.control-label= 'Название:'
+            .col-sm-7
+              %input.form-control#event-name
+
+          .form-group.row
+            %span.col-sm-5.control-label= 'Соревонвательный диапазон:'
+            .col-sm-3
+              %input.form-control#range-from
+            %span.col-sm-1.text-center= ' - '
+            .col-sm-3
+              %input.form-control#range-to
+
+        .modal-footer
+          %input.btn.btn-primary#submit-event-form{:data => {:dismiss => 'modal'}, :value => "#{t 'general.save'}"}
+          %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}= t 'general.cancel'
+
