@@ -19,7 +19,7 @@
 //= require_tree .
 
 function clone(obj) {
-    if (null == obj || "object" != typeof obj) return obj;
+    if (null === obj || "object" != typeof obj) return obj;
     var copy = obj.constructor();
     for (var attr in obj) {
         if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
@@ -32,11 +32,49 @@ function capitaliseFirstLetter(string)
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+bootstrap_alert = function() {};
+bootstrap_alert.warning = function(message, placeholder) {
+    $(placeholder).append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><span>'+message+'</span></div>');
+};
+
+function checkfile() {
+    var placeholder = '#' + $(this).data('placeholder'),
+        warnings = $(this).data('warnings'),
+        file_list = this.files;
+
+    if (placeholder !== '#') {
+        $(placeholder).empty();
+    }
+
+    for (var i = 0, file; file = file_list[i]; i++) {
+      var filename = file.name;
+      var fileextension = filename.split('.')[filename.split('.').length - 1].toLowerCase();
+      var filesize = file.size;
+      var filesizemb = (file.size / 1048576).toFixed(2);
+      var txt = "";
+
+      if (!(fileextension === "gpx" || fileextension === "csv" || fileextension === "tes"))  {
+          txt += warnings.ext_w1 + fileextension + "\n\n";
+          txt += warnings.ext_w2;
+      }
+      if (filesize > 1048576) {
+          txt += warnings.size_w1 + filesizemb + " мб \n\n";
+          txt += warnings.size_w2;
+      }
+      if ((txt !== "") && (placeholder !== '#')) {
+          bootstrap_alert.warning(txt, '#rm-alert-placeholder');
+          $(this).val("");
+      }
+    }
+  }
+
 $(document).ready(function($) {
 
     $(".clickableRow").click(function() {
         window.document.location = $(this).data("url");
     });
+
+    $(".track-file-input").on('change', checkfile);
 
     $('.user-autocomplete').autocomplete({
         serviceUrl: '/users/autocomplete',
@@ -46,16 +84,16 @@ $(document).ready(function($) {
         }
     });
 
-    var hash = window.location.hash;
-    hash && $('ul.nav a[href="' + hash + '"]').tab('show');
-
-    $('.nav-tabs a').click(function (e) {
-        $(this).tab('show');
-        var scrollmem = $('body').scrollTop();
-        window.location.hash = this.hash;
-        $('html,body').scrollTop(scrollmem);
-    });
-
+    // var hash = window.location.hash;
+    // hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+    //
+    // $('.nav-tabs a').click(function (e) {
+    //     $(this).tab('show');
+    //     var scrollmem = $('body').scrollTop();
+    //     window.location.hash = this.hash;
+    //     $('html,body').scrollTop(scrollmem);
+    // });
+    //
     var ws_field = $('.wingsuit-autocomplete');
     ws_field.autocomplete({
         serviceUrl: '/api/wingsuits/autocomplete',

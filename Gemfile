@@ -11,6 +11,7 @@ group :development, :test do
   gem 'quiet_assets'
   gem 'mailcatcher'
   gem 'better_errors'
+  gem 'rubocop', require: false
   # gem 'rack-mini-profiler'
 end
 

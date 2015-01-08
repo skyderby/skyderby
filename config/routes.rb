@@ -1,31 +1,26 @@
 TrackingDerby::Application.routes.draw do
-
   # AJAX locale independent actions
   namespace :api do
-
-    resources :sections, :only => [:create, :update, :destroy] do
+    resources :events, only: [:update]
+    resources :sections, only: [:create, :update, :destroy] do
       collection do
         post 'reorder'
       end
     end
 
-    resources :competitors, :only => [:create, :update, :destroy]
-    resources :events, :only => [:update]
+    resources :competitors, only: [:create, :update, :destroy]
+    resources :round_tracks, only: [:create, :update, :destroy]
 
     get '/users/autocomplete'
     get '/wingsuits/autocomplete'
-
   end
 
   scope '/(:locale)', locale: /#{I18n.available_locales.join('|')}/ do
+    # Static pages and routes
+    match '/about', to: 'static_pages#about', as: :about, via: :get
+    match '/terms', to: 'static_pages#terms', as: :terms, via: :get
 
-    # Статические страницы и маршруты
-    match '/about', :to => 'static_pages#about', :as => :about, :via => :get
-    match '/terms', :to => 'static_pages#terms', :as => :terms, :via => :get
-
-    # Ресурсы
-
-    resources :tracks, :only => [:index, :new, :show, :update, :destroy] do
+    resources :tracks, only: [:index, :new, :show, :update, :destroy] do
       collection do
         post 'choose'
         get 'upload_error'
@@ -36,8 +31,8 @@ TrackingDerby::Application.routes.draw do
         get 'google_earth'
       end
     end
-    # Для обратной совместимости
-    match '/track/:id', :to => 'tracks#show', :via => :get
+    # Backward compatibility
+    match '/track/:id', to: 'tracks#show', via: :get
 
     resources :events do
       resources :rounds
@@ -47,7 +42,6 @@ TrackingDerby::Application.routes.draw do
       member do
         get 'results'
       end
-
     end
 
     devise_for :users
@@ -61,6 +55,6 @@ TrackingDerby::Application.routes.draw do
     root 'static_pages#index'
   end
 
-  root to: redirect("/#{I18n.default_locale}", status: 302), as: :redirected_root
-
+  root to: redirect("/#{I18n.default_locale}", status: 302),
+       as: :redirected_root
 end

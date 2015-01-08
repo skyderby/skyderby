@@ -2,7 +2,8 @@
   .container
     .row
       .col-sm-4
-        %p.copyright= "Copyright © #{t 'application.footer.owner'} 2014"
+        %p.copyright
+          = "Copyright © #{t 'application.footer.owner'} #{Time.now.year}"
       .col-sm-4
         %p= t('static_pages.index.stats')
         %p

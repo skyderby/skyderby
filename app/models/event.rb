@@ -1,4 +1,6 @@
 class Event < ActiveRecord::Base
+  belongs_to :responsible, :class_name => 'UserProfile', :foreign_key => 'user_profile_id'
+
   has_many :rounds
   has_many :event_tracks, through: :rounds
 

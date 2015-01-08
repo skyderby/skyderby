@@ -1,7 +1,8 @@
 
 var Competition = {},
     Units = {},
-    locale = '',
+    Locale = '',
+    Can_manage = false,
     Templates = {};
 
 //////////////////////////////////////////
@@ -16,7 +17,11 @@ function init(){
     $.extend(Competition, event_data.data('details'));
     $.extend(Units, event_data.data('units'));
 
-    locale = event_data.data('locale');
+    Locale = event_data.data('locale');
+
+    if (event_data.data('can-manage') === true) {
+        Can_manage = true;
+    }
 
     init_templates();
 
@@ -30,6 +35,12 @@ function init(){
 
     $('#button-add-competitor').on('click', on_button_add_competitor_click);
 
+    $('#new-result-from-exist-track').on('click', on_link_result_exist_track_click);
+
+    $('#new-result-from-new-track').on('click', on_link_result_new_track_click);
+
+    $('#rm-button-delete-result').on('click', on_link_delete_result_click);
+
     $('#competitor-form-modal').on('shown.bs.modal', on_competitor_modal_shown);
 
     $('#section-form-modal').on('shown.bs.modal', on_section_modal_shown);
@@ -41,7 +52,8 @@ function init(){
         .on('click', '.edit-section', on_link_edit_section_click)
         .on('click', '.delete-section', on_link_delete_section_click)
         .on('click', '.section-up', on_section_move)
-        .on('click', '.section-down', on_section_move);
+        .on('click', '.section-down', on_section_move)
+        .on('click', '.edit-result', on_edit_result_click);
 
     $('#submit-competitor-form').on('click', on_submit_competitor_form);
 
@@ -54,6 +66,7 @@ function init(){
         preserveInput: true,
         onSelect: on_select_profile_autocomplete
     });
+
 }
 
 function init_templates() {
@@ -63,6 +76,7 @@ function init_templates() {
                 '<tr id="section_<%= id %>_head_row" class="head-row">',
                     '<td id="section_<%= id %>_name_cell" class="bg-info" colspan="<%= row_length %>">',
                         '<%= name %>',
+                        '<% if (Can_manage) { %>',
                         '<a href="#" class="edit-section">',
                             '<i class="fa fa-pencil text-muted"></i>',
                         '</a>',
@@ -77,45 +91,60 @@ function init_templates() {
                         '<a href="#" class="delete-section">',
                             '<i class="fa fa-times-circle text-muted"></i>',
                         '</a>',
+                        '<% } %>',
                     '</td>',
             '</tbody>'].join('\n'));
+
+    Templates.event_edit_commands = _.template([
+            '<div class="col-md-7">',
+                '<button id="button-add-class" class="btn btn-default">',
+                    '<i class="fa fa-plus"></i>',
+                    'Класс',
+                '</button>',
+                '<button id="button-add-competitor" class="btn btn-default">',
+                    '<i class="fa fa-plus"></i>',
+                    'Участник',
+                '</button>',
+                '<button id="button-add-round" class="btn btn-default">',
+                    '<i class="fa fa-plus"></i>',
+                    'Раунд',
+                '</button>',
+            '</div>',
+            '<div class="col-md-5">',
+                '<div class="pull-right">',
+                    '<div class="btn-group" data-toggle="buttons">',
+                        '<label id="draft-label" class="btn btn-default">',
+                            '<input id="draft" type="radio" name="event-status" value="draft" autocomplete="off">',
+                            'Черновик',
+                        '</label>',
+                        '<label id="published-label" class="btn btn-default">',
+                            '<input id="published" type="radio" name="event-status" value="published" autocomplete="off">',
+                            'Опубликовано',
+                        '</label>',
+                        '<label id="finished-label" class="btn btn-default">',
+                            '<input id="finished" type="radio" name="event-status" value="finished" autocomplete="off">',
+                            'Завершено',
+                        '</label>',
+                    '</div>',
+                '</div>',
+            '</div>'].join('\n'));
+    
+    Templates.fa_fw = _.template([
+            '<small>',
+                '<i class="fa fa-fw"></i>',
+            '</small>'].join('\n'));
+
+    Templates.edit_event_name_and_range = _.template([
+            '<small>',
+                '<a href="#" class="edit-event">',
+                    '<i class="fa fa-fw fa-pencil text-muted"></i>',
+                '</a>',
+            '</small>'].join('\n'));
+
 }
 
 function new_section(params) {
-
     return Templates.section(params);
-    
-    // return $('<tbody>')
-    //     .attr('id', 'section_' + id)
-    //     .attr('data-id', id)
-    //     .attr('data-order', order)
-    //     .append($('<tr>')
-    //         .addClass('head-row')
-    //         .attr('id', 'section_' + id + '_head_row')
-    //         .append($('<td>')
-    //             .attr('id', 'section_' + id + '_name_cell')
-    //             .attr('colspan', window.row_length)
-    //             .text(name)
-    //             .addClass('bg-info')
-    //
-    //             .append($('<a>').addClass('edit-section').attr('href', '#')
-    //                 .append($('<i>').addClass('fa fa-pencil text-muted')))
-    //
-    //             .append($('<span>').addClass('pipe-edit-section text-muted').text('|'))
-    //
-    //             .append($('<a>').addClass('section-up').attr('href', '#')
-    //                 .append($('<i>').addClass('fa fa-chevron-up text-muted')))
-    //
-    //             .append($('<a>').addClass('section-down').attr('href', '#')
-    //                 .append($('<i>').addClass('fa fa-chevron-down text-muted')))
-    //
-    //             .append($('<span>').addClass('pipe-edit-section text-muted').text('|'))
-    //
-    //              .append($('<a>').addClass('delete-section').attr('href', '#')
-    //                 .append($('<i>').addClass('fa fa-times-circle text-muted')))
-    //             
-    //     )
-    // );
 }
 
 function set_row_numbers() {
@@ -143,7 +172,7 @@ function calc_totals() {
             if (discipline_points) {
                 competitor_row.find('td[data-discipline="' + discipline + '"]').text(discipline_points / rounds.length); 
                 total_points += discipline_points / rounds.length;
-            };
+            }
         });
 
         if (total_points) {
@@ -181,6 +210,11 @@ function sort_table_by_points() {
     });
 }
 
+function after_results_changes() {
+    calc_totals();
+    sort_table_by_points();
+}
+
 function fail_ajax_request(data, status, jqXHR) {
     alert(data.responseText.substring(0, 500));
 }
@@ -193,7 +227,6 @@ function validate_section_form() {
 
 function validate_competitor_form(){
 }
-
 
 //////////////////////////////////////////
 // REQUESTS TO SERVER
@@ -319,8 +352,120 @@ function send_event_update_request(id, params) {
         .fail(fail_ajax_request);
 }
 
+function send_event_track_create_request(params) {
+
+    $.ajax({
+        url: '/api/round_tracks/',
+        method: 'POST',
+        dataType: 'json',
+        data: {
+            round_track: params
+        }
+    })
+        .done(success_event_track_create)
+        .fail(fail_ajax_request);
+
+}
+
+function send_event_track_update_request(id, params) {
+
+    $.ajax({
+        url: '/api/round_tracks/' + id,
+        method: 'PATCH',
+        dataType: 'json',
+        data: {
+            round_track: params
+        }
+    })
+        .done(success_event_track_update)
+        .fail(fail_ajax_request);
+
+}
+
+function send_event_track_delete_request(id) {
+
+    $.ajax({
+        url: '/api/round_tracks/' + id,
+        method: 'DELETE',
+        dataType: 'json',
+        context: {
+            id: id
+        }
+    })
+        .done(success_event_track_delete)
+        .fail(fail_ajax_request);
+
+}
+
 //////////////////////////////////////////
 // EVENTS HANDLERS
+
+function on_link_result_new_track_click() {
+
+}
+
+function on_link_result_exist_track_click(e) {
+    e.preventDefault();
+
+    var result_id = $('#result-fm-id').val(),
+        params = {
+            competitor_id: $('#result-fm-competitor-id').val(),
+            round_id: $('#result-fm-round-id').val(),
+            track_id: $('#result_track_id').val()
+        };
+
+    if (result_id) {
+        send_event_track_update_request(result_id, params);
+    } else {
+        send_event_track_create_request(params);
+    }
+
+}
+
+function on_link_delete_result_click(e) {
+    e.preventDefault();
+
+    var result_id = $('#result-fm-id').val();
+    send_event_track_delete_request(result_id);
+}
+
+function on_edit_result_click(e) {
+
+    e.preventDefault();
+
+    var row = $(this).closest('tr'),
+        result_id = $(this).data('result-id'),
+        track_id = $(this).data('track-id'),
+        round_id = $(this).data('round-id');
+
+    var competitor = $.grep(Competition.competitors, function(e) {
+        return e.id == row.attr('id').replace('competitor_', '');
+    })[0];
+
+    var round;
+    $.each(Competition.rounds, function(key, value) {
+        $.each(value, function(index, value) {
+            if (value.id == round_id) {
+                round = value;
+            }
+        });
+    });
+
+    $('#result-fm-id').val(result_id);
+    $('#result-fm-competitor-id').val(competitor.id);
+    $('#result-fm-round-id').val(round_id);
+
+    if (!track_id) {
+        $('#rm-li-delete-result').addClass('disabled'); 
+        $('#rm-li-delete-result').children('a').removeAttr('data-toggle');
+    } else {
+        $('#rm-li-delete-result').removeClass('disabled');
+        $('#rm-li-delete-result').children('a').attr('data-toggle', 'tab');
+    }
+
+    $('#result-form-modal-title').text(competitor.name + ' - ' + capitaliseFirstLetter(round.discipline) + ': ' + round.name);
+    $('#result-form-modal').modal('show');
+}
 
 function on_section_move(e) {
 
@@ -398,10 +543,10 @@ function on_link_edit_competitor_click(e) {
 
     e.preventDefault();
 
-    $('#competitor-form-modal-title').text('Участник: Редактирование')
-    row = $(this).closest('tr');
+    $('#competitor-form-modal-title').text('Участник: Редактирование');
+    var row = $(this).closest('tr');
 
-    competitor = $.grep(Competition.competitors, function(e) {
+    var competitor = $.grep(Competition.competitors, function(e) {
         return e.id == row.attr('id').replace('competitor_', '');
     })[0];
 
@@ -535,7 +680,7 @@ function success_competitor_create(data, status, jqXHR) {
 function success_competitor_update(data, status, jqXHR) {
 
     finded_competitors = $.grep(Competition.competitors, function (e) {
-        return e.id == data.id
+        return e.id == data.id;
     });
 
     if (finded_competitors.length)
@@ -581,7 +726,7 @@ function success_section_create(data, status, jqXHR) {
 function success_section_update(data, status, jqXHR) {
 
     var finded_sections = $.grep(Competition.sections, function (e) {
-        return e.id == data.id
+        return e.id == data.id;
     });
 
     if (finded_sections.length) {
@@ -638,8 +783,29 @@ function success_section_move_down(data, status, jqXHR) {
 }
 
 //////////////////////////////////////////////////////
-// AJAX CALLBACKS: Rounds
+// AJAX CALLBACKS: Results
 
+function success_event_track_update() {
+    
+}
+
+function success_event_track_create() {
+
+}
+
+function success_event_track_delete() {
+
+    var result = $.grep(Competition.tracks, function (e) {
+        return e.id == this.id;
+    })[0];
+    var result_index = $.inArray(result, Competition.tracks);
+    
+    Competition.tracks.splice(result_index, 1);
+
+    $('td[data-result-id="' + this.id + '"]').text('');
+
+    after_results_changes();
+}
 
 //////////////////////////////////////////////////////
 // results table
@@ -687,10 +853,15 @@ function render_table() {
             units_row.append($('<td>').text(Units[key]));
             units_row.append($('<td>').text('%'));
 
-            template_row.append($('<td>')
+            var result_cell = $('<td>')
                     .attr('data-round-id', value.id)
-                    .attr('data-role', 'result')
-            );
+                    .attr('data-role', 'result');
+
+            if (Can_manage) {
+                result_cell.addClass('edit-result');
+            }
+
+            template_row.append(result_cell);
             template_row.append($('<td>')
                     .attr('data-round-id', value.id)
                     .attr('data-role', 'points')
@@ -722,12 +893,15 @@ function render_table() {
         new_row = table.find('tr.template-row').clone();
         new_row.removeClass('template-row');
         new_row.attr('id', 'competitor_' + value.id);
-        new_row.find("[data-role='competitor_name']")
-            .text(value.name + ' / ' + value.wingsuit)
-            .append($('<a>').addClass('edit-competitor').attr('href', '#')
+        
+        competitor_name_cell = new_row.find("[data-role='competitor_name']");
+        competitor_name_cell.text(value.name + ' / ' + value.wingsuit);
+        if (Can_manage) {
+            competitor_name_cell.append($('<a>').addClass('edit-competitor').attr('href', '#')
                 .append($('<i>').addClass('fa fa-pencil text-muted')))
             .append($('<a>').addClass('delete-competitor').attr('href', '#')
                 .append($('<i>').addClass('fa fa-times-circle text-muted')));
+        }
 
         var el_id = value.section_id ? ('#section_' + value.section_id) : ('#without_section');
         $(el_id).append(new_row);
@@ -740,20 +914,25 @@ function render_table() {
             return {
                 round_id: 'round_' + key,
                 result: _.max(_.pluck(value, "result"))
-            }
+            };
         })
         .groupBy("round_id")
         .value();
 
     $.each(Competition.tracks, function(index, value) {
-        var result_cell = $('#competitor_' + value.competitor_id + ' td[data-round-id="' + value.round_id + '"][data-role="result"]');
-        var points_cell = $('#competitor_' + value.competitor_id + ' td[data-round-id="' + value.round_id + '"][data-role="points"]');
-        result_cell.attr('data-url', '/' + locale + '/tracks/' + value.track_id + '?f=' + Competition.range_from + '&t=' + Competition.range_to);
-        result_cell.addClass('clickableRow');
+        var result_cell = $('#competitor_' + value.competitor_id + ' td[data-round-id="' + value.round_id + '"][data-role="result"]'),
+            points_cell = $('#competitor_' + value.competitor_id + ' td[data-round-id="' + value.round_id + '"][data-role="points"]'),
+            max_val = max_results['round_' + value.round_id][0].result,
+            points = Math.round(value.result / max_val * 1000) / 10;
+
+        result_cell.attr('data-url', '/' + Locale + '/tracks/' + value.track_id + '?f=' + Competition.range_from + '&t=' + Competition.range_to);
+        result_cell.attr('data-track-id', value.track_id);
+        result_cell.attr('data-result-id', value.id);
+
+        if (!Can_manage) {
+            result_cell.addClass('clickableRow');
+        }
         result_cell.text(value.result);
-        points_cell.attr('data-url', '/' + locale + '/tracks/' + value.track_id + '?f=' + Competition.range_from + '&t=' + Competition.range_to);
-        var max_val = max_results['round_' + value.round_id][0].result;
-        var points = Math.round(value.result / max_val * 1000) / 10;
         points_cell.text(points);
     });
 
@@ -764,6 +943,19 @@ function render_table() {
     set_row_numbers();
 }
 
+function render_edit_commands() {
+
+    element = $('#event-edit-commands');
+    element.append(Templates.event_edit_commands());
+    element.addClass('top-buffer');
+
+    $('#' + Competition.status + '-label').addClass('active');
+
+    $('#title-competition-name')
+        .before(Templates.fa_fw())
+        .after(Templates.edit_event_name_and_range());
+}
+
 ////////////////////////////////////////////
 //
 
@@ -771,6 +963,9 @@ $(function() {
 
     if ($('.event-data').length) {
         init();
+        if (Can_manage) {
+            render_edit_commands();
+        }
         render_table();
     }
 

@@ -23,6 +23,8 @@
 /tags
 
 *.swp
+.tern-project
+.rubocop.yml
 
 /tags
 
