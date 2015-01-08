@@ -22,4 +22,10 @@
 *.swp
 /tags
 
+*.swp
+.tern-project
+.rubocop.yml
+
+/tags
+
 Gemfile.lock
