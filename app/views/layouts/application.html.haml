@@ -2,6 +2,7 @@
 %html
   %head
     %title= page_title(yield(:title))
+    = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
     = csrf_meta_tags
   %body
@@ -21,5 +22,3 @@
       = yield
 
     = render 'layouts/footer'
-
-    = stylesheet_link_tag    'application', media: 'all'
