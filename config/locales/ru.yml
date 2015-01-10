@@ -49,27 +49,27 @@ ru:
     index:
       title: 'Загруженные треки:'
     show:
-      eldstch_html: "'Пройдено по высоте/по горизонту'"
-      eldst_dst_html: "'Дистанция'"
-      eldst_el_s_html: "'Пройдено по высоте'"
-      eldst_dst_s_html: "'Пройдено Расстояние'"
-      eldst_h_s_html: "'Высота'"
-      spdch_html: "'Вертикальная и горизонтальная скорость'"
-      spd_ax_html: "'Скорость'"
-      spd_hs_html: "'Путевая скорость'"
-      spd_vs_html: "'Верт. Скорость'"
-      grch_html: "'Качество полета'"
-      gr_s_html: "'Качество'"
-      adc_html: "'Информация о полете'"
-      adc_sp_y_html: "'Скорость'"
-      adc_ed_y_html: "'Высота, Расстояние'"
-      adc_gr_y_html: "'Качество полета'"
-      adc_hspd_html: "'Гор. Скорость'"
-      adc_vspd_html: "'Верт. Скорость'"
-      adc_gr_s_html: "'Качество полета'"
-      adc_h_s_html: "'Высота'"
-      adc_dst_html: "'Дистанция'"
-      adc_ele_html: "'Пройдено по высоте'"
+      eldstch: "Пройдено по высоте/по горизонту"
+      eldst_dst: "Дистанция"
+      eldst_el_s: "Пройдено по высоте"
+      eldst_dst_s: "Пройдено Расстояние"
+      eldst_h_s: "'Высота'"
+      spdch: "Вертикальная и горизонтальная скорость"
+      spd_ax: "Скорость"
+      spd_hs: "Путевая скорость"
+      spd_vs: "Верт. Скорость"
+      grch: "Качество полета"
+      gr_s: "Качество"
+      adc: "Информация о полете"
+      adc_sp_y: "Скорость"
+      adc_ed_y: "Высота, Расстояние"
+      adc_gr_y: "Качество полета"
+      adc_hspd: "Гор. Скорость"
+      adc_vspd: "Верт. Скорость"
+      adc_gr_s: "Качество полета"
+      adc_h_s: "Высота"
+      adc_dst: "Дистанция"
+      adc_ele: "Пройдено по высоте"
       title_track: 'Трек'
       title_suit: 'Вингсьют'
       menu_header: 'Отображение показателей'
@@ -89,9 +89,9 @@ ru:
       edit_range: "Редактирование диапазона"
       range_from: "Диапазон с:"
       range_to: "по:"
-      raw_ground_speed: "'Путевая скорость (Нефильтр.)'"
-      raw_vertical_speed: "'Верт. скорость (Нефильтр.)'"
-      raw_gr: "'Качество (Нефильтр.)'"
+      raw_ground_speed: 'Путевая скорость (Нефильтр.)'
+      raw_vertical_speed: 'Верт. скорость (Нефильтр.)'
+      raw_gr: 'Качество (Нефильтр.)'
     choose:
       title: 'Выберите трек для загрузки'
       number: 'Номер'
@@ -106,8 +106,8 @@ ru:
       public: "Открытый"
       unlisted: "Доступ по ссылке"
       private: "Ограниченный"
-      elev_chart_html: "'График высот'"
-      elevation_html: "'Высота'"
+      elev_chart: 'График высот'
+      elevation: 'Высота'
   static_pages:
     index:
       title: 'Летай! Соревнуйся! Побеждай!'
@@ -182,11 +182,12 @@ ru:
       logo_designed_by: "Логотип разработан Юлией Маковеевой"
   units:
     m: 'м'
+    ft: 'фт'
+    kmh: 'км/ч'
+    mph: 'миль/ч'
+    t_unit: "с"
     m_html: "'м'"
     ft_html: "'фт'"
-    kmh: 'км/ч'
-    t_unit: "с"
-    t_unit_html: "'с'"
     kmh_html: "'км/ч'"
     mph_html: "'миль/ч'"
   events:
