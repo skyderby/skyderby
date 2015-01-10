@@ -12,14 +12,18 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require turbolinks
+//= require jquery.turbolinks
 //= require bootstrap-datepicker/core
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.ru.js
 //= require twitter/bootstrap
 //= require gmaps/google
 //= require_tree .
 
+Turbolinks.enableProgressBar();
+
 function clone(obj) {
-    if (null == obj || "object" != typeof obj) return obj;
+    if (null === obj || "object" != typeof obj) return obj;
     var copy = obj.constructor();
     for (var attr in obj) {
         if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
@@ -30,7 +34,7 @@ function clone(obj) {
 $(document).ready(function($) {
 
     $(".clickableRow").click(function() {
-        window.document.location = $(this).data("url");
+        Turbolinks.visit($(this).data("url"));
     });
 
     $('.user-autocomplete').autocomplete({

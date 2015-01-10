@@ -6,59 +6,7 @@
 %script{:type => 'text/javascript',
         :src  => '//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js'}
 
-:javascript
-
-  var map_data = #{@track.charts_data};
-  var handler;
-
-  $(document).ready(function($) {
-    handler = Gmaps.build('Google');
-    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-      draw_polyline();
-    });
-  });
-
-  function speed_group(speed) {
-    if (speed > 250) {
-      return 6;
-    } else if (speed > 220) {
-      return 5;
-    } else if (speed > 190) {
-      return 4;
-    } else if (speed > 160) {
-      return 3;
-    } else if (speed > 130) {
-      return 2;
-    } else {
-      return 1;
-    }
-  }
-  function draw_polyline() {
-    var polyline = [];
-    var prev_point = null;
-
-    for (var index in map_data) {
-      current_point = map_data[index];
-      if (polyline.length == 0 || (speed_group(prev_point.h_speed) == speed_group(current_point.h_speed))) {
-        polyline.push({'lat': current_point.latitude, 'lng': current_point.longitude});
-      } else {
-        handler.addPolyline(polyline,
-                              { strokeColor: $('.hl' + speed_group(prev_point.h_speed)).css( "background-color" ),
-                              strokeOpacity: 1, strokeWeight: 6});
-        polyline = [];
-        polyline.push({'lat': prev_point.latitude, 'lng': prev_point.longitude});
-      }
-      prev_point = current_point;
-    }
-
-    handler.addPolyline(polyline,
-                        { strokeColor: $('.hl' + speed_group(prev_point.h_speed)).css( "background-color" ),
-                        strokeOpacity: 1, strokeWeight: 6});
-    handler.bounds.extend({'lat': map_data[0].latitude, 'lng': map_data[0].longitude});
-    handler.bounds.extend({'lat': map_data[map_data.length - 1].latitude, 'lng': map_data[map_data.length - 1].longitude});
-    handler.fitMapToBounds();
-  }
-
+.track-map-data{:data => {:points => @track.charts_data}}
 .container
   .row
     .col-sm-12#map{:style => 'height: 600px;'}

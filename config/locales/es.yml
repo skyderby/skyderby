@@ -49,27 +49,27 @@ es:
     index:
       title: 'Las pistas descargadas:'
     show:
-      eldstch_html: "'La altitud alcanzada/ por horizonte'"
-      eldst_dst_html: "'La distancia'"
-      eldst_el_s_html: "'La altitud alcanzada'"
-      eldst_dst_s_html: "'La distancia alcanzada'"
-      eldst_h_s_html: "'La altitud'"
-      spdch_html: "'Velocidad vertical y horizontal'"
-      spd_ax_html: "'La velocidad'"
-      spd_hs_html: "'Velocidad horizontal'"
-      spd_vs_html: "'Velocidad vertical'"
-      grch_html: "'Calidad del vuelo'"
-      gr_s_html: "'La calidad'"
-      adc_html: "'Información sobre el vuelo'"
-      adc_sp_y_html: "'La velocidad'"
-      adc_ed_y_html: "'La velocidad, la distancia'"
-      adc_gr_y_html: "'Calidad del vuelo'"
-      adc_hspd_html: "'Velocidad horizontal'"
-      adc_vspd_html: "'Velocidad vertical'"
-      adc_gr_s_html: "'Calidad del vuelo'"
-      adc_h_s_html: "'La altitud'"
-      adc_dst_html: "'La distancia'"
-      adc_ele_html: "'La altitud alcanzada'"
+      eldstch: 'La altitud alcanzada/ por horizonte'
+      eldst_dst: 'La distancia'
+      eldst_el_s: 'La altitud alcanzada'
+      eldst_dst_s: 'La distancia alcanzada'
+      eldst_h_s: 'La altitud'
+      spdch: 'Velocidad vertical y horizontal'
+      spd_ax: 'La velocidad'
+      spd_hs: 'Velocidad horizontal'
+      spd_vs: 'Velocidad vertical'
+      grch: 'Calidad del vuelo'
+      gr_s: 'La calidad'
+      adc: 'Informaciónsobre el vuelo'
+      adc_sp_y: 'La velocidad'
+      adc_ed_y: 'La velocidad, la distancia'
+      adc_gr_y: 'Calidad del vuelo'
+      adc_hspd: 'Velocidad horizontal'
+      adc_vspd: 'Velocidad vertical'
+      adc_gr_s: 'Calidad del vuelo'
+      adc_h_s: 'La altitud'
+      adc_dst: 'La distancia'
+      adc_ele: 'La altitud alcanzada'
       title_track: 'La pista'
       title_suit: 'Traje aereo'
       menu_header: 'La representación de los resultados:'
@@ -89,9 +89,9 @@ es:
       edit_range: "Edit range"
       range_from: "Range from:"
       range_to: "to:"
-      raw_ground_speed: "'Velocidad horizontal (bruto)'"
-      raw_vertical_speed: "'Velocidad vertical (bruto)'"
-      raw_gr: "'La calidad (bruto)'"
+      raw_ground_speed: 'Velocidad horizontal (bruto)'
+      raw_vertical_speed: 'Velocidad vertical (bruto)'
+      raw_gr: 'La calidad (bruto)'
     choose:
       title: 'Elige la pista para descargar'
       number: 'El número'
@@ -182,10 +182,12 @@ es:
       logo_designed_by: "Logo designed by Julia Makoveeva"
   units:
     m: 'm'
+    ft: "'pie'"
+    kmh: 'km/h'
+    mph: 'millas/h'
+    t_unit: "seg"
     m_html: "'m'"
     ft_html: "'pie'"
-    t_unit: "seg"
-    kmh: 'km/h'
     kmh_html: "'km/h'"
     mph_html: "'millas/h'"
   events:
