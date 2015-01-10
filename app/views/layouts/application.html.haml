@@ -2,7 +2,7 @@
 %html
   %head
     %title= page_title(yield(:title))
-    = stylesheet_link_tag    'application', media: 'all'
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
     #wrap
@@ -21,5 +21,6 @@
       = yield
 
     = render 'layouts/footer'
-    = javascript_include_tag 'application'
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true, 'data-turbolinks-eval' => false
 
+    = render partial: 'tracks/new_track'
