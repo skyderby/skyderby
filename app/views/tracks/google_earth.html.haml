@@ -1,126 +1,6 @@
 - provide :title, "#{t 'tracks.show.title_track' } ##{@track.id} | #{@track.name}"
 
-%script{:type => 'text/javascript',
-        :src => 'https://www.google.com/jsapi'}
-
-:javascript
-
-  var map_data = #{@track.earth_data};
-  var ge;
-  google.load("earth", "1", {"other_params":"sensor=false"});
-
-  function init() {
-    google.earth.createInstance('map3d', initCB, failureCB);
-  }
-
-  function initCB(instance) {
-    ge = instance;
-    ge.getNavigationControl().setVisibility(ge.VISIBILITY_SHOW);
-    draw_polyline();
-    ge.getWindow().setVisibility(true);
-    var la = ge.createLookAt('');
-    la.set(map_data[0].latitude, map_data[0].longitude, 0, ge.ALTITUDE_ABSOLUTE, -8.541, 66.213, map_data[0].elevation + 2000);
-    ge.getView().setAbstractView(la);
-  }
-
-  function failureCB(errorCode) {
-  }
-
-  function speed_group_color(spd_group) {
-    if (spd_group == 1) {
-      return 'aa2e7e2d';
-    } else if (spd_group == 2) {
-      return 'aa43c042';
-    } else if (spd_group == 3) {
-      return 'aa34ced9';
-    } else if (spd_group == 4) {
-      return 'aa0f67e4';
-    } else if (spd_group == 5) {
-      return 'aa0c00e7';
-    } else if (spd_group == 6) {
-      return 'aa0c0060';
-    }
-  }
-
-  function speed_group(speed) {
-    if (speed > 250) {
-      return 6;
-    } else if (speed > 220) {
-      return 5;
-    } else if (speed > 190) {
-      return 4;
-    } else if (speed > 160) {
-      return 3;
-    } else if (speed > 130) {
-      return 2;
-    } else {
-      return 1;
-    }
-  }
-
-  function draw_polyline() {
-
-    // Создадим метку.
-    var lineStringPlacemark = ge.createPlacemark('');
-    // Создадим ломаную линию, зададим высоту.
-    var lineString = ge.createLineString('');
-    lineStringPlacemark.setGeometry(lineString);
-    //lineString.setExtrude(true);
-    lineString.setAltitudeMode(ge.ALTITUDE_ABSOLUTE);
-
-    var polyline_length = 0;
-    var prev_point = null;
-
-    for (var index in map_data) {
-
-      current_point = map_data[index];
-
-      if (polyline_length == 0 || (speed_group(prev_point.h_speed) == speed_group(current_point.h_speed))) {
-
-        lineString.getCoordinates().pushLatLngAlt(current_point.latitude, current_point.longitude, current_point.elevation);
-        polyline_length += 1;
-
-      } else {
-
-        // Определим стиль, ширину и цвет линии.
-        lineStringPlacemark.setStyleSelector(ge.createStyle(''));
-        var lineStyle = lineStringPlacemark.getStyleSelector().getLineStyle();
-        lineStyle.setWidth(5);
-        lineStyle.getColor().set(speed_group_color(speed_group(prev_point.h_speed)));
-
-        // Добавим компонент в Планету Земля.
-        ge.getFeatures().appendChild(lineStringPlacemark);
-
-        polyline_length = 0;
-        // Создадим метку.
-        var lineStringPlacemark = ge.createPlacemark('');
-        // Создадим ломаную линию, зададим высоту.
-        var lineString = ge.createLineString('');
-        lineStringPlacemark.setGeometry(lineString);
-        //lineString.setExtrude(true);
-        lineString.setAltitudeMode(ge.ALTITUDE_ABSOLUTE);
-
-        lineString.getCoordinates().pushLatLngAlt(prev_point.latitude, prev_point.longitude, prev_point.elevation);
-        polyline_length += 1;
-
-      }
-
-      prev_point = current_point;
-
-    }
-
-    // Определим стиль, ширину и цвет линии.
-    lineStringPlacemark.setStyleSelector(ge.createStyle(''));
-    var lineStyle = lineStringPlacemark.getStyleSelector().getLineStyle();
-    lineStyle.setWidth(5);
-    lineStyle.getColor().set(speed_group_color(speed_group(prev_point.h_speed)));
-
-    // Добавим компонент в Планету Земля.
-    ge.getFeatures().appendChild(lineStringPlacemark);
-
-  }
-
-  google.setOnLoadCallback(init);
+.track-earth-data{:data => {:points => @track.earth_data}}
 
 .container
   .row
@@ -132,3 +12,9 @@
     .col-sm-2.text-center.hl4= "190 - 220 #{t 'units.kmh'}"
     .col-sm-2.text-center.hl5= "220 - 250 #{t 'units.kmh'}"
     .col-sm-2.text-center.hl6= "> 250 #{t 'units.kmh'}"
+
+%script{:type => 'text/javascript',
+        :src => 'https://www.google.com/jsapi'}
+
+:javascript
+    google.load("earth", "1", {"other_params":"sensor=false"});
