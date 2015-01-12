@@ -1,9 +1,15 @@
 # encoding: utf-8
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :finished, :update, :destroy, :results]
+  before_action :set_event, only:
+    [:show, :finished, :update, :destroy, :results]
 
   def index
     @event = Event.new
+  end
+
+  def new
+    @event = Event.create(responsible: current_user.user_profile)
+    redirect_to @event
   end
 
   def create
@@ -31,20 +37,9 @@ class EventsController < ApplicationController
   end
 
   def show
-
-    # @results = @event.results
-    @results = []
-
-    # else
-    #   @round = Round.new
-    #   @track = EventTrack.new
-    #   @competitor = Competitor.new
-    # end
-
   end
 
   def results
-    @results = @event.results
     render layout: 'full_screen'
   end
 
@@ -52,13 +47,14 @@ class EventsController < ApplicationController
   end
 
   private
+
   def set_event
     @event = Event.find(params[:id])
   end
 
   def event_params
     params[:event].permit(:name, :place,
-                          :comp_range_from, :comp_range_to,
+                          :range_from, :range_to,
                           :descriprion, :form_info, :dz_info,
                           :start_at, :end_at, :reg_starts, :reg_ends,
                           :merge_intermediate_and_rookie,

@@ -16,9 +16,10 @@ class Competitor < ActiveRecord::Base
   end
 
   private
+
   def user_or_name_filled
     if user.blank? && name.blank?
-      errors.add(:base, "Specify a name or user of competitor")
+      errors.add(:base, 'Specify a name or user of competitor')
     end
   end
 end

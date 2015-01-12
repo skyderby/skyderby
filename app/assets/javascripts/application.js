@@ -20,6 +20,8 @@
 //= require gmaps/google
 //= require_tree .
 
+"use strict";
+
 Turbolinks.enableProgressBar();
 
 function clone(obj) {
@@ -36,7 +38,7 @@ function capitaliseFirstLetter(string)
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-bootstrap_alert = function() {};
+var bootstrap_alert = function() {};
 bootstrap_alert.warning = function(message, placeholder) {
     $(placeholder).append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><span>'+message+'</span></div>');
 };

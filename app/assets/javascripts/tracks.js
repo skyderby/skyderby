@@ -735,6 +735,8 @@ function set_chart_data() {
             dist += point.distance;
             elev += point.elevation_diff;
 
+            fl_time += Math.round(point.fl_time * 10) / 10;
+
             elev_data.push([fl_time, Math.round(elev * mft_un_k)]);
             dist_data.push([fl_time, Math.round(dist * mft_un_k)]);
             h_speed.push([fl_time, Math.round(point.h_speed / km_m_k)]);
@@ -747,8 +749,6 @@ function set_chart_data() {
             raw_h_speed.push([fl_time, point.raw_h_speed]);
             raw_v_speed.push([fl_time, point.raw_v_speed]);
             raw_gr.push([fl_time, point.raw_gr]);
-
-            fl_time += Math.round(point.fl_time * 10) / 10;
 
             min_h_speed = min_h_speed === 0 || min_h_speed > point.h_speed ? point.h_speed : min_h_speed;
             max_h_speed = max_h_speed === 0 || max_h_speed < point.h_speed ? point.h_speed : max_h_speed;

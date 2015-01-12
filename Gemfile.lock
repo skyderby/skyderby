@@ -1,16 +1,3 @@
-GIT
-  remote: https://github.com/plataformatec/devise.git
-  revision: 1d8890b77372b9c4fd3ec8e9b4963d76774ed33c
-  branch: lm-rails-4-2
-  specs:
-    devise (3.3.0)
-      bcrypt (~> 3.0)
-      orm_adapter (~> 0.1)
-      railties (>= 3.2.6, < 5)
-      responders
-      thread_safe (~> 0.1)
-      warden (~> 1.2.3)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -45,14 +32,14 @@ GEM
     astrolabe (1.3.0)
       parser (>= 2.2.0.pre.3, < 3.0)
     bcrypt (3.1.9)
-    better_errors (2.1.0)
+    better_errors (2.1.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
       rack (>= 0.9.0)
     bootstrap-datepicker-rails (1.3.1.1)
       railties (>= 3.0)
     builder (3.2.2)
-    cancancan (1.9.2)
+    cancancan (1.10.0)
     capybara (2.4.4)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -73,7 +60,14 @@ GEM
     coffee-script-source (1.8.0)
     commonjs (0.2.7)
     daemons (1.1.9)
-    database_cleaner (1.3.0)
+    database_cleaner (1.4.0)
+    devise (3.4.1)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      responders
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     eventmachine (1.0.4)
@@ -83,8 +77,8 @@ GEM
     factory_girl_rails (4.5.0)
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
-    font-awesome-less (4.0.2)
-      less-rails (>= 2.4.2)
+    font-awesome-less (4.2.0)
+      less (~> 2.4.0)
     font-awesome-rails (4.2.0.0)
       railties (>= 3.2, < 5.0)
     gmaps4rails (2.1.2)
@@ -101,19 +95,19 @@ GEM
     jquery-turbolinks (2.1.0)
       railties (>= 3.1.0)
       turbolinks
-    jquery-ui-rails (4.2.1)
+    jquery-ui-rails (5.0.3)
       railties (>= 3.2.16)
-    json (1.8.1)
+    json (1.8.2)
     kaminari (0.16.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
-    less (2.6.0)
+    less (2.4.0)
       commonjs (~> 0.2.7)
-    less-rails (2.6.0)
+    less-rails (2.4.2)
       actionpack (>= 3.1)
-      less (~> 2.6.0)
-    less-rails-bootstrap (3.3.1.0)
-      less-rails (~> 2.6.0)
+      less (~> 2.4.0)
+    less-rails-bootstrap (3.1.1.0)
+      less-rails (~> 2.4.2)
     libv8 (3.16.14.7)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -129,13 +123,13 @@ GEM
       sqlite3-ruby
       thin
     mime-types (1.25.1)
-    mini_portile (0.6.1)
-    minitest (5.5.0)
+    mini_portile (0.6.0)
+    minitest (5.5.1)
     multi_json (1.10.1)
     mysql2 (0.3.17)
     nested_form (0.3.2)
-    nokogiri (1.6.5)
-      mini_portile (~> 0.6.0)
+    nokogiri (1.6.3.1)
+      mini_portile (= 0.6.0)
     orm_adapter (0.5.0)
     paperclip (3.4.2)
       activemodel (>= 3.0.0)
@@ -143,9 +137,8 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.0)
       mime-types
-    parser (2.2.0.1)
+    parser (2.2.0.2)
       ast (>= 1.1, < 3.0)
-      slop (~> 3.4, >= 3.4.5)
     polyglot (0.3.5)
     powerpack (0.0.9)
     quiet_assets (1.1.0)
@@ -156,7 +149,7 @@ GEM
       rack (~> 1.1)
     rack-protection (1.5.3)
       rack
-    rack-test (0.6.2)
+    rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.1.2)
       actionmailer (= 4.1.2)
@@ -239,7 +232,6 @@ GEM
     skinny (0.2.3)
       eventmachine (~> 1.0.0)
       thin (~> 1.5.0)
-    slop (3.6.0)
     sprockets (2.12.3)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -274,7 +266,7 @@ GEM
       railties (~> 4.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    uglifier (2.6.0)
+    uglifier (2.7.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     warden (1.2.3)
@@ -292,7 +284,7 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 4.0.0)
   database_cleaner
-  devise!
+  devise
   factory_girl_rails
   font-awesome-less
   gmaps4rails
@@ -302,7 +294,7 @@ DEPENDENCIES
   less-rails-bootstrap
   mailcatcher
   mysql2
-  nokogiri
+  nokogiri (~> 1.6.3.1)
   paperclip (= 3.4.2)
   quiet_assets
   rails (= 4.1.2)

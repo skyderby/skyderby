@@ -1,5 +1,8 @@
+require 'spec_helper'
 require 'rails_helper'
 
-RSpec.describe Manufacturer, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Manufacturer, type: :model do
+  it 'name is required' do
+    expect(Manufacturer.create).not_to be_valid
+  end
 end

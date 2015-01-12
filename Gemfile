@@ -34,8 +34,8 @@ gem 'bootstrap-datepicker-rails'
 gem 'less-rails-bootstrap'
 gem 'jquery-rails'
 
-gem 'nokogiri'
-gem 'devise', git: "https://github.com/plataformatec/devise.git", branch: "lm-rails-4-2"
+gem 'nokogiri', '~> 1.6.3.1'
+gem 'devise'
 gem 'cancancan'
 gem 'rails_admin'
 gem 'paperclip', '3.4.2'

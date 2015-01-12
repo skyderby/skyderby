@@ -1,3 +1,4 @@
+"use strict";
 
 var Competition = {},
     Units = {},
@@ -12,7 +13,7 @@ function init(){
 
     // Competitor object initialization
 
-    event_data = $('.event-data');
+    var event_data = $('.event-data');
     
     $.extend(Competition, event_data.data('details'));
     $.extend(Units, event_data.data('units'));
@@ -24,6 +25,10 @@ function init(){
     }
 
     init_templates();
+
+    if (Can_manage) {
+        render_edit_commands();
+    }
 
     // Binding events
 
@@ -149,7 +154,7 @@ function new_section(params) {
 
 function set_row_numbers() {
     $('#results-table').find('tbody').each(function() {
-        row_ind = 1;
+        var row_ind = 1;
         $(this).find("[data-role='row_number']").each(function () {
             $(this).text(row_ind);
             row_ind += 1;
@@ -324,11 +329,10 @@ function send_section_move_down_request(next_id, next_order, cur_id, cur_order) 
 function send_competitor_update_request(id, wingsuit_id, section_id) {
 
     $.ajax({
-        url: '/api/competitors/update',
-        method: 'POST',
+        url: '/api/competitors/' + id,
+        method: 'PATCH',
         dataType: 'json',
         data: {
-            id: id,
             competitor: {
                 wingsuit_id: wingsuit_id,
                 section_id: section_id
@@ -813,7 +817,7 @@ function success_event_track_delete() {
 function render_table() {
 
     // Header
-    table = $('#results-table');
+    var table = $('#results-table');
 
     table.append($('<thead>')
             .append($('<tr>').attr('id', 'disciplines-row'))
@@ -822,11 +826,11 @@ function render_table() {
             .append($('<tr>').addClass('template-row'))
     );
 
-    discipline_row = $('#disciplines-row');
-    rounds_row = $('#rounds-row');
-    units_row = $('#units-row');
+    var discipline_row = $('#disciplines-row'),
+        rounds_row = $('#rounds-row'),
+        units_row = $('#units-row'),
+        template_row = table.find('.template-row');
 
-    template_row = table.find('.template-row');
     window.row_length = 3;
 
     discipline_row.append($('<td>').text('№').attr('rowspan', 3));
@@ -945,7 +949,7 @@ function render_table() {
 
 function render_edit_commands() {
 
-    element = $('#event-edit-commands');
+    var element = $('#event-edit-commands');
     element.append(Templates.event_edit_commands());
     element.addClass('top-buffer');
 
@@ -959,13 +963,11 @@ function render_edit_commands() {
 ////////////////////////////////////////////
 //
 
-$(function() {
+$(document).on('ready page:load', function() {
 
     if ($('.event-data').length) {
+        
         init();
-        if (Can_manage) {
-            render_edit_commands();
-        }
         render_table();
     }
 
