@@ -36,9 +36,11 @@ function init(){
 
     $('#submit-section-form').on('click', on_submit_section_form);
 
-    $('#submit-event-form').on('click', on_submit_event_form);
-
     $('#button-add-competitor').on('click', on_button_add_competitor_click);
+
+    $('#submit-competitor-form').on('click', on_submit_competitor_form);
+
+    $('#submit-event-form').on('click', on_submit_event_form);
 
     $('#new-result-from-exist-track').on('click', on_link_result_exist_track_click);
 
@@ -54,13 +56,12 @@ function init(){
 
     $('#results-table')
         .on('click', '.edit-competitor', on_link_edit_competitor_click)
+        .on('click', '.delete-competitor', on_link_delete_competitor_click)
         .on('click', '.edit-section', on_link_edit_section_click)
         .on('click', '.delete-section', on_link_delete_section_click)
         .on('click', '.section-up', on_section_move)
         .on('click', '.section-down', on_section_move)
         .on('click', '.edit-result', on_edit_result_click);
-
-    $('#submit-competitor-form').on('click', on_submit_competitor_form);
 
     $(document)
         .on('change', 'input:radio[name="event-status"]', on_change_event_status)
@@ -68,7 +69,7 @@ function init(){
 
     $('.competitor-profile-autocomplete').autocomplete({
         serviceUrl: '/api/users/autocomplete',
-        preserveInput: true,
+        // preserveInput: true,
         onSelect: on_select_profile_autocomplete
     });
 
@@ -79,8 +80,8 @@ function init_templates() {
     Templates.section = _.template([
             '<tbody id="section_<%= id %>" data-id="<%= id %>" data-order="<%= order %>">',
                 '<tr id="section_<%= id %>_head_row" class="head-row">',
-                    '<td id="section_<%= id %>_name_cell" class="bg-info" colspan="<%= row_length %>">',
-                        '<%= name %>',
+                    '<td id="section_<%= id %>_name_cell" class="-bg-info" colspan="<%= row_length %>">',
+                        '<%= name %>:',
                         '<% if (Can_manage) { %>',
                         '<a href="#" class="edit-section">',
                             '<i class="fa fa-pencil text-muted"></i>',
@@ -326,20 +327,41 @@ function send_section_move_down_request(next_id, next_order, cur_id, cur_order) 
 
 }
 
-function send_competitor_update_request(id, wingsuit_id, section_id) {
+function send_competitor_create_request(params) {
+    $.ajax({
+        url: '/api/competitors/',
+        method: 'POST',
+        dataType: 'json',
+        data: {
+            competitor: params
+        }
+    })
+        .done(success_competitor_create)
+        .fail(fail_ajax_request);
 
+}
+
+function send_competitor_update_request(id, params) {
     $.ajax({
         url: '/api/competitors/' + id,
         method: 'PATCH',
         dataType: 'json',
         data: {
-            competitor: {
-                wingsuit_id: wingsuit_id,
-                section_id: section_id
-            }
+            competitor: params
         }
     })
         .done(success_competitor_update)
+        .fail(fail_ajax_request);
+}
+
+function send_delete_section_request(id) {
+    $.ajax({
+        url: '/api/competitors/' + id,
+        method: 'DELETE',
+        dataType: 'json',
+        context: {id: id}
+    })
+        .done(success_competitor_delete)
         .fail(fail_ajax_request);
 }
 
@@ -448,11 +470,9 @@ function on_edit_result_click(e) {
 
     var round;
     $.each(Competition.rounds, function(key, value) {
-        $.each(value, function(index, value) {
-            if (value.id == round_id) {
-                round = value;
-            }
-        });
+        if (value.id == round_id) {
+            round = value;
+        }
     });
 
     $('#result-fm-id').val(result_id);
@@ -467,7 +487,7 @@ function on_edit_result_click(e) {
         $('#rm-li-delete-result').children('a').attr('data-toggle', 'tab');
     }
 
-    $('#result-form-modal-title').text(competitor.name + ' - ' + capitaliseFirstLetter(round.discipline) + ': ' + round.name);
+    $('#result-form-modal-title').text(competitor.profile.name + ' - ' + capitaliseFirstLetter(round.discipline) + ': ' + round.name);
     $('#result-form-modal').modal('show');
 }
 
@@ -528,14 +548,22 @@ function on_submit_section_form(e) {
 }
 
 function on_submit_competitor_form() {
-
     validate_competitor_form();
 
-    send_competitor_update_request(
-        $('#competitor-id').val(),
-        $('#competitor-wingsuit-id').val(),
-        $('#competitor-section').val()
-    );
+    var c_id = $('#competitor-id').val();
+    var params = {
+        event_id: Competition.id,
+        profile_id: $('#competitor-profile-id').val(),
+        profile_name: $('#competitor-profile-name').val(),
+        wingsuit_id: $('#competitor-wingsuit-id').val(),
+        section_id: $('#competitor-section').val()
+    };
+
+    if (c_id) {
+        send_competitor_update_request(c_id, params);
+    } else {
+        send_competitor_create_request(params);
+    }
 }
 
 function on_button_add_competitor_click() {
@@ -556,24 +584,29 @@ function on_link_edit_competitor_click(e) {
 
     $('#competitor-id').val(competitor.id);
 
-    $('#competitor-last-name').val(competitor.last_name);
-    $('#competitor-first-name').val(competitor.first_name);
-    $('#competitor-profile-id').val(competitor.profile_id);
+    $('#competitor-name').val(competitor.profile.name);
+    $('#competitor-profile-id').val(competitor.profile.id);
 
-    $('#competitor-wingsuit').val(competitor.wingsuit);
-    $('#competitor-wingsuit-id').val(competitor.wingsuit_id);
+    $('#competitor-wingsuit').val(competitor.wingsuit.name);
+    $('#competitor-wingsuit-id').val(competitor.wingsuit.id);
 
-    $('#competitor-section').val(competitor.section_id);
+    $('#competitor-section').val(competitor.section.id);
 
     $('#competitor-form-modal').modal('show');
+}
+
+function on_link_delete_competitor_click(e) {
+    e.preventDefault(); 
+    var competitor_id = $(this).closest('tr').attr('id').replace('competitor_', '');
+    send_delete_competitor_request(competitor_id);
 }
 
 function on_link_edit_section_click(e) {
 
     e.preventDefault();
 
-    section_tbody = $(this).closest('tbody');
-    section = $.grep(Competition.sections, function(e) {
+    var section_tbody = $(this).closest('tbody');
+    var section = $.grep(Competition.sections, function(e) {
         return e.id == section_tbody.attr('id').replace('section_', "");
     })[0];
 
@@ -602,7 +635,7 @@ function on_link_delete_section_click(e) {
 function on_competitor_modal_shown() {
 
     if (!$('#competitor-id').val()) {
-        $('#competitor-last-name').focus();
+        $('#competitor-name').focus();
     }
 
     var s = $('#competitor-section');
@@ -620,14 +653,12 @@ function on_section_modal_shown() {
 
 function on_select_profile_autocomplete(suggestion, elem) {
 
-    id_field = $(elem).data('idfield');
-    name_field = $(elem).data('firstnamefield');
+    var id_field = $(this).data('idfield');
 
-    $(elem).val(suggestion.last_name);
-    $(name_field).val(suggestion.first_name);
+    $(elem).val(suggestion.name);
     $(id_field).val(suggestion.profile_id);
 
-    $('#competitor-wingsuit').focus();
+    // $('#competitor-wingsuit').focus();
 }
 
 function on_change_event_status() {
@@ -678,30 +709,52 @@ function success_event_update(data, status, jqXHR) {
 // AJAX CALLBACKS: Competitors
 
 function success_competitor_create(data, status, jqXHR) {
-    alert('fail');
+    var new_row = $('#results-table').find('tr.template-row').clone();
+    new_row.removeClass('template-row');
+    new_row.attr('id', 'competitor_' + data.id);
+
+    var competitor_name_cell = new_row.find("[data-role='competitor_name']");
+    competitor_name_cell.text(data.profile.name + ' / ' + data.wingsuit.name);
+    if (Can_manage) {
+        competitor_name_cell.append($('<a>').addClass('edit-competitor').attr('href', '#')
+            .append($('<i>').addClass('fa fa-pencil text-muted')))
+        .append($('<a>').addClass('delete-competitor').attr('href', '#')
+            .append($('<i>').addClass('fa fa-times-circle text-muted')));
+    }
+
+    var el_id = data.section.id ? ('#section_' + data.section.id) : ('#without_section');
+    $(el_id).append(new_row);
+
+    Competition.competitors.push(data);
+
+    set_row_numbers();
 }
 
 function success_competitor_update(data, status, jqXHR) {
-
-    finded_competitors = $.grep(Competition.competitors, function (e) {
+    var competitor, competitor_row;
+    var finded_competitors = $.grep(Competition.competitors, function (e) {
         return e.id == data.id;
     });
 
-    if (finded_competitors.length)
+    if (finded_competitors.length) {
         competitor = finded_competitors[0];
-    competitor_row = $('#competitor_' + competitor.id);
+        competitor_row = $('#competitor_' + competitor.id);
+    } else {
+        return;
+    }
 
-    if (competitor.name != data.name || competitor.wingsuit != data.wingsuit) {
+    if (competitor.profile.name != data.profile.name 
+        || competitor.wingsuit.id != data.wingsuit.id) {
         competitor_row.find("[data-role='competitor_name']")
-            .text(data.name + ' / ' + data.wingsuit)
+            .text(data.pofile.name + ' / ' + data.wingsuit.name)
             .append($('<a>').addClass('edit-competitor').attr('href', '#')
                 .append($('<i>').addClass('fa fa-pencil text-muted')))
             .append($('<a>').addClass('delete-competitor').attr('href', '#')
                 .append($('<i>').addClass('fa fa-times-circle text-muted')));
     }
 
-    if (competitor.section_id != data.section_id) {
-        (data.section_id ? $('#section_' + data.section_id) : $('#without_section'))
+    if (competitor.section.id != data.section.id) {
+        (data.section.id ? $('#section_' + data.section.id) : $('#without_section'))
             .append(competitor_row
                 .remove()
                 .clone());
@@ -712,11 +765,22 @@ function success_competitor_update(data, status, jqXHR) {
     set_row_numbers();
 }
 
+function success_competitor_delete(data, status, jqXHR) {
+    var competitor_id = this.id;
+    // var section = $.grep(Competition.sections, function (e) {
+    //     return e.id == section_id;
+    // })[0];
+    // var section_index = $.inArray(section, Competition.sections);
+    //
+    // $('#section_' + section_id).remove();
+    // Competition.sections.splice(section_index, 1);
+}
+
 //////////////////////////////////////////////////////
 // AJAX CALLBACKS: Sections
 
 function success_section_create(data, status, jqXHR) {
-    section = {
+    var section = {
         id: '',
         name: '',
         order: ''
@@ -724,7 +788,7 @@ function success_section_create(data, status, jqXHR) {
 
     $.extend(section, data);
 
-    $('#results-table').append(new_section(section.id, section.name, section.order));
+    $('#results-table').append(new_section(section));
 }
 
 function success_section_update(data, status, jqXHR) {
@@ -751,15 +815,14 @@ function success_section_update(data, status, jqXHR) {
 }
 
 function success_section_delete(data, status, jqXHR) {
-
+    var section_id = this.id;
     var section = $.grep(Competition.sections, function (e) {
-        return e.id == this.id;
+        return e.id == section_id;
     })[0];
     var section_index = $.inArray(section, Competition.sections);
 
-    $('#section_' + this.id).remove();
+    $('#section_' + section_id).remove();
     Competition.sections.splice(section_index, 1);
-
 }
 
 function success_section_move_up(data, status, jqXHR) {
@@ -831,15 +894,16 @@ function render_table() {
         units_row = $('#units-row'),
         template_row = table.find('.template-row');
 
-    window.row_length = 3;
+    window.row_length = 2;
 
-    discipline_row.append($('<td>').text('№').attr('rowspan', 3));
+    discipline_row.append($('<td>').text('№').addClass('rt-ln').attr('rowspan', 3));
     discipline_row.append($('<td>').text('Competitor').attr('rowspan', 3));
 
-    template_row.append($('<td>').attr('data-role', 'row_number'));
+    template_row.append($('<td>').addClass('rt-ln').attr('data-role', 'row_number'));
     template_row.append($('<td>').attr('data-role', 'competitor_name'));
 
-    $.each(Competition.rounds, function (key, value) {
+    var rounds_by_discipline = _.groupBy(Competition.rounds, 'discipline');
+    $.each(rounds_by_discipline, function (key, value) {
         window.row_length += value.length * 2 + 1;
 
         discipline_row.append($('<td>')
@@ -881,25 +945,27 @@ function render_table() {
         );
     });
 
-    discipline_row.append($('<td>').text('Итого').attr('rowspan', 3));
-
-    template_row.append($('<td>').attr('data-role', 'total-points'));
+    if (Competition.rounds.length) {
+        discipline_row.append($('<td>').text('Итого').attr('rowspan', 3));
+        template_row.append($('<td>').attr('data-role', 'total-points'));
+        window.row_length += 1;
+    }
 
     //Rows: sections
     $.each(Competition.sections, function (index, value) {
-        table.append(new_section({id: value.id, name: value.name, order: value.order}));
+        table.append(new_section(value));
     });
 
     table.append($('<tbody>').attr('id', 'without_section'));
 
     // Rows: competitors
     $.each(Competition.competitors, function(index, value) {
-        new_row = table.find('tr.template-row').clone();
+        var new_row = table.find('tr.template-row').clone();
         new_row.removeClass('template-row');
         new_row.attr('id', 'competitor_' + value.id);
         
-        competitor_name_cell = new_row.find("[data-role='competitor_name']");
-        competitor_name_cell.text(value.name + ' / ' + value.wingsuit);
+        var competitor_name_cell = new_row.find("[data-role='competitor_name']");
+        competitor_name_cell.text(value.profile.name + ' / ' + value.wingsuit.name);
         if (Can_manage) {
             competitor_name_cell.append($('<a>').addClass('edit-competitor').attr('href', '#')
                 .append($('<i>').addClass('fa fa-pencil text-muted')))
@@ -907,7 +973,7 @@ function render_table() {
                 .append($('<i>').addClass('fa fa-times-circle text-muted')));
         }
 
-        var el_id = value.section_id ? ('#section_' + value.section_id) : ('#without_section');
+        var el_id = value.section.id ? ('#section_' + value.section.id) : ('#without_section');
         $(el_id).append(new_row);
     });
 

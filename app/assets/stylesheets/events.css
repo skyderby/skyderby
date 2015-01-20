@@ -41,3 +41,7 @@ td:hover .delete-competitor,
 h1:hover .edit-event {
   visibility: visible;
 }
+
+.rt-ln {
+  width: 20px;
+}

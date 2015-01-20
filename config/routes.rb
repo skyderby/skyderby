@@ -1,6 +1,6 @@
 TrackingDerby::Application.routes.draw do
   # AJAX locale independent actions
-  namespace :api do
+  namespace :api, default: { format: :json } do
     resources :events, only: [:update]
     resources :sections, only: [:create, :update, :destroy] do
       collection do

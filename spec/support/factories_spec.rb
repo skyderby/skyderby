@@ -1,11 +1,9 @@
-# If using RSpec 2.x (or if not using Rails), require `spec_helper` instead
-require 'rails_helper'
+require 'spec_helper'
 
 # If using RSpec 2.x, remove `RSpec.`
-RSpec.describe 'Factory Girl' do
+describe 'Factory Girl' do
   FactoryGirl.factories.map(&:name).each do |factory_name|
     describe "#{factory_name} factory" do
-
       # Test each factory
       it 'is valid' do
         factory = FactoryGirl.build(factory_name)
@@ -26,7 +24,6 @@ RSpec.describe 'Factory Girl' do
           end
         end
       end
-
     end
   end
 end

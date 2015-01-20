@@ -20,7 +20,7 @@
 //= require gmaps/google
 //= require_tree .
 
-"use strict";
+//"use strict";
 
 Turbolinks.enableProgressBar();
 

@@ -1,7 +1,7 @@
 - provide :title, @event.name
 
 - units = {:time => t('units.t_unit'), :distance => t('units.kmh'), :speed => t('units.m')}
-.event-data{:data => {:details => @event.details.to_json.html_safe, :units => units.to_json, :locale => locale, :can_manage => can?(:update, @event).to_s }}
+.event-data{:data => {:details => event_details, :units => units.to_json, :locale => locale, :can_manage => can?(:update, @event).to_s }}
 
 .container.top-buffer
   .row

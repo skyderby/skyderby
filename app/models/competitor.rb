@@ -1,25 +1,22 @@
 class Competitor < ActiveRecord::Base
   belongs_to :event
-  belongs_to :user
+  belongs_to :section
+  belongs_to :user_profile
   belongs_to :wingsuit
   has_many :event_tracks
 
-  validates_presence_of :wingsuit
-  validate :user_or_name_filled
+  before_validation :set_profile
+  validates_presence_of :user_profile, :wingsuit, :event
 
-  def user_name
-    if user
-      user.user_profile.name
-    else
-      name
-    end
-  end
+  attr_accessor :profile_name, :profile_id
 
   private
 
-  def user_or_name_filled
-    if user.blank? && name.blank?
-      errors.add(:base, 'Specify a name or user of competitor')
+  def set_profile
+    if profile_id
+      self.user_profile = UserProfile.find(profile_id)
+    elsif profile_name
+      self.user_profile = UserProfile.create! name: profile_name
     end
   end
 end

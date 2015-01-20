@@ -52,7 +52,7 @@ class Event < ActiveRecord::Base
   end
 
   def competitors_details
-    competitors.includes(user: :user_profile).includes(:wingsuit).to_a
+    competitors.includes(:user_profile).includes(:wingsuit).to_a
   end
 
   def competitor_data(comp)
@@ -64,9 +64,9 @@ class Event < ActiveRecord::Base
   end
 
   def profile_data(comp)
-    { profile_id: comp.user.user_profile.id,
-      name: comp.user.user_profile.name,
-      first_name: comp.user.user_profile.first_name,
-      last_name: comp.user.user_profile.last_name }
+    { profile_id: comp.user_profile.id,
+      name: comp.user_profile.name,
+      first_name: comp.user_profile.first_name,
+      last_name: comp.user_profile.last_name }
   end
 end

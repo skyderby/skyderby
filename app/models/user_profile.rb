@@ -12,7 +12,7 @@ class UserProfile < ActiveRecord::Base
 
   private
 
-  def set_name
-    self.name ||= last_name + ' ' + first_name
-  end
+  # def set_name
+  #   self.name ||= last_name + ' ' + first_name
+  # end
 end
