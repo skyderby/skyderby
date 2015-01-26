@@ -6,22 +6,15 @@
     .navbar-collapse.collapse
       %ul.nav.navbar-nav
         %li
+          = link_to t('application.header.tracks'), tracks_path
+        %li
           = link_to t('application.header.competitions'), events_path
-        %li.dropdown
-          %a.dropdown-toggle{:href => '#', :data => {:toggle => 'dropdown'}}
-            = t('application.header.track_analizer')
-            %i.fa.fa-caret-down
-          %ul.dropdown-menu
-            %li
-              %a{:href => '#', :data => {:toggle => 'modal', :target => '#newTrackModal'}}= t('application.header.upload_track')
-            %li
-              = link_to t('application.header.tracks'), tracks_path
-
+           
       %ul.nav.navbar-nav.navbar-right
 
         - if user_signed_in?
           %li.dropdown
-            %a.dropdown-toggle{:href => '#', :data => {:toggle => 'dropdown'}}
+            %a.dropdown-toggle.profile-dropdown{:href => '#', :data => {:toggle => 'dropdown'}}
               - if current_user.user_profile
                 - if current_user.user_profile.name.blank?
                   = current_user.email

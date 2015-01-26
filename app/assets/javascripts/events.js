@@ -33,26 +33,22 @@ function init(){
     // Binding events
 
     $('#button-add-class').on('click', on_button_add_class_click);
+    $('#button-add-competitor').on('click', on_button_add_competitor_click);
+    $('#button-add-round').on('click', on_button_add_round_click);
 
     $('#submit-section-form').on('click', on_submit_section_form);
-
-    $('#button-add-competitor').on('click', on_button_add_competitor_click);
-
     $('#submit-competitor-form').on('click', on_submit_competitor_form);
-
     $('#submit-event-form').on('click', on_submit_event_form);
+    $('#submit-round-form').on('click', on_submit_round_form);
 
     $('#new-result-from-exist-track').on('click', on_link_result_exist_track_click);
-
     $('#new-result-from-new-track').on('click', on_link_result_new_track_click);
-
     $('#rm-button-delete-result').on('click', on_link_delete_result_click);
 
     $('#competitor-form-modal').on('shown.bs.modal', on_competitor_modal_shown);
-
     $('#section-form-modal').on('shown.bs.modal', on_section_modal_shown);
-
     $('#event-form-modal').on('shown.bs.modal', on_edit_event_modal_shown);
+    $('#round-form-modal').on('shown.bs.modal', on_round_modal_shown);
 
     $('#results-table')
         .on('click', '.edit-competitor', on_link_edit_competitor_click)
@@ -61,7 +57,9 @@ function init(){
         .on('click', '.delete-section', on_link_delete_section_click)
         .on('click', '.section-up', on_section_move)
         .on('click', '.section-down', on_section_move)
-        .on('click', '.edit-result', on_edit_result_click);
+        .on('click', '.edit-result', on_edit_result_click)
+        .on('click', '.edit-round', on_edit_round_click)
+        .on('click', '.delete-round', on_delete_round_click);
 
     $(document)
         .on('change', 'input:radio[name="event-status"]', on_change_event_status)
@@ -231,11 +229,25 @@ function fail_ajax_request(data, status, jqXHR) {
 function validate_section_form() {
 }
 
-function validate_competitor_form(){
+function validate_competitor_form() {
+}
+
+function validate_round_form() {
 }
 
 //////////////////////////////////////////
 // REQUESTS TO SERVER
+
+function send_delete_round_request(id) {
+    $.ajax({
+        url: '/api/rounds/' + id,
+        method: 'DELETE',
+        dataType: 'json',
+        context: {id: id}
+    })
+        .done(success_round_delete)
+        .fail(fail_ajax_request);
+}
 
 function send_create_section_request(name, event_id) {
     $.ajax({
@@ -354,7 +366,7 @@ function send_competitor_update_request(id, params) {
         .fail(fail_ajax_request);
 }
 
-function send_delete_section_request(id) {
+function send_delete_competitor_request(id) {
     $.ajax({
         url: '/api/competitors/' + id,
         method: 'DELETE',
@@ -531,6 +543,31 @@ function on_button_add_class_click() {
     $('#section-form-modal').modal('show');
 }
 
+function on_button_add_competitor_click() {
+    $('#competitor-form-modal-title').text('Участник: Добавление');
+    $('#competitor-form-modal').modal('show');
+}
+
+function on_button_add_round_click() {
+    $('#round-form-modal-title').text('Раунд: Добавление');
+    $('#round-form-modal').modal('show');
+}
+
+function on_round_modal_shown() {
+    $('#round-name').focus();
+}
+
+function on_edit_round_click(e) {
+    e.preventDefault();
+}
+
+function on_delete_round_click(e) {
+    e.preventDefault();
+
+    var round_id = $(this).closest('td').data('round-id');
+    send_delete_round_request(round_id);
+}
+
 function on_submit_section_form(e) {
 
     var section_id = $('#section-id').val();
@@ -541,7 +578,7 @@ function on_submit_section_form(e) {
     if (section_id) {
         send_update_section_request(section_id, section_name, Competition.id);
     } else {
-       send_create_section_request(section_name, Competition.id);
+        send_create_section_request(section_name, Competition.id);
     }
 
     e.preventDefault();
@@ -564,11 +601,6 @@ function on_submit_competitor_form() {
     } else {
         send_competitor_create_request(params);
     }
-}
-
-function on_button_add_competitor_click() {
-    $('#competitor-form-modal-title').text('Участник: Добавление');
-    $('#competitor-form-modal').modal('show');
 }
 
 function on_link_edit_competitor_click(e) {
@@ -606,8 +638,9 @@ function on_link_edit_section_click(e) {
     e.preventDefault();
 
     var section_tbody = $(this).closest('tbody');
+    var section_id = section_tbody.attr('id').replace('section_', "");
     var section = $.grep(Competition.sections, function(e) {
-        return e.id == section_tbody.attr('id').replace('section_', "");
+        return e.id == section_id;
     })[0];
 
     $('#section-form-modal-title').text('Класс: Редактирование');
@@ -689,6 +722,64 @@ function on_submit_event_form() {
         range_to: $('#range-to').val()
     });
 }
+
+function on_submit_round_form() {
+    var round_id = $('#round-id').val(),
+    params = {
+        name: $('#round-name').val(),
+        discipline: $('#round-discipline').val(),
+        event_id: Competition.id
+    };
+
+    if (round_id) {
+        send_update_round_request(round_id, params);
+    } else {
+        send_create_round_request(params);
+    }
+}
+
+function send_create_round_request(params) {
+    $.ajax({
+        url: '/api/rounds/',
+        method: 'POST',
+        dataType: 'json',
+        data: {
+            round: params
+        }
+    })
+        .done(success_round_create)
+        .fail(fail_ajax_request);
+}
+
+function send_update_round_request(round_id, params) {
+    $.ajax({
+        url: '/api/rounds/' + round_id,
+        method: 'PATCH',
+        dataType: 'json',
+        data: {
+            round: params
+        }
+    })
+        .done(success_round_update)
+        .fail(fail_ajax_request);
+
+}
+
+//////////////////////////////////////////////////////
+// AJAX CALLBACKS: Round
+
+function success_round_create(data, status, jqXHR) {
+
+}
+
+function success_round_update(data, status, jqXHR) {
+
+}
+
+function success_round_delete(data, status, jqXHR) {
+   var round_id = this.id; 
+}
+
 //////////////////////////////////////////////////////
 // AJAX CALLBACKS: Event
 
@@ -767,13 +858,13 @@ function success_competitor_update(data, status, jqXHR) {
 
 function success_competitor_delete(data, status, jqXHR) {
     var competitor_id = this.id;
-    // var section = $.grep(Competition.sections, function (e) {
-    //     return e.id == section_id;
-    // })[0];
-    // var section_index = $.inArray(section, Competition.sections);
-    //
-    // $('#section_' + section_id).remove();
-    // Competition.sections.splice(section_index, 1);
+    var competitor = $.grep(Competition.competitors, function (e) {
+        return e.id == competitor_id;
+    })[0];
+    var index = $.inArray(competitor, Competition.competitors);
+
+    $('#competitor_' + competitor_id).remove();
+    Competition.competitors.splice(index, 1);
 }
 
 //////////////////////////////////////////////////////
@@ -787,7 +878,7 @@ function success_section_create(data, status, jqXHR) {
     };
 
     $.extend(section, data);
-
+    Competition.sections.push(section);
     $('#results-table').append(new_section(section));
 }
 
@@ -912,11 +1003,19 @@ function render_table() {
         );
 
         $.each(value, function (index, value) {
-            rounds_row.append($('<td>')
+            var round_cell = $('<td>')
                     .text(value.name)
                     .attr('data-round-id', value.id)
-                    .attr('colspan', 2)
-            );
+                    .attr('colspan', 2);
+
+            if (Can_manage) {
+                round_cell.append($('<a>').addClass('edit-round').attr('href', '#')
+                    .append($('<i>').addClass('fa fa-pencil text-muted')))
+                .append($('<a>').addClass('delete-round').attr('href', '#')
+                    .append($('<i>').addClass('fa fa-times-circle text-muted')));
+            }
+
+            rounds_row.append(round_cell);
 
             units_row.append($('<td>').text(Units[key]));
             units_row.append($('<td>').text('%'));

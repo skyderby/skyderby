@@ -5,31 +5,24 @@ module Api
     def create
       @section = Section.new section_params
 
-      respond_to do |format|
-        if @section.save
-          format.json { render json: {id: @section.id, name: @section.name}, status: :ok }
-        else
-          format.json { render json: @section.errors, status: :unprocessable_entity }
-        end
+      if @section.save
+        @section
+      else
+        render json: @section.errors, status: :unprocessable_entity
       end
     end
 
     def update
-      respond_to do |format|
-        if @section.update section_params
-          format.json { render json: {:id => @section.id, :name => @section.name}, status: :ok }
-        else
-          format.json { render json: @section.errors, status: :unprocessable_entity }
-        end
+      if @section.update section_params
+        @section
+      else
+        render json: @section.errors, status: :unprocessable_entity
       end
     end
 
     def destroy
       @section.destroy
-
-      respond_to do |format|
-        format.json { head :no_content }
-      end
+      head :no_content
     end
 
     def reorder
@@ -38,9 +31,7 @@ module Api
         @section.update(order: x[:order])
       end
 
-      respond_to do |format|
-        format.json { head :no_content }
-      end
+      head :no_content
     end
 
     private
@@ -50,7 +41,7 @@ module Api
     end
 
     def section_params
-      params.require(:section).permit(:name, :event_id)
+      params.require(:section).permit(:name, :event_id, :order)
     end
   end
 end

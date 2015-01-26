@@ -4,7 +4,7 @@ class TracksController < ApplicationController
   before_action :set_track, only: [:show, :google_maps, :google_earth, :edit, :update, :destroy]
 
   def index
-    @tracks = Track.public_track.includes(:wingsuit)
+    @tracks = Track.public_track.includes(:wingsuit).order('id DESC')
   end
 
   def show

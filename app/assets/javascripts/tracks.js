@@ -1166,7 +1166,7 @@ function draw_polyline() {
 }
 
 
-$(function() {
+$(document).on('ready page:load', function() {
     if ($('.track-data').length) {
         init_chart_view();	
     } else if ($('.track-edit-data').length) {
@@ -1175,5 +1175,10 @@ $(function() {
         init_map_view();        
     } else if ($('.track-earth-data').length) {
         init_earth_view();
+    } else if ($('#tracks').length) {
+        Backbone.history.stop();
+        var tracks = $('#tracks').data('tracks');
+        window.router = new SkyDerby.Routers.TracksRouter({tracks: tracks});
+        Backbone.history.start();
     }
 });

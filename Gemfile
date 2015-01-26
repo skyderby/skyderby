@@ -11,6 +11,8 @@ group :development, :test do
   gem 'quiet_assets'
   gem 'mailcatcher'
   gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'meta_request'
   gem 'rubocop', require: false
   # gem 'rack-mini-profiler'
 end
@@ -24,6 +26,7 @@ group :test do
   gem 'database_cleaner'
 end
 
+gem 'ember-rails'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
 

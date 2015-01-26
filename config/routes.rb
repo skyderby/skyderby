@@ -9,6 +9,7 @@ TrackingDerby::Application.routes.draw do
     end
 
     resources :competitors, only: [:create, :update, :destroy]
+    resources :rounds, only: [:create, :update, :destroy]
     resources :round_tracks, only: [:create, :update, :destroy]
 
     get '/users/autocomplete'

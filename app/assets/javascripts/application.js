@@ -18,6 +18,11 @@
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.ru.js
 //= require twitter/bootstrap
 //= require gmaps/google
+//= require underscore
+//= require backbone
+//= require backbone_rails_sync
+//= require backbone_datalink
+//= require backbone/skyderby
 //= require_tree .
 
 //"use strict";
@@ -36,6 +41,27 @@ function clone(obj) {
 function capitaliseFirstLetter(string)
 {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function parseQueryString (queryString){
+    var params = {};
+    if(queryString){
+        _.each(
+            _.map(decodeURI(queryString).split(/&/g),function(el,i){
+                var aux = el.split('='), o = {};
+                if(aux.length >= 1){
+                    if(aux.length == 2)
+                        val = aux[1];
+                    o[aux[0]] = val;
+                }
+                return o;
+            }),
+            function(o){
+                _.extend(params,o);
+            }
+        );
+    }
+    return params;
 }
 
 var bootstrap_alert = function() {};
@@ -75,10 +101,6 @@ function checkfile() {
   }
 
 $(document).ready(function($) {
-
-    $(".clickableRow").click(function() {
-        Turbolinks.visit($(this).data("url"));
-    });
 
     $(".track-file-input").on('change', checkfile);
 
@@ -152,3 +174,11 @@ $(document).on('change', '.btn-file :file', function() {
   input.trigger('fileselect', [numFiles, label]);
 
 });
+
+$(document).on('click', '.clickableRow', function() {
+    Turbolinks.visit($(this).data("url"));
+});
+
+
+$(document).on('page:load', function() {
+    });

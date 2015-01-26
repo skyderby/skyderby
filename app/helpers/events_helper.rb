@@ -17,6 +17,10 @@ module EventsHelper
     render 'section_modal' if can?(:update, @event)
   end
 
+  def round_modal
+    render 'round_modal' if can?(:update, @event)
+  end
+
   def result_modal
     render 'result_modal' if can?(:update, @event)
   end

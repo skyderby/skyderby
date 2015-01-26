@@ -7,7 +7,8 @@
 }
 
 .edit-competitor, 
-.edit-section 
+.edit-section,
+.edit-round
 {
   margin-left: 10px;
 }
@@ -16,7 +17,9 @@
 .section-down, 
 .pipe-edit-section,
 .delete-competitor, 
-.delete-section {
+.delete-section,
+.delete-round
+{
   margin-left: 5px;
 }
 
@@ -27,7 +30,10 @@ td .section-up,
 td .section-down,
 td .delete-section,
 td .delete-competitor,
-h1 .edit-event {
+h1 .edit-event,
+td .edit-round,
+td .delete-round
+{
   visibility: hidden;
 }
 
@@ -38,7 +44,10 @@ td:hover .section-down,
 td:hover .delete-section,
 td:hover .edit-competitor,
 td:hover .delete-competitor,
-h1:hover .edit-event {
+h1:hover .edit-event,
+td:hover .edit-round,
+td:hover .delete-round
+{
   visibility: visible;
 }
 

@@ -12,6 +12,11 @@ module TracksHelper
     "#{t 'tracks.show.title_suit'}: #{track.wingsuit.present? ? track.wingsuit.name : track.suit}, @#{track.location}"
   end
 
+  def tracks_index
+    render template: 'api/tracks/_index.json.jbuilder',
+           formats: :json
+  end
+
   def track_data_attr
     {data: {
       points: @track.charts_data, 
