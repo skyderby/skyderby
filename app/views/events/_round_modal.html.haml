@@ -1,0 +1,30 @@
+.modal.fade#round-form-modal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
+  .modal-dialog
+    .modal-content
+      %form.form-horizontal#round-form{:action => '#', :role => 'form'}
+        %input#round-id{:type => 'hidden'}
+
+        .modal-header
+          %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
+            %span{:aria => {:hidden => 'true'}}
+              &times;
+            %span.sr-only
+              Close
+          %h4.modal-title#round-form-modal-title= ''
+
+        .modal-body
+          .form-group
+            %span.col-sm-3.control-label= 'Название:'
+            .col-sm-9
+              %input.form-control#round-name
+          .form-group
+            %span.col-sm-3.control-label= 'Дисциплина:'
+            .col-sm-9
+              %select.form-control#round-discipline
+                %option{value: 'distance'}= 'Дистанция'
+                %option{value: 'speed'}= 'Скорость'
+                %option{value: 'time'}= 'Время'
+
+        .modal-footer
+          %input.btn.btn-primary#submit-round-form{:data => {:dismiss => 'modal'}, :value => "#{t 'general.save'}"}
+          %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}= t 'general.cancel'
