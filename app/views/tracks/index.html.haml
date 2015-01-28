@@ -1,24 +1,44 @@
 .container
-  #tracks{data: {tracks: tracks_index}}
-  -# .page-header
-  -#   %h1=t '.title'
-  -#
-  -# .tracks-index-data{data: {tracks: tracks_index}}
-  -# %table#tracks-index.table.table-hover
-  -#   %thead
-  -#     %tr
-  -#       %th=t 'activerecord.attributes.track.id'
-  -#       %th=t 'activerecord.attributes.track.name'
-  -#       %th=t 'activerecord.attributes.track.suit'
-  -#       %th=t 'activerecord.attributes.track.place'
-  -#       %th=t 'activerecord.attributes.track.comment'
-  -#       %th=t 'activerecord.attributes.track.uploaded_at'
-  -#   %tbody
-    -#   - @tracks.reverse_each do |track|
-    -#     %tr.clickableRow{:data => {:url => track_path(:id => track.id)}}
-    -#       %td.text-info= track.id
-    -#       %td.text-info= track.name
-    -#       %td.text-info= track.wingsuit.present? ? track.wingsuit.name : track.suit
-    -#       %td.text-info= track.location
-    -#       %td.text-muted= track.comment
-    -#       %td.text-info= track.created_at.strftime('%d.%m.%Y')
+  .tracks-index
+  .page-header
+    %h1=t '.title'
+
+  .col-md-9.col-lg-10
+    %table#tracks-index.table.table-hover
+      %thead
+        %tr
+          %th=t 'activerecord.attributes.track.id'
+          %th=t 'activerecord.attributes.track.name'
+          %th=t 'activerecord.attributes.track.suit'
+          %th=t 'activerecord.attributes.track.place'
+          %th=t 'activerecord.attributes.track.comment'
+          %th=t 'activerecord.attributes.track.uploaded_at'
+      %tbody
+        - @tracks.each do |track|
+          %tr.clickableRow{:data => {:url => track_path(:id => track.id)}}
+            %td.text-info= track.id
+            %td.text-info= track.name
+            %td.text-info= track.wingsuit.present? ? track.wingsuit.name : track.suit
+            %td.text-info= track.location
+            %td.text-muted= track.comment
+            %td.text-info= track.created_at.strftime('%d.%m.%Y')
+  .col-md-3.col-lg-2
+    .form-group
+      .btn-group.btn-group-sm{data: {toggle: 'buttons'}}
+        %label.btn.btn-default{class: ('active' unless params[:filter] && params[:filter][:kind])}
+          %input#tracks-all{type: "radio", name: "track-kind", value: "all", autocomplete: "off"}
+          = 'All'
+        %label.btn.btn-default{class: ('active' if params[:filter] && params[:filter][:kind] == 'skydive')}
+          %input#tracks-skydive{type: "radio", name: "track-kind", value: "skydive", autocomplete: "off"}
+          = 'Skydive'
+        %label.btn.btn-default{class: ('active' if params[:filter] && params[:filter][:kind] == 'base')}
+          %input#tracks-base{type: "radio", name: "track-kind", value: "base", autocomplete: "off"}
+          = 'B.A.S.E.'
+    .form-group
+      %span.control-label= 'Suit:'
+      %input#wingsuit-filter.form-control.wingsuit-autocomplete{data: {idfield: '#wingsuit-filter-id'}}
+      %input#wingsuit-filter-id{type: 'hidden'}
+    .form-group
+      %span.control-label= 'Place:'
+      %input#place-filter.form-control.place-autocomplete{data: {idfield: 'place-filter-id'}}
+      %input#place-filter-id{type: 'hidden'} 

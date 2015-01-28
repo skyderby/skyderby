@@ -1175,10 +1175,5 @@ $(document).on('ready page:load', function() {
         init_map_view();        
     } else if ($('.track-earth-data').length) {
         init_earth_view();
-    } else if ($('#tracks').length) {
-        Backbone.history.stop();
-        var tracks = $('#tracks').data('tracks');
-        window.router = new SkyDerby.Routers.TracksRouter({tracks: tracks});
-        Backbone.history.start();
     }
 });

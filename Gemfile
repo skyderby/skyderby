@@ -26,7 +26,6 @@ group :test do
   gem 'database_cleaner'
 end
 
-gem 'ember-rails'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
 

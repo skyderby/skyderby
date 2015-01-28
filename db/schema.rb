@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150116184703) do
+ActiveRecord::Schema.define(version: 20150128072045) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -106,6 +106,16 @@ ActiveRecord::Schema.define(version: 20150116184703) do
   end
 
   add_index "sections", ["event_id"], name: "index_sections_on_event_id", using: :btree
+
+  create_table "track_results", force: true do |t|
+    t.integer "track_id"
+    t.integer "discipline"
+    t.integer "range_from"
+    t.integer "range_to"
+    t.float   "result",     limit: 24
+  end
+
+  add_index "track_results", ["track_id"], name: "index_track_results_on_track_id", using: :btree
 
   create_table "tracks", force: true do |t|
     t.string   "name"
