@@ -14,10 +14,10 @@
       .dropdown-container.col-md-4
         .pull-right
           - if @track.ge_enabled
-            %a.btn.btn-default{:href => google_earth_track_path(@track), :target => '_blank'}
+            %a.btn.btn-default{href: google_earth_track_path(@track), target: '_blank'}
               %i.fa.fa-compass
               = 'Google earth'
-          %a.btn.btn-default{:href => google_maps_track_path(@track), :target => '_blank'}
+          %a.btn.btn-default{href: google_maps_track_path(@track), target: '_blank'}
             %i.fa.fa-compass
             = 'Google maps'
           -#- if @track.has_video
@@ -25,27 +25,22 @@
           -#    %i.fa.fa-video-camera
           -#    = 'Video replay'
 
-          %button.btn.btn-default.dropdown-toggle#dropdownMenu1{:type => 'button', :data => {:toggle => 'dropdown'}}
+          %button.btn.btn-default.dropdown-toggle#dropdownMenu1{type: 'button', data: {toggle: 'dropdown'}}
             %i.fa.fa-cog
-          %ul.dropdown-menu.dropdown-menu-right{:role => 'menu', :aria => {:labelledby => 'dropdownMenu1'}}
-            %li.dropdown-header{:role => 'presentation'}=t '.menu_header'
-            %li#li_toggle_multi{:role => 'presentation'}
-              %a#toggle_multi{:role => 'menuitem', :tabindex => '-1', :href=>'#'}=t '.menu_sep'
-            %li#li_toggle_single{:role => 'presentation'}
-              %a#toggle_single{:role => 'menuitem', :tabindex => '-1', :href => '#'}=t '.menu_one'
-            %li.dropdown-header{:role => 'presentation'}=t '.units_header'
-            %li#li_toggle_metric{:role => 'presentation'}
-              %a#toggle_metric{:role => 'menuitem', :tabindex => '-1', :href => '#'}=t '.m_units_metric'
-            %li#li_toggle_imperial{:role => 'presentation'}
-              %a#toggle_imperial{:role => 'menuitem', :tabindex => '-1', :href => '#'}=t '.m_units_imperial'
-            - if user_signed_in? && (current_user == @track.user || (can? :update, :tracks))
-              %li.dropdown-header{:role => 'presentation'}= t('tracks.show.manage')
-              %li{:role => 'presentation'}
-                = link_to t('general.edit'), edit_track_path(@track), :role => 'menuitem'
-              - if can? :destroy, @track
-                %li{:role => 'presentation'}
-                  = link_to t('general.delete'), @track, :method => :delete, :data => {:confirm => t('.delete_confirmation')}, :role => 'menuitem'
-
+          %ul.dropdown-menu.dropdown-menu-right{role: 'menu', aria: {labelledby: 'dropdownMenu1'}}
+            %li.dropdown-header{role: 'presentation'}=t '.menu_header'
+            %li#li_toggle_multi{role: 'presentation'}
+              %a#toggle_multi{role: 'menuitem', tabindex: '-1', href: '#'}=t '.menu_sep'
+            %li#li_toggle_single{role: 'presentation'}
+              %a#toggle_single{role: 'menuitem', tabindex: '-1', href: '#'}=t '.menu_one'
+            %li.dropdown-header{role: 'presentation'}=t '.units_header'
+            %li#li_toggle_metric{role: 'presentation'}
+              %a#toggle_metric{role: 'menuitem', tabindex: '-1', href: '#'}=t '.m_units_metric'
+            %li#li_toggle_imperial{role: 'presentation'}
+              %a#toggle_imperial{role: 'menuitem', tabindex: '-1', href: '#'}=t '.m_units_imperial'
+          - if user_signed_in? && (current_user == @track.user || (can? :update, :tracks))
+            %a.btn.btn-default{href: edit_track_path(@track)}
+              %i.fa.fa-pencil
   .row
     .col-md-11.col-md-offset-1.col-sm-12
       .row
@@ -119,10 +114,10 @@
     .col-sm-12
 
       #btn-range-edit
-        %button.btn.btn-default#range-edit-button{:data => {:toggle => 'modal', :target => '#edit-range'}}
+        %button.btn.btn-default#range-edit-button{data: {toggle: 'modal', target: '#edit-range'}}
           %i.fa.fa-arrows-h
       #slider-range-selector
-        %input#range-selector{:type => 'text', :name => 'range-selector' , :value => ''}
+        %input#range-selector{type: 'text', name: 'range-selector' , value: ''}
 
   #multiple-charts
     #glideratio_chart
@@ -136,12 +131,12 @@
     %blockquote
       %small= @track.comment
 
-.modal.fade#edit-range{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
+.modal.fade#edit-range{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
   .modal-dialog
     .modal-content
       .modal-header
-        %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
-          %span{:aria => {:hidden => 'true'}}
+        %button.close{type: 'button', data: {dismiss: 'modal'}}
+          %span{aria: {hidden: 'true'}}
             &times;
           %span.sr-only
             Close
@@ -151,11 +146,11 @@
         .form-inline
           %label.control-label
             = t('tracks.show.range_from')
-          %input.form-control#range-from{:type => 'number', :align => 'right'}
+          %input.form-control#range-from{type: 'number', align: 'right'}
           %label.control-label
             = t('tracks.show.range_to')
-          %input.form-control#range-to{:type => 'number', :align => 'right'}
+          %input.form-control#range-to{type: 'number', align: 'right'}
 
       .modal-footer
-        %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}= t('general.cancel')
-        %button.btn.btn-success#apply-new-range{:type => 'button', :data => {:dismiss => 'modal'}}= 'OK'
+        %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t('general.cancel')
+        %button.btn.btn-success#apply-new-range{type: 'button', data: {dismiss: 'modal'}}= 'OK'

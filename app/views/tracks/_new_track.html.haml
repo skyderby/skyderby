@@ -72,23 +72,29 @@
 
         .modal-body
           .form-group
-            = label_tag 'name', t('static_pages.index.track_form.name'), :class => 'col-sm-3 control-label', :for => 'name'
+            %span.col-sm-3.control-label
+              = t('static_pages.index.track_form.name')
             .col-sm-9
               = text_field_tag 'name', nil, :class => 'form-control', :placeholder => t('static_pages.index.track_form.name_plh'), :type => 'text'
 
           .form-group
-            = label_tag 'suit', t('static_pages.index.track_form.suit'), :class => 'col-sm-3 control-label', :for => 'suit'
+            %span.col-sm-3.control-label
+              = t('static_pages.index.track_form.suit')
             .col-sm-9
-              = text_field_tag 'suit', nil, :class => 'form-control wingsuit-autocomplete', :placeholder => t('static_pages.index.track_form.suit_plh'), :type => 'text'
-              = hidden_field_tag 'wingsuit_id', nil, :id => 'wingsuit-id'
+              %select.new-track-wingsuit-select{name: 'track[wingsuit_id]'}
+
+              -# = text_field_tag 'suit', nil, :class => 'form-control wingsuit-autocomplete', :placeholder => t('static_pages.index.track_form.suit_plh'), :type => 'text'
+              -# = hidden_field_tag 'wingsuit_id', nil, :id => 'wingsuit-id'
 
           .form-group
-            = label_tag 'location', t('static_pages.index.track_form.location'), :class => 'col-sm-3 control-label', :for => 'location'
+            %span.col-sm-3.control-label
+              = t('static_pages.index.track_form.location')
             .col-sm-9
               = text_field_tag 'location', nil, :class => 'form-control', :placeholder => t('static_pages.index.track_form.location_plh'), :type => 'text'
 
           .form-group
-            = label_tag 'kind', t('static_pages.index.track_form.kind'), :class => 'col-sm-3 control-label', :for => 'kind'
+            %span.col-sm-3.control-label
+              = t('static_pages.index.track_form.kind')
             .btn-group.col-sm-9{:data => {:toggle => 'buttons'}}
               %label.btn.btn-default.active
                 = radio_button_tag 'kind', 'skydive', true
@@ -98,7 +104,8 @@
                 = 'B.A.S.E'
 
           .form-group
-            = label_tag 'track_file', t('static_pages.index.track_form.file'), :class => 'col-sm-3 control-label', :for => 'track_file'
+            %span.col-sm-3.control-label
+              = t('static_pages.index.track_form.file')
             .col-sm-9
               .input-group
                 %input.form-control{:type => "text", :readonly => true}
@@ -106,14 +113,14 @@
                   %span.btn.btn-default.btn-file
                     Browse&hellip; 
                     %input#track_file{:name => 'track_file', :type => "file", :onChange => 'checkFile(this)'}
-              -# = file_field_tag 'track_file', 
 
           .form-group
             .col-sm-offset-3.col-sm-9
               %h4.help-block=t 'static_pages.index.track_form.help'
 
           .form-group
-            = label_tag t('static_pages.index.track_form.comment'), nil, :class => 'col-sm-3 control-label', :for => 'comment'
+            %span.col-sm-3.control-label
+              = t('static_pages.index.track_form.comment')
             .col-sm-9
               = text_area_tag 'comment', nil, :class => 'form-control', :rows => 3, :placeholder => t('static_pages.index.track_form.comment_plh')
 

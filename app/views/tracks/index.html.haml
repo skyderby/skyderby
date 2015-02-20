@@ -2,43 +2,99 @@
   .tracks-index
   .page-header
     %h1=t '.title'
+    .pull-right
+      - kind = :all
+      - if params[:filter] && params[:filter][:kind]
+        - kind = :skydive if params[:filter][:kind] == 'skydive'
+        - kind = :base if params[:filter][:kind] == 'base'
+      .form-group
+        .btn-group.btn-group-sm{data: {toggle: 'buttons'}}
+          %label.btn.btn-default{class: ('active' if kind == :all)}
+            %input#tracks-all{type: 'radio', 
+                              name: 'filter[kind]', 
+                              value: 'all', 
+                              autocomplete: 'off',
+                              checked: kind == :all}
+            = 'All'
+          %label.btn.btn-default{class: ('active' if kind == :skydive)}
+            %input#tracks-skydive{type: 'radio', 
+                                  name: 'filter[kind]', 
+                                  value: 'skydive', 
+                                  autocomplete: 'off',
+                                  checked: kind == :skydive}
+            = 'Skydive'
+          %label.btn.btn-default{class: ('active' if kind == :base)}
+            %input#tracks-base{type: 'radio', 
+              name: 'filter[kind]', 
+              value: 'base', 
+              autocomplete: 'off'}
+            = 'B.A.S.E.'
 
-  .col-md-9.col-lg-10
-    %table#tracks-index.table.table-hover
-      %thead
-        %tr
-          %th=t 'activerecord.attributes.track.id'
-          %th=t 'activerecord.attributes.track.name'
-          %th=t 'activerecord.attributes.track.suit'
-          %th=t 'activerecord.attributes.track.place'
-          %th=t 'activerecord.attributes.track.comment'
-          %th=t 'activerecord.attributes.track.uploaded_at'
-      %tbody
-        - @tracks.each do |track|
-          %tr.clickableRow{:data => {:url => track_path(:id => track.id)}}
-            %td.text-info= track.id
-            %td.text-info= track.name
-            %td.text-info= track.wingsuit.present? ? track.wingsuit.name : track.suit
-            %td.text-info= track.location
-            %td.text-muted= track.comment
-            %td.text-info= track.created_at.strftime('%d.%m.%Y')
-  .col-md-3.col-lg-2
-    .form-group
-      .btn-group.btn-group-sm{data: {toggle: 'buttons'}}
-        %label.btn.btn-default{class: ('active' unless params[:filter] && params[:filter][:kind])}
-          %input#tracks-all{type: "radio", name: "track-kind", value: "all", autocomplete: "off"}
-          = 'All'
-        %label.btn.btn-default{class: ('active' if params[:filter] && params[:filter][:kind] == 'skydive')}
-          %input#tracks-skydive{type: "radio", name: "track-kind", value: "skydive", autocomplete: "off"}
-          = 'Skydive'
-        %label.btn.btn-default{class: ('active' if params[:filter] && params[:filter][:kind] == 'base')}
-          %input#tracks-base{type: "radio", name: "track-kind", value: "base", autocomplete: "off"}
-          = 'B.A.S.E.'
-    .form-group
-      %span.control-label= 'Suit:'
-      %input#wingsuit-filter.form-control.wingsuit-autocomplete{data: {idfield: '#wingsuit-filter-id'}}
-      %input#wingsuit-filter-id{type: 'hidden'}
-    .form-group
-      %span.control-label= 'Place:'
-      %input#place-filter.form-control.place-autocomplete{data: {idfield: 'place-filter-id'}}
-      %input#place-filter-id{type: 'hidden'} 
+  -# .col-md-9.col-lg-9
+  %table#tracks-index.table.table-hover
+    %thead
+      %tr
+        %th=t 'activerecord.attributes.track.id'
+        %th=t 'activerecord.attributes.track.name'
+        %th=t 'activerecord.attributes.track.suit'
+        %th=t 'activerecord.attributes.track.place'
+        %th=t 'activerecord.attributes.track.comment'
+        %th.text-center.bg-info
+          %i.fa.fa-fw.fa-lg.fa-arrows-h
+        %th.text-center.bg-warning
+          %i.fa.fa-fw.fa-lg.fa-long-arrow-right
+        %th.text-center.bg-success
+          %i.fa.fa-fw.fa-lg.fa-clock-o
+        %th=t 'activerecord.attributes.track.uploaded_at'
+    %tbody
+      - @tracks.each do |track|
+        %tr.clickableRow{data: {url: track_path(id: track.id)}}
+          %td.text-info= track.id
+          %td.text-info= track.name
+          %td.text-info= track.wingsuit.present? ? track.wingsuit.name : track.suit
+          %td.text-info= track.location
+          %td.text-muted= track.comment
+          %td.text-info.text-right.bg-info= track.distance.result.to_i if track.distance
+          %td.text-info.text-right.bg-warning= track.speed.result.to_i if track.speed
+          %td.text-info.text-right.bg-success= track.time.result if track.time
+          %td.text-info= track.created_at.strftime('%d.%m.%Y')
+  -# .col-md-3.col-lg-3
+  -#   %form#tracks-filters
+  -#     .form-group
+  -#       %span.control-label= 'Suit:'
+  -#       %input#wingsuit-filter.form-control.wingsuit-autocomplete{data: {idfield: '#wingsuit-filter-id'}}
+  -#       %input#wingsuit-filter-id{type: 'hidden', name: 'filter[suit]'}
+  -#     .form-group
+  -#       %span.control-label= 'Place:'
+  -#       %input#place-filter.form-control.place-autocomplete{data: {idfield: 'place-filter-id'}}
+  -#       %input#place-filter-id{type: 'hidden', name: 'filter[place]'} 
+  -#     .checkbox 
+  -#       %label
+  -#         %input#event-tracks-only{type: 'checkbox'}
+  -#         = 'Только соревновательные'
+    -# %ul.track-list
+    -#   - @tracks.each do |track|
+    -#     %li.track-list-item
+    -#       .pull-right.track-stats
+    -#         %i.fa.fa-fw.fa-lg.fa-arrows-h
+    -#         = track.distance.result if track.distance
+    -#         %i.fa.fa-fw.fa-lg.fa-long-arrow-right
+    -#         = track.speed.result if track.speed
+    -#         %i.fa.fa-fw.fa-lg.fa-clock-o
+    -#         = track.time.result if track.time
+    -#         .text-right
+    -#           - if track.competitive
+    -#             = '#' + 'соревновательный'
+    -#           = '#' + track.kind
+    -#
+    -#       %a{href: track_path(id: track.id)}
+    -#         %h3
+    -#           = track.id.to_s + ' | '
+    -#           = track.name
+    -#           = track.wingsuit.present? ? track.wingsuit.name : track.suit
+    -#           = '@' + track.location
+    -#       %p
+    -#         = track.comment
+    -#         = track.created_at.strftime('%d.%m.%Y')
+    -#
+

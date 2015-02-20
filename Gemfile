@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.2'
 
 gem 'mysql2'
-gem 'therubyracer'
 
 group :development, :test do
   gem 'rspec'
@@ -26,6 +25,7 @@ group :test do
   gem 'database_cleaner'
 end
 
+gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
 
@@ -33,11 +33,12 @@ gem 'sass-rails', '~> 4.0.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 
+gem 'therubyracer'
+gem 'less-rails'
 gem 'twitter-bootstrap-rails'
-gem 'font-awesome-less'
-gem 'bootstrap-datepicker-rails'
 gem 'less-rails-bootstrap'
-gem 'jquery-rails'
+gem 'font-awesome-rails'
+gem 'bootstrap-datepicker-rails'
 
 gem 'nokogiri', '~> 1.6.3.1'
 gem 'devise'

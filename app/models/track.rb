@@ -9,6 +9,16 @@ class Track < ActiveRecord::Base
   has_many :points, through: :tracksegments
   has_many :track_results
 
+  has_one :time,
+          -> { where(discipline: TrackResult.disciplines[:time]) }, 
+          class_name: 'TrackResult'
+  has_one :distance, 
+          -> { where(discipline: TrackResult.disciplines[:distance]) },
+          class_name: 'TrackResult'
+  has_one :speed,
+          -> { where(discipline: TrackResult.disciplines[:speed]) },
+          class_name: 'TrackResult'
+
   attr_accessor :trackfile, :track_index
 
   enum kind: [:skydive, :base]
@@ -16,6 +26,10 @@ class Track < ActiveRecord::Base
 
   validates :name, :location, :suit, presence: true
   before_save :parse_file, :calculate_results
+
+  def competitive
+    !event_track.nil?
+  end
 
   def charts_data
     track_data.trimmed.to_json.html_safe
@@ -70,18 +84,24 @@ class Track < ActiveRecord::Base
         trk_points = track_data.trim_interpolize(res_range_from, res_range_to)
         fl_time = trk_points.map { |x| x[:fl_time] }.inject(0, :+)
         distance = trk_points.map { |x| x[:distance] }.inject(0, :+)
+        speed = fl_time.zero? ? 0 : Velocity.to_kmh(distance / fl_time).round
+
+        fl_time = 0 if fl_time > 300
+        distance = 0 if distance > 9900
+        speed = 0 if speed > 900
 
         results << {
           range_from: res_range_from,
           range_to: res_range_to,
           time: fl_time.round(1),
           distance: distance.round,
-          speed: fl_time.zero? ? 0 : Velocity.to_kmh(distance / fl_time).round
+          speed: speed
         }
       end
     end
     track_results.each(&:delete)
 
+    return if results.count == 0
     time = results.max_by { |x| x[:time] }
     track_results << TrackResult.new(discipline: :time,
                                      range_from: time[:range_from],

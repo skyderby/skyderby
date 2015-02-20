@@ -1,17 +1,19 @@
 - provide :title, @event.name
 
-- units = {:time => t('units.t_unit'), :distance => t('units.kmh'), :speed => t('units.m')}
+- units = {:time => t('units.t_unit'), :distance => t('units.m'), :speed => t('units.kmh')}
 .event-data{:data => {:details => event_details, :units => units.to_json, :locale => locale, :can_manage => can?(:update, @event).to_s }}
 
 .container.top-buffer
   .row
-    .col-md-12.text-center
+    .col-md-6.col-md-offset-3.text-center
       %h1
         %span#title-competition-name= @event.name
 
       %h3#title-competition-range= "Соревновательный диапазон: #{@event.range_from} - #{@event.range_to} м"
+    .col-md-3
+      .pull-right#edit-event-commands
 
-  .row#event-edit-commands
+  .row#edit-table-commands
   .row.top-buffer
     .col-md-12
       %table.table.table-bordered#results-table

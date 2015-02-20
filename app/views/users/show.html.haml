@@ -1,44 +1,80 @@
+.user{data: {id: @user.user_profile.id, tracks: user_tracks}}
 .container.top-buffer
   .row
     .col-md-2
-      -if @user.user_profile
-        = image_tag(@user.user_profile.userpic.url(:medium), :class => 'img-responsive img-rounded')
-      - else
-        = image_tag '/images/medium/missing.png', :class => 'img-responsive img-rounded'
+      .top-buffer.userpic-container.text-center
+        -if @user.user_profile
+          = image_tag(@user.user_profile.userpic.url(:medium), id: 'userpic',:class => 'img-responsive img-rounded loading-bg')
+        - else
+          = image_tag '/images/medium/missing.png', :class => 'img-responsive img-rounded loading-bg'
+        .edit-userpic
+          %span= 'Click to edit'
 
-    .page-header.col-md-10
-      .col-md-11
-        %h1
-          - if @user.user_profile && !@user.user_profile.name.blank?
-            = @user.user_profile.name
-          - else
-            = @user.email
+    .col-md-10
+      .row
+        .col-md-11
+          %h1
+            - if @user.user_profile && !@user.user_profile.name.blank?
+              = @user.user_profile.name
+            - else
+              = @user.email
 
-      .col-md-1
-        - if current_user == @user
-          = link_to content_tag(:span, nil, :class => 'fa fa-pencil'),
-                    edit_user_registration_path,
-                    :class => 'btn btn-default edit'
+        .col-md-1
+          - if current_user == @user
+            = link_to content_tag(:span, nil, :class => 'fa fa-pencil'),
+                      edit_user_registration_path,
+                      :class => 'btn btn-default edit'
+      .row
+        %span.badge
+          %i.fa.fa-certificate{style: 'color: #D9D919'}
+          = 'Borki GPS Performance 2014'
+      .row
+        .col-md-3
+          .param-val
+            #distance.avg-val.fa-3x= '----'
+            .dst-unit.fa-2x= t 'units.m'
+          .param
+            %i.fa.fa-fw.fa-lg.fa-arrows-h
+            =t 'tracks.show.dt_dist'
+        .col-md-3
+          .param-val
+            #speed.avg-val.fa-3x= '---'
+            .spd-unit.fa-2x=t 'units.kmh'
+          .param
+            %i.fa.fa-fw.fa-lg.fa-long-arrow-right
+            =t 'tracks.show.dt_hspd'
+        .col-md-3
+          .param-val
+            #time.avg-val.fa-3x= '--.-'
+            .time-unit.fa-2x= t 'units.t_unit'
+          .param
+            %i.fa.fa-fw.fa-lg.fa-clock-o
+            =t 'tracks.show.dt_dur'
 
+  %hr
   .row
-    %table.table.table-hover
-      %thead
-        %tr
-          %th= t('activerecord.attributes.track.id')
-          %th= t('activerecord.attributes.track.suit')
-          %th= t('activerecord.attributes.track.place')
-          %th= t('activerecord.attributes.track.comment')
-          %th= t('activerecord.attributes.track.uploaded_at')
-      %tbody
-        - @user.tracks.each do |track|
-          %tr.clickableRow{:data => {:url => track_path(:id => track.id)}}
-            %td.text-info= track.id
-            %td.text-info= track.suit
-            %td.text-info= track.location
-            %td.text-muted= track.comment
-            %td.text-info= track.created_at
+    .col-md-2
+      .bg-info.text-info{style: 'height:400px; width: 150px; margin-top:36px'}
+        = 'Какая-нибудь реклама'
+    .col-md-10
+      %table#user-tracks-table.table.table-hover
+        %thead
+          %tr
+            %th= t('activerecord.attributes.track.id')
+            %th= t('activerecord.attributes.track.suit')
+            %th= t('activerecord.attributes.track.place')
+            %th= 'Дистанция'
+            %th= 'Скорость'
+            %th= 'Время'
+            %th= t('activerecord.attributes.track.comment')
+            %th= t('activerecord.attributes.track.uploaded_at')
+        %tbody
+          - @user.tracks.each do |track|
+            %tr.clickableRow{:data => {:url => track_path(:id => track.id)}}
+              %td.text-info= track.id
+              %td.text-info= track.suit
+              %td.text-info= track.location
+              %td.text-muted= track.comment
+              %td.text-info= track.created_at
 
-    %h2= t('users.profile.show.events')
-    - @user.competitors.each do |comp|
-      =link_to comp.event.name, event_path(:id => comp.event.id)
-      %br
+= render 'edit_userpic_modal'

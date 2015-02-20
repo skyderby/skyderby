@@ -19,6 +19,6 @@
               %input.form-control#section-name
 
         .modal-footer
-          %input.btn.btn-primary#submit-section-form{:data => {:dismiss => 'modal'}, :value => "#{t 'general.save'}"}
+          %input.btn.btn-primary#submit-section-form{type: 'submit', value: "#{t 'general.save'}"}
           %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}= t 'general.cancel'
 

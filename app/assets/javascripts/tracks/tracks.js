@@ -67,6 +67,58 @@ function init_edit_view() {
     Track.max_rel_time = track_data.data('max-rel-time');
     Track.range_from   = track_data.data('range-from');
     Track.range_to     = track_data.data('range-to');
+    Track.suit         = {
+        id: track_data.data('suit-id'),
+        name: track_data.data('suit-name')
+    };
+
+    if (Track.suit && Track.suit.id) {
+        $('<option />', {value: Track.suit.id, text: Track.suit.name})
+            .appendTo($('#track-suit'));
+    }       
+        
+    $('.track-wingsuit-select').select2({
+        width: '100%',
+        ajax: {
+            url: '/api/wingsuits',
+            dataType: 'json',
+            type: "GET",
+            quietMillis: 50,
+            data: function (term) {
+                return {
+                    query: term
+                };
+            },
+            processResults: function (data) {
+                var suits_data = _.chain(data)
+                    .map(function(obj) {
+                        return {
+                            id: obj.id,
+                            text: obj.name,
+                            manufacturer: obj.manufacturer.name
+                        }
+                    })
+                    .groupBy(function(obj) { 
+                        return obj.manufacturer;
+                    })
+                    .map(function(obj, key) {
+                        return {
+                            text: key, 
+                            children: obj
+                        };
+                    })
+                    .sortBy(function(obj) {
+                        return obj.text;
+                    })
+                    .value();
+                return {
+                    results: suits_data
+                };
+            },
+            cache: true
+        }
+        });
+
 
     Dict = track_data.data('dict');
 
@@ -131,7 +183,6 @@ function init_edit_view() {
     });
 
     set_plot_bands();
-   
 }
 
 function init_map_view() {

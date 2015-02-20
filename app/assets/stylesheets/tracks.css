@@ -1,3 +1,24 @@
+.track-list {
+  padding-left: 0px;
+}
+
+.track-list-item {
+  border-bottom-color: rgb(238, 238, 238);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+.track-list-item p {
+  color: rgb(102, 102, 102);
+}
+.track-stats {
+  margin-top: 15px;
+  color: rgb(136,136,136)
+}
 
 .avg-val, .spd-unit, .dst-unit, .time-unit {
     display: inline;

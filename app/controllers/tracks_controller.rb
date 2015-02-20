@@ -4,7 +4,12 @@ class TracksController < ApplicationController
   before_action :set_track, only: [:show, :google_maps, :google_earth, :edit, :update, :destroy]
 
   def index
-    @tracks = Track.public_track.includes(:wingsuit).order('id DESC')
+    @tracks = Track.public_track
+                   .includes(:wingsuit)
+                   .includes(:time)
+                   .includes(:distance)
+                   .includes(:speed)
+                   .order('id DESC')
   end
 
   def show
@@ -206,7 +211,7 @@ class TracksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def track_params
-      params.require(:track).permit(:name, :suit, :kind, :location,
+      params.require(:track).permit(:name, :kind, :location,
                                     :ff_start, :ff_end, :wingsuit_id,
                                     :comment, :cache_id, :index, :visibility)
     end

@@ -6,6 +6,10 @@
   display: none;
 }
 
+#edit-event-commands {
+  margin-top: 20px;
+}
+
 .edit-competitor, 
 .edit-section,
 .edit-round
@@ -30,7 +34,6 @@ td .section-up,
 td .section-down,
 td .delete-section,
 td .delete-competitor,
-h1 .edit-event,
 td .edit-round,
 td .delete-round
 {
@@ -44,7 +47,6 @@ td:hover .section-down,
 td:hover .delete-section,
 td:hover .edit-competitor,
 td:hover .delete-competitor,
-h1:hover .edit-event,
 td:hover .edit-round,
 td:hover .delete-round
 {
@@ -53,4 +55,9 @@ td:hover .delete-round
 
 .rt-ln {
   width: 20px;
+}
+
+[data-role="points"],
+[data-role="competitor-suit"] {
+  color: rgb(153, 153, 153);
 }

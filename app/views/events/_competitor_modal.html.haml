@@ -13,22 +13,23 @@
 
         .modal-body
           .form-group.row
-            %span.col-sm-3.control-label= 'Фамилия Имя:'
-            .col-sm-9
-              %input.form-control.competitor-profile-autocomplete#competitor-name{:data => {:idfield => '#competitor-profile-id'}}
+            %span.col-sm-3.control-label= 'Профиль:'
+            .col-sm-7
+              %select.form-control#competitor-name
             -# %span.col-sm-1.control-label= 'Имя:'
             -# .col-sm-4
             -#   %input.form-control#competitor-first-name
-            %input#competitor-profile-id{:type => 'hidden'}
+            %span.control-label.col-sm-2.text-left
+              %a.toggle-profile{href: '#'}
+                = 'Создать'
           .form-group
             %span.col-sm-3.control-label= 'Костюм:'
             .col-sm-9
-              %input.form-control.wingsuit-autocomplete#competitor-wingsuit{:placeholder => 'Название модели (Vampire, Jedei, Colugo, Track suit)', :data => {:idfield => '#competitor-wingsuit-id'}}
-              %input#competitor-wingsuit-id{:type => 'hidden'}
+              %select.form-control#competitor-wingsuit
           .form-group
             %span.col-sm-3.control-label= 'Класс:'
             .col-sm-9
               %select.form-control#competitor-section
         .modal-footer
-          %input.btn.btn-primary#submit-competitor-form{:data => {:dismiss => 'modal'}, :value => "#{t 'general.save'}"}
+          %input.btn.btn-primary#submit-competitor-form{type: 'submit', :value => "#{t 'general.save'}"}
           %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}= t 'general.cancel'

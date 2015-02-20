@@ -26,6 +26,20 @@
             .col-sm-3
               %input.form-control#range-to
 
+          .form-group
+            %span.col-sm-5.control-label= 'Статус:'
+            .col-sm-7
+              .btn-group{data: {toggle: "buttons"}}
+                %label#draft-label.btn.btn-default
+                  %input{type: "radio", name: "event-status", value: "draft", autocomplete: "off"}
+                    = 'Черновик'
+                %label#published-label.btn.btn-default
+                  %input{type: "radio", name: "event-status", value: "published", autocomplete: "off"}
+                    = 'Опубликовано'
+                %label#finished-label.btn.btn-default
+                  %input{type: "radio", name: "event-status", value: "finished", autocomplete: "off"}
+                    = 'Завершено'
+
         .modal-footer
           %input.btn.btn-primary#submit-event-form{:data => {:dismiss => 'modal'}, :value => "#{t 'general.save'}"}
           %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}= t 'general.cancel'

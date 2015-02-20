@@ -21,10 +21,10 @@
                 - else
                   = current_user.user_profile.name
 
-                = image_tag current_user.user_profile.userpic.url(:thumb), :class => 'img-rounded img-50'
+                = image_tag current_user.user_profile.userpic.url(:thumb), id: 'userpic-thumb', :class => 'img-rounded img-50 loading-bg'
               - else
                 = current_user.email
-                = image_tag '/images/thumb/missing.png', :class => 'img-rounded img-50'
+                = image_tag '/images/thumb/missing.png', id: 'userpic-thumb', :class => 'img-rounded img-50 loading-bg'
 
             %ul.dropdown-menu
               - if current_user.has_role? :admin
