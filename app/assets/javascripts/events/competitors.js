@@ -11,7 +11,9 @@ Event.Competitor = function(params) {
     this.$form_title = $('#competitor-form-modal-title');
     this.$form_submit = $('#submit-competitor-form');
     this.$form_id = $('#competitor-id');
-    this.$form_name = $('#competitor-name');
+    this.$form_name = $('.competitor-profile');
+    this.$form_new_name = $('.new-profile-name');
+    this.$form_toggle_profile = $('.toggle-profile');
     this.$form_profile_id = $('#competitor-profile-id');
     this.$form_suit = $('#competitor-wingsuit');
     this.$form_suit_id = $('#competitor-wingsuit-id');
@@ -130,6 +132,15 @@ Event.Competitor.prototype = {
             minimumResultsForSearch: 10
         });
 
+        this.$form_toggle_profile
+            .off('click')
+            .on('click', this.on_toggle_profile.bind(this));
+
+        this.$form_toggle_profile.data('state', 'create');
+        this.on_toggle_profile();
+
+        // this.$form_new_name.hide();
+
         this.$form_submit
             .off('click')
             .on('click', this.on_form_submit.bind(this));
@@ -144,6 +155,24 @@ Event.Competitor.prototype = {
     on_modal_shown: function() {
         if (this.is_new) {
             this.$form_name.focus();
+        }
+    },
+
+    on_toggle_profile: function(e) {
+        if (e) {
+            e.preventDefault();
+        }
+
+        if (this.$form_toggle_profile.data('state') == 'create') {
+            this.$form_toggle_profile.data('state', 'choose').text('Создать');
+            this.$form_new_name.val('').hide();
+            // this.$form_name.show();            
+            $('.competitor-profile + span').show();
+        } else {
+            this.$form_toggle_profile.data('state', 'create').text('Выбрать');
+            this.$form_new_name.show();
+            // this.$form_name.hide();
+            $('.competitor-profile + span').hide()
         }
     },
 

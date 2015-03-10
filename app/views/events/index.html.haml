@@ -1,12 +1,12 @@
 .container.top-buffer
 
+  - if user_signed_in?
+    %a.btn.btn-default.btn-info{:href => new_event_path}
+      = t 'static_pages.index.events.create'
+
   %h2= t 'static_pages.index.events.completed'
   %table.table.table-hover
     %tbody
       - Event.all.each do |e|
         %tr.clickableRow{:data => {:url => event_path(:id => e.id)}}
           %td.text-info= e.name
-
-  - if user_signed_in?
-    %a.btn.btn-default{:href => new_event_path}
-      = t 'static_pages.index.events.create'

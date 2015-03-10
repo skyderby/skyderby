@@ -11,8 +11,8 @@ Event.Scoreboard = function(params) {
     this.header = _.template([
         '<thead>',
             '<tr id="disciplines-row">',
-                '<td class="rt-ln" rowspan=3>#</td>',
-                '<td rowspan=3>Competitor</td>',
+                '<td class="rt-ln" rowspan=2>#</td>',
+                '<td rowspan=2>Competitor</td>',
             '</tr>',
             '<tr id="rounds-row"></tr>',
             '<tr class="template-row">',
@@ -27,14 +27,14 @@ Event.Scoreboard = function(params) {
     ].join('\n'));
 
     this.round_cell = _.template([
-        '<td data-round-id="<%=id%>" colspan=2>',
+        '<td class="text-center" data-round-id="<%=id%>" colspan=2>',
+            '<% if (can_manage) { %>',
+                '<i class="fa fa-fw"></i>',
+            '<% } %>',
             '<%=name%>',
             '<% if (can_manage) { %>',
-                '<a href="#" class="edit-round">',
-                    '<i class="fa fa-pencil text-muted"></i>',
-                '</a>',
                 '<a href=# class="delete-round">',
-                    '<i class="fa fa-times-circle text-muted"></i>',
+                    '<i class="fa fa-fw fa-times-circle text-muted"></i>',
                 '</a>', 
             '<% } %>',
         '</td>'
@@ -102,7 +102,6 @@ Event.Scoreboard.prototype = {
            .on('click', '.section-up',        this.move_section_click)
            .on('click', '.section-down',      this.move_section_click)
            .on('click', '.edit-result',       this.on_edit_result_click)
-           .on('click', '.edit-round',        this.on_edit_round_click)
            .on('click', '.delete-round',      this.on_delete_round_click);
     },
 
@@ -172,8 +171,15 @@ Event.Scoreboard.prototype = {
                                    .replace('competitor_', '');
         window.Competition.competitor_by_id(competitor_id).destroy();
     },
+
     // Rounds
     
+    on_delete_round_click: function(e) {
+        e.preventDefault();
+        var round_id = $(this).closest('td').data('round-id');
+        window.Competition.round_by_id(round_id).destroy();
+    },
+
     // Results
 
     ///////////////////////////////////////////////////////////////
@@ -209,15 +215,23 @@ Event.Scoreboard.prototype = {
             $('<td>')
                 .text(capitaliseFirstLetter(key) + ', ' + window.Competition.units[key])
                 .attr('colspan', col_count)
+                .attr('data-discipline', key)
         );
 
         _.each(value, this.render_round.bind(this));
 
-        this.$rounds_row.append($('<td>').text('%').attr('rowspan', 2));
-        this.$template_row.append($('<td>')
-                    .addClass('text-right')
-                    .attr('data-discipline', key)
-                    .attr('data-role', 'points')
+        this.$rounds_row.append(
+            $('<td>')
+                .text('%')
+                .attr('data-discipline', key)
+                .attr('data-role', 'points')
+
+        );
+        this.$template_row.append(
+            $('<td>')
+                .addClass('text-right')
+                .attr('data-discipline', key)
+                .attr('data-role', 'points')
             );
     },
 
@@ -232,7 +246,7 @@ Event.Scoreboard.prototype = {
         var can_manage = window.Competition.can_manage;
 
         var new_row = this.$table.find('tr.template-row').clone();
-        new_row.removeClass('template-row');
+        new_row.removeClass('template-row').addClass('competitor-row');
         new_row.attr('id', 'competitor_' + value.id);
         
         new_row.find("[data-role='competitor-name']").text(value.profile.name + ' ');
@@ -345,15 +359,24 @@ Event.Scoreboard.prototype = {
         this.sort_by_points();
     },
 
+    render_total_points: function() {
+        this.$discipline_row.append(
+            $('<td>')
+                .text('Итого')
+                .attr('rowspan', 2)
+                .attr('data-role', 'total-points')
+        );
+        this.$template_row.append($('<td>').attr('data-role', 'total-points'));
+        this.row_length += 1;
+    },
+
     render: function() {
         // Disciplines, Rounds
         var rounds_by_discipline = _.groupBy(window.Competition.rounds, 'discipline');
         _.each(rounds_by_discipline, this.render_discipline.bind(this));
 
         if (window.Competition.rounds.length) {
-            this.$discipline_row.append($('<td>').text('Итого').attr('rowspan', 3));
-            this.$template_row.append($('<td>').attr('data-role', 'total-points'));
-            this.row_length += 1;
+            this.render_total_points();
         }
 
         // Sections
@@ -438,5 +461,135 @@ Event.Scoreboard.prototype = {
     delete_competitor: function(competitor) {
         $('#competitor_' + competitor.id).remove();
         this.set_row_numbers();
+    },
+
+    // Rounds
+    
+    create_round: function(round) {
+        // 1. Проверить наличие дисциплины
+        var discipline = round.discipline;
+        var discipline_cell = $('#disciplines-row > td[data-discipline="' + discipline + '"]');
+        var total_points_cell = $('#disciplines-row > td[data-role="total-points"]');
+        var addition_colspan = 0;
+
+        if (!total_points_cell.length) {
+            // header and template row
+            this.render_total_points();
+            // existent competitors rows
+            $('#results-table > tbody > tr.competitor-row').each(function() {
+                $(this).append($('<td>').attr('data-role', 'total-points'));
+            });        
+
+            total_points_cell = $('#disciplines-row > td[data-role="total-points"]');
+            addition_colspan += 1;
+        }
+
+        // 2. Создать дисциплину если отсутствует
+        // 3. Увеличить colspan если присутствует
+        if (!discipline_cell.length) {
+            // discipline
+            total_points_cell.before(
+                $('<td>')
+                    .text(capitaliseFirstLetter(discipline))
+                    .attr('data-discipline', discipline)
+                    .attr('colspan', 3)   
+            );
+            // discipline points
+            this.$rounds_row.append(
+                $('<td>')
+                    .text('%')
+                    .attr('data-discipline', discipline)
+                    .attr('data-role', 'points')
+            );
+            // template row discipline points
+            this.$template_row.append(
+                $('<td>')
+                    .addClass('text-right')
+                    .attr('data-discipline', discipline)
+                    .attr('data-role', 'points')
+            );
+            // competitor rows discipline points
+            $('#results-table > tbody > tr.competitor-row').each(function() {
+                $(this).append(
+                    $('<td>')
+                        .addClass('text-right')
+                        .attr('data-discipline', discipline)
+                        .attr('data-role', 'points')
+                );
+            });        
+            addition_colspan += 1;
+        } else {
+            var colspan = +discipline_cell.attr('colspan');
+            discipline_cell.attr('colspan', colspan + 2);
+        }
+
+        var can_manage = window.Competition.can_manage;
+        // 4. Добавить раунд
+        $('#rounds-row > td[data-discipline=' + discipline + '][data-role="points"]').before(
+            this.round_cell(
+                $.extend(round, {can_manage: can_manage})
+        ));
+
+        var result_cell = this.result_cell({
+            id: round.id,
+            role: 'result',
+            can_manage: can_manage
+        });
+
+        var points_cell = this.result_cell({
+            id: round.id,
+            role: 'points',
+            can_manage: can_manage
+        });
+
+        $('.template-row > td[data-discipline=' + discipline + '][data-role="points"]')
+            .before($(result_cell).clone())
+            .before($(points_cell).clone());
+
+        addition_colspan += 2;
+
+        // 5. Увеличить colspan в секциях
+        $('#results-table > tbody > tr.head-row > td').each(function() {
+            $(this).attr('colspan', $(this).attr('colspan') + addition_colspan);
+        });
+
+        // 6. Добавить ячейки участникам
+        $('.competitor-row > td[data-discipline=' + discipline + '][data-role="points"]').each(function() {
+            $(this) 
+                .before($(result_cell).clone())
+                .before($(points_cell).clone());
+        }); 
+    },
+
+    delete_round: function(round) {
+        var del_discipline = _.where(
+                window.Competition.rounds, 
+                {discipline: round.discipline}
+            ).length == 1;
+
+        var del_total = window.Competition.rounds.length == 1;
+
+        // Удалить ячейки в строках участников
+        // Удалить ячейки в шаблоне
+        // Удалить раунд
+        $('.competitor-row > td[data-round-id=' + round.id + '], '
+            + '.template-row > td[data-round-id=' + round.id + '], '
+            + '#rounds-row > td[data-round-id=' + round.id + '] ').remove();
+
+        var discipline_cell = $('#disciplines-row > td[data-discipline=' + round.discipline + ']');
+        if (del_discipline) {
+            $('td[data-discipline=' + round.discipline + '][data-role="points"]').remove(); 
+            discipline_cell.remove();
+        } else {
+            // уменьшить colspan
+            var colspan = +discipline_cell.attr('colspan');
+            discipline_cell.attr('colspan', colspan - 2);
+        }
+
+        if (del_total) {
+            $('td[data-role="total-points"]').remove();
+        }
+        // Уменьшить colspan в секциях
+
     }
 }

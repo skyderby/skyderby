@@ -6,14 +6,67 @@ Event.Round = function(params) {
     this.name = '';
     this.discipline = '';
 
-    this.$form = $('#round-form-modal');
     $.extend(this, params);
+    this.is_new = !this.id;
 }
 
 Event.Round.prototype = {
-    open_form: function() {
-        $('#round-form-modal-title').text('Раунд: Добавление');
-        this.$form.modal('show');
+    save: function() {
+        var url, method, data;
 
+        if (this.is_new) {
+            url = '/api/rounds/';
+            method = 'POST';
+        } else {
+            url = '/api/rounds/' + this.id;
+            method = 'PATCH';
+        }
+
+        data = {
+            round: {
+                discipline: this.discipline,
+                event_id: window.Competition.id
+            }
+        };
+
+        $.ajax({
+            url: url,
+            method: method,
+            dataType: 'json',
+            data: data
+        })
+            .done(this.after_save.bind(this))
+            .fail(fail_ajax_request);
+
+    },
+
+    destroy: function() {
+        $.ajax({
+            url: '/api/rounds/' + this.id,
+            method: 'DELETE',
+            dataType: 'json',
+            context: {id: this.id}
+        })
+            .done(this.after_destroy.bind(this))
+            .fail(fail_ajax_request);
+
+    },
+
+    after_save: function(data, status, jqXHR) {
+        var is_new = this.is_new;
+
+        $.extend(this, data);
+        this.is_new = !this.id;
+
+        if (is_new) {
+            window.Competition.on_round_create(this);
+        } else {
+            window.Competition.on_round_update(this);
+        }
+
+    },
+
+    after_destroy: function() {
+        window.Competition.on_round_delete(this);
     }
 }

@@ -22,23 +22,32 @@ Event.Header = function(params) {
     this.edit_event = _.template([
         '<a href="#" class="btn btn-default edit-event">',
             '<i class="fa fa-fw fa-pencil text-muted"></i>',
+            'Редактировать',
         '</a>'
     ].join('\n'));
 
     this.edit_commands = _.template([
          '<div class="col-md-7">',
-            '<button id="button-add-class" class="btn btn-default">',
+            '<button class="btn btn-default button-add-class">',
                 '<i class="fa fa-plus"></i>',
                 'Класс',
             '</button>',
-            '<button id="button-add-competitor" class="btn btn-default">',
+            '<button class="btn btn-default button-add-competitor">',
                 '<i class="fa fa-plus"></i>',
                 'Участник',
             '</button>',
-            '<button id="button-add-round" class="btn btn-default">',
-                '<i class="fa fa-plus"></i>',
-                'Раунд',
-            '</button>',
+            '<div class="btn-group">',
+                '<button class="btn btn-default" data-toggle="dropdown">',
+                    '<i class="fa fa-plus"></i>',
+                    'Раунд',
+                    '<i class="fa fa-caret-down"></i>',
+                '</button>',
+                '<ul class="dropdown-menu dropdown-menu-right" role="menu">',
+                    '<li><a class="add-distance-round" href="#">Дистанция</a></li>',
+                    '<li><a class="add-time-round" href="#">Время</a></li>',
+                    '<li><a class="add-speed-round" href="#">Скорость</a></li>',
+                '</ul>',
+            '</div>',
          '</div>'
     ].join('\n'));
 
@@ -71,32 +80,49 @@ Event.Header.prototype = {
     },
 
     bind_events: function() {
-        $('#button-add-class')
+        $('.button-add-class')
             .on('click', this.on_button_add_class_click.bind(this));
-        $('#button-add-competitor')
+        $('.button-add-competitor')
             .on('click', this.on_button_add_competitor_click.bind(this));
-        $('#button-add-round')
-            .on('click', this.on_button_add_round_click.bind(this));
+        $('.add-distance-round')
+            .on('click', this.on_button_add_distance_round_click.bind(this));
+        $('.add-speed-round')
+            .on('click', this.on_button_add_speed_round_click.bind(this));
+        $('.add-time-round')
+            .on('click', this.on_button_add_time_round_click.bind(this));
         $('.edit-event')
             .on('click', this.on_link_edit_event_click.bind(this));
     },
 
-    on_button_add_class_click: function() {
+    on_button_add_class_click: function(e) {
+        e.preventDefault();
         var new_section = new Event.Section;
         new_section.open_form();
     },
 
-    on_button_add_competitor_click: function() {
+    on_button_add_competitor_click: function(e) {
+        e.preventDefault();
         var new_competitor = new Event.Competitor;
         new_competitor.open_form();
     },
 
-    on_button_add_round_click: function() {
-        var new_round = new Event.Round();
-        new_round.open_form();
+    on_button_add_distance_round_click: function(e) {
+        e.preventDefault();
+        new Event.Round({discipline: 'distance'}).save();
+    },
+    
+    on_button_add_speed_round_click: function(e) {
+        e.preventDefault()
+        new Event.Round({discipline: 'speed'}).save();
+    },
+
+    on_button_add_time_round_click: function(e) {
+        e.preventDefault()
+        new Event.Round({discipline: 'time'}).save();
     },
 
     on_link_edit_event_click: function(e) {
+        e.preventDefault()
         window.Competition.open_form(e);
     },
 }

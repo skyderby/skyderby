@@ -4,10 +4,10 @@ require 'tracks/points_processor'
 class Track < ActiveRecord::Base
   belongs_to :user
   belongs_to :wingsuit
-  has_one :event_track
   has_many :tracksegments, dependent: :destroy
   has_many :points, through: :tracksegments
   has_many :track_results
+  has_one :event_track
 
   has_one :time,
           -> { where(discipline: TrackResult.disciplines[:time]) }, 
@@ -24,11 +24,13 @@ class Track < ActiveRecord::Base
   enum kind: [:skydive, :base]
   enum visibility: [:public_track, :unlisted_track, :private_track]
 
-  validates :name, :location, :suit, presence: true
-  before_save :parse_file, :calculate_results
+  validates :name, :wingsuit, :location, presence: true
 
-  def competitive
-    !event_track.nil?
+  before_save :parse_file
+  after_save :calculate_results
+
+  def competitive?
+    event_track.present?
   end
 
   def charts_data

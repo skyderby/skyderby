@@ -134,8 +134,8 @@ class TrackPoints
                      latitude: point.latitude,
                      longitude: point.longitude,
                      distance: point.distance.to_i,
-                     h_speed: point.h_speed.round,
-                     v_speed: point.v_speed.round,
+                     h_speed: (point.h_speed || 0.0).round,
+                     v_speed: (point.v_speed || 0.0).round,
                      raw_h_speed: raw_h,
                      raw_v_speed: raw_v }
 

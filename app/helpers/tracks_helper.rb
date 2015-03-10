@@ -76,10 +76,10 @@ module TracksHelper
       max_rel_time: @track.duration,
       range_from: @track.ff_start.nil? ? 0 : @track.ff_start,
       range_to: @track.ff_end.nil? ? @track.duration : @track.ff_end,
-      suit: {
+      suit: ({
         id: @track.wingsuit.id,
         name: @track.wingsuit.name
-      },
+      } if @track.wingsuit),
       dict: {
         heights: {
           titl: t('.elev_chart'),

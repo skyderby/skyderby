@@ -57,8 +57,6 @@ Event.Competition.prototype = {
             range_from: this.range_from,
             range_to: this.range_to
         });
-        // this.bind_events();
-
     },
 
     add_section: function(section_data) {
@@ -203,9 +201,25 @@ Event.Competition.prototype = {
         this.competitors.splice(competitor_index, 1);
     },
     
-    
+    round_by_id: function(round_id) {
+        return $.grep(this.rounds, function(e) {
+            return e.id == round_id;
+        })[0];
+    },
 
+    on_round_create: function(round) {
+        this.rounds.push(round);
+        this.scoreboard.create_round(round);
+    },
 
+    on_round_update: function(round) {},
+
+    on_round_delete: function(round) {
+        this.scoreboard.delete_round(round);
+
+        var round_index = $.inArray(round, this.rounds);
+        this.rounds.splice(round_index, 1);
+    },
 
 
 

@@ -24,27 +24,23 @@
     .form-group
       %span.col-sm-2.control-label
         = t('static_pages.index.track_form.name')
-      -# = f.label 'name', t('static_pages.index.track_form.name'), :class => '', :for => 'name'
       .col-sm-4
         = f.text_field 'name', :class => 'form-control', :placeholder => t('static_pages.index.track_form.name_plh'), :type => 'text'
     .form-group
       %span.col-sm-2.control-label
         = t('static_pages.index.track_form.suit')
-      -# = f.label 'suit', t('static_pages.index.track_form.suit'), :class => 'col-sm-2 control-label', :for => 'suit'
       .col-sm-4
         %select.track-wingsuit-select{name: 'track[wingsuit_id]'}
 
     .form-group
       %span.col-sm-2.control-label
         = t('static_pages.index.track_form.location')
-      -# = f.label 'location', t('static_pages.index.track_form.location'), :class => 'col-sm-2 control-label', :for => 'location'
       .col-sm-4
         = f.text_field 'location', :class => 'form-control', :placeholder => t('static_pages.index.track_form.location_plh'), :type => 'text'
 
     .form-group
       %span.col-sm-2.control-label
         = t('static_pages.index.track_form.kind')
-      -# = f.label 'kind', t('static_pages.index.track_form.kind'), :class => 'col-sm-2 control-label', :for => 'kind'
       .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
         %label.btn.btn-default{ :class => ('active' if @track.skydive?) }
           = f.radio_button 'kind', 'skydive'
@@ -57,7 +53,6 @@
     .form-group
       %span.col-sm-2.control-label
         = t('static_pages.index.track_form.comment')
-      -# = f.label t('static_pages.index.track_form.comment'), nil, :class => 'col-sm-2 control-label', :for => 'comment'
       .col-sm-4
         = f.text_area 'comment', :class => 'form-control', :rows => 3, :placeholder => t('static_pages.index.track_form.comment_plh')
 
@@ -65,7 +60,6 @@
       .form-group
         %span.col-sm-2.control-label
           = t('tracks.edit.visibility')
-        -# = f.label 'visibility', t('tracks.edit.visibility'), :class => 'col-sm-2 control-label', :for => 'visibility'
         .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
           %label.btn.btn-default{ :class => ('active' if @track.public_track?) }
             = f.radio_button 'visibility', 'public_track'

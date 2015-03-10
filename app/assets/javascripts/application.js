@@ -76,7 +76,7 @@ function checkfile() {
           $(this).val("");
       }
     }
-  }
+}
 
 $(document).ready(function($) {
 

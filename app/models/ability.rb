@@ -9,7 +9,7 @@ class Ability
     can :create, Track
     can :update, Track, user: nil, lastviewed_at: nil
 
-    can [:destroy], Track do |track|
+    can :destroy, Track do |track|
       if track.event_track
         false
       elsif track.user
@@ -22,7 +22,6 @@ class Ability
     end
 
     if user
-
       can [:read, :update], Track, :user => user  # Редактирование собственных треков
 
       can :destroy, Event, :responsible => user, :status => :draft
@@ -39,7 +38,6 @@ class Ability
       if user.has_role? :create_events
         can [:create, :edit], Event
       end
-
     end
   end
 end

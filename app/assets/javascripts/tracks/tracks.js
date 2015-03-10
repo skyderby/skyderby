@@ -74,7 +74,7 @@ function init_edit_view() {
 
     if (Track.suit && Track.suit.id) {
         $('<option />', {value: Track.suit.id, text: Track.suit.name})
-            .appendTo($('#track-suit'));
+            .appendTo($('.track-wingsuit-select'));
     }       
         
     $('.track-wingsuit-select').select2({
