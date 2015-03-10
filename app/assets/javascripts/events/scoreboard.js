@@ -502,7 +502,7 @@ Event.Scoreboard.prototype = {
                     .attr('data-role', 'points')
             );
             // template row discipline points
-            this.$template_row.append(
+            this.$template_row.find('td[data-role="total-points"]').before(
                 $('<td>')
                     .addClass('text-right')
                     .attr('data-discipline', discipline)
@@ -510,7 +510,7 @@ Event.Scoreboard.prototype = {
             );
             // competitor rows discipline points
             $('#results-table > tbody > tr.competitor-row').each(function() {
-                $(this).append(
+                $(this).find('td[data-role="total-points"]').before(
                     $('<td>')
                         .addClass('text-right')
                         .attr('data-discipline', discipline)
@@ -550,7 +550,7 @@ Event.Scoreboard.prototype = {
 
         // 5. Увеличить colspan в секциях
         $('#results-table > tbody > tr.head-row > td').each(function() {
-            $(this).attr('colspan', $(this).attr('colspan') + addition_colspan);
+            $(this).attr('colspan', +$(this).attr('colspan') + addition_colspan);
         });
 
         // 6. Добавить ячейки участникам
@@ -590,6 +590,9 @@ Event.Scoreboard.prototype = {
             $('td[data-role="total-points"]').remove();
         }
         // Уменьшить colspan в секциях
-
+        $('#results-table > tbody > tr.head-row > td').each(function() {
+            var colspan_diff = 2 + (del_total ? 1 : 0) + (del_discipline ? 1 : 0);
+            $(this).attr('colspan', +$(this).attr('colspan') - colspan_diff);
+        });
     }
 }

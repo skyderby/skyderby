@@ -8,7 +8,7 @@ class Round < ActiveRecord::Base
 
   before_create :set_name
   def set_name
-    rounds = Round.where(event_id: event_id, discipline: discipline).to_a
+    rounds = Round.where(event_id: event_id, discipline: Round.disciplines[discipline]).to_a
     self.name = ((rounds.map{ |x| x.name.to_i }.max || 0 ) + 1).to_s
   end
 end

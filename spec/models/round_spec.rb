@@ -8,10 +8,16 @@ describe Round, type: :model do
   end
 
   it 'automatically set name as order within discipline' do
-    round = Round.create!(discipline: :time, event: event)
+    round = Round.create!(discipline: 'time', event: event)
     expect(round.name).to eql '1'
 
-    round = Round.create!(discipline: :time, event: event)
+    round = Round.create!(discipline: 'time', event: event)
+    expect(round.name).to eql '2'
+
+    round = Round.create!(discipline: 'speed', event: event)
+    expect(round.name).to eql '1'
+
+    round = Round.create!(discipline: 'speed', event: event)
     expect(round.name).to eql '2'
   end
 
