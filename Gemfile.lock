@@ -113,7 +113,7 @@ GEM
       less (~> 2.5.0)
     less-rails-bootstrap (3.2.0)
       less-rails (~> 2.5.0)
-    libv8 (3.16.14.5)
+    libv8 (3.16.14.3)
     listen (2.7.9)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
@@ -299,6 +299,7 @@ DEPENDENCIES
   jquery-rails
   jquery-turbolinks
   less-rails-bootstrap
+  libv8 (= 3.16.14.3)
   mailcatcher
   mysql2
   nokogiri
