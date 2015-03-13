@@ -221,8 +221,11 @@ Event.Competition.prototype = {
         this.rounds.splice(round_index, 1);
     },
 
-
-
+    result_by_id: function(result_id) {
+        return $.grep(this.tracks, function(e) {
+            return e.id == result_id;
+        })[0];
+    },
 
     //////////////////////////////////////////
     // FORM VALIDATIONS 

@@ -13,6 +13,7 @@ TrackingDerby::Application.routes.draw do
     resources :round_tracks, only: [:create, :update, :destroy]
     resources :user_profiles, only: [:index, :update]
     resources :wingsuits, only: [:index]
+    resources :tracks, only: [:index]
 
     get '/users/autocomplete'
     get '/wingsuits/autocomplete'

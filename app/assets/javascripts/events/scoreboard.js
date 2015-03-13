@@ -182,6 +182,23 @@ Event.Scoreboard.prototype = {
 
     // Results
 
+    on_edit_result_click: function(e) {
+        e.preventDefault();  
+        var result_id = $(this).data('result-id');
+        if (result_id) {
+            window.Competition.result_by_id(result_id).open_form();
+        } else {
+            var competitor_id = $(this).closest('tr')
+                                       .attr('id')
+                                       .replace('competitor_', '');
+            var result = new Event.EventTrack({
+                competitor_id: competitor_id,
+                round_id: $(this).data('round-id')
+            });
+            result.open_form();            
+        }
+    },
+
     ///////////////////////////////////////////////////////////////
     // Rendering
     //

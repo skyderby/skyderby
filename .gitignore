@@ -19,13 +19,16 @@
 /public/assets
 
 /.idea
-*.swp
+*.sw*
 /tags
 
-*.swp
 .tern-project
 .rubocop.yml
 
 /tags
 
 Gemfile.lock
+
+*.swn
+
+*.swo

@@ -2,6 +2,10 @@
 
 .event-request { margin-top:15px }
 
+.edit-result {
+  cursor: pointer;
+}
+
 .template-row {
   display: none;
 }

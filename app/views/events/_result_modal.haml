@@ -2,9 +2,6 @@
   .modal-dialog
     .modal-content
       %form.form-horizontal#result-form{:action => '#', :role => 'form'}
-        %input#result-fm-id{:type => 'hidden'}
-        %input#result-fm-competitor-id{:type => 'hidden'}
-        %input#result-fm-round-id{:type => 'hidden'}
 
         .modal-header
           %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
@@ -15,6 +12,16 @@
           %h4.modal-title#result-form-modal-title= ''
 
         .modal-body
+          .form-group
+            .col-sm-2
+              %span.control-label= 'Участник:'
+            .col-sm-10
+              %span#rm-competitor-name
+          .form-group
+            .col-sm-2
+              %span.control-label= 'Раунд:'
+            .col-sm-10
+              %span#rm-round-name
           .tabpanel
             -# <!-- Nav tabs -->
             %ul.nav.nav-tabs{:role => 'tablist'}
@@ -54,17 +61,19 @@
 
               .tab-pane#rmt-existent-track{:role => "tabpanel"} 
                 .form-group.top-buffer
-                  %span.col-sm-3.control-label= 'Трек'
+                  %span.col-sm-3.control-label= 'Трек:'
                   .col-sm-9
-                    = collection_select :result, :track_id, Track.all.order(:name), :id, :presentation, {:promt => true}, {:class => 'form-control'}
-                
+                    -# = collection_select :result, :track_id, Track.all.order(:name), :id, :presentation, {:promt => true}, {:class => 'form-control'}
+                    %select.form-control#result-track
+                      
+               
                 .form-group
                   .col-sm-9.col-sm-offset-3
-                    %a#new-result-from-exist-track.btn.btn-success{:data => {:dismiss => 'modal'}}= 'Сохранить'
+                    %button.btn.btn-success#new-result-from-exist-track= 'Сохранить'
 
               .tab-pane#rmt-delete-result{:role => "tabpanel"} 
                 .top-buffer
-                %button#rm-button-delete-result.btn.btn-danger{:data => {:dismiss => 'modal'}}
+                %button.btn.btn-danger#rm-button-delete-result
                   = 'Удалить результат'
 
           
