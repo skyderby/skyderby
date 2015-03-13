@@ -192,7 +192,7 @@ function init_range_selector() {
         from: Track.max_height,
         to: Track.min_height,
         onFinish: function (obj) {      // callback is called on slider action is finished
-            if (in_imperial) {
+            if (Track.in_imperial) {
                 Track.range_from = obj.fromNumber / mft_k;
                 Track.range_to = obj.toNumber / mft_k;
             } else {
@@ -558,8 +558,8 @@ function init_multi_chart() {
 function updateUnits() {
 
     var chart;
-    var speed_unit = (in_imperial ? Dict.units.mph : Dict.units.kmh);
-    var dist_unit = (in_imperial ? Dict.units.ft : Dict.units.m);
+    var speed_unit = (Track.in_imperial ? Dict.units.mph : Dict.units.kmh);
+    var dist_unit = (Track.in_imperial ? Dict.units.ft : Dict.units.m);
 
     $('.spd-unit').text(speed_unit);
     $('.dst-unit').text(dist_unit);
@@ -645,7 +645,7 @@ function updateUnits() {
 }
 
 function updateRangeSelector() {
-    if (in_imperial) {
+    if (Track.in_imperial) {
         $('#range-selector').ionRangeSlider('update', {
             min: Math.round(Track.max_height * mft_k),
             max: Math.round(Track.min_height * mft_k),
@@ -795,7 +795,7 @@ function set_chart_data() {
         }
     }
 
-    if (in_imperial){
+    if (Track.in_imperial){
         $('#dd_distance').text(Math.round(dist * mft_k));
         $('#dd_elevation').text((elev * mft_k).toFixed(0));
     } else {
@@ -903,10 +903,10 @@ function init_units() {
     var units = $.cookie('units');
     if (units == 'imperial') {
         $('#li_toggle_imperial').addClass('active');
-        in_imperial = true;
+        Track.in_imperial = true;
     } else {
         $('#li_toggle_metric').addClass('active');
-        in_imperial = false;
+        Track.in_imperial = false;
     }
 }
 
@@ -948,7 +948,7 @@ function init_objects() {
         li_toggle_metric.addClass('active');
         li_toggle_imperial.removeClass('active');
 
-        in_imperial = false;
+        Track.in_imperial = false;
 
         updateRangeSelector();
         updateUnits();
@@ -968,7 +968,7 @@ function init_objects() {
         li_toggle_metric.removeClass('active');
         li_toggle_imperial.addClass('active');
 
-        in_imperial = true;
+        Track.in_imperial = true;
 
         updateRangeSelector();
         updateUnits();
@@ -984,7 +984,7 @@ function init_objects() {
     });
 
     $('#range-edit-button').click(function (){
-        var k = (in_imperial ? mft_k : 1);
+        var k = (Track.in_imperial ? mft_k : 1);
         $('#range-from').val(Math.round(Track.range_from * k));
         $('#range-to').val(Math.round(Track.range_to * k));
     });
@@ -1011,7 +1011,7 @@ function init_objects() {
         var tmp_range_from = $('#range-from').val();
         var tmp_range_to = $('#range-to').val();
 
-        var k = (in_imperial ? mft_k : 1);
+        var k = (Track.in_imperial ? mft_k : 1);
 
         if (tmp_range_from > Track.max_height * k)
             tmp_range_from = Math.round(Track.max_height * k);
