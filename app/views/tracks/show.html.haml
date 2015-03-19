@@ -7,6 +7,12 @@
     .row
       .col-md-8
         %h1
+          - if @track.pilot
+            %a{href: user_profile_path(@track.pilot)}
+              = image_tag @track.pilot.userpic.url(:thumb), :class => 'img-rounded img-50 loading-bg'
+              = @track.pilot.name
+          - else
+            = @track.name
           =header @track
           %small
             =subheader @track

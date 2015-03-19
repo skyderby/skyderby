@@ -28,11 +28,11 @@
                   = '60% Complete'
         .row
           .col-sm-8.text-center
-            %img.loading-bg#userpic-large{data: {src: @user.user_profile.userpic.url(:large)}}
+            %img.loading-bg#userpic-large{data: {src: @profile.userpic.url(:large)}}
           .col-sm-4
             %p= 'Превью:'
             .div-preview
-              %img.loading-bg#userpic-preview{data: {src: @user.user_profile.userpic.url(:large)}}
+              %img.loading-bg#userpic-preview{data: {src: @profile.userpic.url(:large)}}
       .modal-footer
         %button.btn.btn-success{:type => 'button', :data => {:dismiss => 'modal'}}
           = 'Сохранить'

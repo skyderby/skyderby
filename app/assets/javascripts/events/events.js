@@ -212,8 +212,6 @@ Event.Competition.prototype = {
         this.scoreboard.create_round(round);
     },
 
-    on_round_update: function(round) {},
-
     on_round_delete: function(round) {
         this.scoreboard.delete_round(round);
 
@@ -225,6 +223,20 @@ Event.Competition.prototype = {
         return $.grep(this.tracks, function(e) {
             return e.id == result_id;
         })[0];
+    },
+
+    on_result_save: function(result) {
+        this.tracks.push(result);
+        this.update_max_results();
+        this.scoreboard.create_result(result);
+    },
+
+    on_result_delete: function(result) {
+        this.scoreboard.delete_result(result);
+        this.update_max_results();
+
+        var result_index = $.inArray(result, this.tracks);
+        this.tracks.splice(result_index, 1);
     },
 
     //////////////////////////////////////////

@@ -3,6 +3,11 @@ require 'tracks/points_processor'
 
 class Track < ActiveRecord::Base
   belongs_to :user
+  belongs_to :pilot,
+             class_name: 'UserProfile',
+             foreign_key: 'user_profile_id'
+
+  belongs_to :place
   belongs_to :wingsuit
   has_many :tracksegments, dependent: :destroy
   has_many :points, through: :tracksegments

@@ -2,6 +2,10 @@
 class UserProfileController < ApplicationController
   before_action :set_user, only: [:update]
 
+  def show
+    @profile = UserProfile.find(params[:id]) 
+  end
+
   def update
     @profile = @user.user_profile
     @profile.update profile_params

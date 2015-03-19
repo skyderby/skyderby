@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150130114642) do
+ActiveRecord::Schema.define(version: 20150319072627) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -33,12 +33,9 @@ ActiveRecord::Schema.define(version: 20150130114642) do
 
   add_index "competitors", ["event_id"], name: "index_competitors_on_event_id", using: :btree
 
-  create_table "dropzones", force: true do |t|
+  create_table "countries", force: true do |t|
     t.string "name"
-    t.string "name_eng"
-    t.float  "latitude",    limit: 24
-    t.float  "longitude",   limit: 24
-    t.text   "information"
+    t.string "code"
   end
 
   create_table "event_tracks", force: true do |t|
@@ -65,6 +62,14 @@ ActiveRecord::Schema.define(version: 20150130114642) do
 
   create_table "manufacturers", force: true do |t|
     t.string "name"
+  end
+
+  create_table "places", force: true do |t|
+    t.string  "name"
+    t.float   "latitude",    limit: 24
+    t.float   "longitude",   limit: 24
+    t.text    "information"
+    t.integer "country_id"
   end
 
   create_table "points", force: true do |t|
@@ -125,12 +130,14 @@ ActiveRecord::Schema.define(version: 20150130114642) do
     t.text     "comment"
     t.string   "location"
     t.integer  "user_id"
-    t.integer  "kind",          default: 0
+    t.integer  "kind",            default: 0
     t.integer  "wingsuit_id"
     t.integer  "ff_start"
     t.integer  "ff_end"
     t.boolean  "ge_enabled"
-    t.integer  "visibility",    default: 0
+    t.integer  "visibility",      default: 0
+    t.integer  "user_profile_id"
+    t.integer  "place_id"
   end
 
   add_index "tracks", ["user_id"], name: "index_tracks_on_user_id", using: :btree

@@ -184,7 +184,7 @@ Event.Scoreboard.prototype = {
 
     on_edit_result_click: function(e) {
         e.preventDefault();  
-        var result_id = $(this).data('result-id');
+        var result_id = $(this).attr('data-result-id');
         if (result_id) {
             window.Competition.result_by_id(result_id).open_form();
         } else {
@@ -334,16 +334,44 @@ Event.Scoreboard.prototype = {
                         'td[data-round-id="' + value.id + '"][data-role="points"]'
                     ).text();
                 });
+                var discipline_cell = competitor_row.find('td[data-discipline="' + discipline + '"]');
                 if (discipline_points) {
-                    competitor_row.find('td[data-discipline="' + discipline + '"]').text((discipline_points / rounds.length).toFixed(1)); 
+                    discipline_cell.text((discipline_points / rounds.length).toFixed(1)); 
                     total_points += discipline_points / rounds.length;
+                } else {
+                   discipline_cell.text(''); 
                 }
             });
 
+            var total_cell = competitor_row.find('td[data-role="total-points"]');
             if (total_points) {
-                competitor_row.find('td[data-role="total-points"]').text(total_points.toFixed(2));
+                total_cell.text(total_points.toFixed(2));
+            } else {
+                total_cell.text('');
             }
         });
+    },
+
+    calculate_points: function() {
+        _.each(window.Competition.competitors, function(competitor) {
+            _.each(window.Competition.rounds, function(round) {
+                var max_val = window.Competition.max_results['round_' + round.id][0].result;
+                var result_cell = $('#competitor_' + competitor.id + '>' +
+                                  'td[data-round-id=' + round.id + ']' +
+                                  '[data-role=result]');
+                var points_cell = $('#competitor_' + competitor.id + '>' +
+                                  'td[data-round-id=' + round.id + ']' +
+                                  '[data-role=points]');
+                var result = +result_cell.text();
+                if (result) {
+                    var points = Math.round(result / max_val * 1000) / 10;
+                    points_cell.text(points.toFixed(1)); 
+                } else {
+                    points_cell.text('');
+                }
+
+            }); 
+        });    
     },
 
     sort_by_points: function() {
@@ -379,11 +407,14 @@ Event.Scoreboard.prototype = {
     render_total_points: function() {
         this.$discipline_row.append(
             $('<td>')
+                .addClass('text-center')
                 .text('Итого')
                 .attr('rowspan', 2)
                 .attr('data-role', 'total-points')
         );
-        this.$template_row.append($('<td>').attr('data-role', 'total-points'));
+        this.$template_row.append(
+            $('<td>').addClass('text-right').attr('data-role', 'total-points')
+        );
         this.row_length += 1;
     },
 
@@ -477,6 +508,7 @@ Event.Scoreboard.prototype = {
 
     delete_competitor: function(competitor) {
         $('#competitor_' + competitor.id).remove();
+        this.calculate_points();
         this.set_row_numbers();
     },
 
@@ -611,5 +643,49 @@ Event.Scoreboard.prototype = {
             var colspan_diff = 2 + (del_total ? 1 : 0) + (del_discipline ? 1 : 0);
             $(this).attr('colspan', +$(this).attr('colspan') - colspan_diff);
         });
+    },
+
+    create_result: function(result) {
+        var result_cell = $('#competitor_' + result.competitor_id + ' > ' +
+                            'td[data-round-id=' + result.round_id + ']' + 
+                            '[data-role=result]');
+        var points_cell = $('#competitor_' + result.competitor_id + ' > ' +
+                            'td[data-round-id=' + result.round_id + ']' + 
+                            '[data-role=points]');
+
+        result_cell.text(result.result);
+        result_cell.attr('data-result-id', result.id);
+        result_cell.attr('data-track-id', result.track_id);
+        result_cell.attr('data-url', result.url);
+
+        // var max_val = window.Competition.max_results['round_' + result.round_id][0].result;
+        // var points = Math.round(result.result / max_val * 1000) / 10;
+        //
+        // points_cell.text(points);
+
+        this.calculate_points();
+        this.calculate_totals();
+        this.sort_by_points();
+    },
+
+    delete_result: function(result) {
+        var result_cell = $('td[data-result-id=' + result.id + ']');
+        var points_cell = 
+            result_cell.closest('tr')
+                .find('td[data-round-id=' + 
+                         result_cell.data('round-id') + 
+                         '][data-role=points]');
+
+
+        result_cell.text('');
+        result_cell.attr('data-result-id', '');
+        result_cell.attr('data-track-id', '');
+        result_cell.attr('data-url', '');
+
+        points_cell.text('');
+
+        this.calculate_points();
+        this.calculate_totals();
+        this.sort_by_points();
     }
 }

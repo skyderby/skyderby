@@ -15,66 +15,92 @@
           .form-group
             .col-sm-2
               %span.control-label= 'Участник:'
-            .col-sm-10
+            .col-sm-4
               %span#rm-competitor-name
+            .col-sm-2
+              %span#rm-track-label.control-label= 'Трэк:'
+            .col-sm-4
+              %a#rm-track-link
           .form-group
             .col-sm-2
               %span.control-label= 'Раунд:'
-            .col-sm-10
+            .col-sm-4
               %span#rm-round-name
-          .tabpanel
-            -# <!-- Nav tabs -->
-            %ul.nav.nav-tabs{:role => 'tablist'}
-              %li#rm-li-new.active{:role => 'presentation'}
-                %a{:href => '#rmt-new-track', :aria => {:controls => "rmp-new-track"}, :role => "tab", :data => {:toggle => "tab"}}
-                  = 'Новый трек'
-              %li#rm-li-exist{:role => 'presentation'}
-                %a{:href => '#rmt-existent-track', :aria => {:controls => "rmp-existent-track"}, :role => "tab", :data => {:toggle => "tab"}}
-                  = 'Существующий трек'
-              %li#rm-li-delete-result{:role => 'presentation'}
-                %a{:href => '#rmt-delete-result', :aria => {:controls => "rmp-delete-result"}, :role => "tab", :data => {:toggle => "tab"}}
-                  = 'Удалить'
+            .col-sm-6
+              %a.text-danger#rm-delete{href: '#'}
+                = 'Удалить результат'
 
-            -# <!-- Tab panes -->
-            .tab-content
-              .tab-pane.active#rmt-new-track{:role => "tabpanel"} 
-                .form-group.top-buffer
-                  %span.col-sm-3.control-label= 'Файл:'
-                  .col-sm-9
-                    .input-group
-                      %input.form-control{:type => "text", :readonly => true}
-                      %span.input-group-btn
-                        %span.btn.btn-default.btn-file
-                          Browse&hellip; 
-                          - warning_messages = {:ext_w1 => t('static_pages.index.track_form.warnings.file_ext_w1_html'),
-                            :ext_w2 => t('static_pages.index.track_form.warnings.file_ext_w2_html'),
-                            :size_w1 => t('static_pages.index.track_form.warnings.file_size_w1_html'),
-                            :size_w2 => t('static_pages.index.track_form.warnings.file_size_w2_html')}
-                          %input.track-file-input{:name => 'track_file', :type => "file", :data => {:placeholder => 'rm-alert-placeholder', :warnings => warning_messages.to_json}}
+          #rm-new-track
+            .form-group
+              .col-sm-10.col-sm-offset-2
+                .btn-group{data: {toggle: "buttons"}}
+                  %label.btn.btn-default
+                    %input{type: "radio", name: "source", value: "file", autocomplete: "off"}
+                      = 'Из Файла'
+                  %label.btn.btn-default
+                    %input{type: "radio", name: "source", value: "track", autocomplete: "off"}
+                      = 'Существующий'
+            .form-group.top-buffer
+              %span.col-sm-2.control-label= 'Файл:'
+              .col-sm-10
+                .input-group
+                  %input.form-control{:type => "text", :readonly => true}
+                  %span.input-group-btn
+                    %span.btn.btn-default.btn-file
+                      Browse&hellip; 
+                      - warning_messages = {:ext_w1 => t('static_pages.index.track_form.warnings.file_ext_w1_html'),
+                        :ext_w2 => t('static_pages.index.track_form.warnings.file_ext_w2_html'),
+                        :size_w1 => t('static_pages.index.track_form.warnings.file_size_w1_html'),
+                        :size_w2 => t('static_pages.index.track_form.warnings.file_size_w2_html')}
+                      %input.track-file-input{:name => 'track_file', :type => "file", :data => {:placeholder => 'rm-alert-placeholder', :warnings => warning_messages.to_json}}
+            .form-group.top-buffer
+              %span.col-sm-2.control-label= 'Трек:'
+              .col-sm-10
+                -# = collection_select :result, :track_id, Track.all.order(:name), :id, :presentation, {:promt => true}, {:class => 'form-control'}
+                %select.form-control#result-track
 
-                #rm-alert-placeholder
-                .form-group
-                  .col-sm-9.col-sm-offset-3
-                    %a#new-result-from-new-track.btn.btn-success= 'Загрузить'
+            .form-group
+              .col-sm-10.col-sm-offset-2
+                %button.btn.btn-success#rm-save= 'Сохранить'
 
-
-
-              .tab-pane#rmt-existent-track{:role => "tabpanel"} 
-                .form-group.top-buffer
-                  %span.col-sm-3.control-label= 'Трек:'
-                  .col-sm-9
-                    -# = collection_select :result, :track_id, Track.all.order(:name), :id, :presentation, {:promt => true}, {:class => 'form-control'}
-                    %select.form-control#result-track
-                      
-               
-                .form-group
-                  .col-sm-9.col-sm-offset-3
-                    %button.btn.btn-success#new-result-from-exist-track= 'Сохранить'
-
-              .tab-pane#rmt-delete-result{:role => "tabpanel"} 
-                .top-buffer
-                %button.btn.btn-danger#rm-button-delete-result
-                  = 'Удалить результат'
+          -# .tabpanel
+          -#   -# <!-- Nav tabs -->
+          -#   %ul.nav.nav-tabs{:role => 'tablist'}
+          -#     %li#rm-li-new.active{:role => 'presentation'}
+          -#       %a{:href => '#rmt-new-track', :aria => {:controls => "rmp-new-track"}, :role => "tab", :data => {:toggle => "tab"}}
+          -#         = 'Новый трек'
+          -#     %li#rm-li-exist{:role => 'presentation'}
+          -#       %a{:href => '#rmt-existent-track', :aria => {:controls => "rmp-existent-track"}, :role => "tab", :data => {:toggle => "tab"}}
+          -#         = 'Существующий трек'
+          -#     %li#rm-li-delete-result{:role => 'presentation'}
+          -#       %a{:href => '#rmt-delete-result', :aria => {:controls => "rmp-delete-result"}, :role => "tab", :data => {:toggle => "tab"}}
+          -#         = 'Удалить'
+          -#
+          -#   -# <!-- Tab panes -->
+          -#   .tab-content
+          -#     .tab-pane.active#rmt-new-track{:role => "tabpanel"} 
+          -#                       #rm-alert-placeholder
+          -#       .form-group
+          -#         .col-sm-9.col-sm-offset-3
+          -#           %a#new-result-from-new-track.btn.btn-success= 'Загрузить'
+          -#
+          -#
+          -#
+          -#     .tab-pane#rmt-existent-track{:role => "tabpanel"} 
+          -#       .form-group.top-buffer
+          -#         %span.col-sm-2.control-label= 'Трек:'
+          -#         .col-sm-10
+          -#           -# = collection_select :result, :track_id, Track.all.order(:name), :id, :presentation, {:promt => true}, {:class => 'form-control'}
+          -#           %select.form-control#result-track
+          -#             
+          -#      
+          -#       .form-group
+          -#         .col-sm-9.col-sm-offset-3
+          -#           %button.btn.btn-success#new-result-from-exist-track= 'Сохранить'
+          -#
+              -# .tab-pane#rmt-delete-result{:role => "tabpanel"} 
+              -#   .top-buffer
+              -#   %button.btn.btn-danger
 
           
         -# .modal-footer

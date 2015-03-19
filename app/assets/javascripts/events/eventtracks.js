@@ -14,12 +14,14 @@ Event.EventTrack = function(params) {
     this.$form_delete_tab = $('#rm-li-delete-result');
     this.$form_competitor = $('#rm-competitor-name');
     this.$form_round = $('#rm-round-name');
+    this.$form_track_label = $('#rm-track-label');
+    this.$form_track_link = $('#rm-track-link');
+    this.$form_new_track_wrap = $('#rm-new-track');
 
     this.$form_result_track = $('#result-track');
 
-    this.$form_upload_file = $('#new-result-from-new-track');
-    this.$form_choose_track = $('#new-result-from-exist-track');
-    this.$form_delete_result = $('#rm-button-delete-result');
+    this.$form_save = $('#rm-save');
+    this.$form_delete_result = $('#rm-delete');
 
     $.extend(this, params);    
 
@@ -30,10 +32,20 @@ Event.EventTrack.prototype = {
     open_form: function() {
         if (this.is_new) {
             modal_title = 'Добавление';
-            this.$form_delete_tab.hide();
+            this.$form_track_label.hide();
+            this.$form_track_link.hide();
+            this.$form_delete_result.hide();
+            this.$form_new_track_wrap.show();
         } else {
             modal_title = 'Редактирование';
-            this.$form_delete_tab.show();
+            this.$form_new_track_wrap.hide();
+            this.$form_track_label.show();
+            this.$form_track_link.show();
+            this.$form_delete_result.show();
+
+            this.$form_track_link
+                .text('#' + this.track_id)
+                .attr('href', this.url);
         }
 
         var competitor = window.Competition.competitor_by_id(this.competitor_id);
@@ -78,13 +90,11 @@ Event.EventTrack.prototype = {
             }
         });
 
-        this.$form_upload_file
-            .off('click')
-            .on('click', this.upload_file.bind(this));
+        $('input[name=source][value=file]').closest('label').addClass('active');
 
-        this.$form_choose_track
+        this.$form_save
             .off('click')
-            .on('click', this.choose_track.bind(this));
+            .on('click', this.form_save.bind(this));
 
         this.$form_delete_result
             .off('click')
@@ -93,15 +103,69 @@ Event.EventTrack.prototype = {
         this.$form.modal('show');
     },
 
-    upload_file: function() {
-        alert('upload');
+    form_save: function(e) {
+        e.preventDefault();
+
+        this.track_id = this.$form_result_track.val();
+        this.save();        
+
+        this.$form.modal('hide');
     },
 
-    choose_track: function() {
-        alert('choose');
+    delete_result: function(e) {
+        e.preventDefault();
+        this.destroy();
+        this.$form.modal('hide');
     },
 
-    delete_result: function() {
-        alert('delete');
+    save: function() {
+        var url, method, data;
+
+        if (this.is_new) {
+            url = '/api/round_tracks/';
+            method = 'POST';
+        } else {
+            url = '/api/round_tracks/' + this.id;
+            method = 'PATCH';
+        }
+
+        data = {
+            round_track: {
+                round_id: this.round_id,
+                competitor_id: this.competitor_id,
+                track_id: this.track_id
+            }
+        };
+
+        $.ajax({
+            url: url,
+            method: method,
+            dataType: 'json',
+            data: data
+        })
+            .done(this.after_save.bind(this))
+            .fail(fail_ajax_request);
+ },
+
+    destroy: function() {
+        $.ajax({
+            url: '/api/round_tracks/' + this.id,
+            method: 'DELETE',
+            dataType: 'json',
+            context: {id: this.id}
+        })
+            .done(this.after_destroy.bind(this))
+            .fail(fail_ajax_request);
+    },
+
+    after_save: function(data, status, jqXHR) {
+        $.extend(this, data);
+        this.is_new = !this.id;
+
+        window.Competition.on_result_save(this);
+},
+
+    after_destroy: function() {
+        window.Competition.on_result_delete(this);
     },
 }

@@ -5,7 +5,7 @@ module TracksHelper
   end
 
   def header(track)
-    "#{track.name} | #{t 'tracks.show.title_track'} ##{track.id}"
+    " | #{t 'tracks.show.title_track'} ##{track.id}"
   end
 
   def subheader(track)

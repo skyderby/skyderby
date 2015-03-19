@@ -1,4 +1,8 @@
 TrackingDerby::Application.routes.draw do
+  get 'places/index'
+
+  get 'places/show'
+
   # AJAX locale independent actions
   namespace :api, default: { format: :json } do
     resources :events, only: [:update]
@@ -53,6 +57,9 @@ TrackingDerby::Application.routes.draw do
     resources :users do
       resources :user_profile
     end
+
+    resources :user_profile
+    resources :places, only: [:index, :show]
 
     mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 

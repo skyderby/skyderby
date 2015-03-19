@@ -1,5 +1,6 @@
 class UserProfile < ActiveRecord::Base
   belongs_to :user
+  has_many :tracks
 
   has_attached_file :userpic,
                     styles: { large: '500x500>',
