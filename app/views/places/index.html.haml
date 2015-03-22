@@ -1,0 +1,12 @@
+.container
+  .page-header
+    %h1= 'Places'
+
+  %table#places-index.table.table-hover
+    %tbody
+      - @places.each do |country, places|
+        %tr.bg-warning.text-danger.no-hover
+          %td= country
+        - places.each do |place|
+          %tr.clickableRow{data: {url: place_path(id: place.id)}}
+            %td.text-info= place.name

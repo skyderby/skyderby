@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
     { locale: I18n.locale }
   end
 
+  def after_sign_in_path_for(resource)
+    request.referrer
+  end
+
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_path, :alert => exception.message
   end
