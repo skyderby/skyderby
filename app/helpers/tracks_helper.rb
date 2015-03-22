@@ -71,7 +71,7 @@ module TracksHelper
   end
 
   def track_edit_data_attr
-    {data: {
+    {
       points: @track.heights_data,
       max_rel_time: @track.duration,
       range_from: @track.ff_start.nil? ? 0 : @track.ff_start,
@@ -89,6 +89,6 @@ module TracksHelper
           m: t('units.m')
         }
       }.to_json
-    }}
+    }
   end
 end

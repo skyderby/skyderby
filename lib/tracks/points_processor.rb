@@ -11,7 +11,6 @@ module TrackPointsProcessor
     end
 
     def process
-
       return nil if @points.count < 10
 
       filter_by_freq!
@@ -19,7 +18,6 @@ module TrackPointsProcessor
       calc_parameters!
 
       @points
-
     end
 
     private
@@ -38,7 +36,6 @@ module TrackPointsProcessor
     end
 
     def calc_parameters!
-
       prev_point = nil
       fl_time = 0
 
@@ -56,19 +53,14 @@ module TrackPointsProcessor
         point[:fl_time] = fl_time
         prev_point = point
       end
-
     end
-
   end
 
   def self.process_file(data, extension, track_index)
-
     parser = ParserSelector.choose(data, extension)
     return nil if parser.nil?
 
     tp_processor = TPProcessor.new(parser.parse track_index)
     tp_processor.process
-
   end
-
 end

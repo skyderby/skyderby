@@ -31,7 +31,7 @@
                 %li
                   = link_to t('application.header.admin_panel'), rails_admin_path
               %li
-                = link_to t('application.header.profile'), user_path(current_user)
+                = link_to t('application.header.profile'), user_profile_path(current_user.user_profile)
               %li
                 = link_to t('application.header.sign_out'), destroy_user_session_path, :method => :delete
         - else

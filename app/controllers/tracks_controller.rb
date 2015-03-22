@@ -33,8 +33,8 @@ class TracksController < ApplicationController
 
     flight_data = Rails.cache.read(params[:cache_id])
 
-    @track = Track.new flight_data.except(:data, :ext, :ws_id)
-    @track.wingsuit = Wingsuit.find(flight_data[:wingsuit_id]) if flight_data[:wingsuit_id].present?
+    @track = Track.new flight_data.except(:data, :ext)
+    #@track.wingsuit = Wingsuit.find(flight_data[:wingsuit_id]) if flight_data[:wingsuit_id]
     @track.user = current_user
     @track.ge_enabled = true
 
@@ -46,32 +46,23 @@ class TracksController < ApplicationController
     else
       redirect_to upload_error_tracks_path
     end
-
   end
 
   def edit
     redirect_to @track unless can? :update, @track
   end
 
-  # POST /tracks
-  # POST /tracks.json
   def create
     authorize! :create, Track
     @track = Track.new(track_params)
-#
-    respond_to do |format|
-      if @track.save
-        format.html { redirect_to @track, notice: 'Track was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @track }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @track.errors, status: :unprocessable_entity }
-      end
+
+    if @track.save
+      redirect_to @track, notice: 'Track was successfully created.'
+    else
+      render action: 'new'
     end
   end
 
-  # PATCH/PUT /tracks/1
-  # PATCH/PUT /tracks/1.json
   def update
     authorize! :update, @track
 
@@ -79,27 +70,18 @@ class TracksController < ApplicationController
     #track_upd_params[:wingsuit] = nil
     #track_upd_params[:wingsuit] = Wingsuit.find(track_upd_params[:wingsuit_id]) if track_upd_params[:wingsuit_id].present?
 
-    respond_to do |format|
-      if @track.update(track_upd_params)
-        format.html { redirect_to @track, notice: 'Track was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @track.errors, status: :unprocessable_entity }
-      end
+    if @track.update(track_upd_params)
+      redirect_to @track, notice: 'Track was successfully updated.'
+    else
+      render action: 'edit'
     end
   end
 
-  # DELETE /tracks/1
-  # DELETE /tracks/1.json
   def destroy
     authorize! :destroy, @track
 
     @track.destroy
-    respond_to do |format|
-      format.html { redirect_to tracks_url }
-      format.json { head :no_content }
-    end
+    redirect_to tracks_url
   end
 
   def choose
@@ -120,15 +102,14 @@ class TracksController < ApplicationController
 
     filename =  param_file.original_filename
     ext = filename.downcase[filename.length - 4..filename.length-1]
+
     if ext == '.csv' || ext == '.tes'
       @tracklist << 'main'
     elsif ext == '.gpx'
-
       doc = Nokogiri::XML(track_file)
       doc.root.elements.each do |node|
 
         if node.node_name.eql? 'trk'
-
           track_name = ''
           points_count = 0
           h_up = 0
@@ -136,11 +117,8 @@ class TracksController < ApplicationController
           prev_height = nil
 
           node.elements.each do |node_attr|
-
             if node_attr.node_name.eql? 'trkseg'
-
               node_attr.elements.each do |trpoint|
-
                 points_count += 1
 
                 trpoint.elements.each do |point_node|
@@ -152,31 +130,22 @@ class TracksController < ApplicationController
                     end
                     prev_height = point_node.text.to_f
                   end
-
                 end # point node loop
-
               end # trpoint loop
-
             elsif node_attr.node_name.eql? 'name'
               track_name = node_attr.text.to_s
             end
-
           end # track attr loop
 
-          @tracklist << {:name => track_name,
-                         :h_up => h_up.to_i.to_s,
-                         :h_down => h_down.to_i.to_s,
-                         :points_count => points_count}
-
+          @tracklist << {name: track_name,
+                         h_up: h_up.to_i.to_s,
+                         h_down: h_down.to_i.to_s,
+                         points_count: points_count}
         end # if name.eql? 'trk'
-
       end # doc root loop
-
     else
-
       redirect_to upload_error_tracks_path
       return
-
     end
 
     # Проверим, содержит ли файл треки
@@ -185,18 +154,18 @@ class TracksController < ApplicationController
       return
     end
 
-    flight_data = {:data => track_file, :ext => ext,
-                   :name => params[:name], :suit => params[:suit],
-                   :location => params[:location], :kind => params[:kind],
-                   :comment => params[:comment], :ws_id => params[:wingsuit_id]}
+    flight_data = {data: track_file, ext: ext,
+                   name: params[:name], suit: params[:suit],
+                   location: params[:location], kind: params[:kind],
+                   comment: params[:comment], wingsuit_id: params[:wingsuit_id]}
 
     @key = SecureRandom.uuid.to_s
     Rails.cache.write(@key, flight_data)
 
     # Если трек всего один - страницу выбора пропускаем
     if @tracklist.count == 1
-      redirect_to :controller => 'tracks', :action => 'new',
-                  :cache_id => @key, :index => 0
+      redirect_to controller: 'tracks', action: 'new',
+                  cache_id: @key, index: 0
     end
   end
 

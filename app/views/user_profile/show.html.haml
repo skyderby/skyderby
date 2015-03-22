@@ -4,8 +4,8 @@
     .col-md-2
       .top-buffer.userpic-container.text-center
         = image_tag(@profile.userpic.url(:medium), id: 'userpic',:class => 'img-responsive img-rounded loading-bg')
-        .edit-userpic
-          %span= 'Click to edit'
+        -# .edit-userpic
+        -#   %span= 'Click to edit'
 
     .col-md-10
       .row
@@ -22,9 +22,15 @@
                       edit_user_registration_path,
                       :class => 'btn btn-default edit'
       .row
-        %span.badge
-          %i.fa.fa-certificate{style: 'color: #D9D919'}
-          = 'Borki GPS Performance 2014'
+        - @profile.badges.each do |badge|
+          %span.badge
+            - if badge.gold?
+              %i.fa.fa-certificate{style: 'color: #D9D919'}
+            - elsif badge.silver?
+              %i.fa.fa-certificate{style: 'color: silver'}
+            - elsif badge.bronze?
+              %i.fa.fa-certificate{style: 'color: #CD7F32'}
+            = badge.name
       .row
         .col-md-3
           .param-val
@@ -51,8 +57,8 @@
   %hr
   .row
     .col-md-2
-      .bg-info.text-info{style: 'height:400px; width: 150px; margin-top:36px'}
-        = 'Какая-нибудь реклама'
+      -# .bg-info.text-info{style: 'height:400px; width: 150px; margin-top:36px'}
+      -#   = 'Какая-нибудь реклама'
     .col-md-10
       %table#user-tracks-table.table.table-hover
         %thead
