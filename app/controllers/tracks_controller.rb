@@ -34,14 +34,15 @@ class TracksController < ApplicationController
     flight_data = Rails.cache.read(params[:cache_id])
 
     @track = Track.new flight_data.except(:data, :ext)
-    #@track.wingsuit = Wingsuit.find(flight_data[:wingsuit_id]) if flight_data[:wingsuit_id]
     @track.user = current_user
+    @track.pilot = current_user.user_profile
     @track.ge_enabled = true
 
     @track.trackfile = flight_data.slice(:data, :ext)
     @track.track_index = params[:index].to_i
 
     if @track.save
+      ResultsWorker.perform_async(@track.id)
       redirect_to edit_track_path(@track)
     else
       redirect_to upload_error_tracks_path
@@ -71,6 +72,7 @@ class TracksController < ApplicationController
     #track_upd_params[:wingsuit] = Wingsuit.find(track_upd_params[:wingsuit_id]) if track_upd_params[:wingsuit_id].present?
 
     if @track.update(track_upd_params)
+      ResultsWorker.perform_async(@track.id)
       redirect_to @track, notice: 'Track was successfully updated.'
     else
       render action: 'edit'

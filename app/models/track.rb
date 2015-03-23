@@ -32,7 +32,6 @@ class Track < ActiveRecord::Base
   validates :name, :wingsuit, :location, presence: true
 
   before_save :parse_file
-  after_save :calculate_results
 
   def competitive?
     event_track.present?
@@ -70,64 +69,6 @@ class Track < ActiveRecord::Base
     "#{name} | #{suit} | #{comment}"
   end
 
-  def calculate_results
-    # ff_start_elev = track_data.points.max_by { |x| x[:elevation] }[:elevation]
-    # ff_end_elev = track_data.points.min_by { |x| x[:elevation] }[:elevation] + 1000
-    #
-    # ff_start_elev = track_data.points.find { |x| x[:fl_time_abs] > ff_start }[:elevation] unless ff_start.nil? || ff_start.zero?
-    # ff_end_elev = track_data.points.find { |x| x[:fl_time_abs] > ff_end }[:elevation] if ff_end
-    #
-    # ff_start_elev -= ff_start_elev % 50
-    # ff_end_elev += 50 - ff_end_elev % 50
-    #
-    # results = []
-    # ff_range = ff_start_elev - ff_end_elev
-    # if ff_range > 1000
-    #   steps = ((ff_range - 1000) / 50).floor
-    #
-    #   steps.times do |s|
-    #     res_range_from = ff_start_elev - 50 * s
-    #     res_range_to = ff_start_elev - 1000 - 50 * s
-    #     trk_points = track_data.trim_interpolize(res_range_from, res_range_to)
-    #     fl_time = trk_points.map { |x| x[:fl_time] }.inject(0, :+)
-    #     distance = trk_points.map { |x| x[:distance] }.inject(0, :+)
-    #     speed = fl_time.zero? ? 0 : Velocity.to_kmh(distance / fl_time).round
-    #
-    #     fl_time = 0 if fl_time > 300
-    #     distance = 0 if distance > 9900
-    #     speed = 0 if speed > 900
-    #
-    #     results << {
-    #       range_from: res_range_from,
-    #       range_to: res_range_to,
-    #       time: fl_time.round(1),
-    #       distance: distance.round,
-    #       speed: speed
-    #     }
-    #   end
-    # end
-    # track_results.each(&:delete)
-    #
-    # return if results.count == 0
-    # time = results.max_by { |x| x[:time] }
-    # track_results << TrackResult.new(discipline: :time,
-    #                                  range_from: time[:range_from],
-    #                                  range_to: time[:range_to],
-    #                                  result: time[:time])
-    #
-    # distance = results.max_by { |x| x[:distance] }
-    # track_results << TrackResult.new(discipline: :distance,
-    #                                  range_from: distance[:range_from],
-    #                                  range_to: distance[:range_to],
-    #                                  result: distance[:distance])
-    #
-    # speed = results.max_by { |x| x[:speed] }
-    # track_results << TrackResult.new(discipline: :speed,
-    #                                  range_from: speed[:range_from],
-    #                                  range_to: speed[:range_to],
-    #                                  result: speed[:speed])
-  end
-
   private
 
   def track_data
@@ -136,21 +77,16 @@ class Track < ActiveRecord::Base
 
   def parse_file
     if self.new_record?
-
       track_points = TrackPointsProcessor.process_file(trackfile[:data], trackfile[:ext], track_index)
       return false unless track_points
 
       record_points track_points
       set_jump_range track_points
-
     end
   end
 
   def record_points(track_points)
     trkseg = Tracksegment.create
-    # track_points.each do |point|
-    #   trkseg.points << point
-    # end
     tracksegments << trkseg
 
     Point.create (track_points) { |point| point.tracksegment = trkseg}

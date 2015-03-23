@@ -1,13 +1,15 @@
 .container.top-buffer
 
   -# - if user_signed_in?
-  - if current_user && current_user.has_role?(:admin)
+  - is_admin = current_user && current_user.has_role?(:admin)
+  - if is_admin
     %a.btn.btn-default.btn-info{:href => new_event_path}
       = t 'static_pages.index.events.create'
 
   %h2= t 'static_pages.index.events.completed'
   %table.table.table-hover
     %tbody
-      - Event.published.each do |e|
+      - events = is_admin ? Event.all : Event.published
+      - events.each do |e|
         %tr.clickableRow{:data => {:url => event_path(:id => e.id)}}
           %td.text-info= e.name

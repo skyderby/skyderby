@@ -11,6 +11,9 @@
         %th=t 'activerecord.attributes.track.id'
         %th=t 'activerecord.attributes.track.name'
         %th=t 'activerecord.attributes.track.suit'
+        %th= 'Distance'
+        %th= 'Speed'
+        %th= 'Time'
         %th=t 'activerecord.attributes.track.comment'
         -# %th.text-center.bg-info
         -#   %i.fa.fa-fw.fa-lg.fa-arrows-h
@@ -25,6 +28,9 @@
           %td.text-info= track.id
           %td.text-info= track.name
           %td.text-info= track.wingsuit.present? ? track.wingsuit.name : track.suit
+          %td.text-info= track.distance.result
+          %td.text-info= track.speed.result
+          %td.text-info= track.time.result
           %td.text-muted= track.comment
           -# %td.text-info.text-right.bg-info= track.distance.result.to_i if track.distance
           -# %td.text-info.text-right.bg-warning= track.speed.result.to_i if track.speed
