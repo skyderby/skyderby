@@ -9,12 +9,11 @@
 
   = form_for [@user, @user.user_profile], :html => {:class => 'form-horizontal'} do |f|
     .form-group
-      = f.label t('activerecord.attributes.user_profile.last_name'), class: 'col-sm-2 control-label', :for => :last_name
-      .col-sm-10
-        .form-inline
-          = f.text_field :last_name, autofocus: true, class: 'form-control'
-          = f.label t('activerecord.attributes.user_profile.first_name'), class: 'control-label', :for => :first_name
-          = f.text_field :first_name, class: 'form-control'
+      = f.label t('activerecord.attributes.user_profile.name'), class: 'col-sm-2 control-label', :for => :name
+      .col-sm-5
+        = f.text_field :name, autofocus: true, class: 'form-control'
+        -# = f.label t('activerecord.attributes.user_profile.first_name'), class: 'control-label', :for => :first_name
+        -# = f.text_field :first_name, class: 'form-control'
 
     .form-group
       = f.label t('activerecord.attributes.user_profile.photo'), class: 'col-sm-2 control-label', :for => :userpic

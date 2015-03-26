@@ -12,6 +12,6 @@ function init() {
 
 $(document).on('ready page:load', function() {
     if ($('.tracks-index').length) {
-        init();
+        // init();
     }
 });

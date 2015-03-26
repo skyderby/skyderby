@@ -41,6 +41,8 @@ gem 'less-rails-bootstrap'
 gem 'font-awesome-rails'
 gem 'bootstrap-datepicker-rails'
 
+gem "i18n-js", ">= 3.0.0.rc8"
+
 gem 'nokogiri', '~> 1.6.3.1'
 gem 'devise'
 gem 'cancancan'

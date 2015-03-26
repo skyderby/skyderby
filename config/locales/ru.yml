@@ -34,6 +34,7 @@ ru:
       user_profile:
         last_name: "Фамилия:"
         first_name: "Имя:"
+        name: 'Имя Фамилия:'
         photo: "Фото:"
         phone_number: "Номер телефона:"
         facebook_profile: "Профиль Facebook:"

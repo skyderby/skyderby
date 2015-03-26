@@ -15,7 +15,14 @@
             = @track.name
           =header @track
           %small
-            =subheader @track
+            %span= t('tracks.show.title_suit') + ':' 
+            - if @track.wingsuit
+              - manufacturer = @track.wingsuit.manufacturer
+              %span.text-warning{data: {toggle: 'tooltip'}, title: manufacturer.name}= manufacturer.code || ''
+              %span= ' ' + @track.wingsuit.name
+            - else
+              %span= @track.suit
+            %span= "@#{@track.location}"
 
       .dropdown-container.col-md-4
         .pull-right

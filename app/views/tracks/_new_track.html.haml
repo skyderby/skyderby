@@ -1,70 +1,16 @@
 :javascript
-
-  $(document).ready(function($) {
-
-    var name = $.cookie('name');
-    if (typeof name !== 'undefined' && name.trim()) {
-        $('#name').val(name);
-    }
-
-    var suit = $.cookie('suit');
-    if (typeof suit !== 'undefined' && suit.trim()) {
-        $('#suit').val(suit);
-    }
-
-    var wingsuit_id = $.cookie('wingsuit_id');
-    if (typeof wingsuit_id !== 'undefined' && wingsuit_id.trim()) {
-        $('#wingsuit-id').val(wingsuit_id);
-    }
-
-    var location = $.cookie('location');
-    if (typeof location !== 'undefined' && location.trim()) {
-        $('#location').val(location);
-    }
-
-    $('#track_upload_form').submit( function( e ) {
-      var form_valid = true;
-      var placeholder = '#alert-placeholder';
-      $(placeholder).empty();
-
-      if ($('#name').val().length === 0 || !$('#name').val().trim()) {
-          bootstrap_alert.warning(#{t 'static_pages.index.track_form.warnings.name_html'}, placeholder);
-          form_valid = false;
-      } else {
-          $.cookie('name', $('#name').val(), { expires: 365, path: '/' });
-      }
-
-      if ($('#suit').val().length === 0 || !$('#suit').val().trim()) {
-          bootstrap_alert.warning(#{t 'static_pages.index.track_form.warnings.suit_html'}, placeholder);
-          form_valid = false;
-      } else {
-          $.cookie('suit', $('#suit').val(), { expires: 365, path: '/' });
-          $.cookie('wingsuit_id', $('#wingsuit-id').val(), { expires: 365, path: '/' });
-      }
-
-      if ($('#location').val().length === 0 || !$('#location').val().trim()) {
-          bootstrap_alert.warning(#{t 'static_pages.index.track_form.warnings.loc_html'}, placeholder);
-          form_valid = false;
-      } else {
-          $.cookie('location', $('#location').val(), { expires: 365, path: '/' });
-      }
-
-      if ($('#track_file').val().length === 0 || !$('#track_file').val().trim()) {
-          bootstrap_alert.warning(#{t 'static_pages.index.track_form.warnings.file_html'}, placeholder);
-          form_valid = false;
-      }
-      if (!form_valid)
-          e.preventDefault();
-    });
-  })
-
-.modal.fade#newTrackModal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
+.modal.fade#newTrackModal{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
   .modal-dialog
     .modal-content
-      = form_tag choose_tracks_path, multipart: true, :class => 'form-horizontal', :role => 'form', :id => 'track_upload_form' do
+      = form_tag choose_tracks_path, 
+                 multipart: true, 
+                 class: 'form-horizontal', 
+                 role: 'form', 
+                 id: 'track_upload_form' do
+
         .modal-header
-          %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
-            %span{:aria => {:hidden => 'true'}}
+          %button.close{type: 'button', data: {dismiss: 'modal'}}
+            %span{aria: {hidden: 'true'}}
               &times;
             %span.sr-only
               Close
@@ -75,13 +21,22 @@
             %span.col-sm-3.control-label
               = t('static_pages.index.track_form.name')
             .col-sm-9
-              = text_field_tag 'name', nil, :class => 'form-control', :placeholder => t('static_pages.index.track_form.name_plh'), :type => 'text'
+              = text_field_tag 'name', 
+                               nil, 
+                               class: 'form-control', 
+                               placeholder: t('static_pages.index.track_form.name_plh'), 
+                               type: 'text'
 
           .form-group
             %span.col-sm-3.control-label
               = t('static_pages.index.track_form.suit')
             .col-sm-9
-              %select.new-track-wingsuit-select{name: 'wingsuit_id'}
+              %select.new-track-wingsuit-select.suit-group{name: 'wingsuit_id'}
+              %input.form-control.suit-group{name: 'suit', type: 'text', placeholder: 'Enter suit name'}
+            .col-sm-9.col-sm-offset-3
+              %span
+                %span.toggle-suit-caption= "Suit you are flying doesn't exist?"
+                %a.toggle-suit{href: '#'}= 'Enter suit name'
 
               -# = text_field_tag 'suit', nil, :class => 'form-control wingsuit-autocomplete', :placeholder => t('static_pages.index.track_form.suit_plh'), :type => 'text'
               -# = hidden_field_tag 'wingsuit_id', nil, :id => 'wingsuit-id'
@@ -90,7 +45,11 @@
             %span.col-sm-3.control-label
               = t('static_pages.index.track_form.location')
             .col-sm-9
-              = text_field_tag 'location', nil, :class => 'form-control', :placeholder => t('static_pages.index.track_form.location_plh'), :type => 'text'
+              = text_field_tag 'location', 
+                               nil, 
+                               class: 'form-control', 
+                               placeholder: t('static_pages.index.track_form.location_plh'), 
+                               type: 'text'
 
           .form-group
             %span.col-sm-3.control-label
@@ -112,7 +71,7 @@
                 %span.input-group-btn
                   %span.btn.btn-default.btn-file
                     Browse&hellip; 
-                    %input#track_file{:name => 'track_file', :type => "file", :onChange => 'checkFile(this)'}
+                    %input#track_file{name: 'track_file', type: "file"}
 
           .form-group
             .col-sm-offset-3.col-sm-9
@@ -122,10 +81,12 @@
             %span.col-sm-3.control-label
               = t('static_pages.index.track_form.comment')
             .col-sm-9
-              = text_area_tag 'comment', nil, :class => 'form-control', :rows => 3, :placeholder => t('static_pages.index.track_form.comment_plh')
-
-          %div#alert-placeholder
+              = text_area_tag 'comment', 
+                              nil, 
+                              class: 'form-control', 
+                              rows: 3, 
+                              cplaceholder: t('static_pages.index.track_form.comment_plh')
 
         .modal-footer
-          = submit_tag t('static_pages.index.track_form.submit'), :class => 'btn btn-success'
+          = submit_tag t('static_pages.index.track_form.submit'), class: 'btn btn-success'
           %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}=t('general.cancel')

@@ -6,6 +6,7 @@ class TracksController < ApplicationController
   def index
     @tracks = Track.public_track
                    .includes(:wingsuit)
+                   .includes(wingsuit: :manufacturer)
                    .includes(:time)
                    .includes(:distance)
                    .includes(:speed)
@@ -68,8 +69,6 @@ class TracksController < ApplicationController
     authorize! :update, @track
 
     track_upd_params = track_params
-    #track_upd_params[:wingsuit] = nil
-    #track_upd_params[:wingsuit] = Wingsuit.find(track_upd_params[:wingsuit_id]) if track_upd_params[:wingsuit_id].present?
 
     if @track.update(track_upd_params)
       ResultsWorker.perform_async(@track.id)
@@ -175,15 +174,14 @@ class TracksController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_track
-      @track = Track.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def track_params
-      params.require(:track).permit(:name, :kind, :location,
-                                    :ff_start, :ff_end, :wingsuit_id,
-                                    :comment, :cache_id, :index, :visibility)
-    end
+  def set_track
+    @track = Track.find(params[:id])
+  end
+
+  def track_params
+    params.require(:track).permit(:name, :kind, :location,
+                                  :ff_start, :ff_end, :suit, :wingsuit_id,
+                                  :comment, :cache_id, :index, :visibility)
+  end
 end

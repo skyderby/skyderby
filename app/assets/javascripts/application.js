@@ -18,11 +18,20 @@
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.ru.js
 //= require twitter/bootstrap
 //= require gmaps/google
+//= require vendor/jquery.validate
+//= require vendor/additional-methods.min
 //= require_tree .
 
 //"use strict";
 
 Turbolinks.enableProgressBar();
+
+$.validator.addMethod('filesize', function(value, element, param) {
+    // param = size (en bytes) 
+    // element = element to validate (<input>)
+    // value = value of the element (file name)
+    return this.optional(element) || (element.files[0].size <= param) 
+});
 
 function fail_ajax_request(data, status, jqXHR) {
     alert(data.responseText.substring(0, 500));
@@ -79,50 +88,6 @@ function checkfile() {
 }
 
 $(document).ready(function($) {
-
-    $('.new-track-wingsuit-select').select2({
-        width: '100%',
-        dropdownParent: $('#newTrackModal'),
-        ajax: {
-            url: '/api/wingsuits',
-            dataType: 'json',
-            type: "GET",
-            quietMillis: 50,
-            data: function (term) {
-                return {
-                    query: term
-                };
-            },
-            processResults: function (data) {
-                var suits_data = _.chain(data)
-                    .map(function(obj) {
-                        return {
-                            id: obj.id,
-                            text: obj.name,
-                            manufacturer: obj.manufacturer.name
-                        }
-                    })
-                    .groupBy(function(obj) { 
-                        return obj.manufacturer;
-                    })
-                    .map(function(obj, key) {
-                        return {
-                            text: key, 
-                            children: obj
-                        };
-                    })
-                    .sortBy(function(obj) {
-                        return obj.text;
-                    })
-                    .value();
-                return {
-                    results: suits_data
-                };
-            },
-            cache: true
-        }
-    });
-
 
     $(".track-file-input").on('change', checkfile);
 
@@ -202,5 +167,6 @@ $(document).on('click', '.clickableRow', function() {
 });
 
 
-$(document).on('page:load', function() {
-    });
+$(document).on('ready page:load', function() {
+    $('[data-toggle="tooltip"]').tooltip();
+});

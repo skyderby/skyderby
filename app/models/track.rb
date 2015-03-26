@@ -29,7 +29,7 @@ class Track < ActiveRecord::Base
   enum kind: [:skydive, :base]
   enum visibility: [:public_track, :unlisted_track, :private_track]
 
-  validates :name, :wingsuit, :location, presence: true
+  validates :name, :location, presence: true
 
   before_save :parse_file
 
