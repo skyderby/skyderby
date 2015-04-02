@@ -27,9 +27,7 @@
 
 /tags
 
-Gemfile.lock
-
 *.swn
-
 *.swo
+
 config/database.yml
