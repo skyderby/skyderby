@@ -369,7 +369,6 @@ DEPENDENCIES
   jquery-turbolinks
   less-rails
   less-rails-bootstrap
-  libv8
   mailcatcher
   meta_request
   mysql2
