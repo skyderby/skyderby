@@ -38,8 +38,11 @@ gem 'sass-rails', '~> 4.0.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 
-# gem 'therubyracer'
-# gem 'libv8', '3.16.14.3'
+group :production do
+  gem 'therubyracer'
+  gem 'libv8', '3.16.14.3'
+end
+
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
 gem 'less-rails-bootstrap'
