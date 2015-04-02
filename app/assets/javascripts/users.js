@@ -51,7 +51,7 @@ Userpic_form.prototype = {
         var self = this;
         var formData = new FormData(this.$form[0]);
         $.ajax({
-            url: '/api/user_profiles/' + window.User.id,
+            url: '/api/user_profiles/' + window.Profile.id,
             type: 'PATCH',
             xhr: function() {  // Custom XMLHttpRequest
                 var myXhr = $.ajaxSettings.xhr();
@@ -208,7 +208,7 @@ User.prototype = {
 
 $(document).on('ready page:load', function() {
     if ($('.user').length) {
-        window.User = new User({
+        window.Profile = new User({
             id: $('.user').data('id'),
             tracks: $('.user').data('tracks')
         });
