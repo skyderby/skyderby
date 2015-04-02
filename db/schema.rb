@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150325183831) do
+ActiveRecord::Schema.define(version: 20150331205258) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -202,10 +202,47 @@ ActiveRecord::Schema.define(version: 20150325183831) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "virtual_comp_groups", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "virtual_comp_results", force: true do |t|
+    t.integer  "virtual_competition_id"
+    t.integer  "track_id"
+    t.float    "result",                 limit: 24
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_profile_id"
+  end
+
+  add_index "virtual_comp_results", ["track_id"], name: "index_virtual_comp_results_on_track_id", using: :btree
+  add_index "virtual_comp_results", ["virtual_competition_id"], name: "index_virtual_comp_results_on_virtual_competition_id", using: :btree
+
+  create_table "virtual_competitions", force: true do |t|
+    t.integer  "jumps_kind"
+    t.integer  "suits_kind"
+    t.integer  "place_id"
+    t.date     "period_from"
+    t.date     "period_to"
+    t.integer  "discipline"
+    t.integer  "discipline_parameter"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name"
+    t.integer  "virtual_comp_group_id"
+    t.integer  "range_from"
+    t.integer  "range_to"
+  end
+
+  add_index "virtual_competitions", ["place_id"], name: "index_virtual_competitions_on_place_id", using: :btree
+
   create_table "wingsuits", force: true do |t|
     t.integer "manufacturer_id"
     t.integer "ws_class_id"
     t.string  "name"
+    t.integer "kind",            default: 0
   end
 
   add_index "wingsuits", ["manufacturer_id"], name: "index_wingsuits_on_manufacturer_id", using: :btree

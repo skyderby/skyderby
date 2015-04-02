@@ -1,7 +1,14 @@
 - provide :title, @event.name
 
-- units = {:time => t('units.t_unit'), :distance => t('units.m'), :speed => t('units.kmh')}
-.event-data{:data => {:details => event_details, :units => units.to_json, :locale => locale, :can_manage => can?(:update, @event).to_s }}
+- units = {time: t('units.t_unit'), 
+           distance: t('units.m'), 
+           speed: t('units.kmh')}
+
+.event-data{data: {details: event_details,
+                   units: units.to_json,
+                   locale: locale,
+                   dictionary: event_dictionary,
+                   can_manage: can?(:update, @event).to_s }}
 
 .container.top-buffer
   .row
@@ -9,7 +16,7 @@
       %h1
         %span#title-competition-name= @event.name
 
-      %h3#title-competition-range= "Соревновательный диапазон: #{@event.range_from} - #{@event.range_to} м"
+      %h3#title-competition-range= "#{t('events.competition_range')} #{@event.range_from} - #{@event.range_to} #{t('units.m')}"
     .col-md-3
       .pull-right#edit-event-commands
 

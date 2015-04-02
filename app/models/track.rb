@@ -11,7 +11,8 @@ class Track < ActiveRecord::Base
   belongs_to :wingsuit
   has_many :tracksegments, dependent: :destroy
   has_many :points, through: :tracksegments
-  has_many :track_results
+  has_many :track_results, dependent: :destroy
+  has_many :virtual_comp_results, dependent: :destroy
   has_one :event_track
 
   has_one :time,

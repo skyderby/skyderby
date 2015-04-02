@@ -20,9 +20,11 @@
 //= require gmaps/google
 //= require vendor/jquery.validate
 //= require vendor/additional-methods.min
+//= require i18n/translations
 //= require_tree .
 
 //"use strict";
+
 
 Turbolinks.enableProgressBar();
 

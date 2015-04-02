@@ -44,6 +44,7 @@ class TracksController < ApplicationController
 
     if @track.save
       ResultsWorker.perform_async(@track.id)
+      VirtualCompWorker.perform_async(@track.id)
       redirect_to edit_track_path(@track)
     else
       redirect_to upload_error_tracks_path
@@ -72,6 +73,7 @@ class TracksController < ApplicationController
 
     if @track.update(track_upd_params)
       ResultsWorker.perform_async(@track.id)
+      VirtualCompWorker.perform_async(@track.id)
       redirect_to @track, notice: 'Track was successfully updated.'
     else
       render action: 'edit'

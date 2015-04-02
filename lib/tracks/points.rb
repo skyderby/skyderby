@@ -30,8 +30,9 @@ class TrackPoints
     track_points = []
     is_first = true
     prev_point = nil
+    trimmed_points = trimmed
 
-    @points.each do |curr|
+    trimmed.each do |curr|
       current_point = curr.clone
 
       is_last = true

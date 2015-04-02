@@ -1,11 +1,10 @@
 class ResultsWorker
   include Sidekiq::Worker
-  sidekiq_options retry: false
 
   def perform(track_id)
     track = Track.find(track_id)
     data = TrackPoints.new(track)
-    is_skydive = track.kind == Track.kinds[:skydive]
+    is_skydive = track.skydive?
 
     track.track_results.each(&:delete)
 
@@ -47,15 +46,12 @@ class ResultsWorker
                                            result: speed[:speed])
   end
   
+  # REFACTOR THIS
   def calculate(data, range_from, range_to)
     trk_points = data.trim_interpolize(range_from, range_to)
     fl_time = trk_points.map { |x| x[:fl_time] }.inject(0, :+)
     distance = trk_points.map { |x| x[:distance] }.inject(0, :+)
     speed = fl_time.zero? ? 0 : Velocity.to_kmh(distance / fl_time).round
-
-    # fl_time = 0 if fl_time > 300
-    # distance = 0 if distance > 9900
-    # speed = 0 if speed > 500
 
     {
       range_from: range_from,
@@ -87,10 +83,8 @@ class ResultsWorker
     ff_end_elev = is_skydive ? 1000 : 100
 
     if ff_end
-      ff_end_elev = 
-        points.find do |x| 
-          x[:fl_time_abs] > ff_end 
-        end[:elevation]
+      end_point = points.find { |x| x[:fl_time_abs] > ff_end } 
+      ff_end_elev = end_point[:elevation] if end_point
     end
 
     if is_skydive

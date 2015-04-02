@@ -1,0 +1,21 @@
+.container
+  .page-header
+    %h1= 'Virtual competitions'
+
+  %table#places-index.table.table-hover
+    %thead
+      %tr
+        %th= 'Name'
+        %th= 'Task'
+    %tbody
+      - @competitions.each do |group, competitions|
+        %tr.bg-warning.text-danger.no-hover
+          %td{colspan: 2}= group
+        - competitions.each do |competition|
+          %tr.clickableRow{data: {url: virtual_competition_path(id: competition.id)}}
+            %td.text-info= competition.name
+            - if competition.distance_in_time?
+              - task = 'Distance in ' + competition.discipline_parameter.to_s + ' sec'
+            - else
+              - task = competition.discipline.humanize
+            %td.text-info= task

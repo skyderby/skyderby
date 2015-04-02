@@ -215,6 +215,8 @@ ru:
     kmh_html: "'км/ч'"
     mph_html: "'миль/ч'"
   events:
+    competition_range: 'Соревновательный диапазон:'
+  old_events:
     show:
       pf:
         in_process: "Заявка в обработке"
@@ -261,6 +263,10 @@ ru:
     update: "Обновить"
     delete: "Удалить"
     edit: "Редактировать"
+  disciplines:
+    speed: 'Скорость'
+    distance: 'Дистанция'
+    time: 'Время'
   users:
     profile:
       show:

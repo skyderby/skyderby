@@ -1,4 +1,8 @@
 TrackingDerby::Application.routes.draw do
+  get 'virtual_competitions/index'
+
+  get 'virtual_competitions/show'
+
   get 'places/index'
 
   get 'places/show'
@@ -60,6 +64,8 @@ TrackingDerby::Application.routes.draw do
 
     resources :user_profile
     resources :places, only: [:index, :show]
+
+    resources :virtual_competitions, only: [:index, :show]
 
     mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 

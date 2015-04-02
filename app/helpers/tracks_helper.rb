@@ -17,6 +17,10 @@ module TracksHelper
            formats: :json
   end
 
+  def range_title(result)
+    '' + result.range_from.to_s + ' - ' + result.range_to.to_s if result
+  end
+
   def track_data_attr
     {data: {
       points: @track.charts_data, 

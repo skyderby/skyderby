@@ -193,6 +193,8 @@ en:
     kmh_html: "'km/h'"
     mph_html: "'mph'"
   events:
+    competition_range: 'Competition range:'
+  old_events:
     show:
       pf:
         in_process: "In process"
@@ -237,6 +239,10 @@ en:
     update: "Update"
     delete: "Delete"
     edit: "Edit"
+  disciplines:
+    speed: 'Speed'
+    distance: 'Distance'
+    time: 'Time'
   users:
     profile:
       show:

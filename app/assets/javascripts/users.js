@@ -176,9 +176,9 @@ User.prototype = {
             id: track.id,
             suit: track.suit,
             location: track.location,
-            distance: track.distance,
-            speed: track.speed,
-            time: track.time.toFixed(1),
+            distance: track.distance || 0,
+            speed: track.speed || 0.0,
+            time: (track.time || 0.0).toFixed(1),
             comment: track.comment,
             created_at: track.uploaded_at_formatted
         }));

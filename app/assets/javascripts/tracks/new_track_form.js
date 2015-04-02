@@ -60,7 +60,7 @@ NewTrackForm.prototype = {
          this.$form_suit_select.select2({
             width: '100%',
             placeholder: 'Select suit from list',
-            dropdownParent: this.$modal,
+            dropdownParent: this.$form_modal,
             ajax: {
                 url: '/api/wingsuits',
                 dataType: 'json',

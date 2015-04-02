@@ -39,12 +39,9 @@
         %th=t 'activerecord.attributes.track.suit'
         %th=t 'activerecord.attributes.track.place'
         %th=t 'activerecord.attributes.track.comment'
-        -# %th.text-center.bg-info
-        -#   %i.fa.fa-fw.fa-lg.fa-arrows-h
-        -# %th.text-center.bg-warning
-        -#   %i.fa.fa-fw.fa-lg.fa-long-arrow-right
-        -# %th.text-center.bg-success
-        -#   %i.fa.fa-fw.fa-lg.fa-clock-o
+        %th=t 'disciplines.distance'
+        %th=t 'disciplines.speed'
+        %th=t 'disciplines.time'
         %th=t 'activerecord.attributes.track.uploaded_at'
     %tbody
       - @tracks.each do |track|
@@ -63,9 +60,15 @@
                 = track.suit
           %td.text-info= track.location
           %td.text-muted= track.comment
-          -# %td.text-info.text-right.bg-info= track.distance.result.to_i if track.distance
-          -# %td.text-info.text-right.bg-warning= track.speed.result.to_i if track.speed
-          -# %td.text-info.text-right.bg-success= track.time.result if track.time
+          %td.text-right
+            %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.distance)}
+              = track.distance.result.to_i if track.distance
+          %td.text-right
+            %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.speed)}
+              = track.speed.result.to_i if track.speed
+          %td.text-right
+            %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.time)}
+              = track.time.result if track.time
           %td.text-info= track.created_at.strftime('%d.%m.%Y')
   -# .col-md-3.col-lg-3
   -#   %form#tracks-filters

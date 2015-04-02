@@ -1,0 +1,65 @@
+.container
+  .page-header
+    %h1
+      = @competition.group.name + ': '
+      = @competition.name
+      -# %small= @competition.information
+
+  - results = @competition.virtual_comp_results.order('result DESC').group_by{ |x| x.user_profile_id }.map{ |_, results| results.first }
+  - if results.count > 2
+    .top-buffer
+      .col-sm-4
+        .well
+          .row
+            .col-sm-4
+              = image_tag(results.first.user_profile.userpic.url(:medium), 
+                          class: 'img-responsive img-rounded')
+            .col-sm-8
+              .fa-lg= results.first.user_profile.name
+              .fa-3x
+                = results.first.result
+                = competition_unit
+      .col-sm-4
+        .well
+          .row
+            .col-sm-4
+              = image_tag(results.second.user_profile.userpic.url(:medium), 
+                          class: 'img-responsive img-rounded')
+            .col-sm-8
+              .fa-lg= results.second.user_profile.name
+              .fa-3x
+                = results.second.result
+                = competition_unit
+      .col-sm-4
+        .well
+          .row
+            .col-sm-4
+              = image_tag(results.third.user_profile.userpic.url(:medium), 
+                          class: 'img-responsive img-rounded')
+            .col-sm-8
+              .fa-lg= results.third.user_profile.name
+              .fa-3x
+                = results.third.result
+                = competition_unit
+    .top-buffer
+  %table.table.table-hover
+    %thead
+      %tr
+        %th= '#'
+        %th=t 'activerecord.attributes.track.name'
+        %th=t 'activerecord.attributes.track.suit'
+        %th= 'Result'
+        %th=t 'activerecord.attributes.track.uploaded_at'
+    %tbody
+      - row_number = 1
+      - results.each do |result|
+        %tr.clickableRow{data: {url: track_path(id: result.track_id)}}
+          %td.text-info= row_number
+          %td.text-info= result.user_profile.name
+          %td.text-info
+            - manufacturer = result.track.wingsuit.manufacturer
+            %span.text-warning{data: {toggle: 'tooltip'}, title: manufacturer.name}= manufacturer.code || ''
+            %span= ' ' + result.track.wingsuit.name
+          %td.text-info= result.result
+          %td.text-info= result.track.created_at.strftime('%d.%m.%Y')
+          - row_number += 1

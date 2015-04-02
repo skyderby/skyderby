@@ -4,6 +4,8 @@ class Wingsuit < ActiveRecord::Base
   has_many :tracks
   has_many :competitors
 
+  enum kind: [:wingsuit, :tracksuit]
+
   def self.suggestions_by_name(query)
     Wingsuit.includes(:manufacturer).where('LOWER(name) LIKE LOWER(?)', "%#{query}%").to_a
         .map { |x| {:value => x.name, :data => {:category => x.manufacturer.name,:id => x.id }} }

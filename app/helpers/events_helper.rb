@@ -5,6 +5,15 @@ module EventsHelper
            locals: { event: @event }
   end
 
+  def event_dictionary
+    {
+      distance: t('disciplines.distance'),
+      speed: t('disciplines.speed'),
+      time: t('discipline.time'),
+      edit: t('general.edit')
+    }
+  end
+
   def event_settings_modal
     render 'event_settings_modal' if can?(:update, @event)
   end
