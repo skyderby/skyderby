@@ -1,5 +1,5 @@
 .user{data: {id: @profile.id, tracks: user_tracks}}
-- if current_user && current_user.user_profile = @profile
+- if current_user && current_user.user_profile == @profile
   - profile_tracks = @profile.tracks
 - else
   - profile_tracks = @profile.public_tracks
