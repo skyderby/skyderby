@@ -133,7 +133,8 @@
                 %td.text-right
                   %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.time)}
                     = track.time.result.round(1) if track.time
-                %td.text-muted= track.comment
+                %td.text-muted
+                  .comment-cell= track.comment
                 %td.text-info.text-right
                   = l(track.created_at, 
                       format: '%-d %b %Y', 

@@ -1,3 +1,7 @@
+.comment-cell {
+  max-width: 250px;
+}
+
 .track-list {
   padding-left: 0px;
 }
