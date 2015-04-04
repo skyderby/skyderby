@@ -138,7 +138,7 @@ GEM
       less (~> 2.6.0)
     less-rails-bootstrap (3.3.2.0)
       less-rails (~> 2.6.0)
-    libv8 (3.16.14.7)
+    libv8 (3.16.14.3)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -369,7 +369,7 @@ DEPENDENCIES
   jquery-turbolinks
   less-rails
   less-rails-bootstrap
-  libv8 (~> 3.16.14.3)
+  libv8 (= 3.16.14.3)
   mailcatcher
   meta_request
   mysql2
