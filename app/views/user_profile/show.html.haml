@@ -1,22 +1,22 @@
 .user{data: {id: @profile.id, tracks: user_tracks}}
 .container.top-buffer
   .row
-    .col-md-2
+    .col-sm-2.col-md-2
       .top-buffer.userpic-container.text-center
-        = image_tag(@profile.userpic.url(:medium), id: 'userpic',:class => 'img-responsive img-rounded loading-bg')
+        = image_tag(@profile.userpic.url(:medium), :class => 'img-responsive img-rounded loading-bg')
         -# .edit-userpic
         -#   %span= 'Click to edit'
 
-    .col-md-10
+    .col-sm-10.col-md-10
       .row
-        .col-md-11
+        .col-sm-10.col-md-11
           %h1
             - unless @profile.name.blank?
               = @profile.name
             - else
-              = @profile.user.email
+              = 'Name not set'
 
-        .col-md-1
+        .col-sm-2.col-md-1
           - if current_user && current_user.user_profile == @profile
             = link_to content_tag(:span, nil, :class => 'fa fa-pencil'),
                       edit_user_registration_path,
@@ -32,21 +32,21 @@
               %i.fa.fa-certificate{style: 'color: #CD7F32'}
             = badge.name
       .row
-        .col-md-3
+        .col-sm-4.col-md-3
           .param-val
             #distance.avg-val.fa-3x= '----'
             .dst-unit.fa-2x= t 'units.m'
           .param
             %i.fa.fa-fw.fa-lg.fa-arrows-h
             =t 'tracks.show.dt_dist'
-        .col-md-3
+        .col-sm-4.col-md-3
           .param-val
             #speed.avg-val.fa-3x= '---'
             .spd-unit.fa-2x=t 'units.kmh'
           .param
             %i.fa.fa-fw.fa-lg.fa-long-arrow-right
             =t 'tracks.show.dt_hspd'
-        .col-md-3
+        .col-sm-4.col-md-3
           .param-val
             #time.avg-val.fa-3x= '--.-'
             .time-unit.fa-2x= t 'units.t_unit'
