@@ -4,21 +4,24 @@
       = @competition.group.name + ': '
       = @competition.name
       -# %small= @competition.information
+    %div= competition_place
+    %div= competition_suit
+    %div= competition_task
 
   - results = @competition.virtual_comp_results.order('result DESC').group_by{ |x| x.user_profile_id }.map{ |_, results| results.first }
   - if results.count > 2
     .top-buffer
-      .col-sm-4
+      .col-sm-4.col-md-4
         .well
           .row
-            .col-sm-4
+            .col-sm-4.col-md-4
               = image_tag(results.first.user_profile.userpic.url(:medium), 
                           class: 'img-responsive img-rounded')
-            .col-sm-8
-              .fa-lg= results.first.user_profile.name
-              .fa-3x
-                = results.first.result
-                = competition_unit
+            .col-sm-8.col-md-8
+              .vc-profile-name= results.first.user_profile.name
+              %div
+                %span.vc-result= format_result(results.first.result)
+                %span.vc-unit= competition_unit
       .col-sm-4
         .well
           .row
@@ -26,10 +29,10 @@
               = image_tag(results.second.user_profile.userpic.url(:medium), 
                           class: 'img-responsive img-rounded')
             .col-sm-8
-              .fa-lg= results.second.user_profile.name
-              .fa-3x
-                = results.second.result
-                = competition_unit
+              .vc-profile-name= results.second.user_profile.name
+              %div
+                %span.vc-result= format_result(results.second.result)
+                %span.vc-unit= competition_unit
       .col-sm-4
         .well
           .row
@@ -37,10 +40,10 @@
               = image_tag(results.third.user_profile.userpic.url(:medium), 
                           class: 'img-responsive img-rounded')
             .col-sm-8
-              .fa-lg= results.third.user_profile.name
-              .fa-3x
-                = results.third.result
-                = competition_unit
+              .vc-profile-name= results.third.user_profile.name
+              %div
+                %span.vc-result= format_result(results.third.result)
+                %span.vc-unit= competition_unit
     .top-buffer
   %table.table.table-hover
     %thead
@@ -49,6 +52,10 @@
         %th=t 'activerecord.attributes.track.name'
         %th=t 'activerecord.attributes.track.suit'
         %th= 'Result'
+        - if @competition.display_highest_speed
+          %th= 'Best speed'
+        - if @competition.display_highest_gr
+          %th= 'Best G/R'
         %th=t 'activerecord.attributes.track.uploaded_at'
     %tbody
       - row_number = 1
@@ -61,5 +68,9 @@
             %span.text-warning{data: {toggle: 'tooltip'}, title: manufacturer.name}= manufacturer.code || ''
             %span= ' ' + result.track.wingsuit.name
           %td.text-info= result.result
+          - if @competition.display_highest_speed
+            %td.text-info= (result.highest_speed || 0.0).round(1)
+          - if @competition.display_highest_gr
+            %td.text-info= (result.highest_gr || 0.0).round(2)
           %td.text-info= result.track.created_at.strftime('%d.%m.%Y')
           - row_number += 1

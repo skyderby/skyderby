@@ -36,7 +36,7 @@ class TracksController < ApplicationController
 
     @track = Track.new flight_data.except(:data, :ext)
     @track.user = current_user
-    @track.pilot = current_user.user_profile
+    @track.pilot = current_user.user_profile if current_user
     @track.ge_enabled = true
 
     @track.trackfile = flight_data.slice(:data, :ext)

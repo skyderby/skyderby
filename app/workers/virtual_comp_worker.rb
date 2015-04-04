@@ -15,7 +15,10 @@ class VirtualCompWorker
       tmp_result.virtual_competition_id = comp.id
 
       if comp.distance_in_time?
-        tmp_result.result = calculate_distance_in_time(data, comp.discipline_parameter)
+        result_hash = calculate_distance_in_time(data, comp.discipline_parameter)
+        tmp_result.result = result_hash[:distance]
+        tmp_result.highest_gr = result_hash[:highest_gr] if comp.display_highest_gr
+        tmp_result.highest_speed = result_hash[:highest_speed] if comp.display_highest_speed
       else
         result_hash = calculate(data, comp.range_from, comp.range_to)
         tmp_result.result = result_hash[:distance] if comp.distance?
@@ -30,13 +33,17 @@ class VirtualCompWorker
     trk_points = data.trimmed  
     fl_time = 0
     distance = 0
+    highest_gr = 0
+    highest_speed = 0
     trk_points.each do |x|
       fl_time += x[:fl_time]
       next if fl_time == 1 
       distance += x[:distance]
+      highest_gr = x[:glrat] if x[:glrat] > highest_gr
+      highest_speed = x[:h_speed] if x[:h_speed] > highest_speed 
       break if fl_time > 20 
     end
-    distance
+    { distance: distance, highest_gr: highest_gr, highest_speed: highest_speed }
   end
 
   # REFACTOR THIS

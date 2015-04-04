@@ -27,7 +27,7 @@ ru:
       track:
         id: '#'
         name: 'Пилот'
-        suit: 'Вингсьют'
+        suit: 'Костюм'
         place: 'Локация'
         comment: 'Комментарий'
         uploaded_at: 'Дата загрузки'
@@ -267,6 +267,15 @@ ru:
     speed: 'Скорость'
     distance: 'Дистанция'
     time: 'Время'
+  virtual_competitions:
+    tasks:
+      speed: 'Цель: лететь с максимально возможной горизонтальной скоростью находясь в зачетном окне (%{range_from} - %{range_to} м)'
+      distance: 'Цель: пролететь максимальное расстояние находясь в зачетном окне (%{range_from} - %{range_to} м)'
+      distance_in_time: 'Цель: пролететь максимальное расстояние за %{parameter} сек'
+      time: 'Цель: лететь с минимально возможной вертикальной скоростью находясь в зачетном окне (%{range_from} - %{range_to} м)'
+    place: 'Место проведения: %{place}'
+    worldwide: 'Всемирные'
+    suit: 'Тип костюма: %{suit}'
   users:
     profile:
       show:
