@@ -3,7 +3,15 @@ class UserProfileController < ApplicationController
   before_action :set_user, only: [:update]
 
   def show
-    @profile = UserProfile.find(params[:id]) 
+    @profile = UserProfile
+                .includes(:badges)
+                .includes(:tracks)
+                .includes(tracks: :distance)
+                .includes(tracks: :speed)
+                .includes(tracks: :time)
+                .includes(tracks: :wingsuit)
+                .includes(tracks: {wingsuit: :manufacturer})
+                .find(params[:id]) 
   end
 
   def update

@@ -45,18 +45,18 @@
                 %span.vc-result= format_result(results.third.result)
                 %span.vc-unit= competition_unit
     .top-buffer
-  %table.table.table-hover
+  %table.table.table-hover.table-striped
     %thead
       %tr
         %th= '#'
         %th=t 'activerecord.attributes.track.name'
         %th=t 'activerecord.attributes.track.suit'
-        %th= 'Result'
+        %th.text-right= 'Result'
         - if @competition.display_highest_speed
-          %th= 'Best speed'
+          %th.text-right= 'Best speed'
         - if @competition.display_highest_gr
-          %th= 'Best G/R'
-        %th=t 'activerecord.attributes.track.uploaded_at'
+          %th.text-right= 'Best G/R'
+        %th.text-right=t 'activerecord.attributes.track.uploaded_at'
     %tbody
       - row_number = 1
       - results.each do |result|
@@ -67,10 +67,10 @@
             - manufacturer = result.track.wingsuit.manufacturer
             %span.text-warning{data: {toggle: 'tooltip'}, title: manufacturer.name}= manufacturer.code || ''
             %span= ' ' + result.track.wingsuit.name
-          %td.text-info= result.result
+          %td.text-info.text-right= format_result(result.result)
           - if @competition.display_highest_speed
-            %td.text-info= (result.highest_speed || 0.0).round(1)
+            %td.text-info.text-right= (result.highest_speed || 0.0).round(1)
           - if @competition.display_highest_gr
-            %td.text-info= (result.highest_gr || 0.0).round(2)
-          %td.text-info= result.track.created_at.strftime('%d.%m.%Y')
+            %td.text-info.text-right= (result.highest_gr || 0.0).round(2)
+          %td.text-info.text-right= result.track.created_at.strftime('%d.%m.%Y')
           - row_number += 1

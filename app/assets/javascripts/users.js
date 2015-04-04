@@ -208,9 +208,9 @@ User.prototype = {
 
 $(document).on('ready page:load', function() {
     if ($('.user').length) {
-        window.Profile = new User({
-            id: $('.user').data('id'),
-            tracks: $('.user').data('tracks')
-        });
+        // window.Profile = new User({
+        //     id: $('.user').data('id'),
+        //     tracks: $('.user').data('tracks')
+        // });
     }
 });

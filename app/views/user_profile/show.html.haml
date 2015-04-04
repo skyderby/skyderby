@@ -1,4 +1,8 @@
 .user{data: {id: @profile.id, tracks: user_tracks}}
+- if current_user && current_user.user_profile = @profile
+  - profile_tracks = @profile.tracks
+- else
+  - profile_tracks = @profile.public_tracks
 .container.top-buffer
   .row
     .col-sm-2.col-md-2
@@ -34,21 +38,48 @@
       .row
         .col-sm-4.col-md-3
           .param-val
-            #distance.avg-val.fa-3x= '----'
+            - track = profile_tracks.max_by do |x| 
+              - if x.distance
+                - x.distance.result 
+              -else
+                - 0
+            #distance.avg-val.fa-3x
+              - if track
+                = track.distance.result.round
+              -else
+                = '----'
             .dst-unit.fa-2x= t 'units.m'
           .param
             %i.fa.fa-fw.fa-lg.fa-arrows-h
             =t 'tracks.show.dt_dist'
         .col-sm-4.col-md-3
           .param-val
-            #speed.avg-val.fa-3x= '---'
+            - track = profile_tracks.max_by do |x| 
+              - if x.speed
+                - x.speed.result 
+              -else
+                - 0
+            #speed.avg-val.fa-3x
+              - if track
+                = track.speed.result.round
+              -else
+                = '---'
             .spd-unit.fa-2x=t 'units.kmh'
           .param
             %i.fa.fa-fw.fa-lg.fa-long-arrow-right
             =t 'tracks.show.dt_hspd'
         .col-sm-4.col-md-3
           .param-val
-            #time.avg-val.fa-3x= '--.-'
+            - track = profile_tracks.max_by do |x| 
+              - if x.time
+                - x.time.result 
+              -else
+                - 0
+            #time.avg-val.fa-3x
+              - if track
+                = track.time.result.round(1)
+              -else
+                = '--.-'
             .time-unit.fa-2x= t 'units.t_unit'
           .param
             %i.fa.fa-fw.fa-lg.fa-clock-o
@@ -66,21 +97,46 @@
             %th= t('activerecord.attributes.track.id')
             %th= t('activerecord.attributes.track.suit')
             %th= t('activerecord.attributes.track.place')
-            %th= t('disciplinse.distance')
-            %th= t('disciplinse.speed')
-            %th= t('disciplinse.time')
+            %th.text-right= t('disciplinse.distance')
+            %th.text-right= t('disciplinse.speed')
+            %th.text-right= t('disciplinse.time')
             %th= t('activerecord.attributes.track.comment')
-            %th= t('activerecord.attributes.track.uploaded_at')
+            %th.text-right= t('activerecord.attributes.track.uploaded_at')
         %tbody
-          - @profile.tracks.each do |track|
-            %tr.clickableRow{:data => {:url => track_path(:id => track.id)}}
-              %td.text-info= track.id
-              %td.text-info= track.suit
-              %td.text-info= track.location
-              %td.text-info= track.distance
-              %td.text-info= track.speed
-              %td.text-info= track.time
-              %td.text-muted= track.comment
-              %td.text-info= track.created_at
+          - groups = profile_tracks.group_by { |x| x.created_at.beginning_of_month }
+          - groups.each do |group, tracks|
+            %tr.bg-warning.text-danger.no-hover
+              %td{colspan: 8}
+                = l(group,
+                   format: '%B %Y', 
+                   locale: params[:locale])
+            - tracks.each do |track|
+              %tr.clickableRow{:data => {:url => track_path(:id => track.id)}}
+                %td.text-info= track.id
+                %td
+                  - if track.wingsuit
+                    - manufacturer = track.wingsuit.manufacturer
+                    %span.text-warning{data: {toggle: 'tooltip'}, title: manufacturer.name}
+                      = manufacturer.code
+                    %span.text-info
+                      = track.wingsuit.name 
+                  - else 
+                    %span.text-info
+                      = track.suit
+                %td.text-info= track.location
+                %td.text-right
+                  %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.distance)}
+                    = track.distance.result.to_i if track.distance
+                %td.text-right
+                  %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.speed)}
+                    = track.speed.result.to_i if track.speed
+                %td.text-right
+                  %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.time)}
+                    = track.time.result.round(1) if track.time
+                %td.text-muted= track.comment
+                %td.text-info.text-right
+                  = l(track.created_at, 
+                      format: '%-d %b %Y', 
+                      locale: params[:locale])
 
 = render 'edit_userpic_modal'
