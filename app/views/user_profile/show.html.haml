@@ -1,8 +1,4 @@
 .user{data: {id: @profile.id, tracks: user_tracks}}
-- if current_user && current_user.user_profile == @profile
-  - profile_tracks = @profile.tracks
-- else
-  - profile_tracks = @profile.public_tracks
 .container.top-buffer
   .row
     .col-sm-2.col-md-2
@@ -15,11 +11,7 @@
       .row
         .col-sm-10.col-md-11
           %h1
-            - unless @profile.name.blank?
-              = @profile.name
-            - else
-              = 'Name not set'
-
+            = profile_name
         .col-sm-2.col-md-1
           - if current_user && current_user.user_profile == @profile
             = link_to content_tag(:span, nil, :class => 'fa fa-pencil'),
@@ -28,58 +20,26 @@
       .row
         - @profile.badges.each do |badge|
           %span.badge
-            - if badge.gold?
-              %i.fa.fa-certificate{style: 'color: #D9D919'}
-            - elsif badge.silver?
-              %i.fa.fa-certificate{style: 'color: silver'}
-            - elsif badge.bronze?
-              %i.fa.fa-certificate{style: 'color: #CD7F32'}
+            %i.fa.fa-certificate{class: badge.kind}
             = badge.name
       .row
         .col-sm-4.col-md-3
           .param-val
-            - track = profile_tracks.max_by do |x| 
-              - if x.distance
-                - x.distance.result 
-              -else
-                - 0
-            #distance.avg-val.fa-3x
-              - if track
-                = track.distance.result.round
-              -else
-                = '----'
+            #distance.avg-val.fa-3x= max_distance
             .dst-unit.fa-2x= t 'units.m'
           .param
             %i.fa.fa-fw.fa-lg.fa-arrows-h
             =t 'tracks.show.dt_dist'
         .col-sm-4.col-md-3
           .param-val
-            - track = profile_tracks.max_by do |x| 
-              - if x.speed
-                - x.speed.result 
-              -else
-                - 0
-            #speed.avg-val.fa-3x
-              - if track
-                = track.speed.result.round
-              -else
-                = '---'
+            #speed.avg-val.fa-3x= max_speed
             .spd-unit.fa-2x=t 'units.kmh'
           .param
             %i.fa.fa-fw.fa-lg.fa-long-arrow-right
             =t 'tracks.show.dt_hspd'
         .col-sm-4.col-md-3
           .param-val
-            - track = profile_tracks.max_by do |x| 
-              - if x.time
-                - x.time.result 
-              -else
-                - 0
-            #time.avg-val.fa-3x
-              - if track
-                = track.time.result.round(1)
-              -else
-                = '--.-'
+            #time.avg-val.fa-3x= max_time
             .time-unit.fa-2x= t 'units.t_unit'
           .param
             %i.fa.fa-fw.fa-lg.fa-clock-o
@@ -140,4 +100,4 @@
                       format: '%-d %b %Y', 
                       locale: params[:locale])
 
-= render 'edit_userpic_modal'
+-# = render 'edit_userpic_modal'
