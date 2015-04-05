@@ -11,6 +11,7 @@ class TracksController < ApplicationController
                    .includes(:distance)
                    .includes(:speed)
                    .order('id DESC')
+                   .paginate(page: params[:page], per_page: 50)
   end
 
   def show

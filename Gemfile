@@ -16,7 +16,7 @@ group :development, :test do
   gem 'capistrano-rails'
   gem 'capistrano-passenger'
   gem 'capistrano-bundler'
-  gem 'capistrano-sidekiq'
+  # gem 'capistrano-sidekiq'
   gem 'rubocop', require: false
   # gem 'rack-mini-profiler'
 end
@@ -33,16 +33,17 @@ end
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
+gem 'will_paginate'
 
 gem 'sass-rails', '~> 4.0.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 
 group :production do
+  gem 'therubyracer'
   gem 'libv8', '3.16.14.3'
 end
 
-gem 'therubyracer'
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
 gem 'less-rails-bootstrap'

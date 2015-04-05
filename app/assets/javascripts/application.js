@@ -28,6 +28,7 @@
 
 Turbolinks.enableProgressBar();
 
+
 $.validator.addMethod('filesize', function(value, element, param) {
     // param = size (en bytes) 
     // element = element to validate (<input>)
@@ -170,5 +171,21 @@ $(document).on('click', '.clickableRow', function() {
 
 
 $(document).on('ready page:load', function() {
+    // Init tooltips
     $('[data-toggle="tooltip"]').tooltip();
+    
+    // ONLY if page has one pagination!
+    if ($('.pagination').length) {
+        $(window).off('scroll').on('scroll', function() {
+            var url = $('.pagination .next_page').attr('href');
+            if (url && $(window).scrollTop() > $(document).height() - $(window).height() - 130) {
+                $('.pagination').text('Fetching more tracks...')
+                $.getScript(url);
+            }
+        });
+        $(window).scroll();
+    } else {
+        $(window).off('scroll');
+    }
+
 });

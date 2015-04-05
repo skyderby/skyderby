@@ -1,0 +1,25 @@
+%tr.clickableRow{data: {url: track_path(id: track.id)}}
+  %td.text-info= track.id
+  %td.text-info= track.name
+  %td
+    - if track.wingsuit
+      - manufacturer = track.wingsuit.manufacturer
+      %span.text-warning{data: {toggle: 'tooltip'}, title: manufacturer.name}
+        = manufacturer.code
+      %span.text-info
+        = track.wingsuit.name 
+    - else 
+      %span.text-info
+        = track.suit
+  %td.text-info= track.location
+  %td.text-muted= track.comment
+  %td.text-right
+    %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.distance)}
+      = track.distance.result.to_i if track.distance
+  %td.text-right
+    %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.speed)}
+      = track.speed.result.to_i if track.speed
+  %td.text-right
+    %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.time)}
+      = track.time.result if track.time
+  %td.text-info= track.created_at.strftime('%d.%m.%Y')
