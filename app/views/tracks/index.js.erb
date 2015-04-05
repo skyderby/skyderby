@@ -1,6 +1,6 @@
 $('#tracks-index').append('<%= j render(@tracks) %>)');
 <% if @tracks.next_page %>
-    $('.pagination').replaceWith('<%= j will_paginate(@tracks) %>');
+    $('.pagination').replaceWith('<%= j will_paginate(@tracks, renderer: BootstrapPagination::Rails) %>');
 <% else %>
     $('.pagination').remove();
 <% end %>

@@ -11,18 +11,6 @@ function init() {
 }
 
 $(document).on('ready page:load', function() {
-    if ($('.pagination').length) {
-        $(window).off('scroll').on('scroll', function() {
-            var url = $('.pagination .next_page').attr('href');
-            if (url && $(window).scrollTop() > $(document).height() - $(window).height() - 130) {
-                $('.pagination').text('Fetching more tracks...')
-                $.getScript(url);
-            }
-        });
-        $(window).scroll();
-    } else {
-        $(window).off('scroll');
-    }
     if ($('.tracks-index').length) {
         // init();
     }
