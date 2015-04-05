@@ -30,19 +30,46 @@ class VirtualCompWorker
   end
 
   def calculate_distance_in_time(data, discipline_parameter)
-    trk_points = data.trimmed  
-    fl_time = 0
+    # method return values
     distance = 0
     highest_gr = 0
     highest_speed = 0
-    trk_points.each do |x|
-      fl_time += x[:fl_time]
-      next if fl_time == 1 
-      distance += x[:distance]
-      highest_gr = x[:glrat] if x[:glrat] > highest_gr
-      highest_speed = x[:h_speed] if x[:h_speed] > highest_speed 
-      break if fl_time > 20 
+
+    # tmp values
+    fl_time = 0
+    prev_point = nil
+    start_found = false
+    trk_points = data.trimmed(start: data.ff_start - 10)
+
+    trk_points.each do |cur_point|
+      break if fl_time >= discipline_parameter
+
+      if prev_point
+        if cur_point[:raw_v_speed] >= 10 && !start_found
+          start_found = true
+          k = (cur_point[:raw_v_speed] - 10) / (cur_point[:raw_v_speed] - prev_point[:raw_v_speed])
+          fl_time += cur_point[:fl_time] * k
+          distance += cur_point[:distance] * k
+        end
+
+        if start_found
+          if fl_time + cur_point[:fl_time] < discipline_parameter
+            fl_time += cur_point[:fl_time]
+            distance += cur_point[:distance]
+
+            highest_gr = cur_point[:glrat] if cur_point[:glrat] > highest_gr
+            highest_speed = cur_point[:h_speed] if cur_point[:h_speed] > highest_speed
+          else
+            k = (fl_time + cur_point[:fl_time] - discipline_parameter) / cur_point[:fl_time]
+            fl_time += cur_point[:fl_time] - cur_point[:fl_time] * k
+            distance += cur_point[:distance] - cur_point[:distance] * k
+          end
+        end
+      end
+
+      prev_point = cur_point
     end
+
     { distance: distance, highest_gr: highest_gr, highest_speed: highest_speed }
   end
 

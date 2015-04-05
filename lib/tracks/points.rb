@@ -2,7 +2,7 @@ require 'median_filter'
 require 'moving_average'
 
 class TrackPoints
-  attr_reader :points
+  attr_reader :points, :ff_start, :ff_end
 
   def initialize(track = nil)
     raise ArgumentError.new('Track must be present') if track.nil?
@@ -14,13 +14,23 @@ class TrackPoints
     read(track)
   end
 
-  def trimmed
+  def trimmed(hsh = {})
+    start_time = nil
+    end_time = nil
+
+    start_time = @ff_start if @ff_start
+    end_time = @ff_end if @ff_end
+
+    start_time = hsh[:start] if hsh[:start]
+    end_time = hsh[:end] if hsh[:end]
+
     track_points = @points.clone
-    if @ff_start.present?
-       track_points = track_points.drop_while{ |x| x[:fl_time_abs] < @ff_start}
+
+    if start_time
+       track_points = track_points.drop_while{ |x| x[:fl_time_abs] < start_time}
     end
-    if @ff_end.present? && @ff_end > 0 && (@ff_start.blank? || @ff_end > @ff_start)
-      track_points = track_points.reverse.drop_while{ |x| x[:fl_time_abs] > @ff_end}.reverse
+    if end_time && end_time > 0 && (start_time.blank? || end_time > start_time)
+      track_points = track_points.reverse.drop_while{ |x| x[:fl_time_abs] > end_time}.reverse
     end
 
     track_points

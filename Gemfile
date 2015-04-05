@@ -41,11 +41,8 @@ gem 'sass-rails', '~> 4.0.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
 
-group :production do
-  gem 'therubyracer'
-  gem 'libv8', '3.16.14.3'
-end
-
+gem 'libv8', '3.16.14.8.rc1'
+gem 'therubyracer'
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
 gem 'less-rails-bootstrap'
@@ -75,9 +72,6 @@ end
 
 # Use unicorn as the app server
 # gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
