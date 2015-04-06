@@ -4,6 +4,7 @@ de:
   activerecord:
     attributes:
       user:
+        name_placeholder: 'John Doe'
         current_password: Bisheriges Passwort
         email: E-Mail
         password: Passwort

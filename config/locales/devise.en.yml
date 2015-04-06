@@ -6,6 +6,8 @@ en:
       user: "User"
     attributes:
       user:
+        name: 'Name'
+        name_placeholder: 'John Doe'
         email: "Email"
         password: "Password"
         password_confirmation: "Password confirmation"

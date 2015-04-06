@@ -3,6 +3,8 @@ ru:
   activerecord:
     attributes:
       user:
+        name: 'Имя Фамилия'
+        name_placeholder: 'Имя Фамилия'
         current_password: "Текущий пароль"
         email: "Email"
         password: "Пароль"

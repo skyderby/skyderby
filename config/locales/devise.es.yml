@@ -1,6 +1,18 @@
 # Traducciones adicionales en https://github.com/plataformatec/devise/wiki/I18n
 
 es:
+  activerecord:
+    models:
+      user: "User"
+    attributes:
+      user:
+        name: 'Name'
+        name_placeholder: 'John Doe'
+        email: "Email"
+        password: "Password"
+        password_confirmation: "Password confirmation"
+        current_password: "Current password"
+        remember_me: "Remember me"
   devise:
     confirmations:
       confirmed: "Tu cuenta ya ha sido confirmada."
@@ -42,6 +54,8 @@ es:
       signed_up_but_unconfirmed: "Se te ha enviado un mensaje con un enlace de confirmación. Por favor visita el enlace para activar tu cuenta."
       update_needs_confirmation: "Actualizaste tu cuenta correctamente, sin embargo necesitamos verificar tu nueva cuenta de correo. Por favor revisa tu correo electrónico y visita el enlace para finalizar la confirmación de tu nueva dirección de correo electrónico."
       updated: "Has actualizado tu cuenta correctamente."
+      new:
+        sign_up: "Sign up"
     sessions:
       signed_in: "Has iniciado sesión satisfactoriamente."
       signed_out: "Has cerrado la sesión satisfactoriamente."

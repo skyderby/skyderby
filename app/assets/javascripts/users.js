@@ -3,7 +3,7 @@
 function init_new_user_form_validation() {
     $('#new_user').validate({
         rules: {
-            'user[user_profile][name]': {
+            'user[name]': {
                 minlength: 3,
                 required: true
             },

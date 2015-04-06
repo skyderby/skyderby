@@ -1,8 +1,14 @@
 .container
   .page-header
     %h2= t 'devise.registrations.new.sign_up'
-  = form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'form-horizontal'}) do |f|
+  = form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'new-user-form form-horizontal'}) do |f|
     = devise_error_messages!
+
+    .form-group
+      = f.label :name, class: 'col-sm-2 control-label'
+      .col-sm-6
+        = f.text_field :name, class: 'form-control', 
+          placeholder: t('activerecord.attributes.user.name_placeholder')
 
     .form-group
       = f.label :email, class: 'col-sm-2 control-label'
