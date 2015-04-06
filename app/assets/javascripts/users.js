@@ -1,3 +1,42 @@
+//
+//
+function init_new_user_form_validation() {
+    $('#new_user').validate({
+        rules: {
+            'user[user_profile][name]': {
+                minlength: 3,
+                required: true
+            },
+            'user[email]': {
+                required: true,
+                email: true
+            },
+            'user[password]': {
+                required: true
+            },
+            'user[password_confirmation]': {
+                required: true,
+                equalTo: '#user_password'
+            },
+        },
+        highlight: function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+        // errorPlacement: function(error, element) {
+        //     if (element.attr("name") == "track_file") {
+        //         error.appendTo( element.closest(".col-sm-9") );
+        //     } else if(element.hasClass('suit-group')) {
+        //         error.appendTo( element.closest('div') );    
+        //     } else {
+        //         error.insertAfter(element);
+        //     }
+        // }
+    });
+}
+
 var Userpic_form = function() {
     this.$file_field = $('#avatar-file');
     this.$form = $('#avatar-form');
@@ -213,4 +252,6 @@ $(document).on('ready page:load', function() {
         //     tracks: $('.user').data('tracks')
         // });
     }
+
+    init_new_user_form_validation();
 });
