@@ -25,7 +25,7 @@ class VirtualCompWorker
         tmp_result.result = result_hash[:speed] if comp.speed?
         tmp_result.result = result_hash[:time] if comp.time?
       end
-      track.virtual_comp_results << tmp_result
+      track.virtual_comp_results << tmp_result if tmp_result.result > 0
     end
   end
 
@@ -43,6 +43,8 @@ class VirtualCompWorker
 
     trk_points.each do |cur_point|
       break if fl_time >= discipline_parameter
+      # break if track trimmed to point after exit
+      break if !prev_point && cur_point[:raw_v_speed] > 10
 
       if prev_point
         if cur_point[:raw_v_speed] >= 10 && !start_found
