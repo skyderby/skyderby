@@ -25,16 +25,26 @@ function init_new_user_form_validation() {
         unhighlight: function(element) {
             $(element).closest('.form-group').removeClass('has-error');
         },
-        // errorPlacement: function(error, element) {
-        //     if (element.attr("name") == "track_file") {
-        //         error.appendTo( element.closest(".col-sm-9") );
-        //     } else if(element.hasClass('suit-group')) {
-        //         error.appendTo( element.closest('div') );    
-        //     } else {
-        //         error.insertAfter(element);
-        //     }
-        // }
     });
+
+    $('.sign-in-form').validate({
+        rules: {
+            'user[email]': {
+                required: true,
+                email: true
+            },
+            'user[password]': {
+                required: true
+            },
+        },
+        highlight: function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+    });
+
 }
 
 var Userpic_form = function() {

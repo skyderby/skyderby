@@ -43,7 +43,7 @@
               %li
                 .row
                   .col-md-12
-                    = form_for(:user, :url => session_path(:user), :html => {:class => 'form', :role => 'form'}) do |f|
+                    = form_for(:user, :url => session_path(:user), :html => {:class => 'form sign-in-form', :role => 'form'}) do |f|
                       .form-group
                         = label_tag 'user_email', 'Email address', :for => 'user_email', :class => 'sr-only'
                         = f.text_field :email, :class => 'form-control', :type => 'email', :placeholder => t('application.header.login_email')
