@@ -45,6 +45,21 @@ function init_new_user_form_validation() {
         },
     });
 
+    $('.edit-user-profile').validate({
+        rules: {
+            'user_profile[name]': {
+                required: true
+            }
+        },
+        highlight: function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+    });
+
+
 }
 
 var Userpic_form = function() {

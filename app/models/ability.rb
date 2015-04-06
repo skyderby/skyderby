@@ -6,6 +6,7 @@ class Ability
 
     can :read, Track, visibility: %w(public_track unlisted_track)
     can :read, Event, status: %w(published finished)
+    can :read, UserProfile
     can :create, Track
     can :update, Track, user: nil, lastviewed_at: nil
 
@@ -23,6 +24,8 @@ class Ability
 
     if user
       can [:read, :update], Track, :user => user  # Редактирование собственных треков
+
+      can :update, UserProfile, user: user
 
       can :destroy, Event, :responsible => user, :status => :draft
       can [:read, :update], Event, :responsible => user.user_profile

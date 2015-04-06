@@ -13,9 +13,9 @@
           %h1
             = profile_name
         .col-sm-2.col-md-1
-          - if current_user && current_user.user_profile == @profile
+          - if can? :update, @profile
             = link_to content_tag(:span, nil, :class => 'fa fa-pencil'),
-                      edit_user_registration_path,
+                      edit_user_profile_path(@profile),
                       :class => 'btn btn-default edit'
       .row
         - @profile.badges.each do |badge|
