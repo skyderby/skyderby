@@ -146,9 +146,9 @@ class TrackPoints
                      abs_altitude: point.abs_altitude,
                      latitude: point.latitude,
                      longitude: point.longitude,
-                     distance: point.distance.to_i,
-                     h_speed: (point.h_speed || 0.0).round,
-                     v_speed: (point.v_speed || 0.0).round,
+                     distance: point.distance,
+                     h_speed: (point.h_speed || 0.0),
+                     v_speed: (point.v_speed || 0.0),
                      raw_h_speed: raw_h,
                      raw_v_speed: raw_v }
 
