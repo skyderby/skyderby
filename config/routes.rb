@@ -65,7 +65,7 @@ TrackingDerby::Application.routes.draw do
     resources :user_profile
     resources :places, only: [:index, :show]
 
-    resources :virtual_competitions, only: [:index, :show]
+    resources :virtual_competitions
 
     mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 

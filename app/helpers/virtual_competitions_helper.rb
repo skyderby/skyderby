@@ -1,6 +1,6 @@
 module VirtualCompetitionsHelper
   def competition_unit
-    if @competition.distance? || @competition.distance_in_time?
+    if @competition.distance? || @competition.distance_in_time? || @competition.straightline_distance_in_time?
       t('units.m')
     elsif @competition.time?
       t('units.t_unit')
@@ -25,6 +25,9 @@ module VirtualCompetitionsHelper
     elsif @competition.distance_in_time?
       t('virtual_competitions.tasks.distance_in_time', 
         parameter: @competition.discipline_parameter)      
+    elsif @competition.straightline_distance_in_time?
+      t('virtual_competitions.tasks.straightline_distance_in_time', 
+        parameter: @competition.discipline_parameter)      
     end
   end
 
@@ -45,7 +48,7 @@ module VirtualCompetitionsHelper
   end
 
   def format_result(result)
-    if @competition.distance? || @competition.distance_in_time?
+    if @competition.distance? || @competition.distance_in_time? || @competition.straightline_distance_in_time?
       result.round
     else
       result.round(1)

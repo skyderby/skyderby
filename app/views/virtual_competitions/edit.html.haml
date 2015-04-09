@@ -1,0 +1,76 @@
+.container.top-buffer
+  .page-header
+    %h2
+      = @competition.name
+
+  = form_for @competition, html: {class: 'form-horizontal'} do |f|
+    .form-group
+      = f.label :name, class: 'col-sm-2 control-label', for: :name
+      .col-sm-5
+        = f.text_field :name, autofocus: true, class: 'form-control'
+
+    .form-group
+      = f.label :jumps_kind, class: 'col-sm-2 control-label', for: :jumps_kind
+      .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
+        %label.btn.btn-default{ class:  ('active' if @competition.skydive?) }
+          = f.radio_button 'jumps_kind', 'skydive'
+          = 'Skydive'
+
+        %label.btn.btn-default{ class:  ('active' if @competition.base?) }
+          = f.radio_button 'jumps_kind', 'base'
+          = 'B.A.S.E'
+
+    .form-group
+      = f.label :suits_kind, class: 'col-sm-2 control-label', for: :suits_kind
+      .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
+        %label.btn.btn-default{ class:  ('active' if @competition.wingsuit?) }
+          = f.radio_button 'suits_kind', 'wingsuit'
+          = 'Wingsuit'
+
+        %label.btn.btn-default{ class:  ('active' if @competition.tracksuit?) }
+          = f.radio_button 'suits_kind', 'tracksuit'
+          = 'Tracksuit'
+
+    .form-group
+      = f.label :discipline, class: 'col-sm-2 control-label', for: :discipline
+      .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
+        %label.btn.btn-default{ class:  ('active' if @competition.distance?) }
+          = f.radio_button 'discipline', 'distance'
+          = 'Distance'
+
+        %label.btn.btn-default{ class:  ('active' if @competition.speed?) }
+          = f.radio_button 'discipline', 'speed'
+          = 'Speed'
+
+        %label.btn.btn-default{ class:  ('active' if @competition.time?) }
+          = f.radio_button 'discipline', 'time'
+          = 'Time'
+ 
+        %label.btn.btn-default{ class:  ('active' if @competition.distance_in_time?) }
+          = f.radio_button 'discipline', 'distance_in_time'
+          = 'Distance in time'
+
+        %label.btn.btn-default{ class:  ('active' if @competition.straightline_distance_in_time?) }
+          = f.radio_button 'discipline', 'straightline_distance_in_time'
+          = 'Straight-line distance in time'
+
+    .form-group
+      = f.label :discipline_parameter, class: 'col-sm-2 control-label', for: :discipline_parameter
+      .col-sm-5
+        = f.text_field :discipline_parameter, class: 'form-control'
+
+    .form-group
+      = f.label :range_from, class: 'col-sm-2 control-label', for: :range_from
+      .col-sm-5
+        = f.text_field :range_from, class: 'form-control'
+
+    .form-group
+      = f.label :range_to, class: 'col-sm-2 control-label', for: :range_to
+      .col-sm-5
+        = f.text_field :range_to, class: 'form-control'
+
+    .form-group
+      .col-sm-offset-2.col-sm-8
+        = f.submit t('general.update'), class: 'btn btn-primary'
+
+

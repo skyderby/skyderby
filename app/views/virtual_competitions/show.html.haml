@@ -1,12 +1,18 @@
 .container
   .page-header
-    %h1
-      = @competition.group.name + ': '
-      = @competition.name
-      -# %small= @competition.information
-    %div= competition_place
-    %div= competition_suit
-    %div= competition_task
+    .row
+      .col-sm-10
+        %h1
+          = @competition.group.name + ': '
+          = @competition.name
+          -# %small= @competition.information
+        %div= competition_place
+        %div= competition_suit
+        %div= competition_task
+      .col-sm-2
+        .pull-right
+          - if can? :update, @competition
+            = link_to 'Edit', edit_virtual_competition_path(@competition), class: 'btn btn-default'
 
   - results = @competition.virtual_comp_results.order('result DESC').group_by{ |x| x.user_profile_id }.map{ |_, results| results.first }
   - if results.count > 2

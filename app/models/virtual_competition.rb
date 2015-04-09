@@ -46,4 +46,8 @@ class VirtualCompetition < ActiveRecord::Base
 
     competitions
   end
+
+  def reprocess_results
+    self.virtual_comp_results.each { |x| VirtualCompWorker.perform_async(x.track_id) }
+  end
 end
