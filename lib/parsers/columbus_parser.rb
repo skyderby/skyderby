@@ -36,7 +36,7 @@ class ColumbusParser < CSVParser
   end
 
   def parse_datetime(row)
-    DateTime.strptime('20' + row[2].to_s + 'T' + row[3].to_s, '%Y%m%dT%H%M%S').strftime('%Y-%m-%dT%H:%M:%S')
+    Time.strptime('20' + row[2].to_s + 'T' + row[3].to_s, '%Y%m%dT%H%M%S')
   end
 
 end

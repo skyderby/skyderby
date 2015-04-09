@@ -1,3 +1,5 @@
+require 'geospatial'
+
 class VirtualCompWorker
   include Sidekiq::Worker
 
@@ -19,6 +21,11 @@ class VirtualCompWorker
         tmp_result.result = result_hash[:distance]
         tmp_result.highest_gr = result_hash[:highest_gr] if comp.display_highest_gr
         tmp_result.highest_speed = result_hash[:highest_speed] if comp.display_highest_speed
+      elsif comp.straightline_distance_in_time?
+        result_hash = calculate_straightline_distance_in_time(data, comp.discipline_parameter)
+        tmp_result.result = result_hash[:distance]
+        tmp_result.highest_gr = result_hash[:highest_gr] if comp.display_highest_gr
+        tmp_result.highest_speed = result_hash[:highest_speed] if comp.display_highest_speed
       else
         result_hash = calculate(data, comp.range_from, comp.range_to)
         tmp_result.result = result_hash[:distance] if comp.distance?
@@ -27,6 +34,65 @@ class VirtualCompWorker
       end
       track.virtual_comp_results << tmp_result if tmp_result.result > 0
     end
+  end
+
+  def calculate_straightline_distance_in_time(data, discipline_parameter)
+    # method return values
+    distance = 0
+    highest_gr = 0
+    highest_speed = 0
+    
+    # tmp values
+    fl_time = 0
+    prev_point = nil
+    start_found = false
+    trk_points = data.trimmed(start: data.ff_start - 10)
+
+    start_lat = nil
+    start_lon = nil
+    end_lat = nil
+    end_lon = nil
+
+    trk_points.each do |cur_point|
+      break if fl_time >= discipline_parameter
+      # break if track trimmed to point after exit
+      break if !prev_point && cur_point[:v_speed] > 10
+
+      if prev_point
+        if cur_point[:v_speed] >= 10 && !start_found
+          start_found = true
+          k = (cur_point[:v_speed] - 10) / (cur_point[:v_speed] - prev_point[:v_speed])
+
+          start_lat = prev_point[:latitude] + (prev_point[:latitude] - cur_point[:latitude]) * k
+          start_lon = prev_point[:longitude] + (prev_point[:latitude] - cur_point[:latitude]) * k
+
+          fl_time += cur_point[:fl_time] * k
+        end
+
+        if start_found
+          if fl_time + cur_point[:fl_time] < discipline_parameter
+            fl_time += cur_point[:fl_time]
+
+            highest_gr = cur_point[:glrat] if cur_point[:glrat] > highest_gr
+            highest_speed = cur_point[:h_speed] if cur_point[:h_speed] > highest_speed
+          else
+            k = (fl_time + cur_point[:fl_time] - discipline_parameter) / cur_point[:fl_time]
+            fl_time += cur_point[:fl_time] - cur_point[:fl_time] * k
+
+            end_lat = cur_point[:latitude] - (prev_point[:latitude] - cur_point[:latitude]) * k
+            end_lon = cur_point[:longitude] - (prev_point[:longitude] - cur_point[:longitude]) * k
+          end
+        end
+      end
+
+      prev_point = cur_point
+    end
+
+    if start_lat && start_lon && end_lat && end_lon
+      distance = Geospatial.distance [start_lat, start_lon], [end_lat, end_lon]
+    end
+
+    { distance: distance, highest_gr: highest_gr, highest_speed: highest_speed }
   end
 
   def calculate_distance_in_time(data, discipline_parameter)
@@ -44,12 +110,12 @@ class VirtualCompWorker
     trk_points.each do |cur_point|
       break if fl_time >= discipline_parameter
       # break if track trimmed to point after exit
-      break if !prev_point && cur_point[:raw_v_speed] > 10
+      break if !prev_point && cur_point[:v_speed] > 10
 
       if prev_point
         if cur_point[:raw_v_speed] >= 10 && !start_found
           start_found = true
-          k = (cur_point[:raw_v_speed] - 10) / (cur_point[:raw_v_speed] - prev_point[:raw_v_speed])
+          k = (cur_point[:v_speed] - 10) / (cur_point[:v_speed] - prev_point[:v_speed])
           fl_time += cur_point[:fl_time] * k
           distance += cur_point[:distance] * k
         end

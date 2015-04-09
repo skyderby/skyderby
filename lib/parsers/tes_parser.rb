@@ -39,6 +39,6 @@ class TESParser < TrackParser
       min = binarydate[6..11].reverse.to_i(2).to_s
       sec = binarydate[0..5].reverse.to_i(2).to_s
 
-      "#{year}-#{month}-#{day}T#{hour}:#{min}:#{sec}"
+      Time.parse("#{year}-#{month}-#{day}T#{hour}:#{min}:#{sec}")
   end
 end

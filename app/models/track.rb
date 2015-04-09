@@ -29,6 +29,7 @@ class Track < ActiveRecord::Base
 
   enum kind: [:skydive, :base]
   enum visibility: [:public_track, :unlisted_track, :private_track]
+  enum gps_type: [:gpx, :flysight, :columbus, :wintec]
 
   validates :name, :location, presence: true
 
@@ -78,11 +79,29 @@ class Track < ActiveRecord::Base
 
   def parse_file
     if self.new_record?
-      track_points = TrackPointsProcessor.process_file(trackfile[:data], trackfile[:ext], track_index)
+      file_data = TrackPointsProcessor.process_file(trackfile[:data], trackfile[:ext], track_index)
+      track_points = file_data[:points]
       return false unless track_points
 
-      record_points track_points
+      self.gps_type = file_data[:gps_type]
+
       set_jump_range track_points
+
+      # Place
+      if self.ff_start
+        start_point = track_points.detect { |x| x[:fl_time] >= self.ff_start }
+        self.place = Place.nearby(
+          start_point[:latitude], 
+          start_point[:longitude],
+          self.base? ? 1 : 10
+        ).first if start_point
+      end
+
+      if self.place && self.place.msl
+        track_points.each { |x| x[:elevation] = x[:abs_altitude] - self.place.msl }
+      end
+
+      record_points track_points
     end
   end
 

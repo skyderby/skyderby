@@ -45,7 +45,7 @@ class GPXParser < TrackParser
       node.elements.each do |node|
         point[:elevation] = node.text.to_f if node.name.eql? 'ele'
         point[:abs_altitude] = node.text.to_f if node.name.eql? 'ele'
-        point[:point_created_at] = node.text.to_s if node.name.eql? 'time'
+        point[:point_created_at] = Time.parse(node.text) if node.name.eql? 'time'
       end
       @track_points << point
     end

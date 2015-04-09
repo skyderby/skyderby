@@ -110,12 +110,14 @@ class TrackPoints
 
     read_points(track)
 
-    process_by_distances(@points)
+    unless track.flysight?
+      process_by_distances(@points)
     # @points = MedianFilter.process(@points,
                                    # 5,
                                    # [:h_speed, :v_speed])
 
-    @points = MovingAverage.process(@points, 5, [:h_speed, :v_speed])
+      @points = MovingAverage.process(@points, 5, [:h_speed, :v_speed])
+    end
 
     calc_gr @points
   end

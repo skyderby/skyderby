@@ -23,7 +23,8 @@ class VirtualCompetition < ActiveRecord::Base
 
   enum jumps_kind: [:skydive, :base]
   enum suits_kind: [:wingsuit, :tracksuit]
-  enum discipline: [:time, :distance, :speed, :distance_in_time]
+  enum discipline: 
+    [:time, :distance, :speed, :distance_in_time, :straightline_distance_in_time]
 
   def self.by_track(track)
     competitions = VirtualCompetition.order(:name)

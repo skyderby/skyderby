@@ -1122,13 +1122,24 @@ function draw_map_polyline() {
     for (var index in Track.charts_data) {
       current_point = Track.charts_data[index];
       if (polyline.length === 0 || (speed_group(prev_point.h_speed) == speed_group(current_point.h_speed))) {
-        polyline.push({'lat': current_point.latitude, 'lng': current_point.longitude});
+        polyline.push({
+            'lat': Number(current_point.latitude),
+            'lng': Number(current_point.longitude)
+        });
       } else {
-        window.handler.addPolyline(polyline,
-                              { strokeColor: $('.hl' + speed_group(prev_point.h_speed)).css( "background-color" ),
-                              strokeOpacity: 1, strokeWeight: 6});
+        window.handler.addPolyline(
+            polyline,
+            { 
+                strokeColor: $('.hl' + speed_group(prev_point.h_speed)).css( "background-color" ),
+                strokeOpacity: 1, strokeWeight: 6
+            }
+        );
+
         polyline = [];
-        polyline.push({'lat': prev_point.latitude, 'lng': prev_point.longitude});
+        polyline.push({
+            'lat': Number(prev_point.latitude), 
+            'lng': Number(prev_point.longitude)
+        });
       }
       prev_point = current_point;
     }
@@ -1136,8 +1147,14 @@ function draw_map_polyline() {
     window.handler.addPolyline(polyline,
                         { strokeColor: $('.hl' + speed_group(prev_point.h_speed)).css( "background-color" ),
                         strokeOpacity: 1, strokeWeight: 6});
-    window.handler.bounds.extend({'lat': Track.charts_data[0].latitude, 'lng': Track.charts_data[0].longitude});
-    window.handler.bounds.extend({'lat': Track.charts_data[Track.charts_data.length - 1].latitude, 'lng': Track.charts_data[Track.charts_data.length - 1].longitude});
+    window.handler.bounds.extend({
+        'lat': Number(Track.charts_data[0].latitude),
+        'lng': Number(Track.charts_data[0].longitude)
+    });
+    window.handler.bounds.extend({
+        'lat': Number(Track.charts_data[Track.charts_data.length - 1].latitude),
+        'lng': Number(Track.charts_data[Track.charts_data.length - 1].longitude)
+    });
     window.handler.fitMapToBounds();
 }
 
@@ -1147,7 +1164,15 @@ function initCB(instance) {
     draw_polyline();
     window.ge.getWindow().setVisibility(true);
     var la = ge.createLookAt('');
-    la.set(Track.charts_data[0].latitude, Track.charts_data[0].longitude, 0, ge.ALTITUDE_ABSOLUTE, -8.541, 66.213, Track.charts_data[0].elevation + 2000);
+    la.set(
+        Number(Track.charts_data[0].latitude), 
+        Number(Track.charts_data[0].longitude),
+        0, 
+        ge.ALTITUDE_ABSOLUTE, 
+        -8.541, 
+        66.213, 
+        Track.charts_data[0].elevation + 2000
+    );
     window.ge.getView().setAbstractView(la);
 }
 
@@ -1168,14 +1193,15 @@ function draw_polyline() {
     var prev_point = null;
 
     for (var index in Track.charts_data) {
-
       current_point = Track.charts_data[index];
 
       if (polyline_length == 0 || (speed_group(prev_point.h_speed) == speed_group(current_point.h_speed))) {
-
-        lineString.getCoordinates().pushLatLngAlt(current_point.latitude, current_point.longitude, current_point.elevation);
+        lineString.getCoordinates().pushLatLngAlt(
+            Number(current_point.latitude), 
+            Number(current_point.longitude), 
+            current_point.elevation
+        );
         polyline_length += 1;
-
       } else {
 
         // Определим стиль, ширину и цвет линии.
@@ -1196,13 +1222,15 @@ function draw_polyline() {
         //lineString.setExtrude(true);
         lineString.setAltitudeMode(ge.ALTITUDE_ABSOLUTE);
 
-        lineString.getCoordinates().pushLatLngAlt(prev_point.latitude, prev_point.longitude, prev_point.elevation);
+        lineString.getCoordinates().pushLatLngAlt(
+            Number(prev_point.latitude), 
+            Number(prev_point.longitude), 
+            prev_point.elevation
+        );
         polyline_length += 1;
-
       }
 
       prev_point = current_point;
-
     }
 
     // Определим стиль, ширину и цвет линии.
