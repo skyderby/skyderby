@@ -9,7 +9,6 @@ class PlacesController < ApplicationController
   end
 
   def show
-    authorize! :read, @place
   end
 
   def edit
