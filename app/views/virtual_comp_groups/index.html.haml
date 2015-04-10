@@ -1,0 +1,30 @@
+- model_class = VirtualCompGroup
+.container
+  .page-header
+    %h1=t '.title', :default => model_class.model_name.human.pluralize.titleize
+  .top-buffer
+    %table.table.table-striped
+      %thead
+        %tr
+          %th= model_class.human_attribute_name(:id)
+          %th= model_class.human_attribute_name(:name)
+          %th= model_class.human_attribute_name(:created_at)
+          %th=t '.actions', :default => t("helpers.actions")
+      %tbody
+        - @virtual_comp_groups.each do |virtual_comp_group|
+          %tr
+            %td= virtual_comp_group.id
+            %td= link_to virtual_comp_group.name, virtual_comp_group_path(virtual_comp_group)
+            %td= virtual_comp_group.created_at
+            %td
+              = link_to t('.edit', :default => t("helpers.links.edit")),
+                            edit_virtual_comp_group_path(virtual_comp_group), :class => 'btn btn-default btn-xs'
+              = link_to t('.destroy', :default => t("helpers.links.destroy")),
+                            virtual_comp_group_path(virtual_comp_group),
+                            :method => :delete,
+                            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                            :class => 'btn btn-xs btn-danger'
+
+  = link_to t('.new', :default => t("helpers.links.new")),
+              new_virtual_comp_group_path,
+              :class => 'btn btn-primary'

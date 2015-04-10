@@ -1,0 +1,23 @@
+= form_for @virtual_comp_group, :html => { :class => "form-horizontal virtual_comp_group" } do |f|
+
+  - if @virtual_comp_group.errors.any?
+    #error_expl.panel.panel-danger
+      .panel-heading
+        %h3.panel-title
+          = pluralize(@virtual_comp_group.errors.count, "error") 
+          = 'prohibited this virtual_comp_group from being saved:'
+      .panel-body
+        %ul
+        - @virtual_comp_group.errors.full_messages.each do |msg|
+          = msg
+
+  .form-group
+    = f.label :name, :class => 'control-label col-sm-2'
+    .col-sm-5
+      = f.text_field :name, :class => 'form-control'
+    = error_span(@virtual_comp_group[:name])
+
+  .col-sm-offset-2.col-sm-5
+    = f.submit nil, :class => 'btn btn-primary'
+    = link_to t('.cancel', :default => t("helpers.links.cancel")),
+                virtual_comp_groups_path, :class => 'btn btn-default'
