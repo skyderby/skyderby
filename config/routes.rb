@@ -55,9 +55,11 @@ TrackingDerby::Application.routes.draw do
     end
 
     resources :user_profile
+
     resources :countries
     resources :places
 
+    resources :virtual_comp_groups
     resources :virtual_competitions
 
     mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
