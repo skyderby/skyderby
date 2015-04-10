@@ -2,11 +2,15 @@
   .page-header
     %h1= 'Places'
 
-  %table#places-index.table.table-hover
-    %tbody
-      - @places.each do |country, places|
-        %tr.bg-warning.text-danger.no-hover
-          %td= country
-        - places.each do |place|
-          %tr.clickableRow{data: {url: place_path(id: place.id)}}
-            %td.text-info= place.name
+  - if can? :create, :place
+    = link_to 'Create', new_place_path, class: 'btn btn-default'
+  
+  .top-buffer
+    %table#places-index.table.table-hover
+      %tbody
+        - @places.each do |country, places|
+          %tr.bg-warning.text-danger.no-hover
+            %td= country ? country.name : '<...>'
+          - places.each do |place|
+            %tr.clickableRow{data: {url: place_path(id: place.id)}}
+              %td.text-info= place.name

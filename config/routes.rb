@@ -63,7 +63,7 @@ TrackingDerby::Application.routes.draw do
     end
 
     resources :user_profile
-    resources :places, only: [:index, :show]
+    resources :places
 
     resources :virtual_competitions
 

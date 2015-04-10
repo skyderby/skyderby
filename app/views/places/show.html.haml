@@ -1,9 +1,15 @@
 .container
   .page-header
-    %h1
-      = 'Location: '
-      = @place.name
-      %small= @place.information
+    .row
+      .col-sm-10
+        %h1
+          = 'Location: '
+          = @place.name
+          %small= @place.information
+        %div= "Lat: #{@place.latitude}, Lon: #{@place.longitude}, MSL: #{@place.msl}"
+      .col-sm-2
+        .pull-right
+          = link_to 'Edit', edit_place_path(@place), class: 'btn btn-default'
 
   %table.table.table-hover
     %thead
@@ -15,12 +21,6 @@
         %th= 'Speed'
         %th= 'Time'
         %th=t 'activerecord.attributes.track.comment'
-        -# %th.text-center.bg-info
-        -#   %i.fa.fa-fw.fa-lg.fa-arrows-h
-        -# %th.text-center.bg-warning
-        -#   %i.fa.fa-fw.fa-lg.fa-long-arrow-right
-        -# %th.text-center.bg-success
-        -#   %i.fa.fa-fw.fa-lg.fa-clock-o
         %th=t 'activerecord.attributes.track.uploaded_at'
     %tbody
       - @place.tracks.each do |track|
@@ -32,7 +32,4 @@
           %td.text-info= track.speed.result
           %td.text-info= track.time.result
           %td.text-muted= track.comment
-          -# %td.text-info.text-right.bg-info= track.distance.result.to_i if track.distance
-          -# %td.text-info.text-right.bg-warning= track.speed.result.to_i if track.speed
-          -# %td.text-info.text-right.bg-success= track.time.result if track.time
           %td.text-info= track.created_at.strftime('%d.%m.%Y')
