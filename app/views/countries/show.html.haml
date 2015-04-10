@@ -1,0 +1,15 @@
+.container
+  #notice= notice
+
+  %p
+    %strong
+      = 'Name:'
+      = @country.name
+
+  %p
+    %strong= 'Code:'
+    = @country.code
+
+  = link_to 'Edit', edit_country_path(@country)
+  = ' | '
+  = link_to 'Back', countries_path

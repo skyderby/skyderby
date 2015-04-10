@@ -1,0 +1,24 @@
+= form_for(@country, html: {class: 'form-horizontal'}) do |f|
+  - if @country.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@country.errors.count, "error") 
+        = 'prohibited this country from being saved:'
+
+      %ul
+      - @country.errors.full_messages.each do |message|
+        %li= message
+
+  .form-group
+    = f.label :name, class: 'col-sm-2 control-label', for: :name
+    .col-sm-5
+      = f.text_field :name, autofocus: true, class: 'form-control'
+
+  .form-group
+    = f.label :code, class: 'col-sm-2 control-label', for: :code
+    .col-sm-5
+      = f.text_field :code, class: 'form-control'
+
+  .form-group
+    .col-sm-offset-2.col-sm-8
+      = f.submit t('general.save'), class: 'btn btn-primary'

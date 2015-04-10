@@ -1,12 +1,4 @@
 TrackingDerby::Application.routes.draw do
-  get 'virtual_competitions/index'
-
-  get 'virtual_competitions/show'
-
-  get 'places/index'
-
-  get 'places/show'
-
   # AJAX locale independent actions
   namespace :api, default: { format: :json } do
     resources :events, only: [:update]
@@ -63,6 +55,7 @@ TrackingDerby::Application.routes.draw do
     end
 
     resources :user_profile
+    resources :countries
     resources :places
 
     resources :virtual_competitions
