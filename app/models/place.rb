@@ -1,6 +1,6 @@
 class Place < ActiveRecord::Base
   belongs_to :country
-  has_many :tracks
+  has_many :tracks, -> { order('created_at DESC') }
 
   scope :nearby, -> (lat, lon, distance) {
     select('id, 
