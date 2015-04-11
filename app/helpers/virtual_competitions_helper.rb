@@ -1,4 +1,8 @@
 module VirtualCompetitionsHelper
+  def title(competition)
+    competition.group.name + ' - ' + competition.name
+  end
+
   def competition_unit
     if @competition.distance? || @competition.distance_in_time? || @competition.straightline_distance_in_time?
       t('units.m')

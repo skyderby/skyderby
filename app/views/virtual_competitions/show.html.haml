@@ -1,11 +1,11 @@
+- provide :title, title(@competition)
+
 .container
   .page-header
     .row
       .col-sm-10
         %h1
-          = @competition.group.name + ': '
-          = @competition.name
-          -# %small= @competition.information
+          = title(@competition)
         %div= competition_place
         %div= competition_suit
         %div= competition_task
