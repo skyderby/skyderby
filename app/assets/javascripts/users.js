@@ -1,7 +1,7 @@
 //
 //
 function init_new_user_form_validation() {
-    $('#new_user').validate({
+    $('.new-user-form').validate({
         rules: {
             'user[name]': {
                 minlength: 3,
