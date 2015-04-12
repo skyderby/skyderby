@@ -56,6 +56,9 @@ TrackingDerby::Application.routes.draw do
 
     resources :user_profile
 
+    resources :manufacturers
+    resources :wingsuits
+
     resources :countries
     resources :places
 

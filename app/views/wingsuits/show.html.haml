@@ -1,0 +1,34 @@
+.container
+  .page-header
+    .row
+      .col-sm-10
+        %h1
+          = @wingsuit.name
+          %small= @wingsuit.manufacturer.name
+      .col-sm-2
+        .pull-right
+          - if can? :update, @wingsuit
+            = link_to 'Edit', edit_wingsuit_path(@wingsuit), class: 'btn btn-default'
+
+  %table.table.table-hover
+    %thead
+      %tr
+        %th=t 'activerecord.attributes.track.id'
+        %th=t 'activerecord.attributes.track.name'
+        %th=t 'activerecord.attributes.track.location'
+        %th= 'Distance'
+        %th= 'Speed'
+        %th= 'Time'
+        %th=t 'activerecord.attributes.track.comment'
+        %th=t 'activerecord.attributes.track.uploaded_at'
+    %tbody
+      - @wingsuit.tracks.each do |track|
+        %tr.clickableRow{data: {url: track_path(id: track.id)}}
+          %td.text-info= track.id
+          %td.text-info= track.name
+          %td.text-info= track.place.present? ? track.place.name : track.location
+          %td.text-info= track.distance.result if track.distance
+          %td.text-info= track.speed.result if track.speed
+          %td.text-info= track.time.result if track.time
+          %td.text-muted= track.comment
+          %td.text-info= track.created_at.strftime('%d.%m.%Y')

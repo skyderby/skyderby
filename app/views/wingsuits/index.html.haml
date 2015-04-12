@@ -1,0 +1,28 @@
+.container
+  .page-header
+    %h1= 'Wingsuits'
+
+  - if can? :create, :wingsuit
+    = link_to 'New', new_wingsuit_path, class: 'btn btn-default'
+  
+  .top-buffer
+    %table.table.table-hover
+      %tbody
+        - @wingsuits.each do |manufacturer, wingsuits|
+          %tr.bg-warning.text-danger.no-hover
+            %td{colspan: 2}= manufacturer ? manufacturer.name : '<...>'
+          - wingsuits.each do |wingsuit|
+            %tr.clickableRow{data: {url: wingsuit_path(id: wingsuit.id)}}
+              %td.text-info= wingsuit.name
+              %td
+                - if can? :update, wingsuit
+                  = link_to t('.edit', default: t("helpers.links.edit")),
+                                edit_wingsuit_path(wingsuit), class: 'btn btn-default btn-xs'
+                  = link_to t('.destroy', default: t("helpers.links.destroy")),
+                                wingsuit_path(wingsuit),
+                                method: :delete,
+                                data: { confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?')) },
+                                class: 'btn btn-xs btn-danger'
+
+
+
