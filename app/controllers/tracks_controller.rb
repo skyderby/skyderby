@@ -1,7 +1,8 @@
 # encoding: utf-8
 class TracksController < ApplicationController
 
-  before_action :set_track, only: [:show, :google_maps, :google_earth, :edit, :update, :destroy]
+  before_action :set_track, only: 
+    [:show, :google_maps, :google_earth, :replay, :edit, :update, :destroy]
 
   def index
     @tracks = Track.public_track
@@ -28,6 +29,11 @@ class TracksController < ApplicationController
       redirect_to track_path(@track)
     end
     authorize! :read, @track
+  end
+
+  def replay
+    authorize! :read, @track
+    redirect_to @track unless @track.video
   end
 
   def new

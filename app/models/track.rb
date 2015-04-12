@@ -14,6 +14,7 @@ class Track < ActiveRecord::Base
   has_many :track_results, dependent: :destroy
   has_many :virtual_comp_results, dependent: :destroy
   has_one :event_track
+  has_one :video, class_name: 'TrackVideo', dependent: :destroy
 
   has_one :time,
           -> { where(discipline: TrackResult.disciplines[:time]) }, 

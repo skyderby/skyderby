@@ -25,15 +25,15 @@ TrackingDerby::Application.routes.draw do
     match '/terms', to: 'static_pages#terms', as: :terms, via: :get
     match '/manage', to: 'static_pages#manage', as: :manage, via: :get
 
-    resources :tracks, only: [:index, :new, :show, :update, :destroy] do
+    resources :tracks, only: [:index, :new, :show, :edit, :update, :destroy] do
       collection do
         post 'choose'
         get 'upload_error'
       end
       member do
-        get 'edit'
         get 'google_maps'
         get 'google_earth'
+        get 'replay'
       end
     end
     # Backward compatibility

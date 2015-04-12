@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150408182801) do
+ActiveRecord::Schema.define(version: 20150412130455) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -130,6 +130,17 @@ ActiveRecord::Schema.define(version: 20150408182801) do
   end
 
   add_index "track_results", ["track_id"], name: "index_track_results_on_track_id", using: :btree
+
+  create_table "track_videos", force: true do |t|
+    t.integer  "track_id"
+    t.string   "url"
+    t.decimal  "video_offset", precision: 10, scale: 2
+    t.decimal  "track_offset", precision: 10, scale: 2
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "track_videos", ["track_id"], name: "index_track_videos_on_track_id", using: :btree
 
   create_table "tracks", force: true do |t|
     t.string   "name"

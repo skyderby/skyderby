@@ -1,5 +1,5 @@
 module VirtualCompetitionsHelper
-  def title(competition)
+  def competition_title(competition)
     competition.group.name + ' - ' + competition.name
   end
 

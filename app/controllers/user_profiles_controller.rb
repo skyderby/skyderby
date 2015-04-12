@@ -1,5 +1,5 @@
 # encoding: utf-8
-class UserProfileController < ApplicationController
+class UserProfilesController < ApplicationController
   before_action :set_profile, only: [:edit, :update]
   
   def show
