@@ -23,6 +23,7 @@ TrackingDerby::Application.routes.draw do
     # Static pages and routes
     match '/about', to: 'static_pages#about', as: :about, via: :get
     match '/terms', to: 'static_pages#terms', as: :terms, via: :get
+    match '/manage', to: 'static_pages#manage', as: :manage, via: :get
 
     resources :tracks, only: [:index, :new, :show, :update, :destroy] do
       collection do
@@ -38,23 +39,15 @@ TrackingDerby::Application.routes.draw do
     # Backward compatibility
     match '/track/:id', to: 'tracks#show', via: :get
 
-    resources :events do
-      resources :rounds
-      resources :competitors
-      resources :event_tracks
-
-      member do
-        get 'results'
-      end
-    end
+    resources :events
+    resources :rounds
+    resources :competitors
+    resources :sections
+    resources :event_tracks
 
     devise_for :users
-
-    resources :users do
-      resources :user_profile
-    end
-
-    resources :user_profile
+    resources :users
+    resources :user_profiles
 
     resources :manufacturers
     resources :wingsuits
@@ -62,8 +55,9 @@ TrackingDerby::Application.routes.draw do
     resources :countries
     resources :places
 
-    resources :virtual_comp_groups
     resources :virtual_competitions
+    resources :virtual_comp_groups
+    resources :virtual_comp_results
 
     root 'static_pages#index'
   end

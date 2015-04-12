@@ -29,7 +29,7 @@
             %ul.dropdown-menu
               - if current_user.has_role? :admin
                 %li
-                  = link_to t('application.header.admin_panel'), rails_admin_path
+                  = link_to t('application.header.admin_panel'), manage_path
               %li
                 = link_to t('application.header.profile'), user_profile_path(current_user.user_profile)
               %li
