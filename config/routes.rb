@@ -65,8 +65,6 @@ TrackingDerby::Application.routes.draw do
     resources :virtual_comp_groups
     resources :virtual_competitions
 
-    mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-
     root 'static_pages#index'
   end
 

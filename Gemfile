@@ -54,7 +54,6 @@ gem "i18n-js", ">= 3.0.0.rc8"
 gem 'nokogiri', '~> 1.6.3.1'
 gem 'devise'
 gem 'cancancan'
-gem 'rails_admin'
 gem 'paperclip', '3.4.2'
 gem 'sidekiq'
 gem 'gmaps4rails'
