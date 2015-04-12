@@ -1,0 +1,46 @@
+= form_for @badge, :html => { :class => "form-horizontal" } do |f|
+
+  - if @badge.errors.any? 
+    #error_expl.panel.panel-danger
+      .panel-heading
+        %h3.panel-title
+          = pluralize(@badge.errors.count, "error") 
+          = 'prohibited this badge from being saved:'
+      .panel-body
+        %ul
+          - @badge.errors.full_messages.each do |msg|
+            %li= msg
+
+  .form-group
+    = f.label :name, :class => 'col-sm-2 control-label'
+    .col-sm-5
+      = f.text_field :name, :class => 'form-control'
+    = error_span(@badge[:name])
+
+  .form-group
+    = f.label :kind, class: 'col-sm-2 control-label', for: :kind
+    .btn-group.col-sm-5{:data => {:toggle => 'buttons'}}
+      %label.btn.btn-default{ class:  ('active' if @badge.gold?) }
+        = f.radio_button 'kind', 'gold'
+        = 'Gold'
+
+      %label.btn.btn-default{ class:  ('active' if @badge.silver?) }
+        = f.radio_button 'kind', 'silver'
+        = 'Silver'
+
+      %label.btn.btn-default{ class:  ('active' if @badge.bronze?) }
+        = f.radio_button 'kind', 'bronze'
+        = 'Bronze'
+    = error_span(@badge[:kind])
+
+  .form-group
+    = f.label :user_profile_id, :class => 'col-sm-2 control-label'
+    .col-sm-5
+      = f.collection_select(:user_profile_id, UserProfile.order(:name), :id, :name, {promt: 'Select profile'}, {class: 'form-control'})
+    = error_span(@badge[:user_profile_id])
+
+  .form-group
+    .col-sm-10.col-sm-offset-2
+      = f.submit nil, :class => 'btn btn-primary'
+      = link_to t('.cancel', default: t("helpers.links.cancel")),
+                  badges_path, class: 'btn btn-default'

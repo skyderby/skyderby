@@ -48,6 +48,7 @@ TrackingDerby::Application.routes.draw do
     devise_for :users
     resources :users
     resources :user_profiles
+    resources :badges
 
     resources :manufacturers
     resources :wingsuits
