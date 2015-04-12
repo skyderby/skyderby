@@ -30,6 +30,7 @@ group :test do
   gem 'database_cleaner'
 end
 
+gem 'haml'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
