@@ -63,7 +63,6 @@ class TrackPoints
             current_point[:elevation_diff] = elev_diff
 
             track_points << current_point
-
           end
 
           next
@@ -71,7 +70,6 @@ class TrackPoints
         end
 
         track_points << current_point
-
       end
 
       if is_last && !track_points.empty?

@@ -1,0 +1,66 @@
+.track-replay{data: track_video_settings}
+.container
+  .page-header
+    .row
+      .col-md-12
+        %h1
+          - if @track_video.track.pilot
+            %a{href: user_profile_path(@track_video.track.pilot)}
+              = image_tag @track_video.track.pilot.userpic.url(:thumb), :class => 'img-rounded img-50 loading-bg'
+              = @track_video.track.pilot.name
+          - else
+            = @track_video.track.name
+          =header @track_video.track
+          %small
+            %span= t('tracks.show.title_suit') + ':' 
+            - if @track_video.track.wingsuit
+              - manufacturer = @track_video.track.wingsuit.manufacturer
+              %span.text-warning{data: {toggle: 'tooltip'}, title: manufacturer.name}= manufacturer.code || ''
+              %span= ' ' + @track_video.track.wingsuit.name
+            - else
+              %span= @track_video.track.suit
+            %span= "@#{@track_video.track.location}"
+    .row
+      .col-md-12
+        %a.btn.btn-default{href: track_path(@track_video.track)}
+          %i.fa.fa-bar-chart-o
+          = 'Charts'
+        - if @track_video.track.ge_enabled
+          %a.btn.btn-default{href: google_earth_track_path(@track_video.track), target: '_blank'}
+            %i.fa.fa-compass
+            = 'Google earth'
+        %a.btn.btn-default{href: google_maps_track_path(@track_video.track), target: '_blank'}
+          %i.fa.fa-compass
+          = 'Google maps'
+ 
+
+  .row
+    .col-sm-12
+      .videowrapper
+        #player
+  .row
+    .col-md-11.col-md-offset-1.col-sm-12
+      .row
+        .col-md-4.col-sm-4.col-xs-6
+          .param-val
+            .avg-val.fa-3x#p_cur_v_speed= '---'
+            .spd-unit.fa-2x=t 'units.kmh'
+          .param
+            %i.fa.fa-fw.fa-lg.fa-long-arrow-down
+            =t 'tracks.show.dt_vspd'
+
+        .col-md-4.col-sm-4.col-xs-6
+          .param-val
+            .avg-val.fa-3x#p_cur_h_speed= '---'
+            .spd-unit.fa-2x=t 'units.kmh'
+          .param
+            %i.fa.fa-fw.fa-lg.fa-long-arrow-right
+            =t 'tracks.show.dt_hspd'
+
+        .col-md-4.col-sm-4.col-xs-6
+          .param-val
+            .avg-val.fa-3x#p_cur_gr= '-.--'
+          .param
+            %i.fa.fa-fw.fa-lg.fa-ellipsis-h
+            =t 'tracks.show.dt_gr'
+

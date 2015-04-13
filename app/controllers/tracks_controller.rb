@@ -2,7 +2,7 @@
 class TracksController < ApplicationController
 
   before_action :set_track, only: 
-    [:show, :google_maps, :google_earth, :replay, :edit, :update, :destroy]
+    [:show, :google_maps, :google_earth, :edit, :update, :destroy]
 
   def index
     @tracks = Track.public_track
@@ -32,8 +32,10 @@ class TracksController < ApplicationController
   end
 
   def replay
-    authorize! :read, @track
-    redirect_to @track unless @track.video
+    track = Track.find(params[:id])
+    @track_video = track.video
+    redirect_to @track_video unless @track_video
+    authorize! :read, track
   end
 
   def new

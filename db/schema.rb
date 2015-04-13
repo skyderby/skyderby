@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150412130455) do
+ActiveRecord::Schema.define(version: 20150412205659) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(version: 20150412130455) do
     t.decimal  "track_offset", precision: 10, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "video_code"
   end
 
   add_index "track_videos", ["track_id"], name: "index_track_videos_on_track_id", using: :btree
