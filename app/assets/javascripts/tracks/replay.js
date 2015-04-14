@@ -82,7 +82,6 @@ function data_on_time(cur_time) {
     }
     
     if (floor.fl_time_abs == ceil.fl_time_abs) {
-        TrackVideo.max_altitude = TrackVideo.max_altitude || floor.elevation;
         return {
             altitude: Math.round(floor.elevation),
             elev_diff: Math.round(TrackVideo.max_altitude - floor.elevation),
@@ -96,7 +95,6 @@ function data_on_time(cur_time) {
         var h_speed = floor.h_speed + (ceil.h_speed - floor.h_speed) * k;
         var gr = floor.glrat + (ceil.glrat - floor.glrat) * k;
         var elevation = floor.elevation - (floor.elevation - ceil.elevation) * k;
-        TrackVideo.max_altitude = TrackVideo.max_altitude || elevation;
         return {
             altitude: Math.round(elevation),
             elev_diff: Math.round(TrackVideo.max_altitude - elevation),
@@ -132,6 +130,7 @@ $(document).on('ready page:load', function() {
         TrackVideo.points = data_div.data('points');
         TrackVideo.video_offset = data_div.data('video-offset');
         TrackVideo.track_offset = data_div.data('track-offset');
+        TrackVideo.max_altitude = TrackVideo.points[0].elevation;
 
         init_replay();
     }                
