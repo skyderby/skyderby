@@ -14,6 +14,7 @@ Event.Competitor = function(params) {
     this.$form_name = $('.competitor-profile');
     this.$form_new_name = $('.new-profile-name');
     this.$form_toggle_profile = $('.toggle-profile');
+    this.$form_toggle_profile_caption = $('.toggle-profile-caption');
     this.$form_profile_id = $('#competitor-profile-id');
     this.$form_suit = $('#competitor-wingsuit');
     this.$form_suit_id = $('#competitor-wingsuit-id');
@@ -55,7 +56,7 @@ Event.Competitor.prototype = {
 
         this.$form_name.select2({
             width: '100%',
-            // placeholder: "Search for an Item",
+            placeholder: 'Select pilot from list',
             dropdownParent: this.$form,
             // minimumInputLength: 2,
             ajax: {
@@ -164,14 +165,15 @@ Event.Competitor.prototype = {
         }
 
         if (this.$form_toggle_profile.data('state') == 'create') {
-            this.$form_toggle_profile.data('state', 'choose').text('Создать');
+            this.$form_toggle_profile.data('state', 'choose').text('Create new profile');
+            this.$form_toggle_profile_caption.text("Pilot you are looking for doesn't exist?");
             this.$form_new_name.val('').hide();
-            // this.$form_name.show();            
             $('.competitor-profile + span').show();
         } else {
-            this.$form_toggle_profile.data('state', 'create').text('Выбрать');
+            this.$form_toggle_profile.data('state', 'create').text('choose pilot from list');
+            this.$form_toggle_profile_caption.text("Or");
             this.$form_new_name.show();
-            // this.$form_name.hide();
+            this.$form_name.select2('val', '');
             $('.competitor-profile + span').hide()
         }
     },
@@ -184,7 +186,8 @@ Event.Competitor.prototype = {
 
         this.event_id = this.event_id || window.Competition.id;
         this.profile = {
-            id: this.$form_name.val()
+            id: this.$form_name.val(),
+            name: this.$form_new_name.val()
         };
         this.wingsuit = {
             id: this.$form_suit.val()

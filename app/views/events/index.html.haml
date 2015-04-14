@@ -4,8 +4,16 @@
   - is_admin = current_user && current_user.has_role?(:admin)
   - if is_admin
     %a.btn.btn-default.btn-info{:href => new_event_path}
-      = t 'static_pages.index.events.create'
+      %i.fa.fa-plus
+      = 'Competition'
 
+  %h2= 'Online competitions:'
+  %table.table.table-hover
+    %tbody
+      - VirtualCompetition.order(:name).each do |comp|
+        %tr.clickableRow{data: {url: virtual_competition_path(comp.id)}}
+          %td.text-info
+            = competition_title(comp)
   %h2= t 'static_pages.index.events.completed'
   %table.table.table-hover
     %tbody

@@ -23,12 +23,12 @@ class Ability
     end
 
     if user
-      can [:read, :update], Track, :user => user  # Редактирование собственных треков
+      can [:read, :update], Track, user: user  # Редактирование собственных треков
 
       can :update, UserProfile, user: user
 
-      can :destroy, Event, :responsible => user, :status => :draft
-      can [:read, :update], Event, :responsible => user.user_profile
+      can :destroy, Event, responsible: user, status: :draft
+      can [:read, :update], Event, responsible: user.user_profile
 
       if user.has_role? :admin
 

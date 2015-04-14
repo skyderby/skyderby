@@ -3,57 +3,7 @@
 .track-data{track_data_attr}
   
 .container
-  .page-header
-    .row
-      .col-md-8
-        %h1
-          - if @track.pilot
-            %a{href: user_profile_path(@track.pilot)}
-              = image_tag @track.pilot.userpic.url(:thumb), :class => 'img-rounded img-50 loading-bg'
-              = @track.pilot.name
-          - else
-            = @track.name
-          =header @track
-          %small
-            %span= t('tracks.show.title_suit') + ':' 
-            - if @track.wingsuit
-              - manufacturer = @track.wingsuit.manufacturer
-              %span.text-warning{data: {toggle: 'tooltip'}, title: manufacturer.name}= manufacturer.code || ''
-              %span= ' ' + @track.wingsuit.name
-            - else
-              %span= @track.suit
-            %span= "@#{@track.location}"
-
-      .dropdown-container.col-md-4
-        .pull-right
-          - if @track.ge_enabled
-            %a.btn.btn-default{href: google_earth_track_path(@track), target: '_blank'}
-              %i.fa.fa-compass
-              = 'Google earth'
-          %a.btn.btn-default{href: google_maps_track_path(@track), target: '_blank'}
-            %i.fa.fa-compass
-            = 'Google maps'
-          -#- if @track.has_video
-          -#  %a.btn.btn-default{:href => replay_track_path(@track), :target => '_blank'}
-          -#    %i.fa.fa-video-camera
-          -#    = 'Video replay'
-
-          %button.btn.btn-default.dropdown-toggle#dropdownMenu1{type: 'button', data: {toggle: 'dropdown'}}
-            %i.fa.fa-cog
-          %ul.dropdown-menu.dropdown-menu-right{role: 'menu', aria: {labelledby: 'dropdownMenu1'}}
-            %li.dropdown-header{role: 'presentation'}=t '.menu_header'
-            %li#li_toggle_multi{role: 'presentation'}
-              %a#toggle_multi{role: 'menuitem', tabindex: '-1', href: '#'}=t '.menu_sep'
-            %li#li_toggle_single{role: 'presentation'}
-              %a#toggle_single{role: 'menuitem', tabindex: '-1', href: '#'}=t '.menu_one'
-            %li.dropdown-header{role: 'presentation'}=t '.units_header'
-            %li#li_toggle_metric{role: 'presentation'}
-              %a#toggle_metric{role: 'menuitem', tabindex: '-1', href: '#'}=t '.m_units_metric'
-            %li#li_toggle_imperial{role: 'presentation'}
-              %a#toggle_imperial{role: 'menuitem', tabindex: '-1', href: '#'}=t '.m_units_imperial'
-          - if user_signed_in? && (current_user == @track.user || (can? :update, :tracks))
-            %a.btn.btn-default{href: edit_track_path(@track)}
-              %i.fa.fa-pencil
+  = render partial: 'header', locals: {track: @track}
   .row
     .col-md-11.col-md-offset-1.col-sm-12
       .row

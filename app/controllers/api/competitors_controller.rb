@@ -4,6 +4,7 @@ module Api
 
     def create
       @competitor = Competitor.new(comp_params)
+      authorize! :update, @competitor.event
       if @competitor.save
         @competitor
       else
@@ -13,6 +14,7 @@ module Api
     end
 
     def update
+      authorize! :update, @competitor.event
       if @competitor.update(comp_params)
         @competitor
       else
@@ -22,6 +24,7 @@ module Api
     end
 
     def destroy
+      authorize! :update, @competitor.event
       @competitor.destroy
       head :no_content
     end

@@ -13,10 +13,11 @@ class Competitor < ActiveRecord::Base
   private
 
   def set_profile
-    if profile_id
-      self.user_profile = UserProfile.find(profile_id)
-    elsif profile_name
-      self.user_profile = UserProfile.create! name: profile_name
-    end
+    self.user_profile = 
+      if profile_id.present?
+        UserProfile.find profile_id
+      elsif profile_name
+        UserProfile.create name: profile_name
+      end
   end
 end

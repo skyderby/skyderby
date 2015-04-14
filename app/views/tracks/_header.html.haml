@@ -1,0 +1,70 @@
+.page-header
+  .row
+    .col-md-12
+      %h1
+        - if track.pilot
+          %a{href: user_profile_path(track.pilot)}
+            = image_tag track.pilot.userpic.url(:thumb), :class => 'img-rounded img-50 loading-bg'
+            = track.pilot.name
+        - else
+          = track.name
+        =header track
+        %small
+          %span= t('tracks.show.title_suit') + ':' 
+          - if track.wingsuit
+            - manufacturer = track.wingsuit.manufacturer
+            %span.text-warning{data: {toggle: 'tooltip'}, title: manufacturer.name}= manufacturer.code || ''
+            %span= ' ' + track.wingsuit.name
+          - else
+            %span= track.suit
+          - if track.place
+            %span= "@#{track.place.name}"
+          - else
+            %span= "@#{track.location}"
+
+  .row
+    .col-md-12
+      %a.btn.btn-default{href: track_path(track),
+                         class: ('active' if action_name == 'show')}
+        %i.fa.fa-bar-chart-o
+        = 'Charts'
+      - if track.video
+        %a.btn.btn-default{href: replay_track_path(track),
+                           class: ('active' if action_name == 'replay')}
+          %i.fa.fa-play-circle-o
+          = 'Replay'
+      - if track.ge_enabled
+        %a.btn.btn-default{href: google_earth_track_path(track),
+                           class: ('active' if action_name == 'google_earth'),
+                           :'data-no-turbolink' => 'true'}
+          %i.fa.fa-compass
+          = 'Google earth'
+      %a.btn.btn-default{href: google_maps_track_path(track),
+                         class: ('active' if action_name == 'google_maps'),
+                         :'data-no-turbolink' => 'true'}
+        %i.fa.fa-compass
+        = 'Google maps'
+      .pull-right
+        - if action_name == 'show'
+          %button.btn.btn-default.dropdown-toggle#dropdownMenu1{type: 'button', data: {toggle: 'dropdown'}}
+            %i.fa.fa-cog
+          %ul.dropdown-menu.dropdown-menu-right{role: 'menu', aria: {labelledby: 'dropdownMenu1'}}
+            %li.dropdown-header{role: 'presentation'}
+              =t 'tracks.show.menu_header'
+            %li#li_toggle_multi{role: 'presentation'}
+              %a#toggle_multi{role: 'menuitem', tabindex: '-1', href: '#'}
+                =t 'tracks.show.menu_sep'
+            %li#li_toggle_single{role: 'presentation'}
+              %a#toggle_single{role: 'menuitem', tabindex: '-1', href: '#'}
+                =t 'tracks.show.menu_one'
+            %li.dropdown-header{role: 'presentation'}
+              =t 'tracks.show.units_header'
+            %li#li_toggle_metric{role: 'presentation'}
+              %a#toggle_metric{role: 'menuitem', tabindex: '-1', href: '#'}
+                =t 'tracks.show.m_units_metric'
+            %li#li_toggle_imperial{role: 'presentation'}
+              %a#toggle_imperial{role: 'menuitem', tabindex: '-1', href: '#'}
+                =t 'tracks.show.m_units_imperial'
+        - if user_signed_in? && (current_user == track.user || (can? :update, :tracks))
+          %a.btn.btn-default{href: edit_track_path(track)}
+            %i.fa.fa-pencil

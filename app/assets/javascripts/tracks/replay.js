@@ -1,6 +1,7 @@
 var TrackVideo = {};
 var player;
 var done = false;
+var yt_timer_id = 0;
 
 function init_replay() {
     // 2. This code loads the IFrame Player API code asynchronously.
@@ -20,6 +21,11 @@ function onYouTubeIframeAPIReady() {
         height: '390',
         width: '640',
         videoId: TrackVideo.video_code,
+        playerVars: {
+            fs: 0,
+            iv_load_policy: 3,
+            rel: 0
+        },
 
         events: {
           'onReady': onPlayerReady,
@@ -37,11 +43,16 @@ function onPlayerReady(event) {
 //    the player should play for six seconds and then stop.
 function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.PLAYING && !done) {
-        setInterval(function () {
+        yt_timer_id = setInterval(function () {
             var curTime = player.getCurrentTime();
             updateProgress(curTime);
         }, 500);
         done = true;
+    } else if (event.data == YT.PlayerState.ENDED || event.data == YT.PlayerState.PAUSED) {
+        if (yt_timer_id) {
+            clearInterval(yt_timer_id);
+            done = false;
+        }
     }
 }
 
@@ -53,7 +64,7 @@ function data_on_time(cur_time) {
     if (time < 0) {
         return null;
     }
-    console.log(cur_time);
+
     var track_time = time + (+TrackVideo.track_offset);
 
     for (i = 0; i < TrackVideo.points.length; i++) {
@@ -71,7 +82,10 @@ function data_on_time(cur_time) {
     }
     
     if (floor.fl_time_abs == ceil.fl_time_abs) {
+        TrackVideo.max_altitude = TrackVideo.max_altitude || floor.elevation;
         return {
+            altitude: Math.round(floor.elevation),
+            elev_diff: Math.round(TrackVideo.max_altitude - floor.elevation),
             v_speed: floor.v_speed,
             h_speed: floor.h_speed,
             gr: floor.glrat
@@ -81,7 +95,11 @@ function data_on_time(cur_time) {
         var v_speed = floor.v_speed + (ceil.v_speed - floor.v_speed) * k;
         var h_speed = floor.h_speed + (ceil.h_speed - floor.h_speed) * k;
         var gr = floor.glrat + (ceil.glrat - floor.glrat) * k;
+        var elevation = floor.elevation - (floor.elevation - ceil.elevation) * k;
+        TrackVideo.max_altitude = TrackVideo.max_altitude || elevation;
         return {
+            altitude: Math.round(elevation),
+            elev_diff: Math.round(TrackVideo.max_altitude - elevation),
             v_speed: Math.round(v_speed),
             h_speed: Math.round(h_speed),
             gr: gr.toFixed(2)
@@ -96,10 +114,14 @@ function updateProgress(cur_time) {
       $('#p_cur_h_speed').text(Math.round(el.h_speed));
       $('#p_cur_v_speed').text(Math.round(el.v_speed));
       $('#p_cur_gr').text(el.gr);
+      $('#p_cur_elev').text(el.altitude);
+      $('#p_elev_diff').text(el.elev_diff);
     } else {
       $('#p_cur_h_speed').text('---');
       $('#p_cur_v_speed').text('---');
       $('#p_cur_gr').text('-.--');
+      $('#p_cur_elev').text('---');
+      $('#p_elev_diff').text('---');
     }
 }
 

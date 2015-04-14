@@ -3,6 +3,7 @@
 .track-earth-data{:data => {:points => @track.earth_data}}
 
 .container
+  = render partial: 'header', locals: {track: @track}
   .row
     .col-sm-12#map3d{:style => 'height: 600px;'}
   .row#speed-grades

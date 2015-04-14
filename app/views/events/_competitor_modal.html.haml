@@ -13,22 +13,20 @@
 
         .modal-body
           .form-group.row
-            %span.col-sm-3.control-label= 'Профиль:'
-            .col-sm-7
+            %span.col-sm-3.control-label= 'Profile:'
+            .col-sm-9
               %select.form-control.competitor-profile
               %input.form-control.new-profile-name
-            -# %span.col-sm-1.control-label= 'Имя:'
-            -# .col-sm-4
-            -#   %input.form-control#competitor-first-name
-            %span.control-label.col-sm-2.text-left
-              %a.toggle-profile{href: '#'}
-                = 'Создать'
+            .col-sm-9.col-sm-offset-3
+              %span
+                %span.toggle-profile-caption= "Pilot you are looking for doesn't exist?"
+                %a.toggle-profile{href: '#'}= 'Create new profile'
           .form-group
-            %span.col-sm-3.control-label= 'Костюм:'
+            %span.col-sm-3.control-label= 'Suit:'
             .col-sm-9
               %select.form-control#competitor-wingsuit
           .form-group
-            %span.col-sm-3.control-label= 'Класс:'
+            %span.col-sm-3.control-label= 'Class:'
             .col-sm-9
               %select.form-control#competitor-section
         .modal-footer

@@ -8,6 +8,7 @@
 
 .track-map-data{:data => {:points => @track.charts_data}}
 .container
+  = render partial: 'header', locals: {track: @track}
   .row
     .col-sm-12#map{:style => 'height: 600px;'}
   .row#speed-grades
