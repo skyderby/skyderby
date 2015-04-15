@@ -16,7 +16,7 @@ function init_new_user_form_validation() {
             },
             'user[password_confirmation]': {
                 required: true,
-                equalTo: '#user_password'
+                equalTo: '.new-user-form #user_password'
             },
         },
         highlight: function(element) {
