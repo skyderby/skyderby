@@ -1,13 +1,17 @@
 module Api
   class TracksController < ApplicationController
     def index
+      @tracks = Track.public_track.order('id DESC')
+
+      if params[:filter]
+        @tracks = @tracks.where(
+          user_profile_id: params[:filter][:profile_id]
+        ) if params[:filter][:profile_id]
+      end
       if params[:query] && params[:query][:term]
-        @tracks = Track.where('LOWER(comment) LIKE LOWER(?) OR LOWER(name) LIKE LOWER(?)', 
-                              "%#{params[:query][:term]}%", 
-                              "%#{params[:query][:term]}%")
-                       .order('id DESC')
-      else
-        @tracks = Track.public_track.order('id DESC')
+        @tracks = @tracks.where(
+          'LOWER(comment) LIKE LOWER(?)', "%#{params[:query][:term]}%"
+        )
       end
     end
   end

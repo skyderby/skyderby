@@ -4,6 +4,7 @@ module Api
 
     def create
       @round_track = EventTrack.new round_track_params
+      @round_track.create_track!(round_track_params[:track_attributes]) unless @round_track.track_id
 
       respond_to do |format|
         if @round_track.save
@@ -35,7 +36,9 @@ module Api
     end
 
     def round_track_params
-      params.require(:round_track).permit(:competitor_id, :round_id, :track_id)
+      params.require(:round_track).permit(
+        :competitor_id, :round_id, :track_id,
+        track_attributes: [:file, :user_profile_id, :place_id, :wingsuit_id])
     end
   end
 end

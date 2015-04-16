@@ -9,11 +9,12 @@ describe 'Registration & sign in', type: :feature do
     @user = FactoryGirl.build(:user)
   end
 
-  it 'register me' do
+  it 'register me', js: true do
     visit root_path
     click_link 'Зарегистрироваться'
 
     within '#new_user' do
+      fill_in 'Имя Фамилия', with: @user.name
       fill_in 'Email', with: @user.email
       fill_in 'Пароль', with: @user.password
       fill_in 'Подтверждение пароля', with: @user.password_confirmation
@@ -25,8 +26,8 @@ describe 'Registration & sign in', type: :feature do
   end
 
   it 'create profile' do
-    @user = User.find 1
-    expect(@user.user_profile.present?).to be_truthy
+    user = User.find 1
+    expect(user.user_profile.name).to eq(@user.name)
   end
 
   it 'give me right permissions' do
@@ -36,7 +37,7 @@ describe 'Registration & sign in', type: :feature do
     expect(@user.has_role?(:admin)).to be_falsey
   end
 
-  it 'logged me in' do
+  it 'logged me in', js: true do
     User.find(1).update(confirmed_at: Time.now)
 
     visit root_path

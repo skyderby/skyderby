@@ -26,15 +26,19 @@ class Track < ActiveRecord::Base
           -> { where(discipline: TrackResult.disciplines[:speed]) },
           class_name: 'TrackResult'
 
+  attr_accessor :file
+  has_attached_file :file
+
   attr_accessor :trackfile, :track_index
 
   enum kind: [:skydive, :base]
   enum visibility: [:public_track, :unlisted_track, :private_track]
   enum gps_type: [:gpx, :flysight, :columbus, :wintec]
 
-  validates :name, :location, presence: true
+  validates :name, presence: true, if: :pilot_blank?
 
-  before_save :parse_file
+  before_save :ge_enabled!, :parse_file
+  before_destroy :used_in_competition?
 
   def competitive?
     event_track.present?
@@ -74,12 +78,38 @@ class Track < ActiveRecord::Base
 
   private
 
+  def used_in_competition?
+    errors.add(:base, "Cannot delete track used in competition") if competitive?
+    errors.blank? #return false, to not destroy the element, otherwise, it will delete.
+  end
+
+  def pilot_blank?
+    pilot.blank?
+  end
+
+  def ge_enabled!
+    self.ge_enabled = true
+  end
+
   def track_data
     @track_points ||= TrackPoints.new(self)
   end
 
+  # REFACTOR IT
   def parse_file
     if self.new_record?
+      # Когда загружаем соревновательный трек - 
+      # загрузка производится через api/round_tracks_controller
+      # файл передается параметром
+      if file.present?
+        filename = file.original_filename
+        self.trackfile = {
+          data: File.read(file.queued_for_write[:original].path),
+          ext: filename.downcase[filename.length - 4..filename.length-1]
+        }
+        self.track_index = 0
+      end
+
       file_data = TrackPointsProcessor.process_file(trackfile[:data], trackfile[:ext], track_index)
       track_points = file_data[:points]
       return false unless track_points
@@ -120,9 +150,14 @@ class Track < ActiveRecord::Base
     start_point = track_points.reverse.detect { |x| x[:elevation] >= (max_h - 15) }
     self.ff_start = start_point.present? ? start_point[:fl_time] : 0
 
-    start_point = track_points.detect { |x| (x[:fl_time] > self.ff_start && x[:v_speed] > 25) }
+    start_point = track_points.detect do |x| 
+      (x[:fl_time] > self.ff_start && x[:v_speed] > 25)
+    end
     self.ff_start = start_point[:fl_time] if start_point.present?
 
-    self.ff_end = track_points.detect{ |x| x[:elevation] < (min_h + 50) && x[:fl_time] > self.ff_start}[:fl_time] || track_points.last[:fl_time]
+    self.ff_end = track_points.detect do |x| 
+      x[:elevation] < (min_h + 50) && 
+        x[:fl_time] > ff_start
+    end[:fl_time] || track_points.last[:fl_time]
   end
 end

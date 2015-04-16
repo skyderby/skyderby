@@ -4,6 +4,7 @@ FactoryGirl.define do
   sequence(:count)
 
   factory :user do
+    name 'Василий'
     email
     password 'secret'
     password_confirmation 'secret'

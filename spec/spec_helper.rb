@@ -21,12 +21,15 @@ require 'rspec/rails'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 
-# Capybara.register_driver :chrome do |app|
-#   Capybara::Selenium::Driver.new(app, :browser => :chrome)
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new(app, :browser => :chrome)
+end
+Capybara.javascript_driver = :chrome
+
+# Capybara.register_driver :poltergeist do |app|
+#   Capybara::Poltergeist::Driver.new(app, {js_errors: false})
 # end
-#
-# Capybara.javascript_driver = :chrome
-Capybara.javascript_driver = :poltergeist
+# Capybara.javascript_driver = :poltergeist
 # Capybara.default_wait_time = 10
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -36,6 +39,9 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Features::UploadHelpers
+
+  config.include Devise::TestHelpers, :type => :controller
+  config.include ControllerHelpers, :type => :controller
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction

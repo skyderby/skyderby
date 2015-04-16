@@ -58,8 +58,6 @@ function init_new_user_form_validation() {
             $(element).closest('.form-group').removeClass('has-error');
         },
     });
-
-
 }
 
 var Userpic_form = function() {

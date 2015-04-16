@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150412205659) do
+ActiveRecord::Schema.define(version: 20150416195256) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -151,15 +151,19 @@ ActiveRecord::Schema.define(version: 20150412205659) do
     t.text     "comment"
     t.string   "location"
     t.integer  "user_id"
-    t.integer  "kind",            default: 0
+    t.integer  "kind",              default: 0
     t.integer  "wingsuit_id"
     t.integer  "ff_start"
     t.integer  "ff_end"
     t.boolean  "ge_enabled"
-    t.integer  "visibility",      default: 0
+    t.integer  "visibility",        default: 0
     t.integer  "user_profile_id"
     t.integer  "place_id"
-    t.integer  "gps_type",        default: 0
+    t.integer  "gps_type",          default: 0
+    t.string   "file_file_name"
+    t.string   "file_content_type"
+    t.integer  "file_file_size"
+    t.datetime "file_updated_at"
   end
 
   add_index "tracks", ["user_id"], name: "index_tracks_on_user_id", using: :btree

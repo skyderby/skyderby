@@ -9,14 +9,21 @@ Event.EventTrack = function(params) {
     this.url = '';
     this.track_presentation = '';
 
-    this.$form = $('#result-form-modal');
+    this.$modal_form = $('#result-form-modal');
+    this.$form = $('#result-form');
     this.$form_title = $('#result-form-modal-title');
-    this.$form_delete_tab = $('#rm-li-delete-result');
     this.$form_competitor = $('#rm-competitor-name');
     this.$form_round = $('#rm-round-name');
     this.$form_track_label = $('#rm-track-label');
     this.$form_track_link = $('#rm-track-link');
     this.$form_new_track_wrap = $('#rm-new-track');
+
+    this.$form_toggle_track = $('.toggle-track');
+    this.$form_toggle_track_caption = $('.toggle-track-caption');
+
+    this.$form_track_file_group = $('.track-file-group');
+    this.$form_track_file_input = $('.track-file-input');
+    this.$form_track_file_name = $('.track-file-name');
 
     this.$form_result_track = $('#result-track');
 
@@ -36,8 +43,10 @@ Event.EventTrack.prototype = {
             this.$form_track_link.hide();
             this.$form_delete_result.hide();
             this.$form_new_track_wrap.show();
+            this.$form_save.show();
         } else {
             modal_title = 'Редактирование';
+            this.$form_save.hide();
             this.$form_new_track_wrap.hide();
             this.$form_track_label.show();
             this.$form_track_link.show();
@@ -63,11 +72,10 @@ Event.EventTrack.prototype = {
  
         this.$form_result_track.select2({
             width: '100%',
-            // placeholder: "Search for an Item",
-            dropdownParent: this.$form,
-            // minimumInputLength: 2,
+            placeholder: "Choose track from list",
+            dropdownParent: this.$modal_form,
             ajax: {
-                url: '/api/tracks',
+                url: '/api/tracks?filter[profile_id]=' + competitor.profile.id,
                 dataType: 'json',
                 type: "GET",
                 quietMillis: 50,
@@ -90,7 +98,13 @@ Event.EventTrack.prototype = {
             }
         });
 
-        $('input[name=source][value=file]').closest('label').addClass('active');
+        this.$form_toggle_track
+            .off('click')
+            .on('click', this.on_toggle_track.bind(this));
+
+        this.$form_toggle_track.data('state', 'list');
+        this.on_toggle_track();
+
 
         this.$form_save
             .off('click')
@@ -100,7 +114,30 @@ Event.EventTrack.prototype = {
             .off('click')
             .on('click', this.delete_result.bind(this));
 
-        this.$form.modal('show');
+        this.$modal_form.modal('show');
+    },
+
+    on_toggle_track: function(e) {
+        if (e) {
+            e.preventDefault();
+        }
+        // Если состояние = выбор из списка
+        if (this.$form_toggle_track.data('state') == 'file') {
+            // Переключаем в режим загрузки из файла
+            // Скрываем группу выбора файла и меняем надпись
+            this.$form_toggle_track.data('state', 'list').text('upload new one');
+            this.$form_toggle_track_caption.text("Or");
+            this.$form_track_file_group.hide();
+            this.$form_track_file_input.val('');
+            this.$form_track_file_name.val('');
+            $('.result-track + span').show();
+        } else {
+            this.$form_toggle_track.data('state', 'file').text('select existed track');
+            this.$form_toggle_track_caption.text("Or");
+            this.$form_track_file_group.show();
+            this.$form_result_track.select2('val', '');
+            $('.result-track + span').hide()
+        }
     },
 
     form_save: function(e) {
@@ -109,13 +146,13 @@ Event.EventTrack.prototype = {
         this.track_id = this.$form_result_track.val();
         this.save();        
 
-        this.$form.modal('hide');
+        this.$modal_form.modal('hide');
     },
 
     delete_result: function(e) {
         e.preventDefault();
         this.destroy();
-        this.$form.modal('hide');
+        this.$modal_form.modal('hide');
     },
 
     save: function() {
@@ -137,11 +174,27 @@ Event.EventTrack.prototype = {
             }
         };
 
+        data = new FormData();
+        data.append('round_track[round_id]', this.round_id);
+        data.append('round_track[competitor_id]', this.competitor_id);
+        if (this.track_id) {
+            data.append('round_track[track_id]', this.track_id);
+        } else {
+            var cur_competitor = window.Competition.competitor_by_id(this.competitor_id);
+
+            data.append('round_track[track_attributes[file]]', this.$form_track_file_input[0].files[0]);
+            data.append('round_track[track_attributes[user_profile_id]]', cur_competitor.profile.id);
+            data.append('round_track[track_attributes[wingsuit_id]]', cur_competitor.wingsuit.id);
+        }
+
         $.ajax({
             url: url,
             method: method,
             dataType: 'json',
-            data: data
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false
         })
             .done(this.after_save.bind(this))
             .fail(fail_ajax_request);

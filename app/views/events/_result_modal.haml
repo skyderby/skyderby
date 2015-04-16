@@ -14,16 +14,16 @@
         .modal-body
           .form-group
             .col-sm-2
-              %span.control-label= 'Участник:'
+              %span.control-label= 'Competitor:'
             .col-sm-4
               %span#rm-competitor-name
             .col-sm-2
-              %span#rm-track-label.control-label= 'Трэк:'
+              %span#rm-track-label.control-label= 'Track:'
             .col-sm-4
               %a#rm-track-link
           .form-group
             .col-sm-2
-              %span.control-label= 'Раунд:'
+              %span.control-label= 'Round:'
             .col-sm-4
               %span#rm-round-name
             .col-sm-6
@@ -31,38 +31,21 @@
                 = 'Удалить результат'
 
           #rm-new-track
-            .form-group
-              .col-sm-10.col-sm-offset-2
-                .btn-group{data: {toggle: "buttons"}}
-                  %label.btn.btn-default
-                    %input{type: "radio", name: "source", value: "file", autocomplete: "off"}
-                      = 'Из Файла'
-                  %label.btn.btn-default
-                    %input{type: "radio", name: "source", value: "track", autocomplete: "off"}
-                      = 'Существующий'
             .form-group.top-buffer
-              %span.col-sm-2.control-label= 'Файл:'
+              %span.col-sm-2.control-label= 'Track:'
               .col-sm-10
-                .input-group
-                  %input.form-control{:type => "text", :readonly => true}
+                .input-group.track-file-group
+                  %input.form-control.track-file-name{:type => "text", :readonly => true}
                   %span.input-group-btn
                     %span.btn.btn-default.btn-file
                       Browse&hellip; 
-                      - warning_messages = {:ext_w1 => t('static_pages.index.track_form.warnings.file_ext_w1_html'),
-                        :ext_w2 => t('static_pages.index.track_form.warnings.file_ext_w2_html'),
-                        :size_w1 => t('static_pages.index.track_form.warnings.file_size_w1_html'),
-                        :size_w2 => t('static_pages.index.track_form.warnings.file_size_w2_html')}
-                      %input.track-file-input{:name => 'track_file', :type => "file", :data => {:placeholder => 'rm-alert-placeholder', :warnings => warning_messages.to_json}}
-            .form-group.top-buffer
-              %span.col-sm-2.control-label= 'Трек:'
-              .col-sm-10
-                -# = collection_select :result, :track_id, Track.all.order(:name), :id, :presentation, {:promt => true}, {:class => 'form-control'}
-                %select.form-control#result-track
-
-            .form-group
+                      %input.track-file-input{name: 'track_file', type: "file"}
+                %select.form-control.result-track#result-track{name: 'track_id'}
               .col-sm-10.col-sm-offset-2
-                %button.btn.btn-success#rm-save= 'Сохранить'
-
-        -# .modal-footer
+                %span
+                  %span.toggle-track-caption= "Or"
+                  %a.toggle-track{href: '#'}= 'select existed track?'
+        .modal-footer
+          %button.btn.btn-success#rm-save= t 'general.save'
           %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}= t 'general.cancel'
 
