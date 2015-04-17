@@ -30,7 +30,8 @@
         = 'Charts'
       - if track.video
         %a.btn.btn-default{href: replay_track_path(track),
-                           class: ('active' if action_name == 'replay')}
+                           class: ('active' if action_name == 'replay'),
+                           :'data-no-turbolink' => 'true'}
           %i.fa.fa-play-circle-o
           = 'Replay'
       - if track.ge_enabled
