@@ -111,7 +111,7 @@ NewTrackForm.prototype = {
             rules: {
                 name: {
                     minlength: 3,
-                    required: true
+                    //required: true
                 },
                 wingsuit_id: {
                     require_from_group: [1, '.suit-group']

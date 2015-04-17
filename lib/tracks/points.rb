@@ -38,48 +38,47 @@ class TrackPoints
 
   def trim_interpolize(range_from, range_to)
     track_points = []
-    is_first = true
     prev_point = nil
     trimmed_points = trimmed
 
     trimmed.each do |curr|
       current_point = curr.clone
 
-      is_last = true
+      start_found ||= current_point[:elevation] <= range_from; 
+      end_found ||= current_point[:elevation] < range_to;
 
-      if current_point[:elevation] <= range_from && current_point[:elevation] >= range_to
-
-        is_last = false
-
-        if is_first
-
-          is_first = false
-
+      if start_found && !end_found
+        if track_points.empty?
           if current_point[:elevation] != range_from && prev_point.present?
             elev_diff = range_from - current_point[:elevation]
             k = elev_diff / current_point[:elevation_diff]
-            current_point[:fl_time] = (current_point[:fl_time] * k).round(1)
-            current_point[:distance] = (current_point[:distance] * k).round(0)
+            current_point[:fl_time] = (current_point[:fl_time] * k)
+            current_point[:distance] = (current_point[:distance] * k)
             current_point[:elevation_diff] = elev_diff
+            current_point[:latitude] = current_point[:latitude] - (current_point[:latitude] - prev_point[:latitude]) * k
+            current_point[:longitude] = current_point[:longitude] - (current_point[:longitude] - prev_point[:longitude]) * k
+            current_point[:elevation] = range_from
 
             track_points << current_point
           end
 
           next
-
         end
 
         track_points << current_point
       end
 
-      if is_last && !track_points.empty?
+      if end_found && !track_points.empty?
         if current_point[:elevation] <= range_to
           elev_diff = prev_point[:elevation] - range_to
           k = elev_diff / current_point[:elevation_diff]
-          current_point[:fl_time] = (current_point[:fl_time] * k).round(1)
-          current_point[:distance] = (current_point[:distance] * k).round(0)
+          current_point[:fl_time] = (current_point[:fl_time] * k)
+          current_point[:distance] = (current_point[:distance] * k)
           current_point[:elevation_diff] = elev_diff
-
+          current_point[:latitude] = prev_point[:latitude] + (current_point[:latitude] - prev_point[:latitude]) * k
+          current_point[:longitude] = prev_point[:longitude] + (current_point[:longitude] - prev_point[:longitude]) * k
+          current_point[:elevation] = range_to
+          
           track_points << current_point
 
         end

@@ -12,6 +12,14 @@ module TracksHelper
     "#{t 'tracks.show.title_suit'}: #{track.wingsuit.present? ? track.wingsuit.name : track.suit}, @#{track.location}"
   end
 
+  def track_pilot(track)
+    track.pilot ? track.pilot.name : track.name
+  end
+
+  def track_place(track)
+    track.place ? track.place.name : track.location
+  end
+
   def tracks_index
     render template: 'api/tracks/_index.json.jbuilder',
            formats: :json

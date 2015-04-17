@@ -20,11 +20,11 @@ describe 'Calculates track results', type: :feature do
 
   it 'Distance' do
     round = Round.create(discipline: :distance, event: @event)
-    expect(ResultsCalculator.calculate(@track, round)).to eql(1478)
+    expect(ResultsCalculator.calculate(@track, round)).to eql(1474)
   end
 
   it 'Speed' do
     round = Round.create(discipline: :speed, event: @event)
-    expect(ResultsCalculator.calculate(@track, round)).to eql(165)
+    expect(ResultsCalculator.calculate(@track, round)).to eql(164)
   end
 end

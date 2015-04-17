@@ -27,7 +27,7 @@
       - @place.tracks.each do |track|
         %tr.clickableRow{data: {url: track_path(id: track.id)}}
           %td.text-info= track.id
-          %td.text-info= track.name
+          %td.text-info= track_pilot(track)
           %td.text-info= track.wingsuit.present? ? track.wingsuit.name : track.suit
           %td.text-info= track.distance.result if track.distance
           %td.text-info= track.speed.result if track.speed

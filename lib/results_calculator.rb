@@ -12,7 +12,11 @@ module ResultsCalculator
     def calculate
       points = TrackPoints.new(@track).trim_interpolize(@range_from, @range_to)
       fl_time = points.map { |x| x[:fl_time] }.inject(0, :+)
-      distance = points.map { |x| x[:distance] }.inject(0, :+)
+      distance = Geospatial.distance(
+        [points.first[:latitude], points.first[:longitude]],
+        [points.last[:latitude], points.last[:longitude]]
+      )
+      # distance = points.map { |x| x[:distance] }.inject(0, :+)
 
       if @round.time?
         fl_time.round(1)

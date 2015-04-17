@@ -1,6 +1,6 @@
 %tr.clickableRow{data: {url: track_path(id: track.id)}}
   %td.text-info= track.id
-  %td.text-info= track.name
+  %td.text-info= track_pilot(track)
   %td
     - if track.wingsuit
       - manufacturer = track.wingsuit.manufacturer
@@ -11,7 +11,7 @@
     - else 
       %span.text-info
         = track.suit
-  %td.text-info= track.location
+  %td.text-info= track_place(track)
   %td.text-muted= track.comment
   %td.text-right
     %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.distance)}
