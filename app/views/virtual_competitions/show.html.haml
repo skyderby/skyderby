@@ -63,6 +63,7 @@
         - if @competition.display_highest_gr
           %th.text-right= 'Best G/R'
         %th.text-right=t 'activerecord.attributes.track.uploaded_at'
+        %th
     %tbody
       - row_number = 1
       - results.each do |result|
@@ -80,3 +81,6 @@
             %td.text-info.text-right= (result.highest_gr || 0.0).round(2)
           %td.text-info.text-right= result.track.created_at.strftime('%d.%m.%Y')
           - row_number += 1
+          %td.text-center
+            - if result.track.video
+              %i.fa.fa-video-camera
