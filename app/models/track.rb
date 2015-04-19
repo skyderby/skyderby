@@ -1,5 +1,6 @@
 require 'tracks/points'
 require 'tracks/points_processor'
+require 'tracks/jump_range_finder'
 
 class Track < ActiveRecord::Base
   belongs_to :user
@@ -116,17 +117,18 @@ class Track < ActiveRecord::Base
 
       self.gps_type = file_data[:gps_type]
 
-      set_jump_range track_points
+      jump_range = JumpRangeFinder.range_for track_points
+
+      self.ff_start = jump_range.start_time
+      self.ff_end = jump_range.end_time
 
       # Place
-      if self.ff_start
-        start_point = track_points.detect { |x| x[:fl_time] >= self.ff_start }
-        self.place = Place.nearby(
-          start_point[:latitude], 
-          start_point[:longitude],
-          self.base? ? 1 : 10
-        ).first if start_point
-      end
+      search_radius = base? ? 1 : 10 # in km
+      self.place = Place.nearby(jump_range.start_point, search_radius).first
+        # start_point[:latitude], 
+        # start_point[:longitude],
+        # self.base? ? 1 : 10
+      # ).first if jump_range.start_point
 
       if self.place && self.place.msl
         track_points.each { |x| x[:elevation] = x[:abs_altitude] - self.place.msl }
@@ -140,24 +142,17 @@ class Track < ActiveRecord::Base
     trkseg = Tracksegment.create
     tracksegments << trkseg
 
-    Point.create (track_points) { |point| point.tracksegment = trkseg}
-  end
-
-  def set_jump_range(track_points)
-    min_h = track_points.min_by { |x| x[:elevation] }[:elevation]
-    max_h = track_points.max_by { |x| x[:elevation] }[:elevation]
-
-    start_point = track_points.reverse.detect { |x| x[:elevation] >= (max_h - 15) }
-    self.ff_start = start_point.present? ? start_point[:fl_time] : 0
-
-    start_point = track_points.detect do |x| 
-      (x[:fl_time] > self.ff_start && x[:v_speed] > 25)
+    track_points.each do |point|
+      trkseg.points << Point.new(point.to_h.except(
+        :fl_time_abs, 
+        :elevation_diff,
+        :glrat,
+        :raw_gr,
+        :raw_h_speed,
+        :raw_v_speed
+      ))
     end
-    self.ff_start = start_point[:fl_time] if start_point.present?
-
-    self.ff_end = track_points.detect do |x| 
-      x[:elevation] < (min_h + 50) && 
-        x[:fl_time] > ff_start
-    end[:fl_time] || track_points.last[:fl_time]
+    # Point.create (track_points) { |point| point.tracksegment = trkseg}
   end
+
 end

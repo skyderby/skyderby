@@ -1,3 +1,5 @@
+require 'tracks/track_point'
+
 class GPXParser < TrackParser
 
   attr_accessor :track_points
@@ -41,11 +43,14 @@ class GPXParser < TrackParser
 
   def parse_point(node)
     if node.node_name.eql? 'trkpt'
-      point = { :latitude => node.attr('lat').to_f, :longitude => node.attr('lon').to_f }
+      point = TrackPoint.new({ 
+        latitude: node.attr('lat').to_f, 
+        longitude: node.attr('lon').to_f 
+      })
       node.elements.each do |node|
-        point[:elevation] = node.text.to_f if node.name.eql? 'ele'
-        point[:abs_altitude] = node.text.to_f if node.name.eql? 'ele'
-        point[:point_created_at] = Time.parse(node.text) if node.name.eql? 'time'
+        point.elevation = node.text.to_f if node.name.eql? 'ele'
+        point.abs_altitude = node.text.to_f if node.name.eql? 'ele'
+        point.point_created_at = Time.parse(node.text) if node.name.eql? 'time'
       end
       @track_points << point
     end

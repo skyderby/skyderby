@@ -10,18 +10,21 @@
 # 0A-0D (LongInt): Longitude / 1.0e7 (Deg)
 # 0E-0F(SmallInt): Altitude(m)
 
-class TESParser < TrackParser
+require 'tracks/track_point'
 
+class TESParser < TrackParser
   def parse(index = 0)
     track_points = []
     unpacked_string = @track_data.unpack('SLLLS' * (@track_data.length / 16))
 
-    (0..(unpacked_string.count / 5 - 1)).each { |x|
-      track_points << {:latitude => unpacked_string[x * 5 + 2] / 1.0e7,
-                       :longitude => unpacked_string[x * 5 + 3] / 1.0e7,
-                       :elevation => unpacked_string[x * 5 + 4],
-                       :point_created_at => parse_datetime(unpacked_string[x * 5 + 1])}
-    }
+    (0..(unpacked_string.count / 5 - 1)).each do |x|
+      track_points <<  TrackPoint.new({
+        latitude: unpacked_string[x * 5 + 2] / 1.0e7,
+        longitude: unpacked_string[x * 5 + 3] / 1.0e7,
+        elevation: unpacked_string[x * 5 + 4],
+        point_created_at: parse_datetime(unpacked_string[x * 5 + 1])
+      })
+    end
 
     track_points
   end

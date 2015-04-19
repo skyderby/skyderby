@@ -10,6 +10,7 @@
 # SPEED
 # HEADING
 # VOX
+require 'tracks/track_point'
 
 class ColumbusParser < CSVParser
 
@@ -18,11 +19,13 @@ class ColumbusParser < CSVParser
   def parse_row(row)
     return nil if row[6].to_f == 0.0
 
-    { :latitude => parse_latitude(row),
-     :longitude => parse_longitude(row),
-     :elevation => row[6].to_f,
-     :abs_altitude => row[6].to_f,
-     :point_created_at => parse_datetime(row) }
+    TrackPoint.new({ 
+      :latitude => parse_latitude(row),
+      :longitude => parse_longitude(row),
+      :elevation => row[6].to_f,
+      :abs_altitude => row[6].to_f,
+      :point_created_at => parse_datetime(row)
+    })
   end
 
   private
@@ -38,5 +41,4 @@ class ColumbusParser < CSVParser
   def parse_datetime(row)
     Time.strptime('20' + row[2].to_s + 'T' + row[3].to_s, '%Y%m%dT%H%M%S')
   end
-
 end
