@@ -1,12 +1,6 @@
-class TrackEarthData
-  attr_reader :track, :points
+require 'tracks/track_data'
 
-  def initialize(track)
-    @track = track
-    @points = []
-
-    init_points    
-  end
+class TrackEarthData < TrackData
 
   private
 

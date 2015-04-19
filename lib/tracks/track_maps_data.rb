@@ -1,12 +1,4 @@
-class TrackMapsData
-  attr_reader :track, :points
-
-  def initialize(track)
-    @track = track
-    @points = []
-
-    init_points
-  end
+class TrackMapsData < TrackData
 
   private
 

@@ -1,14 +1,14 @@
-class TrackReplayData
-  attr_reader :track, :points, :video_code, :video_offset, :track_offset
+require 'tracks/track_data'
+
+class TrackReplayData < TrackData
+  attr_reader :video_code, :video_offset, :track_offset
 
   def initialize(track)
-    @track = track
+    super
+
     @video_code = track.video.video_code
     @video_offset = track.video.video_offset
     @track_offset = track.video.track_offset
-    @points = []
-
-    init_points
   end
 
   def to_data_attr
