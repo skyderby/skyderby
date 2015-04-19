@@ -1,11 +1,11 @@
 - provide :title, "#{t 'tracks.show.title_track' } ##{@track.id} | #{@track.name}"
 
-.track-earth-data{:data => {:points => @track.earth_data}}
+.track-earth-data{data: {points: @track_data.points.to_json.html_safe}}
 
 .container
-  = render partial: 'header', locals: {track: @track}
+  = render partial: 'header', locals: {track: @track_data.track}
   .row
-    .col-sm-12#map3d{:style => 'height: 600px;'}
+    .col-sm-12#map3d{style: 'height: 600px;'}
   .row#speed-grades
     .col-sm-2.text-center.hl1= "< 130 #{t 'units.kmh'}"
     .col-sm-2.text-center.hl2= "130 - 160 #{t 'units.kmh'}"

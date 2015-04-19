@@ -1,8 +1,12 @@
 # encoding: utf-8
+require 'tracks/track_earth_data.rb'
+require 'tracks/track_maps_data.rb'
+require 'tracks/track_replay_data.rb'
+
 class TracksController < ApplicationController
 
   before_action :set_track, only: 
-    [:show, :google_maps, :google_earth, :edit, :update, :destroy]
+    [:show, :google_maps, :google_earth, :replay, :edit, :update, :destroy]
 
   def index
     @tracks = Track.public_track
@@ -17,25 +21,27 @@ class TracksController < ApplicationController
 
   def show
     authorize! :read, @track
-    @track.update(:lastviewed_at => Time.now)
+    @track.update(lastviewed_at: Time.now)
   end
 
   def google_maps
     authorize! :read, @track
+
+    @track_data = TrackMapsData.new(@track)
   end
 
   def google_earth
-    unless @track.ge_enabled
-      redirect_to track_path(@track)
-    end
     authorize! :read, @track
+    redirect_to @track unless @track.ge_enabled
+
+    @track_data = TrackEarthData.new(@track)
   end
 
   def replay
-    track = Track.find(params[:id])
-    @track_video = track.video
-    redirect_to @track_video unless @track_video
-    authorize! :read, track
+    authorize! :read, @track
+    redirect_to @track unless @track.video
+
+    @track_data = TrackReplayData.new(@track)
   end
 
   def new

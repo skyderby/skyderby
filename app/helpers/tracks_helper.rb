@@ -103,14 +103,4 @@ module TracksHelper
       }.to_json
     }
   end
-
-  def track_video_settings
-    {
-      video_code: @track_video.video_code,
-      video_offset: @track_video.video_offset,
-      track_offset: @track_video.track_offset,
-      points: @track_video.points,
-      comp_params: @track_video.competition_params
-    }
-  end
 end

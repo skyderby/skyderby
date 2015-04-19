@@ -6,11 +6,11 @@
 %script{:type => 'text/javascript',
         :src  => '//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js'}
 
-.track-map-data{:data => {:points => @track.charts_data}}
+.track-map-data{data: {points: @track_data.points.to_json.html_safe}}
 .container
-  = render partial: 'header', locals: {track: @track}
+  = render partial: 'header', locals: {track: @track_data.track}
   .row
-    .col-sm-12#map{:style => 'height: 600px;'}
+    .col-sm-12#map{style: 'height: 600px;'}
   .row#speed-grades
     .col-sm-2.text-center.hl1= "< 130 #{t 'units.kmh'}"
     .col-sm-2.text-center.hl2= "130 - 160 #{t 'units.kmh'}"
@@ -18,18 +18,3 @@
     .col-sm-2.text-center.hl4= "190 - 220 #{t 'units.kmh'}"
     .col-sm-2.text-center.hl5= "220 - 250 #{t 'units.kmh'}"
     .col-sm-2.text-center.hl6= "> 250 #{t 'units.kmh'}"
-  .row#gr-grades{:style => 'display: none'}
-    .col-sm-2.text-center.hl1= '< 1.50'
-    .col-sm-2.text-center.hl2= '1.50 - 2.0'
-    .col-sm-2.text-center.hl3= '2.00 - 2.50'
-    .col-sm-2.text-center.hl4= '2.50 - 3.00'
-    .col-sm-2.text-center.hl5= '3.00 - 3.50'
-    .col-sm-2.text-center.hl6= '> 3.50'
-  .row{:style => 'display: none'}
-    .col-sm-11.top-buffer
-      %label_tag= 'Highlight:'
-      .btn-group{:data => {:toggle => 'buttons'}}
-        %label.btn.btn-default.active
-          %input{:type => 'radio', :name => 'highlight', :value => 'speed'}= 'Ground speed'
-        %label.btn.btn-default
-          %input{:type => 'radio', :name => 'highlight', :value => 'gr'}= 'G/R'
