@@ -126,7 +126,7 @@ NewTrackForm.prototype = {
                 track_file: {
                     required: true,
                     extension: 'csv|gpx|tes',
-                    filesize: 1048576
+                    filesize: 3145728 // 3 Mb
                 }
             },
             messages: {
