@@ -108,8 +108,8 @@ en:
       public: "Public"
       unlisted: "Unlisted"
       private: "Private"
-      elev_chart_html: "'Elevation'"
-      elevation_html: "'Elevation'"
+      elev_chart: "Elevation"
+      elevation: "Elevation"
   static_pages:
     index:
       title: "Fly! Compete! Win!"

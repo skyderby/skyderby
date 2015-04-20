@@ -1,4 +1,4 @@
-- provide :title, "#{t 'tracks.show.title_track' } ##{@track.id} | #{@track.name}"
+- provide :title, title(@track_data.track)
 
 .track-earth-data{data: {points: @track_data.points.to_json.html_safe}}
 

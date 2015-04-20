@@ -1,7 +1,9 @@
 # encoding: utf-8
-require 'tracks/track_earth_data.rb'
-require 'tracks/track_maps_data.rb'
-require 'tracks/track_replay_data.rb'
+require 'tracks/views/track_earth_data.rb'
+require 'tracks/views/track_maps_data.rb'
+require 'tracks/views/track_replay_data.rb'
+require 'tracks/views/track_edit_data.rb'
+require 'tracks/views/track_charts_data.rb'
 
 class TracksController < ApplicationController
 
@@ -22,6 +24,8 @@ class TracksController < ApplicationController
   def show
     authorize! :read, @track
     @track.update(lastviewed_at: Time.now)
+
+    @track_data = TrackChartsData.new(@track, params[:f], params[:t])
   end
 
   def google_maps
@@ -67,6 +71,7 @@ class TracksController < ApplicationController
 
   def edit
     redirect_to @track unless can? :update, @track
+    @track_data = TrackEditData.new(@track)
   end
 
   def create

@@ -1,18 +1,21 @@
-.track-edit-data{data: track_edit_data_attr}
+- track = @track_data.track
+- provide :title, title(track)
+
+.track-edit-data{data: @track_data.to_data_attr}
 
 .container.top-buffer
-  = form_for @track, html: {class:  'form-horizontal', role: 'form', id: 'track_edit_form'} do |f|
+  = form_for track, html: {class:  'form-horizontal', role: 'form', id: 'track_edit_form'} do |f|
 
     .row
       .col-sm-11
         = f.submit t('general.save'), class:  'btn btn-success'
-        = link_to t('general.cancel'), @track, class:  'btn btn-default'
+        = link_to t('general.cancel'), track, class:  'btn btn-default'
       .col-sm-1
         .pull-right
           = link_to t('general.delete'),
-                    @track,
-                    :method => :delete,
-                    :data => {:confirm => t('tracks.show.delete_confirmation')},
+                    track,
+                    method: :delete,
+                    data: {confirm: t('tracks.show.delete_confirmation')},
                     class:  'btn btn-danger'
 
     %hr
@@ -21,10 +24,10 @@
       .col-sm-12#heights-chart
       .col-sm-12
         .time-selector
-          %input#time-selector{:type => 'text', :name => 'time-selector' , :value => ''}
+          %input#time-selector{type: 'text', name: 'time-selector' , value: ''}
     %hr
-    = f.hidden_field 'ff_start', :id => 'ff_start'
-    = f.hidden_field 'ff_end', :id => 'ff_end'
+    = f.hidden_field 'ff_start', id: 'ff_start'
+    = f.hidden_field 'ff_end', id: 'ff_end'
     .form-group
       %span.col-sm-2.control-label
         = t('static_pages.index.track_form.name')
@@ -45,12 +48,12 @@
     .form-group
       %span.col-sm-2.control-label
         = t('static_pages.index.track_form.kind')
-      .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
-        %label.btn.btn-default{ class:  ('active' if @track.skydive?) }
+      .btn-group.col-sm-10{data: {toggle: 'buttons'}}
+        %label.btn.btn-default{class: ('active' if track.skydive?)}
           = f.radio_button 'kind', 'skydive'
           = 'Skydive'
 
-        %label.btn.btn-default{ class:  ('active' if @track.base?) }
+        %label.btn.btn-default{class: ('active' if track.base?)}
           = f.radio_button 'kind', 'base'
           = 'B.A.S.E'
 
@@ -68,13 +71,13 @@
         %span.col-sm-2.control-label
           = t('tracks.edit.visibility')
         .btn-group.col-sm-10{data: {toggle: 'buttons'}}
-          %label.btn.btn-default{ class:  ('active' if @track.public_track?) }
+          %label.btn.btn-default{ class:  ('active' if track.public_track?) }
             = f.radio_button 'visibility', 'public_track'
             = t('tracks.edit.public')
-          %label.btn.btn-default{ class:  ('active' if @track.unlisted_track?) }
+          %label.btn.btn-default{ class:  ('active' if track.unlisted_track?) }
             = f.radio_button 'visibility', 'unlisted_track'
             = t('tracks.edit.unlisted')
-          %label.btn.btn-default{ class:  ('active' if @track.private_track?) }
+          %label.btn.btn-default{ class:  ('active' if track.private_track?) }
             = f.radio_button 'visibility', 'private_track'
             = t('tracks.edit.private')
 
@@ -86,11 +89,11 @@
     .row
       .col-sm-11
         = f.submit t('general.save'), class: 'btn btn-success'
-        = link_to t('general.cancel'), @track, class: 'btn btn-default'
+        = link_to t('general.cancel'), track, class: 'btn btn-default'
       .col-sm-1
         .pull-right
           = link_to t('general.delete'),
-                    @track,
+                    track,
                     method: :delete,
                     data: {confirm: t('tracks.show.delete_confirmation')},
                     class: 'btn btn-danger'

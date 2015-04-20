@@ -11,8 +11,7 @@ var Track = {
         range_from: 0,
         range_to: 0,
         index_cache: []
-    },
-    Dict = {};
+    };
 
 //////////////////////////////////////////////////////
 // VIEW INIT
@@ -39,8 +38,6 @@ function init_chart_view() {
     Track.range_from = params.from == -1 ? Track.max_height : params.from;
     Track.range_to = params.to == -1 ? Track.min_height : params.to;
 
-    Dict = track_data.data('dict');
-
     init_range_selector();
 
     init_elev_dist_chart();
@@ -57,132 +54,6 @@ function init_chart_view() {
     updateRangeSelector();
     updateUnits();
 
-}
-
-function init_edit_view() {
-
-    var track_data = $('.track-edit-data');
-
-    Track.charts_data  = track_data.data('points');
-    Track.max_rel_time = track_data.data('max-rel-time');
-    Track.range_from   = track_data.data('range-from');
-    Track.range_to     = track_data.data('range-to');
-    Track.suit         = {
-        id: track_data.data('suit-id'),
-        name: track_data.data('suit-name')
-    };
-
-    if (Track.suit && Track.suit.id) {
-        $('<option />', {value: Track.suit.id, text: Track.suit.name})
-            .appendTo($('.track-wingsuit-select'));
-    }       
-        
-    $('.track-wingsuit-select').select2({
-        width: '100%',
-        ajax: {
-            url: '/api/wingsuits',
-            dataType: 'json',
-            type: "GET",
-            quietMillis: 50,
-            data: function (term) {
-                return {
-                    query: term
-                };
-            },
-            processResults: function (data) {
-                var suits_data = _.chain(data)
-                    .map(function(obj) {
-                        return {
-                            id: obj.id,
-                            text: obj.name,
-                            manufacturer: obj.manufacturer.name
-                        }
-                    })
-                    .groupBy(function(obj) { 
-                        return obj.manufacturer;
-                    })
-                    .map(function(obj, key) {
-                        return {
-                            text: key, 
-                            children: obj
-                        };
-                    })
-                    .sortBy(function(obj) {
-                        return obj.text;
-                    })
-                    .value();
-                return {
-                    results: suits_data
-                };
-            },
-            cache: true
-        }
-        });
-
-
-    Dict = track_data.data('dict');
-
-    $("#time-selector").ionRangeSlider({
-      min: 0,
-      max: Track.max_rel_time,
-      type: 'double',
-      step: 1,
-      prettify: false,
-      hasGrid: true,
-      from: Track.range_from,
-      to: Track.range_to,
-      onChange: function (obj) {
-        Track.range_from = obj.fromNumber;
-        Track.range_to = obj.toNumber;
-        set_plot_bands();
-      }
-    });
-
-    $('#heights-chart').highcharts({
-      chart: {
-        type: 'area'
-      },
-      title: {
-        text: Dict.heights.titl
-      },
-      plotOptions: {
-        series: {
-          marker: {
-            radius: 1
-          }
-        }
-      },
-      xAxis: {
-      plotBands: [{
-          color: 'gray',
-          from: 0,
-          to: 0,
-          id: 'plotband-start'
-        },
-        {
-          color: 'gray',
-          from: 0,
-          to: 0,
-          id: 'plotband-end'
-        },
-      ]},
-      tooltip: {
-        crosshairs: true
-      },
-      credits: {
-        enabled: false
-      },
-      series: [{
-        name: Dict.heights.elev_s,
-        pointInterval: 10,
-        tooltip: {
-          valueSuffix: Dict.units.m
-        },
-        data: Track.charts_data
-      }]
-    });
-
-    set_plot_bands();
 }
 
 function init_map_view() {
@@ -206,29 +77,6 @@ function init_earth_view() {
 
 function init_ge() {
     google.earth.createInstance('map3d', initCB, failureCB);
-}
-
-function set_plot_bands() {
-    chart = $('#heights-chart').highcharts();
-    chart.xAxis[0].removePlotBand('plotband-start');
-    chart.xAxis[0].removePlotBand('plotband-end');
-
-    chart.xAxis[0].addPlotBand({
-                    from: 0,
-                    to: Track.range_from,
-                    color: 'gray',
-                    id: 'plotband-start'
-                });
-
-    chart.xAxis[0].addPlotBand({
-                    from: Track.range_to,
-                    to: Track.max_rel_time,
-                    color: 'gray',
-                    id: 'plotband-end'
-                });
-
-    $('#ff_start').val(Track.range_from);
-    $('#ff_end').val(Track.range_to);
 }
 
 function init_range_selector() {
@@ -265,7 +113,7 @@ function init_elev_dist_chart() {
             marginLeft: 70
         },
         title: {
-            text: Dict.elev_dist.titl
+            text: I18n.t('tracks.show.eldstch')
         },
         plotOptions: {
             spline: {
@@ -307,21 +155,21 @@ function init_elev_dist_chart() {
         series:
             [
             {
-            name: Dict.elev_dist.elev_s,
+            name: I18n.t('tracks.show.eldst_el_s'),
             pointInterval: 10,
             tooltip: {
                 valueSuffix: ''
             }
         },
         {
-            name: Dict.elev_dist.dist_s,
+            name: I18n.t('tracks.show.eldst_dst_s'),
             pointInterval: 10,
             tooltip: {
                 valueSuffix: ''
             }
         },
         {
-            name: Dict.elev_dist.height_s,
+            name: I18n.t('tracks.show.eldst_h_s'),
             type: 'area',
             fillOpacity: 0.3,
             color: Highcharts.getOptions().colors[0],
@@ -343,7 +191,7 @@ function init_spd_chart() {
             marginLeft: 70
         },
         title: {
-            text: Dict.speed.titl
+            text: I18n.t('tracks.show.spdch')
         },
         plotOptions: {
             spline: {
@@ -389,21 +237,21 @@ function init_spd_chart() {
         series:
             [
             {
-            name: Dict.speed.hs_s,
+            name: I18n.t('tracks.show.spd_hs'),
             color: '#52A964',
             tooltip: {
                 valueSuffix: ''
             }
         },
         {
-            name: Dict.speed.vs_s,
+            name: I18n.t('tracks.show.spd_vs'),
             color: '#A7414E',
             tooltip: {
                 valueSuffix: ''
             }
         },
         {
-            name: Dict.speed.rhs_s,
+            name: I18n.t('tracks.show.raw_ground_speed'),
             type: 'line',
             color: '#AAE3CC',
             enableMouseTracking: false,
@@ -414,7 +262,7 @@ function init_spd_chart() {
             }
         },
         {
-            name: Dict.speed.rvs_s,
+            name: I18n.t('tracks.show.raw_vertical_speed'),
             type: 'line',
             color: '#DFAFAD',
             enableMouseTracking: false,
@@ -437,7 +285,7 @@ function init_gr_chart() {
             marginLeft: 70
         },
         title: {
-            text: Dict.gr.titl
+            text: I18n.t('tracks.show.grch')
         },
         plotOptions: {
             spline: {
@@ -473,7 +321,7 @@ function init_gr_chart() {
         },
         series: [
             {
-            name: Dict.gr.gr_s,
+            name: I18n.t('tracks.show.gr_s'),
             color: '#37889B',
             tooltip: {
                 valueSuffix: ''
@@ -481,7 +329,7 @@ function init_gr_chart() {
             zIndex: 2
         },
         {
-            name: Dict.gr.rgr_s,
+            name: I18n.t('tracks.show.raw_gr'),
             type: 'line',
             color: '#A6CDCE',
             lineWidth: 7,
@@ -501,7 +349,7 @@ function init_multi_chart() {
             type: 'spline'
         },
         title: {
-            text: Dict.all.titl
+            text: I18n.t('tracks.show.adc')
         },
         plotOptions: {
             spline: {
@@ -518,13 +366,13 @@ function init_multi_chart() {
         yAxis: [{ //Speed yAxis
             min: 0,
             title: {
-                text: Dict.all.spd_y
+                text: I18n.t('tracks.show.adc')
             }
         },
         { // Elev, dist yAxis
             min: 0,
             title: {
-                text: Dict.all.ed_y
+                text: I18n.t('tracks.show.adc_ed_y')
             },
             opposite: true
         },
@@ -533,7 +381,7 @@ function init_multi_chart() {
             max: 5,
             tickInterval: 0.5,
             title: {
-                text: Dict.all.gr_y
+                text: I18n.t('tracks.show.adc_gr_y')
             },
             opposite: true
         }
@@ -548,7 +396,7 @@ function init_multi_chart() {
         series:
             [
             {
-            name: Dict.all.hs_s,
+            name: I18n.t('tracks.show.adc_hspd'),
             yAxis: 0,
             color: Highcharts.getOptions().colors[2],
             tooltip: {
@@ -557,7 +405,7 @@ function init_multi_chart() {
             }
         },
         {
-            name: Dict.all.vs_s,
+            name: I18n.t('tracks.show.adc_vspd'),
             yAxis: 0,
             color: Highcharts.getOptions().colors[0],
             tooltip: {
@@ -566,7 +414,7 @@ function init_multi_chart() {
             }
         },
         {
-            name: Dict.all.gr_s,
+            name: I18n.t('tracks.show.adc_gr_s'),
             yAxis: 2,
             color: Highcharts.getOptions().colors[1],
             tooltip: {
@@ -575,7 +423,7 @@ function init_multi_chart() {
             }
         },
         {
-            name: Dict.all.height_s,
+            name: I18n.t('tracks.show.adc_h_s'),
             yAxis: 1,
             color: '#aaa',
             tooltip: {
@@ -584,7 +432,7 @@ function init_multi_chart() {
             }
         },
         {
-            name: Dict.all.dist_s,
+            name: I18n.t('tracks.show.adc_dst'),
             yAxis: 1,
             color: Highcharts.getOptions().colors[5],
             tooltip: {
@@ -593,7 +441,7 @@ function init_multi_chart() {
             }
         },
         {
-            name: Dict.all.elev_s,
+            name: I18n.t('tracks.show.adc_ele'),
             yAxis: 1,
             color: Highcharts.getOptions().colors[3],
             tooltip: {
@@ -609,8 +457,8 @@ function init_multi_chart() {
 function updateUnits() {
 
     var chart;
-    var speed_unit = (Track.in_imperial ? Dict.units.mph : Dict.units.kmh);
-    var dist_unit = (Track.in_imperial ? Dict.units.ft : Dict.units.m);
+    var speed_unit = (Track.in_imperial ? I18n.t('units.mph') : I18n.t('units.kmh'));
+    var dist_unit = (Track.in_imperial ? I18n.t('units.ft') : I18n.t('units.m'));
 
     $('.spd-unit').text(speed_unit);
     $('.dst-unit').text(dist_unit);
@@ -619,7 +467,7 @@ function updateUnits() {
     chart = $('#elevation_distance_chart').highcharts();
     chart.yAxis[0].update({
         title: {
-            text: Dict.elev_dist.y + ', ' + dist_unit
+            text: I18n.t('tracks.show.eldst_dst') + ', ' + dist_unit
         }
     });
     chart.series[0].update({
@@ -642,7 +490,7 @@ function updateUnits() {
     chart = $('#speeds_chart').highcharts();
     chart.yAxis[0].update({
         title: {
-            text: Dict.speed.y + ', ' + speed_unit
+            text: I18n.t('tracks.show.spd_ax') + ', ' + speed_unit
         }
     });
     chart.series[0].update({
@@ -659,12 +507,12 @@ function updateUnits() {
     chart = $('#all_data_chart').highcharts();
     chart.yAxis[0].update({
         title: {
-            text: Dict.all.sp_y + ', ' + speed_unit
+            text: I18n.t('tracks.show.adc_sp_y') + ', ' + speed_unit
         }
     });
     chart.yAxis[1].update({
         title: {
-            text: Dict.all.ed_y + ', ' + dist_unit
+            text: I18n.t('tracks.show.adc_ed_y') + ', ' + dist_unit
         }
     });
     chart.series[0].update({
@@ -1248,8 +1096,6 @@ function draw_polyline() {
 $(document).on('ready page:load', function() {
     if ($('.track-data').length) {
         init_chart_view();	
-    } else if ($('.track-edit-data').length) {
-        init_edit_view();
     } else if ($('.track-map-data').length) {
         init_map_view();        
     } else if ($('.track-earth-data').length) {

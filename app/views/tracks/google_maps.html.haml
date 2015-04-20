@@ -1,4 +1,4 @@
-- provide :title, "#{t 'tracks.show.title_track' } ##{@track.id} | #{@track.name}"
+- provide :title, title(@track_data.track)
 
 %script{:type => 'text/javascript',
         :src  => '//maps.google.com/maps/api/js?v=3.13&amp;sensor=false&amp;libraries=geometry'}

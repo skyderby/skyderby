@@ -10,10 +10,12 @@ class Track < ActiveRecord::Base
 
   belongs_to :place
   belongs_to :wingsuit
+
   has_many :tracksegments, dependent: :destroy
   has_many :points, through: :tracksegments
   has_many :track_results, dependent: :destroy
   has_many :virtual_comp_results, dependent: :destroy
+
   has_one :event_track
   has_one :video, class_name: 'TrackVideo', dependent: :destroy
 
@@ -45,33 +47,25 @@ class Track < ActiveRecord::Base
     event_track.present?
   end
 
-  def charts_data
-    track_data.trimmed.to_json.html_safe
-  end
+  # def charts_data
+  #   track_data.trimmed.to_json.html_safe
+  # end
+  #
+  # def max_height
+  #   track_data.max_h.round
+  # end
+  #
+  # def min_height
+  #   track_data.min_h.round
+  # end
 
-  def earth_data
-    track_data.trimmed.map { |x| {latitude: x[:latitude],
-                                  longitude: x[:longitude],
-                                  h_speed: x[:h_speed],
-                                  elevation: x[:abs_altitude].nil? ? x[:elevation] : x[:abs_altitude]} }
-                    .to_json.html_safe
-  end
+  # def heights_data
+    # track_data.points.map { |p| [p[:fl_time_abs], p[:elevation]] }.to_json.html_safe
+  # end
 
-  def max_height
-    track_data.max_h.round
-  end
-
-  def min_height
-    track_data.min_h.round
-  end
-
-  def heights_data
-    track_data.points.map { |p| [p[:fl_time_abs], p[:elevation]] }.to_json.html_safe
-  end
-
-  def duration
-    track_data.points.map { |p| p[:fl_time] }.inject(0, :+)
-  end
+  # def duration
+    # track_data.points.map { |p| p[:fl_time] }.inject(0, :+)
+  # end
 
   def presentation
     "#{name} | #{suit} | #{comment}"
@@ -125,10 +119,6 @@ class Track < ActiveRecord::Base
       # Place
       search_radius = base? ? 1 : 10 # in km
       self.place = Place.nearby(jump_range.start_point, search_radius).first
-        # start_point[:latitude], 
-        # start_point[:longitude],
-        # self.base? ? 1 : 10
-      # ).first if jump_range.start_point
 
       if self.place && self.place.msl
         track_points.each { |x| x[:elevation] = x[:abs_altitude] - self.place.msl }
@@ -152,7 +142,5 @@ class Track < ActiveRecord::Base
         :raw_v_speed
       ))
     end
-    # Point.create (track_points) { |point| point.tracksegment = trkseg}
   end
-
 end

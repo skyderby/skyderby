@@ -1,3 +1,5 @@
+- provide :title, title(@track_data.track)
+
 .track-replay{data: @track_data.to_data_attr}
 .container
   = render partial: 'header', locals: {track: @track_data.track}
