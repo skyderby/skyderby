@@ -24,11 +24,25 @@
   margin-top: 17px;
 }
 
-.comp-group {}
+.comp-group {
+  line-height: 24px;
+  font-size: 20px;
+  font-weight: normal;
+  color: rgb(65, 131, 196);
+}
 
-.comp-dash {}
+.comp-dash {
+  line-height: 24px;
+  font-size: 20px;
+  font-weight: normal;
+  color: rgb(65, 131, 196);
+}
 
-.comp-name {}
+.comp-name {
+  line-height: 24px;
+  font-size: 20px;
+  color: rgb(65, 131, 196);
+}
 
 /*Общие стили для событий*/
 
