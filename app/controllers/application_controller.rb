@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :set_locale
+  before_action :store_current_location, unless: :devise_controller?
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
   def self.default_url_options(options={})
@@ -10,7 +11,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    request.referrer
+    stored_location_for(:user) || root_path
   end
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -21,6 +22,10 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << :name
+  end
+
+  def store_current_location
+    store_location_for(:user, request.url)
   end
 
   private
