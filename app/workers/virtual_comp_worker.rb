@@ -1,4 +1,5 @@
 require 'geospatial'
+require 'competitions/results_processor'
 
 class VirtualCompWorker
   include Sidekiq::Worker
