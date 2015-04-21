@@ -1,3 +1,35 @@
+/* Стили для списка соревнования */
+.comp-list {}
+
+.comp-list-item {
+  line-height: 18px;
+  list-style-image: none;
+  list-style-position: outside;
+  list-style-type: none;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  position: relative;
+  border-bottom-color: rgb(238, 238, 238);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+
+.comp-list-title {
+  margin-bottom: 10px;
+}
+
+.comp-list-params {
+  color: rgb(136, 136, 136);
+  float: right;
+  margin-top: 17px;
+}
+
+.comp-group {}
+
+.comp-dash {}
+
+.comp-name {}
+
 /*Общие стили для событий*/
 
 .event-request { margin-top:15px }

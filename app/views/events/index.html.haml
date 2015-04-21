@@ -8,15 +8,38 @@
     %span= 'Creating classic competitions available only for registered users.'
 
   %h2= 'Online competitions:'
-  %table.table.table-hover
-    %tbody
-      - VirtualCompetition.order(:name).each do |comp|
-        %tr.clickableRow{data: {url: virtual_competition_path(comp.id)}}
-          %td.text-info
-            = competition_title(comp)
+  %ul.comp-list
+  - VirtualCompetition.order(:name).each do |comp|
+    %li.comp-list-item
+      .comp-list-params
+        %span.comp-jumps-kind= '#' + comp.jumps_kind
+        %span.comp-suit-kind= '#' + comp.suits_kind
+      %h3.comp-list-title
+        %a{href: virtual_competition_path(comp.id)}
+          - if comp.group
+            %span.comp-group= comp.group.name
+            %span.comp-dash= ' - '
+          %span.comp-name= comp.name
+      .comp-place
+        = 'Location: '
+        - if comp.place
+          %a{href: place_path(comp.place)}
+            -if comp.place.country
+              = comp.place.name + ', ' + comp.place.country.name
+            - else
+              = comp.place.name
+        - else
+          = 'Worldwide'
+      .comp-task= competition_task(comp)
+
   %h2= 'Classic competitions:'
-  %table.table.table-hover
-    %tbody
-      - @events.each do |e|
-        %tr.clickableRow{data: {url: event_path(id: e.id)}}
-          %td.text-info= e.name
+  %ul.comp-list
+  - @events.each do |comp|
+    %li.comp-list-item
+      .comp-list-params
+      %h3.comp-list-title
+        %a{href: event_path(comp)}
+          %span.comp-name= comp.name
+      .comp-window
+        = 'Competition window: '
+        = "#{comp.range_from} - #{comp.range_to} #{t('units.m')}"

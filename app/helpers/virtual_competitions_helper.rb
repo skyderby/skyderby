@@ -1,10 +1,14 @@
 module VirtualCompetitionsHelper
   def competition_title(competition)
-    competition.group.name + ' - ' + competition.name
+    if competition.group
+      competition.group.name + ' - ' + competition.name
+    else
+      competition.name
+    end
   end
 
   def competition_unit
-    if @competition.distance? || @competition.distance_in_time? || @competition.straightline_distance_in_time?
+    if @competition.distance? || @competition.distance_in_time?
       t('units.m')
     elsif @competition.time?
       t('units.t_unit')
@@ -13,31 +17,30 @@ module VirtualCompetitionsHelper
     end
   end
 
-  def competition_task
-    if @competition.distance?
+  def competition_task(competition)
+    if competition.distance?
       t('virtual_competitions.tasks.distance', 
-        range_from: @competition.range_from,
-        range_to: @competition.range_to)      
-    elsif @competition.time?
+        range_from: competition.range_from,
+        range_to: competition.range_to)      
+    elsif competition.time?
       t('virtual_competitions.tasks.distance', 
-        range_from: @competition.range_from,
-        range_to: @competition.range_to)      
-    elsif @competition.speed?
+        range_from: competition.range_from,
+        range_to: competition.range_to)      
+    elsif competition.speed?
       t('virtual_competitions.tasks.distance', 
-        range_from: @competition.range_from,
-        range_to: @competition.range_to)      
-    elsif @competition.distance_in_time?
-      t('virtual_competitions.tasks.distance_in_time', 
-        parameter: @competition.discipline_parameter)      
-    elsif @competition.straightline_distance_in_time?
+        range_from: competition.range_from,
+        range_to: competition.range_to)      
+    elsif competition.distance_in_time?
       t('virtual_competitions.tasks.straightline_distance_in_time', 
-        parameter: @competition.discipline_parameter)      
+        parameter: competition.discipline_parameter)      
     end
   end
 
-  def competition_place
-    if @competition.place
-      t('virtual_competitions.place', place: @competition.place.name)
+  def competition_place(competition)
+    if competition.place
+      place = competition.place.name
+      place += ', ' + competition.place.country.name if competition.place.country
+      t('virtual_competitions.place', place: competition.place.name)
     else
       t('virtual_competitions.place', place: t('virtual_competitions.worldwide'))
     end
@@ -52,7 +55,7 @@ module VirtualCompetitionsHelper
   end
 
   def format_result(result)
-    if @competition.distance? || @competition.distance_in_time? || @competition.straightline_distance_in_time?
+    if @competition.distance? || @competition.distance_in_time?
       result.round
     else
       result.round(1)

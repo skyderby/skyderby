@@ -6,9 +6,9 @@
       .col-sm-10
         %h1
           = competition_title(@competition)
-        %div= competition_place
+        %div= competition_place(@competition)
         %div= competition_suit
-        %div= competition_task
+        %div= competition_task(@competition)
       .col-sm-2
         .pull-right
           - if can? :update, @competition

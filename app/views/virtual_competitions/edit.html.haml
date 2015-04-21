@@ -50,9 +50,9 @@
           = f.radio_button 'discipline', 'distance_in_time'
           = 'Distance in time'
 
-        %label.btn.btn-default{ class:  ('active' if @competition.straightline_distance_in_time?) }
-          = f.radio_button 'discipline', 'straightline_distance_in_time'
-          = 'Straight-line distance in time'
+        %label.btn.btn-default{ class:  ('active' if @competition.time_until_line?) }
+          = f.radio_button 'discipline', 'time_until_line'
+          = 'Time until line'
 
     .form-group
       = f.label :discipline_parameter, class: 'col-sm-2 control-label', for: :discipline_parameter
