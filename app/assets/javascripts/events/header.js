@@ -22,7 +22,7 @@ Event.Header = function(params) {
     this.edit_event = _.template([
         '<a href="#" class="btn btn-default edit-event">',
             '<i class="fa fa-fw fa-pencil text-muted"></i>',
-            'Редактировать',
+            I18n.t('general.edit'),
         '</a>'
     ].join('\n'));
 
@@ -30,16 +30,16 @@ Event.Header = function(params) {
          '<div class="col-md-7">',
             '<button class="btn btn-default button-add-class">',
                 '<i class="fa fa-plus"></i>',
-                'Класс',
+                'Class',
             '</button>',
             '<button class="btn btn-default button-add-competitor">',
                 '<i class="fa fa-plus"></i>',
-                'Участник',
+                'Competitor',
             '</button>',
             '<div class="btn-group">',
                 '<button class="btn btn-default" data-toggle="dropdown">',
                     '<i class="fa fa-plus"></i>',
-                    'Раунд',
+                    'Round',
                     '<i class="fa fa-caret-down"></i>',
                 '</button>',
                 '<ul class="dropdown-menu dropdown-menu-right" role="menu">',

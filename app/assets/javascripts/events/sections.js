@@ -18,12 +18,12 @@ Event.Section.prototype = {
         var modal_title;
 
         if (this.is_new) {
-            modal_title = 'Добавление';
+            modal_title = 'New';
         } else {
-            modal_title = 'Редактирование';
+            modal_title = 'Edit';
         }
 
-        $('#section-form-modal-title').text('Класс: ' + modal_title);
+        $('#section-form-modal-title').text('Class: ' + modal_title);
         $('#section-name').val(this.name);
 
         $('#submit-section-form')

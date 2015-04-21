@@ -1,4 +1,11 @@
-class Geospatial
+module Geospatial
+  def self.distance_between_points(a, b)
+    distance(
+      [a.latitude, a.longitude],
+      [b.latitude, b.longitude]
+    )
+  end
+
   def self.distance(a, b)
     rad_per_deg = Math::PI/180  # PI / 180
     rkm = 6371                  # Радиус земли в километрах

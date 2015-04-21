@@ -12,8 +12,24 @@ class Event < ActiveRecord::Base
 
   enum status: [:draft, :published, :finished]
 
+  scope :available, -> { where('status IN (1, 2)') }
   before_validation :check_name_and_range, on: :create
   validates_presence_of :responsible, :name, :range_from, :range_to
+
+  def self.available_for(user)
+    events = Event.order('id DESC')
+
+    if user
+      events = events.where(
+        'status IN (1, 2) OR user_profile_id = ?', 
+        user.user_profile.id
+      ) unless user.has_role?(:admin)
+    else
+      events = events.available
+    end
+
+    events
+  end
 
   def details
     { id: id.to_s,

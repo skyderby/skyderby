@@ -38,14 +38,14 @@ Event.EventTrack = function(params) {
 Event.EventTrack.prototype = {
     open_form: function() {
         if (this.is_new) {
-            modal_title = 'Добавление';
+            modal_title = 'New';
             this.$form_track_label.hide();
             this.$form_track_link.hide();
             this.$form_delete_result.hide();
             this.$form_new_track_wrap.show();
             this.$form_save.show();
         } else {
-            modal_title = 'Редактирование';
+            modal_title = 'Edit';
             this.$form_save.hide();
             this.$form_new_track_wrap.hide();
             this.$form_track_label.show();
@@ -60,7 +60,7 @@ Event.EventTrack.prototype = {
         var competitor = window.Competition.competitor_by_id(this.competitor_id);
         var round = window.Competition.round_by_id(this.round_id);
 
-        this.$form_title.text('Результат: ' + modal_title);
+        this.$form_title.text('Result: ' + modal_title);
         this.$form_competitor.text(competitor.profile.name);
         this.$form_round.text(capitaliseFirstLetter(round.discipline) + ' - ' + round.name);
 
@@ -159,15 +159,15 @@ Event.EventTrack.prototype = {
         var url, method, data;
 
         if (this.is_new) {
-            url = '/api/round_tracks/';
+            url = '/api/event_tracks/';
             method = 'POST';
         } else {
-            url = '/api/round_tracks/' + this.id;
+            url = '/api/event_tracks/' + this.id;
             method = 'PATCH';
         }
 
         data = {
-            round_track: {
+            event_track: {
                 round_id: this.round_id,
                 competitor_id: this.competitor_id,
                 track_id: this.track_id
@@ -175,16 +175,16 @@ Event.EventTrack.prototype = {
         };
 
         data = new FormData();
-        data.append('round_track[round_id]', this.round_id);
-        data.append('round_track[competitor_id]', this.competitor_id);
+        data.append('event_track[round_id]', this.round_id);
+        data.append('event_track[competitor_id]', this.competitor_id);
         if (this.track_id) {
-            data.append('round_track[track_id]', this.track_id);
+            data.append('event_track[track_id]', this.track_id);
         } else {
             var cur_competitor = window.Competition.competitor_by_id(this.competitor_id);
 
-            data.append('round_track[track_attributes[file]]', this.$form_track_file_input[0].files[0]);
-            data.append('round_track[track_attributes[user_profile_id]]', cur_competitor.profile.id);
-            data.append('round_track[track_attributes[wingsuit_id]]', cur_competitor.wingsuit.id);
+            data.append('event_track[track_attributes[file]]', this.$form_track_file_input[0].files[0]);
+            data.append('event_track[track_attributes[user_profile_id]]', cur_competitor.profile.id);
+            data.append('event_track[track_attributes[wingsuit_id]]', cur_competitor.wingsuit.id);
         }
 
         $.ajax({
@@ -202,7 +202,7 @@ Event.EventTrack.prototype = {
 
     destroy: function() {
         $.ajax({
-            url: '/api/round_tracks/' + this.id,
+            url: '/api/event_tracks/' + this.id,
             method: 'DELETE',
             dataType: 'json',
             context: {id: this.id}

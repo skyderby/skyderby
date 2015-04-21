@@ -4,28 +4,12 @@ class EventsController < ApplicationController
     [:show, :finished, :update, :destroy, :results]
 
   def index
-    @event = Event.new
+    @events = Event.available_for(current_user)
   end
 
   def new
     @event = Event.create(responsible: current_user.user_profile)
     redirect_to @event
-  end
-
-  def create
-    event_params = params[:event]
-    @event = Event.new :name            => event_params[:name],
-                       :place           => event_params[:place],
-                       :start_at        => Date.parse(event_params[:start_at]),
-                       :end_at          => Date.parse(event_params[:end_at]),
-                       :comp_range_from => event_params[:comp_range_from],
-                       :comp_range_to   => event_params[:comp_range_to]
-
-    @event.organizers.build :user => current_user, :orgs_admin => true,
-                            :rounds_admin => true, :competitors_admin => true,
-                            :tracks_admin => true
-    @event.save
-    redirect_to @event, notice: 'Событие успешно создано.'
   end
 
   def update

@@ -9,12 +9,17 @@ module PointsInterpolation
     end
 
     def process
-      return start_point if k == 0
-      return end_point if k ==1
+      return @start_point if @k == 0
+      return @end_point if @k ==1
 
-      new_point = start_point.clone
-      new_point.latitude += (end_point.latitude - start_point.latitute) * k
-      new_point.longitude += (end_point.longitude - start_point.longitude) * k
+      new_point = @start_point.clone
+      new_point.fl_time = @end_point.fl_time * @k
+      new_point.fl_time_abs += new_point.fl_time
+      new_point.elevation +=  (@end_point.elevation - @start_point.elevation) * @k
+      new_point.latitude += (@end_point.latitude - @start_point.latitude) * @k
+      new_point.longitude += (@end_point.longitude - @start_point.longitude) * @k
+
+      new_point
     end
 
     private
@@ -25,7 +30,7 @@ module PointsInterpolation
       raise invalid_point_error unless @start_point.is_a? TrackPoint 
       raise invalid_point_error unless @end_point.is_a? TrackPoint 
       # If k < 0 or k > 1 then point we are looking for not between we have here
-      raise ArgumentError.new('Invalid k') if k < 0 || k > 1
+      raise ArgumentError.new('Invalid k') if @k < 0 || @k > 1
     end
   end
 

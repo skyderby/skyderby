@@ -10,7 +10,7 @@ TrackingDerby::Application.routes.draw do
 
     resources :competitors, only: [:create, :update, :destroy]
     resources :rounds, only: [:create, :update, :destroy]
-    resources :round_tracks, only: [:create, :update, :destroy]
+    resources :event_tracks, only: [:create, :update, :destroy]
     resources :user_profiles, only: [:index, :update]
     resources :wingsuits, only: [:index]
     resources :tracks, only: [:index]

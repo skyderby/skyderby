@@ -14,12 +14,12 @@
 
         .modal-body
           .form-group
-            %span.col-sm-5.control-label= 'Название:'
+            %span.col-sm-5.control-label= 'Name:'
             .col-sm-7
               %input.form-control#event-name
 
           .form-group.row
-            %span.col-sm-5.control-label= 'Соревонвательный диапазон:'
+            %span.col-sm-5.control-label= 'Competition window:'
             .col-sm-3
               %input.form-control#range-from
             %span.col-sm-1.text-center= ' - '
@@ -27,18 +27,18 @@
               %input.form-control#range-to
 
           .form-group
-            %span.col-sm-5.control-label= 'Статус:'
+            %span.col-sm-5.control-label= 'Status:'
             .col-sm-7
               .btn-group{data: {toggle: "buttons"}}
                 %label#draft-label.btn.btn-default
                   %input{type: "radio", name: "event-status", value: "draft", autocomplete: "off"}
-                    = 'Черновик'
+                    = 'Draft'
                 %label#published-label.btn.btn-default
                   %input{type: "radio", name: "event-status", value: "published", autocomplete: "off"}
-                    = 'Опубликовано'
+                    = 'Published'
                 %label#finished-label.btn.btn-default
                   %input{type: "radio", name: "event-status", value: "finished", autocomplete: "off"}
-                    = 'Завершено'
+                    = 'Finished'
 
         .modal-footer
           %input.btn.btn-primary#submit-event-form{:data => {:dismiss => 'modal'}, :value => "#{t 'general.save'}"}

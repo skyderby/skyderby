@@ -38,5 +38,4 @@ describe 'TrackPoint' do
     point.raw_h_speed = 450.0
     expect(point.raw_gr).to eq 4.5
   end
-
 end

@@ -41,7 +41,7 @@ en:
       profile: 'Profile'
       track_analizer: "Tracks analyzer"
       upload_track: "Upload track"
-      competitions: "GPS Performance"
+      competitions: "Competitions"
     footer:
       owner: 'Aleksandr Kunin'
       fb_page: "Application's page"

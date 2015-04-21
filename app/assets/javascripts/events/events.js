@@ -103,7 +103,7 @@ Event.Competition.prototype = {
     open_form: function(e) {
         e.preventDefault();
 
-        $('#event-form-modal-title').text('Событие: редактирование');
+        $('#event-form-modal-title').text('Competition: Edit');
         $('#event-name').val(this.name);
         $('#range-from').val(this.range_from);
         $('#range-to').val(this.range_to);
