@@ -1,5 +1,4 @@
 module TracksHelper
-
   def title(track)
     "#{t 'tracks.show.title_track' } ##{track.id} | #{track_pilot(track)}"
   end
