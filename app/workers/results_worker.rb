@@ -71,7 +71,7 @@ class ResultsWorker
     unless ff_start.nil? || ff_start.zero?
       ff_start_elev = 
         points.find do |x| 
-          x[:fl_time_abs] > ff_start 
+          x[:fl_time_abs] >= ff_start 
         end[:elevation] 
     end
 
@@ -83,7 +83,7 @@ class ResultsWorker
     ff_end_elev = is_skydive ? 1000 : 100
 
     if ff_end
-      end_point = points.find { |x| x[:fl_time_abs] > ff_end } 
+      end_point = points.find { |x| x[:fl_time_abs] >= ff_end } 
       ff_end_elev = [ff_end_elev, end_point[:elevation]].max if end_point
     end
 
