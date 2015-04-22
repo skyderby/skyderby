@@ -1,14 +1,14 @@
 require 'competitions/skydive_comp_range_finder'
 
 class SkydiveResultProcessor
-  def initialize(track_id, params)
-    @track = Track.find(track_id)
+  def initialize(track_points, params)
+    @track_points = track_points
         
     validate! params 
     @range_from = params[:range_from]
     @range_to = params[:range_to]
 
-    @comp_window = SkydiveCompRange.for(@track, @range_from, @range_to) 
+    @comp_window = SkydiveCompRange.for(@track_points, @range_from, @range_to) 
   end
 
   def calculate

@@ -12,18 +12,19 @@ describe 'Results processing:', type: :feature do
     expect { upload @track_file }.to change(Track, :count).by(1)
 
     @track = Track.last
+    @track_points = TrackPoints.new(@track)
     @params = {range_from: 3000, range_to: 2000}
   end
 
   it 'Time' do
-    expect(ResultsProcessor.process(@track, :time, @params)).to eql(32.3)
+    expect(ResultsProcessor.process(@track_points, :time, @params)).to eql(32.3)
   end
 
   it 'Distance' do
-    expect(ResultsProcessor.process(@track, :distance, @params)).to eql(1474)
+    expect(ResultsProcessor.process(@track_points, :distance, @params)).to eql(1474)
   end
 
   it 'Speed' do
-    expect(ResultsProcessor.process(@track, :speed, @params)).to eql(164.3)
+    expect(ResultsProcessor.process(@track_points, :speed, @params)).to eql(164.3)
   end
 end

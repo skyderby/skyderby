@@ -12,8 +12,8 @@ require 'tracks/jump_range'
 
 module SkydiveCompRange
   class RangeFinder
-    def initialize(track, range_from, range_to)
-      @track_points = TrackPoints.new(track).trimmed
+    def initialize(track_points, range_from, range_to)
+      @track_points = track_points.trimmed
       @range_from = range_from
       @range_to = range_to
     end

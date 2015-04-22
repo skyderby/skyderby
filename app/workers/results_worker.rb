@@ -1,3 +1,5 @@
+require 'tracks/results/result.rb'
+
 class ResultsWorker
   include Sidekiq::Worker
 
@@ -17,10 +19,12 @@ class ResultsWorker
       steps = ((ff_range - 1000) / 50).floor
 
       steps.times do |s|
-        res_range_from = ff_start_elev - 50 * s
-        res_range_to = ff_start_elev - 1000 - 50 * s
+        range = {
+          range_from: ff_start_elev - 50 * s,
+          range_to: ff_start_elev - 1000 - 50 * s
+        }
 
-        results << calculate(data, res_range_from, res_range_to)
+        results << calculate(data, range)
       end
     else
       results << calculate(data, ff_start_elev, ff_end_elev)
@@ -47,19 +51,14 @@ class ResultsWorker
   end
   
   # REFACTOR THIS
-  def calculate(data, range_from, range_to)
-    trk_points = data.trim_interpolize(range_from, range_to)
-    fl_time = trk_points.map { |x| x[:fl_time] }.inject(0, :+)
-    distance = trk_points.map { |x| x[:distance] }.inject(0, :+)
-    speed = fl_time.zero? ? 0 : Velocity.to_kmh(distance / fl_time).round
-
-    {
-      range_from: range_from,
-      range_to: range_to,
-      time: fl_time.round(1),
-      distance: distance.round,
-      speed: speed
-    }
+  def calculate(data, range)
+    TrackResultData.new({
+      range_from: range[:range_from],
+      range_to: range[:range_to],
+      time: ResultsProcessor.process(data, :time, range),
+      distance: ResultsProcessor.process(data, :distance, range),
+      speed: ResultsProcessor.process(data, :speed, range)
+    })
   end
 
   def find_ff_start_elev(points, ff_start, is_skydive)
@@ -72,11 +71,8 @@ class ResultsWorker
         end[:elevation] 
     end
 
-    if is_skydive 
-      ff_start_elev -= ff_start_elev % 50
-    else 
-      ff_start_elev
-    end
+    ff_start_elev -= ff_start_elev % 50 if is_skydive 
+    ff_start_elev
   end
 
   def find_ff_end_elev(points, ff_end, is_skydive)
@@ -87,10 +83,7 @@ class ResultsWorker
       ff_end_elev = end_point[:elevation] if end_point
     end
 
-    if is_skydive
-      ff_end_elev += 50 - ff_end_elev % 50
-    else
-      ff_end_elev
-    end
+    ff_end_elev += 50 - ff_end_elev % 50 if is_skydive
+    ff_end_elev
   end
 end
