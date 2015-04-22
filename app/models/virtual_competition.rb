@@ -31,7 +31,9 @@ class VirtualCompetition < ActiveRecord::Base
     competitions = competitions.tracksuit if track.wingsuit.tracksuit?
     competitions = competitions.wingsuit if track.wingsuit.wingsuit?
     # Blank place means worldwide (without filter)
-    competitions = competitions.where(place_id: track.place_id) if track.place_id
+    competitions = competitions.where(
+      'place_id = ? OR place_id IS NULL', track.place_id
+    ) if track.place_id
     competitions = competitions.where('period_from <= ?', track.created_at)
     competitions = competitions.where('period_to >= ?', track.created_at)
 
