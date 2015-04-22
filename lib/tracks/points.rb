@@ -1,3 +1,4 @@
+require 'tracks/track_point'
 require 'median_filter'
 require 'moving_average'
 
@@ -136,18 +137,20 @@ class TrackPoints
         raw_h = Velocity.to_kmh(point.distance / fl_time_diff)
         raw_v = Velocity.to_kmh(elevation_diff) / fl_time_diff
 
-        @points << { fl_time: fl_time_diff,
-                     fl_time_abs: fl_time,
-                     elevation_diff: elevation_diff,
-                     elevation: point.elevation.round(2),
-                     abs_altitude: point.abs_altitude,
-                     latitude: point.latitude,
-                     longitude: point.longitude,
-                     distance: point.distance,
-                     h_speed: (point.h_speed || 0.0),
-                     v_speed: (point.v_speed || 0.0),
-                     raw_h_speed: raw_h,
-                     raw_v_speed: raw_v }
+        @points << TrackPoint.new({ 
+          fl_time: fl_time_diff,
+          fl_time_abs: fl_time,
+          elevation_diff: elevation_diff,
+          elevation: point.elevation.round(2),
+          abs_altitude: point.abs_altitude,
+          latitude: point.latitude,
+          longitude: point.longitude,
+          distance: point.distance,
+          h_speed: (point.h_speed || 0.0),
+          v_speed: (point.v_speed || 0.0),
+          raw_h_speed: raw_h,
+          raw_v_speed: raw_v 
+        })
 
       end
       prev_point = point

@@ -10,6 +10,10 @@
 #   t.datetime "updated_at"
 #   t.string   "name"
 #   t.integer  "virtual_comp_group_id"
+#   t.integer  "range_from"
+#   t.integer  "range_to"
+#   t.boolean  "display_highest_speed"
+#   t.boolean  "display_highest_gr"
 # end
 #
 # add_index "virtual_competitions", ["places_id"], name: "index_virtual_competitions_on_places_id", using: :btree
@@ -25,20 +29,6 @@ class VirtualCompetition < ActiveRecord::Base
   enum suits_kind: [:wingsuit, :tracksuit]
   enum discipline: 
     [:time, :distance, :speed, :distance_in_time, :time_until_line]
-
-  def self.by_track(track)
-    competitions = VirtualCompetition.order(:name)
-    competitions = competitions.tracksuit if track.wingsuit.tracksuit?
-    competitions = competitions.wingsuit if track.wingsuit.wingsuit?
-    # Blank place means worldwide (without filter)
-    competitions = competitions.where(
-      'place_id = ? OR place_id IS NULL', track.place_id
-    ) if track.place_id
-    competitions = competitions.where('period_from <= ?', track.created_at)
-    competitions = competitions.where('period_to >= ?', track.created_at)
-
-    competitions
-  end
 
   def reprocess_results
     virtual_comp_results.each do |x|

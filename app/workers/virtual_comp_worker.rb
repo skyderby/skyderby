@@ -1,4 +1,5 @@
 require 'geospatial'
+require 'competitions/online_comps_finder'
 require 'competitions/results_processor'
 
 class VirtualCompWorker
@@ -11,7 +12,7 @@ class VirtualCompWorker
 
     data = TrackPoints.new(track)
 
-    competitions = VirtualCompetition.by_track(track)
+    competitions = OnlineCompsFinder.find(params_for(track))
     competitions.each do |comp|
       tmp_result = VirtualCompResult.new
       tmp_result.user_profile_id = track.user_profile_id
@@ -19,11 +20,6 @@ class VirtualCompWorker
 
       if comp.distance_in_time?
         result_hash = calculate_distance_in_time(data, comp.discipline_parameter, track.flysight?)
-        tmp_result.result = result_hash[:distance]
-        tmp_result.highest_gr = result_hash[:highest_gr] if comp.display_highest_gr
-        tmp_result.highest_speed = result_hash[:highest_speed] if comp.display_highest_speed
-      elsif comp.straightline_distance_in_time?
-        result_hash = calculate_straightline_distance_in_time(data, comp.discipline_parameter, track.flysight?)
         tmp_result.result = result_hash[:distance]
         tmp_result.highest_gr = result_hash[:highest_gr] if comp.display_highest_gr
         tmp_result.highest_speed = result_hash[:highest_speed] if comp.display_highest_speed
@@ -37,7 +33,16 @@ class VirtualCompWorker
     end
   end
 
-  def calculate_straightline_distance_in_time(data, discipline_parameter, is_flysight)
+  def params_for(track)
+    {
+      activity: track.kind.to_sym,
+      suit_kind: track.wingsuit.kind.to_sym,
+      period: track.created_at,
+      place_id: track.place_id
+    }
+  end
+
+  def calculate_distance_in_time(data, discipline_parameter, is_flysight)
     # method return values
     distance = 0
     highest_gr = 0
@@ -112,55 +117,55 @@ class VirtualCompWorker
     { distance: distance, highest_gr: highest_gr, highest_speed: highest_speed }
   end
 
-  def calculate_distance_in_time(data, discipline_parameter, is_flysight)
-    # method return values
-    distance = 0
-    highest_gr = 0
-    highest_speed = 0
-
-    # tmp values
-    fl_time = 0
-    prev_point = nil
-    start_found = false
-    trk_points = data.trimmed(start: data.ff_start - 10)
-    speed_key = is_flysight ? :v_speed : :raw_v_speed
-
-    trk_points.each do |cur_point|
-      break if fl_time >= discipline_parameter
-      # break if track trimmed to point after exit
-      break if !prev_point && cur_point[:v_speed] > 10
-
-      if prev_point
-        if cur_point[speed_key] >= 10 && !start_found
-          start_found = true
-          k = (cur_point[speed_key] - 10) / (cur_point[speed_key] - prev_point[speed_key])
-          fl_time += cur_point[:fl_time] * k
-          distance += cur_point[:distance] * k
-
-          prev_point = cur_point
-          next
-        end
-
-        if start_found
-          if fl_time + cur_point[:fl_time] < discipline_parameter
-            fl_time += cur_point[:fl_time]
-            distance += cur_point[:distance]
-
-            highest_gr = cur_point[:glrat] if cur_point[:glrat] > highest_gr
-            highest_speed = cur_point[:h_speed] if cur_point[:h_speed] > highest_speed
-          else
-            k = (fl_time + cur_point[:fl_time] - discipline_parameter) / cur_point[:fl_time]
-            fl_time += cur_point[:fl_time] * (1 - k)
-            distance += cur_point[:distance] * (1 - k)
-          end
-        end
-      end
-
-      prev_point = cur_point
-    end
-
-    { distance: distance, highest_gr: highest_gr, highest_speed: highest_speed }
-  end
+  # def calculate_distance_in_time(data, discipline_parameter, is_flysight)
+  #   # method return values
+  #   distance = 0
+  #   highest_gr = 0
+  #   highest_speed = 0
+  #
+  #   # tmp values
+  #   fl_time = 0
+  #   prev_point = nil
+  #   start_found = false
+  #   trk_points = data.trimmed(start: data.ff_start - 10)
+  #   speed_key = is_flysight ? :v_speed : :raw_v_speed
+  #
+  #   trk_points.each do |cur_point|
+  #     break if fl_time >= discipline_parameter
+  #     # break if track trimmed to point after exit
+  #     break if !prev_point && cur_point[:v_speed] > 10
+  #
+  #     if prev_point
+  #       if cur_point[speed_key] >= 10 && !start_found
+  #         start_found = true
+  #         k = (cur_point[speed_key] - 10) / (cur_point[speed_key] - prev_point[speed_key])
+  #         fl_time += cur_point[:fl_time] * k
+  #         distance += cur_point[:distance] * k
+  #
+  #         prev_point = cur_point
+  #         next
+  #       end
+  #
+  #       if start_found
+  #         if fl_time + cur_point[:fl_time] < discipline_parameter
+  #           fl_time += cur_point[:fl_time]
+  #           distance += cur_point[:distance]
+  #
+  #           highest_gr = cur_point[:glrat] if cur_point[:glrat] > highest_gr
+  #           highest_speed = cur_point[:h_speed] if cur_point[:h_speed] > highest_speed
+  #         else
+  #           k = (fl_time + cur_point[:fl_time] - discipline_parameter) / cur_point[:fl_time]
+  #           fl_time += cur_point[:fl_time] * (1 - k)
+  #           distance += cur_point[:distance] * (1 - k)
+  #         end
+  #       end
+  #     end
+  #
+  #     prev_point = cur_point
+  #   end
+  #
+  #   { distance: distance, highest_gr: highest_gr, highest_speed: highest_speed }
+  # end
 
   # REFACTOR THIS
   def calculate(data, range_from, range_to)

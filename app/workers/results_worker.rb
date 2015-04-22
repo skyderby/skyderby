@@ -27,7 +27,11 @@ class ResultsWorker
         results << calculate(data, range)
       end
     else
-      results << calculate(data, ff_start_elev, ff_end_elev)
+      range = {
+        range_from: ff_start_elev,
+        range_to: ff_end_elev
+      }
+      results << calculate(data, range)
     end
 
     return if results.count == 0
@@ -80,7 +84,7 @@ class ResultsWorker
 
     if ff_end
       end_point = points.find { |x| x[:fl_time_abs] > ff_end } 
-      ff_end_elev = end_point[:elevation] if end_point
+      ff_end_elev = [ff_end_elev, end_point[:elevation]].max if end_point
     end
 
     ff_end_elev += 50 - ff_end_elev % 50 if is_skydive
