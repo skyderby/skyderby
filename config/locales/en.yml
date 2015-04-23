@@ -45,8 +45,6 @@ en:
     footer:
       owner: 'Aleksandr Kunin'
       fb_page: "Application's page"
-  track_select:
-
   tracks:
     index:
       title: 'Recently uploaded tracks:'
@@ -100,9 +98,6 @@ en:
       name: 'Name'
       elev: 'Elevation'
       pt_cnt: 'Points count'
-    upload_error:
-      header: "File upload error"
-      text: "Please, send file with track on ab@ipkunin.ru. I'll email you when find what cause the error."
     edit:
       visibility: "Visibility:"
       public: "Public"

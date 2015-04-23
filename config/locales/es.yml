@@ -98,9 +98,6 @@ es:
       name: 'El nombre de la pista'
       elev: 'La diferencia de altura'
       pt_cnt: 'La cantidad de los puntos'
-    upload_error:
-      header: "Error de lectura del archivo"
-      text: "Envie, por favor, el archivo descargado al  ab@ipkunin.ru, indicando el dispositivo en el que lo has descargado."
     edit:
       visibility: "Privacidad:"
       public: "Público"

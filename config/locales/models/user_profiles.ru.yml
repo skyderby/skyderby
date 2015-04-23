@@ -1,0 +1,11 @@
+ru:
+  activerecord:
+    models:
+      user_profile: 'Профиль пилота'
+    attributes:
+      user_profile:
+        name: 'Имя Фамилия:'
+        userpic: "Фото:"
+        facebook_profile: "Профиль Facebook:"
+        vk_profile: "Профиль ВКонтакте:"
+        home_DZ: "Домашняя ДЗ:"

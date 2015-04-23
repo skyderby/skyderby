@@ -1,0 +1,13 @@
+ru:
+  activerecord:
+    models:
+      track: 'Трек'
+    attributes:
+      track:
+        id: '#'
+        name: 'Пилот'
+        suit: 'Костюм'
+        place: 'Локация'
+        comment: 'Комментарий'
+        uploaded_at: 'Дата загрузки'
+
