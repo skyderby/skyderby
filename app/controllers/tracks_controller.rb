@@ -23,7 +23,7 @@ class TracksController < ApplicationController
 
   def show
     authorize! :read, @track
-    @track.update(lastviewed_at: Time.now)
+    LastViewedUpdateWorker.perform_async(@track.id)
 
     @track_data = TrackChartsData.new(@track, params[:f], params[:t])
   end
