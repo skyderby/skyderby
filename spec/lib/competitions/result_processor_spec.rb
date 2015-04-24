@@ -12,7 +12,7 @@ describe 'Results processing:', type: :feature do
     expect { upload @track_file }.to change(Track, :count).by(1)
 
     @track = Track.last
-    @track_points = TrackPoints.new(@track)
+    @track_points = Skyderby::Tracks::Points.new(@track)
     @params = {range_from: 3000, range_to: 2000}
   end
 

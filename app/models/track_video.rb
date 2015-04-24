@@ -6,7 +6,7 @@ class TrackVideo < ActiveRecord::Base
   validates :video_code, presence: true 
 
   def points
-    track_data = TrackPoints.new(track)
+    track_data = Skyderby::Tracks::Points.new(track)
     track_data.trimmed(start: track_offset).to_json.html_safe
   end
 

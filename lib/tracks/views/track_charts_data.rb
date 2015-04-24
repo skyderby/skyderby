@@ -28,7 +28,7 @@ class TrackChartsData < TrackData
   private
 
   def init_points
-    tr_points = TrackPoints.new(@track)
+    tr_points = Skyderby::Tracks::Points.new(@track)
 
     @points = tr_points.trimmed
     @min_height = tr_points.min_h

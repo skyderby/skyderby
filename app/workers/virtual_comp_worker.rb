@@ -10,7 +10,7 @@ class VirtualCompWorker
     track.virtual_comp_results.each(&:delete)
     return unless track.wingsuit && track.pilot
 
-    data = TrackPoints.new(track)
+    data = Skyderby::Tracks::Points.new(track)
 
     competitions = OnlineCompsFinder.find(params_for(track))
     competitions.each do |comp|

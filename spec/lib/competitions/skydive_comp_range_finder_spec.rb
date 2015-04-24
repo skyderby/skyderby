@@ -13,7 +13,8 @@ describe 'SkydiveCompRangeFinder', type: :feature do
   end
 
   it 'should find right range for specified track' do
-        track_comp_range = SkydiveCompRange.for(Track.last, 3000, 2000)
+    track_points = Skyderby::Tracks::Points.new(Track.last)
+    track_comp_range = SkydiveCompRange.for(track_points, 3000, 2000)
 
     point = track_comp_range.start_point
     expect(point.elevation).to eq 3000

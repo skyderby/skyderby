@@ -25,40 +25,30 @@ module SkydiveCompRange
     private
 
     def start_point
-      start = nil
-
-      @track_points.each_cons(2) do |pair|
-        if pair.last[:elevation] <= @range_from
-          start = PointsInterpolation.find_between(
-            TrackPoint.new(pair.first), 
-            TrackPoint.new(pair.last),
-            coefficient(pair.first, pair.last, @range_from)
-          )
+      pair = 
+        @track_points.each_cons(2).detect do |pair| 
+          @range_from.between? pair.last[:elevation], pair.first[:elevation]
         end
-        break if start
-      end
 
-      start
+      return nil unless pair
+
+      PointsInterpolation.find_between(pair.first, pair.last,
+        coeff(pair.first, pair.last, @range_from))
     end
 
     def end_point
-      end_range = nil
-
-      @track_points.each_cons(2) do |pair|
-        if pair.last[:elevation] <= @range_to
-          end_range = PointsInterpolation.find_between(
-            TrackPoint.new(pair.first), 
-            TrackPoint.new(pair.last), 
-            coefficient(pair.first, pair.last, @range_to)
-          )
+      pair = 
+        @track_points.each_cons(2).detect do |pair|
+          @range_to.between? pair.last[:elevation], pair.first[:elevation]
         end
-        break if end_range
-      end
 
-      end_range
+      return nil unless pair
+
+      PointsInterpolation.find_between(pair.first, pair.last, 
+        coeff(pair.first, pair.last, @range_to))
     end
 
-    def coefficient(first, last, altitude)
+    def coeff(first, last, altitude)
       (first[:elevation] - altitude) / (first[:elevation] - last[:elevation])
     end
   end

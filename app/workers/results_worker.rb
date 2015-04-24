@@ -5,7 +5,7 @@ class ResultsWorker
 
   def perform(track_id)
     track = Track.find(track_id)
-    data = TrackPoints.new(track)
+    data = Skyderby::Tracks::Points.new(track)
     is_skydive = track.skydive?
 
     track.track_results.each(&:delete)

@@ -25,7 +25,7 @@ class TrackEditData < TrackData
   protected
 
   def init_points
-    @points = TrackPoints.new(@track).points.map do |point|
+    @points = Skyderby::Tracks::Points.new(@track).points.map do |point|
       [point[:fl_time_abs], point[:elevation]]
     end
   end

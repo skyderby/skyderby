@@ -1,4 +1,3 @@
-require 'tracks/points'
 require 'tracks/points_processor'
 require 'tracks/jump_range_finder'
 
@@ -87,7 +86,7 @@ class Track < ActiveRecord::Base
   end
 
   def track_data
-    @track_points ||= TrackPoints.new(self)
+    @track_points ||= Skyderby::Tracks::Points.new(self)
   end
 
   # REFACTOR IT

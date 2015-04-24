@@ -21,5 +21,7 @@ module TrackingDerby
     # The default locale is :ru and all translations from config/locales/**/*.rb,yml are auto loaded.
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :ru
+
+    config.autoload_paths << Rails.root.join('lib')
   end
 end
