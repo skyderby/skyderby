@@ -23,8 +23,8 @@ class TrackReplayData < TrackData
   private
 
   def init_points
-    @points = TrackPoints.new(@track).trimmed.map do |point|
-      point.slice(:fl_time_abs, :elevation, :h_speed, :v_speed, :glrat)
+    @points = Skyderby::Tracks::Points.new(@track).trimmed.map do |point|
+      point.to_h.slice(:fl_time_abs, :elevation, :h_speed, :v_speed, :glrat)
     end
   end
 end
