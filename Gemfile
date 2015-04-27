@@ -59,6 +59,9 @@ gem 'paperclip', '3.4.2'
 gem 'sidekiq'
 gem 'gmaps4rails'
 
+gem 'exception_notification'
+gem 'slack-notifier'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
