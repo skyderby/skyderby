@@ -43,9 +43,9 @@ Event.Header = function(params) {
                     '<i class="fa fa-caret-down"></i>',
                 '</button>',
                 '<ul class="dropdown-menu dropdown-menu-right" role="menu">',
-                    '<li><a class="add-distance-round" href="#">Дистанция</a></li>',
-                    '<li><a class="add-time-round" href="#">Время</a></li>',
-                    '<li><a class="add-speed-round" href="#">Скорость</a></li>',
+                    '<li><a class="add-distance-round" href="#"><%= I18n.t("disciplines.distance") %></a></li>',
+                    '<li><a class="add-time-round" href="#"><%= I18n.t("disciplines.time") %></a></li>',
+                    '<li><a class="add-speed-round" href="#"><%= I18n.t("disciplines.speed") %></a></li>',
                 '</ul>',
             '</div>',
          '</div>'
