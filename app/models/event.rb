@@ -3,12 +3,12 @@ class Event < ActiveRecord::Base
              class_name: 'UserProfile',
              foreign_key: 'user_profile_id'
 
-  has_many :rounds
-  has_many :event_tracks, through: :rounds
+  has_many :event_organizers
 
   has_many :sections
   has_many :competitors
-  has_many :users, through: :competitors
+  has_many :rounds
+  has_many :event_tracks, through: :rounds
 
   enum status: [:draft, :published, :finished]
 
@@ -41,7 +41,9 @@ class Event < ActiveRecord::Base
       sections: sections.order(:order),
       competitors: competitors_info,
       rounds: rounds_by_discipline,
-      tracks: event_tracks }
+      tracks: event_tracks,
+      organizers: event_organizers
+    }
   end
 
   def rounds_by_discipline

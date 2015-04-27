@@ -3,12 +3,15 @@ module Api
     before_action :set_profile, only: :update
 
     def index
+      @profiles = UserProfile.order(:name)
+
       if params[:query] && params[:query][:term]
-        @profiles = UserProfile
+        @profiles = @profiles
           .where('LOWER(name) LIKE LOWER(?)', "%#{params[:query][:term]}%")
-          .order(:name)
-      else
-        @profiles = UserProfile.order(:name)
+      end
+
+      if params[:filter] && params[:filter][:only_registered]
+        @profiles = @profiles.joins(:user)
       end
     end
 

@@ -33,7 +33,7 @@ Event.Scoreboard = function(params) {
             '<% } %>',
             '<%=name%>',
             '<% if (can_manage) { %>',
-                '<a href=# class="delete-round">',
+                '<a href="#" class="delete-round">',
                     '<i class="fa fa-fw fa-times-circle text-muted"></i>',
                 '</a>', 
             '<% } %>',

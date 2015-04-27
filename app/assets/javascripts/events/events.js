@@ -8,11 +8,13 @@ Event.Competition = function() {
     this.range_from = '';
     this.range_to = '';
     this.status = '';
+    this.responsible = '';
     // Main data
     this.rounds= [];
     this.sections= [];
     this.competitors= [];
     this.tracks= [];
+    this.organizers = [];
     this.max_results = {};
     // support data
     this.units= {};
@@ -22,6 +24,24 @@ Event.Competition = function() {
     // interface widgets
     this.scoreboard = new Event.Scoreboard;
     this.header = null;
+    // form
+    this.$form_modal = $('#event-form-modal');
+    this.$modal_title = $('#event-form-modal-title');
+    this.$form_organizers = $('.organizers-container')
+    ///////////////////////////////////////////
+    // Templates
+    this.organizer = _.template([
+        '<div class="organizer" data-id="<%= id %>">',
+            '<span class="organizer-name"><%= user_profile_name %></span>',
+            '<% if (id) { %>',
+                '<a href="#" class="delete-organizer">',
+                    '<i class="fa fa-times-circle"></i>',
+                '</a>',
+            '<% } %>',
+        '</div>'
+    ].join('\n'));
+
+   this.$form_new_organizer = $('.organizer-profile');
 }
 
 Event.Competition.prototype = {
@@ -32,11 +52,16 @@ Event.Competition.prototype = {
         this.range_from = data.range_from;
         this.range_to = data.range_to;
         this.status = data.status;
+        this.responsible = {
+            id: data.responsible.id,
+            name: data.responsible.name
+        };
 
         _.each(data.sections, this.add_section.bind(this));
         _.each(data.competitors, this.add_competitor.bind(this));
         _.each(data.rounds, this.add_round.bind(this));
         _.each(data.tracks, this.add_track.bind(this));
+        _.each(data.organizers, this.add_organizer.bind(this));
 
         // Competitor object initialization
         // $.extend(this, settings.data('details'));
@@ -75,6 +100,10 @@ Event.Competition.prototype = {
         this.tracks.push(new Event.EventTrack(track_data));
     },
 
+    add_organizer: function(event_organizer) {
+        this.organizers.push(new Event.Organizer(event_organizer));
+    },
+
     update_max_results: function() {
         this.max_results = _.chain(this.tracks)
         .groupBy("round_id")
@@ -103,7 +132,7 @@ Event.Competition.prototype = {
     open_form: function(e) {
         e.preventDefault();
 
-        $('#event-form-modal-title').text('Competition: Edit');
+        this.$modal_title.text('Competition: Edit');
         $('#event-name').val(this.name);
         $('#range-from').val(this.range_from);
         $('#range-to').val(this.range_to);
@@ -111,11 +140,85 @@ Event.Competition.prototype = {
         $('input:radio[name=event-status][value=' + this.status + ']').prop('checked');
         $('#' + this.status + '-label').addClass('active');
 
+        this.$form_organizers.find('.organizer').remove();
+        this.add_organizer_to_form({
+            id: '', 
+            user_profile_name: this.responsible.name
+        });
+
+        _.each(this.organizers, this.add_organizer_to_form.bind(this));
+
+        this.$form_new_organizer.select2({
+            width: '100%',
+            placeholder: 'Add organizer from list',
+            dropdownParent: this.$form_modal,
+            // minimumInputLength: 2,
+            ajax: {
+                url: '/api/user_profiles',
+                dataType: 'json',
+                type: "GET",
+                quietMillis: 50,
+                data: function (term) {
+                    return {
+                        query: term,
+                        filter: {
+                            only_registered: true
+                        }
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                text: item.name,
+                                id: item.id
+                            }
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+
+        this.$form_modal
+            .off('click', '.delete-organizer')
+            .on('click', '.delete-organizer', this.on_click_delete_organizer);
+
+        this.$form_new_organizer
+            .off('change')
+            .on('change', this.on_add_organizer);
+
         $('#submit-event-form')
             .off('click')
             .on('click', this.on_form_submit.bind(this));
 
-        $('#event-form-modal').modal('show');
+        this.$form_modal.modal('show');
+    },
+
+    add_organizer_to_form: function(organizer_data) {
+        this.$form_organizers.append(
+            this.organizer({
+                id: organizer_data.id, 
+                user_profile_name: organizer_data.user_profile_name
+            })
+        );
+    },
+
+    on_click_delete_organizer: function(e) {
+        e.preventDefault();
+
+        var org_div = $(this).closest('div');
+        var id = org_div.data('id');
+        if (id) {
+            window.Competition.organizer_by_id(id).destroy();
+        }
+    },
+
+    on_add_organizer: function() {
+        new Event.Organizer({
+            event_id: window.Competition.id,
+            user_profile_id: $(this).val()
+        }).save();
     },
 
     on_form_submit: function() {
@@ -239,12 +342,32 @@ Event.Competition.prototype = {
         this.tracks.splice(result_index, 1);
     },
 
-    //////////////////////////////////////////
-    // FORM VALIDATIONS 
+    organizer_by_id: function(org_id) {
+        return $.grep(this.organizers, function(e) {
+            return e.id == org_id;
+        })[0];
+    },
 
-    validate_competitor_form: function() {},
+    on_organizer_save: function(organizer) {
+        this.organizers.push(organizer);
+        this.add_organizer_to_form(organizer);
+    },
 
-    validate_round_form: function() {},
+    on_organizer_delete: function(organizer) {
+        this.$form_organizers.find('div[data-id=' + organizer.id + ']').remove();
+
+        var org_index = $.inArray(organizer, this.organizers);
+        this.organizers.splice(org_index, 1);
+    },
+
+
+
+
+
+
+
+
+
 
     //////////////////////////////////////////
     // REQUESTS TO SERVER
@@ -489,179 +612,9 @@ Event.Competition.prototype = {
         });
     },
 
-    on_select_profile_autocomplete: function(suggestion, elem) {
-
-        var id_field = $(this).data('idfield');
-
-        $(elem).val(suggestion.name);
-        $(id_field).val(suggestion.profile_id);
-
-        // $('#competitor-wingsuit').focus();
-    },
-
     on_edit_event_modal_shown: function() {
         $('#event-name').focus();
     },
-
-    on_submit_round_form: function() {
-        var round_id = $('#round-id').val(),
-        params = {
-            name: $('#round-name').val(),
-            discipline: $('#round-discipline').val(),
-            event_id: Competition.id
-        };
-
-        if (round_id) {
-            send_update_round_request(round_id, params);
-        } else {
-            send_create_round_request(params);
-        }
-    },
-
-    send_create_round_request: function(params) {
-        $.ajax({
-            url: '/api/rounds/',
-            method: 'POST',
-            dataType: 'json',
-            data: {
-                round: params
-            }
-        })
-            .done(success_round_create)
-            .fail(fail_ajax_request);
-    },
-
-    send_update_round_request: function(round_id, params) {
-        $.ajax({
-            url: '/api/rounds/' + round_id,
-            method: 'PATCH',
-            dataType: 'json',
-            data: {
-                round: params
-            }
-        })
-            .done(success_round_update)
-            .fail(fail_ajax_request);
-    },
-
-    //////////////////////////////////////////////////////
-    // AJAX CALLBACKS: Round
-
-    success_round_create: function(data, status, jqXHR) {},
-
-    success_round_update: function(data, status, jqXHR) {},
-
-    success_round_delete: function(data, status, jqXHR) {
-       var round_id = this.id; 
-    },
-
-
-    //////////////////////////////////////////////////////
-    // AJAX CALLBACKS: Competitors
-
-    success_competitor_create: function(data, status, jqXHR) {
-        var new_row = $('#results-table').find('tr.template-row').clone();
-        new_row.removeClass('template-row');
-        new_row.attr('id', 'competitor_' + data.id);
-
-        var competitor_name_cell = new_row.find("[data-role='competitor_name']");
-        competitor_name_cell.text(data.profile.name + ' / ' + data.wingsuit.name);
-        if (can_manage) {
-            competitor_name_cell.append($('<a>').addClass('edit-competitor').attr('href', '#')
-                .append($('<i>').addClass('fa fa-pencil text-muted')))
-            .append($('<a>').addClass('delete-competitor').attr('href', '#')
-                .append($('<i>').addClass('fa fa-times-circle text-muted')));
-        }
-
-        var el_id = data.section.id ? ('#section_' + data.section.id) : ('#without_section');
-        $(el_id).append(new_row);
-
-        Competition.competitors.push(data);
-
-        set_row_numbers();
-    },
-
-    success_competitor_update: function(data, status, jqXHR) {
-        var competitor, competitor_row;
-        var finded_competitors = $.grep(Competition.competitors, function (e) {
-            return e.id == data.id;
-        });
-
-        if (finded_competitors.length) {
-            competitor = finded_competitors[0];
-            competitor_row = $('#competitor_' + competitor.id);
-        } else {
-            return;
-        }
-
-        if (competitor.profile.name != data.profile.name 
-            || competitor.wingsuit.id != data.wingsuit.id) {
-            competitor_row.find("[data-role='competitor_name']")
-                .text(data.pofile.name + ' / ' + data.wingsuit.name)
-                .append($('<a>').addClass('edit-competitor').attr('href', '#')
-                    .append($('<i>').addClass('fa fa-pencil text-muted')))
-                .append($('<a>').addClass('delete-competitor').attr('href', '#')
-                    .append($('<i>').addClass('fa fa-times-circle text-muted')));
-        }
-
-        if (competitor.section.id != data.section.id) {
-            (data.section.id ? $('#section_' + data.section.id) : $('#without_section'))
-                .append(competitor_row
-                    .remove()
-                    .clone());
-        }
-
-        $.extend(competitor, data);
-
-        set_row_numbers();
-    },
-
-    success_competitor_delete: function(data, status, jqXHR) {
-        var competitor_id = this.id;
-        var competitor = $.grep(Competition.competitors, function (e) {
-            return e.id == competitor_id;
-        })[0];
-        var index = $.inArray(competitor, Competition.competitors);
-
-        $('#competitor_' + competitor_id).remove();
-        Competition.competitors.splice(index, 1);
-    },
-
-    //////////////////////////////////////////////////////
-    // AJAX CALLBACKS: Results
-
-    success_event_track_update: function() {},
-
-    success_event_track_create: function() {},
-
-    success_event_track_delete: function() {
-        var result = $.grep(Competition.tracks, function (e) {
-            return e.id == this.id;
-        })[0];
-        var result_index = $.inArray(result, Competition.tracks);
-        
-        Competition.tracks.splice(result_index, 1);
-
-        $('td[data-result-id="' + this.id + '"]').text('');
-
-        after_results_changes();
-    },
-
-    //////////////////////////////////////////////////////
-    // results table
-
-    render_edit_commands: function() {
-
-        var element = $('#event-edit-commands');
-        element.append(this.templates.event_edit_commands());
-        element.addClass('top-buffer');
-
-        $('#' + Competition.status + '-label').addClass('active');
-
-        $('#title-competition-name')
-            .before(this.templates.fa_fw())
-            .after(this.templates.edit_event_name_and_range());
-    }
 
 }
 

@@ -8,15 +8,13 @@ Skyderby::Application.routes.draw do
       end
     end
 
+    resources :event_organizers, only: [:create, :destroy]
     resources :competitors, only: [:create, :update, :destroy]
     resources :rounds, only: [:create, :update, :destroy]
     resources :event_tracks, only: [:create, :update, :destroy]
     resources :user_profiles, only: [:index, :update]
     resources :wingsuits, only: [:index]
     resources :tracks, only: [:index]
-
-    get '/users/autocomplete'
-    get '/wingsuits/autocomplete'
   end
 
   scope '/(:locale)', locale: /#{I18n.available_locales.join('|')}/ do

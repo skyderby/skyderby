@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150416195256) do
+ActiveRecord::Schema.define(version: 20150427060038) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -45,6 +45,16 @@ ActiveRecord::Schema.define(version: 20150416195256) do
     t.string "name"
     t.string "code"
   end
+
+  create_table "event_organizers", force: true do |t|
+    t.integer  "event_id"
+    t.integer  "user_profile_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "event_organizers", ["event_id"], name: "index_event_organizers_on_event_id", using: :btree
+  add_index "event_organizers", ["user_profile_id"], name: "index_event_organizers_on_user_profile_id", using: :btree
 
   create_table "event_tracks", force: true do |t|
     t.integer  "round_id"

@@ -28,14 +28,14 @@ class Ability
       can :update, UserProfile, user: user
 
       can :destroy, Event, responsible: user, status: :draft
-      can [:read, :update], Event, responsible: user.user_profile
+
+      can [:read, :update], Event do |event|
+        event.responsible == user.user_profile ||
+          event.event_organizers.any? { |x| x.user_profile == user.user_profile }
+      end
 
       if user.has_role? :admin
-
-        can :access, :rails_admin       # only allow admin users to access Rails Admin
-        can :dashboard                  # allow access to dashboard
         can :manage, :all               # allow admins to do anything
-
       end
 
       if user.has_role? :create_events
