@@ -1,4 +1,4 @@
-TrackingDerby::Application.routes.draw do
+Skyderby::Application.routes.draw do
   # AJAX locale independent actions
   namespace :api, default: { format: :json } do
     resources :events, only: [:update]

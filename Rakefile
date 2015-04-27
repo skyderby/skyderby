@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-TrackingDerby::Application.load_tasks
+Skyderby::Application.load_tasks

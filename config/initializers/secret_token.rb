@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-TrackingDerby::Application.config.secret_key_base = 'e33739b26ceaf5e7a91b13c2d217290e6f4bddad1ea01c45b900d4600d9fac4e3e8bc883f3cd60ed0c01acb52ef545352e899e9bf9e3e6baa8e75067069ddc3c'
+Skyderby::Application.config.secret_key_base = 'e33739b26ceaf5e7a91b13c2d217290e6f4bddad1ea01c45b900d4600d9fac4e3e8bc883f3cd60ed0c01acb52ef545352e899e9bf9e3e6baa8e75067069ddc3c'
