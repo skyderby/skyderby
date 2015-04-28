@@ -67,13 +67,13 @@ function data_on_time(cur_time) {
 
     var track_time = time + (+TrackVideo.track_offset);
 
-    for (i = 0; i < TrackVideo.points.length; i++) {
-        if (TrackVideo.points[i].fl_time_abs == Math.floor(track_time)) {
-            floor = TrackVideo.points[i];
-        }
+    for (i = 1; i < TrackVideo.points.length; i++) {
+        if (TrackVideo.points[i - 1].fl_time_abs < track_time &&
+               TrackVideo.points[i].fl_time_abs > track_time) {
 
-        if (TrackVideo.points[i].fl_time_abs == Math.ceil(track_time)) {
+            floor = TrackVideo.points[i - 1];
             ceil = TrackVideo.points[i];
+
         }
     }
 
