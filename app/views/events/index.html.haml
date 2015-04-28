@@ -9,7 +9,7 @@
 
   %h2= 'Online competitions:'
   %ul.comp-list
-  - VirtualCompetition.order(:name).each do |comp|
+  - VirtualCompetition.order('id DESC').each do |comp|
     %li.comp-list-item
       .comp-list-params
         %span.comp-jumps-kind= '#' + comp.jumps_kind
