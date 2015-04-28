@@ -4,6 +4,7 @@ module ResultsCalculator
   class ResCalc
     def initialize(track, round)
       @track = track
+      @points = Skyderby::Tracks::Points.new(@track)
       @discipline = round.discipline.to_sym
       @params = {
         range_from: round.event.range_from,
@@ -12,7 +13,7 @@ module ResultsCalculator
     end
 
     def calculate
-      ResultsProcessor.process @track, @discipline, @params
+      ResultsProcessor.process @points, @discipline, @params
     end
   end
 
