@@ -175,20 +175,4 @@ class VirtualCompWorker
   #
   #   { distance: distance, highest_gr: highest_gr, highest_speed: highest_speed }
   # end
-
-  # REFACTOR THIS
-  def calculate(data, range_from, range_to)
-    trk_points = data.trim_interpolize(range_from, range_to)
-    fl_time = trk_points.map { |x| x[:fl_time] }.inject(0, :+)
-    distance = trk_points.map { |x| x[:distance] }.inject(0, :+)
-    speed = fl_time.zero? ? 0 : Velocity.to_kmh(distance / fl_time).round
-
-    {
-      range_from: range_from,
-      range_to: range_to,
-      time: fl_time.round(1),
-      distance: distance.round,
-      speed: speed
-    }
-  end
 end

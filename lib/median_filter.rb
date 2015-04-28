@@ -1,7 +1,5 @@
 module MedianFilter
-
   class MFilter
-
     def initialize(window_size, keys)
       raise ArgumentError.new('Step must be odd and higher than 2') if window_size_invalid(window_size)
       raise ArgumentError.new('Keys must be array of symbols') if keys_invalid(keys)
@@ -32,14 +30,10 @@ module MedianFilter
       return true unless keys.kind_of?(Array) || !keys.empty? || keys.detect{ |x| !x.kind_of? Symbol }.nil?
       false
     end
-
   end
 
   def self.process(values, window_size, keys)
-
     median_filter = MFilter.new(window_size, keys)
     median_filter.process values
-
   end
-
 end

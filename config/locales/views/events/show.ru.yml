@@ -1,0 +1,6 @@
+ru:
+  events:
+    show:
+      competitor: 'Участник'
+      comp_window: 'Соревновательный диапазон:'
+      total: 'Итого'

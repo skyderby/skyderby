@@ -1,0 +1,6 @@
+en:
+  events:
+    show:
+      competitor: 'Competitor'
+      comp_window: 'Competition window:'
+      total: 'Total'

@@ -11,10 +11,11 @@ Event.Scoreboard = function(params) {
     this.header = _.template([
         '<thead>',
             '<tr id="disciplines-row">',
-                '<td class="rt-ln" rowspan=2>#</td>',
-                '<td rowspan=2>Competitor</td>',
+                '<td class="rt-ln" rowspan=3>#</td>',
+                '<td rowspan=3><%= I18n.t("events.show.competitor") %></td>',
             '</tr>',
             '<tr id="rounds-row"></tr>',
+            '<tr id="units-row"></tr>',
             '<tr class="template-row">',
                 '<td class="rt-ln" data-role="row_number"></td>',
                 '<td data-role="competitor">',
@@ -208,10 +209,21 @@ Event.Scoreboard.prototype = {
             $.extend(value, {can_manage: can_manage})
         ));
 
-        // this.$units_row.append(
-        //     $('<td>').text(window.Competition.units[value.discipline])
-        // );
-        // this.$units_row.append($('<td>').text('%'));
+        this.$units_row.append(
+            $('<td>')
+                .text(window.Competition.units[value.discipline])
+                .attr('data-discipline', value.discipline)
+                .attr('data-role', 'unit')
+                .attr('data-round-id', value.id)
+        );
+        this.$units_row.append(
+            $('<td>')
+                .text('%')
+                .attr('data-discipline', value.discipline)
+                .attr('data-role', 'points')
+                .attr('data-round-id', value.id)
+        );
+
         this.$template_row.append(this.result_cell({
             id: value.id,
             role: 'result',
@@ -230,7 +242,7 @@ Event.Scoreboard.prototype = {
         this.row_length += col_count;
         this.$discipline_row.append(
             $('<td>')
-                .text(capitaliseFirstLetter(key) + ', ' + window.Competition.units[key])
+                .text(capitaliseFirstLetter(key))
                 .attr('colspan', col_count)
                 .attr('data-discipline', key)
         );
@@ -240,9 +252,10 @@ Event.Scoreboard.prototype = {
         this.$rounds_row.append(
             $('<td>')
                 .text('%')
+                .addClass('text-center')
                 .attr('data-discipline', key)
                 .attr('data-role', 'points')
-
+                .attr('rowspan', 2)
         );
         this.$template_row.append(
             $('<td>')
@@ -408,8 +421,8 @@ Event.Scoreboard.prototype = {
         this.$discipline_row.append(
             $('<td>')
                 .addClass('text-center')
-                .text('Итого')
-                .attr('rowspan', 2)
+                .text(I18n.t('events.show.total'))
+                .attr('rowspan', 3)
                 .attr('data-role', 'total-points')
         );
         this.$template_row.append(
@@ -549,6 +562,7 @@ Event.Scoreboard.prototype = {
                     .text('%')
                     .attr('data-discipline', discipline)
                     .attr('data-role', 'points')
+                    .attr('rowspan', 2)   
             );
             // template row discipline points
             this.$template_row.find('td[data-role="total-points"]').before(
@@ -578,6 +592,26 @@ Event.Scoreboard.prototype = {
             this.round_cell(
                 $.extend(round, {can_manage: can_manage})
         ));
+
+        var units_selector = '#units-row > td[data-role="points"]';
+        if ($('#units-row > td[data-discipline=' + discipline + ']').length) {
+            units_selector += '[data-discipline=' + discipline + ']';
+        }
+        units_selector += ':last';
+
+        $(units_selector).after(
+            $('<td>')
+                .text('%')
+                .attr('data-discipline', discipline)
+                .attr('data-role', 'points')
+                .attr('data-round-id', round.id)
+        ).after(
+            $('<td>')
+                .text(window.Competition.units[discipline])
+                .attr('data-discipline', discipline)
+                .attr('data-role', 'unit')
+                .attr('data-round-id', round.id)
+        );
 
         var result_cell = this.result_cell({
             id: round.id,
@@ -621,9 +655,11 @@ Event.Scoreboard.prototype = {
         // Удалить ячейки в строках участников
         // Удалить ячейки в шаблоне
         // Удалить раунд
+        // Удалить единицы измерения
         $('.competitor-row > td[data-round-id=' + round.id + '], '
             + '.template-row > td[data-round-id=' + round.id + '], '
-            + '#rounds-row > td[data-round-id=' + round.id + '] ').remove();
+            + '#rounds-row > td[data-round-id=' + round.id + '], '
+            + '#units-row > td[data-round-id=' + round.id + ']').remove();
 
         var discipline_cell = $('#disciplines-row > td[data-discipline=' + round.discipline + ']');
         if (del_discipline) {

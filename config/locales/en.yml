@@ -187,28 +187,6 @@ en:
     ft_html: "'ft'"
     kmh_html: "'km/h'"
     mph_html: "'mph'"
-  events:
-    competition_range: 'Competition range:'
-  old_events:
-    show:
-      pf:
-        in_process: "In process"
-        approved: "Approved"
-        declined: "Declined"
-        title: "Participation form"
-        pending: "Pending participation forms"
-        completed: "Completed participation forms"
-      reg:
-        finished: "Registration finished"
-        not_starts: "Registration isn't starts yet"
-      results: "Scoreboard"
-      overview: "Overview"
-      docs: "Documents"
-      dz_info: "About DZ"
-      competitors: "Competitors"
-      managing: "Managing"
-      class_comp: "Class / Competitor"
-      pfs: "Part. forms"
   pf:
     jumps: "Jumps total/in 12 m/in 3 m:"
     ws_jumps: "Wingsuit jumps total/in 12 m/in 3m:"

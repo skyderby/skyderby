@@ -76,7 +76,12 @@ Event.Header.prototype = {
 
     render: function() {
         this.$title.text(this.name);
-        this.$range.text('Соревновательный диапазон: ' + Competition.range_from + ' - ' + Competition.range_to + ' м');
+        this.$range.text(
+            I18n.t('events.show.comp_window') 
+            + ' ' Competition.range_from 
+            + ' - ' + Competition.range_to 
+            + ' ' + I18n.t('units.m')
+        );
     },
 
     bind_events: function() {

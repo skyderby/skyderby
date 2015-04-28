@@ -3,16 +3,6 @@ ru:
     competition_range: 'Соревновательный диапазон:'
   old_events:
     show:
-      pf:
-        in_process: "Заявка в обработке"
-        approved: "Заявка подтверждена"
-        declined: "Заявка отклонена"
-        title: "Заявка на участие"
-        pending: "Не обработанные заявки"
-        completed: "Обработанные заявки"
-      reg:
-        not_starts: "Регистрация еще не началась"
-        finished: "Регистрация завершена"
       results: "Результаты"
       overview: "Информация"
       docs: "Документы"
