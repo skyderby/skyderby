@@ -8,6 +8,8 @@ require 'competitions/skydive_result_processor'
 module TimeProcessor
   class TimeProcessing < SkydiveResultProcessor
     def calculate
+      return 0 unless @comp_window.end_point && @comp_window.start_point
+
       (@comp_window.end_point.fl_time_abs - 
         @comp_window.start_point.fl_time_abs).round(1)
     end

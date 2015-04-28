@@ -1,6 +1,7 @@
 require 'geospatial'
 require 'competitions/online_comps_finder'
 require 'competitions/results_processor'
+require 'skyderby/tracks/points'
 
 class VirtualCompWorker
   include Sidekiq::Worker
@@ -18,16 +19,24 @@ class VirtualCompWorker
       tmp_result.user_profile_id = track.user_profile_id
       tmp_result.virtual_competition_id = comp.id
 
+
       if comp.distance_in_time?
         result_hash = calculate_distance_in_time(data, comp.discipline_parameter, track.flysight?)
         tmp_result.result = result_hash[:distance]
         tmp_result.highest_gr = result_hash[:highest_gr] if comp.display_highest_gr
         tmp_result.highest_speed = result_hash[:highest_speed] if comp.display_highest_speed
-      else
-        result_hash = calculate(data, comp.range_from, comp.range_to)
-        tmp_result.result = result_hash[:distance] if comp.distance?
-        tmp_result.result = result_hash[:speed] if comp.speed?
-        tmp_result.result = result_hash[:time] if comp.time?
+      elsif comp.distance? || comp.speed? || comp.time?
+        range = {
+          range_from: comp.range_from,
+          range_to: comp.range_to
+        }
+        tmp_result.result = 
+          ResultsProcessor.process data, comp.discipline.to_sym, range
+
+        # result_hash = calculate(data, comp.range_from, comp.range_to)
+        # tmp_result.result = result_hash[:distance] if comp.distance?
+        # tmp_result.result = result_hash[:speed] if comp.speed?
+        # tmp_result.result = result_hash[:time] if comp.time?
       end
       track.virtual_comp_results << tmp_result if tmp_result.result > 0
     end

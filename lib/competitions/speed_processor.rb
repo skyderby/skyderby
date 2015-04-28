@@ -12,6 +12,8 @@ require 'competitions/skydive_result_processor'
 module SpeedProcessor
   class SpeedProcessing < SkydiveResultProcessor
     def calculate
+      return 0 unless @comp_window.end_point && @comp_window.start_point
+
       time = @comp_window.end_point.fl_time_abs - @comp_window.start_point.fl_time_abs
       distance = Geospatial.distance_between_points(
         @comp_window.start_point, 

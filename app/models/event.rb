@@ -25,11 +25,17 @@ class Event < ActiveRecord::Base
           events
         else
           profile_id = user.user_profile.id
-          events_where_owner = events.where('status IN (1, 2) OR user_profile_id = ?', profile_id)
+
+          events_where_owner = 
+            events.where('status IN (1, 2) OR user_profile_id = ?', profile_id)
+
           events_where_org = 
-            events.joins(:event_organizers).where(event_organizers: {user_profile_id: profile_id})
+            events
+              .joins(:event_organizers)
+              .where(event_organizers: {user_profile_id: profile_id})
           
-          (events_where_owner + events_where_org).uniq { |x| x.id }.sort_by { |x| x.id }.reverse
+          (events_where_owner + events_where_org)
+            .uniq { |x| x.id }.sort_by { |x| x.id }.reverse
         end
       else
         events.available

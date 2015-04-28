@@ -9,6 +9,8 @@ require 'competitions/skydive_result_processor'
 module DistanceProcessor
   class DistanceProcessing < SkydiveResultProcessor
     def calculate
+      return 0 unless @comp_window.end_point && @comp_window.start_point
+
       Geospatial.distance_between_points(
         @comp_window.start_point, 
         @comp_window.end_point

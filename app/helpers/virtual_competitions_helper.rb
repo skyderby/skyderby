@@ -23,11 +23,11 @@ module VirtualCompetitionsHelper
         range_from: competition.range_from,
         range_to: competition.range_to)      
     elsif competition.time?
-      t('virtual_competitions.tasks.distance', 
+      t('virtual_competitions.tasks.time', 
         range_from: competition.range_from,
         range_to: competition.range_to)      
     elsif competition.speed?
-      t('virtual_competitions.tasks.distance', 
+      t('virtual_competitions.tasks.speed', 
         range_from: competition.range_from,
         range_to: competition.range_to)      
     elsif competition.distance_in_time?

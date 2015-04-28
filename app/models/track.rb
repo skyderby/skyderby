@@ -46,26 +46,6 @@ class Track < ActiveRecord::Base
     event_track.present?
   end
 
-  # def charts_data
-  #   track_data.trimmed.to_json.html_safe
-  # end
-  #
-  # def max_height
-  #   track_data.max_h.round
-  # end
-  #
-  # def min_height
-  #   track_data.min_h.round
-  # end
-
-  # def heights_data
-    # track_data.points.map { |p| [p[:fl_time_abs], p[:elevation]] }.to_json.html_safe
-  # end
-
-  # def duration
-    # track_data.points.map { |p| p[:fl_time] }.inject(0, :+)
-  # end
-
   def presentation
     "#{name} | #{suit} | #{comment}"
   end
@@ -83,10 +63,6 @@ class Track < ActiveRecord::Base
 
   def ge_enabled!
     self.ge_enabled = true
-  end
-
-  def track_data
-    @track_points ||= Skyderby::Tracks::Points.new(self)
   end
 
   # REFACTOR IT
