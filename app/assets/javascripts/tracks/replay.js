@@ -68,12 +68,13 @@ function data_on_time(cur_time) {
     var track_time = time + (+TrackVideo.track_offset);
 
     for (i = 1; i < TrackVideo.points.length; i++) {
-        if (TrackVideo.points[i - 1].fl_time_abs < track_time &&
-               TrackVideo.points[i].fl_time_abs > track_time) {
+        if (TrackVideo.points[i - 1].fl_time_abs <= track_time &&
+               TrackVideo.points[i].fl_time_abs >= track_time) {
 
             floor = TrackVideo.points[i - 1];
             ceil = TrackVideo.points[i];
 
+            break;
         }
     }
 
@@ -90,7 +91,7 @@ function data_on_time(cur_time) {
             gr: floor.glrat
         }
     } else {
-        var k = ((+ceil.fl_time_abs) - (+floor.fl_time_abs)) * (time - (floor.fl_time_abs - TrackVideo.track_offset));
+        var k = (time - (floor.fl_time_abs - TrackVideo.track_offset)) / ((+ceil.fl_time_abs) - (+floor.fl_time_abs));
         var v_speed = floor.v_speed + (ceil.v_speed - floor.v_speed) * k;
         var h_speed = floor.h_speed + (ceil.h_speed - floor.h_speed) * k;
         var gr = floor.glrat + (ceil.glrat - floor.glrat) * k;
