@@ -21,7 +21,7 @@ module JumpRangeFinder
     end_point = points.detect do |x| 
       x.elevation < min_h && 
         x.fl_time > start_point.fl_time
-    end || track_points.last
+    end || points.last
 
     JumpRange.new(start_point, end_point)
   end
