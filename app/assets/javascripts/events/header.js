@@ -78,7 +78,7 @@ Event.Header.prototype = {
         this.$title.text(this.name);
         this.$range.text(
             I18n.t('events.show.comp_window') 
-            + ' ' Competition.range_from 
+            + ' ' + Competition.range_from 
             + ' - ' + Competition.range_to 
             + ' ' + I18n.t('units.m')
         );
