@@ -18,12 +18,12 @@ Event.Section.prototype = {
         var modal_title;
 
         if (this.is_new) {
-            modal_title = 'New';
+            modal_title = I18n.t('events.show.new');
         } else {
-            modal_title = 'Edit';
+            modal_title = I18n.t('events.show.edit');
         }
 
-        $('#section-form-modal-title').text('Class: ' + modal_title);
+        $('#section-form-modal-title').text(I18n.t('events.show.section') + ': ' + modal_title);
         $('#section-name').val(this.name);
 
         $('#submit-section-form')

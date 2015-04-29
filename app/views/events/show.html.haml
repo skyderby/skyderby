@@ -12,12 +12,12 @@
 
 .container.top-buffer
   .row
-    .col-md-6.col-md-offset-3.text-center
+    .col-md-8.col-md-offset-2.text-center
       %h1
         %span#title-competition-name= @event.name
 
       %h3#title-competition-range= "#{t('.comp_window')} #{@event.range_from} - #{@event.range_to} #{t('units.m')}"
-    .col-md-3
+    .col-md-2
       .pull-right#edit-event-commands
 
   .row#edit-table-commands

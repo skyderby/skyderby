@@ -1,12 +1,12 @@
-.modal.fade#section-form-modal{:tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
+.modal.fade#section-form-modal{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
   .modal-dialog
     .modal-content
-      %form.form-horizontal#section-form{:action => '#', :role => 'form'}
-        %input#section-id{:type => 'hidden'}
+      %form.form-horizontal#section-form{action: '#', role: 'form'}
+        %input#section-id{type: 'hidden'}
 
         .modal-header
-          %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
-            %span{:aria => {:hidden => 'true'}}
+          %button.close{type: 'button', data: {dismiss: 'modal'}}
+            %span{aria: {hidden: 'true'}}
               &times;
             %span.sr-only
               Close
@@ -14,7 +14,7 @@
 
         .modal-body
           .form-group
-            %span.col-sm-3.control-label= 'Class:'
+            %span.col-sm-3.control-label= t('events.show.section')+ ':'
             .col-sm-9
               %input.form-control#section-name
 
