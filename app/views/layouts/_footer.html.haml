@@ -7,9 +7,9 @@
       .col-sm-4
         %p= t('static_pages.index.stats')
         %p
-          = t('static_pages.index.stats_tracks') + ' ' + Track.count.to_s
+          = t('static_pages.index.stats_tracks') + ' ' + Track.all.size.to_s
           %br
-          = t('static_pages.index.stats_pilots') + ' ' + User.count.to_s
+          = t('static_pages.index.stats_pilots') + ' ' + User.all.size.to_s
       .col-sm-4
         %p
           %a{:href => about_path}
