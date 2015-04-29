@@ -3,7 +3,7 @@ lock '3.4.0'
 
 set :application, 'tracks'
 # set :repo_url, '/opt/tracks_repository'
-set :repository 'ssh://git@bitbucket.org:skyksandr/skyderby.git'
+set :repo_url, 'git@bitbucket.org:skyksandr/skyderby.git'
 set :rails_env, "production"
 
 # Default branch is :master
