@@ -26,7 +26,15 @@ Event.Competitor = function(params) {
 
 Event.Competitor.prototype = {
     open_form: function() {
-        this.$form_title.text('Участник: Добавление');
+        var modal_title;
+
+        if (this.is_new) {
+            modal_title = I18n.t('events.show.new');
+        } else {
+            modal_title = I18n.t('events.show.edit');
+        }
+
+        this.$form_title.text(I18n.t('events.show.competitor') + ': ' + modal_title);
 
         this.$form_section.find('option').remove();
         this.$form_name.find('option').remove();
@@ -56,7 +64,7 @@ Event.Competitor.prototype = {
 
         this.$form_name.select2({
             width: '100%',
-            placeholder: 'Select pilot from list',
+            placeholder: I18n.t('events.show.profile_placeholder'),
             dropdownParent: this.$form,
             // minimumInputLength: 2,
             ajax: {
@@ -85,7 +93,7 @@ Event.Competitor.prototype = {
 
         this.$form_suit.select2({
             width: '100%',
-            // placeholder: "Search for an Item",
+            placeholder: I18n.t('events.show.suit_placeholder'),
             dropdownParent: this.$form,
             // minimumInputLength: 2,
             ajax: {
@@ -165,13 +173,13 @@ Event.Competitor.prototype = {
         }
 
         if (this.$form_toggle_profile.data('state') == 'create') {
-            this.$form_toggle_profile.data('state', 'choose').text('Create new profile');
-            this.$form_toggle_profile_caption.text("Pilot you are looking for doesn't exist?");
+            this.$form_toggle_profile.data('state', 'choose').text(I18n.t('events.show.toggle_profile'));
+            this.$form_toggle_profile_caption.text(I18n.t('events.show.profile_caption'));
             this.$form_new_name.val('').hide();
             $('.competitor-profile + span').show();
         } else {
-            this.$form_toggle_profile.data('state', 'create').text('choose pilot from list');
-            this.$form_toggle_profile_caption.text("Or");
+            this.$form_toggle_profile.data('state', 'create').text(I18n.t('events.show.profile_choose'));
+            this.$form_toggle_profile_caption.text(I18n.t('events.show.profile_or'));
             this.$form_new_name.show();
             this.$form_name.select2('val', '');
             $('.competitor-profile + span').hide()

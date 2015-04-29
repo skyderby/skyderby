@@ -1,6 +1,18 @@
 en:
   events:
     show:
+      section: 'Class'
       competitor: 'Competitor'
+      round: 'Round'
       comp_window: 'Competition window:'
       total: 'Total'
+      profile: 'Profile:'
+      profile_caption: "Pilot you are looking for doesn't exist?"
+      toggle_profile: 'Create new profile'
+      profile_placeholder: 'Select pilot from list' 
+      profile_or: 'Or'
+      profile_choose: 'select pilot from list'
+      suit: 'Suit:'
+      suit_placeholder: 'Select suit from list'
+      new: 'New'
+      edit: 'Edit'
