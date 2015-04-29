@@ -242,7 +242,7 @@ Event.Scoreboard.prototype = {
         this.row_length += col_count;
         this.$discipline_row.append(
             $('<td>')
-                .text(capitaliseFirstLetter(key))
+                .text(I18n.t('disciplines.' + key))
                 .attr('colspan', col_count)
                 .attr('data-discipline', key)
         );
