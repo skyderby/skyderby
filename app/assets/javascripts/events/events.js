@@ -132,7 +132,14 @@ Event.Competition.prototype = {
     open_form: function(e) {
         e.preventDefault();
 
-        this.$modal_title.text('Competition: Edit');
+        var modal_title;
+        if (this.is_new) {
+            modal_title = I18n.t('events.show.new');
+        } else {
+            modal_title = I18n.t('events.show.edit');
+        }
+        this.$modal_title.text(I18n.t('activerecord.models.event') + ': ' + modal_title);
+
         $('#event-name').val(this.name);
         $('#range-from').val(this.range_from);
         $('#range-to').val(this.range_to);
@@ -150,9 +157,8 @@ Event.Competition.prototype = {
 
         this.$form_new_organizer.select2({
             width: '100%',
-            placeholder: 'Add organizer from list',
+            placeholder: I18n.t('events.show.organizers_placeholder'),
             dropdownParent: this.$form_modal,
-            // minimumInputLength: 2,
             ajax: {
                 url: '/api/user_profiles',
                 dataType: 'json',
