@@ -36,9 +36,14 @@ module Api
     end
 
     def comp_params
-      params.require(:competitor)
-        .permit(:name, :profile_id, :profile_name,
-                :wingsuit_id, :section_id, :event_id)
+      params.require(:competitor).permit(
+        :name, 
+        :profile_id, 
+        :profile_name,
+        :wingsuit_id, 
+        :section_id, 
+        :event_id
+      )
     end
   end
 end

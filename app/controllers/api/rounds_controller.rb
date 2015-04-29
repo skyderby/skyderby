@@ -4,6 +4,8 @@ module Api
 
     def create
       @round = Round.new round_params
+      authorize! :update, @round.event
+
       if @round.save
         @round
       else
@@ -13,6 +15,8 @@ module Api
     end
 
     def update
+      authorize! :update, @round.event
+
       if @round.update round_params
         @round
       else
@@ -22,6 +26,8 @@ module Api
     end
 
     def destroy
+      authorize! :update, @round.event
+
       @round.destroy
       head :no_content
     end

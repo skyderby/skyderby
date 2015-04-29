@@ -4,6 +4,7 @@ module Api
 
     def create
       @section = Section.new section_params
+      authorize! :update, @section.event
 
       if @section.save
         @section
@@ -13,6 +14,8 @@ module Api
     end
 
     def update
+      authorize! :update, @section.event
+
       if @section.update section_params
         @section
       else
@@ -21,6 +24,8 @@ module Api
     end
 
     def destroy
+      authorize! :update, @section.event
+
       @section.destroy
       head :no_content
     end
@@ -28,6 +33,8 @@ module Api
     def reorder
       params[:sections].each do |_, x|
         @section = Section.find(x[:section_id])
+        authorize! :update, @section.event
+
         @section.update(order: x[:order])
       end
 

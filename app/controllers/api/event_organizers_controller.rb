@@ -4,6 +4,7 @@ module Api
 
     def create
       @event_organizer = EventOrganizer.new event_organizer_params
+      authorize! :update, @event_organizer.event
 
       if @event_organizer.save
         @event_organizer
@@ -13,6 +14,7 @@ module Api
     end
 
     def destroy
+      authorize! :update, @event_organizer.event
       @event_organizer.destroy
       head :no_content
     end

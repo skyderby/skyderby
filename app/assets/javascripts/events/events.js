@@ -9,6 +9,7 @@ Event.Competition = function() {
     this.range_to = '';
     this.status = '';
     this.responsible = '';
+    this.place = '';
     // Main data
     this.rounds= [];
     this.sections= [];
@@ -28,6 +29,7 @@ Event.Competition = function() {
     this.$form_modal = $('#event-form-modal');
     this.$modal_title = $('#event-form-modal-title');
     this.$form_organizers = $('.organizers-container')
+    this.$form_place = $('#event-place')
     ///////////////////////////////////////////
     // Templates
     this.organizer = _.template([
@@ -56,6 +58,12 @@ Event.Competition.prototype = {
             id: data.responsible.id,
             name: data.responsible.name
         };
+        if (data.place) {
+            this.place = {
+                id: data.place.id,
+                name: data.place.name
+            }
+        }
 
         _.each(data.sections, this.add_section.bind(this));
         _.each(data.competitors, this.add_competitor.bind(this));
@@ -186,6 +194,57 @@ Event.Competition.prototype = {
             }
         });
 
+        this.$form_place.find('option').remove();
+
+        if (this.place && this.place.id) {
+            $('<option />', {value: this.place.id, text: this.place.name})
+                .appendTo(this.$form_place);
+        }       
+ 
+        this.$form_place.select2({
+            width: '100%',
+            placeholder: I18n.t('events.show.place_placeholder'),
+            dropdownParent: this.$form_modal,
+            ajax: {
+                url: '/api/places',
+                dataType: 'json',
+                type: "GET",
+                quietMillis: 50,
+                data: function (term) {
+                    return {
+                        query: term
+                    };
+                },
+                processResults: function (data) {
+                    var suits_data = _.chain(data)
+                        .map(function(obj) {
+                            return {
+                                id: obj.id,
+                                text: obj.name,
+                                country: obj.country.name
+                            }
+                        })
+                        .groupBy(function(obj) { 
+                            return obj.country;
+                        })
+                        .map(function(obj, key) {
+                            return {
+                                text: key, 
+                                children: obj
+                            };
+                        })
+                        .sortBy(function(obj) {
+                            return obj.text;
+                        })
+                        .value();
+                    return {
+                        results: suits_data
+                    };
+                },
+                cache: true
+            }
+        });
+
         this.$form_modal
             .off('click', '.delete-organizer')
             .on('click', '.delete-organizer', this.on_click_delete_organizer);
@@ -232,7 +291,8 @@ Event.Competition.prototype = {
             name: $('#event-name').val(),
             range_from: $('#range-from').val(),
             range_to: $('#range-to').val(),
-            status: $('input:radio[name="event-status"]').filter(':checked').val()
+            status: $('input:radio[name="event-status"]').filter(':checked').val(),
+            place_id: this.$form_place.val()
         });
     },
 
@@ -255,6 +315,12 @@ Event.Competition.prototype = {
         this.range_to = data.range_to;
 
         this.status = data.status;
+        if (data.place) {
+            this.place = {
+                id: data.place.id,
+                name: data.place.name
+            }
+        }
         
         $.extend(this.header, {
             name: this.name,

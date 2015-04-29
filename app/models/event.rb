@@ -3,6 +3,8 @@ class Event < ActiveRecord::Base
              class_name: 'UserProfile',
              foreign_key: 'user_profile_id'
 
+  belongs_to :place
+
   has_many :event_organizers
 
   has_many :sections

@@ -15,6 +15,7 @@ Skyderby::Application.routes.draw do
     resources :user_profiles, only: [:index, :update]
     resources :wingsuits, only: [:index]
     resources :tracks, only: [:index]
+    resources :places, only: [:index]
   end
 
   scope '/(:locale)', locale: /#{I18n.available_locales.join('|')}/ do

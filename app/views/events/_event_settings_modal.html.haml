@@ -27,6 +27,11 @@
               %input.form-control#range-to
 
           .form-group
+            %span.col-sm-4.control-label= t('activerecord.attributes.event.place')
+            .col-sm-8
+              %select.form-control#event-place
+
+          .form-group
             %span.col-sm-4.control-label= t('activerecord.attributes.event.status') + ':'
             .col-sm-8
               .btn-group{data: {toggle: "buttons"}}

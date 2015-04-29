@@ -1,6 +1,9 @@
 class Place < ActiveRecord::Base
   belongs_to :country
   has_many :tracks, -> { order('created_at DESC') }
+  has_many :events
+
+  validates :country, presence: true
 
   scope :nearby, -> (point, search_radius) {
     select('id, 
