@@ -1,0 +1,13 @@
+ru:
+  activerecord:
+    models:
+      event: 'Соревнование'
+    attributes:
+      event:
+        name: 'Название'
+        status: 'Статус'
+  event_status:
+    draft: 'Подготовка'
+    published: 'Опубликовано'
+    finished: 'Завершено'
+ 

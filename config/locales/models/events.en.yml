@@ -1,0 +1,12 @@
+en:
+  activerecord:
+    models:
+      event: 'Competition'
+    attributes:
+      event:
+        name: 'Name'
+        status: 'Status'
+  event_status: 
+    draft: 'Draft'
+    published: 'Published'
+    finished: 'Finished'
