@@ -4,7 +4,7 @@ module Api
 
     def create
       @event_track = EventTrack.new event_track_params
-      authorize! :update, @event_track.event
+      authorize! :update, @event_track.round.event
 
       @event_track.create_track!(event_track_params[:track_attributes]) unless @event_track.track_id
 
@@ -16,14 +16,14 @@ module Api
     end
 
     def update
-      authorize! :update, @event_track.event
+      authorize! :update, @event_track.round.event
 
       @event_track.update round_track_params
       respond_with @event_track
     end
 
     def destroy
-      authorize! :update, @event_track.event
+      authorize! :update, @event_track.round.event
 
       @event_track.destroy
       head :no_content

@@ -38,6 +38,18 @@ Skyderby::Application.routes.draw do
     # Backward compatibility
     match '/track/:id', to: 'tracks#show', via: :get
 
+    namespace :explore do
+      resources :events, only: [:index] do
+        collection do
+          get 'official'
+          get 'online'
+          get 'warm_up'
+        end
+      end 
+
+      root to: 'events#index'
+    end
+
     resources :events
     resources :rounds
     resources :competitors
