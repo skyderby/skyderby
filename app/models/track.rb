@@ -42,6 +42,9 @@ class Track < ActiveRecord::Base
   before_save :ge_enabled!, :parse_file
   before_destroy :used_in_competition?
 
+  delegate :tracksuit?, to: :wingsuit, allow_nil: true
+  delegate :wingsuit?, to: :wingsuit, allow_nil: true
+
   def competitive?
     event_track.present?
   end
