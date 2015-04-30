@@ -5,8 +5,8 @@ describe OnlineEventsFinder do
   let(:place_comp) { create :online_event, :place_specific }
   let(:last_year_comp) { create :online_event, :last_year }
 
-  let(:track1) { create :track_without_place }
-  let(:track2) { create :track_with_place }
+  let(:track1) { create :empty_track }
+  let(:track2) { create :empty_track, :with_place }
 
   context 'only worldwide' do
     subject { OnlineEventsFinder.new.execute(track1) } 
