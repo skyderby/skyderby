@@ -1,5 +1,7 @@
-require 'rails_helper'
+require 'spec_helper'
 
 RSpec.describe Country, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'requires name' do
+      expect(Country.create).not_to be_valid
+  end
 end

@@ -35,8 +35,16 @@ module Api
 
     def event_track_params
       params.require(:event_track).permit(
-        :competitor_id, :round_id, :track_id,
-        track_attributes: [:file, :user_profile_id, :place_id, :wingsuit_id])
+        :competitor_id,
+        :round_id,
+        :track_id,
+        track_attributes: [
+          :file, 
+          :user_profile_id, 
+          :place_id, 
+          :wingsuit_id
+        ]
+      )
     end
   end
 end

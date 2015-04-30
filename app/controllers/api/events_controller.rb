@@ -19,7 +19,13 @@ module Api
     end
 
     def event_params
-      params.require(:event).permit(:name, :range_from, :range_to, :status, :place_id)
+      params.require(:event).permit(
+        :name, 
+        :range_from, 
+        :range_to, 
+        :status, 
+        :place_id
+      )
     end
   end
 end

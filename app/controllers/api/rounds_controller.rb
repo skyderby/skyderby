@@ -9,8 +9,7 @@ module Api
       if @round.save
         @round
       else
-        render json: @round.errors,
-               status: :unprocessable_entity
+        render json: @round.errors, status: :unprocessable_entity
       end
     end
 
@@ -20,8 +19,7 @@ module Api
       if @round.update round_params
         @round
       else
-        render json: @round.errors,
-               status: :unprocessable_entity
+        render json: @round.errors, status: :unprocessable_entity
       end
     end
 

@@ -19,8 +19,7 @@ module Api
       if @profile.update profile_params
         @profile
       else
-        render json: @profile.errors,
-               status: :unprocessable_entity
+        render json: @profile.errors, status: :unprocessable_entity
       end
     end
 

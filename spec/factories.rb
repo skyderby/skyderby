@@ -25,4 +25,29 @@ FactoryGirl.define do
     end
   end
 
- end
+  factory :country do
+    name 'Norway'
+  end
+
+  factory :place do
+    country
+    name 'Gridset'
+    latitude '62.5203062'
+    longitude '7.5773933'
+    msl '8'
+  end
+  
+  factory :point do
+    latitude '62.5203062'
+    longitude '7.5773933'
+  end
+
+  factory :manufacturer do
+    name 'Phoenix Fly'
+  end
+
+  factory :wingsuit do
+    name 'Ghost 3'
+    manufacturer
+  end
+end
