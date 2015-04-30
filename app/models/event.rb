@@ -18,34 +18,6 @@ class Event < ActiveRecord::Base
   before_validation :check_name_and_range, on: :create
   validates_presence_of :responsible, :name, :range_from, :range_to
 
-  def self.available_for(user)
-    events = Event.order('id DESC')
-
-    events = 
-      if user
-        if user.has_role? :admin
-          events
-        else
-          profile_id = user.user_profile.id
-
-          events_where_owner = 
-            events.where('status IN (1, 2) OR user_profile_id = ?', profile_id)
-
-          events_where_org = 
-            events
-              .joins(:event_organizers)
-              .where(event_organizers: {user_profile_id: profile_id})
-          
-          (events_where_owner + events_where_org)
-            .uniq { |x| x.id }.sort_by { |x| x.id }.reverse
-        end
-      else
-        events.available
-      end
-
-    events
-  end
-
   def details
     { 
       id: id.to_s,
