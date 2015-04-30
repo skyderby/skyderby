@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe OnlineEventsFinder do
-  let(:worldwide_comp) { create :worldwide_online_event }
-  let(:place_comp) { create :place_specific_online_event }
-  let(:last_year_comp) { create :last_year_online_event }
+  let(:worldwide_comp) { create :online_event }
+  let(:place_comp) { create :online_event, :place_specific }
+  let(:last_year_comp) { create :online_event, :last_year }
 
   let(:track1) { create :track_without_place }
   let(:track2) { create :track_with_place }
