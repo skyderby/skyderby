@@ -6,8 +6,6 @@ module Api
       @event_track = EventTrack.new event_track_params
       authorize! :update, @event_track.event
 
-      @event_track.create_track!(event_track_params[:track_attributes]) unless @event_track.track_id
-
       if @event_track.save
         @event_track
       else
