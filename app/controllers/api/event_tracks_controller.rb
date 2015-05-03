@@ -6,8 +6,6 @@ module Api
       @event_track = EventTrack.new event_track_params
       authorize! :update, @event_track.round.event
 
-      @event_track.create_track!(event_track_params[:track_attributes]) unless @event_track.track_id
-
       if @event_track.save
         @event_track
       else
@@ -37,8 +35,16 @@ module Api
 
     def event_track_params
       params.require(:event_track).permit(
-        :competitor_id, :round_id, :track_id,
-        track_attributes: [:file, :user_profile_id, :place_id, :wingsuit_id])
+        :competitor_id,
+        :round_id,
+        :track_id,
+        track_attributes: [
+          :file, 
+          :user_profile_id, 
+          :place_id, 
+          :wingsuit_id
+        ]
+      )
     end
   end
 end

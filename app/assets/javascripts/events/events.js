@@ -19,7 +19,6 @@ Event.Competition = function() {
     this.max_results = {};
     // support data
     this.units= {};
-    this.locale= '';
     this.can_manage= false;
     this.templates= {};
     // interface widgets
@@ -71,11 +70,11 @@ Event.Competition.prototype = {
         _.each(data.tracks, this.add_track.bind(this));
         _.each(data.organizers, this.add_organizer.bind(this));
 
-        // Competitor object initialization
-        // $.extend(this, settings.data('details'));
-        $.extend(this.units, settings.data('units'));
-
-        this.locale = settings.data('locale');
+        this.units = {
+            distance: I18n.t('units.m'),
+            speed: I18n.t('units.kmh'),
+            time: I18n.t('units.t_unit')
+        };
 
         if (settings.data('can-manage') === true) {
             this.can_manage = true;
@@ -173,11 +172,9 @@ Event.Competition.prototype = {
                 type: "GET",
                 quietMillis: 50,
                 data: function (term) {
+                    term.only_registered = true;
                     return {
-                        query: term,
-                        filter: {
-                            only_registered: true
-                        }
+                        query: term
                     };
                 },
                 processResults: function (data) {

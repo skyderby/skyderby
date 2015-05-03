@@ -4,7 +4,7 @@ FactoryGirl.define do
   sequence(:count)
 
   factory :user do
-    name 'Василий'
+    sequence(:name) { |n| "Василий-#{n}" }
     email
     password 'secret'
     password_confirmation 'secret'
@@ -25,4 +25,21 @@ FactoryGirl.define do
     end
   end
 
- end
+  factory :country do
+    name 'Norway'
+  end
+ 
+  factory :point do
+    latitude '62.5203062'
+    longitude '7.5773933'
+  end
+
+  factory :manufacturer do
+    name 'Phoenix Fly'
+  end
+
+  factory :wingsuit do
+    name 'Ghost 3'
+    manufacturer
+  end
+end

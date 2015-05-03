@@ -6,7 +6,7 @@ module Api
       authorize! :update, @event
 
       if @event.update event_params
-        render json: @event.details.to_json, status: :ok
+        @event
       else
         render json: @event.errors, status: :unprocessable_entity
       end
@@ -19,7 +19,13 @@ module Api
     end
 
     def event_params
-      params.require(:event).permit(:name, :range_from, :range_to, :status, :place_id)
+      params.require(:event).permit(
+        :name, 
+        :range_from, 
+        :range_to, 
+        :status, 
+        :place_id
+      )
     end
   end
 end
