@@ -1,0 +1,14 @@
+  static_pages:
+    about:
+      comp_t: 'Application works on:'
+      comp_lng: 'Language and backend framework:'
+      comp_fef: 'Frontend framework:'
+      comp_charts: 'Charts framework:'
+      comp_rs: 'Range selector:'
+      roadmap: "Project's roadmap:"
+      trpr: "Track's data processing source code"
+      fepr: 'Frontend data processing'
+      developer: "App developed by Aleksandr Kunin"
+      de_translate: "Deutsch translate by Tatiana Holm"
+      es_translate: "Spanish translate by Ekaterina Larina"
+      logo_designed_by: "Logo designed by Julia Makoveeva"

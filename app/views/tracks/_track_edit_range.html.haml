@@ -1,0 +1,23 @@
+.modal.fade#edit-range{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{type: 'button', data: {dismiss: 'modal'}}
+          %span{aria: {hidden: 'true'}}
+            &times;
+          %span.sr-only
+            Close
+        %h4.modal-title= t('tracks.show.edit_range')
+
+      .modal-body
+        .form-inline
+          %label.control-label
+            = t('tracks.show.range_from')
+          %input.form-control#range-from{type: 'number', align: 'right'}
+          %label.control-label
+            = t('tracks.show.range_to')
+          %input.form-control#range-to{type: 'number', align: 'right'}
+
+      .modal-footer
+        %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t('general.cancel')
+        %button.btn.btn-success#apply-new-range{type: 'button', data: {dismiss: 'modal'}}= 'OK'

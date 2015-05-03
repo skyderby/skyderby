@@ -4,7 +4,7 @@ class EventsController < ApplicationController
     [:show, :finished, :update, :destroy, :results]
 
   def index
-    @events = Event.available_for(current_user)
+    @events = EventsFinder.new.execute(current_user)
   end
 
   def new

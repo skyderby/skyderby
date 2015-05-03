@@ -1,0 +1,10 @@
+en:
+  tracks:
+    edit:
+      visibility: "Visibility:"
+      public: "Public"
+      unlisted: "Unlisted"
+      private: "Private"
+      elev_chart: "Elevation"
+      elevation: "Elevation"
+

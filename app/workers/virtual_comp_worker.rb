@@ -1,5 +1,4 @@
 require 'geospatial'
-require 'competitions/online_comps_finder'
 require 'competitions/results_processor'
 require 'skyderby/tracks/points'
 
@@ -13,7 +12,7 @@ class VirtualCompWorker
 
     data = Skyderby::Tracks::Points.new(track)
 
-    competitions = OnlineCompsFinder.find(params_for(track))
+    competitions = OnlineEventsFinder.new.execute(track)
     competitions.each do |comp|
       tmp_result = VirtualCompResult.new
       tmp_result.user_profile_id = track.user_profile_id
@@ -40,15 +39,6 @@ class VirtualCompWorker
       end
       track.virtual_comp_results << tmp_result if tmp_result.result > 0
     end
-  end
-
-  def params_for(track)
-    {
-      activity: track.kind.to_sym,
-      suit_kind: track.wingsuit.kind.to_sym,
-      period: track.created_at,
-      place_id: track.place_id
-    }
   end
 
   def calculate_distance_in_time(data, discipline_parameter, is_flysight)

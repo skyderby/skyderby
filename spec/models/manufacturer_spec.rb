@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'rails_helper'
 
 describe Manufacturer, type: :model do
   it 'name is required' do

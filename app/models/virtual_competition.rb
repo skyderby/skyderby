@@ -19,16 +19,17 @@
 # add_index "virtual_competitions", ["places_id"], name: "index_virtual_competitions_on_places_id", using: :btree
 
 class VirtualCompetition < ActiveRecord::Base
-  belongs_to :place
-  belongs_to :group,
-             class_name: 'VirtualCompGroup',
-             foreign_key: 'virtual_comp_group_id'
-  has_many :virtual_comp_results
-
   enum jumps_kind: [:skydive, :base]
   enum suits_kind: [:wingsuit, :tracksuit]
   enum discipline: 
     [:time, :distance, :speed, :distance_in_time, :time_until_line]
+
+  belongs_to :place
+  belongs_to :group,
+             class_name: 'VirtualCompGroup',
+             foreign_key: 'virtual_comp_group_id'
+
+  has_many :virtual_comp_results
 
   def reprocess_results
     virtual_comp_results.each do |x|

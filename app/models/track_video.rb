@@ -1,9 +1,10 @@
 class TrackVideo < ActiveRecord::Base
   belongs_to :track
-  before_validation :parse_url
 
   validates :url, presence: true
   validates :video_code, presence: true 
+
+  before_validation :parse_url
 
   def points
     track_data = Skyderby::Tracks::Points.new(track)

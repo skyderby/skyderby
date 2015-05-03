@@ -1,14 +1,20 @@
 class Wingsuit < ActiveRecord::Base
+  enum kind: [:wingsuit, :tracksuit]
+
   belongs_to :manufacturer
 
   has_many :tracks
   has_many :competitors
 
-  enum kind: [:wingsuit, :tracksuit]
+  validates :name, presence: true
+  validates :manufacturer, presence: true
 
-  def self.suggestions_by_name(query)
-    Wingsuit.includes(:manufacturer).where('LOWER(name) LIKE LOWER(?)', "%#{query}%").to_a
-        .map { |x| {:value => x.name, :data => {:category => x.manufacturer.name,:id => x.id }} }
+  class << self
+    def search(query)
+      joins(:manufacturer).where(
+        'LOWER(wingsuits.name) LIKE :query OR LOWER(manufacturers.name) LIKE :query', 
+        query: "%#{query.downcase}%"
+      )
+    end
   end
-
 end

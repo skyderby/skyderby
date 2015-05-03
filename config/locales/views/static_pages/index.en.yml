@@ -1,0 +1,61 @@
+en:
+  static_pages:
+    index:
+      title: "Fly! Compete! Win!"
+      subtitle: "It's still Beta"
+      track_form:
+        title: 'See and analyze your track:'
+        name: 'Your name is:'
+        name_plh: 'John D.'
+        suit: "You're flying a:"
+        suit_plh: 'Wingsuit model'
+        location: 'It was at:'
+        location_plh: 'Some DZ, some cliffs, etc'
+        file: 'File with track:'
+        help: 'Supported csv (Columbus, FlySight) and gpx format'
+        comment: 'Comment:'
+        comment_plh: 'Share a few words about your flight'
+        submit: 'Upload'
+        warnings:
+          name_html: "'Name field has to be filled'"
+          suit_html: "'Suit field has to be filled'"
+          loc_html: "'Place field has to be filled'"
+          file_html: "'Select a file to upload'"
+          file_ext_w1_html: "'File extension: '"
+          file_ext_w2_html: "'Supported only csv, tes and gpx formats'"
+          file_size_w1_html: "'File size : '"
+          file_size_w2_html: "'Max file size is 1 Mb'"
+        kind: "Kind of jump:"
+      or: 'Or'
+      events:
+        title: 'Compete:'
+        coming: 'Coming soon'
+        create: 'Create event'
+        future: 'Future events:'
+        betatestersonly: 'Create new event allowed only for beta testing participants.'
+        table:
+          event: 'Event'
+          starts: 'Starts'
+          ends: 'Ends'
+        form:
+          title: 'New event'
+          name: 'Name:'
+          place: 'Place:'
+          start_at: 'Period:'
+          reg_start_at: 'Registration:'
+          reg_end_at: ' - '
+          end_at: ' - '
+          range_from: 'Competition range:'
+          range_to: ' - '
+        completed: "Completed events:"
+      desc: "GPS Tracks analyzer and GPS perfomance competition front-end"
+      goto_event: "Go to event >>"
+      supported_formats: "Supported file formats and GPS loggers:"
+      stats: "Statistics:"
+      stats_tracks: "Uploaded tracks:"
+      stats_pilots: "Registered pilots:"
+      how_it_works: "It is pretty simple:"
+      upload_a_file: "Upload a file"
+      select_free_fall_range: "Select free fall range"
+      analyze: "Analyze"
+

@@ -1,17 +1,8 @@
 module EventsHelper
   def event_details
-    render template: 'events/_event.json.jbuilder',
+    render template: 'api/events/_event.json.jbuilder',
            format: :json,
            locals: { event: @event }
-  end
-
-  def event_dictionary
-    {
-      distance: t('disciplines.distance'),
-      speed: t('disciplines.speed'),
-      time: t('discipline.time'),
-      edit: t('general.edit')
-    }
   end
 
   def event_settings_modal
