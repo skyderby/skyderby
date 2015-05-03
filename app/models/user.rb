@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
 
   before_save :build_profile, :assign_default_role
 
+  delegate :organizer_of_events, to: :user_profile, allow_nil: true
+
   attr_accessor :name
 
   # Include default devise modules. Others available are:
@@ -26,7 +28,7 @@ class User < ActiveRecord::Base
 
   def build_profile
     if self.new_record?
-      UserProfile.new(user: self, name: self.name)
+      UserProfile.new(user: self, name: name)
     end
   end
 

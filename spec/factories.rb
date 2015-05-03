@@ -4,7 +4,7 @@ FactoryGirl.define do
   sequence(:count)
 
   factory :user do
-    name 'Василий'
+    sequence(:name) { |n| "Василий-#{n}" }
     email
     password 'secret'
     password_confirmation 'secret'
