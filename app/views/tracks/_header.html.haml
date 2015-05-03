@@ -27,7 +27,7 @@
       %a.btn.btn-default{href: track_path(track),
                          class: ('active' if action_name == 'show')}
         %i.fa.fa-bar-chart-o
-        = 'Charts'
+        = t('tracks.show.charts')
       - if track.video
         %a.btn.btn-default{href: replay_track_path(track),
                            class: ('active' if action_name == 'replay'),
@@ -45,6 +45,10 @@
                          :'data-no-turbolink' => 'true'}
         %i.fa.fa-compass
         = 'Google maps'
+      - if action_name == 'show'
+        %a.btn.btn-default{data: {toggle: 'modal', target: '#track-results-modal'}}
+          %i.fa.fa-th-list
+          = t('tracks.show.results')
       .pull-right
         - if action_name == 'show'
           %button.btn.btn-default.dropdown-toggle#dropdownMenu1{type: 'button', data: {toggle: 'dropdown'}}
