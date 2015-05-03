@@ -12,6 +12,7 @@ class EventTrack < ActiveRecord::Base
   validates :track, presence: true
 
   delegate :event, to: :round
+  delegate :discipline, to: :round, prefix: true
 
   before_validation :create_track_from_file
   before_save :calc_result

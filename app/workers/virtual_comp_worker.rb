@@ -1,5 +1,4 @@
 require 'geospatial'
-require 'competitions/online_comps_finder'
 require 'competitions/results_processor'
 require 'skyderby/tracks/points'
 
