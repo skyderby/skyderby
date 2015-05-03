@@ -5,13 +5,9 @@ module Api
     def index
       @profiles = UserProfile.order(:name)
 
-      if params[:query] && params[:query][:term]
-        @profiles = @profiles
-          .where('LOWER(name) LIKE LOWER(?)', "%#{params[:query][:term]}%")
-      end
-
-      if params[:filter] && params[:filter][:only_registered]
-        @profiles = @profiles.joins(:user)
+      if params[:query] 
+        @profiles = @profiles.joins(:user) if params[:query][:only_registered]
+        @profiles = @profiles.search(params[:query][:term]) if params[:query][:term]
       end
     end
 
