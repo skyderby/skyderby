@@ -49,7 +49,7 @@
               %span
                 = "(#{t('tracks.show.window')} #{@track.time.range_from} - #{@track.time.range_to})"
         - if @track.virtual_comp_results.any?
-          %h3= 'Online competitions results'
+          %h3= t('tracks.show.online_comp_results')
           - @track.virtual_comp_results.each do |result|
             .track-online-result
               %span
