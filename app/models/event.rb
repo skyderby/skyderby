@@ -14,7 +14,7 @@ class Event < ActiveRecord::Base
 
   enum status: [:draft, :published, :finished]
 
-  scope :available, -> { where('status IN (1, 2)') }
+  scope :visible, -> { where('status IN (1, 2)') }
   before_validation :check_name_and_range, on: :create
   validates_presence_of :responsible, :name, :range_from, :range_to
 
