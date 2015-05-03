@@ -2,6 +2,13 @@ require 'tracks/points_processor'
 require 'tracks/jump_range_finder'
 
 class Track < ActiveRecord::Base
+  enum kind: [:skydive, :base]
+  enum visibility: [:public_track, :unlisted_track, :private_track]
+  enum gps_type: [:gpx, :flysight, :columbus, :wintec]
+
+  attr_accessor :file
+  attr_accessor :trackfile, :track_index
+
   belongs_to :user
   belongs_to :pilot,
              class_name: 'UserProfile',
@@ -9,11 +16,6 @@ class Track < ActiveRecord::Base
 
   belongs_to :place
   belongs_to :wingsuit
-
-  has_many :tracksegments, dependent: :destroy
-  has_many :points, through: :tracksegments
-  has_many :track_results, dependent: :destroy
-  has_many :virtual_comp_results, dependent: :destroy
 
   has_one :event_track
   has_one :video, class_name: 'TrackVideo', dependent: :destroy
@@ -28,19 +30,17 @@ class Track < ActiveRecord::Base
           -> { where(discipline: TrackResult.disciplines[:speed]) },
           class_name: 'TrackResult'
 
-  attr_accessor :file
-  has_attached_file :file
-
-  attr_accessor :trackfile, :track_index
-
-  enum kind: [:skydive, :base]
-  enum visibility: [:public_track, :unlisted_track, :private_track]
-  enum gps_type: [:gpx, :flysight, :columbus, :wintec]
+  has_many :tracksegments, dependent: :destroy
+  has_many :points, through: :tracksegments
+  has_many :track_results, dependent: :destroy
+  has_many :virtual_comp_results, dependent: :destroy
 
   validates :name, presence: true, if: :pilot_blank?
 
   before_save :ge_enabled!, :parse_file
   before_destroy :used_in_competition?
+
+  has_attached_file :file
 
   delegate :tracksuit?, to: :wingsuit, allow_nil: true
   delegate :wingsuit?, to: :wingsuit, allow_nil: true

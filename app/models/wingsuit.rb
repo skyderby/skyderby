@@ -1,10 +1,10 @@
 class Wingsuit < ActiveRecord::Base
+  enum kind: [:wingsuit, :tracksuit]
+
   belongs_to :manufacturer
 
   has_many :tracks
   has_many :competitors
-
-  enum kind: [:wingsuit, :tracksuit]
 
   validates :name, presence: true
   validates :manufacturer, presence: true

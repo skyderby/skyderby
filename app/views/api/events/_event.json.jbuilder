@@ -1,4 +1,4 @@
-json.extract! event, :id, :name, :range_from, :range_to, :status, :place, :responsible, :place
+json.extract! event, :id, :name, :range_from, :range_to, :status, :place, :responsible
 json.sections event.sections.order(:order), partial: 'api/sections/section',
                                             as: :section
 json.competitors event.competitors, partial: 'api/competitors/competitor',
