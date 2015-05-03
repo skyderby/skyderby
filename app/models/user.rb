@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  attr_accessor :name
+
   has_one :user_profile
 
   has_many :tracks, dependent: :destroy
@@ -9,11 +11,9 @@ class User < ActiveRecord::Base
   has_many :assignments
   has_many :roles, through: :assignments
 
-  before_save :build_profile, :assign_default_role
+  before_create :build_profile, :assign_default_role
 
   delegate :organizer_of_events, to: :user_profile, allow_nil: true
-
-  attr_accessor :name
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -27,14 +27,10 @@ class User < ActiveRecord::Base
   private
 
   def build_profile
-    if self.new_record?
-      UserProfile.new(user: self, name: name)
-    end
+    UserProfile.new(user: self, name: name)
   end
 
   def assign_default_role
-    if self.new_record?
-      self.assignments << Assignment.new(user: self, role: Role.find_by(name: 'user'))
-    end
+    self.assignments << Assignment.new(user: self, role: Role.find_by(name: 'user'))
   end
 end

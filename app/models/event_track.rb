@@ -1,6 +1,8 @@
 require 'results_calculator'
 
 class EventTrack < ActiveRecord::Base
+  attr_accessor :track_attributes
+
   belongs_to :track
   belongs_to :round
   belongs_to :competitor
@@ -10,8 +12,6 @@ class EventTrack < ActiveRecord::Base
   validates :track, presence: true
 
   delegate :event, to: :round
-
-  attr_accessor :track_attributes
 
   before_validation :create_track_from_file
   before_save :calc_result

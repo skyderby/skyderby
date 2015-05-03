@@ -1,14 +1,16 @@
 class Competitor < ActiveRecord::Base
+  attr_accessor :profile_name, :profile_id
+
   belongs_to :event
   belongs_to :section
   belongs_to :user_profile
   belongs_to :wingsuit
+
   has_many :event_tracks
 
-  before_validation :set_profile
   validates_presence_of :user_profile, :wingsuit, :event
 
-  attr_accessor :profile_name, :profile_id
+  before_validation :set_profile
 
   private
 

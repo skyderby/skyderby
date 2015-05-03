@@ -1,5 +1,6 @@
 class UserProfile < ActiveRecord::Base
   belongs_to :user
+
   has_many :tracks, -> { order('created_at DESC') }
   has_many :public_tracks,
            -> { where(visibility: 0).order('created_at DESC') },

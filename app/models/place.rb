@@ -1,5 +1,6 @@
 class Place < ActiveRecord::Base
   belongs_to :country
+
   has_many :tracks, -> { order('created_at DESC') }
   has_many :events
 

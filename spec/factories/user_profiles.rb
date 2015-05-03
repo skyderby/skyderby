@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :pilot, class: 'UserProfile' do
+  factory :user_profile, aliases: [:responsible, :pilot] do
     sequence(:name) { |n| "pilot#{n}" }
   end
 end

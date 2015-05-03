@@ -1,4 +1,5 @@
 class Badge < ActiveRecord::Base
-  belongs_to :user_profile
   enum kind: [:gold, :silver, :bronze]
+
+  belongs_to :user_profile
 end

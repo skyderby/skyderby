@@ -6,7 +6,7 @@ module Api
       authorize! :update, @event
 
       if @event.update event_params
-        render json: @event.details.to_json, status: :ok
+        @event
       else
         render json: @event.errors, status: :unprocessable_entity
       end
