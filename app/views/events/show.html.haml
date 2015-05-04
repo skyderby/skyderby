@@ -19,8 +19,10 @@
       %table.table.table-bordered#results-table
 
 -# Modals
-= event_settings_modal
-= section_modal
-= competitor_modal
-= round_modal
-= result_modal
+- if can? :update, @event
+  = render 'event_settings_modal'
+  = render 'competitor_modal'
+  = render 'section_modal'
+  = render 'round_modal'
+  = render 'result_modal'
+  = render 'progress_modal'
