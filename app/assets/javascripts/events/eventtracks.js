@@ -9,6 +9,11 @@ Event.EventTrack = function(params) {
     this.url = '';
     this.track_presentation = '';
 
+    this.$progress_modal = $('#progress-modal');
+    this.$progress_progress_tab = $('#progress-modal .progress-tab');
+    this.$progress_progress_bar = $('#progress-modal .progress-bar')
+    this.$progress_process_tab = $('#progress-modal .process-tab');
+    
     this.$modal_form = $('#result-form-modal');
     this.$form = $('#result-form');
     this.$form_title = $('#result-form-modal-title');
@@ -142,11 +147,40 @@ Event.EventTrack.prototype = {
 
     form_save: function(e) {
         e.preventDefault();
+        this.$modal_form.modal('hide');
 
         this.track_id = this.$form_result_track.val();
         this.save();        
+    },
 
-        this.$modal_form.modal('hide');
+    beforeSendHandler: function() {
+        this.$progress_modal.modal('show');
+        this.$progress_progress_tab.show();
+        this.$progress_process_tab.hide();
+
+        this.$progress_progress_bar
+            .css('width', '0%')
+            .attr('aria-valuenow', 0);
+    },
+
+    ajax_send_handler: function() {
+        this.$progress_progress_tab.hide();
+        this.$progress_process_tab.show();
+    },
+
+    progressHandlingFunction: function(e) {
+        if (e.lengthComputable){
+            var progress = Math.round(e.loaded / e.total * 100);
+            this.$progress_progress_bar
+                .css('width', progress + '%')
+                .attr('aria-valuenow', progress);
+        }
+    },
+
+    completeHandler: function() {
+        this.$progress_modal.modal('hide');    
+
+        $(document).off('ajaxSend', this.ajax_send_handler);
     },
 
     delete_result: function(e) {
@@ -187,9 +221,22 @@ Event.EventTrack.prototype = {
             data.append('event_track[track_attributes[wingsuit_id]]', cur_competitor.wingsuit.id);
         }
 
+        $(document).on('ajaxSend', this.ajax_send_handler.bind(this));
+
+        var self = this;
         $.ajax({
             url: url,
             method: method,
+            xhr: function() {  // Custom XMLHttpRequest
+                var myXhr = $.ajaxSettings.xhr();
+                if(myXhr.upload){ // Check if upload property exists
+                    myXhr.upload.addEventListener('progress', self.progressHandlingFunction.bind(self), false); // For handling the progress of the upload
+                }
+                return myXhr;
+            },
+            //Ajax events
+            beforeSend: this.beforeSendHandler.bind(this),
+            complete: this.completeHandler.bind(this),
             dataType: 'json',
             data: data,
             cache: false,
@@ -198,7 +245,7 @@ Event.EventTrack.prototype = {
         })
             .done(this.after_save.bind(this))
             .fail(fail_ajax_request);
- },
+    },
 
     destroy: function() {
         $.ajax({
