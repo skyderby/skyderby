@@ -111,6 +111,7 @@ GEM
       tilt
     hike (1.2.3)
     hitimes (1.2.2)
+    http_accept_language (2.0.5)
     i18n (0.7.0)
     i18n-js (3.0.0.rc9)
       i18n (~> 0.6)
@@ -205,6 +206,7 @@ GEM
     rake (10.4.2)
     rdoc (4.2.0)
       json (~> 1.4)
+    redcarpet (3.2.3)
     redis (3.2.1)
     redis-namespace (1.5.1)
       redis (~> 3.0, >= 3.0.4)
@@ -345,6 +347,7 @@ DEPENDENCIES
   font-awesome-rails
   gmaps4rails
   haml
+  http_accept_language
   i18n-js (>= 3.0.0.rc8)
   jbuilder (~> 1.2)
   jquery-rails
@@ -361,6 +364,7 @@ DEPENDENCIES
   quiet_assets
   rack-mini-profiler
   rails (= 4.1.5)
+  redcarpet
   rspec
   rspec-rails
   rubocop
