@@ -13,4 +13,8 @@ class StaticPagesController < ApplicationController
 
   def about
   end
+
+  def competitions
+    @summary = Skyderby::CompetitionsSummary.new
+  end
 end

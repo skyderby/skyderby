@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150429191318) do
+ActiveRecord::Schema.define(version: 20150505063754) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 20150429191318) do
     t.integer  "status",          default: 0
     t.integer  "user_profile_id"
     t.integer  "place_id"
+    t.boolean  "is_official",     default: false
   end
 
   create_table "manufacturers", force: true do |t|
