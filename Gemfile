@@ -33,6 +33,13 @@ gem 'exception_notification'
 # Slack integration
 gem 'slack-notifier'
 
+# Markdown
+gem 'redcarpet'
+
+# Internalization
+gem "i18n-js", ">= 3.0.0.rc8"
+gem 'http_accept_language'
+
 gem 'jquery-rails'
 
 gem 'sass-rails', '~> 4.0.0'
@@ -51,8 +58,6 @@ gem 'less-rails-bootstrap'
 gem 'font-awesome-rails'
 
 gem 'bootstrap-datepicker-rails'
-
-gem "i18n-js", ">= 3.0.0.rc8"
 
 gem 'gmaps4rails'
 

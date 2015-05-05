@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_path, :alert => exception.message
+    redirect_to root_path, alert: exception.message
   end
 
   protected
@@ -31,6 +31,8 @@ class ApplicationController < ActionController::Base
   private
 
   def set_locale
-      I18n.locale = params[:locale] || I18n.default_locale
+    I18n.locale = params[:locale] || 
+      http_accept_language.compatible_language_from(I18n.available_locales) ||
+      I18n.default_locale
   end
 end
