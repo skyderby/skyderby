@@ -20,6 +20,7 @@ Skyderby::Application.routes.draw do
 
   scope '/(:locale)', locale: /#{I18n.available_locales.join('|')}/ do
     # Static pages and routes
+    match '/competitions', to: 'static_pages#competitions', as: :competitions, via: :get
     match '/about', to: 'static_pages#about', as: :about, via: :get
     match '/terms', to: 'static_pages#terms', as: :terms, via: :get
     match '/manage', to: 'static_pages#manage', as: :manage, via: :get
@@ -38,17 +39,10 @@ Skyderby::Application.routes.draw do
     # Backward compatibility
     match '/track/:id', to: 'tracks#show', via: :get
 
-    namespace :explore do
-      resources :events, only: [:index] do
-        collection do
-          get 'official'
-          get 'online'
-          get 'warm_up'
-        end
-      end 
-
-      root to: 'events#index'
-    end
+    # Help
+    get 'help'                  => 'help#index'
+    get 'help/:category/:file'  => 'help#show', as: :help_page, constraints: { category: /.*/, file: /[^\/\.]+/ }
+    get 'help/about'
 
     resources :events
     resources :rounds

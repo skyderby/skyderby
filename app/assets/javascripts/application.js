@@ -37,7 +37,16 @@ $.validator.addMethod('filesize', function(value, element, param) {
 });
 
 function fail_ajax_request(data, status, jqXHR) {
-    alert(data.responseText.substring(0, 500));
+    var error_text = '';
+
+    if (data.responseJSON.base) {
+        $.each(data.responseJSON.base, function(ind, val) {
+            error_text += val + '\n';
+        })
+    } else {
+        error_text = data.responseText.substring(0, 500);
+    }
+    alert(error_text);
 }
 
 function clone(obj) {

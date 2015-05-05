@@ -18,6 +18,8 @@ class Event < ActiveRecord::Base
   before_validation :check_name_and_range, on: :create
 
   scope :visible, -> { where('status IN (1, 2)') }
+  scope :officials, -> { where(is_official: true) }
+  scope :warm_ups, -> { where(is_official: false) }
 
   private
 

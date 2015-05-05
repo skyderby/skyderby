@@ -1,0 +1,4 @@
+-# - provide :title, @file.humanize, *@category.split("/").reverse.map(&:humanize)
+.container.top-buffer
+  .documentation.wiki
+    = markdown @markdown.gsub('$your_email', current_user.email)
