@@ -39,7 +39,7 @@ $.validator.addMethod('filesize', function(value, element, param) {
 function fail_ajax_request(data, status, jqXHR) {
     var error_text = '';
 
-    if (data.responseJSON.base) {
+    if (data.responseJSON && data.responseJSON.base) {
         $.each(data.responseJSON.base, function(ind, val) {
             error_text += val + '\n';
         })
