@@ -8,6 +8,7 @@ Event.EventTrack = function(params) {
     this.result = '';
     this.url = '';
     this.track_presentation = '';
+    this.uploaded_by = {};
 
     this.$progress_modal = $('#progress-modal');
     this.$progress_progress_tab = $('#progress-modal .progress-tab');
@@ -22,6 +23,8 @@ Event.EventTrack = function(params) {
     this.$form_track_label = $('#rm-track-label');
     this.$form_track_link = $('#rm-track-link');
     this.$form_new_track_wrap = $('#rm-new-track');
+    this.$form_track_uploaded_group = $('#group-track-uploaded');
+    this.$form_track_uploaded = $('#rm-track-uploaded');
 
     this.$form_toggle_track = $('.toggle-track');
     this.$form_toggle_track_caption = $('.toggle-track-caption');
@@ -48,6 +51,7 @@ Event.EventTrack.prototype = {
             this.$form_track_link.hide();
             this.$form_delete_result.hide();
             this.$form_new_track_wrap.show();
+            this.$form_track_uploaded_group.hide();
             this.$form_save.show();
         } else {
             modal_title = 'Edit';
@@ -56,6 +60,13 @@ Event.EventTrack.prototype = {
             this.$form_track_label.show();
             this.$form_track_link.show();
             this.$form_delete_result.show();
+            this.$form_track_uploaded_group.show();
+
+            var uploaded_text = 'at ' + this.created_at;
+            if (this.uploaded_by.name) {
+                uploaded_text = this.uploaded_by.name + ' ' + uploaded_text;
+            }
+            this.$form_track_uploaded.text(uploaded_text);
 
             this.$form_track_link
                 .text('#' + this.track_id)
@@ -109,7 +120,6 @@ Event.EventTrack.prototype = {
 
         this.$form_toggle_track.data('state', 'list');
         this.on_toggle_track();
-
 
         this.$form_save
             .off('click')

@@ -4,6 +4,7 @@ module Api
 
     def create
       @event_track = EventTrack.new event_track_params
+      @event_track.current_user = current_user
       authorize! :update, @event_track.round.event
 
       if @event_track.save

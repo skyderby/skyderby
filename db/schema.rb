@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150505063754) do
+ActiveRecord::Schema.define(version: 20150506061837) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -62,10 +62,12 @@ ActiveRecord::Schema.define(version: 20150505063754) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "competitor_id"
-    t.float    "result",        limit: 24
+    t.float    "result",          limit: 24
+    t.integer  "user_profile_id"
   end
 
   add_index "event_tracks", ["round_id"], name: "index_event_tracks_on_round_id", using: :btree
+  add_index "event_tracks", ["user_profile_id"], name: "index_event_tracks_on_user_profile_id", using: :btree
 
   create_table "events", force: true do |t|
     t.string   "name"
