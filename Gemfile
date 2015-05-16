@@ -83,7 +83,7 @@ group :development, :test do
   # gem 'capistrano-sidekiq'
   #
   gem 'rubocop', require: false
-  gem 'rack-mini-profiler', require: false
+  gem 'rack-mini-profiler'
 end
 
 group :test do
@@ -93,6 +93,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'poltergeist'
   gem 'database_cleaner'
+  gem 'cucumber-rails', require: false
 end
 
 

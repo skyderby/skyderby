@@ -15,7 +15,7 @@ Event.Organizer.prototype = {
     save: function() {
         var url, method, data;
 
-        url = '/api/event_organizers/';
+        url = window.Competition.path + '/event_organizers/';
         method = 'POST';
 
         data = {
@@ -37,7 +37,7 @@ Event.Organizer.prototype = {
 
     destroy: function() {
         $.ajax({
-            url: '/api/event_organizers/' + this.id,
+            url: window.Competition.path + '/event_organizers/' + this.id,
             method: 'DELETE',
             dataType: 'json',
             context: {id: this.id}

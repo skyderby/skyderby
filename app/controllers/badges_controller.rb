@@ -1,26 +1,23 @@
 class BadgesController < ApplicationController
   before_action :set_badge, only: [:show, :edit, :update, :destroy]
 
+  load_and_authorize_resource
+
   def index
-    authorize! :read, @badge
     @badges = Badge.all
   end
 
   def show
-    authorize! :read, @badge
   end
 
   def new
-    authorize! :create, :badge
     @badge = Badge.new
   end
 
   def edit
-    authorize! :update, @badge
   end
 
   def create
-    authorize! :create, :badge
     @badge = Badge.new(badge_params)
 
     if @badge.save
@@ -31,8 +28,6 @@ class BadgesController < ApplicationController
   end
 
   def update
-    authorize! :update, @badge
-
     if @badge.update(badge_params)
       redirect_to @badge, notice: 'Badge was successfully updated.'
     else
@@ -41,8 +36,6 @@ class BadgesController < ApplicationController
   end
 
   def destroy
-    authorize! :destroy, @badge
-
     @badge.destroy
     redirect_to badges_url
   end

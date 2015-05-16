@@ -47,7 +47,7 @@ class FlySightParser < CSVParser
       h_speed: Velocity.to_kmh(Math.sqrt(row[4].to_f ** 2 + row[5].to_f ** 2)),
       v_speed: Velocity.to_kmh(row[6].to_f),
       abs_altitude: row[3].to_f,
-      point_created_at: Time.parse(row[0].to_s) 
+      gps_time: Time.parse(row[0].to_s) 
     })
   end
 end

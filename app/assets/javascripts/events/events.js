@@ -10,6 +10,8 @@ Event.Competition = function() {
     this.status = '';
     this.responsible = '';
     this.place = '';
+
+    this.path = '';
     // Main data
     this.rounds= [];
     this.sections= [];
@@ -89,6 +91,8 @@ Event.Competition.prototype = {
             range_from: this.range_from,
             range_to: this.range_to
         });
+
+        this.path = '/' + I18n.currentLocale() + '/events/' + this.id;
     },
 
     add_section: function(section_data) {
@@ -167,7 +171,7 @@ Event.Competition.prototype = {
             placeholder: I18n.t('events.show.organizers_placeholder'),
             dropdownParent: this.$form_modal,
             ajax: {
-                url: '/api/user_profiles',
+                url: '/user_profiles',
                 dataType: 'json',
                 type: "GET",
                 quietMillis: 50,
@@ -203,7 +207,7 @@ Event.Competition.prototype = {
             placeholder: I18n.t('events.show.place_placeholder'),
             dropdownParent: this.$form_modal,
             ajax: {
-                url: '/api/places',
+                url: '/places',
                 dataType: 'json',
                 type: "GET",
                 quietMillis: 50,
@@ -295,7 +299,7 @@ Event.Competition.prototype = {
 
     update: function(params) {
         $.ajax({
-            url: '/api/events/' + this.id,
+            url: '/events/' + this.id,
             method: 'PATCH',
             dataType: 'json',
             data: {
@@ -428,263 +432,6 @@ Event.Competition.prototype = {
         var org_index = $.inArray(organizer, this.organizers);
         this.organizers.splice(org_index, 1);
     },
-
-
-
-
-
-
-
-
-
-
-    //////////////////////////////////////////
-    // REQUESTS TO SERVER
-
-    send_delete_round_request: function(id) {
-        $.ajax({
-            url: '/api/rounds/' + id,
-            method: 'DELETE',
-            dataType: 'json',
-            context: {id: id}
-        })
-            .done(success_round_delete)
-            .fail(fail_ajax_request);
-    },
-
-    send_competitor_create_request: function(params) {
-        $.ajax({
-            url: '/api/competitors/',
-            method: 'POST',
-            dataType: 'json',
-            data: {
-                competitor: params
-            }
-        })
-            .done(success_competitor_create)
-            .fail(fail_ajax_request);
-    },
-
-    send_competitor_update_request: function(id, params) {
-        $.ajax({
-            url: '/api/competitors/' + id,
-            method: 'PATCH',
-            dataType: 'json',
-            data: {
-                competitor: params
-            }
-        })
-            .done(success_competitor_update)
-            .fail(fail_ajax_request);
-    },
-
-    send_delete_competitor_request: function(id) {
-        $.ajax({
-            url: '/api/competitors/' + id,
-            method: 'DELETE',
-            dataType: 'json',
-            context: {id: id}
-        })
-            .done(success_competitor_delete)
-            .fail(fail_ajax_request);
-    },
-
-    
-
-    send_event_track_create_request: function(params) {
-        $.ajax({
-            url: '/api/round_tracks/',
-            method: 'POST',
-            dataType: 'json',
-            data: {
-                round_track: params
-            }
-        })
-            .done(success_event_track_create)
-            .fail(fail_ajax_request);
-    },
-
-    send_event_track_update_request: function(id, params) {
-        $.ajax({
-            url: '/api/round_tracks/' + id,
-            method: 'PATCH',
-            dataType: 'json',
-            data: {
-                round_track: params
-            }
-        })
-            .done(success_event_track_update)
-            .fail(fail_ajax_request);
-    },
-
-    send_event_track_delete_request: function(id) {
-        $.ajax({
-            url: '/api/round_tracks/' + id,
-            method: 'DELETE',
-            dataType: 'json',
-            context: {
-                id: id
-            }
-        })
-            .done(success_event_track_delete)
-            .fail(fail_ajax_request);
-    },
-
-    //////////////////////////////////////////
-    // EVENTS HANDLERS
-
-    on_link_result_new_track_click: function(e) {},
-
-    on_link_result_exist_track_click: function(e) {
-        e.preventDefault();
-
-        var result_id = $('#result-fm-id').val(),
-            params = {
-                competitor_id: $('#result-fm-competitor-id').val(),
-                round_id: $('#result-fm-round-id').val(),
-                track_id: $('#result_track_id').val()
-            };
-
-        if (result_id) {
-            send_event_track_update_request(result_id, params);
-        } else {
-            send_event_track_create_request(params);
-        }
-    },
-
-    on_link_delete_result_click: function(e) {
-        e.preventDefault();
-
-        var result_id = $('#result-fm-id').val();
-        send_event_track_delete_request(result_id);
-    },
-
-    on_edit_result_click: function(e) {
-        e.preventDefault();
-
-        var row = $(this).closest('tr'),
-            result_id = $(this).data('result-id'),
-            track_id = $(this).data('track-id'),
-            round_id = $(this).data('round-id');
-
-        var competitor = $.grep(Competition.competitors, function(e) {
-            return e.id == row.attr('id').replace('competitor_', '');
-        })[0];
-
-        var round;
-        $.each(Competition.rounds, function(key, value) {
-            if (value.id == round_id) {
-                round = value;
-            }
-        });
-
-        $('#result-fm-id').val(result_id);
-        $('#result-fm-competitor-id').val(competitor.id);
-        $('#result-fm-round-id').val(round_id);
-
-        if (!track_id) {
-            $('#rm-li-delete-result').addClass('disabled'); 
-            $('#rm-li-delete-result').children('a').removeAttr('data-toggle');
-        } else {
-            $('#rm-li-delete-result').removeClass('disabled');
-            $('#rm-li-delete-result').children('a').attr('data-toggle', 'tab');
-        }
-
-        $('#result-form-modal-title').text(competitor.profile.name + ' - ' + capitaliseFirstLetter(round.discipline) + ': ' + round.name);
-        $('#result-form-modal').modal('show');
-    },
-
-    on_button_add_competitor_click: function() {
-        $('#competitor-form-modal-title').text('Участник: Добавление');
-        $('#competitor-form-modal').modal('show');
-    },
-
-    on_button_add_round_click: function() {
-        $('#round-form-modal-title').text('Раунд: Добавление');
-        $('#round-form-modal').modal('show');
-    },
-
-    on_round_modal_shown: function() {
-        $('#round-name').focus();
-    },
-
-    on_edit_round_click: function(e) {
-        e.preventDefault();
-    },
-
-    on_delete_round_click: function(e) {
-        e.preventDefault();
-
-        var round_id = $(this).closest('td').data('round-id');
-        send_delete_round_request(round_id);
-    },
-
-    on_submit_competitor_form: function() {
-        validate_competitor_form();
-
-        var c_id = $('#competitor-id').val();
-        var params = {
-            event_id: Competition.id,
-            profile_id: $('#competitor-profile-id').val(),
-            profile_name: $('#competitor-profile-name').val(),
-            wingsuit_id: $('#competitor-wingsuit-id').val(),
-            section_id: $('#competitor-section').val()
-        };
-
-        if (c_id) {
-            send_competitor_update_request(c_id, params);
-        } else {
-            send_competitor_create_request(params);
-        }
-    },
-
-    on_link_edit_competitor_click: function(e) {
-
-        e.preventDefault();
-
-        $('#competitor-form-modal-title').text('Участник: Редактирование');
-        var row = $(this).closest('tr');
-
-        var competitor = $.grep(Competition.competitors, function(e) {
-            return e.id == row.attr('id').replace('competitor_', '');
-        })[0];
-
-        $('#competitor-id').val(competitor.id);
-
-        $('#competitor-name').val(competitor.profile.name);
-        $('#competitor-profile-id').val(competitor.profile.id);
-
-        $('#competitor-wingsuit').val(competitor.wingsuit.name);
-        $('#competitor-wingsuit-id').val(competitor.wingsuit.id);
-
-        $('#competitor-section').val(competitor.section.id);
-
-        $('#competitor-form-modal').modal('show');
-    },
-
-    on_link_delete_competitor_click: function(e) {
-        e.preventDefault(); 
-        var competitor_id = $(this).closest('tr').attr('id').replace('competitor_', '');
-        send_delete_competitor_request(competitor_id);
-    },
-
-    on_competitor_modal_shown: function(e) {
-        if (!$('#competitor-id').val()) {
-            $('#competitor-name').focus();
-        }
-
-        var s = $('#competitor-section');
-        s.find('option').remove();
-
-        $.each(Competition.sections, function(index, value) {
-            $('<option />', {value: value.id, text: value.name}).appendTo(s);
-        });
-    },
-
-    on_edit_event_modal_shown: function() {
-        $('#event-name').focus();
-    },
-
 }
 
 ////////////////////////////////////////////

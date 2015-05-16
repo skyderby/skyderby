@@ -45,7 +45,12 @@ class EventTrack < ActiveRecord::Base
     if track_with_same_file
       pilot_name = track_with_same_file.pilot.name
       track_round = track_with_same_file.event_track.round
-      errors.add(:base, "File already used. Pilot: #{pilot_name}, round: #{track_round.discipline.humanize} - #{track_round.name}")
+      sentence = I18n.t(
+        'errors.messages.duplicate_file', 
+         pilot_name: pilot_name, 
+         round: "#{track_round.discipline.humanize} - #{track_round.name}"
+      )
+      errors.add(:base, sentence)
     end
 
     errors.blank?

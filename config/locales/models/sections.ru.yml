@@ -1,0 +1,8 @@
+ru:
+  activerecord:
+    errors:
+      models:
+        section:
+          attributes:
+            name:
+              blank: 'Не указано название класса.'

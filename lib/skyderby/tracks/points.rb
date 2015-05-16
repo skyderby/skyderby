@@ -132,8 +132,8 @@ module Skyderby
         points.each do |point|
           if prev_point
 
-            fl_time_diff = point.point_created_at - prev_point.point_created_at
-            fl_time += fl_time_diff
+            fl_time_diff = point.gps_time - prev_point.gps_time
+            fl_time = (fl_time + fl_time_diff).round(1)
 
             elevation_diff = (prev_point.elevation - point.elevation).round(2)
             raw_h = Velocity.to_kmh(point.distance / fl_time_diff)

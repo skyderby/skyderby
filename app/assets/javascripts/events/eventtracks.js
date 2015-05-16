@@ -91,11 +91,12 @@ Event.EventTrack.prototype = {
             placeholder: "Choose track from list",
             dropdownParent: this.$modal_form,
             ajax: {
-                url: '/api/tracks?filter[profile_id]=' + competitor.profile.id,
+                url: '/tracks',
                 dataType: 'json',
                 type: "GET",
                 quietMillis: 50,
                 data: function (term) {
+                    term.profile_id = competitor.profile.id;
                     return {
                         query: term
                     };
@@ -163,6 +164,9 @@ Event.EventTrack.prototype = {
         this.save();        
     },
 
+
+
+
     beforeSendHandler: function() {
         this.$progress_modal.modal('show');
         this.$progress_progress_tab.show();
@@ -203,10 +207,10 @@ Event.EventTrack.prototype = {
         var url, method, data;
 
         if (this.is_new) {
-            url = '/api/event_tracks/';
+            url = window.Competition.path + '/event_tracks/';
             method = 'POST';
         } else {
-            url = '/api/event_tracks/' + this.id;
+            url = window.Competition.path + '/event_tracks/' + this.id;
             method = 'PATCH';
         }
 
@@ -259,7 +263,7 @@ Event.EventTrack.prototype = {
 
     destroy: function() {
         $.ajax({
-            url: '/api/event_tracks/' + this.id,
+            url: window.Competition.path + '/event_tracks/' + this.id,
             method: 'DELETE',
             dataType: 'json',
             context: {id: this.id}

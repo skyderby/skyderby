@@ -2,7 +2,6 @@ var Event = Event || {};
 
 Event.Competitor = function(params) {
     this.id = '';
-    this.event_id = '';
     this.profile = null
     this.section = null;
     this.wingsuit = null;
@@ -68,7 +67,7 @@ Event.Competitor.prototype = {
             dropdownParent: this.$form,
             // minimumInputLength: 2,
             ajax: {
-                url: '/api/user_profiles',
+                url: '/user_profiles',
                 dataType: 'json',
                 type: "GET",
                 quietMillis: 50,
@@ -97,7 +96,7 @@ Event.Competitor.prototype = {
             dropdownParent: this.$form,
             // minimumInputLength: 2,
             ajax: {
-                url: '/api/wingsuits',
+                url: '/wingsuits',
                 dataType: 'json',
                 type: "GET",
                 quietMillis: 50,
@@ -192,7 +191,6 @@ Event.Competitor.prototype = {
         this.$form.modal('hide');
         this.validate_form();
 
-        this.event_id = this.event_id || window.Competition.id;
         this.profile = {
             id: this.$form_name.val(),
             name: this.$form_new_name.val()
@@ -221,15 +219,14 @@ Event.Competitor.prototype = {
         var url, method;
 
         if (this.is_new) {
-            url = '/api/competitors';
+            url = window.Competition.path + '/competitors';
             method = 'POST'; 
         } else {
-            url = '/api/competitors/' + this.id;
+            url = window.Competition.path + '/competitors/' + this.id;
             method = 'PATCH';
         }
 
         var params = {
-            event_id: this.event_id,
             profile_id: this.profile.id,
             profile_name: this.profile.name,
             wingsuit_id: this.wingsuit.id,
@@ -251,7 +248,7 @@ Event.Competitor.prototype = {
 
     destroy: function() {
         $.ajax({
-            url: '/api/competitors/' + this.id,
+            url: window.Competition.path + '/competitors/' + this.id,
             method: 'DELETE',
             dataType: 'json',
             context: {id: this.id}

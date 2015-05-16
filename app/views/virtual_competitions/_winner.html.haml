@@ -1,0 +1,11 @@
+.col-sm-4.col-md-4
+  .well
+    .row
+      .col-sm-4.col-md-4
+        = image_tag(result.user_profile.userpic.url(:medium), 
+                    class: 'img-responsive img-rounded')
+      .col-sm-8.col-md-8
+        .vc-profile-name= result.user_profile.name.titleize
+        %div
+          %span.vc-result= format_result(result.result)
+          %span.vc-unit= competition_unit

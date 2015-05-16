@@ -64,10 +64,10 @@ Event.Section.prototype = {
         var url, method, data;
 
         if (this.is_new) {
-            url = '/api/sections/';
+            url = '/events/' + window.Competition.id + '/sections/';
             method = 'POST';
         } else {
-            url = '/api/sections/' + this.id;
+            url = '/events/' + window.Competition.id + '/sections/' + this.id;
             method = 'PATCH';
         }
 
@@ -96,7 +96,7 @@ Event.Section.prototype = {
         var self = this;
 
         $.ajax({
-            url: '/api/sections/reorder',
+            url: '/events/' + window.Competition.id + '/sections/reorder',
             method: 'POST',
             dataType: 'json',
             context: {direction: direction},
@@ -118,7 +118,7 @@ Event.Section.prototype = {
 
     destroy: function() {
         $.ajax({
-            url: '/api/sections/' + this.id,
+            url: '/events/' + window.Competition.id + '/sections/' + this.id,
             method: 'DELETE',
             dataType: 'json',
             context: {id: this.id}

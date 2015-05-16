@@ -11,14 +11,37 @@ class TracksController < ApplicationController
     [:show, :google_maps, :google_earth, :replay, :edit, :update, :destroy]
 
   def index
-    @tracks = Track.public_track
-                   .includes(:wingsuit)
-                   .includes(wingsuit: :manufacturer)
-                   .includes(:time)
-                   .includes(:distance)
-                   .includes(:speed)
-                   .order('id DESC')
-                   .paginate(page: params[:page], per_page: 50)
+    @tracks = Track.public_track.order('id DESC')
+        
+    if params[:query]
+      if params[:query][:profile_id]
+        @tracks = @tracks.where(user_profile_id: params[:query][:profile_id]) 
+      end
+
+      @tracks = @tracks.search(params[:query][:term]) if params[:query][:term].present?
+    end
+
+    respond_to do |format|
+      format.html do
+        @tracks = @tracks.includes(:wingsuit)
+          .includes(wingsuit: :manufacturer)
+          .includes(:time)
+          .includes(:distance)
+          .includes(:speed)
+          .paginate(page: params[:page], per_page: 50)
+      end
+
+      format.js do
+        @tracks = @tracks.includes(:wingsuit)
+          .includes(wingsuit: :manufacturer)
+          .includes(:time)
+          .includes(:distance)
+          .includes(:speed)
+          .paginate(page: params[:page], per_page: 50)
+      end
+
+      format.json { @tracks }
+    end 
   end
 
   def show
@@ -114,7 +137,7 @@ class TracksController < ApplicationController
     param_file = params[:track_file]
 
     # Проверим был ли выбран файл
-    if param_file == nil
+    if param_file.blank?
       redirect_to upload_error_tracks_path
       return
     end

@@ -110,15 +110,55 @@ class Track < ActiveRecord::Base
     trkseg = Tracksegment.create
     tracksegments << trkseg
 
+    connection = ActiveRecord::Base.connection
+    columns = "
+      `gps_time_in_seconds`, 
+      `latitude`, 
+      `longitude`, 
+      `abs_altitude`, 
+      `distance`, 
+      `elevation`, 
+      `fl_time`, 
+      `v_speed`, 
+      `h_speed`, 
+      `tracksegment_id`, 
+      `updated_at`, 
+      `created_at`"
+    inserts = []
+
     track_points.each do |point|
-      trkseg.points << Point.new(point.to_h.except(
-        :fl_time_abs, 
-        :elevation_diff,
-        :glrat,
-        :raw_gr,
-        :raw_h_speed,
-        :raw_v_speed
-      ))
+      inserts << "(
+        #{point.gps_time.to_f},
+        #{point.latitude},
+        #{point.longitude},
+        #{point.abs_altitude},
+        #{point.distance || 0},
+        #{point.elevation},
+        #{point.fl_time},
+        #{point.v_speed || 0},
+        #{point.h_speed || 0},
+        #{trkseg.id},
+        '#{Time.zone.now.to_s(:db)}',
+        '#{Time.zone.now.to_s(:db)}'
+      )"
+      
+      # Point.new(point.to_h.except(
+      #   :fl_time_abs, 
+      #   :elevation_diff,
+      #   :glrat,
+      #   :raw_gr,
+      #   :raw_h_speed,
+      #   :raw_v_speed
+      # ))
+    end
+
+    sql = "INSERT INTO points (#{columns}) VALUES #{inserts.join(', ')}"
+    connection.execute sql
+  end
+
+  class << self
+    def search(query)
+      where('LOWER(comment) LIKE ?', "%#{query.downcase}%")
     end
   end
 end

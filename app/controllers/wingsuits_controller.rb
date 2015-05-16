@@ -1,30 +1,33 @@
 # encoding: utf-8
 class WingsuitsController < ApplicationController
   before_action :set_wingsuit, only: [:show, :edit, :update, :destroy]
+
+  load_and_authorize_resource
   
   def index
-    authorize! :read, :wingsuit
-    @wingsuits = Wingsuit
-                  .includes(:manufacturer)
-                  .order('manufacturers.name, kind, wingsuits.name')
-                  .group_by { |x| x.manufacturer }
+    @wingsuits = Wingsuit.includes(:manufacturer).order('manufacturers.name, kind, wingsuits.name')
+
+    if params[:query] && params[:query][:term]
+      @wingsuits = @wingsuits.search(params[:query][:term]) if params[:query][:term]
+    end
+
+    respond_to do |format|
+      format.html { @wingsuits = @wingsuits.group_by { |x| x.manufacturer } }
+      format.json { @wingsuits }
+    end
   end
 
   def show
-    authorize! :read, @wingsuit
   end
 
   def new
-    authorize! :create, :wingsuit
     @wingsuit = Wingsuit.new
   end
 
   def edit
-    authorize! :update, @wingsuit
   end
 
   def create
-    authorize! :create, :wingsuit
     @wingsuit = Wingsuit.new(wingsuit_params)
 
     if @wingsuit.save
@@ -35,7 +38,6 @@ class WingsuitsController < ApplicationController
   end
 
   def update
-    authorize! :update, @wingsuit
     if @wingsuit.update(wingsuit_params)
       redirect_to @wingsuit, notice: 'Wingsuit was successfully updated.'
     else
@@ -44,7 +46,6 @@ class WingsuitsController < ApplicationController
   end
 
   def destroy
-    authorize! :destroy, @wingsuit
     @wingsuit.destroy
     redirect_to wingsuits_url
   end
@@ -55,6 +56,6 @@ class WingsuitsController < ApplicationController
   end
 
   def wingsuit_params
-    params.require(:wingsuit).permit(:name, :manufacturer_id)
+    params.require(:wingsuit).permit(:name, :manufacturer_id, :kind)
   end
 end

@@ -25,6 +25,9 @@ en:
         height: "Height:"
         weight: "Weight:"
         shirt_size: "T-shirt size:"
+  errors:
+    messages:
+      duplicate_file: "File already used. Pilot: %{pilot_name}, round: %{round}"
   application:
     header:
       home: 'SKY DERBY'

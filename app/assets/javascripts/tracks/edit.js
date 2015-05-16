@@ -21,7 +21,7 @@ function init_edit_view() {
     $('.track-wingsuit-select').select2({
         width: '100%',
         ajax: {
-            url: '/api/wingsuits',
+            url: '/wingsuits',
             dataType: 'json',
             type: "GET",
             quietMillis: 50,

@@ -13,7 +13,7 @@ module TrackPointsProcessor
     def process
       return nil if @points.count < 10
 
-      filter_by_freq!
+      # filter_by_freq!
       corr_elevation!
       calc_parameters!
 
@@ -22,10 +22,10 @@ module TrackPointsProcessor
 
     private
 
-    # Приведение прочитанных данных к формату 1 Гц
-    def filter_by_freq!
-      @points.uniq!{ |x| x.point_created_at.round }
-    end
+    # Исключение дублирующихся точек
+    #def filter_by_freq!
+    #  @points.uniq!{ |x| x.gps_time }
+    #end
 
     # Корректировка высоты от уровня земли
     def corr_elevation!
@@ -42,15 +42,27 @@ module TrackPointsProcessor
       @points.each do |point|
         point.distance = 0 if prev_point.nil?
         unless prev_point.nil?
-          fl_time_diff = point.point_created_at - prev_point.point_created_at
+          fl_time_diff = point.gps_time - prev_point.gps_time
           fl_time += fl_time_diff
 
           point.distance = Geospatial.distance(
             [prev_point.latitude, prev_point.longitude], 
             [point.latitude, point.longitude]
           )
-          point.h_speed ||= Velocity.to_kmh(point.distance / fl_time_diff)
-          point.v_speed ||= Velocity.to_kmh((prev_point.elevation - point.elevation) / fl_time_diff)
+
+          point.h_speed ||=
+            if fl_time_diff == 0
+              prev_point.h_speed
+            else
+              Velocity.to_kmh(point.distance / fl_time_diff)
+            end
+
+          point.v_speed ||=
+            if fl_time_diff == 0
+              prev_point.v_speed
+            else
+              Velocity.to_kmh((prev_point.elevation - point.elevation) / fl_time_diff)
+            end
         end
         point.fl_time = fl_time
         prev_point = point

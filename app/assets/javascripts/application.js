@@ -38,15 +38,21 @@ $.validator.addMethod('filesize', function(value, element, param) {
 
 function fail_ajax_request(data, status, jqXHR) {
     var error_text = '';
+    var errors_count = 0;
 
-    if (data.responseJSON && data.responseJSON.base) {
-        $.each(data.responseJSON.base, function(ind, val) {
-            error_text += val + '\n';
-        })
+    if (data.responseJSON) {
+        $.each(data.responseJSON, function(key, val) {
+            $.each(data.responseJSON[key], function(ind, val) {
+                error_text += '- ' + val + '\n';
+                errors_count += 1;
+            })
+        });
     } else {
         error_text = data.responseText.substring(0, 500);
+        errors_count += 1;
     }
-    alert(error_text);
+    error_text = I18n.t('errors.messages.not_saved', {count: errors_count}) + '\r\n' + error_text;
+    AjaxErrorMessage.display(error_text);
 }
 
 function clone(obj) {
@@ -111,40 +117,10 @@ $(document).ready(function($) {
         }
     });
 
-    // var hash = window.location.hash;
-    // hash && $('ul.nav a[href="' + hash + '"]').tab('show');
-    //
-    // $('.nav-tabs a').click(function (e) {
-    //     $(this).tab('show');
-    //     var scrollmem = $('body').scrollTop();
-    //     window.location.hash = this.hash;
-    //     $('html,body').scrollTop(scrollmem);
-    // });
-    //
-    var ws_field = $('.wingsuit-autocomplete');
-    ws_field.autocomplete({
-        serviceUrl: '/api/wingsuits/autocomplete',
-        groupBy: 'category',
-        onSelect: function (suggestion) {
-
-            var idfield = $(this).data('idfield');
-            var ws_id_field = $(idfield);
-            if (ws_id_field !== 'undefined') {
-                ws_id_field.val(suggestion.data.id).trigger('change');
-            }
-
-            var ws_class_field = $('#wingsuit-class');
-            if (ws_class_field !== 'undefined'){
-                ws_class_field.text(suggestion.ws_class);
-            }
-        },
-        categories: true
-    });
-
     $('.datepicker').datepicker({
         format: 'dd.mm.yyyy',
         startDate: 0,
-        language: 'ru',
+        language: I18n.locale,
         autoclose: true,
         todayHighlight: true
     });

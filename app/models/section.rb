@@ -1,5 +1,6 @@
 class Section < ActiveRecord::Base
   belongs_to :event
+  has_many :competitors, dependent: :restrict_with_error
 
   validates_presence_of :name
   validates_presence_of :event

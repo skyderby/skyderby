@@ -12,44 +12,14 @@
       .col-sm-2
         .pull-right
           - if can? :update, @competition
-            = link_to 'Edit', edit_virtual_competition_path(@competition), class: 'btn btn-default'
+            = link_to t('general.edit'), edit_virtual_competition_path(@competition), class: 'btn btn-default'
 
   - results = @competition.virtual_comp_results.order('result DESC').group_by{ |x| x.user_profile_id }.map{ |_, results| results.first }
   - if results.count > 2
     .top-buffer
-      .col-sm-4.col-md-4
-        .well
-          .row
-            .col-sm-4.col-md-4
-              = image_tag(results.first.user_profile.userpic.url(:medium), 
-                          class: 'img-responsive img-rounded')
-            .col-sm-8.col-md-8
-              .vc-profile-name= results.first.user_profile.name
-              %div
-                %span.vc-result= format_result(results.first.result)
-                %span.vc-unit= competition_unit
-      .col-sm-4
-        .well
-          .row
-            .col-sm-4
-              = image_tag(results.second.user_profile.userpic.url(:medium), 
-                          class: 'img-responsive img-rounded')
-            .col-sm-8
-              .vc-profile-name= results.second.user_profile.name
-              %div
-                %span.vc-result= format_result(results.second.result)
-                %span.vc-unit= competition_unit
-      .col-sm-4
-        .well
-          .row
-            .col-sm-4
-              = image_tag(results.third.user_profile.userpic.url(:medium), 
-                          class: 'img-responsive img-rounded')
-            .col-sm-8
-              .vc-profile-name= results.third.user_profile.name
-              %div
-                %span.vc-result= format_result(results.third.result)
-                %span.vc-unit= competition_unit
+      = render 'winner', result: results.first
+      = render 'winner', result: results.second
+      = render 'winner', result: results.third
     .top-buffer
   %table.table.table-hover.table-striped
     %thead
@@ -69,7 +39,7 @@
       - results.each do |result|
         %tr.clickableRow{data: {url: track_path(id: result.track_id)}}
           %td.text-info= row_number
-          %td.text-info= result.user_profile.name
+          %td.text-info= result.user_profile.name.titleize
           %td.text-info
             - manufacturer = result.track.wingsuit.manufacturer
             %span.text-warning{data: {toggle: 'tooltip'}, title: manufacturer.name}= manufacturer.code || ''

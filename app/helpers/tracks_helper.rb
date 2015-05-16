@@ -20,7 +20,7 @@ module TracksHelper
   end
 
   def tracks_index
-    render template: 'api/tracks/_index.json.jbuilder',
+    render template: 'tracks/_index.json.jbuilder',
            formats: :json
   end
 
