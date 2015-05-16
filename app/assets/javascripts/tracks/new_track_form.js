@@ -62,7 +62,7 @@ NewTrackForm.prototype = {
             placeholder: 'Select suit from list',
             dropdownParent: this.$form_modal,
             ajax: {
-                url: '/api/wingsuits',
+                url: '/wingsuits',
                 dataType: 'json',
                 type: "GET",
                 quietMillis: 50,
@@ -111,7 +111,9 @@ NewTrackForm.prototype = {
             rules: {
                 name: {
                     minlength: 3,
-                    //required: true
+                    required: function(element) {
+                        return $('#newTrackModal input#name')
+                    }
                 },
                 wingsuit_id: {
                     require_from_group: [1, '.suit-group']

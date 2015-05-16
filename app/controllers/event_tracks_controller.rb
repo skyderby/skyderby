@@ -1,20 +1,59 @@
 # encoding: utf-8
 class EventTracksController < ApplicationController
+  before_action :set_event_track, only: [:update, :destroy]
+
+  load_resource :event
+  before_filter :authorize_event
+
+  load_and_authorize_resource :event_track, through: :event
 
   def create
-    event = Event.find(params[:event_id])
-    et = EventTrack.new :competitor => Competitor.find(et_params[:competitor_id]),
-                   :track => Track.find(et_params[:track_id]),
-                   :round => Round.find(et_params[:round_id])
-    if et.save
-      redirect_to event, :notice => 'Трек успешно прикреплен.'
+    @event_track = EventTrack.new event_track_params
+    @event_track.current_user = current_user
+    authorize! :update, @event_track.round.event
+
+    if @event_track.save
+      @event_track
     else
-      redirect_to event, :alert => 'Возникла ошибка при обработке запроса'
+      render json: @event_track.errors, status: :unprocessible_entry
     end
   end
 
+  def update
+    authorize! :update, @event_track.round.event
+
+    @event_track.update round_track_params
+    respond_with @event_track
+  end
+
+  def destroy
+    authorize! :update, @event_track.round.event
+
+    @event_track.destroy
+    head :no_content
+  end
+
   private
-  def et_params
-    params.require(:event_track).permit(:competitor_id, :track_id, :round_id)
+
+  def set_event_track
+    @event_track = EventTrack.find(params[:id])
+  end
+
+  def event_track_params
+    params.require(:event_track).permit(
+      :competitor_id,
+      :round_id,
+      :track_id,
+      track_attributes: [
+        :file, 
+        :user_profile_id, 
+        :place_id, 
+        :wingsuit_id
+      ]
+    )
+  end
+
+  def authorize_event
+    authorize! :update, @event
   end
 end

@@ -1,23 +1,4 @@
 Skyderby::Application.routes.draw do
-  # AJAX locale independent actions
-  namespace :api, default: { format: :json } do
-    resources :events, only: [:update]
-    resources :sections, only: [:create, :update, :destroy] do
-      collection do
-        post 'reorder'
-      end
-    end
-
-    resources :event_organizers, only: [:create, :destroy]
-    resources :competitors, only: [:create, :update, :destroy]
-    resources :rounds, only: [:create, :update, :destroy]
-    resources :event_tracks, only: [:create, :update, :destroy]
-    resources :user_profiles, only: [:index, :update]
-    resources :wingsuits, only: [:index]
-    resources :tracks, only: [:index]
-    resources :places, only: [:index]
-  end
-
   scope '/(:locale)', locale: /#{I18n.available_locales.join('|')}/ do
     # Static pages and routes
     match '/competitions', to: 'static_pages#competitions', as: :competitions, via: :get
@@ -44,11 +25,17 @@ Skyderby::Application.routes.draw do
     get 'help/:category/:file'  => 'help#show', as: :help_page, constraints: { category: /.*/, file: /[^\/\.]+/ }
     get 'help/about'
 
-    resources :events
-    resources :rounds
-    resources :competitors
-    resources :sections
-    resources :event_tracks
+    resources :events do
+      resources :sections, only: [:create, :update, :destroy] do
+        collection do
+          post 'reorder'
+        end
+      end
+
+      resources :rounds
+      resources :competitors
+      resources :event_tracks
+    end
 
     devise_for :users
     resources :users
@@ -70,4 +57,9 @@ Skyderby::Application.routes.draw do
 
   root to: redirect("/#{I18n.default_locale}", status: 302),
        as: :redirected_root
+
+  namespace :api, default: { format: :json } do
+    namespace :v1 do
+    end
+  end
 end

@@ -1,4 +1,10 @@
 ru:
+  errors:
+    messages:
+      duplicate_file: "Файл был использован при расчете результатов участника: %{pilot_name} в раунде: %{round}"
+      not_saved:
+        one: 'Не удалось записать по причине:'
+        other: 'Не удалось записать по следующим причинам:'
   events:
     competition_range: 'Соревновательный диапазон:'
   old_events:

@@ -113,7 +113,7 @@ Userpic_form.prototype = {
         var self = this;
         var formData = new FormData(this.$form[0]);
         $.ajax({
-            url: '/api/user_profiles/' + window.Profile.id,
+            url: '/user_profiles/' + window.Profile.id,
             type: 'PATCH',
             xhr: function() {  // Custom XMLHttpRequest
                 var myXhr = $.ajaxSettings.xhr();

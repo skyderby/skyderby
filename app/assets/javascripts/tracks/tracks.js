@@ -634,7 +634,7 @@ function set_chart_data() {
             dist += point.distance;
             elev += point.elevation_diff;
 
-            fl_time += Math.round(point.fl_time * 10) / 10;
+            fl_time = Math.round((fl_time + point.fl_time) * 10) / 10;
 
             elev_data.push([fl_time, Math.round(elev * mft_un_k)]);
             dist_data.push([fl_time, Math.round(dist * mft_un_k)]);

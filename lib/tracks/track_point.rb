@@ -1,5 +1,5 @@
 class TrackPoint < Struct.new(
-  :point_created_at,
+  :gps_time,
   :fl_time_abs,      # Seconds from start track
   :fl_time,          # Seconds from previous point   
   :latitude, 

@@ -20,11 +20,11 @@ class ColumbusParser < CSVParser
     return nil if row[6].to_f == 0.0
 
     TrackPoint.new({ 
-      :latitude => parse_latitude(row),
-      :longitude => parse_longitude(row),
-      :elevation => row[6].to_f,
-      :abs_altitude => row[6].to_f,
-      :point_created_at => parse_datetime(row)
+      latitude: parse_latitude(row),
+      longitude: parse_longitude(row),
+      elevation: row[6].to_f,
+      abs_altitude: row[6].to_f,
+      gps_time: parse_datetime(row)
     })
   end
 

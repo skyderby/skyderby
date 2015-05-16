@@ -13,12 +13,13 @@ Event.Round = function(params) {
 Event.Round.prototype = {
     save: function() {
         var url, method, data;
+        
+        url = window.Competition.path + '/rounds/';
 
         if (this.is_new) {
-            url = '/api/rounds/';
             method = 'POST';
         } else {
-            url = '/api/rounds/' + this.id;
+            url += this.id;
             method = 'PATCH';
         }
 
@@ -42,7 +43,7 @@ Event.Round.prototype = {
 
     destroy: function() {
         $.ajax({
-            url: '/api/rounds/' + this.id,
+            url: window.Competition.id + '/rounds/' + this.id,
             method: 'DELETE',
             dataType: 'json',
             context: {id: this.id}

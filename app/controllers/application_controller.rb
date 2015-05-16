@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_path, alert: exception.message
+    request.format.html? ? redirect_to(root_path, alert: exception.message) : raise(exception)
   end
 
   protected

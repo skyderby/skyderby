@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150506061837) do
+ActiveRecord::Schema.define(version: 20150515213729) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -97,17 +97,18 @@ ActiveRecord::Schema.define(version: 20150506061837) do
 
   create_table "points", force: true do |t|
     t.integer  "tracksegment_id"
-    t.float    "fl_time",          limit: 24
-    t.decimal  "latitude",                    precision: 15, scale: 10
-    t.decimal  "longitude",                   precision: 15, scale: 10
-    t.float    "elevation",        limit: 24
+    t.float    "fl_time",             limit: 24
+    t.decimal  "latitude",                       precision: 15, scale: 10
+    t.decimal  "longitude",                      precision: 15, scale: 10
+    t.float    "elevation",           limit: 24
     t.datetime "point_created_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "distance",         limit: 24
-    t.float    "v_speed",          limit: 24
-    t.float    "h_speed",          limit: 24
-    t.float    "abs_altitude",     limit: 24
+    t.float    "distance",            limit: 24
+    t.float    "v_speed",             limit: 24
+    t.float    "h_speed",             limit: 24
+    t.float    "abs_altitude",        limit: 24
+    t.decimal  "gps_time_in_seconds",            precision: 17, scale: 3
   end
 
   add_index "points", ["tracksegment_id"], name: "index_points_on_tracksegment_id", using: :btree

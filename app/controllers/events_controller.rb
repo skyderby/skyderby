@@ -3,6 +3,8 @@ class EventsController < ApplicationController
   before_action :set_event, only:
     [:show, :finished, :update, :destroy, :results]
 
+  load_and_authorize_resource
+
   def index
     @events = EventsFinder.new.execute(current_user)
   end
@@ -14,17 +16,13 @@ class EventsController < ApplicationController
 
   def update
     if @event.update event_params
-      redirect_to @event, notice: 'Данные успешно обновлены.'
+      @event
     else
-      redirect_to @event, notice: 'При сохранении произошла ошибка.'
+      render json: @event.errors, status: :unprocessable_entity
     end
   end
 
   def show
-  end
-
-  def results
-    render layout: 'full_screen'
   end
 
   def destroy
@@ -37,11 +35,12 @@ class EventsController < ApplicationController
   end
 
   def event_params
-    params[:event].permit(:name, :place,
-                          :range_from, :range_to,
-                          :descriprion, :form_info, :dz_info,
-                          :start_at, :end_at, :reg_starts, :reg_ends,
-                          :merge_intermediate_and_rookie,
-                          :allow_tracksuits, :finished)
+    params[:event].permit(
+      :name, 
+      :place_id,
+      :range_from, 
+      :range_to,
+      :status
+    )
   end
 end

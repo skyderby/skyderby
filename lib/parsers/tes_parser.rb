@@ -19,10 +19,11 @@ class TESParser < TrackParser
 
     (0..(unpacked_string.count / 5 - 1)).each do |x|
       track_points <<  TrackPoint.new({
+        gps_time: parse_datetime(unpacked_string[x * 5 + 1]),
         latitude: unpacked_string[x * 5 + 2] / 1.0e7,
         longitude: unpacked_string[x * 5 + 3] / 1.0e7,
-        elevation: unpacked_string[x * 5 + 4],
-        point_created_at: parse_datetime(unpacked_string[x * 5 + 1])
+        abs_altitude: unpacked_string[x * 5 + 4],
+        elevation: unpacked_string[x * 5 + 4]
       })
     end
 

@@ -6,13 +6,18 @@ class Competitor < ActiveRecord::Base
   belongs_to :user_profile
   belongs_to :wingsuit
 
-  has_many :event_tracks
+  has_many :event_tracks, dependent: :restrict_with_error 
 
-  validates_presence_of :user_profile, :wingsuit, :event
+  validate :validate_profile
+  validates_presence_of :wingsuit, :event
 
-  before_validation :set_profile
+  before_save :set_profile
 
   private
+
+  def validate_profile
+    errors.add(:user_profile, :blank) if profile_id.blank? || profile_name.blank? 
+  end
 
   def set_profile
     self.user_profile = 

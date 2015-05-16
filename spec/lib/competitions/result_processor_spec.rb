@@ -3,10 +3,8 @@ require 'competitions/results_processor'
 
 describe 'Results processing:', type: :feature do
   before :all do
-    visit root_path
-    within '.index-header' do
-      click_link 'Загрузить трек'
-    end
+    visit root_path(locale: 'ru')
+    click_link 'Загрузить трек'
 
     @track_file = "#{Rails.root}/spec/support/tracks/flysight.csv"
     expect { upload @track_file }.to change(Track, :count).by(1)

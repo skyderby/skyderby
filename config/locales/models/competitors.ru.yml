@@ -1,0 +1,13 @@
+ru:
+  activerecord:
+    errors:
+      models:
+        competitor:
+          attributes:
+            wingsuit:
+              blank: "Не заполнено обязательное поле 'Костюм'"
+            user_profile:
+              blank: "Не заполнено обязательное поле 'Профиль пилота'"
+            base:
+              restrict_dependent_destroy:
+                many: 'Для удаления участника необходимо сначала удалить его результаты.'
