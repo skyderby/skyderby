@@ -3,7 +3,7 @@ require 'competitions/skydive_comp_range_finder'
 
 describe 'SkydiveCompRangeFinder', type: :feature do
   before :all do
-    visit root_path
+    visit root_path(locale: 'ru')
     within '.index-header' do
       click_link 'Загрузить трек'
     end
@@ -18,12 +18,12 @@ describe 'SkydiveCompRangeFinder', type: :feature do
 
     point = track_comp_range.start_point
     expect(point.elevation).to eq 3000
-    expect(point.latitude.round(10)).to eq 53.6135027708
-    expect(point.longitude.round(10)).to eq -114.2020732488
+    expect(point.latitude.round(10)).to eq 53.6135025741
+    expect(point.longitude.round(10)).to eq -114.202071703
 
     point = track_comp_range.end_point
     expect(point.elevation).to eq 2000
-    expect(point.latitude.round(10)).to eq 53.6172882092
-    expect(point.longitude.round(10)).to eq -114.1806631144
+    expect(point.latitude.round(10)).to eq 53.6172886317
+    expect(point.longitude.round(10)).to eq -114.1806616849
   end
 end

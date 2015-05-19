@@ -8,7 +8,6 @@
 
 require 'tracks/track_point'
 require 'tracks/points_interpolation'
-require 'tracks/jump_range'
 
 module SkydiveCompRange
   class RangeFinder
@@ -19,7 +18,7 @@ module SkydiveCompRange
     end
 
     def process
-      JumpRange.new(start_point, end_point)
+      Skyderby::Tracks::JumpRange.new(start_point, end_point)
     end
 
     private
