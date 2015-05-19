@@ -1,5 +1,3 @@
-require 'tracks/jump_range'
-
 module JumpRangeFinder
   def self.range_for(points)
     # Высота начала отсчета определяется как максимум за вычетом 15 метров
@@ -23,6 +21,6 @@ module JumpRangeFinder
         x.fl_time > start_point.fl_time
     end || points.last
 
-    JumpRange.new(start_point, end_point)
+    Skyderby::Tracks::JumpRange.new(start_point, end_point)
   end
 end
