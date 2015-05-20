@@ -61,10 +61,7 @@ Event.Competition.prototype = {
             name: data.responsible.name
         };
         if (data.place) {
-            this.place = {
-                id: data.place.id,
-                name: data.place.name
-            }
+            this.place = data.place;
         }
 
         _.each(data.sections, this.add_section.bind(this));
@@ -92,7 +89,7 @@ Event.Competition.prototype = {
             range_from: this.range_from,
             range_to: this.range_to,
             status: this.status,
-            place: this.place.name
+            place: this.place
         });
         this.header.render();
 
@@ -327,10 +324,7 @@ Event.Competition.prototype = {
 
         this.status = data.status;
         if (data.place) {
-            this.place = {
-                id: data.place.id,
-                name: data.place.name
-            }
+            this.place = data.place;
         }
         
         $.extend(this.header, {
@@ -338,7 +332,7 @@ Event.Competition.prototype = {
             range_from: this.range_from,
             range_to: this.range_to,
             status: this.status,
-            place: this.place.name
+            place: this.place
         });
 
         this.header.render();

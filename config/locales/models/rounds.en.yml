@@ -1,0 +1,9 @@
+ru:
+  activerecord:
+    errors:
+      models:
+        round:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: 'Перед удалением раунда необходимо удалить результаты раунда.'

@@ -5,7 +5,7 @@ Event.Header = function(params) {
     this.range_from = '';
     this.range_to = '';
     this.status = '';
-    this.place = '';
+    this.place = {};
 
     this.$title = $('#title-competition-name');
     this.$range = $('#title-competition-range');
@@ -85,10 +85,15 @@ Event.Header.prototype = {
             + ' ' + I18n.t('units.m')
         );
 
-        if (this.place) {
-            this.$place.show().text(
-                I18n.t('activerecord.attributes.event.place') + ': ' + this.place
-            );
+        if (this.place.name) {
+            var place_text = 
+                I18n.t('activerecord.attributes.event.place') + ': ' + this.place.name;
+
+            if (this.place.msl) {
+                place_text += ' (MSL: ' + this.place.msl + ' ' + I18n.t('units.m') + ')';
+            }
+
+            this.$place.show().text(place_text);
         } else {
             this.$place.hide();
         }

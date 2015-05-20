@@ -1,0 +1,9 @@
+en:
+  activerecord:
+    errors:
+      models:
+        round:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: 'Delete round results first'

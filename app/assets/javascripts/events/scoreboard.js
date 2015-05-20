@@ -212,6 +212,7 @@ Event.Scoreboard.prototype = {
         this.$units_row.append(
             $('<td>')
                 .text(window.Competition.units[value.discipline])
+                .addClass('text-center')
                 .attr('data-discipline', value.discipline)
                 .attr('data-role', 'unit')
                 .attr('data-round-id', value.id)
@@ -219,6 +220,7 @@ Event.Scoreboard.prototype = {
         this.$units_row.append(
             $('<td>')
                 .text('%')
+                .addClass('text-center')
                 .attr('data-discipline', value.discipline)
                 .attr('data-role', 'points')
                 .attr('data-round-id', value.id)
@@ -602,12 +604,14 @@ Event.Scoreboard.prototype = {
         $(units_selector).after(
             $('<td>')
                 .text('%')
+                .addClass('text-center')
                 .attr('data-discipline', discipline)
                 .attr('data-role', 'points')
                 .attr('data-round-id', round.id)
         ).after(
             $('<td>')
                 .text(window.Competition.units[discipline])
+                .addClass('text-center')
                 .attr('data-discipline', discipline)
                 .attr('data-role', 'unit')
                 .attr('data-round-id', round.id)

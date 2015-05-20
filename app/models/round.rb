@@ -2,7 +2,7 @@ class Round < ActiveRecord::Base
   enum discipline: [:time, :distance, :speed]
 
   belongs_to :event
-  has_many :event_tracks
+  has_many :event_tracks, dependent: :restrict_with_error
 
   validates_presence_of :event, :discipline
 
