@@ -10,6 +10,7 @@
         %span#title-competition-name= @event.name
 
       %h3#title-competition-range= "#{t('.comp_window')} #{@event.range_from} - #{@event.range_to} #{t('units.m')}"
+      %h3#title-competition-place
     .col-md-2
       .pull-right#edit-event-commands
 
@@ -17,6 +18,10 @@
   .row.top-buffer
     .col-md-12
       %table.table.table-bordered#results-table
+  .row
+    .col-md-12
+      %h4= t('.judges') + ':'
+      %ol#judges-list
 
 -# Modals
 - if can? :update, @event

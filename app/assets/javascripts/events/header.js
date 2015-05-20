@@ -5,9 +5,11 @@ Event.Header = function(params) {
     this.range_from = '';
     this.range_to = '';
     this.status = '';
+    this.place = '';
 
     this.$title = $('#title-competition-name');
     this.$range = $('#title-competition-range');
+    this.$place = $('#title-competition-place');
     this.$table_edit_controls = $('#edit-table-commands');
     this.$event_edit_commands = $('#edit-event-commands')
 
@@ -82,6 +84,14 @@ Event.Header.prototype = {
             + ' - ' + Competition.range_to 
             + ' ' + I18n.t('units.m')
         );
+
+        if (this.place) {
+            this.$place.show().text(
+                I18n.t('activerecord.attributes.event.place') + ': ' + this.place
+            );
+        } else {
+            this.$place.hide();
+        }
     },
 
     bind_events: function() {
