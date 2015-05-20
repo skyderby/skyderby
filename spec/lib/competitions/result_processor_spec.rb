@@ -1,15 +1,18 @@
 require 'spec_helper'
 require 'competitions/results_processor'
 
+# Тесты основаны на ручных вычислениях и дополняются вручную выверенными треками. 
 describe 'Results processing:' do
   let (:range) { {range_from: 3000, range_to: 2000} }
+  let (:pilot) { create(:pilot) }
+  let (:wingsuit) { create(:wingsuit) }
     
   context 'Flysight sample track from Michael Cooper' do
     subject :michaels_track do
       track = Track.create!(
         file: File.new("#{Rails.root}/spec/support/tracks/flysight.csv"),
-        pilot: create(:pilot),
-        wingsuit: create(:wingsuit)
+        pilot: pilot,
+        wingsuit: wingsuit
       )
       points = Skyderby::Tracks::Points.new(track)
     end
@@ -31,8 +34,8 @@ describe 'Results processing:' do
     subject :csabas_track do
       track = Track.create!(
         file: File.new("#{Rails.root}/spec/support/tracks/2014-Csaba-Round-1.CSV"),
-        pilot: create(:pilot),
-        wingsuit: create(:wingsuit)
+        pilot: pilot,
+        wingsuit: wingsuit
       )
       points = Skyderby::Tracks::Points.new(track)
     end

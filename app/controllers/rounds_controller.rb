@@ -9,7 +9,6 @@ class RoundsController < ApplicationController
 
   def create
     @round = Round.new round_params
-    authorize! :update, @round.event
 
     if @round.save
       @round
@@ -19,8 +18,6 @@ class RoundsController < ApplicationController
   end
 
   def update
-    authorize! :update, @round.event
-
     if @round.update round_params
       @round
     else
@@ -29,10 +26,11 @@ class RoundsController < ApplicationController
   end
 
   def destroy
-    authorize! :update, @round.event
-
-    @round.destroy
-    head :no_content
+    if @round.destroy
+      head :no_content
+    else
+      render json: @round.errors, status: :unprocessable_entity
+    end
   end
 
   private
