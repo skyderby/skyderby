@@ -1,7 +1,6 @@
 require 'tracks/views/track_data'
 
 class TrackEarthData < TrackData
-
   private
 
   def init_points

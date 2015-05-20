@@ -1,6 +1,6 @@
 class VirtualCompGroupsController < ApplicationController
   before_action :set_virtual_comp_group, only: [:show, :edit, :update, :destroy]
-  
+
   def index
     authorize! :read, :virtual_comp_group
     @virtual_comp_groups = VirtualCompGroup.order(:name)
@@ -46,6 +46,7 @@ class VirtualCompGroupsController < ApplicationController
   end
 
   private
+
   def set_virtual_comp_group
     @virtual_comp_group = VirtualCompGroup.find(params[:id])
   end

@@ -1,9 +1,8 @@
 # encoding: utf-8
 class UsersController < ApplicationController
-
   def index
   end
-  
+
   def show
   end
 
@@ -15,10 +14,9 @@ class UsersController < ApplicationController
 
   private
 
-    def set_user
-    end
+  def set_user
+  end
 
-    def user_params
-    end
-
+  def user_params
+  end
 end

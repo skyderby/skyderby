@@ -4,8 +4,8 @@ class TrackResultData < Struct.new(
   :time,
   :distance,
   :speed
-) 
- 
+)
+
   def initialize(arguments)
     members.each { |m| self[m] = arguments[m] if arguments[m] }
   end

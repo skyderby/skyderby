@@ -4,7 +4,7 @@ class UserProfile < ActiveRecord::Base
   has_many :tracks, -> { order('created_at DESC') }
   has_many :public_tracks,
            -> { where(visibility: 0).order('created_at DESC') },
-           class_name: 'Track' 
+           class_name: 'Track'
   has_many :badges
   has_many :event_organizers
 

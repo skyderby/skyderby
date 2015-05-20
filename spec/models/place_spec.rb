@@ -17,11 +17,11 @@ RSpec.describe Place, type: :model do
 
   context 'performs search by name and country name' do
     it 'performs search by country name' do
-      expect(Place.search('no')).to include(place) 
+      expect(Place.search('no')).to include(place)
     end
 
     it 'performs search by name' do
-      expect(Place.search('ri')).to include(place) 
+      expect(Place.search('ri')).to include(place)
     end
   end
 

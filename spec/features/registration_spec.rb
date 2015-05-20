@@ -60,7 +60,7 @@ describe 'Competition' do
     @competitor2 = FactoryGirl.create(:user)
     @competitor3 = FactoryGirl.create(:user)
 
-    @organizer= FactoryGirl.create(:user)
+    @organizer = FactoryGirl.create(:user)
   end
 
   it 'create competition' do

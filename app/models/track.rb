@@ -21,9 +21,9 @@ class Track < ActiveRecord::Base
   has_one :video, class_name: 'TrackVideo', dependent: :destroy
 
   has_one :time,
-          -> { where(discipline: TrackResult.disciplines[:time]) }, 
+          -> { where(discipline: TrackResult.disciplines[:time]) },
           class_name: 'TrackResult'
-  has_one :distance, 
+  has_one :distance,
           -> { where(discipline: TrackResult.disciplines[:distance]) },
           class_name: 'TrackResult'
   has_one :speed,
@@ -56,8 +56,8 @@ class Track < ActiveRecord::Base
   private
 
   def used_in_competition?
-    errors.add(:base, "Cannot delete track used in competition") if competitive?
-    errors.blank? #return false, to not destroy the element, otherwise, it will delete.
+    errors.add(:base, 'Cannot delete track used in competition') if competitive?
+    errors.blank? # return false, to not destroy the element, otherwise, it will delete.
   end
 
   def pilot_blank?
@@ -71,14 +71,14 @@ class Track < ActiveRecord::Base
   # REFACTOR IT
   def parse_file
     if self.new_record?
-      # Когда загружаем соревновательный трек - 
+      # Когда загружаем соревновательный трек -
       # загрузка производится через api/round_tracks_controller
       # файл передается параметром
       if file.present?
         filename = file.original_filename
         self.trackfile = {
           data: File.read(file.queued_for_write[:original].path),
-          ext: filename.downcase[filename.length - 4..filename.length-1]
+          ext: filename.downcase[filename.length - 4..filename.length - 1]
         }
         self.track_index = 0
       end
@@ -98,8 +98,8 @@ class Track < ActiveRecord::Base
       search_radius = base? ? 1 : 10 # in km
       self.place = Place.nearby(jump_range.start_point, search_radius).first
 
-      if self.place && self.place.msl
-        track_points.each { |x| x[:elevation] = x[:abs_altitude] - self.place.msl }
+      if place && place.msl
+        track_points.each { |x| x[:elevation] = x[:abs_altitude] - place.msl }
       end
 
       record_points track_points
@@ -112,17 +112,17 @@ class Track < ActiveRecord::Base
 
     connection = ActiveRecord::Base.connection
     columns = "
-      `gps_time_in_seconds`, 
-      `latitude`, 
-      `longitude`, 
-      `abs_altitude`, 
-      `distance`, 
-      `elevation`, 
-      `fl_time`, 
-      `v_speed`, 
-      `h_speed`, 
-      `tracksegment_id`, 
-      `updated_at`, 
+      `gps_time_in_seconds`,
+      `latitude`,
+      `longitude`,
+      `abs_altitude`,
+      `distance`,
+      `elevation`,
+      `fl_time`,
+      `v_speed`,
+      `h_speed`,
+      `tracksegment_id`,
+      `updated_at`,
       `created_at`"
     inserts = []
 
@@ -141,9 +141,9 @@ class Track < ActiveRecord::Base
         '#{Time.zone.now.to_s(:db)}',
         '#{Time.zone.now.to_s(:db)}'
       )"
-      
+
       # Point.new(point.to_h.except(
-      #   :fl_time_abs, 
+      #   :fl_time_abs,
       #   :elevation_diff,
       #   :glrat,
       #   :raw_gr,

@@ -10,22 +10,22 @@ class Place < ActiveRecord::Base
   class << self
     def search(query)
       joins(:country).where(
-        'LOWER(places.name) LIKE :query OR LOWER(countries.name) LIKE :query', 
+        'LOWER(places.name) LIKE :query OR LOWER(countries.name) LIKE :query',
         query: "%#{query.downcase}%"
       )
     end
 
     def nearby(point, radius)
-      select('id, 
-              latitude, 
-              longitude, 
+      select('id,
+              latitude,
+              longitude,
               msl,
               SQRT(
-                POW(111 * (latitude - ' + point.latitude.to_s + '), 2) + 
+                POW(111 * (latitude - ' + point.latitude.to_s + '), 2) +
                 POW(111 * (' + point.longitude.to_s + ' - longitude) * COS(latitude / (180/PI()) ), 2)
               ) AS distance')
-      .having('distance < :radius', radius: radius)
-      .order('distance DESC')
+        .having('distance < :radius', radius: radius)
+        .order('distance DESC')
     end
   end
 end

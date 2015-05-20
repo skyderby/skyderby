@@ -6,16 +6,15 @@ require 'tracks/views/track_edit_data.rb'
 require 'tracks/views/track_charts_data.rb'
 
 class TracksController < ApplicationController
-
-  before_action :set_track, only: 
+  before_action :set_track, only:
     [:show, :google_maps, :google_earth, :replay, :edit, :update, :destroy]
 
   def index
     @tracks = Track.public_track.order('id DESC')
-        
+
     if params[:query]
       if params[:query][:profile_id]
-        @tracks = @tracks.where(user_profile_id: params[:query][:profile_id]) 
+        @tracks = @tracks.where(user_profile_id: params[:query][:profile_id])
       end
 
       @tracks = @tracks.search(params[:query][:term]) if params[:query][:term].present?
@@ -24,24 +23,24 @@ class TracksController < ApplicationController
     respond_to do |format|
       format.html do
         @tracks = @tracks.includes(:wingsuit)
-          .includes(wingsuit: :manufacturer)
-          .includes(:time)
-          .includes(:distance)
-          .includes(:speed)
-          .paginate(page: params[:page], per_page: 50)
+                  .includes(wingsuit: :manufacturer)
+                  .includes(:time)
+                  .includes(:distance)
+                  .includes(:speed)
+                  .paginate(page: params[:page], per_page: 50)
       end
 
       format.js do
         @tracks = @tracks.includes(:wingsuit)
-          .includes(wingsuit: :manufacturer)
-          .includes(:time)
-          .includes(:distance)
-          .includes(:speed)
-          .paginate(page: params[:page], per_page: 50)
+                  .includes(wingsuit: :manufacturer)
+                  .includes(:time)
+                  .includes(:distance)
+                  .includes(:speed)
+                  .paginate(page: params[:page], per_page: 50)
       end
 
       format.json { @tracks }
-    end 
+    end
   end
 
   def show
@@ -146,14 +145,13 @@ class TracksController < ApplicationController
     track_file = param_file.read
 
     filename =  param_file.original_filename
-    ext = filename.downcase[filename.length - 4..filename.length-1]
+    ext = filename.downcase[filename.length - 4..filename.length - 1]
 
     if ext == '.csv' || ext == '.tes'
       @tracklist << 'main'
     elsif ext == '.gpx'
       doc = Nokogiri::XML(track_file)
       doc.root.elements.each do |node|
-
         if node.node_name.eql? 'trk'
           track_name = ''
           points_count = 0
@@ -167,7 +165,6 @@ class TracksController < ApplicationController
                 points_count += 1
 
                 trpoint.elements.each do |point_node|
-
                   if point_node.name.eql? 'ele'
                     unless prev_height.nil?
                       h_up += (point_node.text.to_f - prev_height) if prev_height < point_node.text.to_f
@@ -182,10 +179,10 @@ class TracksController < ApplicationController
             end
           end # track attr loop
 
-          @tracklist << {name: track_name,
-                         h_up: h_up.to_i.to_s,
-                         h_down: h_down.to_i.to_s,
-                         points_count: points_count}
+          @tracklist << { name: track_name,
+                          h_up: h_up.to_i.to_s,
+                          h_down: h_down.to_i.to_s,
+                          points_count: points_count }
         end # if name.eql? 'trk'
       end # doc root loop
     else
@@ -199,10 +196,10 @@ class TracksController < ApplicationController
       return
     end
 
-    flight_data = {data: track_file, ext: ext,
-                   name: params[:name], suit: params[:suit],
-                   location: params[:location], kind: params[:kind],
-                   comment: params[:comment], wingsuit_id: params[:wingsuit_id]}
+    flight_data = { data: track_file, ext: ext,
+                    name: params[:name], suit: params[:suit],
+                    location: params[:location], kind: params[:kind],
+                    comment: params[:comment], wingsuit_id: params[:wingsuit_id] }
 
     @key = SecureRandom.uuid.to_s
     Rails.cache.write(@key, flight_data)

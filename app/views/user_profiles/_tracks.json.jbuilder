@@ -18,11 +18,11 @@ json.array! tracks do |json, track|
   json.speed track.speed.result if track.speed
   json.comment track.comment
   json.uploaded_at track.created_at
-  json.uploaded_at_formatted l(track.created_at, 
-                               format: '%-d %b %Y', 
+  json.uploaded_at_formatted l(track.created_at,
+                               format: '%-d %b %Y',
                                locale: params[:locale])
   json.month track.created_at.beginning_of_month
-  json.str_month l(track.created_at, 
-                   format: '%B %Y', 
+  json.str_month l(track.created_at,
+                   format: '%B %Y',
                    locale: params[:locale])
 end

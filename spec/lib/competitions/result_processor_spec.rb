@@ -11,7 +11,7 @@ describe 'Results processing:', type: :feature do
 
     @track = Track.last
     @track_points = Skyderby::Tracks::Points.new(@track)
-    @params = {range_from: 3000, range_to: 2000}
+    @params = { range_from: 3000, range_to: 2000 }
   end
 
   it 'Time' do

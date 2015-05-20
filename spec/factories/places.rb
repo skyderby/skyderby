@@ -8,4 +8,4 @@ FactoryGirl.define do
     msl '8'
     initialize_with { Place.where(id: 1).first_or_create }
   end
-end 
+end

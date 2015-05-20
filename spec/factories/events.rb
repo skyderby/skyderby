@@ -3,7 +3,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "Event#{n}" }
     range_from Date.today.beginning_of_year
     range_to Date.today.end_of_year
-    responsible 
+    responsible
 
     trait :place_specific do
       place

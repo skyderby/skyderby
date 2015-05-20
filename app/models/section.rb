@@ -13,7 +13,7 @@ class Section < ActiveRecord::Base
     # Для классов в соревновании устанавливается порядок для возможности ручной
     # сортировки
     sections = Section.where(event_id: event_id).to_a
-    cur_max_order = sections.map{ |x| x.order }.max || 0 
+    cur_max_order = sections.map(&:order).max || 0
 
     self.order = cur_max_order + 1
   end

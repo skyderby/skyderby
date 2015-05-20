@@ -21,7 +21,7 @@
 class VirtualCompetition < ActiveRecord::Base
   enum jumps_kind: [:skydive, :base]
   enum suits_kind: [:wingsuit, :tracksuit]
-  enum discipline: 
+  enum discipline:
     [:time, :distance, :speed, :distance_in_time, :time_until_line]
 
   belongs_to :place

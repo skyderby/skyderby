@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Wingsuit, :type => :model do
+RSpec.describe Wingsuit, type: :model do
   let(:manufacturer) { create(:manufacturer) }
   let(:wingsuit) { create(:wingsuit) }
 
@@ -16,11 +16,11 @@ RSpec.describe Wingsuit, :type => :model do
 
   context 'performs search by name and manufacturer name' do
     it 'performs search by country name' do
-      expect(Wingsuit.search('pho')).to include(wingsuit) 
+      expect(Wingsuit.search('pho')).to include(wingsuit)
     end
 
     it 'performs search by name' do
-      expect(Wingsuit.search('st')).to include(wingsuit) 
+      expect(Wingsuit.search('st')).to include(wingsuit)
     end
   end
 end

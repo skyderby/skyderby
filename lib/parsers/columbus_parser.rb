@@ -13,29 +13,26 @@
 require 'tracks/track_point'
 
 class ColumbusParser < CSVParser
-
   protected
 
   def parse_row(row)
     return nil if row[6].to_f == 0.0
 
-    TrackPoint.new({ 
-      latitude: parse_latitude(row),
-      longitude: parse_longitude(row),
-      elevation: row[6].to_f,
-      abs_altitude: row[6].to_f,
-      gps_time: parse_datetime(row)
-    })
+    TrackPoint.new(latitude: parse_latitude(row),
+                   longitude: parse_longitude(row),
+                   elevation: row[6].to_f,
+                   abs_altitude: row[6].to_f,
+                   gps_time: parse_datetime(row))
   end
 
   private
 
   def parse_latitude(row)
-    (row[4][0..(row[4].length-2)] * (row[4][row[4].length-1] == 'N' ? 1 : -1)).to_f
+    (row[4][0..(row[4].length - 2)] * (row[4][row[4].length - 1] == 'N' ? 1 : -1)).to_f
   end
 
   def parse_longitude(row)
-    (row[5][0..(row[5].length-2)] * (row[5][row[5].length-1] == 'E' ? 1 : 1)).to_f
+    (row[5][0..(row[5].length - 2)] * (row[5][row[5].length - 1] == 'E' ? 1 : 1)).to_f
   end
 
   def parse_datetime(row)

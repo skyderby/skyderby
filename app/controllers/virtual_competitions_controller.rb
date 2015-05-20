@@ -3,7 +3,7 @@ class VirtualCompetitionsController < ApplicationController
 
   def index
     @competitions = VirtualCompetition
-                     .all.group_by { |x| x.group.name }
+                    .all.group_by { |x| x.group.name }
   end
 
   def show
@@ -30,11 +30,11 @@ class VirtualCompetitionsController < ApplicationController
 
   def competition_params
     params.require(:virtual_competition).permit(
-      :name, 
-      :place, 
+      :name,
+      :place,
       :jumps_kind,
       :suits_kind,
       :discipline,
-      :discipline_parameter )
+      :discipline_parameter)
   end
 end

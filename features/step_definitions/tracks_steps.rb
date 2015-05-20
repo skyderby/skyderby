@@ -35,7 +35,7 @@ And /^I attach a "(.+)" file$/ do |track|
     attach_file 'track_file', file
   end
 end
- 
+
 And /^I click submit$/ do
   within '#newTrackModal' do
     click_button 'Загрузить'

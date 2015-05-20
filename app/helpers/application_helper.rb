@@ -1,6 +1,5 @@
-#coding: utf-8
+# coding: utf-8
 module ApplicationHelper
-
   def page_title(title)
     base_title = I18n.t 'static_pages.index.title'
     if title.empty?
@@ -12,8 +11,8 @@ module ApplicationHelper
 
   def lang_presentation(lang_code)
     {
-      en: 'English', 
-      ru: 'Русский', 
+      en: 'English',
+      ru: 'Русский',
       de: 'Deutsch',
       es: 'Spanish'
     }[lang_code]
@@ -42,5 +41,4 @@ module ApplicationHelper
         flash_type.to_s
     end
   end
-
 end

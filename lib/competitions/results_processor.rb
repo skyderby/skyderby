@@ -18,8 +18,8 @@ module ResultsProcessor
 
   # track_id
   # discipline - type should be sym
-  # params - hash with discipline specific params 
+  # params - hash with discipline specific params
   def self.process(track_points, discipline, params)
-    TASKS[discipline].process(track_points, params) 
+    TASKS[discipline].process(track_points, params)
   end
 end

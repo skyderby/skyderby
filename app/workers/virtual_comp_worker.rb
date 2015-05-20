@@ -19,7 +19,6 @@ class VirtualCompWorker
       tmp_result.user_profile_id = track.user_profile_id
       tmp_result.virtual_competition_id = comp.id
 
-
       if comp.distance_in_time?
         result_hash = calculate_distance_in_time(data, comp.discipline_parameter, track.flysight?)
         tmp_result.result = result_hash[:distance]
@@ -30,7 +29,7 @@ class VirtualCompWorker
           range_from: comp.range_from,
           range_to: comp.range_to
         }
-        tmp_result.result = 
+        tmp_result.result =
           ResultsProcessor.process data, comp.discipline.to_sym, range
 
         # result_hash = calculate(data, comp.range_from, comp.range_to)
@@ -47,7 +46,7 @@ class VirtualCompWorker
     distance = 0
     highest_gr = 0
     highest_speed = 0
-    
+
     # tmp values
     fl_time = 0
     prev_point = nil

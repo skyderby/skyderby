@@ -11,7 +11,7 @@ describe EventsFinder do
   context 'when authorized, its own event and public event' do
     before { comp1.update(user_profile_id: user1.user_profile.id) }
 
-    subject { EventsFinder.new.execute(user1) } 
+    subject { EventsFinder.new.execute(user1) }
 
     it { is_expected.to include(comp1) }
     it { is_expected.to include(comp3) }
@@ -21,7 +21,7 @@ describe EventsFinder do
   context 'when authorized, its organized and public event' do
     before { comp2.event_organizers << EventOrganizer.new(user_profile: user2.user_profile) }
 
-    subject { EventsFinder.new.execute(user2) } 
+    subject { EventsFinder.new.execute(user2) }
 
     it { is_expected.to include(comp2) }
     it { is_expected.to include(comp3) }
@@ -35,4 +35,4 @@ describe EventsFinder do
     it { is_expected.not_to include(comp1) }
     it { is_expected.not_to include(comp2) }
   end
-end 
+end

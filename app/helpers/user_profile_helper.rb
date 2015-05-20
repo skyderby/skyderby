@@ -7,7 +7,7 @@ module UserProfileHelper
     #               .includes(:wingsuit)
     #               .includes(wingsuit: :manufacturer)
     #               .order('created_at DESC')
-    #               
+    #
     # tracks = tracks.public_track unless current_user && @profile == current_user.user_profile
     # render template: 'api/user_profiles/_tracks.json.jbuilder',
     #        format: :json,
@@ -27,9 +27,9 @@ module UserProfileHelper
   end
 
   def max_distance
-    track = profile_tracks.max_by do |x| 
+    track = profile_tracks.max_by do |x|
       if x.distance
-        x.distance.result 
+        x.distance.result
       else
         0
       end
@@ -43,9 +43,9 @@ module UserProfileHelper
   end
 
   def max_speed
-    track = profile_tracks.max_by do |x| 
+    track = profile_tracks.max_by do |x|
       if x.speed
-        x.speed.result 
+        x.speed.result
       else
         0
       end
@@ -59,9 +59,9 @@ module UserProfileHelper
   end
 
   def max_time
-    track = profile_tracks.max_by do |x| 
+    track = profile_tracks.max_by do |x|
       if x.time
-        x.time.result 
+        x.time.result
       else
         0
       end

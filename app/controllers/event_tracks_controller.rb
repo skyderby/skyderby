@@ -45,9 +45,9 @@ class EventTracksController < ApplicationController
       :round_id,
       :track_id,
       track_attributes: [
-        :file, 
-        :user_profile_id, 
-        :place_id, 
+        :file,
+        :user_profile_id,
+        :place_id,
         :wingsuit_id
       ]
     )

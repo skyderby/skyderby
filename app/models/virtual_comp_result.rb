@@ -10,7 +10,6 @@
 # add_index "virtual_comp_results", ["tracks_id"], name: "index_virtual_comp_results_on_tracks_id", using: :btree
 # add_index "virtual_comp_results", ["virtual_competitions_id"], name: "index_virtual_comp_results_on_virtual_competitions_id", using: :btree
 
-
 class VirtualCompResult < ActiveRecord::Base
   belongs_to :virtual_competition
   belongs_to :track

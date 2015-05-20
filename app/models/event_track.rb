@@ -22,7 +22,7 @@ class EventTrack < ActiveRecord::Base
 
   private
 
-  def set_uploaded_by 
+  def set_uploaded_by
     self.uploaded_by ||= current_user.user_profile if current_user
   end
 
@@ -46,9 +46,9 @@ class EventTrack < ActiveRecord::Base
       pilot_name = track_with_same_file.pilot.name
       track_round = track_with_same_file.event_track.round
       sentence = I18n.t(
-        'errors.messages.duplicate_file', 
-         pilot_name: pilot_name, 
-         round: "#{track_round.discipline.humanize} - #{track_round.name}"
+        'errors.messages.duplicate_file',
+        pilot_name: pilot_name,
+        round: "#{track_round.discipline.humanize} - #{track_round.name}"
       )
       errors.add(:base, sentence)
     end

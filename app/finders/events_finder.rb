@@ -15,7 +15,7 @@ class EventsFinder
         # 2. Соревнования в которых пользователь является ответственным
         # 3. Все опубликованные и завершенные соревнования
         events.where(
-          'id IN (:ids) OR status IN (1, 2) OR user_profile_id = :profile_id', 
+          'id IN (:ids) OR status IN (1, 2) OR user_profile_id = :profile_id',
           ids: current_user.organizer_of_events,
           profile_id: profile_id
         )
@@ -25,7 +25,7 @@ class EventsFinder
         events.where('status IN (1, 2) OR user_profile_id = ?', profile_id)
       end
     else
-      # Не авторизованным пользователям показываем только 
+      # Не авторизованным пользователям показываем только
       # опубликованные и завершенные соревнования
       events.visible
     end

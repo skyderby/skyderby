@@ -3,7 +3,7 @@ class WingsuitsController < ApplicationController
   before_action :set_wingsuit, only: [:show, :edit, :update, :destroy]
 
   load_and_authorize_resource
-  
+
   def index
     @wingsuits = Wingsuit.includes(:manufacturer).order('manufacturers.name, kind, wingsuits.name')
 
@@ -12,7 +12,7 @@ class WingsuitsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { @wingsuits = @wingsuits.group_by { |x| x.manufacturer } }
+      format.html { @wingsuits = @wingsuits.group_by(&:manufacturer) }
       format.json { @wingsuits }
     end
   end
@@ -51,6 +51,7 @@ class WingsuitsController < ApplicationController
   end
 
   private
+
   def set_wingsuit
     @wingsuit = Wingsuit.find(params[:id])
   end

@@ -7,22 +7,22 @@ class UserProfilesController < ApplicationController
   def index
     @profiles = UserProfile.order(:name)
 
-    if params[:query] 
+    if params[:query]
       @profiles = @profiles.joins(:user) if params[:query][:only_registered]
       @profiles = @profiles.search(params[:query][:term]) if params[:query][:term]
     end
   end
- 
+
   def show
     @profile = UserProfile
-                .includes(:badges)
-                .includes(:tracks)
-                .includes(tracks: :distance)
-                .includes(tracks: :speed)
-                .includes(tracks: :time)
-                .includes(tracks: :wingsuit)
-                .includes(tracks: {wingsuit: :manufacturer})
-                .find(params[:id]) 
+               .includes(:badges)
+               .includes(:tracks)
+               .includes(tracks: :distance)
+               .includes(tracks: :speed)
+               .includes(tracks: :time)
+               .includes(tracks: :wingsuit)
+               .includes(tracks: { wingsuit: :manufacturer })
+               .find(params[:id])
   end
 
   def edit
