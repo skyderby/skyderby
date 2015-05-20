@@ -79,7 +79,7 @@ group :development, :test do
   gem 'capistrano-rails'
   gem 'capistrano-passenger'
   gem 'capistrano-bundler'
-  # gem 'capistrano-sidekiq'
+  gem 'capistrano-sidekiq'
   #
   gem 'rubocop', require: false
   gem 'rack-mini-profiler'
