@@ -26,6 +26,7 @@ Event.Competition = function() {
     // interface widgets
     this.scoreboard = new Event.Scoreboard;
     this.header = null;
+    this.footer = null;
     // form
     this.$form_modal = $('#event-form-modal');
     this.$modal_title = $('#event-form-modal-title');
@@ -89,8 +90,17 @@ Event.Competition.prototype = {
         this.header = new Event.Header({
             name: this.name, 
             range_from: this.range_from,
-            range_to: this.range_to
+            range_to: this.range_to,
+            status: this.status,
+            place: this.place.name
         });
+        this.header.render();
+
+        this.footer = new Event.Footer({
+            responsible: this.responsible,
+            organizers: this.organizers
+        });
+        this.footer.render();
 
         this.path = '/' + I18n.currentLocale() + '/events/' + this.id;
     },
@@ -327,10 +337,17 @@ Event.Competition.prototype = {
             name: this.name,
             range_from: this.range_from,
             range_to: this.range_to,
-            status: this.status
+            status: this.status,
+            place: this.place.name
         });
 
         this.header.render();
+
+        $.extend(this.footer, {
+            organizers: this.organizers
+        });
+
+        this.footer.render();
     },
 
     section_by_id: function(section_id) {
