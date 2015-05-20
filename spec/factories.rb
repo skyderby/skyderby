@@ -1,5 +1,4 @@
 FactoryGirl.define do
-
   sequence(:email) { |n| "person-#{n}@example.com" }
   sequence(:count)
 
@@ -28,7 +27,7 @@ FactoryGirl.define do
   factory :country do
     name 'Norway'
   end
- 
+
   factory :point do
     latitude '62.5203062'
     longitude '7.5773933'

@@ -1,5 +1,5 @@
 class PointsCollection
-  def initialize()
+  def initialize
     @points = []
   end
 end

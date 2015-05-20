@@ -2,12 +2,12 @@ require 'spec_helper'
 require 'tracks/track_point'
 
 describe 'TrackPoint' do
-  let ( :hash_point ) do
+  let ( :hash_point) do
     {
       fl_time_abs: 1,
       fl_time: 1,
-      latitude: 12.345678, 
-      longitude: 98.765432, 
+      latitude: 12.345678,
+      longitude: 98.765432,
       elevation: 3000.5,
       elevation_diff: 40.5,
       abs_altitude: 3800.37,
@@ -16,7 +16,7 @@ describe 'TrackPoint' do
       raw_h_speed: 200.0,
       raw_v_speed: 100.0
     }
-  end 
+  end
 
   it 'should initialize from hash' do
     point = TrackPoint.new(hash_point)

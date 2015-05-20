@@ -30,4 +30,4 @@
 # ||                      event GET    (/:locale)/events/:id(.:format)                             events#show {:locale=>/en|de|es|ru/}
 # ||                            PATCH  (/:locale)/events/:id(.:format)                             events#update {:locale=>/en|de|es|ru/}
 # ||                            PUT    (/:locale)/events/:id(.:format)                             events#update {:locale=>/en|de|es|ru/}
-# ||                            DELETE (/:locale)/events/:id(.:format) 
+# ||                            DELETE (/:locale)/events/:id(.:format)

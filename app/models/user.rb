@@ -31,6 +31,6 @@ class User < ActiveRecord::Base
   end
 
   def assign_default_role
-    self.assignments << Assignment.new(user: self, role: Role.find_by(name: 'user'))
+    assignments << Assignment.new(user: self, role: Role.find_by(name: 'user'))
   end
 end

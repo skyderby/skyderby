@@ -13,9 +13,9 @@ class TrackChartsData < TrackData
 
   def to_data_attr
     {
-      points: @points.to_json, 
+      points: @points.to_json,
       height: {
-        max: @max_height, 
+        max: @max_height,
         min: @min_height
       },
       params: {

@@ -26,6 +26,5 @@ class NewEventsMigration < ActiveRecord::Migration
 
     rename_column :events, :comp_range_from, :range_from
     rename_column :events, :comp_range_to, :range_to
-
   end
 end

@@ -30,7 +30,7 @@ describe 'User' do
         end
         it do
           should be_able_to(:destroy, Track.new(user: nil,
-                                              lastviewed_at: nil))
+                                                lastviewed_at: nil))
         end
       end
 

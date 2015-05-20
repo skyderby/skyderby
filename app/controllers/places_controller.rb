@@ -7,11 +7,11 @@ class PlacesController < ApplicationController
     @places = Place.includes(:country).includes(:tracks).order(:name)
 
     if params[:query]
-      @places = @places.search(params[:query][:term]) if params[:query][:term] 
+      @places = @places.search(params[:query][:term]) if params[:query][:term]
     end
 
     respond_to do |format|
-      format.html { @places = @places.group_by { |x| x.country } }
+      format.html { @places = @places.group_by(&:country) }
       format.json { @places }
     end
   end
@@ -51,10 +51,10 @@ class PlacesController < ApplicationController
 
   def place_params
     params.require(:place).permit(
-      :name, 
-      :country_id, 
-      :latitude, 
-      :longitude, 
+      :name,
+      :country_id,
+      :latitude,
+      :longitude,
       :msl
     )
   end

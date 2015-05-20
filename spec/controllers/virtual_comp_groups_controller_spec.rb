@@ -19,141 +19,139 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe VirtualCompGroupsController, type: :controller do
-
   # This should return the minimal set of attributes required to create a valid
   # VirtualCompGroup. As you add validations to VirtualCompGroup, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  let(:valid_attributes) do
+    skip('Add a hash of attributes valid for your model')
+  end
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:invalid_attributes) do
+    skip('Add a hash of attributes invalid for your model')
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # VirtualCompGroupsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET #index" do
-    it "assigns all virtual_comp_groups as @virtual_comp_groups" do
+  describe 'GET #index' do
+    it 'assigns all virtual_comp_groups as @virtual_comp_groups' do
       virtual_comp_group = VirtualCompGroup.create! valid_attributes
       get :index, {}, valid_session
       expect(assigns(:virtual_comp_groups)).to eq([virtual_comp_group])
     end
   end
 
-  describe "GET #show" do
-    it "assigns the requested virtual_comp_group as @virtual_comp_group" do
+  describe 'GET #show' do
+    it 'assigns the requested virtual_comp_group as @virtual_comp_group' do
       virtual_comp_group = VirtualCompGroup.create! valid_attributes
-      get :show, {:id => virtual_comp_group.to_param}, valid_session
+      get :show, { id: virtual_comp_group.to_param }, valid_session
       expect(assigns(:virtual_comp_group)).to eq(virtual_comp_group)
     end
   end
 
-  describe "GET #new" do
-    it "assigns a new virtual_comp_group as @virtual_comp_group" do
+  describe 'GET #new' do
+    it 'assigns a new virtual_comp_group as @virtual_comp_group' do
       get :new, {}, valid_session
       expect(assigns(:virtual_comp_group)).to be_a_new(VirtualCompGroup)
     end
   end
 
-  describe "GET #edit" do
-    it "assigns the requested virtual_comp_group as @virtual_comp_group" do
+  describe 'GET #edit' do
+    it 'assigns the requested virtual_comp_group as @virtual_comp_group' do
       virtual_comp_group = VirtualCompGroup.create! valid_attributes
-      get :edit, {:id => virtual_comp_group.to_param}, valid_session
+      get :edit, { id: virtual_comp_group.to_param }, valid_session
       expect(assigns(:virtual_comp_group)).to eq(virtual_comp_group)
     end
   end
 
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new VirtualCompGroup" do
-        expect {
-          post :create, {:virtual_comp_group => valid_attributes}, valid_session
-        }.to change(VirtualCompGroup, :count).by(1)
+  describe 'POST #create' do
+    context 'with valid params' do
+      it 'creates a new VirtualCompGroup' do
+        expect do
+          post :create, { virtual_comp_group: valid_attributes }, valid_session
+        end.to change(VirtualCompGroup, :count).by(1)
       end
 
-      it "assigns a newly created virtual_comp_group as @virtual_comp_group" do
-        post :create, {:virtual_comp_group => valid_attributes}, valid_session
+      it 'assigns a newly created virtual_comp_group as @virtual_comp_group' do
+        post :create, { virtual_comp_group: valid_attributes }, valid_session
         expect(assigns(:virtual_comp_group)).to be_a(VirtualCompGroup)
         expect(assigns(:virtual_comp_group)).to be_persisted
       end
 
-      it "redirects to the created virtual_comp_group" do
-        post :create, {:virtual_comp_group => valid_attributes}, valid_session
+      it 'redirects to the created virtual_comp_group' do
+        post :create, { virtual_comp_group: valid_attributes }, valid_session
         expect(response).to redirect_to(VirtualCompGroup.last)
       end
     end
 
-    context "with invalid params" do
-      it "assigns a newly created but unsaved virtual_comp_group as @virtual_comp_group" do
-        post :create, {:virtual_comp_group => invalid_attributes}, valid_session
+    context 'with invalid params' do
+      it 'assigns a newly created but unsaved virtual_comp_group as @virtual_comp_group' do
+        post :create, { virtual_comp_group: invalid_attributes }, valid_session
         expect(assigns(:virtual_comp_group)).to be_a_new(VirtualCompGroup)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:virtual_comp_group => invalid_attributes}, valid_session
-        expect(response).to render_template("new")
+        post :create, { virtual_comp_group: invalid_attributes }, valid_session
+        expect(response).to render_template('new')
       end
     end
   end
 
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested virtual_comp_group" do
-        virtual_comp_group = VirtualCompGroup.create! valid_attributes
-        put :update, {:id => virtual_comp_group.to_param, :virtual_comp_group => new_attributes}, valid_session
-        virtual_comp_group.reload
-        skip("Add assertions for updated state")
+  describe 'PUT #update' do
+    context 'with valid params' do
+      let(:new_attributes) do
+        skip('Add a hash of attributes valid for your model')
       end
 
-      it "assigns the requested virtual_comp_group as @virtual_comp_group" do
+      it 'updates the requested virtual_comp_group' do
         virtual_comp_group = VirtualCompGroup.create! valid_attributes
-        put :update, {:id => virtual_comp_group.to_param, :virtual_comp_group => valid_attributes}, valid_session
+        put :update, { id: virtual_comp_group.to_param, virtual_comp_group: new_attributes }, valid_session
+        virtual_comp_group.reload
+        skip('Add assertions for updated state')
+      end
+
+      it 'assigns the requested virtual_comp_group as @virtual_comp_group' do
+        virtual_comp_group = VirtualCompGroup.create! valid_attributes
+        put :update, { id: virtual_comp_group.to_param, virtual_comp_group: valid_attributes }, valid_session
         expect(assigns(:virtual_comp_group)).to eq(virtual_comp_group)
       end
 
-      it "redirects to the virtual_comp_group" do
+      it 'redirects to the virtual_comp_group' do
         virtual_comp_group = VirtualCompGroup.create! valid_attributes
-        put :update, {:id => virtual_comp_group.to_param, :virtual_comp_group => valid_attributes}, valid_session
+        put :update, { id: virtual_comp_group.to_param, virtual_comp_group: valid_attributes }, valid_session
         expect(response).to redirect_to(virtual_comp_group)
       end
     end
 
-    context "with invalid params" do
-      it "assigns the virtual_comp_group as @virtual_comp_group" do
+    context 'with invalid params' do
+      it 'assigns the virtual_comp_group as @virtual_comp_group' do
         virtual_comp_group = VirtualCompGroup.create! valid_attributes
-        put :update, {:id => virtual_comp_group.to_param, :virtual_comp_group => invalid_attributes}, valid_session
+        put :update, { id: virtual_comp_group.to_param, virtual_comp_group: invalid_attributes }, valid_session
         expect(assigns(:virtual_comp_group)).to eq(virtual_comp_group)
       end
 
       it "re-renders the 'edit' template" do
         virtual_comp_group = VirtualCompGroup.create! valid_attributes
-        put :update, {:id => virtual_comp_group.to_param, :virtual_comp_group => invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
+        put :update, { id: virtual_comp_group.to_param, virtual_comp_group: invalid_attributes }, valid_session
+        expect(response).to render_template('edit')
       end
     end
   end
 
-  describe "DELETE #destroy" do
-    it "destroys the requested virtual_comp_group" do
+  describe 'DELETE #destroy' do
+    it 'destroys the requested virtual_comp_group' do
       virtual_comp_group = VirtualCompGroup.create! valid_attributes
-      expect {
-        delete :destroy, {:id => virtual_comp_group.to_param}, valid_session
-      }.to change(VirtualCompGroup, :count).by(-1)
+      expect do
+        delete :destroy, { id: virtual_comp_group.to_param }, valid_session
+      end.to change(VirtualCompGroup, :count).by(-1)
     end
 
-    it "redirects to the virtual_comp_groups list" do
+    it 'redirects to the virtual_comp_groups list' do
       virtual_comp_group = VirtualCompGroup.create! valid_attributes
-      delete :destroy, {:id => virtual_comp_group.to_param}, valid_session
+      delete :destroy, { id: virtual_comp_group.to_param }, valid_session
       expect(response).to redirect_to(virtual_comp_groups_url)
     end
   end
-
 end

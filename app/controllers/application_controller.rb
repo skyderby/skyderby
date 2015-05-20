@@ -6,16 +6,16 @@ class ApplicationController < ActionController::Base
   before_action :store_current_location, unless: :devise_controller?
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
-  def self.default_url_options(options={})
+  def self.default_url_options(_options = {})
     { locale: I18n.locale }
   end
 
-  def after_sign_in_path_for(resource)
+  def after_sign_in_path_for(_resource)
     stored_location_for(:user) || root_path
   end
 
   rescue_from CanCan::AccessDenied do |exception|
-    request.format.html? ? redirect_to(root_path, alert: exception.message) : raise(exception)
+    request.format.html? ? redirect_to(root_path, alert: exception.message) : fail(exception)
   end
 
   protected
@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   private
 
   def set_locale
-    I18n.locale = params[:locale] || 
+    I18n.locale = params[:locale] ||
       http_accept_language.compatible_language_from(I18n.available_locales) ||
       I18n.default_locale
   end

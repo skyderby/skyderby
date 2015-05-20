@@ -13,11 +13,11 @@ class Round < ActiveRecord::Base
   def set_name
     # Раунды нумеруются последовательно в пределах соревнований и дисциплины
     rounds = Round.where(
-      event_id: event_id, 
+      event_id: event_id,
       discipline: Round.disciplines[discipline]
     ).to_a
 
-    current_number = rounds.map{ |x| x.name.to_i }.max || 0
+    current_number = rounds.map { |x| x.name.to_i }.max || 0
     self.name = (current_number + 1).to_s
   end
 end

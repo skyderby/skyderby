@@ -3,7 +3,7 @@ class CompetitorsController < ApplicationController
 
   load_resource :event
   before_filter :authorize_event
-  
+
   load_and_authorize_resource :competitor, through: :event
 
   def create
@@ -41,11 +41,11 @@ class CompetitorsController < ApplicationController
 
   def competitor_params
     params.require(:competitor).permit(
-      :name, 
-      :profile_id, 
+      :name,
+      :profile_id,
       :profile_name,
-      :wingsuit_id, 
-      :section_id, 
+      :wingsuit_id,
+      :section_id,
       :event_id
     )
   end

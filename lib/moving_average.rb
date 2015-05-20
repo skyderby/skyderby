@@ -1,9 +1,7 @@
 module MovingAverage
-
   class MovingAvg
-
     def initialize(window_size, keys)
-      raise ArgumentError.new('Keys must be array of symbols') if keys_invalid(keys)
+      fail ArgumentError.new('Keys must be array of symbols') if keys_invalid(keys)
 
       @window_size = window_size
       @keys = keys
@@ -24,17 +22,13 @@ module MovingAverage
     private
 
     def keys_invalid(keys)
-      return true unless keys.kind_of?(Array) || !keys.empty? || keys.detect{ |x| !x.kind_of? Symbol }.nil?
+      return true unless keys.is_a?(Array) || !keys.empty? || keys.detect { |x| !x.is_a? Symbol }.nil?
       false
     end
-
   end
 
   def self.process(values, window_size, keys)
-
     moving_average = MovingAvg.new(window_size, keys)
     moving_average.process values
-
   end
-
 end

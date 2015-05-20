@@ -3,9 +3,7 @@ require 'velocity'
 require 'parser_selector'
 
 module TrackPointsProcessor
-
   class TPProcessor
-
     def initialize(points)
       @points = points
     end
@@ -23,13 +21,13 @@ module TrackPointsProcessor
     private
 
     # Исключение дублирующихся точек
-    #def filter_by_freq!
+    # def filter_by_freq!
     #  @points.uniq!{ |x| x.gps_time }
-    #end
+    # end
 
     # Корректировка высоты от уровня земли
     def corr_elevation!
-      min_height = @points.min_by { |x| x.elevation }[:elevation]
+      min_height = @points.min_by(&:elevation)[:elevation]
       @points.each do |x|
         x.elevation -= min_height
       end
@@ -46,7 +44,7 @@ module TrackPointsProcessor
           fl_time += fl_time_diff
 
           point.distance = Geospatial.distance(
-            [prev_point.latitude, prev_point.longitude], 
+            [prev_point.latitude, prev_point.longitude],
             [point.latitude, point.longitude]
           )
 

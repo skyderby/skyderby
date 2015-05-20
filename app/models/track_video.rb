@@ -2,7 +2,7 @@ class TrackVideo < ActiveRecord::Base
   belongs_to :track
 
   validates :url, presence: true
-  validates :video_code, presence: true 
+  validates :video_code, presence: true
 
   before_validation :parse_url
 
@@ -12,7 +12,6 @@ class TrackVideo < ActiveRecord::Base
   end
 
   def competition_params
-
   end
 
   private

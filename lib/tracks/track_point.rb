@@ -1,9 +1,9 @@
 class TrackPoint < Struct.new(
   :gps_time,
   :fl_time_abs,      # Seconds from start track
-  :fl_time,          # Seconds from previous point   
-  :latitude, 
-  :longitude, 
+  :fl_time,          # Seconds from previous point
+  :latitude,
+  :longitude,
   :elevation,        # Altitude relative to the ground
   :elevation_diff,   # Altitude difference from previous point
   :abs_altitude,     # Absolute altitude

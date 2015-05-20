@@ -8,7 +8,7 @@ module Skyderby
       attr_reader :points, :ff_start, :ff_end
 
       def initialize(track = nil)
-        raise ArgumentError.new('Track must be present') if track.nil?
+        fail ArgumentError.new('Track must be present') if track.nil?
 
         @points = []
         @ff_start = 0
@@ -30,10 +30,10 @@ module Skyderby
         track_points = @points.clone
 
         if start_time
-           track_points = track_points.drop_while{ |x| x[:fl_time_abs] < start_time}
+          track_points = track_points.drop_while { |x| x[:fl_time_abs] < start_time }
         end
         if end_time && end_time > 0 && (start_time.blank? || end_time > start_time)
-          track_points = track_points.reverse.drop_while{ |x| x[:fl_time_abs] > end_time}.reverse
+          track_points = track_points.reverse.drop_while { |x| x[:fl_time_abs] > end_time }.reverse
         end
 
         track_points
@@ -47,8 +47,8 @@ module Skyderby
         trimmed.each do |curr|
           current_point = curr.clone
 
-          start_found ||= current_point[:elevation] <= range_from; 
-          end_found ||= current_point[:elevation] < range_to;
+          start_found ||= current_point[:elevation] <= range_from
+          end_found ||= current_point[:elevation] < range_to
 
           if start_found && !end_found
             if track_points.empty?
@@ -81,7 +81,7 @@ module Skyderby
               current_point[:latitude] = prev_point[:latitude] + (current_point[:latitude] - prev_point[:latitude]) * k
               current_point[:longitude] = prev_point[:longitude] + (current_point[:longitude] - prev_point[:longitude]) * k
               current_point[:elevation] = range_to
-              
+
               track_points << current_point
 
             end
@@ -112,9 +112,9 @@ module Skyderby
 
         unless track.flysight?
           process_by_distances(@points)
-        # @points = MedianFilter.process(@points,
-                                       # 5,
-                                       # [:h_speed, :v_speed])
+          # @points = MedianFilter.process(@points,
+          # 5,
+          # [:h_speed, :v_speed])
 
           @points = MovingAverage.process(@points, 5, [:h_speed, :v_speed])
         end
@@ -124,7 +124,7 @@ module Skyderby
 
       def read_points(track)
         points = Point.joins(:tracksegment)
-                      .where('tracksegments.track_id' => track.id).to_a
+                 .where('tracksegments.track_id' => track.id).to_a
 
         prev_point = nil
         fl_time = 0
@@ -139,20 +139,18 @@ module Skyderby
             raw_h = Velocity.to_kmh(point.distance / fl_time_diff)
             raw_v = Velocity.to_kmh(elevation_diff) / fl_time_diff
 
-            @points << TrackPoint.new({ 
-              fl_time: fl_time_diff,
-              fl_time_abs: fl_time,
-              elevation_diff: elevation_diff,
-              elevation: point.elevation.round(2),
-              abs_altitude: point.abs_altitude,
-              latitude: point.latitude,
-              longitude: point.longitude,
-              distance: point.distance,
-              h_speed: (point.h_speed || 0.0),
-              v_speed: (point.v_speed || 0.0),
-              raw_h_speed: raw_h,
-              raw_v_speed: raw_v 
-            })
+            @points << TrackPoint.new(fl_time: fl_time_diff,
+                                      fl_time_abs: fl_time,
+                                      elevation_diff: elevation_diff,
+                                      elevation: point.elevation.round(2),
+                                      abs_altitude: point.abs_altitude,
+                                      latitude: point.latitude,
+                                      longitude: point.longitude,
+                                      distance: point.distance,
+                                      h_speed: (point.h_speed || 0.0),
+                                      v_speed: (point.v_speed || 0.0),
+                                      raw_h_speed: raw_h,
+                                      raw_v_speed: raw_v)
 
           end
           prev_point = point
@@ -177,7 +175,7 @@ module Skyderby
         end
       end
 
-      def calc_gr points
+      def calc_gr(points)
         points.each do |p|
           p[:raw_gr] = p[:raw_v_speed] == 0 ? 0 : (p[:raw_h_speed] / p[:raw_v_speed]).round(2)
           p[:glrat] = (p[:h_speed].to_f / p[:v_speed]).round(2)

@@ -12,7 +12,7 @@ class Wingsuit < ActiveRecord::Base
   class << self
     def search(query)
       joins(:manufacturer).where(
-        'LOWER(wingsuits.name) LIKE :query OR LOWER(manufacturers.name) LIKE :query', 
+        'LOWER(wingsuits.name) LIKE :query OR LOWER(manufacturers.name) LIKE :query',
         query: "%#{query.downcase}%"
       )
     end

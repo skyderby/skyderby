@@ -1,6 +1,6 @@
 module Skyderby
   module Tracks
-    class JumpRange 
+    class JumpRange
       attr_accessor :start_point, :end_point
 
       def initialize(start_pnt, end_pnt)

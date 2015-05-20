@@ -10,15 +10,15 @@ module Skyderby
     private
 
     def online_competitions_info
-      {skydive: VirtualCompetition.skydive.size, base: VirtualCompetition.base.size}
+      { skydive: VirtualCompetition.skydive.size, base: VirtualCompetition.base.size }
     end
 
     def official_competitions_info
-      {skydive: Event.officials.size, base: 0}
+      { skydive: Event.officials.size, base: 0 }
     end
 
     def warm_ups_competitions_info
-      {skydive: Event.warm_ups.size, base: 0}
+      { skydive: Event.warm_ups.size, base: 0 }
     end
   end
 end

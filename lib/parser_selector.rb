@@ -8,15 +8,13 @@ require 'parsers/fly_sight_parser'
 require 'parsers/columbus_parser'
 
 module ParserSelector
-
   HEADERS = {
-      :flysight => %w(time lat lon hMSL velN velE velD hAcc vAcc sAcc gpsFix numSV),
-      :flysight2 => %w(time lat lon hMSL velN velE velD hAcc vAcc sAcc heading cAcc gpsFix numSV),
-      :columbusV900 => %w(INDEX TAG DATE TIME LATITUDE\ N/S LONGITUDE\ E/W HEIGHT SPEED HEADING VOX)
-    }.freeze
+    flysight: %w(time lat lon hMSL velN velE velD hAcc vAcc sAcc gpsFix numSV),
+    flysight2: %w(time lat lon hMSL velN velE velD hAcc vAcc sAcc heading cAcc gpsFix numSV),
+    columbusV900: %w(INDEX TAG DATE TIME LATITUDE\ N/S LONGITUDE\ E/W HEIGHT SPEED HEADING VOX)
+  }.freeze
 
   def self.choose(data, extension)
-
     case extension
       when '.csv'
 
@@ -36,18 +34,15 @@ module ParserSelector
       else
         nil
     end
-
   end
 
   def self.csv_file_format(rows)
-
     format = nil
 
     CSV.parse(rows) do |row|
-      format = HEADERS.select { |_,value| value == row }.keys[0]
+      format = HEADERS.select { |_, value| value == row }.keys[0]
       break if format.present?
     end
     format
   end
-
 end

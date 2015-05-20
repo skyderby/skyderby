@@ -1,8 +1,7 @@
 require 'csv'
 
 class CSVParser < TrackParser
-
-  def parse(index = 0)
+  def parse(_index = 0)
     track_points = []
     CSV.parse(track_data) do |row|
       track_points << parse_row(row)
@@ -12,7 +11,6 @@ class CSVParser < TrackParser
 
   protected
 
-  def parse_row(row)
+  def parse_row(_row)
   end
-
 end

@@ -3,7 +3,7 @@ class Ability
 
   def initialize(user)
     # guest user (not logged in)
-    user ||= User.new 
+    user ||= User.new
 
     can :read, Track, visibility: %w(public_track unlisted_track)
     can :create, Track
@@ -16,7 +16,7 @@ class Ability
     can :read, EventTrack
 
     can :read, Wingsuit
-    can :read, Place    
+    can :read, Place
 
     can :read, UserProfile
     can :read, Badge
@@ -43,7 +43,7 @@ class Ability
 
       can [:read, :update], Event do |event|
         if event.responsible == user.user_profile ||
-          event.event_organizers.any? { |x| x.user_profile == user.user_profile }
+           event.event_organizers.any? { |x| x.user_profile == user.user_profile }
           can :manage, Section
           can :manage, Competitor
           can :manage, Round
@@ -53,10 +53,10 @@ class Ability
           true
         end
       end
-      
+
       # allow admins to do anything
       if user.has_role? :admin
-        can :manage, :all               
+        can :manage, :all
       end
     end
   end

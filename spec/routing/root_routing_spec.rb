@@ -23,5 +23,3 @@ describe 'Root', 'routing', type: :routing do
     expect(get('/')).to route_to('static_pages#index')
   end
 end
-
-

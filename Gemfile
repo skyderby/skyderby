@@ -37,7 +37,7 @@ gem 'slack-notifier'
 gem 'redcarpet'
 
 # Internalization
-gem "i18n-js", ">= 3.0.0.rc8"
+gem 'i18n-js', '>= 3.0.0.rc8'
 gem 'http_accept_language'
 
 gem 'jquery-rails'
@@ -60,7 +60,6 @@ gem 'font-awesome-rails'
 gem 'bootstrap-datepicker-rails'
 
 gem 'gmaps4rails'
-
 
 group :development, :test do
   gem 'rspec'
@@ -95,7 +94,6 @@ group :test do
   gem 'database_cleaner'
   gem 'cucumber-rails', require: false
 end
-
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
