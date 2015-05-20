@@ -22,6 +22,11 @@ module Skyderby
 
         @points.each_cons(2) do |prev, curr|
           curr.fl_time = curr.gps_time - prev.gps_time
+          curr.elevation_diff = (prev.elevation - curr.elevation).round(2)
+          curr.distance = Geospatial.distance(
+            [prev.latitude, prev.longitude],
+            [curr.latitude, curr.longitude]
+          )
         end
       end
 
