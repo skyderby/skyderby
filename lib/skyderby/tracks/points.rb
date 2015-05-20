@@ -17,6 +17,14 @@ module Skyderby
         read(track)
       end
 
+      def reduce_freq!
+        @points.uniq!{ |x| x.gps_time.round }
+
+        @points.each_cons(2) do |prev, curr|
+          curr.fl_time = curr.gps_time - prev.gps_time
+        end
+      end
+
       def trimmed(hsh = {})
         start_time = nil
         end_time = nil
@@ -139,7 +147,8 @@ module Skyderby
             raw_h = Velocity.to_kmh(point.distance / fl_time_diff)
             raw_v = Velocity.to_kmh(elevation_diff) / fl_time_diff
 
-            @points << TrackPoint.new(fl_time: fl_time_diff,
+            @points << TrackPoint.new(gps_time: point.gps_time,
+                                      fl_time: fl_time_diff,
                                       fl_time_abs: fl_time,
                                       elevation_diff: elevation_diff,
                                       elevation: point.elevation.round(2),

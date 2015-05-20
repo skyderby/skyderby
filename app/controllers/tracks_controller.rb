@@ -1,10 +1,4 @@
 # encoding: utf-8
-require 'tracks/views/track_earth_data.rb'
-require 'tracks/views/track_maps_data.rb'
-require 'tracks/views/track_replay_data.rb'
-require 'tracks/views/track_edit_data.rb'
-require 'tracks/views/track_charts_data.rb'
-
 class TracksController < ApplicationController
   before_action :set_track, only:
     [:show, :google_maps, :google_earth, :replay, :edit, :update, :destroy]
@@ -47,27 +41,27 @@ class TracksController < ApplicationController
     authorize! :read, @track
     LastViewedUpdateWorker.perform_async(@track.id)
 
-    @track_data = TrackChartsData.new(@track, params[:f], params[:t])
+    @track_data = Skyderby::Tracks::ChartsData.new(@track, params[:f], params[:t])
   end
 
   def google_maps
     authorize! :read, @track
 
-    @track_data = TrackMapsData.new(@track)
+    @track_data = Skyderby::Tracks::MapsData.new(@track)
   end
 
   def google_earth
     authorize! :read, @track
     redirect_to @track unless @track.ge_enabled
 
-    @track_data = TrackEarthData.new(@track)
+    @track_data = Skyderby::Tracks::EarthData.new(@track)
   end
 
   def replay
     authorize! :read, @track
     redirect_to @track unless @track.video
 
-    @track_data = TrackReplayData.new(@track)
+    @track_data = Skyderby::Tracks::ReplayData.new(@track)
   end
 
   def new
@@ -93,7 +87,7 @@ class TracksController < ApplicationController
 
   def edit
     redirect_to @track unless can? :update, @track
-    @track_data = TrackEditData.new(@track)
+    @track_data = Skyderby::Tracks::EditData.new(@track)
   end
 
   def create
