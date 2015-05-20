@@ -32,13 +32,4 @@ FactoryGirl.define do
     latitude '62.5203062'
     longitude '7.5773933'
   end
-
-  factory :manufacturer do
-    name 'Phoenix Fly'
-  end
-
-  factory :wingsuit do
-    name 'Ghost 3'
-    manufacturer
-  end
 end

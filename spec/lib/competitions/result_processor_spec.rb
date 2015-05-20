@@ -1,28 +1,44 @@
 require 'spec_helper'
 require 'competitions/results_processor'
 
-describe 'Results processing:', type: :feature do
-  before :all do
-    visit root_path(locale: 'ru')
-    click_link 'Загрузить трек'
+describe 'Results processing:' do
+  let (:range) { {range_from: 3000, range_to: 2000} }
+    
+  context 'Flysight sample track from Michael Cooper' do
+    subject :michaels_track do
+      track = Track.create!(
+        file: File.new("#{Rails.root}/spec/support/tracks/flysight.csv"),
+        pilot: create(:pilot),
+        wingsuit: create(:wingsuit)
+      )
+      points = Skyderby::Tracks::Points.new(track)
+    end
 
-    @track_file = "#{Rails.root}/spec/support/tracks/flysight.csv"
-    expect { upload @track_file }.to change(Track, :count).by(1)
+    it 'calculates correct result in Time discipline' do
+      expect(ResultsProcessor.process(michaels_track, :time, range)).to eql(32.3)
+    end
 
-    @track = Track.last
-    @track_points = Skyderby::Tracks::Points.new(@track)
-    @params = { range_from: 3000, range_to: 2000 }
+    it 'calculates correct result in Distance discipline' do
+      expect(ResultsProcessor.process(michaels_track, :distance, range)).to eql(1474)
+    end
+
+    it 'calculates correct result in Speed discipline' do
+      expect(ResultsProcessor.process(michaels_track, :speed, range)).to eql(164.3)
+    end
   end
 
-  it 'Time' do
-    expect(ResultsProcessor.process(@track_points, :time, @params)).to eql(32.3)
-  end
+  context 'Distance (2014 - Csaba - Round 1)' do
+    subject :csabas_track do
+      track = Track.create!(
+        file: File.new("#{Rails.root}/spec/support/tracks/2014-Csaba-Round-1.CSV"),
+        pilot: create(:pilot),
+        wingsuit: create(:wingsuit)
+      )
+      points = Skyderby::Tracks::Points.new(track)
+    end
 
-  it 'Distance' do
-    expect(ResultsProcessor.process(@track_points, :distance, @params)).to eql(1474)
-  end
-
-  it 'Speed' do
-    expect(ResultsProcessor.process(@track_points, :speed, @params)).to eql(164.3)
+    it 'calculates correct result Distance discipline' do
+      expect(ResultsProcessor.process(csabas_track, :distance, range)).to eql(2110)
+    end
   end
 end
