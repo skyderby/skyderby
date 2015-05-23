@@ -30,7 +30,10 @@ class UserProfilesController < ApplicationController
 
   def update
     if @profile.update profile_params
-      @profile
+      respond_to do |format|
+        format.html { redirect_to @profile }
+        format.json { @profile }
+      end
     else
       respond_to do |format|
         format.html { redirect_to edit_user_profile_path(@profile) }
