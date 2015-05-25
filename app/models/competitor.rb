@@ -16,7 +16,7 @@ class Competitor < ActiveRecord::Base
   private
 
   def validate_profile
-    errors.add(:user_profile, :blank) if profile_id.blank? || profile_name.blank?
+    errors.add(:user_profile, :blank) if profile_id.blank? && profile_name.blank?
   end
 
   def set_profile

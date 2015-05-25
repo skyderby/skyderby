@@ -20,3 +20,8 @@ ru:
       organizers_placeholder: 'Добавьте организатора из списка'
       place_placeholder: 'Выберите место из списка'
       judges: 'Судьи'
+      track: 'Трек'
+      track_upoaded: 'Загрузил'
+      delete_result: 'Удалить результат'
+      result_select: 'Выберите существующий трек'
+      result_or: 'Или'
