@@ -111,6 +111,10 @@ td:hover .delete-round
   width: 20px;
 }
 
+.form-label {
+  padding-top: 7px;	
+}
+
 [data-role="points"],
 [data-role="competitor-suit"] {
   color: rgb(153, 153, 153);

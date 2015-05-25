@@ -47,5 +47,5 @@ AjaxErrorMessageObj.prototype = {
 }
 
 $(document).on('ready page:load', function() {
-    window.AjaxErrorMessage = window.AjaxErrorMessage || new AjaxErrorMessageObj;
+    window.AjaxErrorMessage = new AjaxErrorMessageObj;
 });
