@@ -35,6 +35,7 @@ Skyderby::Application.routes.draw do
       resources :rounds
       resources :competitors
       resources :event_tracks
+      resources :event_organizers
     end
 
     devise_for :users
