@@ -245,6 +245,7 @@ Event.Scoreboard.prototype = {
         this.$discipline_row.append(
             $('<td>')
                 .text(I18n.t('disciplines.' + key))
+                .addClass('text-center')
                 .attr('colspan', col_count)
                 .attr('data-discipline', key)
         );
@@ -557,7 +558,8 @@ Event.Scoreboard.prototype = {
             // discipline
             total_points_cell.before(
                 $('<td>')
-                    .text(capitaliseFirstLetter(discipline))
+                    .text(I18n.t('disciplines.' + discipline))
+                    .addClass('text-center')
                     .attr('data-discipline', discipline)
                     .attr('colspan', 3)   
             );
@@ -604,21 +606,27 @@ Event.Scoreboard.prototype = {
         }
         units_selector += ':last';
 
-        $(units_selector).after(
+        var percent_cell = 
             $('<td>')
                 .text('%')
                 .addClass('text-center')
                 .attr('data-discipline', discipline)
                 .attr('data-role', 'points')
                 .attr('data-round-id', round.id)
-        ).after(
+
+        var unit_cell =
             $('<td>')
                 .text(window.Competition.units[discipline])
                 .addClass('text-center')
                 .attr('data-discipline', discipline)
                 .attr('data-role', 'unit')
                 .attr('data-round-id', round.id)
-        );
+
+        if ($(units_selector).length) {
+            $(units_selector).after(percent_cell).after(unit_cell);
+        } else {
+            this.$units_row.append(unit_cell).append(percent_cell);
+        }
 
         var result_cell = this.result_cell({
             id: round.id,
