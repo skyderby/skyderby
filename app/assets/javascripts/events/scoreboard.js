@@ -370,7 +370,6 @@ Event.Scoreboard.prototype = {
     calculate_points: function() {
         _.each(window.Competition.competitors, function(competitor) {
             _.each(window.Competition.rounds, function(round) {
-                var max_val = window.Competition.max_results['round_' + round.id][0].result;
                 var result_cell = $('#competitor_' + competitor.id + '>' +
                                   'td[data-round-id=' + round.id + ']' +
                                   '[data-role=result]');
@@ -378,6 +377,10 @@ Event.Scoreboard.prototype = {
                                   'td[data-round-id=' + round.id + ']' +
                                   '[data-role=points]');
                 var result = +result_cell.text();
+
+                var max_result_for_round = window.Competition.max_results['round_' + round.id];
+                var max_val = max_result_for_round ? max_result_for_round[0].result : result;
+
                 if (result) {
                     var points = Math.round(result / max_val * 1000) / 10;
                     points_cell.text(points.toFixed(1)); 
@@ -685,6 +688,11 @@ Event.Scoreboard.prototype = {
         });
     },
 
+    after_rounds_changed: function() {
+        // Пересчитать итоги по дисциплинам
+        this.calculate_totals();
+    },
+
     create_result: function(result) {
         var result_cell = $('#competitor_' + result.competitor_id + ' > ' +
                             'td[data-round-id=' + result.round_id + ']' + 
@@ -706,6 +714,7 @@ Event.Scoreboard.prototype = {
         this.calculate_points();
         this.calculate_totals();
         this.sort_by_points();
+        this.set_row_numbers();
     },
 
     delete_result: function(result) {
@@ -727,5 +736,6 @@ Event.Scoreboard.prototype = {
         this.calculate_points();
         this.calculate_totals();
         this.sort_by_points();
+        this.set_row_numbers();
     }
 }

@@ -397,6 +397,7 @@ Event.Competition.prototype = {
     on_round_create: function(round) {
         this.rounds.push(round);
         this.scoreboard.create_round(round);
+        this.scoreboard.after_rounds_changed();
     },
 
     on_round_delete: function(round) {
@@ -404,6 +405,7 @@ Event.Competition.prototype = {
 
         var round_index = $.inArray(round, this.rounds);
         this.rounds.splice(round_index, 1);
+        this.scoreboard.after_rounds_changed();
     },
 
     result_by_id: function(result_id) {
