@@ -1,0 +1,35 @@
+.modal.fade#new-event-modal{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
+  .modal-dialog
+    .modal-content
+      = form_for @event, html: {class: 'form-horizontal', role: 'form', id: 'new_event_form'} do |f|
+
+        .modal-header
+          %button.close{type: 'button', data: {dismiss: 'modal'}}
+            %span{aria: {hidden: 'true'}}
+              &times;
+            %span.sr-only
+              Close
+          %h4.modal-title= t('activerecord.models.event') + ': ' + t('events.index.new')
+
+        .modal-body
+          .form-group
+            %span.col-sm-4.control-label= t('activerecord.attributes.event.name') + ':'
+            .col-sm-8
+              = f.text_field :name, class: 'form-control'
+
+          .form-group.row
+            %span.col-sm-4.control-label= t('events.show.comp_window')
+            .col-sm-3
+              = f.text_field :range_from, class: 'form-control', type: 'number', value: 3000
+            %span.col-sm-1.text-center= ' - '
+            .col-sm-3
+              = f.text_field :range_to, class: 'form-control', type: 'number', value: 2000
+
+          .form-group
+            %span.col-sm-4.control-label= t('activerecord.attributes.event.place')
+            .col-sm-8
+              %select.form-control#event-place{name: 'place_id'}
+
+        .modal-footer
+          = f.submit t('general.save'), class: 'btn btn-success'
+          %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

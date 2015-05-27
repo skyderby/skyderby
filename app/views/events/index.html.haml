@@ -1,7 +1,7 @@
 .container.top-buffer
 
   - if current_user
-    %a.btn.btn-default.btn-info{:href => new_event_path}
+    %a.btn.btn-default.btn-info{href: '#', data: {toggle: 'modal', target: '#new-event-modal'}}
       %i.fa.fa-plus
       = 'Competition'
   - else
@@ -43,3 +43,5 @@
       .comp-window
         = 'Competition window: '
         = "#{comp.range_from} - #{comp.range_to} #{t('units.m')}"
+
+= render 'new_event_modal'
