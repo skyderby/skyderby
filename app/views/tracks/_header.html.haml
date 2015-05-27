@@ -13,12 +13,13 @@
           %span= t('tracks.show.title_suit') + ':' 
           - if track.wingsuit
             - manufacturer = track.wingsuit.manufacturer
-            %span.text-warning{data: {toggle: 'tooltip'}, title: manufacturer.name}= manufacturer.code || ''
-            %span= ' ' + track.wingsuit.name
+            %a{href: wingsuit_path(track.wingsuit)}
+              %span.text-warning{data: {toggle: 'tooltip'}, title: manufacturer.name}= manufacturer.code || ''
+              %span= ' ' + track.wingsuit.name
           - else
             %span= track.suit
           - if track.place
-            %span= "@#{track.place.name}"
+            %a{href: place_path(track.place)}= "@#{track.place.name}"
           - else
             %span= "@#{track.location}"
 
