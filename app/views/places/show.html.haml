@@ -1,18 +1,21 @@
 .container
-  .page-header
-    .row
-      .col-sm-10
-        %h1
-          = 'Location: '
-          = @place.name
-          %small= @place.information
-        %div= "Lat: #{@place.latitude}, Lon: #{@place.longitude}, MSL: #{@place.msl}"
-      .col-sm-2
-        .pull-right
-          - if can? :update, @place
-            = link_to 'Edit', edit_place_path(@place), class: 'btn btn-default'
+  .row.top-buffer
+    .col-sm-12
+      .place-map-wrapper
+        .place-map
+          %img{src: "https://maps.googleapis.com/maps/api/staticmap?center=#{@place.latitude},#{@place.longitude}&zoom=12&size=600x90&scale=2&maptype=hybrid"}
+        .place-map-description
+          .place-map-background
+            %h1
+              = @place.name
+              %small= @place.information
+            %h4= "Lat: #{@place.latitude}, Lon: #{@place.longitude}, MSL: #{@place.msl}"
+      -# .col-sm-2
+      -#   .pull-right
+      -#     - if can? :update, @place
+      -#       = link_to 'Edit', edit_place_path(@place), class: 'btn btn-default'
 
-  %table.table.table-hover
+  %table.table.table-hover.top-buffer
     %thead
       %tr
         %th=t 'activerecord.attributes.track.id'
