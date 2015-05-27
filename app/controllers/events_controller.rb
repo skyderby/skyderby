@@ -7,11 +7,17 @@ class EventsController < ApplicationController
 
   def index
     @events = EventsFinder.new.execute(current_user)
+    @event = Event.new
   end
 
-  def new
-    @event = Event.create(responsible: current_user.user_profile)
-    redirect_to @event
+  def create
+    @event = Event.new event_params
+    @event.responsible = current_user.user_profile
+    if @event.save
+      redirect_to @event
+    else
+      redirect_to events_path
+    end
   end
 
   def update

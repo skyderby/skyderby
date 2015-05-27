@@ -875,13 +875,6 @@ function init_objects() {
         $.cookie('units', 'imperial', { expires: 365, path: '/'});
     });
 
-    $('#range-from, #range-to').keypress(function (e) {
-        //if the letter is not digit then display error and don't type anything
-        if (e.which !== 8 && e.which !== 0 && (e.which < 48 || e.which > 57)) {
-            return false;
-        }
-    });
-
     $('#range-edit-button').click(function (){
         var k = (Track.in_imperial ? mft_k : 1);
         $('#range-from').val(Math.round(Track.range_from * k));

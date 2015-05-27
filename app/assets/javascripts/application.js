@@ -107,15 +107,15 @@ function checkfile() {
 
 $(document).ready(function($) {
 
-    $(".track-file-input").on('change', checkfile);
-
-    $('.user-autocomplete').autocomplete({
-        serviceUrl: '/users/autocomplete',
-        onSelect: function (suggestion) {
-            var idfield = $(this).data('idfield');
-            $(idfield).val(suggestion.data);
+    $('input[type=number]').keypress(function (e) {
+        //if the letter is not digit then don't type anything
+        if (e.which !== 8 && e.which !== 0 && (e.which < 48 || e.which > 57)) {
+            return false;
         }
     });
+
+
+    $(".track-file-input").on('change', checkfile);
 
     $('.datepicker').datepicker({
         format: 'dd.mm.yyyy',
