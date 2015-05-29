@@ -61,6 +61,9 @@ Skyderby::Application.routes.draw do
 
   namespace :api, default: { format: :json } do
     namespace :v1 do
+      defaults format: :json do 
+        resources :virtual_competitions
+      end
     end
   end
 end
