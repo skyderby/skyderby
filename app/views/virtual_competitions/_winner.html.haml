@@ -1,11 +1,11 @@
-.col-sm-4.col-md-4
-  .well
-    .row
-      .col-sm-4.col-md-4
-        = image_tag(result.user_profile.userpic.url(:medium), 
-                    class: 'img-responsive img-rounded')
-      .col-sm-8.col-md-8
-        .vc-profile-name= result.user_profile.name.titleize
-        %div
-          %span.vc-result= format_result(result.result)
-          %span.vc-unit= competition_unit
+.well
+  .row
+    .col-sm-4.col-md-4
+      = image_tag(result.user_profile.userpic.url(:medium), 
+                  class: 'img-responsive img-rounded')
+    .col-sm-8.col-md-8
+      %a.vc-profile-name{href: user_profile_path(result.user_profile)}
+        = result.user_profile.name.titleize
+      %div
+        %span.vc-result= format_result(result.result, result.virtual_competition)
+        %span.vc-unit= competition_unit(result.virtual_competition)

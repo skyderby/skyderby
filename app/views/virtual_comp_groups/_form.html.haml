@@ -1,4 +1,4 @@
-= form_for @virtual_comp_group, :html => { :class => "form-horizontal virtual_comp_group" } do |f|
+= form_for @virtual_comp_group, html: {class: "form-horizontal virtual_comp_group"} do |f|
 
   - if @virtual_comp_group.errors.any?
     #error_expl.panel.panel-danger
@@ -12,12 +12,16 @@
           = msg
 
   .form-group
-    = f.label :name, :class => 'control-label col-sm-2'
+    = f.label :name, class: 'control-label col-sm-2'
     .col-sm-5
-      = f.text_field :name, :class => 'form-control'
+      = f.text_field :name, class: 'form-control'
     = error_span(@virtual_comp_group[:name])
 
+  .form-group
+    = f.label :display_on_start_page, class: 'control-label col-sm-2'
+    .col-sm-5
+      = f.check_box :display_on_start_page
   .col-sm-offset-2.col-sm-5
-    = f.submit nil, :class => 'btn btn-primary'
-    = link_to t('.cancel', :default => t("helpers.links.cancel")),
-                virtual_comp_groups_path, :class => 'btn btn-default'
+    = f.submit nil, class: 'btn btn-primary'
+    = link_to t('.cancel', default: t("helpers.links.cancel")),
+                virtual_comp_groups_path, class: 'btn btn-default'

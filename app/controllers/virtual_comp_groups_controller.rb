@@ -52,6 +52,6 @@ class VirtualCompGroupsController < ApplicationController
   end
 
   def virtual_comp_group_params
-    params.require(:virtual_comp_group).permit(:name)
+    params.require(:virtual_comp_group).permit(:name, :display_on_start_page)
   end
 end

@@ -29,6 +29,7 @@ class VirtualCompetition < ActiveRecord::Base
              class_name: 'VirtualCompGroup',
              foreign_key: 'virtual_comp_group_id'
 
+  has_one :best_result, -> { order('result DESC') }, class_name: 'VirtualCompResult'
   has_many :virtual_comp_results
 
   def reprocess_results

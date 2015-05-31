@@ -12,39 +12,78 @@
       .col-3.hidden-xs.col-sm-3
         %img.img-responsive{:src => asset_path('skyderby-logo.png')}
 
-
-.container.top-buffer
+.container-fluid
   .row
-    .col-sm-12
-      %h2= t('static_pages.index.how_it_works')
-  .row.how-it-works
-    .col-lg-4.col-md-4.col-sm-4
-      #first-step-hiw
-      .step-number-hiw= '1'
-      %p= t('static_pages.index.upload_a_file')
-    .col-lg-4.col-md-4.col-sm-4
-      #second-step-hiw
-      .step-number-hiw= '2'
-      %p= t('static_pages.index.select_free_fall_range')
-    .col-lg-4.col-md-4.col-sm-4
-      #third-step-hiw
-      .step-number-hiw= '3'
-      %p= t('static_pages.index.analyze')
+    .col-sm-12.text-center
+      %h1= t('.skyderby_is')
+  .row.start-page-row
+    .col-sm-4.text-center.gps-tracks-label.start-page-cell
+      %h2= t('.tracks_analysis')
+      %p= t('.tracks_analysis_desc')
+      %a.overlay-link{href: tracks_path}
+      %a.btn.btn-browse= t('.tracks_list')
+    .col-sm-4.text-center.online-competitions-label.start-page-cell
+      %h2= t('.online_competitions')
+      %p= t('.online_comp_desc')
+      %a.overlay-link{href: virtual_competitions_path}
+      %a.btn.btn-browse= t('.online_comp_list')
+    .col-sm-4.text-center.competitions-label.start-page-cell
+      %h2= t('.events')
+      %p= t('.events_desc')
+      %a.overlay-link{href: events_path}
+      %a.btn.btn-browse= t('.events_list')
 
-%hr
+- if @competitions.size
+  .container-fluid
+    .row
+      .col-sm-12.text-center
+        %h1= t('.online_comps_leaders')
+    - @competitions.each do |group, competitions|
+      %hr
+      .row
+        .col-sm-12.text-center
+          %h2= group
+      .row.start-page-row
+        - competitions.each do |competition|
+          .col-sm-4.start-page-cell
+            .col-sm-12.text-center
+              %h3
+                %a{href: virtual_competition_path(competition)}=competition.name
+            .col-sm-12
+              = render 'virtual_competitions/winner', result: competition.best_result
 
-.container.top-buffer
-  .row
-    .col-sm-12
-      %h2= t('static_pages.index.supported_formats')
-  .row.supported-formats
-    .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
-      #gpx-sf
-    .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
-      #fs-sf
-    .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
-      #garmin-sf
-    .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
-      #wintec-sf
-    .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
-      #columbus-sf
+-# .container.top-buffer
+-#   .row
+-#     .col-sm-12
+-#       %h2= t('static_pages.index.how_it_works')
+-#   .row.how-it-works
+-#     .col-lg-4.col-md-4.col-sm-4
+-#       #first-step-hiw
+-#       .step-number-hiw= '1'
+-#       %p= t('static_pages.index.upload_a_file')
+-#     .col-lg-4.col-md-4.col-sm-4
+-#       #second-step-hiw
+-#       .step-number-hiw= '2'
+-#       %p= t('static_pages.index.select_free_fall_range')
+-#     .col-lg-4.col-md-4.col-sm-4
+-#       #third-step-hiw
+-#       .step-number-hiw= '3'
+-#       %p= t('static_pages.index.analyze')
+-#
+-# %hr
+-#
+-# .container.top-buffer
+-#   .row
+-#     .col-sm-12
+-#       %h2= t('static_pages.index.supported_formats')
+-#   .row.supported-formats
+-#     .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
+-#       #gpx-sf
+-#     .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
+-#       #fs-sf
+-#     .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
+-#       #garmin-sf
+-#     .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
+-#       #wintec-sf
+-#     .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
+-#       #columbus-sf
