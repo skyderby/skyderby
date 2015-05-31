@@ -17,9 +17,12 @@
   - results = @competition.virtual_comp_results.order('result DESC').group_by{ |x| x.user_profile_id }.map{ |_, results| results.first }
   - if results.count > 2
     .top-buffer
-      = render 'winner', result: results.first
-      = render 'winner', result: results.second
-      = render 'winner', result: results.third
+      .col-sm-4.col-md-4
+        = render 'winner', result: results.first
+      .col-sm-4.col-md-4
+        = render 'winner', result: results.second
+      .col-sm-4.col-md-4
+        = render 'winner', result: results.third
     .top-buffer
   %table.table.table-hover.table-striped
     %thead
@@ -44,7 +47,7 @@
             - manufacturer = result.track.wingsuit.manufacturer
             %span.text-warning{data: {toggle: 'tooltip'}, title: manufacturer.name}= manufacturer.code || ''
             %span= ' ' + result.track.wingsuit.name
-          %td.text-info.text-right= format_result(result.result)
+          %td.text-info.text-right= format_result(result.result, @competition)
           - if @competition.display_highest_speed
             %td.text-info.text-right= (result.highest_speed || 0.0).round(1)
           - if @competition.display_highest_gr

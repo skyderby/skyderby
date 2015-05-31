@@ -3,6 +3,17 @@ en:
     index:
       title: "Fly! Compete! Win!"
       subtitle: "It's still Beta"
+      skyderby_is: 'Skyderby - is...'
+      tracks_analysis: 'GPS tracks analysis'
+      tracks_analysis_desc: 'GPS tracks of skydive and b.a.s.e. flights in wingsuit and tracksuit.'
+      tracks_list: 'Browse all tracks'
+      online_competitions: 'Online competitions'
+      online_comp_desc: 'Participate online competitions in Distance, Speed, Time and Distance in time disciplines.'
+      online_comp_list: 'Browse online competitions'
+      events: 'Competitions'
+      events_desc: 'Participate competitions or create your own with full FAI rules support or with your own rules.'
+      events_list: 'Browse competitions'
+      online_comps_leaders: 'Online competitions leaders'
       track_form:
         title: 'See and analyze your track:'
         name: 'Your name is:'
@@ -26,28 +37,6 @@ en:
           file_size_w1_html: "'File size : '"
           file_size_w2_html: "'Max file size is 1 Mb'"
         kind: "Kind of jump:"
-      or: 'Or'
-      events:
-        title: 'Compete:'
-        coming: 'Coming soon'
-        create: 'Create event'
-        future: 'Future events:'
-        betatestersonly: 'Create new event allowed only for beta testing participants.'
-        table:
-          event: 'Event'
-          starts: 'Starts'
-          ends: 'Ends'
-        form:
-          title: 'New event'
-          name: 'Name:'
-          place: 'Place:'
-          start_at: 'Period:'
-          reg_start_at: 'Registration:'
-          reg_end_at: ' - '
-          end_at: ' - '
-          range_from: 'Competition range:'
-          range_to: ' - '
-        completed: "Completed events:"
       desc: "GPS Tracks analyzer and GPS perfomance competition front-end"
       goto_event: "Go to event >>"
       supported_formats: "Supported file formats and GPS loggers:"

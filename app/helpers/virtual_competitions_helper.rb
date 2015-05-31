@@ -7,12 +7,12 @@ module VirtualCompetitionsHelper
     end
   end
 
-  def competition_unit
-    if @competition.distance? || @competition.distance_in_time?
+  def competition_unit(competition)
+    if competition.distance? || competition.distance_in_time?
       t('units.m')
-    elsif @competition.time?
+    elsif competition.time?
       t('units.t_unit')
-    elsif @competition.speed?
+    elsif competition.speed?
       t('units.kmh')
     end
   end
@@ -54,8 +54,8 @@ module VirtualCompetitionsHelper
     end
   end
 
-  def format_result(result)
-    if @competition.distance? || @competition.distance_in_time?
+  def format_result(result, competition)
+    if competition.distance? || competition.distance_in_time?
       result.round
     else
       result.round(1)

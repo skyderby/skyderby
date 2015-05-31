@@ -2,8 +2,7 @@ class VirtualCompetitionsController < ApplicationController
   before_action :set_competition, only: [:show, :edit, :update]
 
   def index
-    @competitions = VirtualCompetition
-                    .all.group_by { |x| x.group.name }
+    @competitions = VirtualCompetition.includes(:group).group_by { |x| x.group.name }
   end
 
   def show
