@@ -132,28 +132,6 @@ de:
           file_size_w1_html: "'Dateigröße : '"
           file_size_w2_html: "'Die Dateigröße darf nicht größer sein als 1 MB'"
         kind: "Art des Sprunges:"
-      or: 'oder'
-      events:
-        title: 'Am Wettbewerb teilnehmen:'
-        coming: 'kommt bald'
-        create: 'Veranstaltung erstellen'
-        future: 'Zukünftige Veranstaltungen:'
-        betatestersonly: ' Die Möglichkeit der Veranstaltungerstellung ist im Moment nur für die Teilnehmer des Programms freigegeben.'
-        table:
-          event: 'Veranstaltung'
-          starts: 'Datum des Beginns'
-          ends: 'Datum des Endes'
-        form:
-          title: 'Neue Veranstaltung'
-          name: 'Name:'
-          place: 'Ort:'
-          start_at: 'Zeitraum:'
-          end_at: ' - '
-          range_from: 'Wettkampfbereich:'
-          range_to: ' - '
-          reg_start_at: "Anmeldung:"
-          reg_end_at: "-"
-        completed: "Vergangene Veranstaltungen:"
       desc: "Die Analyse der GPS Tracks und die Durchführung der Wettkämpfe im Format GPS Performance."
       goto_event: "Auf die Seite Ereignisse >>"
       supported_formats: "Unterstützte Dateiformate und Geräte:"

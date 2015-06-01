@@ -132,28 +132,6 @@ es:
           file_size_w1_html: "'La dimensión del archivo: '"
           file_size_w2_html: "'El  tamaño  del archivo no debe superar 1Mb'"
         kind: "El tipo de salto:"
-      or: 'O'
-      events:
-        title: 'Competirse:'
-        coming: 'Será pronto'
-        create: 'Crear un evento'
-        future: 'Eventos próximos:'
-        betatestersonly: 'La creación de los eventos ahora es accesible sólo para los participantes del programa del test.'
-        table:
-          event: 'Evento'
-          starts: 'La fecha del comienzo'
-          ends: 'La fecha del fin'
-        form:
-          title: 'Un evento nuevo'
-          name: 'Nombre:'
-          place: 'Localización:'
-          start_at: 'El periódo empieza:'
-          reg_start_at: 'El registro empieza:'
-          reg_end_at: ' - '
-          end_at: ' - '
-          range_from: 'Periódo de la competición:'
-          range_to: ' - '
-        completed: "Los eventos pasados:"
       desc: "El análisis de GPS-pistas y la organización de las competiciones en el formato GPS Performance."
       goto_event: "A la pagina web del evento >>"
       supported_formats: "Supported file formats and GPS loggers:"
