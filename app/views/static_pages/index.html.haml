@@ -14,7 +14,7 @@
 
 .container-fluid
   .row
-    .col-sm-12.text-center
+    .col-sm-12.text-center.text-darkgray
       %h1= t('.skyderby_is')
   .row.start-page-row
     .col-sm-4.text-center.gps-tracks-label.start-page-cell
@@ -36,12 +36,12 @@
 - if @competitions.size
   .container-fluid
     .row
-      .col-sm-12.text-center
+      .col-sm-12.text-center.text-darkgray
         %h1= t('.online_comps_leaders')
     - @competitions.each do |group, competitions|
       %hr
       .row
-        .col-sm-12.text-center
+        .col-sm-12.text-center.text-darkgray
           %h2= group
       .row.start-page-row
         - competitions.each do |competition|
