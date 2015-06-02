@@ -36,12 +36,12 @@
 - if @competitions.size
   .container-fluid
     .row
-      .col-sm-12.text-center.text-darkgray
+      .col-sm-12.text-center
         %h1.light-header= t('.online_comps_leaders')
     - @competitions.each do |group, competitions|
       %hr
       .row
-        .col-sm-12.text-center.text-darkgray
+        .col-sm-12.text-center
           %h2.light-header= group
       .row.start-page-row
         - competitions.each do |competition|
