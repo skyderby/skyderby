@@ -14,8 +14,8 @@
 
 .container-fluid
   .row
-    .col-sm-12.text-center.text-darkgray
-      %h1= t('.skyderby_is')
+    .col-sm-12.text-center
+      %h1.light-header= t('.skyderby_is')
   .row.start-page-row
     .col-sm-4.text-center.gps-tracks-label.start-page-cell
       %h2= t('.tracks_analysis')
@@ -37,20 +37,31 @@
   .container-fluid
     .row
       .col-sm-12.text-center.text-darkgray
-        %h1= t('.online_comps_leaders')
+        %h1.light-header= t('.online_comps_leaders')
     - @competitions.each do |group, competitions|
       %hr
       .row
         .col-sm-12.text-center.text-darkgray
-          %h2= group
+          %h2.light-header= group
       .row.start-page-row
         - competitions.each do |competition|
+          -result = competition.best_result
           .col-sm-4.start-page-cell
-            .col-sm-12.text-center
-              %h3
-                %a{href: virtual_competition_path(competition)}=competition.name
             .col-sm-12
-              = render 'virtual_competitions/winner', result: competition.best_result
+              .panel.panel-default.panel-winner
+                .panel-heading
+                  %a{href: virtual_competition_path(competition)}=competition.name
+                .panel-body
+                  .row
+                    .col-sm-4
+                      = image_tag(result.user_profile.userpic.url(:medium), 
+                                  class: 'img-responsive img-rounded')
+                    .col-sm-8
+                      %a.vc-profile-name{href: user_profile_path(result.user_profile)}
+                        = result.user_profile.name.titleize
+                      %div
+                        %span.vc-result= format_result(result.result, result.virtual_competition)
+                        %span.vc-unit= competition_unit(result.virtual_competition)
 
 -# .container.top-buffer
 -#   .row
