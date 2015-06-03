@@ -19,12 +19,12 @@ json.results results_by_pilot do |json, results|
   end
 
   json.best_result do |json|
-    json.extract! results[:best_result], :result, :created_at, :highest_gr, :highest_speed
+    json.extract! results[:best_result], :id, :result, :created_at, :highest_gr, :highest_speed, :track_id
     json.track_url track_url(results[:best_result].track_id)
   end
 
   json.all_results results[:all_results] do |json, result|
-    json.extract! result, :result, :created_at, :highest_gr, :highest_speed
+    json.extract! result, :id, :result, :created_at, :highest_gr, :highest_speed, :track_id
     json.track_url track_url(result.track_id)
   end
 end
