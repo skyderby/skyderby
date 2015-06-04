@@ -15,16 +15,13 @@ Event.EventTrack = function(params) {
     this.$progress_progress_bar = $('#progress-modal .progress-bar')
     this.$progress_process_tab = $('#progress-modal .process-tab');
     
-    this.$modal_form = $('#result-form-modal');
-    this.$form = $('#result-form');
-    this.$form_title = $('#result-form-modal-title');
-    this.$form_competitor = $('#rm-competitor-name');
-    this.$form_round = $('#rm-round-name');
-    this.$form_track_label = $('#rm-track-label');
-    this.$form_track_link = $('#rm-track-link');
+    this.$new_modal = {
+        dialog: $('#new-result-modal'),
+        form: $('#result-form'),
+        title: $('#result-form-modal-title'),
+    };
+
     this.$form_new_track_wrap = $('#rm-new-track');
-    this.$form_track_uploaded_group = $('#group-track-uploaded');
-    this.$form_track_uploaded = $('#rm-track-uploaded');
 
     this.$form_toggle_track = $('.toggle-track');
     this.$form_toggle_track_caption = $('.toggle-track-caption');
@@ -36,7 +33,6 @@ Event.EventTrack = function(params) {
     this.$form_result_track = $('#result-track');
 
     this.$form_save = $('#rm-save');
-    this.$form_delete_result = $('#rm-delete');
 
     $.extend(this, params);    
 
@@ -46,45 +42,16 @@ Event.EventTrack = function(params) {
 Event.EventTrack.prototype = {
     open_form: function() {
         if (this.is_new) {
-            modal_title = 'New';
-            this.$form_track_label.hide();
-            this.$form_track_link.hide();
-            this.$form_delete_result.hide();
-            this.$form_new_track_wrap.show();
-            this.$form_track_uploaded_group.hide();
-            this.$form_save.show();
+            this.open_new_form();
         } else {
-            modal_title = 'Edit';
-            this.$form_save.hide();
-            this.$form_new_track_wrap.hide();
-            this.$form_track_label.show();
-            this.$form_track_link.show();
-            this.$form_delete_result.show();
-            this.$form_track_uploaded_group.show();
-
-            var uploaded_text = 'at ' + this.created_at;
-            if (this.uploaded_by.name) {
-                uploaded_text = this.uploaded_by.name + ' ' + uploaded_text;
-            }
-            this.$form_track_uploaded.text(uploaded_text);
-
-            this.$form_track_link
-                .text('#' + this.track_id)
-                .attr('href', this.url);
+            new Event.ShowResultModal(this).open();
         }
+    },
 
-        var competitor = window.Competition.competitor_by_id(this.competitor_id);
-        var round = window.Competition.round_by_id(this.round_id);
-
-        this.$form_title.text('Result: ' + modal_title);
-        this.$form_competitor.text(competitor.profile.name);
-        this.$form_round.text(capitaliseFirstLetter(round.discipline) + ' - ' + round.name);
-
+    init_track_select: function() {
         this.$form_result_track.find('option').remove();
-        if (!this.is_new) {
-            $('<option />', {value: this.track_id, text: this.track_presentation})
-                .appendTo(this.$form_result_track);
-        }       
+        $('<option />', {value: this.track_id, text: this.track_presentation})
+            .appendTo(this.$form_result_track);
  
         this.$form_result_track.select2({
             width: '100%',
@@ -121,17 +88,31 @@ Event.EventTrack.prototype = {
 
         this.$form_toggle_track.data('state', 'list');
         this.on_toggle_track();
+    },
+
+    get_title: function() {
+        var competitor = window.Competition.competitor_by_id(this.competitor_id);
+        var round = window.Competition.round_by_id(this.round_id);
+
+        return 'Result: ' + competitor.profile.name + ' in ' +
+            capitaliseFirstLetter(round.discipline) + ' - ' + round.name;
+    },
+
+    open_new_form: function() {
+        this.init_track_select();
+        var competitor = window.Competition.competitor_by_id(this.competitor_id);
+        var round = window.Competition.round_by_id(this.round_id);
+
+        this.$new_modal.title.text(this.get_title());
+
+        this.init_track_select();
 
         this.$form_save
             .off('click')
             .on('click', this.form_save.bind(this));
 
-        this.$form_delete_result
-            .off('click')
-            .on('click', this.delete_result.bind(this));
-
-        this.$modal_form.modal('show');
-    },
+        this.$new_modal.dialog.modal('show');
+   },
 
     on_toggle_track: function(e) {
         if (e) {
@@ -195,12 +176,6 @@ Event.EventTrack.prototype = {
         this.$progress_modal.modal('hide');    
 
         $(document).off('ajaxSend', this.ajax_send_handler);
-    },
-
-    delete_result: function(e) {
-        e.preventDefault();
-        this.destroy();
-        this.$modal_form.modal('hide');
     },
 
     save: function() {
