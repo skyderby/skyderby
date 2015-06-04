@@ -1,0 +1,46 @@
+.modal.fade#show-result-modal{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        .pull-right
+          %a#open-track-link{href: '#', target: '_blank'}
+            %i.fa.fa-external-link
+          %button.close{type: 'button', data: {dismiss: 'modal'}}
+            %span{aria: {hidden: 'true'}}
+              %i.fa.fa-close
+              &times;
+            %span.sr-only
+              Close
+        %h4.modal-title#show-result-modal-title= ''
+
+      .modal-body
+        .container-fluid
+          .row
+            .col-sm-12.text-right
+          -# Header
+          .row
+            .col-sm-3
+          -# Charts
+          .row#multiple-charts
+            -# Loading spinner
+            .col-sm-12.result-loading-spinner.text-center
+              %hr
+              %i.fa.fa-3x.fa-circle-o-notch.fa-spin
+              .text-danger= 'Loading track data'
+              %hr
+            .col-sm-12
+              #result-gr-chart
+              #result-spd-chart
+              #result-elev-chart
+          .row#single-chart
+            .col-sm-12
+              #result-all-data-chart
+          .row
+            %span.col-sm-2.control-label= t('events.show.track_upoaded') + ':'
+            .col-sm-10
+              %span#rm-track-uploaded
+
+      .modal-footer
+        %a.text-danger#rm-delete{href: '#'}= t('events.show.delete_result')
+        %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'
+
