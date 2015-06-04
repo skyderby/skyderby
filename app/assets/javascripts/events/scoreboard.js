@@ -6,6 +6,8 @@ Event.Scoreboard = function(params) {
     this.$rounds_row = null;
     this.$units_row = null;
     this.$template_row = null;
+    this.$table_footer = null;
+    this.$table_footer_row = null;
     this.row_length = 2;
 
     this.header = _.template([
@@ -147,7 +149,7 @@ Event.Scoreboard.prototype = {
         } else {
             var $next_element = $section.next();
 
-            if (!$next_element.is('#without_section')) {
+            if (!$next_element.is('#table-footer')) {
                 next_section = window.Competition.section_by_id($next_element.data('id'));
                 section.reorder_with(next_section, 'down');
             }
@@ -295,8 +297,7 @@ Event.Scoreboard.prototype = {
             ].join('\n'));
         }
 
-        var el_id = (value.section && value.section.id) ? ('#section_' + value.section.id) : ('#without_section');
-        $(el_id).append(new_row);
+        $('#section_' + value.section.id).append(new_row);
     },
 
     render_result: function(value, index) {
@@ -437,6 +438,55 @@ Event.Scoreboard.prototype = {
         this.row_length += 1;
     },
 
+    render_table_footer: function() {
+        $('#table-footer > tr').append(
+            $('<td>').attr('colspan', 2)
+        );
+
+        this.$table_footer = $('#table-footer');
+        this.$table_footer_row = $('#table-footer > tr');
+
+        footer_row = this.$table_footer_row;
+
+        var rounds_by_discipline = 
+            _.groupBy(window.Competition.rounds, 'discipline');
+
+        _.each(rounds_by_discipline, function(rounds, discipline) {
+            _.each(rounds, function(round) {
+                var signed_cell = 
+                    $('<td>')
+                        .addClass('text-center')
+                        .addClass('text-success')
+                        .attr('colspan', 2)
+                        .text(' Signed')
+                        .prepend($('<i>').addClass('fa').addClass('fa-lock'))
+                if (!round.signed_off) {
+                    signed_cell =
+                        $('<td>')
+                            .addClass('text-center')
+                            .addClass('text-danger')
+                            .attr('colspan', 2)
+                            .text(' Not signed')
+                            .prepend($('<i>').addClass('fa').addClass('fa-unlock'))
+                }
+                footer_row.append(signed_cell);
+            });
+            footer_row.append($('<td>'));
+        });
+
+        var total_points_cell = $('#disciplines-row > td[data-role="total-points"]');
+        if (total_points_cell.length) {
+             var signed_cell =
+                $('<td>')
+                    .addClass('text-center')
+                    .addClass('text-danger')
+                    .attr('colspan', 2)
+                    .text(' Not signed')
+                    .prepend($('<i>').addClass('fa').addClass('fa-unlock'))
+            footer_row.append(signed_cell);
+        }
+    },
+
     render: function() {
         // Disciplines, Rounds
         var rounds_by_discipline = _.groupBy(window.Competition.rounds, 'discipline');
@@ -449,13 +499,19 @@ Event.Scoreboard.prototype = {
         // Sections
         _.each(window.Competition.sections, this.render_section.bind(this));
 
-        this.$table.append($('<tbody>').attr('id', 'without_section'));
-
         // Competitors
         _.each(window.Competition.competitors, this.render_competitor.bind(this));
 
         // Results
         _.each(window.Competition.tracks, this.render_result.bind(this));
+        
+        // Table footer
+        this.$table.append(
+            $('<tbody>').attr('id', 'table-footer').append($('<tr>'))
+        );
+        if (window.Competition.can_manage) {
+            this.render_table_footer();
+        }
 
         this.calculate_totals();
         this.sort_by_points();
@@ -517,11 +573,13 @@ Event.Scoreboard.prototype = {
         var current_section = competitor_row.closest('tbody').data('id');
 
         if (competitor.section.id != current_section) {
-            (competitor.section.id ? $('#section_' + competitor.section.id) : $('#without_section'))
-                .append(competitor_row
+            $('#section_' + competitor.section.id).append(
+                competitor_row
                     .remove()
-                    .clone());
-            }
+                    .clone()
+            );
+        }
+
         this.set_row_numbers();
     },
 
