@@ -1,4 +1,7 @@
 class UserProfile < ActiveRecord::Base
+  enum default_units: [:metric, :imperial]
+  enum default_chart_view: [:multi, :single]
+
   belongs_to :user
 
   has_many :tracks, -> { order('created_at DESC') }
