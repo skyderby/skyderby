@@ -47,6 +47,8 @@ Event.Scoreboard = function(params) {
         '<td data-round-id="<%=id%>" data-role="<%=role%>" class="text-right ',
             '<% if (can_manage) { %>',
                 'edit-result',
+            '<% } else { %>',
+                'show-result',
             '<% } %>',
             '">',
         '</td>'
@@ -105,6 +107,7 @@ Event.Scoreboard.prototype = {
            .on('click', '.section-up',        this.move_section_click)
            .on('click', '.section-down',      this.move_section_click)
            .on('click', '.edit-result',       this.on_edit_result_click)
+           .on('click', '.show-result',       this.on_show_result_click)
            .on('click', '.delete-round',      this.on_delete_round_click);
     },
 
@@ -200,6 +203,14 @@ Event.Scoreboard.prototype = {
             });
             result.open_form();            
         }
+    },
+
+    on_show_result_click: function(e) {
+        e.preventDefault();  
+        var result_id = $(this).attr('data-result-id');
+        if (result_id) {
+            window.Competition.result_by_id(result_id).open_form();
+        }   
     },
 
     ///////////////////////////////////////////////////////////////
@@ -319,11 +330,9 @@ Event.Scoreboard.prototype = {
         result_cell.attr('data-track-id', value.track_id);
         result_cell.attr('data-result-id', value.id);
 
-        if (!can_manage) {
-            result_cell.addClass('clickableRow');
-        }
         result_cell.text(value.result);
         points_cell.text(points.toFixed(1));
+        points_cell.attr('data-result-id', value.id);
     },
 
     set_row_numbers: function() {
@@ -772,10 +781,7 @@ Event.Scoreboard.prototype = {
         result_cell.attr('data-track-id', result.track_id);
         result_cell.attr('data-url', result.url);
 
-        // var max_val = window.Competition.max_results['round_' + result.round_id][0].result;
-        // var points = Math.round(result.result / max_val * 1000) / 10;
-        //
-        // points_cell.text(points);
+        points_cell.attr('data-result-id', result.id);
 
         this.calculate_points();
         this.calculate_totals();

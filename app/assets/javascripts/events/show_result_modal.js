@@ -1,9 +1,15 @@
 var Event = Event || {};
 
 Event.ShowResultModal = function(result) {
+    this.mft_k = 3.280839895;
+
     this.result = result;
     this.track_data = {};
     this.index_cache = [];
+    
+    // View settings
+    this.in_imperial = false;
+    this.display_on_single_chart = false;
     
     this.$dialog = $('#show-result-modal');
     this.$elements = {
@@ -21,16 +27,41 @@ Event.ShowResultModal = function(result) {
         single_chart: $('#single-chart'),
         all_data_chart_container: $('#result-all-data-chart'),
 
-        track_uploaded: $('#rm-track-uploaded')
+        track_uploaded: $('#rm-track-uploaded'),
+
+        li_toggle_single: $('#li_toggle_single'),
+        li_toggle_multi: $('#li_toggle_multi'),
+
+        toggle_single_link: $('#toggle_single'),
+        toggle_multi_link: $('#toggle_multi'),
+
+        li_toggle_metric: $('#li_toggle_metric'),
+        li_toggle_imperial: $('#li_toggle_imperial'),
+        toggle_metric_link: $('#toggle_metric'),
+        toggle_imperial_link: $('#toggle_imperial'),
+
+        header_distance: $('#dd_distance'),
+
+        header_avg_h_speed: $('#p_avg_h_speed'),
+        header_max_h_speed: $('#p_max_h_speed'),
+        header_min_h_speed: $('#p_min_h_speed'),
+
+        header_avg_gr: $('#p_avg_gr'),
+        header_max_gr: $('#p_max_gr'),
+        header_min_gr: $('#p_min_gr'),
+
+        header_elevation: $('#dd_elevation'),
+
+        header_avg_v_speed: $('#p_avg_v_speed'),
+        header_max_v_speed: $('#p_max_v_speed'),
+        header_min_v_speed: $('#p_min_v_speed'),
+
+        header_fl_time: $('#dd_fl_time')
     };
 }
 
 Event.ShowResultModal.prototype = {
     open: function() {
-        this.$elements.delete_link
-            .off('click')
-            .on('click', this.on_delete_link_click.bind(this));
-
         this.$elements.title.text(this.get_title());
 
         var uploaded_text = 'at ' + this.result.created_at;
@@ -39,14 +70,52 @@ Event.ShowResultModal.prototype = {
         }
         this.$elements.track_uploaded.text(uploaded_text);
 
-        this.$elements.open_track_link.attr('href', this.result.url);
+        var track_url = 
+            this.result.url + 
+            '?f=' + window.Competition.range_from + 
+            '&t=' + window.Competition.range_to;
+        
+        if (!window.Competition.can_manage) {
+            this.$elements.delete_link.hide();
+        }
+
+        this.reset_header();
+
+        this.init_view_type();
+        this.init_units();
+
+        this.bind_events();
+        this.init_charts();
+
+        this.highlite_result();
+
+        this.$dialog.modal('show');
+    },
+
+    bind_events: function() {
+        this.$elements.toggle_single_link
+            .off('click')
+            .on('click', this.on_toggle_single.bind(this));
+
+        this.$elements.toggle_multi_link
+            .off('click')
+            .on('click', this.on_toggle_multi.bind(this));
+
+        this.$elements.toggle_metric_link
+            .off('click')
+            .on('click', this.on_toggle_metric.bind(this));
+
+        this.$elements.toggle_imperial_link
+            .off('click')
+            .on('click', this.on_toggle_imperial.bind(this));
+
+        this.$elements.delete_link
+            .off('click')
+            .on('click', this.on_delete_link_click.bind(this));
 
         this.$dialog
             .off('shown.bs.modal')
             .on('shown.bs.modal', this.on_show_modal_shown.bind(this));
-
-        this.init_charts();
-        this.$dialog.modal('show');
     },
 
     get_title: function() {
@@ -55,6 +124,35 @@ Event.ShowResultModal.prototype = {
 
         return 'Result: ' + competitor.profile.name + ' in ' +
             capitaliseFirstLetter(round.discipline) + ' - ' + round.name;
+    },
+
+    reset_header: function() {
+        this.$elements.header_distance.text('').removeClass('text-danger');
+        this.$elements.header_avg_h_speed.text('').removeClass('text-danger'); 
+        this.$elements.header_fl_time.text('').removeClass('text-danger'); 
+
+        this.$elements.header_min_h_speed.text('');
+        this.$elements.header_max_h_speed.text('');
+
+        this.$elements.header_min_v_speed.text('');
+        this.$elements.header_max_v_speed.text('');
+        this.$elements.header_avg_v_speed.text('');
+
+        this.$elements.header_min_gr.text('');
+        this.$elements.header_max_gr.text('');
+        this.$elements.header_avg_gr.text('');
+
+        this.$elements.header_elevation.text('');
+    },
+
+    highlite_result: function() {
+        if (this.result.round_discipline === 'distance') {
+            this.$elements.header_distance.text(this.result.result).addClass('text-danger'); 
+        } else if (this.result.round_discipline === 'speed') {
+            this.$elements.header_avg_h_speed.text(this.result.result).addClass('text-danger'); 
+        } else if (this.result.round_discipline === 'time') {
+            this.$elements.header_fl_time.text(this.result.result).addClass('text-danger'); 
+        }
     },
 
     on_show_modal_shown: function() {
@@ -72,6 +170,33 @@ Event.ShowResultModal.prototype = {
         this.track_data = data;
 
         this.render_track();
+        this.update_units();
+    },
+
+    init_view_type: function() {
+        var view_type = $.cookie('view_type');
+        this.display_on_single_chart = view_type == 'single';
+
+        if (view_type == 'single') {
+            this.$elements.li_toggle_single.addClass('active');
+            this.$elements.single_chart.show();
+            this.$elements.multiple_charts.hide();
+        } else {
+            this.$elements.li_toggle_multi.addClass('active');
+            this.$elements.single_chart.hide();
+            this.$elements.multiple_charts.show();
+        }
+    },
+
+    init_units: function() {
+        var units = $.cookie('units');
+        this.in_imperial = units == 'imperial';
+
+        if (units == 'imperial') {
+            this.$elements.li_toggle_imperial.addClass('active');
+        } else {
+            this.$elements.li_toggle_metric.addClass('active');
+        }
     },
 
     render_track: function() {
@@ -103,7 +228,7 @@ Event.ShowResultModal.prototype = {
         km_m_k = 1;
 
         if (this.in_imperial) {
-            mft_un_k = mft_k;
+            mft_un_k = this.mft_k;
             km_m_k = 1.6093;
         }
 
@@ -133,8 +258,9 @@ Event.ShowResultModal.prototype = {
                 if (isFirst) {
 
                     isFirst = false;
-                    if (current_point.elevation != max_val && Track.charts_data.hasOwnProperty(index-1)) {
+                    if (current_point.elevation != max_val && this.track_data.points.hasOwnProperty(index-1)) {
 
+                        point.elevation = max_val;
                         point.elevation_diff = max_val - current_point.elevation;
 
                         k = point.elevation_diff / current_point.elevation_diff;
@@ -174,7 +300,7 @@ Event.ShowResultModal.prototype = {
             }
 
             if (end_found && elev_data.length > 0) {
-                if (current_point.elevation <= min_val && Track.charts_data.hasOwnProperty(index - 1)) {
+                if (current_point.elevation <= min_val && this.track_data.points.hasOwnProperty(index - 1)) {
 
                     point = clone(current_point);
                     prev_point = this.track_data.points[index - 1];
@@ -208,66 +334,179 @@ Event.ShowResultModal.prototype = {
             }
         }
 
-        // if (this.in_imperial){
-        //     $('#dd_distance').text(Math.round(dist * mft_k));
-        //     $('#dd_elevation').text((elev * mft_k).toFixed(0));
-        // } else {
-        //     $('#dd_distance').text(dist.toFixed(0));
-        //     $('#dd_elevation').text(elev.toFixed(0));
-        // }
-        // $('#dd_fl_time').text(fl_time.toFixed(1));
-        //
-        // $('#p_min_v_speed').text((min_v_speed / km_m_k).toFixed(0));
-        // $('#p_max_v_speed').text((max_v_speed / km_m_k).toFixed(0));
-        // $('#p_avg_v_speed').text(Math.round((elev / fl_time * 3.6) / km_m_k).toString());
-        //
-        // $('#p_min_h_speed').text((min_h_speed / km_m_k).toFixed(0));
-        // $('#p_max_h_speed').text((max_h_speed / km_m_k).toFixed(0));
-        // $('#p_avg_h_speed').text(Math.round((dist / fl_time * 3.6) / km_m_k).toString());
-        //
-        // $('#p_min_gr').text(min_gr.toFixed(2));
-        // $('#p_max_gr').text(max_gr.toFixed(2));
-        // $('#p_avg_gr').text((dist / elev).toFixed(2));
+        var dist_in_units = dist;
+        if (this.in_imperial){
+            dist_in_units = dist * mft_k;
+            this.$elements.header_elevation.text((elev * mft_k).toFixed(0));
+        } else {
+            this.$elements.header_elevation.text(elev.toFixed(0));
+        }
 
+        if (this.result.round_discipline !== 'distance') {
+            this.$elements.header_distance.text(dist_in_units.toFixed(0));
+        }
 
-        // var all_data_chart = $('#all_data_chart');
-        // var display_multiple_charts = $('#multiple-charts').css('display') !== 'none';
-        // var display_all_data_chart = all_data_chart.css('display') !== 'none';
-        //
-        // if (display_multiple_charts) {
+        if (this.result.round_discipline !== 'time') {
+            this.$elements.header_fl_time.text(fl_time.toFixed(1));
+        }
+
+        if (this.result.round_discipline !== 'speed') {
+            this.$elements.header_avg_h_speed.text(Math.round((dist / fl_time * 3.6) / km_m_k).toString());
+        }
+        this.$elements.header_min_h_speed.text((min_h_speed / km_m_k).toFixed(0));
+        this.$elements.header_max_h_speed.text((max_h_speed / km_m_k).toFixed(0));
+
+        this.$elements.header_min_v_speed.text((min_v_speed / km_m_k).toFixed(0));
+        this.$elements.header_max_v_speed.text((max_v_speed / km_m_k).toFixed(0));
+        this.$elements.header_avg_v_speed.text(Math.round((elev / fl_time * 3.6) / km_m_k).toString());
+
+        this.$elements.header_min_gr.text(min_gr.toFixed(2));
+        this.$elements.header_max_gr.text(max_gr.toFixed(2));
+        this.$elements.header_avg_gr.text((dist / elev).toFixed(2));
+
+        if (!this.display_on_single_chart) {
             var ed_chart = this.$elements.elev_chart_container.highcharts();
             ed_chart.series[0].setData(elev_data, false);
             ed_chart.series[1].setData(dist_data, false);
             ed_chart.series[2].setData(heights_data, false);
             ed_chart.redraw();
-        //}
+        }
 
-        // if (display_multiple_charts) {
+        if (!this.display_on_single_chart) {
             var sp_chart = this.$elements.spd_chart_container.highcharts();
             sp_chart.series[0].setData(h_speed, false);
             sp_chart.series[1].setData(v_speed, false);
             sp_chart.series[2].setData(raw_h_speed, false);
             sp_chart.series[3].setData(raw_v_speed, false);
             sp_chart.redraw();
-        // }
+        }
 
-        // if (display_multiple_charts) {
+        if (!this.display_on_single_chart) {
             var gr_chart = this.$elements.gr_chart_container.highcharts();
             gr_chart.series[0].setData(gr, false);
             gr_chart.series[1].setData(raw_gr, false);
             gr_chart.redraw();
-        // }
+        }
 
-        // if (display_all_data_chart) {
-        //     var ad_chart = all_data_chart.highcharts();
-        //     ad_chart.series[0].setData(h_speed, false);
-        //     ad_chart.series[1].setData(v_speed, false);
-        //     ad_chart.series[2].setData(gr, false);
-        //     ad_chart.series[3].setData(heights_data, false);
-        //     ad_chart.series[4].setData(dist_data, false);
-        //     ad_chart.series[5].setData(elev_data, false);
-        //     ad_chart.redraw();
-        // }
+        if (this.display_on_single_chart) {
+            var ad_chart = this.$elements.all_data_chart_container.highcharts();
+            ad_chart.series[0].setData(h_speed, false);
+            ad_chart.series[1].setData(v_speed, false);
+            ad_chart.series[2].setData(gr, false);
+            ad_chart.series[3].setData(heights_data, false);
+            ad_chart.series[4].setData(dist_data, false);
+            ad_chart.series[5].setData(elev_data, false);
+            ad_chart.redraw();
+        }
+    },
+
+    sync_tooltip: function(chart_name, point) {
+        var index = this.index_cache.indexOf(point);
+        var chart, p, p1;
+
+        if (chart_name !== 'glideratio_chart') {
+            chart = this.$elements.gr_chart_container.highcharts();
+            p = chart.series[0].data[index];
+            chart.tooltip.refresh(p);
+            chart.xAxis[0].drawCrosshair({ chartX: p.plotX, chartY: p.plotY}, p);
+        }
+
+        if (chart_name !== 'speeds_chart') {
+            chart = this.$elements.spd_chart_container.highcharts();
+            p1 = chart.series[0].data[index];
+            chart.tooltip.refresh([p1, chart.series[1].data[index]]);
+            chart.xAxis[0].drawCrosshair({ chartX: p1.plotX, chartY: p1.plotY}, p1);
+        }
+
+        if (chart_name !== 'elevation_distance_chart') {
+            chart = this.$elements.elev_chart_container.highcharts();
+            p1 = chart.series[0].data[index];
+            chart.tooltip.refresh([p1, chart.series[1].data[index], chart.series[2].data[index]]);
+            chart.xAxis[0].drawCrosshair({ chartX: p1.plotX, chartY: p1.plotY}, p1);
+        }
+    },
+
+    update_units: function() {
+        var speed_unit = (this.in_imperial ? I18n.t('units.mph') : I18n.t('units.kmh'));
+        var dist_unit = (this.in_imperial ? I18n.t('units.ft') : I18n.t('units.m'));
+
+        $('.spd-unit').text(speed_unit);
+        $('.dst-unit').text(dist_unit);
+
+        // elevation/distance chart
+        this.$elements.elev_chart_container.highcharts().yAxis[0].update({
+            title: {
+                text: I18n.t('tracks.show.eldst_dst') + ', ' + dist_unit
+            }
+        });
+        this.$elements.elev_chart_container.highcharts().series[0].update({
+            tooltip: {
+                valueSuffix: ' ' + dist_unit
+            }
+        });
+        this.$elements.elev_chart_container.highcharts().series[1].update({
+            tooltip: {
+                valueSuffix: ' ' + dist_unit
+            }
+        });
+        this.$elements.elev_chart_container.highcharts().series[2].update({
+            tooltip: {
+                valueSuffix: ' ' + dist_unit
+            }
+        });
+
+        // speeds chart
+        this.$elements.spd_chart_container.highcharts().yAxis[0].update({
+            title: {
+                text: I18n.t('tracks.show.spd_ax') + ', ' + speed_unit
+            }
+        });
+        this.$elements.spd_chart_container.highcharts().series[0].update({
+            tooltip: {
+                valueSuffix: ' ' + speed_unit
+            }
+        });
+        this.$elements.spd_chart_container.highcharts().series[1].update({
+            tooltip: {
+                valueSuffix: ' ' + speed_unit
+            }
+        });
+
+        this.$elements.all_data_chart_container.highcharts().yAxis[0].update({
+            title: {
+                text: I18n.t('tracks.show.adc_sp_y') + ', ' + speed_unit
+            }
+        });
+        this.$elements.all_data_chart_container.highcharts().yAxis[1].update({
+            title: {
+                text: I18n.t('tracks.show.adc_ed_y') + ', ' + dist_unit
+            }
+        });
+        this.$elements.all_data_chart_container.highcharts().series[0].update({
+            tooltip: {
+                valueSuffix: ' ' + speed_unit
+            }
+        });
+        this.$elements.all_data_chart_container.highcharts().series[1].update({
+            tooltip: {
+                valueSuffix: ' ' + speed_unit
+            }
+        });
+        this.$elements.all_data_chart_container.highcharts().series[3].update({
+            tooltip: {
+                valueSuffix: ' ' + dist_unit
+            }
+        });
+        this.$elements.all_data_chart_container.highcharts().series[4].update({
+            tooltip: {
+                valueSuffix: ' ' + dist_unit
+            }
+        });
+        this.$elements.all_data_chart_container.highcharts().series[5].update({
+            tooltip: {
+                valueSuffix: ' ' + dist_unit
+            }
+        });
     },
 
     on_fail_retreive_track_data: function(data, status, jqXHR) {
@@ -282,6 +521,78 @@ Event.ShowResultModal.prototype = {
     },
 
     /////////////////////////////////////////////////////////
+    // Elements events
+    //
+    
+    on_toggle_multi: function (e) {
+        e.preventDefault();
+
+        this.display_on_single_chart = false;
+
+        this.$elements.li_toggle_single.removeClass('active');
+        this.$elements.li_toggle_multi.addClass('active');
+
+        this.$elements.single_chart.hide();
+        this.$elements.multiple_charts.show();
+
+        this.render_track();
+        this.reflow_charts();
+
+        $.cookie('view_type', 'multi', { expires: 365, path: '/' });
+    },
+        
+    on_toggle_single: function (e) {
+        e.preventDefault();
+
+        this.display_on_single_chart = true;
+
+        this.$elements.li_toggle_single.addClass('active');
+        this.$elements.li_toggle_multi.removeClass('active');
+
+        this.$elements.single_chart.show();
+        this.$elements.multiple_charts.hide();
+
+        this.render_track();
+        this.reflow_charts();
+
+        $.cookie('view_type', 'single', { expires: 365, path: '/' });
+    },
+
+    on_toggle_metric: function (e) {
+        e.preventDefault();
+
+        if (!this.in_imperial) {
+            return;
+        };
+
+        this.$elements.toggle_metric_link.addClass('active');
+        this.$elements.toggle_imperial_link.removeClass('active');
+
+        this.in_imperial = false;
+
+        this.update_units();
+        this.render_track();
+        $.cookie('units', 'metric', { expires: 365, path: '/' });
+    },
+
+    on_toggle_imperial: function (e) {
+        e.preventDefault();
+
+        if (this.in_imperial) {
+            return;
+        };
+
+        this.$elements.toggle_metric_link.removeClass('active');
+        this.$elements.toggle_imperial_link.addClass('active');
+
+        this.in_imperial = true;
+
+        this.update_units();
+        this.render_track();
+        $.cookie('units', 'imperial', { expires: 365, path: '/'});
+    },
+
+    /////////////////////////////////////////////////////////
     // Charts
     //
 
@@ -289,9 +600,11 @@ Event.ShowResultModal.prototype = {
         this.init_gr_chart();
         this.init_spd_chart();
         this.init_elev_chart();
+        this.init_multi_chart();
     },
 
     init_gr_chart: function() {
+        var context = this;
         this.$elements.gr_chart_container.highcharts({
             chart: {
                 type: 'spline',
@@ -313,7 +626,7 @@ Event.ShowResultModal.prototype = {
                     point: {
                         events: {
                             mouseOver: function() {
-                                syncTooltip('glideratio_chart', this.x);
+                                context.sync_tooltip('glideratio_chart', this.x);
                             }
                         }
                     }
@@ -357,6 +670,7 @@ Event.ShowResultModal.prototype = {
     },
 
     init_spd_chart: function() {
+        var context = this;
         this.$elements.spd_chart_container.highcharts({
             chart: {
                 type: 'spline',
@@ -378,7 +692,7 @@ Event.ShowResultModal.prototype = {
                     point: {
                         events: {
                             mouseOver: function() {
-                                syncTooltip('speeds_chart', this.x);
+                                context.sync_tooltip('speeds_chart', this.x);
                             }
                         }
                     }
@@ -450,6 +764,7 @@ Event.ShowResultModal.prototype = {
     },
 
     init_elev_chart: function() {
+        var context = this;
         this.$elements.elev_chart_container.highcharts({
             chart: {
                 type: 'spline',
@@ -476,7 +791,7 @@ Event.ShowResultModal.prototype = {
                     point: {
                         events: {
                             mouseOver: function() {
-                                syncTooltip('elevation_distance_chart', this.x);
+                                context.sync_tooltip('elevation_distance_chart', this.x);
                             }
                         }
                     }
@@ -526,9 +841,122 @@ Event.ShowResultModal.prototype = {
         this.$elements.elev_chart_container.highcharts().reflow();  
     },
 
+    init_multi_chart: function() {
+
+        this.$elements.all_data_chart_container.highcharts({
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: I18n.t('tracks.show.adc')
+            },
+            plotOptions: {
+                spline: {
+                    marker: {
+                        enabled: false
+                    }
+                },
+                series: {
+                    marker: {
+                        radius: 1
+                    }
+                }
+            },
+            yAxis: [{ //Speed yAxis
+                min: 0,
+                title: {
+                    text: I18n.t('tracks.show.adc')
+                }
+            },
+            { // Elev, dist yAxis
+                min: 0,
+                title: {
+                    text: I18n.t('tracks.show.adc_ed_y')
+                },
+                opposite: true
+            },
+            { // GR yAxis
+                min: 0,
+                max: 5,
+                tickInterval: 0.5,
+                title: {
+                    text: I18n.t('tracks.show.adc_gr_y')
+                },
+                opposite: true
+            }
+            ],
+            tooltip: {
+                shared: true,
+                crosshairs: true
+            },
+            credits: {
+                enabled: false
+            },
+            series:
+                [
+                {
+                name: I18n.t('tracks.show.adc_hspd'),
+                yAxis: 0,
+                color: Highcharts.getOptions().colors[2],
+                tooltip: {
+                    valueSuffix: '',
+                    valueDecimals: 0
+                }
+            },
+            {
+                name: I18n.t('tracks.show.adc_vspd'),
+                yAxis: 0,
+                color: Highcharts.getOptions().colors[0],
+                tooltip: {
+                    valueSuffix: '',
+                    valueDecimals: 0
+                }
+            },
+            {
+                name: I18n.t('tracks.show.adc_gr_s'),
+                yAxis: 2,
+                color: Highcharts.getOptions().colors[1],
+                tooltip: {
+                    valueSuffix: '',
+                    valueDecimals: 2
+                }
+            },
+            {
+                name: I18n.t('tracks.show.adc_h_s'),
+                yAxis: 1,
+                color: '#aaa',
+                tooltip: {
+                    valueSuffix: '',
+                    valueDecimals: 0
+                }
+            },
+            {
+                name: I18n.t('tracks.show.adc_dst'),
+                yAxis: 1,
+                color: Highcharts.getOptions().colors[5],
+                tooltip: {
+                    valueSuffix: '',
+                    valueDecimals: 0
+                }
+            },
+            {
+                name: I18n.t('tracks.show.adc_ele'),
+                yAxis: 1,
+                color: Highcharts.getOptions().colors[3],
+                tooltip: {
+                    valueSuffix: '',
+                    valueDecimals: 0
+                }
+            }
+            ]
+        });
+        this.$elements.all_data_chart_container.highcharts().reflow();  
+    },
+
     reflow_charts: function() {
         this.$elements.gr_chart_container.highcharts().reflow();
         this.$elements.spd_chart_container.highcharts().reflow();
         this.$elements.elev_chart_container.highcharts().reflow();  
+        this.$elements.all_data_chart_container.highcharts().reflow();
     },
 }

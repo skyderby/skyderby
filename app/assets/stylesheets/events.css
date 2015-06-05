@@ -52,7 +52,8 @@
 
 .event-request { margin-top:15px }
 
-.edit-result {
+.edit-result,
+.show-result {
   cursor: pointer;
 }
 
@@ -120,23 +121,3 @@ td:hover .delete-round
   color: rgb(153, 153, 153);
 }
 
-#result-gr-chart, 
-#result-spd-chart,
-#result-elev-chart {
-  width: 100%;
-}
-
-#result-gr-chart {
-  height: 250px;
-}
-
-#result-spd-chart,
-#result-elev-chart {
-  height: 350px;
-}
-
-#open-track-link {
-  opacity: 0.4;
-  color: black;
-  padding-right: 7px;
-}
