@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150531194341) do
+ActiveRecord::Schema.define(version: 20150603062804) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -45,6 +45,32 @@ ActiveRecord::Schema.define(version: 20150531194341) do
     t.string "name"
     t.string "code"
   end
+
+  create_table "disciplines", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "dropzones", force: true do |t|
+    t.string "name"
+    t.string "name_eng"
+    t.float  "latitude",    limit: 24
+    t.float  "longitude",   limit: 24
+    t.text   "information"
+  end
+
+  create_table "event_documents", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "attached_file_file_name"
+    t.string   "attached_file_content_type"
+    t.integer  "attached_file_file_size"
+    t.datetime "attached_file_updated_at"
+    t.integer  "event_id"
+  end
+
+  add_index "event_documents", ["event_id"], name: "index_event_documents_on_event_id", using: :btree
 
   create_table "event_organizers", force: true do |t|
     t.integer  "event_id"
@@ -81,9 +107,38 @@ ActiveRecord::Schema.define(version: 20150531194341) do
     t.boolean  "is_official",     default: false
   end
 
+  create_table "invitations", force: true do |t|
+    t.integer "user_id"
+    t.integer "event_id"
+  end
+
+  add_index "invitations", ["user_id"], name: "index_invitations_on_user_id", using: :btree
+
   create_table "manufacturers", force: true do |t|
     t.string "name"
     t.string "code"
+  end
+
+  create_table "organizers", force: true do |t|
+    t.integer  "event_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "orgs_admin"
+    t.boolean  "competitors_admin"
+    t.boolean  "rounds_admin"
+    t.boolean  "tracks_admin"
+  end
+
+  add_index "organizers", ["event_id"], name: "index_organizers_on_event_id", using: :btree
+
+  create_table "participation_forms", force: true do |t|
+    t.integer "user_id"
+    t.integer "event_id"
+    t.text    "additional_info"
+    t.integer "wingsuit_id"
+    t.integer "status",          default: 0
+    t.text    "comment"
   end
 
   create_table "places", force: true do |t|
@@ -207,9 +262,18 @@ ActiveRecord::Schema.define(version: 20150531194341) do
     t.integer  "crop_y"
     t.integer  "crop_w"
     t.integer  "crop_h"
+    t.integer  "default_units",        default: 0
+    t.integer  "default_chart_view",   default: 0
   end
 
   add_index "user_profiles", ["user_id"], name: "index_user_profiles_on_user_id", using: :btree
+
+  create_table "user_wingsuits", force: true do |t|
+    t.integer "user_id"
+    t.integer "wingsuit_id"
+  end
+
+  add_index "user_wingsuits", ["user_id"], name: "index_user_wingsuits_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -284,5 +348,9 @@ ActiveRecord::Schema.define(version: 20150531194341) do
 
   add_index "wingsuits", ["manufacturer_id"], name: "index_wingsuits_on_manufacturer_id", using: :btree
   add_index "wingsuits", ["ws_class_id"], name: "index_wingsuits_on_ws_class_id", using: :btree
+
+  create_table "ws_classes", force: true do |t|
+    t.string "name"
+  end
 
 end
