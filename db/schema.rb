@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150531194341) do
+ActiveRecord::Schema.define(version: 20150605180751) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -244,12 +244,12 @@ ActiveRecord::Schema.define(version: 20150531194341) do
   create_table "virtual_comp_results", force: true do |t|
     t.integer  "virtual_competition_id"
     t.integer  "track_id"
-    t.float    "result",                 limit: 24
+    t.float    "result",                 limit: 24, default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_profile_id"
-    t.float    "highest_speed",          limit: 24
-    t.float    "highest_gr",             limit: 24
+    t.float    "highest_speed",          limit: 24, default: 0.0
+    t.float    "highest_gr",             limit: 24, default: 0.0
   end
 
   add_index "virtual_comp_results", ["track_id"], name: "index_virtual_comp_results_on_track_id", using: :btree
@@ -262,15 +262,15 @@ ActiveRecord::Schema.define(version: 20150531194341) do
     t.date     "period_from"
     t.date     "period_to"
     t.integer  "discipline"
-    t.integer  "discipline_parameter"
+    t.integer  "discipline_parameter",  default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
     t.integer  "virtual_comp_group_id"
-    t.integer  "range_from"
-    t.integer  "range_to"
-    t.boolean  "display_highest_speed"
-    t.boolean  "display_highest_gr"
+    t.integer  "range_from",            default: 0
+    t.integer  "range_to",              default: 0
+    t.boolean  "display_highest_speed", default: false
+    t.boolean  "display_highest_gr",    default: false
   end
 
   add_index "virtual_competitions", ["place_id"], name: "index_virtual_competitions_on_place_id", using: :btree
