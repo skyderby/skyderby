@@ -207,6 +207,8 @@ ActiveRecord::Schema.define(version: 20150605180751) do
     t.integer  "crop_y"
     t.integer  "crop_w"
     t.integer  "crop_h"
+    t.integer  "default_units",        default: 0
+    t.integer  "default_chart_view",   default: 0
   end
 
   add_index "user_profiles", ["user_id"], name: "index_user_profiles_on_user_id", using: :btree

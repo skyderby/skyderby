@@ -6,7 +6,13 @@
       .col-sm-10
         %h1
           = competition_title(@competition)
-        %div= competition_place(@competition)
+        %div
+          = t('virtual_competitions.place')
+          %a{href: place_path(@competition.place)}
+            -if @competition.place.country
+              = @competition.place.name + ', ' + @competition.place.country.name
+            - else
+              = @competition.place.name
         %div= competition_suit
         %div= competition_task(@competition)
       .col-sm-2
