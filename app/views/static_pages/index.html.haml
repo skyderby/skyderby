@@ -1,12 +1,12 @@
 .index-header
-  .container-fluid
+  .container
     .row
       .col-9.col-xs-12.col-sm-9.col-md-9.col-lg-9
         %h1
           = t('.title')
           %small= t('.subtitle')
         %p= t('static_pages.index.desc')
-        %a.btn.btn-success.btn-lg{:href => '#', :data => {:toggle => 'modal', :target => '#newTrackModal'}}
+        %a.btn.btn-success.btn-lg{href: '#', data: {toggle: 'modal', target: '#newTrackModal'}}
           %i.fa.fa-upload
           = t('application.header.upload_track')
       .col-3.hidden-xs.col-sm-3
