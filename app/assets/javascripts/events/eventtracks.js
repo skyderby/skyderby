@@ -14,25 +14,6 @@ Event.EventTrack = function(params) {
     this.$progress_progress_tab = $('#progress-modal .progress-tab');
     this.$progress_progress_bar = $('#progress-modal .progress-bar')
     this.$progress_process_tab = $('#progress-modal .process-tab');
-    
-    this.$new_modal = {
-        dialog: $('#new-result-modal'),
-        form: $('#result-form'),
-        title: $('#result-form-modal-title'),
-    };
-
-    this.$form_new_track_wrap = $('#rm-new-track');
-
-    this.$form_toggle_track = $('.toggle-track');
-    this.$form_toggle_track_caption = $('.toggle-track-caption');
-
-    this.$form_track_file_group = $('.track-file-group');
-    this.$form_track_file_input = $('.track-file-input');
-    this.$form_track_file_name = $('.track-file-name');
-
-    this.$form_result_track = $('#result-track');
-
-    this.$form_save = $('#rm-save');
 
     $.extend(this, params);    
 
@@ -42,111 +23,11 @@ Event.EventTrack = function(params) {
 Event.EventTrack.prototype = {
     open_form: function() {
         if (this.is_new) {
-            this.open_new_form();
+            new Event.NewResultModal(this).open();
         } else {
             new Event.ShowResultModal(this).open();
         }
     },
-
-    init_track_select: function() {
-        this.$form_result_track.find('option').remove();
-        $('<option />', {value: this.track_id, text: this.track_presentation})
-            .appendTo(this.$form_result_track);
- 
-        this.$form_result_track.select2({
-            width: '100%',
-            placeholder: "Choose track from list",
-            dropdownParent: this.$modal_form,
-            ajax: {
-                url: '/tracks',
-                dataType: 'json',
-                type: "GET",
-                quietMillis: 50,
-                data: function (term) {
-                    term.profile_id = competitor.profile.id;
-                    return {
-                        query: term
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: $.map(data, function (item) {
-                            return {
-                                text: item.presentation,
-                                id: item.id
-                            }
-                        })
-                    };
-                },
-                cache: true
-            }
-        });
-
-        this.$form_toggle_track
-            .off('click')
-            .on('click', this.on_toggle_track.bind(this));
-
-        this.$form_toggle_track.data('state', 'list');
-        this.on_toggle_track();
-    },
-
-    get_title: function() {
-        var competitor = window.Competition.competitor_by_id(this.competitor_id);
-        var round = window.Competition.round_by_id(this.round_id);
-
-        return 'Result: ' + competitor.profile.name + ' in ' +
-            capitaliseFirstLetter(round.discipline) + ' - ' + round.name;
-    },
-
-    open_new_form: function() {
-        this.init_track_select();
-        var competitor = window.Competition.competitor_by_id(this.competitor_id);
-        var round = window.Competition.round_by_id(this.round_id);
-
-        this.$new_modal.title.text(this.get_title());
-
-        this.init_track_select();
-
-        this.$form_save
-            .off('click')
-            .on('click', this.form_save.bind(this));
-
-        this.$new_modal.dialog.modal('show');
-   },
-
-    on_toggle_track: function(e) {
-        if (e) {
-            e.preventDefault();
-        }
-        // Если состояние = выбор из списка
-        if (this.$form_toggle_track.data('state') == 'file') {
-            // Переключаем в режим загрузки из файла
-            // Скрываем группу выбора файла и меняем надпись
-            this.$form_toggle_track.data('state', 'list').text('upload new one');
-            this.$form_toggle_track_caption.text("Or");
-            this.$form_track_file_group.hide();
-            this.$form_track_file_input.val('');
-            this.$form_track_file_name.val('');
-            $('.result-track + span').show();
-        } else {
-            this.$form_toggle_track.data('state', 'file').text('select existed track');
-            this.$form_toggle_track_caption.text("Or");
-            this.$form_track_file_group.show();
-            this.$form_result_track.select2('val', '');
-            $('.result-track + span').hide()
-        }
-    },
-
-    form_save: function(e) {
-        e.preventDefault();
-        this.$modal_form.modal('hide');
-
-        this.track_id = this.$form_result_track.val();
-        this.save();        
-    },
-
-
-
 
     beforeSendHandler: function() {
         this.$progress_modal.modal('show');
@@ -178,7 +59,7 @@ Event.EventTrack.prototype = {
         $(document).off('ajaxSend', this.ajax_send_handler);
     },
 
-    save: function() {
+    save: function(params) {
         var url, method, data;
 
         if (this.is_new) {
@@ -200,12 +81,12 @@ Event.EventTrack.prototype = {
         data = new FormData();
         data.append('event_track[round_id]', this.round_id);
         data.append('event_track[competitor_id]', this.competitor_id);
-        if (this.track_id) {
-            data.append('event_track[track_id]', this.track_id);
+        if (params.track_id) {
+            data.append('event_track[track_id]', params.track_id);
         } else {
             var cur_competitor = window.Competition.competitor_by_id(this.competitor_id);
 
-            data.append('event_track[track_attributes[file]]', this.$form_track_file_input[0].files[0]);
+            data.append('event_track[track_attributes[file]]', params.track_file);
             data.append('event_track[track_attributes[user_profile_id]]', cur_competitor.profile.id);
             data.append('event_track[track_attributes[wingsuit_id]]', cur_competitor.wingsuit.id);
         }
