@@ -1,6 +1,8 @@
-var Event = Event || {};
+if (!window.Event) {
+    window.Event = {};
+}
 
-Event.Scoreboard = function(params) {
+Event.Scoreboard = function() {
     this.$table = $('#results-table');
     this.$discipline_row = null;
     this.$rounds_row = null;
@@ -79,7 +81,7 @@ Event.Scoreboard = function(params) {
         '</tbody>'].join('\n'));
 
     this.init();
-}
+};
 
 Event.Scoreboard.prototype = {
 
@@ -140,20 +142,20 @@ Event.Scoreboard.prototype = {
         e.preventDefault();
 
         var $section = $(this).parents('tbody:first');
-        section = window.Competition.section_by_id($section.data('id'));
+        var section = window.Competition.section_by_id($section.data('id'));
 
         if ($(this).is('.section-up')) {
             var $prev_element = $section.prev();
 
             if (!$prev_element.is('thead')) {
-                prev_section = window.Competition.section_by_id($prev_element.data('id'));
+                var prev_section = window.Competition.section_by_id($prev_element.data('id'));
                 section.reorder_with(prev_section, 'up');                
             }
         } else {
             var $next_element = $section.next();
 
             if (!$next_element.is('#table-footer')) {
-                next_section = window.Competition.section_by_id($next_element.data('id'));
+                var next_section = window.Competition.section_by_id($next_element.data('id'));
                 section.reorder_with(next_section, 'down');
             }
         }
@@ -455,7 +457,7 @@ Event.Scoreboard.prototype = {
         this.$table_footer = $('#table-footer');
         this.$table_footer_row = $('#table-footer > tr');
 
-        footer_row = this.$table_footer_row;
+        var footer_row = this.$table_footer_row;
 
         var rounds_by_discipline = 
             _.groupBy(window.Competition.rounds, 'discipline');
@@ -468,7 +470,7 @@ Event.Scoreboard.prototype = {
                         .addClass('text-success')
                         .attr('colspan', 2)
                         .text(' Signed')
-                        .prepend($('<i>').addClass('fa').addClass('fa-lock'))
+                        .prepend($('<i>').addClass('fa').addClass('fa-lock'));
                 if (!round.signed_off) {
                     signed_cell =
                         $('<td>')
@@ -476,7 +478,7 @@ Event.Scoreboard.prototype = {
                             .addClass('text-danger')
                             .attr('colspan', 2)
                             .text(' Not signed')
-                            .prepend($('<i>').addClass('fa').addClass('fa-unlock'))
+                            .prepend($('<i>').addClass('fa').addClass('fa-unlock'));
                 }
                 footer_row.append(signed_cell);
             });
@@ -491,7 +493,7 @@ Event.Scoreboard.prototype = {
                     .addClass('text-danger')
                     .attr('colspan', 2)
                     .text(' Not signed')
-                    .prepend($('<i>').addClass('fa').addClass('fa-unlock'))
+                    .prepend($('<i>').addClass('fa').addClass('fa-unlock'));
             footer_row.append(signed_cell);
         }
     },
@@ -679,7 +681,7 @@ Event.Scoreboard.prototype = {
                 .addClass('text-center')
                 .attr('data-discipline', discipline)
                 .attr('data-role', 'points')
-                .attr('data-round-id', round.id)
+                .attr('data-round-id', round.id);
 
         var unit_cell =
             $('<td>')
@@ -687,7 +689,7 @@ Event.Scoreboard.prototype = {
                 .addClass('text-center')
                 .attr('data-discipline', discipline)
                 .attr('data-role', 'unit')
-                .attr('data-round-id', round.id)
+                .attr('data-round-id', round.id);
 
         if ($(units_selector).length) {
             $(units_selector).after(percent_cell).after(unit_cell);
@@ -810,4 +812,4 @@ Event.Scoreboard.prototype = {
         this.sort_by_points();
         this.set_row_numbers();
     }
-}
+};
