@@ -52,7 +52,8 @@
 
 .event-request { margin-top:15px }
 
-.edit-result {
+.edit-result,
+.show-result {
   cursor: pointer;
 }
 
@@ -119,3 +120,4 @@ td:hover .delete-round
 [data-role="competitor-suit"] {
   color: rgb(153, 153, 153);
 }
+

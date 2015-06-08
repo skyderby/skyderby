@@ -25,26 +25,6 @@ de:
         height: "Größe:"
         weight: "Gewicht:"
         shirt_size: "Größe des T-Shirts:"
-  application:
-    header:
-      home: 'SKY DERBY'
-      tracks: 'Trackliste'
-      about: 'Über uns'
-      sign_in: 'Einloggen'
-      sign_up: 'Registrieren'
-      sign_out: 'Ausloggen'
-      login_email: 'E-Mail Adresse'
-      password: 'Passwort'
-      remember_me: 'Merken'
-      forgot_pass: 'Passwort vergessen?'
-      profile: "Profil"
-      admin_panel: 'Administrator-Panel'
-      track_analizer: 'Trackanalyse'
-      upload_track: "Track hochladen"
-      competitions: "Wettkampf"
-    footer:
-      owner: 'Aleksandr Kunin'
-      fb_page: "Facebook Seite"
   tracks:
     index:
       title: 'Geladene Tracks:'

@@ -16,7 +16,7 @@ var NewTrackForm = function() {
     this.bind_events();
     this.read_cookie();
     this.init();
-}
+};
 
 NewTrackForm.prototype = {
     bind_events: function() {
@@ -78,7 +78,7 @@ NewTrackForm.prototype = {
                                 id: obj.id,
                                 text: obj.name,
                                 manufacturer: obj.manufacturer.name
-                            }
+                            };
                         })
                         .groupBy(function(obj) { 
                             return obj.manufacturer;
@@ -111,8 +111,8 @@ NewTrackForm.prototype = {
             rules: {
                 name: {
                     minlength: 3,
-                    required: function(element) {
-                        return $('#newTrackModal input#name')
+                    required: function() {
+                        return $('#newTrackModal input#name');
                     }
                 },
                 wingsuit_id: {
@@ -158,14 +158,13 @@ NewTrackForm.prototype = {
         });
     },
 
-    on_modal_shown: function() {
-    },
+    on_modal_shown: function() {},
 
     on_modal_hide: function() {
         this.write_cookie();
     },
 
-    on_submit: function(e) {
+    on_submit: function() {
         this.write_cookie();
     },
 
@@ -184,7 +183,7 @@ NewTrackForm.prototype = {
             this.$form_toggle_suit_caption.text("Or just ");
             this.$form_suit_input.show();
             this.$form_suit_select.select2('val', '');
-            $('.new-track-wingsuit-select + span').hide()
+            $('.new-track-wingsuit-select + span').hide();
         }
     },
 
@@ -206,69 +205,10 @@ NewTrackForm.prototype = {
 
         $.cookie('location', this.$form_location.val(), { expires: 365, path: '/' });
     }
-}
-
-// $(document).ready(function($) {
-//
-//     var name = $.cookie('name');
-//     if (typeof name !== 'undefined' && name.trim()) {
-//         $('#name').val(name);
-//     }
-//
-//     var suit = $.cookie('suit');
-//     var wingsuit_id = $.cookie('wingsuit_id');
-//     if (typeof suit !== 'undefined' 
-//         && suit.trim() 
-//         && typeof wingsuit_id !== 'undefined' 
-//         && wingsuit_id.trim()) {
-//
-//         $('<option />', {value: wingsuit_id, text: suit})
-//             .appendTo($('.new-track-wingsuit-select'));
-//     }
-//
-//     var location = $.cookie('location');
-//     if (typeof location !== 'undefined' && location.trim()) {
-//         $('#location').val(location);
-//     }
-//
-//     $('#track_upload_form').submit( function( e ) {
-//       var form_valid = true;
-//       var placeholder = '#alert-placeholder';
-//       $(placeholder).empty();
-//
-//       if ($('#name').val().length === 0 || !$('#name').val().trim()) {
-//           bootstrap_alert.warning(#{t 'static_pages.index.track_form.warnings.name_html'}, placeholder);
-//           form_valid = false;
-//       } else {
-//           $.cookie('name', $('#name').val(), { expires: 365, path: '/' });
-//       }
-//
-//       if ($('#suit').val().length === 0 || !$('#suit').val().trim()) {
-//           bootstrap_alert.warning(#{t 'static_pages.index.track_form.warnings.suit_html'}, placeholder);
-//           form_valid = false;
-//       } else {
-//           $.cookie('suit', $('#suit').val(), { expires: 365, path: '/' });
-//           $.cookie('wingsuit_id', $('#wingsuit-id').val(), { expires: 365, path: '/' });
-//       }
-//
-//       if ($('#location').val().length === 0 || !$('#location').val().trim()) {
-//           bootstrap_alert.warning(#{t 'static_pages.index.track_form.warnings.loc_html'}, placeholder);
-//           form_valid = false;
-//       } else {
-//           $.cookie('location', $('#location').val(), { expires: 365, path: '/' });
-//       }
-//
-//       if ($('#track_file').val().length === 0 || !$('#track_file').val().trim()) {
-//           bootstrap_alert.warning(#{t 'static_pages.index.track_form.warnings.file_html'}, placeholder);
-//           form_valid = false;
-//       }
-//       if (!form_valid)
-//           e.preventDefault();
-//     });
-// })
+};
 
 $(document).on('ready page:load', function() {
     if ($('#newTrackModal').length) {
-        window.new_track_form = new NewTrackForm;        
+        window.new_track_form = new NewTrackForm();
     }
 }); 

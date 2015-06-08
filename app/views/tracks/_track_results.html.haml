@@ -52,7 +52,8 @@
           %h3= t('tracks.show.online_comp_results')
           - @track.virtual_comp_results.each do |result|
             .track-online-result
+              %a{href: virtual_competition_path(result.virtual_competition)}
+                = competition_title(result.virtual_competition)
               %span
-                = competition_title(result.virtual_competition) + ':'
-              %span
-                = result.result
+                = ': ' 
+                = result.result.to_s

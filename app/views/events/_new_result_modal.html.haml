@@ -1,0 +1,31 @@
+.modal.fade#new-result-modal{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
+  .modal-dialog
+    .modal-content
+      %form.form-horizontal#result-form{action: '#', role: 'form'}
+
+        .modal-header
+          %button.close{type: 'button', data: {dismiss: 'modal'}}
+            %span{aria: {hidden: 'true'}}
+              &times;
+            %span.sr-only
+              Close
+          %h4.modal-title#result-form-modal-title= ''
+
+        .modal-body
+          .form-group
+            %span.col-sm-2.control-label= t('events.show.track') + ':'
+            .col-sm-10
+              .input-group.track-file-group
+                %input.form-control.track-file-name{type: "text", readonly: true}
+                %span.input-group-btn
+                  %span.btn.btn-default.btn-file
+                    Browse&hellip; 
+                    %input.track-file-input{name: 'track_file', type: "file"}
+              %select.form-control.result-track#result-track{name: 'track_id'}
+            .col-sm-10.col-sm-offset-2
+              %span
+                %span.toggle-track-caption= t('events.show.result_or')
+                %a.toggle-track{href: '#'}= t('events.show.result_select')
+        .modal-footer
+          %button.btn.btn-success#rm-save= t 'general.save'
+          %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

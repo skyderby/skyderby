@@ -39,9 +39,15 @@ class TracksController < ApplicationController
 
   def show
     authorize! :read, @track
-    LastViewedUpdateWorker.perform_async(@track.id)
-
     @track_data = Skyderby::Tracks::ChartsData.new(@track, params[:f], params[:t])
+
+    respond_to do |format|
+      format.html do
+        LastViewedUpdateWorker.perform_async(@track.id)
+        @track_data
+      end
+      format.json { @track_data }
+    end
   end
 
   def google_maps

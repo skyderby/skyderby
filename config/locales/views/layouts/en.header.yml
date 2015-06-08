@@ -1,0 +1,19 @@
+en:
+  application:
+    header:
+      home: 'SKY DERBY'
+      tracks: 'Tracks'
+      about: 'About project'
+      sign_in: 'Sign in'
+      sign_up: 'Sign up'
+      sign_out: 'Sign out'
+      login_email: 'Email address'
+      password: 'Password'
+      remember_me: 'Remember me'
+      forgot_pass: 'Forgot your password?'
+      admin_panel: 'Admin dashboard'
+      profile: 'Profile'
+      track_analizer: "Tracks analyzer"
+      upload_track: "Upload track"
+      competitions: "Competitions"
+      online_competitions: 'Online competitions'

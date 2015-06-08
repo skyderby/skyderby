@@ -10,6 +10,7 @@ Event.Competition = function() {
     this.status = '';
     this.responsible = '';
     this.place = '';
+    this.is_official = false;
 
     this.path = '';
     // Main data

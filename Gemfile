@@ -61,6 +61,8 @@ gem 'bootstrap-datepicker-rails'
 
 gem 'gmaps4rails'
 
+gem "figaro"
+
 group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
@@ -82,7 +84,7 @@ group :development, :test do
   gem 'capistrano-sidekiq'
   #
   gem 'rubocop', require: false
-  gem 'rack-mini-profiler'
+  gem 'rack-mini-profiler', require: false
 end
 
 group :test do
