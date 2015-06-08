@@ -1,0 +1,13 @@
+{
+  "undef": true,
+  "unused": true,
+  "predef": [ 
+    "Turbolinks",
+    "fail_ajax_request",
+    "I18n",
+    "AjaxErrorMessage",
+    "_",
+    "$",
+    "Competition" 
+  ]
+}
