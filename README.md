@@ -1,4 +1,4 @@
-== README
+# Skyderby
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
@@ -23,6 +23,9 @@ Things you may want to cover:
 
 * ...
 
+## Licensing
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Code released under GPLv3 license.
+
+Note:
+Skyderby is using [Highcharts JS](http://shop.highsoft.com/highcharts.html) library which is licensed under [Creative Commons Attribution-NonCommercial 3.0 License](http://creativecommons.org/licenses/by-nc/3.0/).
