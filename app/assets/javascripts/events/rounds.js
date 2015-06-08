@@ -5,6 +5,7 @@ Event.Round = function(params) {
     this.event_id = ''; 
     this.name = '';
     this.discipline = '';
+    this.signed_off = false;
 
     $.extend(this, params);
     this.is_new = !this.id;

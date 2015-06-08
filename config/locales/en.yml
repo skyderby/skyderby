@@ -28,26 +28,6 @@ en:
   errors:
     messages:
       duplicate_file: "File already used. Pilot: %{pilot_name}, round: %{round}"
-  application:
-    header:
-      home: 'SKY DERBY'
-      tracks: 'Tracks'
-      about: 'About project'
-      sign_in: 'Sign in'
-      sign_up: 'Sign up'
-      sign_out: 'Sign out'
-      login_email: 'Email address'
-      password: 'Password'
-      remember_me: 'Remember me'
-      forgot_pass: 'Forgot your password?'
-      admin_panel: 'Admin dashboard'
-      profile: 'Profile'
-      track_analizer: "Tracks analyzer"
-      upload_track: "Upload track"
-      competitions: "Competitions"
-    footer:
-      owner: 'Aleksandr Kunin'
-      fb_page: "Application's page"
   units:
     m: 'm'
     ft: 'ft'
@@ -94,7 +74,7 @@ en:
       distance_in_time: 'Task is to fly as far as possible in %{parameter} sec'
       straightline_distance_in_time: 'Task is to fly as far as possible in %{parameter} sec. Distance measuring as a straight-line.'
       time: 'Task is to fly with the slowest fall rate possible through the competition window (%{range_from} - %{range_to} m)'
-    place: 'Location: %{place}'
+    place: 'Location:'
     worldwide: 'Worldwide'
     suit: 'Suit type: %{suit}'
   users:

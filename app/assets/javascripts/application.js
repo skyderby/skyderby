@@ -25,6 +25,7 @@
 
 //"use strict";
 
+/* exported fail_ajax_request, clone, capitaliseFirstLetter */
 
 Turbolinks.enableProgressBar();
 
@@ -33,19 +34,19 @@ $.validator.addMethod('filesize', function(value, element, param) {
     // param = size (en bytes) 
     // element = element to validate (<input>)
     // value = value of the element (file name)
-    return this.optional(element) || (element.files[0].size <= param) 
+    return this.optional(element) || (element.files[0].size <= param);
 });
 
-function fail_ajax_request(data, status, jqXHR) {
+function fail_ajax_request(data) {
     var error_text = '';
     var errors_count = 0;
 
     if (data.responseJSON) {
-        $.each(data.responseJSON, function(key, val) {
+        $.each(data.responseJSON, function(key) {
             $.each(data.responseJSON[key], function(ind, val) {
                 error_text += '- ' + val + '\n';
                 errors_count += 1;
-            })
+            });
         });
     } else {
         error_text = data.responseText.substring(0, 500);
@@ -69,42 +70,6 @@ function capitaliseFirstLetter(string)
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-var bootstrap_alert = function() {};
-bootstrap_alert.warning = function(message, placeholder) {
-    $(placeholder).append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><span>'+message+'</span></div>');
-};
-
-function checkfile() {
-    var placeholder = '#' + $(this).data('placeholder'),
-        warnings = $(this).data('warnings'),
-        file_list = this.files;
-
-    if (placeholder !== '#') {
-        $(placeholder).empty();
-    }
-
-    for (var i = 0, file; file = file_list[i]; i++) {
-      var filename = file.name;
-      var fileextension = filename.split('.')[filename.split('.').length - 1].toLowerCase();
-      var filesize = file.size;
-      var filesizemb = (file.size / 1048576).toFixed(2);
-      var txt = "";
-
-      if (!(fileextension === "gpx" || fileextension === "csv" || fileextension === "tes"))  {
-          txt += warnings.ext_w1 + fileextension + "\n\n";
-          txt += warnings.ext_w2;
-      }
-      if (filesize > 1048576) {
-          txt += warnings.size_w1 + filesizemb + " мб \n\n";
-          txt += warnings.size_w2;
-      }
-      if ((txt !== "") && (placeholder !== '#')) {
-          bootstrap_alert.warning(txt, '#rm-alert-placeholder');
-          $(this).val("");
-      }
-    }
-}
-
 $(document).ready(function($) {
 
     $('input[type=number]').keypress(function (e) {
@@ -113,9 +78,6 @@ $(document).ready(function($) {
             return false;
         }
     });
-
-
-    $(".track-file-input").on('change', checkfile);
 
     $('.datepicker').datepicker({
         format: 'dd.mm.yyyy',
@@ -132,10 +94,7 @@ $(document).ready(function($) {
         
         if( input.length ) {
             input.val(log);
-        } else {
-            if( log ) alert(log);
         }
-        
     });
 
 });
@@ -164,7 +123,7 @@ $(document).on('ready page:load', function() {
         $(window).off('scroll').on('scroll', function() {
             var url = $('.pagination .next > a').attr('href');
             if (url && ($(window).scrollTop() >= $(document).height() - $(window).height() - 170)) {
-                $('.pagination').text('Fetching more tracks...')
+                $('.pagination').text('Fetching more tracks...');
                 $.getScript(url);
             }
         });
@@ -172,5 +131,4 @@ $(document).on('ready page:load', function() {
     } else {
         $(window).off('scroll');
     }
-
 });
