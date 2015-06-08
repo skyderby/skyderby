@@ -37,12 +37,12 @@ $.validator.addMethod('filesize', function(value, element, param) {
     return this.optional(element) || (element.files[0].size <= param);
 });
 
-function fail_ajax_request(data, status, jqXHR) {
+function fail_ajax_request(data) {
     var error_text = '';
     var errors_count = 0;
 
     if (data.responseJSON) {
-        $.each(data.responseJSON, function(key, val) {
+        $.each(data.responseJSON, function(key) {
             $.each(data.responseJSON[key], function(ind, val) {
                 error_text += '- ' + val + '\n';
                 errors_count += 1;
@@ -78,9 +78,6 @@ $(document).ready(function($) {
             return false;
         }
     });
-
-
-    $(".track-file-input").on('change', checkfile);
 
     $('.datepicker').datepicker({
         format: 'dd.mm.yyyy',
