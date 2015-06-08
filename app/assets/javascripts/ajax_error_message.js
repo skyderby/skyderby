@@ -1,10 +1,10 @@
-AjaxErrorMessageObj = function() {
+var AjaxErrorMessageObj = function() {
     this.$flash = $('#ajax-error-message');
     this.$flash_text = $('#ajax-error-message-text');
     this.$flash_close = $('#ajax-error-message > .ajax-error-dismiss');
 
     this.init();
-}
+};
 
 AjaxErrorMessageObj.prototype = {
     init: function() {
@@ -44,8 +44,8 @@ AjaxErrorMessageObj.prototype = {
     hide: function() {
         this.$flash.removeClass('visible');
     }
-}
+};
 
 $(document).on('ready page:load', function() {
-    window.AjaxErrorMessage = new AjaxErrorMessageObj;
+    window.AjaxErrorMessage = new AjaxErrorMessageObj();
 });
