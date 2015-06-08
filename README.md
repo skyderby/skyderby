@@ -7,6 +7,8 @@ Things you may want to cover:
 
 * Ruby version
 
+ruby 2.1.2
+
 * System dependencies
 
 * Configuration
@@ -15,7 +17,13 @@ Things you may want to cover:
 
 * Database initialization
 
+To create initialize the application database use `rake db:schema:load`
+
 * How to run the test suite
+
+To run unit tests use `rspec spec` within project folder
+
+To run integration tests run `cucumber` within project folder
 
 * Services (job queues, cache servers, search engines, etc.)
 
