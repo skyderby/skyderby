@@ -520,7 +520,7 @@ Event.Scoreboard.prototype = {
         this.$table.append(
             $('<tbody>').attr('id', 'table-footer').append($('<tr>'))
         );
-        if (window.Competition.can_manage) {
+        if (window.Competition.is_official && window.Competition.can_manage) {
             this.render_table_footer();
         }
 
