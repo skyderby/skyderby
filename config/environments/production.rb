@@ -37,8 +37,8 @@ Skyderby::Application.configure do
 
   Rails.application.config.middleware.use ExceptionNotification::Rack,
                                           slack: {
-                                            webhook_url: ENV['slack.webhook_url'],
-                                            channel: ENV['slack.channel']
+                                            webhook_url: ENV['slack_webhook_url'],
+                                            channel: ENV['slack_channel']
                                           }
 
   # Specifies the header that your server uses for sending files.
@@ -73,11 +73,11 @@ Skyderby::Application.configure do
   config.action_mailer.default_url_options = { host: 'skyderby.ru' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: ENV['smtp.address'],
-    port: ENV['smtp.port'],
-    domain: ENV['smtp.domain'],
-    user_name: ENV['smtp.user_name'],
-    password: ENV['smtp.password']
+    address: ENV['smtp_address'],
+    port: ENV['smtp_port'],
+    domain: ENV['smtp_domain'],
+    user_name: ENV['smtp_user_name'],
+    password: ENV['smtp_password']
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
