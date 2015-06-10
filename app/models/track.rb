@@ -6,8 +6,7 @@ class Track < ActiveRecord::Base
   enum visibility: [:public_track, :unlisted_track, :private_track]
   enum gps_type: [:gpx, :flysight, :columbus, :wintec]
 
-  attr_accessor :file
-  attr_accessor :trackfile, :track_index
+  attr_accessor :file, :filepath, :track_index
 
   belongs_to :user
   belongs_to :pilot,
@@ -40,6 +39,7 @@ class Track < ActiveRecord::Base
   before_validation :set_profile, if: :user
   before_save :process_file, on: :create
   before_destroy :used_in_competition?
+  after_save :unlink_file, on: :create
   after_commit :perform_jobs
 
   has_attached_file :file
@@ -71,7 +71,7 @@ class Track < ActiveRecord::Base
   def process_file
     if file.present?
       filename = file.original_filename
-      self.trackfile = {
+      trackfile = {
         data: File.read(file.queued_for_write[:original].path),
         ext: filename.downcase[filename.length - 4..filename.length - 1]
       }
@@ -80,7 +80,7 @@ class Track < ActiveRecord::Base
     file_data = TrackPointsProcessor.process_file(
       trackfile[:data],
       trackfile[:ext],
-      track_index || 0
+      (track_index || 0).to_i
     )
 
     track_points = file_data[:points]
@@ -142,6 +142,10 @@ class Track < ActiveRecord::Base
 
     sql = "INSERT INTO points (#{columns}) VALUES #{inserts.join(', ')}"
     ActiveRecord::Base.connection.execute sql
+  end
+
+  def unlink_file
+    File.unlink(filepath) if filepath
   end
 
   def perform_jobs
