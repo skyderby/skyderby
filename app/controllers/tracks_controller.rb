@@ -61,9 +61,10 @@ class TracksController < ApplicationController
     authorize! :create, Track
 
     @track = Track.new cached_params.merge(
-      file: File.new(cached_params[:filepath]),
-      user: current_user
-    ).except(:filepath)
+      file: File.open(cached_params[:filepath]),
+      user: current_user,
+      track_index: track_params[:track_index]
+    )
 
     if @track.save
       redirect_to edit_track_path(@track)
@@ -137,7 +138,7 @@ class TracksController < ApplicationController
       :wingsuit_id,
       :comment,
       :cache_id,
-      :index,
+      :track_index,
       :visibility
     )
   end
@@ -159,11 +160,17 @@ class TracksController < ApplicationController
     uploaded_file = track_params[:track_file]
     return nil if uploaded_file.blank?
 
+    # Tempfile uses to provide uniq filename
     tmp_file = Tempfile.new(['', File.extname(uploaded_file.original_filename)],
                             Rails.root.join('tmp'))
+
     begin
       uploaded_file.rewind
+      tmp_file.binmode
       tmp_file.write uploaded_file.read
+      # Make file persist between requests
+      # it will be unlinked after track save successfully
+      ObjectSpace.undefine_finalizer(tmp_file)
     ensure
       tmp_file.close
     end
