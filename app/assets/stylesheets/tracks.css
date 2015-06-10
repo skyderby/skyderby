@@ -1,3 +1,7 @@
+.track-segment-row {
+  cursor: pointer;
+}
+
 .videowrapper {
     float: none;
     clear: both;

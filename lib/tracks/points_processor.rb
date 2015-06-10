@@ -1,6 +1,5 @@
 require 'geospatial'
 require 'velocity'
-require 'parser_selector'
 
 module TrackPointsProcessor
   class TPProcessor
@@ -69,16 +68,16 @@ module TrackPointsProcessor
   end
 
   def self.process_file(data, extension, track_index)
-    parser = ParserSelector.choose(data, extension)
+    parser = Skyderby::Parsers::ParserSelector.new.execute(data, extension)
     return nil if parser.nil?
 
-    if parser.is_a? FlySightParser
+    if parser.is_a? Skyderby::Parsers::FlySightParser
       gps_type = :flysight
-    elsif parser.is_a? ColumbusParser
+    elsif parser.is_a? Skyderby::Parsers::ColumbusParser
       gps_type = :columbus
-    elsif parser.is_a? TESParser
+    elsif parser.is_a? Skyderby::Parsers::TESParser
       gps_type = :wintec
-    elsif parser.is_a? GPXParser
+    elsif parser.is_a? Skyderby::Parsers::GPXParser
       gps_type = :gpx
     end
 
