@@ -2,6 +2,10 @@
   .page-header
     %h1=t '.title'
 
+  = form_for Track.new, html: {id: 'select-segment-form'} do |f|
+    = f.hidden_field(:cache_id, value: @key)
+    = f.hidden_field(:track_index)
+
   %table.table.table-hover
     %thead
       %tr
@@ -11,7 +15,7 @@
         %th=t '.pt_cnt'
     %tbody
       - @tracklist.each_with_index do |item, index|
-        %tr.clickableRow{:data => {:url => new_track_path(:cache_id => @key, :index => index)}}
+        %tr.track-segment-row{data: {index: index}}
           %td.text-info= index
           %td.text-info= item[:name]
           %td
