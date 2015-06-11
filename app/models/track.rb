@@ -37,7 +37,7 @@ class Track < ActiveRecord::Base
   validates :name, presence: true, if: 'pilot.blank?'
 
   before_validation :set_profile, if: :user
-  before_save :process_file, on: :create
+  before_create :process_file
   before_destroy :used_in_competition?
   after_save :unlink_file, on: :create
   after_commit :perform_jobs
