@@ -1,4 +1,4 @@
-var Event = Event || {};
+if (!Event) { Event = {}; }
 
 Event.ShowResultModal = function(result) {
     this.mft_k = 3.280839895;
@@ -58,7 +58,7 @@ Event.ShowResultModal = function(result) {
 
         header_fl_time: $('#dd_fl_time')
     };
-}
+};
 
 Event.ShowResultModal.prototype = {
     open: function() {
@@ -70,10 +70,12 @@ Event.ShowResultModal.prototype = {
         }
         this.$elements.track_uploaded.text(uploaded_text);
 
-        var track_url = 
+        this.$elements.open_track_link.attr(
+            'href', 
             this.result.url + 
-            '?f=' + window.Competition.range_from + 
-            '&t=' + window.Competition.range_to;
+                '?f=' + window.Competition.range_from + 
+                '&t=' + window.Competition.range_to
+        );
         
         if (!window.Competition.can_manage) {
             this.$elements.delete_link.hide();
