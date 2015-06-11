@@ -167,7 +167,7 @@ Event.ShowResultModal.prototype = {
             .fail(this.on_fail_retreive_track_data.bind(this));        
     },
 
-    on_get_track_data: function(data, status, jqXHR) {
+    on_get_track_data: function(data) {
         this.$elements.loading_spinner.hide();
         this.track_data = data;
 
