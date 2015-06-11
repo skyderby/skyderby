@@ -5,6 +5,8 @@ module Skyderby
     class GPXParser < TrackParser
       attr_accessor :track_points
 
+      Segment = Struct.new(:name, :points_count, :h_up, :h_down)
+
       def parse(index = 0)
         @index = index
         @current_track = 0
@@ -15,50 +17,59 @@ module Skyderby
       end
 
       def read_segments
-        segments = []
+        @segments = []
 
         doc = Nokogiri::XML(@track_data)
         doc.root.elements.each do |node|
-          if node.node_name.eql? 'trk'
-            track_name = ''
-            points_count = 0
-            h_up = 0
-            h_down = 0
-            prev_height = nil
+          # <trk> means segment
+          next unless node.node_name.eql? 'trk'
 
-            node.elements.each do |node_attr|
-              if node_attr.node_name.eql? 'trkseg'
-                node_attr.elements.each do |trpoint|
-                  points_count += 1
+          @segments << read_segment_data(node).to_h
+        end
 
-                  trpoint.elements.each do |point_node|
-                    if point_node.name.eql? 'ele'
-                      unless prev_height.nil?
-                        h_up += (point_node.text.to_f - prev_height) if prev_height < point_node.text.to_f
-                        h_down += (prev_height - point_node.text.to_f) if prev_height > point_node.text.to_f
-                      end
-                      prev_height = point_node.text.to_f
-                    end
-                  end # point node loop
-                end # trpoint loop
-              elsif node_attr.node_name.eql? 'name'
-                track_name = node_attr.text.to_s
-              end
-            end # track attr loop
-
-            segments << {
-              name: track_name,
-              h_up: h_up.to_i.to_s,
-              h_down: h_down.to_i.to_s,
-              points_count: points_count
-            }
-          end # if name.eql? 'trk'
-        end # doc root loop
-
-        segments
+        @segments
       end
 
       private
+
+      def read_segment_data(node)
+        segment = Segment.new('', 0, 0, 0)
+
+        node.elements.each do |node_attr|
+          if node_attr.node_name.eql? 'trkseg'
+            node_attr.elements.each_cons(2) do |prev_point, trpoint|
+              segment.points_count += 1
+              segment.h_up += get_alti_diff_up(prev_point, trpoint)
+              segment.h_down += get_alti_diff_down(prev_point, trpoint)
+            end # trpoint loop
+          elsif node_attr.node_name.eql? 'name'
+            segment.name = node_attr.text
+          end
+        end # track attr loop
+
+        segment
+      end
+
+      def get_alti_diff_up(prev_point, cur_point)
+        alti_diff = get_alti_diff(prev_point, cur_point)
+        # if previous point was lower than current
+        alti_diff < 0 ? -alti_diff : 0
+      end
+
+      def get_alti_diff_down(prev_point, cur_point)
+        alti_diff = get_alti_diff(prev_point, cur_point)
+        # if previous point was higher than current
+        alti_diff > 0 ? alti_diff : 0
+      end
+
+      def get_alti_diff(prev_point, cur_point)
+        get_point_elev(prev_point) - get_point_elev(cur_point)
+      end
+
+      def get_point_elev(point)
+        expr = './/*[local-name(.)="ele"]/text()'
+        point.xpath(expr).to_s.to_i
+      end
 
       def parse_gpx(track_data)
         doc = Nokogiri::XML(track_data)
