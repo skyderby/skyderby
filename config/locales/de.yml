@@ -29,17 +29,6 @@ de:
     index:
       title: 'Geladene Tracks:'
     show:
-      eldstch: 'Zurückgelegt in der Höhe/horizontal'
-      eldst_dst: 'Strecke'
-      eldst_el_s: 'Zurückgelegt in der Höhe'
-      eldst_dst_s: 'Zurückgelegte Strecke'
-      eldst_h_s: 'Höhe'
-      spdch: 'Vertikale und horizontale Geschwindigkeit'
-      spd_ax: 'Geschwindigkeit'
-      spd_hs: 'Horizontale Geschwindigkeit'
-      spd_vs: 'Vertikale Geschwindigkeit'
-      grch: 'Flugqualität'
-      gr_s: 'Qualität'
       adc: 'Fluginformation'
       adc_sp_y: 'Geschwindigkeit'
       adc_ed_y: 'Höhe, Entfernung'
@@ -69,9 +58,6 @@ de:
       range_from: "Bereich von"
       range_to: " - "
       edit_range: "Bereich bearbeiten"
-      raw_ground_speed: 'Horizontale Geschwindigkeit (Roh)'
-      raw_vertical_speed: 'Vertikale Geschwindigkeit (Roh)'
-      raw_gr: 'Qualität (Roh)'
     choose:
       title: 'Track aussuchen zum hochladen'
       number: 'Nummer'

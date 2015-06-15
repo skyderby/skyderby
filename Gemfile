@@ -41,6 +41,7 @@ gem 'i18n-js', '>= 3.0.0.rc8'
 gem 'http_accept_language'
 
 gem 'jquery-rails'
+gem 'rails-backbone'
 
 gem 'sass-rails', '~> 4.0.0'
 gem 'coffee-rails', '~> 4.0.0'

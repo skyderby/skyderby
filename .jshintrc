@@ -3,7 +3,10 @@
   "undef": true,
   "unused": true,
   "predef": [ 
+    "app",
+    "Highcharts",
     "Turbolinks",
+    "Backbone",
     "fail_ajax_request",
     "I18n",
     "AjaxErrorMessage",
