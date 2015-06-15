@@ -49,17 +49,6 @@ es:
     index:
       title: 'Las pistas descargadas:'
     show:
-      eldstch: 'La altitud alcanzada/ por horizonte'
-      eldst_dst: 'La distancia'
-      eldst_el_s: 'La altitud alcanzada'
-      eldst_dst_s: 'La distancia alcanzada'
-      eldst_h_s: 'La altitud'
-      spdch: 'Velocidad vertical y horizontal'
-      spd_ax: 'La velocidad'
-      spd_hs: 'Velocidad horizontal'
-      spd_vs: 'Velocidad vertical'
-      grch: 'Calidad del vuelo'
-      gr_s: 'La calidad'
       adc: 'Informaciónsobre el vuelo'
       adc_sp_y: 'La velocidad'
       adc_ed_y: 'La velocidad, la distancia'
@@ -89,9 +78,6 @@ es:
       edit_range: "Edit range"
       range_from: "Range from:"
       range_to: "to:"
-      raw_ground_speed: 'Velocidad horizontal (bruto)'
-      raw_vertical_speed: 'Velocidad vertical (bruto)'
-      raw_gr: 'La calidad (bruto)'
     choose:
       title: 'Elige la pista para descargar'
       number: 'El número'

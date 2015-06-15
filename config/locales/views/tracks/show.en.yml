@@ -1,17 +1,6 @@
 en:
   tracks:
     show:
-      eldstch: 'Elevation/Distance'
-      eldst_dst: 'Distance'
-      eldst_el_s: 'Elevation'
-      eldst_dst_s: 'Distance'
-      eldst_h_s: 'Height'
-      spdch: 'Vertical and ground speed'
-      spd_ax: 'Speed'
-      spd_hs: 'Ground speed'
-      spd_vs: 'Vertical speed'
-      grch: 'Glide ratio'
-      gr_s: 'Glide ratio'
       adc: 'Flight details'
       adc_sp_y: 'Speed'
       adc_ed_y: 'Height, Distance'
@@ -41,9 +30,6 @@ en:
       edit_range: "Edit range"
       range_from: "Range from:"
       range_to: "to:"
-      raw_ground_speed: 'Ground speed (Raw)'
-      raw_vertical_speed: 'Vertical speed (Raw)'
-      raw_gr: 'G/R (Raw)'
       charts: 'Charts'
       results: 'Results'
       comp_result: 'Result in competition'

@@ -1,0 +1,10 @@
+en:
+  charts:
+    elev:
+      title: 'Elevation/Distance'
+      axis:
+        distance: "Distance, %{unit}"
+      series:
+        elevation: 'Elevation'
+        distance: 'Distance'
+        height: 'Height'
