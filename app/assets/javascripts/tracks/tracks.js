@@ -42,15 +42,15 @@ function init_chart_view() {
     init_range_selector();
 
     //init_elev_dist_chart();
-    Track.charts.elev_chart = new app.views.ElevChart({
+    Track.charts.elev_chart = new Skyderby.views.ElevChart({
         container: '#elevation_distance_chart'
     });
 
-    Track.charts.spd_chart = new app.views.SpdChart({
+    Track.charts.spd_chart = new Skyderby.views.SpdChart({
         container: '#speeds_chart'
     });
 
-    Track.charts.gr_chart = new app.views.GrChart({
+    Track.charts.gr_chart = new Skyderby.views.GrChart({
         container: '#glideratio_chart'
     });
 

@@ -30,15 +30,9 @@
 
 //"use strict";
 
-/* exported Skyderby, fail_ajax_request, clone, capitaliseFirstLetter */
+/* exported fail_ajax_request, clone, capitaliseFirstLetter */
 
 Turbolinks.enableProgressBar();
-
-var Skyderby = {
-    Tracks: {},
-    Events: {},
-    Widgets: {},
-};
 
 $.validator.addMethod('filesize', function(value, element, param) {
     // param = size (en bytes) 
