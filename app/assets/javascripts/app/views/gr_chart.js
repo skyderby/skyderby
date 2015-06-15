@@ -1,4 +1,4 @@
-app.views.GrChart = Backbone.View.extend({
+Skyderby.views.GrChart = Backbone.View.extend({
 
     initialize: function(opts) {
         if (opts.container) {

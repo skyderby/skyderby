@@ -1,4 +1,4 @@
-app.views.ElevChart = Backbone.View.extend({
+Skyderby.views.ElevChart = Backbone.View.extend({
 
     initialize: function(opts) {
         if (opts.container) {

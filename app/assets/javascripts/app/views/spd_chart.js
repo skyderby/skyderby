@@ -1,4 +1,4 @@
-app.views.SpdChart = Backbone.View.extend({
+Skyderby.views.SpdChart = Backbone.View.extend({
     
     initialize: function(opts) {
         if (opts.container) {

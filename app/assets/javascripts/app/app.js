@@ -3,7 +3,9 @@
 //= require_tree ./templates
 //= require_tree ./models
 
-var app = {
+/* exported Skyderby */
+
+var Skyderby = {
   collections: {},
   models: {},
   helpers: {},
