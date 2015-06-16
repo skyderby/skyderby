@@ -1,5 +1,7 @@
 Skyderby.views.SpdChart = Backbone.View.extend({
     
+    chart: {},
+
     initialize: function(opts) {
         if (opts.container) {
             this.setElement(opts.container);
@@ -102,34 +104,40 @@ Skyderby.views.SpdChart = Backbone.View.extend({
             }
             ]
         });
+
+        this.chart = this.$el.highcharts();
+
+        return this;
+    },
+
+    reflow: function() {
+        this.chart.reflow();
     },
 
     setUnits: function(unit) {
-        var chart = this.$el.highcharts();
-
-        chart.yAxis[0].update({
+        this.chart.yAxis[0].update({
             title: {
                 text: I18n.t('charts.spd.axis.speed', {unit: unit})
             }
         });
 
         var valueSuffix = ' ' + unit;
-        chart.series[0].update({
+        this.chart.series[0].update({
             tooltip: {
                 valueSuffix: valueSuffix
             }
         });
-        chart.series[1].update({
+        this.chart.series[1].update({
             tooltip: {
                 valueSuffix: valueSuffix
             }
         });
-        chart.series[2].update({
+        this.chart.series[2].update({
             tooltip: {
                 valueSuffix: valueSuffix
             }
         });
-        chart.series[3].update({
+        this.chart.series[3].update({
             tooltip: {
                 valueSuffix: valueSuffix
             }
@@ -137,8 +145,7 @@ Skyderby.views.SpdChart = Backbone.View.extend({
     },
 
     drawCrosshair: function(x) {
-        var chart = this.$el.highcharts();
-        var points = chart.series[0].data;
+        var points = this.chart.series[0].data;
         var point;
         var index;
 
@@ -151,11 +158,11 @@ Skyderby.views.SpdChart = Backbone.View.extend({
         }
 
         if (index) {
-            chart.tooltip.refresh([
+            this.chart.tooltip.refresh([
                 point, 
-                chart.series[1].data[index]
+                this.chart.series[1].data[index]
             ]);
-            chart.xAxis[0].drawCrosshair(
+            this.chart.xAxis[0].drawCrosshair(
                 { 
                     chartX: point.plotX, 
                     chartY: point.plotY
@@ -163,5 +170,33 @@ Skyderby.views.SpdChart = Backbone.View.extend({
                 point
             );
         }
+    },
+
+    hide: function() {
+        this.$el.hide();
+    },
+
+    show: function() {
+        this.$el.show();
+    },
+
+    setData: function(data) {
+        if (_.has(data, 'h_speed')) {
+            this.chart.series[0].setData(data.h_speed, false);
+        }
+
+        if (_.has(data, 'v_speed')) {
+            this.chart.series[1].setData(data.v_speed, false);
+        }
+
+        if (_.has(data, 'raw_h_speed')) {
+            this.chart.series[2].setData(data.raw_h_speed, false);
+        }
+
+        if (_.has(data, 'raw_v_speed')) {
+            this.chart.series[3].setData(data.raw_v_speed, false);
+        }
+
+        this.chart.redraw();
     }
 });

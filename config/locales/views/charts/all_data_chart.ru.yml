@@ -1,0 +1,15 @@
+ru:
+  charts:
+    all_data:
+      title: "Информация о полете"
+      axis:
+        speed: "Скорость"
+        distance: "Высота, Расстояние"
+        gr: "Качество полета"
+      series:
+        horiz_speed: "Гор. Скорость"
+        vert_speed: "Верт. Скорость"
+        gr: "Качество полета"
+        height: "Высота"
+        distance: "Дистанция"
+        elevation: "Пройдено по высоте"

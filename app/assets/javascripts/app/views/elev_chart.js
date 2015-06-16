@@ -1,5 +1,7 @@
 Skyderby.views.ElevChart = Backbone.View.extend({
 
+    chart: {},
+
     initialize: function(opts) {
         if (opts.container) {
             this.setElement(opts.container);
@@ -86,30 +88,34 @@ Skyderby.views.ElevChart = Backbone.View.extend({
             ]
         });
 
+        this.chart = this.$el.highcharts();
+
         return this;
     },
 
-    setUnits: function(unit) {
-        var chart = this.$el.highcharts();
+    reflow: function() {
+        this.chart.reflow();
+    },
 
-        chart.yAxis[0].update({
+    setUnits: function(unit) {
+        this.chart.yAxis[0].update({
             title: {
                 text: I18n.t('charts.elev.axis.distance', {unit: unit})
             }
         });
 
         var valueSuffix = ' ' + unit;
-        chart.series[0].update({
+        this.chart.series[0].update({
             tooltip: {
                 valueSuffix: valueSuffix
             }
         });
-        chart.series[1].update({
+        this.chart.series[1].update({
             tooltip: {
                 valueSuffix: valueSuffix
             }
         });
-        chart.series[2].update({
+        this.chart.series[2].update({
             tooltip: {
                 valueSuffix: valueSuffix
             }
@@ -117,8 +123,7 @@ Skyderby.views.ElevChart = Backbone.View.extend({
     },
 
     drawCrosshair: function(x) {
-        var chart = this.$el.highcharts();
-        var points = chart.series[0].data;
+        var points = this.chart.series[0].data;
         var point;
         var index;
 
@@ -131,12 +136,12 @@ Skyderby.views.ElevChart = Backbone.View.extend({
         }
 
         if (index) {
-            chart.tooltip.refresh([
+            this.chart.tooltip.refresh([
                 point, 
-                chart.series[1].data[index], 
-                chart.series[2].data[index]
+                this.chart.series[1].data[index], 
+                this.chart.series[2].data[index]
             ]);
-            chart.xAxis[0].drawCrosshair(
+            this.chart.xAxis[0].drawCrosshair(
                 { 
                     chartX: point.plotX, 
                     chartY: point.plotY
@@ -145,4 +150,28 @@ Skyderby.views.ElevChart = Backbone.View.extend({
             );
         }
     },
+
+    hide: function() {
+        this.$el.hide();
+    },
+
+    show: function() {
+        this.$el.show();
+    },
+
+    setData: function(data) {
+        if (_.has(data, 'elev_data')) {
+            this.chart.series[0].setData(data.elev_data, false);
+        }
+
+        if (_.has(data, 'dist_data')) {
+            this.chart.series[1].setData(data.dist_data, false);
+        }
+
+        if (_.has(data, 'heights_data')) {
+            this.chart.series[2].setData(data.heights_data, false);
+        }
+
+        this.chart.redraw();
+    }
 });
