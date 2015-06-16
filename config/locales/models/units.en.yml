@@ -1,0 +1,7 @@
+en:
+  units:
+    m: 'm'
+    ft: 'ft'
+    kmh: 'km/h'
+    mph: 'mph'
+    t_unit: "s"

@@ -1,0 +1,7 @@
+de:
+  units:
+    m: 'm'
+    ft: 'Fuß'
+    kmh: 'km/h'
+    mph: 'mi/h'
+    t_unit: "Sek"
