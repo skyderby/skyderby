@@ -4,9 +4,7 @@
 //= require_tree ./collections
 //= require_tree ./models
 
-/* exported Skyderby */
-
-var Skyderby = {
+window.Skyderby = {
   collections: {},
   models: {},
   helpers: {},
