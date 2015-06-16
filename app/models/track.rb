@@ -155,7 +155,6 @@ class Track < ActiveRecord::Base
 
   class << self
     def search(query)
-      return self unless query
       where('LOWER(comment) LIKE ?', "%#{query.downcase}%")
     end
   end

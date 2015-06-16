@@ -196,7 +196,7 @@ Skyderby.views.AllDataChart = Backbone.View.extend({
         }
 
         if (_.has(data, 'heights')) {
-            this.chart.series[3].setData(data.height, false);
+            this.chart.series[3].setData(data.heights, false);
         }
 
         if (_.has(data, 'dist')) {

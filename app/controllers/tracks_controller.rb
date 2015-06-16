@@ -185,6 +185,6 @@ class TracksController < ApplicationController
       @tracks = @tracks.where(user_profile_id: params[:query][:profile_id])
     end
 
-    @tracks = @tracks.search(params[:query][:term])
+    @tracks = @tracks.search(params[:query][:term]) if params[:query][:term]
   end
 end
