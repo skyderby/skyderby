@@ -1,0 +1,7 @@
+es:
+  units:
+    m: 'm'
+    ft: "'pie'"
+    kmh: 'km/h'
+    mph: 'millas/h'
+    t_unit: "seg"

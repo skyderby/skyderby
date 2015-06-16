@@ -26,19 +26,7 @@ de:
         weight: "Gewicht:"
         shirt_size: "Größe des T-Shirts:"
   tracks:
-    index:
-      title: 'Geladene Tracks:'
     show:
-      adc: 'Fluginformation'
-      adc_sp_y: 'Geschwindigkeit'
-      adc_ed_y: 'Höhe, Entfernung'
-      adc_gr_y: 'Flugqualität'
-      adc_hspd: 'Horizontale Geschwindigkeit'
-      adc_vspd: 'Vertikale Geschwindigkeit'
-      adc_gr_s: 'Flugqualität'
-      adc_h_s: 'Höhe'
-      adc_dst: 'Entfernung'
-      adc_ele: 'Zurückgelegt in der Höhe'
       title_track: 'Track'
       title_suit: 'Wingsuit'
       menu_header: 'Merkmalanzeige'
@@ -58,19 +46,6 @@ de:
       range_from: "Bereich von"
       range_to: " - "
       edit_range: "Bereich bearbeiten"
-    choose:
-      title: 'Track aussuchen zum hochladen'
-      number: 'Nummer'
-      name: 'Trackname'
-      elev: 'Höhenunterschied'
-      pt_cnt: 'Anzahl der Punkte'
-    edit:
-      visibility: "Datenschutz:"
-      public: "Öffentlich "
-      unlisted: "Nicht gelistet"
-      private: "Privat"
-      elev_chart_html: "'Höhe'"
-      elevation_html: "'Höhe'"
   static_pages:
     index:
       title: 'Flieg! Nimm am Wettbewerb teil! Gewinne!'
@@ -115,16 +90,6 @@ de:
       developer: "Web-Etwickler - Aleksandr Kunin"
       de_translate: "Webseite-Übersetzung ins Deutsche - Tetyana Holm"
       logo_designed_by: "Das Logo wurde von Julia Makoweewa entworfen"
-  units:
-    m: 'm'
-    ft: 'Fuß'
-    kmh: 'km/h'
-    mph: 'mi/h'
-    t_unit: "Sek"
-    m_html: "'m'"
-    ft_html: "'Fuß'"
-    kmh_html: "'km/h'"
-    mph_html: "'mi/h'"
   events:
     show:
       pf:

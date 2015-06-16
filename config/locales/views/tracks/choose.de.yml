@@ -1,0 +1,8 @@
+de:
+  tracks:
+    choose:
+      title: 'Track aussuchen zum hochladen'
+      number: 'Nummer'
+      name: 'Trackname'
+      elev: 'Höhenunterschied'
+      pt_cnt: 'Anzahl der Punkte'
