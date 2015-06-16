@@ -5,11 +5,13 @@ Event.ShowResultModal = function(result) {
 
     this.result = result;
     this.track_data = {};
-    this.index_cache = [];
+    this.chart_points = [];
     
     // View settings
     this.in_imperial = false;
     this.display_on_single_chart = false;
+
+    this.charts_view = {};
     
     this.$dialog = $('#show-result-modal');
     this.$elements = {
@@ -18,14 +20,6 @@ Event.ShowResultModal = function(result) {
         open_track_link: $('#open-track-link'),
         delete_link: $('#rm-delete'),
         loading_spinner: $('.result-loading-spinner'),
-
-        multiple_charts: $('#multiple-charts'),
-        gr_chart_container: $('#result-gr-chart'),
-        spd_chart_container: $('#result-spd-chart'),
-        elev_chart_container: $('#result-elev-chart'),
-
-        single_chart: $('#single-chart'),
-        all_data_chart_container: $('#result-all-data-chart'),
 
         track_uploaded: $('#rm-track-uploaded'),
 
@@ -87,7 +81,12 @@ Event.ShowResultModal.prototype = {
         this.init_units();
 
         this.bind_events();
-        this.init_charts();
+
+        this.charts_view = new Skyderby.views.TrackCharts({
+            container: '#track_charts',
+            display_in_imperial_units: this.in_imperial,
+            display_single_chart: this.display_on_single_chart
+        });
 
         this.highlite_result();
 
@@ -151,15 +150,17 @@ Event.ShowResultModal.prototype = {
         if (this.result.round_discipline === 'distance') {
             this.$elements.header_distance.text(this.result.result).addClass('text-danger'); 
         } else if (this.result.round_discipline === 'speed') {
-            this.$elements.header_avg_h_speed.text(this.result.result).addClass('text-danger'); 
+            this.$elements.header_avg_h_speed.text(Math.round(this.result.result)).addClass('text-danger'); 
         } else if (this.result.round_discipline === 'time') {
             this.$elements.header_fl_time.text(this.result.result).addClass('text-danger'); 
         }
     },
 
     on_show_modal_shown: function() {
-        this.reflow_charts();
+        this.charts_view.render();
+
         this.$elements.loading_spinner.show();
+
         $.get(
             this.result.url, 
             this.on_get_track_data.bind(this), 
@@ -181,12 +182,10 @@ Event.ShowResultModal.prototype = {
 
         if (view_type == 'single') {
             this.$elements.li_toggle_single.addClass('active');
-            this.$elements.single_chart.show();
-            this.$elements.multiple_charts.hide();
+            this.$elements.li_toggle_multi.removeClass('active');
         } else {
             this.$elements.li_toggle_multi.addClass('active');
-            this.$elements.single_chart.hide();
-            this.$elements.multiple_charts.show();
+            this.$elements.li_toggle_single.removeClass('active');
         }
     },
 
@@ -196,22 +195,16 @@ Event.ShowResultModal.prototype = {
 
         if (units == 'imperial') {
             this.$elements.li_toggle_imperial.addClass('active');
+            this.$elements.li_toggle_metric.removeClass('active');
         } else {
             this.$elements.li_toggle_metric.addClass('active');
+            this.$elements.li_toggle_imperial.removeClass('active');
         }
     },
 
     render_track: function() {
-        var dist_data = [],
-        elev_data = [],
-        heights_data = [],
-        h_speed = [],
-        v_speed = [],
-        gr = [],
-        raw_h_speed = [],
-        raw_v_speed = [],
-        raw_gr = [],
-
+        var chart_points = [],
+        
         min_h_speed = 0,
         max_h_speed = 0,
 
@@ -237,12 +230,9 @@ Event.ShowResultModal.prototype = {
         var max_val = window.Competition.range_from;
         var min_val = window.Competition.range_to;
 
-        this.index_cache = [];
-
         var isFirst = true,
         start_found = false,
-        end_found = false,
-        isLast = false;
+        end_found = false;
 
         for (var index in this.track_data.points) {
 
@@ -278,18 +268,7 @@ Event.ShowResultModal.prototype = {
 
                 fl_time = Math.round((fl_time + point.fl_time) * 10) / 10;
 
-                elev_data.push([fl_time, Math.round(elev * mft_un_k)]);
-                dist_data.push([fl_time, Math.round(dist * mft_un_k)]);
-                h_speed.push([fl_time, Math.round(point.h_speed / km_m_k)]);
-                v_speed.push([fl_time, Math.round(point.v_speed / km_m_k)]);
-                heights_data.push([fl_time, Math.round(point.elevation * mft_un_k)]);
-                this.index_cache.push(fl_time);
-
-                gr.push([fl_time, point.glrat]);
-
-                raw_h_speed.push([fl_time, point.raw_h_speed]);
-                raw_v_speed.push([fl_time, point.raw_v_speed]);
-                raw_gr.push([fl_time, point.raw_gr]);
+                chart_points.push(point);
 
                 min_h_speed = min_h_speed === 0 || min_h_speed > point.h_speed ? point.h_speed : min_h_speed;
                 max_h_speed = max_h_speed === 0 || max_h_speed < point.h_speed ? point.h_speed : max_h_speed;
@@ -301,7 +280,7 @@ Event.ShowResultModal.prototype = {
                 max_gr = max_gr === 0 || max_gr === null || max_gr < point.glrat ? point.glrat : max_gr;
             }
 
-            if (end_found && elev_data.length > 0) {
+            if (end_found && chart_points.length > 0) {
                 if (current_point.elevation <= min_val && this.track_data.points.hasOwnProperty(index - 1)) {
 
                     point = clone(current_point);
@@ -318,25 +297,24 @@ Event.ShowResultModal.prototype = {
                     elev += point.elevation_diff;
                     fl_time += Math.round(point.fl_time * 10) / 10;
 
-                    elev_data.push([fl_time, Math.round(elev * mft_un_k)]);
-                    dist_data.push([fl_time, Math.round(dist * mft_un_k)]);
-                    h_speed.push([fl_time, Math.round(point.h_speed / km_m_k)]);
-                    v_speed.push([fl_time, Math.round(point.v_speed / km_m_k)]);
-                    heights_data.push([fl_time, Math.round(point.elevation * mft_un_k)]);
-                    this.index_cache.push(fl_time);
-
-                    gr.push([fl_time, point.glrat]);
-
-                    raw_h_speed.push([fl_time, point.raw_h_speed]);
-                    raw_v_speed.push([fl_time, point.raw_v_speed]);
-                    raw_gr.push([fl_time, point.raw_gr]);
-
+                    chart_points.push(point);
                 }
                 break;
             }
         }
 
+
         var dist_in_units = dist;
+        var speed_in_units = dist / fl_time * 3.6;
+
+        if (this.result.round_discipline === 'distance') {
+            dist_in_units = this.result.result;
+        }
+
+        if (this.result.round_discipline === 'speed') {
+            speed_in_units = this.result.result;
+        }
+
         if (this.in_imperial){
             dist_in_units = dist * mft_k;
             this.$elements.header_elevation.text((elev * mft_k).toFixed(0));
@@ -344,17 +322,13 @@ Event.ShowResultModal.prototype = {
             this.$elements.header_elevation.text(elev.toFixed(0));
         }
 
-        if (this.result.round_discipline !== 'distance') {
-            this.$elements.header_distance.text(dist_in_units.toFixed(0));
-        }
-
+        this.$elements.header_distance.text(dist_in_units.toFixed(0));
+        this.$elements.header_avg_h_speed.text(Math.round(speed_in_units / km_m_k));
+        
         if (this.result.round_discipline !== 'time') {
             this.$elements.header_fl_time.text(fl_time.toFixed(1));
         }
 
-        if (this.result.round_discipline !== 'speed') {
-            this.$elements.header_avg_h_speed.text(Math.round((dist / fl_time * 3.6) / km_m_k).toString());
-        }
         this.$elements.header_min_h_speed.text((min_h_speed / km_m_k).toFixed(0));
         this.$elements.header_max_h_speed.text((max_h_speed / km_m_k).toFixed(0));
 
@@ -366,66 +340,7 @@ Event.ShowResultModal.prototype = {
         this.$elements.header_max_gr.text(max_gr.toFixed(2));
         this.$elements.header_avg_gr.text((dist / elev).toFixed(2));
 
-        if (!this.display_on_single_chart) {
-            var ed_chart = this.$elements.elev_chart_container.highcharts();
-            ed_chart.series[0].setData(elev_data, false);
-            ed_chart.series[1].setData(dist_data, false);
-            ed_chart.series[2].setData(heights_data, false);
-            ed_chart.redraw();
-        }
-
-        if (!this.display_on_single_chart) {
-            var sp_chart = this.$elements.spd_chart_container.highcharts();
-            sp_chart.series[0].setData(h_speed, false);
-            sp_chart.series[1].setData(v_speed, false);
-            sp_chart.series[2].setData(raw_h_speed, false);
-            sp_chart.series[3].setData(raw_v_speed, false);
-            sp_chart.redraw();
-        }
-
-        if (!this.display_on_single_chart) {
-            var gr_chart = this.$elements.gr_chart_container.highcharts();
-            gr_chart.series[0].setData(gr, false);
-            gr_chart.series[1].setData(raw_gr, false);
-            gr_chart.redraw();
-        }
-
-        if (this.display_on_single_chart) {
-            var ad_chart = this.$elements.all_data_chart_container.highcharts();
-            ad_chart.series[0].setData(h_speed, false);
-            ad_chart.series[1].setData(v_speed, false);
-            ad_chart.series[2].setData(gr, false);
-            ad_chart.series[3].setData(heights_data, false);
-            ad_chart.series[4].setData(dist_data, false);
-            ad_chart.series[5].setData(elev_data, false);
-            ad_chart.redraw();
-        }
-    },
-
-    sync_tooltip: function(chart_name, point) {
-        var index = this.index_cache.indexOf(point);
-        var chart, p, p1;
-
-        if (chart_name !== 'glideratio_chart') {
-            chart = this.$elements.gr_chart_container.highcharts();
-            p = chart.series[0].data[index];
-            chart.tooltip.refresh(p);
-            chart.xAxis[0].drawCrosshair({ chartX: p.plotX, chartY: p.plotY}, p);
-        }
-
-        if (chart_name !== 'speeds_chart') {
-            chart = this.$elements.spd_chart_container.highcharts();
-            p1 = chart.series[0].data[index];
-            chart.tooltip.refresh([p1, chart.series[1].data[index]]);
-            chart.xAxis[0].drawCrosshair({ chartX: p1.plotX, chartY: p1.plotY}, p1);
-        }
-
-        if (chart_name !== 'elevation_distance_chart') {
-            chart = this.$elements.elev_chart_container.highcharts();
-            p1 = chart.series[0].data[index];
-            chart.tooltip.refresh([p1, chart.series[1].data[index], chart.series[2].data[index]]);
-            chart.xAxis[0].drawCrosshair({ chartX: p1.plotX, chartY: p1.plotY}, p1);
-        }
+        this.charts_view.setChartsData(chart_points);
     },
 
     update_units: function() {
@@ -435,80 +350,7 @@ Event.ShowResultModal.prototype = {
         $('.spd-unit').text(speed_unit);
         $('.dst-unit').text(dist_unit);
 
-        // elevation/distance chart
-        this.$elements.elev_chart_container.highcharts().yAxis[0].update({
-            title: {
-                text: I18n.t('tracks.show.eldst_dst') + ', ' + dist_unit
-            }
-        });
-        this.$elements.elev_chart_container.highcharts().series[0].update({
-            tooltip: {
-                valueSuffix: ' ' + dist_unit
-            }
-        });
-        this.$elements.elev_chart_container.highcharts().series[1].update({
-            tooltip: {
-                valueSuffix: ' ' + dist_unit
-            }
-        });
-        this.$elements.elev_chart_container.highcharts().series[2].update({
-            tooltip: {
-                valueSuffix: ' ' + dist_unit
-            }
-        });
-
-        // speeds chart
-        this.$elements.spd_chart_container.highcharts().yAxis[0].update({
-            title: {
-                text: I18n.t('tracks.show.spd_ax') + ', ' + speed_unit
-            }
-        });
-        this.$elements.spd_chart_container.highcharts().series[0].update({
-            tooltip: {
-                valueSuffix: ' ' + speed_unit
-            }
-        });
-        this.$elements.spd_chart_container.highcharts().series[1].update({
-            tooltip: {
-                valueSuffix: ' ' + speed_unit
-            }
-        });
-
-        this.$elements.all_data_chart_container.highcharts().yAxis[0].update({
-            title: {
-                text: I18n.t('tracks.show.adc_sp_y') + ', ' + speed_unit
-            }
-        });
-        this.$elements.all_data_chart_container.highcharts().yAxis[1].update({
-            title: {
-                text: I18n.t('tracks.show.adc_ed_y') + ', ' + dist_unit
-            }
-        });
-        this.$elements.all_data_chart_container.highcharts().series[0].update({
-            tooltip: {
-                valueSuffix: ' ' + speed_unit
-            }
-        });
-        this.$elements.all_data_chart_container.highcharts().series[1].update({
-            tooltip: {
-                valueSuffix: ' ' + speed_unit
-            }
-        });
-        this.$elements.all_data_chart_container.highcharts().series[3].update({
-            tooltip: {
-                valueSuffix: ' ' + dist_unit
-            }
-        });
-        this.$elements.all_data_chart_container.highcharts().series[4].update({
-            tooltip: {
-                valueSuffix: ' ' + dist_unit
-            }
-        });
-        this.$elements.all_data_chart_container.highcharts().series[5].update({
-            tooltip: {
-                valueSuffix: ' ' + dist_unit
-            }
-        });
+        this.charts_view.setUnits();
     },
 
     on_fail_retreive_track_data: function(data, status, jqXHR) {
@@ -531,14 +373,12 @@ Event.ShowResultModal.prototype = {
 
         this.display_on_single_chart = false;
 
-        this.$elements.li_toggle_single.removeClass('active');
         this.$elements.li_toggle_multi.addClass('active');
+        this.$elements.li_toggle_single.removeClass('active');
 
-        this.$elements.single_chart.hide();
-        this.$elements.multiple_charts.show();
+        this.charts_view.toggleMultiChart();
 
         this.render_track();
-        this.reflow_charts();
 
         $.cookie('view_type', 'multi', { expires: 365, path: '/' });
     },
@@ -551,11 +391,9 @@ Event.ShowResultModal.prototype = {
         this.$elements.li_toggle_single.addClass('active');
         this.$elements.li_toggle_multi.removeClass('active');
 
-        this.$elements.single_chart.show();
-        this.$elements.multiple_charts.hide();
+        this.charts_view.toggleMultiChart();
 
         this.render_track();
-        this.reflow_charts();
 
         $.cookie('view_type', 'single', { expires: 365, path: '/' });
     },
@@ -565,14 +403,17 @@ Event.ShowResultModal.prototype = {
 
         if (!this.in_imperial) {
             return;
-        };
+        }
 
-        this.$elements.toggle_metric_link.addClass('active');
-        this.$elements.toggle_imperial_link.removeClass('active');
+        this.$elements.li_toggle_metric.addClass('active');
+        this.$elements.li_toggle_imperial.removeClass('active');
 
         this.in_imperial = false;
 
         this.update_units();
+
+        this.charts_view.setMetricUnits();
+        
         this.render_track();
         $.cookie('units', 'metric', { expires: 365, path: '/' });
     },
@@ -582,383 +423,17 @@ Event.ShowResultModal.prototype = {
 
         if (this.in_imperial) {
             return;
-        };
+        }
 
-        this.$elements.toggle_metric_link.removeClass('active');
-        this.$elements.toggle_imperial_link.addClass('active');
+        this.$elements.li_toggle_metric.removeClass('active');
+        this.$elements.li_toggle_imperial.addClass('active');
 
         this.in_imperial = true;
+
+        this.charts_view.setImperialUnits();
 
         this.update_units();
         this.render_track();
         $.cookie('units', 'imperial', { expires: 365, path: '/'});
-    },
-
-    /////////////////////////////////////////////////////////
-    // Charts
-    //
-
-    init_charts: function() {
-        this.init_gr_chart();
-        this.init_spd_chart();
-        this.init_elev_chart();
-        this.init_multi_chart();
-    },
-
-    init_gr_chart: function() {
-        var context = this;
-        this.$elements.gr_chart_container.highcharts({
-            chart: {
-                type: 'spline',
-                marginLeft: 70
-            },
-            title: {
-                text: I18n.t('tracks.show.grch')
-            },
-            plotOptions: {
-                spline: {
-                    marker: {
-                        enabled: false
-                    }
-                },
-                series: {
-                    marker: {
-                        radius: 1
-                    },
-                    point: {
-                        events: {
-                            mouseOver: function() {
-                                context.sync_tooltip('glideratio_chart', this.x);
-                            }
-                        }
-                    }
-                }
-            },
-            tooltip: {
-                crosshairs: true,
-                valueDecimals: 2
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: ' '
-                }
-            },
-            credits: {
-                enabled: false
-            },
-            series: [
-                {
-                name: I18n.t('tracks.show.gr_s'),
-                color: '#37889B',
-                tooltip: {
-                    valueSuffix: ''
-                },
-                zIndex: 2
-            },
-            {
-                name: I18n.t('tracks.show.raw_gr'),
-                type: 'line',
-                color: '#A6CDCE',
-                lineWidth: 7,
-                enableMouseTracking: false,
-                zIndex: 1,
-                visible: false
-            }
-            ]
-        });
-
-        this.$elements.gr_chart_container.highcharts().reflow();
-    },
-
-    init_spd_chart: function() {
-        var context = this;
-        this.$elements.spd_chart_container.highcharts({
-            chart: {
-                type: 'spline',
-                marginLeft: 70
-            },
-            title: {
-                text: I18n.t('tracks.show.spdch')
-            },
-            plotOptions: {
-                spline: {
-                    marker: {
-                        enabled: false
-                    }
-                },
-                series: {
-                    marker: {
-                        radius: 1
-                    },
-                    point: {
-                        events: {
-                            mouseOver: function() {
-                                context.sync_tooltip('speeds_chart', this.x);
-                            }
-                        }
-                    }
-                }
-            },
-            yAxis: [{ //Speed yAxis
-                min: 0,
-                labels: {
-                    style: {
-                        color: Highcharts.getOptions().colors[1]
-                    }
-                },
-                title: {
-                    text: '',
-                    style: {
-                        color: Highcharts.getOptions().colors[1]
-                    }
-                }
-            }],
-            tooltip: {
-                shared: true,
-                crosshairs: true,
-                valueDecimals: 0
-            },
-            credits: {
-                enabled: false
-            },
-            series:
-                [
-                {
-                name: I18n.t('tracks.show.spd_hs'),
-                color: '#52A964',
-                tooltip: {
-                    valueSuffix: ''
-                }
-            },
-            {
-                name: I18n.t('tracks.show.spd_vs'),
-                color: '#A7414E',
-                tooltip: {
-                    valueSuffix: ''
-                }
-            },
-            {
-                name: I18n.t('tracks.show.raw_ground_speed'),
-                type: 'line',
-                color: '#AAE3CC',
-                enableMouseTracking: false,
-                lineWidth: 7,
-                visible: false,
-                tooltip: {
-                    valueSuffix: ''
-                }
-            },
-            {
-                name: I18n.t('tracks.show.raw_vertical_speed'),
-                type: 'line',
-                color: '#DFAFAD',
-                enableMouseTracking: false,
-                lineWidth: 7,
-                visible: false,
-                tooltip: {
-                    valueSuffix: ''
-                }
-            }
-            ]
-        });
-        this.$elements.spd_chart_container.highcharts().reflow();
-    },
-
-    init_elev_chart: function() {
-        var context = this;
-        this.$elements.elev_chart_container.highcharts({
-            chart: {
-                type: 'spline',
-                marginLeft: 70
-            },
-            title: {
-                text: I18n.t('tracks.show.eldstch')
-            },
-            plotOptions: {
-                spline: {
-                    marker: {
-                        enabled: false
-                    }
-                },
-                area: {
-                    marker: {
-                        enabled: false
-                    }
-                },
-                series: {
-                    marker: {
-                        radius: 1
-                    },
-                    point: {
-                        events: {
-                            mouseOver: function() {
-                                context.sync_tooltip('elevation_distance_chart', this.x);
-                            }
-                        }
-                    }
-                }
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: ''
-                }
-            },
-            tooltip: {
-                shared: true,
-                crosshairs: true
-            },
-            credits: {
-                enabled: false
-            },
-            series:
-                [
-                {
-                name: I18n.t('tracks.show.eldst_el_s'),
-                pointInterval: 10,
-                tooltip: {
-                    valueSuffix: ''
-                }
-            },
-            {
-                name: I18n.t('tracks.show.eldst_dst_s'),
-                pointInterval: 10,
-                tooltip: {
-                    valueSuffix: ''
-                }
-            },
-            {
-                name: I18n.t('tracks.show.eldst_h_s'),
-                type: 'area',
-                fillOpacity: 0.3,
-                color: Highcharts.getOptions().colors[0],
-                lineWidth: 1,
-                tooltip: {
-                    valueSuffix: ''
-                }
-            }
-            ]
-        });
-        this.$elements.elev_chart_container.highcharts().reflow();  
-    },
-
-    init_multi_chart: function() {
-
-        this.$elements.all_data_chart_container.highcharts({
-            chart: {
-                type: 'spline'
-            },
-            title: {
-                text: I18n.t('tracks.show.adc')
-            },
-            plotOptions: {
-                spline: {
-                    marker: {
-                        enabled: false
-                    }
-                },
-                series: {
-                    marker: {
-                        radius: 1
-                    }
-                }
-            },
-            yAxis: [{ //Speed yAxis
-                min: 0,
-                title: {
-                    text: I18n.t('tracks.show.adc')
-                }
-            },
-            { // Elev, dist yAxis
-                min: 0,
-                title: {
-                    text: I18n.t('tracks.show.adc_ed_y')
-                },
-                opposite: true
-            },
-            { // GR yAxis
-                min: 0,
-                max: 5,
-                tickInterval: 0.5,
-                title: {
-                    text: I18n.t('tracks.show.adc_gr_y')
-                },
-                opposite: true
-            }
-            ],
-            tooltip: {
-                shared: true,
-                crosshairs: true
-            },
-            credits: {
-                enabled: false
-            },
-            series:
-                [
-                {
-                name: I18n.t('tracks.show.adc_hspd'),
-                yAxis: 0,
-                color: Highcharts.getOptions().colors[2],
-                tooltip: {
-                    valueSuffix: '',
-                    valueDecimals: 0
-                }
-            },
-            {
-                name: I18n.t('tracks.show.adc_vspd'),
-                yAxis: 0,
-                color: Highcharts.getOptions().colors[0],
-                tooltip: {
-                    valueSuffix: '',
-                    valueDecimals: 0
-                }
-            },
-            {
-                name: I18n.t('tracks.show.adc_gr_s'),
-                yAxis: 2,
-                color: Highcharts.getOptions().colors[1],
-                tooltip: {
-                    valueSuffix: '',
-                    valueDecimals: 2
-                }
-            },
-            {
-                name: I18n.t('tracks.show.adc_h_s'),
-                yAxis: 1,
-                color: '#aaa',
-                tooltip: {
-                    valueSuffix: '',
-                    valueDecimals: 0
-                }
-            },
-            {
-                name: I18n.t('tracks.show.adc_dst'),
-                yAxis: 1,
-                color: Highcharts.getOptions().colors[5],
-                tooltip: {
-                    valueSuffix: '',
-                    valueDecimals: 0
-                }
-            },
-            {
-                name: I18n.t('tracks.show.adc_ele'),
-                yAxis: 1,
-                color: Highcharts.getOptions().colors[3],
-                tooltip: {
-                    valueSuffix: '',
-                    valueDecimals: 0
-                }
-            }
-            ]
-        });
-        this.$elements.all_data_chart_container.highcharts().reflow();  
-    },
-
-    reflow_charts: function() {
-        this.$elements.gr_chart_container.highcharts().reflow();
-        this.$elements.spd_chart_container.highcharts().reflow();
-        this.$elements.elev_chart_container.highcharts().reflow();  
-        this.$elements.all_data_chart_container.highcharts().reflow();
-    },
-}
+    }
+};
