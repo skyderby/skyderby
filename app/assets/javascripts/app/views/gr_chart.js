@@ -1,5 +1,7 @@
 Skyderby.views.GrChart = Backbone.View.extend({
 
+    chart: {},
+
     initialize: function(opts) {
         if (opts.container) {
             this.setElement(opts.container);
@@ -73,11 +75,18 @@ Skyderby.views.GrChart = Backbone.View.extend({
             }
             ]
         });
+
+        this.chart = this.$el.highcharts();
+
+        return this;
+    },
+
+    reflow: function() {
+        this.chart.reflow();
     },
 
     drawCrosshair: function(x) {
-        var chart = this.$el.highcharts();
-        var points = chart.series[0].data;
+        var points = this.chart.series[0].data;
         var point;
         var index;
 
@@ -90,8 +99,8 @@ Skyderby.views.GrChart = Backbone.View.extend({
         }
 
         if (index) {
-            chart.tooltip.refresh(point);
-            chart.xAxis[0].drawCrosshair(
+            this.chart.tooltip.refresh(point);
+            this.chart.xAxis[0].drawCrosshair(
                 { 
                     chartX: point.plotX, 
                     chartY: point.plotY
@@ -99,5 +108,26 @@ Skyderby.views.GrChart = Backbone.View.extend({
                 point
             );
         }
+    },
+    
+    hide: function() {
+        this.$el.hide();
+    },
+
+    show: function() {
+        this.$el.show();
+    },
+    
+    setData: function(data) {
+        if (_.has(data, 'gr')) {
+            this.chart.series[0].setData(data.gr, false);
+        }
+
+        if (_.has(data, 'raw_gr')) {
+            this.chart.series[1].setData(data.raw_gr, false);
+        }
+
+        this.chart.redraw();
     }
+
 });
