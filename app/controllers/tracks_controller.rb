@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 class TracksController < ApplicationController
   before_action :set_track, only:
     [:show, :google_maps, :google_earth, :replay, :edit, :update, :destroy]
@@ -6,25 +7,10 @@ class TracksController < ApplicationController
   def index
     @tracks = Track.public_track.order('id DESC')
 
-    if params[:query]
-      if params[:query][:profile_id]
-        @tracks = @tracks.where(user_profile_id: params[:query][:profile_id])
-      end
-
-      @tracks = @tracks.search(params[:query][:term]) if params[:query][:term].present?
-    end
+    apply_filters!
 
     respond_to do |format|
-      format.html do
-        @tracks = @tracks.includes(:wingsuit)
-                  .includes(wingsuit: :manufacturer)
-                  .includes(:time)
-                  .includes(:distance)
-                  .includes(:speed)
-                  .paginate(page: params[:page], per_page: 50)
-      end
-
-      format.js do
+      format.any(:html, :js) do
         @tracks = @tracks.includes(:wingsuit)
                   .includes(wingsuit: :manufacturer)
                   .includes(:time)
@@ -39,7 +25,8 @@ class TracksController < ApplicationController
 
   def show
     authorize! :read, @track
-    @track_data = Skyderby::Tracks::ChartsData.new(@track, params[:f], params[:t])
+    @track_data =
+      Skyderby::Tracks::ChartsData.new(@track, params[:f], params[:t])
 
     respond_to do |format|
       format.html do
@@ -70,24 +57,19 @@ class TracksController < ApplicationController
     @track_data = Skyderby::Tracks::ReplayData.new(@track)
   end
 
-  def new
+  def create
     authorize! :create, Track
 
-    flight_data = Rails.cache.read(params[:cache_id])
-
-    @track = Track.new flight_data.except(:data, :ext)
-    @track.user = current_user
-    @track.pilot = current_user.user_profile if current_user
-
-    @track.trackfile = flight_data.slice(:data, :ext)
-    @track.track_index = params[:index].to_i
+    @track = Track.new cached_params.merge(
+      file: File.open(cached_params[:filepath]),
+      user: current_user,
+      track_index: track_params[:track_index]
+    )
 
     if @track.save
-      ResultsWorker.perform_async(@track.id)
-      VirtualCompWorker.perform_async(@track.id)
       redirect_to edit_track_path(@track)
     else
-      redirect_to upload_error_tracks_path
+      render 'errors/upload_error'
     end
   end
 
@@ -96,25 +78,10 @@ class TracksController < ApplicationController
     @track_data = Skyderby::Tracks::EditData.new(@track)
   end
 
-  def create
-    authorize! :create, Track
-    @track = Track.new(track_params)
-
-    if @track.save
-      redirect_to @track, notice: 'Track was successfully created.'
-    else
-      render action: 'new'
-    end
-  end
-
   def update
     authorize! :update, @track
 
-    track_upd_params = track_params
-
-    if @track.update(track_upd_params)
-      ResultsWorker.perform_async(@track.id)
-      VirtualCompWorker.perform_async(@track.id)
+    if @track.update(track_params)
       redirect_to @track, notice: 'Track was successfully updated.'
     else
       render action: 'edit'
@@ -131,87 +98,25 @@ class TracksController < ApplicationController
   def choose
     authorize! :create, Track
 
-    require 'nokogiri'
+    @tmpfile_path = record_temp_file
 
-    param_file = params[:track_file]
-
-    # Проверим был ли выбран файл
-    if param_file.blank?
-      redirect_to upload_error_tracks_path
+    unless @tmpfile_path
+      render 'errors/upload_error'
       return
     end
 
-    @tracklist = []
-    track_file = param_file.read
+    @tracklist =
+      Skyderby::Tracks::FileProcessor.new(@tmpfile_path).read_segments
 
-    filename =  param_file.original_filename
-    ext = filename.downcase[filename.length - 4..filename.length - 1]
+    params[:track].merge!(cache_id: write_params_to_cache, index: 0)
 
-    if ext == '.csv' || ext == '.tes'
-      @tracklist << 'main'
-    elsif ext == '.gpx'
-      doc = Nokogiri::XML(track_file)
-      doc.root.elements.each do |node|
-        if node.node_name.eql? 'trk'
-          track_name = ''
-          points_count = 0
-          h_up = 0
-          h_down = 0
-          prev_height = nil
-
-          node.elements.each do |node_attr|
-            if node_attr.node_name.eql? 'trkseg'
-              node_attr.elements.each do |trpoint|
-                points_count += 1
-
-                trpoint.elements.each do |point_node|
-                  if point_node.name.eql? 'ele'
-                    unless prev_height.nil?
-                      h_up += (point_node.text.to_f - prev_height) if prev_height < point_node.text.to_f
-                      h_down += (prev_height - point_node.text.to_f) if prev_height > point_node.text.to_f
-                    end
-                    prev_height = point_node.text.to_f
-                  end
-                end # point node loop
-              end # trpoint loop
-            elsif node_attr.node_name.eql? 'name'
-              track_name = node_attr.text.to_s
-            end
-          end # track attr loop
-
-          @tracklist << { name: track_name,
-                          h_up: h_up.to_i.to_s,
-                          h_down: h_down.to_i.to_s,
-                          points_count: points_count }
-        end # if name.eql? 'trk'
-      end # doc root loop
-    else
-      redirect_to upload_error_tracks_path
-      return
-    end
-
-    # Проверим, содержит ли файл треки
-    if @tracklist.count == 0
+    # Redirect to upload error if track don't contain any segment
+    # Redirect to create action if track has only one segment
+    if @tracklist.empty?
       redirect_to :back
-      return
+    elsif @tracklist.size == 1
+      create
     end
-
-    flight_data = { data: track_file, ext: ext,
-                    name: params[:name], suit: params[:suit],
-                    location: params[:location], kind: params[:kind],
-                    comment: params[:comment], wingsuit_id: params[:wingsuit_id] }
-
-    @key = SecureRandom.uuid.to_s
-    Rails.cache.write(@key, flight_data)
-
-    # Если трек всего один - страницу выбора пропускаем
-    if @tracklist.count == 1
-      redirect_to controller: 'tracks', action: 'new',
-                  cache_id: @key, index: 0
-    end
-  end
-
-  def upload_error
   end
 
   private
@@ -221,8 +126,65 @@ class TracksController < ApplicationController
   end
 
   def track_params
-    params.require(:track).permit(:name, :kind, :location,
-                                  :ff_start, :ff_end, :suit, :wingsuit_id,
-                                  :comment, :cache_id, :index, :visibility)
+    params.require(:track).permit(
+      :name,
+      :kind,
+      :location,
+      :track_file,
+      :filepath,
+      :ff_start,
+      :ff_end,
+      :suit,
+      :wingsuit_id,
+      :comment,
+      :cache_id,
+      :track_index,
+      :visibility
+    )
+  end
+
+  def cached_params
+    @cached_params ||= Rails.cache.read(track_params[:cache_id])
+  end
+
+  def write_params_to_cache
+    @key = SecureRandom.uuid.to_s
+    Rails.cache.write(
+      @key,
+      track_params.except(:track_file).merge(filepath: @tmpfile_path)
+    )
+    @key
+  end
+
+  def record_temp_file
+    uploaded_file = track_params[:track_file]
+    return nil if uploaded_file.blank?
+
+    # Tempfile uses to provide uniq filename
+    tmp_file = Tempfile.new(['', File.extname(uploaded_file.original_filename)],
+                            Rails.root.join('tmp'))
+
+    begin
+      uploaded_file.rewind
+      tmp_file.binmode
+      tmp_file.write uploaded_file.read
+      # Make file persist between requests
+      # it will be unlinked after track save successfully
+      ObjectSpace.undefine_finalizer(tmp_file)
+    ensure
+      tmp_file.close
+    end
+
+    tmp_file.path
+  end
+
+  def apply_filters!
+    return unless params[:query]
+
+    if params[:query][:profile_id]
+      @tracks = @tracks.where(user_profile_id: params[:query][:profile_id])
+    end
+
+    @tracks = @tracks.search(params[:query][:term]) if params[:query][:term]
   end
 end

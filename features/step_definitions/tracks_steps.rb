@@ -4,14 +4,14 @@ end
 
 When /^I fill 'Aleksandr K.' in name$/ do
   within '#newTrackModal' do
-    fill_in 'name', with: 'Александр К.'
+    fill_in 'track[name]', with: 'Александр К.'
   end
 end
 
 And /^I select Ghost 3 in suit text field$/ do
   within '#newTrackModal' do
     click_link 'Enter suit name'
-    fill_in 'suit', with: 'Ghost 3'
+    fill_in 'track[suit]', with: 'Ghost 3'
   end
 end
 
@@ -23,7 +23,7 @@ end
 
 And /^I specify location$/ do
   within '#newTrackModal' do
-    fill_in 'location', with: 'DZ Borki'
+    fill_in 'track[location]', with: 'DZ Borki'
   end
 end
 
@@ -32,7 +32,7 @@ And /^I attach a "(.+)" file$/ do |track|
   script = "$('#track_file').css({opacity: 100})"
   page.execute_script(script)
   within '#newTrackModal' do
-    attach_file 'track_file', file
+    attach_file 'track[track_file]', file
   end
 end
 
@@ -56,10 +56,10 @@ end
 
 When /^I fail to attach a track$/ do
   within '#newTrackModal' do
-    fill_in 'name', with: 'Александр К.'
+    fill_in 'track[name]', with: 'Александр К.'
     click_link 'Enter suit name'
-    fill_in 'suit', with: 'Ghost 3'
-    fill_in 'location', with: 'DZ Borki'
+    fill_in 'track[suit]', with: 'Ghost 3'
+    fill_in 'track[location]', with: 'DZ Borki'
     click_button 'Загрузить'
   end
 end
@@ -70,10 +70,10 @@ When /^I fail to specify name$/ do
   page.execute_script(script)
 
   within '#newTrackModal' do
-    fill_in 'location', with: 'DZ Borki'
+    fill_in 'track[location]', with: 'DZ Borki'
     click_link 'Enter suit name'
-    fill_in 'suit', with: 'Ghost 3'
-    attach_file 'track_file', file
+    fill_in 'track[suit]', with: 'Ghost 3'
+    attach_file 'track[track_file]', file
     click_button 'Загрузить'
   end
 end
@@ -84,9 +84,9 @@ When /^I fail to specify suit$/ do
   page.execute_script(script)
 
   within '#newTrackModal' do
-    fill_in 'name', with: 'Александр К.'
-    fill_in 'location', with: 'DZ Borki'
-    attach_file 'track_file', file
+    fill_in 'track[name]', with: 'Александр К.'
+    fill_in 'track[location]', with: 'DZ Borki'
+    attach_file 'track[track_file]', file
     click_button 'Загрузить'
   end
 end
@@ -97,10 +97,10 @@ When /^I fail to specify place$/ do
   page.execute_script(script)
 
   within '#newTrackModal' do
-    fill_in 'name', with: 'Александр К.'
+    fill_in 'track[name]', with: 'Александр К.'
     click_link 'Enter suit name'
-    fill_in 'suit', with: 'Ghost 3'
-    attach_file 'track_file', file
+    fill_in 'track[suit]', with: 'Ghost 3'
+    attach_file 'track[track_file]', file
     click_button 'Загрузить'
   end
 end

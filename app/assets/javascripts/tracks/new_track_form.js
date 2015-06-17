@@ -6,10 +6,10 @@ var NewTrackForm = function() {
 
     this.$form_modal = $('#newTrackModal');
     this.$form = $('#track_upload_form');
-    this.$form_name = $('#track_upload_form input[name="name"]');
+    this.$form_name = $('#track_upload_form input[name="track[name]"]');
     this.$form_suit_select = $('.new-track-wingsuit-select');
-    this.$form_suit_input = $('#track_upload_form input[name="suit"]');
-    this.$form_location = $('#track_upload_form input[name="location"]');
+    this.$form_suit_input = $('#track_upload_form input[name="track[suit]"]');
+    this.$form_location = $('#track_upload_form input[name="track[location]"]');
     this.$form_toggle_suit = $('#track_upload_form .toggle-suit');
     this.$form_toggle_suit_caption = $('#track_upload_form .toggle-suit-caption');
 
@@ -106,37 +106,37 @@ NewTrackForm.prototype = {
         this.$form.validate({
             ignore: 'input[type=hidden]',
             groups: {
-                suit: 'wingsuit_id suit'
+                suit: 'track[wingsuit_id] track[suit]'
             },
             rules: {
-                name: {
+                'track[name]': {
                     minlength: 3,
                     required: function() {
                         return $('#newTrackModal input#name');
                     }
                 },
-                wingsuit_id: {
+                'track[wingsuit_id]': {
                     require_from_group: [1, '.suit-group']
                 },
-                suit: {
+                'track[suit]': {
                     require_from_group: [1, '.suit-group']
                 },
-                location: {
+                'track[location]': {
                     minlength: 3,
                     required: true
                 },
-                track_file: {
+                'track[track_file]': {
                     required: true,
                     extension: 'csv|gpx|tes',
                     filesize: 3145728 // 3 Mb
                 }
             },
             messages: {
-                track_file: {
+                'track[track_file]': {
                     extension: 'Please enter file with valid extension (csv, gpx, tes)',
                     filesize: 'File should be less than 1MB'
                 },
-                suit: {
+                'track[suit]': {
                     require_from_group: 'This field is required.'
                 }
             },
@@ -147,7 +147,7 @@ NewTrackForm.prototype = {
                 $(element).closest('.form-group').removeClass('has-error');
             },
             errorPlacement: function(error, element) {
-                if (element.attr("name") == "track_file") {
+                if (element.attr("name") == "track[track_file]") {
                     error.appendTo( element.closest(".col-sm-9") );
                 } else if(element.hasClass('suit-group')) {
                     error.appendTo( element.closest('div') );    

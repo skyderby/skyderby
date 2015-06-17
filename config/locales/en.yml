@@ -28,16 +28,6 @@ en:
   errors:
     messages:
       duplicate_file: "File already used. Pilot: %{pilot_name}, round: %{round}"
-  units:
-    m: 'm'
-    ft: 'ft'
-    kmh: 'km/h'
-    mph: 'mph'
-    t_unit: "s"
-    m_html: "'m'"
-    ft_html: "'ft'"
-    kmh_html: "'km/h'"
-    mph_html: "'mph'"
   pf:
     jumps: "Jumps total/in 12 m/in 3 m:"
     ws_jumps: "Wingsuit jumps total/in 12 m/in 3m:"

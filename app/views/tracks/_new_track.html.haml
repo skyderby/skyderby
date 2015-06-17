@@ -24,7 +24,7 @@
               - if current_user
                 %span.track-name-span= current_user.user_profile.name
               - else
-                = text_field_tag 'name', 
+                = text_field_tag 'track[name]', 
                                  nil, 
                                  class: 'form-control', 
                                  placeholder: t('static_pages.index.track_form.name_plh'), 
@@ -34,8 +34,8 @@
             %span.col-sm-3.control-label
               = t('static_pages.index.track_form.suit')
             .col-sm-9
-              %select.new-track-wingsuit-select.suit-group{name: 'wingsuit_id'}
-              %input.form-control.suit-group{name: 'suit', type: 'text', placeholder: 'Enter suit name'}
+              %select.new-track-wingsuit-select.suit-group{name: 'track[wingsuit_id]'}
+              %input.form-control.suit-group{name: 'track[suit]', type: 'text', placeholder: 'Enter suit name'}
             .col-sm-9.col-sm-offset-3
               %span
                 %span.toggle-suit-caption= "Suit you are flying doesn't exist?"
@@ -45,7 +45,7 @@
             %span.col-sm-3.control-label
               = t('static_pages.index.track_form.location')
             .col-sm-9
-              = text_field_tag 'location', 
+              = text_field_tag 'track[location]', 
                                nil, 
                                class: 'form-control', 
                                placeholder: t('static_pages.index.track_form.location_plh'), 
@@ -56,10 +56,10 @@
               = t('static_pages.index.track_form.kind')
             .btn-group.col-sm-9{:data => {:toggle => 'buttons'}}
               %label.btn.btn-default.active
-                = radio_button_tag 'kind', 'skydive', true
+                = radio_button_tag 'track[kind]', 'skydive', true
                 = 'Skydive'
               %label.btn.btn-default
-                = radio_button_tag 'kind', 'base'
+                = radio_button_tag 'track[kind]', 'base'
                 = 'B.A.S.E'
 
           .form-group
@@ -71,7 +71,7 @@
                 %span.input-group-btn
                   %span.btn.btn-default.btn-file
                     Browse&hellip; 
-                    %input#track_file{name: 'track_file', type: "file"}
+                    %input#track_file{name: 'track[track_file]', type: "file"}
 
           .form-group
             .col-sm-offset-3.col-sm-9
@@ -81,7 +81,7 @@
             %span.col-sm-3.control-label
               = t('static_pages.index.track_form.comment')
             .col-sm-9
-              = text_area_tag 'comment', 
+              = text_area_tag 'track[comment]', 
                               nil, 
                               class: 'form-control', 
                               rows: 3, 
@@ -89,4 +89,4 @@
 
         .modal-footer
           = submit_tag t('static_pages.index.track_form.submit'), class: 'btn btn-success'
-          %button.btn.btn-default{:type => 'button', :data => {:dismiss => 'modal'}}=t('general.cancel')
+          %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}=t('general.cancel')
