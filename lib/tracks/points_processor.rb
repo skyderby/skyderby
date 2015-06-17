@@ -10,8 +10,13 @@ module TrackPointsProcessor
     def process
       return nil if @points.count < 10
 
-      # filter_by_freq!
+      # If track recorded with freq > 1Hz and time recorded without
+      # fraction - treat track as 1Hz
+      filter_by_freq!
+
+      # Recalculate relative height based on minimum height from track
       corr_elevation!
+
       calc_parameters!
 
       @points
@@ -19,10 +24,9 @@ module TrackPointsProcessor
 
     private
 
-    # Исключение дублирующихся точек
-    # def filter_by_freq!
-    #  @points.uniq!{ |x| x.gps_time }
-    # end
+    def filter_by_freq!
+      @points.uniq!(&:gps_time)
+    end
 
     # Корректировка высоты от уровня земли
     def corr_elevation!
