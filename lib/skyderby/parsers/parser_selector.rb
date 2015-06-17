@@ -18,6 +18,8 @@ module Skyderby
             FlySightParser.new data, extension
           when :columbusV900
             ColumbusParser.new data, extension
+          else
+            CSVParser.new data, extension
           end
 
         when '.gpx'

@@ -38,7 +38,7 @@ module Skyderby
       protected
 
       def parse_row(row)
-        return nil if row_valid(row)
+        return nil if row_invalid(row)
 
         TrackPoint.new(latitude: row[1].to_d,
                        longitude: row[2].to_d,
@@ -51,20 +51,8 @@ module Skyderby
 
       private
 
-      def row_valid(row)
+      def row_invalid(row)
         row[1].to_i == 0 || row[8].to_i > 70
-      end
-
-      def h_speed(row)
-        Velocity.to_kmh(Math.sqrt(row[4].to_f**2 + row[5].to_f**2))
-      end
-
-      def v_speed(row)
-        Velocity.to_kmh(row[6].to_f)
-      end
-
-      def gps_time(row)
-        Time.parse(row[0].to_s)
       end
     end
   end

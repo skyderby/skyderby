@@ -62,7 +62,7 @@ gem 'bootstrap-datepicker-rails'
 
 gem 'gmaps4rails'
 
-gem "figaro"
+gem 'figaro'
 
 group :development, :test do
   gem 'rspec'
@@ -86,6 +86,8 @@ group :development, :test do
   #
   gem 'rubocop', require: false
   gem 'rack-mini-profiler', require: false
+
+  gem 'pry-byebug'
 end
 
 group :test do
