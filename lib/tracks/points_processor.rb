@@ -1,6 +1,5 @@
 require 'geospatial'
 require 'velocity'
-require 'parser_selector'
 
 module TrackPointsProcessor
   class TPProcessor
@@ -11,8 +10,13 @@ module TrackPointsProcessor
     def process
       return nil if @points.count < 10
 
-      # filter_by_freq!
+      # If track recorded with freq > 1Hz and time recorded without
+      # fraction - treat track as 1Hz
+      filter_by_freq!
+
+      # Recalculate relative height based on minimum height from track
       corr_elevation!
+
       calc_parameters!
 
       @points
@@ -20,10 +24,9 @@ module TrackPointsProcessor
 
     private
 
-    # Исключение дублирующихся точек
-    # def filter_by_freq!
-    #  @points.uniq!{ |x| x.gps_time }
-    # end
+    def filter_by_freq!
+      @points.uniq!(&:gps_time)
+    end
 
     # Корректировка высоты от уровня земли
     def corr_elevation!
@@ -69,16 +72,16 @@ module TrackPointsProcessor
   end
 
   def self.process_file(data, extension, track_index)
-    parser = ParserSelector.choose(data, extension)
+    parser = Skyderby::Parsers::ParserSelector.new.execute(data, extension)
     return nil if parser.nil?
 
-    if parser.is_a? FlySightParser
+    if parser.is_a? Skyderby::Parsers::FlySightParser
       gps_type = :flysight
-    elsif parser.is_a? ColumbusParser
+    elsif parser.is_a? Skyderby::Parsers::ColumbusParser
       gps_type = :columbus
-    elsif parser.is_a? TESParser
+    elsif parser.is_a? Skyderby::Parsers::TESParser
       gps_type = :wintec
-    elsif parser.is_a? GPXParser
+    elsif parser.is_a? Skyderby::Parsers::GPXParser
       gps_type = :gpx
     end
 

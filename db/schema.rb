@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150605180751) do
+ActiveRecord::Schema.define(version: 20150610094225) do
 
   create_table "assignments", force: true do |t|
     t.integer "user_id"
@@ -170,7 +170,7 @@ ActiveRecord::Schema.define(version: 20150605180751) do
     t.integer  "wingsuit_id"
     t.integer  "ff_start"
     t.integer  "ff_end"
-    t.boolean  "ge_enabled"
+    t.boolean  "ge_enabled",        default: true
     t.integer  "visibility",        default: 0
     t.integer  "user_profile_id"
     t.integer  "place_id"

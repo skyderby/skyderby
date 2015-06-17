@@ -4,14 +4,15 @@
 var mft_k = 3.280839895;
 
 var Track = {
-        in_imperial: false,
-        charts_data: [],
-        max_height: 0,
-        min_height: 0,
-        range_from: 0,
-        range_to: 0,
-        index_cache: []
-    };
+    in_imperial: false,
+    charts_data: [],
+    max_height: 0,
+    min_height: 0,
+    range_from: 0,
+    range_to: 0,
+    index_cache: [],
+    charts: {}
+};
 
 //////////////////////////////////////////////////////
 // VIEW INIT
@@ -40,13 +41,16 @@ function init_chart_view() {
 
     init_range_selector();
 
-    init_elev_dist_chart();
-    init_spd_chart();
-    init_gr_chart();
-    init_multi_chart();
-
     init_units();
     init_view_type();
+
+    Track.charts_view = new Skyderby.views.TrackCharts({
+        container: '#track_charts',
+        display_in_imperial_units: Track.in_imperial,
+        display_single_chart: Track.view_type === 'single'
+    });
+
+    Track.charts_view.render();
 
     init_objects();
 
@@ -105,442 +109,14 @@ function init_range_selector() {
 
 }
 
-function init_elev_dist_chart() {
-
-    $('#elevation_distance_chart').highcharts({
-        chart: {
-            type: 'spline',
-            marginLeft: 70
-        },
-        title: {
-            text: I18n.t('tracks.show.eldstch')
-        },
-        plotOptions: {
-            spline: {
-                marker: {
-                    enabled: false
-                }
-            },
-            area: {
-                marker: {
-                    enabled: false
-                }
-            },
-            series: {
-                marker: {
-                    radius: 1
-                },
-                point: {
-                    events: {
-                        mouseOver: function() {
-                            syncTooltip('elevation_distance_chart', this.x);
-                        }
-                    }
-                }
-            }
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: ''
-            }
-        },
-        tooltip: {
-            shared: true,
-            crosshairs: true
-        },
-        credits: {
-            enabled: false
-        },
-        series:
-            [
-            {
-            name: I18n.t('tracks.show.eldst_el_s'),
-            pointInterval: 10,
-            tooltip: {
-                valueSuffix: ''
-            }
-        },
-        {
-            name: I18n.t('tracks.show.eldst_dst_s'),
-            pointInterval: 10,
-            tooltip: {
-                valueSuffix: ''
-            }
-        },
-        {
-            name: I18n.t('tracks.show.eldst_h_s'),
-            type: 'area',
-            fillOpacity: 0.3,
-            color: Highcharts.getOptions().colors[0],
-            lineWidth: 1,
-            tooltip: {
-                valueSuffix: ''
-            }
-        }
-        ]
-    });
-
-}
-
-function init_spd_chart() {
-
-    $('#speeds_chart').highcharts({
-        chart: {
-            type: 'spline',
-            marginLeft: 70
-        },
-        title: {
-            text: I18n.t('tracks.show.spdch')
-        },
-        plotOptions: {
-            spline: {
-                marker: {
-                    enabled: false
-                }
-            },
-            series: {
-                marker: {
-                    radius: 1
-                },
-                point: {
-                    events: {
-                        mouseOver: function() {
-                            syncTooltip('speeds_chart', this.x);
-                        }
-                    }
-                }
-            }
-        },
-        yAxis: [{ //Speed yAxis
-            min: 0,
-            labels: {
-                style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
-            },
-            title: {
-                text: '',
-                style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
-            }
-        }],
-        tooltip: {
-            shared: true,
-            crosshairs: true,
-            valueDecimals: 0
-        },
-        credits: {
-            enabled: false
-        },
-        series:
-            [
-            {
-            name: I18n.t('tracks.show.spd_hs'),
-            color: '#52A964',
-            tooltip: {
-                valueSuffix: ''
-            }
-        },
-        {
-            name: I18n.t('tracks.show.spd_vs'),
-            color: '#A7414E',
-            tooltip: {
-                valueSuffix: ''
-            }
-        },
-        {
-            name: I18n.t('tracks.show.raw_ground_speed'),
-            type: 'line',
-            color: '#AAE3CC',
-            enableMouseTracking: false,
-            lineWidth: 7,
-            visible: false,
-            tooltip: {
-                valueSuffix: ''
-            }
-        },
-        {
-            name: I18n.t('tracks.show.raw_vertical_speed'),
-            type: 'line',
-            color: '#DFAFAD',
-            enableMouseTracking: false,
-            lineWidth: 7,
-            visible: false,
-            tooltip: {
-                valueSuffix: ''
-            }
-        }
-        ]
-    });
-
-}
-
-function init_gr_chart() {
-
-    $('#glideratio_chart').highcharts({
-        chart: {
-            type: 'spline',
-            marginLeft: 70
-        },
-        title: {
-            text: I18n.t('tracks.show.grch')
-        },
-        plotOptions: {
-            spline: {
-                marker: {
-                    enabled: false
-                }
-            },
-            series: {
-                marker: {
-                    radius: 1
-                },
-                point: {
-                    events: {
-                        mouseOver: function() {
-                            syncTooltip('glideratio_chart', this.x);
-                        }
-                    }
-                }
-            }
-        },
-        tooltip: {
-            crosshairs: true,
-            valueDecimals: 2
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: ' '
-            }
-        },
-        credits: {
-            enabled: false
-        },
-        series: [
-            {
-            name: I18n.t('tracks.show.gr_s'),
-            color: '#37889B',
-            tooltip: {
-                valueSuffix: ''
-            },
-            zIndex: 2
-        },
-        {
-            name: I18n.t('tracks.show.raw_gr'),
-            type: 'line',
-            color: '#A6CDCE',
-            lineWidth: 7,
-            enableMouseTracking: false,
-            zIndex: 1,
-            visible: false
-        }
-        ]
-    });
-
-}
-
-function init_multi_chart() {
-
-    $('#all_data_chart').highcharts({
-        chart: {
-            type: 'spline'
-        },
-        title: {
-            text: I18n.t('tracks.show.adc')
-        },
-        plotOptions: {
-            spline: {
-                marker: {
-                    enabled: false
-                }
-            },
-            series: {
-                marker: {
-                    radius: 1
-                }
-            }
-        },
-        yAxis: [{ //Speed yAxis
-            min: 0,
-            title: {
-                text: I18n.t('tracks.show.adc')
-            }
-        },
-        { // Elev, dist yAxis
-            min: 0,
-            title: {
-                text: I18n.t('tracks.show.adc_ed_y')
-            },
-            opposite: true
-        },
-        { // GR yAxis
-            min: 0,
-            max: 5,
-            tickInterval: 0.5,
-            title: {
-                text: I18n.t('tracks.show.adc_gr_y')
-            },
-            opposite: true
-        }
-        ],
-        tooltip: {
-            shared: true,
-            crosshairs: true
-        },
-        credits: {
-            enabled: false
-        },
-        series:
-            [
-            {
-            name: I18n.t('tracks.show.adc_hspd'),
-            yAxis: 0,
-            color: Highcharts.getOptions().colors[2],
-            tooltip: {
-                valueSuffix: '',
-                valueDecimals: 0
-            }
-        },
-        {
-            name: I18n.t('tracks.show.adc_vspd'),
-            yAxis: 0,
-            color: Highcharts.getOptions().colors[0],
-            tooltip: {
-                valueSuffix: '',
-                valueDecimals: 0
-            }
-        },
-        {
-            name: I18n.t('tracks.show.adc_gr_s'),
-            yAxis: 2,
-            color: Highcharts.getOptions().colors[1],
-            tooltip: {
-                valueSuffix: '',
-                valueDecimals: 2
-            }
-        },
-        {
-            name: I18n.t('tracks.show.adc_h_s'),
-            yAxis: 1,
-            color: '#aaa',
-            tooltip: {
-                valueSuffix: '',
-                valueDecimals: 0
-            }
-        },
-        {
-            name: I18n.t('tracks.show.adc_dst'),
-            yAxis: 1,
-            color: Highcharts.getOptions().colors[5],
-            tooltip: {
-                valueSuffix: '',
-                valueDecimals: 0
-            }
-        },
-        {
-            name: I18n.t('tracks.show.adc_ele'),
-            yAxis: 1,
-            color: Highcharts.getOptions().colors[3],
-            tooltip: {
-                valueSuffix: '',
-                valueDecimals: 0
-            }
-        }
-        ]
-    });
-
-}
-
 function updateUnits() {
-
-    var chart;
     var speed_unit = (Track.in_imperial ? I18n.t('units.mph') : I18n.t('units.kmh'));
     var dist_unit = (Track.in_imperial ? I18n.t('units.ft') : I18n.t('units.m'));
 
     $('.spd-unit').text(speed_unit);
     $('.dst-unit').text(dist_unit);
 
-    // elevation/distance chart
-    chart = $('#elevation_distance_chart').highcharts();
-    chart.yAxis[0].update({
-        title: {
-            text: I18n.t('tracks.show.eldst_dst') + ', ' + dist_unit
-        }
-    });
-    chart.series[0].update({
-        tooltip: {
-            valueSuffix: ' ' + dist_unit
-        }
-    });
-    chart.series[1].update({
-        tooltip: {
-            valueSuffix: ' ' + dist_unit
-        }
-    });
-    chart.series[2].update({
-        tooltip: {
-            valueSuffix: ' ' + dist_unit
-        }
-    });
-
-    // speeds chart
-    chart = $('#speeds_chart').highcharts();
-    chart.yAxis[0].update({
-        title: {
-            text: I18n.t('tracks.show.spd_ax') + ', ' + speed_unit
-        }
-    });
-    chart.series[0].update({
-        tooltip: {
-            valueSuffix: ' ' + speed_unit
-        }
-    });
-    chart.series[1].update({
-        tooltip: {
-            valueSuffix: ' ' + speed_unit
-        }
-    });
-
-    chart = $('#all_data_chart').highcharts();
-    chart.yAxis[0].update({
-        title: {
-            text: I18n.t('tracks.show.adc_sp_y') + ', ' + speed_unit
-        }
-    });
-    chart.yAxis[1].update({
-        title: {
-            text: I18n.t('tracks.show.adc_ed_y') + ', ' + dist_unit
-        }
-    });
-    chart.series[0].update({
-        tooltip: {
-            valueSuffix: ' ' + speed_unit
-        }
-    });
-    chart.series[1].update({
-        tooltip: {
-            valueSuffix: ' ' + speed_unit
-        }
-    });
-    chart.series[3].update({
-        tooltip: {
-            valueSuffix: ' ' + dist_unit
-        }
-    });
-    chart.series[4].update({
-        tooltip: {
-            valueSuffix: ' ' + dist_unit
-        }
-    });
-    chart.series[5].update({
-        tooltip: {
-            valueSuffix: ' ' + dist_unit
-        }
-    });
-
+    Track.charts_view.setUnits();
 }
 
 function updateRangeSelector() {
@@ -561,15 +137,7 @@ function updateRangeSelector() {
 
 function set_chart_data() {
 
-    var dist_data = [],
-    elev_data = [],
-    heights_data = [],
-    h_speed = [],
-    v_speed = [],
-    gr = [],
-    raw_h_speed = [],
-    raw_v_speed = [],
-    raw_gr = [],
+    var chart_points = [],
 
     min_h_speed = 0,
     max_h_speed = 0,
@@ -625,6 +193,7 @@ function set_chart_data() {
 
                     k = point.elevation_diff / current_point.elevation_diff;
 
+                    point.elevation = max_val;
                     point.distance = Math.round(current_point.distance * k);
                     point.fl_time = Math.round(current_point.fl_time * k * 10) / 10;
 
@@ -636,18 +205,20 @@ function set_chart_data() {
 
             fl_time = Math.round((fl_time + point.fl_time) * 10) / 10;
 
-            elev_data.push([fl_time, Math.round(elev * mft_un_k)]);
-            dist_data.push([fl_time, Math.round(dist * mft_un_k)]);
-            h_speed.push([fl_time, Math.round(point.h_speed / km_m_k)]);
-            v_speed.push([fl_time, Math.round(point.v_speed / km_m_k)]);
-            heights_data.push([fl_time, Math.round(point.elevation * mft_un_k)]);
-            Track.index_cache.push(fl_time);
+            chart_points.push(point);
 
-            gr.push([fl_time, point.glrat]);
-
-            raw_h_speed.push([fl_time, point.raw_h_speed]);
-            raw_v_speed.push([fl_time, point.raw_v_speed]);
-            raw_gr.push([fl_time, point.raw_gr]);
+            // elev_data.push([fl_time, Math.round(elev * mft_un_k)]);
+            // dist_data.push([fl_time, Math.round(dist * mft_un_k)]);
+            // h_speed.push([fl_time, Math.round(point.h_speed / km_m_k)]);
+            // v_speed.push([fl_time, Math.round(point.v_speed / km_m_k)]);
+            // heights_data.push([fl_time, Math.round(point.elevation * mft_un_k)]);
+            // Track.index_cache.push(fl_time);
+            //
+            // gr.push([fl_time, point.glrat]);
+            //
+            // raw_h_speed.push([fl_time, point.raw_h_speed]);
+            // raw_v_speed.push([fl_time, point.raw_v_speed]);
+            // raw_gr.push([fl_time, point.raw_gr]);
 
             min_h_speed = min_h_speed === 0 || min_h_speed > point.h_speed ? point.h_speed : min_h_speed;
             max_h_speed = max_h_speed === 0 || max_h_speed < point.h_speed ? point.h_speed : max_h_speed;
@@ -659,7 +230,7 @@ function set_chart_data() {
             max_gr = max_gr === 0 || max_gr === null || max_gr < point.glrat ? point.glrat : max_gr;
         }
 
-        if (end_found && elev_data.length > 0) {
+        if (end_found && chart_points.length > 0) {
             if (current_point.elevation <= min_val && Track.charts_data.hasOwnProperty(index - 1)) {
 
                 point = clone(current_point);
@@ -676,18 +247,20 @@ function set_chart_data() {
                 elev += point.elevation_diff;
                 fl_time += Math.round(point.fl_time * 10) / 10;
 
-                elev_data.push([fl_time, Math.round(elev * mft_un_k)]);
-                dist_data.push([fl_time, Math.round(dist * mft_un_k)]);
-                h_speed.push([fl_time, Math.round(point.h_speed / km_m_k)]);
-                v_speed.push([fl_time, Math.round(point.v_speed / km_m_k)]);
-                heights_data.push([fl_time, Math.round(point.elevation * mft_un_k)]);
-                Track.index_cache.push(fl_time);
-
-                gr.push([fl_time, point.glrat]);
-
-                raw_h_speed.push([fl_time, point.raw_h_speed]);
-                raw_v_speed.push([fl_time, point.raw_v_speed]);
-                raw_gr.push([fl_time, point.raw_gr]);
+                chart_points.push(point);
+            
+                // elev_data.push([fl_time, Math.round(elev * mft_un_k)]);
+                // dist_data.push([fl_time, Math.round(dist * mft_un_k)]);
+                // h_speed.push([fl_time, Math.round(point.h_speed / km_m_k)]);
+                // v_speed.push([fl_time, Math.round(point.v_speed / km_m_k)]);
+                // heights_data.push([fl_time, Math.round(point.elevation * mft_un_k)]);
+                // Track.index_cache.push(fl_time);
+                //
+                // gr.push([fl_time, point.glrat]);
+                //
+                // raw_h_speed.push([fl_time, point.raw_h_speed]);
+                // raw_v_speed.push([fl_time, point.raw_v_speed]);
+                // raw_gr.push([fl_time, point.raw_gr]);
 
             }
             break;
@@ -716,85 +289,15 @@ function set_chart_data() {
     $('#p_avg_gr').text((dist / elev).toFixed(2));
 
 
-    var all_data_chart = $('#all_data_chart');
-    var display_multiple_charts = $('#multiple-charts').css('display') !== 'none';
-    var display_all_data_chart = all_data_chart.css('display') !== 'none';
-
-    if (display_multiple_charts) {
-        var ed_chart = $('#elevation_distance_chart').highcharts();
-        ed_chart.series[0].setData(elev_data, false);
-        ed_chart.series[1].setData(dist_data, false);
-        ed_chart.series[2].setData(heights_data, false);
-        ed_chart.redraw();
-    }
-
-    if (display_multiple_charts) {
-        var sp_chart = $('#speeds_chart').highcharts();
-        sp_chart.series[0].setData(h_speed, false);
-        sp_chart.series[1].setData(v_speed, false);
-        sp_chart.series[2].setData(raw_h_speed, false);
-        sp_chart.series[3].setData(raw_v_speed, false);
-        sp_chart.redraw();
-    }
-
-    if (display_multiple_charts) {
-        var gr_chart = $('#glideratio_chart').highcharts();
-        gr_chart.series[0].setData(gr, false);
-        gr_chart.series[1].setData(raw_gr, false);
-        gr_chart.redraw();
-    }
-
-    if (display_all_data_chart) {
-        var ad_chart = all_data_chart.highcharts();
-        ad_chart.series[0].setData(h_speed, false);
-        ad_chart.series[1].setData(v_speed, false);
-        ad_chart.series[2].setData(gr, false);
-        ad_chart.series[3].setData(heights_data, false);
-        ad_chart.series[4].setData(dist_data, false);
-        ad_chart.series[5].setData(elev_data, false);
-        ad_chart.redraw();
-    }
-
-}
-
-function syncTooltip(container_id, x) {
-
-    var index = Track.index_cache.indexOf(x);
-    var chart, p, p1;
-
-    if (container_id !== 'glideratio_chart') {
-        chart = $('#glideratio_chart').highcharts();
-        p = chart.series[0].data[index];
-        chart.tooltip.refresh(p);
-        chart.xAxis[0].drawCrosshair({ chartX: p.plotX, chartY: p.plotY}, p);
-    }
-
-    if (container_id !== 'speeds_chart') {
-        chart = $('#speeds_chart').highcharts();
-        p1 = chart.series[0].data[index];
-        chart.tooltip.refresh([p1, chart.series[1].data[index]]);
-        chart.xAxis[0].drawCrosshair({ chartX: p1.plotX, chartY: p1.plotY}, p1);
-    }
-
-    if (container_id !== 'elevation_distance_chart') {
-        chart = $('#elevation_distance_chart').highcharts();
-        p1 = chart.series[0].data[index];
-        chart.tooltip.refresh([p1, chart.series[1].data[index], chart.series[2].data[index]]);
-        chart.xAxis[0].drawCrosshair({ chartX: p1.plotX, chartY: p1.plotY}, p1);
-    }
-
+    Track.charts_view.setChartsData(chart_points);
 }
 
 function init_view_type() {
-    var view_type = $.cookie('view_type');
-    if (view_type == 'single') {
+    Track.view_type = $.cookie('view_type');
+    if (Track.view_type == 'single') {
         $('#li_toggle_single').addClass('active');
-        $('#single-chart').show();
-        $('#multiple-charts').hide();
     } else {
         $('#li_toggle_multi').addClass('active');
-        $('#single-chart').hide();
-        $('#multiple-charts').show();
     }
 }
 
@@ -817,8 +320,7 @@ function init_objects() {
         $('#li_toggle_single').removeClass('active');
         $('#li_toggle_multi').addClass('active');
 
-        $('#single-chart').hide();
-        $('#multiple-charts').show();
+        Track.charts_view.toggleMultiChart();
         set_chart_data();
         $.cookie('view_type', 'multi', { expires: 365, path: '/' });
     });
@@ -829,8 +331,7 @@ function init_objects() {
         $('#li_toggle_single').addClass('active');
         $('#li_toggle_multi').removeClass('active');
 
-        $('#multiple-charts').hide();
-        $('#single-chart').show();
+        Track.charts_view.toggleSingleChart();
         set_chart_data();
         $.cookie('view_type', 'single', { expires: 365, path: '/' });
     });
@@ -851,6 +352,9 @@ function init_objects() {
 
         updateRangeSelector();
         updateUnits();
+        
+        Track.charts_view.setMetricUnits();
+
         set_chart_data();
         $.cookie('units', 'metric', { expires: 365, path: '/' });
     });
@@ -871,6 +375,9 @@ function init_objects() {
 
         updateRangeSelector();
         updateUnits();
+
+        Track.charts_view.setImperialUnits();
+
         set_chart_data();
         $.cookie('units', 'imperial', { expires: 365, path: '/'});
     });

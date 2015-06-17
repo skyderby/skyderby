@@ -1,0 +1,15 @@
+es:
+  charts:
+    all_data:
+      title: 'Informaciónsobre el vuelo'
+      axis:
+        speed: 'La velocidad'
+        distance: 'La velocidad, la distancia'
+        gr: 'Calidad del vuelo'
+      series:
+        horiz_speed: 'Velocidad horizontal'
+        vert_speed: 'Velocidad vertical'
+        gr: 'Calidad del vuelo'
+        height: 'La altitud'
+        distance: 'La distancia'
+        elevation: 'La altitud alcanzada'

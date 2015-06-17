@@ -1,0 +1,15 @@
+en:
+  charts:
+    all_data:
+      title: 'Flight details'
+      axis:
+        speed: 'Speed'
+        distance: 'Height, Distance'
+        gr: 'Glide ratio'
+      series:
+        horiz_speed: 'Ground speed'
+        vert_speed: 'Vertical speed'
+        gr: 'Glide ratio'
+        height: 'Height'
+        distance: 'Distance'
+        elevation: 'Elevation'

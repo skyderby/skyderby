@@ -1,0 +1,10 @@
+ru:
+  charts:
+    elev:
+      title: "Пройдено по высоте/по горизонту"
+      axis:
+        distance: "Дистанция, %{unit}"
+      series:
+        elevation: "Пройдено по высоте"
+        distance: "Пройдено Расстояние"
+        height: "Высота"
