@@ -1,0 +1,11 @@
+en:
+  charts:
+    spd:
+      title: 'Velocidad vertical y horizontal'
+      axis:
+        speed: 'La velocidad, %{unit}'
+      series:
+        ground: 'Velocidad horizontal'
+        raw_ground: 'Velocidad horizontal (bruto)'
+        vertical: 'Velocidad vertical'
+        raw_vertical: 'Velocidad vertical (bruto)'

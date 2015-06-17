@@ -41,6 +41,7 @@ gem 'i18n-js', '>= 3.0.0.rc8'
 gem 'http_accept_language'
 
 gem 'jquery-rails'
+gem 'rails-backbone'
 
 gem 'sass-rails', '~> 4.0.0'
 gem 'coffee-rails', '~> 4.0.0'
@@ -61,7 +62,7 @@ gem 'bootstrap-datepicker-rails'
 
 gem 'gmaps4rails'
 
-gem "figaro"
+gem 'figaro'
 
 group :development, :test do
   gem 'rspec'
@@ -85,6 +86,8 @@ group :development, :test do
   #
   gem 'rubocop', require: false
   gem 'rack-mini-profiler', require: false
+
+  gem 'pry-byebug'
 end
 
 group :test do

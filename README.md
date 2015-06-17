@@ -35,7 +35,7 @@ To run integration tests run `cucumber` within project folder
 
 ## Licensing
 
-Code released under GPLv3 license.
+Code released under AGPLv3 license.
 
 Note:
 Skyderby is using [Highcharts JS](http://shop.highsoft.com/highcharts.html) library which is licensed under [Creative Commons Attribution-NonCommercial 3.0 License](http://creativecommons.org/licenses/by-nc/3.0/).
