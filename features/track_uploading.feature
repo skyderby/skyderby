@@ -22,6 +22,7 @@ Feature: uploading tracks
 			| flysight.csv   |
 			| columbus.csv   |
 			| wintec.tes     |
+			| cyber_eye.csv  |
 
 	@javascript
 	Scenario: uploading track with many segments
