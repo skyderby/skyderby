@@ -1,0 +1,7 @@
+en:
+  charts:
+    gr:
+      title: 'Glide ratio'
+      series:
+        gr: 'Glide ratio'
+        raw_gr: 'G/R (Raw)'

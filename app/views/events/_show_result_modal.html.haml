@@ -112,15 +112,13 @@
                   =t 'tracks.show.dt_dur'
 
           %hr
-          -# Charts
-          .row#multiple-charts
+          .row
             .col-sm-12
-              #result-gr-chart
-              #result-spd-chart
-              #result-elev-chart
-          .row#single-chart
-            .col-sm-12
-              #result-all-data-chart
+              #track-charts
+                #glideratio_chart
+                #speeds_chart
+                #elevation_distance_chart
+                #all_data_chart
           .row
             %hr
             %span.col-sm-2.control-label= t('events.show.track_upoaded') + ':'

@@ -21,6 +21,11 @@
 //= require vendor/jquery.validate
 //= require vendor/additional-methods.min
 //= require i18n/translations
+//= require underscore
+//= require backbone
+//= require backbone_rails_sync
+//= require backbone_datalink
+//= require app/app
 //= require_tree .
 
 //"use strict";
@@ -28,7 +33,6 @@
 /* exported fail_ajax_request, clone, capitaliseFirstLetter */
 
 Turbolinks.enableProgressBar();
-
 
 $.validator.addMethod('filesize', function(value, element, param) {
     // param = size (en bytes) 

@@ -1,0 +1,15 @@
+de:
+  charts:
+    all_data:
+      title: 'Fluginformation'
+      axis:
+        speed: 'Geschwindigkeit'
+        distance: 'Höhe, Entfernung'
+        gr: 'Flugqualität'
+      series:
+        horiz_speed: 'Horizontale Geschwindigkeit'
+        vert_speed: 'Vertikale Geschwindigkeit'
+        gr: 'Flugqualität'
+        height: 'Höhe'
+        distance: 'Entfernung'
+        elevation: 'Zurückgelegt in der Höhe'

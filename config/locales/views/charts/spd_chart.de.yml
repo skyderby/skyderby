@@ -1,0 +1,11 @@
+en:
+  charts:
+    spd:
+      title: 'Vertikale und horizontale Geschwindigkeit'
+      axis:
+        speed: 'Geschwindigkeit, %{unit}'
+      series:
+        ground: 'Horizontale Geschwindigkeit'
+        raw_ground: 'Horizontale Geschwindigkeit (Roh)'
+        vertical: 'Vertikale Geschwindigkeit'
+        raw_vertical: 'Vertikale Geschwindigkeit (Roh)'

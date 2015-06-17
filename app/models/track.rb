@@ -6,8 +6,7 @@ class Track < ActiveRecord::Base
   enum visibility: [:public_track, :unlisted_track, :private_track]
   enum gps_type: [:gpx, :flysight, :columbus, :wintec]
 
-  attr_accessor :file
-  attr_accessor :trackfile, :track_index
+  attr_accessor :file, :filepath, :track_index
 
   belongs_to :user
   belongs_to :pilot,
@@ -35,10 +34,13 @@ class Track < ActiveRecord::Base
   has_many :track_results, dependent: :destroy
   has_many :virtual_comp_results, dependent: :destroy
 
-  validates :name, presence: true, if: :pilot_blank?
+  validates :name, presence: true, if: 'pilot.blank?'
 
-  before_save :ge_enabled!, :parse_file
+  before_validation :set_profile, if: :user
+  before_create :process_file
   before_destroy :used_in_competition?
+  after_save :unlink_file, on: :create
+  after_commit :perform_jobs
 
   has_attached_file :file
 
@@ -55,62 +57,57 @@ class Track < ActiveRecord::Base
 
   private
 
+  def set_profile
+    self.pilot = user.user_profile
+  end
+
   def used_in_competition?
     errors.add(:base, 'Cannot delete track used in competition') if competitive?
-    errors.blank? # return false, to not destroy the element, otherwise, it will delete.
-  end
-
-  def pilot_blank?
-    pilot.blank?
-  end
-
-  def ge_enabled!
-    self.ge_enabled = true
+    # return false, to not destroy the element, otherwise, it will delete.
+    errors.blank?
   end
 
   # REFACTOR IT
-  def parse_file
-    if self.new_record?
-      # Когда загружаем соревновательный трек -
-      # загрузка производится через api/round_tracks_controller
-      # файл передается параметром
-      if file.present?
-        filename = file.original_filename
-        self.trackfile = {
-          data: File.read(file.queued_for_write[:original].path),
-          ext: filename.downcase[filename.length - 4..filename.length - 1]
-        }
-        self.track_index = 0
-      end
-
-      file_data = TrackPointsProcessor.process_file(trackfile[:data], trackfile[:ext], track_index)
-      track_points = file_data[:points]
-      return false unless track_points
-
-      self.gps_type = file_data[:gps_type]
-
-      jump_range = JumpRangeFinder.range_for track_points
-
-      self.ff_start = jump_range.start_time
-      self.ff_end = jump_range.end_time
-
-      # Place
-      search_radius = base? ? 1 : 10 # in km
-      self.place = Place.nearby(jump_range.start_point, search_radius).first
-
-      if place && place.msl
-        track_points.each { |x| x[:elevation] = x[:abs_altitude] - place.msl }
-      end
-
-      record_points track_points
+  def process_file
+    if file.present?
+      filename = file.original_filename
+      trackfile = {
+        data: File.read(file.queued_for_write[:original].path),
+        ext: filename.downcase[filename.length - 4..filename.length - 1]
+      }
     end
+
+    file_data = TrackPointsProcessor.process_file(
+      trackfile[:data],
+      trackfile[:ext],
+      (track_index || 0).to_i
+    )
+
+    track_points = file_data[:points]
+    return false unless track_points
+
+    self.gps_type = file_data[:gps_type]
+
+    jump_range = JumpRangeFinder.range_for track_points
+
+    self.ff_start = jump_range.start_time
+    self.ff_end = jump_range.end_time
+
+    # Place
+    search_radius = base? ? 1 : 10 # in km
+    self.place = Place.nearby(jump_range.start_point, search_radius).first
+
+    if place && place.msl
+      track_points.each { |x| x[:elevation] = x[:abs_altitude] - place.msl }
+    end
+
+    record_points track_points
   end
 
   def record_points(track_points)
     trkseg = Tracksegment.create
     tracksegments << trkseg
 
-    connection = ActiveRecord::Base.connection
     columns = "
       `gps_time_in_seconds`,
       `latitude`,
@@ -141,19 +138,19 @@ class Track < ActiveRecord::Base
         '#{Time.zone.now.to_s(:db)}',
         '#{Time.zone.now.to_s(:db)}'
       )"
-
-      # Point.new(point.to_h.except(
-      #   :fl_time_abs,
-      #   :elevation_diff,
-      #   :glrat,
-      #   :raw_gr,
-      #   :raw_h_speed,
-      #   :raw_v_speed
-      # ))
     end
 
     sql = "INSERT INTO points (#{columns}) VALUES #{inserts.join(', ')}"
-    connection.execute sql
+    ActiveRecord::Base.connection.execute sql
+  end
+
+  def unlink_file
+    File.unlink(filepath) if filepath
+  end
+
+  def perform_jobs
+    ResultsWorker.perform_async(id)
+    VirtualCompWorker.perform_async(id)
   end
 
   class << self
