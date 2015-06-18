@@ -133,3 +133,7 @@ $(document).on('ready page:load', function() {
         $(window).off('scroll');
     }
 });
+
+$(document).on('page:change', function() {
+  ga('send', 'pageview', window.location.pathname); 
+});
