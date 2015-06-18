@@ -14,4 +14,6 @@ class VirtualCompResult < ActiveRecord::Base
   belongs_to :virtual_competition
   belongs_to :track
   belongs_to :user_profile
+
+  delegate :wingsuit, to: :track
 end
