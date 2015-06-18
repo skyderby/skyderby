@@ -169,8 +169,6 @@ GEM
       less (~> 2.6.0)
       sprockets (> 2, < 4)
       tilt
-    less-rails-bootstrap (3.3.4.0)
-      less-rails (>= 2.6, <= 2.8)
     libv8 (3.16.14.8.rc1)
     loofah (2.0.2)
       nokogiri (>= 1.5.9)
@@ -414,7 +412,6 @@ DEPENDENCIES
   jquery-rails
   jquery-turbolinks
   less-rails
-  less-rails-bootstrap
   libv8 (= 3.16.14.8.rc1)
   mailcatcher
   meta_request
