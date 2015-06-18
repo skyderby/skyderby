@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.5'
+gem 'rails', '4.2.2'
 
 # Supported DB
 gem 'mysql2'
@@ -54,7 +54,6 @@ gem 'therubyracer'
 gem 'less-rails'
 
 gem 'twitter-bootstrap-rails'
-gem 'less-rails-bootstrap'
 
 gem 'font-awesome-rails'
 

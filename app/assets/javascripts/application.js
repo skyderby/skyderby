@@ -119,9 +119,6 @@ $(document).on('click', '.clickableRow', function() {
 
 
 $(document).on('ready page:load', function() {
-    // Init tooltips
-    $('[data-toggle="tooltip"]').tooltip();
-    
     // ONLY if page has one pagination!
     if ($('.pagination').length) {
         $(window).off('scroll').on('scroll', function() {
@@ -135,4 +132,8 @@ $(document).on('ready page:load', function() {
     } else {
         $(window).off('scroll');
     }
+});
+
+$(document).on('page:change', function() {
+  ga('send', 'pageview', window.location.pathname); 
 });
