@@ -54,7 +54,6 @@ gem 'therubyracer'
 gem 'less-rails'
 
 gem 'twitter-bootstrap-rails'
-gem 'less-rails-bootstrap'
 
 gem 'font-awesome-rails'
 
