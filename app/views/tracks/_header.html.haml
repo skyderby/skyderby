@@ -1,7 +1,7 @@
 .page-header
   .row
     .col-md-12
-      %h1
+      %h1.light-header
         - if track.pilot
           %a{href: user_profile_path(track.pilot)}
             = image_tag track.pilot.userpic.url(:thumb), :class => 'img-rounded img-50 loading-bg'
@@ -9,7 +9,7 @@
         - else
           = track.name
         =header track
-        %small
+        %small.light-header
           %span= t('tracks.show.title_suit') + ':' 
           - if track.wingsuit
             - manufacturer = track.wingsuit.manufacturer
