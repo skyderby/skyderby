@@ -433,6 +433,7 @@ DEPENDENCIES
   selenium
   selenium-webdriver
   sidekiq
+  sinatra
   slack-notifier
   therubyracer
   turbolinks
