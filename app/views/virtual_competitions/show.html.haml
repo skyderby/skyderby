@@ -62,17 +62,17 @@
             - best_result = result[:results].first
             %tr{data: {toggle: 'collapse', target: "#all_results_#{result[:pilot_id]}"}}
               -#.clickableRow{data: {url: track_path(id: best_result.track_id)}}
-              %td.text-info= index + 1
-              %td.text-info= best_result.user_profile.name.titleize
-              %td.text-info= suit_presentation(best_result.wingsuit)
+              %td= index + 1
+              %td= best_result.user_profile.name.titleize
+              %td= suit_presentation(best_result.wingsuit)
               %td.text-right
                 %a.text-info{href: track_path(best_result.track_id), data: {toggle: 'tooltip'}, title: t('.show_details')}
                   = format_result(best_result.result, @competition)
               - if @competition.display_highest_speed
-                %td.text-info.text-right= (best_result.highest_speed || 0.0).round(1)
+                %td.text-right= (best_result.highest_speed || 0.0).round(1)
               - if @competition.display_highest_gr
-                %td.text-info.text-right= (best_result.highest_gr || 0.0).round(2)
-              %td.text-info.text-right= best_result.track.created_at.strftime('%d.%m.%Y')
+                %td.text-right= (best_result.highest_gr || 0.0).round(2)
+              %td.text-right= best_result.track.created_at.strftime('%d.%m.%Y')
               %td
                 - if best_result.track.video
                   %i.fa.fa-video-camera
@@ -89,11 +89,11 @@
                           %a.text-info{href: track_path(comp_result.track_id), data: {toggle: 'tooltip'}, title: t('.show_details')}
                             = format_result(comp_result.result, @competition)
                         - if @competition.display_highest_speed
-                          %td.text-info.text-right= (comp_result.highest_speed || 0.0).round(1)
+                          %td.text-right= (comp_result.highest_speed || 0.0).round(1)
                         - if @competition.display_highest_gr
-                          %td.text-info.text-right= (comp_result.highest_gr || 0.0).round(2)
-                        %td.text-info.text-right= comp_result.track.created_at.strftime('%d.%m.%Y')
-                        %td.text-center
+                          %td.text-right= (comp_result.highest_gr || 0.0).round(2)
+                        %td.text-right= comp_result.track.created_at.strftime('%d.%m.%Y')
+                        %td
                           - if comp_result.track.video
                             %i.fa.fa-fw.fa-video-camera
                           - else

@@ -79,7 +79,7 @@ group :development, :test do
 
   gem 'capistrano', '~> 3.4.0'
   gem 'capistrano-rails'
-  gem 'capistrano-passenger', '~> 0.0.4'
+  gem 'capistrano-passenger'
   gem 'capistrano-bundler'
   gem 'capistrano-sidekiq'
   #
