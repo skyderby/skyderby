@@ -1,10 +1,16 @@
+require 'sidekiq/web'
+
 Skyderby::Application.routes.draw do
   scope '/(:locale)', locale: /#{I18n.available_locales.join('|')}/ do
     # Static pages and routes
     match '/competitions', to: 'static_pages#competitions', as: :competitions, via: :get
     match '/about', to: 'static_pages#about', as: :about, via: :get
     match '/terms', to: 'static_pages#terms', as: :terms, via: :get
+
     match '/manage', to: 'static_pages#manage', as: :manage, via: :get
+    authenticate :user, lambda { |u| u.has_role? :admin } do
+      mount Sidekiq::Web => '/manage/sidekiq'
+    end
 
     resources :tracks, only: [:index, :create, :show, :edit, :update, :destroy] do
       collection do
