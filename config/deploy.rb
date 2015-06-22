@@ -1,9 +1,11 @@
 # config valid only for current version of Capistrano
 lock '3.4.0'
 
-set :application, 'tracks'
+set :application, 'skyderby'
 set :repo_url, 'git@github.com:skyderby/skyderby.git'
 set :rails_env, 'production'
+
+set :sidekiq_monit_conf_dir, '/etc/monit.d'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -21,7 +23,7 @@ set :deploy_to, '/var/www/vhosts/skyderby.ru'
 # set :log_level, :debug
 
 # Default value for :pty is false
-# set :pty, true
+set :pty, true
 
 # Default value for :linked_files is []
 set :linked_files, fetch(:linked_files, []).push('config/database.yml',
