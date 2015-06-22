@@ -6,7 +6,9 @@ class VirtualCompWorker
   include Sidekiq::Worker
 
   def perform(track_id)
-    track = Track.find(track_id)
+    track = Track.find_by_id(track_id)
+    return unless track
+
     track.virtual_comp_results.each(&:delete)
     return unless track.public_track?
     return unless track.wingsuit && track.pilot

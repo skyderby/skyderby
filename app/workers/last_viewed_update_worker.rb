@@ -2,6 +2,9 @@ class LastViewedUpdateWorker
   include Sidekiq::Worker
 
   def perform(track_id)
-    Track.find(track_id).update_columns(lastviewed_at: Time.zone.now)
+    track = Track.find_by_id(track_id)
+    return unless track
+
+    track.update_columns(lastviewed_at: Time.zone.now)
   end
 end
