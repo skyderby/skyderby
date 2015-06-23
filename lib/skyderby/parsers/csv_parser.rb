@@ -19,9 +19,9 @@ module Skyderby
 
       def parse_row(row)
         Skyderby::Tracks::TrackPoint.new(
-          latitude: row[1].to_d,
-          longitude: row[2].to_d,
-          abs_altitude: row[3].to_f,
+          latitude: row[1],
+          longitude: row[2],
+          abs_altitude: row[3],
           h_speed: h_speed(row),
           v_speed: v_speed(row),
           gps_time: gps_time(row)
