@@ -11,14 +11,15 @@ class TracksController < ApplicationController
 
     respond_to do |format|
       format.any(:html, :js) do
-        @tracks = @tracks.includes(:wingsuit)
-                  .includes(wingsuit: :manufacturer)
-                  .includes(:place)
-                  .includes(:pilot)
-                  .includes(:time)
-                  .includes(:distance)
-                  .includes(:speed)
-                  .paginate(page: params[:page], per_page: 50)
+        @tracks = @tracks.includes(
+          :place,
+          :pilot,
+          :time,
+          :distance,
+          :speed,
+          :wingsuit,
+          wingsuit: [:manufacturer]
+        ).paginate(page: params[:page], per_page: 50)
       end
 
       format.json { @tracks }
