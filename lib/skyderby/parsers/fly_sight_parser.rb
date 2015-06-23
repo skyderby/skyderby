@@ -43,12 +43,7 @@ module Skyderby
       def parse_row(row)
         return nil if row_invalid(row)
 
-        Skyderby::Tracks::TrackPoint.new(latitude: row[1],
-                                         longitude: row[2],
-                                         abs_altitude: row[3],
-                                         h_speed: h_speed(row),
-                                         v_speed: v_speed(row),
-                                         gps_time: gps_time(row))
+        super
       end
 
       private
