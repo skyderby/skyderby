@@ -1,8 +1,7 @@
 require 'spec_helper'
-require 'tracks/track_point'
 
-describe 'TrackPoint' do
-  let ( :hash_point) do
+describe Skyderby::Tracks::TrackPoint do
+  let(:hash_point) do
     {
       fl_time_abs: 1,
       fl_time: 1,
@@ -19,20 +18,20 @@ describe 'TrackPoint' do
   end
 
   it 'should initialize from hash' do
-    point = TrackPoint.new(hash_point)
+    point = Skyderby::Tracks::TrackPoint.new(hash_point)
     hash_point.each do |key, value|
       expect(point[key]).to eql value
     end
   end
 
   it 'should calc gr and raw_gr on init' do
-    point = TrackPoint.new(hash_point)
+    point = Skyderby::Tracks::TrackPoint.new(hash_point)
     expect(point.glrat).to eq 2
     expect(point.raw_gr).to eq 2
   end
 
   it 'should calc gr and raw_gr on change' do
-    point = TrackPoint.new(hash_point)
+    point = Skyderby::Tracks::TrackPoint.new(hash_point)
     point.h_speed = 300.0
     expect(point.glrat).to eq 3
     point.raw_h_speed = 450.0

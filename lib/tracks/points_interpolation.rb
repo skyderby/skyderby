@@ -25,10 +25,10 @@ module PointsInterpolation
     private
 
     def validate!
-      # Supported only instances of TrackPoint class
+      # Supported only instances of Skyderby::Tracks::Point class
       invalid_point_error = ArgumentError.new('Unsupported points class')
-      fail invalid_point_error unless @start_point.is_a? TrackPoint
-      fail invalid_point_error unless @end_point.is_a? TrackPoint
+      fail invalid_point_error unless @start_point.is_a? Skyderby::Tracks::TrackPoint
+      fail invalid_point_error unless @end_point.is_a? Skyderby::Tracks::TrackPoint
       # If k < 0 or k > 1 then point we are looking for not between we have here
       fail ArgumentError.new('Invalid k') if @k < 0 || @k > 1
     end

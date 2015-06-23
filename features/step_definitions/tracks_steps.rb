@@ -32,7 +32,7 @@ And /^I attach a "(.+)" file$/ do |track|
   script = "$('#track_file').css({opacity: 100})"
   page.execute_script(script)
   within '#newTrackModal' do
-    attach_file 'track[track_file]', file
+    attach_file 'track[file]', file
   end
 end
 
@@ -73,7 +73,7 @@ When /^I fail to specify name$/ do
     fill_in 'track[location]', with: 'DZ Borki'
     click_link 'Enter suit name'
     fill_in 'track[suit]', with: 'Ghost 3'
-    attach_file 'track[track_file]', file
+    attach_file 'track[file]', file
     click_button 'Загрузить'
   end
 end
@@ -86,7 +86,7 @@ When /^I fail to specify suit$/ do
   within '#newTrackModal' do
     fill_in 'track[name]', with: 'Александр К.'
     fill_in 'track[location]', with: 'DZ Borki'
-    attach_file 'track[track_file]', file
+    attach_file 'track[file]', file
     click_button 'Загрузить'
   end
 end
@@ -100,7 +100,7 @@ When /^I fail to specify place$/ do
     fill_in 'track[name]', with: 'Александр К.'
     click_link 'Enter suit name'
     fill_in 'track[suit]', with: 'Ghost 3'
-    attach_file 'track[track_file]', file
+    attach_file 'track[file]', file
     click_button 'Загрузить'
   end
 end
