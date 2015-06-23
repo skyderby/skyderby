@@ -34,23 +34,3 @@ Feature: uploading tracks
 		Then I shoud see choose track page
 		And select segment I want to analyze
 		Then I should see edit track page to specify free fall range
-
-	@javascript
-	Scenario: not uploading anything
-		When I fail to attach a track
-		Then I should not be able to submit
-
-	@javascript
-	Scenario: not specify name
-		When I fail to specify name
-		Then I should not be able to submit
-
-	@javascript
-	Scenario: not specify suit
-		When I fail to specify suit
-		Then I should not be able to submit
-
-	@javascript
-	Scenario: not specify place
-		When I fail to specify place
-		Then I should not be able to submit
