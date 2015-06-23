@@ -6,7 +6,6 @@
 # process, which is stopped at the first crossing of the lower
 # window boundary.
 
-require 'tracks/track_point'
 require 'tracks/points_interpolation'
 
 module SkydiveCompRange

@@ -13,6 +13,8 @@ class TracksController < ApplicationController
       format.any(:html, :js) do
         @tracks = @tracks.includes(:wingsuit)
                   .includes(wingsuit: :manufacturer)
+                  .includes(:place)
+                  .includes(:pilot)
                   .includes(:time)
                   .includes(:distance)
                   .includes(:speed)
@@ -60,17 +62,13 @@ class TracksController < ApplicationController
   def create
     authorize! :create, Track
 
-    @track = Track.new cached_params.merge(
-      file: File.open(cached_params[:filepath]),
-      user: current_user,
-      track_index: track_params[:track_index]
-    )
+    @track = CreateTrackService.new(
+      current_user,
+      cached_params,
+      track_params[:track_index]
+    ).execute
 
-    if @track.save
-      redirect_to edit_track_path(@track)
-    else
-      render 'errors/upload_error'
-    end
+    redirect_to edit_track_path(@track)
   end
 
   def edit
@@ -98,23 +96,22 @@ class TracksController < ApplicationController
   def choose
     authorize! :create, Track
 
-    @tmpfile_path = record_temp_file
+    uploaded_file = track_params[:file]
 
-    unless @tmpfile_path
+    if uploaded_file.blank?
       render 'errors/upload_error'
       return
     end
 
-    @tracklist =
-      Skyderby::Tracks::FileProcessor.new(@tmpfile_path).read_segments
+    @track_file = TrackFile.create(file: uploaded_file)
 
     params[:track].merge!(cache_id: write_params_to_cache, index: 0)
 
     # Redirect to upload error if track don't contain any segment
     # Redirect to create action if track has only one segment
-    if @tracklist.empty?
+    if @track_file.segments_empty?
       redirect_to :back
-    elsif @tracklist.size == 1
+    elsif @track_file.one_segment?
       create
     end
   end
@@ -130,7 +127,8 @@ class TracksController < ApplicationController
       :name,
       :kind,
       :location,
-      :track_file,
+      :file,
+      :track_file_id,
       :filepath,
       :ff_start,
       :ff_end,
@@ -151,31 +149,9 @@ class TracksController < ApplicationController
     @key = SecureRandom.uuid.to_s
     Rails.cache.write(
       @key,
-      track_params.except(:track_file).merge(filepath: @tmpfile_path)
+      track_params.except(:file).merge(track_file_id: @track_file.id)
     )
     @key
-  end
-
-  def record_temp_file
-    uploaded_file = track_params[:track_file]
-    return nil if uploaded_file.blank?
-
-    # Tempfile uses to provide uniq filename
-    tmp_file = Tempfile.new(['', File.extname(uploaded_file.original_filename)],
-                            Rails.root.join('tmp'))
-
-    begin
-      uploaded_file.rewind
-      tmp_file.binmode
-      tmp_file.write uploaded_file.read
-      # Make file persist between requests
-      # it will be unlinked after track save successfully
-      ObjectSpace.undefine_finalizer(tmp_file)
-    ensure
-      tmp_file.close
-    end
-
-    tmp_file.path
   end
 
   def apply_filters!

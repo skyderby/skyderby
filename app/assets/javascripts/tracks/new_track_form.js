@@ -125,14 +125,14 @@ NewTrackForm.prototype = {
                     minlength: 3,
                     required: true
                 },
-                'track[track_file]': {
+                'track[file]': {
                     required: true,
                     extension: 'csv|gpx|tes',
                     filesize: 3145728 // 3 Mb
                 }
             },
             messages: {
-                'track[track_file]': {
+                'track[file]': {
                     extension: 'Please enter file with valid extension (csv, gpx, tes)',
                     filesize: 'File should be less than 1MB'
                 },
@@ -147,7 +147,7 @@ NewTrackForm.prototype = {
                 $(element).closest('.form-group').removeClass('has-error');
             },
             errorPlacement: function(error, element) {
-                if (element.attr("name") == "track[track_file]") {
+                if (element.attr("name") == "track[file]") {
                     error.appendTo( element.closest(".col-sm-9") );
                 } else if(element.hasClass('suit-group')) {
                     error.appendTo( element.closest('div') );    

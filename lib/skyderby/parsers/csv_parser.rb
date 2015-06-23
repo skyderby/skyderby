@@ -8,19 +8,24 @@ module Skyderby
         CSV.parse(track_data) do |row|
           track_points << parse_row(row)
         end
-        track_points.compact
+        FileData.new(track_points.compact, logger)
       end
 
       protected
 
+      def logger
+        :cyber_eye
+      end
+
       def parse_row(row)
-        TrackPoint.new(latitude: row[1].to_d,
-                       longitude: row[2].to_d,
-                       elevation: row[3].to_f,
-                       h_speed: h_speed(row),
-                       v_speed: v_speed(row),
-                       abs_altitude: row[3].to_f,
-                       gps_time: gps_time(row))
+        Skyderby::Tracks::TrackPoint.new(
+          latitude: row[1].to_d,
+          longitude: row[2].to_d,
+          abs_altitude: row[3].to_f,
+          h_speed: h_speed(row),
+          v_speed: v_speed(row),
+          gps_time: gps_time(row)
+        )
       end
 
       private

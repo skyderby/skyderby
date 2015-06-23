@@ -1,4 +1,3 @@
-require 'tracks/track_point'
 require 'median_filter'
 require 'moving_average'
 
@@ -10,6 +9,7 @@ module Skyderby
       def initialize(track = nil)
         fail ArgumentError.new('Track must be present') if track.nil?
 
+        @track = track
         @points = []
         @ff_start = 0
         @ff_end = 0
@@ -22,7 +22,7 @@ module Skyderby
 
         @points.each_cons(2) do |prev, curr|
           curr.fl_time = curr.gps_time - prev.gps_time
-          curr.elevation_diff = (prev.elevation - curr.elevation).round(2)
+          curr.elevation_diff = (prev.abs_altitude - curr.abs_altitude).round(2)
           curr.distance = Geospatial.distance(
             [prev.latitude, prev.longitude],
             [curr.latitude, curr.longitude]
@@ -142,29 +142,32 @@ module Skyderby
         prev_point = nil
         fl_time = 0
 
+        msl_offset = @track.ground_level || points.map{ |x| x.abs_altitude }.min
+
         points.each do |point|
           if prev_point
 
             fl_time_diff = point.gps_time - prev_point.gps_time
             fl_time = (fl_time + fl_time_diff).round(1)
 
-            elevation_diff = (prev_point.elevation - point.elevation).round(2)
+            elevation_diff = (prev_point.abs_altitude - point.abs_altitude).round(2)
             raw_h = Velocity.to_kmh(point.distance / fl_time_diff)
             raw_v = Velocity.to_kmh(elevation_diff) / fl_time_diff
 
-            @points << TrackPoint.new(gps_time: point.gps_time,
-                                      fl_time: fl_time_diff,
-                                      fl_time_abs: fl_time,
-                                      elevation_diff: elevation_diff,
-                                      elevation: point.elevation.round(2),
-                                      abs_altitude: point.abs_altitude,
-                                      latitude: point.latitude,
-                                      longitude: point.longitude,
-                                      distance: point.distance,
-                                      h_speed: (point.h_speed || 0.0),
-                                      v_speed: (point.v_speed || 0.0),
-                                      raw_h_speed: raw_h,
-                                      raw_v_speed: raw_v)
+            @points << Skyderby::Tracks::TrackPoint.new(
+              gps_time: point.gps_time,
+              fl_time: fl_time_diff,
+              fl_time_abs: fl_time,
+              elevation_diff: elevation_diff,
+              elevation: point.abs_altitude - msl_offset,
+              abs_altitude: point.abs_altitude,
+              latitude: point.latitude,
+              longitude: point.longitude,
+              distance: point.distance,
+              h_speed: (point.h_speed || 0.0),
+              v_speed: (point.v_speed || 0.0),
+              raw_h_speed: raw_h,
+              raw_v_speed: raw_v)
 
           end
           prev_point = point

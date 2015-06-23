@@ -10,8 +10,6 @@
 # 0A-0D (LongInt): Longitude / 1.0e7 (Deg)
 # 0E-0F(SmallInt): Altitude(m)
 
-require 'tracks/track_point'
-
 module Skyderby
   module Parsers
     class TESParser < TrackParser
@@ -24,7 +22,7 @@ module Skyderby
           track_points << parse_row(unpacked_string, x * 5)
         end
 
-        track_points
+        FileData.new(track_points, :wintec)
       end
 
       private
@@ -39,11 +37,11 @@ module Skyderby
       end
 
       def parse_point(row)
-        TrackPoint.new(gps_time: parse_datetime(row[:datetime]),
-                       latitude: row[:latitude],
-                       longitude: row[:longitude],
-                       abs_altitude: row[:height],
-                       elevation: row[:height])
+        Skyderby::Tracks::TrackPoint.new(
+          gps_time: parse_datetime(row[:datetime]),
+          latitude: row[:latitude],
+          longitude: row[:longitude],
+          abs_altitude: row[:height])
       end
 
       def parse_datetime(val)

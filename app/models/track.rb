@@ -2,11 +2,11 @@ require 'tracks/points_processor'
 require 'tracks/jump_range_finder'
 
 class Track < ActiveRecord::Base
-  enum kind: [:skydive, :base]
+  enum kind:       [:skydive, :base]
   enum visibility: [:public_track, :unlisted_track, :private_track]
-  enum gps_type: [:gpx, :flysight, :columbus, :wintec]
+  enum gps_type:   [:gpx, :flysight, :columbus, :wintec, :cyber_eye]
 
-  attr_accessor :file, :filepath, :track_index
+  belongs_to :track_file
 
   belongs_to :user
   belongs_to :pilot,
@@ -22,9 +22,11 @@ class Track < ActiveRecord::Base
   has_one :time,
           -> { where(discipline: TrackResult.disciplines[:time]) },
           class_name: 'TrackResult'
+
   has_one :distance,
           -> { where(discipline: TrackResult.disciplines[:distance]) },
           class_name: 'TrackResult'
+
   has_one :speed,
           -> { where(discipline: TrackResult.disciplines[:speed]) },
           class_name: 'TrackResult'
@@ -36,13 +38,10 @@ class Track < ActiveRecord::Base
 
   validates :name, presence: true, if: 'pilot.blank?'
 
-  before_validation :set_profile, if: :user
-  before_create :process_file
+  # before_create :process_file
   before_destroy :used_in_competition?
-  after_save :unlink_file, on: :create
+  # after_save :unlink_file, on: :create
   after_commit :perform_jobs
-
-  has_attached_file :file
 
   delegate :tracksuit?, to: :wingsuit, allow_nil: true
   delegate :wingsuit?, to: :wingsuit, allow_nil: true
@@ -51,15 +50,7 @@ class Track < ActiveRecord::Base
     event_track.present?
   end
 
-  def presentation
-    "#{name} | #{suit} | #{comment}"
-  end
-
   private
-
-  def set_profile
-    self.pilot = user.user_profile
-  end
 
   def used_in_competition?
     errors.add(:base, 'Cannot delete track used in competition') if competitive?
@@ -68,85 +59,31 @@ class Track < ActiveRecord::Base
   end
 
   # REFACTOR IT
-  def process_file
-    if file.present?
-      filename = file.original_filename
-      trackfile = {
-        data: File.read(file.queued_for_write[:original].path),
-        ext: filename.downcase[filename.length - 4..filename.length - 1]
-      }
-    end
-
-    file_data = TrackPointsProcessor.process_file(
-      trackfile[:data],
-      trackfile[:ext],
-      (track_index || 0).to_i
-    )
-
-    track_points = file_data[:points]
-    return false unless track_points
-
-    self.gps_type = file_data[:gps_type]
-
-    jump_range = JumpRangeFinder.range_for track_points
-
-    self.ff_start = jump_range.start_time
-    self.ff_end = jump_range.end_time
-
-    # Place
-    search_radius = base? ? 1 : 10 # in km
-    self.place = Place.nearby(jump_range.start_point, search_radius).first
-
-    if place && place.msl
-      track_points.each { |x| x[:elevation] = x[:abs_altitude] - place.msl }
-    end
-
-    record_points track_points
-  end
-
-  def record_points(track_points)
-    trkseg = Tracksegment.create
-    tracksegments << trkseg
-
-    columns = "
-      `gps_time_in_seconds`,
-      `latitude`,
-      `longitude`,
-      `abs_altitude`,
-      `distance`,
-      `elevation`,
-      `fl_time`,
-      `v_speed`,
-      `h_speed`,
-      `tracksegment_id`,
-      `updated_at`,
-      `created_at`"
-    inserts = []
-
-    track_points.each do |point|
-      inserts << "(
-        #{point.gps_time.to_f},
-        #{point.latitude},
-        #{point.longitude},
-        #{point.abs_altitude},
-        #{point.distance || 0},
-        #{point.elevation},
-        #{point.fl_time},
-        #{point.v_speed || 0},
-        #{point.h_speed || 0},
-        #{trkseg.id},
-        '#{Time.zone.now.to_s(:db)}',
-        '#{Time.zone.now.to_s(:db)}'
-      )"
-    end
-
-    sql = "INSERT INTO points (#{columns}) VALUES #{inserts.join(', ')}"
-    ActiveRecord::Base.connection.execute sql
-  end
-
-  def unlink_file
-    File.unlink(filepath) if filepath
-  end
+  # def process_file
+  #   if file.present?
+  #     filename = file.original_filename
+  #     trackfile = {
+  #       data: File.read(file.queued_for_write[:original].path),
+  #       ext: filename.downcase[filename.length - 4..filename.length - 1]
+  #     }
+  #   end
+  #
+  #   file_data = TrackPointsProcessor.process_file(
+  #     trackfile[:data],
+  #     trackfile[:ext],
+  #     (track_index || 0).to_i
+  #   )
+  #
+  #   track_points = file_data[:points]
+  #   return false unless track_points
+  #
+  #   self.ff_start = jump_range.start_time
+  #   self.ff_end = jump_range.end_time
+  #
+  #   if place && place.msl
+  #     track_points.each { |x| x[:elevation] = x[:abs_altitude] - place.msl }
+  #   end
+  # end
 
   def perform_jobs
     ResultsWorker.perform_async(id)
