@@ -5,7 +5,7 @@ class CreateTrackService
   BASE_SEARCH_RADIUS = 1
   SKYDIVE_SEARCH_RADIUS = 10
 
-  def initialize(user, params = {}, track_index)
+  def initialize(user, params = {}, track_index = 0)
     @user = user
     @params = params.dup
     @track_index = track_index || 0
@@ -15,7 +15,7 @@ class CreateTrackService
     # Create track with params
     @track = Track.new(@params)
     @track.user = @user
-    @track.pilot = @user.user_profile if @user
+    @track.pilot = @user.user_profile if @user && !@params[:user_profile_id]
 
     # Read file with track and set logger type
     track_data = @track.track_file.track_file_data(@track_index)

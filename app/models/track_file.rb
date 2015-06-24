@@ -1,7 +1,7 @@
 class TrackFile < ActiveRecord::Base
   attr_accessor :file
 
-  has_many :tracks
+  has_one :track
 
   has_attached_file :file
 
