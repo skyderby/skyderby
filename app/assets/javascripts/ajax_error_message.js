@@ -11,6 +11,8 @@ AjaxErrorMessageObj.prototype = {
         this.$flash_close
             .off('click')
             .on('click', this.on_close_click.bind(this));
+
+        $(document).on('keydown', this.on_keydown.bind(this));
     },
 
     display: function(text) {
@@ -25,6 +27,12 @@ AjaxErrorMessageObj.prototype = {
     on_close_click: function(e) {
         e.preventDefault();
         this.hide();
+    },
+
+    on_keydown: function(e) {
+        if (e.which === 27) {
+            this.hide();
+        }        
     },
 
     set_text: function(text) {
