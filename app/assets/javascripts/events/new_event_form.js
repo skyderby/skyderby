@@ -3,7 +3,7 @@ $(document).on('ready page:load', function() {
         $('select[name=place_id]').select2({
             width: '100%',
             placeholder: I18n.t('events.show.place_placeholder'),
-            dropdownParent: this.$form_modal,
+            dropdownParent: '#new-event-modal',
             ajax: {
                 url: '/places',
                 dataType: 'json',
@@ -21,7 +21,7 @@ $(document).on('ready page:load', function() {
                                 id: obj.id,
                                 text: obj.name,
                                 country: obj.country.name
-                            }
+                            };
                         })
                         .groupBy(function(obj) { 
                             return obj.country;
