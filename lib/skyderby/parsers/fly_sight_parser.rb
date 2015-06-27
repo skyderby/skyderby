@@ -29,8 +29,6 @@
 # gpsFix
 # numSV
 
-require 'velocity'
-
 module Skyderby
   module Parsers
     class FlySightParser < CSVParser

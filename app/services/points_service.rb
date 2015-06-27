@@ -27,24 +27,32 @@ class PointsService
       fl_time_diff = cur_point.gps_time - prev_point.gps_time
       cur_point.fl_time = prev_point.fl_time + fl_time_diff
 
-      cur_point.distance = Geospatial.distance_between_points(
+      cur_point.distance = Skyderby::Geospatial.distance_between_points(
         prev_point,
         cur_point
       )
 
-      cur_point.h_speed ||=
-        if fl_time_diff == 0
-          prev_point.h_speed
-        else
-          Velocity.to_kmh(cur_point.distance / fl_time_diff)
-        end
+      cur_point.h_speed =
+        calc_h_speed(prev_point, cur_point) if cur_point.h_speed.zero?
 
-      cur_point.v_speed ||=
-        if fl_time_diff == 0
-          prev_point.v_speed
-        else
-          Velocity.to_kmh((prev_point.abs_altitude - point.abs_altitude) / fl_time_diff)
-        end
+      cur_point.v_speed =
+        calc_v_speed(prev_point, cur_point) if cur_point.v_speed.zero?
     end
+  end
+
+  def calc_h_speed(prev_point, cur_point)
+    fl_time_diff = cur_point.gps_time - prev_point.gps_time
+    return prev_point.h_speed if fl_time_diff.zero?
+
+    Skyderby::Velocity.ms_to_kmh(cur_point.distance / fl_time_diff)
+  end
+
+  def calc_v_speed(prev_point, cur_point)
+    fl_time_diff = cur_point.gps_time - prev_point.gps_time
+    return prev_point.v_speed if fl_time_diff.zero?
+
+    Skyderby::Velocity.ms_to_kmh(
+      (prev_point.abs_altitude - cur_point.abs_altitude) / fl_time_diff
+    )
   end
 end
