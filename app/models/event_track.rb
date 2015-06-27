@@ -1,5 +1,3 @@
-require 'results_calculator'
-
 class EventTrack < ActiveRecord::Base
   attr_accessor :track_attributes, :current_user
 
@@ -28,7 +26,7 @@ class EventTrack < ActiveRecord::Base
   end
 
   def calc_result
-    self.result = ResultsCalculator.calculate(track, round)
+    self.result = EventResultService.new(track, round).calculate
   end
 
   def create_track_from_file

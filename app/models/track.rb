@@ -1,6 +1,3 @@
-require 'tracks/points_processor'
-require 'tracks/jump_range_finder'
-
 class Track < ActiveRecord::Base
   enum kind:       [:skydive, :base]
   enum visibility: [:public_track, :unlisted_track, :private_track]

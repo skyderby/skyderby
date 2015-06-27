@@ -1,7 +1,3 @@
-require 'geospatial'
-require 'competitions/results_processor'
-require 'skyderby/tracks/points'
-
 class VirtualCompWorker
   include Sidekiq::Worker
 
@@ -32,7 +28,7 @@ class VirtualCompWorker
           range_to: comp.range_to
         }
         tmp_result.result =
-          ResultsProcessor.process data, comp.discipline.to_sym, range
+          Skyderby::ResultsProcessor.process data, comp.discipline.to_sym, range
 
         # result_hash = calculate(data, comp.range_from, comp.range_to)
         # tmp_result.result = result_hash[:distance] if comp.distance?
@@ -109,7 +105,7 @@ class VirtualCompWorker
 
     if start_lat && start_lon && end_lat && end_lon
       distance =
-        Geospatial.distance(
+        Skyderby::Geospatial.distance(
           [start_lat, start_lon],
           [end_lat, end_lon]
         )
@@ -117,54 +113,4 @@ class VirtualCompWorker
 
     { distance: distance, highest_gr: highest_gr, highest_speed: highest_speed }
   end
-
-  # def calculate_distance_in_time(data, discipline_parameter, is_flysight)
-  #   # method return values
-  #   distance = 0
-  #   highest_gr = 0
-  #   highest_speed = 0
-  #
-  #   # tmp values
-  #   fl_time = 0
-  #   prev_point = nil
-  #   start_found = false
-  #   trk_points = data.trimmed(start: data.ff_start - 10)
-  #   speed_key = is_flysight ? :v_speed : :raw_v_speed
-  #
-  #   trk_points.each do |cur_point|
-  #     break if fl_time >= discipline_parameter
-  #     # break if track trimmed to point after exit
-  #     break if !prev_point && cur_point[:v_speed] > 10
-  #
-  #     if prev_point
-  #       if cur_point[speed_key] >= 10 && !start_found
-  #         start_found = true
-  #         k = (cur_point[speed_key] - 10) / (cur_point[speed_key] - prev_point[speed_key])
-  #         fl_time += cur_point[:fl_time] * k
-  #         distance += cur_point[:distance] * k
-  #
-  #         prev_point = cur_point
-  #         next
-  #       end
-  #
-  #       if start_found
-  #         if fl_time + cur_point[:fl_time] < discipline_parameter
-  #           fl_time += cur_point[:fl_time]
-  #           distance += cur_point[:distance]
-  #
-  #           highest_gr = cur_point[:glrat] if cur_point[:glrat] > highest_gr
-  #           highest_speed = cur_point[:h_speed] if cur_point[:h_speed] > highest_speed
-  #         else
-  #           k = (fl_time + cur_point[:fl_time] - discipline_parameter) / cur_point[:fl_time]
-  #           fl_time += cur_point[:fl_time] * (1 - k)
-  #           distance += cur_point[:distance] * (1 - k)
-  #         end
-  #       end
-  #     end
-  #
-  #     prev_point = cur_point
-  #   end
-  #
-  #   { distance: distance, highest_gr: highest_gr, highest_speed: highest_speed }
-  # end
 end

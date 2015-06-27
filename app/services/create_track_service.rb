@@ -1,3 +1,5 @@
+require 'tracks/jump_range_finder'
+
 class CreateTrackService
   # Search radius for place in km
   # Base exit described as exit coordinates
