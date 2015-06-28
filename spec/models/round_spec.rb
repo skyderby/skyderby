@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: rounds
+#
+#  id              :integer          not null, primary key
+#  name            :string(255)
+#  event_id        :integer
+#  created_at      :datetime
+#  updated_at      :datetime
+#  discipline      :integer
+#  user_profile_id :integer
+#
+
 require 'rails_helper'
 
 describe Round, type: :model do

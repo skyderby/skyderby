@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: places
+#
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  latitude    :decimal(15, 10)
+#  longitude   :decimal(15, 10)
+#  information :text(65535)
+#  country_id  :integer
+#  msl         :integer
+#
+
 class Place < ActiveRecord::Base
   belongs_to :country
 

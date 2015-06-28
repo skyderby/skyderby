@@ -71,6 +71,8 @@ group :development, :test do
 
   gem 'mailcatcher'
 
+  gem 'annotate'
+
   # Better errors handler
   gem 'better_errors'
   gem 'binding_of_caller'
