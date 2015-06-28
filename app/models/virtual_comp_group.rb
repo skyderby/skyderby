@@ -11,4 +11,6 @@
 
 class VirtualCompGroup < ActiveRecord::Base
   has_many :virtual_competitions
+
+  validates :name, presence: true
 end

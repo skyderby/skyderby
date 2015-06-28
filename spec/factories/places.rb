@@ -19,6 +19,6 @@ FactoryGirl.define do
     latitude '62.5203062'
     longitude '7.5773933'
     msl '8'
-    initialize_with { Place.where(id: 1).first_or_create }
+    initialize_with { Place.where(name: 'Gridset').first_or_create }
   end
 end
