@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: event_tracks
+#
+#  id              :integer          not null, primary key
+#  round_id        :integer
+#  track_id        :integer
+#  created_at      :datetime
+#  updated_at      :datetime
+#  competitor_id   :integer
+#  result          :float(24)
+#  user_profile_id :integer
+#
+
 class EventTrack < ActiveRecord::Base
   attr_accessor :track_attributes, :current_user
 
