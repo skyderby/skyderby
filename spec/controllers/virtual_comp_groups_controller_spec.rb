@@ -19,15 +19,21 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe VirtualCompGroupsController, type: :controller do
+  before :each do
+    @user = FactoryGirl.create(:user)
+    @user.stub(:has_role?).and_return(true)
+    @abilities = Ability.new(@user)
+    Ability.stub(:new).and_return(@abilities)
+  end
   # This should return the minimal set of attributes required to create a valid
   # VirtualCompGroup. As you add validations to VirtualCompGroup, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    skip('Add a hash of attributes valid for your model')
+    { name: 'Some good competition group', display_on_start_page: true }
   end
 
   let(:invalid_attributes) do
-    skip('Add a hash of attributes invalid for your model')
+    { name: nil }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -102,14 +108,18 @@ RSpec.describe VirtualCompGroupsController, type: :controller do
   describe 'PUT #update' do
     context 'with valid params' do
       let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
+        {
+          name: 'Some another good competition group',
+          display_on_start_page: false
+        }
       end
 
       it 'updates the requested virtual_comp_group' do
         virtual_comp_group = VirtualCompGroup.create! valid_attributes
         put :update, { id: virtual_comp_group.to_param, virtual_comp_group: new_attributes }, valid_session
         virtual_comp_group.reload
-        skip('Add assertions for updated state')
+        expect(virtual_comp_group.name).to eq(new_attributes[:name])
+        expect(virtual_comp_group.display_on_start_page).to eq(new_attributes[:display_on_start_page])
       end
 
       it 'assigns the requested virtual_comp_group as @virtual_comp_group' do
