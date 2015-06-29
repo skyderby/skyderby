@@ -31,7 +31,13 @@ RSpec.describe PlacesController, type: :controller do
   # Place. As you add validations to Place, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    { name: 'Gridset', country_id: @country.id }
+    {
+      name: 'Gridset',
+      country_id: @country.id,
+      latitude: 10,
+      longitude: -100,
+      msl: 0
+    }
   end
 
   let(:invalid_attributes) do
