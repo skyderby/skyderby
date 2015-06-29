@@ -1,15 +1,14 @@
 require 'spec_helper'
 require 'tracks/points_interpolation'
-require 'tracks/track_point'
 
 describe 'PointsInterpolation' do
   it 'correctly finds point two others' do
-    first_point = TrackPoint.new(fl_time: 1,
+    first_point = Skyderby::Tracks::TrackPoint.new(fl_time: 1,
                                  fl_time_abs: Time.parse('2014-07-19T17:35:19.00Z'),
                                  latitude: 53.6134805,
                                  longitude: -114.2022615,
                                  elevation: 3007.745)
-    second_point = TrackPoint.new(fl_time: 1,
+    second_point = Skyderby::Tracks::TrackPoint.new(fl_time: 1,
                                   fl_time_abs: Time.parse('2014-07-19T17:35:20.00Z'),
                                   latitude: 53.6135751,
                                   longitude: -114.2014603,
