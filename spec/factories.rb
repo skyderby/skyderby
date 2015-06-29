@@ -24,10 +24,6 @@ FactoryGirl.define do
     end
   end
 
-  factory :country do
-    name 'Norway'
-  end
-
   factory :point do
     latitude '62.5203062'
     longitude '7.5773933'

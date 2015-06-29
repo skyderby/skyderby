@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: places
+#
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  latitude    :decimal(15, 10)
+#  longitude   :decimal(15, 10)
+#  information :text(65535)
+#  country_id  :integer
+#  msl         :integer
+#
+
 class Place < ActiveRecord::Base
   belongs_to :country
 
@@ -6,6 +19,9 @@ class Place < ActiveRecord::Base
 
   validates :name, presence: true
   validates :country, presence: true
+  validates :latitude, presence: true
+  validates :longitude, presence: true
+  validates :msl, presence: true
 
   class << self
     def search(query)
