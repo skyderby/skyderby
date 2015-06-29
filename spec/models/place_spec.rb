@@ -14,17 +14,39 @@
 require 'spec_helper'
 
 RSpec.describe Place, type: :model do
-  let(:country) { create(:country) }
-  let(:place) { create(:place) }
+  let(:country) { create(:country, :norway) }
+  let(:place) { create(:place, :gridset) }
   let(:point) { create(:point) }
+
+  let(:valid_attributes) do
+    {
+      name: 'Some place, ie Gridset',
+      country: country,
+      latitude: 10,
+      longitude: -10,
+      msl: 12
+    }
+  end
 
   context 'required fields' do
     it 'requires country' do
-      expect(Place.create(name: 'Gridset')).not_to be_valid
+      expect(Place.create(valid_attributes.merge(country: nil))).not_to be_valid
     end
 
     it 'requires name' do
-      expect(Place.create(country: country)).not_to be_valid
+      expect(Place.create(valid_attributes.merge(name: nil))).not_to be_valid
+    end
+
+    it 'requires latitude' do
+      expect(Place.create(valid_attributes.merge(latitude: nil))).not_to be_valid
+    end
+
+    it 'requires longitude' do
+      expect(Place.create(valid_attributes.merge(longitude: nil))).not_to be_valid
+    end
+
+    it 'requires msl' do
+      expect(Place.create(valid_attributes.merge(msl: nil))).not_to be_valid
     end
   end
 
