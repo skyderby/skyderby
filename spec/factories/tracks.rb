@@ -34,7 +34,7 @@ FactoryGirl.define do
     wingsuit
 
     trait :with_place do
-      place
+      association :place, factory: [:place, :gridset]
     end
 
     after(:build) do |track|
