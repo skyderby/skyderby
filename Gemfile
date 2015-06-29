@@ -99,6 +99,7 @@ group :test do
   gem 'poltergeist'
   gem 'database_cleaner'
   gem 'cucumber-rails', require: false
+  gem 'codeclimate-test-reporter', require: false
 end
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
