@@ -87,7 +87,12 @@ module Skyderby
         prev_point = nil
         fl_time = 0
 
-        msl_offset = @track.ground_level || points.map{ |x| x.abs_altitude }.min
+        msl_offset =
+          if @track.place
+            @track.ground_level
+          else
+            points.map{ |x| x.abs_altitude }.min
+          end
 
         points.each do |point|
           if prev_point
