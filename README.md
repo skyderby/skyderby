@@ -1,6 +1,8 @@
 # Skyderby
 
 [![Code Climate](https://codeclimate.com/github/skyderby/skyderby/badges/gpa.svg)](https://codeclimate.com/github/skyderby/skyderby)
+[![Test Coverage](https://codeclimate.com/github/skyderby/skyderby/badges/coverage.svg)](https://codeclimate.com/github/skyderby/skyderby/coverage)
+[![Build Status](https://travis-ci.org/skyderby/skyderby.svg?branch=dev)](https://travis-ci.org/skyderby/skyderby)
 
 ## Why Skyderby exists?
 
