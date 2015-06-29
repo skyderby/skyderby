@@ -87,7 +87,7 @@ class CreateTrackService
   end
 
   def points_columns
-    " `gps_time_in_seconds`,
+    ' `gps_time_in_seconds`,
       `latitude`,
       `longitude`,
       `abs_altitude`,
@@ -97,6 +97,6 @@ class CreateTrackService
       `h_speed`,
       `tracksegment_id`,
       `updated_at`,
-      `created_at`"
+      `created_at`'
   end
 end
