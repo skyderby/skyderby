@@ -21,6 +21,9 @@ require 'rspec/rails'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 
+require 'codeclimate-test-reporter'
+CodeClimate::TestReporter.start
+
 Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
