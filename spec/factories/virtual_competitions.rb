@@ -29,7 +29,7 @@ FactoryGirl.define do
     suits_kind VirtualCompetition.suits_kinds['wingsuit']
 
     trait :place_specific do
-      place
+      association :place, factory: [:place, :gridset]
     end
 
     trait :last_year do
