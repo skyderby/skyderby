@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: wingsuits
+#
+#  id              :integer          not null, primary key
+#  manufacturer_id :integer
+#  ws_class_id     :integer
+#  name            :string(255)
+#  kind            :integer          default(0)
+#
+
 class Wingsuit < ActiveRecord::Base
   enum kind: [:wingsuit, :tracksuit]
 

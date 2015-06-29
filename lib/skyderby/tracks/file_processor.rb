@@ -6,15 +6,16 @@ module Skyderby
         @extension = File.extname path_to_file
 
         file_data = File.new(@path_to_file).read
-        @adapter = Skyderby::Parsers::ParserSelector.new.execute(file_data, @extension)
+        @adapter =
+          Skyderby::Parsers::ParserSelector.new.execute(file_data, @extension)
       end
 
       def read_segments
         @adapter.read_segments
       end
 
-      def read_data
-        @adapter.parse
+      def read_track_data(index = 0)
+        @adapter.parse(index)
       end
     end
   end
