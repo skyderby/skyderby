@@ -19,6 +19,9 @@ class Place < ActiveRecord::Base
 
   validates :name, presence: true
   validates :country, presence: true
+  validates :latitude, presence: true
+  validates :longitude, presence: true
+  validates :msl, presence: true
 
   class << self
     def search(query)
