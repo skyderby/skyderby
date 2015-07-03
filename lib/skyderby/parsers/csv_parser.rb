@@ -39,7 +39,7 @@ module Skyderby
       end
 
       def gps_time(row)
-        Time.parse(row[0].to_s)
+        Time.zone.parse(row[0].to_s)
       end
     end
   end
