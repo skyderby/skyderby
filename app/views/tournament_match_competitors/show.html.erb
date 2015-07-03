@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Tournament match:</strong>
+  <%= @tournament_match_competitor.tournament_match_id %>
+</p>
+
+<p>
+  <strong>Tournament competitor:</strong>
+  <%= @tournament_match_competitor.tournament_competitor_id %>
+</p>
+
+<p>
+  <strong>Result:</strong>
+  <%= @tournament_match_competitor.result %>
+</p>
+
+<p>
+  <strong>Track:</strong>
+  <%= @tournament_match_competitor.track_id %>
+</p>
+
+<%= link_to 'Edit', edit_tournament_match_competitor_path(@tournament_match_competitor) %> |
+<%= link_to 'Back', tournament_match_competitors_path %>

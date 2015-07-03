@@ -58,6 +58,12 @@ Skyderby::Application.routes.draw do
     resources :virtual_comp_groups
     resources :virtual_comp_results
 
+    resources :tournaments
+    resources :tournament_rounds
+    resources :tournament_matches
+    resources :tournament_match_competitors
+    resources :tournament_competitors
+
     root 'static_pages#index'
   end
 
@@ -66,7 +72,7 @@ Skyderby::Application.routes.draw do
 
   namespace :api, default: { format: :json } do
     namespace :v1 do
-      defaults format: :json do 
+      defaults format: :json do
         resources :virtual_competitions
       end
     end
