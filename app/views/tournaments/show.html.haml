@@ -1,0 +1,30 @@
+.container
+  %h1.light-header 
+    = @tournament.name
+
+.container
+  .row
+    - @tournament.tournament_rounds.each do |round|
+      .col-sm-3.text-center
+        .tournament-round.text-muted
+          Round 
+          = round.id
+        - spacers = round.order - 1
+        - round.tournament_matches.each do |match|
+          - spacers.times do
+            .tournament-spacer
+          .tournament-match
+            .panel.panel-default
+              .panel-body.competitors-container
+                - match.tournament_match_competitors.each do |competitor|
+                  .tournament-competitor
+                    .col-sm-8.text-left
+                      = competitor.tournament_competitor.name
+                    .col-sm-4.text-right
+                      = competitor.result
+          - spacers.times do
+            .tournament-spacer
+        - if can? :edit, @tournament
+          %a.btn.btn-default{href: new_tournament_match_path}= 'Add match'
+      .col-sm-1
+
