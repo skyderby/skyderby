@@ -15,6 +15,7 @@ module PointsInterpolation
       new_point = @start_point.clone
       new_point.fl_time = @end_point.fl_time * @k
       new_point.fl_time_abs += new_point.fl_time
+      new_point.gps_time += new_point.fl_time if new_point.gps_time
 
       new_point.abs_altitude +=  (@end_point.abs_altitude - @start_point.abs_altitude) * @k
       new_point.elevation +=  (@end_point.elevation - @start_point.elevation) * @k
