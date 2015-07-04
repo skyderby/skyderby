@@ -8,8 +8,12 @@
 	    <tr>
 	      <th>Tournament match</th>
 	      <th>Tournament competitor</th>
-	      <th>Result</th>
 	      <th>Track</th>
+	      <th>Result</th>
+	      <th>Winner</th>
+	      <th>Disqulified</th>
+	      <th>Lucky looser</th>
+	      <th>Notes</th>
 	      <th colspan="3"></th>
 	    </tr>
 	  </thead>
@@ -19,8 +23,12 @@
 	      <tr>
 		<td><%= tournament_match_competitor.tournament_match_id %></td>
 		<td><%= tournament_match_competitor.tournament_competitor.user_profile.name %></td>
-		<td><%= tournament_match_competitor.result %></td>
 		<td><%= tournament_match_competitor.track_id %></td>
+		<td><%= tournament_match_competitor.result %></td>
+		<td><%= tournament_match_competitor.is_winner %></td>
+		<td><%= tournament_match_competitor.is_disqualified %></td>
+		<td><%= tournament_match_competitor.is_lucky_looser %></td>
+		<td><%= tournament_match_competitor.notes %></td>
 		<td><%= link_to 'Show', tournament_match_competitor %></td>
 		<td><%= link_to 'Edit', edit_tournament_match_competitor_path(tournament_match_competitor) %></td>
 		<td><%= link_to 'Destroy', tournament_match_competitor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
