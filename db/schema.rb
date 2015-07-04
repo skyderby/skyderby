@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150704071202) do
+ActiveRecord::Schema.define(version: 20150704171449) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer "user_id", limit: 4
@@ -165,19 +165,25 @@ ActiveRecord::Schema.define(version: 20150704071202) do
   add_index "tournament_competitors", ["tournament_id"], name: "index_tournament_competitors_on_tournament_id", using: :btree
 
   create_table "tournament_match_competitors", force: :cascade do |t|
-    t.decimal  "result",                             precision: 10, scale: 3
+    t.decimal  "result",                               precision: 10, scale: 3
     t.integer  "tournament_competitor_id", limit: 4
     t.integer  "tournament_match_id",      limit: 4
     t.integer  "track_id",                 limit: 4
-    t.datetime "created_at",                                                  null: false
-    t.datetime "updated_at",                                                  null: false
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
+    t.boolean  "is_winner",                limit: 1
+    t.boolean  "is_disqualified",          limit: 1
+    t.boolean  "is_lucky_looser",          limit: 1
+    t.string   "notes",                    limit: 255
   end
 
   create_table "tournament_matches", force: :cascade do |t|
-    t.decimal  "start_time",                    precision: 17, scale: 3
-    t.integer  "tournament_round_id", limit: 4
-    t.datetime "created_at",                                             null: false
-    t.datetime "updated_at",                                             null: false
+    t.decimal  "start_time_in_seconds",           precision: 17, scale: 3
+    t.integer  "tournament_round_id",   limit: 4
+    t.datetime "created_at",                                                               null: false
+    t.datetime "updated_at",                                                               null: false
+    t.boolean  "gold_finals",           limit: 1,                          default: false
+    t.boolean  "bronze_finals",         limit: 1,                          default: false
   end
 
   add_index "tournament_matches", ["tournament_round_id"], name: "index_tournament_matches_on_tournament_round_id", using: :btree

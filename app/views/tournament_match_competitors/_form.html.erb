@@ -19,14 +19,37 @@
     <%= f.label :tournament_competitor_id %><br>
     <%= f.collection_select(:tournament_competitor_id, TournamentCompetitor.all, :id, :name, {promt: 'Select competitor'}, {class: 'form-control'}) %>
   </div>
-  <div class="field">
-    <%= f.label :result %><br>
-    <%= f.text_field :result %>
-  </div>
+
   <div class="field">
     <%= f.label :track_id %><br>
     <%= f.text_field :track_id %>
   </div>
+
+  <div class="field">
+    <%= f.label :result %><br>
+    <%= f.text_field :result %>
+  </div>
+
+  <div class="field">
+    <%= f.label :is_winner %><br>
+    <%= f.check_box :is_winner %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :is_disqualified %><br>
+    <%= f.check_box :is_disqualified %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :is_lucky_looser %><br>
+    <%= f.check_box :is_lucky_looser %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :notes %><br>
+    <%= f.text_field :notes %>
+  </div>
+  
   <div class="actions">
     <%= f.submit %>
   </div>
