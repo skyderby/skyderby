@@ -47,7 +47,7 @@ module Skyderby
       def parse_datetime(val)
         binarydate = val.to_s(2).reverse
 
-        Time.parse("#{parse_date(binarydate)}T#{parse_time(binarydate)}")
+        Time.zone.parse("#{parse_date(binarydate)}T#{parse_time(binarydate)}")
       end
 
       def parse_date(binarydate)
