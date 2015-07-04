@@ -21,6 +21,8 @@ class Ability
     can :read, UserProfile
     can :read, Badge
 
+    can :read,  Tournament
+
     can :destroy, Track do |track|
       if track.event_track
         false

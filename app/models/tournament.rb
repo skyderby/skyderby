@@ -11,4 +11,7 @@ class Tournament < ActiveRecord::Base
   has_many :tournament_competitors
   has_many :tournament_rounds
   has_many :tournament_matches, through: :tournament_rounds
+
+  has_many :qualification_rounds
+  has_many :qualification_jumps, through: :qualification_rounds
 end

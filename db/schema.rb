@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150701182447) do
+ActiveRecord::Schema.define(version: 20150704071202) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer "user_id", limit: 4
@@ -113,6 +113,24 @@ ActiveRecord::Schema.define(version: 20150701182447) do
 
   add_index "points", ["tracksegment_id"], name: "index_points_on_tracksegment_id", using: :btree
 
+  create_table "qualification_jumps", force: :cascade do |t|
+    t.integer  "qualification_round_id",   limit: 4
+    t.integer  "tournament_competitor_id", limit: 4
+    t.decimal  "result",                             precision: 10, scale: 3
+    t.integer  "track_id",                 limit: 4
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
+  end
+
+  create_table "qualification_rounds", force: :cascade do |t|
+    t.integer  "tournament_id", limit: 4
+    t.integer  "order",         limit: 4
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "qualification_rounds", ["tournament_id"], name: "index_qualification_rounds_on_tournament_id", using: :btree
+
   create_table "roles", force: :cascade do |t|
     t.string "name", limit: 255
   end
@@ -174,11 +192,15 @@ ActiveRecord::Schema.define(version: 20150701182447) do
   add_index "tournament_rounds", ["tournament_id"], name: "index_tournament_rounds_on_tournament_id", using: :btree
 
   create_table "tournaments", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.integer  "place_id",   limit: 4
-    t.integer  "discipline", limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "name",             limit: 255
+    t.integer  "place_id",         limit: 4
+    t.integer  "discipline",       limit: 4
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+    t.decimal  "finish_start_lat",             precision: 15, scale: 10
+    t.decimal  "finish_start_lon",             precision: 15, scale: 10
+    t.decimal  "finish_end_lat",               precision: 15, scale: 10
+    t.decimal  "finish_end_lon",               precision: 15, scale: 10
   end
 
   create_table "track_files", force: :cascade do |t|
