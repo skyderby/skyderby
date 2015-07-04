@@ -28,7 +28,7 @@ class VirtualCompWorker
           range_to: comp.range_to
         }
         tmp_result.result =
-          Skyderby::ResultsProcessor.process data, comp.discipline.to_sym, range
+          Skyderby::ResultsProcessor.new(data, comp.discipline.to_sym, range).execute
 
         # result_hash = calculate(data, comp.range_from, comp.range_to)
         # tmp_result.result = result_hash[:distance] if comp.distance?
