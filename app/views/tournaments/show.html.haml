@@ -27,9 +27,20 @@
                 - match.tournament_match_competitors.each do |competitor|
                   .tournament-competitor.row
                     .col-sm-9.text-left
+                      - unless competitor.result.nil?
+                        - if match.gold_finals
+                          - if competitor.is_winner
+                            %i.fa.fa-fw.fa-certificate.gold
+                          - else
+                            %i.fa.fa-fw.fa-certificate.silver
+                        - elsif match.bronze_finals
+                          - if competitor.is_winner
+                            %i.fa.fa-fw.fa-certificate.bronze
+                          - else
+                            %i.fa.fa-fw
                       = competitor.tournament_competitor.name
                     .col-sm-3.text-right
-                      = competitor.result
+                      = competitor.result if competitor.result && competitor.result > 0
                 - if match.tournament_match_competitors.count == 1
                   .tournament-competitor.row
                     .col-sm-9.text-left.text-muted
@@ -40,6 +51,8 @@
               .tournament-spacer
         - if can? :edit, @tournament
           %a.btn.btn-default{href: new_tournament_match_path}= 'Add match'
+
+.container
   - if @tournament.qualification_rounds.count > 0      
 
     -# TODO: EXTRACT
@@ -81,4 +94,3 @@
               - @tournament.qualification_rounds.each do |round|
                 %td= result["round_#{round.order}"]
               %td= result[:best_result]
-
