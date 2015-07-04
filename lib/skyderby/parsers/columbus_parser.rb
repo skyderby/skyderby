@@ -10,7 +10,6 @@
 # HEADING
 # VOX
 #
-require 'tracks/track_point'
 
 module Skyderby
   module Parsers
@@ -35,15 +34,20 @@ module Skyderby
 
       protected
 
+      def logger
+        :columbus
+      end
+
       def parse_row(row)
         row_height = row[HEIGHT].to_f
         return nil if row_height == 0.0
 
-        TrackPoint.new(latitude: parse_latitude(row),
-                       longitude: parse_longitude(row),
-                       elevation: row_height,
-                       abs_altitude: row_height,
-                       gps_time: parse_datetime(row))
+        Skyderby::Tracks::TrackPoint.new(
+          latitude: parse_latitude(row),
+          longitude: parse_longitude(row),
+          abs_altitude: row_height,
+          gps_time: parse_datetime(row)
+        )
       end
 
       private
@@ -67,7 +71,7 @@ module Skyderby
         date_str = '20' + row[DATE].to_s
         time_str = row[TIME].to_s
 
-        Time.strptime("#{date_str}T#{time_str}", '%Y%m%dT%H%M%S')
+        Time.zone.strptime("#{date_str}T#{time_str}", '%Y%m%dT%H%M%S')
       end
     end
   end

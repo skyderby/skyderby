@@ -4,7 +4,7 @@
 
   = form_for Track.new, html: {id: 'select-segment-form'} do |f|
     = f.hidden_field(:cache_id, value: @key)
-    = f.hidden_field(:track_index)
+    %input{type: 'hidden', name: 'track[track_index]', id: 'track_track_index'}
 
   %table.table.table-hover
     %thead
@@ -14,7 +14,7 @@
         %th=t '.elev'
         %th=t '.pt_cnt'
     %tbody
-      - @tracklist.each_with_index do |item, index|
+      - @track_file.segments.each_with_index do |item, index|
         %tr.track-segment-row{data: {index: index}}
           %td.text-info= index
           %td.text-info= item[:name]

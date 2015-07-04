@@ -1,0 +1,71 @@
+.container
+  %h1.light-header 
+    = @tournament.name
+
+.container
+  .row
+    - @tournament.tournament_rounds.each do |round|
+      .col-sm-3.text-center
+        .tournament-round.text-muted
+          Round 
+          = round.id
+        - spacers = round.order - 1
+        - round.tournament_matches.each do |match|
+          - spacers.times do
+            .tournament-spacer
+          .tournament-match
+            .panel.panel-default
+              .panel-body.competitors-container
+                - match.tournament_match_competitors.each do |competitor|
+                  .tournament-competitor
+                    .col-sm-8.text-left
+                      = competitor.tournament_competitor.name
+                    .col-sm-4.text-right
+                      = competitor.result
+          - spacers.times do
+            .tournament-spacer
+        - if can? :edit, @tournament
+          %a.btn.btn-default{href: new_tournament_match_path}= 'Add match'
+      .col-sm-1
+  - if @tournament.qualification_rounds.count > 0      
+
+    -# TODO: EXTRACT
+    - qualification_results = []
+    - @tournament.tournament_competitors.each do |competitor|
+      - competitor_result = { id: competitor.id, name: competitor.name }
+      - competitor_jump_results = []
+      - @tournament.qualification_rounds.each do |q_round|
+        - q_jump = @tournament.qualification_jumps.detect do |jump|
+          - jump.qualification_round_id == q_round.id && jump.tournament_competitor_id == competitor.id 
+        - if q_jump
+          - competitor_jump_results << q_jump.result
+          - competitor_result["round_#{q_round.order}"] = q_jump.result
+      - competitor_result[:best_result] = competitor_jump_results.max
+      - qualification_results << competitor_result
+
+    - qualification_results.sort_by! { |x| -(x[:best_result] || 0) }
+
+    .row.top-buffer
+      .col-sm-12
+        %h2.light-header= 'Qualification'
+    .row
+      %table.table
+        %thead
+          %tr
+            %td
+              Rank
+            %td
+              Competitor
+            - @tournament.qualification_rounds.each do |round|
+              %td= "Round #{round.order}"
+            %td
+              Best result
+        %tbody
+          - qualification_results.each_with_index do |result, index|
+            %tr
+              %td= index + 1
+              %td= result[:name]
+              - @tournament.qualification_rounds.each do |round|
+                %td= result["round_#{round.order}"]
+              %td= result[:best_result]
+

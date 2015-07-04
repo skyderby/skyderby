@@ -4,7 +4,9 @@ class ResultsWorker
   include Sidekiq::Worker
 
   def perform(track_id)
-    track = Track.find(track_id)
+    track = Track.find_by_id(track_id)
+    return unless track
+
     data = Skyderby::Tracks::Points.new(track)
     is_skydive = track.skydive?
 
@@ -56,11 +58,12 @@ class ResultsWorker
 
   # REFACTOR THIS
   def calculate(data, range)
-    TrackResultData.new(range_from: range[:range_from],
-                        range_to: range[:range_to],
-                        time: ResultsProcessor.process(data, :time, range),
-                        distance: ResultsProcessor.process(data, :distance, range),
-                        speed: ResultsProcessor.process(data, :speed, range))
+    TrackResultData.new(
+      range_from: range[:range_from],
+      range_to: range[:range_to],
+      time: Skyderby::ResultsProcessor.process(data, :time, range),
+      distance: Skyderby::ResultsProcessor.process(data, :distance, range),
+      speed: Skyderby::ResultsProcessor.process(data, :speed, range))
   end
 
   def find_ff_start_elev(points, ff_start, is_skydive)

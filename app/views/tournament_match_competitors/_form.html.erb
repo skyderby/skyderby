@@ -1,0 +1,33 @@
+<%= form_for(@tournament_match_competitor) do |f| %>
+  <% if @tournament_match_competitor.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@tournament_match_competitor.errors.count, "error") %> prohibited this tournament_match_competitor from being saved:</h2>
+
+      <ul>
+      <% @tournament_match_competitor.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :tournament_match_id %><br>
+    <%= f.collection_select(:tournament_match_id, TournamentMatch.all, :id, :id, {promt: 'Select match'}, {class: 'form-control'}) %>
+  </div>
+  <div class="field">
+    <%= f.label :tournament_competitor_id %><br>
+    <%= f.collection_select(:tournament_competitor_id, TournamentCompetitor.all, :id, :name, {promt: 'Select competitor'}, {class: 'form-control'}) %>
+  </div>
+  <div class="field">
+    <%= f.label :result %><br>
+    <%= f.text_field :result %>
+  </div>
+  <div class="field">
+    <%= f.label :track_id %><br>
+    <%= f.text_field :track_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
