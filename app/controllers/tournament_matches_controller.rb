@@ -70,7 +70,9 @@ class TournamentMatchesController < ApplicationController
   def tournament_match_params
     params.require(:tournament_match).permit(
       :tournament_round_id,
-      :start_time
+      :start_time,
+      :gold_finals,
+      :bronze_finals
     )
   end
 end

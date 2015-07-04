@@ -20,12 +20,10 @@ class TournamentMatch < ActiveRecord::Base
   composed_of :start_time,
               class_name: 'Time',
               mapping: %w(start_time_in_seconds to_f),
-              constructor: proc { |t| Time.zone.at(t) },
+              constructor: proc { |t| Time.zone.at(t) if t },
               converter: proc { |t| convert_to_time(t) }
 
-  private
-
-  def convert_to_time(t)
+  def self.convert_to_time(t)
     if t.is_a?(Time)
       t
     elsif t.is_a?(String)
