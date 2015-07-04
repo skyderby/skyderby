@@ -12,6 +12,8 @@
 #
 
 class TournamentMatchCompetitor < ActiveRecord::Base
+  enum earn_medal: [:gold, :silver, :bronze]
+
   belongs_to :tournament_competitor
   belongs_to :tournament_match
   belongs_to :track

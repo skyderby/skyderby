@@ -76,7 +76,8 @@ class TournamentMatchCompetitorsController < ApplicationController
       :is_winner,
       :is_disqualified,
       :is_lucky_looser,
-      :notes
+      :notes,
+      :earn_medal
     )
   end
 end

@@ -27,20 +27,18 @@
                 - match.tournament_match_competitors.each do |competitor|
                   .tournament-competitor.row
                     .col-sm-9.text-left
-                      - unless competitor.result.nil?
-                        - if match.gold_finals
-                          - if competitor.is_winner
-                            %i.fa.fa-fw.fa-certificate.gold
-                          - else
-                            %i.fa.fa-fw.fa-certificate.silver
-                        - elsif match.bronze_finals
-                          - if competitor.is_winner
-                            %i.fa.fa-fw.fa-certificate.bronze
-                          - else
-                            %i.fa.fa-fw
+                      - if match.gold_finals || match.bronze_finals
+                        - if competitor.earn_medal
+                          %i.fa.fa-fw.fa-certificate{class: competitor.earn_medal}
+                        - else
+                          %i.fa.fa-fw
                       = competitor.tournament_competitor.name
                     .col-sm-3.text-right
-                      = competitor.result if competitor.result && competitor.result > 0
+                      - if competitor.is_disqualified
+                        %s{data: {toggle: 'tooltip'}, title: competitor.notes}
+                          = competitor.result
+                      - else
+                        = competitor.result
                 - if match.tournament_match_competitors.count == 1
                   .tournament-competitor.row
                     .col-sm-9.text-left.text-muted
