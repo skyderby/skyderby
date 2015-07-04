@@ -87,38 +87,38 @@ describe Skyderby::ResultsProcessors::TimeUntilIntersection do
   #   expect(result).to eq(33.865)
   # end
   #
-  it 'calculates time between given and line intersection. Lori' do
-    start_time = Time.zone.parse('2015-07-02 12:31:42.855')
-    track_points = read_points_from_file 'R1/07-14-01_Lori.CSV'
+  # it 'calculates time between given and line intersection. Lori' do
+  #   start_time = Time.zone.parse('2015-07-02 12:31:42.855')
+  #   track_points = read_points_from_file 'R1/07-14-01_Lori.CSV'
+  #
+  #   result = Skyderby::ResultsProcessors::TimeUntilIntersection.new(
+  #     track_points, start_time: start_time, finish_line: finish_line
+  #   ).calculate
+  #
+  #   expect(result).to eq(33.865)
+  # end
 
-    result = Skyderby::ResultsProcessors::TimeUntilIntersection.new(
-      track_points, start_time: start_time, finish_line: finish_line
-    ).calculate
+  # it 'calculates time between given and line intersection. Rudy' do
+  #   start_time = Time.zone.parse('2015-07-02 12:27:37.255')
+  #   track_points = read_points_from_file 'R1/12-25-31_Rudy.CSV'
+  #
+  #   result = Skyderby::ResultsProcessors::TimeUntilIntersection.new(
+  #     track_points, start_time: start_time, finish_line: finish_line
+  #   ).calculate
+  #
+  #   expect(result).to eq(33.865)
+  # end
 
-    expect(result).to eq(33.865)
-  end
-
-  it 'calculates time between given and line intersection. Rudy' do
-    start_time = Time.zone.parse('2015-07-02 12:27:37.255')
-    track_points = read_points_from_file 'R1/12-25-31_Rudy.CSV'
-
-    result = Skyderby::ResultsProcessors::TimeUntilIntersection.new(
-      track_points, start_time: start_time, finish_line: finish_line
-    ).calculate
-
-    expect(result).to eq(33.865)
-  end
-
-  it 'calculates time between given and line intersection. Fernando' do
-    start_time = Time.zone.parse('2015-07-02 12:27:37.255')
-    track_points = read_points_from_file 'R1/12-14-55_Fernando.CSV'
-
-    result = Skyderby::ResultsProcessors::TimeUntilIntersection.new(
-      track_points, start_time: start_time, finish_line: finish_line
-    ).calculate
-
-    expect(result).to eq(33.865)
-  end
+  # it 'calculates time between given and line intersection. Fernando' do
+  #   start_time = Time.zone.parse('2015-07-02 12:27:37.255')
+  #   track_points = read_points_from_file 'R1/12-14-55_Fernando.CSV'
+  #
+  #   result = Skyderby::ResultsProcessors::TimeUntilIntersection.new(
+  #     track_points, start_time: start_time, finish_line: finish_line
+  #   ).calculate
+  #
+  #   expect(result).to eq(33.865)
+  # end
 
 
   #
@@ -239,15 +239,15 @@ describe Skyderby::ResultsProcessors::TimeUntilIntersection do
   #   expect(result).to eq(33.865)
   # end
   #
-  it 'calculates time between given and line intersection. Andreas' do
-    start_time = Time.zone.parse('2015-07-03 12:42:57.394')
-    track_points = read_points_from_file 'R3/12-29-24_Andreas.CSV'
-
-    result = Skyderby::ResultsProcessors::TimeUntilIntersection.new(
-      track_points, start_time: start_time, finish_line: finish_line
-    ).calculate
-
-    expect(result).to eq(33.865)
-  end
+  # it 'calculates time between given and line intersection. Andreas' do
+  #   start_time = Time.zone.parse('2015-07-03 12:42:57.394')
+  #   track_points = read_points_from_file 'R3/12-29-24_Andreas.CSV'
+  #
+  #   result = Skyderby::ResultsProcessors::TimeUntilIntersection.new(
+  #     track_points, start_time: start_time, finish_line: finish_line
+  #   ).calculate
+  #
+  #   expect(result).to eq(33.865)
+  # end
 
 end
