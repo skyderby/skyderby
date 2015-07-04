@@ -61,9 +61,10 @@ class ResultsWorker
     TrackResultData.new(
       range_from: range[:range_from],
       range_to: range[:range_to],
-      time: Skyderby::ResultsProcessor.process(data, :time, range),
-      distance: Skyderby::ResultsProcessor.process(data, :distance, range),
-      speed: Skyderby::ResultsProcessor.process(data, :speed, range))
+      time: Skyderby::ResultsProcessor.new(data, :time, range).execute,
+      distance: Skyderby::ResultsProcessor.new(data, :distance, range).execute,
+      speed: Skyderby::ResultsProcessor.new(data, :speed, range).execute
+    )
   end
 
   def find_ff_start_elev(points, ff_start, is_skydive)
