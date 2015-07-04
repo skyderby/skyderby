@@ -43,7 +43,7 @@
       - competitor_result[:best_result] = competitor_jump_results.min
       - qualification_results << competitor_result
 
-    - qualification_results.sort_by! { |x| -(x[:best_result] || 0) }
+    - qualification_results.sort_by! { |x| x[:best_result] || 999 }
 
     .row.top-buffer
       .col-sm-12
