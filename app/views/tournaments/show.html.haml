@@ -18,9 +18,9 @@
               .panel-body.competitors-container
                 - match.tournament_match_competitors.each do |competitor|
                   .tournament-competitor
-                    .col-sm-8.text-left
+                    .col-sm-9.text-left
                       = competitor.tournament_competitor.name
-                    .col-sm-4.text-right
+                    .col-sm-3.text-right
                       = competitor.result
           - spacers.times do
             .tournament-spacer
