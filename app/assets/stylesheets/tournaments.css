@@ -10,3 +10,11 @@
 .tournament-spacer {
   height: 46px;
 }
+
+.tournament-competitor {
+  margin-bottom: 8px;
+}
+
+.competitors-container {
+  padding-bottom: 7px;
+}
