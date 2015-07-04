@@ -2,43 +2,44 @@
   %h1.light-header 
     = @tournament.name
 
-.container
+.container-fluid
   .row
+    .col-lg-1
     - @tournament.tournament_rounds.each do |round|
-      .col-sm-3.text-center
+      .col-sm-4.col-md-4.col-lg-3.text-center
         .tournament-round.text-muted
           Round 
           = round.order
         - spacers = 2 ** (round.order - 1) - 1
         - round.tournament_matches.each do |match|
-          - spacers.times do
-            .tournament-spacer
+          - unless match.bronze_finals
+            - spacers.times do
+              .tournament-spacer
           .tournament-match
             .panel.panel-default
               .panel-body.competitors-container
                 - if match.tournament_match_competitors.count == 0
                   - 2.times do
-                    .tournament-competitor
-                      .col-sm-9.text-left.text-muted
+                    .tournament-competitor.row
+                      .col-sm-9.col-md-8.text-left.text-muted
                         ?
-                      .col-sm-3.text-right
+                      .col-sm-3.col-md-4.text-right
                 - match.tournament_match_competitors.each do |competitor|
-                  .tournament-competitor
+                  .tournament-competitor.row
                     .col-sm-9.text-left
                       = competitor.tournament_competitor.name
                     .col-sm-3.text-right
                       = competitor.result
                 - if match.tournament_match_competitors.count == 1
-                  .tournament-competitor
+                  .tournament-competitor.row
                     .col-sm-9.text-left.text-muted
                       ?
                     .col-sm-3.text-right
-
-          - spacers.times do
-            .tournament-spacer
+          - unless match.gold_finals
+            - spacers.times do
+              .tournament-spacer
         - if can? :edit, @tournament
           %a.btn.btn-default{href: new_tournament_match_path}= 'Add match'
-      .col-sm-1
   - if @tournament.qualification_rounds.count > 0      
 
     -# TODO: EXTRACT
