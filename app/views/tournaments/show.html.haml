@@ -8,20 +8,32 @@
       .col-sm-3.text-center
         .tournament-round.text-muted
           Round 
-          = round.id
-        - spacers = round.order - 1
+          = round.order
+        - spacers = 2 ** (round.order - 1) - 1
         - round.tournament_matches.each do |match|
           - spacers.times do
             .tournament-spacer
           .tournament-match
             .panel.panel-default
               .panel-body.competitors-container
+                - if match.tournament_match_competitors.count == 0
+                  - 2.times do
+                    .tournament-competitor
+                      .col-sm-9.text-left.text-muted
+                        ?
+                      .col-sm-3.text-right
                 - match.tournament_match_competitors.each do |competitor|
                   .tournament-competitor
                     .col-sm-9.text-left
                       = competitor.tournament_competitor.name
                     .col-sm-3.text-right
                       = competitor.result
+                - if match.tournament_match_competitors.count == 1
+                  .tournament-competitor
+                    .col-sm-9.text-left.text-muted
+                      ?
+                    .col-sm-3.text-right
+
           - spacers.times do
             .tournament-spacer
         - if can? :edit, @tournament
