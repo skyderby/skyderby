@@ -1,4 +1,16 @@
-require 'results_calculator'
+# == Schema Information
+#
+# Table name: event_tracks
+#
+#  id              :integer          not null, primary key
+#  round_id        :integer
+#  track_id        :integer
+#  created_at      :datetime
+#  updated_at      :datetime
+#  competitor_id   :integer
+#  result          :float(24)
+#  user_profile_id :integer
+#
 
 class EventTrack < ActiveRecord::Base
   attr_accessor :track_attributes, :current_user
@@ -15,6 +27,7 @@ class EventTrack < ActiveRecord::Base
   validates :track, presence: true
 
   delegate :event, to: :round
+  delegate :event_id, to: :round
   delegate :discipline, to: :round, prefix: true
 
   before_validation :create_track_from_file
@@ -27,24 +40,27 @@ class EventTrack < ActiveRecord::Base
   end
 
   def calc_result
-    self.result = ResultsCalculator.calculate(track, round)
+    self.result = EventResultService.new(track, round).calculate
   end
 
   def create_track_from_file
-    unless track_id
-      return false unless check_file_already_used
-      create_track!(track_attributes)
-    end
+    return if track_id
+
+    track_file = TrackFile.create(file: track_attributes[:file])
+
+    return false unless check_file_already_used(track_file)
+
+    params = track_attributes.merge(track_file_id: track_file.id).except(:file)
+    self.track = CreateTrackService.new(current_user, params, 0).execute
   end
 
-  def check_file_already_used
-    track_with_same_file = Track.joins(:event_track).where(
-      file_file_name: track_attributes[:file].original_filename
-    ).detect { |track| track.event_track.event == event }
+  def check_file_already_used(track_file)
+    duplicate = duplicate_file(track_file)
 
-    if track_with_same_file
-      pilot_name = track_with_same_file.pilot.name
-      track_round = track_with_same_file.event_track.round
+    if duplicate
+      track = duplicate.track
+      pilot_name = track.pilot.name
+      track_round = track.event_track.round
       sentence = I18n.t(
         'errors.messages.duplicate_file',
         pilot_name: pilot_name,
@@ -54,5 +70,18 @@ class EventTrack < ActiveRecord::Base
     end
 
     errors.blank?
+  end
+
+  def duplicate_file(track_file)
+    duplicates = TrackFile
+                 .joins(track: [event_track: [round: :event]])
+                 .where(
+                   file_file_name: track_file.file_file_name,
+                   file_file_size: track_file.file_file_size
+                 )
+                 .where('events.id' => event_id)
+                 .where.not(id: track_file.id)
+
+    duplicates.first
   end
 end

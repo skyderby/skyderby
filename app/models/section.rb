@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: sections
+#
+#  id       :integer          not null, primary key
+#  name     :string(255)
+#  order    :integer
+#  event_id :integer
+#
+
 class Section < ActiveRecord::Base
   belongs_to :event
   has_many :competitors, dependent: :restrict_with_error

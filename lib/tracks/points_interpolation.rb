@@ -15,7 +15,11 @@ module PointsInterpolation
       new_point = @start_point.clone
       new_point.fl_time = @end_point.fl_time * @k
       new_point.fl_time_abs += new_point.fl_time
+      new_point.gps_time += new_point.fl_time if new_point.gps_time
+
+      new_point.abs_altitude +=  (@end_point.abs_altitude - @start_point.abs_altitude) * @k
       new_point.elevation +=  (@end_point.elevation - @start_point.elevation) * @k
+
       new_point.latitude += (@end_point.latitude - @start_point.latitude) * @k
       new_point.longitude += (@end_point.longitude - @start_point.longitude) * @k
 
@@ -25,10 +29,10 @@ module PointsInterpolation
     private
 
     def validate!
-      # Supported only instances of TrackPoint class
+      # Supported only instances of Skyderby::Tracks::Point class
       invalid_point_error = ArgumentError.new('Unsupported points class')
-      fail invalid_point_error unless @start_point.is_a? TrackPoint
-      fail invalid_point_error unless @end_point.is_a? TrackPoint
+      fail invalid_point_error unless @start_point.is_a? Skyderby::Tracks::TrackPoint
+      fail invalid_point_error unless @end_point.is_a? Skyderby::Tracks::TrackPoint
       # If k < 0 or k > 1 then point we are looking for not between we have here
       fail ArgumentError.new('Invalid k') if @k < 0 || @k > 1
     end

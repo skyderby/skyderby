@@ -22,14 +22,6 @@ class PlacesController < ApplicationController
   def edit
   end
 
-  def update
-    if @place.update place_params
-      redirect_to places_path
-    else
-      redirect_to edit_place_path(@place)
-    end
-  end
-
   def new
     @place = Place.new
   end
@@ -39,8 +31,21 @@ class PlacesController < ApplicationController
     if @place.save
       redirect_to places_path
     else
-      redirect_to new_place_path
+      render action: 'new'
     end
+  end
+
+  def update
+    if @place.update place_params
+      redirect_to places_path
+    else
+      render action: 'edit'
+    end
+  end
+
+  def destroy
+    @place.destroy
+    redirect_to places_path
   end
 
   private

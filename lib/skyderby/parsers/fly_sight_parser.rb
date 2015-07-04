@@ -29,24 +29,19 @@
 # gpsFix
 # numSV
 
-require 'velocity'
-require 'tracks/track_point'
-
 module Skyderby
   module Parsers
     class FlySightParser < CSVParser
       protected
 
+      def logger
+        :flysight
+      end
+
       def parse_row(row)
         return nil if row_invalid(row)
 
-        TrackPoint.new(latitude: row[1].to_d,
-                       longitude: row[2].to_d,
-                       elevation: row[3].to_f,
-                       h_speed: h_speed(row),
-                       v_speed: v_speed(row),
-                       abs_altitude: row[3].to_f,
-                       gps_time: gps_time(row))
+        super
       end
 
       private

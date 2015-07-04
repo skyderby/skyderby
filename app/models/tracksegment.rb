@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: tracksegments
+#
+#  id         :integer          not null, primary key
+#  track_id   :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Tracksegment < ActiveRecord::Base
   belongs_to :track
   has_many :points

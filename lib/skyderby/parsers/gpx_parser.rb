@@ -1,5 +1,3 @@
-require 'tracks/track_point'
-
 module Skyderby
   module Parsers
     class GPXParser < TrackParser
@@ -9,11 +7,13 @@ module Skyderby
 
       def parse(index = 0)
         @index = index
+        @index = @index.to_i unless @index.is_a?(Integer)
         @current_track = 0
 
         @track_points = []
         parse_gpx @track_data
-        @track_points
+
+        FileData.new(@track_points, :gpx)
       end
 
       def read_segments
@@ -100,15 +100,17 @@ module Skyderby
       def parse_point(node)
         return unless node.node_name.eql? 'trkpt'
 
-        point = TrackPoint.new(latitude: node.attr('lat').to_f,
-                               longitude: node.attr('lon').to_f)
+        point = Skyderby::Tracks::TrackPoint.new(
+          latitude: node.attr('lat').to_f,
+          longitude: node.attr('lon').to_f
+        )
+
         node.elements.each do |point_attr|
           case point_attr.name
           when 'ele'
-            point.elevation = point_attr.text.to_f
             point.abs_altitude = point_attr.text.to_f
           when 'time'
-            point.gps_time = Time.parse(point_attr.text)
+            point.gps_time = Time.zone.parse(point_attr.text)
           end
         end
         @track_points << point
