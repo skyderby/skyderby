@@ -62,13 +62,20 @@ class TournamentMatchCompetitorsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_tournament_match_competitor
-      @tournament_match_competitor = TournamentMatchCompetitor.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def tournament_match_competitor_params
-      params.require(:tournament_match_competitor).permit(:tournament_match_id, :tournament_competitor_id, :result, :track_id)
-    end
+  def set_tournament_match_competitor
+    @tournament_match_competitor = TournamentMatchCompetitor.find(params[:id])
+  end
+
+  def tournament_match_competitor_params
+    params.require(:tournament_match_competitor).permit(
+      :tournament_match_id,
+      :tournament_competitor_id,
+      :track_id,
+      :result,
+      :is_winner,
+      :is_disqualified,
+      :is_lucky_looser
+    )
+  end
 end
