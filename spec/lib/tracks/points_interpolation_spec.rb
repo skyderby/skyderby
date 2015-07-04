@@ -5,7 +5,8 @@ describe 'PointsInterpolation' do
   let(:first_point) do
     Skyderby::Tracks::TrackPoint.new(
       fl_time: 1,
-      fl_time_abs: Time.parse('2014-07-19T17:35:19.00Z'),
+      fl_time_abs: Time.zone.parse('2014-07-19T17:35:19.00Z'),
+      gps_time: Time.zone.parse('2014-07-19T17:35:19.00Z'),
       latitude: 53.6134805,
       longitude: -114.2022615,
       elevation: 3007.745,
@@ -16,7 +17,8 @@ describe 'PointsInterpolation' do
   let(:second_point) do
     Skyderby::Tracks::TrackPoint.new(
       fl_time: 1,
-      fl_time_abs: Time.parse('2014-07-19T17:35:20.00Z'),
+      fl_time_abs: Time.zone.parse('2014-07-19T17:35:20.00Z'),
+      gps_time: Time.zone.parse('2014-07-19T17:35:20.00Z'),
       latitude: 53.6135751,
       longitude: -114.2014603,
       elevation: 2975.243,
@@ -53,6 +55,10 @@ describe 'PointsInterpolation' do
 
     it 'calculate fl_time_abs' do
       expect(subject.fl_time_abs).to eq(first_point.fl_time_abs + subject.fl_time)
+    end
+
+    it 'calculate gps_time' do
+      expect(subject.gps_time).to eq(first_point.gps_time + subject.fl_time)
     end
   end
 end

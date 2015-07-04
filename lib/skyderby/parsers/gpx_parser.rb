@@ -110,7 +110,7 @@ module Skyderby
           when 'ele'
             point.abs_altitude = point_attr.text.to_f
           when 'time'
-            point.gps_time = Time.parse(point_attr.text)
+            point.gps_time = Time.zone.parse(point_attr.text)
           end
         end
         @track_points << point
