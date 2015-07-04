@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150704071202) do
+ActiveRecord::Schema.define(version: 20150704144300) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer "user_id", limit: 4
@@ -174,10 +174,10 @@ ActiveRecord::Schema.define(version: 20150704071202) do
   end
 
   create_table "tournament_matches", force: :cascade do |t|
-    t.decimal  "start_time",                    precision: 17, scale: 3
-    t.integer  "tournament_round_id", limit: 4
-    t.datetime "created_at",                                             null: false
-    t.datetime "updated_at",                                             null: false
+    t.decimal  "start_time_in_seconds",           precision: 17, scale: 3
+    t.integer  "tournament_round_id",   limit: 4
+    t.datetime "created_at",                                               null: false
+    t.datetime "updated_at",                                               null: false
   end
 
   add_index "tournament_matches", ["tournament_round_id"], name: "index_tournament_matches_on_tournament_round_id", using: :btree
