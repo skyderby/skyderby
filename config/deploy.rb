@@ -45,6 +45,7 @@ set :linked_dirs, fetch(:linked_dirs, []).push('log',
 # set :keep_releases, 5
 
 set :passenger_restart_with_sudo, true
+set :passenger_restart_options, -> { "#{deploy_to}" }
 
 namespace :deploy do
   after :restart, :clear_cache do
