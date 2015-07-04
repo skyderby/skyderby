@@ -15,6 +15,22 @@
     <%= f.label :tournament_round_id %><br>
     <%= f.collection_select(:tournament_round_id, TournamentRound.all, :id, :order, {promt: 'Select round'}, {class: 'form-control'}) %>
   </div>
+
+  <div class="field">
+    <%= f.label :start_time %><br>
+    <%= f.text_field :start_time, class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= f.label :gold_finals %><br>
+    <%= f.check_box :gold_finals %>
+  </div>
+
+   <div class="field">
+    <%= f.label :bronze_finals %><br>
+    <%= f.check_box :bronze_finals %>
+  </div>
+ 
   <div class="actions">
     <%= f.submit %>
   </div>
