@@ -14,6 +14,13 @@
 
 .container-fluid
   .row
+    .col-sm-12.text-center.bg-info
+      %h2.light-header
+        = 'World BASE Race 2015 @Hellesylt'
+        %a= 'See results'
+      = link_to '', tournament_path(1), class: 'overlay-link'
+.container-fluid
+  .row
     .col-sm-12.text-center
       %h1.light-header= t('.skyderby_is')
   .row.start-page-row
