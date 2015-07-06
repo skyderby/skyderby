@@ -5,7 +5,7 @@ module ApplicationHelper
     if title.empty?
       'Skyderby: ' + base_title
     else
-      'Skyderby: ' + title
+      title + ' - Skyderby'
     end
   end
 
