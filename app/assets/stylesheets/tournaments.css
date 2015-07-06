@@ -19,7 +19,7 @@
 .qualification-table a {
   color: rgb(51, 51, 51);
   border-bottom-style: dotted;
-  border-bottom-width: 1px;
+  border-bottom-width: 1.1px;
 }
 
 .tournament-competitor a:hover,
