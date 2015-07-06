@@ -15,6 +15,23 @@
   margin-bottom: 8px;
 }
 
+.tournament-competitor a,
+.qualification-table a {
+  color: rgb(51, 51, 51);
+  border-bottom-style: dotted;
+  border-bottom-width: 1px;
+}
+
+.tournament-competitor a:hover,
+.qualification-table a:hover {
+  border-bottom-style: solid;
+  text-decoration: none;
+}
+
+
+.qualification-table tr > td:nth-child(1) {
+  width: 5%;
+}
 .competitors-container {
   padding-bottom: 7px;
 }
