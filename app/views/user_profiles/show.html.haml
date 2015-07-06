@@ -1,9 +1,12 @@
+-if @profile.name
+  - provide :title, @profile.name
+
 .user{data: {id: @profile.id, tracks: user_tracks}}
 .container.top-buffer
   .row
     .col-sm-2.col-md-2
       .top-buffer.userpic-container.text-center
-        = image_tag(@profile.userpic.url(:medium), :class => 'img-responsive img-rounded loading-bg')
+        = image_tag(@profile.userpic.url(:medium), class: 'img-responsive img-rounded loading-bg')
         -# .edit-userpic
         -#   %span= 'Click to edit'
 
