@@ -77,14 +77,10 @@
               %tr.clickableRow{:data => {:url => track_path(:id => track.id)}}
                 %td.text-info= track.id
                 %td
-                  - if track.wingsuit
-                    - manufacturer = track.wingsuit.manufacturer
-                    %span.text-warning{data: {toggle: 'tooltip'}, title: manufacturer.name}
-                      = manufacturer.code
-                    %span.text-info
-                      = track.wingsuit.name 
-                  - else 
-                    %span.text-info
+                  %span.text-info
+                    - if track.wingsuit
+                      = suit_presentation(track.wingsuit)
+                    - else 
                       = track.suit
                 %td.text-info= track_place(track)
                 %td.text-right

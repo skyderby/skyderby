@@ -9,11 +9,7 @@
         %div.top-buffer
           = t('virtual_competitions.place')
           - if @competition.place
-            %a{href: place_path(@competition.place)}
-              -if @competition.place.country
-                = @competition.place.name + ', ' + @competition.place.country.name
-              - else
-                = @competition.place.name
+            = place_presentation(@competition.place)
           - else
             = t('virtual_competitions.worldwide')
 
