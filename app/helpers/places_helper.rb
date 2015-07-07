@@ -9,9 +9,12 @@ module PlacesHelper
     end
 
     name_span = content_tag(:span) do
-      ', ' + place.name
+      place.name
     end
 
-    code_span.concat(name_span)
+    name_span
+      .concat(' (')
+      .concat(code_span)
+      .concat(')')
   end
 end
