@@ -5,7 +5,7 @@ module PlacesHelper
                             class: 'text-warning',
                             'data-toggle' => 'tooltip',
                             title: country.name) do
-      country.code.upcase || ''
+      (country.code || '').upcase
     end
 
     name_span = content_tag(:span) do

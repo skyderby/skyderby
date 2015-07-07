@@ -16,7 +16,7 @@ module TracksHelper
   end
 
   def track_place(track)
-    track.place ? track.place.name : track.location
+    track.place ? place_presentation(track.place) : track.location
   end
 
   def tracks_index
