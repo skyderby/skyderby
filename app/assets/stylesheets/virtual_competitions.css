@@ -65,11 +65,29 @@
 .vc-scoreboard-table > tbody > tr > td:nth-child(1) { width: 5%; }
 .vc-scoreboard-table > tbody > tr > td:nth-child(2) { width: 25%; }
 .vc-scoreboard-table > tbody > tr > td:nth-child(3) { width: 25%; }
+.vc-scoreboard-table > tbody > tr > td:nth-child(4) { width: 9%; }
 .vc-scoreboard-table > tbody > tr > td:nth-last-child(1) { width: 5%; }
 .vc-scoreboard-table > tbody > tr > td:nth-last-child(2) { width: 15%; }
 
 .vc-scoreboard-table tr td.hiddenRow:nth-child(1) { width: 30%; }
 
 .all-results-table tr td:nth-child(1) { width: 35.8%; }
+.all-results-table tr td:nth-child(2) { width: 12.8%; }
 .all-results-table tr td:nth-last-child(2) { width: 21.5%; }
 .all-results-table tr td:nth-last-child(1) { width: 7.2%; }
+
+.vc-profile-name,
+.vc-result-link,
+.vc-scoreboard-table a {
+  color: rgb(51, 51, 51);
+  border-bottom-style: dotted;
+  border-bottom-width: 1.1px;
+}
+
+.vc-profile-name:hover,
+.vc-result-link:hover,
+.vc-scoreboard-table a:hover {
+  color: rgb(51, 51, 51);
+  border-bottom-style: solid;
+  text-decoration: none;
+}
