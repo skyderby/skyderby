@@ -10,5 +10,6 @@
 FactoryGirl.define do
   factory :manufacturer do
     name 'Phoenix Fly'
+    code 'PF'
   end
 end

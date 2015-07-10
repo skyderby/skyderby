@@ -117,6 +117,19 @@ class TracksController < ApplicationController
     end
   end
 
+  rescue_from ActiveRecord::RecordNotFound do |_exception|
+    track_not_found
+  end
+
+  rescue_from CanCan::AccessDenied do |_exception|
+    track_not_found
+  end
+
+  def track_not_found
+    redirect_to tracks_url, notice: t('tracks.index.track_not_found',
+                                      id: params[:id])
+  end
+
   private
 
   def set_track

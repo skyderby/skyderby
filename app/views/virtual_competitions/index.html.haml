@@ -6,14 +6,22 @@
     %thead
       %tr
         %th= 'Name'
+        %th= 'Location'
         %th= 'Task'
     %tbody
       - @competitions.each do |group, competitions|
         %tr.bg-warning.text-danger.no-hover
-          %td{colspan: 2}= group
+          %td{colspan: 3}= group
         - competitions.each do |competition|
           %tr.clickableRow{data: {url: virtual_competition_path(id: competition.id)}}
             %td.text-info= competition.name
+            %td.text-info
+              - if competition.place
+                = place_presentation(competition.place)
+              - else
+                = t('virtual_competitions.worldwide')
+
+
             - if competition.distance_in_time?
               - task = 'Distance in ' + competition.discipline_parameter.to_s + ' sec'
             - else

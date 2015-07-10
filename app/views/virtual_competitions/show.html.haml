@@ -9,11 +9,7 @@
         %div.top-buffer
           = t('virtual_competitions.place')
           - if @competition.place
-            %a{href: place_path(@competition.place)}
-              -if @competition.place.country
-                = @competition.place.name + ', ' + @competition.place.country.name
-              - else
-                = @competition.place.name
+            = place_presentation(@competition.place)
           - else
             = t('virtual_competitions.worldwide')
 
@@ -63,10 +59,12 @@
             %tr{data: {toggle: 'collapse', target: "#all_results_#{result[:pilot_id]}"}}
               -#.clickableRow{data: {url: track_path(id: best_result.track_id)}}
               %td= index + 1
-              %td= best_result.user_profile.name.titleize
+              %td
+                %a{href: user_profile_path(best_result.user_profile_id), data: {toggle: 'tooltip'}, title: t('.show_profile')}
+                  = best_result.user_profile.name.titleize
               %td= suit_presentation(best_result.wingsuit)
               %td.text-right
-                %a.text-info{href: track_path(best_result.track_id), data: {toggle: 'tooltip'}, title: t('.show_details')}
+                %a{href: track_path(best_result.track_id), data: {toggle: 'tooltip'}, title: t('.show_details')}
                   = format_result(best_result.result, @competition)
               - if @competition.display_highest_speed
                 %td.text-right= (best_result.highest_speed || 0.0).round(1)

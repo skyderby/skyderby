@@ -81,6 +81,14 @@ Skyderby.views.SpdChart = Backbone.View.extend({
                 }
             },
             {
+                name: I18n.t('charts.spd.series.full'),
+                color: '#D6A184',
+                visible: false,
+                tooltip: {
+                    valueSuffix: ''
+                }
+            },
+            {
                 name: I18n.t('charts.spd.series.raw_ground'),
                 type: 'line',
                 color: '#AAE3CC',
@@ -101,7 +109,18 @@ Skyderby.views.SpdChart = Backbone.View.extend({
                 tooltip: {
                     valueSuffix: ''
                 }
-            }
+            },
+            {
+                name: I18n.t('charts.spd.series.raw_full'),
+                type: 'line',
+                color: '#D6A184',
+                enableMouseTracking: false,
+                lineWidth: 7,
+                visible: false,
+                tooltip: {
+                    valueSuffix: ''
+                }
+            },
             ]
         });
 
@@ -138,6 +157,16 @@ Skyderby.views.SpdChart = Backbone.View.extend({
             }
         });
         this.chart.series[3].update({
+            tooltip: {
+                valueSuffix: valueSuffix
+            }
+        });
+        this.chart.series[4].update({
+            tooltip: {
+                valueSuffix: valueSuffix
+            }
+        });
+        this.chart.series[5].update({
             tooltip: {
                 valueSuffix: valueSuffix
             }
@@ -189,14 +218,21 @@ Skyderby.views.SpdChart = Backbone.View.extend({
             this.chart.series[1].setData(data.v_speed, false);
         }
 
+        if (_.has(data, 'full_speed')) {
+            this.chart.series[2].setData(data.full_speed, false);
+        }
+
         if (_.has(data, 'raw_h_speed')) {
-            this.chart.series[2].setData(data.raw_h_speed, false);
+            this.chart.series[3].setData(data.raw_h_speed, false);
         }
 
         if (_.has(data, 'raw_v_speed')) {
-            this.chart.series[3].setData(data.raw_v_speed, false);
+            this.chart.series[4].setData(data.raw_v_speed, false);
         }
 
+        if (_.has(data, 'raw_full_speed')) {
+            this.chart.series[5].setData(data.raw_full_speed, false);
+        }
         this.chart.redraw();
     }
 });
