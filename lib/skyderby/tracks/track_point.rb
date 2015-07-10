@@ -12,9 +12,11 @@ module Skyderby
                     :distance,       # Distance from previous point
                     :h_speed,        # Horizontal speed
                     :v_speed,        # Vertical speed
+                    :full_speed,
                     :glrat,          # Glide Ratio. GR = Horiz. speed / Vertical speed
                     :raw_h_speed,
                     :raw_v_speed,
+                    :raw_full_speed,
                     :raw_gr
 
       def initialize(opts = {})
@@ -52,22 +54,30 @@ module Skyderby
 
       def raw_h_speed=(raw_h_speed)
         @raw_h_speed = raw_h_speed
-        calculate_raw_gr if raw_v_speed
+
+        calculate_raw_gr
+        calculate_raw_full_speed
       end
 
       def raw_v_speed=(raw_v_speed)
         @raw_v_speed = raw_v_speed
-        calculate_raw_gr if raw_h_speed
+
+        calculate_raw_gr
+        calculate_raw_full_speed
       end
 
       def h_speed=(h_speed)
         @h_speed = h_speed
-        calculate_gr if v_speed
+
+        calculate_gr
+        calculate_full_speed
       end
 
       def v_speed=(v_speed)
         @v_speed = v_speed
-        calculate_gr if h_speed
+
+        calculate_gr
+        calculate_full_speed
       end
 
       def to_h
@@ -84,11 +94,27 @@ module Skyderby
       end
 
       def calculate_raw_gr
-        @raw_gr = raw_v_speed == 0 ? 0 : (raw_h_speed / raw_v_speed).round(2)
+        return unless @raw_h_speed && @raw_v_speed
+        @raw_gr = @raw_v_speed == 0 ? 0 : (@raw_h_speed / @raw_v_speed).round(2)
       end
 
       def calculate_gr
-        @glrat = v_speed == 0 ? 0 : (h_speed / v_speed).round(2)
+        return unless @h_speed && @v_speed
+        @glrat = @v_speed == 0 ? 0 : (@h_speed / @v_speed).round(2)
+      end
+
+      def calculate_full_speed
+        return unless @h_speed && @v_speed
+        @full_speed = full_speed_from_components(@v_speed, @h_speed)
+      end
+
+      def calculate_raw_full_speed
+        return unless @raw_h_speed && @raw_v_speed
+        @raw_full_speed = full_speed_from_components(@raw_v_speed, @raw_h_speed)
+      end
+
+      def full_speed_from_components(vertical, horizontal)
+        Math.sqrt(vertical**2 + horizontal**2).round(1)
       end
     end
   end

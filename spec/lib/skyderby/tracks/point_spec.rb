@@ -37,4 +37,14 @@ describe Skyderby::Tracks::TrackPoint do
     point.raw_h_speed = 450.0
     expect(point.raw_gr).to eq 4.5
   end
+
+  it 'should calc full speed on init' do
+    point = Skyderby::Tracks::TrackPoint.new(hash_point)
+    expect(point.full_speed).to eq 223.6
+  end
+
+  it 'should calc raw full speed on init' do
+    point = Skyderby::Tracks::TrackPoint.new(hash_point)
+    expect(point.raw_full_speed).to eq 223.6
+  end
 end
