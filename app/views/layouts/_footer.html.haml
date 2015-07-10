@@ -1,25 +1,26 @@
-#footer
-  .container
-    .row
-      .col-sm-4
-        %p.copyright
-          = "Copyright © #{t 'application.footer.owner'} #{Time.now.year}"
-      .col-sm-4
-        %p= t('static_pages.index.stats')
-        %p
-          = t('static_pages.index.stats_tracks') + ' ' + Track.all.size.to_s
-          %br
-          = t('static_pages.index.stats_pilots') + ' ' + User.all.size.to_s
-      .col-sm-4
-        %p
-          %a{:href => about_path}
-            %i.fa.fa-fw.fa-info
-            = t('application.header.about')
-          %br
-          %a{:href => 'https://www.facebook.com/skyderby.ru'}
-            %i.fa.fa-fw.fa-facebook-square
-            = t('application.footer.fb_page')
-          %br
-          %a{:href => 'mailto:ab@ipkunin.ru'}
-            %i.fa.fa-fw.fa-mail-forward
-            = 'ab@ipkunin.ru'
+- cache 'app_footer', expires_in: 1.hour do
+  #footer
+    .container
+      .row
+        .col-sm-4
+          %p.copyright
+            = "Copyright © #{t 'application.footer.owner'} #{Time.now.year}"
+        .col-sm-4
+          %p= t('static_pages.index.stats')
+          %p
+            = t('static_pages.index.stats_tracks') + ' ' + Track.all.size.to_s
+            %br
+            = t('static_pages.index.stats_pilots') + ' ' + User.all.size.to_s
+        .col-sm-4
+          %p
+            %a{:href => about_path}
+              %i.fa.fa-fw.fa-info
+              = t('application.header.about')
+            %br
+            %a{:href => 'https://www.facebook.com/skyderby.ru'}
+              %i.fa.fa-fw.fa-facebook-square
+              = t('application.footer.fb_page')
+            %br
+            %a{:href => 'mailto:ab@ipkunin.ru'}
+              %i.fa.fa-fw.fa-mail-forward
+              = 'ab@ipkunin.ru'
