@@ -76,6 +76,7 @@
 .all-results-table tr td:nth-last-child(2) { width: 21.5%; }
 .all-results-table tr td:nth-last-child(1) { width: 7.2%; }
 
+.panel-heading a,
 .vc-profile-name,
 .vc-result-link,
 .vc-scoreboard-table a {
@@ -84,6 +85,7 @@
   border-bottom-width: 1.1px;
 }
 
+.panel-heading a:hover,
 .vc-profile-name:hover,
 .vc-result-link:hover,
 .vc-scoreboard-table a:hover {
