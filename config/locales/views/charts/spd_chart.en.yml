@@ -9,3 +9,5 @@ en:
         raw_ground: 'Ground speed (Raw)'
         vertical: 'Vertical speed'
         raw_vertical: 'Vertical speed (Raw)'
+        full: 'Full speed'
+        raw_full: 'Full speed (Raw)'
