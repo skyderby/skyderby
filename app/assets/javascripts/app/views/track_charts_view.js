@@ -113,11 +113,16 @@ Skyderby.views.TrackCharts = Backbone.View.extend({
         var dist_data = [],
         elev_data = [],
         heights_data = [],
+
         h_speed = [],
         v_speed = [],
-        gr = [],
+        full_speed = [],
+
         raw_h_speed = [],
         raw_v_speed = [],
+        raw_full_speed = [],
+
+        gr = [],
         raw_gr = [];
  
         var fl_time = 0,
@@ -142,8 +147,10 @@ Skyderby.views.TrackCharts = Backbone.View.extend({
 
             h_speed.push([fl_time, Math.round(point.h_speed / spd_k)]);
             v_speed.push([fl_time, Math.round(point.v_speed / spd_k)]);
+            full_speed.push([fl_time, Math.round(point.full_speed / spd_k)]);
             raw_h_speed.push([fl_time, Math.round(point.raw_h_speed / spd_k)]);
             raw_v_speed.push([fl_time, Math.round(point.raw_v_speed / spd_k)]);
+            raw_full_speed.push([fl_time, Math.round(point.raw_full_speed / spd_k)]);
 
             gr.push([fl_time, point.glrat]);
             raw_gr.push([fl_time, point.raw_gr]);
@@ -157,8 +164,10 @@ Skyderby.views.TrackCharts = Backbone.View.extend({
         this.spd_chart.setData({
             h_speed: h_speed,
             v_speed: v_speed,
+            full_speed: full_speed,
             raw_h_speed: raw_h_speed,
-            raw_v_speed: raw_v_speed
+            raw_v_speed: raw_v_speed,
+            raw_full_speed: raw_full_speed
         });
 
         this.elev_chart.setData({

@@ -2,4 +2,5 @@ en:
   tracks:
     index:
       title: 'Recently uploaded tracks:'
+      track_not_found: 'Track #%{id} has not found'
 

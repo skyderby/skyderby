@@ -3,11 +3,7 @@
   %td.text-info= track_pilot(track)
   %td
     - if track.wingsuit
-      - manufacturer = track.wingsuit.manufacturer
-      %span.text-warning{data: {toggle: 'tooltip'}, title: manufacturer.name}
-        = manufacturer.code
-      %span.text-info
-        = track.wingsuit.name 
+      = suit_presentation(track.wingsuit)
     - else 
       %span.text-info
         = track.suit

@@ -1,4 +1,4 @@
-module WingsuitHelper
+module WingsuitsHelper
   def suit_presentation(suit)
     manufacturer = suit.manufacturer
     code_span = content_tag(:span,

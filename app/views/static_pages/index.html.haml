@@ -64,11 +64,18 @@
                       = image_tag(result.user_profile.userpic.url(:medium), 
                                   class: 'img-responsive img-rounded')
                     .col-sm-8
-                      %a.vc-profile-name{href: user_profile_path(result.user_profile)}
+                      %a.vc-profile-name{href: user_profile_path(result.user_profile), 
+                        data: {toggle: 'tooltip'}, 
+                        title: t('virtual_competitions.show.show_profile')}
                         = result.user_profile.name.titleize
                       %div
-                        %span.vc-result= format_result(result.result, result.virtual_competition)
-                        %span.vc-unit= competition_unit(result.virtual_competition)
+                        %a.vc-result-link{href: track_path(result.track_id),
+                          data: {toggle: 'tooltip'}, 
+                          title: t('virtual_competitions.show.show_details')}
+                          %span.vc-result= format_result(result.result, result.virtual_competition)
+                          %span.vc-unit= competition_unit(result.virtual_competition)
+
+= render partial: 'tracks/new_track'
 
 -# .container.top-buffer
 -#   .row

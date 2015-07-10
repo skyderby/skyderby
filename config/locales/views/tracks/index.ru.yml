@@ -2,3 +2,4 @@ ru:
   tracks:
     index:
       title: 'Загруженные треки:'
+      track_not_found: 'Трек #%{id} не найден'

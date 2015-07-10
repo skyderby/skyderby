@@ -1,4 +1,7 @@
 $('#tracks-index').append('<%= j render(@tracks) %>)');
+
+enable_tooltips();
+
 <% if @tracks.next_page %>
     $('.pagination').replaceWith('<%= j will_paginate(@tracks, renderer: BootstrapPagination::Rails) %>');
 <% else %>
