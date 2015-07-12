@@ -3,6 +3,11 @@
   .page-header
     %h1=t '.title'
   .row
+    .col-sm-12
+      %strong Explore:
+      %a.btn.btn-default{href: wingsuits_path} wingsuits
+      %a.btn.btn-default{href: places_path} locations
+  .row
     -# - kind = :all
     -# - if params[:filter] && params[:filter][:kind]
     -#   - kind = :skydive if params[:filter][:kind] == 'skydive'
