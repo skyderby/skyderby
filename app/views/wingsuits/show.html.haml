@@ -38,7 +38,7 @@
             %th=t 'activerecord.attributes.track.comment'
             %th=t 'activerecord.attributes.track.uploaded_at'
         %tbody
-          - @wingsuit.tracks.skydive.order('id DESC').each do |track|
+          - @wingsuit.tracks.public_track.skydive.order('id DESC').each do |track|
             %tr.clickableRow{data: {url: track_path(id: track.id)}}
               %td.text-info= track.id
               %td.text-info= track_pilot(track)
@@ -62,7 +62,7 @@
             %th=t 'activerecord.attributes.track.comment'
             %th=t 'activerecord.attributes.track.uploaded_at'
         %tbody
-          - @wingsuit.tracks.base.order('id DESC').each do |track|
+          - @wingsuit.tracks.public_track.base.order('id DESC').each do |track|
             %tr.clickableRow{data: {url: track_path(id: track.id)}}
               %td.text-info= track.id
               %td.text-info= track_pilot(track)
