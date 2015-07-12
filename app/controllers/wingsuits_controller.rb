@@ -57,6 +57,11 @@ class WingsuitsController < ApplicationController
   end
 
   def wingsuit_params
-    params.require(:wingsuit).permit(:name, :manufacturer_id, :kind)
+    params.require(:wingsuit).permit(
+      :name,
+      :manufacturer_id,
+      :kind,
+      :photo,
+      :description)
   end
 end
