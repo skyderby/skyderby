@@ -21,5 +21,11 @@
         = 'Tracksuit'
 
   .form-group
+    = f.label :photo, class: 'col-sm-2 control-label', for: :photo
+    .col-sm-4
+      = f.file_field :photo
+
+
+  .form-group
     .col-sm-offset-2.col-sm-8
       = f.submit t('general.save'), class: 'btn btn-primary'

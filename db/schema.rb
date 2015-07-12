@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150704204515) do
+ActiveRecord::Schema.define(version: 20150712131111) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer "user_id", limit: 4
@@ -363,13 +363,16 @@ ActiveRecord::Schema.define(version: 20150704204515) do
   add_index "virtual_competitions", ["place_id"], name: "index_virtual_competitions_on_place_id", using: :btree
 
   create_table "wingsuits", force: :cascade do |t|
-    t.integer "manufacturer_id", limit: 4
-    t.integer "ws_class_id",     limit: 4
-    t.string  "name",            limit: 255
-    t.integer "kind",            limit: 4,   default: 0
+    t.integer  "manufacturer_id",    limit: 4
+    t.string   "name",               limit: 255
+    t.integer  "kind",               limit: 4,     default: 0
+    t.string   "photo_file_name",    limit: 255
+    t.string   "photo_content_type", limit: 255
+    t.integer  "photo_file_size",    limit: 4
+    t.datetime "photo_updated_at"
+    t.text     "description",        limit: 65535
   end
 
   add_index "wingsuits", ["manufacturer_id"], name: "index_wingsuits_on_manufacturer_id", using: :btree
-  add_index "wingsuits", ["ws_class_id"], name: "index_wingsuits_on_ws_class_id", using: :btree
 
 end

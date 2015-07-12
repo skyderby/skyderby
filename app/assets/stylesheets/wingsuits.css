@@ -1,0 +1,18 @@
+.suits-list {
+  padding-left: 0px;
+}
+
+.suit-li {
+  list-style-type: none;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: rgba(0, 0, 0, 0.14);
+  padding-bottom: 5px;
+  padding-top: 5px;
+
+  margin-bottom: 7px;
+}
+
+ul .suit-li:nth-last-child(1) {
+  border-bottom-style: none;
+}
