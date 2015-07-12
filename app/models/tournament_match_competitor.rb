@@ -9,6 +9,11 @@
 #  track_id                 :integer
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
+#  is_winner                :boolean
+#  is_disqualified          :boolean
+#  is_lucky_looser          :boolean
+#  notes                    :string(255)
+#  earn_medal               :integer
 #
 
 class TournamentMatchCompetitor < ActiveRecord::Base
