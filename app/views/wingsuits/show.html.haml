@@ -1,34 +1,74 @@
-.container
-  .page-header
-    .row
-      .col-sm-10
-        %h1
-          = @wingsuit.name
-          %small= @wingsuit.manufacturer.name
-      .col-sm-2
-        .pull-right
-          - if can? :update, @wingsuit
-            = link_to 'Edit', edit_wingsuit_path(@wingsuit), class: 'btn btn-default'
+.container.top-buffer
+  .row
+    - if @wingsuit.photo.exists?
+      .col-sm-3
+        .top-buffer
+          = image_tag(@wingsuit.photo.url(:medium), class: 'img-responsive img-rounded loading-bg')
+    .col-sm-9
+      %h1
+        = @wingsuit.name
+        %small= @wingsuit.manufacturer.name
+      .description
+        = @wingsuit.description
+      - if can? :update, @wingsuit
+        = link_to 'Edit', edit_wingsuit_path(@wingsuit), class: 'btn btn-default'
 
-  %table.table.table-hover
-    %thead
-      %tr
-        %th=t 'activerecord.attributes.track.id'
-        %th=t 'activerecord.attributes.track.name'
-        %th=t 'activerecord.attributes.track.location'
-        %th= 'Distance'
-        %th= 'Speed'
-        %th= 'Time'
-        %th=t 'activerecord.attributes.track.comment'
-        %th=t 'activerecord.attributes.track.uploaded_at'
-    %tbody
-      - @wingsuit.tracks.each do |track|
-        %tr.clickableRow{data: {url: track_path(id: track.id)}}
-          %td.text-info= track.id
-          %td.text-info= track.name
-          %td.text-info= track.place.present? ? track.place.name : track.location
-          %td.text-info= track.distance.result if track.distance
-          %td.text-info= track.speed.result if track.speed
-          %td.text-info= track.time.result if track.time
-          %td.text-muted= track.comment
-          %td.text-info= track.created_at.strftime('%d.%m.%Y')
+.container
+  -# Nav tabs
+  %ul.nav.nav-tabs{role: 'tablist'}
+    %li.active{role: 'presentation'}
+      %a{href: '#tab-pane-skydive', aria: {controls: 'skydive'}, role: 'tab', data: {toggle: "tab"}}
+        Skydive
+    %li{role: 'presentation'}
+      %a{href: '#tab-pane-base', aria: {controls: 'skydive'}, role: 'tab', data: {toggle: "tab"}}
+        B.A.S.E
+
+  -# Tab panes
+  .tab-content
+    #tab-pane-skydive.tab-pane.active{role: "tabpanel"}
+      %table.table.table-hover
+        %thead
+          %tr
+            %th=t 'activerecord.attributes.track.id'
+            %th=t 'activerecord.attributes.track.name'
+            %th=t 'activerecord.attributes.track.location'
+            %th= 'Distance'
+            %th= 'Speed'
+            %th= 'Time'
+            %th=t 'activerecord.attributes.track.comment'
+            %th=t 'activerecord.attributes.track.uploaded_at'
+        %tbody
+          - @wingsuit.tracks.skydive.order('id DESC').each do |track|
+            %tr.clickableRow{data: {url: track_path(id: track.id)}}
+              %td.text-info= track.id
+              %td.text-info= track_pilot(track)
+              %td.text-info= track_place(track)
+              %td.text-info= track.distance.result if track.distance
+              %td.text-info= track.speed.result if track.speed
+              %td.text-info= track.time.result if track.time
+              %td.text-muted= track.comment
+              %td.text-info= track.created_at.strftime('%d.%m.%Y')
+
+    #tab-pane-base.tab-pane{role: "tabpanel"}
+      %table.table.table-hover
+        %thead
+          %tr
+            %th=t 'activerecord.attributes.track.id'
+            %th=t 'activerecord.attributes.track.name'
+            %th=t 'activerecord.attributes.track.location'
+            %th= 'Distance'
+            %th= 'Speed'
+            %th= 'Time'
+            %th=t 'activerecord.attributes.track.comment'
+            %th=t 'activerecord.attributes.track.uploaded_at'
+        %tbody
+          - @wingsuit.tracks.base.order('id DESC').each do |track|
+            %tr.clickableRow{data: {url: track_path(id: track.id)}}
+              %td.text-info= track.id
+              %td.text-info= track_pilot(track)
+              %td.text-info= track_place(track)
+              %td.text-info= track.distance.result if track.distance
+              %td.text-info= track.speed.result if track.speed
+              %td.text-info= track.time.result if track.time
+              %td.text-muted= track.comment
+              %td.text-info= track.created_at.strftime('%d.%m.%Y')
