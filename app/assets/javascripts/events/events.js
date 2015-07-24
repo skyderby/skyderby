@@ -1,8 +1,8 @@
-"use strict";
-
 var Event = Event || {};
 
 Event.Competition = function() {
+    'use strict';
+
     this.id = '';
     this.name = '';
     this.range_from = '';
@@ -10,6 +10,7 @@ Event.Competition = function() {
     this.status = '';
     this.responsible = '';
     this.place = '';
+    this.rules = '';
     this.is_official = false;
 
     this.path = '';
@@ -25,14 +26,14 @@ Event.Competition = function() {
     this.can_manage= false;
     this.templates= {};
     // interface widgets
-    this.scoreboard = new Event.Scoreboard;
+    this.scoreboard = new Event.Scoreboard();
     this.header = null;
     this.footer = null;
     // form
     this.$form_modal = $('#event-form-modal');
     this.$modal_title = $('#event-form-modal-title');
-    this.$form_organizers = $('.organizers-container')
-    this.$form_place = $('#event-place')
+    this.$form_organizers = $('.organizers-container');
+    this.$form_place = $('#event-place');
     ///////////////////////////////////////////
     // Templates
     this.organizer = _.template([
@@ -47,7 +48,7 @@ Event.Competition = function() {
     ].join('\n'));
 
    this.$form_new_organizer = $('.organizer-profile');
-}
+};
 
 Event.Competition.prototype = {
     init: function(settings) {
@@ -57,6 +58,7 @@ Event.Competition.prototype = {
         this.range_from = data.range_from;
         this.range_to = data.range_to;
         this.status = data.status;
+        this.rules = data.rules;
         this.responsible = {
             id: data.responsible.id,
             name: data.responsible.name
@@ -195,7 +197,7 @@ Event.Competition.prototype = {
                             return {
                                 text: item.name,
                                 id: item.id
-                            }
+                            };
                         })
                     };
                 },
