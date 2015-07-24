@@ -16,6 +16,7 @@
 
 class Event < ActiveRecord::Base
   enum status: [:draft, :published, :finished]
+  enum rules: [:speed_distance_time, :fai, :hungary_boogie]
 
   belongs_to :responsible,
              class_name: 'UserProfile',
