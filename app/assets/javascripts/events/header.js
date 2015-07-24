@@ -28,37 +28,14 @@ Event.Header = function(params) {
         '</a>'
     ].join('\n'));
 
-    this.edit_commands = _.template([
-         '<div class="col-md-7">',
-            '<button class="btn btn-default button-add-class">',
-                '<i class="fa fa-plus"></i>',
-                '<%= I18n.t("events.show.section") %>',
-            '</button>',
-            '<button class="btn btn-default button-add-competitor">',
-                '<i class="fa fa-plus"></i>',
-                '<%= I18n.t("events.show.competitor") %>',
-            '</button>',
-            '<div class="btn-group">',
-                '<button class="btn btn-default" data-toggle="dropdown">',
-                    '<i class="fa fa-plus"></i>',
-                    '<%= I18n.t("events.show.round") %>',
-                    '<i class="fa fa-caret-down"></i>',
-                '</button>',
-                '<ul class="dropdown-menu dropdown-menu-right" role="menu">',
-                    '<li><a class="add-distance-round" href="#"><%= I18n.t("disciplines.distance") %></a></li>',
-                    '<li><a class="add-time-round" href="#"><%= I18n.t("disciplines.time") %></a></li>',
-                    '<li><a class="add-speed-round" href="#"><%= I18n.t("disciplines.speed") %></a></li>',
-                '</ul>',
-            '</div>',
-         '</div>'
-    ].join('\n'));
+    this.edit_commands = JST['app/templates/edit_commands'];
 
     ///////////////////////////////////////////////////////////////////////////
     // Initialization
     //
     $.extend(this, params);
     this.init();
-}
+};
 
 Event.Header.prototype = {
     init: function() {
@@ -72,7 +49,7 @@ Event.Header.prototype = {
     render_edit_controls: function () {
         this.$event_edit_commands.append(this.edit_event());
 
-        this.$table_edit_controls.append(this.edit_commands());
+        this.$table_edit_controls.append(this.edit_commands({rules: window.Competition.rules}));
         this.$table_edit_controls.addClass('top-buffer');
     },
 
