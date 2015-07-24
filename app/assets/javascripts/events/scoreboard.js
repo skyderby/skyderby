@@ -31,19 +31,7 @@ Event.Scoreboard = function() {
         '</thead>'
     ].join('\n'));
 
-    this.round_cell = _.template([
-        '<td class="text-center" data-round-id="<%=id%>" colspan=2>',
-            '<% if (can_manage) { %>',
-                '<i class="fa fa-fw"></i>',
-            '<% } %>',
-            '<%=name%>',
-            '<% if (can_manage) { %>',
-                '<a href="#" class="delete-round">',
-                    '<i class="fa fa-fw fa-times-circle text-muted"></i>',
-                '</a>', 
-            '<% } %>',
-        '</td>'
-    ].join('\n'));
+    this.round_cell = JST['app/templates/round_cell'];
 
     this.result_cell = _.template([
         '<td data-round-id="<%=id%>" data-role="<%=role%>" class="text-right ',
@@ -220,8 +208,10 @@ Event.Scoreboard.prototype = {
     //
     render_round: function(value, index) {
         var can_manage = window.Competition.can_manage;
+        var rules = window.Competition.rules;
+
         this.$rounds_row.append(this.round_cell(
-            $.extend(value, {can_manage: can_manage})
+            $.extend(value, {can_manage: can_manage, rules: rules})
         ));
 
         this.$units_row.append(
@@ -232,30 +222,41 @@ Event.Scoreboard.prototype = {
                 .attr('data-role', 'unit')
                 .attr('data-round-id', value.id)
         );
-        this.$units_row.append(
-            $('<td>')
-                .text('%')
-                .addClass('text-center')
-                .attr('data-discipline', value.discipline)
-                .attr('data-role', 'points')
-                .attr('data-round-id', value.id)
-        );
 
         this.$template_row.append(this.result_cell({
             id: value.id,
             role: 'result',
             can_manage: can_manage
         }));
-        this.$template_row.append(this.result_cell({
-            id: value.id,
-            role: 'points',
-            can_manage: can_manage
-        }));
+        
+        if (rules !== 'hungary_boogie') {
+            this.$units_row.append(
+                $('<td>')
+                    .text('%')
+                    .addClass('text-center')
+                    .attr('data-discipline', value.discipline)
+                    .attr('data-role', 'points')
+                    .attr('data-round-id', value.id)
+            );
 
+            this.$template_row.append(this.result_cell({
+                id: value.id,
+                role: 'points',
+                can_manage: can_manage
+            }));
+        }
     },
 
     render_discipline: function(value, key) {
-        var col_count = value.length * 2 + 1;
+        var rules = window.Competition.rules;
+        var col_count;
+
+        if (rules === 'hungary_boogie') {
+            col_count = value.length;
+        } else {
+            col_count = value.length * 2 + 1;
+        }
+
         this.row_length += col_count;
         this.$discipline_row.append(
             $('<td>')
@@ -267,20 +268,22 @@ Event.Scoreboard.prototype = {
 
         _.each(value, this.render_round.bind(this));
 
-        this.$rounds_row.append(
-            $('<td>')
-                .text('%')
-                .addClass('text-center')
-                .attr('data-discipline', key)
-                .attr('data-role', 'points')
-                .attr('rowspan', 2)
-        );
-        this.$template_row.append(
-            $('<td>')
-                .addClass('text-right')
-                .attr('data-discipline', key)
-                .attr('data-role', 'points')
+        if (rules !== 'hungary_boogie') {
+            this.$rounds_row.append(
+                $('<td>')
+                    .text('%')
+                    .addClass('text-center')
+                    .attr('data-discipline', key)
+                    .attr('data-role', 'points')
+                    .attr('rowspan', 2)
             );
+            this.$template_row.append(
+                $('<td>')
+                    .addClass('text-right')
+                    .attr('data-discipline', key)
+                    .attr('data-role', 'points')
+                );
+        }
     },
 
     render_section: function(value, index) {
@@ -348,36 +351,63 @@ Event.Scoreboard.prototype = {
     },
 
     calculate_totals: function() {
-        _.each(window.Competition.competitors, function(competitor) {
-            var competitor_row = $('#competitor_' + competitor.id);
-            var total_points = 0;
+        var rules = window.Competition.rules;
 
-            var rounds_by_discipline = 
-                _.groupBy(window.Competition.rounds, 'discipline');
+        if (rules === 'hungary_boogie') {
+            _.each(window.Competition.competitors, function(competitor) {
+                var total_points = 0;
 
-            _.each(rounds_by_discipline, function(rounds, discipline) {
-                var discipline_points = 0;
-                _.each(rounds, function(value, index) {
-                    discipline_points += +competitor_row.find(
-                        'td[data-round-id="' + value.id + '"][data-role="points"]'
-                    ).text();
-                });
-                var discipline_cell = competitor_row.find('td[data-discipline="' + discipline + '"]');
-                if (discipline_points) {
-                    discipline_cell.text((discipline_points / rounds.length).toFixed(1)); 
-                    total_points += discipline_points / rounds.length;
+                var tracks = _.where(window.Competition.tracks, {competitor_id: competitor.id});
+                if (tracks.length >= 3) {
+                    var best_tracks = _.chain(tracks)
+                        .sortBy(function(trk) { return -trk.result; })
+                        .first(3)
+                        .reduce(function(memo, num) { return memo + num.result }, 0)
+                        .value();
+
+                    total_points = best_tracks / 3;
+                }
+
+                var total_cell = $('#competitor_' + competitor.id + ' > td[data-role="total-points"]');
+                if (total_points) {
+                    total_cell.text(Math.round(total_points));
                 } else {
-                   discipline_cell.text(''); 
+                    total_cell.text('');
+                }
+
+            });
+        } else {
+            _.each(window.Competition.competitors, function(competitor) {
+                var competitor_row = $('#competitor_' + competitor.id);
+                var total_points = 0;
+
+                var rounds_by_discipline = 
+                    _.groupBy(window.Competition.rounds, 'discipline');
+
+                _.each(rounds_by_discipline, function(rounds, discipline) {
+                    var discipline_points = 0;
+                    _.each(rounds, function(value, index) {
+                        discipline_points += +competitor_row.find(
+                            'td[data-round-id="' + value.id + '"][data-role="points"]'
+                        ).text();
+                    });
+                    var discipline_cell = competitor_row.find('td[data-discipline="' + discipline + '"]');
+                    if (discipline_points) {
+                        discipline_cell.text((discipline_points / rounds.length).toFixed(1)); 
+                        total_points += discipline_points / rounds.length;
+                    } else {
+                       discipline_cell.text(''); 
+                    }
+                });
+
+                var total_cell = competitor_row.find('td[data-role="total-points"]');
+                if (total_points) {
+                    total_cell.text(total_points.toFixed(2));
+                } else {
+                    total_cell.text('');
                 }
             });
-
-            var total_cell = competitor_row.find('td[data-role="total-points"]');
-            if (total_points) {
-                total_cell.text(total_points.toFixed(2));
-            } else {
-                total_cell.text('');
-            }
-        });
+        }
     },
 
     calculate_points: function() {
@@ -603,6 +633,8 @@ Event.Scoreboard.prototype = {
     // Rounds
     
     create_round: function(round) {
+        var rules = window.Competition.rules;
+
         // 1. Проверить наличие дисциплины
         var discipline = round.discipline;
         var discipline_cell = $('#disciplines-row > td[data-discipline="' + discipline + '"]');
@@ -624,50 +656,60 @@ Event.Scoreboard.prototype = {
         // 2. Создать дисциплину если отсутствует
         // 3. Увеличить colspan если присутствует
         if (!discipline_cell.length) {
+            var discipline_colspan = rules === 'hungary_boogie' ? 1 : 3;
             // discipline
             total_points_cell.before(
                 $('<td>')
                     .text(I18n.t('disciplines.' + discipline))
                     .addClass('text-center')
                     .attr('data-discipline', discipline)
-                    .attr('colspan', 3)   
+                    .attr('colspan', discipline_colspan)   
             );
-            // discipline points
-            this.$rounds_row.append(
-                $('<td>')
-                    .text('%')
-                    .attr('data-discipline', discipline)
-                    .attr('data-role', 'points')
-                    .attr('rowspan', 2)   
-            );
-            // template row discipline points
-            this.$template_row.find('td[data-role="total-points"]').before(
-                $('<td>')
-                    .addClass('text-right')
-                    .attr('data-discipline', discipline)
-                    .attr('data-role', 'points')
-            );
-            // competitor rows discipline points
-            $('#results-table > tbody > tr.competitor-row').each(function() {
-                $(this).find('td[data-role="total-points"]').before(
+            if (rules !== 'hungary_boogie') {
+                // discipline points
+                this.$rounds_row.append(
+                    $('<td>')
+                        .text('%')
+                        .attr('data-discipline', discipline)
+                        .attr('data-role', 'points')
+                        .attr('rowspan', 2)   
+                );
+                // template row discipline points
+                this.$template_row.find('td[data-role="total-points"]').before(
                     $('<td>')
                         .addClass('text-right')
                         .attr('data-discipline', discipline)
                         .attr('data-role', 'points')
                 );
-            });        
-            addition_colspan += 1;
+                // competitor rows discipline points
+                $('#results-table > tbody > tr.competitor-row').each(function() {
+                    $(this).find('td[data-role="total-points"]').before(
+                        $('<td>')
+                            .addClass('text-right')
+                            .attr('data-discipline', discipline)
+                            .attr('data-role', 'points')
+                    );
+                });        
+                addition_colspan += 1;
+            }
         } else {
             var colspan = +discipline_cell.attr('colspan');
-            discipline_cell.attr('colspan', colspan + 2);
+            discipline_cell.attr('colspan', colspan + (rules === 'hungary_boogie' ? 1 : 2));
         }
 
         var can_manage = window.Competition.can_manage;
         // 4. Добавить раунд
-        $('#rounds-row > td[data-discipline=' + discipline + '][data-role="points"]').before(
-            this.round_cell(
-                $.extend(round, {can_manage: can_manage})
-        ));
+        if (rules === 'hungary_boogie') {
+            this.$rounds_row.append(
+                this.round_cell(
+                    $.extend(round, {can_manage: can_manage, rules: rules})
+            ));
+        } else {
+            $('#rounds-row > td[data-discipline=' + discipline + '][data-role="points"]').before(
+                this.round_cell(
+                    $.extend(round, {can_manage: can_manage, rules: rules})
+            ));
+        }
 
         var units_selector = '#units-row > td[data-role="points"]';
         if ($('#units-row > td[data-discipline=' + discipline + ']').length) {
@@ -691,12 +733,6 @@ Event.Scoreboard.prototype = {
                 .attr('data-role', 'unit')
                 .attr('data-round-id', round.id);
 
-        if ($(units_selector).length) {
-            $(units_selector).after(percent_cell).after(unit_cell);
-        } else {
-            this.$units_row.append(unit_cell).append(percent_cell);
-        }
-
         var result_cell = this.result_cell({
             id: round.id,
             role: 'result',
@@ -709,23 +745,51 @@ Event.Scoreboard.prototype = {
             can_manage: can_manage
         });
 
-        $('.template-row > td[data-discipline=' + discipline + '][data-role="points"]')
-            .before($(result_cell).clone())
-            .before($(points_cell).clone());
+        if (rules === 'hungary_boogie') {
 
-        addition_colspan += 2;
+            if ($(units_selector).length) {
+                $(units_selector).after(unit_cell);
+            } else {
+                this.$units_row.append(unit_cell);
+            }
 
-        // 5. Увеличить colspan в секциях
+            $('.template-row > td[data-role="total-points"]')
+                .before($(result_cell).clone());
+
+            addition_colspan += 1;
+
+            // 5. Добавить ячейки участникам
+            $('.competitor-row > td[data-role="total-points"]').each(function() {
+                $(this).before($(result_cell).clone());
+            }); 
+
+        } else {
+
+            if ($(units_selector).length) {
+                $(units_selector).after(percent_cell).after(unit_cell);
+            } else {
+                this.$units_row.append(unit_cell).append(percent_cell);
+            }
+
+            $('.template-row > td[data-discipline=' + discipline + '][data-role="points"]')
+                .before($(result_cell).clone())
+                .before($(points_cell).clone());
+
+            addition_colspan += 2;
+
+            // 5. Добавить ячейки участникам
+            $('.competitor-row > td[data-discipline=' + discipline + '][data-role="points"]').each(function() {
+                $(this) 
+                    .before($(result_cell).clone())
+                    .before($(points_cell).clone());
+            }); 
+        }
+
+        // 6. Увеличить colspan в секциях
         $('#results-table > tbody > tr.head-row > td').each(function() {
             $(this).attr('colspan', +$(this).attr('colspan') + addition_colspan);
         });
 
-        // 6. Добавить ячейки участникам
-        $('.competitor-row > td[data-discipline=' + discipline + '][data-role="points"]').each(function() {
-            $(this) 
-                .before($(result_cell).clone())
-                .before($(points_cell).clone());
-        }); 
     },
 
     delete_round: function(round) {
@@ -735,6 +799,7 @@ Event.Scoreboard.prototype = {
             ).length == 1;
 
         var del_total = window.Competition.rounds.length == 1;
+        var rules = window.Competition.rules;
 
         // Удалить ячейки в строках участников
         // Удалить ячейки в шаблоне
@@ -752,7 +817,7 @@ Event.Scoreboard.prototype = {
         } else {
             // уменьшить colspan
             var colspan = +discipline_cell.attr('colspan');
-            discipline_cell.attr('colspan', colspan - 2);
+            discipline_cell.attr('colspan', colspan - (rules === 'hungary_boogie' ? 1 : 2));
         }
 
         if (del_total) {
@@ -760,7 +825,7 @@ Event.Scoreboard.prototype = {
         }
         // Уменьшить colspan в секциях
         $('#results-table > tbody > tr.head-row > td').each(function() {
-            var colspan_diff = 2 + (del_total ? 1 : 0) + (del_discipline ? 1 : 0);
+            var colspan_diff = (rules === 'hungary_boogie' ? 1 : 2) + (del_total ? 1 : 0) + (del_discipline ? 1 : 0);
             $(this).attr('colspan', +$(this).attr('colspan') - colspan_diff);
         });
     },

@@ -30,6 +30,20 @@
             .col-sm-8
               %select.form-control#event-place{name: 'place_id'}
 
+          .form-group
+            %span.col-sm-4.control-label
+              = t('activerecord.attributes.event.rules')
+            .btn-group.col-sm-8{data: {toggle: 'buttons'}}
+              %label.btn.btn-default.active
+                = f.radio_button 'rules', 'speed_distance_time'
+                Speed-Distance-Time
+              %label.btn.btn-default
+                = f.radio_button 'rules', 'fai'
+                FAI '15
+              %label.btn.btn-default
+                = f.radio_button 'rules', 'hungary_boogie'
+                Hungary Boogie 
+
         .modal-footer
           = f.submit t('general.save'), class: 'btn btn-success'
           %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'
