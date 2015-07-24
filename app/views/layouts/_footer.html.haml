@@ -1,4 +1,4 @@
-- cache 'app_footer', expires_in: 1.hour do
+- cache "app_footer#{I18n.locale}", expires_in: 1.hour do
   #footer
     .container
       .row
@@ -17,10 +17,10 @@
               %i.fa.fa-fw.fa-info
               = t('application.header.about')
             %br
-            %a{:href => 'https://www.facebook.com/skyderby.ru'}
+            %a{href: 'https://www.facebook.com/skyderby.ru'}
               %i.fa.fa-fw.fa-facebook-square
               = t('application.footer.fb_page')
             %br
-            %a{:href => 'mailto:ab@ipkunin.ru'}
+            %a{href: 'mailto:ab@ipkunin.ru'}
               %i.fa.fa-fw.fa-mail-forward
               = 'ab@ipkunin.ru'

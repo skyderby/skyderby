@@ -4,6 +4,7 @@
   "unused": true,
   "predef": [ 
     "Skyderby",
+		"JST",
     "Highcharts",
     "Turbolinks",
     "Backbone",
