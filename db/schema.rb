@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150712131111) do
+ActiveRecord::Schema.define(version: 20150713061341) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer "user_id", limit: 4
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 20150712131111) do
     t.integer  "user_profile_id", limit: 4
     t.integer  "place_id",        limit: 4
     t.boolean  "is_official",     limit: 1,   default: false
+    t.integer  "rules",           limit: 4,   default: 0
   end
 
   create_table "manufacturers", force: :cascade do |t|

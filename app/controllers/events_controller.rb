@@ -43,6 +43,7 @@ class EventsController < ApplicationController
   def event_params
     params[:event].permit(
       :name,
+      :rules,
       :place_id,
       :range_from,
       :range_to,
