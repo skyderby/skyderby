@@ -121,3 +121,11 @@ td:hover .delete-round
   color: rgb(153, 153, 153);
 }
 
+/* Hungary boogie specific */
+.hc-best-result {
+	color: #00BA02;
+}
+
+.hc-worst-result {
+  color: rgb(213, 139, 138);
+}
