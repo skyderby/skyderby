@@ -376,6 +376,8 @@ Event.Scoreboard.prototype = {
                 }
 
             });
+
+            this.indicate_best_worst_results();
         } else {
             _.each(window.Competition.competitors, function(competitor) {
                 var competitor_row = $('#competitor_' + competitor.id);
@@ -408,6 +410,31 @@ Event.Scoreboard.prototype = {
                 }
             });
         }
+    },
+
+    indicate_best_worst_results: function() {
+
+        $('.hc-best-result').removeClass('hc-best-result');
+        $('.hc-worst-result').removeClass('hc-worst-result');
+
+        _.each(window.Competition.sections, function(section) {
+            var competitors_ids = 
+                _.chain(window.Competition.competitors)
+                    .filter(function(el) { return el.section.id === section.id; })
+                    .map(function(el) { return el.id; })
+                    .value();
+            var results = 
+                _.chain(window.Competition.tracks)
+                    .filter(function(el) { return _.contains(competitors_ids, el.competitor_id); })
+                    .sortBy(function(el) { return -el.result; })
+                    .value();
+
+            if (results.length) {
+                $('td[data-result-id="' + _.first(results).id + '"]').addClass('hc-best-result');
+                $('td[data-result-id="' + _.last(results).id + '"]').addClass('hc-worst-result');
+            }
+
+        });        
     },
 
     calculate_points: function() {
