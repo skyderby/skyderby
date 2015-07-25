@@ -20,6 +20,7 @@ Event.Competition = function() {
     this.competitors= [];
     this.tracks= [];
     this.organizers = [];
+    this.sponsors = new Skyderby.collections.EventSponsors();
     this.max_results = {};
     // support data
     this.units= {};
@@ -72,6 +73,8 @@ Event.Competition.prototype = {
         _.each(data.rounds, this.add_round.bind(this));
         _.each(data.tracks, this.add_track.bind(this));
         _.each(data.organizers, this.add_organizer.bind(this));
+        
+        _.each(data.sponsors, this.add_sponsor.bind(this));
 
         this.units = {
             distance: I18n.t('units.m'),
@@ -98,11 +101,16 @@ Event.Competition.prototype = {
 
         this.footer = new Event.Footer({
             responsible: this.responsible,
-            organizers: this.organizers
+            organizers: this.organizers,
+            sponsors: this.sponsors
         });
         this.footer.render();
 
         this.path = '/' + I18n.currentLocale() + '/events/' + this.id;
+    },
+
+    add_sponsor: function(sponsor_data) {
+        this.sponsors.add(new Skyderby.models.EventSponsor(sponsor_data));
     },
 
     add_section: function(section_data) {
