@@ -12,6 +12,7 @@
 #  user_profile_id :integer
 #  place_id        :integer
 #  is_official     :boolean          default(FALSE)
+#  rules           :integer          default(0)
 #
 
 class Event < ActiveRecord::Base
@@ -25,6 +26,7 @@ class Event < ActiveRecord::Base
   belongs_to :place
 
   has_many :event_organizers
+  has_many :event_sponsors
   has_many :sections
   has_many :competitors
   has_many :rounds

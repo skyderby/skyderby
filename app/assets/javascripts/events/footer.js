@@ -3,10 +3,12 @@ var Event = Event || {};
 Event.Footer = function(params) {
     this.responsible = {};
     this.organizers = [];
+    this.sponsors = {};
     
     $.extend(this, params);
 
     this.$judges_list = $('#judges-list');
+    this.$sponsors_list = $('#sponsors');
 
     ///////////////////////////////////////////
     // Templates
@@ -15,7 +17,7 @@ Event.Footer = function(params) {
             '<%= name %>',
         '</li>'
     ].join('\n'));
-}
+};
 
 Event.Footer.prototype = {
     render: function() {
@@ -26,6 +28,11 @@ Event.Footer.prototype = {
         });
 
         _.each(this.organizers, this.add_judge.bind(this));
+
+        if (this.sponsors) {
+            this.sponsors.each(this.render_sponsor.bind(this));
+        }
+        enable_tooltips();
     },
 
     add_judge: function(judge) {
@@ -36,5 +43,11 @@ Event.Footer.prototype = {
 
     remove_all_judges: function() {
         this.$judges_list.find('li').remove();
-    }
-}
+    },
+
+    render_sponsor: function(sponsor) {
+        this.$sponsors_list.append(
+            new Skyderby.views.EventSponsor({model: sponsor}).render().el
+        );   
+    },
+};
