@@ -129,3 +129,8 @@ td:hover .delete-round
 .hc-worst-result {
   color: rgb(213, 139, 138);
 }
+
+.dotted-underline {
+  border-bottom-style: dotted;
+  border-bottom-width: 1.1px;
+}

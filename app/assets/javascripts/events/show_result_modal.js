@@ -128,7 +128,12 @@ Event.ShowResultModal.prototype = {
     },
 
     reset_header: function() {
-        this.$elements.header_distance.text('').removeClass('text-danger');
+        this.$elements.header_distance
+            .text('')
+            .removeClass('text-danger');
+
+        $('#total_distance').text('').hide();
+
         this.$elements.header_avg_h_speed.text('').removeClass('text-danger'); 
         this.$elements.header_fl_time.text('').removeClass('text-danger'); 
 
@@ -148,7 +153,10 @@ Event.ShowResultModal.prototype = {
 
     highlite_result: function() {
         if (this.result.round_discipline === 'distance') {
-            this.$elements.header_distance.text(this.result.result).addClass('text-danger'); 
+            this.$elements.header_distance
+                .text(this.result.result)
+                .addClass('text-danger')
+                .tooltip({title: 'Straight-line distance'});
         } else if (this.result.round_discipline === 'speed') {
             this.$elements.header_avg_h_speed.text(Math.round(this.result.result)).addClass('text-danger'); 
         } else if (this.result.round_discipline === 'time') {
@@ -309,6 +317,10 @@ Event.ShowResultModal.prototype = {
 
         if (this.result.round_discipline === 'distance') {
             dist_in_units = this.result.result;
+            $('#total_distance')
+                .show()
+                .text(Math.round(dist))
+                .tooltip({title: 'Trajectory (total) distance'});
         }
 
         if (this.result.round_discipline === 'speed') {
