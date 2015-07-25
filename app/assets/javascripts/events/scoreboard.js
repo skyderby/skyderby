@@ -430,8 +430,8 @@ Event.Scoreboard.prototype = {
                     .value();
 
             if (results.length) {
-                $('td[data-result-id="' + _.first(results).id + '"]').addClass('hc-best-result');
                 $('td[data-result-id="' + _.last(results).id + '"]').addClass('hc-worst-result');
+                $('td[data-result-id="' + _.first(results).id + '"]').addClass('hc-best-result');
             }
 
         });        
