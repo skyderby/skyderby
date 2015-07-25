@@ -27,7 +27,7 @@ Skyderby::Application.routes.draw do
 
     # Help
     get 'help'                  => 'help#index'
-    get 'help/:category/:file'  => 'help#show', as: :help_page, constraints: { category: /.*/, file: /[^\/\.]+/ }
+    get 'help/:category/:file'  => 'help#show', as: :help_page, constraints: { category: /.*/, file: %r{[^\/\.]+} }
     get 'help/about'
 
     resources :events do
@@ -40,7 +40,8 @@ Skyderby::Application.routes.draw do
       resources :rounds
       resources :competitors
       resources :event_tracks
-      resources :event_organizers
+      resources :event_organizers, only: [:create, :destroy]
+      resources :event_sponsors, only: [:new, :create, :destroy]
     end
 
     devise_for :users

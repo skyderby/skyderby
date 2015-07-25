@@ -20,3 +20,6 @@ json.rounds event.rounds, partial: 'rounds/round', as: :round
 
 json.organizers event.event_organizers, partial: 'event_organizers/event_organizer',
                                         as: :event_organizer
+
+json.sponsors event.event_sponsors, partial: 'event_sponsors/event_sponsor',
+                                    as: :event_sponsor
