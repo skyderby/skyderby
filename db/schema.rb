@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150713061341) do
+ActiveRecord::Schema.define(version: 20150725085834) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer "user_id", limit: 4
@@ -55,6 +55,20 @@ ActiveRecord::Schema.define(version: 20150713061341) do
 
   add_index "event_organizers", ["event_id"], name: "index_event_organizers_on_event_id", using: :btree
   add_index "event_organizers", ["user_profile_id"], name: "index_event_organizers_on_user_profile_id", using: :btree
+
+  create_table "event_sponsors", force: :cascade do |t|
+    t.string   "name",              limit: 255
+    t.string   "logo_file_name",    limit: 255
+    t.string   "logo_content_type", limit: 255
+    t.integer  "logo_file_size",    limit: 4
+    t.datetime "logo_updated_at"
+    t.string   "website",           limit: 255
+    t.integer  "event_id",          limit: 4
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
+
+  add_index "event_sponsors", ["event_id"], name: "index_event_sponsors_on_event_id", using: :btree
 
   create_table "event_tracks", force: :cascade do |t|
     t.integer  "round_id",        limit: 4
@@ -376,4 +390,5 @@ ActiveRecord::Schema.define(version: 20150713061341) do
 
   add_index "wingsuits", ["manufacturer_id"], name: "index_wingsuits_on_manufacturer_id", using: :btree
 
+  add_foreign_key "event_sponsors", "events"
 end

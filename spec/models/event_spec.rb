@@ -12,6 +12,7 @@
 #  user_profile_id :integer
 #  place_id        :integer
 #  is_official     :boolean          default(FALSE)
+#  rules           :integer          default(0)
 #
 
 require 'spec_helper'
