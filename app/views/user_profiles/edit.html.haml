@@ -6,9 +6,15 @@
 
   = form_for @profile, html: {class: 'edit-user-profile form-horizontal'} do |f|
     .form-group
-      = f.label t('activerecord.attributes.user_profile.name'), class: 'col-sm-2 control-label', :for => :name
+      = f.label t('activerecord.attributes.user_profile.name'), class: 'col-sm-2 control-label', for: :name
       .col-sm-5
         = f.text_field :name, autofocus: true, class: 'form-control'
+
+    .form-group
+      = f.label :country, class: 'col-sm-2 control-label', for: :country
+      .col-sm-5
+        = f.collection_select(:country_id, Country.all, :id, :name, {promt: 'Select country'}, {class: 'form-control'})
+
 
     .form-group
       = f.label t('activerecord.attributes.user_profile.userpic'), class: 'col-sm-2 control-label', :for => :userpic
