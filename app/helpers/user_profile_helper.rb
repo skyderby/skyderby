@@ -35,7 +35,7 @@ module UserProfileHelper
       end
     end
 
-    if track
+    if track && track.distance
       track.distance.result.round
     else
       '----'
@@ -51,7 +51,7 @@ module UserProfileHelper
       end
     end
 
-    if track
+    if track && track.speed
       track.speed.result.round
     else
       '---'
@@ -67,7 +67,7 @@ module UserProfileHelper
       end
     end
 
-    if track
+    if track && track.time
       track.time.result.round(1)
     else
       '--.-'
