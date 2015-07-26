@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150725085834) do
+ActiveRecord::Schema.define(version: 20150726211923) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer "user_id", limit: 4
@@ -309,8 +309,10 @@ ActiveRecord::Schema.define(version: 20150725085834) do
     t.integer  "crop_h",               limit: 4
     t.integer  "default_units",        limit: 4,   default: 0
     t.integer  "default_chart_view",   limit: 4,   default: 0
+    t.integer  "country_id",           limit: 4
   end
 
+  add_index "user_profiles", ["country_id"], name: "index_user_profiles_on_country_id", using: :btree
   add_index "user_profiles", ["user_id"], name: "index_user_profiles_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
@@ -391,4 +393,5 @@ ActiveRecord::Schema.define(version: 20150725085834) do
   add_index "wingsuits", ["manufacturer_id"], name: "index_wingsuits_on_manufacturer_id", using: :btree
 
   add_foreign_key "event_sponsors", "events"
+  add_foreign_key "user_profiles", "countries"
 end
