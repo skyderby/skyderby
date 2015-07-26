@@ -10,13 +10,13 @@ Event.Scoreboard = function() {
     this.$template_row = null;
     this.$table_footer = null;
     this.$table_footer_row = null;
-    this.row_length = 2;
+    this.row_length = 3;
 
     this.header = _.template([
         '<thead>',
             '<tr id="disciplines-row">',
                 '<td class="rt-ln" rowspan=3>#</td>',
-                '<td rowspan=3><%= I18n.t("events.show.competitor") %></td>',
+                '<td rowspan=3 colspan=2><%= I18n.t("events.show.competitor") %></td>',
             '</tr>',
             '<tr id="rounds-row"></tr>',
             '<tr id="units-row"></tr>',
@@ -27,6 +27,7 @@ Event.Scoreboard = function() {
                     '<span data-role="competitor-suit"></span>',
                     '<span data-role="competitor-edit-ctrls"></span>',
                 '</td>',
+                '<td class="text-center text-muted" data-role="competitor-country"></td>',
             '</tr>',
         '</thead>'
     ].join('\n'));
@@ -302,6 +303,7 @@ Event.Scoreboard.prototype = {
         
         new_row.find("[data-role='competitor-name']").text(value.profile.name + ' ');
         new_row.find("[data-role='competitor-suit']").text(value.wingsuit.name);
+        new_row.find("[data-role='competitor-country']").text(value.country.code.toUpperCase());
         if (can_manage) {
             new_row.find("[data-role='competitor-edit-ctrls']").html([
                 '<a href="#" class="edit-competitor">',
@@ -637,6 +639,7 @@ Event.Scoreboard.prototype = {
 
         competitor_row.find("[data-role='competitor-name']").text(competitor.profile.name + ' ');
         competitor_row.find("[data-role='competitor-suit']").text(competitor.wingsuit.name);
+        competitor_row.find("[data-role='competitor-country']").text(competitor.country.code.toUpperCase());
 
         var current_section = competitor_row.closest('tbody').data('id');
 

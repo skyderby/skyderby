@@ -27,6 +27,7 @@ class UserProfile < ActiveRecord::Base
   enum default_chart_view: [:multi, :single]
 
   belongs_to :user
+  belongs_to :country
 
   has_many :tracks, -> { order('created_at DESC') }
   has_many :public_tracks,
