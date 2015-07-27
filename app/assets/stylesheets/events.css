@@ -134,3 +134,15 @@ td:hover .delete-round
   border-bottom-style: dotted;
   border-bottom-width: 1.1px;
 }
+
+.competitor-profile-link {
+  color: rgb(51, 51, 51);
+  border-bottom-style: dotted;
+  border-bottom-width: 1.1px;
+}
+
+.competitor-profile-link:hover {
+  color: rgb(51, 51, 51);
+  border-bottom-style: solid;
+  text-decoration: none;
+}

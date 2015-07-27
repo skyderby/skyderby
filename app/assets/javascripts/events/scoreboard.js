@@ -23,11 +23,13 @@ Event.Scoreboard = function() {
             '<tr class="template-row">',
                 '<td class="rt-ln" data-role="row_number"></td>',
                 '<td data-role="competitor">',
-                    '<span data-role="competitor-name"></span>',
+                    '<a class="competitor-profile-link" data-role="competitor-name" href="#"></a>',
                     '<span data-role="competitor-suit"></span>',
                     '<span data-role="competitor-edit-ctrls"></span>',
                 '</td>',
-                '<td class="text-center text-muted" data-role="competitor-country"></td>',
+                '<td class="text-center text-muted">',
+                    '<span class="dotted-underline" data-role="competitor-country" data-toggle="tooltip"></span>',
+                '</td>',
             '</tr>',
         '</thead>'
     ].join('\n'));
@@ -301,9 +303,13 @@ Event.Scoreboard.prototype = {
         new_row.removeClass('template-row').addClass('competitor-row');
         new_row.attr('id', 'competitor_' + value.id);
         
-        new_row.find("[data-role='competitor-name']").text(value.profile.name + ' ');
+        new_row.find("[data-role='competitor-name']")
+            .attr('href', value.profile.url)
+            .text(value.profile.name + ' ');
         new_row.find("[data-role='competitor-suit']").text(value.wingsuit.name);
-        new_row.find("[data-role='competitor-country']").text(value.country.code.toUpperCase());
+        new_row.find("[data-role='competitor-country']")
+            .text(value.country.code.toUpperCase())
+            .attr('title', value.country.name);
         if (can_manage) {
             new_row.find("[data-role='competitor-edit-ctrls']").html([
                 '<a href="#" class="edit-competitor">',
@@ -639,7 +645,9 @@ Event.Scoreboard.prototype = {
 
         competitor_row.find("[data-role='competitor-name']").text(competitor.profile.name + ' ');
         competitor_row.find("[data-role='competitor-suit']").text(competitor.wingsuit.name);
-        competitor_row.find("[data-role='competitor-country']").text(competitor.country.code.toUpperCase());
+        competitor_row.find("[data-role='competitor-country']")
+            .text(competitor.country.code.toUpperCase())
+            .attr('title', competitor.country.name);
 
         var current_section = competitor_row.closest('tbody').data('id');
 
