@@ -18,6 +18,11 @@
             .col-sm-8
               %input.form-control#event-name
 
+          .form-group
+            %span.col-sm-4.control-label= t('activerecord.attributes.event.starts_at')
+            .col-sm-8
+              %input.form-control.datepicker#event-starts-at
+
           .form-group.row
             %span.col-sm-4.control-label= t('events.show.comp_window')
             .col-sm-3
