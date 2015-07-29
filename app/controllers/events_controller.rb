@@ -6,7 +6,11 @@ class EventsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @events = EventsFinder.new.execute(current_user)
+    tournaments = Tournament.all.to_a
+    events = EventsFinder.new.execute(current_user).to_a
+
+    @events = (tournaments + events).sort_by { |x| x.starts_at }.reverse
+
     @event = Event.new
   end
 
@@ -43,6 +47,7 @@ class EventsController < ApplicationController
   def event_params
     params[:event].permit(
       :name,
+      :starts_at,
       :rules,
       :place_id,
       :range_from,

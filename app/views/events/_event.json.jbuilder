@@ -8,6 +8,8 @@ json.extract! event,
               :place,
               :responsible
 
+json.starts_at event.starts_at.strftime('%d.%m.%Y')
+
 json.sections event.sections.order(:order), partial: 'sections/section',
                                             as: :section
 json.competitors event.competitors, partial: 'competitors/competitor',

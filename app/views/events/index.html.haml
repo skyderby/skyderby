@@ -32,16 +32,9 @@
   -#         = 'Worldwide'
   -#     .comp-task= competition_task(comp)
 
-  %h2= 'Classic competitions:'
+  %h2= 'Competitions:'
   %ul.comp-list
   - @events.each do |comp|
-    %li.comp-list-item
-      .comp-list-params
-      %h3.comp-list-title
-        %a{href: event_path(comp)}
-          %span.comp-name= comp.name
-      .comp-window
-        = 'Competition window: '
-        = "#{comp.range_from} - #{comp.range_to} #{t('units.m')}"
+    = render comp
 
 = render 'new_event_modal'
