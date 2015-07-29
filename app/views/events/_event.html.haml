@@ -1,0 +1,39 @@
+%li.comp-list-item{class: ('active' if event.starts_at < Time.now && !event.finished?) }
+  .comp-list-params
+    .comp-rules
+      = 'Rules: '
+      = event.rules.humanize
+    .comp-window
+      = 'Competition window: '
+      = "#{event.range_from} - #{event.range_to} #{t('units.m')}"
+  .event-start-date.text-muted.text-center
+    %span
+      = event.starts_at.strftime '%d'
+    %em
+      = event.starts_at.strftime '%b\'%y'
+  .event-list-details
+    %h3.comp-list-title
+      %a{href: event_path(event)}
+        %span.comp-name= event.name
+      - if event.is_official
+        %small
+          Official
+    - if event.place
+      .comp-place.text-muted
+        %i.fa.fa-map-marker
+        = place_presentation(event.place)
+    .comp-classes.text-muted
+      Classes:
+      - sections = event.sections.order(:order)
+      - if sections.count > 0
+
+        - sections.each do |section|
+          = section.name
+          = '-'
+          = section.competitors.count
+          %i.fa.fa-user
+          = '|' unless section.equal? sections.last
+      - else
+        Open -
+        = event.competitors.count
+        %i.fa.fa-user

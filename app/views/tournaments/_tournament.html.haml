@@ -1,0 +1,25 @@
+%li.comp-list-item
+  .comp-list-params
+    .comp-rules
+      = 'Rules: '
+      Single eliminatiion
+  .event-start-date
+    %span.text-muted
+      = tournament.starts_at.strftime '%d'
+    %em.text-muted
+      Jul'15
+  .event-list-details
+    %h3.comp-list-title
+      %a{href: tournament_path(tournament)}
+        %span.comp-name= tournament.name
+      %small
+        Official
+    - if tournament.place
+      .comp-place.text-muted
+        %i.fa.fa-map-marker
+        = place_presentation(tournament.place)
+    .comp-classes.text-muted
+      Classes:
+      Open -
+      = tournament.tournament_competitors.count
+      %i.fa.fa-user
