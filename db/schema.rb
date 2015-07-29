@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150726211923) do
+ActiveRecord::Schema.define(version: 20150728194339) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer "user_id", limit: 4
@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 20150726211923) do
     t.integer  "place_id",        limit: 4
     t.boolean  "is_official",     limit: 1,   default: false
     t.integer  "rules",           limit: 4,   default: 0
+    t.date     "starts_at"
   end
 
   create_table "manufacturers", force: :cascade do |t|
@@ -223,6 +224,7 @@ ActiveRecord::Schema.define(version: 20150726211923) do
     t.decimal  "finish_start_lon",             precision: 15, scale: 10
     t.decimal  "finish_end_lat",               precision: 15, scale: 10
     t.decimal  "finish_end_lon",               precision: 15, scale: 10
+    t.date     "starts_at"
   end
 
   create_table "track_files", force: :cascade do |t|

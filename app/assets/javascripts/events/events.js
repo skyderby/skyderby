@@ -5,6 +5,7 @@ Event.Competition = function() {
 
     this.id = '';
     this.name = '';
+    this.starts_at = '';
     this.range_from = '';
     this.range_to = '';
     this.status = '';
@@ -56,6 +57,7 @@ Event.Competition.prototype = {
         var data = settings.data('details');
         this.id = data.id;
         this.name = data.name;
+        this.starts_at = data.starts_at;
         this.range_from = data.range_from;
         this.range_to = data.range_to;
         this.status = data.status;
@@ -170,6 +172,8 @@ Event.Competition.prototype = {
         this.$modal_title.text(I18n.t('activerecord.models.event') + ': ' + modal_title);
 
         $('#event-name').val(this.name);
+        $('#event-starts-at').val(this.starts_at);
+        $('#event-starts-at').datepicker('update', this.starts_at);
         $('#range-from').val(this.range_from);
         $('#range-to').val(this.range_to);
 
@@ -308,6 +312,7 @@ Event.Competition.prototype = {
     on_form_submit: function() {
         this.update({
             name: $('#event-name').val(),
+            starts_at: $('#event-starts-at').val(),
             range_from: $('#range-from').val(),
             range_to: $('#range-to').val(),
             status: $('input:radio[name="event-status"]').filter(':checked').val(),
@@ -330,6 +335,7 @@ Event.Competition.prototype = {
 
     after_update: function(data, status, jqXHR) {
         this.name = data.name;
+        this.starts_at = data.starts_at;
         this.range_from = data.range_from;
         this.range_to = data.range_to;
 
