@@ -10,22 +10,27 @@
   list-style-image: none;
   list-style-position: outside;
   list-style-type: none;
-  padding-bottom: 10px;
-  padding-top: 10px;
+  margin-top: 25px;
+  min-height: 60px;
   position: relative;
-  border-bottom-color: rgb(238, 238, 238);
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
+  border-color: rgb(238, 238, 238);
+  border-left-style: solid;
+  border-left-width: 5px;
+}
+
+.comp-list-item.active {
+  border-color: rgb(77, 197, 147);
 }
 
 .comp-list-title {
   margin-bottom: 10px;
+  font-weight: 200;
 }
 
 .comp-list-params {
   color: rgb(136, 136, 136);
   float: right;
-  margin-top: 17px;
+  width: 35%;
 }
 
 .comp-group {
@@ -145,4 +150,26 @@ td:hover .delete-round
   color: rgb(51, 51, 51);
   border-bottom-style: solid;
   text-decoration: none;
+}
+
+.event-start-date {
+  float: left;
+  position: absolute;
+  top: 8px;
+  left: 13px;
+}
+
+.event-start-date span {
+  font-size: 30px;
+  font-weight: 200;
+}
+
+.event-start-date em {
+  display: block;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.event-list-details {
+  padding-left: 70px;
 }

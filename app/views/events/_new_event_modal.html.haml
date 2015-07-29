@@ -17,6 +17,11 @@
             .col-sm-8
               = f.text_field :name, class: 'form-control'
 
+          .form-group
+            %span.col-sm-4.control-label= t('activerecord.attributes.event.starts_at')
+            .col-sm-8
+              = f.text_field :starts_at, class: 'form-control datepicker'
+
           .form-group.row
             %span.col-sm-4.control-label= t('events.show.comp_window')
             .col-sm-3

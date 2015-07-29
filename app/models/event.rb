@@ -32,7 +32,7 @@ class Event < ActiveRecord::Base
   has_many :rounds
   has_many :event_tracks, through: :rounds
 
-  validates_presence_of :responsible, :name, :range_from, :range_to
+  validates_presence_of :responsible, :name, :range_from, :range_to, :starts_at
 
   before_validation :check_name_and_range, on: :create
 
