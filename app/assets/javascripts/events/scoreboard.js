@@ -643,7 +643,9 @@ Event.Scoreboard.prototype = {
     update_competitor: function(competitor) {
         var competitor_row = $('#competitor_' + competitor.id);
 
-        competitor_row.find("[data-role='competitor-name']").text(competitor.profile.name + ' ');
+        competitor_row.find("[data-role='competitor-name']")
+            .attr('href', competitor.profile.url)
+            .text(competitor.profile.name + ' ');
         competitor_row.find("[data-role='competitor-suit']").text(competitor.wingsuit.name);
         competitor_row.find("[data-role='competitor-country']")
             .text(competitor.country.code.toUpperCase())
