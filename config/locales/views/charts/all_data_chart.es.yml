@@ -9,6 +9,7 @@ es:
       series:
         horiz_speed: 'Velocidad horizontal'
         vert_speed: 'Velocidad vertical'
+        full_speed: 'Velocidad 3D'
         gr: 'Calidad del vuelo'
         height: 'La altitud'
         distance: 'La distancia'
