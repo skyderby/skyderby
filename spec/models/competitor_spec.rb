@@ -18,13 +18,14 @@ require 'rails_helper'
 RSpec.describe Competitor, type: :model do
   it 'can create profile if not set' do
     wingsuit     = create :wingsuit
-    event        = create :event
+    section      = create :section
     profile_name = 'Mario McTester'
 
     competitor = Competitor.create(
       profile_name: profile_name,
       wingsuit: wingsuit,
-      event: event
+      event: section.event,
+      section: section
     )
 
     expect(competitor.user_profile.name).to eq(profile_name)
