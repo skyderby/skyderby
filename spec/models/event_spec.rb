@@ -13,6 +13,7 @@
 #  place_id        :integer
 #  is_official     :boolean          default(FALSE)
 #  rules           :integer          default(0)
+#  starts_at       :date
 #
 
 require 'spec_helper'
@@ -21,7 +22,7 @@ require 'rails_helper'
 describe Event, type: :model do
   before :all do
     @user = FactoryGirl.create(:user)
-    @event = Event.create!(responsible: @user.user_profile)
+    @event = Event.create!(responsible: @user.user_profile, starts_at: Date.today)
   end
 
   it 'has status: Draft' do

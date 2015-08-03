@@ -12,6 +12,7 @@
 #  finish_start_lon :decimal(15, 10)
 #  finish_end_lat   :decimal(15, 10)
 #  finish_end_lon   :decimal(15, 10)
+#  starts_at        :date
 #
 
 require 'rails_helper'
