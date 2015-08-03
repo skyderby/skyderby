@@ -56,7 +56,7 @@ function fail_ajax_request(data) {
         error_text = data.responseText.substring(0, 500);
         errors_count += 1;
     }
-    error_text = I18n.t('errors.messages.not_saved', {count: errors_count}) + '\r\n' + error_text;
+    error_text = I18n.t('errors.messages.not_saved', {count: errors_count, resource: 'object'}) + '\r\n' + error_text;
     AjaxErrorMessage.display(error_text);
 }
 

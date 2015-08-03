@@ -22,9 +22,10 @@ class EventTrack < ActiveRecord::Base
              class_name: 'UserProfile',
              foreign_key: 'user_profile_id'
 
-  validates :competitor, presence: true
-  validates :round, presence: true
-  validates :track, presence: true
+  validates_presence_of :competitor
+  validates_presence_of :round
+  validates_presence_of :track
+  validate :validate_result_duplication, on: :create
 
   delegate :event, to: :round
   delegate :event_id, to: :round
@@ -83,5 +84,14 @@ class EventTrack < ActiveRecord::Base
                  .where.not(id: track_file.id)
 
     duplicates.first
+  end
+
+  def validate_result_duplication
+    duplicates = EventTrack.where(
+      competitor_id: competitor_id,
+      round_id: round_id
+    )
+
+    errors.add(:result, :duplicate) unless duplicates.blank?
   end
 end

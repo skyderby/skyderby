@@ -24,7 +24,7 @@ class Competitor < ActiveRecord::Base
   has_many :event_tracks, dependent: :restrict_with_error
 
   validate :validate_profile
-  validates_presence_of :wingsuit, :event
+  validates_presence_of :wingsuit, :event, :section
 
   before_save :set_profile
 
