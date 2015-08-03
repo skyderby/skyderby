@@ -1,0 +1,8 @@
+ru:
+  activerecord:
+    errors:
+      models:
+        event_track:
+          attributes:
+            result:
+              duplicate: 'Для данного участника в этом раунде результат уже загружен. Обновите страницу.'

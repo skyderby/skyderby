@@ -20,6 +20,7 @@
 #  crop_h               :integer
 #  default_units        :integer          default(0)
 #  default_chart_view   :integer          default(0)
+#  country_id           :integer
 #
 
 FactoryGirl.define do

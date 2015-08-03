@@ -13,13 +13,15 @@
 #  place_id        :integer
 #  is_official     :boolean          default(FALSE)
 #  rules           :integer          default(0)
+#  starts_at       :date
 #
 
 FactoryGirl.define do
   factory :event do
     sequence(:name) { |n| "Event#{n}" }
-    range_from Date.today.beginning_of_year
-    range_to Date.today.end_of_year
+    starts_at Date.today
+    range_from 3000
+    range_to 2000
     responsible
 
     trait :place_specific do

@@ -13,6 +13,7 @@
 #  place_id        :integer
 #  is_official     :boolean          default(FALSE)
 #  rules           :integer          default(0)
+#  starts_at       :date
 #
 
 class Event < ActiveRecord::Base
