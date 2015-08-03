@@ -1,0 +1,8 @@
+en:
+  activerecord:
+    errors:
+      models:
+        event_track:
+          attributes:
+            result:
+              duplicate: 'For this competitor in this round result already exist. Refresh page to see it.'
