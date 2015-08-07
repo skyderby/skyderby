@@ -84,6 +84,16 @@ Skyderby.views.AllDataChart = Backbone.View.extend({
                     }
                 },
                 {
+                    name: I18n.t('charts.all_data.series.full_speed'),
+                    yAxis: 0,
+                    color: '#D6A184',
+                    visible: false,
+                    tooltip: {
+                        valueSuffix: '',
+                        valueDecimals: 0
+                    }
+                },
+                {
                     name: I18n.t('charts.all_data.series.gr'),
                     yAxis: 2,
                     color: Highcharts.getOptions().colors[1],
@@ -157,9 +167,9 @@ Skyderby.views.AllDataChart = Backbone.View.extend({
                 valueSuffix: spdValueSuffix
             }
         });
-        this.chart.series[3].update({
+        this.chart.series[2].update({
             tooltip: {
-                valueSuffix: distValueSuffix
+                valueSuffix: spdValueSuffix
             }
         });
         this.chart.series[4].update({
@@ -168,6 +178,11 @@ Skyderby.views.AllDataChart = Backbone.View.extend({
             }
         });
         this.chart.series[5].update({
+            tooltip: {
+                valueSuffix: distValueSuffix
+            }
+        });
+        this.chart.series[6].update({
             tooltip: {
                 valueSuffix: distValueSuffix
             }
@@ -191,20 +206,24 @@ Skyderby.views.AllDataChart = Backbone.View.extend({
             this.chart.series[1].setData(data.v_speed, false);
         }
 
+        if (_.has(data, 'full_speed')) {
+            this.chart.series[2].setData(data.full_speed, false);
+        }
+
         if (_.has(data, 'gr')) {
-            this.chart.series[2].setData(data.gr, false);
+            this.chart.series[3].setData(data.gr, false);
         }
 
         if (_.has(data, 'heights')) {
-            this.chart.series[3].setData(data.heights, false);
+            this.chart.series[4].setData(data.heights, false);
         }
 
         if (_.has(data, 'dist')) {
-            this.chart.series[4].setData(data.dist, false);
+            this.chart.series[5].setData(data.dist, false);
         }
 
         if (_.has(data, 'elev')) {
-            this.chart.series[5].setData(data.elev, false);
+            this.chart.series[6].setData(data.elev, false);
         }
 
         this.chart.redraw();

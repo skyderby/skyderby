@@ -9,6 +9,7 @@ en:
       series:
         horiz_speed: 'Ground speed'
         vert_speed: 'Vertical speed'
+        full_speed: 'Full speed'
         gr: 'Glide ratio'
         height: 'Height'
         distance: 'Distance'

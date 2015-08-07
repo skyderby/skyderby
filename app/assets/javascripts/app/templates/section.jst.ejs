@@ -1,0 +1,23 @@
+<tbody id="section_<%= id %>" data-id="<%= id %>" data-order="<%= order %>">
+	<tr id="section_<%= id %>_head_row" class="head-row">
+		<td id="section_<%= id %>_name_cell" class="-bg-info" colspan="<%= row_length %>">
+			<span data-role="name"><%= name %>:</span>
+			<% if (can_manage) { %>
+				<a href="#" class="edit-section">
+					<i class="fa fa-pencil text-muted"></i>
+				</a>
+				<span class="pipe-edit-section text-muted">|</span>
+				<a href="#" class="section-up">
+					<i class="fa fa-chevron-up text-muted"></i>
+				</a>
+				<a href="#" class="section-down">
+					<i class="fa fa-chevron-down text-muted"></i>
+				</a>
+				<span class="pipe-edit-section text-muted">|</span>
+				<a href="#" class="delete-section">
+					<i class="fa fa-times-circle text-muted"></i>
+				</a>
+			<% } %>
+		</td>
+	</tr>
+</tbody>

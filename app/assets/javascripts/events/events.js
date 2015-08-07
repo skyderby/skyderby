@@ -17,7 +17,7 @@ Event.Competition = function() {
     this.path = '';
     // Main data
     this.rounds= [];
-    this.sections= [];
+    this.sections= new Skyderby.collections.Sections();
     this.competitors= [];
     this.tracks= [];
     this.organizers = [];
@@ -70,7 +70,12 @@ Event.Competition.prototype = {
             this.place = data.place;
         }
 
-        _.each(data.sections, this.add_section.bind(this));
+        this.path = '/' + I18n.currentLocale() + '/events/' + this.id;
+
+        this.sections.url = this.path + '/sections';
+        this.sections.set(data.sections);
+
+        // _.each(data.sections, this.add_section.bind(this));
         _.each(data.competitors, this.add_competitor.bind(this));
         _.each(data.rounds, this.add_round.bind(this));
         _.each(data.tracks, this.add_track.bind(this));
@@ -108,7 +113,6 @@ Event.Competition.prototype = {
         });
         this.footer.render();
 
-        this.path = '/' + I18n.currentLocale() + '/events/' + this.id;
     },
 
     add_sponsor: function(sponsor_data) {
@@ -116,7 +120,7 @@ Event.Competition.prototype = {
     },
 
     add_section: function(section_data) {
-        this.sections.push(new Event.Section(section_data));
+        this.sections.add(new Skyderby.models.Section(section_data));
     },
 
     add_competitor: function(competitor_data) {
@@ -359,12 +363,6 @@ Event.Competition.prototype = {
         });
 
         this.footer.render();
-    },
-
-    section_by_id: function(section_id) {
-        return $.grep(this.sections, function(e) {
-            return e.id == section_id;
-        })[0];
     },
 
     on_section_create: function(section) {
