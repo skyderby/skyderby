@@ -34,6 +34,7 @@ Event.Scoreboard = function() {
         '</thead>'
     ].join('\n'));
 
+    this.section = JST['app/templates/section'];
     this.round_cell = JST['app/templates/round_cell'];
 
     this.result_cell = _.template([
@@ -46,30 +47,6 @@ Event.Scoreboard = function() {
             '">',
         '</td>'
     ].join('\n'));
-
-    this.section = _.template([
-        '<tbody id="section_<%= id %>" data-id="<%= id %>" data-order="<%= order %>">',
-            '<tr id="section_<%= id %>_head_row" class="head-row">',
-                '<td id="section_<%= id %>_name_cell" class="-bg-info" colspan="<%= row_length %>">',
-                    '<span data-role="name"><%= name %>:</span>',
-                    '<% if (can_manage) { %>',
-                    '<a href="#" class="edit-section">',
-                        '<i class="fa fa-pencil text-muted"></i>',
-                    '</a>',
-                    '<span class="pipe-edit-section text-muted">|</span>',
-                    '<a href="#" class="section-up">',
-                        '<i class="fa fa-chevron-up text-muted"></i>',
-                    '</a>',
-                    '<a href="#" class="section-down">',
-                        '<i class="fa fa-chevron-down text-muted"></i>',
-                    '</a>',
-                    '<span class="pipe-edit-section text-muted">|</span>',
-                    '<a href="#" class="delete-section">',
-                        '<i class="fa fa-times-circle text-muted"></i>',
-                    '</a>',
-                    '<% } %>',
-                '</td>',
-        '</tbody>'].join('\n'));
 
     this.init();
 };
@@ -112,7 +89,9 @@ Event.Scoreboard.prototype = {
         var section_tbody = $(this).closest('tbody');
         var section_id = section_tbody.attr('id').replace('section_', "");
     
-        window.Competition.section_by_id(section_id).open_form();       
+        var section = window.Competition.sections.get(section_id);
+        var section_form = new Skyderby.views.SectionForm({model: section});
+        section_form.render().open();
     },
 
     delete_section_click: function(e) {
@@ -125,7 +104,7 @@ Event.Scoreboard.prototype = {
             alert('Перед удалением класса необходимо переместить всех участников из него в другие классы');
         } else {
             var section_id = section_tbody.attr('id').replace('section_', "");
-            window.Competition.section_by_id(section_id).destroy();
+            window.Competition.sections.get(section_id).destroy();
         }
     },
 
@@ -133,20 +112,20 @@ Event.Scoreboard.prototype = {
         e.preventDefault();
 
         var $section = $(this).parents('tbody:first');
-        var section = window.Competition.section_by_id($section.data('id'));
+        var section = window.Competition.sections.get($section.data('id'));
 
         if ($(this).is('.section-up')) {
             var $prev_element = $section.prev();
 
             if (!$prev_element.is('thead')) {
-                var prev_section = window.Competition.section_by_id($prev_element.data('id'));
+                var prev_section = window.Competition.sections.get($prev_element.data('id'));
                 section.reorder_with(prev_section, 'up');                
             }
         } else {
             var $next_element = $section.next();
 
             if (!$next_element.is('#table-footer')) {
-                var next_section = window.Competition.section_by_id($next_element.data('id'));
+                var next_section = window.Competition.sections.get($next_element.data('id'));
                 section.reorder_with(next_section, 'down');
             }
         }
@@ -292,7 +271,7 @@ Event.Scoreboard.prototype = {
     render_section: function(value, index) {
         var can_manage = window.Competition.can_manage;
         this.$table.append(this.section(
-            $.extend(value, {can_manage: can_manage, row_length: this.row_length})
+            $.extend(value.toJSON(), {can_manage: can_manage, row_length: this.row_length})
         ));
     },
 
@@ -573,7 +552,7 @@ Event.Scoreboard.prototype = {
         }
 
         // Sections
-        _.each(window.Competition.sections, this.render_section.bind(this));
+        window.Competition.sections.each(this.render_section.bind(this));
 
         // Competitors
         _.each(window.Competition.competitors, this.render_competitor.bind(this));
@@ -643,7 +622,9 @@ Event.Scoreboard.prototype = {
     update_competitor: function(competitor) {
         var competitor_row = $('#competitor_' + competitor.id);
 
-        competitor_row.find("[data-role='competitor-name']").text(competitor.profile.name + ' ');
+        competitor_row.find("[data-role='competitor-name']")
+            .attr('href', competitor.profile.url)
+            .text(competitor.profile.name + ' ');
         competitor_row.find("[data-role='competitor-suit']").text(competitor.wingsuit.name);
         competitor_row.find("[data-role='competitor-country']")
             .text(competitor.country.code.toUpperCase())
