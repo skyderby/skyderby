@@ -22,8 +22,8 @@ function init_chart_view() {
     var track_data = $('.track-data');
 
     Track.charts_data = track_data.data('points');
-    Track.max_height = track_data.data('height-max');
-    Track.min_height = track_data.data('height-min');
+    Track.max_height = Number(track_data.data('height-max'));
+    Track.min_height = Number(track_data.data('height-min'));
 
     var params = track_data.data('params');
 

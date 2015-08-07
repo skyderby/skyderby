@@ -179,6 +179,7 @@ Skyderby.views.TrackCharts = Backbone.View.extend({
         this.all_data_chart.setData({
             h_speed: h_speed,
             v_speed: v_speed,
+            full_speed: full_speed,
             gr: gr,
             elev: elev_data,
             dist: dist_data,
