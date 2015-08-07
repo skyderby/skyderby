@@ -9,6 +9,7 @@ ru:
       series:
         horiz_speed: "Гор. Скорость"
         vert_speed: "Верт. Скорость"
+        full_speed: 'Полная скорость'
         gr: "Качество полета"
         height: "Высота"
         distance: "Дистанция"

@@ -403,7 +403,7 @@ Event.ShowResultModal.prototype = {
         this.$elements.li_toggle_single.addClass('active');
         this.$elements.li_toggle_multi.removeClass('active');
 
-        this.charts_view.toggleMultiChart();
+        this.charts_view.toggleSingleChart();
 
         this.render_track();
 
