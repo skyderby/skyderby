@@ -9,8 +9,8 @@ Skyderby.views.SectionForm = Backbone.View.extend({
     $modal_wrapper: $('#modal'), 
 
     events: {
-        'hidden.bs.modal'     : 'onModalHidden',
-        'shown.bs.modal'      : 'onModalShown',
+        'hidden.bs.modal #modal'     : 'onModalHidden',
+        'shown.bs.modal #modal'      : 'onModalShown',
         'submit #section-form': 'onSubmit'
     },
 
