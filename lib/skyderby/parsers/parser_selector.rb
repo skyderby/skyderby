@@ -10,6 +10,8 @@ module Skyderby
       }.freeze
 
       def execute(data, extension)
+        data = data.encode(data.encoding, universal_newline: true)
+
         case extension.downcase
         when '.csv'
 
@@ -32,7 +34,7 @@ module Skyderby
       def csv_file_format(rows)
         format = nil
 
-        CSV.parse(rows) do |row|
+        CSV.parse(rows, row_sep: :auto) do |row|
           format = HEADERS.select { |_, value| value == row }.keys[0]
           break if format.present?
         end
