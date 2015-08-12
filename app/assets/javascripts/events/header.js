@@ -93,8 +93,9 @@ Event.Header.prototype = {
 
     on_button_add_class_click: function(e) {
         e.preventDefault();
-        var new_section = new Event.Section;
-        new_section.open_form();
+        var new_section = new Skyderby.models.Section;
+        var section_form = new Skyderby.views.SectionForm({model: new_section});
+        section_form.render().open();
     },
 
     on_button_add_competitor_click: function(e) {
