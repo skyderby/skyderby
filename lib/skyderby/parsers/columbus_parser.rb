@@ -71,7 +71,7 @@ module Skyderby
         date_str = '20' + row[DATE].to_s
         time_str = row[TIME].to_s
 
-        Time.zone.strptime("#{date_str}T#{time_str}", '%Y%m%dT%H%M%S')
+        Time.zone.parse("#{date_str}T#{time_str}")
       end
     end
   end
