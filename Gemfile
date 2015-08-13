@@ -16,7 +16,7 @@ gem 'will_paginate-bootstrap'
 gem 'haml'
 
 # Files attachments
-gem 'paperclip', '3.4.2'
+gem 'paperclip', '~> 4.2.2'
 
 # XML
 gem 'nokogiri', '~> 1.6.3.1'
