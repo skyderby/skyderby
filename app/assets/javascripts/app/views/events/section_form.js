@@ -6,12 +6,13 @@ Skyderby.views.SectionForm = Backbone.View.extend({
 
     className: 'modal-dialog',
 
-    $modal_wrapper: $('#modal'), 
-
     events: {
-        'hidden.bs.modal #modal'     : 'onModalHidden',
-        'shown.bs.modal #modal'      : 'onModalShown',
         'submit #section-form': 'onSubmit'
+    },
+
+    initialize: function() {
+        this.modalView = new Skyderby.views.ModalView();
+        this.listenTo(this.modalView, 'shown.bs.modal', this.onModalShown);
     },
 
     render: function() {
@@ -20,7 +21,7 @@ Skyderby.views.SectionForm = Backbone.View.extend({
                 I18n.t('events.show.new') : 
                 I18n.t('events.show.edit'));
 
-        this.$modal_wrapper.html(
+        this.modalView.$el.html(
             this.$el.html(this.template({title: modalTitle}))
         );
 
@@ -31,7 +32,7 @@ Skyderby.views.SectionForm = Backbone.View.extend({
     },
 
     open: function() {
-        this.$modal_wrapper.modal();
+        this.modalView.show();
         return this;
     },
 
