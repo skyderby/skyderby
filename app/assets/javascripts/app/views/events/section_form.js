@@ -12,7 +12,6 @@ Skyderby.views.SectionForm = Backbone.View.extend({
 
     initialize: function() {
         this.modalView = new Skyderby.views.ModalView();
-        this.listenTo(this.modalView, 'shown.bs.modal', this.onModalShown);
     },
 
     render: function() {
@@ -24,6 +23,9 @@ Skyderby.views.SectionForm = Backbone.View.extend({
         this.modalView.$el.html(
             this.$el.html(this.template({title: modalTitle}))
         );
+
+        this.listenTo(this.modalView, 'modal:shown', this.onModalShown);
+        this.listenTo(this.modalView, 'modal:hidden', this.onModalHidden);
 
         $('#section-form input[name="section[id]"]').val(this.model.get('id'));
         $('#section-form input[name="section[name]"]').val(this.model.get('name'));
@@ -38,15 +40,25 @@ Skyderby.views.SectionForm = Backbone.View.extend({
 
     onModalShown: function() {
         $('#section-form input[name="section[name]"]').focus();
-        console.log('on modal shown');
     },
 
     onModalHidden: function() {
-        console.log('on modal hidden');
+        this.$el.remove();
     },
 
     onSubmit: function(e) {
         e.preventDefault();
-        console.log('on submit');
+        var params = {
+            name: $('#section-form input[name="section[name]"]').val()
+        };
+
+        this.model.set(params);
+        if (this.model.isNew()) {
+            window.Competition.sections.create(this.model, {wait: true});
+        } else {
+            this.model.save();
+        }
+
+        this.modalView.hide();
     }
 });

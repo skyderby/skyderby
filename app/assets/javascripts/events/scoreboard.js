@@ -1,135 +1,40 @@
-if (!window.Event) {
-    window.Event = {};
-}
+Skyderby.views.Scoreboard = Backbone.View.extend({
 
-Event.Scoreboard = function() {
-    this.$table = $('#results-table');
-    this.$discipline_row = null;
-    this.$rounds_row = null;
-    this.$units_row = null;
-    this.$template_row = null;
-    this.$table_footer = null;
-    this.$table_footer_row = null;
-    this.row_length = 3;
+    el: '#results-table',
 
-    this.header = _.template([
-        '<thead>',
-            '<tr id="disciplines-row">',
-                '<td class="rt-ln" rowspan=3>#</td>',
-                '<td rowspan=3 colspan=2><%= I18n.t("events.show.competitor") %></td>',
-            '</tr>',
-            '<tr id="rounds-row"></tr>',
-            '<tr id="units-row"></tr>',
-            '<tr class="template-row">',
-                '<td class="rt-ln" data-role="row_number"></td>',
-                '<td data-role="competitor">',
-                    '<a class="competitor-profile-link" data-role="competitor-name" href="#"></a>',
-                    '<span data-role="competitor-suit"></span>',
-                    '<span data-role="competitor-edit-ctrls"></span>',
-                '</td>',
-                '<td class="text-center text-muted">',
-                    '<span class="dotted-underline" data-role="competitor-country" data-toggle="tooltip"></span>',
-                '</td>',
-            '</tr>',
-        '</thead>'
-    ].join('\n'));
+    events: {
+       'click .edit-competitor'  : 'edit_competitor_click',
+       'click .delete-competitor': 'delete_competitor_click',
+       'click .edit-result'      : 'on_edit_result_click',
+       'click .show-result'      : 'on_show_result_click',
+       'click .delete-round'     : 'on_delete_round_click'
+    },
 
-    this.section = JST['app/templates/section'];
-    this.round_cell = JST['app/templates/round_cell'];
+    $discipline_row: null,
+    $rounds_row: null,
+    $units_row: null,
+    $template_row: null,
+    $table_footer: null,
+    $table_footer_row: null,
+    row_length: 3,
 
-    this.result_cell = _.template([
-        '<td data-round-id="<%=id%>" data-role="<%=role%>" class="text-right ',
-            '<% if (can_manage) { %>',
-                'edit-result',
-            '<% } else { %>',
-                'show-result',
-            '<% } %>',
-            '">',
-        '</td>'
-    ].join('\n'));
+    header:      JST['app/templates/scoreboard_header'],
+    round_cell:  JST['app/templates/round_cell'],
+    result_cell: JST['app/templates/result_cell'],
 
-    this.init();
-};
-
-Event.Scoreboard.prototype = {
-
-    init: function() {
-        this.$table.append(this.header());
+    initialize: function() {
+        this.$el.append(this.header());
 
         this.$discipline_row = $('#disciplines-row');
-        this.$rounds_row = $('#rounds-row');
-        this.$units_row = $('#units-row');
-        this.$template_row = this.$table.find('.template-row');
-
-        this.bind_events();
+        this.$rounds_row     = $('#rounds-row');
+        this.$units_row      = $('#units-row');
+        this.$template_row   = this.$el.find('.template-row');
     },
 
 
     ////////////////////////////////////////////////////////////
     // Event handlers
     //
-    bind_events: function() {
-       this.$table 
-           .on('click', '.edit-competitor',   this.edit_competitor_click)
-           .on('click', '.delete-competitor', this.delete_competitor_click)
-           .on('click', '.edit-section',      this.edit_section_click)
-           .on('click', '.delete-section',    this.delete_section_click)
-           .on('click', '.section-up',        this.move_section_click)
-           .on('click', '.section-down',      this.move_section_click)
-           .on('click', '.edit-result',       this.on_edit_result_click)
-           .on('click', '.show-result',       this.on_show_result_click)
-           .on('click', '.delete-round',      this.on_delete_round_click);
-    },
-
-    // Sections 
-
-    edit_section_click: function(e) {
-        e.preventDefault();
-        
-        var section_tbody = $(this).closest('tbody');
-        var section_id = section_tbody.attr('id').replace('section_', "");
-    
-        var section = window.Competition.sections.get(section_id);
-        var section_form = new Skyderby.views.SectionForm({model: section});
-        section_form.render().open();
-    },
-
-    delete_section_click: function(e) {
-        e.preventDefault();
-
-        var section_tbody = $(this).closest('tbody');
-        var rows_count = section_tbody.children().length;
-
-        if (rows_count > 1) {
-            alert('Перед удалением класса необходимо переместить всех участников из него в другие классы');
-        } else {
-            var section_id = section_tbody.attr('id').replace('section_', "");
-            window.Competition.sections.get(section_id).destroy();
-        }
-    },
-
-    move_section_click: function(e) {
-        e.preventDefault();
-
-        var $section = $(this).parents('tbody:first');
-        var section = window.Competition.sections.get($section.data('id'));
-
-        if ($(this).is('.section-up')) {
-            var $prev_element = $section.prev();
-
-            if (!$prev_element.is('thead')) {
-                var prev_section = window.Competition.sections.get($prev_element.data('id'));
-                section.reorder_with(prev_section, 'up');                
-            }
-        } else {
-            var $next_element = $section.next();
-
-            if (!$next_element.is('#table-footer')) {
-                var next_section = window.Competition.sections.get($next_element.data('id'));
-                section.reorder_with(next_section, 'down');
-            }
-        }
-    },
 
     // Competitors
 
@@ -268,17 +173,20 @@ Event.Scoreboard.prototype = {
         }
     },
 
-    render_section: function(value, index) {
-        var can_manage = window.Competition.can_manage;
-        this.$table.append(this.section(
-            $.extend(value.toJSON(), {can_manage: can_manage, row_length: this.row_length})
-        ));
+    render_section: function(section) {
+        var section_view = new Skyderby.views.Section({
+            model: section, 
+            can_manage: window.Competition.can_manage,
+            row_length: this.row_length
+        });
+
+        this.$el.append(section_view.render().$el);
     },
 
     render_competitor: function(value, index) {
         var can_manage = window.Competition.can_manage;
 
-        var new_row = this.$table.find('tr.template-row').clone();
+        var new_row = this.$el.find('tr.template-row').clone();
         new_row.removeClass('template-row').addClass('competitor-row');
         new_row.attr('id', 'competitor_' + value.id);
         
@@ -328,7 +236,7 @@ Event.Scoreboard.prototype = {
     },
 
     set_row_numbers: function() {
-        this.$table.find('tbody').each(function() {
+        this.$el.find('tbody').each(function() {
             var row_ind = 1;
             $(this).find("[data-role='row_number']").each(function () {
                 $(this).text(row_ind);
@@ -450,7 +358,7 @@ Event.Scoreboard.prototype = {
     },
 
     sort_by_points: function() {
-        this.$table.find('tbody').each(function(index, value) {
+        this.$el.find('tbody').each(function(index, value) {
             var rows = $(value).find('tr:not(.head-row)').get();
             
             rows.sort(function(a, b) {
@@ -561,7 +469,7 @@ Event.Scoreboard.prototype = {
         _.each(window.Competition.tracks, this.render_result.bind(this));
         
         // Table footer
-        this.$table.append(
+        this.$el.append(
             $('<tbody>').attr('id', 'table-footer').append($('<tr>'))
         );
         if (window.Competition.is_official && window.Competition.can_manage) {
@@ -577,24 +485,31 @@ Event.Scoreboard.prototype = {
     // Manipulations
     //
 
-    // Sections
-    create_section: function(section) {
-        this.render_section(section);
-    },
+    order_sections: function() {
+        var sections = this.$el.find('tbody').get();
+        sections.sort(function(a, b) {
 
-    update_section: function(section) {
-        this.$table
-            .find('#section_' + section.id 
-                  + '_name_cell [data-role="name"]')
-            .text(section.name + ':');
+            if ($(b).attr('id') === 'table-footer') return -1;
+
+            var A = Number($(a).attr('data-order'));
+            var B = Number($(b).attr('data-order'));
+
+            if (A > B) return 1;
+            if (A < B) return -1;
+            return 0;
+
+        });
+
+        var $el = this.$el;
+
+        $.each(sections, function(index, section) {
+            $el.append(section);
+        });
     },
-    
-    delete_section: function(section) {
-        this.$table.find('#section_' + section.id).remove();         
-    },
+   
 
     move_sections: function(section, direction) {
-        var $section = this.$table.find('#section_' + section.id);
+        var $section = this.$el.find('#section_' + section.id);
         var tmp = $section.attr('data-order');
 
         if (direction == 'up') {
@@ -896,4 +811,4 @@ Event.Scoreboard.prototype = {
         this.sort_by_points();
         this.set_row_numbers();
     }
-};
+});
