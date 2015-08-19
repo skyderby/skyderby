@@ -8,5 +8,17 @@ Skyderby.views.ModalView = Backbone.View.extend({
 
     show: function() {
         this.$el.modal('show');
+    },
+
+    hide: function() {
+        this.$el.modal('hide');
+    },
+
+    onModalShown: function() {
+        this.trigger('modal:shown');
+    },
+
+    onModalHidden: function() {
+        this.trigger('modal:hidden');
     }
 });

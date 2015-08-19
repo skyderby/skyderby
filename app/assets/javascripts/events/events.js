@@ -28,7 +28,7 @@ Event.Competition = function() {
     this.can_manage= false;
     this.templates= {};
     // interface widgets
-    this.scoreboard = new Event.Scoreboard();
+    this.scoreboard = new Skyderby.views.Scoreboard();
     this.header = null;
     this.footer = null;
     // form
@@ -75,7 +75,9 @@ Event.Competition.prototype = {
         this.sections.url = this.path + '/sections';
         this.sections.set(data.sections);
 
-        // _.each(data.sections, this.add_section.bind(this));
+        this.scoreboard.listenTo(this.sections, 'add', this.scoreboard.render_section);
+        this.scoreboard.listenTo(this.sections, 'sort', this.scoreboard.order_sections);
+
         _.each(data.competitors, this.add_competitor.bind(this));
         _.each(data.rounds, this.add_round.bind(this));
         _.each(data.tracks, this.add_track.bind(this));
@@ -460,7 +462,7 @@ Event.Competition.prototype = {
         var org_index = $.inArray(organizer, this.organizers);
         this.organizers.splice(org_index, 1);
     },
-}
+};
 
 ////////////////////////////////////////////
 //
