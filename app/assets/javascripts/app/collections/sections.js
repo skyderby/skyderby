@@ -2,7 +2,8 @@ Skyderby.collections.Sections = Backbone.Collection.extend({
 
     model: Skyderby.models.Section,
 
-    initialize: function() {
+    initialize: function(opts) {
+        if (_.has(opts, 'parent_url')) this.url = opts.parent_url + '/sections';
     },
 
     move_up: function(section) {

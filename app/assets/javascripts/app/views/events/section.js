@@ -38,11 +38,7 @@ Skyderby.views.Section = Backbone.View.extend({
     edit_section_click: function(e) {
         e.preventDefault();
         
-        var section_tbody = $(e.currentTarget).closest('tbody');
-        var section_id = section_tbody.attr('id').replace('section_', "");
-    
-        var section = window.Competition.sections.get(section_id);
-        var section_form = new Skyderby.views.SectionForm({model: section});
+        var section_form = new Skyderby.views.SectionForm({model: this.model});
         section_form.render().open();
     },
 
@@ -55,8 +51,7 @@ Skyderby.views.Section = Backbone.View.extend({
         if (rows_count > 1) {
             alert('Перед удалением класса необходимо переместить всех участников из него в другие классы');
         } else {
-            var section_id = section_tbody.attr('id').replace('section_', "");
-            window.Competition.sections.get(section_id).destroy();
+            this.model.destroy();
         }
     },
 
@@ -69,24 +64,6 @@ Skyderby.views.Section = Backbone.View.extend({
             this.model.collection.move_down(this.model);
         }
 
-        // var $section = $(this).parents('tbody:first');
-        // var section = window.Competition.sections.get($section.data('id'));
-        //
-        // if ($(this).is('.section-up')) {
-        //     var $prev_element = $section.prev();
-        //
-        //     if (!$prev_element.is('thead')) {
-        //         var prev_section = window.Competition.sections.get($prev_element.data('id'));
-        //         section.reorder_with(prev_section, 'up');                
-        //     }
-        // } else {
-        //     var $next_element = $section.next();
-        //
-        //     if (!$next_element.is('#table-footer')) {
-        //         var next_section = window.Competition.sections.get($next_element.data('id'));
-        //         section.reorder_with(next_section, 'down');
-        //     }
-        // }
     },
 
     update_section: function() {
@@ -97,6 +74,6 @@ Skyderby.views.Section = Backbone.View.extend({
     },
 
     destroy_section: function() {
-        this.$el.remove();
+        this.remove();
     }
 });

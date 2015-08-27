@@ -4,9 +4,9 @@ en:
       section: 'Class'
       competitor: 'Competitor'
       round: 'Round'
-      comp_window: 'Competition window:'
+      comp_window: 'Competition window'
       total: 'Total'
-      profile: 'Profile:'
+      profile: 'Profile'
       profile_caption: "Pilot you are looking for doesn't exist?"
       toggle_profile: 'Create new profile'
       profile_placeholder: 'Select pilot from list' 
