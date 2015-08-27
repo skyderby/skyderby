@@ -4,9 +4,9 @@ ru:
       section: 'Класс'
       competitor: 'Участник'
       round: 'Раунд'
-      comp_window: 'Соревновательный диапазон:'
+      comp_window: 'Соревновательный диапазон'
       total: 'Итого'
-      profile: 'Профиль:'
+      profile: 'Профиль'
       profile_caption: "Не можете найти нужный профиль?"
       toggle_profile: 'Создайте новый'
       profile_placeholder: 'Выберите профиль из списка' 

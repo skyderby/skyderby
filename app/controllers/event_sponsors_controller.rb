@@ -7,7 +7,7 @@ class EventSponsorsController < ApplicationController
   load_and_authorize_resource :event_sponsor, through: :event
 
   def create
-    @event_sponsor = EventSponsor.new event_sponsor_params
+    @event_sponsor = @event.event_sponsors.new event_sponsor_params
 
     if @event_sponsor.save
       @event_sponsor

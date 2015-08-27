@@ -3,11 +3,15 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
     el: '#results-table',
 
     events: {
-       'click .edit-competitor'  : 'edit_competitor_click',
-       'click .delete-competitor': 'delete_competitor_click',
        'click .edit-result'      : 'on_edit_result_click',
        'click .show-result'      : 'on_show_result_click',
        'click .delete-round'     : 'on_delete_round_click'
+    },
+    
+    units: {
+        distance: I18n.t('units.m'),
+        speed: I18n.t('units.kmh'),
+        time: I18n.t('units.t_unit')
     },
 
     $discipline_row: null,
@@ -20,15 +24,18 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
 
     header:      JST['app/templates/scoreboard_header'],
     round_cell:  JST['app/templates/round_cell'],
-    result_cell: JST['app/templates/result_cell'],
 
-    initialize: function() {
+    initialize: function(opts) {
         this.$el.append(this.header());
 
         this.$discipline_row = $('#disciplines-row');
         this.$rounds_row     = $('#rounds-row');
         this.$units_row      = $('#units-row');
         this.$template_row   = this.$el.find('.template-row');
+
+        if (_.has(opts, 'can_manage')) this.can_manage = opts.can_manage;
+
+        this.rules = this.model.get('rules');
     },
 
 
@@ -38,22 +45,22 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
 
     // Competitors
 
-    edit_competitor_click: function(e) {
-        e.preventDefault();
-        var competitor_id = $(this).closest('tr')
-                                   .attr('id')
-                                   .replace('competitor_', '');
-        window.Competition.competitor_by_id(competitor_id).open_form();
-
-    },
-
-    delete_competitor_click: function(e) {
-        e.preventDefault(); 
-        var competitor_id = $(this).closest('tr')
-                                   .attr('id')
-                                   .replace('competitor_', '');
-        window.Competition.competitor_by_id(competitor_id).destroy();
-    },
+    // edit_competitor_click: function(e) {
+    //     e.preventDefault();
+    //     var competitor_id = $(this).closest('tr')
+    //                                .attr('id')
+    //                                .replace('competitor_', '');
+    //     window.Competition.competitor_by_id(competitor_id).open_form();
+    //
+    // },
+    //
+    // delete_competitor_click: function(e) {
+    //     e.preventDefault(); 
+    //     var competitor_id = $(this).closest('tr')
+    //                                .attr('id')
+    //                                .replace('competitor_', '');
+    //     window.Competition.competitor_by_id(competitor_id).destroy();
+    // },
 
     // Rounds
     
@@ -67,18 +74,18 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
 
     on_edit_result_click: function(e) {
         e.preventDefault();  
-        var result_id = $(this).attr('data-result-id');
+        var result_id = $(e.currentTarget).attr('data-result-id');
         if (result_id) {
             window.Competition.result_by_id(result_id).open_form();
         } else {
-            var competitor_id = $(this).closest('tr')
-                                       .attr('id')
-                                       .replace('competitor_', '');
-            var result = new Event.EventTrack({
+            var competitor_id = 
+                $(e.currentTarget).closest('tr').attr('id').replace('competitor_', '');
+            var result = new Skyderby.models.EventTrack({
                 competitor_id: competitor_id,
-                round_id: $(this).data('round-id')
+                round_id: $(e.currentTarget).data('round-id')
             });
-            result.open_form();            
+            var result_form = new Skyderby.views.EventTrackForm({model: result});
+            result_form.render().open();
         }
     },
 
@@ -93,52 +100,51 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
     ///////////////////////////////////////////////////////////////
     // Rendering
     //
-    render_round: function(value, index) {
-        var can_manage = window.Competition.can_manage;
-        var rules = window.Competition.rules;
-
+    render_round: function(round) {
         this.$rounds_row.append(this.round_cell(
-            $.extend(value, {can_manage: can_manage, rules: rules})
+            $.extend(round.toJSON(), {
+                can_manage: this.can_manage, 
+                rules: this.rules
+            })
         ));
 
         this.$units_row.append(
             $('<td>')
-                .text(window.Competition.units[value.discipline])
+                .text(this.units[round.get('discipline')])
                 .addClass('text-center')
-                .attr('data-discipline', value.discipline)
+                .attr('data-discipline', round.get('discipline'))
                 .attr('data-role', 'unit')
-                .attr('data-round-id', value.id)
+                .attr('data-round-id', round.id)
         );
 
-        this.$template_row.append(this.result_cell({
-            id: value.id,
-            role: 'result',
-            can_manage: can_manage
-        }));
+        // this.$template_row.append(this.result_cell({
+        //     id: round.id,
+        //     role: 'result',
+        //     can_manage: can_manage
+        // }));
         
-        if (rules !== 'hungary_boogie') {
+        if (this.rules !== 'hungary_boogie') {
             this.$units_row.append(
                 $('<td>')
                     .text('%')
                     .addClass('text-center')
-                    .attr('data-discipline', value.discipline)
+                    .attr('data-discipline', round.get('discipline'))
                     .attr('data-role', 'points')
-                    .attr('data-round-id', value.id)
+                    .attr('data-round-id', round.id)
             );
 
-            this.$template_row.append(this.result_cell({
-                id: value.id,
-                role: 'points',
-                can_manage: can_manage
-            }));
+            // this.$template_row.append(this.result_cell({
+            //     id: value.id,
+            //     role: 'points',
+            //     can_manage: can_manage
+            // }));
         }
     },
 
     render_discipline: function(value, key) {
-        var rules = window.Competition.rules;
         var col_count;
 
-        if (rules === 'hungary_boogie') {
+        if (this.rules === 'hungary_boogie') {
             col_count = value.length;
         } else {
             col_count = value.length * 2 + 1;
@@ -155,7 +161,7 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
 
         _.each(value, this.render_round.bind(this));
 
-        if (rules !== 'hungary_boogie') {
+        if (this.rules !== 'hungary_boogie') {
             this.$rounds_row.append(
                 $('<td>')
                     .text('%')
@@ -176,63 +182,74 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
     render_section: function(section) {
         var section_view = new Skyderby.views.Section({
             model: section, 
-            can_manage: window.Competition.can_manage,
+            can_manage: this.can_manage,
             row_length: this.row_length
         });
 
         this.$el.append(section_view.render().$el);
     },
 
-    render_competitor: function(value, index) {
-        var can_manage = window.Competition.can_manage;
+    render_competitor: function(competitor) {
+        var competitor_view = new Skyderby.views.Competitor({
+            model: competitor,
+            can_manage: this.can_manage
+        });
+        $('#section_' + competitor.get('section_id')).append(competitor_view.render().$el);
 
-        var new_row = this.$el.find('tr.template-row').clone();
-        new_row.removeClass('template-row').addClass('competitor-row');
-        new_row.attr('id', 'competitor_' + value.id);
-        
-        new_row.find("[data-role='competitor-name']")
-            .attr('href', value.profile.url)
-            .text(value.profile.name + ' ');
-        new_row.find("[data-role='competitor-suit']").text(value.wingsuit.name);
-        new_row.find("[data-role='competitor-country']")
-            .text(value.country.code.toUpperCase())
-            .attr('title', value.country.name);
-        if (can_manage) {
-            new_row.find("[data-role='competitor-edit-ctrls']").html([
-                '<a href="#" class="edit-competitor">',
-                    '<i class="fa fa-pencil text-muted"></i>',
-                '</a>',
-                '<a href="#" class="delete-competitor">',
-                    '<i class="fa fa-times-circle text-muted"></i>',
-                '</a>'
-            ].join('\n'));
-        }
+        this.set_row_numbers();
 
-        $('#section_' + value.section.id).append(new_row);
+        this.listenTo(competitor, 'change:section_id', this.move_competitor);
+
+        // var can_manage = window.Competition.can_manage;
+
+        // var new_row = this.$el.find('tr.template-row').clone();
+        // new_row.removeClass('template-row').addClass('competitor-row');
+        // new_row.attr('id', 'competitor_' + value.id);
+        //
+        // new_row.find("[data-role='competitor-name']")
+        //     .attr('href', value.get('profile').url)
+        //     .text(value.get('profile').name + ' ');
+        // new_row.find("[data-role='competitor-suit']").text(value.get('wingsuit').name);
+        // new_row.find("[data-role='competitor-country']")
+        //     .text(value.get('country').code.toUpperCase())
+        //     .attr('title', value.get('country').name);
+        // if (can_manage) {
+        //     new_row.find("[data-role='competitor-edit-ctrls']").html([
+        //         '<a href="#" class="edit-competitor">',
+        //             '<i class="fa fa-pencil text-muted"></i>',
+        //         '</a>',
+        //         '<a href="#" class="delete-competitor">',
+        //             '<i class="fa fa-times-circle text-muted"></i>',
+        //         '</a>'
+        //     ].join('\n'));
+        // }
+
     },
 
-    render_result: function(value, index) {
-        var can_manage = window.Competition.can_manage;
+    move_competitor: function(competitor) {
+        $('#section_' + competitor.get('section_id')).append(this.$('#competitor_' + competitor.id));
+    },
 
-        var result_cell = $('#competitor_' + value.competitor_id 
-                            + ' td[data-round-id="' + value.round_id + '"]'
-                            + '[data-role="result"]'),
-            points_cell = $('#competitor_' + value.competitor_id 
-                            + ' td[data-round-id="' + value.round_id + '"]' 
-                            + '[data-role="points"]'),
-            max_val = window.Competition.max_results['round_' + value.round_id][0].result,
-            points = Math.round(value.result / max_val * 1000) / 10;
+    render_result: function(result) {
+        var result_cell = $('#competitor_' + result.get('competitor_id') + 
+                            ' td[data-round-id="' + result.get('round_id') + '"]' +
+                            '[data-role="result"]'),
+            points_cell = $('#competitor_' + result.get('competitor_id') +
+                            ' td[data-round-id="' + result.get('round_id') + '"]' +
+                            '[data-role="points"]'),
+            max_val = window.Competition.max_results[result.get('round_id')],
+            points = Math.round(result.get('result') / max_val * 1000) / 10;
 
-        result_cell.attr('data-url', value.url 
-                         + '?f=' + Competition.range_from 
-                         + '&t=' + Competition.range_to);
+        result_cell.attr('data-url', result.get('url') +
+                         '?f=' + Competition.range_from +
+                         '&t=' + Competition.range_to);
 
-        result_cell.attr('data-track-id', value.track_id);
-        result_cell.attr('data-result-id', value.id);
+        result_cell.attr('data-track-id', result.get('track_id'));
+        result_cell.attr('data-result-id', result.get('id'));
 
-        result_cell.text(value.result);
+        result_cell.text(result.get('result'));
         points_cell.text(points.toFixed(1));
-        points_cell.attr('data-result-id', value.id);
+        points_cell.attr('data-result-id', result.get('id'));
     },
 
     set_row_numbers: function() {
@@ -246,9 +263,7 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
     },
 
     calculate_totals: function() {
-        var rules = window.Competition.rules;
-
-        if (rules === 'hungary_boogie') {
+        if (this.rules === 'hungary_boogie') {
             _.each(window.Competition.competitors, function(competitor) {
                 var total_points = 0;
 
@@ -274,12 +289,11 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
 
             this.indicate_best_worst_results();
         } else {
-            _.each(window.Competition.competitors, function(competitor) {
+            window.Competition.competitors.each(function(competitor) {
                 var competitor_row = $('#competitor_' + competitor.id);
                 var total_points = 0;
 
-                var rounds_by_discipline = 
-                    _.groupBy(window.Competition.rounds, 'discipline');
+                var rounds_by_discipline = window.Competition.rounds.groupBy('discipline');
 
                 _.each(rounds_by_discipline, function(rounds, discipline) {
                     var discipline_points = 0;
@@ -452,7 +466,7 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
 
     render: function() {
         // Disciplines, Rounds
-        var rounds_by_discipline = _.groupBy(window.Competition.rounds, 'discipline');
+        var rounds_by_discipline = this.model.rounds.groupBy('discipline');
         _.each(rounds_by_discipline, this.render_discipline.bind(this));
 
         if (window.Competition.rounds.length) {
@@ -463,10 +477,10 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
         window.Competition.sections.each(this.render_section.bind(this));
 
         // Competitors
-        _.each(window.Competition.competitors, this.render_competitor.bind(this));
+        window.Competition.competitors.each(this.render_competitor.bind(this));
 
         // Results
-        _.each(window.Competition.tracks, this.render_result.bind(this));
+        window.Competition.tracks.each(this.render_result.bind(this));
         
         // Table footer
         this.$el.append(
@@ -567,8 +581,6 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
     // Rounds
     
     create_round: function(round) {
-        var rules = window.Competition.rules;
-
         // 1. Проверить наличие дисциплины
         var discipline = round.discipline;
         var discipline_cell = $('#disciplines-row > td[data-discipline="' + discipline + '"]');
@@ -590,7 +602,7 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
         // 2. Создать дисциплину если отсутствует
         // 3. Увеличить colspan если присутствует
         if (!discipline_cell.length) {
-            var discipline_colspan = rules === 'hungary_boogie' ? 1 : 3;
+            var discipline_colspan = this.rules === 'hungary_boogie' ? 1 : 3;
             // discipline
             total_points_cell.before(
                 $('<td>')
@@ -599,7 +611,7 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
                     .attr('data-discipline', discipline)
                     .attr('colspan', discipline_colspan)   
             );
-            if (rules !== 'hungary_boogie') {
+            if (this.rules !== 'hungary_boogie') {
                 // discipline points
                 this.$rounds_row.append(
                     $('<td>')
@@ -628,20 +640,20 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
             }
         } else {
             var colspan = +discipline_cell.attr('colspan');
-            discipline_cell.attr('colspan', colspan + (rules === 'hungary_boogie' ? 1 : 2));
+            discipline_cell.attr('colspan', colspan + (this.rules === 'hungary_boogie' ? 1 : 2));
         }
 
         var can_manage = window.Competition.can_manage;
         // 4. Добавить раунд
-        if (rules === 'hungary_boogie') {
+        if (this.rules === 'hungary_boogie') {
             this.$rounds_row.append(
                 this.round_cell(
-                    $.extend(round, {can_manage: can_manage, rules: rules})
+                    $.extend(round, {can_manage: can_manage, rules: this.rules})
             ));
         } else {
             $('#rounds-row > td[data-discipline=' + discipline + '][data-role="points"]').before(
                 this.round_cell(
-                    $.extend(round, {can_manage: can_manage, rules: rules})
+                    $.extend(round, {can_manage: can_manage, rules: this.rules})
             ));
         }
 
@@ -661,7 +673,7 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
 
         var unit_cell =
             $('<td>')
-                .text(window.Competition.units[discipline])
+                .text(this.units[discipline])
                 .addClass('text-center')
                 .attr('data-discipline', discipline)
                 .attr('data-role', 'unit')
@@ -679,7 +691,7 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
             can_manage: can_manage
         });
 
-        if (rules === 'hungary_boogie') {
+        if (this.rules === 'hungary_boogie') {
 
             if ($(units_selector).length) {
                 $(units_selector).after(unit_cell);
@@ -733,7 +745,6 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
             ).length == 1;
 
         var del_total = window.Competition.rounds.length == 1;
-        var rules = window.Competition.rules;
 
         // Удалить ячейки в строках участников
         // Удалить ячейки в шаблоне
@@ -751,7 +762,7 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
         } else {
             // уменьшить colspan
             var colspan = +discipline_cell.attr('colspan');
-            discipline_cell.attr('colspan', colspan - (rules === 'hungary_boogie' ? 1 : 2));
+            discipline_cell.attr('colspan', colspan - (this.rules === 'hungary_boogie' ? 1 : 2));
         }
 
         if (del_total) {
@@ -759,7 +770,7 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
         }
         // Уменьшить colspan в секциях
         $('#results-table > tbody > tr.head-row > td').each(function() {
-            var colspan_diff = (rules === 'hungary_boogie' ? 1 : 2) + (del_total ? 1 : 0) + (del_discipline ? 1 : 0);
+            var colspan_diff = (this.rules === 'hungary_boogie' ? 1 : 2) + (del_total ? 1 : 0) + (del_discipline ? 1 : 0);
             $(this).attr('colspan', +$(this).attr('colspan') - colspan_diff);
         });
     },
