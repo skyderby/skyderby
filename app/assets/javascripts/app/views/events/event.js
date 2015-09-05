@@ -23,11 +23,6 @@ Skyderby.views.EventView = Backbone.View.extend({
             can_manage: this.can_manage
         });
 
-        this.scoreboard.listenTo(this.model.sections, 'add', this.scoreboard.render_section);
-        this.scoreboard.listenTo(this.model.sections, 'sort', this.scoreboard.order_sections);
-
-        this.scoreboard.listenTo(this.model.competitors, 'add', this.scoreboard.render_competitor);
-
         this.listenTo(this.model.sponsors, 'add', this.add_sponsor);
         this.listenTo(this.model.organizers, 'add', this.add_organizer);
 
@@ -117,17 +112,17 @@ Skyderby.views.EventView = Backbone.View.extend({
 
     add_distance_round_click: function(e) {
         e.preventDefault();
-        new Event.Round({discipline: 'distance'}).save();
+        window.Competition.rounds.create({discipline: 'distance'}, {wait: true});
     },
     
     add_speed_round_click: function(e) {
         e.preventDefault();
-        new Event.Round({discipline: 'speed'}).save();
+        window.Competition.rounds.create({discipline: 'speed'}, {wait: true});
     },
 
     add_time_round_click: function(e) {
         e.preventDefault();
-        new Event.Round({discipline: 'time'}).save();
+        window.Competition.rounds.create({discipline: 'time'}, {wait: true});
     },
 
     edit_event_click: function(e) {

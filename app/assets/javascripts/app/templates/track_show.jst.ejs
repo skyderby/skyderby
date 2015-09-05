@@ -1,0 +1,162 @@
+<div class='row'>
+    <div class='col-sm-12'>
+        <div class='pull-right'>
+            <button class='btn btn-default dropdown-toggle' id='dropdownMenu1' type='button' data-toggle='dropdown'>
+                <i class='fa fa-cog'></i>
+            </button>
+            <ul class='dropdown-menu dropdown-menu-right' role='menu' aria-labelledby: 'dropdownMenu1'>
+                <li class='dropdown-header' role='presentation'>
+                    <%= I18n.t('tracks.show.menu_header') %>
+                </li>
+                <li id='li_toggle_multi' role='presentation'>
+                    <a id='toggle_multi' role='menuitem' tabindex='-1' href='#'>
+                        <%= I18n.t('tracks.show.menu_sep') %>
+                    </a>
+                </li>
+                <li id='li_toggle_single' role='presentation'>
+                    <a id='toggle_single' role='menuitem' tabindex='-1' href='#'>
+                        <%= I18n.t('tracks.show.menu_one') %>
+                    </a>
+                </li>
+                <li class='dropdown-header' role='presentation'>
+                    <%= I18n.t('tracks.show.units_header') %>
+                </li>
+                <li id='li_toggle_metric' role='presentation'>
+                    <a id='toggle_metric' role='menuitem' tabindex='-1' href='#'>
+                        <%= I18n.t('tracks.show.m_units_metric') %>
+                    </a>
+                </li>
+                <li id='li_toggle_imperial' role='presentation'>
+                    <a id='toggle_imperial' role='menuitem' tabindex='-1' href='#'>
+                        <%= I18n.t('tracks.show.m_units_imperial') %>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class='row'>
+    <!-- Loading spinner -->
+    <div class='col-sm-12 result-loading-spinner text-center'>
+        <hr>
+        <i class='fa fa-3x fa-circle-o-notch fa-spin'></i>
+        <div class='text-danger'>
+            <%= I18n.t('tracks.show.loading') %>
+        </div>
+        <hr>
+    </div>
+
+    <div class='col-sm-12 col-md-11 col-md-offset-1'>
+
+        <div class='col-md-4 col-sm-4 col-xs-6'>
+            <div class='param-val'>
+                <div class='avg-val fa-2x' id='dd_distance'></div>
+                <div class='min-max'>
+                    <span class='dotted-underline' id='total_distance'></span>
+                </div>
+                <div class='dst-unit'><%= I18n.t('units.m') %></div>
+            </div>
+            <div class='result-param'>
+                <i class='fa fa-fw fa-arrows-h'></i>
+                <%= I18n.t('tracks.show.dt_dist') %>
+            </div>
+        </div>
+
+        <div class='col-md-4 col-sm-4 col-xs-6'>
+            <div class='param-val'>
+                <div class='avg-val fa-2x' id='p_avg_h_speed'></div>
+                <div class='min-max text-right'>
+                    <div class='result-max-val'>
+                        <span id='p_max_h_speed'></span>
+                        <i class='fa fa-caret-up'></i>
+                    </div>
+                    <div class='result-min-val'>
+                        <span id='p_min_h_speed'></span>
+                        <i class='fa fa-caret-down min-val-caret'></i>
+                    </div>
+                </div>
+                <div class='spd-unit fa'><%= I18n.t('units.kmh') %></div>
+            </div>
+            <div class='result-param'>
+                <i class='fa fa-fw fa-long-arrow-right'></i>
+                <%= I18n.t('tracks.show.dt_hspd') %>
+            </div>
+        </div>
+
+        <div class='col-md-4 col-sm-4 col-xs-6'>
+            <div class='param-val'>
+                <div class='avg-val fa-2x' id='p_avg_gr'></div>
+                <div class='min-max text-right'>
+                    <div class='result-max-val'>
+                        <span id='p_max_gr'></span>
+                        <i class='fa fa-caret-up'></i>
+                    </div>
+                    <div class='result-min-val'>
+                        <span id='p_min_gr'></span>
+                        <i class='fa fa-caret-down min-val-caret'></i>
+                    </div>
+                </div>
+            </div>
+            <div class='result-param'>
+                <i class='fa fa-fw fa-ellipsis-h'></i>
+                <%= I18n.t('tracks.show.dt_gr') %>
+            </div>
+        </div>
+
+        <div class='col-md-4 col-sm-4 col-xs-6'>
+            <div class='param-val'>
+                <div class='avg-val fa-2x' id='dd_elevation'></div>
+                <div class='dst-unit fa'><%= I18n.t('units.m') %></div>
+            </div>
+            <div class='result-param'>
+                <i class='fa fa-fw fa-arrows-v'></i>
+                <%= I18n.t('tracks.show.dt_elev') %>
+            </div>
+        </div>
+
+        <div class='col-md-4 col-sm-4 col-xs-6'>
+            <div class='param-val'>
+                <div class='avg-val fa-2x' id='p_avg_v_speed'></div>
+                <div class='min-max text-right'>
+                    <div class='result-min-val'>
+                        <span id='p_max_v_speed'></span>
+                        <i class='fa fa-caret-up'></i>
+                    </div>
+                    <div class='result-max-val'>
+                        <span id='p_min_v_speed'></span>
+                        <i class='fa fa-caret-down min-val-caret'></i>
+                    </div>
+                </div>
+                <div class='spd-unit'><%= I18n.t('units.kmh') %></div>
+            </div>
+            <div class='result-param'>
+                <i class='fa-fw fa fa-long-arrow-down'></i>
+                <%= I18n.t('tracks.show.dt_vspd') %>
+            </div>
+        </div>
+
+        <div class='col-md-4 col-sm-4 col-xs-6'>
+            <div class='param-val'>
+                <div class='avg-val fa-2x' id='dd_fl_time'></div>
+                <div class='time-unit'><%= I18n.t('units.t_unit') %></div>
+            </div>
+            <div class='result-param'>
+                <i class='fa fa-fw fa-clock-o'></i>
+                <%= I18n.t('tracks.show.dt_dur') %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<div class='row'>
+    <div class='col-sm-12'>
+        <div id='track-charts'>
+            <div id='glideratio_chart'></div>
+            <div id='speeds_chart'></div>
+            <div id='elevation_distance_chart'></div>
+            <div id='all_data_chart'></div>
+        </div>
+    </div>
+</div>

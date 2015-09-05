@@ -1,0 +1,33 @@
+<div class='modal-content'>
+    <div class='modal-header'>
+        <div class='pull-right'>
+            <a class='open-track-link' href='<%= url %>' target='_blank'>
+                <i class='fa fa-external-link'></i>
+            </a>
+
+            <button class='close' type='button' data-dismiss='modal'>
+                <span aria-hidden='true'>
+                    <i class='fa fa-close'></i>
+                    &times;
+                </span>
+                <span class='sr-only'>
+                    Close
+                </span>
+            </button>
+        </div>
+        <h4 class='modal-title'><%= title %></h4>
+    </div>
+    <div class='modal-body'>
+        <div class='container-fluid track-view'></div> 
+    </div>
+    <div class='modal-footer'>
+        <% if (can_manage) { %>
+        <a class='text-danger' id='rm-delete' href: '#'>
+            <%= I18n.t('events.show.delete_result') %>
+        </a>
+        <% } %>
+        <button class='btn btn-default' type='button' data-dismiss='modal'>
+            <%= I18n.t('general.cancel') %>
+        </button>
+    </div>
+</div>

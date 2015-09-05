@@ -8,7 +8,7 @@ class RoundsController < ApplicationController
   load_and_authorize_resource :round, through: :event
 
   def create
-    @round = Round.new round_params
+    @round = @event.rounds.new round_params
 
     if @round.save
       @round
