@@ -1,4 +1,7 @@
 Skyderby.models.EventSponsor = Backbone.Model.extend({
+
+    paramRoot: 'event_sponsor',
+
     defaults: {
         name: '',
         logo_url: '/logos/medium/missing.png',

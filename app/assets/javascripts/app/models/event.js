@@ -1,4 +1,7 @@
 Skyderby.models.Event = Backbone.Model.extend({
+
+    paramRoot: 'event',
+
     defaults: {
         name: '',
         range_from: 3000,
@@ -41,8 +44,8 @@ Skyderby.models.Event = Backbone.Model.extend({
             }).value();
 
         this.max_results = {};
-        for (var i = 1; i < max_results_array.length; i++) {
-            var elem = max_results_array[i - 1];
+        for (var i = 0; i < max_results_array.length; i++) {
+            var elem = max_results_array[i];
             this.max_results[elem.round_id] = elem.result;   
         }
     },

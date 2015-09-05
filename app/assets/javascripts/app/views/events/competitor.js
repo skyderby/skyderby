@@ -18,6 +18,7 @@ Skyderby.views.Competitor = Backbone.View.extend({
 
     initialize: function(opts) {
         if (_.has(opts, 'can_manage')) this.can_manage = opts.can_manage;
+        if (_.has(opts, 'rules')) this.rules = opts.rules;
 
         this.listenTo(this.model, 'change', this.update_competitor);
         this.listenTo(this.model, 'destroy', this.destroy_competitor);
@@ -42,15 +43,17 @@ Skyderby.views.Competitor = Backbone.View.extend({
 
     render_discipline: function(rounds, discipline) {
         for (var round in rounds) {
-            this.render_round(round);
+            this.render_round(rounds[round]);
         }       
 
-        this.$el.append(
-            $('<td>')
-                .addClass('text-right')
-                .attr('data-discipline', discipline)
-                .attr('data-role', 'points')
-        );
+        if (this.rules !== 'hungary_boogie') {
+            this.$el.append(
+                $('<td>')
+                    .addClass('text-right')
+                    .attr('data-discipline', discipline)
+                    .attr('data-role', 'points')
+            );
+        }
     },
 
     render_round: function(round) {
@@ -59,11 +62,13 @@ Skyderby.views.Competitor = Backbone.View.extend({
             role: 'result',
             can_manage: this.can_manage
         }));
-        this.$el.append(this.result_cell({
-            id: round.id,
-            role: 'points',
-            can_manage: this.can_manage
-        }));
+        if (this.rules !== 'hungary_boogie') {
+            this.$el.append(this.result_cell({
+                id: round.id,
+                role: 'points',
+                can_manage: this.can_manage
+            }));
+        }
     },
 
     render_total_points: function() {

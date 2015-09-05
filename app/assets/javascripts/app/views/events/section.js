@@ -15,7 +15,7 @@ Skyderby.views.Section = Backbone.View.extend({
         if (_.has(opts, 'can_manage')) this.can_manage = opts.can_manage;
         if (_.has(opts, 'row_length')) this.row_length = opts.row_length;
 
-        this.listenTo(this.model, 'change', this.update_section);
+        this.listenTo(this.model, 'sync', this.update_section);
         this.listenTo(this.model, 'destroy', this.destroy_section);
     },
 

@@ -14,9 +14,9 @@ Skyderby.views.TrackCharts = Backbone.View.extend({
     },
 
     initialize: function(opts) {
-        if (_.has(opts, 'container')) {
-            this.setElement(opts.container);
-        }
+        // if (_.has(opts, 'container')) {
+            // this.setElement(opts.container);
+        // }
 
         if (_.has(opts, 'display_single_chart')) {
             this.display_single_chart = opts.display_single_chart;
@@ -52,6 +52,8 @@ Skyderby.views.TrackCharts = Backbone.View.extend({
     render: function() {
         this.setChartsVisibility();
         this.setUnits();
+
+        return this;
     },
     
     setChartsVisibility: function() {

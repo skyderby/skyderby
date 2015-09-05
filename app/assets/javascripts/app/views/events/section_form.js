@@ -54,9 +54,9 @@ Skyderby.views.SectionForm = Backbone.View.extend({
 
         this.model.set(params);
         if (this.model.isNew()) {
-            window.Competition.sections.create(this.model, {wait: true});
+            window.Competition.sections.create(this.model, {wait: true, error: fail_ajax_request});
         } else {
-            this.model.save();
+            this.model.save({}, {wait: true, error: fail_ajax_request});
         }
 
         this.modalView.hide();
