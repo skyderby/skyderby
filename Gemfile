@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.2'
+gem 'rails', '4.2.4'
 
 # Supported DB
 gem 'mysql2'
@@ -59,8 +59,6 @@ gem 'twitter-bootstrap-rails'
 gem 'font-awesome-rails'
 
 gem 'bootstrap-datepicker-rails'
-
-gem 'gmaps4rails'
 
 gem 'figaro'
 
