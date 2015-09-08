@@ -15,6 +15,7 @@ class Place < ActiveRecord::Base
   belongs_to :country
 
   has_many :tracks, -> { order('created_at DESC') }
+  has_many :pilots, through: :tracks
   has_many :events
 
   validates :name, presence: true

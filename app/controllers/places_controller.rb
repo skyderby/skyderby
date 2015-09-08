@@ -11,8 +11,8 @@ class PlacesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { @places = @places.group_by(&:country) }
-      format.json { @places }
+      format.html { @places }
+      format.json { render @places, format: :json, locals: { with_details: false } }
     end
   end
 

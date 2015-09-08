@@ -2,25 +2,39 @@
   #footer
     .container
       .row
-        .col-sm-4
-          %p.copyright
-            = "Copyright © #{t 'application.footer.owner'} #{Time.now.year}"
-        .col-sm-4
-          %p= t('static_pages.index.stats')
-          %p
-            = t('static_pages.index.stats_tracks') + ' ' + Track.all.size.to_s
-            %br
-            = t('static_pages.index.stats_pilots') + ' ' + User.all.size.to_s
-        .col-sm-4
-          %p
-            %a{:href => about_path}
-              %i.fa.fa-fw.fa-info
-              = t('application.header.about')
-            %br
-            %a{href: 'https://www.facebook.com/skyderby.ru'}
-              %i.fa.fa-fw.fa-facebook-square
-              = t('application.footer.fb_page')
-            %br
-            %a{href: 'mailto:ab@ipkunin.ru'}
-              %i.fa.fa-fw.fa-mail-forward
-              = 'ab@ipkunin.ru'
+        .col-sm-6
+          = "© 2014-#{Time.now.year}"
+          = t('application.footer.made_with')
+          %i.fa.fa-heart
+          = "#{t 'application.footer.owner'} "
+        .col-sm-6.text-right
+          %a{href: about_path}
+            %i.fa.fa-fw.fa-info
+            = t('application.header.about')
+          |
+          %a{href: 'https://www.facebook.com/skyderby.ru'}
+            %i.fa.fa-fw.fa-facebook-square
+            = t('application.footer.fb_page')
+          |
+          %a{href: 'mailto:ab@ipkunin.ru'}
+            %i.fa.fa-fw.fa-mail-forward
+            = 'ab@ipkunin.ru'
+        -# .col-sm-4
+        -#   %p= t('static_pages.index.stats')
+        -#   %p
+        -#     = t('static_pages.index.stats_tracks') + ' ' + Track.all.size.to_s
+        -#     %br
+        -#     = t('static_pages.index.stats_pilots') + ' ' + User.all.size.to_s
+        -# .col-sm-4
+        -#   %p
+        -#     %a{href: about_path}
+        -#       %i.fa.fa-fw.fa-info
+        -#       = t('application.header.about')
+        -#     %br
+        -#     %a{href: 'https://www.facebook.com/skyderby.ru'}
+        -#       %i.fa.fa-fw.fa-facebook-square
+        -#       = t('application.footer.fb_page')
+        -#     %br
+        -#     %a{href: 'mailto:ab@ipkunin.ru'}
+        -#       %i.fa.fa-fw.fa-mail-forward
+        -#       = 'ab@ipkunin.ru'
