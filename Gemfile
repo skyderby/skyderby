@@ -85,7 +85,7 @@ group :development, :test do
   gem 'capistrano-sidekiq'
   #
   gem 'rubocop', require: false
-  gem 'rack-mini-profiler', require: false
+  gem 'rack-mini-profiler'
 
   gem 'pry-byebug'
 end

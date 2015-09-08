@@ -4,7 +4,7 @@
   "unused": true,
   "predef": [ 
     "Skyderby",
-		"JST",
+    "JST",
     "Highcharts",
     "Turbolinks",
     "Backbone",
@@ -14,6 +14,7 @@
     "_",
     "$",
     "Competition",
-    "ga"
+    "ga",
+    "google"
   ]
 }
