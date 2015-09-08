@@ -1,5 +1,6 @@
 ru:
   application:
-   footer:
-     owner: 'Александр Кунин'
-     fb_page: "Страница приложения"
+    footer:
+      made_with: 'Сделано с'
+      owner: 'Александром Куниным'
+      fb_page: "Страница приложения"

@@ -16,10 +16,12 @@
 //= require jquery.turbolinks
 //= require bootstrap-datepicker/core
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.ru.js
+//= require bootstrap-datepicker/locales/bootstrap-datepicker.de.js
+//= require bootstrap-datepicker/locales/bootstrap-datepicker.es.js
 //= require twitter/bootstrap
-//= require gmaps/google
 //= require vendor/jquery.validate
 //= require vendor/additional-methods.min
+//= require vendor/markerclusterer_compiled
 //= require i18n/translations
 //= require underscore
 //= require backbone
