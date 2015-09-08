@@ -1,16 +1,35 @@
-.container
-  .page-header
-    %h1= 'Places'
+- places_str = render template: 'places/index.json.jbuilder', format: :json, locals: {with_details: true}
+#places-index{data: {places: places_str}}
 
-  - if can? :create, :place
-    = link_to 'Create', new_place_path, class: 'btn btn-default'
+  .container
+    .page-header
+      .pull-right
+        - if can? :create, :place
+          %a.btn.btn-default{href: new_place_path}
+            %i.fa.fa-plus
+            = t('.new')
+        .btn-group{data: {toggle: 'buttons'}}
+          %label.toggle-view-type.btn.btn-default.active
+            = radio_button_tag 'view_type', 'map', true
+            %i.fa.fa-compass
+            = t '.on_map'
+          %label.toggle-view-type.btn.btn-default
+            = radio_button_tag 'view_type', 'list'
+            %i.fa.fa-list
+            = t '.on_list'
+      %h1= t '.title'
   
-  .top-buffer
-    %table#places-index.table.table-hover
-      %tbody
-        - @places.each do |country, places|
-          %tr.bg-warning.text-danger.no-hover
-            %td= country ? country.name : '<...>'
-          - places.each do |place|
-            %tr.clickableRow{data: {url: place_path(id: place.id)}}
-              %td.text-info= place.name
+    .row.map-view
+      .col-sm-12#places-map
+
+    .row.list-view
+      .col-sm-12.top-buffer
+        %table#places-index.table.table-hover
+          %tbody
+            - @places.group_by(&:country).each do |country, places|
+              %tr.bg-warning.text-danger.no-hover
+                %td= country ? country.name : '<...>'
+              - places.each do |place|
+                %tr
+                  %td
+                    %a{href: place_path(place.id)}= place.name

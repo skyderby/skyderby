@@ -1,0 +1,8 @@
+en:
+  places:
+    index:
+      new: 'Add'
+      title: 'Places'
+      details: 'More'
+      on_map: 'On map'
+      on_list: 'On list'
