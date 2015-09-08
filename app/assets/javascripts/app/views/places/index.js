@@ -59,7 +59,8 @@ Skyderby.views.PlacesIndex = Backbone.View.extend({
             });
         });
 
-        var markerCluster = new MarkerClusterer(map, markers);
+        var mcOptions = { gridSize: 50, maxZoom: 6 };
+        var markerCluster = new MarkerClusterer(map, markers, mcOptions);
     },
 
     on_toggle_view_type: function(e) {
