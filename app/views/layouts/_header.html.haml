@@ -1,4 +1,5 @@
 .navbar.navbar-default.navbar-static-top{role: 'navigation'}
+.navbar.navbar-default.navbar-fixed-top{role: 'navigation'}
   .container
     .navbar-header
       %button.navbar-toggle.collapsed{type: 'button', data: {toggle: 'collapse', target: '#skyderby-navbar-collapse'}}
@@ -16,18 +17,15 @@
           = link_to t('application.header.competitions'), events_path
         %li
           = link_to t('application.header.online_competitions'), virtual_competitions_path 
+        %li
+          = link_to t('application.header.places'), places_path
            
       %ul.nav.navbar-nav.navbar-right
 
         - if user_signed_in?
           %li.dropdown
-            %a.dropdown-toggle.profile-dropdown{:href => '#', :data => {:toggle => 'dropdown'}}
+            %a.dropdown-toggle.profile-dropdown{href: '#', data: {toggle: 'dropdown'}}
               - if current_user.user_profile
-                - if current_user.user_profile.name.blank?
-                  = current_user.email
-                - else
-                  = current_user.user_profile.name
-
                 = image_tag current_user.user_profile.userpic.url(:thumb), id: 'userpic-thumb', :class => 'img-rounded img-50 loading-bg'
               - else
                 = current_user.email
