@@ -35,9 +35,9 @@
   width: auto; display:inline;
 }
 
-@navbar-default-bg:         #fff;
-//@navbar-default-border:         fade(#000, 14%);
-@page-header-border-color:      fade(#000, 14%);
+@navbar-default-bg:         rgba(255,255,255, 0.95);
+@navbar-default-border:     fade(#000, 14%);
+@page-header-border-color:  fade(#000, 14%);
 
 @border-radius-base:        2px;
 @border-radius-large:       3px;
@@ -45,6 +45,7 @@
 @nav-pills-border-radius:   4px;
 
 @nav-link-padding:          10px 10px;
+
 .modal-dialog {
   z-index: 1041;
 }
@@ -55,10 +56,19 @@
   border-top-style: solid;
   border-top-width: 1px;
   margin-top: 20px;
+  padding-top: 10px;
+  font-size: 12px;
+  color: @navbar-default-color;
 }
 
 .navbar {
   margin-bottom: 0;
+}
+
+.navbar-fixed-top {
+  -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.08);
+  -moz-box-shadow:    0px 1px 2px 0px rgba(0,0,0,0.08);
+  box-shadow:         0px 1px 2px 0px rgba(0,0,0,0.08);
 }
 
 .center-pills { display: inline-block; }
