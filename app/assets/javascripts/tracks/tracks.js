@@ -11,7 +11,8 @@ var Track = {
     range_from: 0,
     range_to: 0,
     index_cache: [],
-    charts: {}
+    charts: {},
+    map: undefined
 };
 
 //////////////////////////////////////////////////////
@@ -63,14 +64,27 @@ function init_chart_view() {
 function init_map_view() {
 
     Track.charts_data = $('.track-map-data').data('points');
-    window.handler = Gmaps.build('Google');
-    window.handler.buildMap({ 
-            provider: {}, 
-            internal: {id: 'map'}
-        }, function(){
-            draw_map_polyline();
-        }
-    );
+
+    var center = new google.maps.LatLng(26.703115, 22.085180);
+
+    var options = {
+        'zoom': 2,
+        'center': center,
+        'mapTypeId': google.maps.MapTypeId.ROADMAP
+    };
+
+    Track.map = new google.maps.Map(document.getElementById('map'), options);
+
+    draw_map_polyline();
+
+    // window.handler = Gmaps.build('Google');
+    // window.handler.buildMap({ 
+    //         provider: {}, 
+    //         internal: {id: 'map'}
+    //     }, function(){
+    //         draw_map_polyline();
+    //     }
+    // );
 
 }
 
@@ -464,46 +478,58 @@ function speed_group_color(spd_group) {
 
 
 function draw_map_polyline() {
-    var polyline = [];
-    var prev_point = null;
+    var path_coordinates = [], 
+        prev_point = null,
+        polyline;
 
     for (var index in Track.charts_data) {
-      current_point = Track.charts_data[index];
-      if (polyline.length === 0 || (speed_group(prev_point.h_speed) == speed_group(current_point.h_speed))) {
-        polyline.push({
-            'lat': Number(current_point.latitude),
-            'lng': Number(current_point.longitude)
-        });
-      } else {
-        window.handler.addPolyline(
-            polyline,
-            { 
+        var current_point = Track.charts_data[index];
+      
+        if (path_coordinates.length === 0 || (speed_group(prev_point.h_speed) == speed_group(current_point.h_speed))) {
+            path_coordinates.push({
+                'lat': Number(current_point.latitude),
+                'lng': Number(current_point.longitude)
+            });
+        } else {
+
+            polyline = new google.maps.Polyline({
+                path: path_coordinates,
                 strokeColor: $('.hl' + speed_group(prev_point.h_speed)).css( "background-color" ),
                 strokeOpacity: 1, strokeWeight: 6
-            }
-        );
+            });
 
-        polyline = [];
-        polyline.push({
-            'lat': Number(prev_point.latitude), 
-            'lng': Number(prev_point.longitude)
-        });
-      }
-      prev_point = current_point;
+            polyline.setMap(Track.map);
+
+            path_coordinates = [];
+            path_coordinates.push({
+                'lat': Number(prev_point.latitude), 
+                'lng': Number(prev_point.longitude)
+            });
+        }
+        prev_point = current_point;
     }
 
-    window.handler.addPolyline(polyline,
-                        { strokeColor: $('.hl' + speed_group(prev_point.h_speed)).css( "background-color" ),
-                        strokeOpacity: 1, strokeWeight: 6});
-    window.handler.bounds.extend({
-        'lat': Number(Track.charts_data[0].latitude),
-        'lng': Number(Track.charts_data[0].longitude)
+    polyline = new google.maps.Polyline({
+        path: path_coordinates,
+        strokeColor: $('.hl' + speed_group(prev_point.h_speed)).css( "background-color" ),
+        strokeOpacity: 1, strokeWeight: 6
     });
-    window.handler.bounds.extend({
-        'lat': Number(Track.charts_data[Track.charts_data.length - 1].latitude),
-        'lng': Number(Track.charts_data[Track.charts_data.length - 1].longitude)
-    });
-    window.handler.fitMapToBounds();
+
+    polyline.setMap(Track.map);
+
+    var bounds = new google.maps.LatLngBounds();
+    bounds.extend(new google.maps.LatLng(
+        Number(Track.charts_data[0].latitude), 
+        Number(Track.charts_data[0].longitude)
+    ));
+
+    bounds.extend(new google.maps.LatLng(
+        Number(Track.charts_data[Track.charts_data.length - 1].latitude),
+        Number(Track.charts_data[Track.charts_data.length - 1].longitude)
+    ));
+
+    Track.map.fitBounds(bounds);
+    Track.map.setCenter(bounds.getCenter());
 }
 
 function initCB(instance) {
