@@ -15,6 +15,9 @@ class Place < ActiveRecord::Base
   belongs_to :country
 
   has_many :tracks, -> { order('created_at DESC') }
+  has_many :public_tracks,
+           -> { where(visibility: 0).order('created_at DESC') },
+           class_name: 'Track'
   has_many :pilots, through: :tracks
   has_many :events
 
