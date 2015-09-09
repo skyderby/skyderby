@@ -27,7 +27,7 @@
         %th=t 'activerecord.attributes.track.comment'
         %th=t 'activerecord.attributes.track.uploaded_at'
     %tbody
-      - @place.tracks.each do |track|
+      - @place.public_tracks.each do |track|
         %tr.clickableRow{data: {url: track_path(id: track.id)}}
           %td.text-info= track.id
           %td.text-info= track_pilot(track)
