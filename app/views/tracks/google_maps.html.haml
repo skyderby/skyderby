@@ -1,20 +1,14 @@
 - provide :title, title(@track_data.track)
 
-%script{:type => 'text/javascript',
-        :src  => '//maps.google.com/maps/api/js?v=3.13&amp;sensor=false&amp;libraries=geometry'}
-
-%script{:type => 'text/javascript',
-        :src  => '//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js'}
-
 .track-map-data{data: {points: @track_data.points.to_json.html_safe}}
-.container
-  = render partial: 'header', locals: {track: @track_data.track}
-  .row
-    .col-sm-12#map{style: 'height: 600px;'}
-  .row#speed-grades
-    .col-sm-2.text-center.hl1= "< 130 #{t 'units.kmh'}"
-    .col-sm-2.text-center.hl2= "130 - 160 #{t 'units.kmh'}"
-    .col-sm-2.text-center.hl3= "160 - 190 #{t 'units.kmh'}"
-    .col-sm-2.text-center.hl4= "190 - 220 #{t 'units.kmh'}"
-    .col-sm-2.text-center.hl5= "220 - 250 #{t 'units.kmh'}"
-    .col-sm-2.text-center.hl6= "> 250 #{t 'units.kmh'}"
+  .container
+    = render partial: 'header', locals: {track: @track_data.track}
+    .row
+      .col-sm-12#map{style: 'height: 600px;'}
+    .row#speed-grades
+      .col-sm-2.text-center.hl1= "< 130 #{t 'units.kmh'}"
+      .col-sm-2.text-center.hl2= "130 - 160 #{t 'units.kmh'}"
+      .col-sm-2.text-center.hl3= "160 - 190 #{t 'units.kmh'}"
+      .col-sm-2.text-center.hl4= "190 - 220 #{t 'units.kmh'}"
+      .col-sm-2.text-center.hl5= "220 - 250 #{t 'units.kmh'}"
+      .col-sm-2.text-center.hl6= "> 250 #{t 'units.kmh'}"
