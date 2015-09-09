@@ -53,7 +53,7 @@ RSpec.describe PlacesController, type: :controller do
     it 'assigns all places as @places' do
       place = Place.create! valid_attributes
       get :index, {}, valid_session
-      expect(assigns(:places).any? { |_, val| val.include? place }).to be_truthy
+      expect(assigns(:places).include?(place)).to be_truthy
     end
   end
 
