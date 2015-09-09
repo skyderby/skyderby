@@ -52,6 +52,7 @@ Skyderby.views.PlacesIndex = Backbone.View.extend({
             google.maps.event.addListener(marker, 'click', function() {
                 if (info_window.opened) {
                     info_window.close(); 
+                    info_window.opened = false;
                 } else {
                     info_window.open(map, marker);
                     info_window.opened = true;
