@@ -5,6 +5,8 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = csrf_meta_tags
 
+    %script{type: 'text/javascript', src: '//maps.googleapis.com/maps/api/js?library=geometry&sensor=false', 'data-turbolinks-track' => true}
+
     %meta{property: 'og:title', content: page_title(yield(:title))}
     %meta{property: 'og:url', content: request.original_url}
     %meta{property: 'og:image', content: asset_url('logo260.png')}
@@ -38,5 +40,4 @@
 
     = render 'errors/ajax_error_message'
     = render 'layouts/footer'
-    %script{src: 'https://maps.googleapis.com/maps/api/js', 'data-turbolinks-eval' => false}
     = javascript_include_tag 'application', 'data-turbolinks-track' => true, 'data-turbolinks-eval' => false
