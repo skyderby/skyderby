@@ -36,6 +36,13 @@
 
 Turbolinks.enableProgressBar();
 
+// Bootstrap registers a listener to the focusin event which checks whether 
+// the focused element is either the overlay itself or a descendent of it - 
+// if not it just refocuses on the overlay. With the select2 dropdown being 
+// attached to the body this effectively prevents you from entering anything 
+// into the the textfield.
+$.fn.modal.Constructor.prototype.enforceFocus = function() {};
+
 $.validator.addMethod('filesize', function(value, element, param) {
     // param = size (en bytes) 
     // element = element to validate (<input>)

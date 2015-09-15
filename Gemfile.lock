@@ -252,6 +252,9 @@ GEM
       mime-types
     parser (2.3.0.pre.2)
       ast (>= 1.1, < 3.0)
+    pluck_to_hash (0.1.3)
+      activerecord (>= 4.0.2)
+      activesupport (>= 4.0.2)
     poltergeist (1.6.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -470,6 +473,7 @@ DEPENDENCIES
   mysql2
   nokogiri (~> 1.6.3.1)
   paperclip (~> 4.2.2)
+  pluck_to_hash
   poltergeist
   pry-byebug
   quiet_assets

@@ -43,63 +43,18 @@ NewTrackForm.prototype = {
         this.$form_suit_select.find('option').remove();
 
         if (this.suit.id && this.suit.name) {
-            $('<option />', {value: this.suit.id, text: this.suit.name})
-                .appendTo(this.$form_suit_select);
+            var option = $('<option />', {value: this.suit.id, text: this.suit.name});
+            this.$form_suit_select.append(option);
+            this.$form_suit_select.append($('<option />'));
         }
 
         this.$form_location.val(this.location);
 
-        this.init_suit_select();
+        new Skyderby.helpers.TrackSuitSelect(this.$form_suit_select);
         this.init_form_validation();
 
         this.$form_toggle_suit.data('state', 'select');
         this.on_toggle_suit();
-    },
-
-    init_suit_select: function() {
-         this.$form_suit_select.select2({
-            width: '100%',
-            placeholder: 'Select suit from list',
-            dropdownParent: this.$form_modal,
-            ajax: {
-                url: '/wingsuits',
-                dataType: 'json',
-                type: "GET",
-                quietMillis: 50,
-                data: function (term) {
-                    return {
-                        query: term
-                    };
-                },
-                processResults: function (data) {
-                    var suits_data = _.chain(data)
-                        .map(function(obj) {
-                            return {
-                                id: obj.id,
-                                text: obj.name,
-                                manufacturer: obj.manufacturer.name
-                            };
-                        })
-                        .groupBy(function(obj) { 
-                            return obj.manufacturer;
-                        })
-                        .map(function(obj, key) {
-                            return {
-                                text: key, 
-                                children: obj
-                            };
-                        })
-                        .sortBy(function(obj) {
-                            return obj.text;
-                        })
-                        .value();
-                    return {
-                        results: suits_data
-                    };
-                },
-                cache: true
-            }
-        });
     },
 
     init_form_validation: function() {
@@ -174,13 +129,13 @@ NewTrackForm.prototype = {
         }
 
         if (this.$form_toggle_suit.data('state') == 'select') {
-            this.$form_toggle_suit.data('state', 'enter').text('Enter suit name');
-            this.$form_toggle_suit_caption.text("Suit you are flying doesn't exist?");
+            this.$form_toggle_suit.data('state', 'enter').text(I18n.t('tracks.form.toggle_suit_link'));
+            this.$form_toggle_suit_caption.text(I18n.t('tracks.form.toggle_suit_caption'));
             this.$form_suit_input.val('').hide();
             $('.new-track-wingsuit-select + span').show();
         } else {
-            this.$form_toggle_suit.data('state', 'select').text('Select suit form list');
-            this.$form_toggle_suit_caption.text("Or just ");
+            this.$form_toggle_suit.data('state', 'select').text(I18n.t('tracks.form.toggle_suit_link_select'));
+            this.$form_toggle_suit_caption.text(I18n.t('tracks.form.toggle_suit_caption_select'));
             this.$form_suit_input.show();
             this.$form_suit_select.select2('val', '');
             $('.new-track-wingsuit-select + span').hide();
