@@ -7,4 +7,4 @@ ru:
       private: "Ограниченный"
       elev_chart: 'График высот'
       elevation: 'Высота'
-
+      back: 'Назад к треку'
