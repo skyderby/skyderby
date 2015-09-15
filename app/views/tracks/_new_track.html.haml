@@ -35,11 +35,11 @@
               = t('static_pages.index.track_form.suit')
             .col-sm-9
               %select.new-track-wingsuit-select.suit-group{name: 'track[wingsuit_id]'}
-              %input.form-control.suit-group{name: 'track[suit]', type: 'text', placeholder: 'Enter suit name'}
+              %input.form-control.suit-group{name: 'track[suit]', type: 'text', placeholder: t('tracks.form.suit_text_placeholder')}
             .col-sm-9.col-sm-offset-3
               %span
-                %span.toggle-suit-caption= "Suit you are flying doesn't exist?"
-                %a.toggle-suit{href: '#'}= 'Enter suit name'
+                %span.toggle-suit-caption= t('tracks.form.toggle_suit_caption')
+                %a.toggle-suit{href: '#'}= t('tracks.form.toggle_suit_link')
 
           .form-group
             %span.col-sm-3.control-label

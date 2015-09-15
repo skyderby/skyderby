@@ -22,7 +22,8 @@ module Skyderby
       def initialize(opts = {})
         set_default_values
 
-        opts.each { |key, val| self[key] = val }
+        # Changed self[key] = val to send("key", val) because of performance
+        opts.each { |key, val| send("#{key}=", val) }
 
         calculate_gr if @h_speed && @v_speed
         calculate_raw_gr if @raw_h_speed && @raw_v_speed

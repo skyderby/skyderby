@@ -65,9 +65,9 @@ module Skyderby
 
       def elevation_diff(first, second)
         if @has_abs_altitude
-          (first.abs_altitude - second.abs_altitude).round(2)
+          (first[:abs_altitude] - second[:abs_altitude]).round(2)
         else
-          (first.elevation - second.elevation).round(2)
+          (first[:elevation] - second[:elevation]).round(2)
         end
       end
 
@@ -91,42 +91,57 @@ module Skyderby
 
       def read_points(track)
         tracksegments_ids = track.tracksegments.pluck(:id)
-        points = Point.where(tracksegment_id: tracksegments_ids)
+        points = Point.where(tracksegment_id: tracksegments_ids).pluck_to_hash(
+          :latitude,
+          :longitude,
+          :abs_altitude,
+          :elevation,
+          :gps_time_in_seconds,
+          :distance,
+          :h_speed,
+          :v_speed
+        )
 
         prev_point = nil
         fl_time = 0
 
         msl_offset =
-          if @track.place
+          if @track.ground_level > 0
             @track.ground_level
+          elsif @track.place
+            @track.place.msl
           else
-            points.map(&:abs_altitude).min
+            points.map { |x| x[:abs_altitude] }.min
           end
 
         points.each do |point|
+          point[:gps_time] = Time.zone.at(point[:gps_time_in_seconds])
+
           if prev_point
 
-            fl_time_diff = point.gps_time - prev_point.gps_time
+            prev_gps_time = prev_point[:gps_time]
+
+            fl_time_diff = point[:gps_time] - prev_gps_time
             fl_time = (fl_time + fl_time_diff).round(1)
 
             elevation_between_points = elevation_diff(prev_point, point)
-            raw_h = Skyderby::Velocity.ms_to_kmh(point.distance / fl_time_diff)
+            raw_h = Skyderby::Velocity.ms_to_kmh(point[:distance] / fl_time_diff)
             raw_v = Skyderby::Velocity.ms_to_kmh(elevation_between_points) / fl_time_diff
 
-            elevation = @has_abs_altitude ? point.abs_altitude - msl_offset : point.elevation
+            elevation = @has_abs_altitude ? point[:abs_altitude] - msl_offset : point[:elevation]
 
             @points << Skyderby::Tracks::TrackPoint.new(
-              gps_time: point.gps_time,
+              gps_time: point[:gps_time],
               fl_time: fl_time_diff,
               fl_time_abs: fl_time,
               elevation_diff: elevation_between_points,
               elevation:  elevation,
-              abs_altitude: point.abs_altitude,
-              latitude: point.latitude,
-              longitude: point.longitude,
-              distance: point.distance,
-              h_speed: (point.h_speed || 0.0),
-              v_speed: (point.v_speed || 0.0),
+              abs_altitude: point[:abs_altitude],
+              latitude: point[:latitude],
+              longitude: point[:longitude],
+              distance: point[:distance],
+              h_speed: (point[:h_speed] || 0.0),
+              v_speed: (point[:v_speed] || 0.0),
               raw_h_speed: raw_h,
               raw_v_speed: raw_v)
 
