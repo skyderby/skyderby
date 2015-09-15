@@ -90,8 +90,8 @@ module Skyderby
       end
 
       def read_points(track)
-        points = Point.joins(:tracksegment)
-                 .where('tracksegments.track_id' => track.id).to_a
+        tracksegments_ids = track.tracksegments.pluck(:id)
+        points = Point.where(tracksegment_id: tracksegments_ids)
 
         prev_point = nil
         fl_time = 0
