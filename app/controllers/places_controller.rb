@@ -3,6 +3,8 @@ class PlacesController < ApplicationController
 
   load_and_authorize_resource
 
+  respond_to :json, :html
+
   def index
     @places = Place.includes(:country).includes(:tracks).order(:name)
 
@@ -10,10 +12,7 @@ class PlacesController < ApplicationController
       @places = @places.search(params[:query][:term]) if params[:query][:term]
     end
 
-    respond_to do |format|
-      format.html { @places }
-      format.json { render @places, format: :json, locals: { with_details: false } }
-    end
+    respond_with @places
   end
 
   def show

@@ -1,101 +1,119 @@
 - track = @track_data.track
 - provide :title, title(track)
 
-.track-edit-data{data: @track_data.to_data_attr}
+.track-edit-data{'data-track' => @track_data.to_data_attr}
 
-.container.top-buffer
-  = form_for track, html: {class:  'form-horizontal', role: 'form', id: 'track_edit_form'} do |f|
-
+  .container.top-buffer
     .row
-      .col-sm-11
-        = f.submit t('general.save'), class:  'btn btn-success'
-        = link_to t('general.cancel'), track, class:  'btn btn-default'
-      .col-sm-1
-        .pull-right
-          = link_to t('general.delete'),
-                    track,
-                    method: :delete,
-                    data: {confirm: t('tracks.show.delete_confirmation')},
-                    class:  'btn btn-danger'
+      %a{href: track_path(track)}
+        %i.fa.fa-chevron-left
+        = t('.back')
+    = form_for track, html: {class:  'form-horizontal', role: 'form', id: 'track_edit_form'} do |f|
 
-    %hr
+      .row
+        .col-sm-12#heights-chart
+        .col-sm-12
+          .time-selector
+            %input#time-selector{type: 'text', name: 'time-selector' , value: ''}
+      %hr
+      = f.hidden_field 'ff_start', id: 'ff_start'
+      = f.hidden_field 'ff_end', id: 'ff_end'
 
-    .row
-      .col-sm-12#heights-chart
-      .col-sm-12
-        .time-selector
-          %input#time-selector{type: 'text', name: 'time-selector' , value: ''}
-    %hr
-    = f.hidden_field 'ff_start', id: 'ff_start'
-    = f.hidden_field 'ff_end', id: 'ff_end'
-    .form-group
-      %span.col-sm-2.control-label
-        = t('static_pages.index.track_form.name')
-      .col-sm-4
-        = f.text_field 'name', class: 'form-control', placeholder: t('static_pages.index.track_form.name_plh'), type: 'text'
-    .form-group
-      %span.col-sm-2.control-label
-        = t('static_pages.index.track_form.suit')
-      .col-sm-4
-        %select.track-wingsuit-select{name: 'track[wingsuit_id]'}
+      - if current_user.has_role? :admin
+        .form-group
+          %span.col-sm-3.control-label
+            = t('static_pages.index.track_form.name')
+          .col-sm-6
+            %select{name: 'track[user_profile_id]'}
+            = f.text_field 'name', 
+                           class: 'form-control',
+                           placeholder: t('tracks.form.profile_text_placeholder'),
+                           type: 'text'
+          .col-sm-6.col-sm-offset-3
+            %span
+              %span.toggle-profile-caption= t('tracks.form.toggle_profile_caption')
+              %a.toggle-profile{href: '#'}= t('tracks.form.toggle_profile_link')
 
-    .form-group
-      %span.col-sm-2.control-label
-        = t('static_pages.index.track_form.location')
-      .col-sm-4
-        = f.text_field 'location', class: 'form-control', placeholder: t('static_pages.index.track_form.location_plh'), type: 'text'
 
-    .form-group
-      %span.col-sm-2.control-label
-        = t('static_pages.index.track_form.kind')
-      .btn-group.col-sm-10{data: {toggle: 'buttons'}}
-        %label.btn.btn-default{class: ('active' if track.skydive?)}
-          = f.radio_button 'kind', 'skydive'
-          = 'Skydive'
-
-        %label.btn.btn-default{class: ('active' if track.base?)}
-          = f.radio_button 'kind', 'base'
-          = 'B.A.S.E'
-
-    .form-group
-      %span.col-sm-2.control-label
-        = t('static_pages.index.track_form.comment')
-      .col-sm-4
-        = f.text_area 'comment',
-                      class: 'form-control',
-                      rows: 3,
-                      placeholder: t('static_pages.index.track_form.comment_plh')
-
-    - if user_signed_in?
       .form-group
-        %span.col-sm-2.control-label
-          = t('tracks.edit.visibility')
-        .btn-group.col-sm-10{data: {toggle: 'buttons'}}
-          %label.btn.btn-default{ class:  ('active' if track.public_track?) }
-            = f.radio_button 'visibility', 'public_track'
-            = t('tracks.edit.public')
-          %label.btn.btn-default{ class:  ('active' if track.unlisted_track?) }
-            = f.radio_button 'visibility', 'unlisted_track'
-            = t('tracks.edit.unlisted')
-          %label.btn.btn-default{ class:  ('active' if track.private_track?) }
-            = f.radio_button 'visibility', 'private_track'
-            = t('tracks.edit.private')
+        %span.col-sm-3.control-label
+          = t('static_pages.index.track_form.suit')
+        .col-sm-6
+          %select.suit-group{name: 'track[wingsuit_id]'}
+          = f.text_field 'suit',
+                         class: 'form-control suit-group',
+                         placeholder: t('tracks.form.suit_text_placeholder'),
+                         type: 'text'
 
-    .form-group
-      .col-sm-4
-        %div#alert-placeholder
+        .col-sm-6.col-sm-offset-3
+          %span
+            %span.toggle-suit-caption= t('tracks.form.toggle_suit_caption')
+            %a.toggle-suit{href: '#'}= t('tracks.form.toggle_suit_link')
 
-    %hr
-    .row
-      .col-sm-11
-        = f.submit t('general.save'), class: 'btn btn-success'
-        = link_to t('general.cancel'), track, class: 'btn btn-default'
-      .col-sm-1
-        .pull-right
-          = link_to t('general.delete'),
-                    track,
-                    method: :delete,
-                    data: {confirm: t('tracks.show.delete_confirmation')},
-                    class: 'btn btn-danger'
+      .form-group
+        %span.col-sm-3.control-label
+          = t('static_pages.index.track_form.location')
+        .col-sm-6
+          %select.place-group{name: 'track[place_id]'}
+          = f.text_field 'location',
+                         class: 'form-control place-group', 
+                         placeholder: t('static_pages.index.track_form.location_plh'), 
+                         type: 'text'
+        .col-sm-6.col-sm-offset-3
+          %span
+            %span.toggle-place-caption= t('tracks.form.toggle_place_caption')
+            %a.toggle-place{href: '#'}= t('tracks.form.toggle_place_link')
 
-  .top-buffer
+      .form-group
+        %span.col-sm-3.control-label
+          = t('static_pages.index.track_form.kind')
+        .btn-group.col-sm-9{data: {toggle: 'buttons'}}
+          %label.btn.btn-default{class: ('active' if track.skydive?)}
+            = f.radio_button 'kind', 'skydive'
+            = 'Skydive'
+
+          %label.btn.btn-default{class: ('active' if track.base?)}
+            = f.radio_button 'kind', 'base'
+            = 'B.A.S.E'
+
+      - if user_signed_in?
+        .form-group
+          %span.col-sm-3.control-label
+            = t('tracks.edit.visibility')
+          .btn-group.col-sm-9{data: {toggle: 'buttons'}}
+            %label.btn.btn-default{ class:  ('active' if track.public_track?) }
+              = f.radio_button 'visibility', 'public_track'
+              = t('tracks.edit.public')
+            %label.btn.btn-default{ class:  ('active' if track.unlisted_track?) }
+              = f.radio_button 'visibility', 'unlisted_track'
+              = t('tracks.edit.unlisted')
+            %label.btn.btn-default{ class:  ('active' if track.private_track?) }
+              = f.radio_button 'visibility', 'private_track'
+              = t('tracks.edit.private')
+      
+      .form-group
+        %span.col-sm-3.control-label
+          = t('static_pages.index.track_form.comment')
+        .col-sm-6
+          = f.text_area 'comment',
+                        class: 'form-control',
+                        rows: 3,
+                        placeholder: t('static_pages.index.track_form.comment_plh')
+
+
+      .form-group
+        .col-sm-4
+          %div#alert-placeholder
+
+      %hr
+      .row
+        .col-sm-12
+          .pull-right
+            = f.submit t('general.save'), class: 'btn btn-success'
+            = link_to t('general.cancel'), track, class: 'btn btn-default'
+          .btn.btn-default
+            = link_to t('general.delete'),
+                        track,
+                        method: :delete,
+                        data: {confirm: t('tracks.show.delete_confirmation')},
+                        class: 'text-danger'
