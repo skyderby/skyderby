@@ -141,6 +141,8 @@ class TracksController < ApplicationController
       :name,
       :kind,
       :location,
+      :place_id,
+      :ground_level,
       :file,
       :track_file_id,
       :filepath,
@@ -151,7 +153,8 @@ class TracksController < ApplicationController
       :comment,
       :cache_id,
       :track_index,
-      :visibility
+      :visibility,
+      :user_profile_id
     )
   end
 

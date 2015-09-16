@@ -1,0 +1,3 @@
+ru:
+  jquery_validate:
+    required_field: 'Это поле обязательно для заполнения.'

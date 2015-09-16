@@ -62,6 +62,8 @@ gem 'bootstrap-datepicker-rails'
 
 gem 'figaro'
 
+gem 'pluck_to_hash'
+
 group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
