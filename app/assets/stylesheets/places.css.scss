@@ -20,8 +20,13 @@
   width: 100%;
   padding-left: 20px;
 }
+
 .place-map img {
   width: 100%;
+}
+
+.place-map-wrapper {
+  min-height: 150px;
 }
 
 #places-map {
