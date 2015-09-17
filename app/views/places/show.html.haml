@@ -1,9 +1,9 @@
 .container
-  .row.top-buffer
+  .row
     .col-sm-12
       .place-map-wrapper
         .place-map
-          %img{src: "https://maps.googleapis.com/maps/api/staticmap?center=#{@place.latitude},#{@place.longitude}&zoom=12&size=600x90&scale=2&maptype=hybrid"}
+          %img{src: "https://maps.googleapis.com/maps/api/staticmap?center=#{@place.latitude},#{@place.longitude}&zoom=12&size=600x150&scale=2&maptype=hybrid"}
         .place-map-description
           .place-map-background
             %h1
@@ -15,6 +15,16 @@
       -#     - if can? :update, @place
       -#       = link_to 'Edit', edit_place_path(@place), class: 'btn btn-default'
 
+  - pilots = @place.pilots.distinct
+  - unless pilots.blank?
+    .row.top-buffer
+      .col-sm-12
+        %div= t('.visited_by') + ':'
+        - pilots.each do |pilot|
+          %a{href: user_profile_path(pilot)}
+            %img.img-50{src: pilot.userpic.url(:thumb), 'data-toggle' => 'tooltip', title: pilot.name}
+    %hr
+
   %table.table.table-hover.top-buffer
     %thead
       %tr
@@ -25,15 +35,26 @@
         %th= 'Speed'
         %th= 'Time'
         %th=t 'activerecord.attributes.track.comment'
-        %th=t 'activerecord.attributes.track.uploaded_at'
+        %th.text-center=t 'activerecord.attributes.track.uploaded_at'
     %tbody
       - @place.public_tracks.each do |track|
         %tr.clickableRow{data: {url: track_path(id: track.id)}}
-          %td.text-info= track.id
-          %td.text-info= track_pilot(track)
-          %td.text-info= track.wingsuit.present? ? track.wingsuit.name : track.suit
-          %td.text-info= track.distance.result if track.distance
-          %td.text-info= track.speed.result if track.speed
-          %td.text-info= track.time.result if track.time
+          %td= track.id
+          %td= track_pilot(track)
+          %td
+            - if track.wingsuit
+              = suit_presentation(track.wingsuit)
+            - else 
+              %span.text-info
+              = track.suit
+          %td.text-right
+            %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.distance)}
+              = track.distance.result.to_i if track.distance
+          %td.text-right
+            %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.speed)}
+              = track.speed.result.to_i if track.speed
+          %td.text-right
+            %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.time)}
+              = track.time.result if track.time
           %td.text-muted= track.comment
-          %td.text-info= track.created_at.strftime('%d.%m.%Y')
+          %td.text-center= track.created_at.strftime('%d.%m.%Y')
