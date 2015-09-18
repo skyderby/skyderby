@@ -15,7 +15,7 @@
       -#     - if can? :update, @place
       -#       = link_to 'Edit', edit_place_path(@place), class: 'btn btn-default'
 
-  - pilots = @place.pilots.distinct
+  - pilots = @place.pilots_accessible_by(current_user)
   - unless pilots.blank?
     .row.top-buffer
       .col-sm-12
@@ -31,13 +31,14 @@
         %th=t 'activerecord.attributes.track.id'
         %th=t 'activerecord.attributes.track.name'
         %th=t 'activerecord.attributes.track.suit'
-        %th= 'Distance'
-        %th= 'Speed'
-        %th= 'Time'
+        %th.text-right= t('disciplinse.distance')
+        %th.text-right= t('disciplinse.speed')
+        %th.text-right= t('disciplinse.time')
         %th=t 'activerecord.attributes.track.comment'
         %th.text-center=t 'activerecord.attributes.track.uploaded_at'
+        %th
     %tbody
-      - @place.public_tracks.each do |track|
+      - @place.tracks.accessible_by(current_user).each do |track|
         %tr.clickableRow{data: {url: track_path(id: track.id)}}
           %td= track.id
           %td= track_pilot(track)
@@ -58,3 +59,4 @@
               = track.time.result if track.time
           %td.text-muted= track.comment
           %td.text-center= track.created_at.strftime('%d.%m.%Y')
+          %td= track_icons(track)
