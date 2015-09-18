@@ -1,14 +1,14 @@
 .container
   .page-header
+    - if can? :create, :wingsuit
+      .pull-right
+        = link_to t('general.create'), new_wingsuit_path, class: 'btn btn-default'
     %h1= 'Suits'
-
-  - if can? :create, :wingsuit
-    = link_to 'New', new_wingsuit_path, class: 'btn btn-default'
   
   - @wingsuits.each do |manufacturer, suits|
     .top-buffer
       .row
-        .col-sm-12.col-md-12
+        .col-sm-12.col-md-12.bg-info
           %h1.light-header= manufacturer ? manufacturer.name : '<...>'
         .col-sm-12.col-md-6
           %h2.light-header Wingsuits
@@ -20,17 +20,17 @@
                     %a{href: wingsuit_path(wingsuit)}= wingsuit.name
                   .col-sm-2.text-muted
                     .text-center
-                      = wingsuit.pilots.group_by(&:id).count
+                      = wingsuit.pilots_accessible_by(current_user).count
                     .text-center
                       pilots
                   .col-sm-2.text-muted
                     .text-center
-                      = wingsuit.tracks.public_track.base.count
+                      = wingsuit.tracks.accessible_by(current_user).base.count
                     .text-center
                       base
                   .col-sm-2.text-muted
                     .text-center
-                      = wingsuit.tracks.public_track.skydive.count
+                      = wingsuit.tracks.accessible_by(current_user).skydive.count
                     .text-center
                       skydive
               -# - if can? :update, wingsuit
@@ -51,17 +51,17 @@
                     %a{href: wingsuit_path(tracksuit)}= tracksuit.name
                   .col-sm-2.text-muted
                     .text-center
-                      = tracksuit.pilots.group_by(&:id).count
+                      = tracksuit.pilots_accessible_by(current_user).count
                     .text-center
                       pilots
                   .col-sm-2.text-muted
                     .text-center
-                      = tracksuit.tracks.public_track.base.count
+                      = tracksuit.tracks.accessible_by(current_user).base.count
                     .text-center
                       base
                   .col-sm-2.text-muted
                     .text-center
-                      = tracksuit.tracks.public_track.skydive.count
+                      = tracksuit.tracks.accessible_by(current_user).skydive.count
                     .text-center
                       skydive
 

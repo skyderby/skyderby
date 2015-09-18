@@ -25,7 +25,9 @@ class Place < ActiveRecord::Base
   validates :msl, presence: true
 
   def pilots_accessible_by(user)
-    UserProfile.where(id: tracks.accessible_by(user).select(:user_profile_id).distinct)
+    UserProfile.where(
+      id: tracks.accessible_by(user).select(:user_profile_id).distinct
+    )
   end
 
   class << self

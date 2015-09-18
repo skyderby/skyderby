@@ -35,13 +35,14 @@
             %th=t 'activerecord.attributes.track.id'
             %th=t 'activerecord.attributes.track.name'
             %th=t 'activerecord.attributes.track.location'
-            %th= 'Distance'
-            %th= 'Speed'
-            %th= 'Time'
+            %th.text-right= t('disciplinse.distance')
+            %th.text-right= t('disciplinse.speed')
+            %th.text-right= t('disciplinse.time')
             %th=t 'activerecord.attributes.track.comment'
             %th=t 'activerecord.attributes.track.uploaded_at'
+            %th
         %tbody
-          - @wingsuit.tracks.public_track.skydive.order('id DESC').each do |track|
+          - @wingsuit.tracks.accessible_by(current_user).skydive.order('id DESC').each do |track|
             %tr.clickableRow{data: {url: track_path(id: track.id)}}
               %td.text-info= track.id
               %td.text-info= track_pilot(track)
@@ -51,6 +52,7 @@
               %td.text-info= track.time.result if track.time
               %td.text-muted= track.comment
               %td.text-info= track.created_at.strftime('%d.%m.%Y')
+              %td= track_icons(track)
 
     #tab-pane-base.tab-pane{role: "tabpanel"}
       %table.table.table-hover
@@ -65,7 +67,7 @@
             %th=t 'activerecord.attributes.track.comment'
             %th=t 'activerecord.attributes.track.uploaded_at'
         %tbody
-          - @wingsuit.tracks.public_track.base.order('id DESC').each do |track|
+          - @wingsuit.tracks.accessible_by(current_user).base.order('id DESC').each do |track|
             %tr.clickableRow{data: {url: track_path(id: track.id)}}
               %td.text-info= track.id
               %td.text-info= track_pilot(track)
@@ -75,3 +77,4 @@
               %td.text-info= track.time.result if track.time
               %td.text-muted= track.comment
               %td.text-info= track.created_at.strftime('%d.%m.%Y')
+              %td= track_icons(track)
