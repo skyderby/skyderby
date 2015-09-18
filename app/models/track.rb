@@ -91,5 +91,15 @@ class Track < ActiveRecord::Base
     def search(query)
       where('LOWER(comment) LIKE ?', "%#{query.downcase}%")
     end
+
+    def accessible_by(user)
+      return public_track unless user && user.user_profile
+
+      if user.has_role? :admin
+        where('1 = 1')
+      else
+        where('user_profile_id = :profile OR visibility = 0', profile: user.user_profile)
+      end
+    end
   end
 end
