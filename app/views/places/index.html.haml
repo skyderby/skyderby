@@ -1,4 +1,4 @@
-- places_str = render template: 'places/index.json.jbuilder', format: :json, locals: {with_details: true}
+- places_str = render template: 'places/index.json.jbuilder', format: :json, locals: {with_additional_info: true}
 #places-index{data: {places: places_str}}
 
   .container
