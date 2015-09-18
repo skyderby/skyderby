@@ -20,7 +20,7 @@ class Wingsuit < ActiveRecord::Base
 
   belongs_to :manufacturer
 
-  has_many :tracks
+  has_many :tracks, -> { order('created_at DESC') }
   has_many :competitors
   has_many :pilots, through: :tracks
 
@@ -34,6 +34,12 @@ class Wingsuit < ActiveRecord::Base
 
   validates_attachment_content_type :photo, content_type:
     ['image/jpeg', 'image/jpg', 'image/png']
+
+  def pilots_accessible_by(user)
+    UserProfile.where(
+      id: tracks.accessible_by(user).select(:user_profile_id).distinct
+    )
+  end
 
   class << self
     def search(query)
