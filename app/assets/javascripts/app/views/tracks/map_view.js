@@ -5,10 +5,12 @@ Skyderby.views.TrackMapView = Backbone.View.extend({
         var options = {
             'zoom': 2,
             'center': center,
-            'mapTypeId': google.maps.MapTypeId.ROADMAP
+            'mapTypeId': 'terrain'
         };
 
         this.map = new google.maps.Map(this.$('#map')[0], options);
+
+        this.map.addListener('click', this.displayLocationElevation);
 
         this.draw_polyline();
     },
@@ -100,5 +102,28 @@ Skyderby.views.TrackMapView = Backbone.View.extend({
         } else if (spd_group == 6) {
           return 'aa0c0060';
         }
+    },
+
+    displayLocationElevation: function (event) {
+        var location = event.latLng;
+        var elevator = new google.maps.ElevationService();
+        // Initiate the location request
+        elevator.getElevationForLocations({
+            'locations': [location]
+        }, function(results, status) {
+            if (status === google.maps.ElevationStatus.OK) {
+                // Retrieve the first result
+                if (results[0]) {
+                    console.log(
+                        'Latitude: ' + location.lat().toFixed(8) + ' - ' +
+                        'Longitude: ' + location.lng().toFixed(8) + ' - ' +
+                        'Elevation: ' + Math.round(results[0].elevation) + ' m.');
+                } else {
+                    console.log('No results found');
+                }
+            } else {
+                console.log('Elevation service failed due to: ' + status);
+            }
+        });
     },
 });
