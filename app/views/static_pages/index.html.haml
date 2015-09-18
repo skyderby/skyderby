@@ -12,6 +12,17 @@
       .col-3.hidden-xs.col-sm-3
         %img.img-responsive{src: asset_path('skyderby-logo.png')}
 
+.container.top-buffer
+  .row
+    .col-sm-10
+      %h2.light-header
+        = t('.donate')
+    .col-sm-2
+      %h2
+        =render 'static_pages/donate'
+
+%hr
+
 .container-fluid
   .row
     .col-sm-12.text-center
