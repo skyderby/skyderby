@@ -15,10 +15,7 @@ class Place < ActiveRecord::Base
   belongs_to :country
 
   has_many :tracks, -> { order('created_at DESC') }
-  has_many :public_tracks,
-           -> { where(visibility: 0).order('created_at DESC') },
-           class_name: 'Track'
-  has_many :pilots, through: :tracks
+  has_many :pilots, -> { distinct }, through: :tracks
   has_many :events
 
   validates :name, presence: true
@@ -26,6 +23,12 @@ class Place < ActiveRecord::Base
   validates :latitude, presence: true
   validates :longitude, presence: true
   validates :msl, presence: true
+
+  def pilots_accessible_by(user)
+    UserProfile.where(
+      id: tracks.accessible_by(user).select(:user_profile_id).distinct
+    )
+  end
 
   class << self
     def search(query)

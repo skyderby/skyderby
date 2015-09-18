@@ -27,4 +27,20 @@ module TracksHelper
   def range_title(result)
     '' + result.range_from.to_s + ' - ' + result.range_to.to_s if result
   end
+
+  def track_icons(track)
+    capture do
+      concat content_tag(:i, nil, class: 'fa fa-fw fa-video-camera') if track.video
+
+      concat content_tag(:i, nil,
+                         class: 'fa fa-fw fa-eye-slash',
+                         'data-toggle' => 'tooltip',
+                         title: t('tracks.edit.unlisted')) if track.unlisted_track?
+
+      concat content_tag(:i, nil,
+                         class: 'fa fa-fw fa-lock',
+                         'data-toggle' => 'tooltip',
+                         title: t('tracks.edit.private')) if track.private_track?
+    end
+  end
 end

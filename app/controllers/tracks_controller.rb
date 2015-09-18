@@ -5,7 +5,7 @@ class TracksController < ApplicationController
     [:show, :google_maps, :google_earth, :replay, :edit, :update, :destroy]
 
   def index
-    @tracks = Track.public_track.order('id DESC')
+    @tracks = Track.accessible_by(current_user).order('id DESC')
 
     apply_filters!
 

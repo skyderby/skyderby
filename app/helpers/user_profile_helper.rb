@@ -78,7 +78,7 @@ module UserProfileHelper
     if is_owner
       profile_tracks = @profile.tracks
     else
-      profile_tracks = @profile.public_tracks
+      profile_tracks = @profile.tracks.accessible_by(current_user)
     end
   end
 end
