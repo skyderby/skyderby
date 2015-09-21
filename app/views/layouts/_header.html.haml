@@ -57,7 +57,7 @@
                         = f.password_field :password, :class => 'form-control', :placeholder => t('application.header.password')
                       .checkbox
                         %label
-                          = f.check_box :remember_me
+                          = f.check_box :remember_me, checked: true
                           =t('application.header.remember_me')
                       .form-group
                         = f.submit t('application.header.sign_in'), :class => 'btn btn-success btn-block'

@@ -13,6 +13,7 @@ Skyderby.views.TrackMapView = Backbone.View.extend({
         this.map.addListener('click', this.displayLocationElevation);
 
         this.draw_polyline();
+        this.fit_bounds();
     },
 
     draw_polyline: function() {
@@ -56,16 +57,24 @@ Skyderby.views.TrackMapView = Backbone.View.extend({
         });
 
         polyline.setMap(this.map);
+    },
+
+    fit_bounds: function() {
+
+        var points = this.model.get('points');
+        var lats = _.pluck(points, 'latitude').sort();
+        var lons = _.pluck(points, 'longitude').sort();
 
         var bounds = new google.maps.LatLngBounds();
+
         bounds.extend(new google.maps.LatLng(
-            Number(points[0].latitude), 
-            Number(points[0].longitude)
+            Number(lats[0]), 
+            Number(lons[0])
         ));
 
         bounds.extend(new google.maps.LatLng(
-            Number(points[points.length - 1].latitude),
-            Number(points[points.length - 1].longitude)
+            Number(lats[lats.length - 1]),
+            Number(lons[lons.length - 1])
         ));
 
         this.map.fitBounds(bounds);
