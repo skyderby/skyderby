@@ -11,7 +11,8 @@ var Track = {
     range_from: 0,
     range_to: 0,
     index_cache: [],
-    charts: {}
+    charts: {},
+    map: undefined
 };
 
 //////////////////////////////////////////////////////
@@ -57,20 +58,6 @@ function init_chart_view() {
     set_chart_data();
     updateRangeSelector();
     updateUnits();
-
-}
-
-function init_map_view() {
-
-    Track.charts_data = $('.track-map-data').data('points');
-    window.handler = Gmaps.build('Google');
-    window.handler.buildMap({ 
-            provider: {}, 
-            internal: {id: 'map'}
-        }, function(){
-            draw_map_polyline();
-        }
-    );
 
 }
 
@@ -463,48 +450,7 @@ function speed_group_color(spd_group) {
 }
 
 
-function draw_map_polyline() {
-    var polyline = [];
-    var prev_point = null;
 
-    for (var index in Track.charts_data) {
-      current_point = Track.charts_data[index];
-      if (polyline.length === 0 || (speed_group(prev_point.h_speed) == speed_group(current_point.h_speed))) {
-        polyline.push({
-            'lat': Number(current_point.latitude),
-            'lng': Number(current_point.longitude)
-        });
-      } else {
-        window.handler.addPolyline(
-            polyline,
-            { 
-                strokeColor: $('.hl' + speed_group(prev_point.h_speed)).css( "background-color" ),
-                strokeOpacity: 1, strokeWeight: 6
-            }
-        );
-
-        polyline = [];
-        polyline.push({
-            'lat': Number(prev_point.latitude), 
-            'lng': Number(prev_point.longitude)
-        });
-      }
-      prev_point = current_point;
-    }
-
-    window.handler.addPolyline(polyline,
-                        { strokeColor: $('.hl' + speed_group(prev_point.h_speed)).css( "background-color" ),
-                        strokeOpacity: 1, strokeWeight: 6});
-    window.handler.bounds.extend({
-        'lat': Number(Track.charts_data[0].latitude),
-        'lng': Number(Track.charts_data[0].longitude)
-    });
-    window.handler.bounds.extend({
-        'lat': Number(Track.charts_data[Track.charts_data.length - 1].latitude),
-        'lng': Number(Track.charts_data[Track.charts_data.length - 1].longitude)
-    });
-    window.handler.fitMapToBounds();
-}
 
 function initCB(instance) {
     window.ge = instance;
@@ -596,8 +542,6 @@ function draw_polyline() {
 $(document).on('ready page:load', function() {
     if ($('.track-data').length) {
         init_chart_view();	
-    } else if ($('.track-map-data').length) {
-        init_map_view();        
     } else if ($('.track-earth-data').length) {
         init_earth_view();
     }

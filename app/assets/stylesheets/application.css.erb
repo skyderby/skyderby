@@ -9,6 +9,8 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require bootstrap-datepicker3
+ *= require vendor/select2.min
+ *= require vendor/select2-bootstrap
  *= require_self
  *= require_tree .
  */
@@ -23,6 +25,12 @@ body, p, ol, ul, td {
   line-height: 18px;
 }
 
+a, button, label, span {
+  transition-property: border-color, background, color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
+
 .loading-bg {
   background: url(<%= asset_path 'loading.gif' %>) no-repeat center center;
 }
@@ -31,7 +39,7 @@ body, p, ol, ul, td {
   min-height: 100%;
   height: auto !important;
   height: 100%;
-  margin: 0 auto -100px;
+  margin: 0 auto -61px;
   padding: 0 0 100px;
 }
 

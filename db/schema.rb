@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150728194339) do
+ActiveRecord::Schema.define(version: 20150918163723) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer "user_id", limit: 4
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 20150728194339) do
     t.integer  "status",          limit: 4,   default: 0
     t.integer  "user_profile_id", limit: 4
     t.integer  "place_id",        limit: 4
-    t.boolean  "is_official",     limit: 1,   default: false
+    t.boolean  "is_official",                 default: false
     t.integer  "rules",           limit: 4,   default: 0
     t.date     "starts_at"
   end
@@ -187,9 +187,9 @@ ActiveRecord::Schema.define(version: 20150728194339) do
     t.integer  "track_id",                 limit: 4
     t.datetime "created_at",                                                    null: false
     t.datetime "updated_at",                                                    null: false
-    t.boolean  "is_winner",                limit: 1
-    t.boolean  "is_disqualified",          limit: 1
-    t.boolean  "is_lucky_looser",          limit: 1
+    t.boolean  "is_winner"
+    t.boolean  "is_disqualified"
+    t.boolean  "is_lucky_looser"
     t.string   "notes",                    limit: 255
     t.integer  "earn_medal",               limit: 4
   end
@@ -199,8 +199,8 @@ ActiveRecord::Schema.define(version: 20150728194339) do
     t.integer  "tournament_round_id",   limit: 4
     t.datetime "created_at",                                                               null: false
     t.datetime "updated_at",                                                               null: false
-    t.boolean  "gold_finals",           limit: 1,                          default: false
-    t.boolean  "bronze_finals",         limit: 1,                          default: false
+    t.boolean  "gold_finals",                                              default: false
+    t.boolean  "bronze_finals",                                            default: false
   end
 
   add_index "tournament_matches", ["tournament_round_id"], name: "index_tournament_matches_on_tournament_round_id", using: :btree
@@ -270,7 +270,7 @@ ActiveRecord::Schema.define(version: 20150728194339) do
     t.integer  "wingsuit_id",       limit: 4
     t.integer  "ff_start",          limit: 4
     t.integer  "ff_end",            limit: 4
-    t.boolean  "ge_enabled",        limit: 1,     default: true
+    t.boolean  "ge_enabled",                      default: true
     t.integer  "visibility",        limit: 4,     default: 0
     t.integer  "user_profile_id",   limit: 4
     t.integer  "place_id",          limit: 4
@@ -283,7 +283,10 @@ ActiveRecord::Schema.define(version: 20150728194339) do
     t.integer  "ground_level",      limit: 4,     default: 0
   end
 
+  add_index "tracks", ["place_id"], name: "index_tracks_on_place_id", using: :btree
   add_index "tracks", ["user_id"], name: "index_tracks_on_user_id", using: :btree
+  add_index "tracks", ["user_profile_id"], name: "index_tracks_on_user_profile_id", using: :btree
+  add_index "tracks", ["wingsuit_id"], name: "index_tracks_on_wingsuit_id", using: :btree
 
   create_table "tracksegments", force: :cascade do |t|
     t.integer  "track_id",   limit: 4
@@ -344,7 +347,7 @@ ActiveRecord::Schema.define(version: 20150728194339) do
     t.string   "name",                  limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "display_on_start_page", limit: 1,   default: false
+    t.boolean  "display_on_start_page",             default: false
   end
 
   create_table "virtual_comp_results", force: :cascade do |t|
@@ -375,8 +378,8 @@ ActiveRecord::Schema.define(version: 20150728194339) do
     t.integer  "virtual_comp_group_id", limit: 4
     t.integer  "range_from",            limit: 4,   default: 0
     t.integer  "range_to",              limit: 4,   default: 0
-    t.boolean  "display_highest_speed", limit: 1,   default: false
-    t.boolean  "display_highest_gr",    limit: 1,   default: false
+    t.boolean  "display_highest_speed",             default: false
+    t.boolean  "display_highest_gr",                default: false
   end
 
   add_index "virtual_competitions", ["place_id"], name: "index_virtual_competitions_on_place_id", using: :btree
