@@ -30,6 +30,8 @@ Skyderby.views.SectionForm = Backbone.View.extend({
         $('#section-form input[name="section[id]"]').val(this.model.get('id'));
         $('#section-form input[name="section[name]"]').val(this.model.get('name'));
 
+        this.init_form_validation();
+
         return this;
     },
 
@@ -44,6 +46,22 @@ Skyderby.views.SectionForm = Backbone.View.extend({
 
     onModalHidden: function() {
         this.$el.remove();
+    },
+
+    init_form_validation: function() {
+        this.$('#section-form').validate({
+            rules: {
+                'section[name]': {
+                    required: true
+                }
+            },
+            highlight: function(element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            unhighlight: function(element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+        });      
     },
 
     onSubmit: function(e) {
