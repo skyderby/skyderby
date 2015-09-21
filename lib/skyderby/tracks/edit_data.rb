@@ -11,15 +11,27 @@ module Skyderby
 
       def to_data_attr
         {
-          points: @points.to_json.html_safe,
+          points: @points,
           max_rel_time: @duration,
           range_from: @ff_start,
           range_to: @ff_end,
+          pilot_text: @track.name,
+          pilot: ({
+            id: @track.pilot.id,
+            name: @track.pilot.name
+          } if @track.pilot),
+          suit_text: @track.suit,
           suit: ({
             id: @track.wingsuit.id,
             name: @track.wingsuit.name
-          } if @track.wingsuit)
-        }
+          } if @track.wingsuit),
+          location: @track.location,
+          place: ({
+            id: @track.place.id,
+            name: @track.place.name
+          } if @track.place),
+          ground_level: @track.ground_level
+        }.to_json
       end
 
       protected

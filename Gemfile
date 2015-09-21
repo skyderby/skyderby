@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.2'
+gem 'rails', '4.2.4'
 
 # Supported DB
 gem 'mysql2'
@@ -16,7 +16,7 @@ gem 'will_paginate-bootstrap'
 gem 'haml'
 
 # Files attachments
-gem 'paperclip', '3.4.2'
+gem 'paperclip', '~> 4.2.2'
 
 # XML
 gem 'nokogiri', '~> 1.6.3.1'
@@ -60,9 +60,9 @@ gem 'font-awesome-rails'
 
 gem 'bootstrap-datepicker-rails'
 
-gem 'gmaps4rails'
-
 gem 'figaro'
+
+gem 'pluck_to_hash'
 
 group :development, :test do
   gem 'rspec'
@@ -87,7 +87,7 @@ group :development, :test do
   gem 'capistrano-sidekiq'
   #
   gem 'rubocop', require: false
-  gem 'rack-mini-profiler', require: false
+  gem 'rack-mini-profiler'
 
   gem 'pry-byebug'
 end

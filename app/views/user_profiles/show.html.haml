@@ -56,10 +56,7 @@
 
   %hr
   .row
-    .col-md-2
-      -# .bg-info.text-info{style: 'height:400px; width: 150px; margin-top:36px'}
-      -#   = 'Какая-нибудь реклама'
-    .col-md-10
+    .col-sm-10.col-sm-offset-2
       %table#user-tracks-table.table.table-hover
         %thead
           %tr
@@ -71,11 +68,12 @@
             %th.text-right= t('disciplinse.time')
             %th= t('activerecord.attributes.track.comment')
             %th.text-right= t('activerecord.attributes.track.uploaded_at')
+            %th
         %tbody
           - groups = profile_tracks.group_by { |x| x.created_at.beginning_of_month }
           - groups.each do |group, tracks|
             %tr.bg-warning.text-danger.no-hover
-              %td{colspan: 8}
+              %td{colspan: 9}
                 = l(group,
                    format: '%B %Y', 
                    locale: params[:locale])
@@ -104,5 +102,6 @@
                   = l(track.created_at, 
                       format: '%-d %b %Y', 
                       locale: params[:locale])
+                %td= track_icons(track)
 
 -# = render 'edit_userpic_modal'

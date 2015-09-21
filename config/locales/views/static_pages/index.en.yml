@@ -14,6 +14,7 @@ en:
       events_desc: 'Participate competitions or create your own with full FAI rules support or with your own rules.'
       events_list: 'Browse competitions'
       online_comps_leaders: 'Online competitions leaders'
+      donate: 'If you like Skyderby - you can support project by making donation.'
       track_form:
         title: 'See and analyze your track:'
         name: 'Your name is:'

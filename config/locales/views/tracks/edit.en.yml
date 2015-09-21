@@ -7,4 +7,4 @@ en:
       private: "Private"
       elev_chart: "Elevation"
       elevation: "Elevation"
-
+      back: 'Back to track'
