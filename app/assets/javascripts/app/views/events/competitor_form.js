@@ -37,6 +37,8 @@ Skyderby.views.CompetitorForm = Backbone.View.extend({
         this.init_suit_select();
         this.init_section_select();
 
+        this.init_form_validation();
+
         this.trigger('changemode');
 
         return this;
@@ -51,6 +53,50 @@ Skyderby.views.CompetitorForm = Backbone.View.extend({
 
     onModalHidden: function() {
         this.$el.remove();
+    },
+
+    init_form_validation: function() {
+        this.$('#competitor-form').validate({
+            ignore: 'input[type=hidden]',
+            groups: {
+                pilot: 'competitor[user_profile_id] competitor[name]'
+            },
+            rules: {
+                'competitor[name]': {
+                    require_from_group: [1, '.pilot-group']
+                },
+                'competitor[wingsuit_id]': {
+                    required: true
+                },
+                'competitor[section_id]': {
+                    required: true
+                }
+            },
+            messages: {
+                'competitor[name]': {
+                    require_from_group: I18n.t('jquery_validate.required_field')
+                },
+                'competitor[wingsuit_id]': {
+                    required: I18n.t('jquery_validate.required_field')
+                },
+                'competitor[section_id]': {
+                    required: I18n.t('jquery_validate.required_field')
+                }
+            },
+            highlight: function(element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            unhighlight: function(element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+            errorPlacement: function(error, element) {
+                if (element.hasClass('pilot-group') || element.is('select[name="competitor[wingsuit_id]"]')) {
+                    error.appendTo( element.closest('div') );    
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });        
     },
 
     onSubmit: function(e) {
@@ -113,14 +159,17 @@ Skyderby.views.CompetitorForm = Backbone.View.extend({
 
         var select_field = this.$('select[name="competitor[user_profile_id]"]');
 
-        var option = $('<option />', {
-            value: this.model.get('user_profile_id'), 
-            text: this.model.get('profile').name
-        });
-        
-        select_field.append(option);
+        if (!this.model.isNew()) {
+            var option = $('<option />', {
+                value: this.model.get('user_profile_id'), 
+                text: this.model.get('profile').name
+            });
+            
+            select_field.append(option);
+        }
  
         select_field.select2({
+            theme: 'bootstrap',
             width: '100%',
             placeholder: I18n.t('events.show.profile_placeholder'),
             ajax: {
@@ -163,6 +212,7 @@ Skyderby.views.CompetitorForm = Backbone.View.extend({
         }
 
         select_field.select2({
+            theme: 'bootstrap',
             width: '100%',
             placeholder: I18n.t('events.show.suit_placeholder'),
             ajax: {
@@ -219,6 +269,7 @@ Skyderby.views.CompetitorForm = Backbone.View.extend({
         if (this.model.has('section_id')) select_field.val(this.model.get('section_id'));
 
         select_field.select2({
+            theme: 'bootstrap',
             width: '100%',
             minimumResultsForSearch: 10
         });
