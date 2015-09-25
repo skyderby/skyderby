@@ -1,9 +1,9 @@
 $(document).on('ready page:load', function() {
     if ($('#new-event-modal').length) {
-        $('select[name=place_id]').select2({
+        $('select[name="event[place_id]"]').select2({
+            theme: 'bootstrap',
             width: '100%',
             placeholder: I18n.t('events.show.place_placeholder'),
-            dropdownParent: '#new-event-modal',
             ajax: {
                 url: '/places',
                 dataType: 'json',
