@@ -118,6 +118,7 @@ Skyderby.views.NewResultForm = Backbone.View.extend({
         var profile_id = window.Competition.competitors.get(competitor_id).get('user_profile_id');
 
         select_field.select2({
+            theme: 'bootstrap',
             width: '100%',
             placeholder: "Choose track from list",
             ajax: {
