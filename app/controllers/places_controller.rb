@@ -6,7 +6,7 @@ class PlacesController < ApplicationController
   respond_to :json, :html
 
   def index
-    @places = Place.includes(:country, :tracks).order(:name)
+    @places = Place.includes(:country, :tracks).order('countries.name, places.name')
 
     if params[:query]
       @places = @places.search(params[:query][:term]) if params[:query][:term]
