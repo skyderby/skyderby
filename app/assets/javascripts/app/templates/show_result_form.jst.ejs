@@ -22,12 +22,16 @@
     </div>
     <div class='modal-footer'>
         <% if (can_manage) { %>
-        <a class='text-danger' id='rm-delete' href: '#'>
-            <%= I18n.t('events.show.delete_result') %>
-        </a>
+            <div class='pull-left'>
+                <div class='btn btn-default'>
+                    <a class='text-danger' id='rm-delete' href: '#'>
+                        <%= I18n.t('events.show.delete_result') %>
+                    </a>
+                </div>
+            </div>
         <% } %>
         <button class='btn btn-default' type='button' data-dismiss='modal'>
-            <%= I18n.t('general.cancel') %>
+            OK
         </button>
     </div>
 </div>
