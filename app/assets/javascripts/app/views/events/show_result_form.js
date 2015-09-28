@@ -6,6 +6,10 @@ Skyderby.views.ShowResultForm = Backbone.View.extend({
 
     className: 'modal-dialog modal-lg',
 
+    events: {
+        'click #rm-delete': 'on_delete_link_click'
+    },
+
     initialize: function(opts) {
         this.modalView = new Skyderby.views.ModalView();
         if (_.has(opts, 'can_manage')) this.can_manage = opts.can_manage;
@@ -22,6 +26,7 @@ Skyderby.views.ShowResultForm = Backbone.View.extend({
         
         // Child view
         this.trackView = new Skyderby.views.TrackView({
+            result: this.model,
             track_id: this.model.get('track_id'),
             el: '.container-fluid.track-view',
             parent_view: this
@@ -62,5 +67,11 @@ Skyderby.views.ShowResultForm = Backbone.View.extend({
         return I18n.t('events.show.result') + ': ' +
             competitor.get('profile').name + ' ' + I18n.t('events.show.result_in') + ' ' +
             Skyderby.helpers.capitalize(round.get('discipline')) + ' - ' + round.get('name');
+    },
+
+    on_delete_link_click: function(e){
+        e.preventDefault();
+        this.model.destroy();
+        this.modalView.hide();
     }
 });
