@@ -7,6 +7,7 @@ ru:
         name: 'Название'
         status: 'Статус'
         place: 'Место проведения'
+        starts_at: 'Дата начала'
   event_status:
     draft: 'Подготовка'
     published: 'Опубликовано'

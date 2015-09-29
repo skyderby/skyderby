@@ -7,6 +7,7 @@ en:
         name: 'Name'
         status: 'Status'
         place: 'Place'
+        starts_at: 'Starts at'
   event_status: 
     draft: 'Draft'
     published: 'Published'

@@ -8,5 +8,7 @@ $(document).on('ready page:load', function() {
             el: '#places-index'
         });
         view.render();
+    } else if ($('form.place-form').length) {
+        new Skyderby.views.PlaceForm();
     }
 });

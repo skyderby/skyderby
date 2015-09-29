@@ -1,6 +1,6 @@
 class EventsFinder
   def execute(current_user)
-    events = Event.order('id DESC')
+    events = Event.includes(:place, place: [:country]).order('id DESC')
 
     if current_user
       profile_id = current_user.user_profile.id

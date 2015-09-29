@@ -9,7 +9,7 @@ class SectionsController < ApplicationController
   load_and_authorize_resource :section, through: :event, except: :reorder
 
   def create
-    @section = Section.new section_params
+    @section = @event.sections.new section_params
 
     if @section.save
       @section
