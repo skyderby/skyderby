@@ -7,8 +7,10 @@ Skyderby.views.NewResultForm = Backbone.View.extend({
     className: 'modal-dialog',
 
     events: {
-        'submit #new-result-form': 'onSubmit',
-        'click .toggle-track': 'onToggleTrack'
+        'change .btn-file :file'     : 'change_file_field',
+        'fileselect .btn-file :file' : 'file_select',
+        'submit #new-result-form'    : 'onSubmit',
+        'click .toggle-track'        : 'onToggleTrack'
     },
 
     initialize: function() {
@@ -35,6 +37,8 @@ Skyderby.views.NewResultForm = Backbone.View.extend({
 
         this.trigger('changemode');
 
+        this.init_form_validation();
+
         return this;
     },
 
@@ -47,6 +51,39 @@ Skyderby.views.NewResultForm = Backbone.View.extend({
 
     onModalHidden: function() {
         this.remove();
+    },
+
+    init_form_validation: function() {
+        this.$('#new-result-form').validate({
+            ignore: 'input[type=hidden]',
+            groups: {
+                track: 'event_track[track_id] event_track[track_file]'
+            },
+            rules: {
+                'event_track[track_id]': {
+                    require_from_group: [1, '.result-track-group']
+                }
+            },
+            messages: {
+                'event_track[track_id]': {
+                    require_from_group: I18n.t('jquery_validate.required_field')
+                },
+            },
+            highlight: function(element) {
+                $(element).closest('.form-group').addClass('has-error');
+            },
+            unhighlight: function(element) {
+                $(element).closest('.form-group').removeClass('has-error');
+            },
+            errorPlacement: function(error, element) {
+                if (element.hasClass('result-track-group')) {
+                    error.appendTo( element.closest('div') );    
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });        
+
     },
 
     onSubmit: function(e) {
@@ -63,9 +100,9 @@ Skyderby.views.NewResultForm = Backbone.View.extend({
 
         if (this.model.isNew()) {
             this.model.set(params);
-            window.Competition.tracks.create(this.model, {wait: true});
+            window.Competition.tracks.create(this.model, {wait: true, error: fail_ajax_request});
         } else {
-            this.model.save(params, {patch: true, wait: true});
+            this.model.save(params, {patch: true, wait: true, error: fail_ajax_request});
         }
 
         this.modalView.hide();
@@ -146,5 +183,13 @@ Skyderby.views.NewResultForm = Backbone.View.extend({
             }
         });
     },
+
+    change_file_field: function(event) {
+        Skyderby.helpers.FileField.change(event);
+    },
+    
+    file_select: function(event, numFiles, label) {
+        Skyderby.helpers.FileField.fileselect(event, numFiles, label);
+    }
 
 });
