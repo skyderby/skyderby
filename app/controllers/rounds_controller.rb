@@ -3,9 +3,9 @@ class RoundsController < ApplicationController
   before_action :set_round, only: [:update, :destroy, :map_data]
 
   load_resource :event
-  before_filter :authorize_event
+  before_filter :authorize_event, except: [:map_data]
 
-  load_and_authorize_resource :round, through: :event
+  load_and_authorize_resource :round, through: :event, except: [:map_data]
 
   def create
     @round = @event.rounds.new round_params
