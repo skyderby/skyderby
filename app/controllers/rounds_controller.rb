@@ -1,6 +1,6 @@
 # encoding: utf-8
 class RoundsController < ApplicationController
-  before_action :set_round, only: [:update, :destroy]
+  before_action :set_round, only: [:update, :destroy, :map_data]
 
   load_resource :event
   before_filter :authorize_event
@@ -8,7 +8,7 @@ class RoundsController < ApplicationController
   load_and_authorize_resource :round, through: :event
 
   def create
-    @round = Round.new round_params
+    @round = @event.rounds.new round_params
 
     if @round.save
       @round
@@ -31,6 +31,11 @@ class RoundsController < ApplicationController
     else
       render json: @round.errors, status: :unprocessable_entity
     end
+  end
+
+  def map_data
+    map_data = Skyderby::Competitions::RoundMapData.new.execute(@round)
+    render json: map_data
   end
 
   private

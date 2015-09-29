@@ -26,9 +26,9 @@
       .col-sm-12.top-buffer
         %table#places-index.table.table-hover
           %tbody
-            - @places.group_by(&:country).each do |country, places|
+            - @places.group_by(&:country_name).each do |country, places|
               %tr.bg-warning.text-danger.no-hover
-                %td= country ? country.name : '<...>'
+                %td= country
               - places.each do |place|
                 %tr
                   %td

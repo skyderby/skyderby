@@ -1,15 +1,16 @@
 - provide :title, @event.name
+- can_manage = can? :update, @event
 
 .event-data{data: {details: event_details,
-                   can_manage: can?(:update, @event).to_s }}
+                   can_manage: can_manage.to_s }}
 
-.container.top-buffer
+.container.top-buffer#event
   .row
     .col-md-8.col-md-offset-2.text-center
       %h1
         %span#title-competition-name= @event.name
 
-      %h3#title-competition-range= "#{t('.comp_window')} #{@event.range_from} - #{@event.range_to} #{t('units.m')}"
+      %h3#title-competition-range= "#{t('.comp_window')}: #{@event.range_from} - #{@event.range_to} #{t('units.m')}"
       %h3#title-competition-place
     .col-md-2
       .pull-right#edit-event-commands
@@ -22,17 +23,24 @@
     .col-md-12
       %h4= t('.judges') + ':'
       %ol#judges-list
+      - if can_manage
+        %a.add-organizer{href: '#'}
+          %i.fa.fa-plus
+          = t('.add_judge')
   .row.top-buffer
     .col-md-12
-      %h4 Event sponsors:
+      %h4= t('.event_sponsors') + ':'
   .row#sponsors
-    
+
+  - if can_manage
+    %a.add-sponsor{href: '#'}
+      %i.fa.fa-plus
+      = t('.add_sponsor')
 
 -# Modals
+.modal.fade#modal{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
+
 = render 'show_result_modal'
 - if can? :update, @event
-  = render 'event_settings_modal'
-  = render 'competitor_modal'
-  = render 'section_modal'
   = render 'new_result_modal'
   = render 'progress_modal'

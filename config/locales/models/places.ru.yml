@@ -1,0 +1,11 @@
+ru:
+  activerecord:
+    models:
+      place: 'Локации'
+    attributes:
+      place:
+        name: 'Название'
+        country: 'Страна'
+        latitude: 'Широта'
+        longitude: 'Долгота'
+        msl: 'Превышение над уровнем моря'
