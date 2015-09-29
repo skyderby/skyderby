@@ -80,7 +80,8 @@ class PlacesController < ApplicationController
       :country_id,
       :latitude,
       :longitude,
-      :msl
+      :msl,
+      :information
     )
   end
 end
