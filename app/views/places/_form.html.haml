@@ -1,29 +1,29 @@
 = form_for @place, html: {class: 'form-horizontal place-form'} do |f|
   .form-group
-    = f.label :name, class: 'col-sm-2 control-label', for: :name
+    = f.label :name, class: 'col-sm-3 control-label', for: :name
     .col-sm-5
       = f.text_field :name, autofocus: true, class: 'form-control'
 
   .form-group
-    = f.label :country, class: 'col-sm-2 control-label', for: :country
+    = f.label :country, class: 'col-sm-3 control-label', for: :country
     .col-sm-5
       = f.collection_select(:country_id, Country.order(:name), :id, :name, {promt: 'Select country'}, {class: 'form-control'})
 
   .form-group
-    = f.label :latitude, class: 'col-sm-2 control-label', for: :latitude
+    = f.label :latitude, class: 'col-sm-3 control-label', for: :latitude
     .col-sm-5
       = f.text_field :latitude, class: 'form-control'
 
   .form-group
-    = f.label :longitude, class: 'col-sm-2 control-label', for: :longitude
+    = f.label :longitude, class: 'col-sm-3 control-label', for: :longitude
     .col-sm-5
       = f.text_field :longitude, class: 'form-control'
 
   .form-group
-    = f.label :msl, class: 'col-sm-2 control-label', for: :msl
+    = f.label :msl, class: 'col-sm-3 control-label', for: :msl
     .col-sm-5
       = f.text_field :msl, class: 'form-control'
 
   .form-group
-    .col-sm-offset-2.col-sm-8
+    .col-sm-offset-3.col-sm-9
       = f.submit t('general.save'), class: 'btn btn-primary'

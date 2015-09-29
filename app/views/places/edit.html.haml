@@ -1,6 +1,6 @@
-.container.top-buffer
+.container
   .page-header
     %h2
-      = 'Place: Edit'
+      = t('activerecord.models.place') + ': ' + @place.name
 
 = render 'form'
