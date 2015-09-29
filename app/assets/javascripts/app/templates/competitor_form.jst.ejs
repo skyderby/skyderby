@@ -1,0 +1,62 @@
+<div class="modal-content">
+    <form class="form-horizontal" id="competitor-form" action='#' role='form'>
+        <input type='hidden' name="competitor[id]"/>
+
+        <div class='modal-header'>
+            <button class='close' type='button' data-dismiss='modal'>
+                <span aria-hidden: 'true'>
+                    &times;
+                </span>
+                <span class='sr-only'>
+                    Close
+                </span>
+            </button>
+            <h4 class='modal-title'><%= title %></h4>
+        </div>
+
+        <div class='modal-body'>
+            <div class='form-group row'>
+                <span class='col-sm-3 control-label'>
+                    <%= I18n.t('events.show.profile')+ ':' %>
+                </span>
+                <div class='col-sm-9'>
+                    <select class='form-control competitor-profile pilot-group' name='competitor[user_profile_id]' />
+                    <input class='form-control pilot-group' name='competitor[name]' />
+                </div>
+                <div class='col-sm-9 col-sm-offset-3'>
+                    <span>
+                        <span class='toggle-profile-caption'>
+                            <%= I18n.t('events.show.profile_caption') %>
+                        </span>
+                        <a class='toggle-profile' href='#'>
+                            <%= I18n.t('events.show.toggle_profile') %>
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <div class='form-group'>
+                <span class='col-sm-3 control-label'>
+                    <%= I18n.t('events.show.suit') %>
+                </span>
+                <div class='col-sm-9'>
+                    <select class='form-control' name='competitor[wingsuit_id]' />
+                </div>
+            </div>
+            <div class='form-group'>
+                <span class='col-sm-3 control-label'>
+                    <%= I18n.t('events.show.section') %>
+                </span>
+                <div class='col-sm-9'>
+                    <select class='form-control' name='competitor[section_id]' />
+                </div>
+            </div>
+        </div>
+
+        <div class='modal-footer'>
+            <input class='btn btn-primary' type='submit' value="<%= I18n.t('general.save') %>" />
+            <button class='btn btn-default' type='button' data-dismiss='modal'>
+                <%= I18n.t('general.cancel') %>
+            </button>
+        </div>
+    </form>
+</div>  

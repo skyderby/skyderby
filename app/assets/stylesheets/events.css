@@ -173,3 +173,31 @@ td:hover .delete-round
 .event-list-details {
   padding-left: 70px;
 }
+
+#round-map {
+    height: 400px;
+}
+
+.round-competitors-wrap {
+    overflow-y: scroll;	
+}
+
+.round-map-loading {
+    background-color: rgba(255, 255, 255, 0.87);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1142;
+    text-align: center;
+    margin-left: -30px;
+    margin-top: -15px;
+    padding-top: 200px;
+}
+
+tr.disabled {
+    color: rgb(221, 221, 221);
+}
+
+table.table > tbody > tr > td.round-map-competitor {
+    padding-left: 20px;
+}

@@ -8,9 +8,8 @@ class EventTracksController < ApplicationController
   load_and_authorize_resource :event_track, through: :event
 
   def create
-    @event_track = EventTrack.new event_track_params
+    @event_track = @event.event_tracks.new event_track_params
     @event_track.current_user = current_user
-    authorize! :update, @event_track.round.event
 
     if @event_track.save
       @event_track
@@ -20,15 +19,11 @@ class EventTracksController < ApplicationController
   end
 
   def update
-    authorize! :update, @event_track.round.event
-
     @event_track.update round_track_params
     respond_with @event_track
   end
 
   def destroy
-    authorize! :update, @event_track.round.event
-
     @event_track.destroy
     head :no_content
   end

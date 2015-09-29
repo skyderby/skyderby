@@ -19,12 +19,12 @@
               %input.form-control#event-name
 
           .form-group
-            %span.col-sm-4.control-label= t('activerecord.attributes.event.starts_at')
+            %span.col-sm-4.control-label= t('activerecord.attributes.event.starts_at') + ':'
             .col-sm-8
               %input.form-control.datepicker#event-starts-at
 
           .form-group.row
-            %span.col-sm-4.control-label= t('events.show.comp_window')
+            %span.col-sm-4.control-label= t('events.show.comp_window') + ':'
             .col-sm-3
               %input.form-control#range-from
             %span.col-sm-1.text-center= ' - '
@@ -32,7 +32,7 @@
               %input.form-control#range-to
 
           .form-group
-            %span.col-sm-4.control-label= t('activerecord.attributes.event.place')
+            %span.col-sm-4.control-label= t('activerecord.attributes.event.place') + ':'
             .col-sm-8
               %select.form-control#event-place
 

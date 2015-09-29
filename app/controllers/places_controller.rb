@@ -6,7 +6,28 @@ class PlacesController < ApplicationController
   respond_to :json, :html
 
   def index
-    @places = Place.includes(:country, :tracks).order(:name)
+    tracks_query = Track
+                   .accessible_by(current_user)
+                   .select(:place_id,
+                           'COUNT(tracks.id) tracks_count',
+                           'COUNT(tracks.user_profile_id) pilots_count')
+                   .group(:place_id)
+                   .to_sql
+
+    @places = Place
+              .joins(:country)
+              .joins('LEFT JOIN (' + tracks_query + ') tracks_count
+                       ON tracks_count.place_id = places.id')
+              .select(:id,
+                      :name,
+                      :latitude,
+                      :longitude,
+                      :msl,
+                      :country_id,
+                      'countries.name country_name',
+                      'tracks_count.tracks_count',
+                      'tracks_count.pilots_count')
+              .order('country_name, places.name')
 
     if params[:query]
       @places = @places.search(params[:query][:term]) if params[:query][:term]
@@ -59,7 +80,8 @@ class PlacesController < ApplicationController
       :country_id,
       :latitude,
       :longitude,
-      :msl
+      :msl,
+      :information
     )
   end
 end

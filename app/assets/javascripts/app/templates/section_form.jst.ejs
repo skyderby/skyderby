@@ -1,0 +1,35 @@
+<div class="modal-content">
+    <form class="form-horizontal" id="section-form" action='#' role='form'>
+        <input id="#section-id" type='hidden' name="section[id]"/>
+
+        <div class='modal-header'>
+            <button class='close' type='button' data-dismiss='modal'>
+                <span aria-hidden: 'true'>
+                    &times;
+                </span>
+                <span class='sr-only'>
+                    Close
+                </span>
+            </button>
+	    <h4 class='modal-title'><%= title %></h4>
+        </div>
+
+        <div class='modal-body'>
+            <div class='form-group'>
+                <span class='col-sm-3 control-label'>
+                    <%= I18n.t('events.show.section')+ ':' %>
+                </span>
+                <div class='col-sm-9'>
+                    <input class='form-control' id='section-name' name='section[name]' />
+                </div>
+            </div>
+        </div>
+
+        <div class='modal-footer'>
+            <input class='btn btn-primary' type='submit' value="<%= I18n.t('general.save') %>" />
+            <button class='btn btn-default' type='button' data-dismiss='modal'>
+                <%= I18n.t('general.cancel') %>
+            </button>
+        </div>
+    </form>
+</div>  

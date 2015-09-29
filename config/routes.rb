@@ -37,7 +37,11 @@ Skyderby::Application.routes.draw do
         end
       end
 
-      resources :rounds
+      resources :rounds do
+        member do
+          get 'map_data'
+        end
+      end
       resources :competitors
       resources :event_tracks
       resources :event_organizers, only: [:create, :destroy]

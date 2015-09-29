@@ -7,8 +7,7 @@ class CompetitorsController < ApplicationController
   load_and_authorize_resource :competitor, through: :event
 
   def create
-    @competitor = Competitor.new(competitor_params)
-    @competitor.event_id = params[:event_id]
+    @competitor = @event.competitors.new(competitor_params)
 
     if @competitor.save
       @competitor
