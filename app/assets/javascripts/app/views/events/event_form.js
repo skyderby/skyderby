@@ -87,13 +87,15 @@ Skyderby.views.EventForm = Backbone.View.extend({
 
         if (this.model.has('place')) {
             var current_place = this.model.get('place');
-            $('<option />', {value: current_place.id, text: current_place.name})
-                .appendTo(place_el);
+            place_el.append($('<option />', {value: current_place.id, text: current_place.name}));
+            place_el.append($('<option />', {value: ''}));
         }       
  
         place_el.select2({
+            theme: 'bootstrap',
             width: '100%',
             placeholder: I18n.t('events.show.place_placeholder'),
+            allowClear: true,
             ajax: {
                 url: '/places',
                 dataType: 'json',
