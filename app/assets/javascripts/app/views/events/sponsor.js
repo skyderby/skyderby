@@ -7,6 +7,7 @@ Skyderby.views.EventSponsor = Backbone.View.extend({
 
     render: function() {
         this.$el.append(this.template({sponsor: this.model}));
+        this.$('img').tooltip();
         return this;
     }
 
