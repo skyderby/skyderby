@@ -50,7 +50,7 @@ $.validator.addMethod('filesize', function(value, element, param) {
     return this.optional(element) || (element.files[0].size <= param);
 });
 
-function fail_ajax_request(data) {
+function fail_ajax_request(model, data) {
     var error_text = '';
     var errors_count = 0;
 

@@ -1,0 +1,24 @@
+<td class="rt-ln" data-role="row_number"></td>
+<td data-role="competitor">
+	<a class="competitor-profile-link" data-role="competitor-name" href="<%= profile.url %>">
+		<%= profile.name + ' ' %>
+	</a>
+	<span data-role="competitor-suit">
+		<%= wingsuit.name %>
+	</span>
+	<% if (can_manage) { %>
+		<span data-role="competitor-edit-ctrls">
+			<a href="#" class="edit-competitor">
+			    <i class="fa fa-pencil text-muted"></i>
+			</a>
+			<a href="#" class="delete-competitor">
+			    <i class="fa fa-times-circle text-muted"></i>
+			</a>
+		</span>
+	<% } %>
+</td>
+<td class="text-center text-muted">
+	<span class="dotted-underline" data-role="competitor-country" data-toggle="tooltip" title='<%= country.name %>'>
+		<%= country.code.toUpperCase() %>
+	</span>
+</td>

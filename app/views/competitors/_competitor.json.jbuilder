@@ -1,6 +1,12 @@
-json.extract! competitor, :id, :event_id
+json.extract! competitor,
+              :id,
+              :event_id,
+              :section_id,
+              :wingsuit_id,
+              :user_profile_id
+
 json.profile do
-  json.extract! competitor.user_profile, :id, :name
+  json.extract! competitor.user_profile, :name
   json.set! :url, user_profile_path(competitor.user_profile)
 end
 if competitor.user_profile.country
@@ -8,5 +14,4 @@ if competitor.user_profile.country
 else
   json.set! :country, name: '', code: ''
 end
-json.section competitor.section, :id if competitor.section
-json.wingsuit competitor.wingsuit, :id, :name
+json.wingsuit competitor.wingsuit, :name
