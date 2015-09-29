@@ -26,18 +26,16 @@
       - if can_manage
         %a.add-organizer{href: '#'}
           %i.fa.fa-plus
-          Add organizer
+          = t('.add_judge')
   .row.top-buffer
     .col-md-12
-      %h4 Event sponsors:
+      %h4= t('.event_sponsors') + ':'
   .row#sponsors
 
   - if can_manage
     %a.add-sponsor{href: '#'}
       %i.fa.fa-plus
-      Add sponsor
-
-    
+      = t('.add_sponsor')
 
 -# Modals
 .modal.fade#modal{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
