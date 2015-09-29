@@ -6,6 +6,7 @@ module Skyderby
       HEADERS = {
         flysight: %w(time lat lon hMSL velN velE velD hAcc vAcc sAcc gpsFix numSV),
         flysight2: %w(time lat lon hMSL velN velE velD hAcc vAcc sAcc heading cAcc gpsFix numSV),
+        flysight3: %w(time lat lon hMSL velN velE velD hAcc vAcc sAcc gpsFix numSV status),
         columbusV900: %w(INDEX TAG DATE TIME LATITUDE\ N/S LONGITUDE\ E/W HEIGHT SPEED HEADING VOX)
       }.freeze
 
@@ -16,7 +17,7 @@ module Skyderby
         when '.csv'
 
           case csv_file_format(data)
-          when :flysight, :flysight2
+          when :flysight, :flysight2, :flysight3
             FlySightParser.new data, extension
           when :columbusV900
             ColumbusParser.new data, extension
