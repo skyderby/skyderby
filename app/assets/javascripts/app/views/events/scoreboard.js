@@ -5,7 +5,8 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
     events: {
        'click .edit-result'      : 'on_edit_result_click',
        'click .show-result'      : 'on_show_result_click',
-       'click .delete-round'     : 'on_delete_round_click'
+       'click .delete-round'     : 'on_delete_round_click',
+       'click .round-map-view'   : 'on_round_map_view_click'
     },
     
     units: {
@@ -47,6 +48,8 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
         this.listenTo(this.model.rounds, 'remove', this.delete_round);
 
         this.listenTo(this.model.tracks, 'add', this.create_result);
+        this.listenTo(this.model.tracks, 'request', this.on_result_request);
+        this.listenTo(this.model.tracks, 'error', this.on_result_request_error);
         this.listenTo(this.model.tracks, 'remove', this.delete_result);
 
         this.listenTo(this.model.rounds, 'add remove', this.calculate_totals);
@@ -71,6 +74,15 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
         this.model.rounds.get(round_id).destroy({wait: true});
     },
 
+    on_round_map_view_click: function(e) {
+        e.preventDefault();
+        var round_id = $(e.currentTarget).closest('td').data('round-id');
+        var round = this.model.rounds.get(round_id);
+        var view = new Skyderby.views.RoundMapView({
+            model: round
+        });
+        view.render().open();
+    },
     // Results
 
     on_edit_result_click: function(e) {
@@ -90,6 +102,8 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
                 competitor_id: competitor_id,
                 round_id: $(e.currentTarget).data('round-id')
             });
+            this.listenTo(new_result, 'request', this.on_result_request);
+            this.listenTo(new_result, 'error', this.on_result_request_error);
             var result_form = new Skyderby.views.NewResultForm({model: new_result});
             result_form.render().open();
         }
@@ -770,6 +784,7 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
                             '[data-role=points]');
 
         result_cell.text(result.get('result'))
+            .removeClass('text-center')
             .attr('data-result-id', result.id)
             .attr('data-track-id', result.get('track_id'))
             .attr('data-url', result.get('url'));
@@ -802,5 +817,19 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
         // this.calculate_totals();
         // this.sort_by_points();
         // this.set_row_numbers();
+    },
+
+    on_result_request: function(result) {
+        var result_cell = $('#competitor_' + result.get('competitor_id') + ' > ' +
+                            'td[data-round-id=' + result.get('round_id') + ']' + 
+                            '[data-role=result]');
+        result_cell.html($('<i>').addClass('fa fa-spin fa-circle-o-notch text-danger')).addClass('text-center');
+    },
+
+    on_result_request_error: function(result) {
+        var result_cell = $('#competitor_' + result.get('competitor_id') + ' > ' +
+                            'td[data-round-id=' + result.get('round_id') + ']' + 
+                            '[data-role=result]');
+        result_cell.find('i').remove().removeClass('text-center');
     }
 });

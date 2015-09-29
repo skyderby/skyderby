@@ -59,7 +59,7 @@ Skyderby.views.SponsorForm = Backbone.View.extend({
 
         this.model.set(params);
         if (this.model.isNew()) {
-            window.Competition.sponsors.create(this.model, {wait: true});
+            window.Competition.sponsors.create(this.model, {wait: true, error: fail_ajax_request});
         } else {
             this.model.save();
         }
