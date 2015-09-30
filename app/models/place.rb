@@ -22,7 +22,7 @@ class Place < ActiveRecord::Base
   validates :country, presence: true
   validates :latitude, presence: true
   validates :longitude, presence: true
-  validates :msl, presence: true
+  # validates :msl, presence: true
 
   def pilots_accessible_by(user)
     UserProfile.where(

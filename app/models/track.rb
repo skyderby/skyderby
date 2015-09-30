@@ -69,6 +69,7 @@ class Track < ActiveRecord::Base
 
   delegate :tracksuit?, to: :wingsuit, allow_nil: true
   delegate :wingsuit?, to: :wingsuit, allow_nil: true
+  delegate :msl, to: :place, allow_nil: true, prefix: true
 
   def competitive?
     event_track.present?
