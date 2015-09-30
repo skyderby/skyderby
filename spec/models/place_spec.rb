@@ -45,9 +45,9 @@ RSpec.describe Place, type: :model do
       expect(Place.create(valid_attributes.merge(longitude: nil))).not_to be_valid
     end
 
-    it 'requires msl' do
-      expect(Place.create(valid_attributes.merge(msl: nil))).not_to be_valid
-    end
+    # it 'requires msl' do
+    #   expect(Place.create(valid_attributes.merge(msl: nil))).not_to be_valid
+    # end
   end
 
   context 'performs search by name and country name' do

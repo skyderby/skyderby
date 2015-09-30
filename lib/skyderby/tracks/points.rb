@@ -108,8 +108,8 @@ module Skyderby
         msl_offset =
           if @track.ground_level > 0
             @track.ground_level
-          elsif @track.place
-            @track.place.msl
+          elsif @track.place_msl
+            @track.place_msl
           else
             points.map { |x| x[:abs_altitude] }.min
           end
