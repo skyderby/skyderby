@@ -1,4 +1,4 @@
-en:
+ru:
   activerecord:
     errors:
       models:
@@ -6,4 +6,4 @@ en:
           attributes:
             base:
               restrict_dependent_destroy:
-                many: 'Delete round results first'
+                many: 'Перед удалением раунда необходимо удалить результаты раунда.'

@@ -106,7 +106,7 @@ module Skyderby
         fl_time = 0
 
         msl_offset =
-          if @track.ground_level > 0
+          if @track.ground_level && @track.ground_level > 0
             @track.ground_level
           elsif @track.place_msl
             @track.place_msl
