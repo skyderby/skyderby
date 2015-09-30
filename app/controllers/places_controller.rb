@@ -49,9 +49,15 @@ class PlacesController < ApplicationController
   def create
     @place = Place.new place_params
     if @place.save
-      redirect_to places_path
+      respond_to do |format|
+        format.html { redirect_to places_path }
+        format.json { @place }
+      end
     else
-      render action: 'new'
+      respond_to do |format|
+        format.html { render action: 'new' }
+        format.json { render json: @place.errors, status: :unprocessible_entry } 
+      end
     end
   end
 
