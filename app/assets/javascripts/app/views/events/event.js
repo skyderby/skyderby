@@ -41,6 +41,7 @@ Skyderby.views.EventView = Backbone.View.extend({
 
         this.scoreboard.render();
 
+        this.organizers = $('#judges-list');
         this.sponsors = $('#sponsors');
 
         this.add_all_organizers();
@@ -79,8 +80,12 @@ Skyderby.views.EventView = Backbone.View.extend({
         }
     },
 
-    add_organizer: function() {
-
+    add_organizer: function(organizer) {
+        var view = new Skyderby.views.EventOrganizer({
+            model: organizer,
+            can_manage: this.can_manage
+        });
+        this.organizers.append(view.render().el);   
     },
 
     add_all_organizers: function() {
@@ -88,7 +93,10 @@ Skyderby.views.EventView = Backbone.View.extend({
     },
 
     add_sponsor: function(sponsor) {
-        var view = new Skyderby.views.EventSponsor({model: sponsor});
+        var view = new Skyderby.views.EventSponsor({
+            model: sponsor,
+            can_manage: this.can_manage
+        });
         this.sponsors.append(view.render().el);   
     },
 
@@ -136,5 +144,12 @@ Skyderby.views.EventView = Backbone.View.extend({
         var new_sponsor = new Skyderby.models.EventSponsor();
         var sponsor_form = new Skyderby.views.SponsorForm({model: new_sponsor});
         sponsor_form.render().open();
+    },
+
+    add_organizer_click: function(e) {
+        e.preventDefault();
+        var new_organizer = new Skyderby.models.EventOrganizer();
+        var organizer_form = new Skyderby.views.EventOrganizerForm({model: new_organizer});
+        organizer_form.render().open();
     }
 });
