@@ -7,7 +7,7 @@ class EventOrganizersController < ApplicationController
   load_and_authorize_resource :event_organizer, through: :event
 
   def create
-    @event_organizer = EventOrganizer.new event_organizer_params
+    @event_organizer = @event.event_organizers.new event_organizer_params
 
     if @event_organizer.save
       @event_organizer
