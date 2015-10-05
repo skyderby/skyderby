@@ -20,7 +20,7 @@
             .dst-unit.fa-2x= t 'units.m'
           .param
             %i.fa.fa-fw.fa-lg.fa-arrows-v
-            =t 'tracks.show.adc_h_s'
+            =t '.altitude'
 
         .col-md-3.col-sm-4.col-xs-6
           .param-val
@@ -28,7 +28,7 @@
             .spd-unit.fa-2x=t 'units.kmh'
           .param
             %i.fa.fa-fw.fa-lg.fa-long-arrow-down
-            =t 'tracks.show.dt_vspd'
+            =t '.vertical_speed'
 
         .col-md-3.col-sm-4.col-xs-6
           .param-val
@@ -36,11 +36,11 @@
             .spd-unit.fa-2x=t 'units.kmh'
           .param
             %i.fa.fa-fw.fa-lg.fa-long-arrow-right
-            =t 'tracks.show.dt_hspd'
+            =t '.horizontal_speed'
 
         .col-md-3.col-sm-4.col-xs-6
           .param-val
             .avg-val.fa-3x#p_cur_gr= '-.--'
           .param
             %i.fa.fa-fw.fa-lg.fa-ellipsis-h
-            =t 'tracks.show.dt_gr'
+            =t '.glide_ratio'
