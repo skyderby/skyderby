@@ -1,0 +1,7 @@
+en:
+  tracks:
+    replay:
+      altitude: Altitude
+      vertical_speed: Vertical speed
+      horizontal_speed: Ground speed
+      glide_ratio: Glide ratio
