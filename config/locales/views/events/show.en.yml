@@ -24,6 +24,7 @@ en:
       result_file: 'File with track'
       result_or: 'Or'
       result_in: 'in'
+      delete_result: 'Delete result'
       toggle_new_track: 'upload new one'
       toggle_existed_track: 'select existed track'
       event_sponsors: 'Event sponsors'

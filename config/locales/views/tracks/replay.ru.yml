@@ -1,0 +1,7 @@
+ru:
+  tracks:
+    replay:
+      altitude: Высота
+      vertical_speed: Вертикальная скорость
+      horizontal_speed: Путевая скорость
+      glide_ratio: Качество полета
