@@ -12,6 +12,7 @@ class TracksController < ApplicationController
     respond_to do |format|
       format.any(:html, :js) do
         @tracks = @tracks.includes(
+          :video,
           :place,
           :pilot,
           :time,
@@ -176,6 +177,11 @@ class TracksController < ApplicationController
 
     if params[:query][:profile_id]
       @tracks = @tracks.where(user_profile_id: params[:query][:profile_id])
+    end
+
+    if params[:query][:kind]
+      @tracks = @tracks.base if params[:query][:kind] == 'base'
+      @tracks = @tracks.skydive if params[:query][:kind] == 'skydive'
     end
 
     @tracks = @tracks.search(params[:query][:term]) if params[:query][:term]
