@@ -9,12 +9,13 @@
     .col-sm-9
       .pull-right
         .btn-group
-          - kind = nil || (params[:query][:kind] if params[:query])
-          %a.btn.btn-default{href: tracks_path, class: ('active' unless kind)}
+          - params_query = params[:query] || {}
+          - kind = params_query[:kind]
+          %a.btn.btn-default{href: tracks_path(query: params_query.except(:kind)), class: ('active' unless kind)}
             = t '.all'
-          %a.btn.btn-default{href: tracks_path(query: {kind: :skydive}), class: ('active' if kind == 'skydive')} 
+          %a.btn.btn-default{href: tracks_path(query: params_query.merge(kind: :skydive)), class: ('active' if kind == 'skydive')} 
             Skydive
-          %a.btn.btn-default{href: tracks_path(query: {kind: :base}), class: ('active' if kind == 'base')}
+          %a.btn.btn-default{href: tracks_path(query: params_query.merge(kind: :base)), class: ('active' if kind == 'base')}
             B.A.S.E
   .row
     .col-sm-12.top-buffer
