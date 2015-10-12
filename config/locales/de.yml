@@ -8,6 +8,7 @@ de:
         place: 'Ort'
         comment: 'Kommentar'
         uploaded_at: 'Hochgeladen am'
+        recorded_at: 'Aufnahmdatum'
       user_profile:
         last_name: "Last name:"
         first_name: "First name:"

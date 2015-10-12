@@ -51,7 +51,7 @@
               %th.text-right= 'Best speed'
             - if @competition.display_highest_gr
               %th.text-right= 'Best G/R'
-            %th.text-right=t 'activerecord.attributes.track.uploaded_at'
+            %th.text-right=t 'activerecord.attributes.track.recorded_at'
             %th
         %tbody
           - results_by_pilot.each_with_index do |result, index|
@@ -70,7 +70,7 @@
                 %td.text-right= (best_result.highest_speed || 0.0).round(1)
               - if @competition.display_highest_gr
                 %td.text-right= (best_result.highest_gr || 0.0).round(2)
-              %td.text-right= best_result.track.created_at.strftime('%d.%m.%Y')
+              %td.text-right= best_result.track.recorded_at.strftime('%d.%m.%Y')
               %td
                 - if best_result.track.video
                   %i.fa.fa-video-camera
