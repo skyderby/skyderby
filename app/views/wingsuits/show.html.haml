@@ -39,7 +39,7 @@
             %th.text-right= t('disciplinse.speed')
             %th.text-right= t('disciplinse.time')
             %th=t 'activerecord.attributes.track.comment'
-            %th=t 'activerecord.attributes.track.uploaded_at'
+            %th=t 'activerecord.attributes.track.recorded_at'
             %th
         %tbody
           - @wingsuit.tracks.accessible_by(current_user).skydive.order('id DESC').each do |track|
@@ -51,7 +51,7 @@
               %td.text-info= track.speed.result if track.speed
               %td.text-info= track.time.result if track.time
               %td.text-muted= track.comment
-              %td.text-info= track.created_at.strftime('%d.%m.%Y')
+              %td.text-info= track.recorded_at.strftime('%d.%m.%Y')
               %td= track_icons(track)
 
     #tab-pane-base.tab-pane{role: "tabpanel"}
