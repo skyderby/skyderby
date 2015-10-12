@@ -18,5 +18,5 @@
   %td.text-right
     %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.time)}
       = track.time.result if track.time
-  %td.text-info= track.created_at.strftime('%d.%m.%Y')
+  %td.text-info= track.recorded_at.strftime('%d.%m.%Y')
   %td= track_icons(track)

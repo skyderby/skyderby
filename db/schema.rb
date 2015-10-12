@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150918163723) do
+ActiveRecord::Schema.define(version: 20151012065206) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer "user_id", limit: 4
@@ -281,6 +281,7 @@ ActiveRecord::Schema.define(version: 20150918163723) do
     t.datetime "file_updated_at"
     t.integer  "track_file_id",     limit: 4
     t.integer  "ground_level",      limit: 4,     default: 0
+    t.datetime "recorded_at"
   end
 
   add_index "tracks", ["place_id"], name: "index_tracks_on_place_id", using: :btree
