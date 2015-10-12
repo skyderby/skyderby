@@ -41,6 +41,8 @@ class CreateTrackService
 
     @track.tracksegments << track_segment
 
+    @track.recorded_at = points.last.gps_time
+
     @track.save
     @track
   end
