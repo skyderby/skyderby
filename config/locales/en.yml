@@ -8,6 +8,7 @@ en:
         place: 'Place'
         comment: 'Comment'
         uploaded_at: 'Uploaded at'
+        recorded_at: 'Recorded at'
       user_profile:
         last_name: "Last name:"
         first_name: "First name:"

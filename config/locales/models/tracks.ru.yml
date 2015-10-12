@@ -10,4 +10,4 @@ ru:
         place: 'Локация'
         comment: 'Комментарий'
         uploaded_at: 'Дата загрузки'
-
+        recorded_at: 'Дата записи'
