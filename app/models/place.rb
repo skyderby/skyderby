@@ -48,7 +48,7 @@ class Place < ActiveRecord::Base
                 POW(111 * (' + point.longitude.to_s + ' - longitude) * COS(latitude / (180/PI()) ), 2)
               ) AS distance')
         .having('distance < :radius', radius: radius)
-        .order('distance DESC')
+        .order('distance')
     end
   end
 end
