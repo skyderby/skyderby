@@ -1,5 +1,8 @@
-Skyderby.helpers.TrackSuitSelect = function(elem) {
-    elem.select2({
+Skyderby.helpers.SuitSelect = function(elem, opts) {
+
+    if (!opts) opts = {};
+
+    var options = {
         theme: 'bootstrap',
         width: '100%',
         placeholder: I18n.t('tracks.form.suit_select_placeholder'),
@@ -42,5 +45,9 @@ Skyderby.helpers.TrackSuitSelect = function(elem) {
             },
             cache: true
         }
-    });
+    };
+
+    $.extend(options, opts);
+
+    elem.select2(options);
 };

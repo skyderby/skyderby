@@ -1,37 +1,44 @@
 .container
   .tracks-index
-  .page-header
-    %h1=t '.title'
-  .row
-    .col-sm-3
-      %strong Explore:
-      %a.btn.btn-default{href: wingsuits_path} wingsuits
-    .col-sm-9
-      .pull-right
-        .btn-group
-          - kind = nil || (params[:query][:kind] if params[:query])
-          %a.btn.btn-default{href: tracks_path, class: ('active' unless kind)}
-            = t '.all'
-          %a.btn.btn-default{href: tracks_path(query: {kind: :skydive}), class: ('active' if kind == 'skydive')} 
-            Skydive
-          %a.btn.btn-default{href: tracks_path(query: {kind: :base}), class: ('active' if kind == 'base')}
-            B.A.S.E
-  .row
-    .col-sm-12.top-buffer
-      %table#tracks-index.table.table-hover
-        %thead
-          %tr
-            %th=t 'activerecord.attributes.track.id'
-            %th=t 'activerecord.attributes.track.name'
-            %th=t 'activerecord.attributes.track.suit'
-            %th=t 'activerecord.attributes.track.place'
-            %th=t 'activerecord.attributes.track.comment'
-            %th=t 'disciplines.distance'
-            %th=t 'disciplines.speed'
-            %th=t 'disciplines.time'
-            %th=t 'activerecord.attributes.track.recorded_at'
-            %th
-        %tbody
-          = render @tracks
+    .page-header
+      %h1=t '.title'
+    .row
+      .col-sm-12
+        %h3=t '.filters'
+    .row
+      .col-sm-3
+        %select{name: 'query[profile_id]'}
+      .col-sm-3
+        %select{name: 'query[suit_id]'}
+      .col-sm-3
+        %select{name: 'query[place_id]'}
+      .col-sm-3
+        .pull-right
+          .btn-group
+            - params_query = params[:query] || {}
+            - kind = params_query[:kind]
+            %a.btn.btn-sm.btn-default{href: tracks_path(query: params_query.except(:kind)), class: ('active' unless kind)}
+              = t '.all'
+            %a.btn.btn-sm.btn-default{href: tracks_path(query: params_query.merge(kind: :skydive)), class: ('active' if kind == 'skydive')} 
+              Skydive
+            %a.btn.btn-sm.btn-default{href: tracks_path(query: params_query.merge(kind: :base)), class: ('active' if kind == 'base')}
+              B.A.S.E
+    .row
+      .col-sm-12.top-buffer
+        %table#tracks-index.table.table-hover
+          %thead
+            %tr
+              %th=t 'activerecord.attributes.track.id'
+              %th=t 'activerecord.attributes.track.name'
+              %th=t 'activerecord.attributes.track.suit'
+              %th=t 'activerecord.attributes.track.place'
+              %th=t 'activerecord.attributes.track.comment'
+              %th=t 'disciplines.distance'
+              %th=t 'disciplines.speed'
+              %th=t 'disciplines.time'
+              %th=t 'activerecord.attributes.track.recorded_at'
+              %th
+          %tbody
+            = render @tracks
 
-  = will_paginate @tracks, renderer: BootstrapPagination::Rails
+    = will_paginate @tracks, renderer: BootstrapPagination::Rails
