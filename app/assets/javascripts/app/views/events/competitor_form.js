@@ -168,38 +168,10 @@ Skyderby.views.CompetitorForm = Backbone.View.extend({
             select_field.append(option);
         }
  
-        select_field.select2({
-            theme: 'bootstrap',
-            width: '100%',
-            placeholder: I18n.t('events.show.profile_placeholder'),
-            ajax: {
-                url: '/user_profiles',
-                dataType: 'json',
-                type: "GET",
-                quietMillis: 50,
-                data: function (term) {
-                    return {
-                        query: term
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: $.map(data, function (item) {
-                            return {
-                                text: item.name,
-                                id: item.id
-                            };
-                        })
-                    };
-                },
-                cache: true
-            }
-        });
-
+        Skyderby.helpers.PilotSelect(select_field, { placeholder: I18n.t('events.show.profile_placeholder') });
     },
 
     init_suit_select: function() {
-
         var select_field = this.$('select[name="competitor[wingsuit_id]"]');
 
         if (this.model.has('wingsuit')) {
@@ -211,54 +183,10 @@ Skyderby.views.CompetitorForm = Backbone.View.extend({
             select_field.append(option);
         }
 
-        select_field.select2({
-            theme: 'bootstrap',
-            width: '100%',
-            placeholder: I18n.t('events.show.suit_placeholder'),
-            ajax: {
-                url: '/wingsuits',
-                dataType: 'json',
-                type: "GET",
-                quietMillis: 50,
-                data: function (term) {
-                    return {
-                        query: term
-                    };
-                },
-                processResults: function (data) {
-                    var suits_data = _.chain(data)
-                        .map(function(obj) {
-                            return {
-                                id: obj.id,
-                                text: obj.name,
-                                manufacturer: obj.manufacturer.name
-                            };
-                        })
-                        .groupBy(function(obj) { 
-                            return obj.manufacturer;
-                        })
-                        .map(function(obj, key) {
-                            return {
-                                text: key, 
-                                children: obj
-                            };
-                        })
-                        .sortBy(function(obj) {
-                            return obj.text;
-                        })
-                        .value();
-                    return {
-                        results: suits_data
-                    };
-                },
-                cache: true
-            }
-        });
-
+        Skyderby.helpers.SuitSelect(select_field, { placeholder: I18n.t('events.show.suit_placeholder')});
     },
 
     init_section_select: function() {
-        
         var select_field = this.$('select[name="competitor[section_id]"]');
 
         window.Competition.sections.each(function(value) {
