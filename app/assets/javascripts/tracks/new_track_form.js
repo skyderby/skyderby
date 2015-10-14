@@ -50,7 +50,7 @@ NewTrackForm.prototype = {
 
         this.$form_location.val(this.location);
 
-        new Skyderby.helpers.TrackSuitSelect(this.$form_suit_select);
+        new Skyderby.helpers.SuitSelect(this.$form_suit_select);
         this.init_form_validation();
 
         this.$form_toggle_suit.data('state', 'select');

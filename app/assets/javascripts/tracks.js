@@ -26,5 +26,10 @@ $(document).on('ready page:load', function() {
         });
         view.render();
 
+    } else if ($('.tracks-index').length) {
+        view = new Skyderby.views.TrackIndexView({
+            el: '.tracks-index'
+        });
+        view.render();
     }
 });

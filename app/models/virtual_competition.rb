@@ -59,4 +59,8 @@ class VirtualCompetition < ActiveRecord::Base
       VirtualCompWorker.perform_async(x.track_id)
     end
   end
+
+  def worldwide?
+    place.nil?
+  end
 end

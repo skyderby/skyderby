@@ -4,3 +4,7 @@ ru:
       title: 'Загруженные треки:'
       track_not_found: 'Трек #%{id} не найден'
       all: 'Все'
+      filters: 'Фильтры'
+      filter_by_pilot: 'По пилоту'
+      filter_by_suit: 'По костюму'
+      filter_by_place: 'По локации'
