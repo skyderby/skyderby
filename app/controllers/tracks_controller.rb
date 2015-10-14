@@ -175,15 +175,17 @@ class TracksController < ApplicationController
   def apply_filters!
     return unless params[:query]
 
-    if params[:query][:profile_id]
-      @tracks = @tracks.where(user_profile_id: params[:query][:profile_id])
+    query = params[:query]
+
+    @tracks = @tracks.where(user_profile_id: query[:profile_id]) if query[:profile_id]
+    @tracks = @tracks.where(wingsuit_id: query[:suit_id]) if query[:suit_id]
+    @tracks = @tracks.where(place_id: query[:place_id]) if query[:place_id]
+
+    if query[:kind]
+      @tracks = @tracks.base if query[:kind] == 'base'
+      @tracks = @tracks.skydive if query[:kind] == 'skydive'
     end
 
-    if params[:query][:kind]
-      @tracks = @tracks.base if params[:query][:kind] == 'base'
-      @tracks = @tracks.skydive if params[:query][:kind] == 'skydive'
-    end
-
-    @tracks = @tracks.search(params[:query][:term]) if params[:query][:term]
+    @tracks = @tracks.search(query[:term]) if query[:term]
   end
 end

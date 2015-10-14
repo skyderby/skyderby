@@ -51,7 +51,7 @@ Skyderby.views.TrackEditView = Backbone.View.extend({
             select_field.append($('<option />', { value: '' }));
         }
 
-        new Skyderby.helpers.TrackSuitSelect(select_field);
+        new Skyderby.helpers.SuitSelect(select_field);
     },
 
     init_place_select: function() {
@@ -122,34 +122,7 @@ Skyderby.views.TrackEditView = Backbone.View.extend({
             select_field.append($('<option />', { value: '' }));
         }
 
-        select_field.select2({
-            theme: 'bootstrap',
-            width: '100%',
-            placeholder: I18n.t('tracks.form.profile_select_placeholder'),
-            allowClear: true,
-            ajax: {
-                url: '/user_profiles',
-                dataType: 'json',
-                type: "GET",
-                quietMillis: 50,
-                data: function (term) {
-                    return {
-                        query: term
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: $.map(data, function (item) {
-                            return {
-                                text: item.name,
-                                id: item.id
-                            };
-                        })
-                    };
-                },
-                cache: true
-            }
-        });
+        Skyderby.helpers.PilotSelect(select_field);
     },
 
     init_form_validation: function() {
