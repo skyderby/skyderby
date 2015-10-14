@@ -3,7 +3,6 @@ Skyderby.views.TrackIndexView = Backbone.View.extend({
     url_params: {},
 
     events: {
-        'select2:unselecting select': 'on_unselect',
         'change select[name="query[profile_id]"]' : 'on_change_pilot',
         'change select[name="query[suit_id]"]' : 'on_change_suit',
         'change select[name="query[place_id]"]' : 'on_change_place'
@@ -23,44 +22,54 @@ Skyderby.views.TrackIndexView = Backbone.View.extend({
 
     on_change_pilot: function(e) {
         var select_field = $(e.currentTarget);
-        var selected_val = select_field.val();
+        var selected_val = select_field.find('option:selected');
 
-        if (selected_val) {
+        if (selected_val.val()) {
             $.extend(this.url_params, {
-                'query[profile_id]': select_field.val(),
-                'query[profile_name]': select_field.text(),
+                'query[profile_id]': selected_val.val(),
+                'query[profile_name]': selected_val.text(),
             });
         } else {
             this.url_params = _.omit(this.url_params, [ 'query[profile_id]', 'query[profile_name]' ]);
         }
 
-        Turbolinks.visit('/' + I18n.currentLocale() + '/tracks?' + $.param(this.url_params));
+        var path = '/' + I18n.currentLocale() + '/tracks';
+        if (!Skyderby.helpers.isEmptyObject(this.url_params)) {
+            path += '?' + $.param(this.url_params);
+        }
+
+        Turbolinks.visit(path);
     },
 
     on_change_suit: function(e) {
         var select_field = $(e.currentTarget);
-        var selected_val = select_field.val();
+        var selected_val = select_field.find('option:selected');
 
-        if (selected_val) {
+        if (selected_val.val()) {
             $.extend(this.url_params, {
-                'query[suit_id]': select_field.val(),
-                'query[suit_name]': select_field.text(),
+                'query[suit_id]': selected_val.val(),
+                'query[suit_name]': selected_val.text(),
             });
         } else {
             this.url_params = _.omit(this.url_params, [ 'query[suit_id]', 'query[suit_name]' ]);
         }
 
-        Turbolinks.visit('/' + I18n.currentLocale() + '/tracks?' + $.param(this.url_params));
+        var path = '/' + I18n.currentLocale() + '/tracks';
+        if (!Skyderby.helpers.isEmptyObject(this.url_params)) {
+            path += '?' + $.param(this.url_params);
+        }
+
+        Turbolinks.visit(path);
     },
 
     on_change_place: function(e) {
         var select_field = $(e.currentTarget);
-        var selected_val = select_field.val();
+        var selected_val = select_field.find('option:selected');
 
-        if (selected_val) {
+        if (selected_val.val()) {
             $.extend(this.url_params, {
-                'query[place_id]': select_field.val(),
-                'query[place_name]': select_field.text(),
+                'query[place_id]': selected_val.val(),
+                'query[place_name]': selected_val.text(),
             });
         } else {
             this.url_params = _.omit(this.url_params, [ 'query[place_id]', 'query[place_name]' ]);
@@ -112,9 +121,4 @@ Skyderby.views.TrackIndexView = Backbone.View.extend({
 
         Skyderby.helpers.PlaceSelect(select_field, { placeholder: I18n.t('tracks.index.filter_by_place') });
     },
-
-    on_unselect: function(e) {
-        // $(e.currentTarget).val('');
-        // e.preventDefault();
-    }
 });
