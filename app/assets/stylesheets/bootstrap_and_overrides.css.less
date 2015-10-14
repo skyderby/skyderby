@@ -46,6 +46,27 @@
 
 @nav-link-padding:          10px 10px;
 
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+        margin:0;
+	width: auto;
+    }
+
+    body {
+        padding:0;
+    }
+
+    .navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {
+        margin-left: 0px;
+        margin-right: 0px;
+	padding-left: 10px;
+	padding-right: 10px;
+        margin-bottom: 0px;
+    }
+}
+
 .modal-dialog {
   z-index: 1041;
 }
