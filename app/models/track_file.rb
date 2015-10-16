@@ -17,7 +17,7 @@ class TrackFile < ActiveRecord::Base
   has_one :track
 
   has_attached_file :file
-  validates_attachment_file_name :file, matches: [/csv\Z/i, /gpx\Z/i, /tes\Z/i]
+  validates_attachment_file_name :file, matches: [/csv\Z/i, /gpx\Z/i, /tes\Z/i, /kml\Z/i]
 
   def track_file_data(index = 0)
     @track_file_data ||= file_processor.read_track_data(index)
