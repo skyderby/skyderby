@@ -29,6 +29,8 @@ module Skyderby
           GPXParser.new data, extension
         when '.tes'
           TESParser.new data, extension
+        when '.kml'
+          KMLParser.new data, extension
         end
       end
 
