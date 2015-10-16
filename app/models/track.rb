@@ -30,7 +30,7 @@
 class Track < ActiveRecord::Base
   enum kind:       [:skydive, :base]
   enum visibility: [:public_track, :unlisted_track, :private_track]
-  enum gps_type:   [:gpx, :flysight, :columbus, :wintec, :cyber_eye]
+  enum gps_type:   [:gpx, :flysight, :columbus, :wintec, :cyber_eye, :kml]
 
   belongs_to :track_file
 
