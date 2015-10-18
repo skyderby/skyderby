@@ -5,9 +5,10 @@ class TracksController < ApplicationController
     [:show, :google_maps, :google_earth, :replay, :edit, :update, :destroy]
 
   def index
-    @tracks = Track.accessible_by(current_user).order('id DESC')
+    @tracks = Track.accessible_by(current_user)
 
     apply_filters!
+    apply_order!
 
     respond_to do |format|
       format.any(:html, :js) do
@@ -173,9 +174,9 @@ class TracksController < ApplicationController
   end
 
   def apply_filters!
-    return unless params[:query]
-
     query = params[:query]
+
+    return unless query
 
     @tracks = @tracks.where(user_profile_id: query[:profile_id]) if query[:profile_id]
     @tracks = @tracks.where(wingsuit_id: query[:suit_id]) if query[:suit_id]
@@ -187,5 +188,20 @@ class TracksController < ApplicationController
     end
 
     @tracks = @tracks.search(query[:term]) if query[:term]
+  end
+
+  def apply_order!
+    order = params[:order] || ''
+    order_params = order.split(' ')
+
+    order_field = order_params[0] || 'id'
+    order_direction = order_params[1] || 'DESC'
+
+    allowed_fields = %w(ID RECORDED_AT)
+    allowed_directions = %w(ASC DESC)
+    return unless allowed_fields.include?(order_field.upcase) ||
+                  allowed_directions.include?(order_direction.upcase)
+
+    @tracks = @tracks.order(order_field + ' ' + order_direction)
   end
 end
