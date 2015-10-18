@@ -177,3 +177,5 @@
     background-color: rgb(96, 0, 12);
     color: rgb(244, 244, 244);
 }
+
+#tracks-index tr > td:nth-child(1) { min-width: 55px; }

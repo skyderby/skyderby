@@ -25,10 +25,24 @@
               B.A.S.E
     .row
       .col-sm-12.top-buffer
+        - params_order = (params[:order] || '').split(' ')
+        - order_field = (params_order[0] || 'id').upcase
+        - order_direction = (params_order[1] || 'DESC').upcase
         %table#tracks-index.table.table-hover
           %thead
             %tr
-              %th=t 'activerecord.attributes.track.id'
+              %th
+                %span=t 'activerecord.attributes.track.id'
+                - if order_field == 'ID' && order_direction == 'DESC'
+                  %a{href: tracks_path(params.merge(order: 'id ASC')), 'data-toggle' => 'tooltip', title: 'Sort by ID ascending'}
+                    %i.fa.fa-sort-amount-desc
+                - elsif order_field == 'ID' && order_direction == 'ASC'
+                  %a{href: tracks_path(params.merge(order: 'id DESC')), 'data-toggle' => 'tooltip', title: 'Sort by ID descending'}
+                    %i.fa.fa-sort-amount-asc
+                - else
+                  %a.text-muted{href: tracks_path(params.merge(order: 'id DESC')), 'data-toggle' => 'tooltip', title: 'Sort by ID descending'}
+                    %i.fa.fa-sort-amount-desc
+                
               %th=t 'activerecord.attributes.track.name'
               %th=t 'activerecord.attributes.track.suit'
               %th=t 'activerecord.attributes.track.place'
@@ -36,7 +50,19 @@
               %th=t 'disciplines.distance'
               %th=t 'disciplines.speed'
               %th=t 'disciplines.time'
-              %th=t 'activerecord.attributes.track.recorded_at'
+              %th
+                %span
+                  =t 'activerecord.attributes.track.recorded_at'
+                - if order_field == 'RECORDED_AT' && order_direction == 'DESC'
+                  %a{href: tracks_path(params.merge(order: 'recorded_at ASC')), 'data-toggle' => 'tooltip', title: 'Sort by recorded at ascending'}
+                    %i.fa.fa-sort-amount-desc
+                - elsif order_field == 'RECORDED_AT' && order_direction == 'ASC'
+                  %a{href: tracks_path(params.merge(order: 'recorded_at DESC')), 'data-toggle' => 'tooltip', title: 'Sort by recorded at descending'}
+                    %i.fa.fa-sort-amount-asc
+                - else
+                  %a.text-muted{href: tracks_path(params.merge(order: 'recorded_at DESC')), 'data-toggle' => 'tooltip', title: 'Sort by recorded at descending'}
+                    %i.fa.fa-sort-amount-desc
+
               %th
           %tbody
             = render @tracks
