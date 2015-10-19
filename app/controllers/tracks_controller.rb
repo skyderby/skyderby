@@ -12,13 +12,32 @@ class TracksController < ApplicationController
 
     respond_to do |format|
       format.any(:html, :js) do
-        @tracks = @tracks.includes(
+        @tracks = @tracks.select(
+          %(
+            tracks.*,
+            time.result AS time_result,
+            time.range_from AS time_range_from,
+            time.range_to AS time_range_to,
+            distance.result AS distance_result,
+            distance.range_from AS distance_range_from,
+            distance.range_to AS distance_range_to,
+            speed.result AS speed_result,
+            speed.range_from AS speed_range_from,
+            speed.range_to AS speed_range_to
+          )
+        ).joins(
+          %(
+            LEFT JOIN track_results AS time
+              ON time.track_id = tracks.id AND time.discipline = 0
+            LEFT JOIN track_results AS distance
+              ON distance.track_id = tracks.id AND distance.discipline = 1
+            LEFT JOIN track_results AS speed
+              ON speed.track_id = tracks.id AND speed.discipline = 2
+          )
+        ).includes(
           :video,
           :place,
           :pilot,
-          :time,
-          :distance,
-          :speed,
           :wingsuit,
           wingsuit: [:manufacturer]
         ).paginate(page: params[:page], per_page: 50)
