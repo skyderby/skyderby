@@ -17,11 +17,11 @@
           .btn-group
             - params_query = params[:query] || {}
             - kind = params_query[:kind]
-            %a.btn.btn-sm.btn-default{href: tracks_path(query: params_query.except(:kind)), class: ('active' unless kind)}
+            %a.btn.btn-sm.btn-default{href: tracks_path(params.merge(query: params_query.except(:kind))), class: ('active' unless kind)}
               = t '.all'
-            %a.btn.btn-sm.btn-default{href: tracks_path(query: params_query.merge(kind: :skydive)), class: ('active' if kind == 'skydive')} 
+            %a.btn.btn-sm.btn-default{href: tracks_path(params.merge(query: params_query.merge(kind: :skydive))), class: ('active' if kind == 'skydive')} 
               Skydive
-            %a.btn.btn-sm.btn-default{href: tracks_path(query: params_query.merge(kind: :base)), class: ('active' if kind == 'base')}
+            %a.btn.btn-sm.btn-default{href: tracks_path(params.merge(query: params_query.merge(kind: :base))), class: ('active' if kind == 'base')}
               B.A.S.E
     .row
       .col-sm-12.top-buffer
@@ -32,37 +32,24 @@
           %thead
             %tr
               %th
-                %span=t 'activerecord.attributes.track.id'
-                - if order_field == 'ID' && order_direction == 'DESC'
-                  %a{href: tracks_path(params.merge(order: 'id ASC')), 'data-toggle' => 'tooltip', title: 'Sort by ID ascending'}
-                    %i.fa.fa-sort-amount-desc
-                - elsif order_field == 'ID' && order_direction == 'ASC'
-                  %a{href: tracks_path(params.merge(order: 'id DESC')), 'data-toggle' => 'tooltip', title: 'Sort by ID descending'}
-                    %i.fa.fa-sort-amount-asc
-                - else
-                  %a.text-muted{href: tracks_path(params.merge(order: 'id DESC')), 'data-toggle' => 'tooltip', title: 'Sort by ID descending'}
-                    %i.fa.fa-sort-amount-desc
-                
+                =t 'activerecord.attributes.track.id'
+                =tracks_sort_header(order_field, order_direction, 'id', 'ID')
               %th=t 'activerecord.attributes.track.name'
               %th=t 'activerecord.attributes.track.suit'
               %th=t 'activerecord.attributes.track.place'
               %th=t 'activerecord.attributes.track.comment'
-              %th=t 'disciplines.distance'
-              %th=t 'disciplines.speed'
-              %th=t 'disciplines.time'
+              %th.result-head.text-right
+                =t 'disciplines.distance'
+                =tracks_sort_header(order_field, order_direction, 'distance_result', 'Distance')
+              %th.result-head.text-right
+                =t 'disciplines.speed'
+                =tracks_sort_header(order_field, order_direction, 'speed_result', 'Speed')
+              %th.result-head.text-right
+                =t 'disciplines.time'
+                =tracks_sort_header(order_field, order_direction, 'time_result', 'Time')
               %th
-                %span
-                  =t 'activerecord.attributes.track.recorded_at'
-                - if order_field == 'RECORDED_AT' && order_direction == 'DESC'
-                  %a{href: tracks_path(params.merge(order: 'recorded_at ASC')), 'data-toggle' => 'tooltip', title: 'Sort by recorded at ascending'}
-                    %i.fa.fa-sort-amount-desc
-                - elsif order_field == 'RECORDED_AT' && order_direction == 'ASC'
-                  %a{href: tracks_path(params.merge(order: 'recorded_at DESC')), 'data-toggle' => 'tooltip', title: 'Sort by recorded at descending'}
-                    %i.fa.fa-sort-amount-asc
-                - else
-                  %a.text-muted{href: tracks_path(params.merge(order: 'recorded_at DESC')), 'data-toggle' => 'tooltip', title: 'Sort by recorded at descending'}
-                    %i.fa.fa-sort-amount-desc
-
+                =t 'activerecord.attributes.track.recorded_at'
+                =tracks_sort_header(order_field, order_direction, 'recorded_at', 'Recorded at')
               %th
           %tbody
             = render @tracks
