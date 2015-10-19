@@ -43,4 +43,31 @@ module TracksHelper
                          title: t('tracks.edit.private')) if track.private_track?
     end
   end
+
+  def tracks_sort_header(order_field, order_direction, field, field_presentation)
+    action_params = params.except(:action, :controller, :locale)
+    if order_field == field.upcase && order_direction == 'DESC'
+      content_tag(:a, nil,
+                  href: tracks_path(action_params.merge(order: "#{field} ASC")),
+                  'data-toggle' => 'tooltip',
+                  title: "Sort by #{field_presentation} ascending") do
+        content_tag(:i, nil, class: 'fa fa-sort-amount-desc')
+      end
+    elsif order_field == field.upcase && order_direction == 'ASC'
+      content_tag(:a, nil,
+                  href: tracks_path(action_params.merge(order: "#{field} DESC")),
+                  'data-toggle' => 'tooltip',
+                  title: "Sort by #{field_presentation} descending") do
+        content_tag(:i, nil, class: 'fa fa-sort-amount-asc')
+      end
+    else
+      content_tag(:a, nil,
+                  class: 'text-muted',
+                  href: tracks_path(action_params.merge(order: "#{field} DESC")),
+                  'data-toggle' => 'tooltip',
+                  title: "Sort by #{field_presentation} descending") do
+        content_tag(:i, nil, class: 'fa fa-sort-amount-desc')
+      end
+    end
+  end
 end

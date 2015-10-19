@@ -10,13 +10,16 @@
   %td= track_place(track)
   %td.text-muted= track.comment
   %td.text-right
-    %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.distance)}
-      = track.distance.result.to_i if track.distance
+    - if track.distance_result
+      %span.text-info{data: {toggle: 'tooltip'}, title: "#{track.distance_range_from} - #{track.distance_range_to}"}
+        = track.distance_result.to_i 
   %td.text-right
-    %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.speed)}
-      = track.speed.result.to_i if track.speed
+    - if track.speed_result
+      %span.text-info{data: {toggle: 'tooltip'}, title: "#{track.speed_range_from} - #{track.speed_range_to}"}
+        = track.speed_result.to_i
   %td.text-right
-    %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.time)}
-      = track.time.result if track.time
+    - if track.time_result
+      %span.text-info{data: {toggle: 'tooltip'}, title: "#{track.time_range_from} - #{track.time_range_to}"}
+        = track.time_result
   %td.text-info= track.recorded_at.strftime('%d.%m.%Y')
   %td= track_icons(track)
