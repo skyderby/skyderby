@@ -179,3 +179,12 @@
 }
 
 #tracks-index tr > td:nth-child(1) { min-width: 55px; }
+#tracks-index tr > td:nth-last-child(1) { 
+    padding-left: 1px;
+    padding-right: 0px;
+}
+#tracks-index th.result-head {
+    padding-left: 2px;
+    padding-right: 2px;
+    min-width: 85px;
+}
