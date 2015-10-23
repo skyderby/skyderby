@@ -160,7 +160,7 @@ Skyderby.views.TrackCharts = Backbone.View.extend({
 
         this.gr_chart.setData({
             gr: gr,
-            raw_gr: gr
+            raw_gr: raw_gr
         });
 
         this.spd_chart.setData({
