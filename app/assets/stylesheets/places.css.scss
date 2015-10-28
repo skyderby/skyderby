@@ -13,6 +13,15 @@
   padding-right: 15px;
 }
 
+.place-map-description a {
+  color: #fafafa;
+}
+
+.place-map-description a:hover {
+  color: #428BCA;
+  text-decoration: none;
+}
+
 .place-map-background {
   padding-top: 20px;
   background-color: rgba(53, 53, 84, 0.4);
