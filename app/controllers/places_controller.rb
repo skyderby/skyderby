@@ -6,15 +6,6 @@ class PlacesController < ApplicationController
   respond_to :json, :html
 
   def index
-    tracks_query =
-      Track
-      .accessible_by(current_user)
-      .select(:place_id,
-              'COUNT(tracks.id) tracks_count',
-              'COUNT(DISTINCT tracks.user_profile_id) pilots_count')
-      .group(:place_id)
-      .to_sql
-
     @places = Place
               .joins(:country)
               .joins('LEFT JOIN (' + tracks_query + ') tracks_count
@@ -90,5 +81,14 @@ class PlacesController < ApplicationController
       :msl,
       :information
     )
+  end
+
+  def tracks_query
+    Track.accessible_by(current_user)
+      .select(:place_id,
+              'COUNT(tracks.id) tracks_count',
+              'COUNT(DISTINCT tracks.user_profile_id) pilots_count')
+      .group(:place_id)
+      .to_sql
   end
 end

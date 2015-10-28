@@ -8,12 +8,16 @@
           .place-map-background
             %h1
               = @place.name
-              %small= @place.information
+              %small
+                - if can? :update, @place
+                  |
+                  %a{href: edit_place_path(@place)}
+                    %i.fa.fa-pencil
+                  %a{href: place_path(@place), data: {method: 'delete', confirm: t('places.show.delete_confirmation')}}
+                    %i.fa.fa-times-circle
+                  |
+                = @place.information
             %h4= "Lat: #{@place.latitude}, Lon: #{@place.longitude}, MSL: #{@place.msl}"
-      -# .col-sm-2
-      -#   .pull-right
-      -#     - if can? :update, @place
-      -#       = link_to 'Edit', edit_place_path(@place), class: 'btn btn-default'
 
   - pilots = @place.pilots_accessible_by(current_user)
   - unless pilots.blank?
