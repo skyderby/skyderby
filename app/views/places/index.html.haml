@@ -4,7 +4,7 @@
   .container
     .page-header
       .pull-right
-        - if can? :create, :place
+        - if can? :create, Place
           %a.btn.btn-default{href: new_place_path}
             %i.fa.fa-plus
             = t('.new')

@@ -35,31 +35,32 @@ class Ability
       end
     end
 
-    if user
-      can [:read, :update], Track, user: user  # Редактирование собственных треков
+    return unless user
 
-      can :update, UserProfile, user: user
+    # Edit own tracks
+    can [:read, :update], Track, user: user
 
-      can :create, Event
-      can :destroy, Event, responsible: user, status: :draft
+    can :update, UserProfile, user: user
 
-      can [:read, :update], Event do |event|
-        if event.responsible == user.user_profile ||
-           event.event_organizers.any? { |x| x.user_profile == user.user_profile }
-          can :manage, Section
-          can :manage, Competitor
-          can :manage, Round
-          can :manage, EventTrack
-          can :manage, EventOrganizer
+    can :create, Event
+    can :destroy, Event, responsible: user, status: :draft
 
-          true
-        end
-      end
+    can [:read, :update], Event do |event|
+      if event.responsible == user.user_profile ||
+         event.event_organizers.any? { |x| x.user_profile == user.user_profile }
+        can :manage, Section
+        can :manage, Competitor
+        can :manage, Round
+        can :manage, EventTrack
+        can :manage, EventOrganizer
 
-      # allow admins to do anything
-      if user.has_role? :admin
-        can :manage, :all
+        true
       end
     end
+
+    can [:create, :update, :destroy], Place if user.has_role? :places_edit
+
+    # allow admins to do anything
+    can :manage, :all if user.has_role? :admin
   end
 end
