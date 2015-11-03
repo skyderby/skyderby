@@ -2,3 +2,4 @@ ru:
   places:
     show:
       visited_by: 'Здесь летали'
+      delete_confirmation: 'Вы уверены, что хотиту удалить эту локацию?'

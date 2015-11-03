@@ -54,6 +54,17 @@
             %i.fa.fa-fw.fa-lg.fa-clock-o
             =t 'tracks.show.dt_dur'
 
+  - place_in_ratings = @profile.place_in_ratings
+  - unless place_in_ratings.blank?
+    %hr
+    .row
+      .col-sm-10.col-sm-offset-2
+        - place_in_ratings.each do |p|
+          .col-sm-3
+            %strong
+              = "##{p[:place]}"
+            in
+            = p[:virtual_competition_name]
   %hr
   .row
     .col-sm-10.col-sm-offset-2
