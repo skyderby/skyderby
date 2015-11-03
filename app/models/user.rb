@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
   has_many :competitors
   has_many :events, through: :competitors
 
-  has_many :assignments
+  has_many :assignments, dependent: :destroy
   has_many :roles, through: :assignments
 
   before_create :build_profile, :assign_default_role

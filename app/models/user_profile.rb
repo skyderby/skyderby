@@ -51,6 +51,30 @@ class UserProfile < ActiveRecord::Base
     event_organizers.pluck(:event_id)
   end
 
+  def place_in_ratings
+    results =
+      VirtualCompResult
+      .joins(:virtual_competition)
+      .group(:user_profile_id, :virtual_competition_id)
+      .order(:virtual_competition_id, 'result DESC')
+      .pluck_to_hash(
+        'virtual_competitions.name as virtual_competition_name',
+        :virtual_competition_id,
+        :user_profile_id,
+        'MAX(result) as result')
+
+    grouped = results.group_by { |x| x[:virtual_competition_id] }
+    grouped.each do |_, res|
+      place = 1
+      res.each do |r|
+        r[:place] = place
+        place += 1
+      end
+    end
+
+    grouped.map { |x| x.last.detect { |r| r[:user_profile_id] == id } }.compact
+  end
+
   class << self
     def search(query)
       where('LOWER(name) LIKE LOWER(?)', "%#{query}%")
