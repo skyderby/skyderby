@@ -24,7 +24,7 @@ en:
         location: 'It was at:'
         location_plh: 'Some DZ, some cliffs, etc'
         file: 'File with track:'
-        help: 'Supported csv (Columbus, FlySight) and gpx format'
+        help: 'Supported csv (Columbus, FlySight), gpx, tes and kml format'
         comment: 'Comment:'
         comment_plh: 'Share a few words about your flight'
         submit: 'Upload'
