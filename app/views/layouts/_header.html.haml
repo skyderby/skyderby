@@ -65,12 +65,12 @@
                   %hr
                   .col-sm-12.hidden-md
                     = link_to t('application.header.sign_up'), new_user_registration_path
-          %li.hidden-sm
+          %li.hidden-sm.sign-in
             = link_to t('application.header.sign_up'), new_user_registration_path
 
         - unless controller.controller_name.eql? 'track_select'
           %li.dropdown
-            %a.dropdown-toggle{:href => '#', :data => {:toggle => 'dropdown'}}
+            %a.dropdown-toggle.locale-dropdown{href: '#', data: {toggle: 'dropdown'}}
               = image_tag asset_path('blank.gif'), class: "flag flag-#{ I18n.locale}"
               %i.fa.fa-caret-down
             = lang_menu

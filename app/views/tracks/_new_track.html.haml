@@ -54,7 +54,7 @@
           .form-group
             %span.col-sm-3.control-label
               = t('static_pages.index.track_form.kind')
-            .btn-group.col-sm-9{:data => {:toggle => 'buttons'}}
+            .btn-group.col-sm-9{data: {toggle: 'buttons'}}
               %label.btn.btn-default.active
                 = radio_button_tag 'track[kind]', 'skydive', true
                 = 'Skydive'
@@ -67,7 +67,7 @@
               = t('static_pages.index.track_form.file')
             .col-sm-9
               .input-group
-                %input.form-control{:type => "text", :readonly => true}
+                %input.form-control{type: "text", readonly: true}
                 %span.input-group-btn
                   %span.btn.btn-default.btn-file
                     Browse&hellip; 
