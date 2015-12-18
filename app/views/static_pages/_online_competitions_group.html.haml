@@ -1,0 +1,32 @@
+%hr
+.row
+  .col-sm-12.text-center
+    %h2.light-header= group
+.row
+  - competitions = all_results.group_by { |x| x[:virtual_competition_name] }
+  - competitions.each do |competition, results|
+    .col-sm-4
+      .start-page-competition
+        .start-page-competition-header.text-center
+          %a{href: virtual_competition_path(results.first[:virtual_competition_id])}=competition
+        .competition-results
+          - place = 0
+          - results.each do |result|
+            - place += 1
+            - break if place > 3
+            - place_class = [:gold_place, :silver_place, :bronze_place][place - 1]
+            .row.start-page-competition-result{class: place_class}
+              .col-sm-4
+                = image_tag(UserProfile.find(result[:user_profile_id]).userpic.url(:medium), 
+                            class: 'img-responsive img-circle')
+              .col-sm-8
+                %a.vc-profile-name{href: user_profile_path(result[:user_profile_id]), 
+                  data: {toggle: 'tooltip'}, 
+                  title: t('virtual_competitions.show.show_profile')}
+                  = result[:user_profile_name].titleize
+                %div
+                  -# %a.vc-result-link{href: track_path(result.track_id),
+                    data: {toggle: 'tooltip'}, 
+                    title: t('virtual_competitions.show.show_details')}
+                  %span.vc-result= result[:result].round
+                  %span.vc-unit= competition_unit(VirtualCompetition.find(result[:virtual_competition_id]))
