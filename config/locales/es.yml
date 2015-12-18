@@ -95,7 +95,6 @@ es:
         kind: "El tipo de salto:"
       desc: "El análisis de GPS-pistas y la organización de las competiciones en el formato GPS Performance."
       goto_event: "A la pagina web del evento >>"
-      supported_formats: "Supported file formats and GPS loggers:"
       stats: "Statistics:"
       stats_tracks: "Uploaded tracks:"
       stats_pilots: "Registered pilots:"

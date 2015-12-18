@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151012065206) do
+ActiveRecord::Schema.define(version: 20151202060907) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer "user_id", limit: 4
@@ -345,10 +345,9 @@ ActiveRecord::Schema.define(version: 20151012065206) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "virtual_comp_groups", force: :cascade do |t|
-    t.string   "name",                  limit: 255
+    t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "display_on_start_page",             default: false
   end
 
   create_table "virtual_comp_results", force: :cascade do |t|
@@ -381,6 +380,7 @@ ActiveRecord::Schema.define(version: 20151012065206) do
     t.integer  "range_to",              limit: 4,   default: 0
     t.boolean  "display_highest_speed",             default: false
     t.boolean  "display_highest_gr",                default: false
+    t.boolean  "display_on_start_page",             default: false
   end
 
   add_index "virtual_competitions", ["place_id"], name: "index_virtual_competitions_on_place_id", using: :btree
