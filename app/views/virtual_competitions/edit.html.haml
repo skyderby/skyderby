@@ -71,6 +71,13 @@
 
     .form-group
       .col-sm-offset-2.col-sm-8
+        .checkbox
+          %label
+            = f.check_box :display_on_start_page
+            Display on start page
+
+    .form-group
+      .col-sm-offset-2.col-sm-8
         = f.submit t('general.update'), class: 'btn btn-primary'
 
 

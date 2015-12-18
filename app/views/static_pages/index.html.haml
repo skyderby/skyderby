@@ -23,96 +23,79 @@
 
 %hr
 
-.container-fluid
+-# .container-fluid
+-#   .row
+-#     .col-sm-12.text-center
+-#       %h1.light-header= t('.skyderby_is')
+-#   .row.start-page-row
+-#     .col-sm-4.text-center.gps-tracks-label.start-page-cell
+-#       %h2= t('.tracks_analysis')
+-#       %p= t('.tracks_analysis_desc')
+-#       %a.overlay-link{href: tracks_path}
+-#       %a.btn.btn-browse= t('.tracks_list')
+-#     .col-sm-4.text-center.online-competitions-label.start-page-cell
+-#       %h2= t('.online_competitions')
+-#       %p= t('.online_comp_desc')
+-#       %a.overlay-link{href: virtual_competitions_path}
+-#       %a.btn.btn-browse= t('.online_comp_list')
+-#     .col-sm-4.text-center.competitions-label.start-page-cell
+-#       %h2= t('.events')
+-#       %p= t('.events_desc')
+-#       %a.overlay-link{href: events_path}
+-#       %a.btn.btn-browse= t('.events_list')
+-#
+.container.top-buffer
   .row
     .col-sm-12.text-center
-      %h1.light-header= t('.skyderby_is')
-  .row.start-page-row
-    .col-sm-4.text-center.gps-tracks-label.start-page-cell
-      %h2= t('.tracks_analysis')
-      %p= t('.tracks_analysis_desc')
-      %a.overlay-link{href: tracks_path}
-      %a.btn.btn-browse= t('.tracks_list')
-    .col-sm-4.text-center.online-competitions-label.start-page-cell
-      %h2= t('.online_competitions')
-      %p= t('.online_comp_desc')
-      %a.overlay-link{href: virtual_competitions_path}
-      %a.btn.btn-browse= t('.online_comp_list')
-    .col-sm-4.text-center.competitions-label.start-page-cell
-      %h2= t('.events')
-      %p= t('.events_desc')
-      %a.overlay-link{href: events_path}
-      %a.btn.btn-browse= t('.events_list')
+      %h1.light-header= t('static_pages.index.how_it_works')
+  .row.how-it-works
+    .col-lg-4.col-md-4.col-sm-4
+      #first-step-hiw
+      .step-number-hiw= '1'
+      %p= t('static_pages.index.upload_a_file')
+    .col-lg-4.col-md-4.col-sm-4
+      #second-step-hiw
+      .step-number-hiw= '2'
+      %p= t('static_pages.index.select_free_fall_range')
+    .col-lg-4.col-md-4.col-sm-4
+      #third-step-hiw
+      .step-number-hiw= '3'
+      %p= t('static_pages.index.analyze')
 
-- if @competitions.size
-  .container-fluid
-    .row
-      .col-sm-12.text-center
-        %h1.light-header= t('.online_comps_leaders')
-    - @competitions.each do |group, competitions|
-      %hr
-      .row
-        .col-sm-12.text-center
-          %h2.light-header= group
-      .row.start-page-row
-        - competitions.each do |competition|
-          -result = competition.best_result
-          .col-sm-4.start-page-cell
-            .col-sm-12
-              .panel.panel-default.panel-winner
-                .panel-heading
-                  %a{href: virtual_competition_path(competition)}=competition.name
-                .panel-body
-                  .row
-                    .col-sm-4
-                      = image_tag(result.user_profile.userpic.url(:medium), 
-                                  class: 'img-responsive img-rounded')
-                    .col-sm-8
-                      %a.vc-profile-name{href: user_profile_path(result.user_profile), 
-                        data: {toggle: 'tooltip'}, 
-                        title: t('virtual_competitions.show.show_profile')}
-                        = result.user_profile.name.titleize
-                      %div
-                        %a.vc-result-link{href: track_path(result.track_id),
-                          data: {toggle: 'tooltip'}, 
-                          title: t('virtual_competitions.show.show_details')}
-                          %span.vc-result= format_result(result.result, result.virtual_competition)
-                          %span.vc-unit= competition_unit(result.virtual_competition)
+%hr
+
+= render 'static_pages/online_competitions_section'
+
+%hr
+
+.container.top-buffer
+  .row
+    .col-sm-12.text-center
+      %h1.light-header= t('static_pages.index.supported_formats')
+  .row.supported-formats
+    .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
+      #fs-sf.grayed
+      %div.text-center
+        Flysight
+    .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
+      #garmin-sf.grayed
+      %div.text-center
+        Garmin Foretrex 101/201/301/401
+    .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
+      #wintec-sf.grayed
+      %div.text-center
+        Wintec WBT-202
+    .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
+      #columbus-sf.grayed
+      %div.text-center
+        Columbus V900
+    .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
+      #dual-xgps.grayed
+      %div.text-center
+        Dual XGPS160
+    .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
+      #gpx-sf.grayed
+      %div.text-center
+        Files in GPX format 
 
 = render partial: 'tracks/new_track'
-
--# .container.top-buffer
--#   .row
--#     .col-sm-12
--#       %h2= t('static_pages.index.how_it_works')
--#   .row.how-it-works
--#     .col-lg-4.col-md-4.col-sm-4
--#       #first-step-hiw
--#       .step-number-hiw= '1'
--#       %p= t('static_pages.index.upload_a_file')
--#     .col-lg-4.col-md-4.col-sm-4
--#       #second-step-hiw
--#       .step-number-hiw= '2'
--#       %p= t('static_pages.index.select_free_fall_range')
--#     .col-lg-4.col-md-4.col-sm-4
--#       #third-step-hiw
--#       .step-number-hiw= '3'
--#       %p= t('static_pages.index.analyze')
--#
--# %hr
--#
--# .container.top-buffer
--#   .row
--#     .col-sm-12
--#       %h2= t('static_pages.index.supported_formats')
--#   .row.supported-formats
--#     .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
--#       #gpx-sf
--#     .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
--#       #fs-sf
--#     .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
--#       #garmin-sf
--#     .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
--#       #wintec-sf
--#     .col-lg-2.col-md-3.col-sm-3.col-xs-6.top-buffer
--#       #columbus-sf
