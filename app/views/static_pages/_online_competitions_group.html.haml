@@ -28,5 +28,6 @@
                   -# %a.vc-result-link{href: track_path(result.track_id),
                     data: {toggle: 'tooltip'}, 
                     title: t('virtual_competitions.show.show_details')}
-                  %span.vc-result= result[:result].round
-                  %span.vc-unit= competition_unit(VirtualCompetition.find(result[:virtual_competition_id]))
+                  - virtual_competition = VirtualCompetition.find(result[:virtual_competition_id])
+                  %span.vc-result= format_result(result[:result], virtual_competition)
+                  %span.vc-unit= competition_unit(virtual_competition)
