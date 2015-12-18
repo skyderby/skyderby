@@ -77,21 +77,83 @@ pre.prettyprint {
   text-shadow: rgba(0, 0, 0, 0.0980392) 0px 1px 0px;
 }
 
-.start-page-row {
-  display: table;
-}
+// .start-page-row {
+  // display: table;
+// }
 
 .text-darkgray {
   color: rgb(85, 85, 85);	
 }
 
-.start-page-cell {
-  float: none;
-  display: table-cell;
-  vertical-align: top;
+//.start-page-cell {
+//  float: none;
+//  display: table-cell;
+//  vertical-align: top;
+//}
+
+.start-page-competition {
+  margin-left: 25px;
+  margin-right: 25px;
 }
 
-.start-page-cell h2 {
+.start-page-competition-result {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: rgba(0, 0, 0, 0.14);
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-right-color: rgba(0, 0, 0, 0.14);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: rgba(0, 0, 0, 0.14);
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 3px 2px;
+}
+
+.start-page-competition-header {
+  margin-bottom: 5px;
+}
+
+.start-page-competition-header a {
+  font-size: 1.3em;
+  color: rgb(51, 51, 51); 
+  border-bottom-style: dotted;
+  border-bottom-width: 1.1px;
+}
+
+
+.start-page-competition-header a:hover {
+  border-bottom-style: solid;
+  text-decoration: none;
+}
+
+.start-page-competition-result .vc-result {
+  color: #9B9B9B;	
+  font-weight: 400;
+  font-size: 2.5em;
+}
+
+.gold_place {
+  border-top-style: solid;
+  border-top-width: 5px;
+  border-top-color: #FCF395;
+}
+
+.silver_place {
+  border-top-style: solid;
+  border-top-width: 5px;
+  border-top-color: silver;
+}
+
+.bronze_place {
+  border-top-style: solid;
+  border-top-width: 5px;
+  border-top-color: #FABE99;
+}
+
+.competition-header h2 {
   letter-spacing: 1px;
   font-weight: 300;
   text-shadow: rgba(0, 0, 0, 0.0980392) 2px 2px 1px;
@@ -207,6 +269,21 @@ pre.prettyprint {
   margin-top: 15px;
 }
 
+.grayed {
+    -webkit-filter: grayscale(100%);
+       -moz-filter: grayscale(100%);
+         -o-filter: grayscale(100%);
+        -ms-filter: grayscale(100%);
+            filter: grayscale(100%);
+}
+
+.grayed:hover {
+    -webkit-filter: grayscale(0%);
+       -moz-filter: grayscale(0%);
+         -o-filter: grayscale(0%);
+        -ms-filter: grayscale(0%);
+            filter: grayscale(0%);
+}
 
 #gpx-sf {
     background: asset-url('gpx.png') no-repeat center center;
@@ -216,26 +293,31 @@ pre.prettyprint {
 
 #fs-sf {
     background: asset-url('flysight.jpg') no-repeat center center;
-    background-size: auto @sf-height;
+    background-size: contain;
     height: @sf-height;
 }
 
 #garmin-sf {
     background: asset-url('garmin-foretrex.jpg') no-repeat center center;
-    background-size: auto @sf-height;
+    background-size: contain;
     height: @sf-height;
 }
 
 #wintec-sf {
     background: asset-url('wintec.jpg') no-repeat center center;
-    background-size: auto @sf-height;
+    background-size: contain;
     height: @sf-height;
 }
 
 #columbus-sf {
     background: asset-url('columbus-v900.png') no-repeat center center;
-    background-size: auto @sf-height;
+    background-size: contain;
     height: @sf-height;
 }
 
+#dual-xgps {
+    background: asset-url('dual-xgps.png') no-repeat center center;
+    background-size: contain;
+    height: @sf-height;
+}
 

@@ -14,7 +14,6 @@ class VirtualCompetitionsController < ApplicationController
 
   def update
     if @competition.update competition_params
-      @competition.reprocess_results
       redirect_to @competition, notice: 'Данные успешно обновлены.'
     else
       redirect_to @competition, notice: 'При сохранении произошла ошибка.'
@@ -34,6 +33,8 @@ class VirtualCompetitionsController < ApplicationController
       :jumps_kind,
       :suits_kind,
       :discipline,
-      :discipline_parameter)
+      :discipline_parameter,
+      :display_on_start_page
+    )
   end
 end

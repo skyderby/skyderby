@@ -1,0 +1,7 @@
+- if @competition_results.size
+  .container.top-buffer
+    .row
+      .col-sm-12.text-center
+        %h1.light-header= t('static_pages.index.online_comps_leaders')
+    - @competition_results.each do |group, all_results|
+      = render partial: 'static_pages/online_competitions_group', locals: {group: group, all_results: all_results}
