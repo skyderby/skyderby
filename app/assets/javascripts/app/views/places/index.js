@@ -13,9 +13,12 @@ Skyderby.views.PlacesIndex = Backbone.View.extend({
     },
 
     render: function() {
-
         this.set_visibility();
+        this.listenToOnce(window.Skyderby, 'maps_api_ready', this.on_maps_api_ready);
+        window.Skyderby.helpers.init_maps_api();
+    },
 
+    on_maps_api_ready: function() {
         var center = new google.maps.LatLng(26.703115, 22.085180);
 
         var options = {
