@@ -28,7 +28,7 @@ function on_earth_api_ready() {
   window.Skyderby.trigger('earth_api_ready');
 }
 
-function on_youtube_api_ready() {
+function onYouTubeIframeAPIReady() {
   window.Skyderby.youtube_api_ready = true;
   window.Skyderby.trigger('youtube_api_ready');
 }
