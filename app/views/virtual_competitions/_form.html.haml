@@ -4,6 +4,11 @@
     .col-sm-5
       = f.text_field :name, autofocus: true, class: 'form-control'
 
+  .form-group
+    = f.label :country, class: 'col-sm-2 control-label', for: :virtual_comp_group
+    .col-sm-5
+      = f.collection_select(:virtual_comp_group_id, VirtualCompGroup.order(:name), :id, :name, {promt: 'Select group'}, {class: 'form-control'})
+
   .form-group.row
     = f.label :period_from, class: 'col-sm-2 control-label', for: :period_from
     .col-sm-2
