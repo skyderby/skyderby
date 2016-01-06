@@ -20,7 +20,7 @@ describe Skyderby::ResultsProcessors::DistanceInAltitude do
 
   context 'correctly process track for distance in altitude discipline' do
     subject do
-      track_points = read_points_from_file '06-38-21_SimonP.CSV'
+      track_points = read_points_from_file '11-01-41_LaurentF.CSV'
 
       Skyderby::ResultsProcessors::DistanceInAltitude.new(
         track_points, altitude: 200, is_flysight: true
@@ -28,15 +28,23 @@ describe Skyderby::ResultsProcessors::DistanceInAltitude do
     end
 
     it 'calculates distance right' do
-      expect(subject[:result].round(2)).to eq(80.69)
+      expect(subject[:result].round(2)).to eq(231.74)
     end
 
     it 'calculates best gr' do
-      expect(subject[:highest_gr].round(2)).to eq(1.45)
+      expect(subject[:highest_gr].round(2)).to eq(1.85)
     end
 
     it 'calculates best speed' do
-      expect(subject[:highest_speed].round(2)).to eq(28.68)
+      expect(subject[:highest_speed].round(2)).to eq(129.74)
     end
+  end
+
+  it 'do not return result if time between points in interpolation too much' do
+    track_points = read_points_from_file 'Ague_de_Plan.CSV'
+    result_hash = Skyderby::ResultsProcessors::DistanceInAltitude.new(
+      track_points, altitude: 200, is_flysight: true
+    ).calculate
+    expect(result_hash[:result]).to eq(0)
   end
 end
