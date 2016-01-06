@@ -43,6 +43,7 @@ class VirtualCompetitionsController < ApplicationController
   def competition_params
     params.require(:virtual_competition).permit(
       :name,
+      :virtual_comp_group_id,
       :period_from,
       :period_to,
       :place,

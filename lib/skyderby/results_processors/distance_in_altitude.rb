@@ -18,6 +18,7 @@ module Skyderby
 
       def calculate
         prev_point = nil
+        interpolation_time = 0
 
         @trk_points.each do |cur_point|
           # break if track trimmed to point after exit
@@ -56,6 +57,8 @@ module Skyderby
                 @end_lat = cur_point[:latitude] - (cur_point[:latitude] - prev_point[:latitude]) * k
                 @end_lon = cur_point[:longitude] - (cur_point[:longitude] - prev_point[:longitude]) * k
 
+                interpolation_time = cur_point[:gps_time] - prev_point[:gps_time]
+
                 break
               end
             end
@@ -64,7 +67,7 @@ module Skyderby
           prev_point = cur_point
         end
 
-        if @start_lat && @start_lon && @end_lat && @end_lon
+        if @start_lat && @start_lon && @end_lat && @end_lon && interpolation_time < 3
           @distance =
             Skyderby::Geospatial.distance(
               [@start_lat, @start_lon],
