@@ -82,7 +82,7 @@ module Skyderby
       def validate!(params)
         fail ArgumentError, 'Params should be the hash' unless params.is_a? Hash
         fail ArgumentError, 'Params should contain altitude' unless params[:altitude]
-        fail ArgumentError, 'Params should contain is_flysight' unless params[:is_flysight]
+        fail ArgumentError, 'Params should contain is_flysight' if params[:is_flysight].nil?
       end
     end
   end
