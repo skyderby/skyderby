@@ -3,12 +3,13 @@ module Skyderby
     # Tasks and processors
     TASKS = {
       # Skydive
-      distance:         Skyderby::ResultsProcessors::Distance,
-      speed:            Skyderby::ResultsProcessors::Speed,
-      time:             Skyderby::ResultsProcessors::Time,
+      distance:             Skyderby::ResultsProcessors::Distance,
+      speed:                Skyderby::ResultsProcessors::Speed,
+      time:                 Skyderby::ResultsProcessors::Time,
       # BASE
-      distance_in_time: Skyderby::ResultsProcessors::DistanceInTime,
-      time_until_line:  Skyderby::ResultsProcessors::TimeUntilIntersection
+      distance_in_time:     Skyderby::ResultsProcessors::DistanceInTime,
+      distance_in_altitude: Skyderby::ResultsProcessors::DistanceInAltitude,
+      time_until_line:      Skyderby::ResultsProcessors::TimeUntilIntersection
     }.freeze
 
     # track_points
