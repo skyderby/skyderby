@@ -29,7 +29,7 @@ RSpec.describe VirtualCompGroupsController, type: :controller do
   # VirtualCompGroup. As you add validations to VirtualCompGroup, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    { name: 'Some good competition group', display_on_start_page: true }
+    { name: 'Some good competition group' }
   end
 
   let(:invalid_attributes) do
@@ -108,10 +108,7 @@ RSpec.describe VirtualCompGroupsController, type: :controller do
   describe 'PUT #update' do
     context 'with valid params' do
       let(:new_attributes) do
-        {
-          name: 'Some another good competition group',
-          display_on_start_page: false
-        }
+        { name: 'Some another good competition group' }
       end
 
       it 'updates the requested virtual_comp_group' do
@@ -119,7 +116,6 @@ RSpec.describe VirtualCompGroupsController, type: :controller do
         put :update, { id: virtual_comp_group.to_param, virtual_comp_group: new_attributes }, valid_session
         virtual_comp_group.reload
         expect(virtual_comp_group.name).to eq(new_attributes[:name])
-        expect(virtual_comp_group.display_on_start_page).to eq(new_attributes[:display_on_start_page])
       end
 
       it 'assigns the requested virtual_comp_group as @virtual_comp_group' do

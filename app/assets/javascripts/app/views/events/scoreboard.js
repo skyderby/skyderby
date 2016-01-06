@@ -305,12 +305,12 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
         this.model.competitors.each(function(competitor) {
             var total_points = 0;
 
-            var tracks = this.model.tracks.where({competitor_id: competitor.id});
+            var tracks = window.Competition.tracks.where({competitor_id: competitor.id});
             if (tracks.length >= 3) {
                 var best_tracks = _.chain(tracks)
-                    .sortBy(function(trk) { return -trk.result; })
+                    .sortBy(function(trk) { return -trk.get('result'); })
                     .first(3)
-                    .reduce(function(memo, num) { return memo + num.result; }, 0)
+                    .reduce(function(memo, num) { return memo + num.get('result'); }, 0)
                     .value();
 
                 total_points = best_tracks / 3;
@@ -335,14 +335,14 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
 
         this.model.sections.each(function(section) {
             var competitors_ids = 
-                _.chain(window.Competition.competitors)
-                    .filter(function(el) { return el.section.id === section.id; })
+                window.Competition.competitors.chain()
+                    .filter(function(el) { return el.get('section_id') === section.id; })
                     .map(function(el) { return el.id; })
                     .value();
             var results = 
-                _.chain(window.Competition.tracks)
-                    .filter(function(el) { return _.contains(competitors_ids, el.competitor_id); })
-                    .sortBy(function(el) { return -el.result; })
+                window.Competition.tracks.chain()
+                    .filter(function(el) { return _.contains(competitors_ids, el.get('competitor_id')); })
+                    .sortBy(function(el) { return -el.get('result'); })
                     .value();
 
             if (results.length) {

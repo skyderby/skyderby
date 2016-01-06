@@ -5,6 +5,7 @@
   "predef": [ 
     "Skyderby",
     "JST",
+    "YT",
     "Highcharts",
     "Turbolinks",
     "Backbone",

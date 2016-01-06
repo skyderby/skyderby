@@ -1,18 +1,18 @@
 module Skyderby
   module ResultsProcessors
-    class DistanceInTime
+    class DistanceInAltitude
       def initialize(track_points, params)
         @distance = 0
         @highest_gr = 0
         @highest_speed = 0
 
-        @fl_time = 0
+        @start_altitude = 0
         @start_found = false
 
         @trk_points = track_points.trimmed(start: track_points.ff_start - 10)
 
         validate! params
-        @time = params[:time]
+        @altitude = params[:altitude]
         @speed_key = params[:is_flysight] ? :v_speed : :raw_v_speed
       end
 
@@ -20,7 +20,6 @@ module Skyderby
         prev_point = nil
 
         @trk_points.each do |cur_point|
-          break if @fl_time >= @time
           # break if track trimmed to point after exit
           break if !prev_point && cur_point[:v_speed] > 10
 
@@ -40,24 +39,24 @@ module Skyderby
               @start_lat = cur_point[:latitude] - (prev_point[:latitude] - cur_point[:latitude]) * k
               @start_lon = cur_point[:longitude] - (prev_point[:latitude] - cur_point[:latitude]) * k
 
-              @fl_time += cur_point[:fl_time] * k
+              @start_altitude += cur_point[:abs_altitude] - (prev_point[:abs_altitude] - cur_point[:abs_altitude]) * k
 
               prev_point = cur_point
               next
             end
 
             if @start_found
-              if @fl_time + cur_point[:fl_time] < @time
-                @fl_time += cur_point[:fl_time]
+              if @start_altitude - cur_point[:abs_altitude] < @altitude
 
                 @highest_gr = cur_point[:glrat] if cur_point[:glrat] > @highest_gr
                 @highest_speed = cur_point[:h_speed] if cur_point[:h_speed] > @highest_speed
               else
-                k = (@fl_time + cur_point[:fl_time] - @time) / cur_point[:fl_time]
-                @fl_time += cur_point[:fl_time] * (1 - k)
+                k = (@altitude - (@start_altitude - prev_point[:abs_altitude])) / (@start_altitude - cur_point[:abs_altitude])
 
                 @end_lat = cur_point[:latitude] - (cur_point[:latitude] - prev_point[:latitude]) * k
                 @end_lon = cur_point[:longitude] - (cur_point[:longitude] - prev_point[:longitude]) * k
+
+                break
               end
             end
           end
@@ -82,7 +81,7 @@ module Skyderby
 
       def validate!(params)
         fail ArgumentError, 'Params should be the hash' unless params.is_a? Hash
-        fail ArgumentError, 'Params should contain time' unless params[:time]
+        fail ArgumentError, 'Params should contain altitude' unless params[:altitude]
         fail ArgumentError, 'Params should contain is_flysight' unless params[:is_flysight]
       end
     end

@@ -42,6 +42,13 @@ Skyderby.views.RoundMapView = Backbone.View.extend({
         this.listenTo(this.modalView, 'modal:shown', this.onModalShown);
         this.listenTo(this.modalView, 'modal:hidden', this.onModalHidden);
 
+        this.listenToOnce(window.Skyderby, 'maps_api_ready', this.on_maps_api_ready);
+        window.Skyderby.helpers.init_maps_api();
+
+        return this;
+    },
+
+    on_maps_api_ready: function() {
         var center = new google.maps.LatLng(26.703115, 22.085180);
         var options = {
             'zoom': 2,
@@ -52,8 +59,6 @@ Skyderby.views.RoundMapView = Backbone.View.extend({
         this.map = new google.maps.Map(this.$('#round-map')[0], options);
 
         this.render_competitors();
-
-        return this;
     },
 
     open: function() {

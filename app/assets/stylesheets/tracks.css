@@ -7,10 +7,11 @@
     clear: both;
     width: 100%;
     position: relative;
-    padding-bottom: 36.25%;
+    padding-bottom: 46.25%;
     padding-top: 25px;
     height: 0;
 }
+
 .videowrapper iframe {
     position: absolute;
     top: 0;
