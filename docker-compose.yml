@@ -1,0 +1,40 @@
+app:
+  image: skyderby/app:dev
+  volumes:
+    - ./:/opt/app
+  links:
+    - db
+    - redis
+  ports:
+    - "3000:3000"
+workers:
+  image: skyderby/app:dev
+  volumes:
+    - ./:/opt/app
+  links:
+    - db
+    - redis
+  command: "bundle exec sidekiq"
+db:
+  image: mysql:5.7
+  environment:
+    MYSQL_ROOT_PASSWORD: "MYSQL_ROOT_PASSWORD"
+    MYSQL_USER: "tracks"
+    MYSQL_PASSWORD: "tracks-tracks"
+    MYSQL_DATABASE: 'tracks_dev'
+  ports:
+    - "3306:3306"
+  volumes_from:
+    - data-mysql
+redis:
+  image: redis:3.0.5
+  volumes_from:
+    - data-redis
+data-mysql:
+  image: busybox
+  volumes:
+    - /var/lib/mysql
+data-redis:
+  image: busybox
+  volumes:
+    - /data
