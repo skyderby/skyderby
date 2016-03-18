@@ -27,6 +27,8 @@
 //= require backbone
 //= require backbone_rails_sync
 //= require backbone_datalink
+//= require highcharts
+//= require highcharts-more
 //= require app/app
 //= require_tree .
 
