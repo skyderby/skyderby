@@ -34,5 +34,7 @@
 
 config/database.yml
 
+docker-compose-production.yml
+
 # Ignore application configuration
 /config/application.yml

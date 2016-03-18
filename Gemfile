@@ -59,8 +59,6 @@ gem 'font-awesome-rails'
 
 gem 'bootstrap-datepicker-rails'
 
-gem 'figaro'
-
 gem 'pluck_to_hash'
 
 group :development, :test do
@@ -114,7 +112,7 @@ end
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
 # Use unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
