@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.4'
+gem 'rails', '4.2.5'
 
 # Supported DB
 gem 'mysql2'
@@ -50,8 +50,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
 
-gem 'libv8', '3.16.14.8.rc1'
-gem 'therubyracer'
+gem 'therubyracer', '0.12.0'
 gem 'less-rails'
 
 gem 'twitter-bootstrap-rails'
