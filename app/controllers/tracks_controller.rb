@@ -61,12 +61,6 @@ class TracksController < ApplicationController
     end
   end
 
-  def google_maps
-    authorize! :read, @track
-
-    @track_data = Skyderby::Tracks::MapsData.new(@track)
-  end
-
   def google_earth
     authorize! :read, @track
     redirect_to @track unless @track.ge_enabled

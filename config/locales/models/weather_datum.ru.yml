@@ -1,0 +1,8 @@
+ru:
+  activerecord:
+    errors:
+      models:
+        weather_datum:
+          attributes:
+            wind_direction:
+              inclusion: 'Направление ветра должно быть задано в диапазоне от 0 до 359 градусов'

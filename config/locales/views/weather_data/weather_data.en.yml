@@ -1,0 +1,6 @@
+en:
+  weather_datum:
+    actual_on: 'Date, time'
+    altitude: 'Altitude'
+    wind_speed: 'Wind speed'
+    wind_direction: 'Wind direction'

@@ -1,0 +1,80 @@
+<div class="modal-content">
+    <div class='modal-header'>
+        <button class='close' type='button' data-dismiss='modal'>
+            <span aria-hidden: 'true'>&times;</span>
+            <span class='sr-only'>Close</span>
+        </button>
+        <div class="row">
+            <div class="col-sm-3">
+                <h4 class='modal-title'><%= title %></h4>
+            </div>
+
+            <div class="col-sm-8">
+
+                <div class="btn-group btn-group-xs">
+                    <button class="btn btn-default" data-toggle="dropdown">
+                        Altitude units: m
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a class="wind-units-set-ms" href="#">
+                                m
+                            </a>
+                        </li>
+                        <li>
+                            <a class="wind-units-set-knots" href="#">
+                                ft
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="btn-group btn-group-xs">
+                    <button class="btn btn-default" data-toggle="dropdown">
+                        Wind speed units: m/s
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a class="wind-units-set-ms" href="#">
+                                m/s
+                            </a>
+                        </li>
+                        <li>
+                            <a class="wind-units-set-knots" href="#">
+                                knots
+                            </a>
+                        </li>
+                        <li>
+                            <a class="wind-units-set-kmh" href="#">
+                                km/h
+                            </a>
+                        </li>
+                        <li>
+                            <a class="wind-units-set-mph" href="#">
+                                mph
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class='modal-body'>
+        <table class="table" id="weather-table">
+            <thead>
+                <tr>
+                    <th><%= I18n.t('weather_datum.actual_on') %></th>
+                    <th class="text-right"><%= I18n.t('weather_datum.altitude') %></th>
+                    <th class="text-right"><%= I18n.t('weather_datum.wind_speed') %></th>
+                    <th class="text-right"><%= I18n.t('weather_datum.wind_direction') %></th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>

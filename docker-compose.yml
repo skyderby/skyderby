@@ -1,5 +1,10 @@
 app:
   image: skyderby/app:dev
+  environment: &ENV
+    DB_NAME: tracks_dev
+    DB_HOST: db
+    DB_USERNAME: tracks
+    DB_PASSWORD: tracks-tracks
   volumes:
     - ./:/opt/app
   links:
@@ -9,6 +14,8 @@ app:
     - "3000:3000"
 workers:
   image: skyderby/app:dev
+  environment:
+    <<: *ENV
   volumes:
     - ./:/opt/app
   links:

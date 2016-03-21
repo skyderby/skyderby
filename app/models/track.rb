@@ -61,6 +61,7 @@ class Track < ActiveRecord::Base
   has_many :points, through: :tracksegments
   has_many :track_results, dependent: :destroy
   has_many :virtual_comp_results, dependent: :destroy
+  has_many :weather_data, as: :weather_datumable
 
   validates :name, presence: true, if: 'pilot.blank?'
 
