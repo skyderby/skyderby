@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151202060907) do
+ActiveRecord::Schema.define(version: 20160203174859) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer "user_id", limit: 4
@@ -76,25 +76,27 @@ ActiveRecord::Schema.define(version: 20151202060907) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "competitor_id",   limit: 4
-    t.float    "result",          limit: 24
+    t.decimal  "result",                    precision: 10, scale: 2
     t.integer  "user_profile_id", limit: 4
+    t.decimal  "result_net",                precision: 10, scale: 2
   end
 
   add_index "event_tracks", ["round_id"], name: "index_event_tracks_on_round_id", using: :btree
   add_index "event_tracks", ["user_profile_id"], name: "index_event_tracks_on_user_profile_id", using: :btree
 
   create_table "events", force: :cascade do |t|
-    t.string   "name",            limit: 255
-    t.integer  "range_from",      limit: 4
-    t.integer  "range_to",        limit: 4
+    t.string   "name",              limit: 255
+    t.integer  "range_from",        limit: 4
+    t.integer  "range_to",          limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "status",          limit: 4,   default: 0
-    t.integer  "user_profile_id", limit: 4
-    t.integer  "place_id",        limit: 4
-    t.boolean  "is_official",                 default: false
-    t.integer  "rules",           limit: 4,   default: 0
+    t.integer  "status",            limit: 4,   default: 0
+    t.integer  "user_profile_id",   limit: 4
+    t.integer  "place_id",          limit: 4
+    t.boolean  "is_official",                   default: false
+    t.integer  "rules",             limit: 4,   default: 0
     t.date     "starts_at"
+    t.boolean  "wind_cancellation",             default: false
   end
 
   create_table "manufacturers", force: :cascade do |t|
@@ -384,6 +386,19 @@ ActiveRecord::Schema.define(version: 20151202060907) do
   end
 
   add_index "virtual_competitions", ["place_id"], name: "index_virtual_competitions_on_place_id", using: :btree
+
+  create_table "weather_data", force: :cascade do |t|
+    t.datetime "actual_on"
+    t.decimal  "altitude",                           precision: 10, scale: 4
+    t.decimal  "wind_speed",                         precision: 10, scale: 4
+    t.decimal  "wind_direction",                     precision: 5,  scale: 2
+    t.integer  "weather_datumable_id",   limit: 4
+    t.string   "weather_datumable_type", limit: 255
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
+  end
+
+  add_index "weather_data", ["weather_datumable_id", "weather_datumable_type"], name: "weather_data_pk_index", using: :btree
 
   create_table "wingsuits", force: :cascade do |t|
     t.integer  "manufacturer_id",    limit: 4

@@ -29,4 +29,24 @@ describe Skyderby::Geospatial do
       Skyderby::Geospatial.mercator_to_coordinates(5_299_424.36041, 1_085_840.05328)
     ).to eq(latitude: 9.771652, longitude: 47.6055389999)
   end
+
+  it 'shitfts position on distance and bearing' do
+    expect(
+      Skyderby::Geospatial.shift_position(53.32056, -1.729722, 124800, 96.02167)
+    ).to eq(latitude: 53.1882739267, longitude: 0.1332773495)
+  end
+
+  it 'normalizes angle > 360' do
+    expect(
+      Skyderby::Geospatial.normalize(361)
+    ).to eq(1)
+  end
+
+  it 'normalizes angle < 0' do
+    expect(
+      Skyderby::Geospatial.normalize(-181)
+    ).to eq(179)
+  end
+
+
 end

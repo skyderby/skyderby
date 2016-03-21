@@ -42,6 +42,7 @@ class EventTrack < ActiveRecord::Base
 
   def calc_result
     self.result = EventResultService.new(track, round).calculate
+    self.result_net = EventResultService.new(track, round, true).calculate
   end
 
   def create_track_from_file

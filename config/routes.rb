@@ -16,11 +16,12 @@ Skyderby::Application.routes.draw do
       collection do
         post 'choose'
       end
+      resources :google_maps, controller: 'tracks/google_maps', only: :index
       member do
-        get 'google_maps'
         get 'google_earth'
         get 'replay'
       end
+      resources :weather_data, only: [:index, :create, :update, :destroy]
     end
     # Backward compatibility
     match '/track/:id', to: 'tracks#show', via: :get
@@ -46,6 +47,7 @@ Skyderby::Application.routes.draw do
       resources :event_tracks
       resources :event_organizers, only: [:create, :destroy]
       resources :event_sponsors, only: [:new, :create, :destroy]
+      resources :weather_data, only: [:index, :create, :update, :destroy]
     end
 
     devise_for :users

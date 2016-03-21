@@ -1,0 +1,17 @@
+#track-map-wrapper {
+  position: relative;
+}
+
+#track-map {
+  height: 500px;
+  width: 100%;
+}
+
+#track-map-polar-chart {
+  position: absolute;
+  bottom: 20px;
+  left: 10px;
+  height: 50%;
+  width: 23%;
+  z-index: 99;
+}

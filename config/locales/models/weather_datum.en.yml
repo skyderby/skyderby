@@ -1,0 +1,8 @@
+en:
+  activerecord:
+    errors:
+      models:
+        weather_datum:
+          attributes:
+            wind_direction:
+              inclusion: 'Wind direction should be between 0 and 359 degrees'

@@ -13,6 +13,7 @@ module Skyderby
 
       def to_data_attr
         {
+          id: @track.id,
           points: @points.to_json,
           height: {
             max: @max_height,
