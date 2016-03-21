@@ -32,6 +32,7 @@ class Event < ActiveRecord::Base
   has_many :competitors
   has_many :rounds
   has_many :event_tracks, through: :rounds
+  has_many :weather_data, as: :weather_datumable
 
   validates_presence_of :responsible, :name, :range_from, :range_to, :starts_at
 

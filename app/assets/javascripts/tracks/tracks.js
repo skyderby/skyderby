@@ -542,6 +542,16 @@ function draw_polyline() {
 $(document).on('ready page:load', function() {
     if ($('.track-data').length) {
         init_chart_view();	
+
+        var model = new Skyderby.models.Track({
+            id: $('.track-data').data('id')
+        });
+
+        var view = new Skyderby.views.TrackShowView({
+          el: '.track-show',
+          model: model,
+          can_manage: $('.track-data').data('can-manage')
+        });
     } else if ($('.track-earth-data').length) {
         init_earth_view();
     }
