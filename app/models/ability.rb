@@ -14,6 +14,7 @@ class Ability
     can :read, Competitor
     can :read, Round
     can :read, EventTrack
+    can :read, WeatherDatum
 
     can :read, Wingsuit
     can :read, Place
@@ -38,7 +39,13 @@ class Ability
     return unless user
 
     # Edit own tracks
-    can [:read, :update], Track, user: user
+    can [:read, :update], Track do |track|
+      if track.user == user
+        can :manage, WeatherDatum
+
+        true
+      end
+    end
 
     can :update, UserProfile, user: user
 
@@ -53,6 +60,7 @@ class Ability
         can :manage, Round
         can :manage, EventTrack
         can :manage, EventOrganizer
+        can :manage, WeatherDatum
 
         true
       end

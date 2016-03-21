@@ -1,0 +1,6 @@
+ru:
+  weather_datum:
+    actual_on: 'Дата, время'
+    altitude: 'Высота'
+    wind_speed: 'Скорость ветра'
+    wind_direction: 'Направление'

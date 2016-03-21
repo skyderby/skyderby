@@ -16,12 +16,13 @@ Skyderby.models.Event = Backbone.Model.extend({
     initialize: function() {
         this.url = '/' + I18n.currentLocale() + '/events/' + this.id;
 
-        this.sections    = new Skyderby.collections.Sections({parent_url: this.url});
-        this.competitors = new Skyderby.collections.Competitors({parent_url: this.url});
-        this.rounds      = new Skyderby.collections.Rounds({parent_url: this.url});
-        this.tracks      = new Skyderby.collections.EventTracks({parent_url: this.url});
-        this.organizers  = new Skyderby.collections.EventOrganizers({parent_url: this.url});
-        this.sponsors    = new Skyderby.collections.EventSponsors({parent_url: this.url});
+        this.sections     = new Skyderby.collections.Sections({parent_url: this.url});
+        this.competitors  = new Skyderby.collections.Competitors({parent_url: this.url});
+        this.rounds       = new Skyderby.collections.Rounds({parent_url: this.url});
+        this.tracks       = new Skyderby.collections.EventTracks({parent_url: this.url});
+        this.organizers   = new Skyderby.collections.EventOrganizers({parent_url: this.url});
+        this.sponsors     = new Skyderby.collections.EventSponsors({parent_url: this.url});
+        this.weather_data = new Skyderby.collections.WeatherData({parent_url: this.url});
 
         this.tracks.on('add remove reset', this.update_max_results.bind(this));
 
@@ -31,6 +32,7 @@ Skyderby.models.Event = Backbone.Model.extend({
         this.tracks.set(this.get('tracks'));
         this.sponsors.set(this.get('sponsors'));
         this.organizers.set(this.get('organizers'));
+        this.weather_data.set(this.get('weather_data'));
 
         // Add responsible to organizers
         var organizer_model = new Skyderby.models.EventOrganizer({allow_delete: false});
