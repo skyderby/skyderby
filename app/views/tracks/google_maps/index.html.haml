@@ -6,6 +6,13 @@
     = render partial: 'tracks/header', locals: {track: @track}
     .row
       #track-map-wrapper.col-sm-12
+        #track-map-loading.text-muted
+          #track-map-loading-api.fa-2x
+            %i.fa.fa-spin.fa-circle-o-notch
+            Loading Google Maps API
+          #track-map-loading-data.fa-2x
+            %i.fa.fa-spin.fa-circle-o-notch
+            Loading track data
         #track-map
         #track-map-polar-chart
         #speed-grades
