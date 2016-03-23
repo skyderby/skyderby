@@ -27,11 +27,18 @@ class Skyderby.views.TrackMapView extends Backbone.View
 
   on_model_ready: ->
     @model_ready = true
+    @$('#track-map-loading-data i')
+      .removeClass(' fa-spin fa-circle-o-notch ')
+      .addClass('fa-check');
     @draw_trajectory()
     @render_settings()
 
   on_maps_api_ready: ->
     @maps_ready = true
+
+    @$('#track-map-loading-api i')
+      .removeClass(' fa-spin fa-circle-o-notch ')
+      .addClass('fa-check');
 
     center = new google.maps.LatLng(26.703115, 22.085180)
     options =
@@ -59,6 +66,8 @@ class Skyderby.views.TrackMapView extends Backbone.View
       @draw_polar_chart()
 
     @fit_bounds()
+
+    @$('#track-map-loading').fadeOut(500);
 
   draw_polyline: (points, opts) ->
     path_coordinates = []
