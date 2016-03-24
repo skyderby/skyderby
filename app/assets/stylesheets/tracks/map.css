@@ -25,4 +25,10 @@
   top: 50%;
   margin-top: -100px;
   z-index: 99;
+  background-color: white;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-width: 1px;
+  border-radius: 3px;
+  padding: 10px;
 }
