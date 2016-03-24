@@ -14,7 +14,8 @@ class Skyderby.views.TrackMapView extends Backbone.View
   zerowind_polylines: []
 
   events: 
-    'click #toggle_zerowind_trajectory a': 'toggle_zerowind_trajectory'
+    'click #toggle_zerowind_trajectory a': 'toggle_zerowind_trajectory',
+    'click #set-weather-data': 'set_weather_data'
 
   initialize: ->
     @listenToOnce(window.Skyderby, 'maps_api_ready', @on_maps_api_ready)
@@ -160,6 +161,15 @@ class Skyderby.views.TrackMapView extends Backbone.View
       show_zerowind_trajectory: @show_zerowind_trajectory
 
     @$('.settings-button').html(@settings_template(opts))
+
+  set_weather_data: (e) ->
+    e.preventDefault()
+    view = new Skyderby.views.WeatherDataForm
+      parent_url: @model.track_url(),
+      can_manage: @model.get('can_manage'),
+      default_date: @model.get('default_weather_date')
+
+    view.render().open()
 
   toggle_zerowind_trajectory: (e) ->
     e.preventDefault()

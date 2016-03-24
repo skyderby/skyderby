@@ -5,4 +5,6 @@ en:
         weather_datum:
           attributes:
             wind_direction:
-              inclusion: 'Wind direction should be between 0 and 359 degrees'
+              inclusion: 'Wind direction should be between 0 and 359 degrees.'
+            actual_on:
+              blank: 'Date/time should be filled.'
