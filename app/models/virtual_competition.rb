@@ -18,6 +18,7 @@
 #  range_to              :integer          default(0)
 #  display_highest_speed :boolean          default(FALSE)
 #  display_highest_gr    :boolean          default(FALSE)
+#  display_on_start_page :boolean          default(FALSE)
 #
 
 # create_table "virtual_competitions", force: true do |t|

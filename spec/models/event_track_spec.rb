@@ -8,8 +8,9 @@
 #  created_at      :datetime
 #  updated_at      :datetime
 #  competitor_id   :integer
-#  result          :float(24)
+#  result          :decimal(10, 2)
 #  user_profile_id :integer
+#  result_net      :decimal(10, 2)
 #
 
 require 'rails_helper'
