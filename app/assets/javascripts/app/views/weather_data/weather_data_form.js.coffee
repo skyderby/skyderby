@@ -15,6 +15,7 @@ class Skyderby.views.WeatherDataForm extends Backbone.View
     @collection.fetch(reset: true)
 
     @can_manage = opts.can_manage if _.has(opts, 'can_manage')
+    @default_date = opts.default_date if _.has(opts, 'default_date')
 
   render: ->
     modal_title = 'Weather data'
@@ -42,6 +43,9 @@ class Skyderby.views.WeatherDataForm extends Backbone.View
       tbody.append(row_view.el)
 
     if @can_manage
-      weather_datum_form = new Skyderby.views.WeatherDatumForm(collection: @collection)
+      weather_datum_form = new Skyderby.views.WeatherDatumForm
+        collection: @collection,
+        default_date: @default_date
+
       weather_datum_form.render()
       table.append(weather_datum_form.el)

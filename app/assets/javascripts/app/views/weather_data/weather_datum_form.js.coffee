@@ -7,8 +7,11 @@ class Skyderby.views.WeatherDatumForm extends Backbone.View
   events:
     'click .add-weather-datum': 'save'
 
+  initialize: (opts) ->
+    @default_date = opts.default_date if _.has(opts, 'default_date')
+
   render: ->
-    @$el.html(@template())
+    @$el.html(@template(default_date: @default_date))
     this
 
   save: (e) ->

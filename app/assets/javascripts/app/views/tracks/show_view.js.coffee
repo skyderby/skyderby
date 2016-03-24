@@ -12,6 +12,7 @@ class Skyderby.views.TrackShowView extends Backbone.View
     e.preventDefault()
     view = new Skyderby.views.WeatherDataForm(
       parent_url: @model.url(),
-      can_manage: @can_manage
+      can_manage: @can_manage,
+      default_date: @model.get('default_weather_date')
     )
     view.render().open()
