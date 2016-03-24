@@ -25,6 +25,7 @@
 #  file_updated_at   :datetime
 #  track_file_id     :integer
 #  ground_level      :integer          default(0)
+#  recorded_at       :datetime
 #
 
 class Track < ActiveRecord::Base

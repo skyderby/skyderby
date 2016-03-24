@@ -544,7 +544,8 @@ $(document).on('ready page:load', function() {
         init_chart_view();	
 
         var model = new Skyderby.models.Track({
-            id: $('.track-data').data('id')
+            id: $('.track-data').data('id'),
+            default_weather_date: $('.track-data').data('default-weather-date')
         });
 
         var view = new Skyderby.views.TrackShowView({
