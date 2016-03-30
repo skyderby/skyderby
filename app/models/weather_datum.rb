@@ -16,6 +16,9 @@
 class WeatherDatum < ActiveRecord::Base
   belongs_to :weather_datumable, polymorphic: true
 
-  validates :actual_on, presence: true
-  validates_inclusion_of :wind_direction, in: 0..359
+  validates_presence_of :actual_on, :altitude, :wind_speed, :wind_direction
+
+  validates_numericality_of :altitude, greater_than_or_equal_to: 0, allow_nil: true
+  validates_numericality_of :wind_speed, greater_than_or_equal_to: 0, allow_nil: true
+  validates_numericality_of :wind_direction, greater_than_or_equal_to: 0, less_than: 360, allow_nil: true
 end

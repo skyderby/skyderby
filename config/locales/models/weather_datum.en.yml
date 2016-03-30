@@ -4,7 +4,18 @@ en:
       models:
         weather_datum:
           attributes:
-            wind_direction:
-              inclusion: 'Wind direction should be between 0 and 359 degrees.'
             actual_on:
               blank: 'Date/time should be filled.'
+            altitude:
+              blank: 'Altitude should be filled.'
+              greater_than_or_equal_to: 'Altitude value should be greater than or equal to 0.'
+              not_a_number: 'Altitude value should be a number.'
+            wind_speed:
+              blank: 'Wind speed should be filled.'
+              greater_than_or_equal_to: 'Wind speed value should be greater than or equal to 0.'
+              not_a_number: 'Wind speed value should be a number.'
+            wind_direction:
+              blank: 'Wind direction should be filled.'
+              less_than: 'Wind direction should be between 0 and 360 degrees.'
+              greater_than_or_equal_to: 'Wind direction should be between 0 and 360 degrees.'
+              not_a_number: 'Wind direction value should be a number.'
