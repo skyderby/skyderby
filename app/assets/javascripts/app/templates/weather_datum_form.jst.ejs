@@ -3,10 +3,16 @@
         <input class='form-control' name='weather_datum[actual_on]' placeholder="YYYY-MM-DD HH:mm" <% if (default_date) { %> value="<%=default_date%>" <% } %>/>
     </td>
     <td>
-        <input class='form-control text-right' name='weather_datum[altitude]' />
+        <div class="input-group">
+            <input class='form-control text-right' name='weather_datum[altitude]' />
+            <div class="input-group-addon altitude-units-addon"><%= I18n.t('units.' + altitude_units) %></div>
+        </div>
     </td>
     <td>
-        <input class='form-control text-right' name='weather_datum[wind_speed]' />
+        <div class="input-group">
+            <input class='form-control text-right' name='weather_datum[wind_speed]' />
+            <div class="input-group-addon wind-speed-units-addon"><%= I18n.t('units.' + wind_speed_units) %></div>
+        </div>
     </td>
     <td>
         <input class='form-control text-right' name='weather_datum[wind_direction]' placeholder="0-359°"/>
