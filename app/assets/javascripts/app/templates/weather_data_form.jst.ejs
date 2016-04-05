@@ -5,55 +5,55 @@
             <span class='sr-only'>Close</span>
         </button>
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <h4 class='modal-title'><%= title %></h4>
             </div>
 
-            <div class="col-sm-8">
+            <div class="col-sm-7">
 
                 <div class="btn-group btn-group-xs">
-                    <button class="btn btn-default" data-toggle="dropdown">
-                        Altitude units: m
+                    <button class="btn btn-default altitude-units" data-toggle="dropdown">
+                        <span><%= I18n.t('weather_datum.altitude_units') + ': ' + I18n.t('units.' + altitude_units) %></span>
                         <i class="fa fa-caret-down"></i>
                     </button>
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <a class="wind-units-set-ms" href="#">
-                                m
+                            <a class="altitude-units-set-m" href="#">
+                                <%= I18n.t('units.m') %>
                             </a>
                         </li>
                         <li>
-                            <a class="wind-units-set-knots" href="#">
-                                ft
+                            <a class="altitude-units-set-ft" href="#">
+                                <%= I18n.t('units.ft') %>
                             </a>
                         </li>
                     </ul>
                 </div>
 
                 <div class="btn-group btn-group-xs">
-                    <button class="btn btn-default" data-toggle="dropdown">
-                        Wind speed units: m/s
+                    <button class="btn btn-default wind-speed-units" data-toggle="dropdown">
+                        <span><%= I18n.t('weather_datum.wind_speed_units') + ': ' + I18n.t('units.' + wind_speed_units) %></span>
                         <i class="fa fa-caret-down"></i>
                     </button>
                     <ul class="dropdown-menu" role="menu">
                         <li>
                             <a class="wind-units-set-ms" href="#">
-                                m/s
+                                <%= I18n.t('units.ms') %>
                             </a>
                         </li>
                         <li>
                             <a class="wind-units-set-knots" href="#">
-                                knots
+                                <%= I18n.t('units.knots') %>
                             </a>
                         </li>
                         <li>
                             <a class="wind-units-set-kmh" href="#">
-                                km/h
+                                <%= I18n.t('units.kmh') %>
                             </a>
                         </li>
                         <li>
                             <a class="wind-units-set-mph" href="#">
-                                mph
+                                <%= I18n.t('units.mph') %>
                             </a>
                         </li>
                     </ul>

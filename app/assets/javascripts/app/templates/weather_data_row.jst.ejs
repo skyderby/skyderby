@@ -1,6 +1,6 @@
 <td><%= actual_on %></td>
-<td class="text-right"><%= Number(altitude).toFixed(0) %></td>
-<td class="text-right"><%= wind_speed %></td>
+<td class="text-right weather-datum-altitude"><%= Number(altitude).toFixed(0) %></td>
+<td class="text-right weather-datum-wind-speed"><%= Number(wind_speed).toFixed(1) %></td>
 <td class="text-right"><%= wind_direction %></td>
 <% if (can_manage) { %>
     <td>
