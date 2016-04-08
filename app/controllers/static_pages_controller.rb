@@ -7,15 +7,19 @@ class StaticPagesController < ApplicationController
       .joins(:virtual_competition)
       .joins(:user_profile)
       .where('virtual_competitions.display_on_start_page = ?', true)
-      .group(:user_profile_id, :virtual_competition_id)
       .order(:virtual_competition_id, 'result DESC')
+      .group(:user_profile_id, 
+             :user_profile_name,
+             :virtual_competition_id, 
+             :virtual_competition_name,
+             'virtual_competitions.jumps_kind')
       .pluck_to_hash(
         'virtual_competitions.name as virtual_competition_name',
-        'CASE
+        "CASE
           WHEN virtual_competitions.jumps_kind = 0
-            THEN "Skydive challenge"
-          ELSE "BASE Challenge"
-        END as competition_group',
+            THEN 'Skydive challenge'
+          ELSE 'BASE Challenge'
+        END as competition_group",
         :virtual_competition_id,
         :user_profile_id,
         'user_profiles.name as user_profile_name',

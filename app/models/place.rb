@@ -26,7 +26,10 @@ class Place < ActiveRecord::Base
 
   def pilots_accessible_by(user)
     UserProfile.where(
-      id: tracks.accessible_by(user).select(:user_profile_id).distinct
+      id: Track.accessible_by(user)
+               .where(place_id: id)
+               .select(:user_profile_id)
+               .distinct
     )
   end
 
@@ -39,15 +42,18 @@ class Place < ActiveRecord::Base
     end
 
     def nearby(point, radius)
-      select('id,
+      distance_statement = 
+        "SQRT(
+          POW(111 * (latitude - #{point.latitude.to_s}), 2) +
+          POW(111 * (#{point.longitude.to_s} - longitude) * COS(latitude / (180/PI()) ), 2)
+        )"
+
+      select("id,
               latitude,
               longitude,
               msl,
-              SQRT(
-                POW(111 * (latitude - ' + point.latitude.to_s + '), 2) +
-                POW(111 * (' + point.longitude.to_s + ' - longitude) * COS(latitude / (180/PI()) ), 2)
-              ) AS distance')
-        .having('distance < :radius', radius: radius)
+              #{distance_statement} AS distance")
+        .where("#{distance_statement} < :radius", radius: radius)
         .order('distance')
     end
   end

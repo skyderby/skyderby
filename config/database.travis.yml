@@ -1,6 +1,5 @@
 test:
-  adapter: mysql2
+  adapter: postgresql
   host: localhost
-  database: skyderby_test
-  username: root
+  database: travis_ci_test
   encoding: utf8
