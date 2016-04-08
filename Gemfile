@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.5'
 
 # Supported DB
-gem 'mysql2'
+gem 'pg'
 
 # Auth
 gem 'devise'
@@ -86,6 +86,8 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'rack-mini-profiler'
 
+  gem 'pry'
+  gem 'pry-rails'
   gem 'pry-byebug'
 end
 
