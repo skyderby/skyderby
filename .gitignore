@@ -19,6 +19,8 @@
 
 /public/system
 /public/assets
+/public/javascripts/i18n.js
+/public/javascripts/translations.js
 
 /.idea
 *.sw*
