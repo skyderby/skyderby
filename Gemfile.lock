@@ -236,7 +236,6 @@ GEM
     minitest (5.8.3)
     multi_json (1.11.2)
     multi_test (0.1.2)
-    mysql2 (0.3.18)
     nenv (0.2.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -475,7 +474,6 @@ DEPENDENCIES
   less-rails
   mailcatcher
   meta_request
-  mysql2
   nokogiri (~> 1.6.3.1)
   paperclip (~> 4.2.2)
   pg
