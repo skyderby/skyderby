@@ -64,7 +64,7 @@ Skyderby.views.RoundMapView = Backbone.View.extend({
     open: function() {
         this.modalView.show();
         
-        $.get(this.model.url() + '/map_data', this.on_receive_map_data.bind(this));
+        $.get(this.model.url() + '/map', this.on_receive_map_data.bind(this));
 
         return this;
     },

@@ -1,11 +1,11 @@
 # encoding: utf-8
 class RoundsController < ApplicationController
-  before_action :set_round, only: [:update, :destroy, :map_data]
+  before_action :set_round, only: [:update, :destroy]
 
   load_resource :event
-  before_filter :authorize_event, except: [:map_data]
+  before_filter :authorize_event
 
-  load_and_authorize_resource :round, through: :event, except: [:map_data]
+  load_and_authorize_resource :round, through: :event
 
   def create
     @round = @event.rounds.new round_params
