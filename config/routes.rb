@@ -16,33 +16,36 @@ Skyderby::Application.routes.draw do
       collection do
         post 'choose'
       end
-      resources :google_maps, controller: 'tracks/google_maps', only: :index
+
       member do
         get 'google_earth'
         get 'replay'
       end
+
       resources :weather_data, only: [:index, :create, :update, :destroy]
+
+      scope module: :tracks do
+        resources :google_maps, only: :index
+      end
     end
     # Backward compatibility
     match '/track/:id', to: 'tracks#show', via: :get
 
-    # Help
-    get 'help'                  => 'help#index'
-    get 'help/:category/:file'  => 'help#show', as: :help_page, constraints: { category: /.*/, file: %r{[^\/\.]+} }
-    get 'help/about'
-
     resources :events do
+      scope module: :events do
+        resources :rounds do
+          scope module: :rounds do
+            resources :map, only: :index
+          end
+        end
+      end
+
       resources :sections, only: [:create, :update, :destroy] do
         collection do
           post 'reorder'
         end
       end
 
-      resources :rounds do
-        member do
-          get 'map_data'
-        end
-      end
       resources :competitors
       resources :event_tracks
       resources :event_organizers, only: [:create, :destroy]
@@ -65,11 +68,18 @@ Skyderby::Application.routes.draw do
     resources :virtual_comp_groups
     resources :virtual_comp_results
 
-    resources :tournaments
-    resources :tournament_rounds
-    resources :tournament_matches
-    resources :tournament_match_competitors
-    resources :tournament_competitors
+    resources :tournaments do
+      scope module: :tournaments do
+        resources :rounds
+        resources :competitors
+        resources :matches do
+          scope module: :matches do
+            resources :map, only: :index
+            resources :competitors
+          end
+        end
+      end
+    end
 
     root 'static_pages#index'
   end

@@ -3,6 +3,12 @@
   border-width: 0px;
 }
 
+.tournament-match-map {
+  margin-right: 10px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
 .tournament-round {
   padding-bottom: 15px;
 }
@@ -34,4 +40,9 @@
 }
 .competitors-container {
   padding-bottom: 7px;
+  padding-top: 2px;
+}
+
+#match-map {
+  height: 400px;
 }
