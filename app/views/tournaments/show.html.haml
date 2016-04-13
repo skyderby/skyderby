@@ -1,106 +1,110 @@
 - provide :title, @tournament.name
 
-.container
-  %h1.light-header 
-    = @tournament.name
+.tournament-show
+  .container
+    %h1.light-header 
+      = @tournament.name
 
-.container-fluid
-  .row
-    .col-lg-1
-    - @tournament.tournament_rounds.each do |round|
-      .col-sm-4.col-md-4.col-lg-3.text-center
-        .tournament-round.text-muted
-          Round 
-          = round.order
-        - spacers = 2 ** (round.order - 1) - 1
-        - round.tournament_matches.each do |match|
-          - unless match.bronze_finals
-            - spacers.times do
-              .tournament-spacer
-          .tournament-match
-            .panel.panel-default
-              .panel-body.competitors-container
-                - if match.tournament_match_competitors.count == 0
-                  - 2.times do
+  .container-fluid
+    .row
+      .col-lg-1
+      - @tournament.tournament_rounds.each do |round|
+        .col-sm-4.col-md-4.col-lg-3.text-center
+          .tournament-round.text-muted
+            Round 
+            = round.order
+          - spacers = 2 ** (round.order - 1) - 1
+          - round.tournament_matches.each do |match|
+            - unless match.bronze_finals
+              - spacers.times do
+                .tournament-spacer
+            .tournament-match.text-right
+              .panel.panel-default
+                %a.tournament-match-map.text-muted{'data-tournament-id' => @tournament.id, 'data-match-id' => match.id}
+                  %i.fa.fa-compass
+                  Map
+                .panel-body.competitors-container
+                  - if match.tournament_match_competitors.count == 0
+                    - 2.times do
+                      .tournament-competitor.row
+                        .col-sm-9.col-md-8.text-left.text-muted
+                          ?
+                        .col-sm-3.col-md-4.text-right
+                  - match.tournament_match_competitors.each do |competitor|
                     .tournament-competitor.row
-                      .col-sm-9.col-md-8.text-left.text-muted
-                        ?
-                      .col-sm-3.col-md-4.text-right
-                - match.tournament_match_competitors.each do |competitor|
-                  .tournament-competitor.row
-                    .col-sm-9.text-left
-                      - if match.gold_finals || match.bronze_finals
-                        - if competitor.earn_medal
-                          %i.fa.fa-fw.fa-certificate{class: competitor.earn_medal}
+                      .col-sm-9.text-left
+                        - if match.gold_finals || match.bronze_finals
+                          - if competitor.earn_medal
+                            %i.fa.fa-fw.fa-certificate{class: competitor.earn_medal}
+                          - else
+                            %i.fa.fa-fw
+                        %a{href: user_profile_path(competitor.tournament_competitor.user_profile_id)}
+                          = competitor.tournament_competitor.name
+                      .col-sm-3.text-right
+                        - if competitor.track_id
+                          %a{href: track_path(competitor.track_id), data: {toggle: 'tooltip'}, title: competitor.notes}
+                            - if competitor.is_disqualified
+                              %s
+                                = competitor.result
+                            - else
+                              = competitor.result
                         - else
-                          %i.fa.fa-fw
-                      %a{href: user_profile_path(competitor.tournament_competitor.user_profile_id)}
-                        = competitor.tournament_competitor.name
-                    .col-sm-3.text-right
-                      - if competitor.track_id
-                        %a{href: track_path(competitor.track_id), data: {toggle: 'tooltip'}, title: competitor.notes}
                           - if competitor.is_disqualified
                             %s
                               = competitor.result
                           - else
                             = competitor.result
-                      - else
-                        - if competitor.is_disqualified
-                          %s
-                            = competitor.result
-                        - else
-                          = competitor.result
 
-                - if match.tournament_match_competitors.count == 1
-                  .tournament-competitor.row
-                    .col-sm-9.text-left.text-muted
-                      ?
-                    .col-sm-3.text-right
-          - unless match.gold_finals || match.bronze_finals
-            - spacers.times do
-              .tournament-spacer
+                  - if match.tournament_match_competitors.count == 1
+                    .tournament-competitor.row
+                      .col-sm-9.text-left.text-muted
+                        ?
+                      .col-sm-3.text-right
+            - unless match.gold_finals || match.bronze_finals
+              - spacers.times do
+                .tournament-spacer
 
-.container
-  - if @tournament.qualification_rounds.count > 0      
-
-    .row.top-buffer
-      .col-sm-12
-        %h2.light-header= 'Qualification'
-    .row
-      %table.table.qualification-table
-        %thead
-          %tr
-            %td
-              Rank
-            %td
-              Competitor
-            %td
-              Best result
-            - @tournament.qualification_rounds.each do |round|
-              %td= "Round #{round.order}"
-        %tbody
-          - qualification_results.each_with_index do |result, index|
-            %tr
-              %td= index + 1
-              %td
-                %a{href: user_profile_path(result[:user_profile_id])}
-                  = result[:name]
-              %td= result[:best_result]
-              - @tournament.qualification_rounds.each do |round|
-                - round_result = result["round_#{round.order}"]
-                - track_id = result["round_#{round.order}_track_id"]
-                %td 
-                  - if track_id
-                    %a{href: track_path(track_id), data: {toggle: 'tooltip'}, title: t('.show_details')}
-                      = round_result
-                  - else
-                    = round_result
-
-- if can? :edit, @tournament
   .container
-    %a.btn.btn-default{href: tournament_competitors_path}= 'Competitors'
-    %a.btn.btn-default{href: tournament_rounds_path}= 'Rounds'
-    %a.btn.btn-default{href: tournament_matches_path}= 'Matches'
-    %a.btn.btn-default{href: tournament_match_competitors_path}= 'Match competitors'
+    - if @tournament.qualification_rounds.count > 0      
+
+      .row.top-buffer
+        .col-sm-12
+          %h2.light-header= 'Qualification'
+      .row
+        %table.table.qualification-table
+          %thead
+            %tr
+              %td
+                Rank
+              %td
+                Competitor
+              %td
+                Best result
+              - @tournament.qualification_rounds.each do |round|
+                %td= "Round #{round.order}"
+          %tbody
+            - qualification_results.each_with_index do |result, index|
+              %tr
+                %td= index + 1
+                %td
+                  %a{href: user_profile_path(result[:user_profile_id])}
+                    = result[:name]
+                %td= result[:best_result]
+                - @tournament.qualification_rounds.each do |round|
+                  - round_result = result["round_#{round.order}"]
+                  - track_id = result["round_#{round.order}_track_id"]
+                  %td 
+                    - if track_id
+                      %a{href: track_path(track_id), data: {toggle: 'tooltip'}, title: t('.show_details')}
+                        = round_result
+                    - else
+                      = round_result
+
+  - if can? :edit, @tournament
+    .container
+      %a.btn.btn-default{href: tournament_competitors_path(@tournament.id)}= 'Competitors'
+      %a.btn.btn-default{href: tournament_rounds_path(@tournament.id)}= 'Rounds'
+      %a.btn.btn-default{href: tournament_matches_path(@tournament.id)}= 'Matches'
+      -# %a.btn.btn-default{href: tournament_match_competitors_path}= 'Match competitors'
 
 
