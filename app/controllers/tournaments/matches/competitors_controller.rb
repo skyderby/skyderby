@@ -1,4 +1,4 @@
-class TournamentMatchCompetitorsController < ApplicationController
+class Tournaments::Matches::CompetitorsController < ApplicationController
   before_action :set_tournament_match_competitor, only: [:show, :edit, :update, :destroy]
 
   # GET /tournament_match_competitors

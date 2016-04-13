@@ -63,9 +63,6 @@ module Skyderby
             has_abs_altitude ? point[:abs_altitude] - msl_offset : point[:elevation]
           ]
         end
-        # @points = Skyderby::Tracks::Points.new(@track).points.map do |point|
-          # [point[:fl_time_abs], point[:elevation]]
-        # end
       end
     end
   end

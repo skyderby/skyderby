@@ -33,21 +33,7 @@ class TournamentMatchCompetitor < ActiveRecord::Base
 
     track_points = Skyderby::Tracks::Points.new(track)
     self.result = Skyderby::ResultsProcessors::TimeUntilIntersection.new(
-      track_points, start_time: start_time, finish_line: finish_line
+      track_points, start_time: start_time, finish_line: tournament_match.tournament.finish_line
     ).calculate
-  end
-
-  def finish_line
-    tournament = tournament_match.round.tournament
-    [
-      Skyderby::Tracks::TrackPoint.new(
-        latitude: tournament.finish_start_lat,
-        longitude: tournament.finish_start_lon
-      ),
-      Skyderby::Tracks::TrackPoint.new(
-        latitude: tournament.finish_end_lat,
-        longitude: tournament.finish_end_lon
-      )
-    ]
   end
 end

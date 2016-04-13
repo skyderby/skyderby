@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Tournament Competitors</h1>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Tournament</th>
+      <th>User profile</th>
+      <th>Wingsuit</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @competitors.each do |competitor| %>
+      <tr>
+        <td><%= competitor.tournament.name %></td>
+        <td><%= competitor.user_profile.name %></td>
+        <td><%= competitor.wingsuit.name %></td>
+        <td><%= link_to 'Show', tournament_competitor_path(id: competitor.id) %></td>
+        <td><%= link_to 'Edit', edit_tournament_competitor_path(id: competitor.id) %></td>
+        <td><%= link_to 'Destroy', tournament_competitor_path(id: competitor.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Tournament competitor', new_tournament_competitor_path %>
