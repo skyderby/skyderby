@@ -18,7 +18,7 @@ json.competitors event.competitors, partial: 'competitors/competitor',
 json.tracks event.event_tracks, partial: 'event_tracks/event_track',
                                 as: :event_track
 
-json.rounds event.rounds, partial: 'rounds/round', as: :round
+json.rounds event.rounds, partial: 'events/rounds/round', as: :round
 
 json.organizers event.event_organizers, partial: 'event_organizers/event_organizer',
                                         as: :event_organizer

@@ -1,10 +1,10 @@
-class TournamentCompetitorsController < ApplicationController
+class Tournaments::CompetitorsController < ApplicationController
   before_action :set_tournament_competitor, only: [:show, :edit, :update, :destroy]
 
   # GET /tournament_competitors
   # GET /tournament_competitors.json
   def index
-    @tournament_competitors = TournamentCompetitor.all
+    @competitors = TournamentCompetitor.where(tournament_id: params[:tournament_id])
   end
 
   # GET /tournament_competitors/1
