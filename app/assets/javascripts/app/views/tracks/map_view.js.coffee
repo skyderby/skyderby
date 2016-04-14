@@ -18,7 +18,8 @@ class Skyderby.views.TrackMapView extends Backbone.View
     'click #set-weather-data': 'set_weather_data'
 
   initialize: ->
-    @listenToOnce(window.Skyderby, 'maps_api_ready', @on_maps_api_ready)
+    @listenToOnce(window.Skyderby, 'maps_api:ready', @on_maps_api_ready)
+    @listenToOnce(Skyderby, 'maps_api:failed', @on_maps_api_failed_load)
     @listenToOnce(@model, 'sync', @on_model_ready)
 
     @model.fetch()
@@ -33,6 +34,11 @@ class Skyderby.views.TrackMapView extends Backbone.View
       .addClass('fa-check');
     @draw_trajectory()
     @render_settings()
+
+  on_maps_api_failed_load: ->
+    @$('#track-map-loading-api i')
+      .removeClass(' fa-spin fa-circle-o-notch ')
+      .addClass('fa-exclamation-triangle');
 
   on_maps_api_ready: ->
     @maps_ready = true
