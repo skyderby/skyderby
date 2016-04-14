@@ -78,12 +78,26 @@ class Track < ActiveRecord::Base
   end
 
   def msl_offset
-    if ground_level && ground_level > 0
-      ground_level
-    elsif place_msl
-      place_msl
+    @msl_offset ||= begin
+      if ground_level && ground_level > 0
+        ground_level
+      elsif place_msl
+        place_msl
+      else
+        Point.for_track(id).minimum(:abs_altitude)
+      end
+    end
+  end
+
+  def has_abs_altitude
+    ge_enabled
+  end
+
+  def point_altitude_field
+    if has_abs_altitude
+      "abs_altitude - #{msl_offset} AS altitude"
     else
-      Point.for_track(id).minimum(:abs_altitude)
+      'elevation AS altitude'
     end
   end
 
