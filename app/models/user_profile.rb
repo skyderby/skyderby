@@ -55,7 +55,9 @@ class UserProfile < ActiveRecord::Base
     results =
       VirtualCompResult
       .joins(:virtual_competition)
-      .group(:user_profile_id, :virtual_competition_id)
+      .group(:user_profile_id,
+             :virtual_competition_id,
+             'virtual_competition_name')
       .order(:virtual_competition_id, 'result DESC')
       .pluck_to_hash(
         'virtual_competitions.name as virtual_competition_name',
