@@ -77,6 +77,16 @@ class Track < ActiveRecord::Base
     event_track.present?
   end
 
+  def msl_offset
+    if ground_level && ground_level > 0
+      ground_level
+    elsif place_msl
+      place_msl
+    else
+      Point.for_track(id).minimum(:abs_altitude)
+    end
+  end
+
   private
 
   def used_in_competition?

@@ -8,27 +8,18 @@ class Tournaments::Matches::MapController < ApplicationController
     @map_data = { competitors: {} }
     @match.tournament_match_competitors.each do |competitor_result|
       track = competitor_result.track
-      points = 
-        Point.where(tracksegment_id: track.tracksegments.pluck(:id))
-             .where('round(gps_time_in_seconds) = gps_time_in_seconds')
-             .where('fl_time BETWEEN :ff_start AND :ff_end', 
-                    ff_start: track.ff_start - SECONDS_BEFORE_START, ff_end: track.ff_end)
-             .order(:gps_time_in_seconds)
-             .pluck_to_hash('to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
-                            :elevation,
-                            :abs_altitude,
-                            :latitude,
-                            :longitude)
+      points = Point.for_track(competitor_result.track_id)
+                    .freq_1Hz
+                    .trimmed(seconds_before_start: SECONDS_BEFORE_START)
+                    .pluck_to_hash(
+                      'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
+                      :elevation,
+                      :abs_altitude,
+                      :latitude,
+                      :longitude)
 
       has_abs_altitude = track.ge_enabled
-      msl_offset =
-        if track.ground_level && track.ground_level > 0
-          track.ground_level
-        elsif track.place_msl
-          track.place_msl
-        else
-          points.map { |x| x[:abs_altitude] }.min
-        end
+      msl_offset       = track.msl_offset
 
       points = points.map do |x|
         {
@@ -45,10 +36,10 @@ class Tournaments::Matches::MapController < ApplicationController
       }
     end
 
-    @map_data[:finish_line] = @match.tournament.finish_line
+    @map_data[:finish_line] = @tournament.finish_line
     @map_data[:exit_point] = {
-      latitude: @match.tournament.exit_lat,
-      longitude: @match.tournament.exit_lon
+      latitude: @tournament.exit_lat,
+      longitude: @tournament.exit_lon
     }
 
     render json: @map_data
