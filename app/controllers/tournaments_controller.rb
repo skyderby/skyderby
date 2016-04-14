@@ -52,7 +52,10 @@ class TournamentsController < ApplicationController
       :finish_start_lat,
       :finish_start_lon,
       :finish_end_lat,
-      :finish_end_lon
+      :finish_end_lon,
+      :starts_at,
+      :exit_lat,
+      :exit_lon
     )
   end
 end
