@@ -79,7 +79,7 @@ class Skyderby.views.TournamentMatchMap extends Backbone.View
     lon_bounds = []
 
     color_index = 0
-    for competitor_id, competitor_data of @model.get('competitors')
+    for competitor_data in @model.get('competitors')
       @draw_trajectory(competitor_data.track_points, color_index)
       @add_competitor_to_legend(competitor_data.name, color_index)
       color_index += 1

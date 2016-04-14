@@ -17,6 +17,9 @@
 #
 
 class TournamentMatchCompetitor < ActiveRecord::Base
+
+  SECONDS_BEFORE_START = 10
+
   enum earn_medal: [:gold, :silver, :bronze]
 
   belongs_to :tournament_competitor
@@ -35,5 +38,16 @@ class TournamentMatchCompetitor < ActiveRecord::Base
     self.result = Skyderby::ResultsProcessors::TimeUntilIntersection.new(
       track_points, start_time: start_time, finish_line: tournament_match.tournament.finish_line
     ).calculate
+  end
+
+  def track_points
+    Point.for_track(track_id)
+         .freq_1Hz
+         .trimmed(seconds_before_start: SECONDS_BEFORE_START)
+         .pluck_to_hash(
+           'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
+           track.point_altitude_field,
+           :latitude,
+           :longitude)
   end
 end
