@@ -26,4 +26,17 @@ class Point < ActiveRecord::Base
               mapping: %w(gps_time_in_seconds to_f),
               constructor: proc { |t| Time.zone.at(t) },
               converter: proc { |t| t.is_a?(Time) ? t : Time.zone.at(t / 1000.0) }
+
+  scope :for_track, -> (id) { joins(:tracksegment)
+                              .where(tracksegments: {track_id: id})
+                              .order(:gps_time_in_seconds) }
+  
+  scope :freq_1Hz, -> { where('round(gps_time_in_seconds) = gps_time_in_seconds') }
+
+  scope :trimmed, -> (seconds_before_start: 0, seconds_after_end: 0) { 
+    joins(tracksegment: :track)
+    .where("points.fl_time 
+              BETWEEN (tracks.ff_start - #{seconds_before_start})
+              AND (tracks.ff_end + #{seconds_after_end})")
+  }
 end
