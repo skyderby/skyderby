@@ -38,24 +38,14 @@ module Skyderby
 
       def init_points
         points = 
-          Point.where(tracksegment_id: @track.tracksegments.pluck(:id))
-               .where('round(gps_time_in_seconds) = gps_time_in_seconds')
-               .order(:gps_time_in_seconds)
-               .pluck_to_hash(:gps_time_in_seconds,
-                              :elevation,
-                              :abs_altitude)
-
-        msl_offset =
-          if @track.ground_level && @track.ground_level > 0
-            @track.ground_level
-          elsif @track.place_msl
-            @track.place_msl
-          else
-            points.map { |x| x[:abs_altitude] }.min
-          end
+          Point.for_track(@track.id).freq_1Hz.pluck_to_hash(
+            :gps_time_in_seconds,
+            :elevation,
+            :abs_altitude)
 
         has_abs_altitude = @track.ge_enabled
-        min_gps_time = points.first[:gps_time_in_seconds]
+        msl_offset       = @track.msl_offset
+        min_gps_time     = points.first[:gps_time_in_seconds]
 
         @points = points.map do |point|
           [
