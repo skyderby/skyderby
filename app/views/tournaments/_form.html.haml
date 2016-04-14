@@ -1,47 +1,71 @@
-= form_for @tournament, html: {class: "form-horizontal tournament-form"} do |f|
+#tournament-form
+  .col-sm-6
+    = form_for @tournament, html: {class: "form-horizontal tournament-form"} do |f|
 
-  - if @tournament.errors.any?
-    #error_expl.panel.panel-danger
-      .panel-heading
-        %h3.panel-title
-          = pluralize(@tournament.errors.count, "error") 
-          = 'prohibited this tournament from being saved:'
-      .panel-body
-        %ul
-        - @tournament.errors.full_messages.each do |msg|
-          = msg
+      - if @tournament.errors.any?
+        #error_expl.panel.panel-danger
+          .panel-heading
+            %h3.panel-title
+              = pluralize(@tournament.errors.count, "error") 
+              = 'prohibited this tournament from being saved:'
+          .panel-body
+            %ul
+            - @tournament.errors.full_messages.each do |msg|
+              = msg
 
-  .form-group
-    = f.label :name, class: 'control-label col-sm-2'
-    .col-sm-5
-      = f.text_field :name, class: 'form-control'
-    = error_span(@tournament[:name])
+      .form-group
+        = f.label :name, class: 'control-label col-sm-4'
+        .col-sm-8
+          = f.text_field :name, class: 'form-control'
+        = error_span(@tournament[:name])
 
-  .form-group
-    = f.label :finish_start_lat, class: 'control-label col-sm-2'
-    .col-sm-5
-      = f.text_field :finish_start_lat, class: 'form-control'
-    = error_span(@tournament[:finish_start_lat])
+      .form-group
+        = f.label :starts_at, class: 'control-label col-sm-4'
+        .col-sm-8
+          = f.text_field :starts_at, class: 'form-control datepicker'
+        = error_span(@tournament[:starts_at])
 
-  .form-group
-    = f.label :finish_start_lon, class: 'control-label col-sm-2'
-    .col-sm-5
-      = f.text_field :finish_start_lon, class: 'form-control'
-    = error_span(@tournament[:finish_start_lon])
 
-  .form-group
-    = f.label :finish_end_lat, class: 'control-label col-sm-2'
-    .col-sm-5
-      = f.text_field :finish_end_lat, class: 'form-control'
-    = error_span(@tournament[:finish_end_lat])
+      .form-group
+        = f.label :finish_start_lat, class: 'control-label col-sm-4'
+        .col-sm-8
+          = f.text_field :finish_start_lat, class: 'form-control'
+        = error_span(@tournament[:finish_start_lat])
 
-  .form-group
-    = f.label :finish_end_lon, class: 'control-label col-sm-2'
-    .col-sm-5
-      = f.text_field :finish_end_lon, class: 'form-control'
-    = error_span(@tournament[:finish_end_lon])
+      .form-group
+        = f.label :finish_start_lon, class: 'control-label col-sm-4'
+        .col-sm-8
+          = f.text_field :finish_start_lon, class: 'form-control'
+        = error_span(@tournament[:finish_start_lon])
 
-  .col-sm-offset-2.col-sm-5
-    = f.submit nil, class: 'btn btn-primary'
-    = link_to t('.cancel', default: t("helpers.links.cancel")),
-                virtual_comp_groups_path, class: 'btn btn-default'
+      .form-group
+        = f.label :finish_end_lat, class: 'control-label col-sm-4'
+        .col-sm-8
+          = f.text_field :finish_end_lat, class: 'form-control'
+        = error_span(@tournament[:finish_end_lat])
+
+      .form-group
+        = f.label :finish_end_lon, class: 'control-label col-sm-4'
+        .col-sm-8
+          = f.text_field :finish_end_lon, class: 'form-control'
+        = error_span(@tournament[:finish_end_lon])
+
+      .form-group
+        = f.label :exit_lat, class: 'control-label col-sm-4'
+        .col-sm-8
+          = f.text_field :exit_lat, class: 'form-control'
+        = error_span(@tournament[:exit_lat])
+
+      .form-group
+        = f.label :exit_lon, class: 'control-label col-sm-4'
+        .col-sm-8
+          = f.text_field :exit_lon, class: 'form-control'
+        = error_span(@tournament[:exit_lon])
+
+      .col-sm-offset-4.col-sm-8
+        = f.submit nil, class: 'btn btn-primary'
+        = link_to t('.cancel', default: t("helpers.links.cancel")),
+                    virtual_comp_groups_path, class: 'btn btn-default'
+
+  .col-sm-6
+    #tournament-form-map
