@@ -39,7 +39,7 @@ class Skyderby.views.RoundMapView extends Backbone.View
 
     @listenTo(@modalView, 'modal:hidden', @onModalHidden)
 
-    @listenToOnce(window.Skyderby, 'maps_api_ready', @on_maps_api_ready)
+    @listenToOnce(window.Skyderby, 'maps_api:ready', @on_maps_api_ready)
     window.Skyderby.helpers.init_maps_api()
 
     this

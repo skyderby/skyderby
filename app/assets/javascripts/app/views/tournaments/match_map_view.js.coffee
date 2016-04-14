@@ -39,7 +39,7 @@ class Skyderby.views.TournamentMatchMap extends Backbone.View
     @listenTo(@modalView, 'modal:hidden', @on_modal_hidden)
 
     @listenToOnce(@model, 'sync', @on_model_ready)
-    @listenToOnce(window.Skyderby, 'maps_api_ready', @on_maps_api_ready)
+    @listenToOnce(window.Skyderby, 'maps_api:ready', @on_maps_api_ready)
 
     @model.fetch()
 
