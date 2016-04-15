@@ -20,7 +20,8 @@ COPY ./ /opt/app
 
 VOLUME /opt/app/log
 VOLUME /opt/app/tmp
-VOLUME /opt/app/public
+VOLUME /opt/app/public/assets
+VOLUME /opt/app/public/system
 
 CMD rake db:migrate \
   && rake assets:precompile \
