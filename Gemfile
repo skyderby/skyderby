@@ -116,5 +116,7 @@ end
 # Use unicorn as the app server
 gem 'unicorn'
 
+gem 'newrelic_rpm'
+
 # Use debugger
 # gem 'debugger', group: [:development, :test]
