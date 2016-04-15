@@ -1,5 +1,10 @@
-<h1>New Tournament Competitor</h1>
+<div class="container">
+  <h1>
+    <%= link_to @tournament.name, @tournament %>:
+    <%= link_to 'Competitors', tournament_competitors_path(tournament_id: @tournament.id) %>:
+    Create
+  </h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Back', tournament_competitors_path %>
+</div>

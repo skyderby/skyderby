@@ -1,10 +1,10 @@
-<%= form_for(@tournament_competitor) do |f| %>
-  <% if @tournament_competitor.errors.any? %>
+<%= form_for [@tournament, @competitor], url: (@competitor.new_record? ? tournament_competitors_path : tournament_competitor_path(@tournament, @competitor)) do |f| %>
+  <% if @competitor.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@tournament_competitor.errors.count, "error") %> prohibited this tournament_competitor from being saved:</h2>
+      <h2><%= pluralize(@competitor.errors.count, "error") %> prohibited this tournament_competitor from being saved:</h2>
 
       <ul>
-      <% @tournament_competitor.errors.full_messages.each do |message| %>
+      <% @competitor.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
@@ -17,11 +17,11 @@
   </div>
   <div class="field">
     <%= f.label :user_profile_id %><br>
-    <%= f.collection_select(:user_profile_id, UserProfile.all, :id, :name, {promt: 'Select profile'}, {class: 'form-control'}) %>
+    <%= f.collection_select(:user_profile_id, UserProfile.all.order(:name), :id, :name, {promt: 'Select profile'}, {class: 'form-control'}) %>
   </div>
   <div class="field">
     <%= f.label :wingsuit_id %><br>
-    <%= f.collection_select(:wingsuit_id, Wingsuit.all, :id, :name, {promt: 'Select suit'}, {class: 'form-control'}) %>
+    <%= f.collection_select(:wingsuit_id, Wingsuit.all.order(:name), :id, :name, {promt: 'Select suit'}, {class: 'form-control'}) %>
   </div>
   <div class="actions">
     <%= f.submit %>

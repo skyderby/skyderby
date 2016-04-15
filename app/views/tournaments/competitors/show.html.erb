@@ -2,18 +2,18 @@
 
 <p>
   <strong>Tournament:</strong>
-  <%= @tournament_competitor.tournament_id %>
+  <%= @competitor.tournament_id %>
 </p>
 
 <p>
   <strong>User profile:</strong>
-  <%= @tournament_competitor.user_profile_id %>
+  <%= @competitor.user_profile_id %>
 </p>
 
 <p>
   <strong>Wingsuit:</strong>
-  <%= @tournament_competitor.wingsuit_id %>
+  <%= @competitor.wingsuit_id %>
 </p>
 
-<%= link_to 'Edit', edit_tournament_competitor_path(id: @tournament_competitor.id) %> |
+<%= link_to 'Edit', edit_tournament_competitor_path(id: @competitor.id) %> |
 <%= link_to 'Back', tournament_competitors_path %>

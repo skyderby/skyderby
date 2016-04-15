@@ -25,7 +25,7 @@ class Tournament < ActiveRecord::Base
   ]
 
   belongs_to :place
-  has_many :tournament_competitors
+  has_many :competitors, class_name: 'TournamentCompetitor'
   has_many :tournament_rounds
   has_many :tournament_matches, through: :tournament_rounds
 
