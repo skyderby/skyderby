@@ -1,7 +1,7 @@
 module TournamentsHelper
   def qualification_results
     results = []
-    @tournament.tournament_competitors.each do |competitor|
+    @tournament.competitors.each do |competitor|
       competitor_result = {
         id: competitor.id,
         name: competitor.name,
