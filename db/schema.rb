@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160413081953) do
+ActiveRecord::Schema.define(version: 20160417081234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,21 +58,6 @@ ActiveRecord::Schema.define(version: 20160413081953) do
 
   add_index "event_organizers", ["event_id"], name: "index_event_organizers_on_event_id", using: :btree
   add_index "event_organizers", ["user_profile_id"], name: "index_event_organizers_on_user_profile_id", using: :btree
-
-  create_table "event_sponsors", force: :cascade do |t|
-    t.string   "name",              limit: 510
-    t.string   "logo_file_name",    limit: 510
-    t.string   "logo_content_type", limit: 510
-    t.integer  "logo_file_size"
-    t.datetime "logo_updated_at"
-    t.string   "website",           limit: 510
-    t.integer  "event_id"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-  end
-
-  add_index "event_sponsors", ["event_id"], name: "event_sponsors_event_id_idx", using: :btree
-  add_index "event_sponsors", ["event_id"], name: "index_event_sponsors_on_event_id", using: :btree
 
   create_table "event_tracks", force: :cascade do |t|
     t.integer  "round_id"
@@ -175,6 +160,23 @@ ActiveRecord::Schema.define(version: 20160413081953) do
   end
 
   add_index "sections", ["event_id"], name: "index_sections_on_event_id", using: :btree
+
+  create_table "sponsors", force: :cascade do |t|
+    t.string   "name",              limit: 510
+    t.string   "logo_file_name",    limit: 510
+    t.string   "logo_content_type", limit: 510
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
+    t.string   "website",           limit: 510
+    t.integer  "sponsorable_id"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "sponsorable_type"
+  end
+
+  add_index "sponsors", ["sponsorable_id", "sponsorable_type"], name: "index_sponsors_on_sponsorable_id_and_sponsorable_type", using: :btree
+  add_index "sponsors", ["sponsorable_id"], name: "event_sponsors_event_id_idx", using: :btree
+  add_index "sponsors", ["sponsorable_id"], name: "index_sponsors_on_sponsorable_id", using: :btree
 
   create_table "tournament_competitors", force: :cascade do |t|
     t.integer  "tournament_id"
@@ -423,6 +425,6 @@ ActiveRecord::Schema.define(version: 20160413081953) do
 
   add_index "wingsuits", ["manufacturer_id"], name: "index_wingsuits_on_manufacturer_id", using: :btree
 
-  add_foreign_key "event_sponsors", "events"
+  add_foreign_key "sponsors", "events", column: "sponsorable_id"
   add_foreign_key "user_profiles", "countries"
 end

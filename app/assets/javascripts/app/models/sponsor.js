@@ -1,6 +1,6 @@
-Skyderby.models.EventSponsor = Backbone.Model.extend({
+Skyderby.models.Sponsor = Backbone.Model.extend({
 
-    paramRoot: 'event_sponsor',
+    paramRoot: 'sponsor',
 
     defaults: {
         name: '',
@@ -22,11 +22,11 @@ Skyderby.models.EventSponsor = Backbone.Model.extend({
         } else {
             var form = new FormData();
             if (!this.isNew()) {
-                form.append('event_sponsor[id]', this.get('id'));
+                form.append('sponsor[id]', this.get('id'));
             }
-            form.append('event_sponsor[name]', this.get('name'));
-            form.append('event_sponsor[website]', this.get('website'));
-            form.append('event_sponsor[logo]', this.get('logo'));
+            form.append('sponsor[name]', this.get('name'));
+            form.append('sponsor[website]', this.get('website'));
+            form.append('sponsor[logo]', this.get('logo'));
             
             var url = this.url();
             if (_.has(options, 'url')) url = options.url;
