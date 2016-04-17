@@ -122,7 +122,7 @@ class Skyderby.views.EventView extends Backbone.View
 
     add_sponsor_click: (e) ->
       e.preventDefault()
-      new_sponsor = new Skyderby.models.EventSponsor()
+      new_sponsor = new Skyderby.models.Sponsor()
       sponsor_form = new Skyderby.views.SponsorForm(model: new_sponsor)
       sponsor_form.render().open()
 

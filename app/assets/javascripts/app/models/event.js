@@ -21,7 +21,7 @@ Skyderby.models.Event = Backbone.Model.extend({
         this.rounds       = new Skyderby.collections.Rounds({parent_url: this.url});
         this.tracks       = new Skyderby.collections.EventTracks({parent_url: this.url});
         this.organizers   = new Skyderby.collections.EventOrganizers({parent_url: this.url});
-        this.sponsors     = new Skyderby.collections.EventSponsors({parent_url: this.url});
+        this.sponsors     = new Skyderby.collections.Sponsors({parent_url: this.url});
         this.weather_data = new Skyderby.collections.WeatherData({parent_url: this.url});
 
         this.tracks.on('add remove reset', this.update_max_results.bind(this));

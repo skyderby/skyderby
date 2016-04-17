@@ -49,7 +49,7 @@ Skyderby::Application.routes.draw do
       resources :competitors
       resources :event_tracks
       resources :event_organizers, only: [:create, :destroy]
-      resources :event_sponsors, only: [:new, :create, :destroy]
+      resources :sponsors, only: [:new, :create, :destroy]
       resources :weather_data, only: [:index, :create, :update, :destroy]
     end
 

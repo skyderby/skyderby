@@ -14,8 +14,8 @@
 #  updated_at        :datetime         not null
 #
 
-class EventSponsor < ActiveRecord::Base
-  belongs_to :event
+class Sponsor < ActiveRecord::Base
+  belongs_to :sponsorable, polymorphic: true
   has_attached_file :logo, styles: { medium: '300x120>' }
   validates_attachment_content_type :logo, content_type: %r{\Aimage\/.*\Z}
 end

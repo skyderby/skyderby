@@ -28,11 +28,11 @@ class Event < ActiveRecord::Base
   belongs_to :place
 
   has_many :event_organizers
-  has_many :event_sponsors
   has_many :sections
   has_many :competitors
   has_many :rounds
   has_many :event_tracks, through: :rounds
+  has_many :sponsors, as: :sponsorable
   has_many :weather_data, as: :weather_datumable
 
   validates_presence_of :responsible, :name, :range_from, :range_to, :starts_at
