@@ -18,8 +18,8 @@ preload_app true
 timeout 30
 
 # Logging
-stderr_path "#{app_dir}/log/unicorn.stderr.log"
-stdout_path "#{app_dir}/log/unicorn.stdout.log"
+# stderr_path "#{app_dir}/log/unicorn.stderr.log"
+# stdout_path "#{app_dir}/log/unicorn.stdout.log"
 
 # # Set master PID location
 pid '/tmp/pids/unicorn.pid'
