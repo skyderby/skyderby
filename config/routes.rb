@@ -5,7 +5,7 @@ Skyderby::Application.routes.draw do
     # Static pages and routes
     match '/competitions', to: 'static_pages#competitions', as: :competitions, via: :get
     match '/about', to: 'static_pages#about', as: :about, via: :get
-    match '/terms', to: 'static_pages#terms', as: :terms, via: :get
+    get '/ping' => 'static_pages#ping'
 
     match '/manage', to: 'static_pages#manage', as: :manage, via: :get
     authenticate :user, lambda { |u| u.has_role? :admin } do

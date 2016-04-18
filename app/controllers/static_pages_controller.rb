@@ -45,7 +45,9 @@ class StaticPagesController < ApplicationController
     authorize! :manage, :all
   end
 
-  def terms
+  # End point for NewRelic availability monitoring
+  def ping
+    head :ok
   end
 
   def about
