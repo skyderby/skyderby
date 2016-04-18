@@ -27,6 +27,7 @@ class TournamentMatchCompetitor < ActiveRecord::Base
   belongs_to :track
 
   before_save :calculate_result
+  before_save :replace_nan_with_zero
 
   delegate :start_time, to: :tournament_match
 
@@ -49,5 +50,12 @@ class TournamentMatchCompetitor < ActiveRecord::Base
            track.point_altitude_field,
            :latitude,
            :longitude)
+  end
+
+  private
+
+  def replace_nan_with_zero
+    return if result.nil?
+    self.result = 0 if result.nan? || result.infinite?
   end
 end

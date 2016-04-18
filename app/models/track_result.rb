@@ -14,4 +14,13 @@ class TrackResult < ActiveRecord::Base
   enum discipline: [:time, :distance, :speed]
 
   belongs_to :track
+
+  before_save :replace_nan_with_zero
+
+  private
+
+  def replace_nan_with_zero
+    return if result.nil?
+    self.result = 0 if result.nan? || result.infinite?
+  end
 end

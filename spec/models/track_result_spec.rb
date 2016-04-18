@@ -13,5 +13,18 @@
 require 'rails_helper'
 
 RSpec.describe TrackResult, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "replace NaN in result with 0.0" do
+    record = TrackResult.create!(result: Float::NAN)
+    expect(record.result).to eq 0.0
+  end
+
+  it "replace Infinity in result with 0.0" do
+    record = TrackResult.create!(result: Float::INFINITY)
+    expect(record.result).to eq 0.0
+  end
+
+  it "correctly handles null in result" do
+    record = TrackResult.create!(result: nil)
+    expect(record.result).to eq nil
+  end
 end
