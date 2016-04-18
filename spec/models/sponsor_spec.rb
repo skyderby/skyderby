@@ -16,6 +16,6 @@
 
 require 'rails_helper'
 
-RSpec.describe EventSponsor, type: :model do
+RSpec.describe Sponsor, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end
