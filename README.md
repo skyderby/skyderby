@@ -40,7 +40,9 @@ So I decided to create a new application.
   
 * Deployment instructions
 
+## Million Thanks to
 
+Alex and Svetlana Rubinshtein, Shane Dunn, Aleksey Shatilov, Valeriy Salcutsan, Simon Repton, Evgeniy Pavlov, Egor Orlow, Simon Perriard, Aleksey Galda, Aleksandr Zharikov, Ekaterina Larina,  Tatyana Holm, Yulia Makoveeva, Leonid Sigalov, Sergey Panteleev.
 
 ## Licensing
 
