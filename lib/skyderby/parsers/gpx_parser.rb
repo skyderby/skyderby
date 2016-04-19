@@ -113,7 +113,11 @@ module Skyderby
             point.gps_time = Time.zone.parse(point_attr.text)
           end
         end
-        @track_points << point
+        @track_points << point if point_valid point
+      end
+
+      def point_valid(point)
+        point.abs_altitude && point.gps_time && point.latitude && point.longitude
       end
     end
   end
