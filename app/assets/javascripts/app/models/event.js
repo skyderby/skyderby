@@ -8,8 +8,20 @@ Skyderby.models.Event = Backbone.Model.extend({
         range_to: 2000,
         status: 'draft',
         rules: 'speed_distance_time',
-        is_official: false
+        is_official: false,
+        wind_cancellation: false
     },
+
+    permitted_params: [
+        'name', 
+        'starts_at',
+        'rules',
+        'place_id',
+        'range_from',
+        'range_to',
+        'status',
+        'wind_cancellation'
+    ],
 
     max_results: {},
 
@@ -40,10 +52,29 @@ Skyderby.models.Event = Backbone.Model.extend({
         this.organizers.add(organizer_model);
     },
 
+    save: function(attrs, options) {
+        if (!options) options = {};
+        if (!attrs) attrs = _.clone(this.attributes);
+
+        // Filter the data to send to the server
+        attrs = _.pick(attrs, this.permitted_params);
+
+        var data = {};
+        data[this.paramRoot] = attrs;
+
+        options.contentType = "application/json";
+        options.data = JSON.stringify(data);
+
+        // Proxy the call to the original save function
+        return Backbone.Model.prototype.save.call(this, {}, options);
+    },
+
     update_max_results: function() {
+        var result_field = this.get('wind_cancellation') ? 'result_net' : 'result'
+
         var max_results_array = this.tracks.chain()
             .map(function(el) {
-                return {round_id: el.get('round_id'), result: el.get('result')};
+                return {round_id: el.get('round_id'), result: el.get(result_field)};
             })
             .groupBy('round_id')
             .map(function(value, key) {

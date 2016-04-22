@@ -2,7 +2,7 @@ class EventResultService
   def initialize(track, round, wind_cancellation = false)
     @track = track
     @event = round.event
-    @points = Skyderby::Tracks::Points.new(@track)
+    @points = Skyderby::Tracks::Points.new(@track).trimmed
 
     subtract_wind if wind_cancellation
 
@@ -21,6 +21,6 @@ class EventResultService
 
   def subtract_wind
     wind_data = Skyderby::WindCancellation::WindData.new(@event.weather_data)
-    @points = Skyderby::WindCancellation::WindSubtraction(@points, wind_data).execute
+    @points = Skyderby::WindCancellation::WindSubtraction.new(@points, wind_data).execute
   end
 end

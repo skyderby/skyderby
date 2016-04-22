@@ -54,6 +54,8 @@ en:
     update: "Update"
     delete: "Delete"
     edit: "Edit"
+    enabled: 'Enabled'
+    disabled: 'Disabled'
   disciplines:
     speed: 'Speed'
     distance: 'Distance'

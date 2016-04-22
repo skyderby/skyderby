@@ -57,21 +57,17 @@
 
 	        <div class='form-group'>
                 <span class='col-sm-4 control-label'>
-					<%= I18n.t('activerecord.attributes.event.status') + ':' %>
+					<%= I18n.t('activerecord.attributes.event.wind_cancellation') + ':' %>
 			    </span>
 			    <div class='col-sm-8'>
                     <div class='btn-group' data-toggle='buttons'>
-						<label id='draft-label' class='btn btn-default'>
-						    <input type='radio' name='event[status]' value='draft' autocomplete='off' />
-							<%= I18n.t('event_status.draft') %>
+						<label id='wind-cancellation-disabled-label' class='btn btn-default'>
+						    <input type='radio' name='event[wind_cancellation]' value='false' autocomplete='off' />
+							<%= I18n.t('general.disabled') %>
 						</label>
-						<label id='published-label' class='btn btn-default'>
-							<input type='radio' name='event[status]' value='published' autocomplete='off' />
-							<%= I18n.t('event_status.published') %>
-						</label>
-						<label id='finished-label' class='btn btn-default'>
-						    <input type='radio' name='event[status]', value='finished' autocomplete='off' />
-							<%= I18n.t('event_status.finished') %>
+                        <label id='wind-cancellation-enabled-label' class='btn btn-default'>
+							<input type='radio' name='event[wind_cancellation]' value='true' autocomplete='off' />
+							<%= I18n.t('general.enabled') %>
 						</label>
 				     </div>
 				</div>
