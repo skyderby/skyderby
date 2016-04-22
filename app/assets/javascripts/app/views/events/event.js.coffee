@@ -1,10 +1,12 @@
 class Skyderby.views.EventView extends Backbone.View
 
-    fa_fw_template: JST['app/templates/fa_fw']
-    edit_commands: JST['app/templates/edit_commands']
-    edit_event: JST['app/templates/edit_event']
+    fa_fw_template:            JST['app/templates/fa_fw']
+    edit_commands:             JST['app/templates/edit_commands']
+    edit_event:                JST['app/templates/edit_event']
+    wind_cancellation_caption: JST['app/templates/events/wind_cancellation_caption']
 
     can_manage: false
+    results_adjusted_for_wind: false
 
     events:
       'click .button-add-class'          : 'add_class_click'
@@ -16,13 +18,21 @@ class Skyderby.views.EventView extends Backbone.View
       'click .add-sponsor'               : 'add_sponsor_click'
       'click .add-organizer'             : 'add_organizer_click'
       'click #wind-cancellation-settings': 'setup_wind_cancellation'
+      'click .event-set-status-draft'    : 'set_status_draft'
+      'click .event-set-status-published': 'set_status_published'
+      'click .event-set-status-finished' : 'set_status_finished'
+      'click #switch-results-mode'       : 'switch_results_mode'
 
     initialize: (opts) ->
       @can_manage = opts.can_manage if _.has(opts, 'can_manage')
 
+      @results_adjusted_for_wind = @model.get('wind_cancellation')
+
       @scoreboard = new Skyderby.views.Scoreboard
+        parent_view: this
         model: @model
         can_manage: @can_manage
+        results_adjusted_for_wind: @results_adjusted_for_wind
 
       @listenTo(@model.sponsors, 'add', @add_sponsor)
       @listenTo(@model.organizers, 'add', @add_organizer)
@@ -72,6 +82,12 @@ class Skyderby.views.EventView extends Backbone.View
         $('#title-competition-place').show().text(place_text)
       else
         $('#title-competition-place').hide()
+
+      @$('.event-status-button').text(
+        I18n.t('activerecord.attributes.event.status') + ': ' + I18n.t('event_status.' + @model.get('status'))
+      ) if @can_manage
+
+      @set_wind_cancellation_caption()
 
     add_organizer: (organizer) ->
       view = new Skyderby.views.EventOrganizer
@@ -139,3 +155,28 @@ class Skyderby.views.EventView extends Backbone.View
         can_manage: @can_manage
       )
       view.render().open()
+
+    set_status_draft: (e) ->
+      @set_status('draft', e)
+
+    set_status_published: (e) ->
+      @set_status('published', e)
+
+    set_status_finished: (e) ->
+      @set_status('finished', e)
+
+    set_status: (status, event) ->
+      event.preventDefault()
+      @model.save({ status: status }, wait: true, error: fail_ajax_request)
+
+    set_wind_cancellation_caption: ->
+      template = @wind_cancellation_caption(
+        wind_cancellation: @model.get('wind_cancellation')
+        results_adjusted_for_wind: @results_adjusted_for_wind)
+
+      @$('#event-wind-cancellation-caption').html(template)
+
+    switch_results_mode: ->
+      @results_adjusted_for_wind = !@results_adjusted_for_wind
+      @trigger('change-results-mode', @results_adjusted_for_wind)
+      @set_wind_cancellation_caption()

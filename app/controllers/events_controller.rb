@@ -52,7 +52,8 @@ class EventsController < ApplicationController
       :place_id,
       :range_from,
       :range_to,
-      :status
+      :status,
+      :wind_cancellation
     )
   end
 end

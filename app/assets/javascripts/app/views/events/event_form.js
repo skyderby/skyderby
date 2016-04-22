@@ -45,8 +45,10 @@ Skyderby.views.EventForm = Backbone.View.extend({
 
         this.init_place_select();
 
-        $('input:radio[name="event[status]"][value=' + this.model.get('status') + ']').prop('checked');
-        $('#' + this.model.get('status') + '-label').addClass('active');
+        $('input:radio[name="event[wind_cancellation]"][value=' + this.model.get('wind_cancellation') + ']').prop('checked');
+        $('#wind-cancellation-' + 
+          (this.model.get('wind_cancellation') ? 'enabled' : 'disabled') + 
+          '-label').addClass('active');
 
         return this;
     },
@@ -67,16 +69,15 @@ Skyderby.views.EventForm = Backbone.View.extend({
     onSubmit: function(e) {
         e.preventDefault();
         var params = {
-            name:       $('#event-form input[name="event[name]"]').val(),
-            starts_at:  $('#event-form input[name="event[starts_at]"]').val(),
-            range_from: $('#event-form input[name="event[range_from]"]').val(),
-            range_to:   $('#event-form input[name="event[range_to]"]').val(),
-            status:     $('#event-form input:radio[name="event[status]"]').filter(':checked').val(),
-            place_id:   $('#event-form select[name="event[place_id]"]').val()
+            name:              $('#event-form input[name="event[name]"]').val(),
+            starts_at:         $('#event-form input[name="event[starts_at]"]').val(),
+            range_from:        $('#event-form input[name="event[range_from]"]').val(),
+            range_to:          $('#event-form input[name="event[range_to]"]').val(),
+            wind_cancellation: $('#event-form input:radio[name="event[wind_cancellation]"]').filter(':checked').val(),
+            place_id:          $('#event-form select[name="event[place_id]"]').val()
         };
 
-        this.model.set(params);
-        this.model.save({wait: true});
+        this.model.save(params, {wait: true, error: fail_ajax_request});
         this.modalView.hide();
     },
 

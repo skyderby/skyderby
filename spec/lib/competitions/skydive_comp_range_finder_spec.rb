@@ -18,7 +18,7 @@ describe 'SkydiveCompRangeFinder', type: :feature do
         wingsuit: FactoryGirl.create(:wingsuit)
     }
     track = CreateTrackService.new(params[:pilot].user, params, 0).execute
-    track_points = Skyderby::Tracks::Points.new(track)
+    track_points = Skyderby::Tracks::Points.new(track).trimmed
     @track_comp_range = SkydiveCompRange.for(track_points, 3000, 2000)
   end
 

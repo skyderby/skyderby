@@ -36,23 +36,23 @@
         </button>
         <% if (can_manage) { %>
             <div class="btn-group">
-                <button class="btn btn-default" data-toggle="dropdown">
+                <button class="btn btn-default event-status-button" data-toggle="dropdown">
                     <%= I18n.t('activerecord.attributes.event.status') + ': ' + I18n.t('event_status.' + status) %>
                     <i class="fa fa-caret-down"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-right" role="menu">
                     <li>
-                        <a class="add-distance-round" href="#">
+                        <a class="event-set-status-draft" href="#">
                             <%= I18n.t('event_status.draft') %>
                         </a>
                     </li>
                     <li>
-                        <a class="add-time-round" href="#">
+                        <a class="event-set-status-published" href="#">
                             <%= I18n.t('event_status.published') %>
                         </a>
                     </li>
                     <li>
-                        <a class="add-speed-round" href="#">
+                        <a class="event-set-status-finished" href="#">
                             <%= I18n.t('event_status.finished') %>
                         </a>
                     </li>
