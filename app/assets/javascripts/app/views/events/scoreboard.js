@@ -23,6 +23,8 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
     $table_footer_row: null,
     row_length: 3,
 
+    results_adjusted_for_wind: false,
+
     header:      JST['app/templates/scoreboard_header'],
     round_cell:  JST['app/templates/round_cell'],
     result_cell: JST['app/templates/result_cell'],
@@ -36,6 +38,13 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
         // this.$template_row   = this.$el.find('.template-row');
 
         if (_.has(opts, 'can_manage')) this.can_manage = opts.can_manage;
+        if (_.has(opts, 'results_adjusted_for_wind')) this.results_adjusted_for_wind = opts.results_adjusted_for_wind;
+        if (_.has(opts, 'parent_view')) {
+            this.parent_view = opts.parent_view;
+            this.listenTo(this.parent_view, 
+                          'change-results-mode', 
+                          this.change_results_mode);
+        }
 
         this.rules = this.model.get('rules');
 
@@ -47,7 +56,7 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
         this.listenTo(this.model.rounds, 'add', this.create_round);
         this.listenTo(this.model.rounds, 'remove', this.delete_round);
 
-        this.listenTo(this.model.tracks, 'add', this.create_result);
+        this.listenTo(this.model.tracks, 'add', this.render_result);
         this.listenTo(this.model.tracks, 'request', this.on_result_request);
         this.listenTo(this.model.tracks, 'error', this.on_result_request_error);
         this.listenTo(this.model.tracks, 'remove', this.delete_result);
@@ -60,6 +69,8 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
         this.listenTo(this.model.tracks, 'add remove', this.calculate_totals);
         this.listenTo(this.model.tracks, 'add remove', this.sort_by_points);
         this.listenTo(this.model.tracks, 'add remove', this.set_row_numbers);
+
+        
     },
 
     ////////////////////////////////////////////////////////////
@@ -89,7 +100,7 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
         e.preventDefault();  
         var result_id = $(e.currentTarget).attr('data-result-id');
         if (result_id) {
-            var result = window.Competition.tracks.get(result_id);
+            var result = this.model.tracks.get(result_id);
             var view = new Skyderby.views.ShowResultForm({
                 model: result,
                 can_manage: this.can_manage
@@ -113,7 +124,7 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
         e.preventDefault();  
         var result_id = $(this).attr('data-result-id');
         if (result_id) {
-            window.Competition.result_by_id(result_id).open_form();
+            this.model.result_by_id(result_id).open_form();
         }   
     },
 
@@ -305,7 +316,7 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
         this.model.competitors.each(function(competitor) {
             var total_points = 0;
 
-            var tracks = window.Competition.tracks.where({competitor_id: competitor.id});
+            var tracks = this.model.tracks.where({competitor_id: competitor.id});
             if (tracks.length >= 3) {
                 var best_tracks = _.chain(tracks)
                     .sortBy(function(trk) { return -trk.get('result'); })
@@ -335,12 +346,12 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
 
         this.model.sections.each(function(section) {
             var competitors_ids = 
-                window.Competition.competitors.chain()
+                this.model.competitors.chain()
                     .filter(function(el) { return el.get('section_id') === section.id; })
                     .map(function(el) { return el.id; })
                     .value();
             var results = 
-                window.Competition.tracks.chain()
+                this.model.tracks.chain()
                     .filter(function(el) { return _.contains(competitors_ids, el.get('competitor_id')); })
                     .sortBy(function(el) { return -el.get('result'); })
                     .value();
@@ -354,17 +365,22 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
     },
 
     calculate_points: function() {
-        window.Competition.competitors.each(function(competitor) {
-            window.Competition.rounds.each(function(round) {
-                var result_cell = $('#competitor_' + competitor.id + '>' +
-                                  'td[data-round-id=' + round.id + ']' +
-                                  '[data-role=result]');
-                var points_cell = $('#competitor_' + competitor.id + '>' +
-                                  'td[data-round-id=' + round.id + ']' +
-                                  '[data-role=points]');
-                var result = +result_cell.text();
+        var result_field = this.model.get('wind_cancellation') ? 'result_net' : 'result'
+        this.model.competitors.each(function(competitor) {
+            this.model.rounds.each(function(round) {
 
-                var max_result_for_round = window.Competition.max_results[round.id];
+                var result_element = this.model.tracks.findWhere({
+                    competitor_id: competitor.id,
+                    round_id: round.id
+                });
+
+                if (result_element === undefined) return;
+
+                var result = result_element.get(result_field);
+
+                var points_cell = this.get_points_cell(competitor.id, round.id);
+
+                var max_result_for_round = this.model.max_results[round.id];
                 var max_val = max_result_for_round ? max_result_for_round : result;
 
                 if (result) {
@@ -374,8 +390,8 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
                     points_cell.text('');
                 }
 
-            }); 
-        });    
+            }, this); 
+        }, this);    
     },
 
     sort_by_points: function() {
@@ -471,22 +487,22 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
     render: function() {
 
         // Sections
-        this.model.sections.each(this.render_section.bind(this));
+        this.model.sections.each(this.render_section, this);
 
         // Rounds
-        this.model.rounds.each(this.create_round.bind(this));
+        this.model.rounds.each(this.create_round, this);
 
         // Competitors
-        this.model.competitors.each(this.render_competitor.bind(this));
+        this.model.competitors.each(this.render_competitor, this);
         
         // Results
-        this.model.tracks.each(this.create_result.bind(this));
+        this.model.tracks.each(this.render_result, this);
 
         // Table footer
         this.$el.append(
             $('<tbody>').attr('id', 'table-footer').append($('<tr>'))
         );
-        if (window.Competition.is_official && window.Competition.can_manage) {
+        if (this.model.get('is_official') && this.can_manage) {
             this.render_table_footer();
         }
 
@@ -775,15 +791,21 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
         // this.calculate_totals();
     },
 
-    create_result: function(result) {
-        var result_cell = $('#competitor_' + result.get('competitor_id') + ' > ' +
-                            'td[data-round-id=' + result.get('round_id') + ']' + 
-                            '[data-role=result]');
-        var points_cell = $('#competitor_' + result.get('competitor_id') + ' > ' +
-                            'td[data-round-id=' + result.get('round_id') + ']' + 
-                            '[data-role=points]');
+    render_result: function(result) {
 
-        result_cell.text(result.get('result'))
+        var result_cell = this.get_result_cell(
+            result.get('competitor_id'),
+            result.get('round_id')
+        );
+        var points_cell = this.get_points_cell(
+            result.get('competitor_id'),
+            result.get('round_id')
+        );
+
+        var result_value = result.get('result');
+        if (this.results_adjusted_for_wind) result_value = result.get('result_net');
+
+        result_cell.text(result_value)
             .removeClass('text-center')
             .attr('data-result-id', result.id)
             .attr('data-track-id', result.get('track_id'))
@@ -820,16 +842,37 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
     },
 
     on_result_request: function(result) {
-        var result_cell = $('#competitor_' + result.get('competitor_id') + ' > ' +
-                            'td[data-round-id=' + result.get('round_id') + ']' + 
-                            '[data-role=result]');
+        var result_cell = this.get_result_cell(
+            result.get('competitor_id'), 
+            result.get('round_id')
+        );
         result_cell.html($('<i>').addClass('fa fa-spin fa-circle-o-notch text-danger')).addClass('text-center');
     },
 
     on_result_request_error: function(result) {
-        var result_cell = $('#competitor_' + result.get('competitor_id') + ' > ' +
-                            'td[data-round-id=' + result.get('round_id') + ']' + 
-                            '[data-role=result]');
+        var result_cell = this.get_result_cell(
+            result.get('competitor_id'), 
+            result.get('round_id')
+        );
         result_cell.find('i').remove().removeClass('text-center');
-    }
+    },
+
+    change_results_mode: function(show_adjusted_for_wind_results) {
+        this.results_adjusted_for_wind = show_adjusted_for_wind_results;
+        this.model.tracks.each(this.render_result, this);
+    },
+
+    get_result_cell: function(competitor_id, round_id) {
+        return this.$(
+            '#competitor_' + competitor_id + ' > ' +
+            'td[data-round-id=' + round_id + ']' + '[data-role=result]'
+        );
+    },
+
+    get_points_cell: function(competitor_id, round_id) {
+        return this.$(
+            '#competitor_' + competitor_id + ' > ' +
+            'td[data-round-id=' + round_id + ']' + '[data-role=points]'
+        );
+    },
 });

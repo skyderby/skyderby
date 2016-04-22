@@ -8,6 +8,8 @@ ru:
         status: 'Статус'
         place: 'Место проведения'
         starts_at: 'Дата начала'
+        rules: 'Правила'
+        wind_cancellation: 'Вычитание ветра'
   event_status:
     draft: 'Подготовка'
     published: 'Опубликовано'

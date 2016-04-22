@@ -18,12 +18,12 @@
               = f.text_field :name, class: 'form-control'
 
           .form-group
-            %span.col-sm-4.control-label= t('activerecord.attributes.event.starts_at')
+            %span.col-sm-4.control-label= t('activerecord.attributes.event.starts_at') + ':'
             .col-sm-8
               = f.text_field :starts_at, class: 'form-control datepicker'
 
           .form-group.row
-            %span.col-sm-4.control-label= t('events.show.comp_window')
+            %span.col-sm-4.control-label= t('events.show.comp_window') + ':'
             .col-sm-3
               = f.text_field :range_from, class: 'form-control', type: 'number', value: 3000
             %span.col-sm-1.text-center= ' - '
@@ -37,7 +37,7 @@
 
           .form-group
             %span.col-sm-4.control-label
-              = t('activerecord.attributes.event.rules')
+              = t('activerecord.attributes.event.rules') + ':'
             .btn-group.col-sm-8{data: {toggle: 'buttons'}}
               %label.btn.btn-default.active
                 = f.radio_button 'rules', 'speed_distance_time'
@@ -48,6 +48,17 @@
               %label.btn.btn-default
                 = f.radio_button 'rules', 'hungary_boogie'
                 Hungary Boogie 
+
+          .form-group
+            %span.col-sm-4.control-label
+              = t('activerecord.attributes.event.wind_cancellation') + ':'
+            .btn-group.col-sm-8{data: {toggle: 'buttons'}}
+              %label.btn.btn-default.active
+                = f.radio_button 'rules', 'false'
+                = t('general.disabled')
+              %label.btn.btn-default
+                = f.radio_button 'rules', 'true'
+                = t('general.enabled')
 
         .modal-footer
           = f.submit t('general.save'), class: 'btn btn-success'
