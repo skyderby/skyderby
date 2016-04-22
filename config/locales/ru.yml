@@ -44,6 +44,8 @@ ru:
     update: "Обновить"
     delete: "Удалить"
     edit: "Редактировать"
+    enabled: 'Включено'
+    disabled: 'Выключено'
   disciplines:
     speed: 'Скорость'
     distance: 'Дистанция'

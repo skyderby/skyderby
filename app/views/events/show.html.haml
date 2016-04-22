@@ -1,7 +1,7 @@
 - provide :title, @event.name
 - can_manage = can? :update, @event
 
-.event-data{data: {details: event_details,
+.event-data{data: {details: render(template: 'events/show.json.jbuilder', format: :json),
                    can_manage: can_manage.to_s }}
 
 .container.top-buffer#event
@@ -19,6 +19,9 @@
   .row.top-buffer
     .col-md-12
       %table.table.table-bordered#results-table
+  .row
+    .col-md-12#event-wind-cancellation-caption
+      
   .row
     .col-md-12
       %h4= t('.judges') + ':'
