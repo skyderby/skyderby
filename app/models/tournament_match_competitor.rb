@@ -42,7 +42,7 @@ class TournamentMatchCompetitor < ActiveRecord::Base
   end
 
   def track_points
-    Point.for_track(track_id)
+    track.points
          .freq_1Hz
          .trimmed(seconds_before_start: SECONDS_BEFORE_START)
          .pluck_to_hash(
