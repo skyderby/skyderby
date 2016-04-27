@@ -37,10 +37,9 @@ module Skyderby
       protected
 
       def init_points
-        points_for_track = Point.for_track(@track.id)
-        min_gps_time = points_for_track.minimum(:gps_time_in_seconds)
+        min_gps_time = @track.points.minimum(:gps_time_in_seconds)
 
-        points = points_for_track.freq_1Hz.pluck_to_hash(
+        points = @track.points.freq_1Hz.pluck_to_hash(
           "gps_time_in_seconds - #{min_gps_time} AS gps_time",
           @track.point_altitude_field)
 

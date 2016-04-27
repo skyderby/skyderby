@@ -59,7 +59,7 @@ class Track < ActiveRecord::Base
           class_name: 'TrackResult'
 
   has_many :tracksegments, dependent: :destroy
-  has_many :points, through: :tracksegments
+  has_many :points, -> { order :gps_time_in_seconds }, through: :tracksegments
   has_many :track_results, dependent: :destroy
   has_many :virtual_comp_results, dependent: :destroy
   has_many :weather_data, as: :weather_datumable
@@ -84,7 +84,7 @@ class Track < ActiveRecord::Base
       elsif place_msl
         place_msl
       else
-        Point.for_track(id).minimum(:abs_altitude)
+        points.minimum(:abs_altitude)
       end
     end
   end
