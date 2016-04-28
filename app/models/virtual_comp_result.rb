@@ -30,9 +30,10 @@ class VirtualCompResult < ActiveRecord::Base
   belongs_to :track
   belongs_to :user_profile
 
-  validates :virtual_competition, presence: true
-  validates :track, presence: true
-  validates :user_profile, presence: true
+  validates_presence_of :virtual_competition
+  validates_presence_of :track
+  validates_presence_of :user_profile
+  validates_uniqueness_of :track_id, scope: :virtual_competition_id
 
   delegate :wingsuit, to: :track
 end

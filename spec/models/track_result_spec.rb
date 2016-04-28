@@ -27,4 +27,10 @@ RSpec.describe TrackResult, type: :model do
     record = TrackResult.create!(result: nil)
     expect(record.result).to eq nil
   end
+
+  it 'validates uniqueness by discipline and track' do
+    attrs = { track_id: 1, discipline: :time }
+    record = TrackResult.create!(attrs)
+    expect(TrackResult.create(attrs)).not_to be_valid
+  end
 end

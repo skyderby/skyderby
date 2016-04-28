@@ -15,6 +15,7 @@ class TrackResult < ActiveRecord::Base
 
   belongs_to :track
 
+  validates_uniqueness_of :discipline, scope: :track_id
   before_save :replace_nan_with_zero
 
   private
