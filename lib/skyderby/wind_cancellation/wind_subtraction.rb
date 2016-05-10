@@ -32,7 +32,7 @@ module Skyderby
           )          
 
           new_point = point.clone
-          new_point.latitude, point.longitude = new_position[:latitude], new_position[:longitude]
+          new_point.latitude, new_point.longitude = new_position[:latitude], new_position[:longitude]
           result << new_point
         end
 
