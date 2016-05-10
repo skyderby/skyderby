@@ -54,10 +54,10 @@
               = t('activerecord.attributes.event.wind_cancellation') + ':'
             .btn-group.col-sm-8{data: {toggle: 'buttons'}}
               %label.btn.btn-default.active
-                = f.radio_button 'rules', 'false'
+                = f.radio_button 'wind_cancellation', 'false'
                 = t('general.disabled')
               %label.btn.btn-default
-                = f.radio_button 'rules', 'true'
+                = f.radio_button 'wind_cancellation', 'true'
                 = t('general.enabled')
 
         .modal-footer
