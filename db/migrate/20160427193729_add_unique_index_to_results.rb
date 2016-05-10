@@ -4,7 +4,10 @@ class AddUniqueIndexToResults < ActiveRecord::Migration
     add_index :track_results, [:track_id, :discipline], unique: true
 
     delete_duplicated_virtual_comp_results
-    add_index :virtual_comp_results, [:virtual_competition_id, :track_id], unique: true
+    add_index :virtual_comp_results, 
+              [:virtual_competition_id, :track_id],
+              unique: true,
+              name: :index_vcomp_results_on_comp_id_and_track_id
   end
 
   def delete_duplicated_track_results
