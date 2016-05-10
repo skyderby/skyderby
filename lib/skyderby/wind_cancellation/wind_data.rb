@@ -33,7 +33,7 @@ module Skyderby
       def select_by_altitude(weather_data, altitude)
         weather_data.sort_by! { |x| x[:altitude] }
 
-        return weather_data.first if altitude < weather_data.first[:altitude]
+        return weather_data.first if altitude <= weather_data.first[:altitude]
         return weather_data.last if altitude > weather_data.last[:altitude]
 
         pair = weather_data.each_cons(2).detect do |pair|
