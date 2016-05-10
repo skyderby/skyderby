@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160417081234) do
+ActiveRecord::Schema.define(version: 20160427193729) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -254,6 +254,7 @@ ActiveRecord::Schema.define(version: 20160417081234) do
     t.float   "result"
   end
 
+  add_index "track_results", ["track_id", "discipline"], name: "index_track_results_on_track_id_and_discipline", unique: true, using: :btree
   add_index "track_results", ["track_id"], name: "index_track_results_on_track_id", using: :btree
 
   create_table "track_videos", force: :cascade do |t|
@@ -376,6 +377,7 @@ ActiveRecord::Schema.define(version: 20160417081234) do
   end
 
   add_index "virtual_comp_results", ["track_id"], name: "index_virtual_comp_results_on_track_id", using: :btree
+  add_index "virtual_comp_results", ["virtual_competition_id", "track_id"], name: "index_vcomp_results_on_comp_id_and_track_id", unique: true, using: :btree
   add_index "virtual_comp_results", ["virtual_competition_id"], name: "index_virtual_comp_results_on_virtual_competition_id", using: :btree
 
   create_table "virtual_competitions", force: :cascade do |t|
