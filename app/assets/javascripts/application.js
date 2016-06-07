@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.remotipart
 //= require turbolinks
 //= require jquery.turbolinks
 //= require bootstrap-datepicker/core
@@ -21,7 +22,7 @@
 //= require twitter/bootstrap
 //= require vendor/jquery.validate
 //= require vendor/additional-methods.min
-//= require vendor/markerclusterer_compiled
+//= require markerclusterer
 //= require i18n/translations
 //= require underscore
 //= require backbone
