@@ -20,9 +20,12 @@
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.de.js
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.es.js
 //= require twitter/bootstrap
-//= require vendor/jquery.validate
-//= require vendor/additional-methods.min
+//= require jquery.validate
+//= require additional-methods.min
 //= require markerclusterer
+//= require ion.rangeSlider
+//= require jquery.cookie
+//= require select2.min
 //= require i18n/translations
 //= require underscore
 //= require backbone
