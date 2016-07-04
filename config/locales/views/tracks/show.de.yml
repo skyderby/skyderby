@@ -1,17 +1,18 @@
 de:
   tracks:
+    indicators:
+      distance: Entfernung
+      elevation: Höhendifferenz
+      ground_speed: Horizontale Geschwindigkeit
+      vertical_speed: Vertikale Geschwindigkeit
+      duration: Dauer
+      glide_ratio: Flugqualität
     show:
       title_track: Track
       title_suit: Suit
       menu_header: 'Merkmalanzeige:'
       menu_sep: Auf unterschiedlichen Grafiken
       menu_one: Auf einer Grafik
-      dt_dist: Entfernung
-      dt_elev: Höhendifferenz
-      dt_dur: Dauer
-      dt_hspd: Horizontale Geschwindigkeit
-      dt_vspd: Vertikale Geschwindigkeit
-      dt_gr: Flugqualität
       units_header: 'Maßeinheit:'
       m_units_metric: Metrisches Einheitssystem (m, km/h.)
       m_units_imperial: Imperiale Einheiten (Fuß, mi/h)

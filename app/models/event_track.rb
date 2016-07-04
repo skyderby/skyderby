@@ -2,58 +2,89 @@
 #
 # Table name: event_tracks
 #
-#  id              :integer          not null, primary key
-#  round_id        :integer
-#  track_id        :integer
-#  created_at      :datetime
-#  updated_at      :datetime
-#  competitor_id   :integer
-#  result          :decimal(10, 2)
-#  user_profile_id :integer
-#  result_net      :decimal(10, 2)
+#  id                      :integer          not null, primary key
+#  round_id                :integer
+#  track_id                :integer
+#  created_at              :datetime
+#  updated_at              :datetime
+#  competitor_id           :integer
+#  result                  :decimal(10, 2)
+#  user_profile_id         :integer
+#  result_net              :decimal(10, 2)
+#  is_disqualified         :boolean          default(FALSE)
+#  disqualification_reason :string
 #
 
 class EventTrack < ActiveRecord::Base
-  attr_accessor :track_attributes, :current_user
+  attr_accessor :track_attributes, :current_user, :track_from
 
   belongs_to :track
   belongs_to :round
   belongs_to :competitor
   belongs_to :uploaded_by,
-             class_name: 'UserProfile',
-             foreign_key: 'user_profile_id'
+             class_name: 'Profile',
+             foreign_key: 'profile_id'
+
+  scope :for_round, -> (round_id) { where(round_id: round_id) }
 
   validates_presence_of :competitor
   validates_presence_of :round
   validates_presence_of :track
-  validate :validate_result_duplication, on: :create
+  validates_uniqueness_of :competitor_id, scope: :round_id, on: :create
 
   delegate :event, to: :round
   delegate :event_id, to: :round
+  delegate :range_from, to: :round
+  delegate :range_to, to: :round
   delegate :discipline, to: :round, prefix: true
+  delegate :name, to: :round, prefix: true
+  delegate :section, to: :competitor
 
   before_validation :create_track_from_file
   before_save :set_uploaded_by, :calc_result
 
+  def points
+    return 0 if result.nil? || result.zero? || is_disqualified
+    result / round.best_result.result * 100
+  end
+
+  def points_net
+    return 0 if result_net.nil? || result_net.zero? || is_disqualified
+    result_net / round.best_result_net.result * 100
+  end
+
+  def best_in_round?
+    self == round.best_result
+  end
+
   private
 
   def set_uploaded_by
-    self.uploaded_by ||= current_user.user_profile if current_user
+    self.uploaded_by ||= current_user.profile if current_user
   end
 
   def calc_result
+    return unless track_id_changed?
+
     self.result = EventResultService.new(track, round).calculate
-    self.result_net = EventResultService.new(track, round, true).calculate
+    self.result_net = EventResultService.new(track, round, true).calculate if event.wind_cancellation
   end
 
   def create_track_from_file
-    return if track_id
+    return if track_from == 'existing_track'
 
     track_file = TrackFile.create(file: track_attributes[:file])
 
     return false unless check_file_already_used(track_file)
 
-    params = track_attributes.merge(track_file_id: track_file.id).except(:file)
+    params = track_attributes.merge(
+      track_file_id: track_file.id,
+      place_id: event.place_id,
+      profile_id: competitor.profile_id,
+      wingsuit_id: competitor.wingsuit_id,
+      comment: "#{event.name} - #{round_discipline.humanize} #{round_name}"
+    ).except(:file)
+
     self.track = CreateTrackService.new(current_user, params, 0).execute
   end
 
@@ -86,14 +117,5 @@ class EventTrack < ActiveRecord::Base
                  .where.not(id: track_file.id)
 
     duplicates.first
-  end
-
-  def validate_result_duplication
-    duplicates = EventTrack.where(
-      competitor_id: competitor_id,
-      round_id: round_id
-    )
-
-    errors.add(:result, :duplicate) unless duplicates.blank?
   end
 end

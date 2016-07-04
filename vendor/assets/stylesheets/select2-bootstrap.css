@@ -260,6 +260,7 @@
 .select2-container--bootstrap .select2-selection--single .select2-selection__rendered {
   color: #555555;
   padding: 0;
+  white-space: nowrap;
 }
 .select2-container--bootstrap .select2-selection--single .select2-selection__placeholder {
   color: #999;

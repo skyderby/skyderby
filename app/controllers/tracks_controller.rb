@@ -1,6 +1,9 @@
 # encoding: utf-8
 
 class TracksController < ApplicationController
+  include PreferencesHelper
+  include UnitsHelper
+
   before_action :set_track, only:
     [:show, :google_maps, :google_earth, :replay, :edit, :update, :destroy]
 
@@ -49,14 +52,25 @@ class TracksController < ApplicationController
 
   def show
     authorize! :read, @track
-    @track_data =
-      Skyderby::Tracks::ChartsData.new(@track, params[:f], params[:t])
+
+    process_range if params[:range]
+
+    @track_presenter = presenter_class.new(
+      @track,
+      params[:f],
+      params[:t],
+      preferred_speed_units,
+      preferred_distance_units,
+      preferred_altitude_units
+    )
+    
+    @track_presenter.load
+    # @track_data =
+      # Skyderby::Tracks::ChartsData.new(@track, params[:f], params[:t])
 
     respond_to do |format|
-      format.html do
-        LastViewedUpdateWorker.perform_async(@track.id)
-        @track_data
-      end
+      format.html { LastViewedUpdateWorker.perform_async(@track.id) }
+      format.js 
       format.json { @track_data }
     end
   end
@@ -169,8 +183,19 @@ class TracksController < ApplicationController
       :cache_id,
       :track_index,
       :visibility,
-      :user_profile_id
+      :profile_id
     )
+  end
+
+  def process_range
+    range = params[:range].split(';')
+    params[:f] = Distance.new(range.first, preferred_altitude_units).truncate
+    params[:t] = Distance.new(range.last,  preferred_altitude_units).truncate
+  end
+
+  def presenter_class
+    return Tracks::TrackPresenter if @track.flysight? || @track.cyber_eye?
+    Tracks::RawTrackPresenter
   end
 
   def cached_params
@@ -191,7 +216,7 @@ class TracksController < ApplicationController
 
     return unless query
 
-    @tracks = @tracks.where(user_profile_id: query[:profile_id]) if query[:profile_id]
+    @tracks = @tracks.where(profile_id: query[:profile_id]) if query[:profile_id]
     @tracks = @tracks.where(wingsuit_id: query[:suit_id]) if query[:suit_id]
     @tracks = @tracks.where(place_id: query[:place_id]) if query[:place_id]
 

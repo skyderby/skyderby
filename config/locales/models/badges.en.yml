@@ -1,0 +1,16 @@
+en:
+  activerecord:
+    models:
+      badge: Badge
+    attributes:
+      badge:
+        name: Name
+        kind: Kind
+    errors:
+      models:
+        badge:
+          attributes:
+            name:
+              blank: Name can't be blank
+            kind:
+              blank: Kind can't be blank

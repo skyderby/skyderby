@@ -1,0 +1,4 @@
+en:
+  sections:
+    show:
+      delete_confirmation: Are you sure you want delete this class?

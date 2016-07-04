@@ -4,6 +4,10 @@ class SponsorsController < ApplicationController
   before_filter :load_sponsorable
   before_filter :authorize_sponsorable
 
+  def new
+    @sponsor = Sponsor.new
+  end
+
   def create
     @sponsor = @sponsorable.sponsors.new sponsor_params
 

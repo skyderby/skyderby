@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427193729) do
+ActiveRecord::Schema.define(version: 20160610090645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,9 +24,9 @@ ActiveRecord::Schema.define(version: 20160427193729) do
   add_index "assignments", ["user_id"], name: "index_assignments_on_user_id", using: :btree
 
   create_table "badges", force: :cascade do |t|
-    t.string   "name",            limit: 510
+    t.string   "name",       limit: 510
     t.integer  "kind"
-    t.integer  "user_profile_id"
+    t.integer  "profile_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -37,9 +37,9 @@ ActiveRecord::Schema.define(version: 20160427193729) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "wingsuit_id"
-    t.string   "name",            limit: 510
+    t.string   "name",        limit: 510
     t.integer  "section_id"
-    t.integer  "user_profile_id"
+    t.integer  "profile_id"
   end
 
   add_index "competitors", ["event_id"], name: "index_competitors_on_event_id", using: :btree
@@ -51,13 +51,13 @@ ActiveRecord::Schema.define(version: 20160427193729) do
 
   create_table "event_organizers", force: :cascade do |t|
     t.integer  "event_id"
-    t.integer  "user_profile_id"
+    t.integer  "profile_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "event_organizers", ["event_id"], name: "index_event_organizers_on_event_id", using: :btree
-  add_index "event_organizers", ["user_profile_id"], name: "index_event_organizers_on_user_profile_id", using: :btree
+  add_index "event_organizers", ["profile_id"], name: "index_event_organizers_on_profile_id", using: :btree
 
   create_table "event_tracks", force: :cascade do |t|
     t.integer  "round_id"
@@ -65,13 +65,15 @@ ActiveRecord::Schema.define(version: 20160427193729) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "competitor_id"
-    t.decimal  "result",          precision: 10, scale: 2
-    t.integer  "user_profile_id"
-    t.decimal  "result_net",      precision: 10, scale: 2
+    t.decimal  "result",                  precision: 10, scale: 2
+    t.integer  "profile_id"
+    t.decimal  "result_net",              precision: 10, scale: 2
+    t.boolean  "is_disqualified",                                  default: false
+    t.string   "disqualification_reason"
   end
 
+  add_index "event_tracks", ["profile_id"], name: "index_event_tracks_on_profile_id", using: :btree
   add_index "event_tracks", ["round_id"], name: "index_event_tracks_on_round_id", using: :btree
-  add_index "event_tracks", ["user_profile_id"], name: "index_event_tracks_on_user_profile_id", using: :btree
 
   create_table "events", force: :cascade do |t|
     t.string   "name",              limit: 510
@@ -80,7 +82,7 @@ ActiveRecord::Schema.define(version: 20160427193729) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "status",                        default: 0
-    t.integer  "user_profile_id"
+    t.integer  "profile_id"
     t.integer  "place_id"
     t.boolean  "is_official"
     t.integer  "rules",                         default: 0
@@ -120,6 +122,31 @@ ActiveRecord::Schema.define(version: 20160427193729) do
 
   add_index "points", ["tracksegment_id"], name: "index_points_on_tracksegment_id", using: :btree
 
+  create_table "profiles", force: :cascade do |t|
+    t.string   "last_name",            limit: 510
+    t.string   "first_name",           limit: 510
+    t.string   "name",                 limit: 510
+    t.string   "userpic_file_name",    limit: 510
+    t.string   "userpic_content_type", limit: 510
+    t.integer  "userpic_file_size"
+    t.datetime "userpic_updated_at"
+    t.integer  "user_id"
+    t.string   "facebook_profile",     limit: 510
+    t.string   "vk_profile",           limit: 510
+    t.integer  "dropzone_id"
+    t.integer  "crop_x"
+    t.integer  "crop_y"
+    t.integer  "crop_w"
+    t.integer  "crop_h"
+    t.integer  "default_units",                    default: 0
+    t.integer  "default_chart_view",               default: 0
+    t.integer  "country_id"
+  end
+
+  add_index "profiles", ["country_id"], name: "index_profiles_on_country_id", using: :btree
+  add_index "profiles", ["country_id"], name: "user_profiles_country_id_idx", using: :btree
+  add_index "profiles", ["user_id"], name: "index_profiles_on_user_id", using: :btree
+
   create_table "qualification_jumps", force: :cascade do |t|
     t.integer  "qualification_round_id"
     t.integer  "tournament_competitor_id"
@@ -143,12 +170,12 @@ ActiveRecord::Schema.define(version: 20160427193729) do
   end
 
   create_table "rounds", force: :cascade do |t|
-    t.string   "name",            limit: 510
+    t.string   "name",       limit: 510
     t.integer  "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "discipline"
-    t.integer  "user_profile_id"
+    t.integer  "profile_id"
   end
 
   add_index "rounds", ["event_id"], name: "index_rounds_on_event_id", using: :btree
@@ -180,10 +207,10 @@ ActiveRecord::Schema.define(version: 20160427193729) do
 
   create_table "tournament_competitors", force: :cascade do |t|
     t.integer  "tournament_id"
-    t.integer  "user_profile_id"
+    t.integer  "profile_id"
     t.integer  "wingsuit_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   add_index "tournament_competitors", ["tournament_id"], name: "index_tournament_competitors_on_tournament_id", using: :btree
@@ -283,7 +310,7 @@ ActiveRecord::Schema.define(version: 20160427193729) do
     t.integer  "ff_end"
     t.boolean  "ge_enabled",                    default: true
     t.integer  "visibility",                    default: 0
-    t.integer  "user_profile_id"
+    t.integer  "profile_id"
     t.integer  "place_id"
     t.integer  "gps_type",                      default: 0
     t.string   "file_file_name",    limit: 510
@@ -296,8 +323,8 @@ ActiveRecord::Schema.define(version: 20160427193729) do
   end
 
   add_index "tracks", ["place_id"], name: "index_tracks_on_place_id", using: :btree
+  add_index "tracks", ["profile_id"], name: "index_tracks_on_profile_id", using: :btree
   add_index "tracks", ["user_id"], name: "index_tracks_on_user_id", using: :btree
-  add_index "tracks", ["user_profile_id"], name: "index_tracks_on_user_profile_id", using: :btree
   add_index "tracks", ["wingsuit_id"], name: "index_tracks_on_wingsuit_id", using: :btree
 
   create_table "tracksegments", force: :cascade do |t|
@@ -307,31 +334,6 @@ ActiveRecord::Schema.define(version: 20160427193729) do
   end
 
   add_index "tracksegments", ["track_id"], name: "index_tracksegments_on_track_id", using: :btree
-
-  create_table "user_profiles", force: :cascade do |t|
-    t.string   "last_name",            limit: 510
-    t.string   "first_name",           limit: 510
-    t.string   "name",                 limit: 510
-    t.string   "userpic_file_name",    limit: 510
-    t.string   "userpic_content_type", limit: 510
-    t.integer  "userpic_file_size"
-    t.datetime "userpic_updated_at"
-    t.integer  "user_id"
-    t.string   "facebook_profile",     limit: 510
-    t.string   "vk_profile",           limit: 510
-    t.integer  "dropzone_id"
-    t.integer  "crop_x"
-    t.integer  "crop_y"
-    t.integer  "crop_w"
-    t.integer  "crop_h"
-    t.integer  "default_units",                    default: 0
-    t.integer  "default_chart_view",               default: 0
-    t.integer  "country_id"
-  end
-
-  add_index "user_profiles", ["country_id"], name: "index_user_profiles_on_country_id", using: :btree
-  add_index "user_profiles", ["country_id"], name: "user_profiles_country_id_idx", using: :btree
-  add_index "user_profiles", ["user_id"], name: "index_user_profiles_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 510, default: "", null: false
@@ -371,7 +373,7 @@ ActiveRecord::Schema.define(version: 20160427193729) do
     t.float    "result",                 default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_profile_id"
+    t.integer  "profile_id"
     t.float    "highest_speed",          default: 0.0
     t.float    "highest_gr",             default: 0.0
   end
@@ -427,6 +429,6 @@ ActiveRecord::Schema.define(version: 20160427193729) do
 
   add_index "wingsuits", ["manufacturer_id"], name: "index_wingsuits_on_manufacturer_id", using: :btree
 
+  add_foreign_key "profiles", "countries"
   add_foreign_key "sponsors", "events", column: "sponsorable_id"
-  add_foreign_key "user_profiles", "countries"
 end

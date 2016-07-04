@@ -2,13 +2,13 @@
   .panel-body
     .row
       .col-sm-4.col-md-4
-        = image_tag(result.user_profile.userpic.url(:medium), 
+        = image_tag(result.profile.userpic.url(:medium), 
                     class: 'img-responsive img-rounded')
       .col-sm-8.col-md-8
-        %a.vc-profile-name{href: user_profile_path(result.user_profile), 
+        %a.vc-profile-name{href: profile_path(result.profile), 
           data: {toggle: 'tooltip'}, 
           title: t('virtual_competitions.show.show_profile')}
-          = result.user_profile.name.titleize
+          = result.profile.name.titleize
         %div
           %a.vc-result-link{href: track_path(result.track_id), 
               data: {toggle: 'tooltip'}, 

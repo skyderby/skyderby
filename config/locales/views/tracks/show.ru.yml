@@ -1,17 +1,18 @@
 ru:
   tracks:
+    indicators:
+      distance: Дистанция
+      elevation: Перепад высот
+      ground_speed: Путевая скорость
+      vertical_speed: Вертикальная скорость
+      duration: Продолжительность
+      glide_ratio: Качество полета
     show:
       title_track: 'Трек'
       title_suit: 'Вингсьют'
       menu_header: 'Отображение показателей'
       menu_sep: 'На разных графиках'
       menu_one: 'На одном графике'
-      dt_dist: 'Дистанция'
-      dt_elev: 'Перепад высот'
-      dt_dur: 'Продолжительность'
-      dt_hspd: 'Путевая скорость'
-      dt_vspd: 'Вертикальная скорость'
-      dt_gr: 'Качество полета'
       units_header: 'Единицы измерения:'
       m_units_metric: 'Метрические (м, км/ч)'
       m_units_imperial: 'Имперские (футы, мили/ч)'

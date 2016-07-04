@@ -3,10 +3,10 @@
 # Table name: places
 #
 #  id          :integer          not null, primary key
-#  name        :string(255)
+#  name        :string(510)
 #  latitude    :decimal(15, 10)
 #  longitude   :decimal(15, 10)
-#  information :text(65535)
+#  information :text
 #  country_id  :integer
 #  msl         :integer
 #
@@ -25,10 +25,10 @@ class Place < ActiveRecord::Base
   # validates :msl, presence: true
 
   def pilots_accessible_by(user)
-    UserProfile.where(
+    Profile.where(
       id: Track.accessible_by(user)
                .where(place_id: id)
-               .select(:user_profile_id)
+               .select(:profile_id)
                .distinct
     )
   end

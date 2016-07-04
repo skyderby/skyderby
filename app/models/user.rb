@@ -3,28 +3,28 @@
 # Table name: users
 #
 #  id                     :integer          not null, primary key
-#  email                  :string(255)      default(""), not null
-#  encrypted_password     :string(255)      default(""), not null
-#  reset_password_token   :string(255)
+#  email                  :string(510)      default(""), not null
+#  encrypted_password     :string(510)      default(""), not null
+#  reset_password_token   :string(510)
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
 #  sign_in_count          :integer          default(0), not null
 #  current_sign_in_at     :datetime
 #  last_sign_in_at        :datetime
-#  current_sign_in_ip     :string(255)
-#  last_sign_in_ip        :string(255)
+#  current_sign_in_ip     :string(510)
+#  last_sign_in_ip        :string(510)
 #  created_at             :datetime
 #  updated_at             :datetime
-#  confirmation_token     :string(255)
+#  confirmation_token     :string(510)
 #  confirmed_at           :datetime
 #  confirmation_sent_at   :datetime
-#  unconfirmed_email      :string(255)
+#  unconfirmed_email      :string(510)
 #
 
 class User < ActiveRecord::Base
   attr_accessor :name
 
-  has_one :user_profile
+  has_one :profile
 
   has_many :tracks, dependent: :destroy
 
@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
 
   before_create :build_profile, :assign_default_role
 
-  delegate :organizer_of_events, to: :user_profile, allow_nil: true
+  delegate :organizer_of_events, to: :profile, allow_nil: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
   private
 
   def build_profile
-    UserProfile.new(user: self, name: name)
+    Profile.new(user: self, name: name)
   end
 
   def assign_default_role

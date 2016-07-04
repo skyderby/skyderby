@@ -128,8 +128,8 @@ module Skyderby
             fl_time = (fl_time + fl_time_diff).round(1)
 
             elevation_between_points = elevation_diff(prev_point, point)
-            raw_h = Skyderby::Velocity.ms_to_kmh(point[:distance] / fl_time_diff)
-            raw_v = Skyderby::Velocity.ms_to_kmh(elevation_between_points) / fl_time_diff
+            raw_h = Velocity.new(point[:distance] / fl_time_diff).to_kmh
+            raw_v = Velocity.new((elevation_between_points) / fl_time_diff).to_kmh
 
             elevation = @has_abs_altitude ? point[:abs_altitude] - msl_offset : point[:elevation]
 

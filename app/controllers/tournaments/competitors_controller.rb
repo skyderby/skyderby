@@ -73,7 +73,7 @@ class Tournaments::CompetitorsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def tournament_competitor_params
-    params.require(:tournament_competitor).permit(:tournament_id, :user_profile_id, :wingsuit_id)
+    params.require(:tournament_competitor).permit(:tournament_id, :profile_id, :wingsuit_id)
   end
 
   def authorize_tournament

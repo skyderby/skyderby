@@ -1,0 +1,15 @@
+$('#modal').modal('hide');
+
+$('#title-competition-name').text("<%= @event.name %>");
+$('#title-competition-range').text("<%= "#{t('events.show.comp_window')}: #{@event.range_from} - #{@event.range_to} #{t('units.m')}" %>");
+$('#title-competition-place').html("<%= j render('event_place') %>");
+
+$('.event-status-button').html(
+  '<%= "#{t('activerecord.attributes.event.status')}: #{t('event_status.' + @event.status)}" %> ' +
+  '<i class="fa fa-caret-down"></i>'
+);
+
+$('.btn-group.event-status-group li').removeClass('active');
+$('.event-set-status-' + "<%= @event.status %>").closest('li').addClass('active');
+
+$('.btn-group.open').removeClass('open');

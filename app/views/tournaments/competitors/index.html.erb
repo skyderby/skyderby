@@ -29,7 +29,7 @@
           <% @competitors.each do |competitor| %>
             <tr>
               <td><%= line_no %></td>
-              <td><%= competitor.user_profile.name %></td>
+              <td><%= competitor.profile.name %></td>
               <td><%= competitor.wingsuit.name %></td>
               <td><%= link_to 'Show', tournament_competitor_path(id: competitor.id) %></td>
               <td><%= link_to 'Edit', edit_tournament_competitor_path(id: competitor.id) %></td>

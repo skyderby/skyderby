@@ -1,24 +1,111 @@
 - provide :title, @event.name
 - can_manage = can? :update, @event
 
-.event-data{data: {details: render(template: 'events/show.json.jbuilder', format: :json),
-                   can_manage: can_manage.to_s }}
-
 .container.top-buffer#event
   .row
     .col-md-8.col-md-offset-2.text-center
       %h1
         %span#title-competition-name= @event.name
 
-      %h3#title-competition-range= "#{t('.comp_window')}: #{@event.range_from} - #{@event.range_to} #{t('units.m')}"
+      %h3#title-competition-range
+        = "#{t('.comp_window')}: #{@event.range_from} - #{@event.range_to} #{t('units.m')}"
       %h3#title-competition-place
-    .col-md-2
-      .pull-right#edit-event-commands
+        = render 'event_place'
 
-  .row#edit-table-commands
+    .col-md-2
+      - if can_manage
+        .pull-right
+          = link_to(edit_event_path(@event), remote: true, class: 'btn btn-default edit-event') do
+            %i.fa.fa-fw.fa-pencil.text-muted
+            = t('general.edit')
+
+  .row{class: ('top-buffer' if can_manage)}
+    .col-md-7.col-sm-7
+      - if can_manage
+        = link_to new_event_section_path(event_id: @event.id), remote: true, class: 'btn btn-default' do
+          %i.fa.fa-plus
+          = t('events.show.section')
+        =link_to new_event_competitor_path(@event), remote: true, class: 'btn btn-default' do
+          %i.fa.fa-plus
+          = t('events.show.competitor')
+        - if @event.hungary_boogie?
+          %button.btn.btn-default.add-distance-round
+            %i.fa.fa-plus
+            = t('events.show.round')
+        -else
+          .btn-group
+            %button.btn.btn-default{'data-toggle' => 'dropdown'}
+              %i.fa.fa-plus
+              = t('events.show.round')
+              %i.fa.fa-caret-down
+            %ul.dropdown-menu.dropdown-menu-right{role: 'menu'}
+              %li
+                = button_to t('disciplines.distance'),
+                            event_rounds_path(@event),
+                            method: :post,
+                            remote: true, 
+                            params: {'round[discipline]' => :distance},
+                            class: 'btn-link add-distance-round'
+
+              %li
+                = button_to t('disciplines.time'),
+                            event_rounds_path(@event),
+                            method: :post,
+                            remote: true, 
+                            params: {'round[discipline]' => :time},
+                            class: 'btn-link add-time-round'
+
+              %li
+                = button_to t('disciplines.speed'),
+                            event_rounds_path(@event),
+                            method: :post,
+                            remote: true, 
+                            params: {'round[discipline]' => :speed},
+                            class: 'btn-link add-speed-round'
+
+    .col-md-5.col-sm-5
+      .pull-right
+        - if @event.wind_cancellation
+          = link_to t('events.show.weather_data'), 
+                    event_weather_data_path(@event), 
+                    remote: true, 
+                    class: 'btn btn-default'
+        - if can_manage
+          .btn-group.event-status-group
+            %button.btn.btn-default.event-status-button{'data-toggle' => 'dropdown'}
+              = t('activerecord.attributes.event.status') + ': ' + t('event_status.' + @event.status)
+              %i.fa.fa-caret-down
+            %ul.dropdown-menu.dropdown-menu-right{role: 'menu'}
+              %li{class: ('active' if @event.draft?)}
+                = button_to t('event_status.draft'),
+                              event_path(@event),
+                              method: :patch,
+                              remote: true,
+                              params: {'event[status]' => 'draft'},
+                              class: 'btn-link event-set-status-draft'
+
+              %li{class: ('active' if @event.published?)}
+                = button_to t('event_status.published'),
+                              event_path(@event),
+                              method: :patch,
+                              remote: true,
+                              params: {'event[status]' => :published},
+                              class: 'btn-link event-set-status-published'
+
+              %li{class: ('active' if @event.finished?)}
+                = button_to t('event_status.finished'),
+                              event_path(@event),
+                              method: :patch,
+                              remote: true,
+                              params: {'event[status]' => 'finished'},
+                              class: 'btn-link event-set-status-finished'
+
   .row.top-buffer
     .col-md-12
-      %table.table.table-bordered#results-table
+      - if @event.hungary_boogie?
+        = render 'events/scoreboards/scoreboard_hungary', can_manage: can_manage
+      - else
+        = render 'events/scoreboards/scoreboard_sdt', can_manage: can_manage
   .row
     .col-md-12#event-wind-cancellation-caption
       
@@ -26,23 +113,22 @@
     .col-md-12
       %h4= t('.judges') + ':'
       %ol#judges-list
+        %li.organizer
+          %span
+            = @event.responsible.name
+        - @event.event_organizers.each do |event_organizer|
+          = render 'events/event_organizers/event_organizer', event_organizer: event_organizer
       - if can_manage
-        %a.add-organizer{href: '#'}
+        = link_to new_event_event_organizer_path(@event), remote: true, class: 'add-organizer' do
           %i.fa.fa-plus
           = t('.add_judge')
+
   .row.top-buffer
     .col-md-12
       %h4= t('.event_sponsors') + ':'
   .row#sponsors
-
+    = render @event.sponsors
   - if can_manage
-    %a.add-sponsor{href: '#'}
+    = link_to new_event_sponsor_path(event_id: @event.id), remote: true, class: 'add-sponsor' do
       %i.fa.fa-plus
       = t('.add_sponsor')
-
--# Modals
-
-= render 'show_result_modal'
-- if can? :update, @event
-  = render 'new_result_modal'
-  = render 'progress_modal'

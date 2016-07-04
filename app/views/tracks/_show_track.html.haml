@@ -1,0 +1,27 @@
+.track-show
+    
+  .container
+    = render partial: 'header', locals: {track: @track}
+    = render partial: 'indicators', locals: {presenter: @track_presenter}
+
+    %hr.top-buffer
+
+    .row#content-row
+      .col-sm-12
+
+        #btn-range-edit
+          %button.btn.btn-default#range-edit-button{data: {toggle:'modal', target:'#edit-range'}}
+            %i.fa.fa-arrows-h
+        #slider-range-selector
+          %input#range-selector{type: "text",
+                                name: 'range', 
+                                data: {remote: true, url: url_for},
+                                value: "#{@track_presenter.range_from};#{@track_presenter.range_to}"}
+
+    = render 'tracks/charts'
+    
+    - if @track.comment.present?
+      %blockquote
+        %small= @track.comment
+
+  = render 'track_edit_range'

@@ -1,0 +1,61 @@
+.track-indicators {
+
+  .units {
+    font-size: 2em;
+  }
+
+  .avg-val {
+    font-size: 3em;
+  }
+
+  .avg-val, .units {
+      display: inline;
+      font-weight: 200;
+  }
+
+  .min-max {
+    text-align: right;
+    display: inline-block;
+    margin-left: 3px;
+    margin-right: 5px;
+  }
+
+  .min-val-caret {
+    vertical-align: 0px;
+  }
+
+  .max-val {
+    color: #4b725a;
+  }
+
+  .min-val {
+    color: #9a3558;
+  }
+
+  .param {
+    margin-top: -8px;
+    margin-bottom: 10px;
+    color: #888;
+  }
+}
+
+.modal-body .track-indicators {
+
+  .avg-val {
+    font-size: 2em;
+  }
+
+  .units {
+    font-size: 14px;
+  }
+
+  .min-val, .max-val {
+    font-size: 12px;
+    line-height: 12px;
+  }
+
+  .param {
+    font-size: 12px;
+    margin-top: -5px;
+  }
+}
