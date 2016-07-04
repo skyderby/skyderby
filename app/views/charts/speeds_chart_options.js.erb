@@ -1,0 +1,102 @@
+<% display_raw ||= false %>
+{
+  chart: {
+    type: 'spline',
+    marginLeft: 70
+  },
+  title: {
+    text: '<%= t('charts.spd.title') %>'
+  },
+  plotOptions: {
+    spline: {
+      marker: {
+        enabled: false
+      }
+    },
+    series: {
+      marker: {
+        radius: 1
+      }
+    }
+  },
+  yAxis: [{ //Speed yAxis
+    min: 0,
+    labels: {
+      style: {
+        color: Highcharts.getOptions().colors[1]
+      }
+    },
+    title: {
+      text: '',
+      style: {
+        color: Highcharts.getOptions().colors[1]
+      }
+    }
+  }],
+  tooltip: {
+    shared: true,
+    crosshairs: true,
+    valueDecimals: 0
+  },
+  credits: {
+    enabled: false
+  },
+  series: [{
+    name: I18n.t('charts.spd.series.ground'),
+    color: '#52A964',
+    tooltip: {
+      valueSuffix: ' <%= t('units.' + speed_units) %>',
+    }
+  },
+  {
+    name: I18n.t('charts.spd.series.vertical'),
+    color: '#A7414E',
+    tooltip: {
+      valueSuffix: ' <%= t('units.' + speed_units) %>',
+    }
+  },
+  {
+    name: I18n.t('charts.spd.series.full'),
+    color: '#D6A184',
+    visible: false,
+    tooltip: {
+      valueSuffix: ' <%= t('units.' + speed_units) %>',
+    }
+  }
+  <% if display_raw %>
+        ,{
+      name: I18n.t('charts.spd.series.raw_ground'),
+      type: 'line',
+      color: '#AAE3CC',
+      enableMouseTracking: false,
+      lineWidth: 7,
+      visible: false,
+      tooltip: {
+        valueSuffix: ' <%= t('units.' + speed_units) %>',
+      }
+        },
+        {
+          name: I18n.t('charts.spd.series.raw_vertical'),
+          type: 'line',
+          color: '#DFAFAD',
+          enableMouseTracking: false,
+          lineWidth: 7,
+          visible: false,
+          tooltip: {
+            valueSuffix: ' <%= t('units.' + speed_units) %>',
+          }
+        },
+        {
+          name: I18n.t('charts.spd.series.raw_full'),
+          type: 'line',
+          color: '#D6A184',
+          enableMouseTracking: false,
+          lineWidth: 7,
+          visible: false,
+          tooltip: {
+            valueSuffix: ' <%= t('units.' + speed_units) %>',
+          }
+        }
+      <% end %>
+  ]
+}

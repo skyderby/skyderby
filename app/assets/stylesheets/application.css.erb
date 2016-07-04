@@ -9,9 +9,13 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require bootstrap-datepicker3
- *= require vendor/select2.min
- *= require vendor/select2-bootstrap
+ *= require select2.min
+ *= require select2-bootstrap
+ *= require ion.rangeSlider
+ *= require ion.rangeSlider.skinFlat
  *= require_self
+ *= require bootstrap_and_overrides
+ *= require normalize.min
  *= require_tree .
  */
 
@@ -20,7 +24,7 @@ html, body {
 }
 
 body, p, ol, ul, td {
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: verdana, arial, helvetica, sans-serif; 
   font-size:   13px;
   line-height: 18px;
 }
@@ -94,4 +98,16 @@ input[readonly] {
 
 .no-right-space {
   margin-right: -5px;
+}
+
+button.btn-link {
+  background:none!important;
+  border:none; 
+  padding:0!important;
+  font: inherit;
+  cursor: pointer;
+} 
+
+form.button_to {
+  display: inline-block;
 }

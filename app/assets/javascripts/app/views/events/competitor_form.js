@@ -111,9 +111,9 @@ Skyderby.views.CompetitorForm = Backbone.View.extend({
 
         if (this.model.isNew()) {
             this.model.set(params);
-            window.Competition.competitors.create(this.model, {wait: true});
+            window.Competition.competitors.create(this.model, {wait: true, error: fail_ajax_request});
         } else {
-            this.model.save(params, {patch: true, wait: true});
+            this.model.save(params, {patch: true, wait: true, error: fail_ajax_request});
         }
 
         this.modalView.hide();

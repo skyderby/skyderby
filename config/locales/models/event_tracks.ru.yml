@@ -1,5 +1,13 @@
 ru:
   activerecord:
+    models:
+      event_track: Результат
+    attributes:
+      event_track:
+        file: Файл трека
+        track: Трек
+        is_disqualified: Дисквалифицирован
+        disqualification_reason: Причина
     errors:
       models:
         event_track:

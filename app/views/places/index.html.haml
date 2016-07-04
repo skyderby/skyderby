@@ -33,3 +33,15 @@
                 %tr
                   %td
                     %a{href: place_path(place.id)}= place.name
+
+= content_for :page_js do
+  :javascript
+    var places_collection = new Skyderby.collections.Places();
+    places_collection.set($('#places-index').data('places'));
+
+    var view = new Skyderby.views.PlacesIndex({
+      collection: places_collection,
+      el: '#places-index'
+    });
+    view.render();
+

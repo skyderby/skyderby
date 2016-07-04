@@ -1,0 +1,161 @@
+#results-table {
+
+  .points-cell,
+  .competitor-suit {
+    color: rgb(153, 153, 153);
+  }
+
+  .hc-best-result {
+    color: #00BA02;
+  }
+
+  .hc-worst-result {
+    color: rgb(213, 139, 138);
+  } 
+
+  td.row-number {
+    width: 20px;
+  }
+
+  td.create-result-cell,
+  td.result-cell,
+  td.competitor-cell {
+    position: relative;
+
+  }
+
+  td.create-result-cell {
+    padding: 0px;
+
+    a {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 8px;
+      width: 100%;
+      height: 100%;
+      display: block;
+      color: white;
+
+      &:hover {
+        background-color: #428bca;
+        text-decoration: none;
+      }
+    }
+  }
+
+  td.result-cell {
+    span {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background-color: white;
+      opacity: 0;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      a {
+        float: left;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        text-align: center;
+        height: 100%;
+        width: 50%;
+        color: white;
+        background-color: rgb(146, 231, 240);
+
+        &:hover {
+          background-color: #428bca;
+        }
+
+        &.edit-result {
+          border-right: 1px solid #dddddd;
+        }
+
+        &.show-result {
+          border-left: 1px solid #dddddd;
+        }
+      }
+    }
+  }
+
+  td.competitor-cell {
+    span.competitor-controls {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      opacity: 0;
+
+      .edit-competitor, form {
+        float: right;
+        height: 100%;
+        width: 32px;
+        text-align: center;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        color: white;
+      }
+
+      form {
+        background-color: #d9534f;
+        border-color: #d43f3a;
+        button.btn-link {
+          color: white;
+        }
+      }
+    }
+
+    &:hover span.competitor-controls {
+      opacity: 1;
+    }
+  }
+
+  td.section-cell {
+    .edit-section {
+      margin-left: 10px;
+    }
+
+    .section-up, .section-down, .pipe-edit-section, .delete-section {
+      margin-left: 5px;
+    }
+
+    .edit-section, .pipe-edit-section, .section-up, .section-down, .delete-section {
+      visibility: hidden;
+    }
+
+    &:hover {
+      .edit-section, .pipe-edit-section, .section-up, .section-down, .delete-section {
+        visibility: visible;
+      }
+    }
+  }
+
+  td.round-cell {
+
+    &:hover {
+      .delete-round {
+        visibility: visible;
+      }
+    }
+
+    .delete-round {
+      margin-left: 5px;
+      visibility: hidden;
+    }
+  }
+}
+
+.edit-event {
+  margin-top: 20px;
+}
+
+#judges-list {
+  .organizer {
+    padding: 6px 1px;
+  }
+}

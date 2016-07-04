@@ -3,12 +3,12 @@
 # Table name: tracks
 #
 #  id                :integer          not null, primary key
-#  name              :string(255)
+#  name              :string(510)
 #  created_at        :datetime
 #  lastviewed_at     :datetime
-#  suit              :string(255)
-#  comment           :text(65535)
-#  location          :string(255)
+#  suit              :string(510)
+#  comment           :text
+#  location          :string(510)
 #  user_id           :integer
 #  kind              :integer          default(0)
 #  wingsuit_id       :integer
@@ -16,11 +16,11 @@
 #  ff_end            :integer
 #  ge_enabled        :boolean          default(TRUE)
 #  visibility        :integer          default(0)
-#  user_profile_id   :integer
+#  profile_id        :integer
 #  place_id          :integer
 #  gps_type          :integer          default(0)
-#  file_file_name    :string(255)
-#  file_content_type :string(255)
+#  file_file_name    :string(510)
+#  file_content_type :string(510)
 #  file_file_size    :integer
 #  file_updated_at   :datetime
 #  track_file_id     :integer

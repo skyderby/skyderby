@@ -1,0 +1,7 @@
+$('#modal').html('<%= j render('form_modal') %>');
+
+$('#modal').one('shown.bs.modal', function() {
+  $('input[name="badge[name]"]').focus();
+});
+
+$('#modal').modal('show');

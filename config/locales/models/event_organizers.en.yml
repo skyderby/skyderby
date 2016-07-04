@@ -1,0 +1,13 @@
+en:
+  activerecord:
+    models:
+      event_organizer: Organizer
+    attributes:
+      event_organizer:
+        profile: Profile
+    errors:
+      models:
+        event_organizer:
+          attributes:
+            profile: Profile can't be blank
+

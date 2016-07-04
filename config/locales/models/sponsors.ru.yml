@@ -1,0 +1,15 @@
+ru:
+  activerecord:
+    models:
+      sponsor: 'Спонсор'
+    attributes:
+      sponsor:
+        name: 'Название'
+        website: 'Сайт'
+        logo: 'Логотип'
+    errors:
+      models:
+        sponsor:
+          attributes:
+            name:
+              blank: 'Не указано название спонсора.'

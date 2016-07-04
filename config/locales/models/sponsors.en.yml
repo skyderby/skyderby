@@ -1,0 +1,15 @@
+en:
+  activerecord:
+    models:
+      sponsor: 'Sponsor'
+    attributes:
+      sponsor:
+        name: 'Name'
+        website: 'Website'
+        logo: 'Logo'
+    errors:
+      models:
+        sponsor:
+          attributes:
+            name:
+              blank: "Name has to be filled."

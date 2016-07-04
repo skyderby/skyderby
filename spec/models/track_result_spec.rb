@@ -7,7 +7,7 @@
 #  discipline :integer
 #  range_from :integer
 #  range_to   :integer
-#  result     :float(24)
+#  result     :float
 #
 
 require 'rails_helper'

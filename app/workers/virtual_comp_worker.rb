@@ -26,7 +26,7 @@ class VirtualCompWorker
     opts = {
       discipline: comp.discipline.to_sym,
       competition_id: comp.id,
-      profile_id: track.user_profile_id,
+      profile_id: track.profile_id,
       is_flysight: track.flysight?,
       calc_highest_gr: comp.display_highest_gr,
       calc_highest_speed: comp.display_highest_speed
@@ -46,7 +46,7 @@ class VirtualCompWorker
     result = Skyderby::ResultsProcessor.new(data, opts[:discipline], opts).execute
 
     comp_result = VirtualCompResult.new
-    comp_result.user_profile_id = opts[:profile_id]
+    comp_result.profile_id = opts[:profile_id]
     comp_result.virtual_competition_id = opts[:competition_id]
 
     if result.is_a? Hash

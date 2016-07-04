@@ -26,6 +26,7 @@ Skyderby::Application.routes.draw do
 
       scope module: :tracks do
         resources :google_maps, only: :index
+        resources :results, only: :index
       end
     end
     # Backward compatibility
@@ -38,25 +39,31 @@ Skyderby::Application.routes.draw do
             resources :map, only: :index
           end
         end
-      end
 
-      resources :sections, only: [:create, :update, :destroy] do
-        collection do
-          post 'reorder'
+        resources :sections do
+          member do
+            patch 'move_upper'
+            patch 'move_lower'
+          end
         end
+
+        resources :competitors
+        resources :event_tracks
+        resources :event_organizers
       end
 
-      resources :competitors
-      resources :event_tracks
-      resources :event_organizers, only: [:create, :destroy]
       resources :sponsors, only: [:new, :create, :destroy]
-      resources :weather_data, only: [:index, :create, :update, :destroy]
+      resources :weather_data
     end
 
     devise_for :users
     resources :users
-    resources :user_profiles
-    resources :badges
+    resources :profiles do 
+      scope module: :profiles do
+        resources :badges
+      end
+    end
+    match '/user_profiles/:id', to: 'profiles#show', via: :get
 
     resources :manufacturers
     resources :wingsuits

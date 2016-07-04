@@ -3,7 +3,7 @@
 # Table name: sections
 #
 #  id       :integer          not null, primary key
-#  name     :string(255)
+#  name     :string(510)
 #  order    :integer
 #  event_id :integer
 #

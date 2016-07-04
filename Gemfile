@@ -34,14 +34,12 @@ gem 'exception_notification'
 # Slack integration
 gem 'slack-notifier'
 
-# Markdown
-gem 'redcarpet'
-
 # Internalization
 gem 'i18n-js', '>= 3.0.0.rc8'
 gem 'http_accept_language'
 
 gem 'jquery-rails'
+gem 'remotipart', '~>1.2'
 gem 'rails-backbone'
 
 gem 'sass-rails', '~> 4.0.0'
@@ -89,6 +87,8 @@ group :development, :test do
   gem 'pry'
   gem 'pry-rails'
   gem 'pry-byebug'
+
+  gem 'bullet'
 end
 
 group :test do

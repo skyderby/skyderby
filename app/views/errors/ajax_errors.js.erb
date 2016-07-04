@@ -1,0 +1,9 @@
+<% errors_text = '' %>
+<% errors.messages.each do |_, messages| %>
+  <% messages.each do |msg| %>
+    <% errors_text += "- #{msg} \n" %>
+  <% end %>
+<% end %>
+<% errors_text = "#{t('errors.messages.not_saved', {count: errors.count, resource: 'object'})} \r\n#{errors_text}" %>
+
+AjaxErrorMessage.display("<%=j errors_text%>");

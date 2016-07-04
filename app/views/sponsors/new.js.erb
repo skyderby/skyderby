@@ -1,0 +1,5 @@
+$('#modal').html('<%= j render('form_modal') %>');
+$('#modal').modal('show');
+
+$('#new_sponsor .btn-file :file').on('change', Skyderby.helpers.FileField.change);
+$('#new_sponsor .btn-file :file').on('fileselect', Skyderby.helpers.FileField.fileselect);

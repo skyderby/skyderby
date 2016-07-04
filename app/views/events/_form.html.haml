@@ -1,0 +1,74 @@
+- modal ||= false
+- allow_change_rules ||= false
+
+= form_for @event, remote: modal, html: {class: 'form-horizontal', role: 'form', id: "#{action_name}_event_form"} do |f|
+
+  - if modal
+    .modal-header
+      %button.close{type: 'button', data: {dismiss: 'modal'}}
+        %span{aria: {hidden: 'true'}}
+          &times;
+        %span.sr-only
+          Close
+      %h4.modal-title
+        = t('activerecord.models.event') + ': ' 
+        - if action_name == 'new'
+          = t('events.index.new')
+        - else
+          = @event.name
+
+  %div{class: ('modal-body' if modal)}
+    .form-group
+      = f.label :name, class: 'control-label col-sm-4'
+      .col-sm-8
+        = f.text_field :name, class: 'form-control'
+
+    .form-group
+      = f.label :starts_at, class: 'control-label col-sm-4'
+      .col-sm-8
+        = f.text_field :starts_at, 
+                       class: 'form-control datepicker', 
+                       value: (@event.starts_at || Date.today).strftime("%d.%m.%Y")
+
+    .form-group.row
+      = f.label t('events.show.comp_window'), class: 'control-label col-sm-4'
+      .col-sm-3
+        = f.text_field :range_from, class: 'form-control', type: 'number'
+      %span.col-sm-1.text-center= ' - '
+      .col-sm-3
+        = f.text_field :range_to, class: 'form-control', type: 'number'
+
+    .form-group
+      = f.label :place, class: 'control-label col-sm-4'
+      .col-sm-8
+        = f.select :place_id,
+                   options_for_select([[@event.place_name, @event.place_id]], @event.place_id), 
+                   class: 'form-control', include_blank: true
+
+    - if allow_change_rules
+      .form-group
+        = f.label :rules, class: 'control-label col-sm-4'
+        .btn-group.col-sm-8{data: {toggle: 'buttons'}}
+          %label.btn.btn-default.active
+            = f.radio_button 'rules', 'speed_distance_time'
+            Speed-Distance-Time
+          %label.btn.btn-default
+            = f.radio_button 'rules', 'fai'
+            FAI '15
+          %label.btn.btn-default
+            = f.radio_button 'rules', 'hungary_boogie'
+            Hungary Boogie 
+
+    .form-group
+      = f.label :wind_cancellation, class: 'control-label col-sm-4'
+      .btn-group.col-sm-8{data: {toggle: 'buttons'}}
+        %label.btn.btn-default{class: ('active' unless @event.wind_cancellation)}
+          = f.radio_button 'wind_cancellation', 'false'
+          = t('general.disabled')
+        %label.btn.btn-default{class: ('active' if @event.wind_cancellation)}
+          = f.radio_button 'wind_cancellation', 'true'
+          = t('general.enabled')
+
+  %div{class: ('modal-footer' if modal)}
+    = f.submit t('general.save'), class: 'btn btn-primary'
+    %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

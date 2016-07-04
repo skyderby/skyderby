@@ -85,6 +85,23 @@ module Skyderby
       }
     end
 
+    def bearing_between(lat1_deg, lon1_deg, lat2_deg, lon2_deg)
+      lat1 = deg_to_rad(lat1_deg.to_f)
+      lon1 = deg_to_rad(lon1_deg.to_f)
+      lat2 = deg_to_rad(lat2_deg.to_f)
+      lon2 = deg_to_rad(lon2_deg.to_f)
+
+      dlon = lon2 - lon1;
+
+      y = Math.sin(dlon) * Math.cos(lat2)
+      x = Math.cos(lat1) * Math.sin(lat2) -
+          Math.sin(lat1) * Math.cos(lat2) * Math.cos(dlon)
+
+      bearing = Math.atan2(x,y)
+
+      (90 - rad_to_deg(bearing) + 360) % 360
+    end
+
     private
 
     def longitude_to_merc_x(longitude)

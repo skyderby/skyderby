@@ -1,0 +1,25 @@
+%tr{id: (dom_id(@weather_datum) if @weather_datum.persisted?)}
+  = form_for [@weather_datumable, @weather_datum], remote: true do |f|
+    = hidden_field_tag :altitude_unit, @view_units[:altitude]
+    = hidden_field_tag :wind_speed_unit, @view_units[:wind_speed]
+    %td
+      = f.text_field :actual_on, class: 'form-control', placeholder: 'YYYY-MM-DD HH:mm'
+    %td
+      .input-group
+        = f.text_field :altitude_in_units, 
+                       class: 'form-control text-right',
+                       value: (@weather_datum.altitude.convert_to(@view_units[:altitude]).round.truncate if @weather_datum.altitude)
+        = f.hidden_field :altitude_unit, value: @view_units[:altitude]
+        .input-group-addon= t('units.' + @view_units[:altitude])
+    %td
+      .input-group
+        = f.text_field :wind_speed_in_units,
+                       class: 'form-control text-right',
+                       value: (@weather_datum.wind_speed.convert_to(@view_units[:wind_speed]).round(1) if @weather_datum.wind_speed)
+        = f.hidden_field :wind_speed_unit, value: @view_units[:wind_speed]
+        .input-group-addon= t('units.' + @view_units[:wind_speed])
+    %td
+      = f.text_field :wind_direction, class: 'form-control text-right', placeholder: '0-359°'
+    %td
+      = f.button class: 'btn-link' do
+        %i.fa.fa-2x.fa-angle-double-right

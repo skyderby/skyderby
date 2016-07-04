@@ -25,12 +25,12 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
 
     results_adjusted_for_wind: false,
 
-    header:      JST['app/templates/scoreboard_header'],
+    // header:      JST['app/templates/scoreboard_header'],
     round_cell:  JST['app/templates/round_cell'],
     result_cell: JST['app/templates/result_cell'],
 
     initialize: function(opts) {
-        this.$el.append(this.header());
+        // this.$el.append(this.header());
 
         this.$discipline_row = $('#disciplines-row');
         this.$rounds_row     = $('#rounds-row');
@@ -487,10 +487,10 @@ Skyderby.views.Scoreboard = Backbone.View.extend({
     render: function() {
 
         // Sections
-        this.model.sections.each(this.render_section, this);
+        // this.model.sections.each(this.render_section, this);
 
         // Rounds
-        this.model.rounds.each(this.create_round, this);
+        // this.model.rounds.each(this.create_round, this);
 
         // Competitors
         this.model.competitors.each(this.render_competitor, this);

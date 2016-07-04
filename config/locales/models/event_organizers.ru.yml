@@ -1,0 +1,13 @@
+ru:
+  activerecord:
+    models:
+      event_organizer: Организатор
+    attributes:
+      event_organizer:
+        profile: Профиль
+    errors:
+      models:
+        event_organizer:
+          attributes:
+            profile: Профиль должен быть заполнен
+

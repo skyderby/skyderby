@@ -12,7 +12,7 @@
 #  is_winner                :boolean
 #  is_disqualified          :boolean
 #  is_lucky_looser          :boolean
-#  notes                    :string(255)
+#  notes                    :string(510)
 #  earn_medal               :integer
 #
 

@@ -1,0 +1,19 @@
+<% provide :title, title(@track) %>
+ 
+<%= render 'tracks/show_track' %>
+
+<% content_for :page_js do %>
+  <script>
+    <% if preferred_charts_mode == 'separate' %>
+      <%= render(partial: 'tracks/separate_charts', formats: [:js], locals: {presenter: @track_presenter}) %>
+    <% else %>
+      <%= render(partial: 'tracks/single_chart', formats: [:js], locals: {presenter: @track_presenter}) %>
+    <% end %>
+
+    Skyderby.helpers.RangeSelector($("#range-selector"),
+                                   <%= @track_presenter.max_altitude %>,
+                                   <%= @track_presenter.min_altitude %>,
+                                   <%= @track_presenter.range_from %>,
+                                   <%= @track_presenter.range_to %>);
+  </script>
+<% end %>

@@ -1,0 +1,16 @@
+ru:
+  activerecord:
+    models:
+      badge: Бэйдж
+    attributes:
+      badge:
+        name: Название
+        kind: Тип
+    errors:
+      models:
+        badge:
+          attributes:
+            name:
+              blank: Название должно быть заполнено.
+            kind:
+              blank: Тип должен быть заполнен
