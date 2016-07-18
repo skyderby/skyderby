@@ -12,7 +12,7 @@
 #  is_winner                :boolean
 #  is_disqualified          :boolean
 #  is_lucky_looser          :boolean
-#  notes                    :string(255)
+#  notes                    :string(510)
 #  earn_medal               :integer
 #
 
@@ -46,8 +46,9 @@ class TournamentMatchCompetitor < ActiveRecord::Base
          .freq_1Hz
          .trimmed(seconds_before_start: SECONDS_BEFORE_START)
          .pluck_to_hash(
+           :fl_time,
            'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
-           track.point_altitude_field,
+           "#{track.point_altitude_field} AS altitude",
            :latitude,
            :longitude)
   end

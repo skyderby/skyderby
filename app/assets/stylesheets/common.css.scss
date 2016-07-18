@@ -1,0 +1,24 @@
+.modal-header-link {
+  opacity: 0.4;
+  color: black;
+  padding-right: 7px;
+}
+
+.dotted-underline {
+  border-bottom: {
+    style: dotted;
+    width: 1.1px;
+  }
+  color: rgb(51, 51, 51);
+
+  &:hover {
+    border-bottom-style: solid;
+    color: rgb(51, 51, 51);
+    text-decoration: none;
+  }
+}
+
+.dropdown-menu form.button_to > input[type="submit"] {
+  width: 100%;
+  text-align: left;
+}

@@ -8,7 +8,7 @@ es:
         place: 'Localización'
         comment: 'Comentario'
         uploaded_at: 'La fecha de la descarga'
-      user_profile:
+      profile:
         last_name: "Apellido:"
         first_name: "Nombre:"
         photo: "Photo:"

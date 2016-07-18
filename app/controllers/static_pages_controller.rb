@@ -5,11 +5,11 @@ class StaticPagesController < ApplicationController
     results =
       VirtualCompResult
       .joins(:virtual_competition)
-      .joins(:user_profile)
+      .joins(:profile)
       .where('virtual_competitions.display_on_start_page = ?', true)
       .order(:virtual_competition_id, 'result DESC')
-      .group(:user_profile_id, 
-             :user_profile_name,
+      .group(:profile_id, 
+             :profile_name,
              :virtual_competition_id, 
              :virtual_competition_name,
              'virtual_competitions.jumps_kind')
@@ -21,8 +21,8 @@ class StaticPagesController < ApplicationController
           ELSE 'BASE Challenge'
         END as competition_group",
         :virtual_competition_id,
-        :user_profile_id,
-        'user_profiles.name as user_profile_name',
+        :profile_id,
+        'profiles.name as profile_name',
         'MAX(result) as result')
 
     @competition_results = results.group_by { |x| x[:competition_group] }

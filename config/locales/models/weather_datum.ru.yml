@@ -6,14 +6,18 @@ ru:
           attributes:
             actual_on:
               blank: 'Дата должна быть заполнена.'
-            altitude:
+            altitude: &ALTITUDE
               blank: 'Высота должа быть заполнена.'
               greater_than_or_equal_to: 'Высота должна быть больше, либо равна нулю.'
               not_a_number: 'Высота должна быть числовым значением.'
-            wind_speed:
+            altitude_in_units:
+              <<: *ALTITUDE
+            wind_speed: &WIND_SPEED
               blank: 'Скорость ветра должна быть заполнена.'
               greater_than_or_equal_to: 'Скорость ветра должна быть больше, либо равна нулю.'
               not_a_number: 'Скорость ветра должна быть числовым значением.'
+            wind_speed_in_units:
+              <<: *WIND_SPEED
             wind_direction:
               blank: 'Направление ветра должно быть заполнено.'
               less_than: 'Направление ветра должно быть задано в диапазоне от 0 до 360 градусов'

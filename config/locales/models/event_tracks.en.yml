@@ -1,5 +1,13 @@
 en:
   activerecord:
+    models:
+      event_track: Result
+    attributes:
+      event_track:
+        file: File with track
+        track: Track
+        is_disqualified: Is disqualified
+        disqualification_reason: Reason
     errors:
       models:
         event_track:

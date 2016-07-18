@@ -31,11 +31,11 @@ module Skyderby
       private
 
       def h_speed(row)
-        Velocity.ms_to_kmh(Math.sqrt(row[4].to_f**2 + row[5].to_f**2))
+        Velocity.new(Math.sqrt(row[4].to_f**2 + row[5].to_f**2)).to_kmh
       end
 
       def v_speed(row)
-        Velocity.ms_to_kmh(row[6].to_f)
+        Velocity.new(row[6].to_f).to_kmh
       end
 
       def gps_time(row)

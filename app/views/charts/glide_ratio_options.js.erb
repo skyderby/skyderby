@@ -1,0 +1,82 @@
+<% display_raw ||= false %>
+{
+  chart: {
+    type: 'spline',
+    marginLeft: 70
+  },
+  title: {
+    text: '<%= t('charts.gr.title') %>'
+  },
+  plotOptions: {
+    spline: {
+      marker: {
+        enabled: false
+      }
+    },
+    series: {
+      marker: {
+        radius: 1
+      }
+    }
+  },
+  tooltip: {
+    crosshairs: true,
+    valueDecimals: 2,
+    pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.options.true_value}</b><br/>'
+  },
+  yAxis: {
+    min: -0.3,
+    max: 5.5,
+    startOnTick: false,
+    endOnTick: false,
+    minPadding: 0.2,
+    maxPadding: 0.2,
+    tickInterval: 1,
+    title: {
+      text: ' '
+    },
+    labels: {
+      formatter: function() {
+        if(this.isFirst) {
+          return '≤ 0';
+        } else if (this.isLast) {
+          return '≥ 5';
+        } else {
+          return this.value;   
+        }
+      }
+    }
+  },
+  credits: {
+    enabled: false
+  },
+  series: [{
+    name: I18n.t('charts.gr.series.gr'),
+    tooltip: {
+      valueSuffix: ''
+    },
+    zones: [{
+      value: 0.1,
+      color: 'red'
+    }, {
+      value: 4.8,
+      color: '#37889B'
+    }, {
+      color: 'red'
+    }],
+    color: '#37889B',
+    zIndex: 2
+  }
+  <% if display_raw %>
+      ,{
+    name: I18n.t('charts.gr.series.raw_gr'),
+    type: 'line',
+    color: '#A6CDCE',
+    lineWidth: 7,
+    enableMouseTracking: false,
+    zIndex: 1,
+    visible: false
+      }
+    <% end %>
+  ]
+}

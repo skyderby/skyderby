@@ -87,7 +87,7 @@ class PlacesController < ApplicationController
     Track.accessible_by(current_user)
       .select(:place_id,
               'COUNT(tracks.id) tracks_count',
-              'COUNT(DISTINCT tracks.user_profile_id) pilots_count')
+              'COUNT(DISTINCT tracks.profile_id) pilots_count')
       .group(:place_id)
       .to_sql
   end

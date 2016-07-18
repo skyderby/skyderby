@@ -1,0 +1,43 @@
+.modal-dialog.modal-lg
+  .modal-content
+    .modal-header
+      %button.close{type: 'button', 'data-dismiss' => 'modal'}
+        %span{'aria-hidden' => 'true'}
+          &times;
+        %span.sr-only
+          Close
+      </button>
+      .row
+        .col-sm-4
+          %h4.modal-title
+            = t('weather_datum.modal_title')
+
+        .col-sm-7
+
+          .btn-group.btn-group-xs
+            %button.btn.btn-default.altitude-units{'data-toggle' => 'dropdown'}
+              %span
+                = "#{t('weather_datum.altitude_units')}: #{t('units.' + @view_units[:altitude])}"
+                %i.fa.fa-caret-down
+            %ul.dropdown-menu{role: 'menu'}
+              %li{class: ('active' if @view_units[:altitude] == 'm')}
+                = link_to t('units.m'), params.merge(altitude_unit: 'm'), remote: true
+              %li{class: ('active' if @view_units[:altitude] == 'ft')}
+                = link_to t('units.ft'), params.merge(altitude_unit: 'ft'), remote: true
+
+          .btn-group.btn-group-xs
+            %button.btn.btn-default.wind-speed-units{'data-toggle' => 'dropdown'}
+              %span= "#{t('weather_datum.wind_speed_units')}: #{t('units.' + @view_units[:wind_speed])}"
+              %i.fa.fa-caret-down
+            %ul.dropdown-menu{role: 'menu'}
+              %li{class: ('active' if @view_units[:wind_speed] == 'ms')}
+                = link_to t('units.ms'), params.merge(wind_speed_unit: 'ms'), remote: true
+              %li{class: ('active' if @view_units[:wind_speed] == 'knots')}
+                = link_to t('units.knots'), params.merge(wind_speed_unit: 'knots'), remote: true
+              %li{class: ('active' if @view_units[:wind_speed] == 'kmh')}
+                = link_to t('units.kmh'), params.merge(wind_speed_unit: 'kmh'), remote: true
+              %li{class: ('active' if @view_units[:wind_speed] == 'mph')}
+                = link_to t('units.mph'), params.merge(wind_speed_unit: 'mph'), remote: true
+
+    .modal-body
+      = render 'table'

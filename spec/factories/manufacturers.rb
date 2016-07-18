@@ -3,8 +3,8 @@
 # Table name: manufacturers
 #
 #  id   :integer          not null, primary key
-#  name :string(255)
-#  code :string(255)
+#  name :string(510)
+#  code :string(510)
 #
 
 FactoryGirl.define do

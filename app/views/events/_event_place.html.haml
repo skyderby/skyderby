@@ -1,0 +1,6 @@
+- if @event.place
+  = t('activerecord.attributes.event.place') + ': ' + @event.place_name
+  - if (@event.place_msl)
+    = " (MSL: #{@event.place_msl} #{t('units.m')})" 
+
+

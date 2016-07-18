@@ -1,0 +1,4 @@
+form#new_competitor div.radio,
+form#edit_competitor div.radio {
+  padding-bottom: 7px;
+}

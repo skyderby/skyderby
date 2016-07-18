@@ -2,19 +2,19 @@
   .page-header
     %h2
       = t('users.profile.edit.title')
-      - if @user.user_profile
-        = @user.user_profile.name
+      - if @user.profile
+        = @user.profile.name
       - else
         = @user.email
 
-  = form_for [@user, @user.user_profile], :html => {:class => 'form-horizontal'} do |f|
+  = form_for [@user, @user.profile], :html => {:class => 'form-horizontal'} do |f|
     .form-group
-      = f.label t('activerecord.attributes.user_profile.name'), class: 'col-sm-2 control-label', :for => :name
+      = f.label t('activerecord.attributes.profile.name'), class: 'col-sm-2 control-label', :for => :name
       .col-sm-5
         = f.text_field :name, autofocus: true, class: 'form-control'
 
     .form-group
-      = f.label t('activerecord.attributes.user_profile.photo'), class: 'col-sm-2 control-label', :for => :userpic
+      = f.label t('activerecord.attributes.profile.photo'), class: 'col-sm-2 control-label', :for => :userpic
       .col-sm-4
         = f.file_field :userpic
 

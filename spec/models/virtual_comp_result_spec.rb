@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: virtual_comp_results
+#
+#  id                     :integer          not null, primary key
+#  virtual_competition_id :integer
+#  track_id               :integer
+#  result                 :float            default(0.0)
+#  created_at             :datetime
+#  updated_at             :datetime
+#  profile_id             :integer
+#  highest_speed          :float            default(0.0)
+#  highest_gr             :float            default(0.0)
+#
+
 require 'rails_helper'
 
 RSpec.describe VirtualCompResult, type: :model do

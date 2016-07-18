@@ -1,0 +1,66 @@
+.row.track-indicators
+  .col-md-11.col-md-offset-1.col-sm-12
+    .row
+      .col-md-4.col-sm-4.col-xs-6
+        .param-val
+          .avg-val= presenter.distance
+          .units= t "units.#{presenter.distance_units}"
+        .param
+          %i.fa.fa-fw.fa-lg.fa-arrows-h
+          =t '.distance'
+      .col-md-4.col-sm-4.col-xs-6
+        .param-val
+          .avg-val= presenter.avg_horizontal_speed
+          .min-max
+            .max-val
+              %span= presenter.max_horizontal_speed
+              %i.fa.fa-lg.fa-caret-up
+            .min-val
+              %span= presenter.min_horizontal_speed
+              %i.fa.fa-lg.fa-caret-down.min-val-caret
+          .units=t "units.#{presenter.speed_units}"
+        .param
+          %i.fa.fa-fw.fa-lg.fa-long-arrow-right
+          =t '.ground_speed'
+      .col-md-4.col-sm-4.col-xs-6
+        .param-val
+          .avg-val= presenter.glide_ratio
+          .min-max
+            .max-val
+              %span= presenter.max_glide_ratio
+              %i.fa.fa-lg.fa-caret-up
+            .min-val
+              %span= presenter.min_glide_ratio
+              %i.fa.fa-lg.fa-caret-down.min-val-caret
+        .param
+          %i.fa.fa-fw.fa-lg.fa-ellipsis-h
+          =t '.glide_ratio'
+
+      .col-md-4.col-sm-4.col-xs-6
+        .param-val
+          .avg-val= presenter.elevation
+          .units= t "units.#{presenter.altitude_units}"
+        .param
+          %i.fa.fa-fw.fa-lg.fa-arrows-v
+          =t '.elevation'
+      .col-md-4.col-sm-4.col-xs-6
+        .param-val
+          .avg-val= presenter.avg_vertical_speed
+          .min-max
+            .min-val
+              %span= presenter.max_vertical_speed
+              %i.fa.fa-lg.fa-caret-up
+            .max-val
+              %span= presenter.min_vertical_speed
+              %i.fa.fa-lg.fa-caret-down.min-val-caret
+          .units=t "units.#{presenter.speed_units}"
+        .param
+          %i.fa.fa-fw.fa-lg.fa-long-arrow-down
+          =t '.vertical_speed'
+      .col-md-4.col-sm-4.col-xs-6
+        .param-val
+          .avg-val= presenter.time
+          .units= t 'units.t_unit'
+        .param
+          %i.fa.fa-fw.fa-lg.fa-clock-o
+          =t '.duration'

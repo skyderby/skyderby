@@ -41,7 +41,7 @@ module Skyderby
 
         points = @track.points.freq_1Hz.pluck_to_hash(
           "gps_time_in_seconds - #{min_gps_time} AS gps_time",
-          @track.point_altitude_field)
+          "#{@track.point_altitude_field} AS altitude")
 
         @points = points.map { |point| [ point[:gps_time].to_i, point[:altitude] ] }
       end

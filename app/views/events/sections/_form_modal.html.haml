@@ -1,0 +1,26 @@
+.modal-dialog
+  .modal-content
+    = form_for [@event, @section], remote: true, html: {class: 'form-horizontal'} do |f|
+      = hidden_field_tag :display_raw_results, @display_raw_results
+      .modal-header
+        %button.close{type: 'button', data: {dismiss: 'modal'}}
+          %span{aria: {hidden: 'true'}}
+            &times;
+          %span.sr-only
+            Close
+        %h4.modal-title
+          = t('activerecord.models.section') + ': ' 
+          - if @section.new_record?
+            = t('events.index.new')
+          - else
+            = @section.name
+
+      .modal-body
+        .form-group
+          = f.label :name, class: 'control-label col-sm-4'
+          .col-sm-8
+            = f.text_field :name, class: 'form-control'
+
+      .modal-footer
+        = f.submit t('general.save'), class: 'btn btn-primary'
+        %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

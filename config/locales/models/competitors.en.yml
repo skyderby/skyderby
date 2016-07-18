@@ -1,12 +1,18 @@
 en:
   activerecord:
+    models:
+      competitor: Competitor
+    attributes:
+      competitor:
+        wingsuit: Suit
+        section: Class
     errors:
       models:
         competitor:
           attributes:
             wingsuit:
               blank: "'Suit' has to be filled"
-            user_profile:
+            profile:
               blank: "'Pilot profile' has to be filled"
             section:
               blank: "'Class' has to be filled"

@@ -1,4 +1,4 @@
-Skyderby.helpers.PilotSelect = function(elem, opts) {
+Skyderby.helpers.ProfileSelect = function(elem, opts) {
 
     if (!opts) opts = {};
 
@@ -8,11 +8,12 @@ Skyderby.helpers.PilotSelect = function(elem, opts) {
         placeholder: I18n.t('tracks.form.profile_select_placeholder'),
         allowClear: true,
         ajax: {
-            url: '/user_profiles',
+            url: '/profiles',
             dataType: 'json',
             type: "GET",
             quietMillis: 50,
             data: function (term) {
+                if (opts.only_registered) term.only_registered = true;
                 return {
                     query: term
                 };

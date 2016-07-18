@@ -1,0 +1,13 @@
+%table#weather-table.table
+  %thead
+    %tr
+      %th= t('weather_datum.actual_on')
+      %th.text-right= t('weather_datum.altitude')
+      %th.text-right= t('weather_datum.wind_speed')
+      %th.text-right= t('weather_datum.wind_direction')
+      %th
+
+  %tbody
+    = render @weather_data
+    - if can? :create, WeatherDatum
+      = render 'form_row'

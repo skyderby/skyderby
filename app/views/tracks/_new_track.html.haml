@@ -22,7 +22,7 @@
               = t('static_pages.index.track_form.name')
             .col-sm-9
               - if current_user
-                %span.track-name-span= current_user.user_profile.name
+                %span.track-name-span= current_user.profile.name
               - else
                 = text_field_tag 'track[name]', 
                                  nil, 

@@ -86,7 +86,7 @@ Skyderby.views.Competitor = Backbone.View.extend({
 
     delete_competitor_click: function(e) {
         e.preventDefault();
-        this.model.destroy();
+        this.model.destroy({wait: true, error: fail_ajax_request});
     },
 
     update_competitor: function() {
