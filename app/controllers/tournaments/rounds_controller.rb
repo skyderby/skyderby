@@ -1,10 +1,12 @@
 class Tournaments::RoundsController < ApplicationController
   before_action :set_tournament_round, only: [:show, :edit, :update, :destroy]
 
+  load_resource :tournament
+
   # GET /tournament_rounds
   # GET /tournament_rounds.json
   def index
-    @tournament_rounds = TournamentRound.all
+    @tournament_rounds = @tournament.rounds.order(:order)
   end
 
   # GET /tournament_rounds/1
@@ -14,7 +16,7 @@ class Tournaments::RoundsController < ApplicationController
 
   # GET /tournament_rounds/new
   def new
-    @tournament_round = TournamentRound.new
+    @tournament_round = @tournament.rounds.new
   end
 
   # GET /tournament_rounds/1/edit
@@ -24,11 +26,11 @@ class Tournaments::RoundsController < ApplicationController
   # POST /tournament_rounds
   # POST /tournament_rounds.json
   def create
-    @tournament_round = TournamentRound.new(tournament_round_params)
+    @tournament_round = @tournament.rounds.new(tournament_round_params)
 
     respond_to do |format|
       if @tournament_round.save
-        format.html { redirect_to @tournament_round, notice: 'Tournament round was successfully created.' }
+        format.html { redirect_to tournament_rounds_path(@tournament), notice: 'Tournament round was successfully created.' }
         format.json { render action: 'show', status: :created, location: @tournament_round }
       else
         format.html { render action: 'new' }

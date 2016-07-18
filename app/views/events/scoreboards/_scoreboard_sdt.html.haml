@@ -38,8 +38,10 @@
   - @event.sections.each do |section|
     - next unless section.id
     %tbody
-      = render 'events/sections/section_row', section: section,
-                                       columns_count: @scoreboard.columns_count
+      = render 'events/sections/section_row',
+               section: section,
+               columns_count: @scoreboard.columns_count
+
       - section_competitors = @scoreboard.sections[section.id]
       - row_number = 1
       - section_competitors.each do |competitor|
@@ -49,23 +51,26 @@
           - @event.rounds_by_discipline.each do |discipline, rounds|
             - rounds.each do |round|
               - result_entity = competitor.event_tracks.detect { |x| x[:round_id] == round.id }
+              - display_raw_results = @scoreboard.display_raw_results
               - if result_entity
+                - result_value = result_entity.result(net: display_raw_results)
                 %td.result-cell.text-right{'data-role' => 'result', class: ('hc-best-result' if result_entity.best_in_round?)}
-                  - if result_entity.result && result_entity.result > 0
+                  - if result_value && result_value > 0
                     - if discipline == 'distance'
                       - if result_entity.is_disqualified
-                        %s= result_entity.result.truncate
+                        %s= result_value.truncate
                       - else
-                        = result_entity.result.truncate
+                        = result_value.truncate
                     -else
                       - if result_entity.is_disqualified
-                        %s= result_entity.result.round(1)
+                        %s= result_value.round(1)
                       - else
-                        = result_entity.result.round(1)
+                        = result_value.round(1)
                   - if can? :manage, result_entity
                     %span
                       = link_to edit_event_event_track_path(@event, result_entity),
                                 remote: true,
+                                'data-params': { display_raw_results: display_raw_results }.to_param,
                                 class: 'edit-result' do
                         %i.fa.fa-pencil
 
@@ -76,16 +81,19 @@
 
                 %td.points-cell{class: (result_entity.is_disqualified ? 'text-center' : 'text-right')}
                   - if result_entity.is_disqualified
-                    %span{'data-toggle' => 'tooltip', title: result_entity.disqualification_reason}
+                    %span.dotted-underline{'data-toggle' => 'tooltip',
+                                            title: result_entity.disqualification_reason}
                       DQ
                   - else
                     - if result_entity.points && result_entity.points > 0
-                      = result_entity.points.round(1)
+                      = result_entity.points(net: display_raw_results).round(1)
               - else
                 %td.text-center.create-result-cell
                   = link_to new_event_event_track_path(@event), 
                             remote: true, 
-                            'data-params': {'event_track[competitor_id]' => competitor.id, 'event_track[round_id]' => round.id}.to_param,
+                            'data-params': { 'event_track[competitor_id]' => competitor.id,
+                                             'event_track[round_id]' => round.id,
+                                             display_raw_results: display_raw_results }.to_param,
                             class: 'create-result' do
                     %i.fa.fa-upload
                     
@@ -100,19 +108,3 @@
               = competitor.total_points.round(2)
 
         - row_number += 1
-
-- if @event.wind_cancellation
-  %span
-    = t('events.show.wind_cancellation_enabled')
-  %span
-    = t('events.show.results_showing')
-    - display_raw_results ||= false
-    - if (display_raw_results)
-      = link_to t('events.show.results_adjusted_caption'), params.merge(display_raw_results: false), remote: true
-      \/
-      %b= t('events.show.results_not_adjusted_caption')
-    - else
-      %b= t('events.show.results_adjusted_caption')
-      \/
-      = link_to t('events.show.results_not_adjusted_caption'), params.merge(display_raw_results: true), remote: true
-

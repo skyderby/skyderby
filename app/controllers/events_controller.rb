@@ -43,7 +43,7 @@ class EventsController < ApplicationController
 
   def show
     load_event(params[:id])
-    @scoreboard = Events::ScoreboardFactory.new(@event).create
+    @scoreboard = Events::ScoreboardFactory.new(@event, @display_raw_results).create
   end
 
   def destroy

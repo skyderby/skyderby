@@ -6,9 +6,12 @@ module Events
         attr_accessor :points_in_disciplines, :total_points
       end
 
-      attr_reader :sections, :columns_count
-      def initialize(event)
+      attr_reader :sections, :columns_count, :display_raw_results
+
+      def initialize(event, display_raw_results)
         @event = event
+        @display_raw_results = display_raw_results || false
+
         @columns_count = @event.rounds.count * 2 + @event.rounds_by_discipline.count + 4
         @sections = {}
 
@@ -45,7 +48,7 @@ module Events
           points[discipline] = 
             competitor.event_tracks.select do |x| 
               x.round_discipline == discipline
-            end.inject(0) { |sum, x| sum + x.points } / rounds.count
+            end.inject(0) { |sum, x| sum + x.points(net: @display_raw_results) } / rounds.count
         end
         points
       end

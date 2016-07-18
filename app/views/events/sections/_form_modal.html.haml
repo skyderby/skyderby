@@ -1,6 +1,7 @@
 .modal-dialog
   .modal-content
     = form_for [@event, @section], remote: true, html: {class: 'form-horizontal'} do |f|
+      = hidden_field_tag :display_raw_results, @display_raw_results
       .modal-header
         %button.close{type: 'button', data: {dismiss: 'modal'}}
           %span{aria: {hidden: 'true'}}

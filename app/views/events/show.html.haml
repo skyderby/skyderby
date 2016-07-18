@@ -15,20 +15,37 @@
     .col-md-2
       - if can_manage
         .pull-right
-          = link_to(edit_event_path(@event), remote: true, class: 'btn btn-default edit-event') do
+          = link_to(edit_event_path(@event),
+            remote: true,
+            'data-params': { 'display_raw_results' => @display_raw_results }.to_param,
+            class: 'btn btn-default edit-event') do
             %i.fa.fa-fw.fa-pencil.text-muted
             = t('general.edit')
 
   .row{class: ('top-buffer' if can_manage)}
     .col-md-7.col-sm-7
       - if can_manage
-        = link_to new_event_section_path(event_id: @event.id), remote: true, class: 'btn btn-default' do
+        = link_to new_event_section_path(event_id: @event.id), 
+                  remote: true, 
+                  'data-params': { 'display_raw_results' => @display_raw_results }.to_param,
+                  class: 'btn btn-default' do
           %i.fa.fa-plus
           = t('events.show.section')
-        =link_to new_event_competitor_path(@event), remote: true, class: 'btn btn-default' do
+        = link_to new_event_competitor_path(@event),
+                  remote: true,
+                  'data-params': { 'display_raw_results' => @display_raw_results }.to_param,
+                  class: 'btn btn-default' do
           %i.fa.fa-plus
           = t('events.show.competitor')
         - if @event.hungary_boogie?
+          = button_to t('disciplines.distance'),
+                      event_rounds_path(@event),
+                      method: :post,
+                      remote: true, 
+                      params: {'round[discipline]' => :distance, 'display_raw_results' => @display_raw_results},
+                      class: 'btn-link add-distance-round'
+
+
           %button.btn.btn-default.add-distance-round
             %i.fa.fa-plus
             = t('events.show.round')
@@ -44,7 +61,7 @@
                             event_rounds_path(@event),
                             method: :post,
                             remote: true, 
-                            params: {'round[discipline]' => :distance},
+                            params: {'round[discipline]' => :distance, 'display_raw_results' => @display_raw_results},
                             class: 'btn-link add-distance-round'
 
               %li
@@ -52,7 +69,7 @@
                             event_rounds_path(@event),
                             method: :post,
                             remote: true, 
-                            params: {'round[discipline]' => :time},
+                            params: {'round[discipline]' => :time, 'display_raw_results' => @display_raw_results},
                             class: 'btn-link add-time-round'
 
               %li
@@ -60,7 +77,7 @@
                             event_rounds_path(@event),
                             method: :post,
                             remote: true, 
-                            params: {'round[discipline]' => :speed},
+                            params: {'round[discipline]' => :speed, 'display_raw_results' => @display_raw_results},
                             class: 'btn-link add-speed-round'
 
     .col-md-5.col-sm-5
@@ -106,9 +123,23 @@
         = render 'events/scoreboards/scoreboard_hungary', can_manage: can_manage
       - else
         = render 'events/scoreboards/scoreboard_sdt', can_manage: can_manage
-  .row
-    .col-md-12#event-wind-cancellation-caption
-      
+
+  - if @event.wind_cancellation
+    .row
+      .col-md-12#event-wind-cancellation-caption
+        %span
+          = t('events.show.wind_cancellation_enabled')
+        %span
+          = t('events.show.results_showing')
+          - if (@display_raw_results)
+            = link_to t('events.show.results_adjusted_caption'), params.merge(display_raw_results: false), remote: true
+            \/
+            %b= t('events.show.results_not_adjusted_caption')
+          - else
+            %b= t('events.show.results_adjusted_caption')
+            \/
+            = link_to t('events.show.results_not_adjusted_caption'), params.merge(display_raw_results: true), remote: true
+
   .row
     .col-md-12
       %h4= t('.judges') + ':'

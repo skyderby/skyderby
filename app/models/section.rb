@@ -57,7 +57,7 @@ class Section < ActiveRecord::Base
       Section.where('sections.order < ?', order)
              .where(event_id: event_id)
              .limit(1)
-             .order(:order)
+             .order('sections.order DESC')
              .first
   end
 

@@ -1,10 +1,12 @@
 class Tournaments::MatchesController < ApplicationController
   before_action :set_tournament_match, only: [:show, :edit, :update, :destroy]
 
+  load_resource :tournament
+
   # GET /tournament_matches
   # GET /tournament_matches.json
   def index
-    @tournament_matches = TournamentMatch.all
+    @tournament_matches = @tournament.matches
   end
 
   # GET /tournament_matches/1
@@ -28,7 +30,7 @@ class Tournaments::MatchesController < ApplicationController
 
     respond_to do |format|
       if @tournament_match.save
-        format.html { redirect_to @tournament_match, notice: 'Tournament match was successfully created.' }
+        format.html { redirect_to tournament_match_path(@tournament, @tournament_match), notice: 'Tournament match was successfully created.' }
         format.json { render action: 'show', status: :created, location: @tournament_match }
       else
         format.html { render action: 'new' }

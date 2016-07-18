@@ -8,13 +8,13 @@
   .container-fluid
     .row
       .col-lg-1
-      - @tournament.tournament_rounds.each do |round|
+      - @tournament.rounds.each do |round|
         .col-sm-4.col-md-4.col-lg-3.text-center
           .tournament-round.text-muted
             Round 
             = round.order
           - spacers = 2 ** (round.order - 1) - 1
-          - round.tournament_matches.each do |match|
+          - round.matches.each do |match|
             - unless match.bronze_finals
               - spacers.times do
                 .tournament-spacer
@@ -87,7 +87,7 @@
               %tr
                 %td= index + 1
                 %td
-                  %a{href: profile_path(result[:user_profile_id])}
+                  %a{href: profile_path(result[:profile_id])}
                     = result[:name]
                 %td= result[:best_result]
                 - @tournament.qualification_rounds.each do |round|

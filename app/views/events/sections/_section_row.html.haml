@@ -3,7 +3,10 @@
     %span
       = section.name + ':'
     - if can? :manage, section
-      = link_to edit_event_section_path(@event, section), remote: true, class: 'edit-section' do
+      = link_to edit_event_section_path(@event, section),
+                remote: true,
+                'data-params': { 'display_raw_results' => @display_raw_results }.to_param,
+                class: 'edit-section' do
         %i.fa.fa-pencil.text-muted
 
       %span.pipe-edit-section.text-muted
@@ -12,6 +15,7 @@
       - unless section.first_position?
         = button_to(move_upper_event_section_path(@event, section),
                     remote: true,
+                    params: {'display_raw_results' => @display_raw_results},
                     method: :patch,
                     class: 'btn-link section-up') do
           %i.fa.fa-chevron-up.text-muted
@@ -19,6 +23,7 @@
       - unless section.last_position?
         = button_to(move_lower_event_section_path(@event, section),
                     remote: true, 
+                    params: {'display_raw_results' => @display_raw_results},
                     method: :patch, 
                     class: 'btn-link section-down') do
           %i.fa.fa-chevron-down.text-muted
@@ -28,6 +33,7 @@
 
       = button_to(event_section_path(@event, section),
                 method: :delete,
+                params: {'display_raw_results' => @display_raw_results},
                 confirm: t('sections.show.delete_confirmation'),
                 class: 'btn-link delete-section',
                 remote: true) do

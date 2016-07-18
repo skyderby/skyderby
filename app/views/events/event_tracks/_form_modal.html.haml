@@ -1,6 +1,7 @@
 .modal-dialog
   .modal-content
     = form_for [@event, @event_track], remote: true, html: {multipart:true, class: 'form-horizontal'} do |f|
+      = hidden_field_tag :display_raw_results, @display_raw_results
       .modal-header
         %button.close{type: 'button', data: {dismiss: 'modal'}}
           %span{aria: {hidden: 'true'}}
@@ -67,6 +68,7 @@
           .pull-left
             = link_to t('general.delete'),
                         [@event, @event_track],
+                        'data-params': { 'display_raw_results' => @display_raw_results }.to_param,
                         method: :DELETE,
                         remote: true,
                         class: 'btn btn-danger'
