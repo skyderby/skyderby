@@ -16,7 +16,7 @@ module Skyderby
           @end_point
         )
 
-        Velocity.ms_to_kmh(distance / time).round(1)
+        Velocity.new(distance / time).to_kmh.round(1)
       end
     end
   end

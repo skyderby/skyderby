@@ -1,0 +1,23 @@
+$('.track-indicators').replaceWith("<%= j render(partial: 'tracks/indicators', 
+                                                 locals: {presenter: @track_presenter}) %>");
+$('#track-charts').replaceWith("<%= j render(partial: 'tracks/charts') %>");
+$('.settings-button').html("<%= j render(partial: 'tracks/view_settings_menu') %>");
+$('.settings-button.open').removeClass('open');
+
+<% if preferred_charts_mode == 'separate' %>
+  <%= render(partial: 'tracks/separate_charts', locals: {presenter: @track_presenter}) %>
+<% else %>
+  <%= render(partial: 'tracks/single_chart', locals: {presenter: @track_presenter}) %>
+<% end %>
+
+$("#range-selector").ionRangeSlider('update', {
+  min: <%= @track_presenter.max_altitude %>,
+  max: <%= @track_presenter.min_altitude %>,
+  from: <%= @track_presenter.range_from %>,
+  to: <%= @track_presenter.range_to %>
+});
+
+window.history.replaceState({},
+                            document.title,
+                            "<%= url_for(params.except(:range, :charts_mode, :charts_units)).html_safe %>"
+                            );

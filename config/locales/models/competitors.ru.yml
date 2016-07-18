@@ -1,12 +1,21 @@
 ru:
   activerecord:
+    models:
+      competitor: Участник
+    attributes:
+      competitor:
+        wingsuit: Костюм
+        section: Класс
+        profile: Профиль
+      competitor/profile:
+        name: Имя Фамилия
     errors:
       models:
         competitor:
           attributes:
             wingsuit:
-              blank: "Не заполнено обязательное поле 'Костюм'"
-            user_profile:
+              blank: Костюм должен быть заполнен
+            profile:
               blank: "Не заполнено обязательное поле 'Профиль пилота'"
             section:
               blank: "Не заполнено обязательное поле 'Класс'"

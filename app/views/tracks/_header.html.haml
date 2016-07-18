@@ -3,7 +3,7 @@
     .col-md-12
       %h1.light-header
         - if track.pilot
-          %a{href: user_profile_path(track.pilot)}
+          %a{href: profile_path(track.pilot)}
             = image_tag track.pilot.userpic.url(:thumb), :class => 'img-rounded img-50 loading-bg'
             = track.pilot.name
         - else
@@ -47,34 +47,17 @@
                          class: ('active' if action_name == 'google_maps')}
         %i.fa.fa-compass
         = 'Google maps'
-      - if action_name == 'show'
-        %a.btn.btn-default{data: {toggle: 'modal', target: '#track-results-modal'}}
-          %i.fa.fa-th-list
-          = t('tracks.show.results')
+      = link_to track_results_path(@track), remote: true, class: 'btn btn-default' do
+        %i.fa.fa-th-list
+        = t('tracks.show.results')
       .pull-right
-        %button.btn.btn-default#set-weather-data
-          Weather data
+        = link_to t('events.show.weather_data'), 
+                 track_weather_data_path(@track), 
+                 remote: true, 
+                 class: 'btn btn-default'
         %span.settings-button
           - if action_name == 'show'
-            %button.btn.btn-default.dropdown-toggle#dropdownMenu1{type: 'button', data: {toggle: 'dropdown'}}
-              %i.fa.fa-cog
-            %ul.dropdown-menu.dropdown-menu-right{role: 'menu', aria: {labelledby: 'dropdownMenu1'}}
-              %li.dropdown-header{role: 'presentation'}
-                =t 'tracks.show.menu_header'
-              %li#li_toggle_multi{role: 'presentation'}
-                %a#toggle_multi{role: 'menuitem', tabindex: '-1', href: '#'}
-                  =t 'tracks.show.menu_sep'
-              %li#li_toggle_single{role: 'presentation'}
-                %a#toggle_single{role: 'menuitem', tabindex: '-1', href: '#'}
-                  =t 'tracks.show.menu_one'
-              %li.dropdown-header{role: 'presentation'}
-                =t 'tracks.show.units_header'
-              %li#li_toggle_metric{role: 'presentation'}
-                %a#toggle_metric{role: 'menuitem', tabindex: '-1', href: '#'}
-                  =t 'tracks.show.m_units_metric'
-              %li#li_toggle_imperial{role: 'presentation'}
-                %a#toggle_imperial{role: 'menuitem', tabindex: '-1', href: '#'}
-                  =t 'tracks.show.m_units_imperial'
+            = render 'tracks/view_settings_menu'
         - if user_signed_in? && (current_user == track.user || (can? :update, :tracks))
           %a.btn.btn-default{href: edit_track_path(track)}
             %i.fa.fa-pencil

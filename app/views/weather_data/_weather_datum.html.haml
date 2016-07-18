@@ -1,0 +1,19 @@
+%tr{id: dom_id(weather_datum)}
+  %td= weather_datum.actual_on.strftime('%Y-%m-%d %H:%M') if weather_datum.actual_on
+  %td.text-right= weather_datum.altitude.convert_to(@view_units[:altitude]).round.truncate if weather_datum.altitude
+  %td.text-right= weather_datum.wind_speed.convert_to(@view_units[:wind_speed]).round(1) if weather_datum.wind_speed
+  %td.text-right= weather_datum.wind_direction.truncate
+  %td
+    - if can? :edit, weather_datum
+      = link_to [:edit, weather_datum.weather_datumable, weather_datum], 
+                remote: true, 
+                'data-params' => {altitude_unit: @view_units[:altitude], wind_speed_unit: @view_units[:wind_speed]}.to_param,
+                class: 'btn-link' do
+        %i.fa.fa-pencil.text-muted
+    - if can? :destroy, weather_datum
+      = button_to [weather_datum.weather_datumable, weather_datum], 
+                  method: :DELETE, 
+                  remote: true, 
+                  'data-params' => {altitude_unit: @view_units[:altitude], wind_speed_unit: @view_units[:wind_speed]}.to_param,
+                  class: 'btn-link' do
+        %i.fa.fa-times.text-muted

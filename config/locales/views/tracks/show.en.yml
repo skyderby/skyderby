@@ -1,17 +1,18 @@
 en:
   tracks:
+    indicators:
+      distance: Distance
+      elevation: Height diff.
+      ground_speed: Ground speed
+      vertical_speed: Vertical speed
+      duration: Time
+      glide_ratio: Glide ratio
     show:
       title_track: 'Track'
       title_suit: 'Suit'
       menu_header: 'Show data:'
       menu_sep: 'On separate charts'
       menu_one: 'On single chart'
-      dt_dist: 'Distance'
-      dt_elev: 'Elevation'
-      dt_dur: 'Duration'
-      dt_hspd: 'Ground Speed'
-      dt_vspd: 'Vertical speed'
-      dt_gr: 'Glide ratio'
       units_header: 'Units:'
       m_units_metric: 'Metric'
       m_units_imperial: 'Imperial'

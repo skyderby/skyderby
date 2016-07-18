@@ -19,8 +19,7 @@ class Ability
     can :read, Wingsuit
     can :read, Place
 
-    can :read, UserProfile
-    can :read, Badge
+    can :show, Profile
 
     can :read,  Tournament
 
@@ -47,14 +46,14 @@ class Ability
       end
     end
 
-    can :update, UserProfile, user: user
+    can :update, Profile, user: user
 
     can :create, Event
     can :destroy, Event, responsible: user, status: :draft
 
     can [:read, :update], Event do |event|
-      if event.responsible == user.user_profile ||
-         event.event_organizers.any? { |x| x.user_profile == user.user_profile }
+      if event.responsible == user.profile ||
+         event.event_organizers.any? { |x| x.profile == user.profile }
         can :manage, Section
         can :manage, Competitor
         can :manage, Round

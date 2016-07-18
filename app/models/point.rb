@@ -4,17 +4,17 @@
 #
 #  id                  :integer          not null, primary key
 #  tracksegment_id     :integer
-#  fl_time             :float(24)
+#  fl_time             :float
 #  latitude            :decimal(15, 10)
 #  longitude           :decimal(15, 10)
-#  elevation           :float(24)
+#  elevation           :float
 #  point_created_at    :datetime
 #  created_at          :datetime
 #  updated_at          :datetime
-#  distance            :float(24)
-#  v_speed             :float(24)
-#  h_speed             :float(24)
-#  abs_altitude        :float(24)
+#  distance            :float
+#  v_speed             :float
+#  h_speed             :float
+#  abs_altitude        :float
 #  gps_time_in_seconds :decimal(17, 3)
 #
 

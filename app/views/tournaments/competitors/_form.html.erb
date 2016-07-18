@@ -16,8 +16,8 @@
     <%= f.collection_select(:tournament_id, Tournament.all, :id, :name, {promt: 'Select tournament'}, {class: 'form-control'}) %>
   </div>
   <div class="field">
-    <%= f.label :user_profile_id %><br>
-    <%= f.collection_select(:user_profile_id, UserProfile.all.order(:name), :id, :name, {promt: 'Select profile'}, {class: 'form-control'}) %>
+    <%= f.label :profile_id %><br>
+    <%= f.collection_select(:profile_id, Profile.all.order(:name), :id, :name, {promt: 'Select profile'}, {class: 'form-control'}) %>
   </div>
   <div class="field">
     <%= f.label :wingsuit_id %><br>

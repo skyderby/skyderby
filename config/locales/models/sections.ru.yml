@@ -1,8 +1,16 @@
 ru:
   activerecord:
+    models:
+      section: Класс
+    attributes:
+      section:
+        name: Название
     errors:
       models:
         section:
           attributes:
             name:
-              blank: 'Не указано название класса.'
+              blank: Не указано название класса.
+            base:
+              restrict_dependent_destroy:
+                many: Перед удалением класса необходимо удалить или переместить из него участников.

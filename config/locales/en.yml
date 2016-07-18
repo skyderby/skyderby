@@ -9,7 +9,7 @@ en:
         comment: 'Comment'
         uploaded_at: 'Uploaded at'
         recorded_at: 'Recorded at'
-      user_profile:
+      profile:
         last_name: "Last name:"
         first_name: "First name:"
         photo: "Photo:"

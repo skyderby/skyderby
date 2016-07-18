@@ -1,0 +1,167 @@
+<% display_elevation ||= false %>
+<% display_distance  ||= false %>
+
+{
+  chart: {
+    type: 'spline'
+  },
+  title: {
+    text: "<%= t('charts.all_data.title') %>"
+  },
+  plotOptions: {
+    spline: {
+      marker: {
+        enabled: false
+      }
+    },
+    series: {
+      marker: {
+        radius: 1
+      }
+    }
+  },
+  yAxis: [{ //Speed yAxis
+    // min: -30,
+    max: <%= speed_units == 'mph' ? 250 : 400 %>,
+    // startOnTick: false,
+    // minPadding: 0.2,
+    // maxPadding: 0.2,
+    tickPixelInterval: 120,
+    title: {
+      text: "<%= t('charts.all_data.axis.speed') %>"
+    }
+  },
+  { // Elev, dist yAxis
+    gridLineWidth: 0,
+    tickPixelInterval: 120,
+    title: {
+      text: "<%= t('charts.all_data.axis.distance') %>"
+    },
+    opposite: true
+  },
+  { // GR yAxis
+    min: 0,
+    max: 5,
+    startOnTick: false,
+    endOnTick: false,
+    minPadding: 0.2,
+    maxPadding: 0.2,
+    tickPixelInterval: 120,
+    gridLineWidth: 0,
+    title: {
+      text: "<%= t('charts.all_data.axis.gr') %>"
+    },
+    labels: {
+      formatter: function() {
+        if(this.isFirst) {
+          return '≤ 0';
+        } else if (this.isLast) {
+          return '≥ 5';
+        } else {
+          return this.value;   
+        }
+      }
+    },
+    opposite: true
+  }],
+  tooltip: {
+    shared: true,
+    crosshairs: true,
+    formatter: function () {
+      var s = '';
+
+      $.each(this.points, function () {
+        var value = this.point.options.true_value || this.y;
+        if (s !== '') s+= '<br/>';
+        s += this.series.name + ': ' +
+          value + this.series.options.tooltip.valueSuffix;
+      });
+
+      return s;
+    },
+  },
+  credits: {
+    enabled: false
+  },
+  series: [
+    {
+    name: "<%= t('charts.all_data.series.horiz_speed') %>",
+    yAxis: 0,
+    color: '#52A964',
+    tooltip: {
+      valueSuffix: ' <%= t('units.' + speed_units) %>',
+      valueDecimals: 0
+    }
+  },
+  {
+    name: "<%= t('charts.all_data.series.vert_speed') %>",
+    yAxis: 0,
+    color: '#A7414E',
+    tooltip: {
+      valueSuffix: ' <%= t('units.' + speed_units) %>',
+      valueDecimals: 0
+    }
+  },
+  {
+    name: "<%= t('charts.all_data.series.full_speed') %>",
+    yAxis: 0,
+    color: '#D6A184',
+    visible: false,
+    tooltip: {
+      valueSuffix: ' <%= t('units.' + speed_units) %>',
+      valueDecimals: 0
+    }
+  },
+  {
+    name: "<%= t('charts.all_data.series.gr') %>",
+    yAxis: 2,
+    tooltip: {
+      valueSuffix: '',
+      valueDecimals: 2
+    },
+    zones: [{
+      value: 0.1,
+      color: 'red'
+    }, {
+      value: 4.8,
+      color: '#37889B'
+    }, {
+      color: 'red'
+    }],
+    color: '#37889B'
+  },
+  {
+    name: "<%= t('charts.all_data.series.height') %>",
+    yAxis: 1,
+    color: '#aaa',
+    tooltip: {
+      valueSuffix: ' <%= t('units.' + altitude_units) %>',
+      valueDecimals: 0
+    }
+  }
+  <% if display_distance %>
+  ,{
+    name: I18n.t('charts.all_data.series.distance'),
+    yAxis: 1,
+    color: Highcharts.getOptions().colors[5],
+    tooltip: {
+      valueSuffix: ' <%= t('units.' + distance_units) %>',
+      valueDecimals: 0
+    },
+    visible: false
+  }
+  <% end %>
+  <% if display_elevation %>
+  ,{
+    name: I18n.t('charts.all_data.series.elevation'),
+    yAxis: 1,
+    color: Highcharts.getOptions().colors[3],
+    tooltip: {
+      valueSuffix: ' <%= t('units.' + altitude_units) %>',
+      valueDecimals: 0
+    },
+    visible: false
+  }
+  <% end %>
+  ]
+}

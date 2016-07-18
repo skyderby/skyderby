@@ -70,32 +70,6 @@ function init_ge() {
     google.earth.createInstance('map3d', initCB, failureCB);
 }
 
-function init_range_selector() {
-
-    $("#range-selector").ionRangeSlider({
-        min: Track.max_height,
-        max: Track.min_height,
-        type: 'double',
-        step: 50,
-        prettify: false,
-        hasGrid: true,
-        from: Track.max_height,
-        to: Track.min_height,
-        onFinish: function (obj) {      // callback is called on slider action is finished
-            if (Track.in_imperial) {
-                Track.range_from = obj.fromNumber / mft_k;
-                Track.range_to = obj.toNumber / mft_k;
-            } else {
-                Track.range_from = obj.fromNumber;
-                Track.range_to = obj.toNumber;
-            }
-            window.history.replaceState({}, document.title, "?f=" + Track.range_from + "&t=" + Track.range_to);
-            set_chart_data();
-        }
-    });
-
-}
-
 function updateUnits() {
     var speed_unit = (Track.in_imperial ? I18n.t('units.mph') : I18n.t('units.kmh'));
     var dist_unit = (Track.in_imperial ? I18n.t('units.ft') : I18n.t('units.m'));
@@ -541,18 +515,18 @@ function draw_polyline() {
 
 $(document).on('ready page:load', function() {
     if ($('.track-data').length) {
-        init_chart_view();	
+        // init_chart_view();	
 
-        var model = new Skyderby.models.Track({
-            id: $('.track-data').data('id'),
-            default_weather_date: $('.track-data').data('default-weather-date')
-        });
-
-        var view = new Skyderby.views.TrackShowView({
-          el: '.track-show',
-          model: model,
-          can_manage: $('.track-data').data('can-manage')
-        });
+        // var model = new Skyderby.models.Track({
+        //     id: $('.track-data').data('id'),
+        //     default_weather_date: $('.track-data').data('default-weather-date')
+        // });
+        //
+        // var view = new Skyderby.views.TrackShowView({
+        //   el: '.track-show',
+        //   model: model,
+        //   can_manage: $('.track-data').data('can-manage')
+        // });
     } else if ($('.track-earth-data').length) {
         init_earth_view();
     }

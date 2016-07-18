@@ -3,7 +3,7 @@
 # Table name: roles
 #
 #  id   :integer          not null, primary key
-#  name :string(255)
+#  name :string(510)
 #
 
 class Role < ActiveRecord::Base

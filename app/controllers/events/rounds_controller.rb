@@ -1,6 +1,8 @@
 # encoding: utf-8
 class Events::RoundsController < ApplicationController
-  before_action :set_round, only: [:update, :destroy]
+  include EventLoading
+
+  before_action :set_round, only: :destroy
 
   load_resource :event
   before_filter :authorize_event
@@ -11,25 +13,23 @@ class Events::RoundsController < ApplicationController
     @round = @event.rounds.new round_params
 
     if @round.save
-      @round
+      respond_to do |format|
+        format.json
+        format.js { respond_with_scoreboard }
+      end
     else
-      render json: @round.errors, status: :unprocessable_entity
-    end
-  end
-
-  def update
-    if @round.update round_params
-      @round
-    else
-      render json: @round.errors, status: :unprocessable_entity
+      respond_with_errors(@round.errors)
     end
   end
 
   def destroy
     if @round.destroy
-      head :no_content
+      respond_to do |format|
+        format.json { head :no_content }
+        format.js { respond_with_scoreboard }
+      end
     else
-      render json: @round.errors, status: :unprocessable_entity
+      respond_with_errors(@round.errors)
     end
   end
 

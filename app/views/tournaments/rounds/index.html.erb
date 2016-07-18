@@ -16,9 +16,9 @@
       <tr>
         <td><%= tournament_round.tournament.name %></td>
         <td><%= tournament_round.order %></td>
-        <td><%= link_to 'Show', tournament_round %></td>
-        <td><%= link_to 'Edit', edit_tournament_round_path(tournament_round) %></td>
-        <td><%= link_to 'Destroy', tournament_round, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', tournament_round_path(@tournament, tournament_round) %></td>
+        <td><%= link_to 'Edit', edit_tournament_round_path(@tournament, tournament_round) %></td>
+        <td><%= link_to 'Destroy', tournament_round_path(@tournament, tournament_round), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

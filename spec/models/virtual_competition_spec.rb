@@ -12,13 +12,13 @@
 #  discipline_parameter  :integer          default(0)
 #  created_at            :datetime
 #  updated_at            :datetime
-#  name                  :string(255)
+#  name                  :string(510)
 #  virtual_comp_group_id :integer
 #  range_from            :integer          default(0)
 #  range_to              :integer          default(0)
-#  display_highest_speed :boolean          default(FALSE)
-#  display_highest_gr    :boolean          default(FALSE)
-#  display_on_start_page :boolean          default(FALSE)
+#  display_highest_speed :boolean
+#  display_highest_gr    :boolean
+#  display_on_start_page :boolean
 #
 
 require 'rails_helper'

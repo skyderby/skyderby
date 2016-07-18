@@ -3,10 +3,10 @@
 # Table name: places
 #
 #  id          :integer          not null, primary key
-#  name        :string(255)
+#  name        :string(510)
 #  latitude    :decimal(15, 10)
 #  longitude   :decimal(15, 10)
-#  information :text(65535)
+#  information :text
 #  country_id  :integer
 #  msl         :integer
 #

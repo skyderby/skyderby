@@ -13,4 +13,4 @@ en:
         gr: 'Glide ratio'
         height: 'Height'
         distance: 'Distance'
-        elevation: 'Elevation'
+        elevation: 'Height diff.'

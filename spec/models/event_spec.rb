@@ -3,18 +3,18 @@
 # Table name: events
 #
 #  id                :integer          not null, primary key
-#  name              :string(255)
+#  name              :string(510)
 #  range_from        :integer
 #  range_to          :integer
 #  created_at        :datetime
 #  updated_at        :datetime
 #  status            :integer          default(0)
-#  user_profile_id   :integer
+#  profile_id        :integer
 #  place_id          :integer
-#  is_official       :boolean          default(FALSE)
+#  is_official       :boolean
 #  rules             :integer          default(0)
 #  starts_at         :date
-#  wind_cancellation :boolean          default(FALSE)
+#  wind_cancellation :boolean
 #
 
 require 'spec_helper'

@@ -1,0 +1,10 @@
+$('input[name="event[starts_at]"]')
+    .datepicker({
+      format: 'dd.mm.yyyy',
+      startDate: 0,
+      language: I18n.locale,
+      autoclose: true,
+      todayHighlight: true
+    });
+
+Skyderby.helpers.PlaceSelect($('select[name="event[place_id]"]'));
