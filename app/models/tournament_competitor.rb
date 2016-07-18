@@ -15,5 +15,5 @@ class TournamentCompetitor < ActiveRecord::Base
   belongs_to :profile
   belongs_to :wingsuit
 
-  delegate :name, to: :user_profile
+  delegate :name, to: :profile
 end

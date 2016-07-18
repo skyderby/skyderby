@@ -28,8 +28,8 @@ class Tournament < ActiveRecord::Base
 
   belongs_to :place
   has_many :competitors, class_name: 'TournamentCompetitor'
-  has_many :tournament_rounds
-  has_many :tournament_matches, through: :tournament_rounds
+  has_many :rounds, class_name: 'TournamentRound'
+  has_many :matches, through: :rounds, source: :matches #class_name: 'TournamentMatch'
 
   has_many :qualification_rounds
   has_many :qualification_jumps, through: :qualification_rounds

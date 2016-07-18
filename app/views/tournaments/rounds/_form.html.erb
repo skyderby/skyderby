@@ -1,4 +1,4 @@
-<%= form_for(@tournament_round) do |f| %>
+<%= form_for([@tournament, @tournament_round], url: tournament_rounds_path) do |f| %>
   <% if @tournament_round.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@tournament_round.errors.count, "error") %> prohibited this tournament_round from being saved:</h2>
@@ -10,11 +10,6 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :tournament_id %><br>
-    <%= f.collection_select(:tournament_id, Tournament.all, :id, :name, {promt: 'Select tournament'}, {class: 'form-control'}) %>
-  </div>
 
   <div class="field">
     <%= f.label :order %><br>

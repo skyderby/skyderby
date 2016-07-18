@@ -2,6 +2,7 @@
 - allow_change_rules ||= false
 
 = form_for @event, remote: modal, html: {class: 'form-horizontal', role: 'form', id: "#{action_name}_event_form"} do |f|
+  = hidden_field_tag :display_raw_results, @display_raw_results
 
   - if modal
     .modal-header

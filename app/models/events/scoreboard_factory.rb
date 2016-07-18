@@ -1,11 +1,12 @@
 module Events
   class ScoreboardFactory
-    def initialize(event)
+    def initialize(event, display_raw_results)
       @event = event
+      @display_raw_results = display_raw_results
     end
 
     def create
-      scoreboard_class.new(@event)
+      scoreboard_class.new(@event, @display_raw_results)
     end
 
     private

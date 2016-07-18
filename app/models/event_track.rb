@@ -43,18 +43,20 @@ class EventTrack < ActiveRecord::Base
   before_validation :create_track_from_file
   before_save :set_uploaded_by, :calc_result
 
-  def points
-    return 0 if result.nil? || result.zero? || is_disqualified
-    result / round.best_result.result * 100
+  def points(net: false)
+    result_value = result(net: net)
+
+    return 0 if result_value.nil? || result_value.zero? || is_disqualified
+
+    result_value / round.best_result(net: net).result(net: net) * 100
   end
 
-  def points_net
-    return 0 if result_net.nil? || result_net.zero? || is_disqualified
-    result_net / round.best_result_net.result * 100
+  def result(net: false)
+    net ? self[:result_net] : self[:result]
   end
 
-  def best_in_round?
-    self == round.best_result
+  def best_in_round?(net: false)
+    self == round.best_result(net: net)
   end
 
   private
