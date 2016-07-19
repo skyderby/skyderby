@@ -14,6 +14,8 @@ module Events
     def scoreboard_class
       if @event.fai? || @event.speed_distance_time?
         Scoreboards::SpeedDistanceTime
+      elsif @event.hungary_boogie?
+        Scoreboards::HungaryBoogie
       else
         fail 'not implemented error'
       end

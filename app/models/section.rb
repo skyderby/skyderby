@@ -9,8 +9,9 @@
 #
 
 class Section < ActiveRecord::Base
-  belongs_to :event
+  belongs_to :event, touch: true
   has_many :competitors, dependent: :restrict_with_error
+  has_many :event_tracks, through: :competitors
 
   validates_presence_of :name
   validates_presence_of :event
@@ -33,6 +34,18 @@ class Section < ActiveRecord::Base
   def move_lower
     return unless lower_section
     swap_position_with lower_section
+  end
+
+  def best_result(net: false)
+    value_key = net ? :result_net : :result
+
+    event_tracks.reject(&:is_disqualified).max_by(&value_key)
+  end
+
+  def worst_result(net: false)
+    value_key = net ? :result_net : :result
+
+    event_tracks.reject(&:is_disqualified).min_by(&value_key)
   end
 
   private

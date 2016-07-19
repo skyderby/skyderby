@@ -53,15 +53,14 @@
       width: 100%;
       top: 0;
       left: 0;
-      background-color: white;
-      opacity: 0;
+      background-color: transparent;
 
-      &:hover {
+      &:hover a {
         opacity: 1;
       }
 
       a {
-        float: left;
+        float: right;
         padding-top: 8px;
         padding-bottom: 8px;
         text-align: center;
@@ -69,6 +68,7 @@
         width: 50%;
         color: white;
         background-color: rgb(146, 231, 240);
+        opacity: 0;
 
         &:hover {
           background-color: #428bca;

@@ -7,7 +7,8 @@ class Events::EventTracksController < ApplicationController
   before_action :set_event_track, only: [:show, :edit, :update, :destroy]
 
   load_resource :event
-  before_filter :authorize_event
+  before_filter :authorize_update_event, except: :show
+  before_filter :authorize_show_event, only: :show
 
   load_and_authorize_resource :event_track, through: :event
 
@@ -83,7 +84,11 @@ class Events::EventTracksController < ApplicationController
     )
   end
 
-  def authorize_event
+  def authorize_update_event
     authorize! :update, @event
+  end
+
+  def authorize_show_event
+    authorize! :read, @event
   end
 end

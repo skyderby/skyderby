@@ -16,7 +16,7 @@
 class Competitor < ActiveRecord::Base
   attr_accessor :profile_attributes, :profile_mode
 
-  belongs_to :event
+  belongs_to :event, touch: true
   belongs_to :section
   belongs_to :profile
   belongs_to :wingsuit
