@@ -20,6 +20,10 @@ module Events
         end
       end
 
+      def template
+        'events/scoreboards/speed_distance_time'
+      end
+
       private
 
       def section_scoreboard(section)

@@ -37,18 +37,16 @@
                   class: 'btn btn-default' do
           %i.fa.fa-plus
           = t('events.show.competitor')
+
         - if @event.hungary_boogie?
-          = button_to t('disciplines.distance'),
-                      event_rounds_path(@event),
+          = button_to event_rounds_path(@event),
                       method: :post,
                       remote: true, 
                       params: {'round[discipline]' => :distance, 'display_raw_results' => @display_raw_results},
-                      class: 'btn-link add-distance-round'
-
-
-          %button.btn.btn-default.add-distance-round
+                      class: 'btn btn-default' do
             %i.fa.fa-plus
             = t('events.show.round')
+
         -else
           .btn-group
             %button.btn.btn-default{'data-toggle' => 'dropdown'}
@@ -119,10 +117,7 @@
 
   .row.top-buffer
     .col-md-12
-      - if @event.hungary_boogie?
-        = render 'events/scoreboards/scoreboard_hungary', can_manage: can_manage
-      - else
-        = render 'events/scoreboards/scoreboard_sdt', can_manage: can_manage
+      = render @scoreboard.template, can_manage: can_manage
 
   - if @event.wind_cancellation
     .row

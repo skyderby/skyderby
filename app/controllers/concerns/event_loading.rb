@@ -25,9 +25,10 @@ module EventLoading
   def load_event(event_id)
     @event = Event.includes(
       :rounds,
-      sections: {competitors: [:wingsuit, 
+      sections: [:event_tracks, 
+                 {competitors: [:wingsuit, 
                                {profile: :country}, 
-                               {event_tracks: {round: :event_tracks}}]}
+                               {event_tracks: {round: :event_tracks}}]}]
     ).find(event_id)
   end
 

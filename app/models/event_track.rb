@@ -20,7 +20,7 @@ class EventTrack < ActiveRecord::Base
 
   belongs_to :track
   belongs_to :round
-  belongs_to :competitor
+  belongs_to :competitor, touch: true
   belongs_to :uploaded_by,
              class_name: 'Profile',
              foreign_key: 'profile_id'
@@ -57,6 +57,14 @@ class EventTrack < ActiveRecord::Base
 
   def best_in_round?(net: false)
     self == round.best_result(net: net)
+  end
+
+  def best_in_section?(net: false)
+    self == section.best_result(net: net)
+  end
+
+  def worst_in_section?(net: false)
+    self == section.worst_result(net: net)
   end
 
   private

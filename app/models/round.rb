@@ -14,7 +14,7 @@
 class Round < ActiveRecord::Base
   enum discipline: [:time, :distance, :speed]
 
-  belongs_to :event
+  belongs_to :event, touch: true
   belongs_to :signed_off_by,
              class_name: 'Profile',
              foreign_key: 'profile_id'
