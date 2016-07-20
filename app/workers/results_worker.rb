@@ -26,14 +26,14 @@ class ResultsWorker
           range_to: ff_start_elev - 1000 - 50 * s
         }
 
-        results << calculate(data, range)
+        results << calculate(data.points, range)
       end
     else
       range = {
         range_from: ff_start_elev,
         range_to: ff_end_elev
       }
-      results << calculate(data, range)
+      results << calculate(data.points, range)
     end
 
     return if results.count == 0
