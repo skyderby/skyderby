@@ -34,6 +34,8 @@ class Tournament < ActiveRecord::Base
   has_many :qualification_rounds
   has_many :qualification_jumps, through: :qualification_rounds
 
+  has_many :sponsors, as: :sponsorable
+
   def finish_line
     [
       Skyderby::Tracks::TrackPoint.new(

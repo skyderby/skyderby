@@ -86,6 +86,8 @@ Skyderby::Application.routes.draw do
           end
         end
       end
+
+      resources :sponsors, only: [:new, :create, :destroy]
     end
 
     root 'static_pages#index'

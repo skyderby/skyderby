@@ -100,11 +100,21 @@
                     - else
                       = round_result
 
+    - unless @tournament.sponsors.empty?
+      .row.top-buffer
+        .col-md-12
+          %h4= t('events.show.event_sponsors') + ':'
+    .row#sponsors
+      = render @tournament.sponsors
+    - if can? :edit, @tournament
+      = link_to new_tournament_sponsor_path(tournament_id: @tournament.id), remote: true, class: 'add-sponsor' do
+        %i.fa.fa-plus
+        = t('.add_sponsor')
+
   - if can? :edit, @tournament
     .container
       %a.btn.btn-default{href: tournament_competitors_path(@tournament.id)}= 'Competitors'
       %a.btn.btn-default{href: tournament_rounds_path(@tournament.id)}= 'Rounds'
       %a.btn.btn-default{href: tournament_matches_path(@tournament.id)}= 'Matches'
       -# %a.btn.btn-default{href: tournament_match_competitors_path}= 'Match competitors'
-
 
