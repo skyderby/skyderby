@@ -34,7 +34,7 @@ class SponsorsController < ApplicationController
   end
 
   def load_sponsorable
-    klass = [Event, Tournament].detect { |c| params["#{c.name.underscore}_id"] }
+    klass = [Event, Tournament, VirtualCompetition].detect { |c| params["#{c.name.underscore}_id"] }
     @sponsorable = klass.find(params["#{klass.name.underscore}_id"])
   end
 

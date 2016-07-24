@@ -103,3 +103,16 @@
                             %i.fa.fa-fw.fa-video-camera
                           - else
                             %i.fa.fa-fw
+
+  - unless @competition.sponsors.empty?
+    .row.top-buffer
+      .col-md-12
+        %h4= t('events.show.event_sponsors') + ':'
+  .row#sponsors
+    = render @competition.sponsors
+  - if can? :edit, @competition
+    = link_to new_virtual_competition_sponsor_path(virtual_competition_id: @competition.id), remote: true, class: 'add-sponsor' do
+      %i.fa.fa-plus
+      = t('.add_sponsor')
+
+
