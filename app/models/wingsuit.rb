@@ -27,6 +27,9 @@ class Wingsuit < ActiveRecord::Base
   validates :name, presence: true
   validates :manufacturer, presence: true
 
+  delegate :name, to: :manufacturer, prefix: true, allow_nil: true
+  delegate :code, to: :manufacturer, prefix: true, allow_nil: true
+
   has_attached_file :photo,
                     styles: { medium: '250x250#',
                               thumb: '32x32#' },
