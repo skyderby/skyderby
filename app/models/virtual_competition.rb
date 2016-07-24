@@ -54,6 +54,7 @@ class VirtualCompetition < ActiveRecord::Base
 
   has_one :best_result, -> { order('result DESC') }, class_name: 'VirtualCompResult'
   has_many :virtual_comp_results
+  has_many :sponsors, as: :sponsorable
 
   def reprocess_results
     virtual_comp_results.each do |x|

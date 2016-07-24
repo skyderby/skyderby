@@ -109,7 +109,7 @@
     - if can? :edit, @tournament
       = link_to new_tournament_sponsor_path(tournament_id: @tournament.id), remote: true, class: 'add-sponsor' do
         %i.fa.fa-plus
-        = t('.add_sponsor')
+        = t('events.show.add_sponsor')
 
   - if can? :edit, @tournament
     .container

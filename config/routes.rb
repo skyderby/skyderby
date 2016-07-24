@@ -71,7 +71,9 @@ Skyderby::Application.routes.draw do
     resources :countries
     resources :places
 
-    resources :virtual_competitions
+    resources :virtual_competitions do
+      resources :sponsors, only: [:new, :create, :destroy]
+    end
     resources :virtual_comp_groups
     resources :virtual_comp_results
 
