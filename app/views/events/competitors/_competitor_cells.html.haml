@@ -3,6 +3,7 @@
             profile_path(competitor.profile),
             class: 'dotted-underline'
   %span.competitor-suit
+    = competitor.wingsuit.manufacturer_code
     = competitor.wingsuit_name
   - if can? :manage, competitor
     %span.competitor-controls
