@@ -60,6 +60,7 @@ class Ability
         can :manage, EventTrack
         can :manage, EventOrganizer
         can :manage, WeatherDatum
+        can :manage, Sponsor, sponsorable_type: 'Event', sponsorable_id: event.id
 
         true
       end

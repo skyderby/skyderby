@@ -1,3 +1,10 @@
-.col-md-3.col-sm-3.text-center
+.col-md-3.col-sm-3.text-center.sponsor
   %a{href: sponsor.website}
     %img.img-responsive{src: sponsor.logo.url(:medium), 'data-toggle' => 'tooltip', title: sponsor.name}
+  - if can? :delete, sponsor
+    = button_to polymorphic_url([sponsor.sponsorable, sponsor]),
+                method: :delete,
+                remote: true,
+                class: 'delete-sponsor btn-link' do
+      %span{'data-toggle' => 'tooltip', title: t('general.delete')}
+        &times;
