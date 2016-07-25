@@ -14,13 +14,25 @@ class SponsorsController < ApplicationController
     if @sponsor.save
       @sponsor
     else
-      render json: @sponsor.errors, status: :unprocessible_entry
+      respond_to do |format|
+        format.js { render template: 'errors/ajax_errors', locals: {errors: @sponsor.errors} }
+        format.json { render json: @sponsor.errors, status: :unprocessible_entry }
+      end
     end
   end
 
   def destroy
-    @sponsor.destroy
-    head :no_content
+    if @sponsor.destroy
+      respond_to do |format|
+        format.js
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.js { render template: 'errors/ajax_errors', locals: {errors: @sponsor.errors} }
+        format.json { render json: @sponsor.errors, status: :unprocessible_entry }
+      end
+    end
   end
 
   private
