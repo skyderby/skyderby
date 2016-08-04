@@ -5,7 +5,7 @@
   %span.competitor-suit
     = competitor.wingsuit.manufacturer_code
     = competitor.wingsuit_name
-  - if can? :manage, competitor
+  - if can?(:manage, competitor) && !@event.finished?
     %span.competitor-controls
       = button_to event_competitor_path(@event, competitor), 
                   method: :delete, 

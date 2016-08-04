@@ -19,7 +19,7 @@
           - rounds.each do |round|
             %td.round-cell.text-center
               = round.name
-              - if can? :update, @event
+              - if can?(:delete, round) && !@event.finished?
                 = button_to event_round_path(@event, round),
                             method: :delete,
                             remote: true,
@@ -46,10 +46,14 @@
                 - if result_entity
                   - result_value = result_entity.result(net: display_raw_results)
 
+                  - result_class = ''
                   - if result_entity.best_in_section?
                     - result_class = 'hc-best-result'
                   - elsif result_entity.worst_in_section?
                     - result_class = 'hc-worst-result'
+
+                  - if competitor.counted_results.try(:include?, result_entity)
+                    - result_class += ' counted-result'
                   %td.result-cell.text-right{class: result_class}
                     - if result_value && result_value > 0
                       - if result_entity.is_disqualified
@@ -63,7 +67,7 @@
                                 class: 'show-result' do
                         %i.fa.fa-search
 
-                      - if can? :manage, result_entity
+                      - if can?(:manage, result_entity) && !@event.finished?
                         = link_to edit_event_event_track_path(@event, result_entity),
                                   remote: true,
                                   'data-params': { display_raw_results: display_raw_results }.to_param,
@@ -71,7 +75,7 @@
                           %i.fa.fa-pencil
 
 
-                - elsif can? :update, @event
+                - elsif can?(:update, @event) && !@event.finished?
                   %td.text-center.create-result-cell
                     = link_to new_event_event_track_path(@event), 
                               remote: true, 
