@@ -85,6 +85,11 @@
     }
   }
 
+  .competitor-row:hover .counted-result {
+    color: #00BA02;
+    text-decoration: underline;
+  }
+
   td.competitor-cell {
     span.competitor-controls {
       position: absolute;

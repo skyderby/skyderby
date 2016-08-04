@@ -31,7 +31,7 @@ class EventsController < ApplicationController
 
   def update
     if @event.update event_params
-      if @event.previous_changes.key? :wind_cancellation
+      if @event.previous_changes.key?(:wind_cancellation) || @event.previous_changes.key?(:status)
         redirect_to event_path(@event)
       else
         @event
