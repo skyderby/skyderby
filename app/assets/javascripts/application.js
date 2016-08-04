@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.remotipart
+//= require remotipart/jquery.remotipart
 //= require turbolinks
 //= require jquery.turbolinks
 //= require bootstrap-datepicker/core
