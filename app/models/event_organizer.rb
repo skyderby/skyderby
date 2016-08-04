@@ -10,6 +10,8 @@
 #
 
 class EventOrganizer < ActiveRecord::Base
+  include EventOngoingValidation
+
   belongs_to :event
   belongs_to :profile
 

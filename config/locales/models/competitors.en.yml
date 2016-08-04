@@ -18,4 +18,5 @@ en:
               blank: "'Class' has to be filled"
             base:
               restrict_dependent_destroy:
-                many: 'To delete competitor delete his results first.'
+                many: To delete competitor delete his results first.
+              event_finished: Changes couldn't be made because event is finished.

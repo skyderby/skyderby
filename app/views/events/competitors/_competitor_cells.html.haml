@@ -1,3 +1,4 @@
+- can_manage = can?(:manage, competitor) && !@event.finished?
 %td.competitor-cell
   = link_to competitor.name.titleize,
             profile_path(competitor.profile),
@@ -5,7 +6,7 @@
   %span.competitor-suit
     = competitor.wingsuit.manufacturer_code
     = competitor.wingsuit_name
-  - if can?(:manage, competitor) && !@event.finished?
+  - if can_manage
     %span.competitor-controls
       = button_to event_competitor_path(@event, competitor), 
                   method: :delete, 

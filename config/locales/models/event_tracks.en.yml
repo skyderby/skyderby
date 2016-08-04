@@ -13,4 +13,6 @@ en:
         event_track:
           attributes:
             result:
-              duplicate: 'For this competitor in this round result already exist. Refresh page to see it.'
+              duplicate: For this competitor in this round result already exist. Refresh page to see it.
+            base:
+              event_finished: Changes couldn't be made because event is finished.

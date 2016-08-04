@@ -9,6 +9,8 @@
 #
 
 class Section < ActiveRecord::Base
+  include EventOngoingValidation
+
   belongs_to :event, touch: true
   has_many :competitors, dependent: :restrict_with_error
   has_many :event_tracks, through: :competitors
@@ -52,8 +54,10 @@ class Section < ActiveRecord::Base
 
   def swap_position_with(other_section)
     tmp_order = order
-    self.update_columns(order: other_section.order)
-    other_section.update_columns(order: tmp_order) 
+    ActiveRecord::Base.transaction do
+      self.update(order: other_section.order)
+      other_section.update(order: tmp_order) 
+    end
   end
 
   def lower_section
