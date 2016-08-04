@@ -16,6 +16,8 @@
 #
 
 class EventTrack < ActiveRecord::Base
+  include EventOngoingValidation
+
   attr_accessor :track_attributes, :current_user, :track_from
 
   belongs_to :track

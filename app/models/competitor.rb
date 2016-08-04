@@ -14,6 +14,8 @@
 #
 
 class Competitor < ActiveRecord::Base
+  include EventOngoingValidation
+
   attr_accessor :profile_attributes, :profile_mode
 
   belongs_to :event, touch: true

@@ -10,4 +10,5 @@ en:
         event_organizer:
           attributes:
             profile: Profile can't be blank
-
+            base:
+              event_finished: Changes couldn't be made because event is finished.

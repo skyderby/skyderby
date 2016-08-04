@@ -10,4 +10,5 @@ ru:
         event_organizer:
           attributes:
             profile: Профиль должен быть заполнен
-
+            base:
+              event_finished: Изменения не могут быть выполнены, т.к. соревнование завершено.

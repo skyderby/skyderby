@@ -14,3 +14,4 @@ en:
             base:
               restrict_dependent_destroy:
                 many: Please delete or move competitors to another class before delete this class.
+              event_finished: Changes couldn't be made because event is finished.
