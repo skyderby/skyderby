@@ -127,13 +127,17 @@
         %span
           = t('events.show.results_showing')
           - if (@display_raw_results)
-            = link_to t('events.show.results_adjusted_caption'), params.merge(display_raw_results: false), remote: true
+            = link_to t('events.show.results_adjusted_caption'),
+                      params.merge(display_raw_results: false),
+                      remote: true
             \/
             %b= t('events.show.results_not_adjusted_caption')
           - else
             %b= t('events.show.results_adjusted_caption')
             \/
-            = link_to t('events.show.results_not_adjusted_caption'), params.merge(display_raw_results: true), remote: true
+            = link_to t('events.show.results_not_adjusted_caption'),
+                      params.merge(display_raw_results: true),
+                      remote: true
 
   .row
     .col-md-12
@@ -158,3 +162,7 @@
     = link_to new_event_sponsor_path(event_id: @event.id), remote: true, class: 'add-sponsor' do
       %i.fa.fa-plus
       = t('.add_sponsor')
+
+- content_for :page_js do
+  :coffee
+    new Skyderby.views.Event(el: '#event')
