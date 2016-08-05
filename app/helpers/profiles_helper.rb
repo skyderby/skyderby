@@ -13,7 +13,7 @@ module ProfilesHelper
 
   def max_distance
     track = profile_tracks.max_by do |x|
-      if x.distance
+      if x.distance && x.distance.result && !x.distance.result.nan?
         x.distance.result
       else
         0
@@ -29,7 +29,7 @@ module ProfilesHelper
 
   def max_speed
     track = profile_tracks.max_by do |x|
-      if x.speed
+      if x.speed && x.speed.result && !x.speed.result.nan?
         x.speed.result
       else
         0
@@ -45,7 +45,7 @@ module ProfilesHelper
 
   def max_time
     track = profile_tracks.max_by do |x|
-      if x.time
+      if x.time && x.time.result && !x.time.result.nan?
         x.time.result
       else
         0
