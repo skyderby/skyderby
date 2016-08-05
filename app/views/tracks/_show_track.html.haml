@@ -15,7 +15,7 @@
         #slider-range-selector
           %input#range-selector{type: "text",
                                 name: 'range', 
-                                data: {remote: true, url: url_for},
+                                data: {remote: 'true', url: url_for},
                                 value: "#{@track_presenter.range_from};#{@track_presenter.range_to}"}
 
     = render 'tracks/charts'

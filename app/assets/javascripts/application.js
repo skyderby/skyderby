@@ -118,6 +118,10 @@ $(document).ready(function($) {
 
 });
 
+$(document).on('ajax:error', '[data-remote=true]', function() {
+  AjaxErrorMessage.display()
+});
+
 $(document).on('change', '.btn-file :file', function() {
 
   var input = $(this),

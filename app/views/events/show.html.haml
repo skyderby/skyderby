@@ -162,7 +162,3 @@
     = link_to new_event_sponsor_path(event_id: @event.id), remote: true, class: 'add-sponsor' do
       %i.fa.fa-plus
       = t('.add_sponsor')
-
-- content_for :page_js do
-  :coffee
-    new Skyderby.views.Event(el: '#event')
