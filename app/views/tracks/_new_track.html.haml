@@ -1,4 +1,3 @@
-:javascript
 .modal.fade#newTrackModal{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
   .modal-dialog
     .modal-content
@@ -18,8 +17,7 @@
 
         .modal-body
           .form-group
-            %span.col-sm-3.control-label
-              = t('static_pages.index.track_form.name')
+            = label_tag :name, t('static_pages.index.track_form.name'), class: 'col-sm-3 control-label'
             .col-sm-9
               - if current_user
                 %span.track-name-span= current_user.profile.name
@@ -31,8 +29,7 @@
                                  type: 'text'
 
           .form-group
-            %span.col-sm-3.control-label
-              = t('static_pages.index.track_form.suit')
+            = label_tag :suit, t('static_pages.index.track_form.suit'), class: 'col-sm-3 control-label'
             .col-sm-9
               %select.new-track-wingsuit-select.suit-group{name: 'track[wingsuit_id]'}
               %input.form-control.suit-group{name: 'track[suit]', type: 'text', placeholder: t('tracks.form.suit_text_placeholder')}
@@ -42,8 +39,7 @@
                 %a.toggle-suit{href: '#'}= t('tracks.form.toggle_suit_link')
 
           .form-group
-            %span.col-sm-3.control-label
-              = t('static_pages.index.track_form.location')
+            = label_tag :location, t('static_pages.index.track_form.location'), class: 'col-sm-3 control-label'
             .col-sm-9
               = text_field_tag 'track[location]', 
                                nil, 
@@ -52,8 +48,7 @@
                                type: 'text'
 
           .form-group
-            %span.col-sm-3.control-label
-              = t('static_pages.index.track_form.kind')
+            = label_tag :kind, t('static_pages.index.track_form.kind'), class: 'col-sm-3 control-label'
             .btn-group.col-sm-9{data: {toggle: 'buttons'}}
               %label.btn.btn-default.active
                 = radio_button_tag 'track[kind]', 'skydive', true
@@ -63,8 +58,7 @@
                 = 'B.A.S.E'
 
           .form-group
-            %span.col-sm-3.control-label
-              = t('static_pages.index.track_form.file')
+            = label_tag :file, t('static_pages.index.track_form.file'), class: 'col-sm-3 control-label'
             .col-sm-9
               .input-group
                 %input.form-control{type: "text", readonly: true}
@@ -78,8 +72,7 @@
               %h4.help-block=t 'static_pages.index.track_form.help'
 
           .form-group
-            %span.col-sm-3.control-label
-              = t('static_pages.index.track_form.comment')
+            = label_tag :comment, t('static_pages.index.track_form.comment'), class: 'col-sm-3 control-label'
             .col-sm-9
               = text_area_tag 'track[comment]', 
                               nil, 
