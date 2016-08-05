@@ -2,7 +2,7 @@
   %a{href: sponsor.website}
     %img.img-responsive{src: sponsor.logo.url(:medium), 'data-toggle' => 'tooltip', title: sponsor.name}
   - if can? :delete, sponsor
-    = button_to polymorphic_url([sponsor.sponsorable, sponsor]),
+    = button_to polymorphic_path([sponsor.sponsorable, sponsor]),
                 method: :delete,
                 remote: true,
                 class: 'delete-sponsor btn-link' do
