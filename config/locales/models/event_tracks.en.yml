@@ -12,7 +12,10 @@ en:
       models:
         event_track:
           attributes:
+            track:
+              blank: No track selected to calculate result from.
             result:
               duplicate: For this competitor in this round result already exist. Refresh page to see it.
             base:
               event_finished: Changes couldn't be made because event is finished.
+              track_file_blank: No file choosen to calculate result from.
