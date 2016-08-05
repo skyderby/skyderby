@@ -85,6 +85,11 @@ class EventTrack < ActiveRecord::Base
   def create_track_from_file
     return if track_from == 'existing_track'
 
+    unless track_attributes && track_attributes[:file]
+      errors.add(:base, :track_file_blank)
+      return false
+    end
+
     track_file = TrackFile.create(file: track_attributes[:file])
 
     return false unless check_file_already_used(track_file)
