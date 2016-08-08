@@ -11,7 +11,7 @@ class TracksController < ApplicationController
     @tracks = Track.accessible_by(current_user)
 
     apply_filters!
-    apply_order!
+    @tracks = TrackOrder.new(params[:order]).apply(@tracks)
 
     respond_to do |format|
       format.any(:html, :js) do
@@ -250,20 +250,5 @@ class TracksController < ApplicationController
     end
 
     @tracks = @tracks.search(query[:term]) if query[:term]
-  end
-
-  def apply_order!
-    order = params[:order] || ''
-    order_params = order.split(' ')
-
-    order_field = order_params[0] || 'id'
-    order_direction = order_params[1] || 'DESC'
-
-    allowed_fields = %w(ID RECORDED_AT SPEED_RESULT DISTANCE_RESULT TIME_RESULT)
-    allowed_directions = %w(ASC DESC)
-    return unless allowed_fields.include?(order_field.upcase) &&
-                  allowed_directions.include?(order_direction.upcase)
-
-    @tracks = @tracks.order(order_field + ' ' + order_direction)
   end
 end
