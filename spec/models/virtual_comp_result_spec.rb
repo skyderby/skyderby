@@ -23,7 +23,7 @@ RSpec.describe VirtualCompResult, type: :model do
   it 'validates uniqueness by virtual competition and track' do
     attrs = { track: track, 
               virtual_competition: virtual_competition,
-              user_profile: pilot
+              profile: pilot
             }
     record = VirtualCompResult.create!(attrs)
     expect(VirtualCompResult.create(attrs)).not_to be_valid

@@ -15,11 +15,12 @@
 #  disqualification_reason :string
 #
 
-require 'rails_helper'
-require 'support/event_ongoing_validation'
-
-RSpec.describe EventTrack, type: :model do
-  it_should_behave_like 'event_ongoing_validation' do
-    let(:target) { FactoryGirl.create(:event_track) }
+FactoryGirl.define do
+  factory :event_track do
+    round
+    competitor
+    track_from 'existing_track'
+    track { FactoryGirl.create :empty_track }
+    result { rand(1..1000) }
   end
 end

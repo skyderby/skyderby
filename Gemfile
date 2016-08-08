@@ -59,6 +59,21 @@ gem 'bootstrap-datepicker-rails'
 
 gem 'pluck_to_hash'
 
+group :development do
+  gem 'annotate'
+
+  gem 'rubocop', require: false
+  gem 'rack-mini-profiler'
+
+  gem 'meta_request'
+
+  gem 'pry'
+  gem 'pry-rails'
+  gem 'pry-byebug'
+
+  gem 'bullet'
+end
+
 group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
@@ -67,28 +82,15 @@ group :development, :test do
 
   gem 'mailcatcher'
 
-  gem 'annotate'
-
   # Better errors handler
   gem 'better_errors'
   gem 'binding_of_caller'
-
-  gem 'meta_request'
 
   gem 'capistrano', '~> 3.4.0'
   gem 'capistrano-rails'
   gem 'capistrano-passenger'
   gem 'capistrano-bundler'
   gem 'capistrano-sidekiq'
-  #
-  gem 'rubocop', require: false
-  gem 'rack-mini-profiler'
-
-  gem 'pry'
-  gem 'pry-rails'
-  gem 'pry-byebug'
-
-  gem 'bullet'
 end
 
 group :test do

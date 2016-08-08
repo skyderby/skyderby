@@ -38,7 +38,7 @@ class Competitor < ActiveRecord::Base
   private
 
   def create_profile
-    return if profile_mode.to_sym == :select
+    return if profile || profile_mode.to_sym == :select
 
     self.profile = Profile.create profile_attributes
   end
