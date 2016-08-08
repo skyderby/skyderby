@@ -259,9 +259,9 @@ class TracksController < ApplicationController
     order_field = order_params[0] || 'id'
     order_direction = order_params[1] || 'DESC'
 
-    allowed_fields = %w(ID RECORDED_AT)
+    allowed_fields = %w(ID RECORDED_AT SPEED_RESULT DISTANCE_RESULT TIME_RESULT)
     allowed_directions = %w(ASC DESC)
-    return unless allowed_fields.include?(order_field.upcase) ||
+    return unless allowed_fields.include?(order_field.upcase) &&
                   allowed_directions.include?(order_direction.upcase)
 
     @tracks = @tracks.order(order_field + ' ' + order_direction)
