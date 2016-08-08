@@ -18,6 +18,9 @@ app:
     DB_HOST: db
     DB_USERNAME: *DB_USERNAME
     DB_PASSWORD: *DB_PASSWORD
+    REDIS_HOST: redis
+    REDIS_PORT: 6379
+    REDIS_DB: 12
   volumes:
     - ./:/opt/app
   links:
