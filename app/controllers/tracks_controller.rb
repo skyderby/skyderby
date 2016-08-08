@@ -98,6 +98,8 @@ class TracksController < ApplicationController
       track_params[:track_index]
     ).execute
 
+    store_recent_values(cached_params)
+
     redirect_to edit_track_path(@track)
   end
 
@@ -209,6 +211,28 @@ class TracksController < ApplicationController
       track_params.except(:file).merge(track_file_id: @track_file.id)
     )
     @key
+  end
+
+  def store_recent_values(from_params)
+    recent_values = RecentValues.new(cookies)
+    # suit can be selected or typed
+    # when suit selected wingsuit_id param filled and suit param is not
+    # and vice versa - when typed wingsuit_id is blank and suit isn't
+    suit_id = from_params[:wingsuit_id]
+    unless suit_id.blank?
+      recent_values.add(:suit_id, suit_id)
+      recent_values.delete(:suit_name)
+    end
+
+    suit_name = from_params[:suit]
+    unless suit_name.blank?
+      recent_values.add(:suit_name, suit_name)
+      recent_values.delete(:suit_id)
+    end
+  
+    recent_values.add(:name, from_params[:name]) if from_params[:name]
+    recent_values.add(:location, from_params[:location])
+    recent_values.add(:activity, from_params[:kind])
   end
 
   def apply_filters!
