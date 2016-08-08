@@ -19,7 +19,7 @@ describe 'Results processing:' do
         wingsuit: wingsuit
       }
       track = CreateTrackService.new(pilot.user, params, 0).execute
-      Skyderby::Tracks::Points.new(track)
+      Skyderby::Tracks::Points.new(track).trimmed
     end
 
     it 'calculates correct result in Time discipline' do
@@ -53,7 +53,7 @@ describe 'Results processing:' do
         wingsuit: wingsuit
       }
       track = CreateTrackService.new(pilot.user, params, 0).execute
-      Skyderby::Tracks::Points.new(track)
+      Skyderby::Tracks::Points.new(track).trimmed
     end
 
     it 'calculates correct result Distance discipline' do

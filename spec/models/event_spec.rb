@@ -23,7 +23,7 @@ require 'rails_helper'
 describe Event, type: :model do
   before :all do
     @user = FactoryGirl.create(:user)
-    @event = Event.create!(responsible: @user.user_profile, starts_at: Date.today)
+    @event = Event.create!(responsible: @user.profile, starts_at: Date.today)
   end
 
   it 'has status: Draft' do
@@ -40,7 +40,7 @@ describe Event, type: :model do
   end
 
   it 'fill responsible' do
-    expect(@event.responsible).to eql(@user.user_profile)
+    expect(@event.responsible).to eql(@user.profile)
   end
 
   it 'blank responsible does not allowed' do

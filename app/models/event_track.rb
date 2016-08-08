@@ -9,7 +9,7 @@
 #  updated_at              :datetime
 #  competitor_id           :integer
 #  result                  :decimal(10, 2)
-#  user_profile_id         :integer
+#  profile_id              :integer
 #  result_net              :decimal(10, 2)
 #  is_disqualified         :boolean          default(FALSE)
 #  disqualification_reason :string

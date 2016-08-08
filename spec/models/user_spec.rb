@@ -41,7 +41,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'creates profile' do
-      expect(subject.user_profile).not_to be_nil
+      expect(subject.profile).not_to be_nil
     end
   end
 end

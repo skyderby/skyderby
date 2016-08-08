@@ -10,6 +10,7 @@
 #
 
 require 'spec_helper'
+require 'support/event_ongoing_validation'
 
 RSpec.describe EventOrganizer, type: :model do
   let(:event) do
@@ -18,14 +19,18 @@ RSpec.describe EventOrganizer, type: :model do
     event
   end
 
-  let(:user_profile) do
-    user_profile = UserProfile.new
-    user_profile.save!(validate: false)
-    user_profile
+  let(:profile) do
+    profile = Profile.new
+    profile.save!(validate: false)
+    profile
+  end
+
+  it_should_behave_like 'event_ongoing_validation' do
+    let(:target) { FactoryGirl.create(:event_organizer) }
   end
 
   it 'requires event' do
-    expect(EventOrganizer.create(user_profile: user_profile)).not_to be_valid
+    expect(EventOrganizer.create(profile: profile)).not_to be_valid
   end
 
   it 'requires user profile' do

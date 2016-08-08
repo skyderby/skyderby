@@ -9,7 +9,7 @@ describe EventsFinder do
   let(:comp3) { create :event, :published }
 
   context 'when authorized, its own event and public event' do
-    before { comp1.update(user_profile_id: user1.user_profile.id) }
+    before { comp1.update(profile_id: user1.profile.id) }
 
     subject { EventsFinder.new.execute(user1) }
 
@@ -19,7 +19,7 @@ describe EventsFinder do
   end
 
   context 'when authorized, its organized and public event' do
-    before { comp2.event_organizers << EventOrganizer.new(user_profile: user2.user_profile) }
+    before { comp2.event_organizers << EventOrganizer.new(profile: user2.profile) }
 
     subject { EventsFinder.new.execute(user2) }
 
