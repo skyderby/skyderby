@@ -1,6 +1,10 @@
 language: ruby
 rvm:
   - 2.2.0
+env:
+  REDIS_HOST: localhost
+  REDIS_PORT: 6379
+  REDIS_DB: 12
 services:
   - redis-server
 before_script:
