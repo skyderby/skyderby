@@ -21,7 +21,7 @@
           - if can? :update, @competition
             = link_to t('general.edit'), edit_virtual_competition_path(@competition), class: 'btn btn-default'
 
-  - competition_results = @competition.virtual_comp_results.order('result DESC').group_by{ |x| x.user_profile_id }
+  - competition_results = @competition.virtual_comp_results.order('result DESC').group_by{ |x| x.profile_id }
   - results_by_pilot = competition_results.map{ |pilot_id, results| {pilot_id: pilot_id, results: results} }
   - best_results = competition_results.map{ |_, results| results.first }
   - columns_count = 7 
@@ -63,8 +63,8 @@
               -#.clickableRow{data: {url: track_path(id: best_result.track_id)}}
               %td= index + 1
               %td
-                %a{href: user_profile_path(best_result.user_profile_id), data: {toggle: 'tooltip'}, title: t('.show_profile')}
-                  = best_result.user_profile.name.titleize
+                %a{href: profile_path(best_result.profile_id), data: {toggle: 'tooltip'}, title: t('.show_profile')}
+                  = best_result.profile.name.titleize
               %td= suit_presentation(best_result.wingsuit)
               - if @competition.worldwide?
                 %td= track_place(best_result.track)
@@ -103,3 +103,16 @@
                             %i.fa.fa-fw.fa-video-camera
                           - else
                             %i.fa.fa-fw
+
+  - unless @competition.sponsors.empty?
+    .row.top-buffer
+      .col-md-12
+        %h4= t('events.show.event_sponsors') + ':'
+  .row#sponsors
+    = render @competition.sponsors
+  - if can? :edit, @competition
+    = link_to new_virtual_competition_sponsor_path(virtual_competition_id: @competition.id), remote: true, class: 'add-sponsor' do
+      %i.fa.fa-plus
+      = t('.add_sponsor')
+
+

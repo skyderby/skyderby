@@ -2,11 +2,10 @@
 #
 # Table name: virtual_comp_groups
 #
-#  id                    :integer          not null, primary key
-#  name                  :string(255)
-#  created_at            :datetime
-#  updated_at            :datetime
-#  display_on_start_page :boolean          default(FALSE)
+#  id         :integer          not null, primary key
+#  name       :string(510)
+#  created_at :datetime
+#  updated_at :datetime
 #
 
 require 'rails_helper'

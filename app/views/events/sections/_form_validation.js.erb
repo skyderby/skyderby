@@ -1,0 +1,13 @@
+$("<%= j form_id %>").validate({
+  rules: {
+    'section[name]': {
+      required: true
+    }
+  },
+  highlight: function(element) {
+    $(element).closest('.form-group').addClass('has-error');
+  },
+  unhighlight: function(element) {
+    $(element).closest('.form-group').removeClass('has-error');
+  }
+});

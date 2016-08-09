@@ -37,9 +37,13 @@ module Skyderby
       protected
 
       def init_points
-        @points = Skyderby::Tracks::Points.new(@track).points.map do |point|
-          [point[:fl_time_abs], point[:elevation]]
-        end
+        min_gps_time = @track.points.minimum(:gps_time_in_seconds)
+
+        points = @track.points.freq_1Hz.pluck_to_hash(
+          "gps_time_in_seconds - #{min_gps_time} AS gps_time",
+          "#{@track.point_altitude_field} AS altitude")
+
+        @points = points.map { |point| [ point[:gps_time].to_i, point[:altitude] ] }
       end
     end
   end

@@ -1,0 +1,9 @@
+en:
+  weather_datum:
+    modal_title: Weather data
+    actual_on: Date, time
+    altitude: Altitude
+    wind_speed: Wind speed
+    wind_direction: Wind direction
+    altitude_units: Altitude units
+    wind_speed_units: Wind speed units

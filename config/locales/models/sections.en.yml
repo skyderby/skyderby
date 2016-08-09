@@ -1,8 +1,17 @@
 en:
   activerecord:
+    models:
+      section: Class
+    attributes:
+      section:
+        name: Name
     errors:
       models:
         section:
           attributes:
             name:
-              blank: 'Name has to be filled.'
+              blank: Name has to be filled.
+            base:
+              restrict_dependent_destroy:
+                many: Please delete or move competitors to another class before delete this class.
+              event_finished: Changes couldn't be made because event is finished.

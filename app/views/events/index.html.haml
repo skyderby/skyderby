@@ -1,40 +1,13 @@
 .container.top-buffer
 
   - if current_user
-    %a.btn.btn-default.btn-info{href: '#', data: {toggle: 'modal', target: '#new-event-modal'}}
+    = link_to(new_event_path, remote: true, class: 'btn btn-default btn-info') do
       %i.fa.fa-plus
       = 'Competition'
   - else
     %span= 'Creating classic competitions available only for registered users.'
 
-  -# %h2= 'Online competitions:'
-  -# %ul.comp-list
-  -# - VirtualCompetition.order('id DESC').each do |comp|
-  -#   %li.comp-list-item
-  -#     .comp-list-params
-  -#       %span.comp-jumps-kind= '#' + comp.jumps_kind
-  -#       %span.comp-suit-kind= '#' + comp.suits_kind
-  -#     %h3.comp-list-title
-  -#       %a{href: virtual_competition_path(comp.id)}
-  -#         - if comp.group
-  -#           %span.comp-group= comp.group.name
-  -#           %span.comp-dash= ' - '
-  -#         %span.comp-name= comp.name
-  -#     .comp-place
-  -#       = 'Location: '
-  -#       - if comp.place
-  -#         %a{href: place_path(comp.place)}
-  -#           -if comp.place.country
-  -#             = comp.place.name + ', ' + comp.place.country.name
-  -#           - else
-  -#             = comp.place.name
-  -#       - else
-  -#         = 'Worldwide'
-  -#     .comp-task= competition_task(comp)
-
   %h2= 'Competitions:'
   %ul.comp-list
-  - @events.each do |comp|
-    = render comp
-
-= render 'new_event_modal'
+    - @events.each do |comp|
+      = render comp

@@ -1,8 +1,0 @@
-en:
-  activerecord:
-    models:
-      user_profile: 'Profile'
-    attributes:
-      user_profile:
-        name: 'Name:'
-        userpic: "Photo:"

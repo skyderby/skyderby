@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.4'
+gem 'rails', '4.2.5'
 
 # Supported DB
-gem 'mysql2'
+gem 'pg'
 
 # Auth
 gem 'devise'
@@ -34,14 +34,12 @@ gem 'exception_notification'
 # Slack integration
 gem 'slack-notifier'
 
-# Markdown
-gem 'redcarpet'
-
 # Internalization
 gem 'i18n-js', '>= 3.0.0.rc8'
 gem 'http_accept_language'
 
 gem 'jquery-rails'
+gem 'remotipart', '~>1.2'
 gem 'rails-backbone'
 
 gem 'sass-rails', '~> 4.0.0'
@@ -50,8 +48,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
 
-gem 'libv8', '3.16.14.8.rc1'
-gem 'therubyracer'
+gem 'therubyracer', '0.12.0'
 gem 'less-rails'
 
 gem 'twitter-bootstrap-rails'
@@ -60,9 +57,22 @@ gem 'font-awesome-rails'
 
 gem 'bootstrap-datepicker-rails'
 
-gem 'figaro'
-
 gem 'pluck_to_hash'
+
+group :development do
+  gem 'annotate'
+
+  gem 'rubocop', require: false
+  gem 'rack-mini-profiler'
+
+  gem 'meta_request'
+
+  gem 'pry'
+  gem 'pry-rails'
+  gem 'pry-byebug'
+
+  gem 'bullet'
+end
 
 group :development, :test do
   gem 'rspec'
@@ -72,24 +82,15 @@ group :development, :test do
 
   gem 'mailcatcher'
 
-  gem 'annotate'
-
   # Better errors handler
   gem 'better_errors'
   gem 'binding_of_caller'
-
-  gem 'meta_request'
 
   gem 'capistrano', '~> 3.4.0'
   gem 'capistrano-rails'
   gem 'capistrano-passenger'
   gem 'capistrano-bundler'
   gem 'capistrano-sidekiq'
-  #
-  gem 'rubocop', require: false
-  gem 'rack-mini-profiler'
-
-  gem 'pry-byebug'
 end
 
 group :test do
@@ -115,7 +116,9 @@ end
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
 # Use unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
+
+gem 'newrelic_rpm'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]

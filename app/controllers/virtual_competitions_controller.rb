@@ -1,8 +1,8 @@
 class VirtualCompetitionsController < ApplicationController
-  before_action :set_competition, only: [:show, :edit, :update]
+  before_action :set_competition, only: [:edit, :update]
 
   def index
-    @competitions = VirtualCompetition.includes(:group).group_by { |x| x.group.name }
+    @competitions = VirtualCompetition.includes(:group, place: :country).group_by { |x| x.group.name }
   end
 
   def new
@@ -10,6 +10,9 @@ class VirtualCompetitionsController < ApplicationController
   end
 
   def show
+    @competition = VirtualCompetition.includes(
+      virtual_comp_results: [{track: [{wingsuit: :manufacturer}, {place: :country}, :video]}, :profile]
+    ).find(params[:id])
   end
 
   def edit

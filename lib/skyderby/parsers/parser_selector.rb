@@ -13,25 +13,28 @@ module Skyderby
       def execute(data, extension)
         data = data.encode(data.encoding, universal_newline: true)
 
-        case extension.downcase
-        when '.csv'
+        klass = 
+          case extension.downcase
+          when '.csv'
 
-          case csv_file_format(data)
-          when :flysight, :flysight2, :flysight3
-            FlySightParser.new data, extension
-          when :columbusV900
-            ColumbusParser.new data, extension
-          else
-            CSVParser.new data, extension
+            case csv_file_format(data)
+            when :flysight, :flysight2, :flysight3
+              FlySightParser
+            when :columbusV900
+              ColumbusParser
+            else
+              CSVParser
+            end
+
+          when '.gpx'
+            GPXParser
+          when '.tes'
+            TESParser
+          when '.kml'
+            KMLParser
           end
 
-        when '.gpx'
-          GPXParser.new data, extension
-        when '.tes'
-          TESParser.new data, extension
-        when '.kml'
-          KMLParser.new data, extension
-        end
+        klass.new data, extension
       end
 
       def csv_file_format(rows)

@@ -1,0 +1,40 @@
+.modal-dialog
+  .modal-content
+    = form_for [@profile, @badge], remote: true, :html => { :class => "form-horizontal" } do |f|
+      .modal-header
+        %button.close{type: 'button', data: {dismiss: 'modal'}}
+          %span{aria: {hidden: 'true'}}
+            &times;
+          %span.sr-only
+            Close
+        %h4.modal-title
+          = t('activerecord.models.badge') + ': ' 
+          - if @badge.new_record?
+            = t('events.index.new')
+          - else
+            = @badge.name
+
+      .modal-body
+        .form-group
+          = f.label :name, class: 'col-sm-4 control-label'
+          .col-sm-8
+            = f.text_field :name, class: 'form-control'
+
+        .form-group
+          = f.label :kind, class: 'col-sm-4 control-label', for: :kind
+          .btn-group.col-sm-5{'data-toggle'=> 'buttons'}
+            %label.btn.btn-default{ class: ('active' if @badge.gold? || @badge.new_record?) }
+              = f.radio_button 'kind', 'gold'
+              = 'Gold'
+
+            %label.btn.btn-default{ class: ('active' if @badge.silver?) }
+              = f.radio_button 'kind', 'silver'
+              = 'Silver'
+
+            %label.btn.btn-default{ class: ('active' if @badge.bronze?) }
+              = f.radio_button 'kind', 'bronze'
+              = 'Bronze'
+
+      .modal-footer
+        = f.submit t('general.save'), class: 'btn btn-primary'
+        %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

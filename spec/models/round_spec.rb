@@ -2,16 +2,17 @@
 #
 # Table name: rounds
 #
-#  id              :integer          not null, primary key
-#  name            :string(255)
-#  event_id        :integer
-#  created_at      :datetime
-#  updated_at      :datetime
-#  discipline      :integer
-#  user_profile_id :integer
+#  id         :integer          not null, primary key
+#  name       :string(510)
+#  event_id   :integer
+#  created_at :datetime
+#  updated_at :datetime
+#  discipline :integer
+#  profile_id :integer
 #
 
 require 'rails_helper'
+require 'support/event_ongoing_validation'
 
 describe Round, type: :model do
   let(:event) do
@@ -42,5 +43,9 @@ describe Round, type: :model do
   it 'should require event' do
     round = Round.new(name: 'Round 1', discipline: :time)
     expect(round).not_to be_valid
+  end
+
+  it_should_behave_like 'event_ongoing_validation' do
+    let(:target) { FactoryGirl.create(:round) }
   end
 end

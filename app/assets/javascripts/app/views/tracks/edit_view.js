@@ -111,7 +111,7 @@ Skyderby.views.TrackEditView = Backbone.View.extend({
     },
 
     init_pilot_select: function() {
-        var select_field = this.$('select[name="track[user_profile_id]"]');
+        var select_field = this.$('select[name="track[profile_id]"]');
 
         if (select_field.length === 0) return;
 
@@ -122,7 +122,7 @@ Skyderby.views.TrackEditView = Backbone.View.extend({
             select_field.append($('<option />', { value: '' }));
         }
 
-        Skyderby.helpers.PilotSelect(select_field);
+        Skyderby.helpers.ProfileSelect(select_field);
     },
 
     init_form_validation: function() {
@@ -343,7 +343,7 @@ Skyderby.views.TrackEditView = Backbone.View.extend({
         var link = this.$('.toggle-profile');
         var caption = this.$('.toggle-profile-caption');        
         var input = this.$('input[name="track[name]"]');
-        var select_el = this.$('select[name="track[user_profile_id]"] + span');
+        var select_el = this.$('select[name="track[profile_id]"] + span');
 
         if (this.pilot_mode === 'select') {
             link.text(I18n.t('tracks.form.toggle_profile_link'));
@@ -374,7 +374,7 @@ Skyderby.views.TrackEditView = Backbone.View.extend({
         if (this.pilot_mode === 'select') {
             this.$('input[name="track[name]"]').val();
         } else {
-            this.$('select[name="track[user_profile_id]"]').val('');
+            this.$('select[name="track[profile_id]"]').val('');
         }
     }
 });

@@ -1,11 +1,11 @@
 module TournamentsHelper
   def qualification_results
     results = []
-    @tournament.tournament_competitors.each do |competitor|
+    @tournament.competitors.each do |competitor|
       competitor_result = {
         id: competitor.id,
         name: competitor.name,
-        user_profile_id: competitor.user_profile_id
+        profile_id: competitor.profile_id
       }
       competitor_jump_results = []
       @tournament.qualification_rounds.each do |q_round|

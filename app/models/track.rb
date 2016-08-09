@@ -3,12 +3,12 @@
 # Table name: tracks
 #
 #  id                :integer          not null, primary key
-#  name              :string(255)
+#  name              :string(510)
 #  created_at        :datetime
 #  lastviewed_at     :datetime
-#  suit              :string(255)
-#  comment           :text(65535)
-#  location          :string(255)
+#  suit              :string(510)
+#  comment           :text
+#  location          :string(510)
 #  user_id           :integer
 #  kind              :integer          default(0)
 #  wingsuit_id       :integer
@@ -16,15 +16,16 @@
 #  ff_end            :integer
 #  ge_enabled        :boolean          default(TRUE)
 #  visibility        :integer          default(0)
-#  user_profile_id   :integer
+#  profile_id        :integer
 #  place_id          :integer
 #  gps_type          :integer          default(0)
-#  file_file_name    :string(255)
-#  file_content_type :string(255)
+#  file_file_name    :string(510)
+#  file_content_type :string(510)
 #  file_file_size    :integer
 #  file_updated_at   :datetime
 #  track_file_id     :integer
 #  ground_level      :integer          default(0)
+#  recorded_at       :datetime
 #
 
 class Track < ActiveRecord::Base
@@ -36,8 +37,8 @@ class Track < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :pilot,
-             class_name: 'UserProfile',
-             foreign_key: 'user_profile_id'
+             class_name: 'Profile',
+             foreign_key: 'profile_id'
 
   belongs_to :place
   belongs_to :wingsuit
@@ -58,9 +59,10 @@ class Track < ActiveRecord::Base
           class_name: 'TrackResult'
 
   has_many :tracksegments, dependent: :destroy
-  has_many :points, through: :tracksegments
+  has_many :points, -> { order :gps_time_in_seconds }, through: :tracksegments
   has_many :track_results, dependent: :destroy
   has_many :virtual_comp_results, dependent: :destroy
+  has_many :weather_data, as: :weather_datumable
 
   validates :name, presence: true, if: 'pilot.blank?'
 
@@ -73,6 +75,34 @@ class Track < ActiveRecord::Base
 
   def competitive?
     event_track.present?
+  end
+
+  def msl_offset
+    @msl_offset ||= begin
+      if ground_level && ground_level > 0
+        ground_level
+      elsif place_msl
+        place_msl
+      else
+        points.minimum(:abs_altitude)
+      end
+    end
+  end
+
+  def has_abs_altitude
+    ge_enabled
+  end
+
+  def point_altitude_field
+    if has_abs_altitude
+      "abs_altitude - #{msl_offset}"
+    else
+      'elevation'
+    end
+  end
+
+  def presentation
+    "##{id} | #{recorded_at.strftime('%Y-%m-%d')} | #{comment}"
   end
 
   private
@@ -94,12 +124,12 @@ class Track < ActiveRecord::Base
     end
 
     def accessible_by(user)
-      return public_track unless user && user.user_profile
+      return public_track unless user && user.profile
 
       if user.has_role? :admin
         where('1 = 1')
       else
-        where('user_profile_id = :profile OR visibility = 0', profile: user.user_profile)
+        where('profile_id = :profile OR visibility = 0', profile: user.profile)
       end
     end
   end

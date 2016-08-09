@@ -1,0 +1,5 @@
+ru:
+  competitors:
+    form:
+      select_profile: Выбор существующего профиля
+      create_profile: Создание нового профиля

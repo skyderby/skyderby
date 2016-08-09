@@ -1,0 +1,29 @@
+<span id="event-wind-cancellation-status">
+    <% if (wind_cancellation) { %>
+        <%= I18n.t('events.show.wind_cancellation_enabled') %>
+    <% } else { %>
+        <%= I18n.t('events.show.wind_cancellation_disabled') %>
+    <% } %>
+</span>
+<% if (wind_cancellation) { %>
+<span id="event-wind-cancellation-results">
+    <%= I18n.t('events.show.results_showing') %>
+    <% if (results_adjusted_for_wind) { %>
+        <b>
+            <%= I18n.t('events.show.results_adjusted_caption') %>
+        </b>
+        /
+        <button class="btn btn-link" id="switch-results-mode">
+            <%= I18n.t('events.show.results_not_adjusted_caption') %>
+        </button>
+    <% } else { %>
+        <button class="btn btn-link" id="switch-results-mode">
+            <%= I18n.t('events.show.results_adjusted_caption') %>
+        </button>
+        /
+        <b>
+            <%= I18n.t('events.show.results_not_adjusted_caption') %>
+        </b>
+    <% } %>
+</span>
+<% } %>

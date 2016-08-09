@@ -1,0 +1,75 @@
+.modal-dialog
+  .modal-content
+    = form_for [@event, @event_track], remote: true, html: {multipart:true, class: 'form-horizontal'} do |f|
+      = hidden_field_tag :display_raw_results, @display_raw_results
+      .modal-header
+        %button.close{type: 'button', data: {dismiss: 'modal'}}
+          %span{aria: {hidden: 'true'}}
+            &times;
+          %span.sr-only
+            Close
+        %h4.modal-title
+          = t('activerecord.models.event_track') + ': ' 
+          - if @event_track.new_record?
+            = t('events.show.new')
+          - else
+            = t('events.show.edit')
+
+      .modal-body
+        = f.hidden_field :competitor_id, value: @event_track.competitor_id
+        = f.hidden_field :round_id, value: @event_track.round_id
+
+        .radio
+          = f.label :track_from, value: :from_file do
+            = f.radio_button :track_from, :from_file, checked: @event_track.new_record?
+            Из файла
+        = f.fields_for :track_attributes do |builder|
+          .form-group
+            = builder.label :file, t('activerecord.attributes.event_track.file'), class: 'control-label col-sm-4'
+            .col-sm-8
+              .input-group
+                %input.form-control{type: 'text', readonly: true}
+                  %span.input-group-btn
+                    %span.btn.btn-default.btn-file
+                      &hellip;
+                      = builder.file_field :file, class: 'form-control'
+        .radio
+          = f.label :track_from, value: :existing_track do
+            = f.radio_button :track_from, :existing_track, checked: !@event_track.new_record?
+            Существующий трек
+        .form-group
+          = f.label :track, class: 'control-label col-sm-4'
+          .col-sm-8
+            = f.select :track_id, 
+                       options_for_select([[(@event_track.track.presentation if @event_track.track_id), @event_track.track_id]]),
+                       {},
+                       'data-profile-id' => @event_track.competitor.profile_id,
+                       class: 'form-control'
+
+        - unless @event_track.new_record?
+          %hr
+          .form-group
+            = f.label :is_disqualified, class: 'control-label col-sm-4'
+            .col-sm-8
+              .checkbox
+                %label
+                  = f.check_box :is_disqualified
+
+          .form-group
+            = f.label :disqualification_reason, class: 'control-label col-sm-4'
+            .col-sm-8
+              = f.text_field :disqualification_reason, class: 'form-control'
+
+      .modal-footer
+        = f.submit t('general.save'), class: 'btn btn-primary'
+        %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'
+
+        - unless @event_track.new_record?
+          .pull-left
+            = link_to t('general.delete'),
+                        [@event, @event_track],
+                        'data-params': { 'display_raw_results' => @display_raw_results }.to_param,
+                        method: :DELETE,
+                        remote: true,
+                        class: 'btn btn-danger'
+

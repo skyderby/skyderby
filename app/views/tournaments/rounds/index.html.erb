@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Tournament Rounds</h1>
+
+<table class='table table-bordered'>
+  <thead>
+    <tr>
+      <th>Tournament</th>
+      <th>Order</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tournament_rounds.each do |tournament_round| %>
+      <tr>
+        <td><%= tournament_round.tournament.name %></td>
+        <td><%= tournament_round.order %></td>
+        <td><%= link_to 'Show', tournament_round_path(@tournament, tournament_round) %></td>
+        <td><%= link_to 'Edit', edit_tournament_round_path(@tournament, tournament_round) %></td>
+        <td><%= link_to 'Destroy', tournament_round_path(@tournament, tournament_round), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Tournament round', new_tournament_round_path %>

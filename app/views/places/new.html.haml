@@ -4,3 +4,7 @@
       = t('activerecord.models.place')
 
 = render 'form'
+
+= content_for :page_js do
+  :javascript
+    Skyderby.helpers.CountrySelect($('select[name="place[country_id]"]'));

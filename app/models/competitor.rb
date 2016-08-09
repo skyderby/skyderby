@@ -2,44 +2,44 @@
 #
 # Table name: competitors
 #
-#  id              :integer          not null, primary key
-#  event_id        :integer
-#  user_id         :integer
-#  created_at      :datetime
-#  updated_at      :datetime
-#  wingsuit_id     :integer
-#  name            :string(255)
-#  section_id      :integer
-#  user_profile_id :integer
+#  id          :integer          not null, primary key
+#  event_id    :integer
+#  user_id     :integer
+#  created_at  :datetime
+#  updated_at  :datetime
+#  wingsuit_id :integer
+#  name        :string(510)
+#  section_id  :integer
+#  profile_id  :integer
 #
 
 class Competitor < ActiveRecord::Base
-  attr_accessor :profile_name, :profile_id
+  include EventOngoingValidation
 
-  belongs_to :event
+  attr_accessor :profile_attributes, :profile_mode
+
+  belongs_to :event, touch: true
   belongs_to :section
-  belongs_to :user_profile
+  belongs_to :profile
   belongs_to :wingsuit
 
   has_many :event_tracks, dependent: :restrict_with_error
 
-  validate :validate_profile
-  validates_presence_of :wingsuit, :event, :section
+  validates_presence_of :wingsuit, :event, :section, :profile
 
-  before_save :set_profile
+  delegate :name, to: :profile, allow_nil: true
+  delegate :country_id, to: :profile, allow_nil: true
+  delegate :country_name, to: :profile, allow_nil: true
+  delegate :country_code, to: :profile, allow_nil: true
+  delegate :name, to: :wingsuit, prefix: true, allow_nil: true
+
+  before_validation :create_profile
 
   private
 
-  def validate_profile
-    errors.add(:user_profile, :blank) if profile_id.blank? && profile_name.blank?
-  end
+  def create_profile
+    return if profile || profile_mode.to_sym == :select
 
-  def set_profile
-    self.user_profile =
-      if profile_id.present?
-        UserProfile.find profile_id
-      elsif profile_name
-        UserProfile.create name: profile_name
-      end
+    self.profile = Profile.create profile_attributes
   end
 end

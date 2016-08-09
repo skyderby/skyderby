@@ -5,7 +5,7 @@ Skyderby::Application.routes.draw do
     # Static pages and routes
     match '/competitions', to: 'static_pages#competitions', as: :competitions, via: :get
     match '/about', to: 'static_pages#about', as: :about, via: :get
-    match '/terms', to: 'static_pages#terms', as: :terms, via: :get
+    get '/ping' => 'static_pages#ping'
 
     match '/manage', to: 'static_pages#manage', as: :manage, via: :get
     authenticate :user, lambda { |u| u.has_role? :admin } do
@@ -16,42 +16,54 @@ Skyderby::Application.routes.draw do
       collection do
         post 'choose'
       end
+
       member do
-        get 'google_maps'
         get 'google_earth'
         get 'replay'
+      end
+
+      resources :weather_data, only: [:index, :create, :update, :destroy]
+
+      scope module: :tracks do
+        resources :google_maps, only: :index
+        resources :results, only: :index
       end
     end
     # Backward compatibility
     match '/track/:id', to: 'tracks#show', via: :get
 
-    # Help
-    get 'help'                  => 'help#index'
-    get 'help/:category/:file'  => 'help#show', as: :help_page, constraints: { category: /.*/, file: %r{[^\/\.]+} }
-    get 'help/about'
-
     resources :events do
-      resources :sections, only: [:create, :update, :destroy] do
-        collection do
-          post 'reorder'
+      scope module: :events do
+        resources :rounds do
+          scope module: :rounds do
+            resources :map, only: :index
+          end
         end
+
+        resources :sections do
+          member do
+            patch 'move_upper'
+            patch 'move_lower'
+          end
+        end
+
+        resources :competitors
+        resources :event_tracks
+        resources :event_organizers
       end
 
-      resources :rounds do
-        member do
-          get 'map_data'
-        end
-      end
-      resources :competitors
-      resources :event_tracks
-      resources :event_organizers, only: [:create, :destroy]
-      resources :event_sponsors, only: [:new, :create, :destroy]
+      resources :sponsors, only: [:new, :create, :destroy]
+      resources :weather_data
     end
 
     devise_for :users
     resources :users
-    resources :user_profiles
-    resources :badges
+    resources :profiles do 
+      scope module: :profiles do
+        resources :badges
+      end
+    end
+    match '/user_profiles/:id', to: 'profiles#show', via: :get
 
     resources :manufacturers
     resources :wingsuits
@@ -59,15 +71,26 @@ Skyderby::Application.routes.draw do
     resources :countries
     resources :places
 
-    resources :virtual_competitions
+    resources :virtual_competitions do
+      resources :sponsors, only: [:new, :create, :destroy]
+    end
     resources :virtual_comp_groups
     resources :virtual_comp_results
 
-    resources :tournaments
-    resources :tournament_rounds
-    resources :tournament_matches
-    resources :tournament_match_competitors
-    resources :tournament_competitors
+    resources :tournaments do
+      scope module: :tournaments do
+        resources :rounds
+        resources :competitors
+        resources :matches do
+          scope module: :matches do
+            resources :map, only: :index
+            resources :competitors
+          end
+        end
+      end
+
+      resources :sponsors, only: [:new, :create, :destroy]
+    end
 
     root 'static_pages#index'
   end

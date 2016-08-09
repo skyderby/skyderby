@@ -1,7 +1,11 @@
 ru:
   units:
-    m: 'м'
-    ft: 'фт'
-    kmh: 'км/ч'
-    mph: 'миль/ч'
-    t_unit: "с"
+    m: м
+    mi: миль
+    ft: фт
+    kmh: км/ч
+    mph: миль/ч
+    t_unit: с
+    sec: с
+    ms: м/с
+    knots: узлы
