@@ -12,8 +12,8 @@ class TrackOrder
 
   DEFAULT_ORDER = "#{DEFAULT_ATTR} #{DEFAULT_DIRECTION}"
 
-  def initialize(param_string = '')
-    order_params = param_string.split ' '
+  def initialize(param_string)
+    order_params = (param_string || '').split ' '
     @attribute = order_params[ATTR_INDEX] || DEFAULT_ATTR
     @direction = order_params[DIRECTION_INDEX] || DEFAULT_DIRECTION
   end
