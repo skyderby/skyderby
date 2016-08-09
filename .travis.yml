@@ -1,11 +1,15 @@
 language: ruby
+cache: bundler
 rvm:
   - 2.2.0
-  - 2.1.0
+env:
+  REDIS_HOST: localhost
+  REDIS_PORT: 6379
+  REDIS_DB: 12
 services:
   - redis-server
 before_script:
   - cp config/database.travis.yml config/database.yml
-  - mysql -e 'create database skyderby_test;'
+  - psql -c 'create database travis_ci_test;' -U postgres
   - bundle exec rake db:test:prepare
 script: bundle exec rspec spec/

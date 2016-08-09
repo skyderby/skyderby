@@ -10,10 +10,6 @@ class ApplicationController < ActionController::Base
     { locale: I18n.locale }
   end
 
-  def after_sign_in_path_for(_resource)
-    stored_location_for(:user) || root_path
-  end
-
   rescue_from CanCan::AccessDenied do |exception|
     request.format.html? ? redirect_to(root_path, alert: exception.message) : fail(exception)
   end
@@ -25,10 +21,18 @@ class ApplicationController < ActionController::Base
   end
 
   def store_current_location
-    store_location_for(:user, request.url)
+    store_location_for(:user, request.url) unless request.xhr?
   end
 
   private
+
+  def after_sign_in_path_for(_resource)
+    stored_location_for(:user) || root_path
+  end
+
+  def after_sign_out_path_for(_resource)
+    stored_location_for(:user) || root_path
+  end
 
   def set_locale
     I18n.locale = params[:locale] ||

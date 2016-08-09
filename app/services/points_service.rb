@@ -44,15 +44,13 @@ class PointsService
     fl_time_diff = cur_point.gps_time - prev_point.gps_time
     return prev_point.h_speed if fl_time_diff.zero?
 
-    Skyderby::Velocity.ms_to_kmh(cur_point.distance / fl_time_diff)
+    Velocity.new(cur_point.distance / fl_time_diff).to_kmh
   end
 
   def calc_v_speed(prev_point, cur_point)
     fl_time_diff = cur_point.gps_time - prev_point.gps_time
     return prev_point.v_speed if fl_time_diff.zero?
 
-    Skyderby::Velocity.ms_to_kmh(
-      (prev_point.abs_altitude - cur_point.abs_altitude) / fl_time_diff
-    )
+    Velocity.new((prev_point.abs_altitude - cur_point.abs_altitude) / fl_time_diff).to_kmh
   end
 end

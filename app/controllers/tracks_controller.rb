@@ -1,6 +1,9 @@
 # encoding: utf-8
 
 class TracksController < ApplicationController
+  include PreferencesHelper
+  include UnitsHelper
+
   before_action :set_track, only:
     [:show, :google_maps, :google_earth, :replay, :edit, :update, :destroy]
 
@@ -8,7 +11,7 @@ class TracksController < ApplicationController
     @tracks = Track.accessible_by(current_user)
 
     apply_filters!
-    apply_order!
+    @tracks = TrackOrder.new(params[:order]).apply(@tracks)
 
     respond_to do |format|
       format.any(:html, :js) do
@@ -49,22 +52,27 @@ class TracksController < ApplicationController
 
   def show
     authorize! :read, @track
-    @track_data =
-      Skyderby::Tracks::ChartsData.new(@track, params[:f], params[:t])
+
+    process_range if params[:range]
+
+    @track_presenter = presenter_class.new(
+      @track,
+      params[:f],
+      params[:t],
+      preferred_speed_units,
+      preferred_distance_units,
+      preferred_altitude_units
+    )
+    
+    @track_presenter.load
+    # @track_data =
+      # Skyderby::Tracks::ChartsData.new(@track, params[:f], params[:t])
 
     respond_to do |format|
-      format.html do
-        LastViewedUpdateWorker.perform_async(@track.id)
-        @track_data
-      end
+      format.html { LastViewedUpdateWorker.perform_async(@track.id) }
+      format.js 
       format.json { @track_data }
     end
-  end
-
-  def google_maps
-    authorize! :read, @track
-
-    @track_data = Skyderby::Tracks::MapsData.new(@track)
   end
 
   def google_earth
@@ -89,6 +97,8 @@ class TracksController < ApplicationController
       cached_params,
       track_params[:track_index]
     ).execute
+
+    store_recent_values(cached_params)
 
     redirect_to edit_track_path(@track)
   end
@@ -175,8 +185,19 @@ class TracksController < ApplicationController
       :cache_id,
       :track_index,
       :visibility,
-      :user_profile_id
+      :profile_id
     )
+  end
+
+  def process_range
+    range = params[:range].split(';')
+    params[:f] = Distance.new(range.first, preferred_altitude_units).truncate
+    params[:t] = Distance.new(range.last,  preferred_altitude_units).truncate
+  end
+
+  def presenter_class
+    return Tracks::TrackPresenter if @track.flysight? || @track.cyber_eye?
+    Tracks::RawTrackPresenter
   end
 
   def cached_params
@@ -192,12 +213,34 @@ class TracksController < ApplicationController
     @key
   end
 
+  def store_recent_values(from_params)
+    recent_values = RecentValues.new(cookies)
+    # suit can be selected or typed
+    # when suit selected wingsuit_id param filled and suit param is not
+    # and vice versa - when typed wingsuit_id is blank and suit isn't
+    suit_id = from_params[:wingsuit_id]
+    unless suit_id.blank?
+      recent_values.add(:suit_id, suit_id)
+      recent_values.delete(:suit_name)
+    end
+
+    suit_name = from_params[:suit]
+    unless suit_name.blank?
+      recent_values.add(:suit_name, suit_name)
+      recent_values.delete(:suit_id)
+    end
+  
+    recent_values.add(:name, from_params[:name]) if from_params[:name]
+    recent_values.add(:location, from_params[:location])
+    recent_values.add(:activity, from_params[:kind])
+  end
+
   def apply_filters!
     query = params[:query]
 
     return unless query
 
-    @tracks = @tracks.where(user_profile_id: query[:profile_id]) if query[:profile_id]
+    @tracks = @tracks.where(profile_id: query[:profile_id]) if query[:profile_id]
     @tracks = @tracks.where(wingsuit_id: query[:suit_id]) if query[:suit_id]
     @tracks = @tracks.where(place_id: query[:place_id]) if query[:place_id]
 
@@ -207,20 +250,5 @@ class TracksController < ApplicationController
     end
 
     @tracks = @tracks.search(query[:term]) if query[:term]
-  end
-
-  def apply_order!
-    order = params[:order] || ''
-    order_params = order.split(' ')
-
-    order_field = order_params[0] || 'id'
-    order_direction = order_params[1] || 'DESC'
-
-    allowed_fields = %w(ID RECORDED_AT)
-    allowed_directions = %w(ASC DESC)
-    return unless allowed_fields.include?(order_field.upcase) ||
-                  allowed_directions.include?(order_direction.upcase)
-
-    @tracks = @tracks.order(order_field + ' ' + order_direction)
   end
 end

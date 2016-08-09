@@ -1,0 +1,10 @@
+// Place all the styles related to the weather_data controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+#weather-table > tbody > tr > td {
+  &:nth-child(1) { width: 30%; }
+  &:nth-child(2) { width: 20%; }
+  &:nth-child(3) { width: 20%; }
+  &:nth-child(4) { width: 20%; }
+  &:nth-child(5) { width: 10%; }
+}

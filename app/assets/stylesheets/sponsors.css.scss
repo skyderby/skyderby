@@ -1,0 +1,19 @@
+.sponsor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+
+  form.button_to {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-size: 18px;
+    font-weight: bold;
+    opacity: 0.2;
+  }
+
+  &:hover form.button_to {
+    opacity: 1;
+  }
+}

@@ -10,40 +10,30 @@ require 'tracks/points_interpolation'
 
 module SkydiveCompRange
   class RangeFinder
-    def initialize(track_points, range_from, range_to)
-      @track_points = track_points.trimmed
+    def initialize(points, range_from, range_to)
+      @points = points
       @range_from = range_from
       @range_to = range_to
     end
 
     def process
+      start_point = find_point_near_altitude @range_from
+      end_point = find_point_near_altitude @range_to
       Skyderby::Tracks::JumpRange.new(start_point, end_point)
     end
 
     private
 
-    def start_point
+    def find_point_near_altitude(altitude)
       pair =
-        @track_points.each_cons(2).detect do |pair|
-          @range_from.between? pair.last[:elevation], pair.first[:elevation]
+        @points.each_cons(2).detect do |pair|
+          altitude.between? pair.last[:elevation], pair.first[:elevation]
         end
 
       return nil unless pair
 
       PointsInterpolation.find_between(pair.first, pair.last,
-                                       coeff(pair.first, pair.last, @range_from))
-    end
-
-    def end_point
-      pair =
-        @track_points.each_cons(2).detect do |pair|
-          @range_to.between? pair.last[:elevation], pair.first[:elevation]
-        end
-
-      return nil unless pair
-
-      PointsInterpolation.find_between(pair.first, pair.last,
-                                       coeff(pair.first, pair.last, @range_to))
+                                       coeff(pair.first, pair.last, altitude))
     end
 
     def coeff(first, last, altitude)

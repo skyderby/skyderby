@@ -1,0 +1,66 @@
+ul.comp-list {
+
+  padding-left: 0px;
+
+  .comp-list-item {
+    line-height: 18px;
+    list-style: {
+      image: none;
+      position: outside;
+      type: none;
+    }
+    margin-top: 25px;
+    min-height: 60px;
+    position: relative;
+    border: {
+      color: rgb(238, 238, 238);
+      left-style: solid;
+      left-width: 5px;
+    }
+
+    &.active {
+      border-color: rgb(77, 197, 147);
+    }
+
+    .comp-list-title {
+      margin-bottom: 10px;
+      font-weight: 200;
+
+      .comp-name {
+        line-height: 24px;
+        font-size: 20px;
+        color: rgb(65, 131, 196);
+      }
+    }
+
+    .comp-list-params {
+      color: rgb(136, 136, 136);
+      float: right;
+      width: 35%;
+    }
+
+    .event-list-details {
+      padding-left: 70px;
+    }
+
+    .event-start-date { 
+
+      float: left;
+      position: absolute;
+      top: 8px;
+      left: 13px;
+
+      span {
+        font-size: 30px;
+        font-weight: 200;
+      }
+
+      em {
+        display: block;
+        font-weight: 500;
+        font-style: normal;
+      }
+    }
+  }
+
+}

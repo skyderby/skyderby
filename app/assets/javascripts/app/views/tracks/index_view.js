@@ -93,7 +93,7 @@ Skyderby.views.TrackIndexView = Backbone.View.extend({
 
         select_field.append($('<option />', { value: '' }));
 
-        Skyderby.helpers.PilotSelect(select_field, { placeholder: I18n.t('tracks.index.filter_by_pilot') });
+        Skyderby.helpers.ProfileSelect(select_field, { placeholder: I18n.t('tracks.index.filter_by_pilot') });
     },
     
     init_suit_select: function() {

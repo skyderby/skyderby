@@ -1,0 +1,26 @@
+- can_manage = can?(:manage, competitor) && !@event.finished?
+%td.competitor-cell
+  = link_to competitor.name.titleize,
+            profile_path(competitor.profile),
+            class: 'dotted-underline'
+  %span.competitor-suit
+    = competitor.wingsuit.manufacturer_code
+    = competitor.wingsuit_name
+  - if can_manage
+    %span.competitor-controls
+      = button_to event_competitor_path(@event, competitor), 
+                  method: :delete, 
+                  remote: true, 
+                  params: {'display_raw_results' => @display_raw_results},
+                  class: 'delete-competitor btn-link' do
+        %i.fa.fa-times
+
+      = link_to edit_event_competitor_path(@event, competitor), 
+                remote: true,
+                'data-params': { 'display_raw_results' => @display_raw_results }.to_param,
+                class: 'edit-competitor btn-primary' do
+        %i.fa.fa-pencil
+
+%td.text-center.text-muted
+  %span.dotted-underline{'data-toggle' => 'tooltip', title: competitor.country_name}
+    = competitor.country_code

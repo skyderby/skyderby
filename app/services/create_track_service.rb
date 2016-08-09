@@ -17,7 +17,7 @@ class CreateTrackService
     # Create track with params
     @track = Track.new(@params)
     @track.user = @user
-    @track.pilot = @user.user_profile if @user && !@params[:user_profile_id]
+    @track.pilot = @user.profile if @user && !@params[:profile_id]
 
     # Read file with track and set logger type
     track_data = @track.track_file.track_file_data(@track_index)
@@ -89,16 +89,16 @@ class CreateTrackService
   end
 
   def points_columns
-    ' `gps_time_in_seconds`,
-      `latitude`,
-      `longitude`,
-      `abs_altitude`,
-      `distance`,
-      `fl_time`,
-      `v_speed`,
-      `h_speed`,
-      `tracksegment_id`,
-      `updated_at`,
-      `created_at`'
+    ' gps_time_in_seconds,
+      latitude,
+      longitude,
+      abs_altitude,
+      distance,
+      fl_time,
+      v_speed,
+      h_speed,
+      tracksegment_id,
+      updated_at,
+      created_at'
   end
 end

@@ -1,0 +1,9 @@
+$('#modal').html('<%= j render('form_modal') %>');
+
+$('#modal').one('shown.bs.modal', function() {
+  $('input[name="section[name]"]').focus();
+});
+
+$('#modal').modal('show');
+
+<%= render 'form_validation', form_id: '#new_section' %>

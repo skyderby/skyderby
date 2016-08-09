@@ -1,0 +1,80 @@
+app:
+  image: skyderby/app:latest
+  environment: &ENVIRONMENT
+    DB_NAME: '...'
+    DB_HOST: '...'
+    DB_USERNAME: ...
+    DB_PASSWORD: ...
+    SLACK_WEBHOOK_URL: 'https://hooks.slack.com/services/...'
+    SLACK_CHANNEL: '#...'
+    SMTP_ADDRESS: 'smtp.example.com'
+    SMTP_PORT: 25
+    SMTP_DOMAIN: 'example.ru'
+    SMTP_USERNAME: 'i@example.ru'
+    SMTP_PASSWORD: '...'
+    WORKER_PROCESSES: 2
+    REDIS_HOST: redis
+    REDIS_PORT: 6379
+    REDIS_DB: 12
+  volumes_from:
+    - data-app
+  links:
+    - db
+    - redis
+  ports:
+    - "8000:8000"
+
+workers:
+  image: skyderby/app:latest
+  environment:
+    <<: *ENVIRONMENT
+  volumes_from:
+    - data-app
+  links:
+    - db
+    - redis
+  command: "bundle exec sidekiq"
+
+db:
+  image: mysql:5.7
+  environment:
+    MYSQL_ROOT_PASSWORD: "..."
+    MYSQL_USER: "..."
+    MYSQL_PASSWORD: "..."
+    MYSQL_DATABASE: '...'
+  volumes_from:
+    - data-mysql
+
+redis:
+  image: redis:3.0.5
+  volumes_from:
+    - data-redis
+
+web:
+  image: nginx:stable
+  volumes:
+    - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  volumes_from:
+    - data-app
+  links:
+    - app
+  ports:
+    - "80:80"
+    - "443:443"
+
+data-mysql:
+  image: busybox
+  volumes:
+    - /var/lib/mysql
+
+data-redis:
+  image: busybox
+  volumes:
+    - /data
+
+data-app:
+  image: busybox
+  volumes:
+    - /opt/app/log
+    - /opt/app/tmp
+    - /opt/app/public

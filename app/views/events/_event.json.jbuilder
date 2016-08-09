@@ -6,22 +6,7 @@ json.extract! event,
               :range_to,
               :status,
               :place,
-              :responsible
+              :responsible,
+              :wind_cancellation
 
 json.starts_at event.starts_at.strftime('%d.%m.%Y')
-
-json.sections event.sections.order(:order), partial: 'sections/section',
-                                            as: :section
-json.competitors event.competitors, partial: 'competitors/competitor',
-                                    as: :competitor
-
-json.tracks event.event_tracks, partial: 'event_tracks/event_track',
-                                as: :event_track
-
-json.rounds event.rounds, partial: 'rounds/round', as: :round
-
-json.organizers event.event_organizers, partial: 'event_organizers/event_organizer',
-                                        as: :event_organizer
-
-json.sponsors event.event_sponsors, partial: 'event_sponsors/event_sponsor',
-                                    as: :event_sponsor

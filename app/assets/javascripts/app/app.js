@@ -20,7 +20,12 @@ _.extend(window.Skyderby, Backbone.Events);
 
 function on_maps_api_ready() {
   window.Skyderby.maps_api_ready = true;
-  window.Skyderby.trigger('maps_api_ready');
+  window.Skyderby.trigger('maps_api:ready');
+}
+
+function on_maps_api_loading_error() {
+  window.Skyderby.maps_api_ready = false;
+  window.Skyderby.trigger('maps_api:failed');
 }
 
 function on_earth_api_ready() {

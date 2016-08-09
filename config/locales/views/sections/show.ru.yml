@@ -1,0 +1,4 @@
+ru:
+  sections:
+    show:
+      delete_confirmation: Вы уверены, что хотите удалить этот класс?

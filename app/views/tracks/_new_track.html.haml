@@ -1,4 +1,3 @@
-:javascript
 .modal.fade#newTrackModal{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
   .modal-dialog
     .modal-content
@@ -18,53 +17,60 @@
 
         .modal-body
           .form-group
-            %span.col-sm-3.control-label
-              = t('static_pages.index.track_form.name')
+            = label_tag :name, t('static_pages.index.track_form.name'), class: 'col-sm-3 control-label'
             .col-sm-9
               - if current_user
-                %span.track-name-span= current_user.user_profile.name
+                %span.track-name-span= current_user.profile.name
               - else
                 = text_field_tag 'track[name]', 
                                  nil, 
                                  class: 'form-control', 
                                  placeholder: t('static_pages.index.track_form.name_plh'), 
-                                 type: 'text'
+                                 type: 'text',
+                                 value: recent_value(:name)
 
           .form-group
-            %span.col-sm-3.control-label
-              = t('static_pages.index.track_form.suit')
+            = label_tag :suit, t('static_pages.index.track_form.suit'), class: 'col-sm-3 control-label'
             .col-sm-9
-              %select.new-track-wingsuit-select.suit-group{name: 'track[wingsuit_id]'}
-              %input.form-control.suit-group{name: 'track[suit]', type: 'text', placeholder: t('tracks.form.suit_text_placeholder')}
+              - recent_suit_id = recent_value(:suit_id)
+              - recent_suit_name = recent_value(:suit_name)
+              %select.new-track-wingsuit-select.suit-group{name: 'track[wingsuit_id]',
+                                                           style: ('display:none' if (!recent_suit_id && recent_suit_name))}
+                - if recent_suit_id
+                  %option{value: recent_suit_id}= Wingsuit.find(recent_suit_id).name
+              %input.form-control.suit-group{name: 'track[suit]',
+                                             type: 'text',
+                                             placeholder: t('tracks.form.suit_text_placeholder'),
+                                             value: recent_suit_name,
+                                             style: ('display:none' if (recent_suit_id || !recent_suit_name))}
             .col-sm-9.col-sm-offset-3
               %span
                 %span.toggle-suit-caption= t('tracks.form.toggle_suit_caption')
                 %a.toggle-suit{href: '#'}= t('tracks.form.toggle_suit_link')
 
           .form-group
-            %span.col-sm-3.control-label
-              = t('static_pages.index.track_form.location')
+            = label_tag :location, t('static_pages.index.track_form.location'), class: 'col-sm-3 control-label'
             .col-sm-9
               = text_field_tag 'track[location]', 
                                nil, 
                                class: 'form-control', 
                                placeholder: t('static_pages.index.track_form.location_plh'), 
-                               type: 'text'
+                               type: 'text',
+                               value: recent_value(:location) 
 
           .form-group
-            %span.col-sm-3.control-label
-              = t('static_pages.index.track_form.kind')
+            = label_tag :kind, t('static_pages.index.track_form.kind'), class: 'col-sm-3 control-label'
             .btn-group.col-sm-9{data: {toggle: 'buttons'}}
-              %label.btn.btn-default.active
+              - recent_activity = recent_value(:activity)
+              %label.btn.btn-default{class: ('active' if (recent_activity == 'skydive' || recent_activity.nil?))}
                 = radio_button_tag 'track[kind]', 'skydive', true
                 = 'Skydive'
-              %label.btn.btn-default
+              %label.btn.btn-default{class: ('active' if recent_value(:activity) == 'base')}
                 = radio_button_tag 'track[kind]', 'base'
                 = 'B.A.S.E'
 
           .form-group
-            %span.col-sm-3.control-label
-              = t('static_pages.index.track_form.file')
+            = label_tag :file, t('static_pages.index.track_form.file'), class: 'col-sm-3 control-label'
             .col-sm-9
               .input-group
                 %input.form-control{type: "text", readonly: true}
@@ -78,8 +84,7 @@
               %h4.help-block=t 'static_pages.index.track_form.help'
 
           .form-group
-            %span.col-sm-3.control-label
-              = t('static_pages.index.track_form.comment')
+            = label_tag :comment, t('static_pages.index.track_form.comment'), class: 'col-sm-3 control-label'
             .col-sm-9
               = text_area_tag 'track[comment]', 
                               nil, 
@@ -90,3 +95,7 @@
         .modal-footer
           = submit_tag t('static_pages.index.track_form.submit'), class: 'btn btn-success'
           %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}=t('general.cancel')
+
+- content_for :page_js do
+  :javascript
+    new Skyderby.views.NewTrackForm({el: '#newTrackModal'});

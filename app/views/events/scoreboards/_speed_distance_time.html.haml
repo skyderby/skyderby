@@ -1,0 +1,116 @@
+- cache ['scoreboard',
+         I18n.locale,
+         @event, 
+         (@display_raw_results ? 'raw' : ''), 
+         (can? :update, @event)] do
+  %table.table.table-bordered#results-table
+    %thead
+      %tr#disciplines-row
+        %td{rowspan: 3}
+          \#
+        %td{rowspan: 3, colspan: 2}
+          = t('events.show.competitor')
+        - @event.rounds_by_discipline.each do |discipline, rounds|
+          %td.text-center{colspan: (rounds.count * 2 + 1)}
+            = t('disciplines.' + discipline)
+        %td.text-center{rowspan: 3}
+          = t('events.show.total')
+      %tr#rounds-row
+        - @event.rounds_by_discipline.each do |discipline, rounds|
+          - rounds.each do |round|
+            %td.round-cell.text-center{colspan: 2}
+              - if can? :update, @event
+                %i.fa.fa-fw
+              = round.name
+              = link_to event_round_map_index_path(@event, round), remote: true, class: 'round-map-view' do
+                %i.fa.fa-compass
+              - if can? :update, @event
+                = button_to event_round_path(@event, round),
+                            method: :delete,
+                            remote: true,
+                            class: 'btn-link delete-round' do
+                  %i.fa.fa-fw.fa-times-circle.text-muted
+          %td.text-center{rowspan: 2, 'data-discipline' => discipline, 'data-role' => 'points'}
+            = '%'
+      %tr#units-row
+        - @event.rounds_by_discipline.each do |discipline, rounds|
+          - rounds.each do |round|
+            %td.text-center
+              = t('units.' + discipline_unit(discipline.to_sym).to_s)
+            %td.text-center
+              = '%'
+
+    - @event.sections.each do |section|
+      - next unless section.id
+      %tbody
+        = render 'events/sections/section_row',
+                 section: section,
+                 columns_count: @scoreboard.columns_count
+
+        - section_competitors = @scoreboard.sections[section.id]
+        - row_number = 1
+        - section_competitors.each do |competitor|
+          %tr.competitor-row{id: "competitor_#{competitor.id}"}
+            %td.row-number= row_number
+            = render 'events/competitors/competitor_cells', competitor: competitor
+            - @event.rounds_by_discipline.each do |discipline, rounds|
+              - rounds.each do |round|
+                - result_entity = competitor.event_tracks.detect { |x| x[:round_id] == round.id }
+                - display_raw_results = @scoreboard.display_raw_results
+                - if result_entity
+                  - result_value = result_entity.result(net: display_raw_results)
+                  %td.result-cell.text-right{'data-role' => 'result', class: ('hc-best-result' if result_entity.best_in_round?)}
+                    - if result_value && result_value > 0
+                      - if discipline == 'distance'
+                        - if result_entity.is_disqualified
+                          %s= result_value.truncate
+                        - else
+                          = result_value.truncate
+                      -else
+                        - if result_entity.is_disqualified
+                          %s= result_value.round(1)
+                        - else
+                          = result_value.round(1)
+                    %span
+                      = link_to event_event_track_path(@event, result_entity),
+                                remote: true,
+                                class: 'show-result' do
+                        %i.fa.fa-search
+
+
+                      - if can? :manage, result_entity
+                        = link_to edit_event_event_track_path(@event, result_entity),
+                                  remote: true,
+                                  'data-params': { display_raw_results: display_raw_results }.to_param,
+                                  class: 'edit-result' do
+                          %i.fa.fa-pencil
+
+                  %td.points-cell{class: (result_entity.is_disqualified ? 'text-center' : 'text-right')}
+                    - if result_entity.is_disqualified
+                      %span.dotted-underline{'data-toggle' => 'tooltip',
+                                              title: result_entity.disqualification_reason}
+                        DQ
+                    - else
+                      - if result_entity.points && result_entity.points > 0
+                        = result_entity.points(net: display_raw_results).round(1)
+                - else
+                  %td.text-center.create-result-cell
+                    = link_to new_event_event_track_path(@event), 
+                              remote: true, 
+                              'data-params': { 'event_track[competitor_id]' => competitor.id,
+                                               'event_track[round_id]' => round.id,
+                                               display_raw_results: display_raw_results }.to_param,
+                              class: 'create-result' do
+                      %i.fa.fa-upload
+                      
+                  %td
+
+              %td.points-cell.text-right
+                - points_in_discipline = competitor.points_in_disciplines[discipline]
+                - if points_in_discipline && points_in_discipline > 0
+                  = points_in_discipline.round(1)
+            %td.text-right
+              - if competitor.total_points && competitor.total_points > 0
+                = competitor.total_points.round(2)
+
+          - row_number += 1

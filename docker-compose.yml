@@ -1,0 +1,60 @@
+db:
+  image: postgres:9.5.2
+  environment:
+    POSTGRES_PASSWORD: &DB_PASSWORD tracks-tracks
+    POSTGRES_USER: &DB_USERNAME tracks
+    POSTGRES_DB: &DB_NAME tracks_dev
+  ports:
+    - "5432:5432"
+  volumes_from:
+    - data-pg
+  container_name: skydebry_db
+
+app:
+  build: .
+  dockerfile: Dockerfile.dev
+  environment: &ENV
+    DB_NAME: *DB_NAME
+    DB_HOST: db
+    DB_USERNAME: *DB_USERNAME
+    DB_PASSWORD: *DB_PASSWORD
+    REDIS_HOST: redis
+    REDIS_PORT: 6379
+    REDIS_DB: 12
+  volumes:
+    - ./:/opt/app
+  links:
+    - db
+    - redis
+  ports:
+    - "3000:3000"
+  container_name: skydebry_app
+
+workers:
+  build: .
+  dockerfile: Dockerfile.dev
+  environment:
+    <<: *ENV
+  volumes:
+    - ./:/opt/app
+  links:
+    - db
+    - redis
+  command: "bundle exec sidekiq"
+  container_name: skydebry_workers
+
+redis:
+  image: redis:3.0.5
+  volumes_from:
+    - data-redis
+  container_name: skyderby_redis
+
+data-pg:
+  image: busybox
+  volumes:
+    - /var/lib/postgresql/data
+
+data-redis:
+  image: busybox
+  volumes:
+    - /data

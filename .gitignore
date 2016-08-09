@@ -19,6 +19,8 @@
 
 /public/system
 /public/assets
+/public/javascripts/i18n.js
+/public/javascripts/translations.js
 
 /.idea
 *.sw*
@@ -33,6 +35,8 @@
 *.swo
 
 config/database.yml
+
+docker-compose-production.yml
 
 # Ignore application configuration
 /config/application.yml

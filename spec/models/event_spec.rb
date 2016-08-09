@@ -2,18 +2,19 @@
 #
 # Table name: events
 #
-#  id              :integer          not null, primary key
-#  name            :string(255)
-#  range_from      :integer
-#  range_to        :integer
-#  created_at      :datetime
-#  updated_at      :datetime
-#  status          :integer          default(0)
-#  user_profile_id :integer
-#  place_id        :integer
-#  is_official     :boolean          default(FALSE)
-#  rules           :integer          default(0)
-#  starts_at       :date
+#  id                :integer          not null, primary key
+#  name              :string(510)
+#  range_from        :integer
+#  range_to          :integer
+#  created_at        :datetime
+#  updated_at        :datetime
+#  status            :integer          default(0)
+#  profile_id        :integer
+#  place_id          :integer
+#  is_official       :boolean
+#  rules             :integer          default(0)
+#  starts_at         :date
+#  wind_cancellation :boolean
 #
 
 require 'spec_helper'
@@ -22,7 +23,7 @@ require 'rails_helper'
 describe Event, type: :model do
   before :all do
     @user = FactoryGirl.create(:user)
-    @event = Event.create!(responsible: @user.user_profile, starts_at: Date.today)
+    @event = Event.create!(responsible: @user.profile, starts_at: Date.today)
   end
 
   it 'has status: Draft' do
@@ -39,7 +40,7 @@ describe Event, type: :model do
   end
 
   it 'fill responsible' do
-    expect(@event.responsible).to eql(@user.user_profile)
+    expect(@event.responsible).to eql(@user.profile)
   end
 
   it 'blank responsible does not allowed' do

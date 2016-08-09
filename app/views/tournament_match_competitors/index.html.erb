@@ -22,7 +22,7 @@
 	    <% @tournament_match_competitors.each do |tournament_match_competitor| %>
 	      <tr>
 		<td><%= tournament_match_competitor.tournament_match_id %></td>
-		<td><%= tournament_match_competitor.tournament_competitor.user_profile.name %></td>
+		<td><%= tournament_match_competitor.tournament_competitor.profile.name %></td>
 		<td><%= tournament_match_competitor.track_id %></td>
 		<td><%= tournament_match_competitor.result %></td>
 		<td><%= tournament_match_competitor.is_winner %></td>

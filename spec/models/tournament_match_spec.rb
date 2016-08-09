@@ -7,8 +7,8 @@
 #  tournament_round_id   :integer
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
-#  gold_finals           :boolean          default(FALSE)
-#  bronze_finals         :boolean          default(FALSE)
+#  gold_finals           :boolean
+#  bronze_finals         :boolean
 #
 
 require 'rails_helper'

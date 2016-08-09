@@ -13,6 +13,10 @@ module Skyderby
 
       def to_data_attr
         {
+          id: @track.id,
+          default_weather_date: @track.recorded_at
+                                      .beginning_of_hour
+                                      .strftime('%Y-%m-%d %H:%M'),
           points: @points.to_json,
           height: {
             max: @max_height,

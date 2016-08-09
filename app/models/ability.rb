@@ -14,12 +14,12 @@ class Ability
     can :read, Competitor
     can :read, Round
     can :read, EventTrack
+    can :read, WeatherDatum
 
     can :read, Wingsuit
     can :read, Place
 
-    can :read, UserProfile
-    can :read, Badge
+    can :show, Profile
 
     can :read,  Tournament
 
@@ -38,21 +38,29 @@ class Ability
     return unless user
 
     # Edit own tracks
-    can [:read, :update], Track, user: user
+    can [:read, :update], Track do |track|
+      if track.user == user
+        can :manage, WeatherDatum
 
-    can :update, UserProfile, user: user
+        true
+      end
+    end
+
+    can :update, Profile, user: user
 
     can :create, Event
     can :destroy, Event, responsible: user, status: :draft
 
     can [:read, :update], Event do |event|
-      if event.responsible == user.user_profile ||
-         event.event_organizers.any? { |x| x.user_profile == user.user_profile }
+      if event.responsible == user.profile ||
+         event.event_organizers.any? { |x| x.profile == user.profile }
         can :manage, Section
         can :manage, Competitor
         can :manage, Round
         can :manage, EventTrack
         can :manage, EventOrganizer
+        can :manage, WeatherDatum
+        can :manage, Sponsor, sponsorable_type: 'Event', sponsorable_id: event.id
 
         true
       end

@@ -8,7 +8,7 @@ module VirtualCompetitionsHelper
   end
 
   def competition_unit(competition)
-    if competition.distance? || competition.distance_in_time?
+    if competition.distance? || competition.distance_in_time? || competition.distance_in_altitude?
       t('units.m')
     elsif competition.time?
       t('units.t_unit')

@@ -25,8 +25,8 @@
         - if user_signed_in?
           %li.dropdown
             %a.dropdown-toggle.profile-dropdown{href: '#', data: {toggle: 'dropdown'}}
-              - if current_user.user_profile
-                = image_tag current_user.user_profile.userpic.url(:thumb), id: 'userpic-thumb', :class => 'img-rounded img-50 loading-bg'
+              - if current_user.profile
+                = image_tag current_user.profile.userpic.url(:thumb), id: 'userpic-thumb', :class => 'img-rounded img-50 loading-bg'
               - else
                 = current_user.email
                 = image_tag '/images/thumb/missing.png', id: 'userpic-thumb', :class => 'img-rounded img-50 loading-bg'
@@ -36,7 +36,7 @@
                 %li
                   = link_to t('application.header.admin_panel'), manage_path
               %li
-                = link_to t('application.header.profile'), user_profile_path(current_user.user_profile)
+                = link_to t('application.header.profile'), profile_path(current_user.profile)
               %li
                 = link_to t('application.header.sign_out'), destroy_user_session_path, :method => :delete
         - else

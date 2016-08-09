@@ -1,0 +1,58 @@
+.modal-dialog
+  .modal-content
+    .modal-header
+      %button.close{type: 'button', data: {dismiss: 'modal'}}
+        %span{aria: {hidden: 'true'}}
+          &times;
+        %span.sr-only
+          Close
+      %h4.modal-title= t('tracks.show.results')
+
+    .modal-body
+      - if @track.competitive?
+        %h3= t('tracks.show.comp_result')
+        .track-event-result
+          %span
+            = @track.event_track.event.name + ' | '
+            = t("disciplines.#{@track.event_track.round_discipline}") + ':'
+          %span
+            = @track.event_track.result
+
+      - if @track.skydive?
+        %h3= t('tracks.show.best_results')
+        - if @track.distance
+          .track-result
+            %span
+              = t('disciplines.distance') + ':'
+            %span 
+              = @track.distance.result.to_i
+              = t('units.m')
+            %span
+              = "(#{t('tracks.show.window')} #{@track.distance.range_from} - #{@track.distance.range_to})"
+        - if @track.speed
+          .track-result
+            %span
+              = t('disciplines.speed') + ':'
+            %span
+              = @track.speed.result.to_i
+              = t('units.kmh')
+            %span
+              = "(#{t('tracks.show.window')} #{@track.speed.range_from} - #{@track.speed.range_to})"
+        - if @track.time
+          .track-result
+            %span
+              = t('disciplines.time') + ':'
+            %span
+              = @track.time.result
+              = t('units.t_unit')
+            %span
+              = "(#{t('tracks.show.window')} #{@track.time.range_from} - #{@track.time.range_to})"
+      - if @track.virtual_comp_results.any?
+        %h3= t('tracks.show.online_comp_results')
+        - @track.virtual_comp_results.each do |result|
+          .track-online-result
+            - competition = result.virtual_competition
+            %a{href: virtual_competition_path(competition)}
+              = competition_title(competition)
+            %span
+              = ": #{format_result(result.result, competition)} #{competition_unit(competition)}"

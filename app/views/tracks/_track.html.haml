@@ -10,16 +10,25 @@
   %td= track_place(track)
   %td.text-muted= track.comment
   %td.text-right
-    - if track.distance_result
+    - if track.distance_result && !track.distance_result.nan? && !track.distance_result.infinite? && !track.distance_result.zero?
       %span.text-info{data: {toggle: 'tooltip'}, title: "#{track.distance_range_from} - #{track.distance_range_to}"}
         = track.distance_result.to_i 
+    - else
+      %span.text-info
+        &mdash;
   %td.text-right
-    - if track.speed_result
+    - if track.speed_result && !track.speed_result.nan? && !track.speed_result.infinite? && !track.speed_result.zero?
       %span.text-info{data: {toggle: 'tooltip'}, title: "#{track.speed_range_from} - #{track.speed_range_to}"}
         = track.speed_result.to_i
+    - else
+      %span.text-info
+        &mdash;
   %td.text-right
-    - if track.time_result
+    - if track.time_result && !track.time_result.nan? && !track.time_result.infinite? && !track.time_result.zero?
       %span.text-info{data: {toggle: 'tooltip'}, title: "#{track.time_range_from} - #{track.time_range_to}"}
         = track.time_result
+    - else
+      %span.text-info
+        &mdash;
   %td.text-info= track.recorded_at.strftime('%d.%m.%Y')
   %td= track_icons(track)

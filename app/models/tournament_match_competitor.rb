@@ -12,11 +12,14 @@
 #  is_winner                :boolean
 #  is_disqualified          :boolean
 #  is_lucky_looser          :boolean
-#  notes                    :string(255)
+#  notes                    :string(510)
 #  earn_medal               :integer
 #
 
 class TournamentMatchCompetitor < ActiveRecord::Base
+
+  SECONDS_BEFORE_START = 10
+
   enum earn_medal: [:gold, :silver, :bronze]
 
   belongs_to :tournament_competitor
@@ -24,6 +27,7 @@ class TournamentMatchCompetitor < ActiveRecord::Base
   belongs_to :track
 
   before_save :calculate_result
+  before_save :replace_nan_with_zero
 
   delegate :start_time, to: :tournament_match
 
@@ -33,21 +37,26 @@ class TournamentMatchCompetitor < ActiveRecord::Base
 
     track_points = Skyderby::Tracks::Points.new(track)
     self.result = Skyderby::ResultsProcessors::TimeUntilIntersection.new(
-      track_points, start_time: start_time, finish_line: finish_line
+      track_points, start_time: start_time, finish_line: tournament_match.tournament.finish_line
     ).calculate
   end
 
-  def finish_line
-    tournament = tournament_match.round.tournament
-    [
-      Skyderby::Tracks::TrackPoint.new(
-        latitude: tournament.finish_start_lat,
-        longitude: tournament.finish_start_lon
-      ),
-      Skyderby::Tracks::TrackPoint.new(
-        latitude: tournament.finish_end_lat,
-        longitude: tournament.finish_end_lon
-      )
-    ]
+  def track_points
+    track.points
+         .freq_1Hz
+         .trimmed(seconds_before_start: SECONDS_BEFORE_START)
+         .pluck_to_hash(
+           :fl_time,
+           'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
+           "#{track.point_altitude_field} AS altitude",
+           :latitude,
+           :longitude)
+  end
+
+  private
+
+  def replace_nan_with_zero
+    return if result.nil?
+    self.result = 0 if result.nan? || result.infinite?
   end
 end

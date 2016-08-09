@@ -1,0 +1,9 @@
+ru:
+  weather_datum:
+    modal_title: Сведения о ветре
+    actual_on: Дата, время
+    altitude: Высота
+    wind_speed: Скорость ветра
+    wind_direction: Направление
+    altitude_units: Ед. изм. высоты
+    wind_speed_units: Ед. изм. скорости ветра

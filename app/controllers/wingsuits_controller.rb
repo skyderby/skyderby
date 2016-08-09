@@ -5,7 +5,10 @@ class WingsuitsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @wingsuits = Wingsuit.includes(:manufacturer).order('manufacturers.name, kind, wingsuits.name')
+    @wingsuits = 
+      Wingsuit.joins(:manufacturer)
+              .select('wingsuits.id, wingsuits.name, wingsuits.kind, manufacturer_id, manufacturers.name manufacturer_name') 
+              .order('manufacturers.name, kind, wingsuits.name')
 
     if params[:query] && params[:query][:term]
       @wingsuits = @wingsuits.search(params[:query][:term]) if params[:query][:term]
