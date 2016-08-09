@@ -3,8 +3,11 @@ class ProfilesController < ApplicationController
   before_action :set_profile, only: [:edit, :update]
 
   load_and_authorize_resource
+   skip_authorize_resource only: :index
 
   def index
+    authorize!(:index, Profile) if request.format == :html
+
     @profiles = Profile.includes(:user, :country).order(:name)
 
     if params[:query]
