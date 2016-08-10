@@ -1,9 +1,6 @@
 en:
   events:
     show:
-      section: 'Class'
-      competitor: 'Competitor'
-      round: 'Round'
       round_map_view: 'Round tracks on map'
       comp_window: 'Competition window'
       total: 'Total'
