@@ -1,80 +1,101 @@
-app:
-  image: skyderby/app:latest
-  environment: &ENVIRONMENT
-    DB_NAME: '...'
-    DB_HOST: '...'
-    DB_USERNAME: ...
-    DB_PASSWORD: ...
-    SLACK_WEBHOOK_URL: 'https://hooks.slack.com/services/...'
-    SLACK_CHANNEL: '#...'
-    SMTP_ADDRESS: 'smtp.example.com'
-    SMTP_PORT: 25
-    SMTP_DOMAIN: 'example.ru'
-    SMTP_USERNAME: 'i@example.ru'
-    SMTP_PASSWORD: '...'
-    WORKER_PROCESSES: 2
-    REDIS_HOST: redis
-    REDIS_PORT: 6379
-    REDIS_DB: 12
-  volumes_from:
-    - data-app
-  links:
-    - db
-    - redis
-  ports:
-    - "8000:8000"
+version: '2'
 
-workers:
-  image: skyderby/app:latest
-  environment:
-    <<: *ENVIRONMENT
-  volumes_from:
-    - data-app
-  links:
-    - db
-    - redis
-  command: "bundle exec sidekiq"
+services:
+  db:
+    image: postgres:9.5.2
+    environment:
+      POSTGRES_PASSWORD: &DB_PASSWORD ********
+      POSTGRES_USER: &DB_USERNAME ********
+      POSTGRES_DB: &DB_NAME ********
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: always
 
-db:
-  image: mysql:5.7
-  environment:
-    MYSQL_ROOT_PASSWORD: "..."
-    MYSQL_USER: "..."
-    MYSQL_PASSWORD: "..."
-    MYSQL_DATABASE: '...'
-  volumes_from:
-    - data-mysql
+  app:
+    image: skyderby/app:latest
+    environment: &ENVIRONMENT
+      RAILS_ENV: production
+      DB_NAME: *DB_NAME
+      DB_HOST: db
+      DB_USERNAME: *DB_USERNAME
+      DB_PASSWORD: *DB_PASSWORD
+      SLACK_WEBHOOK_URL: '********'
+      SLACK_CHANNEL: '#exceptions'
+      SMTP_ADDRESS: '********'
+      SMTP_PORT: 25
+      SMTP_DOMAIN: '********'
+      SMTP_USER_NAME: '********'
+      SMTP_PASSWORD: '********'
+      NEWRELIC_LICENSE: ********
+      WORKER_PROCESSES: 2
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_DB: 12
+    volumes:
+      - ./database.yml:/opt/app/config/database.yml:ro
+      - /opt/app/public
+      - app_log:/opt/app/log
+      - app_tmp:/opt/app/tmp
+      - app_assets:/opt/app/public/assets
+      - app_system:/opt/app/public/system
+    links:
+      - db
+      - redis
+    ports:
+      - "8000:8000"
+    restart: always
 
-redis:
-  image: redis:3.0.5
-  volumes_from:
-    - data-redis
+  workers:
+    image: skyderby/app:latest
+    environment:
+      <<: *ENVIRONMENT
+    volumes:
+      - ./database.yml:/opt/app/config/database.yml:ro
+      - app_log:/opt/app/log
+      - app_tmp:/opt/app/tmp
+      - app_assets:/opt/app/public/assets
+      - app_system:/opt/app/public/system
+    links:
+      - db
+      - redis
+    command: "bundle exec sidekiq"
+    restart: always
 
-web:
-  image: nginx:stable
-  volumes:
-    - ./nginx.conf:/etc/nginx/nginx.conf:ro
-  volumes_from:
-    - data-app
-  links:
-    - app
-  ports:
-    - "80:80"
-    - "443:443"
+  redis:
+    image: redis:3.0.5
+    volumes:
+      - redis_data:/data
+    restart: always
 
-data-mysql:
-  image: busybox
-  volumes:
-    - /var/lib/mysql
+  web:
+    image: nginx:stable
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/pki/nginx:ro
+      - app_log:/opt/app/log
+    volumes_from:
+      - app:ro
+    depends_on:
+      - app
+    links:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
 
-data-redis:
-  image: busybox
-  volumes:
-    - /data
-
-data-app:
-  image: busybox
-  volumes:
-    - /opt/app/log
-    - /opt/app/tmp
-    - /opt/app/public
+volumes:
+  redis_data:
+    external: true
+  pg_data:
+    external: true
+  app_log:
+    external: true
+  app_tmp:
+    external: true
+  app_assets:
+    external: true
+  app_system:
+    external: true

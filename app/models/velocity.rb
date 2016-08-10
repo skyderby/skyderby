@@ -73,6 +73,9 @@ class Velocity < DelegateClass(BigDecimal)
   def value_to_decimal(value)
     if value.class == BigDecimal
       value
+    elsif value.class == Float
+      float_val = (value.nan? || value.infinite?) ? 0.0 : value
+      float_val.to_d
     elsif value.respond_to?(:to_d)
       value.to_d
     else
