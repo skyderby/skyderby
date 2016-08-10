@@ -1,9 +1,6 @@
 ru:
   events:
     show:
-      section: 'Класс'
-      competitor: 'Участник'
-      round: 'Раунд'
       round_map_view: 'Треки раунда на карте'
       comp_window: 'Соревновательный диапазон'
       total: 'Итого'
