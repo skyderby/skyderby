@@ -47,14 +47,20 @@
                          class: ('active' if action_name == 'google_maps')}
         %i.fa.fa-compass
         = 'Google maps'
-      = link_to track_results_path(@track), remote: true, class: 'btn btn-default' do
+      = link_to track_results_path(@track), 
+                remote: true, 
+                class: 'btn btn-default',
+                rel: 'nofollow' do
         %i.fa.fa-th-list
         = t('tracks.show.results')
+
       .pull-right
         = link_to t('events.show.weather_data'), 
                  track_weather_data_path(@track), 
                  remote: true, 
-                 class: 'btn btn-default'
+                 class: 'btn btn-default',
+                 rel: 'nofollow'
+
         %span.settings-button
           - if action_name == 'show'
             = render 'tracks/view_settings_menu'
