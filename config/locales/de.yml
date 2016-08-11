@@ -24,15 +24,15 @@ de:
       title: 'Flieg! Nimm am Wettbewerb teil! Gewinne!'
       subtitle: 'Immernoch beta'
       track_form:
-        title: 'Track anschauen und bewerten:'
+        title: 'Track ansehen und bewerten:'
         name: 'Ihr Name:'
         name_plh: 'Vor- und Nachname.'
         suit: 'Sie fliegen mit:'
         suit_plh: 'Wingsuitmodell'
         location: 'Ort:'
-        location_plh: 'Flugplatz, Berge usw.'
+        location_plh: 'Flugplatz, Absprungstelle usw.'
         file: "Track Datei:"
-        help: 'Es werden folgende Formate unterstützt: csv и gpx'
+        help: 'Es werden folgende Formate unterstützt: csv und gpx'
         comment: 'Kommentar:'
         comment_plh: 'Ein Paar Worte über Ihren Flug'
         submit: 'Hochladen'
@@ -41,13 +41,13 @@ de:
           suit_html: "'Sie haben nicht angegeben mit welcher Suit Sie geflogen sind.'"
           loc_html: "'Sie haben nicht angegeben wo Sie geflogen sind.'"
           file_html: "'Sie haben keine Datei ausgewählt.'"
-          file_ext_w1_html: "'Dateityp : '"
+          file_ext_w1_html: "'Dateityp: '"
           file_ext_w2_html: "'Bitte suchen Sie einen Dateityp mit csv, tes oder gpx aus'"
-          file_size_w1_html: "'Dateigröße : '"
-          file_size_w2_html: "'Die Dateigröße darf nicht größer sein als 1 MB'"
+          file_size_w1_html: "'Dateigröße: '"
+          file_size_w2_html: "'Die Datei darf nicht größer als 1MB sein'"
         kind: "Art des Sprunges:"
       desc: "Analyse von GPS Tracks und Durchführung von Wettkämpfen im Format GPS Performance."
-      goto_event: "Auf die Seite Ereignisse >>"
+      goto_event: "Zur Seite Wettkämpfe >>"
       supported_formats: "Unterstützte Dateiformate und Geräte"
       stats: "Statistik:"
       stats_tracks: "Hochgeladene Tracks:"
@@ -78,7 +78,7 @@ de:
       results: "Ergebnisse"
       overview: "Information"
       docs: "Dokumente"
-      dz_info: "Information über den Flugplatz"
+      dz_info: "Informationen über den Flugplatz"
       competitors: "Teilnehmer"
       managing: "Verwaltung"
       class_comp: "Klasse / Teilnehmer"
@@ -120,9 +120,9 @@ de:
         tracks: "Tracks"
         private_info: "Diese Informationen sind nur für Sie sichtbar:"
       edit:
-        title: 'Profile'
+        title: 'Profil'
         edit_email_pass: "Ändern Sie ihre E-Mail-Adresse oder ihr Passwort"
-        edit_reg_data: "E-mail-Adresse oder Passwort"
+        edit_reg_data: "Email-Adresse oder Passwort"
   will_paginate:
     previous_label: "&#8592; Zurück"
     next_label: "Weiter &#8594;"
