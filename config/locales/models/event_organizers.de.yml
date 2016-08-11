@@ -11,4 +11,4 @@ de:
           attributes:
             profile: Es muss ein Profil ausgewählt werden
             base:
-              event_finished: Es können keine Änderungen mehr gemacht werden, da der Wettbewerb berits beendet ist.
+              event_finished: Es können keine Änderungen mehr gemacht werden, da der Wettbewerb bereits beendet ist.
