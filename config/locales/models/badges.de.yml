@@ -1,0 +1,16 @@
+de:
+  activerecord:
+    models:
+      badge: Badge
+    attributes:
+      badge:
+        name: Name
+        kind: Art
+    errors:
+      models:
+        badge:
+          attributes:
+            name:
+              blank: Name muss angegeben werden
+            kind:
+              blank: Art muss ausgefüllt werden
