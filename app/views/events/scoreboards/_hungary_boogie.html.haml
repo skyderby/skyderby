@@ -65,14 +65,16 @@
                     %span{'data-toggle' => 'tooltip', title: (result_entity.disqualification_reason if result_entity.is_disqualified)}
                       = link_to event_event_track_path(@event, result_entity),
                                 remote: true,
-                                class: 'show-result' do
+                                class: 'show-result',
+                                rel: 'nofollow' do
                         %i.fa.fa-search
 
                       - if can?(:manage, result_entity) && !@event.finished?
                         = link_to edit_event_event_track_path(@event, result_entity),
                                   remote: true,
                                   'data-params': { display_raw_results: display_raw_results }.to_param,
-                                  class: 'edit-result' do
+                                  class: 'edit-result',
+                                  rel: 'nofollow' do
                           %i.fa.fa-pencil
 
 
@@ -83,7 +85,8 @@
                               'data-params': { 'event_track[competitor_id]' => competitor.id,
                                                'event_track[round_id]' => round.id,
                                                display_raw_results: display_raw_results }.to_param,
-                              class: 'create-result' do
+                              class: 'create-result',
+                              rel: 'nofollow' do
                       %i.fa.fa-upload
 
                 - else
