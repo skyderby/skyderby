@@ -39,9 +39,10 @@ class Wingsuit < ActiveRecord::Base
     ['image/jpeg', 'image/jpg', 'image/png']
 
   def pilots_accessible_by(user)
-    Profile.where(
-      id: tracks.accessible_by(user).select(:profile_id).distinct
-    )
+    Profile.where(id: tracks.unscope(:order)
+                            .accessible_by(user)
+                            .select(:profile_id)
+                            .distinct)
   end
 
   class << self

@@ -50,14 +50,16 @@ module TracksHelper
       content_tag(:a, nil,
                   href: tracks_path(action_params.merge(order: "#{field} ASC")),
                   'data-toggle' => 'tooltip',
-                  title: "Sort by #{field_presentation} ascending") do
+                  title: "Sort by #{field_presentation} ascending",
+                  rel: 'nofollow') do
         content_tag(:i, nil, class: 'fa fa-sort-amount-desc')
       end
     elsif order_field == field.upcase && order_direction == 'ASC'
       content_tag(:a, nil,
                   href: tracks_path(action_params.merge(order: "#{field} DESC")),
                   'data-toggle' => 'tooltip',
-                  title: "Sort by #{field_presentation} descending") do
+                  title: "Sort by #{field_presentation} descending",
+                  rel: 'nofollow') do
         content_tag(:i, nil, class: 'fa fa-sort-amount-asc')
       end
     else
@@ -65,7 +67,8 @@ module TracksHelper
                   class: 'text-muted',
                   href: tracks_path(action_params.merge(order: "#{field} DESC")),
                   'data-toggle' => 'tooltip',
-                  title: "Sort by #{field_presentation} descending") do
+                  title: "Sort by #{field_presentation} descending",
+                  rel: 'nofollow') do
         content_tag(:i, nil, class: 'fa fa-sort-amount-desc')
       end
     end

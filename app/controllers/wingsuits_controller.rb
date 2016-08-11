@@ -6,7 +6,7 @@ class WingsuitsController < ApplicationController
 
   def index
     @wingsuits = 
-      Wingsuit.joins(:manufacturer)
+      Wingsuit.includes(:manufacturer)
               .select('wingsuits.id, wingsuits.name, wingsuits.kind, manufacturer_id, manufacturers.name manufacturer_name') 
               .order('manufacturers.name, kind, wingsuits.name')
 
@@ -15,7 +15,7 @@ class WingsuitsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { @wingsuits = @wingsuits.group_by(&:manufacturer) }
+      format.html { @wingsuits = @wingsuits.group_by(&:manufacturer_name) }
       format.json { @wingsuits }
     end
   end
