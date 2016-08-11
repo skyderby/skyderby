@@ -10,13 +10,13 @@ de:
         uploaded_at: 'Hochgeladen am'
         recorded_at: 'Aufnahmdatum'
       profile:
-        last_name: "Last name:"
-        first_name: "First name:"
-        photo: "Photo:"
+        last_name: "Nachname:"
+        first_name: "Vorname:"
+        photo: "Foto:"
         phone_number: "Telefon:"
         facebook_profile: "Facebook-Profil:"
         vk_profile: "VK.com-Profil:"
-        home_DZ: "Heimisch Flughafen:"
+        home_DZ: "Heim-Sprungplatz:"
         height: "Größe:"
         weight: "Gewicht:"
   static_pages:
@@ -24,36 +24,36 @@ de:
       title: 'Flieg! Nimm am Wettbewerb teil! Gewinne!'
       subtitle: 'Immernoch beta'
       track_form:
-        title: 'Track anschauen und bewerten:'
+        title: 'Track ansehen und bewerten:'
         name: 'Ihr Name:'
         name_plh: 'Vor- und Nachname.'
         suit: 'Sie fliegen mit:'
         suit_plh: 'Wingsuitmodell'
         location: 'Ort:'
-        location_plh: 'Flughafen, Berge usw.'
+        location_plh: 'Flugplatz, Absprungstelle usw.'
         file: "Track Datei:"
-        help: 'Es werden folgende Formate unterstützt: csv и gpx'
+        help: 'Es werden folgende Formate unterstützt: csv und gpx'
         comment: 'Kommentar:'
         comment_plh: 'Ein Paar Worte über Ihren Flug'
         submit: 'Hochladen'
         warnings:
           name_html: "'Sie haben Ihren Vor- und Nachnamen nicht angegeben.'"
-          suit_html: "'Sie haben nicht angegeben womit Sie diesen Flug geflogen sind.'"
+          suit_html: "'Sie haben nicht angegeben mit welcher Suit Sie geflogen sind.'"
           loc_html: "'Sie haben nicht angegeben wo Sie geflogen sind.'"
-          file_html: "'Sie haben die Datei nicht ausgesucht.'"
-          file_ext_w1_html: "'Dateityp : '"
-          file_ext_w2_html: "'Bitte suchen Sie den Dateityp mit csv, tes oder gpx aus'"
-          file_size_w1_html: "'Dateigröße : '"
-          file_size_w2_html: "'Die Dateigröße darf nicht größer sein als 1 MB'"
+          file_html: "'Sie haben keine Datei ausgewählt.'"
+          file_ext_w1_html: "'Dateityp: '"
+          file_ext_w2_html: "'Bitte suchen Sie einen Dateityp mit csv, tes oder gpx aus'"
+          file_size_w1_html: "'Dateigröße: '"
+          file_size_w2_html: "'Die Datei darf nicht größer als 1MB sein'"
         kind: "Art des Sprunges:"
-      desc: "Die Analyse der GPS Tracks und die Durchführung der Wettkämpfe im Format GPS Performance."
-      goto_event: "Auf die Seite Ereignisse >>"
+      desc: "Analyse von GPS Tracks und Durchführung von Wettkämpfen im Format GPS Performance."
+      goto_event: "Zur Seite Wettkämpfe >>"
       supported_formats: "Unterstützte Dateiformate und Geräte"
       stats: "Statistik:"
       stats_tracks: "Hochgeladene Tracks:"
       stats_pilots: "Registrierte Piloten:"
       analyze: "Analysiere"
-      select_free_fall_range: "Wähle den freifall bereich"
+      select_free_fall_range: "Wähle den Freifallbereich"
       upload_a_file: "Lade den Track hoch"
       how_it_works: "Es ist ziemlich einfach:"
     about:
@@ -61,7 +61,7 @@ de:
       trpr: 'Aufbereitung der Daten auf der Server-Seite'
       fepr: 'Aufbereitung der Daten auf der Browser-Seite'
       developer: "Web-Etwickler - Aleksandr Kunin"
-      de_translate: "Webseite-Übersetzung ins Deutsche - Tetyana Holm"
+      de_translate: "Webseite-Übersetzung ins Deutsche - Tetyana Holm und Flo Kas"
       logo_designed_by: "Das Logo wurde von Julia Makoweewa entworfen"
   events:
     show:
@@ -76,9 +76,9 @@ de:
         not_starts: "Die Anmeldung hat noch nicht begonnen"
         finished: "Die Anmeldung ist beendet"
       results: "Ergebnisse"
-      overview: "Information"
+      overview: "Informationen"
       docs: "Dokumente"
-      dz_info: "Information über den Flughafen"
+      dz_info: "Informationen über den Flugplatz"
       competitors: "Teilnehmer"
       managing: "Verwaltung"
       class_comp: "Klasse / Teilnehmer"
@@ -89,20 +89,20 @@ de:
     jumps: "Sprünge insgesamt/in 12 Monaten/in 3 Monaten:"
     ws_jumps: "Mit Wingsuit insgesamt/in 12 Monaten/in 3 Monaten:"
     ws_class: "Wingsuit/Klasse:"
-    home_dz: "Heimisch Flughafen:"
+    home_dz: "Heim-Flugplatz:"
     height_weight: "Größe/Gewicht:"
-    shirt_size: "Größe des T-Shirts:"
+    shirt_size: "T-Shirt Größe:"
     phone: "Telefon:"
     email: "E-Mail Adresse:"
     fb: "Facebook-Profil:"
     vk: "VK.com-Profil:"
-    additional_info: "Ergänzende Information:"
+    additional_info: "Ergänzende Informationen:"
     approve: "Bestätigen"
     decline: "Ablehnen"
   rounds:
     new: "Runde hinzufügen"
     name: "Name der Runde:"
-    discipline: "Fachdisziplin:"
+    discipline: "Disziplin:"
   general:
     cancel: "Abbrechen"
     create: "Hinzufügen"
@@ -113,17 +113,17 @@ de:
   users:
     profile:
       show:
-        jumps: "Sprünge insgesamt/in 12 Monaten/in 3 Monaten:"
-        ws_jumps: "Mit Wingsuit insgesamt/in 12 Monaten/in 3 Monaten:"
+        jumps: "Sprünge insgesamt / in 12 Monaten / in 3 Monaten:"
+        ws_jumps: "Mit Wingsuit insgesamt / in 12 Monaten / in 3 Monaten:"
         events: "Wettkampf"
-        information: "Information"
+        information: "Informationen"
         tracks: "Tracks"
-        private_info: "Die Informationen sind nur für Sie sichtbar:"
+        private_info: "Diese Informationen sind nur für Sie sichtbar:"
       edit:
-        title: 'Profile'
-        edit_email_pass: "Ändern Sie E-Mail-Adresse oder Passwort"
-        edit_reg_data: "E-mail-adresse oder passwort"
+        title: 'Profil'
+        edit_email_pass: "Ändern Sie ihre E-Mail-Adresse oder ihr Passwort"
+        edit_reg_data: "Email-Adresse oder Passwort"
   will_paginate:
-    previous_label: "&#8592; Previous"
-    next_label: "Next &#8594;"
+    previous_label: "&#8592; Zurück"
+    next_label: "Weiter &#8594;"
     page_gap: "&hellip;"

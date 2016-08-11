@@ -1,0 +1,6 @@
+
+de:
+  places:
+    show:
+      visited_by: 'Besucht von'
+      delete_confirmation: "Bist du sicher, dass du diesen Ort löschen willst?"
