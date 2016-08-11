@@ -26,7 +26,7 @@ class ResultsWorker
           range_to: ff_start_elev - 1000 - 50 * s
         }
 
-        results << calculate(data.points, range)
+        results << calculate(data.trimmed, range)
       end
     else
       range = {
