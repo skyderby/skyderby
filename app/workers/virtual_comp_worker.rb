@@ -13,7 +13,8 @@ class VirtualCompWorker
     competitions = OnlineEventsFinder.new.execute(track)
     competitions.each do |comp|
       opts = collect_options comp, track
-      result = process_track data.points, opts
+      points = comp.skydive? ? data.trimmed : data
+      result = process_track points, opts
       track.virtual_comp_results << result if result_valid?(result)
     end
   end
