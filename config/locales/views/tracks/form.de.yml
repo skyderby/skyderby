@@ -1,0 +1,21 @@
+de:
+  tracks:
+    form:
+      suit_text_placeholder: Suitname angeben
+      suit_select_placeholder: Wähle eine Suit aus der Liste
+      place_text_placeholder: Gib einen Ort an
+      place_select_placeholder: Wähle einen Ort aus der Liste
+      profile_text_placeholder: Pilotnamen angeben
+      profile_select_placeholder: Wähle einen Piloten aus der Liste
+      toggle_suit_caption: Die Suit die du fliegst ist nicht in der Liste?
+      toggle_suit_caption_select: Oder
+      toggle_suit_link: Suitname angeben
+      toggle_suit_link_select: Wähle eine Suit aus der Liste.
+      toggle_place_caption: Der Ort den sie suchen existiert nicht?
+      toggle_place_caption_select: Oder
+      toggle_place_link: Ort angeben
+      toggle_place_link_select: Wähle einen Ort aus der Liste
+      toggle_profile_caption: Kein registrierter Pilot?
+      toggle_profile_caption_select: Oder
+      toggle_profile_link: Pilot Name angeben
+      toggle_profile_link_select: Wähle einen registrierten Piloten
