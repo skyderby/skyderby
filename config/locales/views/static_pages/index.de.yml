@@ -9,10 +9,10 @@ de:
       tracks_analysis_desc: 'GPS Tracks von Fallschirm- und B.A.S.E.-Sprüngen mit Tracksuit und Wingsuit.'
       tracks_list: 'Durchsuche alle Tracks'
       online_competitions: 'Online Wettbewerbe'
-      online_comp_desc: 'Nimm an Online Wetbewerben in den Disziplinen Zeit, Distanz und Geschwindigkeit teil.'
+      online_comp_desc: 'Nimm an Online Wettbewerben in den Disziplinen Zeit, Distanz und Geschwindigkeit teil.'
       online_comp_list: 'Durchsuche Online Wettbewerbe'
       events: 'Wettbewerbe'
-      events_desc: 'Nimm an Wettbewerben teil oder erstelle deine eigenen mit den offiziellen FAI-Regeln oder auch mit deinen eigenen Regeln.'
+      events_desc: 'Nimm an Wettbewerben teil oder erstelle deine Eigenen, mit den offiziellen FAI-Regeln oder auch mit deinen eigenen Regeln.'
       events_list: 'Durchsuche Wettbewerbe'
       online_comps_leaders: 'Führende in den Online Wettbewerben'
       donate: 'Wenn dir Skyderby gefällt, kannst du das Projekt gerne durch eine Spende unterstützen!'
@@ -36,16 +36,16 @@ de:
           file_html: "'Wähle eine Datei zum Hochladen'"
           file_ext_w1_html: "'Dateierweiterung: '"
           file_ext_w2_html: "'Unterstützt werden die Formate: csv, tes und gpx'"
-          file_size_w1_html: "'Dateigröße : '"
+          file_size_w1_html: "'Dateigröße: '"
           file_size_w2_html: "'Die Datei darf nicht größer als 1MB sein'"
         kind: "Art des Sprunges:"
-      desc: "Analyse von GPS Tracks und Durchführung von GPS Performance Wettkämpfen."
+      desc: "Analyse von GPS-Tracks und Durchführung von GPS Performance Wettkämpfen."
       goto_event: "Gehe zu Wettbewerb >>"
-      supported_formats: "Unterstützte Dateiformate und GPS Logger"
+      supported_formats: "Unterstützte GPS Logger und Dateiformate"
       stats: "Statistiken:"
       stats_tracks: "Hochgeladene Tracks:"
       stats_pilots: "Registrierte Piloten:"
-      how_it_works: "Es ist so einfach:"
+      how_it_works: "So einfach geht's:"
       upload_a_file: "Lade einen Track hoch"
       select_free_fall_range: "Wähle den Freifallbereich"
-      analyze: "Analysiere"
+      analyze: "Analysiere..."
