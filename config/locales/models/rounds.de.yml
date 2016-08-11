@@ -1,0 +1,10 @@
+de:
+  activerecord:
+    errors:
+      models:
+        round:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: Lösche bitte zuerst die Rundenergebnisse
+              event_finished: Es konnten keine Änderungen vorgenommen werden, da der Wettkampf bereits beendet ist.
