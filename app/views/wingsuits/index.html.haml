@@ -9,7 +9,7 @@
     .top-buffer
       .row
         .col-sm-12.col-md-12.bg-info
-          %h1.light-header= manufacturer ? manufacturer.name : '<...>'
+          %h1.light-header= manufacturer || '<...>'
         .col-sm-12.col-md-6
           %h2.light-header Wingsuits
           %ul.suits-list
