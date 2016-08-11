@@ -76,7 +76,7 @@ de:
         not_starts: "Die Anmeldung hat noch nicht begonnen"
         finished: "Die Anmeldung ist beendet"
       results: "Ergebnisse"
-      overview: "Information"
+      overview: "Informationen"
       docs: "Dokumente"
       dz_info: "Informationen über den Flugplatz"
       competitors: "Teilnehmer"
@@ -96,7 +96,7 @@ de:
     email: "E-Mail Adresse:"
     fb: "Facebook-Profil:"
     vk: "VK.com-Profil:"
-    additional_info: "Ergänzende Information:"
+    additional_info: "Ergänzende Informationen:"
     approve: "Bestätigen"
     decline: "Ablehnen"
   rounds:
@@ -113,10 +113,10 @@ de:
   users:
     profile:
       show:
-        jumps: "Sprünge insgesamt/in 12 Monaten/in 3 Monaten:"
-        ws_jumps: "Mit Wingsuit insgesamt/in 12 Monaten/in 3 Monaten:"
+        jumps: "Sprünge insgesamt / in 12 Monaten / in 3 Monaten:"
+        ws_jumps: "Mit Wingsuit insgesamt / in 12 Monaten / in 3 Monaten:"
         events: "Wettkampf"
-        information: "Information"
+        information: "Informationen"
         tracks: "Tracks"
         private_info: "Diese Informationen sind nur für Sie sichtbar:"
       edit:
