@@ -10,39 +10,9 @@ In April 2014 I finally got the GPS tracker. After a couple of wingsuit jumps wi
 
 So I decided to create a new application.
 
-## Technical details
-
-* Ruby version
-
-  ruby 2.1.2
-
-* System dependencies
-  
-  redis
-  
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-  To initialize an empty application database run `rake db:schema:load`
-
-* How to run the test suite
-
-  To run unit tests use `rspec spec` within project folder
-
-  To run integration tests run `cucumber` within project folder
-
-* Services (job queues, cache servers, search engines, etc.)
-
-  sidekiq
-  
-* Deployment instructions
-
 ## Million Thanks to
 
-Alex and Svetlana Rubinshtein, Shane Dunn, Aleksey Shatilov, Valeriy Salcutsan, Simon Repton, Evgeniy Pavlov, Egor Orlow, Simon Perriard, Aleksey Galda, Aleksandr Zharikov, Ekaterina Larina,  Tatyana Holm, Yulia Makoveeva, Leonid Sigalov, Sergey Panteleev.
+Alex and Svetlana Rubinshtein, Shane Dunn, Aleksey Shatilov, Valeriy Salcutsan, Simon Repton, Evgeniy Pavlov, Egor Orlow, Simon Perriard, Aleksey Galda, Flo Kas, Csaba Szörényi, Aleksandr Zharikov, Ekaterina Larina,  Tatyana Holm, Yulia Makoveeva, Leonid Sigalov, Sergey Panteleev.
 
 ## Licensing
 
