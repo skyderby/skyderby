@@ -1,0 +1,15 @@
+de:
+  static_pages:
+    about:
+      comp_t: 'Application works on:'
+      comp_lng: 'Language and backend framework:'
+      comp_fef: 'Frontend framework:'
+      comp_charts: 'Charts framework:'
+      comp_rs: 'Range selector:'
+      roadmap: "Projekt-Fahrplan:"
+      trpr: "Quellcode Track Datenverarbeitung"
+      fepr: 'Quellcode Frontend Datenverarbeitung'
+      developer: "App entwickelt von Aleksandr Kunin"
+      de_translate: "Deutsche Übersetzung von Tatiana Holm und Flo Kas"
+      es_translate: "Spanish translate by Ekaterina Larina"
+      logo_designed_by: "Logo designed by Julia Makoveeva"
