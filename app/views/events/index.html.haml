@@ -7,7 +7,6 @@
   - else
     %span= 'Creating classic competitions available only for registered users.'
 
-  %h2= 'Competitions:'
   %ul.comp-list
     - @events.each do |comp|
       = render comp
