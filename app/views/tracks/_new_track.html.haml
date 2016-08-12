@@ -20,7 +20,7 @@
             = label_tag :name, t('static_pages.index.track_form.name'), class: 'col-sm-3 control-label'
             .col-sm-9
               - if current_user
-                %span.track-name-span= current_user.profile.name
+                %p.form-control-static= current_user.profile.name
               - else
                 = text_field_tag 'track[name]', 
                                  nil, 
