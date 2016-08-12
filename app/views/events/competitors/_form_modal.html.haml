@@ -59,11 +59,24 @@
         .form-group
           = f.label :section, class: 'control-label col-sm-4'
           .col-sm-8
-            = f.collection_select :section_id,
-                                  @event.sections,
-                                  :id,
-                                  :name,
-                                  {class: 'form-control'}
+            - sections_count = @event.sections.length
+            - if sections_count == 1
+              - section = @event.sections.first
+              = f.hidden_field :section_id, value: section.id
+              %p.form-control-static= section.name
+            - elsif sections_count < 3
+              .btn-group.btn-group-justified{'data-toggle' => 'buttons'}
+                - @event.sections.each do |section|
+                  - is_first_section = section == @event.sections.first
+                  %label.btn.btn-default{class: ('active' if is_first_section)}
+                    = f.radio_button :section_id, section.id, checked: is_first_section 
+                    = section.name
+            - else
+              = f.collection_select :section_id,
+                                    @event.sections,
+                                    :id,
+                                    :name,
+                                    {class: 'form-control'}
 
       .modal-footer
         = f.submit t('general.save'), class: 'btn btn-primary'
