@@ -1,0 +1,5 @@
+de:
+  competitors:
+    form:
+      select_profile: Wähle ein existierendes Profil
+      create_profile: Erstelle ein neues Profil

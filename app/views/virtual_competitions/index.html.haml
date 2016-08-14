@@ -1,7 +1,4 @@
-.container
-  .page-header
-    %h1= 'Online competitions'
-
+.container.top-buffer
   - if can? :create, VirtualCompetition
     %a.btn.btn-default.btn-info{href: new_virtual_competition_path}
       %i.fa.fa-plus

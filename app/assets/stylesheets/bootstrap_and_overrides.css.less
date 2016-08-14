@@ -35,6 +35,10 @@
   width: auto; display:inline;
 }
 
+p.form-control-static {
+  margin: 0;
+}
+
 @navbar-default-bg:         rgba(255,255,255, 0.95);
 @navbar-default-border:     fade(#000, 14%);
 @page-header-border-color:  fade(#000, 14%);
@@ -104,6 +108,17 @@
   -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.08);
   -moz-box-shadow:    0px 1px 2px 0px rgba(0,0,0,0.08);
   box-shadow:         0px 1px 2px 0px rgba(0,0,0,0.08);
+}
+
+.navbar-nav > li.nav-active > a {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-top-style: solid;
+  border-top-width: 3px;
+  border-top-color: transparent;
+  border-bottom-style: solid;
+  border-bottom-width: 3px;
+  border-bottom-color: rgb(0, 132, 180);
 }
 
 .center-pills { display: inline-block; }

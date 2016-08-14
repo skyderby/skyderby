@@ -1,0 +1,15 @@
+de:
+  activerecord:
+    models:
+      sponsor: 'Sponsor'
+    attributes:
+      sponsor:
+        name: 'Name'
+        website: 'Webseite'
+        logo: 'Logo'
+    errors:
+      models:
+        sponsor:
+          attributes:
+            name:
+              blank: "Name muss eingetragen werden."
