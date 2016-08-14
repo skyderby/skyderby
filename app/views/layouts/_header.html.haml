@@ -11,13 +11,14 @@
 
     .navbar-collapse.collapse#skyderby-navbar-collapse
       %ul.nav.navbar-nav
-        %li{class: ('nav-active' if current_page?(controller: 'tracks'))}
+        - root_controller = controller.controller_path.split('/').first
+        %li{class: ('nav-active' if root_controller == 'tracks')}
           = link_to t('application.header.tracks'), tracks_path
-        %li{class: ('nav-active' if current_page?(controller: 'events') || current_page?(controller: 'tournaments'))}
+        %li{class: ('nav-active' if ['events', 'tournaments'].include? root_controller)}
           = link_to t('application.header.competitions'), events_path
-        %li{class: ('nav-active' if current_page?(controller: 'virtual_competitions'))}
+        %li{class: ('nav-active' if root_controller == 'virtual_competitions')}
           = link_to t('application.header.online_competitions'), virtual_competitions_path 
-        %li{class: ('nav-active' if current_page?(controller: 'places'))}
+        %li{class: ('nav-active' if root_controller == 'places')}
           = link_to t('application.header.places'), places_path
            
       %ul.nav.navbar-nav.navbar-right
