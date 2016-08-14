@@ -1,0 +1,13 @@
+de:
+  activerecord:
+    models:
+      track: Track
+    attributes:
+      track:
+        id: '#'
+        name: Pilot
+        suit: Wingsuit
+        place: Ort
+        comment: Kommentar
+        uploaded_at: Hochgeladen am
+        recorded_at: Aufnahmdatum
