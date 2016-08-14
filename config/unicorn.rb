@@ -22,4 +22,4 @@ timeout 30
 # stdout_path "#{app_dir}/log/unicorn.stdout.log"
 
 # # Set master PID location
-pid '/tmp/pids/unicorn.pid'
+pid '/opt/app/tmp/pids/unicorn.pid'
