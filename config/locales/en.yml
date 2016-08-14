@@ -1,52 +1,7 @@
 en:
-  activerecord:
-    attributes:
-      track:
-        id: '#'
-        name: 'Pilot'
-        suit: 'Suit'
-        place: 'Place'
-        comment: 'Comment'
-        uploaded_at: 'Uploaded at'
-        recorded_at: 'Recorded at'
-      profile:
-        last_name: "Last name:"
-        first_name: "First name:"
-        photo: "Photo:"
-        phone_number: "Phone number:"
-        facebook_profile: "Facebook profile:"
-        vk_profile: "VK profile:"
-        jumps_total: "Jumps total:"
-        jumps_last_year: "12 m."
-        jumps_last_3m: "3 m."
-        wingsuit_jumps_total: "Wingsuit jumps total:"
-        wingsuit_jumps_last_year: "12 m."
-        wingsuit_jumps_last_3m: "3 m."
-        home_DZ: "Home DZ:"
-        height: "Height:"
-        weight: "Weight:"
-        shirt_size: "T-shirt size:"
   errors:
     messages:
       duplicate_file: "File already used. Pilot: %{pilot_name}, round: %{round}"
-  pf:
-    jumps: "Jumps total/in 12 m/in 3 m:"
-    ws_jumps: "Wingsuit jumps total/in 12 m/in 3m:"
-    ws_class: "Wingsuit/Class"
-    home_dz: "Home DZ:"
-    height_weight: "Height/Weight:"
-    shirt_size: "T-Shirt size:"
-    phone: "Contact phone:"
-    email: "Contact email:"
-    fb: "Facebook profile:"
-    vk: "VK.com profile:"
-    additional_info: "Additional info:"
-    approve: "Approve"
-    decline: "Decline"
-  rounds:
-    new: "New round"
-    name: "Round's name:"
-    discipline: "Discipline:"
   general:
     cancel: "Cancel"
     create: "Create"
@@ -56,10 +11,6 @@ en:
     edit: "Edit"
     enabled: 'Enabled'
     disabled: 'Disabled'
-  disciplines:
-    speed: 'Speed'
-    distance: 'Distance'
-    time: 'Time'
   virtual_competitions:
     tasks:
       speed: 'Task is to fly as fast as possible horizontally over the ground through the competition window (%{range_from} - %{range_to} m)'
@@ -72,13 +23,6 @@ en:
     suit: 'Suit type: %{suit}'
   users:
     profile:
-      show:
-        jumps: "Jumps total/in 12 m/in 3 m:"
-        ws_jumps: "Wingsuit jumps total/in 12 m/in 3m:"
-        events: "Events"
-        information: "Information"
-        tracks: "Tracks"
-        private_info: "Private information (only you can see it):"
       edit:
         title: 'Profile'
         edit_email_pass: "Edit email or password"

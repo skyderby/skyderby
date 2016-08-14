@@ -1,0 +1,13 @@
+de:
+  activerecord:
+    models:
+      track: Track
+    attributes:
+      track:
+        id: '#'
+        name: Pilot
+        suit: Suit
+        place: Place
+        comment: Comment
+        uploaded_at: Uploaded at
+        recorded_at: Recorded at

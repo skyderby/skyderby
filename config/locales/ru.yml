@@ -5,38 +5,6 @@ ru:
       not_saved:
         one: 'Не удалось записать по причине:'
         other: 'Не удалось записать по следующим причинам:'
-  events:
-    competition_range: 'Соревновательный диапазон:'
-  old_events:
-    show:
-      results: "Результаты"
-      overview: "Информация"
-      docs: "Документы"
-      dz_info: "Информация об аэродроме"
-      competitors: "Участники"
-      managing: "Управление"
-      class_comp: "Класс / Участник"
-      pfs: "Заявки"
-      rounds: "Раунды"
-      orgs: "Организаторы"
-  pf:
-    jumps: "Прыжков всего/за 12 мес./за 3 мес.:"
-    ws_jumps: "В вингсьюте всего/за 12 мес./за 3 мес.:"
-    ws_class: "Вингсьют/Класс:"
-    home_dz: "Домашняя ДЗ:"
-    height_weight: "Рост/Вес:"
-    shirt_size: "Размер футболки:"
-    phone: "Контактный телефон:"
-    email: "Контактный email:"
-    fb: "Профиль Facebook:"
-    vk: "Профиль ВКонтакте:"
-    additional_info: "Дополнительная информация:"
-    approve: "Подтвердить"
-    decline: "Отклонить"
-  rounds:
-    new: "Добавление раунда"
-    name: "Название раунда:"
-    discipline: "Дисциплина:"
   general:
     cancel: "Отмена"
     create: "Добавить"
@@ -46,10 +14,6 @@ ru:
     edit: "Редактировать"
     enabled: 'Включено'
     disabled: 'Выключено'
-  disciplines:
-    speed: 'Скорость'
-    distance: 'Дистанция'
-    time: 'Время'
   virtual_competitions:
     tasks:
       speed: 'Цель: лететь с максимально возможной горизонтальной скоростью находясь в зачетном окне (%{range_from} - %{range_to} м)'
@@ -62,18 +26,7 @@ ru:
     suit: 'Тип костюма: %{suit}'
   users:
     profile:
-      show:
-        jumps: "Прыжков всего/за 12 мес./за 3 мес.:"
-        ws_jumps: "В вингсьюте всего/за 12 мес./за 3 мес.:"
-        events: "Участие в соревнованиях"
-        information: "Информация"
-        tracks: "Треки пользователя"
-        private_info: "Информация видна только Вам:"
       edit:
         title: 'Редактирование профиля'
         edit_email_pass: "Изменение адреса эл. почты или пароля"
         edit_reg_data: "Изменение регистрационных данных"
-  will_paginate:
-    previous_label: "&#8592; Previous"
-    next_label: "Next &#8594;"
-    page_gap: "&hellip;"

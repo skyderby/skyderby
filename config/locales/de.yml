@@ -1,24 +1,4 @@
 de:
-  activerecord:
-    attributes:
-      track:
-        id: '#'
-        name: 'Pilot'
-        suit: 'Wingsuit'
-        place: 'Ort'
-        comment: 'Kommentar'
-        uploaded_at: 'Hochgeladen am'
-        recorded_at: 'Aufnahmdatum'
-      profile:
-        last_name: "Nachname:"
-        first_name: "Vorname:"
-        photo: "Foto:"
-        phone_number: "Telefon:"
-        facebook_profile: "Facebook-Profil:"
-        vk_profile: "VK.com-Profil:"
-        home_DZ: "Heim-Sprungplatz:"
-        height: "Größe:"
-        weight: "Gewicht:"
   static_pages:
     index:
       title: 'Flieg! Nimm am Wettbewerb teil! Gewinne!'
@@ -63,46 +43,6 @@ de:
       developer: "Web-Etwickler - Aleksandr Kunin"
       de_translate: "Webseite-Übersetzung ins Deutsche - Tetyana Holm und Flo Kas"
       logo_designed_by: "Das Logo wurde von Julia Makoweewa entworfen"
-  events:
-    show:
-      pf:
-        in_process: "Ihre Anfrage wird bearbeitet"
-        approved: "Ihre Anfrage wurde bestätigt"
-        declined: "Ihre Anfrage wurde abgelehnt"
-        title: "Anfrage auf Teilnahme"
-        pending: "Nicht bearbeitete Anfragen"
-        completed: "Bearbeitete Anfragen"
-      reg:
-        not_starts: "Die Anmeldung hat noch nicht begonnen"
-        finished: "Die Anmeldung ist beendet"
-      results: "Ergebnisse"
-      overview: "Informationen"
-      docs: "Dokumente"
-      dz_info: "Informationen über den Flugplatz"
-      competitors: "Teilnehmer"
-      managing: "Verwaltung"
-      class_comp: "Klasse / Teilnehmer"
-      pfs: "Anfragen"
-      rounds: "Runden"
-      orgs: "Organisatoren"
-  pf:
-    jumps: "Sprünge insgesamt/in 12 Monaten/in 3 Monaten:"
-    ws_jumps: "Mit Wingsuit insgesamt/in 12 Monaten/in 3 Monaten:"
-    ws_class: "Wingsuit/Klasse:"
-    home_dz: "Heim-Flugplatz:"
-    height_weight: "Größe/Gewicht:"
-    shirt_size: "T-Shirt Größe:"
-    phone: "Telefon:"
-    email: "E-Mail Adresse:"
-    fb: "Facebook-Profil:"
-    vk: "VK.com-Profil:"
-    additional_info: "Ergänzende Informationen:"
-    approve: "Bestätigen"
-    decline: "Ablehnen"
-  rounds:
-    new: "Runde hinzufügen"
-    name: "Name der Runde:"
-    discipline: "Disziplin:"
   general:
     cancel: "Abbrechen"
     create: "Hinzufügen"
@@ -112,18 +52,7 @@ de:
     edit: "Korrigieren"
   users:
     profile:
-      show:
-        jumps: "Sprünge insgesamt / in 12 Monaten / in 3 Monaten:"
-        ws_jumps: "Mit Wingsuit insgesamt / in 12 Monaten / in 3 Monaten:"
-        events: "Wettkampf"
-        information: "Informationen"
-        tracks: "Tracks"
-        private_info: "Diese Informationen sind nur für Sie sichtbar:"
       edit:
         title: 'Profil'
         edit_email_pass: "Ändern Sie ihre E-Mail-Adresse oder ihr Passwort"
         edit_reg_data: "Email-Adresse oder Passwort"
-  will_paginate:
-    previous_label: "&#8592; Zurück"
-    next_label: "Weiter &#8594;"
-    page_gap: "&hellip;"
