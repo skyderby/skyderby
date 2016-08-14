@@ -1,30 +1,10 @@
 es:
   activerecord:
     attributes:
-      track:
-        id: '#'
-        name: 'El piloto'
-        suit: 'El traje aéreo'
-        place: 'Localización'
-        comment: 'Comentario'
-        uploaded_at: 'La fecha de la descarga'
       profile:
         last_name: "Apellido:"
         first_name: "Nombre:"
-        photo: "Photo:"
-        phone_number: "El teléfono de referencia:"
-        facebook_profile: "El perfil en Facebook:"
-        vk_profile: "El perfil en Vkontakte:"
-        jumps_total: "Saltos en total:"
-        jumps_last_year: "por 12 meses"
-        jumps_last_3m: "por 3 meses"
-        wingsuit_jumps_total: "En traje aéreo en total:"
-        wingsuit_jumps_last_year: "12 meses"
-        wingsuit_jumps_last_3m: "3 meses"
-        home_DZ: "La zona de salto indígena:"
-        height: "Estatura:"
-        weight: "Peso:"
-        shirt_size: "La talla de camiseta:"
+        userpic: "Photo:"
   application:
     header:
       home: 'SKY DERBY'
@@ -115,44 +95,6 @@ es:
       de_translate: "Deutsch translate by Tatiana Holm"
       es_translate: "Spanish translate by Ekaterina Larina"
       logo_designed_by: "Logo designed by Julia Makoveeva"
-  events:
-    show:
-      pf:
-        in_process: "La demanda está en proceso de examinación"
-        approved: "La demanda aceptada"
-        declined: "La demanda rechazada"
-        title: "La demanda de participación"
-        pending: "Las demandas no examinadas"
-        completed: "Las demandas examinadas"
-      reg:
-        finished: "El registro ha terminado"
-        not_starts: "El registro no ha empezado"
-      results: "Los resultados"
-      overview: "Información"
-      docs: "Documentos"
-      dz_info: "La informacion sobre el aeródromo"
-      competitors: "Los participantes"
-      managing: "La administración"
-      class_comp: "Clase/ Participante"
-      pfs: "Las demandas"
-  pf:
-    jumps: "Saltos en total/ por 12 meses/ 3 meses:"
-    ws_jumps: "En traje aéreo en total/ por 12 meses/ por 3 meses:"
-    ws_class: "Traje aéreo/Clase"
-    home_dz: "La zona de salto indígena:"
-    height_weight: "Estatura/Peso:"
-    shirt_size: "La talla de camiseta:"
-    phone: "El teléfono de referencia:"
-    email: "El corréo electrónico:"
-    fb: "El perfil en Facebook:"
-    vk: "El perfil en Vkontakte:"
-    additional_info: "Información addicional:"
-    approve: "Aceptar"
-    decline: "Rechazar"
-  rounds:
-    new: "Agregar un asalto"
-    name: "El nombre del asalto:"
-    discipline: "Disciplina:"
   general:
     cancel: "Anular"
     create: "Agregar"
@@ -162,13 +104,6 @@ es:
     edit: "Edit"
   users:
     profile:
-      show:
-        jumps: "Saltos en total/ por 12 meses/ 3 meses:"
-        ws_jumps: "En traje aéreo en total/ por 12 meses/ por 3 meses:"
-        events: "Eventos"
-        information: "Información"
-        tracks: "Lista de pistas"
-        private_info: "Private information (only you can see it):"
       edit:
         title: 'Perfil'
         edit_email_pass: "Edit email or password"

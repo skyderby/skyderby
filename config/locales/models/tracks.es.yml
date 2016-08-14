@@ -1,0 +1,13 @@
+ru:
+  activerecord:
+    models:
+      track: La pista
+    attributes:
+      track:
+        id: '#'
+        name: El piloto
+        suit: El traje aéreo
+        place: Localización
+        comment: Comentario
+        uploaded_at: La fecha de la descarga
+        recorded_at: 'Recorded at'

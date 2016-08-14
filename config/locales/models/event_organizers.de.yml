@@ -9,6 +9,6 @@ de:
       models:
         event_organizer:
           attributes:
-            profile: Es muss ein Profil ausgewählt werden.
+            profile: Es muss ein Profil ausgewählt werden
             base:
-              event_finished: Es konnten keine Änderungen vorgenommen werden, da der Wettkampf beendet ist..
+              event_finished: Es können keine Änderungen mehr gemacht werden, da der Wettbewerb bereits beendet ist.

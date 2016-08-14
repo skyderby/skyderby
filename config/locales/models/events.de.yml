@@ -1,0 +1,16 @@
+de:
+  activerecord:
+    models:
+      event: 'Wettkampf'
+    attributes:
+      event:
+        name: 'Name'
+        status: 'Status'
+        place: 'Ort'
+        starts_at: 'Started'
+        rules: 'Regeln'
+        wind_cancellation: 'Wind cancellation'
+  event_status: 
+    draft: 'Entwurf'
+    published: 'Veröffentlicht'
+    finished: 'Beendet'
