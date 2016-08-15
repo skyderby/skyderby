@@ -3,6 +3,10 @@ class Tracks::ResultsController < ApplicationController
   before_filter :authorize_track
 
   def index
+    respond_to do |format|
+      format.html { redirect_to @track }
+      format.js
+    end
   end
 
   private
