@@ -1,10 +1,9 @@
 en:
   tracks:
     index:
-      title: 'Recently uploaded tracks:'
       track_not_found: 'Track #%{id} has not found'
-      all: 'All'
-      filters: 'Filters'
-      filter_by_pilot: 'By pilot'
-      filter_by_suit: 'By suit'
-      filter_by_place: 'By place'
+      all: All
+      filters: Filters
+      filter_by_pilot: By pilot
+      filter_by_suit: By suit
+      filter_by_place: By place
