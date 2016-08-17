@@ -11,16 +11,6 @@ en:
     edit: "Edit"
     enabled: 'Enabled'
     disabled: 'Disabled'
-  virtual_competitions:
-    tasks:
-      speed: 'Task is to fly as fast as possible horizontally over the ground through the competition window (%{range_from} - %{range_to} m)'
-      distance: 'Task is to fly as far as possible through the competition window (%{range_from} - %{range_to} m)'
-      distance_in_time: 'Task is to fly as far as possible in %{parameter} sec'
-      straightline_distance_in_time: 'Task is to fly as far as possible in %{parameter} sec. Distance measuring as a straight-line.'
-      time: 'Task is to fly with the slowest fall rate possible through the competition window (%{range_from} - %{range_to} m)'
-    place: 'Location:'
-    worldwide: 'Worldwide'
-    suit: 'Suit type: %{suit}'
   users:
     profile:
       edit:
