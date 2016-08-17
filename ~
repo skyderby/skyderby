@@ -5,7 +5,7 @@ services:
     image: postgres:9.5.2
     environment:
       POSTGRES_PASSWORD: &DB_PASSWORD tracks-tracks
-      POSTGRES_USER: &DB_USERNAME skyderby
+      POSTGRES_USER: &DB_USERNAME tracks
       POSTGRES_DB: &DB_NAME skyderby
     ports:
       - "5432:5432"
