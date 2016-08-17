@@ -33,6 +33,9 @@ module VirtualCompetitionsHelper
     elsif competition.distance_in_time?
       t('virtual_competitions.tasks.straightline_distance_in_time',
         parameter: competition.discipline_parameter)
+    elsif competition.distance_in_altitude?
+      t('virtual_competitions.tasks.distance_in_altitude',
+        parameter: competition.discipline_parameter)
     end
   end
 

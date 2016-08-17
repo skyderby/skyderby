@@ -2,8 +2,8 @@ de:
   tracks:
     edit:
       visibility: "Datenschutz:"
-      public: "Öffentlich "
-      unlisted: "Nicht gelistet"
-      private: "Privat"
-      elev_chart_html: "'Höhe'"
-      elevation_html: "'Höhe'"
+      public: Öffentlich
+      unlisted: Nicht gelistet
+      private: Privat
+      elev_chart: Höhe
+      elevation: Höhe
