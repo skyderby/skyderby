@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.5'
+gem 'rails', '~> 4.2.7'
 
 # Supported DB
 gem 'pg'
@@ -19,7 +19,7 @@ gem 'haml'
 gem 'paperclip', '~> 4.2.2'
 
 # XML
-gem 'nokogiri', '~> 1.6.3.1'
+gem 'nokogiri', '~> 1.6.8'
 
 # Authorization
 gem 'cancancan'
@@ -44,7 +44,7 @@ gem 'rails-backbone'
 
 gem 'sass-rails', '~> 4.0.0'
 gem 'coffee-rails', '~> 4.0.0'
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier', '>= 2.7.2'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
 

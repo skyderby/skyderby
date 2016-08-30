@@ -1,6 +1,11 @@
-FROM rails:4.2
+FROM ruby:2.3
 
 MAINTAINER Aleksandr Kunin <skyksandr@gmail.com>
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN echo "gem: --no-rdoc --no-ri" >> ~/.gemrc
 

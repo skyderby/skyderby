@@ -54,11 +54,20 @@ class Events::EventTracksController < ApplicationController
   end
 
   def show
-    @track_data = Tracks::CompetitionTrack.new(@event_track,
-                                               preferred_speed_units,
-                                               preferred_distance_units,
-                                               preferred_altitude_units)
-    @track_data.load
+    respond_to do |format|
+      format.html do
+        redirect_to track_path(@event_track.track, 
+                               f: @event.range_from, 
+                               t: @event.range_to)
+      end
+      format.js do
+        @track_data = Tracks::CompetitionTrack.new(@event_track,
+                                                   preferred_speed_units,
+                                                   preferred_distance_units,
+                                                   preferred_altitude_units)
+        @track_data.load
+      end
+    end
   end
 
   private
