@@ -1,7 +1,12 @@
 {
   chart: {
     type: 'spline',
-    marginLeft: 70
+    marginLeft: 70,
+    events: {
+      load: function() {
+        Skyderby.helpers.chart_load_callback('elevation_chart_', this.series);
+      }
+    }
   },
   title: {
     text: '<%= t('charts.elev.title') %>'
@@ -20,6 +25,11 @@
     series: {
       marker: {
         radius: 1
+      },
+      events: {
+        legendItemClick: function() {
+          localStorage.setItem('elevation_chart_' + this.options.code, !this.visible);
+        }
       }
     }
   },
@@ -39,6 +49,7 @@
   series: [
     {
     name: I18n.t('charts.elev.series.elevation'),
+    code: 'elevation',
     pointInterval: 10,
     tooltip: {
       valueSuffix: ' <%= t('units.' + altitude_units) %>',
@@ -46,6 +57,7 @@
   },
   {
     name: I18n.t('charts.elev.series.distance'),
+    code: 'distance',
     pointInterval: 10,
     tooltip: {
       valueSuffix: ' <%= t('units.' + distance_units) %>',
@@ -53,6 +65,7 @@
   },
   {
     name: I18n.t('charts.elev.series.height'),
+    code: 'height',
     type: 'area',
     fillOpacity: 0.3,
     color: Highcharts.getOptions().colors[0],

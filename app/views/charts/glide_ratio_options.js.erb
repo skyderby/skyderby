@@ -2,7 +2,12 @@
 {
   chart: {
     type: 'spline',
-    marginLeft: 70
+    marginLeft: 70,
+    events: {
+      load: function() {
+        Skyderby.helpers.chart_load_callback('glide_ratio_chart_', this.series);
+      }
+    }
   },
   title: {
     text: '<%= t('charts.gr.title') %>'
@@ -16,6 +21,11 @@
     series: {
       marker: {
         radius: 1
+      },
+      events: {
+        legendItemClick: function() {
+          localStorage.setItem('glide_ratio_chart_' + this.options.code, !this.visible);
+        }
       }
     }
   },
@@ -52,6 +62,7 @@
   },
   series: [{
     name: I18n.t('charts.gr.series.gr'),
+    code: 'gr',
     tooltip: {
       valueSuffix: ''
     },
