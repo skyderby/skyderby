@@ -56,6 +56,6 @@ services:
 
 volumes:
   data_pg:
-    external: true
+    external: false
   data_redis:
-    external: true
+    external: false
