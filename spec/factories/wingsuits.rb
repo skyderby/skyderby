@@ -17,5 +17,9 @@ FactoryGirl.define do
   factory :wingsuit do
     name 'Ghost 3'
     manufacturer
+
+    factory :tracksuit do
+      kind :tracksuit
+    end
   end
 end

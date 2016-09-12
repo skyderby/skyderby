@@ -9,6 +9,7 @@ class Velocity < DelegateClass(BigDecimal)
   end
 
   def self.dump(obj)
+    return obj unless obj.class == Velocity
     obj.dump
   end
 

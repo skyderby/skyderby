@@ -1,5 +1,6 @@
 class Distance < DelegateClass(BigDecimal)
 
+  # Conversion factors
   # Feets in meter
   FT_IN_M = 3.280839895
   # Meters in mile
@@ -10,6 +11,7 @@ class Distance < DelegateClass(BigDecimal)
   end
 
   def self.dump(obj)
+    return obj unless obj.class == Distance
     obj.dump
   end
 

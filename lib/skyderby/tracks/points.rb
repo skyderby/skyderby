@@ -90,20 +90,16 @@ module Skyderby
       end
 
       def read_points(track)
-        tracksegments_ids = track.tracksegments.pluck(:id)
-        points = 
-          Point.where(tracksegment_id: tracksegments_ids)
-               .order(:gps_time_in_seconds)
-               .pluck_to_hash(
-                 :latitude,
-                 :longitude,
-                 :abs_altitude,
-                 :elevation,
-                 :gps_time_in_seconds,
-                 :distance,
-                 :h_speed,
-                 :v_speed
-               )
+        track.points.pluck_to_hash(
+          :latitude,
+          :longitude,
+          :abs_altitude,
+          :elevation,
+          :gps_time_in_seconds,
+          :distance,
+          :h_speed,
+          :v_speed
+        )
 
         prev_point = nil
         fl_time = 0

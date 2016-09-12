@@ -11,5 +11,7 @@ FactoryGirl.define do
   factory :manufacturer do
     name 'Phoenix Fly'
     code 'PF'
+
+    initialize_with { Manufacturer.where(code: 'PF').first_or_create }
   end
 end

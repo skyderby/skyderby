@@ -33,13 +33,10 @@ FactoryGirl.define do
     kind Track.kinds['skydive']
     pilot
     wingsuit
+    recorded_at Date.today
 
     trait :with_place do
       association :place, factory: [:place, :gridset]
-    end
-
-    after(:build) do |track|
-      track.stub(:parse_file).and_return true
     end
   end
 end

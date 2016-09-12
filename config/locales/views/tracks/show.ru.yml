@@ -19,8 +19,8 @@ ru:
       delete_confirmation: "Вы уверены, что хотите удалить этот трек?"
       manage: "Редактирование"
       edit_range: "Редактирование диапазона"
-      range_from: "Диапазон с:"
-      range_to: "по:"
+      range_from: "Диапазон с"
+      range_to: "по"
       charts: 'Графики'
       results: 'Результаты'
       comp_result: 'Результат в соревновании'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160805152440) do
+ActiveRecord::Schema.define(version: 20160821221118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,7 +106,6 @@ ActiveRecord::Schema.define(version: 20160805152440) do
   end
 
   create_table "points", force: :cascade do |t|
-    t.integer  "tracksegment_id"
     t.float    "fl_time"
     t.decimal  "latitude",            precision: 15, scale: 10
     t.decimal  "longitude",           precision: 15, scale: 10
@@ -119,9 +118,10 @@ ActiveRecord::Schema.define(version: 20160805152440) do
     t.float    "h_speed"
     t.float    "abs_altitude"
     t.decimal  "gps_time_in_seconds", precision: 17, scale: 3
+    t.integer  "track_id"
   end
 
-  add_index "points", ["tracksegment_id"], name: "index_points_on_tracksegment_id", using: :btree
+  add_index "points", ["track_id"], name: "index_points_on_track_id", using: :btree
 
   create_table "profiles", force: :cascade do |t|
     t.string   "last_name",            limit: 510
@@ -328,14 +328,6 @@ ActiveRecord::Schema.define(version: 20160805152440) do
   add_index "tracks", ["user_id"], name: "index_tracks_on_user_id", using: :btree
   add_index "tracks", ["wingsuit_id"], name: "index_tracks_on_wingsuit_id", using: :btree
 
-  create_table "tracksegments", force: :cascade do |t|
-    t.integer  "track_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "tracksegments", ["track_id"], name: "index_tracksegments_on_track_id", using: :btree
-
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 510, default: "", null: false
     t.string   "encrypted_password",     limit: 510, default: "", null: false
@@ -374,7 +366,6 @@ ActiveRecord::Schema.define(version: 20160805152440) do
     t.float    "result",                 default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "profile_id"
     t.float    "highest_speed",          default: 0.0
     t.float    "highest_gr",             default: 0.0
   end
@@ -431,4 +422,29 @@ ActiveRecord::Schema.define(version: 20160805152440) do
   add_index "wingsuits", ["manufacturer_id"], name: "index_wingsuits_on_manufacturer_id", using: :btree
 
   add_foreign_key "profiles", "countries"
+
+  create_view :personal_top_scores,  sql_definition: <<-SQL
+      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id ORDER BY entities.result DESC) AS rank,
+      entities.virtual_competition_id,
+      entities.track_id,
+      entities.result,
+      entities.highest_speed,
+      entities.highest_gr,
+      entities.profile_id,
+      entities.wingsuit_id,
+      entities.recorded_at
+     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id) results.virtual_competition_id,
+              results.track_id,
+              results.result,
+              results.highest_speed,
+              results.highest_gr,
+              tracks.profile_id,
+              tracks.wingsuit_id,
+              tracks.recorded_at
+             FROM (virtual_comp_results results
+               LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
+            ORDER BY results.virtual_competition_id, tracks.profile_id, results.result DESC) entities
+    ORDER BY entities.result DESC;
+  SQL
+
 end

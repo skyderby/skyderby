@@ -65,8 +65,6 @@ class TracksController < ApplicationController
     )
     
     @track_presenter.load
-    # @track_data =
-      # Skyderby::Tracks::ChartsData.new(@track, params[:f], params[:t])
 
     respond_to do |format|
       format.html { LastViewedUpdateWorker.perform_async(@track.id) }

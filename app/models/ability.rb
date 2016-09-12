@@ -18,7 +18,6 @@ class Ability
 
     can :read, Wingsuit
     can :read, Place
-    can :read, Country
 
     can :show, Profile
 
