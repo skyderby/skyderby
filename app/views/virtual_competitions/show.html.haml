@@ -21,25 +21,16 @@
           - if can? :update, @competition
             = link_to t('general.edit'), edit_virtual_competition_path(@competition), class: 'btn btn-default'
 
-  - competition_results = @competition.virtual_comp_results.order('result DESC').group_by{ |x| x.profile_id }
-  - results_by_pilot = competition_results.map{ |pilot_id, results| {pilot_id: pilot_id, results: results} }
-  - best_results = competition_results.map{ |_, results| results.first }
-  - columns_count = 7 
-  - columns_count += 1 if @competition.display_highest_speed
-  - columns_count += 1 if @competition.display_highest_gr
-  - columns_count += 1 if @competition.worldwide?
-
-  - if best_results.count > 2
+  - if @competition.personal_top_scores.size > 2
+    - winners = @competition.personal_top_scores.take(3)
     .row.top-buffer-30
       .col-sm-4.col-md-4
-        = render 'winner', result: best_results.first
+        = render 'winner', result: winners.first
       .col-sm-4.col-md-4
-        = render 'winner', result: best_results.second
+        = render 'winner', result: winners.second
       .col-sm-4.col-md-4
-        = render 'winner', result: best_results.third
+        = render 'winner', result: winners.third
   .row
-    .col-sm-12
-      %p.text-muted= 'Note: Click on result to view track details. Click on row to see up to 5 best results.'
     .col-sm-12
       %table.table.vc-scoreboard-table
         %thead
@@ -57,52 +48,30 @@
             %th.text-right=t 'activerecord.attributes.track.recorded_at'
             %th
         %tbody
-          - results_by_pilot.each_with_index do |result, index|
-            - best_result = result[:results].first
-            %tr{data: {toggle: 'collapse', target: "#all_results_#{result[:pilot_id]}"}}
-              -#.clickableRow{data: {url: track_path(id: best_result.track_id)}}
-              %td= index + 1
-              %td
-                %a{href: profile_path(best_result.profile_id), data: {toggle: 'tooltip'}, title: t('.show_profile')}
-                  = best_result.profile.name.titleize
-              %td= suit_presentation(best_result.wingsuit)
-              - if @competition.worldwide?
-                %td= track_place(best_result.track)
-              %td.text-right
-                %a{href: track_path(best_result.track_id), data: {toggle: 'tooltip'}, title: t('.show_details')}
-                  = format_result(best_result.result, @competition)
-              - if @competition.display_highest_speed
-                %td.text-right= (best_result.highest_speed || 0.0).round(1)
-              - if @competition.display_highest_gr
-                %td.text-right= (best_result.highest_gr || 0.0).round(2)
-              %td.text-right= best_result.track.recorded_at.strftime('%d.%m.%Y')
-              %td
-                - if best_result.track.video
-                  %i.fa.fa-video-camera
+          - @competition.personal_top_scores.each do |personal_score|
             %tr
-              %td.hiddenRow{colspan: 2}
-              %td.hiddenRow{colspan: (columns_count - 2)}
-                .collapse{id: "all_results_#{result[:pilot_id]}"} 
-                  %table.table.all-results-table
-                    - all_results = result[:results].take(5)
-                    - all_results.each do |comp_result|
-                      %tr
-                        %td= suit_presentation(comp_result.wingsuit)
-                        - if @competition.worldwide?
-                          %td= track_place(comp_result.track)
-                        %td.text-right
-                          %a.text-info{href: track_path(comp_result.track_id), data: {toggle: 'tooltip'}, title: t('.show_details')}
-                            = format_result(comp_result.result, @competition)
-                        - if @competition.display_highest_speed
-                          %td.text-right= (comp_result.highest_speed || 0.0).round(1)
-                        - if @competition.display_highest_gr
-                          %td.text-right= (comp_result.highest_gr || 0.0).round(2)
-                        %td.text-right= comp_result.track.created_at.strftime('%d.%m.%Y')
-                        %td
-                          - if comp_result.track.video
-                            %i.fa.fa-fw.fa-video-camera
-                          - else
-                            %i.fa.fa-fw
+              %td= personal_score.rank
+              %td
+                = link_to(personal_score.profile.name.titleize,
+                          personal_score.profile,
+                          'data-toggle' => 'tooltip',
+                          title: t('.show_profile'))
+              %td= suit_presentation(personal_score.wingsuit)
+              - if @competition.worldwide?
+                %td= track_place(personal_score.track)
+              %td.text-right= link_to format_result(personal_score.result, @competition),
+                personal_score.track,
+                'data-toggle' => 'tooltip',
+                title: t('.show_details')
+              - if @competition.display_highest_speed
+                %td.text-right= (personal_score.highest_speed || 0.0).round(1)
+              - if @competition.display_highest_gr
+                %td.text-right= (personal_score.highest_gr || 0.0).round(2)
+              %td.text-right= personal_score.recorded_at.strftime('%d.%m.%Y')
+              %td
+                - if personal_score.track.video
+                  %i.fa.fa-video-camera
+
 
   - unless @competition.sponsors.empty?
     .row.top-buffer
@@ -114,5 +83,3 @@
     = link_to new_virtual_competition_sponsor_path(virtual_competition_id: @competition.id), remote: true, class: 'add-sponsor' do
       %i.fa.fa-plus
       = t('.add_sponsor')
-
-

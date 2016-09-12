@@ -1,13 +1,25 @@
-require 'rails_helper'
+require 'spec_helper'
 
-RSpec.describe Velocity do
-  it 'load 100 correctly' do
-    value = Velocity.load(100)
-    expect(value).to eq 100
+describe Velocity do
+  describe '.load' do
+    it 'load 100 correctly' do
+      value = Velocity.load(100)
+      expect(value).to eq 100
+    end
+
+    it 'load Infinity as 0' do
+      value = Velocity.load(Float::INFINITY)
+      expect(value).to eq 0
+    end
   end
 
-  it 'load Infinity as 0' do
-    value = Velocity.load(Float::INFINITY)
-    expect(value).to eq 0
+  describe '.dump' do
+    it 'dumps Fixnums' do
+      expect(Velocity.dump(281)).to eq(281)
+    end
+
+    it 'dumps BigDecimals' do
+      expect(Velocity.dump(BigDecimal.new(281))).to eq(281)
+    end
   end
 end

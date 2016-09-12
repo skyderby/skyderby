@@ -1,9 +1,13 @@
 class CountriesController < ApplicationController
   load_and_authorize_resource
+  skip_authorize_resource only: :index
 
   before_action :set_country, only: [:show, :edit, :update, :destroy]
+  after_action :expire_cache, only: [:create, :update, :destroy]
 
   def index
+    authorize!(:index, Country) if request.format == :html
+
     @countries = Country.order(:name)
 
     @countries = @countries.search(params[:query][:term]) if params[:query] && params[:query][:term]
@@ -24,7 +28,6 @@ class CountriesController < ApplicationController
 
     if @country.save
       redirect_to @country, notice: 'Country was successfully created.'
-      expire_fragment 'all_countries'
     else
       render action: 'new'
     end
@@ -32,7 +35,6 @@ class CountriesController < ApplicationController
 
   def update
     if @country.update(country_params)
-      expire_fragment 'all_countries'
       redirect_to @country, notice: 'Country was successfully updated.'
     else
       render action: 'edit'
@@ -41,7 +43,6 @@ class CountriesController < ApplicationController
 
   def destroy
     @country.destroy
-      expire_fragment 'all_countries'
     redirect_to countries_url
   end
 
@@ -53,5 +54,9 @@ class CountriesController < ApplicationController
 
   def country_params
     params.require(:country).permit(:name, :code)
+  end
+
+  def expire_cache
+    expire_fragment 'all_countries'
   end
 end

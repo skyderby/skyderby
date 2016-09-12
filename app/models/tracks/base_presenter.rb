@@ -120,10 +120,7 @@ class Tracks::BasePresenter
     tmp_points.each_cons(2).map do |pair|
       [
         (pair.last[:gps_time] - min_gps_time).round(1),
-        distance_presentation(tmp_distance += Skyderby::Geospatial.distance(
-          [pair.last[:latitude], pair.last[:longitude]],
-          [pair.first[:latitude], pair.first[:longitude]]
-        ))
+        distance_presentation(tmp_distance += TrackSegment.new(pair).distance)
       ]
     end.to_json
   end
@@ -131,18 +128,12 @@ class Tracks::BasePresenter
   protected
 
   def straight_line_distance
-    Skyderby::Geospatial.distance(
-      [@points.last[:latitude], @points.last[:longitude]],
-      [@points.first[:latitude], @points.first[:longitude]],
-    )
+    TrackSegment.new([@points.first, @points.last]).distance
   end
 
   def track_trajectory_distance
     @points.each_cons(2).inject(0) do |sum, pair|
-      sum + Skyderby::Geospatial.distance(
-        [pair.last[:latitude], pair.last[:longitude]],
-        [pair.first[:latitude], pair.first[:longitude]],
-      )
+      sum + TrackSegment.new(pair).distance
     end
   end
 

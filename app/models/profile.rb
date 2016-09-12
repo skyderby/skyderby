@@ -36,6 +36,7 @@ class Profile < ActiveRecord::Base
            class_name: 'Track'
   has_many :badges
   has_many :event_organizers
+  has_many :personal_top_scores
 
   has_attached_file :userpic,
                     styles: { large: '500x500>',
@@ -52,32 +53,6 @@ class Profile < ActiveRecord::Base
   # Возвращает массив ID соревнований в которых является организатором
   def organizer_of_events
     event_organizers.pluck(:event_id)
-  end
-
-  def place_in_ratings
-    results =
-      VirtualCompResult
-      .joins(:virtual_competition)
-      .group(:profile_id,
-             :virtual_competition_id,
-             'virtual_competition_name')
-      .order(:virtual_competition_id, 'result DESC')
-      .pluck_to_hash(
-        'virtual_competitions.name as virtual_competition_name',
-        :virtual_competition_id,
-        :profile_id,
-        'MAX(result) as result')
-
-    grouped = results.group_by { |x| x[:virtual_competition_id] }
-    grouped.each do |_, res|
-      place = 1
-      res.each do |r|
-        r[:place] = place
-        place += 1
-      end
-    end
-
-    grouped.map { |x| x.last.detect { |r| r[:profile_id] == id } }.compact
   end
 
   class << self

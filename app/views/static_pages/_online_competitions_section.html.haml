@@ -1,7 +1,37 @@
-- if @competition_results.size
+- if @online_competitions.many?
   .container.top-buffer
     .row
       .col-sm-12.text-center
         %h1.light-header= t('static_pages.index.online_comps_leaders')
-    - @competition_results.each do |group, all_results|
-      = render partial: 'static_pages/online_competitions_group', locals: {group: group, all_results: all_results}
+    - @online_competitions.each do |activity, competitions|
+      %hr
+      .row
+        .col-sm-12.text-center
+          %h2.light-header= {'base' => 'BASE Challenge', 'skydive' => 'Skydive Challenge'}[activity]
+      .row
+        - competitions.each do |competition|
+          .col-sm-4
+            .start-page-competition
+              .start-page-competition-header.text-center
+                = link_to competition.name, virtual_competitions_path(competition)
+              .competition-results
+                - competition.personal_top_scores.first(3).each do |competition_leader|
+                  - place_class = [:gold_place, :silver_place, :bronze_place][competition_leader.rank - 1]
+                  .row.start-page-competition-result{class: place_class}
+                    - profile = competition_leader.profile
+                    .col-sm-4
+                      = image_tag(profile.userpic.url(:medium), 
+                                  class: 'img-responsive img-circle')
+                    .col-sm-8
+                      = link_to profile.name.titleize,
+                                profile_path(profile),
+                                class: 'vc-profile-name',
+                                'data-toggle' => 'tooltip',
+                                title: t('virtual_competitions.show.show_profile')
+                      %div
+                        = link_to track_path(competition_leader.track),
+                                  class: 'vc-result-link',
+                                  'data-toggle' => 'tooltip',
+                                  title: t('virtual_competitions.show.show_details') do
+                          %span.vc-result= format_result(competition_leader.result, competition)
+                          %span.vc-unit= competition_unit(competition)

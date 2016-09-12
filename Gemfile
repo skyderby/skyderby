@@ -59,6 +59,8 @@ gem 'bootstrap-datepicker-rails'
 
 gem 'pluck_to_hash'
 
+gem 'scenic'
+
 group :development do
   gem 'annotate'
 
