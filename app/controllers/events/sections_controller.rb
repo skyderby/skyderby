@@ -50,7 +50,7 @@ class Events::SectionsController < ApplicationController
 
   def move_upper
     @section.move_upper
-    unless @section.errors
+    unless @section.errors.present?
       respond_to do |format|
         format.json { head :ok }
         format.js { respond_with_scoreboard }
@@ -62,7 +62,7 @@ class Events::SectionsController < ApplicationController
 
   def move_lower
     @section.move_lower
-    unless @section.errors
+    unless @section.errors.present?
       respond_to do |format|
         format.json { head :ok }
         format.js { respond_with_scoreboard }
