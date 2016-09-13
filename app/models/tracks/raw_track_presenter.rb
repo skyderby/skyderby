@@ -29,8 +29,10 @@ module Tracks
         altitude_diff = altitude_changes_in_window(window)
         time_between_points = window.last[:gps_time] - window.first[:gps_time]
 
-        window[neighbors][:h_speed] = trajectory_distance / time_between_points
-        window[neighbors][:v_speed] = altitude_diff / time_between_points
+        unless time_between_points.zero?
+          window[neighbors][:h_speed] = trajectory_distance / time_between_points
+          window[neighbors][:v_speed] = altitude_diff / time_between_points
+        end
 
         window[neighbors]
       end
