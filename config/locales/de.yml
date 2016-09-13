@@ -5,28 +5,28 @@ de:
       subtitle: 'Immernoch beta'
       track_form:
         title: 'Track ansehen und bewerten:'
-        name: 'Ihr Name:'
+        name: 'Dein Name:'
         name_plh: 'Vor- und Nachname.'
-        suit: 'Sie fliegen mit:'
+        suit: 'Du fliegst mit:'
         suit_plh: 'Wingsuitmodell'
         location: 'Ort:'
         location_plh: 'Flugplatz, Absprungstelle usw.'
         file: "Track Datei:"
         help: 'Es werden folgende Formate unterstützt: csv und gpx'
         comment: 'Kommentar:'
-        comment_plh: 'Ein Paar Worte über Ihren Flug'
+        comment_plh: 'Ein paar Worte zu deinem Flug'
         submit: 'Hochladen'
         warnings:
-          name_html: "'Sie haben Ihren Vor- und Nachnamen nicht angegeben.'"
-          suit_html: "'Sie haben nicht angegeben mit welcher Suit Sie geflogen sind.'"
-          loc_html: "'Sie haben nicht angegeben wo Sie geflogen sind.'"
-          file_html: "'Sie haben keine Datei ausgewählt.'"
+          name_html: "'Du hast deinen Vor- und Nachnamen nicht angegeben.'"
+          suit_html: "'Du hast nicht angegeben mit welcher Suit du geflogen bist.'"
+          loc_html: "'Du hast nicht angegeben wo du geflogen bist.'"
+          file_html: "'Keine Datei ausgewählt.'"
           file_ext_w1_html: "'Dateityp: '"
-          file_ext_w2_html: "'Bitte suchen Sie einen Dateityp mit csv, tes oder gpx aus'"
+          file_ext_w2_html: "'Bitte suche nach einen Dateityp mit csv, tes oder gpx Endung'"
           file_size_w1_html: "'Dateigröße: '"
           file_size_w2_html: "'Die Datei darf nicht größer als 1MB sein'"
         kind: "Art des Sprunges:"
-      desc: "Analyse von GPS Tracks und Durchführung von Wettkämpfen im Format GPS Performance."
+      desc: "GPS-Track-Analyse und Durchführung von Wettkämpfen im Format GPS Performance."
       goto_event: "Zur Seite Wettkämpfe >>"
       supported_formats: "Unterstützte Dateiformate und Geräte"
       stats: "Statistik:"
@@ -37,7 +37,7 @@ de:
       upload_a_file: "Lade den Track hoch"
       how_it_works: "Es ist ziemlich einfach:"
     about:
-      roadmap: 'Verfolgen Sie den Projektfortschritt auf:'
+      roadmap: 'Verfolge den Projektfortschritt auf:'
       trpr: 'Aufbereitung der Daten auf der Server-Seite'
       fepr: 'Aufbereitung der Daten auf der Browser-Seite'
       developer: "Web-Etwickler - Aleksandr Kunin"
@@ -54,5 +54,5 @@ de:
     profile:
       edit:
         title: 'Profil'
-        edit_email_pass: "Ändern Sie ihre E-Mail-Adresse oder ihr Passwort"
+        edit_email_pass: "Ändere deine E-Mail-Adresse oder dein Passwort"
         edit_reg_data: "Email-Adresse oder Passwort"
