@@ -58,17 +58,16 @@
             %i.fa.fa-fw.fa-lg.fa-clock-o
             =t 'tracks.indicators.duration'
 
-  - place_in_ratings = @profile.place_in_ratings
-  - unless place_in_ratings.blank?
+  - unless @profile.personal_top_scores.blank?
     %hr
     .row
       .col-sm-12
-        - place_in_ratings.each do |p|
+        - @profile.personal_top_scores.each do |top_score|
           .col-sm-3
             %strong
-              = "##{p[:place]}"
+              = "##{top_score.rank}"
             in
-            = p[:virtual_competition_name]
+            = top_score.virtual_competition.name
   %hr
   .row
     .col-sm-12

@@ -62,20 +62,6 @@
     border-top-width: 0px !important;
 }
 
-.vc-scoreboard-table > tbody > tr > td:nth-child(1) { width: 5%; }
-.vc-scoreboard-table > tbody > tr > td:nth-child(2) { width: 25%; }
-.vc-scoreboard-table > tbody > tr > td:nth-child(3) { width: 25%; }
-.vc-scoreboard-table > tbody > tr > td:nth-child(4) { width: 9%; }
-.vc-scoreboard-table > tbody > tr > td:nth-last-child(1) { width: 5%; }
-.vc-scoreboard-table > tbody > tr > td:nth-last-child(2) { width: 15%; }
-
-.vc-scoreboard-table tr td.hiddenRow:nth-child(1) { width: 30%; }
-
-.all-results-table tr td:nth-child(1) { width: 35.8%; }
-.all-results-table tr td:nth-child(2) { width: 12.8%; }
-.all-results-table tr td:nth-last-child(2) { width: 21.5%; }
-.all-results-table tr td:nth-last-child(1) { width: 7.2%; }
-
 .panel-heading a,
 .vc-profile-name,
 .vc-result-link,

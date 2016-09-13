@@ -11,8 +11,11 @@ class VirtualCompetitionsController < ApplicationController
 
   def show
     @competition = VirtualCompetition.includes(
-      virtual_comp_results: [{track: [{wingsuit: :manufacturer}, {place: :country}, :video]}, :profile]
-    ).find(params[:id])
+      personal_top_scores: [
+        {wingsuit: :manufacturer},
+        {track: [{place: :country}, :video]},
+        :profile
+      ]).find(params[:id])
   end
 
   def edit

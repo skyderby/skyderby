@@ -24,5 +24,71 @@
 require 'rails_helper'
 
 RSpec.describe VirtualCompetition, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context '#window_params' do
+    it 'returns params for distance discipline' do
+      competition = VirtualCompetition.create(
+        discipline: :distance, 
+        range_from: 3000,
+        range_to: 2000)
+
+      expect(competition.window_params).to eq(
+        {from_altitude: 3000, to_altitude: 2000})
+    end
+
+    it 'returns params for distance discipline' do
+      competition = VirtualCompetition.create(
+        discipline: :speed, 
+        range_from: 3000,
+        range_to: 2000)
+
+      expect(competition.window_params).to eq(
+        {from_altitude: 3000, to_altitude: 2000})
+    end
+
+    it 'returns params for distance discipline' do
+      competition = VirtualCompetition.create(
+        discipline: :time, 
+        range_from: 3000,
+        range_to: 2000)
+
+      expect(competition.window_params).to eq(
+        {from_altitude: 3000, to_altitude: 2000})
+    end
+
+    it 'returns params for distance in time' do
+      competition = VirtualCompetition.create(
+        discipline: :distance_in_time, 
+        discipline_parameter: 20)
+
+      expect(competition.window_params).to eq({
+        from_vertical_speed: VirtualCompetition::BASE_START_SPEED, 
+        duration: 20
+      })
+    end
+
+    it 'returns params for distance in time' do
+      competition = VirtualCompetition.create(
+        discipline: :distance_in_altitude, 
+        discipline_parameter: 200)
+
+      expect(competition.window_params).to eq({
+        from_vertical_speed: VirtualCompetition::BASE_START_SPEED,
+        elevation: 200
+      })
+    end
+  end
+
+  context '#task' do
+    it 'returns right task for distance in time' do
+      competition = VirtualCompetition.create(discipline: :distance_in_time)
+
+      expect(competition.task).to eq('distance')
+    end
+
+    it 'returns right task for distance in altitude' do
+      competition = VirtualCompetition.create(discipline: :distance_in_altitude)
+
+      expect(competition.task).to eq('distance')
+    end
+  end
 end

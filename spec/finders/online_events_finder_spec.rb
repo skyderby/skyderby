@@ -1,26 +1,64 @@
 require 'spec_helper'
 
 describe OnlineEventsFinder do
-  let(:worldwide_comp) { create :online_event }
   let(:place_comp) { create :online_event, :place_specific }
   let(:last_year_comp) { create :online_event, :last_year }
 
-  let(:track1) { create :empty_track }
-  let(:track2) { create :empty_track, :with_place }
+  it 'find worldwide comps' do
+    worldwide_comp = create :online_event, jumps_kind: :skydive, place: nil
 
-  context 'only worldwide' do
-    subject { OnlineEventsFinder.new.execute(track1) }
+    place = create :place
 
-    it { is_expected.to include(worldwide_comp) }
-    it { is_expected.not_to include(place_comp) }
-    it { is_expected.not_to include(last_year_comp) }
+    place_specific_comp = create :online_event, place: place
+    last_year_comp = create :online_event, :last_year
+    
+    track = create :empty_track, wingsuit: create(:wingsuit), pilot: create(:pilot)
+    expect(OnlineEventsFinder.new(track).execute).to eq [worldwide_comp]
   end
 
-  context 'worldwide and place specific' do
-    subject { OnlineEventsFinder.new.execute(track2) }
+  it 'find worldwide and place specific' do
+    worldwide_comp = create :online_event, place: nil
 
-    it { is_expected.to include(worldwide_comp) }
-    it { is_expected.to include(place_comp) }
-    it { is_expected.not_to include(last_year_comp) }
+    place = create :place
+
+    place_specific_comp = create :online_event, place: place
+    last_year_comp = create :online_event, :last_year
+    
+
+    track = create(
+      :empty_track, 
+      wingsuit: create(:wingsuit), 
+      pilot: create(:pilot),
+      place: place)
+
+    expect(OnlineEventsFinder.new(track).execute).to eq(
+      [worldwide_comp, place_specific_comp])
+  end
+
+  it "returns blank array if track isn't public" do
+    track = create(:empty_track)
+    track.private_track!
+
+    worldwide_comp = create :online_event
+
+    expect(OnlineEventsFinder.new(track).execute).not_to include(worldwide_comp)
+  end
+
+  it "returns blank array if track from unregistered user" do
+    track = create(:empty_track)
+    track.pilot = nil
+
+    worldwide_comp = create :online_event
+
+    expect(OnlineEventsFinder.new(track).execute).not_to include(worldwide_comp)
+  end
+
+  it "returns blank array if track in custom suit" do
+    track = create(:empty_track)
+    track.wingsuit = nil
+
+    worldwide_comp = create :online_event
+
+    expect(OnlineEventsFinder.new(track).execute).not_to include(worldwide_comp)
   end
 end
