@@ -5,7 +5,12 @@ module Skyderby
 
       def initialize(track)
         @track = track
-        @track_points = Points.new(@track).trimmed
+        @track_points = track.points.trimmed.freq_1Hz.pluck_to_hash(
+          'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
+          "#{@track.point_altitude_field} AS altitude",
+          :latitude,
+          :longitude,
+          :h_speed)
 
         @weather_data = []
         @points = []
