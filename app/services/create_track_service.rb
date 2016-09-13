@@ -14,37 +14,39 @@ class CreateTrackService
   end
 
   def execute
-    # Create track with params
-    @track = Track.new(@params)
-    @track.user = @user
-    @track.pilot = @user.profile if @user && !@params[:profile_id]
+    ActiveRecord::Base.transaction do
+      # Create track with params
+      @track = Track.new(@params)
+      @track.user = @user
+      @track.pilot = @user.profile if @user && !@params[:profile_id]
 
-    # Read file with track and set logger type
-    track_data = @track.track_file.track_file_data(@track_index)
-    points = PointsService.new(track_data.points).execute
-    @track.gps_type = track_data.logger
+      # Read file with track and set logger type
+      track_data = @track.track_file.track_file_data(@track_index)
+      points = PointsService.new(track_data.points).execute
+      @track.gps_type = track_data.logger
 
-    jump_range = JumpRangeFinder.range_for points
-    @track.ff_start = jump_range.start_time
-    @track.ff_end = jump_range.end_time
+      jump_range = JumpRangeFinder.range_for points
+      @track.ff_start = jump_range.start_time
+      @track.ff_end = jump_range.end_time
 
-    # Find and set place as closest to start of jump range
-    # and set ground level if place found as place msl offset
-    place = find_place jump_range.start_point, search_radius
-    @track.place = place
-    @track.ground_level = place.msl if place
+      # Find and set place as closest to start of jump range
+      # and set ground level if place found as place msl offset
+      place = find_place jump_range.start_point, search_radius
+      @track.place = place
+      @track.ground_level = place.msl if place
 
-    # Create track segment, then assign to it track points and
-    # record points to db
-    track_segment = Tracksegment.create
-    record_points points, track_segment.id
+      # Record track, then assign to it points and
+      # record points to db
+      @track.skip_jobs = true
+      @track.save!
+      record_points points, @track.id
+      @track.skip_jobs = false
 
-    @track.tracksegments << track_segment
+      @track.recorded_at = points.last.gps_time
 
-    @track.recorded_at = points.last.gps_time
-
-    @track.save
-    @track
+      @track.save
+      @track
+    end
   end
 
   def search_radius
@@ -62,7 +64,7 @@ class CreateTrackService
     ActiveRecord::Base.connection.execute sql
   end
 
-  def points_values(track_points, track_segment_id)
+  def points_values(track_points, track_id)
     inserts = []
 
     track_points.each do |point|
@@ -75,7 +77,7 @@ class CreateTrackService
         #{point.fl_time},
         #{point.v_speed},
         #{point.h_speed},
-        #{track_segment_id},
+        #{track_id},
         '#{current_time}',
         '#{current_time}'
       )"
@@ -97,7 +99,7 @@ class CreateTrackService
       fl_time,
       v_speed,
       h_speed,
-      tracksegment_id,
+      track_id,
       updated_at,
       created_at'
   end

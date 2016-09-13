@@ -21,27 +21,9 @@
 #  display_on_start_page :boolean
 #
 
-# create_table "virtual_competitions", force: true do |t|
-#   t.integer  "jumps_kind"
-#   t.integer  "suits_kind"
-#   t.integer  "places_id"
-#   t.date     "period_from"
-#   t.date     "period_to"
-#   t.integer  "discipline"
-#   t.integer  "discipline_parameter"
-#   t.datetime "created_at"
-#   t.datetime "updated_at"
-#   t.string   "name"
-#   t.integer  "virtual_comp_group_id"
-#   t.integer  "range_from"
-#   t.integer  "range_to"
-#   t.boolean  "display_highest_speed"
-#   t.boolean  "display_highest_gr"
-# end
-#
-# add_index "virtual_competitions", ["places_id"], name: "index_virtual_competitions_on_places_id", using: :btree
-
 class VirtualCompetition < ActiveRecord::Base
+  BASE_START_SPEED = 10
+
   enum jumps_kind: [:skydive, :base]
   enum suits_kind: [:wingsuit, :tracksuit]
   enum discipline:
@@ -54,11 +36,31 @@ class VirtualCompetition < ActiveRecord::Base
 
   has_one :best_result, -> { order('result DESC') }, class_name: 'VirtualCompResult'
   has_many :virtual_comp_results
+  has_many :personal_top_scores
   has_many :sponsors, as: :sponsorable
 
   def reprocess_results
     virtual_comp_results.each do |x|
-      VirtualCompWorker.perform_async(x.track_id)
+      OnlineCompetitionWorker.perform_async(x.track_id)
+    end
+  end
+
+  def window_params
+    case discipline
+    when 'distance', 'speed', 'time'
+      {from_altitude: range_from, to_altitude: range_to}
+    when 'distance_in_time'
+      {from_vertical_speed: BASE_START_SPEED, duration: discipline_parameter}
+    when 'distance_in_altitude'
+      {from_vertical_speed: BASE_START_SPEED, elevation: discipline_parameter}
+    end
+  end
+
+  def task
+    if ['distance_in_time', 'distance_in_altitude'].include? discipline
+      'distance'
+    else
+      discipline
     end
   end
 

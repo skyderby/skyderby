@@ -43,7 +43,8 @@ class EventTrack < ActiveRecord::Base
   delegate :section, to: :competitor
 
   before_validation :create_track_from_file
-  before_save :set_uploaded_by, :calc_result
+  before_save :set_uploaded_by
+  before_save :calc_result
 
   def points(net: false)
     result_value = result(net: net)
@@ -79,7 +80,14 @@ class EventTrack < ActiveRecord::Base
     return unless track_id_changed?
 
     self.result = EventResultService.new(track, round).calculate
-    self.result_net = EventResultService.new(track, round, true).calculate if event.wind_cancellation
+
+    if event.wind_cancellation
+      self.result_net = EventResultService.new(
+        track, 
+        round, 
+        wind_cancellation: true
+      ).calculate 
+    end
   end
 
   def create_track_from_file

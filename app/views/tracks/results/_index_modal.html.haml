@@ -43,7 +43,7 @@
             %span
               = t('disciplines.time') + ':'
             %span
-              = @track.time.result
+              = @track.time.result.round(1)
               = t('units.t_unit')
             %span
               = "(#{t('tracks.show.window')} #{@track.time.range_from} - #{@track.time.range_to})"

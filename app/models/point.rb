@@ -3,7 +3,7 @@
 # Table name: points
 #
 #  id                  :integer          not null, primary key
-#  tracksegment_id     :integer
+#  track_id            :integer
 #  fl_time             :float
 #  latitude            :decimal(15, 10)
 #  longitude           :decimal(15, 10)
@@ -19,7 +19,7 @@
 #
 
 class Point < ActiveRecord::Base
-  belongs_to :tracksegment
+  belongs_to :track
 
   composed_of :gps_time,
               class_name: 'Time',
@@ -30,7 +30,7 @@ class Point < ActiveRecord::Base
   scope :freq_1Hz, -> { where('round(gps_time_in_seconds) = gps_time_in_seconds') }
 
   scope :trimmed, -> (seconds_before_start: 0, seconds_after_end: 0) { 
-    joins(tracksegment: :track)
+    joins(:track)
     .where("points.fl_time 
               BETWEEN (tracks.ff_start - #{seconds_before_start})
               AND (tracks.ff_end + #{seconds_after_end})")

@@ -2,7 +2,12 @@
 {
   chart: {
     type: 'spline',
-    marginLeft: 70
+    marginLeft: 70,
+    events: {
+      load: function() {
+        Skyderby.helpers.chart_load_callback('speeds_chart_', this.series);
+      }
+    }
   },
   title: {
     text: '<%= t('charts.spd.title') %>'
@@ -16,6 +21,11 @@
     series: {
       marker: {
         radius: 1
+      },
+      events: {
+        legendItemClick: function() {
+          localStorage.setItem('speeds_chart_' + this.options.code, !this.visible);
+        }
       }
     }
   },
@@ -43,6 +53,7 @@
   },
   series: [{
     name: I18n.t('charts.spd.series.ground'),
+    code: 'ground_speed',
     color: '#52A964',
     tooltip: {
       valueSuffix: ' <%= t('units.' + speed_units) %>',
@@ -50,6 +61,7 @@
   },
   {
     name: I18n.t('charts.spd.series.vertical'),
+    code: 'vertical_speed',
     color: '#A7414E',
     tooltip: {
       valueSuffix: ' <%= t('units.' + speed_units) %>',
@@ -57,6 +69,7 @@
   },
   {
     name: I18n.t('charts.spd.series.full'),
+    code: 'full_speed',
     color: '#D6A184',
     visible: false,
     tooltip: {
@@ -64,7 +77,7 @@
     }
   }
   <% if display_raw %>
-        ,{
+    ,{
       name: I18n.t('charts.spd.series.raw_ground'),
       type: 'line',
       color: '#AAE3CC',
@@ -74,8 +87,8 @@
       tooltip: {
         valueSuffix: ' <%= t('units.' + speed_units) %>',
       }
-        },
-        {
+    },
+    {
           name: I18n.t('charts.spd.series.raw_vertical'),
           type: 'line',
           color: '#DFAFAD',
@@ -97,6 +110,6 @@
             valueSuffix: ' <%= t('units.' + speed_units) %>',
           }
         }
-      <% end %>
+    <% end %>
   ]
 }

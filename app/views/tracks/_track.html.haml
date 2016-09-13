@@ -26,7 +26,7 @@
   %td.text-right
     - if track.time_result && !track.time_result.nan? && !track.time_result.infinite? && !track.time_result.zero?
       %span.text-info{data: {toggle: 'tooltip'}, title: "#{track.time_range_from} - #{track.time_range_to}"}
-        = track.time_result
+        = track.time_result.round(1)
     - else
       %span.text-info
         &mdash;

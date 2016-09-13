@@ -21,9 +21,9 @@ require 'rails_helper'
 RSpec.describe VirtualCompGroupsController, type: :controller do
   before :each do
     @user = FactoryGirl.create(:user)
-    @user.stub(:has_role?).and_return(true)
+    allow(@user).to receive(:has_role?).and_return(true)
     @abilities = Ability.new(@user)
-    Ability.stub(:new).and_return(@abilities)
+    allow(Ability).to receive(:new).and_return(@abilities)
   end
   # This should return the minimal set of attributes required to create a valid
   # VirtualCompGroup. As you add validations to VirtualCompGroup, be sure to
