@@ -18,19 +18,20 @@ Skyderby::Application.routes.draw do
       end
 
       member do
-        get 'google_earth'
         get 'replay'
       end
 
       resources :weather_data, only: [:index, :create, :update, :destroy]
 
       scope module: :tracks do
-        resources :google_maps, only: :index
-        resources :results, only: :index
+        resource :map, only: :show
+        resource :globe, controller: 'globe', only: :show
+        resource :results, only: :show
       end
     end
     # Backward compatibility
     match '/track/:id', to: 'tracks#show', via: :get
+    match '/tracks/:track_id/google_maps', to: 'tracks/maps#show', via: :get
 
     resources :events do
       scope module: :events do
