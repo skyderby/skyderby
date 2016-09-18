@@ -12,28 +12,34 @@ window.Skyderby = {
   views: {},
 
   maps_api_ready: false,
-  earth_api_ready: false,
+  cesium_api_ready: false,
   youtuby_api_ready: false
 };
 
-_.extend(window.Skyderby, Backbone.Events);
+_.extend(Skyderby, Backbone.Events);
 
 function on_maps_api_ready() {
-  window.Skyderby.maps_api_ready = true;
-  window.Skyderby.trigger('maps_api:ready');
+  Skyderby.maps_api_ready = true;
+  Skyderby.trigger('maps_api:ready');
 }
 
 function on_maps_api_loading_error() {
-  window.Skyderby.maps_api_ready = false;
-  window.Skyderby.trigger('maps_api:failed');
+  Skyderby.maps_api_ready = false;
+  Skyderby.trigger('maps_api:failed');
 }
 
-function on_earth_api_ready() {
-  window.Skyderby.earth_api_ready = true;
-  window.Skyderby.trigger('earth_api_ready');
+function on_cesium_api_ready() {
+  Skyderby.cesium_api_ready = true;
+  Cesium.BingMapsApi.defaultKey = 'AiG804EvOUQOmDJV0kiOY8SSD0U1HirOAKucXLbAKTRy1XAVTaBDnO7FCty3X-n6';
+  Skyderby.trigger('cesium_api:ready');
+}
+
+function on_cesium_api_error() {
+  Skyderby.cesium_api_ready = false;
+  Skyderby.trigger('cesium_api:failed');
 }
 
 function onYouTubeIframeAPIReady() {
-  window.Skyderby.youtube_api_ready = true;
-  window.Skyderby.trigger('youtube_api_ready');
+  Skyderby.youtube_api_ready = true;
+  Skyderby.trigger('youtube_api_ready');
 }
