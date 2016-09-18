@@ -1,0 +1,21 @@
+.container.globe-container
+  = render partial: 'tracks/header', locals: {track: @track}
+  .row
+    .track-map-wrapper.col-sm-12
+      #track-map-loading.text-muted
+        #track-map-loading-api.fa-2x
+          %i.fa.fa-fw.fa-spin.fa-circle-o-notch
+          Loading Maps API
+        #track-map-loading-data.fa-2x
+          %i.fa.fa-fw.fa-spin.fa-circle-o-notch
+          Loading track data
+      #cesium-container
+
+- content_for :page_js do
+  :javascript
+    var model = new Skyderby.models.TrackGlobe({id: "#{@track.id}"});
+    var view = new Skyderby.views.TrackGlobeView({
+      el: '.globe-container',
+      model: model
+    });
+    view.render();

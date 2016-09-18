@@ -5,7 +5,7 @@
   .container
     = render partial: 'tracks/header', locals: {track: @track}
     .row
-      #track-map-wrapper.col-sm-12
+      .track-map-wrapper.col-sm-12
         #track-map-loading.text-muted
           #track-map-loading-api.fa-2x
             %i.fa.fa-fw.fa-spin.fa-circle-o-notch
@@ -15,10 +15,4 @@
             Loading track data
         #track-map
         #track-map-polar-chart
-        #speed-grades
-          .col-sm-2.text-center.hl1= "< 130 #{t 'units.kmh'}"
-          .col-sm-2.text-center.hl2= "130 - 160 #{t 'units.kmh'}"
-          .col-sm-2.text-center.hl3= "160 - 190 #{t 'units.kmh'}"
-          .col-sm-2.text-center.hl4= "190 - 220 #{t 'units.kmh'}"
-          .col-sm-2.text-center.hl5= "220 - 250 #{t 'units.kmh'}"
-          .col-sm-2.text-center.hl6= "> 250 #{t 'units.kmh'}"
+        = render 'tracks/speed_grades'
