@@ -73,13 +73,6 @@ class TracksController < ApplicationController
     end
   end
 
-  def google_earth
-    authorize! :read, @track
-    redirect_to @track unless @track.ge_enabled
-
-    @track_data = Skyderby::Tracks::EarthData.new(@track)
-  end
-
   def replay
     authorize! :read, @track
     redirect_to @track unless @track.video
