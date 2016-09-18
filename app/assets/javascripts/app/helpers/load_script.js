@@ -1,7 +1,8 @@
-Skyderby.helpers.load_script = function(src, on_error_callback) {
+Skyderby.helpers.load_script = function(src, opts) {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    if (on_error_callback) script.onerror = on_error_callback;
+    if (_.has(opts, 'on_error')) script.onerror = opts.on_error;
+    if (_.has(opts, 'on_load')) script.onload = opts.on_load;
     document.getElementsByTagName("head")[0].appendChild(script);
     script.src = src;
 };
