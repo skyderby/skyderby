@@ -6,7 +6,7 @@ class Skyderby.models.TrackMap extends Backbone.Model
     weather_data: []
 
   url: ->
-    @track_url() + '/google_maps'
+    @track_url() + '/map'
 
   track_url: ->
     '/tracks/' + this.id

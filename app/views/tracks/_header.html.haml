@@ -28,23 +28,22 @@
 
   .row
     .col-md-12
+      - controller_path = controller.controller_path
       %a.btn.btn-default{href: track_path(track),
-                         class: ('active' if action_name == 'show')}
+                         class: ('active' if controller_path == 'tracks')}
         %i.fa.fa-bar-chart-o
         = t('tracks.show.charts')
       - if track.video
         %a.btn.btn-default{href: replay_track_path(track),
-                           class: ('active' if action_name == 'replay')}
+                           class: ('active' if controller_path == 'tracks/video')}
           %i.fa.fa-play-circle-o
           = 'Replay'
       - if track.ge_enabled
-        %a.btn.btn-default{href: google_earth_track_path(track),
-                           class: ('active' if action_name == 'google_earth'),
-                           :'data-no-turbolink' => 'true'}
+        = link_to track_globe_path(track), class: ['btn btn-default', ('active' if controller.controller_path == 'tracks/globe')] do
           %i.fa.fa-compass
-          = 'Google earth'
-      %a.btn.btn-default{href: track_google_maps_path(track),
-                         class: ('active' if action_name == 'google_maps')}
+          = '3D Maps'
+      %a.btn.btn-default{href: track_map_path(track),
+                         class: ('active' if controller_path == 'tracks/maps')}
         %i.fa.fa-compass
         = 'Google maps'
       = link_to track_results_path(@track), 

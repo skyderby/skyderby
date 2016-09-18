@@ -1,8 +1,8 @@
-class Tracks::GoogleMapsController < ApplicationController
+class Tracks::MapsController < ApplicationController
   load_resource :track
   before_filter :authorize_track
 
-  def index
+  def show
     respond_to do |format|
       format.html {}
       format.json { @track_data = Skyderby::Tracks::MapsData.new(@track) }
