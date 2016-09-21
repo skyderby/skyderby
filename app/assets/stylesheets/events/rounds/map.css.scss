@@ -31,8 +31,12 @@
       color: rgb(221, 221, 221);
     }
 
+    tr > td:nth-child(1) {
+      width: 25px;
+    }
+
     td.round-map-competitor {
-        padding-left: 20px;
+        padding-left: 7px;
     }
 
   }

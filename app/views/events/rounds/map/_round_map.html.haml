@@ -9,19 +9,21 @@
     %table.table.table-condensed.round-competitors
       %thead
         %tr
-          %th
+          %th{colspan: 2}
             Competitor
           %th
             Track
       %tbody
         - @event.sections.each do |section|
           %tr
-            %td.round-map-round{colspan: 2}
+            %td.round-map-round{colspan: 3}
               = section.name
           - section.competitors.each do |competitor|
             - competitor_track = @round_map.competitors[competitor.id]
             - if competitor_track
               %tr
+                %td
+                  %input{id: "competitor_#{competitor.id}",type: 'checkbox', checked: true}
                 %td.round-map-competitor
                   = competitor.name.titleize
                   %i.fa.fa-circle{style: "color: #{competitor_track.color}"}
@@ -29,5 +31,6 @@
                   = "#{competitor_track.direction.round}°"
             - else
               %tr.disabled
+                %td
                 %td.round-map-competitor{colspan: 2}
                   = competitor.name.titleize

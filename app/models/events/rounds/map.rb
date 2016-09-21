@@ -36,6 +36,7 @@ class Events::Rounds::Map
   def to_json
     @competitors.map do |_, v| 
       {
+        id: v.id,
         path_coordinates: v.path_coordinates,
         start_point: v.start_point,
         end_point: v.end_point,
