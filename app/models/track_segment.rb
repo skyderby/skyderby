@@ -25,6 +25,12 @@ class TrackSegment
   end
   alias_method :straight_line_distance, :distance
 
+  def direction
+    Skyderby::Geospatial.bearing_between(
+      start_point[:latitude], start_point[:longitude],
+      end_point[:latitude],   end_point[:longitude])
+  end
+
   def speed
     distance / time.to_f * 3.6
   end
