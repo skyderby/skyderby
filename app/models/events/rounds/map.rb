@@ -37,6 +37,7 @@ class Events::Rounds::Map
     @competitors.map do |_, v| 
       {
         id: v.id,
+        name: v.name.titleize,
         path_coordinates: v.path_coordinates,
         start_point: v.start_point,
         end_point: v.end_point,

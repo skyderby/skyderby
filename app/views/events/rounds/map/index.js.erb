@@ -2,7 +2,7 @@ $('#modal').html('<%= j render('index_modal') %>');
 $('#modal').modal('show');
 
 new Skyderby.views.RoundMapView({
-  el: '#round-map', 
+  el: '.round-map', 
   modal: true,
   competitors: <%= @round_map.to_json %>
 });
