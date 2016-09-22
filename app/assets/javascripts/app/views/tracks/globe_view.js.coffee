@@ -49,8 +49,6 @@ class Skyderby.views.TrackGlobeView extends Backbone.View
       url : '//assets.agi.com/stk-terrain/world'
     )
     @viewer.terrainProvider = terrainProvider
-
-    @viewer.scene.globe.depthTestAgainstTerrain = true;
     
   setup_viewer_clock: (start, stop) ->
     @viewer.clock.startTime = start.clone()
