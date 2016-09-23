@@ -3,6 +3,7 @@ en:
     indicators:
       distance: Distance
       elevation: Height diff.
+      altitude: Height
       ground_speed: Ground speed
       vertical_speed: Vertical speed
       duration: Time
