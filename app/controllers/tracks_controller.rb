@@ -4,8 +4,7 @@ class TracksController < ApplicationController
   include PreferencesHelper
   include UnitsHelper
 
-  before_action :set_track, only:
-    [:show, :google_maps, :google_earth, :replay, :edit, :update, :destroy]
+  before_action :set_track, only: [:show, :edit, :update, :destroy]
 
   def index
     @tracks = Track.accessible_by(current_user)
@@ -71,13 +70,6 @@ class TracksController < ApplicationController
       format.js 
       format.json { @track_data }
     end
-  end
-
-  def replay
-    authorize! :read, @track
-    redirect_to @track unless @track.video
-
-    @track_data = Skyderby::Tracks::ReplayData.new(@track)
   end
 
   def create
