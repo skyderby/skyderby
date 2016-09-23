@@ -3,6 +3,7 @@ ru:
     indicators:
       distance: Дистанция
       elevation: Перепад высот
+      altitude: Высота
       ground_speed: Путевая скорость
       vertical_speed: Вертикальная скорость
       duration: Продолжительность

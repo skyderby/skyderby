@@ -3,6 +3,7 @@ de:
     indicators:
       distance: Entfernung
       elevation: Höhendifferenz
+      altitude: Höhe
       ground_speed: Horizontale Geschwindigkeit
       vertical_speed: Vertikale Geschwindigkeit
       duration: Dauer

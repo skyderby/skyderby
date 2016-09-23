@@ -5,7 +5,7 @@
 <% content_for :page_js do %>
   <script>
     new Skyderby.views.RoundMapView({
-      el: '#round-map',
+      el: '.round-map',
       competitors: <%= @round_map.to_json %>
     });
   </script>

@@ -34,10 +34,9 @@
         %i.fa.fa-bar-chart-o
         = t('tracks.show.charts')
       - if track.video
-        %a.btn.btn-default{href: replay_track_path(track),
-                           class: ('active' if controller_path == 'tracks/video')}
+        = link_to track_video_path(track), class: ['btn btn-default', ('active' if controller_path == 'tracks/video')] do
           %i.fa.fa-play-circle-o
-          = 'Replay'
+          = 'Video'
       - if track.ge_enabled
         = link_to track_globe_path(track), class: ['btn btn-default', ('active' if controller.controller_path == 'tracks/globe')] do
           %i.fa.fa-compass

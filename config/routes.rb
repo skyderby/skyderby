@@ -17,21 +17,20 @@ Skyderby::Application.routes.draw do
         post 'choose'
       end
 
-      member do
-        get 'replay'
-      end
-
-      resources :weather_data, only: [:index, :create, :update, :destroy]
-
       scope module: :tracks do
         resource :map, only: :show
         resource :globe, controller: 'globe', only: :show
+        resource :video, only: :show
         resource :results, only: :show
       end
+
+      resources :weather_data, only: [:index, :create, :update, :destroy]
     end
     # Backward compatibility
     match '/track/:id', to: 'tracks#show', via: :get
     match '/tracks/:track_id/google_maps', to: 'tracks/maps#show', via: :get
+    match '/tracks/:track_id/google_earth', to: 'tracks/globe#show', via: :get
+    match '/tracks/:track_id/replay', to: 'tracks/videos#show', via: :get
 
     resources :events do
       scope module: :events do
