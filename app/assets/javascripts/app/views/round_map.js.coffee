@@ -1,5 +1,10 @@
 class Skyderby.views.RoundMapView extends Backbone.View
 
+  lines_by_competitor: {}
+
+  events: 
+    'change input': 'on_change_visibility'
+
   initialize: (opts) ->
     @data = opts.competitors
 
@@ -11,7 +16,7 @@ class Skyderby.views.RoundMapView extends Backbone.View
       'zoom': 2,
       'mapTypeId': google.maps.MapTypeId.ROADMAP
 
-    @map = new google.maps.Map(@$el[0], options)
+    @map = new google.maps.Map(@$('#round-map')[0], options)
     @draw_round_map()
 
     google.maps.event.addListenerOnce(@map, 'idle', =>
@@ -21,6 +26,7 @@ class Skyderby.views.RoundMapView extends Backbone.View
   draw_round_map: ->
     lat_bounds = []
     lon_bounds = []
+
 
     for competitor_data in @data
 
@@ -32,7 +38,12 @@ class Skyderby.views.RoundMapView extends Backbone.View
 
       polyline.setMap(@map)
 
-      new google.maps.Marker
+      hover_polyline = @draw_hover_polyline(
+        competitor_data.path_coordinates,
+        competitor_data.color,
+        competitor_data.name)
+
+      start_point = new google.maps.Marker
         position: competitor_data.start_point
         icon:
           path: google.maps.SymbolPath.CIRCLE
@@ -42,7 +53,7 @@ class Skyderby.views.RoundMapView extends Backbone.View
           fillOpacity: 1
         map: @map
 
-      new google.maps.Marker
+      end_point = new google.maps.Marker
         position: competitor_data.end_point
         icon:
           path: google.maps.SymbolPath.CIRCLE
@@ -51,6 +62,12 @@ class Skyderby.views.RoundMapView extends Backbone.View
           strokeColor: '#5FAD41'
           fillOpacity: 1
         map: @map
+
+      @lines_by_competitor['competitor_' + competitor_data.id] = [
+        polyline, 
+        hover_polyline,
+        start_point, 
+        end_point]
 
       lat_bounds.push(competitor_data.start_point.lat)
       lat_bounds.push(competitor_data.end_point.lat)
@@ -83,3 +100,33 @@ class Skyderby.views.RoundMapView extends Backbone.View
     google.maps.event.trigger(@map, "resize")
     @map.fitBounds(@bounds)
     @map.setCenter(@bounds.getCenter())
+
+  draw_hover_polyline: (path, color, title) ->
+    hover_polyline = new google.maps.Polyline
+      path: path,
+      strokeColor: color,
+      strokeOpacity: 0.0001, 
+      strokeWeight: 15
+
+    hover_polyline.setMap(@map)
+
+    infowindow = new google.maps.InfoWindow()
+    google.maps.event.addListener hover_polyline, 'mouseover', (e) ->
+      infowindow.setContent("<span>#{title}</span>")
+      infowindow.setPosition(e.latLng)
+      infowindow.open(@map)
+
+    google.maps.event.addListener hover_polyline, 'mousemove', (e) =>
+      infowindow.setPosition(e.latLng)
+
+    google.maps.event.addListener hover_polyline, 'mouseout', (e) ->
+      infowindow.close()
+
+    hover_polyline
+
+  on_change_visibility: (e) ->
+    el = $(e.currentTarget)
+    map_property = if el.prop('checked') then @map else undefined
+    current_graphics = @lines_by_competitor[el[0].id]
+    for graphics in current_graphics
+      graphics.setMap(map_property)
