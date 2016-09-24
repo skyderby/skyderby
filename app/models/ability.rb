@@ -2,19 +2,12 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    define_tracks_abilities(user)
     # guest user (not logged in)
     user ||= User.new
 
-    can :read, Track, visibility: %w(public_track unlisted_track)
-    can :create, Track
-    can :update, Track, user: nil, lastviewed_at: nil
-
     can :read, Event, status: %w(published finished)
-    can :read, Section
-    can :read, Competitor
-    can :read, Round
-    can :read, EventTrack
-    can :read, WeatherDatum
+    can :read, [Section, Competitor, Round, EventTrack, Sponsor, WeatherDatum]
 
     can :read, Wingsuit
     can :read, Place
@@ -23,28 +16,7 @@ class Ability
 
     can :read,  Tournament
 
-    can :destroy, Track do |track|
-      if track.event_track
-        false
-      elsif track.user
-        true
-      elsif !track.user && !track.lastviewed_at
-        true
-      else
-        false
-      end
-    end
-
     return unless user
-
-    # Edit own tracks
-    can [:read, :update], Track do |track|
-      if track.user == user
-        can :manage, WeatherDatum
-
-        true
-      end
-    end
 
     can :update, Profile, user: user
 
@@ -70,5 +42,22 @@ class Ability
 
     # allow admins to do anything
     can :manage, :all if user.has_role? :admin
+  end
+
+  def define_tracks_abilities(user)
+    # guest user (not logged in)
+    can :read, Track, visibility: %w(public_track unlisted_track)
+    can :create, Track
+    can [:update, :destroy], Track, pilot: nil, lastviewed_at: nil
+
+    return unless user
+
+    can [:read, :update, :destroy], Track do |track|
+      track.pilot && track.pilot == user.profile
+    end
+
+    cannot :destroy, Track do |track|
+      track.competitive?
+    end
   end
 end
