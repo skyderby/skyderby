@@ -28,7 +28,8 @@ VOLUME /opt/app/tmp
 VOLUME /opt/app/public/assets
 VOLUME /opt/app/public/system
 
+RUN rake assets:precompile
+
 CMD rake db:migrate \
-  && rake assets:precompile \
   && rm -rf /opt/app/tmp/pids/unicorn.pid \
   && bundle exec unicorn -c config/unicorn.rb
