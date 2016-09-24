@@ -1,0 +1,34 @@
+.track-video-new
+  .container
+    = render partial: 'tracks/header', locals: {track: @track}
+
+    .col-sm-offset-2
+      = form_for @video, url: track_video_path(track: @track, track_video: @video), remote: true, html: {class: 'form-horizontal'} do |f|
+        .form-group
+          = f.label :url, class: 'control-label col-sm-2'
+          .col-sm-4
+            = f.text_field :url, class: 'form-control'
+        .form-group
+          = f.label :video_code, class: 'control-label col-sm-2'
+          .col-sm-4
+            %p.video-code.form-control-static= @video.video_code
+
+        #player
+
+        .form-group
+          = f.label :video_offset, class: 'control-label col-sm-2'
+          .col-sm-2
+            .input-group
+              = f.text_field :video_offset, class: 'form-control'
+              %span.input-group-btn
+                %button#set-current-time.btn.btn-default
+                  %i.fa.fa-chevron-left
+        .form-group
+          = f.label :track_offset, class: 'control-label col-sm-2'
+          .col-sm-4
+            = f.text_field :track_offset, class: 'form-control'
+
+- content_for :page_js do
+  :coffeescript
+    view = new Skyderby.views.TrackVideoForm(el: '.track-video-new')
+      
