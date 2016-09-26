@@ -25,18 +25,19 @@ class Skyderby.views.TrackVideoForm extends Backbone.View
     @init_player()
 
   init_player: ->
-    @player ||= new YT.Player('player', {
-      height: '390',
-      width: '640',
-      videoId: @video_code()
-      playerVars: {
-        fs: 0,
-        iv_load_policy: 3,
-        rel: 0
-      }
-    })
-
-    @player.loadVideoById(videoId: @video_code())
+    if @player
+      @player.loadVideoById(videoId: @video_code())
+    else
+      @player = new YT.Player('player', {
+        height: '390',
+        width: '640',
+        videoId: @video_code()
+        playerVars: {
+          fs: 0,
+          iv_load_policy: 3,
+          rel: 0
+        }
+      })
 
   init_chart: ->
     @$('#chart').highcharts(
