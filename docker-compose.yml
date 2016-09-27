@@ -50,6 +50,8 @@ services:
 
   redis:
     image: redis:3.0.5
+    ports:
+      - "6379:6379"
     volumes:
       - data_redis:/data
     container_name: skyderby_redis
