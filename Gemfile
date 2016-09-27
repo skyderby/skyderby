@@ -61,6 +61,8 @@ gem 'pluck_to_hash'
 
 gem 'scenic'
 
+gem 'dotenv-rails', groups: [:development, :test]
+
 group :development do
   gem 'annotate'
 
