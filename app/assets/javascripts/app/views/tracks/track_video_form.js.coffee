@@ -4,6 +4,7 @@ class Skyderby.views.TrackVideoForm extends Backbone.View
 
   events:
     'change input[name="track_video[url]"]': 'on_change_url'
+    'input input[name="track_video[url]"]': 'on_change_url'
     'click #set-current-time': 'on_set_current_time_click'
     'click #dec-track-offset': 'on_decrease_track_offset'
     'click #inc-track-offset': 'on_increase_track_offset'
@@ -120,6 +121,15 @@ class Skyderby.views.TrackVideoForm extends Backbone.View
   on_change_url: (e) ->
     elem_value = $(e.currentTarget).val()
     code = @get_code_from_url(elem_value)
+    current_code = @video_code()
+
+    return if code == current_code
+
+    if code
+      @$('.url-group').removeClass('has-error').addClass('has-success')
+    else
+      @$('.url-group').removeClass('has-success').addClass('has-error')
+
     @$('input[name="track_video[video_code]"]').val(code || '')
 
     @init_player() if @youtube_api_ready
