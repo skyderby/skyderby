@@ -20,7 +20,7 @@ Skyderby::Application.routes.draw do
       scope module: :tracks do
         resource :map, only: :show
         resource :globe, controller: 'globe', only: :show
-        resource :video, only: [:new, :show]
+        resource :video, only: [:new, :edit, :show, :create, :update]
         resource :results, only: :show
         resource :download, only: :show
       end

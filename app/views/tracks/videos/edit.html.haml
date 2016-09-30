@@ -1,4 +1,4 @@
-.track-video-new{'data-points': @points.to_json.html_safe}
+.track-video-edit{'data-points': @points.to_json.html_safe}
   .container
     = render partial: 'tracks/header', locals: {track: @track}
 
@@ -9,4 +9,4 @@
 
 - content_for :page_js do
   :coffeescript
-    view = new Skyderby.views.TrackVideoForm(el: '.track-video-new')
+    view = new Skyderby.views.TrackVideoForm(el: '.track-video-edit')

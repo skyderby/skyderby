@@ -1,9 +1,62 @@
 class Tracks::VideosController < ApplicationController
   load_resource :track
-  before_filter :authorize_track
+  before_action :set_chart_data
 
   def new
-		@video = TrackVideo.new(track_offset: @track.ff_start)
+    authorize! :edit, @track 
+    redirect_to action: :edit and return if @track.video
+
+    default_values = { track_offset: @track.ff_start, track_id: @track.id }
+		@video = TrackVideo.new(default_values)
+  end
+
+  def edit
+    authorize! :edit, @track 
+    @video = @track.video
+  end
+
+  def show
+    authorize! :show, @track 
+
+    redirect_to @track unless @track.video 
+    @track_data = Tracks::VideoPresenter.new(@track)
+  end
+
+  def create
+    @video = TrackVideo.new(video_params)
+
+    if @video.save
+      respond_to do |format|
+        format.html { redirect_to @video }
+        format.js
+      end
+    else
+      respond_to do |format|
+        format.html { render :new }
+        format.js
+      end
+    end
+  end
+
+  def update
+    @video = @track.video
+
+    if @video.update(video_params)
+      respond_to do |format|
+        format.html { redirect_to @video }
+        format.js { @track_data = Tracks::VideoPresenter.new(@track) }
+      end
+    else
+      respond_to do |format|
+        format.html { render :edit }
+        format.js { render template: 'errors/ajax_errors', locals: {errors: errors} }
+      end
+    end
+  end
+
+  private
+
+  def set_chart_data
     start_time_in_seconds = @track.points.first.gps_time_in_seconds.to_f
     @points = 
         @track.points.trimmed(seconds_before_start: 20).freq_1Hz.pluck_to_hash(
@@ -16,14 +69,13 @@ class Tracks::VideosController < ApplicationController
           END AS glide_ratio')
   end
 
-  def show
-    redirect_to @track unless @track.video 
-    @track_data = Tracks::VideoPresenter.new(@track)
-  end
-
-  private
-
-  def authorize_track
-    authorize! :show, @track 
+  def video_params
+    params.require(:track_video).permit(
+      :track_id,
+      :url,
+      :video_code,
+      :video_offset,
+      :track_offset
+    )
   end
 end

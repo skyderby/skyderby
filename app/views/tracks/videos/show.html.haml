@@ -44,3 +44,7 @@
             .param
               %i.fa.fa-fw.fa-lg.fa-ellipsis-h
               =t 'tracks.indicators.glide_ratio'
+
+- content_for :page_js do
+  %script
+    = render partial: 'show_view', formats: [:js]
