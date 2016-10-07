@@ -118,6 +118,10 @@ class Skyderby.views.TrackVideoForm extends Backbone.View
     current_time = @player.getCurrentTime()
     @$('input[name="track_video[video_offset]"]').val(current_time.toFixed(1))
 
+    $('html, body').animate({
+      scrollTop: $("#chart").offset().top - 71
+    }, 700);
+
   on_change_url: (e) ->
     elem_value = $(e.currentTarget).val()
     code = @get_code_from_url(elem_value)
@@ -131,6 +135,11 @@ class Skyderby.views.TrackVideoForm extends Backbone.View
       @$('.url-group').removeClass('has-success').addClass('has-error')
 
     @$('input[name="track_video[video_code]"]').val(code || '')
+
+    if (!current_code && code)
+      $('html, body').animate({
+        scrollTop: $("#player").offset().top - 71
+      }, 700);
 
     @init_player() if @youtube_api_ready
 
