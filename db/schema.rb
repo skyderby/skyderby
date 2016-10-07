@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160821221118) do
+ActiveRecord::Schema.define(version: 20160930170247) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,7 +102,7 @@ ActiveRecord::Schema.define(version: 20160821221118) do
     t.decimal "longitude",               precision: 15, scale: 10
     t.text    "information"
     t.integer "country_id"
-    t.integer "msl"
+    t.decimal "msl",                     precision: 5,  scale: 1
   end
 
   create_table "points", force: :cascade do |t|
@@ -305,21 +305,21 @@ ActiveRecord::Schema.define(version: 20160821221118) do
     t.text     "comment"
     t.string   "location",          limit: 510
     t.integer  "user_id"
-    t.integer  "kind",                          default: 0
+    t.integer  "kind",                                                  default: 0
     t.integer  "wingsuit_id"
     t.integer  "ff_start"
     t.integer  "ff_end"
-    t.boolean  "ge_enabled",                    default: true
-    t.integer  "visibility",                    default: 0
+    t.boolean  "ge_enabled",                                            default: true
+    t.integer  "visibility",                                            default: 0
     t.integer  "profile_id"
     t.integer  "place_id"
-    t.integer  "gps_type",                      default: 0
+    t.integer  "gps_type",                                              default: 0
     t.string   "file_file_name",    limit: 510
     t.string   "file_content_type", limit: 510
     t.integer  "file_file_size"
     t.datetime "file_updated_at"
     t.integer  "track_file_id"
-    t.integer  "ground_level",                  default: 0
+    t.decimal  "ground_level",                  precision: 5, scale: 1, default: 0.0
     t.datetime "recorded_at"
   end
 
