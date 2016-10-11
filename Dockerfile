@@ -28,7 +28,7 @@ VOLUME /opt/app/tmp
 VOLUME /opt/app/public/assets
 VOLUME /opt/app/public/system
 
-RUN rake assets:precompile
+RUN DATABASE_URL=postgres://user:pass@127.0.0.1/does_not_exist_dbname /bin/sh -c 'bundle exec rake assets:precompile'
 
 CMD rake db:migrate \
   && rm -rf /opt/app/tmp/pids/unicorn.pid \
