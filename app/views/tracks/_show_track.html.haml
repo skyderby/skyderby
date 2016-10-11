@@ -32,6 +32,6 @@
       - if can?(:update, @track) && @track.track_file
         %small
           Download file:
-          = link_to @track.track_file.file_file_name, @track.track_file.file.url(:origin)
+          = link_to @track.track_file.file_file_name, track_download_path(@track), 'data-no-turbolink': true
 
   = render 'track_edit_range'
