@@ -22,6 +22,7 @@ Skyderby::Application.routes.draw do
         resource :globe, controller: 'globe', only: :show
         resource :video, only: :show
         resource :results, only: :show
+        resource :download, only: :show
       end
 
       resources :weather_data, only: [:index, :create, :update, :destroy]
