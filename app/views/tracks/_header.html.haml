@@ -34,9 +34,18 @@
         %i.fa.fa-bar-chart-o
         = t('tracks.show.charts')
       - if track.video
-        = link_to track_video_path(track), class: ['btn btn-default', ('active' if controller_path == 'tracks/video')] do
+        = link_to track_video_path(track), class: ['btn btn-default', ('active' if controller_path == 'tracks/videos')] do
           %i.fa.fa-play-circle-o
           = 'Video'
+      - elsif can? :edit, track
+        = link_to new_track_video_path(track), class: ['btn btn-default', ('active' if controller_path == 'tracks/videos')] do
+          %i.fa.fa-play-circle-o
+          = 'Video'
+      - else
+        %div.tooltip-wrapper{'data-toggle': 'tooltip', title: 'Pilot has not added video yet'}
+          %button.btn.btn-default.disabled
+            %i.fa.fa-play-circle-o
+            = 'Video'
       - if track.ge_enabled
         = link_to track_globe_path(track), class: ['btn btn-default', ('active' if controller.controller_path == 'tracks/globe')] do
           %i.fa.fa-compass
