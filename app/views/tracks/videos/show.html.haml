@@ -45,6 +45,12 @@
               %i.fa.fa-fw.fa-lg.fa-ellipsis-h
               =t 'tracks.indicators.glide_ratio'
 
+      .row
+        .col-sm-12.text-center.top-buffer
+          = link_to edit_track_video_path(@track_data.track), class: 'btn btn-default' do
+            = t('general.edit')
+            %i.fa.fa-pencil
+
 - content_for :page_js do
   %script
     = render partial: 'show_view', formats: [:js]
