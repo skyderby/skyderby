@@ -1,6 +1,6 @@
 - provide :title, title(@track_data.track)
 
-.track-replay{data: @track_data.to_data_attr}
+.track-video-show{data: @track_data.to_data_attr}
   .container
     = render partial: 'tracks/header', locals: {track: @track_data.track}
     .row
@@ -52,5 +52,16 @@
             %i.fa.fa-pencil
 
 - content_for :page_js do
-  %script
-    = render partial: 'show_view', formats: [:js]
+  :coffeescript
+    track_video = new Skyderby.models.TrackVideo()
+    data_div = $('.track-video-show')
+
+    track_video.set('points',       data_div.data('points'))
+    track_video.set('video_code',   data_div.data('video-code'))
+    track_video.set('video_offset', data_div.data('video-offset'))
+    track_video.set('track_offset', data_div.data('track-offset'))
+
+    view = new Skyderby.views.TrackReplayView({
+      model: track_video,
+      el: '.track-video-show'
+    })
