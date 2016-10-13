@@ -3,12 +3,10 @@
     .col-sm-4
       %h3
         Youtube video
-      %p
-        Enter YouTube link here
 
-    .col-sm-8.top-buffer
+    .col-sm-8
       .url-group
-        = f.text_field :url, class: 'form-control'
+        = f.text_field :url, class: 'form-control', placeholder: 'Enter YouTube link here'
 
       = f.hidden_field :video_code
       = f.hidden_field :track_id
@@ -41,7 +39,7 @@
         Start of the jump on track
       %p
         Find start of the jump on the chart and click on it. 
-        For precious changing use buttons in the field.
+        For precious changing use chart zooming feature or buttons in the field.
         Value in the field is a seconds from when you start recording jump.
     .col-sm-8
       #chart
