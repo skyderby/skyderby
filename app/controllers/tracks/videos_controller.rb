@@ -1,9 +1,9 @@
 class Tracks::VideosController < ApplicationController
   load_resource :track
   before_action :set_chart_data
+  before_action :authorize_edit, except: :show
 
   def new
-    authorize! :edit, @track 
     redirect_to action: :edit and return if @track.video
 
     default_values = { track_offset: @track.ff_start, track_id: @track.id }
@@ -11,7 +11,6 @@ class Tracks::VideosController < ApplicationController
   end
 
   def edit
-    authorize! :edit, @track 
     @video = @track.video
   end
 
@@ -54,7 +53,16 @@ class Tracks::VideosController < ApplicationController
     end
   end
 
+  def destroy
+    @track.video.destroy
+    redirect_to @track
+  end
+
   private
+
+  def authorize_edit
+    authorize! :edit, @track
+  end
 
   def set_chart_data
     start_time_in_seconds = @track.points.first.gps_time_in_seconds.to_f
