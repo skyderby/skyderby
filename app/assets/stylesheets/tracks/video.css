@@ -7,3 +7,7 @@
   height: 250px;
   width: 100%;
 }
+
+input#track_video_url {
+  margin-top: 8px;
+}
