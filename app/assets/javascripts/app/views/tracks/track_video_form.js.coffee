@@ -43,11 +43,13 @@ class Skyderby.views.TrackVideoForm extends Backbone.View
   init_chart: ->
     @$('#chart').highcharts(
       chart:
-        type: 'area'
+        type: 'spline'
         marginLeft: 0
         marginRight: 0
+        zoomType: 'x'
         events:
           click: (event) =>
+            return if $(event.target)[0].textContent
             @on_change_track_offset(event.xAxis[0].value)
       title:
         floating: true
@@ -63,22 +65,44 @@ class Skyderby.views.TrackVideoForm extends Backbone.View
             events:
               click: (event) =>
                 @on_change_track_offset(event.point.x)
-      yAxis:
+      yAxis: [{
         title:
           text: I18n.t('tracks.edit.elevation') + ', ' + I18n.t('units.m')
         min: 0
         opposite: true
+      }, {
+        min: 0
+        opposite: true
+      }],
       tooltip:
         crosshairs: true
+        shared: true
+        valueDecimals: 0
       credits:
         enabled: false
-      series: [
+      series: [{
         name: I18n.t('tracks.edit.elevation')
+        yAxis: 0,
         pointInterval: 10
         tooltip:
-          valueSuffix: I18n.t('units.m')
-        ]
-      )
+          valueSuffix: ' ' + I18n.t('units.m')
+        }, {
+          name: I18n.t('charts.spd.series.ground'),
+          yAxis: 1,
+          color: '#52A964',
+          tooltip: {
+            valueSuffix: ' ' + I18n.t('units.kmh'),
+          }
+        }, {
+          name: I18n.t('charts.spd.series.vertical'),
+          yAxis: 1,
+          color: '#A7414E',
+          tooltip: {
+            valueSuffix: ' ' + I18n.t('units.kmh'),
+          }
+        }
+      ]
+    )
 
   on_increase_track_offset: (e) ->
     e.preventDefault()
@@ -104,10 +128,20 @@ class Skyderby.views.TrackVideoForm extends Backbone.View
     )
 			 
   set_chart_data: ->
-    chart_points = _.map @points, (el) ->
+    altitude_points = _.map @points, (el) ->
       [el.fl_time, el.altitude]
 
-    @$('#chart').highcharts().series[0].setData(chart_points)
+    @$('#chart').highcharts().series[0].setData(altitude_points)
+
+    h_speed_points = _.map @points, (el) ->
+      [el.fl_time, el.h_speed]
+
+    @$('#chart').highcharts().series[1].setData(h_speed_points)
+
+    v_speed_points = _.map @points, (el) ->
+      [el.fl_time, el.v_speed]
+
+    @$('#chart').highcharts().series[2].setData(v_speed_points)
 
   video_code: ->
     @$('input[name="track_video[video_code]"]').val()

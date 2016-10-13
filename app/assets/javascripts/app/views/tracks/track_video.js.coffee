@@ -4,11 +4,14 @@ class Skyderby.views.TrackReplayView extends Backbone.View
     
   yt_timer_id: 0,
 
-  render: ->
+  initialize: ->
     @listenToOnce(Skyderby, 'youtube_api_ready', @on_youtube_api_ready)
     Skyderby.helpers.init_youtube_api()
 
   on_youtube_api_ready: ->
+    @init_player()
+
+  init_player: ->
     @player = new YT.Player('player', {
       height: '390',
       width: '640',
