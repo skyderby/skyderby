@@ -1,0 +1,9 @@
+en:
+  activerecord:
+    models:
+      track_videos: Video
+    attributes:
+      track_videos:
+        url: YouTube Video
+        video_offset: Zeitpunkt des Exits im Video
+        track_offset: Exitzeitpunkt im Track
