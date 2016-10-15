@@ -2,11 +2,11 @@
   .row
     .col-sm-4
       %h3
-        Youtube video
+        = t 'activerecord.attributes.track_videos.url'
 
     .col-sm-8
       .url-group
-        = f.text_field :url, class: 'form-control', placeholder: 'Enter YouTube link here'
+        = f.text_field :url, class: 'form-control', placeholder: t('.url_placeholder')
 
       = f.hidden_field :video_code
       = f.hidden_field :track_id
@@ -15,12 +15,8 @@
 
   .row
     .col-sm-4 
-      %h3
-        Start of the jump on video
-      %p
-        Play video until jump started, pause the video at the beginning of the jump,
-        then press button 'Set' in the field to paste current time.
-        Value in the field is a seconds from beginning of video.
+      %h3= t 'activerecord.attributes.track_videos.video_offset'
+      %p= t '.video_offset_description'
     .col-sm-8
       #player
 
@@ -28,19 +24,15 @@
       .input-group
         = f.text_field :video_offset, class: 'form-control text-center'
         %span.input-group-btn
-          %button#set-current-time.btn.btn-default
-            Set
+          %button#set-current-time.btn.btn-default= t '.set'
 
   %hr
 
   .row
     .col-sm-4
-      %h3
-        Start of the jump on track
-      %p
-        Find start of the jump on the chart and click on it. 
-        For precious changing use chart zooming feature or buttons in the field.
-        Value in the field is a seconds from when you start recording jump.
+      %h3= t 'activerecord.attributes.track_videos.track_offset'
+      %p= t '.track_offset_description'
+
     .col-sm-8
       #chart
     .col-sm-3.col-sm-offset-4

@@ -1,0 +1,9 @@
+ru:
+  activerecord:
+    models:
+      track_videos: Видео
+    attributes:
+      track_videos:
+        url: YouTube видео
+        video_offset: Время начала прыжка на видео
+        track_offset: Начало прыжка на треке
