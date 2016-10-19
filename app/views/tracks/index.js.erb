@@ -3,7 +3,9 @@ $('#tracks-index').append('<%= j render(@tracks) %>)');
 enable_tooltips();
 
 <% if @tracks.next_page %>
-    $('.pagination').replaceWith('<%= j will_paginate(@tracks, renderer: BootstrapPagination::Rails) %>');
+    $('.pagination-list > .pagination').replaceWith('<%= j will_paginate(@tracks, renderer: BootstrapPagination::Rails) %>');
+    $('.pagination-load-more > .pagination').replaceWith('<%= j will_paginate(@tracks, renderer: WillPaginateLoadMoreRenderer) %>');
 <% else %>
-    $('.pagination').remove();
+    $('.pagination-list').remove();
+    $('.pagination-load-more').remove();
 <% end %>

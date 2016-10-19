@@ -1,0 +1,16 @@
+.content-block {
+  background-color: white;
+  border-color: rgba(0, 0, 0, 0.14);
+  border-radius: 2px;
+  box-shadow: 0 0 2px rgba(0,0,0,0.18);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 15px;
+  margin-bottom: 5px;
+
+  &> h2, > h3, > h4 {
+    color: rgba(0, 0, 0, 0.6);
+  }
+}

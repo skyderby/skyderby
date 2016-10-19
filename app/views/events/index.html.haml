@@ -7,6 +7,7 @@
   - else
     %span= 'Creating classic competitions available only for registered users.'
 
-  %ul.comp-list
-    - @events.each do |comp|
-      = render comp
+  .content-block
+    %ul.comp-list
+      - @events.each do |comp|
+        = render comp
