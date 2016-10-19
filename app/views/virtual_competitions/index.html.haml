@@ -4,16 +4,16 @@
       %i.fa.fa-plus
       = 'Онлайн соревнование'
  
-  %table#places-index.table.table-hover
-    %thead
-      %tr
-        %th= 'Name'
-        %th= 'Location'
-        %th= 'Task'
-    %tbody
-      - @competitions.each do |group, competitions|
-        %tr.bg-warning.text-danger.no-hover
-          %td{colspan: 3}= group
+  - @competitions.each do |group, competitions|
+    .content-block
+      %h3= group
+      %table.table.table-hover.online-competitions-list
+        %thead
+          %tr
+            %th= 'Name'
+            %th= 'Location'
+            %th= 'Task'
+        %tbody
         - competitions.each do |competition|
           %tr.clickableRow{data: {url: virtual_competition_path(id: competition.id)}}
             %td.text-info= competition.name

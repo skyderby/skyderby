@@ -6,12 +6,11 @@
     %h1= 'Suits'
   
   - @wingsuits.each do |manufacturer, suits|
-    .top-buffer
+    .content-block
+      %h2= manufacturer || '<...>'
       .row
-        .col-sm-12.col-md-12.bg-info
-          %h1.light-header= manufacturer || '<...>'
         .col-sm-12.col-md-6
-          %h2.light-header Wingsuits
+          %h3.light-header Wingsuits
           %ul.suits-list
             - suits.select(&:wingsuit?).each do |wingsuit|
               %li.suit-li
@@ -33,16 +32,8 @@
                       = wingsuit.tracks.accessible_by(current_user).skydive.count
                     .text-center
                       skydive
-              -# - if can? :update, wingsuit
-              -#   = link_to t('.edit', default: t("helpers.links.edit")),
-              -#                 edit_wingsuit_path(wingsuit), class: 'btn btn-default btn-xs'
-              -#   = link_to t('.destroy', default: t("helpers.links.destroy")),
-              -#                 wingsuit_path(wingsuit),
-              -#                 method: :delete,
-              -#                 data: { confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?')) },
-              -#                 class: 'btn btn-xs btn-danger'
         .col-sm-12.col-md-6
-          %h2.light-header Tracksuits
+          %h3.light-header Tracksuits
           %ul.suits-list
             - suits.select(&:tracksuit?).each do |tracksuit|
               %li.suit-li
@@ -65,4 +56,3 @@
                     .text-center
                       skydive
 
-    %hr

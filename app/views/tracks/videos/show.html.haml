@@ -3,53 +3,55 @@
 .track-video-show{data: @track_data.to_data_attr}
   .container
     = render partial: 'tracks/header', locals: {track: @track_data.track}
-    .row
-      .col-sm-12
-        .videowrapper
-          #player
-    .row.track-indicators
-      .col-md-11.col-md-offset-1.col-sm-12
-        .row
-          .col-md-3.col-sm-4.col-xs-6
-            .param-val
-              .avg-val.fa-3x#p_cur_elev= '---'
-              .min-max.text-right
-                .min-val
-                  %span#p_elev_diff= '---'
-                  %i.fa.fa-lg.fa-caret-down
-              .units.dst-unit.fa-2x= t 'units.m'
-            .param
-              %i.fa.fa-fw.fa-lg.fa-arrows-v
-              =t 'tracks.indicators.altitude'
 
-          .col-md-3.col-sm-4.col-xs-6
-            .param-val
-              .avg-val.fa-3x#p_cur_v_speed= '---'
-              .units.spd-unit.fa-2x=t 'units.kmh'
-            .param
-              %i.fa.fa-fw.fa-lg.fa-long-arrow-down
-              =t 'tracks.indicators.vertical_speed'
-
-          .col-md-3.col-sm-4.col-xs-6
-            .param-val
-              .avg-val.fa-3x#p_cur_h_speed= '---'
-              .units.spd-unit.fa-2x=t 'units.kmh'
-            .param
-              %i.fa.fa-fw.fa-lg.fa-long-arrow-right
-              =t 'tracks.indicators.ground_speed'
-
-          .col-md-3.col-sm-4.col-xs-6
-            .param-val
-              .avg-val.fa-3x#p_cur_gr= '-.--'
-            .param
-              %i.fa.fa-fw.fa-lg.fa-ellipsis-h
-              =t 'tracks.indicators.glide_ratio'
-
+    .content-block
       .row
-        .col-sm-12.text-center.top-buffer
-          = link_to edit_track_video_path(@track_data.track), class: 'btn btn-default' do
-            = t('general.edit')
-            %i.fa.fa-pencil
+        .col-sm-12
+          .videowrapper
+            #player
+      .row.track-indicators
+        .col-md-11.col-md-offset-1.col-sm-12
+          .row
+            .col-md-3.col-sm-4.col-xs-6
+              .param-val
+                .avg-val.fa-3x#p_cur_elev= '---'
+                .min-max.text-right
+                  .min-val
+                    %span#p_elev_diff= '---'
+                    %i.fa.fa-lg.fa-caret-down
+                .units.dst-unit.fa-2x= t 'units.m'
+              .param
+                %i.fa.fa-fw.fa-lg.fa-arrows-v
+                =t 'tracks.indicators.altitude'
+
+            .col-md-3.col-sm-4.col-xs-6
+              .param-val
+                .avg-val.fa-3x#p_cur_v_speed= '---'
+                .units.spd-unit.fa-2x=t 'units.kmh'
+              .param
+                %i.fa.fa-fw.fa-lg.fa-long-arrow-down
+                =t 'tracks.indicators.vertical_speed'
+
+            .col-md-3.col-sm-4.col-xs-6
+              .param-val
+                .avg-val.fa-3x#p_cur_h_speed= '---'
+                .units.spd-unit.fa-2x=t 'units.kmh'
+              .param
+                %i.fa.fa-fw.fa-lg.fa-long-arrow-right
+                =t 'tracks.indicators.ground_speed'
+
+            .col-md-3.col-sm-4.col-xs-6
+              .param-val
+                .avg-val.fa-3x#p_cur_gr= '-.--'
+              .param
+                %i.fa.fa-fw.fa-lg.fa-ellipsis-h
+                =t 'tracks.indicators.glide_ratio'
+
+    .row
+      .col-sm-12.text-center.top-buffer
+        = link_to edit_track_video_path(@track_data.track), class: 'btn btn-default' do
+          = t('general.edit')
+          %i.fa.fa-pencil
 
 - content_for :page_js do
   :coffeescript

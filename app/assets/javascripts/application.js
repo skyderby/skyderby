@@ -139,18 +139,18 @@ $(document).on('click', '.clickableRow', function() {
 
 $(document).on('ready page:load', function() {
     // ONLY if page has one pagination!
-    if ($('.pagination').length) {
-        $(window).off('scroll').on('scroll', function() {
-            var url = $('.pagination .next > a').attr('href');
-            if (url && ($(window).scrollTop() >= $(document).height() - $(window).height() - 170)) {
-                $('.pagination').text('Fetching more tracks...');
-                $.getScript(url);
-            }
-        });
-        $(window).scroll();
-    } else {
-        $(window).off('scroll');
-    }
+    // if ($('.pagination').length) {
+    //     $(window).off('scroll').on('scroll', function() {
+    //         var url = $('.pagination .next > a').attr('href');
+    //         if (url && ($(window).scrollTop() >= $(document).height() - $(window).height() - 170)) {
+    //             $('.pagination').text('Fetching more tracks...');
+    //             $.getScript(url);
+    //         }
+    //     });
+    //     $(window).scroll();
+    // } else {
+    //     $(window).off('scroll');
+    // }
 });
 
 $(document).on('page:change', function() {

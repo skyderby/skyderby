@@ -2,10 +2,11 @@
   .container
     = render partial: 'tracks/header', locals: {track: @track}
 
-    %h2
-      = t '.header'
+    .content-block
+      %h2
+        = t '.header'
 
-    = render 'form'
+      = render 'form'
 
 - content_for :page_js do
   :coffeescript
