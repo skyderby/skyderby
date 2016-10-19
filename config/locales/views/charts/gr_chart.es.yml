@@ -3,5 +3,5 @@ es:
     gr:
       title: 'Calidad del vuelo'
       series:
-        gr: 'La calidad'
-        raw_gr: 'La calidad (bruto)'
+        gr: 'Calidad'
+        raw_gr: 'Calidad (bruta)'
