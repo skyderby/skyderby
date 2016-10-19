@@ -2,7 +2,7 @@ es:
   tracks:
     choose:
       title: 'Elige la pista para descargar'
-      number: 'El número'
-      name: 'El nombre de la pista'
-      elev: 'La diferencia de altura'
-      pt_cnt: 'La cantidad de los puntos'
+      number: 'Número'
+      name: 'Nombre de la pista'
+      elev: 'Diferencia de altura'
+      pt_cnt: 'Cantidad de los puntos'
