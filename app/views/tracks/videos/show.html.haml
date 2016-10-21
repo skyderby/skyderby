@@ -5,6 +5,12 @@
     = render partial: 'tracks/header', locals: {track: @track_data.track}
 
     .content-block
+      - if can? :update, @track_data.track
+        .card-action
+          .position-right
+            = link_to edit_track_video_path(@track_data.track), class: 'btn-flat same-padding' do
+              %i.fa.fa-cog
+              = t('general.settings')
       .row
         .col-sm-12
           .videowrapper
@@ -49,9 +55,6 @@
 
     .row
       .col-sm-12.text-center.top-buffer
-        = link_to edit_track_video_path(@track_data.track), class: 'btn btn-default' do
-          = t('general.edit')
-          %i.fa.fa-pencil
 
 - content_for :page_js do
   :coffeescript
