@@ -4,6 +4,10 @@
     = render partial: 'header', locals: {track: @track}
 
     .content-block
+      .card-action
+        .dropdown.position-right
+          = render 'tracks/view_settings_menu'
+
       = render partial: 'indicators', locals: {presenter: @track_presenter}
 
       %hr.top-buffer

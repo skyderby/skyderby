@@ -1,16 +1,27 @@
 .content-block {
+  display: flex;
+  flex-direction: column;
+
   background-color: white;
-  border-color: rgba(0, 0, 0, 0.14);
+  border: rgba(0, 0, 0, 0.14) solid 1px;
   border-radius: 2px;
-  box-shadow: 0 0 2px rgba(0,0,0,0.18);
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 15px;
   padding-right: 15px;
-  margin-top: 15px;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 
   &> h2, > h3, > h4 {
     color: rgba(0, 0, 0, 0.6);
+  }
+
+  .card-action {
+    margin-left: auto;
+    text-align: right;
+    text-transform: uppercase;
+
+    button {
+      text-transform: uppercase;
+    }
   }
 }

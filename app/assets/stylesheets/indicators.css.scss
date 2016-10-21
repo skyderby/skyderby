@@ -1,5 +1,8 @@
 .track-indicators {
 
+  display: flex;
+  justify-content: space-around;
+
   .units {
     font-size: 2em;
   }
