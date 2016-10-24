@@ -1,10 +1,10 @@
 es:
   charts:
     elev:
-      title: 'La altitud alcanzada/ por horizonte'
+      title: 'Altitud alcanzada/ por horizonte'
       axis:
-        distance: 'La distancia, %{unit}'
+        distance: 'Distancia, %{unit}'
       series:
-        elevation: 'La altitud alcanzada'
-        distance: 'La distancia alcanzada'
-        height: 'La altitud'
+        elevation: 'Altitud alcanzada'
+        distance: 'Distancia alcanzada'
+        height: 'Altitud'
