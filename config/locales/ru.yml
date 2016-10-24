@@ -14,6 +14,7 @@ ru:
     edit: "Редактировать"
     enabled: 'Включено'
     disabled: 'Выключено'
+    settings: 'Настройки'
   users:
     profile:
       edit:

@@ -79,3 +79,7 @@
   border-bottom-style: solid;
   text-decoration: none;
 }
+
+.online-competitions-list tr > td:nth-child(1) { width: 50% }
+.online-competitions-list tr > td:nth-child(2) { width: 25% }
+.online-competitions-list tr > td:nth-child(3) { width: 25% }

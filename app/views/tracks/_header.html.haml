@@ -29,34 +29,32 @@
   .row
     .col-md-12
       - controller_path = controller.controller_path
-      %a.btn.btn-default{href: track_path(track),
-                         class: ('active' if controller_path == 'tracks')}
+      = link_to track_path(track), class: ['btn-flat btn-tab', ('active' if controller_path == 'tracks')] do
         %i.fa.fa-bar-chart-o
         = t('tracks.show.charts')
       - if track.video
-        = link_to track_video_path(track), class: ['btn btn-default', ('active' if controller_path == 'tracks/videos')] do
+        = link_to track_video_path(track), class: ['btn-flat btn-tab', ('active' if controller_path == 'tracks/videos')] do
           %i.fa.fa-play-circle-o
           = 'Video'
       - elsif can? :edit, track
-        = link_to new_track_video_path(track), class: ['btn btn-default', ('active' if controller_path == 'tracks/videos')] do
+        = link_to new_track_video_path(track), class: ['btn-flat btn-tab', ('active' if controller_path == 'tracks/videos')] do
           %i.fa.fa-play-circle-o
           = 'Video'
       - else
         %div.tooltip-wrapper{'data-toggle': 'tooltip', title: 'Pilot has not added video yet'}
-          %button.btn.btn-default.disabled
+          %button.btn-flat.disabled
             %i.fa.fa-play-circle-o
             = 'Video'
       - if track.ge_enabled
-        = link_to track_globe_path(track), class: ['btn btn-default', ('active' if controller.controller_path == 'tracks/globe')] do
+        = link_to track_globe_path(track), class: ['btn-flat btn-tab', ('active' if controller.controller_path == 'tracks/globe')] do
           %i.fa.fa-compass
           = '3D Maps'
-      %a.btn.btn-default{href: track_map_path(track),
-                         class: ('active' if controller_path == 'tracks/maps')}
+      = link_to track_map_path(track), class: ['btn-flat btn-tab', ('active' if controller_path == 'tracks/maps')] do
         %i.fa.fa-compass
         = 'Google maps'
       = link_to track_results_path(@track), 
                 remote: true, 
-                class: 'btn btn-default',
+                class: 'btn-flat btn-tab',
                 rel: 'nofollow' do
         %i.fa.fa-th-list
         = t('tracks.show.results')
@@ -65,12 +63,9 @@
         = link_to t('events.show.weather_data'), 
                  track_weather_data_path(@track), 
                  remote: true, 
-                 class: 'btn btn-default',
+                 class: 'btn-flat btn-tab',
                  rel: 'nofollow'
 
-        %span.settings-button
-          - if action_name == 'show'
-            = render 'tracks/view_settings_menu'
         - if user_signed_in? && (current_user == track.user || (can? :update, :tracks))
-          %a.btn.btn-default{href: edit_track_path(track)}
+          %a.btn-flat.btn-tab{href: edit_track_path(track)}
             %i.fa.fa-pencil

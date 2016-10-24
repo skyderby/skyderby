@@ -19,48 +19,49 @@
                 = @place.information
             %h4= "Lat: #{@place.latitude}, Lon: #{@place.longitude}, MSL: #{@place.msl}"
 
-  - pilots = @place.pilots_accessible_by(current_user)
-  - unless pilots.blank?
-    .row.top-buffer
-      .col-sm-12
-        %div= t('.visited_by') + ':'
-        - pilots.each do |pilot|
-          %a{href: profile_path(pilot)}
-            %img.img-50{src: pilot.userpic.url(:thumb), 'data-toggle' => 'tooltip', title: pilot.name}
-    %hr
+  .content-block
+    - pilots = @place.pilots_accessible_by(current_user)
+    - unless pilots.blank?
+      .row.top-buffer
+        .col-sm-12
+          %div= t('.visited_by') + ':'
+          - pilots.each do |pilot|
+            %a{href: profile_path(pilot)}
+              %img.img-50{src: pilot.userpic.url(:thumb), 'data-toggle' => 'tooltip', title: pilot.name}
+      %hr
 
-  %table.table.table-hover.top-buffer
-    %thead
-      %tr
-        %th=t 'activerecord.attributes.track.id'
-        %th=t 'activerecord.attributes.track.name'
-        %th=t 'activerecord.attributes.track.suit'
-        %th.text-right= t('disciplinse.distance')
-        %th.text-right= t('disciplinse.speed')
-        %th.text-right= t('disciplinse.time')
-        %th=t 'activerecord.attributes.track.comment'
-        %th.text-center=t 'activerecord.attributes.track.recorded_at'
-        %th
-    %tbody
-      - @place.tracks.accessible_by(current_user).each do |track|
-        %tr.clickableRow{data: {url: track_path(id: track.id)}}
-          %td= track.id
-          %td= track_pilot(track)
-          %td
-            - if track.wingsuit
-              = suit_presentation(track.wingsuit)
-            - else 
-              %span.text-info
-              = track.suit
-          %td.text-right
-            %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.distance)}
-              = track.distance.result.to_i if track.distance
-          %td.text-right
-            %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.speed)}
-              = track.speed.result.to_i if track.speed
-          %td.text-right
-            %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.time)}
-              = track.time.result if track.time
-          %td.text-muted= track.comment
-          %td.text-center= track.created_at.strftime('%d.%m.%Y')
-          %td= track_icons(track)
+    %table.table.table-hover.top-buffer
+      %thead
+        %tr
+          %th=t 'activerecord.attributes.track.id'
+          %th=t 'activerecord.attributes.track.name'
+          %th=t 'activerecord.attributes.track.suit'
+          %th.text-right= t('disciplinse.distance')
+          %th.text-right= t('disciplinse.speed')
+          %th.text-right= t('disciplinse.time')
+          %th=t 'activerecord.attributes.track.comment'
+          %th.text-center=t 'activerecord.attributes.track.recorded_at'
+          %th
+      %tbody
+        - @place.tracks.accessible_by(current_user).each do |track|
+          %tr.clickableRow{data: {url: track_path(id: track.id)}}
+            %td= track.id
+            %td= track_pilot(track)
+            %td
+              - if track.wingsuit
+                = suit_presentation(track.wingsuit)
+              - else 
+                %span.text-info
+                = track.suit
+            %td.text-right
+              %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.distance)}
+                = track.distance.result.to_i if track.distance
+            %td.text-right
+              %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.speed)}
+                = track.speed.result.to_i if track.speed
+            %td.text-right
+              %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.time)}
+                = track.time.result if track.time
+            %td.text-muted= track.comment
+            %td.text-center= track.created_at.strftime('%d.%m.%Y')
+            %td= track_icons(track)

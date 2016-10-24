@@ -11,6 +11,7 @@ en:
     edit: "Edit"
     enabled: 'Enabled'
     disabled: 'Disabled'
+    settings: Settings
   users:
     profile:
       edit:
