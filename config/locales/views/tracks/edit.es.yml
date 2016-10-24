@@ -1,9 +1,9 @@
 es:
   tracks:
     edit:
-      visibility: "Privacidad:"
-      public: "Público"
-      unlisted: "Oculto"
-      private: "Privado"
-      elev_chart_html: "'Altitud'"
-      elevation_html: "'Altitud'"
+      visibility: Privacidad
+      public: Público
+      unlisted: Oculto
+      private: Privado
+      elev_chart: Altitud
+      elevation: Altitud
