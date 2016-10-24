@@ -52,15 +52,15 @@ es:
       subtitle: "Todavía beta"
       track_form:
         title: 'Ver y comentar la pista:'
-        name: 'Te llamas:'
+        name: 'Te llamas'
         name_plh: 'Nombre, Apellido'
-        suit: "Vuelas en:"
+        suit: "Vuelas en"
         suit_plh: 'El modelo del traje aéreo'
-        location: 'La localización:'
+        location: 'La localización'
         location_plh: 'Zona de salto, montañas'
-        file: 'El archivo de la pista:'
+        file: 'El archivo de la pista'
         help: 'Los archivos se abren en los formatos csv, tes y gpx'
-        comment: 'Comentario:'
+        comment: 'Comentario'
         comment_plh: 'Deje un comentario sobre tu vuelo'
         submit: 'Descargar'
         warnings:
@@ -72,7 +72,7 @@ es:
           file_ext_w2_html: "'Elige, por favor, un archivo con la extensión csv, tes o gpx'"
           file_size_w1_html: "'La dimensión del archivo: '"
           file_size_w2_html: "'El  tamaño  del archivo no debe superar 1Mb'"
-        kind: "El tipo de salto:"
+        kind: "El tipo de salto"
       desc: "El análisis de GPS-pistas y la organización de las competiciones en el formato GPS Performance."
       goto_event: "A la pagina web del evento >>"
       stats: "Estadísticas:"
