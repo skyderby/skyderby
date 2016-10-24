@@ -19,20 +19,21 @@
             = t '.on_list'
       %h1= t '.title'
   
-    .row.map-view
-      .col-sm-12#places-map
+    .content-block
+      .row.map-view
+        .col-sm-12#places-map
 
-    .row.list-view
-      .col-sm-12.top-buffer
-        %table#places-index.table.table-hover
-          %tbody
-            - @places.group_by(&:country_name).each do |country, places|
-              %tr.bg-warning.text-danger.no-hover
-                %td= country
-              - places.each do |place|
-                %tr
-                  %td
-                    %a{href: place_path(place.id)}= place.name
+      .row.list-view
+        .col-sm-12.top-buffer
+          %table#places-index.table.table-hover
+            %tbody
+              - @places.group_by(&:country_name).each do |country, places|
+                %tr.bg-warning.text-danger.no-hover
+                  %td= country
+                - places.each do |place|
+                  %tr
+                    %td
+                      %a{href: place_path(place.id)}= place.name
 
 = content_for :page_js do
   :javascript

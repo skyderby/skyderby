@@ -13,7 +13,7 @@
           .col-sm-4
             .start-page-competition
               .start-page-competition-header.text-center
-                = link_to competition.name, virtual_competitions_path(competition)
+                = link_to competition.name, virtual_competition_path(competition)
               .competition-results
                 - competition.personal_top_scores.first(3).each do |competition_leader|
                   - place_class = [:gold_place, :silver_place, :bronze_place][competition_leader.rank - 1]

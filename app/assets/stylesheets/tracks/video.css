@@ -1,0 +1,13 @@
+.track-video-new #player {
+  height: 300px;
+  width: 100%;
+}
+
+.track-video-new #chart {
+  height: 250px;
+  width: 100%;
+}
+
+input#track_video_url {
+  margin-top: 8px;
+}

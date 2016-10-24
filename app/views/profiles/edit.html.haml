@@ -4,27 +4,28 @@
       = t('users.profile.edit.title')
       = @profile.name
 
-  = form_for @profile, html: {class: 'edit-user-profile form-horizontal'} do |f|
-    .form-group
-      = f.label t('activerecord.attributes.profile.name'), class: 'col-sm-2 control-label', for: :name
-      .col-sm-5
-        = f.text_field :name, autofocus: true, class: 'form-control'
+  .content-block
+    = form_for @profile, html: {class: 'edit-user-profile form-horizontal'} do |f|
+      .form-group
+        = f.label t('activerecord.attributes.profile.name'), class: 'col-sm-2 control-label', for: :name
+        .col-sm-5
+          = f.text_field :name, autofocus: true, class: 'form-control'
 
-    .form-group
-      = f.label :country, class: 'col-sm-2 control-label', for: :country
-      .col-sm-5
-        = f.select :country_id,
-                   options_for_select([[@profile.country_name, @profile.country_id]]),
-                   class: 'form-control'
+      .form-group
+        = f.label :country, class: 'col-sm-2 control-label', for: :country
+        .col-sm-5
+          = f.select :country_id,
+                     options_for_select([[@profile.country_name, @profile.country_id]]),
+                     class: 'form-control'
 
-    .form-group
-      = f.label t('activerecord.attributes.profile.userpic'), class: 'col-sm-2 control-label', :for => :userpic
-      .col-sm-4
-        = f.file_field :userpic
+      .form-group
+        = f.label t('activerecord.attributes.profile.userpic'), class: 'col-sm-2 control-label', :for => :userpic
+        .col-sm-4
+          = f.file_field :userpic
 
-    .form-group
-      .col-sm-offset-2.col-sm-8
-        = f.submit t('general.update'), class: 'btn btn-primary'
+      .form-group
+        .col-sm-offset-2.col-sm-8
+          = f.submit t('general.update'), class: 'btn btn-primary'
 
   - if is_owner
     %a.col-sm-offset-2{:data => {:toggle =>'modal', :target => '#CredentialsModal'}}
