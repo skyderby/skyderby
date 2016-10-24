@@ -50,6 +50,7 @@ de:
     update: "Aktualisierung"
     delete: "Entfernen"
     edit: "Korrigieren"
+    settings: Einstellungen
   users:
     profile:
       edit:

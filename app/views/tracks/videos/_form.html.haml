@@ -1,0 +1,60 @@
+= form_for @video, url: track_video_path, remote: true, html: {class: 'form-horizontal'} do |f|
+  .row
+    .col-sm-4
+      %h3
+        = t 'activerecord.attributes.track_videos.url'
+
+    .col-sm-8
+      .url-group
+        = f.text_field :url, class: 'form-control', placeholder: t('.url_placeholder')
+
+      = f.hidden_field :video_code
+      = f.hidden_field :track_id
+
+  %hr
+
+  .row
+    .col-sm-4 
+      %h3= t 'activerecord.attributes.track_videos.video_offset'
+      %p= t '.video_offset_description'
+    .col-sm-8
+      #player
+
+    .col-sm-3.col-sm-offset-4.top-buffer
+      .input-group
+        = f.text_field :video_offset, class: 'form-control text-center'
+        %span.input-group-btn
+          %button#set-current-time.btn.btn-default= t '.set'
+
+  %hr
+
+  .row
+    .col-sm-4
+      %h3= t 'activerecord.attributes.track_videos.track_offset'
+      %p= t '.track_offset_description'
+
+    .col-sm-8
+      #chart
+    .col-sm-3.col-sm-offset-4
+      .input-group
+        %span.input-group-btn
+          %button#dec-track-offset.btn.btn-default
+            %i.fa.fa-chevron-left
+
+        = f.text_field :track_offset, class: 'form-control text-center'
+
+        %span.input-group-btn
+          %button#inc-track-offset.btn.btn-default
+            %i.fa.fa-chevron-right
+
+  .row
+    .top-buffer-30
+      .col-sm-4.col-sm-offset-4
+        = f.submit t('general.save'), class: 'btn btn-primary btn-lg'
+
+      .col-sm-4.text-right
+        = link_to t('general.delete'),
+                  track_video_path,
+                  method: :delete,
+                  data: {confirm: 'Are you sure you want to delete this video?'},
+                  class: 'btn btn-default'

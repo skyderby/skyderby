@@ -28,6 +28,11 @@
 // Example:
 // @link-color: #ff0000;
 
+.table > thead > tr > th {
+  color: rgba(0,0,0, 0.54);
+  font-weight: normal;
+}
+
 #map img {
   max-width: none;
 }
@@ -55,7 +60,7 @@ p.form-control-static {
         padding-left: 15px;
         padding-right: 15px;
         margin:0;
-	width: auto;
+        width: auto;
     }
 
     body {
@@ -65,14 +70,22 @@ p.form-control-static {
     .navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {
         margin-left: 0px;
         margin-right: 0px;
-	padding-left: 10px;
-	padding-right: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
         margin-bottom: 0px;
     }
 }
 
+body {
+  background-color: #fafafa;
+}
+
 .modal-dialog {
   z-index: 1041;
+}
+
+.page-header {
+  margin-top: 20px;
 }
 
 #footer {
@@ -84,6 +97,7 @@ p.form-control-static {
   padding-top: 13px;
   font-size: 12px;
   color: @navbar-default-color;
+  height: 40px;
 }
 
 .navbar {

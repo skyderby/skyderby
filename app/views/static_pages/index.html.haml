@@ -1,101 +1,81 @@
-.index-header
-  .container
+.index-page-wrapper
+  .index-header
+    .container
+      .row
+        .col-9.col-xs-12.col-sm-9.col-md-9.col-lg-9
+          %h1
+            = t('.title')
+            %small= t('.subtitle')
+          %p= t('static_pages.index.desc')
+          %a.btn.btn-success.btn-lg{href: '#', data: {toggle: 'modal', target: '#newTrackModal'}}
+            %i.fa.fa-upload
+            = t('application.header.upload_track')
+        .col-3.hidden-xs.col-sm-3
+          %img.img-responsive{src: asset_path('skyderby-logo.png')}
+
+  .container.top-buffer
     .row
-      .col-9.col-xs-12.col-sm-9.col-md-9.col-lg-9
-        %h1
-          = t('.title')
-          %small= t('.subtitle')
-        %p= t('static_pages.index.desc')
-        %a.btn.btn-success.btn-lg{href: '#', data: {toggle: 'modal', target: '#newTrackModal'}}
-          %i.fa.fa-upload
-          = t('application.header.upload_track')
-      .col-3.hidden-xs.col-sm-3
-        %img.img-responsive{src: asset_path('skyderby-logo.png')}
+      .col-sm-10
+        %h2.light-header
+          = t('.donate')
+      .col-sm-2
+        %h2
+          =render 'static_pages/donate'
 
-.container.top-buffer
-  .row
-    .col-sm-10
-      %h2.light-header
-        = t('.donate')
-    .col-sm-2
-      %h2
-        =render 'static_pages/donate'
+  %hr
 
-%hr
+  .container.top-buffer
+    .row
+      .col-sm-12.text-center
+        %h1.light-header= t('static_pages.index.how_it_works')
+    .row.how-it-works
+      .col-lg-4.col-md-4.col-sm-4
+        #first-step-hiw
+        .step-number-hiw= '1'
+        %p= t('static_pages.index.upload_a_file')
+      .col-lg-4.col-md-4.col-sm-4
+        #second-step-hiw
+        .step-number-hiw= '2'
+        %p= t('static_pages.index.select_free_fall_range')
+      .col-lg-4.col-md-4.col-sm-4
+        #third-step-hiw
+        .step-number-hiw= '3'
+        %p= t('static_pages.index.analyze')
 
--# .container-fluid
--#   .row
--#     .col-sm-12.text-center
--#       %h1.light-header= t('.skyderby_is')
--#   .row.start-page-row
--#     .col-sm-4.text-center.gps-tracks-label.start-page-cell
--#       %h2= t('.tracks_analysis')
--#       %p= t('.tracks_analysis_desc')
--#       %a.overlay-link{href: tracks_path}
--#       %a.btn.btn-browse= t('.tracks_list')
--#     .col-sm-4.text-center.online-competitions-label.start-page-cell
--#       %h2= t('.online_competitions')
--#       %p= t('.online_comp_desc')
--#       %a.overlay-link{href: virtual_competitions_path}
--#       %a.btn.btn-browse= t('.online_comp_list')
--#     .col-sm-4.text-center.competitions-label.start-page-cell
--#       %h2= t('.events')
--#       %p= t('.events_desc')
--#       %a.overlay-link{href: events_path}
--#       %a.btn.btn-browse= t('.events_list')
--#
-.container.top-buffer
-  .row
-    .col-sm-12.text-center
-      %h1.light-header= t('static_pages.index.how_it_works')
-  .row.how-it-works
-    .col-lg-4.col-md-4.col-sm-4
-      #first-step-hiw
-      .step-number-hiw= '1'
-      %p= t('static_pages.index.upload_a_file')
-    .col-lg-4.col-md-4.col-sm-4
-      #second-step-hiw
-      .step-number-hiw= '2'
-      %p= t('static_pages.index.select_free_fall_range')
-    .col-lg-4.col-md-4.col-sm-4
-      #third-step-hiw
-      .step-number-hiw= '3'
-      %p= t('static_pages.index.analyze')
+  %hr
 
-%hr
+  = render 'static_pages/online_competitions_section'
 
-= render 'static_pages/online_competitions_section'
+  %hr
 
-%hr
-
-.container.top-buffer
-  .row
-    .col-sm-12.text-center
-      %h1.light-header= t('static_pages.index.supported_formats')
-  .row.supported-formats
-    .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
-      #fs-sf.grayed
-      %div.text-center
-        Flysight
-    .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
-      #garmin-sf.grayed
-      %div.text-center
-        Garmin Foretrex 101/201/301/401
-    .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
-      #wintec-sf.grayed
-      %div.text-center
-        Wintec WBT-202
-    .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
-      #columbus-sf.grayed
-      %div.text-center
-        Columbus V900
-    .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
-      #dual-xgps.grayed
-      %div.text-center
-        Dual XGPS160
-    .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
-      #gpx-sf.grayed
-      %div.text-center
-        Files in GPX format 
+  .container.top-buffer
+    .row
+      .col-sm-12.text-center
+        %h1.light-header= t('static_pages.index.supported_formats')
+    .row.supported-formats
+      .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
+        #fs-sf.grayed
+        %div.text-center
+          Flysight
+      .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
+        #garmin-sf.grayed
+        %div.text-center
+          Garmin Foretrex 101/201/301/401
+      .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
+        #wintec-sf.grayed
+        %div.text-center
+          Wintec WBT-202
+      .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
+        #columbus-sf.grayed
+        %div.text-center
+          Columbus V900
+      .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
+        #dual-xgps.grayed
+        %div.text-center
+          Dual XGPS160
+      .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
+        #gpx-sf.grayed
+        %div.text-center
+          Files in GPX format 
 
 = render partial: 'tracks/new_track'

@@ -498,7 +498,7 @@
 
                         setDiapason();
 
-                        $fromSlider.on("mousedown", function (e) {
+                        $fromSlider.off("mousedown").on("mousedown", function (e) {
                             e.preventDefault();
                             e.stopPropagation();
 
@@ -514,7 +514,7 @@
                                 $("*").prop("unselectable", true);
                             }
                         });
-                        $toSlider.on("mousedown", function (e) {
+                        $toSlider.off("mousedown").on("mousedown", function (e) {
                             e.preventDefault();
                             e.stopPropagation();
 
@@ -595,11 +595,11 @@
                         }
                     });
 
-                    $container.on("mousedown", function () {
+                    $container.off("mousedown").on("mousedown", function () {
                         current = self.pluginCount;
                     });
 
-                    $container.on("mouseup", function (e) {
+                    $container.off("mouseup").on("mouseup", function (e) {
                         if (current !== self.pluginCount) {
                             return;
                         }
