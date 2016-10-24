@@ -2,27 +2,28 @@
 - can_manage = can? :update, @event
 
 .container.top-buffer#event
-  .row
-    .col-md-8.col-md-offset-2.text-center
-      %h1
-        %span#title-competition-name= @event.name
-
-      %h3#title-competition-range
-        = "#{t('.comp_window')}: #{@event.range_from} - #{@event.range_to} #{t('units.m')}"
-      %h3#title-competition-place
-        = render 'event_place'
-
-    .col-md-2
-      - if can_manage
-        .pull-right
-          = link_to(edit_event_path(@event),
-            remote: true,
-            'data-params': { 'display_raw_results' => @display_raw_results }.to_param,
-            class: 'btn btn-default edit-event') do
-            %i.fa.fa-fw.fa-pencil.text-muted
-            = t('general.edit')
 
   .content-block
+    .row
+      .col-md-8.col-md-offset-2.text-center
+        %h1
+          %span#title-competition-name= @event.name
+
+        %h3#title-competition-range
+          = "#{t('.comp_window')}: #{@event.range_from} - #{@event.range_to} #{t('units.m')}"
+        %h3#title-competition-place
+          = render 'event_place'
+
+      .col-md-2
+        - if can_manage
+          .pull-right
+            = link_to(edit_event_path(@event),
+              remote: true,
+              'data-params': { 'display_raw_results' => @display_raw_results }.to_param,
+              class: 'btn btn-default edit-event') do
+              %i.fa.fa-fw.fa-pencil.text-muted
+              = t('general.edit')
+
     .row{class: ('top-buffer' if can_manage)}
       .col-md-7.col-sm-7
         - if can_manage && !@event.finished?
