@@ -1,0 +1,9 @@
+en:
+  activerecord:
+    models:
+      track_videos: Video
+    attributes:
+      track_videos:
+        url: Video en Youtube
+        video_offset: Inicio del salto en video
+        track_offset: Inicio del salto en ruta
