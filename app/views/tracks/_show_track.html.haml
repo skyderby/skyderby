@@ -2,23 +2,29 @@
     
   .container
     = render partial: 'header', locals: {track: @track}
-    = render partial: 'indicators', locals: {presenter: @track_presenter}
 
-    %hr.top-buffer
+    .content-block
+      .card-action
+        .dropdown.position-right
+          = render 'tracks/view_settings_menu'
 
-    .row#content-row
-      .col-sm-12
+      = render partial: 'indicators', locals: {presenter: @track_presenter}
 
-        #btn-range-edit
-          %button.btn.btn-default#range-edit-button{data: {toggle:'modal', target:'#edit-range'}}
-            %i.fa.fa-arrows-h
-        #slider-range-selector
-          %input#range-selector{type: "text",
-                                name: 'range', 
-                                data: {remote: 'true', url: url_for},
-                                value: "#{@track_presenter.range_from};#{@track_presenter.range_to}"}
+      %hr.top-buffer
 
-    = render 'tracks/charts'
+      .row#content-row
+        .col-sm-12
+
+          #btn-range-edit
+            %button.btn.btn-default#range-edit-button{data: {toggle:'modal', target:'#edit-range'}}
+              %i.fa.fa-arrows-h
+          #slider-range-selector
+            %input#range-selector{type: "text",
+                                  name: 'range', 
+                                  data: {remote: 'true', url: url_for},
+                                  value: "#{@track_presenter.range_from};#{@track_presenter.range_to}"}
+
+      = render 'tracks/charts'
     
     %blockquote
       - if @track.comment.present?

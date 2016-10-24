@@ -1,55 +1,62 @@
 .container
-  .tracks-index
-    .row
-      .col-sm-12
-        %h3=t '.filters'
-    .row
-      .col-sm-3
-        %select{name: 'query[profile_id]'}
-      .col-sm-3
-        %select{name: 'query[suit_id]'}
-      .col-sm-3
-        %select{name: 'query[place_id]'}
-      .col-sm-3
-        .pull-right
-          .btn-group
-            - params_query = params[:query] || {}
-            - kind = params_query[:kind]
-            %a.btn.btn-sm.btn-default{href: tracks_path(params.merge(query: params_query.except(:kind))), class: ('active' unless kind), rel: 'nofollow'}
-              = t '.all'
-            %a.btn.btn-sm.btn-default{href: tracks_path(params.merge(query: params_query.merge(kind: :skydive))), class: ('active' if kind == 'skydive'), rel: 'nofollow'} 
-              Skydive
-            %a.btn.btn-sm.btn-default{href: tracks_path(params.merge(query: params_query.merge(kind: :base))), class: ('active' if kind == 'base'), rel: 'nofollow'}
-              B.A.S.E
-    .row
-      .col-sm-12.top-buffer
-        - params_order = (params[:order] || '').split(' ')
-        - order_field = (params_order[0] || 'id').upcase
-        - order_direction = (params_order[1] || 'DESC').upcase
-        %table#tracks-index.table.table-hover
-          %thead
-            %tr
-              %th
-                =t 'activerecord.attributes.track.id'
-                =tracks_sort_header(order_field, order_direction, 'id', 'ID')
-              %th=t 'activerecord.attributes.track.name'
-              %th=t 'activerecord.attributes.track.suit'
-              %th=t 'activerecord.attributes.track.place'
-              %th=t 'activerecord.attributes.track.comment'
-              %th.result-head.text-right
-                =t 'disciplines.distance'
-                =tracks_sort_header(order_field, order_direction, 'distance_result', 'Distance')
-              %th.result-head.text-right
-                =t 'disciplines.speed'
-                =tracks_sort_header(order_field, order_direction, 'speed_result', 'Speed')
-              %th.result-head.text-right
-                =t 'disciplines.time'
-                =tracks_sort_header(order_field, order_direction, 'time_result', 'Time')
-              %th
-                =t 'activerecord.attributes.track.recorded_at'
-                =tracks_sort_header(order_field, order_direction, 'recorded_at', 'Recorded at')
-              %th
-          %tbody
-            = render @tracks
+  .tracks-index.top-buffer
+    .content-block
+      .row
+        .col-sm-12
+          %h3=t '.filters'
+      .row
+        .col-sm-3
+          %select{name: 'query[profile_id]'}
+        .col-sm-3
+          %select{name: 'query[suit_id]'}
+        .col-sm-3
+          %select{name: 'query[place_id]'}
+        .col-sm-3
+          .pull-right
+            .btn-group
+              - params_query = params[:query] || {}
+              - kind = params_query[:kind]
+              %a.btn.btn-sm.btn-default{href: tracks_path(params.merge(query: params_query.except(:kind))), class: ('active' unless kind), rel: 'nofollow'}
+                = t '.all'
+              %a.btn.btn-sm.btn-default{href: tracks_path(params.merge(query: params_query.merge(kind: :skydive))), class: ('active' if kind == 'skydive'), rel: 'nofollow'} 
+                Skydive
+              %a.btn.btn-sm.btn-default{href: tracks_path(params.merge(query: params_query.merge(kind: :base))), class: ('active' if kind == 'base'), rel: 'nofollow'}
+                B.A.S.E
 
-    = will_paginate @tracks, renderer: BootstrapPagination::Rails
+    .content-block
+      .row
+        .col-sm-12
+          - params_order = (params[:order] || '').split(' ')
+          - order_field = (params_order[0] || 'id').upcase
+          - order_direction = (params_order[1] || 'DESC').upcase
+          %table#tracks-index.table.table-hover
+            %thead
+              %tr
+                %th
+                  =t 'activerecord.attributes.track.id'
+                  =tracks_sort_header(order_field, order_direction, 'id', 'ID')
+                %th=t 'activerecord.attributes.track.name'
+                %th=t 'activerecord.attributes.track.suit'
+                %th=t 'activerecord.attributes.track.place'
+                %th=t 'activerecord.attributes.track.comment'
+                %th.result-head.text-right
+                  =t 'disciplines.distance'
+                  =tracks_sort_header(order_field, order_direction, 'distance_result', 'Distance')
+                %th.result-head.text-right
+                  =t 'disciplines.speed'
+                  =tracks_sort_header(order_field, order_direction, 'speed_result', 'Speed')
+                %th.result-head.text-right
+                  =t 'disciplines.time'
+                  =tracks_sort_header(order_field, order_direction, 'time_result', 'Time')
+                %th
+                  =t 'activerecord.attributes.track.recorded_at'
+                  =tracks_sort_header(order_field, order_direction, 'recorded_at', 'Recorded at')
+                %th
+            %tbody
+              = render @tracks
+
+    .text-center.top-buffer
+      .pagination-load-more
+        = will_paginate @tracks, renderer: WillPaginateLoadMoreRenderer
+      .pagination-list
+        = will_paginate @tracks, renderer: BootstrapPagination::Rails
