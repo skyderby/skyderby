@@ -99,6 +99,7 @@ es:
     cancel: "Anular"
     create: "Agregar"
     save: "Guardar"
+    # saving: Saving…
     update: "Actualizar"
     delete: "Eliminar"
     edit: "Editar"
