@@ -3,7 +3,7 @@ es:
     spd:
       title: 'Velocidad vertical y horizontal'
       axis:
-        speed: 'La velocidad, %{unit}'
+        speed: 'Velocidad, %{unit}'
       series:
         ground: 'Velocidad horizontal'
         raw_ground: 'Velocidad horizontal (bruto)'

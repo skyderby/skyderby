@@ -61,7 +61,7 @@
               = f.text_field :disqualification_reason, class: 'form-control'
 
       .modal-footer
-        = f.submit t('general.save'), class: 'btn btn-primary'
+        = f.submit t('general.save'), class: 'btn btn-primary', 'data-disable-with': t('general.saving')
         %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'
 
         - unless @event_track.new_record?

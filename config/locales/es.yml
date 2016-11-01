@@ -4,7 +4,7 @@ es:
       profile:
         last_name: "Apellido:"
         first_name: "Nombre:"
-        userpic: "Photo:"
+        userpic: "Avatar:"
   application:
     header:
       home: 'SKY DERBY'
@@ -43,24 +43,24 @@ es:
       m_units_imperial: 'Imperiales (pie,millas/h)'
       delete_confirmation: "Seguro, que quieres eliminar esta pista?"
       manage: "Сorrección"
-      edit_range: "Edit range"
-      range_from: "Range from:"
-      range_to: "to:"
+      edit_range: "Editar rango"
+      range_from: "Rango desde:"
+      range_to: "A:"
   static_pages:
     index:
       title: "Vuele! Compita! Vence!"
       subtitle: "Todavía beta"
       track_form:
         title: 'Ver y comentar la pista:'
-        name: 'Te llamas:'
+        name: 'Te llamas'
         name_plh: 'Nombre, Apellido'
-        suit: "Vuelas en:"
+        suit: "Vuelas en"
         suit_plh: 'El modelo del traje aéreo'
-        location: 'La localización:'
+        location: 'La localización'
         location_plh: 'Zona de salto, montañas'
-        file: 'El archivo de la pista:'
+        file: 'El archivo de la pista'
         help: 'Los archivos se abren en los formatos csv, tes y gpx'
-        comment: 'Comentario:'
+        comment: 'Comentario'
         comment_plh: 'Deje un comentario sobre tu vuelo'
         submit: 'Descargar'
         warnings:
@@ -72,43 +72,44 @@ es:
           file_ext_w2_html: "'Elige, por favor, un archivo con la extensión csv, tes o gpx'"
           file_size_w1_html: "'La dimensión del archivo: '"
           file_size_w2_html: "'El  tamaño  del archivo no debe superar 1Mb'"
-        kind: "El tipo de salto:"
+        kind: "El tipo de salto"
       desc: "El análisis de GPS-pistas y la organización de las competiciones en el formato GPS Performance."
       goto_event: "A la pagina web del evento >>"
-      stats: "Statistics:"
-      stats_tracks: "Uploaded tracks:"
-      stats_pilots: "Registered pilots:"
-      how_it_works: "It is pretty simple:"
-      upload_a_file: "Upload a file"
-      select_free_fall_range: "Select free fall range"
-      analyze: "Analyze"
+      stats: "Estadísticas:"
+      stats_tracks: "Pistas subidas:"
+      stats_pilots: "Pilotos registrados:"
+      how_it_works: "Es muy simple:"
+      upload_a_file: "Sube un archivo"
+      select_free_fall_range: "Selecciona un rango para salto libre"
+      analyze: "Analizar"
     about:
       comp_t: 'Componentes usados:'
       comp_lng: 'Framework usado:'
       comp_fef: 'Сompaginación:'
       comp_charts: 'Сonstrucción de dibujos:'
-      comp_rs: 'El slider para eligir el periódo:'
+      comp_rs: 'El slider para eligir el periodo:'
       roadmap: "Seguir las noticias del proyecto:"
       trpr: "El codo original de la pista en el servidor"
-      fepr: 'La efectuación de los datos en el browser'
-      developer: "App developed by Aleksandr Kunin"
-      de_translate: "Deutsch translate by Tatiana Holm"
-      es_translate: "Spanish translate by Ekaterina Larina"
-      logo_designed_by: "Logo designed by Julia Makoveeva"
+      fepr: 'La efectuación de los datos en el navegador'
+      developer: "Aplicación desarrollada por Aleksandr Kunin"
+      de_translate: "Traducción al alemán Tatiana Holm"
+      es_translate: "Traducción al español por Ekaterina Larina y Daniel Duarte"
+      logo_designed_by: "Logo diseñado por Julia Makoveeva"
   general:
     cancel: "Anular"
     create: "Agregar"
-    save: "Save"
-    update: "Update"
-    delete: "Delete"
-    edit: "Edit"
+    save: "Guardar"
+    # saving: Saving…
+    update: "Actualizar"
+    delete: "Eliminar"
+    edit: "Editar"
   users:
     profile:
       edit:
         title: 'Perfil'
-        edit_email_pass: "Edit email or password"
-        edit_reg_data: "Email and password"
+        edit_email_pass: "Editar correo electrónico y contraseña"
+        edit_reg_data: "Correo electrónico y contraseña"
   will_paginate:
-    previous_label: "&#8592; Previous"
-    next_label: "Next &#8594;"
+    previous_label: "&#8592; Anterior"
+    next_label: "Siguiente &#8594;"
     page_gap: "&hellip;"

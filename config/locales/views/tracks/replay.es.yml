@@ -1,7 +1,7 @@
 es:
   tracks:
     replay:
-      altitude: La altitud
+      altitude: Altitud
       vertical_speed: Velocidad vertical
       horizontal_speed: Velocidad horizontal
-      glide_ratio: La calidad
+      glide_ratio: Calidad

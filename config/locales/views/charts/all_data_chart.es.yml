@@ -1,16 +1,16 @@
 es:
   charts:
     all_data:
-      title: 'Informaciónsobre el vuelo'
+      title: 'Información sobre el vuelo'
       axis:
-        speed: 'La velocidad'
-        distance: 'La velocidad, la distancia'
+        speed: 'Velocidad'
+        distance: 'Velocidad, distancia'
         gr: 'Calidad del vuelo'
       series:
         horiz_speed: 'Velocidad horizontal'
         vert_speed: 'Velocidad vertical'
         full_speed: 'Velocidad 3D'
         gr: 'Calidad del vuelo'
-        height: 'La altitud'
-        distance: 'La distancia'
-        elevation: 'La altitud alcanzada'
+        height: 'Altitud'
+        distance: 'Distancia'
+        elevation: 'Altitud alcanzada'

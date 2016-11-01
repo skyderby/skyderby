@@ -12,7 +12,7 @@ So I decided to create a new application.
 
 ## Million Thanks to
 
-Alex and Svetlana Rubinshtein, Shane Dunn, Aleksey Shatilov, Valeriy Salcutsan, Simon Repton, Evgeniy Pavlov, Egor Orlow, Simon Perriard, Aleksey Galda, Flo Kas, Csaba Szörényi, Aleksandr Zharikov, Ekaterina Larina,  Tatyana Holm, Yulia Makoveeva, Leonid Sigalov, Sergey Panteleev.
+Alex and Svetlana Rubinshtein, Shane Dunn, Aleksey Shatilov, Valeriy Salcutsan, Simon Repton, Evgeniy Pavlov, Egor Orlow, Simon Perriard, Aleksey Galda, Flo Kas, Csaba Szörényi, Aleksandr Zharikov, Ekaterina Larina,  Tatyana Holm, Yulia Makoveeva, Daniel Duarte, Leonid Sigalov, Sergey Panteleev.
 
 ## Licensing
 
