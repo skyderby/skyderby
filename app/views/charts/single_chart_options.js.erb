@@ -31,8 +31,8 @@
     }
   },
   yAxis: [{ //Speed yAxis
-    // min: -30,
-    max: <%= speed_units == 'mph' ? 250 : 400 %>,
+    // min: -50,
+    // max: <%= speed_units == 'mph' ? 250 : 400 %>,
     // startOnTick: false,
     // minPadding: 0.2,
     // maxPadding: 0.2,
@@ -51,25 +51,19 @@
   },
   { // GR yAxis
     min: 0,
-    max: 5,
+    max: 7,
     startOnTick: false,
     endOnTick: false,
     minPadding: 0.2,
     maxPadding: 0.2,
-    tickPixelInterval: 120,
+    // tickPixelInterval: 120,
     gridLineWidth: 0,
     title: {
       text: "<%= t('charts.all_data.axis.gr') %>"
     },
     labels: {
       formatter: function() {
-        if(this.isFirst) {
-          return '≤ 0';
-        } else if (this.isLast) {
-          return '≥ 5';
-        } else {
-          return this.value;   
-        }
+        return this.isLast ? '≥ 7' : this.value;
       }
     },
     opposite: true
@@ -137,7 +131,7 @@
       value: 0.1,
       color: 'red'
     }, {
-      value: 4.8,
+      value: 6.8,
       color: '#37889B'
     }, {
       color: 'red'
