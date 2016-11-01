@@ -161,8 +161,8 @@ class Tracks::BasePresenter
   def y_for_glide_ratio(value)
     if value < 0
       0
-    elsif value > 5
-      5
+    elsif value > 7
+      7
     else
       value
     end

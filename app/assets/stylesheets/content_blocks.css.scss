@@ -18,9 +18,10 @@
   .card-action {
     margin-left: auto;
     text-align: right;
-    text-transform: uppercase;
 
-    button {
+    &> .dropdown > button,
+    > button,
+    > a {
       text-transform: uppercase;
     }
   }

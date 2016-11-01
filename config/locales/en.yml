@@ -3,18 +3,19 @@ en:
     messages:
       duplicate_file: "File already used. Pilot: %{pilot_name}, round: %{round}"
   general:
-    cancel: "Cancel"
-    create: "Create"
-    save: "Save"
-    update: "Update"
-    delete: "Delete"
-    edit: "Edit"
-    enabled: 'Enabled'
-    disabled: 'Disabled'
+    cancel: Cancel
+    create: Create
+    save: Save"
+    saving: Saving…
+    update: Update
+    delete: Delete
+    edit: Edit
+    enabled: Enabled
+    disabled: Disabled
     settings: Settings
   users:
     profile:
       edit:
-        title: 'Profile'
-        edit_email_pass: "Edit email or password"
-        edit_reg_data: "Email and password"
+        title: Profile
+        edit_email_pass: Edit email or password
+        edit_reg_data: Email and password

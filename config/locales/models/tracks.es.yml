@@ -1,13 +1,13 @@
 es:
   activerecord:
     models:
-      track: La pista
+      track: Pista
     attributes:
       track:
         id: '#'
-        name: El piloto
-        suit: El traje aéreo
+        name: Piloto
+        suit: Traje aéreo
         place: Localización
         comment: Comentario
-        uploaded_at: La fecha de la descarga
-        recorded_at: 'Recorded at'
+        uploaded_at: Fecha de subida
+        recorded_at: Fecha de grabación

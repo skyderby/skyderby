@@ -44,12 +44,13 @@ de:
       de_translate: "Webseite-Übersetzung ins Deutsche - Tetyana Holm und Flo Kas"
       logo_designed_by: "Das Logo wurde von Julia Makoweewa entworfen"
   general:
-    cancel: "Abbrechen"
-    create: "Hinzufügen"
-    save: "Speichern"
-    update: "Aktualisierung"
-    delete: "Entfernen"
-    edit: "Korrigieren"
+    cancel: Abbrechen
+    create: Hinzufügen
+    save: Speichern
+    saving: Wird gespeichert…
+    update: Aktualisierung
+    delete: Entfernen
+    edit: Korrigieren
     settings: Einstellungen
   users:
     profile:

@@ -35,8 +35,8 @@
     pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.options.true_value}</b><br/>'
   },
   yAxis: {
-    min: -0.3,
-    max: 5.5,
+    min: 0,
+    max: 7.5,
     startOnTick: false,
     endOnTick: false,
     minPadding: 0.2,
@@ -47,13 +47,7 @@
     },
     labels: {
       formatter: function() {
-        if(this.isFirst) {
-          return '≤ 0';
-        } else if (this.isLast) {
-          return '≥ 5';
-        } else {
-          return this.value;   
-        }
+        return this.isLast ? '≥ 7' : this.value;
       }
     }
   },
@@ -70,7 +64,7 @@
       value: 0.1,
       color: 'red'
     }, {
-      value: 4.8,
+      value: 6.8,
       color: '#37889B'
     }, {
       color: 'red'
