@@ -3,10 +3,6 @@ module TracksHelper
     "#{t 'tracks.show.title_track' } ##{track.id} | #{track_pilot(track)}"
   end
 
-  def header(track)
-    " | #{t 'tracks.show.title_track'} ##{track.id}"
-  end
-
   def subheader(track)
     "#{t 'tracks.show.title_suit'}: #{track.wingsuit.present? ? track.wingsuit.name : track.suit}, @#{track.location}"
   end
