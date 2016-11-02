@@ -10,9 +10,11 @@ class TrackResultsService
     
     track_segments = ranges_to_score.map do |range|
       WindowRangeFinder.new(track_points)
-                     .execute(from_altitude: range[:start_altitude],
-                              to_altitude:   range[:end_altitude])
+                       .execute(from_altitude: range[:start_altitude],
+                                to_altitude:   range[:end_altitude])
     end
+
+    return if track_segments.blank?
 
     [:speed, :distance, :time].each do |task|
       best_task_result = track_segments.max_by { |x| x.public_send(task) }

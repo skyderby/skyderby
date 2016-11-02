@@ -16,7 +16,9 @@ class RangesToScoreFinder
   #   { start_altitude: 3000, end_altitude: 2000 }
   # ]
   def calculate
+    return [] if single_range? && height_diff <= 0
     return whole_range if single_range?
+
     split_bounds_on_ranges
   end
 
