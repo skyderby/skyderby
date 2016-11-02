@@ -117,6 +117,7 @@ class Track < ActiveRecord::Base
   def altitude_bounds
     @altitude_bounds ||= begin
       points_altitude = points.freq_1Hz.trimmed.pluck("#{point_altitude_field}")
+      points_altitude = [0] if points_altitude.blank? 
       { 
         max_altitude: points_altitude.max,
         min_altitude: points_altitude.min,

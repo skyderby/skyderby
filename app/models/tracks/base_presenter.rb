@@ -20,6 +20,7 @@ class Tracks::BasePresenter
   end
 
   def time
+    return 0.0 if @points.blank?
     (@points.last[:gps_time] - @points.first[:gps_time]).round(1)
   end
 
@@ -29,11 +30,15 @@ class Tracks::BasePresenter
   end
 
   def min_glide_ratio
+    return 0.0 if @points.blank?
+
     point = @points.min_by { |x| x[:glide_ratio] }
     glide_ratio_presentation(point[:glide_ratio])
   end
 
   def max_glide_ratio
+    return 0.0 if @points.blank?
+
     point = @points.max_by { |x| x[:glide_ratio] }
     if point[:glide_ratio] < 10
       glide_ratio_presentation(point[:glide_ratio])
@@ -48,11 +53,15 @@ class Tracks::BasePresenter
   end
 
   def min_vertical_speed
+    return 0.0 if @points.blank?
+
     point = @points.min_by { |x| x[:v_speed] }
     speed_presentation(point[:v_speed])
   end
 
   def max_vertical_speed
+    return 0.0 if @points.blank?
+
     point = @points.max_by { |x| x[:v_speed] }
     speed_presentation(point[:v_speed])
   end
@@ -63,11 +72,15 @@ class Tracks::BasePresenter
   end
 
   def min_horizontal_speed
+    return 0.0 if @points.blank?
+
     point = @points.min_by { |x| x[:h_speed] }
     speed_presentation(point[:h_speed])
   end
 
   def max_horizontal_speed
+    return 0.0 if @points.blank?
+
     point = @points.max_by { |x| x[:h_speed] }
     speed_presentation(point[:h_speed])
   end
@@ -108,6 +121,8 @@ class Tracks::BasePresenter
   end
 
   def elevation_chart_line
+    return [] if @points.blank?
+
     max_altitude = @points.first[:altitude]
     @points.map do |x|
       [(x[:gps_time] - min_gps_time).round(1), altitude_presentation(max_altitude - x[:altitude])]
@@ -189,6 +204,8 @@ class Tracks::BasePresenter
   end
 
   def trim_points_by_range(points)
+    return points if points.blank?
+
     start_index = points.index { |x| x[:altitude] <= @range_from }
     start_point = points[start_index]
     end_index = points.index { |x| x[:gps_time] > start_point[:gps_time] && x[:altitude] <= @range_to }
