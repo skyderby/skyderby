@@ -53,5 +53,13 @@ describe RangesToScoreFinder do
         { start_altitude: 2050, end_altitude: 1050 }
       ])
     end
+
+    it 'returns blank array if height diff <=0' do
+      altitude_bounds = { max_altitude: 0, min_altitude: 0 }
+      ranges_finder = RangesToScoreFinder.new(altitude_bounds, :skydive)
+      ranges_to_score = ranges_finder.calculate
+
+      expect(ranges_to_score.size).to eq(0)
+    end
   end
 end
