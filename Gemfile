@@ -25,8 +25,7 @@ gem 'nokogiri', '~> 1.6.8'
 gem 'cancancan'
 
 # Background jobs
-gem 'sinatra', require: nil
-gem 'sidekiq'
+gem 'sidekiq', ' < 5'
 
 # Exception notifications
 gem 'exception_notification'
