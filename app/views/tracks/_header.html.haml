@@ -8,7 +8,10 @@
             = track.pilot.name
         - else
           = track.name
-        =header track
+        |
+        = t 'tracks.show.title_track'
+        = "##{track.id}"
+
         %small.light-header
           %span= t('tracks.show.title_suit') + ':' 
           - if track.wingsuit
@@ -26,6 +29,10 @@
           - else
             %span= track.location
 
+          - if track.unlisted_track?
+            %i.fa.fa-eye-slash{'data-toggle': 'tooltip', title: t('tracks.edit.unlisted')}
+          - elsif track.private_track?
+            %i.fa.fa-lock{'data-toggle': 'tooltip', title: t('tracks.edit.private')}
   .row
     .col-md-12
       - controller_path = controller.controller_path
