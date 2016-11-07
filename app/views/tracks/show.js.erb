@@ -1,3 +1,5 @@
+$('.modal').modal('hide');
+
 $('.track-indicators').replaceWith("<%= j render(partial: 'tracks/indicators', 
                                                  locals: {presenter: @track_presenter}) %>");
 $('#track-charts').replaceWith("<%= j render(partial: 'tracks/charts') %>");
@@ -22,5 +24,5 @@ $('#t').val(<%= @track_presenter.range_to %>);
 
 window.history.replaceState({},
                             document.title,
-                            "<%= url_for(params.except(:range, :charts_mode, :charts_units)).html_safe %>"
+                            "<%= url_for(params.except(:range, :charts_mode, :charts_units, :commit, :utf8)).html_safe %>"
                             );
