@@ -21,6 +21,7 @@
 
 html, body {
   height: 100%;
+  background-color: #fafafa;
 }
 
 body, p, ol, ul, td {
@@ -36,7 +37,7 @@ a, button, label, span {
 }
 
 .loading-bg {
-  background: url(<%= asset_path 'loading.gif' %>) no-repeat center center;
+  background: image-url('loading.gif') no-repeat center center;
 }
 
 #wrap {
