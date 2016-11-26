@@ -13,8 +13,8 @@
  *= require select2-bootstrap
  *= require ion.rangeSlider
  *= require ion.rangeSlider.skinFlat
- *= require_self
  *= require bootstrap_and_overrides
+ *= require_self
  *= require normalize.min
  *= require_tree .
  */
@@ -24,11 +24,11 @@ html, body {
   background-color: #fafafa;
 }
 
-body, p, ol, ul, td {
-  font-family: verdana, arial, helvetica, sans-serif; 
-  font-size:   13px;
-  line-height: 18px;
-}
+// body, p, ol, ul, td {
+//   font-family: verdana, arial, helvetica, sans-serif; 
+//   font-size:   13px;
+//   line-height: 18px;
+// }
 
 a, button, label, span {
   transition-property: border-color, background, color;
