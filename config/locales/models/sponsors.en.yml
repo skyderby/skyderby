@@ -1,15 +1,21 @@
 en:
   activerecord:
     models:
-      sponsor: 'Sponsor'
+      sponsor: Sponsor
     attributes:
       sponsor:
-        name: 'Name'
-        website: 'Website'
-        logo: 'Logo'
+        name: Name
+        website: Website
+        logo: Logo
     errors:
       models:
         sponsor:
           attributes:
             name:
-              blank: "Name has to be filled."
+              blank: Name has to be filled.
+            website:
+              blank: Website has to be filled.
+            logo:
+              blank: Logo has to be attached.
+            logo_content_type:
+              invalid: Logo has to be an image file.

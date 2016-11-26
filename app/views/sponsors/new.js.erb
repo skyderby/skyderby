@@ -3,3 +3,26 @@ $('#modal').modal('show');
 
 $('#new_sponsor .btn-file :file').on('change', Skyderby.helpers.FileField.change);
 $('#new_sponsor .btn-file :file').on('fileselect', Skyderby.helpers.FileField.fileselect);
+
+$("#new_sponsor").validate({
+  rules: {
+    'sponsor[name]': {
+      required: true
+    },
+    'sponsor[website]': {
+      required: true
+    },
+    'sponsor[logo]': {
+      required: true
+    }
+  },
+  highlight: function(element) {
+    $(element).closest('.form-group').addClass('has-error');
+  },
+  unhighlight: function(element) {
+    $(element).closest('.form-group').removeClass('has-error');
+  },
+  errorPlacement: function(error, element) {
+    return true;
+  }
+});
