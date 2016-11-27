@@ -1,6 +1,6 @@
 .modal-dialog
   .modal-content
-    = form_for [@sponsorable, @sponsor], remote: true, html: {multipart: true, class: "form-horizontal tournament-form"} do |f|
+    = form_for [@sponsorable, @sponsor], remote: true, html: {multipart: true, class: "form-horizontal"} do |f|
       .modal-header
         %button.close{type: 'button', data: {dismiss: 'modal'}}
           %span{aria: {hidden: 'true'}}

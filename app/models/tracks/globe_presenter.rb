@@ -38,6 +38,11 @@ class Tracks::GlobePresenter
       )
   end
 
+  def nearby_places
+    places = (Place.where.not(id: track.place_id) if track.place_id) || Place
+    places.nearby(points.first, 10)
+  end
+
   private
 
   attr_reader :track

@@ -38,9 +38,8 @@ class TracksController < ApplicationController
           )
         ).includes(
           :video,
-          :place,
           :pilot,
-          :wingsuit,
+          place: [:country],
           wingsuit: [:manufacturer]
         ).paginate(page: params[:page], per_page: 50)
       end

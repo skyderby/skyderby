@@ -1,0 +1,25 @@
+$("#<%= dom_id(@weather_datum) %>").validate({
+  rules: {
+    'weather_datum[actual_on]': {
+      required: true
+    },
+    'weather_datum[altitude_in_units]': {
+      required: true
+    },
+    'weather_datum[wind_speed_in_units]': {
+      required: true
+    },
+    'weather_datum[wind_direction]': {
+      required: true
+    }
+  },
+  highlight: function(element) {
+    $(element).closest('.td').addClass('has-error');
+  },
+  unhighlight: function(element) {
+    $(element).closest('.td').removeClass('has-error');
+  },
+  errorPlacement: function(error, element) {
+    return true;
+  }
+});

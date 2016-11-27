@@ -44,15 +44,16 @@ class Place < ActiveRecord::Base
     def nearby(point, radius)
       distance_statement = 
         "SQRT(
-          POW(111 * (latitude - #{point.latitude.to_s}), 2) +
-          POW(111 * (#{point.longitude.to_s} - longitude) * COS(latitude / (180/PI()) ), 2)
+          POW(111 * (latitude - #{point[:latitude].to_s}), 2) +
+          POW(111 * (#{point[:longitude].to_s} - longitude) * COS(latitude / (180/PI()) ), 2)
         )"
 
-      select("id,
-              latitude,
-              longitude,
-              msl,
-              #{distance_statement} AS distance")
+      select(:id,
+             :name,
+             :latitude,
+             :longitude,
+             :msl,
+             "#{distance_statement} AS distance")
         .where("#{distance_statement} < :radius", radius: radius)
         .order('distance')
     end

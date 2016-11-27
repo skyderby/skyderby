@@ -17,7 +17,7 @@ class Skyderby.views.TrackGlobeView extends Backbone.View
     @$('#track-map-loading-data i')
       .removeClass(' fa-spin fa-circle-o-notch ')
       .addClass('fa-check')
-    @draw_trajectory()
+    @draw_entities()
 
   on_maps_api_failed: ->
     @$('#track-map-loading-api i')
@@ -32,7 +32,7 @@ class Skyderby.views.TrackGlobeView extends Backbone.View
       .addClass('fa-check')
 
     @setup_viewer()
-    @draw_trajectory()
+    @draw_entities()
 
   setup_viewer: ->
     @viewer = new Cesium.Viewer(@$('#cesium-container')[0],
@@ -80,7 +80,7 @@ class Skyderby.views.TrackGlobeView extends Backbone.View
       )
     )
 
-  draw_trajectory: ->
+  draw_entities: ->
   
     return if !@model_ready || !@maps_ready
 
@@ -119,5 +119,32 @@ class Skyderby.views.TrackGlobeView extends Backbone.View
       }
     })
     
+    @draw_nearby_places()
+
     @zoom()
     @$('#track-map-loading').fadeOut(500)
+
+  draw_nearby_places: ->
+    pin_builder = new Cesium.PinBuilder()
+    billboard_collection = @viewer.scene.primitives.add(new Cesium.BillboardCollection({
+      scene : @viewer.scene
+    }))
+
+    for place in @model.get('nearby_places')
+      position = Cesium.Cartesian3.fromDegrees(place.longitude, place.latitude)
+      billboard_collection.add({
+        position : position,
+        image : pin_builder.fromMakiIconId('embassy', Cesium.Color.ROYALBLUE, 24),
+        heightReference : Cesium.HeightReference.CLAMP_TO_GROUND,
+      })
+
+      @viewer.entities.add({
+        position: position,
+        label:
+          text: place.name,
+          font: '18px Helvetica',
+          pixelOffset: new Cesium.Cartesian2(3, 9),
+          horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
+          verticalOrigin: Cesium.VerticalOrigin.TOP,
+          heightReference : Cesium.HeightReference.CLAMP_TO_GROUND,
+      });
