@@ -1,26 +1,22 @@
 class WeatherDataController < ApplicationController
-  respond_to :json, :js
-
   before_filter :load_weather_datumable
   before_filter :authorize_parent, except: :index
   before_action :set_weather_datum, only: [:edit, :update, :destroy]
   before_action :set_view_units
 
+  respond_to :js
+
   def index
-    @weather_data = @weather_datumable.weather_data.order(:actual_on, :altitude)
-    @weather_datum = WeatherDatum.new
+    respond_with_index
   end
 
   def create
     @weather_datum = @weather_datumable.weather_data.new weather_data_params
 
     if @weather_datum.save
-      @weather_datum
+      respond_with_index
     else
-      respond_to do |format|
-        format.js { render 'errors/ajax_errors', locals: {errors: @weather_datum.errors} }
-        format.json { render json: @weather_datum.errors, status: :unprocessable_entity }
-      end
+      render 'errors/ajax_errors', locals: {errors: @weather_datum.errors} 
     end
   end
 
@@ -28,16 +24,13 @@ class WeatherDataController < ApplicationController
     if @weather_datum.update weather_data_params
       @weather_datum
     else
-      respond_to do |format|
-        format.js { render 'errors/ajax_errors', locals: {errors: @weather_datum.errors} }
-        format.json { render json: @weather_datum.errors, status: :unprocessable_entity }
-      end
+      render 'errors/ajax_errors', locals: {errors: @weather_datum.errors}
     end
   end
 
   def destroy
     @weather_datum.destroy
-    head :no_content
+    respond_with_index
   end
 
   def new
@@ -47,6 +40,13 @@ class WeatherDataController < ApplicationController
   end
 
   private
+
+  def respond_with_index
+    @weather_data = @weather_datumable.weather_data.order(:actual_on, :altitude)
+    @weather_datum = WeatherDatum.new
+
+    render :index
+  end
 
   def load_weather_datumable
     klass = [Event, Track].detect { |c| params["#{c.name.underscore}_id"] }

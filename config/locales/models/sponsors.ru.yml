@@ -1,15 +1,21 @@
 ru:
   activerecord:
     models:
-      sponsor: 'Спонсор'
+      sponsor: Спонсор
     attributes:
       sponsor:
-        name: 'Название'
-        website: 'Сайт'
-        logo: 'Логотип'
+        name: Название
+        website: Сайт
+        logo: Логотип
     errors:
       models:
         sponsor:
           attributes:
             name:
-              blank: 'Не указано название спонсора.'
+              blank: Не указано название спонсора.
+            website:
+              blank: Не указан веб-сайт спонсора.
+            logo:
+              blank: Необходимо прикрепить файл с логотипом спонсора.
+            logo_content_type:
+              invalid: Не поддерживаемый формат файла с логотипом.

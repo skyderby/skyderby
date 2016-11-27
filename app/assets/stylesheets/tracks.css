@@ -46,13 +46,6 @@
   color: rgb(136,136,136)
 }
 
-
-
-
-/*.min-val, .max-val {*/
-    /*color: #888;*/
-/*}*/
-
 .track-data {
     border-right: solid 2px #515151;
     color: #515151;
@@ -149,6 +142,7 @@
     padding-left: 1px;
     padding-right: 0px;
 }
+
 #tracks-index th.result-head {
     padding-left: 2px;
     padding-right: 2px;

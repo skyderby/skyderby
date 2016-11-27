@@ -4,12 +4,18 @@ de:
       sponsor: 'Sponsor'
     attributes:
       sponsor:
-        name: 'Name'
-        website: 'Webseite'
-        logo: 'Logo'
+        name: Name
+        website: Webseite
+        logo: Logo
     errors:
       models:
         sponsor:
           attributes:
             name:
-              blank: "Name muss eingetragen werden."
+              blank: Name muss eingetragen werden.
+            # website:
+            #   blank: Webseite muss eingetragen werden.
+            # logo:
+            #   blank: Logo has to be attached.
+            # logo_content_type:
+              # invalid: Logo has to be an image file.

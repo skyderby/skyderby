@@ -1,6 +1,7 @@
 class Skyderby.models.TrackGlobe extends Backbone.Model
   defaults:
-    points: []
+    points: [],
+    nearby_places: []
 
   url: ->
     @track_url() + '/globe'
