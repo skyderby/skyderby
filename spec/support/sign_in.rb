@@ -6,7 +6,7 @@ module SignInHelpers
 
     fill_in 'Email', with: user.email
     fill_in 'Password', with: password
-    click_button 'Войти'
+    click_button I18n.t 'devise.shared.links.sign_in'
   end
 
   def sign_out

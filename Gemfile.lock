@@ -64,8 +64,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    childprocess (0.5.9)
-      ffi (~> 1.0, >= 1.0.11)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cliver (0.3.2)
@@ -109,7 +107,6 @@ GEM
     factory_girl_rails (4.7.0)
       factory_girl (~> 4.7.0)
       railties (>= 3.0.0)
-    ffi (1.9.14)
     font-awesome-rails (4.7.0.0)
       railties (>= 3.2, < 5.1)
     globalid (0.3.7)
@@ -262,7 +259,6 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.8.1)
-    rubyzip (1.2.0)
     sass (3.4.22)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -278,10 +274,6 @@ GEM
       rdoc (~> 4.0)
     selenium (0.2.11)
       jar_wrapper
-    selenium-webdriver (3.0.3)
-      childprocess (~> 0.5)
-      rubyzip (~> 1.0)
-      websocket (~> 1.0)
     sidekiq (4.2.7)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
@@ -326,7 +318,6 @@ GEM
     uniform_notifier (1.10.0)
     warden (1.2.6)
       rack (>= 1.0)
-    websocket (1.2.3)
     websocket-driver (0.6.4)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
@@ -383,8 +374,8 @@ DEPENDENCIES
   scenic
   sdoc
   selenium
-  selenium-webdriver
   sidekiq (< 5)
+  simplecov
   slack-notifier
   therubyracer (= 0.12.0)
   turbolinks
