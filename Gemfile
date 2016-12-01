@@ -94,9 +94,10 @@ group :test do
   gem 'factory_girl_rails'
   gem 'capybara'
   gem 'selenium'
-  gem 'selenium-webdriver'
   gem 'poltergeist'
   gem 'database_cleaner'
+
+  gem 'simplecov'
   gem 'codeclimate-test-reporter', require: false
 end
 
