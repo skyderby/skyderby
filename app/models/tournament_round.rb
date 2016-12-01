@@ -9,7 +9,7 @@
 #  updated_at    :datetime         not null
 #
 
-class TournamentRound < ActiveRecord::Base
+class TournamentRound < ApplicationRecord
   belongs_to :tournament
   has_many :matches, class_name: 'TournamentMatch'
 end

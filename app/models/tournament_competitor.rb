@@ -10,7 +10,7 @@
 #  updated_at    :datetime         not null
 #
 
-class TournamentCompetitor < ActiveRecord::Base
+class TournamentCompetitor < ApplicationRecord
   belongs_to :tournament
   belongs_to :profile
   belongs_to :wingsuit

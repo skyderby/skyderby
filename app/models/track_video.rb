@@ -12,7 +12,7 @@
 #  video_code   :string(510)
 #
 
-class TrackVideo < ActiveRecord::Base
+class TrackVideo < ApplicationRecord
   belongs_to :track
 
   validates :url, presence: true

@@ -9,7 +9,7 @@
 #  updated_at    :datetime         not null
 #
 
-class QualificationRound < ActiveRecord::Base
+class QualificationRound < ApplicationRecord
   belongs_to :tournament
   has_many :qualification_jumps
 end

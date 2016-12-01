@@ -21,7 +21,7 @@
 #  unconfirmed_email      :string(510)
 #
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   attr_accessor :name
 
   has_one :profile

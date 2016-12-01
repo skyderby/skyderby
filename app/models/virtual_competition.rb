@@ -21,7 +21,7 @@
 #  display_on_start_page :boolean
 #
 
-class VirtualCompetition < ActiveRecord::Base
+class VirtualCompetition < ApplicationRecord
   BASE_START_SPEED = 10
 
   enum jumps_kind: [:skydive, :base]
