@@ -65,7 +65,7 @@ class TracksController < ApplicationController
     @track_presenter.load
 
     respond_to do |format|
-      format.html { LastViewedUpdateWorker.perform_async(@track.id) }
+      format.html { LastViewedUpdateJob.perform_later(@track.id) }
       format.js 
       format.json { @track_data }
     end
