@@ -135,8 +135,8 @@ class Track < ApplicationRecord
   end
 
   def perform_jobs
-    ResultsWorker.perform_async(id)
-    OnlineCompetitionWorker.perform_async(id)
+    ResultsJob.perform_later(id)
+    OnlineCompetitionJob.perform_later(id)
   end
 
   class << self
