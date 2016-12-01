@@ -39,12 +39,6 @@ class VirtualCompetition < ApplicationRecord
   has_many :personal_top_scores
   has_many :sponsors, as: :sponsorable
 
-  def reprocess_results
-    virtual_comp_results.each do |x|
-      OnlineCompetitionWorker.perform_async(x.track_id)
-    end
-  end
-
   def window_params
     case discipline
     when 'distance', 'speed', 'time'
