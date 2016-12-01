@@ -14,19 +14,19 @@
         .col-sm-3
           .pull-right
             .btn-group
-              - params_query = params[:query] || {}
+              - params_query = index_params[:query] || {}
               - kind = params_query[:kind]
-              %a.btn.btn-sm.btn-default{href: tracks_path(params.merge(query: params_query.except(:kind))), class: ('active' unless kind), rel: 'nofollow'}
+              %a.btn.btn-sm.btn-default{href: tracks_path(index_params.merge(query: params_query.except(:kind))), class: ('active' unless kind), rel: 'nofollow'}
                 = t '.all'
-              %a.btn.btn-sm.btn-default{href: tracks_path(params.merge(query: params_query.merge(kind: :skydive))), class: ('active' if kind == 'skydive'), rel: 'nofollow'} 
+              %a.btn.btn-sm.btn-default{href: tracks_path(index_params.merge(query: params_query.merge(kind: :skydive))), class: ('active' if kind == 'skydive'), rel: 'nofollow'} 
                 Skydive
-              %a.btn.btn-sm.btn-default{href: tracks_path(params.merge(query: params_query.merge(kind: :base))), class: ('active' if kind == 'base'), rel: 'nofollow'}
+              %a.btn.btn-sm.btn-default{href: tracks_path(index_params.merge(query: params_query.merge(kind: :base))), class: ('active' if kind == 'base'), rel: 'nofollow'}
                 B.A.S.E
 
     .content-block
       .row
         .col-sm-12
-          - params_order = (params[:order] || '').split(' ')
+          - params_order = (index_params[:order] || '').split(' ')
           - order_field = (params_order[0] || 'id').upcase
           - order_direction = (params_order[1] || 'DESC').upcase
           %table#tracks-index.table.table-hover

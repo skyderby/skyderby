@@ -10,7 +10,7 @@ class TracksController < ApplicationController
     @tracks = Track.accessible_by(current_user)
 
     apply_filters!
-    @tracks = TrackOrder.new(params[:order]).apply(@tracks)
+    @tracks = TrackOrder.new(index_params[:order]).apply(@tracks)
 
     respond_to do |format|
       format.any(:html, :js) do
@@ -171,6 +171,20 @@ class TracksController < ApplicationController
     )
   end
 
+  def index_params
+    params.permit(
+      :order,
+      :page,
+      query: [:profile_id, :suit_id, :place_id, :kind, :term]
+    )
+  end
+  helper_method :index_params
+
+  def show_params
+    params.permit(:range, :f, :t, :charts_mode, :charts_units) 
+  end
+  helper_method :show_params
+
   def process_range
     range = params[:range].split(';')
     params[:f] = Distance.new(range.first, preferred_altitude_units).truncate
@@ -218,7 +232,7 @@ class TracksController < ApplicationController
   end
 
   def apply_filters!
-    query = params[:query]
+    query = index_params[:query]
 
     return unless query
 
