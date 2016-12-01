@@ -15,7 +15,7 @@
 #  sponsorable_type  :string
 #
 
-class Sponsor < ActiveRecord::Base
+class Sponsor < ApplicationRecord
   belongs_to :sponsorable, polymorphic: true
 
   validates_presence_of :name, :website

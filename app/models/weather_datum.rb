@@ -13,7 +13,7 @@
 #  updated_at             :datetime         not null
 #
 
-class WeatherDatum < ActiveRecord::Base
+class WeatherDatum < ApplicationRecord
   attr_accessor :altitude_unit, :wind_speed_unit
   attr_reader :altitude_in_units, :wind_speed_in_units
 

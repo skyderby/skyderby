@@ -8,7 +8,7 @@
 #  event_id :integer
 #
 
-class Section < ActiveRecord::Base
+class Section < ApplicationRecord
   include EventOngoingValidation
 
   belongs_to :event, touch: true

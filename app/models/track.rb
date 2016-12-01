@@ -28,7 +28,7 @@
 #  recorded_at       :datetime
 #
 
-class Track < ActiveRecord::Base
+class Track < ApplicationRecord
   attr_accessor :skip_jobs
 
   enum kind:       [:skydive, :base]

@@ -11,7 +11,7 @@
 #  profile_id :integer
 #
 
-class Round < ActiveRecord::Base
+class Round < ApplicationRecord
   include EventOngoingValidation
 
   enum discipline: [:time, :distance, :speed]

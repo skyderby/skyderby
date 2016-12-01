@@ -11,7 +11,7 @@
 #  msl         :integer
 #
 
-class Place < ActiveRecord::Base
+class Place < ApplicationRecord
   belongs_to :country
 
   has_many :tracks, -> { order('created_at DESC') }
