@@ -36,12 +36,6 @@
 //= require app/app
 //= require_tree .
 
-//"use strict";
-
-/* exported fail_ajax_request, clone, capitaliseFirstLetter */
-
-Turbolinks.enableProgressBar();
-
 // Bootstrap registers a listener to the focusin event which checks whether 
 // the focused element is either the overlay itself or a descendent of it - 
 // if not it just refocuses on the overlay. With the select2 dropdown being 
