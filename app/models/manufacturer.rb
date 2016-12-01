@@ -7,7 +7,7 @@
 #  code :string(510)
 #
 
-class Manufacturer < ActiveRecord::Base
+class Manufacturer < ApplicationRecord
   has_many :wingsuits
   validates_presence_of :name
 end

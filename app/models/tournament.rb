@@ -17,7 +17,7 @@
 #  exit_lon         :decimal(15, 10)
 #
 
-class Tournament < ActiveRecord::Base
+class Tournament < ApplicationRecord
   enum discipline: [
     :time,
     :distance,

@@ -11,7 +11,7 @@
 #  bronze_finals         :boolean
 #
 
-class TournamentMatch < ActiveRecord::Base
+class TournamentMatch < ApplicationRecord
   belongs_to :round,
              class_name: 'TournamentRound',
              foreign_key: 'tournament_round_id'

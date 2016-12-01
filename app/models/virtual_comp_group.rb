@@ -8,7 +8,7 @@
 #  updated_at :datetime
 #
 
-class VirtualCompGroup < ActiveRecord::Base
+class VirtualCompGroup < ApplicationRecord
   has_many :virtual_competitions
 
   validates :name, presence: true

@@ -17,7 +17,7 @@
 #  wind_cancellation :boolean
 #
 
-class Event < ActiveRecord::Base
+class Event < ApplicationRecord
   enum status: [:draft, :published, :finished]
   enum rules: [:speed_distance_time, :fai, :hungary_boogie]
 

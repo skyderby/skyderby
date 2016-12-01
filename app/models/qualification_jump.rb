@@ -11,7 +11,7 @@
 #  updated_at               :datetime         not null
 #
 
-class QualificationJump < ActiveRecord::Base
+class QualificationJump < ApplicationRecord
   belongs_to :tournament_competitor
   belongs_to :qualification_round
   belongs_to :track
