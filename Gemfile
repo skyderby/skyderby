@@ -45,7 +45,6 @@ gem 'sass-rails'
 gem 'coffee-rails'
 gem 'uglifier', '>= 2.7.2'
 gem 'turbolinks'
-gem 'jquery-turbolinks'
 
 gem 'therubyracer', '0.12.0'
 gem 'less-rails'
@@ -59,8 +58,6 @@ gem 'bootstrap-datepicker-rails'
 gem 'pluck_to_hash'
 
 gem 'scenic'
-
-gem 'dotenv-rails', groups: [:development, :test]
 
 group :development do
   gem 'annotate'
@@ -81,9 +78,7 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
 
-  # gem 'quiet_assets'
-
-  # gem 'mailcatcher'
+  gem 'dotenv-rails'
 
   # Better errors handler
   # gem 'better_errors'

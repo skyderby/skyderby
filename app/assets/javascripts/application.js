@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require remotipart/jquery.remotipart
 //= require turbolinks
-//= require jquery.turbolinks
 //= require bootstrap-datepicker/core
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.ru.js
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.de.js

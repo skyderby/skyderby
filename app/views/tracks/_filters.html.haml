@@ -1,0 +1,55 @@
+.content-block.tracks-filters
+  .row
+    .col-sm-12
+      %h3=t '.filters'
+  .row
+    - query_params = index_params[:query] || {}
+    .col-sm-3
+      - profile_params = index_params.merge(query: query_params.except(:profile_id)).to_h.to_param
+      = select_tag('query_profile_id', 
+                    options_for_select([ [profile_name_by_id(query_params[:profile_id]), query_params[:profile_id]] ]),
+                    name: 'query[profile_id]',
+                    class: 'form-control', 
+                    data: {remote: true, method: :GET, url: tracks_path, params: profile_params})
+
+    .col-sm-3
+      - suit_params = index_params.merge(query: query_params.except(:suit_id)).to_h.to_param
+      = select_tag('query_suit_id', 
+                    options_for_select([ [suit_name_by_id(query_params[:suit_id]), query_params[:suit_id]] ]),
+                    name: 'query[suit_id]',
+                    class: 'form-control', 
+                    data: {remote: true, method: :GET, url: tracks_path, params: suit_params})
+
+    .col-sm-3
+      - place_params = index_params.merge(query: query_params.except(:place_id)).to_h.to_param
+      = select_tag('query_place_id', 
+                    options_for_select([ [place_name_by_id(query_params[:place_id]), query_params[:place_id]] ]),
+                    name: 'query[place_id]',
+                    class: 'form-control', 
+                    data: {remote: true, method: :GET, url: tracks_path, params: place_params})
+
+    .col-sm-3
+      .pull-right
+        .btn-group
+          - activity = query_params[:kind]
+          = link_to t('.all'),
+                    index_params.merge(query: query_params.except(:kind)),
+                    remote: true,
+                    class: ['btn btn-sm btn-default', ('active' unless activity)],
+                    rel: 'nofollow'
+
+          = link_to 'Skydive',
+                    index_params.merge(query: query_params.merge(kind: 'skydive')),
+                    remote: true,
+                    class: ['btn btn-sm btn-default', ('active' if activity == 'skydive')],
+                    rel: 'nofollow'
+
+          = link_to 'B.A.S.E.',
+                    index_params.merge(query: query_params.merge(kind: 'base')),
+                    remote: true,
+                    class: ['btn btn-sm btn-default', ('active' if activity == 'base')],
+                    rel: 'nofollow'
+
+- content_for :page_js do
+  %script
+    = render partial: 'tracks/init_filter_elements', formats: [:js]

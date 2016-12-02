@@ -44,6 +44,7 @@ module TracksHelper
     if order_field == field.upcase && order_direction == 'DESC'
       content_tag(:a, nil,
                   href: tracks_path(index_params.merge(order: "#{field} ASC")),
+                  'data-remote' => true,
                   'data-toggle' => 'tooltip',
                   title: "Sort by #{field_presentation} ascending",
                   rel: 'nofollow') do
@@ -52,6 +53,7 @@ module TracksHelper
     elsif order_field == field.upcase && order_direction == 'ASC'
       content_tag(:a, nil,
                   href: tracks_path(index_params.merge(order: "#{field} DESC")),
+                  'data-remote' => true,
                   'data-toggle' => 'tooltip',
                   title: "Sort by #{field_presentation} descending",
                   rel: 'nofollow') do
@@ -61,6 +63,7 @@ module TracksHelper
       content_tag(:a, nil,
                   class: 'text-muted',
                   href: tracks_path(index_params.merge(order: "#{field} DESC")),
+                  'data-remote' => true,
                   'data-toggle' => 'tooltip',
                   title: "Sort by #{field_presentation} descending",
                   rel: 'nofollow') do

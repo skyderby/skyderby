@@ -1,0 +1,14 @@
+Skyderby.helpers.ProfileSelect(
+  $('select[name="query[profile_id]"]'),
+  { placeholder: "<%= I18n.t('tracks.index.filter_by_pilot') %>" }
+);
+
+Skyderby.helpers.SuitSelect(
+  $('select[name="query[suit_id]"]'),
+  { placeholder: "<%= I18n.t('tracks.index.filter_by_suit') %>" }
+);
+
+Skyderby.helpers.PlaceSelect(
+  $('select[name="query[place_id]"]'),
+  { placeholder: "<%= I18n.t('tracks.index.filter_by_place') %>" }
+);
