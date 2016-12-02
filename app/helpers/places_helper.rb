@@ -1,4 +1,9 @@
 module PlacesHelper
+  def place_name_by_id(id)
+    return unless id
+    Place.find_by_id(id)&.name
+  end
+
   def place_presentation(place)
     country = place.country
     code_span = content_tag(:span,

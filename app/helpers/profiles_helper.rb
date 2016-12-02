@@ -1,4 +1,8 @@
 module ProfilesHelper
+  def profile_name_by_id(id)
+    Profile.find_by_id(id)&.name
+  end
+
   def is_owner
     current_user && current_user.profile == @profile
   end
