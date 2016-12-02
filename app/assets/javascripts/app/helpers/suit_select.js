@@ -49,5 +49,6 @@ Skyderby.helpers.SuitSelect = function(elem, opts) {
 
     $.extend(options, opts);
 
+    Skyderby.helpers.select2_fix_open_on_clear(elem);
     elem.select2(options);
 };
