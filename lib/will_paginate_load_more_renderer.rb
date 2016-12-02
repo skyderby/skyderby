@@ -15,7 +15,7 @@ class WillPaginateLoadMoreRenderer < WillPaginate::ActionView::LinkRenderer
   end
 
   def tag(name, value, attributes = {})
-    attributes.merge!('data-remote': true)
+    attributes.merge!('data-remote': true, 'data-params': 'append=true')
     super(name, value, attributes)
   end
 end
