@@ -46,7 +46,10 @@ class Ability
 
   def define_tracks_abilities(user)
     # guest user (not logged in)
-    can :read, Track, visibility: %w(public_track unlisted_track)
+    can :read, Track do |track|
+      track.public_track? || track.unlisted_track?
+    end
+
     can :create, Track
     can [:update, :destroy], Track, pilot: nil, lastviewed_at: nil
 
