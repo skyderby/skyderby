@@ -27,3 +27,15 @@
 #     only: "*"
 #
 fallbacks: :en
+
+translations:
+  only: 
+    - '*.events.show.*'
+    - '*.tracks.form.*'
+    - '*.tracks.edit.*'
+    - '*.tracks.show.*'
+    - '*.places.index.*'
+    - '*.units.*'
+    - '*.charts.*'
+    - '*.errors.messages.*'
+    - '*.jquery_validate.*'
