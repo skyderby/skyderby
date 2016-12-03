@@ -12,3 +12,9 @@ Skyderby.helpers.PlaceSelect(
   $('select[name="query[place_id]"]'),
   { placeholder: "<%= I18n.t('tracks.index.filter_by_place') %>" }
 );
+
+$(document).on('turbolinks:before-cache', function() {
+  $('select[name="query[profile_id]"]').select2('destroy');
+  $('select[name="query[suit_id]"]').select2('destroy');
+  $('select[name="query[place_id]"]').select2('destroy');
+});
