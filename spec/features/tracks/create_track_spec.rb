@@ -2,6 +2,50 @@ require 'spec_helper'
 
 feature 'Upload tracks', js: true do
   scenario 'Flysight file' do
+    upload_track 'flysight.csv'
+    click_button I18n.t('general.save')
+
+    expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
+  end
+
+  scenario 'Columbus file' do
+    upload_track 'columbus.csv'
+    click_button I18n.t('general.save')
+
+    expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
+  end
+
+  scenario 'Wintec file' do
+    upload_track 'wintec.tes'
+    click_button I18n.t('general.save')
+
+    expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
+  end
+
+  scenario 'Dual XGPS160 file' do
+    upload_track 'dual_xgps160.kml'
+    click_button I18n.t('general.save')
+
+    expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
+  end
+
+  scenario 'Garmin gpx: one track in file' do
+    upload_track 'one_track.gpx'
+    click_button I18n.t('general.save')
+
+    expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
+  end
+
+  scenario 'Garmin gps: multiple tracks in file' do
+    upload_track 'two_tracks.gpx'
+    find('tr[data-index="1"]').click
+
+    click_button I18n.t('general.save')
+
+    expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
+  end
+
+  def upload_track(file_name)
     visit root_path
     click_link I18n.t('application.header.upload_track')
     sleep 0.5 #wait for modal
@@ -14,14 +58,10 @@ feature 'Upload tracks', js: true do
 
       fill_in 'track[location]', with: 'Africa'
 
-      fill_track_file 'flysight.csv'
+      fill_track_file file_name
 
       click_button I18n.t('static_pages.index.track_form.submit')
     end
-
-    click_button I18n.t('general.save')
-
-    expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
   end
 
   def fill_track_file(file_name)
