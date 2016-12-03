@@ -18,7 +18,11 @@
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.ru.js
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.de.js
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.es.js
-//= require twitter/bootstrap
+//= require twitter/bootstrap/alert
+//= require twitter/bootstrap/button
+//= require twitter/bootstrap/dropdown
+//= require twitter/bootstrap/modal
+//= require twitter/bootstrap/tooltip
 //= require jquery.validate
 //= require additional-methods.min
 //= require markerclusterer
@@ -130,5 +134,8 @@ $(document).on('click', '.clickableRow', function() {
 });
 
 $(document).on('turbolinks:load', function() {
-  ga('send', 'pageview', window.location.pathname); 
+    // Enable tooltips
+    $('body').tooltip({selector: "a[rel~=tooltip], .has-tooltip, [data-toggle=tooltip]"});
+
+    ga('send', 'pageview', window.location.pathname); 
 });
