@@ -82,7 +82,7 @@ function capitaliseFirstLetter(string)
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-$(document).ready(function($) {
+$(document).on('ready turbolinks:load', function() {
 
     $('input[type=number]').keypress(function (e) {
         //if the letter is not digit then don't type anything
@@ -112,7 +112,7 @@ $(document).ready(function($) {
 });
 
 $(document).on('ajax:error', '[data-remote=true]', function() {
-  AjaxErrorMessage.display()
+    AjaxErrorMessage.display()
 });
 
 $(document).on('change', '.btn-file :file', function() {
@@ -129,23 +129,6 @@ $(document).on('click', '.clickableRow', function() {
     Turbolinks.visit($(this).data("url"));
 });
 
-
-$(document).on('ready page:load', function() {
-    // ONLY if page has one pagination!
-    // if ($('.pagination').length) {
-    //     $(window).off('scroll').on('scroll', function() {
-    //         var url = $('.pagination .next > a').attr('href');
-    //         if (url && ($(window).scrollTop() >= $(document).height() - $(window).height() - 170)) {
-    //             $('.pagination').text('Fetching more tracks...');
-    //             $.getScript(url);
-    //         }
-    //     });
-    //     $(window).scroll();
-    // } else {
-    //     $(window).off('scroll');
-    // }
-});
-
-$(document).on('page:change', function() {
+$(document).on('turbolinks:load', function() {
   ga('send', 'pageview', window.location.pathname); 
 });
