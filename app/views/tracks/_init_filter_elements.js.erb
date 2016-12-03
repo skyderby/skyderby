@@ -1,3 +1,4 @@
+// Initialization
 Skyderby.helpers.ProfileSelect(
   $('select[name="query[profile_id]"]'),
   { placeholder: "<%= I18n.t('tracks.index.filter_by_pilot') %>" }
@@ -13,8 +14,15 @@ Skyderby.helpers.PlaceSelect(
   { placeholder: "<%= I18n.t('tracks.index.filter_by_place') %>" }
 );
 
-$(document).on('turbolinks:before-cache', function() {
-  $('select[name="query[profile_id]"]').select2('destroy');
-  $('select[name="query[suit_id]"]').select2('destroy');
-  $('select[name="query[place_id]"]').select2('destroy');
+// Tear down
+$(document).one('turbolinks:before-cache', function() {
+  var page_selects = [
+    $('select[name="query[profile_id]"]'),
+    $('select[name="query[suit_id]"]'),
+    $('select[name="query[place_id]"]')
+  ];
+
+  page_selects.forEach(function($el) {
+    if ( $el.next().is('.select2') ) $el.select2('destroy');
+  });
 });
