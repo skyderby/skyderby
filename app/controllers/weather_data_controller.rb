@@ -62,9 +62,14 @@ class WeatherDataController < ApplicationController
   end
 
   def set_view_units
-    @view_units = {altitude: params[:altitude_unit] || 'm',
-                   wind_speed: params[:wind_speed_unit] || 'ms'}
+    @view_units = {altitude: index_params[:altitude_unit] || 'm',
+                   wind_speed: index_params[:wind_speed_unit] || 'ms'}
   end
+
+  def index_params
+    params.permit(:altitude_unit, :wind_speed_unit)
+  end
+  helper_method :index_params
 
   def weather_data_params
     params.require(:weather_datum).permit :actual_on,
