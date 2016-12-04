@@ -34,6 +34,10 @@ RSpec.describe User, type: :model do
   end
 
   context 'creating new user' do
+    before do
+      Role.create! name: 'user'
+    end
+
     subject { User.create!(visitor) }
 
     it 'assigns default role' do
