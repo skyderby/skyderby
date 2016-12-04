@@ -130,7 +130,7 @@
             = t('events.show.results_showing')
             - if (@display_raw_results)
               = link_to t('events.show.results_adjusted_caption'),
-                        params.merge(display_raw_results: false),
+                        show_params.merge(display_raw_results: false),
                         remote: true
               \/
               %b= t('events.show.results_not_adjusted_caption')
@@ -138,7 +138,7 @@
               %b= t('events.show.results_adjusted_caption')
               \/
               = link_to t('events.show.results_not_adjusted_caption'),
-                        params.merge(display_raw_results: true),
+                        show_params.merge(display_raw_results: true),
                         remote: true
 
     .row

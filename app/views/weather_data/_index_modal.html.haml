@@ -20,9 +20,9 @@
                 %i.fa.fa-caret-down
             %ul.dropdown-menu{role: 'menu'}
               %li{class: ('active' if @view_units[:altitude] == 'm')}
-                = link_to t('units.m'), params.merge(altitude_unit: 'm'), remote: true
+                = link_to t('units.m'), index_params.merge(altitude_unit: 'm'), remote: true
               %li{class: ('active' if @view_units[:altitude] == 'ft')}
-                = link_to t('units.ft'), params.merge(altitude_unit: 'ft'), remote: true
+                = link_to t('units.ft'), index_params.merge(altitude_unit: 'ft'), remote: true
 
           .btn-group.btn-group-xs
             %button.btn.btn-default.wind-speed-units{'data-toggle' => 'dropdown'}
@@ -30,13 +30,13 @@
               %i.fa.fa-caret-down
             %ul.dropdown-menu{role: 'menu'}
               %li{class: ('active' if @view_units[:wind_speed] == 'ms')}
-                = link_to t('units.ms'), params.merge(wind_speed_unit: 'ms'), remote: true
+                = link_to t('units.ms'), index_params.merge(wind_speed_unit: 'ms'), remote: true
               %li{class: ('active' if @view_units[:wind_speed] == 'knots')}
-                = link_to t('units.knots'), params.merge(wind_speed_unit: 'knots'), remote: true
+                = link_to t('units.knots'), index_params.merge(wind_speed_unit: 'knots'), remote: true
               %li{class: ('active' if @view_units[:wind_speed] == 'kmh')}
-                = link_to t('units.kmh'), params.merge(wind_speed_unit: 'kmh'), remote: true
+                = link_to t('units.kmh'), index_params.merge(wind_speed_unit: 'kmh'), remote: true
               %li{class: ('active' if @view_units[:wind_speed] == 'mph')}
-                = link_to t('units.mph'), params.merge(wind_speed_unit: 'mph'), remote: true
+                = link_to t('units.mph'), index_params.merge(wind_speed_unit: 'mph'), remote: true
 
     .modal-body
       = render 'table'
