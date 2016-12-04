@@ -54,6 +54,6 @@ class User < ApplicationRecord
   end
 
   def assign_default_role
-    assignments << Assignment.new(user: self, role: Role.find_by(name: 'user'))
+    assignments << Assignment.new(role: Role.find_by(name: 'user'))
   end
 end

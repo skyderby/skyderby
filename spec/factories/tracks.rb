@@ -33,6 +33,7 @@ FactoryGirl.define do
     kind Track.kinds['skydive']
     pilot
     wingsuit
+    skip_jobs true
     recorded_at Date.today
 
     trait :with_place do
