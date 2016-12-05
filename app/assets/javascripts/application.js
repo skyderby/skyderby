@@ -38,6 +38,7 @@
 //= require highcharts-more
 //= require app/app
 //= require_tree .
+//= require_self
 
 // Bootstrap registers a listener to the focusin event which checks whether 
 // the focused element is either the overlay itself or a descendent of it - 
