@@ -64,7 +64,7 @@ class Skyderby.views.TrackGlobeView extends Backbone.View
 
     for point in @model.get('points')
       position = Cesium.Cartesian3.fromDegrees(
-        point.longitude, 
+        point.longitude,
         point.latitude,
         point.abs_altitude)
       property.addSample(point.gps_time, position)
@@ -93,10 +93,12 @@ class Skyderby.views.TrackGlobeView extends Backbone.View
     entity = @viewer.entities.add({
 
       # Set the entity availability to the same interval as the simulation time.
-      availability : new Cesium.TimeIntervalCollection([new Cesium.TimeInterval({
-        start : start_time
-        stop : stop_time
-      })]),
+      availability : new Cesium.TimeIntervalCollection([
+        new Cesium.TimeInterval({
+          start : start_time
+          stop : stop_time
+        })
+      ]),
 
       # Use our computed positions
       position : property,
@@ -126,15 +128,19 @@ class Skyderby.views.TrackGlobeView extends Backbone.View
 
   draw_nearby_places: ->
     pin_builder = new Cesium.PinBuilder()
-    billboard_collection = @viewer.scene.primitives.add(new Cesium.BillboardCollection({
-      scene : @viewer.scene
-    }))
+    billboard_collection = @viewer.scene.primitives.add(
+      new Cesium.BillboardCollection({ scene : @viewer.scene })
+    )
 
     for place in @model.get('nearby_places')
       position = Cesium.Cartesian3.fromDegrees(place.longitude, place.latitude)
       billboard_collection.add({
         position : position,
-        image : pin_builder.fromMakiIconId('embassy', Cesium.Color.ROYALBLUE, 24),
+        image : pin_builder.fromMakiIconId(
+          'embassy',
+          Cesium.Color.ROYALBLUE,
+          24
+        ),
         heightReference : Cesium.HeightReference.CLAMP_TO_GROUND,
       })
 
@@ -147,4 +153,4 @@ class Skyderby.views.TrackGlobeView extends Backbone.View
           horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
           verticalOrigin: Cesium.VerticalOrigin.TOP,
           heightReference : Cesium.HeightReference.CLAMP_TO_GROUND,
-      });
+      })
