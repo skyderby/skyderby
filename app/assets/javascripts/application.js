@@ -113,10 +113,11 @@ $(document).on('ready turbolinks:load', function() {
         }
     });
 
+    AjaxErrorMessage = new Skyderby.views.AjaxErrorMessage();
 });
 
 $(document).on('ajax:error', '[data-remote=true]', function() {
-    AjaxErrorMessage.display()
+    AjaxErrorMessage.render()
 });
 
 $(document).on('change', '.btn-file :file', function() {
