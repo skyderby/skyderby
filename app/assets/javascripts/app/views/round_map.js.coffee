@@ -2,7 +2,7 @@ class Skyderby.views.RoundMapView extends Backbone.View
 
   lines_by_competitor: {}
 
-  events: 
+  events:
     'change input': 'on_change_visibility'
 
   initialize: (opts) ->
@@ -33,7 +33,7 @@ class Skyderby.views.RoundMapView extends Backbone.View
       polyline = new google.maps.Polyline
         path: competitor_data.path_coordinates,
         strokeColor: competitor_data.color,
-        strokeOpacity: 1, 
+        strokeOpacity: 1,
         strokeWeight: 3
 
       polyline.setMap(@map)
@@ -64,9 +64,9 @@ class Skyderby.views.RoundMapView extends Backbone.View
         map: @map
 
       @lines_by_competitor['competitor_' + competitor_data.id] = [
-        polyline, 
+        polyline,
         hover_polyline,
-        start_point, 
+        start_point,
         end_point]
 
       lat_bounds.push(competitor_data.start_point.lat)
@@ -80,7 +80,7 @@ class Skyderby.views.RoundMapView extends Backbone.View
 
     @bounds = new google.maps.LatLngBounds()
     @bounds.extend(new google.maps.LatLng(
-      Number(lat_bounds[0]), 
+      Number(lat_bounds[0]),
       Number(lon_bounds[0])
     ))
 
@@ -105,7 +105,7 @@ class Skyderby.views.RoundMapView extends Backbone.View
     hover_polyline = new google.maps.Polyline
       path: path,
       strokeColor: color,
-      strokeOpacity: 0.0001, 
+      strokeOpacity: 0.0001,
       strokeWeight: 15
 
     hover_polyline.setMap(@map)
@@ -116,7 +116,7 @@ class Skyderby.views.RoundMapView extends Backbone.View
       infowindow.setPosition(e.latLng)
       infowindow.open(@map)
 
-    google.maps.event.addListener hover_polyline, 'mousemove', (e) =>
+    google.maps.event.addListener hover_polyline, 'mousemove', (e) ->
       infowindow.setPosition(e.latLng)
 
     google.maps.event.addListener hover_polyline, 'mouseout', (e) ->
