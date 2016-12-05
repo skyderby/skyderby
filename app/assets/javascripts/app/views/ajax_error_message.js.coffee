@@ -8,16 +8,15 @@ class Skyderby.views.AjaxErrorMessage extends Backbone.View
   text: 'Something went wrong with that request. Please try again.'
 
   initialize: ->
-    $(document).on('keydown', @on_keydown.bind(this))
+    $(document).on('keydown', (e) =>
+      @hide() if e.which == 27
+    )
 
   render: (text)->
     message_text = @text
     message_text = text if !!text
     @update_text(message_text)
     @show()
-
-  on_keydown: (e) ->
-    @hide() if e.which == 27
 
   on_close_click: (e) ->
     e.preventDefault()
