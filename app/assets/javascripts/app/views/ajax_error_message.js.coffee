@@ -1,7 +1,7 @@
 class Skyderby.views.AjaxErrorMessage extends Backbone.View
   events:
     'click .ajax-error-dismiss': 'on_close_click'
-    'mouseover'                : 'on_mouseover' 
+    'mouseover'                : 'on_mouseover'
 
   el: '#ajax-error-message'
 
