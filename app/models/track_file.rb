@@ -11,7 +11,7 @@
 #  updated_at        :datetime         not null
 #
 
-class TrackFile < ActiveRecord::Base
+class TrackFile < ApplicationRecord
   attr_accessor :file
 
   has_one :track

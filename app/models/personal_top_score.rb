@@ -13,7 +13,7 @@
 #  recorded_at            :datetime
 #
 
-class PersonalTopScore < ActiveRecord::Base
+class PersonalTopScore < ApplicationRecord
   belongs_to :virtual_competition
   belongs_to :track
   belongs_to :profile

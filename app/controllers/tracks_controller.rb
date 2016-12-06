@@ -10,7 +10,7 @@ class TracksController < ApplicationController
     @tracks = Track.accessible_by(current_user)
 
     apply_filters!
-    @tracks = TrackOrder.new(params[:order]).apply(@tracks)
+    @tracks = TrackOrder.new(index_params[:order]).apply(@tracks)
 
     respond_to do |format|
       format.any(:html, :js) do
@@ -65,7 +65,7 @@ class TracksController < ApplicationController
     @track_presenter.load
 
     respond_to do |format|
-      format.html { LastViewedUpdateWorker.perform_async(@track.id) }
+      format.html { LastViewedUpdateJob.perform_later(@track.id) }
       format.js 
       format.json { @track_data }
     end
@@ -171,6 +171,20 @@ class TracksController < ApplicationController
     )
   end
 
+  def index_params
+    params.permit(
+      :order,
+      :page,
+      query: [:profile_id, :profile_name, :suit_id, :place_id, :kind, :term]
+    )
+  end
+  helper_method :index_params
+
+  def show_params
+    params.permit(:range, :f, :t, :charts_mode, :charts_units) 
+  end
+  helper_method :show_params
+
   def process_range
     range = params[:range].split(';')
     params[:f] = Distance.new(range.first, preferred_altitude_units).truncate
@@ -218,13 +232,14 @@ class TracksController < ApplicationController
   end
 
   def apply_filters!
-    query = params[:query]
+    query = index_params[:query]
 
     return unless query
 
-    @tracks = @tracks.where(profile_id: query[:profile_id]) if query[:profile_id]
-    @tracks = @tracks.where(wingsuit_id: query[:suit_id]) if query[:suit_id]
-    @tracks = @tracks.where(place_id: query[:place_id]) if query[:place_id]
+    [:profile_id, :suit_id, :place_id].each do |key|
+      next if query[key].blank?
+      @tracks = @tracks.where(Hash[key, query[key]] ) 
+    end
 
     if query[:kind]
       @tracks = @tracks.base if query[:kind] == 'base'

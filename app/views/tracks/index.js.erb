@@ -1,11 +1,22 @@
-$('#tracks-index').append('<%= j render(@tracks) %>)');
+<% unless params[:append] %>
+  $('#tracks-table thead').html('<%= j render(partial: 'tracks/table_header') %>');
+  $('#tracks-table tbody').empty();
+<% end %>
 
-enable_tooltips();
+$('#tracks-table tbody').append('<%= j render(@tracks) %>');
+
+$('.tracks-index .tracks-filters').replaceWith('<%= j render(partial: 'tracks/filters') %>');
+<%= render partial: 'tracks/init_filter_elements' %>
 
 <% if @tracks.next_page %>
-    $('.pagination-list > .pagination').replaceWith('<%= j will_paginate(@tracks, renderer: BootstrapPagination::Rails) %>');
-    $('.pagination-load-more > .pagination').replaceWith('<%= j will_paginate(@tracks, renderer: WillPaginateLoadMoreRenderer) %>');
+    $('.pagination-load-more').html('<%= j will_paginate(@tracks, renderer: WillPaginateLoadMoreRenderer) %>');
 <% else %>
-    $('.pagination-list').remove();
-    $('.pagination-load-more').remove();
+    $('.pagination-load-more').empty();
 <% end %>
+$('.pagination-list').html('<%= j will_paginate(@tracks, renderer: BootstrapPagination::Rails) %>');
+
+window.history.replaceState(
+  {},
+  document.title,
+  "<%= url_for(index_params).html_safe %>"
+);

@@ -1,7 +1,7 @@
 #ajax-error-message{
-  display: none;
+  display: block;
   position: fixed;
-  top: -200px;
+  top: -2000px;
   left: 50%;
   width: 700px;
   margin-left: -350px;
@@ -9,7 +9,6 @@
   z-index: 9999;
 
   &.visible {
-    display: block;
     top: 0;
   }
 }

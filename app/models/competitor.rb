@@ -13,7 +13,7 @@
 #  profile_id  :integer
 #
 
-class Competitor < ActiveRecord::Base
+class Competitor < ApplicationRecord
   include EventOngoingValidation
 
   attr_accessor :profile_attributes, :profile_mode

@@ -9,7 +9,7 @@
 #  updated_at :datetime
 #
 
-class EventOrganizer < ActiveRecord::Base
+class EventOrganizer < ApplicationRecord
   include EventOngoingValidation
 
   belongs_to :event

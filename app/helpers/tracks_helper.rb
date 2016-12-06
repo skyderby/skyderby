@@ -41,10 +41,10 @@ module TracksHelper
   end
 
   def tracks_sort_header(order_field, order_direction, field, field_presentation)
-    action_params = params.except(:action, :controller, :locale)
     if order_field == field.upcase && order_direction == 'DESC'
       content_tag(:a, nil,
-                  href: tracks_path(action_params.merge(order: "#{field} ASC")),
+                  href: tracks_path(index_params.merge(order: "#{field} ASC")),
+                  'data-remote' => true,
                   'data-toggle' => 'tooltip',
                   title: "Sort by #{field_presentation} ascending",
                   rel: 'nofollow') do
@@ -52,7 +52,8 @@ module TracksHelper
       end
     elsif order_field == field.upcase && order_direction == 'ASC'
       content_tag(:a, nil,
-                  href: tracks_path(action_params.merge(order: "#{field} DESC")),
+                  href: tracks_path(index_params.merge(order: "#{field} DESC")),
+                  'data-remote' => true,
                   'data-toggle' => 'tooltip',
                   title: "Sort by #{field_presentation} descending",
                   rel: 'nofollow') do
@@ -61,7 +62,8 @@ module TracksHelper
     else
       content_tag(:a, nil,
                   class: 'text-muted',
-                  href: tracks_path(action_params.merge(order: "#{field} DESC")),
+                  href: tracks_path(index_params.merge(order: "#{field} DESC")),
+                  'data-remote' => true,
                   'data-toggle' => 'tooltip',
                   title: "Sort by #{field_presentation} descending",
                   rel: 'nofollow') do

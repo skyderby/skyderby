@@ -22,7 +22,8 @@ $("#range-selector").ionRangeSlider('update', {
 $('#f').val(<%= @track_presenter.range_from %>);
 $('#t').val(<%= @track_presenter.range_to %>);
 
-window.history.replaceState({},
-                            document.title,
-                            "<%= url_for(params.except(:range, :charts_mode, :charts_units, :commit, :utf8)).html_safe %>"
-                            );
+window.history.replaceState(
+  {},
+  document.title,
+  "<%= url_for(params.permit(:id, :f, :t)).html_safe %>"
+);

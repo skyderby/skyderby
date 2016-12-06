@@ -14,12 +14,15 @@
 //= require jquery_ujs
 //= require remotipart/jquery.remotipart
 //= require turbolinks
-//= require jquery.turbolinks
 //= require bootstrap-datepicker/core
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.ru.js
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.de.js
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.es.js
-//= require twitter/bootstrap
+//= require twitter/bootstrap/alert
+//= require twitter/bootstrap/button
+//= require twitter/bootstrap/dropdown
+//= require twitter/bootstrap/modal
+//= require twitter/bootstrap/tooltip
 //= require jquery.validate
 //= require additional-methods.min
 //= require markerclusterer
@@ -35,12 +38,7 @@
 //= require highcharts-more
 //= require app/app
 //= require_tree .
-
-//"use strict";
-
-/* exported fail_ajax_request, clone, capitaliseFirstLetter */
-
-Turbolinks.enableProgressBar();
+//= require_self
 
 // Bootstrap registers a listener to the focusin event which checks whether 
 // the focused element is either the overlay itself or a descendent of it - 
@@ -89,7 +87,7 @@ function capitaliseFirstLetter(string)
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-$(document).ready(function($) {
+$(document).on('ready turbolinks:load', function() {
 
     $('input[type=number]').keypress(function (e) {
         //if the letter is not digit then don't type anything
@@ -116,10 +114,11 @@ $(document).ready(function($) {
         }
     });
 
+    AjaxErrorMessage = new Skyderby.views.AjaxErrorMessage();
 });
 
 $(document).on('ajax:error', '[data-remote=true]', function() {
-  AjaxErrorMessage.display()
+    AjaxErrorMessage.render()
 });
 
 $(document).on('change', '.btn-file :file', function() {
@@ -136,23 +135,9 @@ $(document).on('click', '.clickableRow', function() {
     Turbolinks.visit($(this).data("url"));
 });
 
+$(document).on('turbolinks:load', function() {
+    // Enable tooltips
+    $('body').tooltip({selector: "a[rel~=tooltip], .has-tooltip, [data-toggle=tooltip]"});
 
-$(document).on('ready page:load', function() {
-    // ONLY if page has one pagination!
-    // if ($('.pagination').length) {
-    //     $(window).off('scroll').on('scroll', function() {
-    //         var url = $('.pagination .next > a').attr('href');
-    //         if (url && ($(window).scrollTop() >= $(document).height() - $(window).height() - 170)) {
-    //             $('.pagination').text('Fetching more tracks...');
-    //             $.getScript(url);
-    //         }
-    //     });
-    //     $(window).scroll();
-    // } else {
-    //     $(window).off('scroll');
-    // }
-});
-
-$(document).on('page:change', function() {
-  ga('send', 'pageview', window.location.pathname); 
+    ga('send', 'pageview', window.location.pathname); 
 });

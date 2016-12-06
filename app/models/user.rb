@@ -21,7 +21,7 @@
 #  unconfirmed_email      :string(510)
 #
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   attr_accessor :name
 
   has_one :profile
@@ -54,6 +54,6 @@ class User < ActiveRecord::Base
   end
 
   def assign_default_role
-    assignments << Assignment.new(user: self, role: Role.find_by(name: 'user'))
+    assignments << Assignment.new(role: Role.find_by(name: 'user'))
   end
 end

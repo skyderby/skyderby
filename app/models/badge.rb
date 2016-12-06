@@ -10,7 +10,7 @@
 #  updated_at :datetime
 #
 
-class Badge < ActiveRecord::Base
+class Badge < ApplicationRecord
   enum kind: [:gold, :silver, :bronze]
 
   belongs_to :profile

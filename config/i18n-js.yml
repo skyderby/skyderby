@@ -27,3 +27,7 @@
 #     only: "*"
 #
 fallbacks: :en
+
+translations:
+  - file: "app/assets/javascripts/i18n/translations.js"
+    only: ['*.events.show.*', '*.tracks.form.*', '*.tracks.edit.*', '*.tracks.show.*', '*.places.index.*', '*.units.*', '*.charts.*', '*.errors.messages.*', '*.jquery_validate.*']
