@@ -1,4 +1,4 @@
-$(document).on('ready page:load', function() {
+$(document).on('ready turbolinks:load', function() {
     var track, view;
 
     if ($('.track-map-data').length) {
