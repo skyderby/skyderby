@@ -7,7 +7,10 @@ class WeatherDataController < ApplicationController
   respond_to :js
 
   def index
-    respond_with_index
+    respond_to do |format|
+      format.html { redirect_to @weather_datumable }
+      format.js { respond_with_index }
+    end
   end
 
   def create
