@@ -6,7 +6,11 @@ class Ability
     # guest user (not logged in)
     user ||= User.new
 
-    can :read, Event, status: %w(published finished)
+    can :read, Event, status: [
+      Event.statuses[:published], 
+      Event.statuses[:finished]
+    ]
+
     can :read, [Section, Competitor, Round, EventTrack, Sponsor, WeatherDatum]
 
     can :read, Wingsuit
