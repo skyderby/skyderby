@@ -72,17 +72,19 @@ describe WeatherDatum, type: :model do
     end
   end
 
-  describe 'serializable attributes' do
-    it 'has altitude as a Distance' do
+  describe 'attributes' do
+    it 'converts altitude from feets to meters' do
       weather_datum = build_weather_datum
+      weather_datum.update!(altitude_in_units: 15000, altitude_unit: 'ft')
 
-      expect(weather_datum.altitude.class).to eq(Distance)
+      expect(weather_datum.altitude).to eq(4572)
     end
 
-    it 'has wind_speed as a Velocity' do
+    it 'converts speed from kmh to ms' do
       weather_datum = build_weather_datum
+      weather_datum.update!(wind_speed_in_units: 36, wind_speed_unit: 'kmh')
 
-      expect(weather_datum.wind_speed.class).to eq(Velocity)
+      expect(weather_datum.wind_speed).to eq(10)
     end
   end
 
