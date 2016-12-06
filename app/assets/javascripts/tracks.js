@@ -26,11 +26,5 @@ $(document).on('ready page:load', function() {
             max_rel_time: track_data.data('max-rel-time')
         });
         view.render();
-
-    } else if ($('.tracks-index').length) {
-        view = new Skyderby.views.TrackIndexView({
-            el: '.tracks-index'
-        });
-        view.render();
     }
 });

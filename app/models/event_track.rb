@@ -15,7 +15,7 @@
 #  disqualification_reason :string
 #
 
-class EventTrack < ActiveRecord::Base
+class EventTrack < ApplicationRecord
   include EventOngoingValidation
 
   attr_accessor :track_attributes, :current_user, :track_from

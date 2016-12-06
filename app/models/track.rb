@@ -28,7 +28,7 @@
 #  recorded_at       :datetime
 #
 
-class Track < ActiveRecord::Base
+class Track < ApplicationRecord
   attr_accessor :skip_jobs
 
   enum kind:       [:skydive, :base]
@@ -135,8 +135,8 @@ class Track < ActiveRecord::Base
   end
 
   def perform_jobs
-    ResultsWorker.perform_async(id)
-    OnlineCompetitionWorker.perform_async(id)
+    ResultsJob.perform_later(id)
+    OnlineCompetitionJob.perform_later(id)
   end
 
   class << self

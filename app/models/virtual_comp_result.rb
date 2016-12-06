@@ -12,7 +12,7 @@
 #  highest_gr             :float            default(0.0)
 #
 
-class VirtualCompResult < ActiveRecord::Base
+class VirtualCompResult < ApplicationRecord
   belongs_to :virtual_competition
   belongs_to :track
 

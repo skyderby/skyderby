@@ -15,28 +15,15 @@
             = @sponsor.name
 
       .modal-body
-        - if @sponsor.errors.any?
-          #error_expl.panel.panel-danger
-            .panel-heading
-              %h3.panel-title
-                = pluralize(@event_sponsor.errors.count, "error") 
-                = 'prohibited this event_sponsor from being saved:'
-            .panel-body
-              %ul
-              - @sponsor.errors.full_messages.each do |msg|
-                = msg
-
         .form-group
           = f.label :name, class: 'control-label col-sm-4'
           .col-sm-8
             = f.text_field :name, class: 'form-control'
-          = error_span(@sponsor[:name])
 
         .form-group
           = f.label :website, class: 'control-label col-sm-4'
           .col-sm-8
             = f.text_field :website, class: 'form-control', placeholder: 'http://www.example.com'
-          = error_span(@sponsor[:website])
 
         .form-group
           = f.label :logo, class: 'control-label col-sm-4'
@@ -47,8 +34,7 @@
                   %span.btn.btn-default.btn-file
                     &hellip; 
                     = f.file_field :logo, class: 'form-control'
-          = error_span(@sponsor[:logo])
 
       .modal-footer
-        = f.submit t('general.save'), class: 'btn btn-success'
+        = f.submit t('general.save'), class: 'btn btn-primary'
         %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

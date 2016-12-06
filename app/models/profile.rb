@@ -23,7 +23,7 @@
 #  country_id           :integer
 #
 
-class Profile < ActiveRecord::Base
+class Profile < ApplicationRecord
   enum default_units: [:metric, :imperial]
   enum default_chart_view: [:multi, :single]
 

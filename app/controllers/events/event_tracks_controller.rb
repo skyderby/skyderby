@@ -93,6 +93,11 @@ class Events::EventTracksController < ApplicationController
     )
   end
 
+  def show_params
+    params.permit(:charts_mode, :charts_units)
+  end
+  helper_method :show_params
+
   def authorize_update_event
     authorize! :update, @event
   end

@@ -13,7 +13,7 @@
 #  description        :text
 #
 
-class Wingsuit < ActiveRecord::Base
+class Wingsuit < ApplicationRecord
   attr_accessor :photo
 
   enum kind: [:wingsuit, :tracksuit]

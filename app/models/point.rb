@@ -18,7 +18,7 @@
 #  gps_time_in_seconds :decimal(17, 3)
 #
 
-class Point < ActiveRecord::Base
+class Point < ApplicationRecord
   belongs_to :track
 
   composed_of :gps_time,

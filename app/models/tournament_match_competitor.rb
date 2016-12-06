@@ -16,7 +16,7 @@
 #  earn_medal               :integer
 #
 
-class TournamentMatchCompetitor < ActiveRecord::Base
+class TournamentMatchCompetitor < ApplicationRecord
 
   SECONDS_BEFORE_START = 10
 

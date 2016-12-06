@@ -21,7 +21,7 @@
 #  display_on_start_page :boolean
 #
 
-class VirtualCompetition < ActiveRecord::Base
+class VirtualCompetition < ApplicationRecord
   BASE_START_SPEED = 10
 
   enum jumps_kind: [:skydive, :base]
@@ -38,12 +38,6 @@ class VirtualCompetition < ActiveRecord::Base
   has_many :virtual_comp_results
   has_many :personal_top_scores
   has_many :sponsors, as: :sponsorable
-
-  def reprocess_results
-    virtual_comp_results.each do |x|
-      OnlineCompetitionWorker.perform_async(x.track_id)
-    end
-  end
 
   def window_params
     case discipline

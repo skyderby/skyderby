@@ -1,4 +1,4 @@
-$(document).on 'ready page:load', ->
+$(document).on 'ready turbolinks:load', ->
   if $('.tournament-show').length
     view = new Skyderby.views.TournamentView(el: '.tournament-show')
   else if $('#tournament-form').length

@@ -10,7 +10,7 @@
 #  result     :float
 #
 
-class TrackResult < ActiveRecord::Base
+class TrackResult < ApplicationRecord
   enum discipline: [:time, :distance, :speed]
 
   belongs_to :track

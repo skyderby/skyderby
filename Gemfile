@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.2.7'
+gem 'rails', '5.0.0.1'
 
 # Supported DB
 gem 'pg'
@@ -41,11 +41,10 @@ gem 'jquery-rails'
 gem 'remotipart', '~>1.2'
 gem 'rails-backbone'
 
-gem 'sass-rails', '~> 4.0.0'
-gem 'coffee-rails', '~> 4.0.0'
+gem 'sass-rails'
+gem 'coffee-rails'
 gem 'uglifier', '>= 2.7.2'
 gem 'turbolinks'
-gem 'jquery-turbolinks'
 
 gem 'therubyracer', '0.12.0'
 gem 'less-rails'
@@ -59,8 +58,6 @@ gem 'bootstrap-datepicker-rails'
 gem 'pluck_to_hash'
 
 gem 'scenic'
-
-gem 'dotenv-rails', groups: [:development, :test]
 
 group :development do
   gem 'annotate'
@@ -81,29 +78,21 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
 
-  gem 'quiet_assets'
-
-  gem 'mailcatcher'
+  gem 'dotenv-rails'
 
   # Better errors handler
-  gem 'better_errors'
+  # gem 'better_errors'
   gem 'binding_of_caller'
-
-  gem 'capistrano', '~> 3.4.0'
-  gem 'capistrano-rails'
-  gem 'capistrano-passenger'
-  gem 'capistrano-bundler'
-  gem 'capistrano-sidekiq'
 end
 
 group :test do
   gem 'factory_girl_rails'
   gem 'capybara'
   gem 'selenium'
-  gem 'selenium-webdriver'
   gem 'poltergeist'
   gem 'database_cleaner'
-  gem 'cucumber-rails', require: false
+
+  gem 'simplecov'
   gem 'codeclimate-test-reporter', require: false
 end
 
@@ -123,5 +112,3 @@ gem 'unicorn'
 
 gem 'newrelic_rpm'
 
-# Use debugger
-# gem 'debugger', group: [:development, :test]

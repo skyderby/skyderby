@@ -1,15 +1,19 @@
 language: ruby
 cache: bundler
 rvm:
-  - 2.2.0
+  - 2.3.0
 env:
   REDIS_HOST: localhost
   REDIS_PORT: 6379
   REDIS_DB: 12
+  RAILS_ENV: test
 services:
   - redis-server
 before_script:
   - cp config/database.travis.yml config/database.yml
   - psql -c 'create database travis_ci_test;' -U postgres
   - bundle exec rake db:test:prepare
+  - bundle exec rake assets:precompile
 script: bundle exec rspec spec/
+after_success:
+  - bundle exec codeclimate-test-reporter
