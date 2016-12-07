@@ -72,6 +72,8 @@ group :development do
   gem 'pry-byebug'
 
   gem 'bullet'
+
+  gem 'spring'
 end
 
 group :development, :test do
