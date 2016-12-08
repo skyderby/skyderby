@@ -8,15 +8,15 @@ class Skyderby.views.TournamentMatchMap extends Backbone.View
   className: 'modal-dialog modal-lg',
 
   colors: [
-    "#90ed7d", 
+    "#90ed7d",
     "#7cb5ec",
-    "#8085e9", 
-    "#434348", 
-    "#f7a35c", 
-    "#f15c80", 
-    "#e4d354", 
-    "#8085e8", 
-    "#8d4653", 
+    "#8085e9",
+    "#434348",
+    "#f7a35c",
+    "#f15c80",
+    "#e4d354",
+    "#8085e8",
+    "#8d4653",
     "#91e8e1"
   ],
 
@@ -51,10 +51,10 @@ class Skyderby.views.TournamentMatchMap extends Backbone.View
     this
 
   on_modal_shown: ->
-    google.maps.event.trigger(@map, "resize");
+    google.maps.event.trigger(@map, "resize")
 
   on_modal_hidden: ->
-    @$el.remove();
+    @$el.remove()
 
   on_model_ready: ->
     @model_ready = true
@@ -63,7 +63,7 @@ class Skyderby.views.TournamentMatchMap extends Backbone.View
   on_maps_api_ready: ->
     @maps_ready = true
 
-    options = 
+    options =
       zoom: 2,
       center: new google.maps.LatLng(20, 20),
       mapTypeId: google.maps.MapTypeId.SATELLITE
@@ -100,7 +100,7 @@ class Skyderby.views.TournamentMatchMap extends Backbone.View
 
     bounds = new google.maps.LatLngBounds()
     bounds.extend(new google.maps.LatLng(
-      Number(lat_bounds[0]), 
+      Number(lat_bounds[0]),
       Number(lon_bounds[0])
     ))
 
@@ -149,7 +149,7 @@ class Skyderby.views.TournamentMatchMap extends Backbone.View
       strokeWeight: 2
     )
 
-    polyline.setMap(@map);
+    polyline.setMap(@map)
 
   draw_center_line: (finish_line_coordinates, exit_point) ->
     start_lat = Number(finish_line_coordinates[0].latitude)
@@ -174,7 +174,7 @@ class Skyderby.views.TournamentMatchMap extends Backbone.View
       strokeWeight: 2
     )
 
-    polyline.setMap(@map);
+    polyline.setMap(@map)
 
   add_competitor_to_legend: (name, color_index) ->
     template = @competitor_legend_template(

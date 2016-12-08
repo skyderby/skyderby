@@ -154,7 +154,7 @@ class Skyderby.views.TrackVideoForm extends Backbone.View
 
     $('html, body').animate({
       scrollTop: $("#chart").offset().top - 71
-    }, 700);
+    }, 700)
 
   on_change_url: (e) ->
     elem_value = $(e.currentTarget).val()
@@ -173,7 +173,7 @@ class Skyderby.views.TrackVideoForm extends Backbone.View
     if (!current_code && code)
       $('html, body').animate({
         scrollTop: $("#player").offset().top - 71
-      }, 700);
+      }, 700)
 
     @init_player() if @youtube_api_ready
 

@@ -9,7 +9,7 @@ class Skyderby.views.TournamentView extends Backbone.View
     match_id = el.data('match-id')
 
     model = new Skyderby.models.TournamentMatchMap(
-      id: match_id, 
+      id: match_id,
       tournament_id: tournament_id)
 
     view = new Skyderby.views.TournamentMatchMap(model: model)

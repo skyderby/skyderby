@@ -20,7 +20,7 @@ class Skyderby.views.TournamentFormView extends Backbone.View
   on_maps_api_ready: ->
     @maps_ready = true
 
-    options = 
+    options =
       zoom: 2,
       center: new google.maps.LatLng(20, 20),
       mapTypeId: google.maps.MapTypeId.SATELLITE
@@ -30,7 +30,10 @@ class Skyderby.views.TournamentFormView extends Backbone.View
     
   render_finish_line: ->
     @finish_line.setMap(null) if @finish_line
-    return unless @finish_start_lat && @finish_start_lon && @finish_end_lat && @finish_end_lon
+    return unless @finish_start_lat &&
+                  @finish_start_lon &&
+                  @finish_end_lat &&
+                  @finish_end_lon
 
     @finish_line = new google.maps.Polyline(
       path: [
@@ -46,7 +49,12 @@ class Skyderby.views.TournamentFormView extends Backbone.View
 
   render_center_line: ->
     @center_line.setMap(null) if @center_line
-    return unless @finish_start_lat && @finish_start_lon && @finish_end_lat && @finish_end_lon && @exit_lat && @exit_lon
+    return unless @finish_start_lat &&
+                  @finish_start_lon &&
+                  @finish_end_lat &&
+                  @finish_end_lon &&
+                  @exit_lat &&
+                  @exit_lon
 
     center_lat = @finish_start_lat + (@finish_end_lat - @finish_start_lat) / 2
     center_lon = @finish_start_lon + (@finish_end_lon - @finish_start_lon) / 2
@@ -71,19 +79,19 @@ class Skyderby.views.TournamentFormView extends Backbone.View
 
     if @finish_start_lat && @finish_start_lon
       bounds.extend(new google.maps.LatLng(
-        @finish_start_lat, 
+        @finish_start_lat,
         @finish_start_lon
       ))
 
     if @finish_end_lat && @finish_end_lon
       bounds.extend(new google.maps.LatLng(
-        @finish_end_lat, 
+        @finish_end_lat,
         @finish_end_lon
       ))
 
     if @exit_lat && @exit_lon
       bounds.extend(new google.maps.LatLng(
-        @exit_lat, 
+        @exit_lat,
         @exit_lon
       ))
 

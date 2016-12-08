@@ -10,10 +10,10 @@ class Skyderby.views.TrackMapView extends Backbone.View
   show_zerowind_trajectory: true
 
   # Array stores polylines from zero-wind trajectory and
-  # used to trigger show/hide zero-wind trajectory 
+  # used to trigger show/hide zero-wind trajectory
   zerowind_polylines: []
 
-  events: 
+  events:
     'click #toggle_zerowind_trajectory a': 'toggle_zerowind_trajectory',
     'click #set-weather-data': 'set_weather_data'
 
@@ -31,21 +31,21 @@ class Skyderby.views.TrackMapView extends Backbone.View
     @model_ready = true
     @$('#track-map-loading-data i')
       .removeClass(' fa-spin fa-circle-o-notch ')
-      .addClass('fa-check');
+      .addClass('fa-check')
     @draw_trajectory()
     @render_settings()
 
   on_maps_api_failed_load: ->
     @$('#track-map-loading-api i')
       .removeClass(' fa-spin fa-circle-o-notch ')
-      .addClass('fa-exclamation-triangle');
+      .addClass('fa-exclamation-triangle')
 
   on_maps_api_ready: ->
     @maps_ready = true
 
     @$('#track-map-loading-api i')
       .removeClass(' fa-spin fa-circle-o-notch ')
-      .addClass('fa-check');
+      .addClass('fa-check')
 
     center = new google.maps.LatLng(26.703115, 22.085180)
     options =
@@ -74,7 +74,7 @@ class Skyderby.views.TrackMapView extends Backbone.View
 
     @fit_bounds()
 
-    @$('#track-map-loading').fadeOut(500);
+    @$('#track-map-loading').fadeOut(500)
 
   draw_polyline: (points, opts) ->
     path_coordinates = []
@@ -89,7 +89,9 @@ class Skyderby.views.TrackMapView extends Backbone.View
     polylines = opts.polylines if _.has(opts, 'polylines')
 
     for current_point in points
-      speed_group_same = prev_point && @speed_group(prev_point.h_speed) == @speed_group(current_point.h_speed)
+      speed_group_same =
+        prev_point &&
+        @speed_group(prev_point.h_speed) == @speed_group(current_point.h_speed)
 
       if path_coordinates.length == 0 || speed_group_same
 
@@ -100,7 +102,12 @@ class Skyderby.views.TrackMapView extends Backbone.View
       else
 
         polylines.push(
-          @create_polyline(path_coordinates, stroke_opacity, stroke_weight, prev_point.h_speed)
+          @create_polyline(
+            path_coordinates,
+            stroke_opacity,
+            stroke_weight,
+            prev_point.h_speed
+          )
         )
 
         path_coordinates = []
@@ -111,7 +118,12 @@ class Skyderby.views.TrackMapView extends Backbone.View
       prev_point = current_point
 
     polylines.push(
-      @create_polyline(path_coordinates, stroke_opacity, stroke_weight, prev_point.h_speed)
+      @create_polyline(
+        path_coordinates,
+        stroke_opacity,
+        stroke_weight,
+        prev_point.h_speed
+      )
     )
 
   create_polyline: (path, stroke_opacity, stroke_weight, speed) ->
@@ -135,7 +147,7 @@ class Skyderby.views.TrackMapView extends Backbone.View
     bounds = new google.maps.LatLngBounds()
 
     bounds.extend(new google.maps.LatLng(
-      Number(lats[0]), 
+      Number(lats[0]),
       Number(lons[0])
     ))
 
@@ -183,7 +195,7 @@ class Skyderby.views.TrackMapView extends Backbone.View
     @set_visibility_zerowind_polyline()
     @fit_bounds()
 
-    button_text = 
+    button_text =
       if @show_zerowind_trajectory
         'Hide zero-wind trajectory'
       else
@@ -206,18 +218,18 @@ class Skyderby.views.TrackMapView extends Backbone.View
       return 1
 
   speed_group_color: (spd_group) ->
-      if spd_group == 1
-        return 'aa2e7e2d'
-      else if spd_group == 2
-        return 'aa43c042'
-      else if spd_group == 3
-        return 'aa34ced9'
-      else if spd_group == 4
-        return 'aa0f67e4'
-      else if spd_group == 5
-        return 'aa0c00e7'
-      else if spd_group == 6
-        return 'aa0c0060'
+    if spd_group == 1
+      return 'aa2e7e2d'
+    else if spd_group == 2
+      return 'aa43c042'
+    else if spd_group == 3
+      return 'aa34ced9'
+    else if spd_group == 4
+      return 'aa0f67e4'
+    else if spd_group == 5
+      return 'aa0c00e7'
+    else if spd_group == 6
+      return 'aa0c0060'
 
   displayLocationElevation: (event) ->
     location = event.latLng
