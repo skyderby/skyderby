@@ -11,3 +11,6 @@ Skyderby.helpers.RangeSelector = ($el, min, max, from, to) ->
     onFinish: (obj) ->
       $.rails.handleRemote(obj.input)
   })
+
+  $(document).on 'turbolinks:before-cache', ->
+    $el.ionRangeSlider('remove')
