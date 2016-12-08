@@ -24,7 +24,7 @@ class TournamentMatchCompetitor < ApplicationRecord
 
   belongs_to :tournament_competitor
   belongs_to :tournament_match
-  belongs_to :track
+  belongs_to :track, optional: true
 
   before_save :calculate_result
   before_save :replace_nan_with_zero

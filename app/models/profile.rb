@@ -27,8 +27,8 @@ class Profile < ApplicationRecord
   enum default_units: [:metric, :imperial]
   enum default_chart_view: [:multi, :single]
 
-  belongs_to :user
-  belongs_to :country
+  belongs_to :user, optional: true
+  belongs_to :country, optional: true
 
   has_many :tracks, -> { order('created_at DESC') }
   has_many :public_tracks,

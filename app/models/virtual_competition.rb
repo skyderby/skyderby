@@ -29,7 +29,7 @@ class VirtualCompetition < ApplicationRecord
   enum discipline:
     [:time, :distance, :speed, :distance_in_time, :distance_in_altitude]
 
-  belongs_to :place
+  belongs_to :place, optional: true
   belongs_to :group,
              class_name: 'VirtualCompGroup',
              foreign_key: 'virtual_comp_group_id'
