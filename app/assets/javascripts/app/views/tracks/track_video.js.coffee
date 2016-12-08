@@ -32,16 +32,16 @@ class Skyderby.views.TrackReplayView extends Backbone.View
         curTime = @player.getCurrentTime()
         @updateProgress(curTime)
       , 500)
-      @done = true;
+      @done = true
     else if event.data == YT.PlayerState.ENDED || event.data == YT.PlayerState.PAUSED
       if @yt_timer_id
         clearInterval(@yt_timer_id)
         @done = false
 
   updateProgress: (cur_time) ->
-    el = @model.data_on_time(cur_time);
+    el = @model.data_on_time(cur_time)
 
-    if (el) 
+    if (el)
       @$('#p_cur_h_speed').text(Math.round(el.h_speed))
       @$('#p_cur_v_speed').text(Math.round(el.v_speed))
       @$('#p_cur_gr').text(el.glide_ratio)

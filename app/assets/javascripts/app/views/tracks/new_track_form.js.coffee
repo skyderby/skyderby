@@ -59,7 +59,7 @@ class Skyderby.views.NewTrackForm extends Backbone.View
 
     if @current_suit_mode() == 'enter'
       link_text = I18n.t('tracks.form.toggle_suit_link')
-      toggle_caption = I18n.t('tracks.form.toggle_suit_caption');
+      toggle_caption = I18n.t('tracks.form.toggle_suit_caption')
       @clean_hide_suit_input()
       @show_suit_select()
     else
@@ -82,7 +82,7 @@ class Skyderby.views.NewTrackForm extends Backbone.View
 
   clean_hide_suit_select: ->
     @$('.new-track-wingsuit-select').select2('val', '')
-    @$('.new-track-wingsuit-select + span').hide();
+    @$('.new-track-wingsuit-select + span').hide()
 
   show_suit_input: ->
     @$('input[name="track[suit]"]').show()
