@@ -1,6 +1,8 @@
 module Skyderby
   module Tracks
     class EditData < TrackData
+      attr_reader :duration
+
       def initialize(track)
         super
 
