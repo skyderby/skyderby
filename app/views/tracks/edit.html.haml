@@ -23,7 +23,11 @@
             %span.col-sm-3.control-label
               = t('static_pages.index.track_form.name')
             .col-sm-6
-              %select{name: 'track[profile_id]'}
+              = f.select :profile_id,
+                         options_for_select([ ([@track.pilot_name, @track.profile_id] if @track.pilot) ], @track.profile_id),
+                         { include_blank: true },
+                         class: 'form-control'
+
               = f.text_field 'name', 
                              class: 'form-control',
                              placeholder: t('tracks.form.profile_text_placeholder'),
@@ -33,12 +37,15 @@
                 %span.toggle-profile-caption= t('tracks.form.toggle_profile_caption')
                 %a.toggle-profile{href: '#'}= t('tracks.form.toggle_profile_link')
 
-
         .form-group
           %span.col-sm-3.control-label
             = t('static_pages.index.track_form.suit')
           .col-sm-6
-            %select.suit-group{name: 'track[wingsuit_id]'}
+            = f.select :wingsuit_id,
+                       options_for_select([ ([@track.wingsuit_name, @track.wingsuit_id] if @track.wingsuit) ], @track.wingsuit_id),
+                       { include_blank: true },
+                       class: 'form-control suit-group'
+
             = f.text_field 'suit',
                            class: 'form-control suit-group',
                            placeholder: t('tracks.form.suit_text_placeholder'),
@@ -53,7 +60,11 @@
           %span.col-sm-3.control-label
             = t('static_pages.index.track_form.location')
           .col-sm-6
-            %select.place-group{name: 'track[place_id]'}
+            = f.select :place_id,
+                       options_for_select([ ([@track.place_name, @track.place_id] if @track.place) ], @track.place_id),
+                       { include_blank: true },
+                       class: 'form-control place-group'
+
             = f.text_field 'location',
                            class: 'form-control place-group', 
                            placeholder: t('static_pages.index.track_form.location_plh'), 
@@ -116,3 +127,126 @@
                           method: :delete,
                           data: {confirm: t('tracks.show.delete_confirmation')},
                           class: 'text-danger'
+
+- content_for :page_js do
+  :javascript
+    new Skyderby.helpers.ProfileSelect($('select[name="track[profile_id]"]'));
+    new Skyderby.helpers.SuitSelect($('select[name="track[wingsuit_id]"]'));
+    new Skyderby.helpers.PlaceSelect($('select[name="track[place_id]"]'));
+
+    // Tear down
+    $(document).one('turbolinks:before-cache', function() {
+      var page_selects = [
+        $('select[name="track[profile_id]"]'),
+        $('select[name="track[wingsuit_id]"]'),
+        $('select[name="track[place_id]"]')
+      ];
+
+      page_selects.forEach(function($el) {
+        if ( $el.next().is('.select2') ) $el.select2('destroy');
+      });
+
+      $('#time-selector').ionRangeSlider('remove');
+    });
+
+    $('#track_edit_form').validate({
+      ignore: 'input[type=hidden]',
+      groups: {
+        suit: 'track[wingsuit_id] track[suit]',
+        place: 'track[place_id] track[location]'
+      },
+      rules: {
+        'track[wingsuit_id]': {
+          require_from_group: [1, '.suit-group']
+        },
+        'track[suit]': {
+          require_from_group: [1, '.suit-group']
+        },
+        'track[place_id]': {
+          require_from_group: [1, '.place-group']
+        },
+        'track[location]': {
+          require_from_group: [1, '.place-group']
+        },
+      },
+      messages: {
+        'track[suit]': {
+          require_from_group: I18n.t('jquery_validate.required_field')
+        },
+        'track[location]': {
+          require_from_group: I18n.t('jquery_validate.required_field')
+        }
+      },
+      highlight: function(element) {
+        $(element).closest('.form-group').addClass('has-error');
+      },
+      unhighlight: function(element) {
+        $(element).closest('.form-group').removeClass('has-error');
+      },
+      errorPlacement: function(error, element) {
+        if (element.hasClass('suit-group') || element.hasClass('place-group')) {
+          error.appendTo( element.closest('div') );    
+        } else {
+          error.insertAfter(element);
+        }
+      }
+    });
+
+    $('#heights-chart').highcharts({
+      chart: {
+        type: 'area'
+      },
+      title: {
+        text: "#{I18n.t('tracks.edit.elev_chart')}"
+      },
+      plotOptions: {
+        series: {
+          marker: {
+            radius: 1
+          }
+        }
+      },
+      yAxis: {
+        title: {
+          text: "#{I18n.t('tracks.edit.elevation')}, #{I18n.t('units.m')}"
+        }
+      },
+      xAxis: {
+        plotBands: [
+          {
+            color: 'gray',
+            from: 0,
+            to: 0,
+            id: 'plotband-start'
+          },
+          {
+            color: 'gray',
+            from: 0,
+            to: 0,
+            id: 'plotband-end'
+          },
+        ]},
+        tooltip: {
+          crosshairs: true
+        },
+        credits: {
+          enabled: false
+        },
+        series: [
+          {
+            name: "#{I18n.t('tracks.edit.elevation')}",
+            pointInterval: 10,
+            tooltip: {
+              valueSuffix: "#{I18n.t('units.m')}"
+            },
+            data: JSON.parse("#{@track_data.points.to_json}")
+          }
+        ]
+      });
+
+    var view = new Skyderby.views.TrackEditView({
+      el: '.track-edit-data',
+      max_rel_time: #{@track_data.duration}
+    });
+    view.render();
+
