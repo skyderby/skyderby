@@ -40,10 +40,11 @@ class Track < ApplicationRecord
   belongs_to :user
   belongs_to :pilot,
              class_name: 'Profile',
-             foreign_key: 'profile_id'
+             foreign_key: 'profile_id',
+             optional: true
 
-  belongs_to :place
-  belongs_to :wingsuit
+  belongs_to :place, optional: true
+  belongs_to :wingsuit, optional: true
 
   has_one :event_track
   has_one :video, class_name: 'TrackVideo', dependent: :destroy
@@ -73,6 +74,9 @@ class Track < ApplicationRecord
   delegate :tracksuit?, to: :wingsuit, allow_nil: true
   delegate :wingsuit?, to: :wingsuit, allow_nil: true
   delegate :msl, to: :place, allow_nil: true, prefix: true
+  delegate :name, to: :pilot, allow_nil: true, prefix: true
+  delegate :name, to: :place, allow_nil: true, prefix: true
+  delegate :name, to: :wingsuit, allow_nil: true, prefix: true
 
   def competitive?
     event_track.present?

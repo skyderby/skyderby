@@ -25,7 +25,7 @@ class Event < ApplicationRecord
              class_name: 'Profile',
              foreign_key: 'profile_id'
 
-  belongs_to :place
+  belongs_to :place, optional: true
 
   has_many :event_organizers
   has_many :sections, -> { order(:order) }
