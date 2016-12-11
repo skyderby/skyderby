@@ -175,7 +175,7 @@ class TracksController < ApplicationController
     params.permit(
       :order,
       :page,
-      query: [:profile_id, :profile_name, :suit_id, :place_id, :kind, :term]
+      query: [:profile_id, :profile_name, :wingsuit_id, :place_id, :kind, :term]
     )
   end
   helper_method :index_params
@@ -236,7 +236,7 @@ class TracksController < ApplicationController
 
     return unless query
 
-    [:profile_id, :suit_id, :place_id].each do |key|
+    [:profile_id, :wingsuit_id, :place_id].each do |key|
       next if query[key].blank?
       @tracks = @tracks.where(Hash[key, query[key]] ) 
     end
