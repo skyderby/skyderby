@@ -2,7 +2,7 @@ class Tournaments::CompetitorsController < ApplicationController
   before_action :set_tournament_competitor, only: [:show, :edit, :update, :destroy]
   
   load_resource :tournament
-  before_filter :authorize_tournament
+  before_action :authorize_tournament
 
   # GET /tournament_competitors
   # GET /tournament_competitors.json

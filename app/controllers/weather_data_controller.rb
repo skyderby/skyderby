@@ -1,6 +1,6 @@
 class WeatherDataController < ApplicationController
-  before_filter :load_weather_datumable
-  before_filter :authorize_parent, except: :index
+  before_action :load_weather_datumable
+  before_action :authorize_parent, except: :index
   before_action :set_weather_datum, only: [:edit, :update, :destroy]
   before_action :set_view_units
 

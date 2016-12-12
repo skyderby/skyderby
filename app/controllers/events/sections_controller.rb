@@ -9,7 +9,7 @@ class Events::SectionsController < ApplicationController
                                      :move_lower]
 
   load_resource :event
-  before_filter :authorize_event
+  before_action :authorize_event
 
   load_and_authorize_resource :section, through: :event
 

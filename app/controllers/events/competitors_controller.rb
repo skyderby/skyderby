@@ -5,7 +5,7 @@ class Events::CompetitorsController < ApplicationController
   before_action :set_competitor, only: [:update, :destroy]
 
   load_resource :event
-  before_filter :authorize_event
+  before_action :authorize_event
 
   load_and_authorize_resource :competitor, through: :event
 

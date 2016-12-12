@@ -1,6 +1,6 @@
 class Tracks::DownloadsController < ApplicationController
   load_resource :track
-  before_filter :authorize_track
+  before_action :authorize_track
 
   def show
     track_file = @track.track_file
