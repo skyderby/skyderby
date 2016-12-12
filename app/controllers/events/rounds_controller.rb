@@ -5,7 +5,7 @@ class Events::RoundsController < ApplicationController
   before_action :set_round, only: :destroy
 
   load_resource :event
-  before_filter :authorize_event
+  before_action :authorize_event
 
   load_and_authorize_resource :round, through: :event
 

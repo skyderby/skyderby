@@ -1,7 +1,6 @@
 class Events::EventOrganizersController < ApplicationController
-
   load_resource :event
-  before_filter :authorize_event
+  before_action :authorize_event
 
   before_action :set_event_organizer, only: [:destroy]
 

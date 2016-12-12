@@ -1,8 +1,8 @@
 class SponsorsController < ApplicationController
   before_action :set_sponsor, only: [:destroy]
 
-  before_filter :load_sponsorable
-  before_filter :authorize_sponsorable
+  before_action :load_sponsorable
+  before_action :authorize_sponsorable
 
   def new
     @sponsor = Sponsor.new
