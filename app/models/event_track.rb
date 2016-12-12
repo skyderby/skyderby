@@ -87,7 +87,7 @@ class EventTrack < ApplicationRecord
         round, 
         wind_cancellation: true
       ).calculate 
-    enr
+    end
   end
 
   def create_track_from_file
