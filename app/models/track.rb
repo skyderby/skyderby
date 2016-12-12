@@ -134,8 +134,7 @@ class Track < ApplicationRecord
 
   def used_in_competition?
     errors.add(:base, 'Cannot delete track used in competition') if competitive?
-    # return false, to not destroy the element, otherwise, it will delete.
-    errors.blank?
+    throw(:abort) if errors.present?
   end
 
   def perform_jobs

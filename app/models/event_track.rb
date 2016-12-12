@@ -87,7 +87,7 @@ class EventTrack < ApplicationRecord
         round, 
         wind_cancellation: true
       ).calculate 
-    end
+    enr
   end
 
   def create_track_from_file
@@ -95,12 +95,12 @@ class EventTrack < ApplicationRecord
 
     unless track_attributes && track_attributes[:file]
       errors.add(:base, :track_file_blank)
-      return false
+      throw(:abort)
     end
 
     track_file = TrackFile.create(file: track_attributes[:file])
 
-    return false unless check_file_already_used(track_file)
+    throw(:abort) unless check_file_already_used(track_file)
 
     params = track_attributes.merge(
       track_file_id: track_file.id,
