@@ -40,6 +40,6 @@ class TrackResultsService
     activity = @track.kind.to_sym
     altitude_bounds = @track.altitude_bounds
 
-    RangesToScoreFinder.new(altitude_bounds, activity).calculate
+    RangesToScoreFinder.for(activity).new(altitude_bounds).calculate
   end
 end
