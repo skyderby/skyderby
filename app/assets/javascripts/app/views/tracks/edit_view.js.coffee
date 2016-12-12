@@ -25,7 +25,7 @@ class Skyderby.views.TrackEditView extends Backbone.View
 
     for attr_name, mode of selects_set
       selector = "select[name='track[#{attr_name}]'] > option:selected"
-      return if !!$(selector).val()
+      continue if !!$(selector).val()
       this[mode] = 'input'
 
   render: () ->
