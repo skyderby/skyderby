@@ -12,7 +12,7 @@
 #
 
 class TrackFile < ApplicationRecord
-  attr_accessor :file
+  attr_accessor :file, :track_attributes
 
   has_one :track
 

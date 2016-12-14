@@ -1,0 +1,39 @@
+.modal-dialog
+  .modal-content
+    .modal-header
+      %button.close{type: 'button', data: {dismiss: 'modal'}}
+        %span{aria: {hidden: 'true'}}
+          &times;
+        %span.sr-only
+          Close
+      %h4.modal-title
+        = t('tracks.choose.title')
+
+    .modal-body
+      %table.table.table-hover.segments-table
+        %thead
+          %tr
+            %th=t 'tracks.choose.number'
+            %th=t 'tracks.choose.name'
+            %th=t 'tracks.choose.elev'
+            %th=t 'tracks.choose.pt_cnt'
+            %th
+        %tbody
+          - @track_file.segments.each_with_index do |item, index|
+            %tr.track-segment-row{data: {index: index}}
+              %td.text-info= index
+              %td.text-info= item[:name]
+              %td
+                %span.text-primary
+                  = "#{item[:h_up]}↑"
+                %span.text-success
+                  = "#{item[:h_down]}↓"
+                =t 'units.m'
+              %td.text-info= item[:points_count]
+              %td
+                = button_to track_file_track_path(@track_file),
+                            remote: true,
+                            method: :post,
+                            params: track_file_params.slice(:track_attributes).merge(segment: index).to_h,
+                            class: 'btn-link' do
+                  %i.fa.fa-2x.fa-angle-double-right

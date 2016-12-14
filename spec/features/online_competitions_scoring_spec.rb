@@ -40,8 +40,9 @@ feature 'Scoring tracks in online competitions' do
     params = {
       track_file_id: track_file.id,
       pilot: pilot,
+      user: pilot.user,
       wingsuit: suit
     }
-    CreateTrackService.new(pilot.user, params, 0).execute
+    CreateTrackService.new(params).execute
   end
 end
