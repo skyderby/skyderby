@@ -9,7 +9,7 @@ class TracksController < ApplicationController
   def index
     @tracks = Track.accessible_by(current_user)
 
-    apply_filters!
+    @tracks = TrackFilter.new(index_params[:query]).apply(@tracks)
     @tracks = TrackOrder.new(index_params[:order]).apply(@tracks)
 
     respond_to do |format|
@@ -71,20 +71,6 @@ class TracksController < ApplicationController
     end
   end
 
-  def create
-    authorize! :create, Track
-
-    @track = CreateTrackService.new(
-      current_user,
-      cached_params,
-      track_params[:track_index]
-    ).execute
-
-    store_recent_values(cached_params)
-
-    redirect_to edit_track_path(@track)
-  end
-
   def edit
     redirect_to @track unless can? :update, @track
     @track_data = Skyderby::Tracks::EditData.new(@track)
@@ -105,29 +91,6 @@ class TracksController < ApplicationController
 
     @track.destroy
     redirect_to tracks_url
-  end
-
-  def choose
-    authorize! :create, Track
-
-    uploaded_file = track_params[:file]
-
-    if uploaded_file.blank?
-      render 'errors/upload_error'
-      return
-    end
-
-    @track_file = TrackFile.create(file: uploaded_file)
-
-    params[:track].merge!(cache_id: write_params_to_cache, index: 0)
-
-    # Redirect to upload error if track don't contain any segment
-    # Redirect to create action if track has only one segment
-    if @track_file.segments_empty?
-      redirect_to :back
-    elsif @track_file.one_segment?
-      create
-    end
   end
 
   rescue_from ActiveRecord::RecordNotFound do |_exception|
@@ -194,58 +157,5 @@ class TracksController < ApplicationController
   def presenter_class
     return Tracks::TrackPresenter if @track.flysight? || @track.cyber_eye?
     Tracks::RawTrackPresenter
-  end
-
-  def cached_params
-    @cached_params ||= Rails.cache.read(track_params[:cache_id])
-  end
-
-  def write_params_to_cache
-    @key = SecureRandom.uuid.to_s
-    Rails.cache.write(
-      @key,
-      track_params.except(:file).merge(track_file_id: @track_file.id)
-    )
-    @key
-  end
-
-  def store_recent_values(from_params)
-    recent_values = RecentValues.new(cookies)
-    # suit can be selected or typed
-    # when suit selected wingsuit_id param filled and suit param is not
-    # and vice versa - when typed wingsuit_id is blank and suit isn't
-    suit_id = from_params[:wingsuit_id]
-    unless suit_id.blank?
-      recent_values.add(:suit_id, suit_id)
-      recent_values.delete(:suit_name)
-    end
-
-    suit_name = from_params[:suit]
-    unless suit_name.blank?
-      recent_values.add(:suit_name, suit_name)
-      recent_values.delete(:suit_id)
-    end
-  
-    recent_values.add(:name, from_params[:name]) if from_params[:name]
-    recent_values.add(:location, from_params[:location])
-    recent_values.add(:activity, from_params[:kind])
-  end
-
-  def apply_filters!
-    query = index_params[:query]
-
-    return unless query
-
-    [:profile_id, :wingsuit_id, :place_id].each do |key|
-      next if query[key].blank?
-      @tracks = @tracks.where(Hash[key, query[key]] ) 
-    end
-
-    if query[:kind]
-      @tracks = @tracks.base if query[:kind] == 'base'
-      @tracks = @tracks.skydive if query[:kind] == 'skydive'
-    end
-
-    @tracks = @tracks.search(query[:term]) if query[:term]
   end
 end

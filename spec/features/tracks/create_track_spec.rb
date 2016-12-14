@@ -51,12 +51,12 @@ feature 'Upload tracks', js: true do
     sleep 0.5 #wait for modal
 
     within '#track_upload_form' do
-      fill_in 'track[name]', with: 'John'
+      fill_in 'track_file[track_attributes][name]', with: 'John'
 
       click_link I18n.t('tracks.form.toggle_suit_link')
-      fill_in 'track[suit]', with: 'Horus'
+      fill_in 'track_file[track_attributes][suit]', with: 'Horus'
 
-      fill_in 'track[location]', with: 'Africa'
+      fill_in 'track_file[track_attributes][location]', with: 'Africa'
 
       fill_track_file file_name
 
@@ -66,7 +66,7 @@ feature 'Upload tracks', js: true do
 
   def fill_track_file(file_name)
     file = "#{Rails.root}/spec/support/tracks/#{file_name}"
-    page.execute_script("$('#track_file').css({opacity: 100})")
-    attach_file 'track[file]', file
+    page.execute_script("$('#track_file_file').css({opacity: 100})")
+    attach_file 'track_file[file]', file
   end
 end

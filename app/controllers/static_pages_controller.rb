@@ -1,7 +1,7 @@
 # encoding: utf-8
 class StaticPagesController < ApplicationController
   def index
-    @track = Track.new
+    @track_file = TrackFile.new
     @online_competitions =
       VirtualCompetition
         .where(display_on_start_page: true)
