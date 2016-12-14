@@ -18,35 +18,35 @@ class Skyderby.views.NewTrackForm extends Backbone.View
     @$('#track_upload_form').validate(
       ignore: 'input[type=hidden]',
       groups:
-        suit: 'track[wingsuit_id] track[suit]'
+        suit: 'track_file[track_attributes][wingsuit_id] track_file[track_attributes][suit]'
       rules:
-        'track[name]':
+        'track_file[track_attributes][name]':
           minlength: 3,
           required: ->
             return $('#newTrackModal input#name')
-        'track[wingsuit_id]':
+        'track_file[track_attributes][wingsuit_id]':
           require_from_group: [1, '.suit-group']
-        'track[suit]':
+        'track_file[track_attributes][suit]':
           require_from_group: [1, '.suit-group']
-        'track[location]':
+        'track_file[track_attributes][location]':
           minlength: 3,
           required: true
-        'track[file]':
+        'track_file[file]':
           required: true,
           extension: 'csv|gpx|tes|kml',
           filesize: 3145728 # 3 Mb
       messages:
-        'track[file]':
+        'track_file[file]':
           extension: 'Please enter file with valid extension (csv, gpx, tes, kml)',
           filesize: 'File should be less than 3MB'
-        'track[suit]':
+        'track_file[track_attributes][suit]':
           require_from_group: 'This field is required.'
       highlight: (element) ->
         $(element).closest('.form-group').addClass('has-error')
       unhighlight: (element) ->
         $(element).closest('.form-group').removeClass('has-error')
       errorPlacement: (error, element) ->
-        if (element.attr("name") == "track[file]")
+        if (element.attr("name") == "track_file[file]")
           error.appendTo( element.closest(".col-sm-9") )
         else if(element.hasClass('suit-group'))
           error.appendTo( element.closest('div') )
@@ -78,17 +78,17 @@ class Skyderby.views.NewTrackForm extends Backbone.View
     @$('.toggle-suit-caption').text(el_text)
 
   clean_hide_suit_input: ->
-    @$('input[name="track[suit]"]').val('').hide()
+    @$('input[name="track_file[track_attributes][suit]"]').val('').hide()
 
   clean_hide_suit_select: ->
     @$('.new-track-wingsuit-select').select2('val', '')
     @$('.new-track-wingsuit-select + span').hide()
 
   show_suit_input: ->
-    @$('input[name="track[suit]"]').show()
+    @$('input[name="track_file[track_attributes][suit]"]').show()
 
   show_suit_select: ->
     @$('.new-track-wingsuit-select + span').show()
 
   current_suit_mode: ->
-    if @$('[name="track[suit]"]').is(':visible') then 'enter' else 'select'
+    if @$('[name="track_file[track_attributes][suit]"]').is(':visible') then 'enter' else 'select'

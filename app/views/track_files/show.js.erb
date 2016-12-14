@@ -1,0 +1,9 @@
+$('#newTrackModal').modal('hide')
+
+$('#modal').html('<%= j render('show_modal') %>');
+$('#modal').modal('show');
+
+$('.segments-table tr').on('click', function(e) {
+  var form = $(e.currentTarget).find('td:last form');
+  $.rails.handleRemote(form);
+});

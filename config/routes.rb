@@ -12,11 +12,13 @@ Skyderby::Application.routes.draw do
       mount Sidekiq::Web => '/manage/sidekiq'
     end
 
-    resources :tracks, only: [:index, :create, :show, :edit, :update, :destroy] do
-      collection do
-        post 'choose'
+    resources :track_files, only: [:create, :show] do
+      scope module: :track_files do
+        resource :track, only: :create
       end
+    end
 
+    resources :tracks, only: [:index, :show, :edit, :update, :destroy] do
       scope module: :tracks do
         resource :map, only: :show
         resource :globe, controller: 'globe', only: :show

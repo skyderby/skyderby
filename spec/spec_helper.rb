@@ -72,4 +72,8 @@ RSpec.configure do |config|
     I18n.locale = :en
     default_url_options[:locale] = :en
   end
+
+  config.order = :random
+
+  Kernel.srand config.seed
 end

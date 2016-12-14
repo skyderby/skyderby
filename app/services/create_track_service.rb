@@ -7,18 +7,16 @@ class CreateTrackService
   BASE_SEARCH_RADIUS = 1
   SKYDIVE_SEARCH_RADIUS = 10
 
-  def initialize(user, params = {}, track_index = 0)
-    @user = user
+  def initialize(params, segment: 0)
     @params = params.dup
-    @track_index = track_index || 0
+    @track_index = segment
   end
 
   def execute
     ActiveRecord::Base.transaction do
       # Create track with params
       @track = Track.new(@params)
-      @track.user = @user
-      @track.pilot = @user.profile if @user && !@params[:profile_id]
+      @track.pilot = @track.user.profile if @track.user && !@params[:profile_id]
 
       # Read file with track and set logger type
       track_data = @track.track_file.track_file_data(@track_index)
