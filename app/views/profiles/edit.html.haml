@@ -15,7 +15,8 @@
         = f.label :country, class: 'col-sm-2 control-label', for: :country
         .col-sm-5
           = f.select :country_id,
-                     options_for_select([[@profile.country_name, @profile.country_id]]),
+                     options_for_select([[@profile.country_name, @profile.country_id]], @profile.country_id),
+                     { include_blank: true },
                      class: 'form-control'
 
       .form-group
@@ -79,5 +80,16 @@
                 = f.submit t('general.update'), class: 'btn btn-primary'
 
 - content_for :page_js do
-  :javascript
-    Skyderby.helpers.CountrySelect($('select[name="profile[country_id]"]'));
+  :coffeescript
+    Skyderby.helpers.CountrySelect($('select[name="profile[country_id]"]'))
+
+    $('.edit-user-profile').validate(
+      rules:
+        'profile[name]':
+          required: true
+      highlight: (element) ->
+        $(element).closest('.form-group').addClass('has-error')
+      unhighlight: (element) ->
+        $(element).closest('.form-group').removeClass('has-error')
+    )
+
