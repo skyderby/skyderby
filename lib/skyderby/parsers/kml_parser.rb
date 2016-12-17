@@ -17,7 +17,7 @@ module Skyderby
 
           if current_point_time && elem.name == 'coord'
             point_params = elem.text.split(' ')
-            @track_points << Skyderby::Tracks::TrackPoint.new(
+            @track_points << Point.new(
               latitude: point_params[1].to_f,
               longitude: point_params[0].to_f,
               abs_altitude: point_params[2].to_f,

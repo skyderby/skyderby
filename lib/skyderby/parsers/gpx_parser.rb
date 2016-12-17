@@ -100,7 +100,7 @@ module Skyderby
       def parse_point(node)
         return unless node.node_name.eql? 'trkpt'
 
-        point = Skyderby::Tracks::TrackPoint.new(
+        point = Point.new(
           latitude: node.attr('lat').to_f,
           longitude: node.attr('lon').to_f
         )
