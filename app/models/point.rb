@@ -35,4 +35,59 @@ class Point < ApplicationRecord
               BETWEEN (tracks.ff_start - #{seconds_before_start})
               AND (tracks.ff_end + #{seconds_after_end})")
   }
+
+  after_initialize :default_values
+
+  def default_values
+    self.fl_time ||= 0.0
+    self.distance ||= 0.0
+    self.h_speed ||= 0.0
+    self.v_speed ||= 0.0
+  end
+
+  def self.bulk_insert(points: , track_id: )
+    points.each { |point| point.track_id = track_id } if track_id
+    insert_values = points.map { |point| point.to_db_statement }.join(",\n")
+    sql = "INSERT INTO points (#{Point.db_columns})
+           VALUES #{insert_values}"
+
+    ActiveRecord::Base.connection.execute sql
+  end
+
+  def to_db_statement
+    statement = <<~SQL
+      (#{gps_time.to_f},
+      #{latitude},
+      #{longitude},
+      #{abs_altitude},
+      #{distance},
+      #{fl_time},
+      #{v_speed},
+      #{h_speed},
+      #{track_id},
+      '#{current_time}',
+      '#{current_time}')
+    SQL
+    statement.gsub("\n", "")
+  end
+
+  private
+
+  def self.db_columns
+    ' gps_time_in_seconds,
+      latitude,
+      longitude,
+      abs_altitude,
+      distance,
+      fl_time,
+      v_speed,
+      h_speed,
+      track_id,
+      updated_at,
+      created_at'
+  end
+
+  def current_time
+    Time.zone.now.to_s(:db)
+  end
 end

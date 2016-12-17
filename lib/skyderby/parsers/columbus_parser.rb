@@ -42,7 +42,7 @@ module Skyderby
         row_height = row[HEIGHT].to_f
         return nil if row_height == 0.0
 
-        Skyderby::Tracks::TrackPoint.new(
+        Point.new(
           latitude: parse_latitude(row),
           longitude: parse_longitude(row),
           abs_altitude: row_height,

@@ -37,7 +37,7 @@ module Skyderby
       end
 
       def parse_point(row)
-        Skyderby::Tracks::TrackPoint.new(
+        Point.new(
           gps_time: parse_datetime(row[:datetime]),
           latitude: row[:latitude],
           longitude: row[:longitude],

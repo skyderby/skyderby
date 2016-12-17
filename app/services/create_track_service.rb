@@ -37,7 +37,7 @@ class CreateTrackService
       # record points to db
       @track.skip_jobs = true
       @track.save!
-      record_points points, @track.id
+      Point.bulk_insert points: points, track_id: @track.id
       @track.skip_jobs = false
 
       @track.recorded_at = points.last.gps_time
@@ -53,52 +53,5 @@ class CreateTrackService
 
   def find_place(start_point, radius)
     Place.nearby(start_point, radius).first
-  end
-
-  def record_points(track_points, track_segment_id)
-    sql = "INSERT INTO points (#{points_columns})
-           VALUES #{points_values(track_points, track_segment_id)}"
-
-    ActiveRecord::Base.connection.execute sql
-  end
-
-  def points_values(track_points, track_id)
-    inserts = []
-
-    track_points.each do |point|
-      inserts << "(
-        #{point.gps_time.to_f},
-        #{point.latitude},
-        #{point.longitude},
-        #{point.abs_altitude},
-        #{point.distance},
-        #{point.fl_time},
-        #{point.v_speed},
-        #{point.h_speed},
-        #{track_id},
-        '#{current_time}',
-        '#{current_time}'
-      )"
-    end
-
-    inserts.join(', ')
-  end
-
-  def current_time
-    Time.zone.now.to_s(:db)
-  end
-
-  def points_columns
-    ' gps_time_in_seconds,
-      latitude,
-      longitude,
-      abs_altitude,
-      distance,
-      fl_time,
-      v_speed,
-      h_speed,
-      track_id,
-      updated_at,
-      created_at'
   end
 end
