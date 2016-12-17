@@ -18,15 +18,14 @@ module Skyderby
       end
 
       def parse_row(row)
-        # Point.new(
-        {
+        Point.new(
           latitude: row[1],
           longitude: row[2],
           abs_altitude: row[3],
           h_speed: h_speed(row),
           v_speed: v_speed(row),
           gps_time: gps_time(row)
-        }
+        )
       end
 
       private
