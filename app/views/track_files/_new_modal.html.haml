@@ -34,11 +34,12 @@
               = builder.label :suit, t('activerecord.attributes.track.suit'), class: 'col-sm-3 control-label'
               .col-sm-9
                 - recent_suit_id = recent_value(:suit_id)
-                - recent_suit_name = suit_name_by_id(recent_value(:suit_id))
+                - recent_suit_name = recent_value(:suit_name)
                 = builder.select :wingsuit_id,
-                                 options_for_select([ [recent_suit_name, recent_suit_id] ], recent_suit_id),
+                                 options_for_select([ [suit_name_by_id(recent_suit_id), recent_suit_id] ], recent_suit_id),
                                  { include_blank: true },
-                                 class: 'form-control new-track-wingsuit-select suit-group'
+                                 class: 'form-control new-track-wingsuit-select suit-group',
+                                 style: ('display:none' if (!recent_suit_id && recent_suit_name))
 
                 = builder.text_field :suit,
                                      class: 'form-control suit-group',
