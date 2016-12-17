@@ -7,13 +7,11 @@ class TrackFilter
     return relation unless query
 
     [:profile_id, :wingsuit_id, :place_id].each do |key|
-      next if query[key].blank?
-      relation = relation.where(Hash[key, query[key]] ) 
+      relation = relation.where(Hash[key, query[key]]) if query[key].present?
     end
 
-    if query[:kind]
-      relation = relation.base if query[:kind] == 'base'
-      relation = relation.skydive if query[:kind] == 'skydive'
+    if Track.kinds.key? query[:kind]
+      relation = relation.public_send query[:kind]
     end
 
     relation = relation.search(query[:term]) if query[:term]
