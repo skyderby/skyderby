@@ -24,7 +24,7 @@ class Tracks::VideoPresenter
   attr_reader :video
 
   def track_points
-    @points ||= 
+    @points ||=
       begin
         start_time_in_seconds = @track.points.first.gps_time_in_seconds.to_f
         @track.points.trimmed(seconds_before_start: 20).freq_1Hz.pluck_to_hash(
@@ -34,7 +34,8 @@ class Tracks::VideoPresenter
           :v_speed,
           'CASE WHEN v_speed = 0 THEN h_speed / 0.1
                 ELSE h_speed / ABS(v_speed)
-          END AS glide_ratio')
+          END AS glide_ratio'
+        )
       end
   end
 end
