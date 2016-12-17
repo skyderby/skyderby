@@ -20,11 +20,6 @@ class TrackVideo < ApplicationRecord
 
   before_validation :parse_url
 
-  def points
-    track_data = Skyderby::Tracks::Points.new(track)
-    track_data.trimmed(start: track_offset).to_json.html_safe
-  end
-
   def competition_params
   end
 
