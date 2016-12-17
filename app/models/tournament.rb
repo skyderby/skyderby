@@ -38,15 +38,14 @@ class Tournament < ApplicationRecord
 
   def finish_line
     [
-      Skyderby::Tracks::TrackPoint.new(
+      Coordinate.new(
         latitude: finish_start_lat,
         longitude: finish_start_lon
       ),
-      Skyderby::Tracks::TrackPoint.new(
+      Coordinate.new(
         latitude: finish_end_lat,
         longitude: finish_end_lon
       )
     ]
   end
-
 end
