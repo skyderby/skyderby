@@ -38,7 +38,7 @@ gem 'i18n-js', '>= 3.0.0.rc8'
 gem 'http_accept_language'
 
 gem 'jquery-rails'
-gem 'remotipart', '~>1.2'
+gem 'remotipart', git: 'https://github.com/skyderby/remotipart.git'
 gem 'rails-backbone'
 
 gem 'sass-rails'
