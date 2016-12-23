@@ -94,16 +94,12 @@ class Track < ApplicationRecord
     end
   end
 
-  def has_abs_altitude
+  def abs_altitude?
     ge_enabled
   end
 
   def point_altitude_field
-    if has_abs_altitude
-      "abs_altitude - #{msl_offset}"
-    else
-      'elevation'
-    end
+    ("abs_altitude - #{msl_offset}" if abs_altitude?) || 'elevation'
   end
 
   def presentation
@@ -120,9 +116,9 @@ class Track < ApplicationRecord
 
   def altitude_bounds
     @altitude_bounds ||= begin
-      points_altitude = points.freq_1Hz.trimmed.pluck("#{point_altitude_field}")
-      points_altitude = [0] if points_altitude.blank? 
-      { 
+      points_altitude = points.freq_1Hz.trimmed.pluck(point_altitude_field)
+      points_altitude = [0] if points_altitude.blank?
+      {
         max_altitude: points_altitude.max,
         min_altitude: points_altitude.min,
         elevation:    points_altitude.max - points_altitude.min
