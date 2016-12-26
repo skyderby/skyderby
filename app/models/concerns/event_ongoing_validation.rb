@@ -8,9 +8,9 @@ module EventOngoingValidation
   end
 
   def event_ongoing_validation
-    return true unless event && event.finished?
+    return unless event&.finished?
 
-    errors.add(:base, :event_finished) 
-    false
+    errors.add(:base, :event_finished)
+    throw :abort
   end
 end
