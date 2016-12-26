@@ -4,9 +4,9 @@ class StaticPagesController < ApplicationController
     @track_file = TrackFile.new
     @online_competitions =
       VirtualCompetition
-        .where(display_on_start_page: true)
-        .includes(personal_top_scores: [:profile, :track])
-        .group_by(&:jumps_kind)
+      .where(display_on_start_page: true)
+      .includes(personal_top_scores: [:profile, :track])
+      .group_by(&:jumps_kind)
   end
 
   def manage
@@ -18,10 +18,5 @@ class StaticPagesController < ApplicationController
     head :ok
   end
 
-  def about
-  end
-
-  def competitions
-    @summary = Skyderby::CompetitionsSummary.new
-  end
+  def about; end
 end
