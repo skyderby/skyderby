@@ -17,6 +17,16 @@
           %h4.modal-title= t 'static_pages.index.track_form.title'
 
         .modal-body
+          .upload-progress.hidden
+            .spinner
+              %i.fa.fa-3x.fa-spin.fa-circle-o-notch
+            .done-indicator.hidden
+              %i.fa.fa-3x.fa-check.text-success
+            .upload-comment
+              %span
+                Uploading...
+              %span.progress-count
+
           = f.fields_for :track_attributes do |builder|
             .form-group
               = builder.label :name, class: 'col-sm-3 control-label'
