@@ -1,72 +1,73 @@
-class Tracks::VideosController < ApplicationController
-  load_resource :track
-  before_action :set_chart_data
-  before_action :authorize_edit, except: :show
+module Tracks
+  class VideosController < ApplicationController
+    load_resource :track
+    before_action :set_chart_data
+    before_action :authorize_edit, except: :show
 
-  def new
-    redirect_to action: :edit and return if @track.video
+    def new
+      (redirect_to action: :edit && return) if @track.video
 
-    default_values = { track_offset: @track.ff_start, track_id: @track.id }
-		@video = TrackVideo.new(default_values)
-  end
+      default_values = { track_offset: @track.ff_start, track_id: @track.id }
+      @video = TrackVideo.new(default_values)
+    end
 
-  def edit
-    @video = @track.video
-  end
+    def edit
+      @video = @track.video
+    end
 
-  def show
-    authorize! :show, @track 
+    def show
+      authorize! :show, @track
 
-    redirect_to @track unless @track.video 
-    @track_data = Tracks::VideoPresenter.new(@track)
-  end
+      redirect_to @track unless @track.video
+      @track_data = Tracks::VideoPresenter.new(@track)
+    end
 
-  def create
-    @video = TrackVideo.new(video_params)
+    def create
+      @video = TrackVideo.new(video_params)
 
-    if @video.save
-      respond_to do |format|
-        format.html { redirect_to @video }
-        format.js
-      end
-    else
-      respond_to do |format|
-        format.html { render :new }
-        format.js
+      if @video.save
+        respond_to do |format|
+          format.html { redirect_to @video }
+          format.js
+        end
+      else
+        respond_to do |format|
+          format.html { render :new }
+          format.js
+        end
       end
     end
-  end
 
-  def update
-    @video = @track.video
+    def update
+      @video = @track.video
 
-    if @video.update(video_params)
-      respond_to do |format|
-        format.html { redirect_to @video }
-        format.js { @track_data = Tracks::VideoPresenter.new(@track) }
-      end
-    else
-      respond_to do |format|
-        format.html { render :edit }
-        format.js { render template: 'errors/ajax_errors', locals: {errors: errors} }
+      if @video.update(video_params)
+        respond_to do |format|
+          format.html { redirect_to @video }
+          format.js { @track_data = Tracks::VideoPresenter.new(@track) }
+        end
+      else
+        respond_to do |format|
+          format.html { render :edit }
+          format.js { render template: 'errors/ajax_errors', locals: { errors: errors } }
+        end
       end
     end
-  end
 
-  def destroy
-    @track.video.destroy
-    redirect_to @track
-  end
+    def destroy
+      @track.video.destroy
+      redirect_to @track
+    end
 
-  private
+    private
 
-  def authorize_edit
-    authorize! :edit, @track
-  end
+    def authorize_edit
+      authorize! :edit, @track
+    end
 
-  def set_chart_data
-    start_time_in_seconds = @track.points.first.gps_time_in_seconds.to_f
-    @points = 
+    def set_chart_data
+      start_time_in_seconds = @track.points.first.gps_time_in_seconds.to_f
+      @points =
         @track.points.trimmed(seconds_before_start: 20).freq_1Hz.pluck_to_hash(
           "gps_time_in_seconds - #{start_time_in_seconds} AS fl_time",
           "#{@track.point_altitude_field} AS altitude",
@@ -74,16 +75,18 @@ class Tracks::VideosController < ApplicationController
           :v_speed,
           'CASE WHEN v_speed = 0 THEN h_speed / 0.1
                 ELSE h_speed / ABS(v_speed)
-          END AS glide_ratio')
-  end
+          END AS glide_ratio'
+        )
+    end
 
-  def video_params
-    params.require(:track_video).permit(
-      :track_id,
-      :url,
-      :video_code,
-      :video_offset,
-      :track_offset
-    )
+    def video_params
+      params.require(:track_video).permit(
+        :track_id,
+        :url,
+        :video_code,
+        :video_offset,
+        :track_offset
+      )
+    end
   end
 end

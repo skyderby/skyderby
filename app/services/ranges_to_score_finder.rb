@@ -2,7 +2,7 @@ module RangesToScoreFinder
   FINDER_BY_ACTIVITY = {
     base: BaseFinder,
     skydive: SkydiveFinder
-  }
+  }.with_indifferent_access.freeze
 
   def self.for(activity)
     (FINDER_BY_ACTIVITY[activity] || NullRangeFinder)
@@ -18,4 +18,3 @@ module RangesToScoreFinder
     end
   end
 end
-

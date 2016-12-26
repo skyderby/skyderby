@@ -6,7 +6,7 @@ class TrackFilesController < ApplicationController
 
     unless @track_file.save
       render template: 'errors/ajax_errors',
-             locals: {errors: @track_file.errors}
+             locals: { errors: @track_file.errors }
       return
     end
 
@@ -28,7 +28,7 @@ class TrackFilesController < ApplicationController
   def build_track
     track_attributes = track_file_params[:track_attributes].merge(
       track_file: @track_file,
-      user: current_user 
+      user: current_user
     )
 
     CreateTrackService.new(track_attributes).execute
@@ -71,7 +71,7 @@ class TrackFilesController < ApplicationController
       recent_values.add(:suit_name, suit_name)
       recent_values.delete(:suit_id)
     end
-  
+
     recent_values.add(:name, form_params[:name]) if form_params[:name]
     recent_values.add(:location, form_params[:location])
     recent_values.add(:activity, form_params[:kind])
