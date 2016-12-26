@@ -37,7 +37,7 @@ module RangesToScoreFinder
     def split_bounds_on_ranges
       Array.new(steps) do |index|
         altitude_change = STEP * index
-        { 
+        {
           start_altitude: max_altitude - altitude_change,
           end_altitude:   max_altitude - RANGE_SIZE - altitude_change
         }
@@ -45,18 +45,18 @@ module RangesToScoreFinder
     end
 
     def steps
-      steps = ((height_diff - RANGE_SIZE) / STEP).floor
+      ((height_diff - RANGE_SIZE) / STEP).floor
     end
 
     def height_diff
       max_altitude - min_altitude
     end
-    
+
     # round lower to step size
     def max_altitude
       altitude_bounds[:max_altitude] - altitude_bounds[:max_altitude] % STEP
     end
-    
+
     # rounds upper to step size
     def min_altitude
       altitude_addition = STEP - altitude_bounds[:min_altitude] % STEP

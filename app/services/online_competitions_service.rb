@@ -17,14 +17,15 @@ class OnlineCompetitionsService
   attr_reader :track
 
   def score_track_in_competition(competition)
-    track_segment = 
+    track_segment =
       WindowRangeFinder.new(track_points).execute(competition.window_params)
 
     track.virtual_comp_results.create(
       virtual_competition_id: competition.id,
       result: track_segment.public_send(competition.task),
       highest_gr: track_segment.max_gr,
-      highest_speed: track_segment.max_ground_speed)
+      highest_speed: track_segment.max_ground_speed
+    )
   rescue WindowRangeFinder::ValueOutOfRange
     return
   end
@@ -42,6 +43,7 @@ class OnlineCompetitionsService
              'v_speed AS v_speed',
              'CASE WHEN v_speed = 0 THEN h_speed / 0.1
                    ELSE h_speed / ABS(v_speed)
-             END AS glide_ratio')
+             END AS glide_ratio'
+           )
   end
 end
