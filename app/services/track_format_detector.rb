@@ -4,10 +4,10 @@ class TrackFormatDetector
   class UnknownFormat < StandardError; end
 
   FILE_SPECIFIC_DETECTOR = {
-    tes: -> (path) { 'wintec' },
-    kml: -> (path) { 'kml' },
-    gpx: -> (path) { 'gpx' },
-    csv: -> (path) { determine_csv_format(path) }
+    tes: ->(_path) { 'wintec' },
+    kml: ->(_path) { 'kml' },
+    gpx: ->(_path) { 'gpx' },
+    csv: ->(path) { determine_csv_format(path) }
   }.with_indifferent_access.freeze
 
   CSV_HEADERS = {
@@ -24,14 +24,18 @@ class TrackFormatDetector
     FILE_SPECIFIC_DETECTOR[extension]&.call(path) || raise(UnknownFormat)
   end
 
+  class << self
+    private
+
+    def determine_csv_format(path)
+      first_row = File.open(path, 'r') { |f| CSV.new(f).shift }
+
+      CSV_HEADERS.select { |_, val| (val - first_row).empty? }.keys[0] ||
+        ('cyber_eye' if first_row[0] =~ /^\d{4}-\d{2}-\d{2}T/)
+    end
+  end
+
   private
 
   attr_reader :path
-
-  def self.determine_csv_format(path)
-    first_row = File.open(path, 'r') { |f| CSV.new(f).shift }
-
-    CSV_HEADERS.select { |_, val| (val - first_row).empty? }.keys[0] ||
-      ('cyber_eye' if /^\d{4}-\d{2}-\d{2}T/ === first_row[0])
-  end
 end

@@ -6,6 +6,8 @@ Rails:
 
 AllCops:
   TargetRubyVersion: 2.3
+  Exclude:
+    - lib/**/*
 
 #################### Style   ###############################
 Style/Lambda:
