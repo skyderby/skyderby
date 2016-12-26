@@ -10,7 +10,7 @@ module TrackFiles
     def build_track
       track_attributes = track_params[:track_attributes].merge(
         track_file: track_file,
-        user: current_user 
+        user: current_user
       )
 
       CreateTrackService.new(
