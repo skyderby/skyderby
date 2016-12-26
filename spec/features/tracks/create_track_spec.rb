@@ -38,6 +38,7 @@ feature 'Upload tracks', js: true do
 
   scenario 'Garmin gps: multiple tracks in file' do
     upload_track 'two_tracks.gpx'
+    sleep 0.5 # wait for modal
     first('tr.track-segment-row').click
 
     click_button I18n.t('general.save')

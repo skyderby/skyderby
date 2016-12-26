@@ -6,9 +6,12 @@
            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
     ga('create', 'UA-52322845-1', 'auto');
-- else
+- elsif Rails.env.development?
   :javascript
     function ga () {
       var params = Array.prototype.slice.call(arguments, ga.length);
       console.log("GoogleAnalytics: " + params);
     };
+- else
+  :javascript
+    function ga() {};

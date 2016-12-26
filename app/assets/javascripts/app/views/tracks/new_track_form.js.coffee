@@ -81,7 +81,7 @@ class Skyderby.views.NewTrackForm extends Backbone.View
     @$('input[name="track_file[track_attributes][suit]"]').val('').hide()
 
   clean_hide_suit_select: ->
-    @$('.new-track-wingsuit-select').select2('val', '')
+    @$('.new-track-wingsuit-select').val(null).trigger('change')
     @$('.new-track-wingsuit-select + span').hide()
 
   show_suit_input: ->
