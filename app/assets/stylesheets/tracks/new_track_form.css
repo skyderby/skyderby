@@ -1,0 +1,21 @@
+.upload-progress {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  z-index: 1000;
+  background-color: white;
+  left: 0;
+  top: 0;
+  padding-top: 30%;
+  opacity: 0.95;
+}
+
+.hidden {
+  display: none;
+}
+
+.upload-progress .upload-comment {
+  margin-top: 15px;
+  font-size: 18px;
+}
