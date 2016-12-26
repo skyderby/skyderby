@@ -12,7 +12,6 @@ class TrackFilesController < ApplicationController
 
     if @track_file.one_segment?
       @track = build_track
-      redirect_to edit_track_path(@track)
     else
       render :show
     end
