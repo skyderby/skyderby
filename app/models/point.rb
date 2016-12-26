@@ -29,65 +29,48 @@ class Point < ApplicationRecord
 
   scope :freq_1Hz, -> { where('round(gps_time_in_seconds) = gps_time_in_seconds') }
 
-  scope :trimmed, -> (seconds_before_start: 0, seconds_after_end: 0) { 
-    joins(:track)
-    .where("points.fl_time 
-              BETWEEN (tracks.ff_start - #{seconds_before_start})
-              AND (tracks.ff_end + #{seconds_after_end})")
+  scope :trimmed, ->(seconds_before_start: 0, seconds_after_end: 0) {
+    joins(:track).where(
+      "points.fl_time BETWEEN (tracks.ff_start - #{seconds_before_start})
+                          AND (tracks.ff_end + #{seconds_after_end})"
+    )
   }
 
-  after_initialize :default_values
+  class << self
+    def bulk_insert(points:, track_id:)
+      points.each { |point| point.track_id = track_id }
+      insert_values = points.map { |point| point_db_statement(point) }.join(",\n")
+      sql = "INSERT INTO points (#{db_columns})
+             VALUES #{insert_values}"
 
-  def default_values
-    self.fl_time ||= 0.0
-    self.distance ||= 0.0
-    self.h_speed ||= 0.0
-    self.v_speed ||= 0.0
-  end
+      ActiveRecord::Base.connection.execute sql
+    end
 
-  def self.bulk_insert(points: , track_id: )
-    points.each { |point| point.track_id = track_id } if track_id
-    insert_values = points.map { |point| point.to_db_statement }.join(",\n")
-    sql = "INSERT INTO points (#{Point.db_columns})
-           VALUES #{insert_values}"
+    def point_db_statement(point)
+      statement = <<~SQL
+        (#{point.gps_time.to_f},
+         #{point.latitude},
+         #{point.longitude},
+         #{point.abs_altitude},
+         #{point.distance},
+         #{point.fl_time},
+         #{point.v_speed},
+         #{point.h_speed},
+         #{point.track_id})
+      SQL
+      statement.delete("\n")
+    end
 
-    ActiveRecord::Base.connection.execute sql
-  end
-
-  def to_db_statement
-    statement = <<~SQL
-      (#{gps_time.to_f},
-      #{latitude},
-      #{longitude},
-      #{abs_altitude},
-      #{distance},
-      #{fl_time},
-      #{v_speed},
-      #{h_speed},
-      #{track_id},
-      '#{current_time}',
-      '#{current_time}')
-    SQL
-    statement.gsub("\n", "")
-  end
-
-  private
-
-  def self.db_columns
-    ' gps_time_in_seconds,
-      latitude,
-      longitude,
-      abs_altitude,
-      distance,
-      fl_time,
-      v_speed,
-      h_speed,
-      track_id,
-      updated_at,
-      created_at'
-  end
-
-  def current_time
-    Time.zone.now.to_s(:db)
+    def db_columns
+      ' gps_time_in_seconds,
+        latitude,
+        longitude,
+        abs_altitude,
+        distance,
+        fl_time,
+        v_speed,
+        h_speed,
+        track_id'
+    end
   end
 end

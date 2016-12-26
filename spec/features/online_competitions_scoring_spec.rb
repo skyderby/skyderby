@@ -29,7 +29,7 @@ feature 'Scoring tracks in online competitions' do
     expect(record.highest_speed).to be_within(1).of(203)
   end
 
-  def create_track_from_file filename
+  def create_track_from_file(filename)
     pilot = create :pilot
     suit = create :wingsuit
 

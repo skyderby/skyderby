@@ -67,10 +67,6 @@ group :development do
 
   gem 'meta_request'
 
-  gem 'pry'
-  gem 'pry-rails'
-  gem 'pry-byebug'
-
   gem 'bullet'
 
   gem 'spring'
@@ -81,6 +77,10 @@ group :development, :test do
   gem 'rspec-rails'
 
   gem 'dotenv-rails'
+
+  gem 'pry'
+  gem 'pry-rails'
+  gem 'pry-byebug'
 
   # Better errors handler
   # gem 'better_errors'
