@@ -28,9 +28,6 @@
 /tags
 
 .tern-project
-.rubocop.yml
-
-/tags
 
 *.swn
 *.swo
