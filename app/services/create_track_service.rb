@@ -1,5 +1,3 @@
-require 'tracks/jump_range_finder'
-
 class CreateTrackService
   # Search radius for place in km
   # Base exit described as exit coordinates
@@ -9,7 +7,7 @@ class CreateTrackService
 
   def initialize(params, segment: 0)
     @params = params.dup
-    @track_index = segment
+    @segment = segment
   end
 
   def execute
@@ -19,11 +17,15 @@ class CreateTrackService
       @track.pilot = @track.user.profile if @track.user && !@params[:profile_id]
 
       # Read file with track and set logger type
-      track_data = @track.track_file.track_file_data(@track_index)
-      points = PointsService.new(track_data.points).execute
-      @track.gps_type = track_data.logger
+      file_path = @track.track_file.file_path
+      @track.gps_type = @track.track_file.file_format
+      points = read_points_from_file(
+        path: file_path,
+        segment: segment,
+        format: @track.gps_type
+      )
 
-      jump_range = JumpRangeFinder.range_for points
+      jump_range = JumpRangeFinder.for(@track.kind).new(points).execute
       @track.ff_start = jump_range.start_time
       @track.ff_end = jump_range.end_time
 
@@ -45,6 +47,19 @@ class CreateTrackService
       @track.save
       @track
     end
+  end
+
+  private
+
+  attr_reader :segment
+
+  def read_points_from_file(path:, segment:, format:)
+    points = TrackParser.for(format).new(
+      path: path,
+      segment: segment
+    ).parse
+
+    PointsProcessor.for(format).new(points).execute
   end
 
   def search_radius

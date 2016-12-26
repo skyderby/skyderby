@@ -38,7 +38,7 @@ feature 'Upload tracks', js: true do
 
   scenario 'Garmin gps: multiple tracks in file' do
     upload_track 'two_tracks.gpx'
-    find('tr[data-index="1"]').click
+    first('tr.track-segment-row').click
 
     click_button I18n.t('general.save')
 
@@ -48,7 +48,7 @@ feature 'Upload tracks', js: true do
   def upload_track(file_name)
     visit root_path
     click_link I18n.t('application.header.upload_track')
-    sleep 0.5 #wait for modal
+    sleep 0.5 # wait for modal
 
     within '#track_upload_form' do
       fill_in 'track_file[track_attributes][name]', with: 'John'
