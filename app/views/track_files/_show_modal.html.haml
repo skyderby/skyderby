@@ -20,16 +20,16 @@
             %th
         %tbody
           - @track_file.segments.each_with_index do |item, index|
-            %tr.track-segment-row{data: {index: index}}
+            %tr.track-segment-row
               %td.text-info= index
-              %td.text-info= item[:name]
+              %td.text-info= item.name
               %td
                 %span.text-primary
-                  = "#{item[:h_up]}↑"
+                  = "#{item.h_up}↑"
                 %span.text-success
-                  = "#{item[:h_down]}↓"
+                  = "#{item.h_down}↓"
                 =t 'units.m'
-              %td.text-info= item[:points_count]
+              %td.text-info= item.points_count
               %td
                 = button_to track_file_track_path(@track_file),
                             remote: true,
