@@ -59,7 +59,7 @@ es:
         location: 'La localización'
         location_plh: 'Zona de salto, montañas'
         file: 'El archivo de la pista'
-        help: 'Los archivos se abren en los formatos csv, tes y gpx'
+        help: 'Los archivos se abren en los formatos csv, tes, gpx y kml'
         comment: 'Comentario'
         comment_plh: 'Deje un comentario sobre tu vuelo'
         submit: 'Descargar'
