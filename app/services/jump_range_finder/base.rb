@@ -32,7 +32,7 @@ module JumpRangeFinder
 
     def end_point
       scan_range = []
-      points.reverse.each do |point|
+      points.reverse_each do |point|
         scan_range << point
         next if scan_range.first.gps_time - scan_range.last.gps_time < SEARCH_SECONDS
 
