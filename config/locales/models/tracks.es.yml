@@ -8,6 +8,7 @@ es:
         name: Piloto
         suit: Traje aéreo
         place: Localización
+        kind: El tipo de salto
         comment: Comentario
         uploaded_at: Fecha de subida
         recorded_at: Fecha de grabación

@@ -29,7 +29,7 @@
 
           = f.fields_for :track_attributes do |builder|
             .form-group
-              = builder.label :name, class: 'col-sm-3 control-label'
+              = builder.label :name, t('activerecord.attributes.track.name'), class: 'col-sm-3 control-label'
               .col-sm-9
                 - if current_user
                   %p.form-control-static= current_user.profile.name
@@ -63,7 +63,7 @@
                   %a.toggle-suit{href: '#'}= t('tracks.form.toggle_suit_link')
 
             .form-group
-              = builder.label :location, class: 'col-sm-3 control-label'
+              = builder.label :location, t('activerecord.attributes.track.place'), class: 'col-sm-3 control-label'
               .col-sm-9
                 = builder.text_field :location, 
                                      class: 'form-control', 
@@ -72,7 +72,7 @@
                                      value: recent_value(:location) 
 
             .form-group
-              = builder.label :kind, class: 'col-sm-3 control-label'
+              = builder.label :kind, t('activerecord.attributes.track.kind'), class: 'col-sm-3 control-label'
               .btn-group.col-sm-9{data: {toggle: 'buttons'}}
                 - recent_activity = recent_value(:activity)
                 - activity_skydive = (recent_activity == 'skydive' || recent_activity.nil?)
