@@ -1,9 +1,9 @@
 <% unless params[:append] %>
-  $('#tracks-table thead').html('<%= j render(partial: 'tracks/table_header') %>');
-  $('#tracks-table tbody').empty();
+  $('#tracks-table .thead').html('<%= j render(partial: 'tracks/table_header') %>');
+  $('#tracks-table .tbody').empty();
 <% end %>
 
-$('#tracks-table tbody').append('<%= j render(@tracks) %>');
+$('#tracks-table .tbody').append('<%= j render(@tracks) %>');
 
 $('.tracks-index .tracks-filters').replaceWith('<%= j render(partial: 'tracks/filters') %>');
 <%= render partial: 'tracks/init_filter_elements' %>

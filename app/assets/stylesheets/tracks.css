@@ -143,8 +143,13 @@
     padding-right: 0px;
 }
 
-#tracks-index th.result-head {
+#tracks-index .th.result-head {
     padding-left: 2px;
     padding-right: 2px;
     min-width: 85px;
+}
+
+#tracks-table .track-row {
+  color: rgb(51, 51, 51);
+  text-decoration: none;
 }
