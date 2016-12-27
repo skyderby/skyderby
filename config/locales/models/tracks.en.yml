@@ -1,4 +1,4 @@
-de:
+en:
   activerecord:
     models:
       track: Track
@@ -8,6 +8,7 @@ de:
         name: Pilot
         suit: Suit
         place: Place
+        kind: Kind of jump
         comment: Comment
         uploaded_at: Uploaded at
         recorded_at: Recorded at

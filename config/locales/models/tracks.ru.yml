@@ -1,13 +1,14 @@
 ru:
   activerecord:
     models:
-      track: 'Трек'
+      track: Трек
     attributes:
       track:
         id: '#'
-        name: 'Пилот'
-        suit: 'Костюм'
-        place: 'Локация'
-        comment: 'Комментарий'
-        uploaded_at: 'Дата загрузки'
-        recorded_at: 'Дата записи'
+        name: Пилот
+        suit: Костюм
+        place: Локация
+        kind: Вид прыжка
+        comment: Комментарий
+        uploaded_at: Дата загрузки
+        recorded_at: Дата записи

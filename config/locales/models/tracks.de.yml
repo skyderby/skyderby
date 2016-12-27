@@ -8,6 +8,7 @@ de:
         name: Pilot
         suit: Wingsuit
         place: Ort
+        kind: Art des Sprunges
         comment: Kommentar
         uploaded_at: Hochgeladen am
         recorded_at: Aufnahmdatum

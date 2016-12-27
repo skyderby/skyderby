@@ -1,0 +1,5 @@
+ru:
+  activerecord:
+    attributes:
+      track_file:
+        file: Файл трека
