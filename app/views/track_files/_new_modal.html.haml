@@ -75,11 +75,12 @@
               = builder.label :kind, class: 'col-sm-3 control-label'
               .btn-group.col-sm-9{data: {toggle: 'buttons'}}
                 - recent_activity = recent_value(:activity)
-                %label.btn.btn-default{class: ('active' if (recent_activity == 'skydive' || recent_activity.nil?))}
-                  = builder.radio_button :kind, 'skydive'
+                - activity_skydive = (recent_activity == 'skydive' || recent_activity.nil?)
+                %label.btn.btn-default{class: ('active' if activity_skydive)}
+                  = builder.radio_button :kind, 'skydive', checked: activity_skydive
                   = 'Skydive'
-                %label.btn.btn-default{class: ('active' if recent_value(:activity) == 'base')}
-                  = builder.radio_button :kind, 'base'
+                %label.btn.btn-default{class: ('active' unless activity_skydive)}
+                  = builder.radio_button :kind, 'base', checked: !activity_skydive
                   = 'B.A.S.E'
 
           .form-group
