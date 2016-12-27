@@ -5,10 +5,10 @@
     .content-block
       .row
         .col-sm-12
-          %table#tracks-table.table.table-hover
-            %thead
+          #tracks-table.table.table-hover
+            .thead
               = render 'table_header'
-            %tbody
+            .tbody
               = render @tracks
 
     .text-center.top-buffer
