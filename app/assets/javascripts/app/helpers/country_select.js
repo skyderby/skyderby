@@ -7,25 +7,11 @@ Skyderby.helpers.CountrySelect = function(elem, opts) {
         width: '100%',
         allowClear: true,
         ajax: {
-            url: '/countries',
+            url: '/countries/select_options',
             dataType: 'json',
             type: "GET",
             quietMillis: 50,
-            data: function (term) {
-                return {
-                    query: term
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: $.map(data, function (item) {
-                        return {
-                            text: item.name,
-                            id: item.id
-                        };
-                    })
-                };
-            },
+            data: function (term) { return { query: term }; },
             cache: true
         }
     };
