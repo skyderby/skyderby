@@ -1,27 +1,20 @@
 class CountriesController < ApplicationController
   load_and_authorize_resource
-  skip_authorize_resource only: :index
 
   before_action :set_country, only: [:show, :edit, :update, :destroy]
   after_action :expire_cache, only: [:create, :update, :destroy]
 
   def index
-    authorize!(:index, Country) if request.format == :html
-
     @countries = Country.order(:name)
-
-    @countries = @countries.search(params[:query][:term]) if params[:query] && params[:query][:term]
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @country = Country.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @country = Country.new(country_params)

@@ -61,7 +61,7 @@ Skyderby::Application.routes.draw do
 
     devise_for :users
     resources :users
-    resources :profiles do 
+    resources :profiles do
       scope module: :profiles do
         resources :badges
       end
@@ -71,7 +71,13 @@ Skyderby::Application.routes.draw do
     resources :manufacturers
     resources :wingsuits
 
-    resources :countries
+    resources :countries do
+      collection do
+        scope module: :countries do
+          resources :select_options, only: :index
+        end
+      end
+    end
     resources :places
 
     resources :virtual_competitions do
