@@ -50,7 +50,7 @@ class Profile < ApplicationRecord
   validates_attachment_content_type :userpic, content_type:
     ['image/jpeg', 'image/jpg', 'image/png']
 
-  # Возвращает массив ID соревнований в которых является организатором
+  # returns array of competition ID's where organizer
   def organizer_of_events
     event_organizers.pluck(:event_id)
   end

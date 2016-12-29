@@ -64,6 +64,9 @@ Skyderby::Application.routes.draw do
     resources :profiles do
       scope module: :profiles do
         resources :badges
+        collection do
+          resources :select_options, only: :index
+        end
       end
     end
     match '/user_profiles/:id', to: 'profiles#show', via: :get
@@ -72,8 +75,8 @@ Skyderby::Application.routes.draw do
     resources :wingsuits
 
     resources :countries do
-      collection do
-        scope module: :countries do
+      scope module: :countries do
+        collection do
           resources :select_options, only: :index
         end
       end
