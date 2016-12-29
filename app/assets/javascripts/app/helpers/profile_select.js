@@ -8,25 +8,13 @@ Skyderby.helpers.ProfileSelect = function(elem, opts) {
         placeholder: I18n.t('tracks.form.profile_select_placeholder'),
         allowClear: true,
         ajax: {
-            url: '/profiles',
+            url: '/profiles/select_options',
             dataType: 'json',
             type: "GET",
             quietMillis: 50,
             data: function (term) {
                 if (opts.only_registered) term.only_registered = true;
-                return {
-                    query: term
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: $.map(data, function (item) {
-                        return {
-                            text: item.name,
-                            id: item.id
-                        };
-                    })
-                };
+                return { query: term };
             },
             cache: true
         }

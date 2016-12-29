@@ -3,36 +3,27 @@ class ProfilesController < ApplicationController
   before_action :set_profile, only: [:edit, :update]
 
   load_and_authorize_resource
-  skip_authorize_resource only: :index
 
   def index
-    authorize!(:index, Profile) if request.format == :html
-
     @profiles = Profile.includes(:user, :country).order(:name)
-
-    if params[:query]
-      @profiles = @profiles.joins(:user) if params[:query][:only_registered]
-      @profiles = @profiles.search(params[:query][:term]) if params[:query][:term]
-    end
   end
 
   def show
     @profile = Profile.includes(
       :badges,
-      {personal_top_scores: :virtual_competition},
+      { personal_top_scores: :virtual_competition },
       tracks: [
         :distance,
         :speed,
         :time,
         :video,
-        {wingsuit: :manufacturer},
-        {place: :country}
+        { wingsuit: :manufacturer },
+        { place: :country }
       ]
     ).find(params[:id])
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @profile.update profile_params
