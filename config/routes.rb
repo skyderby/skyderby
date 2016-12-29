@@ -72,7 +72,13 @@ Skyderby::Application.routes.draw do
     match '/user_profiles/:id', to: 'profiles#show', via: :get
 
     resources :manufacturers
-    resources :wingsuits
+    resources :wingsuits do
+      scope module: :wingsuits do
+        collection do
+          resources :select_options, only: :index
+        end
+      end
+    end
 
     resources :countries do
       scope module: :countries do

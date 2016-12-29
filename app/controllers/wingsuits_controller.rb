@@ -5,30 +5,23 @@ class WingsuitsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @wingsuits = 
+    @wingsuits =
       Wingsuit.includes(:manufacturer)
-              .select('wingsuits.id, wingsuits.name, wingsuits.kind, manufacturer_id, manufacturers.name manufacturer_name') 
+              .select('wingsuits.id, wingsuits.name, wingsuits.kind, manufacturer_id, manufacturers.name manufacturer_name')
               .order('manufacturers.name, kind, wingsuits.name')
-
-    if params[:query] && params[:query][:term]
-      @wingsuits = @wingsuits.search(params[:query][:term]) if params[:query][:term]
-    end
 
     respond_to do |format|
       format.html { @wingsuits = @wingsuits.group_by(&:manufacturer_name) }
-      format.json { @wingsuits }
     end
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @wingsuit = Wingsuit.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @wingsuit = Wingsuit.new(wingsuit_params)
@@ -65,6 +58,7 @@ class WingsuitsController < ApplicationController
       :manufacturer_id,
       :kind,
       :photo,
-      :description)
+      :description
+    )
   end
 end
