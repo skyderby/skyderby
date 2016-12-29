@@ -22,7 +22,9 @@ class Place < ApplicationRecord
   validates :country, presence: true
   validates :latitude, presence: true
   validates :longitude, presence: true
-  # validates :msl, presence: true
+
+  delegate :name, to: :country, prefix: true, allow_nil: true
+  delegate :code, to: :country, prefix: true, allow_nil: true
 
   def pilots_accessible_by(user)
     Profile.where(
@@ -42,10 +44,10 @@ class Place < ApplicationRecord
     end
 
     def nearby(point, radius)
-      distance_statement = 
+      distance_statement =
         "SQRT(
-          POW(111 * (latitude - #{point[:latitude].to_s}), 2) +
-          POW(111 * (#{point[:longitude].to_s} - longitude) * COS(latitude / (180/PI()) ), 2)
+          POW(111 * (latitude - #{point[:latitude]}), 2) +
+          POW(111 * (#{point[:longitude]} - longitude) * COS(latitude / (180/PI()) ), 2)
         )"
 
       select(:id,
