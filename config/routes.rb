@@ -81,7 +81,13 @@ Skyderby::Application.routes.draw do
         end
       end
     end
-    resources :places
+    resources :places do
+      scope module: :places do
+        collection do
+          resources :select_options, only: :index
+        end
+      end
+    end
 
     resources :virtual_competitions do
       resources :sponsors, only: [:new, :create, :destroy]
