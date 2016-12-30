@@ -7,7 +7,7 @@ feature 'Creating new competitions' do
     visit events_path
     click_link 'Competition'
 
-    sleep 1
+    sleep 0.5
 
     within '#new_event_form' do
       fill_in :event_name, with: 'Test event'
