@@ -2,17 +2,15 @@ li.nav-upload-button {
   margin-right: 10px; 
   padding-top: 9px;
   padding-bottom: 9px;
+  border-color: rgba(173, 173, 173, 0.5);
 
   &> a.btn {
     padding-top: 5px;
     padding-bottom: 5px;
-  }
+    background-image: linear-gradient(rgb(252, 252, 252), rgb(238, 238, 238));
 
-  &> a.btn.btn-primary {
-    color: white;
-
-    &:focus {
-      color: #333;
+    &:hover {
+      background-image: linear-gradient(rgb(238, 238, 238), rgb(221, 221, 221));
     }
   }
 }
