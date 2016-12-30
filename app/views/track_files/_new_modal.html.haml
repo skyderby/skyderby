@@ -1,7 +1,8 @@
 .modal.fade#newTrackModal{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
   .modal-dialog
     .modal-content
-      = form_for @track_file, 
+      = form_for :track_file,
+                 url: track_files_path, 
                  remote: true,
                  html: { multipart: true, 
                          class: 'form-horizontal', 
