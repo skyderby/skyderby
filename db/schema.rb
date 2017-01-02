@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161115073815) do
+ActiveRecord::Schema.define(version: 20170102221047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 20161115073815) do
     t.integer  "rules",                         default: 0
     t.date     "starts_at"
     t.boolean  "wind_cancellation"
+    t.integer  "visibility",                    default: 0
   end
 
   create_table "manufacturers", force: :cascade do |t|

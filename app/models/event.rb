@@ -20,6 +20,7 @@
 class Event < ApplicationRecord
   enum status: [:draft, :published, :finished]
   enum rules: [:speed_distance_time, :fai, :hungary_boogie]
+  enum visibility: [:public_event, :unlisted_event, :private_event]
 
   belongs_to :responsible,
              class_name: 'Profile',
