@@ -8,6 +8,12 @@
       .col-md-8.col-md-offset-2.text-center
         %h1
           %span#title-competition-name= @event.name
+          %small
+            - if @event.unlisted_event?
+              %i.fa.fa-eye-slash{'data-toggle': 'tooltip', title: t('tracks.edit.unlisted')}
+            - elsif @event.private_event?
+              %i.fa.fa-lock{'data-toggle': 'tooltip', title: t('tracks.edit.private')}
+
 
         %h3#title-competition-range
           = "#{t('.comp_window')}: #{@event.range_from} - #{@event.range_to} #{t('units.m')}"

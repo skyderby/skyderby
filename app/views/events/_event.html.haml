@@ -15,6 +15,12 @@
     %h3.comp-list-title
       %a{href: event_path(event)}
         %span.comp-name= event.name
+
+      - if event.unlisted_event?
+        %i.fa.fa-eye-slash{'data-toggle': 'tooltip', title: t('tracks.edit.unlisted')}
+      - elsif event.private_event?
+        %i.fa.fa-lock{'data-toggle': 'tooltip', title: t('tracks.edit.private')}
+
       - if event.is_official
         %small
           Official
