@@ -1,0 +1,13 @@
+%h1
+  %span= @event.name
+  %small
+    - if @event.unlisted_event?
+      %i.fa.fa-eye-slash{'data-toggle': 'tooltip', title: t('visibility.unlisted')}
+    - elsif @event.private_event?
+      %i.fa.fa-lock{'data-toggle': 'tooltip', title: t('visibility.private')}
+
+%h3
+  = "#{t('events.show.comp_window')}: #{@event.range_from} - #{@event.range_to} #{t('units.m')}"
+%h3
+  = render 'event_place'
+

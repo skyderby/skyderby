@@ -11,7 +11,7 @@ class EventsController < ApplicationController
     tournaments = Tournament.includes(place: :country).all.to_a
     events = EventsFinder.new.execute(current_user).to_a
 
-    @events = (tournaments + events).sort_by { |x| x.starts_at }.reverse
+    @events = (tournaments + events).sort_by(&:starts_at).reverse
 
     @event = Event.new
   end
@@ -46,11 +46,9 @@ class EventsController < ApplicationController
     @scoreboard = Events::ScoreboardFactory.new(@event, @display_raw_results).create
   end
 
-  def destroy
-  end
+  def destroy; end
 
-  def edit
-  end
+  def edit; end
 
   private
 
@@ -72,7 +70,8 @@ class EventsController < ApplicationController
       :range_from,
       :range_to,
       :status,
-      :wind_cancellation
+      :wind_cancellation,
+      :visibility
     )
   end
 end

@@ -1,8 +1,6 @@
 $('#modal').modal('hide');
 
-$('#title-competition-name').text("<%= @event.name %>");
-$('#title-competition-range').text("<%= "#{t('events.show.comp_window')}: #{@event.range_from} - #{@event.range_to} #{t('units.m')}" %>");
-$('#title-competition-place').html("<%= j render('event_place') %>");
+$('#event-header').html("<%= j render('header') %>");
 
 $('.event-status-button').html(
   '<%= "#{t('activerecord.attributes.event.status')}: #{t('event_status.' + @event.status)}" %> ' +
