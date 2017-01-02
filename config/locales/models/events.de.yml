@@ -1,16 +1,17 @@
 de:
   activerecord:
     models:
-      event: 'Wettkampf'
+      event: Wettkampf
     attributes:
       event:
-        name: 'Name'
-        status: 'Status'
-        place: 'Ort'
-        starts_at: 'Started'
-        rules: 'Regeln'
-        wind_cancellation: 'Wind cancellation'
+        name: Name
+        status: Status
+        place: Ort
+        starts_at: Started
+        rules: Regeln
+        wind_cancellation: Wind cancellation
+        visibility: Datenschutz
   event_status: 
-    draft: 'Entwurf'
-    published: 'Veröffentlicht'
-    finished: 'Beendet'
+    draft: Entwurf
+    published: Veröffentlicht
+    finished: Beendet

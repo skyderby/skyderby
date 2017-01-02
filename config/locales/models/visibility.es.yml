@@ -1,0 +1,5 @@
+es:
+  visibility:
+    public: Público
+    unlisted: Oculto
+    private: Privado

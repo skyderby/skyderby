@@ -2,9 +2,6 @@ ru:
   tracks:
     edit:
       visibility: "Параметры доступа:"
-      public: "Открытый"
-      unlisted: "Доступ по ссылке"
-      private: "Ограниченный"
       elev_chart: 'График высот'
       elevation: 'Высота'
       back: 'Назад к треку'

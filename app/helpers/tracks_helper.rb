@@ -31,12 +31,12 @@ module TracksHelper
       concat content_tag(:i, nil,
                          class: 'fa fa-fw fa-eye-slash',
                          'data-toggle' => 'tooltip',
-                         title: t('tracks.edit.unlisted')) if track.unlisted_track?
+                         title: t('visibility.unlisted')) if track.unlisted_track?
 
       concat content_tag(:i, nil,
                          class: 'fa fa-fw fa-lock',
                          'data-toggle' => 'tooltip',
-                         title: t('tracks.edit.private')) if track.private_track?
+                         title: t('visibility.private')) if track.private_track?
     end
   end
 
