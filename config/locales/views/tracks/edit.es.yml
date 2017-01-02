@@ -2,8 +2,5 @@ es:
   tracks:
     edit:
       visibility: Privacidad
-      public: Público
-      unlisted: Oculto
-      private: Privado
       elev_chart: Altitud
       elevation: Altitud

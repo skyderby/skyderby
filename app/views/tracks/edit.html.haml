@@ -93,13 +93,13 @@
             .btn-group.col-sm-9{data: {toggle: 'buttons'}}
               %label.btn.btn-default{ class:  ('active' if track.public_track?) }
                 = f.radio_button 'visibility', 'public_track'
-                = t('tracks.edit.public')
+                = t('visibility.public')
               %label.btn.btn-default{ class:  ('active' if track.unlisted_track?) }
                 = f.radio_button 'visibility', 'unlisted_track'
-                = t('tracks.edit.unlisted')
+                = t('visibility.unlisted')
               %label.btn.btn-default{ class:  ('active' if track.private_track?) }
                 = f.radio_button 'visibility', 'private_track'
-                = t('tracks.edit.private')
+                = t('visibility.private')
         
         .form-group
           %span.col-sm-3.control-label

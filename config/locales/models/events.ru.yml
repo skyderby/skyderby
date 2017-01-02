@@ -1,17 +1,18 @@
 ru:
   activerecord:
     models:
-      event: 'Соревнование'
+      event: Соревнование
     attributes:
       event:
-        name: 'Название'
-        status: 'Статус'
-        place: 'Место проведения'
-        starts_at: 'Дата начала'
-        rules: 'Правила'
-        wind_cancellation: 'Вычитание ветра'
+        name: Название
+        status: Статус
+        place: Место проведения
+        starts_at: Дата начала
+        rules: Правила
+        wind_cancellation: Вычитание ветра
+        visibility: Доступ
   event_status:
-    draft: 'Подготовка'
-    published: 'Опубликовано'
-    finished: 'Завершено'
+    draft: Подготовка
+    published: Опубликовано
+    finished: Завершено
  
