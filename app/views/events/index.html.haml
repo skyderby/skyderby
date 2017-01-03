@@ -9,5 +9,9 @@
   .top-buffer
   .content-block
     %ul.comp-list
-      - @events.each do |comp|
-        = render comp
+      - @events.each do |event_entity|
+        = render event_entity.event
+
+  .text-center.top-buffer
+    .pagination-list
+      = will_paginate @events, renderer: BootstrapPagination::Rails

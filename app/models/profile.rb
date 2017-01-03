@@ -36,6 +36,7 @@ class Profile < ApplicationRecord
            class_name: 'Track'
   has_many :badges
   has_many :event_organizers
+  has_many :competitors
   has_many :personal_top_scores
 
   has_attached_file :userpic,
@@ -53,6 +54,14 @@ class Profile < ApplicationRecord
   # returns array of competition ID's where organizer
   def organizer_of_events
     event_organizers.pluck(:event_id)
+  end
+
+  def competitor_of_events
+    competitors.pluck(:event_id)
+  end
+
+  def participant_of_events
+    organizer_of_events + competitor_of_events
   end
 
   class << self

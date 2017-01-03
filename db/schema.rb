@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170102221047) do
+ActiveRecord::Schema.define(version: 20170103085405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -432,6 +432,31 @@ ActiveRecord::Schema.define(version: 20170102221047) do
                LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
             ORDER BY results.virtual_competition_id, tracks.profile_id, results.result DESC) entities
     ORDER BY entities.result DESC;
+  SQL
+
+  create_view :event_lists,  sql_definition: <<-SQL
+      SELECT events.event_type,
+      events.event_id,
+      events.starts_at,
+      events.status,
+      events.visibility,
+      events.profile_id
+     FROM ( SELECT 'Event'::text AS event_type,
+              events_1.id AS event_id,
+              events_1.starts_at,
+              events_1.status,
+              events_1.visibility,
+              events_1.profile_id
+             FROM events events_1
+          UNION ALL
+           SELECT 'Tournament'::text,
+              tournaments.id,
+              tournaments.starts_at,
+              1,
+              0,
+              NULL::integer
+             FROM tournaments) events
+    ORDER BY events.starts_at DESC;
   SQL
 
 end

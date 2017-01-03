@@ -30,9 +30,9 @@
             %span= track.location
 
           - if track.unlisted_track?
-            %i.fa.fa-eye-slash{'data-toggle': 'tooltip', title: t('tracks.edit.unlisted')}
+            %i.fa.fa-eye-slash{'data-toggle': 'tooltip', title: t('visibility.unlisted')}
           - elsif track.private_track?
-            %i.fa.fa-lock{'data-toggle': 'tooltip', title: t('tracks.edit.private')}
+            %i.fa.fa-lock{'data-toggle': 'tooltip', title: t('visibility.private')}
   .row
     .col-md-12
       - controller_path = controller.controller_path
