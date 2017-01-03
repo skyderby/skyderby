@@ -27,12 +27,10 @@ class EventTrack < ApplicationRecord
              class_name: 'Profile',
              foreign_key: 'profile_id'
 
-  scope :for_round, -> (round_id) { where(round_id: round_id) }
+  scope :for_round, ->(round_id) { where(round_id: round_id) }
 
-  validates_presence_of :competitor
-  validates_presence_of :round
-  validates_presence_of :track
-  validates_uniqueness_of :competitor_id, scope: :round_id, on: :create
+  validates :competitor, :round, :track, presence: true
+  validates :competitor_id, uniqueness: { scope: :round_id }, on: :create
 
   delegate :event, to: :round
   delegate :event_id, to: :round
@@ -41,6 +39,7 @@ class EventTrack < ApplicationRecord
   delegate :discipline, to: :round, prefix: true
   delegate :name, to: :round, prefix: true
   delegate :section, to: :competitor
+  delegate :tracks_visibility, to: :event
 
   before_validation :create_track_from_file
   before_save :set_uploaded_by
@@ -81,13 +80,12 @@ class EventTrack < ApplicationRecord
 
     self.result = EventResultService.new(track, round).calculate
 
-    if event.wind_cancellation
-      self.result_net = EventResultService.new(
-        track, 
-        round, 
-        wind_cancellation: true
-      ).calculate 
-    end
+    return unless event.wind_cancellation
+    self.result_net = EventResultService.new(
+      track,
+      round,
+      wind_cancellation: true
+    ).calculate
   end
 
   def create_track_from_file
@@ -103,14 +101,16 @@ class EventTrack < ApplicationRecord
     throw(:abort) unless check_file_already_used(track_file)
 
     params = track_attributes.merge(
+      user: current_user,
       track_file_id: track_file.id,
       place_id: event.place_id,
       profile_id: competitor.profile_id,
       wingsuit_id: competitor.wingsuit_id,
+      visibility: tracks_visibility,
       comment: "#{event.name} - #{round_discipline.humanize} #{round_name}"
     ).except(:file)
 
-    self.track = CreateTrackService.new(current_user, params, 0).execute
+    self.track = CreateTrackService.new(params).execute
   end
 
   def check_file_already_used(track_file)

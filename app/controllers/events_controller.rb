@@ -8,10 +8,9 @@ class EventsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    tournaments = Tournament.includes(place: :country).all.to_a
-    events = EventsFinder.new.execute(current_user).to_a
-
-    @events = (tournaments + events).sort_by(&:starts_at).reverse
+    @events = EventList.includes(event: { place: :country })
+                       .visible_to(current_user)
+                       .paginate(page: params[:page], per_page: 20)
 
     @event = Event.new
   end

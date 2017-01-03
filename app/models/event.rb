@@ -33,28 +33,38 @@ class Event < ApplicationRecord
   has_many :competitors
   has_many :rounds
   has_many :event_tracks, through: :rounds
+  has_many :tracks, through: :event_tracks
   has_many :sponsors, as: :sponsorable
   has_many :weather_data, as: :weather_datumable
 
-  validates_presence_of :responsible, :name, :range_from, :range_to, :starts_at
+  validates :responsible, :name, :range_from, :range_to, :starts_at, presence: true
 
   before_validation :check_name_and_range, on: :create
+  after_save :set_tracks_visibility, on: :update, if: :visibility_changed?
 
   delegate :name, to: :place, prefix: true, allow_nil: true
   delegate :msl, to: :place, prefix: true, allow_nil: true
-
-  scope :visible, -> { where('status IN (1, 2)') }
-  scope :officials, -> { where(is_official: true) }
-  scope :warm_ups, -> { where(is_official: false) }
 
   def rounds_by_discipline
     @rounds_by_discipline ||= rounds.group_by(&:discipline)
   end
 
+  def tracks_visibility
+    if public_event?
+      Track.visibilities[:public_track]
+    else
+      Track.visibilities[:unlisted_track]
+    end
+  end
+
   private
 
+  def set_tracks_visibility
+    tracks.update_all(visibility: tracks_visibility)
+  end
+
   def check_name_and_range
-    self.name ||= Time.now.strftime('%d.%m.%Y') + ': Competition'
+    self.name ||= "#{Time.current.strftime('%d.%m.%Y')}: Competition"
     self.range_from ||= 3000
     self.range_to ||= 2000
   end

@@ -3,49 +3,57 @@ class Ability
 
   def initialize(user)
     define_tracks_abilities(user)
+    define_events_abilities(user)
     # guest user (not logged in)
     user ||= User.new
-
-    can :read, Event, status: [
-      Event.statuses[:published], 
-      Event.statuses[:finished]
-    ]
-
-    can :read, [Section, Competitor, Round, EventTrack, Sponsor, WeatherDatum]
 
     can :read, Wingsuit
     can :read, Place
 
     can :show, Profile
 
-    can :read,  Tournament
+    can :read, Tournament
 
     return unless user
 
     can :update, Profile, user: user
 
-    can :create, Event
-    can :destroy, Event, responsible: user, status: :draft
-
-    can [:read, :update], Event do |event|
-      if event.responsible == user.profile ||
-         event.event_organizers.any? { |x| x.profile == user.profile }
-        can :manage, Section
-        can :manage, Competitor
-        can :manage, Round
-        can :manage, EventTrack
-        can :manage, EventOrganizer
-        can :manage, WeatherDatum
-        can :manage, Sponsor, sponsorable_type: 'Event', sponsorable_id: event.id
-
-        true
-      end
-    end
-
     can [:create, :update, :destroy], Place if user.has_role? :places_edit
 
     # allow admins to do anything
     can :manage, :all if user.has_role? :admin
+  end
+
+  def define_events_abilities(user)
+    visible_statuses = [Event.statuses[:published], Event.statuses[:finished]]
+    visibilities = [Event.visibilities[:public_event], Event.visibilities[:unlisted_event]]
+
+    can :read, Event do |event|
+      if visible_statuses.include?(event.status) || visibilities.include?(event.visibility)
+        can :read, [Section, Competitor, Round, EventTrack, Sponsor, WeatherDatum]
+        true
+      end
+    end
+
+    return unless user
+
+    can :create, Event
+    can :destroy, Event, responsible: user, status: :draft
+
+    can :read, Event do |event|
+      event.responsible == user.profile ||
+        event.event_organizers.any? { |x| x.profile == user.profile } ||
+        event.competitors.any? { |x| x.proflie == user.profile }
+    end
+
+    can :update, Event do |event|
+      if event.responsible == user.profile ||
+         event.event_organizers.any? { |x| x.profile == user.profile }
+        can :manage, [Section, Competitor, Round, EventTrack, EventOrganizer, WeatherDatum]
+        can :manage, Sponsor, sponsorable_type: 'Event', sponsorable_id: event.id
+        true
+      end
+    end
   end
 
   def define_tracks_abilities(user)
