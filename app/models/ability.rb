@@ -25,11 +25,8 @@ class Ability
   end
 
   def define_events_abilities(user)
-    visible_statuses = [Event.statuses[:published], Event.statuses[:finished]]
-    visibilities = [Event.visibilities[:public_event], Event.visibilities[:unlisted_event]]
-
     can :read, Event do |event|
-      if visible_statuses.include?(event.status) || visibilities.include?(event.visibility)
+      if (event.public_event? || event.unlisted_event?) && !event.draft?
         can :read, [Section, Competitor, Round, EventTrack, Sponsor, WeatherDatum]
         true
       end

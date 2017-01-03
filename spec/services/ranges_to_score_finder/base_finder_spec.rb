@@ -7,9 +7,9 @@ describe RangesToScoreFinder::BaseFinder do
     ranges_to_score = ranges_finder.calculate
 
     expect(ranges_to_score.size).to eq(1)
-    expect(ranges_to_score.first).to eq({
+    expect(ranges_to_score.first).to eq(
       start_altitude: altitude_bounds[:max_altitude] - 10,
       end_altitude: altitude_bounds[:min_altitude]
-    })
+    )
   end
 end
