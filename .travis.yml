@@ -1,9 +1,6 @@
 language: ruby
 
-cache: 
-  directories:
-    - bundler
-    - travis_phantomjs
+cache: bundler
 
 rvm:
   - 2.3.0
