@@ -7,10 +7,10 @@ describe RangesToScoreFinder::SkydiveFinder do
     ranges_to_score = ranges_finder.calculate
 
     expect(ranges_to_score.size).to eq(1)
-    expect(ranges_to_score.first).to eq({
+    expect(ranges_to_score.first).to eq(
       start_altitude: altitude_bounds[:max_altitude],
       end_altitude: altitude_bounds[:min_altitude]
-    })
+    )
   end
 
   it 'returns min skydive altitude if min in given bounds is lower' do
@@ -19,10 +19,10 @@ describe RangesToScoreFinder::SkydiveFinder do
     ranges_to_score = ranges_finder.calculate
 
     expect(ranges_to_score.size).to eq(1)
-    expect(ranges_to_score.first).to eq({
+    expect(ranges_to_score.first).to eq(
       start_altitude: altitude_bounds[:max_altitude],
       end_altitude: RangesToScoreFinder::SkydiveFinder::MIN_ALTITUDE
-    })
+    )
   end
 
   it 'splits given range by 1000 m ranges with defined step' do

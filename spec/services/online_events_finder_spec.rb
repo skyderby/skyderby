@@ -23,7 +23,6 @@ describe OnlineEventsFinder do
 
     place_specific_comp = create :online_event, place: place
     last_year_comp = create :online_event, :last_year
-    
 
     track = create(
       :empty_track, 

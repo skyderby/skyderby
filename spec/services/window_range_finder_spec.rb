@@ -17,13 +17,13 @@ describe WindowRangeFinder do
 
     it 'raises error if point with given altitude is first' do
       range_finder = WindowRangeFinder.new(sample_points)
-      expect{ range_finder.execute(from_altitude: 3100) }
+      expect { range_finder.execute(from_altitude: 3100) }
         .to raise_exception(WindowRangeFinder::ValueOutOfRange)
     end
 
     it 'raises error if point not found' do
       range_finder = WindowRangeFinder.new(sample_points)
-      expect{ range_finder.execute(from_altitude: 3100) }
+      expect { range_finder.execute(from_altitude: 3100) }
         .to raise_exception(WindowRangeFinder::ValueOutOfRange)
     end
   end
@@ -44,13 +44,13 @@ describe WindowRangeFinder do
 
     it 'raises error if point with given altitude is first' do
       range_finder = WindowRangeFinder.new(sample_points)
-      expect{ range_finder.execute(to_altitude: 3050) }
+      expect { range_finder.execute(to_altitude: 3050) }
         .to raise_exception(WindowRangeFinder::ValueOutOfRange)
     end
 
     it 'raises error if point not found' do
       range_finder = WindowRangeFinder.new(sample_points)
-      expect{ range_finder.execute(to_altitude: 2300) }
+      expect { range_finder.execute(to_altitude: 2300) }
         .to raise_exception(WindowRangeFinder::ValueOutOfRange)
     end
   end
@@ -71,13 +71,13 @@ describe WindowRangeFinder do
 
     it 'raises error if point with given altitude is first' do
       range_finder = WindowRangeFinder.new(sample_points)
-      expect{ range_finder.execute(from_vertical_speed: 90) }
+      expect { range_finder.execute(from_vertical_speed: 90) }
         .to raise_exception(WindowRangeFinder::ValueOutOfRange)
     end
 
     it 'raises error if point not found' do
       range_finder = WindowRangeFinder.new(sample_points)
-      expect{ range_finder.execute(from_vertical_speed: 2300) }
+      expect { range_finder.execute(from_vertical_speed: 2300) }
         .to raise_exception(WindowRangeFinder::ValueOutOfRange)
     end
   end
@@ -98,13 +98,13 @@ describe WindowRangeFinder do
 
     it 'raises error if point with given altitude is first' do
       range_finder = WindowRangeFinder.new(sample_points)
-      expect{ range_finder.execute(duration: 0) }
+      expect { range_finder.execute(duration: 0) }
         .to raise_exception(WindowRangeFinder::ValueOutOfRange)
     end
 
     it 'raises error if point not found' do
       range_finder = WindowRangeFinder.new(sample_points)
-      expect{ range_finder.execute(duration: 300) }
+      expect { range_finder.execute(duration: 300) }
         .to raise_exception(WindowRangeFinder::ValueOutOfRange)
     end
   end
@@ -125,22 +125,21 @@ describe WindowRangeFinder do
 
     it 'raises error if point with given altitude is first' do
       range_finder = WindowRangeFinder.new(sample_points)
-      expect{ range_finder.execute(elevation: 0) }
+      expect { range_finder.execute(elevation: 0) }
         .to raise_exception(WindowRangeFinder::ValueOutOfRange)
     end
 
     it 'raises error if point not found' do
       range_finder = WindowRangeFinder.new(sample_points)
-      expect{ range_finder.execute(elevation: 3000) }
+      expect { range_finder.execute(elevation: 3000) }
         .to raise_exception(WindowRangeFinder::ValueOutOfRange)
     end
-
   end
 
   it 'raises error if given filter unsupported' do
     range_finder = WindowRangeFinder.new(sample_points)
-    expect{ range_finder.execute(from_some_column: 0.0) }
-      .to raise_exception(WindowRangeFinder::UnknownFilter)  
+    expect { range_finder.execute(from_some_column: 0.0) }
+      .to raise_exception(WindowRangeFinder::UnknownFilter)
   end
 
   def sample_points
