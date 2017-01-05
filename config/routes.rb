@@ -60,7 +60,9 @@ Skyderby::Application.routes.draw do
     end
 
     devise_for :users
-    resources :users
+    resources :users do
+      resource :masquerades, only: [:new, :destroy]
+    end
     resources :profiles do
       scope module: :profiles do
         resources :badges

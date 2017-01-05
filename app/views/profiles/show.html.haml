@@ -11,12 +11,15 @@
             %i.fa.fa-pencil
             = t('general.edit')
 
+          - if current_user.has_role?(:admin) && @profile.user
+            = link_to new_user_masquerades_path(@profile.user), class: 'btn-flat' do
+              %i.fa.fa-magic
+              Masquerade
+
     .row
       .col-sm-2.col-md-2
         .top-buffer.userpic-container.text-center
           = image_tag(@profile.userpic.url(:medium), class: 'img-responsive img-rounded loading-bg')
-          -# .edit-userpic
-          -#   %span= 'Click to edit'
 
       .col-sm-10.col-md-10
         .row

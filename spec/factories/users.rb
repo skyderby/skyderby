@@ -27,7 +27,7 @@ FactoryGirl.define do
     sequence(:email) { |n| "person-#{n}@example.com" }
     password 'secret'
     password_confirmation 'secret'
-    confirmed_at Time.now
+    confirmed_at Time.current
 
     trait :admin do
       after(:create) do |user|

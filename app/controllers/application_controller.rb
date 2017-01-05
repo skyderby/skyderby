@@ -11,8 +11,13 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from CanCan::AccessDenied do |exception|
-    request.format.html? ? redirect_to(root_path, alert: exception.message) : fail(exception)
+    request.format.html? ? redirect_to(root_path, alert: exception.message) : raise(exception)
   end
+
+  def masquerading?
+    session[:admin_id].present?
+  end
+  helper_method :masquerading?
 
   protected
 
@@ -35,7 +40,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    I18n.locale = params[:locale] ||
+    I18n.locale =
+      params[:locale] ||
       http_accept_language.compatible_language_from(I18n.available_locales) ||
       I18n.default_locale
   end

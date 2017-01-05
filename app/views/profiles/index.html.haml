@@ -24,3 +24,6 @@
                 -if profile.user
                   %i.fa.fa-user
               %td= link_to 'Show', profile_path(profile)
+              %td
+                - if current_user.has_role?(:admin) && profile.user
+                  = link_to 'Masquerade', new_user_masquerades_path(profile.user)
