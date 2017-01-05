@@ -10,6 +10,20 @@ feature 'Permissions: Competitions' do
     expect(page).to have_content(event.name)
   end
 
+  scenario 'User can view competition if he compete in it' do
+    event = create :event
+    event.private_event!
+    event.published!
+
+    user = create :user
+    competitor = create :competitor, event: event, profile: user.profile
+
+    sign_in user
+    visit event_path(event)
+
+    expect(page).to have_content(event.name)
+  end
+
   scenario 'User can not view public draft competitions' do
     event = create :event
     event.public_event!

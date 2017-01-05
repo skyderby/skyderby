@@ -40,7 +40,7 @@ class Ability
     can :read, Event do |event|
       event.responsible == user.profile ||
         event.event_organizers.any? { |x| x.profile == user.profile } ||
-        event.competitors.any? { |x| x.proflie == user.profile }
+        event.competitors.any? { |x| x.profile == user.profile }
     end
 
     can :update, Event do |event|
