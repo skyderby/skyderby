@@ -29,6 +29,8 @@
         - if user_signed_in?
           %li.dropdown
             %a.dropdown-toggle.profile-dropdown{href: '#', data: {toggle: 'dropdown'}}
+              - if masquerading?
+                %i.fa.fa-lg.fa-warning.text-danger
               - if current_user.profile
                 = image_tag current_user.profile.userpic.url(:thumb), id: 'userpic-thumb', class: 'img-rounded img-50 loading-bg'
               - else
@@ -39,6 +41,9 @@
               - if current_user.has_role? :admin
                 %li
                   = link_to t('application.header.admin_panel'), manage_path
+              - if masquerading?
+                %li
+                  = link_to 'Stop masquerading', user_masquerades_path(current_user), method: :delete
               %li
                 = link_to t('application.header.profile'), profile_path(current_user.profile)
               %li
