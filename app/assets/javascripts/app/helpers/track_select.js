@@ -1,10 +1,6 @@
 Skyderby.helpers.TrackSelect = function(elem, opts) {
-
     var profile_id;
     if (_.has(opts, 'profile_id')) profile_id = opts.profile_id;
-
-    console.log(elem);
-    console.log(opts);
 
     elem.select2({
         theme: 'bootstrap',
