@@ -54,39 +54,6 @@ $.validator.addMethod('filesize', function(value, element, param) {
     return this.optional(element) || (element.files[0].size <= param);
 });
 
-function fail_ajax_request(model, data) {
-    var error_text = '';
-    var errors_count = 0;
-
-    if (data.responseJSON) {
-        $.each(data.responseJSON, function(key) {
-            $.each(data.responseJSON[key], function(ind, val) {
-                error_text += '- ' + val + '\n';
-                errors_count += 1;
-            });
-        });
-    } else {
-        error_text = data.responseText.substring(0, 500);
-        errors_count += 1;
-    }
-    error_text = I18n.t('errors.messages.not_saved', {count: errors_count, resource: 'object'}) + '\r\n' + error_text;
-    AjaxErrorMessage.display(error_text);
-}
-
-function clone(obj) {
-    if (null === obj || "object" != typeof obj) return obj;
-    var copy = obj.constructor();
-    for (var attr in obj) {
-        if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
-    }
-    return copy;
-}
-
-function capitaliseFirstLetter(string)
-{
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 $(document).on('ready turbolinks:load', function() {
 
     $('input[type=number]').keypress(function (e) {
@@ -114,7 +81,7 @@ $(document).on('ready turbolinks:load', function() {
         }
     });
 
-    AjaxErrorMessage = new Skyderby.views.AjaxErrorMessage();
+    window.AjaxErrorMessage = new Skyderby.views.AjaxErrorMessage();
 });
 
 $(document).on('ajax:error', '[data-remote=true]', function() {
