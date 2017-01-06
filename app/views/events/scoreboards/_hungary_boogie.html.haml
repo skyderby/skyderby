@@ -37,7 +37,7 @@
         - section_competitors = @scoreboard.sections[section.id]
         - row_number = 1
         - section_competitors.each do |competitor|
-          %tr.competitor-row{id: "competitor_#{competitor.id}"}
+          %tr.competitor-row{id: dom_id(competitor)}
             %td.row-number= row_number
             = render 'events/competitors/competitor_cells', competitor: competitor
             - @event.rounds_by_discipline.each do |discipline, rounds|

@@ -84,8 +84,9 @@ $(document).on('ready turbolinks:load', function() {
     window.AjaxErrorMessage = new Skyderby.views.AjaxErrorMessage();
 });
 
-$(document).on('ajax:error', '[data-remote=true]', function() {
-    AjaxErrorMessage.render()
+$(document).on('ajax:error', '[data-remote=true]', function(_event, xhr) {
+    if (xhr.status === 422) return;
+    AjaxErrorMessage.render();
 });
 
 $(document).on('change', '.btn-file :file', function() {

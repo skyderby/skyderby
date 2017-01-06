@@ -1,0 +1,12 @@
+<%= render template: 'events/update_scoreboard' %>
+
+var competitor_row_selector = "#<%= dom_id(@event_track.competitor) %>";
+$(competitor_row_selector).addClass('bg-info');
+
+$('html, body').animate({
+  scrollTop: $(competitor_row_selector).offset().top - 250
+}, 500);
+
+setTimeout(function() {
+  $(competitor_row_selector).removeClass('bg-info');
+}, 2000);

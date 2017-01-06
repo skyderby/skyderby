@@ -1,0 +1,5 @@
+en:
+  event_tracks:
+    form_modal:
+      from_file: From file
+      from_existent_track: Existent track

@@ -5,4 +5,6 @@ $('#new_event_track .btn-file :file').on('fileselect', Skyderby.helpers.FileFiel
 
 Skyderby.helpers.TrackSelect($('select[name="event_track[track_id]"]'), {profile_id: "<%= @event_track.competitor.profile_id %>"});
 
+new Skyderby.views.EventTrackForm({el: '#new_event_track'});
+
 $('#modal').modal('show');
