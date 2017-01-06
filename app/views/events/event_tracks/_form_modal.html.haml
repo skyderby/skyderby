@@ -18,11 +18,20 @@
       .modal-body
         = f.hidden_field :competitor_id, value: @event_track.competitor_id
         = f.hidden_field :round_id, value: @event_track.round_id
+        .upload-progress{style: 'display: none'}
+          .spinner
+            %i.fa.fa-3x.fa-spin.fa-circle-o-notch
+          .done-indicator{style: 'display: none'}
+            %i.fa.fa-3x.fa-check.text-success
+          .upload-comment
+            %span
+              Uploading...
+            %span.progress-count
 
         .radio
           = f.label :track_from, value: :from_file do
             = f.radio_button :track_from, :from_file, checked: @event_track.new_record?
-            Из файла
+            = t 'event_tracks.form_modal.from_file'
         = f.fields_for :track_attributes do |builder|
           .form-group
             = builder.label :file, t('activerecord.attributes.event_track.file'), class: 'control-label col-sm-4'
@@ -36,7 +45,7 @@
         .radio
           = f.label :track_from, value: :existing_track do
             = f.radio_button :track_from, :existing_track, checked: !@event_track.new_record?
-            Существующий трек
+            = t 'event_tracks.form_modal.from_existent_track'
         .form-group
           = f.label :track, class: 'control-label col-sm-4'
           .col-sm-8

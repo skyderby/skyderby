@@ -23,7 +23,6 @@
   td.result-cell,
   td.competitor-cell {
     position: relative;
-
   }
 
   td.create-result-cell {
@@ -37,9 +36,10 @@
       width: 100%;
       height: 100%;
       display: block;
-      color: white;
+      color: transparent;
 
       &:hover {
+        color: white;
         background-color: #428bca;
         text-decoration: none;
       }
@@ -83,6 +83,10 @@
         }
       }
     }
+  }
+
+  .competitor-row {
+    transition: background-color 1000ms linear;
   }
 
   .competitor-row:hover .counted-result {
