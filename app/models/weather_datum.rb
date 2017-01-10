@@ -21,15 +21,19 @@ class WeatherDatum < ApplicationRecord
 
   before_save :set_altitude, :set_wind_speed
 
-  validates_presence_of :actual_on, :wind_direction
+  validates :actual_on, :wind_direction, presence: true
   validate :altitude_present?
   validate :wind_speed_present?
 
-  validates_numericality_of :altitude, greater_than_or_equal_to: 0, allow_nil: true
-  validates_numericality_of :altitude_in_units, greater_than_or_equal_to: 0, allow_nil: true
-  validates_numericality_of :wind_speed, greater_than_or_equal_to: 0, allow_nil: true
-  validates_numericality_of :wind_speed_in_units, greater_than_or_equal_to: 0, allow_nil: true
-  validates_numericality_of :wind_direction, greater_than_or_equal_to: 0, less_than: 360, allow_nil: true
+  validates :altitude,
+            :altitude_in_units,
+            :wind_speed,
+            :wind_speed_in_units,
+            numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+
+  validates :wind_direction, numericality: { greater_than_or_equal_to: 0,
+                                             less_than: 360,
+                                             allow_nil: true }
 
   serialize :altitude, Distance
   serialize :wind_speed, Velocity
