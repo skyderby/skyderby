@@ -40,6 +40,6 @@ module Skyderby
     # normally just like in other Active Record callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
-    config.action_controller.always_permitted_parameters = %w( controller action locale )
+    config.action_controller.always_permitted_parameters = %w(controller action locale)
   end
 end

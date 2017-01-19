@@ -134,8 +134,9 @@ class Track < ApplicationRecord
   end
 
   def perform_jobs
-    ResultsJob.perform_later(id)
-    OnlineCompetitionJob.perform_later(id)
+    [ResultsJob, OnlineCompetitionJob, WeatherCheckingJob].each do |job|
+      job.perform_later(id)
+    end
   end
 
   class << self

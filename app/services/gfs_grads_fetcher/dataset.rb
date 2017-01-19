@@ -21,7 +21,7 @@ class GfsGradsFetcher
       elsif response.include? "GrADS Data Server - info for /#{name}"
         true
       else
-        raise UnknownAvailability
+        raise UnknownAvailability, "Respone is #{response}"
       end
     end
 

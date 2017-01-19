@@ -31,6 +31,14 @@ class GfsGradsFetcher
   end
 
   def execute
+    raw = fetch
+    parsed = Parser.new(raw).execute
+    Processor.new(parsed).execute
+  end
+
+  private
+
+  def fetch
     threads =
       VALUES.map do |key|
         url = "#{dataset.url}?#{key}#{value_params(key)}"
@@ -41,8 +49,6 @@ class GfsGradsFetcher
 
     threads.each(&:join).map(&:value).reduce({}, :merge)
   end
-
-  private
 
   def value_params(val_key)
     val_params = {
