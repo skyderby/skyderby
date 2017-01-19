@@ -34,20 +34,23 @@ describe GfsGradsFetcher::Dataset do
     end
 
     it '#name' do
-      dataset = GfsGradsFetcher::Dataset.for(Time.zone.parse('2017-01-07T01:00:00'))
-      expect(dataset.name).to eq 'gfs_0p25_1hr/gfs20170107/gfs_0p25_1hr_00z'
+      requested_time = Time.current.beginning_of_day + 1.hour
+      dataset = GfsGradsFetcher::Dataset.for(requested_time)
+      expect(dataset.name).to eq "gfs_0p25_1hr/gfs#{requested_time.strftime('%Y%m%d')}/gfs_0p25_1hr_00z"
     end
 
     it '#start_time' do
-      dataset = GfsGradsFetcher::Dataset.for(Time.zone.parse('2017-01-07T01:00:00'))
-      expect(dataset.start_time).to eq Time.zone.parse('2017-01-07T00:00:00')
+      requested_time = Time.current.beginning_of_day + 1.hour
+      dataset = GfsGradsFetcher::Dataset.for(requested_time)
+      expect(dataset.start_time).to eq requested_time.beginning_of_day
     end
 
     it '#url' do
-      dataset = GfsGradsFetcher::Dataset.for(Time.zone.parse('2017-01-07T01:00:00'))
+      requested_time = Time.current.beginning_of_day + 1.hour
+      dataset = GfsGradsFetcher::Dataset.for(requested_time)
       expect(dataset.url).to eq(
         'http://nomads.ncep.noaa.gov/dods/' \
-        'gfs_0p25_1hr/gfs20170107/gfs_0p25_1hr_00z.asc'
+        "gfs_0p25_1hr/gfs#{requested_time.strftime('%Y%m%d')}/gfs_0p25_1hr_00z.asc"
       )
     end
   end

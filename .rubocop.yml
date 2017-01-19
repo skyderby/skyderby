@@ -15,6 +15,9 @@ Style/Lambda:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
 #################### Metrics ################################
 
 Metrics/ClassLength:
