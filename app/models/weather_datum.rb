@@ -38,6 +38,8 @@ class WeatherDatum < ApplicationRecord
   serialize :altitude, Distance
   serialize :wind_speed, Velocity
 
+  scope :for_time, ->(time) { where(actual_on: time) }
+
   def wind_speed_in_units=(value)
     @wind_speed_in_units = value_from_param(value)
   end

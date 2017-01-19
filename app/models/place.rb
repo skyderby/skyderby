@@ -17,6 +17,7 @@ class Place < ApplicationRecord
   has_many :tracks, -> { order('created_at DESC') }
   has_many :pilots, -> { distinct }, through: :tracks
   has_many :events
+  has_many :weather_data, as: :weather_datumable
 
   validates :name, presence: true
   validates :country, presence: true
