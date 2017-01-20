@@ -14,6 +14,8 @@ class PlaceWeatherService
     ).execute
 
     record_weather_data gfs_data
+  rescue GfsGradsFetcher::Dataset::NoDatasetAvailable, GfsGradsFetcher::Dataset::DateOutOfRange
+    Rails.logger.info "No dataset available for #{place.name} at #{date_time}"
   end
 
   private
