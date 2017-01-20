@@ -5,6 +5,6 @@ class WeatherCheckingJob < ApplicationJob
 
     gps_time = track.points.trimmed.first.gps_time
 
-    PlaceWeatherService.new(place: track.place, date_time: gps_time)
+    PlaceWeatherService.new(place: track.place, date_time: gps_time).execute
   end
 end
