@@ -1,34 +1,33 @@
+- except_columns ||= []
+
 = link_to track_path(id: track.id), class: 'tr track-row' do
   .td= track.id
   .td= track_pilot(track)
-  .td
-    - if track.wingsuit
-      = suit_presentation(track.wingsuit)
-    - else 
-      %span.text-info
-        = track.suit
-  .td= track_place(track)
+  - unless except_columns.include? :suit
+    .td
+      - if track.wingsuit
+        = suit_presentation(track.wingsuit)
+      - else 
+        %span.text-info
+          = track.suit
+  - unless except_columns.include? :place
+    .td= track_place(track)
   .td.text-muted= track.comment
-  .td.text-right
-    - if track.distance_result && !track.distance_result.nan? && !track.distance_result.infinite? && !track.distance_result.zero?
-      %span.text-info{data: {toggle: 'tooltip'}, title: "#{track.distance_range_from} - #{track.distance_range_to}"}
-        = track.distance_result.to_i 
-    - else
-      %span.text-info
-        &mdash;
-  .td.text-right
-    - if track.speed_result && !track.speed_result.nan? && !track.speed_result.infinite? && !track.speed_result.zero?
-      %span.text-info{data: {toggle: 'tooltip'}, title: "#{track.speed_range_from} - #{track.speed_range_to}"}
-        = track.speed_result.to_i
-    - else
-      %span.text-info
-        &mdash;
-  .td.text-right
-    - if track.time_result && !track.time_result.nan? && !track.time_result.infinite? && !track.time_result.zero?
-      %span.text-info{data: {toggle: 'tooltip'}, title: "#{track.time_range_from} - #{track.time_range_to}"}
-        = track.time_result.round(1)
-    - else
-      %span.text-info
-        &mdash;
+
+  - result_formatter = { default: ->(res) { res.to_i }, time: ->(res) { res.round(1) } }
+  - [:distance, :speed, :time].each do |task|
+    .td.text-right
+      - task_result = track.public_send(task)
+      - result = task_result&.result
+      - range_from = task_result&.range_from
+      - range_to = task_result&.range_to
+      - if task_result && !result.nan? && !result.infinite? && !result.zero?
+        %span.text-info{data: {toggle: 'tooltip'}, title: "#{range_from} - #{range_to}"}
+          - formatter = result_formatter[task] || result_formatter[:default]
+          = formatter.call(result)
+      - else
+        %span.text-info
+          &mdash;
+
   .td.text-info= track.recorded_at.strftime('%d.%m.%Y')
   .td= track_icons(track)

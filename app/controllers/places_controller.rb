@@ -29,10 +29,22 @@ class PlacesController < ApplicationController
   end
 
   def show
+    @tracks =
+      Track
+      .where(place: @place)
+      .accessible_by(current_user)
+      .order(recorded_at: :desc)
+      .includes(
+        :pilot,
+        :distance,
+        :time,
+        :speed,
+        :video,
+        wingsuit: :manufacturer
+      ).paginate(page: params[:page], per_page: 50)
   end
 
-  def edit
-  end
+  def edit; end
 
   def new
     @place = Place.new
@@ -48,7 +60,7 @@ class PlacesController < ApplicationController
     else
       respond_to do |format|
         format.html { render action: 'new' }
-        format.json { render json: @place.errors, status: :unprocessible_entry } 
+        format.json { render json: @place.errors, status: :unprocessible_entry }
       end
     end
   end
@@ -85,10 +97,10 @@ class PlacesController < ApplicationController
 
   def tracks_query
     Track.accessible_by(current_user)
-      .select(:place_id,
-              'COUNT(tracks.id) tracks_count',
-              'COUNT(DISTINCT tracks.profile_id) pilots_count')
-      .group(:place_id)
-      .to_sql
+         .select(:place_id,
+                 'COUNT(tracks.id) tracks_count',
+                 'COUNT(DISTINCT tracks.profile_id) pilots_count')
+         .group(:place_id)
+         .to_sql
   end
 end

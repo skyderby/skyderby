@@ -15,7 +15,23 @@ class WingsuitsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @tracks = Track.accessible_by(current_user)
+    @tracks = TrackFilter.new(show_params[:query]).apply(@tracks)
+    @tracks =
+      @tracks
+      .where(wingsuit: @wingsuit)
+      .accessible_by(current_user)
+      .order(recorded_at: :desc)
+      .includes(
+        :pilot,
+        :distance,
+        :time,
+        :speed,
+        :video,
+        place: :country
+      ).paginate(page: params[:page], per_page: 50)
+  end
 
   def new
     @wingsuit = Wingsuit.new
@@ -48,8 +64,13 @@ class WingsuitsController < ApplicationController
 
   private
 
+  def show_params
+    params.permit(:order, :page, query: [:kind])
+  end
+  helper_method :show_params
+
   def set_wingsuit
-    @wingsuit = Wingsuit.find(params[:id])
+    @wingsuit = Wingsuit.includes(:manufacturer).find(params[:id])
   end
 
   def wingsuit_params
