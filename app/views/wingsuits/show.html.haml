@@ -19,63 +19,58 @@
 .container
   .content-block
     -# Nav tabs
+    :ruby
+      query_params = show_params[:query] || {}
+      activity = query_params[:kind]
+      skydive = !activity || activity == 'skydive'
+      base = !skydive
+
     %ul.nav.nav-tabs{role: 'tablist'}
-      %li.active{role: 'presentation'}
-        %a{href: '#tab-pane-skydive', aria: {controls: 'skydive'}, role: 'tab', data: {toggle: "tab"}}
+      %li{class: ('active' if skydive), role: 'presentation'}
+        = link_to show_params.except(:page).merge(query: query_params.merge(kind: :skydive)), role: 'tab' do
           Skydive
-      %li{role: 'presentation'}
-        %a{href: '#tab-pane-base', aria: {controls: 'skydive'}, role: 'tab', data: {toggle: "tab"}}
+      %li{class: ('active' if base), role: 'presentation'}
+        = link_to show_params.except(:page).merge(query: query_params.merge(kind: :base)), role: 'tab' do
           B.A.S.E
 
     -# Tab panes
     .tab-content
-      #tab-pane-skydive.tab-pane.active{role: "tabpanel"}
-        %table.table.table-hover
-          %thead
-            %tr
-              %th=t 'activerecord.attributes.track.id'
-              %th=t 'activerecord.attributes.track.name'
-              %th=t 'activerecord.attributes.track.location'
-              %th.text-right= t('disciplinse.distance')
-              %th.text-right= t('disciplinse.speed')
-              %th.text-right= t('disciplinse.time')
-              %th=t 'activerecord.attributes.track.comment'
-              %th=t 'activerecord.attributes.track.recorded_at'
-              %th
-          %tbody
-            - @wingsuit.tracks.accessible_by(current_user).skydive.order('id DESC').each do |track|
-              %tr.clickableRow{data: {url: track_path(id: track.id)}}
-                %td.text-info= track.id
-                %td.text-info= track_pilot(track)
-                %td.text-info= track_place(track)
-                %td.text-info= track.distance.result if track.distance
-                %td.text-info= track.speed.result if track.speed
-                %td.text-info= track.time.result if track.time
-                %td.text-muted= track.comment
-                %td.text-info= track.recorded_at.strftime('%d.%m.%Y')
-                %td= track_icons(track)
+      #tab-pane-skydive.tab-pane{class: ('active' if skydive), role: 'tabpanel'}
+        - if skydive
+          #tracks-table.table.table-hover
+            .thead
+              .tr
+                .th= t 'activerecord.attributes.track.id'
+                .th= t 'activerecord.attributes.track.name'
+                .th= t 'activerecord.attributes.track.place'
+                .th= t 'activerecord.attributes.track.comment'
+                .th.result-head.text-right= t 'disciplines.distance'
+                .th.result-head.text-right= t 'disciplines.speed'
+                .th.result-head.text-right= t 'disciplines.time'
+                .th= t 'activerecord.attributes.track.recorded_at'
+                .th
 
-      #tab-pane-base.tab-pane{role: "tabpanel"}
-        %table.table.table-hover
-          %thead
-            %tr
-              %th=t 'activerecord.attributes.track.id'
-              %th=t 'activerecord.attributes.track.name'
-              %th=t 'activerecord.attributes.track.location'
-              %th= 'Distance'
-              %th= 'Speed'
-              %th= 'Time'
-              %th=t 'activerecord.attributes.track.comment'
-              %th=t 'activerecord.attributes.track.uploaded_at'
-          %tbody
-            - @wingsuit.tracks.accessible_by(current_user).base.order('id DESC').each do |track|
-              %tr.clickableRow{data: {url: track_path(id: track.id)}}
-                %td.text-info= track.id
-                %td.text-info= track_pilot(track)
-                %td.text-info= track_place(track)
-                %td.text-info= track.distance.result if track.distance
-                %td.text-info= track.speed.result if track.speed
-                %td.text-info= track.time.result if track.time
-                %td.text-muted= track.comment
-                %td.text-info= track.created_at.strftime('%d.%m.%Y')
-                %td= track_icons(track)
+            .tbody
+              = render @tracks, except_columns: [:suit]
+
+      #tab-pane-base.tab-panee{class: ('active' if base), role: 'tabpanel'}
+        - if base
+          #tracks-table.table.table-hover
+            .thead
+              .tr
+                .th= t 'activerecord.attributes.track.id'
+                .th= t 'activerecord.attributes.track.name'
+                .th= t 'activerecord.attributes.track.place'
+                .th= t 'activerecord.attributes.track.comment'
+                .th.result-head.text-right= t 'disciplines.distance'
+                .th.result-head.text-right= t 'disciplines.speed'
+                .th.result-head.text-right= t 'disciplines.time'
+                .th= t 'activerecord.attributes.track.recorded_at'
+                .th
+
+            .tbody
+              = render @tracks, except_columns: [:suit]
+
+  .text-center.top-buffer
+    .pagination-list
+      = will_paginate @tracks, renderer: BootstrapPagination::Rails
