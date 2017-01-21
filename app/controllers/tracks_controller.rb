@@ -92,7 +92,12 @@ class TracksController < ApplicationController
   private
 
   def set_track
-    @track = Track.find(params[:id])
+    @track = Track.includes(
+      :pilot,
+      :video,
+      { wingsuit: :manufacturer },
+      { place: :country }
+    ).find(params[:id])
   end
 
   def track_params

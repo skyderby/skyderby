@@ -19,7 +19,7 @@ class WeatherDataController < ApplicationController
     if @weather_datum.save
       respond_with_index
     else
-      render 'errors/ajax_errors', locals: {errors: @weather_datum.errors} 
+      render 'errors/ajax_errors', locals: { errors: @weather_datum.errors }
     end
   end
 
@@ -27,7 +27,7 @@ class WeatherDataController < ApplicationController
     if @weather_datum.update weather_data_params
       @weather_datum
     else
-      render 'errors/ajax_errors', locals: {errors: @weather_datum.errors}
+      render 'errors/ajax_errors', locals: { errors: @weather_datum.errors }
     end
   end
 
@@ -36,11 +36,9 @@ class WeatherDataController < ApplicationController
     respond_with_index
   end
 
-  def new
-  end
+  def new; end
 
-  def edit
-  end
+  def edit; end
 
   private
 
@@ -52,7 +50,7 @@ class WeatherDataController < ApplicationController
   end
 
   def load_weather_datumable
-    klass = [Event, Track].detect { |c| params["#{c.name.underscore}_id"] }
+    klass = [Event, Track, Place].detect { |c| params["#{c.name.underscore}_id"] }
     @weather_datumable = klass.find(params["#{klass.name.underscore}_id"])
   end
 
@@ -65,8 +63,8 @@ class WeatherDataController < ApplicationController
   end
 
   def set_view_units
-    @view_units = {altitude: index_params[:altitude_unit] || 'm',
-                   wind_speed: index_params[:wind_speed_unit] || 'ms'}
+    @view_units = { altitude: index_params[:altitude_unit] || 'm',
+                    wind_speed: index_params[:wind_speed_unit] || 'ms' }
   end
 
   def index_params
