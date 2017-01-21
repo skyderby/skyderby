@@ -13,7 +13,7 @@ module Skyderby
             track.weather_data
           elsif track.competitive? && track.event.weather_data.for_time(start_time).any?
             track.event.weather_data.for_time(start_time)
-          elsif track&.place&.weather_data.for_time(start_time).any?
+          elsif track.place && track.place.weather_data.for_time(start_time).any?
             track.place.weather_data.for_time(start_time)
           else
             []
