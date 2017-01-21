@@ -1,7 +1,6 @@
 - provide :title, title(@track)
 
-.track-map-data{'data-id' => @track.id} 
-  -# {points: @track_data.points.to_json.html_safe}}
+.track-map-data
   .container
     = render partial: 'tracks/header', locals: {track: @track}
     .content-block
@@ -17,3 +16,15 @@
           #track-map
           #track-map-polar-chart
           = render 'tracks/speed_grades'
+
+- content_for :page_js do
+  :javascript
+    var track_map = new Skyderby.models.TrackMap({
+      id: #{@track.id}
+    });
+
+    var view = new Skyderby.views.TrackMapView({
+      model: track_map,
+      el: '.track-map-data'
+    });
+    view.render();

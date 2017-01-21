@@ -14,6 +14,13 @@ Skyderby.helpers.init_wind_polar_chart = function(container, chart_data) {
             endAngle: 360
         },
 
+        tooltip: {
+            formatter: function() {
+                return '<b>Altitude</b> ' + this.point.options.altitude + ' m <br>' +
+                       '<b>Speed:</b> ' + Math.round(Number(this.point.options.wind_speed) * 10) / 10 + ' m/s <br>' +
+                       '<b>Direction:</b> ' + Math.round(this.x) + '°';
+            }
+        },
         xAxis: {
             tickInterval: 45,
             min: 0,
@@ -44,7 +51,7 @@ Skyderby.helpers.init_wind_polar_chart = function(container, chart_data) {
                     verticalAlign: 'middle',
                     color: '#606060',
                     formatter: function() {
-                      return this.point.wind_speed + ' m/s';
+                      return Math.round(this.point.wind_speed * 10) / 10 + ' m/s';
                     }
                 }
             },
@@ -77,5 +84,4 @@ Skyderby.helpers.init_wind_polar_chart = function(container, chart_data) {
 
         credits: false,
     });
-
-}
+};

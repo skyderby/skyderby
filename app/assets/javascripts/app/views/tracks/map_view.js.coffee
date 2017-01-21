@@ -1,7 +1,4 @@
 class Skyderby.views.TrackMapView extends Backbone.View
-
-  settings_template: JST['app/templates/track_gmaps_settings_button']
-
   # Model data and google maps script loading in two parallel asynchronous
   # calls, vars are used to trigger drawing trajectory when everything ready
   model_ready: false
@@ -12,10 +9,6 @@ class Skyderby.views.TrackMapView extends Backbone.View
   # Array stores polylines from zero-wind trajectory and
   # used to trigger show/hide zero-wind trajectory
   zerowind_polylines: []
-
-  events:
-    'click #toggle_zerowind_trajectory a': 'toggle_zerowind_trajectory',
-    'click #set-weather-data': 'set_weather_data'
 
   initialize: ->
     @listenToOnce(window.Skyderby, 'maps_api:ready', @on_maps_api_ready)
@@ -177,8 +170,6 @@ class Skyderby.views.TrackMapView extends Backbone.View
     opts =
       wind_cancellation: @model.get('wind_cancellation')
       show_zerowind_trajectory: @show_zerowind_trajectory
-
-    @$('.settings-button').html(@settings_template(opts))
 
   set_weather_data: (e) ->
     e.preventDefault()

@@ -1,51 +1,68 @@
 module Skyderby
   module Tracks
-    class MapsData < TrackData
-      attr_reader :weather_data, :zerowind_points
-
+    class MapsData
       def initialize(track)
         @track = track
-        @track_points = track.points.trimmed.freq_1Hz.pluck_to_hash(
-          'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
-          "#{@track.point_altitude_field} AS altitude",
-          :latitude,
-          :longitude,
-          :h_speed)
+      end
 
-        @weather_data = []
-        @points = []
-        @zerowind_points = []
+      # Track may have weather data associated by itself or
+      # associated with place or with event
+      def weather_data
+        @weather_data ||=
+          if track.weather_data.any?
+            track.weather_data
+          elsif track.competitive? && track.event.weather_data.any?
+            track.event.weather_data
+          elsif track&.place&.weather_data.any?
+            track.place.weather_data
+          else
+            []
+          end
+      end
 
-        init_weather_data
-        init_points
+      def points
+        @points ||= track_points.map do |x|
+          { latitude: x[:latitude], longitude: x[:longitude], h_speed: x[:h_speed] }
+        end
+      end
+
+      def zerowind_points
+        return [] if weather_data.blank?
+
+        @zerowind_points ||= begin
+          wind_data = Skyderby::WindCancellation::WindData.new(weather_data)
+          zerowind_points_data =
+            Skyderby::WindCancellation::WindSubtraction.new(track_points, wind_data).execute
+
+          zerowind_points_data.map do |x|
+            { latitude: x[:latitude], longitude: x[:longitude], h_speed: x[:h_speed] }
+          end
+        end
       end
 
       private
 
-      # Track may have weather data associated by itself or
-      # associated with event
-      def init_weather_data
-        @weather_data = @track.weather_data if @track.weather_data.any?
-        
-        if @track.competitive? && @track.event_track.event.weather_data.any?
-          @weather_data = @track.event_track.event.weather_data
+      attr_reader :track
+
+      def track_points
+        @track_points ||= begin
+          db_tracks_points.tap do |tmp|
+            tmp.first[:time_diff] = 0
+            tmp.each_cons(2) do |prev, cur|
+              cur[:time_diff] = cur[:gps_time] - prev[:gps_time]
+            end
+          end
         end
       end
 
-      def init_points
-        @points = @track_points.map do |x|
-          { latitude: x[:latitude], longitude: x[:longitude], h_speed: x[:h_speed] }
-        end
-
-        return if @weather_data.blank?
-
-        wind_data = Skyderby::WindCancellation::WindData.new(@weather_data)
-        zerowind_points_data = 
-          Skyderby::WindCancellation::WindSubtraction.new(@track_points, wind_data).execute
-
-        @zerowind_points = zerowind_points_data.map do |x|
-          { latitude: x[:latitude], longitude: x[:longitude], h_speed: x[:h_speed] }
-        end
+      def db_tracks_points
+        track.points.trimmed.freq_1Hz.pluck_to_hash(
+          'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
+          "#{@track.point_altitude_field} AS altitude",
+          :latitude,
+          :longitude,
+          :h_speed
+        )
       end
     end
   end
