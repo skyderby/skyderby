@@ -11,10 +11,10 @@ module Skyderby
         @weather_data ||=
           if track.weather_data.any?
             track.weather_data
-          elsif track.competitive? && track.event.weather_data.any?
-            track.event.weather_data
-          elsif track&.place&.weather_data.any?
-            track.place.weather_data
+          elsif track.competitive? && track.event.weather_data.for_time(start_time).any?
+            track.event.weather_data.for_time(start_time)
+          elsif track&.place&.weather_data.for_time(start_time).any?
+            track.place.weather_data.for_time(start_time)
           else
             []
           end
@@ -43,6 +43,10 @@ module Skyderby
       private
 
       attr_reader :track
+
+      def start_time
+        track_points.first[:gps_time]
+      end
 
       def track_points
         @track_points ||= begin
