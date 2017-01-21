@@ -77,6 +77,7 @@ class Track < ApplicationRecord
   delegate :name, to: :pilot, allow_nil: true, prefix: true
   delegate :name, to: :place, allow_nil: true, prefix: true
   delegate :name, to: :wingsuit, allow_nil: true, prefix: true
+  delegate :event, to: :event_track, allow_nil: true
 
   def competitive?
     event_track.present?
