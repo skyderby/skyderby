@@ -45,7 +45,7 @@ module Skyderby
       attr_reader :track
 
       def start_time
-        track_points.first[:gps_time]
+        track_points.first[:gps_time].beginning_of_hour
       end
 
       def track_points
