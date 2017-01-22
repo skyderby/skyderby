@@ -1,4 +1,5 @@
 $("#<%= dom_id(@weather_datum) %>").validate({
+  ingonre: 'hidden',
   rules: {
     'weather_datum[actual_on]': {
       required: true

@@ -27,7 +27,7 @@ Skyderby::Application.routes.draw do
         resource :download, only: :show
       end
 
-      resources :weather_data, only: [:index, :create, :update, :destroy]
+      resources :weather_data
     end
     # Backward compatibility
     match '/track/:id', to: 'tracks#show', via: :get
@@ -95,6 +95,7 @@ Skyderby::Application.routes.draw do
           resources :select_options, only: :index
         end
       end
+      resources :weather_data, only: [:index]
     end
 
     resources :virtual_competitions do

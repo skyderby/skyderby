@@ -22,6 +22,7 @@
 //= require twitter/bootstrap/button
 //= require twitter/bootstrap/dropdown
 //= require twitter/bootstrap/modal
+//= require twitter/bootstrap/tab
 //= require twitter/bootstrap/tooltip
 //= require jquery.validate
 //= require additional-methods.min
@@ -106,6 +107,12 @@ $(document).on('click', '.clickableRow', function() {
 $(document).on('turbolinks:load', function() {
     // Enable tooltips
     $('body').tooltip({selector: "a[rel~=tooltip], .has-tooltip, [data-toggle=tooltip]"});
+
+    // Enable tabs
+    $('body').delegate('click', '[data-toggle=tab] > a', function(e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
 
     ga('send', 'pageview', window.location.pathname); 
 });
