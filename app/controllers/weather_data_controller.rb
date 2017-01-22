@@ -43,15 +43,25 @@ class WeatherDataController < ApplicationController
   private
 
   def respond_with_index
-    @weather_data = @weather_datumable.weather_data.order(:actual_on, :altitude)
+    @weather_data = weather_data_model
     @weather_datum = WeatherDatum.new
 
     render :index
   end
 
+  def weather_data_model
+    klass =
+      begin
+        WeatherData.const_get("#{@weather_datumable.class.name}Weather")
+      rescue NameError
+        WeatherData::Default
+      end
+    klass.new(@weather_datumable)
+  end
+
   def load_weather_datumable
     klass = [Event, Track, Place].detect { |c| params["#{c.name.underscore}_id"] }
-    @weather_datumable = klass.find(params["#{klass.name.underscore}_id"])
+    @weather_datumable = klass.includes(:weather_data).find(params["#{klass.name.underscore}_id"])
   end
 
   def set_weather_datum

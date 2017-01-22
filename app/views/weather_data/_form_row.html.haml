@@ -3,7 +3,10 @@
            html: {class: 'tr', id: dom_id(@weather_datum) } do |f|
   = hidden_field_tag :altitude_unit, @view_units[:altitude]
   = hidden_field_tag :wind_speed_unit, @view_units[:wind_speed]
-  .td= f.text_field :actual_on, class: 'form-control', placeholder: 'YYYY-MM-DD HH:mm'
+  - if except_columns.include? :actual_on
+    = f.hidden_field :actual_on, value: @weather_data.start_time
+  - else
+    .td= f.text_field :actual_on, class: 'form-control', placeholder: 'YYYY-MM-DD HH:mm'
   .td
     .input-group
       = f.text_field :altitude_in_units, 

@@ -39,4 +39,5 @@
                 = link_to t('units.mph'), index_params.merge(wind_speed_unit: 'mph'), remote: true
 
     .modal-body
-      = render 'table'
+      -# = render 'table'
+      = render @weather_data
