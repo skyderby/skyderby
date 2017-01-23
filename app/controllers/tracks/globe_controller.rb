@@ -9,6 +9,11 @@ class Tracks::GlobeController < ApplicationController
     end
   end
 
+  rescue_from CanCan::AccessDenied do |_exception|
+    redirect_to tracks_url, notice: t('tracks.index.track_not_found',
+                                      id: params[:track_id])
+  end
+
   private
 
   def authorize_track
