@@ -1,1 +1,2 @@
-$("#<%= dom_id(@weather_datum)%>").replaceWith("<%= j render(@weather_datum) %>");
+<%= render template: 'weather_data/index' %>
+$('a[data-toggle=tab][data-editable=true]').tab('show');

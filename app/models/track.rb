@@ -64,7 +64,7 @@ class Track < ApplicationRecord
   has_many :points, -> { order :gps_time_in_seconds }, dependent: :delete_all
   has_many :track_results, dependent: :destroy
   has_many :virtual_comp_results, dependent: :destroy
-  has_many :weather_data, -> { order :actual_on, :altitude }, as: :weather_datumable
+  has_many :weather_data, as: :weather_datumable
 
   validates :name, presence: true, if: 'pilot.blank?'
 

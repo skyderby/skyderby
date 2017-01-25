@@ -1,3 +1,5 @@
+- except_columns ||= []
+
 = form_for [@weather_datumable, @weather_datum],
            remote: true,
            html: {class: 'tr', id: dom_id(@weather_datum) } do |f|

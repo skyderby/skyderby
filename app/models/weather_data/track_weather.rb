@@ -19,6 +19,10 @@ module WeatherData
       track.points.trimmed.first.gps_time.beginning_of_hour
     end
 
+    def hidden_columns
+      [:actual_on]
+    end
+
     private
 
     attr_reader :track

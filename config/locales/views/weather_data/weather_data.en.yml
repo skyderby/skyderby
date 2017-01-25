@@ -7,3 +7,5 @@ en:
     wind_direction: Wind direction
     altitude_units: Altitude units
     wind_speed_units: Wind speed units
+    manual_entries: Manual entry
+    noaa_forecast: NOAA forecast
