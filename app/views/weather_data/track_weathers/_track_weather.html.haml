@@ -1,14 +1,14 @@
+:ruby
+  has_place_weather = @weather_data.place_weather_data.any?
 
-- has_place_weather = @weather_data.place_weather_data.any?
 %ul.nav.nav-tabs{role: 'tablist'}
   - if @weather_data.place
     %li{class: ('active' if has_place_weather), role: 'presentation'}
       %a{href: '#place_weather_data', 'aria-controls': 'place_weather_data', role: 'tab', 'data-toggle': 'tab'}
-        Conditions for
-        = @weather_data.place.name
+        = t('weather_datum.noaa_forecast')
   %li{class: ('active' unless has_place_weather), role: 'presentation'}
-    %a{href: '#track_weather_data', 'data-toggle': 'tab'}
-      Manually set
+    %a{href: '#track_weather_data', 'data-toggle': 'tab', 'data-editable': 'true'}
+      = t('weather_datum.manual_entries')
 
 .tab-content
   #place_weather_data.tab-pane{class: ('active' if has_place_weather), role: 'tabpanel'}

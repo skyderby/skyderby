@@ -14,10 +14,10 @@ class WeatherDataController < ApplicationController
   end
 
   def create
-    @weather_datum = @weather_datumable.weather_data.new weather_data_params
+    @weather_record = @weather_datumable.weather_data.new weather_data_params
 
-    if @weather_datum.save
-      respond_with_index
+    if @weather_record.save
+      respond_with_index(change: true)
     else
       render 'errors/ajax_errors', locals: { errors: @weather_datum.errors }
     end
@@ -25,28 +25,33 @@ class WeatherDataController < ApplicationController
 
   def update
     if @weather_datum.update weather_data_params
-      @weather_datum
+      respond_with_index(change: true)
     else
       render 'errors/ajax_errors', locals: { errors: @weather_datum.errors }
     end
   end
 
   def destroy
-    @weather_datum.destroy
-    respond_with_index
+    if @weather_datum.destroy
+      @weather_datum
+    else
+      render 'errors/ajax_errors', locals: { errors: @weather_datum.errors }
+    end
   end
 
   def new; end
 
-  def edit; end
+  def edit
+    @weather_data = weather_data_model
+  end
 
   private
 
-  def respond_with_index
+  def respond_with_index(change: false)
     @weather_data = weather_data_model
     @weather_datum = WeatherDatum.new
 
-    render :index
+    render :index, locals: { change: change }
   end
 
   def weather_data_model
@@ -61,7 +66,7 @@ class WeatherDataController < ApplicationController
 
   def load_weather_datumable
     klass = [Event, Track, Place].detect { |c| params["#{c.name.underscore}_id"] }
-    @weather_datumable = klass.includes(:weather_data).find(params["#{klass.name.underscore}_id"])
+    @weather_datumable = klass.find(params["#{klass.name.underscore}_id"])
   end
 
   def set_weather_datum

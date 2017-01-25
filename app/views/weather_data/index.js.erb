@@ -1,4 +1,10 @@
+<% change ||= false %>
+
 $('#modal').html("<%= j render('index_modal') %>");
 $('#modal').modal('show');
 
 <%= render 'form_validation' %>
+
+<% if change %>
+  $('a[data-toggle=tab][data-editable=true]').tab('show');
+<% end %>

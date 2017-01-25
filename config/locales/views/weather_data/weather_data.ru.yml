@@ -7,3 +7,5 @@ ru:
     wind_direction: Направление
     altitude_units: Ед. изм. высоты
     wind_speed_units: Ед. изм. скорости ветра
+    manual_entries: Ручной ввод
+    noaa_forecast: Прогноз NOAA

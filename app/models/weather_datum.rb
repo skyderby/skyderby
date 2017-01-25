@@ -39,6 +39,7 @@ class WeatherDatum < ApplicationRecord
   serialize :wind_speed, Velocity
 
   scope :for_time, ->(time) { where(actual_on: time) }
+  default_scope -> { order(:actual_on, :altitude) }
 
   def wind_speed_in_units=(value)
     @wind_speed_in_units = value_from_param(value)

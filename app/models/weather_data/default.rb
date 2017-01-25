@@ -8,6 +8,10 @@ module WeatherData
       @weather_datumable = weather_datumable
     end
 
+    def hidden_columns
+      []
+    end
+
     private
 
     attr_reader :weather_datumable
