@@ -14,7 +14,7 @@
 #
 
 FactoryGirl.define do
-  factory :wingsuit do
+  factory :wingsuit, aliases: [:suit] do
     name 'Ghost 3'
     manufacturer
 

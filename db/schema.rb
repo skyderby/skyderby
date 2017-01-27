@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170103085405) do
+ActiveRecord::Schema.define(version: 20170126215855) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -257,6 +257,8 @@ ActiveRecord::Schema.define(version: 20170103085405) do
     t.date     "starts_at"
     t.decimal  "exit_lat",                     precision: 15, scale: 10
     t.decimal  "exit_lon",                     precision: 15, scale: 10
+    t.integer  "profile_id"
+    t.index ["profile_id"], name: "index_tournaments_on_profile_id", using: :btree
   end
 
   create_table "track_files", force: :cascade do |t|
@@ -409,6 +411,7 @@ ActiveRecord::Schema.define(version: 20170103085405) do
   end
 
   add_foreign_key "profiles", "countries"
+  add_foreign_key "tournaments", "profiles"
 
   create_view :personal_top_scores,  sql_definition: <<-SQL
       SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id ORDER BY entities.result DESC) AS rank,
@@ -449,12 +452,12 @@ ActiveRecord::Schema.define(version: 20170103085405) do
               events_1.profile_id
              FROM events events_1
           UNION ALL
-           SELECT 'Tournament'::text,
+           SELECT 'Tournament'::text AS text,
               tournaments.id,
               tournaments.starts_at,
               1,
               0,
-              NULL::integer
+              NULL::integer AS int4
              FROM tournaments) events
     ORDER BY events.starts_at DESC;
   SQL

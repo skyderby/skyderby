@@ -26,7 +26,11 @@ class Tournament < ApplicationRecord
     :time_until_intersection
   ]
 
+  belongs_to :responsible,
+             class_name: 'Profile',
+             foreign_key: 'profile_id'
   belongs_to :place
+
   has_many :competitors, class_name: 'TournamentCompetitor'
   has_many :rounds, class_name: 'TournamentRound'
   has_many :matches, through: :rounds, source: :matches #class_name: 'TournamentMatch'

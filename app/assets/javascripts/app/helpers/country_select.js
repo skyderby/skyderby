@@ -5,6 +5,7 @@ Skyderby.helpers.CountrySelect = function(elem, opts) {
     var options = {
         theme: 'bootstrap',
         width: '100%',
+        placeholder: 'Choose country',
         allowClear: true,
         ajax: {
             url: '/countries/select_options',
@@ -18,5 +19,6 @@ Skyderby.helpers.CountrySelect = function(elem, opts) {
 
     $.extend(options, opts);
 
+    Skyderby.helpers.select2_fix_open_on_clear(elem);
     elem.select2(options);
 };

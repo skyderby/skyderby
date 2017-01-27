@@ -20,6 +20,8 @@ class Ability
 
     can [:create, :update, :destroy], Place if user.has_role? :places_edit
 
+    can :edit, Tournament, responsible: user.profile
+
     # allow admins to do anything
     can :manage, :all if user.has_role? :admin
   end
