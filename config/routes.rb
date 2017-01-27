@@ -107,7 +107,7 @@ Skyderby::Application.routes.draw do
     resources :tournaments do
       scope module: :tournaments do
         resources :rounds
-        resources :competitors
+        resources :tournament_competitors, path: :competitors
         resources :matches do
           scope module: :matches do
             resources :map, only: :index
