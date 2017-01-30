@@ -30,8 +30,9 @@ describe OnlineEventsFinder do
       pilot: create(:pilot),
       place: place)
 
-    expect(OnlineEventsFinder.new(track).execute).to eq(
-      [worldwide_comp, place_specific_comp])
+    expect(OnlineEventsFinder.new(track).execute).to match_array(
+      [worldwide_comp, place_specific_comp]
+    )
   end
 
   it "returns blank array if track isn't public" do

@@ -33,7 +33,7 @@ class Tournament < ApplicationRecord
 
   has_many :competitors, class_name: 'TournamentCompetitor'
   has_many :rounds, class_name: 'TournamentRound'
-  has_many :matches, through: :rounds, source: :matches #class_name: 'TournamentMatch'
+  has_many :matches, through: :rounds, source: :matches
 
   has_many :qualification_rounds
   has_many :qualification_jumps, through: :qualification_rounds
@@ -51,5 +51,9 @@ class Tournament < ApplicationRecord
         longitude: finish_end_lon
       )
     ]
+  end
+
+  def with_qualification?
+    qualification_rounds.any?
   end
 end

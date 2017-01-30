@@ -30,6 +30,7 @@ class TournamentMatchCompetitor < ApplicationRecord
   before_save :replace_nan_with_zero
 
   delegate :start_time, to: :tournament_match
+  delegate :name, to: :tournament_competitor
 
   def calculate_result
     return unless track

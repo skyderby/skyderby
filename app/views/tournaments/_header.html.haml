@@ -8,10 +8,10 @@
     - controller_path = controller.controller_path
     = link_to tournament_path(@tournament), class: ['btn-flat btn-tab', ('active' if controller_path == 'tournaments')] do
       Scoreboard
-    = link_to '/tournament_qualification', class: ['btn-flat btn-tab', ('active' if controller_path == 'tournaments/qualification')] do
-      Qualification
+    - if @tournament.with_qualification?
+      = link_to tournament_qualification_path(@tournament), class: ['btn-flat btn-tab', ('active' if controller_path == 'tournaments/qualifications')] do
+        Qualification
     - if can? :edit, @tournament
       = link_to tournament_tournament_competitors_path(@tournament.id), class: ['btn-flat btn-tab', ('active' if controller_path == 'tournaments/tournament_competitors')] do
         Competitors
-
 

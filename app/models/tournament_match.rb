@@ -15,7 +15,7 @@ class TournamentMatch < ApplicationRecord
   belongs_to :round,
              class_name: 'TournamentRound',
              foreign_key: 'tournament_round_id'
-  has_many :tournament_match_competitors
+  has_many :slots, class_name: 'TournamentMatchCompetitor'
 
   delegate :tournament, to: :round
 

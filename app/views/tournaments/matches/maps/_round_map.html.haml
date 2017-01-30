@@ -1,0 +1,24 @@
+.container-fluid
+  .col-sm-12
+    #match-map
+      #track-map-loading.text-muted
+        .fa-2x
+          %i.fa.fa-fw.fa-spin.fa-circle-o-notch
+          Loading Google Maps API
+        #track-map-loading-data.fa-2x
+          %i.fa.fa-fw.fa-check
+          Loading track data
+
+  .center-block.text-center.top-buffer
+    - @match_map.competitors.each do |competitor|
+      %span
+        %i.fa.fa-fw.fa-circle{style: "color: #{competitor.color}"}
+        %span= competitor.name
+
+- content_for :page_js do
+  :javascript
+    var model = new Skyderby.models.TournamentMatchMap()
+    model.set(#{@match_map.to_json.html_safe});
+
+    var view = new Skyderby.views.TournamentMatchMap({model: model, el: '#match-map'});
+    view.render();

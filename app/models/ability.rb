@@ -4,8 +4,6 @@ class Ability
   def initialize(user)
     define_tracks_abilities(user)
     define_events_abilities(user)
-    # guest user (not logged in)
-    user ||= User.new
 
     can :read, Wingsuit
     can :read, Place
@@ -20,7 +18,11 @@ class Ability
 
     can [:create, :update, :destroy], Place if user.has_role? :places_edit
 
-    can :edit, Tournament, responsible: user.profile
+    can :create, Tournament
+    can :edit, Tournament do |tournament|
+      tournament.responsible == user.profile
+    end
+    cannot :edit, Tournament, responsible: nil
 
     # allow admins to do anything
     can :manage, :all if user.has_role? :admin
