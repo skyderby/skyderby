@@ -98,4 +98,22 @@ feature 'Manage tournament competitors', js: true do
 
     expect(page).not_to have_css('tbody > tr')
   end
+
+  scenario 'unable to delete competitor if in match' do
+    user = create :user
+    sign_in user
+
+    tournament = create :tournament, responsible: user.profile
+    competitor = create :tournament_competitor, tournament: tournament
+    round = create :tournament_round, tournament: tournament
+    match = create :tournament_match, round: round
+    create :tournament_match_competitor,
+           tournament_match: match,
+           tournament_competitor: competitor
+
+    visit tournament_tournament_competitors_path(tournament)
+    find('tbody > tr > td > .button_to > button').click
+
+    expect(page).to have_css('tbody > tr > td', text: competitor.name)
+  end
 end

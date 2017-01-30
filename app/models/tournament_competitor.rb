@@ -17,6 +17,9 @@ class TournamentCompetitor < ApplicationRecord
   belongs_to :profile
   belongs_to :wingsuit
 
+  has_many :tournament_match_competitors, dependent: :restrict_with_error
+  has_many :qualification_jumps, dependent: :restrict_with_error
+
   delegate :name, to: :profile, allow_nil: true
   delegate :country_id, to: :profile, allow_nil: true
   delegate :country_name, to: :profile, allow_nil: true
