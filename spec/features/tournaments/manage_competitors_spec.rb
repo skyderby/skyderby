@@ -78,7 +78,7 @@ feature 'Manage tournament competitors', js: true do
     # Select suit
     find('#select2-tournament_competitor_wingsuit_id-container').click
     sleep 0.5 # wait for ajax
-    first('li.select2-results__option', text: suit.name).click
+    first('li.select2-results__option[role=treeitem]', text: suit.name).click
 
     click_button I18n.t('general.save')
     sleep 0.5 # wait for ajax and modal
@@ -97,23 +97,5 @@ feature 'Manage tournament competitors', js: true do
     find('tbody > tr > td > .button_to > button').click
 
     expect(page).not_to have_css('tbody > tr')
-  end
-
-  scenario 'unable to delete competitor if in match' do
-    user = create :user
-    sign_in user
-
-    tournament = create :tournament, responsible: user.profile
-    competitor = create :tournament_competitor, tournament: tournament
-    round = create :tournament_round, tournament: tournament
-    match = create :tournament_match, round: round
-    create :tournament_match_competitor,
-           tournament_match: match,
-           tournament_competitor: competitor
-
-    visit tournament_tournament_competitors_path(tournament)
-    find('tbody > tr > td > .button_to > button').click
-
-    expect(page).to have_css('tbody > tr > td', text: competitor.name)
   end
 end

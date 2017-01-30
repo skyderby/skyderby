@@ -6,7 +6,7 @@ feature 'WBR: Scoring tracks' do
     round = tournament.rounds.create!
     match = round.matches.create!(start_time: '2015-07-02 11:45:38.185')
 
-    match_competitor = match.tournament_match_competitors.create!(
+    match_competitor = match.slots.create!(
       track: create_track_from_file('WBR/11-40-01_Ratmir.CSV')
     )
 
@@ -18,7 +18,7 @@ feature 'WBR: Scoring tracks' do
     round = tournament.rounds.create!
     match = round.matches.create!(start_time: '2015-07-02 13:46:11.447')
 
-    match_competitor = match.tournament_match_competitors.create!(
+    match_competitor = match.slots.create!(
       track: create_track_from_file('WBR/13-35-43_Andreas.CSV')
     )
 
@@ -30,7 +30,7 @@ feature 'WBR: Scoring tracks' do
     round = tournament.rounds.create!
     match = round.matches.create!(start_time: '2015-07-03 11:10:30.450')
 
-    match_competitor = match.tournament_match_competitors.create!(
+    match_competitor = match.slots.create!(
       track: create_track_from_file('WBR/11-05-01_Ratmir.CSV')
     )
 

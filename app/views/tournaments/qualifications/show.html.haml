@@ -1,0 +1,39 @@
+- provide :title, @tournament.name
+
+.container
+  = render 'tournaments/header'
+
+.container
+  .content-block
+    .row
+      .col-sm-12
+        %table.table.qualification-table
+          %thead
+            %tr
+              %td
+                Rank
+              %td
+                Competitor
+              %td
+                Best result
+              - @tournament.qualification_rounds.each do |round|
+                %td= "Round #{round.order}"
+          %tbody
+            - qualification_results.each_with_index do |result, index|
+              %tr
+                %td= index + 1
+                %td
+                  %a{href: profile_path(result[:profile_id])}
+                    = result[:name]
+                %td= result[:best_result]
+                - @tournament.qualification_rounds.each do |round|
+                  - round_result = result["round_#{round.order}"]
+                  - track_id = result["round_#{round.order}_track_id"]
+                  %td 
+                    - if track_id
+                      %a{href: track_path(track_id), data: {toggle: 'tooltip'}, title: t('.show_details')}
+                        = round_result
+                    - else
+                      = round_result
+
+

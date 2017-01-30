@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :tournament_match do
-    round
+    association :round, factory: :tournament_round
   end
 end
