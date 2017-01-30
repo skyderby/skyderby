@@ -14,7 +14,6 @@ ActiveRecord::Schema.define(version: 20170126215855) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "hstore"
 
   create_table "ar_internal_metadata", primary_key: "key", id: :string, force: :cascade do |t|
     t.string   "value"
@@ -90,7 +89,7 @@ ActiveRecord::Schema.define(version: 20170126215855) do
     t.boolean  "is_official"
     t.integer  "rules",                         default: 0
     t.date     "starts_at"
-    t.boolean  "wind_cancellation"
+    t.boolean  "wind_cancellation",             default: false
     t.integer  "visibility",                    default: 0
   end
 
@@ -282,13 +281,12 @@ ActiveRecord::Schema.define(version: 20170126215855) do
 
   create_table "track_videos", force: :cascade do |t|
     t.integer  "track_id"
-    t.string   "url",              limit: 510
-    t.decimal  "video_offset",                 precision: 10, scale: 2
-    t.decimal  "track_offset",                 precision: 10, scale: 2
+    t.string   "url",          limit: 510
+    t.decimal  "video_offset",             precision: 10, scale: 2
+    t.decimal  "track_offset",             precision: 10, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "video_code",       limit: 510
-    t.hstore   "highlight_result"
+    t.string   "video_code",   limit: 510
     t.index ["track_id"], name: "index_track_videos_on_track_id", using: :btree
   end
 
@@ -388,13 +386,13 @@ ActiveRecord::Schema.define(version: 20170126215855) do
 
   create_table "weather_data", force: :cascade do |t|
     t.datetime "actual_on"
-    t.decimal  "altitude",                           precision: 10, scale: 4
-    t.decimal  "wind_speed",                         precision: 10, scale: 4
-    t.decimal  "wind_direction",                     precision: 5,  scale: 2
+    t.decimal  "altitude",               precision: 10, scale: 4
+    t.decimal  "wind_speed",             precision: 10, scale: 4
+    t.decimal  "wind_direction",         precision: 5,  scale: 2
     t.integer  "weather_datumable_id"
-    t.string   "weather_datumable_type", limit: 510
-    t.datetime "created_at",                                                  null: false
-    t.datetime "updated_at",                                                  null: false
+    t.string   "weather_datumable_type"
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
     t.index ["weather_datumable_id", "weather_datumable_type"], name: "weather_data_pk_index", using: :btree
   end
 
@@ -412,30 +410,6 @@ ActiveRecord::Schema.define(version: 20170126215855) do
 
   add_foreign_key "profiles", "countries"
   add_foreign_key "tournaments", "profiles"
-
-  create_view :personal_top_scores,  sql_definition: <<-SQL
-      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id ORDER BY entities.result DESC) AS rank,
-      entities.virtual_competition_id,
-      entities.track_id,
-      entities.result,
-      entities.highest_speed,
-      entities.highest_gr,
-      entities.profile_id,
-      entities.wingsuit_id,
-      entities.recorded_at
-     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id) results.virtual_competition_id,
-              results.track_id,
-              results.result,
-              results.highest_speed,
-              results.highest_gr,
-              tracks.profile_id,
-              tracks.wingsuit_id,
-              tracks.recorded_at
-             FROM (virtual_comp_results results
-               LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
-            ORDER BY results.virtual_competition_id, tracks.profile_id, results.result DESC) entities
-    ORDER BY entities.result DESC;
-  SQL
 
   create_view :event_lists,  sql_definition: <<-SQL
       SELECT events.event_type,
@@ -460,6 +434,30 @@ ActiveRecord::Schema.define(version: 20170126215855) do
               NULL::integer AS int4
              FROM tournaments) events
     ORDER BY events.starts_at DESC;
+  SQL
+
+  create_view :personal_top_scores,  sql_definition: <<-SQL
+      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id ORDER BY entities.result DESC) AS rank,
+      entities.virtual_competition_id,
+      entities.track_id,
+      entities.result,
+      entities.highest_speed,
+      entities.highest_gr,
+      entities.profile_id,
+      entities.wingsuit_id,
+      entities.recorded_at
+     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id) results.virtual_competition_id,
+              results.track_id,
+              results.result,
+              results.highest_speed,
+              results.highest_gr,
+              tracks.profile_id,
+              tracks.wingsuit_id,
+              tracks.recorded_at
+             FROM (virtual_comp_results results
+               LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
+            ORDER BY results.virtual_competition_id, tracks.profile_id, results.result DESC) entities
+    ORDER BY entities.result DESC;
   SQL
 
 end

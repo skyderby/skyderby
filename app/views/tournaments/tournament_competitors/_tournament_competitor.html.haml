@@ -1,10 +1,10 @@
 %tr{id: "##{dom_id(tournament_competitor)}"}
   %td= tournament_competitor_counter + 1
-  %td= tournament_competitor.profile.name
+  %td= tournament_competitor.name
   %td.text-center.text-muted
     %span.dotted-underline{'data-toggle' => 'tooltip', title: tournament_competitor.country_name}
       = tournament_competitor.country_code
-  %td= tournament_competitor.wingsuit.name
+  %td= tournament_competitor.wingsuit_name
   %td
     = link_to edit_tournament_tournament_competitor_path(id: tournament_competitor.id), remote: true do
       %i.fa.fa-pencil.text-muted
