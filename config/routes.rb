@@ -112,6 +112,7 @@ Skyderby::Application.routes.draw do
         resources :matches do
           scope module: :matches do
             resource :map, only: :show
+            resource :globe, controller: 'globe', only: :show
             resources :competitors
           end
         end
