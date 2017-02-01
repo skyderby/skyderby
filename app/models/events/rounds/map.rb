@@ -52,12 +52,19 @@ class Events::Rounds::Map
     competitor_info = CompetitorTrack.new(event_track.competitor)
     points = track_points(event_track.track)
     competitor_info.path_coordinates = path_coordinates(points)
-    track_segment = WindowRangeFinder.new(points).execute(
-      from_altitude: @round.range_from,
-      to_altitude: @round.range_to) 
-    competitor_info.start_point = map_marker(track_segment.start_point)
-    competitor_info.end_point = map_marker(track_segment.end_point)
-    competitor_info.direction = track_segment.direction
+    begin
+      track_segment = WindowRangeFinder.new(points).execute(
+        from_altitude: @round.range_from,
+        to_altitude: @round.range_to
+      )
+      competitor_info.start_point = map_marker(track_segment.start_point)
+      competitor_info.end_point = map_marker(track_segment.end_point)
+      competitor_info.direction = track_segment.direction
+    rescue WindowRangeFinder::ValueOutOfRange
+      Rails.logger.debug "Failed to get range data from track #{event_track.track_id}"
+      competitor_info.start_point = map_marker(points.first)
+      competitor_info.end_point = map_marker(points.last)
+    end
     competitor_info.color = color
     competitor_info
   end
