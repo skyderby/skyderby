@@ -30,7 +30,7 @@
           %hr
           %span.col-sm-2.control-label= t('events.show.track_upoaded')
           .col-sm-10
-            %span#rm-track-uploaded= @event_track.uploaded_by.name
+            %span#rm-track-uploaded= @event_track.uploaded_by&.name
 
     .modal-footer
       %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}

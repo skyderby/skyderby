@@ -28,7 +28,7 @@
                   = competitor.name.titleize
                   %i.fa.fa-circle{style: "color: #{competitor_track.color}"}
                 %td
-                  = "#{competitor_track.direction.round}°"
+                  = competitor_track.direction && "#{competitor_track.direction.round}°"
             - else
               %tr.disabled
                 %td
