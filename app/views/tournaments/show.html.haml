@@ -23,6 +23,9 @@
                   = link_to tournament_match_map_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do
                     %i.fa.fa-compass
                     Map
+                  = link_to tournament_match_globe_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do
+                    %i.fa.fa-compass
+                    3D map
                   .panel-body.competitors-container
                     - if match.slots.count == 0
                       - 2.times do
