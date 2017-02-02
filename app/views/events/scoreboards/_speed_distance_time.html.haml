@@ -22,7 +22,7 @@
               - if can? :update, @event
                 %i.fa.fa-fw
               = round.name
-              = link_to event_round_map_index_path(@event, round), remote: true, class: 'round-map-view' do
+              = link_to event_round_map_path(@event, round), remote: true, class: 'round-map-view' do
                 %i.fa.fa-compass
               - if can? :update, @event
                 = button_to event_round_path(@event, round),
