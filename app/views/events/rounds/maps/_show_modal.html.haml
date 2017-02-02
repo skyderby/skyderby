@@ -2,7 +2,7 @@
   .modal-content
     .modal-header
       .pull-right
-        = link_to event_round_map_index_path(@event, @round), target: '_blank', class: 'modal-header-link' do
+        = link_to event_round_map_path(@event, @round), target: '_blank', class: 'modal-header-link' do
           %i.fa.fa-external-link
         %button.close{type: 'button', data: {dismiss: 'modal'}}
           %span{aria: {hidden: 'true'}}
