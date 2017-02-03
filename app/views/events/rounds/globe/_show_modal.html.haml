@@ -1,0 +1,20 @@
+.modal-dialog.modal-lg
+  .modal-content
+    .modal-header
+      .pull-right
+        = link_to event_round_map_path(@event, @round), target: '_blank', class: 'modal-header-link' do
+          %i.fa.fa-external-link
+        %button.close{type: 'button', data: {dismiss: 'modal'}}
+          %span{aria: {hidden: 'true'}}
+            &times;
+          %span.sr-only
+            Close
+      %h4.modal-title
+        = t('events.show.round_map_view')
+ 
+    .modal-body
+      = render 'round_map'
+
+    .modal-footer
+      %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}
+        OK
