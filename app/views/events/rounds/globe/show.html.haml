@@ -1,0 +1,12 @@
+- provide :title, @event.name
+
+= render 'round_map'
+
+- content_for :page_js do
+  :javascript
+    var view = new Skyderby.views.RoundGlobeView({
+      el: '.round-map',
+      maps_data: #{@round_map.to_json}
+    });
+
+    view.render();
