@@ -4,7 +4,8 @@ module Tournaments
       load_resource :tournament
 
       def show
-        @match_map = MatchGlobe.new TournamentMatch.find(params[:match_id])
+        @match = TournamentMatch.find(params[:match_id])
+        @match_map = MatchGlobe.new @match
       end
     end
   end
