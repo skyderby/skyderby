@@ -147,16 +147,23 @@
   }
 
   td.round-cell {
+    .round-cell-content { position: relative; }
+    .round-actions {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      width: 100%;
+      text-align: right;
 
-    &:hover {
-      .delete-round {
-        visibility: visible;
+      button[data-toggle=dropdown] {
+        width: 100%;
+        text-align: right;
+        color: rgb(51, 51, 51);
       }
-    }
 
-    .delete-round {
-      margin-left: 5px;
-      visibility: hidden;
+      button[data-toggle=dropdown]:focus {
+        outline: none;
+      }
     }
   }
 }
