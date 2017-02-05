@@ -91,7 +91,7 @@
                         %i.fa.fa-search
 
 
-                      - if can? :manage, result_entity
+                      - if can?(:manage, result_entity) && !@event.finished?
                         = link_to edit_event_event_track_path(@event, result_entity),
                                   remote: true,
                                   'data-params': { display_raw_results: display_raw_results }.to_param,
@@ -107,7 +107,7 @@
                     - else
                       - if result_entity.points && result_entity.points > 0
                         = result_entity.points(net: display_raw_results).round(1)
-                - else
+                - elsif can?(:update, @event) && !@event.finished?
                   %td.text-center.create-result-cell
                     = link_to new_event_event_track_path(@event), 
                               remote: true, 
@@ -118,6 +118,10 @@
                               rel: 'nofollow' do
                       %i.fa.fa-upload
                       
+                  %td
+
+                - else
+                  %td
                   %td
 
               %td.points-cell.text-right
