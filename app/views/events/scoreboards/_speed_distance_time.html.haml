@@ -19,19 +19,29 @@
         - @event.rounds_by_discipline.each do |discipline, rounds|
           - rounds.each do |round|
             %td.round-cell.text-center{colspan: 2}
-              - if can? :update, @event
-                %i.fa.fa-fw
-              = round.name
-              = link_to event_round_map_path(@event, round), remote: true, class: 'round-map-view' do
-                %i.fa.fa-compass
-              = link_to event_round_globe_path(@event, round), remote: true, class: 'round-map-view' do
-                %i.fa.fa-compass
-              - if can? :update, @event
-                = button_to event_round_path(@event, round),
-                            method: :delete,
-                            remote: true,
-                            class: 'btn-link delete-round' do
-                  %i.fa.fa-fw.fa-times-circle.text-muted
+              .round-cell-content
+                = round.name
+                .round-actions.dropdown
+                  %button.btn-link{'data-toggle': 'dropdown'}
+                    %i.fa.fa-ellipsis-v
+                  %ul.dropdown-menu.dropdown-menu-right
+                    %li
+                      = link_to event_round_map_path(@event, round), remote: true, class: 'round-map-view' do
+                        %i.fa.fa-compass
+                        Google maps
+                    %li
+                      = link_to event_round_globe_path(@event, round), remote: true, class: 'round-map-view' do
+                        %i.fa.fa-compass
+                        3D maps
+                    %li.divider
+                    %li
+                      - if can? :update, @event
+                        = button_to event_round_path(@event, round),
+                                    method: :delete,
+                                    remote: true,
+                                    class: 'btn-link' do
+                          %i.fa.fa-times.text-muted
+                          = t('general.delete')
           %td.text-center{rowspan: 2, 'data-discipline' => discipline, 'data-role' => 'points'}
             = '%'
       %tr#units-row

@@ -143,18 +143,23 @@ p.form-control-static {
 }
 
 .dropdown-menu > li > button.btn-link,
-.dropdown-menu > li > form.button_to > input
+.dropdown-menu > li > form.button_to > input,
+.dropdown-menu > li > form.button_to > button.btn-link
 {
     display: block;
-    padding: 3px 20px;
+    width: 100%;
     clear: both;
-    font-weight: normal;
-    line-height: @line-height-base;
     color: @dropdown-link-color;
     white-space: nowrap; // prevent links from randomly breaking onto new lines
+
+    font-weight: normal;
+    text-decoration: none;
+    text-align: left;
+    line-height: @line-height-base;
 }
 
 .dropdown-menu > li > form.button_to {
+  padding: 3px 20px;
   display: block;
 }
 
