@@ -46,23 +46,42 @@ module Events
         {
           range_from: round.range_from,
           range_to: round.range_to,
+          boundaries_position: boundaries_position,
           start_time: start_time,
           stop_time: stop_time,
           competitors: competitors
         }.to_json
       end
 
-      private
-
-      attr_reader :round
-
       def competitors
-        round.event_tracks.map.with_index do |event_track, index|
+        @competitors ||= round.event_tracks.map.with_index do |event_track, index|
           CompetitorData.new.tap do |c|
             c.name = event_track.competitor.name
             c.color = colors[index]
             c.points = EntityBuilder.new(event_track).execute
           end
+        end
+      end
+
+      private
+
+      attr_reader :round
+
+      def boundaries_position
+        if round.event.place
+          place = round.event.place
+          {
+            latitude: place.latitude,
+            longitude: place.longitude,
+            ground_offset: place.msl
+          }
+        else
+          place = competitors.first.points.last
+          {
+            latitude: place[:latitude],
+            longitude: place[:longitude],
+            ground_offset: place[:abs_altitude]
+          }
         end
       end
 

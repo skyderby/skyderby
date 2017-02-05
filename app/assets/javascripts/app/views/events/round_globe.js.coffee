@@ -2,6 +2,9 @@ class Skyderby.views.RoundGlobeView extends Backbone.View
   # google maps script loading asynchronous
   maps_ready:  false
 
+  events:
+    'click .fast-forward-competitor': 'fast_forward_to_competitor'
+
   initialize: (opts) ->
     @map_data = opts.maps_data
 
@@ -26,7 +29,7 @@ class Skyderby.views.RoundGlobeView extends Backbone.View
       .addClass('fa-exclamation-triangle')
 
   setup_viewer: ->
-    @viewer = new Cesium.Viewer(@el,
+    @viewer = new Cesium.Viewer(@$('#round-map')[0],
       infoBox: false,
       homeButton: false,
       baseLayerPicker: false,
@@ -62,6 +65,9 @@ class Skyderby.views.RoundGlobeView extends Backbone.View
     @setup_viewer_clock start_time, stop_time
 
     @viewer.zoomTo(@viewer.entities[0])
+    @draw_boundaries()
+
+    @viewer.zoomTo(@viewer.entities);
     @$('#track-map-loading').remove()
 
   draw_trajectory: (competitor_data) ->
@@ -122,3 +128,29 @@ class Skyderby.views.RoundGlobeView extends Backbone.View
       property.addSample(point.gps_time, position)
 
     property
+
+  draw_boundaries: ->
+    ground_offset = Number(@map_data.boundaries_position.ground_offset)
+    @draw_ellipse(@map_data.range_from + ground_offset, Cesium.Color.GREEN.withAlpha(0.0))
+    @draw_ellipse(@map_data.range_to + ground_offset, Cesium.Color.YELLOW.withAlpha(0.0))
+    
+  draw_ellipse: (height, color) ->
+    latitude = @map_data.boundaries_position.latitude
+    longitude = @map_data.boundaries_position.longitude
+
+    @viewer.entities.add({
+      position: Cesium.Cartesian3.fromDegrees(longitude, latitude),
+      ellipse : {
+        semiMinorAxis : 5000.0,
+        semiMajorAxis : 5000.0,
+        height: height,
+        material : color
+      }
+    });
+
+  fast_forward_to_competitor: (e) ->
+    e.preventDefault()
+    time = new Date($(e.currentTarget).data('start-time'))
+
+    start = Cesium.JulianDate.fromDate(time)
+    @viewer.clock.currentTime = start

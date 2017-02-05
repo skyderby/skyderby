@@ -1,5 +1,5 @@
 .container-fluid.top-buffer.round-map
-  .col-sm-12
+  .col-sm-9
     #round-map
       #track-map-loading.text-muted
         #track-map-loading-api.fa-2x
@@ -8,3 +8,15 @@
         #track-map-loading-data.fa-2x
           %i.fa.fa-fw.fa-check
           Loading track data
+  .col-sm-3
+    %table.table.table-condensed
+      %thead
+        %tr
+          %th
+            Fast-Forward to competitor:
+      %tbody
+        - @round_map.competitors.each do |competitor|
+          %tr
+            %td
+              %a.fast-forward-competitor{href: '#', 'data-start-time': "#{competitor.points.first[:gps_time].xmlschema}"}
+                = competitor.name
