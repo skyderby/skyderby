@@ -1,3 +1,5 @@
+-# 't' is using instead of true, because it will be impossible to use ||= on
+-# false value. it will set true every time.
 - editable ||= 't'
 - except_columns ||= []
 
@@ -13,5 +15,5 @@
 
   .tbody
     = render weather_data, editable: editable, except_columns: except_columns
-    - if can?(:create, WeatherDatum) && editable == 't'
+    - if can?(:update, @weather_datumable) && editable == 't'
       = render 'form_row', except_columns: except_columns
