@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170126215855) do
+ActiveRecord::Schema.define(version: 20170209112006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -408,6 +408,7 @@ ActiveRecord::Schema.define(version: 20170126215855) do
     t.index ["manufacturer_id"], name: "index_wingsuits_on_manufacturer_id", using: :btree
   end
 
+  add_foreign_key "event_tracks", "tracks"
   add_foreign_key "profiles", "countries"
   add_foreign_key "tournaments", "profiles"
 
