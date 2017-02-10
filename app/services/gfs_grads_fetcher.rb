@@ -77,7 +77,7 @@ class GfsGradsFetcher
   end
 
   def normalized_longitude
-    longitude.negative? ? longitude - 360 : longitude
+    longitude.negative? ? longitude + 360 : longitude
   end
 
   attr_reader :latitude, :longitude, :date_time, :dataset
