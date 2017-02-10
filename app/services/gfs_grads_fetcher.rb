@@ -65,7 +65,7 @@ class GfsGradsFetcher
   end
 
   def longitude_param
-    "[#{(normalized_latitude / LAT_LON_RESOLUTION).round}]"
+    "[#{(normalized_longitude / LAT_LON_RESOLUTION).round}]"
   end
 
   def altitude_param
@@ -76,8 +76,8 @@ class GfsGradsFetcher
     "[#{((date_time.to_time - dataset.start_time.to_time) / 1.hour).to_i}]"
   end
 
-  def normalized_latitude
-    (latitude + 540) % 360 + 180
+  def normalized_longitude
+    longitude.negative? ? longitude - 360 : longitude
   end
 
   attr_reader :latitude, :longitude, :date_time, :dataset
