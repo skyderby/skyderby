@@ -13,5 +13,5 @@
 .tab-content
   #place_weather_data.tab-pane{class: ('active' if has_place_weather), role: 'tabpanel'}
     = render 'weather_data/table', weather_data: @weather_data.place_weather_data, editable: 'f', except_columns: [:actual_on]
-  #track_weather_data.tab-pane{role: 'tabpanel'}
+  #track_weather_data.tab-pane{class: ('active' if !has_place_weather), role: 'tabpanel'}
     = render 'weather_data/table', weather_data: @weather_data.track_weather_data, except_columns: [:actual_on]
