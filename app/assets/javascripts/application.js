@@ -38,7 +38,7 @@
 //= require highcharts
 //= require highcharts-more
 //= require app/app
-//= require_tree .
+//= require_tree ./events
 //= require_self
 
 // Bootstrap registers a listener to the focusin event which checks whether 

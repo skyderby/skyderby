@@ -1,0 +1,49 @@
+.index-header {
+  position: relative;
+  min-height: 200px;
+  img {
+    max-width: 100%;
+    max-height: 100%;  
+  }
+}
+
+.index-header-caption {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+  background-color: rgba(121, 85, 72, 0.3);
+
+  padding: 10px;
+
+  text-align: center;
+
+  p {
+    color: white;
+  }
+
+  .index-title {
+    font-size: 36px;
+    margin-top: 10px
+  }
+
+  .index-subtitle {
+    font-size: 30px;
+    line-height: 36px;
+    margin-top: 20px
+  }
+}
+
+.free-banner {
+  text-align: center;
+  font-size: 26px;
+  letter-spacing: 2px;
+  line-height: 43px;
+  height: 45px;
+  width: 100%;
+  background-color: #75bf78;
+  color: #fff;
+  vertical-align: middle;
+}

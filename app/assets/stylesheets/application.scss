@@ -16,7 +16,8 @@
  *= require bootstrap_and_overrides
  *= require_self
  *= require normalize.min
- *= require_tree .
+ *= require_tree ./events
+ *= require_tree ./tracks
  */
 
 html, body {
