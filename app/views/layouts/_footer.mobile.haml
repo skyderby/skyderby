@@ -3,7 +3,7 @@
     .container
       .row
 
-        .col-xs-7
+        .col-xs-7.col-sm-9
           %ul
             %li.section-title
               Contact us
@@ -16,7 +16,7 @@
                 %i.fa.fa-fw.fa-mail-forward
                 = 'skyksandr@gmail.com'
 
-        .col-xs-5.text-right.footer-buttons
+        .col-xs-5.col-sm-3.text-right.footer-buttons
           .dropup
             %a.dropdown-toggle.locale-dropdown.btn.btn-sm.btn-default{href: '#', data: {toggle: 'dropdown'}}
               = image_tag asset_path('blank.gif'), class: "flag flag-#{I18n.locale}"

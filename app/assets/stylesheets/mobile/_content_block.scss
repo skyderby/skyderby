@@ -1,0 +1,32 @@
+.content-block {
+  background-color: white;
+  border: rgba(0, 0, 0, 0.14) solid 1px;
+  border-radius: 2px;
+
+  .bottom-btn {
+    color: #777777;
+    border-top: rgba(0, 0, 0, 0.14) solid 1px;
+    position: relative;
+    display: block;
+    text-decoration: none;
+    font-size: 16px;
+
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 45px;
+    line-height: 45px;
+    width: 100%;
+
+    .icon-right {
+      position: absolute;
+      right: 15px;
+    }
+  }
+}
+
+.content-container {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+}

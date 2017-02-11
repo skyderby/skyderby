@@ -1,0 +1,39 @@
+.container
+  .center-block.devise-block
+    %h2.text-center.text-muted= t('devise.sessions.new.sign_in')
+
+    .content-block
+      .content-container
+        = form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'new-session-form'}) do |f|
+          .form-group
+            = f.label :email
+            = f.email_field :email, autofocus: true , class: 'form-control input-lg'
+
+          .form-group
+            = f.label :password
+            = f.password_field :password, autocomplete: 'off', class: 'form-control input-lg'
+            = link_to t('devise.shared.links.forgot_your_password'), new_password_path(resource_name), class: 'forgot-password-link'
+
+          .form-group
+            = f.hidden_field :remember_me, value: 1
+            = f.submit t('devise.sessions.new.sign_in'), class: 'btn btn-primary'
+
+      = link_to  new_registration_path(resource_name), class: 'bottom-btn' do
+        = t('devise.shared.links.sign_up')
+        %span.icon-right
+          %i.fa.fa-chevron-right
+
+- content_for :page_js do
+  :coffeescript
+    $('.new-session-form').validate(
+      rules:
+        'user[email]':
+          required: true,
+          email: true
+        'user[password]':
+          required: true
+      highlight: (element) ->
+        $(element).closest('.form-group').addClass('has-error')
+      unhighlight: (element) ->
+        $(element).closest('.form-group').removeClass('has-error')
+    )

@@ -1,0 +1,58 @@
+.container
+  .center-block.devise-block
+    %h2.text-center.text-muted= t 'devise.registrations.new.sign_up'
+
+    .content-block
+      .content-container
+        = form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'new-user-form'}) do |f|
+          = devise_error_messages!
+
+          .form-group
+            = f.label :name
+            = f.text_field :name, class: 'form-control input-lg'
+
+          .form-group
+            = f.label :email
+            = f.email_field :email, class: 'form-control input-lg'
+
+          .form-group
+            = f.label :password
+            = f.password_field :password, autocomplete: 'off', class: 'form-control input-lg'
+            %span.help-block
+              Password must be at least 6 characters
+
+          .form-group
+            = f.label :password_confirmation
+            = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control input-lg'
+
+          .form-group
+            = f.submit t('devise.registrations.new.sign_up'), class: 'btn btn-primary'
+
+          .form-group
+            = link_to t('devise.shared.links.didn_t_receive_confirmation_instructions'), new_user_confirmation_path
+
+      = link_to new_session_path(resource_name), class: 'bottom-btn' do
+        = t('devise.shared.links.sign_in')
+        %span.icon-right
+          %i.fa.fa-chevron-right
+
+- content_for :page_js do
+  :coffeescript
+    $('.new-user-form').validate(
+      rules:
+        'user[name]':
+          minlength: 3,
+          required: true
+        'user[email]':
+          required: true,
+          email: true
+        'user[password]':
+          required: true
+        'user[password_confirmation]':
+          required: true,
+          equalTo: '.new-user-form #user_password'
+      highlight: (element) ->
+        $(element).closest('.form-group').addClass('has-error')
+      unhighlight: (element) ->
+        $(element).closest('.form-group').removeClass('has-error')
+    )
