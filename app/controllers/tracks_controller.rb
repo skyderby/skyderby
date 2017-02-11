@@ -12,23 +12,17 @@ class TracksController < ApplicationController
     @tracks = TrackFilter.new(index_params[:query]).apply(@tracks)
     @tracks = TrackOrder.new(index_params[:order]).apply(@tracks)
 
-    respond_to do |format|
-      format.any(:html, :js) do
-        @tracks = @tracks
-          .left_outer_joins(:time, :distance, :speed)
-          .includes(
-          :video,
-          :pilot,
-          :distance,
-          :speed,
-          :time,
-          place: [:country],
-          wingsuit: [:manufacturer]
-        ).paginate(page: params[:page], per_page: 50)
-      end
-
-      format.json { @tracks }
-    end
+    @tracks = @tracks
+              .left_outer_joins(:time, :distance, :speed)
+              .includes(
+                :video,
+                :pilot,
+                :distance,
+                :speed,
+                :time,
+                place: [:country],
+                wingsuit: [:manufacturer]
+              ).paginate(page: params[:page], per_page: 50)
   end
 
   def show
