@@ -18,6 +18,7 @@
  *= require normalize.min
  *= require_tree ./events
  *= require_tree ./tracks
+ *= require_directory .
  */
 
 html, body {
