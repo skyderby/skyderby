@@ -1,14 +1,21 @@
 .index-header {
   position: relative;
   min-height: 200px;
+  background-image: asset-url('index_header_bg.jpg');
+  background-size: cover;
+  background-position: center center;
+
   img {
-    max-width: 100%;
-    max-height: 100%;  
+    width: 100%;
+    max-height: 400px;  
   }
 }
 
 .index-header-caption {
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   top: 0;
   left: 0;
   height: 100%;
@@ -24,15 +31,9 @@
     color: white;
   }
 
-  .index-title {
-    font-size: 36px;
-    margin-top: 10px
-  }
-
   .index-subtitle {
     font-size: 30px;
     line-height: 36px;
-    margin-top: 20px
   }
 }
 
