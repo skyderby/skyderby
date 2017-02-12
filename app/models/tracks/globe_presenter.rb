@@ -4,6 +4,10 @@ module Tracks
       @track = track
     end
 
+    def pilot_name
+      track.pilot_name || track.name
+    end
+
     def start_time
       points.first && points.first[:gps_time] || track.recorded_at
     end

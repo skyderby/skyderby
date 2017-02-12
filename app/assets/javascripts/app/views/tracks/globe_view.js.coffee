@@ -106,6 +106,12 @@ class Skyderby.views.TrackGlobeView extends Backbone.View
       # Automatically compute orientation based on position movement.
       orientation : new Cesium.VelocityOrientationProperty(property),
 
+      label: new Cesium.LabelGraphics(
+        text: @model.get('name'),
+        scale: 0.7,
+        horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
+        verticalOrigin: Cesium.VerticalOrigin.BOTTOM
+      ),
       ellipsoid : {
         radii : new Cesium.Cartesian3(10.0, 10.0, 10.0),
         material : Cesium.Color.RED
