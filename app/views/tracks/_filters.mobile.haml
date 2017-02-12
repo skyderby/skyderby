@@ -1,0 +1,33 @@
+- query_params = index_params[:query] || {}
+.content-block.tracks-filters
+  .content-container.row
+    .col-xs-3
+      %a.btn.btn-default.btn-sm
+        %i.fa.fa-filter
+        =t '.filters'
+
+    .col-xs-9
+      .pull-right
+        .btn-group
+          - activity = query_params[:kind]
+          = link_to t('.all'),
+                    index_params.merge(query: query_params.except(:kind)),
+                    remote: true,
+                    class: ['btn btn-sm btn-default', ('active' unless activity)],
+                    rel: 'nofollow'
+
+          = link_to 'Skydive',
+                    index_params.merge(query: query_params.merge(kind: 'skydive')),
+                    remote: true,
+                    class: ['btn btn-sm btn-default', ('active' if activity == 'skydive')],
+                    rel: 'nofollow'
+
+          = link_to 'B.A.S.E.',
+                    index_params.merge(query: query_params.merge(kind: 'base')),
+                    remote: true,
+                    class: ['btn btn-sm btn-default', ('active' if activity == 'base')],
+                    rel: 'nofollow'
+
+- content_for :page_js do
+  %script
+    = render partial: 'tracks/init_filter_elements', formats: [:js]

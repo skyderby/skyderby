@@ -1,0 +1,20 @@
+.container
+  .tracks-index.top-buffer
+    = render 'filters'
+
+    .content-block
+      .content-container
+        .row
+          .col-sm-12
+            #tracks-table.table.table-hover
+              .thead
+                = render 'table_header'
+              .tbody
+                = render @tracks
+
+    .text-center.top-buffer
+      .pagination-load-more
+        = will_paginate @tracks, renderer: WillPaginateLoadMoreRenderer
+      .pagination-list
+        = will_paginate @tracks, renderer: BootstrapPagination::Rails
+

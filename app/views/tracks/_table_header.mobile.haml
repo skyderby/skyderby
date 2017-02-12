@@ -1,0 +1,17 @@
+:ruby
+  params_order = (index_params[:order] || '').split(' ')
+  order_field = (params_order[0] || 'id').upcase
+  order_direction = (params_order[1] || 'DESC').upcase
+
+.tr
+  .th.hidden-xs
+    =t 'activerecord.attributes.track.id'
+    =tracks_sort_header(order_field, order_direction, 'id', 'ID')
+  .th=t 'activerecord.attributes.track.name'
+  .th=t 'activerecord.attributes.track.suit'
+  .th=t 'activerecord.attributes.track.place'
+  .th.hidden-xs=t 'activerecord.attributes.track.comment'
+  .th.hidden-xs
+    =t 'activerecord.attributes.track.recorded_at'
+    =tracks_sort_header(order_field, order_direction, 'recorded_at', 'Recorded at')
+  .th.hidden-xs

@@ -12,6 +12,8 @@ class TracksController < ApplicationController
     @tracks = TrackFilter.new(index_params[:query]).apply(@tracks)
     @tracks = TrackOrder.new(index_params[:order]).apply(@tracks)
 
+    rows_per_page = request.format == :mobile ? 20 : 50
+
     @tracks = @tracks
               .left_outer_joins(:time, :distance, :speed)
               .includes(
@@ -22,7 +24,7 @@ class TracksController < ApplicationController
                 :time,
                 place: [:country],
                 wingsuit: [:manufacturer]
-              ).paginate(page: params[:page], per_page: 50)
+              ).paginate(page: params[:page], per_page: rows_per_page)
   end
 
   def show

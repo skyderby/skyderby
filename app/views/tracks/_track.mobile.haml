@@ -1,0 +1,29 @@
+- except_columns ||= []
+
+= link_to track_path(id: track.id), class: 'tr track-row' do
+  .td.hidden-xs= track.id
+  .td
+    .cell-caption.text-muted.visible-xs
+      = "##{track.id}"
+    %div
+      = track_pilot(track)
+  - unless except_columns.include? :suit
+    .td
+      .cell-caption.visible-xs
+        &nbsp;
+      %div
+        - if track.wingsuit
+          = suit_presentation(track.wingsuit)
+        - else 
+          %span.text-info
+            = track.suit
+  - unless except_columns.include? :place
+    .td
+      .cell-caption.text-right.text-muted.visible-xs
+        = track.recorded_at.strftime('%d.%m.%Y')
+      %div
+        = track_place(track)
+  .td.text-muted.hidden-xs= track.comment
+
+  .td.text-info.hidden-xs= track.recorded_at.strftime('%d.%m.%Y')
+  .td.hidden-xs= track_icons(track)
