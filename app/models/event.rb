@@ -34,7 +34,7 @@ class Event < ApplicationRecord
   has_many :rounds
   has_many :event_tracks, through: :rounds
   has_many :tracks, through: :event_tracks
-  has_many :sponsors, as: :sponsorable
+  has_many :sponsors, -> { order(:created_at) }, as: :sponsorable
   has_many :weather_data, as: :weather_datumable
 
   validates :responsible, :name, :range_from, :range_to, :starts_at, presence: true

@@ -38,7 +38,7 @@ class Tournament < ApplicationRecord
   has_many :qualification_rounds
   has_many :qualification_jumps, through: :qualification_rounds
 
-  has_many :sponsors, as: :sponsorable
+  has_many :sponsors, -> { order(:created_at) }, as: :sponsorable
 
   def finish_line
     [
