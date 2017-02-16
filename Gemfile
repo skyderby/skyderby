@@ -37,6 +37,8 @@ gem 'slack-notifier'
 gem 'i18n-js', '>= 3.0.0.rc8'
 gem 'http_accept_language'
 
+gem 'browser'
+
 gem 'jquery-rails'
 gem 'remotipart', git: 'https://github.com/skyderby/remotipart.git'
 gem 'rails-backbone'

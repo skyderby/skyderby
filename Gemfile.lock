@@ -56,6 +56,7 @@ GEM
       debug_inspector (>= 0.0.1)
     bootstrap-datepicker-rails (1.6.4.1)
       railties (>= 3.0)
+    browser (2.3.0)
     builder (3.2.2)
     bullet (5.4.2)
       activesupport (>= 3.0.0)
@@ -339,6 +340,7 @@ DEPENDENCIES
   annotate
   binding_of_caller
   bootstrap-datepicker-rails
+  browser
   bullet
   cancancan
   capybara

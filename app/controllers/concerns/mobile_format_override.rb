@@ -18,11 +18,7 @@ module MobileFormatOverride
     request.format = :mobile if mobile?
   end
 
-  def mobile_device?
-    DetectVariantService.new(request.user_agent).mobile?
-  end
-
   def mobile?
-    mobile_device? && session[:mobile] == '1'
+    browser.device.mobile? && session[:mobile] == '1'
   end
 end
