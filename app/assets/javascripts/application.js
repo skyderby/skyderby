@@ -39,21 +39,8 @@
 //= require highcharts-more
 //= require app/app
 //= require_tree ./events
+//= requiew_tree ./common
 //= require_self
-
-// Bootstrap registers a listener to the focusin event which checks whether 
-// the focused element is either the overlay itself or a descendent of it - 
-// if not it just refocuses on the overlay. With the select2 dropdown being 
-// attached to the body this effectively prevents you from entering anything 
-// into the the textfield.
-$.fn.modal.Constructor.prototype.enforceFocus = function() {};
-
-$.validator.addMethod('filesize', function(value, element, param) {
-    // param = size (en bytes) 
-    // element = element to validate (<input>)
-    // value = value of the element (file name)
-    return this.optional(element) || (element.files[0].size <= param);
-});
 
 $(document).on('ready turbolinks:load', function() {
 
@@ -83,11 +70,6 @@ $(document).on('ready turbolinks:load', function() {
     });
 
     window.AjaxErrorMessage = new Skyderby.views.AjaxErrorMessage();
-});
-
-$(document).on('ajax:error', '[data-remote=true]', function(_event, xhr) {
-    if (xhr.status === 422) return;
-    AjaxErrorMessage.render();
 });
 
 $(document).on('change', '.btn-file :file', function() {
