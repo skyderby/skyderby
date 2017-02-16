@@ -1,0 +1,70 @@
+.track-indicators
+  .track-indicators__column
+    .track-indicators__indicator
+      .track-indicators__param-value
+        .track-indicators__avg-val= presenter.distance
+        .track-indicators__units= t "units.#{presenter.distance_units}"
+      .track-indicators__param
+        %i.fa.fa-fw.fa-lg.fa-arrows-h
+        =t '.distance'
+
+    .track-indicators__indicator
+      .track-indicators__param-value
+        .track-indicators__avg-val= presenter.avg_horizontal_speed
+        .track-indicators__min-max
+          .track-indicators__max-val
+            %span= presenter.max_horizontal_speed
+            %i.fa.fa-lg.fa-caret-up
+          .track-indicators__min-val
+            %span= presenter.min_horizontal_speed
+            %i.fa.fa-lg.fa-caret-down.min-val-caret
+        .track-indicators__units=t "units.#{presenter.speed_units}"
+      .track-indicators__param
+        %i.fa.fa-fw.fa-lg.fa-long-arrow-right
+        =t '.ground_speed'
+
+    .track-indicators__indicator
+      .track-indicators__param-value
+        .track-indicators__avg-val= presenter.glide_ratio
+        .track-indicators__min-max
+          .track-indicators__max-val
+            %span= presenter.max_glide_ratio
+            %i.fa.fa-lg.fa-caret-up
+          .track-indicators__min-val
+            %span= presenter.min_glide_ratio
+            %i.fa.fa-lg.fa-caret-down.min-val-caret
+      .track-indicators__param
+        %i.fa.fa-fw.fa-lg.fa-ellipsis-h
+        =t '.glide_ratio'
+
+  .track-indicators__column
+    .track-indicators__indicator
+      .track-indicators__param-value
+        .track-indicators__avg-val= presenter.elevation
+        .track-indicators__units= t "units.#{presenter.altitude_units}"
+      .track-indicators__param
+        %i.fa.fa-fw.fa-lg.fa-arrows-v
+        =t '.elevation'
+
+    .track-indicators__indicator
+      .track-indicators__param-value
+        .track-indicators__avg-val= presenter.avg_vertical_speed
+        .track-indicators__min-max
+          .track-indicators__min-val
+            %span= presenter.max_vertical_speed
+            %i.fa.fa-lg.fa-caret-up
+          .track-indicators__max-val
+            %span= presenter.min_vertical_speed
+            %i.fa.fa-lg.fa-caret-down.min-val-caret
+        .track-indicators__units=t "units.#{presenter.speed_units}"
+      .track-indicators__param
+        %i.fa.fa-fw.fa-lg.fa-long-arrow-down
+        =t '.vertical_speed'
+
+    .track-indicators__indicator
+      .track-indicators__param-value
+        .track-indicators__avg-val= presenter.time
+        .track-indicators__units= t 'units.t_unit'
+      .track-indicators__param
+        %i.fa.fa-fw.fa-lg.fa-clock-o
+        =t '.duration'

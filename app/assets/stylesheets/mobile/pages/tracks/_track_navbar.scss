@@ -1,0 +1,62 @@
+.track-navbar {
+  position: relative;
+  height: 40px;
+  overflow-y: hidden;
+}
+
+.track-navbar__menu {
+  display: block;
+  list-style-type: none;
+  height: 66px;
+  overflow-y: hidden;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 0px;
+}
+
+.track-navbar__menuitem {
+  display: inline-block;
+  border-bottom: transparent solid 3px;
+  margin-right: 3px;
+  text-align: center;
+  line-height: 37px;
+  padding-left: 8px;
+  padding-right: 8px;
+  a, button {
+    color: #666;
+    text-decoration: none;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+  }
+}
+
+
+.track-navbar__menuitem:last-child {
+  margin-right: 30px;
+}
+
+.track-navbar__menuitem_active {
+  border-bottom-color: #0084b4;
+  a {
+    color: #111;
+    font-weight: 600;
+  }
+}
+
+.track-navbar__divider {
+  display: inline-block;
+  margin-left: 3px;
+  margin-right: 3px;
+  height: 40px;
+}
+
+.track-navbar__fade-right {
+  background: linear-gradient(to left, #fafafa 45%, rgba(250, 250, 250, 0.4));
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  height: 40px;
+  width: 30px;
+}

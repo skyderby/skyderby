@@ -1,8 +1,12 @@
 <% display_raw ||= false %>
+<% mobile ||= false %>
 {
   chart: {
     type: 'spline',
-    marginLeft: 70,
+    marginLeft: <%= mobile ? 0 : 70 %>,
+    <% if mobile %>
+      marginRight: 0,
+    <% end %>
     events: {
       load: function() {
         Skyderby.helpers.chart_load_callback('glide_ratio_chart_', this.series);
@@ -10,6 +14,9 @@
     }
   },
   title: {
+    <% if mobile %>
+      style: { 'color': "#666", "fontSize": "14px" },
+    <% end %>
     text: '<%= t('charts.gr.title') %>'
   },
   plotOptions: {
@@ -43,9 +50,13 @@
     maxPadding: 0.2,
     tickInterval: 1,
     title: {
-      text: ' '
+      text: null
     },
     labels: {
+      <% if mobile %>
+        x: 20,
+        y: -2,
+      <% end %>
       formatter: function() {
         return this.isLast ? '≥ 7' : this.value;
       }
@@ -54,6 +65,13 @@
   credits: {
     enabled: false
   },
+  <% if mobile %>
+    legend: {
+      itemStyle: {
+        fontSize: '10px'
+      }
+    },
+  <% end %>
   series: [{
     name: I18n.t('charts.gr.series.gr'),
     code: 'gr',

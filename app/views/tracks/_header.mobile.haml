@@ -1,0 +1,85 @@
+.track-header
+  .track-header__track-id
+    = t 'tracks.show.title_track'
+    = "##{track.id}"
+    - if track.unlisted_track?
+      %i.fa.fa-eye-slash{'data-toggle': 'tooltip', title: t('visibility.unlisted')}
+    - elsif track.private_track?
+      %i.fa.fa-lock{'data-toggle': 'tooltip', title: t('visibility.private')}
+
+  .track-header__pilot
+    - if track.pilot
+      %a{href: profile_path(track.pilot)}
+        = image_tag track.pilot.userpic.url(:thumb), :class => 'img-rounded img-50 loading-bg'
+        = track.pilot.name
+    - else
+      = track.name
+  .track-header__wingsuit
+    %span= t('tracks.show.title_suit') + ':' 
+    - if track.wingsuit
+      - manufacturer = track.wingsuit.manufacturer
+      %a{href: wingsuit_path(track.wingsuit)}
+        = suit_presentation(track.wingsuit)
+    - else
+      %span= track.suit
+  .track-header__place
+    %span.no-right-space
+      @
+      - if track.place
+        %a{href: place_path(track.place)}
+          %span
+          = place_presentation(track.place)
+      - else
+        %span= track.location
+  .pull-right
+    - if user_signed_in? && (current_user == track.user || (can? :update, :tracks))
+      %a.btn-flat.btn-tab{href: edit_track_path(track)}
+        %i.fa.fa-pencil
+
+  .track-navbar
+    .track-navbar__fade-right
+    %ul.track-navbar__menu
+      - controller_path = controller.controller_path
+      - active_class = 'track-navbar__menuitem_active'
+      %li.track-navbar__menuitem{class: (active_class if controller_path == 'tracks')}
+        = link_to track_path(track) do
+          %i.fa.fa-bar-chart-o
+          = t('tracks.show.charts')
+      %li.track-navbar__menuitem{class: (active_class if controller_path == 'tracks/videos')}
+        - if track.video
+          = link_to track_video_path(track) do
+            %i.fa.fa-play-circle-o
+            = 'Video'
+        - elsif can? :edit, track
+          = link_to new_track_video_path(track) do
+            %i.fa.fa-play-circle-o
+            = 'Video'
+        - else
+          %div.tooltip-wrapper{'data-toggle': 'tooltip', title: 'Pilot has not added video yet'}
+            %button.btn-flat.disabled
+              %i.fa.fa-play-circle-o
+              = 'Video'
+      %li.track-navbar__menuitem{class: (active_class if controller.controller_path == 'tracks/globe')}
+        - if track.ge_enabled
+          = link_to track_globe_path(track) do
+            %i.fa.fa-compass
+            = '3D Maps'
+      %li.track-navbar__menuitem{class: (active_class if controller_path == 'tracks/maps')}
+        = link_to track_map_path(track) do
+          %i.fa.fa-compass
+          = 'Google maps'
+      %li.track-navbar__divider
+        |
+      %li.track-navbar__menuitem
+        = link_to track_results_path(@track), 
+                  remote: true, 
+                  rel: 'nofollow' do
+          %i.fa.fa-th-list
+        = t('tracks.show.results')
+      %li.track-navbar__menuitem
+        = link_to t('events.show.weather_data'), 
+                 track_weather_data_path(@track), 
+                 remote: true, 
+                 rel: 'nofollow'
+
+      

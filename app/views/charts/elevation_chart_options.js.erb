@@ -1,7 +1,11 @@
+<% mobile ||= false %>
 {
   chart: {
     type: 'spline',
-    marginLeft: 70,
+    marginLeft: <%= mobile ? 0 : 70 %>,
+    <% if mobile %>
+      marginRight: 0,
+    <% end %>
     events: {
       load: function() {
         Skyderby.helpers.chart_load_callback('elevation_chart_', this.series);
@@ -9,6 +13,9 @@
     }
   },
   title: {
+    <% if mobile %>
+      style: { 'color': "#666", "fontSize": "14px" },
+    <% end %>
     text: '<%= t('charts.elev.title') %>'
   },
   plotOptions: {
@@ -46,6 +53,13 @@
   credits: {
     enabled: false
   },
+  <% if mobile %>
+    legend: {
+      itemStyle: {
+        fontSize: '10px'
+      }
+    },
+  <% end %>
   series: [
     {
     name: I18n.t('charts.elev.series.elevation'),

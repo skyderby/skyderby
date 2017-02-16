@@ -1,0 +1,43 @@
+.track-show
+    
+  = render partial: 'header', locals: {track: @track}
+
+  .track-charts
+    .track-charts__menu
+      .dropdown
+        = render 'tracks/view_settings_menu'
+
+    = render partial: 'indicators', locals: {presenter: @track_presenter}
+
+    %hr
+
+    .row#content-row
+      .col-sm-12
+
+        #btn-range-edit
+          %button.btn.btn-default#range-edit-button{data: {toggle:'modal', target:'#edit-range'}}
+            %i.fa.fa-arrows-h
+        #slider-range-selector
+          %input#range-selector{type: "text",
+                                name: 'range', 
+                                data: {remote: 'true', url: url_for},
+                                value: "#{@track_presenter.range_from};#{@track_presenter.range_to}"}
+
+    = render 'tracks/charts'
+    
+  .track-footer
+    %blockquote
+      - if @track.comment.present?
+        %small
+          = @track.comment
+
+      %small
+        = "Recorded at #{@track.recorded_at.strftime('%d.%m.%Y %H:%M')} (UTC); "
+        = "Uploaded at #{@track.created_at.strftime('%d.%m.%Y %H:%M')} (UTC)"
+
+      - if can?(:update, @track) && @track.track_file
+        %small
+          Download file:
+          = link_to @track.track_file.file_file_name, track_download_path(@track), 'data-turbolinks': false
+
+  = render 'track_edit_range'

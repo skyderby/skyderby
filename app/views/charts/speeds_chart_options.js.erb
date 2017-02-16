@@ -2,7 +2,10 @@
 {
   chart: {
     type: 'spline',
-    marginLeft: 70,
+    marginLeft: <%= mobile ? 0 : 70 %>,
+    <% if mobile %>
+      marginRight: 0,
+    <% end %>
     events: {
       load: function() {
         Skyderby.helpers.chart_load_callback('speeds_chart_', this.series);
@@ -10,6 +13,9 @@
     }
   },
   title: {
+    <% if mobile %>
+      style: { 'color': "#666", "fontSize": "14px" },
+    <% end %>
     text: '<%= t('charts.spd.title') %>'
   },
   plotOptions: {
@@ -32,12 +38,16 @@
   yAxis: [{ //Speed yAxis
     min: 0,
     labels: {
+      <% if mobile %>
+        x: 25,
+        y: -2,
+      <% end %>
       style: {
         color: Highcharts.getOptions().colors[1]
       }
     },
     title: {
-      text: '',
+      text: null,
       style: {
         color: Highcharts.getOptions().colors[1]
       }
@@ -51,6 +61,13 @@
   credits: {
     enabled: false
   },
+  <% if mobile %>
+    legend: {
+      itemStyle: {
+        fontSize: '10px'
+      }
+    },
+  <% end %>
   series: [{
     name: I18n.t('charts.spd.series.ground'),
     code: 'ground_speed',

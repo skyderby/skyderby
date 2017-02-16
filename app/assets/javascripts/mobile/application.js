@@ -1,4 +1,3 @@
-
 //= require jquery
 //= require jquery_ujs
 //= require jquery.remotipart
@@ -13,5 +12,15 @@
 //= require jquery.validate
 //= require additional-methods.min
 //= require jquery.cookie
-
-$.fn.modal.Constructor.prototype.enforceFocus = function() {};
+//= require ion.rangeSlider
+//= require i18n/translations
+//= require highcharts
+//= require highcharts-more
+//= require underscore
+//= require backbone
+//= require backbone_rails_sync
+//= require backbone_datalink
+//= require app/app
+//= require_tree ../app/helpers
+//= requiew_tree ../common
+//= require_self

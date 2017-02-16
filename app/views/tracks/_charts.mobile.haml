@@ -1,0 +1,7 @@
+.track-charts__charts-container
+  - if preferred_charts_mode == 'separate'
+    #glideratio_chart.track-charts__chart
+    #speeds_chart.track-charts__chart
+    #elevation_distance_chart.track-charts__chart
+  - else
+    #all_data_chart.track-charts__chart

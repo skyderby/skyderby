@@ -1,0 +1,52 @@
+.track-indicators {
+  display: flex;
+  justify-content: space-around;
+}
+
+.track-indicators__column {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.track-indicators__indicator {
+  max-width: 128px;
+  margin-top: 8px;
+  margin-bottom: 2px;
+}
+
+.track-indicators__avg-val {
+  display: inline;
+  font-size: 2em;
+  font-weight: 200;
+}
+
+.track-indicators__units {
+  display: inline;
+}
+
+.track-indicators__min-max {
+  display: inline-block;
+  text-align: right;
+}
+
+.track-indicators__min-val,
+.track-indicators__max-val {
+  font-size: 0.8em;
+  line-height: 0.8em;
+}
+
+.track-indicators__min-val {
+  color: #9a3558;
+}
+
+.track-indicators__max-val {
+  color: #4b725a;
+}
+
+.track-indicators__param {
+  font-size: 0.8em;
+  color: #888;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

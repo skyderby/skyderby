@@ -1,0 +1,21 @@
+.track-charts {
+  background-color: white;
+  border-top: rgba(0, 0, 0, 0.14) solid 1px;
+  border-bottom: rgba(0, 0, 0, 0.14) solid 1px;
+  padding-top: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.track-charts__menu {
+  color: rgb(102, 102, 102);
+  text-align: right;
+  button {
+    text-transform: uppercase;
+  }
+}
+
+.track-charts__chart {
+  width: 100%;
+  height: 250px;
+}
