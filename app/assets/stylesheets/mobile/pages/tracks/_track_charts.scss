@@ -11,6 +11,8 @@
   color: rgb(102, 102, 102);
   text-align: right;
   button {
+    -webkit-appearance: none;
+    border-radius: 0;
     text-transform: uppercase;
   }
 }

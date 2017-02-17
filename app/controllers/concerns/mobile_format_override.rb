@@ -15,7 +15,12 @@ module MobileFormatOverride
   end
 
   def override_format_if_mobile
-    request.format = :mobile if mobile?
+    return unless mobile?
+    if request.xhr?
+      request.variant = :mobile
+    else
+      request.format = :mobile
+    end
   end
 
   def mobile?
