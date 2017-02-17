@@ -1,12 +1,12 @@
 <% unless params[:append] %>
-  $('#tracks-table .thead').html('<%= j render(partial: 'tracks/table_header') %>');
+  $('#tracks-table .thead').html('<%= j render(partial: 'tracks/table_header', formats: :mobile) %>');
   $('#tracks-table .tbody').empty();
 <% end %>
 
-$('#tracks-table .tbody').append('<%= j render(partial: 'tracks/track', collection: @tracks, formats: [:mobile]) %>');
+$('#tracks-table .tbody').append('<%= j render(partial: 'tracks/track', collection: @tracks, formats: :mobile) %>');
 
-// $('.tracks-index .tracks-filters').replaceWith('<%= j render(partial: 'tracks/filters') %>');
-// <%= render partial: 'tracks/init_filter_elements' %>
+$('.tracks-filters').replaceWith('<%= j render(partial: 'tracks/filters', formats: :mobile) %>');
+// <% render partial: 'tracks/init_filter_elements' %>
 
 <% if @tracks.next_page %>
     $('.pagination-load-more').html('<%= j will_paginate(@tracks, renderer: WillPaginateLoadMoreRenderer) %>');
@@ -15,7 +15,7 @@ $('#tracks-table .tbody').append('<%= j render(partial: 'tracks/track', collecti
 <% end %>
 $('.pagination-list').html('<%= j will_paginate(@tracks, renderer: BootstrapPagination::Rails) %>');
 
-window.history.replaceState(
+window.history.pushState(
   {},
   document.title,
   "<%= url_for(index_params).html_safe %>"
