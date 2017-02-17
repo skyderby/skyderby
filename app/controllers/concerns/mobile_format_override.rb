@@ -19,6 +19,6 @@ module MobileFormatOverride
   end
 
   def mobile?
-    browser.device.mobile? && session[:mobile] == '1'
+    browser.device.mobile? && session[:mobile] == '1' && current_user&.has_role?(:early_preview)
   end
 end
