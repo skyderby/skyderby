@@ -14,10 +14,7 @@ class SponsorsController < ApplicationController
     if @sponsor.save
       @sponsor
     else
-      respond_to do |format|
-        format.js { render template: 'errors/ajax_errors', locals: {errors: @sponsor.errors} }
-        format.json { render json: @sponsor.errors, status: :unprocessible_entry }
-      end
+      respond_with_error
     end
   end
 
@@ -28,14 +25,18 @@ class SponsorsController < ApplicationController
         format.json { head :no_content }
       end
     else
-      respond_to do |format|
-        format.js { render template: 'errors/ajax_errors', locals: {errors: @sponsor.errors} }
-        format.json { render json: @sponsor.errors, status: :unprocessible_entry }
-      end
+      respond_with_error
     end
   end
 
   private
+
+  def respond_with_error
+    respond_to do |format|
+      format.js { render template: 'errors/ajax_errors', locals: { errors: @sponsor.errors } }
+      format.json { render json: @sponsor.errors, status: :unprocessible_entry }
+    end
+  end
 
   def set_sponsor
     @sponsor = Sponsor.find(params[:id])
