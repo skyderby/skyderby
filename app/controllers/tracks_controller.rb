@@ -12,7 +12,7 @@ class TracksController < ApplicationController
     @tracks = TrackFilter.new(index_params[:query]).apply(@tracks)
     @tracks = TrackOrder.new(index_params[:order]).apply(@tracks)
 
-    rows_per_page = request.format == :mobile ? 20 : 50
+    rows_per_page = request.variant.include?(:mobile) ? 20 : 50
 
     @tracks = @tracks
               .left_outer_joins(:time, :distance, :speed)

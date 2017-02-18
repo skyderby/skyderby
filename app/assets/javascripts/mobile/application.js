@@ -12,6 +12,7 @@
 //= require jquery.validate
 //= require additional-methods.min
 //= require jquery.cookie
+//= require select2.min
 //= require ion.rangeSlider
 //= require i18n/translations
 //= require highcharts
@@ -20,7 +21,6 @@
 //= require backbone
 //= require backbone_rails_sync
 //= require backbone_datalink
+//= require_tree ../common
 //= require app/app
-//= require_tree ../app/helpers
-//= requiew_tree ../common
 //= require_self

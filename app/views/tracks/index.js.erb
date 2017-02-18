@@ -1,3 +1,5 @@
+$('#tracks-filters-modal').modal('hide');
+
 <% unless params[:append] %>
   $('#tracks-table .thead').html('<%= j render(partial: 'tracks/table_header') %>');
   $('#tracks-table .tbody').empty();

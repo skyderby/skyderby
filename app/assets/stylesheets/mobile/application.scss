@@ -2,6 +2,8 @@
  *= require bootstrap_and_overrides
  *= require ion.rangeSlider
  *= require ion.rangeSlider.skinFlat
+ *= require select2.min
+ *= require select2-bootstrap
 */
 
 @import '../ajax_error_message';

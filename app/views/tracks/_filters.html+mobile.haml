@@ -1,6 +1,6 @@
 - query_params = index_params[:query] || {}
 .tracks-filters
-  %a.btn.btn-default.btn-sm
+  %button.btn.btn-default.btn-sm{data: {toggle:'modal', target:'#tracks-filters-modal'}}
     %i.fa.fa-filter
     =t '.filters'
 
@@ -24,6 +24,46 @@
                 remote: true,
                 class: ['btn btn-sm btn-default', ('active' if activity == 'base')],
                 rel: 'nofollow'
+
+  .modal.fade#tracks-filters-modal{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
+    .modal-dialog
+      .modal-content
+        = form_for tracks_path, method: :get, remote: :true do |f|
+          .modal-header
+            %button.close{type: 'button', data: {dismiss: 'modal'}}
+              %span{aria: {hidden: 'true'}}
+                &times;
+              %span.sr-only
+                Close
+            %h4.modal-title=t '.filters'
+
+          .modal-body
+            .form-group
+              %label
+                = t('tracks.index.filter_by_pilot')
+              = select_tag('query_profile_id',
+                            options_for_select([ [profile_name_by_id(query_params[:profile_id]), query_params[:profile_id]] ]),
+                            name: 'query[profile_id]',
+                            class: 'form-control') 
+
+            .form-group
+              %label
+                = t('tracks.index.filter_by_suit')
+              = select_tag('query_wingsuit_id',
+                            options_for_select([ [suit_name_by_id(query_params[:wingsuit_id]), query_params[:wingsuit_id]] ]),
+                            name: 'query[wingsuit_id]',
+                            class: 'form-control')
+
+            .form-group
+              %label
+                = t('tracks.index.filter_by_place')
+              = select_tag('query_place_id',
+                            options_for_select([ [place_name_by_id(query_params[:place_id]), query_params[:place_id]] ]),
+                            name: 'query[place_id]',
+                            class: 'form-control')
+          .modal-footer
+            %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t('general.cancel')
+            = f.submit 'OK', class: 'btn btn-primary'
 
 - content_for :page_js do
   %script
