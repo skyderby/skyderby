@@ -4,8 +4,6 @@ module MobileFormatOverride
   included do
     before_action :prepare_mobile, :override_format_if_mobile
 
-    append_view_path MobileFallbackResolver.new('app/views')
-
     helper_method :mobile_device?
     helper_method :mobile?
   end
@@ -16,14 +14,10 @@ module MobileFormatOverride
 
   def override_format_if_mobile
     return unless mobile?
-    if request.xhr?
-      request.variant = :mobile
-    else
-      request.format = :mobile
-    end
+    request.variant = :mobile
   end
 
   def mobile?
-    browser.device.mobile? && session[:mobile] == '1' && current_user&.has_role?(:early_preview)
+    browser.device.mobile? && session[:mobile] == '1'# && current_user&.has_role?(:early_preview)
   end
 end
