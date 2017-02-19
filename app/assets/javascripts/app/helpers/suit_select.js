@@ -4,6 +4,7 @@ Skyderby.helpers.SuitSelect = function(elem, opts) {
 
     var options = {
         theme: 'bootstrap',
+        containerCssClass: ':all:',
         width: '100%',
         placeholder: I18n.t('tracks.form.suit_select_placeholder'),
         allowClear: true,

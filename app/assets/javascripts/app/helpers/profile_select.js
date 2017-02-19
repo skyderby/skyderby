@@ -4,6 +4,7 @@ Skyderby.helpers.ProfileSelect = function(elem, opts) {
 
     var options = {
         theme: 'bootstrap',
+        containerCssClass: ':all:',
         width: '100%',
         placeholder: I18n.t('tracks.form.profile_select_placeholder'),
         allowClear: true,

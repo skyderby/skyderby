@@ -1,6 +1,7 @@
 Skyderby.helpers.PlaceSelect = function(elem, opts) {
     var options = {
         theme: 'bootstrap',
+        containerCssClass: ':all:',
         width: '100%',
         placeholder: I18n.t('events.show.place_placeholder'),
         allowClear: true,
