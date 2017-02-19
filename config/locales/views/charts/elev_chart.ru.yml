@@ -6,5 +6,5 @@ ru:
         distance: "Дистанция, %{unit}"
       series:
         elevation: "Пройдено по высоте"
-        distance: "Пройдено Расстояние"
+        distance: "Пройдено расстояние"
         height: "Высота"
