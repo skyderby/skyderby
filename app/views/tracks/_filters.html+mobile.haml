@@ -1,8 +1,8 @@
 - query_params = index_params[:query] || {}
 .tracks-filters
-  %button.btn.btn-default.btn-sm{data: {toggle:'modal', target:'#tracks-filters-modal'}}
+  %button.btn.btn-default{data: {toggle:'modal', target:'#tracks-filters-modal'}}
     %i.fa.fa-filter
-    =t '.filters'
+    =t 'tracks.index.filters'
 
   .pull-right
     .btn-group
@@ -10,19 +10,19 @@
       = link_to t('.all'),
                 index_params.merge(query: query_params.except(:kind)),
                 remote: true,
-                class: ['btn btn-sm btn-default', ('active' unless activity)],
+                class: ['btn btn-default', ('active' unless activity)],
                 rel: 'nofollow'
 
       = link_to 'Skydive',
                 index_params.merge(query: query_params.merge(kind: 'skydive')),
                 remote: true,
-                class: ['btn btn-sm btn-default', ('active' if activity == 'skydive')],
+                class: ['btn btn-default', ('active' if activity == 'skydive')],
                 rel: 'nofollow'
 
       = link_to 'B.A.S.E.',
                 index_params.merge(query: query_params.merge(kind: 'base')),
                 remote: true,
-                class: ['btn btn-sm btn-default', ('active' if activity == 'base')],
+                class: ['btn btn-default', ('active' if activity == 'base')],
                 rel: 'nofollow'
 
   .modal.fade#tracks-filters-modal{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
@@ -35,7 +35,7 @@
                 &times;
               %span.sr-only
                 Close
-            %h4.modal-title=t '.filters'
+            %h4.modal-title=t 'tracks.index.filters'
 
           .modal-body
             .form-group
@@ -44,7 +44,7 @@
               = select_tag('query_profile_id',
                             options_for_select([ [profile_name_by_id(query_params[:profile_id]), query_params[:profile_id]] ]),
                             name: 'query[profile_id]',
-                            class: 'form-control') 
+                            class: 'form-control input-lg') 
 
             .form-group
               %label
@@ -52,7 +52,7 @@
               = select_tag('query_wingsuit_id',
                             options_for_select([ [suit_name_by_id(query_params[:wingsuit_id]), query_params[:wingsuit_id]] ]),
                             name: 'query[wingsuit_id]',
-                            class: 'form-control')
+                            class: 'form-control input-lg')
 
             .form-group
               %label
@@ -60,10 +60,10 @@
               = select_tag('query_place_id',
                             options_for_select([ [place_name_by_id(query_params[:place_id]), query_params[:place_id]] ]),
                             name: 'query[place_id]',
-                            class: 'form-control')
+                            class: 'form-control input-lg')
           .modal-footer
-            %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t('general.cancel')
-            = f.submit 'OK', class: 'btn btn-primary'
+            %button.btn.btn-lg.btn-default{type: 'button', data: {dismiss: 'modal'}}= t('general.cancel')
+            = f.submit 'OK', class: 'btn btn-primary btn-lg'
 
 - content_for :page_js do
   %script
