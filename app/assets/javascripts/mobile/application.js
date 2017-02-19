@@ -12,7 +12,7 @@
 //= require jquery.validate
 //= require additional-methods.min
 //= require jquery.cookie
-//= require select2.min
+//= require select2.full
 //= require ion.rangeSlider
 //= require i18n/translations
 //= require highcharts
