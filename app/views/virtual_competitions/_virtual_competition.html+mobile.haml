@@ -1,0 +1,14 @@
+= link_to virtual_competition_path(virtual_competition), class: 'tr online-competition-row' do
+  .td= virtual_competition.name
+  .td
+    - if virtual_competition.place
+      = place_presentation(virtual_competition.place)
+    - else
+      = t('virtual_competitions.worldwide')
+
+
+  - if virtual_competition.distance_in_time?
+    - task = 'Distance in ' + virtual_competition.discipline_parameter.to_s + ' sec'
+  - else
+    - task = virtual_competition.discipline.humanize
+  .td= task

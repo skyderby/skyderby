@@ -1,0 +1,16 @@
+.online-competitions-index
+  - if can? :create, VirtualCompetition
+    %a.btn.btn-default.btn-info{href: new_virtual_competition_path}
+      %i.fa.fa-plus
+      = 'Онлайн соревнование'
+  - @competitions.each do |group, competitions|
+    .online-competition-group
+      %h3.online-competition-group__header= group
+      .table
+        .thead
+          .tr
+            .th= 'Name'
+            .th= 'Location'
+            .th= 'Task'
+        .tbody
+          = render competitions
