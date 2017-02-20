@@ -5,6 +5,7 @@
   .td
     .cell-caption.text-muted.visible-xs
       = "##{track.id}"
+      = track_icons(track)
     %div
       = track_pilot(track)
   - unless except_columns.include? :suit
