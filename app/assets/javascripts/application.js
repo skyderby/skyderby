@@ -39,7 +39,7 @@
 //= require highcharts-more
 //= require app/app
 //= require_tree ./events
-//= requiew_tree ./common
+//= require_tree ./common
 //= require_self
 
 $(document).on('ready turbolinks:load', function() {
