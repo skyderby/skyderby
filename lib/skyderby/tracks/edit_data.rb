@@ -6,7 +6,7 @@ module Skyderby
       def initialize(track)
         super
 
-        @duration = @points.last[0]
+        @duration = @points.last&[0] || 0
         @ff_start = track.ff_start || 0
         @ff_end = track.ff_end || @duration
       end
@@ -41,11 +41,13 @@ module Skyderby
       def init_points
         min_gps_time = @track.points.minimum(:gps_time_in_seconds)
 
-        points = @track.points.freq_1Hz.pluck_to_hash(
+        points = @track.points.reorder('round(gps_time_in_seconds)').pluck_to_hash(
+          'DISTINCT ON (round(gps_time_in_seconds))' \
           "gps_time_in_seconds - #{min_gps_time} AS gps_time",
-          "#{@track.point_altitude_field} AS altitude")
+          "#{@track.point_altitude_field} AS altitude"
+        )
 
-        @points = points.map { |point| [ point[:gps_time].to_i, point[:altitude] ] }
+        @points = points.map { |point| [point[:gps_time].to_i, point[:altitude]] }
       end
     end
   end
