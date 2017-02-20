@@ -62,8 +62,9 @@
                             name: 'query[place_id]',
                             class: 'form-control input-lg')
           .modal-footer
-            %button.btn.btn-lg.btn-default{type: 'button', data: {dismiss: 'modal'}}= t('general.cancel')
-            = f.submit 'OK', class: 'btn btn-primary btn-lg'
+            .tracks-filters__modal-footer
+              %button.btn.btn-lg.btn-default{type: 'button', data: {dismiss: 'modal'}}= t('general.cancel')
+              = f.submit 'OK', class: 'btn btn-primary btn-lg'
 
 - content_for :page_js do
   %script
