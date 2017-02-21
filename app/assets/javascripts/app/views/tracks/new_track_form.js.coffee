@@ -25,17 +25,17 @@ class Skyderby.views.NewTrackForm extends Backbone.View
   init_form_validation: ->
     @$('#track_upload_form').validate(
       ignore: 'input[type=hidden]',
-      groups:
-        suit: 'track_file[track_attributes][wingsuit_id] track_file[track_attributes][suit]'
       rules:
         'track_file[track_attributes][name]':
           minlength: 3,
           required: ->
             return $('#newTrackModal input#name')
         'track_file[track_attributes][wingsuit_id]':
-          require_from_group: [1, '.suit-group']
+          required: ->
+            $('[name="track_file[track_attributes][wingsuit_id]"]').is(':visible')
         'track_file[track_attributes][suit]':
-          require_from_group: [1, '.suit-group']
+          required: ->
+            $('[name="track_file[track_attributes][suit]"]').is(':visible')
         'track_file[track_attributes][location]':
           minlength: 3,
           required: true
@@ -116,12 +116,14 @@ class Skyderby.views.NewTrackForm extends Backbone.View
 
   clean_hide_suit_select: ->
     @$('.new-track-wingsuit-select').val(null).trigger('change')
+    @$('.new-track-wingsuit-select').hide()
     @$('.new-track-wingsuit-select + span').hide()
 
   show_suit_input: ->
     @$('input[name="track_file[track_attributes][suit]"]').show()
 
   show_suit_select: ->
+    @$('.new-track-wingsuit-select').show()
     @$('.new-track-wingsuit-select + span').show()
 
   current_suit_mode: ->
