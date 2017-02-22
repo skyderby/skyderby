@@ -2,8 +2,8 @@
 // Common variables
 //
 
-@sf-background-color: lightgray;
-@sf-height: 150px;
+$sf-background-color: lightgray;
+$sf-height: 150px;
 
 .index-page-wrapper {
   background-color: #fff;
@@ -292,36 +292,36 @@ pre.prettyprint {
 #gpx-sf {
     background: asset-url('gpx.png') no-repeat center center;
     background-size: auto 120px;
-    height: @sf-height;
+    height: $sf-height;
 }
 
 #fs-sf {
     background: asset-url('flysight.jpg') no-repeat center center;
     background-size: contain;
-    height: @sf-height;
+    height: $sf-height;
 }
 
 #garmin-sf {
     background: asset-url('garmin-foretrex.jpg') no-repeat center center;
     background-size: contain;
-    height: @sf-height;
+    height: $sf-height;
 }
 
 #wintec-sf {
     background: asset-url('wintec.jpg') no-repeat center center;
     background-size: contain;
-    height: @sf-height;
+    height: $sf-height;
 }
 
 #columbus-sf {
     background: asset-url('columbus-v900.png') no-repeat center center;
     background-size: contain;
-    height: @sf-height;
+    height: $sf-height;
 }
 
 #dual-xgps {
     background: asset-url('dual-xgps.png') no-repeat center center;
     background-size: contain;
-    height: @sf-height;
+    height: $sf-height;
 }
 

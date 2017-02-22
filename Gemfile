@@ -48,12 +48,8 @@ gem 'coffee-rails'
 gem 'uglifier', '>= 2.7.2'
 gem 'turbolinks'
 
-gem 'therubyracer', '0.12.0'
-gem 'less-rails'
-
-gem 'twitter-bootstrap-rails'
-
-gem 'font-awesome-rails'
+gem 'bootstrap-sass', '~> 3.3.7'
+gem 'font-awesome-sass', '~> 4.7.0'
 
 gem 'bootstrap-datepicker-rails'
 

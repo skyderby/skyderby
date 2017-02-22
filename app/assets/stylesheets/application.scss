@@ -13,24 +13,28 @@
  *= require select2-bootstrap
  *= require ion.rangeSlider
  *= require ion.rangeSlider.skinFlat
- *= require bootstrap_and_overrides
  *= require_self
  *= require normalize.min
- *= require_tree ./events
- *= require_tree ./tracks
- *= require_directory .
  */
+
+@import 'bootstrap_variables_overrides';
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+@import 'variables';
+@import './*';
+@import './common/**/*';
+@import './blocks/**/*';
+@import './events/**/*';
+@import './tracks/**/*';
 
 html, body {
   height: 100%;
   background-color: #fafafa;
 }
-
-// body, p, ol, ul, td {
-//   font-family: verdana, arial, helvetica, sans-serif; 
-//   font-size:   13px;
-//   line-height: 18px;
-// }
 
 a, button, label, span {
   transition-property: border-color, background, color;
@@ -72,26 +76,6 @@ a.dropdown-toggle.profile-dropdown {
 
 .datepicker {
   z-index: 1151 !important;
-}
-
-.btn-file {
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-file input[type=file] {
-  position: absolute;
-  top: 0;
-  right: 0;
-  min-width: 100%;
-  min-height: 100%;
-  font-size: 100px;
-  text-align: right;
-  filter: alpha(opacity=0);
-  opacity: 0;
-  background: red;
-  cursor: inherit;
-  display: block;
 }
 
 input[readonly] {

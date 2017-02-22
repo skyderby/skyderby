@@ -1,0 +1,63 @@
+#footer {
+  background-color: $navbar-default-bg;
+  border-top-color: $navbar-default-border;
+  border-top-style: solid;
+  border-top-width: 1px;
+  margin-top: 20px;
+  padding-top: 13px;
+  font-size: 12px;
+  color: $navbar-default-color;
+  height: 40px;
+}
+
+.navbar {
+  margin-bottom: 0;
+}
+
+.navbar li.sign-in a {
+  padding-left: 0px;  
+}
+
+.navbar a.locale-dropdown {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: $navbar-default-border; 
+}
+
+.navbar-fixed-top {
+  -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.08);
+  -moz-box-shadow:    0px 1px 2px 0px rgba(0,0,0,0.08);
+  box-shadow:         0px 1px 2px 0px rgba(0,0,0,0.08);
+}
+
+.navbar-nav > li.nav-active > a {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-top-style: solid;
+  border-top-width: 3px;
+  border-top-color: transparent;
+  border-bottom-style: solid;
+  border-bottom-width: 3px;
+  border-bottom-color: rgb(0, 132, 180);
+}
+
+li.nav-upload-button {
+  margin-right: 10px; 
+  padding-top: 9px;
+  padding-bottom: 9px;
+  border-color: rgba(173, 173, 173, 0.5);
+
+  &> a.btn {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-image: linear-gradient(rgb(252, 252, 252), rgb(238, 238, 238));
+
+    &:hover {
+      background-image: linear-gradient(rgb(238, 238, 238), rgb(221, 221, 221));
+    }
+  }
+}

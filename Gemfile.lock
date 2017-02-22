@@ -51,11 +51,16 @@ GEM
       rake (>= 10.4, < 12.0)
     arel (7.1.4)
     ast (2.3.0)
+    autoprefixer-rails (6.5.3.1)
+      execjs
     bcrypt (3.1.11)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bootstrap-datepicker-rails (1.6.4.1)
       railties (>= 3.0)
+    bootstrap-sass (3.3.7)
+      autoprefixer-rails (>= 5.2.1)
+      sass (>= 3.3.4)
     browser (2.3.0)
     builder (3.2.2)
     bullet (5.4.2)
@@ -86,7 +91,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.11.1)
-    commonjs (0.2.7)
     concurrent-ruby (1.0.3)
     connection_pool (2.2.1)
     database_cleaner (1.5.3)
@@ -114,8 +118,8 @@ GEM
     factory_girl_rails (4.7.0)
       factory_girl (~> 4.7.0)
       railties (>= 3.0.0)
-    font-awesome-rails (4.7.0.0)
-      railties (>= 3.2, < 5.1)
+    font-awesome-sass (4.7.0)
+      sass (>= 3.2)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     haml (4.0.7)
@@ -135,14 +139,6 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.3)
     kgio (2.10.0)
-    less (2.6.0)
-      commonjs (~> 0.2.7)
-    less-rails (2.8.0)
-      actionpack (>= 4.0)
-      less (~> 2.6.0)
-      sprockets (> 2, < 4)
-      tilt
-    libv8 (3.16.14.17)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.4)
@@ -231,7 +227,6 @@ GEM
     rake (11.3.0)
     rdoc (4.3.0)
     redis (3.3.2)
-    ref (2.0.0)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
     rspec (3.5.0)
@@ -298,20 +293,12 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    therubyracer (0.12.0)
-      libv8 (~> 3.16.14.0)
-      ref
     thor (0.19.4)
     thread_safe (0.3.5)
     tilt (2.0.5)
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.0)
-    twitter-bootstrap-rails (3.2.2)
-      actionpack (>= 3.1)
-      execjs (>= 2.2.2, >= 2.2)
-      less-rails (>= 2.5.0)
-      railties (>= 3.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (3.0.3)
@@ -340,6 +327,7 @@ DEPENDENCIES
   annotate
   binding_of_caller
   bootstrap-datepicker-rails
+  bootstrap-sass (~> 3.3.7)
   browser
   bullet
   cancancan
@@ -351,13 +339,12 @@ DEPENDENCIES
   dotenv-rails
   exception_notification
   factory_girl_rails
-  font-awesome-rails
+  font-awesome-sass (~> 4.7.0)
   haml
   http_accept_language
   i18n-js (>= 3.0.0.rc8)
   jbuilder (~> 1.2)
   jquery-rails
-  less-rails
   meta_request
   newrelic_rpm
   nokogiri (~> 1.6.8)
@@ -383,9 +370,7 @@ DEPENDENCIES
   simplecov
   slack-notifier
   spring
-  therubyracer (= 0.12.0)
   turbolinks
-  twitter-bootstrap-rails
   uglifier (>= 2.7.2)
   unicorn
   will_paginate

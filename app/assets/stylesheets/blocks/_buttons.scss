@@ -1,0 +1,54 @@
+.btn-link {
+  padding: 0;
+  vertical-align: baseline;
+}
+
+.dropdown-menu > li > button.btn-link,
+.dropdown-menu > li > form.button_to > input,
+.dropdown-menu > li > form.button_to > button.btn-link
+{
+    display: block;
+    width: 100%;
+    clear: both;
+    color: $dropdown-link-color;
+    white-space: nowrap; // prevent links from randomly breaking onto new lines
+
+    font-weight: normal;
+    text-decoration: none;
+    text-align: left;
+    line-height: $line-height-base;
+}
+
+.dropdown-menu > li > form.button_to {
+  padding: 3px 20px;
+  display: block;
+}
+
+
+// Hover/Focus state
+.dropdown-menu > li > button.btn-link,
+.dropdown-menu > li > form.button_to,
+.dropdown-menu > li > form.button_to > input
+{
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    color: $dropdown-link-hover-color;
+    background-color: $dropdown-link-hover-bg;
+  }
+}
+
+// Active state
+.dropdown-menu > .active > button.btn-link,
+.dropdown-menu > .active > form.button_to,
+.dropdown-menu > .active > form.button_to > input
+{
+  &,
+  &:hover,
+  &:focus {
+    color: $dropdown-link-active-color;
+    text-decoration: none;
+    outline: 0;
+    background-color: $dropdown-link-active-bg;
+  }
+}

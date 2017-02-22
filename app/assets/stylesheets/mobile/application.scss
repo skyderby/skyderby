@@ -1,14 +1,17 @@
 /*
- *= require bootstrap_and_overrides
  *= require ion.rangeSlider
  *= require ion.rangeSlider.skinFlat
  *= require select2.min
  *= require select2-bootstrap
 */
 
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
 @import '../variables';
-@import '../ajax_error_message';
-@import '../flags';
-@import '../tables';
+@import '../common/**/*';
 
 @import '**/*';
