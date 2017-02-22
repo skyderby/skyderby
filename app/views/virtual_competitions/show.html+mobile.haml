@@ -41,8 +41,7 @@
             .online-competition__suit-place
               = suit_presentation(personal_score.wingsuit)
               - if @competition.worldwide?
-                @
-                = track_place(personal_score.track)
+                = "@&nbsp;".html_safe + track_place(personal_score.track)
 
           - if @competition.display_highest_speed || @competition.display_highest_gr
             .td.online-competition__bests
@@ -55,8 +54,7 @@
                   Best G/R: 
                   = (personal_score.highest_gr || 0.0).round(2)
           .td.online-competition__result
-            = format_result(personal_score.result, @competition)
-            = competition_unit(@competition)
+            = "#{format_result(personal_score.result, @competition)}&nbsp;#{competition_unit(@competition)}".html_safe
           -# .td.text-right= personal_score.recorded_at.strftime('%d.%m.%Y')
           -# .td
           -#   - if personal_score.track.video
