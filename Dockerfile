@@ -4,6 +4,7 @@ MAINTAINER Aleksandr Kunin <skyksandr@gmail.com>
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
+        nodejs \
         postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
