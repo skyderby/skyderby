@@ -1,0 +1,75 @@
+- provide :title, competition_title(@competition)
+
+.online-competition
+  - if can? :update, @competition
+    = link_to edit_virtual_competition_path(@competition), class: 'btn-flat' do
+      %i.fa.fa-pencil
+      = t('general.edit')
+  %h2= competition_title(@competition)
+  %div.top-buffer
+    = t('virtual_competitions.place')
+    - if @competition.place
+      = place_presentation(@competition.place)
+    - else
+      = t('virtual_competitions.worldwide')
+
+  %div= competition_suit
+  %div= competition_task(@competition)
+
+  .table.online-competition__table
+    -# .thead
+    -#   .tr
+    -#     .th= '#'
+    -#     .th=t 'activerecord.attributes.track.name'
+    -#     .th=t 'activerecord.attributes.track.suit'
+    -#     - if @competition.worldwide?
+    -#       .th= t 'activerecord.attributes.track.place'
+    -#     .th.text-right= 'Result'
+    -#     - if @competition.display_highest_speed
+    -#       .th.text-right= 'Best speed'
+    -#     - if @competition.display_highest_gr
+    -#       .th.text-right= 'Best G/R'
+    -#     .th.text-right=t 'activerecord.attributes.track.recorded_at'
+    -#     .th
+    .tbody
+      - @competition.personal_top_scores.each do |personal_score|
+        = link_to personal_score.track, class: 'tr online-competition__personal-score' do
+          .td.online-competition__rank= personal_score.rank
+          .td
+            .online-competition__profile
+              = personal_score.profile.name.titleize
+            .online-competition__suit-place
+              = suit_presentation(personal_score.wingsuit)
+              - if @competition.worldwide?
+                @
+                = track_place(personal_score.track)
+
+          - if @competition.display_highest_speed || @competition.display_highest_gr
+            .td.online-competition__bests
+              - if @competition.display_highest_speed
+                %div
+                  Best speed:
+                  = (personal_score.highest_speed || 0.0).round(1)
+              - if @competition.display_highest_gr
+                %div
+                  Best G/R: 
+                  = (personal_score.highest_gr || 0.0).round(2)
+          .td.online-competition__result
+            = format_result(personal_score.result, @competition)
+            = competition_unit(@competition)
+          -# .td.text-right= personal_score.recorded_at.strftime('%d.%m.%Y')
+          -# .td
+          -#   - if personal_score.track.video
+          -#     %i.fa.fa-video-camera
+
+
+  - unless @competition.sponsors.empty?
+    .row.top-buffer
+      .col-md-12
+        %h4= t('events.show.event_sponsors') + ':'
+    .row#sponsors
+      = render @competition.sponsors
+    - if can? :edit, @competition
+      = link_to new_virtual_competition_sponsor_path(virtual_competition_id: @competition.id), remote: true, class: 'add-sponsor' do
+        %i.fa.fa-plus
+        = t('.add_sponsor')

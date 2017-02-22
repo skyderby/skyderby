@@ -1,0 +1,37 @@
+.online-competition__personal-score {
+  color: $table-text-color;
+  font-size: 18px;
+
+  .td { vertical-align: middle; }
+}
+
+.online-competition__personal-score .td:nth-of-type(1) {
+  border-left: transparent solid 5px;
+}
+
+.online-competition__personal-score:nth-of-type(1) .td:nth-of-type(1){
+  border-left-color: $gold;
+}
+
+.online-competition__personal-score:nth-of-type(2) .td:nth-of-type(1){
+  border-left-color: $silver;
+}
+
+.online-competition__personal-score:nth-of-type(3) .td:nth-of-type(1){
+  border-left-color: $bronze;
+}
+
+.online-competition__rank {
+  font-size: 24px;
+  font-weight: bold;
+  color: rgba($table-text-color, 0.8);
+}
+
+.online-competition__suit-place {
+  font-size: 10px;
+}
+
+.online-competition__bests {
+  font-size: 10px;
+  color: rgba($table-text-color, 0.7);
+}
