@@ -1,11 +1,12 @@
 .online-competition__header {
   font-size: 24px;
-  color: lighten($main-text-color, 20%);
+  line-height: 1.45;
   padding-left: 15px;
   padding-right: 15px;
 }
 
 .online-competition__subheader {
+  color: lighten($main-text-color, 20%);
   font-family: Georgia;
   padding-left: 15px;
   padding-right: 15px;
