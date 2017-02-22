@@ -1,3 +1,21 @@
+.online-competition__header {
+  font-size: 24px;
+  color: lighten($main-text-color, 20%);
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.online-competition__subheader {
+  font-family: Georgia;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.online-competition__table {
+  margin-top: 20px;
+  background-color: white;
+}
+
 .online-competition__personal-score {
   color: $table-text-color;
   font-size: 18px;

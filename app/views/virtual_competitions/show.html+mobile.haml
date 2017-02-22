@@ -5,16 +5,16 @@
     = link_to edit_virtual_competition_path(@competition), class: 'btn-flat' do
       %i.fa.fa-pencil
       = t('general.edit')
-  %h2= competition_title(@competition)
-  %div.top-buffer
+  %h2.online-competition__header= competition_title(@competition)
+  .online-competition__subheader
     = t('virtual_competitions.place')
     - if @competition.place
       = place_presentation(@competition.place)
     - else
       = t('virtual_competitions.worldwide')
 
-  %div= competition_suit
-  %div= competition_task(@competition)
+    %div= competition_suit
+    %div= competition_task(@competition)
 
   .table.online-competition__table
     -# .thead
