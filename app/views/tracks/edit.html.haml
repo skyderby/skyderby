@@ -151,22 +151,26 @@
 
     $('#track_edit_form').validate({
       ignore: 'input[type=hidden]',
-      groups: {
-        suit: 'track[wingsuit_id] track[suit]',
-        place: 'track[place_id] track[location]'
-      },
       rules: {
         'track[wingsuit_id]': {
-          require_from_group: [1, '.suit-group']
+          required: function() {
+            return $('[name="track[wingsuit_id]"]').is(':visible');
+          }
         },
         'track[suit]': {
-          require_from_group: [1, '.suit-group']
+          required: function() {
+            return $('[name="track[suit]"]').is(':visible');
+          }
         },
         'track[place_id]': {
-          require_from_group: [1, '.place-group']
+          required: function() {
+            return $('[name="track[place_id]"]').is(':visible');
+          }
         },
         'track[location]': {
-          require_from_group: [1, '.place-group']
+          required: function() {
+            return $('[name="track[location]"]').is(':visible');
+          }
         },
       },
       messages: {

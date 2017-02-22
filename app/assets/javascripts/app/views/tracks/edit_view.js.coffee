@@ -100,52 +100,61 @@ class Skyderby.views.TrackEditView extends Backbone.View
     link = @$('.toggle-suit')
     caption = @$('.toggle-suit-caption')
     input = @$('input[name="track[suit]"]')
-    select_el = @$('select[name="track[wingsuit_id]"] + span')
+    select = @$('select[name="track[wingsuit_id]"]')
+    select_control = @$('select[name="track[wingsuit_id]"] + span')
 
     if @suit_mode == 'select'
       link.text(I18n.t('tracks.form.toggle_suit_link'))
       caption.text(I18n.t('tracks.form.toggle_suit_caption'))
       input.hide()
-      select_el.show()
+      select.show()
+      select_control.show()
     else
       link.text(I18n.t('tracks.form.toggle_suit_link_select'))
       caption.text(I18n.t('tracks.form.toggle_suit_caption_select'))
       input.show()
-      select_el.hide()
+      select.hide()
+      select_control.hide()
 
   on_place_mode_change: () ->
     link = @$('.toggle-place')
     caption = @$('.toggle-place-caption')
     input = @$('input[name="track[location]"]')
-    select_el = @$('select[name="track[place_id]"] + span')
+    select = @$('select[name="track[place_id]"]')
+    select_control = @$('select[name="track[place_id]"] + span')
 
     if @place_mode == 'select'
       link.text(I18n.t('tracks.form.toggle_place_link'))
       caption.text(I18n.t('tracks.form.toggle_place_caption'))
       input.hide()
-      select_el.show()
+      select.show()
+      select_control.show()
     else
       link.text(I18n.t('tracks.form.toggle_place_link_select'))
       caption.text(I18n.t('tracks.form.toggle_place_caption_select'))
       input.show()
-      select_el.hide()
+      select.hide()
+      select_control.hide()
 
   on_pilot_mode_change: () ->
     link = @$('.toggle-profile')
     caption = @$('.toggle-profile-caption')
     input = @$('input[name="track[name]"]')
-    select_el = @$('select[name="track[profile_id]"] + span')
+    select = @$('select[name="track[profile_id]"]')
+    select_control = @$('select[name="track[profile_id]"] + span')
 
     if @pilot_mode == 'select'
       link.text(I18n.t('tracks.form.toggle_profile_link'))
       caption.text(I18n.t('tracks.form.toggle_profile_caption'))
       input.hide()
-      select_el.show()
+      select.show()
+      select_control.show()
     else
       link.text(I18n.t('tracks.form.toggle_profile_link_select'))
       caption.text(I18n.t('tracks.form.toggle_profile_caption_select'))
       input.show()
-      select_el.hide()
+      select.hide()
+      select_control.hide()
 
   on_click_submit: () ->
     if @suit_mode == 'select'
