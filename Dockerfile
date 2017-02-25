@@ -24,7 +24,7 @@ RUN mkdir -p /opt/app \
 WORKDIR /opt/app
 COPY ./ /opt/app
 
-RUN rake assets:precompile
+RUN DATABASE_URL=postgres://user:pass@127.0.0.1/does_not_exist_dbname /bin/sh -c 'bundle exec rake assets:precompile'
 
 VOLUME /opt/app/public/assets
 VOLUME /opt/app/public
