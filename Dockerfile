@@ -24,12 +24,11 @@ RUN mkdir -p /opt/app \
 WORKDIR /opt/app
 COPY ./ /opt/app
 
-VOLUME /opt/app/log
-VOLUME /opt/app/tmp
+RUN rake assets:precompile
+
 VOLUME /opt/app/public/assets
-VOLUME /opt/app/public/system
+VOLUME /opt/app/public
 
 CMD rake db:migrate \
-  && rake assets:precompile \
   && rm -rf /opt/app/tmp/pids/unicorn.pid \
   && bundle exec unicorn -c config/unicorn.rb
