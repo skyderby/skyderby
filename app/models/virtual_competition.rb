@@ -42,16 +42,16 @@ class VirtualCompetition < ApplicationRecord
   def window_params
     case discipline
     when 'distance', 'speed', 'time'
-      {from_altitude: range_from, to_altitude: range_to}
+      { from_altitude: range_from, to_altitude: range_to }
     when 'distance_in_time'
-      {from_vertical_speed: BASE_START_SPEED, duration: discipline_parameter}
+      { from_vertical_speed: BASE_START_SPEED, duration: discipline_parameter }
     when 'distance_in_altitude'
-      {from_vertical_speed: BASE_START_SPEED, elevation: discipline_parameter}
+      { from_vertical_speed: BASE_START_SPEED, elevation: discipline_parameter }
     end
   end
 
   def task
-    if ['distance_in_time', 'distance_in_altitude'].include? discipline
+    if %w(distance_in_time distance_in_altitude).include? discipline
       'distance'
     else
       discipline
@@ -59,6 +59,6 @@ class VirtualCompetition < ApplicationRecord
   end
 
   def worldwide?
-    place.nil?
+    !place
   end
 end
