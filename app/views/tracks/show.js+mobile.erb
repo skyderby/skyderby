@@ -5,9 +5,9 @@ $('.settings-button').html("<%= j render(partial: 'tracks/view_settings_menu') %
 $('.settings-button.open').removeClass('open');
 
 <% if preferred_charts_mode == 'separate' %>
-  <%= render(partial: 'tracks/separate_charts', locals: { presenter: @track_presenter, mobile: true }) %>
+  <%= render(partial: 'tracks/separate_charts', locals: { presenter: @track_presenter }) %>
 <% else %>
-  <%= render(partial: 'tracks/single_chart', locals: { presenter: @track_presenter, mobile: true }) %>
+  <%= render(partial: 'tracks/single_chart', locals: { presenter: @track_presenter }) %>
 <% end %>
 
 $("#range-selector").ionRangeSlider('update', {
