@@ -40,12 +40,10 @@ class TracksController < ApplicationController
       preferred_distance_units,
       preferred_altitude_units
     )
-    
-    @track_presenter.load
 
     respond_to do |format|
       format.html { LastViewedUpdateJob.perform_later(@track.id) }
-      format.js 
+      format.js
       format.json { @track_data }
     end
   end

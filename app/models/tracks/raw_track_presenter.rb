@@ -1,30 +1,24 @@
 module Tracks
   class RawTrackPresenter < TrackPresenter
-
     FILTER_WINDOW_SIZE = 5
     MOVING_AVG_WINDOW_SIZE = 7
-    MOVING_AVG_KEYS = [:h_speed, :v_speed]
+    MOVING_AVG_KEYS = [:h_speed, :v_speed].freeze
 
-    def load
-      @points = track_points
-      filter_data!
-      @points = trim_points_by_range(@points)
-      @track_elevation = @range_from - @range_to
+    protected
+
+    def preprocess_points(raw_points)
+      tmp_points = process_by_distances(raw_points)
+      tmp_points = apply_moving_average(tmp_points)
+      adjust_glide_ratio(tmp_points)
     end
 
     private
 
-    def filter_data!
-      process_by_distances!
-      apply_moving_average!
-      adjust_glide_ratio!
-    end
-
-    def process_by_distances!
+    def process_by_distances(tmp_points)
       neighbors = (FILTER_WINDOW_SIZE / 2).floor
-      temp = ([@points.first] * neighbors) + @points + ([@points.last] * neighbors)
+      temp = ([tmp_points.first] * neighbors) + tmp_points + ([tmp_points.last] * neighbors)
 
-      @points = temp.each_cons(FILTER_WINDOW_SIZE).map do |window|
+      temp.each_cons(FILTER_WINDOW_SIZE).map do |window|
         trajectory_distance = distance_in_window(window)
         altitude_diff = altitude_changes_in_window(window)
         time_between_points = window.last[:gps_time] - window.first[:gps_time]
@@ -42,22 +36,22 @@ module Tracks
       window.each_cons(2).inject(0.0) do |sum, pair|
         sum + Skyderby::Geospatial.distance(
           [pair.last[:latitude], pair.last[:longitude]],
-          [pair.first[:latitude], pair.first[:longitude]],
+          [pair.first[:latitude], pair.first[:longitude]]
         )
       end
     end
 
     def altitude_changes_in_window(window)
-      window.each_cons(2).inject(0.0) do |sum, pair| 
+      window.each_cons(2).inject(0.0) do |sum, pair|
         sum + (pair.first[:altitude] - pair.last[:altitude]).abs
       end
     end
 
-    def apply_moving_average!
+    def apply_moving_average(tmp_points)
       neighbors = (MOVING_AVG_WINDOW_SIZE / 2).floor
-      temp = ([@points.first] * neighbors) + @points + ([@points.last] * neighbors)
+      temp = ([tmp_points.first] * neighbors) + tmp_points + ([tmp_points.last] * neighbors)
 
-      @points = temp.each_cons(MOVING_AVG_WINDOW_SIZE).map do |window|
+      temp.each_cons(MOVING_AVG_WINDOW_SIZE).map do |window|
         MOVING_AVG_KEYS.each do |key|
           window[neighbors][key] = window.map { |x| x[key] }.inject(0.0, :+) / MOVING_AVG_WINDOW_SIZE
         end
@@ -65,10 +59,8 @@ module Tracks
       end
     end
 
-    def adjust_glide_ratio!
-      @points.each do |point|
-        # p[:raw_gr] = p[:raw_v_speed] == 0 ? 0 : (p[:raw_h_speed] / p[:raw_v_speed]).round(2)
-
+    def adjust_glide_ratio(tmp_points)
+      tmp_points.each do |point|
         vertical_speed = point[:v_speed].zero? ? 0.1 : point[:v_speed].abs
         point[:glide_ratio] = point[:h_speed].to_f / vertical_speed
       end
