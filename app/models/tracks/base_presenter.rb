@@ -184,7 +184,7 @@ class Tracks::BasePresenter
     elsif value > 7
       7
     else
-      value
+      value.round(2)
     end
   end
 

@@ -134,12 +134,12 @@ class Skyderby.views.TrackVideoForm extends Backbone.View
     @$('#chart').highcharts().series[0].setData(altitude_points)
 
     h_speed_points = _.map @points, (el) ->
-      [el.fl_time, el.h_speed]
+      [el.fl_time, Number(el.h_speed)]
 
     @$('#chart').highcharts().series[1].setData(h_speed_points)
 
     v_speed_points = _.map @points, (el) ->
-      [el.fl_time, el.v_speed]
+      [el.fl_time, Number(el.v_speed)]
 
     @$('#chart').highcharts().series[2].setData(v_speed_points)
 

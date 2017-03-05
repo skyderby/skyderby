@@ -38,14 +38,14 @@ class Skyderby.models.TrackVideo extends Backbone.Model
       interpolation_factor =
         time_from_start / (Number(ceil.fl_time) - Number(floor.fl_time))
 
-      v_speed =
-        floor.v_speed + (ceil.v_speed - floor.v_speed) * interpolation_factor
+      v_speed = floor.v_speed +
+        (ceil.v_speed - floor.v_speed) * interpolation_factor
 
-      h_speed =
-        floor.h_speed + (ceil.h_speed - floor.h_speed) * interpolation_factor
+      h_speed = floor.h_speed +
+        (ceil.h_speed - floor.h_speed) * interpolation_factor
 
-      glide_ratio =
-        floor.glide_ratio + (ceil.glide_ratio - floor.glide_ratio) * interpolation_factor
+      glide_ratio = floor.glide_ratio +
+        (ceil.glide_ratio - floor.glide_ratio) * interpolation_factor
 
       altitude =
         floor.altitude - (floor.altitude - ceil.altitude) * interpolation_factor

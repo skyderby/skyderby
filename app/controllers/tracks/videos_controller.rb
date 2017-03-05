@@ -68,15 +68,21 @@ module Tracks
     def set_chart_data
       start_time_in_seconds = @track.points.first.gps_time_in_seconds.to_f
       @points =
-        @track.points.trimmed(seconds_before_start: 20).freq_1Hz.pluck_to_hash(
-          "gps_time_in_seconds - #{start_time_in_seconds} AS fl_time",
-          "#{@track.point_altitude_field} AS altitude",
-          :h_speed,
-          :v_speed,
-          'CASE WHEN v_speed = 0 THEN h_speed / 0.1
-                ELSE h_speed / ABS(v_speed)
-          END AS glide_ratio'
-        )
+        begin
+          raw_points = @track.points.trimmed(seconds_before_start: 20).freq_1Hz.pluck_to_hash(
+            "gps_time_in_seconds - #{start_time_in_seconds} AS fl_time",
+            'gps_time_in_seconds AS gps_time',
+            "#{@track.point_altitude_field} AS altitude",
+            :latitude,
+            :longitude,
+            :h_speed,
+            :v_speed,
+            'CASE WHEN v_speed = 0 THEN h_speed / 0.1
+                  ELSE h_speed / ABS(v_speed)
+            END AS glide_ratio'
+          )
+          PointsPostprocessor.for(@track.gps_type).new(raw_points).execute
+        end
     end
 
     def video_params
