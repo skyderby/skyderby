@@ -75,7 +75,7 @@ describe WeatherDatum, type: :model do
   describe 'attributes' do
     it 'converts altitude from feets to meters' do
       weather_datum = build_weather_datum
-      weather_datum.update!(altitude_in_units: 15000, altitude_unit: 'ft')
+      weather_datum.update!(altitude_in_units: 15_000, altitude_unit: 'ft')
 
       expect(weather_datum.altitude).to eq(4572)
     end
@@ -85,6 +85,18 @@ describe WeatherDatum, type: :model do
       weather_datum.update!(wind_speed_in_units: 36, wind_speed_unit: 'kmh')
 
       expect(weather_datum.wind_speed).to eq(10)
+    end
+  end
+
+  describe 'units conversions' do
+    it 'altitude#convert_to' do
+      weather_datum = build_weather_datum
+      expect(weather_datum.altitude.respond_to?(:convert_to)).to be_truthy
+    end
+
+    it 'wind_speed#convert_to' do
+      weather_datum = build_weather_datum
+      expect(weather_datum.wind_speed.respond_to?(:convert_to)).to be_truthy
     end
   end
 
