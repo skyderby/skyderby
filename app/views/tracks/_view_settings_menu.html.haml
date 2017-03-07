@@ -5,12 +5,12 @@
   %li.dropdown-header{role: 'presentation'}
     =t 'tracks.show.menu_header'
   %li{class: ('active' if preferred_charts_mode == 'separate'), role: 'presentation'}
-    = link_to t('tracks.show.menu_sep'), show_params.except(:range).merge(charts_mode: 'separate'), remote: true
+    = link_to t('tracks.show.menu_sep'), show_params.except(:range).merge(charts_mode: 'separate'), remote: true, rel: 'nofollow'
   %li{class: ('active' if preferred_charts_mode == 'single'), role: 'presentation'}
-    = link_to t('tracks.show.menu_one'), show_params.except(:range).merge(charts_mode: 'single'), remote: true
+    = link_to t('tracks.show.menu_one'), show_params.except(:range).merge(charts_mode: 'single'), remote: true, rel: 'nofollow'
   %li.dropdown-header{role: 'presentation'}
     =t 'tracks.show.units_header'
   %li{class: ('active' if preferred_charts_units == 'metric'), role: 'presentation'}
-    = link_to t('tracks.show.m_units_metric'), show_params.except(:range).merge(charts_units: 'metric'), remote: true
+    = link_to t('tracks.show.m_units_metric'), show_params.except(:range).merge(charts_units: 'metric'), remote: true, rel: 'nofollow'
   %li{class: ('active' if preferred_charts_units == 'imperial'), role: 'presentation'}
-    = link_to t('tracks.show.m_units_imperial'), show_params.except(:range).merge(charts_units: 'imperial'), remote: true
+    = link_to t('tracks.show.m_units_imperial'), show_params.except(:range).merge(charts_units: 'imperial'), remote: true, rel: 'nofollow'
