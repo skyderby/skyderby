@@ -2,7 +2,7 @@ $('.modal').modal('hide');
 
 $('.track-indicators').replaceWith("<%= j render(partial: 'tracks/indicators', 
                                                  locals: {presenter: @track_presenter}) %>");
-$('#track-charts').replaceWith("<%= j render(partial: 'tracks/charts') %>");
+$('.track-charts__charts-container').replaceWith("<%= j render(partial: 'tracks/charts') %>");
 $('.settings-button').html("<%= j render(partial: 'tracks/view_settings_menu') %>");
 $('.settings-button.open').removeClass('open');
 

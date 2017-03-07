@@ -1,11 +1,17 @@
 <% mobile ||= false %>
 $('#glideratio_chart').highcharts(<%= render(template: 'charts/glide_ratio_options', locals: { mobile: mobile }).html_safe %>);
 $('#glideratio_chart').highcharts().series[0].setData(<%= presenter.glide_ratio_chart_line %>);
+<% if presenter.wind_cancelation? %>
+$('#glideratio_chart').highcharts().series[1].setData(<%= presenter.wind_effect_glide_ratio_chart_line %>);
+<% end %>
 
 $('#speeds_chart').highcharts(<%= render(template: 'charts/speeds_chart_options', locals: { speed_units: presenter.speed_units, mobile: mobile }).html_safe %>);
 $('#speeds_chart').highcharts().series[0].setData(<%= presenter.ground_speed_chart_line %>, false);
 $('#speeds_chart').highcharts().series[1].setData(<%= presenter.vertical_speed_chart_line %>, false);
 $('#speeds_chart').highcharts().series[2].setData(<%= presenter.full_speed_chart_line %>);
+<% if presenter.wind_cancelation? %>
+$('#speeds_chart').highcharts().series[3].setData(<%= presenter.wind_effect_speed_chart_line %>);
+<% end %>
 
 $('#elevation_distance_chart').highcharts(<%= render(template: 'charts/elevation_chart_options', locals: {distance_units: presenter.distance_units, altitude_units: presenter.altitude_units, mobile: mobile}).html_safe %>);
 $('#elevation_distance_chart').highcharts().series[0].setData(<%= presenter.elevation_chart_line %>, false);

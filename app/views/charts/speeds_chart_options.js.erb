@@ -76,6 +76,25 @@
       valueSuffix: ' <%= t('units.' + speed_units) %>',
     }
   }
+  <% if @track_presenter.wind_cancelation? %>
+    ,{
+      name: I18n.t('charts.spd.series.wind_effect'),
+      code: 'speed_wind_effect',
+      type: 'arearange',
+      color: 'rgba(178, 201, 171, 0.5)',
+      lineWidth: 1,
+      dashStyle: 'ShortDash',
+      visible: false,
+      tooltip: {
+        pointFormatter: function() {
+          var wind_adjust = this.high - this.low;
+          var wind_adjust_str = wind_adjust > 0 ? "+" + wind_adjust : wind_adjust;
+          return '<span style="color:{series.color}">●</span> ' + this.series.name + ': <b>' + wind_adjust_str + ' ' + this.series.tooltipOptions.valueSuffix + ' </b>';
+        },
+        valueSuffix: ' <%= t('units.' + speed_units) %>',
+      }
+    },
+  <% end %>
   <% if display_raw %>
     ,{
       name: I18n.t('charts.spd.series.raw_ground'),

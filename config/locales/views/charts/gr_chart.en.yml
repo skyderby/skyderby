@@ -1,7 +1,8 @@
 en:
   charts:
     gr:
-      title: 'Glide ratio'
+      title: Glide ratio
       series:
-        gr: 'Glide ratio'
+        gr: Glide ratio
         raw_gr: 'G/R (Raw)'
+        wind_effect: Wind effect

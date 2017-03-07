@@ -31,6 +31,7 @@
   },
   tooltip: {
     crosshairs: true,
+    shared: true,
     valueDecimals: 2,
     pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: <b>{point.options.true_value}</b><br/>'
   },
@@ -72,6 +73,25 @@
     color: '#37889B',
     zIndex: 2
   }
+  <% if @track_presenter.wind_cancelation? %>
+    ,{
+      name: I18n.t('charts.gr.series.wind_effect'),
+      code: 'gr_wind_effect',
+      type: 'arearange',
+      color: 'rgba(63, 136, 167, 0.3)',
+      lineWidth: 1,
+      dashStyle: 'ShortDash',
+      visible: false,
+      tooltip: {
+        pointFormatter: function() {
+          var wind_adjust = (this.high - this.low).toFixed(2);
+          var wind_adjust_str = wind_adjust > 0 ? "+" + wind_adjust : wind_adjust;
+          return '<span style="color:{this.series.color}">●</span> ' + this.series.name + ': <b>' + wind_adjust_str + ' </b>';
+        }
+      }
+    },
+  <% end %>
+
   <% if display_raw %>
       ,{
     name: I18n.t('charts.gr.series.raw_gr'),

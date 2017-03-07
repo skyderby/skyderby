@@ -135,6 +135,31 @@ class Tracks::BasePresenter
     end.to_json
   end
 
+  def wind_cancelation?
+    weather_data.any?
+  end
+
+  def wind_effect_speed_chart_line
+    zerowind_points.each_with_index.map do |point, index|
+      [
+        (point[:gps_time] - min_gps_time).round(1),
+        speed_presentation(point[:h_speed]),
+        speed_presentation(points[index][:h_speed])
+      ]
+    end.to_json
+  end
+
+  def wind_effect_glide_ratio_chart_line
+    zerowind_points.each_with_index.map do |point, index|
+      {
+        'x' => (point[:gps_time] - min_gps_time).round(1),
+        'low' => y_for_glide_ratio(point[:glide_ratio]),
+        'high' => y_for_glide_ratio(points[index][:glide_ratio]),
+        'true_value' => glide_ratio_presentation(point[:glide_ratio])
+      }
+    end.to_json.html_safe
+  end
+
   protected
 
   attr_reader :range_from, :range_to, :track
@@ -153,6 +178,12 @@ class Tracks::BasePresenter
 
   def track_trajectory_distance
     points.each_cons(2).inject(0) do |sum, pair|
+      sum + TrackSegment.new(pair).distance
+    end
+  end
+
+  def zero_wind_trajectory_distance
+    zerowind_points.each_cons.inject(0) do |sum, pair|
       sum + TrackSegment.new(pair).distance
     end
   end
@@ -193,6 +224,7 @@ class Tracks::BasePresenter
   end
 
   def weather_data
+    start_time = min_gps_time.beginning_of_hour
     @weather_data ||=
       if track.weather_data.any?
         track.weather_data
@@ -209,8 +241,20 @@ class Tracks::BasePresenter
     return [] if weather_data.blank?
 
     @zerowind_points ||= begin
+      points_for_subtraction = points.tap do |tmp|
+        tmp.first[:time_diff] = 0
+        tmp.each_cons(2) do |prev, cur|
+          cur[:time_diff] = cur[:gps_time] - prev[:gps_time]
+        end
+      end
       wind_data = Skyderby::WindCancellation::WindData.new(weather_data)
-      Skyderby::WindCancellation::WindSubtraction.new(points, wind_data).execute
+      points_after_subtraction = Skyderby::WindCancellation::WindSubtraction.new(points_for_subtraction, wind_data).execute
+      points_after_subtraction.each_cons(2) do |prev, cur|
+        cur[:h_speed] = TrackSegment.new([prev, cur]).distance / cur[:time_diff]
+        cur[:v_speed] = (prev[:altitude] - cur[:altitude]) / cur[:time_diff]
+        cur[:glide_ratio] = cur[:h_speed] / (cur[:v_speed].zero? ? 0.1 : cur[:v_speed])
+      end
+      points_after_subtraction
     end
   end
 
