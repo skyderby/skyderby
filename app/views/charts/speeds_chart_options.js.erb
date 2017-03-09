@@ -88,7 +88,7 @@
         pointFormatter: function() {
           var wind_adjust = this.high - this.low;
           var wind_adjust_str = wind_adjust > 0 ? "+" + wind_adjust : wind_adjust;
-          return '<span style="color:{series.color}">●</span> ' + this.series.name + ': <b>' + wind_adjust_str + ' ' + this.series.tooltipOptions.valueSuffix + ' </b>';
+          return '<span style="color:' + this.series.color + '">●</span> ' + this.series.name + ': <b>' + wind_adjust_str + ' ' + this.series.tooltipOptions.valueSuffix + ' </b>';
         },
         valueSuffix: ' <%= t('units.' + speed_units) %>',
       }

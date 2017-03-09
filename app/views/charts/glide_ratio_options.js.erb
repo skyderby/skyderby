@@ -85,7 +85,7 @@
         pointFormatter: function() {
           var wind_adjust = (this.high - this.low).toFixed(2);
           var wind_adjust_str = wind_adjust > 0 ? "+" + wind_adjust : wind_adjust;
-          return '<span style="color:{this.series.color}">●</span> ' + this.series.name + ': <b>' + wind_adjust_str + ' </b>';
+          return '<span style="color:' + this.series.color + '">●</span> ' + this.series.name + ': <b>' + wind_adjust_str + ' </b>';
         }
       }
     },
