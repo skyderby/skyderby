@@ -5,7 +5,7 @@ $('#modal').html('<%= j render('show_modal') %>');
 <% distance_units = distance_units_by_type(units) %>
 
 <% if preferred_charts_mode == 'separate' %>
-  <%= render partial: 'tracks/separate_charts', locals: {presenter: @track_data} %>
+  <%= render partial: 'tracks/separate_charts', locals: {presenter: @track_presenter} %>
 
   $('#modal').one('shown.bs.modal', function() {
     $('#glideratio_chart').highcharts().reflow();
@@ -13,7 +13,7 @@ $('#modal').html('<%= j render('show_modal') %>');
     $('#elevation_distance_chart').highcharts().reflow();
   });
 <% else %>
-  <%= render partial: 'tracks/single_chart', locals: {presenter: @track_data} %>
+  <%= render partial: 'tracks/single_chart', locals: {presenter: @track_presenter} %>
 
   $('#modal').one('shown.bs.modal', function() {
     $('#all_data_chart').highcharts().reflow();
