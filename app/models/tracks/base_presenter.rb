@@ -162,10 +162,10 @@ class Tracks::BasePresenter
 
   protected
 
-  attr_reader :range_from, :range_to, :track
+  attr_reader :track
 
   def track_elevation
-    range_from - range_to
+    @range_from - @range_to
   end
 
   def track_distance
@@ -287,22 +287,22 @@ class Tracks::BasePresenter
     return track_points if track_points.blank?
 
     @points ||= begin
-      start_index = track_points.index { |x| x[:altitude] <= range_from }
+      start_index = track_points.index { |x| x[:altitude] <= @range_from }
       start_point = track_points[start_index]
-      end_index = track_points.index { |x| x[:gps_time] > start_point[:gps_time] && x[:altitude].truncate <= range_to }
+      end_index = track_points.index { |x| x[:gps_time] > start_point[:gps_time] && x[:altitude] <= @range_to }
       end_point = track_points[end_index]
 
       result_array = []
-      unless start_point[:altitude] == range_from
-        interpolated_start = interpolate_by_altitude(track_points[start_index - 1], start_point, range_from)
+      unless start_point[:altitude] == @range_from
+        interpolated_start = interpolate_by_altitude(track_points[start_index - 1], start_point, @range_from)
         result_array += [interpolated_start]
       end
 
-      if end_point[:altitude] == range_to
+      if end_point[:altitude] == @range_to
         result_array += track_points[start_index..end_index]
       else
         result_array += track_points[start_index..(end_index - 1)]
-        interpolated_end = interpolate_by_altitude(track_points[end_index - 1], track_points[end_index], range_to)
+        interpolated_end = interpolate_by_altitude(track_points[end_index - 1], track_points[end_index], @range_to)
         result_array += [interpolated_end]
       end
 
