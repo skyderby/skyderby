@@ -260,21 +260,13 @@ class Tracks::BasePresenter
 
   def track_points
     @track_points ||= begin
-      raw_points =
-        track
-        .points.freq_1Hz.trimmed
-        .pluck_to_hash(
-          'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
-          "#{track.point_altitude_field} AS altitude",
-          :latitude,
-          :longitude,
-          'h_speed / 3.6 AS h_speed',
-          'v_speed / 3.6 AS v_speed',
-          :distance,
-          'CASE WHEN v_speed = 0 THEN h_speed / 0.1
-                ELSE h_speed / ABS(v_speed)
-          END AS glide_ratio'
-        )
+      raw_points = PointsQuery.execute(track, trimmed: true, freq_1Hz: true)
+      # in database speeds in km/h, here we need it in m/s
+      raw_points.each do |point|
+        point[:h_speed] /= 3.6
+        point[:v_speed] /= 3.6
+      end
+
       preprocess_points(raw_points)
     end
   end

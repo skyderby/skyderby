@@ -117,7 +117,8 @@ class Track < ApplicationRecord
 
   def altitude_bounds
     @altitude_bounds ||= begin
-      points_altitude = points.freq_1Hz.trimmed.pluck(point_altitude_field)
+      query_result = PointsQuery.execute(self, freq_1Hz: true, trimmed: true, only: [:altitude])
+      points_altitude = query_result.map { |val| val[:altitude] }
       points_altitude = [0] if points_altitude.blank?
       {
         max_altitude: points_altitude.max,

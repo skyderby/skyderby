@@ -50,23 +50,13 @@ module Skyderby
 
       def track_points
         @track_points ||= begin
-          db_tracks_points.tap do |tmp|
-            tmp.first[:time_diff] = 0
-            tmp.each_cons(2) do |prev, cur|
-              cur[:time_diff] = cur[:gps_time] - prev[:gps_time]
-            end
-          end
+          PointsQuery.execute(
+            track,
+            trimmed: true,
+            freq_1Hz: true,
+            only: [:gps_time, :altitude, :latitude, :longitude, :h_speed, :time_diff]
+          )
         end
-      end
-
-      def db_tracks_points
-        track.points.trimmed.freq_1Hz.pluck_to_hash(
-          'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
-          "#{@track.point_altitude_field} AS altitude",
-          :latitude,
-          :longitude,
-          :h_speed
-        )
       end
     end
   end
