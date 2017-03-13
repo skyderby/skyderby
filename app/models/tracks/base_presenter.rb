@@ -153,6 +153,8 @@ module Tracks
     end
 
     def min_gps_time
+      return track.recorded_at if points.empty?
+
       @min_gps_time ||= points.first[:gps_time]
     end
 
