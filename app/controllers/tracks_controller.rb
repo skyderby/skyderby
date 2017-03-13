@@ -34,8 +34,7 @@ class TracksController < ApplicationController
 
     @track_presenter = presenter_class.new(
       @track,
-      params[:f],
-      params[:t],
+      TrackRange.new(@track, from: params[:f], to: params[:t]),
       preferred_speed_units,
       preferred_distance_units,
       preferred_altitude_units
