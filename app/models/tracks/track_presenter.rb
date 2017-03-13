@@ -13,10 +13,6 @@ class Tracks::TrackPresenter < Tracks::BasePresenter
     super(track, @range_from, @range_to, speed_units, distance_units, altitude_units)
   end
 
-  def distance
-    distance_presentation(track_distance)
-  end
-
   def min_altitude
     altitude_presentation(track.altitude_bounds[:min_altitude])
   end
