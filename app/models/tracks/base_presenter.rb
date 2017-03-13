@@ -276,7 +276,7 @@ class Tracks::BasePresenter
   end
 
   def points
-    return track_points if track_points.blank?
+    return track_points if track_points.blank? || track_points.length == 1
 
     @points ||= begin
       start_index = track_points.index { |x| x[:altitude] <= @range_from }
