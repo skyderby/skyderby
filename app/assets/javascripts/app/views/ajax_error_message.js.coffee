@@ -36,3 +36,5 @@ class Skyderby.views.AjaxErrorMessage extends Backbone.View
 
   hide: ->
     @$el.removeClass('visible')
+
+window.AjaxErrorMessage = new Skyderby.views.AjaxErrorMessage()

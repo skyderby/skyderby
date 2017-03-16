@@ -68,8 +68,6 @@ $(document).on('ready turbolinks:load', function() {
             input.val(log);
         }
     });
-
-    window.AjaxErrorMessage = new Skyderby.views.AjaxErrorMessage();
 });
 
 $(document).on('change', '.btn-file :file', function() {
