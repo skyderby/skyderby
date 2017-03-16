@@ -1,16 +1,13 @@
 module Tracks
   class BasePresenter
+    include ChartPreferences
     include TrackIndicators
 
-    attr_reader :speed_units, :distance_units, :altitude_units
-
-    def initialize(track, range_from, range_to, speed_units, distance_units, altitude_units)
+    def initialize(track, range_from, range_to, chart_preferences)
       @track = track
       @range_from = range_from
       @range_to = range_to
-      @speed_units = speed_units
-      @distance_units = distance_units
-      @altitude_units = altitude_units
+      @chart_preferences = chart_preferences
     end
 
     def glide_ratio_chart_line
@@ -95,7 +92,7 @@ module Tracks
 
     protected
 
-    attr_reader :track
+    attr_reader :track, :chart_preferences
 
     def track_elevation
       @range_from - @range_to

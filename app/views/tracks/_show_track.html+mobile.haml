@@ -4,8 +4,8 @@
 
   .track-charts
     .track-charts__menu
-      .dropdown
-        = render 'tracks/view_settings_menu'
+      .dropdown.track-charts__settings-button
+        = render partial: 'tracks/view_settings_menu', locals: { presenter: @track_presenter }
 
     = render partial: 'indicators', locals: {presenter: @track_presenter}
 
@@ -17,7 +17,7 @@
                             data: {remote: 'true', url: url_for},
                             value: "#{@track_presenter.range_from};#{@track_presenter.range_to}"}
 
-    = render 'tracks/charts'
+    = render 'tracks/charts', presenter: @track_presenter
     
   .track-footer
     %blockquote

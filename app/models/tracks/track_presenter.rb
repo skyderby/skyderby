@@ -1,10 +1,10 @@
 class Tracks::TrackPresenter < Tracks::BasePresenter
   attr_reader :track
 
-  def initialize(trk, range = nil, speed_units, distance_units, altitude_units)
+  def initialize(trk, range = nil, chart_preferences)
     @track = trk
 
-    super(track, range.from, range.to, speed_units, distance_units, altitude_units)
+    super(track, range.from, range.to, chart_preferences)
   end
 
   def min_altitude

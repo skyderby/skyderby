@@ -4,7 +4,7 @@
 
 <% content_for :page_js do %>
   <script>
-    <% if preferred_charts_mode == 'separate' %>
+    <% if @track_presenter.separate_charts? %>
       <%= render(partial: 'tracks/separate_charts', formats: [:js], locals: {presenter: @track_presenter}) %>
     <% else %>
       <%= render(partial: 'tracks/single_chart', formats: [:js], locals: {presenter: @track_presenter}) %>

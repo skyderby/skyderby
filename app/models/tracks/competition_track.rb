@@ -1,19 +1,17 @@
 class Tracks::CompetitionTrack < Tracks::BasePresenter
-  def initialize(event_track, speed_units, distance_units, altitude_units)
+  def initialize(event_track, unit_system)
     @event_track = event_track
-    super(event_track.track, 
+    super(event_track.track,
           event_track.range_from,
           event_track.range_to,
-          speed_units,
-          distance_units,
-          altitude_units
+          unit_system
          )
   end
 
   def time
-    @time ||= 
+    @time ||=
       if @event_track.round_discipline == 'time'
-        @event_track.result 
+        @event_track.result
       else
         super
       end
@@ -31,7 +29,7 @@ class Tracks::CompetitionTrack < Tracks::BasePresenter
 
   def track_distance
     if @event_track.round_discipline == 'distance'
-      @event_track.result 
+      @event_track.result
     else
       straight_line_distance
     end

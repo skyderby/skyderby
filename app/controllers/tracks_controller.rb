@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 class TracksController < ApplicationController
-  include PreferencesHelper
+  include ChartParams
   include UnitsHelper
 
   before_action :set_track, only: [:show, :edit, :update, :destroy]
@@ -35,9 +35,7 @@ class TracksController < ApplicationController
     @track_presenter = presenter_class.new(
       @track,
       TrackRange.new(@track, from: params[:f], to: params[:t]),
-      preferred_speed_units,
-      preferred_distance_units,
-      preferred_altitude_units
+      ChartsPreferences.new(session)
     )
 
     respond_to do |format|
@@ -125,14 +123,18 @@ class TracksController < ApplicationController
   helper_method :index_params
 
   def show_params
-    params.permit(:range, :f, :t, :charts_mode, :charts_units) 
+    params.permit(:range, :f, :t, :charts_mode, :charts_units)
   end
   helper_method :show_params
 
   def process_range
     range = params[:range].split(';')
-    params[:f] = Distance.new(range.first, preferred_altitude_units).truncate
-    params[:t] = Distance.new(range.last,  preferred_altitude_units).truncate
+    params[:f] = Distance.new(range.first, altitude_units).truncate
+    params[:t] = Distance.new(range.last,  altitude_units).truncate
+  end
+
+  def altitude_units
+    ChartsPreferences.new(session).unit_system.altitude
   end
 
   def presenter_class

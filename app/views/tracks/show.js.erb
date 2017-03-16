@@ -1,12 +1,20 @@
 $('.modal').modal('hide');
 
-$('.track-indicators').replaceWith("<%= j render(partial: 'tracks/indicators', 
-                                                 locals: {presenter: @track_presenter}) %>");
-$('.track-charts__charts-container').replaceWith("<%= j render(partial: 'tracks/charts') %>");
-$('.settings-button').html("<%= j render(partial: 'tracks/view_settings_menu') %>");
+$('.track-indicators').replaceWith(
+  "<%= j render(partial: 'tracks/indicators', locals: {presenter: @track_presenter}) %>"
+);
+
+$('.track-charts__charts-container').replaceWith(
+  "<%= j render(partial: 'tracks/charts', locals: { presenter: @track_presenter }) %>"
+);
+
+$('.settings-button').html(
+  "<%= j render(partial: 'tracks/view_settings_menu', locals: { presenter: @track_presenter }) %>"
+);
+
 $('.settings-button.open').removeClass('open');
 
-<% if preferred_charts_mode == 'separate' %>
+<% if @track_presenter.separate_charts? %>
   <%= render(partial: 'tracks/separate_charts', locals: {presenter: @track_presenter}) %>
 <% else %>
   <%= render(partial: 'tracks/single_chart', locals: {presenter: @track_presenter}) %>
