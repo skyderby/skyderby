@@ -5,9 +5,17 @@
       = f.text_field :name, autofocus: true, class: 'form-control'
 
   .form-group
-    = f.label :country, class: 'col-sm-2 control-label', for: :virtual_comp_group
+    = f.label :virtual_comp_group, class: 'col-sm-2 control-label', for: :virtual_comp_group
     .col-sm-5
       = f.collection_select(:virtual_comp_group_id, VirtualCompGroup.order(:name), :id, :name, {promt: 'Select group'}, {class: 'form-control'})
+
+  .form-group
+    = f.label :place, class: 'col-sm-2 control-label', for: :place
+    .col-sm-5
+      = f.select :place_id,
+                 options_for_select([[@competition.place_name, @competition.place_id]], @competition.place_id),
+                 { include_blank: true },
+                 class: 'form-control'
 
   .form-group.row
     = f.label :period_from, class: 'col-sm-2 control-label', for: :period_from
@@ -40,6 +48,10 @@
       %label.btn.btn-default{ class:  ('active' if @competition.tracksuit?) }
         = f.radio_button 'suits_kind', 'tracksuit'
         = 'Tracksuit'
+
+      %label.btn.btn-default{ class:  ('active' if @competition.slick?) }
+        = f.radio_button 'suits_kind', 'slick'
+        = 'Slick'
 
   .form-group
     = f.label :discipline, class: 'col-sm-2 control-label', for: :discipline

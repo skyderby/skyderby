@@ -39,6 +39,8 @@ class VirtualCompetition < ApplicationRecord
   has_many :personal_top_scores
   has_many :sponsors, -> { order(:created_at) }, as: :sponsorable
 
+  delegate :name, to: :place, prefix: true, allow_nil: true
+
   def window_params
     case discipline
     when 'distance', 'speed', 'time'

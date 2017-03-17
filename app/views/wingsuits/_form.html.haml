@@ -20,6 +20,10 @@
         = f.radio_button 'kind', 'tracksuit'
         = 'Tracksuit'
 
+      %label.btn.btn-default{ class:  ('active' if @wingsuit.slick?) }
+        = f.radio_button 'kind', 'slick'
+        = 'Slick'
+
   .form-group
     = f.label :photo, class: 'col-sm-2 control-label', for: :photo
     .col-sm-4
