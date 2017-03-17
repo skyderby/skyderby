@@ -25,7 +25,7 @@ class VirtualCompetition < ApplicationRecord
   BASE_START_SPEED = 10
 
   enum jumps_kind: [:skydive, :base]
-  enum suits_kind: [:wingsuit, :tracksuit]
+  enum suits_kind: [:wingsuit, :tracksuit, :slick]
   enum discipline:
     [:time, :distance, :speed, :distance_in_time, :distance_in_altitude]
 

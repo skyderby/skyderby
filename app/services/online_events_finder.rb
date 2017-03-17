@@ -12,6 +12,7 @@ class OnlineEventsFinder
 
     comps = comps.tracksuit if track.tracksuit?
     comps = comps.wingsuit if track.wingsuit?
+    comps = comps.slick if track.slick?
 
     comps = comps.where(
       ':period BETWEEN period_from AND period_to',

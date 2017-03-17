@@ -71,8 +71,7 @@ class Track < ApplicationRecord
   before_destroy :used_in_competition?
   after_commit :perform_jobs, unless: :skip_jobs
 
-  delegate :tracksuit?, to: :wingsuit, allow_nil: true
-  delegate :wingsuit?, to: :wingsuit, allow_nil: true
+  delegate :tracksuit?, :wingsuit?, :slick?, to: :wingsuit, allow_nil: true
   delegate :msl, to: :place, allow_nil: true, prefix: true
   delegate :name, to: :pilot, allow_nil: true, prefix: true
   delegate :name, to: :place, allow_nil: true, prefix: true
