@@ -32,11 +32,7 @@ class TracksController < ApplicationController
 
     process_range if params[:range]
 
-    @track_presenter = presenter_class.new(
-      @track,
-      TrackRange.new(@track, from: params[:f], to: params[:t]),
-      ChartsPreferences.new(session)
-    )
+    @track_presenter = Tracks::PresenterBuilder.new.call(@track, params, session)
 
     respond_to do |format|
       format.html { LastViewedUpdateJob.perform_later(@track.id) }
@@ -135,10 +131,5 @@ class TracksController < ApplicationController
 
   def altitude_units
     ChartsPreferences.new(session).unit_system.altitude
-  end
-
-  def presenter_class
-    return Tracks::TrackPresenter if @track.flysight? || @track.cyber_eye?
-    Tracks::RawTrackPresenter
   end
 end
