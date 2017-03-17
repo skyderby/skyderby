@@ -20,6 +20,7 @@
           .col-sm-8
             = f.select :profile_id,
                        options_for_select([[@event_organizer.name, @event_organizer.profile_id]]),
+                       {},
                        class: 'form-control'
 
       .modal-footer

@@ -5,6 +5,7 @@ Skyderby.helpers.CountrySelect = function(elem, opts) {
     var options = {
         theme: 'bootstrap',
         width: '100%',
+        containerCssClass: ':all:',
         placeholder: 'Choose country',
         allowClear: true,
         ajax: {

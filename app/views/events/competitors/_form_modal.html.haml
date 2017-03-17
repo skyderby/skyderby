@@ -25,6 +25,7 @@
           .col-sm-8
             = f.select :profile_id,
                        options_for_select([[@competitor.name, @competitor.profile_id]]), 
+                       {},
                        class: 'form-control'
 
         .radio
@@ -46,6 +47,7 @@
             .col-sm-8
               = builder.select :country_id,
                                options_for_select([[@competitor.country_name, @competitor.country_id]]),
+                               {},
                                class: 'form-control'
 
         %hr
@@ -54,6 +56,7 @@
           .col-sm-8
             = f.select :wingsuit_id,
                        options_for_select([[@competitor.wingsuit_name, @competitor.wingsuit_id]]), 
+                       {},
                        class: 'form-control'
 
         .form-group

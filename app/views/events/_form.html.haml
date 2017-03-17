@@ -44,7 +44,8 @@
       .col-sm-8
         = f.select :place_id,
                    options_for_select([[@event.place_name, @event.place_id]], @event.place_id), 
-                   class: 'form-control', include_blank: true
+                   { include_blank: true },
+                   class: 'form-control'
 
     - if allow_change_rules
       .form-group
