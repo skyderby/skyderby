@@ -143,7 +143,13 @@ describe Tracks::BasePresenter do
   end
 
   def presenter
-    @presenter ||= Tracks::BasePresenter.new(Track.new, 3500, 3000, 'kmh', 'm', 'm')
+    track = Track.new
+    @presenter ||= Tracks::BasePresenter.new(
+      track,
+      3500,
+      3000,
+      ChartsPreferences.new({})
+    )
   end
 
   def stub_points_fetch(object)
