@@ -1,10 +1,10 @@
 class Tracks::CompetitionTrack < Tracks::BasePresenter
-  def initialize(event_track, unit_system)
+  def initialize(event_track, chart_preferences)
     @event_track = event_track
     super(event_track.track,
           event_track.range_from,
           event_track.range_to,
-          unit_system
+          chart_preferences
          )
   end
 

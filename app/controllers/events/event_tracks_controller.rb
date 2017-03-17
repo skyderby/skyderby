@@ -3,7 +3,7 @@ module Events
   class EventTracksController < ApplicationController
     include EventLoading
     include UnitsHelper
-    include PreferencesHelper
+    include ChartParams
 
     before_action :set_event_track, only: [:show, :edit, :update, :destroy]
 
@@ -61,10 +61,10 @@ module Events
                                  t: @event.range_to)
         end
         format.js do
-          @track_presenter = Tracks::CompetitionTrack.new(@event_track,
-                                                     preferred_speed_units,
-                                                     preferred_distance_units,
-                                                     preferred_altitude_units)
+          @track_presenter = Tracks::CompetitionTrack.new(
+            @event_track,
+            ChartsPreferences.new(session)
+          )
         end
       end
     end
