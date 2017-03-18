@@ -21,6 +21,8 @@ class Skyderby.views.TrackVideoForm extends Backbone.View
     if @current_track_offset()
       @on_change_track_offset(@current_track_offset())
 
+    @init_validations()
+
   on_youtube_api_ready: ->
     @youtube_api_ready = true
     @init_player()
@@ -40,6 +42,21 @@ class Skyderby.views.TrackVideoForm extends Backbone.View
         }
       })
 
+  init_validations: ->
+    @$('form').validate(
+      rules:
+        'track_video[url]':
+          required: true
+        'track_video[video_offset]':
+          required: true
+        'track_video[track_offset]':
+          required: true
+      highlight: (element) ->
+        $(element).parent().addClass('has-error')
+      unhighlight: (element) ->
+        $(element).parent().removeClass('has-error')
+    )
+ 
   init_chart: ->
     @$('#chart').highcharts(
       chart:

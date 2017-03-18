@@ -17,6 +17,8 @@ class TrackVideo < ApplicationRecord
 
   validates :url, presence: true
   validates :video_code, presence: true
+  validates :video_offset, presence: true, numericality: true
+  validates :track_offset, presence: true, numericality: true
 
   before_validation :parse_url
 
