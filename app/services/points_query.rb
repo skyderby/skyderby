@@ -4,21 +4,23 @@ class PointsQuery
     @query_opts = opts.slice(:only, :freq_1Hz)
     @freq_1Hz   = opts[:freq_1Hz] || false
     @trimmed    = opts[:trimmed] || false
+    @trim_options = trimmed.is_a?(Hash) ? trimmed : {}
   end
 
   def execute
-    points = scope.pluck_to_hash *select_columns
+    points = scope.pluck_to_hash(*select_columns)
     calc_time_diff points
   end
 
   private
 
-  attr_reader :track, :query_opts, :trimmed, :freq_1Hz
+  attr_reader :track, :query_opts, :trimmed, :trim_options, :freq_1Hz
 
   def scope
     collection = track.points
-    collection = collection.trimmed if trimmed
+    collection = collection.trimmed(trim_options) if trimmed
     collection = collection.reorder('round(gps_time_in_seconds)') if freq_1Hz
+    collection
   end
 
   def select_columns
@@ -85,7 +87,7 @@ class PointsQuery
 
     def select_columns
       return COLUMNS unless only_columns
-      COLUMNS.slice *only_columns
+      COLUMNS.slice(*only_columns)
     end
 
     def start_time_in_seconds
