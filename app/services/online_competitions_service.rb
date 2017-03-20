@@ -31,19 +31,14 @@ class OnlineCompetitionsService
   end
 
   def track_points
-    @track_points ||=
-      track.points
-           .trimmed(seconds_before_start: 20)
-           .pluck_to_hash(
-             'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
-             "#{@track.point_altitude_field} AS altitude",
-             :latitude,
-             :longitude,
-             'h_speed AS h_speed',
-             'v_speed AS v_speed',
-             'CASE WHEN v_speed = 0 THEN h_speed / 0.1
-                   ELSE h_speed / ABS(v_speed)
-             END AS glide_ratio'
-           )
+    @track_points ||= begin
+      raw_points = PointsQuery.execute(
+        track,
+        trimmed: { seconds_before_start: 20 },
+        only: [:gps_time, :altitude, :latitude, :longitude, :h_speed, :v_speed, :glide_ratio]
+      )
+
+      PointsPostprocessor.for(track.gps_type).new(raw_points).execute
+    end
   end
 end
