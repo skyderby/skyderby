@@ -37,6 +37,7 @@ class VirtualCompetition < ApplicationRecord
   has_one :best_result, -> { order('result DESC') }, class_name: 'VirtualCompResult'
   has_many :virtual_comp_results
   has_many :personal_top_scores
+  has_many :annual_top_scores
   has_many :sponsors, -> { order(:created_at) }, as: :sponsorable
 
   delegate :name, to: :place, prefix: true, allow_nil: true
