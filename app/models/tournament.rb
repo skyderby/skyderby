@@ -15,6 +15,7 @@
 #  starts_at        :date
 #  exit_lat         :decimal(15, 10)
 #  exit_lon         :decimal(15, 10)
+#  profile_id       :integer
 #
 
 class Tournament < ApplicationRecord

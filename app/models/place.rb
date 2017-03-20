@@ -8,7 +8,7 @@
 #  longitude   :decimal(15, 10)
 #  information :text
 #  country_id  :integer
-#  msl         :integer
+#  msl         :decimal(5, 1)
 #
 
 class Place < ApplicationRecord

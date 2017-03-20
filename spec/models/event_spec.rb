@@ -8,13 +8,14 @@
 #  range_to          :integer
 #  created_at        :datetime
 #  updated_at        :datetime
-#  status            :integer          default(0)
+#  status            :integer          default("draft")
 #  profile_id        :integer
 #  place_id          :integer
 #  is_official       :boolean
-#  rules             :integer          default(0)
+#  rules             :integer          default("speed_distance_time")
 #  starts_at         :date
-#  wind_cancellation :boolean
+#  wind_cancellation :boolean          default(FALSE)
+#  visibility        :integer          default("public_event")
 #
 
 require 'spec_helper'

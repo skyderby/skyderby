@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: event_lists
+#
+#  event_type :text
+#  event_id   :integer
+#  starts_at  :date
+#  status     :integer
+#  visibility :integer
+#  profile_id :integer
+#
+
 require 'rails_helper'
 
 describe EventList, type: :model do

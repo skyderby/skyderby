@@ -18,8 +18,8 @@
 #  crop_y               :integer
 #  crop_w               :integer
 #  crop_h               :integer
-#  default_units        :integer          default(0)
-#  default_chart_view   :integer          default(0)
+#  default_units        :integer          default("metric")
+#  default_chart_view   :integer          default("multi")
 #  country_id           :integer
 #
 

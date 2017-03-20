@@ -8,7 +8,7 @@
 #  wind_speed             :decimal(10, 4)
 #  wind_direction         :decimal(5, 2)
 #  weather_datumable_id   :integer
-#  weather_datumable_type :string(510)
+#  weather_datumable_type :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #

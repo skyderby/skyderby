@@ -1,9 +1,10 @@
 # == Schema Information
 #
-# Table name: personal_top_scores
+# Table name: annual_top_scores
 #
 #  rank                   :integer
 #  virtual_competition_id :integer
+#  year                   :float
 #  track_id               :integer
 #  result                 :float
 #  highest_speed          :float
@@ -13,7 +14,7 @@
 #  recorded_at            :datetime
 #
 
-class PersonalTopScore < ApplicationRecord
+class AnnualTopScore < ApplicationRecord
   belongs_to :virtual_competition
   belongs_to :track
   belongs_to :profile
