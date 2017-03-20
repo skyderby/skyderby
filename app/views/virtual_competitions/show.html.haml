@@ -20,8 +20,8 @@
     %div= competition_task(@competition)
     .top-buffer
 
-    - if @competition.personal_top_scores.size > 2
-      - winners = @competition.personal_top_scores.take(3)
+    - if @competition.scores.size > 2
+      - winners = @competition.scores.take(3)
       .row.top-buffer-30
         .col-sm-4.col-md-4
           = render 'winner', result: winners.first
@@ -47,28 +47,28 @@
               %th.text-right=t 'activerecord.attributes.track.recorded_at'
               %th
           %tbody
-            - @competition.personal_top_scores.each do |personal_score|
+            - @competition.scores.each do |score|
               %tr
-                %td= personal_score.rank
+                %td= score.rank
                 %td
-                  = link_to(personal_score.profile.name.titleize,
-                            personal_score.profile,
+                  = link_to(score.profile.name.titleize,
+                            score.profile,
                             'data-toggle' => 'tooltip',
                             title: t('.show_profile'))
-                %td= suit_presentation(personal_score.wingsuit)
+                %td= suit_presentation(score.wingsuit)
                 - if @competition.worldwide?
-                  %td= track_place(personal_score.track)
-                %td.text-right= link_to format_result(personal_score.result, @competition),
-                  personal_score.track,
+                  %td= track_place(score.track)
+                %td.text-right= link_to format_result(score.result, @competition),
+                  score.track,
                   'data-toggle' => 'tooltip',
                   title: t('.show_details')
                 - if @competition.display_highest_speed
-                  %td.text-right= (personal_score.highest_speed || 0.0).round(1)
+                  %td.text-right= (score.highest_speed || 0.0).round(1)
                 - if @competition.display_highest_gr
-                  %td.text-right= (personal_score.highest_gr || 0.0).round(2)
-                %td.text-right= personal_score.recorded_at.strftime('%d.%m.%Y')
+                  %td.text-right= (score.highest_gr || 0.0).round(2)
+                %td.text-right= score.recorded_at.strftime('%d.%m.%Y')
                 %td
-                  - if personal_score.track.video
+                  - if score.track.video
                     %i.fa.fa-video-camera
 
 

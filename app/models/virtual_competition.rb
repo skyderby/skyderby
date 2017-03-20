@@ -41,6 +41,7 @@ class VirtualCompetition < ApplicationRecord
   has_many :sponsors, -> { order(:created_at) }, as: :sponsorable
 
   delegate :name, to: :place, prefix: true, allow_nil: true
+  delegate :name, to: :group, prefix: true, allow_nil: true
 
   def window_params
     case discipline

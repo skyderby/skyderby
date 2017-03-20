@@ -10,13 +10,7 @@ class VirtualCompetitionsController < ApplicationController
   end
 
   def show
-    @competition = VirtualCompetition.includes(
-      personal_top_scores: [
-        { wingsuit: :manufacturer },
-        { track: [{ place: :country }, :video] },
-        :profile
-      ]
-    ).find(params[:id])
+    @competition = VirtualCompetitionFacade.new(params)
   end
 
   def edit
