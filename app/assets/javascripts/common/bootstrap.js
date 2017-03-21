@@ -15,3 +15,7 @@ $(document).on('turbolinks:load', function() {
     $(this).tab('show');
   });
 });
+
+$(document).on('turbolinks:before-cache', function() {
+  $('a[rel~=tooltip], .has-tooltip, [data-toggle=tooltip]').tooltip('destroy');
+});
