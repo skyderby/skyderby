@@ -57,15 +57,11 @@ module PointsPostprocessor
     end
 
     def apply_moving_average(tmp_points)
-      neighbors = (MOVING_AVG_WINDOW_SIZE / 2).floor
-      temp = ([tmp_points.first] * neighbors) + tmp_points + ([tmp_points.last] * neighbors)
-
-      temp.each_cons(MOVING_AVG_WINDOW_SIZE).map do |window|
-        MOVING_AVG_KEYS.each do |key|
-          window[neighbors][key] = window.map { |x| x[key] }.inject(0.0, :+) / MOVING_AVG_WINDOW_SIZE
-        end
-        window[neighbors]
-      end
+      MovingAverage.new(
+        tmp_points,
+        window_size: MOVING_AVG_WINDOW_SIZE,
+        keys: MOVING_AVG_KEYS
+      ).execute
     end
 
     def adjust_glide_ratio(tmp_points)
