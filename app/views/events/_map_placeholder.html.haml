@@ -1,0 +1,20 @@
+.modal-dialog.modal-lg
+  .modal-content
+    .modal-header
+      .pull-right
+        %button.close{type: 'button', data: {dismiss: 'modal'}}
+          %span{aria: {hidden: 'true'}}
+            &times;
+          %span.sr-only
+            Close
+      %h4.modal-title
+        = t('events.show.round_map_view')
+ 
+    .modal-body
+      .round-map__animation
+        %img{src: asset_path('round_map_placeholder.png')}
+        .round-map__animated-background
+ 
+    .modal-footer
+      %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}
+        OK

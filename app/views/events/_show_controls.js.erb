@@ -1,0 +1,9 @@
+$('#event').delegate('.round-map-view', 'click', function() {
+  $('#modal').html("<%= j render 'map_placeholder' %>");
+  $('#modal').modal('show');
+  $('.round-actions.dropdown.open').removeClass('open');
+});
+
+$('#event').delegate('.round-map-view', 'ajax:error', function() {
+  $('#modal').modal('hide');
+});
