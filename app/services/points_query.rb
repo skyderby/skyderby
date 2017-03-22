@@ -19,7 +19,7 @@ class PointsQuery
   def scope
     collection = track.points
     collection = collection.trimmed(trim_options) if trimmed
-    collection = collection.reorder('round(gps_time_in_seconds)') if freq_1Hz
+    collection = collection.reorder('floor(gps_time_in_seconds), gps_time_in_seconds') if freq_1Hz
     collection
   end
 
@@ -77,7 +77,7 @@ class PointsQuery
       return select_statements unless freq_1Hz
 
       select_statements.tap do |statements|
-        statements[0] = 'DISTINCT ON (round(gps_time_in_seconds)) ' + statements.first
+        statements[0] = 'DISTINCT ON (floor(gps_time_in_seconds)) ' + statements.first
       end
     end
 
