@@ -40,7 +40,7 @@ describe PointsQuery::QueryBuilder do
     )
     expect(query_builder.execute).to eq(
       [
-        'DISTINCT ON (round(gps_time_in_seconds)) ' \
+        'DISTINCT ON (floor(gps_time_in_seconds)) ' \
         'abs_altitude - 0 AS altitude'
       ]
     )
