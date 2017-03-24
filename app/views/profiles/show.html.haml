@@ -25,7 +25,7 @@
         .row
           .col-sm-10.col-md-11
             %h1
-              = profile_name
+              = @profile.name
               - if @profile.country
                 %small
                   (
@@ -45,21 +45,21 @@
         .row.track-indicators
           .col-sm-4.col-md-3
             .param-val
-              #distance.avg-val= max_distance
+              #distance.avg-val= @profile.max_distance
               .units= t 'units.m'
             .param
               %i.fa.fa-fw.fa-lg.fa-arrows-h
               =t 'tracks.indicators.distance'
           .col-sm-4.col-md-3
             .param-val
-              #speed.avg-val= max_speed
+              #speed.avg-val= @profile.max_speed
               .units=t 'units.kmh'
             .param
               %i.fa.fa-fw.fa-lg.fa-long-arrow-right
               =t 'tracks.indicators.ground_speed'
           .col-sm-4.col-md-3
             .param-val
-              #time.avg-val= max_time
+              #time.avg-val= @profile.max_time
               .units= t 'units.t_unit'
             .param
               %i.fa.fa-fw.fa-lg.fa-clock-o
@@ -91,7 +91,7 @@
               %th.text-right= t('activerecord.attributes.track.recorded_at')
               %th
           %tbody
-            - groups = profile_tracks.group_by { |x| x.created_at.beginning_of_month }
+            - groups = @profile.tracks.group_by { |x| x.created_at.beginning_of_month }
             - groups.each do |group, tracks|
               %tr.bg-warning.text-danger.no-hover
                 %td{colspan: 9}

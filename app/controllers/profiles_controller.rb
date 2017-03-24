@@ -9,18 +9,7 @@ class ProfilesController < ApplicationController
   end
 
   def show
-    @profile = Profile.includes(
-      :badges,
-      { personal_top_scores: :virtual_competition },
-      tracks: [
-        :distance,
-        :speed,
-        :time,
-        :video,
-        { wingsuit: :manufacturer },
-        { place: :country }
-      ]
-    ).find(params[:id])
+    @profile = ProfileFacade.new(params, current_user)
   end
 
   def edit; end
