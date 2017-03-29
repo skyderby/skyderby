@@ -4,7 +4,7 @@
 .track-edit-data{'data-track' => @track_data.to_data_attr}
 
   .container.top-buffer
-    = form_for track, html: {class:  'form-horizontal', role: 'form', id: 'track_edit_form'} do |f|
+    = form_for track, remote: true, html: {class:  'form-horizontal', role: 'form', id: 'track_edit_form'} do |f|
       .content-block
         = link_to track_path(track) do
           %i.fa.fa-chevron-left
