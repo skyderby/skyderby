@@ -114,3 +114,6 @@
 - content_for :page_js do
   :javascript
     new Skyderby.views.NewTrackForm({el: '#newTrackModal'});
+    $('#newTrackModal').on('shown.bs.modal', function() {
+      $('[data-target="#newTrackModal"]').one('focus', function() { $(this).blur(); });
+    });
