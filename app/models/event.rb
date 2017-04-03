@@ -69,4 +69,10 @@ class Event < ApplicationRecord
     self.range_from ||= 3000
     self.range_to ||= 2000
   end
+
+  class << self
+    def search(query)
+      where('LOWER(name) LIKE ?', "%#{query.downcase}%")
+    end
+  end
 end

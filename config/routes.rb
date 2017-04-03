@@ -54,6 +54,10 @@ Skyderby::Application.routes.draw do
         resources :competitors
         resources :event_tracks
         resources :event_organizers
+
+        collection do
+          resources :select_options, only: :index
+        end
       end
 
       resources :sponsors, only: [:new, :create, :destroy]
