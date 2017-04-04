@@ -23,6 +23,7 @@ gem 'nokogiri', '~> 1.6.8'
 
 # Authorization
 gem 'cancancan'
+gem 'pundit'
 
 # Background jobs
 gem 'sidekiq', ' < 5'
