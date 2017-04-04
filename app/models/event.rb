@@ -46,6 +46,11 @@ class Event < ApplicationRecord
   delegate :name, to: :place, prefix: true, allow_nil: true
   delegate :msl, to: :place, prefix: true, allow_nil: true
 
+  after_initialize do
+    self.range_from ||= 3000
+    self.range_to ||= 2000
+  end
+
   def rounds_by_discipline
     @rounds_by_discipline ||= rounds.group_by(&:discipline)
   end
