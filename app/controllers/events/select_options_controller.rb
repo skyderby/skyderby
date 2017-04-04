@@ -1,7 +1,7 @@
 module Events
   class SelectOptionsController < ApplicationController
     def index
-      @events = Event.order('starts_at DESC')
+      @events = policy_scope(Event).order('starts_at DESC')
 
       @events = @events.search(search_query) if search_query
     end
