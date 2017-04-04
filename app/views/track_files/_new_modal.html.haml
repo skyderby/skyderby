@@ -117,3 +117,8 @@
     $('#newTrackModal').on('shown.bs.modal', function() {
       $('[data-target="#newTrackModal"]').one('focus', function() { $(this).blur(); });
     });
+
+    $(document).one('turbolinks:before-cache', function() {
+      var $el = $('select[name="track_file[track_attributes][wingsuit_id]"]');
+      if ( $el.next().is('.select2') ) $el.select2('destroy');
+    });
