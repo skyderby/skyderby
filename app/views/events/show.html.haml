@@ -158,6 +158,9 @@
       = link_to new_event_sponsor_path(event_id: @event.id), remote: true, class: 'add-sponsor' do
         %i.fa.fa-plus
         = t('.add_sponsor')
+      = link_to new_event_sponsors_copy_path(event_id: @event.id), remote: true, class: 'copy-sponsor' do
+        %i.fa.fa-copy
+        = t('.copy_sponsors')
 
 - content_for :page_js do
   %script

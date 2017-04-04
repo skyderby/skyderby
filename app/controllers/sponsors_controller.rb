@@ -1,8 +1,7 @@
 class SponsorsController < ApplicationController
-  before_action :set_sponsor, only: [:destroy]
+  include SponsorableLoading
 
-  before_action :load_sponsorable
-  before_action :authorize_sponsorable
+  before_action :set_sponsor, only: [:destroy]
 
   def new
     @sponsor = Sponsor.new
@@ -44,14 +43,5 @@ class SponsorsController < ApplicationController
 
   def sponsor_params
     params.require(:sponsor).permit(:name, :website, :logo, :event_id)
-  end
-
-  def load_sponsorable
-    klass = [Event, Tournament, VirtualCompetition].detect { |c| params["#{c.name.underscore}_id"] }
-    @sponsorable = klass.find(params["#{klass.name.underscore}_id"])
-  end
-
-  def authorize_sponsorable
-    authorize! :update, @sponsorable
   end
 end

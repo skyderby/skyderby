@@ -1,0 +1,24 @@
+$('#modal').html('<%= j render('form_modal') %>');
+$('#modal').modal('show');
+
+Skyderby.helpers.EventSelect(
+  $('select[name="sponsor_copy[source_event_id]"]'),
+  { placeholder: "<%= I18n.t('sponsors_copy.form_modal.source_event_placeholder') %>" }
+);
+
+$("sponsor-copy__form").validate({
+  rules: {
+    'sponsor_copy[source_event_id]': {
+      required: true
+    },
+  },
+  highlight: function(element) {
+    $(element).closest('.form-group').addClass('has-error');
+  },
+  unhighlight: function(element) {
+    $(element).closest('.form-group').removeClass('has-error');
+  },
+  errorPlacement: function(error, element) {
+    return true;
+  }
+});

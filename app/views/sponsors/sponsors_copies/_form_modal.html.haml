@@ -1,0 +1,21 @@
+.modal-dialog
+  .modal-content
+    = form_for :sponsor_copy, url: event_sponsors_copy_path(@sponsorable), remote: true, html: {multipart: true, class: "sponsor-copy__form form-horizontal"} do |f|
+      .modal-header
+        %button.close{type: 'button', data: {dismiss: 'modal'}}
+          %span{aria: {hidden: 'true'}}
+            &times;
+          %span.sr-only
+            Close
+        %h4.modal-title
+          = t('.title')
+
+      .modal-body
+        .form-group
+          = f.label :source_event, class: 'control-label col-sm-4'
+          .col-sm-8
+            = f.select :source_event_id, [], { include_blank: true }, class: 'form-control'
+
+      .modal-footer
+        = f.submit t('general.save'), class: 'btn btn-primary'
+        %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

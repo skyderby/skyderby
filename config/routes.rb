@@ -35,7 +35,14 @@ Skyderby::Application.routes.draw do
     match '/tracks/:track_id/google_earth', to: 'tracks/globe#show', via: :get
     match '/tracks/:track_id/replay', to: 'tracks/videos#show', via: :get
 
-    resources :events do
+    concern :sponsorable do
+      resources :sponsors, only: [:new, :create, :destroy]
+      scope module: :sponsors do
+        resource :sponsors_copy, only: [:new, :create]
+      end
+    end
+
+    resources :events, concerns: :sponsorable do
       scope module: :events do
         resources :rounds do
           scope module: :rounds do
@@ -60,7 +67,6 @@ Skyderby::Application.routes.draw do
         end
       end
 
-      resources :sponsors, only: [:new, :create, :destroy]
       resources :weather_data
     end
 
@@ -103,13 +109,11 @@ Skyderby::Application.routes.draw do
       resources :weather_data, only: [:index]
     end
 
-    resources :virtual_competitions do
-      resources :sponsors, only: [:new, :create, :destroy]
-    end
+    resources :virtual_competitions, concerns: :sponsorable
     resources :virtual_comp_groups
     resources :virtual_comp_results
 
-    resources :tournaments do
+    resources :tournaments, concerns: :sponsorable do
       scope module: :tournaments do
         resource :qualification, only: :show
         resources :rounds
@@ -122,8 +126,6 @@ Skyderby::Application.routes.draw do
           end
         end
       end
-
-      resources :sponsors, only: [:new, :create, :destroy]
     end
 
     root 'static_pages#index'
