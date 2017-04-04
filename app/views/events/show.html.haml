@@ -145,7 +145,7 @@
           - @event.event_organizers.each do |event_organizer|
             = render 'events/event_organizers/event_organizer', event_organizer: event_organizer
         - if can_manage && !@event.finished?
-          = link_to new_event_event_organizer_path(@event), remote: true, class: 'add-organizer' do
+          = link_to new_event_event_organizer_path(@event), remote: true, class: 'add-organizer button button--minimal' do
             %i.fa.fa-plus
             = t('.add_judge')
 
@@ -155,12 +155,14 @@
     .row#sponsors
       = render @event.sponsors
     - if can_manage
-      = link_to new_event_sponsor_path(event_id: @event.id), remote: true, class: 'add-sponsor' do
-        %i.fa.fa-plus
-        = t('.add_sponsor')
-      = link_to new_event_sponsors_copy_path(event_id: @event.id), remote: true, class: 'copy-sponsor' do
-        %i.fa.fa-copy
-        = t('.copy_sponsors')
+      .row
+        .col-sm-12
+          = link_to new_event_sponsor_path(event_id: @event.id), remote: true, class: 'add-sponsor button button--minimal' do
+            %i.fa.fa-plus
+            = t('.add_sponsor')
+          = link_to new_event_sponsors_copy_path(event_id: @event.id), remote: true, class: 'button button--minimal' do
+            %i.fa.fa-copy
+            = t('.copy_sponsors')
 
 - content_for :page_js do
   %script

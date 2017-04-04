@@ -1,0 +1,20 @@
+.button {
+  margin: 5px;
+  padding: 4px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  border-width: 0;
+  border-color: transparent;
+  background: transparent;
+  font-weight: 400;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  color: #777;
+
+  &:hover {
+    text-decoration: none;
+    color: #333;
+  }
+}

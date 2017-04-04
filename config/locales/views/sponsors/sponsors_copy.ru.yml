@@ -1,0 +1,10 @@
+ru:
+  sponsors:
+    sponsors_copies:
+      form_modal:
+        title: Копирование спонсоров из другого соревнования
+        source_event_placeholder: Соревнование-источник
+  helpers:
+    label:
+      sponsor_copy:
+        source_event: Соревнование

@@ -26,8 +26,9 @@ ru:
       result_in: 'в'
       toggle_existed_track: 'выберите существующий трек'
       toggle_new_track: 'загрузите новый трек'
-      event_sponsors: 'Спонсоры соревнования'
-      add_sponsor: 'Добавить спонсора'
+      event_sponsors: Спонсоры соревнования
+      add_sponsor: Добавить спонсора
+      copy_sponsors: Копировать спонсоров
       judges: 'Судьи'
       add_judge: 'Добавить судью'
       weather_data: 'Сведения о ветре'
