@@ -1,0 +1,53 @@
+.index-header {
+  background-color: rgb(115, 155, 184);
+  background-image: asset-url('index_header_bg.jpg');
+  background-size: cover;
+  background-position: center center;
+  height: 400px;
+  color: rgb(202, 239, 253);
+  display: block;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  line-height: 34px;
+  margin-top: -53px;
+  padding-bottom: 60px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 60px;
+  position: relative;
+  text-align: left;
+  text-shadow: rgba(0, 0, 0, 0.0980392) 0px 1px 0px;
+  width: 100%;
+}
+
+.index-header__dark-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.index-header__text {
+  letter-spacing: 2px;
+  line-height: 1.6;
+  font-size: 33px;
+  color: rgba(255, 255, 255, 0.96);
+  text-align: center;
+  max-width: 630px;
+  margin-top: 70px;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 3;
+  position: relative;
+}
+
+.index-header__cta {
+  text-align: center;
+  margin-top: 50px;
+  z-index: 3;
+  position: relative;
+}

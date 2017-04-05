@@ -1,0 +1,26 @@
+.button-navbar,
+.navbar--transparent .navbar-nav li a.button-navbar {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  margin-top: 10px;
+  margin-left: 15px;
+  height: 32px;
+  padding: 0px 16px;
+  line-height: 31px;
+  font-size: 14px;
+  border-radius: 10em;
+}
+
+.button-navbar:hover,
+.navbar--transparent .navbar-nav > li > a.button-navbar:hover {
+  text-decoration: none;
+  background-color: white;
+  color: #777;
+}
+
+.button-navbar__img {
+  height: 22px;
+  width: 22px;
+}

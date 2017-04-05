@@ -1,7 +1,19 @@
-.button--green, 
+$button-green-color: #fff;
+$button-green-background-color: #5cb85c;
+$button-green-border-color: darken($button-green-background-color, 10%);
+
+$button-green-hover-background-color: lighten($button-green-background-color, 3%);
+$button-green-hover-border-color: lighten($button-green-border-color, 3%);
+
+.button--green {
+  color: $button-green-color;
+  background-color: $button-green-background-color;
+  border-color: $button-green-border-color;
+}
+
 .button--green:hover,
 .button--green:focus {
-  color: #fff;
-  background-color: #5cb85c;
-  border-color: #4cae4c;
+  color: $button-green-color;
+  background-color: $button-green-hover-background-color;
+  border-color: $button-green-hover-border-color;
 }

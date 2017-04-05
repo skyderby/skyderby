@@ -38,7 +38,7 @@ en:
           file_size_w1_html: "'File size : '"
           file_size_w2_html: "'Max file size is 1 Mb'"
         kind: "Kind of jump:"
-      desc: "GPS Tracks analyzer and GPS perfomance competition front-end"
+      desc: "The most advanced flight analysis and competition scoring"
       goto_event: "Go to event >>"
       supported_formats: "Supported file formats and GPS loggers"
       stats: "Statistics:"

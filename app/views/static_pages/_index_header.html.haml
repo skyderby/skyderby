@@ -1,0 +1,91 @@
+.navbar.navbar--transparent{role: 'navigation'}
+  .container
+    .navbar-header
+      = link_to root_path, class: 'navbar-brand' do
+        = t('application.header.home') 
+        %sup
+          β
+
+    %ul.nav.navbar-nav
+      - root_controller = controller.controller_path.split('/').first
+      %li{class: ('nav-active' if root_controller == 'tracks')}
+        = link_to t('application.header.tracks'), tracks_path
+      %li{class: ('nav-active' if ['events', 'tournaments'].include? root_controller)}
+        = link_to t('application.header.competitions'), events_path
+      %li{class: ('nav-active' if root_controller == 'virtual_competitions')}
+        = link_to t('application.header.online_competitions'), virtual_competitions_path 
+      %li{class: ('nav-active' if root_controller == 'places')}
+        = link_to t('application.header.places'), places_path
+         
+    %ul.nav.navbar-nav.navbar-right
+
+      - if user_signed_in?
+        %li.dropdown
+          .dropdown-toggle.button-navbar.button--white{href: '#', data: {toggle: 'dropdown'}}
+            - if masquerading?
+              %i.fa.fa-lg.fa-warning.text-danger
+            - if current_user.profile
+              = current_user.profile.name
+              = image_tag current_user.profile.userpic.url(:thumb), id: 'userpic-thumb', class: 'img-rounded loading-bg button-navbar__img'
+            - else
+              = current_user.email
+              = image_tag '/images/thumb/missing.png', id: 'userpic-thumb', class: 'img-rounded loading-bg button-navbar__img'
+
+          %ul.dropdown-menu
+            - if current_user.has_role? :admin
+              %li
+                = link_to t('application.header.admin_panel'), manage_path
+            - if masquerading?
+              %li
+                = link_to 'Stop masquerading', user_masquerades_path(current_user), method: :delete
+            %li
+              = link_to t('application.header.profile'), profile_path(current_user.profile)
+            %li
+              = link_to t('application.header.sign_out'), destroy_user_session_path, method: :delete
+      - else
+        %li.dropdown
+          .dropdown-toggle.button-navbar.button--white{data: {toggle: 'dropdown'}}
+            =t 'application.header.sign_in'
+          %ul.dropdown-menu.login-menu
+            %li
+              .row
+                .col-md-12
+                  = form_for(:user, url: session_path(:user), html: {class: 'form sign-in-form', role: 'form'}) do |f|
+                    .form-group
+                      = label_tag 'user_email', 'Email address', for: 'user_email', class: 'sr-only'
+                      = f.text_field :email, class: 'form-control', type: 'email', placeholder: t('application.header.login_email')
+                    .form-group
+                      = label_tag 'user_password', 'Password', for: 'user_password', class: 'sr-only'
+                      = f.password_field :password, class: 'form-control', placeholder: t('application.header.password')
+                    .checkbox
+                      %label
+                        = f.check_box :remember_me, checked: true
+                        =t('application.header.remember_me')
+                    .form-group
+                      = f.submit t('application.header.sign_in'), class: 'btn btn-success btn-block'
+                  = link_to t('application.header.forgot_pass'), new_password_path(:user)
+                %hr
+                .col-sm-12.hidden-md
+                  = link_to t('application.header.sign_up'), new_user_registration_path
+        %li.hidden-sm
+          = link_to t('application.header.sign_up'), new_user_registration_path, class: 'button-navbar button--aqua'
+
+      %li.dropdown
+        .dropdown-toggle.button--white.button--round.button-locale{href: '#', data: {toggle: 'dropdown'}}
+          = image_tag asset_path('blank.gif'), class: "flag flag-#{ I18n.locale} button-locale__img"
+        = lang_menu
+
+- content_for :page_js do
+  :coffeescript
+    $('.sign-in-form').validate(
+      rules:
+        'user[email]':
+          required: true,
+          email: true
+        'user[password]':
+          required: true
+      highlight: (element) ->
+        $(element).closest('.form-group').addClass('has-error')
+      unhighlight: (element) ->
+        $(element).closest('.form-group').removeClass('has-error')
+    )

@@ -52,6 +52,10 @@ a, button, label, span {
   height: 100%;
   margin: 0 auto -61px;
   padding: 50px 0 60px;
+
+  &.wrap--no-top-padding {
+    padding-top: 0px;
+  }
 }
 
 label.valid {

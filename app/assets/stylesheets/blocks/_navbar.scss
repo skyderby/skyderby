@@ -12,6 +12,8 @@
 
 .navbar {
   margin-bottom: 0;
+  border: 0px solid transparent;
+  z-index: 10;
 }
 
 .navbar li.sign-in a {
