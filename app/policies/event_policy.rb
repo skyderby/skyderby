@@ -7,7 +7,7 @@ class EventPolicy < ApplicationPolicy
     end
 
     def profile
-      user&.profile || NullProfile
+      user&.profile || NullProfile.new
     end
 
     class NullProfile
