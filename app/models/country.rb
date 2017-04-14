@@ -11,6 +11,7 @@ class Country < ApplicationRecord
   has_many :places
 
   validates :name, presence: true
+  validates :code, uniqueness: true
 
   class << self
     def search(query)
