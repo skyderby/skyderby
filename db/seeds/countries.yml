@@ -1,0 +1,636 @@
+# Skyderby.ru
+# Copyright (C) 2017 Aleksandr Kunin
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#
+# Source: https://en.wikipedia.org/wiki/List_of_IOC_country_codes
+
+- code: AFG
+  name: Afghanistan  
+
+- code: ALB
+  name: Albania  
+
+- code: ALG
+  name: Algeria
+
+- code: AND
+  name: Andorra  
+
+- code: ANG
+  name: Angola  
+
+- code: ANT
+  name: Antigua and Barbuda  
+
+- code: ARG
+  name: Argentina  
+
+- code: ARM
+  name: Armenia  
+
+- code: ARU
+  name: Aruba  
+
+- code: ASA
+  name: American Samoa  
+
+- code: AUS
+  name: Australia  
+
+- code: AUT
+  name: Austria  
+
+- code: AZE
+  name: Azerbaijan  
+
+- code: BAH
+  name: Bahamas  
+
+- code: BAN
+  name: Bangladesh  
+
+- code: BAR
+  name: Barbados
+
+- code: BDI
+  name: Burundi  
+
+- code: BEL
+  name: Belgium  
+
+- code: BEN
+  name: Benin
+
+- code: BER
+  name: Bermuda  
+
+- code: BHU
+  name: Bhutan  
+
+- code: BIH
+  name: Bosnia and Herzegovina
+
+- code: BIZ
+  name: Belize
+
+- code: BLR
+  name: Belarus  
+
+- code: BOL
+  name: Bolivia  
+
+- code: BOT
+  name: Botswana  
+
+- code: BRA
+  name: Brazil  
+
+- code: BRN
+  name: Bahrain  
+
+- code: BRU
+  name: Brunei  
+
+- code: BUL
+  name: Bulgaria  
+
+- code: BUR
+  name: Burkina Faso
+
+- code: CAF
+  name: Central African Republic
+
+- code: CAM
+  name: Cambodia
+
+- code: CAN
+  name: Canada  
+
+- code: CAY
+  name: Cayman Islands  
+
+- code: CGO
+  name: Congo  
+
+- code: CHA
+  name: Chad
+
+- code: CHI
+  name: Chile
+
+- code: CHN
+  name: China
+
+- code: CIV
+  name: Côte d'Ivoire
+
+- code: CMR
+  name: Cameroon  
+
+- code: COD
+  name: DR Congo
+
+- code: COK
+  name: Cook Islands  
+
+- code: COL
+  name: Colombia  
+
+- code: COM
+  name: Comoros  
+
+- code: CPV
+  name: Cape Verde  
+
+- code: CRC
+  name: Costa Rica
+
+- code: CRO
+  name: Croatia  
+
+- code: CUB
+  name: Cuba  
+
+- code: CYP
+  name: Cyprus  
+
+- code: CZE
+  name: Czech Republic
+
+- code: DEN
+  name: Denmark
+
+- code: DJI
+  name: Djibouti  
+
+- code: DMA
+  name: Dominica  
+
+- code: DOM
+  name: Dominican Republic  
+
+- code: ECU
+  name: Ecuador  
+
+- code: EGY
+  name: Egypt
+
+- code: ERI
+  name: Eritrea  
+
+- code: ESA
+  name: El Salvador
+
+- code: ESP
+  name: Spain
+
+- code: EST
+  name: Estonia  
+
+- code: ETH
+  name: Ethiopia
+
+- code: FIJ
+  name: Fiji
+
+- code: FIN
+  name: Finland  
+
+- code: FRA
+  name: France  
+
+- code: FSM
+  name: Micronesia  
+
+- code: GAB
+  name: Gabon  
+
+- code: GAM
+  name: The Gambia  
+
+- code: GBR
+  name: Great Britain
+
+- code: GBS
+  name: Guinea-Bissau  
+
+- code: GEO
+  name: Georgia  
+
+- code: GEQ
+  name: Equatorial Guinea  
+
+- code: GER
+  name: Germany
+
+- code: GHA
+  name: Ghana  
+
+- code: GRE
+  name: Greece  
+
+- code: GRN
+  name: Grenada  
+
+- code: GUA
+  name: Guatemala
+
+- code: GUI
+  name: Guinea  
+
+- code: GUM
+  name: Guam  
+
+- code: GUY
+  name: Guyana
+
+- code: HAI
+  name: Haiti  
+
+- code: HKG
+  name: Hong Kong
+
+- code: HON
+  name: Honduras  
+
+- code: HUN
+  name: Hungary
+
+- code: INA
+  name: Indonesia
+
+- code: IND
+  name: India  
+
+- code: IRI
+  name: Iran
+
+- code: IRL
+  name: Ireland  
+
+- code: IRQ
+  name: Iraq
+
+- code: ISL
+  name: Iceland
+
+- code: ISR
+  name: Israel
+
+- code: ISV
+  name: Virgin
+
+- code: ITA
+  name: Italy  
+
+- code: IVB
+  name: British Virgin Islands  
+
+- code: JAM
+  name: Jamaica  
+
+- code: JOR
+  name: Jordan  
+
+- code: JPN
+  name: Japan
+
+- code: KAZ
+  name: Kazakhstan  
+
+- code: KEN
+  name: Kenya  
+
+- code: KGZ
+  name: Kyrgyzstan  
+
+- code: KIR
+  name: Kiribati  
+
+- code: KOR
+  name: South Korea
+
+- code: KOS
+  name: Kosovo  
+
+- code: KSA
+  name: Saudi Arabia
+
+- code: KUW
+  name: Kuwait  
+
+- code: LAO
+  name: Laos  
+
+- code: LAT
+  name: Latvia  
+
+- code: LBA
+  name: Libya
+
+- code: LBR
+  name: Liberia  
+
+- code: LCA
+  name: Saint Lucia  
+
+- code: LES
+  name: Lesotho  
+
+- code: LBN
+  name: Lebanon
+
+- code: LIE
+  name: Liechtenstein
+
+- code: LTU
+  name: Lithuania
+
+- code: LUX
+  name: Luxembourg  
+
+- code: MAD
+  name: Madagascar
+
+- code: MAR
+  name: Morocco
+
+- code: MAS
+  name: Malaysia
+
+- code: MAW
+  name: Malawi  
+
+- code: MDA
+  name: Moldova
+
+- code: MDV
+  name: Maldives  
+
+- code: MEX
+  name: Mexico  
+
+- code: MGL
+  name: Mongolia
+
+- code: MHL
+  name: Marshall Islands  
+
+- code: MKD
+  name: Macedonia  
+
+- code: MLI
+  name: Mali  
+
+- code: MLT
+  name: Malta
+
+- code: MNE
+  name: Montenegro  
+
+- code: MON
+  name: Monaco  
+
+- code: MOZ
+  name: Mozambique  
+
+- code: MRI
+  name: Mauritius  
+
+- code: MTN
+  name: Mauritania  
+
+- code: MYA
+  name: Myanmar
+
+- code: NAM
+  name: Namibia  
+
+- code: NCA
+  name: Nicaragua
+
+- code: NED
+  name: Netherlands
+
+- code: NEP
+  name: Nepal  
+
+- code: NGR
+  name: Nigeria
+
+- code: NIG
+  name: Niger
+
+- code: NOR
+  name: Norway  
+
+- code: NRU
+  name: Nauru  
+
+- code: NZL
+  name: New Zealand
+
+- code: OMA
+  name: Oman  
+
+- code: PAK
+  name: Pakistan  
+
+- code: PAN
+  name: Panama  
+
+- code: PAR
+  name: Paraguay  
+
+- code: PER
+  name: Peru  
+
+- code: PHI
+  name: Philippines
+
+- code: PLE
+  name: Palestine  
+
+- code: PLW
+  name: Palau  
+
+- code: PNG
+  name: Papua New Guinea
+
+- code: POL
+  name: Poland  
+
+- code: POR
+  name: Portugal  
+
+- code: PRK
+  name: North Korea
+
+- code: PUR
+  name: Puerto Rico
+
+- code: QAT
+  name: Qatar  
+
+- code: ROU
+  name: Romania
+
+- code: RSA
+  name: South Africa
+
+- code: RUS
+  name: Russia  
+
+- code: RWA
+  name: Rwanda  
+
+- code: SAM
+  name: Samoa  
+
+- code: SEN
+  name: Senegal
+
+- code: SEY
+  name: Seychelles  
+
+- code: SGP
+  name: Singapore
+
+- code: SKN
+  name: Saint Kitts and Nevis  
+
+- code: SLE
+  name: Sierra Leone
+
+- code: SLO
+  name: Slovenia  
+
+- code: SMR
+  name: San Marino
+
+- code: SOL
+  name: Solomon Islands  
+
+- code: SOM
+  name: Somalia  
+
+- code: SRB
+  name: Serbia  
+
+- code: SRI
+  name: Sri Lanka
+
+- code: SSD
+  name: South Sudan  
+
+- code: STP
+  name: São Tomé and Príncipe  
+
+- code: SUD
+  name: Sudan  
+
+- code: SUI
+  name: Switzerland
+
+- code: SUR
+  name: Suriname  
+
+- code: SVK
+  name: Slovakia  
+
+- code: SWE
+  name: Sweden
+
+- code: SWZ
+  name: Swaziland  
+
+- code: SYR
+  name: Syria
+
+- code: TAN
+  name: Tanzania  
+
+- code: TGA
+  name: Tonga
+
+- code: THA
+  name: Thailand  
+
+- code: TJK
+  name: Tajikistan  
+
+- code: TKM
+  name: Turkmenistan  
+
+- code: TLS
+  name: Timor-Leste
+
+- code: TOG
+  name: Togo  
+
+- code: TPE
+  name: Chinese Taipei
+
+- code: TTO
+  name: Trinidad and Tobago
+
+- code: TUN
+  name: Tunisia  
+
+- code: TUR
+  name: Turkey  
+
+- code: TUV
+  name: Tuvalu  
+
+- code: UAE
+  name: United Arab Emirates  
+
+- code: UGA
+  name: Uganda  
+
+- code: UKR
+  name: Ukraine  
+
+- code: URU
+  name: Uruguay
+
+- code: USA
+  name: United States
+
+- code: UZB
+  name: Uzbekistan  
+
+- code: VAN
+  name: Vanuatu  
+
+- code: VEN
+  name: Venezuela  
+
+- code: VIE
+  name: Vietnam
+
+- code: VIN
+  name: Saint Vincent and the Grenadines  
+
+- code: YEM
+  name: Yemen  
+
+- code: ZAM
+  name: Zambia
+
+- code: ZIM
+  name: Zimbabwe

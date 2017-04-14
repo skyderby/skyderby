@@ -47,3 +47,10 @@ suits.each do |attrs|
     p "Slick suit #{attrs['manufacturer_code']} #{suit_name} created"
   end
 end
+
+countries = YAML.load(File.open(Rails.root.join('db', 'seeds', 'countries.yml')))
+countries.each do |attrs|
+  next if Country.find_by(code: attrs['code'])
+  Country.create! attrs
+  p "Country #{attrs['name']} created"
+end
