@@ -1,0 +1,12 @@
+country_code: BEL
+places:
+  - name: DZ Skydive Cerfontaine
+    latitude: 50.15131071
+    longitude: 4.38751459
+    msl: 290
+
+  - name: DZ Skydive Spa
+    latitude: 50.47993695
+    longitude: 5.91242552
+    msl: 470
+    
