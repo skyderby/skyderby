@@ -9,5 +9,6 @@
 
 class Manufacturer < ApplicationRecord
   has_many :wingsuits
-  validates_presence_of :name
+  validates :name, presence: true
+  validates :code, uniqueness: true
 end
