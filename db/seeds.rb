@@ -54,3 +54,15 @@ countries.each do |attrs|
   Country.create! attrs
   p "Country #{attrs['name']} created"
 end
+
+place_files = Dir.glob(Rails.root.join('db', 'seeds', 'places', '*'))
+place_files.each do |file|
+  data = YAML.load(File.open(file))
+  country = Country.find_by(code: data['country_code'])
+  raise "Can't load places from #{file}. Country with code #{data['country_code']} not found" unless country
+  data['places'].each do |attrs|
+    next if Place.find_by(country: country, name: attrs['name'])
+    Place.create!(attrs.merge(country: country))
+    p "Place #{data['country_code']} #{attrs['name']} created"
+  end
+end

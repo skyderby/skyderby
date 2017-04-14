@@ -1,0 +1,26 @@
+country_code: AUS
+places:
+  - name: DZ Adrenalin Skydive
+    latitude: -34.80625409
+    longitude: 149.73391056
+    msl: 653
+
+  - name: DZ Skydive Ramblers
+    latitude: -27.07007224
+    longitude: 152.38246858
+    msl: 94
+
+  - name: DZ Sydney Skydivers
+    latitude: -34.22358828
+    longitude: 150.66854239
+    msl: 186
+
+  - name: DZ York
+    latitude: -31.82505824
+    longitude: 116.79828286
+    msl: 170
+
+  - name: Skydive Torquay Victoria
+    latitude: -38.29661407
+    longitude: 144.36388135
+    msl: 9
