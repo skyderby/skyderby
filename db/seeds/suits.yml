@@ -1,0 +1,249 @@
+# Air Glide
+- manufacturer_code: AG
+  wingsuits:
+    - Falcon
+    - Horus
+    - Inspire
+    - Twiist
+  tracksuits:
+    - Monotrack
+
+# Alien Suit
+- manufacturer_code: AS
+  wingsuits:
+    - G-1 (Beginner)
+    - G-5 (Intermediate)
+    - G-7 (Advanced)
+    - G-12 (Expert)
+
+# Baseguru
+- manufacturer_code: BG
+  tracksuits:
+    - Tracksuit
+
+# Bird man
+- manufacturer_code: BM
+  wingsuits:
+    - Classic Series
+    - GTI
+    - Firebird Series
+    - Phi
+    - Skyflyer Series
+    - Tengu
+    - Blade 1
+    - Blade 2
+    - Blade 3
+    - Ninja
+    - Katana
+
+# Crazy Wings
+- manufacturer_code: CW
+  wingsuits:
+    - Dragonfly
+    - Wizard
+
+# Dakine Suits
+- manufacturer_code: DS
+  wingsuits:
+    - Soaring Suit
+
+# Intrudair
+- manufacturer_code: IA
+  wingsuits:
+    - Barracuda
+    - Manta
+    - Orca
+    - Piranha
+    - Shark
+  tracksuits:
+    - Onepiece tracking suit
+    - Tracking suit
+    - Ultimate tracking suit
+
+# Jii Wings
+- manufacturer_code: JW
+  wingsuits:
+    - Glide System 1
+
+# Matter
+- manufacturer_code: MT
+  wingsuits:
+    - MTR 1
+    - MTR 2
+    - MTR 3
+
+# Nitro rigging
+- manufacturer_code: NR
+  wingsuits:
+    - Flockus
+    - Pipistrellus
+    - Psycho
+    - Rigor Mortis
+    - XXX
+
+# Other
+- manufacturer_code: ''
+  wingsuits:
+    - Custom wingsuit
+  tracksuits:
+    - Custom track suit
+    - Custom onepiece track suit
+  slicks:
+    - FF Suit
+    - RW Suit
+
+# Parasport Italia
+- manufacturer_code: PI
+  wingsuits:
+    - Crossbow
+
+# Parasuit
+- manufacturer_code: PS
+  wingsuits:
+    - Joy
+    - Jake
+    - Chimera
+  tracksuits:
+    - Track suit
+
+# Phoenix Fly
+- manufacturer_code: PF
+  wingsuits:
+    - Acro
+    - Arrow
+    - Ghost 1
+    - Ghost 2
+    - Ghost 3
+    - Havok
+    - Havok Carve
+    - Hunter
+    - Phantom 1
+    - Phantom 2
+    - Phantom 2z
+    - Phantom 3
+    - Phantom Edge
+    - Prodigy
+    - Shadow
+    - Shadow Edge
+    - Stealth 1
+    - Stealth 2
+    - Strix
+    - Vampire 1
+    - Vampire 2
+    - Vampire 3
+    - Vampire 4
+    - Vampire 5
+    - Vampire Alpine
+    - Vampire Race
+    - Vampire SU2
+    - Vampire Sukhoi
+    - Venom
+    - Venom Power
+    - Viper
+  tracksuits:
+    - Onesie
+    - Power tracking suit
+    - Track suit
+
+# Pressurized
+- manufacturer_code: PR
+  wingsuits:
+    - Twenty G Series
+    - Trigger
+  tracksuits:
+    - Tube 3
+    - Tube 4
+
+# Raven
+- manufacturer_code: RN
+  tracksuits:
+    - Raven One
+    - One piece tracking suit
+
+# RBASEG
+- manufacturer_code: RB
+  tracksuits:
+    - XXX
+    - EZ
+    - XXX Prototype
+
+# S-Fly
+- manufacturer_code: SF
+  wingsuits:
+    - Access
+    - Elite
+    - Expert
+    - Fleet
+    - Fury
+    - Hawk
+    - Indy
+    - Motion
+    - Profly
+    - Ridge
+    - Verso
+  tracksuits:
+    - Cruise
+    - Cruise+
+
+# Squirrel Suits
+- manufacturer_code: SQ
+  wingsuits:
+    - Aura
+    - Aura 2
+    - Aura 3
+    - Colugo
+    - Colugo 2
+    - CR+
+    - C-Race
+    - Freak
+    - Funk
+    - Funk 2
+    - Hatch
+    - Swift
+    - Swift 2
+  tracksuits:
+    - Sausage
+    - Sumo
+    - Sumo 2
+
+# Sugar Glider
+- manufacturer_code: SG
+  wingsuits:
+    - Sugar Glider
+
+# Tony Suit
+- manufacturer_code: TS
+  wingsuits:
+    - Apache Series
+    - Eagle
+    - Fliktail
+    - Foghead
+    - Fusion Series
+    - I-Bird
+    - Intro
+    - Jedei 1
+    - Jedei 2
+    - Jedei 3
+    - Mach Series
+    - M-Wing
+    - Nebula
+    - Raptor
+    - R-Bird
+    - R-Bird 2
+    - R-Bird Pro
+    - Rebel 1
+    - Rebel 2
+    - Rebel 3
+    - Rebel 4
+    - Rebel FreeBird
+    - S-Bird
+    - Scorpion Series
+    - Skyflyer Series
+    - Super Mach Series
+    - T-Bird
+    - X3
+    - X-Bird
+    - Xs
+    - X-Wing
+  tracksuits:
+    - Masai

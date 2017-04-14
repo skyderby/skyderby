@@ -1,0 +1,62 @@
+- code: PF
+  name: Phoenix Fly
+
+- code: TS
+  name: Tony Suit
+
+- code: BM
+  name: Bird Man
+
+- code: SF
+  name: S-Fly
+
+- code: PR
+  name: Pressurized
+
+- code: JW
+  name: Jii Wings
+
+- code: NR
+  name: Nitro Rigging
+
+- code: SG
+  name: Sugar Glider
+
+- code: PI
+  name: Parasport Italia
+
+- code: DS
+  name: Dakine Suit
+
+- code: IA
+  name: Intrud Air
+
+- code: AS
+  name: Alien Suit
+
+- code: SQ
+  name: Squirrel Suits
+
+- code: PS
+  name: Parasuit
+
+- code: BG
+  name: Baseguru
+
+- code: RN
+  name: Raven
+
+- code: AG
+  name: Air Glide
+
+- code: MT
+  name: Matter
+
+- code: CW
+  name: Crazy Wings
+
+- code: RB
+  name: RBASEG
+
+- code: ''
+  name: Other
