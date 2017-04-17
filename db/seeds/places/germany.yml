@@ -19,3 +19,9 @@ places:
     latitude: 51.58022318
     longitude: 8.21502686
     msl: 120.0
+
+  - name: DZ Rothenburg ob der Tauber
+    latitude: 49.38834422
+    longitude: 10.21812201
+    msl: 399
+
