@@ -1,0 +1,21 @@
+country_code: GER
+places:
+  - name: DZ Altenstadt
+    latitude: 47.83980781
+    longitude: 10.86618125
+    msl: 739.0
+
+  - name: DZ Illertissen
+    latitude: 48.23524297
+    longitude: 10.13660431
+    msl: 512.0
+
+  - name: DZ Marl
+    latitude: 51.64952139
+    longitude: 7.16233492
+    msl: 73.0
+
+  - name: DZ Soest
+    latitude: 51.58022318
+    longitude: 8.21502686
+    msl: 120.0

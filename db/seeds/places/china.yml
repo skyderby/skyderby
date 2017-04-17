@@ -1,0 +1,9 @@
+country_code: CHN
+places:
+  - name: Dashanbao
+    latitude: 27.40904393
+    longitude: 103.244268
+
+  - name: Daxing
+    latitude: 27.65986409
+    longitude: 103.37956131

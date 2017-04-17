@@ -1,0 +1,197 @@
+country_code: FRA
+places:
+  - name: Aiguille de la Republique
+    latitude: 45.90577019
+    longitude: 6.92113996
+
+  - name: Aiguille de L'M
+    latitude: 45.91136908
+    longitude: 6.91139817
+
+  - name: Aiguille du Midi
+    latitude: 45.87854782
+    longitude: 6.88721538
+
+  - name: Aiguille du Plan
+    latitude: 45.88696593
+    longitude: 6.90461487
+
+  - name: Archiane (right exit)
+    latitude: 44.75864381
+    longitude: 5.49120337
+
+  - name: Areu (1er tour)
+    latitude: 45.97667938
+    longitude: 6.58312529
+
+  - name: Bourne / Bourni 1
+    latitude: 45.0554456
+    longitude: 5.424041524
+
+  - name: Bourne / Bourni 2
+    latitude: 45.056417
+    longitude: 5.426366
+
+  - name: Bourne / Bourni 3
+    latitude: 45.053939
+    longitude: 5.421399
+
+  - name: Bourne / Fond de cirque
+    latitude: 45.07046975
+    longitude: 5.414408119
+
+  - name: Bourne / Le Feel
+    latitude: 45.043669705
+    longitude: 5.399408284
+
+  - name: Bourne / Molaire
+    latitude: 45.067897
+    longitude: 5.410184
+
+  - name: Brevent
+    latitude: 45.93392873
+    longitude: 6.83783054
+
+  - name: Butterfly
+    latitude: 46.00821121
+    longitude: 6.77071095
+
+  - name: Chamrousse
+    latitude: 45.10153234
+    longitude: 5.89399338
+
+  - name: Chateau des Carte
+    latitude: 44.76465816
+    longitude: 5.82212359
+
+  - name: Chateauroux
+    latitude: 44.64719666
+    longitude: 6.49895489
+
+  - name: Combe Laval, Vercors
+    latitude: 44.98071424
+    longitude: 5.34603953
+
+  - name: Croix de fer
+    latitude: 45.985441
+    longitude: 6.674216
+
+  - name: Croix des Têtes
+    latitude: 45.26629017
+    longitude: 6.43982291
+
+  - name: DZ Lasclaveries Pau
+    latitude: 43.42770425
+    longitude: -0.28737724
+    msl: 257
+
+  - name: DZ Lyon Corbas
+    latitude: 45.65325073
+    longitude: 4.91643548
+    msl: 199
+
+  - name: DZ Royan
+    latitude: 45.63220146
+    longitude: -0.9768793
+    msl: 22
+
+  - name: DZ Skydive Pujaut
+    latitude: 43.996807
+    longitude: 4.757149
+    msl: 45
+
+  - name: Grand Ferrand
+    latitude: 44.72165454
+    longitude: 5.81457317
+
+  - name: Grand Ferrand (north exit)
+    latitude: 44.72232252
+    longitude: 5.81472203
+
+  - name: High Belvedere
+    latitude: 45.99906806
+    longitude: 6.64187908
+
+  - name: High Croix de fer
+    latitude: 45.98551312
+    longitude: 6.67329311
+
+  - name: Impacta
+    latitude: 45.97192783
+    longitude: 6.77508831
+
+  - name: L'Ecorchoir
+    latitude: 46.09023155
+    longitude: 6.79509223
+
+  - name: Le Rateau
+    latitude: 45.00086705
+    longitude: 6.28178716
+
+  - name: Leschaux
+    latitude: 46.01760709
+    longitude: 6.4180702
+
+  - name: Les Perrons
+    latitude: 46.0549271
+    longitude: 6.91360027
+
+  - name: Mieussy
+    latitude: 46.16290913
+    longitude: 6.53853357
+
+  - name: Mont Granier
+    latitude: 45.46744
+    longitude: 5.924405
+
+  - name: Morgont
+    latitude: 44.496226
+    longitude: 6.40018523
+
+  - name: Obiou
+    latitude: 44.77560161
+    longitude: 5.83916366
+
+  - name: Orlu
+    latitude: 42.692350117
+    longitude: 1.939857546
+
+  - name: Perthuis
+    latitude: 45.91409926
+    longitude: 6.24776602
+
+  - name: Petit Ferrand
+    latitude: 44.72464085
+    longitude: 5.81545562
+
+  - name: Pointe Durier
+    latitude: 45.85302151
+    longitude: 6.86968714
+
+  - name: Pormenaz
+    latitude: 45.94259024
+    longitude: 6.78137943
+
+  - name: Sex Rouge
+    latitude: 46.3276723
+    longitude: 7.20152199
+
+  - name: Tete aux Chamois
+    latitude: 46.34004329
+    longitude: 7.21340954
+
+  - name: Tete de Lapras
+    latitude: 44.75786483
+    longitude: 5.83907247
+
+  - name: Tete Louis XVI
+    latitude: 44.41651316
+    longitude: 6.48394525
+
+  - name: Varan
+    latitude: 45.95909343
+    longitude: 6.68342113
+
+  - name: Viard
+    latitude: 46.02091129
+    longitude: 6.59175396

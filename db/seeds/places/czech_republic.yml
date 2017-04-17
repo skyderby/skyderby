@@ -1,0 +1,26 @@
+country_code: CZE
+places:
+  - name: DZ JIhlava
+    latitude: 49.42058439
+    longitude: 15.63575506
+    msl: 555
+
+  - name: DZ Kolin
+    latitude: 50.00604103
+    longitude: 15.17419517
+    msl: 267
+
+  - name: DZ Most
+    latitude: 50.52436163
+    longitude: 13.68278503
+    msl: 331
+
+  - name: DZ Pribram
+    latitude: 49.719174
+    longitude: 14.097512
+    msl: 466
+
+  - name: DZ Prostejov
+    latitude: 49.4478303
+    longitude: 17.13403702
+    msl: 214

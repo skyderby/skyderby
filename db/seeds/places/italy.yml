@@ -1,0 +1,173 @@
+country_code: ITA
+places:
+  - name: Becca di Merlo
+    latitude: 45.6501065
+    longitude: 7.12425023
+
+  - name: Boeseekofel
+    latitude: 46.52668414
+    longitude: 11.84084505
+
+  - name: Castello Nevere
+    latitude: 46.34258011
+    longitude: 12.05129385
+
+  - name: Cima Busazza
+    latitude: 46.36319249
+    longitude: 12.04336524
+
+  - name: Cima Capi
+    latitude: 45.86983056
+    longitude: 10.82864642
+
+  - name: Cima Sat
+    latitude: 45.88584104
+    longitude: 10.82436562
+
+  - name: Civetta
+    latitude: 46.38415696
+    longitude: 12.05526218
+
+  - name: Corna Frea
+    latitude: 45.8764564
+    longitude: 10.82520247
+
+  - name: DZ BFU
+    latitude: 44.69952398
+    longitude: 10.66891551
+    msl: 46.0
+
+  - name: DZ Bolzano
+    latitude: 46.46097203
+    longitude: 11.32898569
+    msl: 240.0
+
+  - name: DZ Cremona
+    latitude: 45.16766289
+    longitude: 10.0071609
+    msl: 49.0
+
+  - name: DZ Fly Zone Fermo
+    latitude: 43.22684599
+    longitude: 13.74195457
+    msl: 16.0
+
+  - name: DZ Garzigliana
+    latitude: 44.83440972
+    longitude: 7.36347914
+    msl: 305.0
+
+  - name: DZ Skydive Verona
+    latitude: 45.47124436
+    longitude: 10.92869282
+    msl: 83.0
+
+  - name: DZ Vercelli
+    latitude: 45.31080338
+    longitude: 8.42298925
+    msl: 125.0
+
+  - name: Enomic
+    latitude: 46.38973978
+    longitude: 13.37234616
+
+  - name: Ferrari
+    latitude: 46.00838446
+    longitude: 10.91348201
+
+  - name: Fort Tombio
+    latitude: 45.90556489
+    longitude: 10.82689226
+
+  - name: Framont
+    latitude: 46.31155248
+    longitude: 12.03824759
+
+  - name: Grande Rousse
+    latitude: 45.56214848
+    longitude: 7.08217978
+
+  - name: Happy Birthday
+    latitude: 45.9793756722
+    longitude: 10.9116137354
+
+  - name: Malcisnik
+    latitude: 45.98124414
+    longitude: 10.91199338
+
+  - name: Mezzocorona
+    latitude: 46.23332104
+    longitude: 11.1228244
+
+  - name: Moli D-Zone
+    latitude: 44.597435
+    longitude: 11.653231
+    msl: 12.0
+
+  - name: Monte Agner / Ted exit
+    latitude: 46.277755
+    longitude: 11.950119
+    msl: 840.0
+
+  - name: Monte Altissimo
+    latitude: 45.80294158
+    longitude: 10.87607861
+
+  - name: Monte Brento
+    latitude: 45.995573769
+    longitude: 10.905274619
+
+  - name: Monte Casale
+    latitude: 46.02288738
+    longitude: 10.92067301
+
+  - name: Monte Cimone
+    latitude: 46.42480179
+    longitude: 13.38086486
+
+  - name: Paganella Grotta
+    latitude: 46.14768854
+    longitude: 11.04756832
+
+  - name: Pala 1
+    latitude: 46.31273912
+    longitude: 11.97747946
+
+  - name: Pala 4
+    latitude: 46.3063156886
+    longitude: 11.9453008287
+
+  - name: Pilastro
+    latitude: 46.03488211
+    longitude: 10.93683064
+
+  - name: Pisetta
+    latitude: 46.0506672
+    longitude: 10.9495765
+
+  - name: Roca Piano
+    latitude: 46.25960779
+    longitude: 11.13713264
+
+  - name:  Sass Pordoi Classic
+    latitude: 46.50559261
+    longitude: 11.80606484
+
+  - name: Siracusa DZ
+    latitude: 37.02865
+    longitude: 15.243458
+    msl: 13.0
+
+  - name: Skydive Fano
+    latitude: 43.82527776
+    longitude: 13.03186655
+    msl: 16.0
+
+  - name: Skydive Thiene
+    latitude: 45.67908411
+    longitude: 11.49488568
+    msl: 102.0
+
+  - name: Torre Trieste
+    latitude: 46.35793924
+    longitude: 12.04383731

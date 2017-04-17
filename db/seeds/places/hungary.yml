@@ -1,0 +1,16 @@
+country_code: HUN
+places:
+  - name: DZ Balaton
+    latitude: 46.8628649843
+    longitude: 18.0878680944
+    msl: 127.0
+
+  - name: DZ Kaposvar
+    latitude: 46.389969
+    longitude: 17.731702
+    msl: 156.0
+
+  - name: DZ Nyiregyhaza
+    latitude: 47.978385
+    longitude: 21.690853
+    msl: 105.0

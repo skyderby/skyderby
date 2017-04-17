@@ -1,0 +1,16 @@
+country_code: FIN
+places:
+  - name: DZ Jämi
+    latitude: 61.77660621
+    longitude: 22.7153331
+    msl: 154
+
+  - name: DZ Vesivehmaa
+    latitude: 61.14644025
+    longitude: 25.69403887
+    msl: 153
+
+  - name: Skydive Finland / Utti
+    latitude: 60.89762139
+    longitude: 26.92609549
+    msl: 103

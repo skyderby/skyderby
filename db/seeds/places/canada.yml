@@ -1,0 +1,11 @@
+country_code: CAN
+places:
+  - name: Edmonton Skydive
+    latitude: 54.14057759
+    longitude: -113.74597192
+    msl: 675
+
+  - name: Skydive Vancouver
+    latitude: 49.09533273
+    longitude: -122.3131299
+    msl: 6
