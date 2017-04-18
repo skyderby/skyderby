@@ -25,3 +25,13 @@ places:
     longitude: 10.21812201
     msl: 399
 
+  - name: DZ Stadtlohn
+    latitude: 51.997158
+    longitude: 6.845243
+    msl: 157
+
+  - name: DZ Eschbach/Bremgarten
+    latitude: 47.901239
+    longitude: 7.622785
+    msl: 212
+
