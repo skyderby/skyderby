@@ -8,6 +8,10 @@ Skyderby::Application.routes.draw do
                         locale: /#{I18n.available_locales.join('|')}/,
                         format: false
 
+  get '/:locale', to: redirect('/', status: 302),
+                  locale: /#{I18n.available_locales.join('|')}/,
+                  format: false
+
   # Static pages and routes
   match '/competitions', to: 'static_pages#competitions', as: :competitions, via: :get
   match '/about', to: 'static_pages#about', as: :about, via: :get

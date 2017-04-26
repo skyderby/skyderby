@@ -18,7 +18,7 @@
 require 'simplecov'
 SimpleCov.start do
   # Ignores any file containing "/vendor/" in its path.
-  add_filter '/vendor/' 
+  add_filter '/vendor/'
 end
 
 ENV['RAILS_ENV'] ||= 'test'
@@ -28,7 +28,7 @@ require 'capybara/rspec'
 require 'capybara/poltergeist'
 
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, {js_errors: true})
+  Capybara::Poltergeist::Driver.new(app, { js_errors: true })
 end
 Capybara.javascript_driver = :poltergeist
 Capybara.ignore_hidden_elements = true
@@ -48,7 +48,6 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
-    load "#{Rails.root}/db/seeds.rb"
   end
 
   config.before(:each) do
@@ -68,9 +67,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each, type: :feature) do
-    # page.driver.headers = { 'Accept-Language' => "en" }
     I18n.locale = :en
-    default_url_options[:locale] = :en
   end
 
   config.order = :random

@@ -1,25 +1,15 @@
 require 'spec_helper'
 
-# || GET    /(:locale)(.:format)  static_pages#index {:locale=>/en|de|es|ru/}
-# || GET    /
-describe 'Root', 'routing', type: :routing do
-  it 'to #index locale: ru' do
-    expect(get('/ru')).to route_to('static_pages#index', locale: 'ru')
-  end
+describe 'Locale redirects routing', type: :request do
+  ['ru', 'en', 'de', 'es'].each do |locale|
+    it "to #index locale: #{locale}" do
+      get("/#{locale}")
+      expect(response).to redirect_to(root_path)
+    end
 
-  it 'to #index locale: en' do
-    expect(get('/en')).to route_to('static_pages#index', locale: 'en')
-  end
-
-  it 'to #index locale: de' do
-    expect(get('/de')).to route_to('static_pages#index', locale: 'de')
-  end
-
-  it 'to #index locale: es' do
-    expect(get('/es')).to route_to('static_pages#index', locale: 'es')
-  end
-
-  it 'to #index default locale' do
-    expect(get('/')).to route_to('static_pages#index')
+    it "to places#index locale: #{locale}" do
+      get("/#{locale}/places")
+      expect(response).to redirect_to(places_path)
+    end
   end
 end
