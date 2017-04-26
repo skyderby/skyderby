@@ -1,0 +1,29 @@
+.container
+  #tracks-table.table.table-hover
+    .thead
+      .tr
+        .th=t 'activerecord.attributes.track.id'
+        .th=t 'activerecord.attributes.track.name'
+        .th=t 'activerecord.attributes.track.suit'
+        .th=t 'activerecord.attributes.track.place'
+        .th=t 'activerecord.attributes.track.comment'
+        .th=t 'activerecord.attributes.track.recorded_at'
+    .tbody
+      - @tracks.each do |track|
+        = link_to track_path(id: track.id), class: 'tr track-row' do
+          .td= track.id
+          .td= track_pilot(track)
+          .td
+            - if track.wingsuit
+              = suit_presentation(track.wingsuit)
+            - else 
+              %span.text-info
+                = track.suit
+          .td= track_place(track)
+          .td.text-muted= track.comment
+          .td.text-info= track.recorded_at.strftime('%d.%m.%Y')
+
+  .text-center.top-buffer
+    .pagination-list
+      = will_paginate @tracks, renderer: BootstrapPagination::Rails
+

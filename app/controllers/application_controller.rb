@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
     { locale: I18n.locale }
   end
 
-  rescue_from CanCan::AccessDenied do |exception|
+  rescue_from CanCan::AccessDenied, Pundit::NotAuthorizedError do |exception|
     request.format.html? ? redirect_to(root_path, alert: exception.message) : raise(exception)
   end
 
