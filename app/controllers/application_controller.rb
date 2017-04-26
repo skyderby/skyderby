@@ -5,13 +5,10 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception, prepend: true
+  before_action :process_locale_param
   before_action :set_locale
   before_action :store_current_location, unless: :devise_controller?
   before_action :configure_permitted_parameters, if: :devise_controller?
-
-  def self.default_url_options(_options = {})
-    { locale: I18n.locale }
-  end
 
   rescue_from CanCan::AccessDenied, Pundit::NotAuthorizedError do |exception|
     request.format.html? ? redirect_to(root_path, alert: exception.message) : raise(exception)
@@ -44,8 +41,17 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     I18n.locale =
-      params[:locale] ||
+      user_locale ||
       http_accept_language.compatible_language_from(I18n.available_locales) ||
       I18n.default_locale
+  end
+
+  def process_locale_param
+    locale = params.delete(:locale)
+    cookies[:locale] = locale if locale
+  end
+
+  def user_locale
+    cookies[:locale]
   end
 end
