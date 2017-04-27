@@ -3,7 +3,11 @@ class ProfilePolicy < ApplicationPolicy
     admin? || owner?
   end
 
+  def masquerade?
+    admin?
+  end
+
   def owner?
-    user && profile.user == user
+    user && record.user == user
   end
 end

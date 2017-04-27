@@ -4,14 +4,14 @@
 .user{data: {id: @profile.id}}
 .container.top-buffer
   .content-block
-    - if can? :update, @profile
+    - if policy(@profile).edit?
       .card-actions
         .position-right
           = link_to edit_profile_path(@profile), class: 'btn-flat' do
             %i.fa.fa-pencil
             = t('general.edit')
 
-          - if current_user.has_role?(:admin) && @profile.user
+          - if @profile.user && policy(@profile).masquerade?
             = link_to new_user_masquerades_path(@profile.user), class: 'btn-flat' do
               %i.fa.fa-magic
               Masquerade
@@ -20,7 +20,7 @@
       .col-sm-2.col-md-2
         .user-avatar
           = image_tag(@profile.userpic.url(:medium), class: 'img-responsive img-rounded loading-bg')
-          - if can? :update, @profile
+          - if policy(@profile).edit?
             = link_to new_profile_avatar_path(@profile), remote: true, class: 'user-avatar__change', rel: 'nofollow' do
               %i.fa.fa-pencil
               Change photo
