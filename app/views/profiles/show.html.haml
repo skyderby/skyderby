@@ -18,8 +18,12 @@
 
     .row
       .col-sm-2.col-md-2
-        .top-buffer.userpic-container.text-center
+        .user-avatar
           = image_tag(@profile.userpic.url(:medium), class: 'img-responsive img-rounded loading-bg')
+          - if can? :update, @profile
+            = link_to new_profile_avatar_path(@profile), remote: true, class: 'user-avatar__change', rel: 'nofollow' do
+              %i.fa.fa-pencil
+              Change photo
 
       .col-sm-10.col-md-10
         .row
@@ -124,5 +128,3 @@
                         format: '%-d %b %Y', 
                         locale: params[:locale])
                   %td= track_icons(track)
-
--# = render 'edit_userpic_modal'

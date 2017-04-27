@@ -23,8 +23,23 @@
 #  country_id           :integer
 #
 
-require 'rails_helper'
+require 'spec_helper'
 
-RSpec.describe Profile, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Profile, type: :model do
+  describe '#cropping?' do
+    it 'true if all attrs present' do
+      profile = Profile.new(crop_x: 1, crop_y: 1, crop_h: 1, crop_w: 1)
+      expect(profile.cropping?).to be_truthy
+    end
+
+    it 'false if none attr present' do
+      profile = Profile.new
+      expect(profile.cropping?).to be_falsey
+    end
+
+    it 'false if any attr is not present' do
+      profile = Profile.new(crop_x: 1, crop_y: 1, crop_h: 1)
+      expect(profile.cropping?).to be_falsey
+    end
+  end
 end

@@ -37,6 +37,7 @@
 //= require backbone_datalink
 //= require highcharts
 //= require highcharts-more
+//= require jquery.Jcrop
 //= require app/app
 //= require_tree ./events
 //= require_tree ./common

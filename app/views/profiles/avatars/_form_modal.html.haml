@@ -1,0 +1,35 @@
+.modal-dialog
+  .modal-content
+    .modal-header
+      %button.close{:type => 'button', :data => {:dismiss => 'modal'}}
+        %span{:aria => {:hidden => 'true'}}
+          &times;
+        %span.sr-only
+          Close
+      %h4.modal-title= 'Редактирование фотографии'
+
+    = form_for @profile, url: profile_avatar_path(@profile), remote: true, multipart: true, method: :post, html: { class: 'avatar-edit__form' } do |f|
+      .modal-body
+        .form-group
+          .input-group
+            %input.form-control{type: "text", readonly: true, placeholder: 'Select file with photo'}
+            %span.input-group-btn
+              %span.btn.btn-default.btn-file
+                &hellip; 
+                = f.file_field :userpic
+
+          - %w( x y h w ).each do |crop_field|
+            = f.hidden_field "crop_#{crop_field}"
+
+        .row
+          .col-sm-8
+            %p.avatar-edit__title= 'Crop your photo'
+            %img.avatar-edit__crop#userpic-crop
+          .col-sm-4
+            %p.avatar-edit__title= 'Preview'
+            .avatar-edit__preview-container
+              %img.avatar-edit__preview#userpic-preview
+
+      .modal-footer
+        = f.submit t('general.save'), class: 'btn btn-primary'
+        %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}=t('general.cancel')

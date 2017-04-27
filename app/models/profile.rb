@@ -24,6 +24,8 @@
 #
 
 class Profile < ApplicationRecord
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
+
   enum default_units: [:metric, :imperial]
   enum default_chart_view: [:multi, :single]
 
@@ -43,6 +45,7 @@ class Profile < ApplicationRecord
                     styles: { large: '500x500>',
                               medium: '150x150#',
                               thumb: '32x32#' },
+                    processors: [:jcropper],
                     default_url: '/images/:style/missing.png'
 
   delegate :name, to: :country, prefix: true, allow_nil: true
@@ -50,6 +53,10 @@ class Profile < ApplicationRecord
 
   validates_attachment_content_type :userpic, content_type:
     ['image/jpeg', 'image/jpg', 'image/png']
+
+  def cropping?
+    %w(crop_x crop_y crop_h crop_w).all? { |attr| public_send(attr).present? }
+  end
 
   # returns array of competition ID's where organizer
   def organizer_of_events

@@ -90,6 +90,7 @@ Skyderby::Application.routes.draw do
   resources :profiles do
     scope module: :profiles do
       resources :badges
+      resource :avatar, only: [:new, :create]
       collection do
         resources :select_options, only: :index
       end

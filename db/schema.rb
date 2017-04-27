@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170318134815) do
+ActiveRecord::Schema.define(version: 20170427094752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,13 +133,6 @@ ActiveRecord::Schema.define(version: 20170318134815) do
     t.integer  "userpic_file_size"
     t.datetime "userpic_updated_at"
     t.integer  "user_id"
-    t.string   "facebook_profile",     limit: 510
-    t.string   "vk_profile",           limit: 510
-    t.integer  "dropzone_id"
-    t.integer  "crop_x"
-    t.integer  "crop_y"
-    t.integer  "crop_w"
-    t.integer  "crop_h"
     t.integer  "default_units",                    default: 0
     t.integer  "default_chart_view",               default: 0
     t.integer  "country_id"
