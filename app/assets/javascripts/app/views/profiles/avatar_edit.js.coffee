@@ -26,15 +26,19 @@ class Skyderby.views.AvatarEditView extends Backbone.View
 
   on_file_change: (e) ->
     input = $(e.currentTarget)[0]
-    if (input.files && input.files[0])
-      reader = new FileReader()
+    return if !input.files || !input.files[0]
+    return if @current_file == input.files[0]
 
-      reader.onload = (e) =>
-        @$('#userpic-crop').attr('src', e.target.result)
-        @$('#userpic-preview').attr('src', e.target.result)
-        @init_jcrop()
+    @current_file = input.files[0]
+    reader = new FileReader()
 
-      reader.readAsDataURL(input.files[0])
+    reader.onload = (e) =>
+      @$('#userpic-crop').attr('src', e.target.result)
+      @$('#userpic-preview').attr('src', e.target.result)
+      @init_jcrop()
+      console.log('File loaded successfully')
+
+    reader.readAsDataURL(input.files[0])
 
   update_coordinates: (coords) ->
     $('[name="profile[crop_x]"]').val(coords.x)
