@@ -28,8 +28,8 @@
         .col-sm-offset-2.col-sm-8
           = f.submit t('general.update'), class: 'btn btn-primary'
 
-  - if is_owner
-    %a.col-sm-offset-2{:data => {:toggle =>'modal', :target => '#CredentialsModal'}}
+  - if @profile.user
+    %a.col-sm-offset-2{data: {toggle: 'modal', target: '#CredentialsModal'}}
       = t('users.profile.edit.edit_email_pass')
 
     .modal.fade{:id => 'CredentialsModal', :tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
