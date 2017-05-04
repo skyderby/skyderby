@@ -41,6 +41,11 @@ class VirtualCompetitionsController < ApplicationController
     @competition = VirtualCompetition.find(params[:id])
   end
 
+  def show_params
+    params.permit(:year)
+  end
+  helper_method :show_params
+
   def competition_params
     params.require(:virtual_competition).permit(
       :name,

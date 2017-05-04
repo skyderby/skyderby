@@ -65,4 +65,8 @@ class VirtualCompetition < ApplicationRecord
   def worldwide?
     !place
   end
+
+  def years
+    (period_from.year..([period_to.year, DateTime.current.year].min)).to_a
+  end
 end

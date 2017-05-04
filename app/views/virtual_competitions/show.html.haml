@@ -1,24 +1,35 @@
 - provide :title, competition_title(@competition)
 
 .container.top-buffer
-  .content-block
-    - if can? :update, @competition
-      .card-action
-        .position-right
-          = link_to edit_virtual_competition_path(@competition), class: 'btn-flat' do
-            %i.fa.fa-pencil
-            = t('general.edit')
-    %h2= competition_title(@competition)
-    %div.top-buffer
-      = t('virtual_competitions.place')
-      - if @competition.place
-        = place_presentation(@competition.place)
-      - else
-        = t('virtual_competitions.worldwide')
+  - if can? :update, @competition
+    .card-action
+      .position-right
+        = link_to edit_virtual_competition_path(@competition), class: 'btn-flat' do
+          %i.fa.fa-pencil
+          = t('general.edit')
+  %h2= competition_title(@competition)
+  %div.top-buffer
+    = t('virtual_competitions.place')
+    - if @competition.place
+      = place_presentation(@competition.place)
+    - else
+      = t('virtual_competitions.worldwide')
 
-    %div= competition_suit
-    %div= competition_task(@competition)
-    .top-buffer
+  %div= competition_suit
+  %div= competition_task(@competition)
+  
+  .tabs-navbar
+    .tabs-navbar__fade-right
+    %ul.tabs-navbar__menu
+      %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' unless show_params[:year].present?)}
+        = link_to show_params.except(:year) do
+          = t('.overall')
+      - @competition.years.each do |year|
+        %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if show_params[:year] == year)}
+          = link_to show_params.merge(year: year) do
+            = year
+
+  .content-block
 
     - if @competition.scores.size > 2
       - winners = @competition.scores.take(3)

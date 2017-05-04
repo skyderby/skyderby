@@ -36,16 +36,16 @@
       %a.btn-flat.btn-tab{href: edit_track_path(track)}
         %i.fa.fa-pencil
 
-  .track-navbar
-    .track-navbar__fade-right
-    %ul.track-navbar__menu
+  .tabs-navbar
+    .tabs-navbar__fade-right
+    %ul.tabs-navbar__menu
       - controller_path = controller.controller_path
-      - active_class = 'track-navbar__menuitem_active'
-      %li.track-navbar__menuitem{class: (active_class if controller_path == 'tracks')}
+      - active_class = 'tabs-navbar--active'
+      %li.tabs-navbar__menuitem{class: (active_class if controller_path == 'tracks')}
         = link_to track_path(track) do
           %i.fa.fa-bar-chart-o
           = t('tracks.show.charts')
-      %li.track-navbar__menuitem{class: (active_class if controller_path == 'tracks/videos')}
+      %li.tabs-navbar__menuitem{class: (active_class if controller_path == 'tracks/videos')}
         - if track.video
           = link_to track_video_path(track) do
             %i.fa.fa-play-circle-o
@@ -59,27 +59,26 @@
             %button.btn-flat.disabled
               %i.fa.fa-play-circle-o
               = 'Video'
-      %li.track-navbar__menuitem{class: (active_class if controller.controller_path == 'tracks/globe')}
+      %li.tabs-navbar__menuitem{class: (active_class if controller.controller_path == 'tracks/globe')}
         - if track.ge_enabled
           = link_to track_globe_path(track) do
             %i.fa.fa-compass
             = '3D Maps'
-      %li.track-navbar__menuitem{class: (active_class if controller_path == 'tracks/maps')}
+      %li.tabs-navbar__menuitem{class: (active_class if controller_path == 'tracks/maps')}
         = link_to track_map_path(track) do
           %i.fa.fa-compass
           = 'Google maps'
-      %li.track-navbar__divider
+      %li.tabs-navbar__divider
         |
-      %li.track-navbar__menuitem
+      %li.tabs-navbar__menuitem
         = link_to track_results_path(@track), 
                   remote: true, 
                   rel: 'nofollow' do
           %i.fa.fa-th-list
           = t('tracks.show.results')
-      %li.track-navbar__menuitem
+      %li.tabs-navbar__menuitem
         = link_to t('events.show.weather_data'), 
                  track_weather_data_path(@track), 
                  remote: true, 
                  rel: 'nofollow'
 
-      

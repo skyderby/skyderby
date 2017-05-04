@@ -1,10 +1,10 @@
-.track-navbar {
+.tabs-navbar {
   position: relative;
-  height: 40px;
+  height: 41px;
   overflow-y: hidden;
 }
 
-.track-navbar__menu {
+.tabs-navbar__menu {
   display: block;
   list-style-type: none;
   height: 66px;
@@ -12,9 +12,10 @@
   overflow-x: auto;
   white-space: nowrap;
   padding: 0px;
+  margin: 0px;
 }
 
-.track-navbar__menuitem {
+.tabs-navbar__menuitem {
   display: inline-block;
   border-bottom: transparent solid 3px;
   margin-right: 3px;
@@ -32,11 +33,11 @@
 }
 
 
-.track-navbar__menuitem:last-child {
+.tabs-navbar__menuitem:last-child {
   margin-right: 30px;
 }
 
-.track-navbar__menuitem_active {
+.tabs-navbar--active {
   border-bottom-color: #0084b4;
   a {
     color: #111;
@@ -44,14 +45,14 @@
   }
 }
 
-.track-navbar__divider {
+.tabs-navbar__divider {
   display: inline-block;
   margin-left: 3px;
   margin-right: 3px;
   height: 40px;
 }
 
-.track-navbar__fade-right {
+.tabs-navbar__fade-right {
   background: linear-gradient(to left, #fafafa 45%, rgba(250, 250, 250, 0.4));
   position: absolute;
   top: 0;

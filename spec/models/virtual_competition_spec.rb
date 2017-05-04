@@ -23,7 +23,21 @@
 
 require 'rails_helper'
 
-RSpec.describe VirtualCompetition, type: :model do
+describe VirtualCompetition, type: :model do
+  context '#years' do
+    it 'returns years from start to current' do
+      competition = VirtualCompetition.create(
+        discipline: :distance,
+        range_from: 3000,
+        range_to: 2000,
+        period_from: DateTime.parse('2015-01-01'),
+        period_to: DateTime.parse('2017-12-31')
+      )
+
+      expect(competition.years).to eq([2015, 2016, 2017])
+    end
+  end
+
   context '#window_params' do
     it 'returns params for distance discipline' do
       competition = VirtualCompetition.create(
