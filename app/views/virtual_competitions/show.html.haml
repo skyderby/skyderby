@@ -25,7 +25,7 @@
         = link_to show_params.except(:year) do
           = t('.overall')
       - @competition.years.each do |year|
-        %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if show_params[:year] == year)}
+        %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if show_params[:year] == year.to_s)}
           = link_to show_params.merge(year: year) do
             = year
 
