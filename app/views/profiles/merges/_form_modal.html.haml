@@ -1,0 +1,29 @@
+.modal-dialog
+  .modal-content
+    = form_for :profiles_merge,
+               url: profile_merge_path(@destination_profile),
+               remote: true,
+               html: { class: 'profiles-merge__form form-horizontal' } do |f|
+
+      .modal-header
+        %button.close{type: 'button', data: {dismiss: 'modal'}}
+          %span{aria: {hidden: 'true'}}
+            &times;
+          %span.sr-only
+            Close
+        %h4.modal-title
+          = t('.title')
+
+      .modal-body
+        .form-group
+          = f.label :source_profile, class: 'control-label col-sm-4'
+          .col-sm-8
+            = f.select :source_profile_id, [], { include_blank: true }, class: 'form-control'
+        .form-group
+          .col-sm-offset-4.col-sm-8
+            %h4.help-block= t '.description'
+
+
+      .modal-footer
+        = f.submit t('general.save'), class: 'btn btn-primary'
+        %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

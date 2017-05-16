@@ -1,0 +1,11 @@
+ru:
+  profiles:
+    merges:
+      form_modal:
+        title: Объединение профилей
+        source_profile_placeholder: Выберите профиль-источник
+        description: Выбранный профиль будет объединен в текущий
+  helpers:
+    label:
+      profiles_merge:
+        source_profile: Профиль

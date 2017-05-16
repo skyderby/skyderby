@@ -10,7 +10,7 @@
 
 FactoryGirl.define do
   factory :section do
-    sequence(:name) { |n| "Place-#{n}" }
+    sequence(:name) { |n| "Section-#{n}" }
     sequence(:order) { |n| n }
     event
   end

@@ -1,0 +1,11 @@
+en:
+  profiles:
+    merges:
+      form_modal:
+        title: Merging profiles
+        source_profile_placeholder: Select source profile
+        description: Choosen profile will be merged into current profile
+  helpers:
+    label:
+      profiles_merge:
+        source_profile: Profile

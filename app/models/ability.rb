@@ -8,13 +8,9 @@ class Ability
     can :read, Wingsuit
     can :read, Place
 
-    can :show, Profile
-
     can :read, Tournament
 
     return unless user
-
-    can :update, Profile, user: user
 
     can [:create, :update, :destroy], Place if user.has_role? :places_edit
 
