@@ -2,12 +2,9 @@
 class Events::RoundsController < ApplicationController
   include EventLoading
 
+  before_action :set_event
   before_action :set_round, only: :destroy
-
-  load_resource :event
   before_action :authorize_event
-
-  load_and_authorize_resource :round, through: :event
 
   def create
     @round = @event.rounds.new round_params
@@ -41,9 +38,5 @@ class Events::RoundsController < ApplicationController
 
   def round_params
     params.require(:round).permit(:name, :discipline, :event_id)
-  end
-
-  def authorize_event
-    authorize! :update, @event
   end
 end

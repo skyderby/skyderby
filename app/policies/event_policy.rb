@@ -8,6 +8,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def show?
+    return true if admin?
     return organizer? if record.draft?
     return true if record.public_event? || record.unlisted_event?
 
@@ -15,11 +16,11 @@ class EventPolicy < ApplicationPolicy
   end
 
   def update?
-    organizer?
+    organizer? || admin?
   end
 
   def destroy?
-    responsible?
+    responsible? || admin?
   end
 
   private
