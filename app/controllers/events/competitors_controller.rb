@@ -3,12 +3,9 @@ module Events
   class CompetitorsController < ApplicationController
     include EventLoading
 
-    before_action :set_competitor, only: [:update, :destroy]
-
-    load_resource :event
+    before_action :set_event
     before_action :authorize_event
-
-    load_and_authorize_resource :competitor, through: :event
+    before_action :set_competitor, only: [:edit, :update, :destroy]
 
     def create
       @competitor = @event.competitors.new(competitor_params)
@@ -45,7 +42,9 @@ module Events
       end
     end
 
-    def new; end
+    def new
+      @competitor = @event.competitors.new
+    end
 
     def edit; end
 
@@ -65,10 +64,6 @@ module Events
         :event_id,
         profile_attributes: [:name, :country_id]
       )
-    end
-
-    def authorize_event
-      authorize! :update, @event
     end
   end
 end

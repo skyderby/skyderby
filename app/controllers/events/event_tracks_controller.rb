@@ -11,8 +11,6 @@ module Events
     before_action :authorize_update_event, except: :show
     before_action :authorize_show_event, only: :show
 
-    load_and_authorize_resource :event_track, through: :event
-
     def create
       @event_track = @event.event_tracks.new event_track_params
       @event_track.current_user = current_user

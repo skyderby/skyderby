@@ -1,5 +1,5 @@
 - provide :title, @event.name
-- can_manage = can? :update, @event
+- can_manage = policy(@event).update?
 
 .container.top-buffer#event
 

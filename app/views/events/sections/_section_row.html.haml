@@ -2,7 +2,7 @@
   %td.section-cell{colspan: columns_count}
     %span
       = section.name + ':'
-    - if can?(:manage, section) && !@event.finished?
+    - if policy(@event).update? && !@event.finished?
       = link_to edit_event_section_path(@event, section),
                 remote: true,
                 'data-params': { 'display_raw_results' => @display_raw_results }.to_param,

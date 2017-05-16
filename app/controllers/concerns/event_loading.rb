@@ -43,4 +43,13 @@ module EventLoading
   def set_result_mode
     @display_raw_results = params[:display_raw_results] == 'true'
   end
+
+  def authorize_event
+    return if EventPolicy.new(current_user, @event).update?
+    raise Pundit::NotAuthorizedError
+  end
+
+  def set_event
+    @event ||= Event.find(params[:event_id])
+  end
 end

@@ -1,11 +1,12 @@
 .container.top-buffer
 
-  - if current_user
+  - if policy(Event).create?
     = link_to(new_event_path, remote: true, class: 'btn btn-default btn-info') do
       %i.fa.fa-plus
       = 'Competition'
   - else
     %span= 'Creating classic competitions available only for registered users.'
+
   .top-buffer
   .content-block
     %ul.comp-list

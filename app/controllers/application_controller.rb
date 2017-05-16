@@ -11,7 +11,8 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   rescue_from CanCan::AccessDenied, Pundit::NotAuthorizedError do |exception|
-    request.format.html? ? redirect_to(root_path, alert: 'You are not authorized to acess this page') : raise(exception)
+    raise(exception) unless request.format.html?
+    redirect_to(root_path, alert: 'You are not authorized to access this page.')
   end
 
   def masquerading?

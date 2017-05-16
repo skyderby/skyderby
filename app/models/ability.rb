@@ -3,7 +3,6 @@ class Ability
 
   def initialize(user)
     define_tracks_abilities(user)
-    define_events_abilities(user)
 
     can :read, Wingsuit
     can :read, Place
@@ -22,35 +21,6 @@ class Ability
 
     # allow admins to do anything
     can :manage, :all if user.has_role? :admin
-  end
-
-  def define_events_abilities(user)
-    can :read, Event do |event|
-      if (event.public_event? || event.unlisted_event?) && !event.draft?
-        can :read, [Section, Competitor, Round, EventTrack, Sponsor, WeatherDatum]
-        true
-      end
-    end
-
-    return unless user
-
-    can :create, Event
-    can :destroy, Event, responsible: user, status: :draft
-
-    can :read, Event do |event|
-      event.responsible == user.profile ||
-        event.event_organizers.any? { |x| x.profile == user.profile } ||
-        event.competitors.any? { |x| x.profile == user.profile }
-    end
-
-    can :update, Event do |event|
-      if event.responsible == user.profile ||
-         event.event_organizers.any? { |x| x.profile == user.profile }
-        can :manage, [Section, Competitor, Round, EventTrack, EventOrganizer, WeatherDatum]
-        can :manage, Sponsor, sponsorable_type: 'Event', sponsorable_id: event.id
-        true
-      end
-    end
   end
 
   def define_tracks_abilities(user)

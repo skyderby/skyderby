@@ -1,4 +1,48 @@
 class EventPolicy < ApplicationPolicy
+  def index?
+    true
+  end
+
+  def create?
+    user
+  end
+
+  def show?
+    return organizer? if record.draft?
+    return true if record.public_event? || record.unlisted_event?
+
+    participant?
+  end
+
+  def update?
+    organizer?
+  end
+
+  def destroy?
+    responsible?
+  end
+
+  private
+
+  def participant?
+    return false unless user&.profile
+
+    record.responsible == user.profile ||
+      user.profile.participant_of_events.include?(record.id)
+  end
+
+  def organizer?
+    return false unless user&.profile
+
+    responsible? || user.profile.organizer_of_events.include?(record.id)
+  end
+
+  def responsible?
+    return false unless user&.profile
+
+    record.responsible == user.profile
+  end
+
   class Scope < Scope
     def resolve
       scope.where('status IN (1, 2) AND visibility = 0')

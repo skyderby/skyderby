@@ -9,7 +9,6 @@ feature 'Adding place' do
   scenario 'Non admin user can not add place' do
     visit new_place_path
 
-    expect(current_path).to eql root_path
     expect(page).to have_css('div.alert', text: 'You are not authorized to access this page')
   end
 

@@ -3,19 +3,16 @@ module Events
   class SectionsController < ApplicationController
     include EventLoading
 
+    before_action :set_event
+    before_action :authorize_event
     before_action :set_section, only: [:update,
                                        :destroy,
                                        :edit,
                                        :move_upper,
                                        :move_lower]
 
-    load_resource :event
-    before_action :authorize_event
-
-    load_and_authorize_resource :section, through: :event
-
     def create
-      @section = @event.sections.new section_params
+      @section = event.sections.new section_params
 
       if @section.save
         respond_to do |format|
@@ -69,7 +66,7 @@ module Events
     end
 
     def new
-      @section = @event.sections.new
+      @section = event.sections.new
     end
 
     private
@@ -80,10 +77,6 @@ module Events
 
     def section_params
       params.require(:section).permit(:name, :event_id, :order)
-    end
-
-    def authorize_event
-      authorize! :update, @event
     end
   end
 end

@@ -5,17 +5,22 @@ class EventsController < ApplicationController
   before_action :set_event, only:
     [:edit, :update, :destroy]
 
-  load_and_authorize_resource
-
   def index
+    authorize Event
+
     @events = EventList.includes(event: { place: :country })
                        .visible_to(current_user)
                        .paginate(page: params[:page], per_page: 20)
+  end
 
+  def new
+    authorize Event
     @event = Event.new
   end
 
   def create
+    authorize Event
+
     @event = Event.new event_params
     @event.responsible = current_user.profile
     if @event.save
@@ -28,7 +33,13 @@ class EventsController < ApplicationController
     end
   end
 
+  def edit
+    authorize @event
+  end
+
   def update
+    authorize @event
+
     if @event.update event_params
       if @event.previous_changes.key?(:wind_cancellation) || @event.previous_changes.key?(:status)
         redirect_to event_path(@event)
@@ -42,12 +53,15 @@ class EventsController < ApplicationController
 
   def show
     load_event(params[:id])
+
+    authorize @event
+
     @scoreboard = Events::ScoreboardFactory.new(@event, @display_raw_results).create
   end
 
-  def destroy; end
-
-  def edit; end
+  def destroy
+    authorize @event
+  end
 
   private
 

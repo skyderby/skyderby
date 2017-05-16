@@ -1,11 +1,10 @@
 module Events
   class EventOrganizersController < ApplicationController
-    load_resource :event
+    include EventLoading
+
+    before_action :set_event
     before_action :authorize_event
-
     before_action :set_event_organizer, only: [:destroy]
-
-    load_and_authorize_resource :event_organizer, through: :event
 
     def create
       @event_organizer = @event.event_organizers.new event_organizer_params
@@ -47,10 +46,6 @@ module Events
 
     def event_organizer_params
       params.require(:event_organizer).permit(:event_id, :profile_id)
-    end
-
-    def authorize_event
-      authorize! :update, @event
     end
   end
 end

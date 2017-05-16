@@ -68,6 +68,7 @@ RSpec.configure do |config|
 
   config.before(:each, type: :feature) do
     I18n.locale = :en
+    default_url_options[:locale] = :en
   end
 
   config.order = :random
