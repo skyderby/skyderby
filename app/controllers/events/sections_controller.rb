@@ -12,7 +12,7 @@ module Events
                                        :move_lower]
 
     def create
-      @section = event.sections.new section_params
+      @section = @event.sections.new section_params
 
       if @section.save
         respond_to do |format|
@@ -66,7 +66,7 @@ module Events
     end
 
     def new
-      @section = event.sections.new
+      @section = @event.sections.new
     end
 
     private
