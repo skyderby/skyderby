@@ -2,7 +2,7 @@
          I18n.locale,
          @event, 
          (@display_raw_results ? 'raw' : ''), 
-         (can? :update, @event)] do
+         (policy(@event).update?)] do
   %table.table.table-bordered#results-table
     %thead
       %tr#disciplines-row
@@ -33,7 +33,7 @@
                       = link_to event_round_globe_path(@event, round), remote: true, class: 'round-map-view' do
                         %i.fa.fa-compass
                         3D maps
-                    - if can? :update, @event
+                    - if policy(@event).update? && !@event.finished?
                       %li.divider
                       %li
                         = button_to event_round_path(@event, round),
@@ -91,7 +91,7 @@
                         %i.fa.fa-search
 
 
-                      - if can?(:manage, result_entity) && !@event.finished?
+                      - if policy(@event).update? && !@event.finished?
                         = link_to edit_event_event_track_path(@event, result_entity),
                                   remote: true,
                                   'data-params': { display_raw_results: display_raw_results }.to_param,
@@ -107,7 +107,7 @@
                     - else
                       - if result_entity.points && result_entity.points > 0
                         = result_entity.points(net: display_raw_results).round(1)
-                - elsif can?(:update, @event) && !@event.finished?
+                - elsif policy(@event).update? && !@event.finished?
                   %td.text-center.create-result-cell
                     = link_to new_event_event_track_path(@event), 
                               remote: true, 

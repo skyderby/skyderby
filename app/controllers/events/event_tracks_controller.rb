@@ -5,11 +5,9 @@ module Events
     include UnitsHelper
     include ChartParams
 
+    before_action :set_event
     before_action :set_event_track, only: [:show, :edit, :update, :destroy]
-
-    load_resource :event
-    before_action :authorize_update_event, except: :show
-    before_action :authorize_show_event, only: :show
+    before_action :authorize_event, except: :show
 
     def create
       @event_track = @event.event_tracks.new event_track_params
@@ -52,6 +50,8 @@ module Events
     def edit; end
 
     def show
+      raise Pundit::NotAuthorizedError unless policy(@event).show?
+
       respond_to do |format|
         format.html do
           redirect_to track_path(@event_track.track,
@@ -99,13 +99,5 @@ module Events
       params.permit(:charts_mode, :charts_units)
     end
     helper_method :show_params
-
-    def authorize_update_event
-      authorize! :update, @event
-    end
-
-    def authorize_show_event
-      authorize! :read, @event
-    end
   end
 end
