@@ -32,5 +32,15 @@ module Manage
           .to_h
     end
 
+    def top_active_users
+      Track.where('created_at > ?', 1.year.ago.beginning_of_month)
+           .joins(:pilot)
+           .where.not(profiles: { user_id: nil })
+           .group('profile_id')
+           .limit(12)
+           .count
+           .map { |profile_id, count| [Profile.find(profile_id), count] }.to_h
+           .sort_by { |_, val| -val }.to_h
+    end
   end
 end

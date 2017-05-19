@@ -36,7 +36,7 @@
             %tr
               %th
                 Month, Year
-              %th
+              %th.text-right
                 Count
           %tbody
             - @dashboard.uploads_by_month.each do |key, value|
@@ -53,13 +53,31 @@
             %tr
               %th
                 Month, Year
-              %th
+              %th.text-right
                 Count
           %tbody
             - @dashboard.registrations_by_month.each do |key, value|
               %tr
                 %td= l(key, format: '%b %Y')
                 %td.text-right= value
+
+    .col-sm-6
+      .content-block
+        %h3
+          Most active users
+        %table.table
+          %thead
+            %tr
+              %th
+                Profile
+              %th.text-right
+                Uploads in 12 months
+          %tbody
+            - @dashboard.top_active_users.each do |profile, count|
+              %tr
+                %td= link_to profile.name, profile_path(profile)
+                %td.text-right= count
+
 
   .row.top-buffer
     .col-sm-12
