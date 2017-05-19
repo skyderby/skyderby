@@ -1,0 +1,97 @@
+.container
+  .content-block.top-buffer
+    .row
+      .col-sm-3.text-center
+        .fa-3x
+          = @dashboard.tracks_count
+        %div
+          Tracks
+
+      .col-sm-3.text-center
+        .fa-3x
+          = @dashboard.users_count
+        %div
+          Users
+
+      .col-sm-3.text-center
+        .fa-3x
+          = @dashboard.profiles_count
+        %div
+          Profiles
+
+
+      .col-sm-3.text-center
+        .fa-3x
+          = @dashboard.events_count
+        %div
+          Events
+
+  .row
+    .col-sm-3
+      .content-block
+        %h3
+          Tracks by month
+        %table.table
+          %thead
+            %tr
+              %th
+                Month, Year
+              %th
+                Count
+          %tbody
+            - @dashboard.uploads_by_month.each do |key, value|
+              %tr
+                %td= l(key, format: '%b %Y')
+                %td.text-right= value
+
+    .col-sm-3
+      .content-block
+        %h3
+          Registrations by month
+        %table.table
+          %thead
+            %tr
+              %th
+                Month, Year
+              %th
+                Count
+          %tbody
+            - @dashboard.registrations_by_month.each do |key, value|
+              %tr
+                %td= l(key, format: '%b %Y')
+                %td.text-right= value
+
+  .row.top-buffer
+    .col-sm-12
+      = link_to 'Sidekiq Monitoring', sidekiq_web_path
+    .col-sm-12
+      = link_to 'Missing places', missing_places_path
+
+  .row
+    .col-sm-4
+      %h2= 'Костюмы'
+      %p
+        = link_to 'Костюмы', wingsuits_path
+      %p
+        = link_to 'Производители', manufacturers_path
+
+      %h2= 'Локации'
+      %p
+        = link_to 'Локации', places_path
+      %p
+        = link_to 'Страны', countries_path
+
+      %h2= 'Онлайн соревнования'
+      %p
+        = link_to 'Соревнования', virtual_competitions_path
+      %p
+        = link_to 'Группы', virtual_comp_groups_path
+      %p
+        = link_to 'Результаты', virtual_comp_results_path
+
+    .col-sm-4
+      %h2= 'Пользователи'
+      %p
+        = link_to 'Профили', profiles_path
+      %p
+        = link_to 'Пользователи', users_path

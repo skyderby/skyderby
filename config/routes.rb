@@ -17,7 +17,7 @@ Skyderby::Application.routes.draw do
   match '/about', to: 'static_pages#about', as: :about, via: :get
   get '/ping' => 'static_pages#ping'
 
-  match '/manage', to: 'static_pages#manage', as: :manage, via: :get
+  get '/manage', to: 'manage/dashboards#show'
   authenticate :user, lambda { |u| u.has_role? :admin } do
     mount Sidekiq::Web => '/manage/sidekiq'
   end
@@ -131,7 +131,7 @@ Skyderby::Application.routes.draw do
   resources :tournaments, concerns: :sponsorable do
     scope module: :tournaments do
       resource :qualification, only: :show
-      resources :rounds
+      resources :rounds, only: [:create, :destroy]
       resources :tournament_competitors, path: :competitors
       resources :matches do
         scope module: :matches do
