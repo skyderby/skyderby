@@ -4,13 +4,15 @@ services:
   db:
     image: postgres:9.5.2
     environment:
-      POSTGRES_PASSWORD: &DB_PASSWORD ********
-      POSTGRES_USER: &DB_USERNAME ********
-      POSTGRES_DB: &DB_NAME ********
+      POSTGRES_PASSWORD: &DB_PASSWORD your_db_password
+      POSTGRES_USER: &DB_USERNAME your_db_user
+      POSTGRES_DB: &DB_NAME your_db_name
     ports:
       - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
+      - ./pg_conf/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
+      - ./pg_conf/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
     restart: always
 
   app:
@@ -19,28 +21,29 @@ services:
       RAILS_ENV: production
       DB_NAME: *DB_NAME
       DB_HOST: db
+      DB_POOL: 25
       DB_USERNAME: *DB_USERNAME
       DB_PASSWORD: *DB_PASSWORD
-      SLACK_WEBHOOK_URL: '********'
-      SLACK_CHANNEL: '#exceptions'
-      SMTP_ADDRESS: '********'
-      SMTP_PORT: 25
-      SMTP_DOMAIN: '********'
-      SMTP_USER_NAME: '********'
-      SMTP_PASSWORD: '********'
-      NEWRELIC_LICENSE: ********
-      WORKER_PROCESSES: 2
+      SLACK_WEBHOOK_URL: slack_webhook_url
+      SLACK_CHANNEL: '#slack_channel'
+      SMTP_ADDRESS: your_smtp_address
+      SMTP_PORT: your_smtp_port
+      SMTP_DOMAIN: your_smtp_domain
+      SMTP_USER_NAME: your_email_address
+      SMTP_PASSWORD: your_email_password
+      NEWRELIC_LICENSE: new_relic_license
+      WEB_CONCURRENCY: 2
+      RAILS_MAX_THREADS: 10
       REDIS_HOST: redis
       REDIS_PORT: 6379
       REDIS_DB: 12
+      MAPS_API_KEY: google_maps_api_key
     volumes:
-      - ./database.yml:/opt/app/config/database.yml:ro
       - /opt/app/public
       - app_log:/opt/app/log
       - app_tmp:/opt/app/tmp
-      - app_assets:/opt/app/public/assets
       - app_system:/opt/app/public/system
-    links:
+    depends_on:
       - db
       - redis
     ports:
@@ -52,12 +55,10 @@ services:
     environment:
       <<: *ENVIRONMENT
     volumes:
-      - ./database.yml:/opt/app/config/database.yml:ro
       - app_log:/opt/app/log
       - app_tmp:/opt/app/tmp
-      - app_assets:/opt/app/public/assets
       - app_system:/opt/app/public/system
-    links:
+    depends_on:
       - db
       - redis
     command: "bundle exec sidekiq"
@@ -68,19 +69,16 @@ services:
     volumes:
       - redis_data:/data
     restart: always
-
+  
   web:
     image: nginx:stable
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./ssl:/etc/pki/nginx:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
       - app_log:/opt/app/log
     volumes_from:
       - app:ro
-    depends_on:
-      - app
-    links:
-      - app
     ports:
       - "80:80"
       - "443:443"
@@ -94,8 +92,6 @@ volumes:
   app_log:
     external: true
   app_tmp:
-    external: true
-  app_assets:
     external: true
   app_system:
     external: true

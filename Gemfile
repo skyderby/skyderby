@@ -77,13 +77,7 @@ group :development, :test do
 
   gem 'dotenv-rails'
 
-  gem 'pry'
-  gem 'pry-rails'
-  gem 'pry-byebug'
-
-  # Better errors handler
-  # gem 'better_errors'
-  gem 'binding_of_caller'
+  gem 'byebug'
 end
 
 group :test do
@@ -97,19 +91,9 @@ group :test do
   gem 'codeclimate-test-reporter', require: false
 end
 
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.6'
 
-group :doc do
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', require: false
-end
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.1.2'
-
-# Use unicorn as the app server
-gem 'unicorn'
+gem 'puma'
 
 gem 'newrelic_rpm'
 

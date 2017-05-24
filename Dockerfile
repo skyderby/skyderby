@@ -30,5 +30,4 @@ VOLUME /opt/app/public/assets
 VOLUME /opt/app/public
 
 CMD rake db:migrate \
-  && rm -rf /opt/app/tmp/pids/unicorn.pid \
-  && bundle exec unicorn -c config/unicorn.rb
+  && bundle exec puma -C config/puma.rb
