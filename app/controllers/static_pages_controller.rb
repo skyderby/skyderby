@@ -2,11 +2,7 @@
 class StaticPagesController < ApplicationController
   def index
     @track_file = TrackFile.new
-    @online_competitions =
-      VirtualCompetition
-      .where(display_on_start_page: true)
-      .includes(personal_top_scores: [:profile, :track])
-      .group_by(&:jumps_kind)
+    @online_competitions = VirtualCompetitions::Summary.new
   end
 
   def manage
