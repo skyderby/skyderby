@@ -30,6 +30,7 @@ gem 'sidekiq', ' < 5'
 
 # Exception notifications
 gem 'exception_notification'
+gem 'honeybadger', '~> 3.1'
 
 # Slack integration
 gem 'slack-notifier'
