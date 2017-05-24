@@ -32,9 +32,7 @@
 *.swn
 *.swo
 
-config/database.yml
-
-docker-compose-production.yml
+.env
 
 # Ignore application configuration
 /config/application.yml
