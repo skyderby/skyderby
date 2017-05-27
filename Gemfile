@@ -19,7 +19,7 @@ gem 'haml'
 gem 'paperclip', '~> 4.2.2'
 
 # XML
-gem 'nokogiri', '~> 1.6.8'
+gem 'nokogiri', '~> 1.7.2'
 
 # Authorization
 gem 'cancancan'
@@ -84,7 +84,6 @@ end
 group :test do
   gem 'factory_girl_rails'
   gem 'capybara'
-  gem 'selenium'
   gem 'poltergeist'
   gem 'database_cleaner'
 
@@ -97,4 +96,3 @@ gem 'jbuilder', '~> 2.6'
 gem 'puma'
 
 gem 'newrelic_rpm'
-
