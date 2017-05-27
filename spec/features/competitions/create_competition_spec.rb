@@ -17,6 +17,8 @@ feature 'Creating new competitions' do
       find('input[type="submit"]').click
     end
 
+    sleep 0.5
+
     expect(page).to have_css('#event-header h1 span', text: 'Test event')
   end
 end
