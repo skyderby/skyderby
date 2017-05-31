@@ -1,0 +1,16 @@
+.col-sm-4.col-md-4.col-lg-3.text-center
+  .tournament-round.text-muted
+    Round
+    = round.order
+  - spacers = 2 ** (round.order - 1) - 1
+  - round.matches.each do |match|
+    = render partial: 'tournaments/matches/match', locals: { match: match, spacers: spacers }
+
+  .text-muted
+    = button_to tournament_round_matches_path(tournament_id: @tournament.id, round_id: round.id),
+                    method: :post,
+                    remote: true,
+                    class: 'btn btn-link' do
+      %i.fa.fa-plus
+      = t('activerecord.models.tournament_match')
+
