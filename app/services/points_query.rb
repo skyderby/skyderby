@@ -18,7 +18,12 @@ class PointsQuery
 
   def scope
     collection = track.points
-    collection = collection.trimmed(trim_options) if trimmed
+
+    if trimmed
+      ff_start, ff_end = Track.where(id: track.id).pluck(:ff_start, :ff_end).first
+      collection = collection.where('fl_time BETWEEN ? AND ?', ff_start, ff_end)
+    end
+
     collection = collection.reorder('floor(gps_time_in_seconds), gps_time_in_seconds') if freq_1Hz
     collection
   end
