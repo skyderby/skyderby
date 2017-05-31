@@ -30,10 +30,12 @@ class Point < ApplicationRecord
   scope :freq_1Hz, -> { where('round(gps_time_in_seconds) = gps_time_in_seconds') }
 
   scope :trimmed, ->(seconds_before_start: 0, seconds_after_end: 0) {
-    joins(:track).where(
-      "points.fl_time BETWEEN (tracks.ff_start - #{seconds_before_start})
-                          AND (tracks.ff_end + #{seconds_after_end})"
-    )
+    joins <<~SQL
+      INNER JOIN tracks
+      ON tracks.id = points.track_id
+      AND points.fl_time BETWEEN (tracks.ff_start - #{seconds_before_start})
+                            AND (tracks.ff_end + #{seconds_after_end})
+    SQL
   }
 
   class << self
