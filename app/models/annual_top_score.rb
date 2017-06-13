@@ -22,7 +22,7 @@ class AnnualTopScore < ApplicationRecord
 
   private
 
-  def read_only?
+  def readonly?
     true
   end
 end
