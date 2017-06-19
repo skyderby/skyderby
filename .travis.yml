@@ -3,7 +3,7 @@ language: ruby
 cache: bundler
 
 rvm:
-  - 2.3.0
+  - 2.4.0
 
 env:
   REDIS_HOST: localhost
