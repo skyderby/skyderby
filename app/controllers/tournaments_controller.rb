@@ -1,23 +1,26 @@
 class TournamentsController < ApplicationController
   before_action :set_tournament, only: [:show, :edit, :update, :destroy]
 
-  load_and_authorize_resource
-
   def index
+    authorize Tournament
     @tournaments = Tournament.order('id DESC')
   end
 
   def show
+    authorize @tournament
   end
 
   def new
+    authorize Tournament
     @tournament = Tournament.new
   end
 
   def edit
+    authorize @tournament
   end
 
   def create
+    authorize Tournament
     @tournament = Tournament.new(tournament_params)
 
     if @tournament.save
@@ -28,6 +31,8 @@ class TournamentsController < ApplicationController
   end
 
   def update
+    authorize @tournament
+
     if @tournament.update(tournament_params)
       redirect_to @tournament, notice: 'Tournament was successfully updated.'
     else
@@ -36,6 +41,8 @@ class TournamentsController < ApplicationController
   end
 
   def destroy
+    authorize @tournament
+
     @tournament.destroy
     redirect_to tournaments_path
   end
@@ -55,7 +62,8 @@ class TournamentsController < ApplicationController
       :finish_end_lon,
       :starts_at,
       :exit_lat,
-      :exit_lon
+      :exit_lon,
+      :bracket_size
     )
   end
 end

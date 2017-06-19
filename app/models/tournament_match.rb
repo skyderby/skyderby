@@ -12,6 +12,8 @@
 #
 
 class TournamentMatch < ApplicationRecord
+  enum match_type: [:regular, :gold_finals, :bronze_finals]
+
   belongs_to :round,
              class_name: 'TournamentRound',
              foreign_key: 'tournament_round_id'

@@ -6,11 +6,12 @@
   - round.matches.each do |match|
     = render partial: 'tournaments/matches/match', locals: { match: match, spacers: spacers }
 
-  .text-muted
-    = button_to tournament_round_matches_path(tournament_id: @tournament.id, round_id: round.id),
-                    method: :post,
-                    remote: true,
-                    class: 'btn btn-link' do
-      %i.fa.fa-plus
-      = t('activerecord.models.tournament_match')
+  - if policy(@tournament).update?
+    .text-muted
+      = button_to tournament_round_matches_path(tournament_id: @tournament.id, round_id: round.id),
+                  method: :post,
+                  remote: true,
+                  class: 'btn btn-link' do
+        %i.fa.fa-plus
+        = t('activerecord.models.tournament_match')
 

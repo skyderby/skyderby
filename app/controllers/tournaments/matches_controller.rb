@@ -1,80 +1,69 @@
-class Tournaments::MatchesController < ApplicationController
-  before_action :set_tournament_match, only: [:show, :edit, :update, :destroy]
+module Tournaments
+  class MatchesController < ApplicationController
+    before_action :set_tournament, :authorize_action
+    before_action :set_tournament_match, only: [:show, :edit, :update, :destroy]
 
-  load_resource :tournament
+    def edit; end
 
-  # GET /tournament_matches
-  # GET /tournament_matches.json
-  def index
-    @tournament_matches = @tournament.matches
-  end
+    def create
+      @tournament_round = TournamentRound.find(params[:round_id])
+      @tournament_match = @tournament_round.matches.new
 
-  # GET /tournament_matches/1
-  # GET /tournament_matches/1.json
-  def show
-  end
-
-  # GET /tournament_matches/new
-  def new
-    @tournament_match = TournamentMatch.new
-  end
-
-  # GET /tournament_matches/1/edit
-  def edit
-  end
-
-  # POST /tournament_matches
-  # POST /tournament_matches.json
-  def create
-    @tournament_match = TournamentMatch.new(tournament_match_params)
-
-    respond_to do |format|
-      if @tournament_match.save
-        format.html { redirect_to tournament_match_path(@tournament, @tournament_match), notice: 'Tournament match was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @tournament_match }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @tournament_match.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @tournament_match.save
+          format.js
+        else
+          format.js do
+            render template: 'errors/ajax_errors',
+                   locals: { errors: @tournament_match.errors },
+                   status: :unprocessable_entity
+          end
+        end
       end
     end
-  end
 
-  # PATCH/PUT /tournament_matches/1
-  # PATCH/PUT /tournament_matches/1.json
-  def update
-    respond_to do |format|
-      if @tournament_match.update(tournament_match_params)
-        format.html { redirect_to @tournament_match, notice: 'Tournament match was successfully updated.' }
+    def update
+      respond_to do |format|
+        if @tournament_match.update(tournament_match_params)
+          format.js
+        else
+          format.js do
+            render template: 'errors/ajax_errors',
+                   locals: { errors: @tournament_match.errors },
+                   status: :unprocessable_entity
+          end
+        end
+      end
+    end
+
+    def destroy
+      @tournament_match.destroy
+      respond_to do |format|
+        format.html { redirect_to tournament_matches_url }
         format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @tournament_match.errors, status: :unprocessable_entity }
       end
     end
-  end
 
-  # DELETE /tournament_matches/1
-  # DELETE /tournament_matches/1.json
-  def destroy
-    @tournament_match.destroy
-    respond_to do |format|
-      format.html { redirect_to tournament_matches_url }
-      format.json { head :no_content }
+    private
+
+    def set_tournament
+      @tournament = Tournament.find(params[:tournament_id])
     end
-  end
 
-  private
+    def set_tournament_match
+      @tournament_match = TournamentMatch.find(params[:id])
+    end
 
-  def set_tournament_match
-    @tournament_match = TournamentMatch.find(params[:id])
-  end
+    def authorize_action
+      authorize @tournament, :update?
+    end
 
-  def tournament_match_params
-    params.require(:tournament_match).permit(
-      :tournament_round_id,
-      :start_time,
-      :gold_finals,
-      :bronze_finals
-    )
+    def tournament_match_params
+      params.require(:tournament_match).permit(
+        :tournament_round_id,
+        :start_time,
+        :match_type
+      )
+    end
   end
 end

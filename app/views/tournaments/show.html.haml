@@ -6,66 +6,7 @@
 
   .container
     .content-block
-      .row
-        .col-lg-1
-        - @tournament.rounds.each do |round|
-          .col-sm-4.col-md-4.col-lg-3.text-center
-            .tournament-round.text-muted
-              Round 
-              = round.order
-            - spacers = 2 ** (round.order - 1) - 1
-            - round.matches.each do |match|
-              - unless match.bronze_finals
-                - spacers.times do
-                  .tournament-spacer
-              .tournament-match.text-right
-                .panel.panel-default
-                  = link_to tournament_match_map_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do
-                    %i.fa.fa-compass
-                    Map
-                  = link_to tournament_match_globe_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do
-                    %i.fa.fa-compass
-                    3D map
-                  .panel-body.competitors-container
-                    - if match.slots.count == 0
-                      - 2.times do
-                        .tournament-competitor.row
-                          .col-sm-9.col-md-8.text-left.text-muted
-                            ?
-                          .col-sm-3.col-md-4.text-right
-                    - match.slots.each do |competitor|
-                      .tournament-competitor.row
-                        .col-sm-9.text-left
-                          - if match.gold_finals || match.bronze_finals
-                            - if competitor.earn_medal
-                              %i.fa.fa-fw.fa-certificate{class: competitor.earn_medal}
-                            - else
-                              %i.fa.fa-fw
-                          %a{href: profile_path(competitor.tournament_competitor.profile_id)}
-                            = competitor.tournament_competitor.name
-                        .col-sm-3.text-right
-                          - if competitor.track_id
-                            %a{href: track_path(competitor.track_id), data: {toggle: 'tooltip'}, title: competitor.notes}
-                              - if competitor.is_disqualified
-                                %s
-                                  = competitor.result
-                              - else
-                                = competitor.result
-                          - else
-                            - if competitor.is_disqualified
-                              %s
-                                = competitor.result
-                            - else
-                              = competitor.result
-
-                    - if match.slots.count == 1
-                      .tournament-competitor.row
-                        .col-sm-9.text-left.text-muted
-                          ?
-                        .col-sm-3.text-right
-              - unless match.gold_finals || match.bronze_finals
-                - spacers.times do
-                  .tournament-spacer
+      = render 'scoreboard'
 
       .container
         - unless @tournament.sponsors.empty?
