@@ -15,15 +15,15 @@
           .form-inline
             %label.control-label
               = t('tracks.show.range_from')
-            = text_field_tag :f, params[:f] || bounds[:max_altitude], class: 'form-control' #%input.form-control#range-from{type: 'number', align: 'right'}
+            = text_field_tag :f, params[:f] || bounds[:max_altitude], class: 'form-control'
             %label.control-label
               = t('tracks.show.range_to')
-            = text_field_tag :t, params[:t] || bounds[:min_altitude], class: 'form-control' #%input.form-control#range-to{type: 'number', align: 'right'}
+            = text_field_tag :t, params[:t] || bounds[:min_altitude], class: 'form-control'
 
         .modal-footer
           .pull-left
-            - if @track.skydive? && bounds[:max_altitude] >= 3000 && bounds[:min_altitude]
-              = link_to 'FAI window: 3000-2000 m', track_path(@track, f: 3000, t: 2000), remote: true, 'data-dismiss': 'modal', class: 'btn btn-default'
+            - if @track.skydive? && bounds[:max_altitude] >= 3000 && bounds[:min_altitude] <= 2000
+              = link_to 'FAI window: 3000-2000 m', track_path(@track, f: 3000, t: 2000), remote: true, 'data-dismiss': 'modal', class: 'btn btn-default', rel: 'nofollow'
 
           %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t('general.cancel')
           = f.submit 'OK', class: 'btn btn-primary'
