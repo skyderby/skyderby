@@ -1,0 +1,36 @@
+.modal-dialog
+  .modal-content
+    = form_for(@tournament_match, url: tournament_match_path(@tournament, @tournament_match), remote: true, html: { class: 'form-horizontal' }) do |f|
+
+      .modal-header
+        %button.close{type: 'button', data: {dismiss: 'modal'}}
+          %span{aria: {hidden: 'true'}}
+            &times;
+          %span.sr-only
+            Close
+        %h4.modal-title
+          Tournament match: Edit
+
+      .modal-body
+
+        .form-group
+          = f.label :start_time, class: 'control-label col-sm-4'
+          .col-sm-8
+            = f.text_field :start_time, class: 'form-control', value: @tournament_match.start_time&.strftime('%Y-%m-%d %T.%L')
+
+        .form-group
+          = f.label :match_type, class: 'control-label col-sm-4'
+          .btn-group.col-sm-8{'data-toggle' => 'buttons'}
+            %label.btn.btn-default{class: ('active' if @tournament_match.regular?)}
+              = f.radio_button :match_type, 'regular'
+              Regular
+            %label.btn.btn-default{class: ('active' if @tournament_match.gold_finals?)}
+              = f.radio_button :match_type, 'gold_finals'
+              Gold finals
+            %label.btn.btn-default{class: ('active' if @tournament_match.bronze_finals?)}
+              = f.radio_button :match_type, 'bronze_finals'
+              Bronze finals
+
+      .modal-footer
+        = f.submit t('general.save'), class: 'btn btn-primary', 'data-disable-with': t('general.saving')
+        %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'
