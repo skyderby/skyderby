@@ -1,6 +1,8 @@
 .index-header {
   position: relative;
   min-height: 200px;
+  height: 40vh;
+  margin-top: 0px;
   background-image: asset-url('index_header_bg.jpg');
   background-size: cover;
   background-position: center center;
@@ -37,14 +39,12 @@
   }
 }
 
-.free-banner {
+.description {
+  margin: 15px;
   text-align: center;
-  font-size: 26px;
-  letter-spacing: 2px;
-  line-height: 43px;
-  height: 45px;
-  width: 100%;
-  background-color: #75bf78;
-  color: #fff;
-  vertical-align: middle;
+}
+
+.description__title {
+  font-weight: bold;
+  font-size: 1.3em;
 }
