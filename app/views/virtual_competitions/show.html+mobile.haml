@@ -33,7 +33,8 @@
     -#     .th
     .tbody
       - @competition.personal_top_scores.each do |personal_score|
-        = link_to personal_score.track, class: 'tr online-competition__personal-score' do
+        - current_user_score = current_user && current_user.profile == personal_score.profile
+        = link_to personal_score.track, class: "tr online-competition__personal-score #{'bg-warning' if current_user_score}" do
           .td.online-competition__rank= personal_score.rank
           .td
             .online-competition__profile
