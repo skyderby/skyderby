@@ -39,7 +39,7 @@ module Tracks
 
     def glide_ratio_wind_effect
       wind_effect = glide_ratio - zero_wind_glide_ratio
-      sign = wind_effect.positive? ? '+' : '-'
+      sign = wind_effect.positive? ? '+' : ''
       "#{sign}#{wind_effect.round(2)}"
     end
 
@@ -87,7 +87,7 @@ module Tracks
 
     def horizontal_speed_wind_effect
       wind_effect = (track_distance / time) - (zero_wind_trajectory_distance / time)
-      sign = wind_effect.positive? ? '+' : '-'
+      sign = wind_effect.positive? ? '+' : ''
       "#{sign}#{speed_presentation(wind_effect)}"
     end
 
@@ -112,7 +112,7 @@ module Tracks
 
     def distance_wind_effect
       wind_effect = track_distance - zero_wind_trajectory_distance
-      sign = wind_effect.positive? ? '+' : '-'
+      sign = wind_effect.positive? ? '+' : ''
       "#{sign}#{distance_presentation(wind_effect)}"
     end
 
