@@ -212,9 +212,11 @@ module Tracks
       return track_points if track_points.blank? || track_points.length == 1
 
       @points ||= begin
-        start_index = track_points.index { |x| x[:altitude] <= @range_from }
+        start_index = track_points.index { |x| x[:altitude] <= @range_from } || 0
         start_point = track_points[start_index]
+
         end_index = track_points.index { |x| x[:gps_time] > start_point[:gps_time] && x[:altitude] <= @range_to }
+        end_index ||= track_points.count - 1
         end_point = track_points[end_index]
 
         result_array = []
