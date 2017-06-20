@@ -1,23 +1,32 @@
 .track-indicators
   .indicators-wrapper
-    .indicator
+    .track-indicators__indicator
+      .param
+        =t '.distance'
       .param-val
         .avg-val= presenter.distance
         .units= t "units.#{presenter.distance_units}"
-      .param
-        %i.fa.fa-fw.fa-lg.fa-arrows-h
-        =t '.distance'
+      - if presenter.wind_cancelation?
+        .progress.track-indicators__wind-effect
+          .progress-bar.progress-bar-success{style: "width: #{presenter.zero_wind_distance_in_percents}%;"}
+          .progress-bar.progress-bar-danger{style: "width: #{presenter.distance_wind_effect_in_percents}%;"}
+        .track-indicators__components
+          .track-indicators__component.text-left.text-success
+            = presenter.zero_wind_distance
+          .track-indicators__component.text-right.text-danger
+            = presenter.distance_wind_effect
 
-    .indicator
+    .track-indicators__indicator
+      .param
+        =t '.elevation'
       .param-val
         .avg-val= presenter.elevation
         .units= t "units.#{presenter.altitude_units}"
-      .param
-        %i.fa.fa-fw.fa-lg.fa-arrows-v
-        =t '.elevation'
 
   .indicators-wrapper
-    .indicator
+    .track-indicators__indicator
+      .param
+        =t '.ground_speed'
       .param-val
         .avg-val= presenter.avg_horizontal_speed
         .min-max
@@ -28,11 +37,19 @@
             %span= presenter.min_horizontal_speed
             %i.fa.fa-lg.fa-caret-down.min-val-caret
         .units=t "units.#{presenter.speed_units}"
-      .param
-        %i.fa.fa-fw.fa-lg.fa-long-arrow-right
-        =t '.ground_speed'
+      - if presenter.wind_cancelation?
+        .progress.track-indicators__wind-effect
+          .progress-bar.progress-bar-success{style: "width: #{presenter.zero_wind_horizontal_speed_in_percents}%;"}
+          .progress-bar.progress-bar-danger{style: "width: #{presenter.horizontal_speed_wind_effect_in_percents}%;"}
+        .track-indicators__components
+          .track-indicators__component.text-left.text-success
+            = presenter.zero_wind_horizontal_speed
+          .track-indicators__component.text-right.text-danger
+            = presenter.horizontal_speed_wind_effect
 
-    .indicator
+    .track-indicators__indicator
+      .param
+        =t '.vertical_speed'
       .param-val
         .avg-val= presenter.avg_vertical_speed
         .min-max
@@ -43,12 +60,11 @@
             %span= presenter.min_vertical_speed
             %i.fa.fa-lg.fa-caret-down.min-val-caret
         .units=t "units.#{presenter.speed_units}"
-      .param
-        %i.fa.fa-fw.fa-lg.fa-long-arrow-down
-        =t '.vertical_speed'
 
   .indicators-wrapper
-    .indicator
+    .track-indicators__indicator
+      .param
+        =t '.glide_ratio'
       .param-val
         .avg-val= presenter.glide_ratio
         .min-max
@@ -58,15 +74,19 @@
           .min-val
             %span= presenter.min_glide_ratio
             %i.fa.fa-lg.fa-caret-down.min-val-caret
+      - if presenter.wind_cancelation?
+        .progress.track-indicators__wind-effect
+          .progress-bar.progress-bar-success{style: "width: #{presenter.zero_wind_distance_in_percents}%;"}
+          .progress-bar.progress-bar-danger{style: "width: #{presenter.distance_wind_effect_in_percents}%;"}
+        .track-indicators__components
+          .track-indicators__component.text-left.text-success
+            = presenter.zero_wind_glide_ratio
+          .track-indicators__component.text-right.text-danger
+            = presenter.glide_ratio_wind_effect
+
+    .track-indicators__indicator
       .param
-        %i.fa.fa-fw.fa-lg.fa-ellipsis-h
-        =t '.glide_ratio'
-
-
-    .indicator
+        =t '.duration'
       .param-val
         .avg-val= presenter.time
         .units= t 'units.t_unit'
-      .param
-        %i.fa.fa-fw.fa-lg.fa-clock-o
-        =t '.duration'

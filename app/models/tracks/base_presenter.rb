@@ -113,9 +113,10 @@ module Tracks
     end
 
     def zero_wind_trajectory_distance
-      zerowind_points.each_cons.inject(0) do |sum, pair|
-        sum + TrackSegment.new(pair).distance
-      end
+      @zero_wind_trajectory_distance ||=
+        zerowind_points.each_cons(2).inject(0) do |sum, pair|
+          sum + TrackSegment.new(pair).distance
+        end
     end
 
     def speed_presentation(value)

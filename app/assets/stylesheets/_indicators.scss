@@ -36,10 +36,28 @@
   }
 
   .param {
-    margin-top: -8px;
-    margin-bottom: 10px;
     color: #888;
+    margin-bottom: -5px;
   }
+}
+
+.track-indicators__indicator {
+  margin-top: 40px;
+}
+
+.track-indicators__wind-effect {
+  border-radius: 0px;
+  height: 3px;
+  margin-bottom: 0px;
+}
+
+.track-indicators__components {
+  display: table;
+  width: 100%;
+}
+
+.track-indicators__component {
+  display: table-cell;
 }
 
 .modal-body .track-indicators {
