@@ -21,6 +21,8 @@ class PointsQuery
 
     if trimmed
       ff_start, ff_end = Track.where(id: track.id).pluck(:ff_start, :ff_end).first
+      ff_start -= trim_options[:seconds_before_start] if trim_options[:seconds_before_start]
+
       collection = collection.where('fl_time BETWEEN ? AND ?', ff_start, ff_end)
     end
 
