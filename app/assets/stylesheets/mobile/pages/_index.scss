@@ -40,11 +40,24 @@
 }
 
 .description {
-  margin: 15px;
+  margin: 15px 15px 30px 15px;
   text-align: center;
+}
+
+.description__image {
+  font-size: 5em;
+
+  &--blue   { color: rgb(75, 173, 239); }
+  &--red    { color: rgb(245, 116, 111); }
+  &--yellow { color: rgb(247, 213, 81);}
 }
 
 .description__title {
   font-weight: bold;
   font-size: 1.3em;
+  line-height: 2;
+}
+
+.description__text {
+  color: #777; 
 }
