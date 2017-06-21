@@ -1,0 +1,6 @@
+ru:
+  events:
+    rounds:
+      globe:
+        fast_forward: Перемотать к участнику
+        group: Группа

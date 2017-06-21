@@ -26,11 +26,11 @@
                     %i.fa.fa-ellipsis-v
                   %ul.dropdown-menu.dropdown-menu-right
                     %li
-                      = link_to event_round_map_path(@event, round), remote: true, class: 'round-map-view' do
+                      = link_to event_round_map_path(@event, round), remote: true, class: 'round-map-view', rel: 'nofollow' do
                         %i.fa.fa-compass
                         Google maps
                     %li
-                      = link_to event_round_globe_path(@event, round), remote: true, class: 'round-map-view' do
+                      = link_to event_round_globe_path(@event, round), remote: true, class: 'round-map-view', rel: 'nofollow' do
                         %i.fa.fa-compass
                         3D maps
                     - if policy(@event).update? && !@event.finished?

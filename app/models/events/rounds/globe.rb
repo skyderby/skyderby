@@ -1,7 +1,7 @@
 module Events
   module Rounds
     class Globe
-      CompetitorData = Struct.new(:name, :color, :points)
+      CompetitorData = Struct.new(:name, :color, :points, :start_time)
 
       class EntityBuilder
         def initialize(event_track)
@@ -53,12 +53,22 @@ module Events
         }.to_json
       end
 
+      def competitors_by_groups
+        @competitors_by_groups ||= begin
+          sorted_competitors = competitors.sort_by(&:start_time)
+          sorted_competitors.slice_when do |first, second|
+            (first.start_time - second.start_time).abs >= 2.minutes
+          end
+        end
+      end
+
       def competitors
         @competitors ||= round.event_tracks.map.with_index do |event_track, index|
           CompetitorData.new.tap do |c|
             c.name = event_track.competitor.name
             c.color = colors[index]
             c.points = EntityBuilder.new(event_track).execute
+            c.start_time = c.points.first[:gps_time]
           end
         end
       end

@@ -1,0 +1,6 @@
+ru:
+  events:
+    rounds:
+      globe:
+        fast_forward: Fast-forward to competitor
+        group: Group

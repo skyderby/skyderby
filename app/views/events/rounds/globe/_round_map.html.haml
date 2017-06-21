@@ -13,10 +13,13 @@
       %thead
         %tr
           %th
-            Fast-Forward to competitor:
+            = "#{t('events.rounds.globe.fast_forward')}:"
       %tbody
-        - @round_map.competitors.each do |competitor|
+        - @round_map.competitors_by_groups.each_with_index do |group, index|
           %tr
-            %td
-              %a.fast-forward-competitor{href: '#', 'data-start-time': "#{competitor.points.first[:gps_time].xmlschema}"}
-                = competitor.name
+            %td= "#{t('events.rounds.globe.group')} #{index + 1}"
+          - group.each do |competitor|
+            %tr
+              %td
+                %a.fast-forward-competitor{href: '#', 'data-start-time': "#{competitor.points.first[:gps_time].xmlschema}"}
+                  = competitor.name
