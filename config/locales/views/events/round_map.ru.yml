@@ -1,0 +1,7 @@
+ru:
+  events:
+    rounds:
+      map:
+        competitor: Участник
+        direction: Направление
+        group: Группа

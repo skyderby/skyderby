@@ -43,6 +43,23 @@
 
 }
 
+.round-competitors__direction {
+  max-width: 50px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.round-competitors__group-row {
+  font-weight: bold;
+  color: #666;
+  cursor: pointer;
+}
+
+// parent selector specified to overwheight bootstrap style
+table.round-competitors td.round-competitors__check {
+  padding-left: 10px;
+}
+
 @keyframes placeHolderShimmer{
   0%{
     background-position: -820px 0

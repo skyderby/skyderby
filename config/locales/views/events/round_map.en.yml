@@ -1,0 +1,7 @@
+en:
+  events:
+    rounds:
+      map:
+        competitor: Competitor
+        direction: Track
+        group: Group

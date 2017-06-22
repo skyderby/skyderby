@@ -1,36 +1,30 @@
 .container-fluid.top-buffer.round-map
-  .col-sm-8
-    #round-map
-      .round-map-loading
-        %i.fa.fa-3x.fa-circle-o-notch.fa-spin
-        %p
-          Loading... 
-  .col-sm-4.round-competitors-wrap
-    %table.table.table-condensed.round-competitors
-      %thead
-        %tr
-          %th{colspan: 2}
-            Competitor
-          %th
-            Track
-      %tbody
-        - @event.sections.each do |section|
+  .row
+    .col-sm-8
+      #round-map
+        .round-map-loading
+          %i.fa.fa-3x.fa-circle-o-notch.fa-spin
+          %p
+            Loading... 
+    .col-sm-4.round-competitors-wrap
+      %table.table.table-condensed.round-competitors
+        %thead
           %tr
-            %td.round-map-round{colspan: 3}
-              = section.name
-          - section.competitors.each do |competitor|
-            - competitor_track = @round_map.competitors[competitor.id]
-            - if competitor_track
+            %th{colspan: 2}
+              = t('events.rounds.map.competitor')
+            %th.round-competitors__direction
+              = t('events.rounds.map.direction')
+        - @round_map.competitors_by_groups.each_with_index do |group, index|
+          %tbody
+            %tr.round-competitors__group-row
+              %td{colspan: 3}
+                = "#{t('events.rounds.map.group')} #{index + 1}"
+            - group.each do |competitor|
               %tr
-                %td
+                %td.round-competitors__check
                   %input{id: "competitor_#{competitor.id}",type: 'checkbox', checked: true}
                 %td.round-map-competitor
                   = competitor.name.titleize
-                  %i.fa.fa-circle{style: "color: #{competitor_track.color}"}
+                  %i.fa.fa-circle{style: "color: #{competitor.color}"}
                 %td
-                  = competitor_track.direction && "#{competitor_track.direction.round}°"
-            - else
-              %tr.disabled
-                %td
-                %td.round-map-competitor{colspan: 2}
-                  = competitor.name.titleize
+                  = competitor.direction && "#{competitor.direction.round}°"

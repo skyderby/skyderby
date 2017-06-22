@@ -4,6 +4,7 @@ class Skyderby.views.RoundMapView extends Backbone.View
 
   events:
     'change input': 'on_change_visibility'
+    'click .round-competitors__group-row': 'toggle_group_visibility'
 
   initialize: (opts) ->
     @data = opts.competitors
@@ -130,3 +131,15 @@ class Skyderby.views.RoundMapView extends Backbone.View
     current_graphics = @lines_by_competitor[el[0].id]
     for graphics in current_graphics
       graphics.setMap(map_property)
+
+  toggle_group_visibility: (e) ->
+    group_row = $(e.currentTarget)
+
+    old_state = group_row.data('selected') || 'true'
+    new_state = if old_state == 'true' then false else true
+
+    group_row.data('selected', if old_state == 'true' then 'false' else 'true')
+    inputs = group_row.closest('tbody').find('input')
+    for checkbox in inputs
+      $(checkbox).prop('checked', new_state).trigger('change')
+

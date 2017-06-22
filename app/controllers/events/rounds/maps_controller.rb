@@ -4,7 +4,7 @@ module Events
       before_action :set_round, :load_event
 
       def show
-        @round_map = Map.new(@round).build
+        @round_map = Map.new(@round)
       end
 
       private
