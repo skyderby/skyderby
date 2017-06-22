@@ -24,9 +24,7 @@
 class User < ApplicationRecord
   attr_accessor :name
 
-  has_one :profile
-
-  has_many :tracks, dependent: :destroy
+  has_one :profile, dependent: :nullify
 
   has_many :competitors
   has_many :events, through: :competitors
