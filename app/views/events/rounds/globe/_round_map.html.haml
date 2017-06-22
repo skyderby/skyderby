@@ -1,25 +1,26 @@
-.container-fluid.top-buffer.round-map
-  .col-sm-9
-    #round-map
-      #track-map-loading.text-muted
-        #track-map-loading-api.fa-2x
-          %i.fa.fa-fw.fa-spin.fa-circle-o-notch
-          Loading Cesium API
-        #track-map-loading-data.fa-2x
-          %i.fa.fa-fw.fa-check
-          Loading track data
-  .col-sm-3
-    %table.table.table-condensed
-      %thead
-        %tr
-          %th
-            = "#{t('events.rounds.globe.fast_forward')}:"
-      %tbody
-        - @round_map.competitors_by_groups.each_with_index do |group, index|
+.container-fluid.round-map
+  .row
+    .col-sm-9
+      #round-map
+        #track-map-loading.text-muted
+          #track-map-loading-api.fa-2x
+            %i.fa.fa-fw.fa-spin.fa-circle-o-notch
+            Loading Cesium API
+          #track-map-loading-data.fa-2x
+            %i.fa.fa-fw.fa-check
+            Loading track data
+    .col-sm-3
+      %table.table.table-condensed
+        %thead
           %tr
-            %td= "#{t('events.rounds.globe.group')} #{index + 1}"
-          - group.each do |competitor|
+            %th
+              = "#{t('events.rounds.globe.fast_forward')}:"
+        - @round_map.competitors_by_groups.each_with_index do |group, index|
+          %tbody
             %tr
-              %td
-                %a.fast-forward-competitor{href: '#', 'data-start-time': "#{competitor.points.first[:gps_time].xmlschema}"}
-                  = competitor.name
+              %td= "#{t('events.rounds.globe.group')} #{index + 1}"
+            - group.each do |competitor|
+              %tr
+                %td
+                  %a.fast-forward-competitor{href: '#', 'data-start-time': "#{competitor.points.first[:gps_time].xmlschema}"}
+                    = competitor.name

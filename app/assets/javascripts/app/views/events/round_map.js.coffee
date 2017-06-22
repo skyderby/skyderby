@@ -12,9 +12,6 @@ class Skyderby.views.RoundMapView extends Backbone.View
     @listenToOnce(Skyderby, 'maps_api:ready', @on_maps_api_ready)
     Skyderby.helpers.init_maps_api()
 
-    map_height = Math.max(@$('#round-map').height(), this.$el.height())
-    @$('#round-map').height(map_height)
-
   on_maps_api_ready: ->
     options =
       'zoom': 2,
