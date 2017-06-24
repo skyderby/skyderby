@@ -29,6 +29,12 @@ feature 'Upload tracks', js: true do
     expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
   end
 
+  scenario 'CyberEye file' do
+    upload_track 'cyber_eye.csv'
+
+    click_button I18n.t('general.save')
+    expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
+  end
   scenario 'Garmin gpx: one track in file' do
     upload_track 'one_track.gpx'
     click_button I18n.t('general.save')
