@@ -24,8 +24,6 @@ services:
       DB_POOL: 25
       DB_USERNAME: *DB_USERNAME
       DB_PASSWORD: *DB_PASSWORD
-      SLACK_WEBHOOK_URL: slack_webhook_url
-      SLACK_CHANNEL: '#slack_channel'
       SMTP_ADDRESS: your_smtp_address
       SMTP_PORT: your_smtp_port
       SMTP_DOMAIN: your_smtp_domain
