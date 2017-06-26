@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '< 5.1'
+gem 'rails', '~> 5.1'
 
 # Supported DB
 gem 'pg'
