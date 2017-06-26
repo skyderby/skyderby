@@ -69,6 +69,22 @@ table.round-competitors td.round-competitors__check {
   }
 }
 
+.round-map__legend-item {
+  padding-top: 10px;
+}
+
+.round-map__legend-item > i.fa {
+  font-size: 10px;
+}
+
+.round-map--start-window-color {
+  color: #fc235e;
+}
+
+.round-map--end-window-color {
+  color: #60ad42;
+}
+
 .round-map__animated-background {
   animation-duration: 1s;
   animation-fill-mode: forwards;

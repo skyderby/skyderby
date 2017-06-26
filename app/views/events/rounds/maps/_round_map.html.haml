@@ -6,6 +6,15 @@
           %i.fa.fa-3x.fa-circle-o-notch.fa-spin
           %p
             Loading... 
+      .round-map__legend
+        .round-map__legend-item
+          %i.fa.fa-circle.round-map--start-window-color
+          &mdash;
+          = t('events.rounds.map.start_window_description', altitude: @event.range_from)
+        .round-map__legend-item
+          %i.fa.fa-circle.round-map--end-window-color
+          &mdash;
+          = t('events.rounds.map.end_window_description', altitude: @event.range_to)
     .col-sm-4.round-competitors-wrap
       %table.table.table-condensed.round-competitors
         %thead

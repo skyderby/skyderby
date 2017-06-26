@@ -5,3 +5,5 @@ ru:
         competitor: Участник
         direction: Направление
         group: Группа
+        start_window_description: точка, в которой участник вошел в соревновательное окно (%{altitude} метров)
+        end_window_description: точка, в которой участник вышел из соревновательного окна (%{altitude} метров)
