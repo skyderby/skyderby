@@ -12,6 +12,7 @@ env:
   RAILS_ENV: test
 
 services:
+  - postgresql
   - redis-server
 
 before_install:
