@@ -29,6 +29,24 @@
 #
 
 describe Track, type: :model do
+  describe 'validations' do
+    it 'requires name if pilot not specified' do
+      track = create :empty_track
+      track.pilot = nil
+      track.name = nil
+
+      expect(track).not_to be_valid
+    end
+
+    it 'not require name if pilot specified' do
+      track = create :empty_track
+      track.pilot = create :profile
+      track.name = nil
+
+      expect(track).to be_valid
+    end
+  end
+
   describe '#destroy' do
     it 'can not destroy if track has competition result' do
       track = create :empty_track

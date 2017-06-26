@@ -66,7 +66,7 @@ class Track < ApplicationRecord
   has_many :virtual_comp_results, dependent: :destroy
   has_many :weather_data, as: :weather_datumable
 
-  validates :name, presence: true, if: 'pilot.blank?'
+  validates :name, presence: true, unless: :pilot
 
   before_destroy :used_in_competition?
   after_commit :perform_jobs, unless: :skip_jobs
