@@ -41,7 +41,7 @@ class Event < ApplicationRecord
   validates :responsible, :name, :range_from, :range_to, :starts_at, presence: true
 
   before_validation :check_name_and_range, on: :create
-  after_save :set_tracks_visibility, on: :update, if: :visibility_changed?
+  after_save :set_tracks_visibility, on: :update, if: :saved_change_to_visibility?
 
   delegate :name, to: :place, prefix: true, allow_nil: true
   delegate :msl, to: :place, prefix: true, allow_nil: true

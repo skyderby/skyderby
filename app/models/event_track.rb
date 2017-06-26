@@ -76,7 +76,7 @@ class EventTrack < ApplicationRecord
   end
 
   def calc_result
-    return unless track_id_changed?
+    return unless saved_change_to_track_id?
 
     self.result = EventResultService.new(track, round).calculate
 

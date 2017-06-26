@@ -47,4 +47,34 @@ describe Event, type: :model do
   it 'blank responsible does not allowed' do
     expect(Event.create(responsible: nil)).not_to be_valid
   end
+
+  describe 'changes visibility of tracks on event visibility change' do
+    it 'changes to public if event becomes public' do
+      event = create :event, visibility: Event.visibilities[:private_event]
+      section = create :section, event: event
+      competitor = create :competitor, section: section
+      round = create :round, event: event
+      track = create :empty_track, visibility: Track.visibilities[:unlisted_track]
+      event_track = create :event_track, competitor: competitor, round: round,  track: track
+
+      event.public_event!
+      track.reload
+
+      expect(track.public_track?).to be_truthy
+    end
+
+    it 'changes to unlisted if event becomes unlisted or private' do
+      event = create :event, visibility: Event.visibilities[:public_event]
+      section = create :section, event: event
+      competitor = create :competitor, section: section
+      round = create :round, event: event
+      track = create :empty_track, visibility: Track.visibilities[:public_track]
+      event_track = create :event_track, competitor: competitor, round: round,  track: track
+
+      event.private_event!
+      track.reload
+
+      expect(track.unlisted_track?).to be_truthy
+    end
+  end
 end
