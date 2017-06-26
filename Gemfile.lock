@@ -262,7 +262,6 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.1)
-    slack-notifier (1.5.1)
     spring (2.0.0)
       activesupport (>= 4.2)
     sprockets (3.7.1)
@@ -341,7 +340,6 @@ DEPENDENCIES
   scenic
   sidekiq (< 5)
   simplecov
-  slack-notifier
   spring
   turbolinks
   uglifier (>= 2.7.2)

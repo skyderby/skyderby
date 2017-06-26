@@ -31,9 +31,6 @@ gem 'sidekiq', ' < 5'
 # Exception notifications
 gem 'honeybadger', '~> 3.1'
 
-# Slack integration
-gem 'slack-notifier'
-
 # Internalization
 gem 'i18n-js', '>= 3.0.0.rc8'
 gem 'http_accept_language'
