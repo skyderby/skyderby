@@ -7,12 +7,12 @@
   .content-block
     = form_for @profile, html: {class: 'edit-user-profile form-horizontal'} do |f|
       .form-group
-        = f.label t('activerecord.attributes.profile.name'), class: 'col-sm-2 control-label', for: :name
+        = f.label :name, class: 'col-sm-2 control-label'
         .col-sm-5
           = f.text_field :name, autofocus: true, class: 'form-control'
 
       .form-group
-        = f.label :country, class: 'col-sm-2 control-label', for: :country
+        = f.label :country, class: 'col-sm-2 control-label'
         .col-sm-5
           = f.select :country_id,
                      options_for_select([[@profile.country_name, @profile.country_id]], @profile.country_id),
@@ -26,9 +26,9 @@
 
       .form-group
         .col-sm-offset-2.col-sm-8
-          = f.submit t('general.update'), class: 'btn btn-primary'
+          = f.submit t('general.save'), class: 'btn btn-primary'
 
-  - if @profile.user
+  - if @profile.owner && @profile.belongs_to_user?
     %a.col-sm-offset-2{data: {toggle: 'modal', target: '#CredentialsModal'}}
       = t('users.profile.edit.edit_email_pass')
 

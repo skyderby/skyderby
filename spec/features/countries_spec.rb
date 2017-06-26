@@ -43,11 +43,4 @@ feature 'Manage countries' do
 
     expect(page).not_to have_content('Destroy')
   end
-
-  def sign_in_as_admin
-    user = create :user
-    role = Role.create!(name: :admin)
-    user.assignments << Assignment.new(role: role)
-    sign_in user
-  end
 end

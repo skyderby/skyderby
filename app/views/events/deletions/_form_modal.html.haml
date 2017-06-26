@@ -1,0 +1,39 @@
+.modal-dialog
+  .modal-content
+    = form_for :event_deletion, url: event_deletion_path(@event), remote: true, html: { class: 'form-horizontal' } do |f|
+      .modal-header
+        %button.close{type: 'button', data: {dismiss: 'modal'}}
+          %span{aria: {hidden: 'true'}}
+            &times;
+          %span.sr-only
+            Close
+        %h4.modal-title
+          Are you ABSOLUTELY sure?
+
+      .modal-body
+        .form-group
+          .col-sm-12
+            This action 
+            %b
+              CANNOT
+            be undone. This will permanently delete the 
+            %b
+              = @event.name
+            \.
+            %br
+            Please type in the name of the event to confirm.
+
+        .form-group
+          .col-sm-12
+            = f.text_field :event_name, class: 'form-control input-lg'
+
+        .form-group
+          .col-sm-12
+            .checkbox
+              %label
+                = f.check_box :delete_tracks
+                Delete tracks
+
+      .modal-footer
+        = f.submit t('general.delete'), class: 'btn btn-danger'
+        %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

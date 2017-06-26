@@ -20,8 +20,8 @@
                       class: 'btn-flat text-danger'
 
 
-          - if @profile.user && policy(@profile).masquerade?
-            = link_to new_user_masquerades_path(@profile.user), class: 'btn-flat' do
+          - if @profile.belongs_to_user? && policy(@profile).masquerade?
+            = link_to new_user_masquerades_path(@profile.owner), class: 'btn-flat' do
               %i.fa.fa-magic
               Masquerade
 

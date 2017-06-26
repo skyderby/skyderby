@@ -13,18 +13,17 @@
 #  profile_id  :integer
 #
 
-require 'rails_helper'
 require 'support/event_ongoing_validation'
 
-RSpec.describe Competitor, type: :model do
+describe Competitor, type: :model do
   it 'can create profile if not set' do
     wingsuit     = create :wingsuit
     section      = create :section
     profile_name = 'Mario McTester'
 
     competitor = Competitor.create(
-      profile_attributes: {name: profile_name},
-      profile_mode: :new,
+      profile_attributes: { name: profile_name },
+      profile_mode: :create,
       wingsuit: wingsuit,
       event: section.event,
       section: section

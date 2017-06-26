@@ -25,7 +25,9 @@ class ProfileMerge
     return ErrorResult.new if source == destination
 
     destination.transaction do
-      destination.update_columns(user_id: source.user_id) if source.user_id
+      if source.owner && source.belongs_to_user?
+        destination.update_columns(owner_id: source.owner_id, owner_type: source.owner_type)
+      end
 
       destination.country_id ||= source.country_id
       destination.userpic = source.userpic

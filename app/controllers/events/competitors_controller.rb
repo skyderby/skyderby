@@ -63,7 +63,12 @@ module Events
         :section_id,
         :event_id,
         profile_attributes: [:name, :country_id]
-      )
+      ).tap do |p|
+        p[:profile_attributes] = p[:profile_attributes].merge(
+          owner_type: 'Event',
+          owner_id: params[:event_id]
+        )
+      end
     end
   end
 end

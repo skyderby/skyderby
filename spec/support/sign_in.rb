@@ -14,6 +14,13 @@ module SignInHelpers
   def sign_out
     visit destroy_user_session_path
   end
+
+  def sign_in_as_admin
+    user = create :user
+    role = Role.create!(name: :admin)
+    user.assignments << Assignment.new(role: role)
+    sign_in user
+  end
 end
 
 RSpec.configure do |config|

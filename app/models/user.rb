@@ -24,7 +24,7 @@
 class User < ApplicationRecord
   attr_accessor :name
 
-  has_one :profile, dependent: :nullify
+  has_one :profile, as: :owner, dependent: :nullify
 
   has_many :competitors
   has_many :events, through: :competitors
@@ -48,7 +48,7 @@ class User < ApplicationRecord
   private
 
   def build_profile
-    Profile.new(user: self, name: name)
+    create_profile(name: name)
   end
 
   def assign_default_role

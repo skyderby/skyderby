@@ -62,7 +62,7 @@ feature 'WBR: Scoring tracks' do
     params = {
       track_file_id: track_file.id,
       pilot: pilot,
-      user: pilot.user,
+      user: pilot.owner,
       wingsuit: suit
     }
     CreateTrackService.new(params).execute

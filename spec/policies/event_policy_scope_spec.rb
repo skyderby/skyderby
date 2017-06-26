@@ -58,9 +58,8 @@ describe EventPolicy do
 
       it "#{status} #{visibility} events" do
         current_user = create(:user)
-        profile = create(:profile, user: current_user)
         event = create(:event,
-                       responsible: profile,
+                       responsible: current_user.profile,
                        status: Event.statuses[status],
                        visibility: Event.visibilities[visibility])
 

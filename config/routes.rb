@@ -75,6 +75,7 @@ Skyderby::Application.routes.draw do
       resources :event_tracks
       resources :event_organizers
 
+      resource :deletion, only: [:new, :create]
       collection do
         resources :select_options, only: :index
       end

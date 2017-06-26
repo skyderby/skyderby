@@ -29,17 +29,22 @@ class Profile < ApplicationRecord
   enum default_units: [:metric, :imperial]
   enum default_chart_view: [:multi, :single]
 
-  belongs_to :user, optional: true
   belongs_to :country, optional: true
+  belongs_to :owner, polymorphic: true, optional: true
 
   has_many :tracks, -> { order('created_at DESC') }
   has_many :public_tracks,
            -> { where(visibility: 0).order('created_at DESC') },
            class_name: 'Track'
   has_many :badges
+  has_many :events
   has_many :event_organizers
   has_many :competitors
   has_many :personal_top_scores
+
+  scope :owned_by_users, -> do
+    joins("INNER JOIN users ON owner_id = users.id AND owner_type = 'User'")
+  end
 
   has_attached_file :userpic,
                     styles: { large: '500x500>',
@@ -69,6 +74,22 @@ class Profile < ApplicationRecord
 
   def participant_of_events
     organizer_of_events + competitor_of_events
+  end
+
+  def responsible_of_events
+    events.pluck(:id)
+  end
+
+  def belongs_to_user?
+    owner_type == 'User'
+  end
+
+  def belongs_to_event?
+    owner_type == 'Event'
+  end
+
+  def belongs_to_tournament?
+    owner_type == 'Tournament'
   end
 
   class << self

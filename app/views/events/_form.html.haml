@@ -86,5 +86,7 @@
           = t('general.enabled')
 
   %div{class: ('modal-footer' if modal)}
+    - if @event.persisted?
+      = link_to t('general.delete'), new_event_deletion_path(@event), remote: true, class: 'pull-left btn btn-danger'
     = f.submit t('general.save'), class: 'btn btn-primary'
     %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

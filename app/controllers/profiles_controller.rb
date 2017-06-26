@@ -4,7 +4,7 @@ class ProfilesController < ApplicationController
 
   def index
     authorize Profile
-    @profiles = Profile.includes(:user, :country).order(:name)
+    @profiles = Profile.includes(:country).order(:name)
   end
 
   def show

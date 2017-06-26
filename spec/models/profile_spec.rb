@@ -42,4 +42,27 @@ describe Profile, type: :model do
       expect(profile.cropping?).to be_falsey
     end
   end
+
+  describe '#belongs_to_user?' do
+    it 'true if belongs to user' do
+      user = create :user
+      expect(user.profile.belongs_to_user?).to be_truthy
+    end
+  end
+
+  describe '#belongs_to_event?' do
+    it 'true if belongs to event' do
+      event = create :event
+      profile = create :profile, owner: event
+      expect(profile.belongs_to_event?).to be_truthy
+    end
+  end
+
+  describe '#belongs_to_tournament?' do
+    it 'true if belongs to tournament' do
+      tournament = create :tournament
+      profile = create :profile, owner: tournament
+      expect(profile.belongs_to_tournament?).to be_truthy
+    end
+  end
 end

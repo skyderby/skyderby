@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170516085203) do
+ActiveRecord::Schema.define(version: 20170623180637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,19 +108,20 @@ ActiveRecord::Schema.define(version: 20170516085203) do
   end
 
   create_table "points", force: :cascade do |t|
-    t.float    "fl_time"
-    t.decimal  "latitude",            precision: 15, scale: 10
-    t.decimal  "longitude",           precision: 15, scale: 10
-    t.float    "elevation"
-    t.datetime "point_created_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.float    "distance"
-    t.float    "v_speed"
-    t.float    "h_speed"
-    t.float    "abs_altitude"
-    t.decimal  "gps_time_in_seconds", precision: 17, scale: 3
-    t.integer  "track_id"
+    t.float   "fl_time"
+    t.decimal "latitude",            precision: 15, scale: 10
+    t.decimal "longitude",           precision: 15, scale: 10
+    t.float   "elevation"
+    t.float   "distance"
+    t.float   "v_speed"
+    t.float   "h_speed"
+    t.float   "abs_altitude"
+    t.decimal "gps_time_in_seconds", precision: 17, scale: 3
+    t.integer "track_id"
+    t.index "track_id, fl_time, floor(gps_time_in_seconds)", name: "points_track_fl_time", using: :btree
+    t.index ["track_id", "abs_altitude"], name: "points_abs_altitude", using: :btree
+    t.index ["track_id", "fl_time"], name: "index_points_on_track_id_and_fl_time", using: :btree
+    t.index ["track_id", "fl_time"], name: "points_alt_sel", using: :btree
     t.index ["track_id"], name: "index_points_on_track_id", using: :btree
   end
 
@@ -132,13 +133,14 @@ ActiveRecord::Schema.define(version: 20170516085203) do
     t.string   "userpic_content_type", limit: 510
     t.integer  "userpic_file_size"
     t.datetime "userpic_updated_at"
-    t.integer  "user_id"
     t.integer  "default_units",                    default: 0
     t.integer  "default_chart_view",               default: 0
     t.integer  "country_id"
+    t.string   "owner_type"
+    t.integer  "owner_id"
     t.index ["country_id"], name: "index_profiles_on_country_id", using: :btree
     t.index ["country_id"], name: "user_profiles_country_id_idx", using: :btree
-    t.index ["user_id"], name: "index_profiles_on_user_id", using: :btree
+    t.index ["owner_type", "owner_id"], name: "index_profiles_on_owner_type_and_owner_id", using: :btree
   end
 
   create_table "qualification_jumps", force: :cascade do |t|
@@ -221,10 +223,9 @@ ActiveRecord::Schema.define(version: 20170516085203) do
   create_table "tournament_matches", force: :cascade do |t|
     t.decimal  "start_time_in_seconds", precision: 17, scale: 3
     t.integer  "tournament_round_id"
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
-    t.boolean  "gold_finals"
-    t.boolean  "bronze_finals"
+    t.datetime "created_at",                                                 null: false
+    t.datetime "updated_at",                                                 null: false
+    t.integer  "match_type",                                     default: 0, null: false
     t.index ["tournament_round_id"], name: "index_tournament_matches_on_tournament_round_id", using: :btree
   end
 
@@ -250,6 +251,7 @@ ActiveRecord::Schema.define(version: 20170516085203) do
     t.decimal  "exit_lat",                     precision: 15, scale: 10
     t.decimal  "exit_lon",                     precision: 15, scale: 10
     t.integer  "profile_id"
+    t.integer  "bracket_size"
     t.index ["profile_id"], name: "index_tournaments_on_profile_id", using: :btree
   end
 
@@ -307,6 +309,7 @@ ActiveRecord::Schema.define(version: 20170516085203) do
     t.integer  "track_file_id"
     t.decimal  "ground_level",                  precision: 5, scale: 1, default: "0.0"
     t.datetime "recorded_at"
+    t.index ["id", "ff_start", "ff_end"], name: "index_tracks_on_id_and_ff_start_and_ff_end", using: :btree
     t.index ["place_id"], name: "index_tracks_on_place_id", using: :btree
     t.index ["profile_id"], name: "index_tracks_on_profile_id", using: :btree
     t.index ["user_id"], name: "index_tracks_on_user_id", using: :btree

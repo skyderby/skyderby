@@ -26,11 +26,24 @@ describe ProfileMerge do
   end
 
   it 'merges user from source profile if filled' do
-    source_profile = create :profile, user_id: 3
+    user = create :user
+    source_profile = user.profile
     destination = create :profile
 
     ProfileMerge.new(source: source_profile, destination: destination).execute
 
-    expect(destination.user_id).to eql(3)
+    expect(destination.owner).to eql(user)
+  end
+
+  it 'does not merge owner if owner is not user' do
+    event = create :event
+    source_profile = create :profile, owner: event
+
+    user = create :user
+    destination = user.profile
+
+    ProfileMerge.new(source: source_profile, destination: destination).execute
+
+    expect(destination.owner).to eql(user)
   end
 end
