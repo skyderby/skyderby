@@ -2,3 +2,40 @@
   padding-left: 15px;
   padding-right: 15px;
 }
+
+.track-header__track-id {
+  margin-top: 15px;
+
+  color: rgba(0, 0, 0, 0.54);
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.track-header__pilot {
+  margin-top: 10px;
+}
+
+.track-header__pilot-link {
+  display: table;
+  font-size: 18px;
+}
+
+.track-header__pilot-photo {
+  display: table-cell;
+  padding-right: 10px;
+}
+
+.track-header__pilot-name {
+  display: table-cell;
+}
+
+.track-header__suit {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.track-header__place {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}

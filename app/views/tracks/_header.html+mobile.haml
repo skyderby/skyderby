@@ -9,12 +9,16 @@
 
   .track-header__pilot
     - if track.pilot
-      %a{href: profile_path(track.pilot)}
-        = image_tag track.pilot.userpic.url(:thumb), :class => 'img-rounded img-50 loading-bg'
-        = track.pilot.name
+      = link_to profile_path(track.pilot), class: 'track-header__pilot-link' do
+        .track-header__pilot-photo
+          = image_tag track.pilot.userpic.url(:thumb), :class => 'img-rounded img-50 loading-bg'
+        .track-header__pilot-name
+          = track.pilot.name
     - else
-      = track.name
-  .track-header__wingsuit
+      .track-header__pilot-link
+        .track-header__pilot-name
+          = track.name
+  .track-header__suit
     %span= t('tracks.show.title_suit') + ':' 
     - if track.wingsuit
       - manufacturer = track.wingsuit.manufacturer
@@ -24,7 +28,7 @@
       %span= track.suit
   .track-header__place
     %span.no-right-space
-      @
+      %i.fa.fa-map-marker
       - if track.place
         %a{href: place_path(track.place)}
           %span
