@@ -33,9 +33,9 @@ module TrackParser
 
     def parse_row(row)
       PointRecord.new.tap do |r|
-        r.latitude     = BigDecimal.new row[LATITUDE]
-        r.longitude    = BigDecimal.new row[LONGITUDE]
-        r.abs_altitude = BigDecimal.new row[ALTITUDE]
+        r.latitude     = BigDecimal.new(row[LATITUDE]).truncate(10)
+        r.longitude    = BigDecimal.new(row[LONGITUDE]).truncate(10)
+        r.abs_altitude = BigDecimal.new(row[ALTITUDE]).truncate(2)
         r.h_speed = ground_speed_from_components(
           north: row[SPEED_NORTH],
           east: row[SPEED_EAST]
