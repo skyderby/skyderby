@@ -91,13 +91,5 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
-  config.active_job.queue_adapter     = :sidekiq
-
-  Rails.application.config.middleware.use(
-    ExceptionNotification::Rack,
-    slack: {
-      webhook_url: ENV['SLACK_WEBHOOK_URL'],
-      channel: ENV['SLACK_CHANNEL']
-    }
-  )
+  config.active_job.queue_adapter = :sidekiq
 end
