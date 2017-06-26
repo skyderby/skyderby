@@ -18,8 +18,18 @@
 #  profile_id       :integer
 #
 
-require 'rails_helper'
+describe Tournament, type: :model do
+  describe '#with_qualification?' do
+    it 'returns true if qulification round exists' do
+      tournament = create :tournament
+      qualification_round = create :qualification_round, tournament: tournament
 
-RSpec.describe Tournament, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+      expect(tournament.with_qualification?).to be_truthy
+    end
+
+    it 'returns false if no qulification round exists' do
+      tournament = create :tournament
+      expect(tournament.with_qualification?).to be_falsey
+    end
+  end
 end
