@@ -35,7 +35,8 @@ module Manage
     def top_active_users
       Track.where('tracks.created_at > ?', 1.year.ago.beginning_of_month)
            .joins(:pilot)
-           .where.not(profiles: { user_id: nil })
+           .where(profiles: { owner_type: 'User' })
+           .where.not(profiles: { owner_id: nil })
            .group('profile_id')
            .order('count_all desc')
            .limit(12)
