@@ -48,7 +48,8 @@ class ApplicationController < ActionController::Base
   end
 
   def process_locale_param
-    locale = params.delete(:locale)
+    locale_param = params.delete(:locale).to_s.first(2)
+    locale = I18n.available_locales.detect { |x| x.to_s == locale_param }
     cookies[:locale] = locale if locale
   end
 
