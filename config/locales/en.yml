@@ -13,6 +13,8 @@ en:
     enabled: Enabled
     disabled: Disabled
     settings: Settings
+    select_all: Select all
+    unselect_all: Unselect all
   users:
     profile:
       edit:

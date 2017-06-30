@@ -5,6 +5,8 @@ class Skyderby.views.RoundMapView extends Backbone.View
   events:
     'change input': 'on_change_visibility'
     'click .round-competitors__group-row': 'toggle_group_visibility'
+    'click .round-competitors__select-all': 'select_all'
+    'click .round-competitors__unselect-all': 'unselect_all'
 
   initialize: (opts) ->
     @data = opts.competitors
@@ -134,12 +136,21 @@ class Skyderby.views.RoundMapView extends Backbone.View
 
   toggle_group_visibility: (e) ->
     group_row = $(e.currentTarget)
+    tbody = group_row.closest('tbody')
 
-    old_state = group_row.data('selected') || 'true'
-    new_state = if old_state == 'true' then false else true
+    has_unchecked = tbody.find('input:not(:checked)').length > 0
+    new_state = if has_unchecked then true else false
 
-    group_row.data('selected', if old_state == 'true' then 'false' else 'true')
-    inputs = group_row.closest('tbody').find('input')
+    inputs = tbody.find('input')
     for checkbox in inputs
       $(checkbox).prop('checked', new_state).trigger('change')
 
+  select_all: (e) ->
+    e.currentTarget.blur()
+    $('.round-competitors input').prop('checked', true).trigger('change')
+    $('.round-competitors__group-row').data('selected', true)
+
+  unselect_all: (e) ->
+    e.currentTarget.blur()
+    $('.round-competitors input').prop('checked', false ).trigger('change')
+    $('.round-competitors__group-row').data('selected', false)

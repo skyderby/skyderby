@@ -16,6 +16,8 @@ ru:
     enabled: 'Включено'
     disabled: 'Выключено'
     settings: 'Настройки'
+    select_all: Выбрать все
+    unselect_all: Снять все
   users:
     profile:
       edit:

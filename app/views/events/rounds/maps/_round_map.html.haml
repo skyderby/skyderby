@@ -16,6 +16,10 @@
           &mdash;
           = t('events.rounds.map.end_window_description', altitude: @event.range_to)
     .col-sm-4.round-competitors-wrap
+      %button.btn.btn-xs.btn-default.round-competitors__select-all
+        = t('general.select_all')
+      %button.btn.btn-xs.btn-default.round-competitors__unselect-all
+        = t('general.unselect_all')
       %table.table.table-condensed.round-competitors
         %thead
           %tr
