@@ -30,7 +30,6 @@ class Skyderby.views.RoundMapView extends Backbone.View
     lat_bounds = []
     lon_bounds = []
 
-
     for competitor_data in @data
 
       polyline = new google.maps.Polyline

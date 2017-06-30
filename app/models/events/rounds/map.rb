@@ -26,11 +26,10 @@ module Events
 
       def initialize(round)
         @round = round
-        @color_index = 0
       end
 
       def competitors
-        @competitors ||= @round.event_tracks.map do |event_track|
+        @competitors ||= round.event_tracks.map do |event_track|
           competitor_track(event_track)
         end
       end
@@ -38,6 +37,9 @@ module Events
       def competitors_by_groups
         @competitors_by_groups ||= begin
           sorted_competitors = competitors.sort_by(&:start_time)
+          sorted_competitors.each_with_index do |competitor_info, index|
+            competitor_info.color = colors[index]
+          end
           sorted_competitors.slice_when do |first, second|
             (first.start_time - second.start_time).abs >= 2.minutes
           end
@@ -59,14 +61,16 @@ module Events
 
       private
 
+      attr_reader :round
+
       def competitor_track(event_track)
         competitor_info = CompetitorTrack.new(event_track.competitor)
         points = track_points(event_track.track)
         competitor_info.path_coordinates = path_coordinates(points)
         begin
           track_segment = WindowRangeFinder.new(points).execute(
-            from_altitude: @round.range_from,
-            to_altitude: @round.range_to
+            from_altitude: round.range_from,
+            to_altitude: round.range_to
           )
           competitor_info.start_point = map_marker(track_segment.start_point)
           competitor_info.end_point = map_marker(track_segment.end_point)
@@ -77,7 +81,6 @@ module Events
           competitor_info.end_point = map_marker(points.last)
         end
         competitor_info.start_time = points.first[:gps_time]
-        competitor_info.color = color
         competitor_info
       end
 
@@ -89,9 +92,8 @@ module Events
         { lat: point[:latitude].to_f, lng: point[:longitude].to_f }
       end
 
-      def color
-        @color_index += 1
-        COLORS[@color_index]
+      def colors
+        COLORS * (round.event_tracks.size.to_f / COLORS.size).ceil
       end
 
       def track_points(track)

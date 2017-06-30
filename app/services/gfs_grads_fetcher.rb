@@ -73,7 +73,7 @@ class GfsGradsFetcher
   end
 
   def time_param
-    "[#{((date_time.to_time - dataset.start_time.to_time) / 1.hour).to_i}]"
+    "[#{(date_time.to_time - dataset.start_time.to_time) / 1.hour.to_i}]"
   end
 
   def normalized_longitude
