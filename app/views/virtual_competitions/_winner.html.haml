@@ -5,13 +5,15 @@
         = image_tag(result.profile.userpic.url(:medium), 
                     class: 'img-responsive img-rounded')
       .col-sm-8.col-md-8
-        %a.vc-profile-name{href: profile_path(result.profile), 
-          data: {toggle: 'tooltip'}, 
-          title: t('virtual_competitions.show.show_profile')}
-          = result.profile.name.titleize
+        = link_to result.profile.name.titleize,
+                  profile_path(result.profile),
+                  'data-toggle' => 'tooltip',
+                  title: t('virtual_competitions.show.show_profile'),
+                  class: 'dotted-underline vc-profile-name'
         %div
-          %a.vc-result-link{href: track_path(result.track_id), 
-              data: {toggle: 'tooltip'}, 
-              title: t('virtual_competitions.show.show_details')}
+          = link_to track_path(result.track_id),
+                    'data-toggle' => 'tooltip',
+                    title: t('virtual_competitions.show.show_details'),
+                    class: 'dotted-underline' do
             %span.vc-result= format_result(result.result, result.virtual_competition)
             %span.vc-unit= competition_unit(result.virtual_competition)

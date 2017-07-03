@@ -1,0 +1,35 @@
+.modal-dialog
+  .modal-content
+    .modal-header
+      .pull-right
+        %button.close{type: 'button', data: {dismiss: 'modal'}}
+          %span{aria: {hidden: 'true'}}
+            &times;
+          %span.sr-only
+            Close
+      %h4.modal-title
+        = t('virtual_competitions.person_details.modal_title')
+ 
+    .modal-body
+      %table.table
+        %thead
+          %th=t 'activerecord.attributes.track.suit'
+          - if @details.competition.worldwide?
+            %th= t 'activerecord.attributes.track.place'
+          %th.text-right
+            Result
+          %th.text-right=t 'activerecord.attributes.track.recorded_at'
+        %tbody
+          - @details.top_results.each do |record|
+            %tr
+              %td= suit_presentation(record.wingsuit)
+              - if @details.competition.worldwide?
+                %td= track_place(record.track)
+              %td.text-right= format_result(record.result, @details.competition)
+              %td.text-right= record.track.recorded_at.strftime('%d.%m.%Y')
+
+      #person-details__chart
+
+    .modal-footer
+      %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}
+        OK

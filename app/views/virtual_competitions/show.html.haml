@@ -57,27 +57,35 @@
                 %th.text-right= 'Best G/R'
               %th.text-right=t 'activerecord.attributes.track.recorded_at'
               %th
+              %th
           %tbody
             - @competition.scores.each do |score|
               %tr
                 %td= score.rank
                 %td
-                  = link_to(score.profile.name.titleize,
+                  = link_to score.profile.name.titleize,
                             score.profile,
                             'data-toggle' => 'tooltip',
-                            title: t('.show_profile'))
+                            title: t('.show_profile'),
+                            class: 'dotted-underline'
                 %td= suit_presentation(score.wingsuit)
                 - if @competition.worldwide?
                   %td= track_place(score.track)
-                %td.text-right= link_to format_result(score.result, @competition),
-                  score.track,
-                  'data-toggle' => 'tooltip',
-                  title: t('.show_details')
+                %td.text-right
+                  = link_to format_result(score.result, @competition),
+                            score.track,
+                            'data-toggle' => 'tooltip',
+                            title: t('.show_details'),
+                            class: 'dotted-underline'
                 - if @competition.display_highest_speed
                   %td.text-right= (score.highest_speed || 0.0).round(1)
                 - if @competition.display_highest_gr
                   %td.text-right= (score.highest_gr || 0.0).round(2)
                 %td.text-right= score.recorded_at.strftime('%d.%m.%Y')
+                %td
+                  = link_to virtual_competition_person_details_path(@competition, profile_id: score.profile),
+                            remote: true do
+                    %i.fa.fa-list.text-muted
                 %td
                   - if score.track.video
                     %i.fa.fa-video-camera

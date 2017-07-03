@@ -125,7 +125,11 @@ Skyderby::Application.routes.draw do
     resources :weather_data, only: [:index]
   end
 
-  resources :virtual_competitions, concerns: :sponsorable
+  resources :virtual_competitions, concerns: :sponsorable do
+    scope module: :virtual_competitions do
+      resource :person_details, only: :show
+    end
+  end
   resources :virtual_comp_groups
   resources :virtual_comp_results
 

@@ -62,24 +62,6 @@
     border-top-width: 0px !important;
 }
 
-.panel-heading a,
-.vc-profile-name,
-.vc-result-link,
-.vc-scoreboard-table a {
-  color: rgb(51, 51, 51);
-  border-bottom-style: dotted;
-  border-bottom-width: 1.1px;
-}
-
-.panel-heading a:hover,
-.vc-profile-name:hover,
-.vc-result-link:hover,
-.vc-scoreboard-table a:hover {
-  color: rgb(51, 51, 51);
-  border-bottom-style: solid;
-  text-decoration: none;
-}
-
 .online-competitions-list tr > td:nth-child(1) { width: 50% }
 .online-competitions-list tr > td:nth-child(2) { width: 25% }
 .online-competitions-list tr > td:nth-child(3) { width: 25% }

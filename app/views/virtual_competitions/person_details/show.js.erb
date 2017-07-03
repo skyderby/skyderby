@@ -1,0 +1,48 @@
+$('#modal').html('<%= j render('show_modal') %>');
+$('#modal').modal('show');
+
+Highcharts.chart('person-details__chart', {
+  chart: {
+    type: 'column',
+    height: '200'
+  },
+  title: {
+    text: ''
+  },
+  xAxis: {
+    type: 'datetime',
+    labels: {
+      enabled: false
+    },
+    title: {
+      text: ''
+    }
+  },
+  yAxis: {
+    title: {
+      text: ''
+    },
+    min: 0
+  },
+  plotOptions: {
+    spline: {
+      marker: {
+        enabled: true
+      }
+    }
+  },
+  credits: {
+    enabled: false
+  },
+  legend: {
+    enabled: false
+  },
+  series: [{
+    name: 'Result',
+    data: <%= @details.chart_data %>
+  }]
+});
+
+$('#modal').one('shown.bs.modal', function() {
+  $('.virtual-competition-person-details__chart').highcharts().reflow();
+});
