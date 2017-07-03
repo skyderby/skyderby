@@ -55,6 +55,6 @@ class Tournament < ApplicationRecord
   end
 
   def with_qualification?
-    qualification_rounds.any?
+    has_qualification
   end
 end

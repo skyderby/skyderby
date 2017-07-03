@@ -81,6 +81,12 @@
         .col-sm-4
           = number_field_tag :finish_line_length, nil, class: 'form-control'
 
+      .form-group
+        = f.label 'Has qualification', for: :has_qualification, class: 'control-label col-sm-2'
+        .col-sm-4
+          = f.check_box :has_qualification, class: 'form-control'
+
+
       .col-sm-offset-4.col-sm-8
         = f.submit nil, class: 'btn btn-primary'
         - path = @tournament.persisted? ? tournament_path(@tournament) : events_path

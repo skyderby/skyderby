@@ -63,7 +63,8 @@ class TournamentsController < ApplicationController
       :starts_at,
       :exit_lat,
       :exit_lon,
-      :bracket_size
+      :bracket_size,
+      :has_qualification
     )
   end
 end
