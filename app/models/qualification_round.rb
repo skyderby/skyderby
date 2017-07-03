@@ -12,4 +12,14 @@
 class QualificationRound < ApplicationRecord
   belongs_to :tournament
   has_many :qualification_jumps
+
+  before_create :set_order
+
+  def set_order
+    self.order = max_order_within_event + 1
+  end
+
+  def max_order_within_event
+    QualificationRound.where(tournament_id: tournament_id).maximum(:order) || 0
+  end
 end

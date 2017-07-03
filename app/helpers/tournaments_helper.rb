@@ -19,8 +19,9 @@ module TournamentsHelper
         competitor_jump_results << q_jump.result
         competitor_result["round_#{q_round.order}"] = q_jump.result
         competitor_result["round_#{q_round.order}_track_id"] = q_jump.track_id
+        competitor_result["round_#{q_round.order}_result_id"] = q_jump.id
       end
-      competitor_result[:best_result] = competitor_jump_results.min
+      competitor_result[:best_result] = competitor_jump_results.compact.min
       results << competitor_result
     end
 

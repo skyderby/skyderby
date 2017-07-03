@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170703112632) do
+ActiveRecord::Schema.define(version: 20170703142033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -145,6 +145,7 @@ ActiveRecord::Schema.define(version: 20170703112632) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "start_time_in_seconds", precision: 17, scale: 3
+    t.index ["qualification_round_id", "tournament_competitor_id"], name: "index_qualification_jumps_on_round_and_competitor", unique: true
   end
 
   create_table "qualification_rounds", id: :serial, force: :cascade do |t|
@@ -406,6 +407,7 @@ ActiveRecord::Schema.define(version: 20170703112632) do
   add_foreign_key "event_tracks", "tracks"
   add_foreign_key "events", "profiles"
   add_foreign_key "profiles", "countries"
+  add_foreign_key "qualification_jumps", "tracks"
   add_foreign_key "tournament_competitors", "profiles"
   add_foreign_key "tournaments", "profiles"
   add_foreign_key "tracks", "profiles"

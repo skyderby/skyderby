@@ -94,6 +94,10 @@ class Track < ApplicationRecord
     end
   end
 
+  def start_time
+    points.trimmed.first&.gps_time
+  end
+
   def abs_altitude?
     ge_enabled
   end

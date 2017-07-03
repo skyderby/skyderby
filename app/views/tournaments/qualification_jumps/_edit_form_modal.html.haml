@@ -1,0 +1,35 @@
+.modal-dialog
+  .modal-content
+    = form_for [@tournament, @qualification_jump], remote: true, html: { multipart:true, class: 'form-horizontal' } do |f|
+      .modal-header
+        %button.close{type: 'button', data: {dismiss: 'modal'}}
+          %span{aria: {hidden: 'true'}}
+            &times;
+          %span.sr-only
+            Close
+        %h4.modal-title
+          = t('activerecord.models.qualification_jump')
+ 
+      .modal-body
+        .form-group
+          %label.control-label.col-sm-4
+            Apx. start time
+          .col-sm-8
+            %p.form-control-static
+              = @qualification_jump.track_start_time.strftime('%Y-%m-%d %T.%L')
+
+        .form-group
+          %label.control-label.col-sm-4
+            Start time
+          .col-sm-8
+            = f.text_field :start_time, class: 'form-control', value: @qualification_jump.start_time&.strftime('%Y-%m-%d %T.%L')
+
+        .form-group
+          = f.label :result, class: 'control-label col-sm-4'
+          .col-sm-8
+            = f.number_field :result, class: 'form-control'
+
+
+      .modal-footer
+        = f.submit t('general.save'), class: 'btn btn-primary', 'data-disable-with': t('general.saving')
+        %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'
