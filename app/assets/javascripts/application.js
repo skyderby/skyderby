@@ -38,6 +38,7 @@
 //= require highcharts
 //= require highcharts-more
 //= require jquery.Jcrop
+//= require geospatial
 //= require app/app
 //= require_tree ./events
 //= require_tree ./common
