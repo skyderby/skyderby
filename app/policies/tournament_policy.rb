@@ -6,4 +6,13 @@ class TournamentPolicy < ApplicationPolicy
   def show?
     true
   end
+
+  def update?
+    organizer? || admin?
+  end
+
+  def organizer?
+    return false unless user&.profile
+    record.responsible == user.profile
+  end
 end
