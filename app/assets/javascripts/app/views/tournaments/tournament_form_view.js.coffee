@@ -10,9 +10,13 @@ class Skyderby.views.TournamentFormView extends Backbone.View
     'input [name="tournament[finish_end_lon]"]'   : 'on_change_finish_line_end_lon'
     'input [name="tournament[exit_lat]"]'         : 'on_change_exit_lat'
     'input [name="tournament[exit_lon]"]'         : 'on_change_exit_lon'
+    'input [name="finish_line_length"]'           : 'on_change_finish_line_length'
+    'input [name="finish_center_lat"]'            : 'on_change_finish_center_lat'
+    'input [name="finish_center_lon"]'            : 'on_change_finish_center_lon'
 
   initialize: ->
     @read_current_form_values()
+    @calc_finish_line_params()
 
     @listenToOnce(Skyderby, 'maps_api:ready', @on_maps_api_ready)
     Skyderby.helpers.init_maps_api()
@@ -105,21 +109,86 @@ class Skyderby.views.TournamentFormView extends Backbone.View
     @render_center_line()
     @fit_bounds()
 
+  calc_finish_line_params: ->
+    @center_lat = @finish_start_lat + (@finish_end_lat - @finish_start_lat) / 2
+    @center_lon = @finish_start_lon + (@finish_end_lon - @finish_start_lon) / 2
+
+    @on_change_finish_line_center()
+
+    @length = Geospatial.distance(
+      @finish_start_lat,
+      @finish_start_lon,
+      @finish_end_lat,
+      @finish_end_lon
+    ).toFixed()
+
+    @$('[name="finish_center_lat"]').val(@center_lat)
+    @$('[name="finish_center_lon"]').val(@center_lon)
+    @$('[name="finish_line_length"]').val(@length)
+
   on_change_finish_line_start_lat: (event) ->
     @finish_start_lat = Number($(event.currentTarget).val())
-    @render_map()
+    @on_finish_line_coords_change()
 
   on_change_finish_line_start_lon: (event) ->
     @finish_start_lon = Number($(event.currentTarget).val())
-    @render_map()
+    @on_finish_line_coords_change()
 
   on_change_finish_line_end_lat: (event) ->
     @finish_end_lat = Number($(event.currentTarget).val())
-    @render_map()
+    @on_finish_line_coords_change()
 
   on_change_finish_line_end_lon: (event) ->
     @finish_end_lon = Number($(event.currentTarget).val())
+    @on_finish_line_coords_change()
+
+  on_finish_line_coords_change: ->
     @render_map()
+    @calc_finish_line_params()
+
+  on_change_finish_line_length: (event) ->
+    @length = Number(@$('[name="finish_line_length"]').val())
+    @on_change_finish_line_params()
+
+  on_change_finish_center_lat: (event) ->
+    @center_lat = Number(@$('[name="finish_center_lat"]').val())
+    @on_change_finish_line_params()
+    @on_change_finish_line_center()
+
+  on_change_finish_center_lon: (event) ->
+    @center_lon = Number(@$('[name="finish_center_lon"]').val())
+    @on_change_finish_line_params()
+    @on_change_finish_line_center()
+
+  on_change_finish_line_params: ->
+    bearing = Geospatial.bearing(@exit_lat, @exit_lon, @center_lat, @center_lon)
+    start_point = Geospatial.destiantion_by_bearing_and_distance(
+      @center_lat,
+      @center_lon,
+      bearing + 90,
+      @length / 2
+    )
+    @finish_start_lat = start_point.latitude
+    @finish_start_lon = start_point.longitude
+    @$('[name="tournament[finish_start_lat]"]').val(@finish_start_lat)
+    @$('[name="tournament[finish_start_lon]"]').val(@finish_start_lon)
+
+    end_point = Geospatial.destiantion_by_bearing_and_distance(
+      @center_lat,
+      @center_lon,
+      bearing - 90,
+      @length / 2
+    )
+    @finish_end_lat = end_point.latitude
+    @finish_end_lon = end_point.longitude
+    @$('[name="tournament[finish_end_lat]"]').val(@finish_end_lat)
+    @$('[name="tournament[finish_end_lon]"]').val(@finish_end_lon)
+
+    @render_map()
+
+  on_change_finish_line_center: ->
+    distance_from_exit = Geospatial.distance(@exit_lat, @exit_lon, @center_lat, @center_lon)
+    @$('#distance-from-exit').text(distance_from_exit.toFixed())
 
   on_change_exit_lat: (event) ->
     @exit_lat = Number($(event.currentTarget).val())
