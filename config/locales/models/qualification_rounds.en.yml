@@ -1,0 +1,9 @@
+en:
+  activerecord:
+    errors:
+      models:
+        qualification_round:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                has_many: Qualification jumps are linked to this round, delete jumps first

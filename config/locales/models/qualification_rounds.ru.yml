@@ -1,0 +1,9 @@
+ru:
+  activerecord:
+    errors:
+      models:
+        qualification_round:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                has_many: К раунду привязаны квалификационные прыжки, необходимо сначала удалить их

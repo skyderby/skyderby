@@ -11,7 +11,7 @@
 
 class QualificationRound < ApplicationRecord
   belongs_to :tournament
-  has_many :qualification_jumps
+  has_many :qualification_jumps, dependent: :restrict_with_error
 
   before_create :set_order
 
