@@ -8,7 +8,7 @@ feature 'Qualification jumps', js: true do
     create :tournament_competitor, tournament: tournament
 
     visit tournament_qualification_path(tournament)
-    find('a.create-result').click
+    find('a.create-result-cell__link').click
 
     expect(page).to have_content('Qualification Jump')
 
