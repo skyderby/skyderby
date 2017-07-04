@@ -5,12 +5,13 @@
 
 .container
   .content-block
-    = button_to tournament_qualification_rounds_path(tournament_id: @tournament.id),
-                method: :post,
-                remote: true,
-                class: 'btn btn-default' do
-      %i.fa.fa-plus
-      Round
+    - if policy(@tournament).update?
+      = button_to tournament_qualification_rounds_path(tournament_id: @tournament.id),
+                  method: :post,
+                  remote: true,
+                  class: 'btn btn-default' do
+        %i.fa.fa-plus
+        Round
 
     .row
       .col-sm-12
