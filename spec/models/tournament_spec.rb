@@ -20,14 +20,13 @@
 
 describe Tournament, type: :model do
   describe '#with_qualification?' do
-    it 'returns true if qulification round exists' do
-      tournament = create :tournament
-      qualification_round = create :qualification_round, tournament: tournament
+    it 'returns true if has qulification' do
+      tournament = create :tournament, has_qualification: true
 
       expect(tournament.with_qualification?).to be_truthy
     end
 
-    it 'returns false if no qulification round exists' do
+    it 'returns false unless has_qualification' do
       tournament = create :tournament
       expect(tournament.with_qualification?).to be_falsey
     end
