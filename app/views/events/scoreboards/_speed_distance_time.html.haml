@@ -18,10 +18,10 @@
       %tr#rounds-row
         - @event.rounds_by_discipline.each do |discipline, rounds|
           - rounds.each do |round|
-            %td.round-cell.text-center{colspan: 2}
-              .round-cell-content
+            %td.round-cell{colspan: 2}
+              .round-cell__content
                 = round.name
-                .round-actions.dropdown
+                .round-cell__actions.dropdown
                   %button.btn-link{'data-toggle': 'dropdown'}
                     %i.fa.fa-ellipsis-v
                   %ul.dropdown-menu.dropdown-menu-right
