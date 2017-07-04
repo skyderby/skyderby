@@ -5,5 +5,6 @@ class AddConstraintsToQualificationJumps < ActiveRecord::Migration[5.1]
               unique: true,
               name: :index_qualification_jumps_on_round_and_competitor
     add_foreign_key :qualification_jumps, :tracks
+    add_foreign_key :qualification_jumps, :qualification_rounds
   end
 end
