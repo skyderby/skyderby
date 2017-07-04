@@ -19,31 +19,9 @@
     width: 20px;
   }
 
-  td.create-result-cell,
   td.result-cell,
   td.competitor-cell {
     position: relative;
-  }
-
-  td.create-result-cell {
-    padding: 0px;
-
-    a {
-      position: absolute;
-      top: 0;
-      left: 0;
-      padding: 8px;
-      width: 100%;
-      height: 100%;
-      display: block;
-      color: transparent;
-
-      &:hover {
-        color: white;
-        background-color: #428bca;
-        text-decoration: none;
-      }
-    }
   }
 
   td.result-cell {

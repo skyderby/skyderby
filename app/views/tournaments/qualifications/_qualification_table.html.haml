@@ -21,22 +21,24 @@
           - round_result = result["round_#{round.order}"]
           - track_id = result["round_#{round.order}_track_id"]
           - record_id = result["round_#{round.order}_result_id"]
-          %td 
-            - if track_id
+          - if track_id
+            %td.text-right
               %a{href: track_path(track_id), data: {toggle: 'tooltip'}, title: t('.show_details')}
                 = round_result
               - if policy(@tournament).update?
                 = link_to edit_tournament_qualification_jump_path(@tournament, record_id), remote: true do
                   %i.fa.fa-pencil.text-muted
-            - elsif round_result
+          - elsif round_result || !policy(@tournament).update?
+            %td.text-right
               = round_result
-            - else
+          - else
+            %td.text-center.create-result-cell
               - if policy(@tournament).update?
                 = link_to new_tournament_qualification_jump_path(@tournament), 
                           remote: true, 
                           'data-params': { 'qualification_jump[tournament_competitor_id]' => result[:id],
                                            'qualification_jump[qualification_round_id]' => round.id}.to_param,
-                          class: 'create-result',
+                          class: 'create-result-cell__link',
                           rel: 'nofollow' do
                   %i.fa.fa-upload
 
