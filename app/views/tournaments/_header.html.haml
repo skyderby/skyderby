@@ -1,7 +1,13 @@
 .row
-  .col-sm-12
-    %h1.light-header 
+  .col-sm-8.col-sm-offset-2.text-center
+    %h1
       = @tournament.name
+  .col-sm-2
+    - if policy(@tournament).update?
+      .pull-right
+        = link_to edit_tournament_path(@tournament), class: 'btn btn-default edit-event' do
+          %i.fa.fa-pencil
+          = t('general.edit')
 
 .row
   .col-sm-12
