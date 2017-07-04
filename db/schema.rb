@@ -407,6 +407,7 @@ ActiveRecord::Schema.define(version: 20170703142033) do
   add_foreign_key "event_tracks", "tracks"
   add_foreign_key "events", "profiles"
   add_foreign_key "profiles", "countries"
+  add_foreign_key "qualification_jumps", "qualification_rounds"
   add_foreign_key "qualification_jumps", "tracks"
   add_foreign_key "tournament_competitors", "profiles"
   add_foreign_key "tournaments", "profiles"

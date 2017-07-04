@@ -8,7 +8,22 @@
       %td
         Best result
       - @tournament.qualification_rounds.each do |round|
-        %td= "Round #{round.order}"
+        %td.round-cell
+          .round-cell__content
+            = "Round #{round.order}"
+            - if policy(@tournament).update?
+              .round-cell__actions.dropdown
+                %button.btn-link{'data-toggle': 'dropdown'}
+                  %i.fa.fa-ellipsis-v
+                %ul.dropdown-menu.dropdown-menu-right
+                  %li
+                    = button_to tournament_qualification_round_path(@tournament, round),
+                                method: :delete,
+                                remote: true,
+                                class: 'btn-link' do
+                      %i.fa.fa-times.text-muted
+                      = t('general.delete')
+
   %tbody
     - qualification_results.each_with_index do |result, index|
       %tr

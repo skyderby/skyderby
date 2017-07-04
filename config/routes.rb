@@ -136,9 +136,9 @@ Skyderby::Application.routes.draw do
   resources :tournaments, concerns: :sponsorable do
     scope module: :tournaments do
       resource :qualification, only: :show
-      resources :qualification_rounds, only: :create
+      resources :qualification_rounds, only: %i[create destroy]
       resources :qualification_jumps, only: %i[new create edit update]
-      resources :rounds, only: [:create, :destroy] do
+      resources :rounds, only: %i[create destroy] do
         resources :matches, only: :create
       end
       resources :tournament_competitors, path: :competitors
