@@ -6,6 +6,14 @@
 
   .container
     .content-block
+      - if policy(@tournament).update?
+        = button_to tournament_rounds_path(tournament_id: @tournament.id),
+                    method: :post,
+                    remote: true,
+                    class: 'btn btn-default' do
+          %i.fa.fa-plus
+          Round
+
       = render 'scoreboard'
 
       .container
@@ -15,13 +23,7 @@
               %h4= t('events.show.event_sponsors') + ':'
         .row#sponsors
           = render @tournament.sponsors
-        - if can? :edit, @tournament
+        - if policy(@tournament).update?
           = link_to new_tournament_sponsor_path(tournament_id: @tournament.id), remote: true, class: 'add-sponsor' do
             %i.fa.fa-plus
             = t('events.show.add_sponsor')
-
-      - if can? :edit, @tournament
-        .container
-          %a.btn.btn-default{href: tournament_rounds_path(@tournament.id)}= 'Rounds'
-          %a.btn.btn-default{href: tournament_matches_path(@tournament.id)}= 'Matches'
-
