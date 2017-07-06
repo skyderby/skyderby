@@ -29,6 +29,11 @@
           .col-sm-8
             = f.number_field :result, class: 'form-control'
 
+        .form-group
+          = f.label :canopy_time, class: 'control-label col-sm-4'
+          .col-sm-8
+            = f.number_field :canopy_time, class: 'form-control'
+
 
       .modal-footer
         = f.submit t('general.save'), class: 'btn btn-primary', 'data-disable-with': t('general.saving')

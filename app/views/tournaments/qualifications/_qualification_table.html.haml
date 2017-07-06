@@ -1,14 +1,14 @@
-%table.table.qualification-table
+%table.table.table-bordered.qualification-table
   %thead
     %tr
-      %td
+      %td{rowspan: 2}
         Rank
-      %td
+      %td{rowspan: 2}
         Competitor
-      %td
+      %td{rowspan: 2}
         Best result
       - @tournament.qualification_rounds.each do |round|
-        %td.round-cell
+        %td.round-cell{colspan: 2}
           .round-cell__content
             = "Round #{round.order}"
             - if policy(@tournament).update?
@@ -23,6 +23,13 @@
                                 class: 'btn-link' do
                       %i.fa.fa-times.text-muted
                       = t('general.delete')
+    %tr
+      - @tournament.qualification_rounds.each do |round|
+        %td
+          Result
+        %td
+          Canopy
+
 
   %tbody
     - qualification_results.each_with_index do |result, index|
@@ -34,6 +41,7 @@
         %td= result[:best_result]
         - @tournament.qualification_rounds.each do |round|
           - round_result = result["round_#{round.order}"]
+          - canopy_time = result["round_#{round.order}_canopy_time"]
           - track_id = result["round_#{round.order}_track_id"]
           - record_id = result["round_#{round.order}_result_id"]
           - if track_id
@@ -43,9 +51,15 @@
               - if policy(@tournament).update?
                 = link_to edit_tournament_qualification_jump_path(@tournament, record_id), remote: true do
                   %i.fa.fa-pencil.text-muted
+            %td.text-right
+              %span{'data-toggle' => 'tooltip', title: 'Canopy time'}
+                = canopy_time
           - elsif round_result || !policy(@tournament).update?
             %td.text-right
               = round_result
+            %td.text-right
+              %span{'data-toggle' => 'tooltip', title: 'Canopy time'}
+                = canopy_time
           - else
             %td.text-center.create-result-cell
               - if policy(@tournament).update?
@@ -56,4 +70,5 @@
                           class: 'create-result-cell__link',
                           rel: 'nofollow' do
                   %i.fa.fa-upload
+            %td
 

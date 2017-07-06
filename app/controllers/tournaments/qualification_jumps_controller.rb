@@ -63,6 +63,7 @@ module Tournaments
         :tournament_competitor_id,
         :start_time,
         :result,
+        :canopy_time,
         track_attributes: [
           :file,
           :profile_id,
