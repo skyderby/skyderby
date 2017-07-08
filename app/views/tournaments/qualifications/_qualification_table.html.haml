@@ -38,6 +38,10 @@
         %td
           %a{href: profile_path(result[:profile_id])}
             = result[:name]
+          - if result[:competitor].is_disqualified
+            %span.text-danger{'data-toggle' => 'tooltip', title: result[:competitor].disqualification_reason}
+              (DQ)
+
         %td= result[:best_result]
         - @tournament.qualification_rounds.each do |round|
           - round_result = result["round_#{round.order}"]

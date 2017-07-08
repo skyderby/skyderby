@@ -67,6 +67,8 @@ module Tournaments
         :profile_id,
         :wingsuit_id,
         :profile_mode,
+        :is_disqualified,
+        :disqualification_reason,
         profile_attributes: [:name, :country_id]
       )
     end

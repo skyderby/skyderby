@@ -5,6 +5,7 @@ module TournamentsHelper
       competitor_result = {
         id: competitor.id,
         name: competitor.name,
+        competitor: competitor,
         profile_id: competitor.profile_id
       }
       competitor_jump_results = []
@@ -26,6 +27,12 @@ module TournamentsHelper
       results << competitor_result
     end
 
-    results.sort_by { |x| x[:best_result] || 999 }
+    results.sort_by do |x|
+      if x[:competitor].is_disqualified
+        999
+      else
+        x[:best_result] || 999
+      end
+    end
   end
 end

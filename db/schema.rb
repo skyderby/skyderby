@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170706193809) do
+ActiveRecord::Schema.define(version: 20170708080511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -200,6 +200,8 @@ ActiveRecord::Schema.define(version: 20170706193809) do
     t.integer "wingsuit_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_disqualified"
+    t.string "disqualification_reason"
     t.index ["tournament_id"], name: "index_tournament_competitors_on_tournament_id"
   end
 

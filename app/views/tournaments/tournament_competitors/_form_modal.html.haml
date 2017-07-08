@@ -24,6 +24,7 @@
           .col-sm-8
             = f.select :profile_id,
                        options_for_select([[@competitor.name, @competitor.profile_id]]), 
+                       {},
                        class: 'form-control'
 
         .radio
@@ -45,6 +46,7 @@
             .col-sm-8
               = builder.select :country_id,
                                options_for_select([[@competitor.country_name, @competitor.country_id]]),
+                               {},
                                class: 'form-control'
 
         %hr
@@ -53,7 +55,23 @@
           .col-sm-8
             = f.select :wingsuit_id,
                        options_for_select([[@competitor.wingsuit_name, @competitor.wingsuit_id]]), 
+                       {},
                        class: 'form-control'
+
+        - unless @competitor.new_record?
+          %hr
+          .form-group
+            = f.label :is_disqualified, class: 'control-label col-sm-4'
+            .col-sm-8
+              .checkbox
+                %label
+                  = f.check_box :is_disqualified
+
+          .form-group
+            = f.label :disqualification_reason, class: 'control-label col-sm-4'
+            .col-sm-8
+              = f.text_field :disqualification_reason, class: 'form-control'
+
 
       .modal-footer
         = f.submit t('general.save'), class: 'btn btn-primary'
