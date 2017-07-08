@@ -76,14 +76,10 @@ class QualificationJump < ApplicationRecord
   end
 
   def track_points
-    track.points
-         .trimmed(seconds_before_start: SECONDS_BEFORE_START)
-         .pluck_to_hash(
-           :fl_time,
-           'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
-           "#{track.point_altitude_field} AS altitude",
-           :latitude,
-           :longitude
-         )
+    PointsQuery.execute(
+      track,
+      trimmed: { seconds_before_start: 20 },
+      only: %i[gps_time altitude latitude longitude]
+    )
   end
 end

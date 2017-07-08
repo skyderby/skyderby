@@ -10,7 +10,7 @@ feature 'WBR: Scoring tracks' do
       track: create_track_from_file('WBR/11-40-01_Ratmir.CSV')
     )
 
-    expect(match_competitor.result).to be_within(0.001).of(33.580)
+    expect(match_competitor.result).to be_within(0.001).of(33.543)
   end
 
   scenario 'Another competitor intersected finish line' do
@@ -22,7 +22,7 @@ feature 'WBR: Scoring tracks' do
       track: create_track_from_file('WBR/13-35-43_Andreas.CSV')
     )
 
-    expect(match_competitor.result).to be_within(0.001).of(32.828)
+    expect(match_competitor.result).to be_within(0.001).of(32.822)
   end
 
   scenario 'Competitor did not intersect finish line' do
