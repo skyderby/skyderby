@@ -3,7 +3,7 @@
 .container
   = render 'tournaments/header'
 
-.container
+.container-fluid
   .content-block
     - if policy(@tournament).update?
       = button_to tournament_qualification_rounds_path(tournament_id: @tournament.id),
@@ -13,6 +13,5 @@
         %i.fa.fa-plus
         Round
 
-    .row
-      .col-sm-12
-        = render 'qualification_table'
+    .qualification-table__scrollable
+      = render 'qualification_table'

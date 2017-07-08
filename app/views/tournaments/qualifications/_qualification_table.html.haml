@@ -46,7 +46,7 @@
           - record_id = result["round_#{round.order}_result_id"]
           - if track_id
             %td.text-right
-              %a{href: track_path(track_id), data: {toggle: 'tooltip'}, title: t('.show_details')}
+              %a{href: track_path(track_id), data: {toggle: 'tooltip'}, title: t('tournaments.show.show_details')}
                 = round_result
               - if policy(@tournament).update?
                 = link_to edit_tournament_qualification_jump_path(@tournament, record_id), remote: true do

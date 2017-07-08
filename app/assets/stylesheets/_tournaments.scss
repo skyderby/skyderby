@@ -43,6 +43,10 @@
   padding-top: 2px;
 }
 
+.qualification-table__scrollable {
+  overflow-x: scroll;
+}
+
 #match-map {
   height: 400px;
 }
