@@ -37,10 +37,16 @@ module Tournaments
     end
 
     def destroy
-      @tournament_match.destroy
       respond_to do |format|
-        format.html { redirect_to tournament_matches_url }
-        format.json { head :no_content }
+        if @tournament_match.destroy
+          format.js
+        else
+          format.js do
+            render template: 'errors/ajax_errors',
+                   locals: { errors: @tournament_match.errors },
+                   status: :unprocessable_entity
+          end
+        end
       end
     end
 

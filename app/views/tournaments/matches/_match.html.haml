@@ -40,7 +40,7 @@
               - else
                 = competitor.result
 
-      - (@tournament.bracket_size - match.slots.count).times do
+      - match.free_slots.times do
         .tournament-competitor.row
           .col-sm-9.text-left.text-muted
             ?

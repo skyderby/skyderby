@@ -32,5 +32,6 @@
               Bronze finals
 
       .modal-footer
+        = link_to t('general.delete'), tournament_match_path(@tournament, @tournament_match), remote: true, method: :delete, class: 'btn btn-danger pull-left'
         = f.submit t('general.save'), class: 'btn btn-primary', 'data-disable-with': t('general.saving')
         %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

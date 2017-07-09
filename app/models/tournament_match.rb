@@ -27,6 +27,10 @@ class TournamentMatch < ApplicationRecord
               constructor: proc { |t| Time.zone.at(t) if t },
               converter: proc { |t| convert_to_time(t) }
 
+  def free_slots
+    tournament.bracket_size - slots.count
+  end
+
   def self.convert_to_time(t)
     if t.is_a?(Time)
       t
