@@ -1,9 +1,9 @@
 # encoding: utf-8
+
 class EventsController < ApplicationController
   include EventLoading
 
-  before_action :set_event, only:
-    [:edit, :update, :destroy]
+  before_action :set_event, only: %i[edit update destroy]
 
   def index
     authorize Event

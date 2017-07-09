@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170708080511) do
+ActiveRecord::Schema.define(version: 20170709214537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -416,31 +416,6 @@ ActiveRecord::Schema.define(version: 20170708080511) do
   add_foreign_key "tournaments", "profiles"
   add_foreign_key "tracks", "profiles"
 
-  create_view "event_lists",  sql_definition: <<-SQL
-      SELECT events.event_type,
-      events.event_id,
-      events.starts_at,
-      events.status,
-      events.visibility,
-      events.profile_id
-     FROM ( SELECT 'Event'::text AS event_type,
-              events_1.id AS event_id,
-              events_1.starts_at,
-              events_1.status,
-              events_1.visibility,
-              events_1.profile_id
-             FROM events events_1
-          UNION ALL
-           SELECT 'Tournament'::text AS text,
-              tournaments.id,
-              tournaments.starts_at,
-              1,
-              0,
-              NULL::integer AS int4
-             FROM tournaments) events
-    ORDER BY events.starts_at DESC;
-  SQL
-
   create_view "personal_top_scores",  sql_definition: <<-SQL
       SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id ORDER BY entities.result DESC) AS rank,
       entities.virtual_competition_id,
@@ -489,6 +464,34 @@ ActiveRecord::Schema.define(version: 20170708080511) do
                LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
             ORDER BY results.virtual_competition_id, tracks.profile_id, (date_part('year'::text, tracks.recorded_at)), results.result DESC) entities
     ORDER BY entities.result DESC;
+  SQL
+
+  create_view "event_lists",  sql_definition: <<-SQL
+      SELECT events.event_type,
+      events.event_id,
+      events.starts_at,
+      events.status,
+      events.visibility,
+      events.profile_id,
+      events.created_at
+     FROM ( SELECT 'Event'::text AS event_type,
+              events_1.id AS event_id,
+              events_1.starts_at,
+              events_1.status,
+              events_1.visibility,
+              events_1.profile_id,
+              events_1.created_at
+             FROM events events_1
+          UNION ALL
+           SELECT 'Tournament'::text,
+              tournaments.id,
+              tournaments.starts_at,
+              1,
+              0,
+              NULL::integer,
+              tournaments.created_at
+             FROM tournaments) events
+    ORDER BY events.starts_at DESC, events.created_at DESC;
   SQL
 
 end
