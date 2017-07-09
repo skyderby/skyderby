@@ -8,6 +8,9 @@ class TournamentsController < ApplicationController
 
   def show
     authorize @tournament
+    if !policy(@tournament).update? && @tournament.rounds.count.zero?
+      redirect_to tournament_qualification_path(@tournament)
+    end
   end
 
   def new
