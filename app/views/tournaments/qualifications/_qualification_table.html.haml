@@ -1,11 +1,11 @@
 %table.table.table-bordered.qualification-table
   %thead
     %tr
-      %td{rowspan: 2}
+      %td.text-center{rowspan: 2}
         Rank
-      %td{rowspan: 2}
+      %td.text-center.qualification-table__competitor{rowspan: 2}
         Competitor
-      %td{rowspan: 2}
+      %td.text-center.qualification-table__best-result{rowspan: 2}
         Best result
       - @tournament.qualification_rounds.each do |round|
         %td.round-cell{colspan: 2}
@@ -30,19 +30,19 @@
         %td
           Canopy
 
-
   %tbody
     - qualification_results.each_with_index do |result, index|
       %tr
         %td= index + 1
-        %td
-          %a{href: profile_path(result[:profile_id])}
+        %td.qualification-table__competitor
+          = link_to profile_path(result[:profile_id]), class: 'dotted-underline' do
             = result[:name]
           - if result[:competitor].is_disqualified
             %span.text-danger{'data-toggle' => 'tooltip', title: result[:competitor].disqualification_reason}
               (DQ)
 
-        %td= result[:best_result]
+        %td.qualification-table__best-result.text-right
+          = result[:best_result]
         - @tournament.qualification_rounds.each do |round|
           - round_result = result["round_#{round.order}"]
           - canopy_time = result["round_#{round.order}_canopy_time"]
