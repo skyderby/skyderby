@@ -80,16 +80,20 @@
                 = f.submit t('general.update'), class: 'btn btn-primary'
 
 - content_for :page_js do
-  :coffeescript
-    Skyderby.helpers.CountrySelect($('select[name="profile[country_id]"]'))
+  :javascript
+    Skyderby.helpers.CountrySelect($('select[name="profile[country_id]"]'));
 
-    $('.edit-user-profile').validate(
-      rules:
-        'profile[name]':
+    $('.edit-user-profile').validate({
+      rules: {
+        'profile[name]': {
           required: true
-      highlight: (element) ->
-        $(element).closest('.form-group').addClass('has-error')
-      unhighlight: (element) ->
-        $(element).closest('.form-group').removeClass('has-error')
-    )
+        }
+      },
+      highlight: function(element) {
+        $(element).closest('.form-group').addClass('has-error');
+      },
+      unhighlight: function(element) {
+        $(element).closest('.form-group').removeClass('has-error');
+      }
+    });
 
