@@ -47,7 +47,7 @@ module Tournaments
     def competitors
       @competitors ||= match.slots.map.with_index do |val, index|
         CompetitorData.new.tap do |c|
-          c.name = val.name
+          c.name = val.competitor_name
           c.color = COLORS[index]
           c.points = EntityBuilder.new(val).execute
         end
