@@ -5,6 +5,7 @@ class WindowRangeFinder
   # Order matters
   ALLOWED_FILTERS = [:from_altitude,
                      :from_vertical_speed,
+                     :from_gps_time,
                      :duration,
                      :elevation,
                      :to_altitude]
@@ -17,7 +18,7 @@ class WindowRangeFinder
     args.each { |filter, _| raise UnknownFilter, filter unless ALLOWED_FILTERS.include? filter }
 
     ALLOWED_FILTERS.each do |filter|
-      send(filter, args[filter]) if args.has_key? filter
+      send(filter, args[filter]) if args.key? filter
     end
 
     TrackSegment.new(points)
@@ -80,9 +81,29 @@ class WindowRangeFinder
     @points = [interpolated_point] + points[index..-1]
   end
 
+  def from_gps_time(gps_time)
+    index = points.index { |x| x[:gps_time] >= gps_time }
+
+    raise ValueOutOfRange if index.nil?
+    needs_interpolation = points[index][:gps_time] != gps_time
+
+    # raise if previous point is missed 
+    # i.e. current is first and iterpolation needed
+    raise ValueOutOfRange if index.zero? && needs_interpolation
+
+    return unless needs_interpolation
+
+    interpolated_point = PointInterpolation.new(
+      points[index - 1],
+      points[index]
+    ).execute(by: :gps_time, with_value: gps_time)
+
+    @points = [interpolated_point] + points[index..-1]
+  end
+
   def duration(time)
     lookup_time = points.first[:gps_time] + time.seconds
-    
+
     index = points.index { |x| x[:gps_time] >= lookup_time }
 
     raise ValueOutOfRange if index.nil? || index.zero?

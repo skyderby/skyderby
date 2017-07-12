@@ -69,7 +69,7 @@ describe WindowRangeFinder do
       expect(track_segment.start_point[:v_speed]).to be_within(0.1).of(125)
     end
 
-    it 'raises error if point with given altitude is first' do
+    it 'raises error if point with given vertical speed is first' do
       range_finder = WindowRangeFinder.new(sample_points)
       expect { range_finder.execute(from_vertical_speed: 90) }
         .to raise_exception(WindowRangeFinder::ValueOutOfRange)
@@ -78,6 +78,33 @@ describe WindowRangeFinder do
     it 'raises error if point not found' do
       range_finder = WindowRangeFinder.new(sample_points)
       expect { range_finder.execute(from_vertical_speed: 2300) }
+        .to raise_exception(WindowRangeFinder::ValueOutOfRange)
+    end
+  end
+
+  context 'from_gps_time filter' do
+    it 'trim until specified gps_time' do
+      range_finder = WindowRangeFinder.new(sample_points)
+      track_segment = range_finder.execute(from_gps_time: 15.5)
+
+      expect(track_segment.size).to eq(7)
+
+      expect(track_segment.start_point[:gps_time]).to eq(15.5)
+      expect(track_segment.start_point[:altitude]).to be_within(1).of(2900)
+      expect(track_segment.start_point[:latitude]).to be_within(0.000001).of(1.65)
+      expect(track_segment.start_point[:longitude]).to be_within(0.000001).of(2.35)
+      expect(track_segment.start_point[:v_speed]).to be_within(0.1).of(125)
+    end
+
+    it 'raises error if point with given altitude is first' do
+      range_finder = WindowRangeFinder.new(sample_points)
+      expect { range_finder.execute(from_gps_time: 10) }
+        .to raise_exception(WindowRangeFinder::ValueOutOfRange)
+    end
+
+    it 'raises error if point not found' do
+      range_finder = WindowRangeFinder.new(sample_points)
+      expect { range_finder.execute(from_gps_time: 100) }
         .to raise_exception(WindowRangeFinder::ValueOutOfRange)
     end
   end
