@@ -40,6 +40,7 @@
                   tournament_qualification_jump_path(@tournament, @qualification_jump),
                   remote: true,
                   method: :delete,
+                  data: {confirm: 'Are you sure you want to delete this record?'},
                   class: 'btn btn-danger pull-left'
 
         = f.submit t('general.save'), class: 'btn btn-primary', 'data-disable-with': t('general.saving')
