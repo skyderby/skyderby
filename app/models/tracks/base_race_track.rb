@@ -24,6 +24,7 @@ module Tracks
           freq_1Hz: true
         )
 
+        # in database speeds in km/h, here we need it in m/s
         all_points.each do |point|
           point[:h_speed] /= 3.6
           point[:v_speed] /= 3.6

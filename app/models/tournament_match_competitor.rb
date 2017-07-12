@@ -17,10 +17,9 @@
 #
 
 class TournamentMatchCompetitor < ApplicationRecord
-
   SECONDS_BEFORE_START = 10
 
-  enum earn_medal: [:gold, :silver, :bronze]
+  enum earn_medal: %i[gold silver bronze]
 
   belongs_to :tournament_competitor
   belongs_to :tournament_match
@@ -29,19 +28,23 @@ class TournamentMatchCompetitor < ApplicationRecord
   before_save :calculate_result
   before_save :replace_nan_with_zero
 
+  alias_attribute :competitor, :tournament_competitor
+
   delegate :start_time, to: :tournament_match
-  delegate :name, to: :tournament_competitor
+  delegate :name, to: :competitor, prefix: true, allow_nil: true
+  delegate :round, to: :tournament_match
+  delegate :order, to: :round, prefix: true, allow_nil: true
 
   def calculate_result
     return unless track
-    return if (result || 0) > 0
+    return if (result || 0).positive?
 
     begin
       intersection_point = PathIntersectionFinder.new(
-        track_points, 
+        track_points,
         finish_line
       ).execute
-      
+
       self.result = (intersection_point[:gps_time].to_f - start_time.to_f).round(3)
     rescue PathIntersectionFinder::IntersectionNotFound
       self.result = 0

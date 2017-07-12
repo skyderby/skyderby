@@ -138,6 +138,7 @@ Skyderby::Application.routes.draw do
       resource :qualification, only: :show
       resources :qualification_rounds, only: %i[create destroy]
       resources :qualification_jumps, only: %i[new create show edit update destroy]
+
       resources :rounds, only: %i[create destroy] do
         resources :matches, only: :create
       end
@@ -146,7 +147,7 @@ Skyderby::Application.routes.draw do
         scope module: :matches do
           resource :map, only: :show
           resource :globe, controller: 'globe', only: :show
-          resources :competitors
+          resources :slots
         end
       end
     end

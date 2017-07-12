@@ -27,7 +27,7 @@
               = competitor.tournament_competitor.name
           .col-sm-3.text-right
             - if competitor.track_id
-              %a{href: track_path(competitor.track_id), data: {toggle: 'tooltip'}, title: competitor.notes}
+              = link_to tournament_match_slot_path(@tournament, match, competitor), remote: true, data: {toggle: 'tooltip'}, title: competitor.notes do
                 - if competitor.is_disqualified
                   %s
                     = competitor.result
