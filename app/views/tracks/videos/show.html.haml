@@ -57,16 +57,16 @@
       .col-sm-12.text-center.top-buffer
 
 - content_for :page_js do
-  :coffeescript
-    track_video = new Skyderby.models.TrackVideo()
-    data_div = $('.track-video-show')
+  :javascript
+    var track_video = new Skyderby.models.TrackVideo();
+    var data_div = $('.track-video-show');
 
-    track_video.set('points',       data_div.data('points'))
-    track_video.set('video_code',   data_div.data('video-code'))
-    track_video.set('video_offset', data_div.data('video-offset'))
-    track_video.set('track_offset', data_div.data('track-offset'))
+    track_video.set('points',       data_div.data('points'));
+    track_video.set('video_code',   data_div.data('video-code'));
+    track_video.set('video_offset', data_div.data('video-offset'));
+    track_video.set('track_offset', data_div.data('track-offset'));
 
-    view = new Skyderby.views.TrackReplayView({
+    var view = new Skyderby.views.TrackReplayView({
       model: track_video,
       el: '.track-video-show'
-    })
+    });
