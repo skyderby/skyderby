@@ -51,6 +51,24 @@ module Tournaments
       end
     end
 
+    def destroy
+      authorize @tournament, :update?
+
+      @qualification_jump = @tournament.qualification_jumps.find(params[:id])
+
+      respond_to do |format|
+        if @qualification_jump.destroy
+          format.js { render template: 'tournaments/qualifications/update_scoreboard' }
+        else
+          format.js do
+            render template: 'errors/ajax_errors',
+                   locals: { errors: @qualification_jump.errors },
+                   status: :unprocessable_entity
+          end
+        end
+      end
+    end
+
     private
 
     def set_tournament
