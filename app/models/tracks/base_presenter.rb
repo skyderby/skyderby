@@ -1,6 +1,7 @@
 module Tracks
   class BasePresenter
     include ChartPreferences
+    include TrackGlideRatio
     include TrackIndicators
 
     def initialize(track, range_from, range_to, chart_preferences)
@@ -8,16 +9,6 @@ module Tracks
       @range_from = range_from
       @range_to = range_to
       @chart_preferences = chart_preferences
-    end
-
-    def glide_ratio_chart_line
-      points.map do |x|
-        {
-          'x' => (x[:gps_time] - min_gps_time).round(1),
-          'y' => y_for_glide_ratio(x[:glide_ratio]),
-          'true_value' => glide_ratio_presentation(x[:glide_ratio])
-        }
-      end.to_json.html_safe
     end
 
     def altitude_chart_line
@@ -78,18 +69,7 @@ module Tracks
         ]
       end.to_json
     end
-
-    def wind_effect_glide_ratio_chart_line
-      zerowind_points.each_with_index.map do |point, index|
-        {
-          'x' => (point[:gps_time] - min_gps_time).round(1),
-          'low' => y_for_glide_ratio(point[:glide_ratio]),
-          'high' => y_for_glide_ratio(points[index][:glide_ratio]),
-          'true_value' => glide_ratio_presentation(point[:glide_ratio])
-        }
-      end.to_json.html_safe
-    end
-
+    
     protected
 
     attr_reader :track, :chart_preferences
@@ -134,20 +114,6 @@ module Tracks
 
     def altitude_presentation(value)
       Distance.new(value).convert_to(altitude_units).round.truncate
-    end
-
-    def glide_ratio_presentation(value)
-      value.round(2)
-    end
-
-    def y_for_glide_ratio(value)
-      if value.negative?
-        0
-      elsif value > 7
-        7
-      else
-        value.round(2)
-      end
     end
 
     def min_gps_time

@@ -1,16 +1,15 @@
 module Tournaments
   class QualificationJumpsController < ApplicationController
     before_action :set_tournament
+    before_action :authorize_tournament, except: :show
+    before_action :set_qualification_jump, only: %i[show edit update destroy]
 
     def new
-      authorize @tournament, :update?
       @round = @tournament.qualification_rounds.find(qualification_jump_params[:qualification_round_id])
       @qualification_jump = @round.qualification_jumps.new(qualification_jump_params)
     end
 
     def create
-      authorize @tournament, :update?
-
       @round = @tournament.qualification_rounds.find(qualification_jump_params[:qualification_round_id])
       @qualification_jump = @round.qualification_jumps.new(qualification_jump_params)
 
@@ -27,17 +26,21 @@ module Tournaments
       end
     end
 
-    def edit
-      authorize @tournament, :update?
-
-      @qualification_jump = @tournament.qualification_jumps.find(params[:id])
+    def show
+      respond_to do |format|
+        format.html { redirect_to @qualification_jump.track }
+        format.js do 
+          @track_presenter = Tracks::BaseRaceTrack.new(
+            @qualification_jump,
+            ChartsPreferences.new(session)
+          )
+        end
+      end
     end
 
+    def edit; end
+
     def update
-      authorize @tournament, :update?
-
-      @qualification_jump = @tournament.qualification_jumps.find(params[:id])
-
       respond_to do |format|
         if @qualification_jump.update(qualification_jump_params)
           format.js { render template: 'tournaments/qualifications/update_scoreboard' }
@@ -52,10 +55,6 @@ module Tournaments
     end
 
     def destroy
-      authorize @tournament, :update?
-
-      @qualification_jump = @tournament.qualification_jumps.find(params[:id])
-
       respond_to do |format|
         if @qualification_jump.destroy
           format.js { render template: 'tournaments/qualifications/update_scoreboard' }
@@ -75,6 +74,14 @@ module Tournaments
       @tournament = Tournament.find(params[:tournament_id])
     end
 
+    def authorize_tournament
+      authorize @tournament, :update?
+    end
+
+    def set_qualification_jump
+      @qualification_jump = @tournament.qualification_jumps.find(params[:id])
+    end
+
     def qualification_jump_params
       params.require(:qualification_jump).permit(
         :qualification_round_id,
@@ -92,5 +99,10 @@ module Tournaments
         ]
       )
     end
+
+    def show_params
+      params.permit(:charts_mode, :charts_units)
+    end
+    helper_method :show_params
   end
 end

@@ -23,8 +23,13 @@ class QualificationJump < ApplicationRecord
   before_validation :create_track_from_file
   before_save :calculate_result
 
+  alias_attribute :competitor, :tournament_competitor
+  alias_attribute :round, :qualification_round
+
   delegate :tournament, to: :qualification_round
   delegate :start_time, to: :track, prefix: true, allow_nil: true
+  delegate :name, to: :competitor, prefix: true, allow_nil: true
+  delegate :order, to: :round, prefix: true, allow_nil: true
 
   def start_time
     return unless start_time_in_seconds
