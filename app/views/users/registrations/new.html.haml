@@ -34,22 +34,29 @@
         = render 'users/shared/links'
 
 - content_for :page_js do
-  :coffeescript
-    $('.new-user-form').validate(
-      rules:
-        'user[name]':
+  :javascript
+    $('.new-user-form').validate({
+      rules: {
+        'user[name]': {
           minlength: 3,
           required: true
-        'user[email]':
+        },
+        'user[email]': {
           required: true,
           email: true
-        'user[password]':
+        },
+        'user[password]': {
           required: true
-        'user[password_confirmation]':
+        },
+        'user[password_confirmation]': {
           required: true,
           equalTo: '.new-user-form #user_password'
-      highlight: (element) ->
-        $(element).closest('.form-group').addClass('has-error')
-      unhighlight: (element) ->
-        $(element).closest('.form-group').removeClass('has-error')
-    )
+        }
+      },
+      highlight: function(element) {
+        $(element).closest('.form-group').addClass('has-error');
+      },
+      unhighlight: function(element) {
+        $(element).closest('.form-group').removeClass('has-error');
+      }
+    })
