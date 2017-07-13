@@ -24,16 +24,21 @@
           %i.fa.fa-chevron-right
 
 - content_for :page_js do
-  :coffeescript
-    $('.new-session-form').validate(
-      rules:
-        'user[email]':
+  :javascript
+    $('.new-session-form').validate({
+      rules: {
+        'user[email]': {
           required: true,
           email: true
-        'user[password]':
+        },
+        'user[password]': {
           required: true
-      highlight: (element) ->
-        $(element).closest('.form-group').addClass('has-error')
-      unhighlight: (element) ->
-        $(element).closest('.form-group').removeClass('has-error')
-    )
+        }
+      },
+      highlight: function(element) {
+        $(element).closest('.form-group').addClass('has-error');
+      },
+      unhighlight: function(element) {
+        $(element).closest('.form-group').removeClass('has-error');
+      }
+    });
