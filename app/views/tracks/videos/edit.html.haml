@@ -9,5 +9,5 @@
       = render 'form'
 
 - content_for :page_js do
-  :coffeescript
-    view = new Skyderby.views.TrackVideoForm(el: '.track-video-edit')
+  :javascript
+    var view = new Skyderby.views.TrackVideoForm({el: '.track-video-edit'});
