@@ -1,5 +1,7 @@
 module Tournaments
   class QualificationJumpsController < ApplicationController
+    include ChartParams
+
     before_action :set_tournament
     before_action :authorize_tournament, except: :show
     before_action :set_qualification_jump, only: %i[show edit update destroy]
