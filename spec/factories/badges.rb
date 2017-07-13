@@ -1,16 +1,13 @@
 # == Schema Information
 #
-# Table name: competitors
+# Table name: badges
 #
-#  id          :integer          not null, primary key
-#  event_id    :integer
-#  user_id     :integer
-#  created_at  :datetime
-#  updated_at  :datetime
-#  wingsuit_id :integer
-#  name        :string(510)
-#  section_id  :integer
-#  profile_id  :integer
+#  id         :integer          not null, primary key
+#  name       :string(510)
+#  kind       :integer
+#  profile_id :integer
+#  created_at :datetime
+#  updated_at :datetime
 #
 
 FactoryGirl.define do

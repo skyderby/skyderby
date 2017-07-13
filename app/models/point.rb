@@ -3,19 +3,16 @@
 # Table name: points
 #
 #  id                  :integer          not null, primary key
-#  track_id            :integer
 #  fl_time             :float
 #  latitude            :decimal(15, 10)
 #  longitude           :decimal(15, 10)
 #  elevation           :float
-#  point_created_at    :datetime
-#  created_at          :datetime
-#  updated_at          :datetime
 #  distance            :float
 #  v_speed             :float
 #  h_speed             :float
 #  abs_altitude        :float
 #  gps_time_in_seconds :decimal(17, 3)
+#  track_id            :integer
 #
 
 class Point < ApplicationRecord

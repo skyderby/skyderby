@@ -9,6 +9,8 @@
 #  track_id                 :integer
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
+#  start_time_in_seconds    :decimal(17, 3)
+#  canopy_time              :decimal(, )
 #
 
 class QualificationJump < ApplicationRecord

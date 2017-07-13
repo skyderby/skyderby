@@ -8,6 +8,7 @@
 #  status     :integer
 #  visibility :integer
 #  profile_id :integer
+#  created_at :datetime
 #
 
 class EventList < ApplicationRecord
