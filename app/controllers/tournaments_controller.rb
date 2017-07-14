@@ -59,6 +59,7 @@ class TournamentsController < ApplicationController
   def tournament_params
     params.require(:tournament).permit(
       :name,
+      :place_id,
       :finish_start_lat,
       :finish_start_lon,
       :finish_end_lat,

@@ -18,6 +18,8 @@ class Skyderby.views.TournamentFormView extends Backbone.View
     @read_current_form_values()
     @calc_finish_line_params()
 
+    Skyderby.helpers.PlaceSelect(@$('select[name="tournament[place_id]"]'))
+
     @listenToOnce(Skyderby, 'maps_api:ready', @on_maps_api_ready)
     Skyderby.helpers.init_maps_api()
 

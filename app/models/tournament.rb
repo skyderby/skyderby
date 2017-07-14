@@ -43,6 +43,8 @@ class Tournament < ApplicationRecord
 
   has_many :sponsors, -> { order(:created_at) }, as: :sponsorable
 
+  delegate :name, to: :place, prefix: true, allow_nil: true
+
   def finish_line
     [
       Coordinate.new(
