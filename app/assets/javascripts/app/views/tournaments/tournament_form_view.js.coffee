@@ -13,6 +13,7 @@ class Skyderby.views.TournamentFormView extends Backbone.View
     'input [name="finish_line_length"]'           : 'on_change_finish_line_length'
     'input [name="finish_center_lat"]'            : 'on_change_finish_center_lat'
     'input [name="finish_center_lon"]'            : 'on_change_finish_center_lon'
+    'change select[name="tournament[place_id]"]'  : 'on_change_place'
 
   initialize: ->
     @read_current_form_values()
@@ -208,3 +209,19 @@ class Skyderby.views.TournamentFormView extends Backbone.View
 
     @exit_lat = Number(@$('[name="tournament[exit_lat]"]').val())
     @exit_lon = Number(@$('[name="tournament[exit_lon]"]').val())
+
+  on_change_place: (event) ->
+    element = $(event.currentTarget)
+    place_id = element.val()
+
+    return unless place_id
+
+    place = new Skyderby.models.Place(id: place_id)
+    place.fetch success: (place) =>
+      @$('[name="tournament[exit_lat]"]').val(place.get('latitude'))
+      @$('[name="tournament[exit_lon]"]').val(place.get('longitude'))
+
+      @exit_lat = Number(@$('[name="tournament[exit_lat]"]').val())
+      @exit_lon = Number(@$('[name="tournament[exit_lon]"]').val())
+
+      @on_change_finish_line_params()

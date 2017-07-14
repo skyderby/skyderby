@@ -1,10 +1,12 @@
 Skyderby.models.Place = Backbone.Model.extend({
 
-    defaults: {
-        name: '',
-        latitude: '',
-        longitude: '',
-        msl: 0
-    }
+  urlRoot: '/places',
+
+  defaults: {
+    name: '',
+    latitude: '',
+    longitude: '',
+    msl: null
+  }
 
 });
