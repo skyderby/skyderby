@@ -29,19 +29,24 @@ class PlacesController < ApplicationController
   end
 
   def show
-    @tracks =
-      Track
-      .where(place: @place)
-      .accessible_by(current_user)
-      .order(recorded_at: :desc)
-      .includes(
-        :pilot,
-        :distance,
-        :time,
-        :speed,
-        :video,
-        wingsuit: :manufacturer
-      ).paginate(page: params[:page], per_page: 50)
+    respond_to do |format|
+      format.json
+      format.html do
+        @tracks =
+          Track
+          .where(place: @place)
+          .accessible_by(current_user)
+          .order(recorded_at: :desc)
+          .includes(
+            :pilot,
+            :distance,
+            :time,
+            :speed,
+            :video,
+            wingsuit: :manufacturer
+          ).paginate(page: params[:page], per_page: 50)
+      end
+    end
   end
 
   def edit; end
