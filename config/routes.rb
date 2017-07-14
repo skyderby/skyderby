@@ -155,11 +155,10 @@ Skyderby::Application.routes.draw do
 
   root 'static_pages#index'
 
-  namespace :api, default: { format: :json } do
-    namespace :v1 do
-      defaults format: :json do
-        resources :virtual_competitions
-      end
+  namespace :api, module: :api do
+    namespace :v1, module: :v1 do
+      resources :profiles, only: :show
+      resources :virtual_competitions
     end
   end
 end
