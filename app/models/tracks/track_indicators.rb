@@ -29,7 +29,7 @@ module Tracks
     end
 
     def avg_horizontal_speed
-      return nil if time.zero?
+      return 0 if time.zero?
       speed_presentation(track_distance / time)
     end
 
@@ -48,18 +48,25 @@ module Tracks
     end
 
     def zero_wind_horizontal_speed
+      return 0 if time.zero?
       speed_presentation(zero_wind_trajectory_distance / time)
     end
 
     def horizontal_speed_wind_effect
+      return 0 if time.zero?
+
       wind_effect = (track_distance / time) - (zero_wind_trajectory_distance / time)
       sign = wind_effect.positive? ? '+' : ''
       "#{sign}#{speed_presentation(wind_effect)}"
     end
 
     def horizontal_speed_wind_effect_in_percents
+      return 0 if time.zero?
+
       raw_speed = (track_distance / time)
       zero_wind = (zero_wind_trajectory_distance / time)
+
+      return 0 if raw_speed.zero?
 
       ((raw_speed - zero_wind).abs / raw_speed * 100).round
     end
@@ -83,6 +90,7 @@ module Tracks
     end
 
     def distance_wind_effect_in_percents
+      return 0 if track_distance.zero?
       ((track_distance - zero_wind_distance).abs / track_distance * 100).round
     end
 
