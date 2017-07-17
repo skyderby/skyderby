@@ -69,7 +69,7 @@ module Tracks
         ]
       end.to_json
     end
-    
+
     protected
 
     attr_reader :track, :chart_preferences
