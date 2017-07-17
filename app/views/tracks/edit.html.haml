@@ -110,6 +110,14 @@
                           rows: 3,
                           placeholder: t('static_pages.index.track_form.comment_plh')
 
+        - if current_user && current_user.has_role?(:admin)
+
+          .form-group
+            .col-sm-6.col-sm-offset-3
+              .checkbox
+                %label
+                  = f.check_box :disqualified_from_online_competitions
+                  = t('activerecord.attributes.track.disqualified_from_online_competitions')
 
         .form-group
           .col-sm-6.col-sm-offset-3

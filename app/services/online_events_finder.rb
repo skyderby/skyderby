@@ -35,6 +35,9 @@ class OnlineEventsFinder
   attr_reader :track
 
   def available_for_scoring
-    track.public_track? && track.wingsuit && track.pilot
+    track.public_track? &&
+      track.wingsuit &&
+      track.pilot &&
+      !track.disqualified_from_online_competitions
   end
 end

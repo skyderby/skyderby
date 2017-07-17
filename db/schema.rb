@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170709214537) do
+ActiveRecord::Schema.define(version: 20170717172932) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -309,6 +309,7 @@ ActiveRecord::Schema.define(version: 20170709214537) do
     t.integer "track_file_id"
     t.decimal "ground_level", precision: 5, scale: 1, default: "0.0"
     t.datetime "recorded_at"
+    t.boolean "disqualified_from_online_competitions", default: false, null: false
     t.index ["id", "ff_start", "ff_end"], name: "index_tracks_on_id_and_ff_start_and_ff_end"
     t.index ["place_id"], name: "index_tracks_on_place_id"
     t.index ["profile_id"], name: "index_tracks_on_profile_id"

@@ -105,7 +105,8 @@ class TracksController < ApplicationController
       :cache_id,
       :track_index,
       :visibility,
-      :profile_id
+      :profile_id,
+      :disqualified_from_online_competitions
     )
   end
 

@@ -61,4 +61,13 @@ describe OnlineEventsFinder do
 
     expect(OnlineEventsFinder.new(track).execute).not_to include(worldwide_comp)
   end
+
+  it "returns blank array if track is disqualified" do
+    track = create(:empty_track)
+    track.disqualified_from_online_competitions = true
+
+    worldwide_comp = create :online_event
+
+    expect(OnlineEventsFinder.new(track).execute).not_to include(worldwide_comp)
+  end
 end
