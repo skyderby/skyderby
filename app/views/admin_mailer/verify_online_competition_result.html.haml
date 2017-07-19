@@ -1,0 +1,42 @@
+- provide :title, 'New online competition result requires verification'
+
+%p
+  Hello,
+
+%p
+  = link_to @score.profile.name, profile_url(@score.profile)
+  just uploaded track and took ##{@score.rank} place in 
+  #{link_to @score.virtual_competition.name, virtual_competition_url(@score.virtual_competition)}.
+
+%p
+  %strong
+    Details
+  %br
+  Track: #{link_to "##{@score.track.id}", track_url(@score.track)}
+  %br
+  Result: #{@score.result.round(1)}
+  
+%p
+  %strong
+    Top results in competition
+
+  %table{cellpadding: 8}
+    %thead
+      %tr
+        %th
+          Rank
+        %th
+          Pilot
+        %th
+          Result
+    %tbody
+      - @competition_top.each do |top_score|
+        %tr{style: ('background-color: #fcf8e3' if top_score.track == @score.track)}
+          %td
+            = top_score.rank
+          %td
+            = top_score.profile.name
+          %td
+            = top_score.result.round(1)
+
+

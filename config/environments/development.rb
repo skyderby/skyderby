@@ -33,6 +33,8 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  config.action_mailer.preview_path = Rails.root.join('lib', 'mailer_previews')
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 

@@ -32,6 +32,7 @@ class User < ApplicationRecord
   has_many :assignments, dependent: :destroy
   has_many :roles, through: :assignments
 
+  scope :admins, -> { joins(:assignments).where(assignments: { role: Role.admin }) }
   before_create :build_profile, :assign_default_role
 
   delegate :organizer_of_events, to: :profile, allow_nil: true

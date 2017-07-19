@@ -22,4 +22,5 @@ class VirtualCompResult < ApplicationRecord
 
   delegate :wingsuit, to: :track
   delegate :place, to: :track
+  delegate :pilot, to: :track
 end
