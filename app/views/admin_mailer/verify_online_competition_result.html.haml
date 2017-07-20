@@ -4,39 +4,36 @@
   Hello,
 
 %p
-  = link_to @score.profile.name, profile_url(@score.profile)
-  just uploaded track and took ##{@score.rank} place in 
-  #{link_to @score.virtual_competition.name, virtual_competition_url(@score.virtual_competition)}.
+  = link_to @track.pilot_name, profile_url(@track.pilot)
+  just uploaded track and took:
+  - @scores.each do |score|
+    %br
+    \##{score.rank} place in #{link_to score.virtual_competition.name, virtual_competition_url(score.virtual_competition)}.
 
 %p
   %strong
-    Details
-  %br
-  Track: #{link_to "##{@score.track.id}", track_url(@score.track)}
-  %br
-  Result: #{@score.result.round(1)}
+    Track: #{link_to "##{@track.id}", track_url(@track)}
   
-%p
-  %strong
-    Top results in competition
+- @competitions_top.each do |competition, top_scores|
+  %p
+    %strong
+      Top results in #{competition.name}
 
-  %table{cellpadding: 8}
-    %thead
-      %tr
-        %th
-          Rank
-        %th
-          Pilot
-        %th
-          Result
-    %tbody
-      - @competition_top.each do |top_score|
-        %tr{style: ('background-color: #fcf8e3' if top_score.track == @score.track)}
-          %td
-            = top_score.rank
-          %td
-            = top_score.profile.name
-          %td
-            = top_score.result.round(1)
-
-
+    %table{cellpadding: 8}
+      %thead
+        %tr
+          %th
+            Rank
+          %th
+            Pilot
+          %th
+            Result
+      %tbody
+        - top_scores.each do |top_score|
+          %tr{style: ('background-color: #fcf8e3' if top_score.track == @track)}
+            %td
+              = top_score.rank
+            %td
+              = top_score.profile.name
+            %td
+              = top_score.result.round(1)
