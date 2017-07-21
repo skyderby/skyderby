@@ -11,29 +11,27 @@
     \##{score.rank} place in #{link_to score.virtual_competition.name, virtual_competition_url(score.virtual_competition)}.
 
 %p
-  %strong
-    Track: #{link_to "##{@track.id}", track_url(@track)}
+  Track: #{link_to "##{@track.id}", track_url(@track)}
   
 - @competitions_top.each do |competition, top_scores|
   %p
-    %strong
-      Top results in #{competition.name}
+    Top results in #{competition.name}:
 
-    %table{cellpadding: 8}
+    %table{cellpadding: 8, style: 'border-collapse: collapse;'}
       %thead
         %tr
-          %th
+          %th{style: 'border: 1px solid #ddd; border-bottom: 2px solid #ddd; color: #646464'}
             Rank
-          %th
+          %th{width: 200, style: 'border: 1px solid #ddd; border-bottom: 2px solid #ddd; color: #646464'}
             Pilot
-          %th
+          %th{width: 70, style: 'border: 1px solid #ddd; border-bottom: 2px solid #ddd; color: #646464'}
             Result
       %tbody
         - top_scores.each do |top_score|
           %tr{style: ('background-color: #fcf8e3' if top_score.track == @track)}
-            %td
+            %td{style: 'border: 1px solid #ddd;'}
               = top_score.rank
-            %td
+            %td{style: 'border: 1px solid #ddd;'}
               = top_score.profile.name
-            %td
+            %td{style: 'border: 1px solid #ddd; text-align: right;'}
               = top_score.result.round(1)
