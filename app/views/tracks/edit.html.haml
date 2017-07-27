@@ -119,10 +119,11 @@
                   = f.check_box :disqualified_from_online_competitions
                   = t('activerecord.attributes.track.disqualified_from_online_competitions')
 
-        .form-group
-          .col-sm-6.col-sm-offset-3
-            Download file:
-            = link_to @track.track_file.file_file_name, track_download_path(@track), 'data-turbolinks': false
+        - if @track.track_file
+          .form-group
+            .col-sm-6.col-sm-offset-3
+              Download file:
+              = link_to @track.track_file.file_file_name, track_download_path(@track), 'data-turbolinks': false
 
         %hr
         .row
