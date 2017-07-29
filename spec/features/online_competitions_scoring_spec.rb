@@ -24,7 +24,7 @@ feature 'Scoring tracks in online competitions' do
     expect(track.virtual_comp_results.count).to eq(1)
 
     record = track.virtual_comp_results.first
-    expect(record.result).to be_within(0.01).of(700.73)
+    expect(record.result).to be_within(0.01).of(701.37)
     expect(record.highest_gr).to be_within(0.01).of(2.09)
     expect(record.highest_speed).to be_within(1).of(203)
   end

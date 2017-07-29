@@ -1,3 +1,5 @@
+require 'vincenty'
+
 class TrackSegment
   attr_reader :points, :start_point, :end_point
 
@@ -18,10 +20,7 @@ class TrackSegment
   end
 
   def distance
-    Skyderby::Geospatial.distance(
-      [start_point[:latitude], start_point[:longitude]],
-      [end_point[:latitude], end_point[:longitude]],
-    )
+    Vincenty.distance_between_points(start_point, end_point)
   end
   alias_method :straight_line_distance, :distance
 

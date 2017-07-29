@@ -138,7 +138,7 @@ describe Tracks::BasePresenter do
     stub_points_fetch(presenter)
 
     expect(presenter.distance_chart_line).to eq(<<~CHART.delete("\n"))
-      [[0.0,0],[1.0,11],[2.0,23],[3.0,34],[4.0,45],[5.0,57]]
+      [[0.0,0],[1.0,11],[2.0,23],[3.0,34],[4.0,45],[5.0,56]]
     CHART
   end
 

@@ -9,4 +9,8 @@ class Coordinate
   def [](key)
     public_send key
   end
+
+  def self.[](latitude, longitude)
+    new(latitude: latitude, longitude: longitude)
+  end
 end
