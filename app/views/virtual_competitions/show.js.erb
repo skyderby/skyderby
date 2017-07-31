@@ -1,2 +1,4 @@
 $('.virtual-competition__navbar').replaceWith('<%= j render 'navbar' %>');
 $('.virtual-competition__scoreboard').replaceWith('<%= j render 'scoreboard' %>');
+
+window.history.replaceState({}, document.title, "<%= url_for.html_safe %>");
