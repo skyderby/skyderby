@@ -1,12 +1,4 @@
 module VirtualCompetitionsHelper
-  def competition_title(competition)
-    if competition.group
-      competition.group.name + ' - ' + competition.name
-    else
-      competition.name
-    end
-  end
-
   def competition_unit(competition)
     if competition.distance? || competition.distance_in_time? || competition.distance_in_altitude?
       t('units.m')

@@ -92,6 +92,18 @@
       = f.text_field :range_to, class: 'form-control'
 
   .form-group
+    = f.label :default_view, class: 'col-sm-2 control-label', for: :default_view
+    .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
+      %label.btn.btn-default{ class:  ('active' if @competition.default_overall?) }
+        = f.radio_button 'default_view', 'default_overall'
+        = 'Overall'
+
+      %label.btn.btn-default{ class:  ('active' if @competition.default_last_year?) }
+        = f.radio_button 'default_view', 'default_last_year'
+        = 'Last year'
+
+
+  .form-group
     .col-sm-offset-2.col-sm-8
       .checkbox
         %label

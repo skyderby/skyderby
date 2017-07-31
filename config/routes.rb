@@ -128,6 +128,8 @@ Skyderby::Application.routes.draw do
   resources :virtual_competitions, concerns: :sponsorable do
     scope module: :virtual_competitions do
       resource :person_details, only: :show
+      resource :overall, only: :show
+      resources :year, only: :show, param: :year
     end
   end
   resources :virtual_comp_groups

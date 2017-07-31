@@ -1,0 +1,11 @@
+.virtual-competition__navbar
+  .tabs-navbar
+    .tabs-navbar__fade-right
+    %ul.tabs-navbar__menu
+      %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if @competition.overall?)}
+        = link_to virtual_competition_overall_path(@competition), remote: true do
+          = t('.overall')
+      - @competition.years.each do |year|
+        %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if @competition.year == year.to_s)}
+          = link_to virtual_competition_year_path(@competition, year: year), remote: true do
+            = year

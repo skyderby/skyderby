@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170717172932) do
+ActiveRecord::Schema.define(version: 20170730135631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -378,6 +378,7 @@ ActiveRecord::Schema.define(version: 20170717172932) do
     t.boolean "display_highest_speed"
     t.boolean "display_highest_gr"
     t.boolean "display_on_start_page"
+    t.integer "default_view", default: 0, null: false
     t.index ["place_id"], name: "index_virtual_competitions_on_place_id"
   end
 

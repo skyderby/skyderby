@@ -1,4 +1,4 @@
-- provide :title, competition_title(@competition)
+- provide :title, @competition.title
 
 .container.top-buffer
   - if can? :update, @competition
@@ -7,7 +7,7 @@
         = link_to edit_virtual_competition_path(@competition), class: 'btn-flat' do
           %i.fa.fa-pencil
           = t('general.edit')
-  %h2= competition_title(@competition)
+  %h2= @competition.title
   %div.top-buffer
     = t('virtual_competitions.place')
     - if @competition.place
@@ -18,78 +18,11 @@
   %div= competition_suit
   %div= competition_task(@competition)
   
-  .tabs-navbar
-    .tabs-navbar__fade-right
-    %ul.tabs-navbar__menu
-      %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' unless show_params[:year].present?)}
-        = link_to show_params.except(:year) do
-          = t('.overall')
-      - @competition.years.each do |year|
-        %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if show_params[:year] == year.to_s)}
-          = link_to show_params.merge(year: year) do
-            = year
+  = render 'navbar'
 
   .content-block
 
-    - if @competition.scores.size > 2
-      - winners = @competition.scores.take(3)
-      .row.top-buffer-30
-        .col-sm-4.col-md-4
-          = render 'winner', result: winners.first
-        .col-sm-4.col-md-4
-          = render 'winner', result: winners.second
-        .col-sm-4.col-md-4
-          = render 'winner', result: winners.third
-    .row
-      .col-sm-12
-        %table.table.vc-scoreboard-table
-          %thead
-            %tr
-              %th= '#'
-              %th=t 'activerecord.attributes.track.name'
-              %th=t 'activerecord.attributes.track.suit'
-              - if @competition.worldwide?
-                %th= t 'activerecord.attributes.track.place'
-              %th.text-right= 'Result'
-              - if @competition.display_highest_speed
-                %th.text-right= 'Best speed'
-              - if @competition.display_highest_gr
-                %th.text-right= 'Best G/R'
-              %th.text-right=t 'activerecord.attributes.track.recorded_at'
-              %th
-              %th
-          %tbody
-            - @competition.scores.each do |score|
-              %tr
-                %td= score.rank
-                %td
-                  = link_to score.profile.name.titleize,
-                            score.profile,
-                            'data-toggle' => 'tooltip',
-                            title: t('.show_profile'),
-                            class: 'dotted-underline'
-                %td= suit_presentation(score.wingsuit)
-                - if @competition.worldwide?
-                  %td= track_place(score.track)
-                %td.text-right
-                  = link_to format_result(score.result, @competition),
-                            score.track,
-                            'data-toggle' => 'tooltip',
-                            title: t('.show_details'),
-                            class: 'dotted-underline'
-                - if @competition.display_highest_speed
-                  %td.text-right= (score.highest_speed || 0.0).round(1)
-                - if @competition.display_highest_gr
-                  %td.text-right= (score.highest_gr || 0.0).round(2)
-                %td.text-right= score.recorded_at.strftime('%d.%m.%Y')
-                %td
-                  = link_to virtual_competition_person_details_path(@competition, profile_id: score.profile),
-                            remote: true do
-                    %i.fa.fa-list.text-muted
-                %td
-                  - if score.track.video
-                    %i.fa.fa-video-camera
-
+    = render 'scoreboard'
 
     - unless @competition.sponsors.empty?
       .row.top-buffer

@@ -24,10 +24,11 @@
 class VirtualCompetition < ApplicationRecord
   BASE_START_SPEED = 10
 
-  enum jumps_kind: [:skydive, :base]
-  enum suits_kind: [:wingsuit, :tracksuit, :slick]
+  enum jumps_kind: %i[skydive base]
+  enum suits_kind: %i[wingsuit tracksuit slick]
   enum discipline:
-    [:time, :distance, :speed, :distance_in_time, :distance_in_altitude]
+    %i[time distance speed distance_in_time distance_in_altitude]
+  enum default_view: %i[default_overall default_last_year]
 
   belongs_to :place, optional: true
   belongs_to :group,
@@ -55,7 +56,7 @@ class VirtualCompetition < ApplicationRecord
   end
 
   def task
-    if %w(distance_in_time distance_in_altitude).include? discipline
+    if %w[distance_in_time distance_in_altitude].include? discipline
       'distance'
     else
       discipline
@@ -67,6 +68,10 @@ class VirtualCompetition < ApplicationRecord
   end
 
   def years
-    (period_from.year..([period_to.year, DateTime.current.year].min)).to_a
+    (period_from.year..last_year).to_a
+  end
+
+  def last_year
+    [period_to.year, DateTime.current.year].min
   end
 end

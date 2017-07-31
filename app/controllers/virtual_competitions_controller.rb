@@ -1,5 +1,5 @@
 class VirtualCompetitionsController < ApplicationController
-  before_action :set_competition, only: [:edit, :update]
+  before_action :set_competition, only: %i[show edit update]
 
   def index
     @competitions = VirtualCompetition.includes(:group, place: :country).group_by { |x| x.group.name }
@@ -10,7 +10,16 @@ class VirtualCompetitionsController < ApplicationController
   end
 
   def show
-    @competition = VirtualCompetitionFacade.new(params)
+    competition_path =
+      if params[:year].present?
+        virtual_competition_year_path(@competition, year: params[:year])
+      elsif @competition.default_last_year?
+        virtual_competition_year_path(@competition, year: @competition.last_year)
+      else
+        virtual_competition_overall_path(@competition)
+      end
+
+    redirect_to competition_path
   end
 
   def edit
@@ -42,7 +51,7 @@ class VirtualCompetitionsController < ApplicationController
   end
 
   def show_params
-    params.permit(:year)
+    params.permit(:year, :overall)
   end
   helper_method :show_params
 
@@ -61,7 +70,8 @@ class VirtualCompetitionsController < ApplicationController
       :discipline_parameter,
       :display_on_start_page,
       :display_highest_speed,
-      :display_highest_gr
+      :display_highest_gr,
+      :default_view
     )
   end
 end
