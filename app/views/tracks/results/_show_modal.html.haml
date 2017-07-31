@@ -53,6 +53,6 @@
           .track-online-result
             - competition = result.virtual_competition
             %a{href: virtual_competition_path(competition)}
-              = competition_title(competition)
+              = VirtualCompetitions::TitlePresenter.call(competition)
             %span
               = ": #{format_result(result.result, competition)} #{competition_unit(competition)}"
