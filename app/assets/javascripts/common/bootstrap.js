@@ -18,4 +18,5 @@ $(document).on('turbolinks:load', function() {
 
 $(document).on('turbolinks:before-cache', function() {
   $('a[rel~=tooltip], .has-tooltip, [data-toggle=tooltip]').tooltip('destroy');
+  $('#modal').modal('hide');
 });
