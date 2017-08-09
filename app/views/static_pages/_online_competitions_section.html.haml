@@ -1,4 +1,4 @@
-- cache "online_competitions_summary_#{I18n.locale}", expires_in: 4.hour do
+- cache "online_competitions_summary_#{I18n.locale}", expires_in: 10.minutes do
   - if @online_competitions.many?
     .container.top-buffer
       .row
