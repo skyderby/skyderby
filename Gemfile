@@ -58,24 +58,17 @@ gem 'vincenty_distance'
 
 group :development do
   gem 'annotate'
-
-  gem 'rubocop', require: false
-  gem 'rack-mini-profiler'
-
-  gem 'meta_request'
-
   gem 'bullet'
-
+  gem 'meta_request'
+  gem 'rubocop', require: false
   gem 'spring'
 end
 
 group :development, :test do
+  gem 'byebug'
+  gem 'dotenv-rails'
   gem 'rspec'
   gem 'rspec-rails'
-
-  gem 'dotenv-rails'
-
-  gem 'byebug'
 end
 
 group :test do
@@ -93,3 +86,4 @@ gem 'jbuilder', '~> 2.6'
 gem 'puma'
 
 gem 'newrelic_rpm'
+gem 'rack-mini-profiler'

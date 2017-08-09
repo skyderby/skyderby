@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception, prepend: true
   before_action :process_locale_param
   before_action :set_locale
+  before_action :mini_profiler
+
   before_action :store_current_location, unless: :devise_controller?
   before_action :configure_permitted_parameters, if: :devise_controller?
 
@@ -55,5 +57,9 @@ class ApplicationController < ActionController::Base
 
   def user_locale
     cookies[:locale]
+  end
+
+  def mini_profiler
+    Rack::MiniProfiler.authorize_request if current_user&.has_role? :admin
   end
 end
