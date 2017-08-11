@@ -86,4 +86,5 @@ gem 'jbuilder', '~> 2.6'
 gem 'puma'
 
 gem 'newrelic_rpm'
+gem 'skylight'
 gem 'rack-mini-profiler'
