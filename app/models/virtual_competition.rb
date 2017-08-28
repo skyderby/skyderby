@@ -25,7 +25,7 @@ class VirtualCompetition < ApplicationRecord
   BASE_START_SPEED = 10
 
   enum jumps_kind: %i[skydive base]
-  enum suits_kind: %i[wingsuit tracksuit slick]
+  enum suits_kind: SuitTypes
   enum discipline:
     %i[time distance speed distance_in_time distance_in_altitude]
   enum default_view: %i[default_overall default_last_year]
@@ -40,6 +40,13 @@ class VirtualCompetition < ApplicationRecord
   has_many :personal_top_scores
   has_many :annual_top_scores
   has_many :sponsors, -> { order(:created_at) }, as: :sponsorable
+
+  scope :by_suit_type, ->(type)     { where(suits_kind: VirtualCompetition.suits_kinds[type]) }
+  scope :by_activity,  ->(activity) { where(jumps_kind: VirtualCompetition.jumps_kinds[activity]) }
+  scope :for_date,     ->(date)     { where(':date BETWEEN period_from AND period_to', date: date) }
+  scope :for_place,    ->(place)    { place ? by_place(place).or(worldwide) : worldwide }
+  scope :by_place,     ->(place)    { where(place: place) }
+  scope :worldwide,    ->           { where(place: nil) }
 
   delegate :name, to: :place, prefix: true, allow_nil: true
   delegate :name, to: :group, prefix: true, allow_nil: true

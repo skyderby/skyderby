@@ -41,17 +41,10 @@
   .form-group
     = f.label :suits_kind, class: 'col-sm-2 control-label', for: :suits_kind
     .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
-      %label.btn.btn-default{ class:  ('active' if @competition.wingsuit?) }
-        = f.radio_button 'suits_kind', 'wingsuit'
-        = 'Wingsuit'
-
-      %label.btn.btn-default{ class:  ('active' if @competition.tracksuit?) }
-        = f.radio_button 'suits_kind', 'tracksuit'
-        = 'Tracksuit'
-
-      %label.btn.btn-default{ class:  ('active' if @competition.slick?) }
-        = f.radio_button 'suits_kind', 'slick'
-        = 'Slick'
+      - SuitTypes.each do |type|
+        %label.btn.btn-default{ class:  ('active' if @competition.suits_kind == type) }
+          = f.radio_button 'suits_kind', type
+          = type.capitalize
 
   .form-group
     = f.label :discipline, class: 'col-sm-2 control-label', for: :discipline

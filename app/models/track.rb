@@ -72,6 +72,7 @@ class Track < ApplicationRecord
   after_commit :perform_jobs, unless: :skip_jobs
 
   delegate :tracksuit?, :wingsuit?, :slick?, to: :wingsuit, allow_nil: true
+  delegate :kind, to: :wingsuit, allow_nil: true, prefix: true
   delegate :msl, to: :place, allow_nil: true, prefix: true
   delegate :name, to: :pilot, allow_nil: true, prefix: true
   delegate :name, to: :place, allow_nil: true, prefix: true

@@ -16,7 +16,7 @@
 class Wingsuit < ApplicationRecord
   attr_accessor :photo
 
-  enum kind: [:wingsuit, :tracksuit, :slick]
+  enum kind: SuitTypes
 
   belongs_to :manufacturer
 

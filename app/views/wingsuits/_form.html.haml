@@ -12,17 +12,10 @@
   .form-group
     = f.label :kind, class: 'col-sm-2 control-label', for: :kind
     .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
-      %label.btn.btn-default{ class:  ('active' if @wingsuit.wingsuit?) }
-        = f.radio_button 'kind', 'wingsuit'
-        = 'Wingsuit'
-
-      %label.btn.btn-default{ class:  ('active' if @wingsuit.tracksuit?) }
-        = f.radio_button 'kind', 'tracksuit'
-        = 'Tracksuit'
-
-      %label.btn.btn-default{ class:  ('active' if @wingsuit.slick?) }
-        = f.radio_button 'kind', 'slick'
-        = 'Slick'
+      - SuitTypes.each do |type|
+        %label.btn.btn-default{ class:  ('active' if @wingsuit.kind == type) }
+          = f.radio_button 'kind', type
+          = type.capitalize
 
   .form-group
     = f.label :photo, class: 'col-sm-2 control-label', for: :photo

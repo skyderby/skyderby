@@ -11,7 +11,7 @@ describe OnlineEventsFinder do
 
     place_specific_comp = create :online_event, place: place
     last_year_comp = create :online_event, :last_year
-    
+
     track = create :empty_track, wingsuit: create(:wingsuit), pilot: create(:pilot)
     expect(OnlineEventsFinder.new(track).execute).to eq [worldwide_comp]
   end
@@ -24,11 +24,10 @@ describe OnlineEventsFinder do
     place_specific_comp = create :online_event, place: place
     last_year_comp = create :online_event, :last_year
 
-    track = create(
-      :empty_track, 
-      wingsuit: create(:wingsuit), 
-      pilot: create(:pilot),
-      place: place)
+    track = create(:empty_track,
+                   wingsuit: create(:wingsuit),
+                   pilot: create(:pilot),
+                   place: place)
 
     expect(OnlineEventsFinder.new(track).execute).to match_array(
       [worldwide_comp, place_specific_comp]
