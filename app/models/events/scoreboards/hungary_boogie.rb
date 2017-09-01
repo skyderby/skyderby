@@ -16,9 +16,9 @@ module Events
         end
 
         def average_result
-           results_values = event_tracks.reject(&:is_disqualified).map { |x| x.result }
-           return 0 if results_values.blank?
-           results_values.inject(0.0) { |sum, el| sum + el } / results_values.size
+          results_values = event_tracks.reject(&:is_disqualified).map { |x| x.result }
+          return 0 if results_values.blank?
+          results_values.inject(0.0) { |sum, el| sum + el } / results_values.size
         end
       end
 
