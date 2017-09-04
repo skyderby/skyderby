@@ -1,0 +1,10 @@
+%ul.exit-performance__tracks-list
+  - @profile.base_tracks.each do |track|
+    %li.exit-performance__track{'data-track-id': track.id}
+      .checkbox
+        %label
+          %input{type: 'checkbox'}
+          = track.id
+          = track.recorded_at
+          = track.place_name
+          = track.wingsuit_name

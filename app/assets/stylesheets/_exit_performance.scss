@@ -1,0 +1,25 @@
+.exit-performance {
+  display: flex;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50px;
+  bottom: 41px;
+}
+
+.exit-performance__tracks-container {
+  height: 100%;
+  flex-basis: 30%;
+  padding: 15px;
+}
+
+.exit-performance__chart-container {
+  height: 100%;
+  flex-basis: 70%;
+}
+
+.exit-performance__tracks-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}

@@ -30,6 +30,7 @@ class Profile < ApplicationRecord
   has_many :public_tracks,
            -> { where(visibility: 0).order('created_at DESC') },
            class_name: 'Track'
+  has_many :base_tracks, -> { base }, class_name: 'Track'
   has_many :badges
   has_many :events
   has_many :event_organizers

@@ -1,0 +1,9 @@
+.exit-performance
+  .exit-performance__tracks-container
+    = render 'tracks'
+  .exit-performance__chart-container
+
+- content_for :page_js do
+  :javascript
+    var view = new Skyderby.views.ExitPerformance({ el: $('.exit-performance') });
+    view.render();

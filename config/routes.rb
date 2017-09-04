@@ -38,6 +38,7 @@ Skyderby::Application.routes.draw do
       resource :video, only: [:new, :edit, :show, :create, :update, :destroy]
       resource :results, only: :show
       resource :download, only: :show
+      resource :exit_performance, only: :show
     end
 
     resources :weather_data
@@ -93,6 +94,7 @@ Skyderby::Application.routes.draw do
       resources :badges
       resource :avatar, only: [:new, :create]
       resource :merge, only: [:new, :create]
+      resource :exit_performance, only: :show
       collection do
         resources :select_options, only: :index
       end
