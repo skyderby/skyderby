@@ -26,7 +26,7 @@ gem 'cancancan'
 gem 'pundit'
 
 # Background jobs
-gem 'sidekiq', ' < 5'
+gem 'sidekiq', ' < 6'
 
 # Exception notifications
 gem 'honeybadger', '~> 3.1'
