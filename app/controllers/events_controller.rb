@@ -84,7 +84,8 @@ class EventsController < ApplicationController
       :range_to,
       :status,
       :wind_cancellation,
-      :visibility
+      :visibility,
+      :number_of_results_for_total
     )
   end
 end
