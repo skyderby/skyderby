@@ -1,5 +1,5 @@
 module Tracks
-  class ExitPerformance
+  class FlightProfile
     def initialize(track_id)
       @track = Track.find(track_id)
     end

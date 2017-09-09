@@ -1,0 +1,9 @@
+.flight-profiles
+  .flight-profiles__tracks-container
+    = render 'tracks'
+  .flight-profiles__chart-container
+
+- content_for :page_js do
+  :javascript
+    var view = new Skyderby.views.ExitPerformance({ el: $('.flight-profiles') });
+    view.render();

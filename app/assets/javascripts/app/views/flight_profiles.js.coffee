@@ -3,7 +3,7 @@ class Skyderby.views.ExitPerformance extends Backbone.View
   tracks_cache: {}
 
   events:
-    'change .exit-performance__track input' : 'toggle_track'
+    'change .flight-profiles__track input' : 'toggle_track'
 
   render: ->
     @init_chart()
@@ -18,32 +18,53 @@ class Skyderby.views.ExitPerformance extends Backbone.View
       @remove_from_chart(track_id)
 
   add_to_chart: (track_id) ->
-    chart = @$('.exit-performance__chart-container').highcharts()
+    add_series = (data) ->
+      chart = @$('.flight-profiles__chart-container').highcharts()
+      chart.addSeries({
+        name: track_id,
+        data: data,
+        tooltip: {
+          headerFormat: '<span style="font-size: 14px">#{series.name}</span><br/>',
+          pointFormat: '<span style="font-size: 16px">↓{point.y} →{point.x}</span><br/>'
+        }
+      })
 
     if (cached_data = @tracks_cache[track_id])
-      chart.addSeries({ name: track_id, data: cached_data })
+      add_series(cached_data)
     else
-      $.get('/tracks/' + track_id + '/exit_performance')
+      $.get('/tracks/' + track_id + '/flight_profile')
         .done( (data) =>
           @tracks_cache[track_id] = data
-          chart.addSeries({ name: track_id, data: data })
+          add_series(data)
         )
 
   remove_from_chart: (track_id) ->
-    chart = @$('.exit-performance__chart-container').highcharts()
+    chart = @$('.flight-profiles__chart-container').highcharts()
     for serie in chart.series
       if serie.name == track_id
         serie.remove()
         break
 
   init_chart: ->
-    @$('.exit-performance__chart-container').highcharts({
+    @$('.flight-profiles__chart-container').highcharts({
       chart: {
         type: 'spline',
         zoomType: 'x'
       },
       title: {
         text: ''
+      },
+      plotOptions: {
+        spline: {
+          marker: {
+            enabled: false
+          }
+        },
+        series: {
+          marker: {
+            radius: 1
+          },
+        }
       },
       xAxis: {
         title: {
@@ -52,7 +73,7 @@ class Skyderby.views.ExitPerformance extends Backbone.View
         opposite: true,
         gridLineWidth: 1,
         tickInterval: 100,
-        # tickPixelInterval: 72,
+        min: 0
       },
       yAxis: {
         title: {
@@ -60,7 +81,7 @@ class Skyderby.views.ExitPerformance extends Backbone.View
         },
         reversed: true,
         tickInterval: 100,
-        # tickPixelInterval: 72,
+        min: 0
       },
       credits: {
         enabled: false

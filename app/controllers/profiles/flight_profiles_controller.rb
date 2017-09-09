@@ -1,5 +1,5 @@
 module Profiles
-  class ExitPerformancesController < ApplicationController
+  class FlightProfilesController < ApplicationController
     def show
       @profile = Profile.find(params[:profile_id])
     end

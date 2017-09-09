@@ -4,30 +4,31 @@
 .user{data: {id: @profile.id}}
 .container.top-buffer
   .content-block
-    - if policy(@profile).edit?
-      .card-actions
-        .position-right
-          = link_to edit_profile_path(@profile), class: 'btn-flat' do
-            %i.fa.fa-pencil
-            = t('general.edit')
+    .card-actions.text-right
+      = link_to profile_flight_profiles_path(@profile), class: 'btn-flat' do
+        Flight profiles
 
-          - if policy(@profile).destroy?
-            = link_to t('general.delete'),
-                      @profile,
-                      method: :delete,
-                      remote: true,
-                      data: { confirm: 'Are you sure you want to delete this profile?' },
-                      class: 'btn-flat text-danger'
+      - if policy(@profile).edit?
+        = link_to edit_profile_path(@profile), class: 'btn-flat' do
+          %i.fa.fa-pencil
+          = t('general.edit')
 
+        - if policy(@profile).destroy?
+          = link_to t('general.delete'),
+                    @profile,
+                    method: :delete,
+                    remote: true,
+                    data: { confirm: 'Are you sure you want to delete this profile?' },
+                    class: 'btn-flat text-danger'
 
-          - if @profile.belongs_to_user? && policy(@profile).masquerade?
-            = link_to new_user_masquerades_path(@profile.owner), class: 'btn-flat' do
-              %i.fa.fa-magic
-              Masquerade
+        - if @profile.belongs_to_user? && policy(@profile).masquerade?
+          = link_to new_user_masquerades_path(@profile.owner), class: 'btn-flat' do
+            %i.fa.fa-magic
+            Masquerade
 
-          - if policy(@profile).merge?
-            = link_to new_profile_merge_path(@profile), remote: true, class: 'btn-flat' do
-              Merge
+        - if policy(@profile).merge?
+          = link_to new_profile_merge_path(@profile), remote: true, class: 'btn-flat' do
+            Merge
     .row
       .col-sm-2.col-md-2
         .user-avatar
