@@ -11,6 +11,7 @@ ru:
         rules: Правила
         wind_cancellation: Вычитание ветра
         visibility: Доступ
+        number_of_results_for_total: Количество прыжков в зачет
   event_status:
     draft: Подготовка
     published: Опубликовано
