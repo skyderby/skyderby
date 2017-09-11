@@ -5,6 +5,17 @@
       = f.text_field :name, autofocus: true, class: 'form-control'
 
   .form-group
+    = f.label :kind, class: 'col-sm-3 control-label', for: :kind
+    .btn-group.col-sm-9{data: {toggle: 'buttons'}}
+      %label.btn.btn-default{class: ('active' if @place.skydive?)}
+        = f.radio_button 'kind', 'skydive'
+        = 'Skydive'
+
+      %label.btn.btn-default{class: ('active' if @place.base?)}
+        = f.radio_button 'kind', 'base'
+        = 'B.A.S.E'
+
+  .form-group
     = f.label :country, class: 'col-sm-3 control-label', for: :country
     .col-sm-5
       = f.collection_select(:country_id, Country.order(:name), :id, :name, {promt: 'Select country'}, {class: 'form-control'})

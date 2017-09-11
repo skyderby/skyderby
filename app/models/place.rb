@@ -12,6 +12,8 @@
 #
 
 class Place < ApplicationRecord
+  enum kind: %i[skydive base]
+
   belongs_to :country
 
   has_many :tracks, -> { order('created_at DESC') }
