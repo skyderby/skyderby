@@ -8,6 +8,7 @@ end
 json.personal_scores do |json|
   json.array! @profile.personal_top_scores do |score|
     json.partial! score.virtual_competition
+    json.overall_rank score.rank
     json.overall_result format_result(score.result, score.virtual_competition)
   end
 end
