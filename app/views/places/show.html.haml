@@ -16,7 +16,6 @@
                   %a{href: place_path(@place), data: {method: 'delete', confirm: t('places.show.delete_confirmation')}}
                     %i.fa.fa-times-circle
                   |
-                = @place.information
             %h4= "Lat: #{@place.latitude}, Lon: #{@place.longitude}, MSL: #{@place.msl}"
 
   .content-block
