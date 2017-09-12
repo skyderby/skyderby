@@ -2,13 +2,13 @@
 #
 # Table name: places
 #
-#  id          :integer          not null, primary key
-#  name        :string(510)
-#  latitude    :decimal(15, 10)
-#  longitude   :decimal(15, 10)
-#  information :text
-#  country_id  :integer
-#  msl         :decimal(5, 1)
+#  id         :integer          not null, primary key
+#  name       :string(510)
+#  latitude   :decimal(15, 10)
+#  longitude  :decimal(15, 10)
+#  country_id :integer
+#  msl        :decimal(5, 1)
+#  kind       :integer          default("skydive"), not null
 #
 
 require 'spec_helper'

@@ -19,6 +19,7 @@
 #  display_highest_speed :boolean
 #  display_highest_gr    :boolean
 #  display_on_start_page :boolean
+#  default_view          :integer          default("default_overall"), not null
 #
 
 require 'rails_helper'

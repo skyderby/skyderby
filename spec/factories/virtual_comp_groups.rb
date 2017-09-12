@@ -1,10 +1,11 @@
 # == Schema Information
 #
-# Table name: countries
+# Table name: virtual_comp_groups
 #
-#  id   :integer          not null, primary key
-#  name :string(510)
-#  code :string(510)
+#  id         :integer          not null, primary key
+#  name       :string(510)
+#  created_at :datetime
+#  updated_at :datetime
 #
 
 FactoryGirl.define do

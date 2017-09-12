@@ -2,20 +2,21 @@
 #
 # Table name: events
 #
-#  id                :integer          not null, primary key
-#  name              :string(510)
-#  range_from        :integer
-#  range_to          :integer
-#  created_at        :datetime
-#  updated_at        :datetime
-#  status            :integer          default("draft")
-#  profile_id        :integer
-#  place_id          :integer
-#  is_official       :boolean
-#  rules             :integer          default("speed_distance_time")
-#  starts_at         :date
-#  wind_cancellation :boolean          default(FALSE)
-#  visibility        :integer          default("public_event")
+#  id                          :integer          not null, primary key
+#  name                        :string(510)
+#  range_from                  :integer
+#  range_to                    :integer
+#  created_at                  :datetime
+#  updated_at                  :datetime
+#  status                      :integer          default("draft")
+#  profile_id                  :integer
+#  place_id                    :integer
+#  is_official                 :boolean
+#  rules                       :integer          default("speed_distance_time")
+#  starts_at                   :date
+#  wind_cancellation           :boolean          default(FALSE)
+#  visibility                  :integer          default("public_event")
+#  number_of_results_for_total :integer
 #
 
 require 'spec_helper'
