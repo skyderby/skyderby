@@ -50,7 +50,7 @@ module VirtualCompetitionsHelper
   end
 
   def format_result(result, competition)
-    if competition.distance? || competition.distance_in_time?
+    if competition.distance? || competition.distance_in_time? || competition.distance_in_altitude?
       result.round
     else
       result.round(1)
