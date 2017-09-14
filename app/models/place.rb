@@ -20,6 +20,9 @@ class Place < ApplicationRecord
   has_many :pilots, -> { distinct }, through: :tracks
   has_many :events
   has_many :weather_data, as: :weather_datumable
+  has_many :exit_measurements, -> { order(:altitude) }, dependent: :delete_all
+
+  accepts_nested_attributes_for :exit_measurements, allow_destroy: true
 
   validates :name, presence: true
   validates :country, presence: true

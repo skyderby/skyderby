@@ -40,6 +40,7 @@
 //= require jquery.Jcrop
 //= require geospatial
 //= require app/app
+//= require_tree ./polyfills
 //= require_tree ./events
 //= require_tree ./common
 //= require_self

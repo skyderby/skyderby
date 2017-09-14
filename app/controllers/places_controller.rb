@@ -94,7 +94,8 @@ class PlacesController < ApplicationController
       :latitude,
       :longitude,
       :msl,
-      :kind
+      :kind,
+      exit_measurements_attributes: {}
     )
   end
 

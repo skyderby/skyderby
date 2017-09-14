@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170912091847) do
+ActiveRecord::Schema.define(version: 20170912185843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,13 @@ ActiveRecord::Schema.define(version: 20170912091847) do
     t.boolean "wind_cancellation", default: false
     t.integer "visibility", default: 0
     t.integer "number_of_results_for_total"
+  end
+
+  create_table "exit_measurements", force: :cascade do |t|
+    t.bigint "place_id"
+    t.integer "altitude"
+    t.integer "distance"
+    t.index ["place_id"], name: "index_exit_measurements_on_place_id"
   end
 
   create_table "manufacturers", id: :serial, force: :cascade do |t|
@@ -412,6 +419,7 @@ ActiveRecord::Schema.define(version: 20170912091847) do
   add_foreign_key "event_organizers", "profiles"
   add_foreign_key "event_tracks", "tracks"
   add_foreign_key "events", "profiles"
+  add_foreign_key "exit_measurements", "places"
   add_foreign_key "profiles", "countries"
   add_foreign_key "qualification_jumps", "qualification_rounds"
   add_foreign_key "qualification_jumps", "tracks"
