@@ -7,13 +7,18 @@
   bottom: 41px;
 }
 
-.flight-profiles__tracks-container {
+.flight-profiles__sidebar {
   height: 100%;
   width: 30%;
-  padding: 15px 10px;
-  overflow-y: scroll;
+  padding: 15px 10px 55px 10px;
   position: relative;
   border-right: rgba(0, 0, 0, 0.14) solid 1px;
+  overflow: hidden;
+}
+
+.flight-profiles__tracks-container {
+  height: 100%;
+  overflow-y: scroll;
 }
 
 .flight-profiles__place-container {

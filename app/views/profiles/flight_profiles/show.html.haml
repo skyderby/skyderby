@@ -1,6 +1,7 @@
 .flight-profiles
-  .flight-profiles__tracks-container
-    = render 'tracks'
+  .flight-profiles__sidebar
+    .flight-profiles__tracks-container
+      = render 'tracks'
     .flight-profiles__place-container
       = select_tag :place, nil, include_blank: true , class: 'form-control'
 
