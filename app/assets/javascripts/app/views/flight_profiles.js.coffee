@@ -54,6 +54,7 @@ class Skyderby.views.ExitPerformance extends Backbone.View
     place_name = $(e.currentTarget).text()
 
     if (place_id)
+      @remove_place_from_chart()
       @add_place_to_chart(place_name, place_id)
     else
       @remove_place_from_chart()
