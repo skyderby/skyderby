@@ -51,7 +51,7 @@ class Skyderby.views.ExitPerformance extends Backbone.View
 
   toggle_place: (e) ->
     place_id   = $(e.currentTarget).val()
-    place_name = $(e.currentTarget).text()
+    place_name = $(e.currentTarget).children('option:selected').text()
 
     if (place_id)
       @remove_place_from_chart()
