@@ -12,6 +12,18 @@
   width: 30%;
   padding: 15px 10px;
   overflow-y: scroll;
+  position: relative;
+  border-right: rgba(0, 0, 0, 0.14) solid 1px;
+}
+
+.flight-profiles__place-container {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  padding: 10px;
+  border-top: rgba(0, 0, 0, 0.14) solid 1px;
+  background-color: #fff;
 }
 
 .flight-profiles__chart-container {

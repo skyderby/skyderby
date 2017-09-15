@@ -24,6 +24,7 @@ class Place < ApplicationRecord
 
   accepts_nested_attributes_for :exit_measurements, allow_destroy: true
 
+  scope :with_measurements, -> { where(id: ExitMeasurement.distinct.pluck(:place_id)) }
   validates :name, presence: true
   validates :country, presence: true
   validates :latitude, presence: true

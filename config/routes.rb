@@ -163,6 +163,11 @@ Skyderby::Application.routes.draw do
     namespace :v1, module: :v1 do
       resources :profiles, only: :show
       resources :virtual_competitions
+      resources :places do
+        scope module: :places do
+          resource :exit_measurements, only: :show
+        end
+      end
     end
   end
 end
