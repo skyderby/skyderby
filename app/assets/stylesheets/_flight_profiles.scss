@@ -10,7 +10,7 @@
 .flight-profiles__sidebar {
   height: 100%;
   width: 30%;
-  padding: 15px 10px 55px 10px;
+  padding-bottom: 55px;
   position: relative;
   border-right: rgba(0, 0, 0, 0.14) solid 1px;
   overflow: hidden;
@@ -18,6 +18,7 @@
 
 .flight-profiles__tracks-container {
   height: 100%;
+  padding: 15px 10px;
   overflow-y: scroll;
 }
 
