@@ -8,9 +8,12 @@ describe Api::V1::ProfilesController, type: :controller do
     expected_result = {
       'id' => profile.id,
       'name' => 'Pilot 1',
-      'photo' => '/images/original/missing.png',
-      'photo_medium' => '/images/medium/missing.png',
-      'photo_thumb' => '/images/thumb/missing.png'
+      'photo' => {
+        'original' => '/images/original/missing.png',
+        'medium' => '/images/medium/missing.png',
+        'thumb' => '/images/thumb/missing.png'
+      },
+      'personal_scores' => []
     }
 
     expect(json).to eq(expected_result)

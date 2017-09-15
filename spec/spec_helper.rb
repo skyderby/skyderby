@@ -11,7 +11,7 @@ require 'capybara/rspec'
 require 'capybara/poltergeist'
 
 Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, { js_errors: true })
+  Capybara::Poltergeist::Driver.new(app, js_errors: true)
 end
 Capybara.javascript_driver = :poltergeist
 Capybara.ignore_hidden_elements = true
@@ -20,7 +20,7 @@ Capybara.asset_host = 'http://localhost:3000'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
@@ -35,6 +35,10 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each, type: :feature) do
+    DatabaseCleaner.strategy = :truncation
   end
 
   config.before(:each) do

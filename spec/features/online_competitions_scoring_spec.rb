@@ -4,6 +4,7 @@ require 'sidekiq/testing'
 feature 'Scoring tracks in online competitions' do
   before do
     Sidekiq::Testing.inline!
+    create :user, email: 'admin@example.rb', name: 'Admin'
   end
 
   scenario 'Distance in time competition' do
