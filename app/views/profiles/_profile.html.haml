@@ -1,0 +1,12 @@
+%tr
+  %td= image_tag profile.userpic.url(:thumb), class: 'img-rounded img-50 loading-bg'
+  %td= profile.id
+  %td= profile.name
+  %td= profile.country_code
+  %td
+    -if profile.belongs_to_user?
+      %i.fa.fa-user
+  %td= link_to 'Show', profile_path(profile)
+  %td
+    - if current_user.has_role?(:admin) && profile.owner && profile.belongs_to_user?
+      = link_to 'Masquerade', new_user_masquerades_path(profile.owner)

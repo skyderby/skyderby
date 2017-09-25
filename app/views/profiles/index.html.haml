@@ -3,27 +3,34 @@
     %h1
       Профили
 
-  .row
-    .col-sm-12
-      %table.table
-        %thead
-          %th #
-          %th
-          %th= t 'activerecord.attributes.profiles.name'
-          %th= t 'activerecord.attributes.profiles.country'
-          %th
-          %th
-        %tbody
-          - @profiles.each do |profile|
-            %tr
-              %td= profile.id
-              %td= image_tag profile.userpic.url(:thumb), class: 'img-rounded img-50 loading-bg'
-              %td= profile.name
-              %td= profile.country_code
-              %td
-                -if profile.belongs_to_user?
-                  %i.fa.fa-user
-              %td= link_to 'Show', profile_path(profile)
-              %td
-                - if current_user.has_role?(:admin) && profile.owner && profile.belongs_to_user?
-                  = link_to 'Masquerade', new_user_masquerades_path(profile.owner)
+  .content-block
+    .profiles__search-container
+      %span.profiles__search-icon
+        %i.fa.fa-search
+      %input.profiles__search{name: 'search', data: {remote: true, url: profiles_path}, placeholder: 'Type to search'}
+    %table.table.profiles__table
+      %thead
+        %th
+        %th #
+        %th= t 'activerecord.attributes.profiles.name'
+        %th= t 'activerecord.attributes.profiles.country'
+        %th
+        %th
+        %th
+      %tbody
+        = render @profiles
+
+- content_for :page_js do
+  :javascript
+    (function() {
+      var elem = document.querySelector('input[name="search"]');
+      var timer_id = undefined;
+      elem.addEventListener('input', function() {
+        if (timer_id !== undefined) clearTimeout(timer_id);
+
+        timer_id = setTimeout(function() {
+          $.rails.handleRemote($(elem));
+          timer_id = undefined;
+        }, 200);
+      });
+    })();

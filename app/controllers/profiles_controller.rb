@@ -1,10 +1,17 @@
 # encoding: utf-8
+
 class ProfilesController < ApplicationController
-  before_action :set_profile, only: [:show, :edit, :update, :destroy]
+  before_action :set_profile, only: %i[show edit update destroy]
 
   def index
     authorize Profile
-    @profiles = Profile.includes(:country).order(:name)
+
+    @profiles =
+      Profile
+      .includes(:country, :owner)
+      .search(params[:search])
+      .order(:name)
+      .paginate(page: params[:page], per_page: 25)
   end
 
   def show
