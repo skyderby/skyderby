@@ -1,0 +1,23 @@
+- if @suits.wingsuits.any?
+  %h3.suits-index__list-title Wingsuits
+  %ul.suits-index__list
+    - @suits.wingsuits.each do |suit|
+      = render suit
+
+- if @suits.monotracks.any?
+  %h3.suits-index__list-title Monotracks
+  %ul.suits-index__list
+    - @suits.monotracks.each do |suit|
+      = render suit
+
+- if @suits.tracksuits.any?
+  %h3.suits-index__list-title Tracksuits
+  %ul.suits-index__list
+    - @suits.tracksuits.each do |suit|
+      = render suit
+
+- if @suits.slicks.any?
+  %h3.suits-index__list-title Slicks
+  %ul.suits-index__list
+    - @suits.slicks.each do |suit|
+      = render suit

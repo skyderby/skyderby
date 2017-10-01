@@ -26,10 +26,12 @@
 @import "font-awesome";
 
 @import 'variables';
+@import './mixins/**/*';
 @import './*';
 @import './common/**/*';
 @import './blocks/**/*';
 @import './events/**/*';
+@import './suits/**/*';
 @import './tracks/**/*';
 @import './tournaments/**/*';
 

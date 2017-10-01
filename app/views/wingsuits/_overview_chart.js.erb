@@ -1,0 +1,109 @@
+var div = document.createElement('div');
+div.className = 'suits-index__overview-chart';
+
+var container = document.querySelector('.suits-index__main-area');
+container.innerHTML = '';
+container.appendChild(div);
+
+document
+  .querySelector('.suits-index__manufacturer-list li.active')
+  .classList.remove('active');
+
+document
+  .querySelector('.suits-index__manufacturer-list li[data-overview]')
+  .classList.add('active')
+//////////////////////////////////////////////////
+// CHART DATA
+
+var data = <%= @suits.suits_popularity.to_json.html_safe %>;
+
+var manufacturers_data = [];
+var suits_data = [];
+
+var grouped_data = data.reduce(function(rv, x) {
+  (rv[x['manufacturer_name']] = rv[x['manufacturer_name']] || []).push(x);
+  return rv;
+}, {});
+
+var color_index = 0;
+
+for (var manufacturer in grouped_data) {
+  var manufacturer_data = grouped_data[manufacturer];
+  var sum = manufacturer_data.reduce(function(memo, x) {
+    return memo += x.y;
+  }, 0);
+
+  var color = Highcharts.getOptions().colors[color_index];
+
+  manufacturers_data.push({
+    name: manufacturer,
+    y: sum,
+    color: color
+  });
+
+  var data_length = manufacturer_data.length
+  for (var i = 0; i < data_length; i++) {
+    var brightness = 0.2 - (i / data_length) / 5;
+    var suit = manufacturer_data[i];
+
+    suits_data.push({
+      name: suit.name,
+      y: suit.y,
+      color: Highcharts.Color(color).brighten(brightness).get()
+    });
+  };
+  
+  color_index += 1;
+}
+
+//////////////////////////////////////////////////
+// CHART SETTINGS
+
+Highcharts.chart({
+  chart: {
+    renderTo: div,
+    type: 'pie'
+  },
+  title: {
+    text: 'Suits popularity among people for last year'
+  },
+  plotOptions: {
+    pie: {
+      shadow: false,
+      center: ['50%', '50%']
+    }
+  },
+  tooltip: {
+    valueSuffix: '%'
+  },
+  credits: {
+    enabled: false
+  },
+  series: [
+    {
+      name: 'Manufacturer share',
+      size: '60%',
+      data: manufacturers_data,
+      dataLabels: {
+        formatter: function () {
+          return this.y > 5 ? this.point.name : null;
+        },
+        color: '#ffffff',
+        distance: -30
+      }
+    },
+    {
+      name: 'Suit share',
+      data: suits_data,
+      size: '80%',
+      innerSize: '60%',
+      dataLabels: {
+        formatter: function () {
+          // display only if larger than 1
+          return this.y > 1 ? '<b>' + this.point.name + ':</b> ' +
+            this.y + '%' : null;
+        }
+      },
+    }
+  ]
+});

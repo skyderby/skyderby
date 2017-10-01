@@ -1,0 +1,10 @@
+document.querySelector('.suits-index__main-area').innerHTML = '<%= j render 'manufacturer_suits' %>';
+
+document
+  .querySelector('.suits-index__manufacturer-list li.active')
+  .classList.remove('active');
+
+document
+  .querySelector('.suits-index__manufacturer-list li[data-manufacturer="<%= @suits.manufacturer.id %>"]')
+  .classList.add('active')
+

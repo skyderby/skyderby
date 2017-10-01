@@ -1,10 +1,5 @@
 .flight-profiles {
-  display: flex;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50px;
-  bottom: 41px;
+  @include full-screen-container;
 }
 
 .flight-profiles__sidebar {

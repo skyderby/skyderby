@@ -1,17 +1,16 @@
 # encoding: utf-8
+
 class WingsuitsController < ApplicationController
   before_action :set_wingsuit, only: [:show, :edit, :update, :destroy]
 
   load_and_authorize_resource
 
   def index
-    @wingsuits =
-      Wingsuit.includes(:manufacturer)
-              .select('wingsuits.id, wingsuits.name, wingsuits.kind, manufacturer_id, manufacturers.name manufacturer_name')
-              .order('manufacturers.name, kind, wingsuits.name')
+    @suits = Suits::Index.for(params)
 
     respond_to do |format|
-      format.html { @wingsuits = @wingsuits.group_by(&:manufacturer_name) }
+      format.html
+      format.js
     end
   end
 
@@ -63,6 +62,11 @@ class WingsuitsController < ApplicationController
   end
 
   private
+
+  def index_params
+    params.permit(:manufacturer_id)
+  end
+  helper_method :index_params
 
   def show_params
     params.permit(:order, :page, query: [:kind])

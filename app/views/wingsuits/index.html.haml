@@ -1,58 +1,22 @@
-.container
-  .page-header
-    - if can? :create, :wingsuit
-      .pull-right
-        = link_to t('general.create'), new_wingsuit_path, class: 'btn btn-default'
-    %h1= 'Suits'
-  
-  - @wingsuits.each do |manufacturer, suits|
-    .content-block
-      %h2= manufacturer || '<...>'
-      .row
-        .col-sm-12.col-md-6
-          %h3.light-header Wingsuits
-          %ul.suits-list
-            - suits.select(&:wingsuit?).each do |wingsuit|
-              %li.suit-li
-                .row
-                  .col-sm-6
-                    %a{href: wingsuit_path(wingsuit)}= wingsuit.name
-                  .col-sm-2.text-muted
-                    .text-center
-                      = wingsuit.pilots_accessible_by(current_user).count
-                    .text-center
-                      pilots
-                  .col-sm-2.text-muted
-                    .text-center
-                      = wingsuit.tracks.accessible_by(current_user).base.count
-                    .text-center
-                      base
-                  .col-sm-2.text-muted
-                    .text-center
-                      = wingsuit.tracks.accessible_by(current_user).skydive.count
-                    .text-center
-                      skydive
-        .col-sm-12.col-md-6
-          %h3.light-header Tracksuits
-          %ul.suits-list
-            - suits.select(&:tracksuit?).each do |tracksuit|
-              %li.suit-li
-                .row
-                  .col-sm-6
-                    %a{href: wingsuit_path(tracksuit)}= tracksuit.name
-                  .col-sm-2.text-muted
-                    .text-center
-                      = tracksuit.pilots_accessible_by(current_user).count
-                    .text-center
-                      pilots
-                  .col-sm-2.text-muted
-                    .text-center
-                      = tracksuit.tracks.accessible_by(current_user).base.count
-                    .text-center
-                      base
-                  .col-sm-2.text-muted
-                    .text-center
-                      = tracksuit.tracks.accessible_by(current_user).skydive.count
-                    .text-center
-                      skydive
+.suits-index
+  .suits-index__sidebar
+    .suits-index__sidebar-container
+      %ul.suits-index__manufacturer-list
+        %li{class: ('active' if @suits.overview?), 'data-overview': true}
+          = link_to 'Overview', url_for(manufacturer_id: nil), remote: true
+        %li.suits-index__sidebar-spacer
+        - @suits.popular_manufacturers.each do |manufacturer|
+          %li{class: ('active' if @suits.manufacturer == manufacturer), 'data-manufacturer': manufacturer.id}
+            = link_to manufacturer.name, url_for(manufacturer_id: manufacturer.id), remote: true
+        %li.suits-index__sidebar-spacer
+        - @suits.other_manufacturers.each do |manufacturer|
+          %li{class: ('active' if @suits.manufacturer == manufacturer), 'data-manufacturer': manufacturer.id}
+            = link_to manufacturer.name, url_for(manufacturer_id: manufacturer.id), remote: true
+  .suits-index__main-area
+    - unless @suits.overview?
+      = render 'manufacturer_suits'
 
+- if @suits.overview?
+  - content_for :page_js do
+    :javascript
+      $.rails.handleRemote($('<a href="#{url_for(index_params)}" data-remote=true>'));
