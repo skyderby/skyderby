@@ -1,4 +1,7 @@
 Skyderby.helpers.PlaceSelect = function(elem, opts) {
+
+  if (!opts) opts = {};
+
   var options = {
     theme: 'bootstrap',
     containerCssClass: ':all:',
