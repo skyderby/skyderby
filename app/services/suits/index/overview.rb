@@ -3,12 +3,28 @@ module Suits
     class Overview
       include ManufacturerCategories
 
+      def initialize(params)
+        @params = params
+      end
+
       def overview?
         true
       end
 
       def manufacturer
         nil
+      end
+
+      def filter_by_activity?
+        params[:activity].present?
+      end
+
+      def skydive?
+        params[:activity] == 'skydive'
+      end
+
+      def base?
+        params[:activity] == 'base'
       end
 
       def suits_popularity
@@ -20,6 +36,10 @@ module Suits
           }
         end
       end
+
+      private
+
+      attr_reader :params
 
       def suits_popularity_query
         @suits_popularity_query ||=
@@ -38,11 +58,19 @@ module Suits
       end
 
       def tracks_query
-        Track.where('recorded_at > ?', 1.year.ago.beginning_of_day)
-             .where.not(wingsuit_id: nil, profile_id: nil)
-             .select('count(distinct profile_id) as count', :wingsuit_id)
-             .group(:wingsuit_id)
-             .to_sql
+        scope =
+          Track
+          .where('recorded_at > ?', 1.year.ago.beginning_of_day)
+          .where.not(wingsuit_id: nil, profile_id: nil)
+          .select('count(distinct profile_id) as count', :wingsuit_id)
+          .group(:wingsuit_id)
+
+        if filter_by_activity?
+          scope = scope.skydive if skydive?
+          scope = scope.base if base?
+        end
+
+        scope.to_sql
       end
     end
   end

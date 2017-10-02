@@ -2,7 +2,7 @@ var div = document.createElement('div');
 div.className = 'suits-index__overview-chart';
 
 var container = document.querySelector('.suits-index__main-area');
-container.innerHTML = '';
+container.innerHTML = '<%= j render 'overview' %>';
 container.appendChild(div);
 
 document

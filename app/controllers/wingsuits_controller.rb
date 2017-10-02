@@ -64,7 +64,7 @@ class WingsuitsController < ApplicationController
   private
 
   def index_params
-    params.permit(:manufacturer_id)
+    params.permit(:manufacturer_id, :activity)
   end
   helper_method :index_params
 
