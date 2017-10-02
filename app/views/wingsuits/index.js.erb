@@ -3,3 +3,9 @@
 <% else %>
   <%= render 'manufacturer_view' %>
 <% end %>
+
+window.history.replaceState(
+  {},
+  document.title,
+  "<%= url_for(index_params).html_safe %>"
+);
