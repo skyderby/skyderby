@@ -3,8 +3,6 @@
 class SuitsController < ApplicationController
   before_action :set_suit, only: [:show, :edit, :update, :destroy]
 
-  load_and_authorize_resource
-
   def index
     authorize Suit
 
