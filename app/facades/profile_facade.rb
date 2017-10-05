@@ -54,7 +54,7 @@ class ProfileFacade < SimpleDelegator
         :speed,
         :time,
         :video,
-        { wingsuit: :manufacturer },
+        { suit: :manufacturer },
         { place: :country }
       ]
     ).find(params[:id])

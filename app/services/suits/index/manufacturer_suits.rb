@@ -36,7 +36,7 @@ module Suits
       def suits
         @suits ||=
           manufacturer
-          .wingsuits
+          .suits
           .joins(tracks_count_query)
           .select(
             :id,
@@ -53,17 +53,17 @@ module Suits
       def tracks_count_query
         tracks_select =
           Track
-          .where.not(wingsuit: nil)
+          .where.not(suit: nil)
           .select(
             "SUM(CASE WHEN kind = #{Track.kinds[:skydive]} THEN 1 ELSE 0 END) AS skydive_tracks",
             "SUM(CASE WHEN kind = #{Track.kinds[:base]} THEN 1 ELSE 0 END) AS base_tracks",
             'COUNT(DISTINCT profile_id) AS profiles',
-            :wingsuit_id
+            :suit_id
           )
-          .group(:wingsuit_id)
+          .group(:suit_id)
           .to_sql
 
-        "LEFT OUTER JOIN (#{tracks_select}) AS tracks ON tracks.wingsuit_id = wingsuits.id"
+        "LEFT OUTER JOIN (#{tracks_select}) AS tracks ON tracks.suit_id = suits.id"
       end
 
       attr_reader :manufacturer_id

@@ -12,7 +12,7 @@ describe OnlineEventsFinder do
     place_specific_comp = create :online_event, place: place
     last_year_comp = create :online_event, :last_year
 
-    track = create :empty_track, wingsuit: create(:wingsuit), pilot: create(:pilot)
+    track = create :empty_track, suit: create(:suit), pilot: create(:pilot)
     expect(OnlineEventsFinder.new(track).execute).to eq [worldwide_comp]
   end
 
@@ -25,7 +25,7 @@ describe OnlineEventsFinder do
     last_year_comp = create :online_event, :last_year
 
     track = create(:empty_track,
-                   wingsuit: create(:wingsuit),
+                   suit: create(:suit),
                    pilot: create(:pilot),
                    place: place)
 
@@ -54,7 +54,7 @@ describe OnlineEventsFinder do
 
   it "returns blank array if track in custom suit" do
     track = create(:empty_track)
-    track.wingsuit = nil
+    track.suit = nil
 
     worldwide_comp = create :online_event
 

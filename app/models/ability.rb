@@ -4,7 +4,6 @@ class Ability
   def initialize(user)
     define_tracks_abilities(user)
 
-    can :read, Wingsuit
     can :read, Place
 
     can :read, Tournament

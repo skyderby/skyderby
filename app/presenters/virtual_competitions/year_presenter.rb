@@ -32,7 +32,7 @@ module VirtualCompetitions
       Hash[
         :annual_top_scores,
         [
-          { wingsuit: :manufacturer },
+          { suit: :manufacturer },
           { track: [{ place: :country }, :video] },
           :profile
         ]

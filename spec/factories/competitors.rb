@@ -16,7 +16,7 @@
 FactoryGirl.define do
   factory :competitor do
     profile
-    wingsuit
+    suit
     section
     event
   end

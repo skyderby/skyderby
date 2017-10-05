@@ -8,7 +8,7 @@ class OnlineEventsFinder
 
     VirtualCompetition.order(:name)
                       .by_activity(track.kind)
-                      .by_suit_type(track.wingsuit_kind)
+                      .by_suit_type(track.suit_kind)
                       .for_place(track.place)
                       .for_date(track.recorded_at)
   end
@@ -19,7 +19,7 @@ class OnlineEventsFinder
 
   def available_for_scoring
     track.public_track? &&
-      track.wingsuit &&
+      track.suit &&
       track.pilot &&
       !track.disqualified_from_online_competitions
   end

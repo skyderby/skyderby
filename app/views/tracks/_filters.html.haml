@@ -13,10 +13,10 @@
                     data: {remote: true, method: :GET, url: tracks_path, params: profile_params})
 
     .col-sm-3
-      - suit_params = index_params.merge(query: query_params.except(:wingsuit_id)).to_h.to_param
-      = select_tag('query_wingsuit_id', 
-                    options_for_select([ [suit_name_by_id(query_params[:wingsuit_id]), query_params[:wingsuit_id]] ]),
-                    name: 'query[wingsuit_id]',
+      - suit_params = index_params.merge(query: query_params.except(:suit_id)).to_h.to_param
+      = select_tag('query_suit_id', 
+                    options_for_select([ [suit_name_by_id(query_params[:suit_id]), query_params[:suit_id]] ]),
+                    name: 'query[suit_id]',
                     class: 'form-control', 
                     data: {remote: true, method: :GET, url: tracks_path, params: suit_params})
 

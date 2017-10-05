@@ -10,12 +10,12 @@ class Skyderby.views.NewTrackForm extends Backbone.View
   initialize: ->
     @init_form_validation()
     # modal is hidden when view init so we need to check css display property
-    select_hidden = @$('.new-track-wingsuit-select').css('display') == 'none'
-    Skyderby.helpers.SuitSelect(@$('.new-track-wingsuit-select'))
+    select_hidden = @$('.new-track-suit-select').css('display') == 'none'
+    Skyderby.helpers.SuitSelect(@$('.new-track-suit-select'))
     # if select hidden - then we need to hide select2 control after
     # instantiation and change text in link
     if select_hidden
-      @$('.new-track-wingsuit-select + span').hide()
+      @$('.new-track-suit-select + span').hide()
       @set_toggle_link_text(I18n.t('tracks.form.toggle_suit_link_select'))
       @set_toggle_caption(I18n.t('tracks.form.toggle_suit_caption_select'))
 
@@ -30,12 +30,12 @@ class Skyderby.views.NewTrackForm extends Backbone.View
           minlength: 3,
           required: ->
             return $('#newTrackModal input#name')
-        'track_file[track_attributes][wingsuit_id]':
+        'track_file[track_attributes][suit_id]':
           required: ->
-            $('[name="track_file[track_attributes][wingsuit_id]"]').is(':visible')
-        'track_file[track_attributes][suit]':
+            $('[name="track_file[track_attributes][suit_id]"]').is(':visible')
+        'track_file[track_attributes][missing_suit_name]':
           required: ->
-            $('[name="track_file[track_attributes][suit]"]').is(':visible')
+            $('[name="track_file[track_attributes][missing_suit_name]"]').is(':visible')
         'track_file[track_attributes][location]':
           minlength: 3,
           required: true
@@ -112,19 +112,19 @@ class Skyderby.views.NewTrackForm extends Backbone.View
     @$('.toggle-suit-caption').text(el_text)
 
   clean_hide_suit_input: ->
-    @$('input[name="track_file[track_attributes][suit]"]').val('').hide()
+    @$('input[name="track_file[track_attributes][missing_suit_name]"]').val('').hide()
 
   clean_hide_suit_select: ->
-    @$('.new-track-wingsuit-select').val(null).trigger('change')
-    @$('.new-track-wingsuit-select').hide()
-    @$('.new-track-wingsuit-select + span').hide()
+    @$('.new-track-suit-select').val(null).trigger('change')
+    @$('.new-track-suit-select').hide()
+    @$('.new-track-suit-select + span').hide()
 
   show_suit_input: ->
-    @$('input[name="track_file[track_attributes][suit]"]').show()
+    @$('input[name="track_file[track_attributes][missing_suit_name]"]').show()
 
   show_suit_select: ->
-    @$('.new-track-wingsuit-select').show()
-    @$('.new-track-wingsuit-select + span').show()
+    @$('.new-track-suit-select').show()
+    @$('.new-track-suit-select + span').show()
 
   current_suit_mode: ->
-    if @$('[name="track_file[track_attributes][suit]"]').is(':visible') then 'enter' else 'select'
+    if @$('[name="track_file[track_attributes][missing_suit_name]"]').is(':visible') then 'enter' else 'select'

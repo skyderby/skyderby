@@ -17,7 +17,7 @@ class Tracks::MapsController < ApplicationController
   def set_track
     @track = Track.includes(
       :video,
-      { wingsuit: :manufacturer },
+      { suit: :manufacturer },
       { place: :country }
     ).find(params[:track_id])
   end

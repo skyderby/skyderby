@@ -1,7 +1,7 @@
-module WingsuitsHelper
+module SuitsHelper
   def suit_name_by_id(id)
     return unless id
-    Wingsuit.find_by(id: id)&.name
+    Suit.find_by(id: id)&.name
   end
 
   def suit_presentation(suit)

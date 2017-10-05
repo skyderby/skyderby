@@ -20,7 +20,7 @@ feature 'Manage tournament competitors', js: true do
     first('li.select2-results__option', text: 'Ivan R').click
 
     # Select suit
-    find('#select2-tournament_competitor_wingsuit_id-container').click
+    find('#select2-tournament_competitor_suit_id-container').click
     sleep 0.5 # wait for ajax
     first('li.select2-results__option', text: suit.name).click
 
@@ -52,7 +52,7 @@ feature 'Manage tournament competitors', js: true do
     first('li.select2-results__option', text: country.name).click
 
     # Select suit
-    find('#select2-tournament_competitor_wingsuit_id-container').click
+    find('#select2-tournament_competitor_suit_id-container').click
     sleep 0.5 # wait for ajax
     first('li.select2-results__option', text: suit.name).click
 
@@ -76,7 +76,7 @@ feature 'Manage tournament competitors', js: true do
     sleep 0.5 # wait for modal
 
     # Select suit
-    find('#select2-tournament_competitor_wingsuit_id-container').click
+    find('#select2-tournament_competitor_suit_id-container').click
     sleep 0.5 # wait for ajax
     first('li.select2-results__option[role=treeitem]', text: suit.name).click
 

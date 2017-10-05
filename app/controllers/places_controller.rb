@@ -43,7 +43,7 @@ class PlacesController < ApplicationController
             :time,
             :speed,
             :video,
-            wingsuit: :manufacturer
+            suit: :manufacturer
           ).paginate(page: params[:page], per_page: 50)
       end
     end

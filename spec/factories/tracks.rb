@@ -33,7 +33,7 @@ FactoryGirl.define do
   factory :empty_track, class: 'Track' do
     kind Track.kinds['skydive']
     pilot
-    wingsuit
+    suit
     skip_jobs true
     recorded_at Date.today
 

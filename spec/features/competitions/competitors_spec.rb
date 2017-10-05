@@ -4,7 +4,7 @@ feature 'Event competitors', js: true do
     event = create :event, responsible: user.profile
     section = create :section, event: event
 
-    suit = create :wingsuit
+    suit = create :suit
     profile = create :profile, name: 'Ivan Petrov'
 
     sign_in user
@@ -16,7 +16,7 @@ feature 'Event competitors', js: true do
     first('li.select2-results__option', text: profile.name).click
     sleep 0.5
 
-    find('#select2-competitor_wingsuit_id-container').click
+    find('#select2-competitor_suit_id-container').click
     sleep 0.5
     first('li.select2-results__option', text: suit.name).click
     sleep 0.5
@@ -32,7 +32,7 @@ feature 'Event competitors', js: true do
     event = create :event, responsible: user.profile
     section = create :section, event: event
 
-    suit = create :wingsuit
+    suit = create :suit
     country = create :country
     profile_name = 'Ivan Petrov'
 
@@ -48,7 +48,7 @@ feature 'Event competitors', js: true do
     first('li.select2-results__option', text: country.name).click
     sleep 0.5
 
-    find('#select2-competitor_wingsuit_id-container').click
+    find('#select2-competitor_suit_id-container').click
     sleep 0.5
     first('li.select2-results__option', text: suit.name).click
     sleep 0.5

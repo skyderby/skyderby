@@ -21,17 +21,17 @@ class Competitor < ApplicationRecord
   belongs_to :event, touch: true
   belongs_to :section
   belongs_to :profile
-  belongs_to :wingsuit
+  belongs_to :suit
 
   has_many :event_tracks, dependent: :restrict_with_error
 
-  validates_presence_of :wingsuit, :event, :section, :profile
+  validates_presence_of :suit, :event, :section, :profile
 
   delegate :name, to: :profile, allow_nil: true
   delegate :country_id, to: :profile, allow_nil: true
   delegate :country_name, to: :profile, allow_nil: true
   delegate :country_code, to: :profile, allow_nil: true
-  delegate :name, to: :wingsuit, prefix: true, allow_nil: true
+  delegate :name, to: :suit, prefix: true, allow_nil: true
 
   before_validation :create_profile
 

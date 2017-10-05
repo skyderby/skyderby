@@ -4,13 +4,13 @@ module Suits
       def popular_manufacturers
         @popular_manufacturers ||= begin
           suit_ids = Track.where('recorded_at > ?', 1.year.ago.beginning_of_day)
-                          .where.not(wingsuit_id: nil)
+                          .where.not(suit_id: nil)
                           .distinct
-                          .group(:wingsuit_id)
-                          .having('count(wingsuit_id) > 5')
-                          .pluck(:wingsuit_id)
+                          .group(:suit_id)
+                          .having('count(suit_id) > 5')
+                          .pluck(:suit_id)
 
-          manufacturer_ids = Wingsuit.where(id: suit_ids).pluck(:manufacturer_id)
+          manufacturer_ids = Suit.where(id: suit_ids).pluck(:manufacturer_id)
           Manufacturer.where(id: manufacturer_ids).order(:name)
         end
       end

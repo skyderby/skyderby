@@ -20,12 +20,12 @@
           = track.name
   .track-header__suit
     %span= t('tracks.show.title_suit') + ':' 
-    - if track.wingsuit
-      - manufacturer = track.wingsuit.manufacturer
-      %a{href: wingsuit_path(track.wingsuit)}
-        = suit_presentation(track.wingsuit)
+    - if track.suit
+      - manufacturer = track.suit.manufacturer
+      %a{href: suit_path(track.suit)}
+        = suit_presentation(track.suit)
     - else
-      %span= track.suit
+      %span= track.missing_suit_name
   .track-header__place
     %span.no-right-space
       %i.fa.fa-map-marker

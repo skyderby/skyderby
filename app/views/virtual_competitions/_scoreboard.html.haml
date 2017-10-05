@@ -36,7 +36,7 @@
                           'data-toggle' => 'tooltip',
                           title: t('.show_profile'),
                           class: 'dotted-underline'
-              %td= suit_presentation(score.wingsuit)
+              %td= suit_presentation(score.suit)
               - if @competition.worldwide?
                 %td= track_place(score.track)
               %td.text-right

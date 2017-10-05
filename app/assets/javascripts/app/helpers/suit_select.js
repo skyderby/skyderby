@@ -9,7 +9,7 @@ Skyderby.helpers.SuitSelect = function(elem, opts) {
         placeholder: I18n.t('tracks.form.suit_select_placeholder'),
         allowClear: true,
         ajax: {
-            url: '/wingsuits/select_options',
+            url: '/suits/select_options',
             dataType: 'json',
             type: "GET",
             quietMillis: 50,

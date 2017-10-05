@@ -4,7 +4,7 @@ ru:
       competitor: Участник
     attributes:
       competitor:
-        wingsuit: Костюм
+        suit: Костюм
         section: Класс
         profile: Профиль
       competitor/profile:
@@ -13,7 +13,7 @@ ru:
       models:
         competitor:
           attributes:
-            wingsuit:
+            suit:
               blank: Костюм должен быть заполнен
             profile:
               blank: Не заполнено обязательное поле "Профиль пилота"

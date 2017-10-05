@@ -3,8 +3,8 @@
             profile_path(competitor.profile),
             class: 'dotted-underline'
   %span.competitor-suit
-    = competitor.wingsuit.manufacturer_code
-    = competitor.wingsuit_name
+    = competitor.suit.manufacturer_code
+    = competitor.suit_name
   - if policy(@event).update? && !@event.finished?
     %span.competitor-controls
       = button_to event_competitor_path(@event, competitor), 

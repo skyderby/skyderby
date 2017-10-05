@@ -18,7 +18,7 @@ class AnnualTopScore < ApplicationRecord
   belongs_to :virtual_competition
   belongs_to :track
   belongs_to :profile
-  belongs_to :wingsuit
+  belongs_to :suit
 
   private
 

@@ -1,11 +1,13 @@
 # encoding: utf-8
 
-class WingsuitsController < ApplicationController
-  before_action :set_wingsuit, only: [:show, :edit, :update, :destroy]
+class SuitsController < ApplicationController
+  before_action :set_suit, only: [:show, :edit, :update, :destroy]
 
   load_and_authorize_resource
 
   def index
+    authorize Suit
+
     @suits = Suits::Index.for(params)
 
     respond_to do |format|
@@ -15,11 +17,13 @@ class WingsuitsController < ApplicationController
   end
 
   def show
+    authorize @suit
+
     @tracks = Track.accessible_by(current_user)
     @tracks = TrackFilter.new(show_params[:query]).apply(@tracks)
     @tracks =
       @tracks
-      .where(wingsuit: @wingsuit)
+      .where(suit: @suit)
       .accessible_by(current_user)
       .order(recorded_at: :desc)
       .includes(
@@ -33,32 +37,42 @@ class WingsuitsController < ApplicationController
   end
 
   def new
-    @wingsuit = Wingsuit.new
+    authorize Suit
+
+    @suit = Suit.new
   end
 
-  def edit; end
+  def edit
+    authorize @suit
+  end
 
   def create
-    @wingsuit = Wingsuit.new(wingsuit_params)
+    authorize Suit
 
-    if @wingsuit.save
-      redirect_to @wingsuit, notice: 'Wingsuit was successfully created.'
+    @suit = Suit.new(suit_params)
+
+    if @suit.save
+      redirect_to @suit, notice: 'Suit was successfully created.'
     else
       render action: 'new'
     end
   end
 
   def update
-    if @wingsuit.update(wingsuit_params)
-      redirect_to @wingsuit, notice: 'Wingsuit was successfully updated.'
+    authorize @suit
+
+    if @suit.update(suit_params)
+      redirect_to @suit, notice: 'Suit was successfully updated.'
     else
       render action: 'edit'
     end
   end
 
   def destroy
-    @wingsuit.destroy
-    redirect_to wingsuits_url
+    authorize @suit
+
+    @suit.destroy
+    redirect_to suits_url
   end
 
   private
@@ -73,12 +87,12 @@ class WingsuitsController < ApplicationController
   end
   helper_method :show_params
 
-  def set_wingsuit
-    @wingsuit = Wingsuit.includes(:manufacturer).find(params[:id])
+  def set_suit
+    @suit = Suit.includes(:manufacturer).find(params[:id])
   end
 
-  def wingsuit_params
-    params.require(:wingsuit).permit(
+  def suit_params
+    params.require(:suit).permit(
       :name,
       :manufacturer_id,
       :kind,

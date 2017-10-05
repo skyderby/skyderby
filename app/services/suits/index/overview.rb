@@ -43,9 +43,9 @@ module Suits
 
       def suits_popularity_query
         @suits_popularity_query ||=
-          Wingsuit
+          Suit
           .joins(:manufacturer)
-          .joins("INNER JOIN (#{tracks_query}) AS tracks ON tracks.wingsuit_id = wingsuits.id")
+          .joins("INNER JOIN (#{tracks_query}) AS tracks ON tracks.suit_id = suits.id")
           .select(
             :id,
             :name,
@@ -61,9 +61,9 @@ module Suits
         scope =
           Track
           .where('recorded_at > ?', 1.year.ago.beginning_of_day)
-          .where.not(wingsuit_id: nil, profile_id: nil)
-          .select('count(distinct profile_id) as count', :wingsuit_id)
-          .group(:wingsuit_id)
+          .where.not(suit_id: nil, profile_id: nil)
+          .select('count(distinct profile_id) as count', :suit_id)
+          .group(:suit_id)
 
         if filter_by_activity?
           scope = scope.skydive if skydive?

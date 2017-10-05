@@ -4,13 +4,13 @@ en:
       competitor: Competitor
     attributes:
       competitor:
-        wingsuit: Suit
+        suit: Suit
         section: Class
     errors:
       models:
         competitor:
           attributes:
-            wingsuit:
+            suit:
               blank: "'Suit' has to be filled"
             profile:
               blank: "'Pilot profile' has to be filled"

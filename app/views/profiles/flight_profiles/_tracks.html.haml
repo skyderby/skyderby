@@ -13,9 +13,9 @@
             %i.fa.fa-map-marker
             = track_place(track)
             &nbsp;
-            - if track.wingsuit
-              = suit_presentation(track.wingsuit)
+            - if track.suit
+              = suit_presentation(track.suit)
             - else
-              = track.suit
+              = track.missing_suit_name
           .text-muted
             = track.comment

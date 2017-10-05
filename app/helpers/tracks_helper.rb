@@ -4,7 +4,7 @@ module TracksHelper
   end
 
   def subheader(track)
-    "#{t 'tracks.show.title_suit'}: #{track.wingsuit.present? ? track.wingsuit.name : track.suit}, @#{track.location}"
+    "#{t 'tracks.show.title_suit'}: #{track.suit ? track.suit_name : track.missing_suit_name}, @#{track.location}"
   end
 
   def track_pilot(track)

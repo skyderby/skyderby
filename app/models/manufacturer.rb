@@ -8,7 +8,7 @@
 #
 
 class Manufacturer < ApplicationRecord
-  has_many :wingsuits
+  has_many :suits
   validates :name, presence: true
   validates :code, uniqueness: true
 end

@@ -58,7 +58,7 @@ class QualificationJump < ApplicationRecord
       kind: :base,
       place_id: tournament.place_id,
       profile_id: tournament_competitor.profile_id,
-      wingsuit_id: tournament_competitor.wingsuit_id,
+      suit_id: tournament_competitor.suit_id,
       comment: "#{tournament.name} - Qualification #{qualification_round.order}"
     ).except(:file)
 

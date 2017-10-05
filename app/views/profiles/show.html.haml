@@ -120,10 +120,10 @@
                   %td.text-info= track.id
                   %td
                     %span.text-info
-                      - if track.wingsuit
-                        = suit_presentation(track.wingsuit)
+                      - if track.suit
+                        = suit_presentation(track.suit)
                       - else 
-                        = track.suit
+                        = track.missing_suit_name
                   %td.text-info= track_place(track)
                   %td.text-right
                     %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.distance)}

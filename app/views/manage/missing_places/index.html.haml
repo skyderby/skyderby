@@ -14,11 +14,11 @@
           .td= track.id
           .td= track_pilot(track)
           .td
-            - if track.wingsuit
-              = suit_presentation(track.wingsuit)
+            - if track.suit
+              = suit_presentation(track.suit)
             - else 
               %span.text-info
-                = track.suit
+                = track.missing_suit_name
           .td= track_place(track)
           .td.text-muted= track.comment
           .td.text-info= track.recorded_at.strftime('%d.%m.%Y')

@@ -42,8 +42,8 @@ class TrackFilesController < ApplicationController
         :kind,
         :location,
         :place_id,
-        :suit,
-        :wingsuit_id,
+        :missing_suit_name,
+        :suit_id,
         :comment,
         :visibility
       ]
@@ -58,15 +58,15 @@ class TrackFilesController < ApplicationController
   def store_recent_values(form_params)
     recent_values = RecentValues.new(cookies)
     # suit can be selected or typed
-    # when suit selected wingsuit_id param filled and suit param is not
-    # and vice versa - when typed wingsuit_id is blank and suit isn't
-    suit_id = form_params[:wingsuit_id]
+    # when suit selected suit_id param filled and suit param is not
+    # and vice versa - when typed suit_id is blank and suit isn't
+    suit_id = form_params[:suit_id]
     unless suit_id.blank?
       recent_values.add(:suit_id, suit_id)
       recent_values.delete(:suit_name)
     end
 
-    suit_name = form_params[:suit]
+    suit_name = form_params[:missing_suit_name]
     unless suit_name.blank?
       recent_values.add(:suit_name, suit_name)
       recent_values.delete(:suit_id)

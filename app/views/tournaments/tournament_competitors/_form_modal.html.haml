@@ -51,10 +51,10 @@
 
         %hr
         .form-group
-          = f.label :wingsuit, class: 'control-label col-sm-4'
+          = f.label :suit, class: 'control-label col-sm-4'
           .col-sm-8
-            = f.select :wingsuit_id,
-                       options_for_select([[@competitor.wingsuit_name, @competitor.wingsuit_id]]), 
+            = f.select :suit_id,
+                       options_for_select([[@competitor.suit_name, @competitor.suit_id]]), 
                        {},
                        class: 'form-control'
 
@@ -79,5 +79,5 @@
 
 :javascript
   Skyderby.helpers.ProfileSelect($('select[name="tournament_competitor[profile_id]"]'));
-  Skyderby.helpers.SuitSelect($('select[name="tournament_competitor[wingsuit_id]"]'));
+  Skyderby.helpers.SuitSelect($('select[name="tournament_competitor[suit_id]"]'));
   Skyderby.helpers.CountrySelect($('select[name="tournament_competitor[profile_attributes][country_id]"]'));

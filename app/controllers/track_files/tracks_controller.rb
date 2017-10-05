@@ -27,8 +27,8 @@ module TrackFiles
           :kind,
           :location,
           :place_id,
-          :suit,
-          :wingsuit_id,
+          :missing_suit_name,
+          :suit_id,
           :comment,
           :visibility
         ]

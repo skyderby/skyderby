@@ -21,11 +21,11 @@ module Skyderby
             id: track.pilot.id,
             name: track.pilot.name
           } if track.pilot),
-          suit_text: track.suit,
+          suit_text: track.missing_suit_name,
           suit: ({
-            id: track.wingsuit.id,
-            name: track.wingsuit.name
-          } if track.wingsuit),
+            id: track.suit.id,
+            name: track.suit.name
+          } if track.suit),
           location: track.location,
           place: ({
             id: track.place.id,

@@ -20,7 +20,7 @@ class VirtualCompResult < ApplicationRecord
   validates :track, presence: true
   validates_uniqueness_of :track_id, scope: :virtual_competition_id
 
-  delegate :wingsuit, to: :track
+  delegate :suit, to: :track
   delegate :place, to: :track
   delegate :pilot, to: :track
 end

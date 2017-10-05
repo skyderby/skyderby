@@ -5,7 +5,7 @@ Skyderby.helpers.ProfileSelect(
 );
 
 Skyderby.helpers.SuitSelect(
-  $('select[name="query[wingsuit_id]"]'),
+  $('select[name="query[suit_id]"]'),
   { placeholder: "<%= I18n.t('tracks.index.filter_by_suit') %>" }
 );
 
@@ -18,7 +18,7 @@ Skyderby.helpers.PlaceSelect(
 $(document).one('turbolinks:before-cache', function() {
   var page_selects = [
     $('select[name="query[profile_id]"]'),
-    $('select[name="query[wingsuit_id]"]'),
+    $('select[name="query[suit_id]"]'),
     $('select[name="query[place_id]"]')
   ];
 

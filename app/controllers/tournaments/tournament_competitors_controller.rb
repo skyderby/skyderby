@@ -47,7 +47,7 @@ module Tournaments
     private
 
     def respond_with_index
-      @competitors = @tournament.competitors.includes(:profile, wingsuit: :manufacturer)
+      @competitors = @tournament.competitors.includes(:profile, suit: :manufacturer)
       render :index
     end
 
@@ -65,7 +65,7 @@ module Tournaments
       params.require(:tournament_competitor).permit(
         :tournament_id,
         :profile_id,
-        :wingsuit_id,
+        :suit_id,
         :profile_mode,
         :is_disqualified,
         :disqualification_reason,

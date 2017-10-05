@@ -6,7 +6,7 @@ de:
       track:
         id: '#'
         name: Pilot
-        suit: Wingsuit
+        suit: Suit
         place: Ort
         kind: Art des Sprunges
         comment: Kommentar

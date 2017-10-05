@@ -4,13 +4,13 @@ de:
       competitor: Teilnehmer
     attributes:
       competitor:
-        wingsuit: Suit
+        suit: Suit
         section: Kategorie
     errors:
       models:
         competitor:
           attributes:
-            wingsuit:
+            suit:
               blank: "'Suit' muss ausgewählt werden"
             profile:
               blank: "'Teilnehmerprofil' muss ausgewählt werden."

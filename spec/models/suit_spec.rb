@@ -15,27 +15,27 @@
 
 require 'spec_helper'
 
-RSpec.describe Wingsuit, type: :model do
-  let(:manufacturer) { create(:manufacturer) }
-  let(:wingsuit) { create(:wingsuit) }
+RSpec.describe Suit, type: :model do
+  let(:manufacturer) { create(:manufacturer, name: 'Phoenix Fly') }
+  let(:suit) { create(:suit, name: 'Ghost 3') }
 
   context 'required fields' do
     it 'requires manufacturer' do
-      expect(Wingsuit.create(name: 'Ghost Hunter')).not_to be_valid
+      expect(Suit.create(name: 'Ghost Hunter')).not_to be_valid
     end
 
     it 'requires name' do
-      expect(Wingsuit.create(manufacturer: manufacturer)).not_to be_valid
+      expect(Suit.create(manufacturer: manufacturer)).not_to be_valid
     end
   end
 
   context 'performs search by name and manufacturer name' do
     it 'performs search by country name' do
-      expect(Wingsuit.search('pho')).to include(wingsuit)
+      expect(Suit.search('pho')).to include(suit)
     end
 
     it 'performs search by name' do
-      expect(Wingsuit.search('st')).to include(wingsuit)
+      expect(Suit.search('st')).to include(suit)
     end
   end
 end

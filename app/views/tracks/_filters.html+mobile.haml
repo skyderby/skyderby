@@ -49,9 +49,9 @@
             .form-group
               %label
                 = t('tracks.index.filter_by_suit')
-              = select_tag('query_wingsuit_id',
-                            options_for_select([ [suit_name_by_id(query_params[:wingsuit_id]), query_params[:wingsuit_id]] ]),
-                            name: 'query[wingsuit_id]',
+              = select_tag('query_suit_id',
+                            options_for_select([ [suit_name_by_id(query_params[:suit_id]), query_params[:suit_id]] ]),
+                            name: 'query[suit_id]',
                             class: 'form-control input-lg')
 
             .form-group

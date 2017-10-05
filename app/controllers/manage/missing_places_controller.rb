@@ -3,7 +3,7 @@ module Manage
     def index
       @tracks = Track.where(place: nil)
                      .order(id: :desc)
-                     .includes(:pilot, wingsuit: [:manufacturer])
+                     .includes(:pilot, suit: [:manufacturer])
                      .paginate(page: params[:page], per_page: rows_per_page)
     end
 

@@ -13,11 +13,12 @@
       .cell-caption.visible-xs
         &nbsp;
       %div
-        - if track.wingsuit
-          = suit_presentation(track.wingsuit)
+        - if track.suit
+          = suit_presentation(track.suit)
         - else 
           %span.text-info
-            = track.suit
+            = track.missing_suit_name
+
   - unless except_columns.include? :place
     .td
       .cell-caption.text-right.text-muted.visible-xs

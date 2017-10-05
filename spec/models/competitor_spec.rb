@@ -17,14 +17,14 @@ require 'support/event_ongoing_validation'
 
 describe Competitor, type: :model do
   it 'can create profile if not set' do
-    wingsuit     = create :wingsuit
+    suit         = create :suit
     section      = create :section
     profile_name = 'Mario McTester'
 
     competitor = Competitor.create(
       profile_attributes: { name: profile_name },
       profile_mode: :create,
-      wingsuit: wingsuit,
+      suit: suit,
       event: section.event,
       section: section
     )

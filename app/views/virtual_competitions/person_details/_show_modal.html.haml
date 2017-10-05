@@ -22,7 +22,7 @@
         %tbody
           - @details.top_results.each do |record|
             %tr
-              %td= suit_presentation(record.wingsuit)
+              %td= suit_presentation(record.suit)
               - if @details.competition.worldwide?
                 %td= track_place(record.track)
               %td.text-right= format_result(record.result, @details.competition)

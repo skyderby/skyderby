@@ -4,7 +4,7 @@
   %td.text-center.text-muted
     %span.dotted-underline{'data-toggle' => 'tooltip', title: tournament_competitor.country_name}
       = tournament_competitor.country_code
-  %td= tournament_competitor.wingsuit_name
+  %td= tournament_competitor.suit_name
   %td
     = link_to edit_tournament_tournament_competitor_path(id: tournament_competitor.id), remote: true do
       %i.fa.fa-pencil.text-muted

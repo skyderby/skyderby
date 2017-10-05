@@ -40,7 +40,7 @@
             .online-competition__profile
               = personal_score.profile.name.titleize
             .online-competition__suit-place
-              = suit_presentation(personal_score.wingsuit)
+              = suit_presentation(personal_score.suit)
               - if @competition.worldwide?
                 = "@&nbsp;".html_safe + track_place(personal_score.track)
 

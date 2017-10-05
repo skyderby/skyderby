@@ -1,20 +1,20 @@
 .container.top-buffer
-  %a{href: wingsuits_path}
+  %a{href: suits_path}
     %i.fa.fa-chevron-left
     Suits list
   .row
-    - if @wingsuit.photo.exists?
+    - if @suit.photo.exists?
       .col-sm-3
         .top-buffer
-          = image_tag(@wingsuit.photo.url(:medium), class: 'img-responsive img-rounded loading-bg')
+          = image_tag(@suit.photo.url(:medium), class: 'img-responsive img-rounded loading-bg')
     .col-sm-9
       %h1
-        = @wingsuit.name
-        %small= @wingsuit.manufacturer.name
+        = @suit.name
+        %small= @suit.manufacturer.name
       .description
-        = @wingsuit.description
-      - if can? :update, @wingsuit
-        = link_to 'Edit', edit_wingsuit_path(@wingsuit), class: 'btn btn-default'
+        = @suit.description
+      - if policy(@suit).update?
+        = link_to 'Edit', edit_suit_path(@suit), class: 'btn btn-default'
 
 .container
   .content-block

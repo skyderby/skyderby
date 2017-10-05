@@ -1,16 +1,16 @@
 json.array! tracks do |json, track|
   json.url track_path(id: track.id)
   json.id track.id
-  if track.wingsuit
-    json.wingsuit do |json|
-      json.extract! track.wingsuit, :id, :name
+  if track.suit
+    json.suit do |json|
+      json.extract! track.suit, :id, :name
       json.manufacturer do |json|
-        json.extract! track.wingsuit.manufacturer, :id, :name
+        json.extract! track.suit.manufacturer, :id, :name
       end
     end
-    json.suit track.wingsuit.name
+    json.suit track.suit.name
   else
-    json.suit track.suit
+    json.suit track.missing_suit_name
   end
   json.location track.location
   json.time track.time.result if track.time

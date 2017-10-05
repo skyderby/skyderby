@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170912185843) do
+ActiveRecord::Schema.define(version: 20171003070809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20170912185843) do
     t.integer "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer "wingsuit_id"
+    t.integer "suit_id"
     t.string "name", limit: 510
     t.integer "section_id"
     t.integer "profile_id"
@@ -202,10 +202,22 @@ ActiveRecord::Schema.define(version: 20170912185843) do
     t.index ["sponsorable_id"], name: "index_sponsors_on_sponsorable_id"
   end
 
+  create_table "suits", id: :serial, force: :cascade do |t|
+    t.integer "manufacturer_id"
+    t.string "name", limit: 510
+    t.integer "kind", default: 0
+    t.string "photo_file_name", limit: 510
+    t.string "photo_content_type", limit: 510
+    t.integer "photo_file_size"
+    t.datetime "photo_updated_at"
+    t.text "description"
+    t.index ["manufacturer_id"], name: "index_suits_on_manufacturer_id"
+  end
+
   create_table "tournament_competitors", id: :serial, force: :cascade do |t|
     t.integer "tournament_id"
     t.integer "profile_id"
-    t.integer "wingsuit_id"
+    t.integer "suit_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_disqualified"
@@ -297,12 +309,12 @@ ActiveRecord::Schema.define(version: 20170912185843) do
     t.string "name", limit: 510
     t.datetime "created_at"
     t.datetime "lastviewed_at"
-    t.string "suit", limit: 510
+    t.string "missing_suit_name", limit: 510
     t.text "comment"
     t.string "location", limit: 510
     t.integer "user_id"
     t.integer "kind", default: 0
-    t.integer "wingsuit_id"
+    t.integer "suit_id"
     t.integer "ff_start"
     t.integer "ff_end"
     t.boolean "ge_enabled", default: true
@@ -321,8 +333,8 @@ ActiveRecord::Schema.define(version: 20170912185843) do
     t.index ["id", "ff_start", "ff_end"], name: "index_tracks_on_id_and_ff_start_and_ff_end"
     t.index ["place_id"], name: "index_tracks_on_place_id"
     t.index ["profile_id"], name: "index_tracks_on_profile_id"
+    t.index ["suit_id"], name: "index_tracks_on_suit_id"
     t.index ["user_id"], name: "index_tracks_on_user_id"
-    t.index ["wingsuit_id"], name: "index_tracks_on_wingsuit_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -402,18 +414,6 @@ ActiveRecord::Schema.define(version: 20170912185843) do
     t.index ["weather_datumable_id", "weather_datumable_type"], name: "weather_data_pk_index"
   end
 
-  create_table "wingsuits", id: :serial, force: :cascade do |t|
-    t.integer "manufacturer_id"
-    t.string "name", limit: 510
-    t.integer "kind", default: 0
-    t.string "photo_file_name", limit: 510
-    t.string "photo_content_type", limit: 510
-    t.integer "photo_file_size"
-    t.datetime "photo_updated_at"
-    t.text "description"
-    t.index ["manufacturer_id"], name: "index_wingsuits_on_manufacturer_id"
-  end
-
   add_foreign_key "badges", "profiles"
   add_foreign_key "competitors", "profiles"
   add_foreign_key "event_organizers", "profiles"
@@ -426,56 +426,6 @@ ActiveRecord::Schema.define(version: 20170912185843) do
   add_foreign_key "tournament_competitors", "profiles"
   add_foreign_key "tournaments", "profiles"
   add_foreign_key "tracks", "profiles"
-
-  create_view "personal_top_scores",  sql_definition: <<-SQL
-      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id ORDER BY entities.result DESC) AS rank,
-      entities.virtual_competition_id,
-      entities.track_id,
-      entities.result,
-      entities.highest_speed,
-      entities.highest_gr,
-      entities.profile_id,
-      entities.wingsuit_id,
-      entities.recorded_at
-     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id) results.virtual_competition_id,
-              results.track_id,
-              results.result,
-              results.highest_speed,
-              results.highest_gr,
-              tracks.profile_id,
-              tracks.wingsuit_id,
-              tracks.recorded_at
-             FROM (virtual_comp_results results
-               LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
-            ORDER BY results.virtual_competition_id, tracks.profile_id, results.result DESC) entities
-    ORDER BY entities.result DESC;
-  SQL
-
-  create_view "annual_top_scores",  sql_definition: <<-SQL
-      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id, entities.year ORDER BY entities.result DESC) AS rank,
-      entities.virtual_competition_id,
-      entities.year,
-      entities.track_id,
-      entities.result,
-      entities.highest_speed,
-      entities.highest_gr,
-      entities.profile_id,
-      entities.wingsuit_id,
-      entities.recorded_at
-     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id, (date_part('year'::text, tracks.recorded_at))) results.virtual_competition_id,
-              results.track_id,
-              results.result,
-              results.highest_speed,
-              results.highest_gr,
-              tracks.profile_id,
-              tracks.wingsuit_id,
-              tracks.recorded_at,
-              date_part('year'::text, tracks.recorded_at) AS year
-             FROM (virtual_comp_results results
-               LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
-            ORDER BY results.virtual_competition_id, tracks.profile_id, (date_part('year'::text, tracks.recorded_at)), results.result DESC) entities
-    ORDER BY entities.result DESC;
-  SQL
 
   create_view "event_lists",  sql_definition: <<-SQL
       SELECT events.event_type,
@@ -503,6 +453,56 @@ ActiveRecord::Schema.define(version: 20170912185843) do
               tournaments.created_at
              FROM tournaments) events
     ORDER BY events.starts_at DESC, events.created_at DESC;
+  SQL
+
+  create_view "personal_top_scores",  sql_definition: <<-SQL
+      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id ORDER BY entities.result DESC) AS rank,
+      entities.virtual_competition_id,
+      entities.track_id,
+      entities.result,
+      entities.highest_speed,
+      entities.highest_gr,
+      entities.profile_id,
+      entities.suit_id,
+      entities.recorded_at
+     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id) results.virtual_competition_id,
+              results.track_id,
+              results.result,
+              results.highest_speed,
+              results.highest_gr,
+              tracks.profile_id,
+              tracks.suit_id,
+              tracks.recorded_at
+             FROM (virtual_comp_results results
+               LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
+            ORDER BY results.virtual_competition_id, tracks.profile_id, results.result DESC) entities
+    ORDER BY entities.result DESC;
+  SQL
+
+  create_view "annual_top_scores",  sql_definition: <<-SQL
+      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id, entities.year ORDER BY entities.result DESC) AS rank,
+      entities.virtual_competition_id,
+      entities.year,
+      entities.track_id,
+      entities.result,
+      entities.highest_speed,
+      entities.highest_gr,
+      entities.profile_id,
+      entities.suit_id,
+      entities.recorded_at
+     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id, (date_part('year'::text, tracks.recorded_at))) results.virtual_competition_id,
+              results.track_id,
+              results.result,
+              results.highest_speed,
+              results.highest_gr,
+              tracks.profile_id,
+              tracks.suit_id,
+              tracks.recorded_at,
+              date_part('year'::text, tracks.recorded_at) AS year
+             FROM (virtual_comp_results results
+               LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
+            ORDER BY results.virtual_competition_id, tracks.profile_id, (date_part('year'::text, tracks.recorded_at)), results.result DESC) entities
+    ORDER BY entities.result DESC;
   SQL
 
 end

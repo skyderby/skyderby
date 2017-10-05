@@ -6,7 +6,7 @@ class TrackFilter
   def apply(relation)
     return relation unless query
 
-    [:profile_id, :wingsuit_id, :place_id].each do |key|
+    [:profile_id, :suit_id, :place_id].each do |key|
       relation = relation.where(Hash[key, query[key]]) if query[key].present?
     end
 

@@ -103,13 +103,15 @@ Skyderby::Application.routes.draw do
   match '/user_profiles/:id', to: 'profiles#show', via: :get
 
   resources :manufacturers
-  resources :wingsuits do
-    scope module: :wingsuits do
+  resources :suits do
+    scope module: :suits do
       collection do
         resources :select_options, only: :index
       end
     end
   end
+  match '/wingsuits/:id', to: 'suits#show',  via: :get
+  match '/wingsuits',     to: 'suits#index', via: :get
 
   resources :countries do
     scope module: :countries do

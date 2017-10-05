@@ -23,7 +23,7 @@ class TracksController < ApplicationController
                 :speed,
                 :time,
                 place: [:country],
-                wingsuit: [:manufacturer]
+                suit: [:manufacturer]
               ).paginate(page: params[:page], per_page: rows_per_page)
   end
 
@@ -82,7 +82,7 @@ class TracksController < ApplicationController
     @track = Track.includes(
       :pilot,
       :video,
-      { wingsuit: :manufacturer },
+      { suit: :manufacturer },
       { place: :country }
     ).find(params[:id])
   end
@@ -99,8 +99,8 @@ class TracksController < ApplicationController
       :filepath,
       :ff_start,
       :ff_end,
-      :suit,
-      :wingsuit_id,
+      :missing_suit_name,
+      :suit_id,
       :comment,
       :cache_id,
       :track_index,
@@ -114,7 +114,7 @@ class TracksController < ApplicationController
     params.permit(
       :order,
       :page,
-      query: [:profile_id, :profile_name, :wingsuit_id, :place_id, :kind, :term]
+      query: [:profile_id, :profile_name, :suit_id, :place_id, :kind, :term]
     )
   end
   helper_method :index_params

@@ -32,7 +32,7 @@ module EventLoading
       sections: [
         :event_tracks,
         { competitors: [
-          :wingsuit,
+          :suit,
           { profile: :country },
           { event_tracks: { round: :event_tracks } }
         ] }

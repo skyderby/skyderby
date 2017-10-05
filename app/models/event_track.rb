@@ -105,7 +105,7 @@ class EventTrack < ApplicationRecord
       track_file_id: track_file.id,
       place_id: event.place_id,
       profile_id: competitor.profile_id,
-      wingsuit_id: competitor.wingsuit_id,
+      suit_id: competitor.suit_id,
       visibility: tracks_visibility,
       comment: "#{event.name} - #{round_discipline.humanize} #{round_name}"
     ).except(:file)

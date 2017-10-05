@@ -5,6 +5,7 @@ feature 'Upload tracks', js: true do
     upload_track 'flysight.csv'
     click_button I18n.t('general.save')
 
+    page.save_screenshot(Rails.root.join('tmp', 'page.png'), full: true)
     expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
   end
 
@@ -61,7 +62,7 @@ feature 'Upload tracks', js: true do
       fill_in 'track_file[track_attributes][name]', with: 'John'
 
       click_link I18n.t('tracks.form.toggle_suit_link')
-      fill_in 'track_file[track_attributes][suit]', with: 'Horus'
+      fill_in 'track_file[track_attributes][missing_suit_name]', with: 'Horus'
 
       fill_in 'track_file[track_attributes][location]', with: 'Africa'
 

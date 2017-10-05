@@ -20,7 +20,7 @@ class Skyderby.views.TrackEditView extends Backbone.View
     selects_set = {
       profile_id: 'pilot_mode',
       place_id: 'place_mode',
-      wingsuit_id: 'suit_mode'
+      suit_id: 'suit_mode'
     }
 
     for attr_name, mode of selects_set
@@ -99,9 +99,9 @@ class Skyderby.views.TrackEditView extends Backbone.View
   on_suit_mode_change: () ->
     link = @$('.toggle-suit')
     caption = @$('.toggle-suit-caption')
-    input = @$('input[name="track[suit]"]')
-    select = @$('select[name="track[wingsuit_id]"]')
-    select_control = @$('select[name="track[wingsuit_id]"] + span')
+    input = @$('input[name="track[missing_suit_name]"]')
+    select = @$('select[name="track[suit_id]"]')
+    select_control = @$('select[name="track[suit_id]"] + span')
 
     if @suit_mode == 'select'
       link.text(I18n.t('tracks.form.toggle_suit_link'))
@@ -158,9 +158,9 @@ class Skyderby.views.TrackEditView extends Backbone.View
 
   on_click_submit: () ->
     if @suit_mode == 'select'
-      @$('input[name="track[suit]"]').val('')
+      @$('input[name="track[missing_suit_name]"]').val('')
     else
-      @$('select[name="track[wingsuit_id]"]').val('')
+      @$('select[name="track[suit_id]"]').val('')
 
     if @place_mode == 'select'
       @$('input[name="track[location]"]').val('')

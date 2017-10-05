@@ -59,7 +59,7 @@ module Events
         :name,
         :profile_id,
         :profile_mode,
-        :wingsuit_id,
+        :suit_id,
         :section_id,
         :event_id,
         profile_attributes: [:name, :country_id]

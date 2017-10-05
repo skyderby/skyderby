@@ -90,7 +90,7 @@ module Events
           :file,
           :profile_id,
           :place_id,
-          :wingsuit_id
+          :suit_id
         ]
       )
     end

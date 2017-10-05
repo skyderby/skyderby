@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: wingsuits
+# Table name: suits
 #
 #  id                 :integer          not null, primary key
 #  manufacturer_id    :integer
@@ -13,7 +13,7 @@
 #  description        :text
 #
 
-class Wingsuit < ApplicationRecord
+class Suit < ApplicationRecord
   attr_accessor :photo
 
   enum kind: SuitTypes
@@ -48,7 +48,7 @@ class Wingsuit < ApplicationRecord
   class << self
     def search(query)
       joins(:manufacturer).where(
-        'LOWER(wingsuits.name) LIKE :query
+        'LOWER(suits.name) LIKE :query
          OR LOWER(manufacturers.name) LIKE :query',
         query: "%#{query.downcase}%"
       )

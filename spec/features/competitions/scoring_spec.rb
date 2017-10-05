@@ -81,7 +81,7 @@ feature 'Scoring tracks in competitions' do
 
   def create_track_from_file filename
     pilot = create :pilot
-    suit = create :wingsuit
+    suit = create :suit
 
     track_file = TrackFile.create(
       file: File.new("#{Rails.root}/spec/support/tracks/#{filename}")
@@ -91,7 +91,7 @@ feature 'Scoring tracks in competitions' do
       track_file_id: track_file.id,
       pilot: pilot,
       user: pilot.owner,
-      wingsuit: suit
+      suit: suit
     }
     CreateTrackService.new(params).execute
   end

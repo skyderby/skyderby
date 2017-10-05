@@ -33,7 +33,7 @@ module VirtualCompetitions
       Hash[
         :personal_top_scores,
         [
-          { wingsuit: :manufacturer },
+          { suit: :manufacturer },
           { track: [{ place: :country }, :video] },
           :profile
         ]

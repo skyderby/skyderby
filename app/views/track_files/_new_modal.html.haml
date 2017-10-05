@@ -46,13 +46,13 @@
               .col-sm-9
                 - recent_suit_id = recent_value(:suit_id)
                 - recent_suit_name = recent_value(:suit_name)
-                = builder.select :wingsuit_id,
+                = builder.select :suit_id,
                                  options_for_select([ [suit_name_by_id(recent_suit_id), recent_suit_id] ], recent_suit_id),
                                  { include_blank: true },
-                                 class: 'form-control new-track-wingsuit-select suit-group',
+                                 class: 'form-control new-track-suit-select suit-group',
                                  style: ('display:none' if (!recent_suit_id && recent_suit_name))
 
-                = builder.text_field :suit,
+                = builder.text_field :missing_suit_name,
                                      class: 'form-control suit-group',
                                      placeholder: t('tracks.form.suit_text_placeholder'),
                                      value: recent_suit_name,
@@ -119,6 +119,6 @@
     });
 
     $(document).one('turbolinks:before-cache', function() {
-      var $el = $('select[name="track_file[track_attributes][wingsuit_id]"]');
+      var $el = $('select[name="track_file[track_attributes][suit_id]"]');
       if ( $el.next().is('.select2') ) $el.select2('destroy');
     });

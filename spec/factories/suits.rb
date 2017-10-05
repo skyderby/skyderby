@@ -14,8 +14,8 @@
 #
 
 FactoryGirl.define do
-  factory :wingsuit, aliases: [:suit] do
-    name 'Ghost 3'
+  factory :suit do
+    sequence(:name) { |n| "Suit-#{n}" }
     manufacturer
 
     factory :tracksuit do

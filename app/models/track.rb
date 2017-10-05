@@ -45,7 +45,7 @@ class Track < ApplicationRecord
              optional: true
 
   belongs_to :place, optional: true
-  belongs_to :wingsuit, optional: true
+  belongs_to :suit, optional: true
 
   has_one :event_track
   has_one :video, class_name: 'TrackVideo', dependent: :destroy
@@ -72,12 +72,12 @@ class Track < ApplicationRecord
   before_destroy :used_in_competition?
   after_commit :perform_jobs, unless: :skip_jobs
 
-  delegate :tracksuit?, :wingsuit?, :slick?, to: :wingsuit, allow_nil: true
-  delegate :kind, to: :wingsuit, allow_nil: true, prefix: true
+  delegate :tracksuit?, :wingsuit?, :slick?, to: :suit, allow_nil: true
+  delegate :kind, to: :suit, allow_nil: true, prefix: true
   delegate :msl, to: :place, allow_nil: true, prefix: true
   delegate :name, to: :pilot, allow_nil: true, prefix: true
   delegate :name, to: :place, allow_nil: true, prefix: true
-  delegate :name, to: :wingsuit, allow_nil: true, prefix: true
+  delegate :name, to: :suit, allow_nil: true, prefix: true
   delegate :event, to: :event_track, allow_nil: true
 
   def competitive?
