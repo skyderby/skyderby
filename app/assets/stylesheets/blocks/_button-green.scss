@@ -5,6 +5,11 @@ $button-green-border-color: darken($button-green-background-color, 10%);
 $button-green-hover-background-color: lighten($button-green-background-color, 3%);
 $button-green-hover-border-color: lighten($button-green-border-color, 3%);
 
+$button-green-gradient-top-color: #5cb85c;
+$button-green-gradient-bottom-color: darken($button-green-gradient-top-color, 15%);
+$button-green-gradient-hover-top-color: lighten($button-green-gradient-top-color, 3%);
+$button-green-gradient-hover-bottom-color: lighten($button-green-gradient-bottom-color, 3%);
+
 .button--green {
   color: $button-green-color;
   background-color: $button-green-background-color;
@@ -16,4 +21,17 @@ $button-green-hover-border-color: lighten($button-green-border-color, 3%);
   color: $button-green-color;
   background-color: $button-green-hover-background-color;
   border-color: $button-green-hover-border-color;
+}
+
+.button--green-gradient {
+  color: $button-green-color;
+  background-image: linear-gradient($button-green-gradient-top-color, $button-green-gradient-bottom-color);
+  border: none;
+
+  &:hover, &:focus {
+    color: $button-green-color;
+    background-image: linear-gradient($button-green-gradient-hover-top-color, $button-green-gradient-hover-bottom-color);
+    border: none;
+    transform: translateY(-1px);
+  }
 }
