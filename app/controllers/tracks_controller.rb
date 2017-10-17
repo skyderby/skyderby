@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 class TracksController < ApplicationController
   include ChartParams
   include UnitsHelper
@@ -50,7 +48,11 @@ class TracksController < ApplicationController
     authorize! :update, @track
 
     if @track.update(track_params)
-      redirect_to @track, notice: 'Track was successfully updated.'
+      [ResultsJob, OnlineCompetitionJob, WeatherCheckingJob].each do |job|
+        job.perform_later(@track.id)
+      end
+
+      redirect_to @track
     else
       render action: 'edit'
     end

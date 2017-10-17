@@ -37,14 +37,17 @@ class CreateTrackService
 
       # Record track, then assign to it points and
       # record points to db
-      @track.skip_jobs = true
       @track.save!
       Point.bulk_insert points: points, track_id: @track.id
-      @track.skip_jobs = false
 
       @track.recorded_at = points.last.gps_time
 
       @track.save
+
+      [ResultsJob, OnlineCompetitionJob, WeatherCheckingJob].each do |job|
+        job.perform_later(@track.id)
+      end
+
       @track
     end
   end

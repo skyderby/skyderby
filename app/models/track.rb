@@ -30,8 +30,6 @@
 #
 
 class Track < ApplicationRecord
-  attr_accessor :skip_jobs
-
   enum kind:       [:skydive, :base]
   enum visibility: [:public_track, :unlisted_track, :private_track]
   enum gps_type:   [:gpx, :flysight, :columbus, :wintec, :cyber_eye, :kml]
@@ -70,7 +68,6 @@ class Track < ApplicationRecord
   validates :name, presence: true, unless: :pilot
 
   before_destroy :used_in_competition?
-  after_commit :perform_jobs, unless: :skip_jobs
 
   delegate :tracksuit?, :wingsuit?, :slick?, to: :suit, allow_nil: true
   delegate :kind, to: :suit, allow_nil: true, prefix: true
@@ -138,12 +135,6 @@ class Track < ApplicationRecord
   def used_in_competition?
     errors.add(:base, 'Cannot delete track used in competition') if competitive?
     throw(:abort) if errors.present?
-  end
-
-  def perform_jobs
-    [ResultsJob, OnlineCompetitionJob, WeatherCheckingJob].each do |job|
-      job.perform_later(id)
-    end
   end
 
   class << self
