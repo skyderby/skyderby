@@ -1,60 +1,52 @@
 class CreateTrackService
-  # Search radius for place in km
-  # Base exit described as exit coordinates
-  # Skydive dropzone descriped as landing area coordinates
-  BASE_SEARCH_RADIUS = 1
-  SKYDIVE_SEARCH_RADIUS = 10
-
   def initialize(params, segment: 0)
     @params = params.dup
     @segment = segment
   end
 
   def execute
-    ActiveRecord::Base.transaction do
-      # Create track with params
-      @track = Track.new(@params)
-      @track.pilot = @track.user.profile if @track.user && !@params[:profile_id]
-
-      # Read file with track and set logger type
-      file_path = @track.track_file.file_path
-      @track.gps_type = @track.track_file.file_format
-      points = read_points_from_file(
-        path: file_path,
-        segment: segment,
-        format: @track.gps_type
-      )
-
-      jump_range = JumpRangeFinder.for(@track.kind).new(points).execute
-      @track.ff_start = jump_range.start_time
-      @track.ff_end = jump_range.end_time
-
-      # Find and set place as closest to start of jump range
-      # and set ground level if place found as place msl offset
-      place = find_place jump_range.start_point, search_radius
-      @track.place = place
-      @track.ground_level = place.msl if place
-
-      # Record track, then assign to it points and
-      # record points to db
-      @track.save!
-      Point.bulk_insert points: points, track_id: @track.id
-
-      @track.recorded_at = points.last.gps_time
-
-      @track.save
-
-      [ResultsJob, OnlineCompetitionJob, WeatherCheckingJob].each do |job|
-        job.perform_later(@track.id)
-      end
-
-      @track
+    track.transaction do
+      set_profile
+      set_file_metadata
+      set_jump_range
+      set_place
+      save_track
+      enque_jobs
     end
+
+    track
   end
 
   private
 
-  attr_reader :segment
+  attr_reader :segment, :params
+
+  def track
+    @track ||= Track.new(params)
+  end
+
+  def track_file
+    track.track_file
+  end
+
+  def set_profile
+    track.pilot = track.user.profile if track.user && !params[:profile_id]
+  end
+
+  def set_file_metadata
+    track.gps_type = track_file.file_format
+    track.recorded_at = points.last.gps_time
+    track.data_frequency = data_frequency
+    track.missing_ranges = missing_ranges
+  end
+
+  def points
+    @points ||= read_points_from_file(
+      path: track_file.file_path,
+      segment: segment,
+      format: track_file.file_format
+    )
+  end
 
   def read_points_from_file(path:, segment:, format:)
     points = TrackParser.for(format).new(
@@ -65,8 +57,52 @@ class CreateTrackService
     PointsProcessor.for(format).new(points).execute
   end
 
+  def data_frequency
+    @data_frequency ||= DataFrequencyDetector.call(points)
+  end
+
+  def missing_ranges
+    @missing_ranges ||= MissingRangesDetector.call(points, data_frequency)
+  end
+
+  def set_jump_range
+    track.ff_start = jump_range.start_time
+    track.ff_end = jump_range.end_time
+  end
+
+  def jump_range
+    @jump_range ||= JumpRangeFinder.for(track.kind).new(points).execute
+  end
+
+  # Find and set place as closest to start of jump range
+  # and set ground level if place found as place msl offset
+  def set_place
+    place = find_place jump_range.start_point, search_radius
+    track.place = place
+    track.ground_level = place.msl if place
+  end
+
+  # Record track, then assign to it points and
+  # record points to db
+  def save_track
+    track.save!
+    Point.bulk_insert points: points, track_id: track.id
+  end
+
+  def enque_jobs
+    [ResultsJob, OnlineCompetitionJob, WeatherCheckingJob].each do |job|
+      job.perform_later(track.id)
+    end
+  end
+
   def search_radius
-    @track.base? ? BASE_SEARCH_RADIUS : SKYDIVE_SEARCH_RADIUS
+    # Search radius for place in km
+    # Base exit described as exit coordinates
+    # Skydive dropzone descriped as landing area coordinates
+    base_search_radius = 1
+    skydive_search_radius = 10
+
+    @track.base? ? base_search_radius : skydive_search_radius
   end
 
   def find_place(start_point, radius)

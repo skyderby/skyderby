@@ -2,58 +2,59 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 5.1'
 
-# Supported DB
+gem 'puma'
+
+# DB
 gem 'pg'
+gem 'pluck_to_hash'
+gem 'scenic'
 
 # Auth
 gem 'devise'
-
-# Pagination
-gem 'will_paginate'
-gem 'will_paginate-bootstrap'
-
-# HAML
-gem 'haml'
-
-# Files attachments
-gem 'paperclip', '~> 4.2.2'
-
-# XML
-gem 'nokogiri', '~> 1.7.2'
 
 # Authorization
 gem 'cancancan'
 gem 'pundit'
 
+# Pagination
+gem 'will_paginate'
+gem 'will_paginate-bootstrap'
+
+# Template engines
+gem 'haml'
+gem 'jbuilder', '~> 2.6'
+
+# Files attachments
+gem 'paperclip', '~> 4.2.2'
+
+# XML
+gem 'nokogiri', '~> 1.8'
+
 # Background jobs
 gem 'sidekiq', ' < 6'
 
-# Exception notifications
+# Exception notifications and profiling
 gem 'honeybadger', '~> 3.1'
+gem 'rack-mini-profiler'
 
 # Internalization
-gem 'i18n-js', '>= 3.0.0.rc8'
 gem 'http_accept_language'
+gem 'i18n-js', '>= 3.0.0.rc8'
 
 gem 'browser'
 
-gem 'jquery-rails'
-gem 'remotipart', git: 'https://github.com/skyderby/remotipart.git'
-gem 'rails-backbone'
-
-gem 'sass-rails'
-gem 'coffee-rails'
-gem 'uglifier', '>= 2.7.2'
-gem 'turbolinks'
-
-gem 'bootstrap-sass', '~> 3.3.7'
-gem 'font-awesome-sass', '~> 4.7.0'
-
+# Assets
 gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-sass', '~> 3.3.7'
+gem 'coffee-rails'
+gem 'font-awesome-sass', '~> 4.7.0'
+gem 'jquery-rails'
+gem 'rails-backbone'
+gem 'remotipart', git: 'https://github.com/skyderby/remotipart.git'
+gem 'sass-rails'
+gem 'turbolinks'
+gem 'uglifier', '>= 2.7.2'
 
-gem 'pluck_to_hash'
-
-gem 'scenic'
 gem 'vincenty_distance'
 
 group :development do
@@ -72,19 +73,10 @@ group :development, :test do
 end
 
 group :test do
-  gem 'factory_girl_rails'
   gem 'capybara'
-  gem 'poltergeist'
-  gem 'database_cleaner'
-
-  gem 'simplecov'
   gem 'codeclimate-test-reporter', require: false
+  gem 'database_cleaner'
+  gem 'factory_girl_rails'
+  gem 'poltergeist'
+  gem 'simplecov'
 end
-
-gem 'jbuilder', '~> 2.6'
-
-gem 'puma'
-
-gem 'newrelic_rpm'
-gem 'skylight'
-gem 'rack-mini-profiler'

@@ -18,6 +18,9 @@ Style/FrozenStringLiteralComment:
 
 Style/AsciiComments:
   Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
 #################### Metrics ################################
 
 Metrics/ClassLength:
@@ -42,3 +45,7 @@ Metrics/AbcSize:
     # The ABC size is a calculated magnitude, so this number can be an Integer or
     # a Float.
     Max: 25
+
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*"

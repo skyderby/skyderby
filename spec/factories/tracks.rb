@@ -34,8 +34,7 @@ FactoryGirl.define do
     kind Track.kinds['skydive']
     pilot
     suit
-    skip_jobs true
-    recorded_at Date.today
+    recorded_at DateTime.current
 
     trait :with_place do
       association :place, factory: [:place, :gridset]
