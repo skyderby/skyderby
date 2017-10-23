@@ -5,6 +5,9 @@ cache: bundler
 rvm:
   - 2.4.0
 
+addons:
+  postgresql: '9.6'
+
 env:
   REDIS_HOST: localhost
   REDIS_PORT: 6379
