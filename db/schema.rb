@@ -332,7 +332,6 @@ ActiveRecord::Schema.define(version: 20171016070325) do
     t.boolean "disqualified_from_online_competitions", default: false, null: false
     t.decimal "data_frequency", precision: 3, scale: 1
     t.jsonb "missing_ranges"
-    t.jsonb "segments"
     t.index ["id", "ff_start", "ff_end"], name: "index_tracks_on_id_and_ff_start_and_ff_end"
     t.index ["place_id"], name: "index_tracks_on_place_id"
     t.index ["profile_id"], name: "index_tracks_on_profile_id"
