@@ -8,7 +8,7 @@
             %span
               = "##{track.id}"
             %span
-              = track.recorded_at.strftime('%d.%m.%Y')
+              = track.recorded_at&.strftime('%d.%m.%Y')
           %div
             %i.fa.fa-map-marker
             = track_place(track)

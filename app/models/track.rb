@@ -106,7 +106,7 @@ class Track < ApplicationRecord
   end
 
   def presentation
-    "##{id} | #{recorded_at.strftime('%Y-%m-%d')} | #{comment}"
+    "##{id} | #{recorded_at&.strftime('%Y-%m-%d')} | #{comment}"
   end
 
   def delete_results

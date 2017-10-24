@@ -15,6 +15,14 @@ describe JumpRangeFinder::Base do
     expect(jump_range.end_time).to be_within(1).of(410)
   end
 
+  it 'should work without exceptions on broken data' do
+    points = [TrackParser::PointRecord.new(nil)]
+
+    jump_range = JumpRangeFinder.for(:base).new(points).execute
+
+    expect(jump_range.end_time).to eq(0)
+  end
+
   def read_points_from_file
     points = TrackParser.for(:flysight).new(
       path: Rails.root.join('spec', 'support', 'tracks', 'WBR', '11-05-01_Ratmir.CSV')

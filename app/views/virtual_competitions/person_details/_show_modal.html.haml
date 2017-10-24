@@ -26,7 +26,7 @@
               - if @details.competition.worldwide?
                 %td= track_place(record.track)
               %td.text-right= format_result(record.result, @details.competition)
-              %td.text-right= record.track.recorded_at.strftime('%d.%m.%Y')
+              %td.text-right= record.track.recorded_at&.strftime('%d.%m.%Y')
 
       #person-details__chart
 

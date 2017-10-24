@@ -9,7 +9,7 @@ class CreateTrackService
     end
 
     def call
-      return 1 if points.blank?
+      return 1 unless points.many?
       most_popular_frequency
     end
 

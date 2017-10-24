@@ -49,7 +49,7 @@
                 %td.text-right= (score.highest_speed || 0.0).round(1)
               - if @competition.display_highest_gr
                 %td.text-right= (score.highest_gr || 0.0).round(2)
-              %td.text-right= score.recorded_at.strftime('%d.%m.%Y')
+              %td.text-right= score.recorded_at&.strftime('%d.%m.%Y')
               %td
                 = link_to virtual_competition_person_details_path(@competition, profile_id: score.profile),
                           remote: true do

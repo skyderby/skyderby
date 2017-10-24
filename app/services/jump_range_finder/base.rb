@@ -8,6 +8,7 @@ module JumpRangeFinder
     end
 
     def execute
+      return JumpRange.new(points.first, points.first) unless points.many?
       JumpRange.new(start_point, end_point)
     end
 

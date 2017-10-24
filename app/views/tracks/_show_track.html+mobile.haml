@@ -26,7 +26,8 @@
           = @track.comment
 
       %small
-        = "Recorded at #{@track.recorded_at.strftime('%d.%m.%Y %H:%M')} (UTC); "
+        - if @track.recorded_at
+          = "Recorded at #{@track.recorded_at.strftime('%d.%m.%Y %H:%M')} (UTC); "
         = "Uploaded at #{@track.created_at.strftime('%d.%m.%Y %H:%M')} (UTC)"
 
       - if can?(:update, @track) && @track.track_file

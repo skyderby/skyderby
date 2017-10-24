@@ -24,4 +24,10 @@ describe CreateTrackService::DataFrequencyDetector do
     result = CreateTrackService::DataFrequencyDetector.call([])
     expect(result).to eq(1)
   end
+
+  it 'returns 1 if only one point given' do
+    points = [PointRecord.new(1)]
+    result = CreateTrackService::DataFrequencyDetector.call(points)
+    expect(result).to eq(1)
+  end
 end
