@@ -6,8 +6,8 @@ class TrackResultsService
   end
 
   def execute
-    track.delete_results  
-    
+    track.delete_results
+
     track_segments = ranges_to_score.map do |range|
       WindowRangeFinder.new(track_points)
                        .execute(from_altitude: range[:start_altitude],
@@ -33,7 +33,8 @@ class TrackResultsService
         'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
         "#{@track.point_altitude_field} AS altitude",
         :latitude,
-        :longitude)
+        :longitude
+      )
   end
 
   def ranges_to_score
