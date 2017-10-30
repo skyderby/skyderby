@@ -70,6 +70,16 @@ module Tracks
       end.to_json
     end
 
+    def missing_ranges
+      return [] if points.blank?
+
+      MissingRangesPresenter.call(
+        track.missing_ranges,
+        points.first[:fl_time],
+        points.last[:fl_time]
+      )
+    end
+
     protected
 
     attr_reader :track, :chart_preferences
@@ -208,7 +218,7 @@ module Tracks
 
       new_point = first.clone
       new_point[:altitude] = altitude
-      [:gps_time, :latitude, :longitude, :h_speed, :v_speed, :distance].each do |key|
+      [:gps_time, :fl_time, :latitude, :longitude, :h_speed, :v_speed, :distance].each do |key|
         new_point[key] = interpolate_field(first, second, key, k)
       end
 
