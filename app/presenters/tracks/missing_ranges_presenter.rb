@@ -12,6 +12,7 @@ module Tracks
 
     def call
       return [] if start_time == end_time
+      return [] unless ranges
 
       ranges
         .map do |range|
