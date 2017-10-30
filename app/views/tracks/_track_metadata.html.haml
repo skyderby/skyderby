@@ -1,0 +1,18 @@
+- if @track.comment.present?
+  %small
+    = @track.comment
+
+%small
+  - if @track.recorded_at
+    = "Recorded at #{@track.recorded_at.strftime('%d.%m.%Y %H:%M')} (UTC); "
+  = "Uploaded at #{@track.created_at.strftime('%d.%m.%Y %H:%M')} (UTC)"
+
+- if @track.data_frequency
+  %small
+    = "Data frequency: #{@track.data_frequency.round} Hz"
+
+- if can?(:update, @track) && @track.track_file
+  %small
+    Download file:
+    = link_to @track.track_file.file_file_name, track_download_path(@track), 'data-turbolinks': false
+
