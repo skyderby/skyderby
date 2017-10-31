@@ -1,20 +1,52 @@
 .container
-  %h1= 'Listing countries'
+  %h1= 'Countries'
+
+  .row
+    .col-sm-6
+      .content-block
+        %h2 Top by tracks
+
+        %table.table
+          %thead
+            %tr
+              %th Country
+              %th Tracks
+          %tbody
+            - @countries.top_by_tracks.each do |record|
+              %tr
+                %td= record.name
+                %td= record.tracks_count
+
+    .col-sm-6
+      .content-block
+        %h2 Top by profiles
+
+        %table.table
+          %thead
+            %tr
+              %th Country
+              %th Profiles
+          %tbody
+            - @countries.top_by_profiles.each do |record|
+              %tr
+                %td= record.name
+                %td= record.profiles_count
 
   = link_to 'New Country', new_country_path, class: 'btn btn-default'
+  .content-block
 
-  %table.table
-    %thead
-      %tr
-        %th= 'Name'
-        %th= 'Code'
-        %th{colspan: '3'}
-
-    %tbody
-      - @countries.each do |country|
+    %table.table
+      %thead
         %tr
-          %td= country.name
-          %td= country.code
-          %td= link_to 'Show', country
-          %td= link_to 'Edit', edit_country_path(country)
-          %td= link_to 'Destroy', country, method: :delete, data: { confirm: 'Are you sure?' }
+          %th= 'Name'
+          %th= 'Code'
+          %th{colspan: '3'}
+
+      %tbody
+        - @countries.each do |country|
+          %tr
+            %td= country.name
+            %td= country.code
+            %td= link_to 'Show', country
+            %td= link_to 'Edit', edit_country_path(country)
+            %td= link_to 'Destroy', country, method: :delete, data: { confirm: 'Are you sure?' }

@@ -5,7 +5,7 @@ class CountriesController < ApplicationController
   def index
     authorize Country
 
-    @countries = Country.order(:name)
+    @countries = Countries::Index.new
   end
 
   def show

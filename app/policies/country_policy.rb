@@ -1,0 +1,2 @@
+class CountryPolicy < ApplicationPolicy
+end
