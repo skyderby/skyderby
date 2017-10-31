@@ -1,22 +1,30 @@
 class CountriesController < ApplicationController
-  load_and_authorize_resource
-
   before_action :set_country, only: [:show, :edit, :update, :destroy]
   after_action :expire_cache, only: [:create, :update, :destroy]
 
   def index
+    authorize Country
+
     @countries = Country.order(:name)
   end
 
-  def show; end
+  def show
+    authorize @country
+  end
 
   def new
+    authorize Country
+
     @country = Country.new
   end
 
-  def edit; end
+  def edit
+    authorize @country
+  end
 
   def create
+    authorize Country
+
     @country = Country.new(country_params)
 
     if @country.save
@@ -27,6 +35,8 @@ class CountriesController < ApplicationController
   end
 
   def update
+    authorize @country
+
     if @country.update(country_params)
       redirect_to @country, notice: 'Country was successfully updated.'
     else
@@ -35,6 +45,8 @@ class CountriesController < ApplicationController
   end
 
   def destroy
+    authorize @country
+
     @country.destroy
     redirect_to countries_url
   end
