@@ -1,6 +1,6 @@
 ru:
   virtual_competitions:
-    show:
+    scoreboard:
       show_details: Нажмите для просмотра деталей трека
       show_profile: Нажмите для просмотра профиля пилота
     navbar:

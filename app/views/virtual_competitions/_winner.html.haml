@@ -8,12 +8,12 @@
         = link_to result.profile.name.titleize,
                   profile_path(result.profile),
                   'data-toggle' => 'tooltip',
-                  title: t('virtual_competitions.show.show_profile'),
+                  title: t('virtual_competitions.scoreboard.show_profile'),
                   class: 'dotted-underline vc-profile-name'
         %div
           = link_to track_path(result.track_id),
                     'data-toggle' => 'tooltip',
-                    title: t('virtual_competitions.show.show_details'),
+                    title: t('virtual_competitions.scoreboard.show_details'),
                     class: 'dotted-underline' do
             %span.vc-result= format_result(result.result, result.virtual_competition)
             %span.vc-unit= competition_unit(result.virtual_competition)

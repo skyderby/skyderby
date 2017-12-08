@@ -1,5 +1,5 @@
 de:
   virtual_competitions:
-    show:
+    scoreboard:
       show_details: 'Klicke hier für Trackdetails'
       show_profile: 'Hier klicken für Profil'
