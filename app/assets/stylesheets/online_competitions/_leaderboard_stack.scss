@@ -1,0 +1,23 @@
+.leaderboard-stack {
+  display: flex;
+  flex-direction: row;
+}
+
+.leaderboard-stack__panel {
+  flex: 1;
+}
+
+.leaderboard-stack__panel-header {
+  text-align: center;
+
+  a {
+    @include dotted-underline;
+
+    font-size: 18px;
+    color: $main-text-color;
+
+    &:hover {
+      color: $main-text-color;
+    }
+  }
+}

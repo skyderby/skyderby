@@ -27,10 +27,16 @@
   margin: 0 15px;
 }
 
+.online-competition-leaderboard--vertical .online-competition-winner {
+  flex: 1;
+  margin: 10px 0;
+}
+
 .online-competition-winner__photo {
   width: 30%;
   padding: 0;
   position: relative;
+  overflow: hidden;
 
   img {
     border-radius: 50%;
@@ -67,6 +73,7 @@
   color: $main-text-color;
   margin-top: 5px;
   margin-bottom: 5px;
+  max-width: 100%;
 
   &:hover {
     color: $main-text-color;
@@ -79,6 +86,10 @@
   display: block;
   line-height: 1;
   margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+  max-width: 100%;
   color: $main-text-color;
 
   &:hover {
