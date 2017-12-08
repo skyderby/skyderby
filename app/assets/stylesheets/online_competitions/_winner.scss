@@ -5,6 +5,21 @@
   border-width: 0px;
   border-radius: 2px;
   background-color: white;
+
+  border-top-style: solid;
+  border-top-width: 5px;
+}
+
+.online-competition-winner:nth-child(1) {
+  border-top-color: $gold;
+}
+
+.online-competition-winner:nth-child(2) {
+  border-top-color: $silver;
+}
+
+.online-competition-winner:nth-child(3) {
+  border-top-color: $bronze;
 }
 
 .online-competition-leaderboard--horizontal .online-competition-winner {
