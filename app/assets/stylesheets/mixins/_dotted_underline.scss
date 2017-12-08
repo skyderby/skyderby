@@ -1,0 +1,11 @@
+@mixin dotted-underline {
+  border-bottom: {
+    style: dotted;
+    width: 1.1px;
+  }
+
+  &:hover {
+    border-bottom-style: solid;
+    text-decoration: none;
+  }
+}

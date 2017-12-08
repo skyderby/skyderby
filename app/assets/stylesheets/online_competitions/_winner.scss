@@ -1,0 +1,80 @@
+.online-competition-winner {
+  display: flex;
+  padding: 10px 15px;
+  box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px 0px, rgba(0, 0, 0, 0.117647) 0px 1px 6px 0px;
+  border-width: 0px;
+  border-radius: 2px;
+  background-color: white;
+}
+
+.online-competition-leaderboard--horizontal .online-competition-winner {
+  flex: 1;
+  margin: 0 15px;
+}
+
+.online-competition-winner__photo {
+  width: 30%;
+  padding: 0;
+  position: relative;
+
+  img {
+    border-radius: 50%;
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+}
+
+.online-competition-winner__caption {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-left: 15px;
+  width: 70%;
+  letter-spacing: 1px;
+  font-weight: 200;
+}
+
+.online-competition-winner__name {
+  @include dotted-underline;
+
+  font-size: 20px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: $main-text-color;
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+  &:hover {
+    color: $main-text-color;
+  }
+}
+
+.online-competition-winner__result {
+  @include dotted-underline;
+
+  display: block;
+  line-height: 1;
+  margin-bottom: 5px;
+  color: $main-text-color;
+
+  &:hover {
+    color: $main-text-color;
+  }
+}
+
+.online-competition-winner__result-value {
+  font-size: 36px;
+}
+
+.online-competition-winner__result-unit {
+  font-size: 28px;
+}

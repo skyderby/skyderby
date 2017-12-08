@@ -1,19 +1,14 @@
-.panel.panel-winner
-  .panel-body
-    .row
-      .col-sm-4.col-md-4
-        = image_tag(result.profile.userpic.url(:medium), 
-                    class: 'img-responsive img-rounded')
-      .col-sm-8.col-md-8
-        = link_to result.profile.name.titleize,
-                  profile_path(result.profile),
-                  'data-toggle' => 'tooltip',
-                  title: t('virtual_competitions.scoreboard.show_profile'),
-                  class: 'dotted-underline vc-profile-name'
-        %div
-          = link_to track_path(result.track_id),
-                    'data-toggle' => 'tooltip',
-                    title: t('virtual_competitions.scoreboard.show_details'),
-                    class: 'dotted-underline' do
-            %span.vc-result= format_result(result.result, result.virtual_competition)
-            %span.vc-unit= competition_unit(result.virtual_competition)
+.online-competition-winner
+  .online-competition-winner__photo
+    = image_tag result.profile.userpic.url(:medium)
+  .online-competition-winner__caption
+    = link_to result.profile.name.titleize,
+              profile_path(result.profile),
+              'data-toggle' => 'tooltip',
+              title: t('virtual_competitions.scoreboard.show_profile'),
+              class: 'online-competition-winner__name'
+    = link_to track_path(result.track_id),
+              'data-toggle' => 'tooltip', title: t('virtual_competitions.scoreboard.show_details'),
+              class: 'online-competition-winner__result' do
+      %span.online-competition-winner__result-value= format_result(result.result, result.virtual_competition)
+      %span.online-competition-winner__result-unit= competition_unit(result.virtual_competition)

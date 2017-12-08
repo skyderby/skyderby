@@ -1,13 +1,7 @@
 .virtual-competition__scoreboard
   - if @competition.scores.size > 2
-    - winners = @competition.scores.take(3)
-    .row.top-buffer-30
-      .col-sm-4.col-md-4
-        = render 'winner', result: winners.first
-      .col-sm-4.col-md-4
-        = render 'winner', result: winners.second
-      .col-sm-4.col-md-4
-        = render 'winner', result: winners.third
+    - leaders = @competition.scores.take(3)
+    = render 'leaderboard', leaders: leaders
   .row
     .col-sm-12
       %table.table.vc-scoreboard-table

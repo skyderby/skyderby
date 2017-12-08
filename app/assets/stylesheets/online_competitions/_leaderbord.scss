@@ -1,0 +1,9 @@
+.online-competition-leaderboard {
+  display: flex;
+  justify-content: space-between;
+}
+
+.online-competition-leaderboard--horizontal {
+  flex-direction: row;
+  margin: 20px -15px;
+}
