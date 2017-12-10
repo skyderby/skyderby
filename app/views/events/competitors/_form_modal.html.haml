@@ -1,6 +1,6 @@
 .modal-dialog
   .modal-content
-    = form_for [@event, @competitor], remote: true, html: {class: 'form-horizontal'} do |f|
+    = form_with model: [@event, @competitor], scope: '', html: {class: 'form-horizontal'} do |f|
       = hidden_field_tag :display_raw_results, @display_raw_results
       .modal-header
         %button.close{type: 'button', data: {dismiss: 'modal'}}
@@ -17,50 +17,52 @@
 
       .modal-body
         .radio
-          = f.label :profile_mode, value: :select do
-            = f.radio_button :profile_mode, :select, checked: true
+          %label
+            = radio_button_tag :new_profile, false, checked: true
             = t('competitors.form.select_profile')
         .form-group
-          = f.label :profile, class: 'control-label col-sm-4'
+          = f.label :profile, t('activerecord.attributes.competitor.profile'), class: 'control-label col-sm-4'
           .col-sm-8
             = f.select :profile_id,
                        options_for_select([[@competitor.name, @competitor.profile_id]]), 
                        {},
+                       id: :profile_id,
                        class: 'form-control'
 
         .radio
-          = f.label :profile_mode, value: :create do
-            = f.radio_button :profile_mode, :create
+          %label
+            = radio_button_tag :new_profile, true
             = t('competitors.form.create_profile')
 
-        = f.fields_for :profile_attributes do |builder|
-          .form-group
-            = builder.label :name, 
-                            t('activerecord.attributes.profile.name'), 
-                            class: 'control-label col-sm-4'
-            .col-sm-8
-              = builder.text_field :name, class: 'form-control'
-          .form-group
-            = builder.label :country,
-                            t('activerecord.attributes.profile.country'),
-                            class: 'control-label col-sm-4'
-            .col-sm-8
-              = builder.select :country_id,
-                               options_for_select([[@competitor.country_name, @competitor.country_id]]),
-                               {},
-                               class: 'form-control'
+        .form-group
+          = f.label :name,
+                    t('activerecord.attributes.profile.name'),
+                    class: 'control-label col-sm-4'
+          .col-sm-8
+            = f.text_field :name, id: :competitor_name, class: 'form-control', value: ''
+        .form-group
+          = f.label :country,
+                    t('activerecord.attributes.profile.country'),
+                    class: 'control-label col-sm-4'
+          .col-sm-8
+            = f.select :country_id,
+                       options_for_select([[@competitor.country_name, @competitor.country_id]]),
+                       {},
+                       id: :country_id,
+                       class: 'form-control'
 
         %hr
         .form-group
-          = f.label :suit, class: 'control-label col-sm-4'
+          = f.label :suit, t('activerecord.attributes.competitor.suit'), class: 'control-label col-sm-4'
           .col-sm-8
             = f.select :suit_id,
                        options_for_select([[@competitor.suit_name, @competitor.suit_id]]), 
                        {},
+                       id: :suit_id,
                        class: 'form-control'
 
         .form-group
-          = f.label :section, class: 'control-label col-sm-4'
+          = f.label :section, t('activerecord.attributes.competitor.section'), class: 'control-label col-sm-4'
           .col-sm-8
             - sections_count = @event.sections.length
             - if sections_count == 1

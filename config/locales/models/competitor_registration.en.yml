@@ -1,0 +1,16 @@
+en:
+  activemodel:
+    errors:
+      models:
+        events/competitor_registration:
+          attributes:
+            suit_id:
+              blank: Suit has to be filled
+            profile_id:
+              blank: Profile has to be chosen
+            name:
+              blank: Name has to be filled
+            country_id:
+              blank: Country has to be chosen
+            section_id:
+              blank: Class has to be chosen

@@ -1,0 +1,16 @@
+de:
+  activemodel:
+    errors:
+      models:
+        events/competitor_registration:
+          attributes:
+            suit_id:
+              blank: Suit muss ausgewählt werden
+            profile_id:
+              blank: Teilnehmerprofil muss ausgewählt werden
+            name:
+              blank: Name  muss ausgewählt werden
+            country_id:
+              blank: Land muss ausgewählt werden
+            section_id:
+              blank: Kategorie muss ausgewählt werden

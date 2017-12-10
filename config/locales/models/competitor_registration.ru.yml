@@ -1,0 +1,16 @@
+ru:
+  activemodel:
+    errors:
+      models:
+        events/competitor_registration:
+          attributes:
+            suit_id:
+              blank: Костюм обязателен для заполнения
+            profile_id:
+              blank: Профиль пилота обязателен для заполнения
+            name:
+              blank: Имя пилота обязательно для заполнения
+            country_id:
+              blank: Страна пилота обязательна для заполнения
+            section_id:
+              blank: Класс обязателен для заполнения

@@ -1,4 +1,3 @@
-# encoding: utf-8
 module Events
   class CompetitorsController < ApplicationController
     include EventLoading
@@ -8,20 +7,21 @@ module Events
     before_action :set_competitor, only: [:edit, :update, :destroy]
 
     def create
-      @competitor = @event.competitors.new(competitor_params)
+      @registration = CompetitorRegistration.new(competitor_params)
 
-      if @competitor.save
+      if @registration.create
         respond_to do |format|
-          format.json
           format.js { respond_with_scoreboard }
         end
       else
-        respond_with_errors(@competitor.errors)
+        respond_with_errors(@registration.errors)
       end
     end
 
     def update
-      if @competitor.update(competitor_params)
+      @registration = CompetitorRegistration.new(competitor_params)
+
+      if @registration.update
         respond_to do |format|
           format.json
           format.js { respond_with_scoreboard }
@@ -34,7 +34,6 @@ module Events
     def destroy
       if @competitor.destroy
         respond_to do |format|
-          format.json { head :no_content }
           format.js { respond_with_scoreboard }
         end
       else
@@ -55,20 +54,16 @@ module Events
     end
 
     def competitor_params
-      params.require(:competitor).permit(
+      params.permit(
+        :id,
         :name,
+        :country_id,
+        :new_profile,
         :profile_id,
-        :profile_mode,
         :suit_id,
         :section_id,
-        :event_id,
-        profile_attributes: [:name, :country_id]
-      ).tap do |p|
-        p[:profile_attributes] = p[:profile_attributes].merge(
-          owner_type: 'Event',
-          owner_id: params[:event_id]
-        )
-      end
+        :event_id
+      )
     end
   end
 end

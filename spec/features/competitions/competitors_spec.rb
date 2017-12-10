@@ -11,12 +11,12 @@ feature 'Event competitors', js: true do
     visit event_path(event)
     click_link I18n.t('activerecord.models.competitor')
 
-    find('#select2-competitor_profile_id-container').click
+    find('#select2-profile_id-container').click
     sleep 0.5
     first('li.select2-results__option', text: profile.name).click
     sleep 0.5
 
-    find('#select2-competitor_suit_id-container').click
+    find('#select2-suit_id-container').click
     sleep 0.5
     first('li.select2-results__option', text: suit.name).click
     sleep 0.5
@@ -40,15 +40,15 @@ feature 'Event competitors', js: true do
     visit event_path(event)
     click_link I18n.t('activerecord.models.competitor')
 
-    find('label[for="competitor_profile_mode_create"]').click
+    find('label', text: I18n.t('competitors.form.create_profile')).click
 
-    fill_in I18n.t('activerecord.attributes.profile.name'), with: profile_name
-    find('#select2-competitor_profile_attributes_country_id-container').click
+    fill_in 'competitor_name', with: profile_name
+    find('#select2-country_id-container').click
     sleep 0.5
     first('li.select2-results__option', text: country.name).click
     sleep 0.5
 
-    find('#select2-competitor_suit_id-container').click
+    find('#select2-suit_id-container').click
     sleep 0.5
     first('li.select2-results__option', text: suit.name).click
     sleep 0.5

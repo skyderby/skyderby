@@ -23,9 +23,7 @@ class EventTrack < ApplicationRecord
   belongs_to :track
   belongs_to :round
   belongs_to :competitor, touch: true
-  belongs_to :uploaded_by,
-             class_name: 'Profile',
-             foreign_key: 'profile_id'
+  belongs_to :uploaded_by, class_name: 'Profile', foreign_key: 'profile_id'
 
   scope :for_round, ->(round_id) { where(round_id: round_id) }
 
