@@ -62,10 +62,10 @@ group :development do
   gem 'bullet'
   gem 'meta_request'
   gem 'rubocop', require: false
-  gem 'spring'
 end
 
 group :development, :test do
+  gem 'bootsnap', require: false
   gem 'byebug'
   gem 'dotenv-rails'
   gem 'rspec'
