@@ -1,4 +1,4 @@
-module EventLoading
+module EventScoped
   extend ActiveSupport::Concern
 
   included do

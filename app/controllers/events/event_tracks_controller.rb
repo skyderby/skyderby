@@ -1,7 +1,6 @@
-# encoding: utf-8
 module Events
   class EventTracksController < ApplicationController
-    include EventLoading
+    include EventScoped
     include UnitsHelper
     include ChartParams
 

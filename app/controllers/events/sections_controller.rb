@@ -1,7 +1,6 @@
-# encoding: utf-8
 module Events
   class SectionsController < ApplicationController
-    include EventLoading
+    include EventScoped
 
     before_action :set_event
     before_action :authorize_event

@@ -1,7 +1,5 @@
-# encoding: utf-8
-
 class EventsController < ApplicationController
-  include EventLoading
+  include EventScoped
 
   before_action :set_event, only: %i[edit update destroy]
 

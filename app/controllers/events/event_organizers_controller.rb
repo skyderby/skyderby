@@ -1,6 +1,6 @@
 module Events
   class EventOrganizersController < ApplicationController
-    include EventLoading
+    include EventScoped
 
     before_action :set_event
     before_action :authorize_event
