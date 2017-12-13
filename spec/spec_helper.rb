@@ -1,7 +1,8 @@
-require 'simplecov'
-SimpleCov.start do
-  # Ignores any file containing "/vendor/" in its path.
-  add_filter '/vendor/'
+if ENV['ENABLE_COVERAGE']
+  require 'simplecov'
+  SimpleCov.start do
+    add_filter '/vendor/'
+  end
 end
 
 ENV['RAILS_ENV'] ||= 'test'
@@ -26,8 +27,7 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Features::UploadHelpers
 
-  config.include Devise::TestHelpers, type: :controller
-  config.include ControllerHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, type: :controller
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
