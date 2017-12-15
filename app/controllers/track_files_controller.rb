@@ -61,13 +61,13 @@ class TrackFilesController < ApplicationController
     # when suit selected suit_id param filled and suit param is not
     # and vice versa - when typed suit_id is blank and suit isn't
     suit_id = form_params[:suit_id]
-    unless suit_id.blank?
+    if suit_id.present?
       recent_values.add(:suit_id, suit_id)
       recent_values.delete(:suit_name)
     end
 
     suit_name = form_params[:missing_suit_name]
-    unless suit_name.blank?
+    if suit_name.present?
       recent_values.add(:suit_name, suit_name)
       recent_values.delete(:suit_id)
     end
