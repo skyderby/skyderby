@@ -130,6 +130,10 @@ class Track < ApplicationRecord
     end
   end
 
+  def recorded_at
+    super || created_at
+  end
+
   private
 
   def used_in_competition?
