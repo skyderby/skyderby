@@ -33,8 +33,6 @@ module Skyderby
 
     config.autoload_paths << Rails.root.join('lib')
 
-    config.action_controller.always_permitted_parameters = %w(controller action locale)
-
-    config.assets.paths << Rails.root.join('vendor', 'assets', 'images')
+    config.action_controller.always_permitted_parameters = %w[controller action locale]
   end
 end
