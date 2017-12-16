@@ -1,3 +1,11 @@
-%span.badge
-  %i.fa.fa-certificate{class: badge.kind}
-  = badge.name
+.achievement
+  .achievement__icon{class: ["achievement--#{badge.category}", ("achievement--#{badge.kind}" if badge.kind)]}
+  .achievement__text{class: ('achievement--no-subtext' unless badge.comment.present?)}
+    = badge.name
+    - if badge.comment
+      %span
+        = badge.comment
+  .achievement__top
+  .achievement__bottom
+
+

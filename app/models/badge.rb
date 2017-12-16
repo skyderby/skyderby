@@ -11,9 +11,10 @@
 #
 
 class Badge < ApplicationRecord
+  enum category: [:competition, :online, :sponsor, :skyderby, :special]
   enum kind: [:gold, :silver, :bronze]
 
   belongs_to :profile
 
-  validates_presence_of :name, :kind
+  validates :name, :category, presence: true
 end

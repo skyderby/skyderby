@@ -1,0 +1,194 @@
+.profile-achievements__header {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.profile-badges {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px 0;
+}
+
+.achievement {
+  display: inline-flex;
+  position: relative;
+  margin: 0 15px 15px 0;
+  align-items: center;
+}
+
+.achievement__icon {
+  height: 39px;
+  width: 39px;
+  box-sizing: content-box;
+  background-color: #000;
+  border: 6px solid #000;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+
+  &:before {
+    font-family: $achievement-icon-font;
+    height: 23px;
+    font-size: 28px;
+    line-height: initial;
+    overflow: hidden;
+  }
+
+  &.achievement--competition {
+    &:before {
+      content: $achievement-icon-cup;
+    }
+  }
+
+  &.achievement--online {
+    &:before {
+      content: $achievement-icon-star;
+    }
+  }
+
+  &.achievement--skyderby {
+    background: $blue;
+    border-color: $blue-light;
+
+    &:before {
+      color: $blue-dark;
+      content: $achievement-icon-sd;
+      font-size: 23px;
+    }
+  }
+  
+  &.achievement--sponsor {
+    background: $green;
+    border-color: $green-light;
+
+    &:before {
+      color: $green-dark;
+      content: $achievement-icon-bc;
+      font-size: 22px;
+    }
+  }
+
+  &.achievement--special {
+    background: $red;
+    border-color: $red-light;
+
+    &:before {
+      color: $red-dark;
+      content: $achievement-icon-fire;
+      font-size: 22px;
+    }
+  }
+
+  &.achievement--competition.achievement--gold,
+  &.achievement--online.achievement--gold {
+    background: $gold;
+    border-color: $gold-light;
+
+    &:before {
+      color: $gold-dark;
+    }
+  }
+
+  &.achievement--competition.achievement--silver,
+  &.achievement--online.achievement--silver {
+    background: $silver;
+    border-color: $silver-light;
+
+    &:before {
+      color: $silver-dark;
+    }
+  }
+
+  &.achievement--competition.achievement--bronze,
+  &.achievement--online.achievement--bronze {
+    background: $bronze;
+    border-color: $bronze-light;
+
+    &:before {
+      color: $bronze-dark;
+    }
+  }
+}
+
+.achievement__text {
+  color: $main-text-color;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: bold;
+  padding: 7px 15px 7px 29px;
+  margin-left: -15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid $border-color;
+  background: $white;
+  position: relative;
+  z-index: 1;
+
+  span {
+    color: $gray-text-color;
+    font-size: 10px;
+    line-height: 10px;
+  }
+
+  &.achievement--no-subtext {
+    padding: 12px 18px 12px 29px;
+  }
+}
+
+.achievement__top {
+
+  &:before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 21px 12px 0 0;
+    border-color: $border-color transparent transparent transparent;
+    position: absolute;
+    top: 4px; right: -12px;
+    z-index: 1;
+  }
+
+  &:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 20px 11px 0 0;
+    border-color: #fff transparent transparent transparent;
+    position: absolute;
+    top: 5px; right: -10px;
+    z-index: 1;
+  }
+}
+
+.achievement__bottom {
+
+  &:before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 21px 0 0 12px;
+    border-color: transparent transparent transparent $border-color;
+    position: absolute;
+    bottom: 3px; right: -12px;
+    z-index: 1;
+  }
+
+  &:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 21px 0 0 11px;
+    border-color: transparent transparent transparent #fff;
+    position: absolute;
+    bottom: 4px; right: -10px;
+    z-index: 1;
+  }
+}
+

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171016070325) do
+ActiveRecord::Schema.define(version: 20171215191818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(version: 20171016070325) do
     t.integer "profile_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string "comment"
+    t.integer "category", default: 0, null: false
   end
 
   create_table "competitors", id: :serial, force: :cascade do |t|

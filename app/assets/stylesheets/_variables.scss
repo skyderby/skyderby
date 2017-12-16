@@ -1,6 +1,35 @@
-$gold:   #FCF395;
-$silver: silver;
-$bronze: #FABE99;
+@import 'variables/**/*';
 
-$main-text-color: #333333;
-$table-text-color: rgb(51, 51, 51);
+$gold:   #fc0;
+$gold-light: #ffe57c;
+$gold-dark: #e1b400;
+
+$silver: #dfdfdf;
+$silver-light: #eaeaea;
+$silver-dark: #c6c6c6;
+
+$bronze: #df8250;
+$bronze-light: #ffaa72;
+$bronze-dark: #c87548;
+
+$blue: #75a4ba;
+$blue-light: #8fc8e3;
+$blue-dark: #5c8293;
+
+$green: #5cb85c;
+$green-light: #6cd86c;
+$green-dark: #458a45;
+
+$red: #ff6666;
+$red-light: #ff9090;
+$red-dark: #be4c4c;
+
+$white: #fff;
+$black: #000;
+
+$main-text-color: #333;
+$light-text-color: #555;
+$gray-text-color: #ccc;
+$table-text-color: $main-text-color;
+
+$border-color: rgba(0, 0, 0, 0.14);

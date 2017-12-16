@@ -21,19 +21,25 @@
             = f.text_field :name, class: 'form-control'
 
         .form-group
+          = f.label :comment, class: 'col-sm-4 control-label'
+          .col-sm-8
+            = f.text_field :comment, class: 'form-control'
+
+        .form-group
+          = f.label :category, class: 'col-sm-4 control-label', for: :category
+          .btn-group.col-sm-5{'data-toggle'=> 'buttons'}
+            - Badge.categories.keys.each do |category|
+              %label.btn.btn-default{ class: ('active' if @badge.category == category) }
+                = f.radio_button 'category', category
+                = t("activerecord.attributes.badge.categories.#{category}")
+
+        .form-group
           = f.label :kind, class: 'col-sm-4 control-label', for: :kind
           .btn-group.col-sm-5{'data-toggle'=> 'buttons'}
-            %label.btn.btn-default{ class: ('active' if @badge.gold? || @badge.new_record?) }
-              = f.radio_button 'kind', 'gold'
-              = 'Gold'
-
-            %label.btn.btn-default{ class: ('active' if @badge.silver?) }
-              = f.radio_button 'kind', 'silver'
-              = 'Silver'
-
-            %label.btn.btn-default{ class: ('active' if @badge.bronze?) }
-              = f.radio_button 'kind', 'bronze'
-              = 'Bronze'
+            - Badge.kinds.keys.each do |kind|
+              %label.btn.btn-default{ class: ('active' if @badge.kind == kind) }
+                = f.radio_button 'kind', kind
+                = t("activerecord.attributes.badge.kinds.#{kind}")
 
       .modal-footer
         = f.submit t('general.save'), class: 'btn btn-primary'

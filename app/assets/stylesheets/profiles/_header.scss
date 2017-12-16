@@ -1,0 +1,51 @@
+.profile-header {
+  margin-top: 30px;
+  display: flex;
+}
+
+.profile-header__avatar {
+  position: relative;
+}
+
+.profile-header__avatar-image {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+}
+
+.profile-header__avatar-change {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  line-height: 100px;
+  text-align: center;
+  color: white;
+  font-size: 24px;
+  border-radius: 50%;
+  background-color: rgba(0,0,0,0.4);
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 1;
+    color: white;
+  }
+}
+
+.profile-header__name {
+  padding-left: 25px;
+
+  h1 {
+    font-size: 43px;
+    color: $light-text-color;
+    line-height: 100px;
+
+    margin: 0;
+  }
+}
+
+.profile-navigation {
+  margin-top: 20px;
+}

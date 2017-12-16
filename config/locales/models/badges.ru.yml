@@ -6,6 +6,17 @@ ru:
       badge:
         name: Название
         kind: Тип
+        category: Категория
+        categories:
+          competition: Соревнования
+          online: Онлайн
+          sponsor: Спонсор
+          skyderby: Skyderby
+          special: Особенный
+        kinds:
+          gold: Золото
+          silver: Серебро
+          bronze: Бронза
     errors:
       models:
         badge:

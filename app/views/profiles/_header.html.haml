@@ -1,0 +1,36 @@
+.profile-header
+  .profile-header__avatar
+    = image_tag(profile.userpic.url(:medium), class: 'profile-header__avatar-image')
+    - if policy(profile).edit?
+      = link_to new_profile_avatar_path(profile), remote: true, class: 'profile-header__avatar-change', rel: 'nofollow' do
+        %i.fa.fa-pencil
+
+  .profile-header__name
+    %h1
+      = profile.name
+      - if profile.country
+        %small
+          \//
+          %span.text-warning{'data-toggle'=> 'tooltip', title: profile.country.name}
+            = profile.country.code.upcase
+
+.profile-navigation
+  - controller_path = controller.controller_path
+  .tabs-navbar
+    .tabs-navbar__fade-right
+    %ul.tabs-navbar__menu
+      %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'profiles')}
+        = link_to profile do
+          Обзор
+
+      %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'profiles/tracks')}
+        = link_to profile_tracks_path(profile) do
+          Треки
+
+      %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'profiles/videos')}
+        = link_to profile do
+          Видео
+
+      %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'profiles/flight_profiles')}
+        = link_to profile_flight_profiles_path(profile) do
+          Профили полетов

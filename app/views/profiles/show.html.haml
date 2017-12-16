@@ -1,12 +1,12 @@
 -if @profile.name
   - provide :title, @profile.name
 
-.user{data: {id: @profile.id}}
-.container.top-buffer
+.container
+
+  = render 'profiles/header', profile: @profile
+
   .content-block
     .card-actions.text-right
-      = link_to profile_flight_profiles_path(@profile), class: 'btn-flat' do
-        Flight profiles
 
       - if policy(@profile).edit?
         = link_to edit_profile_path(@profile), class: 'btn-flat' do
@@ -29,58 +29,17 @@
         - if policy(@profile).merge?
           = link_to new_profile_merge_path(@profile), remote: true, class: 'btn-flat' do
             Merge
-    .row
-      .col-sm-2.col-md-2
-        .user-avatar
-          = image_tag(@profile.userpic.url(:medium), class: 'img-responsive img-rounded loading-bg')
-          - if policy(@profile).edit?
-            = link_to new_profile_avatar_path(@profile), remote: true, class: 'user-avatar__change', rel: 'nofollow' do
-              %i.fa.fa-pencil
-              Change photo
 
-      .col-sm-10.col-md-10
-        .row
-          .col-sm-10.col-md-11
-            %h1
-              = @profile.name
-              - if @profile.country
-                %small
-                  (
-                  %span.text-warning{'data-toggle'=> 'tooltip', title: @profile.country.name}
-                    = @profile.country.code.upcase
-                  )
-          .col-sm-2.col-md-1
-        .row
-          .profile-badges
-            - @profile.badges.each do |badge|
-              = render 'profiles/badges/badge', badge: badge
-          - if can? :create, Badge
-            = link_to new_profile_badge_path(@profile), remote: true do
-              %i.fa.fa-plus
-              Add
-
-        .row.track-indicators
-          .col-sm-4.col-md-3
-            .param-val
-              #distance.avg-val= @profile.max_distance
-              .units= t 'units.m'
-            .param
-              %i.fa.fa-fw.fa-lg.fa-arrows-h
-              =t 'tracks.indicators.distance'
-          .col-sm-4.col-md-3
-            .param-val
-              #speed.avg-val= @profile.max_speed
-              .units=t 'units.kmh'
-            .param
-              %i.fa.fa-fw.fa-lg.fa-long-arrow-right
-              =t 'tracks.indicators.ground_speed'
-          .col-sm-4.col-md-3
-            .param-val
-              #time.avg-val= @profile.max_time
-              .units= t 'units.t_unit'
-            .param
-              %i.fa.fa-fw.fa-lg.fa-clock-o
-              =t 'tracks.indicators.duration'
+    .profile-achievements
+      .profile-achievements__header
+        Достижения
+        - if can? :create, Badge
+          = link_to new_profile_badge_path(@profile), remote: true do
+            %i.fa.fa-plus
+            Add
+      .profile-badges
+        - @profile.badges.each do |badge|
+          = render 'profiles/badges/badge', badge: badge
 
     - unless @profile.personal_top_scores.blank?
       %hr
@@ -92,52 +51,4 @@
                 = "##{top_score.rank}"
               in
               = top_score.virtual_competition.name
-    %hr
-    .row
-      .col-sm-12
-        %table#user-tracks-table.table.table-hover
-          %thead
-            %tr
-              %th= t('activerecord.attributes.track.id')
-              %th= t('activerecord.attributes.track.suit')
-              %th= t('activerecord.attributes.track.place')
-              %th.text-right= t('disciplines.distance')
-              %th.text-right= t('disciplines.speed')
-              %th.text-right= t('disciplines.time')
-              %th= t('activerecord.attributes.track.comment')
-              %th.text-right= t('activerecord.attributes.track.recorded_at')
-              %th
-          %tbody
-            - groups = @profile.tracks.group_by { |x| x.created_at.beginning_of_month }
-            - groups.each do |group, tracks|
-              %tr.bg-warning.text-danger.no-hover
-                %td{colspan: 9}
-                  = l(group,
-                     format: '%B %Y', 
-                     locale: params[:locale])
-              - tracks.each do |track|
-                %tr.clickableRow{:data => {:url => track_path(:id => track.id)}}
-                  %td.text-info= track.id
-                  %td
-                    %span.text-info
-                      - if track.suit
-                        = suit_presentation(track.suit)
-                      - else 
-                        = track.missing_suit_name
-                  %td.text-info= track_place(track)
-                  %td.text-right
-                    %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.distance)}
-                      = track.distance.result.to_i if track.distance
-                  %td.text-right
-                    %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.speed)}
-                      = track.speed.result.to_i if track.speed
-                  %td.text-right
-                    %span.text-info{data: {toggle: 'tooltip'}, title: range_title(track.time)}
-                      = track.time.result.round(1) if track.time
-                  %td.text-muted
-                    .comment-cell= track.comment
-                  %td.text-info.text-right
-                    = l(track.recorded_at, 
-                        format: '%-d %b %Y', 
-                        locale: params[:locale])
-                  %td= track_icons(track)
+    
