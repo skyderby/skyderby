@@ -31,7 +31,7 @@
             Merge
 
     .profile-achievements
-      .profile-achievements__header
+      .profile-section-header
         Достижения
         - if can? :create, Badge
           = link_to new_profile_badge_path(@profile), remote: true do
@@ -41,6 +41,9 @@
         - @profile.badges.each do |badge|
           = render 'profiles/badges/badge', badge: badge
 
+    .profile-rankings
+      .profile-section-header
+        Онлайн соревнования
     - unless @profile.personal_top_scores.blank?
       %hr
       .row
