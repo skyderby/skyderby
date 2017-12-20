@@ -1,7 +1,5 @@
-# encoding: utf-8
-
 class ProfilesController < ApplicationController
-  before_action :set_profile, only: %i[show edit update destroy]
+  before_action :set_profile, only: %i[edit update destroy]
 
   def index
     authorize Profile
@@ -15,8 +13,10 @@ class ProfilesController < ApplicationController
   end
 
   def show
-    authorize @profile
-    @profile = ProfileFacade.new(params, current_user)
+    profile = Profile.includes(:badges, :country).find(params[:id])
+    authorize profile
+
+    @profile = Profiles::Overview.new(profile)
   end
 
   def edit

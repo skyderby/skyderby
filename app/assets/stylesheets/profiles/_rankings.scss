@@ -1,0 +1,62 @@
+.profile-rankings {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+}
+
+.profile-rankings__competition {
+  margin: 0 15px 15px 0;
+  padding: 15px;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 32%;
+}
+
+.profile-rankings__competition-name {
+  white-space: nowrap;
+  margin-bottom: 7px;
+
+  a {
+    font-size: 18px;
+    color: $blue;
+
+    &:hover {
+      color: $blue-dark;
+      text-decoration: none;
+    }
+  }
+}
+
+.profile-rankings__list {
+  @include ul-reset;
+  line-height: 2;
+  white-space: nowrap;
+}
+
+.profile-rankings__list-delimiter {
+  color: $gray-dark;
+}
+
+.profile-rankings__list-result {
+  color: $blue;
+}
+
+.profile-rankings__list-rank,
+.profile-rankings__list-name {
+  color: $gray-dark;
+}
+
+.profile-rankings--self {
+
+  .profile-rankings__list-rank,
+  .profile-rankings__list-name {
+    color: $main-text-color;
+    font-weight: bold;
+  }
+
+  .profile-rankings__list-result {
+    color: $blue-dark;
+  }
+}

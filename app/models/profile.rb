@@ -26,15 +26,15 @@ class Profile < ApplicationRecord
   belongs_to :country, optional: true
   belongs_to :owner, polymorphic: true, optional: true
 
-  has_many :tracks, -> { order('created_at DESC') }
+  has_many :tracks, -> { order('recorded_at DESC') }
   has_many :public_tracks,
            -> { where(visibility: 0).order('created_at DESC') },
            class_name: 'Track'
   has_many :base_tracks, -> { base.order('created_at DESC') }, class_name: 'Track'
-  has_many :badges
-  has_many :events
-  has_many :event_organizers
-  has_many :competitors
+  has_many :badges, dependent: :delete_all
+  has_many :events, dependent: :restrict_with_error
+  has_many :event_organizers, dependent: :restrict_with_error
+  has_many :competitors, dependent: :restrict_with_error
   has_many :personal_top_scores
 
   scope :owned_by_users, -> do
@@ -55,7 +55,11 @@ class Profile < ApplicationRecord
     ['image/jpeg', 'image/jpg', 'image/png']
 
   def cropping?
-    %w(crop_x crop_y crop_h crop_w).all? { |attr| public_send(attr).present? }
+    %w[crop_x crop_y crop_h crop_w].all? { |attr| public_send(attr).present? }
+  end
+
+  def name
+    super.presence || 'Name not set'
   end
 
   # returns array of competition ID's where organizer

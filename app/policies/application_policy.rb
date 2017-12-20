@@ -55,5 +55,11 @@ class ApplicationPolicy
     def resolve
       scope
     end
+
+    private
+
+    def admin?
+      user&.has_role? :admin
+    end
   end
 end
