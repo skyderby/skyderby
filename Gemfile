@@ -9,6 +9,8 @@ gem 'pg'
 gem 'pluck_to_hash'
 gem 'scenic'
 
+gem 'bootsnap', require: false
+
 # Auth
 gem 'devise'
 
@@ -65,7 +67,6 @@ group :development do
 end
 
 group :development, :test do
-  gem 'bootsnap', require: false
   gem 'byebug'
   gem 'dotenv-rails'
   gem 'rspec'
