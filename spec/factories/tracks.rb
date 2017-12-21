@@ -34,7 +34,7 @@ FactoryGirl.define do
     kind Track.kinds['skydive']
     pilot
     suit
-    recorded_at DateTime.current
+    recorded_at Time.current
 
     trait :with_place do
       association :place, factory: [:place, :gridset]
