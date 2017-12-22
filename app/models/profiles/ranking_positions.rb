@@ -22,7 +22,16 @@ module Profiles
     end
 
     def results
-      AnnualTopScore.joins(<<~SQL).includes(:profile, :virtual_competition)
+      AnnualTopScore
+        .includes(:profile, :virtual_competition)
+        .where(year: current_year)
+        .joins(profile_scores)
+    end
+
+    def profile_scores
+      profile_scores_query = AnnualTopScore.where(profile: profile).to_sql
+
+      <<~SQL
         INNER JOIN (#{profile_scores_query}) AS profile_scores
         ON profile_scores.virtual_competition_id = annual_top_scores.virtual_competition_id
         AND profile_scores.year = annual_top_scores.year
@@ -30,8 +39,8 @@ module Profiles
       SQL
     end
 
-    def profile_scores_query
-      AnnualTopScore.where(profile: profile).to_sql
+    def current_year
+      Time.zone.now.year
     end
   end
 end
