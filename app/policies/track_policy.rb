@@ -34,7 +34,7 @@ class TrackPolicy < ApplicationPolicy
       return scope.public_track unless user&.profile
       return scope.all if admin?
 
-      scope.where(profile_id: profile_id).or(scope.public_track)
+      scope.where(pilot: user.profile).or(scope.public_track)
     end
   end
 end
