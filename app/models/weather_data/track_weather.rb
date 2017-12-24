@@ -12,11 +12,12 @@ module WeatherData
     def place_weather_data
       return [] unless track.place
 
-      @place_weather ||= track.place.weather_data.for_time(start_time)
+      @place_weather ||= place.weather_data.for_time(start_time)
     end
 
     def start_time
-      track.points.trimmed.first.gps_time.beginning_of_hour
+      return track.created_at if points.blank?
+      points.first.gps_time.beginning_of_hour
     end
 
     def hidden_columns
@@ -26,5 +27,9 @@ module WeatherData
     private
 
     attr_reader :track
+
+    def points
+      @points ||= track.points.trimmed
+    end
   end
 end
