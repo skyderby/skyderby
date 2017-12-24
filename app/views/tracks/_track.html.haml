@@ -1,22 +1,23 @@
 - except_columns ||= []
 
 = link_to track_path(id: track.id), class: 'tr track-row' do
-  .td= track.id
-  .td= track_pilot(track)
+  %span.td= track.id
+  - unless except_columns.include? :profile
+    %span.td= track_pilot(track)
   - unless except_columns.include? :suit
-    .td
+    %span.td
       - if track.suit
         = suit_presentation(track.suit)
       - else 
         %span.text-info
           = track.missing_suit_name
   - unless except_columns.include? :place
-    .td= track_place(track)
-  .td.text-muted= track.comment
+    %span.td= track_place(track)
+  %span.td.text-muted= track.comment
 
   - result_formatter = { default: ->(res) { res.to_i }, time: ->(res) { res.round(1) } }
   - [:distance, :speed, :time].each do |task|
-    .td.text-right
+    %span.td.text-right
       - task_result = track.public_send(task)
       - result = task_result&.result
       - range_from = task_result&.range_from
@@ -29,5 +30,5 @@
         %span.text-info
           &mdash;
 
-  .td.text-info= track.recorded_at&.strftime('%d.%m.%Y')
-  .td= track_icons(track)
+  %span.td.text-info= track.recorded_at&.strftime('%d.%m.%Y')
+  %span.td= track_icons(track)
