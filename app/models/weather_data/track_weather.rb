@@ -10,7 +10,7 @@ module WeatherData
     end
 
     def place_weather_data
-      return [] unless track.place
+      return [] unless place
 
       @place_weather ||= place.weather_data.for_time(start_time)
     end
