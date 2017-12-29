@@ -1,0 +1,5 @@
+ru:
+  profiles:
+    header:
+      tracks: Треки
+      flight_profiles: Профили полетов

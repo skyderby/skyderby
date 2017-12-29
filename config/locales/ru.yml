@@ -18,6 +18,7 @@ ru:
     settings: 'Настройки'
     select_all: Выбрать все
     unselect_all: Снять все
+    overview: Обзор
   users:
     profile:
       edit:

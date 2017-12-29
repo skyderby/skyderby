@@ -20,16 +20,15 @@
     .tabs-navbar__fade-right
     %ul.tabs-navbar__menu
       %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'profiles')}
-        = link_to profile do
-          Обзор
+        = link_to t('general.overview'), profile
+         
 
       %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'profiles/tracks')}
-        = link_to profile_tracks_path(profile) do
-          Треки
+        = link_to t('.tracks'), profile_tracks_path(profile)
 
       %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'profiles/flight_profiles')}
-        = link_to profile_flight_profiles_path(profile) do
-          Профили полетов
+        = link_to t('.flight_profiles'), profile_flight_profiles_path(profile)
+
   .profile-commands
     - if policy(@profile).edit?
       = link_to edit_profile_path(@profile), class: 'btn-flat' do

@@ -15,6 +15,7 @@ en:
     settings: Settings
     select_all: Select all
     unselect_all: Unselect all
+    overview: Overview
   users:
     profile:
       edit:

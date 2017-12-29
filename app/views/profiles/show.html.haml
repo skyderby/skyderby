@@ -8,7 +8,7 @@
   .content-block
     .profile-achievements
       .profile-section-header
-        Достижения
+        = t('.achievements')
         - if can? :create, Badge
           = link_to new_profile_badge_path(@profile), remote: true do
             %i.fa.fa-plus
@@ -19,7 +19,7 @@
 
     .profile-section
       .profile-section-header
-        Онлайн соревнования
+        = t('.online_competitions')
       .profile-rankings
         - @profile.ranking_positions.each do |competition, scores|
           .profile-rankings__competition{'data-category': competition.suits_kind, 'data-activity': competition.jumps_kind}
