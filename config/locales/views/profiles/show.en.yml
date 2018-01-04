@@ -3,3 +3,5 @@ en:
     show:
       achievements: Achievements
       online_competitions: Online competitions
+      no_badges: "%{name} do not have badges yet."
+      no_rankings: "%{name} didn't participate online competitions this year."

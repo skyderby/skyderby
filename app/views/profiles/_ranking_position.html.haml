@@ -1,0 +1,17 @@
+- competition, scores = position
+
+.profile-rankings__competition{'data-category': competition.suits_kind, 'data-activity': competition.jumps_kind}
+  .profile-rankings__competition-name
+    = link_to competition.name, competition
+  %ul.profile-rankings__list
+    - scores.each do |score|
+      %li{class: ('profile-rankings--self' if score.profile_id == @profile.id)}
+        %span.profile-rankings__list-rank
+          = "##{score.rank}"
+        %span.profile-rankings__list-name
+          = score.profile.name
+        %span.profile-rankings__list-delimiter
+          \//
+        %span.profile-rankings__list-result
+          = format_result(score.result, competition)
+          = competition_unit(competition)

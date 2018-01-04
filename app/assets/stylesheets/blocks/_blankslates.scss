@@ -1,0 +1,10 @@
+.blankslate {
+  position: relative;
+  padding: 30px;
+  text-align: center;
+  background-color: $gray-light;
+  border: 1px solid $border-color;
+  border-radius: 3px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+  width: 100%;
+}

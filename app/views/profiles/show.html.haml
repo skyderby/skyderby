@@ -14,26 +14,18 @@
             %i.fa.fa-plus
             Add
       .profile-badges
-        - @profile.badges.each do |badge|
-          = render 'profiles/badges/badge', badge: badge
+        - if @profile.badges.any?
+          = render partial: 'profiles/badges/badge', collection: @profile.badges, as: :badge
+        - else
+          .blankslate
+            %h3= t('.no_badges', name: @profile.name)
 
     .profile-section
       .profile-section-header
         = t('.online_competitions')
       .profile-rankings
-        - @profile.ranking_positions.each do |competition, scores|
-          .profile-rankings__competition{'data-category': competition.suits_kind, 'data-activity': competition.jumps_kind}
-            .profile-rankings__competition-name
-              = link_to competition.name, competition
-            %ul.profile-rankings__list
-              - scores.each do |score|
-                %li{class: ('profile-rankings--self' if score.profile_id == @profile.id)}
-                  %span.profile-rankings__list-rank
-                    = "##{score.rank}"
-                  %span.profile-rankings__list-name
-                    = score.profile.name
-                  %span.profile-rankings__list-delimiter
-                    \//
-                  %span.profile-rankings__list-result
-                    = format_result(score.result, competition)
-                    = competition_unit(competition)
+        - if @profile.ranking_positions.any?
+          = render partial: 'profiles/ranking_position', collection: @profile.ranking_positions, as: :position
+        - else
+          .blankslate
+            %h3= t('.no_rankings', name: @profile.name)
