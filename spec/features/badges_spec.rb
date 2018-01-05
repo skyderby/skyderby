@@ -14,7 +14,7 @@ feature 'Badges' do
     sign_in_as_admin
 
     visit badges_path
-    click_link I18n.t('general.edit')
+    click_link I18n.t('general.edit'), visible: false
     fill_in 'badge[name]', with: 'WBR 2020'
     click_button I18n.t('general.save')
 
@@ -27,7 +27,7 @@ feature 'Badges' do
     sign_in_as_admin
 
     visit badges_path
-    click_link I18n.t('general.delete')
+    click_link I18n.t('general.delete'), visible: false
 
     expect(page).not_to have_content('WBR 2020')
   end
