@@ -49,3 +49,4 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Exclude:
     - "spec/**/*"
+    - 'config/routes.rb'
