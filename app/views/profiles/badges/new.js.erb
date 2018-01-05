@@ -1,4 +1,5 @@
-$('#modal').html('<%= j render('form_modal') %>');
+$('#modal').html('<%= j render('badges/form_modal', form_model: [@profile, @badge]) %>');
+<%= render 'badges/form_controls' %>
 
 $('#modal').one('shown.bs.modal', function() {
   $('input[name="badge[name]"]').focus();

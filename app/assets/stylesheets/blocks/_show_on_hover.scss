@@ -1,0 +1,8 @@
+.td--show-on-hover {
+  opacity: 0;
+}
+
+tr:hover .td--show-on-hover,
+.tr:hover .td--show-on-hover {
+  opacity: 1;
+}

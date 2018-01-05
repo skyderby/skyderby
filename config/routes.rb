@@ -91,7 +91,7 @@ Skyderby::Application.routes.draw do
   end
   resources :profiles do
     scope module: :profiles do
-      resources :badges
+      resources :badges, only: [:new, :create]
       resources :tracks, only: :index
       resource :avatar, only: [:new, :create]
       resource :merge, only: [:new, :create]
@@ -101,6 +101,7 @@ Skyderby::Application.routes.draw do
       end
     end
   end
+  resources :badges
   match '/user_profiles/:id', to: 'profiles#show', via: :get
 
   resources :manufacturers

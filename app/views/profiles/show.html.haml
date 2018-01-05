@@ -9,7 +9,7 @@
     .profile-achievements
       .profile-section-header
         = t('.achievements')
-        - if can? :create, Badge
+        - if policy(:badge).create?
           = link_to new_profile_badge_path(@profile), remote: true do
             %i.fa.fa-plus
             Add

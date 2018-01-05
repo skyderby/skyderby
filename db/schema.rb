@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171215191818) do
+ActiveRecord::Schema.define(version: 20180105092924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20171215191818) do
     t.datetime "updated_at"
     t.string "comment"
     t.integer "category", default: 0, null: false
+    t.date "achieved_at"
   end
 
   create_table "competitors", id: :serial, force: :cascade do |t|
@@ -448,12 +449,12 @@ ActiveRecord::Schema.define(version: 20171215191818) do
               events_1.created_at
              FROM events events_1
           UNION ALL
-           SELECT 'Tournament'::text,
+           SELECT 'Tournament'::text AS text,
               tournaments.id,
               tournaments.starts_at,
               1,
               0,
-              NULL::integer,
+              NULL::integer AS int4,
               tournaments.created_at
              FROM tournaments) events
     ORDER BY events.starts_at DESC, events.created_at DESC;

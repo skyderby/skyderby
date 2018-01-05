@@ -1,0 +1,15 @@
+%tr{id: dom_id(badge)}
+  %td= badge.name
+  %td= badge.comment
+  %td= badge.category
+  %td= badge.kind
+  %td= badge.achieved_at&.strftime('%d.%m.%Y')
+  %td.td--show-on-hover
+    = link_to t('general.edit'), edit_badge_path(badge), remote: true
+    |
+    = link_to t('general.delete'),
+              badge_path(badge),
+              remote: true,
+              method: :delete,
+              data: {confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?')) }
+

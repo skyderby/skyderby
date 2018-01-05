@@ -17,4 +17,8 @@ class Badge < ApplicationRecord
   belongs_to :profile
 
   validates :name, :category, presence: true
+
+  after_initialize do
+    self.achieved_at = Date.current
+  end
 end

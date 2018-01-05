@@ -1,0 +1,24 @@
+.container
+  .page-header
+    %h1 Бэйджи
+
+  .content-block
+    %table.table
+      %thead
+        %th Name
+        %th Comment
+        %th Category
+        %th Kind
+        %th Achieved at
+        %th
+      %tbody
+        - badges_by_profile = @badges.group_by(&:profile)
+        - badges_by_profile.each do |profile, profile_badges|
+          %tr
+            %td{colspan: 6}
+              %strong 
+                = link_to profile.name, profile
+          = render profile_badges
+             
+  .text-center.top-buffer
+    = will_paginate @badges, renderer: BootstrapPagination::Rails
