@@ -31,7 +31,7 @@ class Profile < ApplicationRecord
            -> { where(visibility: 0).order('created_at DESC') },
            class_name: 'Track'
   has_many :base_tracks, -> { base.order('created_at DESC') }, class_name: 'Track'
-  has_many :badges, dependent: :delete_all
+  has_many :badges, -> { order(achieved_at: :desc) }, dependent: :delete_all
   has_many :events, dependent: :restrict_with_error
   has_many :event_organizers, dependent: :restrict_with_error
   has_many :competitors, dependent: :restrict_with_error
