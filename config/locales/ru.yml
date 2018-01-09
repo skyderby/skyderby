@@ -19,6 +19,7 @@ ru:
     select_all: Выбрать все
     unselect_all: Снять все
     overview: Обзор
+    back: Назад
   users:
     profile:
       edit:

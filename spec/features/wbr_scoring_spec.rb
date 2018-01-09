@@ -56,7 +56,7 @@ feature 'WBR: Scoring tracks' do
     suit = create :suit
 
     track_file = TrackFile.create(
-      file: File.new("#{Rails.root}/spec/support/tracks/#{filename}")
+      file: File.new(Rails.root.join('spec', 'support', 'tracks', filename.to_s))
     )
 
     params = {
@@ -65,6 +65,6 @@ feature 'WBR: Scoring tracks' do
       user: pilot.owner,
       suit: suit
     }
-    CreateTrackService.new(params).execute
+    CreateTrackService.call(params)
   end
 end

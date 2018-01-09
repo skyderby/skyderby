@@ -108,7 +108,7 @@ class EventTrack < ApplicationRecord
       comment: "#{event.name} - #{round_discipline.humanize} #{round_name}"
     ).except(:file)
 
-    self.track = CreateTrackService.new(params).execute
+    self.track = CreateTrackService.call(params)
   end
 
   def check_file_already_used(track_file)

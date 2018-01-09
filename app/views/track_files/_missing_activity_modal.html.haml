@@ -1,0 +1,18 @@
+.modal-dialog
+  .modal-content
+    .modal-header
+      %button.close{type: 'button', data: {dismiss: 'modal'}}
+        %span{aria: {hidden: 'true'}}
+          &times;
+        %span.sr-only
+          Close
+      %h4.modal-title
+        = t('tracks.missing_activity.title')
+
+    .modal-body
+      %h2= t('tracks.missing_activity.header')
+      %p= t('tracks.missing_activity.desctiption')
+ 
+    .modal-footer
+      %button.btn.btn-success{type: 'button', data: {dismiss: 'modal', toggle: 'modal', target: '#newTrackModal'}}=t('general.back')
+      %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}=t('general.cancel')

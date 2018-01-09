@@ -44,7 +44,7 @@ feature 'Scoring tracks in online competitions' do
     suit = create :suit
 
     track_file = TrackFile.create(
-      file: File.new(Rails.root. join('spec', 'support', 'tracks', filename))
+      file: File.new(Rails.root.join('spec', 'support', 'tracks', filename))
     )
 
     params = {
@@ -53,6 +53,6 @@ feature 'Scoring tracks in online competitions' do
       user: pilot.owner,
       suit: suit
     }
-    CreateTrackService.new(params).execute
+    CreateTrackService.call(params)
   end
 end

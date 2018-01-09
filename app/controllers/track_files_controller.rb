@@ -17,6 +17,8 @@ class TrackFilesController < ApplicationController
     end
 
     store_recent_values(track_attributes)
+  rescue CreateTrackService::MissingActivityData
+    render 'missing_activity_data', status: :unprocessable_entity
   end
 
   def show
@@ -31,7 +33,7 @@ class TrackFilesController < ApplicationController
       user: current_user
     )
 
-    CreateTrackService.new(track_attributes).execute
+    CreateTrackService.call(track_attributes)
   end
 
   def track_file_params

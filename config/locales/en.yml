@@ -16,6 +16,7 @@ en:
     select_all: Select all
     unselect_all: Unselect all
     overview: Overview
+    back: Back
   users:
     profile:
       edit:

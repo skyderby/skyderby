@@ -13,10 +13,7 @@ module TrackFiles
         user: current_user
       )
 
-      CreateTrackService.new(
-        track_attributes,
-        segment: params[:segment]
-      ).execute
+      CreateTrackService.call(track_attributes, segment: params[:segment])
     end
 
     def track_params

@@ -62,7 +62,7 @@ class QualificationJump < ApplicationRecord
       comment: "#{tournament.name} - Qualification #{qualification_round.order}"
     ).except(:file)
 
-    self.track = CreateTrackService.new(params).execute
+    self.track = CreateTrackService.call(params)
   end
 
   def calculate_result

@@ -13,8 +13,8 @@ module PointsProcessor
     end
 
     def additional_processing(prev_point, cur_point)
-      calc_h_speed(prev_point, cur_point)
-      calc_v_speed(prev_point, cur_point)
+      cur_point.h_speed = calc_h_speed(prev_point, cur_point)
+      cur_point.v_speed = calc_v_speed(prev_point, cur_point)
     end
 
     def calc_h_speed(prev_point, cur_point)

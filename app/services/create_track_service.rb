@@ -1,13 +1,20 @@
 class CreateTrackService
+  class MissingActivityData < StandardError; end
+
+  def self.call(params, segment: 0)
+    new(params, segment: segment).call
+  end
+
   def initialize(params, segment: 0)
     @params = params.dup
     @segment = segment
   end
 
-  def execute
+  def call
     track.transaction do
       set_profile
       set_file_metadata
+      ensure_activity_recorded
       set_jump_range
       set_place
       save_track
@@ -38,6 +45,11 @@ class CreateTrackService
     track.recorded_at = points.last.gps_time
     track.data_frequency = data_frequency
     track.missing_ranges = missing_ranges
+  end
+
+  def ensure_activity_recorded
+    activity_found = ActivityDataLookup.call(points)
+    raise MissingActivityData unless activity_found
   end
 
   def points
