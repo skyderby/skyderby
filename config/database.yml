@@ -1,4 +1,4 @@
-development: &default
+production: &default
   adapter: postgresql
   database: <%= ENV['DB_NAME'] %>
   host:     <%= ENV['DB_HOST'] %>
@@ -6,10 +6,10 @@ development: &default
   password: <%= ENV['DB_PASSWORD'] %>
   encoding: utf8
   timeout: 2000
-  pool: <%= ENV['DB_POOL'] || 5 %>
 
-production: &test
+development:
   <<: *default
+  pool: <%= ENV['DB_POOL'] || 5 %>
 
 test: &test
   <<: *default
