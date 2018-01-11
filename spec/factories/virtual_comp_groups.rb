@@ -8,7 +8,7 @@
 #  updated_at :datetime
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :virtual_comp_group do
     sequence(:name) { |n| "Group-#{n}" }
   end

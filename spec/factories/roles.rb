@@ -6,7 +6,7 @@
 #  name :string(510)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :role do
     trait :user do
       name 'user'

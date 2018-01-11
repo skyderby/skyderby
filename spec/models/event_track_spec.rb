@@ -20,6 +20,6 @@ require 'support/event_ongoing_validation'
 
 RSpec.describe EventTrack, type: :model do
   it_should_behave_like 'event_ongoing_validation' do
-    let(:target) { FactoryGirl.create(:event_track) }
+    let(:target) { FactoryBot.create(:event_track) }
   end
 end

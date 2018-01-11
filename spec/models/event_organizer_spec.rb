@@ -26,7 +26,7 @@ RSpec.describe EventOrganizer, type: :model do
   end
 
   it_should_behave_like 'event_ongoing_validation' do
-    let(:target) { FactoryGirl.create(:event_organizer) }
+    let(:target) { FactoryBot.create(:event_organizer) }
   end
 
   it 'requires event' do

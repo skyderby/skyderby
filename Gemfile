@@ -69,6 +69,7 @@ end
 group :development, :test do
   gem 'byebug'
   gem 'dotenv-rails'
+  gem 'factory_bot_rails'
   gem 'rspec'
   gem 'rspec-rails'
 end
@@ -77,7 +78,6 @@ group :test do
   gem 'capybara'
   gem 'codeclimate-test-reporter', require: false
   gem 'database_cleaner'
-  gem 'factory_girl_rails'
   gem 'poltergeist'
   gem 'simplecov'
 end

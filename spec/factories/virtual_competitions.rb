@@ -22,7 +22,7 @@
 #  default_view          :integer          default("default_overall"), not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :virtual_competition, aliases: [:online_event] do
     sequence(:name) { |n| "Online event#{n}" }
     period_from Date.today.beginning_of_year

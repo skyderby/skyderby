@@ -12,7 +12,7 @@
 #  disqualification_reason :string
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :tournament_competitor do
     tournament
     profile

@@ -13,7 +13,7 @@
 #  updated_at             :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :weather_datum do
     actual_on Date.today
     altitude { rand(0..4000) }

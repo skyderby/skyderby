@@ -21,7 +21,7 @@
 #  unconfirmed_email      :string(510)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :user do
     sequence(:name) { |n| "Василий-#{n}" }
     sequence(:email) { |n| "person-#{n}@example.com" }

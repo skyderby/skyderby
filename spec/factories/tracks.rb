@@ -29,7 +29,7 @@
 #  disqualified_from_online_competitions :boolean          default(FALSE), not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :empty_track, class: 'Track' do
     kind Track.kinds['skydive']
     pilot

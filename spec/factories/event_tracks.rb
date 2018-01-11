@@ -15,12 +15,12 @@
 #  disqualification_reason :string
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :event_track do
     round
     competitor
     track_from 'existing_track'
-    track { FactoryGirl.create :empty_track }
+    track { FactoryBot.create :empty_track }
     result { rand(1..1000) }
   end
 end

@@ -9,7 +9,7 @@
 #  updated_at :datetime
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :event_organizer do
     profile
     event

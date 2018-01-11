@@ -13,7 +13,7 @@
 #  description        :text
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :suit do
     sequence(:name) { |n| "Suit-#{n}" }
     manufacturer

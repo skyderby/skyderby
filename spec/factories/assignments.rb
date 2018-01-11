@@ -7,7 +7,7 @@
 #  role_id :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :assignment do
   end
 end

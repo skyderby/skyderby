@@ -46,6 +46,6 @@ describe Round, type: :model do
   end
 
   it_should_behave_like 'event_ongoing_validation' do
-    let(:target) { FactoryGirl.create(:round) }
+    let(:target) { FactoryBot.create(:round) }
   end
 end

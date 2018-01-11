@@ -13,7 +13,7 @@
 #  profile_id  :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :competitor do
     profile
     suit

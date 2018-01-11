@@ -17,6 +17,6 @@ require 'support/event_ongoing_validation'
 
 describe Competitor, type: :model do
   it_should_behave_like 'event_ongoing_validation' do
-    let(:target) { FactoryGirl.create(:competitor) }
+    let(:target) { FactoryBot.create(:competitor) }
   end
 end

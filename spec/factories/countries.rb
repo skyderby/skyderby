@@ -7,7 +7,7 @@
 #  code :string(510)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :country do
     sequence(:name) { |n| "Country-#{n}" }
     sequence(:code) { |n| n.to_s }

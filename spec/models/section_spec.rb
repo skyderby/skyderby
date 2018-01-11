@@ -94,6 +94,6 @@ describe Section, type: :model do
   end
 
   it_should_behave_like 'event_ongoing_validation' do
-    let(:target) { FactoryGirl.create(:section) }
+    let(:target) { FactoryBot.create(:section) }
   end
 end

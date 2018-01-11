@@ -16,7 +16,7 @@
 #  earn_medal               :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :tournament_match_competitor do
     tournament_match
     tournament_competitor

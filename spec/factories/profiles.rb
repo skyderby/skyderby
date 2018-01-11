@@ -17,7 +17,7 @@
 #  owner_id             :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :profile, aliases: [:responsible, :pilot] do
     sequence(:name) { |n| "pilot#{n}" }
   end

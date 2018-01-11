@@ -15,7 +15,7 @@
 #  sponsorable_type  :string
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :sponsor do
     sequence(:name) { |n| "Sponsor-#{n}" }
     website 'www.example.com'

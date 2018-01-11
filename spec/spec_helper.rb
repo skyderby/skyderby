@@ -24,7 +24,7 @@ Capybara.asset_host = 'http://localhost:3000'
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include Features::UploadHelpers
 
   config.include Devise::Test::ControllerHelpers, type: :controller

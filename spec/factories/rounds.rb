@@ -11,7 +11,7 @@
 #  profile_id :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :round do
     event
     discipline { Round.disciplines.keys.sample }

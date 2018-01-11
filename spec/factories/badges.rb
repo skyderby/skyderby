@@ -10,7 +10,7 @@
 #  updated_at :datetime
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :badge do
     sequence(:name) { |n| "Badge-#{n}" }
     kind Badge.kinds['silver']

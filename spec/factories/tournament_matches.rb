@@ -10,7 +10,7 @@
 #  match_type            :integer          default("regular"), not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :tournament_match do
     association :round, factory: :tournament_round
   end

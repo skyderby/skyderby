@@ -20,7 +20,7 @@
 #  has_qualification :boolean
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :tournament do
     sequence(:name) { |n| "Tournament-#{n}" }
     responsible

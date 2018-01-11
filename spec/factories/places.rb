@@ -11,7 +11,7 @@
 #  kind       :integer          default("skydive"), not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :place do
     sequence(:name) { |n| "Place-#{n}" }
     country

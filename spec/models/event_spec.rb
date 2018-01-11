@@ -24,7 +24,7 @@ require 'rails_helper'
 
 describe Event, type: :model do
   before :all do
-    @user = FactoryGirl.create(:user)
+    @user = FactoryBot.create(:user)
     @event = Event.create!(responsible: @user.profile, starts_at: Date.today)
   end
 

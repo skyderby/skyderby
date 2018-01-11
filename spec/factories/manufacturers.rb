@@ -7,7 +7,7 @@
 #  code :string(510)
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :manufacturer do
     name 'Phoenix Fly'
     code 'PF'

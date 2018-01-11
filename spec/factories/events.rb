@@ -19,7 +19,7 @@
 #  number_of_results_for_total :integer
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :event do
     sequence(:name) { |n| "Event#{n}" }
     starts_at Date.today
