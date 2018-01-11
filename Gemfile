@@ -5,7 +5,7 @@ gem 'rails', '~> 5.1'
 gem 'puma'
 
 # DB
-gem 'pg'
+gem 'pg', '< 1.0'
 gem 'pluck_to_hash'
 gem 'scenic'
 
