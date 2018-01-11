@@ -36,7 +36,7 @@ gem 'nokogiri', '~> 1.8'
 gem 'sidekiq', ' < 6'
 
 # Exception notifications and profiling
-gem 'honeybadger', '~> 3.1'
+gem 'honeybadger', '~> 3.2'
 gem 'rack-mini-profiler'
 
 # Internalization
