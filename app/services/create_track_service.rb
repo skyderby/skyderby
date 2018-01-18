@@ -14,7 +14,6 @@ class CreateTrackService
     track.transaction do
       set_profile
       set_file_metadata
-      ensure_activity_recorded
       set_jump_range
       set_place
       save_track
@@ -32,10 +31,6 @@ class CreateTrackService
     @track ||= Track.new(params)
   end
 
-  def track_file
-    track.track_file
-  end
-
   def set_profile
     track.pilot = track.user.profile if track.user && !params[:profile_id]
   end
@@ -45,6 +40,20 @@ class CreateTrackService
     track.recorded_at = points.last.gps_time
     track.data_frequency = data_frequency
     track.missing_ranges = missing_ranges
+  end
+
+  def set_jump_range
+    scan_result = TrackScanner.call(points)
+
+    # track.flight_started_at = scan_result.flight_started_at
+    # track.deployed_at = scan_result.deployed_at
+    fl_time = points.find { |p| p.gps_time >= scan_result.flight_starts_at }.fl_time
+    track.ff_start = fl_time
+    fl_time = points.find { |p| p.gps_time >= scan_result.deploy_at }.fl_time
+    track.ff_end = fl_time
+
+    track.ff_start = jump_range.start_time
+    track.ff_end = jump_range.end_time
   end
 
   def ensure_activity_recorded
@@ -69,6 +78,10 @@ class CreateTrackService
     PointsProcessor.for(format).new(points).execute
   end
 
+  def track_file
+    track.track_file
+  end
+
   def data_frequency
     @data_frequency ||= DataFrequencyDetector.call(points)
   end
@@ -77,13 +90,8 @@ class CreateTrackService
     @missing_ranges ||= MissingRangesDetector.call(points, data_frequency)
   end
 
-  def set_jump_range
-    track.ff_start = jump_range.start_time
-    track.ff_end = jump_range.end_time
-  end
-
   def jump_range
-    @jump_range ||= JumpRangeFinder.for(track.kind).new(points).execute
+    @jump_range ||= JumpRangeFinder.for(track.kind).call(points)
   end
 
   # Find and set place as closest to start of jump range
