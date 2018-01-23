@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180105092924) do
+ActiveRecord::Schema.define(version: 20180123082857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -311,7 +311,7 @@ ActiveRecord::Schema.define(version: 20180105092924) do
   create_table "tracks", id: :serial, force: :cascade do |t|
     t.string "name", limit: 510
     t.datetime "created_at"
-    t.datetime "lastviewed_at"
+    t.datetime "updated_at"
     t.string "missing_suit_name", limit: 510
     t.text "comment"
     t.string "location", limit: 510
@@ -449,12 +449,12 @@ ActiveRecord::Schema.define(version: 20180105092924) do
               events_1.created_at
              FROM events events_1
           UNION ALL
-           SELECT 'Tournament'::text AS text,
+           SELECT 'Tournament'::text,
               tournaments.id,
               tournaments.starts_at,
               1,
               0,
-              NULL::integer AS int4,
+              NULL::integer,
               tournaments.created_at
              FROM tournaments) events
     ORDER BY events.starts_at DESC, events.created_at DESC;

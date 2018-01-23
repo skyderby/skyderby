@@ -33,7 +33,7 @@ class TracksController < ApplicationController
     @track_presenter = Tracks::PresenterBuilder.new.call(@track, params, session)
 
     respond_to do |format|
-      format.html { LastViewedUpdateJob.perform_later(@track.id) }
+      format.html
       format.js
       format.json { @track_data }
     end

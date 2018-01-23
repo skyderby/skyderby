@@ -5,7 +5,7 @@
 #  id                                    :integer          not null, primary key
 #  name                                  :string(510)
 #  created_at                            :datetime
-#  lastviewed_at                         :datetime
+#  updated_at                            :datetime
 #  suit                                  :string(510)
 #  comment                               :text
 #  location                              :string(510)
