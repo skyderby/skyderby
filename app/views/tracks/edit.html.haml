@@ -1,7 +1,7 @@
 - track = @track_data.track
 - provide :title, title(track)
 
-.track-edit-data{'data-track' => @track_data.to_data_attr}
+.track-edit-data
 
   .container.top-buffer
     = form_for track, remote: true, html: {class:  'form-horizontal', role: 'form', id: 'track_edit_form'} do |f|
@@ -12,6 +12,9 @@
         .row
           .col-sm-12#heights-chart
           .col-sm-12
+            = link_to track_jump_range_path(track.id), remote: true, class: 'track-edit__refresh-range' do
+              %i.fa.fa-refresh
+
             .time-selector
               %input#time-selector{type: 'text', name: 'time-selector' , value: ''}
         %hr

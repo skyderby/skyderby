@@ -1,5 +1,11 @@
 class CreateTrackService
-  class MissingActivityData < StandardError; end
+  class MissingActivityData < StandardError
+    attr_reader :points
+
+    def initialize(points)
+      @points = points
+    end
+  end
 
   def self.call(params, segment: 0)
     new(params, segment: segment).call
@@ -43,22 +49,10 @@ class CreateTrackService
   end
 
   def set_jump_range
-    scan_result = TrackScanner.call(points)
-
-    # track.flight_started_at = scan_result.flight_started_at
-    # track.deployed_at = scan_result.deployed_at
-    fl_time = points.find { |p| p.gps_time >= scan_result.flight_starts_at }.fl_time
-    track.ff_start = fl_time
-    fl_time = points.find { |p| p.gps_time >= scan_result.deploy_at }.fl_time
-    track.ff_end = fl_time
-
     track.ff_start = jump_range.start_time
-    track.ff_end = jump_range.end_time
-  end
-
-  def ensure_activity_recorded
-    activity_found = ActivityDataLookup.call(points)
-    raise MissingActivityData unless activity_found
+    track.ff_end = jump_range.deploy_time
+  rescue TrackScanner::NoFlightData
+    raise MissingActivityData.new(points)
   end
 
   def points
@@ -91,7 +85,7 @@ class CreateTrackService
   end
 
   def jump_range
-    @jump_range ||= JumpRangeFinder.for(track.kind).call(points)
+    @jump_range ||= TrackScanner.call(points)
   end
 
   # Find and set place as closest to start of jump range
