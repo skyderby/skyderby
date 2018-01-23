@@ -54,8 +54,6 @@ class Skyderby.views.TrackEditView extends Backbone.View
       to: range_to,
       onChange: (obj) =>
         @set_plot_bands(obj.fromNumber, obj.toNumber)
-      onFinish: (obj) =>
-        @set_plot_bands(obj.fromNumber, obj.toNumber)
     )
 
   set_plot_bands: (range_from, range_to) ->
