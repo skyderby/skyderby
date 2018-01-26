@@ -8,7 +8,7 @@
         %hr
         .row
           .col-sm-12.text-center
-            %h2.light-header= {'base' => 'BASE Challenge', 'skydive' => 'Skydive Challenge'}[activity]
+            %h2.light-header= t(".competitions_header.#{activity}")
         .leaderboard-stack
           - competitions.each do |competition|
             .leaderboard-stack__panel

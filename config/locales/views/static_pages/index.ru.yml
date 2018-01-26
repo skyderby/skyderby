@@ -1,5 +1,9 @@
 ru:
   static_pages:
+    online_competitions_section:
+      competitions_header:
+        base: BASE соревнования
+        skydive: Skydive соревнования
     index:
       title: 'Летай! Соревнуйся! Побеждай!'
       subtitle: 'Все еще бета'
