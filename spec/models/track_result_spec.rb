@@ -10,8 +10,6 @@
 #  result     :float
 #
 
-require 'rails_helper'
-
 RSpec.describe TrackResult, type: :model do
   it "replace NaN in result with 0.0" do
     record = TrackResult.create!(result: Float::NAN)

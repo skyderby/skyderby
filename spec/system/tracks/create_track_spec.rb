@@ -5,7 +5,6 @@ feature 'Upload tracks', type: :system, js: true do
     upload_track 'flysight.csv'
     click_button I18n.t('general.save')
 
-    page.save_screenshot(Rails.root.join('tmp', 'page.png'), full: true)
     expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
   end
 
@@ -56,7 +55,6 @@ feature 'Upload tracks', type: :system, js: true do
   def upload_track(file_name)
     visit root_path
     click_link I18n.t('application.header.upload_track')
-    sleep 0.5 # wait for modal
 
     within '#track_upload_form' do
       fill_in 'track_file[track_attributes][name]', with: 'John'
@@ -73,8 +71,7 @@ feature 'Upload tracks', type: :system, js: true do
   end
 
   def fill_track_file(file_name)
-    file = "#{Rails.root}/spec/support/tracks/#{file_name}"
-    page.execute_script("$('#track_file_file').css({opacity: 100})")
-    attach_file 'track_file[file]', file
+    file = Rails.root.join('spec', 'support', 'tracks', file_name)
+    attach_file 'track_file[file]', file, make_visible: true
   end
 end

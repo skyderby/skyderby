@@ -19,9 +19,6 @@
 #  number_of_results_for_total :integer
 #
 
-require 'spec_helper'
-require 'rails_helper'
-
 describe Event, type: :model do
   before :all do
     @user = FactoryBot.create(:user)

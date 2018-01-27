@@ -16,14 +16,11 @@ Capybara.ignore_hidden_elements = true
 Capybara.default_max_wait_time = 5
 Capybara.asset_host = 'http://localhost:3000'
 
-# Requires supporting ruby files with custom matchers and macros, etc,
-# in spec/support/ and its subdirectories.
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include Features::UploadHelpers
-
   config.include Devise::Test::ControllerHelpers, type: :controller
 
   config.infer_spec_type_from_file_location!
@@ -46,29 +43,13 @@ RSpec.configure do |config|
     end
   end
 
-  # config.before(:suite) do
-  #   DatabaseCleaner.clean_with(:truncation)
-  # end
-  #
-  # config.before(:each) do
-  #   DatabaseCleaner.strategy = :transaction
-  # end
-  #
-  # config.before(:each, type: :feature) do
-  #   DatabaseCleaner.strategy = :truncation
-  # end
-  #
-  # config.before(:each) do
-  #   DatabaseCleaner.start
-  # end
-  #
-  # config.after(:each) do
-  #   DatabaseCleaner.clean
-  # end
-
   config.before(:each, type: :system) do
     I18n.locale = :en
     default_url_options[:locale] = :en
+  end
+
+  config.after(:each, type: :system) do
+    default_url_options.delete(:locale)
   end
 
   config.order = :random

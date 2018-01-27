@@ -8,8 +8,6 @@
 #  updated_at :datetime
 #
 
-require 'rails_helper'
-
 RSpec.describe VirtualCompGroup, type: :model do
   it 'requires name' do
     expect(VirtualCompGroup.create).not_to be_valid
