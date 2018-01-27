@@ -4,7 +4,7 @@ module Tracks
       track = Track.find(params[:track_id])
       points = PointsQuery.execute(
         track,
-        only: %i[gps_time fl_time h_speed v_speed]
+        only: %i[gps_time fl_time abs_altitude h_speed v_speed]
       )
       @jump_range = TrackScanner.call(points)
     end

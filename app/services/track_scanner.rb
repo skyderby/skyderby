@@ -63,10 +63,11 @@ class TrackScanner
 
   def request_body
     CSV.generate do |csv|
-      csv << %w[time h_speed v_speed]
+      csv << %w[time h_speed hMSL v_speed]
       points.each do |point|
         csv << [point['gps_time'].strftime('%Y-%m-%dT%H:%M:%S.%L'),
                 point['h_speed'],
+                point['abs_altitude'],
                 point['v_speed']]
       end
     end
