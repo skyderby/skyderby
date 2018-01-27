@@ -24,5 +24,5 @@ module SignInHelpers
 end
 
 RSpec.configure do |config|
-  config.include SignInHelpers, type: :feature
+  config.include SignInHelpers, type: :system
 end
