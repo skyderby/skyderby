@@ -27,7 +27,7 @@ gem 'haml'
 gem 'jbuilder', '~> 2.6'
 
 # Files attachments
-gem 'paperclip', '~> 4.2.2'
+gem 'paperclip', '~> 5.2'
 
 # XML
 gem 'nokogiri', '~> 1.8'
