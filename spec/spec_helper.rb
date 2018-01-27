@@ -33,7 +33,7 @@ RSpec.configure do |config|
 
   config.before(:each, type: :system, js: true) do
     if ENV['SELENIUM_HEADLESS_CHROME'].present?
-      driven_by :selenium_headless_chrome
+      driven_by :selenium_chrome_headless
     else
       driven_by :selenium_chrome
     end
