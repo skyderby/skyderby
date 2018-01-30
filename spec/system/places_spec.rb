@@ -13,10 +13,7 @@ feature 'Adding place', type: :system do
   end
 
   scenario 'Admin user can add place' do
-    user = create :user
-    role = Role.create!(name: :admin)
-    user.assignments << Assignment.new(role: role)
-    # allow(user).to receive(:has_role?).with(:admin).and_return(true)
+    user = create :user, :admin
     sign_in user
 
     country = create :country

@@ -1,7 +1,7 @@
 feature 'Badges', type: :system do
   scenario 'Index' do
     badge = create :badge
-    sign_in_as_admin
+    sign_in admin_user
 
     visit badges_path
 
@@ -11,7 +11,7 @@ feature 'Badges', type: :system do
   scenario 'Update', js: true do
     create :badge, name: 'WWL 2020'
 
-    sign_in_as_admin
+    sign_in admin_user
 
     visit badges_path
     click_link I18n.t('general.edit'), visible: false
@@ -24,7 +24,7 @@ feature 'Badges', type: :system do
   scenario 'Delete', js: true do
     create :badge, name: 'WWL 2020'
 
-    sign_in_as_admin
+    sign_in admin_user
 
     visit badges_path
     accept_alert do
@@ -32,5 +32,9 @@ feature 'Badges', type: :system do
     end
 
     expect(page).not_to have_content('WBR 2020')
+  end
+
+  def admin_user
+    @user ||= create(:user, :admin)
   end
 end

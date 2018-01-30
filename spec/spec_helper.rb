@@ -22,6 +22,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include Features::UploadHelpers
   config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::IntegrationHelpers, type: :system
 
   config.infer_spec_type_from_file_location!
 

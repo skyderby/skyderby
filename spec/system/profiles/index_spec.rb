@@ -6,7 +6,9 @@ feature 'Profiles index', type: :system do
   end
 
   scenario 'it shows list for admins' do
-    sign_in_as_admin
+    admin_user = create :user, :admin
+    sign_in admin_user
+
     visit profiles_path
 
     expect(page).to have_content('Профили')

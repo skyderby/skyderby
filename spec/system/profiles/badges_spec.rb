@@ -1,7 +1,9 @@
 feature 'Profile badges', type: :system do
   scenario 'Create', js: true do
+    user = create :user, :admin
+    sign_in user
+
     profile = create :profile
-    sign_in_as_admin
 
     visit profile_path(profile)
 

@@ -2,7 +2,6 @@ require 'spec_helper'
 
 feature 'Manage tournament competitors', type: :system, js: true do
   scenario 'add competitor with existed profile' do
-    user = create :user
     sign_in user
 
     tournament = create :tournament, responsible: user.profile
@@ -31,7 +30,6 @@ feature 'Manage tournament competitors', type: :system, js: true do
   end
 
   scenario 'add competitor with new profile' do
-    user = create :user
     sign_in user
 
     tournament = create :tournament, responsible: user.profile
@@ -64,7 +62,6 @@ feature 'Manage tournament competitors', type: :system, js: true do
   end
 
   scenario 'edit competitor' do
-    user = create :user
     sign_in user
 
     tournament = create :tournament, responsible: user.profile
@@ -87,7 +84,6 @@ feature 'Manage tournament competitors', type: :system, js: true do
   end
 
   scenario 'delete competitor' do
-    user = create :user
     sign_in user
 
     tournament = create :tournament, responsible: user.profile
@@ -99,5 +95,9 @@ feature 'Manage tournament competitors', type: :system, js: true do
     end
 
     expect(page).not_to have_css('tbody > tr')
+  end
+
+  def user
+    @user ||= create :user
   end
 end

@@ -1,6 +1,5 @@
 feature 'Qualification rounds', type: :system, js: true do
   scenario 'add rounds' do
-    user = create :user
     sign_in user
 
     tournament = create :tournament,
@@ -14,7 +13,6 @@ feature 'Qualification rounds', type: :system, js: true do
   end
 
   scenario 'delete round' do
-    user = create :user
     sign_in user
 
     tournament = create :tournament,
@@ -30,5 +28,9 @@ feature 'Qualification rounds', type: :system, js: true do
     click_button I18n.t('general.delete')
 
     expect(page).to have_no_css('td', text: 'Round 1')
+  end
+
+  def user
+    @user ||= create :user
   end
 end

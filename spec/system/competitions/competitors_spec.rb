@@ -1,6 +1,5 @@
 feature 'Event competitors', type: :system, js: true do
   scenario 'add competitor with existing profile' do
-    user = create :user
     event = create :event, responsible: user.profile
     section = create :section, event: event
 
@@ -28,7 +27,6 @@ feature 'Event competitors', type: :system, js: true do
   end
 
   scenario 'add competitor with new profile' do
-    user = create :user
     event = create :event, responsible: user.profile
     section = create :section, event: event
 
@@ -57,5 +55,9 @@ feature 'Event competitors', type: :system, js: true do
     sleep 0.5
 
     expect(page).to have_content(profile_name)
+  end
+
+  def user
+    @user ||= create :user
   end
 end

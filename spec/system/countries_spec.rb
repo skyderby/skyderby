@@ -1,8 +1,6 @@
-require 'spec_helper'
-
 feature 'Manage countries', type: :system do
   scenario 'Add new country' do
-    sign_in_as_admin
+    sign_in admin_user
 
     visit countries_path
     click_link 'New Country'
@@ -19,7 +17,7 @@ feature 'Manage countries', type: :system do
 
   scenario 'Edit' do
     country = create :country
-    sign_in_as_admin
+    sign_in admin_user
 
     visit countries_path
     click_link 'Edit'
@@ -36,11 +34,15 @@ feature 'Manage countries', type: :system do
 
   scenario 'Destroy' do
     country = create :country
-    sign_in_as_admin
+    sign_in admin_user
 
     visit countries_path
     click_link 'Destroy'
 
     expect(page).not_to have_content('Destroy')
+  end
+
+  def admin_user
+    @user ||= create :user, :admin
   end
 end
