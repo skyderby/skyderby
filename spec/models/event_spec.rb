@@ -19,31 +19,31 @@
 #  number_of_results_for_total :integer
 #
 
-describe Event, type: :model do
-  before :all do
-    @user = FactoryBot.create(:user)
-    @event = Event.create!(responsible: @user.profile, starts_at: Date.today)
-  end
-
+describe Event do
   it 'has status: Draft' do
-    expect(@event.status).to eql 'draft'
+    expect(event.status).to eql 'draft'
   end
 
   it 'generate name if not specified' do
-    expect(@event.name).to be_present
+    expect(event.name).to be_present
   end
 
   it 'fill range if not specified' do
-    expect(@event.range_from).to be_present
-    expect(@event.range_to).to be_present
+    expect(event.range_from).to be_present
+    expect(event.range_to).to be_present
   end
 
   it 'fill responsible' do
-    expect(@event.responsible).to eql(@user.profile)
+    expect(event.responsible).to eql(user.profile)
   end
 
   it 'blank responsible does not allowed' do
     expect(Event.create(responsible: nil)).not_to be_valid
+  end
+
+  def event
+    @event = Event.create!(responsible: user.profile,
+                           starts_at: Date.today)
   end
 
   describe 'changes visibility of tracks on event visibility change' do
@@ -74,5 +74,9 @@ describe Event, type: :model do
 
       expect(track.unlisted_track?).to be_truthy
     end
+  end
+
+  def user
+    @user ||= create :user
   end
 end

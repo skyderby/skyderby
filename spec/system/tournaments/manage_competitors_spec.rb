@@ -39,7 +39,7 @@ feature 'Manage tournament competitors', type: :system, js: true do
     visit tournament_tournament_competitors_path(tournament)
 
     click_link 'Add competitor'
-    sleep 0.1 # wait for modal
+    sleep 0.3 # wait for modal
 
     find('#tournament_competitor_profile_mode_create').click
     fill_in 'tournament_competitor[profile_attributes][name]', with: 'Petr Zh'
