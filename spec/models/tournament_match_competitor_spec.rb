@@ -16,8 +16,6 @@
 #  earn_medal               :integer
 #
 
-require 'rails_helper'
-
 RSpec.describe TournamentMatchCompetitor, type: :model do
   it "replace NaN in result with 0.0" do
     record = TournamentMatchCompetitor.create(result: BigDecimal::NAN)

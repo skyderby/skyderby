@@ -4,8 +4,8 @@ describe UserEmailsPresenter do
     create :user, email: '455@asd.rb', name: 'Second User'
 
     result = UserEmailsPresenter.call(User.all)
-    expect(result).to match(
-      [%("First User" <123@asd.rb>), %("Second User" <455@asd.rb>)]
+    expect(result).to include(
+      %("First User" <123@asd.rb>), %("Second User" <455@asd.rb>)
     )
   end
 end

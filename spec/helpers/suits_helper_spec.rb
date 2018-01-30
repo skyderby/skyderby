@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe SuitsHelper, type: :helper do
   it 'returns suit presentation' do
     suit = create :suit

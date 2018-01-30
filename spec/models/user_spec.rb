@@ -21,8 +21,6 @@
 #  unconfirmed_email      :string(510)
 #
 
-require 'rails_helper'
-
 RSpec.describe User, type: :model do
   let(:visitor) do
     @visitor ||= {

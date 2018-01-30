@@ -11,8 +11,6 @@
 #  created_at :datetime
 #
 
-require 'rails_helper'
-
 describe EventList, type: :model do
   describe '#visible_to' do
     it 'shows public competitions to non-participants' do

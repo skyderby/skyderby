@@ -12,8 +12,6 @@
 #  highest_gr             :float            default(0.0)
 #
 
-require 'rails_helper'
-
 describe VirtualCompResult, type: :model do
   it 'validates uniqueness by virtual competition and track' do
     existed_record = VirtualCompResult.create!(valid_attributes)

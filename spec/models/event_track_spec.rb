@@ -15,7 +15,6 @@
 #  disqualification_reason :string
 #
 
-require 'rails_helper'
 require 'support/event_ongoing_validation'
 
 RSpec.describe EventTrack, type: :model do

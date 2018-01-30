@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Locale redirects routing', type: :request do
-  ['ru', 'en', 'de', 'es'].each do |locale|
+  %w[ru en de es].each do |locale|
     it "to #index locale: #{locale}" do
       get("/#{locale}")
       expect(response).to redirect_to(root_path)

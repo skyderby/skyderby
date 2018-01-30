@@ -77,7 +77,6 @@ end
 group :test do
   gem 'capybara'
   gem 'codeclimate-test-reporter', require: false
-  gem 'database_cleaner'
-  gem 'poltergeist'
+  gem 'selenium-webdriver'
   gem 'simplecov'
 end

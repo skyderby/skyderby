@@ -22,8 +22,6 @@
 #  default_view          :integer          default("default_overall"), not null
 #
 
-require 'rails_helper'
-
 describe VirtualCompetition, type: :model do
   context '#years' do
     it 'returns years from start to current' do

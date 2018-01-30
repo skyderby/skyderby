@@ -11,7 +11,6 @@
 #  profile_id :integer
 #
 
-require 'rails_helper'
 require 'support/event_ongoing_validation'
 
 describe Round, type: :model do

@@ -10,8 +10,6 @@
 #  match_type            :integer          default("regular"), not null
 #
 
-require 'rails_helper'
-
 RSpec.describe TournamentMatch, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end

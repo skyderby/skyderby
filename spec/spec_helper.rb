@@ -9,49 +9,44 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'capybara/rspec'
-require 'capybara/poltergeist'
 
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, js_errors: true)
-end
-Capybara.javascript_driver = :poltergeist
+ActiveRecord::Migration.maintain_test_schema!
+
 Capybara.ignore_hidden_elements = true
-Capybara.default_max_wait_time = 10
+Capybara.default_max_wait_time = 5
 Capybara.asset_host = 'http://localhost:3000'
 
-# Requires supporting ruby files with custom matchers and macros, etc,
-# in spec/support/ and its subdirectories.
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include Features::UploadHelpers
-
   config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::IntegrationHelpers, type: :system
 
-  config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
+  config.infer_spec_type_from_file_location!
+
+  config.use_transactional_fixtures = true
+
+  config.before(:each, type: :system) do
+    driven_by :rack_test
   end
 
-  config.before(:each) do
-    DatabaseCleaner.strategy = :transaction
+  config.before(:each, type: :system, js: true) do
+    if ENV['SELENIUM_HEADLESS_CHROME'].present?
+      driven_by :selenium_chrome_headless
+    else
+      driven_by :selenium_chrome
+    end
   end
 
-  config.before(:each, type: :feature) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
-
-  config.after(:each) do
-    DatabaseCleaner.clean
-  end
-
-  config.before(:each, type: :feature) do
+  config.before(:each, type: :system) do
     I18n.locale = :en
     default_url_options[:locale] = :en
+  end
+
+  config.after(:each, type: :system) do
+    default_url_options.delete(:locale)
   end
 
   config.order = :random

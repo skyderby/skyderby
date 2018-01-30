@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe PlacesHelper do
   it 'returns place presentation with country code' do
     country = create :country, name: 'Norway', code: 'NOR'
