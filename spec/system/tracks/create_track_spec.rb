@@ -55,6 +55,7 @@ feature 'Upload tracks', type: :system, js: true do
   def upload_track(file_name)
     visit root_path
     click_link I18n.t('application.header.upload_track')
+    sleep 0.3 # wait for modal
 
     within '#track_upload_form' do
       fill_in 'track_file[track_attributes][name]', with: 'John'
