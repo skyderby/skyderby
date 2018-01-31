@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 feature 'Upload tracks', type: :system, js: true do
   scenario 'Flysight file' do
     upload_track 'flysight.csv'
