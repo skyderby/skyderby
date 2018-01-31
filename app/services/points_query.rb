@@ -1,3 +1,41 @@
+##
+# Query object for track points
+#
+# Arguments:
+# - track (required) - instance of Track model, track which points will be queried
+# - opts (optional) - Hash with following available options:
+#   - freq_1Hz - Boolean. True to select one point per second, false or all points
+#   - trimmed - Boolean or Hash with trim options:
+#     - seconds_before_start
+#   - only - array of column names to query
+#
+#  Columns:
+#  - gps_time     - time recorded by device. Timezone - UTC
+#  - fl_time      - relative time from start of track
+#  - abs_altitude - absolute altitude recorded by device
+#  - altitude     - altitude relative to ground
+#  - latitude     - latitude
+#  - longitude    - longitude
+#  - h_speed      - horizontal speed in km/h
+#  - v_speed      - vertical speed in km/h
+#  - distance     - distance covered from previous point
+#  - time_diff    - difference in time from previous point
+#  - glide_ratio  - horizontal speed divided by vertical speed
+#
+# Examples:
+#
+# Query points from 20 sec before flight start. Only columns:
+#   - gps_time
+#   - altitude
+#   - latitude
+#   - longitude
+#
+# PointsQuery.execute(
+#   track,
+#   trimmed: { seconds_before_start: 20 },
+#   only: %i[gps_time altitude latitude longitude]
+# )
+#
 class PointsQuery
   def initialize(track, opts = {})
     @track = track
