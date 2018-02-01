@@ -21,7 +21,6 @@ describe PlacesController, type: :controller do
         get :new
 
         expect(response.forbidden?).to be_truthy
-        expect(response.location).to eq(root_url)
       end
 
       it '#edit' do
@@ -30,14 +29,12 @@ describe PlacesController, type: :controller do
         get :edit, params: { id: place.id }
 
         expect(response.forbidden?).to be_truthy
-        expect(response.location).to eq(root_url)
       end
 
       it '#create' do
         post :create, params: { place: { name: 'SSSWWW' } }
 
         expect(response.forbidden?).to be_truthy
-        expect(response.location).to eq(root_url)
       end
 
       it '#update' do
@@ -45,7 +42,6 @@ describe PlacesController, type: :controller do
         patch :update, params: { id: place.id, place: { name: 'SSSWWW' } }
 
         expect(response.forbidden?).to be_truthy
-        expect(response.location).to eq(root_url)
       end
 
       it '#destroy' do
@@ -53,7 +49,6 @@ describe PlacesController, type: :controller do
         delete :destroy, params: { id: place.id }
 
         expect(response.forbidden?).to be_truthy
-        expect(response.location).to eq(root_url)
       end
     end
   end
