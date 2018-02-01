@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied, Pundit::NotAuthorizedError do |exception|
     raise(exception) unless request.format.html?
-    redirect_to(root_path, alert: 'You are not authorized to access this page.')
+    redirect_to(root_path, alert: 'You are not authorized to access this page.', status: 403)
   end
 
   def masquerading?
