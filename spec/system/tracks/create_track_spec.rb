@@ -1,28 +1,24 @@
 feature 'Upload tracks', type: :system, js: true do
   scenario 'Flysight file' do
     upload_track 'flysight.csv'
-    click_button I18n.t('general.save')
 
     expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
   end
 
   scenario 'Columbus file' do
     upload_track 'columbus.csv'
-    click_button I18n.t('general.save')
 
     expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
   end
 
   scenario 'Wintec file' do
     upload_track 'wintec.tes'
-    click_button I18n.t('general.save')
 
     expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
   end
 
   scenario 'Dual XGPS160 file' do
     upload_track 'dual_xgps160.kml'
-    click_button I18n.t('general.save')
 
     expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
   end
@@ -30,12 +26,11 @@ feature 'Upload tracks', type: :system, js: true do
   scenario 'CyberEye file' do
     upload_track 'cyber_eye.csv'
 
-    click_button I18n.t('general.save')
     expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
   end
+
   scenario 'Garmin gpx: one track in file' do
     upload_track 'one_track.gpx'
-    click_button I18n.t('general.save')
 
     expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
   end
@@ -44,8 +39,6 @@ feature 'Upload tracks', type: :system, js: true do
     upload_track 'two_tracks.gpx'
     sleep 0.5 # wait for modal
     first('tr.track-segment-row').click
-
-    click_button I18n.t('general.save')
 
     expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
   end

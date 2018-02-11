@@ -20,13 +20,19 @@ env:
 services:
   - postgresql
   - redis-server
+  - docker
 
 before_install:
+  # Chrome driver
   - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
   - wget http://chromedriver.storage.googleapis.com/2.34/chromedriver_linux64.zip
   - unzip chromedriver_linux64.zip
   - sudo cp chromedriver /usr/local/bin/.
   - sudo chmod +x /usr/local/bin/chromedriver
+  # track-scanner
+  - docker pull skyderby/track-scanner
+  - docker run -d -p 127.0.0.1:80:4567 skyderby/track-scanner
+  - docker ps -a
 
 before_script:
   - cp config/database.travis.yml config/database.yml

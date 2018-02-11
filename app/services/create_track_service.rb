@@ -21,7 +21,7 @@ class CreateTrackService
       set_profile
       set_file_metadata
       set_jump_range
-      set_place
+      # set_place
       save_track
       enque_jobs
     end
@@ -51,8 +51,7 @@ class CreateTrackService
   def set_jump_range
     track.ff_start = jump_range.start_time
     track.ff_end = jump_range.deploy_time
-  rescue TrackScanner::NoFlightData
-    raise MissingActivityData.new(points)
+    track.require_range_review = jump_range.require_review?
   end
 
   def points

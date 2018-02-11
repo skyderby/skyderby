@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception, prepend: true
+
   before_action :process_locale_param
   before_action :set_locale
   before_action :mini_profiler
@@ -12,7 +13,7 @@ class ApplicationController < ActionController::Base
   before_action :store_current_location, unless: :devise_controller?
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  rescue_from CanCan::AccessDenied, Pundit::NotAuthorizedError do |exception|
+  rescue_from CanCan::AccessDenied, Pundit::NotAuthorizedError do |_excp|
     respond_to do |format|
       format.html { render file: 'public/403.html', status: :forbidden, layout: false }
       format.json { render json: '{ "error": "forbidden" }', status: :forbidden }
@@ -23,6 +24,14 @@ class ApplicationController < ActionController::Base
     session[:admin_id].present?
   end
   helper_method :masquerading?
+
+  def current_user
+    super || GuestUser.new(cookies)
+  end
+
+  def user_signed_in?
+    current_user.registered?
+  end
 
   protected
 

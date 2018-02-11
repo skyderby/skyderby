@@ -10,8 +10,45 @@ class TrackScanner
     def deploy_time
       deploy_point.fl_time
     end
+
+    def require_review?
+      false
+    end
   end
 
+  class NullRange
+    def initialize(points)
+      @points = points
+    end
+
+    def start_point
+      points.first
+    end
+
+    def deploy_point
+      points.last
+    end
+
+    def start_time
+      start_point.fl_time
+    end
+
+    def deploy_time
+      deploy_point.fl_time
+    end
+
+    def require_review?
+      true
+    end
+
+    private
+
+    attr_reader :points
+  end
+
+  ##
+  # Exception that raised when service failed to find flight data in given
+  # dataset
   class NoFlightData < StandardError; end
 
   def self.call(points)
@@ -27,6 +64,8 @@ class TrackScanner
 
     check_status response
     convert response
+  rescue NoFlightData
+    return NullRange.new(points)
   end
 
   private
@@ -63,12 +102,12 @@ class TrackScanner
 
   def request_body
     CSV.generate do |csv|
-      csv << %w[time h_speed hMSL v_speed]
+      csv << %w[time hMSL h_speed v_speed]
       points.each do |point|
         csv << [point['gps_time'].strftime('%Y-%m-%dT%H:%M:%S.%L'),
-                point['h_speed'],
                 point['abs_altitude'],
-                point['v_speed']]
+                point['h_speed'].round(1),
+                point['v_speed'].round(1)]
       end
     end
   end

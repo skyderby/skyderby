@@ -24,9 +24,12 @@ class TrackPolicy < ApplicationPolicy
   delegate :public_track?, :unlisted_track?, to: :record
 
   def owner?
-    return false unless user&.profile
-
-    record.pilot == user.profile
+    if user.registered?
+      return false unless user&.profile
+      record.pilot == user.profile
+    else
+      user.tracks.include? record.id
+    end
   end
 
   class Scope < Scope

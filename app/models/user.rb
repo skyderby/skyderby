@@ -46,6 +46,10 @@ class User < ApplicationRecord
     roles.any? { |r| r.name.underscore.to_sym == role_sym }
   end
 
+  def registered?
+    true
+  end
+
   # Using ActiveJob to deliver messages in background
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later

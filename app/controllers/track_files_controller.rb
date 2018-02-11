@@ -1,6 +1,6 @@
 class TrackFilesController < ApplicationController
   def create
-    authorize! :create, Track
+    authorize Track
 
     @track_file = TrackFile.new(track_file_params)
 
@@ -12,13 +12,15 @@ class TrackFilesController < ApplicationController
 
     if @track_file.one_segment?
       @track = build_track
+
+      unless current_user.registered?
+        current_user.tracks << @track.id
+      end
     else
       render :show
     end
 
     store_recent_values(track_attributes)
-  rescue CreateTrackService::MissingActivityData
-    render 'missing_activity_data', status: :unprocessable_entity
   end
 
   def show
@@ -30,7 +32,7 @@ class TrackFilesController < ApplicationController
   def build_track
     track_attributes = track_file_params[:track_attributes].merge(
       track_file: @track_file,
-      user: current_user
+      user: (current_user if current_user.registered?)
     )
 
     CreateTrackService.call(track_attributes)

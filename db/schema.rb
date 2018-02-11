@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180123082857) do
+ActiveRecord::Schema.define(version: 20180131172612) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -335,6 +335,7 @@ ActiveRecord::Schema.define(version: 20180123082857) do
     t.boolean "disqualified_from_online_competitions", default: false, null: false
     t.decimal "data_frequency", precision: 3, scale: 1
     t.jsonb "missing_ranges"
+    t.boolean "require_range_review", default: false, null: false
     t.index ["id", "ff_start", "ff_end"], name: "index_tracks_on_id_and_ff_start_and_ff_end"
     t.index ["place_id"], name: "index_tracks_on_place_id"
     t.index ["profile_id"], name: "index_tracks_on_profile_id"
