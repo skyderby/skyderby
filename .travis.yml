@@ -31,7 +31,7 @@ before_install:
   - sudo chmod +x /usr/local/bin/chromedriver
   # track-scanner
   - docker pull skyderby/track-scanner
-  - docker run -d -p 127.0.0.1:80:4567 skyderby/track-scanner
+  - docker run -d -p 127.0.0.1:8000:80 skyderby/track-scanner
   - docker ps -a
 
 before_script:
