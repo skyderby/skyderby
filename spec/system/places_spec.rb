@@ -1,22 +1,16 @@
 require 'spec_helper'
 
-feature 'Adding place', type: :system do
-  scenario 'Non admin user do not see add button' do
+describe 'Adding place', type: :system do
+  it 'Non admin user do not see add button' do
     visit places_path
     expect(page).not_to have_css('a', text: I18n.t('places.index.new'))
   end
 
-  scenario 'Non admin user can not add place' do
-    visit new_place_path
-
-    expect(page).to have_css('div.alert', text: 'You are not authorized to access this page')
-  end
-
-  scenario 'Admin user can add place' do
+  it 'Admin user can add place' do
     user = create :user, :admin
     sign_in user
 
-    country = create :country
+    create :country
 
     visit places_path
     click_link I18n.t('places.index.new')
