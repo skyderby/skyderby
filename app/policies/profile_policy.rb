@@ -21,7 +21,7 @@ class ProfilePolicy < ApplicationPolicy
   end
 
   def organizer_of_event?
-    return false unless user
+    return false unless user.registered?
     (user.profile.responsible_of_events + user.profile.organizer_of_events).include?(record.owner_id)
   end
 end

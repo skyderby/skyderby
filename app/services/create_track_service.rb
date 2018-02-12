@@ -21,7 +21,7 @@ class CreateTrackService
       set_profile
       set_file_metadata
       set_jump_range
-      # set_place
+      set_place
       save_track
       enque_jobs
     end
