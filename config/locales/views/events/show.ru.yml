@@ -29,8 +29,6 @@ ru:
       event_sponsors: Спонсоры соревнования
       add_sponsor: Добавить спонсора
       copy_sponsors: Копировать спонсоров
-      judges: 'Судьи'
-      add_judge: 'Добавить судью'
       weather_data: 'Сведения о ветре'
       wind_cancellation_enabled: 'В этом соревновании учитывается влияние ветра.'
       wind_cancellation_disabled: 'В этом соревновании влияние ветра не учитывается.'

@@ -1,6 +1,5 @@
-%li.organizer{id: dom_id(organizer)}
-  %span
-    = organizer.name
+%li.organizers__item{id: dom_id(organizer)}
+  %span= organizer.name
   - if policy(organizer.organizable).update? && !organizer.organizable.finished?
     = button_to event_organizer_path(organizer.organizable, organizer),
                 method: :delete,

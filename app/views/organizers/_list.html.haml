@@ -1,0 +1,10 @@
+.organizers
+  %h4= t('.judges') + ':'
+  %ol.organizers__list
+    %li.organizers__item
+      %span= organizable.responsible.name
+    = render organizable.organizers
+  - if policy(organizable).edit? && !organizable.finished?
+    = link_to polymorphic_path([:new, organizable, :organizer]), remote: true, class: 'add-organizer button button--minimal' do
+      %i.fa.fa-plus
+      = t('.add_judge')
