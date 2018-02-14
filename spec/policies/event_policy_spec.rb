@@ -117,7 +117,7 @@ describe EventPolicy do
     it 'allowed to organizer' do
       event = create(:event)
 
-      organizer = create :event_organizer, event: event, profile: user.profile
+      organizer = create :event_organizer, organizable: event, profile: user.profile
 
       expect(EventPolicy.new(user, event).update?).to be_truthy
     end
@@ -139,7 +139,7 @@ describe EventPolicy do
     it 'not allowed to organizer' do
       event = create(:event)
 
-      organizer = create :event_organizer, event: event, profile: user.profile
+      organizer = create :event_organizer, organizable: event, profile: user.profile
 
       expect(EventPolicy.new(user, event).destroy?).to be_falsey
     end

@@ -142,10 +142,10 @@
           %li.organizer
             %span
               = @event.responsible.name
-          - @event.event_organizers.each do |event_organizer|
-            = render 'events/event_organizers/event_organizer', event_organizer: event_organizer
+          - @event.organizers.each do |organizer|
+            = render 'organizers/organizer', organizer: organizer
         - if can_manage && !@event.finished?
-          = link_to new_event_event_organizer_path(@event), remote: true, class: 'add-organizer button button--minimal' do
+          = link_to new_event_organizer_path(@event), remote: true, class: 'add-organizer button button--minimal' do
             %i.fa.fa-plus
             = t('.add_judge')
 

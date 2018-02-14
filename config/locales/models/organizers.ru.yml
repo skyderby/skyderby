@@ -1,13 +1,13 @@
 ru:
   activerecord:
     models:
-      event_organizer: Организатор
+      organizer: Организатор
     attributes:
-      event_organizer:
+      organizer:
         profile: Профиль
     errors:
       models:
-        event_organizer:
+        organizer:
           attributes:
             profile: Профиль должен быть заполнен
             base:

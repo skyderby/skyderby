@@ -9,13 +9,15 @@
 #  updated_at :datetime
 #
 
-class EventOrganizer < ApplicationRecord
+class Organizer < ApplicationRecord
   include EventOngoingValidation
 
-  belongs_to :event
+  belongs_to :organizable, polymorphic: true
   belongs_to :profile
 
-  validates_presence_of :event, :profile
+  validates :organizable, :profile, presence: true
 
   delegate :name, to: :profile, allow_nil: true
+
+  alias event organizable
 end

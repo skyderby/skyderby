@@ -6,9 +6,10 @@ class EventsController < ApplicationController
   def index
     authorize Event
 
-    @events = EventList.includes(event: { place: :country })
-                       .visible_to(current_user)
-                       .paginate(page: params[:page], per_page: 20)
+    @events =
+      policy_scope(EventList.all)
+      .includes(event: { place: :country })
+      .paginate(page: params[:page], per_page: 20)
   end
 
   def new

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180131172612) do
+ActiveRecord::Schema.define(version: 20180213070430) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,15 +47,6 @@ ActiveRecord::Schema.define(version: 20180131172612) do
   create_table "countries", id: :serial, force: :cascade do |t|
     t.string "name", limit: 510
     t.string "code", limit: 510
-  end
-
-  create_table "event_organizers", id: :serial, force: :cascade do |t|
-    t.integer "event_id"
-    t.integer "profile_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["event_id"], name: "index_event_organizers_on_event_id"
-    t.index ["profile_id"], name: "index_event_organizers_on_profile_id"
   end
 
   create_table "event_tracks", id: :serial, force: :cascade do |t|
@@ -101,6 +92,16 @@ ActiveRecord::Schema.define(version: 20180131172612) do
   create_table "manufacturers", id: :serial, force: :cascade do |t|
     t.string "name", limit: 510
     t.string "code", limit: 510
+  end
+
+  create_table "organizers", id: :serial, force: :cascade do |t|
+    t.integer "organizable_id"
+    t.integer "profile_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string "organizable_type"
+    t.index ["organizable_id"], name: "index_organizers_on_organizable_id"
+    t.index ["profile_id"], name: "index_organizers_on_profile_id"
   end
 
   create_table "places", id: :serial, force: :cascade do |t|
@@ -422,10 +423,10 @@ ActiveRecord::Schema.define(version: 20180131172612) do
 
   add_foreign_key "badges", "profiles"
   add_foreign_key "competitors", "profiles"
-  add_foreign_key "event_organizers", "profiles"
   add_foreign_key "event_tracks", "tracks"
   add_foreign_key "events", "profiles"
   add_foreign_key "exit_measurements", "places"
+  add_foreign_key "organizers", "profiles"
   add_foreign_key "profiles", "countries"
   add_foreign_key "qualification_jumps", "qualification_rounds"
   add_foreign_key "qualification_jumps", "tracks"

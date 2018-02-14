@@ -1,9 +1,0 @@
-%li.organizer{id: dom_id(event_organizer)}
-  %span
-    = event_organizer.name
-  - if policy(@event).update? && !@event.finished?
-    = button_to event_event_organizer_path(@event, event_organizer),
-                method: :delete,
-                remote: true,
-                class: 'delete-organizer btn-link' do
-      %i.fa.fa-times.text-muted

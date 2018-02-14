@@ -9,6 +9,7 @@ feature 'Event competitors', type: :system, js: true do
     sign_in user
     visit event_path(event)
     click_link I18n.t('activerecord.models.competitor')
+    sleep 0.5
 
     find('#select2-profile_id-container').click
     sleep 0.5
@@ -37,6 +38,7 @@ feature 'Event competitors', type: :system, js: true do
     sign_in user
     visit event_path(event)
     click_link I18n.t('activerecord.models.competitor')
+    sleep 0.5
 
     find('label', text: I18n.t('competitors.form.create_profile')).click
 

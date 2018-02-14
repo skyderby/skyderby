@@ -33,9 +33,9 @@ class EventPolicy < ApplicationPolicy
   end
 
   def organizer?
-    return false unless user&.profile
+    return false unless user.registered?
 
-    responsible? || user.profile.organizer_of_events.include?(record.id)
+    responsible? || user.organizer_of_events.include?(record)
   end
 
   def responsible?
@@ -49,16 +49,6 @@ class EventPolicy < ApplicationPolicy
       scope.where('status IN (1, 2) AND visibility = 0')
            .or(scope.where(responsible: profile))
            .or(scope.where(id: profile.participant_of_events))
-    end
-
-    def profile
-      user&.profile || NullProfile.new
-    end
-
-    class NullProfile
-      def participant_of_events
-        []
-      end
     end
   end
 end

@@ -33,7 +33,7 @@ class Profile < ApplicationRecord
   has_many :base_tracks, -> { base.order('created_at DESC') }, class_name: 'Track'
   has_many :badges, -> { order(achieved_at: :desc) }, dependent: :delete_all
   has_many :events, dependent: :restrict_with_error
-  has_many :event_organizers, dependent: :restrict_with_error
+  has_many :organizers, dependent: :restrict_with_error
   has_many :competitors, dependent: :restrict_with_error
   has_many :personal_top_scores
 
@@ -64,7 +64,7 @@ class Profile < ApplicationRecord
 
   # returns array of competition ID's where organizer
   def organizer_of_events
-    event_organizers.pluck(:event_id)
+    organizers.select(:organizable_id, :organizable_type).map(&:organizable)
   end
 
   def competitor_of_events
@@ -76,7 +76,7 @@ class Profile < ApplicationRecord
   end
 
   def responsible_of_events
-    events.pluck(:id)
+    events
   end
 
   def belongs_to_user?

@@ -1,13 +1,13 @@
 de:
   activerecord:
     models:
-      event_organizer: Organisator
+      organizer: Organisator
     attributes:
-      event_organizer:
+      organizer:
         profile: Profil
     errors:
       models:
-        event_organizer:
+        organizer:
           attributes:
             profile: Es muss ein Profil ausgewählt werden
             base:

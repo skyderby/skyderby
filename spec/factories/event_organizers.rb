@@ -10,8 +10,13 @@
 #
 
 FactoryBot.define do
-  factory :event_organizer do
+  factory :event_organizer, class: 'Organizer' do
     profile
-    event
+    association :organizable, factory: :event
+  end
+
+  factory :tournament_organizer, class: 'Organizer' do
+    profile
+    association :organizable, factory: :tournament
   end
 end

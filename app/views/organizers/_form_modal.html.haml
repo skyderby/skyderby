@@ -1,6 +1,6 @@
 .modal-dialog
   .modal-content
-    = form_for [@event, @event_organizer], remote: true, html: {class: 'form-horizontal'} do |f|
+    = form_for [organizer.organizable, organizer], remote: true, html: {class: 'form-horizontal'} do |f|
       .modal-header
         %button.close{type: 'button', data: {dismiss: 'modal'}}
           %span{aria: {hidden: 'true'}}
@@ -8,18 +8,18 @@
           %span.sr-only
             Close
         %h4.modal-title
-          = t('activerecord.models.event_organizer') + ': ' 
-          - if @event_organizer.new_record?
+          = t('activerecord.models.organizer') + ': ' 
+          - if organizer.new_record?
             = t('events.index.new')
           - else
-            = @event_organizer.name
+            = organizer.name
 
       .modal-body
         .form-group
           = f.label :profile, class: 'control-label col-sm-4'
           .col-sm-8
             = f.select :profile_id,
-                       options_for_select([[@event_organizer.name, @event_organizer.profile_id]]),
+                       options_for_select([[organizer.name, organizer.profile_id]]),
                        {},
                        class: 'form-control'
 

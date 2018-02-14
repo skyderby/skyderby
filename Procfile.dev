@@ -1,2 +1,2 @@
-app: rails s
+app: rails s -p 3000
 track-scanner: docker run --rm -ti -p 127.0.0.1:8000:80 skyderby/track-scanner

@@ -15,12 +15,12 @@ feature 'Manage tournament competitors', type: :system, js: true do
 
     # Select existing profile
     find('#select2-tournament_competitor_profile_id-container').click
-    sleep 0.1 # wait for ajax
+    sleep 0.5 # wait for ajax
     first('li.select2-results__option', text: 'Ivan R').click
 
     # Select suit
     find('#select2-tournament_competitor_suit_id-container').click
-    sleep 0.1 # wait for ajax
+    sleep 0.5 # wait for ajax
     first('li.select2-results__option', text: suit.name).click
 
     click_button I18n.t('general.save')
@@ -46,12 +46,12 @@ feature 'Manage tournament competitors', type: :system, js: true do
 
     # Select country
     find('#select2-tournament_competitor_profile_attributes_country_id-container').click
-    sleep 0.1 # wait for ajax
+    sleep 0.5 # wait for ajax
     first('li.select2-results__option', text: country.name).click
 
     # Select suit
     find('#select2-tournament_competitor_suit_id-container').click
-    sleep 0.1 # wait for ajax
+    sleep 0.5 # wait for ajax
     first('li.select2-results__option', text: suit.name).click
 
     click_button I18n.t('general.save')
@@ -74,7 +74,7 @@ feature 'Manage tournament competitors', type: :system, js: true do
 
     # Select suit
     find('#select2-tournament_competitor_suit_id-container').click
-    sleep 0.1 # wait for ajax
+    sleep 0.5 # wait for ajax
     first('li.select2-results__option[role=treeitem]', text: suit.name).click
 
     click_button I18n.t('general.save')

@@ -30,7 +30,7 @@ class Event < ApplicationRecord
 
   belongs_to :place, optional: true
 
-  has_many :event_organizers
+  has_many :organizers, as: :organizable
   has_many :sections, -> { order(:order) }
   has_many :competitors
   has_many :rounds, -> { order(:name) }

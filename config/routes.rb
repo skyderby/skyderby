@@ -57,7 +57,11 @@ Skyderby::Application.routes.draw do
     end
   end
 
-  resources :events, concerns: :sponsorable do
+  concern :organizable do
+    resources :organizers, only: %i[new create destroy]
+  end
+
+  resources :events, concerns: %i[sponsorable organizable] do
     scope module: :events do
       resources :rounds do
         scope module: :rounds do
@@ -75,7 +79,6 @@ Skyderby::Application.routes.draw do
 
       resources :competitors
       resources :event_tracks
-      resources :event_organizers
 
       resource :deletion, only: [:new, :create]
       collection do

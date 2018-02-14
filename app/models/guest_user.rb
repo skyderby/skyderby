@@ -38,4 +38,12 @@ class GuestUser
   def profile
     nil
   end
+
+  def organizer_of_events
+    []
+  end
+
+  def responsible_of_events
+    []
+  end
 end

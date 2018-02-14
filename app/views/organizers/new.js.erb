@@ -1,0 +1,10 @@
+$('#modal').html("<%= j render('form_modal', organizer: @organizer) %>");
+$('#modal').modal('show');
+
+Skyderby.helpers.ProfileSelect(
+  $('select[name="organizer[profile_id]"]'),
+  {
+    only_registered: true,
+    placeholder: "<%= t('organizers.form.profile_placeholder') %>"
+  }
+);

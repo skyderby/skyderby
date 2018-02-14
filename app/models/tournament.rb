@@ -61,4 +61,9 @@ class Tournament < ApplicationRecord
   def with_qualification?
     has_qualification
   end
+
+  # For compatibility with Event
+  def finished?
+    false
+  end
 end
