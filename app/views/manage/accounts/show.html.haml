@@ -1,0 +1,48 @@
+.container
+  .page-header
+    %h1= "Учетная запись ##{@account.id} #{@account.name}"
+
+  .content-block
+    %h2 Данные учетной записи
+    %dl
+      %dt Адрес эл. почты:
+      %dd= @account.email
+
+      %dt Количество входов:
+      %dd= @account.sign_in_count
+
+      %dt Текущий вход выполнен:
+      %dd= @account.current_sign_in_at
+
+      %dt IP текущего входа:
+      %dd= @account.current_sign_in_ip
+
+      %dt Последний вход выполнен:
+      %dd= @account.last_sign_in_at
+
+      %dt IP последнего входа:
+      %dd= @account.last_sign_in_ip
+
+    %h2 Данные профиля
+    - if @account.profile
+      %dl
+        %dt Имя: 
+        %dd= @account.profile.name
+
+        %dt Страна:
+        %dd= @account.profile.country&.name
+
+        %dt Количество треков:
+        %dd= @account.profile.tracks.count
+
+        %dt Участник соревнований:
+        %dd
+          %ul
+            - @account.profile.events.each do |event|
+              %li= event.name
+
+        %dt Организатор соревнований:
+        %dd
+          %ul
+            - @account.responsible_of_events.each do |event|
+              %li= event.name

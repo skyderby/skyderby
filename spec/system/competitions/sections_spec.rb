@@ -4,7 +4,7 @@ feature 'Event sections (categories)', type: :system, js: true do
     event = create(:event,
                    status: Event.statuses[:published],
                    visibility: Event.visibilities[:public_event],
-                   responsible: user.profile)
+                   responsible: user)
 
     sign_in user
     visit event_path(event)

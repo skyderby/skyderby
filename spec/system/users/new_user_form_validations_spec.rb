@@ -10,6 +10,6 @@ feature 'Registration form validations', type: :system, js: true do
       click_button I18n.t('devise.registrations.new.sign_up')
     end
 
-    expect(page).to have_css('input[name="user[name]"] + label', text: I18n.t('jquery_validate.required_field'))
+    expect(page).to have_css('input[name="user[profile_attributes][name]"] + label', text: I18n.t('jquery_validate.required_field'))
   end
 end

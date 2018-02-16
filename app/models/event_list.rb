@@ -13,9 +13,7 @@
 
 class EventList < ApplicationRecord
   belongs_to :event, polymorphic: true
-  belongs_to :responsible, 
-             class_name: 'Profile',
-             foreign_key: 'profile_id'
+  belongs_to :responsible, class_name: 'User'
 
   enum status: [:draft, :published, :finished]
   enum visibility: [:public_event, :unlisted_event, :private_event]

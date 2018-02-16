@@ -4,7 +4,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def create?
-    user
+    user.registered?
   end
 
   def show?
@@ -26,10 +26,9 @@ class EventPolicy < ApplicationPolicy
   private
 
   def participant?
-    return false unless user&.profile
+    return false unless user.registered?
 
-    record.responsible == user.profile ||
-      user.profile.participant_of_events.include?(record.id)
+    record.responsible == user || user.participant_of_events.include?(record)
   end
 
   def organizer?
@@ -39,16 +38,16 @@ class EventPolicy < ApplicationPolicy
   end
 
   def responsible?
-    return false unless user&.profile
+    return false unless user.registered?
 
-    record.responsible == user.profile
+    record.responsible == user
   end
 
   class Scope < Scope
     def resolve
       scope.where('status IN (1, 2) AND visibility = 0')
-           .or(scope.where(responsible: profile))
-           .or(scope.where(id: profile.participant_of_events))
+           .or(scope.where(responsible: user))
+           .or(scope.where(id: user.participant_of_events))
     end
   end
 end

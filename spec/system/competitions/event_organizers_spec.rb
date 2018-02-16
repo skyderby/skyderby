@@ -4,14 +4,14 @@ feature 'Event organizers', type: :system, js: true do
     event = create(:event,
                    status: Event.statuses[:published],
                    visibility: Event.visibilities[:public_event],
-                   responsible: user.profile)
+                   responsible: user)
 
     organizer = create :user
 
     sign_in user
     visit event_path(event)
 
-    click_link I18n.t('events.show.add_judge')
+    click_link I18n.t('organizers.list.add_judge')
 
     find('#select2-organizer_profile_id-container').click
     sleep 0.5

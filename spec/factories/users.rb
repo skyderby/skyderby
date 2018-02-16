@@ -23,11 +23,14 @@
 
 FactoryBot.define do
   factory :user do
-    sequence(:name) { |n| "Василий-#{n}" }
     sequence(:email) { |n| "person-#{n}@example.com" }
     password 'secret'
     password_confirmation 'secret'
     confirmed_at Time.current
+
+    after :create do |user|
+      create :profile, owner: user
+    end
 
     trait :admin do
       after(:create) do |user|

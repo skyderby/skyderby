@@ -1,0 +1,3 @@
+document
+  .querySelector('.accounts__table > .tbody')
+  .innerHTML = '<%= j render partial: 'manage/accounts/account', collection: @accounts, as: :account %>';

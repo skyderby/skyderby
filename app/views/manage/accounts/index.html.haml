@@ -1,24 +1,24 @@
 .container
   .page-header
-    %h1
-      Профили
+    %h1 Учетные записи
 
   .content-block
     .index-search__container
       %span.index-search__icon
         %i.fa.fa-search
-      %input.index-search__input{name: 'search', data: {remote: true, url: profiles_path}, placeholder: 'Type to search'}
-    %table.table.profiles__table
-      %thead
-        %th
-        %th #
-        %th= t 'activerecord.attributes.profiles.name'
-        %th= t 'activerecord.attributes.profiles.country'
-        %th
-        %th
-        %th
-      %tbody
-        = render @profiles
+      %input.index-search__input{name: 'search', data: { remote: true, url: accounts_path }, placeholder: 'Type to search'}
+
+    .table.accounts__table
+      .thead
+        .th #
+        .th Name
+        .th Email
+        .th Last sign in
+      .tbody
+        = render partial: 'manage/accounts/account', collection: @accounts, as: :account
+
+    .text-center.top-buffer
+      = will_paginate @accounts, renderer: BootstrapPagination::Rails
 
 - content_for :page_js do
   :javascript

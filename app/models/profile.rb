@@ -68,7 +68,7 @@ class Profile < ApplicationRecord
   end
 
   def competitor_of_events
-    competitors.pluck(:event_id)
+    competitors.select(:event_id).map(&:event)
   end
 
   def participant_of_events

@@ -21,7 +21,7 @@ class EventsController < ApplicationController
     authorize Event
 
     @event = Event.new event_params
-    @event.responsible = current_user.profile
+    @event.responsible = current_user
     if @event.save
       respond_to do |format|
         format.html { redirect_to @event }

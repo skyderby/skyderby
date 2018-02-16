@@ -7,7 +7,7 @@ shared_examples 'event_ongoing_validation' do
     end
 
     it 'should be invalid if event finished' do
-      expect(@target).to be_invalid 
+      expect(@target).to be_invalid
     end
 
     it 'should have error message' do

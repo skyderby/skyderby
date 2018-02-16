@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180213070430) do
+ActiveRecord::Schema.define(version: 20180215112001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 20180213070430) do
     t.boolean "wind_cancellation", default: false
     t.integer "visibility", default: 0
     t.integer "number_of_results_for_total"
+    t.integer "responsible_id"
   end
 
   create_table "exit_measurements", force: :cascade do |t|
@@ -276,6 +277,7 @@ ActiveRecord::Schema.define(version: 20180213070430) do
     t.integer "profile_id"
     t.integer "bracket_size"
     t.boolean "has_qualification"
+    t.integer "responsible_id"
     t.index ["profile_id"], name: "index_tournaments_on_profile_id"
   end
 
@@ -434,34 +436,6 @@ ActiveRecord::Schema.define(version: 20180213070430) do
   add_foreign_key "tournaments", "profiles"
   add_foreign_key "tracks", "profiles"
 
-  create_view "event_lists",  sql_definition: <<-SQL
-      SELECT events.event_type,
-      events.event_id,
-      events.starts_at,
-      events.status,
-      events.visibility,
-      events.profile_id,
-      events.created_at
-     FROM ( SELECT 'Event'::text AS event_type,
-              events_1.id AS event_id,
-              events_1.starts_at,
-              events_1.status,
-              events_1.visibility,
-              events_1.profile_id,
-              events_1.created_at
-             FROM events events_1
-          UNION ALL
-           SELECT 'Tournament'::text,
-              tournaments.id,
-              tournaments.starts_at,
-              1,
-              0,
-              NULL::integer,
-              tournaments.created_at
-             FROM tournaments) events
-    ORDER BY events.starts_at DESC, events.created_at DESC;
-  SQL
-
   create_view "personal_top_scores",  sql_definition: <<-SQL
       SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id ORDER BY entities.result DESC) AS rank,
       entities.virtual_competition_id,
@@ -510,6 +484,34 @@ ActiveRecord::Schema.define(version: 20180213070430) do
                LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
             ORDER BY results.virtual_competition_id, tracks.profile_id, (date_part('year'::text, tracks.recorded_at)), results.result DESC) entities
     ORDER BY entities.result DESC;
+  SQL
+
+  create_view "event_lists",  sql_definition: <<-SQL
+      SELECT events.event_type,
+      events.event_id,
+      events.starts_at,
+      events.status,
+      events.visibility,
+      events.responsible_id,
+      events.created_at
+     FROM ( SELECT 'Event'::text AS event_type,
+              events_1.id AS event_id,
+              events_1.starts_at,
+              events_1.status,
+              events_1.visibility,
+              events_1.responsible_id,
+              events_1.created_at
+             FROM events events_1
+          UNION ALL
+           SELECT 'Tournament'::text,
+              tournaments.id,
+              tournaments.starts_at,
+              1,
+              0,
+              tournaments.responsible_id,
+              tournaments.created_at
+             FROM tournaments) events
+    ORDER BY events.starts_at DESC, events.created_at DESC;
   SQL
 
 end

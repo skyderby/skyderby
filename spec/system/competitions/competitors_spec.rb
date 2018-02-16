@@ -1,6 +1,6 @@
 feature 'Event competitors', type: :system, js: true do
   scenario 'add competitor with existing profile' do
-    event = create :event, responsible: user.profile
+    event = create :event, responsible: user
     section = create :section, event: event
 
     suit = create :suit
@@ -28,7 +28,7 @@ feature 'Event competitors', type: :system, js: true do
   end
 
   scenario 'add competitor with new profile' do
-    event = create :event, responsible: user.profile
+    event = create :event, responsible: user
     section = create :section, event: event
 
     suit = create :suit

@@ -1,7 +1,7 @@
 feature 'Event profiles', type: :system do
   scenario 'change name by responsible of event' do
     user = create :user
-    event = create :event, responsible: user.profile
+    event = create :event, responsible: user
 
     profile = create :profile, owner: event
     new_profile_name = 'Ivan Popov'

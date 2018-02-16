@@ -46,4 +46,8 @@ class GuestUser
   def responsible_of_events
     []
   end
+
+  def participant_of_events
+    []
+  end
 end

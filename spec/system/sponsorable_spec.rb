@@ -5,7 +5,7 @@ feature 'Sponsorable', type: :system, js: true do
     user = create :user
     sign_in user
 
-    competition = create :event, responsible: user.profile
+    competition = create :event, responsible: user
     visit event_path(competition)
 
     click_link I18n.t('events.show.add_sponsor')

@@ -23,6 +23,6 @@
 FactoryBot.define do
   factory :tournament do
     sequence(:name) { |n| "Tournament-#{n}" }
-    responsible
+    association :responsible, factory: :user
   end
 end

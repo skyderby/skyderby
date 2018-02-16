@@ -23,6 +23,7 @@ Skyderby::Application.routes.draw do
   end
   scope module: :manage do
     resources :missing_places, only: :index
+    resources :accounts, only: [:index, :show]
   end
 
   resources :track_files, only: [:create, :show] do

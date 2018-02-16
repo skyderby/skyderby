@@ -4,7 +4,7 @@ feature 'Manage tournament competitors', type: :system, js: true do
   scenario 'add competitor with existed profile' do
     sign_in user
 
-    tournament = create :tournament, responsible: user.profile
+    tournament = create :tournament, responsible: user
     profile = create :profile, name: 'Ivan R'
     suit = create :suit
 
@@ -32,7 +32,7 @@ feature 'Manage tournament competitors', type: :system, js: true do
   scenario 'add competitor with new profile' do
     sign_in user
 
-    tournament = create :tournament, responsible: user.profile
+    tournament = create :tournament, responsible: user
     suit = create :suit
     country = create :country, :norway
 
@@ -64,7 +64,7 @@ feature 'Manage tournament competitors', type: :system, js: true do
   scenario 'edit competitor' do
     sign_in user
 
-    tournament = create :tournament, responsible: user.profile
+    tournament = create :tournament, responsible: user
     create :tournament_competitor, tournament: tournament
     suit = create :suit, name: 'awesome'
 
@@ -86,7 +86,7 @@ feature 'Manage tournament competitors', type: :system, js: true do
   scenario 'delete competitor' do
     sign_in user
 
-    tournament = create :tournament, responsible: user.profile
+    tournament = create :tournament, responsible: user
     create :tournament_competitor, tournament: tournament
 
     visit tournament_tournament_competitors_path(tournament)
