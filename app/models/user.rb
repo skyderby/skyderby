@@ -40,7 +40,7 @@ class User < ApplicationRecord
   before_create :assign_default_role
 
   after_initialize do
-    build_profile if new_record?
+    build_profile if new_record? && profile.blank?
   end
 
   delegate :name, to: :profile, allow_nil: true

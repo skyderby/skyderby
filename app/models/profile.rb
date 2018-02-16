@@ -51,6 +51,8 @@ class Profile < ApplicationRecord
   delegate :name, to: :country, prefix: true, allow_nil: true
   delegate :code, to: :country, prefix: true, allow_nil: true
 
+  validates :name, presence: true
+
   validates_attachment_content_type :userpic, content_type:
     ['image/jpeg', 'image/jpg', 'image/png']
 
