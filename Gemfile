@@ -15,7 +15,6 @@ gem 'bootsnap', require: false
 gem 'devise'
 
 # Authorization
-gem 'cancancan'
 gem 'pundit'
 
 # Pagination

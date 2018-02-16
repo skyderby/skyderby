@@ -1,5 +1,5 @@
 .container.top-buffer
-  - if can? :create, VirtualCompetition
+  - if policy(:virtual_competition).create?
     %a.btn.btn-default.btn-info{href: new_virtual_competition_path}
       %i.fa.fa-plus
       = 'Онлайн соревнование'
