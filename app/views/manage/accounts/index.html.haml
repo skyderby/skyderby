@@ -6,7 +6,7 @@
     .index-search__container
       %span.index-search__icon
         %i.fa.fa-search
-      %input.index-search__input{name: 'search', data: { remote: true, url: accounts_path }, placeholder: 'Type to search'}
+      %input.index-search__input{name: 'search', data: { remote: true, url: accounts_path }, placeholder: 'Type to search', value: params[:search]}
 
     .table.accounts__table
       .thead
@@ -17,8 +17,8 @@
       .tbody
         = render partial: 'manage/accounts/account', collection: @accounts, as: :account
 
-    .text-center.top-buffer
-      = will_paginate @accounts, renderer: BootstrapPagination::Rails
+  .accounts__pagination.text-center.top-buffer
+    = will_paginate @accounts, renderer: BootstrapPagination::Rails
 
 - content_for :page_js do
   :javascript
