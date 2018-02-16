@@ -1,11 +1,6 @@
 class TournamentsController < ApplicationController
   before_action :set_tournament, only: [:show, :edit, :update, :destroy]
 
-  def index
-    authorize Tournament
-    @tournaments = Tournament.order('id DESC')
-  end
-
   def show
     authorize @tournament
     if !policy(@tournament).update? && @tournament.rounds.count.zero?
