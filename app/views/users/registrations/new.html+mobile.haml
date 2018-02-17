@@ -8,8 +8,9 @@
           = devise_error_messages!
 
           .form-group
-            = f.label :name
-            = f.text_field :name, class: 'form-control input-lg'
+            = f.fields_for :profile do |fields|
+              = fields.label :name
+              = fields.text_field :name, class: 'form-control input-lg', value: ''
 
           .form-group
             = f.label :email
@@ -26,7 +27,7 @@
             = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control input-lg'
 
           .form-group
-            = f.submit t('devise.registrations.new.sign_up'), class: 'btn btn-primary'
+            = f.submit t('devise.registrations.new.sign_up'), class: 'btn btn-lg btn-primary'
 
           .form-group
             = link_to t('devise.shared.links.didn_t_receive_confirmation_instructions'), new_user_confirmation_path

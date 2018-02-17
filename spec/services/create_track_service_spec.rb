@@ -7,10 +7,9 @@ describe CreateTrackService do
   end
 
   describe 'activity data validation' do
-    it 'raises exception' do
-      expect {
-        CreateTrackService.call(with_missing_activity_data)
-      }.to raise_error(CreateTrackService::MissingActivityData)
+    it 'marks track as require to review' do
+      track = CreateTrackService.call(with_missing_activity_data)
+      expect(track.require_range_review).to be_truthy
     end
   end
 

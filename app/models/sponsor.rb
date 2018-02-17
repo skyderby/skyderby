@@ -18,7 +18,7 @@
 class Sponsor < ApplicationRecord
   belongs_to :sponsorable, polymorphic: true
 
-  validates_presence_of :name, :website
+  validates :name, :website, presence: true
   validates :logo, attachment_presence: true
 
   has_attached_file :logo, styles: { medium: '300x120>' }

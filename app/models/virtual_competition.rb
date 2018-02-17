@@ -28,7 +28,7 @@ class VirtualCompetition < ApplicationRecord
   enum jumps_kind: %i[skydive base]
   enum suits_kind: SuitTypes
   enum discipline:
-    %i[time distance speed distance_in_time distance_in_altitude]
+    %i[time distance speed distance_in_time distance_in_altitude flare]
   enum default_view: %i[default_overall default_last_year]
 
   belongs_to :place, optional: true

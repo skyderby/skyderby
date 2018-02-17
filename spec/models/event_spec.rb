@@ -34,7 +34,7 @@ describe Event do
   end
 
   it 'fill responsible' do
-    expect(event.responsible).to eql(user.profile)
+    expect(event.responsible).to eql(user)
   end
 
   it 'blank responsible does not allowed' do
@@ -42,8 +42,7 @@ describe Event do
   end
 
   def event
-    @event = Event.create!(responsible: user.profile,
-                           starts_at: Date.today)
+    @event = Event.create!(responsible: user, starts_at: Time.zone.today)
   end
 
   describe 'changes visibility of tracks on event visibility change' do
@@ -53,7 +52,7 @@ describe Event do
       competitor = create :competitor, section: section
       round = create :round, event: event
       track = create :empty_track, visibility: Track.visibilities[:unlisted_track]
-      event_track = create :event_track, competitor: competitor, round: round,  track: track
+      event_track = create :event_track, competitor: competitor, round: round, track: track
 
       event.public_event!
       track.reload
@@ -67,7 +66,7 @@ describe Event do
       competitor = create :competitor, section: section
       round = create :round, event: event
       track = create :empty_track, visibility: Track.visibilities[:public_track]
-      event_track = create :event_track, competitor: competitor, round: round,  track: track
+      event_track = create :event_track, competitor: competitor, round: round, track: track
 
       event.private_event!
       track.reload

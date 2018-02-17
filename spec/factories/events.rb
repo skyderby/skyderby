@@ -22,10 +22,10 @@
 FactoryBot.define do
   factory :event do
     sequence(:name) { |n| "Event#{n}" }
-    starts_at Date.today
+    starts_at Time.zone.today
     range_from 3000
     range_to 2000
-    responsible
+    association :responsible, factory: :user
 
     trait :place_specific do
       place

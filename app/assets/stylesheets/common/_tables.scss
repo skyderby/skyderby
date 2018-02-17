@@ -20,6 +20,10 @@ $table-border-width: 1px;
 .tbody { display: table-row-group }
 
 .tr { display: table-row; }
+a.tr {
+  color: rgb(51, 51, 51);
+  text-decoration: none;
+}
 
 .td {
   vertical-align: top;

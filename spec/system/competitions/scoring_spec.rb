@@ -66,7 +66,6 @@ feature 'Scoring tracks in competitions', type: :system do
     expect(event_track.result).to be_within(0.1).of(133.2)
   end
 
-
   def create_competition
     @event ||= create(:event)
   end

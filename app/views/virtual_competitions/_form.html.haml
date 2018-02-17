@@ -49,25 +49,10 @@
   .form-group
     = f.label :discipline, class: 'col-sm-2 control-label', for: :discipline
     .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
-      %label.btn.btn-default{ class:  ('active' if @competition.distance?) }
-        = f.radio_button 'discipline', 'distance'
-        = 'Distance'
-
-      %label.btn.btn-default{ class:  ('active' if @competition.speed?) }
-        = f.radio_button 'discipline', 'speed'
-        = 'Speed'
-
-      %label.btn.btn-default{ class:  ('active' if @competition.time?) }
-        = f.radio_button 'discipline', 'time'
-        = 'Time'
-
-      %label.btn.btn-default{ class:  ('active' if @competition.distance_in_time?) }
-        = f.radio_button 'discipline', 'distance_in_time'
-        = 'Distance in time'
-
-      %label.btn.btn-default{ class:  ('active' if @competition.distance_in_altitude?) }
-        = f.radio_button 'discipline', 'distance_in_altitude'
-        = 'Distance in altitude'
+      - VirtualCompetition.disciplines.keys.each do |discipline|
+        %label.btn.btn-default{class:  ('active' if (@competition.discipline == discipline))}
+          = f.radio_button 'discipline', discipline
+          = discipline.humanize
 
   .form-group
     = f.label :discipline_parameter, class: 'col-sm-2 control-label', for: :discipline_parameter

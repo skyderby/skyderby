@@ -1,11 +1,6 @@
 class TournamentsController < ApplicationController
   before_action :set_tournament, only: [:show, :edit, :update, :destroy]
 
-  def index
-    authorize Tournament
-    @tournaments = Tournament.order('id DESC')
-  end
-
   def show
     authorize @tournament
     if !policy(@tournament).update? && @tournament.rounds.count.zero?
@@ -25,6 +20,7 @@ class TournamentsController < ApplicationController
   def create
     authorize Tournament
     @tournament = Tournament.new(tournament_params)
+    @tournament.responsible = current_user
 
     if @tournament.save
       redirect_to @tournament, notice: 'Tournament was successfully created.'

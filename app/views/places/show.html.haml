@@ -9,7 +9,7 @@
             %h1
               = @place.name
               %small
-                - if can? :update, @place
+                - if policy(@place).edit?
                   |
                   %a{href: edit_place_path(@place)}
                     %i.fa.fa-pencil

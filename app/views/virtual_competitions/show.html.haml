@@ -1,7 +1,7 @@
 - provide :title, @competition.title
 
 .container.top-buffer
-  - if can? :update, @competition
+  - if policy(@competition).edit?
     .card-action
       .position-right
         = link_to edit_virtual_competition_path(@competition), class: 'btn-flat' do
@@ -30,7 +30,7 @@
           %h4= t('events.show.event_sponsors') + ':'
     .row#sponsors
       = render @competition.sponsors
-    - if can? :edit, @competition
+    - if policy(@competition).edit?
       = link_to new_virtual_competition_sponsor_path(virtual_competition_id: @competition.id), remote: true, class: 'add-sponsor' do
         %i.fa.fa-plus
         = t('.add_sponsor')

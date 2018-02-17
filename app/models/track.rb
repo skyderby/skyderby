@@ -5,7 +5,7 @@
 #  id                                    :integer          not null, primary key
 #  name                                  :string(510)
 #  created_at                            :datetime
-#  lastviewed_at                         :datetime
+#  updated_at                            :datetime
 #  suit                                  :string(510)
 #  comment                               :text
 #  location                              :string(510)
@@ -83,7 +83,7 @@ class Track < ApplicationRecord
 
   def msl_offset
     @msl_offset ||= begin
-      if ground_level && ground_level > 0
+      if ground_level&.positive?
         ground_level
       elsif place_msl
         place_msl
@@ -147,7 +147,7 @@ class Track < ApplicationRecord
     end
 
     def accessible_by(user)
-      return public_track unless user && user.profile
+      return public_track unless user&.profile
 
       if user.has_role? :admin
         where('1 = 1')

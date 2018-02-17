@@ -5,7 +5,9 @@ class TracksController < ApplicationController
   before_action :set_track, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tracks = Track.accessible_by(current_user)
+    authorize Track
+
+    @tracks = policy_scope(Track.all)
 
     @tracks = TrackFilter.new(index_params[:query]).apply(@tracks)
     @tracks = TrackOrder.new(index_params[:order]).apply(@tracks)
@@ -26,26 +28,29 @@ class TracksController < ApplicationController
   end
 
   def show
-    authorize! :read, @track
+    authorize @track
 
     process_range if params[:range]
 
     @track_presenter = Tracks::PresenterBuilder.new.call(@track, params, session)
 
     respond_to do |format|
-      format.html { LastViewedUpdateJob.perform_later(@track.id) }
+      format.html
       format.js
       format.json { @track_data }
     end
   end
 
   def edit
-    redirect_to @track unless can? :update, @track
+    authorize @track
+
     @track_data = Skyderby::Tracks::EditData.new(@track)
+  rescue Pundit::NotAuthorizedError
+    redirect_to @track
   end
 
   def update
-    authorize! :update, @track
+    authorize @track
 
     if @track.update(track_params)
       [ResultsJob, OnlineCompetitionJob, WeatherCheckingJob].each do |job|
@@ -59,21 +64,13 @@ class TracksController < ApplicationController
   end
 
   def destroy
-    authorize! :destroy, @track
+    authorize @track
 
     @track.destroy
     redirect_to tracks_url
   end
 
-  rescue_from ActiveRecord::RecordNotFound do |_exception|
-    track_not_found
-  end
-
-  rescue_from CanCan::AccessDenied do |_exception|
-    track_not_found
-  end
-
-  def track_not_found
+  rescue_from ActiveRecord::RecordNotFound, Pundit::NotAuthorizedError do |_ex|
     redirect_to tracks_url, notice: t('tracks.index.track_not_found',
                                       id: params[:id])
   end

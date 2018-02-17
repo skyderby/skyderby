@@ -21,29 +21,32 @@
 #  unconfirmed_email      :string(510)
 #
 
-RSpec.describe User, type: :model do
-  let(:visitor) do
-    @visitor ||= {
-      name: 'Testy McUserton',
-      email: 'example@example.com',
-      password: 'changeme',
-      password_confirmation: 'changeme'
-    }
-  end
-
-  context 'creating new user' do
-    before do
-      Role.create! name: 'user'
-    end
-
-    subject { User.create!(visitor) }
-
+describe User, type: :model do
+  describe '#create' do
     it 'assigns default role' do
-      expect(subject.has_role? :user).to be_truthy
+      expect(user.has_role?(:user)).to be_truthy
     end
 
     it 'creates profile' do
-      expect(subject.profile).not_to be_nil
+      expect(user.profile).not_to be_nil
     end
+
+    def user
+      @user ||= begin
+        Role.find_or_create_by(name: 'user')
+
+        User.create! email: 'example@example.com',
+                     password: 'changeme',
+                     password_confirmation: 'changeme',
+                     profile_attributes: { name: 'Testy McUserton' }
+      end
+    end
+  end
+
+  it '#responsible_of_events' do
+    user = create :user
+    event = create :event, responsible: user
+
+    expect(user.responsible_of_events).to include event
   end
 end

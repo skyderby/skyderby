@@ -1,0 +1,8 @@
+production: &default
+  url: <%= ENV['TRACK_SCANNER_URL'] %>
+
+development:
+  <<: *default
+
+test:
+  <<: *default

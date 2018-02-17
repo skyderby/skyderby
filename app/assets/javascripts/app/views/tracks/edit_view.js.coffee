@@ -8,7 +8,10 @@ class Skyderby.views.TrackEditView extends Backbone.View
     'click .toggle-suit'         : 'on_toggle_suit_mode',
     'click .toggle-place'        : 'on_toggle_place_mode',
     'click .toggle-profile'      : 'on_toggle_pilot_mode',
-    'click input[type="submit"]' : 'on_click_submit'
+    'click input[type="submit"]' : 'on_click_submit',
+    'change #time-selector'      : 'on_change_range'
+    'ajax:beforeSend .track-edit__refresh-range': 'on_refresh_start'
+    'ajax:complete .track-edit__refresh-range': 'on_refresh_complete'
 
   initialize: (opts) ->
     @max_rel_time = opts.max_rel_time
@@ -74,6 +77,17 @@ class Skyderby.views.TrackEditView extends Backbone.View
 
     @$('#ff_start').val(range_from)
     @$('#ff_end').val(range_to)
+
+  on_change_range: (e, from, to) ->
+    $(e.currentTarget).ionRangeSlider('update', { from: from, to: to })
+    @set_plot_bands(from, to)
+    console.log(e, from, to)
+
+  on_refresh_start: (e) ->
+    $(e.currentTarget).find('i').addClass('fa-spin')
+
+  on_refresh_complete: (e) ->
+    $(e.currentTarget).find('i').removeClass('fa-spin')
 
   on_toggle_suit_mode: (e) ->
     e.preventDefault()

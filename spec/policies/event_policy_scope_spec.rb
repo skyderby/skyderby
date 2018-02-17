@@ -12,7 +12,7 @@ describe EventPolicy do
 
       it "#{status} #{visibility} events" do
         event = create(:event, status: Event.statuses[status], visibility: Event.visibilities[visibility])
-        current_user = nil
+        current_user = GuestUser.new({})
 
         expect(EventPolicy::Scope.new(current_user, Event).resolve).to include(event)
       end
@@ -32,7 +32,7 @@ describe EventPolicy do
 
       it "#{status} #{visibility} events" do
         event = create(:event, status: Event.statuses[status], visibility: Event.visibilities[visibility])
-        current_user = nil
+        current_user = GuestUser.new({})
 
         expect(EventPolicy::Scope.new(current_user, Event).resolve).not_to include(event)
       end
@@ -59,7 +59,7 @@ describe EventPolicy do
       it "#{status} #{visibility} events" do
         current_user = create(:user)
         event = create(:event,
-                       responsible: current_user.profile,
+                       responsible: current_user,
                        status: Event.statuses[status],
                        visibility: Event.visibilities[visibility])
 

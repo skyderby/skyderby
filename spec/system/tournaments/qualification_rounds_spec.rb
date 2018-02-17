@@ -3,7 +3,7 @@ feature 'Qualification rounds', type: :system, js: true do
     sign_in user
 
     tournament = create :tournament,
-                        responsible: user.profile,
+                        responsible: user,
                         has_qualification: true
 
     visit tournament_qualification_path(tournament)
@@ -16,7 +16,7 @@ feature 'Qualification rounds', type: :system, js: true do
     sign_in user
 
     tournament = create :tournament,
-                        responsible: user.profile,
+                        responsible: user,
                         has_qualification: true
 
     create :qualification_round, tournament: tournament

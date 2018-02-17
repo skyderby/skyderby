@@ -5,10 +5,11 @@
     = devise_error_messages!
 
     .form-group
-      = f.label :name, class: 'col-sm-2 control-label'
-      .col-sm-6
-        = f.text_field :name, class: 'form-control', 
-          placeholder: t('activerecord.attributes.user.name_placeholder')
+      = f.fields_for :profile do |fields|
+        = fields.label :name, class: 'col-sm-2 control-label'
+        .col-sm-6
+          = fields.text_field :name, class: 'form-control', value: '',
+            placeholder: t('activerecord.attributes.user.name_placeholder')
 
     .form-group
       = f.label :email, class: 'col-sm-2 control-label'
@@ -37,7 +38,7 @@
   :javascript
     $('.new-user-form').validate({
       rules: {
-        'user[name]': {
+        'user[profile_attributes][name]': {
           minlength: 3,
           required: true
         },

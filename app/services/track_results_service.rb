@@ -1,8 +1,8 @@
 class TrackResultsService
   attr_reader :track
 
-  def initialize(trk)
-    @track = trk
+  def initialize(track)
+    @track = track
   end
 
   def execute
@@ -19,22 +19,18 @@ class TrackResultsService
     [:speed, :distance, :time].each do |task|
       best_task_result = track_segments.max_by { |x| x.public_send(task) }
       track.track_results.create!(discipline: task,
-                                 range_from: best_task_result.start_altitude,
-                                 range_to:   best_task_result.end_altitude,
-                                 result:     best_task_result.public_send(task))
+                                  range_from: best_task_result.start_altitude,
+                                  range_to:   best_task_result.end_altitude,
+                                  result:     best_task_result.public_send(task))
     end
   end
 
   private
 
   def track_points
-    @track_points ||=
-      track.points.trimmed.pluck_to_hash(
-        'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
-        "#{@track.point_altitude_field} AS altitude",
-        :latitude,
-        :longitude
-      )
+    @track_points ||= PointsQuery.execute track,
+                                          trimmed: true,
+                                          only: %i[gps_time altitude latitude longitude]
   end
 
   def ranges_to_score

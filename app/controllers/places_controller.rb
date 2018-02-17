@@ -1,11 +1,9 @@
 class PlacesController < ApplicationController
-  before_action :set_place, only: [:show, :edit, :update]
-
-  load_and_authorize_resource
-
-  respond_to :json, :html
+  before_action :set_place, only: [:show, :edit, :update, :destroy]
 
   def index
+    authorize Place
+
     @places = Place
               .joins(:country)
               .joins('LEFT JOIN (' + tracks_query + ') tracks_count
@@ -24,11 +22,11 @@ class PlacesController < ApplicationController
     if params[:query]
       @places = @places.search(params[:query][:term]) if params[:query][:term]
     end
-
-    respond_with @places
   end
 
   def show
+    authorize @place
+
     respond_to do |format|
       format.json
       format.html do
@@ -49,13 +47,19 @@ class PlacesController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    authorize @place
+  end
 
   def new
+    authorize :place
+
     @place = Place.new
   end
 
   def create
+    authorize :place
+
     @place = Place.new place_params
     respond_to do |format|
       if @place.save
@@ -69,6 +73,8 @@ class PlacesController < ApplicationController
   end
 
   def update
+    authorize @place
+
     if @place.update place_params
       redirect_to places_path
     else
@@ -77,6 +83,8 @@ class PlacesController < ApplicationController
   end
 
   def destroy
+    authorize @place
+
     @place.destroy
     redirect_to places_path
   end

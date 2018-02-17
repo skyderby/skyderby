@@ -6,9 +6,10 @@ class EventsController < ApplicationController
   def index
     authorize Event
 
-    @events = EventList.includes(event: { place: :country })
-                       .visible_to(current_user)
-                       .paginate(page: params[:page], per_page: 20)
+    @events =
+      policy_scope(EventList.all)
+      .includes(event: { place: :country })
+      .paginate(page: params[:page], per_page: 20)
   end
 
   def new
@@ -20,7 +21,7 @@ class EventsController < ApplicationController
     authorize Event
 
     @event = Event.new event_params
-    @event.responsible = current_user.profile
+    @event.responsible = current_user
     if @event.save
       respond_to do |format|
         format.html { redirect_to @event }

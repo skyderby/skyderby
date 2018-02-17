@@ -2,7 +2,12 @@ module TrackFiles
   class TracksController < ApplicationController
     def create
       @track = build_track
-      redirect_to edit_track_path(@track)
+
+      unless current_user.registered?
+        current_user.tracks << @track.id
+      end
+
+      redirect_to track_path(@track)
     end
 
     private
@@ -10,7 +15,7 @@ module TrackFiles
     def build_track
       track_attributes = track_params[:track_attributes].merge(
         track_file: track_file,
-        user: current_user
+        user: (current_user if current_user.registered?)
       )
 
       CreateTrackService.call(track_attributes, segment: params[:segment])

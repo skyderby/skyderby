@@ -1,7 +1,7 @@
 describe EventPolicy do
   describe '#index?' do
     it 'allowed to guest user' do
-      expect(EventPolicy.new(nil, Event).index?).to be_truthy
+      expect(EventPolicy.new(guest_user, Event).index?).to be_truthy
     end
 
     it 'allowed to registered user' do
@@ -11,7 +11,7 @@ describe EventPolicy do
 
   describe '#create?' do
     it 'not allowed to guest user' do
-      expect(EventPolicy.new(nil, Event).create?).to be_falsey
+      expect(EventPolicy.new(guest_user, Event).create?).to be_falsey
     end
 
     it 'allowed to registered user' do
@@ -40,9 +40,9 @@ describe EventPolicy do
                          visibility: Event.visibilities[set[:visibility]])
 
           if set[:guest]
-            expect(EventPolicy.new(nil, event).show?).to be_truthy
+            expect(EventPolicy.new(guest_user, event).show?).to be_truthy
           else
-            expect(EventPolicy.new(nil, event).show?).to be_falsey
+            expect(EventPolicy.new(guest_user, event).show?).to be_falsey
           end
         end
 
@@ -58,7 +58,7 @@ describe EventPolicy do
           end
         end
 
-        it "#{'not ' unless set[:registered]}allowed to participants" do
+        it "#{'not ' unless set[:participant]}allowed to participants" do
           event = create(:event,
                          status: Event.statuses[set[:status]],
                          visibility: Event.visibilities[set[:visibility]])
@@ -67,7 +67,7 @@ describe EventPolicy do
           was_finished = event.finished?
           event.published! if was_finished
 
-          competitor = create(:competitor, event: event, profile: user.profile)
+          create :competitor, event: event, profile: user.profile
 
           event.finished! if was_finished
 
@@ -82,7 +82,7 @@ describe EventPolicy do
           event = create(:event,
                          status: Event.statuses[set[:status]],
                          visibility: Event.visibilities[set[:visibility]],
-                         responsible: user.profile)
+                         responsible: user)
 
           if set[:organizer]
             expect(EventPolicy.new(user, event).show?).to be_truthy
@@ -98,7 +98,7 @@ describe EventPolicy do
     it 'not allowed to guest user' do
       event = create(:event)
 
-      expect(EventPolicy.new(nil, event).update?).to be_falsey
+      expect(EventPolicy.new(guest_user, event).update?).to be_falsey
     end
 
     it 'not allowed to guest user' do
@@ -108,8 +108,7 @@ describe EventPolicy do
     end
 
     it 'allowed to responsible' do
-      event = create(:event,
-                     responsible: user.profile)
+      event = create(:event, responsible: user)
 
       expect(EventPolicy.new(user, event).update?).to be_truthy
     end
@@ -117,7 +116,7 @@ describe EventPolicy do
     it 'allowed to organizer' do
       event = create(:event)
 
-      organizer = create :event_organizer, event: event, profile: user.profile
+      create :event_organizer, organizable: event, profile: user.profile
 
       expect(EventPolicy.new(user, event).update?).to be_truthy
     end
@@ -127,7 +126,7 @@ describe EventPolicy do
     it 'not allowed to guest user' do
       event = create(:event)
 
-      expect(EventPolicy.new(nil, event).destroy?).to be_falsey
+      expect(EventPolicy.new(guest_user, event).destroy?).to be_falsey
     end
 
     it 'not allowed to guest user' do
@@ -139,14 +138,13 @@ describe EventPolicy do
     it 'not allowed to organizer' do
       event = create(:event)
 
-      organizer = create :event_organizer, event: event, profile: user.profile
+      create :event_organizer, organizable: event, profile: user.profile
 
       expect(EventPolicy.new(user, event).destroy?).to be_falsey
     end
 
     it 'allowed to responsible' do
-      event = create(:event,
-                     responsible: user.profile)
+      event = create :event, responsible: user
 
       expect(EventPolicy.new(user, event).destroy?).to be_truthy
     end
@@ -154,5 +152,9 @@ describe EventPolicy do
 
   def user
     @user ||= create :user
+  end
+
+  def guest_user
+    @guest_user ||= GuestUser.new({})
   end
 end

@@ -22,20 +22,29 @@
 #
 
 class User < ApplicationRecord
-  attr_accessor :name
-
-  has_one :profile, as: :owner, dependent: :nullify
-
-  has_many :competitors
-  has_many :events, through: :competitors
-
   has_many :assignments, dependent: :destroy
   has_many :roles, through: :assignments
 
-  scope :admins, -> { joins(:assignments).where(assignments: { role: Role.admin }) }
-  before_create :build_profile, :assign_default_role
+  has_one :profile, as: :owner, dependent: :nullify, inverse_of: :owner
 
-  delegate :organizer_of_events, to: :profile, allow_nil: true
+  has_many :responsible_of_events,
+           class_name: 'Event',
+           foreign_key: 'responsible_id',
+           dependent: :nullify,
+           inverse_of: :responsible
+
+  scope :admins, -> { joins(:assignments).where(assignments: { role: Role.admin }) }
+
+  accepts_nested_attributes_for :profile
+
+  before_create :assign_default_role
+
+  after_initialize do
+    build_profile if new_record? && profile.blank?
+  end
+
+  delegate :name, to: :profile, allow_nil: true
+  delegate :organizer_of_events, :participant_of_events, to: :profile, allow_nil: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -46,6 +55,10 @@ class User < ApplicationRecord
     roles.any? { |r| r.name.underscore.to_sym == role_sym }
   end
 
+  def registered?
+    true
+  end
+
   # Using ActiveJob to deliver messages in background
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
@@ -53,11 +66,19 @@ class User < ApplicationRecord
 
   private
 
-  def build_profile
-    create_profile(name: name)
-  end
-
   def assign_default_role
     assignments << Assignment.new(role: Role.find_by(name: 'user'))
+  end
+
+  class << self
+    def search(query)
+      return all if query.blank?
+
+      relation = left_outer_joins(:profile)
+
+      relation.where('LOWER(email) LIKE LOWER(?)', "%#{query}%")
+              .or(relation.where('users.id = ?', query.to_i))
+              .or(relation.where('LOWER(profiles.name) LIKE LOWER(?)', "%#{query}%"))
+    end
   end
 end

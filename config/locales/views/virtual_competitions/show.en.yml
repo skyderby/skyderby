@@ -12,6 +12,7 @@ en:
       distance_in_altitude: Task is to fly as far as possible using %{parameter} meters of altitude
       straightline_distance_in_time: Task is to fly as far as possible in %{parameter} sec. Distance measuring as a straight-line.
       time: Task is to fly with the slowest fall rate possible through the competition window (%{range_from} - %{range_to} m)
+      flare: Task is to gain as much altitude as possible
     place: 'Location:'
     worldwide: Worldwide
     suit: 'Suit type: %{suit}'

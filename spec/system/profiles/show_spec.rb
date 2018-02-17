@@ -11,7 +11,7 @@ feature 'Show profile', type: :system do
     profile = create :profile, owner: event
 
     visit profile_path(profile)
-    
+
     expect(page).to have_content(profile.name)
   end
 end

@@ -1,24 +1,24 @@
-class Tracks::MapsController < ApplicationController
-  before_action :set_track, :authorize_track
+module Tracks
+  class MapsController < ApplicationController
+    before_action :set_track
 
-  def show
-    respond_to do |format|
-      format.html {}
-      format.json { @track_data = Skyderby::Tracks::MapsData.new(@track) }
+    def show
+      authorize @track
+
+      respond_to do |format|
+        format.html {}
+        format.json { @track_data = Skyderby::Tracks::MapsData.new(@track) }
+      end
     end
-  end
 
-  private
+    private
 
-  def authorize_track
-    authorize! :show, @track
-  end
-
-  def set_track
-    @track = Track.includes(
-      :video,
-      { suit: :manufacturer },
-      { place: :country }
-    ).find(params[:track_id])
+    def set_track
+      @track = Track.includes(
+        :video,
+        { suit: :manufacturer },
+        { place: :country }
+      ).find(params[:track_id])
+    end
   end
 end

@@ -1,0 +1,30 @@
+.index-search__container {
+  padding-top: 5px;
+  padding-bottom: 15px;
+  display: table;
+  width: 100%;
+}
+
+.index-search__icon {
+  display: table-cell;
+  background-color: #f7f7f9;
+  color: #999;
+  width: 34px;
+  height: 34px;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 4px 0px 0px 4px;
+}
+
+.index-search__input {
+  display: table-cell;
+  background-color: #f7f7f9;
+  color: #777;
+  height: 34px;
+  width: 100%;
+  padding-left: 5px;
+  padding-right: 5px;
+  border: none;
+  border-radius: 0px 4px 4px 0px;
+  outline: none;
+}

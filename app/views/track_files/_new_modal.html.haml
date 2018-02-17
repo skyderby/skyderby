@@ -32,7 +32,7 @@
             .form-group
               = builder.label :name, t('activerecord.attributes.track.name'), class: 'col-sm-3 control-label'
               .col-sm-9
-                - if current_user
+                - if user_signed_in?
                   %p.form-control-static= current_user.profile.name
                 - else
                   = builder.text_field :name, 

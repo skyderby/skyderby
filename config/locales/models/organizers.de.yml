@@ -1,0 +1,14 @@
+de:
+  activerecord:
+    models:
+      organizer: Organisator
+    attributes:
+      organizer:
+        profile: Profil
+    errors:
+      models:
+        organizer:
+          attributes:
+            profile: Es muss ein Profil ausgewählt werden
+            base:
+              event_finished: Es können keine Änderungen mehr gemacht werden, da der Wettbewerb bereits beendet ist.

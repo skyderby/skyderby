@@ -36,7 +36,7 @@
       - else
         %span= track.location
   .pull-right
-    - if user_signed_in? && (current_user == track.user || (can? :update, :tracks))
+    - if policy(track).edit?
       %a.btn-flat.btn-tab{href: edit_track_path(track)}
         %i.fa.fa-pencil
 
@@ -54,7 +54,7 @@
           = link_to track_video_path(track) do
             %i.fa.fa-play-circle-o
             = 'Video'
-        - elsif can? :edit, track
+        - elsif policy(track).edit?
           = link_to new_track_video_path(track) do
             %i.fa.fa-play-circle-o
             = 'Video'

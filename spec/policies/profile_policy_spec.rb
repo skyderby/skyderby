@@ -25,7 +25,7 @@ describe ProfilePolicy do
 
     it 'allowed to responsible of event' do
       user = create :user
-      event = create :event, responsible: user.profile
+      event = create :event, responsible: user
 
       profile = create :profile, owner: event
       expect(ProfilePolicy.new(user, profile).update?).to be_truthy
@@ -34,7 +34,7 @@ describe ProfilePolicy do
     it 'allowed to organizer of event' do
       user = create :user
       event = create :event
-      organizer = create :event_organizer, event: event, profile: user.profile
+      organizer = create :event_organizer, organizable: event, profile: user.profile
 
       profile = create :profile, owner: event
       expect(ProfilePolicy.new(user, profile).update?).to be_truthy

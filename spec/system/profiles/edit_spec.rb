@@ -17,6 +17,6 @@ feature 'Edit profile', type: :system do
     profile = create :profile
     visit edit_profile_path(profile)
 
-    expect(page).to have_css('div.alert', text: 'You are not authorized to access this page')
+    expect(page).to have_content('You are not authorized to access this page')
   end
 end

@@ -3,7 +3,7 @@ feature 'Qualification jumps', type: :system, js: true do
     user = create :user
     sign_in user
 
-    tournament = create_tournament(responsible: user.profile)
+    tournament = create_tournament responsible: user
     create :qualification_round, tournament: tournament
     create :tournament_competitor, tournament: tournament
 

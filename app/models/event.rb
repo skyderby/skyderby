@@ -24,13 +24,11 @@ class Event < ApplicationRecord
   enum rules: [:speed_distance_time, :fai, :hungary_boogie]
   enum visibility: [:public_event, :unlisted_event, :private_event]
 
-  belongs_to :responsible,
-             class_name: 'Profile',
-             foreign_key: 'profile_id'
+  belongs_to :responsible, class_name: 'User'
 
   belongs_to :place, optional: true
 
-  has_many :event_organizers
+  has_many :organizers, as: :organizable, dependent: :delete_all
   has_many :sections, -> { order(:order) }
   has_many :competitors
   has_many :rounds, -> { order(:name) }

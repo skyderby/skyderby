@@ -1,5 +1,9 @@
 en:
   static_pages:
+    online_competitions_section:
+      competitions_header:
+        base: BASE competitions
+        skydive: Skydive competitions
     index:
       title: "Fly! Compete! Win!"
       subtitle: "It's still Beta"

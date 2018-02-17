@@ -12,7 +12,8 @@ class TournamentPolicy < ApplicationPolicy
   end
 
   def organizer?
-    return false unless user&.profile
-    record.responsible == user.profile
+    return false unless user.registered?
+
+    record.responsible == user
   end
 end

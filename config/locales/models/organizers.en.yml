@@ -1,0 +1,14 @@
+en:
+  activerecord:
+    models:
+      organizer: Organizer
+    attributes:
+      organizer:
+        profile: Profile
+    errors:
+      models:
+        organizer:
+          attributes:
+            profile: Profile can't be blank
+            base:
+              event_finished: Changes couldn't be made because event is finished.

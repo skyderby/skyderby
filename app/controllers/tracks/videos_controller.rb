@@ -16,7 +16,7 @@ module Tracks
     end
 
     def show
-      authorize! :show, @track
+      authorize @track
 
       redirect_to @track unless @track.video
       @track_data = Tracks::VideoPresenter.new(@track)
@@ -62,7 +62,7 @@ module Tracks
     private
 
     def authorize_edit
-      authorize! :edit, @track
+      authorize @track, :edit?
     end
 
     def set_chart_data

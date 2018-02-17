@@ -1,7 +1,7 @@
 feature 'Deletion event', type: :system, js: true do
   scenario 'responsible delete his own competition' do
     user = create :user
-    event = create :event, name: 'event_to_delete', responsible: user.profile
+    event = create :event, name: 'event_to_delete', responsible: user
 
     sign_in user
     visit event_path(event)

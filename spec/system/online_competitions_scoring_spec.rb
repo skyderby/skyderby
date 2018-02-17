@@ -3,7 +3,7 @@ require 'sidekiq/testing'
 feature 'Scoring tracks in online competitions', type: :system do
   before do
     # admin user required for generating email
-    create :user, email: 'admin@example.rb', name: 'Admin'
+    create :user, email: 'admin@example.rb'
   end
 
   scenario 'Distance in time competition' do

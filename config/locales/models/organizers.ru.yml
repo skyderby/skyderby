@@ -1,0 +1,14 @@
+ru:
+  activerecord:
+    models:
+      organizer: Организатор
+    attributes:
+      organizer:
+        profile: Профиль
+    errors:
+      models:
+        organizer:
+          attributes:
+            profile: Профиль должен быть заполнен
+            base:
+              event_finished: Изменения не могут быть выполнены, т.к. соревнование завершено.
