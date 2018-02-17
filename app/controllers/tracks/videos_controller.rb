@@ -1,7 +1,6 @@
 module Tracks
   class VideosController < ApplicationController
-    load_resource :track
-    before_action :set_chart_data
+    before_action :set_track, :set_chart_data
     before_action :authorize_edit, except: :show
 
     def new
@@ -60,6 +59,10 @@ module Tracks
     end
 
     private
+
+    def set_track
+      @track = Track.find(params[:track_id])
+    end
 
     def authorize_edit
       authorize @track, :edit?
