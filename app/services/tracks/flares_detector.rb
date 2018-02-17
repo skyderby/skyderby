@@ -72,6 +72,8 @@ module Tracks
       if current[:v_speed].negative?
         current[:altitude] - prev[:altitude]
       else
+        # In case vertical speed shows it descending and altitude
+        # change shows it is gain (positive change) make it negative
         -(current[:altitude] - prev[:altitude]).abs
       end
     end
