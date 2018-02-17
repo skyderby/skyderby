@@ -1,7 +1,5 @@
 module Tracks
   class GlobeController < ApplicationController
-    before_action :authorize_track
-
     def show
       @track = Track.find(params[:track_id])
 
