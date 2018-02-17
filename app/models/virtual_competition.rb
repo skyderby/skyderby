@@ -37,10 +37,10 @@ class VirtualCompetition < ApplicationRecord
              foreign_key: 'virtual_comp_group_id'
 
   has_one :best_result, -> { order('result DESC') }, class_name: 'VirtualCompResult'
-  has_many :virtual_comp_results
-  has_many :personal_top_scores
-  has_many :annual_top_scores
-  has_many :sponsors, -> { order(:created_at) }, as: :sponsorable
+  has_many :virtual_comp_results, dependent: :delete_all
+  has_many :personal_top_scores  # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :annual_top_scores    # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :sponsors, -> { order(:created_at) }, as: :sponsorable, inverse_of: :sponsorable, dependent: :delete_all
 
   scope :by_suit_type, ->(type)     { where(suits_kind: VirtualCompetition.suits_kinds[type]).or(where(suits_kind: nil)) }
   scope :by_activity,  ->(activity) { where(jumps_kind: VirtualCompetition.jumps_kinds[activity]).or(where(jumps_kind: nil)) }
@@ -80,6 +80,6 @@ class VirtualCompetition < ApplicationRecord
   end
 
   def last_year
-    [period_to.year, DateTime.current.year].min
+    [period_to.year, Date.current.year].min
   end
 end
