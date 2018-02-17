@@ -2,10 +2,11 @@ FROM ruby:2.5
 
 MAINTAINER Aleksandr Kunin <skyksandr@gmail.com>
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        nodejs \
-        postgresql-client \
+RUN apt-get update -qq && apt-get install -y -qq apt-transport-https ca-certificates \
+    && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+    && curl -sL https://deb.nodesource.com/setup_6.x | bash - \
+    && apt-get install -y -qq --no-install-recommends postgresql-client nodejs yarn \
     && rm -rf /var/lib/apt/lists/*
 
 RUN echo "gem: --no-rdoc --no-ri" >> ~/.gemrc

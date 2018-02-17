@@ -14,10 +14,10 @@
 //= require jquery_ujs
 //= require jquery.remotipart
 //= require turbolinks
-//= require bootstrap-datepicker/core
-//= require bootstrap-datepicker/locales/bootstrap-datepicker.ru.js
-//= require bootstrap-datepicker/locales/bootstrap-datepicker.de.js
-//= require bootstrap-datepicker/locales/bootstrap-datepicker.es.js
+//= require bootstrap-datepicker/js/bootstrap-datepicker
+//= require bootstrap-datepicker/js/locales/bootstrap-datepicker.ru.js
+//= require bootstrap-datepicker/js/locales/bootstrap-datepicker.de.js
+//= require bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js
 //= require bootstrap/alert
 //= require bootstrap/button
 //= require bootstrap/dropdown
@@ -35,8 +35,8 @@
 //= require backbone
 //= require backbone_rails_sync
 //= require backbone_datalink
-//= require highcharts
-//= require highcharts-more
+//= require highcharts/highcharts
+//= require highcharts/highcharts-more
 //= require jquery.Jcrop
 //= require geospatial
 //= require app/app
