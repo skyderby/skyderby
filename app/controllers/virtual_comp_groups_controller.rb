@@ -1,23 +1,29 @@
 class VirtualCompGroupsController < ApplicationController
   before_action :set_virtual_comp_group, only: [:show, :edit, :update, :destroy]
 
-  load_and_authorize_resource
-
   def index
+    authorize VirtualCompGroup
+
     @virtual_comp_groups = VirtualCompGroup.order(:name)
   end
 
   def show
+    authorize @virtual_comp_group
   end
 
   def new
+    authorize :virtual_comp_group
+
     @virtual_comp_group = VirtualCompGroup.new
   end
 
   def edit
+    authorize @virtual_comp_group
   end
 
   def create
+    authorize :virtual_comp_group
+
     @virtual_comp_group = VirtualCompGroup.new(virtual_comp_group_params)
 
     if @virtual_comp_group.save
@@ -28,6 +34,8 @@ class VirtualCompGroupsController < ApplicationController
   end
 
   def update
+    authorize @virtual_comp_group
+
     if @virtual_comp_group.update(virtual_comp_group_params)
       redirect_to @virtual_comp_group, notice: 'Virtual comp group was successfully updated.'
     else
@@ -36,6 +44,8 @@ class VirtualCompGroupsController < ApplicationController
   end
 
   def destroy
+    authorize @virtual_comp_group
+
     @virtual_comp_group.destroy
     redirect_to virtual_comp_groups_url
   end
