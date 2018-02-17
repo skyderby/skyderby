@@ -45,7 +45,6 @@ gem 'i18n-js', '>= 3.0.0.rc8'
 gem 'browser'
 
 # Assets
-gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-sass', '~> 3.3.7'
 gem 'coffee-rails'
 gem 'font-awesome-sass', '~> 4.7.0'

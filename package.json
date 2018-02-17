@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "bootstrap-datepicker": "^1.7.1",
+    "highcharts": "^6.0.7"
+  }
+}

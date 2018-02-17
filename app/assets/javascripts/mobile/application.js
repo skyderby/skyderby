@@ -15,8 +15,8 @@
 //= require select2.full
 //= require ion.rangeSlider
 //= require i18n/translations
-//= require highcharts
-//= require highcharts-more
+//= require highcharts/highcharts
+//= require highcharts/highcharts-more
 //= require underscore
 //= require backbone
 //= require backbone_rails_sync
