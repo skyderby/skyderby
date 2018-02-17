@@ -42,8 +42,8 @@ class VirtualCompetition < ApplicationRecord
   has_many :annual_top_scores
   has_many :sponsors, -> { order(:created_at) }, as: :sponsorable
 
-  scope :by_suit_type, ->(type)     { where(suits_kind: VirtualCompetition.suits_kinds[type]) }
-  scope :by_activity,  ->(activity) { where(jumps_kind: VirtualCompetition.jumps_kinds[activity]) }
+  scope :by_suit_type, ->(type)     { where(suits_kind: VirtualCompetition.suits_kinds[type]).or(where(suits_kind: nil)) }
+  scope :by_activity,  ->(activity) { where(jumps_kind: VirtualCompetition.jumps_kinds[activity]).or(where(jumps_kind: nil)) }
   scope :for_date,     ->(date)     { where(':date BETWEEN period_from AND period_to', date: date) }
   scope :for_place,    ->(place)    { place ? by_place(place).or(worldwide) : worldwide }
   scope :by_place,     ->(place)    { where(place: place) }

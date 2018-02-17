@@ -43,7 +43,7 @@ describe OnlineEventsFinder do
     expect(OnlineEventsFinder.new(track).execute).not_to include(worldwide_comp)
   end
 
-  it "returns blank array if track from unregistered user" do
+  it 'returns blank array if track from unregistered user' do
     track = create(:empty_track)
     track.pilot = nil
 
@@ -52,7 +52,7 @@ describe OnlineEventsFinder do
     expect(OnlineEventsFinder.new(track).execute).not_to include(worldwide_comp)
   end
 
-  it "returns blank array if track in custom suit" do
+  it 'returns blank array if track in custom suit' do
     track = create(:empty_track)
     track.suit = nil
 
@@ -61,12 +61,20 @@ describe OnlineEventsFinder do
     expect(OnlineEventsFinder.new(track).execute).not_to include(worldwide_comp)
   end
 
-  it "returns blank array if track is disqualified" do
+  it 'returns blank array if track is disqualified' do
     track = create(:empty_track)
     track.disqualified_from_online_competitions = true
 
     worldwide_comp = create :online_event
 
     expect(OnlineEventsFinder.new(track).execute).not_to include(worldwide_comp)
+  end
+
+  it 'returns array of competitions without specific jumps and suits kind' do
+    track = create(:empty_track)
+
+    worldwide_comp = create :online_event, jumps_kind: nil, suits_kind: nil
+
+    expect(OnlineEventsFinder.new(track).execute).to include(worldwide_comp)
   end
 end
