@@ -25,6 +25,10 @@
 FactoryBot.define do
   factory :virtual_competition, aliases: [:online_event] do
     sequence(:name) { |n| "Online event#{n}" }
+    association :group, factory: :virtual_comp_group
+
+    discipline { VirtualCompetition.disciplines.values.sample }
+
     period_from Date.today.beginning_of_year
     period_to Date.today.end_of_year
     jumps_kind VirtualCompetition.jumps_kinds['skydive']
