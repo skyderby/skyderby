@@ -57,8 +57,7 @@ module Tracks
       altitude_gain = 0
 
       points.each_cons(2) do |prev, current|
-        altitude_change = current[:altitude] - prev[:altitude]
-        altitude_gain += altitude_change
+        altitude_gain += current_gain(prev, current)
         altitude_gain = 0 if altitude_gain.negative?
 
         current[:altitude_gain] = altitude_gain
@@ -67,6 +66,14 @@ module Tracks
       points[0][:altitude_gain] = 0
 
       points
+    end
+
+    def current_gain(prev, current)
+      if current[:v_speed].negative?
+        current[:altitude] - prev[:altitude]
+      else
+        -(current[:altitude] - prev[:altitude]).abs
+      end
     end
 
     attr_reader :points

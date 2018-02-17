@@ -28,6 +28,8 @@ module VirtualCompetitionsHelper
     elsif competition.distance_in_altitude?
       t('virtual_competitions.tasks.distance_in_altitude',
         parameter: competition.discipline_parameter)
+    elsif competition.flare?
+      t('virtual_competitions.tasks.flare')
     end
   end
 

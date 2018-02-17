@@ -9,7 +9,7 @@ describe Tracks::FlaresDetector do
 
   def points_for(filename)
     track = create_track_from_file filename
-    PointsQuery.execute track, trimmed: true, only: %i[gps_time altitude]
+    PointsQuery.execute track, trimmed: true, only: %i[gps_time altitude v_speed]
   end
 
   def create_track_from_file(filename)
