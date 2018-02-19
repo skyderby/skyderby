@@ -2,7 +2,7 @@
   .modal-content
     .modal-header
       .pull-right
-        = link_to tournament_match_globe_path(@tournament, @match), target: '_blank', class: 'modal-header-link' do
+        = link_to tournament_match_globe_path(@match.tournament, @match), target: '_blank', class: 'modal-header-link' do
           %i.fa.fa-external-link
         %button.close{type: 'button', data: {dismiss: 'modal'}}
           %span{aria: {hidden: 'true'}}
