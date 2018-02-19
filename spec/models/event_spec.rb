@@ -17,6 +17,7 @@
 #  wind_cancellation           :boolean          default(FALSE)
 #  visibility                  :integer          default("public_event")
 #  number_of_results_for_total :integer
+#  responsible_id              :integer
 #
 
 describe Event do

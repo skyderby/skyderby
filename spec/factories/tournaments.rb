@@ -18,6 +18,7 @@
 #  profile_id        :integer
 #  bracket_size      :integer
 #  has_qualification :boolean
+#  responsible_id    :integer
 #
 
 FactoryBot.define do

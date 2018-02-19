@@ -6,12 +6,12 @@
 #  name                                  :string(510)
 #  created_at                            :datetime
 #  updated_at                            :datetime
-#  suit                                  :string(510)
+#  missing_suit_name                     :string(510)
 #  comment                               :text
 #  location                              :string(510)
 #  user_id                               :integer
 #  kind                                  :integer          default("skydive")
-#  wingsuit_id                           :integer
+#  suit_id                               :integer
 #  ff_start                              :integer
 #  ff_end                                :integer
 #  ge_enabled                            :boolean          default(TRUE)
@@ -27,6 +27,9 @@
 #  ground_level                          :decimal(5, 1)    default(0.0)
 #  recorded_at                           :datetime
 #  disqualified_from_online_competitions :boolean          default(FALSE), not null
+#  data_frequency                        :decimal(3, 1)
+#  missing_ranges                        :jsonb
+#  require_range_review                  :boolean          default(FALSE), not null
 #
 
 class Track < ApplicationRecord

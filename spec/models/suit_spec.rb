@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: wingsuits
+# Table name: suits
 #
 #  id                 :integer          not null, primary key
 #  manufacturer_id    :integer

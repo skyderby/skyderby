@@ -9,7 +9,7 @@
 #  highest_speed          :float
 #  highest_gr             :float
 #  profile_id             :integer
-#  wingsuit_id            :integer
+#  suit_id                :integer
 #  recorded_at            :datetime
 #
 

@@ -2,13 +2,13 @@
 #
 # Table name: event_lists
 #
-#  event_type :text
-#  event_id   :integer
-#  starts_at  :date
-#  status     :integer
-#  visibility :integer
-#  profile_id :integer
-#  created_at :datetime
+#  event_type     :text
+#  event_id       :integer
+#  starts_at      :date
+#  status         :integer
+#  visibility     :integer
+#  responsible_id :integer
+#  created_at     :datetime
 #
 
 class EventList < ApplicationRecord

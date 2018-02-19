@@ -5,7 +5,7 @@
 #  id                      :integer          not null, primary key
 #  tournament_id           :integer
 #  profile_id              :integer
-#  wingsuit_id             :integer
+#  suit_id                 :integer
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  is_disqualified         :boolean
