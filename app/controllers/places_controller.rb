@@ -96,15 +96,14 @@ class PlacesController < ApplicationController
   end
 
   def place_params
-    params.require(:place).permit(
+    params.require(:place).permit \
       :name,
       :country_id,
       :latitude,
       :longitude,
       :msl,
       :kind,
-      exit_measurements_attributes: {}
-    )
+      lines_attributes: { measurements_attributes: {} }
   end
 
   def tracks_query

@@ -36,37 +36,31 @@
       = f.text_field :msl, class: 'form-control'
 
   .form-group
-    %label.col-sm-3.control-label Exit measurements
+    %label.col-sm-3.control-label Lines
+    .hide.place-line__template
+      = render 'places/form/place_line_template', form: f, place: @place
     .col-sm-5
-      %a.btn.btn-default.place-form__add-measurement
+      %a.btn.btn-default.place-form__add-line
         %i.fa.fa-plus
         Add
-      %table.table.place-form__exit-measurements
-        %thead
-          %tr
-            %th Altitude
-            %th Distance
-            %th
-        %tbody
-          = f.fields_for :exit_measurements, include_id: false do |measurement_form|
-            %tr
-              %td
-                = measurement_form.number_field :altitude
-              %td
-                = measurement_form.number_field :distance
-              %td
-                = measurement_form.hidden_field :id
-                = measurement_form.hidden_field :_destroy
-                %a.place-form__mark-deleted-measurement
-                  %i.fa.fa-times
+      .place-form__lines
 
-  .form-group
+    .form-group
     .col-sm-offset-3.col-sm-9
       = f.submit t('general.save'), class: 'btn btn-primary'
 
 - content_for :page_js do
   :javascript
     (function() {
+      $('.place-form__add-line').on('click', function(e) {
+        e.preventDefault();
+        var child_index = new Date().getTime();
+        var template = $('.place-line__template').html();
+        var fields = template.split('__INDEX__').join(child_index);
+
+        $('.place-form__lines').append(fields);
+      });
+
       var index = document.querySelectorAll('.place-form__exit-measurements tbody tr').length;
 
       function create_input(ind, name) {
@@ -116,14 +110,7 @@
         tbody.appendChild(tr);
       }
 
-      document
-      .querySelector('.place-form__add-measurement')
-      .addEventListener('click', function(e) {
-        e.preventDefault();
-        index += 1;
-        create_row(index);
-      });
-
+      
       function mark_deleted(e) {
         e.preventDefault();
         var tr = e.target.closest('tr');

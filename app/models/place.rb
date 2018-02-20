@@ -16,13 +16,14 @@ class Place < ApplicationRecord
 
   belongs_to :country
 
-  has_many :tracks, -> { order('created_at DESC') }
+  has_many :tracks, -> { order('created_at DESC') }, inverse_of: :place
   has_many :pilots, -> { distinct }, through: :tracks
-  has_many :events
-  has_many :weather_data, as: :weather_datumable
+  has_many :events, dependent: :restrict_with_error
+  has_many :weather_data, as: :weather_datumable, dependent: :delete_all
+  has_many :lines, class_name: 'PlaceLine', inverse_of: :place, dependent: :destroy
   has_many :exit_measurements, -> { order(:altitude) }, dependent: :delete_all
 
-  accepts_nested_attributes_for :exit_measurements, allow_destroy: true
+  accepts_nested_attributes_for :lines, allow_destroy: true
 
   scope :with_measurements, -> { where(id: ExitMeasurement.distinct.pluck(:place_id)) }
   validates :name, presence: true

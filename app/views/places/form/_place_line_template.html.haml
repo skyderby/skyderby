@@ -1,0 +1,2 @@
+= form.fields_for :lines, place.lines.build, child_index: '__INDEX__' do |line|
+  = render 'places/form/place_line_fields', form: line

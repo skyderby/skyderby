@@ -1,0 +1,30 @@
+.form-group
+  = form.label :name, class: 'col-sm-4 control-label'
+  .col-sm-8
+    = form.text_field :name, class: 'form-control'
+.form-group
+  %label.col-sm-3.control-label Exit measurements
+  .hide.exit-measurement__template
+    = render 'places/form/exit_measurement_template', form: line, line: line
+  .col-sm-5
+    %a.btn.btn-default.place-form__add-measurement
+      %i.fa.fa-plus
+      Add
+    %table.table.place-form__exit-measurements
+      %thead
+        %tr
+          %th Altitude
+          %th Distance
+          %th
+      %tbody
+        = line.fields_for :exit_measurements, include_id: false do |measurement_form|
+          %tr
+            %td
+              = measurement_form.number_field :altitude
+            %td
+              = measurement_form.number_field :distance
+            %td
+              = measurement_form.hidden_field :id
+              = measurement_form.hidden_field :_destroy
+              %a.place-form__mark-deleted-measurement
+                %i.fa.fa-times
