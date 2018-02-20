@@ -1,18 +1,30 @@
 module TracksHelper
   def title(track)
-    "#{t 'tracks.show.title_track' } ##{track.id} | #{track_pilot(track)}"
+    "#{t('tracks.show.title_track')} ##{track.id} | #{track_pilot_name(track)}"
   end
 
   def subheader(track)
     "#{t 'tracks.show.title_suit'}: #{track.suit ? track.suit_name : track.missing_suit_name}, @#{track.location}"
   end
 
-  def track_pilot(track)
+  def track_pilot_name(track)
     track.pilot ? track.pilot.name : track.name
+  end
+
+  def track_pilot_country_code(track)
+    track.pilot ? track.pilot.country_code : ''
   end
 
   def track_place(track)
     track.place ? place_presentation(track.place) : track.location
+  end
+
+  def track_place_name(track)
+    track.place ? track.place_name : track.location
+  end
+
+  def track_place_country_code(track)
+    track.place&.country_code
   end
 
   def tracks_index

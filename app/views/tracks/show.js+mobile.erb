@@ -18,7 +18,7 @@ $("#range-selector").ionRangeSlider('update', {
 });
 
 window.history.replaceState(
-  {},
+  { turbolinks: {} },
   document.title,
   "<%= url_for(params.permit(:id, :f, :t)).html_safe %>"
 );

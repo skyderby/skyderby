@@ -1,12 +1,8 @@
 .tracks-index
   = render 'filters'
 
-  .tracks-index__table-container
-    #tracks-table.table
-      .thead
-        = render 'table_header'
-      .tbody
-        = render @tracks
+  .tracks-list
+    = render @tracks
 
   .tracks-index__pagination
     .pagination-load-more

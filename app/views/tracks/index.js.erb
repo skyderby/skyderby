@@ -2,10 +2,10 @@ $('#tracks-filters-modal').modal('hide');
 
 <% unless params[:append] %>
   $('#tracks-table .thead').html('<%= j render(partial: 'tracks/table_header') %>');
-  $('#tracks-table .tbody').empty();
+  $('.tracks-list').empty();
 <% end %>
 
-$('#tracks-table .tbody').append('<%= j render(@tracks) %>');
+$('.tracks-list').append('<%= j render(@tracks) %>');
 
 $('.tracks-index .tracks-filters').replaceWith('<%= j render(partial: 'tracks/filters') %>');
 <%= render partial: 'tracks/init_filter_elements' %>
@@ -18,7 +18,7 @@ $('.tracks-index .tracks-filters').replaceWith('<%= j render(partial: 'tracks/fi
 $('.pagination-list').html('<%= j will_paginate(@tracks, renderer: BootstrapPagination::Rails) %>');
 
 window.history.replaceState(
-  {},
+  { turbolinks: {} },
   document.title,
   "<%= url_for(index_params).html_safe %>"
 );
