@@ -1,31 +1,28 @@
 - except_columns ||= []
 
-= link_to track_path(id: track.id), class: 'tr track-row' do
-  .td.hidden-xs= track.id
-  .td
-    .cell-caption.text-muted.visible-xs
+= link_to track_path(id: track.id), class: 'track-item' do
+  .track-item__meta
+    .track-item__id
       = "##{track.id}"
       = track_icons(track)
-    %div
-      = track_pilot(track)
-  - unless except_columns.include? :suit
-    .td
-      .cell-caption.visible-xs
-        &nbsp;
-      %div
-        - if track.suit
-          = suit_presentation(track.suit)
-        - else 
-          %span.text-info
-            = track.missing_suit_name
+    .track-item__date= track.recorded_at&.strftime('%d.%m.%Y')
+  .track-item__pilot
+    .track-item__pilot-name= track_pilot_name(track)
+    - pilot_country_code = track_pilot_country_code(track)
+    - if pilot_country_code.present?
+      .track-item__pilot-country= pilot_country_code
 
-  - unless except_columns.include? :place
-    .td
-      .cell-caption.text-right.text-muted.visible-xs
-        = track.recorded_at&.strftime('%d.%m.%Y')
-      %div
-        = track_place(track)
-  .td.text-muted.hidden-xs= track.comment
+  .track-item__info
+    .track-item__location
+      .track-item__location-name= track_place_name(track)
+      - place_country_code = track_place_country_code(track)
+      - if place_country_code.present?
+        .track-item__location-country= place_country_code
+    .track-item__suit
+      - if track.suit
+        %span= track.suit.manufacturer_code
+        = track.suit.name
+      - else
+        = track.missing_suit_name
 
-  .td.text-info.hidden-xs= track.recorded_at.strftime('%d.%m.%Y')
-  .td.hidden-xs= track_icons(track)
+  .track-item__comment= track.comment

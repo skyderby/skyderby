@@ -1,0 +1,100 @@
+.track-item {
+  display: block;
+  border: 1px solid $border-color;
+  padding: 13px 10px 10px;
+  margin-bottom: 10px;
+  background: #fff;
+
+  &:last-child {
+    margin-bottom: -4px;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.track-item__meta {
+  display: flex;
+  justify-content: space-between;
+  color: $gray-text-color;
+  font-size: 14px/14px;
+  padding-bottom: 7px;
+}
+
+.track-item__pilot {
+  display: flex;
+  align-items: center;
+}
+
+.track-item__pilot-name {
+  color: $main-text-color;
+  font-size: 22px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.track-item__pilot-country {
+  color: $blue;
+  font-size: 16px;
+  text-transform: uppercase;
+  margin-top: 2px;
+
+  &:before {
+    content: '//';
+    color: $gray-text-color;
+    font-size: 16px;
+    letter-spacing: -1.5px;
+    padding: 0 5px;
+  }
+}
+
+.track-item__info {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0 5px;
+}
+
+.track-item__location {
+  display: flex;
+}
+
+.track-item__location-name {
+  color: $main-text-color;
+  font-size: 14px/18px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.track-item__location-country {
+  color: $blue;
+  font-size: 11px;
+  margin-top: 3px;
+
+  &:before {
+    content: '//';
+    color: $gray-text-color;
+    font-size: 11px;
+    letter-spacing: -1.5px;
+    padding: 0 5px;
+  }
+}
+
+.track-item__suit {
+  width: 40vw;
+  color: $main-text-color;
+  font-size: 14px;
+  text-align: right;
+  margin-left: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+
+  span {
+    color: $gray-text-color;
+  }
+}
+
+.track-item__comment {
+  color: $gray-text-color;
+  font-size: 12px;
+}

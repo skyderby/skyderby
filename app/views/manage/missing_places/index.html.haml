@@ -12,7 +12,7 @@
       - @tracks.each do |track|
         = link_to track_path(id: track.id), class: 'tr track-row' do
           .td= track.id
-          .td= track_pilot(track)
+          .td= track_pilot_name(track)
           .td
             - if track.suit
               = suit_presentation(track.suit)

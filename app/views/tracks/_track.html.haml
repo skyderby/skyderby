@@ -3,7 +3,7 @@
 = link_to track_path(id: track.id), class: 'tr' do
   %span.td= track.id
   - unless except_columns.include? :profile
-    %span.td= track_pilot(track)
+    %span.td= track_pilot_name(track)
   - unless except_columns.include? :suit
     %span.td
       - if track.suit

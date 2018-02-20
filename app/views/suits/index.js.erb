@@ -5,7 +5,7 @@
 <% end %>
 
 window.history.replaceState(
-  {},
+  { turbolinks: {} },
   document.title,
   "<%= url_for(index_params).html_safe %>"
 );
