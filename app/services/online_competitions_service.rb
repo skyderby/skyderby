@@ -6,7 +6,7 @@ class OnlineCompetitionsService
   def execute
     track.delete_online_competitions_results
 
-    competitions = OnlineEventsFinder.new(track).execute
+    competitions = OnlineEventsFinder.call(track)
     competitions.each do |competition|
       score_track_in_competition(competition)
     end
@@ -45,14 +45,12 @@ class OnlineCompetitionsService
   end
 
   def track_points(trimmed: true)
-    @track_points ||= begin
-      raw_points = PointsQuery.execute(
-        track,
-        trimmed: trimmed,
-        only: [:gps_time, :altitude, :latitude, :longitude, :h_speed, :v_speed, :glide_ratio]
-      )
+    raw_points = PointsQuery.execute(
+      track,
+      trimmed: trimmed,
+      only: [:gps_time, :altitude, :latitude, :longitude, :h_speed, :v_speed, :glide_ratio]
+    )
 
-      PointsPostprocessor.for(track.gps_type).new(raw_points).execute
-    end
+    PointsPostprocessor.for(track.gps_type).new(raw_points).execute
   end
 end

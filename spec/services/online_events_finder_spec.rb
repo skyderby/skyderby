@@ -13,7 +13,7 @@ describe OnlineEventsFinder do
     last_year_comp = create :online_event, :last_year
 
     track = create :empty_track, suit: create(:suit), pilot: create(:pilot)
-    expect(OnlineEventsFinder.new(track).execute).to eq [worldwide_comp]
+    expect(OnlineEventsFinder.call(track)).to eq [worldwide_comp]
   end
 
   it 'find worldwide and place specific' do
@@ -29,7 +29,7 @@ describe OnlineEventsFinder do
                    pilot: create(:pilot),
                    place: place)
 
-    expect(OnlineEventsFinder.new(track).execute).to match_array(
+    expect(OnlineEventsFinder.call(track)).to match_array(
       [worldwide_comp, place_specific_comp]
     )
   end
@@ -40,7 +40,7 @@ describe OnlineEventsFinder do
 
     worldwide_comp = create :online_event
 
-    expect(OnlineEventsFinder.new(track).execute).not_to include(worldwide_comp)
+    expect(OnlineEventsFinder.call(track)).not_to include(worldwide_comp)
   end
 
   it 'returns blank array if track from unregistered user' do
@@ -49,7 +49,7 @@ describe OnlineEventsFinder do
 
     worldwide_comp = create :online_event
 
-    expect(OnlineEventsFinder.new(track).execute).not_to include(worldwide_comp)
+    expect(OnlineEventsFinder.call(track)).not_to include(worldwide_comp)
   end
 
   it 'returns blank array if track in custom suit' do
@@ -58,7 +58,7 @@ describe OnlineEventsFinder do
 
     worldwide_comp = create :online_event
 
-    expect(OnlineEventsFinder.new(track).execute).not_to include(worldwide_comp)
+    expect(OnlineEventsFinder.call(track)).not_to include(worldwide_comp)
   end
 
   it 'returns blank array if track is disqualified' do
@@ -67,7 +67,7 @@ describe OnlineEventsFinder do
 
     worldwide_comp = create :online_event
 
-    expect(OnlineEventsFinder.new(track).execute).not_to include(worldwide_comp)
+    expect(OnlineEventsFinder.call(track)).not_to include(worldwide_comp)
   end
 
   it 'returns array of competitions without specific jumps and suits kind' do
@@ -75,6 +75,6 @@ describe OnlineEventsFinder do
 
     worldwide_comp = create :online_event, jumps_kind: nil, suits_kind: nil
 
-    expect(OnlineEventsFinder.new(track).execute).to include(worldwide_comp)
+    expect(OnlineEventsFinder.call(track)).to include(worldwide_comp)
   end
 end

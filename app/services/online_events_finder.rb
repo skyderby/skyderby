@@ -1,9 +1,13 @@
 class OnlineEventsFinder
+  def self.call(track)
+    new(track).call
+  end
+
   def initialize(track)
     @track = track
   end
 
-  def execute
+  def call
     return [] unless available_for_scoring
 
     VirtualCompetition.order(:name)
