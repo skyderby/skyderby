@@ -37,6 +37,7 @@ gem 'sidekiq', ' < 6'
 # Exception notifications and profiling
 gem 'honeybadger', '~> 3.2'
 gem 'rack-mini-profiler'
+gem "skylight"
 
 # Internalization
 gem 'http_accept_language'
