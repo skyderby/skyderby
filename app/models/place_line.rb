@@ -10,4 +10,7 @@ class PlaceLine < ApplicationRecord
                                 reject_if: ->(attrs) { attrs['altitude'].blank? }
 
   validates :name, presence: true
+
+  delegate :country_name, to: :place
+  delegate :name, to: :place, prefix: true
 end

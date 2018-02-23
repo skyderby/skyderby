@@ -2,14 +2,14 @@ class Skyderby.views.ExitPerformance extends Backbone.View
 
   tracks_cache: {}
 
-  places_cache: {}
+  lines_cache: {}
 
   events:
     'change .flight-profiles__track input' : 'toggle_track',
     'change select[name="place"]'          : 'toggle_place'
 
   render: ->
-    @init_place_select()
+    @init_line_select()
     @init_chart()
 
   toggle_track: (e) ->
@@ -59,11 +59,11 @@ class Skyderby.views.ExitPerformance extends Backbone.View
     else
       @remove_place_from_chart()
 
-  add_place_to_chart: (place_name, place_id) ->
+  add_place_to_chart: (line_name, line_id) ->
     add_series = (data) ->
       chart = @$('.flight-profiles__chart-container').highcharts()
       chart.addSeries({
-        name: place_name,
+        name: line_name,
         code: 'place_measurements',
         type: 'arearange'
         color: '#B88E8D'
@@ -74,16 +74,16 @@ class Skyderby.views.ExitPerformance extends Backbone.View
         }
       })
 
-    if (cached_data = @places_cache[place_id])
+    if (cached_data = @lines_cache[line_id])
       add_series(cached_data)
     else
-      $.get('/api/v1/places/' + place_id + '/exit_measurements')
+      $.get('/api/v1/places/exit_measurements/' + line_id )
         .done( (data) =>
           max_altitude = data[data.length-1].altitude
           chart_data = data.map (el) ->
             [el.distance, el.altitude, max_altitude]
 
-          @places_cache[place_id] = chart_data
+          @lines_cache[line_id] = chart_data
           add_series(chart_data)
         )
 
@@ -94,8 +94,8 @@ class Skyderby.views.ExitPerformance extends Backbone.View
         serie.remove()
         break
 
-  init_place_select: ->
-    Skyderby.helpers.PlaceSelect(@$('select[name="place"]'), { with_measurements: true })
+  init_line_select: ->
+    Skyderby.helpers.PlaceSelect(@$('select[name="place"]'), { ajax: { url: '/api/v1/places/exit_measurements' } })
 
   init_chart: ->
     @$('.flight-profiles__chart-container').highcharts({
