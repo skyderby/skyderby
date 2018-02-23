@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180215112001) do
+ActiveRecord::Schema.define(version: 20180219081813) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,10 +84,9 @@ ActiveRecord::Schema.define(version: 20180215112001) do
   end
 
   create_table "exit_measurements", force: :cascade do |t|
-    t.bigint "place_id"
     t.integer "altitude"
     t.integer "distance"
-    t.index ["place_id"], name: "index_exit_measurements_on_place_id"
+    t.integer "place_line_id"
   end
 
   create_table "manufacturers", id: :serial, force: :cascade do |t|
@@ -103,6 +102,14 @@ ActiveRecord::Schema.define(version: 20180215112001) do
     t.string "organizable_type"
     t.index ["organizable_id"], name: "index_organizers_on_organizable_id"
     t.index ["profile_id"], name: "index_organizers_on_profile_id"
+  end
+
+  create_table "place_lines", force: :cascade do |t|
+    t.bigint "place_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["place_id"], name: "index_place_lines_on_place_id"
   end
 
   create_table "places", id: :serial, force: :cascade do |t|
@@ -427,7 +434,6 @@ ActiveRecord::Schema.define(version: 20180215112001) do
   add_foreign_key "competitors", "profiles"
   add_foreign_key "event_tracks", "tracks"
   add_foreign_key "events", "profiles"
-  add_foreign_key "exit_measurements", "places"
   add_foreign_key "organizers", "profiles"
   add_foreign_key "profiles", "countries"
   add_foreign_key "qualification_jumps", "qualification_rounds"

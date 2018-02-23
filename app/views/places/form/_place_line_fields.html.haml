@@ -1,0 +1,22 @@
+.form-group
+  = form.label :name, class: 'col-sm-3 control-label'
+  .col-sm-5
+    = form.text_field :name, class: 'form-control'
+.form-group
+  %label.col-sm-3.control-label Exit measurements
+  .col-sm-5
+    %table.table.place-form__exit-measurements
+      %thead
+        %tr
+          %th Altitude
+          %th Distance
+          %th
+      %tbody.hide.exit-measurement__template
+        = render 'places/form/exit_measurements_template', form: form, line: form.object
+      %tbody
+        = render 'places/form/exit_measurements', form: form
+    %a.btn.btn-default.place-form__add-measurement
+      %i.fa.fa-plus
+      Add
+
+%hr

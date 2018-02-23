@@ -174,7 +174,9 @@ Skyderby::Application.routes.draw do
       resources :virtual_competitions
       resources :places do
         scope module: :places do
-          resource :exit_measurements, only: :show
+          collection do
+            resources :exit_measurements, only: %i[index show]
+          end
         end
       end
     end

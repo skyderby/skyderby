@@ -36,106 +36,50 @@
       = f.text_field :msl, class: 'form-control'
 
   .form-group
-    %label.col-sm-3.control-label Exit measurements
-    .col-sm-5
-      %a.btn.btn-default.place-form__add-measurement
+    %label.col-sm-3.control-label Lines
+    .hide.place-line__template
+      = render 'places/form/place_line_template', form: f, place: @place
+    .col-sm-7
+      %a.btn.btn-default.place-form__add-line
         %i.fa.fa-plus
         Add
-      %table.table.place-form__exit-measurements
-        %thead
-          %tr
-            %th Altitude
-            %th Distance
-            %th
-        %tbody
-          = f.fields_for :exit_measurements, include_id: false do |measurement_form|
-            %tr
-              %td
-                = measurement_form.number_field :altitude
-              %td
-                = measurement_form.number_field :distance
-              %td
-                = measurement_form.hidden_field :id
-                = measurement_form.hidden_field :_destroy
-                %a.place-form__mark-deleted-measurement
-                  %i.fa.fa-times
-
   .form-group
+    .col-sm-12
+      .place-form__lines
+        %hr
+        = render 'places/form/place_line', form: f, place: @place
+
+    .form-group
     .col-sm-offset-3.col-sm-9
       = f.submit t('general.save'), class: 'btn btn-primary'
 
 - content_for :page_js do
   :javascript
     (function() {
-      var index = document.querySelectorAll('.place-form__exit-measurements tbody tr').length;
+      function child_index() {
+        return new Date().getTime();
+      };
 
-      function create_input(ind, name) {
-        var input = document.createElement('input');
-        input.setAttribute('type', 'number');
-        input.setAttribute('name', 'place[exit_measurements_attributes][' + ind + '][' + name + ']');
-        input.setAttribute('id', 'place_exit_measurements_attributes_' + ind + '_' + name);
-
-        return input;
-      }
-
-      function on_delete_click(e) {
+      $('.place-form__add-line').on('click', function(e) {
         e.preventDefault();
-        var tr = e.target.closest('tr');
-        tr.parentNode.removeChild(tr);
-      }
+        var template = $('.place-line__template').html();
+        var fields = template.split('__LINE_INDEX__').join(child_index());
 
-      function create_delete_link() {
-        var a = document.createElement('a');
-        a.className = 'place-form__delete-measurement';
-        var i = document.createElement('i');
-        i.className = "fa fa-times";
-        a.appendChild(i);
-        a.addEventListener('click', on_delete_click);
-
-        return a;
-      }
-
-      function create_row(ind) {
-        var tbody, tr, td;
-
-        tbody = document.querySelector('.place-form__exit-measurements tbody');
-        tr = document.createElement('tr');
-
-        td = document.createElement('td');
-        td.appendChild(create_input(ind, 'altitude'));
-        tr.appendChild(td);
-
-        td = document.createElement('td');
-        td.appendChild(create_input(ind, 'distance'));
-        tr.appendChild(td);
-
-        td = document.createElement('td');
-        td.appendChild(create_delete_link());
-        tr.appendChild(td);
-
-        tbody.appendChild(tr);
-      }
-
-      document
-      .querySelector('.place-form__add-measurement')
-      .addEventListener('click', function(e) {
-        e.preventDefault();
-        index += 1;
-        create_row(index);
+        $('.place-form__lines').append(fields);
       });
 
-      function mark_deleted(e) {
+      $('.place-form__lines')
+      .delegate('.place-form__add-measurement', 'click', function(e) {
+        var form_group = $(this).closest('.form-group');
+        var template = form_group.find('.exit-measurement__template').html();
+        var fields = template.split('__M_INDEX__').join(child_index());
+
+        form_group.find('.place-form__exit-measurements tbody').not('.hide').append(fields);
+      })
+      .delegate('.place-form__mark-deleted-measurement', 'click', function(e) {
         e.preventDefault();
-        var tr = e.target.closest('tr');
-        var input = tr.querySelector('input[name$="[_destroy]"]');
-        input.value = 'true';
-        tr.style.display = 'none';
-      }
-
-      var list = document
-      .querySelectorAll('.place-form__mark-deleted-measurement');
-
-      for (var i = 0; i < list.length; i++) {
-        list[i].addEventListener('click', mark_deleted);
-      }
+        var tr = $(this).closest('tr');
+        tr.find('input[name$="[_destroy]"]').val(true);
+        tr.hide();
+      });
     })();
