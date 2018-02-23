@@ -9,5 +9,5 @@
 #
 
 class ExitMeasurement < ApplicationRecord
-  belongs_to :place
+  belongs_to :place_line
 end

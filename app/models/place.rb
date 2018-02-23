@@ -23,7 +23,9 @@ class Place < ApplicationRecord
   has_many :lines, class_name: 'PlaceLine', inverse_of: :place, dependent: :destroy
   has_many :exit_measurements, -> { order(:altitude) }, dependent: :delete_all
 
-  accepts_nested_attributes_for :lines, allow_destroy: true
+  accepts_nested_attributes_for :lines,
+                                allow_destroy: true,
+                                reject_if: ->(attrs) { attrs['name'].blank? }
 
   scope :with_measurements, -> { where(id: ExitMeasurement.distinct.pluck(:place_id)) }
   validates :name, presence: true

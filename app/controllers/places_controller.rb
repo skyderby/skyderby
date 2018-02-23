@@ -103,7 +103,7 @@ class PlacesController < ApplicationController
       :longitude,
       :msl,
       :kind,
-      lines_attributes: { measurements_attributes: {} }
+      lines_attributes: {}
   end
 
   def tracks_query

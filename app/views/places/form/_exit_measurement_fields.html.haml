@@ -1,0 +1,10 @@
+%tr
+  %td
+    = form.number_field :altitude
+  %td
+    = form.number_field :distance
+  %td
+    = form.hidden_field :id
+    = form.hidden_field :_destroy
+    %a.place-form__mark-deleted-measurement
+      %i.fa.fa-times

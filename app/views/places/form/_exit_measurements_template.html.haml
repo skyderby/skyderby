@@ -1,0 +1,2 @@
+= form.fields_for :exit_measurements, ExitMeasurement.new(place_line: form.object), include_id: false, child_index: '__M_INDEX__' do |measurement_form|
+  = render 'places/form/exit_measurement_fields', form: measurement_form

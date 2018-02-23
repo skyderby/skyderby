@@ -5,7 +5,9 @@ class PlaceLine < ApplicationRecord
   belongs_to :place
   has_many :exit_measurements, dependent: :delete_all
 
-  accepts_nested_attributes_for :exit_measurements
+  accepts_nested_attributes_for :exit_measurements,
+                                allow_destroy: true,
+                                reject_if: ->(attrs) { attrs['altitude'].blank? }
 
   validates :name, presence: true
 end
