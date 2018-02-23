@@ -1,11 +1,11 @@
-- provide :title, competition_title(@competition)
+- provide :title, @competition.title
 
 .online-competition
   - if policy(@competition).edit?
     = link_to edit_virtual_competition_path(@competition), class: 'btn-flat' do
       %i.fa.fa-pencil
       = t('general.edit')
-  %h2.online-competition__header= competition_title(@competition)
+  %h2.online-competition__header= @competition.title
   .online-competition__subheader
     = t('virtual_competitions.place')
     - if @competition.place
