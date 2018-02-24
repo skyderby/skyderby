@@ -32,7 +32,7 @@ class EventTrack < ApplicationRecord
 
   delegate :event, :event_id, :range_from, :range_to, to: :round
   delegate :discipline, to: :round, prefix: true
-  delegate :name, to: :round, prefix: true
+  delegate :number, to: :round, prefix: true
   delegate :section, to: :competitor
   delegate :tracks_visibility, to: :event
 
