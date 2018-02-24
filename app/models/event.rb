@@ -32,7 +32,7 @@ class Event < ApplicationRecord
   has_many :organizers, as: :organizable, dependent: :delete_all
   has_many :sections, -> { order(:order) }
   has_many :competitors
-  has_many :rounds, -> { order(:name) }
+  has_many :rounds, -> { order(:number) }
   has_many :event_tracks, through: :rounds
   has_many :tracks, through: :event_tracks
   has_many :sponsors, -> { order(:created_at) }, as: :sponsorable, dependent: :delete_all

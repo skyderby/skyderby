@@ -187,7 +187,7 @@ ActiveRecord::Schema.define(version: 20180226070838) do
     t.datetime "updated_at"
     t.integer "discipline"
     t.integer "profile_id"
-    t.string "name"
+    t.integer "number"
     t.index ["event_id"], name: "index_rounds_on_event_id"
   end
 
@@ -512,7 +512,7 @@ ActiveRecord::Schema.define(version: 20180226070838) do
               events_1.created_at
              FROM events events_1
           UNION ALL
-           SELECT 'Tournament'::text,
+           SELECT 'Tournament'::text AS text,
               tournaments.id,
               tournaments.starts_at,
               1,

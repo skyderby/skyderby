@@ -22,25 +22,25 @@ describe Round, type: :model do
 
   it 'automatically set name as order within discipline' do
     round = Round.create!(discipline: 'time', event: event)
-    expect(round.name).to eql '1'
+    expect(round.number).to eql 1
 
     round = Round.create!(discipline: 'time', event: event)
-    expect(round.name).to eql '2'
+    expect(round.number).to eql 2
 
     round = Round.create!(discipline: 'speed', event: event)
-    expect(round.name).to eql '1'
+    expect(round.number).to eql 1
 
     round = Round.create!(discipline: 'speed', event: event)
-    expect(round.name).to eql '2'
+    expect(round.number).to eql 2
   end
 
   it 'should require discipline' do
-    round = Round.new(name: 'Round 1', event: event)
+    round = Round.new(number: 1, event: event)
     expect(round).not_to be_valid
   end
 
   it 'should require event' do
-    round = Round.new(name: 'Round 1', discipline: :time)
+    round = Round.new(number: 1, discipline: :time)
     expect(round).not_to be_valid
   end
 

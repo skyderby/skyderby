@@ -19,7 +19,7 @@
         - @event.rounds_by_discipline.each do |discipline, rounds|
           - rounds.each do |round|
             %td.round-cell
-              = round.name
+              = round.number
               - if policy(@event).update? && !@event.finished?
                 = button_to event_round_path(@event, round),
                             method: :delete,
