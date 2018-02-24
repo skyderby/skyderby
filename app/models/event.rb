@@ -52,7 +52,7 @@ class Event < ApplicationRecord
   end
 
   def rounds_by_discipline
-    @rounds_by_discipline ||= rounds.group_by(&:discipline)
+    @rounds_by_discipline ||= rounds.order(:created_at).group_by(&:discipline)
   end
 
   def tracks_visibility
