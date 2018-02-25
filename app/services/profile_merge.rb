@@ -30,7 +30,7 @@ class ProfileMerge
       end
 
       destination.country_id ||= source.country_id
-      destination.userpic = source.userpic
+      destination.userpic = source.userpic if source.userpic.present?
       destination.save!
 
       collections = associations.keys.map { |association_name| source.public_send(association_name) }
