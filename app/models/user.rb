@@ -33,6 +33,12 @@ class User < ApplicationRecord
            dependent: :nullify,
            inverse_of: :responsible
 
+  has_many :responsible_of_tournaments,
+           class_name: 'Tournament',
+           foreign_key: 'responsible_id',
+           dependent: :nullify,
+           inverse_of: :responsible
+
   scope :admins, -> { joins(:assignments).where(assignments: { role: Role.admin }) }
 
   accepts_nested_attributes_for :profile
@@ -57,6 +63,10 @@ class User < ApplicationRecord
 
   def registered?
     true
+  end
+
+  def organizer_of_event?(event)
+    (responsible_of_events + responsible_of_tournaments + organizer_of_events).include? event
   end
 
   # Using ActiveJob to deliver messages in background

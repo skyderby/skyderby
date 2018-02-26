@@ -33,13 +33,14 @@
 #
 
 class Track < ApplicationRecord
+  include Ownerable
+
   enum kind:       [:skydive, :base]
   enum visibility: [:public_track, :unlisted_track, :private_track]
   enum gps_type:   [:gpx, :flysight, :columbus, :wintec, :cyber_eye, :kml]
 
   belongs_to :track_file
 
-  belongs_to :owner, polymorphic: true, optional: true
   belongs_to :pilot,
              class_name: 'Profile',
              foreign_key: 'profile_id',
