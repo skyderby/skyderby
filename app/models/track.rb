@@ -39,7 +39,7 @@ class Track < ApplicationRecord
 
   belongs_to :track_file
 
-  belongs_to :user
+  belongs_to :owner, polymorphic: true, optional: true
   belongs_to :pilot,
              class_name: 'Profile',
              foreign_key: 'profile_id',
@@ -48,20 +48,23 @@ class Track < ApplicationRecord
   belongs_to :place, optional: true
   belongs_to :suit, optional: true
 
-  has_one :event_track
-  has_one :video, class_name: 'TrackVideo', dependent: :destroy
+  has_one :event_track, dependent: :restrict_with_error
+  has_one :video, class_name: 'TrackVideo', dependent: :destroy, inverse_of: :track
 
   has_one :time,
           -> { where(discipline: TrackResult.disciplines[:time]) },
-          class_name: 'TrackResult'
+          class_name: 'TrackResult',
+          inverse_of: :track
 
   has_one :distance,
           -> { where(discipline: TrackResult.disciplines[:distance]) },
-          class_name: 'TrackResult'
+          class_name: 'TrackResult',
+          inverse_of: :track
 
   has_one :speed,
           -> { where(discipline: TrackResult.disciplines[:speed]) },
-          class_name: 'TrackResult'
+          class_name: 'TrackResult',
+          inverse_of: :track
 
   has_many :points, -> { order :gps_time_in_seconds }, dependent: :delete_all
   has_many :track_results, dependent: :destroy

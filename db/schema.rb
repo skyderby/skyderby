@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180219081813) do
+ActiveRecord::Schema.define(version: 20180226070838) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -182,12 +182,12 @@ ActiveRecord::Schema.define(version: 20180219081813) do
   end
 
   create_table "rounds", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 510
     t.integer "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "discipline"
     t.integer "profile_id"
+    t.string "name"
     t.index ["event_id"], name: "index_rounds_on_event_id"
   end
 
@@ -346,7 +346,10 @@ ActiveRecord::Schema.define(version: 20180219081813) do
     t.decimal "data_frequency", precision: 3, scale: 1
     t.jsonb "missing_ranges"
     t.boolean "require_range_review", default: false, null: false
+    t.string "owner_type"
+    t.bigint "owner_id"
     t.index ["id", "ff_start", "ff_end"], name: "index_tracks_on_id_and_ff_start_and_ff_end"
+    t.index ["owner_type", "owner_id"], name: "index_tracks_on_owner_type_and_owner_id"
     t.index ["place_id"], name: "index_tracks_on_place_id"
     t.index ["profile_id"], name: "index_tracks_on_profile_id"
     t.index ["suit_id"], name: "index_tracks_on_suit_id"
