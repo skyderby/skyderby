@@ -22,22 +22,12 @@
 #
 
 class User < ApplicationRecord
+  include ParticipantOfEvents
+
   has_many :assignments, dependent: :destroy
   has_many :roles, through: :assignments
 
   has_one :profile, as: :owner, dependent: :nullify, inverse_of: :owner
-
-  has_many :responsible_of_events,
-           class_name: 'Event',
-           foreign_key: 'responsible_id',
-           dependent: :nullify,
-           inverse_of: :responsible
-
-  has_many :responsible_of_tournaments,
-           class_name: 'Tournament',
-           foreign_key: 'responsible_id',
-           dependent: :nullify,
-           inverse_of: :responsible
 
   scope :admins, -> { joins(:assignments).where(assignments: { role: Role.admin }) }
 
@@ -50,7 +40,6 @@ class User < ApplicationRecord
   end
 
   delegate :name, to: :profile, allow_nil: true
-  delegate :organizer_of_events, :participant_of_events, to: :profile, allow_nil: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -63,10 +52,6 @@ class User < ApplicationRecord
 
   def registered?
     true
-  end
-
-  def organizer_of_event?(event)
-    (responsible_of_events + responsible_of_tournaments + organizer_of_events).include? event
   end
 
   # Using ActiveJob to deliver messages in background
@@ -89,6 +74,12 @@ class User < ApplicationRecord
       relation.where('LOWER(email) LIKE LOWER(?)', "%#{query}%")
               .or(relation.where('users.id = ?', query.to_i))
               .or(relation.where('LOWER(profiles.name) LIKE LOWER(?)', "%#{query}%"))
+    end
+
+    def search_by_name(query)
+      return all if query.blank?
+
+      left_outer_joins(:profile).where('LOWER(profiles.name) LIKE LOWER(?)', "%#{query}%")
     end
   end
 end

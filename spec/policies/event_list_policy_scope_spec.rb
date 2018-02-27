@@ -11,7 +11,7 @@ describe EventListPolicy::Scope do
     events = create_events
     user = create :user
 
-    create :event_organizer, profile: user.profile, organizable: events[:public_draft]
+    create :event_organizer, user: user, organizable: events[:public_draft]
 
     event_array = EventListPolicy::Scope.new(user, EventList.all).resolve.map(&:event)
     expect(event_array).to match_array [events[:public_draft], events[:public_finished]]

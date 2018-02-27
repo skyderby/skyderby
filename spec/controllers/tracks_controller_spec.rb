@@ -41,7 +41,7 @@ describe TracksController do
       organizer = create :user
 
       event = create :event, responsible: responsible
-      create :event_organizer, organizable: event, profile: organizer.profile
+      create :event_organizer, organizable: event, user: organizer
 
       track = create :empty_track, :with_point, owner: event
 

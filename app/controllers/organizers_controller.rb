@@ -42,7 +42,7 @@ class OrganizersController < ApplicationController
   end
 
   def organizer_params
-    params.require(:organizer).permit(:profile_id)
+    params.require(:organizer).permit(:user_id)
   end
 
   def organizable
