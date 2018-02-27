@@ -27,17 +27,17 @@ module Events
       private
 
       def section_scoreboard(section)
-        competitors_results = 
+        competitors_results =
           section.competitors.map do |competitor|
             competitor_result = CompetitorResult.new(competitor)
-            competitor_result.points_in_disciplines = 
-              calculate_points_in_disciplines(competitor) 
+            competitor_result.points_in_disciplines =
+              calculate_points_in_disciplines(competitor)
 
             competitor_result
           end
 
         competitors_results.each do |comp_result|
-          comp_result.total_points = 
+          comp_result.total_points =
             comp_result.points_in_disciplines
               .map { |k, v| v }
               .inject(0) { |sum, x| sum + x }
@@ -49,14 +49,13 @@ module Events
       def calculate_points_in_disciplines(competitor)
         points = {}
         @event.rounds_by_discipline.each do |discipline, rounds|
-          points[discipline] = 
-            competitor.event_tracks.select do |x| 
+          points[discipline] =
+            competitor.event_tracks.select do |x|
               x.round_discipline == discipline
             end.inject(0) { |sum, x| sum + x.points(net: @display_raw_results) } / rounds.count
         end
         points
       end
-
     end
   end
 end

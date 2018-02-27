@@ -29,7 +29,7 @@ class Section < ApplicationRecord
   end
 
   def move_upper
-    return unless higher_section  
+    return unless higher_section
     swap_position_with higher_section
   end
 
@@ -56,12 +56,12 @@ class Section < ApplicationRecord
     tmp_order = order
     ActiveRecord::Base.transaction do
       self.update(order: other_section.order)
-      other_section.update(order: tmp_order) 
+      other_section.update(order: tmp_order)
     end
   end
 
   def lower_section
-    @lower_section ||= 
+    @lower_section ||=
       Section.where('sections.order > ?', order)
              .where(event_id: event_id)
              .limit(1)
