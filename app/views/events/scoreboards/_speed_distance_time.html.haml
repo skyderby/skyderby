@@ -60,10 +60,9 @@
                  columns_count: @scoreboard.columns_count
 
         - section_competitors = @scoreboard.sections[section.id]
-        - row_number = 1
-        - section_competitors.each do |competitor|
+        - section_competitors.each_with_index do |competitor, index|
           %tr.competitor-row{id: dom_id(competitor)}
-            %td.row-number= row_number
+            %td.row-number= index + 1
             = render 'events/competitors/competitor_cells', competitor: competitor
             - @event.rounds_by_discipline.each do |discipline, rounds|
               - rounds.each do |round|
@@ -131,5 +130,3 @@
             %td.text-right
               - if competitor.total_points && competitor.total_points > 0
                 = competitor.total_points.round(2)
-
-          - row_number += 1
