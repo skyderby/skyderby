@@ -29,7 +29,7 @@ class Round < ApplicationRecord
   delegate :range_from, to: :event
   delegate :range_to, to: :event
 
-  before_create :set_name
+  before_create :set_number
 
   def signed_off
     signed_off_by.present?
@@ -43,14 +43,12 @@ class Round < ApplicationRecord
 
   private
 
-  def set_name
-    # Раунды нумеруются последовательно в пределах соревнований и дисциплины
-    rounds = Round.where(
-      event_id: event_id,
-      discipline: Round.disciplines[discipline]
-    ).to_a
+  def set_number
+    current_number =
+      Round
+      .where(event_id: event_id, discipline: Round.disciplines[discipline])
+      .maximum(:number) || 0
 
-    current_number = rounds.map { |x| x.name.to_i }.max || 0
-    self.name = (current_number + 1).to_s
+    self.number = current_number + 1
   end
 end

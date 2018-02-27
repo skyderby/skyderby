@@ -187,7 +187,7 @@ ActiveRecord::Schema.define(version: 20180226070838) do
     t.datetime "updated_at"
     t.integer "discipline"
     t.integer "profile_id"
-    t.string "name"
+    t.integer "number"
     t.index ["event_id"], name: "index_rounds_on_event_id"
   end
 

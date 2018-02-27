@@ -32,7 +32,7 @@ class EventTrack < ApplicationRecord
 
   delegate :event, :event_id, :range_from, :range_to, to: :round
   delegate :discipline, to: :round, prefix: true
-  delegate :name, to: :round, prefix: true
+  delegate :number, to: :round, prefix: true
   delegate :section, to: :competitor
   delegate :tracks_visibility, to: :event
 
@@ -102,7 +102,7 @@ class EventTrack < ApplicationRecord
       profile_id: competitor.profile_id,
       suit_id: competitor.suit_id,
       visibility: tracks_visibility,
-      comment: "#{event.name} - #{round_discipline.humanize} #{round_name}"
+      comment: "#{event.name} - #{round_discipline.humanize} #{round_number}"
     ).except(:file)
 
     self.track = CreateTrackService.call(params)
@@ -118,7 +118,7 @@ class EventTrack < ApplicationRecord
       sentence = I18n.t(
         'errors.messages.duplicate_file',
         pilot_name: pilot_name,
-        round: "#{track_round.discipline.humanize} - #{track_round.name}"
+        round: "#{track_round.discipline.humanize} - #{track_round.number}"
       )
       errors.add(:base, sentence)
     end
