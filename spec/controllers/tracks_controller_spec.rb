@@ -2,7 +2,7 @@ describe TracksController do
   describe 'owner of track' do
     it '#edit' do
       user = create :user
-      track = create :empty_track, owner: user
+      track = create :empty_track, :with_point, owner: user
 
       login_as user
 
@@ -13,7 +13,7 @@ describe TracksController do
 
     it '#show private track owned by user' do
       user = create :user
-      track = create :empty_track, owner: user, visibility: Track.visibilities[:private_track]
+      track = create :empty_track, :with_point, owner: user, visibility: Track.visibilities[:private_track]
 
       login_as user
 
@@ -27,7 +27,7 @@ describe TracksController do
     it '#edit by responsible' do
       user = create :user
       event = create :event, responsible: user
-      track = create :empty_track, owner: event
+      track = create :empty_track, :with_point, owner: event
 
       login_as user
 
@@ -43,7 +43,7 @@ describe TracksController do
       event = create :event, responsible: responsible
       create :event_organizer, organizable: event, profile: organizer.profile
 
-      track = create :empty_track, owner: event
+      track = create :empty_track, :with_point, owner: event
 
       login_as organizer
 

@@ -40,14 +40,10 @@ FactoryBot.define do
     ground_level 0
     recorded_at Time.current
 
-    after :create do |track|
-      create(:point,
-             track: track,
-             gps_time: 1.year.ago.to_f,
-             abs_altitude: 0,
-             latitude: 0,
-             longitude: 0
-            )
+    trait :with_point do
+      after :create do |track|
+        create :point, track: track, gps_time: 1.year.ago.to_f, abs_altitude: 0
+      end
     end
 
     trait :with_place do

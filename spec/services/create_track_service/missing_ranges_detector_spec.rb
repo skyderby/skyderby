@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe CreateTrackService::MissingRangesDetector do
   point_mock = Struct.new(:fl_time)
 

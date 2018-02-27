@@ -62,7 +62,7 @@ feature 'WBR: Scoring tracks', type: :system do
     params = {
       track_file_id: track_file.id,
       pilot: pilot,
-      user: pilot.owner,
+      owner: pilot.owner,
       suit: suit
     }
     CreateTrackService.call(params)

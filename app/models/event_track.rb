@@ -30,10 +30,7 @@ class EventTrack < ApplicationRecord
   validates :competitor, :round, :track, presence: true
   validates :competitor_id, uniqueness: { scope: :round_id }, on: :create
 
-  delegate :event, to: :round
-  delegate :event_id, to: :round
-  delegate :range_from, to: :round
-  delegate :range_to, to: :round
+  delegate :event, :event_id, :range_from, :range_to, to: :round
   delegate :discipline, to: :round, prefix: true
   delegate :name, to: :round, prefix: true
   delegate :section, to: :competitor
@@ -99,7 +96,7 @@ class EventTrack < ApplicationRecord
     throw(:abort) unless check_file_already_used(track_file)
 
     params = track_attributes.merge(
-      user: current_user,
+      owner: event,
       track_file_id: track_file.id,
       place_id: event.place_id,
       profile_id: competitor.profile_id,
