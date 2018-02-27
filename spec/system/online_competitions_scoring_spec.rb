@@ -37,21 +37,4 @@ feature 'Scoring tracks in online competitions', type: :system do
       track.save!
     end
   end
-
-  def create_track_from_file(filename)
-    pilot = create :pilot
-    suit = create :suit
-
-    track_file = TrackFile.create(
-      file: File.new(Rails.root.join('spec', 'support', 'tracks', filename))
-    )
-
-    params = {
-      track_file_id: track_file.id,
-      pilot: pilot,
-      owner: pilot.owner,
-      suit: suit
-    }
-    CreateTrackService.call(params)
-  end
 end
