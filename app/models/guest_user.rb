@@ -43,6 +43,10 @@ class GuestUser
     []
   end
 
+  def organizer_of_event?(_event)
+    false
+  end
+
   def responsible_of_events
     []
   end

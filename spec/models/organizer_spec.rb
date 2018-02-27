@@ -17,11 +17,11 @@ describe Organizer, type: :model do
   end
 
   it 'requires event' do
-    profile = create :profile
-    expect(Organizer.create(profile: profile)).not_to be_valid
+    user = create :user
+    expect(Organizer.create(user: user)).not_to be_valid
   end
 
-  it 'requires user profile' do
+  it 'requires user' do
     event = create :event
     expect(Organizer.create(organizable: event)).not_to be_valid
   end

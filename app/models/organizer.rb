@@ -14,11 +14,11 @@ class Organizer < ApplicationRecord
   include EventOngoingValidation
 
   belongs_to :organizable, polymorphic: true
-  belongs_to :profile
+  belongs_to :user
 
-  validates :organizable, :profile, presence: true
+  validates :organizable, :user, presence: true
 
-  delegate :name, to: :profile, allow_nil: true
+  delegate :name, to: :user, allow_nil: true
 
   alias event organizable
 end

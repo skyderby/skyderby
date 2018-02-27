@@ -21,6 +21,6 @@ class ProfilePolicy < ApplicationPolicy
   end
 
   def organizer_of_event?
-    (user.responsible_of_events + user.organizer_of_events).include?(record.owner)
+    user.organizer_of_event?(record.owner)
   end
 end

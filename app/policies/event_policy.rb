@@ -34,7 +34,7 @@ class EventPolicy < ApplicationPolicy
   def organizer?
     return false unless user.registered?
 
-    responsible? || user.organizer_of_events.include?(record)
+    responsible? || user.organizer_of_event?(record)
   end
 
   def responsible?

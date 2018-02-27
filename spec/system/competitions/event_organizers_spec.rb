@@ -13,7 +13,7 @@ feature 'Event organizers', type: :system, js: true do
 
     click_link I18n.t('organizers.list.add_judge')
 
-    find('#select2-organizer_profile_id-container').click
+    find('#select2-organizer_user_id-container').click
     sleep 0.5
     first('li.select2-results__option', text: organizer.name).click
     sleep 0.5

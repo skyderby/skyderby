@@ -61,15 +61,5 @@ class ApplicationPolicy
     def admin?
       user&.has_role? :admin
     end
-
-    def profile
-      user&.profile || NullProfile.new
-    end
-
-    class NullProfile
-      def participant_of_events
-        []
-      end
-    end
   end
 end

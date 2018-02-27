@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180226070838) do
+ActiveRecord::Schema.define(version: 20180227134232) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,12 +96,12 @@ ActiveRecord::Schema.define(version: 20180226070838) do
 
   create_table "organizers", id: :serial, force: :cascade do |t|
     t.integer "organizable_id"
-    t.integer "profile_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "organizable_type"
+    t.bigint "user_id"
     t.index ["organizable_id"], name: "index_organizers_on_organizable_id"
-    t.index ["profile_id"], name: "index_organizers_on_profile_id"
+    t.index ["user_id"], name: "index_organizers_on_user_id"
   end
 
   create_table "place_lines", force: :cascade do |t|
@@ -437,7 +437,6 @@ ActiveRecord::Schema.define(version: 20180226070838) do
   add_foreign_key "competitors", "profiles"
   add_foreign_key "event_tracks", "tracks"
   add_foreign_key "events", "profiles"
-  add_foreign_key "organizers", "profiles"
   add_foreign_key "profiles", "countries"
   add_foreign_key "qualification_jumps", "qualification_rounds"
   add_foreign_key "qualification_jumps", "tracks"
@@ -512,7 +511,7 @@ ActiveRecord::Schema.define(version: 20180226070838) do
               events_1.created_at
              FROM events events_1
           UNION ALL
-           SELECT 'Tournament'::text,
+           SELECT 'Tournament'::text AS text,
               tournaments.id,
               tournaments.starts_at,
               1,

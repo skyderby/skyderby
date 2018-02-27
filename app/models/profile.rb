@@ -33,14 +33,8 @@ class Profile < ApplicationRecord
            class_name: 'Track'
   has_many :base_tracks, -> { base.order('created_at DESC') }, class_name: 'Track'
   has_many :badges, -> { order(achieved_at: :desc) }, dependent: :delete_all
-  has_many :events, dependent: :restrict_with_error
-  has_many :organizers, dependent: :restrict_with_error
   has_many :competitors, dependent: :restrict_with_error
   has_many :personal_top_scores
-
-  scope :owned_by_users, -> do
-    joins("INNER JOIN users ON owner_id = users.id AND owner_type = 'User'")
-  end
 
   has_attached_file :userpic,
                     styles: { large: '500x500>',
@@ -65,20 +59,12 @@ class Profile < ApplicationRecord
     super.presence || 'Name not set'
   end
 
-  def organizer_of_events
-    organizers.select(:organizable_id, :organizable_type).map(&:organizable)
-  end
-
   def competitor_of_events
     competitors.select(:event_id).map(&:event)
   end
 
   def participant_of_events
     organizer_of_events + competitor_of_events
-  end
-
-  def responsible_of_events
-    events
   end
 
   class << self
