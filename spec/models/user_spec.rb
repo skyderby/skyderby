@@ -49,4 +49,20 @@ describe User, type: :model do
 
     expect(user.responsible_of_events).to include event
   end
+
+  describe '#organizer_of_event?' do
+    it 'when responsible of event' do
+      user = create :user
+      event = create :event, responsible: user
+
+      expect(user.organizer_of_event?(event)).to be_truthy
+    end
+
+    it 'when responsible of tournament' do
+      user = create :user
+      tournament = create :tournament, responsible: user
+
+      expect(user.organizer_of_event?(tournament)).to be_truthy
+    end
+  end
 end

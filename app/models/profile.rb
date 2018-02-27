@@ -18,13 +18,14 @@
 #
 
 class Profile < ApplicationRecord
+  include Ownerable
+
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
 
   enum default_units: [:metric, :imperial]
   enum default_chart_view: [:multi, :single]
 
   belongs_to :country, optional: true
-  belongs_to :owner, polymorphic: true, optional: true
 
   has_many :tracks, -> { order('recorded_at DESC') }
   has_many :public_tracks,
@@ -64,7 +65,6 @@ class Profile < ApplicationRecord
     super.presence || 'Name not set'
   end
 
-  # returns array of competition ID's where organizer
   def organizer_of_events
     organizers.select(:organizable_id, :organizable_type).map(&:organizable)
   end
@@ -79,18 +79,6 @@ class Profile < ApplicationRecord
 
   def responsible_of_events
     events
-  end
-
-  def belongs_to_user?
-    owner_type == 'User'
-  end
-
-  def belongs_to_event?
-    owner_type == 'Event'
-  end
-
-  def belongs_to_tournament?
-    owner_type == 'Tournament'
   end
 
   class << self

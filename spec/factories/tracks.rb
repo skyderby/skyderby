@@ -37,7 +37,14 @@ FactoryBot.define do
     kind Track.kinds['skydive']
     pilot
     suit
+    ground_level 0
     recorded_at Time.current
+
+    trait :with_point do
+      after :create do |track|
+        create :point, track: track, gps_time: 1.year.ago.to_f, abs_altitude: 0
+      end
+    end
 
     trait :with_place do
       association :place, factory: [:place, :gridset]

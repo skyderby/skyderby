@@ -38,7 +38,7 @@ class CreateTrackService
   end
 
   def set_profile
-    track.pilot = track.user.profile if track.user && !params[:profile_id]
+    track.pilot ||= track.owner.profile if track.owner
   end
 
   def set_file_metadata

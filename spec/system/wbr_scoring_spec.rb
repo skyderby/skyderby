@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 feature 'WBR: Scoring tracks', type: :system do
   scenario 'Competitor intersected finish line' do
     tournament = build_tournament
@@ -49,22 +47,5 @@ feature 'WBR: Scoring tracks', type: :system do
       exit_lat: 62.0578307,
       exit_lon: 6.9715718
     )
-  end
-
-  def create_track_from_file(filename)
-    pilot = create :pilot
-    suit = create :suit
-
-    track_file = TrackFile.create(
-      file: File.new(Rails.root.join('spec', 'support', 'tracks', filename.to_s))
-    )
-
-    params = {
-      track_file_id: track_file.id,
-      pilot: pilot,
-      user: pilot.owner,
-      suit: suit
-    }
-    CreateTrackService.call(params)
   end
 end

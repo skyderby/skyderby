@@ -29,7 +29,7 @@ FactoryBot.define do
     confirmed_at Time.current
 
     after :create do |user|
-      create :profile, owner: user
+      # create :profile, owner: user
     end
 
     trait :admin do

@@ -8,28 +8,38 @@ class TrackPolicy < ApplicationPolicy
   end
 
   def show?
-    admin? || owner? || public_track? || unlisted_track?
+    public_track? || unlisted_track? || can_change?
   end
 
   def update?
-    admin? || owner?
+    can_change?
   end
 
   def destroy?
-    admin? || owner?
+    can_change?
   end
 
   private
 
   delegate :public_track?, :unlisted_track?, to: :record
 
+  def can_change?
+    admin? || owner? || organizer_of_event_track_belongs_to?
+  end
+
   def owner?
     if user.registered?
-      return false unless user&.profile
-      record.pilot == user.profile
+      record.owner == user
     else
       user.tracks.include? record.id
     end
+  end
+
+  def organizer_of_event_track_belongs_to?
+    return false if record.belongs_to_user?
+    return false unless user.registered?
+
+    user.organizer_of_event? record.owner
   end
 
   class Scope < Scope

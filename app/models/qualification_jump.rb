@@ -54,6 +54,7 @@ class QualificationJump < ApplicationRecord
     track_file = TrackFile.create(file: track_attributes[:file])
 
     params = track_attributes.merge(
+      owner: tournament,
       track_file_id: track_file.id,
       kind: :base,
       place_id: tournament.place_id,

@@ -32,7 +32,7 @@ class TrackFilesController < ApplicationController
   def build_track
     track_attributes = track_file_params[:track_attributes].merge(
       track_file: @track_file,
-      user: (current_user if current_user.registered?)
+      owner: (current_user if current_user.registered?)
     )
 
     CreateTrackService.call(track_attributes)
