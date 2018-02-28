@@ -55,7 +55,7 @@
         = render 'events/sections/section_row',
                  section: section,
                  columns_count: @scoreboard.columns_count,
-                 can_update: can_update
+                 editable: can_update
 
         - section_competitors = @scoreboard.sections[section.id]
         - section_competitors.each_with_index do |competitor, index|
