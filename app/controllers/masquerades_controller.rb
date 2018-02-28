@@ -1,4 +1,6 @@
 class MasqueradesController < ApplicationController
+  include MasqueradingHelper
+
   before_action :authorize_admin
 
   def new

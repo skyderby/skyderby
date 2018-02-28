@@ -1,6 +1,7 @@
 module Events
   module Scoreboards
     class SpeedDistanceTime
+      include EventsHelper
 
       class CompetitorResult < SimpleDelegator
         attr_accessor :points_in_disciplines, :total_points
@@ -26,6 +27,8 @@ module Events
 
       private
 
+      attr_reader :event
+
       def section_scoreboard(section)
         competitors_results =
           section.competitors.map do |competitor|
@@ -49,10 +52,14 @@ module Events
       def calculate_points_in_disciplines(competitor)
         points = {}
         @event.rounds_by_discipline.each do |discipline, rounds|
-          points[discipline] =
-            competitor.event_tracks.select do |x|
-              x.round_discipline == discipline
-            end.inject(0) { |sum, x| sum + x.points(net: @display_raw_results) } / rounds.count
+          results_for_discipline = competitor.event_tracks.select do |x|
+            x.round_discipline == discipline
+          end
+
+          sum_of_points = results_for_discipline.inject(0) do |sum, result|
+            sum + event_track_points(event, result, net: @display_raw_results)
+          end
+          points[discipline] = sum_of_points / rounds.count
         end
         points
       end

@@ -136,13 +136,13 @@
                         remote: true
 
     .row
-      .col-md-12= render 'organizers/list', organizable: @event
+      .col-md-12= render 'organizers/list', organizable: @event, editable: (can_manage && !@event.finished?)
 
     .row.top-buffer
       .col-md-12
         %h4= t('.event_sponsors') + ':'
     .row#sponsors
-      = render @event.sponsors
+      = render @event.sponsors, editable: (can_manage && !@event.finished?)
     - if can_manage
       .row
         .col-sm-12

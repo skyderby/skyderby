@@ -1,8 +1,6 @@
-- cache ['scoreboard',
-         I18n.locale,
-         @event, 
-         (@display_raw_results ? 'raw' : ''), 
-         (policy(@event).update?)] do
+- can_update = policy(@event).update?
+
+- cache ['scoreboard', I18n.locale, @event, (@display_raw_results ? 'raw' : ''), can_update] do
   %table.table.table-bordered#results-table
     %thead
       %tr#disciplines-row
@@ -20,7 +18,7 @@
           - rounds.each do |round|
             %td.round-cell
               = round.number
-              - if policy(@event).update? && !@event.finished?
+              - if can_update && !@event.finished?
                 = button_to event_round_path(@event, round),
                             method: :delete,
                             remote: true,
@@ -32,13 +30,14 @@
       %tbody
         = render 'events/sections/section_row',
                  section: section,
-                 columns_count: @scoreboard.columns_count
+                 columns_count: @scoreboard.columns_count,
+                 can_update: can_update
 
         - section_competitors = @scoreboard.sections[section.id]
         - section_competitors.each_with_index do |competitor, index|
           %tr.competitor-row{id: dom_id(competitor)}
             %td.row-number= index + 1
-            = render 'events/competitors/competitor_cells', competitor: competitor
+            = render 'events/competitors/competitor_cells', competitor: competitor, can_update: can_update
             - @event.rounds_by_discipline.each do |discipline, rounds|
               - rounds.each do |round|
                 - result_entity = competitor.event_tracks.detect { |x| x[:round_id] == round.id }
@@ -68,7 +67,7 @@
                                 rel: 'nofollow' do
                         %i.fa.fa-search
 
-                      - if policy(@event).update? && !@event.finished?
+                      - if can_update && !@event.finished?
                         = link_to edit_event_event_track_path(@event, result_entity),
                                   remote: true,
                                   'data-params': { display_raw_results: display_raw_results }.to_param,
@@ -77,16 +76,9 @@
                           %i.fa.fa-pencil
 
 
-                - elsif policy(@event).update? && !@event.finished?
+                - elsif can_update && !@event.finished?
                   %td.text-center.create-result-cell
-                    = link_to new_event_event_track_path(@event), 
-                              remote: true, 
-                              'data-params': { 'event_track[competitor_id]' => competitor.id,
-                                               'event_track[round_id]' => round.id,
-                                               display_raw_results: display_raw_results }.to_param,
-                              class: 'create-result-cell__link',
-                              rel: 'nofollow' do
-                      %i.fa.fa-upload
+                    = new_event_track_link(@event, competitor, round, display_raw_results)                      
 
                 - else
                   %td
