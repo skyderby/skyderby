@@ -55,13 +55,17 @@
         = render 'events/sections/section_row',
                  section: section,
                  columns_count: @scoreboard.columns_count,
-                 editable: can_update
+                 editable: can_update && !@event.finished?
 
         - section_competitors = @scoreboard.sections[section.id]
         - section_competitors.each_with_index do |competitor, index|
           %tr.competitor-row{id: dom_id(competitor)}
             %td.row-number= index + 1
-            = render 'events/competitors/competitor_cells', competitor: competitor, can_update: can_update
+
+            = render 'events/competitors/competitor_cells',
+                     competitor: competitor,
+                     editable: can_update && !@event.finished?
+
             - @event.rounds_by_discipline.each do |discipline, rounds|
               - rounds.each do |round|
                 - result_entity = competitor.event_tracks.detect { |x| x[:round_id] == round.id }
