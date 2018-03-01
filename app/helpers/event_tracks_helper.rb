@@ -9,4 +9,13 @@ module EventTracksHelper
             class: 'create-result-cell__link',
             rel: 'nofollow'
   end
+
+  def edit_event_track_link(event, event_track, display_raw_results)
+    link_to content_tag(:i, nil, class: 'fa fa-pencil'),
+            edit_event_event_track_path(event, event_track),
+            remote: true,
+            'data-params': { display_raw_results: display_raw_results }.to_param,
+            class: 'edit-result',
+            rel: 'nofollow'
+  end
 end

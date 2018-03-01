@@ -93,13 +93,7 @@
 
 
                       - if can_update && !@event.finished?
-                        = link_to edit_event_event_track_path(@event, result_entity),
-                                  remote: true,
-                                  'data-params': { display_raw_results: display_raw_results }.to_param,
-                                  class: 'edit-result',
-                                  rel: 'nofollow' do
-                          %i.fa.fa-pencil
-
+                        = edit_event_track_link(@event, result_entity, display_raw_results)
                   %td.points-cell{class: (result_entity.is_disqualified ? 'text-center' : 'text-right')}
                     - if result_entity.is_disqualified
                       %span.dotted-underline{'data-toggle' => 'tooltip',
