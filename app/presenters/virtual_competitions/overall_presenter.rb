@@ -4,7 +4,7 @@ module VirtualCompetitions
       @id = params[:virtual_competition_id]
       @page = params[:page] || 1
 
-      @competition = VirtualCompetition.includes(associations).find(@id)
+      @competition = VirtualCompetition.find(@id)
 
       super(competition)
     end
@@ -22,7 +22,7 @@ module VirtualCompetitions
     end
 
     def scores
-      competition.personal_top_scores.paginate(page: page, per_page: 25)
+      @scores ||= personal_top_scores.includes(associations).paginate(page: page, per_page: 25)
     end
 
     private
@@ -30,13 +30,10 @@ module VirtualCompetitions
     attr_reader :page, :competition
 
     def associations
-      Hash[
-        :personal_top_scores,
-        [
-          { suit: :manufacturer },
-          { track: [{ place: :country }, :video] },
-          :profile
-        ]
+      [
+        { suit: :manufacturer },
+        { track: [{ place: :country }, :video] },
+        :profile
       ]
     end
   end
