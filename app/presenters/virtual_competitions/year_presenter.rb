@@ -21,7 +21,7 @@ module VirtualCompetitions
     end
 
     def scores
-      competition.annual_top_scores.where(year: year)
+      competition.annual_top_scores.where(year: year).paginate(page: page, per_page: 25)
     end
 
     private

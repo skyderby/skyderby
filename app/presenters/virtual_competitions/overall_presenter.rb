@@ -22,7 +22,7 @@ module VirtualCompetitions
     end
 
     def scores
-      competition.personal_top_scores
+      competition.personal_top_scores.paginate(page: page, per_page: 25)
     end
 
     private

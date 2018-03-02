@@ -51,3 +51,6 @@
               %td
                 - if score.track.video
                   %i.fa.fa-video-camera
+
+      .text-center
+        = will_paginate @competition.scores, renderer: BootstrapPagination::Rails
