@@ -21,6 +21,8 @@
             = f.select :user_id,
                        options_for_select([[organizer.name, organizer.user_id]]),
                        {},
+                       'data-controller': 'select2--users',
+                       'data-placeholder': t('organizers.form.profile_placeholder'),
                        class: 'form-control'
 
       .modal-footer
