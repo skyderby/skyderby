@@ -1,4 +1,5 @@
 - provide :title, @tournament.name
+- editable = policy(@tournament).update?
 
 .tournament-show
   .container
@@ -6,7 +7,7 @@
 
   .container
     .content-block
-      - if policy(@tournament).update?
+      - if editable
         = button_to tournament_rounds_path(tournament_id: @tournament.id),
                     method: :post,
                     remote: true,
@@ -17,13 +18,7 @@
       = render 'scoreboard'
 
       .container
-        - unless @tournament.sponsors.empty?
-          .row.top-buffer
-            .col-md-12
-              %h4= t('events.show.event_sponsors') + ':'
-        .row#sponsors
-          = render @tournament.sponsors
-        - if policy(@tournament).update?
-          = link_to new_tournament_sponsor_path(tournament_id: @tournament.id), remote: true, class: 'add-sponsor' do
-            %i.fa.fa-plus
-            = t('events.show.add_sponsor')
+        .row.top-buffer
+          = render 'sponsors/list',
+                   sponsorable: @tournament,
+                   editable: editable

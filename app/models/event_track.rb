@@ -40,14 +40,6 @@ class EventTrack < ApplicationRecord
   before_save :set_uploaded_by
   before_save :calc_result
 
-  def points(net: false)
-    result_value = result(net: net)
-
-    return 0 if result_value.nil? || result_value.zero? || is_disqualified
-
-    result_value / round.best_result(net: net).result(net: net) * 100
-  end
-
   def result(net: false)
     net ? self[:result_net] : self[:result]
   end

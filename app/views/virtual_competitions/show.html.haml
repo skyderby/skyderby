@@ -1,7 +1,8 @@
 - provide :title, @competition.title
+- editable = policy(@competition).edit?
 
 .container.top-buffer
-  - if policy(@competition).edit?
+  - if editable
     .card-action
       .position-right
         = link_to edit_virtual_competition_path(@competition), class: 'btn-flat' do
@@ -24,13 +25,5 @@
 
     = render 'scoreboard'
 
-    - unless @competition.sponsors.empty?
-      .row.top-buffer
-        .col-md-12
-          %h4= t('events.show.event_sponsors') + ':'
-    .row#sponsors
-      = render @competition.sponsors
-    - if policy(@competition).edit?
-      = link_to new_virtual_competition_sponsor_path(virtual_competition_id: @competition.id), remote: true, class: 'add-sponsor' do
-        %i.fa.fa-plus
-        = t('.add_sponsor')
+    .row.tob-buffer
+      = render 'sponsors/list', sponsorable: @competition, editable: editable

@@ -21,18 +21,20 @@
 #
 
 class Event < ApplicationRecord
+  include BestAndWorstSummary
+
   enum status: [:draft, :published, :finished]
   enum rules: [:speed_distance_time, :fai, :hungary_boogie]
   enum visibility: [:public_event, :unlisted_event, :private_event]
 
-  belongs_to :responsible, class_name: 'User'
+  belongs_to :responsible, class_name: 'User', inverse_of: :responsible_of_events
 
   belongs_to :place, optional: true
 
   has_many :organizers, as: :organizable, dependent: :delete_all
   has_many :sections, -> { order(:order) }
   has_many :competitors
-  has_many :rounds, -> { order(:number) }
+  has_many :rounds, -> { order(:number) }, inverse_of: :event
   has_many :event_tracks, through: :rounds
   has_many :tracks, through: :event_tracks
   has_many :sponsors, -> { order(:created_at) }, as: :sponsorable, dependent: :delete_all

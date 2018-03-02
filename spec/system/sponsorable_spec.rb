@@ -1,14 +1,12 @@
-require 'spec_helper'
-
-feature 'Sponsorable', type: :system, js: true do
-  scenario 'Competition sponsor' do
+describe 'Sponsorable', js: true do
+  it 'Competition sponsor' do
     user = create :user
     sign_in user
 
     competition = create :event, responsible: user
     visit event_path(competition)
 
-    click_link I18n.t('events.show.add_sponsor')
+    click_link I18n.t('sponsors.list.add_sponsor')
 
     within '#new_sponsor' do
       fill_in 'sponsor[name]', with: 'Some sponsor'

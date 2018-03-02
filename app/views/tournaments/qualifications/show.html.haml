@@ -1,11 +1,12 @@
 - provide :title, @tournament.name
+- editable = policy(@tournament).update?
 
 .container
   = render 'tournaments/header'
 
 .container-fluid
   .content-block
-    - if policy(@tournament).update?
+    - if editable
       = button_to tournament_qualification_rounds_path(tournament_id: @tournament.id),
                   method: :post,
                   remote: true,
@@ -15,3 +16,9 @@
 
     .qualification-table__scrollable
       = render 'qualification_table'
+
+    .container
+      .row.top-buffer
+        = render 'sponsors/list',
+                 sponsorable: @tournament,
+                 editable: editable

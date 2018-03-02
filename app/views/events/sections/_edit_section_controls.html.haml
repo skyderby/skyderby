@@ -1,0 +1,15 @@
+= edit_section_link(@event, section, @display_raw_results)
+
+- if @event.sections.many?
+  %span.pipe-edit-section.text-muted
+    |
+
+  - unless section.first_position?
+    = move_section_upper_button(@event, section, @display_raw_results)
+  - unless section.last_position?
+    = move_section_lower_button(@event, section, @display_raw_results)
+
+  %span.pipe-edit-section.text-muted
+    |
+
+= delete_section_button(@event, section, @display_raw_results)
