@@ -136,23 +136,16 @@
                         remote: true
 
     .row
-      .col-md-12= render 'organizers/list', organizable: @event, editable: (can_manage && !@event.finished?)
+      .col-md-12
+        = render 'organizers/list',
+                 organizable: @event,
+                 editable: (can_manage && !@event.finished?)
 
     .row.top-buffer
-      .col-md-12
-        %h4= t('.event_sponsors') + ':'
-    .row#sponsors
-      = render @event.sponsors, editable: (can_manage && !@event.finished?)
-    - if can_manage
-      .row
-        .col-sm-12
-          = link_to new_event_sponsor_path(event_id: @event.id), remote: true, class: 'add-sponsor button button--minimal' do
-            %i.fa.fa-plus
-            = t('.add_sponsor')
-          = link_to new_event_sponsors_copy_path(event_id: @event.id), remote: true, class: 'button button--minimal' do
-            %i.fa.fa-copy
-            = t('.copy_sponsors')
-
+      = render 'sponsors/list',
+               sponsorable: @event,
+               editable: (can_manage && !@event.finished?)
+      
 - content_for :page_js do
   %script
     = render partial: 'show_controls', formats: [:js]

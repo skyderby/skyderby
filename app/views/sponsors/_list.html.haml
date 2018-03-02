@@ -1,0 +1,14 @@
+- copyable = sponsorable.is_a? Event
+
+- if sponsorable.sponsors.any? || editable
+  .col-md-12
+    %h4= t('sponsors.list.event_sponsors') + ':'
+  #sponsors.col-md-12
+    = render sponsorable.sponsors, editable: editable
+
+- if editable
+  .col-md-12
+    = new_sponsor_link(sponsorable)
+    - if copyable
+      = copy_sponsors_link(sponsorable)
+

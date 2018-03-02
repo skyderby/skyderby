@@ -26,9 +26,6 @@ ru:
       result_in: 'в'
       toggle_existed_track: 'выберите существующий трек'
       toggle_new_track: 'загрузите новый трек'
-      event_sponsors: Спонсоры соревнования
-      add_sponsor: Добавить спонсора
-      copy_sponsors: Копировать спонсоров
       weather_data: 'Сведения о ветре'
       wind_cancellation_enabled: 'В этом соревновании учитывается влияние ветра.'
       wind_cancellation_disabled: 'В этом соревновании влияние ветра не учитывается.'
