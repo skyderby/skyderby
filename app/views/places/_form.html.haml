@@ -1,4 +1,4 @@
-= form_for @place, html: {class: 'form-horizontal place-form'} do |f|
+= form_for @place, html: { 'data-controller': 'places--form', class: 'form-horizontal place-form' } do |f|
   .form-group
     = f.label :name, class: 'col-sm-3 control-label', for: :name
     .col-sm-5
@@ -37,49 +37,18 @@
 
   .form-group
     %label.col-sm-3.control-label Lines
-    .hide.place-line__template
+    .hide.place-line__template{'data-target': 'places--form.lineTemplate'}
       = render 'places/form/place_line_template', form: f, place: @place
     .col-sm-7
-      %a.btn.btn-default.place-form__add-line
+      %a.btn.btn-default.place-form__add-line{'data-action': 'click->places--form#add_line'}
         %i.fa.fa-plus
         Add
   .form-group
     .col-sm-12
-      .place-form__lines
+      .place-form__lines{'data-target': 'places--form.linesContainer'}
         %hr
         = render 'places/form/place_line', form: f, place: @place
 
     .form-group
     .col-sm-offset-3.col-sm-9
       = f.submit t('general.save'), class: 'btn btn-primary'
-
-- content_for :page_js do
-  :javascript
-    (function() {
-      function child_index() {
-        return new Date().getTime();
-      };
-
-      $('.place-form__add-line').on('click', function(e) {
-        e.preventDefault();
-        var template = $('.place-line__template').html();
-        var fields = template.split('__LINE_INDEX__').join(child_index());
-
-        $('.place-form__lines').append(fields);
-      });
-
-      $('.place-form__lines')
-      .delegate('.place-form__add-measurement', 'click', function(e) {
-        var form_group = $(this).closest('.form-group');
-        var template = form_group.find('.exit-measurement__template').html();
-        var fields = template.split('__M_INDEX__').join(child_index());
-
-        form_group.find('.place-form__exit-measurements tbody').not('.hide').append(fields);
-      })
-      .delegate('.place-form__mark-deleted-measurement', 'click', function(e) {
-        e.preventDefault();
-        var tr = $(this).closest('tr');
-        tr.find('input[name$="[_destroy]"]').val(true);
-        tr.hide();
-      });
-    })();

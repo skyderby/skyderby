@@ -6,5 +6,5 @@
   %td
     = form.hidden_field :id
     = form.hidden_field :_destroy
-    %a.place-form__mark-deleted-measurement
+    %a.place-form__mark-deleted-measurement{'data-action': 'click->places--exit-measurements#remove'}
       %i.fa.fa-times
