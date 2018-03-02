@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ##
 # This class represents aggregation through event tracks and provides
 # convinient methods to access best and worst results with filters
@@ -9,19 +11,13 @@ module Events
     end
 
     def best_for(round: nil, section: nil, net: false)
-      summary_value = summary_value(type: :best, net: net)
-      summary_key = summary_key(round: round, section: section)
-      summary_section = summary_section(round: round, section: section)
-
-      summary.dig(summary_section, summary_key, summary_value)
+      summary_path = summary_path(round, section, net, type: :best)
+      summary.dig(*summary_path)
     end
 
     def worst_for(round: nil, section: nil, net: false)
-      summary_value = summary_value(type: :worst, net: net)
-      summary_key = summary_key(round: round, section: section)
-      summary_section = summary_section(round: round, section: section)
-
-      summary.dig(summary_section, summary_key, summary_value)
+      summary_path = summary_path(round, section, net, type: :worst)
+      summary.dig(*summary_path)
     end
 
     private
@@ -30,19 +26,30 @@ module Events
 
     delegate :rounds, :sections, :event_tracks, to: :event
 
+    def summary_path(round, section, net, type:)
+      summary_value   = summary_value(type, net)
+      summary_key     = summary_key(round, section)
+      summary_section = summary_section(round, section)
+
+      [summary_section, summary_key, summary_value]
+    end
+
     ##
     # returns one following possible variants:
     # - best_by_result
     # - best_by_result_net
     # - worst_by_result
     # - worst_by_result_net
-    def summary_value(type:, net:)
-      summary_key = "#{type}_by_result"
-      summary_key += '_net' if net
-      summary_key.to_sym
+    def summary_value(type, net)
+      parts = []
+      parts << type
+      parts << '_by_result'
+      parts << '_net' if net
+
+      parts.join('').to_sym
     end
 
-    def summary_key(round: nil, section: nil)
+    def summary_key(round = nil, section = nil)
       if round && section
         "#{round.id}-#{section.id}"
       elsif round
@@ -52,7 +59,7 @@ module Events
       end
     end
 
-    def summary_section(round: nil, section: nil)
+    def summary_section(round = nil, section = nil)
       if round && section
         :by_rounds_and_sections
       elsif round
