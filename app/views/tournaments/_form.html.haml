@@ -24,7 +24,9 @@
           = f.select :place_id,
                      options_for_select([[@tournament.place_name, @tournament.place_id]], @tournament.place_id), 
                      { include_blank: true },
-                     class: 'form-control'
+                     class: 'form-control',
+                     placeholder: t('events.show.place_placeholder'),
+                     'data-controller': 'select2--places'
 
       .form-group
         = f.label :starts_at, class: 'control-label col-sm-2'

@@ -1,6 +1,6 @@
 import 'select2'
 
-export function select2_fix_open_on_clear($el) {
+export function fix_open_on_clear($el) {
   $el.select2().on("select2:unselecting", on_unselecting)
                .on('select2:open', on_open)
 }

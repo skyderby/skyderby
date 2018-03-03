@@ -9,17 +9,11 @@ Skyderby.helpers.SuitSelect(
   { placeholder: "<%= I18n.t('tracks.index.filter_by_suit') %>" }
 );
 
-Skyderby.helpers.PlaceSelect(
-  $('select[name="query[place_id]"]'),
-  { placeholder: "<%= I18n.t('tracks.index.filter_by_place') %>" }
-);
-
 // Tear down
 $(document).one('turbolinks:before-cache', function() {
   var page_selects = [
     $('select[name="query[profile_id]"]'),
     $('select[name="query[suit_id]"]'),
-    $('select[name="query[place_id]"]')
   ];
 
   page_selects.forEach(function($el) {

@@ -66,7 +66,9 @@
             = f.select :place_id,
                        options_for_select([ ([@track.place_name, @track.place_id] if @track.place) ], @track.place_id),
                        { include_blank: true },
-                       class: 'form-control place-group'
+                       placeholder: t('tracks.form.place_select_placeholder'),
+                       class: 'form-control place-group',
+                       'data-controller': 'select2--places'
 
             = f.text_field 'location',
                            class: 'form-control place-group', 
@@ -145,14 +147,12 @@
   :javascript
     new Skyderby.helpers.ProfileSelect($('select[name="track[profile_id]"]'));
     new Skyderby.helpers.SuitSelect($('select[name="track[suit_id]"]'));
-    new Skyderby.helpers.PlaceSelect($('select[name="track[place_id]"]'));
 
     // Tear down
     $(document).one('turbolinks:before-cache', function() {
       var page_selects = [
         $('select[name="track[profile_id]"]'),
         $('select[name="track[suit_id]"]'),
-        $('select[name="track[place_id]"]')
       ];
 
       page_selects.forEach(function($el) {

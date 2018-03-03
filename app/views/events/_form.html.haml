@@ -45,7 +45,9 @@
         = f.select :place_id,
                    options_for_select([[@event.place_name, @event.place_id]], @event.place_id), 
                    { include_blank: true },
-                   class: 'form-control'
+                   placeholder: t('events.show.place_placeholder'),
+                   class: 'form-control',
+                   'data-controller': 'select2--places'
 
     - if allow_change_rules
       .form-group
