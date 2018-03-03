@@ -23,7 +23,9 @@
             - if @badge.profile.blank?
               = f.select :profile_id,
                          { include_blank: true },
-                         class: 'form-control'
+                         placeholder: t('tracks.form.profile_select_placeholder'),
+                         class: 'form-control',
+                         'data-controller': 'select2--profiles'
             - else
               %p.form-control-static= @badge.profile.name
 

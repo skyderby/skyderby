@@ -11,7 +11,6 @@ class Skyderby.views.NewTrackForm extends Backbone.View
     @init_form_validation()
     # modal is hidden when view init so we need to check css display property
     select_hidden = @$('.new-track-suit-select').css('display') == 'none'
-    Skyderby.helpers.SuitSelect(@$('.new-track-suit-select'))
     # if select hidden - then we need to hide select2 control after
     # instantiation and change text in link
     if select_hidden

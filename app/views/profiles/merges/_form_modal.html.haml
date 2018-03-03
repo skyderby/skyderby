@@ -18,7 +18,12 @@
         .form-group
           = f.label :source_profile, class: 'control-label col-sm-4'
           .col-sm-8
-            = f.select :source_profile_id, [], { include_blank: true }, class: 'form-control'
+            = f.select :source_profile_id,
+                       [],
+                       { include_blank: true },
+                       placeholder: t('profiles.merges.form_modal.source_profile_placeholder'),
+                       class: 'form-control',
+                       'data-controller': 'select2--profiles', 'data-with-ids': true
         .form-group
           .col-sm-offset-4.col-sm-8
             %h4.help-block= t '.description'

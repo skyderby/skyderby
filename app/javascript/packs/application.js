@@ -8,4 +8,4 @@ const application = Application.start()
 const context = require.context("controllers", true, /\.js$/)
 application.load(definitionsFromContext(context))
 
-console.log('Hello World from Webpacker')
+window.$ = window.jQuery = require("jquery");

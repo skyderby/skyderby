@@ -1,14 +1,6 @@
 $('#modal').html('<%= j render('form_modal') %>');
 $('#modal').modal('show');
 
-Skyderby.helpers.ProfileSelect(
-  $('select[name="profiles_merge[source_profile_id]"]'),
-  {
-    placeholder: "<%= I18n.t('profiles.merges.form_modal.source_profile_placeholder') %>",
-    templateSelection: function(data) { return data.text + ' (#' + data.id + ')'; }
-  }
-);
-
 $("profiles-merge__form").validate({
   rules: {
     'profiles_merge[source_profile_id]': {

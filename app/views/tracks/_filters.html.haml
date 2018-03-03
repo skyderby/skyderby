@@ -10,7 +10,9 @@
                     options_for_select([ [profile_name_by_id(query_params[:profile_id]), query_params[:profile_id]] ]),
                     name: 'query[profile_id]',
                     class: 'form-control', 
-                    data: {remote: true, method: :GET, url: tracks_path, params: profile_params})
+                    placeholder: t('tracks.index.filter_by_pilot'),
+                    data: {remote: true, method: :GET, url: tracks_path, params: profile_params},
+                    'data-controller': 'select2--profiles')
 
     .col-sm-3
       - suit_params = index_params.merge(query: query_params.except(:suit_id)).to_h.to_param
@@ -18,7 +20,9 @@
                     options_for_select([ [suit_name_by_id(query_params[:suit_id]), query_params[:suit_id]] ]),
                     name: 'query[suit_id]',
                     class: 'form-control', 
-                    data: {remote: true, method: :GET, url: tracks_path, params: suit_params})
+                    placeholder: t('tracks.index.filter_by_suit'),
+                    data: {remote: true, method: :GET, url: tracks_path, params: suit_params},
+                    'data-controller': 'select2--suits')
 
     .col-sm-3
       - place_params = index_params.merge(query: query_params.except(:place_id)).to_h.to_param
@@ -26,7 +30,7 @@
                     options_for_select([ [place_name_by_id(query_params[:place_id]), query_params[:place_id]] ]),
                     name: 'query[place_id]',
                     class: 'form-control', 
-                    placeholder: t('tracks.index.filter_by_suit'),
+                    placeholder: t('tracks.index.filter_by_place'),
                     data: { remote: true, method: :GET, url: tracks_path, params: place_params },
                     'data-controller': 'select2--places')
 
@@ -51,7 +55,3 @@
                     remote: true,
                     class: ['btn btn-sm btn-default', ('active' if activity == 'base')],
                     rel: 'nofollow'
-
-- content_for :page_js do
-  %script
-    = render partial: 'tracks/init_filter_elements', formats: [:js]

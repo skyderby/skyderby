@@ -29,7 +29,9 @@
               = f.select :profile_id,
                          options_for_select([ ([@track.pilot_name, @track.profile_id] if @track.pilot) ], @track.profile_id),
                          { include_blank: true },
-                         class: 'form-control'
+                         placeholder: t('tracks.form.profile_select_placeholder'),
+                         class: 'form-control',
+                         'data-controller': 'select2--profiles'
 
               = f.text_field 'name', 
                              class: 'form-control',
@@ -47,7 +49,8 @@
             = f.select :suit_id,
                        options_for_select([ ([@track.suit_name, @track.suit_id] if @track.suit) ], @track.suit_id),
                        { include_blank: true },
-                       class: 'form-control suit-group'
+                       class: 'form-control suit-group',
+                       'data-controller': 'select2--suits'
 
             = f.text_field :missing_suit_name,
                            class: 'form-control suit-group',
@@ -145,20 +148,8 @@
 
 - content_for :page_js do
   :javascript
-    new Skyderby.helpers.ProfileSelect($('select[name="track[profile_id]"]'));
-    new Skyderby.helpers.SuitSelect($('select[name="track[suit_id]"]'));
-
     // Tear down
     $(document).one('turbolinks:before-cache', function() {
-      var page_selects = [
-        $('select[name="track[profile_id]"]'),
-        $('select[name="track[suit_id]"]'),
-      ];
-
-      page_selects.forEach(function($el) {
-        if ( $el.next().is('.select2') ) $el.select2('destroy');
-      });
-
       $('#time-selector').ionRangeSlider('remove');
     });
 
