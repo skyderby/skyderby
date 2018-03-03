@@ -49,7 +49,9 @@
               = builder.select :country_id,
                                options_for_select([[@competitor.country_name, @competitor.country_id]]),
                                {},
-                               class: 'form-control'
+                               placeholder: 'Choose country',
+                               class: 'form-control',
+                               'data-controller': 'select2--countries'
 
         %hr
         .form-group
@@ -58,6 +60,7 @@
             = f.select :suit_id,
                        options_for_select([[@competitor.suit_name, @competitor.suit_id]]), 
                        {},
+                       placeholder: 'Choose suit',
                        class: 'form-control',
                        'data-controller': 'select2--suits'
 
@@ -79,6 +82,3 @@
       .modal-footer
         = f.submit t('general.save'), class: 'btn btn-primary'
         %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'
-
-:javascript
-  Skyderby.helpers.CountrySelect($('select[name="tournament_competitor[profile_attributes][country_id]"]'));

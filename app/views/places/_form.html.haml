@@ -18,7 +18,12 @@
   .form-group
     = f.label :country, class: 'col-sm-3 control-label', for: :country
     .col-sm-5
-      = f.collection_select(:country_id, Country.order(:name), :id, :name, {promt: 'Select country'}, {class: 'form-control'})
+      = f.select(:country_id,
+                 options_for_select([[@place.country_name, @place.country_id]]),
+                 {},
+                 placeholder: 'Select country',
+                 class: 'form-control',
+                 'data-controller': 'select2--countries')
 
   .form-group
     = f.label :latitude, class: 'col-sm-3 control-label', for: :latitude

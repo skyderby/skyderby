@@ -14,7 +14,12 @@
         .form-group
           = f.label :source_event, class: 'control-label col-sm-4'
           .col-sm-8
-            = f.select :source_event_id, [], { include_blank: true }, class: 'form-control'
+            = f.select :source_event_id,
+              [],
+              { include_blank: true },
+              placeholder: t('sponsors.sponsors_copies.form_modal.source_event_placeholder'),
+              class: 'form-control',
+              'data-controller': 'select2--events'
 
       .modal-footer
         = f.submit t('general.save'), class: 'btn btn-primary'

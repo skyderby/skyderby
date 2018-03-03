@@ -51,7 +51,8 @@
                        options_for_select([[@competitor.country_name, @competitor.country_id]]),
                        {},
                        id: :country_id,
-                       class: 'form-control'
+                       class: 'form-control',
+                       'data-controller': 'select2--countries'
 
         %hr
         .form-group
@@ -84,7 +85,9 @@
                                     @event.sections,
                                     :id,
                                     :name,
-                                    {class: 'form-control'}
+                                    {},
+                                    class: 'form-control',
+                                    'data-controller': 'select2--local'
 
       .modal-footer
         = f.submit t('general.save'), class: 'btn btn-primary'
