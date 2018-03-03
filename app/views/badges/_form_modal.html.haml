@@ -43,7 +43,7 @@
           = f.label :category, class: 'col-sm-4 control-label', for: :category
           .col-sm-8
             - category_options = Badge.categories.keys.map { |key| [t("activerecord.attributes.badge.categories.#{key}"), key] }
-            = f.select :category, category_options, {}, class: 'form-control'
+            = f.select :category, category_options, {}, class: 'form-control', 'data-controller': 'select2--local'
 
         .form-group
           = f.label :kind, class: 'col-sm-4 control-label', for: :kind
