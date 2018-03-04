@@ -8,7 +8,6 @@ $('#tracks-filters-modal').modal('hide');
 $('.tracks-list').append('<%= j render(@tracks) %>');
 
 $('.tracks-index .tracks-filters').replaceWith('<%= j render(partial: 'tracks/filters') %>');
-<%= render partial: 'tracks/init_filter_elements' %>
 
 <% if @tracks.next_page %>
     $('.pagination-load-more').html('<%= j will_paginate(@tracks, renderer: WillPaginateLoadMoreRenderer) %>');

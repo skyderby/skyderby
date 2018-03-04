@@ -28,7 +28,6 @@
 //= require markerclusterer
 //= require ion.rangeSlider
 //= require jquery.cookie
-//= require select2.full
 //= require i18n/translations
 //= require underscore
 //= require backbone

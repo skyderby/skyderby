@@ -48,8 +48,10 @@
             = f.select :track_id, 
                        options_for_select([[(@qualification_jump.track.presentation if @qualification_jump.track_id), @qualification_jump.track_id]]),
                        {},
+                       placeholder: "Choose track from list",
+                       class: 'form-control',
                        'data-profile-id' => @qualification_jump.tournament_competitor.profile_id,
-                       class: 'form-control'
+                       'data-controller': 'select2--tracks'
 
       .modal-footer
         = f.submit t('general.save'), class: 'btn btn-primary', 'data-disable-with': t('general.saving')

@@ -52,8 +52,10 @@
             = f.select :track_id, 
                        options_for_select([[(@event_track.track.presentation if @event_track.track_id), @event_track.track_id]]),
                        {},
-                       'data-profile-id' => @event_track.competitor.profile_id,
-                       class: 'form-control'
+                       placeholder: "Choose track from list",
+                       class: 'form-control',
+                       'data-profile-id': @event_track.competitor.profile_id,
+                       'data-controller': 'select2--tracks'
 
         - unless @event_track.new_record?
           %hr

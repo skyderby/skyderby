@@ -3,8 +3,6 @@ $('#modal').html('<%= j render 'new_form_modal' %>');
 $('#new_qualification_jump .btn-file :file').on('change', Skyderby.helpers.FileField.change);
 $('#new_qualification_jump .btn-file :file').on('fileselect', Skyderby.helpers.FileField.fileselect);
 
-Skyderby.helpers.TrackSelect($('select[name="qualification_jump[track_id]"]'), {profile_id: "<%= @qualification_jump.tournament_competitor.profile_id %>"});
-
 new Skyderby.views.TournamentTrackForm({el: '#new_qualification_jump'});
 
 $('#modal').modal('show');
