@@ -1,4 +1,3 @@
-//= require turbolinks
 //= require bootstrap/alert
 //= require bootstrap/button
 //= require bootstrap/collapse

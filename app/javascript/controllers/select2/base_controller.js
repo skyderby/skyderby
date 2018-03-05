@@ -5,10 +5,23 @@ export class BaseController extends Controller {
   connect() {
     var options = Object.assign(this.default_options(), this.options())
 
-    const $element = $(this.element)
+    const element = this.element
+    const $element = $(element)
 
     this.fix_open_on_clear($element);
-    $element.select2(options);
+
+    $element
+      .select2(options)
+      .on('select2:select', function() {
+        let event = new Event('change', { bubbles: true })
+        element.dispatchEvent(event)
+      })
+      .on('select2:unselect', function() {
+        element.value = undefined
+
+        let event = new Event('change', { bubbles: true })
+        element.dispatchEvent(event)
+      });
 
     $(document).one('turbolinks:before-cache', this.teardown.bind(this))
   }

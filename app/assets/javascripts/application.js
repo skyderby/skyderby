@@ -10,7 +10,6 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require turbolinks
 //= require bootstrap-datepicker/js/bootstrap-datepicker
 //= require bootstrap-datepicker/js/locales/bootstrap-datepicker.ru.js
 //= require bootstrap-datepicker/js/locales/bootstrap-datepicker.de.js

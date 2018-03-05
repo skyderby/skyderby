@@ -2,13 +2,15 @@
 
 import { Application } from "stimulus"
 import { definitionsFromContext } from "stimulus/webpack-helpers"
+import Rails from 'rails-ujs'
+import Turbolinks from 'turbolinks'
 
 // Look for controllers inside app/javascripts/packs/controllers/
 const application = Application.start()
 const context = require.context("controllers", true, /\.js$/)
 application.load(definitionsFromContext(context))
 
-const Rails = require('rails-ujs');
-Rails.start();
+Turbolinks.start()
+Rails.start()
 
-window.$ = window.jQuery = require("jquery");
+window.$ = window.jQuery = require("jquery")

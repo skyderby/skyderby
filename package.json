@@ -6,7 +6,8 @@
     "jquery": "^3.3.1",
     "rails-ujs": "^5.1.5",
     "select2": "^4.0.3",
-    "stimulus": "^1.0.1"
+    "stimulus": "^1.0.1",
+    "turbolinks": "^5.1.1"
   },
   "devDependencies": {
     "webpack-cli": "^2.0.10",

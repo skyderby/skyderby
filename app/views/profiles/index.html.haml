@@ -4,10 +4,14 @@
       Профили
 
   .content-block
-    .index-search__container
+    .index-search__container{'data-controller': 'index-search'}
       %span.index-search__icon
         %i.fa.fa-search
-      %input.index-search__input{name: 'search', data: {remote: true, url: profiles_path}, placeholder: 'Type to search', value: params[:search]}
+      %input.index-search__input{name: 'search',
+                                 data: { remote: true, url: profiles_path },
+                                 placeholder: 'Type to search',
+                                 value: params[:search],
+                                 'data-action': 'input->index-search#perform'}
 
     %table.table.profiles__table
       %thead
@@ -23,18 +27,3 @@
 
   .profiles__pagination.text-center.top-buffer
     = will_paginate(@profiles, renderer: BootstrapPagination::Rails)
-
-- content_for :page_js do
-  :javascript
-    (function() {
-      var elem = document.querySelector('input[name="search"]');
-      var timer_id = undefined;
-      elem.addEventListener('input', function() {
-        if (timer_id !== undefined) clearTimeout(timer_id);
-
-        timer_id = setTimeout(function() {
-          $.rails.handleRemote($(elem));
-          timer_id = undefined;
-        }, 200);
-      });
-    })();
