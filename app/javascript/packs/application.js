@@ -8,4 +8,7 @@ const application = Application.start()
 const context = require.context("controllers", true, /\.js$/)
 application.load(definitionsFromContext(context))
 
+const Rails = require('rails-ujs');
+Rails.start();
+
 window.$ = window.jQuery = require("jquery");

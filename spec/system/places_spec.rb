@@ -6,11 +6,11 @@ describe 'Adding place', type: :system do
     expect(page).not_to have_css('a', text: I18n.t('places.index.new'))
   end
 
-  it 'Admin user can add place' do
+  it 'Admin user can add place', js: true do
     user = create :user, :admin
     sign_in user
 
-    create :country
+    country = create :country, name: 'Norway'
 
     visit places_path
     click_link I18n.t('places.index.new')
@@ -19,9 +19,13 @@ describe 'Adding place', type: :system do
       fill_in 'place[name]', with: 'Gridset'
       fill_in 'place[latitude]', with: '62.5203062'
       fill_in 'place[longitude]', with: '7.5773933'
-
-      click_button I18n.t('general.save')
     end
+
+    select2 country.name, from: :place_country_id
+
+    click_button I18n.t('general.save')
+
+    find('label.toggle-view-type', text: I18n.t('places.index.on_list')).click
 
     expect(page).to have_content('Gridset')
   end
