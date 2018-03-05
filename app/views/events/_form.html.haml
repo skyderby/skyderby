@@ -28,8 +28,9 @@
       = f.label :starts_at, class: 'control-label col-sm-4'
       .col-sm-8
         = f.text_field :starts_at, 
-                       class: 'form-control datepicker', 
-                       value: (@event.starts_at || Date.today).strftime("%d.%m.%Y")
+                       class: 'form-control', 
+                       value: (@event.starts_at || Date.today).strftime("%d.%m.%Y"),
+                       'data-controller': 'datepicker'
 
     .form-group.row
       = f.label t('events.show.comp_window'), class: 'control-label col-sm-4'

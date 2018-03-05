@@ -21,11 +21,18 @@
     = f.label :period_from, class: 'col-sm-2 control-label', for: :period_from
     .col-sm-2
       - period_from = @competition.period_from || Date.today.beginning_of_year
-      = f.text_field :period_from, class: 'form-control datepicker', value: period_from.strftime("%d.%m.%Y")
+      = f.text_field :period_from,
+                     class: 'form-control',
+                     value: period_from.strftime("%d.%m.%Y"),
+                     'data-controller': 'datepicker'
+
     %span.col-sm-1.text-center= ' to '
     .col-sm-2
       - period_to = @competition.period_to || Date.today.end_of_year
-      = f.text_field :period_to, class: 'form-control datepicker', value: period_to.strftime("%d.%m.%Y")
+      = f.text_field :period_to,
+                     class: 'form-control',
+                     value: period_to.strftime("%d.%m.%Y"),
+                     'data-controller': 'datepicker'
 
   .form-group
     = f.label :jumps_kind, class: 'col-sm-2 control-label', for: :jumps_kind
@@ -105,5 +112,3 @@
   .form-group
     .col-sm-offset-2.col-sm-8
       = f.submit t('general.update'), class: 'btn btn-primary'
-
-

@@ -10,10 +10,6 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require bootstrap-datepicker/js/bootstrap-datepicker
-//= require bootstrap-datepicker/js/locales/bootstrap-datepicker.ru.js
-//= require bootstrap-datepicker/js/locales/bootstrap-datepicker.de.js
-//= require bootstrap-datepicker/js/locales/bootstrap-datepicker.es.js
 //= require bootstrap/alert
 //= require bootstrap/button
 //= require bootstrap/dropdown
@@ -47,14 +43,6 @@ $(document).on('ready turbolinks:load', function() {
         if (e.which !== 8 && e.which !== 0 && (e.which < 48 || e.which > 57)) {
             return false;
         }
-    });
-
-    $('.datepicker').datepicker({
-        format: 'dd.mm.yyyy',
-        startDate: 0,
-        language: I18n.locale,
-        autoclose: true,
-        todayHighlight: true
     });
 
     $('.btn-file :file').on('fileselect', function(event, numFiles, label) {

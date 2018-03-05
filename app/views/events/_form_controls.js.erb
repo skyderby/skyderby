@@ -1,13 +1,4 @@
 (function() {
-  $('input[name="event[starts_at]"]')
-    .datepicker({
-      format: 'dd.mm.yyyy',
-      startDate: 0,
-      language: I18n.locale,
-      autoclose: true,
-      todayHighlight: true
-    });
-
   var on_change_rules = function(input) {
     if (input.value === 'hungary_boogie') {
       $('[data-only-hungary-Boogie]').show();

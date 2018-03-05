@@ -57,7 +57,10 @@
         .form-group
           = f.label :achieved_at, class: 'col-sm-4 control-label'
           .col-sm-8
-            = f.text_field :achieved_at, class: 'form-control datepicker', value: @badge.achieved_at.strftime('%d.%m.%Y')
+            = f.text_field :achieved_at,
+                           class: 'form-control',
+                           value: @badge.achieved_at.strftime('%d.%m.%Y'),
+                           'data-controller': 'datepicker'
 
       .modal-footer
         = f.submit t('general.save'), class: 'btn btn-primary'
