@@ -4,7 +4,7 @@ export default class extends Controller {
   connect() {
     $(this.element).validate({
       rules: {
-        'user[name]': {
+        'user[profile_attributes][name]': {
           minlength: 3,
           required: true
         },
