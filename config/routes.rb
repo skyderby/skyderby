@@ -41,6 +41,10 @@ Skyderby::Application.routes.draw do
       resource :download, only: :show
       resource :flight_profile, only: :show
       resource :jump_range, only: :show
+
+      collection do
+        resources :select_options, only: :index
+      end
     end
 
     resources :weather_data

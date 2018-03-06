@@ -3,7 +3,11 @@
     .flight-profiles__tracks-container
       = render 'tracks'
     .flight-profiles__place-container
-      = select_tag :place, nil, include_blank: true , class: 'form-control'
+      = select_tag :place,
+                   nil,
+                   include_blank: true ,
+                   class: 'form-control',
+                   'data-controller': 'select2--exit-measurements'
 
   .flight-profiles__chart-container
 

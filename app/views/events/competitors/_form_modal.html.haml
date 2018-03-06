@@ -27,7 +27,9 @@
                        options_for_select([[@competitor.name, @competitor.profile_id]]), 
                        {},
                        id: :profile_id,
-                       class: 'form-control'
+                       placeholder: t('tracks.form.profile_select_placeholder'),
+                       class: 'form-control',
+                       'data-controller': 'select2--profiles'
 
         .radio
           %label
@@ -49,7 +51,8 @@
                        options_for_select([[@competitor.country_name, @competitor.country_id]]),
                        {},
                        id: :country_id,
-                       class: 'form-control'
+                       class: 'form-control',
+                       'data-controller': 'select2--countries'
 
         %hr
         .form-group
@@ -59,7 +62,8 @@
                        options_for_select([[@competitor.suit_name, @competitor.suit_id]]), 
                        {},
                        id: :suit_id,
-                       class: 'form-control'
+                       class: 'form-control',
+                       'data-controller': 'select2--suits'
 
         .form-group
           = f.label :section, t('activerecord.attributes.competitor.section'), class: 'control-label col-sm-4'
@@ -81,7 +85,9 @@
                                     @event.sections,
                                     :id,
                                     :name,
-                                    {class: 'form-control'}
+                                    {},
+                                    class: 'form-control',
+                                    'data-controller': 'select2--local'
 
       .modal-footer
         = f.submit t('general.save'), class: 'btn btn-primary'

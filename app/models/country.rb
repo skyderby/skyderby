@@ -16,6 +16,8 @@ class Country < ApplicationRecord
 
   class << self
     def search(query)
+      return all if query.blank?
+
       where('LOWER(name) LIKE LOWER(?)', "%#{query}%")
     end
   end

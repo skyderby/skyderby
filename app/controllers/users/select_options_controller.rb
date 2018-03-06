@@ -12,11 +12,11 @@ module Users
     private
 
     def search_query
-      params.dig(:query, :term)
+      params[:query]
     end
 
     def page
-      params.dig(:query, :page)
+      params[:page]
     end
   end
 end

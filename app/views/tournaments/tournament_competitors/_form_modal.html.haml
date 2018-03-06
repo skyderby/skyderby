@@ -25,7 +25,9 @@
             = f.select :profile_id,
                        options_for_select([[@competitor.name, @competitor.profile_id]]), 
                        {},
-                       class: 'form-control'
+                       placeholder: t('tracks.form.profile_select_placeholder'),
+                       class: 'form-control',
+                       'data-controller': 'select2--profiles'
 
         .radio
           = f.label :profile_mode, value: :create do
@@ -47,7 +49,9 @@
               = builder.select :country_id,
                                options_for_select([[@competitor.country_name, @competitor.country_id]]),
                                {},
-                               class: 'form-control'
+                               placeholder: 'Choose country',
+                               class: 'form-control',
+                               'data-controller': 'select2--countries'
 
         %hr
         .form-group
@@ -56,7 +60,9 @@
             = f.select :suit_id,
                        options_for_select([[@competitor.suit_name, @competitor.suit_id]]), 
                        {},
-                       class: 'form-control'
+                       placeholder: 'Choose suit',
+                       class: 'form-control',
+                       'data-controller': 'select2--suits'
 
         - unless @competitor.new_record?
           %hr
@@ -76,8 +82,3 @@
       .modal-footer
         = f.submit t('general.save'), class: 'btn btn-primary'
         %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'
-
-:javascript
-  Skyderby.helpers.ProfileSelect($('select[name="tournament_competitor[profile_id]"]'));
-  Skyderby.helpers.SuitSelect($('select[name="tournament_competitor[suit_id]"]'));
-  Skyderby.helpers.CountrySelect($('select[name="tournament_competitor[profile_attributes][country_id]"]'));

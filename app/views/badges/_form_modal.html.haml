@@ -23,7 +23,9 @@
             - if @badge.profile.blank?
               = f.select :profile_id,
                          { include_blank: true },
-                         class: 'form-control'
+                         placeholder: t('tracks.form.profile_select_placeholder'),
+                         class: 'form-control',
+                         'data-controller': 'select2--profiles'
             - else
               %p.form-control-static= @badge.profile.name
 
@@ -41,7 +43,7 @@
           = f.label :category, class: 'col-sm-4 control-label', for: :category
           .col-sm-8
             - category_options = Badge.categories.keys.map { |key| [t("activerecord.attributes.badge.categories.#{key}"), key] }
-            = f.select :category, category_options, {}, class: 'form-control'
+            = f.select :category, category_options, {}, class: 'form-control', 'data-controller': 'select2--local'
 
         .form-group
           = f.label :kind, class: 'col-sm-4 control-label', for: :kind
@@ -55,7 +57,10 @@
         .form-group
           = f.label :achieved_at, class: 'col-sm-4 control-label'
           .col-sm-8
-            = f.text_field :achieved_at, class: 'form-control datepicker', value: @badge.achieved_at.strftime('%d.%m.%Y')
+            = f.text_field :achieved_at,
+                           class: 'form-control',
+                           value: @badge.achieved_at.strftime('%d.%m.%Y'),
+                           'data-controller': 'datepicker'
 
       .modal-footer
         = f.submit t('general.save'), class: 'btn btn-primary'

@@ -112,10 +112,6 @@ class Track < ApplicationRecord
     ("abs_altitude - #{msl_offset}" if abs_altitude?) || 'elevation'
   end
 
-  def presentation
-    "##{id} | #{recorded_at&.strftime('%Y-%m-%d')} | #{comment}"
-  end
-
   def delete_results
     track_results.delete_all
   end
@@ -150,6 +146,8 @@ class Track < ApplicationRecord
 
   class << self
     def search(query)
+      return all if query.blank?
+
       where('LOWER(comment) LIKE ?', "%#{query.downcase}%")
     end
 

@@ -35,9 +35,11 @@ gem 'nokogiri', '~> 1.8'
 gem 'sidekiq', ' < 6'
 
 # Exception notifications and profiling
-gem 'honeybadger', '~> 3.2'
 gem 'rack-mini-profiler'
-gem 'skylight'
+group :production do
+  gem 'honeybadger', '~> 3.2'
+  gem 'skylight'
+end
 
 # Internalization
 gem 'http_accept_language'
@@ -49,12 +51,11 @@ gem 'browser'
 gem 'bootstrap-sass', '~> 3.3.7'
 gem 'coffee-rails'
 gem 'font-awesome-sass', '~> 4.7.0'
-gem 'jquery-rails'
 gem 'rails-backbone'
-gem 'remotipart', git: 'https://github.com/skyderby/remotipart.git'
 gem 'sass-rails'
 gem 'turbolinks'
 gem 'uglifier', '>= 2.7.2'
+gem 'webpacker', '~> 3.2'
 
 gem 'vincenty_distance'
 

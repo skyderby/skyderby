@@ -1,9 +1,2 @@
 $('#modal').html("<%= j render('form_modal', organizer: @organizer) %>");
 $('#modal').modal('show');
-
-Skyderby.helpers.UserSelect(
-  $('select[name="organizer[user_id]"]'),
-  {
-    placeholder: "<%= t('organizers.form.profile_placeholder') %>"
-  }
-);

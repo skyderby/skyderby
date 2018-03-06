@@ -2,7 +2,7 @@
   .page-header
     %h2= t('devise.sessions.new.sign_in')
 
-  = form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: 'form-horizontal'}) do |f|
+  = form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form-horizontal', 'data-controller': 'users--sign-in' }) do |f|
     .form-group
       = f.label :email, class: 'col-sm-2 control-label'
       .col-sm-6

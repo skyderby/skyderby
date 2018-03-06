@@ -1,6 +1,17 @@
 {
   "dependencies": {
+    "@rails/webpacker": "^3.2.2",
     "bootstrap-datepicker": "^1.7.1",
-    "highcharts": "^6.0.7"
+    "highcharts": "^6.0.7",
+    "jquery": "^3.3.1",
+    "jquery-validation": "^1.17.0",
+    "rails-ujs": "^5.1.5",
+    "select2": "^4.0.3",
+    "stimulus": "^1.0.1",
+    "turbolinks": "^5.1.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^2.0.10",
+    "webpack-dev-server": "^2.11.1"
   }
 }

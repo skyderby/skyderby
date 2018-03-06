@@ -4,11 +4,15 @@ module Places
       @places = Place.includes(:country)
                      .order('countries.name, places.name')
                      .search(search_query)
-                     .group_by(&:country_name)
+                     .paginate(page: page, per_page: 25)
     end
 
     def search_query
-      params.dig(:query, :term)
+      params[:term]
+    end
+
+    def page
+      params[:page]
     end
   end
 end

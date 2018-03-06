@@ -1,7 +1,3 @@
-//= require jquery
-//= require jquery_ujs
-//= require jquery.remotipart
-//= require turbolinks
 //= require bootstrap/alert
 //= require bootstrap/button
 //= require bootstrap/collapse
@@ -9,10 +5,7 @@
 //= require bootstrap/modal
 //= require bootstrap/tab
 //= require bootstrap/tooltip
-//= require jquery.validate
-//= require additional-methods.min
 //= require jquery.cookie
-//= require select2.full
 //= require ion.rangeSlider
 //= require i18n/translations
 //= require highcharts/highcharts

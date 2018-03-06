@@ -2,7 +2,7 @@
   = form.label :name, class: 'col-sm-3 control-label'
   .col-sm-5
     = form.text_field :name, class: 'form-control'
-.form-group
+.form-group{'data-controller': 'places--exit-measurements'}
   %label.col-sm-3.control-label Exit measurements
   .col-sm-5
     %table.table.place-form__exit-measurements
@@ -11,11 +11,11 @@
           %th Altitude
           %th Distance
           %th
-      %tbody.hide.exit-measurement__template
+      %tbody.hide.exit-measurement__template{'data-target': 'places--exit-measurements.template'}
         = render 'places/form/exit_measurements_template', form: form, line: form.object
-      %tbody
+      %tbody{'data-target': 'places--exit-measurements.container'}
         = render 'places/form/exit_measurements', form: form
-    %a.btn.btn-default.place-form__add-measurement
+    %a.btn.btn-default.place-form__add-measurement{'data-action': 'click->places--exit-measurements#add'}
       %i.fa.fa-plus
       Add
 

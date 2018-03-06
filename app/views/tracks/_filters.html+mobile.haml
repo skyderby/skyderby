@@ -44,7 +44,9 @@
               = select_tag('query_profile_id',
                             options_for_select([ [profile_name_by_id(query_params[:profile_id]), query_params[:profile_id]] ]),
                             name: 'query[profile_id]',
-                            class: 'form-control input-lg') 
+                            placeholder: t('tracks.index.filter_by_pilot'),
+                            class: 'form-control input-lg',
+                            'data-controller': 'select2--profiles')
 
             .form-group
               %label
@@ -52,7 +54,9 @@
               = select_tag('query_suit_id',
                             options_for_select([ [suit_name_by_id(query_params[:suit_id]), query_params[:suit_id]] ]),
                             name: 'query[suit_id]',
-                            class: 'form-control input-lg')
+                            placeholder: t('tracks.index.filter_by_suit'),
+                            class: 'form-control input-lg',
+                            'data-controller': 'select2--suits')
 
             .form-group
               %label
@@ -60,12 +64,11 @@
               = select_tag('query_place_id',
                             options_for_select([ [place_name_by_id(query_params[:place_id]), query_params[:place_id]] ]),
                             name: 'query[place_id]',
-                            class: 'form-control input-lg')
+                            placeholder: t('tracks.index.filter_by_place'),
+                            class: 'form-control input-lg',
+                            'data-controller': 'select2--places')
+
           .modal-footer
             .tracks-filters__modal-footer
               %button.btn.btn-lg.btn-default{type: 'button', data: {dismiss: 'modal'}}= t('general.cancel')
               = f.submit 'OK', class: 'btn btn-primary btn-lg'
-
-- content_for :page_js do
-  %script
-    = render partial: 'tracks/init_filter_elements', formats: [:js]

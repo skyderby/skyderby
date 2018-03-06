@@ -1,7 +1,7 @@
 - modal ||= false
 - allow_change_rules ||= false
 
-= form_for @event, remote: modal, html: {class: 'form-horizontal', role: 'form', id: "#{action_name}_event_form"} do |f|
+= form_for @event, remote: modal, html: { class: 'form-horizontal', 'data-controller': 'events--form', role: 'form', id: "#{action_name}_event_form"} do |f|
   = hidden_field_tag :display_raw_results, @display_raw_results
 
   - if modal
@@ -28,8 +28,9 @@
       = f.label :starts_at, class: 'control-label col-sm-4'
       .col-sm-8
         = f.text_field :starts_at, 
-                       class: 'form-control datepicker', 
-                       value: (@event.starts_at || Date.today).strftime("%d.%m.%Y")
+                       class: 'form-control', 
+                       value: (@event.starts_at || Date.today).strftime("%d.%m.%Y"),
+                       'data-controller': 'datepicker'
 
     .form-group.row
       = f.label t('events.show.comp_window'), class: 'control-label col-sm-4'
@@ -45,7 +46,9 @@
         = f.select :place_id,
                    options_for_select([[@event.place_name, @event.place_id]], @event.place_id), 
                    { include_blank: true },
-                   class: 'form-control'
+                   placeholder: t('events.show.place_placeholder'),
+                   class: 'form-control',
+                   'data-controller': 'select2--places'
 
     - if allow_change_rules
       .form-group

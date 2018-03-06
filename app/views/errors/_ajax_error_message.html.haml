@@ -1,6 +1,6 @@
-#ajax-error-message.flash.flash-error
+#ajax-error-message.flash.flash-error{'data-controller': 'action-errors', 'data-action': 'mouseover->action-errors#clear_timeout'}
   %i.fa.fa-exclamation-triangle
-  %a.flash-close.ajax-error-dismiss{href: '#'}
+  %a.flash-close{'data-action': 'click->action-errors#hide'}
     &times;
-  %span#ajax-error-message-text
+  %span{'data-target': 'action-errors.message'}
     Something went wrong with that request. Please try again.

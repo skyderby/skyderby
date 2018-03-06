@@ -17,7 +17,9 @@
           = f.select :country_id,
                      options_for_select([[@profile.country_name, @profile.country_id]], @profile.country_id),
                      { include_blank: true },
-                     class: 'form-control'
+                     placeholder: 'Select country',
+                     class: 'form-control',
+                     'data-controller': 'select2--countries'
 
       .form-group
         = f.label t('activerecord.attributes.profile.userpic'), class: 'col-sm-2 control-label', :for => :userpic
@@ -81,8 +83,6 @@
 
 - content_for :page_js do
   :javascript
-    Skyderby.helpers.CountrySelect($('select[name="profile[country_id]"]'));
-
     $('.edit-user-profile').validate({
       rules: {
         'profile[name]': {

@@ -50,7 +50,8 @@
                                  options_for_select([ [suit_name_by_id(recent_suit_id), recent_suit_id] ], recent_suit_id),
                                  { include_blank: true },
                                  class: 'form-control new-track-suit-select suit-group',
-                                 style: ('display:none' if (!recent_suit_id && recent_suit_name))
+                                 style: ('display:none' if (!recent_suit_id && recent_suit_name)),
+                                 'data-controller': 'select2--suits'
 
                 = builder.text_field :missing_suit_name,
                                      class: 'form-control suit-group',
@@ -116,9 +117,4 @@
     new Skyderby.views.NewTrackForm({el: '#newTrackModal'});
     $('#newTrackModal').on('shown.bs.modal', function() {
       $('[data-target="#newTrackModal"]').one('focus', function() { $(this).blur(); });
-    });
-
-    $(document).one('turbolinks:before-cache', function() {
-      var $el = $('select[name="track_file[track_attributes][suit_id]"]');
-      if ( $el.next().is('.select2') ) $el.select2('destroy');
     });

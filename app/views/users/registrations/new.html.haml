@@ -1,7 +1,10 @@
 .container
   .page-header
     %h2= t 'devise.registrations.new.sign_up'
-  = form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: 'new-user-form form-horizontal'}) do |f|
+  = form_for(resource,
+             as: resource_name,
+             url: registration_path(resource_name),
+             html: { class: 'new-user-form form-horizontal', 'data-controller': 'users--sign-up' }) do |f|
     = devise_error_messages!
 
     .form-group
@@ -33,31 +36,3 @@
     .form-group
       .col-sm-offset-2.col-sm-6
         = render 'users/shared/links'
-
-- content_for :page_js do
-  :javascript
-    $('.new-user-form').validate({
-      rules: {
-        'user[profile_attributes][name]': {
-          minlength: 3,
-          required: true
-        },
-        'user[email]': {
-          required: true,
-          email: true
-        },
-        'user[password]': {
-          required: true
-        },
-        'user[password_confirmation]': {
-          required: true,
-          equalTo: '.new-user-form #user_password'
-        }
-      },
-      highlight: function(element) {
-        $(element).closest('.form-group').addClass('has-error');
-      },
-      unhighlight: function(element) {
-        $(element).closest('.form-group').removeClass('has-error');
-      }
-    })

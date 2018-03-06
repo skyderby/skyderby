@@ -9,7 +9,6 @@ class Skyderby.views.ExitPerformance extends Backbone.View
     'change select[name="place"]'          : 'toggle_place'
 
   render: ->
-    @init_line_select()
     @init_chart()
 
   toggle_track: (e) ->
@@ -93,9 +92,6 @@ class Skyderby.views.ExitPerformance extends Backbone.View
       if serie.options.code == 'place_measurements'
         serie.remove()
         break
-
-  init_line_select: ->
-    Skyderby.helpers.PlaceSelect(@$('select[name="place"]'), { ajax: { url: '/api/v1/places/exit_measurements' } })
 
   init_chart: ->
     @$('.flight-profiles__chart-container').highcharts({

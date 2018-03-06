@@ -47,6 +47,8 @@ class Suit < ApplicationRecord
 
   class << self
     def search(query)
+      return all if query.blank?
+
       joins(:manufacturer).where(
         'LOWER(suits.name) LIKE :query
          OR LOWER(manufacturers.name) LIKE :query',
