@@ -9,7 +9,7 @@ Skyderby.helpers.RangeSelector = ($el, min, max, from, to) ->
     from: from,
     to: to,
     onFinish: (obj) ->
-      $.rails.handleRemote(obj.input)
+      $.rails.fire(obj.input[0], 'change')
   })
 
   $(document).on 'turbolinks:before-cache', ->

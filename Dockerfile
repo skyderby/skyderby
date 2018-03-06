@@ -29,7 +29,10 @@ COPY ./ /opt/app
 
 RUN DATABASE_URL=postgres://user:pass@127.0.0.1/does_not_exist_dbname /bin/sh -c 'bundle exec rake assets:precompile'
 
+RUN rm -rf node_modules
+
 VOLUME /opt/app/public/assets
+VOLUME /opt/app/public/packs
 VOLUME /opt/app/public
 
 CMD rake db:migrate \
