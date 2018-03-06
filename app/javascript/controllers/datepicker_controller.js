@@ -3,6 +3,7 @@ import 'bootstrap-datepicker'
 import 'bootstrap-datepicker/js/locales/bootstrap-datepicker.ru'
 import 'bootstrap-datepicker/js/locales/bootstrap-datepicker.de'
 import 'bootstrap-datepicker/js/locales/bootstrap-datepicker.es'
+import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css'
 
 export default class extends Controller {
   connect() {

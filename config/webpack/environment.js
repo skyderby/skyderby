@@ -28,12 +28,4 @@ environment.plugins.append(
   })
 )
 
-environment.config.merge({
-  resolve: {
-    alias: {
-      'select2': 'select2/dist/js/select2.full.js',
-    },
-  }
-})
-
 module.exports = environment

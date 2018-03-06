@@ -24,8 +24,6 @@
 //= require backbone
 //= require backbone_rails_sync
 //= require backbone_datalink
-//= require highcharts/highcharts
-//= require highcharts/highcharts-more
 //= require jquery.Jcrop
 //= require geospatial
 //= require app/app

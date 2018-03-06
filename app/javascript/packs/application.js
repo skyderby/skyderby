@@ -9,6 +9,9 @@ window.$ = window.jQuery = require('jquery')
 require('jquery-validation')
 require('jquery-validation/dist/additional-methods')
 
+window.Highcharts = require('highcharts')
+require('highcharts/highcharts-more')
+
 // Look for controllers inside app/javascripts/packs/controllers/
 const application = Application.start()
 const context = require.context('controllers', true, /\.js$/)

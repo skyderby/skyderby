@@ -8,8 +8,6 @@
 //= require jquery.cookie
 //= require ion.rangeSlider
 //= require i18n/translations
-//= require highcharts/highcharts
-//= require highcharts/highcharts-more
 //= require underscore
 //= require backbone
 //= require backbone_rails_sync
