@@ -5,8 +5,6 @@
 //= require bootstrap/modal
 //= require bootstrap/tab
 //= require bootstrap/tooltip
-//= require jquery.validate
-//= require additional-methods.min
 //= require jquery.cookie
 //= require ion.rangeSlider
 //= require i18n/translations

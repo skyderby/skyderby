@@ -4,7 +4,7 @@
 
     .content-block
       .content-container
-        = form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'new-session-form'}) do |f|
+        = form_for(resource, as: resource_name, url: session_path(resource_name), html: { 'data-controller': 'users--sign-in' }) do |f|
           .form-group
             = f.label :email
             = f.email_field :email, autofocus: true , class: 'form-control input-lg'
@@ -22,23 +22,3 @@
         = t('devise.shared.links.sign_up')
         %span.icon-right
           %i.fa.fa-chevron-right
-
-- content_for :page_js do
-  :javascript
-    $('.new-session-form').validate({
-      rules: {
-        'user[email]': {
-          required: true,
-          email: true
-        },
-        'user[password]': {
-          required: true
-        }
-      },
-      highlight: function(element) {
-        $(element).closest('.form-group').addClass('has-error');
-      },
-      unhighlight: function(element) {
-        $(element).closest('.form-group').removeClass('has-error');
-      }
-    });

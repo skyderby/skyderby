@@ -16,8 +16,6 @@
 //= require bootstrap/modal
 //= require bootstrap/tab
 //= require bootstrap/tooltip
-//= require jquery.validate
-//= require additional-methods.min
 //= require markerclusterer
 //= require ion.rangeSlider
 //= require jquery.cookie
@@ -32,7 +30,6 @@
 //= require geospatial
 //= require app/app
 //= require_tree ./polyfills
-//= require_tree ./events
 //= require_tree ./common
 //= require_self
 
