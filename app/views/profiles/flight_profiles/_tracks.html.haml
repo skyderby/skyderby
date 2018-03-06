@@ -1,9 +1,9 @@
 %ul.flight-profiles__tracks-list
   - @profile.base_tracks.accessible_by(current_user).each do |track|
-    %li.flight-profiles__track{'data-track-id': track.id}
+    %li.flight-profiles__track{data: { controller: 'flight-profiles--track', 'track-id': track.id } }
       .checkbox
         %label
-          %input{type: 'checkbox'}
+          %input{type: 'checkbox', 'data-action': 'change->flight-profiles--track#toggle'}
           .flight-profiles__track-header.text-muted
             %span
               = "##{track.id}"

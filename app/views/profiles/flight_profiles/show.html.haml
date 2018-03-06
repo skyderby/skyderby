@@ -1,17 +1,14 @@
-.flight-profiles
+.flight-profiles{'data-controller': 'flight-profiles'}
   .flight-profiles__sidebar
     .flight-profiles__tracks-container
       = render 'tracks'
-    .flight-profiles__place-container
+    .flight-profiles__place-container{'data-controller': 'flight-profiles--exit-measurement'}
       = select_tag :place,
                    nil,
                    include_blank: true ,
+                   placeholder: 'Choose exit measurement',
                    class: 'form-control',
-                   'data-controller': 'select2--exit-measurements'
+                   'data-controller': 'select2--exit-measurements',
+                   'data-action': 'change->flight-profiles--exit-measurement#toggle'
 
-  .flight-profiles__chart-container
-
-- content_for :page_js do
-  :javascript
-    var view = new Skyderby.views.ExitPerformance({ el: $('.flight-profiles') });
-    view.render();
+  .flight-profiles__chart-container{'data-target': 'flight-profiles.chart'}
