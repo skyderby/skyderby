@@ -12,6 +12,8 @@ RUN apt-get update -qq && apt-get install -y -qq apt-transport-https ca-certific
 RUN echo "gem: --no-rdoc --no-ri" >> ~/.gemrc
 
 ENV RAILS_ENV production
+ENV NODE_ENV production
+
 ENV LISTEN_ON 8000
 
 WORKDIR /tmp
