@@ -1,0 +1,9 @@
+de:
+  activerecord:
+    models:
+      virtual_competition: Online Wettbewerbe
+    attributes:
+      virtual_competition:
+        name: Name
+        location: Ort
+        task: Disziplin

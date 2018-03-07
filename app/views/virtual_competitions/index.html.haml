@@ -2,7 +2,7 @@
   - if policy(:virtual_competition).create?
     %a.btn.btn-default.btn-info{href: new_virtual_competition_path}
       %i.fa.fa-plus
-      = 'Онлайн соревнование'
+      = t('activerecord.models.virtual_competition')
   .top-buffer 
   - @competitions.each do |group, competitions|
     .content-block
@@ -10,9 +10,9 @@
       %table.table.table-hover.online-competitions-list
         %thead
           %tr
-            %th= 'Name'
-            %th= 'Location'
-            %th= 'Task'
+            %th= t('activerecord.attributes.virtual_competition.name')
+            %th= t('activerecord.attributes.virtual_competition.location')
+            %th= t('activerecord.attributes.virtual_competition.task')
         %tbody
         - competitions.each do |competition|
           %tr.clickableRow{data: {url: virtual_competition_path(id: competition.id)}}

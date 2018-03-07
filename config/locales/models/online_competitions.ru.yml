@@ -1,0 +1,9 @@
+ru:
+  activerecord:
+    models:
+      virtual_competition: Онлайн соревнование
+    attributes:
+      virtual_competition:
+        name: Название
+        location: Локация
+        task: Цель
