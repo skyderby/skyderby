@@ -1,4 +1,5 @@
 en:
   events:
     index:
+      sign_in_to_create: Creating classic competitions available only for registered users.
       new: 'New'

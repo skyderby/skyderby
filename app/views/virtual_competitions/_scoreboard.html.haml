@@ -12,7 +12,7 @@
             %th=t 'activerecord.attributes.track.suit'
             - if @competition.worldwide?
               %th= t 'activerecord.attributes.track.place'
-            %th.text-right= 'Result'
+            %th.text-right= t('.result')
             - if @competition.display_highest_speed
               %th.text-right= 'Best speed'
             - if @competition.display_highest_gr

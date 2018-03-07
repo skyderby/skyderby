@@ -3,9 +3,9 @@
   - if policy(Event).create?
     = link_to(new_event_path, remote: true, class: 'btn btn-default btn-info') do
       %i.fa.fa-plus
-      = 'Competition'
+      = t('activerecord.models.event')
   - else
-    %span= 'Creating classic competitions available only for registered users.'
+    %span= t('.sign_in_to_create')
 
   .top-buffer
   .content-block
