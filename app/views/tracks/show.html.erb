@@ -2,6 +2,10 @@
  
 <%= render 'tracks/show_track' %>
 
+<% content_for :page_open_graph do %>
+  <%= render 'tracks/open_graph' %>
+<% end %>
+
 <% content_for :page_js do %>
   <script>
     <% if @track_presenter.separate_charts? %>
