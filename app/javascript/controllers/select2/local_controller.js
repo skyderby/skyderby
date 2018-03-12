@@ -1,5 +1,5 @@
 import { Controller } from 'stimulus'
-import 'select2'
+import 'select2/dist/js/select2.full'
 
 export default class extends Controller {
   connect() {

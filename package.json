@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "webpack-cli": "^2.0.10",
-    "webpack-dev-server": "^2.11.1"
+    "webpack-dev-server": "^2.11.1",
+    "webpack-bundle-analyzer": "^2.11.1"
   }
 }
