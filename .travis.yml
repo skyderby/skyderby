@@ -24,7 +24,7 @@ services:
 
 before_install:
   # Chrome driver
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+  - google-chrome-stable --headless --no-sandbox --remote-debugging-port=9222 http://localhost &
   - wget http://chromedriver.storage.googleapis.com/2.34/chromedriver_linux64.zip
   - unzip chromedriver_linux64.zip
   - sudo cp chromedriver /usr/local/bin/.
