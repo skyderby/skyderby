@@ -22,8 +22,8 @@ class EventResultService
   private
 
   def subtract_wind(points)
-    wind_data = Skyderby::WindCancellation::WindData.new(@event.weather_data)
-    points = Skyderby::WindCancellation::WindSubtraction.new(points, wind_data).execute
+    wind_data = WindCancellation::WindData.new(@event.weather_data)
+    points = WindCancellation::WindSubtraction.new(points, wind_data).execute
   end
 
   def track_points

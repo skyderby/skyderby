@@ -1,8 +1,8 @@
 module Tracks
   class BasePresenter
     include ChartPreferences
-    include TrackGlideRatio
-    include TrackIndicators
+    include WindCancellation
+    include Summary, GlideRatioChart, SpeedsChart, ElevationDistanceChart
 
     def initialize(track, range_from, range_to, chart_preferences)
       @track = track
@@ -11,64 +11,21 @@ module Tracks
       @chart_preferences = chart_preferences
     end
 
-    def altitude_chart_line
-      points.map do |x|
-        [(x[:gps_time] - min_gps_time).round(1), altitude_presentation(x[:altitude])]
-      end.to_json
+    def glide_ratio_presenter
+      ValuePresenters::GlideRatio.new
     end
 
-    def ground_speed_chart_line
-      points.map do |x|
-        [(x[:gps_time] - min_gps_time).round(1), speed_presentation(x[:h_speed])]
-      end.to_json
+    def speed_presenter
+      ValuePresenters::Speed.new(chart_preferences.preferred_units)
     end
 
-    def vertical_speed_chart_line
-      points.map do |x|
-        [(x[:gps_time] - min_gps_time).round(1), speed_presentation(x[:v_speed])]
-      end.to_json
+    def altitude_presenter
+      ValuePresenters::Altitude.new(chart_preferences.preferred_units)
     end
 
-    def full_speed_chart_line
-      points.map do |x|
-        full_speed = Math.sqrt(x[:v_speed]**2 + x[:h_speed]**2)
-        [(x[:gps_time] - min_gps_time).round(1), speed_presentation(full_speed)]
-      end.to_json
-    end
-
-    def elevation_chart_line
-      return [] if points.blank?
-
-      max_altitude = points.first[:altitude]
-      points.map do |x|
-        [(x[:gps_time] - min_gps_time).round(1), altitude_presentation(max_altitude - x[:altitude])]
-      end.to_json
-    end
-
-    def distance_chart_line
-      tmp_distance = 0.0
-      tmp_points = [points.first] + points
-      tmp_points.each_cons(2).map do |pair|
-        [
-          (pair.last[:gps_time] - min_gps_time).round(1),
-          distance_presentation(tmp_distance += TrackSegment.new(pair).distance)
-        ]
-      end.to_json
-    end
-
-    def wind_cancelation?
-      weather_data.any?
-    end
-
-    def wind_effect_speed_chart_line
-      zerowind_points.each_with_index.map do |point, index|
-        [
-          (point[:gps_time] - min_gps_time).round(1),
-          speed_presentation(point[:h_speed]),
-          speed_presentation(points[index][:h_speed])
-        ]
-      end.to_json
-    end
+    def distance_presenter
+      ValuePresenters::Distance.new(chart_preferences.preferred_units)
+    end 
 
     def missing_ranges
       return [] if points.blank?
@@ -102,79 +59,15 @@ module Tracks
       end
     end
 
+    def zero_wind_track_distance
+      zero_wind_trajectory_distance
+    end
+
     def zero_wind_trajectory_distance
       @zero_wind_trajectory_distance ||=
         zerowind_points.each_cons(2).inject(0) do |sum, pair|
           sum + TrackSegment.new(pair).distance
         end
-    end
-
-    def speed_presentation(value)
-      Velocity.new(value).convert_to(speed_units).round.truncate
-    end
-
-    def distance_presentation(value)
-      converted = Distance.new(value).convert_to(distance_units)
-      if distance_units == 'mi'
-        converted.round(2).to_f
-      else
-        converted.round.truncate
-      end
-    end
-
-    def altitude_presentation(value)
-      Distance.new(value).convert_to(altitude_units).round.truncate
-    end
-
-    def min_gps_time
-      return track.recorded_at if points.empty?
-
-      @min_gps_time ||= points.first[:gps_time]
-    end
-
-    def weather_data
-      start_time = min_gps_time.beginning_of_hour
-      @weather_data ||=
-        if track.weather_data.any?
-          track.weather_data
-        elsif weather_data_from_competition?(start_time)
-          track.event.weather_data.for_time(start_time)
-        elsif weather_data_from_place?(start_time)
-          track.place.weather_data.for_time(start_time)
-        else
-          []
-        end
-    end
-
-    def weather_data_from_competition?(start_time)
-      return false unless track.competitive?
-      track.event.weather_data.for_time(start_time).any?
-    end
-
-    def weather_data_from_place?(start_time)
-      return false unless track.place
-      track.place.weather_data.for_time(start_time).any?
-    end
-
-    def zerowind_points
-      return [] if weather_data.blank?
-
-      @zerowind_points ||= begin
-        points_for_subtraction = points.tap do |tmp|
-          tmp.first[:time_diff] = 0
-          tmp.each_cons(2) do |prev, cur|
-            cur[:time_diff] = cur[:gps_time] - prev[:gps_time]
-          end
-        end
-        wind_data = Skyderby::WindCancellation::WindData.new(weather_data)
-        points_after_subtraction = Skyderby::WindCancellation::WindSubtraction.new(points_for_subtraction, wind_data).execute
-        points_after_subtraction.each_cons(2) do |prev, cur|
-          cur[:h_speed] = TrackSegment.new([prev, cur]).distance / cur[:time_diff]
-          cur[:v_speed] = (prev[:altitude] - cur[:altitude]) / cur[:time_diff]
-          cur[:glide_ratio] = cur[:h_speed] / (cur[:v_speed].zero? ? 0.1 : cur[:v_speed])
-        end
-        points_after_subtraction
-      end
     end
 
     def track_points

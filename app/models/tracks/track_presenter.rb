@@ -9,19 +9,19 @@ module Tracks
     end
 
     def min_altitude
-      altitude_presentation(track.altitude_bounds[:min_altitude])
+      altitude_presenter.call(track.altitude_bounds[:min_altitude])
     end
 
     def max_altitude
-      altitude_presentation(track.altitude_bounds[:max_altitude])
+      altitude_presenter.call(track.altitude_bounds[:max_altitude])
     end
 
     def range_from
-      altitude_presentation(@range_from)
+      altitude_presenter.call(@range_from)
     end
 
     def range_to
-      altitude_presentation(@range_to)
+      altitude_presenter.call(@range_to)
     end
 
     private

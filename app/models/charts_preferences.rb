@@ -29,13 +29,13 @@ class ChartsPreferences
     preferred_mode == 'single'
   end
 
-  private
-
   def preferred_units
     preferences_value = value_store[:preferred_charts_units]
     return DEFAULT_UNITS unless AVAILABLE_UNITS.include? preferences_value
     preferences_value
   end
+
+  private
 
   def preferred_mode
     preferences_value = value_store[:preferred_charts_mode]

@@ -30,9 +30,9 @@ module Skyderby
         return [] if weather_data.blank?
 
         @zerowind_points ||= begin
-          wind_data = Skyderby::WindCancellation::WindData.new(weather_data)
+          wind_data = WindCancellation::WindData.new(weather_data)
           zerowind_points_data =
-            Skyderby::WindCancellation::WindSubtraction.new(track_points, wind_data).execute
+            WindCancellation::WindSubtraction.new(track_points, wind_data).execute
 
           zerowind_points_data.map do |x|
             { latitude: x[:latitude], longitude: x[:longitude], h_speed: x[:h_speed] }
