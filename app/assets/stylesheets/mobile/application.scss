@@ -15,4 +15,14 @@
 @import '../common/**/*';
 @import '../blocks/**/*';
 
+@import 'variables';
 @import '**/*';
+
+html, body {
+  overflow-x: hidden;
+
+  &.overflow {
+    overflow: hidden;
+  }
+}
+

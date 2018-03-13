@@ -24,7 +24,7 @@
   z-index: 2;
 
   &:before {
-    font-family: $achievement-icon-font;
+    font-family: $application-icon-font;
     height: 23px;
     font-size: 28px;
     line-height: initial;
@@ -33,13 +33,13 @@
 
   &.achievement--competition {
     &:before {
-      content: $achievement-icon-cup;
+      content: $icon-cup;
     }
   }
 
   &.achievement--online {
     &:before {
-      content: $achievement-icon-star;
+      content: $icon-star;
     }
   }
 
@@ -49,7 +49,7 @@
 
     &:before {
       color: $blue-dark;
-      content: $achievement-icon-sd;
+      content: $icon-sd;
       font-size: 23px;
     }
   }
@@ -60,7 +60,7 @@
 
     &:before {
       color: $green-dark;
-      content: $achievement-icon-bc;
+      content: $icon-bc;
       font-size: 22px;
     }
   }
@@ -71,7 +71,7 @@
 
     &:before {
       color: $red-dark;
-      content: $achievement-icon-fire;
+      content: $icon-fire;
       font-size: 22px;
     }
   }

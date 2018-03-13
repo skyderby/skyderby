@@ -1,0 +1,14 @@
+@import '../mixins/font_face';
+
+$application-icon-font: 'ApplicationIcons';
+@include font-face($application-icon-font, 'application-icons', 'application-icons');
+
+$icon-star:         '\e904';
+$icon-cup:          '\e900';
+$icon-sd:           '\e901';
+$icon-fire:         '\e902';
+$icon-bc:           '\e903';
+$icon-skyderby:     '\e905';
+$icon-notification: '\e90b';
+$icon-logout:       '\e922';
+$icon-remove:       '\e911';

@@ -27,8 +27,10 @@
     = render 'layouts/favicon'
     = render 'layouts/google_analytics'
   %body
+
+    = render 'layouts/header'
+
     #wrap
-      = render 'layouts/header'
 
       - if flash.count > 0
         .container.top-buffer
