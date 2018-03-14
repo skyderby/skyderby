@@ -26,11 +26,17 @@
   %ul.main-menu__nav
     - root_controller = controller.controller_path.split('/').first
     %li.main-menu__item{class: ('active' if root_controller == 'tracks')}
-      = link_to t('application.header.tracks'), tracks_path
+      = link_to tracks_path do
+        %span.main-menu__icon.main-menu__icon--tracks
+        = t('application.header.tracks')
     %li.main-menu__item{class: ('active' if ['events', 'tournaments'].include? root_controller)}
-      = link_to t('application.header.competitions'), events_path
+      = link_to events_path do
+        %span.main-menu__icon.main-menu__icon--star
+        = t('application.header.competitions')
     %li.main-menu__item{class: ('active' if root_controller == 'virtual_competitions')}
-      = link_to t('application.header.online_competitions'), virtual_competitions_path 
+      = link_to virtual_competitions_path do
+        %span.main-menu__icon.main-menu__icon--cup
+        = t('application.header.online_competitions')
 
     - if !user_signed_in?
       %li.main-menu__item

@@ -42,8 +42,10 @@
   p {
     width: 22vw;
     color: #fff;
-    font: 14px/18px;
+    font-size: 14px;
+    line-height: 18px;
     overflow: hidden;
+    margin: 0;
   }
 }
 
@@ -102,15 +104,30 @@
     align-items: center;
     position: relative;
     padding-right: 0;
-
-    &:before {
-      width: 20px;
-      height: 20px;
-      position: relative;
-      margin: 0 30px;
-      z-index: 2;
-      display: block;
-      text-align: center;
-    }
   }
+}
+
+.main-menu__icon:before {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  margin: 0 30px;
+  z-index: 2;
+  display: block;
+  text-align: center;
+}
+
+.main-menu__icon--tracks:before {
+  content: $icon-track;
+  font: 20px/20px $application-icon-font;
+}
+
+.main-menu__icon--star:before {
+  content: $icon-star;
+  font: 27px/25px $application-icon-font;
+}
+
+.main-menu__icon--cup:before {
+  content: $icon-cup;
+  font: 31px/27px $application-icon-font;
 }
