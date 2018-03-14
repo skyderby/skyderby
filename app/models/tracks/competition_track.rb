@@ -19,11 +19,11 @@ module Tracks
     end
 
     def distance
-      @distance ||= distance_presentation(track_distance)
+      @distance ||= distance_presenter.call(track_distance)
     end
 
     def trajectory_distance
-      distance_presentation(track_trajectory_distance)
+      distance_presenter.call(track_trajectory_distance)
     end
 
     private
