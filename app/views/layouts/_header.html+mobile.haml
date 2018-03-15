@@ -1,44 +1,45 @@
-%header.header
-  .header__bar
-    = link_to root_path, class: 'header__home' do
-      %span SkyDerby
+%header{'data-controller': 'mobile--header'}
+  .header
+    .header__bar
+      = link_to root_path, class: 'header__home' do
+        %span SkyDerby
 
-    .header__nav
-      %a.header__notifications-toggle
-      %a.header__menu-toggle
+      .header__nav
+        %a.header__notifications-toggle{'data-action': 'click->mobile--header#toggle_notifications'}
+        %a.header__menu-toggle{'data-action': 'click->mobile--header#open_menu'}
 
-.header__page-overlay
+  .header__page-overlay.overlay--hidden{'data-target': 'mobile--header.overlay'}
 
-.main-menu.active
-  .main-menu__bar
-    - if user_signed_in?
-      = link_to profile_path(current_user.profile), class: 'main-menu__profile' do
-        = image_tag current_user.profile.userpic.url(:thumb), class: 'main-menu__avatar'
-        %p= current_user.name
+  .main-menu{'data-target': 'mobile--header.menu'}
+    .main-menu__bar
+      - if user_signed_in?
+        = link_to profile_path(current_user.profile), class: 'main-menu__profile' do
+          = image_tag current_user.profile.userpic.url(:thumb), class: 'main-menu__avatar'
+          %p= current_user.name
 
-    %ul.main-menu__bar-actions
-      %li
-      %li
-        = link_to '', destroy_user_session_path, method: :delete, class: 'main-menu__bar-action main-menu__logout'
-      %li
-        %a.main-menu__bar-action.main-menu__close
+      %ul.main-menu__bar-actions
+        %li
+        %li
+          = link_to '', destroy_user_session_path, method: :delete, class: 'main-menu__bar-action main-menu__logout'
+        %li
+          %a.main-menu__bar-action.main-menu__close{'data-action': 'click->mobile--header#close_menu'}
 
-  %ul.main-menu__nav
-    - root_controller = controller.controller_path.split('/').first
-    %li.main-menu__item{class: ('active' if root_controller == 'tracks')}
-      = link_to tracks_path do
-        %span.main-menu__icon.main-menu__icon--tracks
-        = t('application.header.tracks')
-    %li.main-menu__item{class: ('active' if ['events', 'tournaments'].include? root_controller)}
-      = link_to events_path do
-        %span.main-menu__icon.main-menu__icon--star
-        = t('application.header.competitions')
-    %li.main-menu__item{class: ('active' if root_controller == 'virtual_competitions')}
-      = link_to virtual_competitions_path do
-        %span.main-menu__icon.main-menu__icon--cup
-        = t('application.header.online_competitions')
+    %ul.main-menu__nav
+      - root_controller = controller.controller_path.split('/').first
+      %li.main-menu__item{class: ('active' if root_controller == 'tracks')}
+        = link_to tracks_path do
+          %span.main-menu__icon.main-menu__icon--tracks
+          = t('application.header.tracks')
+      %li.main-menu__item{class: ('active' if ['events', 'tournaments'].include? root_controller)}
+        = link_to events_path do
+          %span.main-menu__icon.main-menu__icon--star
+          = t('application.header.competitions')
+      %li.main-menu__item{class: ('active' if root_controller == 'virtual_competitions')}
+        = link_to virtual_competitions_path do
+          %span.main-menu__icon.main-menu__icon--cup
+          = t('application.header.online_competitions')
 
-    - if !user_signed_in?
-      %li.main-menu__item
-        = link_to t('application.header.sign_in'), new_user_session_path
+      - if !user_signed_in?
+        %li.main-menu__item
+          = link_to t('application.header.sign_in'), new_user_session_path
 

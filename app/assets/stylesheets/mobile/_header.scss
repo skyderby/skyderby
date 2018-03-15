@@ -131,11 +131,18 @@
   align-items: center;
 }
 
-.header__page_overlay {
+.header__page-overlay {
   width: 100%;
   height: 100%;
-  display: none;
   position: fixed;
   background: rgba(0,0,0,.8);
+  transition: opacity 350ms ease-in-out;
   z-index: 10;
+
+  &.overlay--hidden {
+    visibility: hidden;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
 }
