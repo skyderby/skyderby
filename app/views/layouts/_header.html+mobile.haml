@@ -8,7 +8,7 @@
         %a.header__notifications-toggle{'data-action': 'click->mobile--header#toggle_notifications'}
         %a.header__menu-toggle{'data-action': 'click->mobile--header#open_menu'}
 
-  .header__page-overlay.overlay--hidden{'data-target': 'mobile--header.overlay'}
+  .header__page-overlay.overlay--hidden{'data-target': 'mobile--header.overlay', 'data-action': 'click->mobile--header#close_menu'}
 
   .main-menu{'data-target': 'mobile--header.menu'}
     .main-menu__bar
@@ -18,7 +18,14 @@
           %p= current_user.name
 
       %ul.main-menu__bar-actions
-        %li
+        %li.language
+          %a.language__toggle{'data-action': 'click->mobile--header#toggle_locale_menu'}
+            = I18n.locale.to_s.upcase
+            %i.fa.fa-caret-down
+
+          %ul.language__menu{'data-target': 'mobile--header.locale_menu'}
+            - I18n.available_locales.each do |locale_code|
+              %li= link_to lang_presentation(locale_code), locale: locale_code
         %li
           = link_to '', destroy_user_session_path, method: :delete, class: 'main-menu__bar-action main-menu__logout'
         %li
@@ -42,4 +49,3 @@
       - if !user_signed_in?
         %li.main-menu__item
           = link_to t('application.header.sign_in'), new_user_session_path
-
