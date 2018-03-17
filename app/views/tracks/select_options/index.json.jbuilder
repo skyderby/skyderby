@@ -1,6 +1,6 @@
 json.results @tracks do |track|
   json.id track.id
-  json.text "##{track.id} | #{track.recorded_at&.strftime('%Y-%m-%d')} | #{track.comment}"
+  json.text track_presentation(track)
 end
 
 json.pagination do |json|

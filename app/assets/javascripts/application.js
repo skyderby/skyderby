@@ -32,33 +32,12 @@
 //= require_self
 
 $(document).on('ready turbolinks:load', function() {
-
     $('input[type=number]').keypress(function (e) {
         //if the letter is not digit then don't type anything
         if (e.which !== 8 && e.which !== 0 && (e.which < 48 || e.which > 57)) {
             return false;
         }
     });
-
-    $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-        
-        var input = $(this).parents('.input-group').find(':text'),
-            log = numFiles > 1 ? numFiles + ' files selected' : label;
-        
-        if( input.length ) {
-            input.val(log);
-        }
-    });
-});
-
-$(document).on('change', '.btn-file :file', function() {
-
-  var input = $(this),
-      numFiles = input.get(0).files ? input.get(0).files.length : 1,
-      label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-
-  input.trigger('fileselect', [numFiles, label]);
-
 });
 
 $(document).on('click', '.clickableRow', function() {

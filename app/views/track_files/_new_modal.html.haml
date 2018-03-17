@@ -88,12 +88,12 @@
           .form-group
             = f.label :file, class: 'col-sm-3 control-label'
             .col-sm-9
-              .input-group
-                %input.form-control{type: "text", readonly: true}
+              .input-group{'data-controller': 'filefield'}
+                %input.form-control{type: "text", readonly: true, 'data-target': 'filefield.text_field'}
                 %span.input-group-btn
                   %span.btn.btn-default.btn-file
                     &hellip; 
-                    = f.file_field :file
+                    = f.file_field :file, {'data-target': 'filefield.file_field', 'data-action': 'change->filefield#change'}
 
           .form-group
             .col-sm-offset-3.col-sm-9

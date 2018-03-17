@@ -1,8 +1,5 @@
 $('#modal').html('<%= j render('form_modal') %>');
 
-$('.avatar-edit__form .btn-file :file').on('change', Skyderby.helpers.FileField.change);
-$('.avatar-edit__form .btn-file :file').on('fileselect', Skyderby.helpers.FileField.fileselect);
-
 new Skyderby.views.AvatarEditView({el: '.avatar-edit__form'});
 
 $('#modal').modal('show');

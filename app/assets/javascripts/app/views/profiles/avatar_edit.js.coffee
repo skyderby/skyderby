@@ -1,7 +1,7 @@
 class Skyderby.views.AvatarEditView extends Backbone.View
 
   events:
-    'fileselect [name="profile[userpic]"]': 'on_file_change'
+    'change [name="profile[userpic]"]': 'on_file_change'
 
   initialize: (opts) ->
     @init_jcrop()

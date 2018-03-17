@@ -11,12 +11,12 @@
     = form_for @profile, url: profile_avatar_path(@profile), remote: true, multipart: true, method: :post, html: { class: 'avatar-edit__form' } do |f|
       .modal-body
         .form-group
-          .input-group
-            %input.form-control{type: "text", readonly: true, placeholder: 'Select file with photo'}
+          .input-group{'data-controller': 'filefield'}
+            %input.form-control{type: "text", readonly: true, placeholder: 'Select file with photo', 'data-target': 'filefield.text_field'}
             %span.input-group-btn
               %span.btn.btn-default.btn-file
                 &hellip; 
-                = f.file_field :userpic
+                = f.file_field :userpic, class: 'form-control', 'data-target': 'filefield.file_field', 'data-action': 'change->filefield#change'
 
           - %w( x y h w ).each do |crop_field|
             = f.hidden_field "crop_#{crop_field}"

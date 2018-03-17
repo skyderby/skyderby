@@ -7,6 +7,10 @@ module TracksHelper
     "#{t 'tracks.show.title_suit'}: #{track.suit ? track.suit_name : track.missing_suit_name}, @#{track.location}"
   end
 
+  def track_presentation(track)
+    "##{track.id} | #{track.recorded_at&.strftime('%Y-%m-%d')} | #{track.comment}"
+  end
+
   def track_pilot_name(track)
     track.pilot ? track.pilot.name : track.name
   end

@@ -1,8 +1,5 @@
 $('#modal').html('<%= j render 'new_form_modal' %>');
 
-$('#new_qualification_jump .btn-file :file').on('change', Skyderby.helpers.FileField.change);
-$('#new_qualification_jump .btn-file :file').on('fileselect', Skyderby.helpers.FileField.fileselect);
-
 new Skyderby.views.TournamentTrackForm({el: '#new_qualification_jump'});
 
 $('#modal').modal('show');
