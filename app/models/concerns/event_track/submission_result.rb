@@ -1,5 +1,7 @@
 class EventTrack
   module SubmissionResult
+    extend ActiveSupport::Concern
+
     included do
       before_save :calc_result
     end

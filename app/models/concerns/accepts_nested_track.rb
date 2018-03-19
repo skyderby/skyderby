@@ -3,7 +3,7 @@
 # - track_owner
 # - track_visibility
 # - track_comment
-# - place_id
+# - competitor - profile and suit will be filled to track from competitor
 module AcceptsNestedTrack
   extend ActiveSupport::Concern
 
