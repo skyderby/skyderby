@@ -1,11 +1,6 @@
 class Skyderby.views.NewTrackForm extends Backbone.View
   events:
     'click .toggle-suit'              : 'on_toggle_suit_mode'
-    'hidden.bs.modal'                 : 'on_modal_hidden'
-    'ajax:before #track_upload_form'  : 'on_upload_start'
-    'ajax:success #track_upload_form' : 'on_upload_success'
-    'ajax:error #track_upload_form'   : 'on_upload_error'
-    'ajax:progress.remotipart #track_upload_form' : 'on_upload_progress'
 
   initialize: ->
     @init_form_validation()
@@ -59,32 +54,6 @@ class Skyderby.views.NewTrackForm extends Backbone.View
           error.appendTo( element.closest('div') )
         else
           error.insertAfter(element)
-    )
-
-  on_upload_start: (e) ->
-    @$('.upload-progress').removeClass('hidden')
-
-  on_upload_progress: (e) ->
-    percents = Math.round(e.loaded / e.total * 100)
-    @$('.upload-progress .progress-count').text("(#{percents} %)")
-    if percents == 100
-      @$('.upload-progress .upload-comment').text('Processing track...')
-
-  on_upload_success: (e) ->
-    @$('.upload-progress .spinner').addClass('hidden')
-    @$('.upload-progress .done-indicator').removeClass('hidden')
-    @$('.upload-progress .upload-comment').text('Done! Redirecting to track...')
-
-  on_upload_error: ->
-    @hide_upload_progress()
-
-  on_modal_hidden: ->
-    @hide_upload_progress()
-
-  hide_upload_progress: ->
-    @$('.upload-progress').addClass('hidden')
-    @$('.upload-progress .upload-comment').html(
-      '<span>Uploading...</span><span class="progress-count"></span>'
     )
 
   on_toggle_suit_mode: (e) ->

@@ -1,0 +1,9 @@
+.upload-progress{style: 'display: none', 'data-controller': 'upload-progress'}
+  .spinner{'data-target': 'upload-progress.spinner'}
+    %i.fa.fa-3x.fa-spin.fa-circle-o-notch
+  .done-indicator{'data-target': 'upload-progress.done', style: 'display: none'}
+    %i.fa.fa-3x.fa-check.text-success
+  .upload-comment{'data-target': 'upload-progress.comment'}
+    %span
+      Uploading...
+    %span.progress-count
