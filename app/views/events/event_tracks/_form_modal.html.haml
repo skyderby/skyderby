@@ -18,15 +18,7 @@
       .modal-body
         = f.hidden_field :competitor_id, value: @event_track.competitor_id
         = f.hidden_field :round_id, value: @event_track.round_id
-        .upload-progress{style: 'display: none'}
-          .spinner
-            %i.fa.fa-3x.fa-spin.fa-circle-o-notch
-          .done-indicator{style: 'display: none'}
-            %i.fa.fa-3x.fa-check.text-success
-          .upload-comment
-            %span
-              Uploading...
-            %span.progress-count
+        = render 'concerns/upload_progress'
 
         .radio
           = f.label :track_from, value: :from_file do
