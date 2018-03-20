@@ -14,15 +14,14 @@
 #
 
 class QualificationJump < ApplicationRecord
-  SECONDS_BEFORE_START = 10
+  include AcceptsNestedTrack
 
-  attr_accessor :track_attributes, :track_from
+  SECONDS_BEFORE_START = 10
 
   belongs_to :tournament_competitor
   belongs_to :qualification_round
   belongs_to :track, optional: true
 
-  before_validation :create_track_from_file
   before_save :calculate_result
 
   alias_attribute :competitor, :tournament_competitor
@@ -42,28 +41,21 @@ class QualificationJump < ApplicationRecord
     self.start_time_in_seconds = Time.zone.parse(val).to_f
   end
 
-  def create_track_from_file
-    return if track
-    return if track_from == 'existing_track'
+  def track_owner
+    tournament
+  end
 
-    unless track_attributes && track_attributes[:file]
-      errors.add(:base, :track_file_blank)
-      throw(:abort)
-    end
+  def tracks_visibility
+    :public_track
+  end
 
-    track_file = TrackFile.create(file: track_attributes[:file])
+  def track_comment
+    "#{tournament.name} - Qualification #{qualification_round.order}"
+  end
 
-    params = track_attributes.merge(
-      owner: tournament,
-      track_file_id: track_file.id,
-      kind: :base,
-      place_id: tournament.place_id,
-      profile_id: tournament_competitor.profile_id,
-      suit_id: tournament_competitor.suit_id,
-      comment: "#{tournament.name} - Qualification #{qualification_round.order}"
-    ).except(:file)
-
-    self.track = CreateTrackService.call(params)
+  # TODO!
+  def competitor
+    tournament_competitor
   end
 
   def calculate_result

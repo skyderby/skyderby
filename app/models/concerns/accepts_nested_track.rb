@@ -28,7 +28,7 @@ module AcceptsNestedTrack
   private
 
   def create_track_from_file
-    return if track_from == 'existing_track'
+    return if track_from != 'from_file'
 
     if track_attributes&.fetch(:file).blank?
       errors.add(:base, :track_file_blank)
