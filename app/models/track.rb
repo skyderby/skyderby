@@ -92,6 +92,10 @@ class Track < ApplicationRecord
     self.ff_start, self.ff_end = val.split(';')
   end
 
+  def duration
+    (points.last.gps_time_in_seconds - points.first.gps_time_in_seconds).to_i
+  end
+
   def competitive?
     event_track.present?
   end

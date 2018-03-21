@@ -14,8 +14,6 @@ class Skyderby.views.TrackEditView extends Backbone.View
     'ajax:complete .track-edit__refresh-range': 'on_refresh_complete'
 
   initialize: (opts) ->
-    @max_rel_time = opts.max_rel_time
-
     @on('change:suit_mode', @on_suit_mode_change)
     @on('change:place_mode', @on_place_mode_change)
     @on('change:pilot_mode', @on_pilot_mode_change)
@@ -32,34 +30,9 @@ class Skyderby.views.TrackEditView extends Backbone.View
       this[mode] = 'input'
 
   render: () ->
-    [range_from, range_to] = @$('[name="track[jump_range]"]').val().split(';')
-    @set_plot_bands(range_from, range_to)
-
     @on_suit_mode_change()
     @on_place_mode_change()
     @on_pilot_mode_change()
-
-  set_plot_bands: (range_from, range_to) ->
-    chart = $('#heights-chart').highcharts()
-    chart.xAxis[0].removePlotBand('plotband-start')
-    chart.xAxis[0].removePlotBand('plotband-end')
-
-    chart.xAxis[0].addPlotBand({
-      from: 0,
-      to: range_from,
-      color: 'gray',
-      id: 'plotband-start'
-    })
-
-    chart.xAxis[0].addPlotBand({
-      from: range_to,
-      to: @max_rel_time,
-      color: 'gray',
-      id: 'plotband-end'
-    })
-
-  on_change_range: (event) ->
-    @set_plot_bands(event.detail.from, event.detail.to)
 
   on_refresh_start: (e) ->
     $(e.currentTarget).find('i').addClass('fa-spin')
