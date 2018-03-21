@@ -17,7 +17,6 @@
 //= require bootstrap/tab
 //= require bootstrap/tooltip
 //= require markerclusterer
-//= require ion.rangeSlider
 //= require jquery.cookie
 //= require i18n/translations
 //= require underscore

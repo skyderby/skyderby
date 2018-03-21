@@ -16,10 +16,8 @@
               %i.fa.fa-refresh
 
             .time-selector
-              %input#time-selector{type: 'text', name: 'time-selector' , value: ''}
+              = f.text_field :jump_range, 'data-controller': 'jump-range-select', 'data-max-value': @track_data.duration
         %hr
-        = f.hidden_field 'ff_start', id: 'ff_start'
-        = f.hidden_field 'ff_end', id: 'ff_end'
 
         - if current_user && current_user.has_role?(:admin)
           .form-group

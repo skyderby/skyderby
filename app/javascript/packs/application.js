@@ -10,6 +10,7 @@ require('polyfills/element_closest')
 window.$ = window.jQuery = require('jquery')
 require('jquery-validation')
 require('jquery-validation/dist/additional-methods')
+require('ion.rangeSlider')
 
 window.Highcharts = require('highcharts')
 window.HighchartsMore = require('highcharts/highcharts-more')

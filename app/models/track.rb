@@ -84,6 +84,14 @@ class Track < ApplicationRecord
   delegate :name, to: :suit, allow_nil: true, prefix: true
   delegate :event, to: :event_track, allow_nil: true
 
+  def jump_range
+    "#{ff_start};#{ff_end}"
+  end
+
+  def jump_range=(val)
+    self.ff_start, self.ff_end = val.split(';')
+  end
+
   def competitive?
     event_track.present?
   end

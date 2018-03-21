@@ -6,7 +6,6 @@
 //= require bootstrap/tab
 //= require bootstrap/tooltip
 //= require jquery.cookie
-//= require ion.rangeSlider
 //= require i18n/translations
 //= require underscore
 //= require backbone
