@@ -18,7 +18,6 @@
 //= require bootstrap/tooltip
 //= require markerclusterer
 //= require jquery.cookie
-//= require i18n/translations
 //= require underscore
 //= require backbone
 //= require backbone_rails_sync
