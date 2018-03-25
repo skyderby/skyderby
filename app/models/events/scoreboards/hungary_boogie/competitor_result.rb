@@ -14,15 +14,14 @@ module Events
 
         def counted_results
           @counted_results ||= begin
-            result_tracks = event_tracks.reject(&:is_disqualified)
-            if result_tracks.size >= jumps_for_total
-              result_tracks.sort_by { |x| -x.result }.first(jumps_for_total)
+            if event_tracks.size >= jumps_for_total
+              event_tracks.sort_by { |x| -x.final_result }.first(jumps_for_total)
             end
           end
         end
 
         def average_result
-          results_values = event_tracks.reject(&:is_disqualified).map(&:result)
+          results_values = event_tracks.map(&:final_result)
           return 0 if results_values.blank?
           results_values.inject(0.0) { |sum, el| sum + el } / results_values.size
         end

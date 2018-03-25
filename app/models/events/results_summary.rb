@@ -116,6 +116,7 @@ module Events
 
     def results_for(round: nil, section: nil)
       all_results
+        .select { |record| record.result.to_i > 0 }
         .yield_self { |results| round ? results.select { |x| x.round == round } : results }
         .yield_self { |results| section ? results.select { |x| x.section == section } : results }
     end

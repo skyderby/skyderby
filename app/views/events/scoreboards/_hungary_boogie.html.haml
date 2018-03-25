@@ -50,23 +50,22 @@
                   - result_value = result_entity.result(net: display_raw_results)
 
                   - result_class = ''
-                  - if result_entity.best_in_section?
+                  - if best_in_section?(@event, result_entity)
                     - result_class = 'hc-best-result'
-                  - elsif result_entity.worst_in_section?
+                  - elsif worst_in_section?(@event, result_entity)
                     - result_class = 'hc-worst-result'
 
                   - if competitor.counted_results.try(:include?, result_entity)
                     - result_class += ' counted-result'
                   %td.result-cell.text-right{class: result_class}
                     - if result_value && result_value > 0
-                      - if result_entity.is_disqualified
-                        %s
-                          = result_value.truncate
-                      - else
-                        = result_value.truncate
+                      = result_value.truncate
+
+                      - if result_entity.penalized
+                        %sup.text-danger= "-#{result_entity.penalty_size}%"
                     - elsif result_value.to_i.zero? && can_update
                       %i.fa.fa-question-circle.text-danger
-                    %span{'data-toggle' => 'tooltip', title: (result_entity.disqualification_reason if result_entity.is_disqualified)}
+                    %span{'data-toggle' => 'tooltip', title: (result_entity.penalty_reason if result_entity.penalized)}
                       = link_to event_event_track_path(@event, result_entity),
                                 remote: true,
                                 class: 'show-result',

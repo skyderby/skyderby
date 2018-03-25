@@ -46,14 +46,6 @@ class EventTrack < ApplicationRecord
     observed_result - observed_result / 100 * penalty_size    
   end
 
-  def best_in_section?(net: false)
-    self == section.best_result(net: net)
-  end
-
-  def worst_in_section?(net: false)
-    self == section.worst_result(net: net)
-  end
-
   def penalty_sizes
     [10, 20, 50, 100]
   end

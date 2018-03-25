@@ -10,7 +10,16 @@ module EventsHelper
 
   def best_in_round?(event, event_track, net: false)
     best_result = event.best_result_in(round: event_track.round, section: event_track.section, net: net)
-    
     event_track == best_result
+  end
+
+  def best_in_section?(event, event_track, net: false)
+    best_result = event.best_result_in(section: event_track.section, net: net)
+    event_track == best_result
+  end
+
+  def worst_in_section?(event, event_track, net: false)
+    worst_result = event.worst_result_in(section: event_track.section, net: net)
+    event_track == worst_result
   end
 end
