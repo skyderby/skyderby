@@ -50,20 +50,6 @@
                        'data-profile-id': @event_track.competitor.profile_id,
                        'data-controller': 'select2--tracks'
 
-        - unless @event_track.new_record?
-          %hr
-          .form-group
-            = f.label :is_disqualified, class: 'control-label col-sm-4'
-            .col-sm-8
-              .checkbox
-                %label
-                  = f.check_box :is_disqualified
-
-          .form-group
-            = f.label :disqualification_reason, class: 'control-label col-sm-4'
-            .col-sm-8
-              = f.text_field :disqualification_reason, class: 'form-control'
-
       .modal-footer
         = f.submit t('general.save'), class: 'btn btn-primary', 'data-disable-with': t('general.saving')
         %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

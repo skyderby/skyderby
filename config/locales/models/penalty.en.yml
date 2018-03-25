@@ -1,0 +1,7 @@
+en:
+  helpers:
+    label:
+      penalty:
+        penalized: Apply penalty
+        penalty_size: Reduction of score
+        penalty_reason: Reason

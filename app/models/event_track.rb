@@ -16,7 +16,8 @@
 #
 
 class EventTrack < ApplicationRecord
-  include EventOngoingValidation, AcceptsNestedTrack, SubmissionAuthor, SubmissionResult
+  include EventOngoingValidation, AcceptsNestedTrack, SubmissionAuthor, SubmissionResult,
+          ReviewableByJudge
 
   belongs_to :track
   belongs_to :round
@@ -38,8 +39,11 @@ class EventTrack < ApplicationRecord
     net ? self[:result_net] : self[:result]
   end
 
-  def best_in_round?(net: false)
-    self == round.best_result(net: net)
+  def final_result(net: false)
+    observed_result = result(net: net)
+    return observed_result if observed_result.blank? || !penalized
+
+    observed_result - observed_result / 100 * penalty_size    
   end
 
   def best_in_section?(net: false)
@@ -48,6 +52,10 @@ class EventTrack < ApplicationRecord
 
   def worst_in_section?(net: false)
     self == section.worst_result(net: net)
+  end
+
+  def penalty_sizes
+    [10, 20, 50, 100]
   end
 
   private

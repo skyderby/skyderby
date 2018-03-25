@@ -10,10 +10,11 @@
           %span.sr-only
             Close
       %h4.modal-title
-        = "#{t('events.show.result')}: #{@event_track.competitor.name} | #{t('disciplines.' + @event_track.round_discipline)} - #{@event_track.round_number}"
+        = event_track_presentation(@event_track)
 
     .modal-body
       .container-fluid
+        = render 'events/event_tracks/header'
         .row
           .col-sm-12
             .pull-right

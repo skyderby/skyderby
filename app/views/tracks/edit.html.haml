@@ -9,7 +9,7 @@
           %i.fa.fa-chevron-left
           = t('.back')
         .row{'data-controller': 'jump-range', 'data-track-id': @track.id}
-          .col-sm-12#heights-chart{'data-target': 'jump-range.chart'}
+          .col-sm-12{'data-target': 'jump-range.chart'}
           .col-sm-12
             = link_to track_jump_range_path(@track.id), remote: true, class: 'track-edit__refresh-range' do
               %i.fa.fa-refresh

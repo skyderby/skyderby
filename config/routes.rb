@@ -84,7 +84,12 @@ Skyderby::Application.routes.draw do
       end
 
       resources :competitors
-      resources :event_tracks
+      resources :event_tracks do
+        scope module: :event_tracks do
+          resource :jump_range, only: %i[show update]
+          resource :penalty, only: %i[show update]
+        end
+      end
 
       resource :deletion, only: [:new, :create]
       collection do

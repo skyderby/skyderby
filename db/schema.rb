@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180227134232) do
+ActiveRecord::Schema.define(version: 20180323071749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,8 +58,9 @@ ActiveRecord::Schema.define(version: 20180227134232) do
     t.decimal "result", precision: 10, scale: 2
     t.integer "profile_id"
     t.decimal "result_net", precision: 10, scale: 2
-    t.boolean "is_disqualified", default: false
-    t.string "disqualification_reason"
+    t.string "penalty_reason"
+    t.boolean "penalized", default: false, null: false
+    t.integer "penalty_size"
     t.index ["profile_id"], name: "index_event_tracks_on_profile_id"
     t.index ["round_id", "competitor_id"], name: "index_event_tracks_on_round_id_and_competitor_id", unique: true
     t.index ["round_id"], name: "index_event_tracks_on_round_id"
@@ -511,7 +512,7 @@ ActiveRecord::Schema.define(version: 20180227134232) do
               events_1.created_at
              FROM events events_1
           UNION ALL
-           SELECT 'Tournament'::text AS text,
+           SELECT 'Tournament'::text,
               tournaments.id,
               tournaments.starts_at,
               1,

@@ -64,6 +64,8 @@
                           = result_value.truncate
                       - else
                         = result_value.truncate
+                    - elsif result_value.to_i.zero? && can_update
+                      %i.fa.fa-question-circle.text-danger
                     %span{'data-toggle' => 'tooltip', title: (result_entity.disqualification_reason if result_entity.is_disqualified)}
                       = link_to event_event_track_path(@event, result_entity),
                                 remote: true,

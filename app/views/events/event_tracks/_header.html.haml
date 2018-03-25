@@ -1,0 +1,11 @@
+- if policy(@event_track.event).update?
+  %ul.nav.nav-pills
+    - current_controller = controller.controller_path.split('/').last
+    %li{class: ('active' if current_controller == 'event_tracks')}
+      = link_to 'Charts', event_event_track_path(@event_track.event, @event_track), remote: true
+    %li{class: ('active' if current_controller == 'jump_ranges')}
+      = link_to 'Jump range', event_event_track_jump_range_path(@event_track.event, @event_track), remote: true
+    %li{class: ('active' if current_controller == 'penalties')}
+      = link_to 'Penalties', event_event_track_penalty_path(@event_track.event, @event_track), remote: true
+
+  %hr.condensed

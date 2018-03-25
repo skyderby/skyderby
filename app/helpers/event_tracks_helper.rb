@@ -18,4 +18,11 @@ module EventTracksHelper
             class: 'edit-result',
             rel: 'nofollow'
   end
+
+  def event_track_presentation(event_track)
+    "#{I18n.t('events.show.result')}: " \
+      "#{event_track.competitor.name} | " \
+      "#{I18n.t('disciplines.' + event_track.round_discipline)} - " \
+      "#{event_track.round_number}"
+  end
 end
