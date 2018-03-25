@@ -33,9 +33,6 @@ describe 'Scoring PPC-like competitions', js: true do
     verify_result competitor: 'Ivan', result: '2454'
 
     add_penalty competitor: 'Sergey', result: '3107', penalty: '50%'
-
-    sleep 3
-
   end
 
   def create_competition
