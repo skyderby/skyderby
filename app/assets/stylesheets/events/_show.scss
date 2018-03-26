@@ -43,17 +43,13 @@
         padding-bottom: 8px;
         text-align: center;
         height: 100%;
-        width: 50%;
+        width: 100%;
         color: white;
-        background-color: rgb(146, 231, 240);
+        background-color: rgba(146, 231, 240, 0.7);
         opacity: 0;
 
         &:hover {
           background-color: #428bca;
-        }
-
-        &.edit-result {
-          border-right: 1px solid #dddddd;
         }
 
         &.show-result {

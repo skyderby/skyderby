@@ -9,7 +9,7 @@ module Events
 
         def total_points
           return 0 unless counted_results
-          @total_points ||= counted_results.map(&:result).sum.to_f / jumps_for_total
+          @total_points ||= counted_results.map(&:final_result).sum.to_f / jumps_for_total
         end
 
         def counted_results

@@ -70,16 +70,10 @@
                                 remote: true,
                                 class: 'show-result',
                                 rel: 'nofollow' do
-                        %i.fa.fa-search
-
-                      - if can_update && !@event.finished?
-                        = link_to edit_event_event_track_path(@event, result_entity),
-                                  remote: true,
-                                  'data-params': { display_raw_results: display_raw_results }.to_param,
-                                  class: 'edit-result',
-                                  rel: 'nofollow' do
+                        - if can_update && !@event.finished?
                           %i.fa.fa-pencil
-
+                        - else
+                          %i.fa.fa-search
 
                 - elsif can_update && !@event.finished?
                   %td.text-center.create-result-cell

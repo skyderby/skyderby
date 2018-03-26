@@ -1,19 +1,28 @@
 module Events
   module EventTracks
     class JumpRangesController < ApplicationController
-      include EventScoped
-
-      before_action :set_event, :authorize_event
+      include EventTrackScoped, EventScoped
 
       def show
-        @event_track = @event.event_tracks.find(params[:event_track_id])
-
         respond_to do |format|
           format.js
         end
       end
 
       def update
+        @event_track.transaction do
+          @event_track.track.update!(jump_range_params)
+          @event_track.calc_result
+          @event_track.save!
+        end
+
+        respond_with_scoreboard
+      end
+
+      private
+
+      def jump_range_params
+        params.require(:jump_range).permit(:jump_range)
       end
     end
   end

@@ -34,8 +34,16 @@
             .col-sm-8
               = f.text_field :penalty_reason, class: 'form-control', value: @event_track.penalty_reason
 
-          .text-center
-            = f.submit t('general.save'), class: 'btn btn-primary'
+          %hr
+          .modal-actions
+            .modal-actions__left
+              = link_to t('general.delete'),
+                        [@event, @event_track],
+                        'data-params': { 'display_raw_results' => @display_raw_results }.to_param,
+                        method: :DELETE,
+                        remote: true,
+                        class: 'btn btn-danger'
 
-
-
+            .modal-actions__right
+              = f.submit t('general.save'), class: 'btn btn-primary'
+              %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

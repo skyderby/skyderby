@@ -88,11 +88,11 @@
                                 remote: true,
                                 class: 'show-result',
                                 rel: 'nofollow' do
-                        %i.fa.fa-search
+                        - if can_update && !@event.finished?
+                          %i.fa.fa-pencil
+                        - else
+                          %i.fa.fa-search
 
-
-                      - if can_update && !@event.finished?
-                        = edit_event_track_link(@event, result_entity, display_raw_results)
                   %td.points-cell
                     - points = event_track_points(@event, result_entity, net: display_raw_results)
                     - if result_entity.penalized

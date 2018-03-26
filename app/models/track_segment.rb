@@ -20,6 +20,7 @@ class TrackSegment
   end
 
   def distance
+    return 0 if start_point.blank? || end_point.blank?
     Vincenty.distance_between_points(start_point, end_point)
   end
   alias_method :straight_line_distance, :distance

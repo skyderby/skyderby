@@ -13,7 +13,7 @@
       .container-fluid
         = render 'events/event_tracks/header'
 
-        = form_for :jump_range, url: event_event_track_jump_range_path(@event_track.event, @event_track), remote: true do |f|
+        = form_for :jump_range, url: event_event_track_jump_range_path(@event_track.event, @event_track), method: :put, remote: true do |f|
           .row{'data-controller': 'jump-range', 'data-track-id': @event_track.track_id}
             .col-sm-12{'data-target': 'jump-range.chart'}
             .col-sm-12
@@ -25,3 +25,16 @@
                   'data-action': 'change->jump-range#on_change_range',
                   'data-target': 'jump-range.select'
 
+          %hr
+          .modal-actions
+            .modal-actions__left
+              = link_to t('general.delete'),
+                        [@event, @event_track],
+                        'data-params': { 'display_raw_results' => @display_raw_results }.to_param,
+                        method: :DELETE,
+                        remote: true,
+                        class: 'btn btn-danger'
+
+            .modal-actions__right
+              = f.submit t('general.save'), class: 'btn btn-primary'
+              %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

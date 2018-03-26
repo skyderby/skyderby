@@ -3,12 +3,10 @@ class EventTrack
     extend ActiveSupport::Concern
 
     included do
-      before_save :calc_result
+      before_save :calc_result, on: :create
     end
 
     def calc_result
-      return unless track_id_changed?
-
       self.result = EventResultService.new(track, round).calculate
 
       return unless event.wind_cancellation
