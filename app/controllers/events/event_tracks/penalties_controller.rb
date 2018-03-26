@@ -12,6 +12,8 @@ module Events
       def update
         if @event_track.update(penalty_params)
           respond_with_scoreboard
+        else
+          respond_with_errors(@event_track.errors)
         end
       end
 

@@ -17,6 +17,8 @@ module Events
         end
 
         respond_with_scoreboard
+      rescue ActiveRecord::RecordInvalid
+        respond_with_errors(@event_track.errors)
       end
 
       private
