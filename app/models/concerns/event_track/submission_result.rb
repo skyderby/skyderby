@@ -1,4 +1,4 @@
-class EventTrack
+class EventTrack < ApplicationRecord
   module SubmissionResult
     extend ActiveSupport::Concern
 

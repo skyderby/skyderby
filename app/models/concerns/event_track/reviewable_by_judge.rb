@@ -1,4 +1,4 @@
-class EventTrack
+class EventTrack < ApplicationRecord
   module ReviewableByJudge
     extend ActiveSupport::Concern
 

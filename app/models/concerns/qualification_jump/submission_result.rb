@@ -1,4 +1,4 @@
-class QualificationJump
+class QualificationJump < ApplicationRecord
   module SubmissionResult
     extend ActiveSupport::Concern
 
