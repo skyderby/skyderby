@@ -28,7 +28,7 @@ class OnlineCompetitionsService
         result: highest_flare.altitude_gain
       )
     else
-      points = track_points(trimmed: { seconds_before_start: 20 })
+      points = track_points(trimmed: { seconds_before_start: 10 })
 
       track_segment =
         WindowRangeFinder.new(points).execute(competition.window_params)
