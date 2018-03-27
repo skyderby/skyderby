@@ -17,9 +17,7 @@
 //= require bootstrap/tab
 //= require bootstrap/tooltip
 //= require markerclusterer
-//= require ion.rangeSlider
 //= require jquery.cookie
-//= require i18n/translations
 //= require underscore
 //= require backbone
 //= require backbone_rails_sync
@@ -27,7 +25,6 @@
 //= require jquery.Jcrop
 //= require geospatial
 //= require app/app
-//= require_tree ./polyfills
 //= require_tree ./common
 //= require_self
 

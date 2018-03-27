@@ -55,10 +55,10 @@ describe Event do
       competitor1 = create :competitor, section: section
       competitor2 = create :competitor, section: section
 
-      create :event_track, round: round1, competitor: competitor1, result_net: 95
-      create :event_track, round: round1, competitor: competitor2, result_net: 105
-      create :event_track, round: round2, competitor: competitor1, result_net: 115
-      create :event_track, round: round2, competitor: competitor2, result_net: 125
+      create(:event_track, round: round1, competitor: competitor1).update(result: 100, result_net: 95)
+      create(:event_track, round: round1, competitor: competitor2).update(result: 110, result_net: 105)
+      create(:event_track, round: round2, competitor: competitor1).update(result: 120, result_net: 115)
+      create(:event_track, round: round2, competitor: competitor2).update(result: 130, result_net: 125)
 
       expect(event.best_result_in(round: round1, net: true).result_net).to eq 105
       expect(event.best_result_in(section: section, net: true).result_net).to eq 125

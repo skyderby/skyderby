@@ -72,35 +72,35 @@
                 - display_raw_results = @scoreboard.display_raw_results
                 - if result_entity
                   - result_value = result_entity.result(net: display_raw_results)
-                  %td.result-cell.text-right{'data-role' => 'result', class: ('hc-best-result' if result_entity.best_in_round?)}
-                    - if result_value && result_value > 0
+                  %td.result-cell.text-right{'data-role' => 'result', class: ('hc-best-result' if best_in_round?(@event, result_entity, net: display_raw_results))}
+                    - if result_value&.positive?
                       - if discipline == 'distance'
-                        - if result_entity.is_disqualified
-                          %s= result_value.truncate
-                        - else
-                          = result_value.truncate
+                        = result_value.truncate
                       -else
-                        - if result_entity.is_disqualified
-                          %s= result_value.round(1)
-                        - else
-                          = result_value.round(1)
+                        = result_value.round(1)
+
+                      - if result_entity.penalized
+                        %sup.text-danger= "-#{result_entity.penalty_size}%"
+                    - elsif result_value.to_i.zero? && can_update
+                      %i.fa.fa-question-circle.text-danger
                     %span
                       = link_to event_event_track_path(@event, result_entity),
                                 remote: true,
                                 class: 'show-result',
                                 rel: 'nofollow' do
-                        %i.fa.fa-search
+                        - if can_update && !@event.finished?
+                          %i.fa.fa-pencil
+                        - else
+                          %i.fa.fa-search
 
-
-                      - if can_update && !@event.finished?
-                        = edit_event_track_link(@event, result_entity, display_raw_results)
-                  %td.points-cell{class: (result_entity.is_disqualified ? 'text-center' : 'text-right')}
-                    - if result_entity.is_disqualified
+                  %td.points-cell
+                    - points = event_track_points(@event, result_entity, net: display_raw_results)
+                    - if result_entity.penalized
                       %span.dotted-underline{'data-toggle' => 'tooltip',
-                                              title: result_entity.disqualification_reason}
-                        DQ
+                                              title: result_entity.penalty_reason}
+                      - if points&.positive?
+                        = points.round(1)
                     - else
-                      - points = event_track_points(@event, result_entity, net: display_raw_results)
                       - if points&.positive?
                         = points.round(1)
                 - elsif can_update && !@event.finished?

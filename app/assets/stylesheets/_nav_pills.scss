@@ -1,0 +1,12 @@
+ul.nav-pills {
+  margin-top: 0px;
+
+  li > a {
+    margin-right: 10px;
+    padding: 10px 15px;
+  }
+
+  li.active > a {
+    background-color: rgba(0, 104, 142, 0.89);
+  }
+}

@@ -8,6 +8,14 @@
     = javascript_pack_tag 'manifest'
     = javascript_pack_tag 'vendor'
 
+    :javascript
+      var I18n = I18n || {};
+      I18n.defaultLocale = "#{I18n.default_locale}"
+      I18n.locale = "#{I18n.locale}"
+      MAPS_API_KEY = "#{ENV['MAPS_API_KEY']}"
+
+    = javascript_include_tag 'translations/application', 'data-turbolinks-track' => true
+
     = javascript_pack_tag 'application'
 
     = csrf_meta_tags
@@ -18,11 +26,6 @@
     = render 'layouts/google_analytics'
 
   %body
-    :javascript
-      var I18n = I18n || {};
-      I18n.defaultLocale = "#{I18n.default_locale}"
-      I18n.locale = "#{I18n.locale}"
-      MAPS_API_KEY = "#{ENV['MAPS_API_KEY']}"
     #wrap{class: yield(:wrapper_classes)}
       - skip_header = yield(:skip_header).presence || false
       - unless skip_header

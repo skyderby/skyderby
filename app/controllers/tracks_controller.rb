@@ -43,8 +43,6 @@ class TracksController < ApplicationController
 
   def edit
     authorize @track
-
-    @track_data = Skyderby::Tracks::EditData.new(@track)
   rescue Pundit::NotAuthorizedError
     redirect_to @track
   end
@@ -96,8 +94,7 @@ class TracksController < ApplicationController
       :file,
       :track_file_id,
       :filepath,
-      :ff_start,
-      :ff_end,
+      :jump_range,
       :missing_suit_name,
       :suit_id,
       :comment,

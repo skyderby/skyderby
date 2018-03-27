@@ -1,6 +1,6 @@
 .modal-dialog
   .modal-content
-    = form_for [@tournament, @qualification_jump], remote: true, html: { multipart:true, class: 'form-horizontal' } do |f|
+    = form_for [@tournament, @qualification_jump], remote: true, html: { multipart: true, class: 'form-horizontal' } do |f|
       .modal-header
         %button.close{type: 'button', data: {dismiss: 'modal'}}
           %span{aria: {hidden: 'true'}}
@@ -14,15 +14,8 @@
       .modal-body
         = f.hidden_field :tournament_competitor_id, value: @qualification_jump.tournament_competitor_id
         = f.hidden_field :qualification_round_id, value: @qualification_jump.qualification_round_id
-        .upload-progress{style: 'display: none'}
-          .spinner
-            %i.fa.fa-3x.fa-spin.fa-circle-o-notch
-          .done-indicator{style: 'display: none'}
-            %i.fa.fa-3x.fa-check.text-success
-          .upload-comment
-            %span
-              Uploading...
-            %span.progress-count
+
+        = render 'concerns/upload_progress'
 
         .radio
           = f.label :track_from, value: :from_file do

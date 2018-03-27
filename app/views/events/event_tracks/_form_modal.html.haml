@@ -18,15 +18,7 @@
       .modal-body
         = f.hidden_field :competitor_id, value: @event_track.competitor_id
         = f.hidden_field :round_id, value: @event_track.round_id
-        .upload-progress{style: 'display: none'}
-          .spinner
-            %i.fa.fa-3x.fa-spin.fa-circle-o-notch
-          .done-indicator{style: 'display: none'}
-            %i.fa.fa-3x.fa-check.text-success
-          .upload-comment
-            %span
-              Uploading...
-            %span.progress-count
+        = render 'concerns/upload_progress'
 
         .radio
           = f.label :track_from, value: :from_file do
@@ -57,20 +49,6 @@
                        class: 'form-control',
                        'data-profile-id': @event_track.competitor.profile_id,
                        'data-controller': 'select2--tracks'
-
-        - unless @event_track.new_record?
-          %hr
-          .form-group
-            = f.label :is_disqualified, class: 'control-label col-sm-4'
-            .col-sm-8
-              .checkbox
-                %label
-                  = f.check_box :is_disqualified
-
-          .form-group
-            = f.label :disqualification_reason, class: 'control-label col-sm-4'
-            .col-sm-8
-              = f.text_field :disqualification_reason, class: 'form-control'
 
       .modal-footer
         = f.submit t('general.save'), class: 'btn btn-primary', 'data-disable-with': t('general.saving')

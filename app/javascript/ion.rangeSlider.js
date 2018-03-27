@@ -384,6 +384,13 @@
                     settings = $.extend(settings, options);
                     removeHTML();
                 };
+
+                this.triggerChange = function() {
+                    if (typeof settings.onChange === "function") {
+                        settings.onChange.call(this, numbers);
+                    }
+                }
+
                 this.removeSlider = function () {
                     $container.find("*").off();
                     $window.off("mouseup.irs" + self.pluginCount);
@@ -1206,6 +1213,7 @@
         update: function (options) {
             return this.each(function () {
                 this.updateData(options);
+                this.triggerChange();
             });
         },
         remove: function () {

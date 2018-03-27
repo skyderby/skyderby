@@ -116,6 +116,7 @@ module Events
 
     def results_for(round: nil, section: nil)
       all_results
+        .select { |record| record.result.to_i > 0 }
         .yield_self { |results| round ? results.select { |x| x.round == round } : results }
         .yield_self { |results| section ? results.select { |x| x.section == section } : results }
     end
@@ -124,15 +125,15 @@ module Events
       {
         round: round,
         section: section,
-        best_by_result:      results.max_by(&:result),
-        best_by_result_net:  results.max_by(&:result_net),
-        worst_by_result:     results.min_by(&:result),
-        worst_by_result_net: results.min_by(&:result_net)
+        best_by_result:      results.max_by { |x| x.final_result },
+        best_by_result_net:  results.max_by { |x| x.final_result(net: true) },
+        worst_by_result:     results.min_by { |x| x.final_result },
+        worst_by_result_net: results.min_by { |x| x.final_result(net: true) }
       }
     end
 
     def all_results
-      @all_results ||= event_tracks.includes(:round, competitor: :section).where(is_disqualified: false).to_a
+      @all_results ||= event_tracks.includes(:round, competitor: :section).to_a
     end
 
     def rounds_and_sections

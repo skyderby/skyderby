@@ -9,13 +9,11 @@ class Skyderby.views.TrackEditView extends Backbone.View
     'click .toggle-place'        : 'on_toggle_place_mode',
     'click .toggle-profile'      : 'on_toggle_pilot_mode',
     'click input[type="submit"]' : 'on_click_submit',
-    'change #time-selector'      : 'on_change_range'
+    'change [name="track[jump_range]"]'  : 'on_change_range'
     'ajax:beforeSend .track-edit__refresh-range': 'on_refresh_start'
     'ajax:complete .track-edit__refresh-range': 'on_refresh_complete'
 
   initialize: (opts) ->
-    @max_rel_time = opts.max_rel_time
-
     @on('change:suit_mode', @on_suit_mode_change)
     @on('change:place_mode', @on_place_mode_change)
     @on('change:pilot_mode', @on_pilot_mode_change)
@@ -32,56 +30,9 @@ class Skyderby.views.TrackEditView extends Backbone.View
       this[mode] = 'input'
 
   render: () ->
-
-    range_from = @$('#ff_start').val()
-    range_to =  @$('#ff_end').val()
-    @init_range_selector(range_from, range_to)
-    @set_plot_bands(range_from, range_to)
-
     @on_suit_mode_change()
     @on_place_mode_change()
     @on_pilot_mode_change()
-
-  init_range_selector: (range_from, range_to) ->
-    $("#time-selector").ionRangeSlider(
-      min: 0,
-      max: @max_rel_time,
-      type: 'double',
-      step: 1,
-      prettify: false,
-      hasGrid: true,
-      from: range_from,
-      to: range_to,
-      onChange: (obj) =>
-        @set_plot_bands(obj.fromNumber, obj.toNumber)
-    )
-
-  set_plot_bands: (range_from, range_to) ->
-    chart = $('#heights-chart').highcharts()
-    chart.xAxis[0].removePlotBand('plotband-start')
-    chart.xAxis[0].removePlotBand('plotband-end')
-
-    chart.xAxis[0].addPlotBand({
-      from: 0,
-      to: range_from,
-      color: 'gray',
-      id: 'plotband-start'
-    })
-
-    chart.xAxis[0].addPlotBand({
-      from: range_to,
-      to: @max_rel_time,
-      color: 'gray',
-      id: 'plotband-end'
-    })
-
-    @$('#ff_start').val(range_from)
-    @$('#ff_end').val(range_to)
-
-  on_change_range: (e, from, to) ->
-    $(e.currentTarget).ionRangeSlider('update', { from: from, to: to })
-    @set_plot_bands(from, to)
-    console.log(e, from, to)
 
   on_refresh_start: (e) ->
     $(e.currentTarget).find('i').addClass('fa-spin')
