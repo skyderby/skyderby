@@ -3,7 +3,7 @@ class EventTrack
     extend ActiveSupport::Concern
 
     included do
-      before_save :calc_result, on: :create
+      before_create :calc_result
     end
 
     def calc_result
