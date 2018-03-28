@@ -1,7 +1,7 @@
-.container-fluid.round-map
+.container-fluid.round-map{'data-controller': 'events--round-map', 'data-url': url_for}
   .row
     .col-sm-8
-      #round-map
+      #round-map{'data-target': 'events--round-map.map'}
         .round-map-loading
           %i.fa.fa-3x.fa-circle-o-notch.fa-spin
           %p
@@ -16,9 +16,9 @@
           &mdash;
           = t('events.rounds.map.end_window_description', altitude: @event.range_to)
     .col-sm-4.round-competitors-wrap
-      %button.btn.btn-xs.btn-default.round-competitors__select-all
+      %button.btn.btn-xs.btn-default{'data-action': 'click->events--round-map#select_all'}
         = t('general.select_all')
-      %button.btn.btn-xs.btn-default.round-competitors__unselect-all
+      %button.btn.btn-xs.btn-default{'data-action': 'click->events--round-map#unselect_all'}
         = t('general.unselect_all')
       %table.table.table-condensed.round-competitors
         %thead
@@ -29,13 +29,17 @@
               = t('events.rounds.map.direction')
         - @round_map.competitors_by_groups.each_with_index do |group, index|
           %tbody
-            %tr.round-competitors__group-row
+            %tr.round-competitors__group-row{'data-action': 'click->events--round-map#toggle_group'}
               %td{colspan: 3}
                 = "#{t('events.rounds.map.group')} #{index + 1}"
             - group.each do |competitor|
               %tr
                 %td.round-competitors__check
-                  %input{id: "competitor_#{competitor.id}",type: 'checkbox', checked: true}
+                  %input{id: "competitor_#{competitor.id}",
+                         type: 'checkbox',
+                         checked: true,
+                         'data-action': 'change->events--round-map#on_change_visibility',
+                         'data-target': 'events--round-map.competitor'}
                 %td.round-map-competitor
                   = competitor.name.titleize
                   %i.fa.fa-circle{style: "color: #{competitor.color}"}

@@ -11,22 +11,11 @@ window.Skyderby = {
   helpers: {},
   views: {},
 
-  maps_api_ready: false,
   cesium_api_ready: false,
   youtuby_api_ready: false
 };
 
 _.extend(Skyderby, Backbone.Events);
-
-function on_maps_api_ready() {
-  Skyderby.maps_api_ready = true;
-  Skyderby.trigger('maps_api:ready');
-}
-
-function on_maps_api_loading_error() {
-  Skyderby.maps_api_ready = false;
-  Skyderby.trigger('maps_api:failed');
-}
 
 function on_cesium_api_ready() {
   Skyderby.cesium_api_ready = true;

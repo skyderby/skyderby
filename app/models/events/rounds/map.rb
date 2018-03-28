@@ -29,34 +29,17 @@ module Events
       end
 
       def competitors
-        @competitors ||= round.event_tracks.map do |event_track|
-          competitor_track(event_track)
-        end
+        @competitors ||=
+          round.event_tracks
+          .map { |event_track| competitor_track(event_track) }
+          .sort_by(&:start_time)
+          .each_with_index { |data, index| data.color = colors[index] }
       end
 
       def competitors_by_groups
-        @competitors_by_groups ||= begin
-          sorted_competitors = competitors.sort_by(&:start_time)
-          sorted_competitors.each_with_index do |competitor_info, index|
-            competitor_info.color = colors[index]
-          end
-          sorted_competitors.slice_when do |first, second|
+        @competitors_by_groups ||= competitors.slice_when do |first, second|
             (first.start_time - second.start_time).abs >= 2.minutes
-          end
         end
-      end
-
-      def to_json
-        competitors.map do |v|
-          {
-            id: v.id,
-            name: v.name.titleize,
-            path_coordinates: v.path_coordinates,
-            start_point: v.start_point,
-            end_point: v.end_point,
-            color: v.color
-          }
-        end.to_json.html_safe
       end
 
       private
