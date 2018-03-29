@@ -8,13 +8,25 @@
           %form.form-inline
             .form-group
               %label.control-label{for: 'designated-lane-length'} Length
-              %input#designated-lane-length.form-control.input-sm{type: :number, value: 7000, disabled: true, 'data-target': 'events--round-map.designated_lane_length'}
+              %input#designated-lane-length.form-control.input-sm{type: :number,
+                                                                  value: 7000,
+                                                                  disabled: true,
+                                                                  'data-target': 'events--round-map.designated_lane_length',
+                                                                  'data-action': 'input->events--round-map#on_change_designated_lane_length'}
             .form-group
               %label.control-label{for: 'designated-lane-width'} Width
-              %input#designated-lane-width.form-control.input-sm{type: :number, value: 1200, disabled: true, 'data-target': 'events--round-map.designated_lane_width'}
+              %input#designated-lane-width.form-control.input-sm{type: :number,
+                                                                 value: 1200,
+                                                                 disabled: true,
+                                                                 'data-target': 'events--round-map.designated_lane_width',
+                                                                 'data-action': 'input->events--round-map#on_change_designated_lane_width'}
             .form-group
               %label.control-label{for: 'designated-lane-direction'} Direction
-              %input#designated-lane-direction.form-control.input-sm{type: :number, value: 0, disabled: true, 'data-target': 'events--round-map.designated_lane_direction'}
+              %input#designated-lane-direction.form-control.input-sm{type: :number,
+                                                                     value: 0,
+                                                                     disabled: true,
+                                                                     'data-target': 'events--round-map.designated_lane_direction',
+                                                                     'data-action': 'input->events--round-map#on_change_designated_lane_direction'}
       #round-map{'data-target': 'events--round-map.map'}
         .round-map-loading
           %i.fa.fa-3x.fa-circle-o-notch.fa-spin

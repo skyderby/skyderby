@@ -59,6 +59,24 @@ export default class extends Controller {
     }
   }
 
+  on_change_designated_lane_length(event) {
+    let length = Number(event.currentTarget.value)
+
+    this.designated_lane.set_length(length)
+  }
+
+  on_change_designated_lane_width(event) {
+    let width = Number(event.currentTarget.value)
+
+    this.designated_lane.set_width(width)
+  }
+
+  on_change_designated_lane_direction(event) {
+    let direction = Number(event.currentTarget.value)
+
+    this.designated_lane.set_direction(direction)
+  }
+
   enable_designated_lane() {
     this.designated_lane_lengthTarget.disabled = false
     this.designated_lane_widthTarget.disabled = false
@@ -66,7 +84,7 @@ export default class extends Controller {
 
     let lane_length = this.designated_lane_lengthTarget.value,
       lane_width = this.designated_lane_widthTarget.value,
-      lane_direction = this.designated_lane_direction
+      lane_direction = this.designated_lane_directionTarget.value
      
     if (!this.designated_lane) {
       this.designated_lane = new DesignatedLane(
@@ -74,7 +92,8 @@ export default class extends Controller {
         this.map,
         lane_width,
         lane_length,
-        lane_direction
+        lane_direction,
+        { on_rotate: (angle) => { this.designated_lane_directionTarget.value = angle } }
       )
     }
 

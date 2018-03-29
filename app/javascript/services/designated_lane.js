@@ -1,14 +1,16 @@
 import Geospatial from 'utils/geospatial'
 
-export default function(google, map, width, length, direction = 0) {
+export default function(google, map, width, length, direction, opts = {}) {
   const DLOverlay = class extends google.maps.OverlayView {
-    constructor(map, width, length, direction) {
+    constructor(map, width, length, direction, opts) {
       super()
 
       this._map = map
       this.width = width
       this.length = length
       this.direction = direction
+
+      this.on_rotate = opts['on_rotate']
 
       this.set_bounds(this.map_center)
       this.center_marker = this.create_center_marker()
@@ -27,6 +29,29 @@ export default function(google, map, width, length, direction = 0) {
       this.setMap(null)
       this.center_marker.setMap(null)
       this.rotate_marker.setMap(null)
+    }
+
+    set_length(val) {
+      if (val === 0) return
+
+      this.length = val
+      this.set_bounds(this.center_marker.getPosition())
+      this.draw()
+      this.rotate_marker.setPosition(this.rotate_marker_position)
+    }
+
+    set_width(val) {
+      if (val === 0) return
+
+      this.width = val
+      this.set_bounds(this.center_marker.getPosition())
+      this.draw()
+    }
+
+    set_direction(val) {
+      this.direction = val
+      this.draw()
+      this.rotate_marker.setPosition(this.rotate_marker_position)
     }
 
     onAdd() {
@@ -126,6 +151,8 @@ export default function(google, map, width, length, direction = 0) {
         this.direction = (Math.atan2(lon_diff, lat_diff) * 180 / Math.PI).toFixed()
 
         this.draw()
+
+        if (typeof(this.on_rotate) === 'function') this.on_rotate(Geospatial.normalize_angle(this.direction))
       })
 
       google.maps.event.addListener(marker, 'dragend', () => {
@@ -177,5 +204,5 @@ export default function(google, map, width, length, direction = 0) {
     }
   }
 
-  return new DLOverlay(map, width, length, direction)
+  return new DLOverlay(map, width, length, direction, opts)
 }
