@@ -3,7 +3,13 @@ import init_maps_api from 'utils/google_maps_api'
 import DesignatedLane from 'services/designated_lane'
 
 export default class extends Controller {
-  static targets = [ 'map', 'competitor' ]
+  static targets = [
+    'map',
+    'competitor',
+    'designated_lane_length',
+    'designated_lane_width',
+    'designated_lane_direction'
+  ]
 
   initialize() {
     this.lines_by_competitor = {}
@@ -39,6 +45,48 @@ export default class extends Controller {
     let new_state = has_unchecked ? true : false
 
     tbody.querySelectorAll('input').forEach( (item) => { this.change_check_state(item, new_state) } )
+  }
+
+  toggle_designated_lane(event) {
+    let button = event.currentTarget
+    button.blur()
+    button.classList.toggle('active')
+
+    if (button.classList.contains('active')) {
+      this.enable_designated_lane()
+    } else {
+      this.disable_designated_lane()
+    }
+  }
+
+  enable_designated_lane() {
+    this.designated_lane_lengthTarget.disabled = false
+    this.designated_lane_widthTarget.disabled = false
+    this.designated_lane_directionTarget.disabled = false
+
+    let lane_length = this.designated_lane_lengthTarget.value,
+      lane_width = this.designated_lane_widthTarget.value,
+      lane_direction = this.designated_lane_direction
+     
+    if (!this.designated_lane) {
+      this.designated_lane = new DesignatedLane(
+        google,
+        this.map,
+        lane_width,
+        lane_length,
+        lane_direction
+      )
+    }
+
+    this.designated_lane.show()
+  }
+
+  disable_designated_lane() {
+    this.designated_lane_lengthTarget.disabled = true
+    this.designated_lane_widthTarget.disabled = true
+    this.designated_lane_directionTarget.disabled = true
+
+    this.designated_lane.hide()
   }
 
   change_check_state(item, state) {
@@ -80,13 +128,6 @@ export default class extends Controller {
 
     this.map = new google.maps.Map(this.mapTarget, options)
     this.draw_round_map()
-
-    this.draw_dl()
-  }
-
-  draw_dl() {
-    this.designated_lane = new DesignatedLane(google, this.map, 1200, 8000)
-    this.designated_lane.show()
   }
 
   draw_round_map() {
@@ -99,7 +140,7 @@ export default class extends Controller {
       let hover_polyline = this.draw_hover_polyline(
         competitor_data.path_coordinates,
         competitor_data.color,
-        competitor_data.name
+        competitor_data.id
       )
 
       let start_point = this.draw_start_point(competitor_data.start_point)
@@ -125,29 +166,22 @@ export default class extends Controller {
     return polyline
   }
 
-  draw_hover_polyline(path, color, title) {
+  draw_hover_polyline(path, color, id) {
     let hover_polyline = new google.maps.Polyline({
       path: path,
       strokeColor: color,
       strokeOpacity: 0.0001,
-      strokeWeight: 10
+      strokeWeight: 15
     })
 
     hover_polyline.setMap(this.map)
 
-    let infowindow = new google.maps.InfoWindow()
     google.maps.event.addListener(hover_polyline, 'mouseover', (e) => {
-      infowindow.setContent(`<span>${title}</span>`)
-      infowindow.setPosition(e.latLng)
-      infowindow.open(this.map)
-    })
-
-    google.maps.event.addListener(hover_polyline, 'mousemove', (e) => {
-      infowindow.setPosition(e.latLng)
+      document.querySelector(`input#competitor_${id}`).closest('tr').style.backgroundColor = '#BCE7FD'
     })
 
     google.maps.event.addListener(hover_polyline, 'mouseout', (e) => {
-      infowindow.close()
+      document.querySelector(`input#competitor_${id}`).closest('tr').style.backgroundColor = 'transparent'
     })
 
     return hover_polyline

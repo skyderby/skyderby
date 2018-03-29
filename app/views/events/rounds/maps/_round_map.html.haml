@@ -1,6 +1,20 @@
 .container-fluid.round-map{'data-controller': 'events--round-map', 'data-url': url_for}
   .row
     .col-sm-8
+      - if policy(@event).update?
+        .designated-lane-form
+          %button.btn.btn-xs.btn-default{'data-action': 'click->events--round-map#toggle_designated_lane'}
+            Designated lane
+          %form.form-inline
+            .form-group
+              %label.control-label{for: 'designated-lane-length'} Length
+              %input#designated-lane-length.form-control.input-sm{type: :number, value: 7000, disabled: true, 'data-target': 'events--round-map.designated_lane_length'}
+            .form-group
+              %label.control-label{for: 'designated-lane-width'} Width
+              %input#designated-lane-width.form-control.input-sm{type: :number, value: 1200, disabled: true, 'data-target': 'events--round-map.designated_lane_width'}
+            .form-group
+              %label.control-label{for: 'designated-lane-direction'} Direction
+              %input#designated-lane-direction.form-control.input-sm{type: :number, value: 0, disabled: true, 'data-target': 'events--round-map.designated_lane_direction'}
       #round-map{'data-target': 'events--round-map.map'}
         .round-map-loading
           %i.fa.fa-3x.fa-circle-o-notch.fa-spin
@@ -16,10 +30,11 @@
           &mdash;
           = t('events.rounds.map.end_window_description', altitude: @event.range_to)
     .col-sm-4.round-competitors-wrap
-      %button.btn.btn-xs.btn-default{'data-action': 'click->events--round-map#select_all'}
-        = t('general.select_all')
-      %button.btn.btn-xs.btn-default{'data-action': 'click->events--round-map#unselect_all'}
-        = t('general.unselect_all')
+      .round-competitors__list-commands
+        %button.btn.btn-xs.btn-default{'data-action': 'click->events--round-map#select_all'}
+          = t('general.select_all')
+        %button.btn.btn-xs.btn-default{'data-action': 'click->events--round-map#unselect_all'}
+          = t('general.unselect_all')
       %table.table.table-condensed.round-competitors
         %thead
           %tr

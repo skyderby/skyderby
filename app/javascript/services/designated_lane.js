@@ -5,7 +5,7 @@ export default function(google, map, width, length, direction = 0) {
     constructor(map, width, length, direction) {
       super()
 
-      this.map = map
+      this._map = map
       this.width = width
       this.length = length
       this.direction = direction
@@ -18,11 +18,15 @@ export default function(google, map, width, length, direction = 0) {
     }
 
     show() {
-      this.setMap(this.map)
+      this.setMap(this._map)
+      this.center_marker.setMap(this._map)
+      this.rotate_marker.setMap(this._map)
     }
 
     hide() {
       this.setMap(null)
+      this.center_marker.setMap(null)
+      this.rotate_marker.setMap(null)
     }
 
     onAdd() {
@@ -161,7 +165,7 @@ export default function(google, map, width, length, direction = 0) {
     }
 
     get map_center() {
-      return this.map.getCenter()
+      return this._map.getCenter()
     }
 
     get panes() {
