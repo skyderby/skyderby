@@ -1,15 +1,8 @@
 import { Controller } from 'stimulus'
 import init_maps_api from 'utils/google_maps_api'
-import DesignatedLane from 'services/designated_lane'
 
 export default class extends Controller {
-  static targets = [
-    'map',
-    'competitor',
-    'designated_lane_length',
-    'designated_lane_width',
-    'designated_lane_direction'
-  ]
+  static targets = [ 'map', 'competitor' ]
 
   initialize() {
     this.lines_by_competitor = {}
@@ -45,67 +38,6 @@ export default class extends Controller {
     let new_state = has_unchecked ? true : false
 
     tbody.querySelectorAll('input').forEach( (item) => { this.change_check_state(item, new_state) } )
-  }
-
-  toggle_designated_lane(event) {
-    let button = event.currentTarget
-    button.blur()
-    button.classList.toggle('active')
-
-    if (button.classList.contains('active')) {
-      this.enable_designated_lane()
-    } else {
-      this.disable_designated_lane()
-    }
-  }
-
-  on_change_designated_lane_length(event) {
-    let length = Number(event.currentTarget.value)
-
-    this.designated_lane.set_length(length)
-  }
-
-  on_change_designated_lane_width(event) {
-    let width = Number(event.currentTarget.value)
-
-    this.designated_lane.set_width(width)
-  }
-
-  on_change_designated_lane_direction(event) {
-    let direction = Number(event.currentTarget.value)
-
-    this.designated_lane.set_direction(direction)
-  }
-
-  enable_designated_lane() {
-    this.designated_lane_lengthTarget.disabled = false
-    this.designated_lane_widthTarget.disabled = false
-    this.designated_lane_directionTarget.disabled = false
-
-    let lane_length = this.designated_lane_lengthTarget.value,
-      lane_width = this.designated_lane_widthTarget.value,
-      lane_direction = this.designated_lane_directionTarget.value
-     
-    if (!this.designated_lane) {
-      this.designated_lane = new DesignatedLane(
-        google,
-        this.map,
-        lane_width,
-        lane_length,
-        lane_direction,
-        { on_rotate: (angle) => { this.designated_lane_directionTarget.value = angle } }
-      )
-    }
-
-    this.designated_lane.show()
-  }
-
-  disable_designated_lane() {
-    this.designated_lane_lengthTarget.disabled = true
-    this.designated_lane_widthTarget.disabled = true
-    this.designated_lane_directionTarget.disabled = true
-
-    this.designated_lane.hide()
   }
 
   change_check_state(item, state) {
@@ -145,7 +77,7 @@ export default class extends Controller {
       'mapTypeId': google.maps.MapTypeId.ROADMAP
     }
 
-    this.map = new google.maps.Map(this.mapTarget, options)
+    this.mapTarget.map_instance = new google.maps.Map(this.mapTarget, options)
     this.draw_round_map()
   }
 
@@ -275,5 +207,9 @@ export default class extends Controller {
 
     this._bounds = bounds
     return this._bounds
+  }
+
+  get map() {
+    return this.mapTarget.map_instance
   }
 }
