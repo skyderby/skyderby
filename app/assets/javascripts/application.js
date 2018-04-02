@@ -23,7 +23,6 @@
 //= require backbone_rails_sync
 //= require backbone_datalink
 //= require jquery.Jcrop
-//= require geospatial
 //= require app/app
 //= require_tree ./common
 //= require_self
