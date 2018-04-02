@@ -1,7 +1,32 @@
-.container-fluid.round-map
+.container-fluid.round-map{'data-controller': 'events--round-map', 'data-url': url_for}
   .row
-    .col-sm-8
-      #round-map
+    .col-sm-8{'data-controller': 'events--designated-lane'}
+      .designated-lane-form
+        %button.btn.btn-xs.btn-default{'data-action': 'click->events--designated-lane#toggle'}
+          Designated lane
+        %form.form-inline
+          .form-group
+            %label.control-label{for: 'designated-lane-length'} Length
+            %input#designated-lane-length.form-control.input-sm{type: :number,
+                                                                value: 7000,
+                                                                disabled: true,
+                                                                'data-target': 'events--designated-lane.length',
+                                                                'data-action': 'input->events--designated-lane#on_change_length'}
+          .form-group
+            %label.control-label{for: 'designated-lane-width'} Width
+            %input#designated-lane-width.form-control.input-sm{type: :number,
+                                                               value: 1200,
+                                                               disabled: true,
+                                                               'data-target': 'events--designated-lane.width',
+                                                               'data-action': 'input->events--designated-lane#on_change_width'}
+          .form-group
+            %label.control-label{for: 'designated-lane-direction'} Direction
+            %input#designated-lane-direction.form-control.input-sm{type: :number,
+                                                                   value: 0,
+                                                                   disabled: true,
+                                                                   'data-target': 'events--designated-lane.direction',
+                                                                   'data-action': 'input->events--designated-lane#on_change_direction'}
+      #round-map{'data-target': 'events--round-map.map events--designated-lane.map'}
         .round-map-loading
           %i.fa.fa-3x.fa-circle-o-notch.fa-spin
           %p
@@ -16,10 +41,11 @@
           &mdash;
           = t('events.rounds.map.end_window_description', altitude: @event.range_to)
     .col-sm-4.round-competitors-wrap
-      %button.btn.btn-xs.btn-default.round-competitors__select-all
-        = t('general.select_all')
-      %button.btn.btn-xs.btn-default.round-competitors__unselect-all
-        = t('general.unselect_all')
+      .round-competitors__list-commands
+        %button.btn.btn-xs.btn-default{'data-action': 'click->events--round-map#select_all'}
+          = t('general.select_all')
+        %button.btn.btn-xs.btn-default{'data-action': 'click->events--round-map#unselect_all'}
+          = t('general.unselect_all')
       %table.table.table-condensed.round-competitors
         %thead
           %tr
@@ -29,13 +55,17 @@
               = t('events.rounds.map.direction')
         - @round_map.competitors_by_groups.each_with_index do |group, index|
           %tbody
-            %tr.round-competitors__group-row
+            %tr.round-competitors__group-row{'data-action': 'click->events--round-map#toggle_group'}
               %td{colspan: 3}
                 = "#{t('events.rounds.map.group')} #{index + 1}"
             - group.each do |competitor|
               %tr
                 %td.round-competitors__check
-                  %input{id: "competitor_#{competitor.id}",type: 'checkbox', checked: true}
+                  %input{id: "competitor_#{competitor.id}",
+                         type: 'checkbox',
+                         checked: true,
+                         'data-action': 'change->events--round-map#on_change_visibility',
+                         'data-target': 'events--round-map.competitor'}
                 %td.round-map-competitor
                   = competitor.name.titleize
                   %i.fa.fa-circle{style: "color: #{competitor.color}"}

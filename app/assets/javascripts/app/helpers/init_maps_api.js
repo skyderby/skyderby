@@ -1,5 +1,5 @@
 Skyderby.helpers.init_maps_api = function() {
-    if (window.Skyderby.maps_api_ready) {
+    if (window.maps_api_ready) {
         window.Skyderby.trigger('maps_api:ready');
     } else {
         Skyderby.helpers.load_script(

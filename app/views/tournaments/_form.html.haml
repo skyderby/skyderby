@@ -1,6 +1,6 @@
-#tournament-form
+#tournament-form{'data-controller': 'tournaments--form'}
   .col-sm-6
-    = form_for @tournament, html: {class: "form-horizontal tournament-form"} do |f|
+    = form_for @tournament, html: { class: 'form-horizontal' } do |f|
 
       - if @tournament.errors.any?
         #error_expl.panel.panel-danger
@@ -26,7 +26,8 @@
                      { include_blank: true },
                      class: 'form-control',
                      placeholder: t('events.show.place_placeholder'),
-                     'data-controller': 'select2--places'
+                     'data-controller': 'select2--places',
+                     'data-action': 'change->tournaments--form#on_change_place'
 
       .form-group
         = f.label :starts_at, class: 'control-label col-sm-2'
@@ -47,10 +48,16 @@
         .form-inline
           = f.label 'Latitude', for: :exit_lat, class: 'control-label col-sm-2'
           .col-sm-10
-            = f.text_field :exit_lat, class: 'form-control'
+            = f.text_field :exit_lat,
+                           class: 'form-control',
+                           'data-target': 'tournaments--form.exit_lat', 
+                           'data-action': 'input->tournaments--form#on_change_exit'
 
             = f.label 'Longitude', for: :exit_lon, class: 'control-label'
-            = f.text_field :exit_lon, class: 'form-control'
+            = f.text_field :exit_lon,
+                           class: 'form-control',
+                           'data-target': 'tournaments--form.exit_lon',
+                           'data-action': 'input->tournaments--form#on_change_exit'
 
       .form-group
         %label.col-sm-12
@@ -60,24 +67,36 @@
         .form-inline
           = f.label 'Start lat', for: :finish_start_lat, class: 'control-label col-sm-2'
           .col-sm-10
-            = f.text_field :finish_start_lat, class: 'form-control'
+            = f.text_field :finish_start_lat,
+                           class: 'form-control',
+                           'data-target': 'tournaments--form.finish_start_lat',
+                           'data-action': 'input->tournaments--form#on_change_finish_line_coordinates'
 
             = f.label 'Start lon', for: :finish_start_lon, class: 'control-label'
-            = f.text_field :finish_start_lon, class: 'form-control'
+            = f.text_field :finish_start_lon,
+                           class: 'form-control',
+                           'data-target': 'tournaments--form.finish_start_lon',
+                           'data-action': 'input->tournaments--form#on_change_finish_line_coordinates'
 
       .form-group
         .form-inline
           = f.label 'End lat', for: :finish_end_lat, class: 'control-label col-sm-2'
           .col-sm-10
-            = f.text_field :finish_end_lat, class: 'form-control'
+            = f.text_field :finish_end_lat,
+                           class: 'form-control',
+                           'data-target': 'tournaments--form.finish_end_lat',
+                           'data-action': 'input->tournaments--form#on_change_finish_line_coordinates'
 
             = f.label 'End lon', for: :finish_end_lon, class: 'control-label'
-            = f.text_field :finish_end_lon, class: 'form-control'
+            = f.text_field :finish_end_lon,
+                           class: 'form-control',
+                           'data-target': 'tournaments--form.finish_end_lon',
+                           'data-action': 'input->tournaments--form#on_change_finish_line_coordinates'
 
       .form-group
         = f.label 'Distance from exit', class: 'control-label col-sm-2'
         .col-sm-10
-          %p#distance-from-exit.form-control-static
+          %p#distance-from-exit.form-control-static{'data-target': 'tournaments--form.distance'}
 
       .form-group
         %label.col-sm-12
@@ -87,15 +106,27 @@
         .form-inline
           = f.label 'Center lat', for: :finish_center_lat, class: 'control-label col-sm-2'
           .col-sm-10
-            = text_field_tag :finish_center_lat, nil, class: 'form-control'
+            = text_field_tag :finish_center_lat,
+                             nil,
+                             class: 'form-control',
+                             'data-target': 'tournaments--form.center_lat',
+                             'data-action': 'input->tournaments--form#on_change_finish_line_center'
 
             = f.label 'Center lon', for: :finish_center_lon, class: 'control-label'
-            = text_field_tag :finish_center_lon, nil, class: 'form-control'
+            = text_field_tag :finish_center_lon,
+                             nil,
+                             class: 'form-control',
+                             'data-target': 'tournaments--form.center_lon',
+                             'data-action': 'input->tournaments--form#on_change_finish_line_center'
 
       .form-group
         = f.label 'Length', for: :finish_line_length, class: 'control-label col-sm-2'
         .col-sm-4
-          = number_field_tag :finish_line_length, nil, class: 'form-control'
+          = number_field_tag :finish_line_length,
+                             nil,
+                             class: 'form-control',
+                             'data-target': 'tournaments--form.length',
+                             'data-action': 'input->tournaments--form#on_change_length'
 
       .form-group
         .col-sm-4.col-sm-offset-2
@@ -111,8 +142,4 @@
                     path, class: 'btn btn-default'
 
   .col-sm-6
-    #tournament-form-map
-
-- content_for :page_js do
-  :javascript
-    var view = new Skyderby.views.TournamentFormView({el: '#tournament-form'});
+    #tournament-form-map{'data-target': 'tournaments--form.map'}

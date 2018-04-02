@@ -16,6 +16,8 @@ window.Highcharts = require('highcharts')
 window.HighchartsMore = require('highcharts/highcharts-more')
 HighchartsMore(Highcharts)
 
+require('utils/google_maps_api')
+
 // Look for controllers inside app/javascripts/packs/controllers/
 const application = Application.start()
 const context = require.context('controllers', true, /\.js$/)
