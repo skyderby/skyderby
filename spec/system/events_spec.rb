@@ -101,9 +101,12 @@ describe 'Scoring PPC-like competitions', js: true do
     row.find('.result-cell').hover
     row.find('.show-result').click
 
-    sleep 0.2
+    sleep 0.5
 
     click_link 'Penalties'
+
+    sleep 0.5
+
     check 'penalty[penalized]'
     find('label', text: '50 %').click
     fill_in 'penalty[penalty_reason]', with: 'Some reason'
