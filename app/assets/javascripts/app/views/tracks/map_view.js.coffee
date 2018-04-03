@@ -11,8 +11,8 @@ class Skyderby.views.TrackMapView extends Backbone.View
   zerowind_polylines: []
 
   initialize: ->
-    @listenToOnce(window.Skyderby, 'maps_api:ready', @on_maps_api_ready)
-    @listenToOnce(Skyderby, 'maps_api:failed', @on_maps_api_failed_load)
+    $(document).one('maps_api:ready', @on_maps_api_ready.bind(this))
+    $(document).one('maps_api:failed', @on_maps_api_failed_load.bind(this))
     @listenToOnce(@model, 'sync', @on_model_ready)
 
     @model.fetch()

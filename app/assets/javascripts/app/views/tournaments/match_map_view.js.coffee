@@ -3,7 +3,7 @@ class Skyderby.views.TournamentMatchMap extends Backbone.View
   maps_ready:  false
 
   render: ->
-    @listenToOnce(Skyderby, 'maps_api:ready', @on_maps_api_ready)
+    $(document).one('maps_api:ready', @on_maps_api_ready.bind(this))
     Skyderby.helpers.init_maps_api()
 
   on_maps_api_ready: ->

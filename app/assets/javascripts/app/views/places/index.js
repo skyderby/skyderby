@@ -14,7 +14,7 @@ Skyderby.views.PlacesIndex = Backbone.View.extend({
 
     render: function() {
         this.set_visibility();
-        this.listenToOnce(window.Skyderby, 'maps_api:ready', this.on_maps_api_ready);
+        $(document).one('maps_api:ready', this.on_maps_api_ready.bind(this))
         window.Skyderby.helpers.init_maps_api();
     },
 
