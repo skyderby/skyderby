@@ -2,7 +2,7 @@ import { Controller } from 'stimulus'
 import init_maps_api from 'utils/google_maps_api'
 
 export default class extends Controller {
-  static targets = [ 'map', 'competitor' ]
+  static targets = [ 'map', 'loading_placeholder', 'competitor' ]
 
   initialize() {
     this.lines_by_competitor = {}
@@ -48,6 +48,8 @@ export default class extends Controller {
 
   init_maps() {
     document.addEventListener('maps_api:ready', this.on_maps_ready, { once: true })
+    document.addEventListener('maps_api:failed', this.on_maps_failed_load, { once: true })
+
     init_maps_api()
   }
 
@@ -62,6 +64,13 @@ export default class extends Controller {
   on_maps_ready = () => {
     this.maps_ready = true
     this.render_map()
+  }
+
+  on_maps_failed_load = () => {
+    this.maps_ready = false
+    this.loading_placeholderTarget.innerHTML =
+      '<i class="fa fa-3x fa-exclamation-triangle text-danger"></i>' +
+      '<p>Failed to load Google Maps API.</p>'
   }
 
   on_data_ready = (data) => {
