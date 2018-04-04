@@ -39,7 +39,6 @@ export default class extends Controller {
     this.widthTarget.disabled = false
     this.directionTarget.disabled = false
 
-     
     if (!this.designated_lane) {
       this.designated_lane = new DesignatedLane(
         google,

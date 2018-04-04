@@ -23,6 +23,10 @@ class Events::Rounds::Map::CompetitorTrack < SimpleDelegator
     map_marker(window_points.end_point)
   end
 
+  def after_exit_point
+    map_marker(five_seconds_after_exit_point)
+  end
+
   def direction
     window_points.direction
   end
@@ -31,6 +35,11 @@ class Events::Rounds::Map::CompetitorTrack < SimpleDelegator
 
   def map_marker(point)
     { lat: point[:latitude].to_f, lng: point[:longitude].to_f }
+  end
+
+  def five_seconds_after_exit_point
+    time_for_lookup = points.first[:gps_time] + 5.seconds
+    points.find(points.first) { |point| point[:gps_time] > time_for_lookup }
   end
 
   def window_points

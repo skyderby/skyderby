@@ -1,6 +1,10 @@
 import { Controller } from 'stimulus'
 import init_maps_api from 'utils/google_maps_api'
 
+const START_POINT_COLOR      = '#ff1053'
+const END_POINT_COLOR        = '#5FAD41'
+const AFTER_EXIT_POINT_COLOR = '#124E78'
+
 export default class extends Controller {
   static targets = [ 'map', 'loading_placeholder', 'competitor' ]
 
@@ -96,18 +100,19 @@ export default class extends Controller {
         competitor_data.path_coordinates,
         competitor_data.color
       )
-      
+
       let hover_polyline = this.draw_hover_polyline(
         competitor_data.path_coordinates,
         competitor_data.color,
         competitor_data.id
       )
 
-      let start_point = this.draw_start_point(competitor_data.start_point)
-      let end_point = this.draw_end_point(competitor_data.end_point) 
-      
+      let start_point      = this.draw_point(competitor_data.start_point,      START_POINT_COLOR)
+      let end_point        = this.draw_point(competitor_data.end_point,        END_POINT_COLOR)
+      let after_exit_point = this.draw_point(competitor_data.after_exit_point, AFTER_EXIT_POINT_COLOR)
+
       this.lines_by_competitor['competitor_' + competitor_data.id] =
-        [ polyline, hover_polyline, start_point, end_point ]
+        [ polyline, hover_polyline, start_point, end_point, after_exit_point ]
     }
 
     this.resize()
@@ -147,36 +152,18 @@ export default class extends Controller {
     return hover_polyline
   }
 
-  draw_start_point(position) {
-    let start_point = new google.maps.Marker({
+  draw_point(position, color) {
+    return new google.maps.Marker({
       position: position,
       icon: {
         path: google.maps.SymbolPath.CIRCLE,
         strokeWeight: 5,
-        fillColor: '#ff1053',
-        strokeColor: '#ff1053',
+        strokeColor: color,
+        fillColor: color,
         fillOpacity: 1
       },
       map: this.map
     })
-
-    return start_point
-  }
-
-  draw_end_point(position) {
-    let end_point = new google.maps.Marker({
-      position: position,
-      icon: {
-        path: google.maps.SymbolPath.CIRCLE,
-        strokeWeight: 5,
-        fillColor: '#5FAD41',
-        strokeColor: '#5FAD41',
-        fillOpacity: 1
-      },
-      map: this.map
-    })
-
-    return end_point
   }
 
   resize() {
