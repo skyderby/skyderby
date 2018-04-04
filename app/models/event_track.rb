@@ -43,7 +43,7 @@ class EventTrack < ApplicationRecord
     observed_result = result(net: net)
     return observed_result if observed_result.blank? || !penalized
 
-    observed_result - observed_result / 100 * penalty_size    
+    observed_result - observed_result / 100 * penalty_size
   end
 
   def penalty_sizes

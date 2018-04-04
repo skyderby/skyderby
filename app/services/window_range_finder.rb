@@ -34,11 +34,9 @@ class WindowRangeFinder
     raise ValueOutOfRange if index.nil?
     needs_interpolation = points[index][:altitude] != altitude
 
-    # raise if previous point is missed 
+    # raise if previous point is missed
     # i.e. current is first and iterpolation needed
     raise ValueOutOfRange if index.zero? && needs_interpolation
-
-    return unless needs_interpolation
 
     interpolated_point = PointInterpolation.new(
       points[index - 1],
@@ -67,11 +65,9 @@ class WindowRangeFinder
     raise ValueOutOfRange if index.nil?
     needs_interpolation = points[index][:v_speed] != speed
 
-    # raise if previous point is missed 
+    # raise if previous point is missed
     # i.e. current is first and iterpolation needed
     raise ValueOutOfRange if index.zero? && needs_interpolation
-
-    return unless needs_interpolation
 
     interpolated_point = PointInterpolation.new(
       points[index - 1],
@@ -87,11 +83,9 @@ class WindowRangeFinder
     raise ValueOutOfRange if index.nil?
     needs_interpolation = points[index][:gps_time] != gps_time
 
-    # raise if previous point is missed 
+    # raise if previous point is missed
     # i.e. current is first and iterpolation needed
     raise ValueOutOfRange if index.zero? && needs_interpolation
-
-    return unless needs_interpolation
 
     interpolated_point = PointInterpolation.new(
       points[index - 1],

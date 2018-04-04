@@ -7,10 +7,9 @@ class EventResultService
   end
 
   def calculate
-    points = track_points
-    points = subtract_wind(points) if @wind_cancellation
+    points = subtract_wind(track_points) if @wind_cancellation
 
-    track_segment = WindowRangeFinder.new(points).execute(
+    track_segment = WindowRangeFinder.new(track_points).execute(
       from_altitude: @event.range_from,
       to_altitude: @event.range_to)
 
@@ -21,17 +20,18 @@ class EventResultService
 
   private
 
+  attr_reader :track
+
   def subtract_wind(points)
     wind_data = WindCancellation::WindData.new(@event.weather_data)
     points = WindCancellation::WindSubtraction.new(points, wind_data).execute
   end
 
   def track_points
-    @track.points.trimmed.pluck_to_hash(
-      'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
-      "#{@track.point_altitude_field} AS altitude",
-      :latitude,
-      :longitude
+    @track_points ||= PointsQuery.execute(
+      track,
+      trimmed: true,
+      only: %i[gps_time altitude latitude longitude]
     )
   end
 end
