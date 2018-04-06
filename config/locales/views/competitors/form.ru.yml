@@ -3,3 +3,5 @@ ru:
     form:
       select_profile: Выбор существующего профиля
       create_profile: Создание нового профиля
+      profile: Профиль
+      suit_and_category: Костюм и категория

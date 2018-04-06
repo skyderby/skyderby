@@ -1,6 +1,7 @@
 .modal-dialog
   .modal-content
-    = form_with model: [@event, @competitor], scope: '', html: {class: 'form-horizontal'} do |f|
+    - html_options = { class: 'form-horizontal', 'data-controller': 'events--competitor-form' }
+    = form_with model: [@event, @competitor], scope: '', html: html_options do |f|
       = hidden_field_tag :display_raw_results, @display_raw_results
       .modal-header
         %button.close{type: 'button', data: {dismiss: 'modal'}}
@@ -9,78 +10,75 @@
           %span.sr-only
             Close
         %h4.modal-title
-          = t('activerecord.models.competitor') + ': ' 
+          = t('activerecord.models.competitor') + ': '
           - if @competitor.new_record?
             = t('events.index.new')
           - else
             = @competitor.name
 
       .modal-body
-        .radio
-          %label
-            = radio_button_tag :new_profile, false, checked: true
-            = t('competitors.form.select_profile')
-        .form-group
-          = f.label :profile, t('activerecord.attributes.competitor.profile'), class: 'control-label col-sm-4'
-          .col-sm-8
-            = f.select :profile_id,
-                       options_for_select([[@competitor.name, @competitor.profile_id]]), 
-                       {},
-                       id: :profile_id,
-                       placeholder: t('tracks.form.profile_select_placeholder'),
-                       class: 'form-control',
-                       'data-controller': 'select2--profiles'
+        .modal-form
+          %h3.modal-form__section-title
+            %span.modal-form__section-number 1
+            = t('competitors.form.profile')
+          .radio
+            %label
+              = radio_button_tag :new_profile, false, checked: true
+              = t('competitors.form.select_profile')
 
-        .radio
-          %label
-            = radio_button_tag :new_profile, true
-            = t('competitors.form.create_profile')
+          .form-group
+            .col-sm-12
+              = f.select :profile_id,
+                         options_for_select([[@competitor.name, @competitor.profile_id]]),
+                         {},
+                         id: :profile_id,
+                         placeholder: t('tracks.form.profile_select_placeholder'),
+                         class: 'form-control',
+                         'data-controller': 'select2--profiles'
 
-        .form-group
-          = f.label :name,
-                    t('activerecord.attributes.profile.name'),
-                    class: 'control-label col-sm-4'
-          .col-sm-8
-            = f.text_field :name, id: :competitor_name, class: 'form-control', value: ''
-        .form-group
-          = f.label :country,
-                    t('activerecord.attributes.profile.country'),
-                    class: 'control-label col-sm-4'
-          .col-sm-8
-            = f.select :country_id,
-                       options_for_select([[@competitor.country_name, @competitor.country_id]]),
-                       {},
-                       id: :country_id,
-                       class: 'form-control',
-                       'data-controller': 'select2--countries'
+          .radio
+            %label
+              = radio_button_tag :new_profile, true
+              = t('competitors.form.create_profile')
 
-        %hr
-        .form-group
-          = f.label :suit, t('activerecord.attributes.competitor.suit'), class: 'control-label col-sm-4'
-          .col-sm-8
-            = f.select :suit_id,
-                       options_for_select([[@competitor.suit_name, @competitor.suit_id]]), 
-                       {},
-                       id: :suit_id,
-                       class: 'form-control',
-                       'data-controller': 'select2--suits'
+          .row
+            .col-sm-8
+              = f.label :name,
+                        t('activerecord.attributes.profile.name')
+              .form-group
+                .col-sm-12
+                  = f.text_field :name, id: :competitor_name, class: 'form-control', value: ''
 
-        .form-group
-          = f.label :section, t('activerecord.attributes.competitor.section'), class: 'control-label col-sm-4'
-          .col-sm-8
-            - sections_count = @event.sections.length
-            - if sections_count == 1
-              - section = @event.sections.first
-              = f.hidden_field :section_id, value: section.id
-              %p.form-control-static= section.name
-            - elsif sections_count < 3
-              .btn-group.btn-group-justified{'data-toggle' => 'buttons'}
-                - @event.sections.each do |section|
-                  - is_first_section = section == @event.sections.first
-                  %label.btn.btn-default{class: ('active' if is_first_section)}
-                    = f.radio_button :section_id, section.id, checked: is_first_section 
-                    = section.name
-            - else
+            .col-sm-4
+              = f.label :country,
+                        t('activerecord.attributes.profile.country')
+              .form-group
+                .col-sm-12
+                  = f.select :country_id,
+                             options_for_select([[@competitor.country_name, @competitor.country_id]]),
+                             {},
+                             id: :country_id,
+                             class: 'form-control',
+                             'data-controller': 'select2--countries'
+
+          %hr
+          %h3.modal-form__section-title
+            %span.modal-form__section-number 2
+            = t('competitors.form.suit_and_category')
+
+          = f.label :suit, t('activerecord.attributes.competitor.suit')
+          .form-group
+            .col-sm-12
+              = f.select :suit_id,
+                         options_for_select([[@competitor.suit_name, @competitor.suit_id]]),
+                         {},
+                         id: :suit_id,
+                         class: 'form-control',
+                         'data-controller': 'select2--suits'
+
+          = f.label :section, t('activerecord.attributes.competitor.section')
+          .form-group
+            .col-sm-12
               = f.collection_select :section_id,
                                     @event.sections,
                                     :id,

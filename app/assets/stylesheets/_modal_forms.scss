@@ -1,0 +1,33 @@
+.modal-form {
+  padding-left: 15px;
+  padding-right: 15px;
+
+  label {
+    color: #555;
+    padding-top: 7px;
+  }
+
+  .radio {
+    margin-bottom: 5px;
+  }
+
+  .form-control {
+    box-shadow: none;
+  }
+}
+
+.modal-form__section-title {
+  margin: 5px 0;
+  color: #777;
+}
+
+.modal-form__section-number {
+  display: inline-block;
+  width: 24px;
+  margin-right: 5px;
+  border: 1px solid #777;
+  border-radius: 100%;
+  line-height: 22px;
+  color: #777;
+  text-align: center;
+}

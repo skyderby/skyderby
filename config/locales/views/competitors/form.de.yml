@@ -3,3 +3,5 @@ de:
     form:
       select_profile: Wähle ein existierendes Profil
       create_profile: Erstelle ein neues Profil
+      profile: Profil
+      suit_and_category: Suit, Kategorie
