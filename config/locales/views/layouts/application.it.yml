@@ -1,7 +1,6 @@
 it:
   application:
     header:
-      home: SKY DERBY
       tracks: Traccie
       competitions: Competizioni
       online_competitions: Competizioni Online

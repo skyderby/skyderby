@@ -1,7 +1,6 @@
 es:
   application:
     header:
-      home: SKY DERBY
       tracks: Lista de pistas
       about: Sobre el proyecto
       sign_in: Ingresar

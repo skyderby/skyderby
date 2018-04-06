@@ -1,7 +1,6 @@
 de:
   application:
     header:
-      home: SKY DERBY
       tracks: Trackliste
       online_competitions: Online Wettbewerbe
       competitions: Wettkampf
@@ -19,5 +18,5 @@ de:
       track_analizer: Trackanalyse
       upload_track: Track hochladen
     footer:
-      owner: 'Aleksandr Kunin'
-      fb_page: "Facebook Seite"
+      owner: Aleksandr Kunin
+      fb_page: Facebook Seite

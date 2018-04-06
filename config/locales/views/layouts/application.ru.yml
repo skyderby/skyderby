@@ -1,24 +1,22 @@
 ru:
   application:
     header:
-      home: 'SKY DERBY'
-      tracks: 'Треки'
-      about: 'О проекте'
-      sign_in: 'Войти'
-      sign_up: 'Зарегистрироваться'
-      sign_out: 'Выйти'
-      login_email: 'Адрес эл.почты'
-      password: 'Пароль'
-      remember_me: 'Запомнить меня'
-      forgot_pass: 'Забыли пароль?'
-      profile: "Профиль"
-      admin_panel: 'Панель администратора'
-      track_analizer: 'Анализ треков'
-      upload_track: "Загрузить трек"
-      competitions: "Соревнования"
-      online_competitions: 'Онлайн соревнования'
-      places: 'Локации'
+      tracks: Треки
+      about: О проекте
+      sign_in: Войти
+      sign_up: Зарегистрироваться
+      sign_out: Выйти
+      login_email: Адрес эл.почты
+      password: Пароль
+      remember_me: Запомнить меня
+      forgot_pass: Забыли пароль?
+      profile: Профиль
+      admin_panel: Панель администратора
+      upload_track: Загрузить трек
+      competitions: Соревнования
+      online_competitions: Онлайн соревнования
+      places: Локации
     footer:
-      made_with: 'Сделано с'
-      owner: 'Александром Куниным'
-      fb_page: "Страница приложения"
+      made_with: Сделано с
+      owner: Александром Куниным
+      fb_page: Страница приложения
