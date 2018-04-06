@@ -1,10 +1,12 @@
 .flag {
-	width: 16px;
-	height: 11px;
-	background: asset-url('flags.png') no-repeat;
+  width: 16px;
+  height: 11px;
+  background: asset-url('flags.png') no-repeat;
 
-  &.flag-de {background-position: -16px 0}
-  &.flag-es {background-position: -32px 0}
-  &.flag-en {background-position: 0 -11px}
-  &.flag-ru {background-position: -16px -11px}
+  &.flag-ru { background-position: -32px -11px; }
+  &.flag-en { background-position: 0 -11px;     }
+  &.flag-it { background-position: -16px -11px; }
+  &.flag-de { background-position: 0 0;         }
+  &.flag-es { background-position: -16px 0;     }
+  &.flag-fr { background-position: -32px 0;     }
 }
