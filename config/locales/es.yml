@@ -7,11 +7,6 @@ es:
         userpic: "Avatar:"
   tracks:
     show:
-      title_track: 'La pista'
-      title_suit: 'Traje aereo'
-      menu_header: 'La representación de los resultados:'
-      menu_sep: 'En gráficos difirentes'
-      menu_one: 'En el mismo gráfico'
       dt_dist: 'La distancia'
       dt_elev: 'La diferencia de altura'
       dt_dur: 'La duración'
@@ -21,11 +16,6 @@ es:
       units_header: 'Unidades de medida:'
       m_units_metric: 'Métricas (m, km/h)'
       m_units_imperial: 'Imperiales (pie,millas/h)'
-      delete_confirmation: "Seguro, que quieres eliminar esta pista?"
-      manage: "Сorrección"
-      edit_range: "Editar rango"
-      range_from: "Rango desde:"
-      range_to: "A:"
   static_pages:
     about:
       comp_t: 'Componentes usados:'
@@ -48,6 +38,7 @@ es:
     update: "Actualizar"
     delete: "Eliminar"
     edit: "Editar"
+    settings: Configuraciones
   users:
     profile:
       edit:
