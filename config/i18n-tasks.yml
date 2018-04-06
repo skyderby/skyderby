@@ -89,8 +89,11 @@ search:
 # - '{devise,simple_form}.*'
 
 ## Consider these keys used:
-# ignore_unused:
-# - 'activerecord.attributes.*'
+ignore_unused:
+  - will_paginate.*
+  - activerecord.attributes.*
+  - activerecord.errors.*
+  - activemodel.errors.*
 # - '{devise,kaminari,will_paginate}.*'
 # - 'simple_form.{yes,no}'
 # - 'simple_form.{placeholders,hints,labels}.*'
