@@ -1,0 +1,16 @@
+es:
+  activerecord:
+    models:
+      badge: Medalla
+    attributes:
+      badge:
+        name: Nombre
+        kind: Tipo
+    errors:
+      models:
+        badge:
+          attributes:
+            name:
+              blank: El nombre es requerido
+            kind:
+              blank: El tipo es requerido
