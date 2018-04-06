@@ -1,0 +1,23 @@
+it:
+  general:
+    new: New
+    cancel: Annulla
+    create: Crea
+    save: Salva
+    saving: Sto salvando…
+    update: Aggiorna
+    delete: Cancella
+    edit: Modifica
+    enabled: Abilitato
+    disabled: Disabilitato
+    settings: Impostazioni
+    select_all: Seleziona tutto
+    unselect_all: Deseleziona tutto
+    overview: Panoramica
+    back: Indietro
+  users:
+    profile:
+      edit:
+        title: Profile
+        edit_email_pass: Edit email or password
+        edit_reg_data: Email and password

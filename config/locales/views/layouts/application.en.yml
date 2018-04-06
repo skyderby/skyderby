@@ -18,3 +18,7 @@ en:
       competitions: "Competitions"
       online_competitions: 'Online competitions'
       places: 'Places'
+    footer:
+      made_with: 'Made with'
+      owner: 'by Aleksandr Kunin'
+      fb_page: "Application's page"

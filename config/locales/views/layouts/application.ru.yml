@@ -18,3 +18,7 @@ ru:
       competitions: "Соревнования"
       online_competitions: 'Онлайн соревнования'
       places: 'Локации'
+    footer:
+      made_with: 'Сделано с'
+      owner: 'Александром Куниным'
+      fb_page: "Страница приложения"
