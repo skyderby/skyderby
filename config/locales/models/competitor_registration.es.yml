@@ -1,0 +1,16 @@
+es:
+  activemodel:
+    errors:
+      models:
+        events/competitor_registration:
+          attributes:
+            suit_id:
+              blank: El traje es requerido
+            profile_id:
+              blank: El perfil es requerido
+            name:
+              blank: El nombre es requerido
+            country_id:
+              blank: El país es requerido
+            section_id:
+              blank: La categoría es requerido
