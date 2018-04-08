@@ -1,0 +1,18 @@
+fr:
+  activerecord:
+    models:
+      event: Compétition
+    attributes:
+      event:
+        name: Nom
+        status: Status
+        place: Lieu
+        starts_at: Commence à
+        rules: Règles
+        wind_cancellation: Suppression du vent
+        visibility: Visibilité
+        number_of_results_for_total: Nombre de sauts pour calculer le total
+  event_status:
+    draft: En cours
+    published: Publiée
+    finished: Finie

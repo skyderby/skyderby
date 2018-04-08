@@ -1,7 +1,7 @@
 es:
   activerecord:
     models:
-      competitor: Competitor
+      competitor: Competidor
     attributes:
       competitor:
         suit: Traje
@@ -18,5 +18,5 @@ es:
               blank: La categoría es requerido
             base:
               restrict_dependent_destroy:
-                many: To delete competitor delete his results first.
-              event_finished: Changes couldn't be made because event is finished.
+                many: Para eliminar competidor, elimine primero sus resultados
+              event_finished: La competencia está terminada

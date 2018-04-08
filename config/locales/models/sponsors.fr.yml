@@ -1,0 +1,21 @@
+fr:
+  activerecord:
+    models:
+      sponsor: Sponsor
+    attributes:
+      sponsor:
+        name: Nom
+        website: Site Web
+        logo: Logo
+    errors:
+      models:
+        sponsor:
+          attributes:
+            name:
+              blank: Nom doit être renseigné
+            website:
+              blank: Site Web doit être renseigné
+            logo:
+              blank: Logo doit être renseigné
+            logo_content_type:
+              invalid: Le logo devrait être une image

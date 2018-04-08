@@ -1,0 +1,10 @@
+fr:
+  units:
+    m: m
+    ft: ft
+    kmh: km/h
+    mph: mph
+    t_unit: s
+    sec: s
+    ms: m/s
+    knots: knots

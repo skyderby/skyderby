@@ -1,0 +1,16 @@
+fr:
+  charts:
+    all_data:
+      title: Détails du saut
+      axis:
+        speed: Vitesse
+        distance: Hauteur, Distance
+        gr: Finesse
+      series:
+        horiz_speed: Vitesse sol
+        vert_speed: Vitesse verticale
+        full_speed: Vitesse sur trajectoire
+        gr: Finesse
+        height: Hauteur
+        distance: Distance
+        elevation: Altitude
