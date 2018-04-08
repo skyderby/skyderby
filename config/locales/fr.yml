@@ -1,4 +1,4 @@
-en:
+fr:
   errors:
     messages:
       duplicate_file: "Fichier déjà utilisé. Pilot: %{pilot_name}, round: %{round}"

@@ -1,0 +1,21 @@
+fr:
+  tracks:
+    form:
+      suit_text_placeholder: Enter suit name
+      suit_select_placeholder: Sélectionner la combinaison dans la liste
+      place_text_placeholder: Enter place name
+      place_select_placeholder: Sélectionner le lieu dans la liste
+      profile_text_placeholder: Enter pilot name
+      profile_select_placeholder: Select pilot form list
+      toggle_suit_caption: Suit you are flying doesn't exist?
+      toggle_suit_caption_select: Or
+      toggle_suit_link: Enter suit name
+      toggle_suit_link_select: select suit from list.
+      toggle_place_caption: Place you are looking for doesn't exist?
+      toggle_place_caption_select: Or
+      toggle_place_link: Enter place name
+      toggle_place_link_select: select place from list
+      toggle_profile_caption: Not registered pilot?
+      toggle_profile_caption_select: Or
+      toggle_profile_link: Enter pilot name
+      toggle_profile_link_select: Select registered pilot

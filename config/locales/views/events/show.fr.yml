@@ -8,7 +8,7 @@ fr:
       new: Nouveau
       edit: Éditer
       organizers: Organisateurs
-      organizers_placeholder: 'Ajouter l'organisateur à partir de la liste'
+      organizers_placeholder: "Ajouter l'organisateur à partir de la liste"
       place_placeholder: 'Sélectionner le lieu dans la liste:'
       result: Résultat
       result_file: Fichier de l'enregistrement
