@@ -1,0 +1,8 @@
+fr:
+  tracks:
+    choose:
+      title: Sélectionner l'enregistrement à télécharger
+      number: '#'
+      name: Nom
+      elev: Hauteur
+      pt_cnt: Nombre de points

@@ -3,7 +3,7 @@ fr:
     rounds:
       map:
         competitor: Compétiteur
-        direction: Enregistrement
+        direction: Direction
         group: Groupe
         start_window_description: point d'entrée dans la fenêtre de compétition (%{altitude} meters)
         end_window_description: point de sortie dans la fenêtre de compétition (%{altitude} meters)

@@ -6,16 +6,16 @@ fr:
       event_track:
         file: Fichier de l'enregistrement
         track: Enregistrement
-        is_disqualified: Is disqualified
-        disqualification_reason: Reason
+        is_disqualified: Est disqualifié
+        disqualification_reason: Raison
     errors:
       models:
         event_track:
           attributes:
             track:
-              blank: No track selected to calculate result from.
+              blank: Aucun enregistrement sélectionné pour calculer le résultat.
             result:
-              duplicate: For this competitor in this round result already exist. Refresh page to see it.
+              duplicate: Il y a déà un résultat existant pour ce compétiteur dans cette manche. Rafraîchir la poage pour le voir.
             base:
-              event_finished: Changes couldn't be made because event is finished.
-              track_file_blank: No file choosen to calculate result from.
+              event_finished: Les modifications ne sont plus possibles car la compétition est finie
+              track_file_blank: Enregistrement vide.
