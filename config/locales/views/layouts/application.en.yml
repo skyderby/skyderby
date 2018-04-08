@@ -1,0 +1,22 @@
+en:
+  application:
+    header:
+      tracks: Tracks
+      about: About project
+      sign_in: Log in
+      sign_up: Sign up
+      sign_out: Sign out
+      login_email: Email address
+      password: Password
+      remember_me: Remember me
+      forgot_pass: Forgot your password?
+      admin_panel: Admin dashboard
+      profile: Profile
+      upload_track: Upload track
+      competitions: Competitions
+      online_competitions: Online competitions
+      places: Places
+    footer:
+      made_with: Made with
+      owner: by Aleksandr Kunin
+      fb_page: Application's page

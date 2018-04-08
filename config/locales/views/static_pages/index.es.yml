@@ -1,0 +1,24 @@
+es:
+  static_pages:
+    online_competitions_section:
+      competitions_header:
+        base: BASE competitions
+        skydive: Skydive competitions
+    index:
+      title: Vuele! Compita! Vence!
+      desc: El más avanzado análisis de vuelo y puntajes de competencia
+      supported_formats: Formatos de archivo soportados para los seguimientos GPS
+      donate: Si te gusta Skyderby, puedes apoyar al proyecto realizando una donación.
+      online_comps_leaders: Tabla de posiciones online
+      how_it_works: "Es muy simple:"
+      upload_a_file: Sube un archivo
+      select_free_fall_range: Selecciona un rango para salto libre
+      analyze: Analizar
+      track_form:
+        title: 'Ver y comentar la pista:'
+        name_plh: Nombre, Apellido
+        suit_plh: El modelo del traje aéreo
+        location_plh: Zona de salto, montañas
+        help: Los archivos se abren en los formatos csv, tes, gpx y kml
+        comment_plh: Deje un comentario sobre tu vuelo
+        submit: Descargar

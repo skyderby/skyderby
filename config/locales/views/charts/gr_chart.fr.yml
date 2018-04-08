@@ -1,0 +1,8 @@
+fr:
+  charts:
+    gr:
+      title: Finesse
+      series:
+        gr: Finesse
+        raw_gr: Finesse (Brut)
+        wind_effect: Effet du vent

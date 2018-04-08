@@ -2,11 +2,11 @@
   .modal-dialog
     .modal-content
       = form_for :track_file,
-                 url: track_files_path, 
+                 url: track_files_path,
                  remote: true,
-                 html: { multipart: true, 
-                         class: 'form-horizontal', 
-                         role: 'form', 
+                 html: { multipart: true,
+                         class: 'form-horizontal',
+                         role: 'form',
                          id: 'track_upload_form' } do |f|
 
         .modal-header
@@ -27,9 +27,9 @@
                 - if user_signed_in?
                   %p.form-control-static= current_user.profile.name
                 - else
-                  = builder.text_field :name, 
-                    class: 'form-control', 
-                    placeholder: t('static_pages.index.track_form.name_plh'), 
+                  = builder.text_field :name,
+                    class: 'form-control',
+                    placeholder: t('static_pages.index.track_form.name_plh'),
                     type: 'text',
                     value: recent_value(:name)
 
@@ -59,11 +59,11 @@
             .form-group
               = builder.label :location, t('activerecord.attributes.track.place'), class: 'col-sm-3 control-label'
               .col-sm-9
-                = builder.text_field :location, 
-                                     class: 'form-control', 
-                                     placeholder: t('static_pages.index.track_form.location_plh'), 
+                = builder.text_field :location,
+                                     class: 'form-control',
+                                     placeholder: t('static_pages.index.track_form.location_plh'),
                                      type: 'text',
-                                     value: recent_value(:location) 
+                                     value: recent_value(:location)
 
             .form-group
               = builder.label :kind, t('activerecord.attributes.track.kind'), class: 'col-sm-3 control-label'
@@ -95,9 +95,9 @@
             .form-group
               = builder.label :comment, t('activerecord.attributes.track.comment'), class: 'col-sm-3 control-label'
               .col-sm-9
-                = builder.text_area :comment, 
-                                    class: 'form-control', 
-                                    rows: 3, 
+                = builder.text_area :comment,
+                                    class: 'form-control',
+                                    rows: 3,
                                     placeholder: t('static_pages.index.track_form.comment_plh')
 
         .modal-footer

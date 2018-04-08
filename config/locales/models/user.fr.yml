@@ -1,0 +1,8 @@
+fr:
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: "L'utilisateur avec cette adresse mail n'existe pas"

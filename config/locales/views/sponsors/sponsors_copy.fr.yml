@@ -1,0 +1,10 @@
+fr:
+  sponsors:
+    sponsors_copy:
+      form_modal:
+        title: Copier le sponsor à partir d'un autre évênement
+        source_event_placeholder: Événement d'origine du sponsor
+  helpers:
+    label:
+      sponsor_copy:
+        source_event: Événement

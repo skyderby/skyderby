@@ -1,0 +1,9 @@
+fr:
+  activerecord:
+    errors:
+      models:
+        qualification_round:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                has_many: Pour supprimer la manche veuillez supprimer d'abord les résultats

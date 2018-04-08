@@ -1,5 +1,5 @@
 en:
   visibility:
-      public: Public
-      unlisted: Unlisted
-      private: Private
+    public: Public
+    unlisted: Unlisted
+    private: Private

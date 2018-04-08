@@ -1,0 +1,7 @@
+fr:
+  profiles:
+    show:
+      achievements: Résultats
+      online_competitions: Compétitons en ligne
+      no_badges: "%{name} n'a aucun badge pour le moment."
+      no_rankings: "%{name} n'a participé à aucune compétition cette année."

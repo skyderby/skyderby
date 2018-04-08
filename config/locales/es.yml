@@ -7,11 +7,6 @@ es:
         userpic: "Avatar:"
   tracks:
     show:
-      title_track: 'La pista'
-      title_suit: 'Traje aereo'
-      menu_header: 'La representación de los resultados:'
-      menu_sep: 'En gráficos difirentes'
-      menu_one: 'En el mismo gráfico'
       dt_dist: 'La distancia'
       dt_elev: 'La diferencia de altura'
       dt_dur: 'La duración'
@@ -21,47 +16,7 @@ es:
       units_header: 'Unidades de medida:'
       m_units_metric: 'Métricas (m, km/h)'
       m_units_imperial: 'Imperiales (pie,millas/h)'
-      delete_confirmation: "Seguro, que quieres eliminar esta pista?"
-      manage: "Сorrección"
-      edit_range: "Editar rango"
-      range_from: "Rango desde:"
-      range_to: "A:"
   static_pages:
-    index:
-      title: "Vuele! Compita! Vence!"
-      subtitle: "Todavía beta"
-      track_form:
-        title: 'Ver y comentar la pista:'
-        name: 'Te llamas'
-        name_plh: 'Nombre, Apellido'
-        suit: "Vuelas en"
-        suit_plh: 'El modelo del traje aéreo'
-        location: 'La localización'
-        location_plh: 'Zona de salto, montañas'
-        file: 'El archivo de la pista'
-        help: 'Los archivos se abren en los formatos csv, tes, gpx y kml'
-        comment: 'Comentario'
-        comment_plh: 'Deje un comentario sobre tu vuelo'
-        submit: 'Descargar'
-        warnings:
-          name_html: "'No indicaste, como te llamas'"
-          suit_html: "'No indicaste, en que volabas'"
-          loc_html: "'No indicaste donde volabas'"
-          file_html: "'No indicaste el archivo'"
-          file_ext_w1_html: "'La extensión del archivo: '"
-          file_ext_w2_html: "'Elige, por favor, un archivo con la extensión csv, tes o gpx'"
-          file_size_w1_html: "'La dimensión del archivo: '"
-          file_size_w2_html: "'El  tamaño  del archivo no debe superar 1Mb'"
-        kind: "El tipo de salto"
-      desc: "El más avanzado análisis de vuelo y puntajes de competencia"
-      goto_event: "A la pagina web del evento >>"
-      stats: "Estadísticas:"
-      stats_tracks: "Pistas subidas:"
-      stats_pilots: "Pilotos registrados:"
-      how_it_works: "Es muy simple:"
-      upload_a_file: "Sube un archivo"
-      select_free_fall_range: "Selecciona un rango para salto libre"
-      analyze: "Analizar"
     about:
       comp_t: 'Componentes usados:'
       comp_lng: 'Framework usado:'
@@ -83,13 +38,10 @@ es:
     update: "Actualizar"
     delete: "Eliminar"
     edit: "Editar"
+    settings: Configuraciones
   users:
     profile:
       edit:
         title: 'Perfil'
         edit_email_pass: "Editar correo electrónico y contraseña"
         edit_reg_data: "Correo electrónico y contraseña"
-  will_paginate:
-    previous_label: "&#8592; Anterior"
-    next_label: "Siguiente &#8594;"
-    page_gap: "&hellip;"

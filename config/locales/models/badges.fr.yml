@@ -1,0 +1,16 @@
+fr:
+  activerecord:
+    models:
+      badge: Badge
+    attributes:
+      badge:
+        name: Nom
+        kind: Sorte
+    errors:
+      models:
+        badge:
+          attributes:
+            name:
+              blank: Nom doit être renseigné
+            kind:
+              blank: Sorte doit être renseigné

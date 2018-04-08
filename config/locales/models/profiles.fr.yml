@@ -1,0 +1,9 @@
+fr:
+  activerecord:
+    models:
+      profile: Perfil
+    attributes:
+      profile:
+        name: Nom
+        country: Pays
+        userpic: Photo

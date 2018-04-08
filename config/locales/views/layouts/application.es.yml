@@ -1,0 +1,22 @@
+es:
+  application:
+    header:
+      tracks: Lista de pistas
+      about: Sobre el proyecto
+      sign_in: Ingresar
+      sign_up: Registrarse
+      sign_out: Salir
+      login_email: Correo electrónico
+      password: Сontraseña
+      remember_me: Recordarme
+      forgot_pass: Olvidaste la contraseña?
+      admin_panel: Panel del administrador
+      profile: Perfil
+      upload_track: Descargar la pista
+      competitions: Las competiciones
+      online_competitions: Competiciones en línea
+      places: Ubicaciones
+    footer:
+      made_with: Hecho con amor
+      owner: Alejandro Kunin
+      fb_page: La página de la aplicación

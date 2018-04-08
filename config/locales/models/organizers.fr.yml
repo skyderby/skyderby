@@ -1,0 +1,14 @@
+fr:
+  activerecord:
+    models:
+      organizer: Organisateur
+    attributes:
+      organizer:
+        profile: Perfil
+    errors:
+      models:
+        organizer:
+          attributes:
+            profile: Perfil doit être renseignée
+            base:
+              event_finished: Les modifications ne sont plus possibles car la compétition est finie

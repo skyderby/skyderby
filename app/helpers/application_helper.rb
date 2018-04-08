@@ -14,6 +14,8 @@ module ApplicationHelper
       en: 'English',
       ru: 'Русский',
       de: 'Deutsch',
+      fr: 'Francais',
+      it: 'Italiano',
       es: 'Spanish'
     }[lang_code]
   end

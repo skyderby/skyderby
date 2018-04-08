@@ -1,0 +1,20 @@
+fr:
+  errors:
+    messages:
+      duplicate_file: "Fichier déjà utilisé. Pilot: %{pilot_name}, round: %{round}"
+  general:
+    new: Nouveau
+    cancel: Annuler
+    create: Crée
+    save: Sauvegarder
+    saving: Sauvegarde…
+    update: Mise à jour
+    delete: Supprimer
+    edit: Éditer
+    enabled: Activer
+    disabled: Désactiver
+    settings: Réglages
+    select_all: Sélectionner tout
+    unselect_all: Désélectionner tout
+    overview: Vue d'ensemble
+    back: Retour

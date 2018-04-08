@@ -1,0 +1,15 @@
+fr:
+  activerecord:
+    models:
+      track: Track
+    attributes:
+      track:
+        id: '#'
+        name: Pilote
+        suit: Combinaison
+        place: Lieu
+        kind: Sorte
+        comment: Commentaire
+        uploaded_at: Téléchargé à
+        recorded_at: Enregistré à
+        disqualified_from_online_competitions: disqualifié de la compétitions en ligne

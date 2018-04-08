@@ -1,50 +1,24 @@
 de:
   static_pages:
+    online_competitions_section:
+      competitions_header:
+        base: BASE Wettbewerbe
+        skydive: Skydive Wettbewerbe
     index:
-      title: "Flieg! Nimm am Wettbewerb teil! Gewinne!"
-      subtitle: "Immernoch beta"
-      skyderby_is: 'Skyderby - ist...'
-      tracks_analysis: 'GPS Track Analyse'
-      tracks_analysis_desc: 'GPS Tracks von Fallschirm- und B.A.S.E.-Sprüngen mit Tracksuit und Wingsuit.'
-      tracks_list: 'Durchsuche alle Tracks'
-      online_competitions: 'Online Wettbewerbe'
-      online_comp_desc: 'Nimm an Online Wettbewerben in den Disziplinen Zeit, Distanz und Geschwindigkeit teil.'
-      online_comp_list: 'Durchsuche Online Wettbewerbe'
-      events: 'Wettbewerbe'
-      events_desc: 'Nimm an Wettbewerben teil oder erstelle deine Eigenen, mit den offiziellen FAI-Regeln oder auch mit deinen eigenen Regeln.'
-      events_list: 'Durchsuche Wettbewerbe'
-      online_comps_leaders: 'Führende in den Online Wettbewerben'
-      donate: 'Wenn dir Skyderby gefällt, kannst du das Projekt gerne durch eine Spende unterstützen!'
-      track_form:
-        title: 'Ansehen und analysieren deines Tracks'
-        name: 'Name'
-        name_plh: 'Max Muster.'
-        suit: "Suit"
-        suit_plh: 'Wingsuit Modell'
-        location: 'Ort'
-        location_plh: 'Flugplatz, Absprungstelle, etc'
-        file: 'Track-Datei'
-        help: 'Unterstützte Formate: csv (Columbus, FlySight), gpx, tes und kml'
-        comment: 'Kommentar'
-        comment_plh: 'Gib einen Kommentar zu deinem Flug ein'
-        submit: 'Hochladen'
-        warnings:
-          name_html: "'Du hast keinen Namen angegeben'"
-          suit_html: "'Du hast nicht angegeben mit welcher Suit du geflogen bist.'"
-          loc_html: "'Du hast nicht angegeben wo du geflogen bist.'"
-          file_html: "'Wähle eine Datei zum Hochladen'"
-          file_ext_w1_html: "'Dateierweiterung: '"
-          file_ext_w2_html: "'Unterstützt werden die Formate: csv, tes und gpx'"
-          file_size_w1_html: "'Dateigröße: '"
-          file_size_w2_html: "'Die Datei darf nicht größer als 1MB sein'"
-        kind: "Art des Sprunges:"
+      title: Flieg! Nimm am Wettbewerb teil! Gewinne!
       desc: Modernste Fluganalyse und Wettkampfauswertung
-      goto_event: "Gehe zu Wettbewerb >>"
-      supported_formats: "Unterstützte GPS Logger und Dateiformate"
-      stats: "Statistiken:"
-      stats_tracks: "Hochgeladene Tracks:"
-      stats_pilots: "Registrierte Piloten:"
+      supported_formats: Unterstützte GPS Logger und Dateiformate
+      donate: Wenn dir Skyderby gefällt, kannst du das Projekt gerne durch eine Spende unterstützen!
+      online_comps_leaders: Führende in den Online Wettbewerben
       how_it_works: "So einfach geht's:"
-      upload_a_file: "Lade einen Track hoch"
-      select_free_fall_range: "Wähle den Freifallbereich"
+      upload_a_file: Lade einen Track hoch
+      select_free_fall_range: Wähle den Freifallbereich
       analyze: Werte deine Daten aus…
+      track_form:
+        title: Ansehen und analysieren deines Tracks
+        name_plh: Max Muster.
+        suit_plh: Wingsuit Modell
+        location_plh: Flugplatz, Absprungstelle, etc
+        help: "Unterstützte Formate: csv (Columbus, FlySight), gpx, tes und kml"
+        comment_plh: Gib einen Kommentar zu deinem Flug ein
+        submit: Hochladen

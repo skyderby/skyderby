@@ -1,0 +1,10 @@
+fr:
+  events:
+    rounds:
+      map:
+        competitor: Compétiteur
+        direction: Enregistrement
+        group: Groupe
+        start_window_description: point d'entrée dans la fenêtre de compétition (%{altitude} meters)
+        end_window_description: point de sortie dans la fenêtre de compétition (%{altitude} meters)
+        after_exit_description: point 5 secondes après la sortie de la fenêtre de compétition

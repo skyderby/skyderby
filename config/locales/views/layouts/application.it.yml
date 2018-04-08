@@ -1,0 +1,22 @@
+it:
+  application:
+    header:
+      tracks: Traccie
+      competitions: Competizioni
+      online_competitions: Competizioni Online
+      places: Luoghi
+      about: Info sul Progetto
+      sign_in: Log in
+      sign_up: Iscriviti
+      sign_out: Scollegati
+      login_email: Indirizzo Email
+      password: Password
+      remember_me: Ricordami!
+      forgot_pass: Hai dimenticato la tua password?
+      admin_panel: Pannello amministrativo
+      profile: Profilo
+      upload_track: Carica traccia
+    footer:
+      made_with: Fatto con il
+      owner: da Aleksandr Kunin
+      fb_page: Pagina dell'applicazione

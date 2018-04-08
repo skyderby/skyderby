@@ -1,0 +1,23 @@
+de:
+  application:
+    header:
+      tracks: Trackliste
+      online_competitions: Online Wettbewerbe
+      competitions: Wettkampf
+      places: Orte
+      about: Über uns
+      sign_in: Einloggen
+      sign_up: Registrieren
+      sign_out: Ausloggen
+      login_email: E-Mail Adresse
+      password: Passwort
+      remember_me: Merken
+      forgot_pass: Passwort vergessen?
+      profile: Profil
+      admin_panel: Administrator-Panel
+      track_analizer: Trackanalyse
+      upload_track: Track hochladen
+    footer:
+      made_with: Gemacht mit
+      owner: von Aleksandr Kunin
+      fb_page: Facebook Seite

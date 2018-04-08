@@ -1,0 +1,9 @@
+fr:
+  activerecord:
+    models:
+      virtual_competition: Compétitions en ligne
+    attributes:
+      virtual_competition:
+        name: Nom
+        location: Lieu
+        task: But
