@@ -1,0 +1,11 @@
+fr:
+  activerecord:
+    models:
+      place: Lieu
+    attributes:
+      place:
+        name: Nom
+        country: Pays
+        latitude: Latitude
+        longitude: Longitude
+        msl: Hauteur (MSL)

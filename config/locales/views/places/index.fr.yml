@@ -1,0 +1,8 @@
+fr:
+  places:
+    index:
+      new: Nouveau
+      title: Lieux
+      details: Plus
+      on_map: 'On map'
+      on_list: 'On list'

@@ -1,0 +1,19 @@
+fr:
+  virtual_competitions:
+    scoreboard:
+      result: Résultat
+      show_details: Cliquer pour voir les détails de l'enregistrement
+      show_profile: Cliquer pour voir le profil
+    navbar:
+      overall: Vue d'ensemble
+    tasks:
+      speed: Le but est de d'avoir la vitesse horizontale la plus élevée possible durant la fenêtre de compétition (%{range_from} - %{range_to} m)
+      distance: Le but est de voler le plus loin possible durant la fenêtre de compétition (%{range_from} - %{range_to} m)
+      distance_in_time: Le but est de voler le plus loin possible en %{parameter} sec
+      distance_in_altitude: Le but est de voler le plus loin possible en utilisant %{parameter} metres d'altitude
+      straightline_distance_in_time: Le but est de voler le plus loin possible en %{parameter} sec. Distance mesurée en ligne droite.
+      time: Le but est de voler avec la vitesse verticale la plus basse durant la fenêtre de compétition (%{range_from} - %{range_to} m)
+      flare: Le but est d'avoir le plus gros gain d'altitude possible
+    place: 'Lieu:'
+    worldwide: Monde entier
+    suit: 'Type de combinaison: %{suit}'

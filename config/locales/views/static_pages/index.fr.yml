@@ -1,0 +1,24 @@
+fr:
+  static_pages:
+    online_competitions_section:
+      competitions_header:
+        base: BASE compétitions
+        skydive: Skydive compétitions
+    index:
+      title: Volez! Participez! Gagnez!
+      desc: L'analyse de vol et les résultats de compétitions les plus poussés
+      supported_formats: Enregistreurs GPS et formats de fichiers supportés
+      donate: Si vous aimez Skyderby - vous pouvez soutenir ce projet avec une donation.
+      online_comps_leaders: Leaders des compétitions en ligne
+      how_it_works: C'est assez simple
+      upload_a_file: Télécharger un enregistrement
+      select_free_fall_range: Sélectionnez le créneau de chute
+      analyze: Analyser
+      track_form:
+        title: Voir et analyser votre enregistrement
+        name_plh: Martin Dupont
+        suit_plh: Combinaison
+        location_plh: Quelques DZ, quelques falaises, etc
+        help: Supporte les format csv (Columbus, FlySight), gpx, tes et kml
+        comment_plh: Quelques mots à propos de votre vol
+        submit: Télécharger

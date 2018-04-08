@@ -1,26 +1,20 @@
 en:
   errors:
     messages:
-      duplicate_file: "File already used. Pilot: %{pilot_name}, round: %{round}"
+      duplicate_file: "Fichier déjà utilisé. Pilot: %{pilot_name}, round: %{round}"
   general:
-    new: New
-    cancel: Cancel
-    create: Create
-    save: Save
-    saving: Saving…
-    update: Update
-    delete: Delete
-    edit: Edit
-    enabled: Enabled
-    disabled: Disabled
-    settings: Settings
-    select_all: Select all
-    unselect_all: Unselect all
-    overview: Overview
-    back: Back
-  users:
-    profile:
-      edit:
-        title: Profile
-        edit_email_pass: Edit email or password
-        edit_reg_data: Email and password
+    new: Nouveau
+    cancel: Annuler
+    create: Crée
+    save: Sauvegarder
+    saving: Sauvegarde…
+    update: Mise à jour
+    delete: Supprimer
+    edit: Éditer
+    enabled: Activer
+    disabled: Désactiver
+    settings: Réglages
+    select_all: Sélectionner tout
+    unselect_all: Désélectionner tout
+    overview: Vue d'ensemble
+    back: Retour

@@ -1,0 +1,23 @@
+fr:
+  events:
+    show:
+      competitor: Compétiteur
+      round_map_view: Vue de enregistrements de la manche sur la carte
+      comp_window: Fenêtre de compétition
+      total: Total
+      new: Nouveau
+      edit: Éditer
+      organizers: Organisateurs
+      organizers_placeholder: 'Ajouter l'organisateur à partir de la liste'
+      place_placeholder: 'Sélectionner le lieu dans la liste:'
+      result: Résultat
+      result_file: Fichier de l'enregistrement
+      result_or: 'ou'
+      result_in: 'dans'
+      delete_result: 'Effacer résultat'
+      weather_data: Conditions de vent
+      wind_cancellation_enabled: Cette compétition utilise l'annulation du vent.
+      wind_cancellation_disabled: Cette compétition n'utilise pas l'annulation du vent.
+      results_showing: Les résultats sont
+      results_adjusted_caption: ajustement en fonction du vent
+      results_not_adjusted_caption: sans ajustement en fonction du vent
