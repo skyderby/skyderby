@@ -1,21 +1,21 @@
 fr:
   tracks:
     form:
-      suit_text_placeholder: Enter suit name
+      suit_text_placeholder: Entrer le nom de la combinaison
       suit_select_placeholder: Sélectionner la combinaison dans la liste
-      place_text_placeholder: Enter place name
+      place_text_placeholder: Entrer le nom du lieu
       place_select_placeholder: Sélectionner le lieu dans la liste
-      profile_text_placeholder: Enter pilot name
-      profile_select_placeholder: Select pilot form list
-      toggle_suit_caption: Suit you are flying doesn't exist?
-      toggle_suit_caption_select: Or
-      toggle_suit_link: Enter suit name
-      toggle_suit_link_select: select suit from list.
-      toggle_place_caption: Place you are looking for doesn't exist?
-      toggle_place_caption_select: Or
-      toggle_place_link: Enter place name
-      toggle_place_link_select: select place from list
-      toggle_profile_caption: Not registered pilot?
-      toggle_profile_caption_select: Or
-      toggle_profile_link: Enter pilot name
-      toggle_profile_link_select: Select registered pilot
+      profile_text_placeholder: Entrer le nom du pilote
+      profile_select_placeholder: Sélectionner le pilote dans la liste
+      toggle_suit_caption: La combinaison que vous avez n'existe pas?
+      toggle_suit_caption_select: Ou
+      toggle_suit_link: Entrer le nom de la combinaison
+      toggle_suit_link_select: Sélectionner la combinaison dans la liste
+      toggle_place_caption: Le lieu que vous cherchez n'existe pas?
+      toggle_place_caption_select: Ou
+      toggle_place_link: Entrer le nom du lieu
+      toggle_place_link_select: Sélectionner le lieu dans la liste
+      toggle_profile_caption: Le pilote n'est pas enregistré?
+      toggle_profile_caption_select: Ou
+      toggle_profile_link: Entrer le nom du pilote
+      toggle_profile_link_select: Sélectionner le pilote dans la liste
