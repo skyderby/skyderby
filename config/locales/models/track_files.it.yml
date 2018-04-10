@@ -1,0 +1,5 @@
+it:
+  activerecord:
+    attributes:
+      track_file:
+        file: File con traccia

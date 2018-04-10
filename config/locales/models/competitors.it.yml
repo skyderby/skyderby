@@ -1,0 +1,22 @@
+it:
+  activerecord:
+    models:
+      competitor: Concorrente
+    attributes:
+      competitor:
+        suit: Tuta
+        section: Categoria
+    errors:
+      models:
+        competitor:
+          attributes:
+            suit:
+              blank: Devi scegliere una tuta
+            profile:
+              blank: Devi scegliere un profilo
+            section:
+              blank: Devi scegliere una categoria
+            base:
+              restrict_dependent_destroy:
+                many: Per cancellare un concorrente cancella prima i suoi risultati.
+              event_finished: Non puoi effettuare modifiche perché l'evento è concluso.

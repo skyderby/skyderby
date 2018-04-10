@@ -1,0 +1,7 @@
+it:
+  helpers:
+    label:
+      penalty:
+        penalized: Applica penalità
+        penalty_size: Riduzione del punteggio
+        penalty_reason: Motivazione

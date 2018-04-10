@@ -1,0 +1,11 @@
+it:
+  activerecord:
+    models:
+      place: Luoghi
+    attributes:
+      place:
+        name: Nome
+        country: Nazione
+        latitude: Latitudine
+        longitude: Longitudine
+        msl: Altitudine (Sul Livello del Mare)

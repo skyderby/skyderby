@@ -1,0 +1,18 @@
+it:
+  activerecord:
+    models:
+      event: Competizione
+    attributes:
+      event:
+        name: Nome
+        status: Stato
+        place: Luogo
+        starts_at: Inizia il
+        rules: Regole
+        wind_cancellation: Cancellazione dell'effetto del vento
+        visibility: Visibilità
+        number_of_results_for_total: Il punteggio medio è basato su questo numero di salti
+  event_status:
+    draft: Bozza
+    published: Pubblicato
+    finished: Concluso

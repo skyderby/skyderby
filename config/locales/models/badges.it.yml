@@ -1,0 +1,16 @@
+it:
+  activerecord:
+    models:
+      badge: Medaglia
+    attributes:
+      badge:
+        name: Nome
+        kind: Tipologia
+    errors:
+      models:
+        badge:
+          attributes:
+            name:
+              blank: Il nome non può essere vuoto
+            kind:
+              blank: La tipologia non può essere vuota

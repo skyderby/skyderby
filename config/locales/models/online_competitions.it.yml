@@ -1,0 +1,9 @@
+it:
+  activerecord:
+    models:
+      virtual_competition: Competizione Online
+    attributes:
+      virtual_competition:
+        name: Nome
+        location: Luogo
+        task: Task

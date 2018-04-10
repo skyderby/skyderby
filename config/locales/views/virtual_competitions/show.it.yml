@@ -1,0 +1,19 @@
+it:
+  virtual_competitions:
+    scoreboard:
+      result: Risultato
+      show_details: Clicca il dettaglio della traccia
+      show_profile: Clicca per vedere il profilo
+    navbar:
+      overall: Generale
+    tasks:
+      speed: L'obbiettivo è di volare con la maggior velocità orizzontale possibile, misurata rispetto al terreno, attraverso la finestra di competizione (%{range_from} - %{range_to} m)
+      distance: L'obbiettivo è di volare più distante possibile attraverso la finestra di competizione (%{range_from} - %{range_to} m)
+      distance_in_time: L'obbiettivo è di volare il più distante possibile in un periodo di tempo di %{parameter} sec
+      distance_in_altitude: L'obbiettivo è di volare il più distante possibile utilizzando %{parameter} mettri di altitudine per la planata
+      straightline_distance_in_time: L'obbiettivo è di volare il più distante possibile in un periodo di tempo di %{parameter} sec. La distanza è misurata in linea retta.
+      time: L'obbiettivo è di volare con il minor rateo di discesa possibile attraverso la finestra di competizione (%{range_from} - %{range_to} m)
+      flare: L'obbiettivo è di guadagnare la quantità maggiore di quota possibile
+    place: 'Luogo:'
+    worldwide: mondiale
+    suit: 'tipo di Tuta: %{suit}'

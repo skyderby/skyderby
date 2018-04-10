@@ -1,0 +1,21 @@
+it:
+  activerecord:
+    models:
+      sponsor: Sponsor
+    attributes:
+      sponsor:
+        name: Nome
+        website: Sito Web
+        logo: Logo
+    errors:
+      models:
+        sponsor:
+          attributes:
+            name:
+              blank: Devi scrivere un nome.
+            website:
+              blank: Devi scrivere un sito web.
+            logo:
+              blank: Devi caricare un logo.
+            logo_content_type:
+              invalid: Il logo deve essere un'immagine.

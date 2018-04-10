@@ -1,0 +1,24 @@
+it:
+  static_pages:
+    online_competitions_section:
+      competitions_header:
+        base: Competizioni BASE
+        skydive: Competizioni Paracadutismo
+    index:
+      title: Vola! Gareggia! Vinci!
+      desc: Il più avanzato sistema di analisi di volo e di punteggio per le competizioni
+      supported_formats: Tipi di file e GPS supportati
+      donate: Se ti piace Skyderby puoi supportarlo facendo una donazione.
+      online_comps_leaders: i Leader delle competizioni OnLine
+      how_it_works: E' molto semplice
+      upload_a_file: Carica un file
+      select_free_fall_range: Seleziona l'intervallo di caduta libera
+      analyze: Analizza
+      track_form:
+        title: Visualizza ed analizza la tua traccia
+        name_plh: John Doe
+        suit_plh: modello della tuta alare
+        location_plh: una DropZone, una montagna, ecc..
+        help: sono supportati i file con estensione: .csv (Columbus, FlySight), .gpx, .tes e .kml
+        comment_plh: Condividi i tuoi pensieri sul tuo volo
+        submit: Carica

@@ -1,0 +1,15 @@
+it:
+  activerecord:
+    models:
+      track: Traccia
+    attributes:
+      track:
+        id: '#'
+        name: Pilota
+        suit: Tuta
+        place: Luogo
+        kind: Tipo di salto
+        comment: Commento
+        uploaded_at: Caricato
+        recorded_at: Registrato
+        disqualified_from_online_competitions: Squalificato dalle competizioni Online

@@ -1,0 +1,14 @@
+it:
+  activerecord:
+    models:
+      organizer: Organizzatore
+    attributes:
+      organizer:
+        profile: Profilo
+    errors:
+      models:
+        organizer:
+          attributes:
+            profile: il Profilo non può essere vuoto
+            base:
+              event_finished: Non puoi effettuare modifiche perché l'evento è concluso.

@@ -1,0 +1,9 @@
+it:
+  activerecord:
+    errors:
+      models:
+        qualification_round:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: Cancella prima i risultati del round
