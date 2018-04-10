@@ -1,0 +1,9 @@
+it:
+  tracks:
+    index:
+      track_not_found: 'Traccia #%{id} non trovata'
+      all: Tutte
+      filters: Filtri
+      filter_by_pilot: per pilota
+      filter_by_suit: per tuta
+      filter_by_place: per luogo

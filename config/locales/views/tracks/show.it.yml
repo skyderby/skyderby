@@ -1,0 +1,31 @@
+it:
+  tracks:
+    indicators:
+      distance: Distanza
+      elevation: Differenza di quota
+      altitude: Altitudine
+      ground_speed: Velocità orizzontale
+      vertical_speed: Velocità verticale
+      duration: Tempo
+      glide_ratio: Efficienza (glide)
+    show:
+      title_track: 'Traccia'
+      title_suit: 'Tuta'
+      menu_header: 'Mostra dati:'
+      menu_sep: 'In grafici separati'
+      menu_one: 'In un unico grafico'
+      units_header: 'Unità:'
+      m_units_metric: 'Metrico'
+      m_units_imperial: 'Imperiale'
+      delete_confirmation: "Sicuro di voler cancellare questa traccia?"
+      manage: "Gestisci"
+      edit_range: "Modifica intervallo"
+      range_from: "da:"
+      range_to: "a:"
+      charts: 'Grafici'
+      results: 'Risultati'
+      comp_result: 'Risultati in competizione'
+      online_comp_results: 'Risultati nelle competizioni Online'
+      best_results: 'Migliori risultati'
+      window: 'finestra'
+      loading: 'Caricamento dati traccia'

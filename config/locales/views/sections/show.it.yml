@@ -1,0 +1,4 @@
+it:
+  sections:
+    show:
+      delete_confirmation: Sei sicuro che vuoi cancellare questa categoria?

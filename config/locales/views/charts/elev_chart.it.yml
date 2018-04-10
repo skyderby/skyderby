@@ -1,0 +1,10 @@
+it:
+  charts:
+    elev:
+      title: 'Quota/Distanza'
+      axis:
+        distance: "Distanza, %{unit}"
+      series:
+        elevation: 'Quota'
+        distance: 'Distanza'
+        height: 'Quota'

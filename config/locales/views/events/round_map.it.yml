@@ -1,0 +1,10 @@
+it:
+  events:
+    rounds:
+      map:
+        competitor: Concorrente
+        direction: Traccia
+        group: Gruppo
+        start_window_description: Punto dove il concorrente è entrato nella finestra di gara (%{altitude} meters)
+        end_window_description: Punto dove il concorrente è uscito dalla finestra di gara (%{altitude} meters)
+        after_exit_description: Punto nel quale il concorrente si trovava a 5 secondi dall'exit.

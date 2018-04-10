@@ -1,0 +1,11 @@
+it:
+  weather_datum:
+    modal_title: Dati meteo
+    actual_on: Data, Ora
+    altitude: Altitudine
+    wind_speed: Velocità del vento
+    wind_direction: Direzione del vento
+    altitude_units: Unità di misura altitudine
+    wind_speed_units: Unità di misura del vento
+    manual_entries: Inserimento manuale
+    noaa_forecast: previsioni NOAA

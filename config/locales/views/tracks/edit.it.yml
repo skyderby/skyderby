@@ -1,0 +1,7 @@
+it:
+  tracks:
+    edit:
+      visibility: "Visibilità:"
+      elev_chart: "Quota"
+      elevation: "Quota"
+      back: 'torna alla traccia'

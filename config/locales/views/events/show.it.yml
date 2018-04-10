@@ -1,0 +1,33 @@
+it:
+  events:
+    show:
+      competitor: Concorrente
+      round_map_view: 'Tracce del round sulla mappa'
+      comp_window: 'Finestra di competizione'
+      total: 'Totale'
+      profile: 'Profilo'
+      profile_caption: "Il pilota che cerchi non esiste?"
+      toggle_profile: 'Crea un nuovo profilo'
+      profile_placeholder: 'Seleziona il pilota dalla lista'
+      profile_or: 'Oppure'
+      profile_choose: 'Seleziona il pilota dalla lista'
+      suit: 'Tuta:'
+      suit_placeholder: 'Seleziona la tuta dalla lista'
+      new: 'Nuova'
+      edit: 'Modifica'
+      organizers: 'Organizzatori'
+      organizers_placeholder: 'Seleziona un organizzatore dalla lista'
+      place_placeholder: 'Seleziona luogo dalla Lista'
+      result: 'Risultato'
+      result_file: 'File con traccia'
+      result_or: 'Oppure'
+      result_in: 'in'
+      delete_result: 'Cancella risultato'
+      toggle_new_track: 'Carica nuova traccia'
+      toggle_existed_track: 'Seleziona traccia'
+      weather_data: 'condizione dei Venti'
+      wind_cancellation_enabled: 'Questa competizione usa la compensazione elettronica del vento.'
+      wind_cancellation_disabled: 'Questa competizione non usa la compensazione elettronica del vento.'
+      results_showing: 'I risultati sono '
+      results_adjusted_caption: 'azione del vento compensata'
+      results_not_adjusted_caption: 'azione del vento non compensata'

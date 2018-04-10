@@ -6,4 +6,4 @@ it:
       virtual_competition:
         name: Nome
         location: Luogo
-        task: Task
+        task: Obbiettivo

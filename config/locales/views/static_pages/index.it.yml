@@ -19,6 +19,6 @@ it:
         name_plh: John Doe
         suit_plh: modello della tuta alare
         location_plh: una DropZone, una montagna, ecc..
-        help: sono supportati i file con estensione: .csv (Columbus, FlySight), .gpx, .tes e .kml
+        help: "sono supportati i file con estensione: .csv (Columbus, FlySight), .gpx, .tes e .kml"
         comment_plh: Condividi i tuoi pensieri sul tuo volo
         submit: Carica

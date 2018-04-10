@@ -1,0 +1,5 @@
+it:
+  events:
+    index:
+      sign_in_to_create: Accedi o registrati per creare una competizione.
+      new: 'Nuovo'

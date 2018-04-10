@@ -1,0 +1,7 @@
+it:
+  competitors:
+    form:
+      select_profile: Seleziona un profilo esistente
+      create_profile: Crea un nuovo profilo
+      profile: Profilo
+      suit_and_category: Tuta e categoria
