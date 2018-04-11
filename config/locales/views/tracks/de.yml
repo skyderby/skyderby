@@ -1,0 +1,66 @@
+de:
+  tracks:
+    index:
+      all: Alle
+      filters: Filter
+      filter_by_pilot: Nach Pilot
+      filter_by_suit: Nach Suit
+      filter_by_place: Nach Ort
+    indicators:
+      distance: Entfernung
+      elevation: Höhendifferenz
+      altitude: Höhe
+      ground_speed: Horizontale Geschwindigkeit
+      vertical_speed: Vertikale Geschwindigkeit
+      duration: Dauer
+      glide_ratio: Flugqualität
+    show:
+      title_track: Track
+      title_suit: Suit
+      menu_header: 'Merkmalanzeige:'
+      menu_sep: Auf unterschiedlichen Grafiken
+      menu_one: Auf einer Grafik
+      units_header: 'Maßeinheit:'
+      m_units_metric: Metrisches Einheitssystem (m, km/h.)
+      m_units_imperial: Imperiale Einheiten (Fuß, mi/h)
+      delete_confirmation: Sind Sie sicher, daß Sie diesen Track entfernen möchten?
+      manage: Korrektur
+      edit_range: Bereich bearbeiten
+      range_from: Bereich von
+      range_to: ' - '
+      # charts: 'Charts'
+      # results: 'Results'
+      # comp_result: 'Result in competition'
+      # online_comp_results: 'Online competitions results'
+      # best_results: 'Best results'
+      # window: 'window'
+      # loading: 'Loading track data'
+    choose:
+      title: 'Track aussuchen zum hochladen'
+      number: 'Nummer'
+      name: 'Trackname'
+      elev: 'Höhenunterschied'
+      pt_cnt: 'Anzahl der Punkte'
+    edit:
+      visibility: "Datenschutz:"
+      elev_chart: Höhe
+      elevation: Höhe
+    form:
+      suit_text_placeholder: Suitname angeben
+      suit_select_placeholder: Wähle eine Suit aus der Liste
+      place_text_placeholder: Gib einen Ort an
+      place_select_placeholder: Wähle einen Ort aus der Liste
+      profile_text_placeholder: Pilotnamen angeben
+      profile_select_placeholder: Wähle einen Piloten aus der Liste
+      toggle_suit_caption: Die Suit die du fliegst ist nicht in der Liste?
+      toggle_suit_caption_select: Oder
+      toggle_suit_link: Suitname angeben
+      toggle_suit_link_select: Wähle eine Suit aus der Liste.
+      toggle_place_caption: Der Ort den sie suchen existiert nicht?
+      toggle_place_caption_select: Oder
+      toggle_place_link: Ort angeben
+      toggle_place_link_select: Wähle einen Ort aus der Liste
+      toggle_profile_caption: Kein registrierter Pilot?
+      toggle_profile_caption_select: Oder
+      toggle_profile_link: Pilot Name angeben
+      toggle_profile_link_select: Wähle einen registrierten Piloten

@@ -1,5 +1,0 @@
-fr:
-  event_tracks:
-    form_modal:
-      from_file: Télécharger un nouveau
-      from_existent_track: Sélectionner une Track existante

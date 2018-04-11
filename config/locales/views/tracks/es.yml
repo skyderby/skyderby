@@ -1,0 +1,67 @@
+es:
+  tracks:
+    index:
+      all: Todos
+      filters: Filtros
+      filter_by_pilot: Por persona
+      filter_by_place: Por lugar
+      filter_by_suit: Por traje
+    indicators:
+      distance: Distancia
+      elevation: Diferencia en altura
+      altitude: Height
+      ground_speed: Velocidad horizontal
+      vertical_speed: Velocidad vertical
+      duration: Duración
+      glide_ratio: Calidad de vuelo
+    show:
+      title_track: La pista
+      title_suit: Traje aereo
+      menu_header: 'La representación de los resultados:'
+      menu_sep: En gráficos difirentes
+      menu_one: En el mismo gráfico
+      units_header: 'Unidades de medida:'
+      m_units_metric: Metricas
+      m_units_imperial: Imperiales
+      delete_confirmation: "Seguro, que quieres eliminar esta pista?"
+      manage: "Сorrección"
+      edit_range: "Editar rango"
+      range_from: "Rango desde:"
+      range_to: "to:"
+      range_to: "A:"
+      charts: Gráficos
+      results: Resultados
+      comp_result: 'Result in competition'
+      online_comp_results: 'Online competitions results'
+      best_results: 'Best results'
+      window: 'window'
+      loading: 'Loading track data'
+    choose:
+      title: 'Elige la pista para descargar'
+      number: 'Número'
+      name: 'Nombre de la pista'
+      elev: 'Diferencia de altura'
+      pt_cnt: 'Cantidad de los puntos'
+    edit:
+      visibility: Privacidad
+      elev_chart: Altitud
+      elevation: Altitud
+    form:
+      suit_text_placeholder: Ingresa el nombre del traje
+      suit_select_placeholder: Selecciona el traje desde una lista
+      place_text_placeholder: Ingresa el nombre del lugar
+      place_select_placeholder: Selecciona el lugar desde una lista
+      profile_text_placeholder: Ingresa el nombre del piloto
+      profile_select_placeholder: Selecciona el piloto desde una lista
+      toggle_suit_caption: El traje no existe?
+      toggle_suit_caption_select: O
+      toggle_suit_link: Ingresa el nombre del traje
+      toggle_suit_link_select: Selecciona el traje desde una lista
+      toggle_place_caption: El lugar que buscas no existe?
+      toggle_place_caption_select: O
+      toggle_place_link: Ingresa el nombre del lugar
+      toggle_place_link_select: Selecciona el lugar desde una lista
+      toggle_profile_caption: Piloto no registrado?
+      toggle_profile_caption_select: O
+      toggle_profile_link: Ingresa el nombre del piloto
+      toggle_profile_link_select: Selecciona un piloto registrado

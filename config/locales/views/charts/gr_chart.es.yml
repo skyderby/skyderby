@@ -1,7 +1,0 @@
-es:
-  charts:
-    gr:
-      title: 'Calidad del vuelo'
-      series:
-        gr: 'Calidad'
-        raw_gr: 'Calidad (bruta)'

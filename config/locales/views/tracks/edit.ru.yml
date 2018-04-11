@@ -1,7 +1,0 @@
-ru:
-  tracks:
-    edit:
-      visibility: "Параметры доступа:"
-      elev_chart: 'График высот'
-      elevation: 'Высота'
-      back: 'Назад к треку'

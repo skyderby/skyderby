@@ -1,0 +1,37 @@
+en:
+  activerecord:
+    models:
+      competitor: Competitor
+    attributes:
+      competitor:
+        suit: Suit
+        section: Class
+    errors:
+      models:
+        competitor:
+          attributes:
+            suit:
+              blank: Suit has to be filled
+            profile:
+              blank: Pilot profile has to be filled
+            section:
+              blank: Class has to be filled
+            base:
+              restrict_dependent_destroy:
+                many: To delete competitor delete his results first.
+              event_finished: Changes couldn't be made because event is finished.
+  activemodel:
+    errors:
+      models:
+        events/competitor_registration:
+          attributes:
+            suit_id:
+              blank: Suit has to be filled
+            profile_id:
+              blank: Profile has to be chosen
+            name:
+              blank: Name has to be filled
+            country_id:
+              blank: Country has to be chosen
+            section_id:
+              blank: Class has to be chosen

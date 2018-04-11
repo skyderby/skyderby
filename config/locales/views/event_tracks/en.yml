@@ -1,0 +1,15 @@
+en:
+  event_tracks:
+    show:
+      charts: Charts
+      jump_range: Jump range
+      penalties: Penalties
+    form_modal:
+      from_file: From file
+      from_existent_track: Existent track
+  helpers:
+    label:
+      penalty:
+        penalized: Apply penalty
+        penalty_size: Reduction of score
+        penalty_reason: Reason

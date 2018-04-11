@@ -1,60 +1,143 @@
-# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
-
 fr:
+  activerecord:
+    attributes:
+      user:
+        confirmation_sent_at: Date d'envoi de la confirmation
+        confirmation_token: Clé de confirmation du mot de passe
+        confirmed_at: Confirmé à
+        created_at: Enregistré à
+        current_password: Mot de passe actuel
+        current_sign_in_at: Date de la connexion actuelle
+        current_sign_in_ip: IP de la connexion actuelle
+        email: Courriel
+        encrypted_password: Mot de passe crypté
+        failed_attempts: Tentatives échouées
+        last_sign_in_at: Date de la dernière connexion
+        last_sign_in_ip: IP de la dernière connexion
+        locked_at: Verrouillé à
+        password: Mot de passe
+        password_confirmation: Confirmation du mot de passe
+        remember_created_at: Mémorisé à
+        remember_me: Se souvenir de moi?
+        reset_password_sent_at: Clé de réinitialisation créée à
+        reset_password_token: Clé de réinitialisation du mot de passe
+        sign_in_count: Nombre des connexions
+        unconfirmed_email: Courriel non confirmé
+        unlock_token: Clé de déverrouillage
+        updated_at: Date de mise à jour
+    models:
+      user: Utilisateur
   devise:
     confirmations:
-      confirmed: 'Votre compte a été confirmé avec succès.'
-      send_instructions: 'Vous allez recevoir un e-mail avec les instructions nécessaires à la confirmation de votre compte dans quelques minutes.'
-      send_paranoid_instructions: 'Si votre e-mail existe dans notre base de données, vous allez bientôt recevoir un e-mail contenant les instructions de confirmation de votre compte.'
+      confirmed: Votre compte a été confirmé avec succès.
+      new:
+        resend_confirmation_instructions: Renvoyer les instructions de confirmation
+      send_instructions: Vous allez recevoir sous quelques minutes un courriel comportant des instructions pour confirmer votre compte.
+      send_paranoid_instructions: Si votre courriel existe sur notre base de données, vous recevrez sous quelques minutes un message avec des instructions pour confirmer votre compte.
     failure:
-      already_authenticated: "Vous êtes déjà connecté"
-      inactive: "Votre compte n'est pas encore activé."
+      already_authenticated: Vous êtes déjà connecté(e).
+      inactive: Votre compte n’est pas encore activé.
       invalid: "%{authentication_keys} ou mot de passe incorrect."
-      locked: "Votre compte est verrouillé."
-      last_attempt: "Vous avez droit à une tentative avant que votre compte ne soit verrouillé."
+      last_attempt: Il vous reste une chance avant que votre compte soit bloqué.
+      locked: Votre compte est verrouillé.
       not_found_in_database: "%{authentication_keys} ou mot de passe incorrect."
-      timeout: "Votre session est expirée. Veuillez vous reconnecter pour continuer."
-      unauthenticated: "Vous devez vous connecter ou vous inscrire pour continuer."
-      unconfirmed: "Vous devez confirmer votre compte pour continuer."
+      timeout: Votre session est expirée, veuillez vous reconnecter pour continuer.
+      unauthenticated: Vous devez vous connecter ou vous enregistrer pour continuer.
+      unconfirmed: Vous devez confirmer votre compte par courriel.
     mailer:
       confirmation_instructions:
-        subject: "Instructions de confirmation"
+        action: Confirmer mon courriel
+        greeting: Bienvenue %{recipient}!
+        instruction: 'Vous pouvez confirmer votre courriel grâce au lien ci-dessous:'
+        subject: Instructions de confirmation
+      email_changed:
+        greeting: Bonjour %{recipient}!
+        message: Nous vous contactons pour vous notifier que votre adresse de courriel a été changée en %{email}.
+        subject: Courriel modifié
+      password_change:
+        greeting: Bonjour %{recipient}!
+        message: Nous vous contactons pour vous notifier que votre mot de passe a été modifié.
+        subject: Mot de passe modifié.
       reset_password_instructions:
-        subject: "Instructions pour changer le mot de passe"
+        action: Changer mon mot de passe
+        greeting: Bonjour %{recipient}!
+        instruction: 'Quelqu''un a demandé un lien pour changer votre mot de passe, le voici :'
+        instruction_2: Si vous n'avez pas émis cette demande, merci d'ignorer ce courriel.
+        instruction_3: Votre mot de passe ne changera pas tant que vous n'aurez pas cliqué sur ce lien et renseigné un nouveau mot de passe.
+        subject: Instructions pour changer le mot de passe
       unlock_instructions:
-        subject: "Instructions pour déverrouiller le compte"
+        action: Débloquer mon compte
+        greeting: Bonjour %{recipient}!
+        instruction: 'Suivez ce lien pour débloquer votre compte:'
+        message: Votre compte a été bloqué suite à un nombre d'essais de connexions manquées trop important
+        subject: Instructions pour déverrouiller le compte
     omniauth_callbacks:
-      failure: "Nous n'avons pas pu vous authentifier via %{kind} : '%{reason}'."
-      success: 'Authentifié avec succès via %{kind}.'
+      failure: 'Nous ne pouvons pas vous authentifier depuis %{kind} pour la raison suivante : ''%{reason}''.'
+      success: Autorisé avec succès par votre compte %{kind}.
     passwords:
-      no_token: "Vous ne pouvez accéder à cette page sans passer par un e-mail de réinitialisation de mot de passe. Si vous êtes passé par un e-mail de ce type, assurez-vous d'utiliser l'URL complète."
-      send_instructions: 'Vous allez recevoir les instructions de réinitialisation du mot de passe dans quelques instants'
-      send_paranoid_instructions: "Si votre e-mail existe dans notre base de données, vous allez recevoir un lien de réinitialisation par e-mail"
-      updated: 'Votre mot de passe a été édité avec succès, vous êtes maintenant connecté'
-      updated_not_active: 'Votre mot de passe a été changé avec succès.'
+      edit:
+        change_my_password: Changer mon mot de passe
+        change_your_password: Changer votre mot de passe
+        confirm_new_password: Confirmez votre nouveau mot de passe
+        new_password: Nouveau mot de passe
+      new:
+        forgot_your_password: Mot de passe oublié ?
+        send_me_reset_password_instructions: Envoyez-moi des instructions pour réinitialiser mon mot de passe
+      no_token: Vous ne pouvez pas accéder à cette page si vous n’y accédez pas depuis un courriel de réinitialisation de mot de passe. Si vous venez en effet d’un tel courriel, vérifiez que vous avez copié l’adresse URL en entier.
+      send_instructions: Vous allez recevoir sous quelques minutes un courriel vous indiquant comment réinitialiser votre mot de passe.
+      send_paranoid_instructions: Si votre courriel existe dans notre base de données, vous recevrez un lien vous permettant de récupérer votre mot de passe.
+      updated: Votre mot de passe a été modifié avec succès. Vous êtes maintenant connecté(e).
+      updated_not_active: Votre mot de passe a été modifié avec succès.
     registrations:
-      destroyed: 'Votre compte a été supprimé avec succès. Nous espérons vous revoir bientôt.'
-      signed_up: 'Bienvenue, vous êtes connecté.'
-      signed_up_but_inactive: "Vous êtes bien enregistré. Vous ne pouvez cependant pas vous connecter car votre compte n'est pas encore activé."
-      signed_up_but_locked: "Vous êtes bien enregistré. Vous ne pouvez cependant pas vous connecter car votre compte est verrouillé."
-      signed_up_but_unconfirmed: 'Un message contenant un lien de confirmation a été envoyé à votre adresse email. Ouvrez ce lien pour confirmer votre compte.'
-      update_needs_confirmation: "Votre compte a bien été mis à jour mais nous devons vérifier votre nouvelle adresse email. Merci de vérifier vos emails et de cliquer sur le lien de confirmation pour finaliser la validation de votre nouvelle adresse."
-      updated: 'Votre compte a été modifié avec succès.'
+      destroyed: Au revoir ! Votre compte a été annulé avec succès. Nous espérons vous revoir bientôt.
+      edit:
+        are_you_sure: "Êtes-vous sûr ?"
+        cancel_my_account: Supprimer mon compte
+        currently_waiting_confirmation_for_email: 'Confirmation en attente pour: %{email}'
+        leave_blank_if_you_don_t_want_to_change_it: laissez ce champ vide pour le laisser inchangé
+        title: "Éditer %{resource}"
+        unhappy: 'Pas content '
+        update: Modifier
+        we_need_your_current_password_to_confirm_your_changes: nous avons besoin de votre mot de passe actuel pour valider ces modifications
+      new:
+        sign_up: Inscription
+      signed_up: Bienvenue ! Vous vous êtes enregistré(e) avec succès.
+      signed_up_but_inactive: Vous vous êtes enregistré(e) avec succès. Cependant, nous n’avons pas pu vous connecter car votre compte n’a pas encore été activé.
+      signed_up_but_locked: Vous vous êtes enregistré(e) avec succès. Cependant, nous n’avons pas pu vous connecter car votre compte est verrouillé.
+      signed_up_but_unconfirmed: Un message avec un lien de confirmation vous a été envoyé par mail. Veuillez suivre ce lien pour activer votre compte.
+      update_needs_confirmation: Vous avez modifié votre compte avec succès, mais nous devons vérifier votre nouvelle adresse de courriel. Veuillez consulter vos courriels et cliquer sur le lien de confirmation pour confirmer votre nouvelle adresse.
+      updated: Votre compte a été modifié avec succès.
     sessions:
-      signed_in: "Connecté avec succès."
-      signed_out: "Déconnecté avec succès."
-      already_signed_out: "Déconnecté avec succès."
+      already_signed_out: Déconnecté(e).
+      new:
+        sign_in: Connexion
+      signed_in: Connecté(e) avec succès.
+      signed_out: Déconnecté(e) avec succès.
+    shared:
+      links:
+        back: Retour
+        didn_t_receive_confirmation_instructions: Vous n'avez pas reçu le courriel de confirmation ?
+        didn_t_receive_unlock_instructions: Vous n'avez pas reçu le courriel de déblocage ?
+        forgot_your_password: Mot de passe oublié ?
+        sign_in: Connexion
+        sign_in_with_provider: Connexion avec %{provider}
+        sign_up: Inscription
+      minimum_password_length:
+        one: "(%{count} caractère au moins)"
+        other: "(%{count} caractères au moins)"
     unlocks:
-      send_instructions: 'Vous allez recevoir les instructions nécessaires au déverrouillage de votre compte dans quelques instants'
-      send_paranoid_instructions: 'Si votre compte existe, vous allez bientôt recevoir un email contenant les instructions pour le déverrouiller.'
-      unlocked: 'Votre compte a été déverrouillé avec succès, veuillez vous connecter pour continuer.'
+      new:
+        resend_unlock_instructions: Renvoyer les instructions de déblocage
+      send_instructions: Vous allez recevoir sous quelques minutes un courriel comportant des instructions pour déverrouiller votre compte.
+      send_paranoid_instructions: Si votre courriel existe sur notre base de données, vous recevrez sous quelques minutes un message avec des instructions pour déverrouiller votre compte.
+      unlocked: Votre compte a été déverrouillé avec succès. Veuillez vous connecter.
   errors:
     messages:
-      already_confirmed: "a déjà été validé(e), veuillez essayer de vous connecter"
-      confirmation_period_expired: "à confirmer dans les %{period}, merci de faire une nouvelle demande"
-      expired: "a expiré, merci d'en faire une nouvelle demande"
-      not_found: "n'a pas été trouvé(e)"
-      not_locked: "n'était pas verrouillé(e)"
+      already_confirmed: a déjà été confirmé(e)
+      confirmation_period_expired: doit être confirmé(e) en %{period}, veuillez en demander un(e) autre
+      expired: est expiré, veuillez en demander un autre
+      not_found: n’a pas été trouvé(e)
+      not_locked: n’était pas verrouillé(e)
       not_saved:
-        one: "1 erreur a empêché ce(tte) %{resource} d'être sauvegardé(e) :"
-        other: "%{count} erreurs ont empêché ce(tte) %{resource} d'être sauvegardé(e) :"
+        one: 'une erreur a empêché ce (cet ou cette) %{resource} d’être enregistré(e) :'
+        other: "%{count} erreurs ont empêché ce (cet ou cette) %{resource} d’être enregistré(e) :"

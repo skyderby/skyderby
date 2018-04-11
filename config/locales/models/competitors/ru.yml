@@ -1,0 +1,40 @@
+ru:
+  activerecord:
+    models:
+      competitor: Участник
+    attributes:
+      competitor:
+        suit: Костюм
+        section: Класс
+        profile: Профиль
+      competitor/profile:
+        name: Имя Фамилия
+    errors:
+      models:
+        competitor:
+          attributes:
+            suit:
+              blank: Костюм должен быть заполнен
+            profile:
+              blank: Не заполнено обязательное поле "Профиль пилота"
+            section:
+              blank: Не заполнено обязательное поле "Класс"
+            base:
+              restrict_dependent_destroy:
+                many: Для удаления участника необходимо сначала удалить его результаты.
+              event_finished: Изменения не могут быть выполнены, т.к. соревнование завершено.
+  activemodel:
+    errors:
+      models:
+        events/competitor_registration:
+          attributes:
+            suit_id:
+              blank: Костюм обязателен для заполнения
+            profile_id:
+              blank: Профиль пилота обязателен для заполнения
+            name:
+              blank: Имя пилота обязательно для заполнения
+            country_id:
+              blank: Страна пилота обязательна для заполнения
+            section_id:
+              blank: Класс обязателен для заполнения

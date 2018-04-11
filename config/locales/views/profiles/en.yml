@@ -1,0 +1,19 @@
+en:
+  profiles:
+    header:
+      tracks: Tracks
+      flight_profiles: Flight profiles
+    merges:
+      form_modal:
+        title: Merging profiles
+        source_profile_placeholder: Select source profile
+        description: Choosen profile will be merged into current profile
+    show:
+      achievements: Achievements
+      online_competitions: Online competitions
+      no_badges: "%{name} do not have badges yet."
+      no_rankings: "%{name} didn't participate online competitions this year."
+  helpers:
+    label:
+      profiles_merge:
+        source_profile: Profile

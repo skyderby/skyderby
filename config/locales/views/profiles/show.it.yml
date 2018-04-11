@@ -1,7 +1,0 @@
-it:
-  profiles:
-    show:
-      achievements: Successi e Risultati
-      online_competitions: Competizione Online
-      no_badges: "%{name} al momento non hai medaglie."
-      no_rankings: "%{name} quest'anno non hai partecipato a competizione online ancora."

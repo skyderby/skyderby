@@ -1,8 +1,0 @@
-it:
-  charts:
-    gr:
-      title: Efficienza (glide)
-      series:
-        gr: Efficienza (glide)
-        raw_gr: 'G/R (Raw)'
-        wind_effect: Effetto del vento

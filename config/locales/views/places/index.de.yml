@@ -1,8 +1,0 @@
-de:
-  places:
-    index:
-      new: 'Hinzufügen'
-      title: 'Orte'
-      details: 'Mehr'
-      on_map: 'Auf der Karte'
-      on_list: 'Aus der Liste'

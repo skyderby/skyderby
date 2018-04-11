@@ -1,7 +1,0 @@
-ru:
-  helpers:
-    label:
-      penalty:
-        penalized: Применить штраф
-        penalty_size: Величина
-        penalty_reason: Причина

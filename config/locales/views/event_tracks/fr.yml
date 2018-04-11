@@ -1,0 +1,15 @@
+fr:
+  event_tracks:
+    show:
+      charts: Graphiques
+      jump_range: Durée du saut
+      penalties: Pénalité
+    form_modal:
+      from_file: Télécharger un nouveau
+      from_existent_track: Sélectionner une Track existante
+  helpers:
+    label:
+      penalty:
+        penalized: Pénalité appliquée
+        penalty_size: Réduction du score
+        penalty_reason: Raison

@@ -1,7 +1,0 @@
-fr:
-  helpers:
-    label:
-      penalty:
-        penalized: Pénalité appliquée
-        penalty_size: Réduction du score
-        penalty_reason: Raison

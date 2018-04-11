@@ -18,7 +18,7 @@ data:
     ## Default:
     # - config/locales/%{locale}.yml
     ## More files:
-    - config/locales/**/*.%{locale}.yml
+    - config/locales/**/%{locale}.yml
     ## Another gem (replace %#= with %=):
     # - "<%#= %x[bundle show vagrant].chomp %>/templates/locales/%{locale}.yml"
 
@@ -91,8 +91,8 @@ search:
 ## Consider these keys used:
 ignore_unused:
   - will_paginate.*
-  - activerecord.attributes.*
-  - activerecord.errors.*
+  - devise.*
+  - activerecord.{attributes, models, errors}.*
   - activemodel.errors.*
 # - '{devise,kaminari,will_paginate}.*'
 # - 'simple_form.{yes,no}'

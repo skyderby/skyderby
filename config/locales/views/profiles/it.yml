@@ -1,0 +1,19 @@
+it:
+  profiles:
+    header:
+      tracks: Traccie
+      flight_profiles: Profili di volo
+    merges:
+      form_modal:
+        title: Unione dei profili
+        source_profile_placeholder: Seleziona il profilo di origine
+        description: Il profilo selezionato verrà unito a quello corrente
+    show:
+      achievements: Successi e Risultati
+      online_competitions: Competizione Online
+      no_badges: "%{name} al momento non hai medaglie."
+      no_rankings: "%{name} quest'anno non hai partecipato a competizione online ancora."
+  helpers:
+    label:
+      profiles_merge:
+        source_profile: Profilo

@@ -12,6 +12,7 @@
 
       .modal-body
         .form-group
+          -# i18n-tasks-use t('helpers.label.sponsor_copy.source_event')
           = f.label :source_event, class: 'control-label col-sm-4'
           .col-sm-8
             = f.select :source_event_id,

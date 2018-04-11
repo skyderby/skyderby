@@ -6,7 +6,7 @@
         %td{rowspan: 3}
           \#
         %td{rowspan: 3, colspan: 2}
-          = t('events.show.competitor')
+          = t('activerecord.models.competitor')
         - @event.rounds_by_discipline.each do |discipline, rounds|
           %td.text-center{colspan: (rounds.count * 2 + 1)}
             = t('disciplines.' + discipline)

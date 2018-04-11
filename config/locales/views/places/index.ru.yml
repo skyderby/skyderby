@@ -1,8 +1,0 @@
-ru:
-  places:
-    index:
-      new: 'Добавить'
-      title: 'Локации'
-      details: 'Подробнее'
-      on_map: 'На карте'
-      on_list: 'Списком'

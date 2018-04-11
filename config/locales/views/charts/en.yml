@@ -1,0 +1,42 @@
+en:
+  charts:
+    all_data:
+      title: 'Flight details'
+      axis:
+        speed: 'Speed'
+        distance: 'Height, Distance'
+        gr: 'Glide ratio'
+      series:
+        horiz_speed: 'Ground speed'
+        vert_speed: 'Vertical speed'
+        full_speed: 'Full speed'
+        gr: 'Glide ratio'
+        height: 'Height'
+        distance: 'Distance'
+        elevation: 'Height diff.'
+    elev:
+      title: 'Elevation/Distance'
+      axis:
+        distance: "Distance, %{unit}"
+      series:
+        elevation: 'Elevation'
+        distance: 'Distance'
+        height: 'Height'
+    gr:
+      title: Glide ratio
+      series:
+        gr: Glide ratio
+        raw_gr: 'G/R (Raw)'
+        wind_effect: Wind effect
+    spd:
+      title: Vertical and ground speed
+      axis:
+        speed: 'Speed, %{unit}'
+      series:
+        ground: Ground speed
+        raw_ground: Ground speed (Raw)
+        vertical: Vertical speed
+        raw_vertical: Vertical speed (Raw)
+        full: Full speed
+        raw_full: Full speed (Raw)
+        wind_effect: Wind effect

@@ -1,0 +1,37 @@
+fr:
+  activerecord:
+    models:
+      competitor: Compétiteur
+    attributes:
+      competitor:
+        suit: Combinaison
+        section: Catégorie
+    errors:
+      models:
+        competitor:
+          attributes:
+            suit:
+              blank: Combinaison doit être renseignée
+            profile:
+              blank: Profil du pilote doit être renseigné
+            section:
+              blank: Catégorie doit être renseigné
+            base:
+              restrict_dependent_destroy:
+                many: Pour supprimer le compétiteur veuillez d'abord supprimer ses résultats
+              event_finished: Les modifications ne sont plus possibles car la compétition est finie
+  activemodel:
+    errors:
+      models:
+        events/competitor_registration:
+          attributes:
+            suit_id:
+              blank: Combinaison doit être renseignée
+            profile_id:
+              blank: Profil du pilote doit être renseigné
+            name:
+              blank: Nom doit être renseigné
+            country_id:
+              blank: Pays doit être renseigné
+            section_id:
+              blank: Catégorie doit être renseigné

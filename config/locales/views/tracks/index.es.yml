@@ -1,8 +1,0 @@
-es:
-  tracks:
-    index:
-      all: Todos
-      filters: Filtros
-      filter_by_pilot: Por persona
-      filter_by_place: Por lugar
-      filter_by_suit: Por traje

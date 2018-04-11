@@ -1,0 +1,40 @@
+es:
+  charts:
+    all_data:
+      title: 'Información sobre el vuelo'
+      axis:
+        speed: 'Velocidad'
+        distance: 'Velocidad, distancia'
+        gr: 'Calidad del vuelo'
+      series:
+        horiz_speed: 'Velocidad horizontal'
+        vert_speed: 'Velocidad vertical'
+        full_speed: 'Velocidad 3D'
+        gr: 'Calidad del vuelo'
+        height: 'Altitud'
+        distance: 'Distancia'
+        elevation: 'Altitud alcanzada'
+    elev:
+      title: 'Altitud alcanzada/ por horizonte'
+      axis:
+        distance: 'Distancia, %{unit}'
+      series:
+        elevation: 'Altitud alcanzada'
+        distance: 'Distancia alcanzada'
+        height: 'Altitud'
+    gr:
+      title: 'Calidad del vuelo'
+      series:
+        gr: 'Calidad'
+        raw_gr: 'Calidad (bruta)'
+    spd:
+      title: 'Velocidad vertical y horizontal'
+      axis:
+        speed: 'Velocidad, %{unit}'
+      series:
+        ground: 'Velocidad horizontal'
+        raw_ground: 'Velocidad horizontal (bruto)'
+        vertical: 'Velocidad vertical'
+        raw_vertical: 'Velocidad vertical (bruto)'
+        full: 'Velocidad 3D'
+        raw_full: 'Velocidad 3D (bruto)'

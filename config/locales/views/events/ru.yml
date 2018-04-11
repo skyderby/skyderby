@@ -1,0 +1,31 @@
+ru:
+  events:
+    index:
+      sign_in_to_create: Войдите или зарегистрируйтеся для создания соревнования
+      new: 'Добавление'
+    rounds:
+      globe:
+        fast_forward: Перемотать к участнику
+        group: Группа
+      map:
+        competitor: Участник
+        direction: Направление
+        group: Группа
+        start_window_description: точка, в которой участник вошел в соревновательное окно (%{altitude} метров)
+        end_window_description: точка, в которой участник вышел из соревновательного окна (%{altitude} метров)
+        after_exit_description: точка, в которой участник был через 5 секунд после выхода из самолета
+    show:
+      round_map_view: 'Треки раунда на карте'
+      comp_window: 'Соревновательный диапазон'
+      total: 'Итого'
+      new: 'Добавление'
+      edit: 'Редактирование'
+      place_placeholder: 'Выберите место из списка'
+      track: 'Трек'
+      track_upoaded: 'Загрузил'
+      weather_data: 'Сведения о ветре'
+      wind_cancellation_enabled: 'В этом соревновании учитывается влияние ветра.'
+      wind_cancellation_disabled: 'В этом соревновании влияние ветра не учитывается.'
+      results_showing: 'Результаты: '
+      results_adjusted_caption: 'с учетом влияния ветра'
+      results_not_adjusted_caption: 'без учета влияния ветра'

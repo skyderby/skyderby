@@ -1,0 +1,19 @@
+ru:
+  profiles:
+    header:
+      tracks: Треки
+      flight_profiles: Профили полетов
+    merges:
+      form_modal:
+        title: Объединение профилей
+        source_profile_placeholder: Выберите профиль-источник
+        description: Выбранный профиль будет объединен в текущий
+    show:
+      achievements: Достижения
+      online_competitions: Онлайн соревнования
+      no_badges: "О наградах нам пока не известно."
+      no_rankings: "%{name} не участвовал в онлайн соревнованиях в этом году."
+  helpers:
+    label:
+      profiles_merge:
+        source_profile: Профиль

@@ -1,0 +1,37 @@
+es:
+  activerecord:
+    models:
+      competitor: Competidor
+    attributes:
+      competitor:
+        suit: Traje
+        section: Categoría
+    errors:
+      models:
+        competitor:
+          attributes:
+            suit:
+              blank: El traje es requerido
+            profile:
+              blank: El perfil es requerido
+            section:
+              blank: La categoría es requerido
+            base:
+              restrict_dependent_destroy:
+                many: Para eliminar competidor, elimine primero sus resultados
+              event_finished: La competencia está terminada
+  activemodel:
+    errors:
+      models:
+        events/competitor_registration:
+          attributes:
+            suit_id:
+              blank: El traje es requerido
+            profile_id:
+              blank: El perfil es requerido
+            name:
+              blank: El nombre es requerido
+            country_id:
+              blank: El país es requerido
+            section_id:
+              blank: La categoría es requerido

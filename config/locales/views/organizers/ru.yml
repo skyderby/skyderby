@@ -1,0 +1,7 @@
+ru:
+  organizers:
+    form:
+      profile_placeholder: Выберите организатора из списка
+    list:
+      judges: Организаторы
+      add_judge: Добавить организатора

@@ -1,0 +1,15 @@
+it:
+  event_tracks:
+    show:
+      charts: Grafici
+      jump_range: Intervallo di caduta libera
+      penalty: Penalità
+    form_modal:
+      from_file: Da file
+      from_existent_track: Traccia esistente
+  helpers:
+    label:
+      penalty:
+        penalized: Applica penalità
+        penalty_size: Riduzione del punteggio
+        penalty_reason: Motivazione

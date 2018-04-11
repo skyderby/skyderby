@@ -1,0 +1,7 @@
+en:
+  organizers:
+    form:
+      profile_placeholder: Select organizer from list
+    list:
+      judges: Organizers
+      add_judge: Add organizer

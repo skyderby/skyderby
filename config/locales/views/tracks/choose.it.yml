@@ -1,8 +1,0 @@
-it:
-  tracks:
-    choose:
-      title: 'Seleziona una traccia da caricare'
-      number: '#'
-      name: 'Nome'
-      elev: 'Quota'
-      pt_cnt: 'Conteggio punti'

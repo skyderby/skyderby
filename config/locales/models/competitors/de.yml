@@ -1,0 +1,37 @@
+de:
+  activerecord:
+    models:
+      competitor: Teilnehmer
+    attributes:
+      competitor:
+        suit: Suit
+        section: Kategorie
+    errors:
+      models:
+        competitor:
+          attributes:
+            suit:
+              blank: Suit muss ausgewählt werden
+            profile:
+              blank: Teilnehmerprofil' muss ausgewählt werden.
+            section:
+              blank: Kategorie muss ausgewählt werden.
+            base:
+              restrict_dependent_destroy:
+                many: Um einen Wettkämpfer zu löschen müssen seine Ergebnisse vorher gelöscht werden.
+              event_finished: Es konnten keine Änderungen vorgenommen werden, da der Wettkampf bereits beendet ist.
+  activemodel:
+    errors:
+      models:
+        events/competitor_registration:
+          attributes:
+            suit_id:
+              blank: Suit muss ausgewählt werden
+            profile_id:
+              blank: Teilnehmerprofil muss ausgewählt werden
+            name:
+              blank: Name muss ausgewählt werden
+            country_id:
+              blank: Land muss ausgewählt werden
+            section_id:
+              blank: Kategorie muss ausgewählt werden

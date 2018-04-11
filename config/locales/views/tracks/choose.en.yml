@@ -1,9 +1,0 @@
-en:
-  tracks:
-    choose:
-      title: 'Select a track to upload'
-      number: '#'
-      name: 'Name'
-      elev: 'Elevation'
-      pt_cnt: 'Points count'
-

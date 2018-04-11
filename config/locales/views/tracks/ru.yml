@@ -1,0 +1,68 @@
+ru:
+  tracks:
+    index:
+      track_not_found: 'Трек #%{id} не найден'
+      all: Все
+      filters: Фильтры
+      filter_by_pilot: По пилоту
+      filter_by_suit: По костюму
+      filter_by_place: По локации
+    indicators:
+      distance: Дистанция
+      elevation: Перепад высот
+      altitude: Высота
+      ground_speed: Путевая скорость
+      vertical_speed: Вертикальная скорость
+      duration: Продолжительность
+      glide_ratio: Качество полета
+    show:
+      title_track: 'Трек'
+      title_suit: 'Вингсьют'
+      menu_header: 'Отображение показателей'
+      menu_sep: 'На разных графиках'
+      menu_one: 'На одном графике'
+      units_header: 'Единицы измерения:'
+      m_units_metric: 'Метрические (м, км/ч)'
+      m_units_imperial: 'Имперские (футы, мили/ч)'
+      delete_confirmation: "Вы уверены, что хотите удалить этот трек?"
+      manage: "Редактирование"
+      edit_range: "Редактирование диапазона"
+      range_from: "Диапазон с"
+      range_to: "по"
+      charts: 'Графики'
+      results: 'Результаты'
+      comp_result: 'Результат в соревновании'
+      online_comp_results: 'Результаты в онлайн соревнованиях'
+      best_results: 'Лучшие результаты'
+      window: 'окно'
+      loading: 'Загрузка данных трека'
+    choose:
+      title: 'Выберите трек для загрузки'
+      number: 'Номер'
+      name: 'Имя трека'
+      elev: 'Перепад высот'
+      pt_cnt: 'Количество точек'
+    edit:
+      visibility: "Параметры доступа:"
+      elev_chart: 'График высот'
+      elevation: 'Высота'
+      back: 'Назад к треку'
+    form:
+      suit_text_placeholder: 'Введите название костюма'
+      suit_select_placeholder: 'Выберите костюм из списка'
+      place_text_placeholder: 'Введите название локации'
+      place_select_placeholder: 'Выберите локацию из списка'
+      profile_text_placeholder: 'Введите имя пилота'
+      profile_select_placeholder: 'Выберите пилота из списка'
+      toggle_suit_caption: 'Нужного костюма нет в списке?'
+      toggle_suit_caption_select: 'Или'
+      toggle_suit_link: 'Введите название костюма.'
+      toggle_suit_link_select: 'выберите из списка.'
+      toggle_place_caption: 'Не нашли нужную локацию?'
+      toggle_place_caption_select: 'Или'
+      toggle_place_link: 'Введите название локации.'
+      toggle_place_link_select: 'выберите локацию из списка'
+      toggle_profile_caption: 'Не зарегистрированный пользователь?'
+      toggle_profile_caption_select: 'Или'
+      toggle_profile_link: 'Введите имя пилота.'
+      toggle_profile_link_select: 'Выберите зарегистрированного пользователя.'

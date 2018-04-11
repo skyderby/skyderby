@@ -1,0 +1,14 @@
+it:
+  sponsors:
+    list:
+      add_sponsor: Aggiungi sponsor
+      copy_sponsor: Copia sponsor
+      event_sponsors: Sponsor dell'evento
+    sponsors_copies:
+      form_modal:
+        title: Copia sponsor da un altro evento
+        source_event_placeholder: Evento da cui copiare gli sponsor
+  helpers:
+    label:
+      sponsor_copy:
+        source_event: Evento

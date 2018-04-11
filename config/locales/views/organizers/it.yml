@@ -1,0 +1,7 @@
+it:
+  organizers:
+    form:
+      profile_placeholder: Seleziona un organizzatore dalla lista
+    list:
+      judges: Giudici
+      add_judge: Aggiungi giudice

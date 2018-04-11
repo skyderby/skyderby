@@ -1,0 +1,42 @@
+fr:
+  charts:
+    all_data:
+      title: Détails du saut
+      axis:
+        speed: Vitesse
+        distance: Hauteur, Distance
+        gr: Finesse
+      series:
+        horiz_speed: Vitesse sol
+        vert_speed: Vitesse verticale
+        full_speed: Vitesse sur trajectoire
+        gr: Finesse
+        height: Hauteur
+        distance: Distance
+        elevation: Altitude
+    elev:
+      title: Altitude, Distance
+      axis:
+        distance: "Distance, %{unit}"
+      series:
+        elevation: Altitude
+        distance: Distance
+        height: Hauteur
+    gr:
+      title: Finesse
+      series:
+        gr: Finesse
+        raw_gr: Finesse (Brut)
+        wind_effect: Effet du vent
+    spd:
+      title: Vitesse sol et verticale
+      axis:
+        speed: 'Vitesse, %{unit}'
+      series:
+        ground: Vitesse sol
+        raw_ground: Vitesse sol (Brute)
+        vertical: Vitesse verticale
+        raw_vertical: Vitesse verticale (Brute)
+        full: Vitesse sur trajectoire
+        raw_full: Vitesse sur trajectoire (Brute)
+        wind_effect: Effet du vent

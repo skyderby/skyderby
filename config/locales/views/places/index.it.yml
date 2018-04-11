@@ -1,8 +1,0 @@
-it:
-  places:
-    index:
-      new: 'Aggiungi'
-      title: 'Luoghi'
-      details: 'dettagli'
-      on_map: 'Sulla mappa'
-      on_list: 'Sula lista'

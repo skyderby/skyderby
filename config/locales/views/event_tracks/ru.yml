@@ -1,0 +1,15 @@
+ru:
+  event_tracks:
+    show:
+      charts: Графики
+      jump_range: Отделение и открытие
+      penalties: Штрафы
+    form_modal:
+      from_file: Из файла
+      from_existent_track: Существующий трек
+  helpers:
+    label:
+      penalty:
+        penalized: Применить штраф
+        penalty_size: Величина
+        penalty_reason: Причина

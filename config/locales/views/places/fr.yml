@@ -1,0 +1,11 @@
+fr:
+  places:
+    index:
+      new: Nouveau
+      title: Lieux
+      details: Plus
+      on_map: 'On map'
+      on_list: 'On list'
+    show:
+      visited_by: Visité par
+      delete_confirmation: Êtes-vous sûr de vouloir supprimer ce lieu?

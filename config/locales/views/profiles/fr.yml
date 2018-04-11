@@ -1,0 +1,19 @@
+fr:
+  profiles:
+    header:
+      tracks: Enregistrement
+      flight_profiles: Profils de vol
+    merges:
+      form_modal:
+        title: Fusion de profils
+        source_profile_placeholder: Sélectionner l'origine du profil
+        description: Choisir le profil à fusionner avec le profil courant
+    show:
+      achievements: Résultats
+      online_competitions: Compétitons en ligne
+      no_badges: "%{name} n'a aucun badge pour le moment."
+      no_rankings: "%{name} n'a participé à aucune compétition cette année."
+  helpers:
+    label:
+      profiles_merge:
+        source_profile: Profil

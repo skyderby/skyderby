@@ -16,6 +16,7 @@
 
       .modal-body
         .form-group
+          -# i18n-tasks-use t('helpers.label.profiles_merge.source_profile')
           = f.label :source_profile, class: 'control-label col-sm-4'
           .col-sm-8
             = f.select :source_profile_id,

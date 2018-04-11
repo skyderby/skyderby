@@ -1,0 +1,19 @@
+de:
+  events:
+    index:
+      sign_in_to_create: Nur registrierte Nutzer können einen Wettbewerb anlegen
+      new: 'Neu'
+    show:
+      round_map_view: Rundentracks auf der Karte
+      comp_window: Wettkampf Messfenster
+      total: Total
+      new: Neu
+      edit: Bearbeiten
+      place_placeholder: Wähle einen Ort aus der Liste
+      delete_result: Löschen Ergebnis
+      weather_data: Windbedingungen
+      wind_cancellation_enabled: 'This competition uses wind cancellation feature.'
+      wind_cancellation_disabled: 'This competition does not use wind cancellation feature.'
+      results_showing: 'Results are '
+      results_adjusted_caption: 'adjusted for wind'
+      results_not_adjusted_caption: 'not adjusted for wind'

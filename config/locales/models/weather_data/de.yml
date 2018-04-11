@@ -1,0 +1,25 @@
+de:
+  activerecord:
+    errors:
+      models:
+        weather_datum:
+          attributes:
+            actual_on:
+              blank: 'Datum/Zeit sollte ausgefüllt sein.'
+            altitude: &ALTITUDE
+              blank: 'Die Höhe sollte eingetragen werden.'
+              greater_than_or_equal_to: 'Die Höhe sollte größer/gleich 0 sein.'
+              not_a_number: 'Die Höhenangabe sollte eine Zahl sein.'
+            altitude_in_units:
+              <<: *ALTITUDE
+            wind_speed: &WIND_SPEED
+              blank: 'Die Windgeschwindigkeit sollte angegeben werden.'
+              greater_than_or_equal_to: 'Die Windgeschwindigkeit sollte größer/gleich 0 sein.'
+              not_a_number: 'Die Windgeschwindigkeit sollte eine Zahl sein.'
+            wind_speed_in_units:
+              <<: *WIND_SPEED
+            wind_direction:
+              blank: 'Windrichtung sollte eingetragen werden.'
+              less_than: 'Die Windrichtung sollte zwischen 0 und 360 Grad liegen.'
+              greater_than_or_equal_to: 'Die Windrichtung sollte zwischen 0 und 360 Grad liegen.'
+              not_a_number: 'Windrichtung sollte eine Zahl sein.'

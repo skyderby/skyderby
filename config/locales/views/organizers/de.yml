@@ -1,0 +1,7 @@
+de:
+  organizers:
+    form:
+      profile_placeholder: Wähle einen Organisator aus der Liste
+    list:
+      judges: Schiedsrichter
+      add_judge: Schiedsrichter hinzufügen

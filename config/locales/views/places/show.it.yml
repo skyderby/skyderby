@@ -1,5 +1,0 @@
-it:
-  places:
-    show:
-      visited_by: 'Visitato da'
-      delete_confirmation: "Sei sicuro di voler cancellare questo luogo?"

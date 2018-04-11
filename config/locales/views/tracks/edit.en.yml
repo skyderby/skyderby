@@ -1,7 +1,0 @@
-en:
-  tracks:
-    edit:
-      visibility: "Visibility:"
-      elev_chart: "Elevation"
-      elevation: "Elevation"
-      back: 'Back to track'

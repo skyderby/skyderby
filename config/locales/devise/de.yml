@@ -1,50 +1,82 @@
-# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
-
 de:
   activerecord:
     attributes:
       user:
-        name_placeholder: 'John Doe'
+        name: Name
+        name_placeholder: John Doe
+        confirmation_sent_at: Bestätigung gesendet am
+        confirmation_token: Bestätigungs-Token
+        confirmed_at: Bestätigt am
+        created_at: Erstellt am
         current_password: Bisheriges Passwort
+        current_sign_in_at: Aktuelle Anmeldung vom
+        current_sign_in_ip: IP aktueller Anmeldung
         email: E-Mail
+        encrypted_password: Verschlüsseltes Passwort
+        failed_attempts: Fehlversuche
+        last_sign_in_at: Letzte Anmeldung am
+        last_sign_in_ip: IP der letzten Anmeldung
+        locked_at: Gesperrt am
         password: Passwort
         password_confirmation: Passwortbestätigung
+        remember_created_at: Angemeldet bleiben vom
         remember_me: Angemeldet bleiben
+        reset_password_sent_at: Passwort-Zurücksetzen-E-Mail gesendet am
+        reset_password_token: Passwort-Zurücksetzen-Token
+        sign_in_count: Anzahl Anmeldungen
+        unconfirmed_email: Unbestätigte E-Mail-Adresse
+        unlock_token: Entsperrungs-Token
+        updated_at: Aktualisiert am
     models:
       user: Benutzer
   devise:
     confirmations:
-      confirmed: "Vielen Dank für Deine Registrierung. Bitte melde dich jetzt an."
-      confirmed_and_signed_in: "Vielen Dank für Deine Registrierung. Du bist jetzt angemeldet."
-      send_instructions: "Du erhältst in wenigen Minuten eine E-Mail, mit der Du Deine Registrierung bestätigen kannst."
-      send_paranoid_instructions: "Falls Deine E-Mail-Adresse in unserer Datenbank existiert erhältst Du in wenigen Minuten eine E-Mail mit der Du Deine Registrierung bestätigen kannst."
+      confirmed: Ihre E-Mail Adresse wurde erfolgreich bestätigt.
       new:
         resend_confirmation_instructions: Anleitung zur Bestätigung noch mal schicken
+      send_instructions: Sie erhalten in wenigen Minuten eine E-Mail, mit der Sie Ihre Registrierung bestätigen können.
+      send_paranoid_instructions: Falls Ihre E-Mail-Adresse in unserer Datenbank existiert, erhalten Sie in wenigen Minuten eine E-Mail, mit der Sie Ihre Registrierung bestätigen können.
+    failure:
+      already_authenticated: Sie sind bereits angemeldet.
+      inactive: Ihr Account ist nicht aktiv.
+      invalid: "%{authentication_keys} oder Passwort ungültig."
+      last_attempt: Sie haben noch einen Versuch, bis Ihr Account gesperrt wird.
+      locked: Ihr Account ist gesperrt.
+      not_found_in_database: "%{authentication_keys} oder Passwort ungültig."
+      timeout: Ihre Sitzung ist abgelaufen, bitte melden Sie sich erneut an.
+      unauthenticated: Sie müssen sich anmelden oder registrieren, bevor Sie fortfahren können.
+      unconfirmed: Sie müssen Ihren Account bestätigen, bevor Sie fortfahren können.
     mailer:
       confirmation_instructions:
-        subject: "Anleitung zur Bestätigung Deines Accounts"
         action: Mein Konto bestätigen
         greeting: Willkommen %{recipient}!
         instruction: 'Folgen Sie dem untenstehenden Link, um Ihr Konto zu bestätigen:'
+        subject: Anleitung zur Bestätigung Ihres Accounts
+      email_changed:
+        greeting: Hallo %{recipient}!
+        message: Wir schreiben Ihnen, um Sie darüber zu informieren, dass Ihre E-Mail zu %{email} geändert wurde.
+        subject: E-Mail geändert
+      password_change:
+        greeting: Hallo %{recipient}!
+        message: Wir kontaktieren Sie, um Ihnen mitzuteilen, dass Ihr Passwort geändert wurde.
+        subject: Passwort geändert
       reset_password_instructions:
-        subject: "Anleitung um Dein Passwort zurückzusetzen"
         action: Passwort ändern
         greeting: Hallo %{recipient}!
         instruction: Jemand hat einen Link angefordert, um Ihr Passwort zu ändern. Klicken Sie auf den unten aufgeführten Link um das Passwort zu ändern.
         instruction_2: Bitte ignorieren Sie diese E-Mail, wenn Sie kein neues Passwort angefordert haben.
         instruction_3: Das Passwort wird nicht geändert bis Sie den obenstehenden Link abrufen und ein neues Passwort bestimmen.
+        subject: Anleitung für das Zurücksetzen Ihres Passworts
       unlock_instructions:
-        subject: "Anleitung um Deinen Account freizuschalten"
         action: Mein Konto entsperren
         greeting: Hallo %{recipient}!
         instruction: 'Folgen Sie dem untenstehenden Link, um Ihr Konto zu entsperren:'
         message: Ihr Konto wurde aufgrund einer großen Anzahl von fehlgeschlagenen Anmeldeversuchen gesperrt.
+        subject: Anleitung für die Account-Freischaltung
+    omniauth_callbacks:
+      failure: Sie konnten nicht mit Ihrem %{kind}-Account angemeldet werden, weil "%{reason}".
+      success: Sie haben sich erfolgreich mit Ihrem %{kind}-Account angemeldet.
     passwords:
-      no_token: "Du kannst diese Seite nur von dem Link aus einer E-Mail zum Passwort-Zurücksetzen aufrufen. Wenn du einen solchen Link aufgerufen hast stelle bitte sicher, dass du die vollständige Adresse aufrufst."
-      send_instructions: "Du erhältst in wenigen Minuten eine E-Mail mit der Anleitung, wie Du Dein Passwort zurücksetzen kannst."
-      send_paranoid_instructions: "Falls Deine E-Mail-Adresse in unserer Datenbank existiert erhältst Du in wenigen Minuten eine E-Mail mit der Anleitung, wie Du Dein Passwort zurücksetzen können."
-      updated: "Dein Passwort wurde geändert. Du bist jetzt angemeldet."
-      updated_not_active: "Dein Passwort wurde geändert."
       edit:
         change_my_password: "Ändere mein Passwort"
         change_your_password: Passwort ändern
@@ -53,30 +85,36 @@ de:
       new:
         forgot_your_password: Haben Sie Ihr Passwort vergessen?
         send_me_reset_password_instructions: Schicken Sie mir die Anleitung, mein Passwort zurückzusetzen
+      no_token: Sie können sich nicht auf dieser Seite anmelden, wenn Sie nicht von einer Passwort-Zurücksetzen-E-Mail kommen. Wenn Sie von solch einer E-Mail kommen, überprüfen Sie bitte, ob Sie die gesamte URL verwendet haben.
+      send_instructions: Sie erhalten in wenigen Minuten eine E-Mail mit der Anleitung, wie Sie Ihr Passwort zurücksetzen können.
+      send_paranoid_instructions: Falls Ihre E-Mail-Adresse in unserer Datenbank existiert, erhalten Sie in wenigen Minuten eine E-Mail, mit der Anleitung, wie Sie Ihr Passwort zurücksetzen können.
+      updated: Ihr Passwort wurde geändert. Sie sind jetzt angemeldet.
+      updated_not_active: Ihr Passwort wurde geändert.
     registrations:
-      destroyed: "Dein Account wurde gelöscht."
-      signed_up: "Du hast dich erfolgreich registriert."
-      signed_up_but_inactive: "Du hast dich erfolgreich registriert. Wir konnten Dich noch nicht anmelden, da Dein Account inaktiv ist."
-      signed_up_but_locked: "Du hast dich erfolgreich registriert. Wir konnten Dich noch nicht anmelden, da Dein Account gesperrt ist."
-      signed_up_but_unconfirmed: "Du hast Dich erfolgreich registriert. Wir konnten Dich noch nicht anmelden, da Dein Account noch nicht bestätigt ist. Du erhältst in Kürze eine E-Mail mit der Anleitung, wie Du Deinen Account freischalten kannst."
-      update_needs_confirmation: "Deine Daten wurden aktualisiert, aber Du musst Deine neue E-Mail-Adresse bestätigen. Du erhälsts in wenigen Minuten eine E-Mail, mit der Du die Änderung Deiner E-Mail-Adresse abschließen kannst."
-      updated: "Deine Daten wurden aktualisiert."
+      destroyed: Ihr Account wurde gelöscht.
       edit:
         are_you_sure: Sind Sie sicher?
         cancel_my_account: Konto löschen
         currently_waiting_confirmation_for_email: Warte auf Bestätigung von %{email}.
         leave_blank_if_you_don_t_want_to_change_it: freilassen, wenn Sie das nicht ändern wollen
         title: "%{resource} bearbeiten"
-        unhappy: Unglücklich
+        unhappy: Unglücklich?
         update: Aktualisieren
         we_need_your_current_password_to_confirm_your_changes: wir benötigen Ihr aktuelles Passwort, um die Änderung zu bestätigen
       new:
         sign_up: Registrieren
+      signed_up: Sie haben sich erfolgreich registriert.
+      signed_up_but_inactive: Sie haben sich erfolgreich registriert. Wir konnten Sie jedoch nicht anmelden, weil Ihr Account noch nicht aktiviert ist.
+      signed_up_but_locked: Sie haben sich erfolgreich registriert. Wir konnten Sie jedoch nicht anmelden, weil Ihr Account gesperrt ist.
+      signed_up_but_unconfirmed: Sie erhalten in wenigen Minuten eine E-Mail mit einem Link für die Bestätigung der Registrierung. Klicken Sie auf den Link um Ihren Account zu aktivieren.
+      update_needs_confirmation: Ihre Daten wurden aktualisiert, aber Sie müssen Ihre neue E-Mail-Adresse bestätigen. Sie erhalten in wenigen Minuten eine E-Mail, mit der Sie die Änderung Ihrer E-Mail-Adresse abschließen können.
+      updated: Ihre Daten wurden aktualisiert.
     sessions:
-      signed_in: "Erfolgreich angemeldet."
-      signed_out: "Erfolgreich abgemeldet."
+      already_signed_out: Erfolgreich abgemeldet.
       new:
         sign_in: Anmelden
+      signed_in: Erfolgreich angemeldet.
+      signed_out: Erfolgreich abgemeldet.
     shared:
       links:
         back: Zurück
@@ -86,32 +124,22 @@ de:
         sign_in: Anmelden
         sign_in_with_provider: Mit %{provider} anmelden
         sign_up: Registrieren
+      minimum_password_length:
+        one: "(mindestens %{count} Zeichen)"
+        other: "(mindestens %{count} Zeichen)"
     unlocks:
-      send_instructions: "Du erhältst in wenigen Minuten eine E-Mail mit der Anleitung, wie Du Deinen Account entsperren können."
-      send_paranoid_instructions: "Falls Deine E-Mail-Adresse in unserer Datenbank existiert erhältst Du in wenigen Minuten eine E-Mail mit der Anleitung, wie Du Deinen Account entsperren kannst."
-      unlocked: "Dein Account wurde entsperrt. Du bist jetzt angemeldet."
       new:
         resend_unlock_instructions: Anleitung zum Entsperren noch mal schicken
-    failure:
-      already_authenticated: "Du bist bereits angemeldet."
-      inactive: "Dein Account ist nicht aktiv."
-      invalid: "Ungültige Anmeldedaten."
-      invalid_token: "Der Anmelde-Token ist ungültig."
-      locked: "Dein Account ist gesperrt."
-      not_found_in_database: "E-Mail-Adresse oder Passwort ungültig."
-      timeout: "Deine Sitzung ist abgelaufen, bitte melde Dich erneut an."
-      unauthenticated: "Du musst Dich anmelden oder registrieren, bevor Du fortfahren kannst."
-      unconfirmed: "Du musst Deinen Account bestätigen, bevor Du fortfahren kannst."
-    omniauth_callbacks:
-      failure: "Du konntest nicht Deinem %{kind}-Account angemeldet werden, weil '%{reason}'."
-      success: "Du hast Dich erfolgreich mit Deinem %{kind}-Account angemeldet."
+      send_instructions: Sie erhalten in wenigen Minuten eine E-Mail mit der Anleitung, wie Sie Ihren Account entsperren können.
+      send_paranoid_instructions: Falls Ihre E-Mail-Adresse in unserer Datenbank existiert, erhalten Sie in wenigen Minuten eine E-Mail, mit der Anleitung, wie Sie Ihren Account entsperren können.
+      unlocked: Ihr Account wurde entsperrt. Bitte melden Sie sich an, um fortzufahren.
   errors:
     messages:
-      already_confirmed: "wurde bereits bestätigt"
-      confirmation_period_expired: "muss innerhalb %{period} bestätigt werden, bitte fordere einen neuen Link an"
-      expired: "ist abgelaufen, bitte neu anfordern"
-      not_found: "nicht gefunden"
-      not_locked: "ist nicht gesperrt"
+      already_confirmed: wurde bereits bestätigt, bitte versuchen Sie, sich anzumelden
+      confirmation_period_expired: musste innerhalb von %{period} bestätigt werden, bitte neu anfordern.
+      expired: ist abgelaufen, bitte neu anfordern
+      not_found: nicht gefunden
+      not_locked: ist nicht gesperrt
       not_saved:
-        one: "Konnte nicht speichern: ein Fehler."
-        other: "Konnte nicht speichern: %{count} Fehler."
+        one: "%{resource} konnte aufgrund eines Fehlers nicht gespeichert werden:"
+        other: "%{count} Fehler verhinderten das Speichern von %{resource}:"

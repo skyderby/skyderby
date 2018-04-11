@@ -1,7 +1,0 @@
-it:
-  tracks:
-    replay:
-      altitude: Quota
-      vertical_speed: Velocità verticale
-      horizontal_speed: Velocità orizzontale
-      glide_ratio: Efficienza (glide)

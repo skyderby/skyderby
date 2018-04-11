@@ -1,0 +1,68 @@
+it:
+  tracks:
+    index:
+      track_not_found: 'Traccia #%{id} non trovata'
+      all: Tutte
+      filters: Filtri
+      filter_by_pilot: per pilota
+      filter_by_suit: per tuta
+      filter_by_place: per luogo
+    indicators:
+      distance: Distanza
+      elevation: Differenza di quota
+      altitude: Altitudine
+      ground_speed: Velocità orizzontale
+      vertical_speed: Velocità verticale
+      duration: Tempo
+      glide_ratio: Efficienza (glide)
+    show:
+      title_track: 'Traccia'
+      title_suit: 'Tuta'
+      menu_header: 'Mostra dati:'
+      menu_sep: 'In grafici separati'
+      menu_one: 'In un unico grafico'
+      units_header: 'Unità:'
+      m_units_metric: 'Metrico'
+      m_units_imperial: 'Imperiale'
+      delete_confirmation: "Sicuro di voler cancellare questa traccia?"
+      manage: "Gestisci"
+      edit_range: "Modifica intervallo"
+      range_from: "da:"
+      range_to: "a:"
+      charts: 'Grafici'
+      results: 'Risultati'
+      comp_result: 'Risultati in competizione'
+      online_comp_results: 'Risultati nelle competizioni Online'
+      best_results: 'Migliori risultati'
+      window: 'finestra'
+      loading: 'Caricamento dati traccia'
+    choose:
+      title: 'Seleziona una traccia da caricare'
+      number: '#'
+      name: 'Nome'
+      elev: 'Quota'
+      pt_cnt: 'Conteggio punti'
+    edit:
+      visibility: "Visibilità:"
+      elev_chart: "Quota"
+      elevation: "Quota"
+      back: 'torna alla traccia'
+    form:
+      suit_text_placeholder: Scrivi il nome della tuta
+      suit_select_placeholder: Seleziona la tuta dalla lista
+      place_text_placeholder: Scrivi il nome del luogo
+      place_select_placeholder: Seleziona il luogo dalla lista
+      profile_text_placeholder: Scrivi il nome del pilota
+      profile_select_placeholder: Seleziona il pilota dalla lista
+      toggle_suit_caption: La tuta che stai usando non esiste?
+      toggle_suit_caption_select: oppure
+      toggle_suit_link: Scrivi il nome della tuta
+      toggle_suit_link_select: Seleziona la tuta dalla lista
+      toggle_place_caption: Il luogo che stai cercando non esiste?
+      toggle_place_caption_select: Oppure
+      toggle_place_link: Scrivi il nome del luogo
+      toggle_place_link_select: Seleziona il luogo dalla lista
+      toggle_profile_caption: Il pilota non è registrato?
+      toggle_profile_caption_select: oppure
+      toggle_profile_link: Scrivi il nome del pilota
+      toggle_profile_link_select: Seleziona il pilota dalla lista dei registrati

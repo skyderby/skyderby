@@ -1,0 +1,31 @@
+en:
+  events:
+    index:
+      sign_in_to_create: Creating classic competitions available only for registered users.
+      new: 'New'
+    rounds:
+      globe:
+        fast_forward: Fast-forward to competitor
+        group: Group
+      map:
+        competitor: Competitor
+        direction: Track
+        group: Group
+        start_window_description: point, where competitor entered competition window (%{altitude} meters)
+        end_window_description: point, where competitor leaved competition window (%{altitude} meters)
+        after_exit_description: point, where competitor was 5 seconds after exit
+    show:
+      competitor: Competitor
+      round_map_view: 'Round tracks on map'
+      comp_window: 'Competition window'
+      total: 'Total'
+      new: 'New'
+      edit: 'Edit'
+      place_placeholder: 'Select place from list'
+      delete_result: 'Delete result'
+      weather_data: 'Wind conditions'
+      wind_cancellation_enabled: 'This competition uses wind cancellation feature.'
+      wind_cancellation_disabled: 'This competition does not use wind cancellation feature.'
+      results_showing: 'Results are '
+      results_adjusted_caption: 'adjusted for wind'
+      results_not_adjusted_caption: 'not adjusted for wind'

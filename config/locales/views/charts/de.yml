@@ -1,0 +1,40 @@
+de:
+  charts:
+    all_data:
+      title: 'Fluginformation'
+      axis:
+        speed: 'Geschwindigkeit'
+        distance: 'Höhe, Entfernung'
+        gr: 'Flugqualität'
+      series:
+        horiz_speed: 'Horizontale Geschwindigkeit'
+        vert_speed: 'Vertikale Geschwindigkeit'
+        full_speed: 'Geschwindigkeit 3D'
+        gr: 'Flugqualität'
+        height: 'Höhe'
+        distance: 'Entfernung'
+        elevation: 'Zurückgelegt in der Höhe'
+    elev:
+      title: 'Zurückgelegt in der Höhe/horizontal'
+      axis:
+        distance: 'Strecke, %{unit}'
+      series:
+        elevation: 'Zurückgelegt in der Höhe'
+        distance: 'Zurückgelegte Strecke'
+        height: 'Höhe'
+    gr:
+      title: 'Flugqualität'
+      series:
+        gr: 'Qualität'
+        raw_gr: 'Qualität (Roh)'
+    spd:
+      title: 'Vertikale und horizontale Geschwindigkeit'
+      axis:
+        speed: 'Geschwindigkeit, %{unit}'
+      series:
+        ground: 'Horizontale Geschwindigkeit'
+        raw_ground: 'Horizontale Geschwindigkeit (Roh)'
+        vertical: 'Vertikale Geschwindigkeit'
+        raw_vertical: 'Vertikale Geschwindigkeit (Roh)'
+        full: 'Geschwindigkeit 3D'
+        raw_full: 'Geschwindigkeit 3D (Roh)'

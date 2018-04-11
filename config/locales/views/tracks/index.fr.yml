@@ -1,9 +1,0 @@
-fr:
-  tracks:
-    index:
-      track_not_found: 'Enregistrement #%{id} non trouvé'
-      all: Tous
-      filters: Filtres
-      filter_by_pilot: Par pilote
-      filter_by_suit: Par combinaison
-      filter_by_place: Par lieu

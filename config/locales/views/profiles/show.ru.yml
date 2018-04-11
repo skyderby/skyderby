@@ -1,7 +1,0 @@
-ru:
-  profiles:
-    show:
-      achievements: Достижения
-      online_competitions: Онлайн соревнования
-      no_badges: "О наградах нам пока не известно."
-      no_rankings: "%{name} не участвовал в онлайн соревнованиях в этом году."

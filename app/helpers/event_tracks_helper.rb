@@ -20,7 +20,7 @@ module EventTracksHelper
   end
 
   def event_track_presentation(event_track)
-    "#{I18n.t('events.show.result')}: " \
+    "#{I18n.t('activerecord.models.event_track')}: " \
       "#{event_track.competitor.name} | " \
       "#{I18n.t('disciplines.' + event_track.round_discipline)} - " \
       "#{event_track.round_number}"

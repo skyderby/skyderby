@@ -1,0 +1,42 @@
+it:
+  charts:
+    all_data:
+      title: 'Dettagli del volo'
+      axis:
+        speed: 'Velocità'
+        distance: 'Quota, Distanza'
+        gr: 'Efficienza (glide)'
+      series:
+        horiz_speed: 'Velocità orizzontale'
+        vert_speed: 'Velocità verticale'
+        full_speed: 'Velocità totale'
+        gr: 'Efficienza (glide)'
+        height: 'Quota'
+        distance: 'Distanza'
+        elevation: 'Differenza di quota'
+    elev:
+      title: 'Quota/Distanza'
+      axis:
+        distance: "Distanza, %{unit}"
+      series:
+        elevation: 'Quota'
+        distance: 'Distanza'
+        height: 'Quota'
+    gr:
+      title: Efficienza (glide)
+      series:
+        gr: Efficienza (glide)
+        raw_gr: 'G/R (Raw)'
+        wind_effect: Effetto del vento
+    spd:
+      title: Velocità verticale e orizzontale
+      axis:
+        speed: 'Velocità, %{unit}'
+      series:
+        ground: Velocità orizzontale
+        raw_ground: Velocità orizzontale (Raw)
+        vertical: Velocità verticale
+        raw_vertical: Velocità verticale (Raw)
+        full: Velocità totale
+        raw_full: Velocità totale (Raw)
+        wind_effect: Effetto del vento

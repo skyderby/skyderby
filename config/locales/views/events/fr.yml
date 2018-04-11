@@ -1,0 +1,31 @@
+fr:
+  events:
+    index:
+      sign_in_to_create: Se connecter ou s'enregistrer pour créer une compétition.
+      new: Nouveau
+    rounds:
+      globe:
+        fast_forward: Avance rapide jusqu'au compétiteur
+        group: Groupe
+      map:
+        competitor: Compétiteur
+        direction: Direction
+        group: Groupe
+        start_window_description: point d'entrée dans la fenêtre de compétition (%{altitude} meters)
+        end_window_description: point de sortie dans la fenêtre de compétition (%{altitude} meters)
+        after_exit_description: point 5 secondes après la sortie de la fenêtre de compétition
+    show:
+      competitor: Compétiteur
+      round_map_view: Vue de enregistrements de la manche sur la carte
+      comp_window: Fenêtre de compétition
+      total: Total
+      new: Nouveau
+      edit: Éditer
+      place_placeholder: 'Sélectionner le lieu dans la liste:'
+      delete_result: 'Effacer résultat'
+      weather_data: Conditions de vent
+      wind_cancellation_enabled: Cette compétition utilise l'annulation du vent.
+      wind_cancellation_disabled: Cette compétition n'utilise pas l'annulation du vent.
+      results_showing: Les résultats sont
+      results_adjusted_caption: ajustement en fonction du vent
+      results_not_adjusted_caption: sans ajustement en fonction du vent

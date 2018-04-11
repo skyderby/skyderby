@@ -1,0 +1,68 @@
+en:
+  tracks:
+    index:
+      track_not_found: 'Track #%{id} has not found'
+      all: All
+      filters: Filters
+      filter_by_pilot: By pilot
+      filter_by_suit: By suit
+      filter_by_place: By place
+    indicators:
+      distance: Distance
+      elevation: Height diff.
+      altitude: Height
+      ground_speed: Ground speed
+      vertical_speed: Vertical speed
+      duration: Time
+      glide_ratio: Glide ratio
+    show:
+      title_track: 'Track'
+      title_suit: 'Suit'
+      menu_header: 'Show data:'
+      menu_sep: 'On separate charts'
+      menu_one: 'On single chart'
+      units_header: 'Units:'
+      m_units_metric: 'Metric'
+      m_units_imperial: 'Imperial'
+      delete_confirmation: "Are you sure you want delete this track?"
+      manage: "Manage"
+      edit_range: "Edit range"
+      range_from: "Range from:"
+      range_to: "to:"
+      charts: 'Charts'
+      results: 'Results'
+      comp_result: 'Result in competition'
+      online_comp_results: 'Online competitions results'
+      best_results: 'Best results'
+      window: 'window'
+      loading: 'Loading track data'
+    choose:
+      title: 'Select a track to upload'
+      number: '#'
+      name: 'Name'
+      elev: 'Elevation'
+      pt_cnt: 'Points count'
+    edit:
+      visibility: "Visibility:"
+      elev_chart: "Elevation"
+      elevation: "Elevation"
+      back: 'Back to track'
+    form:
+      suit_text_placeholder: Enter suit name
+      suit_select_placeholder: Select suit from list
+      place_text_placeholder: Enter place name
+      place_select_placeholder: Select place from list
+      profile_text_placeholder: Enter pilot name
+      profile_select_placeholder: Select pilot form list
+      toggle_suit_caption: Suit you are flying doesn't exist?
+      toggle_suit_caption_select: Or
+      toggle_suit_link: Enter suit name
+      toggle_suit_link_select: select suit from list.
+      toggle_place_caption: Place you are looking for doesn't exist?
+      toggle_place_caption_select: Or
+      toggle_place_link: Enter place name
+      toggle_place_link_select: select place from list
+      toggle_profile_caption: Not registered pilot?
+      toggle_profile_caption_select: Or
+      toggle_profile_link: Enter pilot name
+      toggle_profile_link_select: Select registered pilot

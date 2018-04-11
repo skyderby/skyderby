@@ -1,8 +1,0 @@
-es:
-  tracks:
-    choose:
-      title: 'Elige la pista para descargar'
-      number: 'Número'
-      name: 'Nombre de la pista'
-      elev: 'Diferencia de altura'
-      pt_cnt: 'Cantidad de los puntos'

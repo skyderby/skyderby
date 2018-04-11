@@ -1,9 +1,0 @@
-en:
-  tracks:
-    index:
-      track_not_found: 'Track #%{id} has not found'
-      all: All
-      filters: Filters
-      filter_by_pilot: By pilot
-      filter_by_suit: By suit
-      filter_by_place: By place

@@ -1,7 +1,0 @@
-de:
-  charts:
-    gr:
-      title: 'Flugqualität'
-      series:
-        gr: 'Qualität'
-        raw_gr: 'Qualität (Roh)'
