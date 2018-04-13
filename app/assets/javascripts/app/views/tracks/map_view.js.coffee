@@ -16,7 +16,7 @@ class Skyderby.views.TrackMapView extends Backbone.View
     @listenToOnce(@model, 'sync', @on_model_ready)
 
     @model.fetch()
-    
+
   render: ->
     window.Skyderby.helpers.init_maps_api()
 
