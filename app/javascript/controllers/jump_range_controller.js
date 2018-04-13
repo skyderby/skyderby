@@ -50,8 +50,9 @@ export default class extends Controller {
   }
 
   init_chart() {
-    $(this.chart).highcharts({
+    this.chart.highcharts = new Highcharts.Chart({
       chart: {
+        renderTo: this.chart,
         type: 'area'
       },
       title: {
@@ -111,6 +112,6 @@ export default class extends Controller {
   }
 
   get highchart() {
-    return $(this.chart).highcharts()
+    return this.chart.highcharts
   }
 }
