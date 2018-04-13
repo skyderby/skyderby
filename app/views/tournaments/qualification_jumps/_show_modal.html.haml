@@ -10,7 +10,7 @@
           %span.sr-only
             Close
       %h4.modal-title
-        = "#{t('events.show.result')}: #{@qualification_jump.competitor_name} | Qualification - #{@qualification_jump.round_order}"
+        = qualification_jump_presentation(@qualification_jump)
 
     .modal-body
       .container-fluid
@@ -19,7 +19,7 @@
             .pull-right
               = render 'tracks/view_settings_menu', presenter: @track_presenter
 
-        = render partial: 'tracks/indicators', locals: {presenter: @track_presenter}
+        = render partial: 'tracks/indicators', locals: { presenter: @track_presenter }
 
         %hr
         .row

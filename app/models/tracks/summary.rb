@@ -56,5 +56,23 @@ module Tracks
       return 0.0 if points.blank?
       (points.last[:gps_time] - points.first[:gps_time]).round(1)
     end
+
+    def straight_line_distance
+      TrackSegment.new([points.first, points.last]).distance
+    end
+
+    def track_trajectory_distance
+      @track_trajectory_distance ||= calculate_trajectory_distance(points)
+    end
+
+    def zero_wind_trajectory_distance
+      @zero_wind_trajectory_distance ||= calculate_trajectory_distance(zerowind_points)
+    end
+
+    def calculate_trajectory_distance(points)
+      points.each_cons(2).inject(0) do |sum, pair|
+        sum + TrackSegment.new(pair).distance
+      end
+    end
   end
 end

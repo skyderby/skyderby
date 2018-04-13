@@ -32,7 +32,7 @@ class TracksController < ApplicationController
 
     process_range if params[:range]
 
-    @track_presenter = Tracks::PresenterBuilder.new.call(@track, params, session)
+    @track_presenter = Tracks::TrackView.for(@track, params, session)
 
     respond_to do |format|
       format.html

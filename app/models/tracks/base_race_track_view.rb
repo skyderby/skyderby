@@ -1,5 +1,7 @@
 module Tracks
-  class BaseRaceTrack < BasePresenter
+  class BaseRaceTrackView
+    include TrackViewBase
+
     delegate :track, to: :base_race_track
 
     def initialize(base_race_track, chart_preferences)
@@ -14,6 +16,14 @@ module Tracks
     def track_elevation
       return 0 if points.blank?
       points.first[:abs_altitude] - points.last[:abs_altitude]
+    end
+
+    def track_distance
+      track_trajectory_distance
+    end
+
+    def zero_wind_track_distance
+      zero_wind_trajectory_distance
     end
 
     def points

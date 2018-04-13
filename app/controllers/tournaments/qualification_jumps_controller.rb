@@ -31,8 +31,8 @@ module Tournaments
     def show
       respond_to do |format|
         format.html { redirect_to @qualification_jump.track }
-        format.js do 
-          @track_presenter = Tracks::BaseRaceTrack.new(
+        format.js do
+          @track_presenter = Tracks::BaseRaceTrackView.new(
             @qualification_jump,
             ChartsPreferences.new(session)
           )
