@@ -2,7 +2,8 @@
   .modal-content
     .modal-header
       .pull-right
-        = link_to @event_track.track, class: 'modal-header-link', target: '_blank' do
+        = link_to track_path(@event_track.track, f: @event_track.range_from, t: @event_track.range_to, 'straight-line': true),
+                  class: 'modal-header-link', target: '_blank' do
           %i.fa.fa-external-link
         %button.close{type: 'button', data: {dismiss: 'modal'}}
           %span{aria: {hidden: 'true'}}

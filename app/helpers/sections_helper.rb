@@ -1,4 +1,14 @@
 module SectionsHelper
+  def new_section_link(event, display_raw_results)
+    link_to(new_event_section_path(event_id: @event.id),
+            remote: true,
+            'data-params': { 'display_raw_results' => @display_raw_results }.to_param,
+            class: 'btn btn-default') do
+      concat content_tag(:i, nil, class: 'fa fa-plus')
+      concat t('activerecord.models.section')
+    end
+  end
+
   def edit_section_link(event, section, display_raw_results)
     link_to content_tag(:i, nil, class: 'fa fa-pencil text-muted'),
             edit_event_section_path(event, section),

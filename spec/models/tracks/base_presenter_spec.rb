@@ -1,4 +1,4 @@
-describe Tracks::BasePresenter do
+describe Tracks::TrackView do
   it '#elevation' do
     stub_points_fetch(presenter)
 
@@ -143,13 +143,15 @@ describe Tracks::BasePresenter do
   end
 
   def presenter
-    track = Track.new
-    @presenter ||= Tracks::BasePresenter.new(
-      track,
-      3500,
-      3000,
-      ChartsPreferences.new({})
-    )
+    track = Track.new(gps_type: :flysight)
+    @presenter ||= Tracks::TrackView.new(track, range, ChartsPreferences.new({}))
+  end
+
+  def range
+    OpenStruct.new.tap do |range|
+      range.from = 3500
+      range.to = 3000
+    end
   end
 
   def stub_points_fetch(object)

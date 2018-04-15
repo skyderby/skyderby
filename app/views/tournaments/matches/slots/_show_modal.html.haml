@@ -10,7 +10,7 @@
           %span.sr-only
             Close
       %h4.modal-title
-        = "#{t('events.show.result')}: #{@slot.competitor_name} | Round - #{@slot.round_order}"
+        = match_slot_presentation(@slot)
 
     .modal-body
       .container-fluid

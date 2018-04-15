@@ -58,7 +58,7 @@ module Events
                                  t: @event.range_to)
         end
         format.js do
-          @track_presenter = Tracks::CompetitionTrack.new(
+          @track_presenter = Tracks::CompetitionTrackView.new(
             @event_track,
             ChartsPreferences.new(session)
           )

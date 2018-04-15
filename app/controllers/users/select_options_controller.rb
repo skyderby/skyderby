@@ -12,7 +12,7 @@ module Users
     private
 
     def search_query
-      params[:query]
+      params[:term]
     end
 
     def page

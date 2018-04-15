@@ -21,18 +21,8 @@
     .row{class: ('top-buffer' if can_manage)}
       .col-md-7.col-sm-7
         - if can_manage && !@event.finished?
-          = link_to new_event_section_path(event_id: @event.id), 
-                    remote: true, 
-                    'data-params': { 'display_raw_results' => @display_raw_results }.to_param,
-                    class: 'btn btn-default' do
-            %i.fa.fa-plus
-            = t('activerecord.models.section')
-          = link_to new_event_competitor_path(@event),
-                    remote: true,
-                    'data-params': { 'display_raw_results' => @display_raw_results }.to_param,
-                    class: 'btn btn-default' do
-            %i.fa.fa-plus
-            = t('activerecord.models.competitor')
+          = new_section_link(@event, @display_raw_results)
+          = new_competitor_link(@event, @display_raw_results)
 
           - if @event.hungary_boogie?
             = button_to event_rounds_path(@event),
@@ -50,29 +40,9 @@
                 = t('activerecord.models.round')
                 %i.fa.fa-caret-down
               %ul.dropdown-menu.dropdown-menu-right{role: 'menu'}
-                %li
-                  = button_to t('disciplines.distance'),
-                              event_rounds_path(@event),
-                              method: :post,
-                              remote: true, 
-                              params: {'round[discipline]' => :distance, 'display_raw_results' => @display_raw_results},
-                              class: 'btn-link add-distance-round'
-
-                %li
-                  = button_to t('disciplines.time'),
-                              event_rounds_path(@event),
-                              method: :post,
-                              remote: true, 
-                              params: {'round[discipline]' => :time, 'display_raw_results' => @display_raw_results},
-                              class: 'btn-link add-time-round'
-
-                %li
-                  = button_to t('disciplines.speed'),
-                              event_rounds_path(@event),
-                              method: :post,
-                              remote: true, 
-                              params: {'round[discipline]' => :speed, 'display_raw_results' => @display_raw_results},
-                              class: 'btn-link add-speed-round'
+                %li= add_round_button(@event, :distance, @display_raw_results)
+                %li= add_round_button(@event, :speed, @display_raw_results)
+                %li= add_round_button(@event, :time, @display_raw_results)
 
       .col-md-5.col-sm-5
         .pull-right

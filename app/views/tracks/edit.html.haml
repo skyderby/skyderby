@@ -25,7 +25,7 @@
         - if current_user && current_user.has_role?(:admin)
           .form-group
             %span.col-sm-3.control-label
-              = t('static_pages.index.track_form.name')
+              = t('activerecord.attributes.track.name')
             .col-sm-6
               = f.select :profile_id,
                          options_for_select([ ([@track.pilot_name, @track.profile_id] if @track.pilot) ], @track.profile_id),
@@ -45,7 +45,7 @@
 
         .form-group
           %span.col-sm-3.control-label
-            = t('static_pages.index.track_form.suit')
+            = t('activerecord.attributes.track.suit')
           .col-sm-6
             = f.select :suit_id,
                        options_for_select([ ([@track.suit_name, @track.suit_id] if @track.suit) ], @track.suit_id),
@@ -65,7 +65,7 @@
 
         .form-group
           %span.col-sm-3.control-label
-            = t('static_pages.index.track_form.location')
+            = t('activerecord.attributes.track.place')
           .col-sm-6
             = f.select :place_id,
                        options_for_select([ ([@track.place_name, @track.place_id] if @track.place) ], @track.place_id),
@@ -85,7 +85,7 @@
 
         .form-group
           %span.col-sm-3.control-label
-            = t('static_pages.index.track_form.kind')
+            = t('activerecord.attributes.track.kind')
           .btn-group.col-sm-9{data: {toggle: 'buttons'}}
             %label.btn.btn-default{class: ('active' if @track.skydive?)}
               = f.radio_button 'kind', 'skydive'
@@ -109,10 +109,10 @@
               %label.btn.btn-default{ class:  ('active' if @track.private_track?) }
                 = f.radio_button 'visibility', 'private_track'
                 = t('visibility.private')
-        
+
         .form-group
           %span.col-sm-3.control-label
-            = t('static_pages.index.track_form.comment')
+            = t('activerecord.attributes.track.comment')
           .col-sm-6
             = f.text_area 'comment',
                           class: 'form-control',

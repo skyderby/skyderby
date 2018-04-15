@@ -57,7 +57,7 @@ describe 'Scoring PPC-like competitions', js: true do
     suit = create :suit
 
     click_link I18n.t('activerecord.models.competitor')
-    find('label', text: category).click
+    select2 category, from: 'section_id'
     select2 suit.name, from: 'suit_id'
 
     if new_profile

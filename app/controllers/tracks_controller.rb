@@ -32,7 +32,7 @@ class TracksController < ApplicationController
 
     process_range if params[:range]
 
-    @track_presenter = Tracks::PresenterBuilder.new.call(@track, params, session)
+    @track_presenter = Tracks::TrackView.for(@track, params, session)
 
     respond_to do |format|
       format.html
@@ -116,9 +116,14 @@ class TracksController < ApplicationController
   helper_method :index_params
 
   def show_params
-    params.permit(:range, :f, :t, :charts_mode, :charts_units)
+    params.permit(:range, :f, :t, :charts_mode, :charts_units, 'straight-line')
   end
   helper_method :show_params
+
+  def straight_line_distance
+    params['straight-line'] == 'true'
+  end
+  helper_method :straight_line_distance
 
   def process_range
     range = params[:range].split(';')

@@ -1,0 +1,4 @@
+it:
+  activerecord:
+    models:
+      tournament_match: Staffa

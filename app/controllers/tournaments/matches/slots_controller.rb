@@ -8,7 +8,7 @@ module Tournaments
         respond_to do |format|
           format.html { redirect_to @tournament_match_competitor.track }
           format.js do
-            @track_presenter = Tracks::BaseRaceTrack.new(
+            @track_presenter = Tracks::BaseRaceTrackView.new(
               @slot,
               ChartsPreferences.new(session)
             )

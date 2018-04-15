@@ -16,6 +16,7 @@
   }
 
   .card-action {
+    display: flex;
     margin-left: auto;
     text-align: right;
 
@@ -24,6 +25,9 @@
     > a {
       text-transform: uppercase;
     }
+
+    & > *           { margin-right: 7px; }
+    & > :last-child { margin-right: 0px; }
   }
 }
 
