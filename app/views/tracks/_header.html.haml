@@ -1,6 +1,6 @@
 .page-header
-  .row
-    .col-md-12
+  .track-header
+    .track-header__info
       %h1.light-header
         - if track.pilot
           %a{href: profile_path(track.pilot)}
@@ -8,9 +8,6 @@
             = track.pilot.name
         - else
           = track.name
-        |
-        = t 'tracks.show.title_track'
-        = "##{track.id}"
 
         %small.light-header
           %span= t('tracks.show.title_suit') + ':' 
@@ -33,6 +30,7 @@
             %i.fa.fa-eye-slash{'data-toggle': 'tooltip', title: t('visibility.unlisted')}
           - elsif track.private_track?
             %i.fa.fa-lock{'data-toggle': 'tooltip', title: t('visibility.private')}
+    .track-header__id= "##{track.id}"
   .row
     .col-md-12
       - controller_path = controller.controller_path
