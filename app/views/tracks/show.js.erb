@@ -8,6 +8,16 @@ $('.track-charts__charts-container').replaceWith(
   "<%= j render(partial: 'tracks/charts', locals: { presenter: @track_presenter }) %>"
 );
 
+$('#range-selector').attr('data-url', '<%= url_for(show_params).html_safe %>');
+$('.toggle-straight-line')
+  .attr('href', '<%= url_for(show_params.merge('straight-line': !straight_line_distance)).html_safe %>')
+  .blur();
+<% if straight_line_distance %>
+  $('.toggle-straight-line').addClass('active');
+<% else %>
+  $('.toggle-straight-line').removeClass('active');
+<% end %>
+
 $('.settings-button').html(
   "<%= j render(partial: 'tracks/view_settings_menu', locals: { presenter: @track_presenter }) %>"
 );
@@ -33,5 +43,5 @@ $('#t').val(<%= @track_presenter.range_to %>);
 window.history.replaceState(
   { turbolinks: {} },
   document.title,
-  "<%= url_for(params.permit(:id, :f, :t)).html_safe %>"
+  "<%= url_for(params.permit(:id, :f, :t, 'straight-line')).html_safe %>"
 );

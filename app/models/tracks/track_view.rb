@@ -16,16 +16,18 @@ module Tracks
         view_class.new(
           track,
           TrackRange.new(track, from: params[:f], to: params[:t]),
-          ChartsPreferences.new(session)
+          ChartsPreferences.new(session),
+          params['straight-line'] == 'true'
         )
       end
     end
 
-    def initialize(track, range, chart_preferences)
+    def initialize(track, range, chart_preferences, use_straight_line_distance)
       @track = track
       @range_from = range.from
       @range_to = range.to
       @chart_preferences = chart_preferences
+      @use_straight_line_distance = use_straight_line_distance
     end
 
     def min_altitude
@@ -46,12 +48,18 @@ module Tracks
 
     private
 
+    attr_reader :use_straight_line_distance
+
     def track_elevation
       @range_from - @range_to
     end
 
     def track_distance
-      track_trajectory_distance
+      if use_straight_line_distance
+        straight_line_distance
+      else
+        track_trajectory_distance
+      end
     end
 
     def zero_wind_track_distance
