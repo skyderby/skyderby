@@ -144,7 +144,7 @@ describe Tracks::TrackView do
 
   def presenter
     track = Track.new(gps_type: :flysight)
-    @presenter ||= Tracks::TrackView.new(track, range, ChartsPreferences.new({}))
+    @presenter ||= Tracks::TrackView.new(track, range, ChartsPreferences.new({}), false)
   end
 
   def range
