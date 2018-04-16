@@ -34,6 +34,9 @@
           .col-sm-10
             %span#rm-track-uploaded= @event_track.uploaded_by&.name
 
-    .modal-footer
-      %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}
-        OK
+      %hr
+      .modal-actions
+        .modal-actions__left
+          = delete_event_track_link(@event_track, @display_raw_results)
+        .modal-actions__right
+          %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

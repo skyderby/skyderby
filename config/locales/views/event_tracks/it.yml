@@ -3,7 +3,9 @@ it:
     show:
       charts: Grafici
       jump_range: Intervallo di caduta libera
-      penalty: Penalità
+      penalties: Penalità
+      delete: Cancella traccia
+      delete_confirmation: Sei sicuro di voler cancellare questo traccia?
     form_modal:
       from_file: Da file
       from_existent_track: Traccia esistente

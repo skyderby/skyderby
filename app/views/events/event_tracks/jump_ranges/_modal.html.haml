@@ -28,12 +28,7 @@
           %hr
           .modal-actions
             .modal-actions__left
-              = link_to t('general.delete'),
-                        [@event, @event_track],
-                        'data-params': { 'display_raw_results' => @display_raw_results }.to_param,
-                        method: :DELETE,
-                        remote: true,
-                        class: 'btn btn-danger'
+              = delete_event_track_link(@event_track, @display_raw_results)
 
             .modal-actions__right
               = f.submit t('general.save'), class: 'btn btn-primary'

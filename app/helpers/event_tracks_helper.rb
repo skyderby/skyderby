@@ -19,6 +19,16 @@ module EventTracksHelper
             rel: 'nofollow'
   end
 
+  def delete_event_track_link(event_track, display_raw_results)
+    link_to(t('event_tracks.show.delete'),
+            [event_track.event, event_track],
+            'data-params': { 'display_raw_results' => display_raw_results }.to_param,
+            'data-confirm': t('event_tracks.show.delete_confirmation'),
+            remote: true,
+            method: :delete,
+            class: 'btn-flat btn-flat--danger')
+  end
+
   def event_track_presentation(event_track)
     "#{I18n.t('activerecord.models.event_track')}: " \
       "#{event_track.competitor.name} | " \

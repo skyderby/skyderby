@@ -6,6 +6,7 @@ it:
       event_track:
         file: File con tracce
         track: Traccia
+        uploaded_by: Caricato da
         is_disqualified: Squalificato
         disqualification_reason: Motivazione
     errors:

@@ -4,6 +4,8 @@ en:
       charts: Charts
       jump_range: Jump range
       penalties: Penalties
+      delete: Delete result
+      delete_confirmation: Are you sure you want to delete this result?
     form_modal:
       from_file: From file
       from_existent_track: Existent track

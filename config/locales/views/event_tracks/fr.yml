@@ -4,6 +4,8 @@ fr:
       charts: Graphiques
       jump_range: Durée du saut
       penalties: Pénalité
+      delete: Supprimer le résultat
+      delete_confirmation: Êtes-vous sûr de vouloir supprimer ce résultat?
     form_modal:
       from_file: Télécharger un nouveau
       from_existent_track: Sélectionner une Track existante
