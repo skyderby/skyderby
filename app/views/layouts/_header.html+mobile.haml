@@ -16,6 +16,8 @@
         = link_to profile_path(current_user.profile), class: 'main-menu__profile' do
           = image_tag current_user.profile.userpic.url(:thumb), class: 'main-menu__avatar'
           %p= current_user.name
+      - else
+        .main-menu__profile
 
       %ul.main-menu__bar-actions
         %li.language
@@ -26,8 +28,9 @@
           %ul.language__menu{'data-target': 'mobile--header.locale_menu'}
             - I18n.available_locales.each do |locale_code|
               %li= link_to lang_presentation(locale_code), locale: locale_code
-        %li
-          = link_to '', destroy_user_session_path, method: :delete, class: 'main-menu__bar-action main-menu__logout'
+        - if user_signed_in?
+          %li
+            = link_to '', destroy_user_session_path, method: :delete, class: 'main-menu__bar-action main-menu__logout'
         %li
           %a.main-menu__bar-action.main-menu__close{'data-action': 'click->mobile--header#close_menu'}
 
@@ -47,5 +50,5 @@
           = t('application.header.online_competitions')
 
       - if !user_signed_in?
-        %li.main-menu__item
+        %li.main-menu__item.main-menu--login
           = link_to t('application.header.sign_in'), new_user_session_path
