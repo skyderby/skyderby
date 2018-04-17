@@ -1,10 +1,6 @@
 - provide :title, @competition.title
 
 .online-competition
-  - if policy(@competition).edit?
-    = link_to edit_virtual_competition_path(@competition), class: 'btn-flat' do
-      %i.fa.fa-pencil
-      = t('general.edit')
   %h2.online-competition__header= @competition.title
   .online-competition__subheader
     = t('virtual_competitions.place')
@@ -17,20 +13,6 @@
     %div= competition_task(@competition)
 
   .table.online-competition__table
-    -# .thead
-    -#   .tr
-    -#     .th= '#'
-    -#     .th=t 'activerecord.attributes.track.name'
-    -#     .th=t 'activerecord.attributes.track.suit'
-    -#     - if @competition.worldwide?
-    -#       .th= t 'activerecord.attributes.track.place'
-    -#     .th.text-right= 'Result'
-    -#     - if @competition.display_highest_speed
-    -#       .th.text-right= 'Best speed'
-    -#     - if @competition.display_highest_gr
-    -#       .th.text-right= 'Best G/R'
-    -#     .th.text-right=t 'activerecord.attributes.track.recorded_at'
-    -#     .th
     .tbody
       - @competition.personal_top_scores.each do |personal_score|
         - current_user_score = current_user && current_user.profile == personal_score.profile

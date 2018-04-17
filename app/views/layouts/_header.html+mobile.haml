@@ -1,24 +1,51 @@
-.navbar.navbar-default.navbar-fixed-top{role: 'navigation'}
-  .container
-    .navbar-header
-      %button.navbar-toggle.collapsed{type: 'button', data: {toggle: 'collapse', target: '.navbar-collapse'}}
-        %span.sr-only= 'Toggle navigation'
-        %span.icon-bar
-        %span.icon-bar
-        %span.icon-bar
-      = link_to 'SKY DERBY', root_path, class: 'navbar-brand'
+%header{'data-controller': 'mobile--header'}
+  .header
+    .header__bar
+      = link_to root_path, class: 'header__home' do
+        %span SkyDerby
 
-    .navbar-collapse.collapse
-      %ul.nav.navbar-nav.text-center
-        - root_controller = controller.controller_path.split('/').first
-        %li.navbar__link{class: ('navbar__link--active' if root_controller == 'tracks')}
-          = link_to t('application.header.tracks'), tracks_path
-        %li.navbar__link{class: ('navbar__link--active' if ['events', 'tournaments'].include? root_controller)}
-          = link_to t('application.header.competitions'), events_path
-        %li.navbar__link{class: ('navbar__link--active' if root_controller == 'virtual_competitions')}
-          = link_to t('application.header.online_competitions'), virtual_competitions_path 
-        - if !user_signed_in?
-          %li.navbar__link
-            = link_to t('application.header.sign_in'), new_user_session_path
+      .header__nav
+        %a.header__notifications-toggle{'data-action': 'click->mobile--header#toggle_notifications'}
+        %a.header__menu-toggle{'data-action': 'click->mobile--header#open_menu'}
 
-      %ul.nav.navbar-nav.navbar-right
+  .header__page-overlay.overlay--hidden{'data-target': 'mobile--header.overlay', 'data-action': 'click->mobile--header#close_menu'}
+
+  .main-menu{'data-target': 'mobile--header.menu'}
+    .main-menu__bar
+      - if user_signed_in?
+        = link_to profile_path(current_user.profile), class: 'main-menu__profile' do
+          = image_tag current_user.profile.userpic.url(:thumb), class: 'main-menu__avatar'
+          %p= current_user.name
+
+      %ul.main-menu__bar-actions
+        %li.language
+          %a.language__toggle{'data-action': 'click->mobile--header#toggle_locale_menu'}
+            = I18n.locale.to_s.upcase
+            %i.fa.fa-caret-down
+
+          %ul.language__menu{'data-target': 'mobile--header.locale_menu'}
+            - I18n.available_locales.each do |locale_code|
+              %li= link_to lang_presentation(locale_code), locale: locale_code
+        %li
+          = link_to '', destroy_user_session_path, method: :delete, class: 'main-menu__bar-action main-menu__logout'
+        %li
+          %a.main-menu__bar-action.main-menu__close{'data-action': 'click->mobile--header#close_menu'}
+
+    %ul.main-menu__nav
+      - root_controller = controller.controller_path.split('/').first
+      %li.main-menu__item{class: ('active' if root_controller == 'tracks')}
+        = link_to tracks_path do
+          %span.main-menu__icon.main-menu__icon--tracks
+          = t('application.header.tracks')
+      %li.main-menu__item{class: ('active' if ['events', 'tournaments'].include? root_controller)}
+        = link_to events_path do
+          %span.main-menu__icon.main-menu__icon--star
+          = t('application.header.competitions')
+      %li.main-menu__item{class: ('active' if root_controller == 'virtual_competitions')}
+        = link_to virtual_competitions_path do
+          %span.main-menu__icon.main-menu__icon--cup
+          = t('application.header.online_competitions')
+
+      - if !user_signed_in?
+        %li.main-menu__item
+          = link_to t('application.header.sign_in'), new_user_session_path

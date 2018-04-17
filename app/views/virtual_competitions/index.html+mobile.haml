@@ -1,8 +1,6 @@
 .online-competitions-index
-  - if policy(:virtual_competition).create?
-    %a.btn.btn-default.btn-info{href: new_virtual_competition_path}
-      %i.fa.fa-plus
-      = 'Онлайн соревнование'
+  .page-title
+    = t('application.header.online_competitions')
   - @competitions.each do |group, competitions|
     .online-competition-group
       %h3.online-competition-group__header= group

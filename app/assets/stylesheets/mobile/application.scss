@@ -15,4 +15,27 @@
 @import '../common/**/*';
 @import '../blocks/**/*';
 
+@import 'variables';
 @import '**/*';
+
+* {
+  padding: 0;
+  margin: 0;
+  outline: none;
+}
+
+html, body {
+  overflow-x: hidden;
+
+  &.overflow {
+    overflow: hidden;
+  }
+}
+
+body {
+  color: $main-text-color;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: #f8f8f8;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+}

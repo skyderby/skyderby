@@ -7,7 +7,7 @@
   .pull-right
     .btn-group
       - activity = query_params[:kind]
-      = link_to t('.all'),
+      = link_to t('tracks.index.all'),
                 index_params.merge(query: query_params.except(:kind)),
                 remote: true,
                 class: ['btn btn-default', ('active' unless activity)],

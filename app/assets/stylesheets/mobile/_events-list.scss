@@ -1,0 +1,144 @@
+.events-list__item {
+  display: flex;
+  border: 1px solid #efefef;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  text-decoration: none;
+  background: #fff;
+}
+
+.events-list__item-sidebar {
+  width: 41px;
+  margin-right: 20px;
+}
+
+.events-list__item-content {
+  width: calc(100% - 80px);
+
+  hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 12px 0 16px;
+  }
+}
+
+.events-list__item-date {
+  width: 47px;
+  height: 33px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  color: #fff;
+  margin: 20px 0 0 -5px;
+  background: #39c0ff;
+  font-size: 14px;
+  line-height: 14px;
+
+  &:before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 4px 4px;
+    border-color: transparent transparent #007bff transparent;
+    position: absolute;
+    top: -4px;
+    left: 0;
+  }
+}
+
+.active .events-list__item-date {
+  background-color: #5cb85c;
+  &:before {
+    border-color: transparent transparent #5cb85c transparent;
+  }
+}
+
+.events-list__item-official {
+  color: #ff7e7e;
+  background: rgba(255, 126, 126, 0.1);
+  width: 40px;
+  height: 15px;
+  font-size: 10px;
+  line-height: 16px;
+  text-align: center;
+  border-left: 2px solid #ff7e7e;
+  margin: 5px 0 0 -1px;
+}
+
+.events-list__item-title {
+  color: #75a4ba;
+  font-size: 20px;
+  line-height: 26px;
+  margin: 15px 0 11px;
+}
+
+.events-list__item-place {
+  color: #555;
+  font-size: 12px;
+  line-height: 1;
+  margin-bottom: 9px;
+
+  i { color: #999; }
+  span {
+    color: #75a4ba;
+    text-transform: uppercase;
+
+    &:before {
+      content: "//";
+      letter-spacing: -1px;
+      margin-right: 5px;
+      font-size: 12px;
+      color: #999;
+    }
+  }
+}
+
+.events-list__item-participants {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  padding-left: 12px;
+
+  &:before {
+    content: $icon-wingsuit;
+    font: 10px $application-icon-font;
+    color: #999;
+    position: absolute;
+    top: 2px;
+    left: -2px;
+  }
+
+  p {
+    width: auto;
+    color: #555;
+    font-size: 12px;
+    line-height: 16px;
+    margin: 0;
+
+    &:after {
+      content: "//";
+      letter-spacing: -1px;
+      margin-right: 5px;
+      font-size: 12px;
+      color: #999;
+    }
+
+    &:last-child:after { display: none; }
+
+    span { color: #75a4ba; }
+  }
+}
+
+.events-list__item-info {
+  color: #333;
+  font-size: 12px;
+  line-height: 1;
+  margin-bottom: 9px;
+
+  &:last-child { margin-bottom: 0; }
+  span { color: #555; }
+}

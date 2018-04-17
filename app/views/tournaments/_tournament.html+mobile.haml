@@ -1,0 +1,23 @@
+= link_to tournament_path(tournament), class: ['events-list__item', ('active' if tournament.active?)] do
+  .events-list__item-sidebar
+    .events-list__item-date
+      = tournament.starts_at.strftime '%d'
+      %span= tournament.starts_at.strftime '%b\'%y'
+    .events-list__item-official official
+  .events-list__item-content
+    .events-list__item-title= tournament.name
+    - if tournament.place.present?
+      .events-list__item-place
+        %i.fa.fa-map-marker
+        = tournament.place.name
+        %span= tournament.place.country_code
+    .events-list__item-participants
+      %p
+        = "Open – "
+        %span= tournament.competitors.count
+
+    %hr
+
+    .events-list__item-info
+      Rules:
+      %span Single elimination

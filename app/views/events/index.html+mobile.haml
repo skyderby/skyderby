@@ -1,0 +1,10 @@
+.page-wrap
+  .page-title
+    = t('application.header.competitions')
+  .events-list
+    - @events.each do |list_item|
+      = render list_item.event
+
+  .text-center.top-buffer
+    .pagination-list
+      = will_paginate @events, renderer: BootstrapPagination::Rails

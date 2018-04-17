@@ -27,22 +27,22 @@
     = render 'layouts/favicon'
     = render 'layouts/google_analytics'
   %body
-    #wrap
-      = render 'layouts/header'
 
-      - if flash.count > 0
-        .container.top-buffer
-          .row
-            .col-md-7
-              - flash.each do |type, message|
-                .alert.alert-dismissable.fade-in{:class => bootstrap_class_for(type)}
-                  %button.close{type: 'button', data: {dismiss: 'alert'}, aria: {hidden: 'true'}}
-                    &times;
-                  = message
+    = render 'layouts/header'
 
-      = yield
-      -# Modal for Backbone Views
-      .modal.fade#modal{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
+    - if flash.count > 0
+      .container.top-buffer
+        .row
+          .col-md-7
+            - flash.each do |type, message|
+              .alert.alert-dismissable.fade-in{:class => bootstrap_class_for(type)}
+                %button.close{type: 'button', data: {dismiss: 'alert'}, aria: {hidden: 'true'}}
+                  &times;
+                = message
+
+    = yield
+    -# Modal for Backbone Views
+    .modal.fade#modal{tabindex: '-1', role: 'dialog', aria: {labelledby: 'myModalLabel', hidden: 'true'}}
 
     = render 'errors/ajax_error_message'
     = render 'layouts/footer'
