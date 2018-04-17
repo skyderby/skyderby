@@ -1,4 +1,6 @@
 .track-header {
+  margin-top: 70px;
+  padding-top: 5px;
   padding-left: 15px;
   padding-right: 15px;
 }
@@ -23,6 +25,11 @@
 .track-header__pilot-photo {
   display: table-cell;
   padding-right: 10px;
+
+  img {
+    height: 50px;
+    width: 50px;
+  }
 }
 
 .track-header__pilot-name {

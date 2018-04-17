@@ -1,15 +1,15 @@
 .index-header {
+  margin-top: 70px;
   position: relative;
   min-height: 200px;
   height: 40vh;
-  margin-top: 0px;
   background-image: asset-url('index_header_bg.jpg');
   background-size: cover;
   background-position: center center;
 
   img {
     width: 100%;
-    max-height: 400px;  
+    max-height: 400px;
   }
 }
 

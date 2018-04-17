@@ -62,6 +62,10 @@ class Tournament < ApplicationRecord
     has_qualification
   end
 
+  def active?
+    starts_at < Time.now && !finished?
+  end
+
   # For compatibility with Event
   def finished?
     false

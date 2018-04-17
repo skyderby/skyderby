@@ -65,6 +65,10 @@ class Event < ApplicationRecord
     end
   end
 
+  def active?
+    starts_at < Time.now && !finished?
+  end
+
   private
 
   def set_tracks_visibility
