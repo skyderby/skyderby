@@ -19,7 +19,7 @@ module Tracks
 
       def convert(value)
         meters_in_mile = 1609.344
-        value * meters_in_mile
+        value / meters_in_mile
       end
     end
   end
