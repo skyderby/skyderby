@@ -1,0 +1,19 @@
+- provide :title, @event.name
+
+.page-wrap
+  .event__header
+    .event__title= @event.name
+
+    - if @event.place.present?
+      .event__place
+        %i.fa.fa-map-marker
+        = @event.place.name
+        %span= @event.place.country_code
+
+    .events-list__item-info
+      Competition window:
+      %span
+        = "#{@event.range_from} – #{@event.range_to} #{t('units.m')}"
+  .event__scoreboard
+    .event__scoreboard-scroll
+      = render @scoreboard.template

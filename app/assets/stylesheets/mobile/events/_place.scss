@@ -1,0 +1,19 @@
+.event__place {
+  color: #333;
+  font: 12px/12px $pn-regular;
+  margin-bottom: 9px;
+
+  i { color: #999; }
+  span {
+    color: #75a4ba;
+    text-transform: uppercase;
+
+    &:before {
+      content: "//";
+      letter-spacing: -1px;
+      margin-right: 5px;
+      font-size: 12px;
+      color: #999;
+    }
+  }
+}

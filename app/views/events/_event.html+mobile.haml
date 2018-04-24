@@ -1,35 +1,36 @@
-= link_to event_path(event), class: ['events-list__item', ('active' if event.active?)] do
-  .events-list__item-sidebar
-    .events-list__item-date
-      = event.starts_at.strftime '%d'
-      %span= event.starts_at.strftime '%b\'%y'
-    - if event.is_official
-      .events-list__item-official official
-  .events-list__item-content
-    .events-list__item-title= event.name
-    - if event.place.present?
-      .events-list__item-place
-        %i.fa.fa-map-marker
-        = event.place.name
-        %span= event.place.country_code
-    .events-list__item-participants
-      - sections = event.sections.order(:order)
-      - if sections.count > 0
-        - sections.each do |section|
+- cache ['mobile', I18n.locale, event] do
+  = link_to event_path(event), class: ['events-list__item', ('active' if event.active?)] do
+    .events-list__item-sidebar
+      .events-list__item-date
+        = event.starts_at.strftime '%d'
+        %span= event.starts_at.strftime '%b\'%y'
+      - if event.is_official
+        .events-list__item-official official
+    .events-list__item-content
+      .events-list__item-title= event.name
+      - if event.place.present?
+        .event__place
+          %i.fa.fa-map-marker
+          = event.place.name
+          %span= event.place.country_code
+      .events-list__item-participants
+        - sections = event.sections.order(:order)
+        - if sections.count > 0
+          - sections.each do |section|
+            %p
+              = "#{section.name} – "
+              %span= section.competitors.count
+        - else
           %p
-            = "#{section.name} – "
-            %span= section.competitors.count
-      - else
-        %p
-          = "Open – "
-          %span= event.competitors.count
+            = "Open – "
+            %span= event.competitors.count
 
-    %hr
+      %hr
 
-    .events-list__item-info
-      Rules:
-      %span= event.rules.humanize
+      .events-list__item-info
+        Rules:
+        %span= event.rules.humanize
 
-    .events-list__item-info
-      Competition window:
-      %span= "#{event.range_from} - #{event.range_to} #{t('units.m')}"
+      .events-list__item-info
+        Competition window:
+        %span= "#{event.range_from} - #{event.range_to} #{t('units.m')}"

@@ -1,0 +1,56 @@
+- cache ['mobile-scoreboard', I18n.locale, @event] do
+  %table.event__scoreboard-table
+    %thead
+      %tr.text-center
+        %td{rowspan: 3} #
+        %td.text-left{rowspan: 2, colspan: 3}= t('activerecord.models.competitor')
+        - @event.rounds_by_discipline.each do |discipline, rounds|
+          - discipline_title = t('disciplines.' + discipline) + ', ' + t("units.#{discipline_unit(discipline.to_sym)}")
+          %td{colspan: rounds.count}= discipline_title
+        %td{rowspan: 2}= t('events.show.total')
+      %tr.text-center
+        - @event.rounds_by_discipline.each do |discipline, rounds|
+          - rounds.each do |round|
+            %td= round.number
+
+    - @event.sections.each do |section|
+      - next unless section.id
+      %tbody
+        %tr
+          %td.event__scoreboard-section{colspan: @scoreboard.columns_count + 1}= section.name
+
+        - section_competitors = @scoreboard.sections[section.id]
+        - section_competitors.each_with_index do |competitor, index|
+          %tr{id: dom_id(competitor)}
+            %td= index + 1
+
+            = render 'events/competitors/competitor_cells', competitor: competitor
+
+            - @event.rounds_by_discipline.each do |discipline, rounds|
+              - rounds.each do |round|
+                - result_entity = competitor.event_tracks.detect { |x| x[:round_id] == round.id }
+                - display_raw_results = @scoreboard.display_raw_results
+                - if result_entity
+                  - result_value = result_entity.result(net: display_raw_results)
+
+                  - result_class = ''
+                  - if best_in_section?(@event, result_entity)
+                    - result_class = 'hc-best-result'
+                  - elsif worst_in_section?(@event, result_entity)
+                    - result_class = 'hc-worst-result'
+
+                  %td.text-right{class: result_class}
+                    = link_to event_event_track_path(@event, result_entity),
+                              remote: true,
+                              class: [('text-green' if best_in_section?(@event, result_entity)), ('text-light-red' if worst_in_section?(@event, result_entity))],
+                              rel: 'nofollow' do
+
+                      - if result_value && result_value > 0
+                        = result_value.truncate
+
+                - else
+                  %td
+
+            %td.text-right
+              - if competitor.total_points && competitor.total_points > 0
+                = competitor.total_points.round.truncate

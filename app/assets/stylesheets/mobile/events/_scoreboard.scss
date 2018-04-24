@@ -1,0 +1,53 @@
+.event__scoreboard {
+  color: $main-text-color;
+  padding: 0;
+  margin-bottom: 0;
+  position: relative;
+  background: $white;
+}
+
+.event__scoreboard-scroll {
+  overflow: hidden;
+  overflow-x: scroll;
+  position: relative;
+  z-index: 1;
+}
+
+.event__scoreboard-table {
+  width: 100%;
+  margin-right: 20px;
+  border-collapse: collapse;
+
+  thead td {
+    font-family: $pn-semibold;
+  }
+
+  .event__scoreboard-section {
+    font-family: $pn-semibold;
+    text-transform: uppercase;
+  }
+
+  td {
+    white-space: nowrap;
+    font: 12px/12px "Proxima Nova Regular";
+    padding: 10px;
+    border: 1px solid #eee;
+  }
+
+  a {
+    color: $blue-dark;
+    text-decoration: none;
+
+    &.text-green {
+      color: $green;
+    }
+
+    &.text-light-red {
+      color: #ff9191;
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}

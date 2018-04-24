@@ -1,0 +1,5 @@
+%td= link_to competitor.name.titleize, profile_path(competitor.profile)
+%td= competitor.country_code
+%td.text-gray
+  = competitor.suit.manufacturer_code
+  = competitor.suit_name

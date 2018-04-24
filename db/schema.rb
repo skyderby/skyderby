@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180323071749) do
+ActiveRecord::Schema.define(version: 20180424110237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -349,6 +349,7 @@ ActiveRecord::Schema.define(version: 20180323071749) do
     t.boolean "require_range_review", default: false, null: false
     t.string "owner_type"
     t.bigint "owner_id"
+    t.json "flares"
     t.index ["id", "ff_start", "ff_end"], name: "index_tracks_on_id_and_ff_start_and_ff_end"
     t.index ["owner_type", "owner_id"], name: "index_tracks_on_owner_type_and_owner_id"
     t.index ["place_id"], name: "index_tracks_on_place_id"
@@ -502,6 +503,7 @@ ActiveRecord::Schema.define(version: 20180323071749) do
       events.status,
       events.visibility,
       events.responsible_id,
+      events.updated_at,
       events.created_at
      FROM ( SELECT 'Event'::text AS event_type,
               events_1.id AS event_id,
@@ -509,6 +511,7 @@ ActiveRecord::Schema.define(version: 20180323071749) do
               events_1.status,
               events_1.visibility,
               events_1.responsible_id,
+              events_1.updated_at,
               events_1.created_at
              FROM events events_1
           UNION ALL
@@ -518,6 +521,7 @@ ActiveRecord::Schema.define(version: 20180323071749) do
               1,
               0,
               tournaments.responsible_id,
+              tournaments.updated_at,
               tournaments.created_at
              FROM tournaments) events
     ORDER BY events.starts_at DESC, events.created_at DESC;

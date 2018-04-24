@@ -5,6 +5,10 @@
   margin-bottom: 20px;
   text-decoration: none;
   background: #fff;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .events-list__item-sidebar {
@@ -80,27 +84,6 @@
   margin: 15px 0 11px;
 }
 
-.events-list__item-place {
-  color: #555;
-  font-size: 12px;
-  line-height: 1;
-  margin-bottom: 9px;
-
-  i { color: #999; }
-  span {
-    color: #75a4ba;
-    text-transform: uppercase;
-
-    &:before {
-      content: "//";
-      letter-spacing: -1px;
-      margin-right: 5px;
-      font-size: 12px;
-      color: #999;
-    }
-  }
-}
-
 .events-list__item-participants {
   width: 100%;
   display: flex;
@@ -140,10 +123,9 @@
 
 .events-list__item-info {
   color: #333;
-  font-size: 12px;
-  line-height: 1;
+  font: 12px/12px $pn-regular;
   margin-bottom: 9px;
 
   &:last-child { margin-bottom: 0; }
-  span { color: #555; }
+  span { color: #777; }
 }

@@ -1,0 +1,72 @@
+- cache ['mobile-scoreboard', I18n.locale, @event] do
+  %table.event__scoreboard-table
+    %thead
+      %tr
+        %td{rowspan: 3} #
+        %td{rowspan: 3, colspan: 3}= t('activerecord.models.competitor')
+        - @event.rounds_by_discipline.each do |discipline, rounds|
+          %td.text-center{colspan: (rounds.count * 2 + 1)}
+            = t('disciplines.' + discipline)
+        %td.text-center{rowspan: 3}= t('events.show.total')
+      %tr.text-center
+        - @event.rounds_by_discipline.each do |discipline, rounds|
+          - rounds.each do |round|
+            %td{colspan: 2}= round.number
+          %td{rowspan: 2} %
+      %tr.text-center
+        - @event.rounds_by_discipline.each do |discipline, rounds|
+          - rounds.each do |round|
+            %td= t("units.#{discipline_unit(discipline.to_sym)}")
+            %td %
+
+    - @event.sections.each do |section|
+      - next unless section.id
+      %tbody
+        %tr
+          %td.event__scoreboard-section{colspan: @scoreboard.columns_count + 1}= section.name
+
+        - section_competitors = @scoreboard.sections[section.id]
+        - section_competitors.each_with_index do |competitor, index|
+          %tr{id: dom_id(competitor)}
+            %td= index + 1
+
+            = render 'events/competitors/competitor_cells', competitor: competitor
+
+            - @event.rounds_by_discipline.each do |discipline, rounds|
+              - rounds.each do |round|
+                - result_entity = competitor.event_tracks.detect { |x| x[:round_id] == round.id }
+                - display_raw_results = @scoreboard.display_raw_results
+                - if result_entity
+                  - result_value = result_entity.result(net: display_raw_results)
+                  %td.text-right
+                    = link_to event_event_track_path(@event, result_entity),
+                              remote: true,
+                              class: ('text-green' if best_in_round?(@event, result_entity, net: display_raw_results)),
+                              rel: 'nofollow' do
+
+                      - if result_value&.positive?
+                        - if discipline == 'distance'
+                          = result_value.truncate
+                        -else
+                          = result_value.round(1)
+
+                        - if result_entity.penalized
+                          %sup.text-danger= "-#{result_entity.penalty_size}%"
+
+                  %td.text-right.text-gray
+                    - points = event_track_points(@event, result_entity, net: display_raw_results)
+                    - if points&.positive?
+                      = points.round(1)
+
+                - else
+                  %td
+                  %td
+
+              %td.text-right.text-gray
+                - points_in_discipline = competitor.points_in_disciplines[discipline]
+                - if points_in_discipline && points_in_discipline > 0
+                  = points_in_discipline.round(1)
+
+            %td.text-right
+              - if competitor.total_points && competitor.total_points > 0
+                = '%.2f' % competitor.total_points.round(2)
