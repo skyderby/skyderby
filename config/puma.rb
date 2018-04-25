@@ -8,8 +8,6 @@ preload_app!
 port        ENV.fetch('PORT') { 3000 }
 environment ENV.fetch('RAILS_ENV') { 'development' }
 
-early_hints true
-
 on_worker_boot do
   ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
 end
