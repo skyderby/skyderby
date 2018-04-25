@@ -4,7 +4,7 @@ describe PlacesController, type: :controller do
       it '#index' do
         get :index
 
-        expect(response.success?).to be_truthy
+        expect(response.successful?).to be_truthy
       end
 
       it '#show' do
@@ -12,7 +12,7 @@ describe PlacesController, type: :controller do
 
         get :show, params: { id: place.id }
 
-        expect(response.success?).to be_truthy
+        expect(response.successful?).to be_truthy
       end
     end
 
@@ -59,7 +59,7 @@ describe PlacesController, type: :controller do
 
       get :new
 
-      expect(response.success?).to be_truthy
+      expect(response.successful?).to be_truthy
     end
 
     it '#edit' do
@@ -68,7 +68,7 @@ describe PlacesController, type: :controller do
 
       get :edit, params: { id: place.id }
 
-      expect(response.success?).to be_truthy
+      expect(response.successful?).to be_truthy
     end
 
     it '#create' do
@@ -76,7 +76,7 @@ describe PlacesController, type: :controller do
 
       post :create, params: { place: { name: 'SSSWWW' } }
 
-      expect(response.success?).to be_truthy
+      expect(response.successful?).to be_truthy
     end
 
     it '#update' do

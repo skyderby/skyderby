@@ -1,7 +1,7 @@
 .modal-dialog
   .modal-content
     - html_options = { class: 'form-horizontal', 'data-controller': 'events--competitor-form' }
-    = form_with model: [@event, @competitor], scope: '', html: html_options do |f|
+    = form_with model: [@event, @competitor], scope: '', local: false, html: html_options do |f|
       = hidden_field_tag :display_raw_results, @display_raw_results
       .modal-header
         %button.close{type: 'button', data: {dismiss: 'modal'}}

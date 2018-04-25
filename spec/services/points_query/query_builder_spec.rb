@@ -5,13 +5,13 @@ describe PointsQuery::QueryBuilder do
       [
         'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
         'gps_time_in_seconds - 0.0 AS fl_time',
-        :abs_altitude,
+        'abs_altitude',
         'abs_altitude - 0 AS altitude',
-        :latitude,
-        :longitude,
-        :h_speed,
-        :v_speed,
-        :distance,
+        'latitude',
+        'longitude',
+        'h_speed',
+        'v_speed',
+        'distance',
         '0 AS time_diff',
         'CASE WHEN v_speed = 0 THEN h_speed / 0.1 ELSE h_speed / ABS(v_speed) END AS glide_ratio'
       ]
@@ -26,8 +26,8 @@ describe PointsQuery::QueryBuilder do
     expect(query_builder.execute).to eq(
       [
         'abs_altitude - 0 AS altitude',
-        :latitude,
-        :longitude
+        'latitude',
+        'longitude'
       ]
     )
   end

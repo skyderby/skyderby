@@ -5,7 +5,7 @@ describe Tracks::MapsController do
         track = create_track_from_file 'flysight.csv'
 
         get :show, params: { track_id: track.id }
-        expect(response.success?).to be_truthy
+        expect(response.successful?).to be_truthy
       end
     end
   end

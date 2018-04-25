@@ -57,7 +57,7 @@ describe CountriesController, type: :controller do
 
       get :new
 
-      expect(response.success?).to be_truthy
+      expect(response.successful?).to be_truthy
     end
 
     it '#edit' do
@@ -66,7 +66,7 @@ describe CountriesController, type: :controller do
 
       get :edit, params: { id: country.id }
 
-      expect(response.success?).to be_truthy
+      expect(response.successful?).to be_truthy
     end
 
     it '#create' do

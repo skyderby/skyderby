@@ -38,7 +38,7 @@ describe BadgesController, type: :controller do
 
       get :edit, params: { id: badge.id }, xhr: true
 
-      expect(response.success?).to be_truthy
+      expect(response.successful?).to be_truthy
     end
 
     it '#update' do
@@ -47,7 +47,7 @@ describe BadgesController, type: :controller do
 
       patch :update, params: { id: badge.id, badge: { name: 'SSSWWW' } }, format: :js
 
-      expect(response.success?).to be_truthy
+      expect(response.successful?).to be_truthy
     end
 
     it '#destroy' do
@@ -56,7 +56,7 @@ describe BadgesController, type: :controller do
 
       delete :destroy, params: { id: badge.id }, format: :js
 
-      expect(response.success?).to be_truthy
+      expect(response.successful?).to be_truthy
     end
 
     def login_admin

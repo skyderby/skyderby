@@ -6,7 +6,7 @@ describe Tracks::VideosController do
         create :track_video, track: track
 
         get :show, params: { track_id: track.id }
-        expect(response.success?).to be_truthy
+        expect(response.successful?).to be_truthy
       end
     end
   end

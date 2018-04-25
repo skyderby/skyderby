@@ -8,7 +8,7 @@ describe TracksController do
 
       get :edit, params: { id: track.id }
 
-      expect(response.success?).to be_truthy
+      expect(response.successful?).to be_truthy
     end
 
     it '#show private track owned by user' do
@@ -19,7 +19,7 @@ describe TracksController do
 
       get :show, params: { id: track.id }
 
-      expect(response.success?).to be_truthy
+      expect(response.successful?).to be_truthy
     end
   end
 
@@ -33,7 +33,7 @@ describe TracksController do
 
       get :edit, params: { id: track.id }
 
-      expect(response.success?).to be_truthy
+      expect(response.successful?).to be_truthy
     end
 
     it '#edit by organizer' do
@@ -49,7 +49,7 @@ describe TracksController do
 
       get :edit, params: { id: track.id }
 
-      expect(response.success?).to be_truthy
+      expect(response.successful?).to be_truthy
     end
   end
 

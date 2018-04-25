@@ -1,12 +1,12 @@
 ruby '2.5.0'
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.1'
+gem 'rails', '~> 5.2'
 
 gem 'puma'
 
 # DB
-gem 'pg', '< 1.0'
+gem 'pg', '~> 1.0'
 gem 'pluck_to_hash'
 gem 'scenic'
 
@@ -27,7 +27,7 @@ gem 'haml'
 gem 'jbuilder', '~> 2.6'
 
 # Files attachments
-gem 'paperclip', '~> 5.2'
+gem 'paperclip', '~> 6.0'
 
 # XML
 gem 'nokogiri', '~> 1.8'
@@ -38,7 +38,7 @@ gem 'sidekiq', ' < 6'
 # Exception notifications and profiling
 gem 'rack-mini-profiler'
 group :production do
-  gem 'honeybadger', '~> 3.2'
+  gem 'honeybadger', '~> 3.3'
   gem 'skylight'
 end
 
@@ -56,7 +56,7 @@ gem 'rails-backbone'
 gem 'sass-rails'
 gem 'turbolinks'
 gem 'uglifier', '>= 2.7.2'
-gem 'webpacker', '~> 3.2'
+gem 'webpacker', '~> 3.4'
 
 gem 'vincenty_distance'
 

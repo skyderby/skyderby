@@ -11,7 +11,7 @@ describe ProfilesController, type: :controller do
 
       get :show, params: { id: profile.id }
 
-      expect(response.success?).to be_truthy
+      expect(response.successful?).to be_truthy
     end
 
     it '#edit' do
@@ -45,7 +45,7 @@ describe ProfilesController, type: :controller do
 
       get :index
 
-      expect(response.success?).to be_truthy
+      expect(response.successful?).to be_truthy
     end
 
     def login_admin

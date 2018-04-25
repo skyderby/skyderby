@@ -42,7 +42,6 @@ class PointsQuery
     @query_opts = opts.slice(:only, :freq_1Hz)
     @freq_1Hz   = opts[:freq_1Hz] || false
     @trimmed    = opts[:trimmed] || false
-    @trim_options = trimmed.is_a?(Hash) ? trimmed : {}
   end
 
   def execute
@@ -52,20 +51,10 @@ class PointsQuery
 
   private
 
-  attr_reader :track, :query_opts, :trimmed, :trim_options, :freq_1Hz
+  attr_reader :track, :query_opts, :trimmed, :freq_1Hz
 
   def scope
-    collection = track.points
-
-    if trimmed
-      ff_start, ff_end = Track.where(id: track.id).pluck(:ff_start, :ff_end).first
-      ff_start -= trim_options[:seconds_before_start] if trim_options[:seconds_before_start]
-
-      collection = collection.where('fl_time BETWEEN ? AND ?', ff_start, ff_end)
-    end
-
-    collection = collection.reorder('floor(gps_time_in_seconds), gps_time_in_seconds') if freq_1Hz
-    collection
+    ScopeBuilder.call(track, trimmed, freq_1Hz)
   end
 
   def select_columns
@@ -92,17 +81,59 @@ class PointsQuery
     end
   end
 
+  class ScopeBuilder
+    def self.call(*args)
+      new(*args).call
+    end
+
+    def initialize(track, trimmed, freq_1Hz)
+      @track = track
+      @trimmed = trimmed
+      @freq_1Hz = freq_1Hz
+      @trim_options = trimmed.is_a?(Hash) ? trimmed : {}
+    end
+
+    def call
+      track.points
+        .yield_self(&method(:trim))
+        .yield_self(&method(:reorder))
+    end
+
+    private
+
+    attr_reader :track, :trimmed, :trim_options, :freq_1Hz
+
+    def trim(scope)
+      return scope unless trimmed
+
+      ff_start, ff_end = Track.where(id: track.id).pluck(:ff_start, :ff_end).first
+      ff_start -= trim_options[:seconds_before_start] if trim_options[:seconds_before_start]
+
+      scope.where('fl_time BETWEEN ? AND ?', ff_start, ff_end)
+    end
+
+    def reorder(scope)
+      return scope unless freq_1Hz
+
+      scope.reorder(reduced_frequency_order)
+    end
+
+    def reduced_frequency_order
+      [Arel.sql('floor(points.gps_time_in_seconds)'), :gps_time_in_seconds]
+    end
+  end
+
   class QueryBuilder
     COLUMNS = {
       gps_time:     'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
       fl_time:      -> { "gps_time_in_seconds - #{start_time_in_seconds} AS fl_time" },
-      abs_altitude: :abs_altitude,
+      abs_altitude: 'abs_altitude',
       altitude:     -> { "#{track.point_altitude_field} AS altitude" },
-      latitude:     :latitude,
-      longitude:    :longitude,
-      h_speed:      :h_speed,
-      v_speed:      :v_speed,
-      distance:     :distance,
+      latitude:     'latitude',
+      longitude:    'longitude',
+      h_speed:      'h_speed',
+      v_speed:      'v_speed',
+      distance:     'distance',
       time_diff:    '0 AS time_diff',
       glide_ratio:  'CASE WHEN v_speed = 0 THEN h_speed / 0.1 ELSE h_speed / ABS(v_speed) END AS glide_ratio'
     }.with_indifferent_access.freeze
@@ -116,13 +147,13 @@ class PointsQuery
     def execute
       select_statements = select_columns.map do |_key, statement|
         statement = instance_exec(&statement) if statement.is_a? Proc
-        statement
+        Arel.sql(statement)
       end
 
       return select_statements unless freq_1Hz
 
       select_statements.tap do |statements|
-        statements[0] = 'DISTINCT ON (floor(gps_time_in_seconds)) ' + statements.first
+        statements[0] = Arel.sql('DISTINCT ON (floor(gps_time_in_seconds)) ' + statements.first)
       end
     end
 

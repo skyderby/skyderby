@@ -3,7 +3,7 @@ describe VirtualCompetitionsController do
     it '#index' do
       get :index
 
-      expect(response.success?).to be_truthy
+      expect(response.successful?).to be_truthy
     end
 
     it '#show redirects to overall' do
