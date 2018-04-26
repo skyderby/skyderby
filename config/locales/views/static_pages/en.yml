@@ -22,3 +22,6 @@ en:
         help: Supported csv (Columbus, FlySight), gpx, tes and kml format
         comment_plh: Share a few words about your flight
         submit: Upload
+      about_me:
+        greeting: Hi! My name is Aleksandr
+        message: I'm creator of Skyderby. Do you have a question? Don't hesitate give me a message or even call.

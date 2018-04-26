@@ -22,3 +22,6 @@ fr:
         help: Supporte les format csv (Columbus, FlySight), gpx, tes et kml
         comment_plh: Quelques mots à propos de votre vol
         submit: Télécharger
+      about_me:
+        greeting: Bonjour, je suis Aleksandr
+        message: Et je suis le créateur de Skyderby. Si vous avez des questions n'hésitez pas à m'envoyer un message ou à m'appeler.

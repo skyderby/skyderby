@@ -22,3 +22,6 @@ it:
         help: "sono supportati i file con estensione: .csv (Columbus, FlySight), .gpx, .tes e .kml"
         comment_plh: Condividi i tuoi pensieri sul tuo volo
         submit: Carica
+      about_me:
+        greeting: Ciao! Mi chiamo Aleksandr
+        message: Sono il creatore di Skyderby. Hai qualche domanda? Non esitare a scrivermi o anche a chiamarmi.

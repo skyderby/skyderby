@@ -13,6 +13,25 @@
       %i.fa.fa-upload
       = t('application.header.upload_track')
 
+.top-buffer
+  .about-me
+    .about-me__photo
+      = image_tag 'a_kunin.jpg', class: 'img-circle'
+    .about-me__info
+      %span.about-me__greeting= t('.about_me.greeting')
+      %p= t('.about_me.message')
+      %div.about-me__contacts
+        %a{href: 'https://www.facebook.com/skyksandr'}
+          %i.fa.fa-facebook
+          skyksandr
+        %a{href: 'https://twitter.com/skyksandr'}
+          %i.fa.fa-twitter
+          @skyksandr
+        %span
+          %i.fa.fa-whatsapp
+          +7(903)139-0137
+
+
 .container.top-buffer
   .row
     .col-sm-10

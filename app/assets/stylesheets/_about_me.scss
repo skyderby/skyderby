@@ -1,0 +1,41 @@
+.about-me {
+  margin-left: auto;
+  margin-right: auto;
+  width: 700px;
+}
+
+.about-me__photo {
+  display: table-cell;
+  padding: 8px;
+
+  img {
+    width: 170px;
+    height: 170px;
+  }
+}
+
+.about-me__info {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 8px;
+}
+
+.about-me__greeting {
+  font-size: 24px;
+  line-height: 2;
+  font-weight: bold;
+}
+
+.about-me__contacts {
+  margin-bottom: 15px;
+
+  & > * {
+    margin-right: 20px;
+    color: #337ab7;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
