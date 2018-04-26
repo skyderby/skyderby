@@ -12,6 +12,8 @@ class EventsController < ApplicationController
       policy_scope(EventList.all)
       .includes(event: { place: :country })
       .paginate(page: params[:page], per_page: rows_per_page)
+
+    fresh_when etags_for(@event)
   end
 
   def new
@@ -58,6 +60,8 @@ class EventsController < ApplicationController
     authorize @event
 
     @scoreboard = Events::ScoreboardFactory.new(@event, @display_raw_results).create
+
+    fresh_when etags_for(@event), last_modified: @event.updated_at
   end
 
   def destroy
