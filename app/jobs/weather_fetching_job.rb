@@ -3,7 +3,7 @@ class WeatherFetchingJob < ApplicationJob
     next_hour = Time.current.beginning_of_hour + 1.hour
 
     Place.skydive.each do |place|
-      PlaceWeatherService.new(place: place, date_time: next_hour).execute
+      PlaceWeatherFetchingJob.perform_later(place.id, next_hour.iso8601)
     end
   end
 end
