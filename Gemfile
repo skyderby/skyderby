@@ -34,6 +34,7 @@ gem 'nokogiri', '~> 1.8'
 
 # Background jobs
 gem 'sidekiq', ' < 6'
+gem 'sidekiq-cron', '~> 0.6'
 
 # Exception notifications and profiling
 gem 'rack-mini-profiler'
