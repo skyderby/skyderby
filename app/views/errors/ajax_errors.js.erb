@@ -1,11 +1,11 @@
-<% 
+<%
     errors_text = ''
     errors.messages.each do |_, messages|
       messages.each do |msg|
         errors_text += "- #{msg} \n"
       end
     end
-    errors_text = "#{t('errors.messages.not_saved', count: errors.count)} \r\n#{errors_text}"
+    errors_text = "#{t('errors.messages.not_saved', count: errors.count, resource: '')} \r\n#{errors_text}"
 %>
 
 var event = new CustomEvent('action:error', {

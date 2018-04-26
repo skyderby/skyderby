@@ -4,6 +4,8 @@ export default class extends Controller {
   static targets = [ 'chart', 'select' ]
 
   connect() {
+    if (this.highchart) return
+
     this.data.set('max-value', this.select.getAttribute('data-max-value'))
     const [range_from, range_to] = this.select.value.split(';')
 
