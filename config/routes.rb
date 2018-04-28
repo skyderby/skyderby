@@ -116,11 +116,12 @@ Skyderby::Application.routes.draw do
       resources :tracks, only: :index
       resource :avatar, only: [:new, :create]
       resource :merge, only: [:new, :create]
-      resource :flight_profiles, only: :show
       collection do
         resources :select_options, only: :index
       end
     end
+
+    resource :flight_profiles, only: :show
   end
   resources :badges
   match '/user_profiles/:id', to: 'profiles#show', via: :get
@@ -149,7 +150,9 @@ Skyderby::Application.routes.draw do
         resources :select_options, only: :index
       end
     end
+
     resources :weather_data, only: [:index]
+    resource :flight_profiles, only: :show
   end
 
   resources :virtual_competitions, concerns: :sponsorable do

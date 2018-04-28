@@ -4,19 +4,14 @@ export default class extends Controller {
   static targets = [ 'chart' ]
 
   connect() {
-    this.init_chart()
     this.element.addEventListener('flight-profiles:track-checked',   this.add_track.bind(this))
     this.element.addEventListener('flight-profiles:track-unchecked', this.remove_track.bind(this))
     this.element.addEventListener('flight-profiles:line-selected',   this.add_line.bind(this))
     this.element.addEventListener('flight-profiles:line-unselected', this.remove_line.bind(this))
   }
 
-  init_chart() {
-    this.chart.highcharts(this.chart_options)
-  }
-
   add_track(event) {
-    const chart = this.chart.highcharts()
+    const chart = this.highchart
 
     chart.addSeries({
       name: event.detail.track_id,
@@ -29,7 +24,7 @@ export default class extends Controller {
   }
 
   remove_track(event) {
-    const chart = this.chart.highcharts()
+    const chart = this.highchart
     for (let series of chart.series) {
       if (series.name == event.detail.track_id) {
         series.remove()
@@ -39,7 +34,7 @@ export default class extends Controller {
   }
 
   add_line(event) {
-    const chart = this.chart.highcharts()
+    const chart = this.highchart
 
     chart.addSeries({
       name: event.detail.name,
@@ -55,7 +50,7 @@ export default class extends Controller {
   }
 
   remove_line(event) {
-    const chart = this.chart.highcharts()
+    const chart = this.highchart
 
     for (let series of chart.series) {
       if (series.options.code == 'place_measurements') {
@@ -65,13 +60,22 @@ export default class extends Controller {
     }
   }
 
+  get highchart() {
+    if (this.chart.highchart) return this.chart.highchart
+
+    this.chart.highchart = new Highcharts.Chart(this.chart_options)
+
+    return this.chart.highchart
+  }
+
   get chart() {
-    return $(this.chartTarget)
+    return this.chartTarget
   }
 
   get chart_options() {
     return {
       chart: {
+        renderTo: this.chart,
         type: 'spline',
         zoomType: 'x'
       },
