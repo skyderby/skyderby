@@ -18,6 +18,15 @@
                   |
             %h4= "Lat: #{@place.latitude}, Lon: #{@place.longitude}, MSL: #{@place.msl}"
 
+  .place-navigation.top-buffer
+    .tabs-navbar
+      %ul.tabs-navbar__menu
+        %li.tabs-navbar__menuitem{class: 'tabs-navbar--active'}
+          = link_to t('general.overview'), @place
+
+        %li.tabs-navbar__menuitem
+          = link_to t('flight_profiles'), place_flight_profiles_path(@place)
+
   .content-block
     - pilots = @place.pilots_accessible_by(current_user)
     - unless pilots.blank?
