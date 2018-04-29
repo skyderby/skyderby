@@ -1,14 +1,21 @@
 .flight-profiles{'data-controller': 'flight-profiles'}
-  .flight-profiles__sidebar
-    .flight-profiles__tracks-container
-      = render 'tracks'
-    .flight-profiles__place-container{'data-controller': 'flight-profiles--exit-measurement'}
-      = select_tag :place,
-                   nil,
-                   include_blank: true ,
-                   placeholder: 'Choose exit measurement',
-                   class: 'form-control',
-                   'data-controller': 'select2--exit-measurements',
-                   'data-action': 'change->flight-profiles--exit-measurement#toggle'
+  .flight-profiles__header
+    = link_to @scope do
+      %i.fa.fa-chevron-left
+      = @scope.name
 
-  .flight-profiles__chart-container{'data-target': 'flight-profiles.chart'}
+    \// Flight profiles
+  .flight-profiles__body
+    .flight-profiles__sidebar
+      .flight-profiles__tracks-container
+        = render 'tracks'
+      .flight-profiles__place-container{'data-controller': 'flight-profiles--exit-measurement'}
+        = select_tag :place,
+                     nil,
+                     include_blank: true ,
+                     placeholder: 'Choose exit measurement',
+                     class: 'form-control',
+                     'data-controller': 'select2--exit-measurements',
+                     'data-action': 'change->flight-profiles--exit-measurement#toggle'
+
+    .flight-profiles__chart-container{'data-target': 'flight-profiles.chart'}
