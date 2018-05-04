@@ -34,6 +34,8 @@ export default class extends Controller {
   }
 
   add_line(event) {
+    this.remove_line()
+
     const chart = this.highchart
 
     chart.addSeries({
