@@ -11,8 +11,16 @@
       .flight-profiles__tracks-container
         = render 'tracks'
       .flight-profiles__place-container{'data-controller': 'flight-profiles--exit-measurement'}
+        :ruby
+          if @scope.is_a?(Place) && @scope.lines.any?
+            line = @scope.lines.first
+            select_options = options_for_select([[line.full_name, line.id]], line.id)
+          else
+            select_options = nil
+          end
+
         = select_tag :place,
-                     nil,
+                     select_options,
                      include_blank: true ,
                      placeholder: 'Choose exit measurement',
                      class: 'form-control',

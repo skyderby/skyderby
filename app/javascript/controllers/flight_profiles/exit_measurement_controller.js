@@ -5,6 +5,15 @@ export default class extends Controller {
     this.cached_measurements = {}
   }
 
+  connect() {
+    let element = this.element.querySelector('select')
+    let selected_option = element.options[element.selectedIndex]
+
+    if (!selected_option.value) return
+
+    this.on_select_line(selected_option.value, selected_option.text)
+  }
+
   toggle(event) {
     const select = event.target
     const line_id = select.value

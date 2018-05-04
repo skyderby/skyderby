@@ -13,4 +13,8 @@ class PlaceLine < ApplicationRecord
 
   delegate :country_name, to: :place
   delegate :name, to: :place, prefix: true
+
+  def full_name
+    "#{place_name} - #{name}"
+  end
 end
