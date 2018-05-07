@@ -3,6 +3,7 @@ class FlightProfilesController < ApplicationController
 
   def show
     authorize @scope
+    fresh_when etags_for(@scope)
   end
 
   def load_scope

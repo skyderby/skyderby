@@ -44,7 +44,7 @@ export default class extends Controller {
       } else {
         $.get('/api/v1/places/exit_measurements/' + line_id)
           .done( data => {
-            const chart_data = this.convert_response(data) 
+            const chart_data = this.convert_response(data)
             this.cached_measurements[line_id] = chart_data
             resolve(chart_data)
           })

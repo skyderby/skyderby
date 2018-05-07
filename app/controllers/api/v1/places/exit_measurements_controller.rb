@@ -15,8 +15,10 @@ module Api
         end
 
         def show
-          @exit_measurements = ExitMeasurement.where(place_line_id: params[:id])
-                                              .order(:altitude)
+          place_line = PlaceLine.find(params[:id])
+          @exit_measurements = place_line.exit_measurements.order(:altitude)
+
+          fresh_when place_line
 
           respond_to do |format|
             format.json
