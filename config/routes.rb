@@ -1,6 +1,8 @@
 require 'sidekiq/web'
 
 Skyderby::Application.routes.draw do
+  mount ActionCable.server, at: '/cable'
+
   # Backward compatibility, app used to have locale in path, like
   # /ru/controller/
   # /en/controller/

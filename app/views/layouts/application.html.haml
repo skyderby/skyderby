@@ -2,6 +2,9 @@
 %html
   %head
     %title= page_title(yield(:title))
+
+    = action_cable_meta_tag
+
     = stylesheet_pack_tag 'vendor'
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
 

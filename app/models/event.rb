@@ -45,6 +45,8 @@ class Event < ApplicationRecord
   before_validation :check_name_and_range, on: :create
   after_save :set_tracks_visibility, on: :update, if: :saved_change_to_visibility?
 
+  after_touch :broadcast_update
+
   delegate :name, to: :place, prefix: true, allow_nil: true
   delegate :msl, to: :place, prefix: true, allow_nil: true
 
@@ -79,6 +81,10 @@ class Event < ApplicationRecord
     self.name ||= "#{Time.current.strftime('%d.%m.%Y')}: Competition"
     self.range_from ||= 3000
     self.range_to ||= 2000
+  end
+
+  def broadcast_update
+    ActionCable.server.broadcast "event_updates_#{id}", {}
   end
 
   class << self
