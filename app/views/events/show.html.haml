@@ -6,7 +6,7 @@
   .content-block
     .row
       #event-header.col-md-8.col-md-offset-2.text-center
-        = render 'header' 
+        = render 'header'
 
       .col-md-2
         - if can_manage
@@ -27,7 +27,7 @@
           - if @event.hungary_boogie?
             = button_to event_rounds_path(@event),
                         method: :post,
-                        remote: true, 
+                        remote: true,
                         params: {'round[discipline]' => :distance, 'display_raw_results' => @display_raw_results},
                         class: 'btn btn-default' do
               %i.fa.fa-plus
@@ -46,10 +46,23 @@
 
       .col-md-5.col-sm-5
         .pull-right
+          %button{class: ['btn', 'btn-default', ('active' if @event.active? && !can_manage)],
+                  'data-controller': 'events--autoupdate',
+                  'data-action': 'click->events--autoupdate#trigger_state',
+                  'data-event-id': @event.id}
+            = link_to '', url_for(show_params.merge(autoupdate: true)),
+                      class: 'hide',
+                      remote: true,
+                      'data-target': 'events--autoupdate.link',
+                      'data-action': 'ajax:before->events--autoupdate#update_start ajax:complete->events--autoupdate#update_finish'
+
+            %i.fa.fa-refresh.text-muted{'data-target': 'events--autoupdate.indicator'}
+            Autoupdate
+
           - if @event.wind_cancellation
-            = link_to t('events.show.weather_data'), 
-                      event_weather_data_path(@event), 
-                      remote: true, 
+            = link_to t('events.show.weather_data'),
+                      event_weather_data_path(@event),
+                      remote: true,
                       class: 'btn btn-default'
           - if can_manage
             .btn-group.event-status-group
@@ -115,7 +128,7 @@
       = render 'sponsors/list',
                sponsorable: @event,
                editable: (can_manage && !@event.finished?)
-      
+
 - content_for :page_js do
   %script
     = render partial: 'show_controls', formats: [:js]

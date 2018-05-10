@@ -23,5 +23,8 @@ const application = Application.start()
 const context = require.context('controllers', true, /\.js$/)
 application.load(definitionsFromContext(context))
 
+const ActionCable = require('actioncable')
+window.cable = ActionCable.createConsumer()
+
 Turbolinks.start()
 Rails.start()

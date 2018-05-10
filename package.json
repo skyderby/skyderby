@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@rails/webpacker": "^3.2.2",
+    "actioncable": "^5.2.0",
     "bootstrap-datepicker": "^1.7.1",
     "highcharts": "^6.0.7",
     "jquery": "^3.3.1",
@@ -11,8 +12,8 @@
     "turbolinks": "^5.1.1"
   },
   "devDependencies": {
+    "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.10",
-    "webpack-dev-server": "^2.11.1",
-    "webpack-bundle-analyzer": "^2.11.1"
+    "webpack-dev-server": "^2.11.1"
   }
 }
