@@ -1,6 +1,4 @@
-<% if !params[:autoupdate] %>
-  $('#modal').modal('hide');
-<% end %>
+$('#modal').modal('hide');
 
 $('#event').replaceWith('<%= j render template: 'events/show', formats: [:html] %>');
 

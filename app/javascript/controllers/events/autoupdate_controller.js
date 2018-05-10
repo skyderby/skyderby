@@ -15,7 +15,9 @@ export default class extends Controller {
   }
 
   trigger_state(e) {
-    e.currentTarget.blur()
+    if (e.target !== this.element) return
+
+    e.target.blur()
     this.element.classList.toggle('active')
   }
 

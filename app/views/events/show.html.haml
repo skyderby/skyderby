@@ -50,7 +50,7 @@
                   'data-controller': 'events--autoupdate',
                   'data-action': 'click->events--autoupdate#trigger_state',
                   'data-event-id': @event.id}
-            = link_to '', url_for(show_params.merge(autoupdate: true)),
+            = link_to '', event_scoreboard_path(event_id: @event.id),
                       class: 'hide',
                       remote: true,
                       'data-target': 'events--autoupdate.link',
