@@ -69,6 +69,14 @@ Skyderby::Application.routes.draw do
     resources :organizers, only: %i[new create destroy]
   end
 
+  concern :flight_profiles do
+    resource :flight_profiles, only: :show do
+      scope module: :flight_profiles do
+        resources :tracks, only: :index
+      end
+    end
+  end
+
   resources :events, concerns: %i[sponsorable organizable] do
     scope module: :events do
       resource :scoreboard, only: :show
@@ -114,7 +122,7 @@ Skyderby::Application.routes.draw do
     end
   end
 
-  resources :profiles do
+  resources :profiles, concerns: :flight_profiles do
     scope module: :profiles do
       resources :badges, only: [:new, :create]
       resources :tracks, only: :index
@@ -124,8 +132,6 @@ Skyderby::Application.routes.draw do
         resources :select_options, only: :index
       end
     end
-
-    resource :flight_profiles, only: :show
   end
   resources :badges
   match '/user_profiles/:id', to: 'profiles#show', via: :get
@@ -148,7 +154,7 @@ Skyderby::Application.routes.draw do
       end
     end
   end
-  resources :places do
+  resources :places, concerns: :flight_profiles do
     scope module: :places do
       collection do
         resources :select_options, only: :index
@@ -156,7 +162,6 @@ Skyderby::Application.routes.draw do
     end
 
     resources :weather_data, only: [:index]
-    resource :flight_profiles, only: :show
   end
 
   resources :virtual_competitions, concerns: :sponsorable do

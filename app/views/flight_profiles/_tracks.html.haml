@@ -1,23 +1,7 @@
 %ul.flight-profiles__tracks-list
-  - @scope.tracks.base.accessible_by(current_user).each do |track|
-    %li.flight-profiles__track{data: { controller: 'flight-profiles--track', 'track-id': track.id } }
-      .checkbox
-        %label
-          %input{type: 'checkbox', 'data-action': 'change->flight-profiles--track#toggle'}
-          .flight-profiles__track-header.text-muted
-            %span
-              = "##{track.id}"
-            %span
-              = track.recorded_at&.strftime('%d.%m.%Y')
-          %div
-            - unless @scope.is_a? Profile
-              %div= track_pilot_name(track)
-            %i.fa.fa-map-marker
-            = track_place(track)
-            &nbsp;
-            - if track.suit
-              = suit_presentation(track.suit)
-            - else
-              = track.missing_suit_name
-          .text-muted
-            = track.comment
+  = render partial: 'flight_profiles/track', collection: @tracks, as: :track
+
+.flight-profiles__load-more.text-center
+  = will_paginate @tracks,
+                  params: { controller: 'flight_profiles/tracks', action: 'index' },
+                  renderer: WillPaginateLoadMoreRenderer

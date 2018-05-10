@@ -1,0 +1,15 @@
+var tracks_list = document.querySelector('.flight-profiles__tracks-list')
+tracks_list.insertAdjacentHTML(
+  'beforeend',
+  '<%= j render partial: 'flight_profiles/track', collection: @tracks, as: :track %>'
+);
+
+var pagination = document.querySelector('.flight-profiles__load-more')
+<% if @tracks.next_page %>
+  pagination.innerHTML =
+    '<%= will_paginate @tracks,
+                       params: { controller: 'flight_profiles/tracks', action: 'index' },
+                       renderer: WillPaginateLoadMoreRenderer %>';
+<% else %>
+  pagination.innerHTML = '';
+<% end %>
