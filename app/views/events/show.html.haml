@@ -30,13 +30,13 @@
                         remote: true,
                         params: {'round[discipline]' => :distance, 'display_raw_results' => @display_raw_results},
                         class: 'btn btn-default' do
-              %i.fa.fa-plus
+              %i.fa.fa-plus.text-muted
               = t('activerecord.models.round')
 
           -else
             .btn-group
               %button.btn.btn-default{'data-toggle' => 'dropdown'}
-                %i.fa.fa-plus
+                %i.fa.fa-plus.text-muted
                 = t('activerecord.models.round')
                 %i.fa.fa-caret-down
               %ul.dropdown-menu.dropdown-menu-right{role: 'menu'}

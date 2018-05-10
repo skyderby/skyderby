@@ -4,7 +4,8 @@ module CompetitorsHelper
             remote: true,
             'data-params': { 'display_raw_results' => display_raw_results }.to_param,
             class: 'btn btn-default') do
-      concat content_tag(:i, nil, class: 'fa fa-plus')
+      concat content_tag(:i, nil, class: 'fa fa-plus text-muted')
+      concat ' '
       concat t('activerecord.models.competitor')
     end
   end
