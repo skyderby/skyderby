@@ -27,5 +27,5 @@ ru:
       wind_cancellation_enabled: 'В этом соревновании учитывается влияние ветра.'
       wind_cancellation_disabled: 'В этом соревновании влияние ветра не учитывается.'
       results_showing: 'Результаты: '
-      results_adjusted_caption: 'с учетом влияния ветра'
+      results_adjusted_caption: 'за вычетом ветра'
       results_not_adjusted_caption: 'без учета влияния ветра'
