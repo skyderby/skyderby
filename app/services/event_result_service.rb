@@ -34,7 +34,7 @@ class EventResultService
     @track_points ||= PointsQuery.execute(
       track,
       trimmed: true,
-      only: %i[gps_time altitude latitude longitude]
+      only: %i[gps_time time_diff altitude latitude longitude]
     )
   end
 end
