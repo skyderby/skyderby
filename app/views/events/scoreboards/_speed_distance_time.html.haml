@@ -70,9 +70,10 @@
               - rounds.each do |round|
                 - result_entity = competitor.event_tracks.detect { |x| x[:round_id] == round.id }
                 - display_raw_results = @scoreboard.display_raw_results
+                - net_results = @event.wind_cancellation && !display_raw_results
                 - if result_entity
-                  - result_value = result_entity.result(net: display_raw_results)
-                  %td.result-cell.text-right{'data-role' => 'result', class: ('hc-best-result' if best_in_round?(@event, result_entity, net: display_raw_results))}
+                  - result_value = result_entity.result(net: net_result)
+                  %td.result-cell.text-right{'data-role' => 'result', class: ('hc-best-result' if best_in_round?(@event, result_entity, net: net_result))}
                     - if result_value&.positive?
                       - if discipline == 'distance'
                         = result_value.truncate
@@ -94,7 +95,7 @@
                           %i.fa.fa-search
 
                   %td.points-cell
-                    - points = event_track_points(@event, result_entity, net: display_raw_results)
+                    - points = event_track_points(@event, result_entity, net: net_result)
                     - if result_entity.penalized
                       %span.dotted-underline{'data-toggle' => 'tooltip',
                                               title: result_entity.penalty_reason}
