@@ -23,7 +23,10 @@ class EventResultService
   attr_reader :track
 
   def subtract_wind(points)
-    wind_data = WindCancellation::WindData.new(@event.place.weather_data)
+    start_time = points.first[:gps_time].beginning_of_hour
+    weather_data = @event.place.weather_data.for_time(start_time)
+
+    wind_data = WindCancellation::WindData.new(weather_data)
     points = WindCancellation::WindSubtraction.new(points, wind_data).execute
   end
 
