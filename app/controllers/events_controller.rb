@@ -13,7 +13,7 @@ class EventsController < ApplicationController
       .includes(event: { place: :country })
       .paginate(page: params[:page], per_page: rows_per_page)
 
-    fresh_when etags_for(@event)
+    fresh_when etags_for(@events)
   end
 
   def new
