@@ -23,7 +23,7 @@ class EventResultService
   attr_reader :track
 
   def subtract_wind(points)
-    wind_data = WindCancellation::WindData.new(@event.weather_data)
+    wind_data = WindCancellation::WindData.new(@event.place.weather_data)
     points = WindCancellation::WindSubtraction.new(points, wind_data).execute
   end
 
