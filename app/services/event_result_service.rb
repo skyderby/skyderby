@@ -7,9 +7,14 @@ class EventResultService
   end
 
   def calculate
-    points = subtract_wind(track_points) if @wind_cancellation
+    points =
+      if wind_cancellation
+        subtract_wind(track_points) 
+      else
+        track_points
+      end
 
-    track_segment = WindowRangeFinder.new(track_points).execute(
+    track_segment = WindowRangeFinder.new(points).execute(
       from_altitude: @event.range_from,
       to_altitude: @event.range_to)
 
@@ -20,7 +25,7 @@ class EventResultService
 
   private
 
-  attr_reader :track
+  attr_reader :track, :wind_cancellation
 
   def subtract_wind(points)
     start_time = points.first[:gps_time].beginning_of_hour
