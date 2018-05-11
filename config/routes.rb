@@ -108,8 +108,6 @@ Skyderby::Application.routes.draw do
         resources :select_options, only: :index
       end
     end
-
-    resources :weather_data
   end
 
   devise_for :users
