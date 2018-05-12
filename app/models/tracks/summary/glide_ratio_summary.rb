@@ -11,7 +11,7 @@ module Tracks
       end
 
       def glide_ratio
-        return nil if track_elevation.zero?
+        return 0.0 if track_elevation.zero?
         presenter.call(track_distance.to_d / track_elevation.to_d)
       end
 

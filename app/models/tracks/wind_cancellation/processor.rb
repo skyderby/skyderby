@@ -11,7 +11,7 @@ module Tracks
       end
 
       def call
-        return [] if weather_data.blank?
+        return [] if weather_data.blank? || points.blank?
 
         calculate
       end
