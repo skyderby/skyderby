@@ -7,8 +7,18 @@ class Events::Rounds::Map::CompetitorTrack < SimpleDelegator
     competitor.name
   end
 
+  def empty?
+    points.blank?
+  end
+
+  def present?
+    !empty?
+  end
+
   def start_time
-    track.points.trimmed.first.gps_time
+    return track.recorded_at if points.blank?
+
+    points.first[:gps_time]
   end
 
   def path_coordinates
@@ -48,7 +58,7 @@ class Events::Rounds::Map::CompetitorTrack < SimpleDelegator
       to_altitude: round.range_to
     )
   rescue WindowRangeFinder::ValueOutOfRange
-    Rails.logger.debug "Failed to get range data from track #{event_track.track_id}"
+    Rails.logger.debug "Failed to get range data from track #{track_id}"
     NullWindowPoints.new(points.first, points.last)
   end
 

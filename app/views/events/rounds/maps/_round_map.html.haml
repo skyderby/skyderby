@@ -65,16 +65,17 @@
             %tr.round-competitors__group-row{'data-action': 'click->events--round-map#toggle_group'}
               %td{colspan: 3}
                 = "#{t('events.rounds.map.group')} #{index + 1}"
-            - group.each do |competitor|
+            - group.each do |competitor_data|
               %tr
                 %td.round-competitors__check
-                  %input{id: "competitor_#{competitor.id}",
+                  %input{id: "competitor_#{competitor_data.id}",
                          type: 'checkbox',
-                         checked: true,
+                         checked: competitor_data.present?,
                          'data-action': 'change->events--round-map#on_change_visibility',
                          'data-target': 'events--round-map.competitor'}
                 %td.round-map-competitor
-                  = competitor.name.titleize
-                  %i.fa.fa-circle{style: "color: #{competitor.color}"}
+                  = competitor_data.name.titleize
+                  - if competitor_data.present?
+                    %i.fa.fa-circle{style: "color: #{competitor_data.color}"}
                 %td
-                  = competitor.direction && "#{competitor.direction.round}°"
+                  = competitor_data.direction && "#{competitor_data.direction.round}°"

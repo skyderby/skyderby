@@ -46,7 +46,7 @@ export default class extends Controller {
 
   change_check_state(item, state) {
     let was_checked = item.checked
-    item.checked = state 
+    item.checked = state
     if (was_checked !== item.checked) item.dispatchEvent(new Event('change'))
   }
 
@@ -85,9 +85,15 @@ export default class extends Controller {
   render_map() {
     if (!this.maps_ready || !this.map_data) return
 
+    var center = new google.maps.LatLng(
+      this.map_data.place.latitude,
+      this.map_data.place.longitude
+    );
+
     let options = {
-      'zoom': 2,
-      'mapTypeId': google.maps.MapTypeId.ROADMAP
+      zoom: 2,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      center: center
     }
 
     this.mapTarget.map_instance = new google.maps.Map(this.mapTarget, options)
@@ -95,7 +101,7 @@ export default class extends Controller {
   }
 
   draw_round_map() {
-    for (let competitor_data of this.map_data) {
+    for (let competitor_data of this.map_data.competitors) {
       let polyline = this.draw_polyline(
         competitor_data.path_coordinates,
         competitor_data.color
@@ -178,10 +184,12 @@ export default class extends Controller {
     if (!this.map_data) return undefined
     if (this._bounds) return this._bounds
 
-    let start_lats = this.map_data.map( (el) => { return el.start_point.lat } )
-    let start_lons = this.map_data.map( (el) => { return el.start_point.lng } )
-    let end_lats   = this.map_data.map( (el) => { return el.end_point.lat   } )
-    let end_lons   = this.map_data.map( (el) => { return el.end_point.lng   } )
+    let competitor_data = this.map_data.competitors
+
+    let start_lats = competitor_data.map( (el) => { return el.start_point.lat } )
+    let start_lons = competitor_data.map( (el) => { return el.start_point.lng } )
+    let end_lats   = competitor_data.map( (el) => { return el.end_point.lat   } )
+    let end_lons   = competitor_data.map( (el) => { return el.end_point.lng   } )
 
     let lat_bounds = start_lats.concat(end_lats)
     let lon_bounds = start_lons.concat(end_lons)
