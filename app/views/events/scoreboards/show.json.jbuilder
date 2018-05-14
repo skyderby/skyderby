@@ -1,5 +1,6 @@
 json.sections do
   json.array! @event.sections do |section|
+    json.id section.id
     json.name section.name
     json.order section.order
   end

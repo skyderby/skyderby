@@ -13,10 +13,7 @@ module Events
 
       respond_to do |format|
         format.js
-        format.json do
-          headers['Access-Control-Allow-Origin'] = '*'
-          headers['Access-Control-Allow-Methods'] = 'GET'
-        end
+        format.json
       end
     end
   end
