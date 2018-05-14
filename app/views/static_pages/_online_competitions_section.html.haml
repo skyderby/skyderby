@@ -1,10 +1,10 @@
 - cache "online_competitions_summary_#{I18n.locale}", expires_in: 10.minutes do
-  - if @online_competitions.many?
+  - if @page.online_competitions_summary.many?
     .container.top-buffer
       .row
         .col-sm-12.text-center
           %h1.light-header= t('static_pages.index.online_comps_leaders')
-      - @online_competitions.each do |activity, competitions|
+      - @page.online_competitions_summary.each do |activity, competitions|
         %hr
         .row
           .col-sm-12.text-center

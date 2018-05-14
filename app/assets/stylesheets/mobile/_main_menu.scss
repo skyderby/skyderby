@@ -5,14 +5,14 @@
   overflow-y: scroll;
   opacity: 0;
   z-index: 31;
-  transition: all 350ms ease-in-out;
+  transition: all 200ms ease-in-out;
   transition-delay: 0;
 
   &.active {
     opacity: 1;
     right: 0 !important;
-    transition: all 350ms ease-in-out;
-    transition-delay: 350ms;
+    transition: all 200ms ease-in-out;
+    transition-delay: 100ms;
   }
 }
 

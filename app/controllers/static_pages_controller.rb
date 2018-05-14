@@ -2,7 +2,7 @@
 class StaticPagesController < ApplicationController
   def index
     @track_file = TrackFile.new
-    @online_competitions = VirtualCompetitions::Summary.new
+    @page = LandingPage.new
   end
 
   def manage

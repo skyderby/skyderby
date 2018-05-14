@@ -1,34 +1,35 @@
-.index-header
-  .index-header-caption
-    %p.index-subtitle
-      = t('static_pages.index.desc')
+.landing
+  %section.index-header
+    .index-header-caption
+      %p.index-subtitle
+        = t('static_pages.index.desc')
 
-.index-description
-  .description
-    .description__image.description__image--blue
-      %i.fa.fa-line-chart
-    .description__title
-      Анализ трeков
-    .description__text
-      После прыжка вас ожидает комплексный набор показателей эффективности &mdash;
-      от основных, таких как скорость, дистанция, качество, до воздействия ветра
-      и результат за вычетом ветра.
+  %section.landing__stats
+    %ul.landing__stats-list
+      %li.landing__stats-item
+        .landing__stats-count= @page.users_count
+        .landing__stats-caption Registered pilots
+      %li.landing__stats-item
+        .landing__stats-count= @page.tracks_count
+        .landing__stats-caption Tracks recorded
 
-  .description
-    .description__image.description__image--red
-      %i.fa.fa-heart
-    .description__title
-      Это бесплатно
-    .description__text
-      Мы верим, что предоставляя Skyderby бесплатно мы совершенствуем наш любимый
-      спорт и делаем мир лучше, мы любим и ценим ваши отзывы.
+  %section.text-center
+    = link_to  new_registration_path(resource_name), class: 'btn btn-success btn-lg' do
+      = t('devise.shared.links.sign_up')
 
-  .description
-    .description__image.description__image--yellow
-      %i.fa.fa-trophy
-    .description__title
-      Проведение соревнований
-    .description__text
-      Проведение и судейство соревнований никогда не было настолько доступным и простым.
-      Не имеет значения, проводите ли вы соревнования мирового масштаба или готовитесь
-      к соревнованиям с друзьями.
+  %section.landing__section
+    %h2.landing__section-header Полёты
+    %p.landing__section-subheader во всех ракурсах
+    %img.landing__section-image{src: asset_path('tracks-overview-mobile.png')}
+    %p.landing__section-description
+      С какой скоростью я летел? А сколько из нее добавлял ветер?
+      Вам будет легко найти ответы на эти вопросы, а также посмотреть на трек на 
+      карте, в 3D, синхронизировать с видео и многое другое
+
+  %section.landing__section
+    %h2.landing__section-header Онлайн соревнования
+    %p.landing__section-subheader расскажут о многом
+
+  %section.landing__section
+    %h2.landing__section-header Бесплатно
+    %p.landing__section-subheader и без рекламы

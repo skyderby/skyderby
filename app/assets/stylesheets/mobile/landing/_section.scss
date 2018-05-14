@@ -1,0 +1,35 @@
+.landing {
+  background-color: #fff;
+  padding-bottom: 10px;
+}
+
+.landing > section {
+  margin-bottom: 20px;
+}
+
+.landing__section {
+  font: 16px $pn-regular;
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.landing__section-image {
+  width: 100%;
+}
+
+.landing__section-header {
+  font: 24px $pn-semibold;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin: 0;
+}
+
+.landing__section-subheader {
+}
+
+.landing__section-description {
+  text-align: justify;
+  margin: 10px 0;
+}
+

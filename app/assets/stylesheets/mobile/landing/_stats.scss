@@ -1,0 +1,30 @@
+.landing__stats-list {
+  display: flex;
+  list-style-type: none;
+}
+
+.landing__stats-item {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  text-align: center;
+  border-right: 1px solid #ccc;
+  padding: 10px 0;
+
+  &:last-child {
+    border-right: 1px solid transparent;
+  }
+}
+
+.landing__stats-count {
+  font: 30px $pn-semibold;
+  color: $gray-dark;
+  line-height: 2;
+}
+
+.landing__stats-caption {
+  font: $pn-regular;
+  color: $gray-dark;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
