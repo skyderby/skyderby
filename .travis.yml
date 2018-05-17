@@ -41,7 +41,8 @@ before_script:
   - cp config/database.travis.yml config/database.yml
   - psql -c 'create database travis_ci_test;' -U postgres
   - bundle exec rails db:test:prepare
-  - NODE_ENV=test bundle exec rails assets:precompile
+  - bundle exec rails assets:precompile
+  - RAILS_ENV=test bundle exec rails webpacker:compile
 
 script: bundle exec rspec spec/
 
