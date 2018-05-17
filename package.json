@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@rails/webpacker": "^3.2.2",
+    "@rails/webpacker": "^3.5.0",
     "actioncable": "^5.2.0",
     "bootstrap-datepicker": "^1.7.1",
     "highcharts": "^6.0.7",
