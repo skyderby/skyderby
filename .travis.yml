@@ -40,8 +40,8 @@ before_install:
 before_script:
   - cp config/database.travis.yml config/database.yml
   - psql -c 'create database travis_ci_test;' -U postgres
-  - bundle exec rake db:test:prepare
-  - bundle exec rake assets:precompile
+  - bundle exec rails db:test:prepare
+  - NODE_ENV=test bundle exec rails assets:precompile
 
 script: bundle exec rspec spec/
 
