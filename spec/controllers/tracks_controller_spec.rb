@@ -1,7 +1,7 @@
 describe TracksController do
   describe 'owner of track' do
     it '#edit' do
-      user = create :user
+      user = users(:regular_user)
       track = create :empty_track, :with_point, owner: user
 
       login_as user
@@ -12,7 +12,7 @@ describe TracksController do
     end
 
     it '#show private track owned by user' do
-      user = create :user
+      user = users(:regular_user)
       track = create :empty_track, :with_point, owner: user, visibility: Track.visibilities[:private_track]
 
       login_as user

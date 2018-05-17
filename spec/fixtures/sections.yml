@@ -1,0 +1,10 @@
+speed_distance_time_advanced:
+  event_id: 1
+  order: 1
+  name: Advanced
+
+speed_distance_time_intermediate:
+  id: 2
+  event_id: 1
+  order: 2
+  name: Intermediate

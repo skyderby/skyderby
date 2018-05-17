@@ -65,7 +65,7 @@ describe BadgesController, type: :controller do
     end
 
     def user
-      @user ||= create :user, :admin
+      @user ||= users(:admin)
     end
   end
 end

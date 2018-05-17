@@ -1,0 +1,11 @@
+admin:
+  email: admin@example.com
+  confirmed_at: 2015-01-01
+
+regular_user:
+  email: alex@example.com
+  confirmed_at: 2015-01-01
+
+event_responsible:
+  email: event_responsible@example.com
+  confirmed_at: 2015-01-01

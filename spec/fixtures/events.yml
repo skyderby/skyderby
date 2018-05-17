@@ -1,0 +1,36 @@
+PPC_DEFAULTS: &PPC_DEFAULTS
+  rules: speed_distance_time
+  range_from: 3000
+  range_to: 2000
+  wind_cancellation: false
+  starts_at: 2015-03-01
+
+published_public:
+  <<: *PPC_DEFAULTS
+  id: 1
+  name: PPC-like
+  status: published
+
+draft_public:
+  <<: *PPC_DEFAULTS
+  name: Draft-public
+  status: draft
+  visibility: public_event
+
+finished_public:
+  <<: *PPC_DEFAULTS
+  name: Finished-public
+  status: finished
+  visibility: public_event
+
+finished_unlisted:
+  <<: *PPC_DEFAULTS
+  name: Finished-unlisted
+  status: finished
+  visibility: unlisted_event
+
+finished_private:
+  <<: *PPC_DEFAULTS
+  name: Finished-private
+  status: finished
+  visibility: private_event

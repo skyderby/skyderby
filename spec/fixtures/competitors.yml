@@ -1,0 +1,11 @@
+competitor_1:
+  event_id: 1
+  suit: apache
+  section: speed_distance_time_advanced
+  profile: competitor_1
+
+competitor_2:
+  event_id: 1
+  suit: apache
+  section: speed_distance_time_advanced
+  profile: competitor_2

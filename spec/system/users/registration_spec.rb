@@ -9,7 +9,7 @@ describe 'User registration', type: :system, js: true do
       fill_in 'user[password_confirmation]', with: '123456'
     end
 
-    expect { click_button I18n.t('devise.registrations.new.sign_up') }.to change { User.count }.to(1)
+    expect { click_button I18n.t('devise.registrations.new.sign_up') }.to change { User.count }.by(1)
     expect(User.last.name).to eq('Ivan Ivanov')
   end
 

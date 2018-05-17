@@ -17,6 +17,7 @@ json.competitors do
         json.discipline result.round_discipline
         json.round result.round.number
         json.result result.result
+        json.points event_track_points(@event, result).round(1)
       end
     end
   end

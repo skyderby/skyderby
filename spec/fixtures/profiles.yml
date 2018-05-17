@@ -1,0 +1,18 @@
+admin:
+  id: 1
+  name: Admin profile
+  owner: admin (User)
+
+alex:
+  id: 2
+  name: Alex
+  owner_id: 2
+  owner_type: User
+
+competitor_1:
+  name: Competitor 1
+  owner: published_public (Event)
+
+competitor_2:
+  name: Competitor 2
+  owner: published_public (Event)

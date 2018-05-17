@@ -1,0 +1,20 @@
+# Event 1, Speed Distance Time
+result_1:
+  competitor: competitor_1
+  round: distance_round_1
+  result: 3000
+
+result_2:
+  competitor: competitor_1
+  round: speed_round_1
+  result: 250
+
+result_3:
+  competitor: competitor_2
+  round: distance_round_1
+  result: 2500
+
+result_4:
+  competitor: competitor_2
+  round: speed_round_1
+  result: 270
