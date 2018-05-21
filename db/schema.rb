@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180424110237) do
+ActiveRecord::Schema.define(version: 2018_05_18_080015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,18 @@ ActiveRecord::Schema.define(version: 20180424110237) do
     t.integer "altitude"
     t.integer "distance"
     t.integer "place_line_id"
+  end
+
+  create_table "finish_lines", force: :cascade do |t|
+    t.bigint "place_id"
+    t.string "name"
+    t.decimal "start_latitude", precision: 15, scale: 10
+    t.decimal "start_longitude", precision: 15, scale: 10
+    t.decimal "end_latitude", precision: 15, scale: 10
+    t.decimal "end_longitude", precision: 15, scale: 10
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["place_id"], name: "index_finish_lines_on_place_id"
   end
 
   create_table "manufacturers", id: :serial, force: :cascade do |t|
@@ -420,6 +432,8 @@ ActiveRecord::Schema.define(version: 20180424110237) do
     t.boolean "display_highest_gr"
     t.boolean "display_on_start_page"
     t.integer "default_view", default: 0, null: false
+    t.bigint "finish_line_id"
+    t.index ["finish_line_id"], name: "index_virtual_competitions_on_finish_line_id"
     t.index ["place_id"], name: "index_virtual_competitions_on_place_id"
   end
 
@@ -439,12 +453,14 @@ ActiveRecord::Schema.define(version: 20180424110237) do
   add_foreign_key "competitors", "profiles"
   add_foreign_key "event_tracks", "tracks"
   add_foreign_key "events", "profiles"
+  add_foreign_key "finish_lines", "places"
   add_foreign_key "profiles", "countries"
   add_foreign_key "qualification_jumps", "qualification_rounds"
   add_foreign_key "qualification_jumps", "tracks"
   add_foreign_key "tournament_competitors", "profiles"
   add_foreign_key "tournaments", "profiles"
   add_foreign_key "tracks", "profiles"
+  add_foreign_key "virtual_competitions", "finish_lines"
 
   create_view "personal_top_scores",  sql_definition: <<-SQL
       SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id ORDER BY entities.result DESC) AS rank,
@@ -515,7 +531,7 @@ ActiveRecord::Schema.define(version: 20180424110237) do
               events_1.created_at
              FROM events events_1
           UNION ALL
-           SELECT 'Tournament'::text,
+           SELECT 'Tournament'::text AS text,
               tournaments.id,
               tournaments.starts_at,
               1,

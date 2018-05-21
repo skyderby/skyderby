@@ -1,0 +1,15 @@
+.container
+  = render 'places/header'
+
+  .content-block
+    .row
+      .col-sm-12
+        = link_to new_place_finish_line_path(@place), class: 'btn btn-default' do
+          %i.fa.fa-plus
+          Add
+    .table
+      .thead
+        .tr
+          .th Name
+      .tbody
+        = render @finish_lines

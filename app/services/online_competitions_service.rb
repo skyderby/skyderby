@@ -40,7 +40,7 @@ class OnlineCompetitionsService
         highest_speed: track_segment.max_ground_speed
       )
     end
-  rescue WindowRangeFinder::ValueOutOfRange
+  rescue WindowRangeFinder::ValueOutOfRange, PathIntersectionFinder::IntersectionNotFound
     return
   end
 

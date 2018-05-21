@@ -1,0 +1,8 @@
+ru:
+  activerecord:
+    errors:
+      models:
+        finish_line:
+          attributes:
+            name:
+              blank: Название обязательно для заполнения

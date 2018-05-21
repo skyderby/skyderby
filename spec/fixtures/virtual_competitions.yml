@@ -1,0 +1,21 @@
+base_race:
+  name: HBR
+  group: main
+  place: hellesylt
+  finish_line: hellesylt
+  jumps_kind: base
+  period_from: 2015-01-01
+  period_to: 2020-01-01
+  discipline: base_race
+  display_highest_speed: true
+  display_highest_gr: true
+
+distance_in_time:
+  name: Distance in time
+  group: main
+  jumps_kind: base
+  suits_kind: wingsuit
+  period_from: 2015-01-01
+  period_to: 2020-01-01
+  discipline: distance_in_time
+  discipline_parameter: 20

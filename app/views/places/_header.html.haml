@@ -1,0 +1,33 @@
+.row
+  .col-sm-12
+    .place-map-wrapper
+      .place-map
+        %img{src: "https://maps.googleapis.com/maps/api/staticmap?center=#{@place.latitude},#{@place.longitude}&zoom=12&size=600x150&scale=2&maptype=hybrid"}
+      .place-map-description
+        .place-map-background
+          %h1
+            = @place.name
+            %small
+              - if policy(@place).edit?
+                |
+                %a{href: edit_place_path(@place)}
+                  %i.fa.fa-pencil
+                %a{href: place_path(@place), data: {method: 'delete', confirm: t('places.show.delete_confirmation')}}
+                  %i.fa.fa-times-circle
+                |
+          %h4= "Lat: #{@place.latitude}, Lon: #{@place.longitude}, MSL: #{@place.msl}"
+
+.place-navigation.top-buffer
+  .tabs-navbar
+    %ul.tabs-navbar__menu
+      - controller_path = controller.controller_path
+      %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'places')}
+        = link_to t('general.overview'), @place
+
+      - if @place.base? && policy(:finish_line).index?
+        %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'places/finish_lines')}
+          = link_to 'Finish lines', place_finish_lines_path(@place)
+
+      - if @place.base?
+        %li.tabs-navbar__menuitem
+          = link_to t('flight_profiles'), place_flight_profiles_path(@place)

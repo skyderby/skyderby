@@ -28,10 +28,11 @@ class VirtualCompetition < ApplicationRecord
   enum jumps_kind: %i[skydive base]
   enum suits_kind: SuitTypes
   enum discipline:
-    %i[time distance speed distance_in_time distance_in_altitude flare]
+    %i[time distance speed distance_in_time distance_in_altitude flare base_race]
   enum default_view: %i[default_overall default_last_year]
 
   belongs_to :place, optional: true
+  belongs_to :finish_line, optional: true
   belongs_to :group,
              class_name: 'VirtualCompGroup',
              foreign_key: 'virtual_comp_group_id'
@@ -50,6 +51,7 @@ class VirtualCompetition < ApplicationRecord
   scope :worldwide,    ->           { where(place: nil) }
 
   delegate :name, to: :place, prefix: true, allow_nil: true
+  delegate :name, to: :finish_line, prefix: true, allow_nil: true
   delegate :name, to: :group, prefix: true, allow_nil: true
 
   def window_params
@@ -60,12 +62,16 @@ class VirtualCompetition < ApplicationRecord
       { from_vertical_speed: BASE_START_SPEED, duration: discipline_parameter }
     when 'distance_in_altitude'
       { from_vertical_speed: BASE_START_SPEED, elevation: discipline_parameter }
+    when 'base_race'
+      { from_vertical_speed: BASE_START_SPEED, until_cross_finish_line: finish_line.to_coordinates }
     end
   end
 
   def task
     if %w[distance_in_time distance_in_altitude].include? discipline
       'distance'
+    elsif discipline == 'base_race'
+      'time'
     else
       discipline
     end

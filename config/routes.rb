@@ -154,6 +154,7 @@ Skyderby::Application.routes.draw do
   end
   resources :places, concerns: :flight_profiles do
     scope module: :places do
+      resources :finish_lines
       collection do
         resources :select_options, only: :index
       end

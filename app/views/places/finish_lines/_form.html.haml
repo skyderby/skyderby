@@ -1,0 +1,55 @@
+= form_for [@place, @finish_line], remote: true, html: { class: 'form-horizontal' } do |f|
+  .form-group
+    .col-sm-6
+      = f.text_field :name, class: 'form-control'
+
+  %h3.modal-form__section-title
+    %span.modal-form__section-number 1
+    Exit
+
+  .row
+    .col-sm-3
+      .form-group
+        %label.control-label.col-sm-4 Latitude
+        .col-sm-8
+          %p.form-control-static= @place.latitude
+
+    .col-sm-3
+      .form-group
+        %label.control-label.col-sm-4 Longitude
+        .col-sm-8
+          %p.form-control-static= @place.longitude
+
+  %h3.modal-form__section-title
+    %span.modal-form__section-number 2
+    Coordinates
+
+  .row
+    .col-sm-3
+      = f.label :start_latitude
+      .form-group
+        .col-sm-12
+          = f.text_field :start_latitude, class: 'form-control'
+
+    .col-sm-3
+      = f.label :start_longitude
+      .form-group
+        .col-sm-12
+          = f.text_field :start_longitude, class: 'form-control'
+
+  .row
+    .col-sm-3
+      = f.label :end_latitude
+      .form-group
+        .col-sm-12
+          = f.text_field :end_latitude, class: 'form-control'
+
+    .col-sm-3
+      = f.label :end_longitude
+      .form-group
+        .col-sm-12
+          = f.text_field :end_longitude, class: 'form-control'
+
+  .row
+    .col-sm-12
+      = f.submit t('general.save'), class: 'btn btn-primary'

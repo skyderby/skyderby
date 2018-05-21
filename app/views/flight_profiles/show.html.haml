@@ -1,6 +1,6 @@
 .flight-profiles{'data-controller': 'flight-profiles'}
   .flight-profiles__header
-    = link_to @scope do
+    = link_to @scope, class: 'btn-back' do
       %i.fa.fa-chevron-left
       = @scope.name
 
