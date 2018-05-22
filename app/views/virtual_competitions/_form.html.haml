@@ -27,7 +27,7 @@
     = f.label :finish_line, class: 'col-sm-2 control-label'
     .col-sm-5
       = f.collection_select :finish_line_id,
-                            FinishLine.order(:name),
+                            Place::FinishLine.order(:name),
                             :id,
                             :name,
                             { include_blank: 'Select finish line' },

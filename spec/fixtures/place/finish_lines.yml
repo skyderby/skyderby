@@ -1,5 +1,6 @@
 hellesylt:
   place: hellesylt
+  name: actual
   start_latitude: 62.0565
   start_longitude: 6.947
   end_latitude: 62.0547

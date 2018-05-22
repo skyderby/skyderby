@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_18_080015) do
+ActiveRecord::Schema.define(version: 2018_05_22_111114) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,18 +90,6 @@ ActiveRecord::Schema.define(version: 2018_05_18_080015) do
     t.integer "place_line_id"
   end
 
-  create_table "finish_lines", force: :cascade do |t|
-    t.bigint "place_id"
-    t.string "name"
-    t.decimal "start_latitude", precision: 15, scale: 10
-    t.decimal "start_longitude", precision: 15, scale: 10
-    t.decimal "end_latitude", precision: 15, scale: 10
-    t.decimal "end_longitude", precision: 15, scale: 10
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["place_id"], name: "index_finish_lines_on_place_id"
-  end
-
   create_table "manufacturers", id: :serial, force: :cascade do |t|
     t.string "name", limit: 510
     t.string "code", limit: 510
@@ -115,6 +103,18 @@ ActiveRecord::Schema.define(version: 2018_05_18_080015) do
     t.bigint "user_id"
     t.index ["organizable_id"], name: "index_organizers_on_organizable_id"
     t.index ["user_id"], name: "index_organizers_on_user_id"
+  end
+
+  create_table "place_finish_lines", force: :cascade do |t|
+    t.bigint "place_id"
+    t.string "name"
+    t.decimal "start_latitude", precision: 15, scale: 10
+    t.decimal "start_longitude", precision: 15, scale: 10
+    t.decimal "end_latitude", precision: 15, scale: 10
+    t.decimal "end_longitude", precision: 15, scale: 10
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["place_id"], name: "index_place_finish_lines_on_place_id"
   end
 
   create_table "place_lines", force: :cascade do |t|
@@ -453,14 +453,14 @@ ActiveRecord::Schema.define(version: 2018_05_18_080015) do
   add_foreign_key "competitors", "profiles"
   add_foreign_key "event_tracks", "tracks"
   add_foreign_key "events", "profiles"
-  add_foreign_key "finish_lines", "places"
+  add_foreign_key "place_finish_lines", "places"
   add_foreign_key "profiles", "countries"
   add_foreign_key "qualification_jumps", "qualification_rounds"
   add_foreign_key "qualification_jumps", "tracks"
   add_foreign_key "tournament_competitors", "profiles"
   add_foreign_key "tournaments", "profiles"
   add_foreign_key "tracks", "profiles"
-  add_foreign_key "virtual_competitions", "finish_lines"
+  add_foreign_key "virtual_competitions", "place_finish_lines", column: "finish_line_id"
 
   create_view "personal_top_scores",  sql_definition: <<-SQL
       SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id ORDER BY entities.result DESC) AS rank,

@@ -24,7 +24,7 @@
       %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'places')}
         = link_to t('general.overview'), @place
 
-      - if @place.base? && policy(:finish_line).index?
+      - if @place.base? && policy([:place, :finish_line]).index?
         %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'places/finish_lines')}
           = link_to 'Finish lines', place_finish_lines_path(@place)
 

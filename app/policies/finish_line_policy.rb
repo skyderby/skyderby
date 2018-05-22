@@ -1,2 +1,0 @@
-class FinishLinePolicy < ApplicationPolicy
-end

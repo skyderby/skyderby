@@ -1,4 +1,4 @@
-class FinishLine < ApplicationRecord
+class Place::FinishLine < ApplicationRecord
   belongs_to :place
   has_many :virtual_competitions
 
