@@ -1,4 +1,4 @@
-class VirtualCompGroupPolicy < ApplicationPolicy
+class VirtualCompetition::GroupPolicy < ApplicationPolicy
   def index?
     admin?
   end

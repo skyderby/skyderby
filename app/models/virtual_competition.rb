@@ -13,7 +13,7 @@
 #  created_at            :datetime
 #  updated_at            :datetime
 #  name                  :string(510)
-#  virtual_comp_group_id :integer
+#  group_id              :integer
 #  range_from            :integer          default(0)
 #  range_to              :integer          default(0)
 #  display_highest_speed :boolean
@@ -33,9 +33,7 @@ class VirtualCompetition < ApplicationRecord
 
   belongs_to :place, optional: true
   belongs_to :finish_line, optional: true
-  belongs_to :group,
-             class_name: 'VirtualCompGroup',
-             foreign_key: 'virtual_comp_group_id'
+  belongs_to :group
 
   has_one :best_result, -> { order('result DESC') }, class_name: 'VirtualCompResult'
   has_many :virtual_comp_results, dependent: :delete_all

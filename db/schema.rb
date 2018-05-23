@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_22_111114) do
+ActiveRecord::Schema.define(version: 2018_05_22_213222) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -395,12 +395,6 @@ ActiveRecord::Schema.define(version: 2018_05_22_111114) do
     t.index ["reset_password_token"], name: "users_reset_password_token_key", unique: true
   end
 
-  create_table "virtual_comp_groups", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 510
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "virtual_comp_results", id: :serial, force: :cascade do |t|
     t.integer "virtual_competition_id"
     t.integer "track_id"
@@ -414,6 +408,12 @@ ActiveRecord::Schema.define(version: 2018_05_22_111114) do
     t.index ["virtual_competition_id"], name: "index_virtual_comp_results_on_virtual_competition_id"
   end
 
+  create_table "virtual_competition_groups", id: :serial, force: :cascade do |t|
+    t.string "name", limit: 510
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "virtual_competitions", id: :serial, force: :cascade do |t|
     t.integer "jumps_kind"
     t.integer "suits_kind"
@@ -425,7 +425,7 @@ ActiveRecord::Schema.define(version: 2018_05_22_111114) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "name", limit: 510
-    t.integer "virtual_comp_group_id"
+    t.integer "group_id"
     t.integer "range_from", default: 0
     t.integer "range_to", default: 0
     t.boolean "display_highest_speed"
@@ -531,7 +531,7 @@ ActiveRecord::Schema.define(version: 2018_05_22_111114) do
               events_1.created_at
              FROM events events_1
           UNION ALL
-           SELECT 'Tournament'::text AS text,
+           SELECT 'Tournament'::text,
               tournaments.id,
               tournaments.starts_at,
               1,

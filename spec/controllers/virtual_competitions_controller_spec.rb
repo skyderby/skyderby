@@ -7,7 +7,7 @@ describe VirtualCompetitionsController do
     end
 
     it '#show redirects to overall' do
-      virtual_competition = create :virtual_competition
+      virtual_competition = virtual_competitions(:base_race)
 
       get :show, params: { id: virtual_competition.id }
 
@@ -28,7 +28,7 @@ describe VirtualCompetitionsController do
     end
 
     it '#edit' do
-      virtual_competition = create :virtual_competition
+      virtual_competition = virtual_competitions(:base_race)
 
       get :edit, params: { id: virtual_competition.id }
 
@@ -36,7 +36,7 @@ describe VirtualCompetitionsController do
     end
 
     it '#update' do
-      virtual_competition = create :virtual_competition
+      virtual_competition = virtual_competitions(:base_race)
 
       patch :update, params: { id: virtual_competition.id, virtual_competition: { name: 'New name' } }
 
@@ -44,7 +44,7 @@ describe VirtualCompetitionsController do
     end
 
     it '#destroy' do
-      virtual_competition = create :virtual_competition
+      virtual_competition = virtual_competitions(:base_race)
 
       delete :destroy, params: { id: virtual_competition.id }
 

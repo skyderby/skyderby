@@ -9,7 +9,7 @@
 #
 
 FactoryBot.define do
-  factory :virtual_comp_group do
+  factory :virtual_competition_group, class: VirtualCompetition::Group do
     sequence(:name) { |n| "Group-#{n}" }
   end
 end

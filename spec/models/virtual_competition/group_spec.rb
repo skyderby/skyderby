@@ -8,8 +8,8 @@
 #  updated_at :datetime
 #
 
-RSpec.describe VirtualCompGroup, type: :model do
+describe VirtualCompetition::Group do
   it 'requires name' do
-    expect(VirtualCompGroup.create).not_to be_valid
+    expect(VirtualCompetition::Group.create).not_to be_valid
   end
 end

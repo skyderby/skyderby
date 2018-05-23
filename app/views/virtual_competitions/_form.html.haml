@@ -5,10 +5,10 @@
       = f.text_field :name, autofocus: true, class: 'form-control'
 
   .form-group
-    = f.label :virtual_comp_group, class: 'col-sm-2 control-label', for: :virtual_comp_group
+    = f.label :group, class: 'col-sm-2 control-label', for: :group_id
     .col-sm-5
-      = f.collection_select :virtual_comp_group_id,
-                            VirtualCompGroup.order(:name),
+      = f.collection_select :group_id,
+                            VirtualCompetition::Group.order(:name),
                             :id,
                             :name,
                             { promt: 'Select group' },

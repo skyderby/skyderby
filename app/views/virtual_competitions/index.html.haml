@@ -3,7 +3,10 @@
     %a.btn.btn-default.btn-info{href: new_virtual_competition_path}
       %i.fa.fa-plus
       = t('activerecord.models.virtual_competition')
-  .top-buffer 
+  - if policy([:virtual_competition, :group]).index?
+    = link_to 'Groups', virtual_competition_groups_path, class: 'btn btn-default'
+
+  .top-buffer
   - @competitions.each do |group, competitions|
     .content-block
       %h3= group

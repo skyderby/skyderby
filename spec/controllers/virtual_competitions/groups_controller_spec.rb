@@ -1,4 +1,4 @@
-describe VirtualCompGroupsController do
+describe VirtualCompetitions::GroupsController do
   describe 'regular user' do
     it '#index' do
       get :index
@@ -7,9 +7,9 @@ describe VirtualCompGroupsController do
     end
 
     it '#show redirects to overall' do
-      virtual_comp_group = create :virtual_comp_group
+      group = virtual_competition_groups(:main)
 
-      get :show, params: { id: virtual_comp_group.id }
+      get :show, params: { id: group.id }
 
       expect(response.forbidden?).to be_truthy
     end
@@ -27,25 +27,25 @@ describe VirtualCompGroupsController do
     end
 
     it '#edit' do
-      virtual_comp_group = create :virtual_comp_group
+      group = virtual_competition_groups(:main)
 
-      get :edit, params: { id: virtual_comp_group.id }
+      get :edit, params: { id: group.id }
 
       expect(response.forbidden?).to be_truthy
     end
 
     it '#update' do
-      virtual_comp_group = create :virtual_comp_group
+      group = virtual_competition_groups(:main)
 
-      patch :update, params: { id: virtual_comp_group.id, virtual_comp_group: { name: 'New name' } }
+      patch :update, params: { id: group.id, virtual_comp_group: { name: 'New name' } }
 
       expect(response.forbidden?).to be_truthy
     end
 
     it '#destroy' do
-      virtual_comp_group = create :virtual_comp_group
+      group = virtual_competition_groups(:main)
 
-      delete :destroy, params: { id: virtual_comp_group.id }
+      delete :destroy, params: { id: group.id }
 
       expect(response.forbidden?).to be_truthy
     end
