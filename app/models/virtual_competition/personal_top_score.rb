@@ -13,7 +13,9 @@
 #  recorded_at            :datetime
 #
 
-class PersonalTopScore < ApplicationRecord
+class VirtualCompetition::PersonalTopScore < ApplicationRecord
+  self.table_name = 'annual_top_scores'
+
   belongs_to :virtual_competition
   belongs_to :track
   belongs_to :profile

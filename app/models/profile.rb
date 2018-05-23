@@ -34,7 +34,7 @@ class Profile < ApplicationRecord
   has_many :base_tracks, -> { base.order('created_at DESC') }, class_name: 'Track'
   has_many :badges, -> { order(achieved_at: :desc) }, dependent: :delete_all
   has_many :competitors, dependent: :restrict_with_error
-  has_many :personal_top_scores
+  has_many :personal_top_scores, class_name: 'VirtualCompetition::PersonalTopScore'
 
   has_attached_file :userpic,
                     styles: { large: '500x500>',

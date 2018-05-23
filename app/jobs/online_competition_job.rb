@@ -12,7 +12,7 @@ class OnlineCompetitionJob < ApplicationJob
   end
 
   def send_verify_mail
-    top_scores = PersonalTopScore.where(track: @track).where('rank <= 3')
+    top_scores = VirtualCompetition::PersonalTopScore.where(track: @track).where('rank <= 3')
     return if top_scores.blank?
 
     AdminMailer.verify_online_competition_result(@track).deliver_later
