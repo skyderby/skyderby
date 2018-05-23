@@ -46,7 +46,7 @@ FROM (
       intervals.id,
       CASE WHEN competitions.results_sort_order = 'descending'
         THEN results.result
-      ELSE results.result
+      ELSE -results.result
       END DESC
   ) entities
 ORDER BY CASE WHEN entities.results_sort_order = 'descending'

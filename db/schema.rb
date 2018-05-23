@@ -617,7 +617,7 @@ ActiveRecord::Schema.define(version: 2018_05_23_143913) do
             ORDER BY results.virtual_competition_id, tracks.profile_id, intervals.id,
                   CASE
                       WHEN ((competitions.results_sort_order)::text = 'descending'::text) THEN results.result
-                      ELSE results.result
+                      ELSE (- results.result)
                   END DESC) entities
     ORDER BY
           CASE
