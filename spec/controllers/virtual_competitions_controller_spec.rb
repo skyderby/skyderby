@@ -7,12 +7,13 @@ describe VirtualCompetitionsController do
     end
 
     it '#show redirects to overall' do
+      travel_to Time.zone.parse('2018-01-01')
       virtual_competition = virtual_competitions(:base_race)
 
       get :show, params: { id: virtual_competition.id }
 
       expect(response.redirect?).to be_truthy
-      expect(response.location).to eq(virtual_competition_overall_url(virtual_competition.id))
+      expect(response.location).to eq(virtual_competition_year_url(virtual_competition.id, year: 2018))
     end
 
     it '#new' do

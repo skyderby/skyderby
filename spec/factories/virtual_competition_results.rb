@@ -13,7 +13,7 @@
 #
 
 FactoryBot.define do
-  factory :virtual_comp_result do
+  factory :virtual_competition_result, class: VirtualCompetition::Result do
     virtual_competition
     association :track, factory: :empty_track
   end

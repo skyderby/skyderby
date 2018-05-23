@@ -12,12 +12,10 @@
 #  highest_gr             :float            default(0.0)
 #
 
-class VirtualCompResult < ApplicationRecord
+class VirtualCompetition::Result < ApplicationRecord
   belongs_to :virtual_competition
   belongs_to :track
 
-  validates :virtual_competition, presence: true
-  validates :track, presence: true
   validates_uniqueness_of :track_id, scope: :virtual_competition_id
 
   delegate :suit, to: :track

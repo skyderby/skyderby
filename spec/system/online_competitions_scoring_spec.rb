@@ -11,7 +11,7 @@ describe 'Scoring tracks in online competitions' do
 
     OnlineCompetitionJob.perform_now(track.id)
 
-    results = track.virtual_comp_results.where(virtual_competition: competition)
+    results = competition.results.where(track: track)
     expect(results.count).to eq(1)
 
     record = results.first
@@ -30,7 +30,7 @@ describe 'Scoring tracks in online competitions' do
 
     OnlineCompetitionJob.perform_now(track.id)
 
-    results = track.virtual_comp_results.where(virtual_competition: competition)
+    results = competition.results.where(track: track)
     expect(results.count).to eq(1)
 
     record = results.first

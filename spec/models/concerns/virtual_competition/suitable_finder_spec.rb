@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe OnlineEventsFinder do
+describe VirtualCompetition::SuitableFinder do
   let(:place_comp) { create :online_event, :place_specific }
   let(:last_year_comp) { create :online_event, :last_year }
 
@@ -13,7 +11,7 @@ describe OnlineEventsFinder do
     last_year_comp = create :online_event, :last_year
 
     track = create :empty_track, suit: create(:suit), pilot: create(:pilot)
-    expect(OnlineEventsFinder.call(track)).to eq [worldwide_comp]
+    expect(VirtualCompetition.suitable_for(track)).to eq [worldwide_comp]
   end
 
   it 'find worldwide and place specific' do
@@ -29,7 +27,7 @@ describe OnlineEventsFinder do
                    pilot: create(:pilot),
                    place: place)
 
-    expect(OnlineEventsFinder.call(track)).to match_array(
+    expect(VirtualCompetition.suitable_for(track)).to match_array(
       [worldwide_comp, place_specific_comp]
     )
   end
@@ -40,7 +38,7 @@ describe OnlineEventsFinder do
 
     worldwide_comp = create :online_event
 
-    expect(OnlineEventsFinder.call(track)).not_to include(worldwide_comp)
+    expect(VirtualCompetition.suitable_for(track)).not_to include(worldwide_comp)
   end
 
   it 'returns blank array if track from unregistered user' do
@@ -49,7 +47,7 @@ describe OnlineEventsFinder do
 
     worldwide_comp = create :online_event
 
-    expect(OnlineEventsFinder.call(track)).not_to include(worldwide_comp)
+    expect(VirtualCompetition.suitable_for(track)).not_to include(worldwide_comp)
   end
 
   it 'returns blank array if track in custom suit' do
@@ -58,7 +56,7 @@ describe OnlineEventsFinder do
 
     worldwide_comp = create :online_event
 
-    expect(OnlineEventsFinder.call(track)).not_to include(worldwide_comp)
+    expect(VirtualCompetition.suitable_for(track)).not_to include(worldwide_comp)
   end
 
   it 'returns blank array if track is disqualified' do
@@ -67,7 +65,7 @@ describe OnlineEventsFinder do
 
     worldwide_comp = create :online_event
 
-    expect(OnlineEventsFinder.call(track)).not_to include(worldwide_comp)
+    expect(VirtualCompetition.suitable_for(track)).not_to include(worldwide_comp)
   end
 
   it 'returns array of competitions without specific jumps and suits kind' do
@@ -75,6 +73,6 @@ describe OnlineEventsFinder do
 
     worldwide_comp = create :online_event, jumps_kind: nil, suits_kind: nil
 
-    expect(OnlineEventsFinder.call(track)).to include(worldwide_comp)
+    expect(VirtualCompetition.suitable_for(track)).to include(worldwide_comp)
   end
 end

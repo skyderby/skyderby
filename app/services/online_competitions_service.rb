@@ -6,7 +6,7 @@ class OnlineCompetitionsService
   def execute
     track.delete_online_competitions_results
 
-    competitions = OnlineEventsFinder.call(track)
+    competitions = VirtualCompetition.suitable_for(track)
     competitions.each do |competition|
       score_track_in_competition(competition)
     end
@@ -23,8 +23,8 @@ class OnlineCompetitionsService
 
       highest_flare = flares.max_by(&:altitude_gain)
 
-      track.virtual_comp_results.create(
-        virtual_competition_id: competition.id,
+      competition.results.create(
+        track: track,
         result: highest_flare.altitude_gain
       )
     else
@@ -33,8 +33,8 @@ class OnlineCompetitionsService
       track_segment =
         WindowRangeFinder.new(points).execute(competition.window_params)
 
-      track.virtual_comp_results.create(
-        virtual_competition_id: competition.id,
+      competition.results.create(
+        track: track,
         result: track_segment.public_send(competition.task),
         highest_gr: track_segment.max_gr,
         highest_speed: track_segment.max_ground_speed

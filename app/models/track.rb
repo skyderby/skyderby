@@ -69,7 +69,7 @@ class Track < ApplicationRecord
 
   has_many :points, -> { order :gps_time_in_seconds }, dependent: :delete_all
   has_many :track_results, dependent: :destroy
-  has_many :virtual_comp_results, dependent: :destroy
+  has_many :virtual_competition_results, class_name: 'VirtualCompetition::Result', dependent: :destroy
   has_many :weather_data, as: :weather_datumable
 
   validates :name, presence: true, unless: :pilot
@@ -129,7 +129,7 @@ class Track < ApplicationRecord
   end
 
   def delete_online_competitions_results
-    virtual_comp_results.delete_all
+    virtual_competition_results.delete_all
   end
 
   def altitude_bounds

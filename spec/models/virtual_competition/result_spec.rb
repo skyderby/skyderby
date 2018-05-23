@@ -12,17 +12,18 @@
 #  highest_gr             :float            default(0.0)
 #
 
-describe VirtualCompResult, type: :model do
+describe VirtualCompetition::Result do
   it 'validates uniqueness by virtual competition and track' do
-    existed_record = VirtualCompResult.create!(valid_attributes)
-    duplicated_record = VirtualCompResult.new(valid_attributes)
+    existed_record = VirtualCompetition::Result.create!(valid_attributes)
+    duplicated_record = VirtualCompetition::Result.new(valid_attributes)
+
     expect(duplicated_record).not_to be_valid
   end
 
   def valid_attributes
     @valid_attributes ||= {
       track: create(:empty_track),
-      virtual_competition: create(:online_event)
+      virtual_competition: virtual_competitions(:base_race)
     }
   end
 end
