@@ -5,7 +5,16 @@
       %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if @competition.overall?)}
         = link_to virtual_competition_overall_path(@competition), remote: true do
           = t('.overall')
-      - @competition.years.each do |year|
-        %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if @competition.year == year.to_s)}
-          = link_to virtual_competition_year_path(@competition, year: year), remote: true do
-            = year
+
+      - if @competition.annual?
+        - @competition.years.each do |year|
+          %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if @competition.year == year.to_s)}
+            = link_to virtual_competition_year_path(@competition, year: year), remote: true do
+              = year
+
+      - elsif @competition.custom_intervals?
+        - @competition.intervals.each do |interval|
+          %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if @competition.interval == interval)}
+            = link_to virtual_competition_period_path(@competition, interval), remote: true do
+              = interval.name
+

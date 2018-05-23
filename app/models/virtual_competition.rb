@@ -23,6 +23,7 @@
 #
 
 class VirtualCompetition < ApplicationRecord
+  include Intervals
   BASE_START_SPEED = 10
 
   enum jumps_kind: %i[skydive base]
@@ -77,13 +78,5 @@ class VirtualCompetition < ApplicationRecord
 
   def worldwide?
     !place
-  end
-
-  def years
-    (period_from.year..last_year).to_a
-  end
-
-  def last_year
-    [period_to.year, Date.current.year].min
   end
 end

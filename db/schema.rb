@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_22_213222) do
+ActiveRecord::Schema.define(version: 2018_05_23_084333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -408,6 +408,17 @@ ActiveRecord::Schema.define(version: 2018_05_22_213222) do
     t.index ["virtual_competition_id"], name: "index_virtual_comp_results_on_virtual_competition_id"
   end
 
+  create_table "virtual_competition_custom_intervals", force: :cascade do |t|
+    t.bigint "virtual_competition_id"
+    t.string "name"
+    t.string "slug"
+    t.datetime "period_from"
+    t.datetime "period_to"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["virtual_competition_id"], name: "index_custom_intervals_on_virtual_competition_id"
+  end
+
   create_table "virtual_competition_groups", id: :serial, force: :cascade do |t|
     t.string "name", limit: 510
     t.datetime "created_at"
@@ -433,6 +444,7 @@ ActiveRecord::Schema.define(version: 2018_05_22_213222) do
     t.boolean "display_on_start_page"
     t.integer "default_view", default: 0, null: false
     t.bigint "finish_line_id"
+    t.integer "interval_type", default: 0, null: false
     t.index ["finish_line_id"], name: "index_virtual_competitions_on_finish_line_id"
     t.index ["place_id"], name: "index_virtual_competitions_on_place_id"
   end
