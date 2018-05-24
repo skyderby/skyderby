@@ -1,0 +1,11 @@
+= form_for @group, remote: true, html: { class: 'form-horizontal' } do |f|
+
+  .form-group
+    = f.label :name, class: 'control-label col-sm-2'
+    .col-sm-5
+      = f.text_field :name, class: 'form-control'
+
+  .col-sm-offset-2.col-sm-5
+    = f.submit nil, class: 'btn btn-primary'
+    = link_to t('.cancel', default: t("helpers.links.cancel")),
+                virtual_competition_groups_path, class: 'btn btn-default'

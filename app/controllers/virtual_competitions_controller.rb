@@ -19,10 +19,10 @@ class VirtualCompetitionsController < ApplicationController
     competition_path =
       if params[:year].present?
         virtual_competition_year_path(@competition, year: params[:year])
-      elsif @competition.default_last_year?
+      elsif @competition.annual?
         virtual_competition_year_path(@competition, year: @competition.last_year)
-      else
-        virtual_competition_overall_path(@competition)
+      elsif @competition.custom_intervals?
+        virtual_competition_period_path(@competition, @competition.last_interval)
       end
 
     redirect_to competition_path
@@ -75,10 +75,11 @@ class VirtualCompetitionsController < ApplicationController
   def competition_params
     params.require(:virtual_competition).permit(
       :name,
-      :virtual_comp_group_id,
+      :group_id,
       :period_from,
       :period_to,
       :place_id,
+      :finish_line_id,
       :range_from,
       :range_to,
       :jumps_kind,

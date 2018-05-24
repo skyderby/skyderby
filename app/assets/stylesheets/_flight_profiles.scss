@@ -10,20 +10,6 @@
   font-size: 24px;
   padding-left: 15px;
   color: $gray-dark;
-
-  a {
-    color: $light-text-color;
-    margin-right: 5px;
-    padding: 3px;
-
-    &:hover {
-      text-decoration: none;
-      background-color: #f3f3f3;
-      border-radius: 4px;
-    }
-
-    i { color: $gray-dark; }
-  }
 }
 
 .flight-profiles__body {

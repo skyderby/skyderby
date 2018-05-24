@@ -8,7 +8,8 @@ class WindowRangeFinder
                      :from_gps_time,
                      :duration,
                      :elevation,
-                     :to_altitude]
+                     :to_altitude,
+                     :until_cross_finish_line]
 
   def initialize(points)
     @points = points
@@ -123,5 +124,16 @@ class WindowRangeFinder
     ).execute(by: :altitude, with_value: lookup_altitude)
 
     @points = points[0..(index - 1)] + [interpolated_point]
+  end
+
+  def until_cross_finish_line(finish_line)
+    intersection_point = PathIntersectionFinder.new(
+      points,
+      finish_line
+    ).execute
+
+    index = points.reverse.index { |x| x[:gps_time] < intersection_point[:gps_time] }
+
+    @points = points[0..(index)] + [intersection_point]
   end
 end

@@ -1,0 +1,8 @@
+.container
+  = link_to place_finish_lines_path(@place), class: 'btn-back' do
+    %i.fa.fa-chevron-left
+    = @place.name
+    \// Finish line
+
+  .content-block
+    = render 'form'

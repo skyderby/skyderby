@@ -5,9 +5,14 @@
       = f.text_field :name, autofocus: true, class: 'form-control'
 
   .form-group
-    = f.label :virtual_comp_group, class: 'col-sm-2 control-label', for: :virtual_comp_group
+    = f.label :group, class: 'col-sm-2 control-label', for: :group_id
     .col-sm-5
-      = f.collection_select(:virtual_comp_group_id, VirtualCompGroup.order(:name), :id, :name, {promt: 'Select group'}, {class: 'form-control'})
+      = f.collection_select :group_id,
+                            VirtualCompetition::Group.order(:name),
+                            :id,
+                            :name,
+                            { promt: 'Select group' },
+                            { class: 'form-control', 'data-controller': 'select2--local' }
 
   .form-group
     = f.label :place, class: 'col-sm-2 control-label', for: :place
@@ -15,7 +20,21 @@
       = f.select :place_id,
                  options_for_select([[@competition.place_name, @competition.place_id]], @competition.place_id),
                  { include_blank: true },
-                 class: 'form-control'
+                 class: 'form-control',
+                 placeholder: t('events.show.place_placeholder'),
+                 'data-controller': 'select2--places'
+  .form-group
+    = f.label :finish_line, class: 'col-sm-2 control-label'
+    .col-sm-5
+      = f.collection_select :finish_line_id,
+                            Place::FinishLine.order(:name),
+                            :id,
+                            :name,
+                            { include_blank: 'Select finish line' },
+                            { class: 'form-control',
+                              placeholder: t('events.show.place_placeholder'),
+                              'data-controller': 'select2--local' }
+
 
   .form-group.row
     = f.label :period_from, class: 'col-sm-2 control-label', for: :period_from

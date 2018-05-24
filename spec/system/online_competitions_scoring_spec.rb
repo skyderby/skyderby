@@ -1,40 +1,39 @@
 require 'sidekiq/testing'
 
-feature 'Scoring tracks in online competitions', type: :system do
-  before do
-    # admin user required for generating email
-    create :user, email: 'admin@example.rb'
-  end
+describe 'Scoring tracks in online competitions' do
+  it 'Distance in time competition' do
+    competition = virtual_competitions(:distance_in_time)
 
-  scenario 'Distance in time competition' do
-    create_online_competition
-    track = create_track
+    track = create_track_from_file('06-38-21_SimonP.CSV').tap do |track|
+      track.kind = :base
+      track.save!
+    end
+
     OnlineCompetitionJob.perform_now(track.id)
 
-    expect(track.virtual_comp_results.count).to eq(1)
+    results = competition.results.where(track: track)
+    expect(results.count).to eq(1)
 
-    record = track.virtual_comp_results.first
+    record = results.first
     expect(record.result).to be_within(0.01).of(701.37)
     expect(record.highest_gr).to be_within(0.01).of(2.09)
     expect(record.highest_speed).to be_within(1).of(203)
   end
 
-  def create_online_competition
-    VirtualCompetition.create!(
-      name: 'Distance in time competition',
-      jumps_kind: :base,
-      suits_kind: :wingsuit,
-      period_from: Date.parse('2015-01-01'),
-      period_to: Date.parse('2015-12-31'),
-      discipline: :distance_in_time,
-      discipline_parameter: 20
-    )
-  end
+  it 'BASE Race' do
+    competition = virtual_competitions(:base_race)
 
-  def create_track
-    create_track_from_file('06-38-21_SimonP.CSV').tap do |track|
+    track = create_track_from_file('WBR/Yegor_16_Round3.CSV').tap do |track|
       track.kind = :base
       track.save!
     end
+
+    OnlineCompetitionJob.perform_now(track.id)
+
+    results = competition.results.where(track: track)
+    expect(results.count).to eq(1)
+
+    record = results.first
+    expect(record.result).to be_within(1).of(29.0)
   end
 end

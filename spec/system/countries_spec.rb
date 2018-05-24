@@ -1,6 +1,6 @@
 feature 'Manage countries', type: :system do
   scenario 'Add new country' do
-    sign_in admin_user
+    sign_in users(:admin)
 
     visit countries_path
     click_link 'New Country'
@@ -16,8 +16,8 @@ feature 'Manage countries', type: :system do
   end
 
   scenario 'Edit' do
-    country = create :country
-    sign_in admin_user
+    country = countries(:norway)
+    sign_in users(:admin)
 
     visit countries_path
     click_link 'Edit'
@@ -30,19 +30,5 @@ feature 'Manage countries', type: :system do
     end
 
     expect(page).to have_content('AbraCadabra')
-  end
-
-  scenario 'Destroy' do
-    country = create :country
-    sign_in admin_user
-
-    visit countries_path
-    click_link 'Destroy'
-
-    expect(page).not_to have_content('Destroy')
-  end
-
-  def admin_user
-    @user ||= create :user, :admin
   end
 end

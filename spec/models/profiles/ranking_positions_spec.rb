@@ -37,39 +37,39 @@ describe Profiles::RankingPositions do
     end
 
     def create_data
-      competition = create :virtual_competition
+      competition = virtual_competitions(:distance_in_time)
 
       @vasya_profile = create :profile, name: 'Vasya'
       track = create :empty_track, pilot: @vasya_profile
-      create :virtual_comp_result,
+      create :virtual_competition_result,
              virtual_competition: competition,
              track: track,
              result: 100
 
       @petya_profile = create :profile, name: 'Petya'
       track = create :empty_track, pilot: @petya_profile
-      create :virtual_comp_result,
+      create :virtual_competition_result,
              virtual_competition: competition,
              track: track,
              result: 90
 
       @ilya_profile = create :profile, name: 'Ilya'
       track = create :empty_track, pilot: @ilya_profile
-      create :virtual_comp_result,
+      create :virtual_competition_result,
              virtual_competition: competition,
              track: track,
              result: 90
 
       @misha_profile = create :profile, name: 'Misha'
       track = create :empty_track, pilot: @misha_profile
-      create :virtual_comp_result,
+      create :virtual_competition_result,
              virtual_competition: competition,
              track: track,
              result: 90
 
       @kolya_profile = create :profile, name: 'Kolya'
       track = create :empty_track, pilot: @kolya_profile
-      create :virtual_comp_result,
+      create :virtual_competition_result,
              virtual_competition: competition,
              track: track,
              result: 80

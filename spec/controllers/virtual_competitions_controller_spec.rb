@@ -7,12 +7,13 @@ describe VirtualCompetitionsController do
     end
 
     it '#show redirects to overall' do
-      virtual_competition = create :virtual_competition
+      travel_to Time.zone.parse('2018-01-01')
+      virtual_competition = virtual_competitions(:base_race)
 
       get :show, params: { id: virtual_competition.id }
 
       expect(response.redirect?).to be_truthy
-      expect(response.location).to eq(virtual_competition_overall_url(virtual_competition.id))
+      expect(response.location).to eq(virtual_competition_year_url(virtual_competition.id, year: 2018))
     end
 
     it '#new' do
@@ -28,7 +29,7 @@ describe VirtualCompetitionsController do
     end
 
     it '#edit' do
-      virtual_competition = create :virtual_competition
+      virtual_competition = virtual_competitions(:base_race)
 
       get :edit, params: { id: virtual_competition.id }
 
@@ -36,7 +37,7 @@ describe VirtualCompetitionsController do
     end
 
     it '#update' do
-      virtual_competition = create :virtual_competition
+      virtual_competition = virtual_competitions(:base_race)
 
       patch :update, params: { id: virtual_competition.id, virtual_competition: { name: 'New name' } }
 
@@ -44,7 +45,7 @@ describe VirtualCompetitionsController do
     end
 
     it '#destroy' do
-      virtual_competition = create :virtual_competition
+      virtual_competition = virtual_competitions(:base_race)
 
       delete :destroy, params: { id: virtual_competition.id }
 
