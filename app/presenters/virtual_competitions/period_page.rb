@@ -33,7 +33,7 @@ module VirtualCompetitions
     def associations
       [
         { suit: :manufacturer },
-        { track: [{ place: :country }, :video] },
+        { track: :video },
         :profile
       ]
     end

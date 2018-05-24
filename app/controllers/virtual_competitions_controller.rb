@@ -79,6 +79,7 @@ class VirtualCompetitionsController < ApplicationController
       :period_from,
       :period_to,
       :place_id,
+      :finish_line_id,
       :range_from,
       :range_to,
       :jumps_kind,

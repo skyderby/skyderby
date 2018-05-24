@@ -21,6 +21,10 @@ module VirtualCompetitions
       nil
     end
 
+    def interval
+      nil
+    end
+
     def scores
       @scores ||= personal_top_scores.includes(associations).paginate(page: page, per_page: 25)
     end
