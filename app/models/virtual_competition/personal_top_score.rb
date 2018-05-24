@@ -14,7 +14,7 @@
 #
 
 class VirtualCompetition::PersonalTopScore < ApplicationRecord
-  self.table_name = 'annual_top_scores'
+  self.table_name = 'personal_top_scores'
 
   belongs_to :virtual_competition
   belongs_to :track
