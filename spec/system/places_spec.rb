@@ -10,7 +10,7 @@ describe 'Adding place', type: :system do
     user = create :user, :admin
     sign_in user
 
-    country = create :country, name: 'Norway'
+    country = countries(:norway)
 
     visit places_path
     click_link I18n.t('places.index.new')
