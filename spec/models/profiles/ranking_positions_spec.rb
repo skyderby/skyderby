@@ -37,7 +37,7 @@ describe Profiles::RankingPositions do
     end
 
     def create_data
-      competition = virtual_competitions(:base_race)
+      competition = virtual_competitions(:distance_in_time)
 
       @vasya_profile = create :profile, name: 'Vasya'
       track = create :empty_track, pilot: @vasya_profile
