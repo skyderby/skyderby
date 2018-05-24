@@ -9,10 +9,9 @@ module VirtualCompetitions
 
     def top_results
       @top_results ||=
-        VirtualCompResult
+        competition.results
         .joins(:track)
-        .where(virtual_competition_id: virtual_competition_id,
-               tracks: { profile_id: profile_id })
+        .where(tracks: { profile_id: profile_id })
         .order('result DESC')
         .limit(RESULTS_COUNT)
     end
