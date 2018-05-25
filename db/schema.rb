@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_24_152246) do
+ActiveRecord::Schema.define(version: 2018_05_25_181101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,12 +84,6 @@ ActiveRecord::Schema.define(version: 2018_05_24_152246) do
     t.integer "responsible_id"
   end
 
-  create_table "exit_measurements", force: :cascade do |t|
-    t.integer "altitude"
-    t.integer "distance"
-    t.integer "place_line_id"
-  end
-
   create_table "manufacturers", id: :serial, force: :cascade do |t|
     t.string "name", limit: 510
     t.string "code", limit: 510
@@ -117,12 +111,18 @@ ActiveRecord::Schema.define(version: 2018_05_24_152246) do
     t.index ["place_id"], name: "index_place_finish_lines_on_place_id"
   end
 
-  create_table "place_lines", force: :cascade do |t|
+  create_table "place_jump_line_measurements", force: :cascade do |t|
+    t.integer "altitude"
+    t.integer "distance"
+    t.integer "jump_line_id"
+  end
+
+  create_table "place_jump_lines", force: :cascade do |t|
     t.bigint "place_id"
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["place_id"], name: "index_place_lines_on_place_id"
+    t.index ["place_id"], name: "index_place_jump_lines_on_place_id"
   end
 
   create_table "places", id: :serial, force: :cascade do |t|

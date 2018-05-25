@@ -20,10 +20,10 @@ class Place < ApplicationRecord
   has_many :pilots, -> { distinct }, through: :tracks
   has_many :events, dependent: :restrict_with_error
   has_many :weather_data, as: :weather_datumable, dependent: :delete_all
-  has_many :lines, class_name: 'PlaceLine', inverse_of: :place, dependent: :destroy
+  has_many :jump_lines, dependent: :destroy
   has_many :finish_lines, dependent: :destroy
 
-  accepts_nested_attributes_for :lines,
+  accepts_nested_attributes_for :jump_lines,
                                 allow_destroy: true,
                                 reject_if: ->(attrs) { attrs['name'].blank? }
 
