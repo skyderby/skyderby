@@ -1,7 +1,5 @@
 module VirtualCompetitions
   class PersonDetails
-    RESULTS_COUNT = 10
-
     def initialize(virtual_competition_id:, profile_id:)
       @virtual_competition_id = virtual_competition_id
       @profile_id = profile_id
@@ -12,8 +10,8 @@ module VirtualCompetitions
         competition.results
         .joins(:track)
         .where(tracks: { profile_id: profile_id })
-        .order('result DESC')
-        .limit(RESULTS_COUNT)
+        .order(results_order)
+        .limit(results_count)
     end
 
     def chart_data
@@ -30,5 +28,14 @@ module VirtualCompetitions
     private
 
     attr_reader :virtual_competition_id, :profile_id
+
+    def results_count
+      10
+    end
+
+    def results_order
+      direction = competition.results_sort_order == 'descending' ? 'DESC' : 'ASC'
+      "result #{direction}"
+    end
   end
 end

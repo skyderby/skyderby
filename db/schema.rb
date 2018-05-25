@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_23_143913) do
+ActiveRecord::Schema.define(version: 2018_05_24_152246) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -506,22 +506,22 @@ ActiveRecord::Schema.define(version: 2018_05_23_143913) do
     ORDER BY events.starts_at DESC, events.created_at DESC;
   SQL
 
-  create_view "annual_top_scores",  sql_definition: <<-SQL
-      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id, entities.year ORDER BY
+  create_view "interval_top_scores",  sql_definition: <<-SQL
+      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id, entities.custom_interval_id ORDER BY
           CASE
               WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
               ELSE (- entities.result)
           END DESC) AS rank,
       entities.virtual_competition_id,
-      entities.year,
       entities.track_id,
       entities.result,
       entities.highest_speed,
       entities.highest_gr,
       entities.profile_id,
       entities.suit_id,
+      entities.custom_interval_id,
       entities.recorded_at
-     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id, (date_part('year'::text, tracks.recorded_at))) results.virtual_competition_id,
+     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id, intervals.id) results.virtual_competition_id,
               results.track_id,
               results.result,
               results.highest_speed,
@@ -530,14 +530,15 @@ ActiveRecord::Schema.define(version: 2018_05_23_143913) do
               tracks.suit_id,
               tracks.recorded_at,
               competitions.results_sort_order,
-              date_part('year'::text, tracks.recorded_at) AS year
-             FROM ((virtual_competition_results results
+              intervals.id AS custom_interval_id
+             FROM (((virtual_competition_results results
                JOIN virtual_competitions competitions ON ((results.virtual_competition_id = competitions.id)))
                LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
-            ORDER BY results.virtual_competition_id, tracks.profile_id, (date_part('year'::text, tracks.recorded_at)),
+               JOIN virtual_competition_custom_intervals intervals ON (((intervals.virtual_competition_id = competitions.id) AND ((tracks.recorded_at >= intervals.period_from) AND (tracks.recorded_at <= intervals.period_to)))))
+            ORDER BY results.virtual_competition_id, tracks.profile_id, intervals.id,
                   CASE
                       WHEN ((competitions.results_sort_order)::text = 'descending'::text) THEN results.result
-                      ELSE results.result
+                      ELSE (- results.result)
                   END DESC) entities
     ORDER BY
           CASE
@@ -576,7 +577,7 @@ ActiveRecord::Schema.define(version: 2018_05_23_143913) do
             ORDER BY results.virtual_competition_id, tracks.profile_id,
                   CASE
                       WHEN ((competitions.results_sort_order)::text = 'descending'::text) THEN results.result
-                      ELSE results.result
+                      ELSE (- results.result)
                   END DESC) entities
     ORDER BY
           CASE
@@ -585,22 +586,22 @@ ActiveRecord::Schema.define(version: 2018_05_23_143913) do
           END DESC;
   SQL
 
-  create_view "interval_top_scores",  sql_definition: <<-SQL
-      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id, entities.custom_interval_id ORDER BY
+  create_view "annual_top_scores",  sql_definition: <<-SQL
+      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id, entities.year ORDER BY
           CASE
               WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
               ELSE (- entities.result)
           END DESC) AS rank,
       entities.virtual_competition_id,
+      entities.year,
       entities.track_id,
       entities.result,
       entities.highest_speed,
       entities.highest_gr,
       entities.profile_id,
       entities.suit_id,
-      entities.custom_interval_id,
       entities.recorded_at
-     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id, intervals.id) results.virtual_competition_id,
+     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id, (date_part('year'::text, tracks.recorded_at))) results.virtual_competition_id,
               results.track_id,
               results.result,
               results.highest_speed,
@@ -609,12 +610,11 @@ ActiveRecord::Schema.define(version: 2018_05_23_143913) do
               tracks.suit_id,
               tracks.recorded_at,
               competitions.results_sort_order,
-              intervals.id AS custom_interval_id
-             FROM (((virtual_competition_results results
+              date_part('year'::text, tracks.recorded_at) AS year
+             FROM ((virtual_competition_results results
                JOIN virtual_competitions competitions ON ((results.virtual_competition_id = competitions.id)))
                LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
-               JOIN virtual_competition_custom_intervals intervals ON (((intervals.virtual_competition_id = competitions.id) AND ((tracks.recorded_at >= intervals.period_from) AND (tracks.recorded_at <= intervals.period_to)))))
-            ORDER BY results.virtual_competition_id, tracks.profile_id, intervals.id,
+            ORDER BY results.virtual_competition_id, tracks.profile_id, (date_part('year'::text, tracks.recorded_at)),
                   CASE
                       WHEN ((competitions.results_sort_order)::text = 'descending'::text) THEN results.result
                       ELSE (- results.result)
