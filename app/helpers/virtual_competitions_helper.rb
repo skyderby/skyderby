@@ -2,7 +2,7 @@ module VirtualCompetitionsHelper
   def competition_unit(competition)
     if competition.distance? || competition.distance_in_time? || competition.distance_in_altitude?
       t('units.m')
-    elsif competition.time?
+    elsif competition.time? || competition.base_race?
       t('units.t_unit')
     elsif competition.speed?
       t('units.kmh')
@@ -30,6 +30,8 @@ module VirtualCompetitionsHelper
         parameter: competition.discipline_parameter)
     elsif competition.flare?
       t('virtual_competitions.tasks.flare')
+    elsif competition.base_race?
+      t('virtual_competitions.tasks.base_race')
     end
   end
 
