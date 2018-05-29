@@ -1,7 +1,0 @@
-$("#<%= dom_id(@weather_datum) %>").replaceWith(
-  "<%= j render('form_row',
-                 except_columns: @weather_data.hidden_columns,
-                 start_time: @weather_data.start_time) %>"
-);
-
-<%= render 'form_validation' %>

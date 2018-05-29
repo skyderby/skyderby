@@ -8,16 +8,7 @@ module Skyderby
       # Track may have weather data associated by itself or
       # associated with place or with event
       def weather_data
-        @weather_data ||=
-          if track.weather_data.any?
-            track.weather_data
-          elsif track.competitive? && track.event.weather_data.for_time(start_time).any?
-            track.event.weather_data.for_time(start_time)
-          elsif track.place && track.place.weather_data.for_time(start_time).any?
-            track.place.weather_data.for_time(start_time)
-          else
-            []
-          end
+        @weather_data ||= track.weather_data
       end
 
       def points

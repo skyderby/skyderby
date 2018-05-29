@@ -28,7 +28,7 @@ class PlaceWeatherService
 
   def record_weather_data(gfs_data)
     gfs_data.each do |datum|
-      params = datum.merge(weather_datumable: place, actual_on: date_time)
+      params = datum.merge(actual_on: date_time)
       place.weather_data.create!(params)
     end
   end
