@@ -498,7 +498,7 @@ ActiveRecord::Schema.define(version: 2018_05_29_055916) do
               events_1.created_at
              FROM events events_1
           UNION ALL
-           SELECT 'Tournament'::text,
+           SELECT 'Tournament'::text AS text,
               tournaments.id,
               tournaments.starts_at,
               1,
