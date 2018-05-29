@@ -12,8 +12,8 @@
         = render 'tracks'
       .flight-profiles__place-container{'data-controller': 'flight-profiles--exit-measurement'}
         :ruby
-          if @scope.is_a?(Place) && @scope.lines.any?
-            line = @scope.lines.first
+          if @scope.is_a?(Place) && @scope.jump_lines.any?
+            line = @scope.jump_lines.first
             select_options = options_for_select([[line.full_name, line.id]], line.id)
           else
             select_options = nil

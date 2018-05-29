@@ -13,9 +13,7 @@
 #  updated_at             :datetime         not null
 #
 
-require 'spec_helper'
-
-describe WeatherDatum, type: :model do
+describe Place::WeatherDatum do
   describe 'validations' do
     it 'fails validation with no actual on date' do
       weather_datum = build_weather_datum

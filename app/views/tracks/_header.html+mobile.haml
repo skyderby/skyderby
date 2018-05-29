@@ -19,7 +19,7 @@
         .track-header__pilot-name
           = track.name
   .track-header__suit
-    %span= t('tracks.show.title_suit') + ':' 
+    %span= t('tracks.show.title_suit') + ':'
     - if track.suit
       - manufacturer = track.suit.manufacturer
       %a{href: suit_path(track.suit)}
@@ -75,14 +75,14 @@
       %li.tabs-navbar__divider
         |
       %li.tabs-navbar__menuitem
-        = link_to track_results_path(@track), 
-                  remote: true, 
+        = link_to track_results_path(@track),
+                  remote: true,
                   rel: 'nofollow' do
           %i.fa.fa-th-list
           = t('tracks.show.results')
       %li.tabs-navbar__menuitem
-        = link_to t('events.show.weather_data'), 
-                 track_weather_data_path(@track), 
-                 remote: true, 
+        = link_to t('events.show.weather_data'),
+                 track_weather_data_path(@track),
+                 remote: true,
                  rel: 'nofollow'
 

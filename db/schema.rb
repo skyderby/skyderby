@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_24_152246) do
+ActiveRecord::Schema.define(version: 2018_05_29_055916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,12 +84,6 @@ ActiveRecord::Schema.define(version: 2018_05_24_152246) do
     t.integer "responsible_id"
   end
 
-  create_table "exit_measurements", force: :cascade do |t|
-    t.integer "altitude"
-    t.integer "distance"
-    t.integer "place_line_id"
-  end
-
   create_table "manufacturers", id: :serial, force: :cascade do |t|
     t.string "name", limit: 510
     t.string "code", limit: 510
@@ -117,12 +111,33 @@ ActiveRecord::Schema.define(version: 2018_05_24_152246) do
     t.index ["place_id"], name: "index_place_finish_lines_on_place_id"
   end
 
-  create_table "place_lines", force: :cascade do |t|
+  create_table "place_jump_line_measurements", force: :cascade do |t|
+    t.integer "altitude"
+    t.integer "distance"
+    t.integer "jump_line_id"
+  end
+
+  create_table "place_jump_lines", force: :cascade do |t|
     t.bigint "place_id"
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["place_id"], name: "index_place_lines_on_place_id"
+    t.index ["place_id"], name: "index_place_jump_lines_on_place_id"
+  end
+
+  create_table "place_weather_data", id: :serial, force: :cascade do |t|
+    t.datetime "actual_on"
+    t.decimal "altitude", precision: 10, scale: 4
+    t.decimal "wind_speed", precision: 10, scale: 4
+    t.decimal "wind_direction", precision: 5, scale: 2
+    t.integer "weather_datumable_id"
+    t.string "weather_datumable_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "place_id"
+    t.index ["place_id", "actual_on"], name: "index_place_weather_data_on_place_id_and_actual_on"
+    t.index ["place_id"], name: "index_place_weather_data_on_place_id"
+    t.index ["weather_datumable_id", "weather_datumable_type"], name: "weather_data_pk_index"
   end
 
   create_table "places", id: :serial, force: :cascade do |t|
@@ -450,23 +465,12 @@ ActiveRecord::Schema.define(version: 2018_05_24_152246) do
     t.index ["place_id"], name: "index_virtual_competitions_on_place_id"
   end
 
-  create_table "weather_data", id: :serial, force: :cascade do |t|
-    t.datetime "actual_on"
-    t.decimal "altitude", precision: 10, scale: 4
-    t.decimal "wind_speed", precision: 10, scale: 4
-    t.decimal "wind_direction", precision: 5, scale: 2
-    t.integer "weather_datumable_id"
-    t.string "weather_datumable_type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["weather_datumable_id", "weather_datumable_type"], name: "weather_data_pk_index"
-  end
-
   add_foreign_key "badges", "profiles"
   add_foreign_key "competitors", "profiles"
   add_foreign_key "event_tracks", "tracks"
   add_foreign_key "events", "profiles"
   add_foreign_key "place_finish_lines", "places"
+  add_foreign_key "place_weather_data", "places"
   add_foreign_key "profiles", "countries"
   add_foreign_key "qualification_jumps", "qualification_rounds"
   add_foreign_key "qualification_jumps", "tracks"

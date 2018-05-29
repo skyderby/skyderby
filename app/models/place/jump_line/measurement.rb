@@ -8,6 +8,6 @@
 #  distance :integer
 #
 
-class ExitMeasurement < ApplicationRecord
-  belongs_to :place_line
+class Place::JumpLine::Measurement < ApplicationRecord
+  belongs_to :jump_line
 end

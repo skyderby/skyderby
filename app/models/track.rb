@@ -33,7 +33,7 @@
 #
 
 class Track < ApplicationRecord
-  include Ownerable
+  include Ownerable, WeatherData
 
   enum kind:       [:skydive, :base]
   enum visibility: [:public_track, :unlisted_track, :private_track]
@@ -70,7 +70,6 @@ class Track < ApplicationRecord
   has_many :points, -> { order :gps_time_in_seconds }, dependent: :delete_all
   has_many :track_results, dependent: :destroy
   has_many :virtual_competition_results, class_name: 'VirtualCompetition::Result', dependent: :destroy
-  has_many :weather_data, as: :weather_datumable
 
   validates :name, presence: true, unless: :pilot
 

@@ -3,7 +3,7 @@ module Api
     module Places
       class ExitMeasurementsController < ApplicationController
         def index
-          @lines = PlaceLine.joins(:place)
+          @lines = Place::JumpLine.joins(:place)
                             .includes(place: :country)
                             .order('countries.name, places.name')
                             .where(place: Place.search(search_query))
@@ -15,8 +15,8 @@ module Api
         end
 
         def show
-          place_line = PlaceLine.find(params[:id])
-          @exit_measurements = place_line.exit_measurements.order(:altitude)
+          place_line = Place::JumpLine.find(params[:id])
+          @exit_measurements = place_line.measurements.order(:altitude)
 
           fresh_when place_line
 

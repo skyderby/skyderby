@@ -57,19 +57,20 @@
       = link_to track_map_path(track), class: ['btn-flat btn-tab', ('active' if controller_path == 'tracks/maps')] do
         %i.fa.fa-compass
         = 'Google maps'
-      = link_to track_results_path(@track), 
-                remote: true, 
+      = link_to track_results_path(@track),
+                remote: true,
                 class: 'btn-flat btn-tab',
                 rel: 'nofollow' do
         %i.fa.fa-th-list
         = t('tracks.show.results')
 
       .pull-right
-        = link_to t('events.show.weather_data'), 
-                 track_weather_data_path(@track), 
-                 remote: true, 
-                 class: 'btn-flat btn-tab',
-                 rel: 'nofollow'
+        - if track.skydive?
+          = link_to t('events.show.weather_data'),
+                   track_weather_data_path(@track),
+                   remote: true,
+                   class: 'btn-flat btn-tab',
+                   rel: 'nofollow'
 
         - if policy(track).edit?
           %a.btn-flat.btn-tab{href: edit_track_path(track)}

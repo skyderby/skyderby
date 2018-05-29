@@ -38,7 +38,6 @@ class Event < ApplicationRecord
   has_many :event_tracks, through: :rounds
   has_many :tracks, through: :event_tracks
   has_many :sponsors, -> { order(:created_at) }, as: :sponsorable, dependent: :delete_all
-  has_many :weather_data, as: :weather_datumable, dependent: :delete_all
 
   validates :responsible, :name, :range_from, :range_to, :starts_at, presence: true
 
@@ -47,8 +46,7 @@ class Event < ApplicationRecord
 
   after_touch :broadcast_update
 
-  delegate :name, to: :place, prefix: true, allow_nil: true
-  delegate :msl, to: :place, prefix: true, allow_nil: true
+  delegate :name, :msl, to: :place, prefix: true, allow_nil: true
 
   after_initialize do
     self.range_from ||= 3000

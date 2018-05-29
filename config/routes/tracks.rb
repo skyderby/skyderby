@@ -14,11 +14,10 @@ resources :tracks, only: [:index, :show, :edit, :update, :destroy] do
     resource :flight_profile, only: :show
     resource :jump_range, only: :show
     resource :altitude_data, only: :show
+    resource :weather_data
 
     collection do
       resources :select_options, only: :index
     end
   end
-
-  resources :weather_data
 end

@@ -16,7 +16,8 @@ class GfsGradsFetcher
     def available?
       response = Net::HTTP.get(URI.parse(url(ext: 'info')))
 
-      if response.include? "#{name} is not an available dataset"
+      if response.include?("#{name} is not an available dataset") ||
+          response.include?('extraction failed; not enough lat data')
         false
       elsif response.include? "GrADS Data Server - info for /#{name}"
         true

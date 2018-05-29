@@ -13,11 +13,11 @@
 #  updated_at             :datetime         not null
 #
 
-class WeatherDatum < ApplicationRecord
+class Place::WeatherDatum < ApplicationRecord
   attr_accessor :altitude_unit, :wind_speed_unit
   attr_reader :altitude_in_units, :wind_speed_in_units
 
-  belongs_to :weather_datumable, polymorphic: true
+  belongs_to :place
 
   before_save :set_altitude, :set_wind_speed
 

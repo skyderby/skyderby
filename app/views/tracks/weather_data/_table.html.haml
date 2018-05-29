@@ -1,0 +1,9 @@
+#weather-table.table
+  .thead
+    .tr
+      .th.text-right= t('weather_datum.altitude')
+      .th.text-right= t('weather_datum.wind_speed')
+      .th.text-right= t('weather_datum.wind_direction')
+
+  .tbody
+    = render partial: 'tracks/weather_data/weather_datum', collection: @weather_data.rows
