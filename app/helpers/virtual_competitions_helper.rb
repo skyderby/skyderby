@@ -1,6 +1,6 @@
 module VirtualCompetitionsHelper
   def competition_unit(competition)
-    if competition.distance? || competition.distance_in_time? || competition.distance_in_altitude?
+    if competition.distance? || competition.distance_in_time? || competition.distance_in_altitude? || competition.flare?
       t('units.m')
     elsif competition.time? || competition.base_race?
       t('units.t_unit')
