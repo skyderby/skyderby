@@ -23,7 +23,7 @@ module EventScoped
 
   def create_scoreboard(event_id, display_raw_results)
     load_event(event_id)
-    @scoreboard = Events::ScoreboardFactory.new(@event, display_raw_results).create
+    @scoreboard = Events::Scoreboards.for(@event, display_raw_results)
   end
 
   def load_event(event_id)

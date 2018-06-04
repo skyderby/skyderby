@@ -7,7 +7,7 @@ module Events
 
       authorize @event
 
-      @scoreboard = Events::ScoreboardFactory.new(@event, @display_raw_results).create
+      @scoreboard = Events::Scoreboards.for(@event, @display_raw_results)
 
       fresh_when etags_for(@event), last_modified: @event.updated_at
 

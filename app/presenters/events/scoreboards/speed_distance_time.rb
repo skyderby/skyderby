@@ -7,7 +7,7 @@ module Events
         attr_accessor :points_in_disciplines, :total_points
       end
 
-      attr_reader :sections, :columns_count, :display_raw_results
+      attr_reader :columns_count, :display_raw_results
 
       def initialize(event, display_raw_results)
         @event = event
@@ -21,6 +21,10 @@ module Events
         end
       end
 
+      def sections
+        event.sections.order(:order).map { |section| SectionPresenter.new(section) }
+      end
+
       def template
         'events/scoreboards/speed_distance_time'
       end
@@ -28,6 +32,11 @@ module Events
       private
 
       attr_reader :event
+
+      def results_collection
+        @results_collection ||= ResultsCollection.new(all_results)
+      end
+
 
       def section_scoreboard(section)
         competitors_results =

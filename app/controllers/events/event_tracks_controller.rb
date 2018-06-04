@@ -83,8 +83,6 @@ module Events
         :round_id,
         :track_id,
         :track_from,
-        :is_disqualified,
-        :disqualification_reason,
         track_attributes: [
           :file,
           :profile_id,

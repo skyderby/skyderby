@@ -1,20 +1,27 @@
 # Event 1, Speed Distance Time
-result_1:
+distance_competitor_1:
   competitor: competitor_1
   round: distance_round_1
   result: 3000
+  result_net: 2900
 
-result_2:
+speed_competitor_1:
   competitor: competitor_1
   round: speed_round_1
   result: 250
+  result_net: 240
+  penalized: true
+  penalty_size: 20
+  penalty_reason: Lane violation
 
-result_3:
+distance_competitor_2:
   competitor: competitor_2
   round: distance_round_1
   result: 2500
+  result_net: 2400
 
-result_4:
+speed_competitor_2:
   competitor: competitor_2
   round: speed_round_1
   result: 270
+  result_net: 265
