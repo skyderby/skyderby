@@ -34,7 +34,7 @@ module Events
         @results ||= ResultsCollection.new(event.event_tracks, params)
       end
 
-      def template
+      def to_partial_path
         'events/scoreboards/speed_distance_time'
       end
 

@@ -86,7 +86,7 @@
 
     .row.top-buffer
       .col-md-12
-        = render @scoreboard.template, can_manage: can_manage
+        = render @scoreboard, can_manage: can_manage
 
     - if @scoreboard.wind_cancellation
       .row

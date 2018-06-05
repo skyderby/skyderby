@@ -1,2 +1,2 @@
 <% can_manage = policy(@event).update? %>
-$('#results-table').replaceWith('<%= j render partial: @scoreboard.template, formats: [:html], locals: { can_manage: can_manage } %>');
+$('#results-table').replaceWith('<%= j render partial: @scoreboard, formats: [:html], locals: { can_manage: can_manage } %>');
