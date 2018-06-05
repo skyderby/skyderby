@@ -3,8 +3,9 @@ describe Events::Scoreboards do
     it 'raise error on unsupported scoreboard' do
       event = create :event
       event.update!(rules: nil)
+      params = Events::Scoreboards::Params.new(event, {})
 
-      expect { Events::Scoreboards.for(event, false) }.to raise_exception(
+      expect { Events::Scoreboards.for(event, params) }.to raise_exception(
         NotImplementedError,
         'Scoreboard for nil is not defined'
       )

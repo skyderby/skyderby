@@ -1,10 +1,22 @@
 module Events
   module Scoreboards
     class Result
+      delegate :id, :to_key, :to_param, :model_name, to: :record
+
       def initialize(record, collection, params)
         @record = record
         @collection = collection
         @params = params
+      end
+
+      def formated
+        return if result.nil? || result.zero?
+
+        if round.distance?
+          result.truncate
+        else
+          result.round(1)
+        end
       end
 
       def result
@@ -12,6 +24,19 @@ module Events
           record
           .yield_self(&method(:adjust_to_wind))
           .yield_self(&method(:apply_penalty))
+      end
+
+      def formated_points
+        return '' unless valid?
+
+        points.round(1)
+      end
+
+      def points
+        return 0 unless valid?
+
+        best_result = collection.best_in(round: round, section: section)
+        result / best_result.result * 100
       end
 
       def penalized?
@@ -29,9 +54,18 @@ module Events
         record.penalty_reason
       end
 
+      def valid?
+        result&.positive?
+      end
+
+      def best_in_round_and_category?
+        self == collection.best_in(round: round, section: section)
+      end
+
       private
 
       attr_reader :record, :collection, :params
+      delegate :round, :section, to: :record
 
       def adjust_to_wind(record)
         if params.adjust_to_wind?

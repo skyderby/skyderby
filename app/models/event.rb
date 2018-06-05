@@ -53,10 +53,6 @@ class Event < ApplicationRecord
     self.range_to ||= 2000
   end
 
-  def rounds_by_discipline
-    @rounds_by_discipline ||= rounds.order(:created_at).group_by(&:discipline)
-  end
-
   def tracks_visibility
     if public_event?
       Track.visibilities[:public_track]

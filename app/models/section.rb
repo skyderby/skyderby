@@ -38,18 +38,6 @@ class Section < ApplicationRecord
     swap_position_with lower_section
   end
 
-  def best_result(net: false)
-    value_key = net ? :result_net : :result
-
-    event_tracks.reject(&:is_disqualified).max_by(&value_key)
-  end
-
-  def worst_result(net: false)
-    value_key = net ? :result_net : :result
-
-    event_tracks.reject(&:is_disqualified).min_by(&value_key)
-  end
-
   private
 
   def swap_position_with(other_section)

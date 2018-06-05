@@ -10,6 +10,13 @@ module Events
         find(**args)
       end
 
+      def best_in(**args)
+        find(**args)&.max_by { |x| x.result }
+      end
+
+      def worst_in(**args)
+        find(**args)&.min_by { |x| x.result }
+      end
       private
 
       attr_reader :event_tracks, :params
@@ -73,7 +80,9 @@ module Events
 
       def blank_index
         {}.tap do |index|
-          [:by_rounds, :by_sections, :by_rounds_and_sections, :by_rounds_and_competitors].each do |key|
+          index[:by_rounds_and_competitors] = {}
+
+          [:by_rounds, :by_sections, :by_rounds_and_sections].each do |key|
             index[key] = Hash.new { |h, k| h[k] = [] }
           end
         end

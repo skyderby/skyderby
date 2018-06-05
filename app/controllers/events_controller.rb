@@ -59,7 +59,7 @@ class EventsController < ApplicationController
 
     authorize @event
 
-    @scoreboard = Events::Scoreboards.for(@event, @display_raw_results)
+    @scoreboard = Events::Scoreboards.for(@event, scoreboard_params(@event))
 
     fresh_when etags_for(@event), last_modified: @event.updated_at
   end
@@ -75,7 +75,7 @@ class EventsController < ApplicationController
   end
 
   def show_params
-    params.permit(:display_raw_results)
+    params.permit(:display_raw_results, :omit_penalties)
   end
   helper_method :show_params
 

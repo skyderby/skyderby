@@ -7,8 +7,8 @@
 
   - if editable
     %span.competitor-controls
-      = delete_competitor_button(@event, competitor, @display_raw_results)
-      = edit_competitor_link(@event, competitor, @display_raw_results)
+      = delete_competitor_button(@event, competitor)
+      = edit_competitor_link(@event, competitor)
 
 %td.text-center.text-muted
   %span.dotted-underline{'data-toggle' => 'tooltip', title: competitor.country_name}

@@ -73,7 +73,7 @@ module Events
     end
 
     def respond_with_scoreboard
-      create_scoreboard(params[:event_id], @display_raw_results)
+      create_scoreboard(params[:event_id])
       render template: 'events/event_tracks/scoreboard_with_highlight'
     end
 
