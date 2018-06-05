@@ -74,11 +74,6 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
   end
 
-  def show_params
-    params.permit(:display_raw_results, :omit_penalties)
-  end
-  helper_method :show_params
-
   def event_params
     params.require(:event).permit(
       :name,
