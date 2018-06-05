@@ -62,6 +62,14 @@ module Events
         self == collection.best_in(round: round, section: section)
       end
 
+      def best_in_category?
+        self == collection.best_in(section: section)
+      end
+
+      def worst_in_category?
+        self == collection.worst_in(section: section)
+      end
+
       private
 
       attr_reader :record, :collection, :params

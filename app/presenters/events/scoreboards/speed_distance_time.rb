@@ -20,7 +20,9 @@ module Events
       end
 
       def sections
-        event.sections.order(:order).map { |section| Category.new(section, self, SpeedDistanceTime::Competitor) }
+        @sections ||= event.sections.order(:order).map do |section|
+          Category.new(section, self, CompetitorsCollection)
+        end
       end
 
       def rounds

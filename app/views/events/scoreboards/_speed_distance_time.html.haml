@@ -77,14 +77,7 @@
                     - elsif can_update
                       %i.fa.fa-question-circle.text-danger
                     %span
-                      = link_to event_event_track_path(@scoreboard.event, result),
-                                remote: true,
-                                class: 'show-result',
-                                rel: 'nofollow' do
-                        - if can_update
-                          %i.fa.fa-pencil
-                        - else
-                          %i.fa.fa-search
+                      = show_event_track_link(@scoreboard.event, result, can_update)
 
                   %td.points-cell.text-right
                     - if result.penalized?

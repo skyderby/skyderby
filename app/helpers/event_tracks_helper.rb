@@ -13,13 +13,15 @@ module EventTracksHelper
             rel: 'nofollow'
   end
 
-  def edit_event_track_link(event, event_track)
-    link_to content_tag(:i, nil, class: 'fa fa-pencil'),
-            edit_event_event_track_path(event, event_track),
+  def show_event_track_link(event, event_track, can_update)
+    link_to(event_event_track_path(event, event_track),
             remote: true,
-            'data-params': display_event_params.to_param,
-            class: 'edit-result',
-            rel: 'nofollow'
+            class: 'show-result',
+            rel: 'nofollow') do
+
+      class_list = can_update ? 'fa fa-pencil' : 'fa fa-search'
+      content_tag('i', nil, class: class_list)
+    end
   end
 
   def delete_event_track_link(event_track)

@@ -1,46 +1,49 @@
 module Events
   module Scoreboards
     class HungaryBoogie
-      attr_reader :sections,
-                  :columns_count,
-                  :display_raw_results,
-                  :jumps_for_total
+      attr_reader :event
 
-      def initialize(event, display_raw_results)
+      delegate :adjust_to_wind?, to: :params
+      delegate :wind_cancellation, to: :event
+
+      def initialize(event, params)
         @event = event
-        @jumps_for_total = event.number_of_results_for_total
-        @display_raw_results = display_raw_results
+        @params = params
+      end
 
-        @columns_count = @event.rounds.count + 4
-        @sections = {}
+      def display_raw_results?
+        !adjust_to_wind?
+      end
 
-        @event.sections.each do |section|
-          @sections[section.id] = section_scoreboard(section) if section.id
+      def columns_count
+        @columns_count ||= rounds.count + 4
+      end
+
+      def sections
+        @sections ||= event.sections.order(:order).map do |section|
+          Category.new(section, self, CompetitorsCollection)
         end
       end
 
-      def template
+      def jumps_for_total
+        @jumps_for_total ||= event.number_of_results_for_total
+      end
+
+      def rounds
+        @rounds ||= event.rounds.order(:number)
+      end
+
+      def results
+        @results ||= ResultsCollection.new(event.event_tracks, params)
+      end
+
+      def to_partial_path
         'events/scoreboards/hungary_boogie'
       end
 
       private
 
-      def section_scoreboard(section)
-        competitors_results = section.competitors.map do |competitor|
-          CompetitorResult.new(competitor, jumps_for_total)
-        end
-
-        sort_results(competitors_results)
-      end
-
-      def sort_results(results)
-        results.sort_by do |x|
-          [-x.total_points,
-           -x.event_tracks.size,
-           -x.average_result,
-           x.name]
-        end
-      end
+      attr_reader :params
     end
   end
 end

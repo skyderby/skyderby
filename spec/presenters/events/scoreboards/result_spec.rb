@@ -78,9 +78,24 @@ describe Events::Scoreboards::Result do
     end
   end
 
+  describe 'best_in_round_and_category?' do
+    it 'true for best result' do
+      event_track = event_tracks(:speed_competitor_2)
+      event = event_track.event
+
+      params = Events::Scoreboards::Params.new(event, {})
+      collection = Events::Scoreboards::ResultsCollection.new(event.event_tracks, params)
+
+      result = collection.for(competitor: competitors(:competitor_2), round: rounds(:speed_round_1))
+
+      expect(result.best_in_round_and_category?).to be_truthy
+    end
+  end
+
   def build_result(event_track, raw_params)
-    params = Events::Scoreboards::Params.new(event_track.event, raw_params)
-    collection = Events::Scoreboards::ResultsCollection.new(event_track.event, params)
+    event = event_track.event
+    params = Events::Scoreboards::Params.new(event, raw_params)
+    collection = Events::Scoreboards::ResultsCollection.new(event.event_tracks, params)
     result = Events::Scoreboards::Result.new(event_track, collection, params)
   end
 end

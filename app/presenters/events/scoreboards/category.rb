@@ -1,24 +1,20 @@
 module Events
   module Scoreboards
     class Category < SimpleDelegator
-      def initialize(section, scoreboard, competitor_class)
+      def initialize(section, scoreboard, collection_class)
         @scoreboard = scoreboard
-        @competitor_class = competitor_class
+        @collection_class = collection_class
 
         super(section)
       end
 
       def competitors
-        @competitors ||= Events::Scoreboards::CompetitorsCollection.new(
-          super,
-          scoreboard,
-          competitor_class
-        )
+        @competitors ||= collection_class.new(super, scoreboard)
       end
 
       private
 
-      attr_reader :scoreboard, :competitor_class
+      attr_reader :scoreboard, :collection_class
     end
   end
 end
