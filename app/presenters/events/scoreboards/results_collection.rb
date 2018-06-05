@@ -37,6 +37,8 @@ module Events
           round.id
         elsif section
           section.id
+        elsif competitor
+          competitor.id
         end
       end
 
@@ -49,6 +51,8 @@ module Events
           :by_rounds
         elsif section
           :by_sections
+        elsif competitor
+          :by_competitors
         end
       end
 
@@ -60,6 +64,9 @@ module Events
       #   },
       #   by_sections: {
       #     [section_id]: [result1, ...]
+      #   },
+      #   by_competitors: {
+      #     [competitor_id]: [result1, ...]
       #   },
       #   by_rounds_and_sections: {
       #     "[round_id]-[section_id]": [result1, ...]
@@ -73,6 +80,7 @@ module Events
           result = Result.new(record, self, params)
           memo[:by_rounds][record.round.id] << result
           memo[:by_sections][record.section.id] << result
+          memo[:by_competitors][record.competitor.id] << result
           memo[:by_rounds_and_sections]["#{record.round.id}-#{record.section.id}"] << result
           memo[:by_rounds_and_competitors]["#{record.round.id}-#{record.competitor.id}"] = result
         end
@@ -82,7 +90,7 @@ module Events
         {}.tap do |index|
           index[:by_rounds_and_competitors] = {}
 
-          [:by_rounds, :by_sections, :by_rounds_and_sections].each do |key|
+          [:by_rounds, :by_sections, :by_competitors, :by_rounds_and_sections].each do |key|
             index[key] = Hash.new { |h, k| h[k] = [] }
           end
         end

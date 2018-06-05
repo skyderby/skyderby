@@ -1,21 +1,24 @@
 module Events
   module Scoreboards
-    class Category
-      delegate :id, :name, :first_position?, :last_position?, :to_key, :model_name, to: :section
-
+    class Category < SimpleDelegator
       def initialize(section, scoreboard, competitor_class)
-        @section = section
         @scoreboard = scoreboard
         @competitor_class = competitor_class
+
+        super(section)
       end
 
       def competitors
-        @competitors ||= CompetitorsCollection.new(section.competitors, scoreboard, competitor_class)
+        @competitors ||= Events::Scoreboards::CompetitorsCollection.new(
+          super,
+          scoreboard,
+          competitor_class
+        )
       end
 
       private
 
-      attr_reader :section, :scoreboard, :competitor_class
+      attr_reader :scoreboard, :competitor_class
     end
   end
 end

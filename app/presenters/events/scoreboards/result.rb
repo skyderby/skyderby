@@ -1,12 +1,12 @@
 module Events
   module Scoreboards
-    class Result
-      delegate :id, :to_key, :to_param, :model_name, to: :record
-
+    class Result < SimpleDelegator
       def initialize(record, collection, params)
         @record = record
         @collection = collection
         @params = params
+
+        super(@record)
       end
 
       def formated

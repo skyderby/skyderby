@@ -7,17 +7,18 @@ json.sections do
 end
 
 json.competitors do
-  json.array! @scoreboard.sections.values.flatten do |scoreboard_entry|
+  all_competitors = @scoreboard.sections.map { |section| section.competitors.to_a }.flatten
+  json.array! all_competitors do |scoreboard_entry|
     json.id scoreboard_entry.id
     json.name scoreboard_entry.name
-    json.section_id scoreboard_entry.section_id
+    json.section_id scoreboard_entry.section.id
     json.total_points scoreboard_entry.total_points.round(2)
     json.results do
-      json.array! scoreboard_entry.event_tracks do |result|
-        json.discipline result.round_discipline
+      json.array! scoreboard_entry.results do |result|
+        json.discipline result.round.discipline
         json.round result.round.number
-        json.result result.result
-        json.points event_track_points(@event, result).round(1)
+        json.result result.formated
+        json.points result.formated_points
       end
     end
   end

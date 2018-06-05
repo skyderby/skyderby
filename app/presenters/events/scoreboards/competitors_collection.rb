@@ -13,6 +13,10 @@ module Events
         competitors.each(&block)
       end
 
+      def to_a
+        competitors
+      end
+
       private
 
       attr_reader :section_competitors, :scoreboard, :competitor_class

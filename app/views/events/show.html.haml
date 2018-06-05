@@ -47,6 +47,7 @@
             = link_to '', event_scoreboard_path(event_id: @event.id),
                       class: 'hide',
                       remote: true,
+                      'data-params': display_event_params.to_param,
                       'data-target': 'events--autoupdate.link',
                       'data-action': 'ajax:before->events--autoupdate#update_start ajax:complete->events--autoupdate#update_finish'
 

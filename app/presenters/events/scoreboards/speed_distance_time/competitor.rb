@@ -1,12 +1,12 @@
 module Events
   module Scoreboards
     class SpeedDistanceTime
-      class Competitor
-        delegate :id, :name, :profile, :suit, :suit_name, :country_code, :country_name, :to_key, :model_name, to: :record
-
+      class Competitor < SimpleDelegator
         def initialize(record, scoreboard)
           @record = record
           @scoreboard = scoreboard
+
+          super(@record)
         end
 
         def points_in_discipline(discipline)
@@ -18,6 +18,10 @@ module Events
             .map { |discipline, points| points }
             .sum
             .round(2)
+        end
+
+        def results
+          scoreboard.results.for(competitor: self)
         end
 
         private

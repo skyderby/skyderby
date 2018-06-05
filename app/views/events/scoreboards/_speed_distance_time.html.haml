@@ -72,7 +72,7 @@
                     - if result.valid?
                       = result.formated
                       - if result.penalized?
-                        %sup.text-danger= "-#{result_entity.penalty_size}%"
+                        %sup.text-danger= "-#{result.penalty_size}%"
 
                     - elsif can_update
                       %i.fa.fa-question-circle.text-danger
