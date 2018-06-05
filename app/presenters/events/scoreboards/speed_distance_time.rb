@@ -2,6 +2,7 @@ module Events
   module Scoreboards
     class SpeedDistanceTime
       attr_reader :event
+
       delegate :adjust_to_wind?, to: :params
       delegate :wind_cancellation, to: :event
 
