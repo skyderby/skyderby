@@ -1,6 +1,8 @@
 module Events
   module Scoreboards
     class HungaryBoogie
+      include Results
+
       attr_reader :event
 
       delegate :adjust_to_wind?, to: :params
@@ -31,10 +33,6 @@ module Events
 
       def rounds
         @rounds ||= event.rounds.order(:number)
-      end
-
-      def results
-        @results ||= ResultsCollection.new(event.event_tracks, params)
       end
 
       def to_partial_path

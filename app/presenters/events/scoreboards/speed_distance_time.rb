@@ -1,6 +1,8 @@
 module Events
   module Scoreboards
     class SpeedDistanceTime
+      include Results
+
       attr_reader :event
 
       delegate :adjust_to_wind?, to: :params
@@ -31,10 +33,6 @@ module Events
 
       def rounds_by_discipline
         @rounds_by_discipline ||= rounds.group_by(&:discipline)
-      end
-
-      def results
-        @results ||= ResultsCollection.new(event.event_tracks, params)
       end
 
       def to_partial_path
