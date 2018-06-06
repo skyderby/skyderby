@@ -4,6 +4,7 @@ PPC_DEFAULTS: &PPC_DEFAULTS
   range_to: 2000
   wind_cancellation: false
   starts_at: 2015-03-01
+  responsible: event_responsible
 
 published_public:
   <<: *PPC_DEFAULTS

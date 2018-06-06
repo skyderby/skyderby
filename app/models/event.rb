@@ -21,8 +21,6 @@
 #
 
 class Event < ApplicationRecord
-  include BestAndWorstSummary
-
   enum status: [:draft, :published, :finished]
   enum rules: [:speed_distance_time, :fai, :hungary_boogie]
   enum visibility: [:public_event, :unlisted_event, :private_event]
@@ -51,10 +49,6 @@ class Event < ApplicationRecord
   after_initialize do
     self.range_from ||= 3000
     self.range_to ||= 2000
-  end
-
-  def rounds_by_discipline
-    @rounds_by_discipline ||= rounds.order(:created_at).group_by(&:discipline)
   end
 
   def tracks_visibility

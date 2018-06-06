@@ -4,7 +4,4 @@
       = section.name + ':'
 
     - if editable
-      = render 'events/sections/edit_section_controls',
-               event: @event,
-               section: section,
-               display_raw_results: @display_raw_results 
+      = render 'events/sections/edit_section_controls', event: @event, section: section

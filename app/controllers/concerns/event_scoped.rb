@@ -2,11 +2,15 @@ module EventScoped
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_result_mode
+    helper_method :display_event_params
+  end
+
+  def display_event_params
+    params.permit(:display_raw_results, :omit_penalties)
   end
 
   def respond_with_scoreboard
-    create_scoreboard(params[:event_id], @display_raw_results)
+    create_scoreboard(params[:event_id])
     render template: 'events/update_scoreboard'
   end
 
@@ -21,9 +25,9 @@ module EventScoped
     end
   end
 
-  def create_scoreboard(event_id, display_raw_results)
+  def create_scoreboard(event_id)
     load_event(event_id)
-    @scoreboard = Events::ScoreboardFactory.new(@event, display_raw_results).create
+    @scoreboard = Events::Scoreboards.for(@event, scoreboard_params(@event))
   end
 
   def load_event(event_id)
@@ -41,8 +45,8 @@ module EventScoped
     ).find(event_id)
   end
 
-  def set_result_mode
-    @display_raw_results = params[:display_raw_results] == 'true'
+  def scoreboard_params(event)
+    @scoreboard_params ||= Events::Scoreboards::Params.new(event, display_event_params)
   end
 
   def authorize_event

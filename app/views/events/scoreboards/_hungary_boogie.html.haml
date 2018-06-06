@@ -1,6 +1,6 @@
-- can_update = policy(@event).update?
+- can_update = policy(@scoreboard.event).update? && !@scoreboard.event.finished?
 
-- cache ['scoreboard', I18n.locale, @event, (@display_raw_results ? 'raw' : ''), can_update] do
+- cache ['scoreboard', I18n.locale, @scoreboard.event, (@scoreboard.adjust_to_wind? ? 'wind-adjusted' : ''), can_update] do
   %table.table.table-bordered#results-table
     %thead
       %tr#disciplines-row
@@ -8,80 +8,66 @@
           \#
         %td{rowspan: 2, colspan: 2}
           = t('activerecord.models.competitor')
-        - @event.rounds_by_discipline.each do |discipline, rounds|
-          %td.text-center{colspan: rounds.count}
-            = "#{t('disciplines.' + discipline)}, #{t('units.' + discipline_unit(discipline.to_sym).to_s)}"
+        %td.text-center{colspan: @scoreboard.rounds.count}
+          = "#{t('disciplines.distance')}, #{t('units.' + discipline_unit(:distance).to_s)}"
         %td.text-center{rowspan: 2}
           = t('events.show.total')
       %tr#rounds-row
-        - @event.rounds_by_discipline.each do |discipline, rounds|
-          - rounds.each do |round|
-            %td.round-cell
-              = round.number
-              - if can_update && !@event.finished?
-                = button_to event_round_path(@event, round),
-                            method: :delete,
-                            remote: true,
-                            class: 'btn-link delete-round' do
-                  %i.fa.fa-fw.fa-times-circle.text-muted
+        - @scoreboard.rounds.each do |round|
+          %td.round-cell
+            = round.number
+            - if can_update
+              = button_to event_round_path(@scoreboard.event, round),
+                          method: :delete,
+                          remote: true,
+                          class: 'btn-link delete-round' do
+                %i.fa.fa-fw.fa-times-circle.text-muted
 
-    - @event.sections.each do |section|
-      - next unless section.id
+    - @scoreboard.sections.each do |section|
       %tbody
         = render 'events/sections/section_row',
                  section: section,
                  columns_count: @scoreboard.columns_count,
-                 editable: can_update && !@event.finished?
+                 editable: can_update
 
-        - section_competitors = @scoreboard.sections[section.id]
-        - section_competitors.each_with_index do |competitor, index|
+        - section.competitors.each_with_index do |competitor, index|
           %tr.competitor-row{id: dom_id(competitor)}
             %td.row-number= index + 1
 
             = render 'events/competitors/competitor_cells',
                      competitor: competitor,
-                     editable: can_update && !@event.finished?
+                     editable: can_update
 
-            - @event.rounds_by_discipline.each do |discipline, rounds|
-              - rounds.each do |round|
-                - result_entity = competitor.event_tracks.detect { |x| x[:round_id] == round.id }
-                - display_raw_results = @scoreboard.display_raw_results
-                - if result_entity
-                  - result_value = result_entity.result(net: display_raw_results)
+            - @scoreboard.rounds.each do |round|
+              - result = @scoreboard.results.for(competitor: competitor, round: round)
+              - if result
 
-                  - result_class = ''
-                  - if best_in_section?(@event, result_entity)
-                    - result_class = 'hc-best-result'
-                  - elsif worst_in_section?(@event, result_entity)
-                    - result_class = 'hc-worst-result'
+                - result_class = ''
+                - if result.best_in_category?
+                  - result_class = 'hc-best-result'
+                - elsif result.worst_in_category?
+                  - result_class = 'hc-worst-result'
 
-                  - if competitor.counted_results.try(:include?, result_entity)
-                    - result_class += ' counted-result'
-                  %td.result-cell.text-right{class: result_class}
-                    - if result_value && result_value > 0
-                      = result_value.truncate
+                - if competitor.counted_results.include?(result)
+                  - result_class += ' counted-result'
+                %td.result-cell.text-right{class: result_class}
+                  - if result.valid?
+                    = result.formated
+                    - if result.penalized
+                      %sup.text-danger= "-#{result.penalty_size}%"
 
-                      - if result_entity.penalized
-                        %sup.text-danger= "-#{result_entity.penalty_size}%"
-                    - elsif result_value.to_i.zero? && can_update
-                      %i.fa.fa-question-circle.text-danger
-                    %span{'data-toggle' => 'tooltip', title: (result_entity.penalty_reason if result_entity.penalized)}
-                      = link_to event_event_track_path(@event, result_entity),
-                                remote: true,
-                                class: 'show-result',
-                                rel: 'nofollow' do
-                        - if can_update && !@event.finished?
-                          %i.fa.fa-pencil
-                        - else
-                          %i.fa.fa-search
+                  - elsif can_update
+                    %i.fa.fa-question-circle.text-danger
+                      %span{'data-toggle' => 'tooltip', title: (result.penalty_reason if result.penalized?)}
+                    = show_event_track_link(@scoreboard.event, result)
 
-                - elsif can_update && !@event.finished?
-                  %td.text-center.create-result-cell
-                    = new_event_track_link(@event, competitor, round, display_raw_results)                      
+              - elsif can_update
+                %td.text-center.create-result-cell
+                  = new_event_track_link(@scoreboard.event, competitor, round)
 
-                - else
-                  %td
-                      
+              - else
+                %td
+
             %td.text-right
-              - if competitor.total_points && competitor.total_points > 0
+              - if competitor.total_points.positive?
                 = competitor.total_points.round.truncate

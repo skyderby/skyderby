@@ -2,7 +2,7 @@
 - allow_change_rules ||= false
 
 = form_for @event, remote: modal, html: { class: 'form-horizontal', 'data-controller': 'events--form', role: 'form', id: "#{action_name}_event_form"} do |f|
-  = hidden_field_tag :display_raw_results, @display_raw_results
+  = display_event_form_params
 
   - if modal
     .modal-header
@@ -12,7 +12,7 @@
         %span.sr-only
           Close
       %h4.modal-title
-        = t('activerecord.models.event') + ': ' 
+        = t('activerecord.models.event') + ': '
         - if action_name == 'new'
           = t('events.index.new')
         - else
@@ -27,8 +27,8 @@
     .form-group
       = f.label :starts_at, class: 'control-label col-sm-4'
       .col-sm-8
-        = f.text_field :starts_at, 
-                       class: 'form-control', 
+        = f.text_field :starts_at,
+                       class: 'form-control',
                        value: (@event.starts_at || Date.today).strftime("%d.%m.%Y"),
                        'data-controller': 'datepicker'
 
@@ -62,7 +62,7 @@
             FAI '15
           %label.btn.btn-default
             = f.radio_button 'rules', 'hungary_boogie'
-            Hungary Boogie 
+            Hungary Boogie
 
     .form-group{'data-only-hungary-boogie': true}
       = f.label :number_of_results_for_total, class: 'control-label col-sm-4'
@@ -81,7 +81,6 @@
         %label.btn.btn-default{ class:  ('active' if @event.private_event?) }
           = f.radio_button 'visibility', 'private_event'
           = t('visibility.private')
-        
 
     .form-group
       = f.label :wind_cancellation, class: 'control-label col-sm-4'

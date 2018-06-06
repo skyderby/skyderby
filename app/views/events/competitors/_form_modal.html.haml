@@ -2,7 +2,8 @@
   .modal-content
     - html_options = { class: 'form-horizontal', 'data-controller': 'events--competitor-form' }
     = form_with model: [@event, @competitor], scope: '', local: false, html: html_options do |f|
-      = hidden_field_tag :display_raw_results, @display_raw_results
+      = display_event_form_params
+
       .modal-header
         %button.close{type: 'button', data: {dismiss: 'modal'}}
           %span{aria: {hidden: 'true'}}

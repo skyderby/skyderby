@@ -15,45 +15,45 @@ describe Events::ScoreboardsController do
   def expected_result
     {
       sections: [{
-        name:  'Advanced',
         id:    section_advanced.id,
+        name:  'Advanced',
         order: section_advanced.order
       }, {
-        name:  'Intermediate',
         id:    section_intermediate.id,
+        name:  'Intermediate',
         order: section_intermediate.order
       }],
       competitors: [{
-        id: competitor_1.id,
-        name: competitor_1.name,
-        section_id: section_advanced.id,
-        total_points: '192.59',
-        results: [{
-          discipline: 'distance',
-          round: 1,
-          result: '3000.0',
-          points: '100.0'
-        }, {
-          discipline: 'speed',
-          round: 1,
-          result: '250.0',
-          points: '92.6'
-        }]
-      }, {
         id: competitor_2.id,
         name: competitor_2.name,
         section_id: section_advanced.id,
-        total_points: '183.33',
+        total_points: 183.33,
         results: [{
           discipline: 'distance',
           round: 1,
-          result: '2500.0',
+          result: 2500,
           points: '83.3'
         }, {
           discipline: 'speed',
           round: 1,
           result: '270.0',
           points: '100.0'
+        }]
+      }, {
+        id: competitor_1.id,
+        name: competitor_1.name,
+        section_id: section_advanced.id,
+        total_points: 174.07,
+        results: [{
+          discipline: 'distance',
+          round: 1,
+          result: 3000,
+          points: '100.0'
+        }, {
+          discipline: 'speed',
+          round: 1,
+          result: '200.0',
+          points: '74.1'
         }]
       }]
     }

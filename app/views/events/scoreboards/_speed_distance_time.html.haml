@@ -1,5 +1,5 @@
-- can_update = policy(@event).update?
-- cache ['scoreboard', I18n.locale, @event, (@display_raw_results ? 'raw' : ''), can_update] do
+- can_update = policy(@scoreboard.event).update? && !@scoreboard.event.finished?
+- cache ['scoreboard', I18n.locale, @scoreboard.event, (@scoreboard.adjust_to_wind? ? 'wind-adjusted' : ''), can_update] do
   %table.table.table-bordered#results-table
     %thead
       %tr#disciplines-row
@@ -7,13 +7,13 @@
           \#
         %td{rowspan: 3, colspan: 2}
           = t('activerecord.models.competitor')
-        - @event.rounds_by_discipline.each do |discipline, rounds|
+        - @scoreboard.rounds_by_discipline.each do |discipline, rounds|
           %td.text-center{colspan: (rounds.count * 2 + 1)}
             = t('disciplines.' + discipline)
         %td.text-center{rowspan: 3}
           = t('events.show.total')
       %tr#rounds-row
-        - @event.rounds_by_discipline.each do |discipline, rounds|
+        - @scoreboard.rounds_by_discipline.each do |discipline, rounds|
           - rounds.each do |round|
             %td.round-cell{colspan: 2}
               .round-cell__content
@@ -30,7 +30,7 @@
                       = link_to event_round_globe_path(@event, round), remote: true, class: 'round-map-view', rel: 'nofollow' do
                         %i.fa.fa-compass
                         3D maps
-                    - if can_update && !@event.finished?
+                    - if can_update
                       %li.divider
                       %li
                         = button_to event_round_path(@event, round),
@@ -42,71 +42,52 @@
           %td.text-center{rowspan: 2, 'data-discipline' => discipline, 'data-role' => 'points'}
             = '%'
       %tr#units-row
-        - @event.rounds_by_discipline.each do |discipline, rounds|
+        - @scoreboard.rounds_by_discipline.each do |discipline, rounds|
           - rounds.each do |round|
             %td.text-center
               = t('units.' + discipline_unit(discipline.to_sym).to_s)
             %td.text-center
               = '%'
 
-    - @event.sections.each do |section|
-      - next unless section.id
+    - @scoreboard.sections.each do |section|
       %tbody
         = render 'events/sections/section_row',
                  section: section,
                  columns_count: @scoreboard.columns_count,
-                 editable: can_update && !@event.finished?
+                 editable: can_update
 
-        - section_competitors = @scoreboard.sections[section.id]
-        - section_competitors.each_with_index do |competitor, index|
+        - section.competitors.each_with_index do |competitor, index|
           %tr.competitor-row{id: dom_id(competitor)}
             %td.row-number= index + 1
 
             = render 'events/competitors/competitor_cells',
                      competitor: competitor,
-                     editable: can_update && !@event.finished?
+                     editable: can_update
 
-            - @event.rounds_by_discipline.each do |discipline, rounds|
+            - @scoreboard.rounds_by_discipline.each do |discipline, rounds|
               - rounds.each do |round|
-                - result_entity = competitor.event_tracks.detect { |x| x[:round_id] == round.id }
-                - display_raw_results = @scoreboard.display_raw_results
-                - net_results = @event.wind_cancellation && !display_raw_results
-                - if result_entity
-                  - result_value = result_entity.result(net: net_results)
-                  %td.result-cell.text-right{'data-role' => 'result', class: ('hc-best-result' if best_in_round?(@event, result_entity, net: net_results))}
-                    - if result_value&.positive?
-                      - if discipline == 'distance'
-                        = result_value.truncate
-                      -else
-                        = result_value.round(1)
+                - result = @scoreboard.results.for(competitor: competitor, round: round)
+                - if result
+                  %td.result-cell.text-right{'data-role' => 'result', class: ('hc-best-result' if result.best_in_round_and_category?)}
+                    - if result.valid?
+                      = result.formated
+                      - if result.penalized?
+                        %sup.text-danger= "-#{result.penalty_size}%"
 
-                      - if result_entity.penalized
-                        %sup.text-danger= "-#{result_entity.penalty_size}%"
-                    - elsif result_value.to_i.zero? && can_update
+                    - elsif can_update
                       %i.fa.fa-question-circle.text-danger
                     %span
-                      = link_to event_event_track_path(@event, result_entity),
-                                remote: true,
-                                class: 'show-result',
-                                rel: 'nofollow' do
-                        - if can_update && !@event.finished?
-                          %i.fa.fa-pencil
-                        - else
-                          %i.fa.fa-search
+                      = show_event_track_link(@scoreboard.event, result, can_update)
 
-                  %td.points-cell
-                    - points = event_track_points(@event, result_entity, net: net_results)
-                    - if result_entity.penalized
-                      %span.dotted-underline{'data-toggle' => 'tooltip',
-                                              title: result_entity.penalty_reason}
-                      - if points&.positive?
-                        = points.round(1)
+                  %td.points-cell.text-right
+                    - if result.penalized?
+                      %span.dotted-underline{'data-toggle': 'tooltip', title: result.penalty_reason}
+                        = result.formated_points
                     - else
-                      - if points&.positive?
-                        = points.round(1)
-                - elsif can_update && !@event.finished?
+                      = result.formated_points
+                - elsif can_update
                   %td.text-center.create-result-cell
-                    = new_event_track_link(@event, competitor, round, display_raw_results)
+                    = new_event_track_link(@scoreboard.event, competitor, round)
                   %td
 
                 - else
@@ -114,9 +95,9 @@
                   %td
 
               %td.points-cell.text-right
-                - points_in_discipline = competitor.points_in_disciplines[discipline]
-                - if points_in_discipline && points_in_discipline > 0
+                - points_in_discipline = competitor.points_in_discipline(discipline)
+                - if points_in_discipline&.positive?
                   = points_in_discipline.round(1)
             %td.text-right
-              - if competitor.total_points && competitor.total_points > 0
-                = competitor.total_points.round(2)
+              - if competitor.total_points.positive?
+                = '%.2f' % competitor.total_points
