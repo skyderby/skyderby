@@ -46,27 +46,6 @@ describe Event do
     @event = Event.create!(responsible: user, starts_at: Time.zone.today)
   end
 
-  describe 'best and worst summary' do
-    it 'returns best and worst' do
-      event = create :event
-      round1 = create :round, event: event
-      round2 = create :round, event: event
-      section = create :section, event: event
-      competitor1 = create :competitor, section: section
-      competitor2 = create :competitor, section: section
-
-      create(:event_track, round: round1, competitor: competitor1).update(result: 100, result_net: 95)
-      create(:event_track, round: round1, competitor: competitor2).update(result: 110, result_net: 105)
-      create(:event_track, round: round2, competitor: competitor1).update(result: 120, result_net: 115)
-      create(:event_track, round: round2, competitor: competitor2).update(result: 130, result_net: 125)
-
-      expect(event.best_result_in(round: round1, net: true).result_net).to eq 105
-      expect(event.best_result_in(section: section, net: true).result_net).to eq 125
-      expect(event.worst_result_in(round: round2, net: true).result_net).to eq 115
-      expect(event.worst_result_in(section: section, net: true).result_net).to eq 95
-    end
-  end
-
   describe 'changes visibility of tracks on event visibility change' do
     it 'changes to public if event becomes public' do
       event = create :event, visibility: Event.visibilities[:private_event]

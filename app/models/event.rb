@@ -21,8 +21,6 @@
 #
 
 class Event < ApplicationRecord
-  include BestAndWorstSummary
-
   enum status: [:draft, :published, :finished]
   enum rules: [:speed_distance_time, :fai, :hungary_boogie]
   enum visibility: [:public_event, :unlisted_event, :private_event]
