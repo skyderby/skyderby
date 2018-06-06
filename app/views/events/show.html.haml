@@ -105,7 +105,7 @@
               %b= t('events.show.results_adjusted_caption')
               \/
               = link_to t('events.show.results_not_adjusted_caption'),
-                        display_raw_results.merge(display_raw_results: true),
+                        display_event_params.merge(display_raw_results: true),
                         remote: true
 
     .row
