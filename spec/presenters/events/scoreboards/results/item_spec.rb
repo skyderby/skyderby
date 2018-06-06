@@ -1,4 +1,4 @@
-describe Events::Scoreboards::Result do
+describe Events::Scoreboards::Results::Item do
   describe '#result' do
     it 'raw' do
       event_track = event_tracks(:distance_competitor_1)
@@ -84,7 +84,7 @@ describe Events::Scoreboards::Result do
       event = event_track.event
 
       params = Events::Scoreboards::Params.new(event, {})
-      collection = Events::Scoreboards::ResultsCollection.new(event.event_tracks, params)
+      collection = Events::Scoreboards::Results::Collection.new(event.event_tracks, params)
 
       result = collection.for(competitor: competitors(:competitor_2), round: rounds(:speed_round_1))
 
@@ -95,7 +95,7 @@ describe Events::Scoreboards::Result do
   def build_result(event_track, raw_params)
     event = event_track.event
     params = Events::Scoreboards::Params.new(event, raw_params)
-    collection = Events::Scoreboards::ResultsCollection.new(event.event_tracks, params)
-    result = Events::Scoreboards::Result.new(event_track, collection, params)
+    collection = Events::Scoreboards::Results::Collection.new(event.event_tracks, params)
+    result = Events::Scoreboards::Results::Item.new(event_track, collection, params)
   end
 end

@@ -1,8 +1,8 @@
-describe Events::Scoreboards::ResultsCollection do
+describe Events::Scoreboards::Results::Collection do
   describe '#for' do
     it 'by round and competitor' do
       params = build_params
-      collection = Events::Scoreboards::ResultsCollection.new(event.event_tracks, params)
+      collection = Events::Scoreboards::Results::Collection.new(event.event_tracks, params)
       competitor = competitors(:competitor_1)
       round = rounds(:speed_round_1)
 
@@ -12,7 +12,7 @@ describe Events::Scoreboards::ResultsCollection do
 
     it 'by round and competitor, without penalties' do
       params = build_params({ omit_penalties: 'true' })
-      collection = Events::Scoreboards::ResultsCollection.new(event.event_tracks, params)
+      collection = Events::Scoreboards::Results::Collection.new(event.event_tracks, params)
       competitor = competitors(:competitor_1)
       round = rounds(:speed_round_1)
 
@@ -24,7 +24,7 @@ describe Events::Scoreboards::ResultsCollection do
   describe '#best_in' do
     it 'round' do
       params = build_params
-      collection = Events::Scoreboards::ResultsCollection.new(event.event_tracks, params)
+      collection = Events::Scoreboards::Results::Collection.new(event.event_tracks, params)
 
       best_in_round = collection.best_in(round: rounds(:speed_round_1))
 
@@ -35,7 +35,7 @@ describe Events::Scoreboards::ResultsCollection do
   describe '#worst_in' do
     it 'round' do
       params = build_params
-      collection = Events::Scoreboards::ResultsCollection.new(event.event_tracks, params)
+      collection = Events::Scoreboards::Results::Collection.new(event.event_tracks, params)
 
       worst_in_round = collection.worst_in(round: rounds(:speed_round_1))
 
