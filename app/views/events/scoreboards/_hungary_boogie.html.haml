@@ -1,6 +1,6 @@
 - can_update = policy(@scoreboard.event).update? && !@scoreboard.event.finished?
 
-- cache ['scoreboard', I18n.locale, @scoreboard.event, (@scoreboard.adjust_to_wind? ? 'wind-adjusted' : ''), can_update] do
+- cache ['scoreboard', I18n.locale, @scoreboard.event, display_event_params, can_update] do
   %table.table.table-bordered#results-table
     %thead
       %tr#disciplines-row

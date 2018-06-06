@@ -61,7 +61,7 @@ class EventsController < ApplicationController
 
     @scoreboard = Events::Scoreboards.for(@event, scoreboard_params(@event))
 
-    fresh_when etags_for(@event), last_modified: @event.updated_at
+    fresh_when etags_for(@event).push(display_event_params), last_modified: @event.updated_at
   end
 
   def destroy
