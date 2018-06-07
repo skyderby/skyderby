@@ -25,8 +25,10 @@ describe Events::ScoreboardsController do
       }],
       competitors: [{
         id: competitor_2.id,
-        name: competitor_2.name,
+        name: 'Travis',
         section_id: section_advanced.id,
+        country_code: 'NOR',
+        suit_name: 'Apache Series',
         total_points: 183.33,
         results: [{
           discipline: 'distance',
@@ -41,8 +43,10 @@ describe Events::ScoreboardsController do
         }]
       }, {
         id: competitor_1.id,
-        name: competitor_1.name,
+        name: 'John',
         section_id: section_advanced.id,
+        country_code: 'NOR',
+        suit_name: 'Apache Series',
         total_points: 174.07,
         results: [{
           discipline: 'distance',

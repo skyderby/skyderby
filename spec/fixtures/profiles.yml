@@ -10,9 +10,11 @@ alex:
   owner_type: User
 
 competitor_1:
-  name: Competitor 1
+  name: John
   owner: published_public (Event)
+  country: norway
 
 competitor_2:
-  name: Competitor 2
+  name: Travis
   owner: published_public (Event)
+  country: norway
