@@ -16,7 +16,7 @@
 #
 
 class Sponsor < ApplicationRecord
-  belongs_to :sponsorable, polymorphic: true
+  belongs_to :sponsorable, polymorphic: true, touch: true
 
   validates :name, :website, presence: true
   validates :logo, attachment_presence: true

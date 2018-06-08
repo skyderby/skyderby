@@ -13,7 +13,7 @@
 class Organizer < ApplicationRecord
   include EventOngoingValidation
 
-  belongs_to :organizable, polymorphic: true
+  belongs_to :organizable, polymorphic: true, touch: true
   belongs_to :user
 
   validates :organizable, :user, presence: true
