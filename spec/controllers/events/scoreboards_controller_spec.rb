@@ -28,7 +28,7 @@ describe Events::ScoreboardsController do
         name: 'Travis',
         section_id: section_advanced.id,
         country_code: 'NOR',
-        suit_name: 'Apache Series',
+        suit_name: 'TS Apache Series',
         total_points: 183.33,
         results: [{
           discipline: 'distance',
@@ -46,7 +46,7 @@ describe Events::ScoreboardsController do
         name: 'John',
         section_id: section_advanced.id,
         country_code: 'NOR',
-        suit_name: 'Apache Series',
+        suit_name: 'TS Apache Series',
         total_points: 174.07,
         results: [{
           discipline: 'distance',

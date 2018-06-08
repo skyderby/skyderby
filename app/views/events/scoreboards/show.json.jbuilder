@@ -13,7 +13,7 @@ json.competitors do
     json.name scoreboard_entry.name
     json.section_id scoreboard_entry.section.id
     json.country_code scoreboard_entry.country_code
-    json.suit_name scoreboard_entry.suit_name
+    json.suit_name "#{scoreboard_entry.suit.manufacturer_code} #{scoreboard_entry.suit_name}"
     json.total_points scoreboard_entry.total_points.round(2)
     json.results do
       json.array! scoreboard_entry.results do |result|
