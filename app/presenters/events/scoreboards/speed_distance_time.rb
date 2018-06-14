@@ -28,7 +28,7 @@ module Events
       end
 
       def rounds
-        @rounds ||= event.rounds.order(:number)
+        @rounds ||= event.rounds.order(:number, :created_at)
       end
 
       def rounds_by_discipline
