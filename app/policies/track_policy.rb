@@ -19,6 +19,14 @@ class TrackPolicy < ApplicationPolicy
     can_change?
   end
 
+  def download?
+    return true if admin?
+    return false unless user.registered?
+    return false unless record.pilot
+
+    record.pilot == user.profile
+  end
+
   private
 
   delegate :public_track?, :unlisted_track?, to: :record

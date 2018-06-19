@@ -11,7 +11,7 @@
   %small
     = "Data frequency: #{@track.data_frequency.round} Hz"
 
-- if policy(@track).edit? && @track.track_file
+- if policy(@track).download? && @track.track_file
   %small
     Download file:
     = link_to @track.track_file.file_file_name, track_download_path(@track), 'data-turbolinks': false
