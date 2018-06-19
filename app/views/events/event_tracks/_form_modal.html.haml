@@ -10,11 +10,7 @@
           %span.sr-only
             Close
         %h4.modal-title
-          = t('activerecord.models.event_track') + ': ' 
-          - if @event_track.new_record?
-            = t('events.show.new')
-          - else
-            = t('events.show.edit')
+          = event_track_presentation(@event_track)
 
       .modal-body
         = f.hidden_field :competitor_id, value: @event_track.competitor_id
