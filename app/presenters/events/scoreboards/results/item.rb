@@ -11,12 +11,12 @@ module Events
         end
 
         def formated
-          return if result.nil? || result.zero?
+          return '' unless valid?
 
           if round.distance?
-            result.truncate
+            '%d' % result.truncate
           else
-            result.round(1)
+            '%.1f' % result.round(1)
           end
         end
 
@@ -30,7 +30,7 @@ module Events
         def formated_points
           return '' unless valid?
 
-          points.round(1)
+          '%.1f' % points.round(1)
         end
 
         def points
@@ -56,7 +56,7 @@ module Events
         end
 
         def valid?
-          result&.positive?
+          result&.positive? || penalized?
         end
 
         def best_in_round_and_category?

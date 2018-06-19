@@ -68,16 +68,11 @@
               - rounds.each do |round|
                 - result = @scoreboard.results.for(competitor: competitor, round: round)
                 - if result
-                  %td.result-cell.text-right{'data-role' => 'result', class: ('hc-best-result' if result.best_in_round_and_category?)}
-                    - if result.valid?
-                      = result.formated
-                      - if result.penalized?
-                        %sup.text-danger= "-#{result.penalty_size}%"
-
-                    - elsif can_update
-                      %i.fa.fa-question-circle.text-danger
-                    %span
-                      = show_event_track_link(@scoreboard.event, result, can_update)
+                  = render 'events/scoreboards/result',
+                           { event: @scoreboard.event,
+                             result: result,
+                             can_update: can_update,
+                             result_class: ('hc-best-result' if result.best_in_round_and_category?) }
 
                   %td.points-cell.text-right
                     - if result.penalized?

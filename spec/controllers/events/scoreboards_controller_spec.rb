@@ -42,7 +42,7 @@ describe Events::ScoreboardsController do
         results: [{
           discipline: 'distance',
           round: 1,
-          result: 2500,
+          result: '2500',
           points: '83.3'
         }, {
           discipline: 'speed',
@@ -60,7 +60,7 @@ describe Events::ScoreboardsController do
         results: [{
           discipline: 'distance',
           round: 1,
-          result: 3000,
+          result: '3000',
           points: '100.0'
         }, {
           discipline: 'speed',

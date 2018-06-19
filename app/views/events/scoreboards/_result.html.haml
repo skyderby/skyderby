@@ -1,0 +1,28 @@
+-## Local variables:
+-#
+-# - `result`:
+-#   An instance of Scoreboards::Results::Item
+-#   A wrapper arount EventTrack pulled from the database.
+-#
+-# - `event`:
+-#   Instance of Event that scoreboard belongs to
+-#
+-# - `can_update` (optional)
+-#   Boolean
+-#
+-# - `result_class` (optional)
+-#   String. Classes, separated by space, to assign to td element
+
+- can_update ||= false
+- result_class ||= ''
+
+%td.result-cell{class: result_class}
+  - if result.valid?
+    = result.formated
+    - if result.penalized?
+      %sup.text-danger= "-#{result.penalty_size}%"
+
+  - elsif can_update
+    %i.fa.fa-question-circle.text-danger
+  %span
+    = show_event_track_link(event, result, can_update)

@@ -50,16 +50,12 @@
 
                 - if competitor.counted_results.include?(result)
                   - result_class += ' counted-result'
-                %td.result-cell.text-right{class: result_class}
-                  - if result.valid?
-                    = result.formated
-                    - if result.penalized
-                      %sup.text-danger= "-#{result.penalty_size}%"
 
-                  - elsif can_update
-                    %i.fa.fa-question-circle.text-danger
-                      %span{'data-toggle' => 'tooltip', title: (result.penalty_reason if result.penalized?)}
-                    = show_event_track_link(@scoreboard.event, result)
+                = render 'events/scoreboards/result',
+                         { event: @scoreboard.event,
+                           result: result,
+                           can_update: can_update,
+                           result_class: result_class }
 
               - elsif can_update
                 %td.text-center.create-result-cell
