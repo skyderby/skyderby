@@ -14,6 +14,7 @@ module Events
       respond_to do |format|
         format.js
         format.json
+        format.html { redirect_to @event }
       end
     end
   end
