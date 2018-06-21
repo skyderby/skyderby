@@ -10,18 +10,15 @@ module Profiles
     end
 
     def create
-      result = ProfileMerge.new(
-        source: Profile.find(merge_params[:source_profile_id]),
-        destination: @destination_profile
-      ).execute
+      source_profile = Profile.find(merge_params[:source_profile_id])
 
       respond_to do |format|
-        if result.success?
+        if @destination_profile.merge_with(source_profile)
           format.js
         else
           format.js do
             render template: 'errors/ajax_errors',
-                   locals: { errors: errors },
+                   locals: { errors: @destination_profile.errors },
                    status: :unprocessable_entity
           end
         end

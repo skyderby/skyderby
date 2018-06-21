@@ -18,7 +18,7 @@
 #
 
 class Profile < ApplicationRecord
-  include Ownerable
+  include Ownerable, Mergeable
 
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
 
