@@ -2,6 +2,7 @@ it:
   activerecord:
     attributes:
       user:
+        name: Nome
         name_placeholder: John Doe
         confirmation_sent_at: Conferma inviata a
         confirmation_token: Token di conferma

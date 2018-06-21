@@ -3,4 +3,4 @@ ru:
     previous_label: '&#8592; Пред.'
     next_label: 'След. &#8594;'
     page_gap: '&hellip;'
-    load_more: Загрузить еще...
+    load_more: "Загрузить еще&hellip;"

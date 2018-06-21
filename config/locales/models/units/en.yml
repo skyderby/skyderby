@@ -1,6 +1,7 @@
 en:
   units:
     m: m
+    mi: mi
     ft: ft
     kmh: km/h
     mph: mph

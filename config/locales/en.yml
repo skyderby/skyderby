@@ -3,7 +3,6 @@ en:
     messages:
       duplicate_file: "File already used. Pilot: %{pilot_name}, round: %{round}"
   general:
-    new: New
     cancel: Cancel
     create: Create
     save: Save

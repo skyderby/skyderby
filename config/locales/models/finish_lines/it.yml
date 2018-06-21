@@ -1,0 +1,8 @@
+it:
+  activerecord:
+    errors:
+      models:
+        finish_line:
+          attributes:
+            name:
+              blank: Devi scrivere un nome

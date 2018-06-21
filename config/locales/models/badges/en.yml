@@ -6,6 +6,17 @@ en:
       badge:
         name: Name
         kind: Kind
+        category: Category
+        categories:
+          competition: Competition
+          online: Online
+          sponsor: Sponsor
+          skyderby: Skyderby
+          special: Special
+        kinds:
+          gold: Gold
+          silver: Silver
+          bronze: Bronze
     errors:
       models:
         badge:

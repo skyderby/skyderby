@@ -1,6 +1,6 @@
 fr:
   will_paginate:
-    load_more: Télécharger plus
     previous_label: "&#8592; Précédent"
     next_label: "Suivant &#8594;"
     page_gap: "&hellip;"
+    load_more: "Télécharger plus&hellip;"

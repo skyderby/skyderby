@@ -4,7 +4,7 @@ fr:
       add_sponsor: Ajouter un sponsor
       copy_sponsor: Copier le sponsor
       event_sponsors: Sponsor de l'évênement
-    sponsors_copy:
+    sponsors_copies:
       form_modal:
         title: Copier le sponsor à partir d'un autre évênement
         source_event_placeholder: Événement d'origine du sponsor

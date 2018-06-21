@@ -21,6 +21,7 @@ ru:
       new: 'Добавление'
       edit: 'Редактирование'
       place_placeholder: 'Выберите место из списка'
+      delete_result: Удалить результат
       track: 'Трек'
       track_upoaded: 'Загрузил'
       weather_data: 'Сведения о ветре'
