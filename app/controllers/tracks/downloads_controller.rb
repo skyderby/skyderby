@@ -3,7 +3,7 @@ module Tracks
     def show
       @track = Track.find(params[:track_id])
 
-      authorize @track, :edit?
+      authorize @track, :download?
 
       track_file = @track.track_file
       file_path = Paperclip.io_adapters.for(track_file.file).path
