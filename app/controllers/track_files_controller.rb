@@ -79,5 +79,6 @@ class TrackFilesController < ApplicationController
     recent_values.add(:name, form_params[:name]) if form_params[:name]
     recent_values.add(:location, form_params[:location])
     recent_values.add(:activity, form_params[:kind])
+    recent_values.add(:visibility, form_params[:visibility])
   end
 end

@@ -34,7 +34,7 @@
                          class: 'form-control',
                          'data-controller': 'select2--profiles'
 
-              = f.text_field 'name', 
+              = f.text_field 'name',
                              class: 'form-control',
                              placeholder: t('tracks.form.profile_text_placeholder'),
                              type: 'text'
@@ -95,20 +95,7 @@
               = f.radio_button 'kind', 'base'
               = 'B.A.S.E'
 
-        - if user_signed_in?
-          .form-group
-            %span.col-sm-3.control-label
-              = t('tracks.edit.visibility')
-            .btn-group.col-sm-9{data: {toggle: 'buttons'}}
-              %label.btn.btn-default{ class:  ('active' if @track.public_track?) }
-                = f.radio_button 'visibility', 'public_track'
-                = t('visibility.public')
-              %label.btn.btn-default{ class:  ('active' if @track.unlisted_track?) }
-                = f.radio_button 'visibility', 'unlisted_track'
-                = t('visibility.unlisted')
-              %label.btn.btn-default{ class:  ('active' if @track.private_track?) }
-                = f.radio_button 'visibility', 'private_track'
-                = t('visibility.private')
+        = render 'tracks/form/visibility', form: f, visibility: @track.visibility
 
         .form-group
           %span.col-sm-3.control-label

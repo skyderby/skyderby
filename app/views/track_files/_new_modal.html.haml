@@ -77,6 +77,8 @@
                   = builder.radio_button :kind, 'base', checked: !activity_skydive
                   = 'B.A.S.E'
 
+            = render 'tracks/form/visibility', form: builder
+
           .form-group
             = f.label :file, class: 'col-sm-3 control-label'
             .col-sm-9
@@ -84,7 +86,7 @@
                 %input.form-control{type: "text", readonly: true, 'data-target': 'filefield.text_field'}
                 %span.input-group-btn
                   %span.btn.btn-default.btn-file
-                    &hellip; 
+                    &hellip;
                     = f.file_field :file, {'data-target': 'filefield.file_field', 'data-action': 'change->filefield#change'}
 
           .form-group

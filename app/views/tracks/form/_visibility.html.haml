@@ -1,0 +1,16 @@
+- visibility ||= recent_value(:visibility).presence || 'public_track'
+
+- if user_signed_in?
+  .form-group
+    %span.col-sm-3.control-label
+      = t('tracks.edit.visibility')
+    .btn-group.col-sm-9{data: {toggle: 'buttons'}}
+      %label.btn.btn-default{ class:  ('active' if visibility == 'public_track') }
+        = form.radio_button 'visibility', 'public_track'
+        = t('visibility.public')
+      %label.btn.btn-default{ class:  ('active' if visibility == 'unlisted_track') }
+        = form.radio_button 'visibility', 'unlisted_track'
+        = t('visibility.unlisted')
+      %label.btn.btn-default{ class:  ('active' if visibility == 'private_track') }
+        = form.radio_button 'visibility', 'private_track'
+        = t('visibility.private')
