@@ -1,0 +1,4 @@
+ru:
+  activerecord:
+    models:
+      tournament_competitor: Участник

@@ -9,9 +9,9 @@
 #  updated_at    :datetime         not null
 #
 
-class TournamentRound < ApplicationRecord
+class Tournament::Round < ApplicationRecord
   belongs_to :tournament
-  has_many :matches, class_name: 'TournamentMatch'
+  has_many :matches, dependent: :restrict_with_error
 
   before_create :set_order
 
@@ -20,6 +20,6 @@ class TournamentRound < ApplicationRecord
   end
 
   def max_order_within_event
-    TournamentRound.where(tournament_id: tournament_id).maximum(:order) || 0
+    tournament.rounds.maximum(:order) || 0
   end
 end

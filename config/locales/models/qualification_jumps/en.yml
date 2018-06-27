@@ -1,0 +1,4 @@
+en:
+  activerecord:
+    models:
+      qualification_jump: Qualification - Result

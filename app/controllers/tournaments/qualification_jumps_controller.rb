@@ -87,7 +87,7 @@ module Tournaments
     def qualification_jump_params
       params.require(:qualification_jump).permit(
         :qualification_round_id,
-        :tournament_competitor_id,
+        :competitor_id,
         :start_time,
         :result,
         :canopy_time,

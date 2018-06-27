@@ -16,11 +16,10 @@
 class QualificationJump < ApplicationRecord
   include AcceptsNestedTrack, SubmissionResult
 
-  belongs_to :tournament_competitor
+  belongs_to :competitor, class_name: 'Tournament::Competitor'
   belongs_to :qualification_round
   belongs_to :track, optional: true
 
-  alias_attribute :competitor, :tournament_competitor
   alias_attribute :round, :qualification_round
 
   delegate :tournament, to: :qualification_round

@@ -54,7 +54,7 @@ describe Profile, type: :model do
 
   describe '#belongs_to_tournament?' do
     it 'true if belongs to tournament' do
-      tournament = create :tournament
+      tournament = tournaments(:world_base_race)
       profile = create :profile, owner: tournament
       expect(profile.belongs_to_tournament?).to be_truthy
     end

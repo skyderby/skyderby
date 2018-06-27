@@ -8,11 +8,11 @@
           %span.sr-only
             Close
         %h4.modal-title
-          = t('activerecord.models.qualification_jump') + ': ' 
+          = t('activerecord.models.qualification_jump') + ': '
           = t('events.show.new')
 
       .modal-body
-        = f.hidden_field :tournament_competitor_id, value: @qualification_jump.tournament_competitor_id
+        = f.hidden_field :competitor_id, value: @qualification_jump.competitor_id
         = f.hidden_field :qualification_round_id, value: @qualification_jump.qualification_round_id
 
         = render 'concerns/upload_progress'
@@ -39,12 +39,12 @@
         .form-group
           = f.label :track, class: 'control-label col-sm-4'
           .col-sm-8
-            = f.select :track_id, 
+            = f.select :track_id,
                        options_for_select([[(track_presentation(@qualification_jump.track) if @qualification_jump.track_id), @qualification_jump.track_id]]),
                        {},
                        placeholder: "Choose track from list",
                        class: 'form-control',
-                       'data-profile-id' => @qualification_jump.tournament_competitor.profile_id,
+                       'data-profile-id': @qualification_jump.competitor.profile_id,
                        'data-controller': 'select2--tracks'
 
       .modal-footer

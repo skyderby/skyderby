@@ -10,8 +10,6 @@
 #  match_type            :integer          default("regular"), not null
 #
 
-FactoryBot.define do
-  factory :tournament_match do
-    association :round, factory: :tournament_round
-  end
+describe Tournament::Match do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

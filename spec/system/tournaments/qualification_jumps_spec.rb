@@ -1,16 +1,13 @@
 feature 'Qualification jumps', type: :system, js: true do
   scenario 'add and score qualification jump' do
-    user = create :user
-    sign_in user
+    sign_in users(:regular_user)
 
-    tournament = create_tournament responsible: user
-    create :qualification_round, tournament: tournament
-    create :tournament_competitor, tournament: tournament
+    tournament = tournaments(:qualification_loen)
 
     visit tournament_qualification_path(tournament)
     find('a.create-result-cell__link').click
 
-    expect(page).to have_content('Qualification Jump')
+    expect(page).to have_content(I18n.t('activerecord.models.qualification_jump'))
 
     file = Rails.root.join('spec', 'support', 'tracks', 'loen_jump_one_08-02-19.CSV')
     attach_file 'qualification_jump[track_attributes][file]', file, make_visible: true
@@ -22,20 +19,5 @@ feature 'Qualification jumps', type: :system, js: true do
     click_button I18n.t('general.save')
 
     expect(page).to have_content('34.716')
-    page.save_screenshot(Rails.root.join('tmp', 'page.png'))
-  end
-
-  def create_tournament(responsible:)
-    @tournament ||= create(
-      :tournament,
-      responsible: responsible,
-      has_qualification: true,
-      exit_lat: 61.88504129,
-      exit_lon: 6.83213621,
-      finish_start_lat: 61.873144426,
-      finish_start_lon: 6.8371879648,
-      finish_end_lat: 61.8743634807,
-      finish_end_lon: 6.8443581779
-    )
   end
 end

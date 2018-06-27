@@ -24,13 +24,16 @@
 describe Tournament, type: :model do
   describe '#with_qualification?' do
     it 'returns true if has qulification' do
-      tournament = create :tournament, has_qualification: true
+      tournament = tournaments(:world_base_race)
+      tournament.update!(has_qualification: true)
 
       expect(tournament.with_qualification?).to be_truthy
     end
 
     it 'returns false unless has_qualification' do
-      tournament = create :tournament
+      tournament = tournaments(:world_base_race)
+      tournament.update!(has_qualification: false)
+
       expect(tournament.with_qualification?).to be_falsey
     end
   end

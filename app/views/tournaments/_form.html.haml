@@ -1,17 +1,6 @@
 #tournament-form{'data-controller': 'tournaments--form'}
   .col-sm-6
-    = form_for @tournament, html: { class: 'form-horizontal' } do |f|
-
-      - if @tournament.errors.any?
-        #error_expl.panel.panel-danger
-          .panel-heading
-            %h3.panel-title
-              = pluralize(@tournament.errors.count, "error") 
-              = 'prohibited this tournament from being saved:'
-          .panel-body
-            %ul
-            - @tournament.errors.full_messages.each do |msg|
-              = msg
+    = form_for @tournament, remote: :true, html: { class: 'form-horizontal' } do |f|
 
       .form-group
         = f.label :name, class: 'control-label col-sm-2'
@@ -138,7 +127,7 @@
       .col-sm-offset-2.col-sm-8
         = f.submit nil, class: 'btn btn-primary'
         - path = @tournament.persisted? ? tournament_path(@tournament) : events_path
-        = link_to t('.cancel', default: t("helpers.links.cancel")),
+        = link_to t('general.cancel'),
                     path, class: 'btn btn-default'
 
   .col-sm-6

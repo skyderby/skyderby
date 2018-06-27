@@ -7,7 +7,7 @@ resources :tournaments, concerns: :sponsorable do
     resources :rounds, only: %i[create destroy] do
       resources :matches, only: :create
     end
-    resources :tournament_competitors, path: :competitors
+    resources :competitors
     resources :matches do
       scope module: :matches do
         resource :map, only: :show

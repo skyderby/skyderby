@@ -1,6 +1,7 @@
 .modal-dialog
   .modal-content
-    = form_for [@tournament, @competitor], remote: true, html: {class: 'form-horizontal'} do |f|
+    - path = @competitor.new_record? ? tournament_competitors_path(@tournament) : tournament_competitor_path(@tournament, @competitor)
+    = form_for @competitor, url: path, remote: true, html: {class: 'form-horizontal'} do |f|
       .modal-header
         %button.close{type: 'button', data: {dismiss: 'modal'}}
           %span{aria: {hidden: 'true'}}
@@ -8,7 +9,7 @@
           %span.sr-only
             Close
         %h4.modal-title
-          = t('activerecord.models.tournament_competitor') + ': ' 
+          = t('activerecord.models.tournament_competitor') + ': '
           - if @competitor.new_record?
             = t('events.index.new')
           - else
@@ -36,8 +37,8 @@
 
         = f.fields_for :profile_attributes do |builder|
           .form-group
-            = builder.label :name, 
-                            t('activerecord.attributes.profile.name'), 
+            = builder.label :name,
+                            t('activerecord.attributes.profile.name'),
                             class: 'control-label col-sm-4'
             .col-sm-8
               = builder.text_field :name, class: 'form-control'
@@ -77,7 +78,6 @@
             = f.label :disqualification_reason, class: 'control-label col-sm-4'
             .col-sm-8
               = f.text_field :disqualification_reason, class: 'form-control'
-
 
       .modal-footer
         = f.submit t('general.save'), class: 'btn btn-primary'

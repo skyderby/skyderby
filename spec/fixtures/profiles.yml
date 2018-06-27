@@ -3,6 +3,10 @@ admin:
   name: Admin profile
   owner: admin (User)
 
+regular_user:
+  name: Regular user
+  owner: regular_user (User)
+
 alex:
   id: 2
   name: Alex

@@ -9,9 +9,6 @@
 #  updated_at    :datetime         not null
 #
 
-FactoryBot.define do
-  factory :tournament_round do
-    tournament
-    sequence(:order)
-  end
+describe Tournament::Round do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

@@ -16,23 +16,21 @@
 #  earn_medal               :integer
 #
 
-class TournamentMatchCompetitor < ApplicationRecord
+class Tournament::Match::Slot < ApplicationRecord
   SECONDS_BEFORE_START = 10
 
   enum earn_medal: %i[gold silver bronze]
 
-  belongs_to :tournament_competitor
-  belongs_to :tournament_match
+  belongs_to :competitor
+  belongs_to :match
   belongs_to :track, optional: true
 
   before_save :calculate_result
   before_save :replace_nan_with_zero
 
-  alias_attribute :competitor, :tournament_competitor
-
-  delegate :start_time, to: :tournament_match
+  delegate :start_time, to: :match
   delegate :name, to: :competitor, prefix: true, allow_nil: true
-  delegate :round, to: :tournament_match
+  delegate :round, to: :match
   delegate :order, to: :round, prefix: true, allow_nil: true
 
   def calculate_result
@@ -64,7 +62,7 @@ class TournamentMatchCompetitor < ApplicationRecord
   end
 
   def finish_line
-    tournament_match.tournament.finish_line
+    match.tournament.finish_line
   end
 
   def replace_nan_with_zero

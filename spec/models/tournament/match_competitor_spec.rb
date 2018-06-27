@@ -16,9 +16,19 @@
 #  earn_medal               :integer
 #
 
-FactoryBot.define do
-  factory :tournament_match_competitor do
-    tournament_match
-    tournament_competitor
+describe Tournament::Match::Slot do
+  it "replace NaN in result with 0.0" do
+    record = Tournament::Match::Slot.create(result: BigDecimal::NAN)
+    expect(record.result).to eq 0.0
+  end
+
+  it "replace Infinity in result with 0.0" do
+    record = Tournament::Match::Slot.create!(result: BigDecimal.new('Infinity'))
+    expect(record.result).to eq 0.0
+  end
+
+  it "correctly handles null in result" do
+    record = Tournament::Match::Slot.create!(result: nil)
+    expect(record.result).to eq nil
   end
 end

@@ -10,13 +10,11 @@
 #  match_type            :integer          default("regular"), not null
 #
 
-class TournamentMatch < ApplicationRecord
+class Tournament::Match < ApplicationRecord
   enum match_type: [:regular, :gold_finals, :bronze_finals]
 
-  belongs_to :round,
-             class_name: 'TournamentRound',
-             foreign_key: 'tournament_round_id'
-  has_many :slots, class_name: 'TournamentMatchCompetitor'
+  belongs_to :round
+  has_many :slots, dependent: :destroy
 
   delegate :tournament, to: :round
 

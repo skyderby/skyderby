@@ -12,14 +12,14 @@
 #  disqualification_reason :string
 #
 
-class TournamentCompetitor < ApplicationRecord
+class Tournament::Competitor < ApplicationRecord
   attr_accessor :profile_attributes, :profile_mode
 
   belongs_to :tournament
   belongs_to :profile
   belongs_to :suit
 
-  has_many :tournament_match_competitors, dependent: :restrict_with_error
+  has_many :match_slots, dependent: :restrict_with_error, class_name: 'Tournament::Match::Slot'
   has_many :qualification_jumps, dependent: :restrict_with_error
 
   delegate :name, to: :profile, allow_nil: true
@@ -37,12 +37,4 @@ class TournamentCompetitor < ApplicationRecord
 
     self.profile = Profile.create profile_attributes
   end
-private
-
-  def create_profile
-    return if profile || profile_mode.to_sym == :select
-
-    self.profile = Profile.create profile_attributes
-  end
-
 end

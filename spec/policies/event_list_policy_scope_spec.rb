@@ -3,7 +3,12 @@ describe EventListPolicy::Scope do
     user = create :user
 
     event_array = EventListPolicy::Scope.new(user, EventList.all).resolve.map(&:event)
-    expect(event_array).to match_array [events(:finished_public), events(:published_public)]
+    expect(event_array).to match_array [
+      events(:finished_public),
+      events(:published_public),
+      tournaments(:world_base_race),
+      tournaments(:qualification_loen)
+    ]
   end
 
   it 'visible all events where organizer' do
@@ -15,7 +20,9 @@ describe EventListPolicy::Scope do
     expect(event_array).to match_array [
       events(:draft_public),
       events(:published_public),
-      events(:finished_public)
+      events(:finished_public),
+      tournaments(:world_base_race),
+      tournaments(:qualification_loen)
     ]
   end
 
@@ -28,7 +35,9 @@ describe EventListPolicy::Scope do
     expect(event_array).to match_array [
       events(:draft_public),
       events(:published_public),
-      events(:finished_public)
+      events(:finished_public),
+      tournaments(:world_base_race),
+      tournaments(:qualification_loen)
     ]
   end
 end

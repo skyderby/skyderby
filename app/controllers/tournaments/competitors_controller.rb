@@ -1,5 +1,5 @@
 module Tournaments
-  class TournamentCompetitorsController < ApplicationController
+  class CompetitorsController < ApplicationController
     before_action :authorize_tournament
     before_action :set_tournament_competitor, only: [:edit, :update, :destroy]
 
