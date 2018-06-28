@@ -1,4 +1,4 @@
-resources :tournaments, concerns: :sponsorable do
+resources :tournaments, concerns: [:sponsorable, :organizable] do
   scope module: :tournaments do
     resource :qualification, only: :show
     resources :qualification_rounds, only: %i[create destroy]

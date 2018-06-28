@@ -34,6 +34,7 @@ class Tournament < ApplicationRecord
 
   belongs_to :place
 
+  has_many :organizers, as: :organizable, dependent: :delete_all
   has_many :competitors, dependent: :restrict_with_error
   has_many :rounds, dependent: :restrict_with_error
   has_many :matches, through: :rounds
