@@ -1,11 +1,11 @@
 describe 'Scoring PPC-like competitions', js: true do
   it 'complete test' do
-    user = create :user
+    user = users(:regular_user)
     sign_in user
 
     create :place, name: 'Awesome DZ', msl: 27, latitude: 28.21975954, longitude: -82.15107322
 
-    create_competition 
+    create_competition
     expect(page).to have_css('#event-header h1 span', text: 'Test event')
 
     add_category 'Open'
@@ -57,6 +57,7 @@ describe 'Scoring PPC-like competitions', js: true do
     suit = create :suit
 
     click_link I18n.t('activerecord.models.competitor')
+    expect(page).to have_css('.modal-title', text: "#{I18n.t('activerecord.models.competitor')}: New")
     select2 category, from: 'section_id'
     select2 suit.name, from: 'suit_id'
 
@@ -101,7 +102,8 @@ describe 'Scoring PPC-like competitions', js: true do
     row.find('.result-cell').hover
     row.find('.show-result').click
 
-    sleep 0.5
+    modal_title = "#{I18n.t('activerecord.models.event_track')}: #{competitor} | Distance - 1"
+    expect(page).to have_css('.modal-title', text: modal_title)
 
     click_link 'Penalties'
 
