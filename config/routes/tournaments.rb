@@ -12,7 +12,12 @@ resources :tournaments, concerns: [:sponsorable, :organizable] do
       scope module: :matches do
         resource :map, only: :show
         resource :globe, controller: 'globe', only: :show
-        resources :slots
+        resources :slots do
+          scope module: :slots do
+            resource :result, only: %i[new create show update destroy]
+            resource :jump_range, only: %i[show update]
+          end
+        end
       end
     end
   end

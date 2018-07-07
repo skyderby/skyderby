@@ -1,4 +1,4 @@
-class QualificationJump < ApplicationRecord
+class Tournament < ApplicationRecord
   module SubmissionResult
     extend ActiveSupport::Concern
 
@@ -11,7 +11,9 @@ class QualificationJump < ApplicationRecord
     def calculate_result
       return unless track
       return unless start_time
-      return if result
+
+      # In case judge will use result from stop-watch
+      return if track.blank? && result&.positive?
 
       intersection_point = PathIntersectionFinder.new(
         track_points,
@@ -19,10 +21,12 @@ class QualificationJump < ApplicationRecord
       ).execute
 
       self.result = (intersection_point[:gps_time].to_f - start_time.to_f).round(3)
+    rescue PathIntersectionFinder::IntersectionNotFound
+      on_intersection_not_found
     end
 
-    def finish_line
-      qualification_round.tournament.finish_line
+    def on_intersection_not_found
+      self.result = 0
     end
 
     def track_points

@@ -11,10 +11,11 @@
 #
 
 class Tournament::Match < ApplicationRecord
+  include Slots
+
   enum match_type: [:regular, :gold_finals, :bronze_finals]
 
   belongs_to :round
-  has_many :slots, dependent: :destroy
 
   delegate :tournament, to: :round
 
@@ -23,10 +24,6 @@ class Tournament::Match < ApplicationRecord
               mapping: %w(start_time_in_seconds to_f),
               constructor: proc { |t| Time.zone.at(t) if t },
               converter: proc { |t| convert_to_time(t) }
-
-  def free_slots
-    tournament.bracket_size - slots.count
-  end
 
   def self.convert_to_time(t)
     if t.is_a?(Time)

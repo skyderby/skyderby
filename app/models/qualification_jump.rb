@@ -14,7 +14,7 @@
 #
 
 class QualificationJump < ApplicationRecord
-  include AcceptsNestedTrack, SubmissionResult
+  include AcceptsNestedTrack, Tournament::SubmissionResult
 
   belongs_to :competitor, class_name: 'Tournament::Competitor'
   belongs_to :qualification_round
@@ -46,5 +46,11 @@ class QualificationJump < ApplicationRecord
 
   def track_comment
     "#{tournament.name} - Qualification #{qualification_round.order}"
+  end
+
+  private
+
+  def finish_line
+    qualification_round.tournament.finish_line
   end
 end

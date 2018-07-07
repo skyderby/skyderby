@@ -1,6 +1,6 @@
 .modal-dialog
   .modal-content
-    = form_for(@tournament_match, url: tournament_match_path(@tournament, @tournament_match), remote: true, html: { class: 'form-horizontal' }) do |f|
+    = form_for(@match, url: tournament_match_path(@tournament, @match), remote: true, html: { class: 'form-horizontal' }) do |f|
 
       .modal-header
         %button.close{type: 'button', data: {dismiss: 'modal'}}
@@ -16,22 +16,37 @@
         .form-group
           = f.label :start_time, class: 'control-label col-sm-4'
           .col-sm-8
-            = f.text_field :start_time, class: 'form-control', value: @tournament_match.start_time&.strftime('%Y-%m-%d %T.%L')
+            = f.text_field :start_time, class: 'form-control', value: @match.start_time&.strftime('%Y-%m-%d %T.%L')
 
         .form-group
           = f.label :match_type, class: 'control-label col-sm-4'
           .btn-group.col-sm-8{'data-toggle' => 'buttons'}
-            %label.btn.btn-default{class: ('active' if @tournament_match.regular?)}
+            %label.btn.btn-default{class: ('active' if @match.regular?)}
               = f.radio_button :match_type, 'regular'
               Regular
-            %label.btn.btn-default{class: ('active' if @tournament_match.gold_finals?)}
+            %label.btn.btn-default{class: ('active' if @match.gold_finals?)}
               = f.radio_button :match_type, 'gold_finals'
               Gold finals
-            %label.btn.btn-default{class: ('active' if @tournament_match.bronze_finals?)}
+            %label.btn.btn-default{class: ('active' if @match.bronze_finals?)}
               = f.radio_button :match_type, 'bronze_finals'
               Bronze finals
 
+        %hr
+
+        - index = 1
+        = f.fields_for :slots do |slot|
+          .form-group
+            = slot.label :competitor, "Competitor #{index}", class: 'control-label col-sm-4'
+            .col-sm-8
+              = slot.collection_select :competitor_id,
+                                       @tournament.competitors.left_outer_joins(:profile).order('profiles.name'),
+                                       :id,
+                                       :name,
+                                       { include_blank: 'Select competitor' },
+                                       { class: 'form-control', 'data-controller': 'select2--local' }
+          - index += 1
+
       .modal-footer
-        = link_to t('general.delete'), tournament_match_path(@tournament, @tournament_match), remote: true, method: :delete, class: 'btn btn-danger pull-left'
+        = link_to t('general.delete'), tournament_match_path(@tournament, @match), remote: true, method: :delete, class: 'btn btn-danger pull-left'
         = f.submit t('general.save'), class: 'btn btn-primary', 'data-disable-with': t('general.saving')
         %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

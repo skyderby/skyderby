@@ -17,7 +17,7 @@
 #
 
 class Tournament::Match::Slot < ApplicationRecord
-  SECONDS_BEFORE_START = 10
+  include AcceptsNestedTrack, Tournament::SubmissionResult
 
   enum earn_medal: %i[gold silver bronze]
 
@@ -25,44 +25,34 @@ class Tournament::Match::Slot < ApplicationRecord
   belongs_to :match
   belongs_to :track, optional: true
 
-  before_save :calculate_result
   before_save :replace_nan_with_zero
 
-  delegate :start_time, to: :match
+  delegate :tournament, :start_time, :round, to: :match
   delegate :name, to: :competitor, prefix: true, allow_nil: true
-  delegate :round, to: :match
   delegate :order, to: :round, prefix: true, allow_nil: true
-
-  def calculate_result
-    return unless track
-    return if (result || 0).positive?
-
-    begin
-      intersection_point = PathIntersectionFinder.new(
-        track_points,
-        finish_line
-      ).execute
-
-      self.result = (intersection_point[:gps_time].to_f - start_time.to_f).round(3)
-    rescue PathIntersectionFinder::IntersectionNotFound
-      self.result = 0
-      self.is_disqualified = true
-      self.notes = "Didn't intersected finish line"
-    end
-  end
 
   private
 
-  def track_points
-    PointsQuery.execute(
-      track,
-      trimmed: { seconds_before_start: 20 },
-      only: %i[gps_time altitude latitude longitude]
-    )
+  def on_intersection_not_found
+    self.result = 0
+    self.is_disqualified = true
+    self.notes = "Didn't intersected finish line"
   end
 
   def finish_line
-    match.tournament.finish_line
+    tournament.finish_line
+  end
+
+  def track_owner
+    tournament
+  end
+
+  def tracks_visibility
+    :public_track
+  end
+
+  def track_comment
+    "#{tournament.name} - Round #{round.order}"
   end
 
   def replace_nan_with_zero

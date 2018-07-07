@@ -11,5 +11,13 @@
 #
 
 describe Tournament::Match do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'build slots on create' do
+    tournament = tournaments(:world_base_race)
+    tournament.update!(bracket_size: 2)
+
+    round = tournament_rounds(:round_1)
+    match = round.matches.create!
+
+    expect(match.slots.count).to eq(2)
+  end
 end

@@ -1,21 +1,21 @@
 module Tournaments
   class MatchesController < ApplicationController
     before_action :set_tournament, :authorize_action
-    before_action :set_tournament_match, only: [:show, :edit, :update, :destroy]
+    before_action :set_match, only: [:show, :edit, :update, :destroy]
 
     def edit; end
 
     def create
-      @tournament_round = TournamentRound.find(params[:round_id])
-      @tournament_match = @tournament_round.matches.new
+      @round = @tournament.rounds.find(params[:round_id])
+      @match = @round.matches.new
 
       respond_to do |format|
-        if @tournament_match.save
+        if @match.save
           format.js
         else
           format.js do
             render template: 'errors/ajax_errors',
-                   locals: { errors: @tournament_match.errors },
+                   locals: { errors: @match.errors },
                    status: :unprocessable_entity
           end
         end
@@ -24,12 +24,12 @@ module Tournaments
 
     def update
       respond_to do |format|
-        if @tournament_match.update(tournament_match_params)
+        if @match.update(match_params)
           format.js
         else
           format.js do
             render template: 'errors/ajax_errors',
-                   locals: { errors: @tournament_match.errors },
+                   locals: { errors: @match.errors },
                    status: :unprocessable_entity
           end
         end
@@ -38,12 +38,12 @@ module Tournaments
 
     def destroy
       respond_to do |format|
-        if @tournament_match.destroy
+        if @match.destroy
           format.js
         else
           format.js do
             render template: 'errors/ajax_errors',
-                   locals: { errors: @tournament_match.errors },
+                   locals: { errors: @match.errors },
                    status: :unprocessable_entity
           end
         end
@@ -56,19 +56,20 @@ module Tournaments
       @tournament = Tournament.find(params[:tournament_id])
     end
 
-    def set_tournament_match
-      @tournament_match = TournamentMatch.find(params[:id])
+    def set_match
+      @match = @tournament.matches.find(params[:id])
     end
 
     def authorize_action
       authorize @tournament, :update?
     end
 
-    def tournament_match_params
+    def match_params
       params.require(:tournament_match).permit(
         :tournament_round_id,
         :start_time,
-        :match_type
+        :match_type,
+        slots_attributes: {}
       )
     end
   end
