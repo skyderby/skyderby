@@ -1,0 +1,9 @@
+- editable ||= false
+
+.row.top-buffer
+  = render 'organizers/list', organizable: @tournament, editable: editable
+
+.row.top-buffer
+  = render 'sponsors/list',
+           sponsorable: @tournament,
+           editable: editable

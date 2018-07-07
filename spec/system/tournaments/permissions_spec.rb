@@ -6,7 +6,7 @@ feature 'Tournaments permissions', type: :system do
   end
 
   scenario 'Not logged in user can not acess new action' do
-    tournament = create :tournament
+    tournament = tournaments(:world_base_race)
     visit edit_tournament_path(tournament)
 
     expect(page).to have_content 'You are not authorized to access this page.'

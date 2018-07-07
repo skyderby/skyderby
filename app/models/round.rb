@@ -35,12 +35,6 @@ class Round < ApplicationRecord
     signed_off_by.present?
   end
 
-  def best_result(net: false)
-    value_key = net ? :result_net : :result
-
-    event_tracks.reject(&:is_disqualified).max_by(&value_key)
-  end
-
   private
 
   def set_number

@@ -2,13 +2,13 @@ require 'spec_helper'
 
 feature 'Manage tournament competitors', type: :system, js: true do
   scenario 'add competitor with existed profile' do
-    sign_in user
+    sign_in users(:regular_user)
 
-    tournament = create :tournament, responsible: user
+    tournament = tournaments(:world_base_race)
     profile = create :profile
     suit = create :suit
 
-    visit tournament_tournament_competitors_path(tournament)
+    visit tournament_competitors_path(tournament)
 
     click_link 'Add competitor'
     sleep 0.1 # wait for modal
@@ -23,13 +23,13 @@ feature 'Manage tournament competitors', type: :system, js: true do
   end
 
   scenario 'add competitor with new profile' do
-    sign_in user
+    sign_in users(:regular_user)
 
-    tournament = create :tournament, responsible: user
-    suit = create :suit
-    country = create :country, :norway
+    tournament = tournaments(:world_base_race)
+    suit = suits(:apache)
+    country = countries(:russia)
 
-    visit tournament_tournament_competitors_path(tournament)
+    visit tournament_competitors_path(tournament)
 
     click_link 'Add competitor'
     sleep 0.3 # wait for modal
@@ -47,43 +47,19 @@ feature 'Manage tournament competitors', type: :system, js: true do
     sleep 0.1 # wait for ajax and modal
 
     expect(page).to have_css('.tournament-competitors-table tbody tr td', text: 'Petr Zh')
-    expect(page).to have_css('.tournament-competitors-table tbody tr td', text: 'no')
+    expect(page).to have_css('.tournament-competitors-table tbody tr td', text: 'RUS')
   end
 
-  # scenario 'edit competitor' do
-  #   sign_in user
-  #
-  #   tournament = create :tournament, responsible: user
-  #   create :tournament_competitor, tournament: tournament
-  #   suit = create :suit, name: 'awesome'
-  #
-  #   visit tournament_tournament_competitors_path(tournament)
-  #   find('tbody > tr > td > a[data-remote=true]').click
-  #   sleep 0.3 # wait for modal
-  #
-  #   # Select suit
-  #   select2 suit.name, from: 'tournament_competitor_suit_id'
-  #
-  #   click_button I18n.t('general.save')
-  #
-  #   expect(page).to have_css('tbody > tr > td', text: suit.name)
-  # end
-
   scenario 'delete competitor' do
-    sign_in user
+    sign_in users(:regular_user)
 
-    tournament = create :tournament, responsible: user
-    create :tournament_competitor, tournament: tournament
+    tournament = tournaments(:world_base_race)
 
-    visit tournament_tournament_competitors_path(tournament)
+    visit tournament_competitors_path(tournament)
     accept_alert do
       find('tbody > tr > td > .button_to > button').click
     end
 
     expect(page).not_to have_css('tbody > tr')
-  end
-
-  def user
-    @user ||= create :user
   end
 end

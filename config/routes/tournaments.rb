@@ -1,4 +1,4 @@
-resources :tournaments, concerns: :sponsorable do
+resources :tournaments, concerns: [:sponsorable, :organizable] do
   scope module: :tournaments do
     resource :qualification, only: :show
     resources :qualification_rounds, only: %i[create destroy]
@@ -7,12 +7,17 @@ resources :tournaments, concerns: :sponsorable do
     resources :rounds, only: %i[create destroy] do
       resources :matches, only: :create
     end
-    resources :tournament_competitors, path: :competitors
+    resources :competitors
     resources :matches do
       scope module: :matches do
         resource :map, only: :show
         resource :globe, controller: 'globe', only: :show
-        resources :slots
+        resources :slots do
+          scope module: :slots do
+            resource :result, only: %i[new create show update destroy]
+            resource :jump_range, only: %i[show update]
+          end
+        end
       end
     end
   end

@@ -34,9 +34,10 @@ class Tournament < ApplicationRecord
 
   belongs_to :place
 
-  has_many :competitors, class_name: 'TournamentCompetitor'
-  has_many :rounds, class_name: 'TournamentRound'
-  has_many :matches, through: :rounds, source: :matches
+  has_many :organizers, as: :organizable, dependent: :delete_all
+  has_many :competitors, dependent: :restrict_with_error
+  has_many :rounds, dependent: :restrict_with_error
+  has_many :matches, through: :rounds
 
   has_many :qualification_rounds
   has_many :qualification_jumps, through: :qualification_rounds
@@ -44,6 +45,8 @@ class Tournament < ApplicationRecord
   has_many :sponsors, -> { order(:created_at) }, as: :sponsorable
 
   delegate :name, to: :place, prefix: true, allow_nil: true
+
+  after_initialize :set_default_values
 
   def finish_line
     [
@@ -69,5 +72,14 @@ class Tournament < ApplicationRecord
   # For compatibility with Event
   def finished?
     false
+  end
+
+  private
+
+  def set_default_values
+    return if persisted?
+
+    self.bracket_size ||= 2
+    self.starts_at ||= Time.zone.tomorrow
   end
 end

@@ -2,23 +2,13 @@
 - editable = policy(@tournament).update?
 
 .tournament-show
-  .container
-    = render 'tournaments/header'
+  .container= render 'tournaments/header'
 
   .container
     .content-block
       - if editable
-        = button_to tournament_rounds_path(tournament_id: @tournament.id),
-                    method: :post,
-                    remote: true,
-                    class: 'btn btn-default' do
-          %i.fa.fa-plus
-          Round
+        = add_tournament_round_button(@tournament)
 
       = render 'scoreboard'
 
-      .container
-        .row.top-buffer
-          = render 'sponsors/list',
-                   sponsorable: @tournament,
-                   editable: editable
+      .container= render 'footer', editable: editable

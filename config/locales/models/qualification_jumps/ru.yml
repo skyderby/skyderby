@@ -1,0 +1,4 @@
+ru:
+  activerecord:
+    models:
+      qualification_jump: Квалификация - Результат

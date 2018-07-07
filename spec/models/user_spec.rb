@@ -44,7 +44,7 @@ describe User, type: :model do
   end
 
   it '#responsible_of_events' do
-    user = create :user
+    user = users(:regular_user)
     event = create :event, responsible: user
 
     expect(user.responsible_of_events).to include event
@@ -52,15 +52,15 @@ describe User, type: :model do
 
   describe '#organizer_of_event?' do
     it 'when responsible of event' do
-      user = create :user
+      user = users(:regular_user)
       event = create :event, responsible: user
 
       expect(user.organizer_of_event?(event)).to be_truthy
     end
 
     it 'when responsible of tournament' do
-      user = create :user
-      tournament = create :tournament, responsible: user
+      user = users(:regular_user)
+      tournament = tournaments(:world_base_race)
 
       expect(user.organizer_of_event?(tournament)).to be_truthy
     end

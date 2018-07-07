@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_29_055916) do
+ActiveRecord::Schema.define(version: 2018_06_26_083500) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -187,14 +187,14 @@ ActiveRecord::Schema.define(version: 2018_05_29_055916) do
 
   create_table "qualification_jumps", id: :serial, force: :cascade do |t|
     t.integer "qualification_round_id"
-    t.integer "tournament_competitor_id"
+    t.integer "competitor_id"
     t.decimal "result", precision: 10, scale: 3
     t.integer "track_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "start_time_in_seconds", precision: 17, scale: 3
     t.decimal "canopy_time"
-    t.index ["qualification_round_id", "tournament_competitor_id"], name: "index_qualification_jumps_on_round_and_competitor", unique: true
+    t.index ["qualification_round_id", "competitor_id"], name: "index_qualification_jumps_on_round_and_competitor", unique: true
   end
 
   create_table "qualification_rounds", id: :serial, force: :cascade do |t|
@@ -265,10 +265,10 @@ ActiveRecord::Schema.define(version: 2018_05_29_055916) do
     t.index ["tournament_id"], name: "index_tournament_competitors_on_tournament_id"
   end
 
-  create_table "tournament_match_competitors", id: :serial, force: :cascade do |t|
+  create_table "tournament_match_slots", id: :serial, force: :cascade do |t|
     t.decimal "result", precision: 10, scale: 3
-    t.integer "tournament_competitor_id"
-    t.integer "tournament_match_id"
+    t.integer "competitor_id"
+    t.integer "match_id"
     t.integer "track_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -281,11 +281,11 @@ ActiveRecord::Schema.define(version: 2018_05_29_055916) do
 
   create_table "tournament_matches", id: :serial, force: :cascade do |t|
     t.decimal "start_time_in_seconds", precision: 17, scale: 3
-    t.integer "tournament_round_id"
+    t.integer "round_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "match_type", default: 0, null: false
-    t.index ["tournament_round_id"], name: "index_tournament_matches_on_tournament_round_id"
+    t.index ["round_id"], name: "index_tournament_matches_on_round_id"
   end
 
   create_table "tournament_rounds", id: :serial, force: :cascade do |t|
@@ -498,7 +498,7 @@ ActiveRecord::Schema.define(version: 2018_05_29_055916) do
               events_1.created_at
              FROM events events_1
           UNION ALL
-           SELECT 'Tournament'::text AS text,
+           SELECT 'Tournament'::text,
               tournaments.id,
               tournaments.starts_at,
               1,

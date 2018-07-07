@@ -1,8 +1,9 @@
 .organizers
   %h4= t('.judges') + ':'
   %ol.organizers__list
-    %li.organizers__item
-      %span= organizable.responsible.name
+    - if organizable.responsible.present?
+      %li.organizers__item
+        %span= organizable.responsible.name
     = render organizable.organizers
   - if editable
     = link_to polymorphic_path([:new, organizable, :organizer]), remote: true, class: 'add-organizer button button--minimal' do

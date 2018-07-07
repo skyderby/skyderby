@@ -1,0 +1,12 @@
+.container
+
+  = render 'tournaments/header'
+
+  .content-block
+    .row
+      .col-sm-12
+        = link_to 'Add competitor', new_tournament_competitor_path, remote: true, class: "btn btn-default"
+
+    .row.top-buffer
+      .col-sm-12
+        = render 'tournaments/competitors/table'

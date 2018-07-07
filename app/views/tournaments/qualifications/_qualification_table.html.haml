@@ -71,9 +71,9 @@
           - else
             %td.text-center.create-result-cell
               - if policy(@tournament).update?
-                = link_to new_tournament_qualification_jump_path(@tournament), 
-                          remote: true, 
-                          'data-params': { 'qualification_jump[tournament_competitor_id]' => result[:id],
+                = link_to new_tournament_qualification_jump_path(@tournament),
+                          remote: true,
+                          'data-params': { 'qualification_jump[competitor_id]' => result[:id],
                                            'qualification_jump[qualification_round_id]' => round.id}.to_param,
                           class: 'create-result-cell__link',
                           rel: 'nofollow' do

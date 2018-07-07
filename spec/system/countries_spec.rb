@@ -6,13 +6,13 @@ feature 'Manage countries', type: :system do
     click_link 'New Country'
 
     within '#new_country' do
-      fill_in 'country[name]', with: 'Russia'
-      fill_in 'country[code]', with: 'RUS'
+      fill_in 'country[name]', with: 'Ukraine'
+      fill_in 'country[code]', with: 'UKR'
 
       click_button I18n.t('general.save')
     end
 
-    expect(page).to have_content('Russia')
+    expect(page).to have_content('Ukraine')
   end
 
   scenario 'Edit' do
@@ -20,7 +20,7 @@ feature 'Manage countries', type: :system do
     sign_in users(:admin)
 
     visit countries_path
-    click_link 'Edit'
+    first(:link, 'Edit').click
 
     within "#edit_country_#{country.id}" do
       fill_in 'country[name]', with: 'AbraCadabra'

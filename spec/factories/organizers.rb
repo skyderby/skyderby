@@ -15,9 +15,4 @@ FactoryBot.define do
     user
     association :organizable, factory: :event
   end
-
-  factory :tournament_organizer, class: 'Organizer' do
-    user
-    association :organizable, factory: :tournament
-  end
 end

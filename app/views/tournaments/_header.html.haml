@@ -19,6 +19,6 @@
       = link_to tournament_qualification_path(@tournament), class: ['btn-flat btn-tab', ('active' if controller_path == 'tournaments/qualifications')] do
         Qualification
     - if policy(@tournament).edit?
-      = link_to tournament_tournament_competitors_path(@tournament.id), class: ['btn-flat btn-tab', ('active' if controller_path == 'tournaments/tournament_competitors')] do
+      = link_to tournament_competitors_path(@tournament.id), class: ['btn-flat btn-tab', ('active' if controller_path == 'tournaments/competitors')] do
         Competitors
 
