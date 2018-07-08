@@ -11,7 +11,7 @@
 
 class Tournament::Round < ApplicationRecord
   belongs_to :tournament
-  has_many :matches, dependent: :restrict_with_error
+  has_many :matches, -> { order(:created_at) }, dependent: :restrict_with_error
 
   before_create :set_order
 
