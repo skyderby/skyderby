@@ -1,5 +1,7 @@
 module Tournaments
   class MatchesController < ApplicationController
+    include TournamentScoped
+
     before_action :set_tournament, :authorize_action
     before_action :set_match, only: [:show, :edit, :update, :destroy]
 
@@ -11,7 +13,7 @@ module Tournaments
 
       respond_to do |format|
         if @match.save
-          format.js
+          format.js { respond_with_scoreboard }
         else
           format.js do
             render template: 'errors/ajax_errors',
@@ -25,7 +27,7 @@ module Tournaments
     def update
       respond_to do |format|
         if @match.update(match_params)
-          format.js
+          format.js { respond_with_scoreboard }
         else
           format.js do
             render template: 'errors/ajax_errors',
@@ -39,7 +41,7 @@ module Tournaments
     def destroy
       respond_to do |format|
         if @match.destroy
-          format.js
+          format.js { respond_with_scoreboard }
         else
           format.js do
             render template: 'errors/ajax_errors',
@@ -51,10 +53,6 @@ module Tournaments
     end
 
     private
-
-    def set_tournament
-      @tournament = Tournament.find(params[:tournament_id])
-    end
 
     def set_match
       @match = @tournament.matches.find(params[:id])
