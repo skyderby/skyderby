@@ -10,6 +10,7 @@ module TournamentsHelper
         id: competitor.id,
         name: competitor.name,
         competitor: competitor,
+        suit: competitor.suit,
         profile_id: competitor.profile_id
       }
       competitor_jump_results = []

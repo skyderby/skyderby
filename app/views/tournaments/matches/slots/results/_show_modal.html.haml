@@ -26,6 +26,14 @@
           .col-sm-12
             = render 'tracks/charts', presenter: @track_presenter
 
-    .modal-footer
-      %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}
-        OK
+      %hr
+      .modal-actions
+        .modal-actions__left
+          = link_to(t('general.delete'),
+                    tournament_match_slot_result_path(@tournament, @match, @slot),
+                    remote: true,
+                    method: :delete,
+                    class: 'btn-flat btn-flat--danger')
+
+        .modal-actions__right
+          %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}} OK

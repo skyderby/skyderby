@@ -37,6 +37,10 @@
         %td.qualification-table__competitor
           = link_to profile_path(result[:profile_id]), class: 'dotted-underline' do
             = result[:name]
+          %span.text-muted
+            = result[:suit].manufacturer_code
+            = result[:suit].name
+
           - if result[:competitor].is_disqualified
             %span.text-danger{'data-toggle' => 'tooltip', title: result[:competitor].disqualification_reason}
               (DQ)

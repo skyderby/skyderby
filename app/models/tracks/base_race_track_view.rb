@@ -44,6 +44,8 @@ module Tracks
           .new(all_points)
           .execute(from_gps_time: base_race_track.start_time, duration: base_race_track.result)
           .points
+      rescue WindowRangeFinder::ValueOutOfRange
+        []
       end
     end
   end

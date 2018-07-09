@@ -2,7 +2,9 @@ module Tournaments
   module Matches
     module Slots
       class ResultsController < ApplicationController
-        before_action :set_tournament, :set_match, :set_slot
+        include TournamentScoped
+
+        before_action :set_match, :set_slot
 
         def show
           authorize @tournament, :show?
@@ -27,7 +29,23 @@ module Tournaments
 
           respond_to do |format|
             if @slot.update(result_params)
-              format.js
+              format.js { respond_with_scoreboard }
+            else
+              format.js do
+                render template: 'errors/ajax_errors',
+                       locals: { errors: @slot.errors },
+                       status: :unprocessable_entity
+              end
+            end
+          end
+        end
+
+        def destroy
+          authorize @tournament, :edit?
+
+          respond_to do |format|
+            if @slot.update(destroy_params)
+              format.js { respond_with_scoreboard }
             else
               format.js do
                 render template: 'errors/ajax_errors',
@@ -39,10 +57,6 @@ module Tournaments
         end
 
         private
-
-        def set_tournament
-          @tournament = Tournament.find(params[:tournament_id])
-        end
 
         def set_match
           @match = @tournament.matches.find(params[:match_id])
@@ -56,6 +70,15 @@ module Tournaments
           params.permit(:charts_mode, :charts_units)
         end
         helper_method :show_params
+
+        def destroy_params
+          {
+            track: nil,
+            result: nil,
+            is_disqualified: false,
+            notes: ''
+          }
+        end
 
         def result_params
           params.require(:tournament_match_slot).permit(
