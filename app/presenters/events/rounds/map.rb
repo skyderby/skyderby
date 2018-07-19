@@ -12,7 +12,7 @@ module Events
       def competitors
         @competitors ||=
           round.event_tracks
-          .map { |event_track| CompetitorTrack.new(event_track) }
+          .map { |event_track| Events::Maps::CompetitorTrack.new(event_track) }
           .sort_by(&:start_time)
           .each_with_index { |data, index| data.color = colors[index] }
       end

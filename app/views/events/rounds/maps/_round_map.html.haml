@@ -1,53 +1,17 @@
 .container-fluid.round-map{'data-controller': 'events--round-map', 'data-url': url_for}
   .row
     .col-sm-8{'data-controller': 'events--designated-lane'}
-      .designated-lane-form
-        %button.btn.btn-xs.btn-default{'data-action': 'click->events--designated-lane#toggle'}
-          Designated lane
-        %form.form-inline
-          .form-group
-            %label.control-label{for: 'designated-lane-length'} Length
-            %input#designated-lane-length.form-control.input-sm{type: :number,
-                                                                value: 7000,
-                                                                disabled: true,
-                                                                'data-target': 'events--designated-lane.length',
-                                                                'data-action': 'input->events--designated-lane#on_change_length'}
-          .form-group
-            %label.control-label{for: 'designated-lane-width'} Width
-            %input#designated-lane-width.form-control.input-sm{type: :number,
-                                                               value: 1200,
-                                                               disabled: true,
-                                                               'data-target': 'events--designated-lane.width',
-                                                               'data-action': 'input->events--designated-lane#on_change_width'}
-          .form-group
-            %label.control-label{for: 'designated-lane-direction'} Direction
-            %input#designated-lane-direction.form-control.input-sm{type: :number,
-                                                                   value: 0,
-                                                                   disabled: true,
-                                                                   'data-target': 'events--designated-lane.direction',
-                                                                   'data-action': 'input->events--designated-lane#on_change_direction'}
+      = render 'events/maps/designated_lane_form'
+
       #round-map{'data-target': 'events--round-map.map events--designated-lane.map'}
         .round-map-loading{'data-target': 'events--round-map.loading_placeholder'}
           %i.fa.fa-3x.fa-circle-o-notch.fa-spin
           %p
             Loading...
-      .round-map__legend
-        .round-map__legend-item
-          %i.fa.fa-circle.round-map--after-exit-color
-          &mdash;
-          = t('events.rounds.map.after_exit_description')
+          .col-sm-4.round-competitors-wrap
 
-        .round-map__legend-item
-          %i.fa.fa-circle.round-map--start-window-color
-          &mdash;
-          = t('events.rounds.map.start_window_description', altitude: @event.range_from)
+      = render 'events/maps/legend'
 
-        .round-map__legend-item
-          %i.fa.fa-circle.round-map--end-window-color
-          &mdash;
-          = t('events.rounds.map.end_window_description', altitude: @event.range_to)
-
-    .col-sm-4.round-competitors-wrap
       .round-competitors__list-commands
         %button.btn.btn-xs.btn-default{'data-action': 'click->events--round-map#select_all'}
           = t('general.select_all')

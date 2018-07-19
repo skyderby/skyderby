@@ -1,4 +1,4 @@
-class Events::Rounds::Map::CompetitorTrack < SimpleDelegator
+class Events::Maps::CompetitorTrack < SimpleDelegator
   NullWindowPoints = Struct.new(:start_point, :end_point, :direction)
 
   attr_accessor :color

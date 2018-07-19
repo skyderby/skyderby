@@ -4,6 +4,7 @@ ru:
       charts: Графики
       jump_range: Отделение и открытие
       penalties: Штрафы
+      maps: Карта
       delete: Удалить результат
       delete_confirmation: Вы уверены что хотите удалить этот результат?
     form_modal:

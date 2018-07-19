@@ -148,11 +148,14 @@ export default function(google, map, width, length, direction, opts = {}) {
         let lat_diff = marker_position.lat() - center_position.lat()
         let lon_diff = marker_position.lng() - center_position.lng()
 
-        this.direction = (Math.atan2(lon_diff, lat_diff) * 180 / Math.PI).toFixed()
+        this.direction = Math.atan2(lon_diff, lat_diff) * 180 / Math.PI
 
         this.draw()
 
-        if (typeof(this.on_rotate) === 'function') this.on_rotate(Geospatial.normalize_angle(this.direction))
+        if (typeof(this.on_rotate) === 'function') {
+          let angle = Math.round(Geospatial.normalize_angle(this.direction) * 10) / 10
+          this.on_rotate(angle)
+        }
       })
 
       google.maps.event.addListener(marker, 'dragend', () => {

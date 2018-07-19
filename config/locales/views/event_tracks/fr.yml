@@ -4,6 +4,7 @@ fr:
       charts: Graphiques
       jump_range: Durée du saut
       penalties: Pénalité
+      maps: Carte
       delete: Supprimer le résultat
       delete_confirmation: Êtes-vous sûr de vouloir supprimer ce résultat?
     form_modal:

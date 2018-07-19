@@ -1,0 +1,16 @@
+.event-track__map {
+  height: 55vh;
+  min-height: 100%;
+  width: 100%;
+  position: relative;
+
+  .round-map-loading {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding-top: 180px;
+  }
+}

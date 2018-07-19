@@ -4,6 +4,7 @@ en:
       charts: Charts
       jump_range: Jump range
       penalties: Penalties
+      maps: Map
       delete: Delete result
       delete_confirmation: Are you sure you want to delete this result?
     form_modal:

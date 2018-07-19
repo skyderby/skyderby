@@ -1,0 +1,15 @@
+.round-map__legend
+  .round-map__legend-item
+    %i.fa.fa-circle.round-map--after-exit-color
+    &mdash;
+    = t('events.rounds.map.after_exit_description')
+
+  .round-map__legend-item
+    %i.fa.fa-circle.round-map--start-window-color
+    &mdash;
+    = t('events.rounds.map.start_window_description', altitude: @event.range_from)
+
+  .round-map__legend-item
+    %i.fa.fa-circle.round-map--end-window-color
+    &mdash;
+    = t('events.rounds.map.end_window_description', altitude: @event.range_to)

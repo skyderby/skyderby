@@ -1,0 +1,28 @@
+.designated-lane-form
+  %button.btn.btn-xs.btn-default{'data-action': 'click->events--designated-lane#toggle'}
+    Designated lane
+  %form.form-inline
+    .form-group
+      %label.control-label{for: 'designated-lane-length'} Length
+      %input#designated-lane-length.form-control.input-sm{type: :number,
+                                                          value: 7000,
+                                                          step: 1000,
+                                                          disabled: true,
+                                                          'data-target': 'events--designated-lane.length',
+                                                          'data-action': 'input->events--designated-lane#on_change_length'}
+    .form-group
+      %label.control-label{for: 'designated-lane-width'} Width
+      %input#designated-lane-width.form-control.input-sm{type: :number,
+                                                         value: 1200,
+                                                         step: 100,
+                                                         disabled: true,
+                                                         'data-target': 'events--designated-lane.width',
+                                                         'data-action': 'input->events--designated-lane#on_change_width'}
+    .form-group
+      %label.control-label{for: 'designated-lane-direction'} Direction
+      %input#designated-lane-direction.form-control.input-sm{type: :number,
+                                                             value: 0,
+                                                             step: '0.1',
+                                                             disabled: true,
+                                                             'data-target': 'events--designated-lane.direction',
+                                                             'data-action': 'input->events--designated-lane#on_change_direction'}
