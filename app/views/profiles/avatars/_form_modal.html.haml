@@ -6,13 +6,13 @@
           &times;
         %span.sr-only
           Close
-      %h4.modal-title= 'Редактирование фотографии'
+      %h4.modal-title= t '.title'
 
     = form_for @profile, url: profile_avatar_path(@profile), remote: true, multipart: true, method: :post, html: { class: 'avatar-edit__form' } do |f|
       .modal-body
         .form-group
           .input-group{'data-controller': 'filefield'}
-            %input.form-control{type: "text", readonly: true, placeholder: 'Select file with photo', 'data-target': 'filefield.text_field'}
+            %input.form-control{type: "text", readonly: true, placeholder: t('.file_placeholder'), 'data-target': 'filefield.text_field'}
             %span.input-group-btn
               %span.btn.btn-default.btn-file
                 &hellip; 
@@ -23,10 +23,10 @@
 
         .row
           .col-sm-8
-            %p.avatar-edit__title= 'Crop your photo'
+            %p.avatar-edit__title= t('.crop_label')
             %img.avatar-edit__crop#userpic-crop
           .col-sm-4
-            %p.avatar-edit__title= 'Preview'
+            %p.avatar-edit__title= t('.preview_label')
             .avatar-edit__preview-container
               %img.avatar-edit__preview#userpic-preview
 

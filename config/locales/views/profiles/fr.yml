@@ -13,6 +13,11 @@ fr:
       online_competitions: Compétitons en ligne
       no_badges: "%{name} n'a aucun badge pour le moment."
       no_rankings: "%{name} n'a participé à aucune compétition cette année."
+    avatars:
+      title: Éditer votre photo
+      file_placeholder: Sélectionner le fichier photo
+      crop_label: Recadrer votre photo
+      preview_label: Prévisualiser
   helpers:
     label:
       profiles_merge:

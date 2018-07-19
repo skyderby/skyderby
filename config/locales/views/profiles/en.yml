@@ -13,6 +13,12 @@ en:
       online_competitions: Online competitions
       no_badges: "%{name} do not have badges yet."
       no_rankings: "%{name} didn't participate online competitions this year."
+    avatars:
+      form_modal:
+        title: Edit your photo
+        file_placeholder: Choose file with photo
+        crop_label: Crop your photo
+        preview_label: Preview
   helpers:
     label:
       profiles_merge:

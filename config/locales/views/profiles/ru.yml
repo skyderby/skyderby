@@ -13,6 +13,12 @@ ru:
       online_competitions: Онлайн соревнования
       no_badges: "О наградах нам пока не известно."
       no_rankings: "%{name} не участвовал в онлайн соревнованиях в этом году."
+    avatars:
+      form_modal:
+        title: Редактирование фотографии
+        file_placeholder: Выберите файл с фотографией
+        crop_label: Обрежьте фото
+        preview_label: Результат
   helpers:
     label:
       profiles_merge:
