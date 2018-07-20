@@ -1,0 +1,8 @@
+es:
+  profiles:
+    avatars:
+      form_modal:
+        title: Edita tu foto
+        file_placeholder: Selecciona el archivo con la foto
+        crop_label: Corta tu foto
+        preview_label: Previsualización

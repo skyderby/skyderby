@@ -13,6 +13,12 @@ it:
       online_competitions: Competizione Online
       no_badges: "%{name} al momento non hai medaglie."
       no_rankings: "%{name} quest'anno non hai partecipato a competizione online ancora."
+    avatars:
+      form_modal:
+        title: Modifica la tua foto
+        file_placeholder: Seleziona la tua foto dai file
+        crop_label: Ritaglia la tua foto
+        preview_label: Anteprima
   helpers:
     label:
       profiles_merge:
