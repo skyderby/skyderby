@@ -10,8 +10,8 @@ describe 'Scoring PPC-like competitions', js: true do
 
     add_category 'Open'
     add_category 'Intermediate'
-    expect(page).to have_css('td.section-cell', text: 'Open')
-    expect(page).to have_css('td.section-cell', text: 'Intermediate')
+    expect(page).to have_css('td .section__name', text: 'OPEN')
+    expect(page).to have_css('td .section__name', text: 'INTERMEDIATE')
 
     ## Add competitors
     add_competitor name: 'Aleksandr', category: 'Open', new_profile: true
@@ -82,7 +82,8 @@ describe 'Scoring PPC-like competitions', js: true do
   end
 
   def submit_result(competitor:, filename:)
-    competitor_row(competitor).find('.create-result-cell__link').click
+    competitor_row(competitor).find('.event__scoreboard-result').hover
+    competitor_row(competitor).find('i.fa.fa-upload').click
 
     sleep 0.5
 
@@ -94,12 +95,12 @@ describe 'Scoring PPC-like competitions', js: true do
 
   def verify_result(competitor:, result:)
     expect(page).not_to have_css('#modal')
-    expect(page).to have_css('td.result-cell', text: result)
+    expect(page).to have_css('td.event__scoreboard-result', text: result)
   end
 
   def add_penalty(competitor:, result:, penalty:)
     row = competitor_row(competitor)
-    row.find('.result-cell').hover
+    row.find('.event__scoreboard-result').hover
     row.find('.show-result').click
 
     modal_title = "#{I18n.t('activerecord.models.event_track')}: #{competitor} | Distance - 1"

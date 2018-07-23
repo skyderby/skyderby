@@ -89,6 +89,6 @@
                 - if points_in_discipline&.positive?
                   = points_in_discipline.round(1)
 
-            %td.event__scoreboard-result.text-right
+            %td.event__scoreboard-total-result
               - if competitor.total_points.positive?
                 = '%.2f' % competitor.total_points
