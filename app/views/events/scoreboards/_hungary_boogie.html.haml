@@ -1,27 +1,31 @@
-- can_update = policy(@scoreboard.event).update? && !@scoreboard.event.finished?
+- can_update = policy(@scoreboard.event).update? && !@scoreboard.event.finished? && !request.variant.include?(:mobile)
 
 - cache ['scoreboard', I18n.locale, @scoreboard.event, display_event_params, can_update] do
-  %table.table.table-bordered#results-table
+  %table.event__scoreboard-table#results-table
     %thead
-      %tr#disciplines-row
-        %td{rowspan: 3}
-          \#
-        %td{rowspan: 2, colspan: 2}
-          = t('activerecord.models.competitor')
+      %tr
+        %td.text-center{rowspan: 3} #
+        %td{rowspan: 2, colspan: 3}= t('activerecord.models.competitor')
         %td.text-center{colspan: @scoreboard.rounds.count}
           = "#{t('disciplines.distance')}, #{t('units.' + discipline_unit(:distance).to_s)}"
-        %td.text-center{rowspan: 2}
-          = t('events.show.total')
-      %tr#rounds-row
+        %td.text-center{rowspan: 2}= t('events.show.total')
+      %tr
         - @scoreboard.rounds.each do |round|
           %td.round-cell
-            = round.number
-            - if can_update
-              = button_to event_round_path(@scoreboard.event, round),
-                          method: :delete,
-                          remote: true,
-                          class: 'btn-link delete-round' do
-                %i.fa.fa-fw.fa-times-circle.text-muted
+            .round-cell__content
+              = round.number
+              - if can_update
+                .round-cell__actions.dropdown
+                  %button.btn-link{'data-toggle': 'dropdown'}
+                    %i.fa.fa-ellipsis-v.text-muted
+                  %ul.dropdown-menu.dropdown-menu-right
+                    %li
+                      = button_to event_round_path(@scoreboard.event, round),
+                                  method: :delete,
+                                  remote: true,
+                                  class: 'btn-link delete-round' do
+                        %i.fa.fa-fw.fa-times-circle.text-muted
+                        = t('general.delete')
 
     - @scoreboard.sections.each do |section|
       %tbody
@@ -31,8 +35,8 @@
                  editable: can_update
 
         - section.competitors.each_with_index do |competitor, index|
-          %tr.competitor-row{id: dom_id(competitor)}
-            %td.row-number= index + 1
+          %tr.event__scoreboard-competitor{id: dom_id(competitor)}
+            %td.text-center= index + 1
 
             = render 'events/competitors/competitor_cells',
                      competitor: competitor,
@@ -44,9 +48,9 @@
 
                 - result_class = ''
                 - if result.best_in_category?
-                  - result_class = 'hc-best-result'
+                  - result_class = 'text-green'
                 - elsif result.worst_in_category?
-                  - result_class = 'hc-worst-result'
+                  - result_class = 'text-light-red'
 
                 - if competitor.counted_results.include?(result)
                   - result_class += ' counted-result'
@@ -58,12 +62,12 @@
                            result_class: result_class }
 
               - elsif can_update
-                %td.text-center.create-result-cell
-                  = new_event_track_link(@scoreboard.event, competitor, round)
+                %td.event__scoreboard-result.text-center
+                  %span= new_event_track_link(@scoreboard.event, competitor, round)
 
               - else
                 %td
 
-            %td.text-right
+            %td.event__scoreboard-result.text-right
               - if competitor.total_points.positive?
                 = competitor.total_points.round.truncate

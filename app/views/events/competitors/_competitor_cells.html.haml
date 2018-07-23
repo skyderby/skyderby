@@ -1,15 +1,15 @@
 %td.competitor-cell
-  = link_to competitor.name.titleize, profile_path(competitor.profile), class: 'dotted-underline'
-
-  %span.competitor-suit
-    = competitor.suit.manufacturer_code
-    = competitor.suit_name
+  = link_to competitor.name.titleize, profile_path(competitor.profile), class: 'competitor__name'
 
   - if editable
-    %span.competitor-controls
-      = delete_competitor_button(@event, competitor)
+    %span
       = edit_competitor_link(@event, competitor)
+      = delete_competitor_button(@event, competitor)
 
-%td.text-center.text-muted
-  %span.dotted-underline{'data-toggle' => 'tooltip', title: competitor.country_name}
+%td.text-center
+  %span{'data-toggle' => 'tooltip', title: competitor.country_name}
     = competitor.country_code
+
+%td.text-gray
+  = competitor.suit.manufacturer_code
+  = competitor.suit_name

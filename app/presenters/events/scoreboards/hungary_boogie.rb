@@ -18,7 +18,7 @@ module Events
       end
 
       def columns_count
-        @columns_count ||= rounds.count + 4
+        @columns_count ||= rounds.count + 5
       end
 
       def sections

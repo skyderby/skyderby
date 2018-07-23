@@ -15,7 +15,7 @@ module SectionsHelper
             edit_event_section_path(event, section),
             remote: true,
             'data-params': display_event_params.to_param,
-            class: 'edit-section'
+            class: 'section__control'
   end
 
   def move_section_upper_button(event, section)
@@ -23,7 +23,7 @@ module SectionsHelper
               remote: true,
               params: display_event_params,
               method: :patch,
-              class: 'btn-link section-up') do
+              class: 'btn-link section__control') do
       content_tag(:i, nil, class: 'fa fa-chevron-up text-muted')
     end
   end
@@ -33,7 +33,7 @@ module SectionsHelper
               remote: true,
               params: display_event_params,
               method: :patch,
-              class: 'btn-link section-down') do
+              class: 'btn-link section__control') do
       content_tag(:i, nil, class: 'fa fa-chevron-down text-muted')
     end
   end
@@ -43,9 +43,9 @@ module SectionsHelper
               method: :delete,
               params: display_event_params,
               confirm: t('sections.show.delete_confirmation'),
-              class: 'btn-link delete-section',
+              class: 'btn-link section__control',
               remote: true) do
-      content_tag(:i, nil, class: 'fa fa-times-circle text-muted')
+      content_tag(:i, nil, class: 'fa fa-times text-muted')
     end
   end
 end

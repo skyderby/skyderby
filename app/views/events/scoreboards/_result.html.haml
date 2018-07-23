@@ -16,7 +16,7 @@
 - can_update ||= false
 - result_class ||= ''
 
-%td.result-cell{class: result_class}
+%td.event__scoreboard-result{class: result_class}
   - if result.valid?
     = result.formated
     - if result.penalized?
