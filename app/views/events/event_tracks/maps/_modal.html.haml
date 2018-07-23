@@ -28,7 +28,8 @@
         %hr
         .modal-actions
           .modal-actions__left
-            = delete_event_track_link(@event_track)
+            - if policy(@event_track.event).update?
+              = delete_event_track_link(@event_track)
 
           .modal-actions__right
             %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'
