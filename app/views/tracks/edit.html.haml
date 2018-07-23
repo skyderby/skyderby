@@ -24,8 +24,7 @@
 
         - if current_user && current_user.has_role?(:admin)
           .form-group
-            %span.col-sm-3.control-label
-              = t('activerecord.attributes.track.name')
+            %label.col-sm-3.control-label= t('activerecord.attributes.track.name')
             .col-sm-6
               = f.select :profile_id,
                          options_for_select([ ([@track.pilot_name, @track.profile_id] if @track.pilot) ], @track.profile_id),
@@ -44,8 +43,7 @@
                 %a.toggle-profile{href: '#'}= t('tracks.form.toggle_profile_link')
 
         .form-group
-          %span.col-sm-3.control-label
-            = t('activerecord.attributes.track.suit')
+          %label.col-sm-3.control-label= t('activerecord.attributes.track.suit')
           .col-sm-6
             = f.select :suit_id,
                        options_for_select([ ([@track.suit_name, @track.suit_id] if @track.suit) ], @track.suit_id),
@@ -64,8 +62,7 @@
               %a.toggle-suit{href: '#'}= t('tracks.form.toggle_suit_link')
 
         .form-group
-          %span.col-sm-3.control-label
-            = t('activerecord.attributes.track.place')
+          %label.col-sm-3.control-label= t('activerecord.attributes.track.place')
           .col-sm-6
             = f.select :place_id,
                        options_for_select([ ([@track.place_name, @track.place_id] if @track.place) ], @track.place_id),
@@ -84,8 +81,7 @@
               %a.toggle-place{href: '#'}= t('tracks.form.toggle_place_link')
 
         .form-group
-          %span.col-sm-3.control-label
-            = t('activerecord.attributes.track.kind')
+          %label.col-sm-3.control-label= t('activerecord.attributes.track.kind')
           .btn-group.col-sm-9{data: {toggle: 'buttons'}}
             %label.btn.btn-default{class: ('active' if @track.skydive?)}
               = f.radio_button 'kind', 'skydive'
@@ -98,8 +94,7 @@
         = render 'tracks/form/visibility', form: f, visibility: @track.visibility
 
         .form-group
-          %span.col-sm-3.control-label
-            = t('activerecord.attributes.track.comment')
+          %label.col-sm-3.control-label= t('activerecord.attributes.track.comment')
           .col-sm-6
             = f.text_area 'comment',
                           class: 'form-control',

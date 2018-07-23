@@ -43,7 +43,7 @@ fr:
       elev: Hauteur
       pt_cnt: Nombre de points
     edit:
-      visibility: "Visibilité:"
+      visibility: Visibilité
       elev_chart: Hauteur
       elevation: Hauteur
       back: Retour à l'enregistrement'

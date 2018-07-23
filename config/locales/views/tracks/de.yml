@@ -42,7 +42,7 @@ de:
       elev: 'Höhenunterschied'
       pt_cnt: 'Anzahl der Punkte'
     edit:
-      visibility: "Datenschutz:"
+      visibility: Datenschutz
       elev_chart: Höhe
       elevation: Höhe
     form:

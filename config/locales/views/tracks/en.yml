@@ -43,10 +43,10 @@ en:
       elev: 'Elevation'
       pt_cnt: 'Points count'
     edit:
-      visibility: "Visibility:"
-      elev_chart: "Elevation"
-      elevation: "Elevation"
-      back: 'Back to track'
+      visibility: Visibility
+      elev_chart: Elevation
+      elevation: Elevation
+      back: Back to track
     form:
       suit_text_placeholder: Enter suit name
       suit_select_placeholder: Select suit from list

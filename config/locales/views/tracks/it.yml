@@ -43,10 +43,10 @@ it:
       elev: 'Quota'
       pt_cnt: 'Conteggio punti'
     edit:
-      visibility: "Visibilità:"
-      elev_chart: "Quota"
-      elevation: "Quota"
-      back: 'torna alla traccia'
+      visibility: Visibilità
+      elev_chart: Quota
+      elevation: Quota
+      back: torna alla traccia
     form:
       suit_text_placeholder: Scrivi il nome della tuta
       suit_select_placeholder: Seleziona la tuta dalla lista

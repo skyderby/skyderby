@@ -2,8 +2,7 @@
 
 - if user_signed_in?
   .form-group
-    %span.col-sm-3.control-label
-      = t('tracks.edit.visibility')
+    %label.col-sm-3.control-label= t('tracks.edit.visibility')
     .btn-group.col-sm-9{data: {toggle: 'buttons'}}
       - %w[public unlisted private].each do |visibility_name|
         - current_value = "#{visibility_name}_track"

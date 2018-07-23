@@ -43,10 +43,10 @@ ru:
       elev: 'Перепад высот'
       pt_cnt: 'Количество точек'
     edit:
-      visibility: "Параметры доступа:"
-      elev_chart: 'График высот'
-      elevation: 'Высота'
-      back: 'Назад к треку'
+      visibility: Параметры доступа
+      elev_chart: График высот
+      elevation: Высота
+      back: Назад к треку
     form:
       suit_text_placeholder: 'Введите название костюма'
       suit_select_placeholder: 'Выберите костюм из списка'
