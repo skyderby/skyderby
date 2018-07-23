@@ -24,7 +24,7 @@
 
   td {
     white-space: nowrap;
-    font: 12px/12px "Proxima Nova Regular";
+    font: 13px/13px "Proxima Nova Regular";
     padding: 8px;
     border: 1px solid #eee;
     vertical-align: middle;
@@ -75,6 +75,12 @@
 
   .competitor__name {
     padding-right: 10px;
+  }
+
+  .competitor__suit {
+    font: 9px/9px $pn-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
   }
 
   .competitor__control {

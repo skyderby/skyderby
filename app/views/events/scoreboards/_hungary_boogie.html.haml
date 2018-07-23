@@ -5,7 +5,7 @@
     %thead
       %tr
         %td.text-center{rowspan: 3} #
-        %td{rowspan: 2, colspan: 3}= t('activerecord.models.competitor')
+        %td{rowspan: 2, colspan: 2}= t('activerecord.models.competitor')
         %td.text-center{colspan: @scoreboard.rounds.count}
           = "#{t('disciplines.distance')}, #{t('units.' + discipline_unit(:distance).to_s)}"
         %td.text-center{rowspan: 2}= t('events.show.total')
