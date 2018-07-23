@@ -1,8 +1,6 @@
 en:
   event_tracks:
     show:
-      charts: Charts
-      jump_range: Jump range
       penalties: Penalties
       maps: Map
       delete: Delete result

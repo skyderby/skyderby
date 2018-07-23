@@ -20,6 +20,8 @@ ru:
     unselect_all: Снять все
     overview: Обзор
     back: Назад
+    charts: Графики
+    jump_range: Отделение и открытие
   users:
     profile:
       edit:

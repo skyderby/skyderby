@@ -1,8 +1,6 @@
 ru:
   event_tracks:
     show:
-      charts: Графики
-      jump_range: Отделение и открытие
       penalties: Штрафы
       maps: Карта
       delete: Удалить результат

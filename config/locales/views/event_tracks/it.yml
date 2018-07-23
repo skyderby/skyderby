@@ -1,8 +1,6 @@
 it:
   event_tracks:
     show:
-      charts: Grafici
-      jump_range: Intervallo di caduta libera
       penalties: Penalità
       maps: Mappa
       delete: Cancella traccia

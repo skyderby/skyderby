@@ -1,0 +1,9 @@
+- if policy(@tournament).update?
+  %ul.nav.nav-pills
+    - current_controller = controller.controller_path.split('/').last
+    %li{class: ('active' if current_controller == 'results')}
+      = link_to t('general.charts'), tournament_match_slot_result_path(@tournament, @slot.match, @slot), remote: true
+    %li{class: ('active' if current_controller == 'jump_ranges')}
+      = link_to t('general.jump_range'), tournament_match_slot_jump_range_path(@tournament, @slot.match, @slot), remote: true
+
+  %hr.condensed

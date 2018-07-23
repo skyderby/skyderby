@@ -1,0 +1,42 @@
+.modal-dialog.modal-lg
+  .modal-content
+    .modal-header
+      .pull-right
+        = link_to @slot.track, class: 'modal-header-link', target: '_blank' do
+          %i.fa.fa-external-link
+        %button.close{type: 'button', data: {dismiss: 'modal'}}
+          %span{aria: {hidden: 'true'}}
+            &times;
+          %span.sr-only
+            Close
+      %h4.modal-title
+        = match_slot_presentation(@slot)
+
+    .modal-body
+      .container-fluid
+        = render 'tournaments/matches/slots/header'
+
+        = form_for :jump_range, url: tournament_match_slot_jump_range_path(@tournament, @match, @slot), method: :put, remote: true do |f|
+          .row{'data-controller': 'jump-range', 'data-track-id': @slot.track_id}
+            .col-sm-12{'data-target': 'jump-range.chart'}
+            .col-sm-12
+              .time-selector
+                = f.text_field :jump_range,
+                  value: @slot.track.jump_range,
+                  'data-max-value': @slot.track.duration,
+                  'data-controller': 'jump-range-select',
+                  'data-action': 'change->jump-range#on_change_range',
+                  'data-target': 'jump-range.select'
+
+          %hr
+          .modal-actions
+            .modal-actions__left
+              = link_to(t('general.delete'),
+                        tournament_match_slot_result_path(@tournament, @match, @slot),
+                        remote: true,
+                        method: :delete,
+                        class: 'btn-flat btn-flat--danger')
+
+            .modal-actions__right
+              = f.submit t('general.save'), class: 'btn btn-primary'
+              %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

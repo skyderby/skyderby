@@ -17,6 +17,8 @@ en:
     unselect_all: Unselect all
     overview: Overview
     back: Back
+    charts: Charts
+    jump_range: Jump range
   users:
     profile:
       edit:
