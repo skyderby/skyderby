@@ -44,11 +44,7 @@ class EventsController < ApplicationController
     authorize @event
 
     if @event.update event_params
-      if @event.previous_changes.key?(:wind_cancellation) || @event.previous_changes.key?(:status)
-        redirect_to event_path(@event)
-      else
-        @event
-      end
+      redirect_to event_path(@event)
     else
       respond_with_errors(@event.errors)
     end

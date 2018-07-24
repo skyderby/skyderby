@@ -1,0 +1,33 @@
+@mixin sidebar-menu {
+  @include ul-reset;
+
+  li {
+    white-space: nowrap;
+
+    &.active {
+      background: rgba(0, 0, 0, 0.04);
+      box-shadow: inset 4px 0 0 #4b6fa3;
+
+      a {
+        color: #395c82;
+        outline: none;
+      }
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      padding: 8px 16px;
+      color: #707070;
+      transition: none;
+      text-decoration: none;
+      margin-right: 2px;
+      outline: none;
+
+      &:hover {
+        color: #2e2e2e;
+        background-color: white;
+      }
+    }
+  }
+}

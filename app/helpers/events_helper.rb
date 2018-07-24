@@ -1,7 +1,6 @@
 module EventsHelper
   def edit_event_link(event)
     link_to(edit_event_path(@event),
-            remote: true,
             'data-params': display_event_params.to_param,
             class: 'btn btn-default edit-event') do
       concat content_tag('i', nil, class: 'fa fa-fw fa-pencil text-muted')

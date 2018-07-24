@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_26_083500) do
+ActiveRecord::Schema.define(version: 2018_07_24_113432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,16 @@ ActiveRecord::Schema.define(version: 2018_06_26_083500) do
   create_table "countries", id: :serial, force: :cascade do |t|
     t.string "name", limit: 510
     t.string "code", limit: 510
+  end
+
+  create_table "event_reference_points", force: :cascade do |t|
+    t.bigint "event_id"
+    t.string "name"
+    t.decimal "latitude", precision: 15, scale: 10
+    t.decimal "longitude", precision: 15, scale: 10
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_reference_points_on_event_id"
   end
 
   create_table "event_tracks", id: :serial, force: :cascade do |t|

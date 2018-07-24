@@ -29,13 +29,16 @@ class Event < ApplicationRecord
 
   belongs_to :place, optional: true
 
-  has_many :organizers, as: :organizable, dependent: :delete_all
   has_many :sections, -> { order(:order) }
   has_many :competitors
   has_many :rounds, -> { order(:number) }, inverse_of: :event
   has_many :event_tracks, through: :rounds
   has_many :tracks, through: :event_tracks
+  has_many :reference_points, dependent: :delete_all
+  has_many :organizers, as: :organizable, dependent: :delete_all
   has_many :sponsors, -> { order(:created_at) }, as: :sponsorable, dependent: :delete_all
+
+  accepts_nested_attributes_for :reference_points, allow_destroy: true
 
   validates :responsible, :name, :range_from, :range_to, :starts_at, presence: true
 

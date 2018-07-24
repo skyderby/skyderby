@@ -1,0 +1,11 @@
+- provide :title, @event.name
+
+.event-edit
+  .event-edit__header
+    = render 'events/edit_header'
+
+  .event-edit__body
+    .event-edit__sidebar
+      = render 'events/edit_sidebar'
+    .event-edit__main-area
+      = render 'form', allow_change_rules: false

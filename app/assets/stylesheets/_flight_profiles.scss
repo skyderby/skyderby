@@ -4,12 +4,7 @@
 }
 
 .flight-profiles__header {
-  background: white;
-  border-bottom: rgba(0, 0, 0, 0.14) solid 1px;
-  line-height: 2;
-  font-size: 24px;
-  padding-left: 15px;
-  color: $gray-dark;
+  @include full-screen-container-header;
 }
 
 .flight-profiles__body {

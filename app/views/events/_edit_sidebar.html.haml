@@ -1,0 +1,9 @@
+.event-edit__sidebar-container
+  %ul.event-edit__sections
+    - controller_path = controller.controller_path
+    %li{class: ('active' if controller_path == 'events')}
+      = link_to 'Main', edit_event_path(@event)
+    %li{class: ('active' if controller_path == 'events/reference_points')}
+      = link_to 'Reference points', event_reference_points_path(@event)
+    %li{class: ('active' if controller_path == 'events/deletion')}
+      = link_to 'Delete event', new_event_deletion_path(@event)
