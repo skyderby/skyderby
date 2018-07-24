@@ -15,14 +15,14 @@
       .event-reference-points__actions.top-buffer
         %button.btn.btn-default
           %i.fa.fa-plus
-          Add
+          = t('general.create')
       = form_for @event, remote: true do |form|
         %table.table.event-reference-points__table
           %thead
             %tr
-              %th Name
-              %th Latitude
-              %th Longitude
+              %th= t('activerecord.attributes.reference_point.name')
+              %th= t('activerecord.attributes.reference_point.latitude')
+              %th= t('activerecord.attributes.reference_point.longitude')
               %th
           %tbody.hide{'data-target': 'events--reference-points.template'}
             = render 'events/reference_points/template', form: form
