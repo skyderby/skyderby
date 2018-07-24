@@ -2,16 +2,22 @@
 
 .page-wrap
   .event__header
-    .event__title= @event.name
+    .event__title
+      = @event.name
+      - if @event.unlisted_event?
+        %i.fa.fa-eye-slash{'data-toggle': 'tooltip', title: t('visibility.unlisted')}
+      - elsif @event.private_event?
+        %i.fa.fa-lock{'data-toggle': 'tooltip', title: t('visibility.private')}
 
     - if @event.place.present?
       .event__place
         %i.fa.fa-map-marker
         = @event.place.name
+        = " (MSL: #{@event.place_msl} #{t('units.m')})"
         %span= @event.place.country_code
 
     .events-list__item-info
-      Competition window:
+      = "#{t('events.show.comp_window')}:"
       %span
         = "#{@event.range_from} – #{@event.range_to} #{t('units.m')}"
   .event__scoreboard
