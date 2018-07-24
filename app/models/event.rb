@@ -38,7 +38,7 @@ class Event < ApplicationRecord
   has_many :organizers, as: :organizable, dependent: :delete_all
   has_many :sponsors, -> { order(:created_at) }, as: :sponsorable, dependent: :delete_all
 
-  accepts_nested_attributes_for :reference_points, allow_destroy: true
+  accepts_nested_attributes_for :reference_points, allow_destroy: true, reject_if: ->(attrs) { attrs['name'].blank? }
 
   validates :responsible, :name, :range_from, :range_to, :starts_at, presence: true
 

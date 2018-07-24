@@ -13,10 +13,10 @@
                                    'data-center-lon': @event.place.longitude}
 
       .event-reference-points__actions.top-buffer
-        %button.btn.btn-default
+        %button.btn.btn-default{'data-action': 'click->events--reference-points#add'}
           %i.fa.fa-plus
           = t('general.create')
-      = form_for @event, remote: true do |form|
+      = form_for @event, url: event_reference_points_path(@event), remote: true do |form|
         %table.table.event-reference-points__table
           %thead
             %tr
@@ -26,6 +26,9 @@
               %th
           %tbody.hide{'data-target': 'events--reference-points.template'}
             = render 'events/reference_points/template', form: form
-          %tbody
+          %tbody{'data-target': 'events--reference-points.container'}
             = form.fields_for :reference_points, include_id: false do |points_form|
               = render 'events/reference_points/fields', form: points_form
+        %hr
+        .text-right
+          = form.submit t('general.save'), class: 'btn btn-primary'
