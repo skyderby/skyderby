@@ -11,7 +11,7 @@ de:
         rules: Regeln
         wind_cancellation: Wind cancellation
         visibility: Datenschutz
-  event_status: 
+  event_status:
     draft: Entwurf
     published: Veröffentlicht
     finished: Beendet

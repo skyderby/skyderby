@@ -18,7 +18,8 @@ module Events
     private
 
     def reference_points_params
-      params.require(:event).permit(reference_points_attributes: {})
+      params.require(:event).permit(:designated_lane_start,
+                                    reference_points_attributes: {})
     end
   end
 end

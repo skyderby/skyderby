@@ -30,5 +30,12 @@
             = form.fields_for :reference_points, include_id: false do |points_form|
               = render 'events/reference_points/fields', form: points_form
         %hr
+        - Event.designated_lane_starts.each do |value, index|
+          .radio
+            %label
+              = form.radio_button :designated_lane_start, value
+              = t "activerecord.attributes.event.designated_lane_starts.#{value}"
+
+        %hr
         .text-right
           = form.submit t('general.save'), class: 'btn btn-primary'
