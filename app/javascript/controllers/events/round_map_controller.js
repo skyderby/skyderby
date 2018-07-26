@@ -10,6 +10,7 @@ export default class extends Controller {
 
   initialize() {
     this.lines_by_competitor = {}
+    this.reference_points = {}
   }
 
   connect() {
@@ -119,6 +120,15 @@ export default class extends Controller {
 
       this.lines_by_competitor['competitor_' + competitor_data.id] =
         [ polyline, hover_polyline, start_point, end_point, after_exit_point ]
+    }
+
+    for (let reference_point of this.map_data.reference_points) {
+      let marker = new google.maps.Marker({
+        position: new google.maps.LatLng(reference_point.latitude, reference_point.longitude),
+        map: this.map
+      })
+
+      this.reference_points[reference_point.id] = marker
     }
 
     this.resize()

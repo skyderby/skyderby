@@ -23,6 +23,10 @@ module Events
         end
       end
 
+      def reference_points
+        @reference_points ||= event.reference_points
+      end
+
       private
 
       attr_reader :round

@@ -16,3 +16,9 @@ json.place do
   json.latitude @round_map.event.place.latitude
   json.longitude @round_map.event.place.latitude
 end
+
+json.reference_points do
+  json.array! @round_map.reference_points do |reference_point|
+    json.extract! reference_point, :id, :name, :latitude, :longitude
+  end
+end

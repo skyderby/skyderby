@@ -25,6 +25,7 @@
               = t('events.rounds.map.competitor')
             %th.round-competitors__direction
               = t('events.rounds.map.direction')
+        - show_reference_points = @round_map.reference_points.any?
         - @round_map.competitors_by_groups.each_with_index do |group, index|
           %tbody
             %tr.round-competitors__group-row{'data-action': 'click->events--round-map#toggle_group'}
@@ -32,7 +33,7 @@
                 = "#{t('events.rounds.map.group')} #{index + 1}"
             - group.each do |competitor_data|
               %tr
-                %td.round-competitors__check
+                %td.round-competitors__check{rowspan: (show_reference_points ? 2 : 1)}
                   %input{id: "competitor_#{competitor_data.id}",
                          type: 'checkbox',
                          checked: competitor_data.present?,
@@ -44,3 +45,21 @@
                     %i.fa.fa-circle{style: "color: #{competitor_data.color}"}
                 %td
                   = competitor_data.direction && "#{competitor_data.direction.round}°"
+
+              - if show_reference_points
+                %tr
+                  %td.round-map__reference-point{colspan: 2}
+                    %span
+                      Reference point:
+                    .btn-group
+                      %button.btn.btn-default.btn-xs.dropdown-toggle{'data-toggle': 'dropdown'}
+                        %span
+                          %i.fa.fa-fw.fa-ellipsis-h
+                        %i.fa.fa-fw.fa-caret-down
+                      %ul.dropdown-menu
+                        - @round_map.reference_points.each do |reference_point|
+                          %li
+                            %a= reference_point.name
+
+                    %a{'data-action': 'click->events--round-map#show_dl'}
+                      Show DL
