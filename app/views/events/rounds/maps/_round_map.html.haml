@@ -1,6 +1,9 @@
-.container-fluid.round-map{'data-controller': 'events--round-map', 'data-url': url_for}
+.container-fluid.round-map{'data-controller': 'events--round-map',
+                           'data-url': url_for,
+                           'data-dl-start': @event.designated_lane_start}
   .row
-    .col-sm-8{'data-controller': 'events--designated-lane'}
+    .col-sm-8{'data-controller': 'events--designated-lane',
+              'data-action': 'round-map:show-dl@window->events--designated-lane#show_dl'}
       = render 'events/maps/designated_lane_form'
 
       #round-map{'data-target': 'events--round-map.map events--designated-lane.map'}
@@ -25,18 +28,17 @@
               = t('events.rounds.map.competitor')
             %th.round-competitors__direction
               = t('events.rounds.map.direction')
-        - show_reference_points = @round_map.reference_points.any?
         - @round_map.competitors_by_groups.each_with_index do |group, index|
           %tbody
             %tr.round-competitors__group-row{'data-action': 'click->events--round-map#toggle_group'}
               %td{colspan: 3}
                 = "#{t('events.rounds.map.group')} #{index + 1}"
             - group.each do |competitor_data|
-              %tr
-                %td.round-competitors__check{rowspan: (show_reference_points ? 2 : 1)}
-                  %input{id: "competitor_#{competitor_data.id}",
-                         type: 'checkbox',
+              %tr{'data-competitor-id': competitor_data.competitor_id}
+                %td.round-competitors__check{rowspan: (@round_map.show_reference_points? ? 2 : 1)}
+                  %input{type: 'checkbox',
                          checked: competitor_data.present?,
+                         'data-competitor-id': competitor_data.competitor_id,
                          'data-action': 'change->events--round-map#on_change_visibility',
                          'data-target': 'events--round-map.competitor'}
                 %td.round-map-competitor
@@ -46,20 +48,32 @@
                 %td
                   = competitor_data.direction && "#{competitor_data.direction.round}°"
 
-              - if show_reference_points
-                %tr
+              - if @round_map.show_reference_points?
+                %tr{'data-controller': 'events--competitor-reference-point',
+                    'data-url': event_round_reference_point_assignments_path(@round_map.event, @round_map.round, competitor_id: competitor_data.competitor_id),
+                    'data-competitor-id': competitor_data.competitor_id}
                   %td.round-map__reference-point{colspan: 2}
                     %span
                       Reference point:
                     .btn-group
                       %button.btn.btn-default.btn-xs.dropdown-toggle{'data-toggle': 'dropdown'}
-                        %span
-                          %i.fa.fa-fw.fa-ellipsis-h
+                        - assignment = @round_map.reference_point_assignment(competitor_data.competitor)
+                        %span{'data-target': 'events--competitor-reference-point.reference_point', 'data-id': (assignment.reference_point.id if assignment)}
+                          - if assignment
+                            = assignment.reference_point.name
+                          - else
+                            %i.fa.fa-fw.fa-ellipsis-h
                         %i.fa.fa-fw.fa-caret-down
                       %ul.dropdown-menu
+                        %li
+                          %a{href: '#', 'data-action': 'click->events--competitor-reference-point#clear_reference_point'}
+                            %i.fa.fa-fw.fa-ellipsis-h
                         - @round_map.reference_points.each do |reference_point|
                           %li
-                            %a= reference_point.name
+                            %a{href: '#',
+                               'data-reference-point-id': reference_point.id,
+                               'data-action': 'click->events--competitor-reference-point#assign_reference_point'}
+                              = reference_point.name
 
-                    %a{'data-action': 'click->events--round-map#show_dl'}
+                    %a{'data-action': 'click->events--competitor-reference-point#show_dl'}
                       Show DL

@@ -6,6 +6,7 @@ resources :events, concerns: %i[sponsorable organizable] do
       scope module: :rounds do
         resource :map, only: :show
         resource :globe, controller: 'globe', only: :show
+        resource :reference_point_assignments, only: %i[create destroy]
       end
     end
 

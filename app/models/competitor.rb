@@ -22,6 +22,7 @@ class Competitor < ApplicationRecord
   belongs_to :suit
 
   has_many :event_tracks, dependent: :restrict_with_error
+  has_many :reference_point_assignments, dependent: :delete_all
 
   validates :suit, :event, :section, :profile, presence: true
 

@@ -11,7 +11,7 @@
 #  profile_id :integer
 #
 
-class Round < ApplicationRecord
+class Event::Round < ApplicationRecord
   include EventOngoingValidation
 
   enum discipline: [:time, :distance, :speed]
@@ -23,6 +23,7 @@ class Round < ApplicationRecord
              optional: true
 
   has_many :event_tracks, dependent: :restrict_with_error
+  has_many :reference_point_assignments, dependent: :delete_all
 
   validates_presence_of :event, :discipline
 

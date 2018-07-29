@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_25_075724) do
+ActiveRecord::Schema.define(version: 2018_07_29_112447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,27 @@ ActiveRecord::Schema.define(version: 2018_07_25_075724) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["event_id"], name: "index_event_reference_points_on_event_id"
+  end
+
+  create_table "event_round_reference_point_assignments", force: :cascade do |t|
+    t.bigint "round_id"
+    t.bigint "competitor_id"
+    t.bigint "reference_point_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["competitor_id"], name: "index_event_round_reference_point_assignments_on_competitor_id"
+    t.index ["round_id", "competitor_id"], name: "index_reference_point_assignment_in_round_and_competitor", unique: true
+    t.index ["round_id"], name: "index_event_round_reference_point_assignments_on_round_id"
+  end
+
+  create_table "event_rounds", id: :serial, force: :cascade do |t|
+    t.integer "event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer "discipline"
+    t.integer "profile_id"
+    t.integer "number"
+    t.index ["event_id"], name: "index_event_rounds_on_event_id"
   end
 
   create_table "event_tracks", id: :serial, force: :cascade do |t|
@@ -218,16 +239,6 @@ ActiveRecord::Schema.define(version: 2018_07_25_075724) do
 
   create_table "roles", id: :serial, force: :cascade do |t|
     t.string "name", limit: 510
-  end
-
-  create_table "rounds", id: :serial, force: :cascade do |t|
-    t.integer "event_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer "discipline"
-    t.integer "profile_id"
-    t.integer "number"
-    t.index ["event_id"], name: "index_rounds_on_event_id"
   end
 
   create_table "sections", id: :serial, force: :cascade do |t|

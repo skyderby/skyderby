@@ -20,7 +20,7 @@ class EventTrack < ApplicationRecord
           ReviewableByJudge
 
   belongs_to :track
-  belongs_to :round
+  belongs_to :round, class_name: 'Event::Round'
   belongs_to :competitor, touch: true
 
   scope :for_round, ->(round_id) { where(round_id: round_id) }

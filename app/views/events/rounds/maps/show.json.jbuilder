@@ -3,6 +3,7 @@ json.competitors do
     next if competitor_data.empty?
 
     json.id competitor_data.id
+    json.competitor_id competitor_data.competitor_id
     json.name competitor_data.name.titleize
     json.path_coordinates competitor_data.path_coordinates
     json.start_point competitor_data.start_point

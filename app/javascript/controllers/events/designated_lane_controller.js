@@ -1,12 +1,13 @@
 import { Controller } from 'stimulus'
 import DesignatedLane from 'services/designated_lane'
+import Geospatial from 'utils/geospatial'
 
 const DEFAULT_DL_DIRECTION = 0
 const DEFAULT_DL_LENGTH = 7000
 const DEFAULT_DL_WIDTH = 1200
 
 export default class extends Controller {
-  static targets = [ 'map', 'length', 'width', 'direction' ]
+  static targets = [ 'map', 'button', 'length', 'width', 'direction' ]
 
   connect() {
     this.directionTarget.value = localStorage.last_used_dl_direction || DEFAULT_DL_DIRECTION
@@ -15,15 +16,10 @@ export default class extends Controller {
   }
 
   toggle(event) {
-    let button = event.currentTarget
-    button.blur()
-    button.classList.toggle('active')
+    this.button.blur()
+    this.button.classList.toggle('active')
 
-    if (button.classList.contains('active')) {
-      this.enable()
-    } else {
-      this.disable()
-    }
+    this.toggle_dl()
   }
 
   on_change_length(event) {
@@ -45,6 +41,32 @@ export default class extends Controller {
     localStorage.last_used_dl_direction = direction
 
     this.designated_lane.set_direction(direction)
+  }
+
+  show_dl(event) {
+    if (!this.button.classList.contains('active')) {
+      this.button.classList.add('active')
+      this.toggle_dl()
+    }
+
+    const { reference_point_position, start_point_position } = event.detail
+    const middle_point_lat = (start_point_position.lat() + reference_point_position.lat()) / 2
+    const middle_point_lon = (start_point_position.lng() + reference_point_position.lng()) / 2
+    const direction = Geospatial.bearing(middle_point_lat, middle_point_lon, reference_point_position.lat(), reference_point_position.lng())
+    this.directionTarget.value = Math.round(direction * 10) / 10
+
+    setTimeout(() => {
+      this.designated_lane.set_position(middle_point_lat, middle_point_lon)
+      this.designated_lane.set_direction(direction)
+    }, 50)
+  }
+
+  toggle_dl() {
+    if (this.button.classList.contains('active')) {
+      this.enable()
+    } else {
+      this.disable()
+    }
   }
 
   enable() {
@@ -77,6 +99,10 @@ export default class extends Controller {
     this.directionTarget.disabled = true
 
     this.designated_lane.hide()
+  }
+
+  get button() {
+    return this.buttonTarget
   }
 
   get map() {
