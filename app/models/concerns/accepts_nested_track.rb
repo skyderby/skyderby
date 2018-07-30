@@ -53,6 +53,11 @@ module AcceptsNestedTrack
     self.track = CreateTrackService.call(params)
   end
 
+  def enque_jobs
+    ResultsJob.perform_later track_id
+    OnlineCompetitionJob.perform_later track_id
+  end
+
   def check_duplicates_for(track_file)
     has_duplicates = duplication_on_file_validator.call(self, track_file)
     throw(:abort) if has_duplicates
