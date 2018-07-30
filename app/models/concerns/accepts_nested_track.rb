@@ -10,6 +10,8 @@ module AcceptsNestedTrack
   included do
     attr_accessor :track_attributes, :track_from
 
+    after_commit :enque_jobs
+
     before_validation :create_track_from_file
 
     def self.validate_duplicates_on_file_with(validator)
@@ -49,6 +51,11 @@ module AcceptsNestedTrack
     ).except(:file)
 
     self.track = CreateTrackService.call(params)
+  end
+
+  def enque_jobs
+    ResultsJob.perform_later track_id
+    OnlineCompetitionJob.perform_later track_id
   end
 
   def check_duplicates_for(track_file)
