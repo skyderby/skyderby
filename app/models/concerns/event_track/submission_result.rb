@@ -6,6 +6,8 @@ class EventTrack < ApplicationRecord
       before_create :calc_result
     end
 
+    private
+
     def calc_result
       self.result = EventResultService.new(track, round).calculate
 
