@@ -13,7 +13,7 @@
 
 require 'support/event_ongoing_validation'
 
-describe Round, type: :model do
+describe Event::Round, type: :model do
   let(:event) do
     event = Event.new
     event.save!(validate: false)
