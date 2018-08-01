@@ -3,10 +3,10 @@ describe EventTracks::FileDuplicationValidator do
     profile = create :profile, name: 'PILOT_NAME'
     track = create_track_from_file 'flysight.csv'
     track.update!(pilot: profile)
-    section = create :section, event: event
-    competitor = create :competitor, section: section, profile: profile
-    round = create :round, event: event, discipline: Round.disciplines['distance'], number: 2
-    event_track = create :event_track, competitor: competitor, round: round, track: track
+    section = create :event_section, event: event
+    competitor = create :event_competitor, section: section, profile: profile
+    round = create :event_round, event: event, discipline: Event::Round.disciplines['distance'], number: 2
+    event_track = create :event_result, competitor: competitor, round: round, track: track
 
     track_file = create :track_file
 
@@ -19,7 +19,7 @@ describe EventTracks::FileDuplicationValidator do
   end
 
   it 'returns false if no duplicates found' do
-    event_track = create :event_track
+    event_track = create :event_result
     track_file = create :track_file
 
     EventTracks::FileDuplicationValidator.call(event_track, track_file)

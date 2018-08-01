@@ -33,7 +33,7 @@ class Profile < ApplicationRecord
            class_name: 'Track'
   has_many :base_tracks, -> { base.order('created_at DESC') }, class_name: 'Track'
   has_many :badges, -> { order(achieved_at: :desc) }, dependent: :delete_all
-  has_many :competitors, dependent: :restrict_with_error
+  has_many :event_competitors, class_name: 'Event::Competitor', dependent: :restrict_with_error
   has_many :personal_top_scores, class_name: 'VirtualCompetition::PersonalTopScore'
 
   has_attached_file :userpic,
@@ -60,7 +60,7 @@ class Profile < ApplicationRecord
   end
 
   def competitor_of_events
-    competitors.select(:event_id).map(&:event)
+    event_competitors.select(:event_id).map(&:event)
   end
 
   def participant_of_events

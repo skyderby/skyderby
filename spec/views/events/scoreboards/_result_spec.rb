@@ -18,7 +18,7 @@ describe 'events/scoreboards/_result' do
   end
 
   it 'with -20% penalty' do
-    round = rounds(:speed_round_1)
+    round = event_rounds(:speed_round_1)
     result = scoreboard.results.for(competitor: competitor, round: round)
 
     render(
@@ -38,7 +38,7 @@ describe 'events/scoreboards/_result' do
   end
 
   it 'with 100% penalty' do
-    round = rounds(:speed_round_1)
+    round = event_rounds(:speed_round_1)
     result = scoreboard.results.for(competitor: competitor, round: round)
     result.penalty_size = 100
     result.penalized = true
@@ -69,11 +69,11 @@ describe 'events/scoreboards/_result' do
   end
 
   def competitor
-    @competitor ||= competitors(:competitor_1)
+    @competitor ||= event_competitors(:competitor_1)
   end
 
   def round
-    @round ||= rounds(:distance_round_1)
+    @round ||= event_rounds(:distance_round_1)
   end
 
   def show_link(result)

@@ -35,11 +35,11 @@ module EventScoped
       organizers: [:organizable, { user: :profile }],
       sponsors: :sponsorable,
       sections: [
-        { event_tracks: :competitor },
+        { results: :competitor },
         { competitors: [
           { suit: :manufacturer },
           { profile: :country },
-          { event_tracks: :round }
+          { results: :round }
         ] }
       ]
     ).find(event_id)

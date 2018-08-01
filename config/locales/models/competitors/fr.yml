@@ -1,14 +1,14 @@
 fr:
   activerecord:
     models:
-      competitor: Compétiteur
+      event/competitor: Compétiteur
     attributes:
-      competitor:
+      event/competitor:
         suit: Combinaison
         section: Catégorie
     errors:
       models:
-        competitor:
+        event/competitor:
           attributes:
             suit:
               blank: Combinaison doit être renseignée

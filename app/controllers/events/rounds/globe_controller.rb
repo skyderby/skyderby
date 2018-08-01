@@ -10,7 +10,7 @@ module Events
       private
 
       def set_round
-        @round = Round.includes(event_tracks: [:track, { competitor: :profile }])
+        @round = @event.rounds.includes(event_tracks: [:track, { competitor: :profile }])
                       .find(params[:round_id])
       end
 

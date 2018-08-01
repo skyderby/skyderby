@@ -49,7 +49,7 @@ class Track < ApplicationRecord
   belongs_to :place, optional: true
   belongs_to :suit, optional: true
 
-  has_one :event_track, dependent: :restrict_with_error
+  has_one :event_result, class_name: 'Event::Result', dependent: :restrict_with_error
   has_one :video, class_name: 'TrackVideo', dependent: :destroy, inverse_of: :track
 
   has_one :time,
@@ -81,7 +81,7 @@ class Track < ApplicationRecord
   delegate :name, to: :pilot, allow_nil: true, prefix: true
   delegate :name, to: :place, allow_nil: true, prefix: true
   delegate :name, to: :suit, allow_nil: true, prefix: true
-  delegate :event, to: :event_track, allow_nil: true
+  delegate :event, to: :event_result, allow_nil: true
 
   def jump_range
     "#{ff_start};#{ff_end}"
@@ -96,7 +96,7 @@ class Track < ApplicationRecord
   end
 
   def competitive?
-    event_track.present?
+    event_result.present?
   end
 
   def msl_offset

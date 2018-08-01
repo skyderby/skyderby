@@ -32,7 +32,7 @@ module EventTracks
     end
 
     def round
-      @round ||= track.event_track.round
+      @round ||= track.event_result.round
     end
 
     def track
@@ -42,7 +42,7 @@ module EventTracks
     def duplicate
       @duplicate ||=
         TrackFile
-        .joins(track: [event_track: [round: :event]])
+        .joins(track: [event_result: [round: :event]])
         .where(file_file_name: track_file.file_file_name,
                file_file_size: track_file.file_file_size)
         .where('events.id' => event_track.event_id)

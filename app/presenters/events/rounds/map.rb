@@ -13,8 +13,8 @@ module Events
 
       def competitors
         @competitors ||=
-          round.event_tracks
-          .map { |event_track| Events::Maps::CompetitorTrack.new(event_track) }
+          round.results
+          .map { |result| Events::Maps::CompetitorTrack.new(result) }
           .sort_by(&:start_time)
           .each_with_index { |data, index| data.color = colors[index] }
       end
@@ -44,7 +44,7 @@ module Events
       end
 
       def colors
-        COLORS * (round.event_tracks.size.to_f / COLORS.size).ceil
+        COLORS * (round.results.size.to_f / COLORS.size).ceil
       end
     end
   end

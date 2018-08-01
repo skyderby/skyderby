@@ -18,8 +18,8 @@ resources :events, concerns: %i[sponsorable organizable] do
     end
 
     resources :competitors
-    resources :event_tracks do
-      scope module: :event_tracks do
+    resources :results do
+      scope module: :results do
         resource :jump_range, only: %i[show update]
         resource :penalty, only: %i[show update]
         resource :map, only: :show

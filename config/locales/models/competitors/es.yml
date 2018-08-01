@@ -1,14 +1,14 @@
 es:
   activerecord:
     models:
-      competitor: Competidor
+      event/competitor: Competidor
     attributes:
-      competitor:
+      event/competitor:
         suit: Traje
         section: Categoría
     errors:
       models:
-        competitor:
+        event/competitor:
           attributes:
             suit:
               blank: El traje es requerido

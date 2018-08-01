@@ -27,19 +27,19 @@ module Events
     private
 
     def create_competitor
-      Competitor.transaction do
-        Competitor.create!(competitor_params)
+      Event::Competitor.transaction do
+        Event::Competitor.create!(competitor_params)
       end
     end
 
     def update_competitor
-      Competitor.transaction do
+      Event::Competitor.transaction do
         competitor.update!(competitor_params)
       end
     end
 
     def competitor
-      Competitor.find(id)
+      Event::Competitor.find(id)
     end
 
     def competitor_params

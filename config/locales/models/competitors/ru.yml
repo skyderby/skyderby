@@ -1,17 +1,17 @@
 ru:
   activerecord:
     models:
-      competitor: Участник
+      event/competitor: Участник
     attributes:
-      competitor:
+      event/competitor:
         suit: Костюм
         section: Класс
         profile: Профиль
-      competitor/profile:
+      event/competitor/profile:
         name: Имя Фамилия
     errors:
       models:
-        competitor:
+        event/competitor:
           attributes:
             suit:
               blank: Костюм должен быть заполнен

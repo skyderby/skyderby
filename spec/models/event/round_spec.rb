@@ -21,30 +21,30 @@ describe Event::Round, type: :model do
   end
 
   it 'automatically set name as order within discipline' do
-    round = Round.create!(discipline: 'time', event: event)
+    round = event.rounds.create!(discipline: 'time')
     expect(round.number).to eql 1
 
-    round = Round.create!(discipline: 'time', event: event)
+    round = event.rounds.create!(discipline: 'time')
     expect(round.number).to eql 2
 
-    round = Round.create!(discipline: 'speed', event: event)
+    round = event.rounds.create!(discipline: 'speed')
     expect(round.number).to eql 1
 
-    round = Round.create!(discipline: 'speed', event: event)
+    round = event.rounds.create!(discipline: 'speed')
     expect(round.number).to eql 2
   end
 
   it 'should require discipline' do
-    round = Round.new(number: 1, event: event)
+    round = event.rounds.new(number: 1)
     expect(round).not_to be_valid
   end
 
   it 'should require event' do
-    round = Round.new(number: 1, discipline: :time)
+    round = Event::Round.new(number: 1, discipline: :time)
     expect(round).not_to be_valid
   end
 
   it_should_behave_like 'event_ongoing_validation' do
-    let(:target) { FactoryBot.create(:round) }
+    let(:target) { create :event_round }
   end
 end

@@ -1,0 +1,22 @@
+ru:
+  activerecord:
+    models:
+      event/result: Результат
+    attributes:
+      event/result:
+        file: Файл трека
+        track: Трек
+        uploaded_by: Трек загрузил
+        is_disqualified: Дисквалифицирован
+        disqualification_reason: Причина
+    errors:
+      models:
+        event/result:
+          attributes:
+            track:
+              blank: Не выбран трек для расчета результата.
+            result:
+              duplicate: Для данного участника в этом раунде результат уже загружен. Обновите страницу.
+            base:
+              event_finished: Изменения не могут быть выполнены, т.к. соревнование завершено.
+              track_file_blank: Результат не может быть расчитан, т.к не указан файл для загрузки.

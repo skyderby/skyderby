@@ -1,10 +1,10 @@
 en:
   activerecord:
     models:
-      round: Round
+      event/round: Round
     errors:
       models:
-        round:
+        event/round:
           attributes:
             base:
               restrict_dependent_destroy:

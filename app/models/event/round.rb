@@ -22,7 +22,7 @@ class Event::Round < ApplicationRecord
              foreign_key: 'profile_id',
              optional: true
 
-  has_many :event_tracks, dependent: :restrict_with_error
+  has_many :results, dependent: :restrict_with_error
   has_many :reference_point_assignments, dependent: :delete_all
 
   validates_presence_of :event, :discipline
@@ -40,9 +40,7 @@ class Event::Round < ApplicationRecord
 
   def set_number
     current_number =
-      Round
-      .where(event_id: event_id, discipline: Round.disciplines[discipline])
-      .maximum(:number) || 0
+      event.rounds.where(discipline: discipline.to_sym).maximum(:number) || 0
 
     self.number = current_number + 1
   end

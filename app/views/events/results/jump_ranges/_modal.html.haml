@@ -1,0 +1,35 @@
+.modal-dialog.modal-lg
+  .modal-content
+    .modal-header
+      %button.close{type: 'button', data: {dismiss: 'modal'}}
+        %span{aria: {hidden: 'true'}}
+          &times;
+        %span.sr-only
+          Close
+      %h4.modal-title
+        = event_track_presentation(@result)
+ 
+    .modal-body
+      .container-fluid
+        = render 'events/results/header'
+
+        = form_for :jump_range, url: event_result_jump_range_path(@result.event, @result), method: :put, remote: true do |f|
+          .row{'data-controller': 'jump-range', 'data-track-id': @result.track_id}
+            .col-sm-12{'data-target': 'jump-range.chart'}
+            .col-sm-12
+              .time-selector
+                = f.text_field :jump_range,
+                  value: @result.track.jump_range,
+                  'data-max-value': @result.track.duration,
+                  'data-controller': 'jump-range-select',
+                  'data-action': 'change->jump-range#on_change_range',
+                  'data-target': 'jump-range.select'
+
+          %hr
+          .modal-actions
+            .modal-actions__left
+              = delete_event_track_link(@result)
+
+            .modal-actions__right
+              = f.submit t('general.save'), class: 'btn btn-primary'
+              %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

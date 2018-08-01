@@ -12,7 +12,7 @@ class EventDeletion
     @event.transaction do
       tracks = @event.tracks.to_a
 
-      @event.event_tracks.to_a.each(&:destroy!)
+      @event.results.to_a.each(&:destroy!)
       tracks.each(&:destroy!) if delete_tracks
 
       @event.rounds.destroy_all

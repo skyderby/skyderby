@@ -2,9 +2,9 @@ describe Events::Scoreboards::Results::Collection do
   describe '#for' do
     it 'by round and competitor' do
       params = build_params
-      collection = Events::Scoreboards::Results::Collection.new(event.event_tracks, params)
-      competitor = competitors(:competitor_1)
-      round = rounds(:speed_round_1)
+      collection = Events::Scoreboards::Results::Collection.new(event.results, params)
+      competitor = event_competitors(:competitor_1)
+      round = event_rounds(:speed_round_1)
 
       result = collection.for(competitor: competitor, round: round).result
       expect(result).to eq(200)
@@ -12,9 +12,9 @@ describe Events::Scoreboards::Results::Collection do
 
     it 'by round and competitor, without penalties' do
       params = build_params({ omit_penalties: 'true' })
-      collection = Events::Scoreboards::Results::Collection.new(event.event_tracks, params)
-      competitor = competitors(:competitor_1)
-      round = rounds(:speed_round_1)
+      collection = Events::Scoreboards::Results::Collection.new(event.results, params)
+      competitor = event_competitors(:competitor_1)
+      round = event_rounds(:speed_round_1)
 
       result = collection.for(competitor: competitor, round: round).result
       expect(result).to eq(250)
@@ -24,9 +24,9 @@ describe Events::Scoreboards::Results::Collection do
   describe '#best_in' do
     it 'round' do
       params = build_params
-      collection = Events::Scoreboards::Results::Collection.new(event.event_tracks, params)
+      collection = Events::Scoreboards::Results::Collection.new(event.results, params)
 
-      best_in_round = collection.best_in(round: rounds(:speed_round_1))
+      best_in_round = collection.best_in(round: event_rounds(:speed_round_1))
 
       expect(best_in_round.result).to eq(270)
     end
@@ -35,9 +35,9 @@ describe Events::Scoreboards::Results::Collection do
   describe '#worst_in' do
     it 'round' do
       params = build_params
-      collection = Events::Scoreboards::Results::Collection.new(event.event_tracks, params)
+      collection = Events::Scoreboards::Results::Collection.new(event.results, params)
 
-      worst_in_round = collection.worst_in(round: rounds(:speed_round_1))
+      worst_in_round = collection.worst_in(round: event_rounds(:speed_round_1))
 
       expect(worst_in_round.result).to eq(200)
     end

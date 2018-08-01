@@ -33,7 +33,7 @@ module Events
     private
 
     def set_round
-      @round = Round.find(params[:id])
+      @round = @event.rounds.find(params[:id])
     end
 
     def round_params

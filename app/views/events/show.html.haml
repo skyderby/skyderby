@@ -25,13 +25,13 @@
                         params: {'round[discipline]' => :distance}.merge(display_event_params),
                         class: 'btn btn-default' do
               %i.fa.fa-plus.text-muted
-              = t('activerecord.models.round')
+              = t('activerecord.models.event/round')
 
           -else
             .btn-group
               %button.btn.btn-default{'data-toggle' => 'dropdown'}
                 %i.fa.fa-plus.text-muted
-                = t('activerecord.models.round')
+                = t('activerecord.models.event/round')
                 %i.fa.fa-caret-down
               %ul.dropdown-menu.dropdown-menu-right{role: 'menu'}
                 %li= add_round_button(@event, :distance)

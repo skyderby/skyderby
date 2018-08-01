@@ -1,7 +1,7 @@
 .modal-dialog
   .modal-content
-    - path = @competitor.new_record? ? tournament_competitors_path(@tournament) : tournament_competitor_path(@tournament, @competitor)
-    = form_for @competitor, url: path, remote: true, html: {class: 'form-horizontal'} do |f|
+    - form_path = @competitor.new_record? ? tournament_competitors_path(@tournament) : tournament_competitor_path(@tournament, @competitor)
+    = form_for @competitor, url: form_path, remote: true, html: {class: 'form-horizontal'} do |f|
       .modal-header
         %button.close{type: 'button', data: {dismiss: 'modal'}}
           %span{aria: {hidden: 'true'}}
