@@ -56,13 +56,25 @@
 
           - if can_manage
             .btn-group.event-status-group
-              %button.btn.btn-default.event-status-button{'data-toggle' => 'dropdown'}
+              %button.btn.btn-default.event-status-button{'data-toggle': 'dropdown'}
                 = t('activerecord.attributes.event.status') + ': ' + t('event_status.' + @event.status)
                 %i.fa.fa-caret-down
               %ul.dropdown-menu.dropdown-menu-right{role: 'menu'}
                 - Event.statuses.each do |status, _index|
                   %li{class: ('active' if @event.status == status)}
                     = change_event_status_button(status)
+
+          .btn-group
+            %button.btn.btn-default.dropdown-toggle{type: 'button', 'data-toggle': 'dropdown'}
+              %i.fa.fa-cog
+            %ul.dropdown-menu.dropdown-menu-right{role: 'menu'}
+              %li.dropdown-header
+                Penalties
+              - omit_penalties = display_event_params[:omit_penalties] == 'true'
+              %li{class: ('active' if !omit_penalties)}
+                = link_to 'Show with penalties', display_event_params.except(:omit_penalties), rel: 'nofollow'
+              %li{class: ('active' if omit_penalties)}
+                = link_to 'Omit penalties', display_event_params.merge(omit_penalties: 'true'), rel: 'nofollow'
 
     .row.top-buffer
       .col-md-12
