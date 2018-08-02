@@ -1,11 +1,18 @@
 import { Controller } from 'stimulus'
 import Rails from 'rails-ujs'
 
+const CARET_ICON = '<i class="fa fa-fw fa-caret-down"></i>'
+const ELLIPSIS_ICON = '<i class="fa fa-fw fa-ellipsis-h"></i>'
+const BLANKSLATE = ELLIPSIS_ICON + CARET_ICON
+const LOADING_SPINNER = '<i class="fa fa-fw fa-circle-o-notch fa-spin"></i><i class="fa fa-fw"></i>'
+
 export default class extends Controller {
   static targets = [ 'reference_point' ]
 
   clear_reference_point(e) {
     e.preventDefault()
+
+    this.show_loading_spinner()
 
     fetch(this.url, {
       method: 'delete',
@@ -20,15 +27,17 @@ export default class extends Controller {
       }
 
       throw new Error(`${response.status}: ${response.statusText}`)
+    }).then(() => {
+      this.reference_point.setAttribute('data-id', '')
+      this.reference_point.innerHTML = BLANKSLATE
     }).catch((error) => {
       document.dispatchEvent(new CustomEvent('action:error', {
         detail: error,
         bubbles: true,
         cancelable: true
       }))
-    }).then(() => {
-      this.reference_point.setAttribute('data-id', '')
-      this.reference_point.innerHTML = '<i class="fa fa-fw fa-ellipsis-h"></i>'
+
+      this.restore_reference_point()
     })
   }
 
@@ -38,6 +47,8 @@ export default class extends Controller {
     const element = event.currentTarget
     const reference_point_id = element.getAttribute('data-reference-point-id')
     const reference_point_name = element.text
+
+    this.show_loading_spinner()
 
     fetch(this.url, {
       method: 'post',
@@ -53,16 +64,27 @@ export default class extends Controller {
       }
 
       throw new Error(`${response.status}: ${response.statusText}`)
+    }).then(() => {
+      this.reference_point.setAttribute('data-id', reference_point_id)
+      this.reference_point.innerHTML = reference_point_name + CARET_ICON
     }).catch((error) => {
       document.dispatchEvent(new CustomEvent('action:error', {
         detail: error,
         bubbles: true,
         cancelable: true
       }))
-    }).then(() => {
-      this.reference_point.setAttribute('data-id', reference_point_id)
-      this.reference_point.innerHTML = reference_point_name
+
+      this.restore_reference_point()
     })
+  }
+
+  show_loading_spinner() {
+    this.reference_point.setAttribute('data-prev-html', this.reference_point.innerHTML)
+    this.reference_point.innerHTML = LOADING_SPINNER
+  }
+
+  restore_reference_point() {
+    this.reference_point.innerHTML = this.reference_point.getAttribute('data-prev-html')
   }
 
   show_dl(e) {
