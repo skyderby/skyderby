@@ -12,7 +12,7 @@
         - if can_manage
           .pull-right= edit_event_link(@event)
 
-    .row{class: ('top-buffer' if can_manage)}
+    .row
       .col-md-6.col-sm-6
         - if can_manage && !@event.finished?
           = new_section_link(@event)
@@ -60,29 +60,9 @@
                 = t('activerecord.attributes.event.status') + ': ' + t('event_status.' + @event.status)
                 %i.fa.fa-caret-down
               %ul.dropdown-menu.dropdown-menu-right{role: 'menu'}
-                %li{class: ('active' if @event.draft?)}
-                  = button_to t('event_status.draft'),
-                                event_path(@event),
-                                method: :patch,
-                                remote: true,
-                                params: {'event[status]' => 'draft'},
-                                class: 'btn-link event-set-status-draft'
-
-                %li{class: ('active' if @event.published?)}
-                  = button_to t('event_status.published'),
-                                event_path(@event),
-                                method: :patch,
-                                remote: true,
-                                params: {'event[status]' => :published},
-                                class: 'btn-link event-set-status-published'
-
-                %li{class: ('active' if @event.finished?)}
-                  = button_to t('event_status.finished'),
-                                event_path(@event),
-                                method: :patch,
-                                remote: true,
-                                params: {'event[status]' => 'finished'},
-                                class: 'btn-link event-set-status-finished'
+                - Event.statuses.each do |status, _index|
+                  %li{class: ('active' if @event.status == status)}
+                    = change_event_status_button(status)
 
     .row.top-buffer
       .col-md-12

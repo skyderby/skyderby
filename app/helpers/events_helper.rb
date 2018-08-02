@@ -8,6 +8,15 @@ module EventsHelper
     end
   end
 
+  def change_event_status_button(status)
+    button_to(t("event_status.#{status}"),
+              event_path(@event),
+              method: :patch,
+              remote: true,
+              params: {'event[status]' => status},
+              class: 'btn-link')
+  end
+
   def display_event_form_params
     capture do
       display_event_params.each do |key, value|
