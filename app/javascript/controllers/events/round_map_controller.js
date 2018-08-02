@@ -14,7 +14,7 @@ export default class extends Controller {
   }
 
   connect() {
-    this.init_maps()
+    init_maps_api()
     this.fetch_data()
 
     this.element.addEventListener('round-map-competitor-row:show-dl', this.show_dl_for_competitor.bind(this))
@@ -77,13 +77,6 @@ export default class extends Controller {
     })
 
     this.element.dispatchEvent(event)
-  }
-
-  init_maps() {
-    document.addEventListener('maps_api:ready', this.on_maps_ready, { once: true })
-    document.addEventListener('maps_api:failed', this.on_maps_failed_load, { once: true })
-
-    init_maps_api()
   }
 
   fetch_data() {
@@ -155,6 +148,12 @@ export default class extends Controller {
       }
     }
 
+    this.draw_reference_points(this.map_data.reference_points)
+
+    this.resize()
+  }
+
+  draw_reference_points(reference_points) {
     for (let reference_point of this.map_data.reference_points) {
       let marker = new google.maps.Marker({
         position: new google.maps.LatLng(reference_point.latitude, reference_point.longitude),
@@ -163,8 +162,6 @@ export default class extends Controller {
 
       this.reference_points[reference_point.id] = marker
     }
-
-    this.resize()
   }
 
   draw_polyline(path, color) {

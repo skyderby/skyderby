@@ -10,7 +10,7 @@
 
     .event-edit__main-area
       = form_for :event_deletion, url: event_deletion_path(@event), remote: true, html: { class: 'form-horizontal' } do |f|
-        %h3.text-danger Are you ABSOLUTELY sure?
+        %h2.text-danger Are you ABSOLUTELY sure?
 
         %p
           This action

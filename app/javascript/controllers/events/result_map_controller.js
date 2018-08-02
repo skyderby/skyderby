@@ -10,15 +10,8 @@ export default class extends Controller {
   static targets = [ 'map', 'loading_placeholder' ]
 
   connect() {
-    this.init_maps()
-    this.fetch_data()
-  }
-
-  init_maps() {
-    document.addEventListener('maps_api:ready', this.on_maps_ready, { once: true })
-    document.addEventListener('maps_api:failed', this.on_maps_failed_load, { once: true })
-
     init_maps_api()
+    this.fetch_data()
   }
 
   fetch_data() {
