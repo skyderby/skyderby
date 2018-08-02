@@ -114,7 +114,7 @@ module Events
       end
 
       def all_points
-        Point.where(track_id: EventTrack.where(round: round).pluck(:track_id))
+        Point.where(track_id: round.results.pluck(:track_id))
       end
     end
   end
