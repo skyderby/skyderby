@@ -3,7 +3,9 @@ module Events
     before_action :set_event
 
     def new
-      respond_to { |format| format.js }
+      respond_to do |format|
+        format.html
+      end
     end
 
     def create

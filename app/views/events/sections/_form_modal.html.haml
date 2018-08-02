@@ -1,7 +1,6 @@
 .modal-dialog
   .modal-content
-    - form_path = @section.new_record? ? event_sections_path(@event) : event_section_path(@event, @section)
-    = form_for @section, url: form_path, remote: true, html: {class: 'form-horizontal'} do |f|
+    = form_for [@event, @section], remote: true, html: {class: 'form-horizontal'} do |f|
       = display_event_form_params
 
       .modal-header
@@ -11,7 +10,7 @@
           %span.sr-only
             Close
         %h4.modal-title
-          = t('activerecord.models.event/section') + ': ' 
+          = t('activerecord.models.event/section') + ': '
           - if @section.new_record?
             = t('events.index.new')
           - else

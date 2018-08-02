@@ -1,4 +1,4 @@
-describe EventResultsHelper do
+describe Events::ResultsHelper do
   it '#new_event_track_link' do
     event = events(:published_public)
     competitor = event_competitors(:competitor_1)
@@ -9,8 +9,8 @@ describe EventResultsHelper do
     generated_link = helper.new_event_track_link(event, competitor, round)
 
     aggregate_failures 'verifying link' do
-      expect(generated_link).to include({'event_result[competitor_id]' => competitor.id }.to_param)
-      expect(generated_link).to include({'event_result[round_id]' => round.id }.to_param)
+      expect(generated_link).to include({'result[competitor_id]' => competitor.id }.to_param)
+      expect(generated_link).to include({'result[round_id]' => round.id }.to_param)
       expect(generated_link).to include('<i class="fa fa-upload"></i>')
     end
   end

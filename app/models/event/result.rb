@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: event_tracks
+# Table name: event_results
 #
 #  id                      :integer          not null, primary key
 #  round_id                :integer
@@ -16,8 +16,8 @@
 #
 
 class Event::Result < ApplicationRecord
-  include EventOngoingValidation, AcceptsNestedTrack, SubmissionAuthor, SubmissionResult,
-          ReviewableByJudge
+  include EventOngoingValidation, Event::Namespace, AcceptsNestedTrack,
+          SubmissionAuthor, SubmissionResult, ReviewableByJudge
 
   belongs_to :track
   belongs_to :round, class_name: 'Event::Round'

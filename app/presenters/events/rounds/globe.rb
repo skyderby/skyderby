@@ -4,12 +4,12 @@ module Events
       CompetitorData = Struct.new(:name, :color, :points, :start_time)
 
       class EntityBuilder
-        def initialize(event_track)
-          @event_track = event_track
+        def initialize(result)
+          @result = result
         end
 
         def execute
-          event_track
+          result
             .track
             .points
             .trimmed
@@ -22,7 +22,7 @@ module Events
 
         private
 
-        attr_reader :event_track
+        attr_reader :result
       end
 
       COLORS = [
@@ -63,11 +63,11 @@ module Events
       end
 
       def competitors
-        @competitors ||= round.event_tracks.map.with_index do |event_track, index|
+        @competitors ||= round.results.map.with_index do |result, index|
           CompetitorData.new.tap do |c|
-            c.name = event_track.competitor.name
+            c.name = result.competitor.name
             c.color = colors[index]
-            c.points = EntityBuilder.new(event_track).execute
+            c.points = EntityBuilder.new(result).execute
             c.start_time = c.points.first[:gps_time]
           end
         end
@@ -96,7 +96,7 @@ module Events
       end
 
       def colors
-        COLORS * (round.event_tracks.size.to_f / COLORS.size).ceil
+        COLORS * (round.results.size.to_f / COLORS.size).ceil
       end
 
       def start_time

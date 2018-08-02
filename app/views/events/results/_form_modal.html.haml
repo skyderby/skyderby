@@ -1,6 +1,6 @@
 .modal-dialog
   .modal-content
-    = form_for @result, url: event_results_path(@event), remote: true, html: {multipart:true, class: 'form-horizontal'} do |f|
+    = form_for [@event, @result], remote: true, html: {multipart:true, class: 'form-horizontal'} do |f|
       = display_event_form_params
 
       .modal-header
@@ -10,7 +10,7 @@
           %span.sr-only
             Close
         %h4.modal-title
-          = event_track_presentation(@result)
+          = event_result_presentation(@result)
 
       .modal-body
         = f.hidden_field :competitor_id, value: @result.competitor_id

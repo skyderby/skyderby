@@ -11,7 +11,7 @@ feature 'Event sections (categories)', type: :system, js: true do
 
     click_link I18n.t('activerecord.models.event/section')
 
-    fill_in :event_section_name, with: 'Category: Open'
+    fill_in :section_name, with: 'Category: Open'
 
     click_button I18n.t('general.save')
     sleep 0.5

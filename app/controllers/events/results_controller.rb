@@ -9,7 +9,7 @@ module Events
     before_action :authorize_event, except: :show
 
     def create
-      @result = @event.results.new event_track_params
+      @result = @event.results.new result_params
       @result.current_user = current_user
 
       if @result.save
@@ -22,7 +22,7 @@ module Events
     end
 
     def update
-      if @result.update event_track_params
+      if @result.update result_params
         respond_to do |format|
           format.js { respond_with_scoreboard }
         end
@@ -43,7 +43,7 @@ module Events
     end
 
     def new
-      @result = @event.results.new event_track_params
+      @result = @event.results.new result_params
     end
 
     def edit; end
@@ -77,8 +77,8 @@ module Events
       render template: 'events/results/scoreboard_with_highlight'
     end
 
-    def event_track_params
-      params.require(:event_result).permit(
+    def result_params
+      params.require(:result).permit(
         :competitor_id,
         :round_id,
         :track_id,

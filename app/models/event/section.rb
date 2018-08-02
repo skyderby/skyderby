@@ -9,7 +9,7 @@
 #
 
 class Event::Section < ApplicationRecord
-  include EventOngoingValidation
+  include EventOngoingValidation, Event::Namespace
 
   belongs_to :event, touch: true
   has_many :competitors, dependent: :restrict_with_error

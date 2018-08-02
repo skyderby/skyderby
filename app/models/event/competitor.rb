@@ -14,7 +14,7 @@
 #
 
 class Event::Competitor < ApplicationRecord
-  include EventOngoingValidation
+  include EventOngoingValidation, Event::Namespace
 
   belongs_to :event, touch: true
   belongs_to :section

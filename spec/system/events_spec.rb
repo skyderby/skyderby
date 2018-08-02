@@ -49,7 +49,7 @@ describe 'Scoring PPC-like competitions', js: true do
 
   def add_category(name)
     click_link I18n.t('activerecord.models.event/section')
-    fill_in :event_section_name, with: name
+    fill_in :section_name, with: name
     click_button I18n.t('general.save')
   end
 
@@ -88,7 +88,7 @@ describe 'Scoring PPC-like competitions', js: true do
     sleep 0.5
 
     file = Rails.root.join('spec', 'support', 'tracks', 'event_test', filename)
-    attach_file 'event_result[track_attributes][file]', file, make_visible: true
+    attach_file 'result[track_attributes][file]', file, make_visible: true
 
     click_button I18n.t('general.save')
   end

@@ -12,7 +12,7 @@
 #
 
 class Event::Round < ApplicationRecord
-  include EventOngoingValidation
+  include EventOngoingValidation, Event::Namespace
 
   enum discipline: [:time, :distance, :speed]
 

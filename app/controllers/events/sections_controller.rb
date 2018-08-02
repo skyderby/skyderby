@@ -75,7 +75,7 @@ module Events
     end
 
     def section_params
-      params.require(:event_section).permit(:name, :event_id, :order)
+      params.require(:section).permit(:name, :event_id, :order)
     end
   end
 end

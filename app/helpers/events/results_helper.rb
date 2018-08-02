@@ -1,8 +1,8 @@
-module EventResultsHelper
+module Events::ResultsHelper
   def new_event_track_link(event, competitor, round)
     data_params = {
-      'event_result[competitor_id]' => competitor.id,
-      'event_result[round_id]' => round.id,
+      'result[competitor_id]' => competitor.id,
+      'result[round_id]' => round.id,
     }.merge(display_event_params).to_param
 
     link_to content_tag('i', nil, class: 'fa fa-upload'),
@@ -34,7 +34,7 @@ module EventResultsHelper
             class: 'btn-flat btn-flat--danger')
   end
 
-  def event_track_presentation(event_track)
+  def event_result_presentation(event_track)
     "#{I18n.t('activerecord.models.event/result')}: " \
       "#{event_track.competitor.name} | " \
       "#{I18n.t('disciplines.' + event_track.round_discipline)} - " \

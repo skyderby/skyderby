@@ -2,8 +2,8 @@ module Events
   module Scoreboards
     module Results
       class Collection
-        def initialize(event_tracks, params)
-          @event_tracks = event_tracks
+        def initialize(event_results, params)
+          @event_results = event_results
           @params = params
         end
 
@@ -20,7 +20,7 @@ module Events
         end
         private
 
-        attr_reader :event_tracks, :params
+        attr_reader :event_results, :params
 
         def find(**args)
           index_section = lookup_section(**args)
@@ -98,7 +98,7 @@ module Events
         end
 
         def records
-          @records = event_tracks.includes(:round, competitor: :section).to_a
+          @records = event_results.includes(:round, competitor: :section).to_a
         end
       end
     end
