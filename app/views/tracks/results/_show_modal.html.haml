@@ -13,10 +13,10 @@
         %h3= t('tracks.show.comp_result')
         .track-event-result
           %span
-            = @track.event_track.event.name + ' | '
-            = t("disciplines.#{@track.event_track.round_discipline}") + ':'
+            = @track.event_result.event.name + ' | '
+            = t("disciplines.#{@track.event_result.round_discipline}") + ':'
           %span
-            = @track.event_track.result
+            = @track.event_result.result
 
       - if @track.skydive?
         %h3= t('tracks.show.best_results')

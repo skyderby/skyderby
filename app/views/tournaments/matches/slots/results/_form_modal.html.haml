@@ -21,7 +21,7 @@
             = t 'event_tracks.form_modal.from_file'
         = f.fields_for :track_attributes do |builder|
           .form-group
-            = builder.label :file, t('activerecord.attributes.event_track.file'), class: 'control-label col-sm-4'
+            = builder.label :file, t('activerecord.attributes.event/result.file'), class: 'control-label col-sm-4'
             .col-sm-8
               .input-group{'data-controller': 'filefield'}
                 %input.form-control{type: 'text', readonly: true, 'data-target': 'filefield.text_field'}

@@ -14,6 +14,7 @@ describe 'Qualification rounds', js: true do
     sign_in users(:regular_user)
 
     tournament = tournaments(:qualification_loen)
+    qualification_jumps(:qualification_jump_1).delete
 
     visit tournament_qualification_path(tournament)
 

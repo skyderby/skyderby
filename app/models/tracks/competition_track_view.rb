@@ -2,15 +2,15 @@ module Tracks
   class CompetitionTrackView
     include TrackViewBase, TrackPoints, PointsCropping
 
-    def initialize(event_track, chart_preferences)
-      @event_track = event_track
+    def initialize(event_result, chart_preferences)
+      @event_result = event_result
       @chart_preferences = chart_preferences
     end
 
     def time
       @time ||=
-        if @event_track.round_discipline == 'time'
-          @event_track.result
+        if @event_result.round_discipline == 'time'
+          @event_result.result
         else
           super
         end
@@ -26,30 +26,30 @@ module Tracks
 
     private
 
-    attr_reader :event_track
+    attr_reader :event_result
 
     def track_elevation
       range_from - range_to
     end
 
     def track_distance
-      if event_track.round_discipline == 'distance'
-        event_track.result
+      if event_result.round_discipline == 'distance'
+        event_result.result
       else
         straight_line_distance
       end
     end
 
     def track
-      @track ||= event_track.track
+      @track ||= event_result.track
     end
 
     def range_from
-      @range_from ||= event_track.range_from
+      @range_from ||= event_result.range_from
     end
 
     def range_to
-      @range_to ||= event_track.range_to
+      @range_to ||= event_result.range_to
     end
 
     def points

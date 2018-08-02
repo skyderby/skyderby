@@ -54,6 +54,16 @@ export default function(google, map, width, length, direction, opts = {}) {
       this.rotate_marker.setPosition(this.rotate_marker_position)
     }
 
+    set_position(lat, lon) {
+      const center_position = new google.maps.LatLng(lat, lon)
+
+      this.set_bounds(center_position)
+      this.draw()
+
+      this.rotate_marker.setPosition(this.rotate_marker_position)
+      this.center_marker.setPosition(center_position)
+    }
+
     onAdd() {
       let div = this.create_div()
       let img = this.create_img()

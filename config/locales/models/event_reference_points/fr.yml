@@ -1,0 +1,7 @@
+fr:
+  activerecord:
+    attributes:
+      reference_point:
+        name: Nom
+        latitude: Latitude
+        longitude: Longitude

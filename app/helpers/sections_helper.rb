@@ -6,7 +6,7 @@ module SectionsHelper
             class: 'btn btn-default') do
       concat content_tag(:i, nil, class: 'fa fa-plus text-muted')
       concat ' '
-      concat t('activerecord.models.section')
+      concat t('activerecord.models.event/section')
     end
   end
 

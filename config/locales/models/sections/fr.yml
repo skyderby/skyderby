@@ -1,13 +1,13 @@
 fr:
   activerecord:
     models:
-      section: Catégorie
+      event/section: Catégorie
     attributes:
-      section:
+      event/section:
         name: Nom
     errors:
       models:
-        section:
+        event/section:
           attributes:
             name:
               blank: Nom doit être renseigné

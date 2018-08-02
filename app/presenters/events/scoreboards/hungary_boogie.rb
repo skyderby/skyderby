@@ -1,7 +1,7 @@
 module Events
   module Scoreboards
     class HungaryBoogie
-      include Results
+      include Events::Scoreboards::Results
 
       attr_reader :event
 

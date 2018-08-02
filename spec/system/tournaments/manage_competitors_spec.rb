@@ -54,6 +54,8 @@ feature 'Manage tournament competitors', type: :system, js: true do
     sign_in users(:regular_user)
 
     tournament = tournaments(:world_base_race)
+    tournament_match_slots(:slot_1).delete
+    qualification_jumps(:qualification_jump_1).delete
 
     visit tournament_competitors_path(tournament)
     accept_alert do

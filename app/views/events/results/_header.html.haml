@@ -1,0 +1,14 @@
+%ul.nav.nav-pills
+  - current_controller = controller.controller_path.split('/').last
+  %li{class: ('active' if current_controller == 'results')}
+    = link_to t('general.charts'), event_result_path(@result.event, @result), remote: true
+  %li{class: ('active' if current_controller == 'maps')}
+    = link_to t('event_tracks.show.maps'), event_result_map_path(@result.event, @result), remote: true
+
+  - if policy(@result.event).update?
+    %li{class: ('active' if current_controller == 'jump_ranges')}
+      = link_to t('general.jump_range'), event_result_jump_range_path(@result.event, @result), remote: true
+    %li{class: ('active' if current_controller == 'penalties')}
+      = link_to t('event_tracks.show.penalties'), event_result_penalty_path(@result.event, @result), remote: true
+
+%hr.condensed

@@ -73,18 +73,18 @@ describe Events::ScoreboardsController do
   end
 
   def section_advanced
-    @section_advanced ||= sections(:speed_distance_time_advanced)
+    @section_advanced ||= event_sections(:speed_distance_time_advanced)
   end
 
   def section_intermediate
-    @section_intermediate ||= sections(:speed_distance_time_intermediate)
+    @section_intermediate ||= event_sections(:speed_distance_time_intermediate)
   end
 
   def competitor_1
-    @competitor_1 ||= competitors(:competitor_1)
+    @competitor_1 ||= event_competitors(:competitor_1)
   end
 
   def competitor_2
-    @competitor_2 ||= competitors(:competitor_2)
+    @competitor_2 ||= event_competitors(:competitor_2)
   end
 end

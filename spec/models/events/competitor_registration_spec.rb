@@ -10,9 +10,8 @@ describe Events::CompetitorRegistration do
         profile_id: profile.id
       }
 
-      Events::CompetitorRegistration.new(params).create
-
-      expect(event.competitors.count).to eq(1)
+      expect { Events::CompetitorRegistration.new(params).create }
+        .to change { event.competitors.count }.by(1)
     end
 
     it 'create competitor with new profile' do
@@ -28,16 +27,15 @@ describe Events::CompetitorRegistration do
         country_id: country.id
       }
 
-      Events::CompetitorRegistration.new(params).create
-
-      expect(event.competitors.count).to eq(1)
-      expect(event.competitors.first.name).to eq(name)
+      expect { Events::CompetitorRegistration.new(params).create }
+        .to change { event.competitors.count }.by(1)
+      expect(event.competitors.last.name).to eq(name)
     end
   end
 
   describe '#update' do
     it 'update with existed profile' do
-      competitor = create :competitor, event: event, section: section, suit: suit
+      competitor = event_competitors(:competitor_1)
       profile = create :profile
 
       params = {
@@ -54,7 +52,7 @@ describe Events::CompetitorRegistration do
     end
 
     it 'update with new profile' do
-      competitor = create :competitor, event: event, section: section, suit: suit
+      competitor = event_competitors(:competitor_1)
       country = create :country
       name = 'Ivan'
 
@@ -75,11 +73,11 @@ describe Events::CompetitorRegistration do
   end
 
   def event
-    @event ||= create :event
+    @event ||= events(:published_public)
   end
 
   def section
-    @section ||= create :section, event: event
+    @section ||= event_sections(:speed_distance_time_advanced)
   end
 
   def suit

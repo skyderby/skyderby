@@ -1,0 +1,40 @@
+- provide :title, @event.name
+
+.event-edit
+  .event-edit__header
+    = render 'events/edit_header'
+
+  .event-edit__body
+    .event-edit__sidebar
+      = render 'events/edit_sidebar'
+
+    .event-edit__main-area
+      = form_for :event_deletion, url: event_deletion_path(@event), remote: true, html: { class: 'form-horizontal' } do |f|
+        %h2.text-danger Are you ABSOLUTELY sure?
+
+        %p
+          This action
+          %b
+            CANNOT
+          be undone. This will permanently delete the 
+          %b
+            = @event.name
+          \.
+          %br
+          Please type in the name of the event to confirm.
+
+          .form-group
+            .col-sm-12
+              = f.text_field :event_name, class: 'form-control input-lg'
+
+          .form-group
+            .col-sm-12
+              .checkbox
+                %label
+                  = f.check_box :delete_tracks
+                  Delete tracks
+
+          %hr
+
+          .text-center
+            = f.submit t('general.delete'), class: 'btn btn-lg btn-danger'

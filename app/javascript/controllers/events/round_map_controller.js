@@ -10,17 +10,20 @@ export default class extends Controller {
 
   initialize() {
     this.lines_by_competitor = {}
+    this.reference_points = {}
   }
 
   connect() {
-    this.init_maps()
+    init_maps_api()
     this.fetch_data()
+
+    this.element.addEventListener('round-map-competitor-row:show-dl', this.show_dl_for_competitor.bind(this))
   }
 
   on_change_visibility(event) {
     let element = event.currentTarget
     let map_value = element.checked ? this.map : undefined
-    let graphics = this.lines_by_competitor[element.id]
+    let graphics = Object.values(this.lines_by_competitor[element.getAttribute('data-competitor-id')])
     graphics.forEach( (item) => { item.setMap(map_value) } )
   }
 
@@ -50,11 +53,30 @@ export default class extends Controller {
     if (was_checked !== item.checked) item.dispatchEvent(new Event('change'))
   }
 
-  init_maps() {
-    document.addEventListener('maps_api:ready', this.on_maps_ready, { once: true })
-    document.addEventListener('maps_api:failed', this.on_maps_failed_load, { once: true })
+  show_dl_for_competitor(original_event) {
+    const { reference_point_id, competitor_id } = original_event.detail
 
-    init_maps_api()
+    const reference_point_position = this.reference_points[reference_point_id].getPosition()
+
+    let start_point_type = null
+    if (this.designated_lane_start == 'designated_lane_start_on_enter_window') {
+      start_point_type = 'start_point'
+    } else {
+      start_point_type = 'after_exit_point'
+    }
+
+    const start_point_position = this.lines_by_competitor[competitor_id][start_point_type].getPosition()
+
+    const event = new CustomEvent('round-map:show-dl', {
+      detail: {
+        start_point_position: start_point_position,
+        reference_point_position: reference_point_position
+      },
+      bubbles: true,
+      cancelable: true
+    })
+
+    this.element.dispatchEvent(event)
   }
 
   fetch_data() {
@@ -110,18 +132,36 @@ export default class extends Controller {
       let hover_polyline = this.draw_hover_polyline(
         competitor_data.path_coordinates,
         competitor_data.color,
-        competitor_data.id
+        competitor_data.competitor_id
       )
 
       let start_point      = this.draw_point(competitor_data.start_point,      START_POINT_COLOR)
       let end_point        = this.draw_point(competitor_data.end_point,        END_POINT_COLOR)
       let after_exit_point = this.draw_point(competitor_data.after_exit_point, AFTER_EXIT_POINT_COLOR)
 
-      this.lines_by_competitor['competitor_' + competitor_data.id] =
-        [ polyline, hover_polyline, start_point, end_point, after_exit_point ]
+      this.lines_by_competitor[competitor_data.competitor_id] = {
+        polyline: polyline,
+        hover_polyline: hover_polyline,
+        after_exit_point: after_exit_point,
+        start_point: start_point,
+        end_point: end_point
+      }
     }
 
+    this.draw_reference_points(this.map_data.reference_points)
+
     this.resize()
+  }
+
+  draw_reference_points(reference_points) {
+    for (let reference_point of this.map_data.reference_points) {
+      let marker = new google.maps.Marker({
+        position: new google.maps.LatLng(reference_point.latitude, reference_point.longitude),
+        map: this.map
+      })
+
+      this.reference_points[reference_point.id] = marker
+    }
   }
 
   draw_polyline(path, color) {
@@ -148,11 +188,11 @@ export default class extends Controller {
     hover_polyline.setMap(this.map)
 
     google.maps.event.addListener(hover_polyline, 'mouseover', (e) => {
-      document.querySelector(`input#competitor_${id}`).closest('tr').style.backgroundColor = '#BCE7FD'
+      document.querySelectorAll(`tr[data-competitor-id="${id}"]`).forEach( (el) => { el.style.backgroundColor = '#BCE7FD' })
     })
 
     google.maps.event.addListener(hover_polyline, 'mouseout', (e) => {
-      document.querySelector(`input#competitor_${id}`).closest('tr').style.backgroundColor = 'transparent'
+      document.querySelectorAll(`tr[data-competitor-id="${id}"]`).forEach( (el) => { el.style.backgroundColor = 'transparent' })
     })
 
     return hover_polyline
@@ -211,6 +251,10 @@ export default class extends Controller {
 
     this._bounds = bounds
     return this._bounds
+  }
+
+  get designated_lane_start() {
+    return this.element.getAttribute('data-dl-start')
   }
 
   get map() {

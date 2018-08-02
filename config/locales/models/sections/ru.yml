@@ -1,13 +1,13 @@
 ru:
   activerecord:
     models:
-      section: Класс
+      event/section: Класс
     attributes:
-      section:
+      event/section:
         name: Название
     errors:
       models:
-        section:
+        event/section:
           attributes:
             name:
               blank: Не указано название класса.

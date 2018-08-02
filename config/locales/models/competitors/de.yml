@@ -1,14 +1,14 @@
 de:
   activerecord:
     models:
-      competitor: Teilnehmer
+      event/competitor: Teilnehmer
     attributes:
-      competitor:
+      event/competitor:
         suit: Suit
         section: Kategorie
     errors:
       models:
-        competitor:
+        event/competitor:
           attributes:
             suit:
               blank: Suit muss ausgewählt werden

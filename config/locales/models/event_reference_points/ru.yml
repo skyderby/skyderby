@@ -1,0 +1,7 @@
+ru:
+  activerecord:
+    attributes:
+      reference_point:
+        name: Название
+        latitude: Широта
+        longitude: Долгота

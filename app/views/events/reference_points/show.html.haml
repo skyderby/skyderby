@@ -1,0 +1,41 @@
+- provide :title, @event.name
+
+.event-edit
+  .event-edit__header
+    = render 'events/edit_header'
+
+  .event-edit__body
+    .event-edit__sidebar
+      = render 'events/edit_sidebar'
+    .event-edit__main-area{'data-controller': 'events--reference-points'}
+      .event-reference-points__map{'data-target': 'events--reference-points.map',
+                                   'data-center-lat': @event.place.latitude,
+                                   'data-center-lon': @event.place.longitude}
+
+      .event-reference-points__actions.top-buffer
+        %button.btn.btn-default{'data-action': 'click->events--reference-points#add'}
+          %i.fa.fa-plus
+          = t('general.create')
+      = form_for @event, url: event_reference_points_path(@event), remote: true do |form|
+        %table.table.event-reference-points__table
+          %thead
+            %tr
+              %th= t('activerecord.attributes.reference_point.name')
+              %th= t('activerecord.attributes.reference_point.latitude')
+              %th= t('activerecord.attributes.reference_point.longitude')
+              %th
+          %tbody.hide{'data-target': 'events--reference-points.template'}
+            = render 'events/reference_points/template', form: form
+          %tbody{'data-target': 'events--reference-points.container'}
+            = form.fields_for :reference_points, include_id: false do |points_form|
+              = render 'events/reference_points/fields', form: points_form
+        %hr
+        - Event.designated_lane_starts.each do |value, index|
+          .radio
+            %label
+              = form.radio_button :designated_lane_start, value
+              = t "activerecord.attributes.event.designated_lane_starts.#{value}"
+
+        %hr
+        .text-right
+          = form.submit t('general.save'), class: 'btn btn-primary'

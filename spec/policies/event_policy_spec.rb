@@ -67,7 +67,7 @@ describe EventPolicy do
           was_finished = event.finished?
           event.published! if was_finished
 
-          create :competitor, event: event, profile: user.profile
+          create :event_competitor, event: event, profile: user.profile
 
           event.finished! if was_finished
 

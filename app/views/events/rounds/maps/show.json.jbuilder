@@ -3,6 +3,7 @@ json.competitors do
     next if competitor_data.empty?
 
     json.id competitor_data.id
+    json.competitor_id competitor_data.competitor_id
     json.name competitor_data.name.titleize
     json.path_coordinates competitor_data.path_coordinates
     json.start_point competitor_data.start_point
@@ -15,4 +16,10 @@ end
 json.place do
   json.latitude @round_map.event.place.latitude
   json.longitude @round_map.event.place.latitude
+end
+
+json.reference_points do
+  json.array! @round_map.reference_points do |reference_point|
+    json.extract! reference_point, :id, :name, :latitude, :longitude
+  end
 end

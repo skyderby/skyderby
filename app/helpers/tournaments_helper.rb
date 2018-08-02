@@ -1,8 +1,4 @@
 module TournamentsHelper
-  def match_slot_presentation(slot)
-    "#{t('activerecord.models.event_track')}: #{slot.competitor_name} | Round - #{slot.round_order}"
-  end
-
   def qualification_results
     results = []
     @tournament.competitors.each do |competitor|

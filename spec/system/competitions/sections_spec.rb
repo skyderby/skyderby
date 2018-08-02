@@ -9,7 +9,7 @@ feature 'Event sections (categories)', type: :system, js: true do
     sign_in user
     visit event_path(event)
 
-    click_link I18n.t('activerecord.models.section')
+    click_link I18n.t('activerecord.models.event/section')
 
     fill_in :section_name, with: 'Category: Open'
 

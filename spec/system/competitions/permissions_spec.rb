@@ -16,7 +16,7 @@ feature 'Permissions: Competitions', type: :system do
     event.published!
 
     user = create :user
-    competitor = create :competitor, event: event, profile: user.profile
+    competitor = create :event_competitor, event: event, profile: user.profile
 
     sign_in user
     visit event_path(event)

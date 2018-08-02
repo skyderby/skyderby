@@ -48,7 +48,7 @@ describe 'Scoring PPC-like competitions', js: true do
   end
 
   def add_category(name)
-    click_link I18n.t('activerecord.models.section')
+    click_link I18n.t('activerecord.models.event/section')
     fill_in :section_name, with: name
     click_button I18n.t('general.save')
   end
@@ -56,8 +56,8 @@ describe 'Scoring PPC-like competitions', js: true do
   def add_competitor(name:, category:, new_profile: false)
     suit = create :suit
 
-    click_link I18n.t('activerecord.models.competitor')
-    expect(page).to have_css('.modal-title', text: "#{I18n.t('activerecord.models.competitor')}: New")
+    click_link I18n.t('activerecord.models.event/competitor')
+    expect(page).to have_css('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
     select2 category, from: 'section_id'
     select2 suit.name, from: 'suit_id'
 
@@ -88,7 +88,7 @@ describe 'Scoring PPC-like competitions', js: true do
     sleep 0.5
 
     file = Rails.root.join('spec', 'support', 'tracks', 'event_test', filename)
-    attach_file 'event_track[track_attributes][file]', file, make_visible: true
+    attach_file 'result[track_attributes][file]', file, make_visible: true
 
     click_button I18n.t('general.save')
   end
@@ -103,7 +103,7 @@ describe 'Scoring PPC-like competitions', js: true do
     row.find('.event__scoreboard-result').hover
     row.find('.show-result').click
 
-    modal_title = "#{I18n.t('activerecord.models.event_track')}: #{competitor} | Distance - 1"
+    modal_title = "#{I18n.t('activerecord.models.event/result')}: #{competitor} | Distance - 1"
     expect(page).to have_css('.modal-title', text: modal_title)
 
     click_link 'Penalties'

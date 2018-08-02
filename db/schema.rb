@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_26_083500) do
+ActiveRecord::Schema.define(version: 2018_08_01_085232) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,7 +32,12 @@ ActiveRecord::Schema.define(version: 2018_06_26_083500) do
     t.date "achieved_at"
   end
 
-  create_table "competitors", id: :serial, force: :cascade do |t|
+  create_table "countries", id: :serial, force: :cascade do |t|
+    t.string "name", limit: 510
+    t.string "code", limit: 510
+  end
+
+  create_table "event_competitors", id: :serial, force: :cascade do |t|
     t.integer "event_id"
     t.integer "user_id"
     t.datetime "created_at"
@@ -41,15 +46,31 @@ ActiveRecord::Schema.define(version: 2018_06_26_083500) do
     t.string "name", limit: 510
     t.integer "section_id"
     t.integer "profile_id"
-    t.index ["event_id"], name: "index_competitors_on_event_id"
+    t.index ["event_id"], name: "index_event_competitors_on_event_id"
   end
 
-  create_table "countries", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 510
-    t.string "code", limit: 510
+  create_table "event_reference_point_assignments", force: :cascade do |t|
+    t.bigint "round_id"
+    t.bigint "competitor_id"
+    t.bigint "reference_point_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["competitor_id"], name: "index_event_reference_point_assignments_on_competitor_id"
+    t.index ["round_id", "competitor_id"], name: "index_reference_point_assignment_in_round_and_competitor", unique: true
+    t.index ["round_id"], name: "index_event_reference_point_assignments_on_round_id"
   end
 
-  create_table "event_tracks", id: :serial, force: :cascade do |t|
+  create_table "event_reference_points", force: :cascade do |t|
+    t.bigint "event_id"
+    t.string "name"
+    t.decimal "latitude", precision: 15, scale: 10
+    t.decimal "longitude", precision: 15, scale: 10
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_reference_points_on_event_id"
+  end
+
+  create_table "event_results", id: :serial, force: :cascade do |t|
     t.integer "round_id"
     t.integer "track_id"
     t.datetime "created_at"
@@ -61,9 +82,26 @@ ActiveRecord::Schema.define(version: 2018_06_26_083500) do
     t.string "penalty_reason"
     t.boolean "penalized", default: false, null: false
     t.integer "penalty_size"
-    t.index ["profile_id"], name: "index_event_tracks_on_profile_id"
-    t.index ["round_id", "competitor_id"], name: "index_event_tracks_on_round_id_and_competitor_id", unique: true
-    t.index ["round_id"], name: "index_event_tracks_on_round_id"
+    t.index ["profile_id"], name: "index_event_results_on_profile_id"
+    t.index ["round_id", "competitor_id"], name: "index_event_results_on_round_id_and_competitor_id", unique: true
+    t.index ["round_id"], name: "index_event_results_on_round_id"
+  end
+
+  create_table "event_rounds", id: :serial, force: :cascade do |t|
+    t.integer "event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer "discipline"
+    t.integer "profile_id"
+    t.integer "number"
+    t.index ["event_id"], name: "index_event_rounds_on_event_id"
+  end
+
+  create_table "event_sections", id: :serial, force: :cascade do |t|
+    t.string "name", limit: 510
+    t.integer "order"
+    t.integer "event_id"
+    t.index ["event_id"], name: "index_event_sections_on_event_id"
   end
 
   create_table "events", id: :serial, force: :cascade do |t|
@@ -82,6 +120,7 @@ ActiveRecord::Schema.define(version: 2018_06_26_083500) do
     t.integer "visibility", default: 0
     t.integer "number_of_results_for_total"
     t.integer "responsible_id"
+    t.integer "designated_lane_start", default: 0, null: false
   end
 
   create_table "manufacturers", id: :serial, force: :cascade do |t|
@@ -207,23 +246,6 @@ ActiveRecord::Schema.define(version: 2018_06_26_083500) do
 
   create_table "roles", id: :serial, force: :cascade do |t|
     t.string "name", limit: 510
-  end
-
-  create_table "rounds", id: :serial, force: :cascade do |t|
-    t.integer "event_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer "discipline"
-    t.integer "profile_id"
-    t.integer "number"
-    t.index ["event_id"], name: "index_rounds_on_event_id"
-  end
-
-  create_table "sections", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 510
-    t.integer "order"
-    t.integer "event_id"
-    t.index ["event_id"], name: "index_sections_on_event_id"
   end
 
   create_table "sponsors", id: :serial, force: :cascade do |t|
@@ -466,8 +488,8 @@ ActiveRecord::Schema.define(version: 2018_06_26_083500) do
   end
 
   add_foreign_key "badges", "profiles"
-  add_foreign_key "competitors", "profiles"
-  add_foreign_key "event_tracks", "tracks"
+  add_foreign_key "event_competitors", "profiles"
+  add_foreign_key "event_results", "tracks"
   add_foreign_key "events", "profiles"
   add_foreign_key "place_finish_lines", "places"
   add_foreign_key "place_weather_data", "places"

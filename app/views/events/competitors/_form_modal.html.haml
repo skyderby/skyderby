@@ -1,7 +1,8 @@
 .modal-dialog
   .modal-content
     - html_options = { class: 'form-horizontal', 'data-controller': 'events--competitor-form' }
-    = form_with model: [@event, @competitor], scope: '', local: false, html: html_options do |f|
+    - form_path = @competitor.new_record? ? event_competitors_path(@event) : event_competitor_path(@event, @competitor)
+    = form_with model: @competitor, url: form_path, scope: '', local: false, html: html_options do |f|
       = display_event_form_params
 
       .modal-header

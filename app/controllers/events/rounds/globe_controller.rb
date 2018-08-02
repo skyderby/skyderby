@@ -1,7 +1,7 @@
 module Events
   module Rounds
     class GlobeController < ApplicationController
-      before_action :set_round, :load_event
+      before_action :load_event, :set_round
 
       def show
         @round_map = Globe.new(@round)
@@ -10,7 +10,7 @@ module Events
       private
 
       def set_round
-        @round = Round.includes(event_tracks: [:track, { competitor: :profile }])
+        @round = @event.rounds.includes(results: [:track, { competitor: :profile }])
                       .find(params[:round_id])
       end
 

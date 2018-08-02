@@ -1,7 +1,7 @@
 - modal ||= false
 - allow_change_rules ||= false
 
-= form_for @event, remote: modal, html: { class: 'form-horizontal', 'data-controller': 'events--form', role: 'form', id: "#{action_name}_event_form"} do |f|
+= form_for @event, remote: true, html: { class: 'form-horizontal', 'data-controller': 'events--form', role: 'form', id: "#{action_name}_event_form"} do |f|
   = display_event_form_params
 
   - if modal
@@ -92,8 +92,8 @@
           = f.radio_button 'wind_cancellation', 'true'
           = t('general.enabled')
 
-  %div{class: ('modal-footer' if modal)}
-    - if @event.persisted?
-      = link_to t('general.delete'), new_event_deletion_path(@event), remote: true, class: 'pull-left btn btn-danger'
+  - unless modal
+    %hr
+  %div{class: (modal ? 'modal-footer' : 'text-right')}
     = f.submit t('general.save'), class: 'btn btn-primary'
     %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

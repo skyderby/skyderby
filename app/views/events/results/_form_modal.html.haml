@@ -1,0 +1,52 @@
+.modal-dialog
+  .modal-content
+    = form_for [@event, @result], remote: true, html: {multipart:true, class: 'form-horizontal'} do |f|
+      = display_event_form_params
+
+      .modal-header
+        %button.close{type: 'button', data: {dismiss: 'modal'}}
+          %span{aria: {hidden: 'true'}}
+            &times;
+          %span.sr-only
+            Close
+        %h4.modal-title
+          = event_result_presentation(@result)
+
+      .modal-body
+        = f.hidden_field :competitor_id, value: @result.competitor_id
+        = f.hidden_field :round_id, value: @result.round_id
+        = render 'concerns/upload_progress'
+
+        .radio
+          = f.label :track_from, value: :from_file do
+            = f.radio_button :track_from, :from_file, checked: true
+            = t 'event_tracks.form_modal.from_file'
+        = f.fields_for :track_attributes do |builder|
+          .form-group
+            = builder.label :file, t('activerecord.attributes.event/result.file'), class: 'control-label col-sm-4'
+            .col-sm-8
+              .input-group{'data-controller': 'filefield'}
+                %input.form-control{type: 'text', readonly: true, 'data-target': 'filefield.text_field'}
+                %span.input-group-btn
+                  %span.btn.btn-default.btn-file
+                    &hellip;
+                    = builder.file_field :file, class: 'form-control', 'data-target': 'filefield.file_field', 'data-action': 'change->filefield#change'
+
+        .radio
+          = f.label :track_from, value: :existing_track do
+            = f.radio_button :track_from, :existing_track
+            = t 'event_tracks.form_modal.from_existent_track'
+        .form-group
+          = f.label :track, class: 'control-label col-sm-4'
+          .col-sm-8
+            = f.select :track_id,
+                       options_for_select([[(track_presentation(@result.track) if @result.track_id), @result.track_id]]),
+                       {},
+                       placeholder: "Choose track from list",
+                       class: 'form-control',
+                       'data-profile-id': @result.competitor.profile_id,
+                       'data-controller': 'select2--tracks'
+
+      .modal-footer
+        = f.submit t('general.save'), class: 'btn btn-primary', 'data-disable-with': t('general.saving')
+        %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}= t 'general.cancel'

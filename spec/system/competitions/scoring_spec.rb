@@ -75,6 +75,6 @@ feature 'Scoring tracks in competitions', type: :system do
   end
 
   def create_event_track(competition, round, track)
-    create(:event_track, round: round, track_id: track.id)
+    create(:event_result, round: round, track_id: track.id)
   end
 end

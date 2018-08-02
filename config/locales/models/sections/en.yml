@@ -1,13 +1,13 @@
 en:
   activerecord:
     models:
-      section: Class
+      event/section: Class
     attributes:
-      section:
+      event/section:
         name: Name
     errors:
       models:
-        section:
+        event/section:
           attributes:
             name:
               blank: Name has to be filled.

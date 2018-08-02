@@ -1,0 +1,24 @@
+<%= render template: 'events/update_scoreboard' %>
+
+var competitor_row_selector = "#<%= dom_id(@result.competitor) %>";
+$(competitor_row_selector).addClass('bg-info');
+
+// Scroll to element if not visible
+var offset = $(competitor_row_selector).offset().top;
+
+var navbar_height = $('.navbar').height(),
+    visible_area_start = $(window).scrollTop() + navbar_height,
+    visible_area_end = visible_area_start + window.innerHeight - navbar_height;
+
+// Timeot to wait modal animation
+setTimeout(function() {
+  if (offset < visible_area_start || offset > visible_area_end) {
+    $('html, body').animate({
+      scrollTop: offset - window.innerHeight / 3
+    }, 500);
+  }
+
+  setTimeout(function() {
+    $(competitor_row_selector).removeClass('bg-info');
+  }, 2000);
+}, 500);

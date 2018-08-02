@@ -6,7 +6,7 @@ module CompetitorsHelper
             class: 'btn btn-default') do
       concat content_tag(:i, nil, class: 'fa fa-plus text-muted')
       concat ' '
-      concat t('activerecord.models.competitor')
+      concat t('activerecord.models.event/competitor')
     end
   end
 

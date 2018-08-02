@@ -1,13 +1,13 @@
 it:
   activerecord:
     models:
-      section: Categoria
+      event/section: Categoria
     attributes:
-      section:
+      event/section:
         name: Nome
     errors:
       models:
-        section:
+        event/section:
           attributes:
             name:
               blank: Devi scrivere un nome.

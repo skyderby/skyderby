@@ -4,15 +4,15 @@ module EventTracks
       new(*args).call
     end
 
-    def initialize(event_track, track_file)
-      @event_track = event_track
+    def initialize(result, track_file)
+      @result = result
       @track_file = track_file
     end
 
     def call
       return false unless duplicate
 
-      event_track.errors.add(:base, I18n.t('errors.messages.duplicate_file',
+      result.errors.add(:base, I18n.t('errors.messages.duplicate_file',
                                     pilot_name: pilot_name,
                                     round: round_presentation))
 
@@ -21,7 +21,7 @@ module EventTracks
 
     private
 
-    attr_reader :event_track, :track_file
+    attr_reader :result, :track_file
 
     def pilot_name
       track.pilot_name
@@ -32,7 +32,7 @@ module EventTracks
     end
 
     def round
-      @round ||= track.event_track.round
+      @round ||= track.event_result.round
     end
 
     def track
@@ -42,10 +42,10 @@ module EventTracks
     def duplicate
       @duplicate ||=
         TrackFile
-        .joins(track: [event_track: [round: :event]])
+        .joins(track: [event_result: [round: :event]])
         .where(file_file_name: track_file.file_file_name,
                file_file_size: track_file.file_file_size)
-        .where('events.id' => event_track.event_id)
+        .where('events.id' => result.event_id)
         .where.not(id: track_file.id)
         .first
     end

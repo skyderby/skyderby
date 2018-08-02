@@ -1,14 +1,14 @@
 it:
   activerecord:
     models:
-      competitor: Concorrente
+      event/competitor: Concorrente
     attributes:
-      competitor:
+      event/competitor:
         suit: Tuta
         section: Categoria
     errors:
       models:
-        competitor:
+        event/competitor:
           attributes:
             suit:
               blank: Devi scegliere una tuta

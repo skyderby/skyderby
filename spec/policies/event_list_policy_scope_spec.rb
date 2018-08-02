@@ -29,7 +29,7 @@ describe EventListPolicy::Scope do
   it 'visible events where user compete' do
     user = create :user
 
-    create :competitor, profile: user.profile, event: events(:draft_public)
+    create :event_competitor, profile: user.profile, event: events(:draft_public)
 
     event_array = EventListPolicy::Scope.new(user, EventList.all).resolve.map(&:event)
     expect(event_array).to match_array [

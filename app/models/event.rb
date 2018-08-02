@@ -21,6 +21,8 @@
 #
 
 class Event < ApplicationRecord
+  include TrackVisibility, DesignatedLane
+
   enum status: [:draft, :published, :finished]
   enum rules: [:speed_distance_time, :fai, :hungary_boogie]
   enum visibility: [:public_event, :unlisted_event, :private_event]
@@ -29,18 +31,17 @@ class Event < ApplicationRecord
 
   belongs_to :place, optional: true
 
-  has_many :organizers, as: :organizable, dependent: :delete_all
   has_many :sections, -> { order(:order) }
   has_many :competitors
   has_many :rounds, -> { order(:number) }, inverse_of: :event
-  has_many :event_tracks, through: :rounds
-  has_many :tracks, through: :event_tracks
+  has_many :results, through: :rounds
+  has_many :tracks, through: :results
+  has_many :organizers, as: :organizable, dependent: :delete_all
   has_many :sponsors, -> { order(:created_at) }, as: :sponsorable, dependent: :delete_all
 
   validates :responsible, :name, :range_from, :range_to, :starts_at, presence: true
 
   before_validation :check_name_and_range, on: :create
-  after_save :set_tracks_visibility, on: :update, if: :saved_change_to_visibility?
 
   after_touch :broadcast_update
 
@@ -51,23 +52,11 @@ class Event < ApplicationRecord
     self.range_to ||= 2000
   end
 
-  def tracks_visibility
-    if public_event?
-      Track.visibilities[:public_track]
-    else
-      Track.visibilities[:unlisted_track]
-    end
-  end
-
   def active?
     starts_at < Time.now && !finished?
   end
 
   private
-
-  def set_tracks_visibility
-    tracks.update_all(visibility: tracks_visibility)
-  end
 
   def check_name_and_range
     self.name ||= "#{Time.current.strftime('%d.%m.%Y')}: Competition"
