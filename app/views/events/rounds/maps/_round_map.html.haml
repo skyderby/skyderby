@@ -1,3 +1,5 @@
+- can_edit = policy(@round_map.event).update?
+
 .container-fluid.round-map{'data-controller': 'events--round-map',
                            'data-url': url_for,
                            'data-dl-start': @event.designated_lane_start,
@@ -56,25 +58,32 @@
                   %td.round-map__reference-point{colspan: 2}
                     %span
                       Reference point:
-                    .btn-group
-                      %button.btn.btn-default.btn-xs.dropdown-toggle{'data-toggle': 'dropdown'}
-                        - assignment = @round_map.reference_point_assignment(competitor_data.competitor)
-                        %span{'data-target': 'events--competitor-reference-point.reference_point', 'data-id': (assignment.reference_point.id if assignment)}
-                          - if assignment
-                            = assignment.reference_point.name
-                          - else
-                            %i.fa.fa-fw.fa-ellipsis-h
-                        %i.fa.fa-fw.fa-caret-down
-                      %ul.dropdown-menu
-                        %li
-                          %a{href: '#', 'data-action': 'click->events--competitor-reference-point#clear_reference_point'}
-                            %i.fa.fa-fw.fa-ellipsis-h
-                        - @round_map.reference_points.each do |reference_point|
+                    - assignment = @round_map.reference_point_assignment(competitor_data.competitor)
+                    - reference_point_presentation = capture do
+                      %span{'data-target': 'events--competitor-reference-point.reference_point', 'data-id': (assignment.reference_point.id if assignment)}
+                        - if assignment
+                          = assignment.reference_point.name
+                        - else
+                          %i.fa.fa-fw.fa-ellipsis-h
+                        - if can_edit
+                          %i.fa.fa-fw.fa-caret-down
+
+                    - if can_edit
+                      .btn-group
+                        %button.btn.btn-default.btn-xs.dropdown-toggle{'data-toggle': 'dropdown'}
+                          = reference_point_presentation
+                        %ul.dropdown-menu
                           %li
-                            %a{href: '#',
-                               'data-reference-point-id': reference_point.id,
-                               'data-action': 'click->events--competitor-reference-point#assign_reference_point'}
-                              = reference_point.name
+                            %a{href: '#', 'data-action': 'click->events--competitor-reference-point#clear_reference_point'}
+                              %i.fa.fa-fw.fa-ellipsis-h
+                          - @round_map.reference_points.each do |reference_point|
+                            %li
+                              %a{href: '#',
+                                 'data-reference-point-id': reference_point.id,
+                                 'data-action': 'click->events--competitor-reference-point#assign_reference_point'}
+                                = reference_point.name
+                    - else
+                      = reference_point_presentation
 
                     %a{'data-action': 'click->events--competitor-reference-point#show_dl'}
                       Show DL
