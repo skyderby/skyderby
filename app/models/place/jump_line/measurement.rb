@@ -9,5 +9,5 @@
 #
 
 class Place::JumpLine::Measurement < ApplicationRecord
-  belongs_to :jump_line
+  belongs_to :jump_line, touch: true
 end
