@@ -1,10 +1,10 @@
 fr:
   activerecord:
     models:
-      round: Manche
+      event/round: Manche
     errors:
       models:
-        round:
+        event/round:
           attributes:
             base:
               restrict_dependent_destroy:

@@ -12,7 +12,7 @@
           %span.sr-only
             Close
         %h4.modal-title
-          = t('activerecord.models.competitor') + ': '
+          = t('activerecord.models.event/competitor') + ': '
           - if @competitor.new_record?
             = t('events.index.new')
           - else
@@ -68,7 +68,7 @@
             %span.modal-form__section-number 2
             = t('competitors.form.suit_and_category')
 
-          = f.label :suit, t('activerecord.attributes.competitor.suit')
+          = f.label :suit, t('activerecord.attributes.event/competitor.suit')
           .form-group
             .col-sm-12
               = f.select :suit_id,
@@ -78,7 +78,7 @@
                          class: 'form-control',
                          'data-controller': 'select2--suits'
 
-          = f.label :section, t('activerecord.attributes.competitor.section')
+          = f.label :section, t('activerecord.attributes.event/competitor.section')
           .form-group
             .col-sm-12
               = f.collection_select :section_id,

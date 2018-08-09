@@ -2,8 +2,7 @@ module Events
   class CompetitorsController < ApplicationController
     include EventScoped
 
-    before_action :set_event
-    before_action :authorize_event
+    before_action :set_event, :authorize_event
     before_action :set_competitor, only: [:edit, :update, :destroy]
 
     def create
@@ -50,7 +49,7 @@ module Events
     private
 
     def set_competitor
-      @competitor = Competitor.find(params[:id])
+      @competitor = @event.competitors.find(params[:id])
     end
 
     def competitor_params
