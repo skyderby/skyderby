@@ -60,7 +60,7 @@
                       Reference point:
                     - assignment = @round_map.reference_point_assignment(competitor_data.competitor)
                     - reference_point_presentation = capture do
-                      %span{'data-target': 'events--competitor-reference-point.reference_point', 'data-id': (assignment.reference_point.id if assignment)}
+                      %span{'data-target': 'events--competitor-reference-point.reference_point', 'data-id': (assignment.reference_point_id if assignment)}
                         - if assignment
                           = assignment.reference_point.name
                         - else
