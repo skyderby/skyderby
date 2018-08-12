@@ -34,7 +34,7 @@ module Events
       end
 
       def reference_point_assignment(competitor)
-        reference_point_assignments.find { |assignment| assignment.competitor == competitor }
+        reference_point_assignments.find { |assignment| assignment.competitor == competitor && assignment.reference_point.present? }
       end
 
       private
