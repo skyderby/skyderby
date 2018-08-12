@@ -50,21 +50,17 @@
                    class: 'form-control',
                    'data-controller': 'select2--places'
 
-    - if allow_change_rules
-      .form-group
-        = f.label :rules, class: 'control-label col-sm-4'
-        .btn-group.col-sm-8{data: {toggle: 'buttons'}}
-          %label.btn.btn-default.active
-            = f.radio_button 'rules', 'speed_distance_time'
-            Speed-Distance-Time
-          %label.btn.btn-default
-            = f.radio_button 'rules', 'fai'
-            FAI '15
-          %label.btn.btn-default
-            = f.radio_button 'rules', 'hungary_boogie'
-            Hungary Boogie
+    .form-group
+      = f.label :rules, class: 'control-label col-sm-4'
+      .btn-group.col-sm-8{data: {toggle: 'buttons'}}
+        %label.btn.btn-default{class: ('active' if @event.rules == 'speed_distance_time'), 'data-action': 'click->events--form#on_change_rules', disabled: @event.rounds.any?}
+          = f.radio_button 'rules', 'speed_distance_time'
+          Speed-Distance-Time
+        %label.btn.btn-default{class: ('active' if @event.rules == 'hungary_boogie'), 'data-action': 'click->events--form#on_change_rules', disabled: @event.rounds.any?}
+          = f.radio_button 'rules', 'hungary_boogie'
+          Hungary Boogie
 
-    .form-group{'data-only-hungary-boogie': true}
+    .form-group{'data-target': 'events--form.only_hungary_boogie'}
       = f.label :number_of_results_for_total, class: 'control-label col-sm-4'
       .col-sm-8
         = f.number_field :number_of_results_for_total, class: 'form-control'
