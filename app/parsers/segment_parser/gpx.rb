@@ -5,41 +5,46 @@ module SegmentParser
     end
 
     def segments
-      @segments ||= begin
-        doc = File.open(file_path) { |f| Nokogiri::XML(f) }
-        doc.remove_namespaces!
-        expr = '/gpx/trk'
-        doc.xpath(expr).map do |node|
-          read_segment_data(node)
-        end
-      end
+      @segments ||= xml_document.xpath('/gpx/trk').map { |node| segment_summary(node) }
     end
 
     private
 
-    def read_segment_data(node)
-      Segment.new('', 0, 0, 0).tap do |s|
-        s.name = node.xpath('./name/text()').to_s
+    attr_reader :file_path
 
-        node.xpath('./trkseg/trkpt').each_cons(2) do |prev_point, cur_point|
-          s.points_count += 1
+    def xml_document
+      @xml_document ||=
+        File.open(file_path) { |f| Nokogiri::XML(f) }.tap(&:remove_namespaces!)
+    end
 
-          height_diff = get_alti_diff(prev_point, cur_point)
-          s.h_up   += height_diff.negative? ? -height_diff : 0
-          s.h_down += height_diff.positive? ?  height_diff : 0
-        end
+    def segment_summary(node)
+      Segment.new.tap do |segment|
+        segment.name = node.xpath('./name/text()').to_s
+
+        summary = segment_info(node.xpath('./trkseg/trkpt'))
+        segment.points_count = summary[:points_count]
+        segment.h_up = summary[:h_up]
+        segment.h_down = summary[:h_down]
       end
     end
 
-    def get_alti_diff(prev_point, cur_point)
-      get_point_elev(prev_point) - get_point_elev(cur_point)
-    end
+    def segment_info(segment_points)
+      info = {
+        points_count: segment_points.count,
+        h_up: 0,
+        h_down: 0
+      }
 
-    def get_point_elev(point)
-      expr = './ele/text()'
-      point.xpath(expr).to_s.to_i
-    end
+      segment_points
+        .map { |point| point.xpath('./ele/text()').to_s.to_i }
+        .each_cons(2) do |prev_altitude, cur_altitude|
+          height_diff = prev_altitude - cur_altitude
 
-    attr_reader :file_path
+          info[:h_up]   += height_diff.negative? ? -height_diff : 0
+          info[:h_down] += height_diff.positive? ?  height_diff : 0
+        end
+
+      info
+    end
   end
 end
