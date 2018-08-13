@@ -11,6 +11,10 @@ de:
         rules: Regeln
         wind_cancellation: Wind cancellation
         visibility: Datenschutz
+        visibilities:
+          public_event: Öffentlich
+          unlisted_event: Nicht gelistet
+          private_event: Privat
   event_status:
     draft: Entwurf
     published: Veröffentlicht

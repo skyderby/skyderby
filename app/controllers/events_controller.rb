@@ -43,7 +43,7 @@ class EventsController < ApplicationController
   def update
     authorize @event
 
-    if @event.update event_params
+    if @event.update update_event_params
       redirect_to event_path(@event)
     else
       respond_with_errors(@event.errors)
@@ -83,5 +83,11 @@ class EventsController < ApplicationController
       :visibility,
       :number_of_results_for_total
     )
+  end
+
+  def update_event_params
+    event_params.tap do |all_params|
+      all_params.delete(:rules) if @event.rounds.any?
+    end
   end
 end

@@ -11,6 +11,10 @@ fr:
         rules: Règles
         wind_cancellation: Suppression du vent
         visibility: Visibilité
+        visibilities:
+          public_event: Publique
+          unlisted_event: Non répertoriée
+          private_event: Privée
         number_of_results_for_total: Nombre de sauts pour calculer le total
   event_status:
     draft: En cours

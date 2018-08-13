@@ -68,15 +68,10 @@
     .form-group
       = f.label :visibility, class: 'control-label col-sm-4'
       .btn-group.col-sm-8{data: {toggle: 'buttons'}}
-        %label.btn.btn-default{ class:  ('active' if @event.public_event?) }
-          = f.radio_button 'visibility', 'public_event'
-          = t('visibility.public')
-        %label.btn.btn-default{ class:  ('active' if @event.unlisted_event?) }
-          = f.radio_button 'visibility', 'unlisted_event'
-          = t('visibility.unlisted')
-        %label.btn.btn-default{ class:  ('active' if @event.private_event?) }
-          = f.radio_button 'visibility', 'private_event'
-          = t('visibility.private')
+        - Event.visibilities.each do |key, _value|
+          %label.btn.btn-default{ class:  ('active' if @event.visibility == key) }
+            = f.radio_button 'visibility', 'public_event'
+            = t("activerecord.attributes.event.visibilities.#{key}")
 
     .form-group
       = f.label :wind_cancellation, class: 'control-label col-sm-4'

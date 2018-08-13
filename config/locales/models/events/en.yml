@@ -11,6 +11,10 @@ en:
         rules: Rules
         wind_cancellation: Wind cancellation
         visibility: Visibility
+        visibilities:
+          public_event: Public
+          unlisted_event: Unlisted
+          private_event: Private
         number_of_results_for_total: Number of jumps for total
         designated_lane_starts:
           designated_lane_start_on_5_sec: Designated lane starts on 5 sec after exit

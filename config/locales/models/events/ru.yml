@@ -11,6 +11,10 @@ ru:
         rules: Правила
         wind_cancellation: Вычитание ветра
         visibility: Доступ
+        visibilities:
+          public_event: Открытый
+          unlisted_event: Доступ по ссылке
+          private_event: Ограниченный
         number_of_results_for_total: Количество прыжков в зачет
         designated_lane_starts:
           designated_lane_start_on_5_sec: Коридор считается от 5 секунд после отделения
