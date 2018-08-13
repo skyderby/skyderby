@@ -1,2 +1,3 @@
 exclude_patterns:
   - app/javascript/ion.rangeSlider.js
+  - vendor/**/*
