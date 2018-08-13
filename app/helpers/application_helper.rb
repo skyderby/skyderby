@@ -1,4 +1,3 @@
-# coding: utf-8
 module ApplicationHelper
   def page_title(title)
     base_title = I18n.t 'static_pages.index.title'

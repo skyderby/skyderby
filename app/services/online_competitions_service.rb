@@ -40,8 +40,8 @@ class OnlineCompetitionsService
         highest_speed: track_segment.max_ground_speed
       )
     end
-  rescue WindowRangeFinder::ValueOutOfRange, PathIntersectionFinder::IntersectionNotFound
-    return
+  rescue WindowRangeFinder::ValueOutOfRange, PathIntersectionFinder::IntersectionNotFound => ex
+    Rails.logger.info("Failed to calc online competition result beacause of error #{ex}")
   end
 
   def track_points(trimmed: true)

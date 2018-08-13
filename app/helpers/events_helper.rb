@@ -1,6 +1,6 @@
 module EventsHelper
   def edit_event_link(event)
-    link_to(edit_event_path(@event),
+    link_to(edit_event_path(event),
             'data-params': display_event_params.to_param,
             class: 'btn btn-default edit-event') do
       concat content_tag('i', nil, class: 'fa fa-fw fa-pencil text-muted')
@@ -8,12 +8,12 @@ module EventsHelper
     end
   end
 
-  def change_event_status_button(status)
+  def change_event_status_button(event, status)
     button_to(t("event_status.#{status}"),
-              event_path(@event),
+              event_path(event),
               method: :patch,
               remote: true,
-              params: {'event[status]' => status},
+              params: { 'event[status]' => status },
               class: 'btn-link')
   end
 

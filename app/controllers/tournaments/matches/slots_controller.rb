@@ -2,9 +2,10 @@ module Tournaments
   module Matches
     class SlotsController < ApplicationController
       before_action :set_tournament, :set_match
-      before_action :set_slot, only: %i[show edit update destroy]
 
       def show
+        @slot = @match.slots.find(params[:id])
+
         respond_to do |format|
           format.html { redirect_to @tournament_match_competitor.track }
           format.js do
@@ -24,10 +25,6 @@ module Tournaments
 
       def set_match
         @match = @tournament.matches.find(params[:match_id])
-      end
-
-      def set_slot
-        @slot = @match.slots.find(params[:id])
       end
 
       def tournament_match_competitor_params

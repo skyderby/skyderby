@@ -13,21 +13,14 @@ class PointInterpolation
 
   private
 
-  INTERPOLATION_FIELDS = [
-    :gps_time,
-    :latitude,
-    :longitude,
-    :altitude,
-    :h_speed,
-    :v_speed,
-    :distance
-  ]
+  INTERPOLATION_FIELDS =
+    %i[gps_time latitude longitude altitude h_speed v_speed distance].freeze
 
   def interpolate(factor)
     new_point = @first_point.clone
 
     INTERPOLATION_FIELDS.each do |key|
-      next unless new_point.has_key? key
+      next unless new_point.key? key
       new_point[key] = interpolate_field(key, factor)
     end
 
@@ -42,7 +35,7 @@ class PointInterpolation
       [@first_point[field], @second_point[field]].max
     )
 
-    (@first_point[field].to_f - value.to_f) / 
+    (@first_point[field].to_f - value.to_f) /
       (@first_point[field].to_f - @second_point[field].to_f)
   end
 

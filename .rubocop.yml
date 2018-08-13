@@ -22,6 +22,16 @@ Style/AsciiComments:
 
 Style/SymbolArray:
   Enabled: false
+
+Style/MixinGrouping:
+  Enabled: false
+
+#################### Lint    ################################
+
+Lint/ShadowingOuterLocalVariable:
+  Exclude:
+    - app/views/**/*.json.jbuilder
+
 #################### Metrics ################################
 
 Metrics/ClassLength:

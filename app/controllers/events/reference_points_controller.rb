@@ -4,8 +4,7 @@ module Events
 
     before_action :set_event, :authorize_event
 
-    def show
-    end
+    def show; end
 
     def update
       if @event.update(reference_points_params)

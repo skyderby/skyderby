@@ -26,7 +26,6 @@ module Tournaments
           respond_with_errors(@slot.errors)
         end
 
-
         private
 
         def jump_range_params

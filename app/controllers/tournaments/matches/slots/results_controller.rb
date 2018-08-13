@@ -84,7 +84,7 @@ module Tournaments
           params.require(:tournament_match_slot).permit(
             :track_id,
             :track_from,
-            track_attributes: [ :file ]
+            track_attributes: [:file]
           )
         end
       end

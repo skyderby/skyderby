@@ -62,7 +62,7 @@
               %ul.dropdown-menu.dropdown-menu-right{role: 'menu'}
                 - Event.statuses.each do |status, _index|
                   %li{class: ('active' if @event.status == status)}
-                    = change_event_status_button(status)
+                    = change_event_status_button(@event, status)
 
           .btn-group
             %button.btn.btn-default.dropdown-toggle{type: 'button', 'data-toggle': 'dropdown'}

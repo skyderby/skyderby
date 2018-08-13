@@ -4,10 +4,10 @@ module Api
       class ExitMeasurementsController < ApplicationController
         def index
           @lines = Place::JumpLine.joins(:place)
-                            .includes(place: :country)
-                            .order('countries.name, places.name')
-                            .where(place: Place.search(search_query))
-                            .group_by(&:country_name)
+                                  .includes(place: :country)
+                                  .order('countries.name, places.name')
+                                  .where(place: Place.search(search_query))
+                                  .group_by(&:country_name)
 
           respond_to do |format|
             format.json

@@ -11,14 +11,15 @@ module Events
       private
 
       def set_round
-        @round = @event
+        @round =
+          @event
           .rounds
           .includes(results: [:track, { competitor: :profile }])
           .find(params[:round_id])
       end
 
       def set_event
-        @event ||= Event.find(params[:event_id])
+        @event = Event.find(params[:event_id])
       end
     end
   end

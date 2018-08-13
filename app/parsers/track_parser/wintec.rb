@@ -22,24 +22,29 @@ module TrackParser
 
     def parse
       records_count = unpacked_data.count / ROW_SIZE
-      (0..(records_count - 1)).map { |x| parse_row(unpacked_data, x * ROW_SIZE) }
+      (0..(records_count - 1)).map { |index| parse_row(unpacked_data, index * ROW_SIZE) }
     end
 
     private
 
+    attr_reader :file_path
+
     def unpacked_data
-      @data ||= begin
-        file_data = File.new(file_path).read
+      @unpacked_data ||= begin
         file_data.unpack(ROW_PATTERN * (file_data.length / BYTES_RECORD))
       end
     end
 
-    def parse_row(unpacked_string, x)
+    def file_data
+      File.new(file_path).read
+    end
+
+    def parse_row(unpacked_string, start_index)
       parse_point(
-        datetime:  unpacked_string[x + 1],
-        latitude:  unpacked_string[x + 2] / 1.0e7,
-        longitude: unpacked_string[x + 3] / 1.0e7,
-        height:    unpacked_string[x + 4]
+        datetime:  unpacked_string[start_index + 1],
+        latitude:  unpacked_string[start_index + 2] / 1.0e7,
+        longitude: unpacked_string[start_index + 3] / 1.0e7,
+        height:    unpacked_string[start_index + 4]
       )
     end
 
@@ -48,7 +53,7 @@ module TrackParser
         p.gps_time     = parse_datetime(row[:datetime])
         p.latitude     = row[:latitude]
         p.longitude    = row[:longitude]
-        p.abs_altitude = BigDecimal.new row[:height]
+        p.abs_altitude = BigDecimal(row[:height])
       end
     end
 
@@ -74,7 +79,5 @@ module TrackParser
 
       "#{hour}:#{min}:#{sec}"
     end
-
-    attr_reader :file_path
   end
 end

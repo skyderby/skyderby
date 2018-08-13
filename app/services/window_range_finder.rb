@@ -3,13 +3,15 @@ class WindowRangeFinder
   class ValueOutOfRange < StandardError; end
 
   # Order matters
-  ALLOWED_FILTERS = [:from_altitude,
-                     :from_vertical_speed,
-                     :from_gps_time,
-                     :duration,
-                     :elevation,
-                     :to_altitude,
-                     :until_cross_finish_line]
+  ALLOWED_FILTERS = %i[
+    from_altitude
+    from_vertical_speed
+    from_gps_time
+    duration
+    elevation
+    to_altitude
+    until_cross_finish_line
+  ].freeze
 
   def initialize(points)
     @points = points
@@ -134,6 +136,6 @@ class WindowRangeFinder
 
     index = points.reverse.index { |x| x[:gps_time] < intersection_point[:gps_time] }
 
-    @points = points[0..(index)] + [intersection_point]
+    @points = points[0..index] + [intersection_point]
   end
 end
