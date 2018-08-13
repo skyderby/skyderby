@@ -4,15 +4,20 @@ module PointsPostprocessor
     MOVING_AVG_WINDOW_SIZE = 7
     MOVING_AVG_KEYS = [:h_speed, :v_speed].freeze
 
+    def self.call(points, speed_units: :ms)
+      new(points, speed_units: speed_units).call
+    end
+
     def initialize(points, speed_units: :ms)
       @points = points
       @speed_units = speed_units
     end
 
-    def execute
-      tmp_points = process_by_distances(points)
-      tmp_points = apply_moving_average(tmp_points)
-      adjust_glide_ratio(tmp_points)
+    def call
+      points
+        .yield_self { |points| process_by_distances(points) }
+        .yield_self { |points| apply_moving_average(points) }
+        .yield_self { |points| adjust_glide_ratio(points) }
     end
 
     private
@@ -20,21 +25,27 @@ module PointsPostprocessor
     attr_reader :points, :speed_units
 
     def process_by_distances(tmp_points)
-      neighbors = (FILTER_WINDOW_SIZE / 2).floor
-      temp = ([tmp_points.first] * neighbors) + tmp_points + ([tmp_points.last] * neighbors)
+      points_with_additional_neighbors =
+        ([tmp_points.first] * neighbors) + tmp_points + ([tmp_points.last] * neighbors)
 
-      temp.each_cons(FILTER_WINDOW_SIZE).map do |window|
-        trajectory_distance = distance_in_window(window)
-        altitude_diff = altitude_changes_in_window(window)
-        time_between_points = window.last[:gps_time] - window.first[:gps_time]
-
-        unless time_between_points.zero?
-          window[neighbors][:h_speed] = speed_in_units(trajectory_distance / time_between_points)
-          window[neighbors][:v_speed] = speed_in_units(altitude_diff / time_between_points)
-        end
-
-        window[neighbors]
+      points_with_additional_neighbors.each_cons(FILTER_WINDOW_SIZE).map do |window|
+        calculate_speeds(window)
       end
+    end
+
+    def neighbors
+      @neighbors ||= (FILTER_WINDOW_SIZE / 2).floor
+    end
+
+    def calculate_speeds(window)
+      time_between_points = window.last[:gps_time] - window.first[:gps_time]
+
+      unless time_between_points.zero?
+        window[neighbors][:h_speed] = speed_in_units(distance_in_window(window) / time_between_points)
+        window[neighbors][:v_speed] = speed_in_units(altitude_changes_in_window(window) / time_between_points)
+      end
+
+      window[neighbors]
     end
 
     def speed_in_units(speed)

@@ -77,7 +77,7 @@ module Tracks
             trimmed: { seconds_before_start: 20 },
             freq_1Hz: true
           )
-          PointsPostprocessor.for(@track.gps_type).new(raw_points).execute
+          PointsPostprocessor.for(@track.gps_type).call(raw_points)
         end
     end
 

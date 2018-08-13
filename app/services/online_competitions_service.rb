@@ -51,6 +51,6 @@ class OnlineCompetitionsService
       only: [:gps_time, :altitude, :latitude, :longitude, :h_speed, :v_speed, :glide_ratio]
     )
 
-    PointsPostprocessor.for(track.gps_type).new(raw_points).execute
+    PointsPostprocessor.for(track.gps_type).call(raw_points)
   end
 end

@@ -40,7 +40,7 @@ class Tracks::VideoPresenter
           END AS glide_ratio'
         )
 
-        PointsPostprocessor.for(track.gps_type).new(raw_points, speed_units: :kmh).execute
+        PointsPostprocessor.for(track.gps_type).call(raw_points, speed_units: :kmh)
       end
   end
 end
