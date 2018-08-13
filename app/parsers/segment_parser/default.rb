@@ -1,9 +1,20 @@
 module SegmentParser
+  class NullSegment
+    attr_reader :name, :points_count, :h_up, :h_down
+
+    def initialize
+      @name = 'default'
+      @points_count = 0
+      @h_up = 0
+      @h_down = 0
+    end
+  end
+
   class Default
     def initialize(path:); end
 
     def segments
-      [Segment.new(:default, 0, 0, 0)]
+      [NullSegment.new]
     end
   end
 end
