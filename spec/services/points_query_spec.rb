@@ -1,6 +1,6 @@
 describe PointsQuery do
-  it 'filter points by frequency if freq_1Hz specified' do
-    result = PointsQuery.execute(track, only: [:fl_time, :abs_altitude], freq_1Hz: true)
+  it 'filter points by frequency if freq_1hz specified' do
+    result = PointsQuery.execute(track, only: [:fl_time, :abs_altitude], freq_1hz: true)
     expect(result).to match(
       [
         { 'fl_time': 0.0, 'abs_altitude': 3500 },

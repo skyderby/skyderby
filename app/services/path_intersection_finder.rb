@@ -24,10 +24,7 @@ class PathIntersectionFinder
     )
 
     interpolate_by_field = interpolation_field(intersected_segment)
-    finish_time = PointInterpolation.new(
-      intersected_segment.first,
-      intersected_segment.last
-    ).execute(
+    PointInterpolation.new(intersected_segment.first, intersected_segment.last).execute(
       by: interpolate_by_field,
       with_value: hash_point[interpolate_by_field]
     )

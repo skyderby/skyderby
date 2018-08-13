@@ -15,9 +15,9 @@ module Tracks
     def track
       @track ||= Track.find(params[:track_id])
     end
-    
+
     def points
-      PointsQuery.execute(track, freq_1Hz: true, only: %i[fl_time altitude])
+      PointsQuery.execute(track, freq_1hz: true, only: %i[fl_time altitude])
     end
   end
 end

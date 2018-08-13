@@ -31,7 +31,7 @@ module Tracks
         all_points = PointsQuery.execute(
           track,
           trimmed: { seconds_before_start: 20 },
-          freq_1Hz: true
+          freq_1hz: true
         )
 
         # in database speeds in km/h, here we need it in m/s

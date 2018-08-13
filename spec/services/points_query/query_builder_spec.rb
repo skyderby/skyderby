@@ -32,11 +32,11 @@ describe PointsQuery::QueryBuilder do
     )
   end
 
-  it 'adds DISTINCT ON if freq_1Hz option specified' do
+  it 'adds DISTINCT ON if freq_1hz option specified' do
     query_builder = PointsQuery::QueryBuilder.new(
       track,
       only: [:altitude],
-      freq_1Hz: true
+      freq_1hz: true
     )
     expect(query_builder.execute).to eq(
       [

@@ -31,7 +31,7 @@ module Tracks
 
     def points
       @points ||=
-        track.points.trimmed(seconds_before_start: 5).freq_1Hz.pluck_to_hash(
+        track.points.trimmed(seconds_before_start: 5).freq_1hz.pluck_to_hash(
           'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
           :abs_altitude,
           :latitude,

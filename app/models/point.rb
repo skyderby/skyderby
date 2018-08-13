@@ -24,7 +24,7 @@ class Point < ApplicationRecord
               constructor: proc { |t| Time.zone.at(t) },
               converter: proc { |t| t.is_a?(Time) ? t : Time.zone.at(t / 1000.0) }
 
-  scope :freq_1Hz, -> { where('round(gps_time_in_seconds) = gps_time_in_seconds') }
+  scope :freq_1hz, -> { where('round(gps_time_in_seconds) = gps_time_in_seconds') }
 
   scope :trimmed, ->(seconds_before_start: 0, seconds_after_end: 0) {
     joins <<~SQL

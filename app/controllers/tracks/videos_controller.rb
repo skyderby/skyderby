@@ -75,7 +75,7 @@ module Tracks
           raw_points = PointsQuery.execute(
             @track,
             trimmed: { seconds_before_start: 20 },
-            freq_1Hz: true
+            freq_1hz: true
           )
           PointsPostprocessor.for(@track.gps_type).call(raw_points)
         end

@@ -27,7 +27,7 @@ class Tracks::VideoPresenter
     @points ||=
       begin
         start_time_in_seconds = @track.points.first.gps_time_in_seconds.to_f
-        raw_points = @track.points.trimmed(seconds_before_start: 20).freq_1Hz.pluck_to_hash(
+        raw_points = @track.points.trimmed(seconds_before_start: 20).freq_1hz.pluck_to_hash(
           "gps_time_in_seconds - #{start_time_in_seconds} AS fl_time",
           'gps_time_in_seconds AS gps_time',
           "#{@track.point_altitude_field} AS altitude",

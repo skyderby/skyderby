@@ -13,8 +13,8 @@ module EventTracks
       return false unless duplicate
 
       result.errors.add(:base, I18n.t('errors.messages.duplicate_file',
-                                    pilot_name: pilot_name,
-                                    round: round_presentation))
+                                      pilot_name: pilot_name,
+                                      round: round_presentation))
 
       true
     end
