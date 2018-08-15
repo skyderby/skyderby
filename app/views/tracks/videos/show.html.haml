@@ -1,6 +1,6 @@
 - provide :title, title(@track_data.track)
 
-.track-video-show{data: @track_data.to_data_attr}
+.track-video-show{'data-controller': 'tracks--videos-controller', 'data-url': url_for, 'data-video-id': @track_data.video_code}
   .container
     = render partial: 'tracks/header', locals: {track: @track_data.track}
 
@@ -56,17 +56,17 @@
     .row
       .col-sm-12.text-center.top-buffer
 
-- content_for :page_js do
-  :javascript
-    var track_video = new Skyderby.models.TrackVideo();
-    var data_div = $('.track-video-show');
-
-    track_video.set('points',       data_div.data('points'));
-    track_video.set('video_code',   data_div.data('video-code'));
-    track_video.set('video_offset', data_div.data('video-offset'));
-    track_video.set('track_offset', data_div.data('track-offset'));
-
-    var view = new Skyderby.views.TrackReplayView({
-      model: track_video,
-      el: '.track-video-show'
-    });
+-# - content_for :page_js do
+-#   :javascript
+-#     var track_video = new Skyderby.models.TrackVideo();
+-#     var data_div = $('.track-video-show');
+-#
+-#     track_video.set('points',       data_div.data('points'));
+-#     track_video.set('video_code',   data_div.data('video-code'));
+-#     track_video.set('video_offset', data_div.data('video-offset'));
+-#     track_video.set('track_offset', data_div.data('track-offset'));
+-#
+-#     var view = new Skyderby.views.TrackReplayView({
+-#       model: track_video,
+-#       el: '.track-video-show'
+-#     });

@@ -12,7 +12,6 @@ window.Skyderby = {
   views: {},
 
   cesium_api_ready: false,
-  youtuby_api_ready: false
 };
 
 _.extend(Skyderby, Backbone.Events);
@@ -26,9 +25,4 @@ function on_cesium_api_ready() {
 function on_cesium_api_error() {
   Skyderby.cesium_api_ready = false;
   Skyderby.trigger('cesium_api:failed');
-}
-
-function onYouTubeIframeAPIReady() {
-  Skyderby.youtube_api_ready = true;
-  Skyderby.trigger('youtube_api_ready');
 }
