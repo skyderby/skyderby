@@ -71,7 +71,7 @@ module Events
     private
 
     def set_section
-      @section = Section.find(params[:id])
+      @section = @event.sections.find(params[:id])
     end
 
     def section_params
