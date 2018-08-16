@@ -26,7 +26,7 @@
     %h2 Данные профиля
     - if @account.profile
       %dl
-        %dt Имя: 
+        %dt Имя:
         %dd= @account.profile.name
 
         %dt Страна:
@@ -38,7 +38,7 @@
         %dt Участник соревнований:
         %dd
           %ul
-            - @account.profile.events.each do |event|
+            - @account.profile.competitor_of_events.each do |event|
               %li= event.name
 
         %dt Организатор соревнований:
