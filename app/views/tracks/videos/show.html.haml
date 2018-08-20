@@ -1,6 +1,9 @@
 - provide :title, title(@track_data.track)
 
-.track-video-show{'data-controller': 'tracks--videos-controller', 'data-url': url_for, 'data-video-id': @track_data.video_code}
+.track-video-show{'data-controller': 'tracks--videos',
+                  'data-action': 'youtube_api:ready@window->tracks--videos#on_youtube_api_ready',
+                  'data-url': url_for,
+                  'data-video-id': @track_data.video_code}
   .container
     = render partial: 'tracks/header', locals: {track: @track_data.track}
 
@@ -18,55 +21,40 @@
       .row.track-indicators
         .col-md-11.col-md-offset-1.col-sm-12
           .row
-            .col-md-3.col-sm-4.col-xs-6
+            .col-sm-3
               .param-val
-                .avg-val.fa-3x#p_cur_elev= '---'
+                .avg-val{'data-target': 'tracks--videos.altitude'}= '---'
                 .min-max.text-right
                   .min-val
-                    %span#p_elev_diff= '---'
+                    %span{'data-target': 'tracks--videos.altitude_spent'}= '---'
                     %i.fa.fa-lg.fa-caret-down
-                .units.dst-unit.fa-2x= t 'units.m'
+                .units= t 'units.m'
               .param
                 %i.fa.fa-fw.fa-lg.fa-arrows-v
                 =t 'tracks.indicators.altitude'
 
-            .col-md-3.col-sm-4.col-xs-6
+            .col-sm-3
               .param-val
-                .avg-val.fa-3x#p_cur_v_speed= '---'
-                .units.spd-unit.fa-2x=t 'units.kmh'
+                .avg-val{'data-target': 'tracks--videos.v_speed'}= '---'
+                .units=t 'units.kmh'
               .param
                 %i.fa.fa-fw.fa-lg.fa-long-arrow-down
                 =t 'tracks.indicators.vertical_speed'
 
-            .col-md-3.col-sm-4.col-xs-6
+            .col-sm-3
               .param-val
-                .avg-val.fa-3x#p_cur_h_speed= '---'
-                .units.spd-unit.fa-2x=t 'units.kmh'
+                .avg-val{'data-target': 'tracks--videos.h_speed'}= '---'
+                .units=t 'units.kmh'
               .param
                 %i.fa.fa-fw.fa-lg.fa-long-arrow-right
                 =t 'tracks.indicators.ground_speed'
 
-            .col-md-3.col-sm-4.col-xs-6
+            .col-sm-3
               .param-val
-                .avg-val.fa-3x#p_cur_gr= '-.--'
+                .avg-val{'data-target': 'tracks--videos.glide_ratio'}= '-.--'
               .param
                 %i.fa.fa-fw.fa-lg.fa-ellipsis-h
                 =t 'tracks.indicators.glide_ratio'
 
     .row
       .col-sm-12.text-center.top-buffer
-
--# - content_for :page_js do
--#   :javascript
--#     var track_video = new Skyderby.models.TrackVideo();
--#     var data_div = $('.track-video-show');
--#
--#     track_video.set('points',       data_div.data('points'));
--#     track_video.set('video_code',   data_div.data('video-code'));
--#     track_video.set('video_offset', data_div.data('video-offset'));
--#     track_video.set('track_offset', data_div.data('track-offset'));
--#
--#     var view = new Skyderby.views.TrackReplayView({
--#       model: track_video,
--#       el: '.track-video-show'
--#     });

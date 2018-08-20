@@ -1,7 +1,10 @@
 import { Controller } from 'stimulus'
+import VideoData from 'models/tracks/video'
 import init_youtube_api from 'utils/youtube_api'
 
 export default class extends Controller {
+  static targets = [ 'altitude', 'altitude_spent', 'h_speed', 'v_speed', 'glide_ratio' ]
+
   connect() {
     init_youtube_api()
     this.fetch_data()
@@ -19,8 +22,8 @@ export default class extends Controller {
     this.init_player()
   }
 
-  on_data_ready(data) {
-    this.video_data = data
+  on_data_ready = (data) => {
+    this.model = new VideoData(data)
   }
 
   init_player() {
@@ -50,6 +53,12 @@ export default class extends Controller {
   }
 
   update_progress(current_time) {
-    console.log(current_time)
+    let point = this.model.point_in_time(current_time)
+
+    this.altitudeTarget.innerText = point.altitude
+    this.altitude_spentTarget.innerText = point.altitude_spent
+    this.h_speedTarget.innerText = point.h_speed
+    this.v_speedTarget.innerText = point.v_speed
+    this.glide_ratioTarget.innerText = point.glide_ratio
   }
 }

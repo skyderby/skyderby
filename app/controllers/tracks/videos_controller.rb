@@ -17,8 +17,12 @@ module Tracks
     def show
       authorize @track
 
-      redirect_to @track unless @track.video
       @track_data = Tracks::VideoPresenter.new(@track)
+
+      respond_to do |format|
+        format.html { redirect_to @track unless @track.video }
+        format.json
+      end
     end
 
     def create
