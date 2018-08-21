@@ -1,13 +1,8 @@
-.track-video-edit{'data-points': @points.to_json.html_safe}
-  .container
-    = render partial: 'tracks/header', locals: {track: @track}
+- provide :title, title(@track)
 
-    .content-block.content-block--bordered
-      %h2
-        = t '.header'
+.container
+  = render partial: 'tracks/header', locals: { track: @track }
 
-      = render 'form'
-
-- content_for :page_js do
-  :javascript
-    var view = new Skyderby.views.TrackVideoForm({el: '.track-video-edit'});
+  .content-block.content-block--bordered
+    %h2= t '.header'
+    = render 'form'

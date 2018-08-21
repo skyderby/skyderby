@@ -1,6 +1,6 @@
 import { Controller } from 'stimulus'
 import VideoData from 'models/tracks/video'
-import init_youtube_api from 'utils/youtube_api'
+import { init_youtube_api } from 'utils/youtube'
 
 export default class extends Controller {
   static targets = [ 'altitude', 'altitude_spent', 'h_speed', 'v_speed', 'glide_ratio' ]

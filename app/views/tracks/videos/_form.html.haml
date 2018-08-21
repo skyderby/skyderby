@@ -1,12 +1,21 @@
-= form_for @video, url: track_video_path, remote: true, html: {class: 'form-horizontal'} do |f|
+= form_for @video,
+           url: track_video_path,
+           remote: true,
+           html: { class: 'form-horizontal',
+                   'data-controller': 'tracks--video-form',
+                   'data-action': 'youtube_api:ready@window->tracks--video-form#on_youtube_api_ready',
+                   'data-url': track_video_chart_data_path(@video.track_id) } do |f|
   .row
     .col-sm-4
-      %h3
-        = t 'activerecord.attributes.track_videos.url'
+      %h3= t 'activerecord.attributes.track_videos.url'
 
     .col-sm-8
       .url-group
-        = f.text_field :url, class: 'form-control', placeholder: t('.url_placeholder')
+        = f.text_field :url,
+                       class: 'form-control',
+                       placeholder: t('.url_placeholder'),
+                       'data-target': 'tracks--video-form.url',
+                       'data-action': 'change->tracks--video-form#on_change_url input->tracks--video-form#on_change_url'
 
       = f.hidden_field :video_code
       = f.hidden_field :track_id
@@ -14,17 +23,17 @@
   %hr
 
   .row
-    .col-sm-4 
+    .col-sm-4
       %h3= t 'activerecord.attributes.track_videos.video_offset'
       %p= t '.video_offset_description'
     .col-sm-8
-      #player
+      %div{'data-target': 'tracks--video-form.player'}
 
     .col-sm-3.col-sm-offset-4.top-buffer
       .input-group
-        = f.text_field :video_offset, class: 'form-control text-center'
+        = f.text_field :video_offset, class: 'form-control text-center', 'data-target': 'tracks--video-form.video_offset'
         %span.input-group-btn
-          %button#set-current-time.btn.btn-default= t '.set'
+          %button.btn.btn-default{'data-action': 'click->tracks--video-form#set_video_offset'}= t '.set'
 
   %hr
 
@@ -34,17 +43,17 @@
       %p= t '.track_offset_description'
 
     .col-sm-8
-      #chart
+      #chart{'data-target': 'tracks--video-form.chart'}
     .col-sm-3.col-sm-offset-4
       .input-group
         %span.input-group-btn
-          %button#dec-track-offset.btn.btn-default
+          %button.btn.btn-default{'data-action': 'click->tracks--video-form#decrease_track_offset'}
             %i.fa.fa-chevron-left
 
-        = f.text_field :track_offset, class: 'form-control text-center'
+        = f.text_field :track_offset, class: 'form-control text-center', 'data-target': 'tracks--video-form.track_offset'
 
         %span.input-group-btn
-          %button#inc-track-offset.btn.btn-default
+          %button.btn.btn-default{'data-action': 'click->tracks--video-form#increase_track_offset'}
             %i.fa.fa-chevron-right
 
   .row

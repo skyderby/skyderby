@@ -1,6 +1,6 @@
 module Tracks
   class VideosController < ApplicationController
-    before_action :set_track, :set_chart_data
+    before_action :set_track
     before_action :authorize_edit, except: :show
 
     def new
@@ -70,19 +70,6 @@ module Tracks
 
     def authorize_edit
       authorize @track, :edit?
-    end
-
-    def set_chart_data
-      start_time_in_seconds = @track.points.first.gps_time_in_seconds.to_f
-      @points =
-        begin
-          raw_points = PointsQuery.execute(
-            @track,
-            trimmed: { seconds_before_start: 20 },
-            freq_1hz: true
-          )
-          PointsPostprocessor.for(@track.gps_type).call(raw_points)
-        end
     end
 
     def video_params
