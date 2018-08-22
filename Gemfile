@@ -36,6 +36,10 @@ gem 'nokogiri', '~> 1.8'
 gem 'sidekiq', ' < 6'
 gem 'sidekiq-cron', '~> 0.6'
 
+# Export to Excel
+gem 'axlsx', '3.0.0.pre'
+gem 'axlsx_rails'
+
 # Exception notifications and profiling
 gem 'rack-mini-profiler'
 group :production do

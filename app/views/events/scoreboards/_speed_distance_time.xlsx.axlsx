@@ -1,0 +1,42 @@
+cells = [ 'Rank', 'Name', 'Country' ]
+@scoreboard.rounds_by_discipline.each do |discipline, rounds|
+  rounds.each do |round|
+    cells << "#{t('disciplines.' + discipline)} #{round.number} - #{t('units.' + discipline_unit(discipline.to_sym).to_s)}"
+    cells << "#{t('disciplines.' + discipline)} #{round.number} - %"
+  end
+  cells << "#{t('disciplines.' + discipline)} - points"
+end
+cells << 'Total points'
+
+sheet.add_row cells
+
+@scoreboard.sections.each do |section|
+  sheet.add_row [section.name]
+  section.competitors.each_with_index do |competitor, index|
+    competitor_cells = [ index + 1, competitor.name, competitor.country_code ]
+    @scoreboard.rounds_by_discipline.each do |discipline, rounds|
+      rounds.each do |round|
+        result = @scoreboard.results.for(competitor: competitor, round: round)
+        if result
+          competitor_cells << result.formated
+          competitor_cells << result.formated_points
+        else
+          competitor_cells += [nil, nil]
+        end
+      end
+
+      points_in_discipline = competitor.points_in_discipline(discipline)
+      if points_in_discipline&.positive?
+        competitor_cells << points_in_discipline.round(1)
+      else
+        competitor_cells << nil
+      end
+    end
+
+    if competitor.total_points.positive?
+      competitor_cells << '%.2f' % competitor.total_points
+    end
+
+    sheet.add_row competitor_cells
+  end
+end
