@@ -3,7 +3,7 @@ module Tournaments
     include TournamentScoped
 
     before_action :set_tournament, :authorize_action
-    before_action :set_match, only: [:show, :edit, :update, :destroy]
+    before_action :set_match, only: %i[edit update destroy]
 
     def edit; end
 

@@ -78,9 +78,9 @@ class TracksController < ApplicationController
   def set_track
     @track = Track.includes(
       :pilot,
-      :video,
       { suit: :manufacturer },
-      { place: :country }
+      { place: :country },
+      :video
     ).find(params[:id])
   end
 
