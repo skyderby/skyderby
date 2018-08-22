@@ -54,6 +54,8 @@ module Tracks
     end
 
     def flares_map
+      return points if points.empty?
+
       altitude_gain = 0
 
       points.each_cons(2) do |prev, current|

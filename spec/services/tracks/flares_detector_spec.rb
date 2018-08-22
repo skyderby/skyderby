@@ -7,6 +7,11 @@ describe Tracks::FlaresDetector do
     expect(flares.first.gain_duration).to be_within(0.5).of(4)
   end
 
+  it 'handles empty points' do
+    flares = Tracks::FlaresDetector.call([])
+    expect(flares).to be_empty
+  end
+
   def points_for(filename)
     track = create_track_from_file filename
     PointsQuery.execute track, trimmed: true, only: %i[gps_time altitude v_speed]
