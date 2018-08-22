@@ -11,8 +11,8 @@ class TrackFormatDetector
   }.with_indifferent_access.freeze
 
   CSV_HEADERS = {
-    'flysight' => %w(time lat lon hMSL velN velE velD hAcc vAcc sAcc),
-    'columbus' => %w(INDEX TAG DATE TIME LATITUDE\ N/S LONGITUDE\ E/W HEIGHT SPEED HEADING VOX)
+    'flysight' => %w[time lat lon hMSL velN velE velD hAcc vAcc sAcc],
+    'columbus' => %w[INDEX TAG DATE TIME LATITUDE\ N/S LONGITUDE\ E/W HEIGHT SPEED HEADING VOX]
   }.freeze
 
   def initialize(path:)

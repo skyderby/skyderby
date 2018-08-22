@@ -11,7 +11,7 @@ module Events
 
       def set_round
         @round = @event.rounds.includes(results: [:track, { competitor: :profile }])
-                      .find(params[:round_id])
+                       .find(params[:round_id])
       end
 
       def load_event

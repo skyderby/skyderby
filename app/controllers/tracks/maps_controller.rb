@@ -15,9 +15,9 @@ module Tracks
 
     def set_track
       @track = Track.includes(
-        :video,
         { suit: :manufacturer },
-        { place: :country }
+        { place: :country },
+        :video
       ).find(params[:track_id])
     end
   end

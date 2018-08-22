@@ -1,4 +1,3 @@
-# encoding: utf-8
 class StaticPagesController < ApplicationController
   def index
     @track_file = TrackFile.new

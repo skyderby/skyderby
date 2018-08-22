@@ -68,6 +68,8 @@ module Events
       @section = @event.sections.new
     end
 
+    def edit; end
+
     private
 
     def set_section

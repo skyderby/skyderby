@@ -25,7 +25,7 @@ module Tracks
           PointsQuery.execute(
             track,
             trimmed: true,
-            freq_1Hz: true,
+            freq_1hz: true,
             only: %i[altitude latitude longitude]
           )
         end

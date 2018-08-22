@@ -38,14 +38,14 @@ module TrackParser
       PointRecord.new.tap do |r|
         r.latitude     = parse_coordinate row[LATITUDE]
         r.longitude    = parse_coordinate row[LONGITUDE]
-        r.abs_altitude = BigDecimal.new row[ALTITUDE]
+        r.abs_altitude = BigDecimal(row[ALTITUDE])
         r.gps_time = parse_datetime(date: row[DATE], time: row[TIME])
       end
     end
 
     def parse_coordinate(coordinate_str)
       suffix = coordinate_str[-1]
-      value = BigDecimal.new(coordinate_str[0..-2])
+      value = BigDecimal(coordinate_str[0..-2])
 
       [SOUTH, WEST].include?(suffix) ? -value : value
     end

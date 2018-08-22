@@ -4,9 +4,9 @@ module TournamentRoundsHelper
               method: :post,
               remote: true,
               class: 'btn btn-default') do
-          concat content_tag(:i, nil, class: 'fa fa-plus')
-          concat ' '
-          concat t('activerecord.models.tournament_round')
+      concat content_tag(:i, nil, class: 'fa fa-plus')
+      concat ' '
+      concat t('activerecord.models.tournament_round')
     end
   end
 end

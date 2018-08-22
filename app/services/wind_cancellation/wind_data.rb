@@ -8,7 +8,7 @@ module WindCancellation
         :wind_direction
       )
 
-      fail ArgumentError, 'Weather data is empty' if @weather_data.empty?
+      raise ArgumentError, 'Weather data is empty' if @weather_data.empty?
     end
 
     def weather_on(date, altitude)
@@ -22,7 +22,7 @@ module WindCancellation
     def group_by_altitude_and_date(weather_data)
       weather_data
         .group_by { |x| x[:altitude] }
-        .map { |_, v| v.sort_by { |x| -x[:actual_on].to_i }.first }
+        .map { |_, v| v.min_by { |x| -x[:actual_on].to_i } }
     end
 
     def filter_by_date(weather_data, date)
@@ -35,8 +35,8 @@ module WindCancellation
       return weather_data.first if altitude <= weather_data.first[:altitude]
       return weather_data.last if altitude > weather_data.last[:altitude]
 
-      pair = weather_data.each_cons(2).detect do |pair|
-        altitude.between? pair.first[:altitude], pair.last[:altitude]
+      pair = weather_data.each_cons(2).detect do |first, last|
+        altitude.between? first[:altitude], last[:altitude]
       end
 
       interpolate pair, altitude
@@ -49,18 +49,19 @@ module WindCancellation
       #  - 1000 m | 13 m/s
       #  - 0 m    | 3 m/s
       # Will calculate 0.72074
-      coeff =
-        (altitude - pair.first[:altitude]) / (pair.last[:altitude] - pair.first[:altitude])
-
       result = pair.first.clone
 
-      result[:wind_speed] += 
-        (pair.last[:wind_speed] - pair.first[:wind_speed]) * coeff
+      result[:wind_speed] +=
+        (pair.last[:wind_speed] - pair.first[:wind_speed]) * interpolation_factor(pair, altitude)
 
-      result[:wind_direction] += 
-        (pair.last[:wind_direction] - pair.first[:wind_direction]) * coeff
+      result[:wind_direction] +=
+        (pair.last[:wind_direction] - pair.first[:wind_direction]) * interpolation_factor(pair, altitude)
 
       result
+    end
+
+    def interpolation_factor(pair, altitude)
+      (altitude - pair.first[:altitude]) / (pair.last[:altitude] - pair.first[:altitude])
     end
   end
 end

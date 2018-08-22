@@ -13,9 +13,7 @@ class TrackFilesController < ApplicationController
     if @track_file.one_segment?
       @track = build_track
 
-      unless current_user.registered?
-        current_user.tracks << @track.id
-      end
+      current_user.tracks << @track.id unless current_user.registered?
     else
       render :show
     end

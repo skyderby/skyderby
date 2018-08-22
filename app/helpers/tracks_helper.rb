@@ -44,15 +44,17 @@ module TracksHelper
     capture do
       concat content_tag(:i, nil, class: 'fa fa-fw fa-video-camera') if track.video
 
-      concat content_tag(:i, nil,
-                         class: 'fa fa-fw fa-eye-slash',
-                         'data-toggle' => 'tooltip',
-                         title: t('visibility.unlisted')) if track.unlisted_track?
-
-      concat content_tag(:i, nil,
-                         class: 'fa fa-fw fa-lock',
-                         'data-toggle' => 'tooltip',
-                         title: t('visibility.private')) if track.private_track?
+      if track.unlisted_track?
+        concat content_tag(:i, nil,
+                           class: 'fa fa-fw fa-eye-slash',
+                           'data-toggle' => 'tooltip',
+                           title: t('visibility.unlisted'))
+      elsif track.private_track?
+        concat content_tag(:i, nil,
+                           class: 'fa fa-fw fa-lock',
+                           'data-toggle' => 'tooltip',
+                           title: t('visibility.private'))
+      end
     end
   end
 

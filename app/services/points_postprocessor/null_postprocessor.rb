@@ -1,11 +1,7 @@
 module PointsPostprocessor
   class NullPostprocessor
-    def initialize(points, *_args)
-      @points = points
-    end
-
-    def execute
-      @points
+    def self.call(points, *args)
+      points
     end
   end
 end

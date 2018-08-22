@@ -1,7 +1,11 @@
-.track-charts__charts-container
-  - if presenter.separate_charts?
-    #glideratio_chart
-    #speeds_chart
-    #elevation_distance_chart
-  - else
+- if presenter.separate_charts?
+  .track-charts__charts-container{'data-controller': 'synchronized-charts',
+                                  'data-action': 'mousemove->synchronized-charts#refresh_tooltip ' + |
+                                                 'touchmove->synchronized-charts#refresh_tooltip ' + |
+                                                 'touchstart->synchronized-charts#refresh_tooltip'}  |
+    #glideratio_chart{'data-target': 'synchronized-charts.chart'}
+    #speeds_chart{'data-target': 'synchronized-charts.chart'}
+    #elevation_distance_chart{'data-target': 'synchronized-charts.chart'}
+- else
+  .track-charts__charts-container
     #all_data_chart

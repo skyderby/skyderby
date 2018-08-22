@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 class SuitsController < ApplicationController
   before_action :set_suit, only: [:show, :edit, :update, :destroy]
 

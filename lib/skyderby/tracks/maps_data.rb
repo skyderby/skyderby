@@ -44,7 +44,7 @@ module Skyderby
           PointsQuery.execute(
             track,
             trimmed: true,
-            freq_1Hz: true,
+            freq_1hz: true,
             only: [:gps_time, :altitude, :latitude, :longitude, :h_speed, :time_diff]
           )
         end

@@ -17,7 +17,7 @@ module Events
 
       def destroy
         assignment = @round.reference_point_assignments.find_by(competitor_id: competitor_id)
-        assignment.destroy! if assignment
+        assignment&.destroy!
 
         head :ok
       end

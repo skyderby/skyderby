@@ -13,7 +13,7 @@ module Events
             .track
             .points
             .trimmed
-            .freq_1Hz
+            .freq_1hz
             .pluck_to_hash(:latitude,
                            :longitude,
                            :abs_altitude,

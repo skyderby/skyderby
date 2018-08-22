@@ -17,7 +17,7 @@ class GfsGradsFetcher
       response = Net::HTTP.get(URI.parse(url(ext: 'info')))
 
       if response.include?("#{name} is not an available dataset") ||
-          response.include?('extraction failed; not enough lat data')
+         response.include?('extraction failed; not enough lat data')
         false
       elsif response.include? "GrADS Data Server - info for /#{name}"
         true
@@ -41,11 +41,11 @@ class GfsGradsFetcher
     end
 
     def self.for(date_time)
-      today = DateTime.current.to_date
+      today = Date.current
       date_range = (today - DATASETS_HISTORY_DAYS)..(today + DAYS_IN_DATASET)
       raise DateOutOfRange unless date_range.cover? date_time.to_date
 
-      dataset_date_time = date_time > DateTime.current ? DateTime.current : date_time
+      dataset_date_time = date_time > Time.current ? Time.current : date_time
       dataset = new(date_time: dataset_date_time)
       return dataset if dataset.available?
 

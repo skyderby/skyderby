@@ -13,7 +13,7 @@ module TournamentsHelper
       @tournament.qualification_rounds.each do |q_round|
         q_jump = @tournament.qualification_jumps.detect do |jump|
           jump.qualification_round_id == q_round.id &&
-          jump.competitor_id == competitor.id
+            jump.competitor_id == competitor.id
         end
 
         next unless q_jump

@@ -3,9 +3,7 @@ module TrackFiles
     def create
       @track = build_track
 
-      unless current_user.registered?
-        current_user.tracks << @track.id
-      end
+      current_user.tracks << @track.id unless current_user.registered?
 
       redirect_to track_path(@track)
     end

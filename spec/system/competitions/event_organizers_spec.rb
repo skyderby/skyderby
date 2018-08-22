@@ -1,25 +1,18 @@
 feature 'Event organizers', type: :system, js: true do
   scenario 'add organizer' do
-    user = create :user
-    event = create(:event,
-                   status: Event.statuses[:published],
-                   visibility: Event.visibilities[:public_event],
-                   responsible: user)
+    event = events(:published_public)
+    organizer = users(:regular_user)
 
-    organizer = create :user
-
-    sign_in user
+    sign_in users(:event_responsible)
     visit event_path(event)
 
     click_link I18n.t('organizers.list.add_judge')
+    expect(page).to have_css('.modal-title', text: "#{I18n.t('activerecord.models.organizer')}: New")
 
-    find('#select2-organizer_user_id-container').click
-    sleep 0.5
-    first('li.select2-results__option', text: organizer.name).click
-    sleep 0.5
+    select2 organizer.name, from: 'organizer_user_id'
 
     click_button I18n.t('general.save')
-    sleep 0.5
+    expect(page).not_to have_css('.modal-title', text: "#{I18n.t('activerecord.models.organizer')}: New")
 
     expect(page).to have_content(organizer.name)
   end

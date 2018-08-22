@@ -15,7 +15,7 @@ module Tournaments
           .track
           .points
           .trimmed(seconds_before_start: SECONDS_BEFORE_START)
-          .freq_1Hz
+          .freq_1hz
           .pluck_to_hash(:latitude,
                          :longitude,
                          :abs_altitude,

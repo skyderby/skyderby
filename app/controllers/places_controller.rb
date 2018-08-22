@@ -19,9 +19,7 @@ class PlacesController < ApplicationController
                       'tracks_count.pilots_count')
               .order('country_name, places.name')
 
-    if params[:query]
-      @places = @places.search(params[:query][:term]) if params[:query][:term]
-    end
+    @places = @places.search(params[:query][:term]) if params.dig(:query, :term)
   end
 
   def show

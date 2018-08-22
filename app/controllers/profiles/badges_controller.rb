@@ -1,7 +1,6 @@
 module Profiles
   class BadgesController < ApplicationController
     before_action :set_profile
-    before_action :set_badge, only: [:show, :edit, :update, :destroy]
 
     def new
       authorize :badge, :new?
@@ -24,10 +23,6 @@ module Profiles
     end
 
     private
-
-    def set_badge
-      @badge = Badge.find(params[:id])
-    end
 
     def set_profile
       @profile = Profile.find(params[:profile_id])

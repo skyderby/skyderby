@@ -30,17 +30,17 @@ class CreateTrackService
     end
 
     def ranges
-      points.each_cons(2).map do |x, y|
+      points.each_cons(2).map do |prev_point, current_point|
         {
-          start: x.fl_time,
-          end: y.fl_time,
-          default_freq: frequency(x, y) == data_frequency
+          start: prev_point.fl_time,
+          end: current_point.fl_time,
+          default_freq: frequency(prev_point, current_point) == data_frequency
         }
       end
     end
 
-    def frequency(x, y)
-      (1 / (y.fl_time - x.fl_time)).round(1)
+    def frequency(prev_point, current_point)
+      (1 / (current_point.fl_time - prev_point.fl_time)).round(1)
     end
   end
 end

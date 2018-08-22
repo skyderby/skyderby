@@ -7,6 +7,10 @@ regular_user:
   name: Regular user
   owner: regular_user (User)
 
+event_responsible:
+  name: Organizer
+  owner: event_responsible (User)
+
 alex:
   id: 2
   name: Alex

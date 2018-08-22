@@ -9,18 +9,19 @@ class EventResultService
   def calculate
     points =
       if wind_cancellation
-        subtract_wind(track_points) 
+        subtract_wind(track_points)
       else
         track_points
       end
 
     track_segment = WindowRangeFinder.new(points).execute(
       from_altitude: @event.range_from,
-      to_altitude: @event.range_to)
+      to_altitude: @event.range_to
+    )
 
     track_segment.public_send(@task)
   rescue WindowRangeFinder::ValueOutOfRange
-    return 0
+    0
   end
 
   private
@@ -32,7 +33,7 @@ class EventResultService
     weather_data = @event.place.weather_data.for_time(start_time)
 
     wind_data = WindCancellation::WindData.new(weather_data)
-    points = WindCancellation::WindSubtraction.new(points, wind_data).execute
+    WindCancellation::WindSubtraction.new(points, wind_data).execute
   end
 
   def track_points

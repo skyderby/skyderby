@@ -4,7 +4,7 @@
 # Arguments:
 # - track (required) - instance of Track model, track which points will be queried
 # - opts (optional) - Hash with following available options:
-#   - freq_1Hz - Boolean. True to select one point per second, false or all points
+#   - freq_1hz - Boolean. True to select one point per second, false or all points
 #   - trimmed - Boolean or Hash with trim options:
 #     - seconds_before_start
 #   - only - array of column names to query
@@ -39,8 +39,8 @@
 class PointsQuery
   def initialize(track, opts = {})
     @track = track
-    @query_opts = opts.slice(:only, :freq_1Hz)
-    @freq_1Hz   = opts[:freq_1Hz] || false
+    @query_opts = opts.slice(:only, :freq_1hz)
+    @freq_1hz   = opts[:freq_1hz] || false
     @trimmed    = opts[:trimmed] || false
   end
 
@@ -51,10 +51,10 @@ class PointsQuery
 
   private
 
-  attr_reader :track, :query_opts, :trimmed, :freq_1Hz
+  attr_reader :track, :query_opts, :trimmed, :freq_1hz
 
   def scope
-    ScopeBuilder.call(track, trimmed, freq_1Hz)
+    ScopeBuilder.call(track, trimmed, freq_1hz)
   end
 
   def select_columns
@@ -86,22 +86,23 @@ class PointsQuery
       new(*args).call
     end
 
-    def initialize(track, trimmed, freq_1Hz)
+    def initialize(track, trimmed, freq_1hz)
       @track = track
       @trimmed = trimmed
-      @freq_1Hz = freq_1Hz
+      @freq_1hz = freq_1hz
       @trim_options = trimmed.is_a?(Hash) ? trimmed : {}
     end
 
     def call
-      track.points
+      track
+        .points
         .yield_self(&method(:trim))
         .yield_self(&method(:reorder))
     end
 
     private
 
-    attr_reader :track, :trimmed, :trim_options, :freq_1Hz
+    attr_reader :track, :trimmed, :trim_options, :freq_1hz
 
     def trim(scope)
       return scope unless trimmed
@@ -113,7 +114,7 @@ class PointsQuery
     end
 
     def reorder(scope)
-      return scope unless freq_1Hz
+      return scope unless freq_1hz
 
       scope.reorder(reduced_frequency_order)
     end
@@ -141,7 +142,7 @@ class PointsQuery
     def initialize(track, opts = {})
       @track = track
       @only_columns = opts[:only]
-      @freq_1Hz = opts[:freq_1Hz] || false
+      @freq_1hz = opts[:freq_1hz] || false
     end
 
     def execute
@@ -150,7 +151,7 @@ class PointsQuery
         Arel.sql(statement)
       end
 
-      return select_statements unless freq_1Hz
+      return select_statements unless freq_1hz
 
       select_statements.tap do |statements|
         statements[0] = Arel.sql('DISTINCT ON (floor(gps_time_in_seconds)) ' + statements.first)
@@ -159,7 +160,7 @@ class PointsQuery
 
     private
 
-    attr_reader :track, :only_columns, :freq_1Hz
+    attr_reader :track, :only_columns, :freq_1hz
 
     def select_columns
       return COLUMNS unless only_columns

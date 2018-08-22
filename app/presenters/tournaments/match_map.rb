@@ -13,7 +13,7 @@ module Tournaments
           .track
           .points
           .trimmed(seconds_before_start: SECONDS_BEFORE_START)
-          .freq_1Hz
+          .freq_1hz
           .pluck_to_hash(:latitude, :longitude)
           .map { |p| { lat: p[:latitude].to_f, lng: p[:longitude].to_f } }
       end
