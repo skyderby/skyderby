@@ -52,7 +52,7 @@
 
             - else
               - if slot.track_id
-                = link_to tournament_match_slot_path(@tournament, match, slot), remote: true, data: {toggle: 'tooltip'}, title: slot.notes do
+                = link_to tournament_match_slot_result_path(@tournament, match, slot), remote: true, data: {toggle: 'tooltip'}, title: slot.notes do
                   = result_html
               - else
                 = result_html
