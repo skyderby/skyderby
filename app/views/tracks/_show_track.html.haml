@@ -22,11 +22,7 @@
           #btn-range-edit
             %button.btn.btn-default#range-edit-button{data: {toggle:'modal', target:'#edit-range'}}
               %i.fa.fa-arrows-h
-          #slider-range-selector
-            %input#range-selector{type: "text",
-                                  name: 'range',
-                                  data: { remote: 'true', url: url_for },
-                                  value: "#{@track_presenter.range_from};#{@track_presenter.range_to}"}
+          #slider-range-selector= render 'range_selector', presenter: @track_presenter
 
       = render 'tracks/charts', presenter: @track_presenter
 

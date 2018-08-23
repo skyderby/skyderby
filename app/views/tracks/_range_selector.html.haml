@@ -1,0 +1,10 @@
+%input#range-selector{type: "text",
+                      name: 'range',
+                      data: { remote: 'true',
+                              url: url_for,
+                              controller: 'tracks--range-selector',
+                              min: presenter.max_altitude,
+                              max: presenter.min_altitude,
+                              from: presenter.range_from,
+                              to: presenter.range_to },
+                      value: "#{presenter.range_from};#{presenter.range_to}"}

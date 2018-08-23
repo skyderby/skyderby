@@ -13,11 +13,5 @@
     <% else %>
       <%= render(partial: 'tracks/single_chart', formats: [:js], locals: {presenter: @track_presenter}) %>
     <% end %>
-
-    Skyderby.helpers.RangeSelector($("#range-selector"),
-                                   <%= @track_presenter.max_altitude %>,
-                                   <%= @track_presenter.min_altitude %>,
-                                   <%= @track_presenter.range_from %>,
-                                   <%= @track_presenter.range_to %>);
   </script>
 <% end %>
