@@ -75,6 +75,10 @@
                 = link_to 'Show with penalties', display_event_params.except(:omit_penalties), rel: 'nofollow'
               %li{class: ('active' if omit_penalties)}
                 = link_to 'Omit penalties', display_event_params.merge(omit_penalties: 'true'), rel: 'nofollow'
+              - if can_manage
+                %li.divider{role: 'separator'}
+                %li
+                  = link_to 'Export to Excel', event_scoreboard_path(@event, format: :xlsx), rel: 'nofollow'
 
     .row.top-buffer
       .col-md-12
