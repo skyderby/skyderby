@@ -6,6 +6,7 @@ module Tracks
       respond_to do |format|
         format.html { redirect_to track }
         format.js
+        format.json
       end
     end
 
