@@ -6,19 +6,25 @@ module Tracks
 
     def points
       return [] unless track_points.many?
-      start_point = track_points.first
+
       track_points.map do |point|
-        [
-          Skyderby::Geospatial.distance(
+        {
+          x: Skyderby::Geospatial.distance(
             [start_point[:latitude], start_point[:longitude]],
             [point[:latitude], point[:longitude]]
           ).round(1),
-          [start_point[:altitude] - point[:altitude], 0].max.round(1)
-        ]
+          y: [start_point[:altitude] - point[:altitude], 0].max.round(1),
+          h_speed: point[:h_speed].round,
+          v_speed: point[:v_speed].round
+        }
       end
     end
 
     private
+
+    def start_point
+      @start_point ||= track_points.first
+    end
 
     def track_points
       @track_points ||= begin
@@ -26,7 +32,7 @@ module Tracks
             track,
             trimmed: true,
             freq_1hz: true,
-            only: %i[altitude latitude longitude]
+            only: %i[altitude latitude longitude h_speed v_speed]
           )
         end
     end

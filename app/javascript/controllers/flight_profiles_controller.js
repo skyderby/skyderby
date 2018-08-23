@@ -1,5 +1,14 @@
 import { Controller } from 'stimulus'
 
+const TOOLTIP_HEADER = '<span style="font-size: 14px">#{series.name}</span><br/>'
+const TOOLTIP_POINT = `
+  <span style="color: transparent">-</span><br/>
+  <span style="font-size: 16px">↓{point.y} →{point.x}</span><br/>
+  <span style="color: transparent">-</span><br/>
+  <span><b>Ground speed:</b> {point.h_speed} ${I18n.t('units.kmh')}</span><br/>
+  <span><b>Vertical speed:</b> {point.v_speed} ${I18n.t('units.kmh')}</span><br/>
+`
+
 export default class extends Controller {
   static targets = [ 'chart' ]
 
@@ -17,8 +26,8 @@ export default class extends Controller {
       name: event.detail.track_id,
       data: event.detail.flight_profile,
       tooltip: {
-        headerFormat: '<span style="font-size: 14px">#{series.name}</span><br/>',
-        pointFormat: '<span style="font-size: 16px">↓{point.y} →{point.x}</span><br/>'
+        headerFormat: TOOLTIP_HEADER,
+        pointFormat: TOOLTIP_POINT
       }
     })
   }
@@ -45,7 +54,7 @@ export default class extends Controller {
       color: '#B88E8D',
       data: event.detail.measurements,
       tooltip: {
-        headerFormat: '<span style="font-size: 14px">#{series.name}</span><br/>',
+        headerFormat: TOOLTIP_HEADER,
         pointFormat: '<span style="font-size: 16px">↓{point.y} →{point.x}</span><br/>'
       }
     })
