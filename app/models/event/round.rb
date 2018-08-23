@@ -14,7 +14,7 @@
 class Event::Round < ApplicationRecord
   include EventOngoingValidation, Event::Namespace
 
-  enum discipline: [:time, :distance, :speed]
+  enum discipline: [:time, :distance, :speed, :vertical_speed]
 
   belongs_to :event, touch: true
   belongs_to :signed_off_by,

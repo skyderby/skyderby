@@ -1,24 +1,30 @@
 require 'spec_helper'
 
 describe TrackSegment do
-  it 'responds to size and returns size of points' do
-    track_segment = TrackSegment.new(sample_points)
-    expect(track_segment.size).to eq(8)
+  subject { TrackSegment.new(sample_points) }
+
+  it '#size' do
+    expect(subject.size).to eq(8)
   end
 
-  it 'returns altitude of the first point as #start_altitude' do
-    track_segment = TrackSegment.new(sample_points)
-    expect(track_segment.start_altitude).to eq(sample_points.first[:altitude])
+  it '#start_altitude' do
+    expect(subject.start_altitude).to eq(3050)
   end
 
-  it 'returns altitude of the last point as #end_altitude' do
-    track_segment = TrackSegment.new(sample_points)
-    expect(track_segment.end_altitude).to eq(sample_points.last[:altitude])
+  it '#end_altitude' do
+    expect(subject.end_altitude).to eq(2350)
+  end
+
+  it '#vertical_speed' do
+    expect(subject.vertical_speed).to be_within(0.5).of(109.5)
+  end
+
+  it '#time' do
+    expect(subject.time).to eq(23)
   end
 
   def sample_points
-    @points ||=
-    [
+    @points ||= [
       { gps_time: 11, latitude: 0.0, longitude: 0.0, altitude: 3050, v_speed: 100 },
       { gps_time: 14, latitude: 1.1, longitude: 1.9, altitude: 2950, v_speed: 120 },
       { gps_time: 17, latitude: 2.2, longitude: 2.8, altitude: 2850, v_speed: 130 },

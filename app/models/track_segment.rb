@@ -49,4 +49,8 @@ class TrackSegment
     point = @points.max_by { |x| x[:h_speed] }
     point[:h_speed]
   end
+
+  def vertical_speed
+    (start_altitude - end_altitude) / time.to_f * 3.6
+  end
 end
