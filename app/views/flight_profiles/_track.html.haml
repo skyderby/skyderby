@@ -8,8 +8,7 @@
         %span
           = track.recorded_at&.strftime('%d.%m.%Y')
       %div
-        - unless @scope.is_a? Profile
-          %div= track_pilot_name(track)
+        %div{'data-target': 'flight-profiles--track.profile'}= track_pilot_name(track)
         %i.fa.fa-map-marker
         = track_place(track)
         &nbsp;

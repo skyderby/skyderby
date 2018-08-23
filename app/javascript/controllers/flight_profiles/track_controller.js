@@ -1,6 +1,8 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
+  static targets = [ 'profile' ]
+
   toggle(event) {
     if (event.target.checked) {
       this.on_track_checked()
@@ -32,6 +34,7 @@ export default class extends Controller {
     const event = new CustomEvent('flight-profiles:track-checked', {
       detail: {
         track_id: this.track_id,
+        name: `${this.name} - ${this.track_id}`,
         flight_profile: data
       },
       bubbles: true
@@ -51,5 +54,9 @@ export default class extends Controller {
 
   get track_id() {
     return this.element.getAttribute('data-track-id')
+  }
+
+  get name() {
+    return this.profileTarget.innerText
   }
 }

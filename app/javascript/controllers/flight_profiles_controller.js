@@ -23,7 +23,8 @@ export default class extends Controller {
     const chart = this.highchart
 
     chart.addSeries({
-      name: event.detail.track_id,
+      id: `track-${event.detail.track_id}`,
+      name: event.detail.name,
       data: event.detail.flight_profile,
       tooltip: {
         headerFormat: TOOLTIP_HEADER,
@@ -33,13 +34,7 @@ export default class extends Controller {
   }
 
   remove_track(event) {
-    const chart = this.highchart
-    for (let series of chart.series) {
-      if (series.name == event.detail.track_id) {
-        series.remove()
-        break
-      }
-    }
+    this.highchart.get(`track-${event.detail.track_id}`).remove()
   }
 
   add_line(event) {
