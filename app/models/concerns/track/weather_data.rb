@@ -3,7 +3,7 @@ class Track < ApplicationRecord
     extend ActiveSupport::Concern
 
     def weather_data
-      return [] if place.blank? || base?
+      return Place::WeatherDatum.none if place.blank? || base?
 
       weather_time = (start_time || recorded_at).beginning_of_hour
 
