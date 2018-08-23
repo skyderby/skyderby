@@ -1,15 +1,18 @@
 wb = xlsx_package.workbook
 
-title = wb.styles.add_style(sz: 20, alignment: { horizontal: :center })
+styles = {
+  title: wb.styles.add_style(sz: 20, alignment: { horizontal: :center }),
+  section: wb.styles.add_style(sz: 14, b: true, fg_color: '#77777700')
+}
 
 wb.add_worksheet(name: 'Scoreboard') do |sheet|
   sheet.add_row
-  sheet.add_row [@event.name], style: title, widths: [:ignore]
+  sheet.add_row [@event.name], style: styles[:title], widths: [:ignore]
   sheet.add_row
 
   sheet.merge_cells 'A2:I2'
 
-  render @scoreboard, sheet: sheet
+  render @scoreboard, sheet: sheet, styles: styles
 end
 
 wb.add_worksheet(name: 'Competitors') do |sheet|

@@ -1,0 +1,29 @@
+sheet.add_row(
+  ['Rank', 'Name', 'Country'] +
+  @scoreboard.rounds.map { |round| "Round - #{round.number}" } +
+  ['Total']
+)
+
+@scoreboard.sections.each do |section|
+  sheet.add_row [nil, section.name], style: styles[:section]
+
+  section.competitors.each_with_index do |competitor, index|
+    competitor_cells = [ index + 1, competitor.name, competitor.country_code ]
+    @scoreboard.rounds.each do |round|
+      result = @scoreboard.results.for(competitor: competitor, round: round)
+      if result
+        competitor_cells << result.formated
+      else
+        competitor_cells << nil
+      end
+    end
+
+    if competitor.total_points.positive?
+      competitor_cells << competitor.total_points.round.truncate
+    else
+      competitor_cells << nil
+    end
+
+    sheet.add_row competitor_cells
+  end
+end
