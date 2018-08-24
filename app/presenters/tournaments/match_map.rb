@@ -3,6 +3,9 @@ module Tournaments
     SECONDS_BEFORE_START = 10
     CompetitorData = Struct.new(:name, :color, :path)
 
+    delegate :tournament, to: :match
+    delegate :exit_lat, :exit_lon, to: :tournament
+
     class PathBuilder
       def initialize(slot)
         @slot = slot
@@ -50,19 +53,6 @@ module Tournaments
       end
     end
 
-    def to_json
-      {
-        finish_line: finish_line,
-        exit_point: {
-          latitude: match.tournament.exit_lat,
-          longitude: match.tournament.exit_lon
-        },
-        competitors: competitors
-      }.to_json
-    end
-
-    private
-
     def finish_line
       match.tournament.finish_line.map do |point|
         {
@@ -71,6 +61,8 @@ module Tournaments
         }
       end
     end
+
+    private
 
     attr_reader :match
   end
