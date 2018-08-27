@@ -83,12 +83,7 @@ module Events
         :round_id,
         :track_id,
         :track_from,
-        track_attributes: [
-          :file,
-          :profile_id,
-          :place_id,
-          :suit_id
-        ]
+        track_attributes: [:file]
       )
     end
 
