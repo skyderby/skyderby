@@ -7,7 +7,7 @@ module Api
 
           authorize event, :show?
 
-          @rounds = event.rounds
+          @rounds = event.rounds.order(:number, :created_at)
 
           respond_to do |format|
             format.json

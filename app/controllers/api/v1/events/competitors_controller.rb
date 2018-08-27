@@ -7,7 +7,10 @@ module Api
 
           authorize event, :show?
 
-          @competitors = event.competitors
+          @competitors =
+            event.competitors
+                 .left_outer_joins(:section)
+                 .order('event_sections.order', 'event_competitors.name')
 
           respond_to do |format|
             format.json
