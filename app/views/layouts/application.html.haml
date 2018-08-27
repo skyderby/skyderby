@@ -1,32 +1,9 @@
 !!! 5
 %html
   %head
-    %title= page_title(yield(:title))
+    = render 'layouts/head'
 
-    = action_cable_meta_tag
-
-    = stylesheet_pack_tag 'vendor'
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
-
-    = javascript_pack_tag 'manifest'
-    = javascript_pack_tag 'vendor'
-
-    :javascript
-      var I18n = I18n || {};
-      I18n.defaultLocale = "#{I18n.default_locale}"
-      I18n.locale = "#{I18n.locale}"
-      MAPS_API_KEY = "#{ENV['MAPS_API_KEY']}"
-
-    = javascript_include_tag 'translations/application', 'data-turbolinks-track' => true
-
-    = javascript_pack_tag 'application'
-
-    = csrf_meta_tags
-
-    = render 'layouts/open_graph'
-
-    = render 'layouts/favicon'
-    = render 'layouts/google_analytics'
 
   %body
     #wrap{class: yield(:wrapper_classes)}

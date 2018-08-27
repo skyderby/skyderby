@@ -4,6 +4,7 @@
     "actioncable": "^5.2.0",
     "bootstrap-datepicker": "^1.7.1",
     "highcharts": "^6.0.7",
+    "honeybadger-js": "^0.5.5",
     "jquery": "^3.3.1",
     "jquery-validation": "^1.17.0",
     "rails-ujs": "^5.1.5",

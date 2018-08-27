@@ -5,6 +5,9 @@ import { definitionsFromContext } from "stimulus/webpack-helpers"
 import Rails from 'rails-ujs'
 import Turbolinks from 'turbolinks'
 
+const Honeybadger = require('honeybadger-js/honeybadger')
+Honeybadger.configure({ apiKey: HB_API_KEY, environment: ENVIRONMENT_NAME })
+
 require('polyfills/element_closest')
 
 window.$ = window.jQuery = require('jquery')
