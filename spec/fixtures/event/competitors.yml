@@ -1,10 +1,12 @@
 competitor_1:
+  id: 1
   event_id: 1
   suit: apache
   section: speed_distance_time_advanced
   profile: competitor_1
 
 competitor_2:
+  id: 2
   event_id: 1
   suit: apache
   section: speed_distance_time_advanced

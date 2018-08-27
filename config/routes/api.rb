@@ -9,5 +9,12 @@ namespace :api, module: :api do
         end
       end
     end
+
+    resources :events, only: [] do
+      scope module: :events do
+        resources :rounds, only: :index
+        resources :competitors, only: :index
+      end
+    end
   end
 end

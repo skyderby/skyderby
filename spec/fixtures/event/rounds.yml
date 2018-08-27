@@ -1,9 +1,11 @@
 distance_round_1:
+  id: 1
   event_id: 1
   discipline: distance
   number: 1
 
 speed_round_1:
+  id: 2
   event_id: 1
   discipline: speed
   number: 1
