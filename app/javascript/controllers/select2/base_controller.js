@@ -29,7 +29,7 @@ export class BaseController extends Controller {
 
   teardown() {
     const $element = $(this.element)
-    if ($element.next().is('.select2')) $element.select2('destroy')
+    if ($element.next().is('.select2') && $element.data('select2')) $element.select2('destroy')
   }
 
   fix_open_on_clear($element) {
