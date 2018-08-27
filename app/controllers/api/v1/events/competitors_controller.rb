@@ -9,8 +9,8 @@ module Api
 
           @competitors =
             event.competitors
-                 .left_outer_joins(:section)
-                 .order('event_sections.order', 'event_competitors.name')
+                 .left_outer_joins(:section, :profile)
+                 .order('event_sections.order', 'profiles.name')
 
           respond_to do |format|
             format.json
