@@ -1,7 +1,7 @@
 module Api
   module V1
     module Events
-      class CompetitorsController < ApplicationController
+      class CompetitorsController < Api::ApplicationController
         def index
           event = Event.find(params[:event_id])
 

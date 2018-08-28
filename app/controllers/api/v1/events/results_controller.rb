@@ -1,7 +1,7 @@
 module Api
   module V1
     module Events
-      class ResultsController < ApplicationController
+      class ResultsController < Api::ApplicationController
         def create
           event = Event.find(params[:event_id])
 

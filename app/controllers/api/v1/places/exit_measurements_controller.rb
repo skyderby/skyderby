@@ -1,7 +1,7 @@
 module Api
   module V1
     module Places
-      class ExitMeasurementsController < ApplicationController
+      class ExitMeasurementsController < Api::ApplicationController
         def index
           @lines = Place::JumpLine.joins(:place)
                                   .includes(place: :country)

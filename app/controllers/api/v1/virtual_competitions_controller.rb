@@ -1,6 +1,6 @@
 module Api
   module V1
-    class VirtualCompetitionsController < ApplicationController
+    class VirtualCompetitionsController < Api::ApplicationController
       def index
         @competitions = VirtualCompetition.all
       end

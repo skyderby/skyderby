@@ -1,6 +1,6 @@
 module Api
   module V1
-    class PlacesController < ApplicationController
+    class PlacesController < Api::ApplicationController
       def show
         @place = Place.find(params[:id])
       end
