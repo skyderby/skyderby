@@ -20,6 +20,7 @@ describe Api::V1::Events::ResultsController do
         event_id: event.id,
         competitor_id: competitor.id,
         round_name: "Distance-2",
+        penalized: 'true',
         'jump_range[exit_time]': '2018-02-24T15:23:44.40Z',
         'jump_range[deploy_time]': '2018-02-24T15:26:24.40Z',
         'track_attributes[file]': fixture_file_upload('files/tracks/distance_2454.csv')
@@ -33,6 +34,7 @@ describe Api::V1::Events::ResultsController do
 
       result = event.results.last
       expect(response_json['id']).to eq(result.id)
+      expect(result.penalized).to be_truthy
 
       track = result.track
       expect(track.ff_start).to eq(2405)
