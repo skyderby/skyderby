@@ -21,6 +21,7 @@ describe Api::V1::Events::ResultsController do
         competitor_name: competitor.name,
         round_name: "Distance-2",
         penalized: 'true',
+        penalty_size: 10,
         'jump_range[exit_time]': '2018-02-24T15:23:44.40Z',
         'jump_range[deploy_time]': '2018-02-24T15:26:24.40Z',
         'track_attributes[file]': fixture_file_upload('files/tracks/distance_2454.csv')

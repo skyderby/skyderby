@@ -18,6 +18,7 @@ class Event < ApplicationRecord
                     :jump_range
 
       validates :competitor, :round, presence: true
+      validates :penalty_size, presence: true, if: :penalized
 
       def initialize(args)
         super
