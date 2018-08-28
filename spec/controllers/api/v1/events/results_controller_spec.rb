@@ -9,7 +9,7 @@ describe Api::V1::Events::ResultsController do
       expect(response.forbidden?).to be_truthy
     end
 
-    it 'when allowed' do
+    it 'when allowed, with correct data' do
       sign_in users(:event_responsible)
 
       event = events(:published_public)
@@ -18,7 +18,7 @@ describe Api::V1::Events::ResultsController do
 
       params = {
         event_id: event.id,
-        competitor_id: competitor.id,
+        competitor_name: competitor.name,
         round_name: "Distance-2",
         penalized: 'true',
         'jump_range[exit_time]': '2018-02-24T15:23:44.40Z',

@@ -13,7 +13,11 @@ module Api
             if submission.save
               format.json { @result = submission.result }
             else
-              format.json { render template: 'errors/api_errors', locals: { errors: @result.errors }, status: :bad_request }
+              format.json do
+                render template: 'errors/api_errors',
+                       locals: { errors: submission.errors },
+                       status: :bad_request
+              end
             end
           end
         end
@@ -22,6 +26,7 @@ module Api
           params.permit(
             :event_id,
             :competitor_id,
+            :competitor_name,
             :round_id,
             :round_name,
             :penalized,

@@ -2,11 +2,13 @@ class Event < ApplicationRecord
   class Result < ApplicationRecord
     class Submission
       include ActiveModel::Model
+      extend ActiveModel::Naming
 
-      attr_reader :result
+      attr_reader :result, :errors
 
       attr_accessor :event_id,
                     :competitor_id,
+                    :competitor_name,
                     :round_id,
                     :round_name,
                     :penalized,
@@ -16,6 +18,12 @@ class Event < ApplicationRecord
                     :jump_range
 
       validates :competitor, :round, presence: true
+
+      def initialize(args)
+        super
+
+        @errors = ActiveModel::Errors.new(self)
+      end
 
       def save
         return false unless valid?
@@ -59,7 +67,7 @@ class Event < ApplicationRecord
       end
 
       def competitor
-        @competitor ||= event.competitors.find_by(id: competitor_id)
+        @competitor ||= event.competitors.find_by(id: competitor_id) || competitor_by_name
       end
 
       def round
@@ -69,6 +77,14 @@ class Event < ApplicationRecord
 
       def event
         @event ||= Event.find(event_id)
+      end
+
+      def competitor_by_name
+        event.competitors.joins(:profile).where('LOWER(profiles.name) = ?', competitor_name).first
+      end
+
+      def competitor_name
+        @competitor_name.to_s.strip.downcase
       end
 
       def round_task
