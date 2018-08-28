@@ -45,6 +45,7 @@ module Api
             :penalty_size,
             :penalty_reason,
             :reference_point_name,
+            :reference_point_coordinates,
             track_attributes: [:file],
             jump_range: [:exit_time, :deploy_time]
           )

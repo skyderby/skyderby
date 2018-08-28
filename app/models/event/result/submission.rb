@@ -16,7 +16,8 @@ class Event < ApplicationRecord
                     :penalty_reason,
                     :track_attributes,
                     :jump_range,
-                    :reference_point_name
+                    :reference_point_name,
+                    :reference_point_coordinates
 
       validates :competitor, :round, presence: true
       validates :penalty_size, presence: true, if: :penalized
@@ -107,7 +108,20 @@ class Event < ApplicationRecord
       end
 
       def reference_point
-        @reference_point ||= event.reference_points.find_by(name: reference_point_name)
+        @reference_point ||= find_or_create_reference_point
+      end
+
+      def find_or_create_reference_point
+        if reference_point_name.present? && reference_point_coordinates.blank?
+          event.reference_points.find_by(name: reference_point_name)
+        elsif reference_point_name.present? && reference_point_coordinates.present?
+          latitude, longitude = reference_point_coordinates.split(',')
+
+          event.reference_points.find_or_create_by \
+            name: reference_point_name,
+            latitude: latitude.to_s.strip,
+            longitude: longitude.to_s.strip
+        end
       end
 
       def exit_time

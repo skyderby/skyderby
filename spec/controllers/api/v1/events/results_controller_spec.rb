@@ -38,6 +38,7 @@ describe Api::V1::Events::ResultsController do
         penalized: 'true',
         penalty_size: 10,
         reference_point_name: 'Lane 1',
+        reference_point_coordinates: '40.0, 40.0',
         'jump_range[exit_time]': '2018-02-24T15:23:44.40Z',
         'jump_range[deploy_time]': '2018-02-24T15:26:24.40Z',
         'track_attributes[file]': fixture_file_upload('files/tracks/distance_2454.csv')
@@ -58,6 +59,7 @@ describe Api::V1::Events::ResultsController do
       expect(track.ff_end).to eq(2565)
 
       expect(round.reference_point_assignments.where(competitor: competitor)).not_to be_blank
+      expect(event.reference_points.count).to eq(2)
     end
   end
 end
