@@ -15,7 +15,8 @@ class Event < ApplicationRecord
                     :penalty_size,
                     :penalty_reason,
                     :track_attributes,
-                    :jump_range
+                    :jump_range,
+                    :reference_point_name
 
       validates :competitor, :round, presence: true
       validates :penalty_size, presence: true, if: :penalized
@@ -32,6 +33,7 @@ class Event < ApplicationRecord
         Event::Result.transaction do
           create_result
           set_jump_range
+          assign_reference_point
         end
 
         result
@@ -53,6 +55,14 @@ class Event < ApplicationRecord
         relative_deploy_time = points.bsearch { |p| p['gps_time'] >= deploy_time }[:fl_time]
 
         @result.track.update! ff_start: relative_exit_time, ff_end: relative_deploy_time
+      end
+
+      def assign_reference_point
+        return unless reference_point
+
+        round.reference_point_assignments.create \
+          competitor: competitor,
+          reference_point: reference_point
       end
 
       def result_params
@@ -94,6 +104,10 @@ class Event < ApplicationRecord
 
       def round_number
         round_name.split('-')[1]
+      end
+
+      def reference_point
+        @reference_point ||= event.reference_points.find_by(name: reference_point_name)
       end
 
       def exit_time

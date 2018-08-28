@@ -32,6 +32,7 @@ module Api
             :penalized,
             :penalty_size,
             :penalty_reason,
+            :reference_point_name,
             track_attributes: [:file],
             jump_range: [:exit_time, :deploy_time]
           )
