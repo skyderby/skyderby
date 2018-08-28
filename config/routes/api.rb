@@ -14,7 +14,7 @@ namespace :api, module: :api do
       scope module: :events do
         resources :rounds, only: :index
         resources :competitors, only: :index
-        resources :results, only: :create
+        resources :results, only: %i[index create]
       end
     end
   end

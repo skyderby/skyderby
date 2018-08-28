@@ -2,10 +2,16 @@ module Api
   module V1
     module Events
       class ResultsController < Api::ApplicationController
-        def create
-          event = Event.find(params[:event_id])
+        before_action :set_event
 
-          authorize event, :update?
+        def index
+          authorize @event, :show?
+
+          @results = @event.results
+        end
+
+        def create
+          authorize @event, :update?
 
           submission = Event::Result::Submission.new result_params
 
@@ -20,6 +26,12 @@ module Api
               end
             end
           end
+        end
+
+        private
+
+        def set_event
+          @event = Event.find(params[:event_id])
         end
 
         def result_params

@@ -1,6 +1,19 @@
 describe Api::V1::Events::ResultsController do
   render_views
 
+  it '#index' do
+    event = events(:published_public)
+
+    get :index, params: { event_id: event.id }, format: :json
+
+    response_json = JSON.parse(response.body)
+    result_numbers = response_json.map { |entity| entity['result'] }
+    rounds  = response_json.map { |entity| entity['round_name'] }
+
+    expect(result_numbers).to eq(['3000.0', '250.0', '2500.0', '270.0'])
+    expect(rounds).to eq(['Distance-1', 'Speed-1', 'Distance-1', 'Speed-1'])
+  end
+
   describe '#create' do
     it 'when not allowed' do
       event = events(:published_public)
