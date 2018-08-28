@@ -7,12 +7,11 @@ module Api
 
           authorize event, :update?
 
-          @result = event.results.new result_params
-          @result.current_user = current_user
+          submission = Event::Result::Submission.new result_params
 
           respond_to do |format|
-            if @result.save
-              format.json
+            if submission.save
+              format.json { @result = submission.result }
             else
               format.json { render template: 'errors/api_errors', locals: { errors: @result.errors }, status: :bad_request }
             end
@@ -21,13 +20,16 @@ module Api
 
         def result_params
           params.permit(
+            :event_id,
             :competitor_id,
             :round_id,
+            :round_name,
             :penalized,
             :penalty_size,
             :penalty_reason,
-            track_attributes: [:file]
-          ).merge(track_from: 'from_file')
+            track_attributes: [:file],
+            jump_range: [:exit_time, :deploy_time]
+          )
         end
       end
     end

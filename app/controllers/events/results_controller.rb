@@ -10,7 +10,6 @@ module Events
 
     def create
       @result = @event.results.new result_params
-      @result.current_user = current_user
 
       if @result.save
         respond_to do |format|
