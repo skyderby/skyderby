@@ -22,7 +22,7 @@ module TrackParser
     def parse
       track_points = []
       CSV.foreach(file_path, skip_lines: /^[^0-9]{4}/) do |row|
-        next if row[VERTICAL_ACCURACY].to_f > MAX_ACCURACY
+        # next if row[VERTICAL_ACCURACY].to_f > MAX_ACCURACY
         track_points << parse_row(row)
       end
 
