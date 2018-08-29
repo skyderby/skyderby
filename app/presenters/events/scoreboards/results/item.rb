@@ -14,7 +14,7 @@ module Events
           return '' unless valid?
 
           if round.distance?
-            '%d' % result.truncate
+            '%d' % result.round.truncate
           else
             '%.1f' % result.round(1)
           end
