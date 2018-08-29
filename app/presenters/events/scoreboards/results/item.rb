@@ -2,6 +2,9 @@ module Events
   module Scoreboards
     module Results
       class Item < SimpleDelegator
+
+        delegate :apply_penalty_to_result?, :apply_penalty_to_score?, to: :params
+
         def initialize(record, collection, params)
           @record = record
           @collection = collection
@@ -24,7 +27,7 @@ module Events
           @result ||=
             record
             .yield_self(&method(:adjust_to_wind))
-            .yield_self(&method(:apply_penalty))
+            .yield_self(&method(:apply_penalty_to_result))
         end
 
         def formated_points
@@ -36,8 +39,10 @@ module Events
         def points
           return 0 unless valid?
 
-          best_result = collection.best_in(round: round, section: section)
-          result / best_result.result * 100
+          @points ||=
+            collection.best_in(round: round, section: section)
+            .yield_self { |best_result| result / best_result.result * 100 }
+            .yield_self(&method(:apply_penalty_to_score))
         end
 
         def penalized?
@@ -84,11 +89,20 @@ module Events
           end
         end
 
-        def apply_penalty(result)
+        def apply_penalty_to_result(result)
           return result if params.omit_penalties?
+          return result unless params.apply_penalty_to_result?
           return result unless record.penalized
 
           result - result / 100 * record.penalty_size
+        end
+
+        def apply_penalty_to_score(score)
+          return score if params.omit_penalties?
+          return score unless params.apply_penalty_to_score?
+          return score unless record.penalized
+
+          score - score / 100 * record.penalty_size
         end
       end
     end

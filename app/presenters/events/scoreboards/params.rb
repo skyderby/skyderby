@@ -14,6 +14,14 @@ module Events
         event.wind_cancellation && !display_raw_results
       end
 
+      def apply_penalty_to_score?
+        event.apply_penalty_to_score
+      end
+
+      def apply_penalty_to_result?
+        !apply_penalty_to_score?
+      end
+
       private
 
       attr_reader :event, :raw_params

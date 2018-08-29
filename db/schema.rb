@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_01_085232) do
+ActiveRecord::Schema.define(version: 2018_08_29_173224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(version: 2018_08_01_085232) do
     t.integer "number_of_results_for_total"
     t.integer "responsible_id"
     t.integer "designated_lane_start", default: 0, null: false
+    t.boolean "apply_penalty_to_score", default: false, null: false
   end
 
   create_table "manufacturers", id: :serial, force: :cascade do |t|

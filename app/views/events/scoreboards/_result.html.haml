@@ -19,7 +19,7 @@
 %td.event__scoreboard-result{class: result_class}
   - if result.valid?
     = result.formated
-    - if result.penalized?
+    - if result.penalized? && result.apply_penalty_to_result?
       %sup.text-danger= "-#{result.penalty_size}%"
 
   - elsif can_update

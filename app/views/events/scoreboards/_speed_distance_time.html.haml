@@ -73,6 +73,9 @@
                     - if result.penalized?
                       %span.dotted-underline{'data-toggle': 'tooltip', title: result.penalty_reason}
                         = result.formated_points
+
+                        - if result.apply_penalty_to_score?
+                          %sup.text-danger= "-#{result.penalty_size}%"
                     - else
                       = result.formated_points
                 - elsif can_update
