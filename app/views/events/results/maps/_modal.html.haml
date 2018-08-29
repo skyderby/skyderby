@@ -17,7 +17,8 @@
         = render 'events/results/header'
 
         .row
-          .col-sm-12{'data-controller': 'events--designated-lane'}
+          .col-sm-12{'data-controller': 'events--designated-lane',
+                     'data-action': 'round-map:show-dl@window->events--designated-lane#show_dl'}
             = render 'events/maps/designated_lane_form'
 
             .event-track__map{'data-target': 'events--result-map.map events--designated-lane.map'}

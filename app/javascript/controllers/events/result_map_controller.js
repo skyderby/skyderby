@@ -37,6 +37,7 @@ export default class extends Controller {
   on_data_ready = (data) => {
     this.map_data = data
     this.render_map()
+    setTimeout( () => { this.show_designated_lane() }, 250)
   }
 
   render_map() {
@@ -65,6 +66,37 @@ export default class extends Controller {
     this.draw_point(this.map_data.after_exit_point, AFTER_EXIT_POINT_COLOR)
 
     this.resize()
+  }
+
+  show_designated_lane() {
+    if (!this.map_data.reference_point) return
+
+    this.draw_reference_point()
+
+    let start_point = {}
+    if (this.map_data.designated_lane_start === 'designated_lane_start_on_enter_window') {
+      start_point = this.map_data.start_point
+    } else {
+      start_point = this.map_data.after_exit_point
+    }
+
+    const event = new CustomEvent('round-map:show-dl', {
+      detail: {
+        start_point_position: new google.maps.LatLng(start_point.lat, start_point.lng),
+        reference_point_position: new google.maps.LatLng(this.map_data.reference_point.lat, this.map_data.reference_point.lng)
+      },
+      bubbles: true,
+      cancelable: true
+    })
+
+    this.element.dispatchEvent(event)
+  }
+
+  draw_reference_point() {
+    new google.maps.Marker({
+      position: this.map_data.reference_point,
+      map: this.map
+    })
   }
 
   draw_polyline(path, color) {
@@ -108,8 +140,9 @@ export default class extends Controller {
 
     let bounds = new google.maps.LatLngBounds()
 
-    const start_point = this.map_data.start_point
-    const end_point = this.map_data.end_point
+    const start_point = this.map_data.after_exit_point
+    let end_point = this.map_data.end_point
+    if (this.map_data.reference_point) end_point = this.map_data.reference_point
 
     bounds.extend(new google.maps.LatLng(
       Number(start_point.lat),

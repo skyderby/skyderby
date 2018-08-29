@@ -41,6 +41,17 @@ class Events::Maps::CompetitorTrack < SimpleDelegator
     window_points.direction
   end
 
+  def reference_point
+    assigned_point = super
+    return unless assigned_point
+
+    map_marker(assigned_point)
+  end
+
+  def designated_lane_start
+    event.designated_lane_start
+  end
+
   private
 
   def map_marker(point)
