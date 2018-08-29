@@ -55,6 +55,10 @@ class Event < ApplicationRecord
         relative_deploy_time = points.bsearch { |p| p['gps_time'] >= deploy_time }[:fl_time]
 
         @result.track.update! ff_start: relative_exit_time, ff_end: relative_deploy_time
+
+        @result.track_from = 'existent'
+        @result.calc_result
+        @result.save!
       end
 
       def assign_reference_point
