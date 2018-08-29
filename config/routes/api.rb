@@ -1,6 +1,12 @@
 namespace :api, module: :api do
   namespace :v1, module: :v1 do
-    resources :profiles, only: :show
+    resources :profiles, only: :show do
+      scope module: :profiles do
+        collection do
+          resource :current, only: :show
+        end
+      end
+    end
     resources :virtual_competitions
     resources :places do
       scope module: :places do
