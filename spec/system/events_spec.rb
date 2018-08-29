@@ -24,7 +24,7 @@ describe 'Scoring PPC-like competitions', js: true do
     add_round 'Distance'
 
     submit_result competitor: 'Aleksandr', filename: 'distance_2645.csv'
-    verify_result competitor: 'Aleksandr', result: '2645'
+    verify_result competitor: 'Aleksandr', result: '2646'
 
     submit_result competitor: 'Sergey', filename: 'distance_3107.csv'
     verify_result competitor: 'Sergey', result: '3107'
