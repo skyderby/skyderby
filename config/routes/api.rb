@@ -15,6 +15,7 @@ namespace :api, module: :api do
         resources :rounds, only: :index
         resources :competitors, only: :index
         resources :results, only: %i[index create]
+        resources :reference_point_assignments, only: :create
       end
     end
   end

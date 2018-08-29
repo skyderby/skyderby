@@ -88,8 +88,7 @@ class Event < ApplicationRecord
       end
 
       def round
-        @round ||= event.rounds.find_by(id: round_id) ||
-                   event.rounds.find_by(discipline: round_task, number: round_number)
+        @round ||= event.rounds.find_by(id: round_id) || event.rounds.find_by_name(round_name)
       end
 
       def event
@@ -104,27 +103,8 @@ class Event < ApplicationRecord
         @competitor_name.to_s.strip.downcase
       end
 
-      def round_task
-        Event::Round.disciplines[round_name.split('-')[0].downcase]
-      end
-
-      def round_number
-        round_name.split('-')[1]
-      end
-
       def find_or_create_reference_point
-        name = reference_point[:name]
-        latitude = reference_point[:latitude]
-        longitude = reference_point[:longitude]
-
-        if name.present? && (latitude.blank? || longitude.blank?)
-          event.reference_points.find_by(name: name)
-        elsif name.present? && latitude.present? && longitude.present?
-          event.reference_points.find_or_create_by \
-            name: name,
-            latitude: latitude.to_s.strip,
-            longitude: longitude.to_s.strip
-        end
+        event.reference_points.find_or_create(reference_point)
       end
 
       def exit_time

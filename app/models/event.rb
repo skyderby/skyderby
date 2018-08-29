@@ -35,6 +35,7 @@ class Event < ApplicationRecord
   has_many :competitors
   has_many :rounds, -> { order(:number) }, inverse_of: :event
   has_many :results, through: :rounds
+  has_many :reference_point_assignments, through: :rounds
   has_many :tracks, through: :results
   has_many :organizers, as: :organizable, dependent: :delete_all
   has_many :sponsors, -> { order(:created_at) }, as: :sponsorable, dependent: :delete_all

@@ -44,4 +44,15 @@ class Event::Round < ApplicationRecord
 
     self.number = current_number + 1
   end
+
+  class << self
+    def find_by_name(name)
+      task_part, number_part = name.split('-')
+
+      discipline_id = disciplines[task_part.strip.downcase]
+      number = number_part.strip
+
+      find_by(discipline: discipline_id, number: number)
+    end
+  end
 end
