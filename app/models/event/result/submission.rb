@@ -66,9 +66,8 @@ class Event < ApplicationRecord
 
         return unless reference_point
 
-        round.reference_point_assignments.create \
-          competitor: competitor,
-          reference_point: reference_point
+        assignment = round.reference_point_assignments.find_or_create_by(competitor: competitor)
+        assignment.update!(reference_point: reference_point)
       end
 
       def result_params
