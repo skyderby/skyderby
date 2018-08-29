@@ -23,27 +23,17 @@ class Event::Result < ApplicationRecord
   belongs_to :round, class_name: 'Event::Round'
   belongs_to :competitor, touch: true
 
-  scope :for_round, ->(round_id) { where(round_id: round_id) }
-
   validates :competitor, :round, :track, presence: true
   validates :competitor_id, uniqueness: { scope: :round_id }, on: :create
   validate_duplicates_on_file_with EventTracks::FileDuplicationValidator
 
   delegate :event, :event_id, :range_from, :range_to, to: :round
-  delegate :discipline, to: :round, prefix: true
-  delegate :number, to: :round, prefix: true
+  delegate :discipline, :number, to: :round, prefix: true
   delegate :section, to: :competitor
   delegate :tracks_visibility, to: :event
 
-  def result(net: false)
-    net ? self[:result_net] : self[:result]
-  end
-
-  def final_result(net: false)
-    observed_result = result(net: net)
-    return observed_result if observed_result.blank? || !penalized
-
-    observed_result - observed_result / 100 * penalty_size
+  def reference_point
+    round.reference_point_assignments.find_by(competitor: competitor)&.reference_point
   end
 
   def penalty_sizes

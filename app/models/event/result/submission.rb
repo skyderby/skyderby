@@ -16,8 +16,7 @@ class Event < ApplicationRecord
                     :penalty_reason,
                     :track_attributes,
                     :jump_range,
-                    :reference_point_name,
-                    :reference_point_coordinates
+                    :reference_point
 
       validates :competitor, :round, presence: true
       validates :penalty_size, presence: true, if: :penalized
@@ -59,6 +58,8 @@ class Event < ApplicationRecord
       end
 
       def assign_reference_point
+        reference_point = find_or_create_reference_point
+
         return unless reference_point
 
         round.reference_point_assignments.create \
@@ -107,18 +108,16 @@ class Event < ApplicationRecord
         round_name.split('-')[1]
       end
 
-      def reference_point
-        @reference_point ||= find_or_create_reference_point
-      end
-
       def find_or_create_reference_point
-        if reference_point_name.present? && reference_point_coordinates.blank?
-          event.reference_points.find_by(name: reference_point_name)
-        elsif reference_point_name.present? && reference_point_coordinates.present?
-          latitude, longitude = reference_point_coordinates.split(',')
+        name = reference_point[:name]
+        latitude = reference_point[:latitude]
+        longitude = reference_point[:longitude]
 
+        if name.present? && (latitude.blank? || longitude.blank?)
+          event.reference_points.find_by(name: name)
+        elsif name.present? && latitude.present? && longitude.present?
           event.reference_points.find_or_create_by \
-            name: reference_point_name,
+            name: name,
             latitude: latitude.to_s.strip,
             longitude: longitude.to_s.strip
         end
@@ -134,6 +133,10 @@ class Event < ApplicationRecord
         return unless jump_range[:deploy_time]
 
         Time.strptime(jump_range[:deploy_time], '%Y-%m-%dT%H:%M:%S.%L %Z')
+      end
+
+      def reference_point
+        @reference_point || {}
       end
 
       def jump_range
