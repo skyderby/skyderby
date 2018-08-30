@@ -2,15 +2,17 @@ import { Controller } from 'stimulus'
 
 export default class extends Controller {
   connect() {
-    window.addEventListener('resize', () => { this.on_resize() })
-    window.addEventListener('scroll', () => { this.on_scroll() })
-    window.addEventListener('load', () => { this.on_resize() }, { once: true })
+    window.addEventListener('resize', this.on_resize_listener)
+    window.addEventListener('scroll', this.on_scroll_listener)
+    window.addEventListener('load', this.on_resize_listener, { once: true })
 
     this.init()
   }
 
   disconnect() {
     this.fixed_header.remove()
+    window.removeEventListener('resize', this.on_resize_listener)
+    window.removeEventListener('scroll', this.on_scroll_listener)
   }
 
   init() {
@@ -69,5 +71,21 @@ export default class extends Controller {
 
   get header() {
     return this.element.querySelector('thead')
+  }
+
+  get on_resize_listener() {
+    if (!this._on_resize_listener) {
+      this._on_resize_listener = () => { this.on_resize() }
+    }
+
+    return this._on_resize_listener
+  }
+
+  get on_scroll_listener() {
+    if (!this._on_scroll_listener) {
+      this._on_scroll_listener = () => { this.on_scroll() }
+    }
+
+    return this._on_scroll_listener
   }
 }
