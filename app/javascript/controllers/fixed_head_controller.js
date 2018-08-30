@@ -17,9 +17,11 @@ export default class extends Controller {
 
   init() {
     this.fixed_header = this.element.cloneNode(true)
+
     this.fixed_header.setAttribute('data-controller', undefined)
     this.fixed_header.id = this.fixed_header.id + '-fixed-header'
     this.fixed_header.querySelectorAll('tbody').forEach( (el) => { el.remove() })
+
     this.fixed_header.style.position = 'fixed'
     this.fixed_header.style.top = '50px';
     this.fixed_header.style.display = 'none'
