@@ -1,7 +1,7 @@
 - can_update = policy(@scoreboard.event).update? && !@scoreboard.event.finished? && !request.variant.include?(:mobile)
 
 - cache ['scoreboard', I18n.locale, @scoreboard.event, display_event_params, can_update] do
-  %table.event__scoreboard-table#results-table
+  %table.event__scoreboard-table#results-table{'data-controller': 'fixed-head'}
     %thead
       %tr
         %td.text-center{rowspan: 3} #

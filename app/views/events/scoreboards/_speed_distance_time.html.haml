@@ -1,18 +1,18 @@
 - can_update = policy(@scoreboard.event).update? && !@scoreboard.event.finished? && !request.variant.include?(:mobile)
 - cache ['scoreboard', I18n.locale, @scoreboard.event, display_event_params, can_update] do
-  %table.event__scoreboard-table#results-table
+  %table.event__scoreboard-table#results-table{'data-controller': 'fixed-head'}
     %thead
       %tr
-        %td.text-center{rowspan: 3} #
-        %td{rowspan: 3, colspan: 2}= t('activerecord.models.event/competitor')
+        %th.text-center{rowspan: 3} #
+        %th{rowspan: 3, colspan: 2}= t('activerecord.models.event/competitor')
         - @scoreboard.rounds_by_discipline.each do |discipline, rounds|
-          %td.text-center{colspan: (rounds.count * 2 + 1)}= t('disciplines.' + discipline)
-        %td.text-center{rowspan: 3}= t('events.show.total')
+          %th.text-center{colspan: (rounds.count * 2 + 1)}= t('disciplines.' + discipline)
+        %th.text-center{rowspan: 3}= t('events.show.total')
 
       %tr
         - @scoreboard.rounds_by_discipline.each do |discipline, rounds|
           - rounds.each do |round|
-            %td.round-cell{colspan: 2}
+            %th.round-cell{colspan: 2}
               .round-cell__content
                 = round.number
                 .round-cell__actions.dropdown
@@ -36,13 +36,13 @@
                                     class: 'btn-link' do
                           %i.fa.fa-times.text-muted
                           = t('general.delete')
-          %td.text-center{rowspan: 2, 'data-discipline' => discipline, 'data-role' => 'points'} %
+          %th.text-center{rowspan: 2, 'data-discipline' => discipline, 'data-role' => 'points'} %
 
-      %tr.text-center
+      %tr
         - @scoreboard.rounds_by_discipline.each do |discipline, rounds|
           - rounds.each do |round|
-            %td= t('units.' + discipline_unit(discipline.to_sym).to_s)
-            %td %
+            %th.text-center= t('units.' + discipline_unit(discipline.to_sym).to_s)
+            %th.text-center %
 
     - @scoreboard.sections.each do |section|
       %tbody

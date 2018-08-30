@@ -17,12 +17,17 @@
   width: 100%;
   margin-right: 20px;
   border-collapse: collapse;
+  background-color: white;
 
-  thead td {
+  thead th {
     font-family: $pn-semibold;
   }
 
-  td {
+  thead tr {
+    background-color: white;
+  }
+
+  td, th {
     white-space: nowrap;
     font: 13px/13px "Proxima Nova Regular";
     padding: 8px;
