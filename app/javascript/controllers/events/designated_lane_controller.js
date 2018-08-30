@@ -1,5 +1,5 @@
 import { Controller } from 'stimulus'
-import DesignatedLane from 'services/designated_lane'
+import DesignatedLane from 'utils/designated_lane'
 import Geospatial from 'utils/geospatial'
 
 const DEFAULT_DL_DIRECTION = 0
@@ -44,21 +44,25 @@ export default class extends Controller {
   }
 
   show_dl(event) {
-    if (!this.button.classList.contains('active')) {
-      this.button.classList.add('active')
-      this.toggle_dl()
-    }
-
     const { reference_point_position, start_point_position } = event.detail
     const middle_point_lat = (start_point_position.lat() + reference_point_position.lat()) / 2
     const middle_point_lon = (start_point_position.lng() + reference_point_position.lng()) / 2
     const direction = Geospatial.bearing(middle_point_lat, middle_point_lon, reference_point_position.lat(), reference_point_position.lng())
     this.directionTarget.value = Math.round(direction * 10) / 10
 
-    setTimeout(() => {
+    const set_dl_position = () => {
       this.designated_lane.set_position(middle_point_lat, middle_point_lon)
       this.designated_lane.set_direction(direction)
-    }, 50)
+    }
+
+    if (!this.button.classList.contains('active')) {
+      this.mapTarget.addEventListener('map:dl-shown', set_dl_position, { once: true })
+
+      this.button.classList.add('active')
+      this.enable()
+    } else {
+      set_dl_position()
+    }
   }
 
   toggle_dl() {

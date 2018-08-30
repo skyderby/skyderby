@@ -37,7 +37,6 @@ export default class extends Controller {
   on_data_ready = (data) => {
     this.map_data = data
     this.render_map()
-    setTimeout( () => { this.show_designated_lane() }, 250)
   }
 
   render_map() {
@@ -64,6 +63,8 @@ export default class extends Controller {
     this.draw_point(this.map_data.start_point,      START_POINT_COLOR)
     this.draw_point(this.map_data.end_point,        END_POINT_COLOR)
     this.draw_point(this.map_data.after_exit_point, AFTER_EXIT_POINT_COLOR)
+
+    this.show_designated_lane()
 
     this.resize()
   }

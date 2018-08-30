@@ -73,6 +73,8 @@ export default function(google, map, width, length, direction, opts = {}) {
       this._div = div
 
       this.panes.overlayLayer.appendChild(div)
+
+      this.map.getDiv().dispatchEvent(new Event('map:dl-shown'))
     }
 
     onRemove() {
