@@ -9,7 +9,9 @@ module Events
       end
 
       def competitors
-        @competitors ||= collection_class.new(super, scoreboard)
+        @competitors ||= collection_class.new(
+          super.includes(profile: [:country], suit: [:manufacturer]),
+          scoreboard)
       end
 
       private

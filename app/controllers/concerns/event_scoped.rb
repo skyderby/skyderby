@@ -32,16 +32,8 @@ module EventScoped
 
   def load_event(event_id)
     @event = Event.includes(
-      organizers: [:organizable, { user: :profile }],
-      sponsors: :sponsorable,
-      sections: [
-        { results: :competitor },
-        { competitors: [
-          { suit: :manufacturer },
-          { profile: :country },
-          { results: :round }
-        ] }
-      ]
+      organizers: [{ user: :profile }],
+      sponsors: :sponsorable
     ).find(event_id)
   end
 
