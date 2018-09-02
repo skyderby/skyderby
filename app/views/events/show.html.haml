@@ -80,9 +80,7 @@
                 %li
                   = link_to 'Export to Excel', event_scoreboard_path(@event, format: :xlsx), rel: 'nofollow'
 
-    .row.top-buffer
-      .col-md-12
-        = render @scoreboard, can_manage: can_manage
+    = render @scoreboard, can_manage: can_manage
 
     - if @scoreboard.wind_cancellation
       .row

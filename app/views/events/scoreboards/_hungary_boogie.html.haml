@@ -1,73 +1,75 @@
 - can_update = policy(@scoreboard.event).update? && !@scoreboard.event.finished? && !request.variant.include?(:mobile)
 
 - cache ['scoreboard', I18n.locale, @scoreboard.event, display_event_params, can_update] do
-  %table.event__scoreboard-table#results-table{'data-controller': 'fixed-head'}
-    %thead
-      %tr
-        %td.text-center{rowspan: 3} #
-        %td{rowspan: 2, colspan: 2}= t('activerecord.models.event/competitor')
-        %td.text-center{colspan: @scoreboard.rounds.count}
-          = "#{t('disciplines.distance')}, #{t('units.' + discipline_unit(:distance).to_s)}"
-        %td.text-center{rowspan: 2}= t('events.show.total')
-      %tr
-        - @scoreboard.rounds.each do |round|
-          %td.round-cell
-            .round-cell__content
-              = round.number
-              - if can_update
-                .round-cell__actions.dropdown
-                  %button.btn-link{'data-toggle': 'dropdown'}
-                    %i.fa.fa-ellipsis-v.text-muted
-                  %ul.dropdown-menu.dropdown-menu-right
-                    %li
-                      = button_to event_round_path(@scoreboard.event, round),
-                                  method: :delete,
-                                  remote: true,
-                                  class: 'btn-link delete-round' do
-                        %i.fa.fa-fw.fa-times-circle.text-muted
-                        = t('general.delete')
+  .event__scoreboard{'data-controller': 'events--sticky-header'}
+    .event__scoreboard-scroll{'data-target': 'events--sticky-header.container', 'data-action': 'scroll->events--sticky-header#on_horizontal_scroll'}
+      %table.event__scoreboard-table{'data-target': 'events--sticky-header.table'}
+        %thead
+          %tr
+            %td.text-center{rowspan: 3} #
+            %td{rowspan: 2, colspan: 2}= t('activerecord.models.event/competitor')
+            %td.text-center{colspan: @scoreboard.rounds.count}
+              = "#{t('disciplines.distance')}, #{t('units.' + discipline_unit(:distance).to_s)}"
+            %td.text-center{rowspan: 2}= t('events.show.total')
+          %tr
+            - @scoreboard.rounds.each do |round|
+              %td.round-cell
+                .round-cell__content
+                  = round.number
+                  - if can_update
+                    .round-cell__actions.dropdown
+                      %button.btn-link{'data-toggle': 'dropdown'}
+                        %i.fa.fa-ellipsis-v.text-muted
+                      %ul.dropdown-menu.dropdown-menu-right
+                        %li
+                          = button_to event_round_path(@scoreboard.event, round),
+                                      method: :delete,
+                                      remote: true,
+                                      class: 'btn-link delete-round' do
+                            %i.fa.fa-fw.fa-times-circle.text-muted
+                            = t('general.delete')
 
-    - @scoreboard.sections.each do |section|
-      %tbody
-        = render 'events/sections/section_row',
-                 section: section,
-                 columns_count: @scoreboard.columns_count,
-                 editable: can_update
-
-        - section.competitors.each_with_index do |competitor, index|
-          %tr.event__scoreboard-competitor{id: dom_id(competitor)}
-            %td.text-center= index + 1
-
-            = render 'events/competitors/competitor_cells',
-                     competitor: competitor,
+        - @scoreboard.sections.each do |section|
+          %tbody
+            = render 'events/sections/section_row',
+                     section: section,
+                     columns_count: @scoreboard.columns_count,
                      editable: can_update
 
-            - @scoreboard.rounds.each do |round|
-              - result = @scoreboard.results.for(competitor: competitor, round: round)
-              - if result
+            - section.competitors.each_with_index do |competitor, index|
+              %tr.event__scoreboard-competitor{id: dom_id(competitor)}
+                %td.text-center= index + 1
 
-                - result_class = ''
-                - if result.best_in_category?
-                  - result_class = 'text-green'
-                - elsif result.worst_in_category?
-                  - result_class = 'text-light-red'
+                = render 'events/competitors/competitor_cells',
+                         competitor: competitor,
+                         editable: can_update
 
-                - if competitor.counted_results.include?(result)
-                  - result_class += ' counted-result'
+                - @scoreboard.rounds.each do |round|
+                  - result = @scoreboard.results.for(competitor: competitor, round: round)
+                  - if result
 
-                = render 'events/scoreboards/result',
-                         { event: @scoreboard.event,
-                           result: result,
-                           can_update: can_update,
-                           result_class: result_class }
+                    - result_class = ''
+                    - if result.best_in_category?
+                      - result_class = 'text-green'
+                    - elsif result.worst_in_category?
+                      - result_class = 'text-light-red'
 
-              - elsif can_update
-                %td.event__scoreboard-result.text-center
-                  %span= new_event_track_link(@scoreboard.event, competitor, round)
+                    - if competitor.counted_results.include?(result)
+                      - result_class += ' counted-result'
 
-              - else
-                %td
+                    = render 'events/scoreboards/result',
+                             { event: @scoreboard.event,
+                               result: result,
+                               can_update: can_update,
+                               result_class: result_class }
 
-            %td.event__scoreboard-result.text-right
-              - if competitor.total_points.positive?
-                = competitor.total_points.round.truncate
+                  - elsif can_update
+                    %td.event__scoreboard-result.text-center
+                      %span= new_event_track_link(@scoreboard.event, competitor, round)
+
+                  - else
+                    %td
+
+                %td.event__scoreboard-result.text-right
+                  - if competitor.total_points.positive?
+                    = competitor.total_points.round.truncate

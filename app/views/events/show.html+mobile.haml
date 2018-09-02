@@ -20,6 +20,5 @@
       = "#{t('events.show.comp_window')}:"
       %span
         = "#{@event.range_from} – #{@event.range_to} #{t('units.m')}"
-  .event__scoreboard
-    .event__scoreboard-scroll
-      = render @scoreboard
+
+  = render @scoreboard

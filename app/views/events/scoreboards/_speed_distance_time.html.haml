@@ -1,97 +1,99 @@
 - can_update = policy(@scoreboard.event).update? && !@scoreboard.event.finished? && !request.variant.include?(:mobile)
 - cache ['scoreboard', I18n.locale, @scoreboard.event, display_event_params, can_update] do
-  %table.event__scoreboard-table#results-table{'data-controller': 'fixed-head'}
-    %thead
-      %tr
-        %th.text-center{rowspan: 3} #
-        %th{rowspan: 3, colspan: 2}= t('activerecord.models.event/competitor')
-        - @scoreboard.rounds_by_discipline.each do |discipline, rounds|
-          %th.text-center{colspan: (rounds.count * 2 + 1)}= t('disciplines.' + discipline)
-        %th.text-center{rowspan: 3}= t('events.show.total')
+  .event__scoreboard{'data-controller': 'events--sticky-header'}
+    .event__scoreboard-scroll{'data-target': 'events--sticky-header.container', 'data-action': 'scroll->events--sticky-header#on_horizontal_scroll'}
+      %table.event__scoreboard-table{'data-target': 'events--sticky-header.table'}
+        %thead
+          %tr
+            %th.text-center{rowspan: 3} #
+            %th{rowspan: 3, colspan: 2}= t('activerecord.models.event/competitor')
+            - @scoreboard.rounds_by_discipline.each do |discipline, rounds|
+              %th.text-center{colspan: (rounds.count * 2 + 1)}= t('disciplines.' + discipline)
+            %th.text-center{rowspan: 3}= t('events.show.total')
 
-      %tr
-        - @scoreboard.rounds_by_discipline.each do |discipline, rounds|
-          - rounds.each do |round|
-            %th.round-cell{colspan: 2}
-              .round-cell__content
-                = round.number
-                .round-cell__actions.dropdown
-                  %button.btn-link{'data-toggle': 'dropdown'}
-                    %i.fa.fa-ellipsis-v.text-muted
-                  %ul.dropdown-menu.dropdown-menu-right
-                    %li
-                      = link_to event_round_map_path(@event, round), remote: true, class: 'round-map-view', rel: 'nofollow' do
-                        %i.fa.fa-compass.text-muted
-                        Google maps
-                    %li
-                      = link_to event_round_globe_path(@event, round), remote: true, class: 'round-map-view', rel: 'nofollow' do
-                        %i.fa.fa-compass.text-muted
-                        3D maps
-                    - if can_update
-                      %li.divider
-                      %li
-                        = button_to event_round_path(@event, round),
-                                    method: :delete,
-                                    remote: true,
-                                    class: 'btn-link' do
-                          %i.fa.fa-times.text-muted
-                          = t('general.delete')
-          %th.text-center{rowspan: 2, 'data-discipline' => discipline, 'data-role' => 'points'} %
-
-      %tr
-        - @scoreboard.rounds_by_discipline.each do |discipline, rounds|
-          - rounds.each do |round|
-            %th.text-center= t('units.' + discipline_unit(discipline.to_sym).to_s)
-            %th.text-center %
-
-    - @scoreboard.sections.each do |section|
-      %tbody
-        = render 'events/sections/section_row',
-                 section: section,
-                 columns_count: @scoreboard.columns_count,
-                 editable: can_update
-
-        - section.competitors.each_with_index do |competitor, index|
-          %tr.event__scoreboard-competitor{id: dom_id(competitor)}
-            %td.text-center= index + 1
-
-            = render 'events/competitors/competitor_cells',
-                     competitor: competitor,
-                     editable: can_update
-
+          %tr
             - @scoreboard.rounds_by_discipline.each do |discipline, rounds|
               - rounds.each do |round|
-                - result = @scoreboard.results.for(competitor: competitor, round: round)
-                - if result
-                  = render 'events/scoreboards/result',
-                           { event: @scoreboard.event,
-                             result: result,
-                             can_update: can_update,
-                             result_class: ('text-green' if result.best_in_round_and_category?) }
+                %th.round-cell{colspan: 2}
+                  .round-cell__content
+                    = round.number
+                    .round-cell__actions.dropdown
+                      %button.btn-link{'data-toggle': 'dropdown'}
+                        %i.fa.fa-ellipsis-v.text-muted
+                      %ul.dropdown-menu.dropdown-menu-right
+                        %li
+                          = link_to event_round_map_path(@event, round), remote: true, class: 'round-map-view', rel: 'nofollow' do
+                            %i.fa.fa-compass.text-muted
+                            Google maps
+                        %li
+                          = link_to event_round_globe_path(@event, round), remote: true, class: 'round-map-view', rel: 'nofollow' do
+                            %i.fa.fa-compass.text-muted
+                            3D maps
+                        - if can_update
+                          %li.divider
+                          %li
+                            = button_to event_round_path(@event, round),
+                                        method: :delete,
+                                        remote: true,
+                                        class: 'btn-link' do
+                              %i.fa.fa-times.text-muted
+                              = t('general.delete')
+              %th.text-center{rowspan: 2, 'data-discipline' => discipline, 'data-role' => 'points'} %
 
-                  %td.text-right
-                    - if result.penalized?
-                      %span.dotted-underline{'data-toggle': 'tooltip', title: result.penalty_reason}
-                        = result.formated_points
+          %tr
+            - @scoreboard.rounds_by_discipline.each do |discipline, rounds|
+              - rounds.each do |round|
+                %th.text-center= t('units.' + discipline_unit(discipline.to_sym).to_s)
+                %th.text-center %
 
-                        - if result.apply_penalty_to_score?
-                          %sup.text-danger= "-#{result.penalty_size}%"
+        - @scoreboard.sections.each do |section|
+          %tbody
+            = render 'events/sections/section_row',
+                     section: section,
+                     columns_count: @scoreboard.columns_count,
+                     editable: can_update
+
+            - section.competitors.each_with_index do |competitor, index|
+              %tr.event__scoreboard-competitor{id: dom_id(competitor)}
+                %td.text-center= index + 1
+
+                = render 'events/competitors/competitor_cells',
+                         competitor: competitor,
+                         editable: can_update
+
+                - @scoreboard.rounds_by_discipline.each do |discipline, rounds|
+                  - rounds.each do |round|
+                    - result = @scoreboard.results.for(competitor: competitor, round: round)
+                    - if result
+                      = render 'events/scoreboards/result',
+                               { event: @scoreboard.event,
+                                 result: result,
+                                 can_update: can_update,
+                                 result_class: ('text-green' if result.best_in_round_and_category?) }
+
+                      %td.text-right
+                        - if result.penalized?
+                          %span.dotted-underline{'data-toggle': 'tooltip', title: result.penalty_reason}
+                            = result.formated_points
+
+                            - if result.apply_penalty_to_score?
+                              %sup.text-danger= "-#{result.penalty_size}%"
+                        - else
+                          = result.formated_points
+                    - elsif can_update
+                      %td.event__scoreboard-result.text-center
+                        %span= new_event_track_link(@scoreboard.event, competitor, round)
+                      %td
+
                     - else
-                      = result.formated_points
-                - elsif can_update
-                  %td.event__scoreboard-result.text-center
-                    %span= new_event_track_link(@scoreboard.event, competitor, round)
-                  %td
+                      %td
+                      %td
 
-                - else
-                  %td
-                  %td
+                  %td.points-cell.text-right
+                    - points_in_discipline = competitor.points_in_discipline(discipline)
+                    - if points_in_discipline&.positive?
+                      = points_in_discipline.round(1)
 
-              %td.points-cell.text-right
-                - points_in_discipline = competitor.points_in_discipline(discipline)
-                - if points_in_discipline&.positive?
-                  = points_in_discipline.round(1)
-
-            %td.event__scoreboard-total-result
-              - if competitor.total_points.positive?
-                = '%.2f' % competitor.total_points
+                %td.event__scoreboard-total-result
+                  - if competitor.total_points.positive?
+                    = '%.2f' % competitor.total_points
