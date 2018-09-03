@@ -1,4 +1,8 @@
 describe 'events/scoreboards/_result' do
+  before do
+    allow(view).to receive(:mobile?).and_return(false)
+  end
+
   it 'without penalties' do
     result = scoreboard.results.for(competitor: competitor, round: round)
 

@@ -1,10 +1,13 @@
 describe Events::ResultsHelper do
+  before do
+    allow(helper).to receive(:mobile?).and_return(false)
+    allow(helper).to receive(:display_event_params).and_return({})
+  end
+
   it '#new_event_track_link' do
     event = events(:published_public)
     competitor = event_competitors(:competitor_1)
     round = event_rounds(:distance_round_1)
-
-    allow(helper).to receive(:display_event_params).and_return({})
 
     generated_link = helper.new_event_track_link(event, competitor, round)
 
