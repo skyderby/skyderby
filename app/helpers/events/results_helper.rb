@@ -16,7 +16,7 @@ module Events
 
     def show_event_track_link(event, event_track, can_update)
       link_to(event_result_path(event, event_track),
-              remote: true,
+              remote: !mobile?,
               class: 'show-result',
               rel: 'nofollow') do
 

@@ -50,18 +50,14 @@ module Events
     def show
       raise Pundit::NotAuthorizedError unless policy(@event).show?
 
+      @track_presenter = Tracks::CompetitionTrackView.new(
+        @result,
+        ChartsPreferences.new(session)
+      )
+
       respond_to do |format|
-        format.html do
-          redirect_to track_path(@result.track,
-                                 f: @event.range_from,
-                                 t: @event.range_to)
-        end
-        format.js do
-          @track_presenter = Tracks::CompetitionTrackView.new(
-            @result,
-            ChartsPreferences.new(session)
-          )
-        end
+        format.html
+        format.js
       end
     end
 

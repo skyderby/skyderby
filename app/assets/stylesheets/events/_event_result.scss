@@ -1,0 +1,17 @@
+.event-result {
+  margin-top: 70px;
+}
+
+.event-result__header {
+  white-space: nowrap;
+  overflow-x: hidden;
+  padding: 10px;
+  text-overflow: ellipsis;
+}
+
+.event-result__body {
+  border-top: rgba(0, 0, 0, 0.14) solid 1px;
+  border-bottom: rgba(0, 0, 0, 0.14) solid 1px;
+  background-color: white;
+  padding: 10px 15px;
+}
