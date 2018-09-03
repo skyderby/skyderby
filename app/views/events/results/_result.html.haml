@@ -1,0 +1,10 @@
+= render partial: 'tracks/indicators', locals: {presenter: @track_presenter}
+%hr
+= render 'tracks/charts', presenter: @track_presenter
+
+= content_for :page_js do
+  %script
+    - if @track_presenter.separate_charts?
+      = render partial: 'tracks/separate_charts', locals: { presenter: @track_presenter }, formats: [:js]
+    - else
+      = render partial: 'tracks/single_chart', locals: { presenter: @track_presenter }, formats: [:js]

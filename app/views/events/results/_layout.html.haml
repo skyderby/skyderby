@@ -1,0 +1,14 @@
+- provide :title, event_result_presentation(@result)
+
+%div{class: (mobile? ? 'event-result' : 'container')}
+  .event-result__header
+    = link_to @event, class: 'btn-back' do
+      %i.fa.fa-chevron-left
+      = @event.name
+
+  %div{class: (mobile? ? 'event-result__body' : 'content-block content-block--bordered')}
+    = render 'events/results/header', local: true
+
+    %hr
+
+    = yield

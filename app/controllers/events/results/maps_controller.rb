@@ -7,6 +7,7 @@ module Events
 
       def show
         respond_to do |format|
+          format.html
           format.js
           format.json { @map_data = Events::Maps::CompetitorTrack.new(@result) }
         end
