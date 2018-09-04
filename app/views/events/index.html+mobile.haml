@@ -1,7 +1,8 @@
 - cache ['mobile', I18n.locale, current_user, @events] do
   .page-wrap
-    .page-title
-      = t('application.header.competitions')
+    - if !mobile_app?
+      .page-title= t('application.header.competitions')
+
     .events-list
       - @events.each do |list_item|
         = render list_item.event

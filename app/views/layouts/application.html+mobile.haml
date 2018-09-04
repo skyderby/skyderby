@@ -9,7 +9,7 @@
 
   %body
 
-    = render 'layouts/header'
+    = render 'layouts/header' unless mobile_app?
 
     - if flash.count > 0
       .container.top-buffer
