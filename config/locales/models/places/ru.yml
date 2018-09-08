@@ -2,6 +2,7 @@ ru:
   activerecord:
     models:
       place: 'Локации'
+      place/photo: Фотографии
     attributes:
       place:
         name: 'Название'
@@ -9,3 +10,5 @@ ru:
         latitude: 'Широта'
         longitude: 'Долгота'
         msl: 'Превышение над уровнем моря'
+      place/photo:
+        image: Файл с изображением

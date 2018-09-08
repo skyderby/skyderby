@@ -1,8 +1,11 @@
 .row
   .col-sm-12
     .place-map-wrapper
-      .place-map
-        %img{src: "https://maps.googleapis.com/maps/api/staticmap?center=#{@place.latitude},#{@place.longitude}&zoom=12&size=600x150&scale=2&maptype=hybrid"}
+      - if @place.photos.any?
+        .place__photo{style: "background-image: url(#{@place.photos.first.image.url(:large)})"}
+      - else
+        .place-map
+          %img{src: "https://maps.googleapis.com/maps/api/staticmap?center=#{@place.latitude},#{@place.longitude}&zoom=12&size=600x150&scale=2&maptype=hybrid"}
       .place-map-description
         .place-map-background
           %h1
@@ -27,6 +30,10 @@
       - if @place.base? && policy([:place, :finish_line]).index?
         %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'places/finish_lines')}
           = link_to 'Finish lines', place_finish_lines_path(@place)
+
+      - if policy(@place).edit?
+        %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'places/photos')}
+          = link_to t('activerecord.models.place/photo'), place_photos_path(@place)
 
       - if @place.base?
         %li.tabs-navbar__menuitem

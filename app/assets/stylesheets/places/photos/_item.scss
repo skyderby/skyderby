@@ -1,0 +1,17 @@
+.place-photos__item {
+  position: relative;
+}
+
+.place-photos__item-delete {
+  position: absolute;
+  bottom: 5px;
+  right: 25px;
+  background: white;
+  border-radius: 100%;
+  border: 1px #ccc solid;
+  width: 25px;
+  line-height: 25px;
+  text-align: center;
+  color: #999;
+  box-shadow: rgba(0, 0, 0, 0.6) 0px 1px 1px;
+}

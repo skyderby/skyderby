@@ -5,9 +5,12 @@ resources :countries do
     end
   end
 end
+
 resources :places, concerns: :flight_profiles do
   scope module: :places do
     resources :finish_lines
+    resources :photos
+
     collection do
       resources :select_options, only: :index
     end

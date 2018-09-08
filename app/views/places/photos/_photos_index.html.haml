@@ -1,0 +1,7 @@
+.place-photos__list.row
+  = render partial: 'places/photos/photo', collection: @photos, as: :photo
+
+= link_to new_place_photo_path(@place), remote: true, class: 'btn btn-default' do
+  %i.fa.fa-plus
+  Add
+

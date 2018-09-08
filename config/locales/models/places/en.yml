@@ -1,11 +1,14 @@
 en:
   activerecord:
     models:
-      place: 'Places'
+      place: Places
+      place/photo: Photos
     attributes:
       place:
-        name: 'Name'
-        country: 'Country'
-        latitude: 'Latitude'
-        longitude: 'Longitude'
-        msl: 'Elevation (MSL)'
+        name: Name
+        country: Country
+        latitude: Latitude
+        longitude: Longitude
+        msl: Elevation (MSL)
+      place/photo:
+        image: File with photo

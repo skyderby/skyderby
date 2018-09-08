@@ -49,6 +49,10 @@
           = link_to virtual_competitions_path do
             %span.main-menu__icon.main-menu__icon--cup
             = t('application.header.online_competitions')
+        %li.main-menu__item{class: ('active' if root_controller == 'places')}
+          = link_to places_path do
+            %span.main-menu__icon.main-menu__icon--cup
+            = t('application.header.places')
 
         - if !user_signed_in?
           %li.main-menu__item.main-menu--login

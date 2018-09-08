@@ -1,0 +1,5 @@
+.place-photos__item.col-sm-3{id: dom_id(photo)}
+  = image_tag photo.image.url(:thumb), class: 'img-responsive'
+  - if policy(photo).destroy?
+    = link_to place_photo_path(photo.place, photo), remote: true, method: :delete, class: 'place-photos__item-delete' do
+      %i.fa.fa-trash
