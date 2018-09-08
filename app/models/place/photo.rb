@@ -1,5 +1,5 @@
 class Place::Photo < ApplicationRecord
-  include Namespace
+  include Place::Namespace
 
   belongs_to :place, touch: true
 
