@@ -1,42 +1,9 @@
 // Place all the styles related to the Places controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.place-map-description {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  height: 100%;
-  width: 100%;
-  color: #fafafa;
-  text-shadow: rgba(0, 0, 0, 0.8) 3px 3px 2px;
-  padding-left: 15px;
-  padding-right: 15px;
-
-  a {
-    color: #fafafa;
-
-    &:hover {
-      color: #428BCA;
-      text-decoration: none;
-    }
-  }
-}
-
-
-.place-map-background {
-  padding-top: 20px;
-  background-color: rgba(53, 53, 84, 0.4);
-  height: 100%;
-  width: 100%;
-  padding-left: 20px;
-}
 
 .place-map img {
   width: 100%;
-}
-
-.place-map-wrapper {
-  min-height: 150px;
 }
 
 #places-map {

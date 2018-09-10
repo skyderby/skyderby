@@ -86,7 +86,7 @@ describe PlacesController, type: :controller do
       patch :update, params: { id: place.id, place: { name: 'SSSWWW' } }
 
       expect(response.redirect?).to be_truthy
-      expect(response.location).to eq(places_url)
+      expect(response.location).to eq(place_url(place))
     end
 
     it '#destroy' do

@@ -1,0 +1,48 @@
+.place-header {
+  position: relative;
+}
+
+.place-header__description {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(53, 53, 84, 0.4);
+  color: #fafafa;
+  overflow-x: hidden;
+}
+
+.place-header__title {
+  font-family: $pn-semibold;
+  font-size: 36px;
+  text-transform: uppercase;
+  text-align: center;
+  text-shadow: rgba(0, 0, 0, 0.8) 1px 2px 2px;
+  letter-spacing: 1px;
+  line-height: 2;
+  padding-top: 20px;
+  white-space: nowrap;
+}
+
+.place-header__geo {
+  font-family: $pn-regular;
+  font-size: 16px;
+  text-shadow: rgba(0, 0, 0, 0.8) 1px 2px 2px;
+  text-align: center;
+}
+
+.place-header__actions {
+  text-align: center;
+  padding: 10px 0;
+
+  .btn-flat {
+    color: #fafafa;
+    border-color: #fafafa;
+    text-shadow: rgba(0, 0, 0, 0.8) 1px 2px 2px;
+
+    &:hover {
+      text-shadow: none;
+    }
+  }
+}

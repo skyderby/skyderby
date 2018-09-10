@@ -4,7 +4,7 @@ class Place::Photo < ApplicationRecord
   belongs_to :place, touch: true
 
   has_attached_file :image,
-                    styles: { large: '700x200#', thumb: '200x200#' },
+                    styles: { large: '1000x300#', thumb: '200x120#' },
                     convert_options: { large: '-quality 75 -strip', thumb: '-quality 75 -strip' },
                     default_url: '/images/:style/missing.png'
 

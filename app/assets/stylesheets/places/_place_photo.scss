@@ -1,5 +1,7 @@
 .place__photo {
   height: 30vh;
+  min-height: 190px;
+  max-height: 300px;
   width: 100%;
   background-size: cover;
   background-position: center center;

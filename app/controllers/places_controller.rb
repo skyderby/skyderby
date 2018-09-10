@@ -74,7 +74,7 @@ class PlacesController < ApplicationController
     authorize @place
 
     if @place.update place_params
-      redirect_to places_path
+      redirect_to @place
     else
       render action: 'edit'
     end
