@@ -4,22 +4,9 @@ class PlacesController < ApplicationController
   def index
     authorize Place
 
-    @places = Place
-              .joins(:country)
-              .joins('LEFT JOIN (' + tracks_query + ') tracks_count
-                       ON tracks_count.place_id = places.id')
-              .select(:id,
-                      :name,
-                      :latitude,
-                      :longitude,
-                      :msl,
-                      :country_id,
-                      'countries.name country_name',
-                      'tracks_count.tracks_count',
-                      'tracks_count.pilots_count')
-              .order('country_name, places.name')
-
-    @places = @places.search(params[:query][:term]) if params.dig(:query, :term)
+    @places = Place.includes(:country)
+                   .order('countries.name, places.name')
+                   .group_by(&:country)
   end
 
   def show

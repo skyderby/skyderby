@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@google/markerclusterer": "^1.0.3",
     "@rails/webpacker": "^3.5.0",
     "actioncable": "^5.2.0",
     "bootstrap-datepicker": "^1.7.1",

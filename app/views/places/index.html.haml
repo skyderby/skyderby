@@ -1,48 +1,19 @@
-- places_str = render template: 'places/index.json.jbuilder', format: :json, locals: {with_additional_info: true}
-#places-index{data: {places: places_str}}
+- provide :title, page_title(t('application.header.places'))
 
-  .container
-    .page-header
-      .pull-right
-        - if policy(:place).create?
-          %a.btn.btn-default{href: new_place_path}
-            %i.fa.fa-plus
-            = t('.new')
-        .btn-group{data: {toggle: 'buttons'}}
-          %label.toggle-view-type.btn.btn-default.active
-            = radio_button_tag 'view_type', 'map', true
-            %i.fa.fa-compass
-            = t '.on_map'
-          %label.toggle-view-type.btn.btn-default
-            = radio_button_tag 'view_type', 'list'
-            %i.fa.fa-list
-            = t '.on_list'
-      %h1= t '.title'
-  
-    .content-block
-      .row.map-view
-        .col-sm-12#places-map
-
-      .row.list-view
-        .col-sm-12.top-buffer
-          %table#places-index.table.table-hover
-            %tbody
-              - @places.group_by(&:country_name).each do |country, places|
-                %tr.bg-warning.text-danger.no-hover
-                  %td= country
-                - places.each do |place|
-                  %tr
-                    %td
-                      %a{href: place_path(place.id)}= place.name
-
-= content_for :page_js do
-  :javascript
-    var places_collection = new Skyderby.collections.Places();
-    places_collection.set($('#places-index').data('places'));
-
-    var view = new Skyderby.views.PlacesIndex({
-      collection: places_collection,
-      el: '#places-index'
-    });
-    view.render();
-
+.places{'data-controller': 'places--index',
+        'data-action': 'maps_api:ready@window->places--index#on_maps_ready maps_api:failed@window->places-index#on_maps_load_failed' }
+  .places__sidebar
+    .places__search
+      %span.index-search__icon
+        %i.fa.fa-search
+      %input.index-search__input{type: 'text', 'data-action': 'input->places--index#filter_places', placeholder: 'Search...'}
+    .places__list-container
+      - @places.each do |country, places|
+        .places__country{'data-target': 'places--index.country'}
+          = country.name
+        - places.each do |place|
+          .places__item{data: { target: 'places--index.place', id: place.id, lat: place.latitude, lon: place.longitude }}
+            = place.name
+    .places__preview
+  .places__container
+    .places__map{'data-target': 'places--index.map'}

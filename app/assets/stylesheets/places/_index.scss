@@ -1,0 +1,70 @@
+.places {
+  @include full-screen-container;
+  background-color: white;
+}
+
+.places__sidebar {
+  width: 30%;
+  max-width: 300px;
+  position: relative;
+  border-right: rgba(0, 0, 0, 0.14) solid 1px;
+  overflow: hidden;
+}
+
+.places__container {
+  width: 100%;
+  height: 100%;
+}
+
+.places__search {
+  position: absolute;
+  display: table;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  padding: 10px 15px;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.14);
+
+  input {
+    height: 40px;
+  }
+}
+
+.places__list-container {
+  @include sidebar-menu;
+
+  position: absolute;
+  top: 60px;
+  bottom: 0px;
+  width: 100%;
+  padding: 0px 5px;
+  overflow-y: scroll;
+}
+
+.places__country {
+  font-family: $pn-semibold;
+  font-size: 20px;
+  text-transform: uppercase;
+  margin-top: 15px;
+  color: #555;
+  padding: 0 10px;
+}
+
+.places__item {
+  font-family: $pn-regular;
+  line-height: 2;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 4px 10px;
+
+  &:hover {
+    background-color: #f7f7f9;
+  }
+}
+
+.places__map {
+  width: 100%;
+  height: 100%;
+}
