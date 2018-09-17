@@ -5,6 +5,7 @@
 
 .places__sidebar {
   width: 30%;
+  min-width: 200px;
   max-width: 300px;
   position: relative;
   border-right: rgba(0, 0, 0, 0.14) solid 1px;
@@ -31,15 +32,23 @@
   }
 }
 
+.places__mobile {
+  position: relative;
+  padding-top: 60px;
+}
+
 .places__list-container {
   @include sidebar-menu;
 
-  position: absolute;
-  top: 60px;
-  bottom: 0px;
   width: 100%;
   padding: 0px 5px;
   overflow-y: scroll;
+}
+
+.places__sidebar .places__list-container {
+  position: absolute;
+  top: 60px;
+  bottom: 0px;
 }
 
 .places__country {
@@ -52,6 +61,8 @@
 }
 
 .places__item {
+  display: block;
+  color: $main-text-color;
   font-family: $pn-regular;
   line-height: 2;
   font-size: 16px;
@@ -61,6 +72,8 @@
 
   &:hover {
     background-color: #f7f7f9;
+    color: $main-text-color;
+    text-decoration: none;
   }
 }
 

@@ -3,7 +3,7 @@ import init_maps_api from 'utils/google_maps_api'
 import MarkerClusterer from '@google/markerclusterer'
 
 export default class extends Controller {
-  static targets = [ 'map', 'place', 'country' ]
+  static targets = [ 'map', 'place', 'country', 'preview', 'previewLoading' ]
 
   connect() {
     init_maps_api()
@@ -14,37 +14,21 @@ export default class extends Controller {
     this.render_map()
   }
 
-  filter_places(event) {
-    const term = event.target.value
-
-    if (term === '') {
-      this.show_countries()
-      this.show_all_places()
-      return
-    }
-
-    this.hide_countries()
-
-    if (this.timer_id) clearTimeout(this.timer_id)
-    this.timer_id = setTimeout(() => this.filter_places_by_term(term), 100)
+  before_request_preview() {
+    this.previewTarget.classList.add('visible')
   }
 
-  show_countries() {
-    this.countryTargets.forEach( el => el.style.display = 'block' )
+  close_preview() {
+    this.previewTarget.classList.remove('visible')
+    setTimeout(() => { this.previewLoadingTarget.style.visibility = 'visible' }, 300)
   }
 
-  hide_countries() {
-    this.countryTargets.forEach( el => el.style.display = 'none' )
+  request_preview_success() {
+    this.previewLoadingTarget.style.visibility = 'hidden'
   }
 
-  show_all_places() {
-    this.placeTargets.forEach( el => el.style.display = 'block' )
-  }
+  request_preview_error() {
 
-  filter_places_by_term(term) {
-    this.placeTargets.forEach( el => {
-      el.style.display = el.innerText.toLowerCase().indexOf(term.toLowerCase()) === -1 ? 'none' : 'block'
-    })
   }
 
   init_map() {

@@ -16,7 +16,6 @@
 //= require bootstrap/modal
 //= require bootstrap/tab
 //= require bootstrap/tooltip
-//= require markerclusterer
 //= require jquery.cookie
 //= require underscore
 //= require backbone

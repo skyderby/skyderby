@@ -16,7 +16,6 @@ export default class extends Controller {
   }
 
   close_menu() {
-    console.log(111)
     this.menu.classList.remove('active')
     this.overlay.classList.add('overlay--hidden')
   }

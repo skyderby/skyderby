@@ -1,19 +1,20 @@
 - provide :title, page_title(t('application.header.places'))
 
 .places{'data-controller': 'places--index',
-        'data-action': 'maps_api:ready@window->places--index#on_maps_ready maps_api:failed@window->places-index#on_maps_load_failed' }
-  .places__sidebar
-    .places__search
-      %span.index-search__icon
-        %i.fa.fa-search
-      %input.index-search__input{type: 'text', 'data-action': 'input->places--index#filter_places', placeholder: 'Search...'}
-    .places__list-container
-      - @places.each do |country, places|
-        .places__country{'data-target': 'places--index.country'}
-          = country.name
-        - places.each do |place|
-          .places__item{data: { target: 'places--index.place', id: place.id, lat: place.latitude, lon: place.longitude }}
-            = place.name
-    .places__preview
+        'data-action': 'maps_api:ready@window->places--index#on_maps_ready '        + |
+                       'maps_api:failed@window->places--index#on_maps_load_failed ' + |
+                       'ajax:before->places--index#before_request_preview '         + |
+                       'ajax:success->places--index#request_preview_success '       + |
+                       'ajax:error->places--index#request_preview_error ' }           |
+
+  .places__sidebar{'data-target': 'places--index.sidebar'}
+    = render 'list_with_search', link_to_preview: true
+    .place-preview{'data-target': 'places--index.preview'}
+      .place-preview__header
+        %a{'data-action': 'places--index#close_preview'}
+          %i.fa.fa-chevron-left
+      .place-preview__loading{'data-target': 'places--index.previewLoading'}
+        %i.fa.fa-circle-o-notch.fa-spin
+      .place-preview__container
   .places__container
     .places__map{'data-target': 'places--index.map'}
