@@ -16,9 +16,10 @@ wb.add_worksheet(name: 'Scoreboard') do |sheet|
 end
 
 wb.add_worksheet(name: 'Competitors') do |sheet|
-  sheet.add_row ['Name', 'Country', 'Category', 'Suit make', 'Suit']
+  sheet.add_row ['Skyderby ID', 'Name', 'Country', 'Category', 'Suit make', 'Suit']
   @event.competitors.each do |competitor|
     sheet.add_row [
+      competitor.id,
       competitor.name,
       competitor.country_code,
       competitor.section.name,
