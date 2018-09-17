@@ -8,5 +8,7 @@
     %i.fa.fa-fw
     = "MSL: #{@place.msl}"
 
-.text-center
-  = link_to 'More info', place_path(@place), class: 'btn btn-default'
+.text-center<
+  = link_to place_path(@place), class: 'btn btn-default' do
+    = t('places.index.details')
+    &hellip;

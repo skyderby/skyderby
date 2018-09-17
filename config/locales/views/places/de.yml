@@ -4,8 +4,6 @@ de:
       new: 'Hinzufügen'
       title: 'Orte'
       details: 'Mehr'
-      on_map: 'Auf der Karte'
-      on_list: 'Aus der Liste'
     show:
       visited_by: 'Besucht von'
       delete_confirmation: "Bist du sicher, dass du diesen Ort löschen willst?"
