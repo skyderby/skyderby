@@ -14,7 +14,7 @@ export default class extends Controller {
     this.render_map()
   }
 
-  before_request_preview() {
+  before_request_preview(event) {
     this.previewTarget.classList.add('visible')
   }
 
@@ -38,7 +38,7 @@ export default class extends Controller {
   render_map() {
     const markers = this.places.map ( place => {
       const marker = new google.maps.Marker({ position: place.position })
-      google.maps.event.addListener(marker, 'click', () => { this.handle_click_on_marker(place.id) })
+      google.maps.event.addListener(marker, 'click', () => { Rails.fire(place.element, 'click') })
 
       return marker
     })
@@ -63,7 +63,8 @@ export default class extends Controller {
           position: {
             lat: Number(el.getAttribute('data-lat')),
             lng: Number(el.getAttribute('data-lon'))
-          }
+          },
+          element: el
         }
       })
     }

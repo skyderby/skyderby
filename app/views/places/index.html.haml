@@ -9,6 +9,11 @@
 
   .places__sidebar{'data-target': 'places--index.sidebar'}
     = render 'list_with_search', link_to_preview: true
+    - if policy(Place).create?
+      .places__sidebar-create
+        = link_to new_place_path, class: 'btn btn-default' do
+          %i.fa.fa-plus
+          = t('general.create')
     .place-preview{'data-target': 'places--index.preview'}
       .place-preview__header
         %a{'data-action': 'places--index#close_preview'}

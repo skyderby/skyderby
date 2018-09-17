@@ -12,6 +12,16 @@
   overflow: hidden;
 }
 
+.places__sidebar-create {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 10px;
+  border-top: rgba(0, 0, 0, 0.14) solid 1px;
+  text-align: center;
+  background-color: white;
+}
+
 .places__container {
   width: 100%;
   height: 100%;

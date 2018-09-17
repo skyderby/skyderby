@@ -10,6 +10,7 @@ Honeybadger.configure({ apiKey: HB_API_KEY, environment: ENVIRONMENT_NAME })
 
 require('polyfills/element_closest')
 
+window.Rails = Rails
 window.$ = window.jQuery = require('jquery')
 require('jquery-validation')
 require('jquery-validation/dist/additional-methods')
