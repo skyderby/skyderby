@@ -13,7 +13,7 @@
       .places__sidebar-create
         = link_to new_place_path, class: 'btn btn-default' do
           %i.fa.fa-plus
-          = t('general.create')
+          = t('.new')
     .place-preview{'data-target': 'places--index.preview'}
       .place-preview__header
         %a{'data-action': 'places--index#close_preview'}
