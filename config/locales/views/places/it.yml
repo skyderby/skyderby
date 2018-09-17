@@ -4,8 +4,6 @@ it:
       new: 'Aggiungi'
       title: 'Luoghi'
       details: 'dettagli'
-      on_map: 'Sulla mappa'
-      on_list: 'Sula lista'
     show:
       visited_by: 'Visitato da'
       delete_confirmation: "Sei sicuro di voler cancellare questo luogo?"

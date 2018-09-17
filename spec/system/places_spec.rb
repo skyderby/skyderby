@@ -25,8 +25,6 @@ describe 'Adding place', type: :system do
 
     click_button I18n.t('general.save')
 
-    find('label.toggle-view-type', text: I18n.t('places.index.on_list')).click
-
     expect(page).to have_content('Gridset')
   end
 end

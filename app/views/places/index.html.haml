@@ -1,48 +1,25 @@
-- places_str = render template: 'places/index.json.jbuilder', format: :json, locals: {with_additional_info: true}
-#places-index{data: {places: places_str}}
+- provide :title, page_title(t('application.header.places'))
 
-  .container
-    .page-header
-      .pull-right
-        - if policy(:place).create?
-          %a.btn.btn-default{href: new_place_path}
-            %i.fa.fa-plus
-            = t('.new')
-        .btn-group{data: {toggle: 'buttons'}}
-          %label.toggle-view-type.btn.btn-default.active
-            = radio_button_tag 'view_type', 'map', true
-            %i.fa.fa-compass
-            = t '.on_map'
-          %label.toggle-view-type.btn.btn-default
-            = radio_button_tag 'view_type', 'list'
-            %i.fa.fa-list
-            = t '.on_list'
-      %h1= t '.title'
-  
-    .content-block
-      .row.map-view
-        .col-sm-12#places-map
+.places{'data-controller': 'places--index',
+        'data-action': 'maps_api:ready@window->places--index#on_maps_ready '        + |
+                       'maps_api:failed@window->places--index#on_maps_load_failed ' + |
+                       'ajax:before->places--index#before_request_preview '         + |
+                       'ajax:success->places--index#request_preview_success '       + |
+                       'ajax:error->places--index#request_preview_error ' }           |
 
-      .row.list-view
-        .col-sm-12.top-buffer
-          %table#places-index.table.table-hover
-            %tbody
-              - @places.group_by(&:country_name).each do |country, places|
-                %tr.bg-warning.text-danger.no-hover
-                  %td= country
-                - places.each do |place|
-                  %tr
-                    %td
-                      %a{href: place_path(place.id)}= place.name
-
-= content_for :page_js do
-  :javascript
-    var places_collection = new Skyderby.collections.Places();
-    places_collection.set($('#places-index').data('places'));
-
-    var view = new Skyderby.views.PlacesIndex({
-      collection: places_collection,
-      el: '#places-index'
-    });
-    view.render();
-
+  .places__sidebar{'data-target': 'places--index.sidebar'}
+    = render 'list_with_search', link_to_preview: true
+    - if policy(Place).create?
+      .places__sidebar-create
+        = link_to new_place_path, class: 'btn btn-default' do
+          %i.fa.fa-plus
+          = t('.new')
+    .place-preview{'data-target': 'places--index.preview'}
+      .place-preview__header
+        %a{'data-action': 'places--index#close_preview'}
+          %i.fa.fa-chevron-left
+      .place-preview__loading{'data-target': 'places--index.previewLoading'}
+        %i.fa.fa-circle-o-notch.fa-spin
+      .place-preview__container
+  .places__container
+    .places__map{'data-target': 'places--index.map'}

@@ -4,8 +4,6 @@ ru:
       new: 'Добавить'
       title: 'Локации'
       details: 'Подробнее'
-      on_map: 'На карте'
-      on_list: 'Списком'
     show:
       visited_by: 'Здесь летали'
       delete_confirmation: 'Вы уверены, что хотиту удалить эту локацию?'

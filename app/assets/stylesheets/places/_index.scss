@@ -1,0 +1,93 @@
+.places {
+  @include full-screen-container;
+  background-color: white;
+}
+
+.places__sidebar {
+  width: 30%;
+  min-width: 200px;
+  max-width: 300px;
+  position: relative;
+  border-right: rgba(0, 0, 0, 0.14) solid 1px;
+  overflow: hidden;
+}
+
+.places__sidebar-create {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 10px;
+  border-top: rgba(0, 0, 0, 0.14) solid 1px;
+  text-align: center;
+  background-color: white;
+}
+
+.places__container {
+  width: 100%;
+  height: 100%;
+}
+
+.places__search {
+  position: absolute;
+  display: table;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  padding: 10px 15px;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.14);
+
+  input {
+    height: 40px;
+  }
+}
+
+.places__mobile {
+  position: relative;
+  padding-top: 60px;
+}
+
+.places__list-container {
+  @include sidebar-menu;
+
+  width: 100%;
+  padding: 0px 5px;
+  overflow-y: scroll;
+}
+
+.places__sidebar .places__list-container {
+  position: absolute;
+  top: 60px;
+  bottom: 0px;
+}
+
+.places__country {
+  font-family: $pn-semibold;
+  font-size: 20px;
+  text-transform: uppercase;
+  margin-top: 15px;
+  color: #555;
+  padding: 0 10px;
+}
+
+.places__item {
+  display: block;
+  color: $main-text-color;
+  font-family: $pn-regular;
+  line-height: 2;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 4px 10px;
+
+  &:hover {
+    background-color: #f7f7f9;
+    color: $main-text-color;
+    text-decoration: none;
+  }
+}
+
+.places__map {
+  width: 100%;
+  height: 100%;
+}

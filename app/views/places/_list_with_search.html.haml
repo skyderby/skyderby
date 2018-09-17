@@ -1,0 +1,21 @@
+- link_to_preview ||= false
+- remote_links = link_to_preview
+
+.places__list{'data-controller': 'places--searchable-list'}
+  .places__search
+    %span.index-search__icon
+      %i.fa.fa-search
+    %input.index-search__input{type: 'text', 'data-action': 'input->places--searchable-list#filter_places', placeholder: 'Search...'}
+  .places__list-container
+    - @places.each do |country, places|
+      .places__country{'data-target': 'places--index.country places--searchable-list.country'}
+        = country.name
+      - places.each do |place|
+        = link_to place.name,
+                  link_to_preview ? place_preview_path(place) : place_path(place),
+                  remote: remote_links,
+                  class: 'places__item',
+                  'data-target': 'places--index.place places--searchable-list.place',
+                  'data-id': place.id,
+                  'data-lat': place.latitude,
+                  'data-lon': place.longitude

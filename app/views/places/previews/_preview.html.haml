@@ -1,0 +1,14 @@
+.place-preview__photo{style: "background-image: url(#{@place.photo.image.url(:thumb)});"}
+.place-preview__title= @place.name
+.place-preview__geo
+  %div
+    %i.fa.fa-fw.fa-map-marker
+    = "#{@place.latitude}, #{@place.longitude}"
+  %div
+    %i.fa.fa-fw
+    = "MSL: #{@place.msl}"
+
+.text-center<
+  = link_to place_path(@place), class: 'btn btn-default' do
+    = t('places.index.details')
+    &hellip;

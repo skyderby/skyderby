@@ -1,18 +1,11 @@
 - cache ['mobile', I18n.locale, current_user, @places] do
   .page-wrap
     .page-title= t('application.header.places')
-    - if policy(:place).create?
-      %a.btn.btn-default{href: new_place_path}
-        %i.fa.fa-plus
-        = t('.new')
 
-    .content-block
-      %table.table.table-hover
-        %tbody
-          - @places.group_by(&:country_name).each do |country, places|
-            %tr.bg-warning.text-danger.no-hover
-              %td= country
-            - places.each do |place|
-              %tr
-                %td
-                  %a{href: place_path(place.id)}= place.name
+  .places__mobile
+    = render 'list_with_search'
+
+  - if policy(:place).create?
+    %a.btn.btn-default{href: new_place_path}
+      %i.fa.fa-plus
+      = t('.new')

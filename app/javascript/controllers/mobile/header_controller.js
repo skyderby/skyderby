@@ -11,14 +11,16 @@ export default class extends Controller {
   }
 
   open_menu() {
-    this.menu.classList.add('active')
-    this.overlay.classList.remove('overlay--hidden')
+    this.set_menu_visibility(true)
   }
 
   close_menu() {
-    console.log(111)
-    this.menu.classList.remove('active')
-    this.overlay.classList.add('overlay--hidden')
+    this.set_menu_visibility(false)
+  }
+
+  set_menu_visibility(visibility) {
+    this.menu.classList.toggle('active', visibility)
+    this.overlay.classList.toggle('overlay--hidden', !visibility)
   }
 
   toggle_locale_menu() {

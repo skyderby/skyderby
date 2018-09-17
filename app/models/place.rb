@@ -12,6 +12,8 @@
 #
 
 class Place < ApplicationRecord
+  include Photos
+
   enum kind: %i[skydive base]
 
   belongs_to :country
@@ -22,7 +24,6 @@ class Place < ApplicationRecord
   has_many :weather_data, dependent: :delete_all
   has_many :jump_lines, dependent: :destroy
   has_many :finish_lines, dependent: :destroy
-  has_many :photos
 
   accepts_nested_attributes_for :jump_lines,
                                 allow_destroy: true,

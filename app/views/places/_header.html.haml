@@ -3,11 +3,7 @@
 .row
   .col-sm-12
     .place-header
-      - if @place.photos.any?
-        .place__photo{style: "background-image: url(#{@place.photos.first.image.url(:large)})"}
-      - else
-        .place-map
-          %img{src: "https://maps.googleapis.com/maps/api/staticmap?center=#{@place.latitude},#{@place.longitude}&zoom=12&size=600x150&scale=2&maptype=hybrid"}
+      .place__photo{style: "background-image: url(#{@place.photo.image.url(:large)})"}
       .place-header__description
         .place-header__title= @place.name
         .place-header__geo= "Lat: #{@place.latitude}, Lon: #{@place.longitude}, MSL: #{@place.msl}"
