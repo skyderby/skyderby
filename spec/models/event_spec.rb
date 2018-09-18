@@ -21,29 +21,35 @@
 #
 
 describe Event do
-  it 'has status: Draft' do
-    expect(event.status).to eql 'draft'
-  end
+  describe 'Initial state' do
+    subject do
+      Event.create!(responsible: user, starts_at: Time.zone.today)
+    end
 
-  it 'generate name if not specified' do
-    expect(event.name).to be_present
-  end
+    it 'has status: Draft' do
+      expect(subject.status).to eql 'draft'
+    end
 
-  it 'fill range if not specified' do
-    expect(event.range_from).to be_present
-    expect(event.range_to).to be_present
-  end
+    it 'generate name if not specified' do
+      expect(subject.name).to be_present
+    end
 
-  it 'fill responsible' do
-    expect(event.responsible).to eql(user)
+    it 'fill range if not specified' do
+      expect(subject.range_from).to be_present
+      expect(subject.range_to).to be_present
+    end
+
+    it 'fill responsible' do
+      expect(subject.responsible).to eql(user)
+    end
+
+    it 'apply penalty to score' do
+      expect(subject.apply_penalty_to_score).to be_truthy
+    end
   end
 
   it 'blank responsible does not allowed' do
     expect(Event.create(responsible: nil)).not_to be_valid
-  end
-
-  def event
-    @event = Event.create!(responsible: user, starts_at: Time.zone.today)
   end
 
   describe 'changes visibility of tracks on event visibility change' do
