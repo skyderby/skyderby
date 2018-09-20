@@ -3,6 +3,7 @@ ru:
     models:
       place: 'Локации'
       place/photo: Фотографии
+      place/jump_line: Профили экзита
     attributes:
       place:
         name: 'Название'

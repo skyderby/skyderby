@@ -5,14 +5,15 @@
     .place-header
       .place__photo{style: "background-image: url(#{@place.photo.image.url(:large)})"}
       .place-header__description
-        .place-header__title= @place.name
-        .place-header__geo= "Lat: #{@place.latitude}, Lon: #{@place.longitude}, MSL: #{@place.msl}"
-        - if policy(@place).edit?
-          .place-header__actions
-            %a.btn-flat{href: edit_place_path(@place)}
-              = t('general.edit')
-            %a.btn-flat{href: place_path(@place), data: {method: 'delete', confirm: t('places.show.delete_confirmation')}}
-              = t('general.delete')
+        .place-header__description-container
+          .place-header__title= @place.name
+          .place-header__geo= "Lat: #{@place.latitude}, Lon: #{@place.longitude}, MSL: #{@place.msl}"
+          - if policy(@place).edit?
+            .place-header__actions
+              %a.btn-flat{href: edit_place_path(@place)}
+                = t('general.edit')
+              %a.btn-flat{href: place_path(@place), data: {method: 'delete', confirm: t('places.show.delete_confirmation')}}
+                = t('general.delete')
 
 .place-navigation.top-buffer
   .tabs-navbar
@@ -32,3 +33,7 @@
       - if @place.base?
         %li.tabs-navbar__menuitem
           = link_to t('flight_profiles'), place_flight_profiles_path(@place)
+
+      - if @place.base? && policy(@place).edit?
+        %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'places/jump_profiles')}
+          = link_to t('activerecord.models.place/jump_line'), place_jump_profiles_path(@place)

@@ -1,2 +1,2 @@
 = form.fields_for :measurements, Place::JumpLine::Measurement.new(jump_line: form.object), include_id: false, child_index: '__M_INDEX__' do |measurement_form|
-  = render 'places/form/exit_measurement_fields', form: measurement_form
+  = render 'places/jump_profiles/exit_measurement_fields', form: measurement_form

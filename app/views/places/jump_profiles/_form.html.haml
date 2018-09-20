@@ -1,0 +1,31 @@
+- url = @jump_profile.new_record? ? place_jump_profiles_path(@place) : place_jump_profile_path(@place, @jump_profile)
+= form_for @jump_profile, url: url, remote: true, html: { 'data-controller': 'places--jump-profile-form', class: 'form-horizontal' } do |form|
+  .form-group
+    = form.label :name, class: 'col-sm-3 control-label'
+    .col-sm-5
+      = form.text_field :name, class: 'form-control'
+  .form-group{'data-controller': 'places--exit-measurements'}
+    %label.col-sm-3.control-label Exit measurements
+    .col-sm-5
+      %table.table.place-form__exit-measurements
+        %thead
+          %tr
+            %th Altitude
+            %th Distance
+            %th
+        %tbody.hide.exit-measurement__template{'data-target': 'places--exit-measurements.template'}
+          = render 'places/jump_profiles/exit_measurements_template', form: form, line: form.object
+        %tbody{'data-target': 'places--exit-measurements.container'}
+          = render 'places/jump_profiles/exit_measurements', form: form
+      %a.btn.btn-default.place-form__add-measurement{'data-action': 'click->places--exit-measurements#add'}
+        %i.fa.fa-plus
+        Add
+      %a.btn.btn-default{'data-action': 'click->places--exit-measurements#addFromText'}
+        %i.fa.fa-plus
+        Add from text
+      %textarea{rows: 10, 'data-target': 'places--exit-measurements.textarea'}
+
+  %hr
+
+  .text-center
+    = form.submit t('general.save'), class: 'btn btn-lg btn-primary'

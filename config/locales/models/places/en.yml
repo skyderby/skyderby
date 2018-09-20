@@ -3,6 +3,7 @@ en:
     models:
       place: Places
       place/photo: Photos
+      place/jump_line: Jump profiles
     attributes:
       place:
         name: Name

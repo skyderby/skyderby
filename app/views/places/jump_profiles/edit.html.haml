@@ -1,0 +1,8 @@
+.container
+  = link_to place_jump_profiles_path(@place), class: 'btn-back' do
+    %i.fa.fa-chevron-left
+    = @place.name
+    \// Jump profiles
+
+  .content-block
+    = render 'form'

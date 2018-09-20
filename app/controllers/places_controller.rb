@@ -87,16 +87,6 @@ class PlacesController < ApplicationController
       :latitude,
       :longitude,
       :msl,
-      :kind,
-      jump_lines_attributes: {}
-  end
-
-  def tracks_query
-    Track.accessible_by(current_user)
-         .select(:place_id,
-                 'COUNT(tracks.id) tracks_count',
-                 'COUNT(DISTINCT tracks.profile_id) pilots_count')
-         .group(:place_id)
-         .to_sql
+      :kind
   end
 end

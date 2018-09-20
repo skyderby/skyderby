@@ -1,0 +1,12 @@
+.row
+  .col-sm-12
+    = link_to new_place_jump_profile_path(@place), class: 'btn btn-default' do
+      %i.fa.fa-plus
+      = t('general.create')
+
+.table
+  .thead
+    .tr
+      .th Name
+  .tbody
+    = render collection: @jump_profiles, partial: 'places/jump_profiles/jump_profile'

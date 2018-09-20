@@ -2,8 +2,10 @@
 # Main purpose of creating this model was feature-request to make
 # ability to store multiple exit measurements for one BASE exit.
 class Place::JumpLine < ApplicationRecord
+  include Place::Namespace
+
   belongs_to :place, touch: true
-  has_many :measurements, dependent: :delete_all
+  has_many :measurements, -> { order(:altitude) }, dependent: :delete_all
 
   accepts_nested_attributes_for :measurements,
                                 allow_destroy: true,

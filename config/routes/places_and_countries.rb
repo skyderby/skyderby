@@ -8,6 +8,7 @@ end
 
 resources :places, concerns: :flight_profiles do
   scope module: :places do
+    resources :jump_profiles
     resources :finish_lines
     resources :photos
     resource :preview, only: :show

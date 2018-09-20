@@ -1,4 +1,4 @@
-= form_for @place, html: { 'data-controller': 'places--form', class: 'form-horizontal place-form' } do |f|
+= form_for @place, html: { class: 'form-horizontal place-form' } do |f|
   .form-group
     = f.label :name, class: 'col-sm-3 control-label', for: :name
     .col-sm-5
@@ -6,7 +6,7 @@
 
   .form-group
     = f.label :kind, class: 'col-sm-3 control-label', for: :kind
-    .btn-group.col-sm-9{data: {toggle: 'buttons'}}
+    .btn-group.col-sm-9{data: { toggle: 'buttons' }}
       %label.btn.btn-default{class: ('active' if @place.skydive?)}
         = f.radio_button 'kind', 'skydive'
         = 'Skydive'
@@ -41,19 +41,5 @@
       = f.text_field :msl, class: 'form-control'
 
   .form-group
-    %label.col-sm-3.control-label Lines
-    .hide.place-line__template{'data-target': 'places--form.lineTemplate'}
-      = render 'places/form/place_line_template', form: f, place: @place
-    .col-sm-7
-      %a.btn.btn-default.place-form__add-line{'data-action': 'click->places--form#add_line'}
-        %i.fa.fa-plus
-        Add
-  .form-group
-    .col-sm-12
-      .place-form__lines{'data-target': 'places--form.linesContainer'}
-        %hr
-        = render 'places/form/place_line', form: f, place: @place
-
-    .form-group
     .col-sm-offset-3.col-sm-9
       = f.submit t('general.save'), class: 'btn btn-primary'
