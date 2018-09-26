@@ -16,6 +16,18 @@ module Tracks
         end
     end
 
+    def avg_horizontal_speed
+      return @event_result.result.round(1) if @event_result.round_discipline == 'speed'
+
+      super
+    end
+
+    def distance
+      return @event_result.result.round.truncate if @event_result.round_discipline == 'distance'
+
+      super
+    end
+
     def trajectory_distance
       distance_presenter.call(track_trajectory_distance)
     end
