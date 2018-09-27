@@ -7,6 +7,12 @@
       = @event.name
 
   %div{class: (mobile? ? 'event-result__body' : 'content-block content-block--bordered')}
+    .event-result__title-bar
+      = image_tag @result.competitor.profile.userpic.url(:thumb)
+      = @result.competitor.name
+      |
+      = "#{t('disciplines.' + @result.round_discipline)} - #{@result.round_number}"
+
     = render 'events/results/header', local: true
 
     %hr

@@ -11,3 +11,18 @@
   background-color: white;
   padding: 10px 15px;
 }
+
+.event-result__title-bar {
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  font: 18px/30px $pn-regular;
+  color: #555;
+
+  img {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+}
