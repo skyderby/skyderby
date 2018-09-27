@@ -10,7 +10,7 @@ module Tracks
     def time
       @time ||=
         if @event_result.round_discipline == 'time'
-          @event_result.result
+          @event_result.result.round(1)
         else
           super
         end
