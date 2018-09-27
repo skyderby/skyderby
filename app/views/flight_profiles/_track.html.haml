@@ -9,8 +9,9 @@
           = track.recorded_at&.strftime('%d.%m.%Y')
       %div
         %div{'data-target': 'flight-profiles--track.profile'}= track_pilot_name(track)
-        %i.fa.fa-map-marker
-        = track_place(track)
+        %span{'data-target': 'flight-profiles--track.place'}
+          %i.fa.fa-map-marker
+          = track_place(track)
         &nbsp;
         - if track.suit
           = suit_presentation(track.suit)

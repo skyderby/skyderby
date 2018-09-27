@@ -11,12 +11,11 @@ export default class extends Controller {
   }
 
   addTrack(event) {
-    const { track_id, name, flight_profile } = event.detail
-    this.chart.addTrack(track_id, name, flight_profile)
+    this.chart.addTrack(event.detail)
   }
 
   removeTrack(event) {
-    this.chart.removeTrack(event.detail.track_id)
+    this.chart.removeTrack(event.detail.trackId)
   }
 
   showJumpProfile(event) {

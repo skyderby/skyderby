@@ -1,6 +1,12 @@
 import { Controller } from 'stimulus'
 
-const TOOLTIP_HEADER = '<span style="font-size: 14px">#{series.name}</span><br/>'
+const TOOLTIP_HEADER = `
+  <span style="font-size: 14px">{series.name}</span>
+  <br/>
+  <span style="font-size: 12px">{series.options.place}</span>
+  <br/>
+`
+
 const TOOLTIP_POINT = `
   <span style="color: transparent">-</span><br/>
   <span style="font-size: 16px">↓{point.y} →{point.x}</span><br/>
@@ -14,11 +20,14 @@ export default class extends Controller {
     this.chart = new Highcharts.Chart(this.chart_options)
   }
 
-  addTrack(id, name, data) {
+  addTrack(opts) {
+    const { trackId, name, place, flightProfile } = opts
+
     this.chart.addSeries({
-      id: `track-${id}`,
+      id: `track-${trackId}`,
       name: name,
-      data: data,
+      place: place,
+      data: flightProfile,
       tooltip: {
         headerFormat: TOOLTIP_HEADER,
         pointFormat: TOOLTIP_POINT
