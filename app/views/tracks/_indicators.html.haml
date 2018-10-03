@@ -27,12 +27,8 @@
       .param-val
         .avg-val= presenter.avg_horizontal_speed
         .min-max
-          .max-val
-            %span= presenter.max_horizontal_speed
-            %i.fa.fa-chevron-up
-          .min-val
-            %span= presenter.min_horizontal_speed
-            %i.fa.fa-chevron-down.min-val-caret
+          .max-val= presenter.max_horizontal_speed
+          .min-val= presenter.min_horizontal_speed
         .units=t "units.#{presenter.speed_units}"
       - if presenter.wind_cancelation?
         .progress.track-indicators__wind-effect
@@ -49,12 +45,8 @@
       .param-val
         .avg-val= presenter.avg_vertical_speed
         .min-max
-          .min-val
-            %span= presenter.max_vertical_speed
-            %i.fa.fa-chevron-up
-          .max-val
-            %span= presenter.min_vertical_speed
-            %i.fa.fa-chevron-down.min-val-caret
+          .min-val= presenter.max_vertical_speed
+          .max-val= presenter.min_vertical_speed
         .units=t "units.#{presenter.speed_units}"
 
   .track-indicators__column
@@ -63,12 +55,8 @@
       .param-val
         .avg-val= presenter.glide_ratio
         .min-max
-          .max-val
-            %span= presenter.max_glide_ratio
-            %i.fa.fa-chevron-up
-          .min-val
-            %span= presenter.min_glide_ratio
-            %i.fa.fa-chevron-down.min-val-caret
+          .max-val= presenter.max_glide_ratio
+          .min-val= presenter.min_glide_ratio
       - if presenter.wind_cancelation?
         .progress.track-indicators__wind-effect
           .progress-bar.progress-bar-success{style: "width: #{presenter.zero_wind_distance_in_percents}%;"}

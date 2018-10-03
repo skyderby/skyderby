@@ -11,6 +11,7 @@
   .avg-val {
     font-size: 42px;
     color: #555;
+    font-family: $pn-thin;
   }
 
   .avg-val, .units {
@@ -22,11 +23,17 @@
     text-align: right;
     display: inline-block;
     margin-left: 3px;
-    margin-right: 5px;
-  }
+    margin-right: 25px;
 
-  .min-val-caret {
-    vertical-align: 0px;
+    :first-child::after {
+      transform: rotate(-90deg);
+      top: 3px;
+    }
+
+    :last-child::after {
+      transform: rotate(90deg);
+      top: 4px;
+    }
   }
 
   .max-val {
@@ -35,6 +42,18 @@
 
   .min-val {
     color: #FF777C;
+  }
+
+  .min-val, .max-val {
+    position: relative;
+
+    &::after {
+      content: $icon-arrow-light;
+      font: 12px/12px $application-icon-font;
+      display: inline-block;
+      position: absolute;
+      right: -15px;
+    }
   }
 
   .param-val {
