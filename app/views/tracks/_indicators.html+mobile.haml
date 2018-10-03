@@ -1,70 +1,70 @@
 .track-indicators
   .track-indicators__column
     .track-indicators__indicator
-      .track-indicators__param-value
-        .track-indicators__avg-val= presenter.distance
-        .track-indicators__units= t "units.#{presenter.distance_units}"
       .track-indicators__param
-        %i.fa.fa-fw.fa-lg.fa-arrows-h
-        =t '.distance'
-
-    .track-indicators__indicator
-      .track-indicators__param-value
-        .track-indicators__avg-val= presenter.avg_horizontal_speed
-        .track-indicators__min-max
-          .track-indicators__max-val
-            %span= presenter.max_horizontal_speed
-            %i.fa.fa-lg.fa-caret-up
-          .track-indicators__min-val
-            %span= presenter.min_horizontal_speed
-            %i.fa.fa-lg.fa-caret-down.min-val-caret
-        .track-indicators__units=t "units.#{presenter.speed_units}"
-      .track-indicators__param
-        %i.fa.fa-fw.fa-lg.fa-long-arrow-right
-        =t '.ground_speed'
-
-    .track-indicators__indicator
-      .track-indicators__param-value
-        .track-indicators__avg-val= presenter.glide_ratio
-        .track-indicators__min-max
-          .track-indicators__max-val
-            %span= presenter.max_glide_ratio
-            %i.fa.fa-lg.fa-caret-up
-          .track-indicators__min-val
-            %span= presenter.min_glide_ratio
-            %i.fa.fa-lg.fa-caret-down.min-val-caret
-      .track-indicators__param
-        %i.fa.fa-fw.fa-lg.fa-ellipsis-h
         =t '.glide_ratio'
+      .param-val
+        .avg-val= presenter.glide_ratio
+        .min-max
+          .max-val
+            %span= presenter.max_glide_ratio
+            %i.fa.fa-chevron-up
+          .min-val
+            %span= presenter.min_glide_ratio
+            %i.fa.fa-chevron-down.min-val-caret
+      - if presenter.wind_cancelation?
+        .progress.track-indicators__wind-effect
+          .progress-bar.progress-bar-success{style: "width: #{presenter.zero_wind_distance_in_percents}%;"}
+          .progress-bar.progress-bar-danger{style: "width: #{presenter.distance_wind_effect_in_percents}%;"}
+        .track-indicators__components
+          .track-indicators__component.text-left.text-success
+            = presenter.zero_wind_glide_ratio
+          .track-indicators__component.text-right.text-danger
+            = presenter.glide_ratio_wind_effect
+
+    .track-indicators__indicator
+      .track-indicators__param
+        =t '.duration'
+      .param-val
+        .avg-val= presenter.time
+        .units= t 'units.t_unit'
 
   .track-indicators__column
     .track-indicators__indicator
-      .track-indicators__param-value
-        .track-indicators__avg-val= presenter.elevation
-        .track-indicators__units= t "units.#{presenter.altitude_units}"
       .track-indicators__param
-        %i.fa.fa-fw.fa-lg.fa-arrows-v
-        =t '.elevation'
+        =t '.ground_speed'
+      .param-val
+        .avg-val= presenter.avg_horizontal_speed
+        .min-max
+          .max-val
+            %span= presenter.max_horizontal_speed
+            %i.fa.fa-chevron-up
+          .min-val
+            %span= presenter.min_horizontal_speed
+            %i.fa.fa-chevron-down.min-val-caret
+        .units=t "units.#{presenter.speed_units}"
+      - if presenter.wind_cancelation?
+        .progress.track-indicators__wind-effect
+          .progress-bar.progress-bar-success{style: "width: #{presenter.zero_wind_horizontal_speed_in_percents}%;"}
+          .progress-bar.progress-bar-danger{style: "width: #{presenter.horizontal_speed_wind_effect_in_percents}%;"}
+        .track-indicators__components
+          .track-indicators__component.text-left.text-success
+            = presenter.zero_wind_horizontal_speed
+          .track-indicators__component.text-right.text-danger
+            = presenter.horizontal_speed_wind_effect
 
     .track-indicators__indicator
-      .track-indicators__param-value
-        .track-indicators__avg-val= presenter.avg_vertical_speed
-        .track-indicators__min-max
-          .track-indicators__min-val
-            %span= presenter.max_vertical_speed
-            %i.fa.fa-lg.fa-caret-up
-          .track-indicators__max-val
-            %span= presenter.min_vertical_speed
-            %i.fa.fa-lg.fa-caret-down.min-val-caret
-        .track-indicators__units=t "units.#{presenter.speed_units}"
       .track-indicators__param
-        %i.fa.fa-fw.fa-lg.fa-long-arrow-down
         =t '.vertical_speed'
+      .param-val
+        .avg-val= presenter.avg_vertical_speed
+        .min-max
+          .min-val
+            %span= presenter.max_vertical_speed
+            %i.fa.fa-chevron-up
+          .max-val
+            %span= presenter.min_vertical_speed
+            %i.fa.fa-chevron-down.min-val-caret
+        .units=t "units.#{presenter.speed_units}"
 
-    .track-indicators__indicator
-      .track-indicators__param-value
-        .track-indicators__avg-val= presenter.time
-        .track-indicators__units= t 'units.t_unit'
-      .track-indicators__param
-        %i.fa.fa-fw.fa-lg.fa-clock-o
-        =t '.duration'
+

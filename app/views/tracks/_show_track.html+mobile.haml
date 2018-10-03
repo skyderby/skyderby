@@ -3,11 +3,7 @@
   = render partial: 'header', locals: {track: @track}
 
   .track-charts
-    .track-charts__menu
-      .dropdown.track-charts__settings-button
-        = render partial: 'tracks/view_settings_menu', locals: { presenter: @track_presenter }
-
-    = render partial: 'indicators', locals: {presenter: @track_presenter}
+    = render partial: 'indicators', locals: { presenter: @track_presenter }
 
     %hr
 

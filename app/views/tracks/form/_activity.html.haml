@@ -1,0 +1,11 @@
+- activity ||= recent_value(:activity) || 'skydive'
+
+.form-group
+  = form.label :kind, t('activerecord.attributes.track.kind'), class: 'col-sm-3 control-label'
+  .btn-group.col-sm-9{data: {toggle: 'buttons'}}
+    %label.btn.btn-default{class: ('active' if activity == 'skydive')}
+      = form.radio_button :kind, 'skydive', checked: activity == 'skydive'
+      = 'Skydive'
+    %label.btn.btn-default{class: ('active' unless activity == 'skydive')}
+      = form.radio_button :kind, 'base', checked: activity != 'skydive'
+      = 'B.A.S.E'

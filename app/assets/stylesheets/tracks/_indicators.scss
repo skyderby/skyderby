@@ -1,19 +1,21 @@
 .track-indicators {
-
   display: flex;
   justify-content: space-around;
+  font-family: $pn-light;
 
   .units {
-    font-size: 2em;
+    font-size: 28px;
+    color: #555;
   }
 
   .avg-val {
-    font-size: 3em;
+    font-size: 42px;
+    color: #555;
   }
 
   .avg-val, .units {
-      display: inline;
-      font-weight: 200;
+    display: inline;
+    font-weight: 200;
   }
 
   .min-max {
@@ -28,27 +30,47 @@
   }
 
   .max-val {
-    color: #4b725a;
+    color: #1FBE78;
   }
 
   .min-val {
-    color: #9a3558;
+    color: #FF777C;
   }
 
-  .param {
-    color: #888;
-    margin-bottom: -5px;
+  .param-val {
+    white-space: nowrap;
   }
+}
+
+.track-indicators__param {
+  color: #aaa;
+  font-family: $pn-semibold;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .track-indicators__indicator {
   margin-top: 40px;
+
+  &:first-child {
+    margin-top: 15px;
+  }
 }
 
 .track-indicators__wind-effect {
   border-radius: 0px;
-  height: 3px;
+  height: 2px;
   margin-bottom: 0px;
+
+  .progress-bar-success {
+    background-color: #00ba65;
+  }
+
+  .progress-bar-danger {
+    background-color: #FF777C;
+  }
 }
 
 .track-indicators__components {
@@ -58,7 +80,17 @@
 
 .track-indicators__component {
   display: table-cell;
+
+  &.text-success {
+    color: #1FBE78;
+  }
+
+  &.text-danger {
+    color: #FF777C;
+  }
 }
+
+
 
 .modal-body .track-indicators {
 

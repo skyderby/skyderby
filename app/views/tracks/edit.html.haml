@@ -80,17 +80,7 @@
               %span.toggle-place-caption= t('tracks.form.toggle_place_caption')
               %a.toggle-place{href: '#'}= t('tracks.form.toggle_place_link')
 
-        .form-group
-          %label.col-sm-3.control-label= t('activerecord.attributes.track.kind')
-          .btn-group.col-sm-9{data: {toggle: 'buttons'}}
-            %label.btn.btn-default{class: ('active' if @track.skydive?)}
-              = f.radio_button 'kind', 'skydive'
-              = 'Skydive'
-
-            %label.btn.btn-default{class: ('active' if @track.base?)}
-              = f.radio_button 'kind', 'base'
-              = 'B.A.S.E'
-
+        = render 'tracks/form/activity', form: f, activity: @track.kind
         = render 'tracks/form/visibility', form: f, visibility: @track.visibility
 
         .form-group

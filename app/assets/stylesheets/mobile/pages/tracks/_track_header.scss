@@ -1,47 +1,52 @@
 .track-header {
-  padding-top: 5px;
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-top: 15px;
+
+  display: flex;
+  justify-content: flex-start;
 }
 
-.track-header__track-id {
-  margin-top: 15px;
-
-  color: rgba(0, 0, 0, 0.54);
-  font-weight: bold;
-  font-size: 18px;
-}
-
-.track-header__pilot {
-  margin-top: 10px;
-}
-
-.track-header__pilot-link {
-  display: table;
-  font-size: 18px;
-}
-
-.track-header__pilot-photo {
-  display: table-cell;
-  padding-right: 10px;
+.track-header__photo {
+  padding: 0 10px;
 
   img {
-    height: 50px;
-    width: 50px;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
   }
 }
 
+.track-header__row:first-child {
+  line-height: 30px;
+}
+
+.track-header__row {
+  white-space: nowrap;
+}
+
 .track-header__pilot-name {
-  display: table-cell;
+  font-family: $pn-regular;
+  font-size: 18px;
 }
 
 .track-header__suit {
-  margin-top: 10px;
-  font-size: 16px;
+  font-size: 12px;
+
+  &:before {
+    content: $icon-wingsuit;
+    font: 10px $application-icon-font;
+    color: #999;
+    padding-right: 3px;
+  }
 }
 
 .track-header__place {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  font-size: 16px;
+  font-size: 12px;
+  margin-right: 10px;
+
+  &:before {
+    content: $icon-location;
+    font: 10px $application-icon-font;
+    color: #999;
+    padding-right: 3px;
+  }
 }
