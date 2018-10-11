@@ -11,7 +11,7 @@ module Tracks
           .execute(track,
                    trimmed: { seconds_before_start: 20 },
                    freq_1hz: true,
-                   only: %i[fl_time altitude h_speed v_speed])
+                   only: %i[gps_time fl_time latitude longitude altitude h_speed v_speed])
           .yield_self { |points| PointsPostprocessor.for(track.gps_type).call(points) }
       end
 

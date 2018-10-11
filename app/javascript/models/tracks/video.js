@@ -24,7 +24,7 @@ export default class {
   }
 
   points_around_time(time) {
-    for (let index = 0; index <= this.points.length; index ++) {
+    for (let index = 0; index < this.points.length; index++) {
       if (index === 0) continue
 
       let predecessor = this.points[index - 1]
