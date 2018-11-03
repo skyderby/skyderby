@@ -63,6 +63,7 @@
                         =t('application.header.remember_me')
                     .form-group
                       = f.submit t('application.header.sign_in'), class: 'btn btn-success btn-block'
+                  = link_to t('application.header.sign_in_facebook'), user_facebook_omniauth_authorize_path
                   = link_to t('application.header.forgot_pass'), new_password_path(:user)
                 %hr
                 .col-sm-12.hidden-md
