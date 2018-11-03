@@ -10,6 +10,7 @@ production: &default
 development:
   <<: *default
   pool: <%= ENV['DB_POOL'] || 5 %>
+  database: skyderby_development
 
 test: &test
   <<: *default

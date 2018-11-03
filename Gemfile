@@ -14,6 +14,7 @@ gem 'bootsnap', require: false
 
 # Auth
 gem 'devise'
+gem 'omniauth-facebook'
 
 # Authorization
 gem 'pundit'
@@ -73,6 +74,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'pry-rails'
   gem 'byebug'
   gem 'dotenv-rails'
   gem 'factory_bot_rails'

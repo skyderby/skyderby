@@ -44,7 +44,8 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable, omniauth_providers: %i[facebook]
 
   def has_role?(role_sym)
     roles.any? { |r| r.name.underscore.to_sym == role_sym }
@@ -80,6 +81,21 @@ class User < ApplicationRecord
       return all if query.blank?
 
       left_outer_joins(:profile).where('LOWER(profiles.name) LIKE LOWER(?)', "%#{query}%")
+    end
+
+    def from_omniauth(auth)
+      user = where(provider: auth.provider, uid: auth.uid).first_or_initialize do |user|
+        user.email = auth.info.email
+        user.password = Devise.friendly_token[0, 20]
+        user.skip_confirmation!
+      end
+      return user if user.persisted?
+      user.profile.first_name = auth.info.first_name
+      user.profile.last_name = auth.info.last_name
+      user.profile.name = [auth.info.first_name, auth.info.last_name].join(' ')
+      user.profile.userpic = URI.parse(auth.info.image).open
+      user.profile.save
+      user
     end
   end
 end
