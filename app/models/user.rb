@@ -60,6 +60,12 @@ class User < ApplicationRecord
     devise_mailer.send(notification, self, *args).deliver_later
   end
 
+  def add_data_from_facebook(auth)
+    profile.userpic = URI.parse(auth.info.image).open unless profile.userpic.present?
+    self.provider = auth.provider
+    self.uid = auth.uid
+  end
+
   private
 
   def assign_default_role
