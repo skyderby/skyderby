@@ -76,6 +76,8 @@ en:
     omniauth_callbacks:
       failure: Could not authenticate you from %{kind} because "%{reason}".
       success: Successfully authenticated from %{kind} account.
+      failure_connect: Could not connect your %{kind} account because "%{reason}".
+      success_connect: Successfully connected your %{kind} account.
     passwords:
       edit:
         change_my_password: Change my password
