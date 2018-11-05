@@ -16,4 +16,4 @@
         = link_to 'Зарегистрироваться', new_registration_path(:user), :class => 'btn btn-default'
         = 'и иметь полностью заполненный профиль'
         %br
-        = link_to t('application.header.sign_in_facebook'), user_facebook_omniauth_authorize_path
+        = link_to t('devise.shared.links.sign_in_with_provider', provider: 'Facebook'), user_facebook_omniauth_authorize_path

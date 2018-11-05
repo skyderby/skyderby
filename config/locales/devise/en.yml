@@ -125,6 +125,7 @@ en:
         forgot_your_password: Forgot your password?
         sign_in: Log in
         sign_in_with_provider: Sign in with %{provider}
+        connect_provider: Connect %{provider}
         sign_up: Sign up
       minimum_password_length:
         one: "(%{count} character minimum)"

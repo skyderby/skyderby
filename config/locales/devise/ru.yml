@@ -125,6 +125,7 @@ ru:
         forgot_your_password: "Забыли пароль?"
         sign_in: "Войти"
         sign_in_with_provider: "Войти с помощью: %{provider}"
+        connect_provider: "Привязать %{provider}"
         sign_up: "Регистрация"
       minimum_password_length:
         few: "(минимум %{count} знака)"
