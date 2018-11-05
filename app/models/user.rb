@@ -23,6 +23,7 @@
 
 class User < ApplicationRecord
   include ParticipantOfEvents
+  include User::Omniauth
 
   has_many :assignments, dependent: :destroy
   has_many :roles, through: :assignments
@@ -60,12 +61,6 @@ class User < ApplicationRecord
     devise_mailer.send(notification, self, *args).deliver_later
   end
 
-  def add_data_from_facebook(auth)
-    profile.userpic = URI.parse(auth.info.image).open unless profile.userpic.present?
-    self.provider = auth.provider
-    self.uid = auth.uid
-  end
-
   private
 
   def assign_default_role
@@ -87,21 +82,6 @@ class User < ApplicationRecord
       return all if query.blank?
 
       left_outer_joins(:profile).where('LOWER(profiles.name) LIKE LOWER(?)', "%#{query}%")
-    end
-
-    def from_omniauth(auth)
-      user = where(provider: auth.provider, uid: auth.uid).first_or_initialize do |user|
-        user.email = auth.info.email
-        user.password = Devise.friendly_token[0, 20]
-        user.skip_confirmation!
-      end
-      return user if user.persisted?
-      user.profile.first_name = auth.info.first_name
-      user.profile.last_name = auth.info.last_name
-      user.profile.name = [auth.info.first_name, auth.info.last_name].join(' ')
-      user.profile.userpic = URI.parse(auth.info.image).open
-      user.profile.save
-      user
     end
   end
 end

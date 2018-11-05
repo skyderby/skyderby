@@ -1,12 +1,12 @@
 module Users
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     def facebook
-      if current_user.present?
+      if current_user.present? && current_user.registered?
         current_user.add_data_from_facebook(request.env['omniauth.auth'])
-        if current_user.save
-          # todo: add success flash message
-        else
-          # todo: add failure flash message
+        if current_user.save && is_navigational_format?
+          set_flash_message(:notice, :success, kind: 'Facebook')
+        elsif is_navigational_format?
+          set_flash_message(:notice, :failure, kind: 'Facebook')
         end
         redirect_to after_sign_in_path_for(current_user)
       else
