@@ -15,8 +15,6 @@ module User::Omniauth
         user.skip_confirmation!
       end
       return user if user.persisted?
-      user.profile.first_name = auth.info.first_name
-      user.profile.last_name = auth.info.last_name
       user.profile.name = [auth.info.first_name, auth.info.last_name].join(' ')
       user.profile.userpic = URI.parse(auth.info.image).open
       user.profile.save
