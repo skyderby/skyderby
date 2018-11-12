@@ -36,9 +36,12 @@ export default class extends Controller {
 
   on_scroll() {
     if (this.offset_top < this.table_offset_top || this.offset_top > this.table_offset_bottom) {
-      this.header_container.style.display = 'none'
+      this.container_display_mode = 'none'
     } else if (this.offset_top > this.table_offset_top && this.offset_top < this.table_offset_bottom) {
-      this.header_container.style.display = 'block'
+      if (this.container_display_mode === 'block') return
+
+      this.on_resize()
+      this.container_display_mode = 'block'
     }
   }
 
@@ -76,6 +79,14 @@ export default class extends Controller {
 
   get page_header_height() {
     return document.querySelector('.header').offsetHeight
+  }
+
+  get container_display_mode() {
+    return this.header_container.style.display
+  }
+
+  set container_display_mode(value) {
+    this.header_container.style.display = value
   }
 
   get header_container() {

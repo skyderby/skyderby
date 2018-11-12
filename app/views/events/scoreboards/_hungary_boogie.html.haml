@@ -6,14 +6,14 @@
       %table.event__scoreboard-table{'data-target': 'events--sticky-header.table'}
         %thead
           %tr
-            %td.text-center{rowspan: 3} #
-            %td{rowspan: 2, colspan: 2}= t('activerecord.models.event/competitor')
-            %td.text-center{colspan: @scoreboard.rounds.count}
+            %th.text-center{rowspan: 3} #
+            %th{rowspan: 2, colspan: 2}= t('activerecord.models.event/competitor')
+            %th.text-center{colspan: @scoreboard.rounds.count}
               = "#{t('disciplines.distance')}, #{t('units.' + discipline_unit(:distance).to_s)}"
-            %td.text-center{rowspan: 2}= t('events.show.total')
+            %th.text-center{rowspan: 2}= t('events.show.total')
           %tr
             - @scoreboard.rounds.each do |round|
-              %td.round-cell
+              %th.round-cell
                 .round-cell__content
                   = round.number
                   - if can_update
