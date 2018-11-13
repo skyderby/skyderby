@@ -1,12 +1,12 @@
 describe Tracks::MissingRangesPresenter do
   it 'returns blank array if start time equals end time' do
-    ranges = [{ start: 1, end: 2 }]
+    ranges = [{ 'start' => 1, 'end' => 2 }]
     result = Tracks::MissingRangesPresenter.call(ranges, 1, 1)
     expect(result).to eq([])
   end
 
   it 'returns blank array if ranges are not intersects with selected range' do
-    ranges = [{ start: 1, end: 2 }]
+    ranges = [{ 'start' => 1, 'end' => 2 }]
     result = Tracks::MissingRangesPresenter.call(ranges, 3, 4)
     expect(result).to eq([])
   end
@@ -21,5 +21,15 @@ describe Tracks::MissingRangesPresenter do
     ranges = [{ 'start' => 482.59, 'end' => 496.79 }]
     result = Tracks::MissingRangesPresenter.call(ranges, 479.0, 538.0)
     expect(result).to eq([{ start: 3.6, end: 17.8 }])
+  end
+
+  it 'drops ranges with duration less than 1 second' do
+    ranges = [
+      { 'start' => 1.1, 'end' => 2 },
+      { 'start' => 2, 'end' => 5 }
+    ]
+
+    result = Tracks::MissingRangesPresenter.call(ranges, 1, 5)
+    expect(result).to eq([{ start: 1, end: 4 }])
   end
 end
