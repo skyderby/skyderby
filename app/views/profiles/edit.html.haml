@@ -33,6 +33,9 @@
   - if @profile.owner && @profile.belongs_to_user?
     %a.col-sm-offset-2{data: {toggle: 'modal', target: '#CredentialsModal'}}
       = t('users.profile.edit.edit_email_pass')
+    - if @profile.owner.uid.nil?
+      %br
+      = link_to t('devise.shared.links.connect_provider', provider: 'Facebook'), user_facebook_omniauth_authorize_path, class: 'col-sm-offset-2'
 
     .modal.fade{:id => 'CredentialsModal', :tabindex => '-1', :role => 'dialog', :aria => {:labelledby => 'myModalLabel', :hidden => 'true'}}
       .modal-dialog

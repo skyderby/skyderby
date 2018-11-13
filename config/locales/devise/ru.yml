@@ -76,6 +76,8 @@ ru:
     omniauth_callbacks:
       failure: Вы не можете войти в систему с учетной записью из %{kind}, т.к. "%{reason}".
       success: "Вход в систему выполнен с учетной записью из %{kind}."
+      failure_connect: Не удалось привязать учетную запись %{kind}, т.к. "%{reason}".
+      success_connect: Учетная запись %{kind} привязана к вашему аккаунту.
     passwords:
       edit:
         change_my_password: "Изменить мой пароль"
@@ -123,6 +125,7 @@ ru:
         forgot_your_password: "Забыли пароль?"
         sign_in: "Войти"
         sign_in_with_provider: "Войти с помощью: %{provider}"
+        connect_provider: "Привязать %{provider}"
         sign_up: "Регистрация"
       minimum_password_length:
         few: "(минимум %{count} знака)"

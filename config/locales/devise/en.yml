@@ -76,6 +76,8 @@ en:
     omniauth_callbacks:
       failure: Could not authenticate you from %{kind} because "%{reason}".
       success: Successfully authenticated from %{kind} account.
+      failure_connect: Could not connect your %{kind} account because "%{reason}".
+      success_connect: Successfully connected your %{kind} account.
     passwords:
       edit:
         change_my_password: Change my password
@@ -123,6 +125,7 @@ en:
         forgot_your_password: Forgot your password?
         sign_in: Log in
         sign_in_with_provider: Sign in with %{provider}
+        connect_provider: Connect %{provider}
         sign_up: Sign up
       minimum_password_length:
         one: "(%{count} character minimum)"
