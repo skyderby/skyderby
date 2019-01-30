@@ -12,4 +12,14 @@ class ApplicationController < ActionController::Base
   include AuthorizationErrorHandling
 
   include RackMiniProfiler
+
+  layout :layout_by_resource
+
+  def layout_by_resource
+    if devise_controller?
+      'sessions'
+    else
+      'application'
+    end
+  end
 end

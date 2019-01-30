@@ -1,38 +1,35 @@
-.container
-  .page-header
-    %h2= t 'devise.registrations.new.sign_up'
-  = form_for(resource,
-             as: resource_name,
-             url: registration_path(resource_name),
-             html: { class: 'new-user-form form-horizontal', 'data-controller': 'users--sign-up' }) do |f|
-    = devise_error_messages!
+.content-block
+  %h2= t 'devise.registrations.new.sign_up'
+
+  = form_for resource, as: resource_name, url: registration_path(resource_name) do |f|
 
     .form-group
       = f.fields_for :profile do |fields|
-        = fields.label :name, class: 'col-sm-2 control-label'
-        .col-sm-6
-          = fields.text_field :name, class: 'form-control', value: '',
-            placeholder: t('activerecord.attributes.user.name_placeholder')
+        = fields.label :name
+        = fields.text_field :name, class: 'form-control input-lg', value: '', required: true
 
     .form-group
-      = f.label :email, class: 'col-sm-2 control-label'
-      .col-sm-6
-        = f.email_field :email, class: 'form-control'
+      = f.label :email
+      = f.email_field :email, class: 'form-control input-lg', required: true
 
     .form-group
-      = f.label :password, class: 'col-sm-2 control-label'
-      .col-sm-6
-        = f.password_field :password, autocomplete: 'off', class: 'form-control'
+      = f.label :password
+      = f.password_field :password, autocomplete: 'new-password', class: 'form-control', required: true
+      %span.secondary-text
+        Password must be at least 6 characters
 
     .form-group
-      = f.label :password_confirmation, class: 'col-sm-2 control-label'
-      .col-sm-6
-        = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'
+      = f.label :password_confirmation
+      = f.password_field :password_confirmation, autocomplete: 'new-password', class: 'form-control', required: true
 
     .form-group
-      .col-sm-offset-2.col-sm-6
-        = f.submit t('devise.registrations.new.sign_up'), class: 'btn btn-primary'
+      = f.submit t('devise.registrations.new.sign_up'), class: 'btn btn-lg btn-primary'
+
+    = link_to t('devise.shared.links.sign_in_with_provider', provider: 'Facebook'), omniauth_authorize_path(resource_name, :facebook), class: 'btn btn-facebook'
+
+    %p.secondary-text= t('general.or')
+
+    = link_to t('devise.shared.links.sign_in'), new_session_path(resource_name), class: 'btn'
 
     .form-group
-      .col-sm-offset-2.col-sm-6
-        = render 'users/shared/links'
+      = link_to t('devise.shared.links.didn_t_receive_confirmation_instructions'), new_user_confirmation_path

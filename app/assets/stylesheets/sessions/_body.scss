@@ -1,0 +1,27 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: $pn-regular, $fallback-fonts;
+  line-height: 1.5;
+  color: #212529;
+  background: linear-gradient(to bottom, #00629a 0%,#90d6e3 100%);
+}
+
+.container {
+  position: absolute;
+  top: 70px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}

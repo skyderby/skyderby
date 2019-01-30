@@ -22,6 +22,7 @@ ru:
     back: Назад
     charts: Графики
     jump_range: Отделение и открытие
+    or: Или
   users:
     profile:
       edit:

@@ -1,0 +1,40 @@
+form {
+  padding: 15px;
+}
+
+label {
+  display: inline-block;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+p {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+input {
+    -webkit-appearance: none;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: 38px;
+  margin: 0;
+  padding: 6px 12px;
+
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+
+  font-size: 16px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
