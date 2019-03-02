@@ -2,23 +2,18 @@ module MobileFormatOverride
   extend ActiveSupport::Concern
 
   included do
-    before_action :prepare_mobile, :override_format_if_mobile
+    before_action :set_mobile_variant
 
     helper_method :mobile?, :mobile_app?
   end
 
-  def prepare_mobile
-    return unless params[:mobile]
-    session[:mobile] = params[:mobile]
-  end
-
-  def override_format_if_mobile
+  def set_mobile_variant
     return unless mobile?
     request.variant = :mobile
   end
 
   def mobile?
-    (browser.device.mobile? && session[:mobile] == '1') || mobile_app?
+    browser.device.mobile? || mobile_app?
   end
 
   def mobile_app?
