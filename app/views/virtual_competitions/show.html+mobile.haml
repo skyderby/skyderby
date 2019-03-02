@@ -1,4 +1,5 @@
 - provide :title, @competition.title
+- editable = policy(@competition).edit?
 
 .online-competition
   %h2.online-competition__header= @competition.title
@@ -12,45 +13,10 @@
     %div= competition_suit
     %div= competition_task(@competition)
 
-  .table.online-competition__table
-    .tbody
-      - @competition.personal_top_scores.each do |personal_score|
-        - current_user_score = current_user && current_user.profile == personal_score.profile
-        = link_to personal_score.track, class: "tr online-competition__personal-score #{'bg-warning' if current_user_score}" do
-          .td.online-competition__rank= personal_score.rank
-          .td
-            .online-competition__profile
-              = personal_score.profile.name.titleize
-            .online-competition__suit-place
-              = suit_presentation(personal_score.suit)
-              - if @competition.worldwide?
-                = "@&nbsp;".html_safe + track_place(personal_score.track)
+  = render 'virtual_competitions/navbar'
 
-          - if @competition.display_highest_speed || @competition.display_highest_gr
-            .td.online-competition__bests
-              - if @competition.display_highest_speed
-                %div
-                  Best speed:
-                  = (personal_score.highest_speed || 0.0).round(1)
-              - if @competition.display_highest_gr
-                %div
-                  Best G/R: 
-                  = (personal_score.highest_gr || 0.0).round(2)
-          .td.online-competition__result
-            = "#{format_result(personal_score.result, @competition)}&nbsp;#{competition_unit(@competition)}".html_safe
-          -# .td.text-right= personal_score.recorded_at.strftime('%d.%m.%Y')
-          -# .td
-          -#   - if personal_score.track.video
-          -#     %i.fa.fa-video-camera
+  = render 'virtual_competitions/scoreboard'
 
-
-  - unless @competition.sponsors.empty?
+  - if @competition.sponsors.exists?
     .row.top-buffer
-      .col-md-12
-        %h4= t('events.show.event_sponsors') + ':'
-    .row#sponsors
-      = render @competition.sponsors
-    - if policy(@competition).edit?
-      = link_to new_virtual_competition_sponsor_path(virtual_competition_id: @competition.id), remote: true, class: 'add-sponsor' do
-        %i.fa.fa-plus
-        = t('.add_sponsor')
+      = render 'sponsors/list', sponsorable: @competition, editable: editable

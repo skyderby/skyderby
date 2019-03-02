@@ -1,4 +1,4 @@
-.virtual-competition__scoreboard
+.online-competition__scoreboard
   - if @competition.scores.size > 2
     - leaders = @competition.scores.take(3)
     = render 'leaderboard', leaders: leaders
