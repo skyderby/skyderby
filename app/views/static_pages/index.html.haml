@@ -34,12 +34,12 @@
 
 .container.top-buffer
   .row
-    .col-sm-10
-      %h2.light-header
+    .donate
+      .donate__text
         = t('.donate')
-    .col-sm-2
-      %h2
-        =render 'static_pages/donate'
+      .donate__link
+        = link_to 'https://www.paypal.me/skyksandr' do
+          = image_tag 'paypalme.png'
 
 %hr
 
