@@ -19,6 +19,7 @@ en:
     back: Back
     charts: Charts
     jump_range: Jump range
+    or: Or
   users:
     profile:
       edit:

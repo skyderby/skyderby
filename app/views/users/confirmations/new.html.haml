@@ -1,19 +1,21 @@
-.container
-  .page-header
-    %h2= t('devise.confirmations.new.resend_confirmation_instructions')
+.content-block
+  %h2= t('devise.confirmations.new.resend_confirmation_instructions')
 
-  = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post, class: 'form-horizontal' }) do |f|
+  = form_for resource, as: resource_name, url: confirmation_path(resource_name) do |f|
     = devise_error_messages!
 
     .form-group
       = f.label :email, t('activerecord.attributes.user.email'), class: 'col-sm-2 control-label'
       .col-sm-6
-        = f.email_field :email, autofocus: true, class: 'form-control'
+        = f.email_field :email, autofocus: true, class: 'form-control', required: true
 
     .form-group
       .col-sm-6.col-sm-offset-2
         = f.submit t('devise.confirmations.new.resend_confirmation_instructions'), class: 'btn btn-primary'
 
-    .form-group
-      .col-sm-6.col-sm-offset-2
-        = render 'users/shared/links'
+    = link_to t('devise.shared.links.sign_in'), new_session_path(resource_name), class: 'btn'
+    = link_to t('devise.shared.links.sign_up'), new_registration_path(resource_name), class: 'btn'
+
+    %p.secondary-text= t('general.or')
+
+    = link_to t('devise.shared.links.sign_in_with_provider', provider: 'Facebook'), omniauth_authorize_path(resource_name, :facebook), class: 'btn btn-facebook'

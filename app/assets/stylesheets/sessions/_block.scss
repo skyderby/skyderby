@@ -1,0 +1,24 @@
+h2 {
+  font-family: $pn-semibold, $fallback-fonts;
+  color: rgba(37, 47, 60, 0.75);
+  border-left: 5px solid rgba(37, 47, 60, 0.75);
+  margin: 0 0 10px 0;
+  padding: 0px 10px;
+}
+
+.content-block {
+  background-color: white;
+  border-radius: 2px;
+  max-width: 320px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 15px;
+}
+
+
+.secondary-text {
+  font-size: 12px;
+  color: #777777;
+  text-decoration: none;
+}

@@ -17,6 +17,7 @@ it:
     back: Indietro
     charts: Grafici
     jump_range: Intervallo di caduta libera
+    or: Oppure
   users:
     profile:
       edit:

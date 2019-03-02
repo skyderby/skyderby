@@ -39,6 +39,7 @@ es:
     delete: "Eliminar"
     edit: "Editar"
     settings: Configuraciones
+    or: O
   users:
     profile:
       edit:
