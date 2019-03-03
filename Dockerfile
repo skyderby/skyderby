@@ -1,4 +1,4 @@
-FROM ruby:2.5
+FROM ruby:2.6
 
 MAINTAINER Aleksandr Kunin <skyksandr@gmail.com>
 

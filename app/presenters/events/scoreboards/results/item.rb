@@ -26,8 +26,8 @@ module Events
         def result
           @result ||=
             record
-            .yield_self(&method(:adjust_to_wind))
-            .yield_self(&method(:apply_penalty_to_result))
+            .then(&method(:adjust_to_wind))
+            .then(&method(:apply_penalty_to_result))
         end
 
         def formated_points
@@ -40,9 +40,10 @@ module Events
           return 0 unless valid?
 
           @points ||=
-            collection.best_in(round: round, section: section)
-            .yield_self { |best_result| result / best_result.result * 100 }
-            .yield_self(&method(:apply_penalty_to_score))
+            collection
+            .best_in(round: round, section: section)
+            .then { |best_result| result / best_result.result * 100 }
+            .then(&method(:apply_penalty_to_score))
         end
 
         def penalized?

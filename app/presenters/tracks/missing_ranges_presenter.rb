@@ -15,8 +15,8 @@ module Tracks
       return [] unless ranges
 
       ranges
-        .yield_self(&method(:remove_short_ranges))
-        .yield_self(&method(:rearrange_to_selected_range))
+        .then(&method(:remove_short_ranges))
+        .then(&method(:rearrange_to_selected_range))
         .compact
     end
 

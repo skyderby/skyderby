@@ -24,8 +24,8 @@ module Events
         def competitors
           @competitors =
             section_competitors
-            .yield_self(&method(:map_competitors))
-            .yield_self(&method(:sort_competitors))
+            .then(&method(:map_competitors))
+            .then(&method(:sort_competitors))
         end
 
         def map_competitors(collection)

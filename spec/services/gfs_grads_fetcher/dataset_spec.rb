@@ -49,7 +49,7 @@ describe GfsGradsFetcher::Dataset do
       requested_time = Time.current.beginning_of_day + 1.hour
       dataset = GfsGradsFetcher::Dataset.for(requested_time)
       expect(dataset.url).to eq(
-        'http://nomads.ncep.noaa.gov/dods/' \
+        'https://nomads.ncep.noaa.gov/dods/' \
         "gfs_0p25_1hr/gfs#{requested_time.strftime('%Y%m%d')}/gfs_0p25_1hr_00z.asc"
       )
     end
