@@ -3,7 +3,7 @@ class GfsGradsFetcher
     DATASETS_INTERVAL = 6
     DATASETS_HISTORY_DAYS = 12
     DAYS_IN_DATASET = 5
-    SERVICE_URL = 'http://nomads.ncep.noaa.gov/dods'.freeze
+    SERVICE_URL = 'https://nomads.ncep.noaa.gov/dods'.freeze
 
     class DateOutOfRange      < StandardError; end
     class NoDatasetAvailable  < StandardError; end
