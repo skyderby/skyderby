@@ -36,6 +36,6 @@ describe Event::Result do
   end
 
   it_should_behave_like 'event_ongoing_validation' do
-    let(:target) { create :event_result  }
+    let(:target) { create :event_result }
   end
 end

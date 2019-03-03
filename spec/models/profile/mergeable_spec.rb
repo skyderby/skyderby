@@ -75,7 +75,6 @@ describe Profile::Mergeable do
       destination.merge_with(source)
 
       expect(destination.owner).to eq(users(:admin))
-
     end
   end
 end

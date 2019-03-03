@@ -66,13 +66,13 @@ describe PointInterpolation do
   end
 
   def points_to_interpolate
-    @points ||= [
-      { 
+    @points_to_interpolate ||= [
+      {
         gps_time: 11,
         latitude: 0.0,
         longitude: 0.0,
         altitude: 3050,
-        v_speed: 100, 
+        v_speed: 100,
         h_speed: 180
       }, {
         gps_time: 14,

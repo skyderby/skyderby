@@ -29,8 +29,8 @@ FactoryBot.define do
 
     discipline { VirtualCompetition.disciplines.values.sample }
 
-    period_from Date.today.beginning_of_year
-    period_to Date.today.end_of_year
+    period_from Time.current.beginning_of_year
+    period_to Time.current.end_of_year
     jumps_kind VirtualCompetition.jumps_kinds['skydive']
     suits_kind VirtualCompetition.suits_kinds['wingsuit']
 

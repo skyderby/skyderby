@@ -11,7 +11,7 @@ describe GfsGradsFetcher::Processor do
       input[:hgtsfc] = []
     end
 
-    expect{ GfsGradsFetcher::Processor.new(invalid_input).execute }.to raise_exception(
+    expect { GfsGradsFetcher::Processor.new(invalid_input).execute }.to raise_exception(
       ArgumentError,
       'Surface height value not a number. Value: []'
     )
@@ -22,9 +22,9 @@ describe GfsGradsFetcher::Processor do
       input[:vgrdprs] = []
     end
 
-    expect{ GfsGradsFetcher::Processor.new(invalid_input).execute }.to raise_exception(
+    expect { GfsGradsFetcher::Processor.new(invalid_input).execute }.to raise_exception(
       ArgumentError,
-      "Heights and speeds count are different. Value counts: {:hgtprs=>1, :ugrdprs=>1, :vgrdprs=>0}"
+      'Heights and speeds count are different. Value counts: {:hgtprs=>1, :ugrdprs=>1, :vgrdprs=>0}'
     )
   end
 

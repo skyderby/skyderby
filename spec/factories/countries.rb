@@ -10,7 +10,7 @@
 FactoryBot.define do
   factory :country do
     sequence(:name) { |n| "Country-#{n}" }
-    sequence(:code) { |n| n.to_s }
+    sequence(:code, &:to_s)
 
     trait :norway do
       name 'Norway'

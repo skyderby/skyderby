@@ -12,8 +12,8 @@ describe Events::ResultsHelper do
     generated_link = helper.new_event_track_link(event, competitor, round)
 
     aggregate_failures 'verifying link' do
-      expect(generated_link).to include({'result[competitor_id]' => competitor.id }.to_param)
-      expect(generated_link).to include({'result[round_id]' => round.id }.to_param)
+      expect(generated_link).to include({ 'result[competitor_id]' => competitor.id }.to_param)
+      expect(generated_link).to include({ 'result[round_id]' => round.id }.to_param)
       expect(generated_link).to include('<i class="fa fa-upload"></i>')
     end
   end

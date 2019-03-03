@@ -20,7 +20,7 @@ describe Event::ReferencePoint do
 
     it 'create when coordinates different' do
       event = events(:published_public)
-      created_point = event.reference_points.create!(name: 'R1', latitude: 20, longitude: 20)
+      event.reference_points.create!(name: 'R1', latitude: 20, longitude: 20)
 
       found_point = event.reference_points.find_or_create(name: 'R1', latitude: 30, longitude: 30)
 

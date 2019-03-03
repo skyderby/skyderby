@@ -1,7 +1,7 @@
 describe Events::ReferencePointsController do
   describe 'regular user' do
     it '#show' do
-      get :show, params: { event_id: event.id}
+      get :show, params: { event_id: event.id }
 
       expect(response.forbidden?).to be_truthy
     end
@@ -17,7 +17,7 @@ describe Events::ReferencePointsController do
     it '#show' do
       sign_in users(:event_responsible)
 
-      get :show, params: { event_id: event.id}
+      get :show, params: { event_id: event.id }
 
       expect(response.successful?).to be_truthy
     end

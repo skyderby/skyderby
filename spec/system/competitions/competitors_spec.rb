@@ -1,7 +1,7 @@
 feature 'Event competitors', type: :system, js: true do
   scenario 'add competitor with existing profile' do
     event = create :event, responsible: user
-    section = create :event_section, event: event
+    create :event_section, event: event
 
     suit = create :suit
     profile = create :profile, name: 'Ivan Petrov'
@@ -25,7 +25,7 @@ feature 'Event competitors', type: :system, js: true do
 
   scenario 'add competitor with new profile' do
     event = create :event, responsible: user
-    section = create :event_section, event: event
+    create :event_section, event: event
 
     suit = create :suit
     country = create :country

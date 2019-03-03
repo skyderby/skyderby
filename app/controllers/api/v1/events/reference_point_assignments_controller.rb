@@ -2,16 +2,13 @@ module Api
   module V1
     module Events
       class ReferencePointAssignmentsController < Api::ApplicationController
+        before_action :set_event, :authorize_event, :set_round
+
         def create
-          event = Event.find(params[:event_id])
+          reference_point = @event.reference_points.find_or_create(reference_point_params)
 
-          authorize event, :update?
-
-          reference_point = event.reference_points.find_or_create(reference_point_params)
-
-          round = event.rounds.find_by(id: params[:round_id]) || event.rounds.find_by_name(params[:round_name])
-          competitor = event.competitors.find_by(id: params[:competitor_id])
-          assignment = round.reference_point_assignments.find_or_create_by(competitor: competitor)
+          competitor = @event.competitors.find_by(id: params[:competitor_id])
+          assignment = @round.reference_point_assignments.find_or_create_by(competitor: competitor)
 
           respond_to do |format|
             if assignment.update(reference_point: reference_point)
@@ -27,6 +24,20 @@ module Api
         end
 
         private
+
+        def set_event
+          @event = Event.find(params[:event_id])
+        end
+
+        def authorize_event
+          authorize @event, :update?
+        end
+
+        def set_round
+          @round =
+            @event.rounds.find_by(id: params[:round_id]) ||
+            @event.rounds.by_name(params[:round_name])
+        end
 
         def reference_point_params
           params.require(:reference_point).permit(:name, :latitude, :longitude)

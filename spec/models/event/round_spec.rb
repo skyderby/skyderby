@@ -44,9 +44,9 @@ describe Event::Round, type: :model do
     expect(round).not_to be_valid
   end
 
-  it '.find_by_name' do
+  it '.by_name' do
     event = events(:published_public)
-    expect(event.rounds.find_by_name('Distance-1')).to eq(event_rounds(:distance_round_1))
+    expect(event.rounds.by_name('Distance-1')).to eq(event_rounds(:distance_round_1))
   end
 
   it_should_behave_like 'event_ongoing_validation' do

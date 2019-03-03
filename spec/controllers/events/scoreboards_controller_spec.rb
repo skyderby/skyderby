@@ -4,7 +4,7 @@ describe Events::ScoreboardsController do
   it '#show, format: :json' do
     event = events(:published_public)
 
-    get :show, params: { event_id: event.id}, format: :json
+    get :show, params: { event_id: event.id }, format: :json
 
     response_json = JSON.parse(response.body)
     expected_json = JSON.parse(expected_result.to_json)
@@ -15,7 +15,7 @@ describe Events::ScoreboardsController do
   it '#show, format: :html' do
     event = events(:published_public)
 
-    get :show, params: { event_id: event.id}
+    get :show, params: { event_id: event.id }
 
     expect(response.redirect?).to be_truthy
     expect(response.location).to eq(event_url(event))
@@ -33,7 +33,7 @@ describe Events::ScoreboardsController do
         order: section_intermediate.order
       }],
       competitors: [{
-        id: competitor_2.id,
+        id: competitor2.id,
         name: 'Travis',
         section_id: section_advanced.id,
         country_code: 'NOR',
@@ -51,7 +51,7 @@ describe Events::ScoreboardsController do
           points: '100.0'
         }]
       }, {
-        id: competitor_1.id,
+        id: competitor1.id,
         name: 'John',
         section_id: section_advanced.id,
         country_code: 'NOR',
@@ -80,11 +80,11 @@ describe Events::ScoreboardsController do
     @section_intermediate ||= event_sections(:speed_distance_time_intermediate)
   end
 
-  def competitor_1
-    @competitor_1 ||= event_competitors(:competitor_1)
+  def competitor1
+    @competitor1 ||= event_competitors(:competitor_1)
   end
 
-  def competitor_2
-    @competitor_2 ||= event_competitors(:competitor_2)
+  def competitor2
+    @competitor2 ||= event_competitors(:competitor_2)
   end
 end

@@ -51,7 +51,7 @@ describe EventDeletion do
     EventDeletion.execute(event, delete_tracks: true)
 
     tracks = Track.includes(event_result: :round)
-                  .where(event_results: { event_rounds: { event_id: event.id }})
+                  .where(event_results: { event_rounds: { event_id: event.id } })
 
     expect(tracks).to be_blank
   end

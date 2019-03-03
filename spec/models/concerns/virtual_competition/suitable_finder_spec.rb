@@ -7,8 +7,8 @@ describe VirtualCompetition::SuitableFinder do
 
     place = create :place
 
-    place_specific_comp = create :online_event, place: place
-    last_year_comp = create :online_event, :last_year
+    create :online_event, place: place
+    create :online_event, :last_year
 
     track = create :empty_track, suit: create(:suit), pilot: create(:pilot)
     expect(VirtualCompetition.suitable_for(track)).to eq [worldwide_comp]
@@ -20,7 +20,7 @@ describe VirtualCompetition::SuitableFinder do
     place = create :place
 
     place_specific_comp = create :online_event, place: place
-    last_year_comp = create :online_event, :last_year
+    create :online_event, :last_year
 
     track = create(:empty_track,
                    suit: create(:suit),

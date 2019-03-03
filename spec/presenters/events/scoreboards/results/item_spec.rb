@@ -32,7 +32,7 @@ describe Events::Scoreboards::Results::Item do
 
     it 'raw, omit penalty' do
       event_track = event_results(:speed_competitor_1)
-      result = build_result(event_track, { omit_penalties: 'true'})
+      result = build_result(event_track, omit_penalties: 'true')
 
       expect(result.result).to eq(250)
     end
@@ -40,7 +40,7 @@ describe Events::Scoreboards::Results::Item do
     it 'wind adjusted, omit penalty' do
       event_track = event_results(:speed_competitor_1)
       event_track.event.update!(wind_cancellation: true)
-      result = build_result(event_track, { omit_penalties: 'true'})
+      result = build_result(event_track, omit_penalties: 'true')
 
       expect(result.result).to eq(240)
     end
@@ -56,7 +56,7 @@ describe Events::Scoreboards::Results::Item do
 
     it 'omit penalties' do
       event_track = event_results(:speed_competitor_1)
-      result = build_result(event_track, { omit_penalties: 'true'})
+      result = build_result(event_track, omit_penalties: 'true')
 
       expect(result.penalized?).to be_falsey
     end
@@ -72,7 +72,7 @@ describe Events::Scoreboards::Results::Item do
 
     it 'omit penalties' do
       event_track = event_results(:speed_competitor_1)
-      result = build_result(event_track, { omit_penalties: 'true'})
+      result = build_result(event_track, omit_penalties: 'true')
 
       expect(result.penalty_size).to eq(0)
     end
@@ -96,6 +96,7 @@ describe Events::Scoreboards::Results::Item do
     event = event_track.event
     params = Events::Scoreboards::Params.new(event, raw_params)
     collection = Events::Scoreboards::Results::Collection.new(event.results, params)
-    result = Events::Scoreboards::Results::Item.new(event_track, collection, params)
+
+    Events::Scoreboards::Results::Item.new(event_track, collection, params)
   end
 end

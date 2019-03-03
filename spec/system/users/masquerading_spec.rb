@@ -7,6 +7,6 @@ feature 'Masquerading', type: :system do
     visit profile_path(user.profile)
     click_link 'Masquerade'
 
-    expect(page).to have_content("Now masquerading as")
+    expect(page).to have_content('Now masquerading as')
   end
 end

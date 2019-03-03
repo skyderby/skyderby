@@ -10,6 +10,11 @@ AllCops:
     - db/schema.rb
     - lib/**/*
 
+#################### Rails   ###############################
+Rails/SkipsModelValidations:
+  Exclude:
+    - spec/**/*
+
 #################### Style   ###############################
 Style/Lambda:
   Enabled: false

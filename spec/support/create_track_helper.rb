@@ -1,5 +1,5 @@
 module CreateTrackHelper
-  def create_track_from_file(filename)
+  def create_track_from_file(filename, **args)
     pilot = create :pilot
     suit = create :suit
 
@@ -13,6 +13,6 @@ module CreateTrackHelper
       owner: pilot.owner,
       suit: suit
     }
-    CreateTrackService.call(params)
+    CreateTrackService.call(params).tap { |track| track.update!(args) }
   end
 end

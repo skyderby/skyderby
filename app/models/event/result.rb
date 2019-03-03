@@ -15,38 +15,42 @@
 #  disqualification_reason :string
 #
 
-class Event::Result < ApplicationRecord
-  include EventOngoingValidation, Event::Namespace, AcceptsNestedTrack,
-          SubmissionAuthor, SubmissionResult, ReviewableByJudge
+class Event < ApplicationRecord
+  class Result < ApplicationRecord
+    include EventOngoingValidation, Event::Namespace, AcceptsNestedTrack,
+            SubmissionAuthor, SubmissionResult, ReviewableByJudge
 
-  belongs_to :track
-  belongs_to :round, class_name: 'Event::Round'
-  belongs_to :competitor, touch: true
+    belongs_to :track
+    belongs_to :round, class_name: 'Event::Round'
+    belongs_to :competitor, touch: true
 
-  validates :competitor, :round, :track, presence: true
-  validates :competitor_id, uniqueness: { scope: :round_id }, on: :create
-  validate_duplicates_on_file_with EventTracks::FileDuplicationValidator
+    scope :chronologically, -> { order(:created_at) }
 
-  delegate :event, :event_id, :range_from, :range_to, to: :round
-  delegate :discipline, :number, to: :round, prefix: true
-  delegate :section, to: :competitor
-  delegate :tracks_visibility, to: :event
+    validates :competitor, :round, :track, presence: true
+    validates :competitor_id, uniqueness: { scope: :round_id }, on: :create
+    validate_duplicates_on_file_with EventTracks::FileDuplicationValidator
 
-  def reference_point
-    round.reference_point_assignments.find_by(competitor: competitor)&.reference_point
-  end
+    delegate :event, :event_id, :range_from, :range_to, to: :round
+    delegate :discipline, :number, to: :round, prefix: true
+    delegate :section, to: :competitor
+    delegate :tracks_visibility, to: :event
 
-  def penalty_sizes
-    [10, 20, 50, 100]
-  end
+    def reference_point
+      round.reference_point_assignments.find_by(competitor: competitor)&.reference_point
+    end
 
-  private
+    def penalty_sizes
+      [10, 20, 50, 100]
+    end
 
-  def track_owner
-    event
-  end
+    private
 
-  def track_comment
-    "#{event.name} - #{round_discipline.humanize} #{round_number}"
+    def track_owner
+      event
+    end
+
+    def track_comment
+      "#{event.name} - #{round_discipline.humanize} #{round_number}"
+    end
   end
 end

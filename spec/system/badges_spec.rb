@@ -35,6 +35,6 @@ feature 'Badges', type: :system do
   end
 
   def admin_user
-    @user ||= create(:user, :admin)
+    @admin_user ||= create(:user, :admin)
   end
 end

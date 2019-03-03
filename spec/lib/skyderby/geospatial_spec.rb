@@ -32,7 +32,7 @@ describe Skyderby::Geospatial do
 
   it 'shitfts position on distance and bearing' do
     expect(
-      Skyderby::Geospatial.shift_position(53.32056, -1.729722, 124800, 96.02167)
+      Skyderby::Geospatial.shift_position(53.32056, -1.729722, 124_800, 96.02167)
     ).to eq(latitude: 53.1882739267, longitude: 0.1332773495)
   end
 end

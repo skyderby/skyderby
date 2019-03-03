@@ -6,6 +6,6 @@ describe Events::Scoreboards::SpeedDistanceTime do
     scoreboard = Events::Scoreboards.for(event, params)
 
     sections = scoreboard.sections.map(&:name)
-    expect(sections).to eq(['Advanced', 'Intermediate'])
+    expect(sections).to eq(%w[Advanced Intermediate])
   end
 end

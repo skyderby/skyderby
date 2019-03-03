@@ -14,7 +14,7 @@
 
 describe VirtualCompetition::Result do
   it 'validates uniqueness by virtual competition and track' do
-    existed_record = VirtualCompetition::Result.create!(valid_attributes)
+    VirtualCompetition::Result.create!(valid_attributes)
     duplicated_record = VirtualCompetition::Result.new(valid_attributes)
 
     expect(duplicated_record).not_to be_valid

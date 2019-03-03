@@ -87,7 +87,7 @@ class Event < ApplicationRecord
       end
 
       def round
-        @round ||= event.rounds.find_by(id: round_id) || event.rounds.find_by_name(round_name)
+        @round ||= event.rounds.find_by(id: round_id) || event.rounds.by_name(round_name)
       end
 
       def event

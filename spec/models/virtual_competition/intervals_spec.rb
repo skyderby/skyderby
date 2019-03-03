@@ -15,7 +15,7 @@ describe VirtualCompetition::Intervals do
       competition.custom_intervals!
 
       competition.tap do |record|
-          record.custom_intervals.create(
+        record.custom_intervals.create(
           name: '1st week',
           period_from: Time.zone.parse('2018-01-01 00:00:00'),
           period_to: Time.zone.parse('2018-01-07 23:59:59')

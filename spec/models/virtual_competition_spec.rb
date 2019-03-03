@@ -28,52 +28,60 @@ describe VirtualCompetition, type: :model do
       competition = VirtualCompetition.create(
         discipline: :distance,
         range_from: 3000,
-        range_to: 2000)
+        range_to: 2000
+      )
 
       expect(competition.window_params).to eq(
-        {from_altitude: 3000, to_altitude: 2000})
+        from_altitude: 3000, to_altitude: 2000
+      )
     end
 
     it 'returns params for distance discipline' do
       competition = VirtualCompetition.create(
-        discipline: :speed, 
+        discipline: :speed,
         range_from: 3000,
-        range_to: 2000)
+        range_to: 2000
+      )
 
       expect(competition.window_params).to eq(
-        {from_altitude: 3000, to_altitude: 2000})
+        from_altitude: 3000, to_altitude: 2000
+      )
     end
 
     it 'returns params for distance discipline' do
       competition = VirtualCompetition.create(
-        discipline: :time, 
+        discipline: :time,
         range_from: 3000,
-        range_to: 2000)
+        range_to: 2000
+      )
 
       expect(competition.window_params).to eq(
-        {from_altitude: 3000, to_altitude: 2000})
+        from_altitude: 3000, to_altitude: 2000
+      )
     end
 
     it 'returns params for distance in time' do
       competition = VirtualCompetition.create(
-        discipline: :distance_in_time, 
-        discipline_parameter: 20)
+        discipline: :distance_in_time,
+        discipline_parameter: 20
+      )
 
-      expect(competition.window_params).to eq({
-        from_vertical_speed: VirtualCompetition::BASE_START_SPEED, 
+      expect(competition.window_params).to eq(
+        from_vertical_speed: VirtualCompetition::BASE_START_SPEED,
         duration: 20
-      })
+      )
     end
 
     it 'returns params for distance in time' do
       competition = VirtualCompetition.create(
-        discipline: :distance_in_altitude, 
-        discipline_parameter: 200)
+        discipline: :distance_in_altitude,
+        discipline_parameter: 200
+      )
 
-      expect(competition.window_params).to eq({
+      expect(competition.window_params).to eq(
         from_vertical_speed: VirtualCompetition::BASE_START_SPEED,
         elevation: 200
-      })
+      )
     end
   end
 

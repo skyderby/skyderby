@@ -8,7 +8,7 @@ describe TrackFormatDetector do
     'flysight.csv'     => 'flysight',
     'columbus.csv'     => 'columbus',
     'cyber_eye.csv'    => 'cyber_eye'
-  }
+  }.freeze
 
   EXAMPLES.each do |file_name, format|
     it "determines #{format} format" do
@@ -16,7 +16,7 @@ describe TrackFormatDetector do
       expect(TrackFormatDetector.new(path: file_path).execute).to eq format
     end
   end
-  
+
   it 'raises error for unknown format' do
     file_path = Rails.root.join('spec', 'support', 'skyderby_logo.png')
     expect { TrackFormatDetector.new(path: file_path).execute }

@@ -11,7 +11,7 @@ describe Events::Scoreboards::Results::Collection do
     end
 
     it 'by round and competitor, without penalties' do
-      params = build_params({ omit_penalties: 'true' })
+      params = build_params(omit_penalties: 'true')
       collection = Events::Scoreboards::Results::Collection.new(event.results, params)
       competitor = event_competitors(:competitor_1)
       round = event_rounds(:speed_round_1)

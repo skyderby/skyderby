@@ -8,7 +8,7 @@ describe Api::V1::Events::ResultsController do
 
     response_json = JSON.parse(response.body)
     result_numbers = response_json.map { |entity| entity['result'] }
-    rounds  = response_json.map { |entity| entity['round_name'] }
+    rounds = response_json.map { |entity| entity['round_name'] }
 
     expect(result_numbers).to eq(['3000.0', '250.0', '2500.0', '270.0'])
     expect(rounds).to eq(['Distance-1', 'Speed-1', 'Distance-1', 'Speed-1'])
@@ -34,7 +34,7 @@ describe Api::V1::Events::ResultsController do
       params = {
         event_id: event.id,
         competitor_name: competitor.name,
-        round_name: "Distance-2",
+        round_name: 'Distance-2',
         penalized: 'true',
         penalty_size: 10,
         'reference_point[name]': 'Lane 1',

@@ -19,7 +19,7 @@ describe Velocity do
     end
 
     it 'dumps BigDecimals' do
-      expect(Velocity.dump(BigDecimal.new(281))).to eq(281)
+      expect(Velocity.dump(BigDecimal(281))).to eq(281)
     end
   end
 end

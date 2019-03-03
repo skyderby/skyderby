@@ -1,7 +1,7 @@
 describe GfsGradsFetcher::Dataset do
   describe 'Dataset.for' do
     it 'raise error if date outside of +/- 5 days range from today' do
-      expect { GfsGradsFetcher::Dataset.for(DateTime.current + 6.days) }
+      expect { GfsGradsFetcher::Dataset.for(Time.current + 6.days) }
         .to raise_error(GfsGradsFetcher::Dataset::DateOutOfRange)
     end
 
@@ -10,8 +10,8 @@ describe GfsGradsFetcher::Dataset do
         .to receive(:available?)
         .and_return(true)
 
-      future_dataset = GfsGradsFetcher::Dataset.for(DateTime.current + 1.day)
-      today_dataset = GfsGradsFetcher::Dataset.for(DateTime.current)
+      future_dataset = GfsGradsFetcher::Dataset.for(Time.current + 1.day)
+      today_dataset = GfsGradsFetcher::Dataset.for(Time.current)
 
       expect(future_dataset.name).to eq(today_dataset.name)
     end
@@ -21,7 +21,7 @@ describe GfsGradsFetcher::Dataset do
         .to receive(:available?)
         .and_return(false)
 
-      expect { GfsGradsFetcher::Dataset.for(DateTime.current) }
+      expect { GfsGradsFetcher::Dataset.for(Time.current) }
         .to raise_error(GfsGradsFetcher::Dataset::NoDatasetAvailable)
     end
   end

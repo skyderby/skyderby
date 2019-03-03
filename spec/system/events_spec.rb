@@ -24,15 +24,15 @@ describe 'Scoring PPC-like competitions', js: true do
     add_round 'Distance'
 
     submit_result competitor: 'Aleksandr', filename: 'distance_2645.csv'
-    verify_result competitor: 'Aleksandr', result: '2646'
+    verify_last_result result: '2646'
 
     submit_result competitor: 'Sergey', filename: 'distance_3107.csv'
-    verify_result competitor: 'Sergey', result: '3107'
+    verify_last_result result: '3107'
 
     submit_result competitor: 'Ivan', filename: 'distance_2454.csv'
-    verify_result competitor: 'Ivan', result: '2454'
+    verify_last_result result: '2454'
 
-    add_penalty competitor: 'Sergey', result: '3107', penalty: '50%'
+    add_penalty_to_last_result competitor: 'Sergey'
   end
 
   def create_competition
@@ -93,12 +93,12 @@ describe 'Scoring PPC-like competitions', js: true do
     click_button I18n.t('general.save')
   end
 
-  def verify_result(competitor:, result:)
+  def verify_last_result(result:)
     expect(page).not_to have_css('#modal')
     expect(page).to have_css('td.event__scoreboard-result', text: result)
   end
 
-  def add_penalty(competitor:, result:, penalty:)
+  def add_penalty_to_last_result(competitor:)
     row = competitor_row(competitor)
     row.find('.event__scoreboard-result').hover
     row.find('.show-result').click

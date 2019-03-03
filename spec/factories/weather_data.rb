@@ -17,7 +17,7 @@ FactoryBot.define do
   factory :weather_datum, class: Place::WeatherDatum do
     place
 
-    actual_on Date.today
+    actual_on Time.current.beginning_of_day
     altitude { rand(0..4000) }
     wind_speed { rand(0..25) }
     wind_direction { rand(0..359) }

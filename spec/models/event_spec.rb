@@ -59,7 +59,7 @@ describe Event do
       competitor = create :event_competitor, section: section
       round = create :event_round, event: event
       track = create :empty_track, visibility: Track.visibilities[:unlisted_track]
-      event_track = create :event_result, competitor: competitor, round: round, track: track
+      create :event_result, competitor: competitor, round: round, track: track
 
       event.public_event!
       track.reload
@@ -73,7 +73,7 @@ describe Event do
       competitor = create :event_competitor, section: section
       round = create :event_round, event: event
       track = create :empty_track, visibility: Track.visibilities[:public_track]
-      event_track = create :event_result, competitor: competitor, round: round, track: track
+      create :event_result, competitor: competitor, round: round, track: track
 
       event.private_event!
       track.reload

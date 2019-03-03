@@ -29,14 +29,15 @@ describe RangesToScoreFinder::SkydiveFinder do
     altitude_bounds = { max_altitude: 2200, min_altitude: 900 }
     ranges_finder = RangesToScoreFinder.for(:skydive).new(altitude_bounds)
     ranges_to_score = ranges_finder.calculate
-    
+
     expect(ranges_to_score.size).to eq(4)
-    expect(ranges_to_score).to eq([
-      { start_altitude: 2200, end_altitude: 1200 },
-      { start_altitude: 2150, end_altitude: 1150 },
-      { start_altitude: 2100, end_altitude: 1100 },
-      { start_altitude: 2050, end_altitude: 1050 }
-    ])
+    expect(ranges_to_score).to eq \
+      [
+        { start_altitude: 2200, end_altitude: 1200 },
+        { start_altitude: 2150, end_altitude: 1150 },
+        { start_altitude: 2100, end_altitude: 1100 },
+        { start_altitude: 2050, end_altitude: 1050 }
+      ]
   end
 
   it 'returns blank array if height diff <=0' do

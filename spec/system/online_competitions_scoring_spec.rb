@@ -4,10 +4,7 @@ describe 'Scoring tracks in online competitions' do
   it 'Distance in time competition' do
     competition = virtual_competitions(:distance_in_time)
 
-    track = create_track_from_file('06-38-21_SimonP.CSV').tap do |track|
-      track.kind = :base
-      track.save!
-    end
+    track = create_track_from_file '06-38-21_SimonP.CSV', kind: :base
 
     OnlineCompetitionJob.perform_now(track.id)
 
@@ -23,10 +20,7 @@ describe 'Scoring tracks in online competitions' do
   it 'BASE Race' do
     competition = virtual_competitions(:base_race)
 
-    track = create_track_from_file('WBR/Yegor_16_Round3.CSV').tap do |track|
-      track.kind = :base
-      track.save!
-    end
+    track = create_track_from_file 'WBR/Yegor_16_Round3.CSV', kind: :base
 
     OnlineCompetitionJob.perform_now(track.id)
 

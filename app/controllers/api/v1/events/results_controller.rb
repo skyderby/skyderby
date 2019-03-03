@@ -7,7 +7,7 @@ module Api
         def index
           authorize @event, :show?
 
-          @results = @event.results
+          @results = @event.results.chronologically
         end
 
         def create

@@ -51,7 +51,7 @@ describe Event::Section do
     end
 
     it 'not change top section' do
-      section  = event_sections(:speed_distance_time_advanced)
+      section = event_sections(:speed_distance_time_advanced)
 
       section_order_before_call = section.order
 
@@ -82,6 +82,6 @@ describe Event::Section do
   end
 
   it_should_behave_like 'event_ongoing_validation' do
-    let(:target) { event_sections(:speed_distance_time_advanced)  }
+    let(:target) { event_sections(:speed_distance_time_advanced) }
   end
 end
