@@ -16,7 +16,7 @@ class Tracks::VideoPresenter
                trimmed: { seconds_before_start: 20 },
                freq_1hz: true,
                only: %i[gps_time fl_time latitude longitude altitude h_speed v_speed glide_ratio])
-      .yield_self { |raw_points| PointsPostprocessor.for(track.gps_type).call(raw_points, speed_units: :kmh) }
+      .then { |raw_points| PointsPostprocessor.for(track.gps_type).call(raw_points, speed_units: :kmh) }
   end
 
   private

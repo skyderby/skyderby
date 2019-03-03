@@ -4,7 +4,7 @@ module Tracks
       @tracks =
         Track
         .order(recorded_at: :desc)
-        .yield_self { |tracks| profile_id ? tracks.where(profile_id: profile_id) : tracks }
+        .then { |tracks| profile_id ? tracks.where(profile_id: profile_id) : tracks }
         .search(search_query)
         .paginate(page: page, per_page: 10)
     end

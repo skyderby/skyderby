@@ -15,9 +15,9 @@ module PointsPostprocessor
 
     def call
       points
-        .yield_self { |points| process_by_distances(points) }
-        .yield_self { |points| apply_moving_average(points) }
-        .yield_self { |points| adjust_glide_ratio(points) }
+        .then { |points| process_by_distances(points) }
+        .then { |points| apply_moving_average(points) }
+        .then { |points| adjust_glide_ratio(points) }
     end
 
     private

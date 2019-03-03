@@ -96,8 +96,8 @@ class PointsQuery
     def call
       track
         .points
-        .yield_self(&method(:trim))
-        .yield_self(&method(:reorder))
+        .then(&method(:trim))
+        .then(&method(:reorder))
     end
 
     private

@@ -8,7 +8,7 @@ cache:
     - node_modules
 
 rvm:
-  - 2.5.0
+  - 2.6.1
 
 addons:
   postgresql: '9.6'
