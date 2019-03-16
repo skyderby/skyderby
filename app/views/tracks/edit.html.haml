@@ -37,29 +37,30 @@
                              class: 'form-control',
                              placeholder: t('tracks.form.profile_text_placeholder'),
                              type: 'text'
-            .col-sm-6.col-sm-offset-3
-              %span
-                %span.toggle-profile-caption= t('tracks.form.toggle_profile_caption')
-                %a.toggle-profile{href: '#'}= t('tracks.form.toggle_profile_link')
+              %p.help-block
+                %span
+                  %span.toggle-profile-caption= t('tracks.form.toggle_profile_caption')
+                  %a.toggle-profile{href: '#'}= t('tracks.form.toggle_profile_link')
 
-        .form-group
+        .form-group{'data-controller': 'tracks--suit-field', 'data-mode': @track.suit ? 'select' : 'text'}
           %label.col-sm-3.control-label= t('activerecord.attributes.track.suit')
           .col-sm-6
             = f.select :suit_id,
                        options_for_select([ ([@track.suit_name, @track.suit_id] if @track.suit) ], @track.suit_id),
                        { include_blank: true },
                        class: 'form-control suit-group',
-                       'data-controller': 'select2--suits'
+                       'data-controller': 'select2--suits', 'data-target': 'tracks--suit-field.select'
 
             = f.text_field :missing_suit_name,
                            class: 'form-control suit-group',
                            placeholder: t('tracks.form.suit_text_placeholder'),
-                           type: 'text'
+                           type: 'text',
+                           'data-target': 'tracks--suit-field.text'
 
-          .col-sm-6.col-sm-offset-3
-            %span
-              %span.toggle-suit-caption= t('tracks.form.toggle_suit_caption')
-              %a.toggle-suit{href: '#'}= t('tracks.form.toggle_suit_link')
+            %p.help-block
+              %span{'data-target': 'tracks--suit-field.caption'}= t('tracks.form.toggle_suit_caption')
+              %a{'data-target': 'tracks--suit-field.link', 'data-action': 'tracks--suit-field#trigger', href: '#'}
+                = t('tracks.form.toggle_suit_link')
 
         .form-group
           %label.col-sm-3.control-label= t('activerecord.attributes.track.place')
@@ -75,10 +76,10 @@
                            class: 'form-control place-group', 
                            placeholder: t('static_pages.index.track_form.location_plh'), 
                            type: 'text'
-          .col-sm-6.col-sm-offset-3
-            %span
-              %span.toggle-place-caption= t('tracks.form.toggle_place_caption')
-              %a.toggle-place{href: '#'}= t('tracks.form.toggle_place_link')
+            %p.help-block
+              %span
+                %span.toggle-place-caption= t('tracks.form.toggle_place_caption')
+                %a.toggle-place{href: '#'}= t('tracks.form.toggle_place_link')
 
         = render 'tracks/form/activity', form: f, activity: @track.kind
         = render 'tracks/form/visibility', form: f, visibility: @track.visibility
@@ -161,7 +162,7 @@
       },
       errorPlacement: function(error, element) {
         if (element.hasClass('suit-group') || element.hasClass('place-group')) {
-          error.appendTo( element.closest('div') );    
+          error.appendTo( element.closest('div') );
         } else {
           error.insertAfter(element);
         }
@@ -172,4 +173,3 @@
       el: '.track-edit-data'
     });
     view.render();
-

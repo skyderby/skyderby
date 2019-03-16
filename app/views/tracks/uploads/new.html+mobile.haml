@@ -1,0 +1,85 @@
+.track-upload
+  .track-upload__title
+    = t 'static_pages.index.track_form.title'
+
+  = form_for :track_file, url: track_files_path, remote: true, html: { multipart: true } do |f|
+
+    .content-block.track-upload__form
+      .form-group
+        = f.label :file
+        .input-group{'data-controller': 'filefield'}
+          %input.form-control.input-lg{type: "text", readonly: true, 'data-target': 'filefield.text_field'}
+          %span.input-group-btn
+            %span.btn.btn-default.btn-lg.btn-file
+              &hellip;
+              = f.file_field :file,
+                             { required: true,
+                               'accept': '.csv,.gpx,.tes,.kml',
+                               'data-target': 'filefield.file_field',
+                               'data-action': 'change->filefield#change'}
+
+        %p.help-block= t 'static_pages.index.track_form.help'
+
+      = f.fields_for :track_attributes do |builder|
+        .form-group
+          - activity ||= recent_value(:activity) || 'skydive'
+          = builder.label :kind, t('activerecord.attributes.track.kind')
+          %div
+            .btn-group{data: {toggle: 'buttons'}}
+              %label.btn.btn-lg.btn-default{class: ('active' if activity == 'skydive')}
+                = builder.radio_button :kind, 'skydive', checked: activity == 'skydive'
+                = 'Skydive'
+              %label.btn.btn-lg.btn-default{class: ('active' unless activity == 'skydive')}
+                = builder.radio_button :kind, 'base', checked: activity != 'skydive'
+                = 'B.A.S.E'
+
+        - recent_suit_id = recent_value(:suit_id)
+        - recent_suit_name = recent_value(:suit_name)
+        - suit_mode = recent_suit_id || !recent_suit_name ? 'select' : 'text'
+        .form-group{'data-controller': 'tracks--suit-field', 'data-mode': suit_mode}
+          = builder.label :suit, t('activerecord.attributes.track.suit')
+          = builder.select :suit_id,
+                           options_for_select([ [suit_name_by_id(recent_suit_id), recent_suit_id] ], recent_suit_id),
+                           { include_blank: true },
+                           class: 'form-control input-lg new-track-suit-select suit-group',
+                           required: true,
+                           'data-controller': 'select2--suits', 'data-target': 'tracks--suit-field.select'
+
+          = builder.text_field :missing_suit_name,
+                               class: 'form-control input-lg',
+                               placeholder: t('tracks.form.suit_text_placeholder'),
+                               value: recent_suit_name,
+                               'data-target': 'tracks--suit-field.text'
+
+          %p.help-block
+            %span{'data-target': 'tracks--suit-field.caption'}= t('tracks.form.toggle_suit_caption')
+            %a{'data-target': 'tracks--suit-field.link', 'data-action': 'tracks--suit-field#trigger', href: '#'}
+              = t('tracks.form.toggle_suit_link')
+
+        .form-group
+          = builder.label :location, t('activerecord.attributes.track.place')
+          = builder.text_field :location,
+                               class: 'form-control input-lg',
+                               placeholder: t('static_pages.index.track_form.location_plh'),
+                               required: true,
+                               type: 'text',
+                               value: recent_value(:location)
+
+        .form-group
+          - visibility ||= recent_value(:visibility).presence || 'public_track'
+          = builder.label :visibility, t('tracks.edit.visibility')
+          = builder.select :visibility,
+                           track_visibility_options,
+                           { selected: visibility },
+                           { class: 'form-control input-lg', 'data-controller': 'select2--local' }
+
+      = f.fields_for :track_attributes do |builder|
+        .form-group
+          = builder.label :comment, t('activerecord.attributes.track.comment')
+          = builder.text_area :comment,
+                              class: 'form-control input-lg',
+                              rows: 3,
+                              placeholder: t('static_pages.index.track_form.comment_plh')
+
+    .text-center
+      = f.submit t('static_pages.index.track_form.submit'), class: 'btn btn-lg btn-success'

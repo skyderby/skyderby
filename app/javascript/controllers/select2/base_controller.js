@@ -4,7 +4,7 @@ import 'select2/dist/css/select2.css'
 
 export class BaseController extends Controller {
   connect() {
-    var options = Object.assign(this.default_options(), this.options())
+    const options = Object.assign(this.default_options(), this.options())
 
     const element = this.element
     const $element = $(element)

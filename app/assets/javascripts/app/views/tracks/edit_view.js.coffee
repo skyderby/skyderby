@@ -1,11 +1,9 @@
 class Skyderby.views.TrackEditView extends Backbone.View
 
-  suit_mode: 'select',
   place_mode: 'select',
   pilot_mode: 'select',
 
   events:
-    'click .toggle-suit'         : 'on_toggle_suit_mode',
     'click .toggle-place'        : 'on_toggle_place_mode',
     'click .toggle-profile'      : 'on_toggle_pilot_mode',
     'click input[type="submit"]' : 'on_click_submit',
@@ -14,14 +12,12 @@ class Skyderby.views.TrackEditView extends Backbone.View
     'ajax:complete .track-edit__refresh-range': 'on_refresh_complete'
 
   initialize: (opts) ->
-    @on('change:suit_mode', @on_suit_mode_change)
     @on('change:place_mode', @on_place_mode_change)
     @on('change:pilot_mode', @on_pilot_mode_change)
 
     selects_set = {
       profile_id: 'pilot_mode',
-      place_id: 'place_mode',
-      suit_id: 'suit_mode'
+      place_id: 'place_mode'
     }
 
     for attr_name, mode of selects_set
@@ -30,7 +26,6 @@ class Skyderby.views.TrackEditView extends Backbone.View
       this[mode] = 'input'
 
   render: () ->
-    @on_suit_mode_change()
     @on_place_mode_change()
     @on_pilot_mode_change()
 
@@ -39,13 +34,6 @@ class Skyderby.views.TrackEditView extends Backbone.View
 
   on_refresh_complete: (e) ->
     $(e.currentTarget).find('i').removeClass('fa-spin')
-
-  on_toggle_suit_mode: (e) ->
-    e.preventDefault()
-
-    @suit_mode = if @suit_mode is 'select' then 'input' else 'select'
-
-    @trigger('change:suit_mode')
 
   on_toggle_place_mode: (e) ->
     e.preventDefault()
@@ -60,26 +48,6 @@ class Skyderby.views.TrackEditView extends Backbone.View
     @pilot_mode = if @pilot_mode is 'select' then 'input' else 'select'
 
     @trigger('change:pilot_mode')
-
-  on_suit_mode_change: () ->
-    link = @$('.toggle-suit')
-    caption = @$('.toggle-suit-caption')
-    input = @$('input[name="track[missing_suit_name]"]')
-    select = @$('select[name="track[suit_id]"]')
-    select_control = @$('select[name="track[suit_id]"] + span')
-
-    if @suit_mode == 'select'
-      link.text(I18n.t('tracks.form.toggle_suit_link'))
-      caption.text(I18n.t('tracks.form.toggle_suit_caption'))
-      input.hide()
-      select.show()
-      select_control.show()
-    else
-      link.text(I18n.t('tracks.form.toggle_suit_link_select'))
-      caption.text(I18n.t('tracks.form.toggle_suit_caption_select'))
-      input.show()
-      select.hide()
-      select_control.hide()
 
   on_place_mode_change: () ->
     link = @$('.toggle-place')
@@ -122,11 +90,6 @@ class Skyderby.views.TrackEditView extends Backbone.View
       select_control.hide()
 
   on_click_submit: () ->
-    if @suit_mode == 'select'
-      @$('input[name="track[missing_suit_name]"]').val('')
-    else
-      @$('select[name="track[suit_id]"]').val('')
-
     if @place_mode == 'select'
       @$('input[name="track[location]"]').val('')
     else
