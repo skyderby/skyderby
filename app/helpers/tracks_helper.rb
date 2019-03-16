@@ -40,6 +40,12 @@ module TracksHelper
     '' + result.range_from.to_s + ' - ' + result.range_to.to_s if result
   end
 
+  def track_visibility_options
+    %w[public unlisted private].map do |visibility|
+      [t("visibility.#{visibility}"), "#{visibility}_track"]
+    end
+  end
+
   def track_icons(track)
     capture do
       concat content_tag(:i, nil, class: 'fa fa-fw fa-video-camera') if track.video

@@ -19,6 +19,7 @@ resources :tracks, only: [:index, :show, :edit, :update, :destroy] do
     resource :weather_data
 
     collection do
+      resource :upload, only: :new, as: :tracks_upload
       resources :select_options, only: :index
     end
   end
