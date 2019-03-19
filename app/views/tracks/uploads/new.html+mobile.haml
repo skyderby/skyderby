@@ -3,8 +3,7 @@
     = t 'static_pages.index.track_form.title'
 
   = form_for :track_file, url: track_files_path, remote: true, html: { multipart: true } do |f|
-
-    .content-block.track-upload__form
+    .content-block.form-body
       .form-group
         = f.label :file
         .input-group{'data-controller': 'filefield'}
@@ -21,40 +20,15 @@
         %p.help-block= t 'static_pages.index.track_form.help'
 
       = f.fields_for :track_attributes do |builder|
-        .form-group
-          - activity ||= recent_value(:activity) || 'skydive'
-          = builder.label :kind, t('activerecord.attributes.track.kind')
-          %div
-            .btn-group{data: {toggle: 'buttons'}}
-              %label.btn.btn-lg.btn-default{class: ('active' if activity == 'skydive')}
-                = builder.radio_button :kind, 'skydive', checked: activity == 'skydive'
-                = 'Skydive'
-              %label.btn.btn-lg.btn-default{class: ('active' unless activity == 'skydive')}
-                = builder.radio_button :kind, 'base', checked: activity != 'skydive'
-                = 'B.A.S.E'
+        = render 'tracks/form/activity', form: builder
 
         - recent_suit_id = recent_value(:suit_id)
         - recent_suit_name = recent_value(:suit_name)
-        - suit_mode = recent_suit_id || !recent_suit_name ? 'select' : 'text'
-        .form-group{'data-controller': 'tracks--suit-field', 'data-mode': suit_mode}
-          = builder.label :suit, t('activerecord.attributes.track.suit')
-          = builder.select :suit_id,
-                           options_for_select([ [suit_name_by_id(recent_suit_id), recent_suit_id] ], recent_suit_id),
-                           { include_blank: true },
-                           class: 'form-control input-lg new-track-suit-select suit-group',
-                           required: true,
-                           'data-controller': 'select2--suits', 'data-target': 'tracks--suit-field.select'
-
-          = builder.text_field :missing_suit_name,
-                               class: 'form-control input-lg',
-                               placeholder: t('tracks.form.suit_text_placeholder'),
-                               value: recent_suit_name,
-                               'data-target': 'tracks--suit-field.text'
-
-          %p.help-block
-            %span{'data-target': 'tracks--suit-field.caption'}= t('tracks.form.toggle_suit_caption')
-            %a{'data-target': 'tracks--suit-field.link', 'data-action': 'tracks--suit-field#trigger', href: '#'}
-              = t('tracks.form.toggle_suit_link')
+        = render 'tracks/form/suit',
+                 form: builder,
+                 mode_select_when: recent_suit_id || !recent_suit_name,
+                 suit_options: options_for_select([ [suit_name_by_id(recent_suit_id), recent_suit_id] ], recent_suit_id),
+                 missing_suit_name: recent_suit_name
 
         .form-group
           = builder.label :location, t('activerecord.attributes.track.place')
@@ -65,13 +39,7 @@
                                type: 'text',
                                value: recent_value(:location)
 
-        .form-group
-          - visibility ||= recent_value(:visibility).presence || 'public_track'
-          = builder.label :visibility, t('tracks.edit.visibility')
-          = builder.select :visibility,
-                           track_visibility_options,
-                           { selected: visibility },
-                           { class: 'form-control input-lg', 'data-controller': 'select2--local' }
+        = render 'tracks/form/visibility', form: builder
 
       = f.fields_for :track_attributes do |builder|
         .form-group

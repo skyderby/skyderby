@@ -1,0 +1,142 @@
+- provide :title, title(@track)
+
+.track-edit
+  .track-edit__header
+    = link_to track_path(@track), class: 'btn-back' do
+      %i.fa.fa-chevron-left
+      = t('.back')
+
+  = form_for @track, remote: true, html: { role: 'form', id: 'track_edit_form' } do |f|
+    .content-block.form-body
+      = render 'tracks/jump_range', form: f, track: @track
+
+      %hr
+
+      - if current_user.has_role?(:admin)
+        .form-group{'data-controller': 'tracks--profile-field', 'data-mode': @track.pilot ? 'select' : 'text'}
+          = f.label :name, t('activerecord.attributes.track.name')
+          = f.select :profile_id,
+                     options_for_select([ ([@track.pilot_name, @track.profile_id] if @track.pilot) ], @track.profile_id),
+                     { include_blank: true },
+                     placeholder: t('tracks.form.profile_select_placeholder'),
+                     class: 'form-control input-lg',
+                     'data-controller': 'select2--profiles', 'data-target': 'tracks--profile-field.select'
+
+          = f.text_field :name,
+                         class: 'form-control input-lg',
+                         placeholder: t('tracks.form.profile_text_placeholder'),
+                         'data-target': 'tracks--profile-field.text'
+
+          %p.help-block
+            %span{'data-target': 'tracks--profile-field.caption'}
+            %a{'data-target': 'tracks--profile-field.link', 'data-action': 'tracks--profile-field#trigger', href: '#'}
+
+      = render 'tracks/form/suit',
+               form: f,
+               mode_select_when: @track.suit,
+               suit_options: options_for_select([ ([@track.suit_name, @track.suit_id] if @track.suit) ], @track.suit_id),
+               missing_suit_name: @track.missing_suit_name
+
+      .form-group{'data-controller': 'tracks--place-field', 'data-mode': @track.place ? 'select' : 'text'}
+        = f.label :place, t('activerecord.attributes.track.place')
+        = f.select :place_id,
+                   options_for_select([ ([@track.place_name, @track.place_id] if @track.place) ], @track.place_id),
+                   { include_blank: true },
+                   placeholder: t('tracks.form.place_select_placeholder'),
+                   class: 'form-control input-lg',
+                   'data-controller': 'select2--places', 'data-target': 'tracks--place-field.select'
+
+        = f.text_field 'location',
+                       class: 'form-control input-lg',
+                       placeholder: t('static_pages.index.track_form.location_plh'),
+                       'data-target': 'tracks--place-field.text'
+
+        %p.help-block
+          %span{'data-target': 'tracks--place-field.caption'}
+          %a{'data-target': 'tracks--place-field.link', 'data-action': 'tracks--place-field#trigger', href: '#'}
+
+      = render 'tracks/form/activity', form: f, activity: @track.kind
+      = render 'tracks/form/visibility', form: f, visibility: @track.visibility
+
+      .form-group
+        = f.label :comment, t('activerecord.attributes.track.comment')
+        = f.text_area 'comment',
+                      class: 'form-control input-lg',
+                      rows: 3,
+                      placeholder: t('static_pages.index.track_form.comment_plh')
+
+      - if current_user.has_role?(:admin)
+        .form-group
+          .checkbox
+            %label
+              = f.check_box :disqualified_from_online_competitions
+              = t('activerecord.attributes.track.disqualified_from_online_competitions')
+
+      - if @track.track_file
+        .form-group
+          Download file:
+          = link_to @track.track_file.file_file_name, track_download_path(@track), 'data-turbolinks': false
+
+    .text-center
+      = f.submit t('general.save'), class: 'btn btn-lg btn-success'
+
+    .text-center
+      = link_to t('general.delete'),
+                  @track,
+                  method: :delete,
+                  data: {confirm: t('tracks.show.delete_confirmation')},
+                  class: 'text-danger btn btn-lg'
+
+- content_for :page_js do
+  :javascript
+    $('#track_edit_form').validate({
+      ignore: 'input[type=hidden]',
+      rules: {
+        'track[suit_id]': {
+          required: function() {
+            return $('[name="track[suit_id]"]').is(':visible');
+          }
+        },
+        'track[missing_suit_name]': {
+          required: function() {
+            return $('[name="track[missing_suit_name]"]').is(':visible');
+          }
+        },
+        'track[place_id]': {
+          required: function() {
+            return $('[name="track[place_id]"]').is(':visible');
+          }
+        },
+        'track[location]': {
+          required: function() {
+            return $('[name="track[location]"]').is(':visible');
+          }
+        },
+      },
+      messages: {
+        'track[suit]': {
+          require_from_group: I18n.t('jquery_validate.required_field')
+        },
+        'track[location]': {
+          require_from_group: I18n.t('jquery_validate.required_field')
+        }
+      },
+      highlight: function(element) {
+        $(element).closest('.form-group').addClass('has-error');
+      },
+      unhighlight: function(element) {
+        $(element).closest('.form-group').removeClass('has-error');
+      },
+      errorPlacement: function(error, element) {
+        if (element.hasClass('suit-group') || element.hasClass('place-group')) {
+          error.appendTo( element.closest('div') );
+        } else {
+          error.insertAfter(element);
+        }
+      }
+    });
+
+    var view = new Skyderby.views.TrackEditView({
+      el: '.track-edit-data'
+    });
+    view.render();

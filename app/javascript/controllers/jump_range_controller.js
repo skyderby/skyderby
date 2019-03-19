@@ -69,7 +69,7 @@ export default class extends Controller {
       },
       yAxis: {
         title: {
-          text: `${I18n.t('tracks.edit.elevation')}, ${I18n.t('units.m')}`
+          text: null
         }
       },
       xAxis: {
@@ -100,6 +100,7 @@ export default class extends Controller {
           tooltip: {
             valueSuffix: ' ' + I18n.t('units.m')
           },
+          showInLegend: false
         }
       ]
     })
