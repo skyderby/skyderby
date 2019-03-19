@@ -1,0 +1,18 @@
+.form-group{'data-controller': 'tracks--suit-field', 'data-mode': mode_select_when ? 'select' : 'text'}
+  = form.label :suit, t('activerecord.attributes.track.suit')
+  = form.select :suit_id,
+                suit_options,
+                { include_blank: true },
+                class: 'form-control input-lg',
+                'data-controller': 'select2--suits', 'data-target': 'tracks--suit-field.select'
+
+  = form.text_field :missing_suit_name,
+                 class: 'form-control input-lg',
+                 placeholder: t('tracks.form.suit_text_placeholder'),
+                 type: 'text',
+                 value: missing_suit_name,
+                 'data-target': 'tracks--suit-field.text'
+
+  %p.help-block
+    %span{'data-target': 'tracks--suit-field.caption'}
+    %a{'data-target': 'tracks--suit-field.link', 'data-action': 'tracks--suit-field#trigger', href: '#'}

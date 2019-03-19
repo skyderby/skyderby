@@ -8,18 +8,9 @@
         = link_to track_path(@track) do
           %i.fa.fa-chevron-left
           = t('.back')
-        .row{'data-controller': 'jump-range', 'data-track-id': @track.id}
-          .col-sm-12{'data-target': 'jump-range.chart'}
-          .col-sm-12
-            = link_to track_jump_range_path(@track.id), remote: true, class: 'track-edit__refresh-range' do
-              %i.fa.fa-refresh
 
-            .time-selector
-              = f.text_field :jump_range,
-                'data-max-value': @track.duration,
-                'data-controller': 'jump-range-select',
-                'data-action': 'change->jump-range#on_change_range',
-                'data-target': 'jump-range.select'
+        = render 'tracks/jump_range', form: f, track: @track
+
         %hr
 
         - if current_user && current_user.has_role?(:admin)

@@ -1,0 +1,8 @@
+- visibility ||= recent_value(:visibility).presence || 'public_track'
+
+- if user_signed_in?
+  .form-group
+    - visibility ||= recent_value(:visibility).presence || 'public_track'
+    = form.label :visibility, t('tracks.edit.visibility')
+    = form.select :visibility, track_visibility_options, { selected: visibility },
+                  { class: 'form-control input-lg', 'data-controller': 'select2--local' }
