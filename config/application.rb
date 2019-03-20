@@ -36,5 +36,7 @@ module Skyderby
     config.autoload_paths << Rails.root.join('lib')
 
     config.action_controller.always_permitted_parameters = %w[controller action locale]
+
+    config.middleware.use Rack::Attack
   end
 end

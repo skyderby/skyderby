@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '~> 5.2'
 
 gem 'puma'
+gem 'rack-attack'
 
 # DB
 gem 'pg', '~> 1.0'
