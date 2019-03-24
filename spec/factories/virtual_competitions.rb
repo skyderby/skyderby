@@ -29,18 +29,18 @@ FactoryBot.define do
 
     discipline { VirtualCompetition.disciplines.values.sample }
 
-    period_from Time.current.beginning_of_year
-    period_to Time.current.end_of_year
-    jumps_kind VirtualCompetition.jumps_kinds['skydive']
-    suits_kind VirtualCompetition.suits_kinds['wingsuit']
+    period_from { Time.current.beginning_of_year }
+    period_to { Time.current.end_of_year }
+    jumps_kind { VirtualCompetition.jumps_kinds['skydive'] }
+    suits_kind { VirtualCompetition.suits_kinds['wingsuit'] }
 
     trait :place_specific do
       association :place, factory: [:place, :gridset]
     end
 
     trait :last_year do
-      period_from 1.year.ago.beginning_of_year
-      period_to 1.year.ago.end_of_year
+      period_from { 1.year.ago.beginning_of_year }
+      period_to { 1.year.ago.end_of_year }
     end
   end
 end

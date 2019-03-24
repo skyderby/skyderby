@@ -13,8 +13,8 @@ FactoryBot.define do
     sequence(:code, &:to_s)
 
     trait :norway do
-      name 'Norway'
-      code 'no'
+      name { 'Norway' }
+      code { 'no' }
 
       initialize_with { Country.where(name: 'Norway').first_or_create }
     end

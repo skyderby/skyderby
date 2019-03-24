@@ -16,7 +16,7 @@
 FactoryBot.define do
   factory :badge do
     sequence(:name) { |n| "Badge-#{n}" }
-    kind Badge.kinds['silver']
+    kind { Badge.kinds['silver'] }
     profile
   end
 end

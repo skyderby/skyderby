@@ -9,12 +9,12 @@
 FactoryBot.define do
   factory :role do
     trait :user do
-      name 'user'
+      name { 'user' }
       initialize_with { Role.where(name: 'user').first_or_create }
     end
 
     trait :admin do
-      name 'admin'
+      name { 'admin' }
       initialize_with { Role.where(name: 'admin').first_or_create }
     end
   end

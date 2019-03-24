@@ -23,9 +23,9 @@
 FactoryBot.define do
   factory :event do
     sequence(:name) { |n| "Event#{n}" }
-    starts_at Time.zone.today
-    range_from 3000
-    range_to 2000
+    starts_at { Time.zone.today }
+    range_from { 3000 }
+    range_to { 2000 }
     association :responsible, factory: :user
 
     trait :place_specific do
@@ -33,11 +33,11 @@ FactoryBot.define do
     end
 
     trait :draft do
-      status Event.statuses['draft']
+      status { Event.statuses['draft'] }
     end
 
     trait :published do
-      status Event.statuses['published']
+      status { Event.statuses['published'] }
     end
   end
 end

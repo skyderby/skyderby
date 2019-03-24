@@ -19,7 +19,7 @@ FactoryBot.define do
   factory :event_result, class: Event::Result do
     round factory: 'event_round'
     competitor factory: 'event_competitor'
-    track_from 'existing_track'
+    track_from { 'existing_track' }
     track { FactoryBot.create :empty_track }
     result { rand(1..1000) }
   end
