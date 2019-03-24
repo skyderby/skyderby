@@ -4,38 +4,36 @@ import 'select2/dist/css/select2.css'
 
 export class BaseController extends Controller {
   connect() {
-    const options = Object.assign(this.default_options(), this.options())
+    const options = Object.assign(this.default_options, this.options)
 
-    const element = this.element
-    const $element = $(element)
+    this.fix_open_on_clear()
 
-    this.fix_open_on_clear($element);
-
-    $element
+    this.$element
       .select2(options)
-      .on('select2:select', function() {
-        let event = new Event('change', { bubbles: true })
-        element.dispatchEvent(event)
+      .on('select2:select', () => this.dispatchChange())
+      .on('select2:unselect', () => {
+        this.element.value = undefined
+        this.dispatchChange()
       })
-      .on('select2:unselect', function() {
-        element.value = undefined
 
-        let event = new Event('change', { bubbles: true })
-        element.dispatchEvent(event)
-      });
+    $(document).one('turbolinks:before-cache', () => this.teardown())
+  }
 
-    $(document).one('turbolinks:before-cache', this.teardown.bind(this))
+  dispatchChange() {
+    this.element.dispatchEvent(new Event('change', { bubbles: true }))
   }
 
   teardown() {
-    const $element = $(this.element)
-    if ($element.next().is('.select2') && $element.data('select2')) $element.select2('destroy')
+    if (this.$element.next().is('.select2') && this.$element.data('select2')) {
+      this.$element.select2('destroy')
+    }
   }
 
-  fix_open_on_clear($element) {
-    $element.select2()
-            .on("select2:unselecting", this.on_unselecting)
-            .on('select2:open', this.on_open)
+  fix_open_on_clear() {
+    this.$element
+        .select2()
+        .on("select2:unselecting", this.on_unselecting)
+        .on('select2:open', this.on_open)
   }
 
   on_unselecting() {
@@ -49,16 +47,21 @@ export class BaseController extends Controller {
     }
   }
 
-  options() {
+  get $element() {
+    return $(this.element)
+  }
+
+  get options() {
     return {}
   }
 
-  default_options() {
+  get default_options() {
     return {
       theme: 'bootstrap',
       containerCssClass: ':all:',
       width: '100%',
       allowClear: true,
+      placeholder: this.placeholder,
       ajax: {
         dataType: 'json',
         type: "GET",
@@ -72,5 +75,9 @@ export class BaseController extends Controller {
         cache: true
       }
     }
+  }
+
+  get placeholder() {
+    return this.element.getAttribute('placeholder')
   }
 }

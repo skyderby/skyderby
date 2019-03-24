@@ -10,15 +10,26 @@ export default class extends Controller {
       minimumResultsForSearch: 10
     }
 
-    const $element = $(this.element)
+    this.$element.select2(options)
+      .on('select2:select', () => this.dispatchChange())
+      .on('select2:unselect', () => {
+        this.element.value = undefined
+        this.dispatchChange()
+      })
 
-    $element.select2(options);
+    $(document).one('turbolinks:before-cache', () => this.teardown())
+  }
 
-    $(document).one('turbolinks:before-cache', this.teardown.bind(this))
+  dispatchChange() {
+    const event = new Event('change', { bubbles: true })
+    this.element.dispatchEvent(event)
   }
 
   teardown() {
-    const $element = $(this.element)
-    if ($element.next().is('.select2')) $element.select2('destroy')
+    if (this.$element.next().is('.select2')) this.$element.select2('destroy')
+  }
+
+  get $element() {
+    return $(this.element)
   }
 }
