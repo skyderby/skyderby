@@ -12,25 +12,6 @@
 
       %hr
 
-      - if current_user.has_role?(:admin)
-        .form-group{'data-controller': 'tracks--profile-field', 'data-mode': @track.pilot ? 'select' : 'text'}
-          = f.label :name, t('activerecord.attributes.track.name')
-          = f.select :profile_id,
-                     options_for_select([ ([@track.pilot_name, @track.profile_id] if @track.pilot) ], @track.profile_id),
-                     { include_blank: true },
-                     placeholder: t('tracks.form.profile_select_placeholder'),
-                     class: 'form-control input-lg',
-                     'data-controller': 'select2--profiles', 'data-target': 'tracks--profile-field.select'
-
-          = f.text_field :name,
-                         class: 'form-control input-lg',
-                         placeholder: t('tracks.form.profile_text_placeholder'),
-                         'data-target': 'tracks--profile-field.text'
-
-          %p.help-block
-            %span{'data-target': 'tracks--profile-field.caption'}
-            %a{'data-target': 'tracks--profile-field.link', 'data-action': 'tracks--profile-field#trigger', href: '#'}
-
       = render 'tracks/form/suit',
                form: f,
                mode_select_when: @track.suit,

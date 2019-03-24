@@ -5,6 +5,8 @@ ru:
     attributes:
       track:
         id: '#'
+        owner: Владелец
+        owner_type: Тип владельца
         name: Пилот
         suit: Костюм
         place: Локация

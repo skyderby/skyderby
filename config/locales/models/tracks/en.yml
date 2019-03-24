@@ -5,6 +5,7 @@ en:
     attributes:
       track:
         id: '#'
+        owner: Owner
         name: Pilot
         suit: Suit
         place: Place

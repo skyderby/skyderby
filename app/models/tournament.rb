@@ -82,4 +82,10 @@ class Tournament < ApplicationRecord
     self.bracket_size ||= 2
     self.starts_at ||= Time.zone.tomorrow
   end
+
+  class << self
+    def search(query)
+      where('LOWER(name) LIKE ?', "%#{query.downcase}%")
+    end
+  end
 end

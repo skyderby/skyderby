@@ -24,4 +24,8 @@ module EventsHelper
       end
     end
   end
+
+  def event_select_option(event)
+    event ? [event.name, event.id] : nil
+  end
 end
