@@ -51,7 +51,7 @@
                       'data-target': 'events--autoupdate.link',
                       'data-action': 'ajax:before->events--autoupdate#update_start ajax:complete->events--autoupdate#update_finish'
 
-            %i.fa.fa-refresh.text-muted{'data-target': 'events--autoupdate.indicator'}
+            %i.fa.fa-sync.text-muted{'data-target': 'events--autoupdate.indicator'}
             Autoupdate
 
           - if can_manage
@@ -66,7 +66,7 @@
 
           .btn-group
             %button.btn.btn-default.dropdown-toggle{type: 'button', 'data-toggle': 'dropdown'}
-              %i.fa.fa-cog
+              %i.fas.fa-cog
             %ul.dropdown-menu.dropdown-menu-right{role: 'menu'}
               %li.dropdown-header
                 Penalties

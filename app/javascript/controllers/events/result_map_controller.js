@@ -16,9 +16,11 @@ export default class extends Controller {
 
   fetch_data() {
     let url = this.element.getAttribute('data-url')
-    fetch(url, { credentials: 'same-origin',
-                 headers: { 'Accept': 'application/json' } })
-      .then( response => { return response.json() })
+    fetch(url, {
+      credentials: 'same-origin',
+      headers: { 'Accept': 'application/json' }
+    })
+      .then(response => { return response.json() })
       .then(this.on_data_ready)
   }
 
@@ -45,7 +47,7 @@ export default class extends Controller {
     var center = new google.maps.LatLng(
       this.map_data.place.latitude,
       this.map_data.place.longitude
-    );
+    )
 
     let options = {
       zoom: 2,

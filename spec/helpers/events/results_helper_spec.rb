@@ -34,7 +34,7 @@ describe Events::ResultsHelper do
 
       generated_link = helper.show_event_track_link(event, result, true)
 
-      expect(generated_link).to include('<i class="fa fa-pencil"></i>')
+      expect(generated_link).to include('<i class="fas fa-pencil-alt"></i>')
     end
   end
 end

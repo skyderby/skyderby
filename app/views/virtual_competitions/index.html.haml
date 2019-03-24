@@ -18,7 +18,7 @@
             %th= t('activerecord.attributes.virtual_competition.task')
         %tbody
         - competitions.each do |competition|
-          %tr.clickableRow{data: {url: virtual_competition_path(id: competition.id)}}
+          %tr.clickable{'data-controller': 'clickable', 'data-url': virtual_competition_path(id: competition.id)}
             %td.text-info= competition.name
             %td.text-info
               - if competition.place

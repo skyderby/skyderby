@@ -54,9 +54,9 @@ export default class extends Controller {
       },
       tooltip: {
         formatter: function() {
-          return '<b>Altitude</b> ' + this.point.options.altitude + ' m <br>' +
-                 '<b>Speed:</b> ' + Math.round(Number(this.point.options.wind_speed) * 10) / 10 + ' m/s <br>' +
-                 '<b>Direction:</b> ' + Math.round(this.x) + '°';
+          return `<b>Altitude</b> ${this.point.options.altitude} m <br>
+                 '<b>Speed:</b> ${Math.round(Number(this.point.options.wind_speed) * 10) / 10} m/s <br>
+                 '<b>Direction:</b> ${Math.round(this.x)}°`
         }
       },
       xAxis: {
@@ -65,7 +65,7 @@ export default class extends Controller {
         max: 360,
         labels: {
           formatter: function () {
-            return this.value + '°';
+            return `${this.value}°`
           }
         }
       },
@@ -75,7 +75,7 @@ export default class extends Controller {
         tickInterval: 1,
         labels: {
           formatter: function() {
-            return this.value + 'k';
+            return `${this.value}k`
           }
         }
       },
@@ -87,7 +87,7 @@ export default class extends Controller {
             verticalAlign: 'middle',
             color: '#606060',
             formatter: function() {
-              return Math.round(this.point.wind_speed * 10) / 10 + ' m/s';
+              return `${Math.round(this.point.wind_speed * 10) / 10} m/s`
             }
           }
         },

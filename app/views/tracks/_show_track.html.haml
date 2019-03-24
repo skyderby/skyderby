@@ -21,12 +21,12 @@
 
           #btn-range-edit
             %button.btn.btn-default#range-edit-button{data: {toggle:'modal', target:'#edit-range'}}
-              %i.fa.fa-arrows-h
+              %i.fa.fa-arrows-alt-h
           #slider-range-selector= render 'range_selector', presenter: @track_presenter
 
       = render 'tracks/charts', presenter: @track_presenter
 
     %blockquote
-      = render 'track_metadata' 
+      = render 'track_metadata'
 
   = render 'track_edit_range'

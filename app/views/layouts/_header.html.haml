@@ -30,7 +30,7 @@
           %li.dropdown
             %a.dropdown-toggle.profile-dropdown{href: '#', data: {toggle: 'dropdown'}}
               - if masquerading?
-                %i.fa.fa-lg.fa-warning.text-danger
+                %i.fa.fa-lg.fa-exclamation-triangle.text-danger
               - if current_user.profile
                 = image_tag current_user.profile.userpic.url(:thumb), id: 'userpic-thumb', class: 'img-rounded img-50 loading-bg'
               - else

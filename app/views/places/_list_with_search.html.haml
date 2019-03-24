@@ -4,7 +4,7 @@
 .places__list{'data-controller': 'places--searchable-list'}
   .places__search
     %span.index-search__icon
-      %i.fa.fa-search
+      %i.fas.fa-search
     %input.index-search__input{type: 'text', 'data-action': 'input->places--searchable-list#filter_places', placeholder: 'Search...'}
   .places__list-container
     - @places.each do |country, places|

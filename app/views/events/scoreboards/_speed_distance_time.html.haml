@@ -23,11 +23,11 @@
                       %ul.dropdown-menu.dropdown-menu-right
                         %li
                           = link_to event_round_map_path(@event, round), remote: true, class: 'round-map-view', rel: 'nofollow' do
-                            %i.fa.fa-compass.text-muted
+                            %i.far.fa-compass.text-muted
                             Google maps
                         %li
                           = link_to event_round_globe_path(@event, round), remote: true, class: 'round-map-view', rel: 'nofollow' do
-                            %i.fa.fa-compass.text-muted
+                            %i.far.fa-compass.text-muted
                             3D maps
                         - if can_update
                           %li.divider

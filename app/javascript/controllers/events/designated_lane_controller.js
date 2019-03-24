@@ -15,7 +15,7 @@ export default class extends Controller {
     this.widthTarget.value = localStorage.last_used_dl_width || DEFAULT_DL_WIDTH
   }
 
-  toggle(event) {
+  toggle() {
     this.button.blur()
     this.button.classList.toggle('active')
 

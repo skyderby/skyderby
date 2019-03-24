@@ -30,7 +30,7 @@ export default class extends Controller {
   }
 
   child_index() {
-    return new Date().getTime();
+    return new Date().getTime()
   }
 
   init_maps() {

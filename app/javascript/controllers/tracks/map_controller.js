@@ -85,17 +85,17 @@ export default class extends Controller {
   }
 
   set_data_loading_success() {
-    this.data_loading_statusTarget.classList.remove('fa-spin', 'fa-circle-o-notch')
+    this.data_loading_statusTarget.classList.remove('fa-spin', 'fa-circle-notch')
     this.data_loading_statusTarget.classList.add('fa-check')
   }
 
   set_maps_loading_success() {
-    this.maps_loading_statusTarget.classList.remove('fa-spin', 'fa-circle-o-notch')
+    this.maps_loading_statusTarget.classList.remove('fa-spin', 'fa-circle-notch')
     this.maps_loading_statusTarget.classList.add('fa-check')
   }
 
   set_maps_loading_failed() {
-    this.maps_loading_statusTarget.classList.remove('fa-spin', 'fa-circle-o-notch')
+    this.maps_loading_statusTarget.classList.remove('fa-spin', 'fa-circle-notch')
     this.maps_loading_statusTarget.classList.add('fa-exclamation-triange')
   }
 

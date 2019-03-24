@@ -1,22 +1,24 @@
-import load_script from 'utils/load_script'
-import 'utils/youtube/callbacks'
+import { loadScript } from 'utils/load_external'
+import './youtube/callbacks'
 
-function init_youtube_api() {
-  if (window.youtube_api_ready) {
+function initYoutubeApi() {
+  if (window.youtubeApiReady) {
     document.dispatchEvent(new Event('youtube_api:ready', { bubbles: true, cancellable: true }))
   } else {
-    load_script('https://www.youtube.com/iframe_api', { on_error: on_youtube_api_loading_error })
+    loadScript('https://www.youtube.com/iframe_api', {
+      onError: window.onYoutubeApiLoadingError
+    })
   }
 }
 
-function video_code_from_url(url) {
-  const regex = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
-  let regex_matches = regex.exec(url)
+function videoCodeFromUrl(url) {
+  const regex = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
+  const regex_matches = regex.exec(url)
   if (!regex_matches) return
   return regex_matches[2]
 }
 
-const default_player_options = {
+const defaultPlayerOptions = {
   height: '390',
   width: '640',
   playerVars: {
@@ -26,4 +28,4 @@ const default_player_options = {
   }
 }
 
-export { init_youtube_api, video_code_from_url, default_player_options }
+export { initYoutubeApi, videoCodeFromUrl, defaultPlayerOptions }

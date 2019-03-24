@@ -7,6 +7,6 @@
   %td= competitor.suit_name
   %td
     = link_to edit_tournament_competitor_path(@tournament, competitor), remote: true do
-      %i.fa.fa-pencil.text-muted
+      %i.fa.fa-pencil-alt.text-muted
     = button_to tournament_competitor_path(@tournament, competitor), method: :delete, remote: true, class: 'btn-link', data: { confirm: 'Are you sure?' } do
       %i.fa.fa-times.text-muted

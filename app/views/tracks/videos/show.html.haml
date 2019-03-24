@@ -12,7 +12,7 @@
         .card-action
           .position-right
             = link_to edit_track_video_path(@track_data.track), class: 'btn-flat same-padding' do
-              %i.fa.fa-cog
+              %i.fas.fa-cog
               = t('general.settings')
       .row
         .col-sm-12
@@ -30,7 +30,7 @@
                     %i.fa.fa-lg.fa-caret-down
                 .units= t 'units.m'
               .param
-                %i.fa.fa-fw.fa-lg.fa-arrows-v
+                %i.fa.fa-fw.fa-lg.fa-arrows-alt-v
                 =t 'tracks.indicators.altitude'
 
             .col-sm-3
@@ -38,7 +38,7 @@
                 .avg-val{'data-target': 'tracks--videos.v_speed'}= '---'
                 .units=t 'units.kmh'
               .param
-                %i.fa.fa-fw.fa-lg.fa-long-arrow-down
+                %i.fa.fa-fw.fa-lg.fa-long-arrow-alt-down
                 =t 'tracks.indicators.vertical_speed'
 
             .col-sm-3
@@ -46,7 +46,7 @@
                 .avg-val{'data-target': 'tracks--videos.h_speed'}= '---'
                 .units=t 'units.kmh'
               .param
-                %i.fa.fa-fw.fa-lg.fa-long-arrow-right
+                %i.fa.fa-fw.fa-lg.fa-long-arrow-alt-right
                 =t 'tracks.indicators.ground_speed'
 
             .col-sm-3

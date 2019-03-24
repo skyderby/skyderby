@@ -3,7 +3,7 @@ import color_by_speed from 'utils/color_by_speed'
 export default class Trajectory {
   constructor(points) {
     this.points = points
-    this.points.forEach( el => { el.color = color_by_speed(el.h_speed) } )
+    this.points.forEach(el => { el.color = color_by_speed(el.h_speed) })
   }
 
   get polylines() {
@@ -28,7 +28,7 @@ export default class Trajectory {
 
       return result
     }, [[]])
-    .filter( coordinates => { return coordinates.length > 0 } )
+      .filter(coordinates => { return coordinates.length > 0 })
   }
 
   // Convert array of points to pairs:

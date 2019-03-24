@@ -1,25 +1,38 @@
-$('#glideratio_chart').highcharts(<%= render(template: 'charts/glide_ratio_options').html_safe %>);
-$('#glideratio_chart').highcharts().series[0].setData(<%= presenter.glide_ratio_chart_line %>);
+var container
+
+container = document.getElementById('glideratio_chart')
+var gr_chart = Highcharts.chart(
+  container,
+  <%= render(template: 'charts/glide_ratio_options').html_safe %>
+)
+gr_chart.series[0].setData(<%= presenter.glide_ratio_chart_line %>);
 <% if presenter.wind_cancelation? %>
-  $('#glideratio_chart').highcharts().series[1].setData(<%= presenter.wind_effect_glide_ratio_chart_line %>);
+  gr_chart.series[1].setData(<%= presenter.wind_effect_glide_ratio_chart_line %>);
 <% end %>
 
-$('#speeds_chart').highcharts(<%= render(template: 'charts/speeds_chart_options', locals: { speed_units: presenter.speed_units }).html_safe %>);
-$('#speeds_chart').highcharts().series[0].setData(<%= presenter.ground_speed_chart_line %>, false);
-$('#speeds_chart').highcharts().series[1].setData(<%= presenter.vertical_speed_chart_line %>, false);
-$('#speeds_chart').highcharts().series[2].setData(<%= presenter.full_speed_chart_line %>);
+container = document.getElementById('speeds_chart')
+var spd_chart = Highcharts.chart(
+  container,
+  <%= render(template: 'charts/speeds_chart_options', locals: { speed_units: presenter.speed_units }).html_safe %>
+)
+spd_chart.series[0].setData(<%= presenter.ground_speed_chart_line %>, false);
+spd_chart.series[1].setData(<%= presenter.vertical_speed_chart_line %>, false);
+spd_chart.series[2].setData(<%= presenter.full_speed_chart_line %>);
 <% if presenter.wind_cancelation? %>
-  $('#speeds_chart').highcharts().series[3].setData(<%= presenter.wind_effect_speed_chart_line %>);
+  spd_chart.series[3].setData(<%= presenter.wind_effect_speed_chart_line %>);
 <% end %>
 
-$('#elevation_distance_chart').highcharts(<%= render(template: 'charts/elevation_chart_options', locals: {distance_units: presenter.distance_units, altitude_units: presenter.altitude_units }).html_safe %>);
-$('#elevation_distance_chart').highcharts().series[0].setData(<%= presenter.elevation_chart_line %>, false);
-$('#elevation_distance_chart').highcharts().series[1].setData(<%= presenter.distance_chart_line %>, false);
-$('#elevation_distance_chart').highcharts().series[2].setData(<%= presenter.altitude_chart_line %>);
+container = document.getElementById('elevation_distance_chart')
+var dist_chart = Highcharts.chart(
+  container,
+  <%= render(template: 'charts/elevation_chart_options', locals: {distance_units: presenter.distance_units, altitude_units: presenter.altitude_units }).html_safe %>
+)
+dist_chart.series[0].setData(<%= presenter.elevation_chart_line %>, false);
+dist_chart.series[1].setData(<%= presenter.distance_chart_line %>, false);
+dist_chart.series[2].setData(<%= presenter.altitude_chart_line %>);
 
-['#glideratio_chart', '#speeds_chart', '#elevation_distance_chart'].forEach(function(container_id) {
+[gr_chart, spd_chart, dist_chart].forEach(function(chart) {
   <% presenter.missing_ranges.each do |range| %>
-    var chart = $(container_id).highcharts();
     chart.xAxis[0].addPlotBand({
       from: <%= range[:start] %>,
       to: <%= range[:end] %>,

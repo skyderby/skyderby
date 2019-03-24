@@ -27,6 +27,8 @@ module Tournaments
       attr_reader :slot
     end
 
+    attr_reader :match
+
     COLORS = [
       '#7cb5ec',
       '#90ed7d',
@@ -53,18 +55,6 @@ module Tournaments
         end
       end
     end
-
-    def to_json
-      {
-        finish_line: finish_line,
-        finish_line_minimums: [stop_altitude] * 2,
-        center_line: center_line,
-        center_line_minimums: center_line_minimums,
-        competitors: competitors
-      }.to_json
-    end
-
-    private
 
     def finish_line
       match.tournament.finish_line.map do |point|
@@ -107,7 +97,5 @@ module Tournaments
 
       { latitude: center_lat, longitude: center_lon }
     end
-
-    attr_reader :match
   end
 end

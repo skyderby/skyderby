@@ -13,11 +13,11 @@ export default class extends Controller {
         }
       },
       highlight: function(element) {
-        $(element).closest('.form-group').addClass('has-error');
+        element.closest('.form-group').classList.add('has-error')
       },
       unhighlight: function(element) {
-        $(element).closest('.form-group').removeClass('has-error');
+        element.closest('.form-group').classList.remove('has-error')
       }
-    });
+    })
   }
 }

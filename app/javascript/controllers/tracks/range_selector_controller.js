@@ -34,6 +34,6 @@ export default class extends Controller {
   }
 
   get to() {
-    parseInt(this.element.getAttribute('data-to'))
+    return parseInt(this.element.getAttribute('data-to'))
   }
 }

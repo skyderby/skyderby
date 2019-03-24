@@ -1,25 +1,34 @@
-$('#all_data_chart').highcharts(
-        <%= render(template: 'charts/single_chart_options',
-                   locals: { speed_units: presenter.speed_units, 
-                             distance_units: presenter.distance_units,
-                             altitude_units: presenter.altitude_units }
-                  ).html_safe %>);
+var container, chart
+container = document.getElementById('all_data_chart')
+var chart = Highcharts.chart(
+  container,
+  <%= render(template: 'charts/single_chart_options',
+             locals: { speed_units: presenter.speed_units, 
+                       distance_units: presenter.distance_units,
+                       altitude_units: presenter.altitude_units }
+            ).html_safe %>
+)
 
-$('#all_data_chart').highcharts().series[0].setData(
-  <%= presenter.ground_speed_chart_line %>, 
-  false);
+chart.series[0].setData(
+  <%= presenter.ground_speed_chart_line %>,
+  false
+)
 
-$('#all_data_chart').highcharts().series[1].setData(
+chart.series[1].setData(
   <%= presenter.vertical_speed_chart_line %>,
-  false);
+  false
+)
 
-$('#all_data_chart').highcharts().series[2].setData(
+chart.series[2].setData(
   <%= presenter.full_speed_chart_line %>,
-  false);
+  false
+)
 
-$('#all_data_chart').highcharts().series[3].setData(
-  <%= presenter.glide_ratio_chart_line %>, 
-  false);
+chart.series[3].setData(
+  <%= presenter.glide_ratio_chart_line %>,
+  false
+)
 
-$('#all_data_chart').highcharts().series[4].setData(
-  <%= presenter.altitude_chart_line %>);
+chart.series[4].setData(
+  <%= presenter.altitude_chart_line %>
+)

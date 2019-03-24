@@ -13,26 +13,6 @@
 
         %hr
 
-        - if current_user && current_user.has_role?(:admin)
-          .form-group
-            %label.col-sm-3.control-label= t('activerecord.attributes.track.name')
-            .col-sm-6
-              = f.select :profile_id,
-                         options_for_select([ ([@track.pilot_name, @track.profile_id] if @track.pilot) ], @track.profile_id),
-                         { include_blank: true },
-                         placeholder: t('tracks.form.profile_select_placeholder'),
-                         class: 'form-control',
-                         'data-controller': 'select2--profiles'
-
-              = f.text_field 'name',
-                             class: 'form-control',
-                             placeholder: t('tracks.form.profile_text_placeholder'),
-                             type: 'text'
-              %p.help-block
-                %span
-                  %span.toggle-profile-caption= t('tracks.form.toggle_profile_caption')
-                  %a.toggle-profile{href: '#'}= t('tracks.form.toggle_profile_link')
-
         .form-group{'data-controller': 'tracks--suit-field', 'data-mode': @track.suit ? 'select' : 'text'}
           %label.col-sm-3.control-label= t('activerecord.attributes.track.suit')
           .col-sm-6
@@ -53,7 +33,7 @@
               %a{'data-target': 'tracks--suit-field.link', 'data-action': 'tracks--suit-field#trigger', href: '#'}
                 = t('tracks.form.toggle_suit_link')
 
-        .form-group
+        .form-group{'data-controller': 'tracks--place-field', 'data-mode': @track.place ? 'select' : 'text'}
           %label.col-sm-3.control-label= t('activerecord.attributes.track.place')
           .col-sm-6
             = f.select :place_id,
@@ -61,16 +41,16 @@
                        { include_blank: true },
                        placeholder: t('tracks.form.place_select_placeholder'),
                        class: 'form-control place-group',
-                       'data-controller': 'select2--places'
+                       'data-controller': 'select2--places', 'data-target': 'tracks--place-field.select'
 
             = f.text_field 'location',
-                           class: 'form-control place-group', 
-                           placeholder: t('static_pages.index.track_form.location_plh'), 
-                           type: 'text'
+                           class: 'form-control place-group',
+                           placeholder: t('static_pages.index.track_form.location_plh'),
+                           'data-target': 'tracks--place-field.text'
+
             %p.help-block
-              %span
-                %span.toggle-place-caption= t('tracks.form.toggle_place_caption')
-                %a.toggle-place{href: '#'}= t('tracks.form.toggle_place_link')
+              %span{'data-target': 'tracks--place-field.caption'}
+              %a{'data-target': 'tracks--place-field.link', 'data-action': 'tracks--place-field#trigger', href: '#'}
 
         = render 'tracks/form/activity', form: f, activity: @track.kind
         = render 'tracks/form/visibility', form: f, visibility: @track.visibility

@@ -2,7 +2,7 @@
   .col-sm-12{'data-target': 'jump-range.chart'}
   .col-sm-12
     = link_to track_jump_range_path(track.id), remote: true, class: 'track-edit__refresh-range' do
-      %i.fa.fa-refresh
+      %i.fa.fa-sync
 
     .time-selector
       = form.text_field :jump_range,

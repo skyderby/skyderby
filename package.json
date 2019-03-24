@@ -3,10 +3,12 @@
     "@google/markerclusterer": "^1.0.3",
     "@rails/webpacker": "^3.5.0",
     "actioncable": "^5.2.0",
+    "bootstrap": "^3.4.1",
     "bootstrap-datepicker": "^1.7.1",
     "highcharts": "^6.0.7",
     "honeybadger-js": "^0.5.5",
     "jquery": "^3.3.1",
+    "jquery-jcrop": "^0.9.13",
     "jquery-validation": "^1.17.0",
     "rails-ujs": "^5.1.5",
     "select2": "^4.0.3",
@@ -14,6 +16,8 @@
     "turbolinks": "^5.1.1"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.15.3",
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.10",
     "webpack-dev-server": "^2.11.1"

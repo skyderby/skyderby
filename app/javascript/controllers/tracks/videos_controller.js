@@ -1,20 +1,22 @@
 import { Controller } from 'stimulus'
 import VideoData from 'models/tracks/video'
-import { init_youtube_api } from 'utils/youtube'
+import { initYoutubeApi } from 'utils/youtube'
 
 export default class extends Controller {
   static targets = [ 'altitude', 'altitude_spent', 'h_speed', 'v_speed', 'glide_ratio' ]
 
   connect() {
-    init_youtube_api()
-    this.fetch_data()
+    initYoutubeApi()
+    this.fetchData()
   }
 
-  fetch_data() {
+  fetchData() {
     const url = this.element.getAttribute('data-url')
-    fetch(url, { credentials: 'same-origin',
-                 headers: { 'Accept': 'application/json' } })
-      .then( response => { return response.json() })
+    fetch(url, {
+      credentials: 'same-origin',
+      headers: { 'Accept': 'application/json' }
+    })
+      .then(response => { return response.json() })
       .then(this.on_data_ready)
   }
 
