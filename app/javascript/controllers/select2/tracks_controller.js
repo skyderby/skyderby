@@ -1,23 +1,25 @@
 import { BaseController } from 'controllers/select2/base_controller'
 
 export default class extends BaseController {
-  options() {
+  get options() {
     var options = {
-      placeholder: $(this.element).attr('placeholder'),
       ajax: {
         url: '/tracks/select_options',
       }
     }
 
-    const profile_id = $(this.element).data('profile-id')
-    if (profile_id) {
-      options.ajax['data'] = (params) => {
-            return { query: params.term,
-                     page: params.page,
-                     profile_id: profile_id }
-      }
+    if (this.profileId) {
+      options.ajax['data'] = params => ({
+        query: params.term,
+        page: params.page,
+        profile_id: this.profileId
+      })
     }
 
     return options
+  }
+
+  get profileId() {
+    return this.element.getAttribute('data-profile-id')
   }
 }
