@@ -1,5 +1,5 @@
 import { Controller } from 'stimulus'
-import { init_youtube_api, video_code_from_url, default_player_options } from 'utils/youtube'
+import { initYoutubeApi, videoCodeFromUrl, defaultPlayerOptions } from 'utils/youtube'
 import smooth_scroll from 'utils/smooth_scroll'
 
 const HEADER_HEIGHT = 71
@@ -8,7 +8,7 @@ export default class extends Controller {
   static targets = [ 'player', 'chart', 'url', 'video_offset', 'track_offset' ]
 
   connect() {
-    init_youtube_api()
+    initYoutubeApi()
     this.init_chart()
     this.fetch_chart_data()
   }
@@ -89,7 +89,7 @@ export default class extends Controller {
 
     this.player = new YT.Player(
       this.playerTarget,
-      Object.assign(default_player_options, { videoId: this.video_code })
+      Object.assign(defaultPlayerOptions, { videoId: this.video_code })
     )
   }
 
@@ -100,7 +100,7 @@ export default class extends Controller {
   }
 
   get video_code() {
-    return video_code_from_url(this.url)
+    return videoCodeFromUrl(this.url)
   }
 
   get url() {

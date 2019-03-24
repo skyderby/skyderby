@@ -6,8 +6,8 @@ export default class extends Controller {
   static targets = [
     'map',
     'finish_start_lat',
-    'finish_start_lon', 
-    'finish_end_lat', 
+    'finish_start_lon',
+    'finish_end_lat',
     'finish_end_lon',
     'center_lat',
     'center_lon',
@@ -26,8 +26,10 @@ export default class extends Controller {
 
   on_change_place(event) {
     const place_id = event.currentTarget.value
-    fetch(`/places/${place_id}`, { credentials: 'same-origin',
-                                   headers: { 'Accept': 'application/json' } })
+    fetch(`/places/${place_id}`, {
+      credentials: 'same-origin',
+      headers: { 'Accept': 'application/json' }
+    })
       .then( response => { return response.json() } )
       .then( data => {
         this.exit_lat = data.latitude

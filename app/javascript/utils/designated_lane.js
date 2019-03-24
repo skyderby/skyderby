@@ -78,13 +78,13 @@ export default function(google, map, width, length, direction, opts = {}) {
     }
 
     onRemove() {
-      this._div.parentNode.removeChild(this._div);
+      this._div.parentNode.removeChild(this._div)
     }
 
     draw() {
-      let overlayProjection = this.getProjection();
-      let sw = overlayProjection.fromLatLngToDivPixel(this.bounds.getSouthWest());
-      let ne = overlayProjection.fromLatLngToDivPixel(this.bounds.getNorthEast());
+      let overlayProjection = this.getProjection()
+      let sw = overlayProjection.fromLatLngToDivPixel(this.bounds.getSouthWest())
+      let ne = overlayProjection.fromLatLngToDivPixel(this.bounds.getNorthEast())
 
       let div = this._div
       div.style.left = `${sw.x}px`

@@ -8,7 +8,7 @@
     ga('create', 'UA-52322845-1', 'auto');
 - elsif Rails.env.development?
   :javascript
-    function ga () {
+    function ga() {
       var params = Array.prototype.slice.call(arguments, ga.length);
       console.log("GoogleAnalytics: " + params);
     };

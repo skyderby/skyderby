@@ -10,7 +10,7 @@
           = track.name
 
         %small.light-header
-          %span= t('tracks.show.title_suit') + ':' 
+          %span= t('tracks.show.title_suit') + ':'
           - if track.suit
             - manufacturer = track.suit.manufacturer
             %a{href: suit_path(track.suit)}
@@ -27,41 +27,41 @@
             %span= track.location
 
           - if track.unlisted_track?
-            %i.fa.fa-eye-slash{'data-toggle': 'tooltip', title: t('visibility.unlisted')}
+            %i.far.fa-eye-slash{'data-toggle': 'tooltip', title: t('visibility.unlisted')}
           - elsif track.private_track?
-            %i.fa.fa-lock{'data-toggle': 'tooltip', title: t('visibility.private')}
+            %i.far.fa-lock{'data-toggle': 'tooltip', title: t('visibility.private')}
     .track-header__id= "##{track.id}"
   .row
     .col-md-12
       - controller_path = controller.controller_path
       = link_to track_path(track), class: ['btn-flat btn-tab', ('active' if controller_path == 'tracks')] do
-        %i.fa.fa-bar-chart-o
+        %i.far.fa-chart-bar
         = t('tracks.show.charts')
       - if track.video
         = link_to track_video_path(track), class: ['btn-flat btn-tab', ('active' if controller_path == 'tracks/videos')] do
-          %i.fa.fa-play-circle-o
+          %i.far.fa-play-circle
           = 'Video'
       - elsif policy(track).edit?
         = link_to new_track_video_path(track), class: ['btn-flat btn-tab', ('active' if controller_path == 'tracks/videos')] do
-          %i.fa.fa-play-circle-o
+          %i.far.fa-play-circle
           = 'Video'
       - else
         %div.tooltip-wrapper{'data-toggle': 'tooltip', title: 'Pilot has not added video yet'}
           %button.btn-flat.disabled
-            %i.fa.fa-play-circle-o
+            %i.far.fa-play-circle
             = 'Video'
       - if track.ge_enabled
         = link_to track_globe_path(track), class: ['btn-flat btn-tab', ('active' if controller.controller_path == 'tracks/globe')] do
-          %i.fa.fa-compass
+          %i.far.fa-compass
           = '3D Maps'
       = link_to track_map_path(track), class: ['btn-flat btn-tab', ('active' if controller_path == 'tracks/maps')] do
-        %i.fa.fa-compass
+        %i.far.fa-compass
         = 'Google maps'
       = link_to track_results_path(@track),
                 remote: true,
                 class: 'btn-flat btn-tab',
                 rel: 'nofollow' do
-        %i.fa.fa-th-list
+        %i.fas.fa-list
         = t('tracks.show.results')
 
       .pull-right
@@ -74,4 +74,4 @@
 
         - if policy(track).edit?
           %a.btn-flat.btn-tab{href: edit_track_path(track)}
-            %i.fa.fa-pencil
+            %i.fas.fa-pencil-alt

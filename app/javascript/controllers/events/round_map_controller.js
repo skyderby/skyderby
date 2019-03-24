@@ -80,9 +80,12 @@ export default class extends Controller {
   }
 
   fetch_data() {
-    let url = this.element.getAttribute('data-url')
-    fetch(url, { credentials: 'same-origin',
-                 headers: { 'Accept': 'application/json' } })
+    const url = this.element.getAttribute('data-url')
+
+    fetch(url, {
+      credentials: 'same-origin',
+      headers: { 'Accept': 'application/json' }
+    })
       .then( response => { return response.json() })
       .then(this.on_data_ready)
   }
@@ -110,7 +113,7 @@ export default class extends Controller {
     var center = new google.maps.LatLng(
       this.map_data.place.latitude,
       this.map_data.place.longitude
-    );
+    )
 
     let options = {
       zoom: 2,
@@ -148,12 +151,12 @@ export default class extends Controller {
       }
     }
 
-    this.draw_reference_points(this.map_data.reference_points)
+    this.draw_reference_points()
 
     this.resize()
   }
 
-  draw_reference_points(reference_points) {
+  draw_reference_points() {
     for (let reference_point of this.map_data.reference_points) {
       let marker = new google.maps.Marker({
         position: new google.maps.LatLng(reference_point.latitude, reference_point.longitude),
@@ -187,11 +190,11 @@ export default class extends Controller {
 
     hover_polyline.setMap(this.map)
 
-    google.maps.event.addListener(hover_polyline, 'mouseover', (e) => {
+    google.maps.event.addListener(hover_polyline, 'mouseover', () => {
       document.querySelectorAll(`tr[data-competitor-id="${id}"]`).forEach( (el) => { el.style.backgroundColor = '#BCE7FD' })
     })
 
-    google.maps.event.addListener(hover_polyline, 'mouseout', (e) => {
+    google.maps.event.addListener(hover_polyline, 'mouseout', () => {
       document.querySelectorAll(`tr[data-competitor-id="${id}"]`).forEach( (el) => { el.style.backgroundColor = 'transparent' })
     })
 
@@ -224,20 +227,20 @@ export default class extends Controller {
     if (!this.map_data) return undefined
     if (this._bounds) return this._bounds
 
-    let competitor_data = this.map_data.competitors
+    const competitor_data = this.map_data.competitors
 
-    let start_lats = competitor_data.map( (el) => { return el.start_point.lat } )
-    let start_lons = competitor_data.map( (el) => { return el.start_point.lng } )
-    let end_lats   = competitor_data.map( (el) => { return el.end_point.lat   } )
-    let end_lons   = competitor_data.map( (el) => { return el.end_point.lng   } )
+    const start_lats = competitor_data.map(el => el.start_point.lat )
+    const start_lons = competitor_data.map(el => el.start_point.lng )
+    const end_lats   = competitor_data.map(el => el.end_point.lat )
+    const end_lons   = competitor_data.map(el => el.end_point.lng )
 
-    let lat_bounds = start_lats.concat(end_lats)
-    let lon_bounds = start_lons.concat(end_lons)
+    const lat_bounds = start_lats.concat(end_lats)
+    const lon_bounds = start_lons.concat(end_lons)
 
     lat_bounds.sort()
     lon_bounds.sort()
 
-    let bounds = new google.maps.LatLngBounds()
+    const bounds = new google.maps.LatLngBounds()
 
     bounds.extend(new google.maps.LatLng(
       Number(lat_bounds[0]),

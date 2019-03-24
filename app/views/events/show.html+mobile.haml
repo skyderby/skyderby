@@ -11,7 +11,7 @@
 
     - if @event.place.present?
       .event__place
-        %i.fa.fa-map-marker
+        %i.fa.fa-map-marker-alt
         = @event.place.name
         = " (MSL: #{@event.place_msl} #{t('units.m')})"
         %span= @event.place.country_code

@@ -2,7 +2,7 @@
   .form-group
     = f.label :name, class: 'col-sm-3 control-label', for: :name
     .col-sm-5
-      = f.text_field :name, autofocus: true, class: 'form-control'
+      = f.text_field :name, autofocus: true, required: true, class: 'form-control'
 
   .form-group
     = f.label :kind, class: 'col-sm-3 control-label', for: :kind
@@ -21,6 +21,7 @@
       = f.select(:country_id,
                  options_for_select([[@place.country_name, @place.country_id]]),
                  {},
+                 required: true,
                  placeholder: 'Select country',
                  class: 'form-control',
                  'data-controller': 'select2--countries')
@@ -28,12 +29,12 @@
   .form-group
     = f.label :latitude, class: 'col-sm-3 control-label', for: :latitude
     .col-sm-5
-      = f.text_field :latitude, class: 'form-control'
+      = f.text_field :latitude, required: true, class: 'form-control'
 
   .form-group
     = f.label :longitude, class: 'col-sm-3 control-label', for: :longitude
     .col-sm-5
-      = f.text_field :longitude, class: 'form-control'
+      = f.text_field :longitude, required: true, class: 'form-control'
 
   .form-group
     = f.label :msl, class: 'col-sm-3 control-label', for: :msl

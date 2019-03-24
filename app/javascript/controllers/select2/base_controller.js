@@ -31,9 +31,9 @@ export class BaseController extends Controller {
 
   fix_open_on_clear() {
     this.$element
-        .select2()
-        .on("select2:unselecting", this.on_unselecting)
-        .on('select2:open', this.on_open)
+      .select2()
+      .on('select2:unselecting', this.on_unselecting)
+      .on('select2:open', this.on_open)
   }
 
   on_unselecting() {
@@ -64,7 +64,7 @@ export class BaseController extends Controller {
       placeholder: this.placeholder,
       ajax: {
         dataType: 'json',
-        type: "GET",
+        type: 'GET',
         quietMillis: 50,
         data: (params) => {
           return {

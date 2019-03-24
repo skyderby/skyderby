@@ -8,14 +8,14 @@
 .tournament-match.text-right
   .panel.panel-default
     = link_to tournament_match_map_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do
-      %i.fa.fa-compass
+      %i.far.fa-compass
       Map
     = link_to tournament_match_globe_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do
-      %i.fa.fa-compass
+      %i.far.fa-compass
       3D map
     - if editable
       = link_to edit_tournament_match_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do
-        %i.fa.fa-pencil
+        %i.fa.fa-pencil-alt
         = t('general.edit')
     .panel-body.competitors-container
       - match.slots.each do |slot|

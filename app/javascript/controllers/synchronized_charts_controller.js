@@ -32,8 +32,12 @@ export default class extends Controller {
   }
 
   get charts() {
-    return this.chartTargets.map( (el) => {
-      return Highcharts.charts.find( (chart) => { return chart.renderTo === el } )
-    })
+    if (!this._charts) {
+      this._charts = this.chartTargets.map(el =>
+        Highcharts.charts.find(chart => chart.renderTo === el)
+      )
+    }
+
+    return this._charts
   }
 }

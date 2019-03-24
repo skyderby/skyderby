@@ -92,7 +92,7 @@ export default class extends Controller {
   get header_container() {
     if (!this._header_container) {
       this._header_container = document.createElement('div')
-      this._header_container.style.top = `${this.page_header_height}px`;
+      this._header_container.style.top = `${this.page_header_height}px`
       this._header_container.style.position = 'fixed'
       this._header_container.style.display = 'none'
       this._header_container.style.zIndex = 10

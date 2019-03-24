@@ -3,7 +3,7 @@
     = image_tag(profile.userpic.url(:medium), class: 'profile-header__avatar-image')
     - if policy(profile).edit?
       = link_to new_profile_avatar_path(profile), remote: true, class: 'profile-header__avatar-change', rel: 'nofollow' do
-        %i.fa.fa-pencil
+        %i.fa.fa-pencil-alt
 
   .profile-header__name
     %h1
@@ -31,7 +31,7 @@
   .profile-commands
     - if policy(@profile).edit?
       = link_to edit_profile_path(@profile), class: 'btn-flat' do
-        %i.fa.fa-pencil
+        %i.fa.fa-pencil-alt
         = t('general.edit')
 
     - if policy(@profile).destroy?

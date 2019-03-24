@@ -14,7 +14,7 @@ export default class extends Controller {
     this.render_map()
   }
 
-  before_request_preview(event) {
+  before_request_preview() {
     this.previewTarget.classList.add('visible')
   }
 

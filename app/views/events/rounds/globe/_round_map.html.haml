@@ -1,14 +1,16 @@
 .container-fluid.round-map
-  .row
+  .row{'data-controller': 'events--round-globe',
+       'data-url': url_for,
+       'data-action': 'cesium_api:ready@window->events--round-globe#onCesiumReady cesium_api:failed@window->events--round-globe#onCesiumFailed'}
     .col-sm-9
-      #round-map
-        #track-map-loading.text-muted
+      #round-map{'data-target': 'events--round-globe.viewer'}
+        #track-map-loading.text-muted{'data-target': 'events--round-globe.loadingProgress'}
           #track-map-loading-api.fa-2x
-            %i.fa.fa-fw.fa-spin.fa-circle-o-notch
+            %i.fa.fa-fw.fa-spin.fa-circle-notch{'data-target': 'events--round-globe.cesiumStatus'}
             Loading Cesium API
           #track-map-loading-data.fa-2x
-            %i.fa.fa-fw.fa-check
-            Loading track data
+            %i.fa.fa-fw.fa-spin.fa-circle-notch{'data-target': 'events--round-globe.dataStatus'}
+            Loading map data
     .col-sm-3
       %table.table.table-condensed
         %thead
@@ -22,5 +24,5 @@
             - group.each do |competitor|
               %tr
                 %td
-                  %a.fast-forward-competitor{href: '#', 'data-start-time': "#{competitor.points.first[:gps_time].xmlschema}"}
+                  %a.fast-forward-competitor{href: '#', 'data-action': 'events--round-globe#fastForward', 'data-start-time': "#{competitor.points.first[:gps_time].xmlschema}"}
                     = competitor.name

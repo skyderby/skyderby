@@ -1,0 +1,49 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "extends": [
+    "eslint:recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "globals": {
+    "$": false,
+    "I18n": false,
+    "YT": false,
+    "Turbolinks": false,
+    "Rails": false,
+    "google": false,
+    "Cesium": false,
+    "Highcharts": false,
+    "HighchartsMore": false
+  },
+  "rules": {
+    "indent": [
+      "error",
+      2,
+      { "SwitchCase": 1 }
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single",
+      { "avoidEscape": true }
+    ],
+    "semi": [
+      "error",
+      "never"
+    ],
+    "no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_", "ignoreRestSiblings": true }
+    ]
+  }
+}

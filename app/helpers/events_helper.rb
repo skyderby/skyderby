@@ -3,7 +3,7 @@ module EventsHelper
     link_to(edit_event_path(event),
             'data-params': display_event_params.to_param,
             class: 'btn btn-default edit-event') do
-      concat content_tag('i', nil, class: 'fa fa-fw fa-pencil text-muted')
+      concat content_tag('i', nil, class: 'fas fa-fw fa-pencil-alt text-muted')
       concat t('general.edit')
     end
   end

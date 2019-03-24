@@ -20,7 +20,7 @@ module Events
               class: 'show-result',
               rel: 'nofollow') do
 
-        class_list = can_update ? 'fa fa-pencil' : 'fa fa-search'
+        class_list = can_update ? 'fas fa-pencil-alt' : 'fa fa-search'
         content_tag('i', nil, class: class_list)
       end
     end

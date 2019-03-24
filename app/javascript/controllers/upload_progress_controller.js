@@ -14,22 +14,22 @@ export default class extends Controller {
     this.default_comment = this.comment.innerHTML
   }
 
-  on_start = (event) => {
+  on_start = () => {
     this.element.style.display = ''
   }
 
   on_before_send = (event) => {
-    let [xhr, options] = event.detail
+    let [xhr, _options] = event.detail
     xhr.upload.onprogress = this.on_progress
   }
 
-  on_success = (event) => {
+  on_success = () => {
     this.spinner.style.display = 'none'
     this.done.style.display = ''
     this.comment.textContent = 'Done! Final preparations...'
   }
 
-  on_error = (event) => {
+  on_error = () => {
     this.element.style.display = 'none'
     this.comment.innerHTML = this.default_comment
   }

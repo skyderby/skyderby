@@ -62,7 +62,7 @@
 
               - if policy(@tournament).update?
                 = link_to edit_tournament_qualification_jump_path(@tournament, record_id), remote: true do
-                  %i.fa.fa-pencil.text-muted
+                  %i.fa.fa-pencil-alt.text-muted
             %td.text-right
               %span{'data-toggle' => 'tooltip', title: 'Canopy time'}
                 = canopy_time

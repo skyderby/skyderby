@@ -50,7 +50,7 @@ export default class extends Controller {
 
   get newChildIndex() {
     this.currentIndex += 1
-    return this.currentIndex;
+    return this.currentIndex
   }
 
   get template() {

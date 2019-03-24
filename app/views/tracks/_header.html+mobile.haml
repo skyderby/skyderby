@@ -32,7 +32,7 @@
   - if policy(track).edit?
     .track-header__actions
       %a.btn-flat.btn-tab{href: edit_track_path(track)}
-        %i.fa.fa-pencil
+        %i.fa.fa-pencil-alt
 
 .track-navbar
   .tabs-navbar
@@ -42,30 +42,30 @@
       - active_class = 'tabs-navbar--active'
       %li.tabs-navbar__menuitem{class: (active_class if controller_path == 'tracks')}
         = link_to track_path(track) do
-          %i.fa.fa-bar-chart-o
+          %i.fa.fa-chart-bar
           = t('tracks.show.charts')
       %li.tabs-navbar__menuitem{class: (active_class if controller_path == 'tracks/videos')}
         - if track.video
           = link_to track_video_path(track) do
-            %i.fa.fa-play-circle-o
+            %i.far.fa-play-circle
             = 'Video'
         - elsif policy(track).edit?
           = link_to new_track_video_path(track) do
-            %i.fa.fa-play-circle-o
+            %i.far.fa-play-circle
             = 'Video'
         - else
           %div.tooltip-wrapper{'data-toggle': 'tooltip', title: 'Pilot has not added video yet'}
             %button.btn-flat.disabled
-              %i.fa.fa-play-circle-o
+              %i.far.fa-play-circle
               = 'Video'
       %li.tabs-navbar__menuitem{class: (active_class if controller.controller_path == 'tracks/globe')}
         - if track.ge_enabled
           = link_to track_globe_path(track) do
-            %i.fa.fa-compass
+            %i.far.fa-compass
             = '3D Maps'
       %li.tabs-navbar__menuitem{class: (active_class if controller_path == 'tracks/maps')}
         = link_to track_map_path(track) do
-          %i.fa.fa-compass
+          %i.far.fa-compass
           = 'Google maps'
       %li.tabs-navbar__divider
         |
@@ -73,7 +73,7 @@
         = link_to track_results_path(@track),
                   remote: true,
                   rel: 'nofollow' do
-          %i.fa.fa-th-list
+          %i.fas.fa-list
           = t('tracks.show.results')
       %li.tabs-navbar__menuitem
         = link_to t('events.show.weather_data'),

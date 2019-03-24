@@ -57,9 +57,7 @@ gem 'browser'
 
 # Assets
 gem 'bootstrap-sass', '~> 3.4.1'
-gem 'coffee-rails'
 gem 'font-awesome-sass', '~> 5.8.1'
-gem 'rails-backbone'
 gem 'sassc-rails'
 gem 'turbolinks'
 gem 'uglifier', '>= 2.7.2'

@@ -46,8 +46,8 @@ export default class extends Controller {
         $(element).closest('.form-group').removeClass('has-error')
       },
       errorPlacement: (error, element) => {
-        if (element.attr("name") == "track_file[file]") {
-          error.appendTo( element.closest(".col-sm-9") )
+        if (element.attr('name') == 'track_file[file]') {
+          error.appendTo( element.closest('.col-sm-9') )
         } else if(element.hasClass('suit-group')) {
           error.appendTo( element.closest('div') )
         } else {

@@ -12,7 +12,7 @@ module Events
     end
 
     def edit_section_link(event, section)
-      link_to content_tag(:i, nil, class: 'fa fa-pencil text-muted'),
+      link_to content_tag(:i, nil, class: 'fas fa-pencil-alt text-muted'),
               edit_event_section_path(event, section),
               remote: true,
               'data-params': display_event_params.to_param,

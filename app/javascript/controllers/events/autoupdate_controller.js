@@ -1,4 +1,4 @@
-import { Controller } from 'stimulus';
+import { Controller } from 'stimulus'
 
 export default class extends Controller {
   static targets = [ 'indicator', 'link' ]
@@ -6,7 +6,7 @@ export default class extends Controller {
   connect() {
     const event_id = this.element.getAttribute('data-event-id')
 
-    this.subscription = cable.subscriptions.create({
+    this.subscription = window.cable.subscriptions.create({
       channel: 'EventUpdatesChannel',
       event_id: event_id,
     }, {

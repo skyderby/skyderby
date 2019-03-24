@@ -38,19 +38,10 @@ module Events
         '#91e8e1'
       ].freeze
 
+      delegate :range_from, :range_to, to: :round
+
       def initialize(round)
         @round = round
-      end
-
-      def to_json
-        {
-          range_from: round.range_from,
-          range_to: round.range_to,
-          boundaries_position: boundaries_position,
-          start_time: start_time,
-          stop_time: stop_time,
-          competitors: competitors
-        }.to_json
       end
 
       def competitors_by_groups
@@ -73,9 +64,19 @@ module Events
         end
       end
 
-      private
+      def start_time
+        all_points.order(gps_time_in_seconds: :asc)
+                  .limit(1)
+                  .pluck('to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time')
+                  .first
+      end
 
-      attr_reader :round
+      def stop_time
+        all_points.order(gps_time_in_seconds: :desc)
+                  .limit(1)
+                  .pluck('to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time')
+                  .first
+      end
 
       def boundaries_position
         if round.event.place
@@ -95,22 +96,12 @@ module Events
         end
       end
 
+      private
+
+      attr_reader :round
+
       def colors
         COLORS * (round.results.size.to_f / COLORS.size).ceil
-      end
-
-      def start_time
-        all_points.order(gps_time_in_seconds: :asc)
-                  .limit(1)
-                  .pluck('to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time')
-                  .first
-      end
-
-      def stop_time
-        all_points.order(gps_time_in_seconds: :desc)
-                  .limit(1)
-                  .pluck('to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time')
-                  .first
       end
 
       def all_points

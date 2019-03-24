@@ -4,7 +4,7 @@ import Rails from 'rails-ujs'
 const CARET_ICON = '<i class="fa fa-fw fa-caret-down"></i>'
 const ELLIPSIS_ICON = '<i class="fa fa-fw fa-ellipsis-h"></i>'
 const BLANKSLATE = ELLIPSIS_ICON + CARET_ICON
-const LOADING_SPINNER = '<i class="fa fa-fw fa-circle-o-notch fa-spin"></i><i class="fa fa-fw"></i>'
+const LOADING_SPINNER = '<i class="fa fa-fw fa-circle-notch fa-spin"></i><i class="fa fa-fw"></i>'
 
 export default class extends Controller {
   static targets = [ 'reference_point' ]

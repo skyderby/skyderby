@@ -23,7 +23,7 @@
         %li.dropdown
           .dropdown-toggle.button-navbar.button--white{href: '#', data: {toggle: 'dropdown'}}
             - if masquerading?
-              %i.fa.fa-lg.fa-warning.text-danger
+              %i.fa.fa-lg.fa-exclamation-triange.text-danger
             - if current_user.profile
               = current_user.profile.name
               = image_tag current_user.profile.userpic.url(:thumb), id: 'userpic-thumb', class: 'img-rounded loading-bg button-navbar__img'

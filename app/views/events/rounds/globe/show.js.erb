@@ -1,9 +1,2 @@
 $('#modal').html('<%= j render('show_modal') %>');
 $('#modal').modal('show');
-
-var view = new Skyderby.views.RoundGlobeView({
-  el: '.round-map', 
-  maps_data: <%= @round_map.to_json.html_safe %>
-});
-
-view.render();

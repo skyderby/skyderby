@@ -7,17 +7,18 @@
 = javascript_pack_tag 'manifest'
 = javascript_pack_tag 'vendor'
 
+= javascript_include_tag 'translations/application', 'data-turbolinks-track': 'reload'
+
 :javascript
   var I18n = I18n || {};
   I18n.defaultLocale = "#{I18n.default_locale}"
   I18n.locale = "#{I18n.locale}"
   MAPS_API_KEY = "#{ENV['MAPS_API_KEY']}"
+  CESIUM_API_TOKEN = "#{ENV['CESIUM_API_TOKEN']}"
   HB_API_KEY = "#{ENV['HONEYBADGER_API_KEY']}"
   ENVIRONMENT_NAME = "#{ENV['RAILS_ENV']}"
 
-= javascript_include_tag 'translations/application', 'data-turbolinks-track' => true
-
-= javascript_pack_tag 'application'
+= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
 
 = csrf_meta_tags
 

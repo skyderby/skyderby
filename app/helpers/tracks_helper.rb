@@ -48,7 +48,7 @@ module TracksHelper
 
   def track_icons(track)
     capture do
-      concat content_tag(:i, nil, class: 'fa fa-fw fa-video-camera') if track.video
+      concat content_tag(:i, nil, class: 'fa fa-fw fa-video') if track.video
 
       if track.unlisted_track?
         concat content_tag(:i, nil,
@@ -72,7 +72,7 @@ module TracksHelper
                   'data-toggle' => 'tooltip',
                   title: "Sort by #{field_presentation} ascending",
                   rel: 'nofollow') do
-        content_tag(:i, nil, class: 'fa fa-sort-amount-desc')
+        content_tag(:i, nil, class: 'fa fa-sort-amount-down')
       end
     elsif order_field == field.upcase && order_direction == 'ASC'
       content_tag(:a, nil,
@@ -81,7 +81,7 @@ module TracksHelper
                   'data-toggle' => 'tooltip',
                   title: "Sort by #{field_presentation} descending",
                   rel: 'nofollow') do
-        content_tag(:i, nil, class: 'fa fa-sort-amount-asc')
+        content_tag(:i, nil, class: 'fa fa-sort-amount-up')
       end
     else
       content_tag(:a, nil,
@@ -91,7 +91,7 @@ module TracksHelper
                   'data-toggle' => 'tooltip',
                   title: "Sort by #{field_presentation} descending",
                   rel: 'nofollow') do
-        content_tag(:i, nil, class: 'fa fa-sort-amount-desc')
+        content_tag(:i, nil, class: 'fa fa-sort-amount-down')
       end
     end
   end
