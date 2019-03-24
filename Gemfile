@@ -1,4 +1,4 @@
-ruby '2.6.1'
+ruby '2.6.2'
 source 'https://rubygems.org'
 
 gem 'rails', '~> 5.2'
@@ -36,7 +36,7 @@ gem 'nokogiri', '~> 1.8'
 
 # Background jobs
 gem 'sidekiq', ' < 6'
-gem 'sidekiq-cron', '~> 0.6'
+gem 'sidekiq-cron', '~> 1.0'
 
 # Export to Excel
 gem 'axlsx', '3.0.0.pre'
@@ -45,7 +45,7 @@ gem 'axlsx_rails'
 # Exception notifications and profiling
 gem 'rack-mini-profiler'
 group :production do
-  gem 'honeybadger', '~> 3.3'
+  gem 'honeybadger', '~> 4.0'
   gem 'skylight'
 end
 
@@ -56,11 +56,11 @@ gem 'i18n-js', '>= 3.0.0.rc8'
 gem 'browser'
 
 # Assets
-gem 'bootstrap-sass', '~> 3.3.7'
+gem 'bootstrap-sass', '~> 3.4.1'
 gem 'coffee-rails'
-gem 'font-awesome-sass', '~> 4.7.0'
+gem 'font-awesome-sass', '~> 5.8.1'
 gem 'rails-backbone'
-gem 'sass-rails'
+gem 'sassc-rails'
 gem 'turbolinks'
 gem 'uglifier', '>= 2.7.2'
 gem 'webpacker', '~> 3.4'
@@ -75,10 +75,10 @@ group :development do
 end
 
 group :development, :test do
-  gem 'pry-rails'
   gem 'byebug'
   gem 'dotenv-rails'
   gem 'factory_bot_rails'
+  gem 'pry-rails'
   gem 'rspec'
   gem 'rspec-rails'
 end

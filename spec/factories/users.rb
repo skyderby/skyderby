@@ -24,9 +24,9 @@
 FactoryBot.define do
   factory :user do
     sequence(:email) { |n| "person-#{n}@example.com" }
-    password 'secret'
-    password_confirmation 'secret'
-    confirmed_at Time.current
+    password { 'secret' }
+    password_confirmation { 'secret' }
+    confirmed_at { Time.current }
 
     after :create do |user|
       # create :profile, owner: user

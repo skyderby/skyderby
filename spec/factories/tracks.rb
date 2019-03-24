@@ -34,11 +34,11 @@
 
 FactoryBot.define do
   factory :empty_track, class: 'Track' do
-    kind Track.kinds['skydive']
+    kind { Track.kinds['skydive'] }
     pilot
     suit
-    ground_level 0
-    recorded_at Time.current
+    ground_level { 0 }
+    recorded_at { Time.current }
 
     trait :with_point do
       after :create do |track|

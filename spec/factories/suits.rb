@@ -19,7 +19,7 @@ FactoryBot.define do
     manufacturer
 
     factory :tracksuit do
-      kind :tracksuit
+      kind { :tracksuit }
     end
   end
 end
