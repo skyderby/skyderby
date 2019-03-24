@@ -6,6 +6,7 @@ end
 
 resources :tracks, only: [:index, :show, :edit, :update, :destroy] do
   scope module: :tracks do
+    resource :ownership, only: [:show, :update]
     resource :map, only: :show
     resource :globe, controller: 'globe', only: :show
     resource :video, only: [:new, :edit, :show, :create, :update, :destroy] do

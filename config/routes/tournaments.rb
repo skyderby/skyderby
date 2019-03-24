@@ -20,5 +20,9 @@ resources :tournaments, concerns: [:sponsorable, :organizable] do
         end
       end
     end
+
+    collection do
+      resources :select_options, only: :index
+    end
   end
 end

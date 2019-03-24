@@ -29,8 +29,8 @@
         - else
           %span= track.missing_suit_name
 
-  .pull-right
-    - if policy(track).edit?
+  - if policy(track).edit?
+    .track-header__actions
       %a.btn-flat.btn-tab{href: edit_track_path(track)}
         %i.fa.fa-pencil
 

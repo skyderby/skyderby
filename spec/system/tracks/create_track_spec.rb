@@ -48,7 +48,7 @@ feature 'Upload tracks', type: :system, js: true do
     click_link I18n.t('application.header.upload_track')
     sleep 0.3 # wait for modal
 
-    within '#track_upload_form' do
+    within 'form[data-controller="tracks--form"]' do
       fill_in 'track_file[track_attributes][name]', with: 'John'
 
       click_link I18n.t('tracks.form.toggle_suit_link')

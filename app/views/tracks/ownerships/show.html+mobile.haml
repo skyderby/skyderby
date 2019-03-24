@@ -1,0 +1,60 @@
+- provide :title, title(@ownership.track)
+
+.track-edit
+  .track-edit__header
+    = link_to track_path(@ownership.track), class: 'btn-back' do
+      %i.fa.fa-chevron-left
+      = t('tracks.edit.back')
+
+  = form_for @ownership, url: track_ownership_path(@ownership.track), method: 'PUT', remote: true do |f|
+    .content-block.form-body{'data-controller': 'tracks--owner'}
+      .form-group
+        = f.label :owner, t('activerecord.attributes.track.owner_type')
+        = f.select :type, track_ownership_type_options,
+                   { selected: @ownership.type },
+                   { class: 'form-control input-lg',
+                     'data-controller': 'select2--local',
+                     'data-target': 'tracks--owner.type',
+                     'data-action': 'change->tracks--owner#setVisibility' }
+
+      .form-group{'data-target': 'tracks--owner.select', 'data-type': 'user'}
+        = f.label :owner, t('activerecord.models.user')
+        = f.select :user_id,
+                   options_for_select([user_select_option(@ownership.user)]),
+                   {},
+                   { class: 'form-control input-lg', 'data-controller': 'select2--users' }
+
+      .form-group{'data-target': 'tracks--owner.select', 'data-type': 'event'}
+        = f.label :owner, t('activerecord.models.event')
+        = f.select :event_id,
+                   options_for_select([event_select_option(@ownership.event)]),
+                   {},
+                   { class: 'form-control input-lg', 'data-controller': 'select2--events' }
+
+      .form-group{'data-target': 'tracks--owner.select', 'data-type': 'tournament'}
+        = f.label :owner, t('activerecord.models.tournament')
+        = f.select :tournament_id,
+                   options_for_select([tournament_select_option(@ownership.tournament)]),
+                   {},
+                   { class: 'form-control input-lg', 'data-controller': 'select2--tournaments' }
+
+      .form-group{'data-controller': 'tracks--profile-field', 'data-mode': @ownership.profile ? 'select' : 'text'}
+        = f.label :name, t('activerecord.attributes.track.name')
+        = f.select :profile_id,
+                   options_for_select([ profile_select_option(@ownership.profile) ], @ownership.profile_id),
+                   { include_blank: true },
+                   placeholder: t('tracks.form.profile_select_placeholder'),
+                   class: 'form-control input-lg',
+                   'data-controller': 'select2--profiles', 'data-target': 'tracks--profile-field.select'
+
+        = f.text_field :name,
+                       class: 'form-control input-lg',
+                       placeholder: t('tracks.form.profile_text_placeholder'),
+                       'data-target': 'tracks--profile-field.text'
+
+        %p.help-block
+          %span{'data-target': 'tracks--profile-field.caption'}
+          %a{'data-target': 'tracks--profile-field.link', 'data-action': 'tracks--profile-field#trigger', href: '#'}
+
+    .text-center
+      = f.submit t('general.save'), class: 'btn btn-lg btn-success'

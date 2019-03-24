@@ -36,4 +36,8 @@ module TournamentsHelper
       end
     end
   end
+
+  def tournament_select_option(tournament)
+    tournament ? [tournament.name, tournament.id] : nil
+  end
 end
