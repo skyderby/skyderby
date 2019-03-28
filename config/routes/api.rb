@@ -16,6 +16,8 @@ namespace :api, module: :api do
       end
     end
 
+    resources :suits, only: :index
+
     resources :events, only: [] do
       scope module: :events do
         resources :rounds, only: :index
