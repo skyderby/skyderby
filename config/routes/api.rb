@@ -26,5 +26,9 @@ namespace :api, module: :api do
         resources :reference_point_assignments, only: :create
       end
     end
+
+    namespace :stats, module: :stats do
+      resources :registrations, only: :index
+    end
   end
 end
