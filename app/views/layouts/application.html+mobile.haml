@@ -2,6 +2,7 @@
 %html
   %head
     = render 'layouts/head'
+    = stylesheet_link_tag 'mobile/application', 'data-turbolinks-track': 'reload'
 
     %meta{name: "viewport", content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"}
 
@@ -25,6 +26,5 @@
 
     = render 'errors/ajax_error_message'
     = render 'layouts/footer'
-    = javascript_include_tag 'mobile/application', 'data-turbolinks-track' => true, 'data-turbolinks-eval' => false
 
     = yield :page_js
