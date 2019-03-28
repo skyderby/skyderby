@@ -1,5 +1,4 @@
-$('#modal').html('<%= j render('show_modal') %>');
-$('#modal').modal('show');
+$('#modal').html('<%= j render('show_modal') %>')
 
 Highcharts.chart('person-details__chart', {
   chart: {
@@ -44,5 +43,7 @@ Highcharts.chart('person-details__chart', {
 });
 
 $('#modal').one('shown.bs.modal', function() {
-  $('.virtual-competition-person-details__chart').highcharts().reflow();
-});
+  $('.virtual-competition-person-details__chart').highcharts().reflow()
+})
+
+$('#modal').modal('show')
