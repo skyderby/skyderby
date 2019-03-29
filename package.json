@@ -2,6 +2,7 @@
   "dependencies": {
     "@google/markerclusterer": "^1.0.3",
     "@rails/webpacker": "^3.5.0",
+    "@stimulus/polyfills": "^1.1.1",
     "actioncable": "^5.2.0",
     "bootstrap": "^3.4.1",
     "bootstrap-datepicker": "^1.7.1",

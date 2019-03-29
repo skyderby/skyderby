@@ -1,3 +1,4 @@
+import "@stimulus/polyfills"
 import { Application } from 'stimulus'
 import { definitionsFromContext } from 'stimulus/webpack-helpers'
 import Rails from 'rails-ujs'
@@ -9,7 +10,6 @@ Honeybadger.configure({
   environment: window.ENVIRONMENT_NAME
 })
 
-import 'polyfills/element_closest'
 import jQuery from 'jquery'
 
 window.Rails = Rails
