@@ -1,0 +1,30 @@
+@import './brand';
+@import './menu';
+@import './profile';
+
+navbar {
+  background-color: $nav-background;
+  box-shadow: 0 1px 2px 0 $box-shadow-dark;
+  display: flex;
+  font-family: $pn-regular, $fallback-fonts;
+  height: 60px;
+  padding: 0 15px;
+  width: 100%;
+  z-index: 3;
+}
+
+.navbar--fixed {
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+}
+
+.navbar--top {
+  position: absolute;
+}
+
+.navbar--transparent {
+  background-color: transparent;
+  box-shadow: none;
+}

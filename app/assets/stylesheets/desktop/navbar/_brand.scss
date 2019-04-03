@@ -1,0 +1,30 @@
+.nav-brand {
+  align-items: center;
+  color: $white;
+  display: flex;
+  flex-direction: row;
+  font: 25px / 40px $pn-thin;
+  letter-spacing: .05em;
+  margin-right: 15px;
+  padding: 10px 0;
+  position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
+  z-index: 1;
+
+  span {
+    opacity: 1;
+  }
+
+  &::before {
+    color: $white;
+    content: $icon-skyderby;
+    font: 38px $application-icon-font;
+    margin: 0 15px 0 0;
+  }
+
+  &:hover,
+  &:focus {
+    color: $white;
+  }
+}

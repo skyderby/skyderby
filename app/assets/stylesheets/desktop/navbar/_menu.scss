@@ -1,0 +1,32 @@
+@import './menu/item';
+@import './menu/active';
+@import './menu/cta';
+
+.nav-menu {
+  display: flex;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    line-height: 14px;
+    padding: 7px 10px;
+  }
+}
+
+.nav-menu--active {
+  border-bottom-color: $blue-hover;
+
+  a { color: $blue-hover; }
+
+  &:hover { border-bottom-color: $blue-hover;
+    a { color: $blue-hover; }
+  }
+}
+
+.nav-menu--right {
+  flex-grow: 1;
+  justify-content: flex-end;
+}

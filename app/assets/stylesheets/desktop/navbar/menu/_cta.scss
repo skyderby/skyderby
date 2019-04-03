@@ -1,0 +1,33 @@
+.nav-menu-cta {
+  border-radius: 50px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  padding: 4px 25px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+}
+
+.nav-menu-cta--primary {
+  background-color: $blue-hover;
+  border: 2px solid $blue-hover;
+  color: $white;
+
+  &:hover {
+    background-color: $blue-dark;
+    border-color: $blue-dark;
+    color: $white;
+  }
+}
+
+.nav-menu-cta--secondary {
+  background-color: $blue;
+  border: 2px solid $blue;
+  color: $white;
+
+  &:hover {
+    background-color: $blue-hover;
+    border-color: $blue-hover;
+    color: $white;
+  }
+}

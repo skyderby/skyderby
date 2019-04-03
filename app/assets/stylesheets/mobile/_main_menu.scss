@@ -1,7 +1,7 @@
 .main-menu {
   height: 100%;
   position: fixed;
-  background: $sidebar-background;
+  background: $nav-background;
   overflow-y: scroll;
   opacity: 0;
   z-index: 31;
@@ -21,7 +21,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: $sidebar-background-light;
+  background: $nav-background-light;
 }
 
 .main-menu__profile {
@@ -89,7 +89,7 @@
 }
 
 .main-menu__item {
-  border-bottom: 1px solid $sidebar-background-light;
+  border-bottom: 1px solid $nav-background-light;
 
   &.active {
     a, a span:before { color: $blue-hover; }

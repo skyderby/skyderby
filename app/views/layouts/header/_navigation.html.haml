@@ -1,0 +1,13 @@
+= link_to root_path, class: 'nav-brand' do
+  %span Skyderby
+
+%ul.nav-menu
+  - root_controller = controller.controller_path.split('/').first
+  %li.nav-menu-item{class: ('nav-menu--active' if root_controller == 'tracks')}
+    = link_to content_tag(:span, t('application.header.tracks')), tracks_path
+  %li.nav-menu-item{class: ('nav-menu--active' if ['events', 'tournaments'].include? root_controller)}
+    = link_to content_tag(:span, t('application.header.competitions')), events_path
+  %li.nav-menu-item{class: ('nav-menu--active' if root_controller == 'virtual_competitions')}
+    = link_to content_tag(:span, t('application.header.online_competitions')), virtual_competitions_path 
+  %li.nav-menu-item{class: ('nav-menu--active' if root_controller == 'places')}
+    = link_to content_tag(:span, t('application.header.places')), places_path

@@ -1,74 +1,38 @@
-.navbar.navbar--transparent{role: 'navigation'}
-  .container
-    .navbar-header
-      = link_to root_path, class: 'navbar-brand' do
-        SKY DERBY
-        %sup
-          β
+%navbar.navbar--transparent.navbar--top{role: 'navigation'}
+  = render 'layouts/header/navigation'
 
-    %ul.nav.navbar-nav
-      - root_controller = controller.controller_path.split('/').first
-      %li{class: ('nav-active' if root_controller == 'tracks')}
-        = link_to t('application.header.tracks'), tracks_path
-      %li{class: ('nav-active' if ['events', 'tournaments'].include? root_controller)}
-        = link_to t('application.header.competitions'), events_path
-      %li{class: ('nav-active' if root_controller == 'virtual_competitions')}
-        = link_to t('application.header.online_competitions'), virtual_competitions_path 
-      %li{class: ('nav-active' if root_controller == 'places')}
-        = link_to t('application.header.places'), places_path
+  %ul.nav-menu.nav-menu--right
 
-    %ul.nav.navbar-nav.navbar-right
-
-      - if user_signed_in?
-        %li.dropdown
-          .dropdown-toggle.button-navbar.button--white{href: '#', data: {toggle: 'dropdown'}}
-            - if masquerading?
-              %i.fa.fa-lg.fa-exclamation-triange.text-danger
-            - if current_user.profile
-              = current_user.profile.name
-              = image_tag current_user.profile.userpic.url(:thumb), id: 'userpic-thumb', class: 'img-rounded loading-bg button-navbar__img'
-            - else
-              = current_user.email
-              = image_tag '/images/thumb/missing.png', id: 'userpic-thumb', class: 'img-rounded loading-bg button-navbar__img'
-
-          %ul.dropdown-menu
-            - if current_user.has_role? :admin
-              %li
-                = link_to t('application.header.admin_panel'), manage_path
-            - if masquerading?
-              %li
-                = link_to 'Stop masquerading', user_masquerades_path(current_user), method: :delete
-            %li
-              = link_to t('application.header.profile'), profile_path(current_user.profile)
-            %li
-              = link_to t('application.header.sign_out'), destroy_user_session_path, method: :delete
-      - else
-        %li
-          = link_to t('application.header.sign_in'), new_user_session_path, class: 'button-navbar button--white'
-        %li.hidden-sm
-          = link_to t('application.header.sign_up'), new_user_registration_path, class: 'button-navbar button--aqua'
-
+    - if user_signed_in?
       %li.dropdown
-        .dropdown-toggle.button--white.button--round.button-locale{href: '#', data: {toggle: 'dropdown'}}
-          = image_tag asset_path('blank.gif'), class: "flag flag-#{ I18n.locale} button-locale__img"
-        = lang_menu
+        .dropdown-toggle.button-navbar.button--white{href: '#', data: {toggle: 'dropdown'}}
+          - if masquerading?
+            %i.fa.fa-lg.fa-exclamation-triange.text-danger
+          - if current_user.profile
+            = current_user.profile.name
+            = image_tag current_user.profile.userpic.url(:thumb), id: 'userpic-thumb', class: 'img-rounded loading-bg button-navbar__img'
+          - else
+            = current_user.email
+            = image_tag '/images/thumb/missing.png', id: 'userpic-thumb', class: 'img-rounded loading-bg button-navbar__img'
 
-- content_for :page_js do
-  :javascript
-    $('.sign-in-form').validate({
-      rules: {
-        'user[email]': {
-          required: true,
-          email: true
-        },
-        'user[password]': {
-          required: true
-        },
-      },
-      highlight: function(element) {
-        $(element).closest('.form-group').addClass('has-error');
-      },
-      unhighlight: function(element) {
-        $(element).closest('.form-group').removeClass('has-error');
-      }
-    });
+        %ul.dropdown-menu
+          - if current_user.has_role? :admin
+            %li
+              = link_to t('application.header.admin_panel'), manage_path
+          - if masquerading?
+            %li
+              = link_to 'Stop masquerading', user_masquerades_path(current_user), method: :delete
+          %li
+            = link_to t('application.header.profile'), profile_path(current_user.profile)
+          %li
+            = link_to t('application.header.sign_out'), destroy_user_session_path, method: :delete
+    - else
+      %li
+        = link_to t('application.header.sign_in'), new_user_session_path, class: 'nav-menu-cta nav-menu-cta--primary'
+      %li.hidden-sm
+        = link_to t('application.header.sign_up'), new_user_registration_path, class: 'nav-menu-cta nav-menu-cta--primary'
+
+    %li.dropdown
+      .dropdown-toggle.button--white.button--round.button-locale{href: '#', data: {toggle: 'dropdown'}}
+        = image_tag asset_path('blank.gif'), class: "flag flag-#{ I18n.locale} button-locale__img"
+      = lang_menu

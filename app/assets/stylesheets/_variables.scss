@@ -19,7 +19,7 @@ $green: #5cb85c;
 $green-light: #6cd86c;
 $green-dark: #458a45;
 
-$red: #ff6666;
+$red: #f66;
 $red-light: #ff9090;
 $red-dark: #be4c4c;
 
@@ -30,9 +30,14 @@ $gray-dark: #999;
 $white: #fff;
 $black: #000;
 
+$nav-background:      #252f3c;
+$nav-background-light: #2a3544;
+
 $main-text-color: #333;
 $light-text-color: #555;
 $gray-text-color: $gray;
 $table-text-color: $main-text-color;
 
-$border-color: rgba(0, 0, 0, 0.14);
+$border-color: rgba(0, 0, 0, .14);
+$box-shadow-dark: rgba(0, 0, 0, .08);
+$box-shadow-light: rgba(255, 255, 255, .7);

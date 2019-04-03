@@ -1,0 +1,21 @@
+.nav-menu-item {
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid transparent;
+
+  a {
+    color: $white;
+    display: flex;
+    flex-direction: column;
+    font-family: $pn-regular;
+    flex-grow: 1;
+    font-size: 14px;
+    justify-content: space-around;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  &:hover {
+    border-bottom-color: $blue-light;
+    a { color: $blue-light; }
+  }
+}

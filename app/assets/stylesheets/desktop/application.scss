@@ -1,0 +1,16 @@
+@import '../fonts/*';
+@import '../variables';
+@import './navbar/navbar';
+
+a {
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+ul {
+  list-style: none;
+}
