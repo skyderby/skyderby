@@ -1,4 +1,4 @@
-import "@stimulus/polyfills"
+import '@stimulus/polyfills'
 import { Application } from 'stimulus'
 import { definitionsFromContext } from 'stimulus/webpack-helpers'
 import Rails from 'rails-ujs'
