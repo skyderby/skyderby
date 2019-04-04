@@ -78,7 +78,7 @@ export default class extends Controller {
   }
 
   get page_header_height() {
-    return document.querySelector('.header').offsetHeight
+    return document.querySelector('.navbar').offsetHeight
   }
 
   get container_display_mode() {

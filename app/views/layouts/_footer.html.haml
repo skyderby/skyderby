@@ -1,21 +1,19 @@
 - cache "app_footer#{I18n.locale}", expires_in: 1.hour do
-  #footer
-    .container
-      .row
-        .col-sm-6
-          = "© 2014-#{Time.now.year}"
-          = t('application.footer.made_with')
-          %i.fa.fa-heart
-          = "#{t 'application.footer.owner'} "
-        .col-sm-6.text-right
-          %a{href: about_path}
-            %i.fa.fa-fw.fa-info
-            = t('application.header.about')
-          |
-          %a{href: 'https://www.facebook.com/skyderby.ru'}
-            %i.fab.fa-fw.fa-facebook
-            = t('application.footer.fb_page')
-          |
-          %a{href: 'mailto:skyksandr@gmail.com'}
-            %i.fa.fa-fw.fa-share
-            = 'skyksandr@gmail.com'
+  %footer
+    .text-left
+      = "© 2014-#{Time.now.year}"
+      = t('application.footer.made_with')
+      %i.fa.fa-heart
+      = "#{t 'application.footer.owner'} "
+    .text-right
+      %a{href: about_path}
+        %i.fa.fa-fw.fa-info
+        = t('application.header.about')
+      |
+      %a{href: 'https://www.facebook.com/skyderby.ru'}
+        %i.fab.fa-fw.fa-facebook
+        = t('application.footer.fb_page')
+      |
+      %a{href: 'mailto:skyksandr@gmail.com'}
+        %i.fa.fa-fw.fa-share
+        = 'skyksandr@gmail.com'
