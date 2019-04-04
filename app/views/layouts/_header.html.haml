@@ -15,11 +15,8 @@
         %a.dropdown-toggle.profile-dropdown{href: '#', data: {toggle: 'dropdown'}}
           - if masquerading?
             %i.fa.fa-lg.fa-exclamation-triangle.text-danger
-          - if current_user.profile
-            = image_tag current_user.profile.userpic.url(:thumb), id: 'userpic-thumb', class: 'nav-profile'
-          - else
-            = current_user.email
-            = image_tag '/images/thumb/missing.png', id: 'userpic-thumb', class: 'img-rounded img-50 loading-bg'
+          - avatar = current_user.profile ? current_user.profile.userpic.url(:thumb) : '/images/thumb/missing.png'
+          = image_tag avatar, id: 'userpic-thumb', class: 'nav-profile'
 
         %ul.dropdown-menu.dropdown-menu-right
           - if current_user.has_role? :admin

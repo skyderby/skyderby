@@ -5,15 +5,11 @@
 
     - if user_signed_in?
       %li.dropdown
-        .dropdown-toggle.button-navbar.button--white{href: '#', data: {toggle: 'dropdown'}}
+        %a.dropdown-toggle.profile-dropdown{href: '#', data: {toggle: 'dropdown'}}
           - if masquerading?
-            %i.fa.fa-lg.fa-exclamation-triange.text-danger
-          - if current_user.profile
-            = current_user.profile.name
-            = image_tag current_user.profile.userpic.url(:thumb), id: 'userpic-thumb', class: 'img-rounded loading-bg button-navbar__img'
-          - else
-            = current_user.email
-            = image_tag '/images/thumb/missing.png', id: 'userpic-thumb', class: 'img-rounded loading-bg button-navbar__img'
+            %i.fa.fa-lg.fa-exclamation-triangle.text-danger
+          - avatar = current_user.profile ? current_user.profile.userpic.url(:thumb) : '/images/thumb/missing.png'
+          = image_tag avatar, id: 'userpic-thumb', class: 'nav-profile'
 
         %ul.dropdown-menu
           - if current_user.has_role? :admin
