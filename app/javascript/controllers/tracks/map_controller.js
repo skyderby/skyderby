@@ -7,8 +7,12 @@ export default class extends Controller {
   static targets = [ 'map', 'placeholder', 'data_loading_status', 'maps_loading_status' ]
 
   connect() {
+    if (this.element.getAttribute('data-ready')) return
+
     init_maps_api()
     this.fetch_data()
+
+    this.element.setAttribute('data-ready', true)
   }
 
   fetch_data() {
