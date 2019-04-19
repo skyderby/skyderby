@@ -2,8 +2,12 @@ import { Controller } from 'stimulus'
 
 export default class extends Controller {
   connect() {
+    if (this.element.getAttribute('data-ready')) return
+
     this.init_chart()
     this.fetch_data()
+
+    this.element.setAttribute('data-ready', true)
   }
 
   init_chart() {
