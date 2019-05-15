@@ -47,7 +47,7 @@ class Event < ApplicationRecord
   after_touch :broadcast_update
 
   before_create do
-    self.apply_penalty_to_score = true
+    self.apply_penalty_to_score = false
   end
 
   delegate :name, :msl, to: :place, prefix: true, allow_nil: true
