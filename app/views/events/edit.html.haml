@@ -1,11 +1,11 @@
 - provide :title, @event.name
 
-.event-edit
-  .event-edit__header
+.fullscreen-container
+  .fullscreen-header
     = render 'events/edit_header'
 
-  .event-edit__body
-    .event-edit__sidebar
+  .fullscreen-body
+    .fullscreen-sidebar.fullscreen-sidebar--small
       = render 'events/edit_sidebar'
-    .event-edit__main-area
+    .fullscreen-main-area
       = render 'form', allow_change_rules: false

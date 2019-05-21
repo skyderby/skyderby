@@ -13,7 +13,8 @@ module Events
 
       def competitors
         @competitors ||=
-          round.results
+          round
+          .results
           .map { |result| Events::Maps::CompetitorTrack.new(result) }
           .sort_by(&:start_time)
           .each_with_index { |data, index| data.color = colors[index] }
@@ -21,7 +22,7 @@ module Events
 
       def competitors_by_groups
         @competitors_by_groups ||= competitors.slice_when do |first, second|
-            (first.start_time - second.start_time).abs >= 2.minutes
+          (first.start_time - second.start_time).abs >= 2.minutes
         end
       end
 

@@ -1,12 +1,3 @@
-.event-edit {
-  @include full-screen-container;
-  flex-direction: column;
-}
-
-.event-edit__header {
-  @include full-screen-container-header;
-}
-
 .event-edit__sections {
   @include sidebar-menu;
 }

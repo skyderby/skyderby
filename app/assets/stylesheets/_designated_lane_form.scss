@@ -1,9 +1,9 @@
 .designated-lane-form {
   display: flex;
   justify-content: space-between;
-  padding: 5px 0px;
-}
+  margin-bottom: 5px;
 
-.designated-lane-form .form-control {
-  width: 70px;
+  .form-control {
+    width: 70px;
+  }
 }
