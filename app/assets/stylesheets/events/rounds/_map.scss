@@ -4,15 +4,79 @@
   position: relative;
 }
 
-.events-rounds-map-competitors {
+.round-map-sidebar {
   background-color: $background-main;
   border-left: $border-color 1px solid;
+  flex-grow: 0;
+  flex-shrink: 0;
+  max-width: 300px;
+  min-width: 300px;
+}
+
+.round-map-competitors {
   padding: 15px;
 }
 
-.events-rounds-map-second-row {
+
+
+.round-map-list-commands {
+  margin-bottom: 5px;
+}
+
+.round-map-competitor {
+  font-family: $pn-regular, $fallback-fonts;
+  padding: 5px 7px;
+}
+
+.round-map-competitor-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.round-map-competitor-title {
+  display: flex;
+  width: 80%;
+  line-height: 22px;
+
+  .label {
+    align-self: baseline;
+    margin-top: 3px;
+  }
+
+  > * { margin-left: 5px; }
+
+  .fa {
+    font-size: 10px;
+    line-height: 21px;
+  }
+}
+
+.round-map-competitor-name {
+  flex-grow: 0;
+  flex-shrink: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.round-map-competitor-direction {
   color: $dark-gray-text;
-  padding-top: 5px;
+}
+
+.round-map-group {
+  margin-bottom: 15px;
+}
+
+.round-map-group-title {
+  color: $dark-gray-text;
+  font-family: $pn-semibold, $fallback-fonts;
+  font-size: 16px;
+  padding: 5px 0;
+  text-transform: uppercase;
+}
+
+.round-map-group-list {
+  border-left: $gray 2px solid;
 }
 
 .round-map-loading {
@@ -27,36 +91,6 @@
   padding-top: 200px;
 }
 
-.round-competitors-wrap {
-  width: 33%;
-  overflow-y: scroll;
-}
-
-table.round-competitors {
-
-  thead tr {
-    font-size: 12px;
-  }
-
-  tr.disabled {
-    color: rgb(221, 221, 221);
-  }
-
-  tr > td:nth-child(1) {
-    width: 25px;
-  }
-
-  .round-map-competitor {
-    border-bottom: none;
-
-    .fa {
-      font-size: 10px;
-      line-height: 20px;
-      vertical-align: bottom;
-    }
-  }
-}
-
 .round-map__reference-point {
   display: flex;
   justify-content: space-between;
@@ -69,21 +103,10 @@ table.round-competitors {
   }
 }
 
-.round-competitors__direction {
-  max-width: 50px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
 .round-competitors__group-row {
   font-weight: bold;
   color: #666;
   cursor: pointer;
-}
-
-// parent selector specified to overwheight bootstrap style
-table.round-competitors td.round-competitors__check {
-  padding-left: 10px;
 }
 
 @keyframes placeHolderShimmer{

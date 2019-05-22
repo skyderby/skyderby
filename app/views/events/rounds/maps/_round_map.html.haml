@@ -1,4 +1,4 @@
-- can_edit = policy(@round_map.event).update?
+- can_edit = policy(@round_map.event).update? && !@round_map.event.finished?
 
 .fullscreen-container
   .fullscreen-header
@@ -19,51 +19,52 @@
 
       = render 'events/rounds/maps/map'
 
-    .fullscreen-sidebar
-      .fullscreen-sidebar-container.events-rounds-map-competitors
-        .round-competitors__list-commands
+    .fullscreen-sidebar.round-map-sidebar
+      .fullscreen-sidebar-container.round-map-competitors
+        .round-map-list-commands
           %button.btn.btn-sm.btn-default{'data-action': 'click->events--round-map#select_all'}
             = t('general.select_all')
           %button.btn.btn-sm.btn-default{'data-action': 'click->events--round-map#unselect_all'}
             = t('general.unselect_all')
 
-        %table.table.table-condensed.round-competitors
-          %thead
-            %tr
-              %th{colspan: 2}
-                = t('events.rounds.map.competitor')
-              %th.round-competitors__direction
-                Reference point
-          - @round_map.competitors_by_groups.each_with_index do |group, index|
-            %tbody
-              %tr.round-competitors__group-row{'data-action': 'click->events--round-map#toggle_group'}
-                %td{colspan: 3}
-                  = "#{t('events.rounds.map.group')} #{index + 1}"
+        - @round_map.competitors_by_groups.each_with_index do |group, index|
+          .round-map-group
+            .round-map-group-title{'data-action': 'click->events--round-map#toggle_group'}
+              = "#{t('events.rounds.map.group')} #{index + 1}"
+            .round-map-group-list
               - group.each do |competitor_data|
-                %tr{'data-controller': 'events--competitor-reference-point',
+                .round-map-competitor{'data-controller': 'events--competitor-reference-point',
                     'data-url': event_round_reference_point_assignments_path(@round_map.event, @round_map.round, competitor_id: competitor_data.competitor_id),
                     'data-competitor-id': competitor_data.competitor_id}
-                  %td.round-competitors__check
-                    %input{type: 'checkbox',
-                           checked: competitor_data.present?,
-                           'data-competitor-id': competitor_data.competitor_id,
-                           'data-action': 'change->events--round-map#on_change_visibility',
-                           'data-target': 'events--round-map.competitor'}
-                  %td.round-map-competitor
-                    %span
+                  .round-map-competitor-row
+                    %label.round-map-competitor-title
+                      %input{type: 'checkbox',
+                             checked: competitor_data.present?,
+                             'data-competitor-id': competitor_data.competitor_id,
+                             'data-action': 'change->events--round-map#on_change_visibility',
+                             'data-target': 'events--round-map.competitor'}
                       %i.fa.fa-circle{style: "color: #{competitor_data.present? ? competitor_data.color : 'transparent'}"}
-                      = competitor_data.name.titleize
-                    - if competitor_data.penalized
-                      %span.label.label-warning= "-#{competitor_data.penalty_size}%"
+                      %span.round-map-competitor-name
+                        = competitor_data.name.titleize
+                      - if competitor_data.penalized
+                        %span.label.label-warning.round-map-competitor-penalty= "-#{competitor_data.penalty_size}%"
 
-                    - if @round_map.show_reference_points?
-                      %div.events-rounds-map-second-row
-                        %a.btn.btn-xs.btn-default{'data-action': 'click->events--competitor-reference-point#show_dl'}
+                    .round-map-competitor-reference-point
+                      - if @round_map.show_reference_points?
+                        = render 'events/rounds/maps/reference_point', competitor: competitor_data.competitor, editable: can_edit
+                  .round-map-competitor-row
+                    .round-map-competitor-actions
+                      - if @round_map.show_reference_points?
+                        %a.btn.btn-xs.btn-link{'data-action': 'click->events--competitor-reference-point#show_dl'}
                           Show DL
-                  %td.text-right
-                    - if @round_map.show_reference_points?
-                      = render 'events/rounds/maps/reference_point', competitor: competitor_data.competitor, editable: can_edit
-                    - if competitor_data.direction 
-                      .events-rounds-map-direction.events-rounds-map-second-row
-                        %i.fa.fa-compass
-                        = "#{competitor_data.direction.round}°"
+                      - if can_edit
+                        |
+                        = link_to t('event_tracks.show.penalties'),
+                                  event_round_map_penalty_path(@round_map.event, @round_map.round, competitor_data),
+                                  remote: true,
+                                  class: 'btn btn-xs btn-link'
+                    .round-map-competitor-direction
+                      - if competitor_data.direction 
+                        .events-rounds-map-direction.events-rounds-map-second-row
+                          %i.far.fa-compass
+                          = "#{competitor_data.direction.round}°"

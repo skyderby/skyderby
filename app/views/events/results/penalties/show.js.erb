@@ -1,2 +1,6 @@
-$('#modal').html('<%= j render partial: 'penalties_form', layout: 'events/results/layout_modal', locals: { show_cancel: true } %>');
+$('#modal').html(
+  '<%= j render partial: 'penalties_form',
+               layout: 'events/results/layout_modal',
+               locals: { show_cancel: true, show_delete_button: true, result: @result } %>'
+);
 $('#modal').modal('show');

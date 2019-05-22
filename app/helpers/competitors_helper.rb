@@ -11,7 +11,7 @@ module CompetitorsHelper
   end
 
   def edit_competitor_link(event, competitor)
-    link_to content_tag(:i, nil, class: 'fa fa-pencil text-gray'),
+    link_to content_tag(:i, nil, class: 'fas fa-pencil-alt text-gray'),
             edit_event_competitor_path(event, competitor),
             remote: true,
             'data-params': display_event_params.to_param,

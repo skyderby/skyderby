@@ -1,1 +1,3 @@
-= render partial: 'penalties_form', layout: 'events/results/layout', locals: { local: true }
+= render partial: 'penalties_form',
+         layout: 'events/results/layout',
+         locals: { local: true, result: @result, show_delete_button: true }
