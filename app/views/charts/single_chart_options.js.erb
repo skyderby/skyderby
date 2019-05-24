@@ -4,6 +4,7 @@
 {
   chart: {
     type: 'spline',
+    styledMode: true,
     events: {
       load: function() {
         window.chartLoadCallback('single_chart_', this.series);
@@ -11,7 +12,8 @@
     }
   },
   title: {
-    text: "<%= t('charts.all_data.title') %>"
+    text: "<%= t('charts.all_data.title') %>",
+    style: { color: '#777', fontSize: '16px' }
   },
   plotOptions: {
     spline: {

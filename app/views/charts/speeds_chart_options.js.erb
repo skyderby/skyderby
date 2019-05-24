@@ -2,6 +2,7 @@
 {
   chart: {
     type: 'spline',
+    styledMode: true,
     marginLeft: 70,
     events: {
       load: function() {
@@ -10,7 +11,8 @@
     }
   },
   title: {
-    text: '<%= t('charts.spd.title') %>'
+    text: '<%= t('charts.spd.title') %>',
+    style: { color: '#777', fontSize: '16px' }
   },
   plotOptions: {
     spline: {

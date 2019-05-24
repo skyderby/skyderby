@@ -16,13 +16,16 @@
 
       %hr.top-buffer
 
-      .row#content-row
-        .col-sm-12
+      .track-jump-range
+        .form-group
+          = render 'range_selector', presenter: @track_presenter
 
-          #btn-range-edit
-            %button.btn.btn-default#range-edit-button{data: {toggle:'modal', target:'#edit-range'}}
-              %i.fa.fa-arrows-alt-h
-          #slider-range-selector= render 'range_selector', presenter: @track_presenter
+        .form-group.text-center
+          - if @track.skydive? && @track_presenter.max_altitude > 3000 && @track_presenter.min_altitude < 2000
+            = link_to 'FAI window 3000-2000m', track_path(@track.id, f: 3000, t: 2000), class: 'btn btn-xs btn-default button--rounded'
+          %button.btn.btn-xs.btn-default.button--rounded#range-edit-button{data: {toggle:'modal', target:'#edit-range'}}
+            Custom range
+          = link_to 'Full jump', track_path(@track.id), class: 'btn btn-xs btn-default button--rounded', remote: true
 
       = render 'tracks/charts', presenter: @track_presenter
 
