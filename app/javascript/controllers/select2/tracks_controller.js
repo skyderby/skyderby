@@ -4,7 +4,7 @@ export default class extends BaseController {
   get options() {
     var options = {
       ajax: {
-        url: '/tracks/select_options',
+        url: '/tracks/select_options'
       }
     }
 

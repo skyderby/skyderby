@@ -5,7 +5,7 @@ export default class CenterLine {
   }
 
   get path() {
-    return [ this.finish_line.center, this.exit_coordinates ]
+    return [this.finish_line.center, this.exit_coordinates]
   }
 
   get exit_coordinates() {

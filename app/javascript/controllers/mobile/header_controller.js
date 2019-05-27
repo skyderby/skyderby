@@ -1,13 +1,15 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = [ 'menu', 'overlay', 'locale_menu' ]
+  static targets = ['menu', 'overlay', 'locale_menu']
 
   connect() {
-    let menu_width = this.menu.offsetWidth
+    const menu_width = this.menu.offsetWidth
     this.menu.style.right = `${-menu_width}px`
 
-    document.addEventListener('turbolinks:before-cache', this.close_menu.bind(this), {once: true})
+    document.addEventListener('turbolinks:before-cache', this.close_menu.bind(this), {
+      once: true
+    })
   }
 
   open_menu() {

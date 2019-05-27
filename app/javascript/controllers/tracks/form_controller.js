@@ -14,10 +14,12 @@ export default class extends Controller {
           required: () => $('#newTrackModal input#name')
         },
         'track_file[track_attributes][suit_id]': {
-          required: () => $('[name="track_file[track_attributes][suit_id]"]').is(':visible')
+          required: () =>
+            $('[name="track_file[track_attributes][suit_id]"]').is(':visible')
         },
         'track_file[track_attributes][missing_suit_name]': {
-          required: () => $('[name="track_file[track_attributes][missing_suit_name]"]').is(':visible')
+          required: () =>
+            $('[name="track_file[track_attributes][missing_suit_name]"]').is(':visible')
         },
         'track_file[track_attributes][location]': {
           minlength: 3,
@@ -39,17 +41,21 @@ export default class extends Controller {
           require_from_group: 'This field is required.'
         }
       },
-      highlight: (element) => {
-        $(element).closest('.form-group').addClass('has-error')
+      highlight: element => {
+        $(element)
+          .closest('.form-group')
+          .addClass('has-error')
       },
-      unhighlight: (element) => {
-        $(element).closest('.form-group').removeClass('has-error')
+      unhighlight: element => {
+        $(element)
+          .closest('.form-group')
+          .removeClass('has-error')
       },
       errorPlacement: (error, element) => {
         if (element.attr('name') == 'track_file[file]') {
-          error.appendTo( element.closest('.col-sm-9') )
-        } else if(element.hasClass('suit-group')) {
-          error.appendTo( element.closest('div') )
+          error.appendTo(element.closest('.col-sm-9'))
+        } else if (element.hasClass('suit-group')) {
+          error.appendTo(element.closest('div'))
         } else {
           error.insertAfter(element)
         }

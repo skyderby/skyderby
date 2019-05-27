@@ -28,10 +28,10 @@ export default class extends Controller {
     const place_id = event.currentTarget.value
     fetch(`/places/${place_id}`, {
       credentials: 'same-origin',
-      headers: { 'Accept': 'application/json' }
+      headers: { Accept: 'application/json' }
     })
-      .then( response => { return response.json() } )
-      .then( data => {
+      .then(response => response.json())
+      .then(data => {
         this.exit_lat = data.latitude
         this.exit_lon = data.longitude
         this.on_change_exit()
@@ -62,8 +62,13 @@ export default class extends Controller {
   }
 
   calculate_finish_line_coordinates() {
-    let bearing = Geospatial.bearing(this.exit_lat, this.exit_lon, this.center_lat, this.center_lon)
-    let start_point = Geospatial.destiantion_by_bearing_and_distance(
+    const bearing = Geospatial.bearing(
+      this.exit_lat,
+      this.exit_lon,
+      this.center_lat,
+      this.center_lon
+    )
+    const start_point = Geospatial.destiantion_by_bearing_and_distance(
       this.center_lat,
       this.center_lon,
       bearing + 90,
@@ -73,7 +78,7 @@ export default class extends Controller {
     this.finish_start_lat = start_point.latitude
     this.finish_start_lon = start_point.longitude
 
-    let end_point = Geospatial.destiantion_by_bearing_and_distance(
+    const end_point = Geospatial.destiantion_by_bearing_and_distance(
       this.center_lat,
       this.center_lon,
       bearing - 90,
@@ -90,8 +95,10 @@ export default class extends Controller {
   }
 
   set_center() {
-    this.center_lat = this.finish_start_lat + (this.finish_end_lat - this.finish_start_lat) / 2
-    this.center_lon = this.finish_start_lon + (this.finish_end_lon - this.finish_start_lon) / 2
+    this.center_lat =
+      this.finish_start_lat + (this.finish_end_lat - this.finish_start_lat) / 2
+    this.center_lon =
+      this.finish_start_lon + (this.finish_end_lon - this.finish_start_lon) / 2
   }
 
   set_length() {
@@ -104,11 +111,16 @@ export default class extends Controller {
   }
 
   set_distance() {
-    this.distance = Geospatial.distance(this.exit_lat, this.exit_lon, this.center_lat, this.center_lon)
+    this.distance = Geospatial.distance(
+      this.exit_lat,
+      this.exit_lon,
+      this.center_lat,
+      this.center_lon
+    )
   }
 
   on_maps_ready = () => {
-    let options = {
+    const options = {
       zoom: 2,
       center: new google.maps.LatLng(20, 20),
       mapTypeId: google.maps.MapTypeId.SATELLITE
@@ -135,7 +147,7 @@ export default class extends Controller {
     this.finish_line = new google.maps.Polyline({
       path: [
         { lat: this.finish_start_lat, lng: this.finish_start_lon },
-        { lat: this.finish_end_lat,   lng: this.finish_end_lon }
+        { lat: this.finish_end_lat, lng: this.finish_end_lon }
       ],
       geodesic: true,
       strokeColor: '#E84855',
@@ -153,7 +165,7 @@ export default class extends Controller {
     this.center_line = new google.maps.Polyline({
       path: [
         { lat: this.center_lat, lng: this.center_lon },
-        { lat: this.exit_lat,   lng: this.exit_lon }
+        { lat: this.exit_lat, lng: this.exit_lon }
       ],
       geodesic: true,
       strokeColor: '#E84855',
@@ -165,27 +177,18 @@ export default class extends Controller {
   }
 
   fit_bounds() {
-    let bounds = new google.maps.LatLngBounds()
+    const bounds = new google.maps.LatLngBounds()
 
     if (this.finish_start_lat && this.finish_start_lon) {
-      bounds.extend(new google.maps.LatLng(
-        this.finish_start_lat,
-        this.finish_start_lon
-      ))
+      bounds.extend(new google.maps.LatLng(this.finish_start_lat, this.finish_start_lon))
     }
 
     if (this.finish_end_lat && this.finish_end_lon) {
-      bounds.extend(new google.maps.LatLng(
-        this.finish_end_lat,
-        this.finish_end_lon
-      ))
+      bounds.extend(new google.maps.LatLng(this.finish_end_lat, this.finish_end_lon))
     }
 
     if (this.exit_lat && this.exit_lon) {
-      bounds.extend(new google.maps.LatLng(
-        this.exit_lat,
-        this.exit_lon
-      ))
+      bounds.extend(new google.maps.LatLng(this.exit_lat, this.exit_lon))
     }
 
     this.map.fitBounds(bounds)
@@ -195,16 +198,17 @@ export default class extends Controller {
   // Attributes
 
   get finish_line_coordinates_present() {
-    return this.finish_start_lat
-      && this.finish_start_lon
-      && this.finish_end_lat
-      && this.finish_end_lon
+    return (
+      this.finish_start_lat &&
+      this.finish_start_lon &&
+      this.finish_end_lat &&
+      this.finish_end_lon
+    )
   }
 
   get exit_coordinates_present() {
     return this.exit_lat && this.exit_lon
   }
-
 
   get center_lat() {
     return Number(this.center_latTarget.value)

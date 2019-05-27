@@ -1,7 +1,7 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = [ 'file_field', 'text_field' ]
+  static targets = ['file_field', 'text_field']
 
   change() {
     const label = this.file_field.value.replace(/\\/g, '/').replace(/.*\//, '')

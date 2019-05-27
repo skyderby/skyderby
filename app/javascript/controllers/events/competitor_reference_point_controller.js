@@ -4,10 +4,11 @@ import Rails from 'rails-ujs'
 const CARET_ICON = '<i class="fa fa-fw fa-caret-down"></i>'
 const ELLIPSIS_ICON = '<i class="fa fa-fw fa-ellipsis-h"></i>'
 const BLANKSLATE = ELLIPSIS_ICON + CARET_ICON
-const LOADING_SPINNER = '<i class="fa fa-fw fa-circle-notch fa-spin"></i><i class="fa fa-fw"></i>'
+const LOADING_SPINNER =
+  '<i class="fa fa-fw fa-circle-notch fa-spin"></i><i class="fa fa-fw"></i>'
 
 export default class extends Controller {
-  static targets = [ 'reference_point' ]
+  static targets = ['reference_point']
 
   clear_reference_point(e) {
     e.preventDefault()
@@ -21,24 +22,29 @@ export default class extends Controller {
         'Content-Type': 'application/json',
         'X-CSRF-Token': Rails.csrfToken()
       }
-    }).then((response) => {
-      if (response.ok) {
-        return response.blob()
-      }
-
-      throw new Error(`${response.status}: ${response.statusText}`)
-    }).then(() => {
-      this.reference_point.setAttribute('data-id', '')
-      this.reference_point.innerHTML = BLANKSLATE
-    }).catch((error) => {
-      document.dispatchEvent(new CustomEvent('action:error', {
-        detail: error,
-        bubbles: true,
-        cancelable: true
-      }))
-
-      this.restore_reference_point()
     })
+      .then(response => {
+        if (response.ok) {
+          return response.blob()
+        }
+
+        throw new Error(`${response.status}: ${response.statusText}`)
+      })
+      .then(() => {
+        this.reference_point.setAttribute('data-id', '')
+        this.reference_point.innerHTML = BLANKSLATE
+      })
+      .catch(error => {
+        document.dispatchEvent(
+          new CustomEvent('action:error', {
+            detail: error,
+            bubbles: true,
+            cancelable: true
+          })
+        )
+
+        this.restore_reference_point()
+      })
   }
 
   assign_reference_point(event) {
@@ -58,24 +64,29 @@ export default class extends Controller {
         'X-CSRF-Token': Rails.csrfToken()
       },
       body: JSON.stringify({ reference_point_id: reference_point_id })
-    }).then((response) => {
-      if (response.ok) {
-        return response.blob()
-      }
-
-      throw new Error(`${response.status}: ${response.statusText}`)
-    }).then(() => {
-      this.reference_point.setAttribute('data-id', reference_point_id)
-      this.reference_point.innerHTML = reference_point_name + CARET_ICON
-    }).catch((error) => {
-      document.dispatchEvent(new CustomEvent('action:error', {
-        detail: error,
-        bubbles: true,
-        cancelable: true
-      }))
-
-      this.restore_reference_point()
     })
+      .then(response => {
+        if (response.ok) {
+          return response.blob()
+        }
+
+        throw new Error(`${response.status}: ${response.statusText}`)
+      })
+      .then(() => {
+        this.reference_point.setAttribute('data-id', reference_point_id)
+        this.reference_point.innerHTML = reference_point_name + CARET_ICON
+      })
+      .catch(error => {
+        document.dispatchEvent(
+          new CustomEvent('action:error', {
+            detail: error,
+            bubbles: true,
+            cancelable: true
+          })
+        )
+
+        this.restore_reference_point()
+      })
   }
 
   show_loading_spinner() {

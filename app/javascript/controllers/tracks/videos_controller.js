@@ -3,7 +3,7 @@ import VideoData from 'models/tracks/video'
 import { initYoutubeApi } from 'utils/youtube'
 
 export default class extends Controller {
-  static targets = [ 'altitude', 'altitude_spent', 'h_speed', 'v_speed', 'glide_ratio' ]
+  static targets = ['altitude', 'altitude_spent', 'h_speed', 'v_speed', 'glide_ratio']
 
   connect() {
     initYoutubeApi()
@@ -14,9 +14,9 @@ export default class extends Controller {
     const url = this.element.getAttribute('data-url')
     fetch(url, {
       credentials: 'same-origin',
-      headers: { 'Accept': 'application/json' }
+      headers: { Accept: 'application/json' }
     })
-      .then(response => { return response.json() })
+      .then(response => response.json())
       .then(this.on_data_ready)
   }
 
@@ -24,7 +24,7 @@ export default class extends Controller {
     this.init_player()
   }
 
-  on_data_ready = (data) => {
+  on_data_ready = data => {
     this.model = new VideoData(data)
   }
 
@@ -39,15 +39,20 @@ export default class extends Controller {
         rel: 0
       },
       events: {
-        'onStateChange': this.on_player_state_change
+        onStateChange: this.on_player_state_change
       }
     })
   }
 
-  on_player_state_change = (event) => {
+  on_player_state_change = event => {
     if (event.data === YT.PlayerState.PLAYING && this.timer_id === undefined) {
-      this.timer_id = setInterval( () => { this.update_progress(this.player.getCurrentTime()) }, 500)
-    } else if (event.data === YT.PlayerState.ENDED || event.data === YT.PlayerState.PAUSED) {
+      this.timer_id = setInterval(() => {
+        this.update_progress(this.player.getCurrentTime())
+      }, 500)
+    } else if (
+      event.data === YT.PlayerState.ENDED ||
+      event.data === YT.PlayerState.PAUSED
+    ) {
       if (this.timer_id === undefined) return
       clearInterval(this.timer_id)
       this.timer_id = undefined
@@ -55,7 +60,7 @@ export default class extends Controller {
   }
 
   update_progress(current_time) {
-    let point = this.model.point_in_time(current_time)
+    const point = this.model.point_in_time(current_time)
 
     this.altitudeTarget.innerText = point.altitude
     this.altitude_spentTarget.innerText = point.altitude_spent

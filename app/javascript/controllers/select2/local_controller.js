@@ -10,7 +10,8 @@ export default class extends Controller {
       minimumResultsForSearch: 10
     }
 
-    this.$element.select2(options)
+    this.$element
+      .select2(options)
       .on('select2:select', () => this.dispatchChange())
       .on('select2:unselect', () => {
         this.element.value = undefined

@@ -1,0 +1,27 @@
+version: 2
+
+jobs:
+  lint_ruby:
+    working_directory: ~/skyderby
+    docker:
+      - image: circleci/ruby:2.6.2-node
+    steps:
+      - checkout
+      - run: gem install rubocop
+      - run: rubocop --config .rubocop.yml
+
+  lint_js:
+    working_directory: ~/skyderby
+    docker:
+      - image: circleci/ruby:2.6.2-node
+    steps:
+      - checkout
+      - run: yarn
+      - run: yarn eslint ./app/javascript
+
+workflows:
+  version: 2
+  lint_test_build:
+    jobs:
+      - lint_ruby
+      - lint_js

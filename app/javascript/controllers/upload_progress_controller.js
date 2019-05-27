@@ -1,15 +1,15 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = [ 'spinner', 'done', 'comment' ]
+  static targets = ['spinner', 'done', 'comment']
 
   connect() {
-    let form = this.element.closest('form')
+    const form = this.element.closest('form')
 
-    form.addEventListener('ajax:before',     this.on_start)
+    form.addEventListener('ajax:before', this.on_start)
     form.addEventListener('ajax:beforeSend', this.on_before_send)
-    form.addEventListener('ajax:success',    this.on_success)
-    form.addEventListener('ajax:error',      this.on_error)
+    form.addEventListener('ajax:success', this.on_success)
+    form.addEventListener('ajax:error', this.on_error)
 
     this.default_comment = this.comment.innerHTML
   }
@@ -18,8 +18,8 @@ export default class extends Controller {
     this.element.style.display = ''
   }
 
-  on_before_send = (event) => {
-    let [xhr, _options] = event.detail
+  on_before_send = event => {
+    const [xhr, _options] = event.detail
     xhr.upload.onprogress = this.on_progress
   }
 
@@ -34,8 +34,8 @@ export default class extends Controller {
     this.comment.innerHTML = this.default_comment
   }
 
-  on_progress = (event) => {
-    let percents = Math.round(event.loaded / event.total * 100)
+  on_progress = event => {
+    const percents = Math.round((event.loaded / event.total) * 100)
     this.comment.querySelector('.progress-count').textContent = `${percents} %`
     if (percents == 100) {
       this.comment.textContent = 'Processing track...'

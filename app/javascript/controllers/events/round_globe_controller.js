@@ -3,14 +3,14 @@ import { initCesiumApi } from 'utils/cesium_api'
 
 class CompetitionEntryBuilder {
   constructor({ name, points, color }) {
-    Object.assign(this, { name, points, color})
+    Object.assign(this, { name, points, color })
   }
 
   build() {
     return {
       availability: this.availability,
       position: this.position,
-      orientation : new Cesium.VelocityOrientationProperty(this.position),
+      orientation: new Cesium.VelocityOrientationProperty(this.position),
       label: this.label,
       ellipsoid: this.ellipsoid,
       path: this.path
@@ -72,7 +72,7 @@ class CompetitionEntryBuilder {
         glowPower: 0.1,
         color: Cesium.Color.fromCssColorString(this.color)
       }),
-      width : 10
+      width: 10
     }
   }
 
@@ -96,7 +96,7 @@ class CompetitionEntryBuilder {
 }
 
 export default class extends Controller {
-  static targets = [ 'dataStatus', 'cesiumStatus', 'loadingProgress', 'viewer' ]
+  static targets = ['dataStatus', 'cesiumStatus', 'loadingProgress', 'viewer']
 
   connect() {
     this.fetchData()
@@ -106,7 +106,7 @@ export default class extends Controller {
   fetchData() {
     fetch(this.url, {
       credentials: 'same-origin',
-      headers: { 'Accept': 'application/json' }
+      headers: { Accept: 'application/json' }
     })
       .then(response => response.json())
       .then(data => {
@@ -205,10 +205,10 @@ export default class extends Controller {
     this.viewer.entities.add({
       position: Cesium.Cartesian3.fromDegrees(longitude, latitude),
       ellipse: {
-        semiMinorAxis : 5000.0,
-        semiMajorAxis : 5000.0,
+        semiMinorAxis: 5000.0,
+        semiMajorAxis: 5000.0,
         height: height,
-        material : color
+        material: color
       }
     })
   }

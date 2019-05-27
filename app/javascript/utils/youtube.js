@@ -3,7 +3,9 @@ import './youtube/callbacks'
 
 function initYoutubeApi() {
   if (window.youtubeApiReady) {
-    document.dispatchEvent(new Event('youtube_api:ready', { bubbles: true, cancellable: true }))
+    document.dispatchEvent(
+      new Event('youtube_api:ready', { bubbles: true, cancellable: true })
+    )
   } else {
     loadScript('https://www.youtube.com/iframe_api', {
       onError: window.onYoutubeApiLoadingError

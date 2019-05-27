@@ -5,7 +5,7 @@ import smooth_scroll from 'utils/smooth_scroll'
 const HEADER_HEIGHT = 71
 
 export default class extends Controller {
-  static targets = [ 'player', 'chart', 'url', 'video_offset', 'track_offset' ]
+  static targets = ['player', 'chart', 'url', 'video_offset', 'track_offset']
 
   connect() {
     initYoutubeApi()
@@ -15,8 +15,8 @@ export default class extends Controller {
 
   fetch_chart_data() {
     fetch(this.element.getAttribute('data-url'), { credentials: 'same-origin' })
-      .then( (response) => { return response.json() })
-      .then( (data) => {
+      .then(response => response.json())
+      .then(data => {
         const chart = this.highchart
 
         chart.series[0].setData(data.altitude)
@@ -143,7 +143,7 @@ export default class extends Controller {
         marginRight: 0,
         zoomType: 'x',
         events: {
-          click: (event) => {
+          click: event => {
             if (event.target.textContent) return
             this.set_track_offset(event.xAxis[0].value)
           }
@@ -164,23 +164,26 @@ export default class extends Controller {
           },
           point: {
             events: {
-              click: (event) => {
+              click: event => {
                 this.set_track_offset(event.point.x)
               }
             }
           }
         }
       },
-      yAxis: [{
-        title: {
-          text: I18n.t('tracks.edit.elevation') + ', ' + I18n.t('units.m')
+      yAxis: [
+        {
+          title: {
+            text: I18n.t('tracks.edit.elevation') + ', ' + I18n.t('units.m')
+          },
+          min: 0,
+          opposite: true
         },
-        min: 0,
-        opposite: true
-      }, {
-        min: 0,
-        opposite: true
-      }],
+        {
+          min: 0,
+          opposite: true
+        }
+      ],
       tooltip: {
         crosshairs: true,
         shared: true,
@@ -189,28 +192,32 @@ export default class extends Controller {
       credits: {
         enabled: false
       },
-      series: [{
-        name: I18n.t('tracks.edit.elevation'),
-        yAxis: 0,
-        pointInterval: 10,
-        tooltip: {
-          valueSuffix: ' ' + I18n.t('units.m')
+      series: [
+        {
+          name: I18n.t('tracks.edit.elevation'),
+          yAxis: 0,
+          pointInterval: 10,
+          tooltip: {
+            valueSuffix: ' ' + I18n.t('units.m')
+          }
+        },
+        {
+          name: I18n.t('charts.spd.series.ground'),
+          yAxis: 1,
+          color: '#52A964',
+          tooltip: {
+            valueSuffix: ' ' + I18n.t('units.kmh')
+          }
+        },
+        {
+          name: I18n.t('charts.spd.series.vertical'),
+          yAxis: 1,
+          color: '#A7414E',
+          tooltip: {
+            valueSuffix: ' ' + I18n.t('units.kmh')
+          }
         }
-      }, {
-        name: I18n.t('charts.spd.series.ground'),
-        yAxis: 1,
-        color: '#52A964',
-        tooltip: {
-          valueSuffix: ' ' + I18n.t('units.kmh'),
-        }
-      }, {
-        name: I18n.t('charts.spd.series.vertical'),
-        yAxis: 1,
-        color: '#A7414E',
-        tooltip: {
-          valueSuffix: ' ' + I18n.t('units.kmh'),
-        }
-      }]
+      ]
     }
   }
 }

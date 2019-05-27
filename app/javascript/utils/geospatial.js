@@ -10,11 +10,16 @@ export default class Geospatial {
   }
 
   static normalize_angle(n) {
-    let angle = Number(n)
+    const angle = Number(n)
     return (angle + 360) % 360
   }
 
-  static destiantion_by_bearing_and_distance(latitude_deg, longitude_deg, bearing_deg, distance) {
+  static destiantion_by_bearing_and_distance(
+    latitude_deg,
+    longitude_deg,
+    bearing_deg,
+    distance
+  ) {
     const start_lat = this.radians(latitude_deg),
       start_lon = this.radians(longitude_deg),
       bearing = this.radians(bearing_deg)
@@ -24,10 +29,12 @@ export default class Geospatial {
         Math.cos(start_lat) * Math.sin(distance / this.EARTH_RADIUS) * Math.cos(bearing)
     )
 
-    const dest_lon = start_lon + Math.atan2(
-      Math.sin(bearing) * Math.sin(distance / this.EARTH_RADIUS) * Math.cos(start_lat),
-      Math.cos(distance / this.EARTH_RADIUS) - Math.sin(start_lat) * Math.sin(dest_lat)
-    )
+    const dest_lon =
+      start_lon +
+      Math.atan2(
+        Math.sin(bearing) * Math.sin(distance / this.EARTH_RADIUS) * Math.cos(start_lat),
+        Math.cos(distance / this.EARTH_RADIUS) - Math.sin(start_lat) * Math.sin(dest_lat)
+      )
 
     return {
       latitude: this.degrees(dest_lat),
@@ -44,15 +51,14 @@ export default class Geospatial {
     let d_lon = end_lon - start_lon
 
     const d_phi = Math.log(
-      Math.tan(end_lat / 2.0 + Math.PI / 4.0) /
-        Math.tan(start_lat / 2.0 + Math.PI / 4.0)
+      Math.tan(end_lat / 2.0 + Math.PI / 4.0) / Math.tan(start_lat / 2.0 + Math.PI / 4.0)
     )
 
     if (Math.abs(d_lon) > Math.PI) {
       if (d_lon > 0.0) {
         d_lon = -(2.0 * Math.PI - d_lon)
       } else {
-        d_lon = (2.0 * Math.PI + d_lon)
+        d_lon = 2.0 * Math.PI + d_lon
       }
     }
 
@@ -68,11 +74,11 @@ export default class Geospatial {
     const d_lat = lat2 - lat1
     const d_lon = lon2 - lon1
 
-    const a = Math.sin(d_lat / 2) * Math.sin(d_lat / 2) +
-      Math.cos(lat1) * Math.cos(lat2) *
-      Math.sin(d_lon / 2) * Math.sin(d_lon / 2)
+    const a =
+      Math.sin(d_lat / 2) * Math.sin(d_lat / 2) +
+      Math.cos(lat1) * Math.cos(lat2) * Math.sin(d_lon / 2) * Math.sin(d_lon / 2)
 
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 
     return this.EARTH_RADIUS * c
   }
