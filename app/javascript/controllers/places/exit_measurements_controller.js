@@ -1,7 +1,7 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = [ 'container', 'template', 'textarea' ]
+  static targets = ['container', 'template', 'textarea']
 
   connect() {
     this.currentIndex = new Date().getTime()
@@ -30,7 +30,7 @@ export default class extends Controller {
   }
 
   removeAll() {
-    this.containerTarget.querySelectorAll('tr').forEach( tr => this.removeRow(tr) )
+    this.containerTarget.querySelectorAll('tr').forEach(tr => this.removeRow(tr))
   }
 
   addFromText(e) {
@@ -40,9 +40,12 @@ export default class extends Controller {
     if (rows.length === 0) return
 
     this.removeAll()
-    rows.forEach( (rowData) => {
+    rows.forEach(rowData => {
       const row = this.addRow()
-      const [altitude, distance] = rowData.trim().split(' ').slice(-2)
+      const [altitude, distance] = rowData
+        .trim()
+        .split(' ')
+        .slice(-2)
       row.querySelector('input[name$="[altitude]"]').value = altitude
       row.querySelector('input[name$="[distance]"]').value = distance
     })

@@ -1,13 +1,25 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = [ 'chart' ]
+  static targets = ['chart']
 
   connect() {
-    this.element.addEventListener('flight-profiles:track-checked',   this.addTrack.bind(this))
-    this.element.addEventListener('flight-profiles:track-unchecked', this.removeTrack.bind(this))
-    this.element.addEventListener('flight-profiles:line-selected',   this.showJumpProfile.bind(this))
-    this.element.addEventListener('flight-profiles:line-unselected', this.removeJumpProfile.bind(this))
+    this.element.addEventListener(
+      'flight-profiles:track-checked',
+      this.addTrack.bind(this)
+    )
+    this.element.addEventListener(
+      'flight-profiles:track-unchecked',
+      this.removeTrack.bind(this)
+    )
+    this.element.addEventListener(
+      'flight-profiles:line-selected',
+      this.showJumpProfile.bind(this)
+    )
+    this.element.addEventListener(
+      'flight-profiles:line-unselected',
+      this.removeJumpProfile.bind(this)
+    )
   }
 
   addTrack(event) {

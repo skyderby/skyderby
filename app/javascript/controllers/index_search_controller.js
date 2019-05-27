@@ -7,9 +7,12 @@ export default class extends Controller {
 
     const element = this.element.querySelector('input[name="search"]')
 
-    this.data.set('timer_id', setTimeout(() => {
-      $.rails.fire(element, 'change')
-      timer_id = undefined
-    }, 200))
+    this.data.set(
+      'timer_id',
+      setTimeout(() => {
+        $.rails.fire(element, 'change')
+        timer_id = undefined
+      }, 200)
+    )
   }
 }

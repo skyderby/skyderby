@@ -21,7 +21,11 @@ export default class Bounds {
 
   get latitudes() {
     if (!this._latitudes) {
-      this._latitudes = this.points.map( el => { return el.latitude } ).sort()
+      this._latitudes = this.points
+        .map(el => {
+          return el.latitude
+        })
+        .sort()
     }
 
     return this._latitudes
@@ -29,7 +33,11 @@ export default class Bounds {
 
   get longitudes() {
     if (!this._longitudes) {
-      this._longitudes = this.points.map( el => { return el.longitude } ).sort()
+      this._longitudes = this.points
+        .map(el => {
+          return el.longitude
+        })
+        .sort()
     }
 
     return this._longitudes

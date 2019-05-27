@@ -7,7 +7,7 @@ import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css'
 
 export default class extends Controller {
   connect() {
-    let options = {
+    const options = {
       format: 'dd.mm.yyyy',
       startDate: 0,
       language: I18n.locale,

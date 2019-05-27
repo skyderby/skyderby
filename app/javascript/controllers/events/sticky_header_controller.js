@@ -1,7 +1,7 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = [ 'container', 'table' ]
+  static targets = ['container', 'table']
 
   connect() {
     window.addEventListener('resize', this.on_resize_listener)
@@ -29,15 +29,21 @@ export default class extends Controller {
     const original_cells = this.tableTarget.querySelectorAll('th')
     this.fixed_header.style.width = this.tableTarget.offsetWidth + 'px'
 
-    this.fixed_header.querySelectorAll('th').forEach( (el, index) => {
+    this.fixed_header.querySelectorAll('th').forEach((el, index) => {
       el.style.width = original_cells[index].offsetWidth + 'px'
     })
   }
 
   on_scroll() {
-    if (this.offset_top < this.table_offset_top || this.offset_top > this.table_offset_bottom) {
+    if (
+      this.offset_top < this.table_offset_top ||
+      this.offset_top > this.table_offset_bottom
+    ) {
       this.container_display_mode = 'none'
-    } else if (this.offset_top > this.table_offset_top && this.offset_top < this.table_offset_bottom) {
+    } else if (
+      this.offset_top > this.table_offset_top &&
+      this.offset_top < this.table_offset_bottom
+    ) {
       if (this.container_display_mode === 'block') return
 
       this.on_resize()
@@ -58,12 +64,16 @@ export default class extends Controller {
   }
 
   get table_offset_bottom() {
-    return this.element.getBoundingClientRect().bottom + pageYOffset - this.table_header_height
+    return (
+      this.element.getBoundingClientRect().bottom + pageYOffset - this.table_header_height
+    )
   }
 
   get on_resize_listener() {
     if (!this._on_resize_listener) {
-      this._on_resize_listener = () => { this.on_resize() }
+      this._on_resize_listener = () => {
+        this.on_resize()
+      }
     }
 
     return this._on_resize_listener
@@ -71,7 +81,9 @@ export default class extends Controller {
 
   get on_scroll_listener() {
     if (!this._on_scroll_listener) {
-      this._on_scroll_listener = () => { this.on_scroll() }
+      this._on_scroll_listener = () => {
+        this.on_scroll()
+      }
     }
 
     return this._on_scroll_listener
@@ -99,7 +111,7 @@ export default class extends Controller {
       this._header_container.style.height = `${this.table_header_height + 1}px`
       this._header_container.style.left = `${this.container_left}px`
       this._header_container.style.right = `${this.container_right}px`
-      this._header_container.style.overflowX= 'hidden'
+      this._header_container.style.overflowX = 'hidden'
 
       this.header_container.insertAdjacentElement('afterbegin', this.fixed_header)
     }
@@ -111,7 +123,9 @@ export default class extends Controller {
     if (!this._fixed_header) {
       this._fixed_header = this.tableTarget.cloneNode(true)
       this._fixed_header.removeAttribute('data-target')
-      this._fixed_header.querySelectorAll('tbody').forEach( (el) => { el.remove() })
+      this._fixed_header.querySelectorAll('tbody').forEach(el => {
+        el.remove()
+      })
 
       this._fixed_header.style.position = 'absolute'
       this._fixed_header.style.top = 0

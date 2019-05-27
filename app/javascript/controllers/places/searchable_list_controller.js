@@ -1,7 +1,7 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = [ 'place', 'country' ]
+  static targets = ['place', 'country']
 
   filter_places(event) {
     const term = event.target.value
@@ -19,20 +19,21 @@ export default class extends Controller {
   }
 
   show_countries() {
-    this.countryTargets.forEach( el => el.style.display = 'block' )
+    this.countryTargets.forEach(el => (el.style.display = 'block'))
   }
 
   hide_countries() {
-    this.countryTargets.forEach( el => el.style.display = 'none' )
+    this.countryTargets.forEach(el => (el.style.display = 'none'))
   }
 
   show_all_places() {
-    this.placeTargets.forEach( el => el.style.display = 'block' )
+    this.placeTargets.forEach(el => (el.style.display = 'block'))
   }
 
   filter_places_by_term(term) {
-    this.placeTargets.forEach( el => {
-      el.style.display = el.innerText.toLowerCase().indexOf(term.toLowerCase()) === -1 ? 'none' : 'block'
+    this.placeTargets.forEach(el => {
+      el.style.display =
+        el.innerText.toLowerCase().indexOf(term.toLowerCase()) === -1 ? 'none' : 'block'
     })
   }
 }

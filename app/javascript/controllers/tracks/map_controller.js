@@ -4,7 +4,7 @@ import Trajectory from 'utils/tracks/map/trajectory'
 import Bounds from 'utils/maps/bounds'
 
 export default class extends Controller {
-  static targets = [ 'map', 'placeholder', 'data_loading_status', 'maps_loading_status' ]
+  static targets = ['map', 'placeholder', 'data_loading_status', 'maps_loading_status']
 
   connect() {
     if (this.element.getAttribute('data-ready')) return
@@ -18,9 +18,10 @@ export default class extends Controller {
   fetch_data() {
     fetch(this.element.getAttribute('data-url'), {
       credentials: 'same-origin',
-      headers: { 'Accept': 'application/json' }
-    }).then( response => { return response.json() } )
-      .then( data => {
+      headers: { Accept: 'application/json' }
+    })
+      .then(response => response.json())
+      .then(data => {
         this.maps_data = data
         this.set_data_loading_success()
         this.render_map()
@@ -33,13 +34,16 @@ export default class extends Controller {
     this.hide_placeholder()
 
     this.draw_trajectory(this.maps_data.points, { stroke_opacity: 1, stroke_weight: 6 })
-    this.draw_trajectory(this.maps_data.zerowind_points, { stroke_opacity: 0.4, stroke_weight: 7 })
+    this.draw_trajectory(this.maps_data.zerowind_points, {
+      stroke_opacity: 0.4,
+      stroke_weight: 7
+    })
 
     this.fit_bounds()
   }
 
   draw_trajectory(points, opts) {
-    let trajectory = new Trajectory(points)
+    const trajectory = new Trajectory(points)
 
     for (let { path, color } of trajectory.polylines) {
       this.create_polyline(path, color, opts)
@@ -47,7 +51,7 @@ export default class extends Controller {
   }
 
   create_polyline(path, color, opts) {
-    let polyline = new google.maps.Polyline({
+    const polyline = new google.maps.Polyline({
       path: path,
       strokeColor: color,
       strokeOpacity: opts.stroke_opacity,
@@ -58,8 +62,8 @@ export default class extends Controller {
   }
 
   fit_bounds() {
-    let bounds = new Bounds(this.maps_data.points)
-    let map_bounds = new google.maps.LatLngBounds()
+    const bounds = new Bounds(this.maps_data.points)
+    const map_bounds = new google.maps.LatLngBounds()
 
     map_bounds.extend(new google.maps.LatLng(bounds.min_latitude, bounds.min_longitude))
     map_bounds.extend(new google.maps.LatLng(bounds.max_latitude, bounds.max_longitude))
@@ -105,9 +109,9 @@ export default class extends Controller {
 
   get maps_options() {
     return {
-      'zoom': 2,
-      'center': new google.maps.LatLng(20, 20),
-      'mapTypeId': 'terrain'
+      zoom: 2,
+      center: new google.maps.LatLng(20, 20),
+      mapTypeId: 'terrain'
     }
   }
 }

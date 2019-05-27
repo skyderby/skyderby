@@ -2,7 +2,7 @@ import { Controller } from 'stimulus'
 import init_maps_api from 'utils/google_maps_api'
 
 export default class extends Controller {
-  static targets = [ 'map', 'template', 'point', 'container' ]
+  static targets = ['map', 'template', 'point', 'container']
 
   connect() {
     this.init_maps()
@@ -11,7 +11,7 @@ export default class extends Controller {
   remove(e) {
     e.preventDefault()
 
-    let tr = e.currentTarget.closest('tr')
+    const tr = e.currentTarget.closest('tr')
     tr.querySelector('input[name$="[_destroy]"]').value = true
     tr.style.display = 'none'
 
@@ -20,10 +20,10 @@ export default class extends Controller {
 
   add(e) {
     e.preventDefault()
-    let template = this.template.split('__INDEX__').join(this.child_index())
+    const template = this.template.split('__INDEX__').join(this.child_index())
     this.container.insertAdjacentHTML('beforeend', template)
 
-    let new_row = this.container.querySelector('tr:last-child')
+    const new_row = this.container.querySelector('tr:last-child')
     new_row.querySelector('.reference-point__latitude').value = this.center_latitude
     new_row.querySelector('.reference-point__longitude').value = this.center_longitude
     this.create_marker(new_row)
@@ -48,7 +48,7 @@ export default class extends Controller {
   render_map() {
     if (!this.maps_ready) return
 
-    let options = {
+    const options = {
       zoom: 13,
       mapTypeId: google.maps.MapTypeId.SATELLITE,
       center: this.map_center
@@ -60,15 +60,17 @@ export default class extends Controller {
   }
 
   draw_points() {
-    this.point_rows.forEach( row => { this.create_marker(row) })
+    this.point_rows.forEach(row => {
+      this.create_marker(row)
+    })
   }
 
   create_marker(row) {
-    let latitude_field  = row.querySelector('.reference-point__latitude')
-    let longitude_field = row.querySelector('.reference-point__longitude')
+    const latitude_field = row.querySelector('.reference-point__latitude')
+    const longitude_field = row.querySelector('.reference-point__longitude')
 
-    let latitude  = Number(latitude_field.value)
-    let longitude = Number(longitude_field.value)
+    const latitude = Number(latitude_field.value)
+    const longitude = Number(longitude_field.value)
 
     if (latitude === 0 || longitude === 0) return
 
@@ -79,8 +81,10 @@ export default class extends Controller {
     })
 
     google.maps.event.addListener(row.marker, 'drag', () => {
-      latitude_field.value  = Math.round(row.marker.getPosition().lat() * 1000000) / 1000000
-      longitude_field.value = Math.round(row.marker.getPosition().lng() * 1000000) / 1000000
+      latitude_field.value =
+        Math.round(row.marker.getPosition().lat() * 1000000) / 1000000
+      longitude_field.value =
+        Math.round(row.marker.getPosition().lng() * 1000000) / 1000000
     })
   }
 

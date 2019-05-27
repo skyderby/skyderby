@@ -10,7 +10,7 @@ class CompetitionEntryBuilder {
     return {
       availability: this.availability,
       position: this.position,
-      orientation : new Cesium.VelocityOrientationProperty(this.position),
+      orientation: new Cesium.VelocityOrientationProperty(this.position),
       label: this.label,
       ellipsoid: this.ellipsoid,
       path: this.path
@@ -72,7 +72,7 @@ class CompetitionEntryBuilder {
         glowPower: 0.1,
         color: Cesium.Color.fromCssColorString(this.color)
       }),
-      width : 10
+      width: 10
     }
   }
 
@@ -96,7 +96,7 @@ class CompetitionEntryBuilder {
 }
 
 export default class extends Controller {
-  static targets = [ 'dataStatus', 'cesiumStatus', 'loadingProgress', 'viewer' ]
+  static targets = ['dataStatus', 'cesiumStatus', 'loadingProgress', 'viewer']
 
   connect() {
     initCesiumApi()
@@ -106,7 +106,7 @@ export default class extends Controller {
   fetchData() {
     fetch(this.url, {
       credentials: 'same-origin',
-      headers: { 'Accept': 'application/json' }
+      headers: { Accept: 'application/json' }
     })
       .then(response => response.json())
       .then(data => {
@@ -211,9 +211,7 @@ export default class extends Controller {
 
   get startTime() {
     const date = Math.min(
-      ...this.mapsData.competitors.map(el =>
-        Date.parse(el.points[0].gps_time)
-      )
+      ...this.mapsData.competitors.map(el => Date.parse(el.points[0].gps_time))
     )
 
     return Cesium.JulianDate.fromDate(new Date(date))

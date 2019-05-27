@@ -1,17 +1,19 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = [ 'chart' ]
+  static targets = ['chart']
 
   refresh_tooltip(event) {
-    this.charts.forEach( (chart) => { this.draw_tooltip(event, chart) })
+    this.charts.forEach(chart => {
+      this.draw_tooltip(event, chart)
+    })
   }
 
   draw_tooltip(event, chart) {
     if (!chart) return
 
-    let normalized_event = chart.pointer.normalize(event)
-    let points = this.hovered_points(normalized_event, chart)
+    const normalized_event = chart.pointer.normalize(event)
+    const points = this.hovered_points(normalized_event, chart)
 
     if (points.length > 0) {
       points[0].onMouseOver()
@@ -24,7 +26,7 @@ export default class extends Controller {
     return chart.series.reduce((result, series) => {
       if (!series.visible || series.enableMouseTracking === false) return result
 
-      let point = series.searchPoint(event, true)
+      const point = series.searchPoint(event, true)
       if (point) result.push(point)
 
       return result

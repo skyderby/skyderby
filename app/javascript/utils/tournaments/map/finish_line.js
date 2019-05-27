@@ -4,7 +4,7 @@ export default class FinishLine {
   }
 
   get path() {
-    return this.points.map( el => {
+    return this.points.map(el => {
       return {
         lat: Number(el.latitude),
         lng: Number(el.longitude)

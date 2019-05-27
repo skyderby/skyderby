@@ -11,8 +11,8 @@ export default class extends Controller {
       step: 1,
       prettify: false,
       hasGrid: true,
-      onChange: (object) => {
-        let event = new CustomEvent('change', {
+      onChange: object => {
+        const event = new CustomEvent('change', {
           detail: {
             from: object.fromNumber,
             to: object.toNumber
@@ -26,7 +26,9 @@ export default class extends Controller {
 
     document.addEventListener(
       'turbolinks:before-cache',
-      () => { $(this.element).ionRangeSlider('remove') },
+      () => {
+        $(this.element).ionRangeSlider('remove')
+      },
       { once: true }
     )
   }

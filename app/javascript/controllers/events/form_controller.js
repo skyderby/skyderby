@@ -1,12 +1,12 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = [ 'only_hungary_boogie' ]
+  static targets = ['only_hungary_boogie']
 
   connect() {
     this.set_form_validation()
 
-    let rules = this.element.querySelector('[name="event[rules]"]:checked').value
+    const rules = this.element.querySelector('[name="event[rules]"]:checked').value
     this.set_fields_visibility(rules)
   }
 
@@ -16,13 +16,13 @@ export default class extends Controller {
       return
     }
 
-    let rules = event.currentTarget.querySelector('input').value
+    const rules = event.currentTarget.querySelector('input').value
     this.set_fields_visibility(rules)
   }
 
   set_fields_visibility(rules) {
-    let visibility = rules === 'hungary_boogie' ? 'block' : 'none'
-    this.only_hungary_boogieTargets.forEach( (element) => {
+    const visibility = rules === 'hungary_boogie' ? 'block' : 'none'
+    this.only_hungary_boogieTargets.forEach(element => {
       element.style.display = visibility
     })
   }
@@ -46,10 +46,14 @@ export default class extends Controller {
         }
       },
       highlight: function(element) {
-        $(element).closest('.form-group').addClass('has-error')
+        $(element)
+          .closest('.form-group')
+          .addClass('has-error')
       },
       unhighlight: function(element) {
-        $(element).closest('.form-group').removeClass('has-error')
+        $(element)
+          .closest('.form-group')
+          .removeClass('has-error')
       },
       errorPlacement: (error, element) => {
         if (element.attr('name') == 'event[place_id]') {

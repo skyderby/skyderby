@@ -27,15 +27,13 @@ function onLoad() {
 function onError() {
   window.cesiumApiReady = false
 
-  document.dispatchEvent(new Event(
-    'cesium_api:failed',
-    { bubbles: true, cancellable: true })
+  document.dispatchEvent(
+    new Event('cesium_api:failed', { bubbles: true, cancellable: true })
   )
 }
 
 function dispatchReady() {
-  document.dispatchEvent(new Event(
-    'cesium_api:ready',
-    { bubbles: true, cancellable: true })
+  document.dispatchEvent(
+    new Event('cesium_api:ready', { bubbles: true, cancellable: true })
   )
 }
