@@ -7,7 +7,7 @@ describe 'Place finish lines' do
 
     visit place_finish_lines_path(place)
 
-    expect(page).to have_css('.td', text: finish_line.name)
+    expect(page).to have_css('.finish-line-card', text: finish_line.name)
   end
 
   it '#new' do
@@ -35,7 +35,7 @@ describe 'Place finish lines' do
 
     click_button I18n.t('general.save')
 
-    expect(page).to have_css('.td', text: 'Some name')
+    expect(page).to have_css('.finish-line-card', text: 'Some name')
   end
 
   it '#show' do
@@ -71,7 +71,7 @@ describe 'Place finish lines' do
 
     click_button I18n.t('general.save')
 
-    expect(page).to have_css('.td', text: 'ASDFG')
+    expect(page).to have_css('.finish-line-card', text: 'ASDFG')
   end
 
   it '#destroy', js: true do
@@ -89,6 +89,6 @@ describe 'Place finish lines' do
     visit place_finish_line_path(place, finish_line)
     click_link I18n.t('general.delete')
 
-    expect(page).not_to have_css('.td', text: finish_line.name)
+    expect(page).not_to have_css('.finish-line-card', text: finish_line.name)
   end
 end

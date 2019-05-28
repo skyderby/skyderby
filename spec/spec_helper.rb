@@ -18,6 +18,8 @@ Capybara.asset_host = 'http://localhost:3000'
 
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
+I18n.locale = :en
+
 RSpec.configure do |config|
   config.include ActiveSupport::Testing::TimeHelpers
   config.include FactoryBot::Syntax::Methods
@@ -33,11 +35,9 @@ RSpec.configure do |config|
   config.global_fixtures = :all
   config.use_transactional_fixtures = true
 
-  config.before(:each) do
-    I18n.locale = :en
-  end
-
   config.before(:each, type: :system) do
+    I18n.locale = :en
+
     driven_by :rack_test
     default_url_options[:locale] = :en
   end
