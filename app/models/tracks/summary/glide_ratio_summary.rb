@@ -1,7 +1,7 @@
 module Tracks
   module Summary
     class GlideRatioSummary
-      def initialize(points, zerowind_points, track_elevation, track_distance, zero_wind_distance, presenter)
+      def initialize(points, zerowind_points, track_elevation, track_distance, zero_wind_distance, presenter) # rubocop:disable Metrics/ParameterLists
         @points = points
         @zerowind_points = zerowind_points
         @track_elevation = track_elevation
@@ -12,6 +12,7 @@ module Tracks
 
       def glide_ratio
         return 0.0 if track_elevation.zero?
+
         presenter.call(track_distance.to_d / track_elevation.to_d)
       end
 
@@ -35,6 +36,7 @@ module Tracks
 
       def zero_wind_glide_ratio
         return 0.0 if track_elevation.zero?
+
         presenter.call(zero_wind_distance.to_d / track_elevation.to_d)
       end
 

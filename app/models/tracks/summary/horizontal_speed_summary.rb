@@ -1,7 +1,7 @@
 module Tracks
   module Summary
     class HorizontalSpeedSummary
-      def initialize(points, zerowind_points, track_distance, zero_wind_track_distance, time, presenter)
+      def initialize(points, zerowind_points, track_distance, zero_wind_track_distance, time, presenter) # rubocop:disable Metrics/ParameterLists
         @points = points
         @zerowind_points = zerowind_points
         @track_distance = track_distance
@@ -12,6 +12,7 @@ module Tracks
 
       def avg_horizontal_speed
         return 0 if time.zero?
+
         presenter.call(track_distance / time)
       end
 
@@ -31,6 +32,7 @@ module Tracks
 
       def zero_wind_horizontal_speed
         return 0 if time.zero?
+
         presenter.call(zero_wind_track_distance / time)
       end
 

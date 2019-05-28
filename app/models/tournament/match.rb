@@ -21,17 +21,17 @@ class Tournament::Match < ApplicationRecord
 
   composed_of :start_time,
               class_name: 'Time',
-              mapping: %w(start_time_in_seconds to_f),
+              mapping: %w[start_time_in_seconds to_f],
               constructor: proc { |t| Time.zone.at(t) if t },
               converter: proc { |t| convert_to_time(t) }
 
-  def self.convert_to_time(t)
-    if t.is_a?(Time)
-      t
-    elsif t.is_a?(String)
-      Time.zone.parse(t)
+  def self.convert_to_time(time)
+    if time.is_a?(Time)
+      time
+    elsif time.is_a?(String)
+      Time.zone.parse(time)
     else
-      Time.zone.at(t / 1000.0)
+      Time.zone.at(time / 1000.0)
     end
   end
 end

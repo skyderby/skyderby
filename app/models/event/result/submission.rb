@@ -8,15 +8,16 @@ class Event < ApplicationRecord
 
       attr_accessor :event_id,
                     :competitor_id,
-                    :competitor_name,
                     :round_id,
                     :round_name,
-                    :penalized,
                     :penalty_size,
                     :penalty_reason,
-                    :track_attributes,
-                    :jump_range,
-                    :reference_point
+                    :track_attributes
+
+      attr_writer :competitor_name,
+                  :reference_point,
+                  :jump_range,
+                  :penalized
 
       validates :competitor, :round, presence: true
       validates :penalty_size, presence: true, if: :penalized
@@ -95,7 +96,7 @@ class Event < ApplicationRecord
       end
 
       def competitor_by_name
-        event.competitors.joins(:profile).where('LOWER(profiles.name) = ?', competitor_name).first
+        event.competitors.joins(:profile).find_by('LOWER(profiles.name) = ?', competitor_name)
       end
 
       def competitor_name

@@ -36,7 +36,7 @@ module Tracks
 
         {
           start: [range['start'] - start_time, 0].max.round(1),
-          end:   [range['end'] - start_time, end_time].min.round(1)
+          end: [range['end'] - start_time, end_time].min.round(1)
         }
       end
     end

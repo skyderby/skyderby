@@ -9,19 +9,21 @@ class TrackResultsService
     track.delete_results
 
     track_segments = ranges_to_score.map do |range|
-      WindowRangeFinder.new(track_points)
-                       .execute(from_altitude: range[:start_altitude],
-                                to_altitude:   range[:end_altitude])
+      WindowRangeFinder.new(track_points).execute \
+        from_altitude: range[:start_altitude],
+        to_altitude: range[:end_altitude]
     end
 
     return if track_segments.blank?
 
     [:speed, :distance, :time].each do |task|
       best_task_result = track_segments.max_by { |x| x.public_send(task) }
-      track.track_results.create!(discipline: task,
-                                  range_from: best_task_result.start_altitude,
-                                  range_to:   best_task_result.end_altitude,
-                                  result:     best_task_result.public_send(task))
+
+      track.track_results.create! \
+        discipline: task,
+        range_from: best_task_result.start_altitude,
+        range_to: best_task_result.end_altitude,
+        result: best_task_result.public_send(task)
     end
   end
 

@@ -15,13 +15,14 @@ class TrackResult < ApplicationRecord
 
   belongs_to :track
 
-  validates_uniqueness_of :discipline, scope: :track_id
+  validates :discipline, uniqueness: { scope: :track_id }
   before_save :replace_nan_with_zero
 
   private
 
   def replace_nan_with_zero
     return if result.nil?
+
     self.result = 0 if result.nan? || result.infinite?
   end
 end

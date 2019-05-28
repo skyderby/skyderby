@@ -1,6 +1,6 @@
 class Place::FinishLine < ApplicationRecord
   belongs_to :place
-  has_many :virtual_competitions
+  has_many :virtual_competitions, dependent: :restrict_with_error
 
   validates :name, presence: true
   validates :start_latitude, :end_latitude,

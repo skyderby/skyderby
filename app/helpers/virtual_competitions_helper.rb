@@ -1,5 +1,5 @@
 module VirtualCompetitionsHelper
-  def competition_unit(competition)
+  def competition_unit(competition) # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
     if competition.distance? || competition.distance_in_time? || competition.distance_in_altitude? || competition.flare?
       t('units.m')
     elsif competition.time? || competition.base_race?
@@ -9,7 +9,7 @@ module VirtualCompetitionsHelper
     end
   end
 
-  def competition_task(competition)
+  def competition_task(competition) # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
     if competition.distance?
       t('virtual_competitions.tasks.distance',
         range_from: competition.range_from,
@@ -37,8 +37,6 @@ module VirtualCompetitionsHelper
 
   def competition_place(competition)
     if competition.place
-      place = competition.place.name
-      place += ', ' + competition.place.country.name if competition.place.country
       t('virtual_competitions.place', place: competition.place.name)
     else
       t('virtual_competitions.place', place: t('virtual_competitions.worldwide'))

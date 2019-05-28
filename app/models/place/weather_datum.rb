@@ -53,26 +53,31 @@ class Place::WeatherDatum < ApplicationRecord
 
   def value_from_param(value)
     return nil if value.is_a?(String) && value.empty?
+
     value
   end
 
   def altitude_present?
     return if altitude.present? || altitude_in_units.present?
+
     errors.add :altitude, :blank
   end
 
   def wind_speed_present?
     return if wind_speed.present? || wind_speed_in_units.present?
+
     errors.add :wind_speed, :blank
   end
 
   def set_altitude
     return if altitude_in_units.blank? || altitude_unit.blank?
+
     self.altitude = Distance.new(altitude_in_units, altitude_unit)
   end
 
   def set_wind_speed
     return if wind_speed_in_units.blank? || wind_speed_unit.blank?
+
     self.wind_speed = Velocity.new(wind_speed_in_units, wind_speed_unit)
   end
 end

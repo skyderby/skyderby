@@ -1,16 +1,17 @@
 json.partial! @competition, partial: 'api/v1/virtual_competitions/virtual_competition', as: :competition
 
-results_by_pilot = 
-  @competition.virtual_comp_results
-             .order('result DESC')
-             .group_by{ |x| x.profile_id }
-             .map do |_, results| 
-               {
-                 pilot: results.first.profile, 
-                 all_results: results,
-                 best_result: results.first
-               } 
-             end
+results_by_pilot =
+  @competition
+  .virtual_comp_results
+  .order('result DESC')
+  .group_by(&:profile_id)
+  .map do |_, results|
+    {
+      pilot: results.first.profile,
+      all_results: results,
+      best_result: results.first
+    }
+  end
 
 json.results results_by_pilot do |json, results|
   json.pilot do |json|

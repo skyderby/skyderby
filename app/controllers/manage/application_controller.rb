@@ -4,6 +4,7 @@ module Manage
 
     def ensure_permissions
       return if ManagePolicy.new(current_user).manage?
+
       raise Pundit::NotAuthorizedError, 'You are not allowed to access this page'
     end
   end

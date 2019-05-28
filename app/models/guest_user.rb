@@ -16,7 +16,9 @@ class GuestUser
 
     def collection
       stored_ids = store.signed[:track_ids]
+
       return [] if stored_ids.blank?
+
       JSON.parse(stored_ids)
     end
   end
@@ -31,7 +33,7 @@ class GuestUser
     false
   end
 
-  def has_role?(*_args)
+  def has_role?(_role) # rubocop:disable Naming/PredicateName
     false
   end
 

@@ -29,6 +29,7 @@ class QualificationJump < ApplicationRecord
 
   def start_time
     return unless start_time_in_seconds
+
     Time.zone.at(start_time_in_seconds)
   end
 

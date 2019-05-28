@@ -14,7 +14,7 @@
 class TrackFile < ApplicationRecord
   attr_accessor :file, :track_attributes
 
-  has_one :track
+  has_one :track, dependent: :restrict_with_error
 
   has_attached_file :file
   validates_attachment_file_name :file, matches: [/csv\Z/i, /gpx\Z/i, /tes\Z/i, /kml\Z/i]
@@ -26,7 +26,7 @@ class TrackFile < ApplicationRecord
   end
 
   def segments
-    @segments_list ||= SegmentParser.for(file_format).new(path: file_path).segments
+    @segments ||= SegmentParser.for(file_format).new(path: file_path).segments
   end
 
   def one_segment?

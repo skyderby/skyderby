@@ -16,11 +16,13 @@ module Events
 
     def create
       return false unless valid?
+
       create_competitor
     end
 
     def update
       return false unless valid?
+
       update_competitor
     end
 
@@ -63,8 +65,8 @@ module Events
       if new_profile?
         errors.add(:name, :blank) if name.blank?
         errors.add(:country_id, :blank) if country_id.blank?
-      else
-        errors.add(:profile_id, :blank) if profile_id.blank?
+      elsif profile_id.blank?
+        errors.add(:profile_id, :blank)
       end
     end
 

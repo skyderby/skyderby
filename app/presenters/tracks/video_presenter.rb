@@ -11,7 +11,8 @@ class Tracks::VideoPresenter
   end
 
   def points
-    @points ||= PointsQuery
+    @points ||=
+      PointsQuery
       .execute(@track,
                trimmed: { seconds_before_start: 20 },
                freq_1hz: true,

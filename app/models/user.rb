@@ -48,7 +48,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, omniauth_providers: %i[facebook]
 
-  def has_role?(role_sym)
+  def has_role?(role_sym) # rubocop:disable Naming/PredicateName
     roles.any? { |r| r.name.underscore.to_sym == role_sym }
   end
 

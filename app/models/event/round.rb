@@ -20,12 +20,13 @@ class Event::Round < ApplicationRecord
   belongs_to :signed_off_by,
              class_name: 'Profile',
              foreign_key: 'profile_id',
-             optional: true
+             optional: true,
+             inverse_of: false
 
   has_many :results, dependent: :restrict_with_error
   has_many :reference_point_assignments, dependent: :delete_all
 
-  validates_presence_of :event, :discipline
+  validates :event, :discipline, presence: true
 
   delegate :range_from, to: :event
   delegate :range_to, to: :event

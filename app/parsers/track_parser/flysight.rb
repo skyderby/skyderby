@@ -23,7 +23,7 @@ module TrackParser
       track_points = []
       CSV.foreach(file_path) do |row|
         next unless row[TIME].to_s.match?(/^[0-9]{4}-[0-9]{2}-[0-9]{2}/)
-        # next if row[VERTICAL_ACCURACY].to_f > MAX_ACCURACY
+
         track_points << parse_row(row)
       end
 

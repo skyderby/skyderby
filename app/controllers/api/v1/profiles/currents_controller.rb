@@ -5,7 +5,7 @@ module Api
         def show
           @profile = Current.profile
 
-          raise Pundit::NotAuthorizedError unless @profile.present?
+          raise Pundit::NotAuthorizedError if @profile.blank?
 
           respond_to do |format|
             format.json

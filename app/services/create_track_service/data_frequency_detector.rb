@@ -1,5 +1,7 @@
 class CreateTrackService
   class DataFrequencyDetector
+    DEFAULT_FREQUENCY = 1
+
     def self.call(points)
       new(points).call
     end
@@ -9,7 +11,8 @@ class CreateTrackService
     end
 
     def call
-      return 1 unless points.many?
+      return DEFAULT_FREQUENCY unless points.many?
+
       most_popular_frequency
     end
 

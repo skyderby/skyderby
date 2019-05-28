@@ -1,6 +1,4 @@
 class TrackRange
-  attr_reader :to
-
   def initialize(track, opts = {})
     @track = track
     @opts = opts
