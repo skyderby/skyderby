@@ -26,6 +26,7 @@ module TrackParser
       track_points = []
       CSV.foreach(file_path, skip_lines: /^INDEX/) do |row|
         next if row[ALTITUDE].to_f.zero?
+
         track_points << parse_row(row)
       end
 

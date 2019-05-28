@@ -27,14 +27,14 @@ class Profile < ApplicationRecord
 
   belongs_to :country, optional: true
 
-  has_many :tracks, -> { order('recorded_at DESC') }
+  has_many :tracks, -> { order('recorded_at DESC') }, inverse_of: :pilot
   has_many :public_tracks,
            -> { where(visibility: 0).order('created_at DESC') },
-           class_name: 'Track'
-  has_many :base_tracks, -> { base.order('created_at DESC') }, class_name: 'Track'
-  has_many :badges, -> { order(achieved_at: :desc) }, dependent: :delete_all
+           class_name: 'Track', inverse_of: false
+  has_many :base_tracks, -> { base.order('created_at DESC') }, class_name: 'Track', inverse_of: false
+  has_many :badges, -> { order(achieved_at: :desc) }, dependent: :delete_all, inverse_of: :profile
   has_many :event_competitors, class_name: 'Event::Competitor', dependent: :restrict_with_error
-  has_many :personal_top_scores, class_name: 'VirtualCompetition::PersonalTopScore'
+  has_many :personal_top_scores, class_name: 'VirtualCompetition::PersonalTopScore' # rubocop:disable Rails/HasManyOrHasOneDependent
 
   has_attached_file :userpic,
                     styles: { large: '500x500>',

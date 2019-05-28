@@ -3,9 +3,9 @@ class Events::Maps::CompetitorTrack < SimpleDelegator
 
   attr_accessor :color
 
-  def name
-    competitor.name
-  end
+  delegate :name, to: :competitor
+  delegate :direction, to: :window_points
+  delegate :designated_lane_start, to: :event
 
   def empty?
     points.blank?
@@ -37,19 +37,11 @@ class Events::Maps::CompetitorTrack < SimpleDelegator
     map_marker(five_seconds_after_exit_point)
   end
 
-  def direction
-    window_points.direction
-  end
-
   def reference_point
     assigned_point = super
     return unless assigned_point
 
     map_marker(assigned_point)
-  end
-
-  def designated_lane_start
-    event.designated_lane_start
   end
 
   private

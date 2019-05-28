@@ -1,5 +1,4 @@
 class Velocity < DelegateClass(BigDecimal)
-
   KNOTS_IN_MS = 1.9438444924574
   KMH_IN_MS = 3.6
   MPH_IN_MS = 2.236936
@@ -10,6 +9,7 @@ class Velocity < DelegateClass(BigDecimal)
 
   def self.dump(obj)
     return obj unless obj.class == Velocity
+
     obj.dump
   end
 
@@ -26,12 +26,14 @@ class Velocity < DelegateClass(BigDecimal)
   def convert_to(unit)
     method = "to_#{unit}"
     raise ArgumentError, "Unsupported unit #{unit}" unless respond_to? method
+
     send method
   end
 
   def convert_from(val, unit)
     method = "from_#{unit}"
     raise ArgumentError, "Unsupported unit #{unit}" unless respond_to? method
+
     send method, val
   end
 
@@ -75,7 +77,7 @@ class Velocity < DelegateClass(BigDecimal)
     if value.class == BigDecimal
       value
     elsif value.class == Float
-      float_val = (value.nan? || value.infinite?) ? 0.0 : value
+      float_val = value.nan? || value.infinite? ? 0.0 : value
       float_val.to_d
     elsif value.respond_to?(:to_d)
       value.to_d

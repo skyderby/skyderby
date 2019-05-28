@@ -8,7 +8,7 @@ class CreateTrackService
     end
 
     def initialize(points)
-      @points ||= points
+      @points = points
     end
 
     def call
@@ -18,6 +18,7 @@ class CreateTrackService
 
         next if scan_range.last.gps_time - scan_range.first.gps_time < SEARCH_SECONDS
         return true if activity_present(scan_range)
+
         scan_range.shift
       end
 

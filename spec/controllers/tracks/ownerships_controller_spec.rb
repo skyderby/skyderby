@@ -44,7 +44,7 @@ describe Tracks::OwnershipsController do
   end
 
   def admin_user
-    @user ||= users(:admin)
+    @admin_user ||= users(:admin)
   end
 
   def track

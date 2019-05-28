@@ -1,9 +1,9 @@
 class ChartsPreferences
   DEFAULT_UNITS = 'metric'.freeze
-  AVAILABLE_UNITS = %w(metric imperial).freeze
+  AVAILABLE_UNITS = %w[metric imperial].freeze
 
   DEFAULT_MODE = 'separate'.freeze
-  AVAILABLE_MODES = %w(separate single).freeze
+  AVAILABLE_MODES = %w[separate single].freeze
 
   def initialize(value_store)
     @value_store = value_store
@@ -31,17 +31,21 @@ class ChartsPreferences
 
   def preferred_units
     preferences_value = value_store[:preferred_charts_units]
+
     return DEFAULT_UNITS unless AVAILABLE_UNITS.include? preferences_value
+
     preferences_value
   end
 
   private
 
+  attr_reader :value_store
+
   def preferred_mode
     preferences_value = value_store[:preferred_charts_mode]
+
     return DEFAULT_MODE unless AVAILABLE_MODES.include? preferences_value
+
     preferences_value
   end
-
-  attr_reader :value_store
 end

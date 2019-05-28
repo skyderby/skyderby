@@ -15,7 +15,7 @@ module Events
 
         def total_points
           points_in_disciplines
-            .map { |discipline, points| points }
+            .map { |_discipline, points| points }
             .sum
             .round(2)
         end

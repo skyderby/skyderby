@@ -10,9 +10,7 @@ class TrackFilter
       relation = relation.where(Hash[key, query[key]]) if query[key].present?
     end
 
-    if Track.kinds.key? query[:kind]
-      relation = relation.public_send query[:kind]
-    end
+    relation = relation.public_send(query[:kind]) if Track.kinds.key? query[:kind]
 
     relation = relation.search(query[:term]) if query[:term]
 

@@ -85,7 +85,7 @@ module Tournaments
       stop_altitude + FINISH_LINE_ALTITUDE
     end
 
-    def finish_line_center
+    def finish_line_center # rubocop:disable Metrics/AbcSize
       start_lat = match.tournament.finish_line.first.latitude
       end_lat = match.tournament.finish_line.last.latitude
 

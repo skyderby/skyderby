@@ -30,8 +30,10 @@ module RangesToScoreFinder
     end
 
     def whole_range
-      [{ start_altitude: max_altitude,
-         end_altitude:   min_altitude }]
+      [{
+        start_altitude: max_altitude,
+        end_altitude: min_altitude
+      }]
     end
 
     def split_bounds_on_ranges
@@ -39,7 +41,7 @@ module RangesToScoreFinder
         altitude_change = STEP * index
         {
           start_altitude: max_altitude - altitude_change,
-          end_altitude:   max_altitude - RANGE_SIZE - altitude_change
+          end_altitude: max_altitude - RANGE_SIZE - altitude_change
         }
       end
     end

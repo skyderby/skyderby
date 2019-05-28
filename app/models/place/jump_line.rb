@@ -5,7 +5,7 @@ class Place::JumpLine < ApplicationRecord
   include Place::Namespace
 
   belongs_to :place, touch: true
-  has_many :measurements, -> { order(:altitude) }, dependent: :delete_all
+  has_many :measurements, -> { order(:altitude) }, dependent: :delete_all, inverse_of: :jump_line
 
   accepts_nested_attributes_for :measurements,
                                 allow_destroy: true,

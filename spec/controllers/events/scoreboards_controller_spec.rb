@@ -24,12 +24,12 @@ describe Events::ScoreboardsController do
   def expected_result
     {
       sections: [{
-        id:    section_advanced.id,
-        name:  'Advanced',
+        id: section_advanced.id,
+        name: 'Advanced',
         order: section_advanced.order
       }, {
-        id:    section_intermediate.id,
-        name:  'Intermediate',
+        id: section_intermediate.id,
+        name: 'Intermediate',
         order: section_intermediate.order
       }],
       competitors: [{

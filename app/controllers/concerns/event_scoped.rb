@@ -43,6 +43,7 @@ module EventScoped
 
   def authorize_event
     return if EventPolicy.new(current_user, @event).update?
+
     raise Pundit::NotAuthorizedError
   end
 

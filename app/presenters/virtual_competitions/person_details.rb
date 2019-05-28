@@ -7,7 +7,8 @@ module VirtualCompetitions
 
     def top_results
       @top_results ||=
-        competition.results
+        competition
+        .results
         .joins(:track)
         .where(tracks: { profile_id: profile_id })
         .order(results_order)
@@ -18,7 +19,7 @@ module VirtualCompetitions
       ordered_results = top_results.sort_by { |x| x.track.recorded_at }
       ordered_results.map do |record|
         [record.track.recorded_at, record.result]
-      end.to_json.html_safe
+      end.to_json.html_safe # rubocop:disable Rails/OutputSafety
     end
 
     def competition

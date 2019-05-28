@@ -1,5 +1,4 @@
 class Distance < DelegateClass(BigDecimal)
-
   # Conversion factors
   # Feets in meter
   FT_IN_M = 3.280839895
@@ -12,6 +11,7 @@ class Distance < DelegateClass(BigDecimal)
 
   def self.dump(obj)
     return obj unless obj.class == Distance
+
     obj.dump
   end
 
@@ -27,13 +27,17 @@ class Distance < DelegateClass(BigDecimal)
 
   def convert_to(unit)
     method = "to_#{unit}"
+
     raise ArgumentError, "Unsupported unit #{unit}" unless respond_to? method
+
     send method
   end
 
   def convert_from(val, unit)
     method = "from_#{unit}"
+
     raise ArgumentError, "Unsupported unit #{unit}" unless respond_to? method
+
     send method, val
   end
 

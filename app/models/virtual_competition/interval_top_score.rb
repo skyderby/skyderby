@@ -23,7 +23,8 @@ class VirtualCompetition::IntervalTopScore < ApplicationRecord
   belongs_to :profile
   belongs_to :suit
 
-  scope :for, -> (interval) { where(custom_interval: interval) }
+  scope :for, ->(interval) { where(custom_interval: interval) }
+
   private
 
   def readonly?

@@ -35,6 +35,7 @@ class WindowRangeFinder
     index = points.index { |x| x[:altitude] <= altitude }
 
     raise ValueOutOfRange if index.nil?
+
     needs_interpolation = points[index][:altitude] != altitude
 
     # raise if previous point is missed
@@ -66,6 +67,7 @@ class WindowRangeFinder
     index = points.index { |x| x[:v_speed] >= speed }
 
     raise ValueOutOfRange if index.nil?
+
     needs_interpolation = points[index][:v_speed] != speed
 
     # raise if previous point is missed
@@ -84,6 +86,7 @@ class WindowRangeFinder
     index = points.index { |x| x[:gps_time] >= gps_time }
 
     raise ValueOutOfRange if index.nil?
+
     needs_interpolation = points[index][:gps_time] != gps_time
 
     # raise if previous point is missed

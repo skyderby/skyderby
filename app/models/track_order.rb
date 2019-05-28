@@ -1,14 +1,14 @@
 class TrackOrder
   attr_reader :attribute, :direction
 
-  ALLOWED_FIELDS = %w(ID RECORDED_AT SPEED DISTANCE TIME).freeze
-  ALLOWED_DIRECTIONS = %w(ASC DESC).freeze
+  ALLOWED_FIELDS = %w[ID RECORDED_AT SPEED DISTANCE TIME].freeze
+  ALLOWED_DIRECTIONS = %w[ASC DESC].freeze
 
   ORDERS = {
-    DEFAULT:  ->(rel, att, dir) { rel.order(order_clause(att, dir)) },
-    SPEED:    ->(rel, _, dir) { rel.left_outer_joins(:speed).order(order_clause('track_results.result', dir)) },
+    DEFAULT: ->(rel, att, dir) { rel.order(order_clause(att, dir)) },
+    SPEED: ->(rel, _, dir) { rel.left_outer_joins(:speed).order(order_clause('track_results.result', dir)) },
     DISTANCE: ->(rel, _, dir) { rel.left_outer_joins(:distance).order(order_clause('track_results.result', dir)) },
-    TIME:     ->(rel, _, dir) { rel.left_outer_joins(:time).order(order_clause('track_results.result', dir)) }
+    TIME: ->(rel, _, dir) { rel.left_outer_joins(:time).order(order_clause('track_results.result', dir)) }
   }.with_indifferent_access.freeze
 
   ATTR_INDEX = 0
@@ -27,6 +27,7 @@ class TrackOrder
 
   def apply(relation)
     return relation.order(default_order) unless order_valid
+
     instance_exec(relation, attribute, direction, &(ORDERS[attribute] || ORDERS[:DEFAULT]))
   end
 

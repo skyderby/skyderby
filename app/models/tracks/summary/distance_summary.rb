@@ -23,6 +23,7 @@ module Tracks
 
       def distance_wind_effect_in_percents
         return 0 if track_distance.zero?
+
         ((track_distance - zero_wind_track_distance).abs / track_distance * 100).round
       end
 

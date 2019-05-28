@@ -16,7 +16,7 @@ class VirtualCompetition::Result < ApplicationRecord
   belongs_to :virtual_competition
   belongs_to :track
 
-  validates_uniqueness_of :track_id, scope: :virtual_competition_id
+  validates :track_id, uniqueness: { scope: :virtual_competition_id }
 
   delegate :suit, to: :track
   delegate :place, to: :track

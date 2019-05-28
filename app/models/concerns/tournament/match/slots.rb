@@ -4,7 +4,7 @@ class Tournament < ApplicationRecord
       extend ActiveSupport::Concern
 
       included do
-        has_many :slots, -> { order(:is_disqualified, :result) }, dependent: :destroy
+        has_many :slots, -> { order(:is_disqualified, :result) }, dependent: :destroy, inverse_of: :match
         accepts_nested_attributes_for :slots
         before_create :build_slots
       end

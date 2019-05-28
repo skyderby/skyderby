@@ -4,7 +4,8 @@ class MovingAverage
 
     @window_size = window_size
     if window_size < 3 || window_size.even?
-      raise ArgumentError, 'Step must be odd and higher than 2'
+      raise ArgumentError,
+            'Step must be odd and higher than 2'
     end
 
     @keys = keys.is_a?(Array) ? keys : [keys]

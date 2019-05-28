@@ -2,7 +2,7 @@ module ChartParams
   extend ActiveSupport::Concern
 
   included do
-    before_action :save_chart_settings, only: :show
+    before_action :save_chart_settings, only: :show # rubocop:disable Rails/LexicallyScopedActionFilter
   end
 
   def save_chart_settings

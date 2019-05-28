@@ -192,7 +192,7 @@ describe GfsGradsFetcher::Parser do
         lon, [1]
         50.0
       UGRDPRS
-      vgrdprs: <<~VGRDPRS,
+      vgrdprs: <<~VGRDPRS
         vgrdprs, [1][21][1][1]
         [0][0][0], 4.6
 

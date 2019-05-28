@@ -3,11 +3,11 @@ class WillPaginateLoadMoreRenderer < WillPaginate::ActionView::LinkRenderer
 
   def next_page
     return unless @collection.next_page
-    previous_or_next_page(
+
+    previous_or_next_page \
       @collection.next_page,
       I18n.t('will_paginate.load_more', default: 'Load more...'),
       'btn btn-default'
-    )
   end
 
   def pagination

@@ -65,7 +65,7 @@ class TrackScanner
     check_status response
     convert response
   rescue NoFlightData
-    return NullRange.new(points)
+    NullRange.new(points)
   end
 
   private
@@ -83,9 +83,7 @@ class TrackScanner
     return if response.code == '200'
 
     data = JSON.parse(response.body)
-    if response.code == '422' && data['error'] == 'no flight data'
-      raise NoFlightData
-    end
+    raise NoFlightData if response.code == '422' && data['error'] == 'no flight data'
   end
 
   def convert(response)

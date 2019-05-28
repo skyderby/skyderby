@@ -21,6 +21,7 @@ class PointInterpolation
 
     INTERPOLATION_FIELDS.each do |key|
       next unless new_point.key? key
+
       new_point[key] = interpolate_field(key, factor)
     end
 

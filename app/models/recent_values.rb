@@ -1,9 +1,13 @@
 class RecentValues
   attr_reader :values
+  delegate :[], to: :values
 
   def initialize(cookies)
     @cookies = cookies
-    @values = YAML::load(cookies[:recent_values] || '') || {}
+    @values = YAML.safe_load(
+      cookies[:recent_values] || '',
+      permitted_classes: [Symbol]
+    ) || {}
   end
 
   def add(key, val)
@@ -15,13 +19,9 @@ class RecentValues
     @values.delete(key)
   end
 
-  def [](key)
-    values[key]
-  end
-
   private
 
   def dump
-    @cookies[:recent_values] = {value: YAML::dump(values), expires: 1.year.from_now}
+    @cookies[:recent_values] = { value: YAML.dump(values), expires: 1.year.from_now }
   end
 end

@@ -126,17 +126,17 @@ class PointsQuery
 
   class QueryBuilder
     COLUMNS = {
-      gps_time:     'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
-      fl_time:      -> { "gps_time_in_seconds - #{start_time_in_seconds} AS fl_time" },
+      gps_time: 'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
+      fl_time: -> { "gps_time_in_seconds - #{start_time_in_seconds} AS fl_time" },
       abs_altitude: 'abs_altitude',
-      altitude:     -> { "#{track.point_altitude_field} AS altitude" },
-      latitude:     'latitude',
-      longitude:    'longitude',
-      h_speed:      'h_speed',
-      v_speed:      'v_speed',
-      distance:     'distance',
-      time_diff:    '0 AS time_diff',
-      glide_ratio:  'CASE WHEN v_speed = 0 THEN h_speed / 0.1 ELSE h_speed / ABS(v_speed) END AS glide_ratio'
+      altitude: -> { "#{track.point_altitude_field} AS altitude" },
+      latitude: 'latitude',
+      longitude: 'longitude',
+      h_speed: 'h_speed',
+      v_speed: 'v_speed',
+      distance: 'distance',
+      time_diff: '0 AS time_diff',
+      glide_ratio: 'CASE WHEN v_speed = 0 THEN h_speed / 0.1 ELSE h_speed / ABS(v_speed) END AS glide_ratio'
     }.with_indifferent_access.freeze
 
     def initialize(track, opts = {})
@@ -164,6 +164,7 @@ class PointsQuery
 
     def select_columns
       return COLUMNS unless only_columns
+
       COLUMNS.slice(*only_columns)
     end
 

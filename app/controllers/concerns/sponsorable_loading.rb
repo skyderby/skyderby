@@ -16,6 +16,7 @@ module SponsorableLoading
 
   def authorize_sponsorable
     return if policy(@sponsorable).update?
+
     raise Pundit::NotAuthorizedError
   end
 end

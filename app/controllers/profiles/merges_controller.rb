@@ -37,6 +37,7 @@ module Profiles
 
     def authorize_action
       return if ProfilePolicy.new(current_user, @destination_profile).merge?
+
       raise Pundit::NotAuthorizedError
     end
   end
