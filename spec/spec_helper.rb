@@ -33,8 +33,13 @@ RSpec.configure do |config|
   config.global_fixtures = :all
   config.use_transactional_fixtures = true
 
+  config.before(:each) do
+    I18n.locale = :en
+  end
+
   config.before(:each, type: :system) do
     driven_by :rack_test
+    default_url_options[:locale] = :en
   end
 
   config.before(:each, type: :system, js: true) do
@@ -43,11 +48,6 @@ RSpec.configure do |config|
     else
       driven_by :selenium_chrome
     end
-  end
-
-  config.before(:each, type: :system) do
-    I18n.locale = :en
-    default_url_options[:locale] = :en
   end
 
   config.after(:each, type: :system) do
