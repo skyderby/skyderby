@@ -15,4 +15,13 @@ class Place::FinishLine < ApplicationRecord
       { latitude: end_latitude,   longitude: end_longitude   }
     ]
   end
+
+  def center
+    latitude = start_latitude + (end_latitude - start_latitude) / 2
+    longitude = start_longitude + (end_longitude - start_longitude) / 2
+    {
+      latitude: latitude,
+      longitude: longitude
+    }
+  end
 end

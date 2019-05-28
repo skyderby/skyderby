@@ -43,4 +43,8 @@ module ApplicationHelper
       flash_type.to_s
     end
   end
+
+  def maps_api_key
+    ENV['MAPS_API_KEY']
+  end
 end
