@@ -6,6 +6,7 @@ module Api
           Suit
           .left_joins(:manufacturer)
           .select(
+            :id,
             :name,
             :kind,
             'manufacturers.name AS make',
