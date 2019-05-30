@@ -5,7 +5,7 @@ module Events
 
       attr_reader :event
 
-      delegate :adjust_to_wind?, to: :params
+      delegate :adjust_to_wind?, :split_by_categories?, to: :params
       delegate :wind_cancellation, to: :event
 
       def initialize(event, params)
@@ -22,9 +22,14 @@ module Events
       end
 
       def sections
-        @sections ||= event.sections.order(:order).map do |section|
-          Category.new(section, self, CompetitorsCollection)
-        end
+        @sections ||=
+          if split_by_categories?
+            event.sections.order(:order).map do |section|
+              Category.new(section, self, CompetitorsCollection)
+            end
+          else
+            [OpenCategory.new(self, CompetitorsCollection)]
+          end
       end
 
       def rounds

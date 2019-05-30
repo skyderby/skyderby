@@ -6,7 +6,7 @@ module EventScoped
   end
 
   def display_event_params
-    params.permit(:display_raw_results, :omit_penalties)
+    params.permit(:display_raw_results, :omit_penalties, :split_by_categories)
   end
 
   def respond_with_scoreboard
