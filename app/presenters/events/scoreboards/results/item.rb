@@ -2,7 +2,12 @@ module Events
   module Scoreboards
     module Results
       class Item < SimpleDelegator
-        delegate :apply_penalty_to_result?, :apply_penalty_to_score?, to: :params
+        delegate :apply_penalty_to_result?,
+                 :apply_penalty_to_score?,
+                 :adjust_to_wind?,
+                 :omit_penalties?,
+                 :split_by_categories?,
+                 to: :params
 
         def initialize(record, collection, params)
           @record = record
@@ -40,25 +45,25 @@ module Events
 
           @points ||=
             collection
-            .best_in(round: round, section: section)
+            .best_in(best_score_lookup_context)
             .then { |best_result| result / best_result.result * 100 }
             .then(&method(:apply_penalty_to_score))
         end
 
         def penalized?
-          return false if params.omit_penalties?
+          return false if omit_penalties?
 
           record.penalized
         end
 
         def penalty_size
-          return 0 if params.omit_penalties?
+          return 0 if omit_penalties?
 
           record.penalty_size
         end
 
         def penalty_reason
-          return '' if params.omit_penalties?
+          return '' if omit_penalties?
 
           record.penalty_reason
         end
@@ -85,7 +90,7 @@ module Events
         delegate :round, :section, to: :record
 
         def adjust_to_wind(record)
-          if params.adjust_to_wind?
+          if adjust_to_wind?
             record.result_net
           else
             record.result
@@ -93,19 +98,27 @@ module Events
         end
 
         def apply_penalty_to_result(result)
-          return result if params.omit_penalties?
-          return result unless params.apply_penalty_to_result?
+          return result if omit_penalties?
+          return result unless apply_penalty_to_result?
           return result unless record.penalized
 
           result - result / 100 * record.penalty_size
         end
 
         def apply_penalty_to_score(score)
-          return score if params.omit_penalties?
-          return score unless params.apply_penalty_to_score?
+          return score if omit_penalties?
+          return score unless apply_penalty_to_score?
           return score unless record.penalized
 
           score - score / 100 * record.penalty_size
+        end
+
+        def best_score_lookup_context
+          if split_by_categories?
+            { round: round, section: section }
+          else
+            { round: round }
+          end
         end
       end
     end
