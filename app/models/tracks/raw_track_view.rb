@@ -5,7 +5,7 @@ module Tracks
     def points
       @points ||= begin
         processed_points = PointsPostprocessor::Default.call(track_points)
-        cropped_points(track_points, @range_from, @range_to)
+        cropped_points(processed_points, @range_from, @range_to)
       end
     end
   end

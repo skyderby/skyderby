@@ -65,8 +65,8 @@ export default function(google, map, width, length, direction, opts = {}) {
     }
 
     onAdd() {
-      let div = this.create_div()
-      let img = this.create_img()
+      const div = this.create_div()
+      const img = this.create_img()
 
       div.appendChild(img)
 
@@ -82,11 +82,11 @@ export default function(google, map, width, length, direction, opts = {}) {
     }
 
     draw() {
-      let overlayProjection = this.getProjection()
-      let sw = overlayProjection.fromLatLngToDivPixel(this.bounds.getSouthWest())
-      let ne = overlayProjection.fromLatLngToDivPixel(this.bounds.getNorthEast())
+      const overlayProjection = this.getProjection()
+      const sw = overlayProjection.fromLatLngToDivPixel(this.bounds.getSouthWest())
+      const ne = overlayProjection.fromLatLngToDivPixel(this.bounds.getNorthEast())
 
-      let div = this._div
+      const div = this._div
       div.style.left = `${sw.x}px`
       div.style.top = `${ne.y}px`
       div.style.height = `${sw.y - ne.y}px`
@@ -95,7 +95,7 @@ export default function(google, map, width, length, direction, opts = {}) {
     }
 
     create_div() {
-      let div = document.createElement('div')
+      const div = document.createElement('div')
       div.style.borderStyle = 'none'
       div.style.borderWidth = '0px'
       div.style.position = 'absolute'
@@ -104,7 +104,7 @@ export default function(google, map, width, length, direction, opts = {}) {
     }
 
     create_img() {
-      let img = document.createElement('img')
+      const img = document.createElement('img')
       img.src = this.image_src
       img.style.width = '100%'
       img.style.height = '100%'
@@ -115,7 +115,7 @@ export default function(google, map, width, length, direction, opts = {}) {
     }
 
     create_center_marker() {
-      let icon = {
+      const icon = {
         path: 'M 0, 0 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0',
         fillOpacity: 0.5,
         strokeWeight: 0,
@@ -123,7 +123,7 @@ export default function(google, map, width, length, direction, opts = {}) {
         scale: 0.2
       }
 
-      let marker = new google.maps.Marker({
+      const marker = new google.maps.Marker({
         position: this.map_center,
         map: map,
         draggable: true,
@@ -139,14 +139,14 @@ export default function(google, map, width, length, direction, opts = {}) {
     }
 
     create_rotate_marker() {
-      let icon = {
+      const icon = {
         path: 'M 0, 0 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0',
         fillOpacity: 0.5,
         strokeWeight: 2,
         scale: 0.1
       }
 
-      let marker = new google.maps.Marker({
+      const marker = new google.maps.Marker({
         position: this.rotate_marker_position,
         map: map,
         draggable: true,
@@ -154,18 +154,18 @@ export default function(google, map, width, length, direction, opts = {}) {
       })
 
       google.maps.event.addListener(marker, 'drag', () => {
-        let center_position = this.center_marker.getPosition()
-        let marker_position = marker.getPosition()
+        const center_position = this.center_marker.getPosition()
+        const marker_position = marker.getPosition()
 
-        let lat_diff = marker_position.lat() - center_position.lat()
-        let lon_diff = marker_position.lng() - center_position.lng()
+        const lat_diff = marker_position.lat() - center_position.lat()
+        const lon_diff = marker_position.lng() - center_position.lng()
 
-        this.direction = Math.atan2(lon_diff, lat_diff) * 180 / Math.PI
+        this.direction = (Math.atan2(lon_diff, lat_diff) * 180) / Math.PI
 
         this.draw()
 
-        if (typeof(this.on_rotate) === 'function') {
-          let angle = Math.round(Geospatial.normalize_angle(this.direction) * 10) / 10
+        if (typeof this.on_rotate === 'function') {
+          const angle = Math.round(Geospatial.normalize_angle(this.direction) * 10) / 10
           this.on_rotate(angle)
         }
       })
@@ -178,25 +178,51 @@ export default function(google, map, width, length, direction, opts = {}) {
     }
 
     set_bounds(point) {
-      let center_lat = point.lat()
-      let center_lon = point.lng()
+      const center_lat = point.lat()
+      const center_lon = point.lng()
 
-      let top_point    = Geospatial.destiantion_by_bearing_and_distance(center_lat, center_lon, 0, this.length / 2)
-      let bottom_point = Geospatial.destiantion_by_bearing_and_distance(center_lat, center_lon, 180, this.length / 2)
-      let right_point  = Geospatial.destiantion_by_bearing_and_distance(center_lat, center_lon, 90, this.width / 2)
-      let left_point   = Geospatial.destiantion_by_bearing_and_distance(center_lat, center_lon, 270, this.width / 2)
+      const top_point = Geospatial.destiantion_by_bearing_and_distance(
+        center_lat,
+        center_lon,
+        0,
+        this.length / 2
+      )
+      const bottom_point = Geospatial.destiantion_by_bearing_and_distance(
+        center_lat,
+        center_lon,
+        180,
+        this.length / 2
+      )
+      const right_point = Geospatial.destiantion_by_bearing_and_distance(
+        center_lat,
+        center_lon,
+        90,
+        this.width / 2
+      )
+      const left_point = Geospatial.destiantion_by_bearing_and_distance(
+        center_lat,
+        center_lon,
+        270,
+        this.width / 2
+      )
 
-      let south_west = new google.maps.LatLng(bottom_point['latitude'], left_point['longitude'])
-      let north_east = new google.maps.LatLng(top_point['latitude'], right_point['longitude'])
+      const south_west = new google.maps.LatLng(
+        bottom_point['latitude'],
+        left_point['longitude']
+      )
+      const north_east = new google.maps.LatLng(
+        top_point['latitude'],
+        right_point['longitude']
+      )
 
       this.bounds = new google.maps.LatLngBounds(south_west, north_east)
     }
 
     get rotate_marker_position() {
-      let center = this.center_marker.getPosition()
-      let angle = this.direction
+      const center = this.center_marker.getPosition()
+      const angle = this.direction
 
-      let { latitude, longitude } = Geospatial.destiantion_by_bearing_and_distance(
+      const { latitude, longitude } = Geospatial.destiantion_by_bearing_and_distance(
         center.lat(),
         center.lng(),
         angle,

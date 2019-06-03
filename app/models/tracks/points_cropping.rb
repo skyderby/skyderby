@@ -1,6 +1,6 @@
 module Tracks
   module PointsCropping
-    def cropped_points(points, range_from, range_to)
+    def cropped_points(points, range_from, range_to) # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity,Metrics/AbcSize
       return points if points.blank? || points.length == 1
 
       start_index = points.index { |x| x[:altitude] <= range_from } || 0
@@ -39,8 +39,8 @@ module Tracks
       new_point
     end
 
-    def interpolate_field(first, second, key, k)
-      first[key] + (second[key] - first[key]) * k
+    def interpolate_field(first, second, key, coeff)
+      first[key] + (second[key] - first[key]) * coeff
     end
   end
 end

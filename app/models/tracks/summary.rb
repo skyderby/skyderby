@@ -54,6 +54,7 @@ module Tracks
 
     def time
       return 0.0 if points.blank?
+
       (points.last[:gps_time] - points.first[:gps_time]).round(1)
     end
 

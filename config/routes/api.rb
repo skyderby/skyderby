@@ -1,4 +1,4 @@
-namespace :api, module: :api do
+namespace :api, module: :api, defaults: { format: :json } do
   namespace :v1, module: :v1 do
     resources :profiles, only: :show do
       scope module: :profiles do

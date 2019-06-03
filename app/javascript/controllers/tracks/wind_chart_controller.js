@@ -18,9 +18,10 @@ export default class extends Controller {
   fetch_data() {
     fetch(this.element.getAttribute('data-url'), {
       credentials: 'same-origin',
-      headers: { 'Accept': 'application/json' }
-    }).then( response => { return response.json() } )
-      .then( data => {
+      headers: { Accept: 'application/json' }
+    })
+      .then(response => response.json())
+      .then(data => {
         this.weather_data = data
         this.set_chart_data()
       })
@@ -33,15 +34,13 @@ export default class extends Controller {
 
   get chart_data() {
     return this.weather_data
-      .filter( el => { return el.altitude <= 5000 } )
-      .map( el => {
-        return {
-          x:          Number(el.wind_direction),
-          y:          Math.round(el.altitude / 100) / 10,
-          altitude:   Math.round(el.altitude),
-          wind_speed: el.wind_speed
-        }
-      })
+      .filter(el => el.altitude <= 5000)
+      .map(el => ({
+        x: Number(el.wind_direction),
+        y: Math.round(el.altitude / 100) / 10,
+        altitude: Math.round(el.altitude),
+        wind_speed: el.wind_speed
+      }))
   }
 
   get chart_options() {
@@ -59,7 +58,8 @@ export default class extends Controller {
       tooltip: {
         formatter: function() {
           return `<b>Altitude</b> ${this.point.options.altitude} m <br>
-                 '<b>Speed:</b> ${Math.round(Number(this.point.options.wind_speed) * 10) / 10} m/s <br>
+                 '<b>Speed:</b> ${Math.round(Number(this.point.options.wind_speed) * 10) /
+                   10} m/s <br>
                  '<b>Direction:</b> ${Math.round(this.x)}°`
         }
       },
@@ -68,7 +68,7 @@ export default class extends Controller {
         min: 0,
         max: 360,
         labels: {
-          formatter: function () {
+          formatter: function() {
             return `${this.value}°`
           }
         }
@@ -101,15 +101,17 @@ export default class extends Controller {
         }
       },
       legend: {
-        enabled: false,
+        enabled: false
       },
-      series: [{
-        type: 'scatter',
-        name: 'Wind speed',
-        data: [],
-        pointPlacement: 'between'
-      }],
-      credits: false,
+      series: [
+        {
+          type: 'scatter',
+          name: 'Wind speed',
+          data: [],
+          pointPlacement: 'between'
+        }
+      ],
+      credits: false
     }
   }
 }

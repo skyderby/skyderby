@@ -20,7 +20,7 @@ module Tracks
 
       attr_reader :points, :weather_data
 
-      def calculate
+      def calculate # rubocop:disable Metrics/AbcSize
         points_for_subtraction = points.tap do |tmp|
           tmp.first[:time_diff] = 0
           tmp.each_cons(2) do |prev, cur|

@@ -1,6 +1,4 @@
 json.array! @suits do |suit|
-  json.make suit.make
-  json.make_code suit.make_code
-  json.name suit.name
+  json.extract! suit, :id, :name, :make, :make_code
   json.category suit.kind
 end

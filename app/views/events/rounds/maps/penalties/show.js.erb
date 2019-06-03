@@ -1,0 +1,6 @@
+$('#modal').html(
+  '<%= j render partial: 'events/results/penalties/penalties_form',
+               layout: 'events/rounds/maps/penalties/modal',
+               locals: { show_cancel: true, result: @result, url: event_round_map_penalty_path(@event, @round, @result) } %>'
+);
+$('#modal').modal('show');

@@ -15,6 +15,7 @@ module Profiles
     def filtered_results
       results.group_by(&:virtual_competition).each_value do |scores|
         next if scores.count == 3
+
         position = scores.detect { |score| score.profile == profile }
         ranks_range = (position.rank - 1)..(position.rank + 1)
         scores.select! { |score| ranks_range.cover? score.rank }

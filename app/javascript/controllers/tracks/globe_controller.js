@@ -2,7 +2,7 @@ import { Controller } from 'stimulus'
 import { initCesiumApi } from 'utils/cesium_api'
 
 export default class extends Controller {
-  static targets = [ 'dataStatus', 'cesiumStatus', 'loadingProgress', 'viewer' ]
+  static targets = ['dataStatus', 'cesiumStatus', 'loadingProgress', 'viewer']
 
   connect() {
     initCesiumApi()
@@ -12,7 +12,7 @@ export default class extends Controller {
   fetchData() {
     fetch(this.url, {
       credentials: 'same-origin',
-      headers: { 'Accept': 'application/json' }
+      headers: { Accept: 'application/json' }
     })
       .then(response => response.json())
       .then(data => {
@@ -94,7 +94,7 @@ export default class extends Controller {
   drawNearbyPlaces() {
     const pin_builder = new Cesium.PinBuilder()
     const billboard_collection = this.viewer.scene.primitives.add(
-      new Cesium.BillboardCollection({ scene : this.viewer.scene })
+      new Cesium.BillboardCollection({ scene: this.viewer.scene })
     )
 
     this.mapsData.nearby_places.forEach(place => {
@@ -104,13 +104,9 @@ export default class extends Controller {
       )
 
       billboard_collection.add({
-        position : position,
-        image : pin_builder.fromMakiIconId(
-          'embassy',
-          Cesium.Color.ROYALBLUE,
-          24
-        ),
-        heightReference : Cesium.HeightReference.CLAMP_TO_GROUND,
+        position: position,
+        image: pin_builder.fromMakiIconId('embassy', Cesium.Color.ROYALBLUE, 24),
+        heightReference: Cesium.HeightReference.CLAMP_TO_GROUND
       })
 
       this.viewer.entities.add({
@@ -121,7 +117,7 @@ export default class extends Controller {
           pixelOffset: new Cesium.Cartesian2(3, 9),
           horizontalOrigin: Cesium.HorizontalOrigin.LEFT,
           verticalOrigin: Cesium.VerticalOrigin.TOP,
-          heightReference : Cesium.HeightReference.CLAMP_TO_GROUND,
+          heightReference: Cesium.HeightReference.CLAMP_TO_GROUND
         }
       })
     })
@@ -133,7 +129,7 @@ export default class extends Controller {
         new Cesium.TimeInterval({ start: this.startTime, stop: this.stopTime })
       ]),
       position: this.trajectory,
-      orientation : new Cesium.VelocityOrientationProperty(this.trajectory),
+      orientation: new Cesium.VelocityOrientationProperty(this.trajectory),
       label: new Cesium.LabelGraphics({
         text: this.mapsData.name,
         scale: 0.7,
@@ -145,12 +141,12 @@ export default class extends Controller {
         material: Cesium.Color.RED
       },
       path: {
-        resolution : 1,
-        material : new Cesium.PolylineGlowMaterialProperty({
-          glowPower : 0.1,
-          color : Cesium.Color.YELLOW
+        resolution: 1,
+        material: new Cesium.PolylineGlowMaterialProperty({
+          glowPower: 0.1,
+          color: Cesium.Color.YELLOW
         }),
-        width : 10
+        width: 10
       }
     }
   }

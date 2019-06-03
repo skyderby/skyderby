@@ -11,12 +11,16 @@ export default class extends Controller {
       hasGrid: true,
       from: this.from,
       to: this.to,
-      onFinish: (obj) => { $.rails.fire(obj.input[0], 'change') }
+      onFinish: obj => {
+        $.rails.fire(obj.input[0], 'change')
+      }
     })
 
     document.addEventListener(
       'turbolinks:before-cache',
-      () => { $(this.element).ionRangeSlider('remove') },
+      () => {
+        $(this.element).ionRangeSlider('remove')
+      },
       { once: true }
     )
   }

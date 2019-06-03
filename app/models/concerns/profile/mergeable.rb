@@ -3,7 +3,7 @@ class Profile < ApplicationRecord
     extend ActiveSupport::Concern
 
     class_methods do
-      def has_many_associations
+      def has_many_associations # rubocop:disable Naming/PredicateName
         reflections.select do |_association_name, reflection|
           reflection.macro == :has_many
         end
@@ -24,9 +24,8 @@ class Profile < ApplicationRecord
     private
 
     def merge_attributes_from(another)
-      if owner.blank? && another.owner && another.belongs_to_user?
-        self.owner = another.owner
-      end
+      change_owner = owner.blank? && another.owner && another.belongs_to_user?
+      self.owner = another.owner if change_owner
 
       self.country ||= another.country
       self.userpic = another.userpic if another.userpic.present?
@@ -34,15 +33,15 @@ class Profile < ApplicationRecord
 
     def replace_reference_in_associations(another)
       self.class.has_many_associations
-        .map { |association_name, _reflection| another.public_send(association_name) }
-        .each { |collection| replace_reference_in_collection(collection) }
+          .map { |association_name, _reflection| another.public_send(association_name) }
+          .each { |collection| replace_reference_in_collection(collection) }
     end
 
     def replace_reference_in_collection(collection)
       # update_columns on element using instead of update_all because readonly?
       # should be checked
       collection.each do |record|
-        record.update_columns(profile_id: id) unless record.readonly?
+        record.update_columns(profile_id: id) unless record.readonly? # rubocop:disable Rails/SkipsModelValidations
       end
     end
   end

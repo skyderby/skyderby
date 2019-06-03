@@ -31,14 +31,18 @@ class Event < ApplicationRecord
 
   belongs_to :place, optional: true
 
-  has_many :sections, -> { order(:order) }
-  has_many :competitors
-  has_many :rounds, -> { order(:number) }, inverse_of: :event
+  has_many :sections, -> { order(:order) }, inverse_of: :event, dependent: :restrict_with_error
+  has_many :competitors, inverse_of: :event, dependent: :restrict_with_error
+  has_many :rounds, -> { order(:number) }, inverse_of: :event, dependent: :restrict_with_error
   has_many :results, through: :rounds
   has_many :reference_point_assignments, through: :rounds
   has_many :tracks, through: :results
   has_many :organizers, as: :organizable, dependent: :delete_all
-  has_many :sponsors, -> { order(:created_at) }, as: :sponsorable, dependent: :delete_all
+  has_many :sponsors,
+           -> { order(:created_at) },
+           as: :sponsorable,
+           dependent: :delete_all,
+           inverse_of: :sponsorable
 
   validates :responsible, :name, :range_from, :range_to, :starts_at, presence: true
 
@@ -47,7 +51,7 @@ class Event < ApplicationRecord
   after_touch :broadcast_update
 
   before_create do
-    self.apply_penalty_to_score = true
+    self.apply_penalty_to_score = false
   end
 
   delegate :name, :msl, to: :place, prefix: true, allow_nil: true
@@ -58,7 +62,7 @@ class Event < ApplicationRecord
   end
 
   def active?
-    starts_at < Time.now && !finished?
+    starts_at < Time.zone.now && !finished?
   end
 
   private

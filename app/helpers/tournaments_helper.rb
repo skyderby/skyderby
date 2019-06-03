@@ -1,5 +1,5 @@
 module TournamentsHelper
-  def qualification_results
+  def qualification_results # rubocop:disable Metrics/AbcSize
     results = []
     @tournament.competitors.each do |competitor|
       competitor_result = {

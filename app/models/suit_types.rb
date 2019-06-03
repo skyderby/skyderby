@@ -1,1 +1,1 @@
-SuitTypes = %w[wingsuit tracksuit slick monotrack].freeze
+SuitTypes = %w[wingsuit tracksuit slick monotrack].freeze # rubocop:disable Naming/ConstantName

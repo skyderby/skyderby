@@ -1,6 +1,7 @@
 module PlacesHelper
   def place_name_by_id(id)
     return unless id
+
     Place.find_by(id: id)&.name
   end
 

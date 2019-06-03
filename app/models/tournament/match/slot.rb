@@ -57,6 +57,7 @@ class Tournament::Match::Slot < ApplicationRecord
 
   def replace_nan_with_zero
     return if result.nil?
+
     self.result = 0 if result.nan? || result.infinite?
   end
 end

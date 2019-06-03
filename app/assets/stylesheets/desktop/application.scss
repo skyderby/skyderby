@@ -2,6 +2,9 @@
 @import '../variables';
 @import './navbar/navbar';
 @import './footer/footer';
+@import './layout/fullscreen';
+@import './highcharts';
+@import './select2';
 
 a {
   cursor: pointer;

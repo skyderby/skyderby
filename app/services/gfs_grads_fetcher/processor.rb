@@ -6,7 +6,7 @@ class GfsGradsFetcher
       @input = input
     end
 
-    def execute
+    def execute # rubocop:disable Metrics/AbcSize
       validate_input!
 
       hgtsfc = input[:hgtsfc]
@@ -26,7 +26,8 @@ class GfsGradsFetcher
 
     def validate_input!
       unless input[:hgtsfc].is_a?(Numeric)
-        raise ArgumentError, "Surface height value not a number. Value: #{input[:hgtsfc].inspect}"
+        raise ArgumentError,
+              "Surface height value not a number. Value: #{input[:hgtsfc].inspect}"
       end
 
       array_values = input.slice(:hgtprs, :ugrdprs, :vgrdprs)

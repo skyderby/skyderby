@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Skyderby::Trigonometry do
   before do
     Skyderby::Trigonometry.module_eval do
-      module_function :normalize_angle
+      module_function :normalize_angle # rubocop:disable Style/AccessModifierDeclarations
     end
   end
 

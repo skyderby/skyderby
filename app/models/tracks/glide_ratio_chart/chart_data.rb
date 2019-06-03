@@ -15,7 +15,7 @@ module Tracks
             'y' => y_for_glide_ratio(x[:glide_ratio]),
             'true_value' => presenter.call(x[:glide_ratio])
           }
-        end.to_json.html_safe
+        end.to_json.html_safe # rubocop:disable Rails/OutputSafety
       end
 
       def wind_effect_glide_ratio_chart_line
@@ -26,7 +26,7 @@ module Tracks
             'high' => y_for_glide_ratio(point[:glide_ratio]),
             'true_value' => presenter.call(zerowind_point[:glide_ratio])
           }
-        end.to_json.html_safe
+        end.to_json.html_safe # rubocop:disable Rails/OutputSafety
       end
 
       private

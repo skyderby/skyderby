@@ -10,6 +10,7 @@ class Event::Result < ApplicationRecord
       self.result = EventResultService.new(track, round).calculate
 
       return unless event.wind_cancellation
+
       self.result_net = EventResultService.new(
         track,
         round,

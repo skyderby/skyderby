@@ -6,8 +6,8 @@ export default class extends Controller {
   }
 
   connect() {
-    let element = this.element.querySelector('select')
-    let selected_option = element.options[element.selectedIndex]
+    const element = this.element.querySelector('select')
+    const selected_option = element.options[element.selectedIndex]
 
     if (!selected_option.value) return
 
@@ -28,8 +28,9 @@ export default class extends Controller {
   }
 
   on_select_line(line_id, line_name) {
-    this.fetch_measurements(line_id)
-      .then( (data) => { this.dispatch_select_line(data, line_name) })
+    this.fetch_measurements(line_id).then(data => {
+      this.dispatch_select_line(data, line_name)
+    })
   }
 
   on_unselect_line() {
@@ -38,26 +39,23 @@ export default class extends Controller {
   }
 
   fetch_measurements(line_id) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       if (this.cached_measurements[line_id]) {
         resolve(this.cached_measurements[line_id])
       } else {
-        $.get('/api/v1/places/exit_measurements/' + line_id)
-          .done( data => {
-            const chart_data = this.convert_response(data)
-            this.cached_measurements[line_id] = chart_data
-            resolve(chart_data)
-          })
+        $.get('/api/v1/places/exit_measurements/' + line_id).done(data => {
+          const chart_data = this.convert_response(data)
+          this.cached_measurements[line_id] = chart_data
+          resolve(chart_data)
+        })
       }
     })
   }
 
   convert_response(data) {
-    const max_altitude = data[data.length-1].altitude
+    const max_altitude = data[data.length - 1].altitude
 
-    return data.map((el) => {
-      return [el.distance, el.altitude, max_altitude]
-    })
+    return data.map(el => [el.distance, el.altitude, max_altitude])
   }
 
   dispatch_select_line(data, name) {

@@ -7,8 +7,10 @@ Rails:
 AllCops:
   TargetRubyVersion: 2.5
   Exclude:
-    - db/schema.rb
+    - bin/*
+    - db/**/*
     - lib/**/*
+    - node_modules/**/*
 
 #################### Rails   ###############################
 Rails/SkipsModelValidations:
@@ -29,6 +31,12 @@ Style/SymbolArray:
   Enabled: false
 
 Style/MixinGrouping:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/FormatStringToken:
   Enabled: false
 
 #################### Lint    ################################
@@ -64,6 +72,5 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Exclude:
-    - "spec/**/*"
-    - 'config/routes.rb'
-    - 'config/environments/*'
+    - config/**/*
+    - spec/**/*

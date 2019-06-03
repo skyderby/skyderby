@@ -6,19 +6,19 @@ export default class {
   }
 
   point_in_time(time) {
-    let relative_time = time - this.video_offset
+    const relative_time = time - this.video_offset
 
-    if (relative_time < 0) return new NullPoint
+    if (relative_time < 0) return new NullPoint()
 
-    let track_time = relative_time + this.track_offset
+    const track_time = relative_time + this.track_offset
 
     return this.interpolated_point_for_time(track_time)
   }
 
   interpolated_point_for_time(time) {
-    let [predecessor, successor] = this.points_around_time(time)
+    const [predecessor, successor] = this.points_around_time(time)
 
-    if (!predecessor && !successor) return new NullPoint
+    if (!predecessor && !successor) return new NullPoint()
 
     return new InterpolatedPoint(predecessor, successor, time, this.start_alitude)
   }
@@ -27,10 +27,11 @@ export default class {
     for (let index = 0; index < this.points.length; index++) {
       if (index === 0) continue
 
-      let predecessor = this.points[index - 1]
-      let successor = this.points[index]
+      const predecessor = this.points[index - 1]
+      const successor = this.points[index]
 
-      if (predecessor.fl_time <= time && time <= successor.fl_time) return [predecessor, successor]
+      if (predecessor.fl_time <= time && time <= successor.fl_time)
+        return [predecessor, successor]
     }
 
     return []
@@ -62,7 +63,9 @@ class InterpolatedPoint {
   }
 
   get altitude() {
-    return Math.round(this.interpolate(this.predecessor.altitude, this.successor.altitude))
+    return Math.round(
+      this.interpolate(this.predecessor.altitude, this.successor.altitude)
+    )
   }
 
   get altitude_spent() {
@@ -78,13 +81,17 @@ class InterpolatedPoint {
   }
 
   get glide_ratio() {
-    return this.interpolate(this.predecessor.glide_ratio, this.successor.glide_ratio).toFixed(2)
+    return this.interpolate(
+      this.predecessor.glide_ratio,
+      this.successor.glide_ratio
+    ).toFixed(2)
   }
 
   get interpolation_factor() {
     if (!this._interpolation_factor) {
       this._interpolation_factor =
-        (this.time - this.predecessor.fl_time) / (this.successor.fl_time - this.predecessor.fl_time)
+        (this.time - this.predecessor.fl_time) /
+        (this.successor.fl_time - this.predecessor.fl_time)
     }
 
     return this._interpolation_factor

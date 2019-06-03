@@ -1,7 +1,7 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = [ 'profile', 'place' ]
+  static targets = ['profile', 'place']
 
   toggle(event) {
     if (event.target.checked) {
@@ -12,20 +12,20 @@ export default class extends Controller {
   }
 
   onTrackChecked() {
-    this.fetchFlightProfile()
-      .then( (data) => { this.dispatchCheck(data) })
+    this.fetchFlightProfile().then(data => {
+      this.dispatchCheck(data)
+    })
   }
 
   fetchFlightProfile() {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       if (this.cachedFlightProfile) {
         resolve(this.cachedFlightProfile)
       } else {
-        $.get('/tracks/' + this.trackId + '/flight_profile')
-          .done( data => {
-            this.cachedFlightProfile = data
-            resolve(data)
-          })
+        $.get('/tracks/' + this.trackId + '/flight_profile').done(data => {
+          this.cachedFlightProfile = data
+          resolve(data)
+        })
       }
     })
   }

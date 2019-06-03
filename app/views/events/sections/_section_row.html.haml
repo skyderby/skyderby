@@ -1,3 +1,6 @@
+-# Open category (when splitting by categories is disabled) doesn't have id
+- return unless section.id
+
 %tr{id: dom_id(section)}
   %td.event__scoreboard-section{colspan: columns_count}
     %span.section__name= section.name

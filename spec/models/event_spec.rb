@@ -44,7 +44,7 @@ describe Event do
     end
 
     it 'apply penalty to score' do
-      expect(subject.apply_penalty_to_score).to be_truthy
+      expect(subject.apply_penalty_to_score).to be_falsey
     end
   end
 

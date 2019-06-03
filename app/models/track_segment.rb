@@ -21,14 +21,15 @@ class TrackSegment
 
   def distance
     return 0 if start_point.blank? || end_point.blank?
+
     Vincenty.distance_between_points(start_point, end_point)
   end
-  alias_method :straight_line_distance, :distance
+  alias straight_line_distance distance
 
   def direction
-    Skyderby::Geospatial.bearing_between(
+    Skyderby::Geospatial.bearing_between \
       start_point[:latitude], start_point[:longitude],
-      end_point[:latitude],   end_point[:longitude])
+      end_point[:latitude], end_point[:longitude]
   end
 
   def speed

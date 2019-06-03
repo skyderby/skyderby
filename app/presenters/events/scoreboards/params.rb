@@ -22,6 +22,10 @@ module Events
         !apply_penalty_to_score?
       end
 
+      def split_by_categories?
+        raw_params[:split_by_categories].to_s.downcase != 'false'
+      end
+
       private
 
       attr_reader :event, :raw_params

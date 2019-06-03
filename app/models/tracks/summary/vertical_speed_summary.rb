@@ -10,6 +10,7 @@ module Tracks
 
       def avg_vertical_speed
         return nil if time.zero?
+
         presenter.call(elevation / time)
       end
 

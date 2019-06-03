@@ -1,2 +1,4 @@
-= link_to place_finish_line_path(finish_line.place, finish_line), class: 'tr' do
-  .td= finish_line.name
+.col-sm-6.col-md-4
+  = link_to place_finish_line_path(finish_line.place, finish_line), class: "finish-line-card" do
+    %img.img-responsive{ alt: finish_line.name, src: finish_line_static_map_path(finish_line) }
+    %h3.text-center= finish_line.name

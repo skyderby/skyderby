@@ -18,6 +18,7 @@ module Events
         def worst_in(**args)
           find(**args)&.min_by { |x| x.result }
         end
+
         private
 
         attr_reader :event_results, :params
@@ -29,7 +30,7 @@ module Events
           results_index.dig(index_section, index_key)
         end
 
-        def lookup_key(round: nil, section: nil, competitor: nil)
+        def lookup_key(round: nil, section: nil, competitor: nil) # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
           if round && section
             "#{round.id}-#{section.id}"
           elsif round && competitor
@@ -43,7 +44,7 @@ module Events
           end
         end
 
-        def lookup_section(round: nil, section: nil, competitor: nil)
+        def lookup_section(round: nil, section: nil, competitor: nil) # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
           if round && section
             :by_rounds_and_sections
           elsif round && competitor
@@ -76,8 +77,8 @@ module Events
         #     "[round_id]-[competitor_id]": result1
         #   }
         # }
-        def results_index
-          @results ||= records.each_with_object(blank_index) do |record, memo|
+        def results_index # rubocop:disable Metrics/AbcSize
+          @results_index ||= records.each_with_object(blank_index) do |record, memo|
             result = Item.new(record, self, params)
             memo[:by_rounds][record.round.id] << result
             memo[:by_sections][record.section.id] << result

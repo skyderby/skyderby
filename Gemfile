@@ -5,6 +5,7 @@ gem 'rails', '~> 5.2'
 
 gem 'puma'
 gem 'rack-attack'
+gem 'rack-cors'
 
 # DB
 gem 'pg', '~> 1.0'

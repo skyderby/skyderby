@@ -1,7 +1,7 @@
 class VirtualCompetition::CustomInterval < ApplicationRecord
   belongs_to :virtual_competition
 
-  scope :until, -> (time) { where('period_from <= ?', time) }
+  scope :until, ->(time) { where('period_from <= ?', time) }
 
   before_save :generate_slug
 

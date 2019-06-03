@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe TrackFormatDetector do
   EXAMPLES = {
-    'two_tracks.gpx'   => 'gpx',
+    'two_tracks.gpx' => 'gpx',
     'dual_xgps160.kml' => 'kml',
-    'wintec.tes'       => 'wintec',
-    'flysight.csv'     => 'flysight',
-    'columbus.csv'     => 'columbus',
-    'cyber_eye.csv'    => 'cyber_eye'
+    'wintec.tes' => 'wintec',
+    'flysight.csv' => 'flysight',
+    'columbus.csv' => 'columbus',
+    'cyber_eye.csv' => 'cyber_eye'
   }.freeze
 
   EXAMPLES.each do |file_name, format|

@@ -7,7 +7,7 @@ module Api
         def index
           authorize @event, :show?
 
-          @results = @event.results.chronologically
+          @results = @event.results.includes(:round, competitor: :profile).chronologically
         end
 
         def create

@@ -1,8 +1,8 @@
 module Tracks
   class WeatherData
     class SelectedUnits
-      DEFAULT_ALTITUDE_UNITS = 'm'
-      DEFAULT_SPEED_UNITS    = 'ms'
+      DEFAULT_ALTITUDE_UNITS = 'm'.freeze
+      DEFAULT_SPEED_UNITS    = 'ms'.freeze
 
       def initialize(params)
         @params = params

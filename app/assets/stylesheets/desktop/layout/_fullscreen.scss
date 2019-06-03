@@ -1,0 +1,52 @@
+.fullscreen-container {
+  bottom: 41px;
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 60px;
+  width: 100%;
+}
+
+.fullscreen-header {
+  background: $background-main;
+  border-bottom: $border-color solid 1px;
+  color: $gray-dark;
+  font-size: 24px;
+  line-height: 2;
+  padding-left: 15px;
+}
+
+.fullscreen-body {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+  height: 100%;
+}
+
+.fullscreen-sidebar {
+  box-shadow: inset -2px 0 0 #e5e5e5;
+  overflow: hidden;
+  width: 35%;
+}
+
+.fullscreen-sidebar--small {
+  max-width: 200px;
+}
+
+.fullscreen-sidebar-container {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.fullscreen-main-area {
+  background-color: $background-main;
+  display: flex;
+  flex-basis: 100%;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+  overflow-y: scroll;
+  padding: 15px;
+}

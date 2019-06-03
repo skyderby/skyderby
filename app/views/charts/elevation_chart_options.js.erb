@@ -1,7 +1,7 @@
 {
   chart: {
     type: 'spline',
-    marginLeft: 70,
+    styledMode: true,
     events: {
       load: function() {
         window.chartLoadCallback('elevation_chart_', this.series);
@@ -9,7 +9,8 @@
     }
   },
   title: {
-    text: '<%= t('charts.elev.title') %>'
+    text: '<%= t('charts.elev.title') %>',
+    style: { color: '#777', fontSize: '16px' }
   },
   plotOptions: {
     spline: {

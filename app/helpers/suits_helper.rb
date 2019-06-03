@@ -1,11 +1,13 @@
 module SuitsHelper
   def suit_name_by_id(id)
     return unless id
+
     Suit.find_by(id: id)&.name
   end
 
   def suit_presentation(suit)
     return unless suit
+
     manufacturer = suit.manufacturer
     code_span = content_tag(:span,
                             class: 'text-warning',

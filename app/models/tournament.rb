@@ -39,10 +39,10 @@ class Tournament < ApplicationRecord
   has_many :rounds, dependent: :restrict_with_error
   has_many :matches, through: :rounds
 
-  has_many :qualification_rounds
+  has_many :qualification_rounds, dependent: :restrict_with_error
   has_many :qualification_jumps, through: :qualification_rounds
 
-  has_many :sponsors, -> { order(:created_at) }, as: :sponsorable
+  has_many :sponsors, -> { order(:created_at) }, as: :sponsorable, inverse_of: :sponsorable
 
   delegate :name, to: :place, prefix: true, allow_nil: true
 
@@ -66,7 +66,7 @@ class Tournament < ApplicationRecord
   end
 
   def active?
-    starts_at < Time.now && !finished?
+    starts_at < Time.zone.now && !finished?
   end
 
   # For compatibility with Event

@@ -2,7 +2,7 @@
 {
   chart: {
     type: 'spline',
-    marginLeft: 70,
+    styledMode: true,
     events: {
       load: function() {
         window.chartLoadCallback('glide_ratio_chart_', this.series);
@@ -10,7 +10,8 @@
     }
   },
   title: {
-    text: '<%= t('charts.gr.title') %>'
+    text: '<%= t('charts.gr.title') %>',
+    style: { color: '#777', fontSize: '16px' }
   },
   plotOptions: {
     spline: {

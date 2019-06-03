@@ -3,9 +3,6 @@
     = link_to new_place_finish_line_path(@place), class: 'btn btn-default' do
       %i.fa.fa-plus
       Add
-.table
-  .thead
-    .tr
-      .th Name
-  .tbody
-    = render collection: @finish_lines, partial: 'places/finish_lines/finish_line'
+%br
+.row
+  = render collection: @finish_lines, partial: 'places/finish_lines/finish_line'

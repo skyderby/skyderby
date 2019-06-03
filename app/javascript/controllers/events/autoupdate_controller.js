@@ -1,17 +1,22 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = [ 'indicator', 'link' ]
+  static targets = ['indicator', 'link']
 
   connect() {
     const event_id = this.element.getAttribute('data-event-id')
 
-    this.subscription = window.cable.subscriptions.create({
-      channel: 'EventUpdatesChannel',
-      event_id: event_id,
-    }, {
-      received: () => { this.on_receive_update() }
-    })
+    this.subscription = window.cable.subscriptions.create(
+      {
+        channel: 'EventUpdatesChannel',
+        event_id: event_id
+      },
+      {
+        received: () => {
+          this.on_receive_update()
+        }
+      }
+    )
   }
 
   trigger_state(e) {

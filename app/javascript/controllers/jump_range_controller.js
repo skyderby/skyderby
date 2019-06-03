@@ -1,7 +1,7 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = [ 'chart', 'select' ]
+  static targets = ['chart', 'select']
 
   connect() {
     if (this.highchart) return
@@ -14,11 +14,9 @@ export default class extends Controller {
 
     const track_id = this.element.getAttribute('data-track-id')
     fetch(`/tracks/${track_id}/altitude_data`, { credentials: 'same-origin' })
-      .then( response => {
-        return response.json()
-      })
-      .then( data => {
-        let chart = this.highchart
+      .then(response => response.json())
+      .then(data => {
+        const chart = this.highchart
 
         chart.series[0].setData(data)
         chart.hideLoading()
@@ -85,8 +83,9 @@ export default class extends Controller {
             from: 0,
             to: 0,
             id: 'plotband-end'
-          },
-        ]},
+          }
+        ]
+      },
       tooltip: {
         crosshairs: true
       },

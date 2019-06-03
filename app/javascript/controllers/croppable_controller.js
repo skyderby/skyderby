@@ -1,16 +1,14 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = [ 'crop', 'preview', 'x', 'y', 'h', 'w' ]
-  connect() {
-
-  }
+  static targets = ['crop', 'preview', 'x', 'y', 'h', 'w']
+  connect() {}
 
   initJcrop() {
     if (this.jcrop) this.jcrop.destroy()
 
     const self = this
-    const changeHandler = (coords) => {
+    const changeHandler = coords => {
       this.updateCoordinates(coords)
       this.updatePreview(coords)
     }
@@ -25,9 +23,9 @@ export default class extends Controller {
         onSelect: changeHandler,
         onChange: changeHandler,
         boxWidth: 390,
-        boxHeight: 292,
+        boxHeight: 292
       },
-      function () {
+      function() {
         self.jcrop = this
       }
     )
@@ -49,9 +47,7 @@ export default class extends Controller {
   }
 
   updateCoordinates(coords) {
-    ['x', 'y', 'h', 'w'].forEach(el =>
-      this[`${el}Target`].value = coords[el]
-    )
+    ;['x', 'y', 'h', 'w'].forEach(el => (this[`${el}Target`].value = coords[el]))
   }
 
   updatePreview(coords) {
@@ -60,9 +56,9 @@ export default class extends Controller {
 
     const styles = this.previewTarget.style
 
-    styles.width = `${Math.round(150 / coords.w * cropWidth)}px`
-    styles.height = `${Math.round(150 / coords.h * cropHeight)}px`
-    styles.marginLeft = `-${Math.round(150 / coords.w * coords.x)}px`
-    styles.marginTop = `-${Math.round(150 / coords.h * coords.y)}px`
+    styles.width = `${Math.round((150 / coords.w) * cropWidth)}px`
+    styles.height = `${Math.round((150 / coords.h) * cropHeight)}px`
+    styles.marginLeft = `-${Math.round((150 / coords.w) * coords.x)}px`
+    styles.marginTop = `-${Math.round((150 / coords.h) * coords.y)}px`
   }
 }

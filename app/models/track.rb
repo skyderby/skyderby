@@ -44,7 +44,8 @@ class Track < ApplicationRecord
   belongs_to :pilot,
              class_name: 'Profile',
              foreign_key: 'profile_id',
-             optional: true
+             optional: true,
+             inverse_of: :tracks
 
   belongs_to :place, optional: true
   belongs_to :suit, optional: true
@@ -67,7 +68,7 @@ class Track < ApplicationRecord
           class_name: 'TrackResult',
           inverse_of: :track
 
-  has_many :points, -> { order :gps_time_in_seconds }, dependent: :delete_all
+  has_many :points, -> { order :gps_time_in_seconds }, dependent: :delete_all, inverse_of: :track
   has_many :track_results, dependent: :destroy
   has_many :virtual_competition_results, class_name: 'VirtualCompetition::Result', dependent: :destroy
 
@@ -139,7 +140,7 @@ class Track < ApplicationRecord
       {
         max_altitude: points_altitude.max,
         min_altitude: points_altitude.min,
-        elevation:    points_altitude.max - points_altitude.min
+        elevation: points_altitude.max - points_altitude.min
       }
     end
   end

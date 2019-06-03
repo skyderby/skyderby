@@ -7,7 +7,7 @@ class Event < ApplicationRecord
     end
 
     def set_tracks_visibility
-      tracks.update_all(visibility: tracks_visibility)
+      tracks.update_all(visibility: tracks_visibility) # rubocop:disable Rails/SkipsModelValidations
     end
 
     def tracks_visibility

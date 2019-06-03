@@ -9,6 +9,7 @@ module MobileFormatOverride
 
   def set_mobile_variant
     return unless mobile?
+
     request.variant = :mobile
   end
 

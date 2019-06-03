@@ -8,7 +8,7 @@ const FINISH_LINE_COLOR = '#E84855'
 const CENTER_LINE_COLOR = '#E84855'
 
 export default class extends Controller {
-  static targets = [ 'map', 'placeholder', 'data_loading_status', 'maps_loading_status' ]
+  static targets = ['map', 'placeholder', 'data_loading_status', 'maps_loading_status']
   connect() {
     init_maps_api()
     this.fetch_data()
@@ -17,9 +17,10 @@ export default class extends Controller {
   fetch_data() {
     fetch(this.element.getAttribute('data-url'), {
       credentials: 'same-origin',
-      headers: { 'Accept': 'application/json' }
-    }).then( response => { return response.json() } )
-      .then( data => {
+      headers: { Accept: 'application/json' }
+    })
+      .then(response => response.json())
+      .then(data => {
         this.maps_data = data
         this.set_data_loading_success()
         this.render_map()
@@ -81,10 +82,14 @@ export default class extends Controller {
   }
 
   fit_bounds() {
-    let map_bounds = new google.maps.LatLngBounds()
+    const map_bounds = new google.maps.LatLngBounds()
 
-    map_bounds.extend(new google.maps.LatLng(this.bounds.min_latitude, this.bounds.min_longitude))
-    map_bounds.extend(new google.maps.LatLng(this.bounds.max_latitude, this.bounds.max_longitude))
+    map_bounds.extend(
+      new google.maps.LatLng(this.bounds.min_latitude, this.bounds.min_longitude)
+    )
+    map_bounds.extend(
+      new google.maps.LatLng(this.bounds.max_latitude, this.bounds.max_longitude)
+    )
 
     this.map.fitBounds(map_bounds)
     this.map.setCenter(map_bounds.getCenter())
@@ -119,7 +124,8 @@ export default class extends Controller {
   }
 
   get center_line() {
-    if (!this._center_line) this._center_line = new CenterLine(this.finish_line, this.maps_data.exit_point)
+    if (!this._center_line)
+      this._center_line = new CenterLine(this.finish_line, this.maps_data.exit_point)
 
     return this._center_line
   }
@@ -138,9 +144,9 @@ export default class extends Controller {
 
   get maps_options() {
     return {
-      'zoom': 2,
-      'center': new google.maps.LatLng(26.703115, 22.085180),
-      'mapTypeId': 'terrain'
+      zoom: 2,
+      center: new google.maps.LatLng(26.703115, 22.08518),
+      mapTypeId: 'terrain'
     }
   }
 }

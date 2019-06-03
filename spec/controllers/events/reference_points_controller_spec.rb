@@ -25,7 +25,7 @@ describe Events::ReferencePointsController do
     it '#update' do
       sign_in users(:event_responsible)
 
-      put :update, params: { event_id: event.id, event: { designated_lane_start: 'designated_lane_start_on_5_sec' } }
+      put :update, params: { event_id: event.id, event: { designated_lane_start: 'designated_lane_start_on_10_sec' } }
 
       expect(response.redirect?).to be_truthy
     end

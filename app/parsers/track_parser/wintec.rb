@@ -41,10 +41,10 @@ module TrackParser
 
     def parse_row(unpacked_string, start_index)
       parse_point(
-        datetime:  unpacked_string[start_index + 1],
-        latitude:  unpacked_string[start_index + 2] / 1.0e7,
+        datetime: unpacked_string[start_index + 1],
+        latitude: unpacked_string[start_index + 2] / 1.0e7,
         longitude: unpacked_string[start_index + 3] / 1.0e7,
-        height:    unpacked_string[start_index + 4]
+        height: unpacked_string[start_index + 4]
       )
     end
 

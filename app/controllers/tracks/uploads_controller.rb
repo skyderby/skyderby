@@ -1,6 +1,5 @@
 module Tracks
   class UploadsController < ApplicationController
-    def new
-    end
+    def new; end
   end
 end

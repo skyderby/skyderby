@@ -4,7 +4,7 @@ class ResultsJob < ApplicationJob
     return unless track
 
     TrackResultsService.new(track).execute
-  rescue WindowRangeFinder::ValueOutOfRange => ex
-    Rails.logger.info("Failed to calc best results beacause of error #{ex}")
+  rescue WindowRangeFinder::ValueOutOfRange => e
+    Rails.logger.info("Failed to calc best results beacause of error #{e}")
   end
 end

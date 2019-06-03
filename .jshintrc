@@ -1,4 +1,6 @@
 {
+  "esversion": 6,
+  "asi": true,
   "browser": true,
   "undef": true,
   "unused": true,

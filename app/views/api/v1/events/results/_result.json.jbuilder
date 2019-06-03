@@ -1,4 +1,4 @@
-json.extract! result, :id, :result, :penalized, :penalty_size, :penalty_reason, :competitor_id, :round_id
+json.extract! result, :id, :competitor_id, :round_id, :track_id, :exit_time, :result, :penalized, :penalty_size, :penalty_reason
 json.competitor_name result.competitor.name
 json.round_name "#{result.round.discipline.capitalize}-#{result.round.number}"
 if result.reference_point

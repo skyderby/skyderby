@@ -1,0 +1,8 @@
+$('#modal').modal('hide')
+var element = document.querySelector('.round-map-competitor[data-competitor-id="<%= @result.competitor_id %>"] .round-map-competitor-penalty')
+
+<% if @result.penalized %>
+  element.innerText = '-' + '<%= @result.penalty_size %>' + '%'
+<% else %>
+  element.innerText = ''
+<% end %>

@@ -4,7 +4,7 @@ const SELECT = 'select'
 const TEXT = 'text'
 
 export default class extends Controller {
-  static targets = [ 'link', 'caption', 'text', 'select' ]
+  static targets = ['link', 'caption', 'text', 'select']
 
   connect() {
     this.mode = this.element.getAttribute('data-mode')

@@ -4,7 +4,7 @@ const DEFAULT_MESSAGE = 'Something went wrong with that request. Please try agai
 const ESC_KEY = 27
 
 export default class extends Controller {
-  static targets = [ 'message' ]
+  static targets = ['message']
 
   connect() {
     document.addEventListener('ajax:error', this.handle_ajax_error.bind(this))
@@ -35,7 +35,12 @@ export default class extends Controller {
 
     this.messageTarget.innerText = message
     this.element.classList.add('visible')
-    this.data.set('timer-id', setTimeout(() => { this.hide() }, 5000))
+    this.data.set(
+      'timer-id',
+      setTimeout(() => {
+        this.hide()
+      }, 5000)
+    )
   }
 
   hide() {
