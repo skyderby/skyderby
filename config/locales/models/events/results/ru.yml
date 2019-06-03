@@ -2,6 +2,7 @@ ru:
   activerecord:
     models:
       event/result: Результат
+      event/full_jump: Полный Прыжок
     attributes:
       event/result:
         file: Файл трека

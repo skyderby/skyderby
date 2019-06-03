@@ -2,6 +2,7 @@ fr:
   activerecord:
     models:
       event/result: Résultat
+      event/full_jump: Saut complet
     attributes:
       event/result:
         file: Fichier de l'enregistrement

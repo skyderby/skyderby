@@ -12,6 +12,7 @@
             Close
       %h4.modal-title
         = event_result_presentation(@result)
+        = link_to t('activerecord.models.event/full_jump'), track_path(@result.track)
 
     .modal-body
       .container-fluid
