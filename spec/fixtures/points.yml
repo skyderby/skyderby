@@ -1,0 +1,339 @@
+point_1:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:00.000Z').to_f %>
+  fl_time: 0
+  abs_altitude: 1246.478
+  latitude: 62.057832
+  longitude: 6.971557
+  h_speed: 0.461024945095165
+  v_speed: 0.828
+
+point_2:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:01.000Z').to_f %>
+  fl_time: 1
+  abs_altitude: 1245.341
+  latitude: 62.0578305
+  longitude: 6.9715375
+  h_speed: 21.4309182257784
+  v_speed: 0.072
+
+point_3:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:02.000Z').to_f %>
+  fl_time: 2
+  abs_altitude: 1238.902
+  latitude: 62.0578237
+  longitude: 6.9714627
+  h_speed: 14.7283563237722
+  v_speed: 37.548
+
+point_4:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:03.000Z').to_f %>
+  fl_time: 3
+  abs_altitude: 1222.99
+  latitude: 62.0578193
+  longitude: 6.9713959
+  h_speed: 12.3556069863038
+  v_speed: 71.964
+
+point_5:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:04.000Z').to_f %>
+  fl_time: 4
+  abs_altitude: 1197.7
+  latitude: 62.0578152
+  longitude: 6.9713235
+  h_speed: 19.5365933570825
+  v_speed: 104.292
+
+point_6:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:05.000Z').to_f %>
+  fl_time: 5
+  abs_altitude: 1164.868
+  latitude: 62.0577959
+  longitude: 6.971187
+  h_speed: 38.6961151538497
+  v_speed: 126.864
+
+point_7:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:06.000Z').to_f %>
+  fl_time: 6
+  abs_altitude: 1127.731
+  latitude: 62.057749
+  longitude: 6.9709137
+  h_speed: 64.7663312532059
+  v_speed: 142.452
+
+point_8:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:07.000Z').to_f %>
+  fl_time: 7
+  abs_altitude: 1085.772
+  latitude: 62.0576857
+  longitude: 6.9705338
+  h_speed: 86.8782265012356
+  v_speed: 156.672
+
+point_9:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:08.000Z').to_f %>
+  fl_time: 8
+  abs_altitude: 1041.179
+  latitude: 62.0576028
+  longitude: 6.9700313
+  h_speed: 112.590654674356
+  v_speed: 163.152
+
+point_10:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:09.000Z').to_f %>
+  fl_time: 9
+  abs_altitude: 995.154
+  latitude: 62.0575057
+  longitude: 6.969409
+  h_speed: 135.818095583762
+  v_speed: 165.312
+
+point_11:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:10.000Z').to_f %>
+  fl_time: 10
+  abs_altitude: 949.16
+  latitude: 62.0573996
+  longitude: 6.9686659
+  h_speed: 153.129143143949
+  v_speed: 166.104
+
+point_12:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:11.000Z').to_f %>
+  fl_time: 11
+  abs_altitude: 902.784
+  latitude: 62.0572787
+  longitude: 6.9678494
+  h_speed: 165.830130531216
+  v_speed: 167.976
+
+point_13:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:12.000Z').to_f %>
+  fl_time: 12
+  abs_altitude: 855.675
+  latitude: 62.0571422
+  longitude: 6.9669777
+  h_speed: 175.597335469534
+  v_speed: 173.16
+
+point_14:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:13.000Z').to_f %>
+  fl_time: 13
+  abs_altitude: 807.586
+  latitude: 62.0569901
+  longitude: 6.9660642
+  h_speed: 187.061795522228
+  v_speed: 172.368
+
+point_15:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:14.000Z').to_f %>
+  fl_time: 14
+  abs_altitude: 760.6
+  latitude: 62.0568202
+  longitude: 6.9650955
+  h_speed: 199.735867545116
+  v_speed: 164.988
+
+point_16:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:15.000Z').to_f %>
+  fl_time: 15
+  abs_altitude: 715.508
+  latitude: 62.056642
+  longitude: 6.96407
+  h_speed: 210.489955864882
+  v_speed: 158.616
+
+point_17:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:16.000Z').to_f %>
+  fl_time: 16
+  abs_altitude: 672.508
+  latitude: 62.0564641
+  longitude: 6.9629966
+  h_speed: 218.453606388176
+  v_speed: 149.868
+
+point_18:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:17.000Z').to_f %>
+  fl_time: 17
+  abs_altitude: 632.687
+  latitude: 62.0562853
+  longitude: 6.9618759
+  h_speed: 226.05897513702
+  v_speed: 137.016
+
+point_19:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:18.000Z').to_f %>
+  fl_time: 18
+  abs_altitude: 595.615
+  latitude: 62.0561028
+  longitude: 6.9607301
+  h_speed: 229.911583875193
+  v_speed: 128.988
+
+point_20:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:19.000Z').to_f %>
+  fl_time: 19
+  abs_altitude: 560.827
+  latitude: 62.0559194
+  longitude: 6.9595696
+  h_speed: 232.784122963745
+  v_speed: 118.98
+
+point_21:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:20.000Z').to_f %>
+  fl_time: 20
+  abs_altitude: 529.409
+  latitude: 62.0557416
+  longitude: 6.9583889
+  h_speed: 232.550710031167
+  v_speed: 110.988
+
+point_22:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:21.000Z').to_f %>
+  fl_time: 21
+  abs_altitude: 499.741
+  latitude: 62.0555748
+  longitude: 6.9572047
+  h_speed: 230.963018650173
+  v_speed: 107.856
+
+point_23:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:22.000Z').to_f %>
+  fl_time: 22
+  abs_altitude: 470.128
+  latitude: 62.0554167
+  longitude: 6.9560288
+  h_speed: 230.482461805665
+  v_speed: 103.608
+
+point_24:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:23.000Z').to_f %>
+  fl_time: 23
+  abs_altitude: 442.192
+  latitude: 62.055267
+  longitude: 6.9548493
+  h_speed: 229.508029977167
+  v_speed: 97.452
+
+point_25:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:24.000Z').to_f %>
+  fl_time: 24
+  abs_altitude: 416.493
+  latitude: 62.0551264
+  longitude: 6.9536694
+  h_speed: 228.247682520546
+  v_speed: 90.54
+
+point_26:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:25.000Z').to_f %>
+  fl_time: 25
+  abs_altitude: 392.259
+  latitude: 62.0549953
+  longitude: 6.9524972
+  h_speed: 224.704078360852
+  v_speed: 84.996
+
+point_27:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:26.000Z').to_f %>
+  fl_time: 26
+  abs_altitude: 368.92
+  latitude: 62.0548679
+  longitude: 6.9513422
+  h_speed: 221.311287592838
+  v_speed: 82.116
+
+point_28:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:27.000Z').to_f %>
+  fl_time: 27
+  abs_altitude: 346.399
+  latitude: 62.0547424
+  longitude: 6.9502087
+  h_speed: 218.497859174867
+  v_speed: 78.912
+
+point_29:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:28.000Z').to_f %>
+  fl_time: 28
+  abs_altitude: 327.717
+  latitude: 62.0546174
+  longitude: 6.9490853
+  h_speed: 216.283517929592
+  v_speed: 48.276
+
+point_30:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:29.000Z').to_f %>
+  fl_time: 29
+  abs_altitude: 321.831
+  latitude: 62.0544927
+  longitude: 6.9480052
+  h_speed: 197.696808229167
+  v_speed: -2.052
+
+point_31:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:30.000Z').to_f %>
+  fl_time: 30
+  abs_altitude: 329.017
+  latitude: 62.0543835
+  longitude: 6.9470933
+  h_speed: 154.667077815545
+  v_speed: -40.212
+
+point_32:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:31.000Z').to_f %>
+  fl_time: 31
+  abs_altitude: 343.227
+  latitude: 62.0543159
+  longitude: 6.9464434
+  h_speed: 101.674000216378
+  v_speed: -55.512
+
+point_33:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:32.000Z').to_f %>
+  fl_time: 32
+  abs_altitude: 355.2
+  latitude: 62.0542764
+  longitude: 6.9459908
+  h_speed: 78.4126114346411
+  v_speed: -28.476
+
+point_34:
+  track: hellesylt
+  gps_time_in_seconds: <%= Time.zone.parse('2018-07-07T16:51:33.000Z').to_f %>
+  fl_time: 33
+  abs_altitude: 359.934
+  latitude: 62.054243
+  longitude: 6.9456435
+  h_speed: 61.0948107780031
+  v_speed: -3.096
