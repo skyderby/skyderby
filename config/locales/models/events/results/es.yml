@@ -2,7 +2,6 @@ en:
   activerecord:
     models:
       event/result: Resultado
-      event/full_jump: Salto completo
     attributes:
       event/result:
         file: El archivo de la pista

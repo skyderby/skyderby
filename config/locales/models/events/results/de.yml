@@ -2,7 +2,6 @@ de:
   activerecord:
     models:
       event/result: Ergebnis
-      event/full_jump: Voller Sprung
     attributes:
       event/result:
         file: Datei mit Track

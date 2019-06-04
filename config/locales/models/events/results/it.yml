@@ -2,7 +2,6 @@ it:
   activerecord:
     models:
       event/result: Risultati
-      event/full_jump: Salto completo
     attributes:
       event/result:
         file: File con tracce
