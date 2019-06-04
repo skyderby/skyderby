@@ -12,6 +12,8 @@
       = @result.competitor.name
       |
       = "#{t('disciplines.' + @result.round_discipline)} - #{@result.round_number}"
+      |
+      = link_to t('events.show.full_jump'), track_path(@result.track)
 
     = render 'events/results/header', local: true
 
