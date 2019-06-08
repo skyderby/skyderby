@@ -80,7 +80,11 @@
                 %li
                   = link_to 'Export to Excel', event_scoreboard_path(@event, format: :xlsx), rel: 'nofollow'
 
-    = render @scoreboard, can_manage: can_manage
+    - if !@event.surprise? || can_manage
+      = render @scoreboard, can_manage: can_manage
+    - else
+      %h1.text-muted.text-center
+        🙅 Let it be Surprise
 
     - if @scoreboard.wind_cancellation
       .row
