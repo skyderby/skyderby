@@ -8,3 +8,9 @@ footer {
   margin-top: 20px;
   padding: 0 15px;
 }
+
+@media print {
+  footer {
+    display: none;
+  }
+}

@@ -97,6 +97,12 @@
   width: 100%;
 }
 
+@media print {
+  .track-indicators__components {
+    display: none;
+  }
+}
+
 .track-indicators__component {
   display: table-cell;
 

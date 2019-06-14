@@ -5,6 +5,16 @@
   text-overflow: ellipsis;
 }
 
+@media print {
+  .event-result__header {
+    display: none;
+  }
+
+  .event-result__navigation {
+    display: none;
+  }
+}
+
 .event-result__body {
   border-top: rgba(0, 0, 0, 0.14) solid 1px;
   border-bottom: rgba(0, 0, 0, 0.14) solid 1px;

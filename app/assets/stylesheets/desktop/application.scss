@@ -18,3 +18,14 @@ a {
 ul {
   list-style: none;
 }
+
+@page {
+  size: A4;
+}
+
+@media print {
+  html, body {
+    width: 210mm;
+    height: 297mm;
+  }
+}
