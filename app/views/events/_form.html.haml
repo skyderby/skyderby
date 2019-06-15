@@ -70,7 +70,7 @@
       .btn-group.col-sm-8{data: {toggle: 'buttons'}}
         - Event.visibilities.each do |key, _value|
           %label.btn.btn-default{ class:  ('active' if @event.visibility == key) }
-            = f.radio_button 'visibility', 'public_event'
+            = f.radio_button 'visibility', key
             = t("activerecord.attributes.event.visibilities.#{key}")
 
     .form-group
