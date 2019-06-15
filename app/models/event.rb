@@ -23,7 +23,7 @@
 class Event < ApplicationRecord
   include TrackVisibility, DesignatedLane
 
-  enum status: [:draft, :published, :finished]
+  enum status: [:draft, :published, :finished, :surprise]
   enum rules: [:speed_distance_time, :fai, :hungary_boogie]
   enum visibility: [:public_event, :unlisted_event, :private_event]
 

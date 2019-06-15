@@ -95,6 +95,20 @@
     height:600px;
 }
 
+@media print {
+  #glideratio_chart {
+    height: 200px;
+  }
+
+  #speeds_chart {
+    height: 260px;
+  }
+
+  #elevation_distance_chart {
+    height: 260px;
+  }
+}
+
 .hl1 {
     background-color: rgb(45, 126, 46);
     color: rgb(244, 244, 244);

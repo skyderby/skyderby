@@ -7,7 +7,7 @@ json.sections do
 end
 
 json.competitors do
-  all_competitors = @scoreboard.sections.map { |section| section.competitors.to_a }.flatten
+  all_competitors = @scoreboard.sections.flat_map { |section| section.competitors.to_a }
   json.array! all_competitors do |scoreboard_entry|
     json.id scoreboard_entry.id
     json.name scoreboard_entry.name

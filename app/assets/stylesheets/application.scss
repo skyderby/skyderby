@@ -64,6 +64,12 @@ a, button, label, span {
   }
 }
 
+@media print {
+  #wrap {
+    padding: 0;
+  }
+}
+
 label.valid {
   display: none !important;
 }

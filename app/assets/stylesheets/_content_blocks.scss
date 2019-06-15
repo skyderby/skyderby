@@ -31,6 +31,12 @@
   }
 }
 
+@media print {
+  .content-block {
+    margin: 0;
+  }
+}
+
 .content-block--bordered {
   border: rgba(0, 0, 0, 0.14) solid 1px;
   box-shadow: none;

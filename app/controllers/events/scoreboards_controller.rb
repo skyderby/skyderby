@@ -13,7 +13,6 @@ module Events
 
       respond_to do |format|
         format.js
-        format.json
         format.html { redirect_to @event }
         format.xlsx do
           response.headers['Content-Disposition'] = "attachment; filename='#{@event.name.to_param}.xlsx'"

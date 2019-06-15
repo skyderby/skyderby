@@ -18,8 +18,16 @@ namespace :api, module: :api, defaults: { format: :json } do
 
     resources :suits, only: :index
 
+    resources :tracks, only: [] do
+      scope module: :tracks do
+        resource :points, only: :show
+      end
+    end
+
     resources :events, only: [] do
       scope module: :events do
+        resource :scoreboard, only: :show
+
         resources :rounds, only: :index
         resources :competitors, only: :index
         resources :results, only: %i[index create]

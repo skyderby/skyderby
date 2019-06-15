@@ -46,25 +46,29 @@
                       %i.fa.fa-circle{style: "color: #{competitor_data.present? ? competitor_data.color : 'transparent'}"}
                       %span.round-map-competitor-name
                         = competitor_data.name.titleize
-                      - if competitor_data.penalized
-                        %span.label.label-warning.round-map-competitor-penalty= "-#{competitor_data.penalty_size}%"
+                      = render 'events/rounds/maps/penalty',
+                               penalized: competitor_data.penalized,
+                               penalty_size: competitor_data.penalty_size
 
                     .round-map-competitor-reference-point
                       - if @round_map.show_reference_points?
-                        = render 'events/rounds/maps/reference_point', competitor: competitor_data.competitor, editable: can_edit
+                        = render 'events/rounds/maps/reference_point',
+                                 competitor: competitor_data.competitor,
+                                 editable: can_edit
                   .round-map-competitor-row
                     .round-map-competitor-actions
                       - if @round_map.show_reference_points?
                         %a.btn.btn-xs.btn-link{'data-action': 'click->events--competitor-reference-point#show_dl'}
                           Show DL
+                        = can_edit ? '|' : ''
+
                       - if can_edit
-                        |
                         = link_to t('event_tracks.show.penalties'),
                                   event_round_map_penalty_path(@round_map.event, @round_map.round, competitor_data),
                                   remote: true,
                                   class: 'btn btn-xs btn-link'
                     .round-map-competitor-direction
-                      - if competitor_data.direction 
+                      - if competitor_data.direction
                         .events-rounds-map-direction.events-rounds-map-second-row
                           %i.far.fa-compass
                           = "#{competitor_data.direction.round}°"

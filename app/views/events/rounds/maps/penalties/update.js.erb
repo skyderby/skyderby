@@ -1,8 +1,15 @@
-$('#modal').modal('hide')
-var element = document.querySelector('.round-map-competitor[data-competitor-id="<%= @result.competitor_id %>"] .round-map-competitor-penalty')
+(function () {
+  $('#modal').modal('hide')
 
-<% if @result.penalized %>
-  element.innerText = '-' + '<%= @result.penalty_size %>' + '%'
-<% else %>
-  element.innerText = ''
-<% end %>
+  const selector = [
+    '.round-map-competitor[data-competitor-id="<%= @result.competitor_id %>"]',
+    '.round-map-competitor-penalty'
+  ].join(' ')
+
+  const partial =
+    '<%= j render 'events/rounds/maps/penalty',
+                 penalized: @result.penalized,
+                 penalty_size: @result.penalty_size %>'
+
+  document.querySelector(selector).outerHTML = partial
+})()

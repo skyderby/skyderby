@@ -1,0 +1,9 @@
+hellesylt:
+  pilot: regular_user
+  place: hellesylt
+  kind: base
+  visibility: public
+  comment: Fixture track
+  ge_enabled: true
+  ff_start: 0
+  ff_end: 33

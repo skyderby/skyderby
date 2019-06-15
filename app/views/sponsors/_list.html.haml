@@ -4,7 +4,7 @@
   .col-md-12
     %h4= t('sponsors.list.event_sponsors') + ':'
   #sponsors.col-md-12
-    = render sponsorable.sponsors, editable: editable
+    = render partial: 'sponsors/sponsor', collection: sponsorable.sponsors, as: :sponsor, locals: { editable: editable }
 
 - if editable
   .col-md-12
