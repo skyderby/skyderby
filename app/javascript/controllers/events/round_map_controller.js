@@ -58,9 +58,9 @@ export default class extends Controller {
 
     let startPointType = null
     if (this.designatedLaneStart == 'designated_lane_start_on_enter_window') {
-      startPointType = 'start_point'
+      startPointType = 'startPoint'
     } else {
-      startPointType = 'after_exit_point'
+      startPointType = 'afterExitPoint'
     }
 
     const startPointPosition = this.linesByCompetitor[competitor_id][
