@@ -9,79 +9,68 @@ export default class extends Controller {
   static targets = ['map', 'loading_placeholder', 'competitor']
 
   initialize() {
-    this.lines_by_competitor = {}
-    this.reference_points = {}
+    this.linesByCompetitor = {}
+    this.referencePoints = {}
   }
 
   connect() {
     init_maps_api()
-    this.fetch_data()
+    this.fetchData()
 
     this.element.addEventListener(
       'round-map-competitor-row:show-dl',
-      this.show_dl_for_competitor.bind(this)
+      this.showDLForCompetitor.bind(this)
     )
   }
 
-  on_change_visibility(event) {
+  toggleCompetitor(event) {
     const element = event.currentTarget
-    const map_value = element.checked ? this.map : undefined
+    const mapValue = element.checked ? this.map : undefined
     const graphics = Object.values(
-      this.lines_by_competitor[element.getAttribute('data-competitor-id')]
+      this.linesByCompetitor[element.getAttribute('data-competitor-id')]
     )
-    graphics.forEach(item => item.setMap(map_value))
+    graphics.forEach(item => item.setMap(mapValue))
   }
 
-  select_all(event) {
-    event.currentTarget.blur()
-    this.competitorTargets.forEach(item => this.change_check_state(item, true))
+  toggleGroup(event) {
+    event.preventDefault()
+    const group = event.currentTarget.closest('.round-map-group')
+    const container = group.closest('.round-map-competitors')
+    const allGroups = container.querySelectorAll('.round-map-group')
+
+    allGroups.forEach(currentGroup => {
+      currentGroup
+        .querySelectorAll('input')
+        .forEach(item => this.changeCheckState(item, currentGroup === group))
+    })
   }
 
-  unselect_all(event) {
-    event.currentTarget.blur()
-    this.competitorTargets.forEach(item => this.change_check_state(item, false))
-  }
-
-  toggle_group(event) {
-    const group = event.currentTarget
-    const container = group.closest('.round-map-group')
-
-    const has_unchecked = container.querySelectorAll('input:not(:checked)').length > 0
-    const new_state = has_unchecked ? true : false
-
-    container
-      .querySelectorAll('input')
-      .forEach(item => this.change_check_state(item, new_state))
-  }
-
-  change_check_state(item, state) {
-    const was_checked = item.checked
+  changeCheckState(item, state) {
+    const wasChecked = item.checked
     item.checked = state
-    if (was_checked !== item.checked) item.dispatchEvent(new Event('change'))
+    if (wasChecked !== item.checked) item.dispatchEvent(new Event('change'))
   }
 
-  show_dl_for_competitor(original_event) {
-    const { reference_point_id, competitor_id } = original_event.detail
+  showDLForCompetitor(originalEvent) {
+    const { reference_point_id, competitor_id } = originalEvent.detail
 
-    const reference_point_position = this.reference_points[
-      reference_point_id
-    ].getPosition()
+    const referencePointPosition = this.referencePoints[reference_point_id].getPosition()
 
-    let start_point_type = null
-    if (this.designated_lane_start == 'designated_lane_start_on_enter_window') {
-      start_point_type = 'start_point'
+    let startPointType = null
+    if (this.designatedLaneStart == 'designated_lane_start_on_enter_window') {
+      startPointType = 'start_point'
     } else {
-      start_point_type = 'after_exit_point'
+      startPointType = 'after_exit_point'
     }
 
-    const start_point_position = this.lines_by_competitor[competitor_id][
-      start_point_type
+    const startPointPosition = this.linesByCompetitor[competitor_id][
+      startPointType
     ].getPosition()
 
     const event = new CustomEvent('round-map:show-dl', {
       detail: {
-        start_point_position: start_point_position,
-        reference_point_position: reference_point_position
+        start_point_position: startPointPosition,
+        reference_point_position: referencePointPosition
       },
       bubbles: true,
       cancelable: true
@@ -90,7 +79,7 @@ export default class extends Controller {
     this.element.dispatchEvent(event)
   }
 
-  fetch_data() {
+  fetchData() {
     const url = this.element.getAttribute('data-url')
 
     fetch(url, {
@@ -98,32 +87,32 @@ export default class extends Controller {
       headers: { Accept: 'application/json' }
     })
       .then(response => response.json())
-      .then(this.on_data_ready)
+      .then(this.onDataReady)
   }
 
-  on_maps_ready = () => {
-    this.maps_ready = true
-    this.render_map()
+  onMapsReady = () => {
+    this.mapsReady = true
+    this.renderMap()
   }
 
-  on_maps_failed_load = () => {
-    this.maps_ready = false
+  onMapsFailedLoad = () => {
+    this.mapsReady = false
     this.loading_placeholderTarget.innerHTML =
       '<i class="fa fa-3x fa-exclamation-triangle text-danger"></i>' +
       '<p>Failed to load Google Maps API.</p>'
   }
 
-  on_data_ready = data => {
-    this.map_data = data
-    this.render_map()
+  onDataReady = data => {
+    this.mapData = data
+    this.renderMap()
   }
 
-  render_map() {
-    if (!this.maps_ready || !this.map_data) return
+  renderMap() {
+    if (!this.mapsReady || !this.mapData) return
 
     const center = new google.maps.LatLng(
-      this.map_data.place.latitude,
-      this.map_data.place.longitude
+      this.mapData.place.latitude,
+      this.mapData.place.longitude
     )
 
     const options = {
@@ -133,58 +122,76 @@ export default class extends Controller {
     }
 
     this.mapTarget.map_instance = new google.maps.Map(this.mapTarget, options)
-    this.draw_round_map()
+    this.drawRoundMap()
   }
 
-  draw_round_map() {
-    for (let competitor_data of this.map_data.competitors) {
-      const polyline = this.draw_polyline(
-        competitor_data.path_coordinates,
-        competitor_data.color
+  drawRoundMap() {
+    for (let competitorData of this.mapData.competitors) {
+      const input = document.querySelector(
+        `input[data-competitor-id="${competitorData.competitor_id}"][type="checkbox"]`
+      )
+      const visibility = input.checked
+
+      const polyline = this.drawPolyline(
+        competitorData.path_coordinates,
+        competitorData.color,
+        visibility
       )
 
-      const hover_polyline = this.draw_hover_polyline(
-        competitor_data.path_coordinates,
-        competitor_data.color,
-        competitor_data.competitor_id
+      const hoverPolyline = this.drawHoverPolyline(
+        competitorData.path_coordinates,
+        competitorData.color,
+        competitorData.competitor_id,
+        visibility
       )
 
-      const start_point = this.draw_point(competitor_data.start_point, START_POINT_COLOR)
-      const end_point = this.draw_point(competitor_data.end_point, END_POINT_COLOR)
-      const after_exit_point = this.draw_point(
-        competitor_data.after_exit_point,
-        AFTER_EXIT_POINT_COLOR
+      const startPoint = this.drawPoint(
+        competitorData.start_point,
+        START_POINT_COLOR,
+        visibility
       )
 
-      this.lines_by_competitor[competitor_data.competitor_id] = {
-        polyline: polyline,
-        hover_polyline: hover_polyline,
-        after_exit_point: after_exit_point,
-        start_point: start_point,
-        end_point: end_point
+      const endPoint = this.drawPoint(
+        competitorData.end_point,
+        END_POINT_COLOR,
+        visibility
+      )
+
+      const afterExitPoint = this.drawPoint(
+        competitorData.after_exit_point,
+        AFTER_EXIT_POINT_COLOR,
+        visibility
+      )
+
+      this.linesByCompetitor[competitorData.competitor_id] = {
+        polyline,
+        hoverPolyline,
+        afterExitPoint,
+        startPoint,
+        endPoint
       }
     }
 
-    this.draw_reference_points()
+    this.drawReferencePoints()
 
     this.resize()
   }
 
-  draw_reference_points() {
-    for (let reference_point of this.map_data.reference_points) {
+  drawReferencePoints() {
+    for (let referencePoint of this.mapData.reference_points) {
       const marker = new google.maps.Marker({
         position: new google.maps.LatLng(
-          reference_point.latitude,
-          reference_point.longitude
+          referencePoint.latitude,
+          referencePoint.longitude
         ),
         map: this.map
       })
 
-      this.reference_points[reference_point.id] = marker
+      this.referencePoints[referencePoint.id] = marker
     }
   }
 
-  draw_polyline(path, color) {
+  drawPolyline(path, color, visibility) {
     const polyline = new google.maps.Polyline({
       path: path,
       strokeColor: color,
@@ -192,37 +199,37 @@ export default class extends Controller {
       strokeWeight: 3
     })
 
-    polyline.setMap(this.map)
+    polyline.setMap(visibility ? this.map : undefined)
 
     return polyline
   }
 
-  draw_hover_polyline(path, color, id) {
-    const hover_polyline = new google.maps.Polyline({
+  drawHoverPolyline(path, color, id, visibility) {
+    const hoverPolyline = new google.maps.Polyline({
       path: path,
       strokeColor: color,
       strokeOpacity: 0.0001,
       strokeWeight: 15
     })
 
-    hover_polyline.setMap(this.map)
+    hoverPolyline.setMap(visibility ? this.map : undefined)
 
-    google.maps.event.addListener(hover_polyline, 'mouseover', () => {
+    google.maps.event.addListener(hoverPolyline, 'mouseover', () => {
       document
         .querySelectorAll(`.round-map-competitor[data-competitor-id="${id}"]`)
         .forEach(el => (el.style.backgroundColor = '#BCE7FD'))
     })
 
-    google.maps.event.addListener(hover_polyline, 'mouseout', () => {
+    google.maps.event.addListener(hoverPolyline, 'mouseout', () => {
       document
         .querySelectorAll(`.round-map-competitor[data-competitor-id="${id}"]`)
         .forEach(el => (el.style.backgroundColor = 'transparent'))
     })
 
-    return hover_polyline
+    return hoverPolyline
   }
 
-  draw_point(position, color) {
+  drawPoint(position, color, visibility) {
     return new google.maps.Marker({
       position: position,
       icon: {
@@ -232,7 +239,7 @@ export default class extends Controller {
         fillColor: color,
         fillOpacity: 1
       },
-      map: this.map
+      map: visibility ? this.map : undefined
     })
   }
 
@@ -245,30 +252,30 @@ export default class extends Controller {
   }
 
   get bounds() {
-    if (!this.map_data) return undefined
+    if (!this.mapData) return undefined
     if (this._bounds) return this._bounds
 
-    const competitor_data = this.map_data.competitors
+    const competitorData = this.mapData.competitors
 
-    const start_lats = competitor_data.map(el => el.start_point.lat)
-    const start_lons = competitor_data.map(el => el.start_point.lng)
-    const end_lats = competitor_data.map(el => el.end_point.lat)
-    const end_lons = competitor_data.map(el => el.end_point.lng)
+    const startLats = competitorData.map(el => el.start_point.lat)
+    const startLons = competitorData.map(el => el.start_point.lng)
+    const endLats = competitorData.map(el => el.end_point.lat)
+    const endLons = competitorData.map(el => el.end_point.lng)
 
-    const lat_bounds = start_lats.concat(end_lats)
-    const lon_bounds = start_lons.concat(end_lons)
+    const latBounds = startLats.concat(endLats)
+    const lonBounds = startLons.concat(endLons)
 
-    lat_bounds.sort()
-    lon_bounds.sort()
+    latBounds.sort()
+    lonBounds.sort()
 
     const bounds = new google.maps.LatLngBounds()
 
-    bounds.extend(new google.maps.LatLng(Number(lat_bounds[0]), Number(lon_bounds[0])))
+    bounds.extend(new google.maps.LatLng(Number(latBounds[0]), Number(lonBounds[0])))
 
     bounds.extend(
       new google.maps.LatLng(
-        Number(lat_bounds[lat_bounds.length - 1]),
-        Number(lon_bounds[lon_bounds.length - 1])
+        Number(latBounds[latBounds.length - 1]),
+        Number(lonBounds[lonBounds.length - 1])
       )
     )
 
@@ -276,7 +283,7 @@ export default class extends Controller {
     return this._bounds
   }
 
-  get designated_lane_start() {
+  get designatedLaneStart() {
     return this.element.getAttribute('data-dl-start')
   }
 

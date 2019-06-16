@@ -75,6 +75,12 @@
   text-transform: uppercase;
 }
 
+.round-map-group-commands {
+  font: 12px / 16px $pn-regular, $fallback-fonts;
+  margin-left: 5px;
+  text-transform: initial;
+}
+
 .round-map-group-list {
   border-left: $gray 2px solid;
 }

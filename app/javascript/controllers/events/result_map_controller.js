@@ -6,6 +6,11 @@ const END_POINT_COLOR = '#5FAD41'
 const AFTER_EXIT_POINT_COLOR = '#124E78'
 const LINE_COLOR = '#7cb5ec'
 
+const MAPS_API_FAIL_TEMPLATE = `
+  <i class="fa fa-3x fa-exclamation-triangle text-danger"></i>
+  <p>Failed to load Google Maps API.</p>
+`
+
 export default class extends Controller {
   static targets = ['map', 'loading_placeholder']
 
@@ -33,9 +38,7 @@ export default class extends Controller {
 
   on_maps_failed_load = () => {
     this.maps_ready = false
-    this.loading_placeholderTarget.innerHTML =
-      '<i class="fa fa-3x fa-exclamation-triangle text-danger"></i>' +
-      '<p>Failed to load Google Maps API.</p>'
+    this.loading_placeholderTarget.innerHTML = MAPS_API_FAIL_TEMPLATE
   }
 
   on_data_ready = data => {
@@ -46,10 +49,10 @@ export default class extends Controller {
   render_map() {
     if (!this.maps_ready || !this.map_data) return
 
-    var center = new google.maps.LatLng(
-      this.map_data.place.latitude,
-      this.map_data.place.longitude
-    )
+    const {
+      place: { latitude, longitude }
+    } = this.map_data
+    var center = new google.maps.LatLng(latitude, longitude)
 
     const options = {
       zoom: 2,
