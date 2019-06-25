@@ -15,7 +15,7 @@ module CompetitorsHelper
             edit_event_competitor_path(event, competitor),
             remote: true,
             'data-params': display_event_params.to_param,
-            class: 'btn-link competitor__control'
+            class: 'btn-link scoreboard-controls'
   end
 
   def delete_competitor_button(event, competitor)
@@ -23,7 +23,7 @@ module CompetitorsHelper
               method: :delete,
               remote: true,
               params: display_event_params,
-              class: 'btn-link competitor__control' do
+              class: 'btn-link scoreboard-controls' do
       content_tag(:i, nil, class: 'fa fa-times text-gray')
     end
   end

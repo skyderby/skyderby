@@ -1,0 +1,21 @@
+.modal-dialog.modal-lg
+  .modal-content
+    .modal-header
+      .pull-right
+        = link_to track_path(@result.track), class: 'modal-header-link', target: '_blank' do
+          %i.fa.fa-external-link-alt
+        %button.close{type: 'button', data: {dismiss: 'modal'}}
+          %span{aria: {hidden: 'true'}}
+            &times;
+          %span.sr-only
+            Close
+      %h4.modal-title
+        = qualification_jump_presentation(@result)
+
+    .modal-body
+      .container-fluid
+        = render 'tournaments/qualifications/results/header'
+
+        %hr.condensed
+
+      = yield

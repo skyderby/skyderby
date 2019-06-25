@@ -50,10 +50,9 @@ module Events
     def show
       raise Pundit::NotAuthorizedError unless policy(@event).show?
 
-      @track_presenter = Tracks::CompetitionTrackView.new(
+      @track_presenter = Tracks::CompetitionTrackView.new \
         @result,
         ChartsPreferences.new(session)
-      )
 
       respond_to do |format|
         format.html

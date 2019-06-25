@@ -1,6 +1,6 @@
 .modal-dialog
   .modal-content
-    = form_for [@tournament, @qualification_jump], remote: true, html: { multipart: true, class: 'form-horizontal' } do |f|
+    = form_for :result, url: tournament_qualification_results_path(@tournament), remote: true, html: { multipart: true, class: 'form-horizontal' } do |f|
       .modal-header
         %button.close{type: 'button', data: {dismiss: 'modal'}}
           %span{aria: {hidden: 'true'}}
@@ -12,8 +12,8 @@
           = t('events.show.new')
 
       .modal-body
-        = f.hidden_field :competitor_id, value: @qualification_jump.competitor_id
-        = f.hidden_field :qualification_round_id, value: @qualification_jump.qualification_round_id
+        = f.hidden_field :competitor_id, value: @result.competitor_id
+        = f.hidden_field :qualification_round_id, value: @result.qualification_round_id
 
         = render 'concerns/upload_progress'
 
@@ -40,11 +40,11 @@
           = f.label :track, class: 'control-label col-sm-4'
           .col-sm-8
             = f.select :track_id,
-                       options_for_select([[(track_presentation(@qualification_jump.track) if @qualification_jump.track_id), @qualification_jump.track_id]]),
+                       options_for_select([[(track_presentation(@result.track) if @result.track_id), @result.track_id]]),
                        {},
                        placeholder: "Choose track from list",
                        class: 'form-control',
-                       'data-profile-id': @qualification_jump.competitor.profile_id,
+                       'data-profile-id': @result.competitor.profile_id,
                        'data-controller': 'select2--tracks'
 
       .modal-footer

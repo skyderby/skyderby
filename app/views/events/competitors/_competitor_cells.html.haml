@@ -1,10 +1,10 @@
 %td.competitor-cell
-  = link_to competitor.name.titleize, profile_path(competitor.profile), class: 'competitor__name'
+  = link_to competitor.name.titleize, profile_path(competitor.profile), class: 'competitor-name'
   - if editable
     %span
       = edit_competitor_link(@event, competitor)
       = delete_competitor_button(@event, competitor)
-  .competitor__suit.text-gray
+  .competitor-suit.text-gray
     = competitor.suit.manufacturer_code
     = competitor.suit_name
 

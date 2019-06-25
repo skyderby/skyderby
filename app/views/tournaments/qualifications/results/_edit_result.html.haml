@@ -1,0 +1,39 @@
+- wrap_in_container ||= false
+- show_cancel ||= false
+
+%div{class: (wrap_in_container ? 'container-fluid' : '')}
+  = form_for :result, url: tournament_qualification_result_path(@tournament, @result), method: :patch, remote: true, html: { class: 'form-horizontal' } do |f|
+    .form-group
+      %label.control-label.col-sm-4
+        Apx. start time
+      .col-sm-8
+        %p.form-control-static
+          = @result.track_start_time.strftime('%Y-%m-%d %T.%L')
+
+    .form-group
+      %label.control-label.col-sm-4
+        Start time
+      .col-sm-8
+        = f.text_field :start_time, class: 'form-control', value: @result.start_time&.strftime('%Y-%m-%d %T.%L')
+
+    .form-group
+      = f.label :result, class: 'control-label col-sm-4'
+      .col-sm-8
+        = f.text_field :result, class: 'form-control'
+
+    .form-group
+      = f.label :canopy_time, class: 'control-label col-sm-4'
+      .col-sm-8
+        = f.text_field :canopy_time, class: 'form-control'
+
+    - show_actions = policy(@tournament).update? || show_cancel
+    - if show_actions
+      %hr
+      .modal-actions
+        .modal-actions__left
+          - if policy(@tournament).update?
+            = delete_qualification_track_link(@tournament, @result)
+        .modal-actions__right
+          = f.submit t('general.save'), class: 'btn btn-primary', 'data-disable-with': t('general.saving')
+          - if show_cancel
+            %button.btn.btn-default{type: 'button', data: { dismiss: 'modal' }}= t 'general.cancel'

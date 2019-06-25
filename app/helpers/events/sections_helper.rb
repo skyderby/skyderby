@@ -16,7 +16,7 @@ module Events
               edit_event_section_path(event, section),
               remote: true,
               'data-params': display_event_params.to_param,
-              class: 'section__control'
+              class: 'scoreboard-controls'
     end
 
     def move_section_upper_button(event, section)
@@ -24,7 +24,7 @@ module Events
                 remote: true,
                 params: display_event_params,
                 method: :patch,
-                class: 'btn-link section__control') do
+                class: 'btn-link scoreboard-controls') do
         content_tag(:i, nil, class: 'fa fa-chevron-up text-muted')
       end
     end
@@ -34,7 +34,7 @@ module Events
                 remote: true,
                 params: display_event_params,
                 method: :patch,
-                class: 'btn-link section__control') do
+                class: 'btn-link scoreboard-controls') do
         content_tag(:i, nil, class: 'fa fa-chevron-down text-muted')
       end
     end
@@ -44,7 +44,7 @@ module Events
                 method: :delete,
                 params: display_event_params,
                 confirm: t('sections.show.delete_confirmation'),
-                class: 'btn-link section__control',
+                class: 'btn-link scoreboard-controls',
                 remote: true) do
         content_tag(:i, nil, class: 'fa fa-times text-muted')
       end

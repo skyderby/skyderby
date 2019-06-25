@@ -1,0 +1,5 @@
+$('#modal').html('<%= j render partial: 'edit_result',
+                               layout: 'tournaments/qualifications/results/layout_modal',
+                               locals: { show_cancel: true, wrap_in_container: true } %>');
+
+$('#modal').modal('show');

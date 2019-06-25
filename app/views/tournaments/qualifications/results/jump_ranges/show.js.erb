@@ -1,0 +1,5 @@
+$('#modal').html('<%= j render partial: 'jump_range_form',
+                               layout: 'tournaments/qualifications/results/layout_modal',
+                               locals: { show_cancel: true } %>');
+
+$('#modal').modal('show');

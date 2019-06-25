@@ -1,0 +1,12 @@
+.row{'data-controller': 'jump-range', 'data-track-id': track.id}
+  .col-sm-12{'data-target': 'jump-range.chart'}
+  .col-sm-12
+    .time-selector
+      = form.text_field :jump_range,
+        value: track.jump_range,
+        'data-max-value': track.duration,
+        'data-controller': 'jump-range-select',
+        'data-action': 'change->jump-range#on_change_range',
+        'data-target': 'jump-range.select'
+
+

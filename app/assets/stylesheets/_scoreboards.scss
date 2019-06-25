@@ -1,0 +1,188 @@
+.scoreboard-actions {
+  margin-bottom: 15px;
+}
+
+.scoreboard {
+  background-color: $white;
+  color: $main-text-color;
+  margin-bottom: 0;
+  padding: 0;
+  position: relative;
+}
+
+.scoreboard-scroll {
+  overflow: hidden;
+  overflow-x: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.scoreboard-table {
+  background-color: $white;
+  border-collapse: collapse;
+  margin-right: 20px;
+  width: 100%;
+
+  thead th {
+    font-family: $pn-semibold;
+  }
+
+  thead tr {
+    background-color: $white;
+  }
+
+  td,
+  th {
+    border: 1px solid #eee;
+    font: 13px/13px "Proxima Nova Regular";
+    padding: 8px;
+    vertical-align: middle;
+    white-space: nowrap;
+
+    &.text-green {
+      color: $green;
+    }
+  }
+
+  a {
+    color: $blue-dark;
+    text-decoration: none;
+
+    &.text-green {
+      color: $green;
+    }
+
+    &.text-light-red {
+      color: $red-light;
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.scoreboard-controls {
+  color: $gray-dark;
+  margin-left: 5px;
+  visibility: hidden;
+}
+
+.scoreboard-table-separate-border {
+  border-right-width: 4px !important;
+}
+
+
+.scoreboard-section {
+  .section-name {
+    font-family: $pn-semibold;
+    padding-right: 10px;
+    text-transform: uppercase;
+  }
+
+  &:hover .scoreboard-controls {
+    visibility: visible;
+  }
+}
+
+
+.scoreboard-competitor {
+  transition: background-color 1000ms linear;
+
+  .competitor-name {
+    padding-right: 10px;
+  }
+
+  .competitor-suit {
+    font: 8px / 8px $pn-semibold;
+    letter-spacing: .8px;
+    margin-top: 2px;
+    text-transform: uppercase;
+  }
+
+  &:hover .counted-result {
+    color: #00BA02;
+    text-decoration: underline;
+  }
+
+  td:hover .scoreboard-controls {
+    visibility: visible;
+  }
+}
+
+
+td.scoreboard-result {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  position: relative;
+  text-align: right;
+
+  &.text-center {
+    text-align: center;
+  }
+
+  span {
+    background-color: transparent;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+    &:hover a {
+      opacity: 1;
+    }
+
+    a {
+      background-color: rgba(146, 231, 240, 0.7);
+      color: transparent;
+      float: right;
+      font-size: 14px;
+      height: 100%;
+      line-height: 14px;
+      opacity: 0;
+      padding-bottom: 8px;
+      padding-top: 8px;
+      text-align: center;
+      width: 100%;
+
+      &:hover {
+        background-color: #428bca;
+        color: $white;
+      }
+    }
+  }
+}
+
+td.scoreboard-total-result {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-align: right;
+}
+
+
+.scoreboard-round {
+  text-align: center;
+}
+
+.scoreboard-round-content {
+  position: relative;
+}
+
+.scoreboard-round-actions {
+  font-family: $pn-regular;
+  position: absolute;
+  right: 0;
+  text-align: right;
+  top: 0;
+  width: 100%;
+
+  button[data-toggle=dropdown] {
+    color: rgb(51, 51, 51);
+    text-align: right;
+    width: 100%;
+  }
+
+  button[data-toggle=dropdown]:focus {
+    outline: none;
+  }
+}
+

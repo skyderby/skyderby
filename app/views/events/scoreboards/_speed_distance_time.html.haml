@@ -1,8 +1,8 @@
 - can_update = policy(@scoreboard.event).update? && !@scoreboard.event.finished? && !request.variant.include?(:mobile)
 - cache ['scoreboard', I18n.locale, @scoreboard.event, display_event_params, can_update] do
-  .event__scoreboard{'data-controller': 'events--sticky-header'}
-    .event__scoreboard-scroll{'data-target': 'events--sticky-header.container', 'data-action': 'scroll->events--sticky-header#on_horizontal_scroll'}
-      %table.event__scoreboard-table{'data-target': 'events--sticky-header.table'}
+  .scoreboard{'data-controller': 'events--sticky-header'}
+    .scoreboard-scroll{'data-target': 'events--sticky-header.container', 'data-action': 'scroll->events--sticky-header#on_horizontal_scroll'}
+      %table.scoreboard-table{'data-target': 'events--sticky-header.table'}
         %thead
           %tr
             %th.text-center{rowspan: 3} #
@@ -14,10 +14,10 @@
           %tr
             - @scoreboard.rounds_by_discipline.each do |discipline, rounds|
               - rounds.each do |round|
-                %th.round-cell{colspan: 2}
-                  .round-cell__content
+                %th.scoreboard-round{colspan: 2}
+                  .scoreboard-round-content
                     = round.number
-                    .round-cell__actions.dropdown
+                    .scoreboard-round-actions.dropdown
                       %button.btn-link{'data-toggle': 'dropdown'}
                         %i.fa.fa-ellipsis-v.text-muted
                       %ul.dropdown-menu.dropdown-menu-right
@@ -54,7 +54,7 @@
                      editable: can_update
 
             - section.competitors.each_with_index do |competitor, index|
-              %tr.event__scoreboard-competitor{id: dom_id(competitor)}
+              %tr.scoreboard-competitor{id: dom_id(competitor)}
                 %td.text-center= index + 1
 
                 = render 'events/competitors/competitor_cells',
@@ -81,7 +81,7 @@
                         - else
                           = result.formated_points
                     - elsif can_update
-                      %td.event__scoreboard-result.text-center
+                      %td.scoreboard-result.text-center
                         %span= new_event_track_link(@scoreboard.event, competitor, round)
                       %td
 
@@ -89,11 +89,11 @@
                       %td
                       %td
 
-                  %td.points-cell.text-right
+                  %td.text-right
                     - points_in_discipline = competitor.points_in_discipline(discipline)
                     - if points_in_discipline&.positive?
                       = points_in_discipline.round(1)
 
-                %td.event__scoreboard-total-result
+                %td.scoreboard-total-result
                   - if competitor.total_points.positive?
                     = '%.2f' % competitor.total_points
