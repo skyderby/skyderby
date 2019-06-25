@@ -12,7 +12,7 @@
         - if can_manage
           .pull-right= edit_event_link(@event)
 
-    .row.event__scoreboard-actions
+    .row.scoreboard-actions
       .col-md-6.col-sm-6
         - if can_manage && !@event.finished?
           = new_section_link(@event)

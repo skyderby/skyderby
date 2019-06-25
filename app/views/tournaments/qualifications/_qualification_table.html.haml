@@ -1,18 +1,20 @@
-%table.table.table-bordered.qualification-table
+- editable = policy(@tournament).update?
+
+%table.scoreboard-table
   %thead
     %tr
       %td.text-center{rowspan: 2}
         Rank
-      %td.text-center.qualification-table__competitor{rowspan: 2}
+      %td.text-center{rowspan: 2}
         Competitor
-      %td.text-center.qualification-table__best-result{rowspan: 2}
+      %td.text-center.scoreboard-table-separate-border{rowspan: 2}
         Best result
-      - @tournament.qualification_rounds.each do |round|
-        %td.round-cell{colspan: 2}
-          .round-cell__content
+      - @scoreboard.rounds.each do |round|
+        %td.scoreboard-round{colspan: 2}
+          .scoreboard-round-content
             = "Round #{round.order}"
-            - if policy(@tournament).update?
-              .round-cell__actions.dropdown
+            - if editable
+              .scoreboard-round-actions.dropdown
                 %button.btn-link{'data-toggle': 'dropdown'}
                   %i.fa.fa-ellipsis-v
                 %ul.dropdown-menu.dropdown-menu-right
@@ -24,63 +26,47 @@
                       %i.fa.fa-times.text-muted
                       = t('general.delete')
     %tr
-      - @tournament.qualification_rounds.each do |round|
+      - @scoreboard.rounds.each do |round|
         %td.text-center
           Result
         %td.text-center
           Canopy
 
   %tbody
-    - qualification_results.each_with_index do |result, index|
-      %tr
+    - @scoreboard.competitors.each_with_index do |competitor, index|
+      %tr.scoreboard-competitor
         %td= index + 1
-        %td.qualification-table__competitor
-          = link_to profile_path(result[:profile_id]), class: 'dotted-underline' do
-            = result[:name]
-          %span.text-muted
-            = result[:suit].manufacturer_code
-            = result[:suit].name
-
-          - if result[:competitor].is_disqualified
-            %span.text-danger{'data-toggle' => 'tooltip', title: result[:competitor].disqualification_reason}
+        %td
+          = link_to competitor.name, profile_path(competitor.profile_id), class: 'competitor-name'
+          - if competitor.is_disqualified
+            %span.text-danger{'data-toggle' => 'tooltip', title: competitor.disqualification_reason}
               (DQ)
 
-        %td.qualification-table__best-result.text-right
-          = result[:best_result]
-        - @tournament.qualification_rounds.each do |round|
-          - round_result = result["round_#{round.order}"]
-          - canopy_time = result["round_#{round.order}_canopy_time"]
-          - track_id = result["round_#{round.order}_track_id"]
-          - record_id = result["round_#{round.order}_result_id"]
-          - if track_id
-            %td.text-right
-              = link_to tournament_qualification_jump_path(@tournament, record_id),
-                        remote: true,
-                        class: 'show-result',
-                        rel: 'nofollow' do
-                = round_result
+          .competitor-suit.text-gray
+            = competitor.suit.manufacturer_code
+            = competitor.suit_name
 
-              - if policy(@tournament).update?
-                = link_to edit_tournament_qualification_jump_path(@tournament, record_id), remote: true do
-                  %i.fa.fa-pencil-alt.text-muted
-            %td.text-right
-              %span{'data-toggle' => 'tooltip', title: 'Canopy time'}
-                = canopy_time
-          - elsif round_result || !policy(@tournament).update?
-            %td.text-right
-              = round_result
-            %td.text-right
-              %span{'data-toggle' => 'tooltip', title: 'Canopy time'}
-                = canopy_time
+        %td.scoreboard-table-separate-border.text-right
+          = competitor.best_result
+        - @scoreboard.rounds.each do |round|
+          - result = competitor.result_in_round(round)
+          - if result
+            - if result.track_id
+              %td.scoreboard-result
+                = result.result
+                %span= show_qualification_track_link(@tournament, result, editable)
+
+              %td.text-right
+                %span{'data-toggle' => 'tooltip', title: 'Canopy time'}
+                  = result.canopy_time
+            - elsif result.result || !editable
+              %td.text-right
+                = result.result
+              %td.text-right
+                %span{'data-toggle' => 'tooltip', title: 'Canopy time'}
+                  = result.canopy_time
           - else
-            %td.text-center.create-result-cell
-              - if policy(@tournament).update?
-                = link_to new_tournament_qualification_jump_path(@tournament),
-                          remote: true,
-                          'data-params': { 'qualification_jump[competitor_id]' => result[:id],
-                                           'qualification_jump[qualification_round_id]' => round.id}.to_param,
-                          class: 'create-result-cell__link',
-                          rel: 'nofollow' do
-                  %i.fa.fa-upload
+            %td.scoreboard-result.text-center
+              - if editable
+                %span= new_qualification_track_link(@tournament, competitor, round)
             %td
-

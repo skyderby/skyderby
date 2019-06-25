@@ -1,0 +1,13 @@
+- current_controller = controller.controller_path.split('/').last
+- local ||= false
+
+%li{class: ('active' if current_controller == 'results' && action_name == 'show')}
+  = link_to t('general.charts'), tournament_qualification_result_path(@tournament, @result), remote: !local
+%li{class: ('active' if current_controller == 'maps')}
+  = link_to t('event_tracks.show.maps'), tournament_qualification_result_path(@tournament, @result), remote: !local
+
+- if policy(@tournament).update?
+  %li{class: ('active' if current_controller == 'jump_ranges')}
+    = link_to t('general.jump_range'), tournament_qualification_result_jump_range_path(@tournament, @result), remote: !local
+  %li{class: ('active' if current_controller == 'results' && action_name == 'edit')}
+    = link_to t('tournaments.show.edit_link'), edit_tournament_qualification_result_path(@tournament, @result), remote: !local

@@ -1,12 +1,13 @@
 - show_cancel ||= false
 
-= form_for :jump_range, url: event_result_jump_range_path(@result.event, @result), method: :put, remote: true do |f|
+= form_for :jump_range, url: tournament_qualification_result_jump_range_path(@tournament, @result), method: :put, remote: true do |f|
   = render 'concerns/jump_range_form', track: @result.track, form: f
 
   %hr
+
   .modal-actions
     .modal-actions__left
-      = delete_event_track_link(@result)
+      = delete_qualification_track_link(@tournament, @result)
 
     .modal-actions__right
       = f.submit t('general.save'), class: 'btn btn-primary'

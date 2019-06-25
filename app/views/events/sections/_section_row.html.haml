@@ -2,8 +2,8 @@
 - return unless section.id
 
 %tr{id: dom_id(section)}
-  %td.event__scoreboard-section{colspan: columns_count}
-    %span.section__name= section.name
+  %td.scoreboard-section{colspan: columns_count}
+    %span.section-name= section.name
 
     - if editable
       = render 'events/sections/edit_section_controls', event: @event, section: section

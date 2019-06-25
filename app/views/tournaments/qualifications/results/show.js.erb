@@ -1,4 +1,6 @@
-$('#modal').html('<%= j render('show_modal') %>');
+$('#modal').html('<%= j render partial: 'result',
+                               layout: 'tournaments/qualifications/results/layout_modal',
+                               locals: { show_cancel: true, wrap_in_container: true } %>');
 
 <% if @track_presenter.separate_charts? %>
   <%= render partial: 'tracks/separate_charts', locals: { presenter: @track_presenter } %>

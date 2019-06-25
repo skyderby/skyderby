@@ -32,39 +32,9 @@
   text-decoration: none;
 }
 
-
-.qualification-table a {
-  color: rgb(51, 51, 51);
-}
-
-.qualification-table {
-  margin-top: 15px;
-}
-
-.qualification-table tr > td:nth-child(1) {
-  max-width: 50px;
-  text-align: center;
-}
-
-.qualification-table tr td {
-  width: 2%;
-}
-
-.qualification-table__competitor {
-  min-width: 130px;
-}
-
-.qualification-table__best-result {
-  box-shadow: 6px 0 5px -2px rgba(0, 0, 0, 0.15);
-}
-
 .competitors-container {
   padding-bottom: 7px;
   padding-top: 2px;
-}
-
-.qualification-table__scrollable {
-  overflow-x: scroll;
 }
 
 #match-map {

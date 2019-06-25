@@ -7,15 +7,17 @@
 .container-fluid
   .content-block
     - if editable
-      = button_to tournament_qualification_rounds_path(tournament_id: @tournament.id),
-                  method: :post,
-                  remote: true,
-                  class: 'btn btn-default' do
-        %i.fa.fa-plus
-        Round
+      .scoreboard-actions
+        = button_to tournament_qualification_rounds_path(tournament_id: @tournament.id),
+                    method: :post,
+                    remote: true,
+                    class: 'btn btn-default' do
+          %i.fa.fa-plus
+          Round
 
-    .qualification-table__scrollable
-      = render 'qualification_table'
+    .scoreboard
+      .scoreboard-scroll
+        = render 'qualification_table'
 
     .container
       .row.top-buffer
