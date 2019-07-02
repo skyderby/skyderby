@@ -5,16 +5,16 @@ feature 'Qualification jumps', type: :system, js: true do
     tournament = tournaments(:qualification_loen)
 
     visit tournament_qualification_path(tournament)
-    find('a.create-result-cell__link').click
+    find('.scoreboard-result').click
 
-    expect(page).to have_content(I18n.t('activerecord.models.qualification_jump'))
+    expect(page).to have_css '.modal-dialog'
 
     file = Rails.root.join('spec', 'support', 'tracks', 'loen_jump_one_08-02-19.CSV')
-    attach_file 'qualification_jump[track_attributes][file]', file, make_visible: true
+    attach_file 'result[track_attributes][file]', file, make_visible: true
 
     click_button I18n.t('general.save')
 
-    fill_in 'qualification_jump_start_time', with: '2017-06-05 08:03:17.400'
+    fill_in 'result_start_time', with: '2017-06-05 08:03:17.400'
 
     click_button I18n.t('general.save')
 
