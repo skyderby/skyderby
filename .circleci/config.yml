@@ -55,7 +55,7 @@ jobs:
       - image: circleci/ruby:2.6.2-node
     steps:
       - checkout
-      - run: gem install rubocop
+      - run: gem install rubocop rubocop-rails
       - run: rubocop --config .rubocop.yml
 
   lint_js:

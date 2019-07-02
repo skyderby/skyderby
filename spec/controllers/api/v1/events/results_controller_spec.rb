@@ -11,7 +11,7 @@ describe Api::V1::Events::ResultsController do
     rounds = response_json.map { |entity| entity['round_name'] }
 
     expect(result_numbers).to eq(['3000.0', '250.0', '2500.0', '270.0'])
-    expect(rounds).to eq(['Distance-1', 'Speed-1', 'Distance-1', 'Speed-1'])
+    expect(rounds).to eq(%w[Distance-1 Speed-1 Distance-1 Speed-1])
   end
 
   describe '#create' do

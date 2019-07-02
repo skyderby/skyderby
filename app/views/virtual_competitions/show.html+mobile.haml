@@ -10,7 +10,7 @@
     - else
       = t('virtual_competitions.worldwide')
 
-    %div= competition_suit
+    %div= competition_suit(@competition)
     %div= competition_task(@competition)
 
   = render 'virtual_competitions/navbar'
