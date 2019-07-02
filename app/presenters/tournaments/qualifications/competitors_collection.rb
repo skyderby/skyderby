@@ -28,7 +28,12 @@ module Tournaments
 
       def sort_competitors(collection)
         collection.sort_by do |competitor|
-          [competitor.is_disqualified ? 1 : 0, competitor.best_result]
+          [
+            competitor.is_disqualified ? 1 : 0,
+            competitor.best_result.present? ? 0 : 1,
+            competitor.best_result.to_f,
+            competitor.name
+          ]
         end
       end
     end

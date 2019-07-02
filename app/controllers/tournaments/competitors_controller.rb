@@ -45,7 +45,7 @@ module Tournaments
     private
 
     def respond_with_index
-      @competitors = tournament.competitors.includes(:profile, suit: :manufacturer)
+      @competitors = tournament.competitors.includes(:profile, suit: :manufacturer).order('profiles.name')
       render :index
     end
 

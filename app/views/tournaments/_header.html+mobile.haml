@@ -1,0 +1,7 @@
+.event__header
+  .event__title
+    = @tournament.name
+  .event__place
+    %i.fa.fa-map-marker-alt
+    = @tournament.place.name
+    %span= @tournament.place.country_code

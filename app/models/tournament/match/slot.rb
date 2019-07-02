@@ -51,6 +51,10 @@ class Tournament::Match::Slot < ApplicationRecord
     :public_track
   end
 
+  def track_activity
+    :base
+  end
+
   def track_comment
     "#{tournament.name} - Round #{round.order}"
   end

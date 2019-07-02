@@ -43,6 +43,7 @@ module AcceptsNestedTrack
 
     params = track_attributes.merge(
       owner: track_owner,
+      kind: track_activity,
       track_file_id: track_file.id,
       profile_id: competitor.profile_id,
       suit_id: competitor.suit_id,
