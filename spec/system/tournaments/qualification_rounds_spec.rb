@@ -19,7 +19,7 @@ describe 'Qualification rounds', js: true do
     visit tournament_qualification_path(tournament)
 
     # open dropdown
-    find('.round-cell__actions .btn-link').click
+    find('.scoreboard-round-actions .btn-link').click
     click_button I18n.t('general.delete')
 
     expect(page).to have_no_css('td', text: 'Round 1')

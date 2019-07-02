@@ -52,18 +52,11 @@
 
           %br
 
-          = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'form-horizontal' }) do |f|
-            = devise_error_messages!
-
+          = form_for(:user, url: registration_path(:user), html: { method: :put, class: 'form-horizontal' }) do |f|
             .form-group
               = f.label t('activerecord.attributes.user.email'), class: 'col-sm-4 control-label', :for => :email
               .col-sm-7
                 = f.email_field :email, class: 'form-control'
-
-            - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-              %div
-                Currently waiting confirmation for:
-                = resource.unconfirmed_email
 
             .form-group
               = f.label t('activerecord.attributes.user.current_password'), class: 'col-sm-4 control-label', :for => :current_password

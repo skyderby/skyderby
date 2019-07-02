@@ -16,6 +16,6 @@ feature 'Event sections (categories)', type: :system, js: true do
     click_button I18n.t('general.save')
     sleep 0.5
 
-    expect(page).to have_css('td .section__name', text: 'CATEGORY: OPEN')
+    expect(page).to have_css('td .section-name', text: 'CATEGORY: OPEN')
   end
 end

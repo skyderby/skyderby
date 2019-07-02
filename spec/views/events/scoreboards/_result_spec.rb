@@ -12,7 +12,7 @@ describe 'events/scoreboards/_result' do
     )
 
     expect(rendered.strip).to eq(<<~HTML.strip)
-      <td class='event__scoreboard-result'>
+      <td class='scoreboard-result'>
       3000
       <span>
       #{show_link(result)}
@@ -31,7 +31,7 @@ describe 'events/scoreboards/_result' do
     )
 
     expect(rendered.strip).to eq(<<~HTML.strip)
-      <td class='event__scoreboard-result'>
+      <td class='scoreboard-result'>
       200.0
       <sup class='text-danger'>-20%</sup>
       <span>
@@ -53,7 +53,7 @@ describe 'events/scoreboards/_result' do
     )
 
     expect(rendered.strip).to eq(<<~HTML.strip)
-      <td class='event__scoreboard-result'>
+      <td class='scoreboard-result'>
       0.0
       <sup class='text-danger'>-100%</sup>
       <span>
