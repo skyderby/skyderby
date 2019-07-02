@@ -71,6 +71,7 @@ group :development do
   gem 'bullet'
   gem 'meta_request'
   gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
 end
 
 group :development, :test do

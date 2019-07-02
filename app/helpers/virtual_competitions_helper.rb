@@ -43,10 +43,10 @@ module VirtualCompetitionsHelper
     end
   end
 
-  def competition_suit
-    if @competition.tracksuit?
+  def competition_suit(competition)
+    if competition.tracksuit?
       t('virtual_competitions.suit', suit: 'Tracksuits')
-    elsif @competition.wingsuit?
+    elsif competition.wingsuit?
       t('virtual_competitions.suit', suit: 'Wingsuits')
     end
   end
