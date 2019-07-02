@@ -5,62 +5,64 @@
   - spacers.times do
     .tournament-spacer
 
-.tournament-match.text-right
-  .panel.panel-default
-    = link_to tournament_match_map_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do
-      %i.far.fa-compass
-      Map
-    = link_to tournament_match_globe_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do
-      %i.far.fa-compass
-      3D map
-    - if editable
-      = link_to edit_tournament_match_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do
-        %i.fa.fa-pencil-alt
-        = t('general.edit')
-    .panel-body.competitors-container
-      - match.slots.each do |slot|
-        .tournament-competitor.row
-          - if slot.competitor.present?
-            .col-sm-9.text-left
-              - if match.gold_finals? || match.bronze_finals?
-                - if slot.earn_medal
-                  %i.fa.fa-fw.fa-certificate{class: slot.earn_medal}
-                - else
-                  %i.fa.fa-fw
-              %a{href: profile_path(slot.competitor.profile_id)}
-                = slot.competitor.name
-          - else
-            .col-sm-9.text-left.text-muted ?
+.tournament-match
+  - if !mobile?
+    .tournament-match-links
+      = link_to tournament_match_map_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do
+        %i.far.fa-compass
+        Map
+      = link_to tournament_match_globe_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do
+        %i.far.fa-compass
+        3D map
+      - if editable
+        = link_to edit_tournament_match_path(@tournament, match), remote: true, class: 'tournament-match-map text-muted' do
+          %i.fa.fa-pencil-alt
+          = t('general.edit')
 
-          .col-sm-3.text-right
-            - has_result = slot.result.present? || slot.track.present?
-
-            - result_html = capture do
-              - if slot.is_disqualified
-                %s
-                  = slot.result
+  .match-slots
+    - match.slots.each do |slot|
+      .tournament-competitor
+        - if slot.competitor.present?
+          .tournament-competitor-profile
+            - if match.gold_finals? || match.bronze_finals?
+              - if slot.earn_medal
+                %i.fa.fa-fw.fa-certificate{class: slot.earn_medal}
               - else
-                = slot.result
+                %i.fa.fa-fw
+            %a{href: profile_path(slot.competitor.profile_id)}
+              = image_tag slot.competitor.profile.userpic.url(:thumb)
+              = slot.competitor.name
+        - else
+          .tournament-competitor-profile ?
 
-            - if editable
-              - if has_result
-                = link_to tournament_match_slot_result_path(@tournament, match, slot), remote: true, 'data-toggle': 'tooltip', title: slot.notes do
-                  = result_html
-              - else
-                = link_to new_tournament_match_slot_result_path(@tournament, match, slot), remote: true, class: 'btn-flat btn-xs' do
-                  %i.fa.fa-fw.fa-upload.text-muted
+        .tournament-competitor-result
+          - has_result = slot.result.present? || slot.track.present?
 
+          - result_html = capture do
+            - if slot.is_disqualified
+              %s= slot.result
             - else
-              - if slot.track_id
-                = link_to tournament_match_slot_result_path(@tournament, match, slot), remote: true, data: {toggle: 'tooltip'}, title: slot.notes do
-                  = result_html
-              - else
-                = result_html
+              = slot.result
 
-      - match.free_slots.times do
-        .tournament-competitor.row
-          .col-sm-9.text-left.text-muted ?
-          .col-sm-3.text-right
+          - if editable
+            - if has_result
+              = link_to tournament_match_slot_result_path(@tournament, match, slot), remote: true, 'data-toggle': 'tooltip', title: slot.notes do
+                = result_html
+            - else
+              = link_to new_tournament_match_slot_result_path(@tournament, match, slot), remote: true, class: 'btn-flat btn-xs' do
+                %i.fa.fa-fw.fa-upload.text-muted
+
+          - else
+            - if slot.track_id
+              = link_to tournament_match_slot_result_path(@tournament, match, slot), remote: true, data: {toggle: 'tooltip'}, title: slot.notes do
+                = result_html
+            - else
+              = result_html
+
+    - match.free_slots.times do
+      .tournament-competitor
+        .tournament-competitor-profile ?
+
 - unless match.gold_finals? || match.bronze_finals?
   - spacers.times do
     .tournament-spacer

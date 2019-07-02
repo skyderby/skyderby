@@ -1,0 +1,3 @@
+.tournament-scoreboard
+  - @tournament.rounds.each do |round|
+    = render partial: 'tournaments/rounds/round', locals: { round: round }

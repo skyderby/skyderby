@@ -1,0 +1,73 @@
+.tournament-scoreboard {
+  display: flex;
+}
+
+.tournament-round {
+  display: inline-flex;
+  flex-direction: column;
+  padding: 10px 15px;
+}
+
+.tournament-round-title {
+  font: 16px / 32px $pn-semibold, $fallback-fonts;
+  text-align: center;
+}
+
+.tournament-match {
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  margin: 5px 0;
+  padding: 10px;
+  width: 275px;
+}
+
+.tournament-match-links {
+  font: 14px / 18px $pn-regular, $fallback-fonts;
+  margin-right: 5px;
+  text-align: right;
+}
+
+.tournament-match-map {
+  margin-left: 5px;
+}
+
+.tournament-competitor {
+  display: flex;
+
+  a {
+    color: $light-text-color;
+  }
+}
+
+.tournament-competitor-profile {
+  flex-grow: 1;
+
+  img {
+    height: 22px;
+    width: 22px;
+    border-radius: 100%;
+    margin: 5px;
+  }
+
+  .gold {
+    color: $gold;
+  }
+
+  .silver {
+    color: $silver;
+  }
+
+  .bronze {
+    color: $bronze;
+  }
+}
+
+.tournament-competitor-result {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.tournament-spacer {
+  height: 43px;
+}

@@ -4,8 +4,8 @@ module Tournaments
       def new_qualification_track_link(tournament, competitor, round)
         link_to new_tournament_qualification_result_path(tournament),
                 remote: true,
-                'data-params': { 'qualification_jump[competitor_id]' => competitor.id,
-                                 'qualification_jump[qualification_round_id]' => round.id}.to_param,
+                'data-params': { 'result[competitor_id]' => competitor.id,
+                                 'result[qualification_round_id]' => round.id}.to_param,
                 class: 'create-result-cell__link',
                 rel: 'nofollow' do
           content_tag 'i', nil, class: 'fa fa-upload'

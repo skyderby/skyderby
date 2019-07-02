@@ -52,5 +52,9 @@ class Event < ApplicationRecord
     def track_comment
       "#{event.name} - #{round_discipline.humanize} #{round_number}"
     end
+
+    def track_activity
+      :skydive
+    end
   end
 end

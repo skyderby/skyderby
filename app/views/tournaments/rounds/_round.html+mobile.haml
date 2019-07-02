@@ -1,0 +1,7 @@
+.tournament-round.text-muted
+  .tournament-round-title
+    = "Round #{round.order}"
+
+  - spacers = 2 ** (round.order - 1) - 1
+  - round.matches.each do |match|
+    = render partial: 'tournaments/matches/match', locals: { match: match, spacers: spacers }

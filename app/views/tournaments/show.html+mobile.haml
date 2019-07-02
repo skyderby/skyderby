@@ -1,0 +1,10 @@
+- provide :title, @tournament.name
+
+.page-wrap
+  = render 'tournaments/header'
+  = render 'tournaments/navbar'
+
+  .content-block
+    .scoreboard
+      .scoreboard-scroll
+        = render 'scoreboard'
