@@ -1,10 +1,10 @@
 .content-block
   %h2= t 'devise.registrations.new.sign_up'
 
-  = form_for resource, as: resource_name, url: registration_path(resource_name) do |f|
+  = form_for :user, url: user_registration_path do |f|
 
     .form-group
-      = f.fields_for :profile do |fields|
+      = f.fields_for :profile_attributes do |fields|
         = fields.label :name
         = fields.text_field :name, class: 'form-control input-lg', value: '', required: true
 
@@ -25,11 +25,11 @@
     .form-group
       = f.submit t('devise.registrations.new.sign_up'), class: 'btn btn-lg btn-primary'
 
-    = link_to t('devise.shared.links.sign_in_with_provider', provider: 'Facebook'), omniauth_authorize_path(resource_name, :facebook), class: 'btn btn-facebook'
+    = link_to t('devise.shared.links.sign_in_with_provider', provider: 'Facebook'), user_facebook_omniauth_authorize_path, class: 'btn btn-facebook'
 
     %p.secondary-text= t('general.or')
 
-    = link_to t('devise.shared.links.sign_in'), new_session_path(resource_name), class: 'btn'
+    = link_to t('devise.shared.links.sign_in'), new_user_session_path, class: 'btn'
 
     .form-group
       = link_to t('devise.shared.links.didn_t_receive_confirmation_instructions'), new_user_confirmation_path

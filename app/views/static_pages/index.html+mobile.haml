@@ -19,7 +19,7 @@
         %i.fa.fa-upload
         = t('application.header.upload_track')
     - else
-      = link_to t('devise.shared.links.sign_up'), new_registration_path(resource_name), class: 'btn btn-success btn-lg'
+      = link_to t('devise.shared.links.sign_up'), new_registration_path(:user), class: 'btn btn-success btn-lg'
 
   %section.landing__section
     %h2.landing__section-header Полёты

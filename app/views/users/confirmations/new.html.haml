@@ -13,9 +13,9 @@
       .col-sm-6.col-sm-offset-2
         = f.submit t('devise.confirmations.new.resend_confirmation_instructions'), class: 'btn btn-primary'
 
-    = link_to t('devise.shared.links.sign_in'), new_session_path(resource_name), class: 'btn'
-    = link_to t('devise.shared.links.sign_up'), new_registration_path(resource_name), class: 'btn'
+    = link_to t('devise.shared.links.sign_in'), new_user_session_path, class: 'btn'
+    = link_to t('devise.shared.links.sign_up'), new_user_registration_path, class: 'btn'
 
     %p.secondary-text= t('general.or')
 
-    = link_to t('devise.shared.links.sign_in_with_provider', provider: 'Facebook'), omniauth_authorize_path(resource_name, :facebook), class: 'btn btn-facebook'
+    = link_to t('devise.shared.links.sign_in_with_provider', provider: 'Facebook'), user_facebook_omniauth_authorize_path, class: 'btn btn-facebook'

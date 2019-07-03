@@ -2,7 +2,7 @@
   .page-header
     %h2= 'Resend unlock instructions'
 
-  = form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f|
+  = form_for(:user, url: user_unlock_path, html: { method: :post }) do |f|
     = devise_error_messages!
 
     %div
