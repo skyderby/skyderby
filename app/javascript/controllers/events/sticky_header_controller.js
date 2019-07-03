@@ -90,7 +90,8 @@ export default class extends Controller {
   }
 
   get page_header_height() {
-    return document.querySelector('.navbar').offsetHeight
+    return (document.querySelector('.navbar') || document.querySelector('.header'))
+      .offsetHeight
   }
 
   get container_display_mode() {
