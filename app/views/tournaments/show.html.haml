@@ -9,6 +9,11 @@
       - if editable
         = add_tournament_round_button(@tournament)
 
-      = render 'scoreboard'
+
+      - if @tournament.surprise? && !editable
+        %h1.text-muted.text-center
+          🙅 Let it be Surprise
+      - else
+        = render 'scoreboard'
 
       .container= render 'footer', editable: editable

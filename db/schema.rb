@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_03_214017) do
+ActiveRecord::Schema.define(version: 2019_07_06_100132) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -347,6 +347,7 @@ ActiveRecord::Schema.define(version: 2018_11_03_214017) do
     t.integer "bracket_size"
     t.boolean "has_qualification"
     t.integer "responsible_id"
+    t.integer "status", default: 0, null: false
     t.index ["profile_id"], name: "index_tournaments_on_profile_id"
   end
 
@@ -515,7 +516,7 @@ ActiveRecord::Schema.define(version: 2018_11_03_214017) do
   add_foreign_key "tracks", "profiles"
   add_foreign_key "virtual_competitions", "place_finish_lines", column: "finish_line_id"
 
-  create_view "event_lists",  sql_definition: <<-SQL
+  create_view "event_lists", sql_definition: <<-SQL
       SELECT events.event_type,
       events.event_id,
       events.starts_at,
@@ -545,8 +546,7 @@ ActiveRecord::Schema.define(version: 2018_11_03_214017) do
              FROM tournaments) events
     ORDER BY events.starts_at DESC, events.created_at DESC;
   SQL
-
-  create_view "interval_top_scores",  sql_definition: <<-SQL
+  create_view "interval_top_scores", sql_definition: <<-SQL
       SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id, entities.custom_interval_id ORDER BY
           CASE
               WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
@@ -586,8 +586,7 @@ ActiveRecord::Schema.define(version: 2018_11_03_214017) do
               ELSE (- entities.result)
           END DESC;
   SQL
-
-  create_view "personal_top_scores",  sql_definition: <<-SQL
+  create_view "personal_top_scores", sql_definition: <<-SQL
       SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id ORDER BY
           CASE
               WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
@@ -625,8 +624,7 @@ ActiveRecord::Schema.define(version: 2018_11_03_214017) do
               ELSE (- entities.result)
           END DESC;
   SQL
-
-  create_view "annual_top_scores",  sql_definition: <<-SQL
+  create_view "annual_top_scores", sql_definition: <<-SQL
       SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id, entities.year ORDER BY
           CASE
               WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
@@ -665,5 +663,4 @@ ActiveRecord::Schema.define(version: 2018_11_03_214017) do
               ELSE (- entities.result)
           END DESC;
   SQL
-
 end

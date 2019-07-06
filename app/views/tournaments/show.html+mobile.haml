@@ -4,7 +4,11 @@
   = render 'tournaments/header'
   = render 'tournaments/navbar'
 
-  .content-block
-    .scoreboard
-      .scoreboard-scroll
-        = render 'scoreboard'
+  - if @tournament.surprise?
+    %h1.text-muted.text-center
+      🙅 Let it be Surprise
+  - else
+    .content-block
+      .scoreboard
+        .scoreboard-scroll
+          = render 'scoreboard'

@@ -22,6 +22,7 @@
 #
 
 class Tournament < ApplicationRecord
+  enum status: [:draft, :published, :finished, :surprise]
   enum discipline: [
     :time,
     :distance,
