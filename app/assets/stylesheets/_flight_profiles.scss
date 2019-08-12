@@ -8,8 +8,12 @@
 }
 
 .flight-profiles__body {
+  bottom: 0;
   display: flex;
-  flex-basis: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 49px;
 }
 
 .flight-profiles__sidebar {
