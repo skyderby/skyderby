@@ -1,20 +1,21 @@
 import { Controller } from 'stimulus'
-import init_maps_api from 'utils/google_maps_api'
+import initMapsApi from 'utils/google_maps_api'
+import handleRemote from 'utils/handle_remote'
 import MarkerClusterer from '@google/markerclusterer'
 
 export default class extends Controller {
   static targets = ['map', 'place', 'country', 'preview', 'previewLoading']
 
   connect() {
-    init_maps_api()
+    initMapsApi()
   }
 
-  on_maps_ready() {
-    this.init_map()
-    this.render_map()
+  onMapsReady() {
+    this.initMap()
+    this.renderMap()
   }
 
-  before_request_preview() {
+  beforeRequestPreview() {
     this.previewTarget.classList.add('visible')
   }
 
@@ -25,22 +26,20 @@ export default class extends Controller {
     }, 300)
   }
 
-  request_preview_success() {
+  requestPreviewSuccess() {
     this.previewLoadingTarget.style.visibility = 'hidden'
   }
 
-  request_preview_error() {}
+  requestPreviewError() {}
 
-  init_map() {
-    this.map = new google.maps.Map(this.mapTarget, this.maps_options)
+  initMap() {
+    this.map = new google.maps.Map(this.mapTarget, this.mapsOptions)
   }
 
-  render_map() {
-    const markers = this.places.map(place => {
-      const marker = new google.maps.Marker({ position: place.position })
-      google.maps.event.addListener(marker, 'click', () => {
-        Rails.fire(place.element, 'click')
-      })
+  renderMap() {
+    const markers = this.places.map(({ element, position }) => {
+      const marker = new google.maps.Marker({ position: position })
+      google.maps.event.addListener(marker, 'click', () => handleRemote(element))
 
       return marker
     })
@@ -68,7 +67,7 @@ export default class extends Controller {
     return this._places
   }
 
-  get maps_options() {
+  get mapsOptions() {
     return {
       zoom: 3,
       center: new google.maps.LatLng(20, 20),
