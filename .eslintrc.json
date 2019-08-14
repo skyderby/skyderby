@@ -6,7 +6,8 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:react/recommended"
   ],
   "parserOptions": {
     "ecmaVersion": 2018,
@@ -22,6 +23,11 @@
     "Cesium": false,
     "Highcharts": false,
     "HighchartsMore": false
+  },
+  "settings": {
+    "react": {
+      "pragma": "h"
+    }
   },
   "rules": {
     "indent": [

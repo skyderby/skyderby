@@ -1,28 +1,40 @@
 {
   "dependencies": {
     "@google/markerclusterer": "^1.0.3",
-    "@rails/webpacker": "^3.5.0",
+    "@rails/webpacker": "^4.0.0-rc.8",
     "@stimulus/polyfills": "^1.1.1",
     "actioncable": "^5.2.0",
     "bootstrap": "^3.4.1",
     "bootstrap-datepicker": "^1.7.1",
+    "core-js": "3",
     "highcharts": "^6.0.7",
     "honeybadger-js": "^0.5.5",
     "jquery": "^3.3.1",
     "jquery-jcrop": "^0.9.13",
     "jquery-validation": "^1.17.0",
+    "preact": "^10.0.0-rc.1",
     "rails-ujs": "^5.1.5",
     "select2": "^4.0.3",
     "stimulus": "^1.0.1",
     "turbolinks": "^5.1.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "@babel/preset-env": "^7.5.5",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.15.3",
     "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.3",
+    "prettier": ">=1.13.0",
+    "webpack": "^4.0.0",
     "webpack-bundle-analyzer": "^2.11.1",
-    "webpack-cli": "^2.0.10",
-    "webpack-dev-server": "^2.11.1"
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.8.0"
   }
 }

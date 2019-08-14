@@ -8,6 +8,7 @@ resources :events, concerns: %i[sponsorable organizable] do
           resources :penalties, only: %i[show update], module: :maps
         end
         resource :globe, controller: 'globe', only: :show
+        resource :replay, only: :show
         resource :reference_point_assignments, only: %i[create destroy]
       end
     end

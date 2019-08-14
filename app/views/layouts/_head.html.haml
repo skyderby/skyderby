@@ -2,10 +2,7 @@
 
 = action_cable_meta_tag
 
-= stylesheet_pack_tag 'vendor'
-
-= javascript_pack_tag 'manifest'
-= javascript_pack_tag 'vendor'
+= stylesheet_packs_with_chunks_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
 
 = javascript_include_tag 'translations/application', 'data-turbolinks-track': 'reload'
 
@@ -18,6 +15,7 @@
   HB_API_KEY = "#{ENV['HONEYBADGER_API_KEY']}"
   ENVIRONMENT_NAME = "#{ENV['RAILS_ENV']}"
 
+= javascript_packs_with_chunks_tag 'application'
 = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
 
 = csrf_meta_tags
