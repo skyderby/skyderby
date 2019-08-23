@@ -68,11 +68,10 @@ Metrics/ModuleLength:
   Enabled: false
 
 Metrics/AbcSize:
-    # The ABC size is a calculated magnitude, so this number can be an Integer or
-    # a Float.
-    Max: 25
+  Max: 25
 
 Metrics/BlockLength:
   Exclude:
+    - app/views/**/*.json.jbuilder
     - config/**/*
     - spec/**/*

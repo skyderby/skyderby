@@ -28,7 +28,7 @@ namespace :api, module: :api, defaults: { format: :json } do
       scope module: :events do
         resource :scoreboard, only: :show
 
-        resources :rounds, only: :index
+        resources :rounds, only: [:index, :show]
         resources :competitors, only: :index
         resources :results, only: %i[index create]
         resources :reference_point_assignments, only: :create

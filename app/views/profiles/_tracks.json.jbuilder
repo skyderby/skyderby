@@ -1,4 +1,4 @@
-json.array! tracks do |json, track| # rubocop:disable Metrics/BlockLength
+json.array! tracks do |json, track|
   json.url track_path(id: track.id)
   json.id track.id
   if track.suit

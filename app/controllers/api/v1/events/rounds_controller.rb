@@ -2,16 +2,32 @@ module Api
   module V1
     module Events
       class RoundsController < Api::ApplicationController
-        def index
-          event = Event.find(params[:event_id])
+        before_action :set_event
 
-          authorize event, :show?
+        def show
+          authorize @event, :show?
 
-          @rounds = event.rounds.order(:number, :created_at)
+          @round = ::Events::Rounds::Show.new(@event, params[:id])
 
           respond_to do |format|
             format.json
           end
+        end
+
+        def index
+          authorize @event, :show?
+
+          @rounds = @event.rounds.order(:number, :created_at)
+
+          respond_to do |format|
+            format.json
+          end
+        end
+
+        private
+
+        def set_event
+          @event = Event.find(params[:event_id])
         end
       end
     end

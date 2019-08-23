@@ -22,7 +22,8 @@
     "google": false,
     "Cesium": false,
     "Highcharts": false,
-    "HighchartsMore": false
+    "HighchartsMore": false,
+    "Fragment": false
   },
   "settings": {
     "react": {
@@ -50,7 +51,8 @@
     ],
     "no-unused-vars": [
       "error",
-      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_", "ignoreRestSiblings": true }
-    ]
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_|Fragment", "ignoreRestSiblings": true }
+    ],
+    "react/prop-types": ["off"]
   }
 }

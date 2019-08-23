@@ -5,7 +5,7 @@ MAINTAINER Aleksandr Kunin <skyksandr@gmail.com>
 RUN apt-get update -qq && apt-get install -y -qq apt-transport-https ca-certificates \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
-    && curl -sL https://deb.nodesource.com/setup_6.x | bash - \
+    && curl -sL https://deb.nodesource.com/setup_10.x | bash - \
     && apt-get install -y -qq --no-install-recommends postgresql-client nodejs yarn \
     && rm -rf /var/lib/apt/lists/*
 
@@ -27,8 +27,8 @@ COPY ./yarn.lock yarn.lock
 RUN yarn
 
 RUN mkdir -p /opt/app \
-	&& mkdir -p /tmp/pids \
-	&& mkdir -p /tmp/sockets
+  && mkdir -p /tmp/pids \
+  && mkdir -p /tmp/sockets
 COPY ./ /opt/app
 
 RUN DATABASE_URL=postgres://user:pass@127.0.0.1/does_not_exist_dbname /bin/sh -c 'bundle exec rake assets:precompile' && \
