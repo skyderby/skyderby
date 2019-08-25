@@ -34,7 +34,7 @@ class Events::Maps::CompetitorTrack < SimpleDelegator
   end
 
   def after_exit_point
-    map_marker(five_seconds_after_exit_point)
+    map_marker(ten_seconds_after_exit_point)
   end
 
   def reference_point
@@ -50,9 +50,19 @@ class Events::Maps::CompetitorTrack < SimpleDelegator
     { lat: point[:latitude].to_f, lng: point[:longitude].to_f }
   end
 
-  def five_seconds_after_exit_point
-    time_for_lookup = points.first[:gps_time] + 5.seconds
+  def ten_seconds_after_exit_point
+    time_for_lookup = exit_time + 10.seconds
     points.find(points.first) { |point| point[:gps_time] > time_for_lookup }
+  end
+
+  def exit_time
+    gr_threshold = 10
+
+    points
+      .each_cons(15).find([points.first]) do |range|
+        range.all? { |point| point[:glide_ratio] < gr_threshold }
+      end
+      .first[:gps_time]
   end
 
   def window_points
@@ -68,8 +78,8 @@ class Events::Maps::CompetitorTrack < SimpleDelegator
   def points
     @points ||= PointsQuery.execute(
       track,
-      trimmed: true,
-      only: %i[gps_time altitude latitude longitude]
+      trimmed: { seconds_before_start: 7 },
+      only: %i[gps_time altitude latitude longitude glide_ratio]
     )
   end
 end

@@ -31,7 +31,7 @@ module Events
       end
 
       def reference_points
-        @reference_points ||= event.reference_points
+        @reference_points ||= event.reference_points.sort_by(&:name)
       end
 
       def reference_point_assignment(competitor)
