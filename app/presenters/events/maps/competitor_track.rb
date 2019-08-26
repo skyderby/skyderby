@@ -51,7 +51,7 @@ class Events::Maps::CompetitorTrack < SimpleDelegator
   private
 
   def map_marker(point)
-    { lat: point[:latitude].to_f, lng: point[:longitude].to_f }
+    { lat: point[:latitude].to_f, lng: point[:longitude].to_f, gpsTime: point[:gps_time] }
   end
 
   def ten_seconds_after_exit_point

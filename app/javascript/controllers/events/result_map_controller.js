@@ -95,18 +95,19 @@ export default class extends Controller {
       referencePointCoordinate
     )
 
-    const exitWindowCoordinates = new LatLon(end_point.lat, end_point.lng)
-    const distanceToWindowExit = enterLaneCoordinates.distanceTo(exitWindowCoordinates)
+    const enterLaneTime = Date.parse(after_exit_point.gpsTime)
+    const leaveWindowTime = Date.parse(end_point.gpsTime)
 
     const pointsWithDistancesToCenterline = path_coordinates.map(point => {
+      const gpsTime = Date.parse(point.gpsTime)
+      if (gpsTime < enterLaneTime || gpsTime > leaveWindowTime) {
+        return { ...point, distanceToCenterLine: 0 }
+      }
+
       const coordinates = new LatLon(point.lat, point.lng)
 
       const distanceFromEnterLane = coordinates.distanceTo(enterLaneCoordinates)
       const distanceToReferencePoint = coordinates.distanceTo(referencePointCoordinate)
-
-      if (distanceFromEnterLane > distanceToWindowExit) {
-        return { ...point, distanceToCenterLine: 0 }
-      }
 
       const halfPerimeter =
         (distanceFromExitToReferencePoint +
