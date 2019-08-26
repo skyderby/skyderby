@@ -34,6 +34,9 @@ function interpolate(first, second, attribute, factor) {
 export default function getPathsUntilTime(points, time) {
   const seekTime = time - 5
   const pointsBeforeTime = points.filter(el => el.playerTime <= seekTime)
+
+  if (pointsBeforeTime.length === 0) return pointsBeforeTime
+
   const nextPoint = points[pointsBeforeTime.length]
 
   if (nextPoint) {
