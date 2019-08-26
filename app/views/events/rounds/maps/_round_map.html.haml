@@ -71,7 +71,9 @@
                           = "#{competitor_data.direction.round}°"
 
                       - exit_altitude = competitor_data.exit_altitude.to_i
-                      - highlight_exit = exit_altitude > 4115
-                      %span{class: [('text-warning' if highlight_exit)]}
+                      - highlight_exit = exit_altitude > 3810
+                      %span
+                        - if highlight_exit
+                          %i.fa.fa-exclamation-triangle.text-warning{'data-toggle': 'tooltip', title: 'Exit altitude is above allowed'}
                         Exit:
                         = exit_altitude
