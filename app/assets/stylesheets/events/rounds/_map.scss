@@ -4,6 +4,11 @@
   position: relative;
 }
 
+.events-rounds-map-direction {
+  display: inline;
+  margin-right: 5px;
+}
+
 .round-map-sidebar {
   background-color: $background-main;
   border-left: $border-color 1px solid;
@@ -61,6 +66,7 @@
 
 .round-map-competitor-direction {
   color: $dark-gray-text;
+  font-size:12px;
 }
 
 .round-map-group {

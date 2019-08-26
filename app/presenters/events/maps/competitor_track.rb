@@ -21,6 +21,10 @@ class Events::Maps::CompetitorTrack < SimpleDelegator
     points.first[:gps_time]
   end
 
+  def exit_altitude
+    exit_point[:altitude]
+  end
+
   def path_coordinates
     points.map { |point| map_marker(point) }
   end
@@ -56,13 +60,17 @@ class Events::Maps::CompetitorTrack < SimpleDelegator
   end
 
   def exit_time
+    exit_point[:gps_time]
+  end
+
+  def exit_point
     gr_threshold = 10
 
     points
       .each_cons(15).find([points.first]) do |range|
         range.all? { |point| point[:glide_ratio] < gr_threshold }
       end
-      .first[:gps_time]
+      .first
   end
 
   def window_points

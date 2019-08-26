@@ -69,3 +69,9 @@
                         .events-rounds-map-direction.events-rounds-map-second-row
                           %i.far.fa-compass
                           = "#{competitor_data.direction.round}°"
+
+                      - exit_altitude = competitor_data.exit_altitude.to_i
+                      - highlight_exit = exit_altitude > 4115
+                      %span{class: [('text-warning' if highlight_exit)]}
+                        Exit:
+                        = exit_altitude
