@@ -2,6 +2,7 @@ import { h } from 'preact'
 import { useState, useEffect } from 'preact/compat'
 import styled from 'styled-components'
 
+import shuffle from 'utils/shuffle'
 import Player from './Player'
 
 const RoundReplay = ({ eventId, roundId }) => {
@@ -14,10 +15,12 @@ const RoundReplay = ({ eventId, roundId }) => {
     setPlaying(false)
 
     if (selected === 'Top4') {
-      const group = []
-        .concat(...roundData.groups)
-        .sort((a, b) => b.result - a.result)
-        .filter((_val, idx) => idx < 4)
+      const group = shuffle(
+        []
+          .concat(...roundData.groups)
+          .sort((a, b) => b.result - a.result)
+          .filter((_val, idx) => idx < 4)
+      )
 
       setGroup(group)
     } else if (selected) {
