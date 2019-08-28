@@ -53,14 +53,19 @@
                      columns_count: @scoreboard.columns_count,
                      editable: can_update
 
-            - rank = 0
+            - prev_rank = 0
             - prev_total = 0
             - section.competitors.each_with_index do |competitor, index|
+              - rank = index + 1
+              - total_points = competitor.total_points.to_f
               :ruby
-                if competitor.total_points != prev_total || competitor.total_points.to_f == 0
-                  rank += 1
-                  prev_total = competitor.total_points
+                if total_points == prev_total && total_points.positive?
+                  rank = prev_rank
                 end
+
+                prev_rank = index + 1
+                prev_total = total_points
+
 
               %tr.scoreboard-competitor{id: dom_id(competitor)}
                 %td.text-center= rank
