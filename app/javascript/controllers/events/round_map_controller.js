@@ -1,5 +1,6 @@
 import { Controller } from 'stimulus'
 import init_maps_api from 'utils/google_maps_api'
+import mostDistantPoint from 'utils/mostDistantPoint'
 
 const START_POINT_COLOR = '#ff1053'
 const END_POINT_COLOR = '#5FAD41'
@@ -11,6 +12,7 @@ export default class extends Controller {
   initialize() {
     this.linesByCompetitor = {}
     this.referencePoints = {}
+    this.infoWindow = undefined
   }
 
   connect() {
@@ -33,6 +35,8 @@ export default class extends Controller {
   }
 
   toggleGroup(event) {
+    if (this.infoWindow) this.infoWindow.close()
+
     event.preventDefault()
     const group = event.currentTarget.closest('.round-map-group')
     const container = group.closest('.round-map-competitors')
@@ -54,6 +58,8 @@ export default class extends Controller {
   showDLForCompetitor(originalEvent) {
     const { reference_point_id, competitor_id } = originalEvent.detail
 
+    if (this.infoWindow) this.infoWindow.close()
+
     const referencePointPosition = this.referencePoints[reference_point_id].getPosition()
 
     let startPointType = null
@@ -67,6 +73,8 @@ export default class extends Controller {
       startPointType
     ].getPosition()
 
+    this.draw_most_distant_point(competitor_id, reference_point_id)
+
     const event = new CustomEvent('round-map:show-dl', {
       detail: {
         start_point_position: startPointPosition,
@@ -77,6 +85,42 @@ export default class extends Controller {
     })
 
     this.element.dispatchEvent(event)
+  }
+
+  draw_most_distant_point(competitorId, referencePointId) {
+    const {
+      path_coordinates: path,
+      after_exit_point: afterExitPoint,
+      end_point: endPoint
+    } = this.mapData.competitors.find(
+      el => el.competitor_id.toString() === competitorId.toString()
+    )
+
+    const {
+      latitude: refPointLat,
+      longitude: refPointLng
+    } = this.mapData.reference_points.find(
+      el => el.id.toString() === referencePointId.toString()
+    )
+
+    const point = mostDistantPoint(
+      path,
+      afterExitPoint,
+      { lat: refPointLat, lng: refPointLng },
+      endPoint
+    )
+
+    if (!point) return
+
+    if (point.distance > 300) {
+      const deviation = point.distance - 300
+
+      this.infoWindow = new google.maps.InfoWindow({
+        position: { lat: point.lat, lng: point.lng },
+        map: this.map,
+        content: `Deviation: ${Math.round(deviation * 10) / 10}m`
+      })
+    }
   }
 
   fetchData() {

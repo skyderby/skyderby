@@ -1,6 +1,6 @@
 import { Controller } from 'stimulus'
 import init_maps_api from 'utils/google_maps_api'
-import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
+import mostDistantPoint from 'utils/mostDistantPoint'
 
 const START_POINT_COLOR = '#ff1053'
 const END_POINT_COLOR = '#5FAD41'
@@ -87,59 +87,20 @@ export default class extends Controller {
       path_coordinates
     } = this.map_data
 
-    if (!after_exit_point || !reference_point) return
-
-    const enterLaneCoordinates = new LatLon(after_exit_point.lat, after_exit_point.lng)
-    const referencePointCoordinate = new LatLon(reference_point.lat, reference_point.lng)
-    const distanceFromExitToReferencePoint = enterLaneCoordinates.distanceTo(
-      referencePointCoordinate
+    const point = mostDistantPoint(
+      path_coordinates,
+      after_exit_point,
+      reference_point,
+      end_point
     )
 
-    const enterLaneTime = Date.parse(after_exit_point.gpsTime)
-    const leaveWindowTime = Date.parse(end_point.gpsTime)
+    if (!point) return
 
-    const pointsWithDistancesToCenterline = path_coordinates.map(point => {
-      const gpsTime = Date.parse(point.gpsTime)
-      if (gpsTime < enterLaneTime || gpsTime > leaveWindowTime) {
-        return { ...point, distanceToCenterLine: 0 }
-      }
-
-      const coordinates = new LatLon(point.lat, point.lng)
-
-      const distanceFromEnterLane = coordinates.distanceTo(enterLaneCoordinates)
-      const distanceToReferencePoint = coordinates.distanceTo(referencePointCoordinate)
-
-      const halfPerimeter =
-        (distanceFromExitToReferencePoint +
-          distanceFromEnterLane +
-          distanceToReferencePoint) /
-        2
-
-      const distanceToCenterLine =
-        (2 *
-          Math.sqrt(
-            halfPerimeter *
-              (halfPerimeter - distanceFromExitToReferencePoint) *
-              (halfPerimeter - distanceFromEnterLane) *
-              (halfPerimeter - distanceToReferencePoint)
-          )) /
-        distanceFromExitToReferencePoint
-
-      return { ...point, distanceToCenterLine }
-    })
-
-    const mostDistantPoint = pointsWithDistancesToCenterline.reduce(
-      (max, current) =>
-        current.distanceToCenterLine > max.distanceToCenterLine ? current : max,
-      pointsWithDistancesToCenterline[0]
-    )
-
-    if (mostDistantPoint.distanceToCenterLine > 300) {
-      const deviation = mostDistantPoint.distanceToCenterLine - 300
-      const { lat, lng } = mostDistantPoint
+    if (point.distance > 300) {
+      const deviation = point.distance - 300
 
       new google.maps.InfoWindow({
-        position: { lat, lng },
+        position: { lat: point.lat, lng: point.lng },
         map: this.map,
         content: `Deviation: ${Math.round(deviation * 10) / 10}m`
       })
