@@ -33,7 +33,7 @@ sheet.add_row cells
       competitor_cells << point_cell
     end
 
-    total_points = competitor.total_points.positive? ? format('%.2f', competitor.total_points) : nil
+    total_points = competitor.total_points.positive? ? format('%.1f', competitor.total_points) : nil
     competitor_cells << total_points
 
     sheet.add_row competitor_cells

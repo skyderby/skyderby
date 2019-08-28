@@ -17,7 +17,7 @@ module Events
           points_in_disciplines
             .map { |_discipline, points| points }
             .sum
-            .round(2)
+            .round(1)
         end
 
         def results

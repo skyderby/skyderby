@@ -53,9 +53,17 @@
                      columns_count: @scoreboard.columns_count,
                      editable: can_update
 
+            - rank = 0
+            - prev_total = 0
             - section.competitors.each_with_index do |competitor, index|
+              :ruby
+                if competitor.total_points != prev_total || competitor.total_points.to_f == 0
+                  rank += 1
+                  prev_total = competitor.total_points
+                end
+
               %tr.scoreboard-competitor{id: dom_id(competitor)}
-                %td.text-center= index + 1
+                %td.text-center= rank
 
                 = render 'events/competitors/competitor_cells',
                          competitor: competitor,
@@ -92,8 +100,8 @@
                   %td.text-right
                     - points_in_discipline = competitor.points_in_discipline(discipline)
                     - if points_in_discipline&.positive?
-                      = points_in_discipline.round(1)
+                      = '%.1f' % points_in_discipline
 
                 %td.scoreboard-total-result
                   - if competitor.total_points.positive?
-                    = '%.2f' % competitor.total_points
+                    = '%.1f' % competitor.total_points
