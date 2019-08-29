@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_06_100132) do
+ActiveRecord::Schema.define(version: 2019_08_29_081611) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -120,7 +120,7 @@ ActiveRecord::Schema.define(version: 2019_07_06_100132) do
     t.integer "visibility", default: 0
     t.integer "number_of_results_for_total"
     t.integer "responsible_id"
-    t.integer "designated_lane_start", default: 0, null: false
+    t.integer "designated_lane_start", default: 1, null: false
     t.boolean "apply_penalty_to_score", default: false, null: false
   end
 

@@ -46,6 +46,10 @@ describe Event do
     it 'apply penalty to score' do
       expect(subject.apply_penalty_to_score).to be_falsey
     end
+
+    it 'start DL on 10 sec' do
+      expect(subject.designated_lane_start).to eq('on_10_sec')
+    end
   end
 
   it 'blank responsible does not allowed' do

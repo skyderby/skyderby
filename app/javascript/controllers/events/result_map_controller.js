@@ -113,7 +113,7 @@ export default class extends Controller {
     this.draw_reference_point()
 
     let start_point = {}
-    if (this.map_data.designated_lane_start === 'designated_lane_start_on_enter_window') {
+    if (this.map_data.designated_lane_start === 'on_enter_window') {
       start_point = this.map_data.start_point
     } else {
       start_point = this.map_data.after_exit_point

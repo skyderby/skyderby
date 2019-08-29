@@ -63,7 +63,7 @@ export default class extends Controller {
     const referencePointPosition = this.referencePoints[reference_point_id].getPosition()
 
     let startPointType = null
-    if (this.designatedLaneStart == 'designated_lane_start_on_enter_window') {
+    if (this.designatedLaneStart == 'on_enter_window') {
       startPointType = 'startPoint'
     } else {
       startPointType = 'afterExitPoint'
