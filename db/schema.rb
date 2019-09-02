@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_29_081611) do
+ActiveRecord::Schema.define(version: 2019_09_02_085638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -181,14 +181,10 @@ ActiveRecord::Schema.define(version: 2019_08_29_081611) do
     t.decimal "altitude", precision: 10, scale: 4
     t.decimal "wind_speed", precision: 10, scale: 4
     t.decimal "wind_direction", precision: 5, scale: 2
-    t.integer "weather_datumable_id"
-    t.string "weather_datumable_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "place_id"
     t.index ["place_id", "actual_on"], name: "index_place_weather_data_on_place_id_and_actual_on"
-    t.index ["place_id"], name: "index_place_weather_data_on_place_id"
-    t.index ["weather_datumable_id", "weather_datumable_type"], name: "weather_data_pk_index"
   end
 
   create_table "places", id: :serial, force: :cascade do |t|
@@ -211,10 +207,6 @@ ActiveRecord::Schema.define(version: 2019_08_29_081611) do
     t.float "abs_altitude"
     t.decimal "gps_time_in_seconds", precision: 17, scale: 3
     t.integer "track_id"
-    t.index "track_id, fl_time, floor(gps_time_in_seconds)", name: "points_track_fl_time"
-    t.index ["track_id", "abs_altitude"], name: "points_abs_altitude"
-    t.index ["track_id", "fl_time"], name: "index_points_on_track_id_and_fl_time"
-    t.index ["track_id", "fl_time"], name: "points_alt_sel"
     t.index ["track_id"], name: "index_points_on_track_id"
   end
 
