@@ -3,8 +3,8 @@ module Events
     class Show
       GROUP_SEPARATION = 2.minutes
 
-      delegate :discipline, :number, to: :round
-      delegate :designated_lane_start, to: :event
+      delegate :id, :event_id, :discipline, :number, to: :round
+      delegate :designated_lane_start, :range_from, :range_to, to: :event
 
       def initialize(event, round_id)
         @event = event

@@ -2,6 +2,7 @@ import { h } from 'preact'
 import { useState, useEffect } from 'preact/compat'
 import styled from 'styled-components'
 
+import Container from 'components/ui/FullscreenContainer'
 import shuffle from 'utils/shuffle'
 import Player from './Player'
 
@@ -111,17 +112,6 @@ const Header = styled.div`
   > * {
     margin-right: 10px;
   }
-`
-
-const Container = styled.div`
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 60px;
-  bottom: 41px;
-  left: 0;
-  right: 0;
 `
 
 export default RoundReplay
