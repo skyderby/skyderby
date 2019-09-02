@@ -1,5 +1,9 @@
+json.id @round.id
+json.eventId @round.event_id
 json.discipline @round.discipline
 json.number @round.number
+json.rangeFrom @round.range_from
+json.rangeTo @round.range_to
 json.designatedLaneStart @round.designated_lane_start
 
 json.groups do
