@@ -13,6 +13,10 @@ const LegendItem = ({ color, children }) => {
 
 const Item = styled.div`
   font: 12px/16px 'Proxima Nova Regular';
+
+  i {
+    font-size: 10px;
+  }
 `
 
 export default LegendItem

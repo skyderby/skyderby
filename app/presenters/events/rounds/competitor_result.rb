@@ -26,9 +26,23 @@ module Events
         points.first[:gps_time]
       end
 
+      def exit_altitude
+        exit_point[:altitude]
+      end
+
       def after_exit_point
-        time_for_lookup = start_time + DL_STARTS_AFTER
+        time_for_lookup = exit_time + DL_STARTS_AFTER
         points.find(points.first) { |point| point[:gps_time] > time_for_lookup }
+      end
+
+      def exit_point
+        gr_threshold = 10
+
+        points
+          .each_cons(15).find([points.first]) do |range|
+          range.all? { |point| point[:glide_ratio] < gr_threshold }
+        end
+          .first
       end
 
       def window_points
@@ -44,8 +58,8 @@ module Events
       def points
         @points ||= PointsQuery.execute(
           track,
-          trimmed: true,
-          only: %i[gps_time altitude abs_altitude latitude longitude v_speed]
+          trimmed: { seconds_before_start: 7 },
+          only: %i[gps_time altitude abs_altitude latitude longitude v_speed glide_ratio]
         )
       end
     end
