@@ -15,7 +15,7 @@ const Group = ({ number, competitors }) => {
 const Header = styled.div`
   color: #777;
   font: 16px/24px 'Proxima Nova Semibold';
-  padding: 5px 0;
+  padding-bottom: 5px;
   text-transform: uppercase;
 `
 

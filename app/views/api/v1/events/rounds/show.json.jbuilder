@@ -17,6 +17,7 @@ json.groups do
       json.photo competitor_result.photo.url(:thumb)
 
       json.direction competitor_result.direction.to_i
+      json.exitAltitude competitor_result.exit_altitude.to_i
 
       json.afterExitPoint do
         json.extract! competitor_result.after_exit_point, :latitude, :longitude
@@ -37,6 +38,18 @@ json.groups do
         json.vSpeed point[:v_speed]
         json.gpsTime point[:gps_time]
         json.absAltitude point[:abs_altitude]
+      end
+
+      if competitor_result.reference_point
+        json.referencePoint do
+          json.extract! competitor_result.reference_point,
+                        :id,
+                        :name,
+                        :latitude,
+                        :longitude
+        end
+      else
+        json.referencePoint nil
       end
     end
   end
