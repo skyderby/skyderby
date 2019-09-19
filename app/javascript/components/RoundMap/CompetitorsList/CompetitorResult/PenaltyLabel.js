@@ -1,4 +1,4 @@
-import { h } from 'preact'
+import React from 'react'
 import styled from 'styled-components'
 
 const defaultPenaltyColor = '#f0ad4e'
@@ -21,4 +21,3 @@ export default styled(PenaltyLabel)`
   vertical-align: baseline;
   white-space: nowrap;
 `
-

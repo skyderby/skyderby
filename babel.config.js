@@ -15,7 +15,7 @@ module.exports = {
   plugins: [
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-proposal-object-rest-spread',
-    ['@babel/plugin-proposal-class-properties', { spec: true }],
-    ['@babel/plugin-transform-react-jsx', { pragma: 'h', pragmaFrag: 'Fragment' }]
+    '@babel/plugin-transform-react-jsx',
+    ['@babel/plugin-proposal-class-properties', { spec: true }]
   ]
 }

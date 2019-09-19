@@ -1,8 +1,10 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
+import logger from 'redux-logger'
 
-import eventRounds from 'redux/events/rounds'
+import eventRoundMap from 'redux/events/roundMap'
+import eventReferencePoints from 'redux/events/referencePoints'
 
-const rootReducer = combineReducers({ eventRounds })
+const rootReducer = combineReducers({ eventRoundMap, eventReferencePoints })
 
-export default createStore(rootReducer, applyMiddleware(thunk))
+export default createStore(rootReducer, applyMiddleware(thunk, logger))

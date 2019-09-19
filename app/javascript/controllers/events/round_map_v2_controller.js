@@ -1,5 +1,6 @@
 import { Controller } from 'stimulus'
-import { h, render } from 'preact'
+import React from 'react'
+import ReactDOM from 'react-dom'
 import RoundMap from 'components/RoundMap'
 import { Provider } from 'react-redux'
 import store from 'redux/store'
@@ -9,7 +10,7 @@ export default class extends Controller {
     const eventId = this.element.getAttribute('data-event-id')
     const roundId = this.element.getAttribute('data-round-id')
 
-    render(
+    ReactDOM.render(
       <Provider store={store}>
         <RoundMap eventId={eventId} roundId={roundId} />
       </Provider>,

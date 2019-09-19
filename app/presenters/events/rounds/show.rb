@@ -3,6 +3,8 @@ module Events
     class Show
       GROUP_SEPARATION = 2.minutes
 
+      attr_reader :round, :event
+
       delegate :id, :event_id, :discipline, :number, to: :round
       delegate :designated_lane_start, :range_from, :range_to, to: :event
 
@@ -16,10 +18,6 @@ module Events
           (first.start_time - second.start_time).abs >= GROUP_SEPARATION
         end
       end
-
-      private
-
-      attr_reader :round, :event
 
       def competitor_results
         @competitor_results ||=

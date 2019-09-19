@@ -1,9 +1,9 @@
-import { h, Fragment } from 'preact'
-import { useEffect } from 'preact/compat'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { loadRound } from 'redux/events/rounds'
+import { loadRoundMap } from 'redux/events/roundMap'
+import { loadReferencePoints } from 'redux/events/referencePoints'
 import Container from 'components/ui/FullscreenContainer'
 import Map from './Map'
 import CompetitorsList from './CompetitorsList'
@@ -12,11 +12,11 @@ import LoadingPlaceholder from './LoadingPlaceholder'
 const RoundMap = ({ eventId, roundId }) => {
   const dispatch = useDispatch()
 
-  const data = useSelector(state => state.eventRounds[`${eventId}/${roundId}`]) || {}
-  const { isLoading = false } = data
+  const { isLoading } = useSelector(state => state.eventRoundMap)
 
   useEffect(() => {
-    dispatch(loadRound(eventId, roundId))
+    dispatch(loadRoundMap(eventId, roundId))
+    dispatch(loadReferencePoints(eventId))
   }, [eventId, roundId])
 
   return (
@@ -26,10 +26,10 @@ const RoundMap = ({ eventId, roundId }) => {
         {isLoading ? (
           <LoadingPlaceholder />
         ) : (
-          <Fragment>
-            <Map data={data} />
-            <CompetitorsList groups={data.groups} />
-          </Fragment>
+          <>
+            <Map />
+            <CompetitorsList />
+          </>
         )}
       </MainArea>
     </Container>

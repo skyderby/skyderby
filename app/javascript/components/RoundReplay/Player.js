@@ -1,6 +1,5 @@
-import { h } from 'preact'
+import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { useState, useEffect, useRef } from 'preact/compat'
 
 import { drawChart, updateChart } from './altitudeChart'
 import { drawCards, updateCardNumbers } from './cards'

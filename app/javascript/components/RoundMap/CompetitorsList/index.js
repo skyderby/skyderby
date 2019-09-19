@@ -1,13 +1,18 @@
-import { h } from 'preact'
+import React from 'react'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
 
 import Group from './Group'
 
-const CompetitorsList = ({ groups = [] }) => {
+const CompetitorsList = () => {
+  const groups = useSelector(state => state.eventRoundMap.groups)
+
+  if (!groups) return null
+
   return (
     <Container>
-      {groups.map((group, idx) => (
-        <Group competitors={group} key={idx} number={idx + 1} />
+      {groups.map((resultIds, idx) => (
+        <Group key={idx} number={idx + 1} resultIds={resultIds} />
       ))}
     </Container>
   )
@@ -20,7 +25,7 @@ const Container = styled.div`
   flex-basis: 370px;
   height: 100%;
   overflow: scroll;
-  padding: 15px;
+  padding: 10px;
 `
 
 export default CompetitorsList

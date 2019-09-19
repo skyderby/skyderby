@@ -1,4 +1,4 @@
-import colors from './colors'
+import colors from 'utils/colors'
 
 import { boxHeight, boxWidth, boxMargin, drawWidth } from './constants'
 

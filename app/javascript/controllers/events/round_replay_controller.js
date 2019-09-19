@@ -1,5 +1,6 @@
 import { Controller } from 'stimulus'
-import { h, render } from 'preact'
+import React from 'react'
+import ReactDOM from 'react-dom'
 import RoundReplay from 'components/RoundReplay'
 
 export default class extends Controller {
@@ -10,6 +11,6 @@ export default class extends Controller {
     const eventId = this.element.getAttribute('data-event-id')
     const roundId = this.element.getAttribute('data-round-id')
 
-    render(<RoundReplay eventId={eventId} roundId={roundId} />, this.element)
+    ReactDOM.render(<RoundReplay eventId={eventId} roundId={roundId} />, this.element)
   }
 }

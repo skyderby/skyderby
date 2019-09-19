@@ -1,11 +1,10 @@
-import { h } from 'preact'
-import { useState, useEffect, useRef } from 'preact/compat'
+import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import initMapsApi from 'utils/google_maps_api'
 
 import Legend from './Legend'
 
-const Map = ({ data }) => {
+const Map = () => {
   const [apiReady, setApiReady] = useState(false)
   const mapElementRef = useRef()
 
@@ -30,7 +29,7 @@ const Map = ({ data }) => {
   return (
     <Container>
       <MapElement ref={mapElementRef}>Map</MapElement>
-      <Legend rangeFrom={data.rangeFrom} rangeTo={data.rangeTo} />
+      <Legend />
     </Container>
   )
 }

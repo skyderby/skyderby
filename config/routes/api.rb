@@ -28,10 +28,14 @@ namespace :api, module: :api, defaults: { format: :json } do
       scope module: :events do
         resource :scoreboard, only: :show
 
-        resources :rounds, only: [:index, :show]
+        resources :rounds, only: [:index, :show] do
+          scope module: :rounds do
+            resources :reference_point_assignments, only: :create
+          end
+        end
         resources :competitors, only: :index
         resources :results, only: %i[index create]
-        resources :reference_point_assignments, only: :create
+        resources :reference_points, only: :index
       end
     end
 
