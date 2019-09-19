@@ -1,5 +1,4 @@
-import { h } from 'preact'
-import { useState, useEffect } from 'preact/compat'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
 import Container from 'components/ui/FullscreenContainer'

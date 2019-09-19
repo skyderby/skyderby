@@ -1,16 +1,8 @@
-import { h } from 'preact'
+import React from 'react'
 import styled from 'styled-components'
 
-import Item from './Item'
-
-const List = ({ className, competitors }) => {
-  return (
-    <div className={className}>
-      {competitors.map((el, idx) => (
-        <Item {...el} key={idx} />
-      ))}
-    </div>
-  )
+const List = ({ className, children }) => {
+  return <div className={className}>{children}</div>
 }
 
 export default styled(List)`

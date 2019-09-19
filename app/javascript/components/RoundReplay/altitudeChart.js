@@ -1,4 +1,4 @@
-import colors from './colors'
+import colors from 'utils/colors'
 import { chartHeight, chartWidth, chartWindowBegins, chartWindowEnds } from './constants'
 
 function drawChart(ctx) {

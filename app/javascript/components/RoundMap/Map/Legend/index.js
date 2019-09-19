@@ -1,5 +1,6 @@
-import { h } from 'preact'
+import React from 'react'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
 
 import LegendItem from './LegendItem'
 import {
@@ -8,8 +9,8 @@ import {
   windowEndColor
 } from 'components/RoundMap/constants'
 
-const Legend = ({ isLoading, rangeFrom, rangeTo }) => {
-  if (isLoading) return null
+const Legend = () => {
+  const { rangeFrom, rangeTo } = useSelector(state => state.eventRoundMap)
 
   return (
     <List>

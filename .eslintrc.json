@@ -25,11 +25,6 @@
     "HighchartsMore": false,
     "Fragment": false
   },
-  "settings": {
-    "react": {
-      "pragma": "h"
-    }
-  },
   "rules": {
     "indent": [
       "error",
@@ -51,7 +46,7 @@
     ],
     "no-unused-vars": [
       "error",
-      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_|Fragment", "ignoreRestSiblings": true }
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_", "ignoreRestSiblings": true }
     ],
     "react/prop-types": ["off"]
   }
