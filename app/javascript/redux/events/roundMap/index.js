@@ -22,6 +22,7 @@ const DEFAULT_STATE = {
   results: [],
   selectedResults: [],
   designatedLaneFor: undefined,
+  referencePointAssignments: [],
   isLoading: false,
   isLoaded: true,
   error: null
@@ -50,14 +51,11 @@ export function toggleResult(resultId) {
   return { type: TOGGLE_RESULT, payload: resultId }
 }
 
-export function assignReferencePoint(resultId, referencePointId) {
+export function assignReferencePoint(competitorId, referencePointId) {
   return async (dispatch, getState) => {
     const {
-      eventRoundMap: { eventId, roundId, results },
-      eventReferencePoints
+      eventRoundMap: { eventId, roundId }
     } = getState()
-
-    const { competitorId } = results.find(el => el.id === resultId)
 
     const url = `/api/v1/events/${eventId}/rounds/${roundId}/reference_point_assignments`
 
@@ -70,10 +68,8 @@ export function assignReferencePoint(resultId, referencePointId) {
       dispatch({
         type: ASSIGN_REFERENCE_POINT,
         payload: {
-          resultId,
-          referencePoint: eventReferencePoints[eventId].items.find(
-            el => el.id === referencePointId
-          )
+          competitorId,
+          referencePointId
         }
       })
     } catch (err) {
@@ -144,16 +140,12 @@ export default function reducer(state = DEFAULT_STATE, action = {}) {
     case ASSIGN_REFERENCE_POINT:
       return {
         ...state,
-        results: state.results.map(result => {
-          if (result.id === action.payload.resultId) {
-            return {
-              ...result,
-              referencePoint: action.payload.referencePoint
-            }
-          }
-
-          return result
-        })
+        referencePointAssignments: [
+          ...state.referencePointAssignments.filter(
+            el => el.competitorId !== action.payload.competitorId
+          ),
+          action.payload
+        ]
       }
     default:
       return state

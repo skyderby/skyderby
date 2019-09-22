@@ -5,12 +5,15 @@ module Events
 
       attr_reader :round, :event
 
-      delegate :id, :event_id, :discipline, :number, to: :round
+      delegate :id, :event_id, :discipline, :number, :reference_point_assignments, to: :round
       delegate :designated_lane_start, :range_from, :range_to, to: :event
 
       def initialize(event, round_id)
         @event = event
-        @round = event.rounds.includes(results: { competitor: :profile }).find(round_id)
+        @round = event.rounds.includes(
+          :reference_point_assignments,
+          results: { competitor: :profile }
+        ).find(round_id)
       end
 
       def groups

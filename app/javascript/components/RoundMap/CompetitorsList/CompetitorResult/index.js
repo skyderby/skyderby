@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { toggleResult } from 'redux/events/roundMap'
+import Modal from 'components/ui/Modal'
 
 import Direction from './Direction'
 import Mark from './Mark'
@@ -14,10 +15,17 @@ import FlatButton from 'components/ui/FlatButton'
 
 const CompetitorResult = ({ className, resultId }) => {
   const dispatch = useDispatch()
+  const [showPenaltyModal, setShowPenaltyModal] = useState(false)
 
-  const { name, direction, exitAltitude, penalized, penaltySize, color } = useSelector(
-    state => state.eventRoundMap.results.find(el => el.id === resultId)
-  )
+  const {
+    name,
+    competitorId,
+    direction,
+    exitAltitude,
+    penalized,
+    penaltySize,
+    color
+  } = useSelector(state => state.eventRoundMap.results.find(el => el.id === resultId))
 
   const checked = useSelector(
     state => state.eventRoundMap.selectedResults.find(el => el === resultId) !== undefined
@@ -25,9 +33,13 @@ const CompetitorResult = ({ className, resultId }) => {
 
   const handleSelect = () => dispatch(toggleResult(resultId))
   const handleShowDL = () => dispatch(() => resultId)
+  const handleShowPenaltyModal = () => setShowPenaltyModal(true)
+  const onModalHide = () => setShowPenaltyModal(false)
 
   return (
     <div className={className}>
+      <Modal isShown={showPenaltyModal} onHide={onModalHide} />
+
       <Row>
         <Label>
           <input type="checkbox" checked={checked} onChange={handleSelect} />
@@ -36,11 +48,12 @@ const CompetitorResult = ({ className, resultId }) => {
           <PenaltyLabel penalized={penalized} penaltySize={penaltySize} />
         </Label>
 
-        <ReferencePoint resultId={resultId} />
+        <ReferencePoint competitorId={competitorId} />
       </Row>
 
       <Row>
         <FlatButton onClick={handleShowDL}>Show DL</FlatButton>
+        <FlatButton onClick={handleShowPenaltyModal}>Penalties</FlatButton>
 
         <AdditionalInfo>
           <Direction direction={direction} />

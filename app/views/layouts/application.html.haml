@@ -7,6 +7,7 @@
     = stylesheet_link_tag 'desktop/application', media: 'all', 'data-turbolinks-track': 'reload'
 
   %body
+    #modal-root
     #wrap{class: yield(:wrapper_classes)}
       - skip_header = yield(:skip_header).presence || false
       - unless skip_header

@@ -6,12 +6,15 @@ import { assignReferencePoint } from 'redux/events/roundMap'
 import ReadOnly from './ReadOnly'
 import Select from './Select'
 
-const ReferencePoint = ({ resultId }) => {
+const ReferencePoint = ({ competitorId }) => {
   const dispatch = useDispatch()
 
   const { eventId, editable } = useSelector(state => state.eventRoundMap)
-  const { referencePoint } = useSelector(state =>
-    state.eventRoundMap.results.find(el => el.id === resultId)
+  const { referencePointId } = useSelector(
+    state =>
+      state.eventRoundMap.referencePointAssignments.find(
+        el => el.competitorId === competitorId
+      ) || {}
   )
 
   const { items: referencePoints } = useSelector(
@@ -19,17 +22,17 @@ const ReferencePoint = ({ resultId }) => {
   )
 
   const handleChange = ({ value }) => {
-    dispatch(assignReferencePoint(resultId, value))
+    dispatch(assignReferencePoint(competitorId, value))
   }
 
   return editable ? (
     <Select
-      value={referencePoint}
+      value={referencePointId}
       referencePoints={referencePoints}
       onChange={handleChange}
     />
   ) : (
-    <ReadOnly referencePoint={referencePoint} />
+    <ReadOnly referencePointId={referencePointId} />
   )
 }
 
