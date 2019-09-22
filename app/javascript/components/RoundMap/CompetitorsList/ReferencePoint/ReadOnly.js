@@ -1,7 +1,14 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
-const ReadOnly = ({ className, referencePoint }) => {
+const ReadOnly = ({ className, referencePointId }) => {
+  const { eventId } = useSelector(state => state.eventRoundMap)
+
+  const referencePoint = useSelector(state =>
+    state.eventReferencePoints[eventId].items.find(({ id }) => id === referencePointId)
+  )
+
   if (!referencePoint) return null
 
   return (

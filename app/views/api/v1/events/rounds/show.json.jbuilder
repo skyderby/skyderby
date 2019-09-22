@@ -17,6 +17,12 @@ json.groups do
   end
 end
 
+json.reference_point_assignments do
+  json.array! @round.reference_point_assignments do |assignment|
+    json.extract! assignment, :reference_point_id, :competitor_id
+  end
+end
+
 json.results do
   json.array! @round.competitor_results do |competitor_result|
     json.extract! competitor_result,
@@ -47,18 +53,6 @@ json.results do
 
     json.points competitor_result.points do |point|
       json.extract! point, :latitude, :longitude, :altitude, :v_speed, :gps_time, :abs_altitude
-    end
-
-    if competitor_result.reference_point
-      json.referencePoint do
-        json.extract! competitor_result.reference_point,
-                      :id,
-                      :name,
-                      :latitude,
-                      :longitude
-      end
-    else
-      json.referencePoint nil
     end
   end
 end

@@ -34,7 +34,7 @@ const ReferencePointSelect = props => {
   ]
 
   const valueOption =
-    selectedReferencePoint && options.find(el => el.value === selectedReferencePoint.id)
+    selectedReferencePoint && options.find(el => el.value === selectedReferencePoint)
 
   return (
     <Select

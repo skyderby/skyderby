@@ -5,16 +5,21 @@ import initMapsApi from 'utils/google_maps_api'
 import MapContext from './MapContext'
 import Legend from './Legend'
 import ReferencePoints from './ReferencePoints'
+import FlightPaths from './FlightPaths'
 
 const Map = () => {
   const [apiReady, setApiReady] = useState(false)
   const mapElementRef = useRef()
   const [mapInstance, setMapInstance] = useState()
 
+  const onMapsApiReady = () => setApiReady(true)
+
   useEffect(() => {
-    window.addEventListener('maps_api:ready', () => setApiReady(true), { once: true })
+    window.addEventListener('maps_api:ready', onMapsApiReady, { once: true })
 
     initMapsApi()
+
+    return () => window.removeEventListener('maps_api:ready', onMapsApiReady)
   }, [])
 
   useEffect(() => {
@@ -34,6 +39,7 @@ const Map = () => {
       <MapElement ref={mapElementRef}>Map</MapElement>
       <MapContext.Provider value={{ map: mapInstance }}>
         <ReferencePoints />
+        <FlightPaths />
       </MapContext.Provider>
 
       <Legend />
