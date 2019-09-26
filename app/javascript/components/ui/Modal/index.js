@@ -4,9 +4,17 @@ import ReactDOM from 'react-dom'
 import Overlay from './Overlay'
 import Container from './Container'
 import Header from './Header'
-import Body from './Body'
 
-const Modal = ({ isShown = false, onHide = () => {}, children }) => {
+const Modal = props => {
+  const {
+    size = 'medium',
+    isShown = false,
+    onHide = () => {},
+    title,
+    render = () => null,
+    children = null
+  } = props
+
   const modalRoot = document.getElementById('modal-root')
   const [internalIsShown, setIsShown] = useState(isShown)
 
@@ -18,7 +26,8 @@ const Modal = ({ isShown = false, onHide = () => {}, children }) => {
     if (e.target === e.currentTarget) handleHide()
   }
 
-  const handleHide = () => {
+  const handleHide = e => {
+    e.preventDefault()
     onHide()
     setIsShown(false)
   }
@@ -27,10 +36,9 @@ const Modal = ({ isShown = false, onHide = () => {}, children }) => {
 
   return ReactDOM.createPortal(
     <Overlay onClick={handleOverlayClick}>
-      <Container>
-        <Header handleHide={handleHide} />
-        <Body>{children}</Body>
-        <h1>HELLO</h1>
+      <Container size={size}>
+        <Header title={title} handleHide={handleHide} />
+        <div>{children}</div>
       </Container>
     </Overlay>,
     modalRoot
