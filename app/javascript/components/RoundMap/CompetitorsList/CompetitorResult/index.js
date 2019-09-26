@@ -12,11 +12,13 @@ import PenaltyLabel from './PenaltyLabel'
 import ExitAltitude from './ExitAltitude'
 import ReferencePoint from '../ReferencePoint'
 import FlatButton from 'components/ui/FlatButton'
+import PenaltyForm from 'components/RoundMap/PenaltyForm'
 
 const CompetitorResult = ({ className, resultId }) => {
   const dispatch = useDispatch()
   const [showPenaltyModal, setShowPenaltyModal] = useState(false)
 
+  const { discipline, number } = useSelector(state => state.eventRoundMap)
   const {
     name,
     competitorId,
@@ -31,6 +33,7 @@ const CompetitorResult = ({ className, resultId }) => {
     state => state.eventRoundMap.selectedResults.find(el => el === resultId) !== undefined
   )
 
+  const modalTitle = `${name} | ${I18n.t('disciplines.' + discipline)} - ${number}`
   const handleSelect = () => dispatch(toggleResult(resultId))
   const handleShowDL = () => dispatch(() => resultId)
   const handleShowPenaltyModal = () => setShowPenaltyModal(true)
@@ -38,7 +41,9 @@ const CompetitorResult = ({ className, resultId }) => {
 
   return (
     <div className={className}>
-      <Modal isShown={showPenaltyModal} onHide={onModalHide} />
+      <Modal isShown={showPenaltyModal} onHide={onModalHide} size="sm" title={modalTitle}>
+        <PenaltyForm resultId={resultId} onComplete={onModalHide} />
+      </Modal>
 
       <Row>
         <Label>

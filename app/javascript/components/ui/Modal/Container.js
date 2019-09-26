@@ -6,6 +6,16 @@ export default styled.div`
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
-  max-width: 900px;
   min-width: 400px;
+  max-width: 80vw;
+  width: ${props => {
+    switch (props.size) {
+      case 'sm':
+        return '500px'
+      case 'md':
+        return '760px'
+      case 'lg':
+        return '960px'
+    }
+  }};
 `

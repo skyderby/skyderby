@@ -15,6 +15,7 @@
     "bootstrap": "^3.4.1",
     "bootstrap-datepicker": "^1.7.1",
     "core-js": "3",
+    "formik": "^2.0.1-rc.13",
     "geodesy": "^2.2.0",
     "highcharts": "^6.0.7",
     "honeybadger-js": "^0.5.5",
@@ -32,8 +33,9 @@
     "redux-thunk": "^2.3.0",
     "select2": "^4.0.3",
     "stimulus": "^1.0.1",
-    "styled-components": "^4.3.2",
-    "turbolinks": "^5.1.1"
+    "styled-components": "^5.0.0-beta.9",
+    "turbolinks": "^5.1.1",
+    "yup": "^0.27.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

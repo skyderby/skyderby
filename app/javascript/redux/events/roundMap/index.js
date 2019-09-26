@@ -14,6 +14,8 @@ const TOGGLE_RESULT = `${prefix}/TOGGLE_RESULT`
 
 const ASSIGN_REFERENCE_POINT = `${prefix}/ASSIGN_REFERENCE_POINT`
 
+const UPDATE_PENALTY = `${prefix}/UPDATE_PENALTY`
+
 const DEFAULT_STATE = {
   editable: false,
   eventId: undefined,
@@ -76,6 +78,10 @@ export function assignReferencePoint(competitorId, referencePointId) {
       alert(err)
     }
   }
+}
+
+export function updatePenalty(resultId, penalty) {
+  return { type: UPDATE_PENALTY, payload: { resultId, penalty } }
 }
 
 function loadRoundSuccess(payload) {
@@ -146,6 +152,20 @@ export default function reducer(state = DEFAULT_STATE, action = {}) {
           ),
           action.payload
         ]
+      }
+    case UPDATE_PENALTY:
+      return {
+        ...state,
+        results: state.results.map(result => {
+          if (result.id === action.payload.resultId) {
+            return {
+              ...result,
+              ...action.payload.penalty
+            }
+          }
+
+          return result
+        })
       }
     default:
       return state
