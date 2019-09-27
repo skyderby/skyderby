@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const ReadOnly = ({ className, referencePointId }) => {
   const { eventId } = useSelector(state => state.eventRoundMap)
@@ -17,6 +18,11 @@ const ReadOnly = ({ className, referencePointId }) => {
       {referencePoint.name}
     </div>
   )
+}
+
+ReadOnly.propTypes = {
+  className: PropTypes.string.isRequired,
+  referencePointId: PropTypes.number
 }
 
 export default styled(ReadOnly)`

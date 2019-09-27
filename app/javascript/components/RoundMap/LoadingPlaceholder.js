@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const LoadingPlaceholder = ({ className }) => (
   <div className={className}>
@@ -11,6 +12,10 @@ const LoadingPlaceholder = ({ className }) => (
     </p>
   </div>
 )
+
+LoadingPlaceholder.propTypes = {
+  className: PropTypes.string.isRequired
+}
 
 export default styled(LoadingPlaceholder)`
   color: #777;

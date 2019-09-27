@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import { toggleResult } from 'redux/events/roundMap'
 import Modal from 'components/ui/Modal'
@@ -99,6 +100,11 @@ const AdditionalInfo = styled.div`
   font-family: 'Proxima Nova Regular';
   font-size: 12px;
 `
+
+CompetitorResult.propTypes = {
+  className: PropTypes.string.isRequired,
+  resultId: PropTypes.number.isRequired
+}
 
 export default styled(CompetitorResult)`
   font-family: 'Proxima Nova Regular';

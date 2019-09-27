@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 import Container from 'components/ui/FullscreenContainer'
 import shuffle from 'utils/shuffle'
@@ -46,7 +47,7 @@ const RoundReplay = ({ eventId, roundId }) => {
         setRoundData(data)
         setIsLoading(false)
       })
-  }, [])
+  }, [eventId, roundId])
 
   return (
     <Container>
@@ -112,5 +113,10 @@ const Header = styled.div`
     margin-right: 10px;
   }
 `
+
+RoundReplay.propTypes = {
+  eventId: PropTypes.string.isRequired,
+  roundId: PropTypes.string.isRequired
+}
 
 export default RoundReplay

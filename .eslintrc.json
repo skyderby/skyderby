@@ -9,6 +9,14 @@
     "plugin:prettier/recommended",
     "plugin:react/recommended"
   ],
+  "plugins": [
+    "react-hooks"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module"
@@ -23,7 +31,7 @@
     "Cesium": false,
     "Highcharts": false,
     "HighchartsMore": false,
-    "Fragment": false
+    "ga": false
   },
   "rules": {
     "indent": [
@@ -48,6 +56,7 @@
       "error",
       { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_", "ignoreRestSiblings": true }
     ],
-    "react/prop-types": ["off"]
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

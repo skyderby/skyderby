@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import { loadRoundMap } from 'redux/events/roundMap'
 import { loadReferencePoints } from 'redux/events/referencePoints'
@@ -17,7 +18,7 @@ const RoundMap = ({ eventId, roundId }) => {
   useEffect(() => {
     dispatch(loadRoundMap(eventId, roundId))
     dispatch(loadReferencePoints(eventId))
-  }, [eventId, roundId])
+  }, [eventId, roundId, dispatch])
 
   return (
     <Container>
@@ -53,5 +54,10 @@ const MainArea = styled.div`
   flex-shrink: 1;
   height: 100%;
 `
+
+RoundMap.propTypes = {
+  eventId: PropTypes.string.isRequired,
+  roundId: PropTypes.string.isRequired
+}
 
 export default RoundMap

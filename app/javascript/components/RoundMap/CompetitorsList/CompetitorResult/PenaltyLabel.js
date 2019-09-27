@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const defaultPenaltyColor = '#f0ad4e'
 const majorPenaltyColor = '#d9534f'
@@ -8,6 +9,17 @@ const PenaltyLabel = ({ className, penalized, penaltySize }) => {
   if (!penalized) return null
 
   return <span className={className}>-{penaltySize}%</span>
+}
+
+PenaltyLabel.propTypes = {
+  className: PropTypes.string.isRequired,
+  penalized: PropTypes.bool,
+  penaltySize: PropTypes.number
+}
+
+PenaltyLabel.defaultProps = {
+  penalized: false,
+  penaltySize: undefined
 }
 
 export default styled(PenaltyLabel)`

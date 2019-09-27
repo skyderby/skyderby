@@ -21,7 +21,7 @@ const Marker = ({ color, latitude, longitude }) => {
     })
 
     return () => marker.setMap(null)
-  }, [map, latitude, longitude])
+  }, [map, color, latitude, longitude])
 
   return null
 }
