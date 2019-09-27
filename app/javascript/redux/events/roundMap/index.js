@@ -81,7 +81,23 @@ export function assignReferencePoint(competitorId, referencePointId) {
 }
 
 export function updatePenalty(resultId, penalty) {
-  return { type: UPDATE_PENALTY, payload: { resultId, penalty } }
+  return async (dispatch, getState) => {
+    const {
+      eventRoundMap: { eventId }
+    } = getState()
+
+    const url = `/api/v1/events/${eventId}/results/${resultId}/penalty`
+
+    try {
+      await axios.put(url, {
+        penalty: { ...penalty }
+      })
+
+      dispatch({ type: UPDATE_PENALTY, payload: { resultId, penalty } })
+    } catch (err) {
+      alert(err)
+    }
+  }
 }
 
 function loadRoundSuccess(payload) {

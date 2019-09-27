@@ -5,6 +5,7 @@ distance_competitor_1:
   result: 3000
   result_net: 2900
   created_at: 2018-01-01 12:00:00
+  track: hellesylt
 
 speed_competitor_1:
   competitor_id: 1
