@@ -34,7 +34,9 @@ namespace :api, module: :api, defaults: { format: :json } do
           end
         end
         resources :competitors, only: :index
-        resources :results, only: %i[index create]
+        resources :results, only: %i[index create] do
+          resource :penalty, only: :update, module: :results
+        end
         resources :reference_points, only: :index
       end
     end

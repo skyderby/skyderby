@@ -4,13 +4,14 @@ module Api
       module Results
         class PenaltiesController < ApplicationController
           def update
-            @event = Event.find(params[:event_id])
-            @result = @event.results.find(params[:result_id])
+            event = Event.find(params[:event_id])
 
-            if @result.update(penalty_params)
+            authorize event, :update?
+
+            @result = event.results.find(params[:result_id])
+
+            if @result.update!(penalty_params)
               head :ok
-            else
-              render { json: { errors: @result.errors } }
             end
           end
 
