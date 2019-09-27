@@ -1,5 +1,6 @@
 import React from 'react'
 import Select from 'react-select'
+import PropTypes from 'prop-types'
 
 const styles = {
   control: base => ({
@@ -46,6 +47,16 @@ const ReferencePointSelect = props => {
       {...selectProps}
     />
   )
+}
+
+ReferencePointSelect.propTypes = {
+  referencePoints: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string
+    })
+  ).isRequired,
+  value: PropTypes.number
 }
 
 export default ReferencePointSelect

@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 import { drawChart, updateChart } from './altitudeChart'
 import { drawCards, updateCardNumbers } from './cards'
@@ -18,21 +19,24 @@ const Player = ({ discipline, group = [], playing }) => {
     if (group.length === 0) return
 
     setPlayerPoints(group.map(data => processPoints(discipline, data)))
-  }, [group])
+  }, [group, discipline])
 
-  const drawFrame = time => {
-    const timeDiff = (time - startTime.current) / 1000
-    const ctx = canvasRef.current.getContext('2d')
+  const drawFrame = useCallback(
+    time => {
+      const timeDiff = (time - startTime.current) / 1000
+      const ctx = canvasRef.current.getContext('2d')
 
-    const paths = playerPoints.map(currentPoints =>
-      getPathsUntilTime(currentPoints, timeDiff)
-    )
+      const paths = playerPoints.map(currentPoints =>
+        getPathsUntilTime(currentPoints, timeDiff)
+      )
 
-    updateCardNumbers(ctx, paths, discipline)
-    updateChart(ctx, paths)
+      updateCardNumbers(ctx, paths, discipline)
+      updateChart(ctx, paths)
 
-    requestId.current = requestAnimationFrame(drawFrame)
-  }
+      requestId.current = requestAnimationFrame(drawFrame)
+    },
+    [discipline, playerPoints]
+  )
 
   useEffect(() => {
     if (playing) {
@@ -48,7 +52,7 @@ const Player = ({ discipline, group = [], playing }) => {
     } else {
       cancelAnimationFrame(requestId.current)
     }
-  }, [playing])
+  }, [playing, drawFrame, group])
 
   useEffect(() => {
     if (group.length === 0) return
@@ -68,5 +72,11 @@ const Canvas = styled.canvas`
   margin-left: auto;
   margin-right: auto;
 `
+
+Player.propTypes = {
+  discipline: PropTypes.oneOf(['distance', 'speed', 'time']),
+  playing: PropTypes.bool.isRequired,
+  group: PropTypes.array
+}
 
 export default Player

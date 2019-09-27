@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 import CloseButton from './CloseButton'
 
@@ -10,6 +11,12 @@ const Header = ({ className, title, handleHide }) => {
       <CloseButton onClick={handleHide} />
     </div>
   )
+}
+
+Header.propTypes = {
+  className: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  handleHide: PropTypes.func.isRequired
 }
 
 export default styled(Header)`

@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useFormik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import { updatePenalty } from 'redux/events/roundMap'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
@@ -115,5 +116,10 @@ const Footer = styled.div`
   border-top: 1px solid #e5e5e5;
   padding: 10px 15px;
 `
+
+PenaltyForm.propTypes = {
+  resultId: PropTypes.number.isRequired,
+  onComplete: PropTypes.func.isRequired
+}
 
 export default PenaltyForm

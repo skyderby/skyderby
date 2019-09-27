@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const LegendItem = ({ color, children }) => {
   return (
@@ -18,5 +19,10 @@ const Item = styled.div`
     font-size: 10px;
   }
 `
+
+LegendItem.propTypes = {
+  color: PropTypes.string.isRequired,
+  children: PropTypes.node
+}
 
 export default LegendItem

@@ -11,7 +11,6 @@ const Modal = props => {
     isShown = false,
     onHide = () => {},
     title,
-    render = () => null,
     children = null
   } = props
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import { assignReferencePoint } from 'redux/events/roundMap'
 
@@ -34,6 +35,10 @@ const ReferencePoint = ({ competitorId }) => {
   ) : (
     <ReadOnly referencePointId={referencePointId} />
   )
+}
+
+ReferencePoint.propTypes = {
+  competitorId: PropTypes.number.isRequired
 }
 
 export default ReferencePoint

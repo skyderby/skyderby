@@ -39,10 +39,12 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
-    "eslint": "^5.15.3",
+    "eslint": "^6.4.0",
     "eslint-config-prettier": "^4.3.0",
+    "eslint-config-react-app": "^5.0.2",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^2.0.1",
     "prettier": ">=1.13.0",
     "webpack": "^4.0.0",
     "webpack-bundle-analyzer": "^2.11.1",

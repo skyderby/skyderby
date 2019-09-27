@@ -24,7 +24,7 @@ const Trajectory = ({ color: strokeColor, points }) => {
     return () => {
       polyline.setMap(null)
     }
-  }, [map])
+  }, [map, path, strokeColor])
 
   return null
 }

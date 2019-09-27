@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import { selectGroup } from 'redux/events/roundMap'
 import List from './List'
@@ -42,5 +43,10 @@ const Container = styled.div`
   padding: 10px;
   margin-bottom: 15px;
 `
+
+Group.propTypes = {
+  resultIds: PropTypes.arrayOf(PropTypes.number).isRequired,
+  number: PropTypes.number.isRequired
+}
 
 export default Group

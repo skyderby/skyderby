@@ -1,5 +1,5 @@
 import React from 'react'
-import { arrayOf, number, oneOfType, shape, string } from 'prop-types'
+import PropTypes from 'prop-types'
 import styled, { css } from 'styled-components'
 
 const RadioButtonGroup = ({ value: currentValue, options, name, onChange }) => {
@@ -72,14 +72,15 @@ const Label = styled.label`
 `
 
 RadioButtonGroup.propTypes = {
-  value: oneOfType([number, string]),
-  options: arrayOf(
-    shape({
-      value: string.isRequired,
-      label: string.isRequired
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired
     })
   ).isRequired,
-  name: string.isRequired
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
 }
 
 RadioButtonGroup.defaultProps = {
