@@ -29,7 +29,7 @@ describe Api::V1::Events::ScoreboardsController do
         section_id: section_advanced.id,
         country_code: 'NOR',
         suit_name: 'TS Apache Series',
-        total_points: 183.33,
+        total_points: 183.3,
         results: [{
           discipline: 'distance',
           round: 1,
@@ -47,7 +47,7 @@ describe Api::V1::Events::ScoreboardsController do
         section_id: section_advanced.id,
         country_code: 'NOR',
         suit_name: 'TS Apache Series',
-        total_points: 174.07,
+        total_points: 174.1,
         results: [{
           discipline: 'distance',
           round: 1,
