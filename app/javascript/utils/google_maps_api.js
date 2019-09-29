@@ -1,8 +1,6 @@
 import { loadScript } from 'utils/load_external'
 
-const URL = `https://maps.googleapis.com/maps/api/js?callback=onMapsApiReady&key=${
-  window.MAPS_API_KEY
-}`
+const URL = `https://maps.googleapis.com/maps/api/js?callback=onMapsApiReady&key=${window.MAPS_API_KEY}`
 
 export default function() {
   if (window.mapsApiReady) {

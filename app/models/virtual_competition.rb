@@ -27,11 +27,18 @@ class VirtualCompetition < ApplicationRecord
 
   BASE_START_SPEED = 10
 
-  enum jumps_kind: %i[skydive base]
+  enum jumps_kind: { skydive: 0, base: 1 }
   enum suits_kind: SuitTypes
-  enum discipline:
-    %i[time distance speed distance_in_time distance_in_altitude flare base_race]
-  enum default_view: %i[default_overall default_last_year]
+  enum discipline: {
+    time: 0,
+    distance: 1,
+    speed: 2,
+    distance_in_time: 3,
+    distance_in_altitude: 4,
+    flare: 5,
+    base_race: 6
+  }
+  enum default_view: { default_overall: 0, default_last_year: 1 }
 
   belongs_to :place, optional: true
   belongs_to :finish_line, optional: true, class_name: 'Place::FinishLine'

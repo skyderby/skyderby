@@ -3,7 +3,7 @@ class VirtualCompetition < ApplicationRecord
     extend ActiveSupport::Concern
 
     included do
-      enum interval_type: %i[annual custom_intervals]
+      enum interval_type: { annual: 0, custom_intervals: 1 }
 
       has_many :custom_intervals, -> { order(:period_to) }, inverse_of: :virtual_competition
     end

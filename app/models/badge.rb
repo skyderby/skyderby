@@ -14,8 +14,8 @@
 #
 
 class Badge < ApplicationRecord
-  enum category: [:competition, :online, :sponsor, :skyderby, :special]
-  enum kind: [:gold, :silver, :bronze]
+  enum category: { competition: 0, online: 1, sponsor: 2, skyderby: 3, special: 4 }
+  enum kind: { gold: 0, silver: 1, bronze: 2 }
 
   belongs_to :profile
 

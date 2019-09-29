@@ -22,14 +22,14 @@
 #
 
 class Tournament < ApplicationRecord
-  enum status: [:draft, :published, :finished, :surprise]
-  enum discipline: [
-    :time,
-    :distance,
-    :speed,
-    :distance_in_time,
-    :time_until_intersection
-  ]
+  enum status: { draft: 0, published: 1, finished: 2, surprise: 3 }
+  enum discipline: {
+    time: 0,
+    distance: 1,
+    speed: 2,
+    distance_in_time: 3,
+    time_until_intersection: 4
+  }
 
   belongs_to :responsible, class_name: 'User'
 

@@ -23,9 +23,9 @@
 class Event < ApplicationRecord
   include TrackVisibility, DesignatedLane
 
-  enum status: [:draft, :published, :finished, :surprise]
-  enum rules: [:speed_distance_time, :fai, :hungary_boogie]
-  enum visibility: [:public_event, :unlisted_event, :private_event]
+  enum status: { draft: 0, published: 1, finished: 2, surprise: 3 }
+  enum rules: { speed_distance_time: 0, fai: 1, hungary_boogie: 2 }
+  enum visibility: { public_event: 0, unlisted_event: 1, private_event: 2 }
 
   belongs_to :responsible, class_name: 'User', inverse_of: :responsible_of_events
 

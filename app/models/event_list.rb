@@ -15,8 +15,8 @@ class EventList < ApplicationRecord
   belongs_to :event, polymorphic: true
   belongs_to :responsible, class_name: 'User'
 
-  enum status: [:draft, :published, :finished]
-  enum visibility: [:public_event, :unlisted_event, :private_event]
+  enum status: { draft: 0, published: 1, finished: 2 }
+  enum visibility: { public_event: 0, unlisted_event: 1, private_event: 2 }
 
   private
 

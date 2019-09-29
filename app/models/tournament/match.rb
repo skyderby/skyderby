@@ -13,7 +13,7 @@
 class Tournament::Match < ApplicationRecord
   include Slots
 
-  enum match_type: [:regular, :gold_finals, :bronze_finals]
+  enum match_type: { regular: 0, gold_finals: 1, bronze_finals: 2 }
 
   belongs_to :round
 
