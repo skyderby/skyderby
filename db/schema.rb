@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_02_085638) do
+ActiveRecord::Schema.define(version: 2019_09_29_184954) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,7 +46,9 @@ ActiveRecord::Schema.define(version: 2019_09_02_085638) do
     t.string "name", limit: 510
     t.integer "section_id"
     t.integer "profile_id"
+    t.bigint "team_id"
     t.index ["event_id"], name: "index_event_competitors_on_event_id"
+    t.index ["team_id"], name: "index_event_competitors_on_team_id"
   end
 
   create_table "event_reference_point_assignments", force: :cascade do |t|
@@ -102,6 +104,14 @@ ActiveRecord::Schema.define(version: 2019_09_02_085638) do
     t.integer "order"
     t.integer "event_id"
     t.index ["event_id"], name: "index_event_sections_on_event_id"
+  end
+
+  create_table "event_teams", force: :cascade do |t|
+    t.bigint "event_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_teams_on_event_id"
   end
 
   create_table "events", id: :serial, force: :cascade do |t|
@@ -495,6 +505,7 @@ ActiveRecord::Schema.define(version: 2019_09_02_085638) do
   end
 
   add_foreign_key "badges", "profiles"
+  add_foreign_key "event_competitors", "event_teams", column: "team_id"
   add_foreign_key "event_competitors", "profiles"
   add_foreign_key "event_results", "tracks"
   add_foreign_key "events", "profiles"

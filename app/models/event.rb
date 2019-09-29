@@ -34,6 +34,7 @@ class Event < ApplicationRecord
   has_many :sections, -> { order(:order) }, inverse_of: :event, dependent: :restrict_with_error
   has_many :competitors, inverse_of: :event, dependent: :restrict_with_error
   has_many :rounds, -> { order(:number) }, inverse_of: :event, dependent: :restrict_with_error
+  has_many :teams, dependent: :restrict_with_error
   has_many :results, through: :rounds
   has_many :reference_point_assignments, through: :rounds
   has_many :tracks, through: :results

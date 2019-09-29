@@ -20,6 +20,7 @@ class Event::Competitor < ApplicationRecord
   belongs_to :section
   belongs_to :profile
   belongs_to :suit
+  belongs_to :team, optional: true
 
   has_many :results, dependent: :restrict_with_error
   has_many :reference_point_assignments, dependent: :delete_all

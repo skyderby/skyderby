@@ -23,12 +23,18 @@ describe Api::V1::Events::ScoreboardsController do
         name: 'Intermediate',
         order: section_intermediate.order
       }],
+      rounds: [
+        { id: 1, discipline: 'distance', number: 1 },
+        { id: 2, discipline: 'speed', number: 1 }
+      ],
+      teams: [],
       competitors: [{
         id: competitor2.id,
         name: 'Travis',
         section_id: section_advanced.id,
         country_code: 'NOR',
         suit_name: 'TS Apache Series',
+        team_id: nil,
         total_points: 183.3,
         results: [{
           discipline: 'distance',
@@ -47,6 +53,7 @@ describe Api::V1::Events::ScoreboardsController do
         section_id: section_advanced.id,
         country_code: 'NOR',
         suit_name: 'TS Apache Series',
+        team_id: nil,
         total_points: 174.1,
         results: [{
           discipline: 'distance',
