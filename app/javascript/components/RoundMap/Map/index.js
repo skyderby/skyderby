@@ -6,6 +6,7 @@ import MapContext from './MapContext'
 import Legend from './Legend'
 import ReferencePoints from './ReferencePoints'
 import FlightPaths from './FlightPaths'
+import DesignatedLane from './DesignatedLane'
 
 const Map = () => {
   const [apiReady, setApiReady] = useState(false)
@@ -40,6 +41,7 @@ const Map = () => {
       <MapContext.Provider value={{ map: mapInstance }}>
         <ReferencePoints />
         <FlightPaths />
+        <DesignatedLane />
       </MapContext.Provider>
 
       <Legend />
