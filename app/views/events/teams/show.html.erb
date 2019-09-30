@@ -1,0 +1,21 @@
+<% provide :title, @event.name %>
+<% can_manage = policy(@event).update? %>
+
+<div class="container-fluid top-buffer" id="event">
+  <div class="content-block">
+    <div class="row">
+      <div class="event-header col-md-8 col-md-offset-2 text-center">
+        <%= render 'events/header' %>
+      </div>
+    </div>
+
+    <% if !@event.surprise? || can_manage %>
+      <div data-controller="events--teams-competition" data-event-id="<%= @event.id %>"></div>
+    <% else %>
+      <h1 class="text-muted text-center">
+        🙅 Let it be Surprise
+      </h1>
+    <% end %>
+
+  </div>
+</div>

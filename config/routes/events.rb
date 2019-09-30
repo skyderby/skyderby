@@ -1,6 +1,7 @@
 resources :events, concerns: %i[sponsorable organizable] do
   scope module: :events do
     resource :scoreboard, only: :show
+    resource :teams, only: :show
 
     resources :rounds do
       scope module: :rounds do
