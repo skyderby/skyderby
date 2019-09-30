@@ -15,7 +15,7 @@ const Team = ({ rank, name, points, competitors }) => {
           ))}
         </ul>
       </Details>
-      <Points>{points}</Points>
+      <Points>{points.toFixed(1)}</Points>
     </Card>
   )
 }
