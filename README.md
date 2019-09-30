@@ -2,7 +2,7 @@
 
 [![Code Climate](https://codeclimate.com/github/skyderby/skyderby/badges/gpa.svg)](https://codeclimate.com/github/skyderby/skyderby)
 [![Test Coverage](https://codeclimate.com/github/skyderby/skyderby/badges/coverage.svg)](https://codeclimate.com/github/skyderby/skyderby/coverage)
-[![Build Status](https://travis-ci.org/skyderby/skyderby.svg?branch=dev)](https://travis-ci.org/skyderby/skyderby)
+[![CircleCI](https://circleci.com/gh/skyderby/skyderby.svg?style=svg)](https://circleci.com/gh/skyderby/skyderby)
 [![View performance data on Skylight](https://badges.skylight.io/status/WhKRVcRJzg2z.svg)](https://oss.skylight.io/app/applications/WhKRVcRJzg2z)
 
 ## Why Skyderby exists?
