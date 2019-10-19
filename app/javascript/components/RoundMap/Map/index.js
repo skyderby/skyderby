@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
 import initMapsApi from 'utils/google_maps_api'
+
+import { selectBoundaries } from 'redux/selectors/events/roundMap'
 
 import MapContext from './MapContext'
 import Legend from './Legend'
@@ -14,6 +17,14 @@ const Map = () => {
   const [mapInstance, setMapInstance] = useState()
 
   const onMapsApiReady = () => setApiReady(true)
+
+  const selectedResults = useSelector(state =>
+    state.eventRoundMap.selectedResults.map(resultId =>
+      state.eventRoundMap.results.find(el => el.id === resultId)
+    )
+  )
+
+  const boundaries = useSelector(selectBoundaries)
 
   useEffect(() => {
     window.addEventListener('maps_api:ready', onMapsApiReady, { once: true })
@@ -34,6 +45,29 @@ const Map = () => {
 
     setMapInstance(new google.maps.Map(mapElementRef.current, options))
   }, [apiReady])
+
+  useEffect(() => {
+    if (
+      !mapInstance ||
+      !boundaries.minLatitude ||
+      !boundaries.minLongitude ||
+      !boundaries.maxLatitude ||
+      !boundaries.maxLongitude
+    )
+      return
+
+    const bounds = new google.maps.LatLngBounds()
+    bounds.extend(new google.maps.LatLng(boundaries.minLatitude, boundaries.minLongitude))
+    bounds.extend(new google.maps.LatLng(boundaries.maxLatitude, boundaries.maxLongitude))
+
+    mapInstance.fitBounds(bounds)
+  }, [
+    mapInstance,
+    boundaries.minLatitude,
+    boundaries.minLongitude,
+    boundaries.maxLatitude,
+    boundaries.maxLongitude
+  ])
 
   return (
     <Container>

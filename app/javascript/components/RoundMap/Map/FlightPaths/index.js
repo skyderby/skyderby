@@ -1,14 +1,11 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
+import { selectSelectedResults } from 'redux/selectors/events/roundMap'
 import FlightPath from './FlightPath'
 
 const FlightPaths = () => {
-  const selectedResults = useSelector(state =>
-    state.eventRoundMap.selectedResults.map(resultId =>
-      state.eventRoundMap.results.find(el => el.id === resultId)
-    )
-  )
+  const selectedResults = useSelector(selectSelectedResults)
 
   return (
     <>
