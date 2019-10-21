@@ -17,8 +17,9 @@ export const selectAssignedReferencePoints = state => {
   const assignedReferencePointIds = selectAssignedReferencePointIds(state)
   const referencePoints = selectReferencePoints(state)
 
-  return referencePoints.filter(({ id }) =>
-    assignedReferencePointIds.find(assignedId => assignedId === id)
+  return referencePoints.filter(
+    ({ id }) =>
+      assignedReferencePointIds.find(assignedId => assignedId === id) !== undefined
   )
 }
 

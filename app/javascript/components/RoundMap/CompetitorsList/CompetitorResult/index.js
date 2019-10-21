@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { toggleResult } from 'redux/events/roundMap'
+import { toggleResult, panDlToResult } from 'redux/events/roundMap'
 import Modal from 'components/ui/Modal'
 
 import Direction from './Direction'
@@ -36,7 +36,7 @@ const CompetitorResult = ({ className, resultId }) => {
 
   const modalTitle = `${name} | ${I18n.t('disciplines.' + discipline)} - ${number}`
   const handleSelect = () => dispatch(toggleResult(resultId))
-  const handleShowDL = () => dispatch(() => resultId)
+  const handleShowDL = () => dispatch(panDlToResult(resultId))
   const handleShowPenaltyModal = () => setShowPenaltyModal(true)
   const onModalHide = () => setShowPenaltyModal(false)
 
