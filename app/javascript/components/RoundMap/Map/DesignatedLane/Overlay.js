@@ -1,18 +1,16 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useMemo, useEffect } from 'react'
 
-const Overlay = ({ map }) => {
-  const [overlay, setOverlay] = useState()
+import getLaneParams from './getLaneParams'
 
-  const handleAdd = overlay => {
-    console.log('Add')
+const Overlay = ({ map, startPoint, endPoint }) => {
+  const overlay = useMemo(() => new google.maps.OverlayView(), [])
+
+  const div = useMemo(() => {
     const div = document.createElement('div')
+    div.style.opacity = 0
     div.style.borderStyle = 'none'
     div.style.borderWidth = '0px'
     div.style.position = 'absolute'
-    div.style.top = 0
-    div.style.left = 0
-    div.style.height = '200px'
-    div.style.width = '100px'
 
     const img = document.createElement('img')
     img.src = '/designated-lane.png'
@@ -23,30 +21,40 @@ const Overlay = ({ map }) => {
 
     div.appendChild(img)
 
-    const panes = overlay.getPanes()
-    panes.overlayLayer.appendChild(div)
+    return div
+  }, [])
 
-    const center_position = new google.maps.LatLng(20, 20)
+  const draw = () => {
+    const { top, right, bottom, left, bearing } = getLaneParams(startPoint, endPoint)
+
+    const bounds = new google.maps.LatLngBounds(
+      new google.maps.LatLng(bottom.latitude, left.longitude),
+      new google.maps.LatLng(top.latitude, right.longitude)
+    )
+
+    const projection = overlay.getProjection()
+    const southWest = projection.fromLatLngToDivPixel(bounds.getSouthWest())
+    const northEast = projection.fromLatLngToDivPixel(bounds.getNorthEast())
+
+    div.style.opacity = 1
+    div.style.left = `${southWest.x}px`
+    div.style.top = `${northEast.y}px`
+    div.style.height = `${southWest.y - northEast.y}px`
+    div.style.width = `${northEast.x - southWest.x}px`
+    div.style.transform = `rotate(${bearing}deg)`
   }
 
-  const handleDraw = overlay => {
-    console.log('draw')
-  }
-
-  const hadnleRemove = overlay => {
-    console.log('remove')
-  }
+  overlay.onAdd = () => overlay.getPanes().overlayLayer.appendChild(div)
+  overlay.draw = draw
+  overlay.onRemove = () => div.parentNode.removeChild(div)
 
   useEffect(() => {
     if (!map) return
 
-    const overlayView = new google.maps.OverlayView()
-    overlayView.onAdd = () => handleAdd(overlayView)
-    overlayView.draw = () => handleDraw(overlayView)
-    overlayView.setMap(map)
+    overlay.setMap(map)
 
-    setOverlay(overlayView)
-  }, [map])
+    return () => overlay.setMap(null)
+  }, [map, overlay])
 
   return null
 }

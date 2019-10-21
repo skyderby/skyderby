@@ -18,12 +18,6 @@ const Map = () => {
 
   const onMapsApiReady = () => setApiReady(true)
 
-  const selectedResults = useSelector(state =>
-    state.eventRoundMap.selectedResults.map(resultId =>
-      state.eventRoundMap.results.find(el => el.id === resultId)
-    )
-  )
-
   const boundaries = useSelector(selectBoundaries)
 
   useEffect(() => {

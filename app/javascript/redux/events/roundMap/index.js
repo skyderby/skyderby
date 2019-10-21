@@ -16,6 +16,8 @@ const ASSIGN_REFERENCE_POINT = `${prefix}/ASSIGN_REFERENCE_POINT`
 
 const UPDATE_PENALTY = `${prefix}/UPDATE_PENALTY`
 
+const UPDATE_DL = `${prefix}/PAN_DL_TO_RESULT`
+
 const DEFAULT_STATE = {
   editable: false,
   eventId: undefined,
@@ -23,7 +25,11 @@ const DEFAULT_STATE = {
   groups: [],
   results: [],
   selectedResults: [],
-  designatedLaneFor: undefined,
+  designatedLane: {
+    enabled: false,
+    startPoint: undefined,
+    endPoint: undefined
+  },
   referencePointAssignments: [],
   isLoading: false,
   isLoaded: true,
@@ -97,6 +103,37 @@ export function updatePenalty(resultId, penalty) {
     } catch (err) {
       alert(err)
     }
+  }
+}
+
+export function panDlToResult(resultId) {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: UPDATE_DL,
+      payload: { enabled: false, startPoint: undefined, endPoint: undefined }
+    })
+
+    const {
+      eventRoundMap: { results, referencePointAssignments, eventId }
+    } = getState()
+    const { afterExitPoint, competitorId } = results.find(el => el.id === resultId)
+    const { eventReferencePoints } = getState()
+    const referencePoints = eventReferencePoints[eventId].items
+
+    const referencePointAssignment = referencePointAssignments.find(
+      el => el.competitorId === competitorId
+    )
+    const referencePoint = referencePoints.find(
+      el => el.id === referencePointAssignment.referencePointId
+    )
+
+    // setTimeout is a workaround to reset state in DesignatedLane component
+    setTimeout(() =>
+      dispatch({
+        type: UPDATE_DL,
+        payload: { enabled: true, startPoint: afterExitPoint, endPoint: referencePoint }
+      })
+    )
   }
 }
 
@@ -182,6 +219,11 @@ export default function reducer(state = DEFAULT_STATE, action = {}) {
 
           return result
         })
+      }
+    case UPDATE_DL:
+      return {
+        ...state,
+        designatedLane: action.payload
       }
     default:
       return state
