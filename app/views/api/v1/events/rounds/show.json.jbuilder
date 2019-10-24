@@ -2,14 +2,7 @@ json.key_format! camelize: :lower
 
 json.editable policy(@round.event).update? && !@round.event.finished?
 
-json.extract! @round,
-              :id,
-              :event_id,
-              :discipline,
-              :number,
-              :range_from,
-              :range_to,
-              :designated_lane_start
+json.extract! @round, :id, :discipline, :number
 
 json.groups do
   json.array! @round.groups do |group|

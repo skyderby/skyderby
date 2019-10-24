@@ -22,7 +22,7 @@ const Modal = props => {
   }, [isShown])
 
   const handleOverlayClick = e => {
-    if (e.target === e.currentTarget) handleHide()
+    if (e.target === e.currentTarget) handleHide(e)
   }
 
   const handleHide = e => {

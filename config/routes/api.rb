@@ -24,7 +24,7 @@ namespace :api, module: :api, defaults: { format: :json } do
       end
     end
 
-    resources :events, only: [] do
+    resources :events, only: :show do
       scope module: :events do
         resource :scoreboard, only: :show
 

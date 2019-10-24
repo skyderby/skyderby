@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 import Container from 'components/ui/FullscreenContainer'
+import BackLink from 'components/ui/BackLink'
 import shuffle from 'utils/shuffle'
 import Player from './Player'
 
@@ -52,9 +53,7 @@ const RoundReplay = ({ eventId, roundId }) => {
   return (
     <Container>
       <Header>
-        <BackButton href={`/events/${eventId}`}>
-          <i className="fa fa-chevron-left"></i>
-        </BackButton>
+        <BackLink href={`/events/${eventId}`} />
         <Select onChange={handleGroupChange}>
           <option value="">Select group</option>
           <option value="Top4">Top 4</option>
@@ -74,19 +73,6 @@ const RoundReplay = ({ eventId, roundId }) => {
     </Container>
   )
 }
-
-const BackButton = styled.a`
-  color: #555;
-  border-radius: 4px;
-  font-size: 24px;
-  padding: 0px 12px 0px 10px;
-
-  &:hover {
-    background-color: #f3f3f3;
-    color: #555;
-    text-decoration: none;
-  }
-`
 
 const PlayButton = styled.button`
   border-radius: 4px;

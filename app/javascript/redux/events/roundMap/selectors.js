@@ -1,6 +1,3 @@
-const selectReferencePoints = state =>
-  (state.eventReferencePoints[state.eventRoundMap.eventId] || {}).items || []
-
 const selectAssignedReferencePointIds = state => [
   ...new Set(
     state.eventRoundMap.referencePointAssignments
@@ -12,6 +9,8 @@ const selectAssignedReferencePointIds = state => [
 const selectResults = state => state.eventRoundMap.results
 
 const selectSelectedResultIds = state => state.eventRoundMap.selectedResults
+
+export const selectReferencePoints = state => state.eventRoundMap.referencePoints
 
 export const selectAssignedReferencePoints = state => {
   const assignedReferencePointIds = selectAssignedReferencePointIds(state)

@@ -3,8 +3,7 @@ import thunk from 'redux-thunk'
 import logger from 'redux-logger'
 
 import eventRoundMap from 'redux/events/roundMap'
-import eventReferencePoints from 'redux/events/referencePoints'
 
-const rootReducer = combineReducers({ eventRoundMap, eventReferencePoints })
+const rootReducer = combineReducers({ eventRoundMap })
 
 export default createStore(rootReducer, applyMiddleware(thunk, logger))
