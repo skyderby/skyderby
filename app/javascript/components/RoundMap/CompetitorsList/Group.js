@@ -41,7 +41,6 @@ const Header = styled.div`
 
 const Container = styled.div`
   padding: 10px;
-  margin-bottom: 15px;
 `
 
 Group.propTypes = {

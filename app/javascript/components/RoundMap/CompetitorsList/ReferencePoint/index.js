@@ -2,7 +2,8 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { assignReferencePoint } from 'redux/events/roundMap'
+import { assignReferencePoint } from 'redux/events/roundMap/referencePointAssignments'
+import { selectReferencePoints } from 'redux/events/roundMap/selectors'
 
 import ReadOnly from './ReadOnly'
 import Select from './Select'
@@ -10,7 +11,7 @@ import Select from './Select'
 const ReferencePoint = ({ competitorId }) => {
   const dispatch = useDispatch()
 
-  const { eventId, editable } = useSelector(state => state.eventRoundMap)
+  const { editable } = useSelector(state => state.eventRoundMap)
   const { referencePointId } = useSelector(
     state =>
       state.eventRoundMap.referencePointAssignments.find(
@@ -18,9 +19,7 @@ const ReferencePoint = ({ competitorId }) => {
       ) || {}
   )
 
-  const { items: referencePoints } = useSelector(
-    state => state.eventReferencePoints[eventId] || {}
-  )
+  const referencePoints = useSelector(selectReferencePoints)
 
   const handleChange = ({ value }) => {
     dispatch(assignReferencePoint(competitorId, value))

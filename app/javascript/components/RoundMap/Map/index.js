@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import initMapsApi from 'utils/google_maps_api'
 
-import { selectBoundaries } from 'redux/selectors/events/roundMap'
+import { selectBoundaries } from 'redux/events/roundMap/selectors'
 
 import MapContext from './MapContext'
 import Legend from './Legend'

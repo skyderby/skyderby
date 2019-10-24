@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { loadRoundMap } from 'redux/events/roundMap'
-import { loadReferencePoints } from 'redux/events/referencePoints'
 import Container from 'components/ui/FullscreenContainer'
+import BackLink from 'components/ui/BackLink'
 import Map from './Map'
 import CompetitorsList from './CompetitorsList'
 import LoadingPlaceholder from './LoadingPlaceholder'
@@ -13,16 +13,20 @@ import LoadingPlaceholder from './LoadingPlaceholder'
 const RoundMap = ({ eventId, roundId }) => {
   const dispatch = useDispatch()
 
-  const { isLoading } = useSelector(state => state.eventRoundMap)
+  const {
+    isLoading,
+    event: { name: eventName }
+  } = useSelector(state => state.eventRoundMap)
 
   useEffect(() => {
     dispatch(loadRoundMap(eventId, roundId))
-    dispatch(loadReferencePoints(eventId))
   }, [eventId, roundId, dispatch])
 
   return (
     <Container>
-      <Header>Back</Header>
+      <Header>
+        <BackLink href={`/events/${eventId}`}>{eventName}</BackLink>
+      </Header>
       <MainArea>
         {isLoading ? (
           <LoadingPlaceholder />

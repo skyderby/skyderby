@@ -14,7 +14,7 @@ const PenaltyLabel = ({ className, penalized, penaltySize }) => {
 PenaltyLabel.propTypes = {
   className: PropTypes.string.isRequired,
   penalized: PropTypes.bool,
-  penaltySize: PropTypes.number
+  penaltySize: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 }
 
 PenaltyLabel.defaultProps = {
