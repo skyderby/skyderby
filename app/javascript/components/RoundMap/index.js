@@ -15,6 +15,8 @@ const RoundMap = ({ eventId, roundId }) => {
 
   const {
     isLoading,
+    discipline,
+    number,
     event: { name: eventName }
   } = useSelector(state => state.eventRoundMap)
 
@@ -22,10 +24,14 @@ const RoundMap = ({ eventId, roundId }) => {
     dispatch(loadRoundMap(eventId, roundId))
   }, [eventId, roundId, dispatch])
 
+  const headerText =
+    discipline && number && `// ${I18n.t('disciplines.' + discipline)} - ${number}`
+
   return (
     <Container>
       <Header>
         <BackLink href={`/events/${eventId}`}>{eventName}</BackLink>
+        {headerText}
       </Header>
       <MainArea>
         {isLoading ? (
@@ -42,6 +48,9 @@ const RoundMap = ({ eventId, roundId }) => {
 }
 
 const Header = styled.div`
+  color: #999;
+  font-family: 'Proxima Nova Semibold';
+  font-size: 24px;
   display: flex;
   align-items: center;
   padding: 0 5px;
