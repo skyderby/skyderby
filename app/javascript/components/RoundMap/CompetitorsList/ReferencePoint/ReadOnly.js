@@ -29,6 +29,7 @@ export default styled(ReadOnly)`
   margin-left: auto;
   display: flex;
   align-items: center;
+  white-space: nowrap;
 
   i {
     color: #999;
