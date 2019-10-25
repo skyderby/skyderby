@@ -10,9 +10,7 @@ module Api
 
             @result = event.results.find(params[:result_id])
 
-            if @result.update!(penalty_params)
-              head :ok
-            end
+            head :ok if @result.update!(penalty_params)
           end
 
           private
