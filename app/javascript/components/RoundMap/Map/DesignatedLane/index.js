@@ -4,13 +4,15 @@ import { useSelector } from 'react-redux'
 import MapContext from 'components/RoundMap/Map/MapContext'
 import Overlay from './Overlay'
 import Marker from './Marker'
+import MostDistantPoint from './MostDistantPoint'
 
 const DesignatedLane = () => {
   const { map } = useContext(MapContext)
   const {
     enabled,
     startPoint: initialStartPoint = {},
-    endPoint: initialEndPoint = {}
+    endPoint: initialEndPoint = {},
+    laneViolation
   } = useSelector(state => state.eventRoundMap.designatedLane)
 
   const [startPoint, setStartPoint] = useState({
@@ -49,6 +51,8 @@ const DesignatedLane = () => {
       <Overlay map={map} startPoint={startPoint} endPoint={endPoint} />
       <Marker map={map} {...startPoint} onDrag={handleStartPointDrag} />
       <Marker map={map} {...endPoint} onDrag={handleEndPointDrag} />
+
+      {laneViolation && <MostDistantPoint map={map} laneViolation={laneViolation} />}
     </>
   )
 }
