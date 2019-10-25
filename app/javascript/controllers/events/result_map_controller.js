@@ -87,6 +87,8 @@ export default class extends Controller {
       path_coordinates
     } = this.map_data
 
+    if (!reference_point) return
+
     const point = getLaneViolation(
       path_coordinates.map(el => ({
         latitude: el.lat,
@@ -94,6 +96,7 @@ export default class extends Controller {
         gpsTime: el.gpsTime
       })),
       {
+        ...after_exit_point,
         latitude: after_exit_point.lat,
         longitude: after_exit_point.lng
       },
@@ -102,10 +105,7 @@ export default class extends Controller {
         longitude: reference_point.lng
       },
       {
-        latitude: after_exit_point.lat,
-        longitude: after_exit_point.lng
-      },
-      {
+        ...end_point,
         latitude: end_point.lat,
         longitude: end_point.lng
       }

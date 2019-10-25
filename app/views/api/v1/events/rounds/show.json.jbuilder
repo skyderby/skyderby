@@ -33,7 +33,7 @@ json.results do
     json.exitAltitude competitor_result.exit_altitude.to_i
 
     json.afterExitPoint do
-      json.extract! competitor_result.after_exit_point, :latitude, :longitude
+      json.extract! competitor_result.after_exit_point, :latitude, :longitude, :gps_time
     end
 
     json.startPoint do

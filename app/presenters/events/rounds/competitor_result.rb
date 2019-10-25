@@ -35,6 +35,10 @@ module Events
         points.find(points.first) { |point| point[:gps_time] > time_for_lookup }
       end
 
+      def exit_time
+        exit_point[:gps_time]
+      end
+
       def exit_point
         gr_threshold = 10
 

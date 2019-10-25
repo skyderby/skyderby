@@ -55,18 +55,12 @@ const mostDistantPoint = (
   )
 }
 
-const getLaneViolation = (
-  points,
-  laneEnterPoint,
-  referencePoint,
-  enterWindowPoint,
-  exitWindowPoint
-) => {
+const getLaneViolation = (points, laneEnterPoint, referencePoint, exitWindowPoint) => {
   const mostDistantPointUntilWindowExit = mostDistantPoint(
     points,
     laneEnterPoint,
     referencePoint,
-    enterWindowPoint,
+    laneEnterPoint,
     exitWindowPoint
   )
 

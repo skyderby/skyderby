@@ -79,7 +79,6 @@ export const showDlForResult = resultId => {
       points,
       startPoint,
       referencePoint,
-      enterWindowPoint,
       exitWindowPoint
     )
 
