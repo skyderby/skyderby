@@ -11,7 +11,7 @@ shared_examples 'event_ongoing_validation' do
     end
 
     it 'should have error message' do
-      expect(@target.errors.messages[:base]).to include(I18n.t('activerecord.errors.models.event/competitor.attributes.base.event_finished'))
+      expect(@target.errors.details[:base]).to include(error: :event_finished)
     end
   end
 
@@ -27,7 +27,7 @@ shared_examples 'event_ongoing_validation' do
 
     it 'should have error message' do
       @target.destroy
-      expect(@target.errors.messages[:base]).to include(I18n.t('activerecord.errors.models.event/competitor.attributes.base.event_finished'))
+      expect(@target.errors.details[:base]).to include(error: :event_finished)
     end
   end
 end
