@@ -12,7 +12,7 @@ const MostDistantPoint = ({ map, laneViolation }) => {
         lng: Number(laneViolation.longitude)
       },
       map: map,
-      content: `Deviation: ${Math.round(deviation * 10) / 10}m`
+      content: `Violation: ${Math.round(deviation * 10) / 10}m`
     })
 
     return () => infoWindow.setMap(null)

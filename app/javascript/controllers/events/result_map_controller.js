@@ -1,6 +1,6 @@
 import { Controller } from 'stimulus'
 import init_maps_api from 'utils/google_maps_api'
-import mostDistantPoint from 'utils/checkLaneViolation'
+import getLaneViolation from 'utils/checkLaneViolation'
 
 const START_POINT_COLOR = '#ff1053'
 const END_POINT_COLOR = '#5FAD41'
@@ -87,11 +87,28 @@ export default class extends Controller {
       path_coordinates
     } = this.map_data
 
-    const point = mostDistantPoint(
-      path_coordinates,
-      after_exit_point,
-      reference_point,
-      end_point
+    const point = getLaneViolation(
+      path_coordinates.map(el => ({
+        latitude: el.lat,
+        longitude: el.lng,
+        gpsTime: el.gpsTime
+      })),
+      {
+        latitude: after_exit_point.lat,
+        longitude: after_exit_point.lng
+      },
+      {
+        latitude: reference_point.lat,
+        longitude: reference_point.lng
+      },
+      {
+        latitude: after_exit_point.lat,
+        longitude: after_exit_point.lng
+      },
+      {
+        latitude: end_point.lat,
+        longitude: end_point.lng
+      }
     )
 
     if (!point) return
@@ -100,9 +117,9 @@ export default class extends Controller {
       const deviation = point.distance - 300
 
       new google.maps.InfoWindow({
-        position: { lat: point.lat, lng: point.lng },
+        position: { lat: point.latitude, lng: point.longitude },
         map: this.map,
-        content: `Deviation: ${Math.round(deviation * 10) / 10}m`
+        content: `Violation: ${Math.round(deviation * 10) / 10}m`
       })
     }
   }
