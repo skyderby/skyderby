@@ -1,9 +1,7 @@
 <% provide :title, @event.name %>
 
 <div
-  data-controller="events--round-map-v2"
+  data-controller="events--round-map"
   data-event-id="<%= @event.id %>"
   data-round-id="<%= @round.id %>">
 </div>
-
-<%# <%= render 'round_map' %>

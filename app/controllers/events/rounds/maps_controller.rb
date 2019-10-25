@@ -5,17 +5,12 @@ module Events
 
       def show
         authorize @event
-        @round_map = Map.new(@round)
       end
 
       private
 
       def set_round
-        @round =
-          @event
-          .rounds
-          .includes(results: [:track, { competitor: :profile }])
-          .find(params[:round_id])
+        @round = @event.rounds.find(params[:round_id])
       end
 
       def set_event

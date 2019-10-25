@@ -1,28 +1,68 @@
-describe Api::V1::Events::ReferencePointAssignmentsController do
-  it '#create' do
-    sign_in users(:event_responsible)
+describe Api::V1::Events::Rounds::ReferencePointAssignmentsController do
+  describe '#create' do
+    it 'correct user assigns point' do
+      sign_in users(:event_responsible)
 
-    event = events(:published_public)
-    competitor = event_competitors(:competitor_1)
-    round = event_rounds(:distance_round_1)
+      event = events(:published_public)
+      competitor = event_competitors(:competitor_1)
+      round = event_rounds(:distance_round_1)
+      reference_point = event.reference_points.create! \
+        name: 'R1',
+        latitude: 20,
+        longitude: 20
 
-    params = {
-      event_id: event.id,
-      round_name: 'Distance-1',
-      competitor_id: competitor.id,
-      'reference_point[name]': 'Target 1',
-      'reference_point[latitude]': 20,
-      'reference_point[longitude]': 20
-    }
+      params = {
+        event_id: event.id,
+        round_id: round.id,
+        competitor_id: competitor.id,
+        reference_point_id: reference_point.id
+      }
 
-    post :create, params: params, format: :json
+      post :create, params: params, format: :json
 
-    expect(response.successful?).to be_truthy
+      expect(response).to be_successful
 
-    reference_point = event.reference_points.find_by(name: 'Target 1')
-    expect(reference_point).to be_present
+      assignment = event.reference_point_assignments.find_by(competitor: competitor, round: round)
+      expect(assignment.reference_point).to eq(reference_point)
+    end
 
-    assignment = event.reference_point_assignments.find_by(competitor: competitor, round: round)
-    expect(assignment.reference_point).to eq(reference_point)
+    it 'correct user nullify assignment' do
+      sign_in users(:event_responsible)
+
+      event = events(:published_public)
+      competitor = event_competitors(:competitor_1)
+      round = event_rounds(:distance_round_1)
+
+      params = {
+        event_id: event.id,
+        round_id: round.id,
+        competitor_id: competitor.id,
+        reference_point_id: nil
+      }
+
+      post :create, params: params, format: :json
+
+      expect(response).to be_successful
+
+      assignment = event.reference_point_assignments.find_by(competitor: competitor, round: round)
+      expect(assignment.reference_point).to eq(nil)
+    end
+
+    it 'incorrect user nullify assignment' do
+      event = events(:published_public)
+      competitor = event_competitors(:competitor_1)
+      round = event_rounds(:distance_round_1)
+
+      params = {
+        event_id: event.id,
+        round_id: round.id,
+        competitor_id: competitor.id,
+        reference_point_id: nil
+      }
+
+      post :create, params: params, format: :json
+
+      expect(response).to be_forbidden
+    end
   end
 end
