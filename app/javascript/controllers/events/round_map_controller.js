@@ -1,6 +1,6 @@
 import { Controller } from 'stimulus'
 import init_maps_api from 'utils/google_maps_api'
-import mostDistantPoint from 'utils/mostDistantPoint'
+import mostDistantPoint from 'utils/checkLaneViolation'
 
 const START_POINT_COLOR = '#ff1053'
 const END_POINT_COLOR = '#5FAD41'

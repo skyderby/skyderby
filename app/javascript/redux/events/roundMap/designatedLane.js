@@ -6,30 +6,21 @@ const RESET_DL = `${prefix} RESET`
 const initialState = {
   enabled: false,
   startPoint: undefined,
-  endPoint: undefined
+  endPoint: undefined,
+  laneViolation: undefined
 }
 
-export function panDlToResult(resultId) {
-  return async (dispatch, getState) => {
+export function updateDL({ enabled, startPoint, endPoint, laneViolation }) {
+  return async dispatch => {
     dispatch({ type: RESET_DL })
 
-    const {
-      eventRoundMap: { results, referencePoints, referencePointAssignments }
-    } = getState()
-    const { afterExitPoint, competitorId } = results.find(el => el.id === resultId)
-
-    const referencePointAssignment = referencePointAssignments.find(
-      el => el.competitorId === competitorId
-    )
-    const referencePoint = referencePoints.find(
-      el => el.id === referencePointAssignment.referencePointId
-    )
+    if (!enabled) return
 
     // setTimeout is a workaround to reset state in DesignatedLane component
     setTimeout(() =>
       dispatch({
         type: UPDATE_DL,
-        payload: { enabled: true, startPoint: afterExitPoint, endPoint: referencePoint }
+        payload: { enabled, startPoint, endPoint, laneViolation }
       })
     )
   }
