@@ -1,7 +1,7 @@
-import { h } from 'preact'
-import { useEffect, useState } from 'preact/compat'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
+import PropTypes from 'prop-types'
 
 import Team from './Team'
 
@@ -34,18 +34,18 @@ const TeamsCompetition = ({ eventId }) => {
   const [teams, setTeams] = useState([])
   const [competitors, setCompetitors] = useState([])
 
-  const fetchData = async eventId => {
+  const loadData = async eventId => {
     const url = `/api/v1/events/${eventId}/scoreboard.json`
-    const { data } = await axios.get(url)
-
-    return data
-  }
-
-  useEffect(async () => {
-    const { teams, competitors } = await fetchData(eventId)
+    const {
+      data: { teams, competitors }
+    } = await axios.get(url)
 
     setTeams(teams)
     setCompetitors(competitors)
+  }
+
+  useEffect(() => {
+    loadData(eventId)
   }, [eventId])
 
   const rankedTeams = rankTeams(teams, competitors)
@@ -65,5 +65,9 @@ const Container = styled.div`
   flex-direction: column;
   padding: 30px 0;
 `
+
+TeamsCompetition.propTypes = {
+  eventId: PropTypes.string.isRequired
+}
 
 export default TeamsCompetition
