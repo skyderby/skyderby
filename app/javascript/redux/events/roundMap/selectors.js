@@ -12,6 +12,12 @@ const selectSelectedResultIds = state => state.eventRoundMap.selectedResults
 
 export const selectReferencePoints = state => state.eventRoundMap.referencePoints
 
+export const selectReferencePointById = (state, id) => {
+  const referencePoints = selectReferencePoints(state)
+
+  return referencePoints.find(referencePoint => referencePoint.id === id)
+}
+
 export const selectAssignedReferencePoints = state => {
   const assignedReferencePointIds = selectAssignedReferencePointIds(state)
   const referencePoints = selectReferencePoints(state)

@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-const ReadOnly = ({ className, referencePointId }) => {
-  const { eventId } = useSelector(state => state.eventRoundMap)
+import { selectReferencePointById } from 'redux/events/roundMap/selectors'
 
+const ReadOnly = ({ className, referencePointId }) => {
   const referencePoint = useSelector(state =>
-    state.eventReferencePoints[eventId].items.find(({ id }) => id === referencePointId)
+    selectReferencePointById(state, referencePointId)
   )
 
   if (!referencePoint) return null
