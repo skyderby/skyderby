@@ -5,7 +5,13 @@ module Events
 
       attr_reader :round, :event
 
-      delegate :id, :event_id, :discipline, :number, :reference_point_assignments, to: :round
+      delegate :id,
+               :event_id,
+               :discipline,
+               :number,
+               :results,
+               :reference_point_assignments,
+               to: :round
       delegate :designated_lane_start, :range_from, :range_to, to: :event
 
       def initialize(event, round_id)
@@ -24,7 +30,7 @@ module Events
 
       def competitor_results
         @competitor_results ||=
-          round.results.map { |result| CompetitorResult.new(result) }
+          results.map { |result| CompetitorResult.new(result) }.sort_by(&:exit_time)
       end
     end
   end
