@@ -1,3 +1,5 @@
+import { showDlForResult } from './showDlForResult'
+
 const prefix = '[events/roundMap/selectedResults]'
 
 const SELECT_GROUP = `${prefix} SELECT_GROUP`
@@ -10,7 +12,19 @@ export const toggleResult = resultId => {
 }
 
 export const selectGroup = resultIds => {
-  return dispatch => dispatch({ type: SELECT_GROUP, payload: resultIds })
+  return (dispatch, getState) => {
+    dispatch({ type: SELECT_GROUP, payload: resultIds })
+
+    const {
+      eventRoundMap: {
+        designatedLane: { enabled: designatedLaneEnabled }
+      }
+    } = getState()
+
+    if (designatedLaneEnabled && resultIds.length > 0) {
+      dispatch(showDlForResult(resultIds[0]))
+    }
+  }
 }
 
 export default function reducer(state = initialState, action = {}) {
