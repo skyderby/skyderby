@@ -1,2 +1,2 @@
-class Place::PhotoPolicy < ApplicationPolicy
+class Place::PhotoPolicy < PlacePolicy
 end

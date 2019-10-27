@@ -1,2 +1,2 @@
-class Place::FinishLinePolicy < ApplicationPolicy
+class Place::FinishLinePolicy < PlacePolicy
 end
