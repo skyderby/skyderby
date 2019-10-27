@@ -30,7 +30,9 @@ gem 'haml'
 gem 'jbuilder', '~> 2.6'
 
 # Files attachments
+gem 'aws-sdk-s3'
 gem 'paperclip', '~> 6.0'
+gem 'shrine', '~> 3.0'
 
 # XML
 gem 'nokogiri', '~> 1.8'

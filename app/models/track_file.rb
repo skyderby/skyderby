@@ -19,6 +19,8 @@ class TrackFile < ApplicationRecord
   has_attached_file :file
   validates_attachment_file_name :file, matches: [/csv\Z/i, /gpx\Z/i, /tes\Z/i, /kml\Z/i]
 
+  include PaperclipShrineSync
+
   delegate :empty?, to: :segments, prefix: true
 
   def track_file_data(index = 0)

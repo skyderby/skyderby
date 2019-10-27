@@ -51,6 +51,22 @@ GEM
     ast (2.4.0)
     autoprefixer-rails (9.5.0)
       execjs
+    aws-eventstream (1.0.3)
+    aws-partitions (1.228.0)
+    aws-sdk-core (3.72.0)
+      aws-eventstream (~> 1.0, >= 1.0.2)
+      aws-partitions (~> 1, >= 1.228.0)
+      aws-sigv4 (~> 1.1)
+      jmespath (~> 1.0)
+    aws-sdk-kms (1.25.0)
+      aws-sdk-core (~> 3, >= 3.71.0)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-s3 (1.51.0)
+      aws-sdk-core (~> 3, >= 3.71.0)
+      aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.1)
+    aws-sigv4 (1.1.0)
+      aws-eventstream (~> 1.0, >= 1.0.2)
     axlsx (3.0.0.pre)
       htmlentities (~> 4.3, >= 4.3.4)
       mimemagic (~> 0.3)
@@ -88,6 +104,7 @@ GEM
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
     connection_pool (2.2.2)
+    content_disposition (1.0.0)
     crass (1.0.4)
     devise (4.6.1)
       bcrypt (~> 3.0)
@@ -101,6 +118,8 @@ GEM
     dotenv-rails (2.7.1)
       dotenv (= 2.7.1)
       railties (>= 3.2, < 6.1)
+    down (5.0.0)
+      addressable (~> 2.5)
     erubi (1.8.0)
     et-orbi (1.1.7)
       tzinfo
@@ -135,6 +154,7 @@ GEM
     jbuilder (2.8.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
+    jmespath (1.4.0)
     json (2.2.0)
     jwt (2.1.0)
     loofah (2.2.3)
@@ -294,6 +314,9 @@ GEM
     selenium-webdriver (3.141.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
+    shrine (3.0.1)
+      content_disposition (~> 1.0)
+      down (~> 5.0)
     sidekiq (5.2.5)
       connection_pool (~> 2.2, >= 2.2.2)
       rack (>= 1.5.0)
@@ -354,6 +377,7 @@ PLATFORMS
 
 DEPENDENCIES
   annotate
+  aws-sdk-s3
   axlsx (= 3.0.0.pre)
   axlsx_rails
   bootsnap
@@ -392,6 +416,7 @@ DEPENDENCIES
   sassc-rails
   scenic
   selenium-webdriver
+  shrine (~> 3.0)
   sidekiq (< 6)
   sidekiq-cron (~> 1.0)
   simplecov
