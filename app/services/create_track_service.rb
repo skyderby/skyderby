@@ -56,15 +56,15 @@ class CreateTrackService
 
   def points
     @points ||= read_points_from_file(
-      path: track_file.file_path,
+      file: track_file.file,
       segment: segment,
       format: track_file.file_format
     )
   end
 
-  def read_points_from_file(path:, segment:, format:)
+  def read_points_from_file(file:, segment:, format:)
     points = TrackParser.for(format).new(
-      path: path,
+      file: file,
       segment: segment
     ).parse
 

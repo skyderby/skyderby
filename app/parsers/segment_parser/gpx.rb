@@ -1,7 +1,7 @@
 module SegmentParser
   class GPX
-    def initialize(path:)
-      @file_path = path
+    def initialize(file)
+      @file = file
     end
 
     def segments
@@ -10,11 +10,10 @@ module SegmentParser
 
     private
 
-    attr_reader :file_path
+    attr_reader :file
 
     def xml_document
-      @xml_document ||=
-        File.open(file_path) { |f| Nokogiri::XML(f) }.tap(&:remove_namespaces!)
+      @xml_document ||= Nokogiri::XML(file.open).tap(&:remove_namespaces!)
     end
   end
 end

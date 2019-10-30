@@ -6,8 +6,7 @@ module Tracks
       authorize @track, :download?
 
       track_file = @track.track_file
-      file_path = Paperclip.io_adapters.for(track_file.file).path
-      send_file file_path, filename: track_file.file_file_name
+      send_file track_file.file.download, filename: track_file.file.original_filename
     end
   end
 end

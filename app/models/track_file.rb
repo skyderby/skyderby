@@ -12,14 +12,11 @@
 #
 
 class TrackFile < ApplicationRecord
-  attr_accessor :file, :track_attributes
+  include TrackUploader::Attachment.new(:file)
+
+  attr_accessor :track_attributes
 
   has_one :track, dependent: :restrict_with_error
-
-  has_attached_file :file
-  validates_attachment_file_name :file, matches: [/csv\Z/i, /gpx\Z/i, /tes\Z/i, /kml\Z/i]
-
-  include PaperclipShrineSync
 
   delegate :empty?, to: :segments, prefix: true
 
@@ -28,22 +25,18 @@ class TrackFile < ApplicationRecord
   end
 
   def segments
-    @segments ||= SegmentParser.for(file_format).new(path: file_path).segments
+    @segments ||= SegmentParser.for(file_format).new(file).segments
   end
 
   def one_segment?
     segments.size == 1
   end
 
-  def file_path
-    Paperclip.io_adapters.for(file).path
-  end
-
   def file_extension
-    File.extname(file_file_name).delete('.').downcase
+    File.extname(file.original_filename).delete('.').downcase
   end
 
   def file_format
-    TrackFormatDetector.new(path: file_path).execute
+    TrackFormatDetector.call(file, file_extension)
   end
 end

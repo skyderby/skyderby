@@ -16,12 +16,12 @@ module TrackParser
     MS_IN_KMH = 3.6
 
     def initialize(args = {})
-      @file_path = args[:path]
+      @file = args[:file]
     end
 
     def parse
       track_points = []
-      CSV.foreach(file_path) do |row|
+      CSV.new(file.open).each do |row|
         next unless row[TIME].to_s.match?(/^[0-9]{4}-[0-9]{2}-[0-9]{2}/)
 
         track_points << parse_row(row)
@@ -31,6 +31,8 @@ module TrackParser
     end
 
     private
+
+    attr_reader :file
 
     def parse_row(row)
       PointRecord.new.tap do |r|
@@ -57,7 +59,5 @@ module TrackParser
     def gps_time(time_str)
       Time.strptime(time_str, '%Y-%m-%dT%H:%M:%S.%L %Z')
     end
-
-    attr_reader :file_path
   end
 end

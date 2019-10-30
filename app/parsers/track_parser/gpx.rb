@@ -1,12 +1,12 @@
 module TrackParser
   class Gpx
     def initialize(args = {})
-      @file_path = args[:path]
+      @file = args[:file]
       @segment = args.fetch(:segment, 0).to_i + 1
     end
 
     def parse
-      doc = File.open(file_path) { |f| Nokogiri::XML(f) }
+      doc = Nokogiri::XML(file.open)
       doc.remove_namespaces!
 
       doc.xpath("/gpx/trk[#{segment}]/trkseg/trkpt").map do |node|
@@ -16,6 +16,8 @@ module TrackParser
 
     private
 
+    attr_reader :file, :segment
+
     def parse_point(node)
       PointRecord.new.tap do |p|
         p.latitude  = node.attr('lat').to_f
@@ -24,7 +26,5 @@ module TrackParser
         p.gps_time = Time.zone.parse(node.xpath('./time/text()').to_s)
       end
     end
-
-    attr_reader :file_path, :segment
   end
 end

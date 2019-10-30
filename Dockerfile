@@ -1,4 +1,4 @@
-FROM ruby:2.6.2
+FROM ruby:2.6.5
 
 MAINTAINER Aleksandr Kunin <skyksandr@gmail.com>
 
@@ -31,12 +31,13 @@ RUN mkdir -p /opt/app \
   && mkdir -p /tmp/sockets
 COPY ./ /opt/app
 
-RUN DATABASE_URL=postgres://user:pass@127.0.0.1/does_not_exist_dbname /bin/sh -c 'bundle exec rake assets:precompile' && \
-      rm -rf node_modules
+RUN DATABASE_URL=postgres://user:pass@127.0.0.1/does_not_exist_dbname \
+  /bin/sh -c 'bundle exec rails assets:precompile' && \
+  rm -rf node_modules
 
 VOLUME /opt/app/public/assets
 VOLUME /opt/app/public/packs
 VOLUME /opt/app/public
 
-CMD rake db:migrate \
+CMD rails db:migrate \
   && bundle exec puma -C config/puma.rb

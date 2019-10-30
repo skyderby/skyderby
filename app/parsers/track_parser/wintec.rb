@@ -17,7 +17,7 @@ module TrackParser
     BYTES_RECORD = 16
 
     def initialize(args = {})
-      @file_path = args[:path]
+      @file = args[:file]
     end
 
     def parse
@@ -27,7 +27,7 @@ module TrackParser
 
     private
 
-    attr_reader :file_path
+    attr_reader :file
 
     def unpacked_data
       @unpacked_data ||= begin
@@ -36,7 +36,7 @@ module TrackParser
     end
 
     def file_data
-      File.new(file_path).read
+      file.open.read
     end
 
     def parse_row(unpacked_string, start_index)

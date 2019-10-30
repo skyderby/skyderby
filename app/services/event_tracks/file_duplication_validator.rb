@@ -43,8 +43,7 @@ module EventTracks
       @duplicate ||=
         TrackFile
         .joins(track: [event_result: [round: :event]])
-        .where(file_file_name: track_file.file_file_name,
-               file_file_size: track_file.file_file_size)
+        .where("file_data->'metadata'->>'md5' = ?", track_file.file.metadata['md5'])
         .where('events.id' => result.event_id)
         .where.not(id: track_file.id)
         .first

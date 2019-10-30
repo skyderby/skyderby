@@ -25,7 +25,7 @@ module TrackParser
 
   class Kml
     def initialize(args = {})
-      @file_path = args[:path]
+      @file = args[:file]
     end
 
     def parse
@@ -56,11 +56,11 @@ module TrackParser
 
     private
 
+    attr_reader :file
+
     def elements
-      doc = File.open(file_path) { |f| Nokogiri::XML(f) }
+      doc = Nokogiri::XML(file.open)
       doc.search('//gx:Track/*')
     end
-
-    attr_reader :file_path
   end
 end

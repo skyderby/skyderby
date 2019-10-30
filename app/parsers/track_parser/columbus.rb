@@ -19,12 +19,12 @@ module TrackParser
     WEST  = 'W'.freeze
 
     def initialize(args = {})
-      @file_path = args[:path]
+      @file = args[:file]
     end
 
     def parse
       track_points = []
-      CSV.foreach(file_path, skip_lines: /^INDEX/) do |row|
+      CSV.new(file.open, skip_lines: /^INDEX/).each do |row|
         next if row[ALTITUDE].to_f.zero?
 
         track_points << parse_row(row)
@@ -34,6 +34,8 @@ module TrackParser
     end
 
     private
+
+    attr_reader :file
 
     def parse_row(row)
       PointRecord.new.tap do |r|
@@ -54,7 +56,5 @@ module TrackParser
     def parse_datetime(date:, time:)
       Time.strptime("#{date}T#{time} UTC", '%y%m%dT%H%M%S %Z')
     end
-
-    attr_reader :file_path
   end
 end
