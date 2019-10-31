@@ -35,6 +35,14 @@ describe Event::Result do
     end
   end
 
+  it 'rounds result correctly' do
+    result = event_results(:distance_competitor_1)
+    result.result = 266.3477
+    result.save!
+
+    expect(result.reload.result.round(1)).to eq(266.3)
+  end
+
   it_should_behave_like 'event_ongoing_validation' do
     let(:target) { create :event_result }
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_27_193804) do
+ActiveRecord::Schema.define(version: 2019_10_31_190303) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 2019_10_27_193804) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "competitor_id"
-    t.decimal "result", precision: 10, scale: 2
+    t.decimal "result", precision: 14, scale: 5
     t.integer "profile_id"
     t.decimal "result_net", precision: 10, scale: 2
     t.string "penalty_reason"
