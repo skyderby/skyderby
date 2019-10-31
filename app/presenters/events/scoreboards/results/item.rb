@@ -21,9 +21,9 @@ module Events
           return '' unless valid?
 
           if round.distance?
-            format('%d', result.round.truncate)
+            format('%d', result.truncate)
           else
-            format('%.1f', result.round(1))
+            format('%.1f', result)
           end
         end
 
@@ -32,6 +32,7 @@ module Events
             record
             .then(&method(:adjust_to_wind))
             .then(&method(:apply_penalty_to_result))
+            .then { |result| result.round(round_digits) }
         end
 
         def formated_points
@@ -95,6 +96,10 @@ module Events
           else
             record.result
           end
+        end
+
+        def round_digits
+          round.distance? ? 0 : 1
         end
 
         def apply_penalty_to_result(result)
