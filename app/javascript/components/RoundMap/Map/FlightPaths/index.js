@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
-import { selectSelectedResults } from 'redux/events/roundMap/selectors'
+import { selectSelectedResults } from 'redux/events/round/selectors'
 import FlightPath from './FlightPath'
 
 const FlightPaths = () => {

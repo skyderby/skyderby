@@ -1,6 +1,6 @@
 import { showDlForResult } from './showDlForResult'
 
-const prefix = '[events/roundMap/selectedResults]'
+const prefix = '[events/round/selectedResults]'
 
 const SELECT_GROUP = `${prefix} SELECT_GROUP`
 const TOGGLE_RESULT = `${prefix} TOGGLE_RESULT`
@@ -16,7 +16,7 @@ export const selectGroup = resultIds => {
     dispatch({ type: SELECT_GROUP, payload: resultIds })
 
     const {
-      eventRoundMap: {
+      eventRound: {
         designatedLane: { enabled: designatedLaneEnabled }
       }
     } = getState()

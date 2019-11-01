@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const prefix = '[events/roundMap/referencePoints]'
+const prefix = '[events/round/referencePoints]'
 
 const LOAD_REQUEST = `${prefix} LOAD/REQUEST`
 const LOAD_SUCCESS = `${prefix} LOAD/SUCCESS`

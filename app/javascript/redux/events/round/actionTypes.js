@@ -1,4 +1,4 @@
-const prefix = '[events/roundMap]'
+const prefix = '[events/round]'
 
 export const LOAD_REQUEST = `${prefix} LOAD/REQUEST`
 export const LOAD_SUCCESS = `${prefix} LOAD/SUCCESS`

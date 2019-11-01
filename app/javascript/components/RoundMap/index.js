@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { loadRoundMap } from 'redux/events/roundMap'
-import Container from 'components/ui/FullscreenContainer'
+import { loadRoundMap } from 'redux/events/round'
+import { Container, Header } from 'components/ui/FullscreenContainer'
 import BackLink from 'components/ui/BackLink'
 import Map from './Map'
 import CompetitorsList from './CompetitorsList'
@@ -18,7 +18,7 @@ const RoundMap = ({ eventId, roundId }) => {
     discipline,
     number,
     event: { name: eventName }
-  } = useSelector(state => state.eventRoundMap)
+  } = useSelector(state => state.eventRound)
 
   useEffect(() => {
     dispatch(loadRoundMap(eventId, roundId))
@@ -47,20 +47,7 @@ const RoundMap = ({ eventId, roundId }) => {
   )
 }
 
-const Header = styled.div`
-  color: #999;
-  font-family: 'Proxima Nova Semibold';
-  font-size: 24px;
-  display: flex;
-  align-items: center;
-  padding: 0 5px;
-  flex-shrink: 0;
-  flex-grow: 0;
-  flex-basis: 40px;
-`
-
 const MainArea = styled.div`
-  border-top: rgba(0, 0, 0, 0.14) 1px solid;
   display: flex;
   flex-basis: 0;
   flex-grow: 1;

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { toggleResult, showDlForResult } from 'redux/events/roundMap'
+import { toggleResult, showDlForResult } from 'redux/events/round'
 import Modal from 'components/ui/Modal'
 
 import Direction from './Direction'
@@ -19,7 +19,7 @@ const CompetitorResult = ({ className, resultId }) => {
   const dispatch = useDispatch()
   const [showPenaltyModal, setShowPenaltyModal] = useState(false)
 
-  const { discipline, number } = useSelector(state => state.eventRoundMap)
+  const { discipline, number } = useSelector(state => state.eventRound)
   const {
     name,
     competitorId,
@@ -28,10 +28,10 @@ const CompetitorResult = ({ className, resultId }) => {
     penalized,
     penaltySize,
     color
-  } = useSelector(state => state.eventRoundMap.results.find(el => el.id === resultId))
+  } = useSelector(state => state.eventRound.results.find(el => el.id === resultId))
 
   const checked = useSelector(
-    state => state.eventRoundMap.selectedResults.find(el => el === resultId) !== undefined
+    state => state.eventRound.selectedResults.find(el => el === resultId) !== undefined
   )
 
   const modalTitle = `${name} | ${I18n.t('disciplines.' + discipline)} - ${number}`

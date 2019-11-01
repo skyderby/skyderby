@@ -13,7 +13,7 @@ const DesignatedLane = () => {
     startPoint: initialStartPoint = {},
     endPoint: initialEndPoint = {},
     laneViolation
-  } = useSelector(state => state.eventRoundMap.designatedLane)
+  } = useSelector(state => state.eventRound.designatedLane)
 
   const [startPoint, setStartPoint] = useState({
     latitude: initialStartPoint.latitude,

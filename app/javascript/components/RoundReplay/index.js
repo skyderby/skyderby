@@ -1,104 +1,89 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
 
-import Container from 'components/ui/FullscreenContainer'
+import { loadRoundMap, selectGroup } from 'redux/events/round'
+import { selectSelectedResults } from 'redux/events/round/selectors'
+import { Container, Header } from 'components/ui/FullscreenContainer'
 import BackLink from 'components/ui/BackLink'
-import shuffle from 'utils/shuffle'
 import Player from './Player'
+import GroupSelect from './GroupSelect'
+import { PlayerControls, PlayButton } from './elements'
+import shuffle from 'utils/shuffle'
+
+const buildGroups = (groupedResultIds, results) => {
+  const getNames = group => group.map(result => result.name).join(' - ')
+  const getIds = group => group.map(result => result.id)
+
+  const topResults = results
+    .sort((a, b) => b.result - a.result)
+    .filter((_val, idx) => idx < 4)
+
+  const groups = groupedResultIds.map(group =>
+    group.map(id => results.find(result => result.id === id))
+  )
+
+  return [
+    { label: `Top 4 - ${getNames(topResults)}`, value: getIds(shuffle(topResults)) },
+    ...groups.map((group, idx) => ({
+      label: `${idx + 1} - ${getNames(group)}`,
+      value: getIds(shuffle(group))
+    }))
+  ]
+}
 
 const RoundReplay = ({ eventId, roundId }) => {
+  const dispatch = useDispatch()
+
+  const {
+    isLoading,
+    discipline,
+    number,
+    results,
+    groups: groupedResultIds,
+    event: { name: eventName }
+  } = useSelector(state => state.eventRound)
+
+  const selectedResults = useSelector(selectSelectedResults)
+
   const [playing, setPlaying] = useState(false)
-  const [loading, setIsLoading] = useState(true)
-  const [roundData, setRoundData] = useState({ groups: [] })
-  const [group, setGroup] = useState()
 
-  const handleGroupChange = ({ target: { value: selected } }) => {
-    setPlaying(false)
-
-    if (selected === 'Top4') {
-      const group = shuffle(
-        []
-          .concat(...roundData.groups)
-          .sort((a, b) => b.result - a.result)
-          .filter((_val, idx) => idx < 4)
-      )
-
-      setGroup(group)
-    } else if (selected) {
-      setGroup(roundData.groups[selected])
-    } else {
-      setGroup(undefined)
-    }
-  }
+  useEffect(() => {
+    dispatch(loadRoundMap(eventId, roundId, { preselecteGroup: false }))
+  }, [eventId, roundId, dispatch])
 
   const handleTriggerPlay = () => setPlaying(!playing)
 
-  useEffect(() => {
-    const dataUrl = `/api/v1/events/${eventId}/rounds/${roundId}`
+  const handleGroupChange = ({ value }) => dispatch(selectGroup(value))
 
-    const requestOptions = {
-      credentials: 'same-origin',
-      Accept: 'application/json'
-    }
+  const groups = buildGroups(groupedResultIds, results)
 
-    fetch(dataUrl, requestOptions)
-      .then(response => response.json())
-      .then(data => {
-        setRoundData(data)
-        setIsLoading(false)
-      })
-  }, [eventId, roundId])
+  const headerText =
+    discipline && number && `// ${I18n.t('disciplines.' + discipline)} - ${number}`
 
   return (
     <Container>
       <Header>
-        <BackLink href={`/events/${eventId}`} />
-        <Select onChange={handleGroupChange}>
-          <option value="">Select group</option>
-          <option value="Top4">Top 4</option>
-          {roundData.groups.map((_el, idx) => (
-            <option key={idx} value={idx}>{`Group ${idx + 1}`}</option>
-          ))}
-        </Select>
+        <BackLink href={`/events/${eventId}`}>{eventName}</BackLink>
+        {headerText}
+      </Header>
+
+      <PlayerControls>
+        <GroupSelect options={groups} onChange={handleGroupChange} />
         <PlayButton onClick={handleTriggerPlay}>
           {playing ? <i className="fas fa-stop" /> : <i className="fas fa-play" />}
         </PlayButton>
-      </Header>
-      {loading ? (
+      </PlayerControls>
+
+      {isLoading ? (
         <h1>Loading...</h1>
       ) : (
-        <Player discipline={roundData.discipline} group={group} playing={playing} />
+        <Player discipline={discipline} group={selectedResults} playing={playing} />
       )}
     </Container>
   )
 }
-
-const PlayButton = styled.button`
-  border-radius: 4px;
-  padding: 6px 10px;
-`
-
-const Select = styled.select`
-  color: #333;
-  background-color: white;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  padding: 6px 28px 6px 12px;
-  height: 30px;
-  min-width: 150px;
-`
-
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  height: 40px;
-  padding: 0 5px;
-
-  > * {
-    margin-right: 10px;
-  }
-`
 
 RoundReplay.propTypes = {
   eventId: PropTypes.string.isRequired,

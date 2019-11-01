@@ -3,7 +3,7 @@ import axios from 'axios'
 import { LOAD_REQUEST, LOAD_SUCCESS, LOAD_ERROR } from './actionTypes.js'
 import colors from 'utils/colors'
 
-const prefix = '[events/roundMap/results]'
+const prefix = '[events/round/results]'
 const UPDATE_PENALTY = `${prefix}/UPDATE_PENALTY`
 
 const initialState = []
@@ -13,7 +13,7 @@ const colorByIndex = idx => colors[idx % (colors.length - 1)]
 export function updatePenalty(resultId, penalty) {
   return async (dispatch, getState) => {
     const {
-      eventRoundMap: {
+      eventRound: {
         event: { id: eventId }
       }
     } = getState()

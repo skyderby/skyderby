@@ -1,4 +1,4 @@
-const prefix = '[events/roundMap/designatedLane]'
+const prefix = '[events/round/designatedLane]'
 
 import { LOAD_REQUEST } from './actionTypes'
 

@@ -1,9 +1,9 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 
-import eventRoundMap from 'redux/events/roundMap'
+import eventRound from 'redux/events/round'
 
-const rootReducer = combineReducers({ eventRoundMap })
+const rootReducer = combineReducers({ eventRound })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 

@@ -4,7 +4,7 @@ import { updateDL } from './designatedLane.js'
 export const showDlForResult = resultId => {
   return (dispatch, getState) => {
     const {
-      eventRoundMap: {
+      eventRound: {
         results,
         referencePoints,
         referencePointAssignments,
@@ -26,6 +26,10 @@ export const showDlForResult = resultId => {
     const referencePointAssignment = referencePointAssignments.find(
       el => el.competitorId === competitorId
     )
+
+    if (!referencePointAssignment || !referencePointAssignment.referencePointId) {
+      return dispatch(updateDL({ enabled: false }))
+    }
 
     const referencePoint = referencePoints.find(
       el => el.id === referencePointAssignment.referencePointId

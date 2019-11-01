@@ -10,7 +10,7 @@ import {
 } from 'components/RoundMap/constants'
 
 const Legend = () => {
-  const { rangeFrom, rangeTo } = useSelector(state => state.eventRoundMap.event)
+  const { rangeFrom, rangeTo } = useSelector(state => state.eventRound.event)
 
   return (
     <List>

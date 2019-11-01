@@ -1,16 +1,16 @@
 const selectAssignedReferencePointIds = state => [
   ...new Set(
-    state.eventRoundMap.referencePointAssignments
+    state.eventRound.referencePointAssignments
       .map(el => el.referencePointId)
       .filter(el => el)
   )
 ]
 
-const selectResults = state => state.eventRoundMap.results
+const selectResults = state => state.eventRound.results
 
-const selectSelectedResultIds = state => state.eventRoundMap.selectedResults
+const selectSelectedResultIds = state => state.eventRound.selectedResults
 
-export const selectReferencePoints = state => state.eventRoundMap.referencePoints
+export const selectReferencePoints = state => state.eventRound.referencePoints
 
 export const selectReferencePointById = (state, id) => {
   const referencePoints = selectReferencePoints(state)

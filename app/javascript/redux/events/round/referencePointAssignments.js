@@ -2,7 +2,7 @@ import axios from 'axios'
 
 import { LOAD_REQUEST, LOAD_SUCCESS, LOAD_ERROR } from './actionTypes.js'
 
-const prefix = '[events/roundMap/referencePointAssignments]'
+const prefix = '[events/round/referencePointAssignments]'
 const ASSIGN_REFERENCE_POINT = `${prefix} ASSIGN`
 
 const initialState = []

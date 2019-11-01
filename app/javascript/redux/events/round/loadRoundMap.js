@@ -5,7 +5,7 @@ import { loadEvent } from './event'
 import { loadReferencePoints } from './referencePoints'
 import { selectGroup } from './selectedResults'
 
-export function loadRoundMap(eventId, roundId) {
+export function loadRoundMap(eventId, roundId, options = {}) {
   return async dispatch => {
     dispatch({ type: LOAD_REQUEST, payload: { eventId, roundId } })
 
@@ -19,8 +19,9 @@ export function loadRoundMap(eventId, roundId) {
       dispatch({ type: LOAD_SUCCESS, payload: data })
 
       const { groups } = data
-      if (groups.length > 0) dispatch(selectGroup(groups[0]))
+      if (groups.length > 0 && options.preselecteGroup) dispatch(selectGroup(groups[0]))
     } catch (err) {
+      console.log(err)
       dispatch({ type: LOAD_ERROR, payload: err })
     }
   }

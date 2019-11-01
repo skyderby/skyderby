@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 import { drawChart, updateChart } from './altitudeChart'
@@ -7,6 +6,7 @@ import { drawCards, updateCardNumbers } from './cards'
 import processPoints from './processPoints'
 import { drawHeight, drawWidth } from './constants'
 import getPathsUntilTime from './getPathsUntilTime'
+import { Canvas } from './elements'
 
 const Player = ({ discipline, group = [], playing }) => {
   const [playerPoints, setPlayerPoints] = useState()
@@ -66,12 +66,6 @@ const Player = ({ discipline, group = [], playing }) => {
 
   return <Canvas ref={canvasRef} width={drawWidth} height={drawHeight} />
 }
-
-const Canvas = styled.canvas`
-  width: 180vh;
-  margin-left: auto;
-  margin-right: auto;
-`
 
 Player.propTypes = {
   discipline: PropTypes.oneOf(['distance', 'speed', 'time']),

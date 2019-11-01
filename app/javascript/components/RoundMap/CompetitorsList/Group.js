@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { selectGroup } from 'redux/events/roundMap'
+import { selectGroup } from 'redux/events/round'
 import List from './List'
 import CompetitorResult from './CompetitorResult'
 import FlatButton from 'components/ui/FlatButton'

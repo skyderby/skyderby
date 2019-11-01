@@ -4,13 +4,13 @@ import { useFormik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { updatePenalty } from 'redux/events/roundMap'
+import { updatePenalty } from 'redux/events/round'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
 
 const PenaltyForm = ({ resultId, onComplete }) => {
   const dispatch = useDispatch()
   const { penalized, penaltySize, penaltyReason } = useSelector(state =>
-    state.eventRoundMap.results.find(({ id }) => id === resultId)
+    state.eventRound.results.find(({ id }) => id === resultId)
   )
 
   const { values, handleChange, handleSubmit } = useFormik({

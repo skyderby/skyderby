@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import Group from './Group'
 
 const CompetitorsList = () => {
-  const groups = useSelector(state => state.eventRoundMap.groups)
+  const groups = useSelector(state => state.eventRound.groups)
 
   if (!groups) return null
 
