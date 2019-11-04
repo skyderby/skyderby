@@ -23,12 +23,17 @@
                       %ul.dropdown-menu.dropdown-menu-right
                         %li
                           = link_to event_round_map_path(@event, round), rel: 'nofollow' do
-                            %i.far.fa-compass.text-muted
+                            %i.fa.fa-fw.far.fa-compass.text-muted
                             Google maps
                         %li
                           = link_to event_round_globe_path(@event, round), remote: true, class: 'round-map-view', rel: 'nofollow' do
-                            %i.far.fa-compass.text-muted
+                            %i.fa.fa-fw.far.fa-compass.text-muted
                             3D maps
+                        %li
+                          = link_to event_round_replay_path(@event, round), rel: 'nofollow' do
+                            %i.fa.fa-fw.fas.fa-play.text-muted
+                            Replay
+
                         - if can_update
                           %li.divider
                           %li
@@ -36,7 +41,7 @@
                                         method: :delete,
                                         remote: true,
                                         class: 'btn-link' do
-                              %i.fa.fa-times.text-muted
+                              %i.fa.fa-fw.fa-times.text-muted
                               = t('general.delete')
               %th.text-center{rowspan: 2, 'data-discipline' => discipline, 'data-role' => 'points'} %
 
