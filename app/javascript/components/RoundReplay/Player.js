@@ -23,6 +23,8 @@ const Player = ({ discipline, group = [], playing }) => {
 
   const drawFrame = useCallback(
     time => {
+      if (!canvasRef.current) return
+
       const timeDiff = (time - startTime.current) / 1000
       const ctx = canvasRef.current.getContext('2d')
 

@@ -21,4 +21,8 @@ export default class extends Controller {
       this.element
     )
   }
+
+  disconnect() {
+    ReactDOM.unmountComponentAtNode(this.element)
+  }
 }

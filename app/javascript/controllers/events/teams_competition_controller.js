@@ -8,4 +8,8 @@ export default class extends Controller {
     const eventId = this.element.getAttribute('data-event-id')
     ReactDOM.render(<TeamsCompetition eventId={eventId} />, this.element)
   }
+
+  disconnect() {
+    ReactDOM.unmountComponentAtNode(this.element)
+  }
 }
