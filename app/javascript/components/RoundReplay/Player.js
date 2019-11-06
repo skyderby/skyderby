@@ -12,7 +12,8 @@ const Player = ({ discipline, group = [], playing }) => {
   const [playerPoints, setPlayerPoints] = useState()
 
   const canvasRef = useRef()
-  const startTime = useRef()
+  const playerTime = useRef()
+  const prevFrameTime = useRef()
   const requestId = useRef()
 
   useEffect(() => {
@@ -25,16 +26,17 @@ const Player = ({ discipline, group = [], playing }) => {
     time => {
       if (!canvasRef.current) return
 
-      const timeDiff = (time - startTime.current) / 1000
+      playerTime.current = playerTime.current + (time - prevFrameTime.current) / 1000
       const ctx = canvasRef.current.getContext('2d')
 
       const paths = playerPoints.map(currentPoints =>
-        getPathsUntilTime(currentPoints, timeDiff)
+        getPathsUntilTime(currentPoints, playerTime.current)
       )
 
       updateCardNumbers(ctx, paths, discipline)
       updateChart(ctx, paths)
 
+      prevFrameTime.current = performance.now()
       requestId.current = requestAnimationFrame(drawFrame)
     },
     [discipline, playerPoints]
@@ -49,7 +51,8 @@ const Player = ({ discipline, group = [], playing }) => {
       drawChart(ctx)
       drawCards(ctx, group)
 
-      startTime.current = performance.now()
+      playerTime.current = playerTime.current || 0
+      prevFrameTime.current = performance.now()
       requestId.current = requestAnimationFrame(drawFrame)
     } else {
       cancelAnimationFrame(requestId.current)
