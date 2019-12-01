@@ -5,7 +5,8 @@ en:
     attributes:
       event/competitor:
         suit: Suit
-        section: Class
+        section: Category
+        assigned_number: Assigned number
     errors:
       models:
         event/competitor:
@@ -15,7 +16,7 @@ en:
             profile:
               blank: Pilot profile has to be filled
             section:
-              blank: Class has to be filled
+              blank: Category has to be filled
             base:
               restrict_dependent_destroy:
                 many: To delete competitor delete his results first.

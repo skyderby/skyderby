@@ -1,5 +1,7 @@
 %td.competitor-cell
   = link_to competitor.name.titleize, profile_path(competitor.profile), class: 'competitor-name'
+  - if competitor.assigned_number
+    %span.text-gray= "##{competitor.assigned_number}"
   - if editable
     %span
       = edit_competitor_link(@event, competitor)

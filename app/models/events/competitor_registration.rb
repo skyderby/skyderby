@@ -9,7 +9,8 @@ module Events
                   :profile_id,
                   :new_profile,
                   :name,
-                  :country_id
+                  :country_id,
+                  :assigned_number
 
     validates :section_id, :suit_id, presence: true
     validate :profile_attributes_valid
@@ -49,7 +50,8 @@ module Events
         event_id: event_id,
         section_id: section_id,
         suit_id: suit_id,
-        profile: profile
+        profile: profile,
+        assigned_number: assigned_number
       }
     end
 

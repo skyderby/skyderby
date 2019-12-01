@@ -64,6 +64,11 @@
                              'data-controller': 'select2--countries'
 
           %hr
+          = f.label :assigned_number, t('activerecord.attributes.event/competitor.assigned_number')
+          .form-group
+            .col-sm-12
+              = f.number_field :assigned_number, class: 'form-control'
+          %hr
           %h3.modal-form__section-title
             %span.modal-form__section-number 2
             = t('competitors.form.suit_and_category')

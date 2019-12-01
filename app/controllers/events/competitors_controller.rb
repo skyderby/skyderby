@@ -61,7 +61,8 @@ module Events
         :profile_id,
         :suit_id,
         :section_id,
-        :event_id
+        :event_id,
+        :assigned_number
       )
     end
   end
