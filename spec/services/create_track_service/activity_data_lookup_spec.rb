@@ -10,7 +10,7 @@ describe CreateTrackService::ActivityDataLookup do
 
   it 'returns true for garmin file' do
     file = Rack::Test::UploadedFile.new(
-      Rails.root.join('spec', 'support', 'tracks', 'one_track.gpx')
+      Rails.root.join('spec/support/tracks/one_track.gpx')
     )
 
     track_file = create :track_file, file: file
@@ -23,7 +23,7 @@ describe CreateTrackService::ActivityDataLookup do
 
   it 'returns false unless data recorded' do
     file = Rack::Test::UploadedFile.new(
-      Rails.root.join('spec', 'support', 'tracks', 'flysight_warmup.csv')
+      Rails.root.join('spec/support/tracks/flysight_warmup.csv')
     )
 
     track_file = create :track_file, file: file

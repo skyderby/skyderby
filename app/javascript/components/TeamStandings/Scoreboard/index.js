@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import { Table } from './elements'
 import Team from './Team'
@@ -26,6 +27,15 @@ const Scoreboard = ({ rankedTeams }) => {
       </tbody>
     </Table>
   )
+}
+
+Scoreboard.propTypes = {
+  rankedTeams: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      points: PropTypes.number
+    })
+  ).isRequired
 }
 
 export default Scoreboard
