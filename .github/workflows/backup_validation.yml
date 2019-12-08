@@ -1,0 +1,61 @@
+name: Backup validation
+
+on:
+  pull_request:
+    branches:
+      - dev
+  schedule:
+    - cron: 0 10 * * *
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Add postgres repository
+      run: |
+        wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+        RELEASE=$(lsb_release -cs)
+        echo "deb http://apt.postgresql.org/pub/repos/apt/ ${RELEASE}"-pgdg main | sudo tee  /etc/apt/sources.list.d/pgdg.list
+        sudo apt-get update
+
+    - name: Install postgres
+      run: |
+        sudo apt-get install -y postgresql-11 postgresql-contrib-11
+        sudo chmod 644 /var/log/postgresql/postgresql-11-main.log
+
+    - name: Download backup
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+        AWS_DEFAULT_REGION: us-west-2
+      run: |
+        sudo rm -rf /var/lib/postgresql/11/main/*
+        aws s3 cp s3://pg-backup.skyderby.ru/pg_backup.tar.gz ~/pg_backup.tar.gz --no-progress
+
+    - name: Unpack backup
+      run: |
+        sudo tar -xvf ~/pg_backup.tar.gz -C /var/lib/postgresql/11/main/
+
+    - name: Setup recovery.conf
+      run: |
+        echo "restore_command='sudo aws s3 cp s3://wal-files.skyderby.ru/%f %p && sudo chown postgres:postgres %p'" > /var/lib/postgresql/11/main/recovery.conf
+
+    - name: Start DB server
+      run: |
+        sudo pg_ctlcluster 11 main start
+
+    - name: Check recovery in progress
+      run: |
+        for i in $(seq 0 10); do
+          result=$(sudo -u postgres -H psql -qAtX -c "SELECT pg_is_in_recovery()::int" -d skyderby 2>/dev/null)
+          [[ $result == 0 || $i == 10 ]] && break
+          sleep 30
+        done
+
+    - name: Upload server log
+      if: always()
+      uses: actions/upload-artifact@v1
+      with:
+        name: postgres.log
+        path: /var/log/postgresql/postgresql-11-main.log
