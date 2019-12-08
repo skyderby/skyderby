@@ -23,7 +23,7 @@ module Api
             if @team.save
               format.json
             else
-              format.json { render json: { errors: team.errors } }
+              format.json { render json: { errors: @team.errors } }
             end
           end
         end
