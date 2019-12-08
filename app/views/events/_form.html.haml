@@ -66,6 +66,16 @@
         = f.number_field :number_of_results_for_total, class: 'form-control'
 
     .form-group
+      = f.label :use_teams, class: 'control-label col-sm-4'
+      .btn-group.col-sm-8{data: {toggle: 'buttons'}}
+        %label.btn.btn-default{class: ('active' unless @event.use_teams)}
+          = f.radio_button :use_teams, false
+          = t('general.disabled')
+        %label.btn.btn-default{class: ('active' if @event.use_teams)}
+          = f.radio_button :use_teams, true
+          = t('general.enabled')
+
+    .form-group
       = f.label :visibility, class: 'control-label col-sm-4'
       .btn-group.col-sm-8{data: {toggle: 'buttons'}}
         - Event.visibilities.each do |key, _value|

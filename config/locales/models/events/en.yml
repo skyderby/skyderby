@@ -10,6 +10,7 @@ en:
         starts_at: Starts at
         rules: Rules
         wind_cancellation: Wind cancellation
+        use_teams: Team standings
         visibility: Visibility
         visibilities:
           public_event: Public

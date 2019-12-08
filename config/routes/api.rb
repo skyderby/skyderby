@@ -38,6 +38,7 @@ namespace :api, module: :api, defaults: { format: :json } do
           resource :penalty, only: :update, module: :results
         end
         resources :reference_points, only: :index
+        resources :teams, only: %i[index create update destroy]
       end
     end
 

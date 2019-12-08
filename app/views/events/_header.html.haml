@@ -11,3 +11,9 @@
 %h3
   = render 'events/event_place'
 
+- if @event.use_teams
+  %div
+    %span Standings
+    = link_to 'Pilots', event_path(@event.id)
+    \/
+    = link_to 'Teams', event_teams_path(@event.id)
