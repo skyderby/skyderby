@@ -38,11 +38,11 @@ class GfsGradsFetcher
       raise ArgumentError, "Heights and speeds count are different. Value counts: #{counts}"
     end
 
-    def speed_from_components(u:, v:) # rubocop:disable Naming/UncommunicativeMethodParamName
+    def speed_from_components(u:, v:) # rubocop:disable Naming/MethodParameterName
       Math.sqrt(u**2 + v**2)
     end
 
-    def direction_from_components(u:, v:) # rubocop:disable Naming/UncommunicativeMethodParamName
+    def direction_from_components(u:, v:) # rubocop:disable Naming/MethodParameterName
       DEG_PER_RAD * Math.atan2(u, v) + 180
     end
   end
