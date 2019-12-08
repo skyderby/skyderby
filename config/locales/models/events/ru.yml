@@ -10,6 +10,7 @@ ru:
         starts_at: Дата начала
         rules: Правила
         wind_cancellation: Вычитание ветра
+        use_teams: Командный зачет
         visibility: Доступ
         visibilities:
           public_event: Открытый

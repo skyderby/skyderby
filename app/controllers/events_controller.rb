@@ -81,7 +81,8 @@ class EventsController < ApplicationController
       :status,
       :wind_cancellation,
       :visibility,
-      :number_of_results_for_total
+      :number_of_results_for_total,
+      :use_teams
     )
   end
 
