@@ -6,25 +6,6 @@ class TracksController < ApplicationController
 
   def index
     authorize Track
-
-    @tracks = policy_scope(Track.all)
-
-    @tracks = TrackFilter.new(index_params[:query]).apply(@tracks)
-    @tracks = TrackOrder.new(index_params[:order]).apply(@tracks)
-
-    rows_per_page = request.variant.include?(:mobile) ? 20 : 50
-
-    @tracks = @tracks
-              .left_outer_joins(:time, :distance, :speed)
-              .includes(
-                :video,
-                :pilot,
-                :distance,
-                :speed,
-                :time,
-                place: [:country],
-                suit: [:manufacturer]
-              ).paginate(page: params[:page], per_page: rows_per_page)
   end
 
   def show
@@ -105,15 +86,6 @@ class TracksController < ApplicationController
       :disqualified_from_online_competitions
     )
   end
-
-  def index_params
-    params.permit(
-      :order,
-      :page,
-      query: [:profile_id, :profile_name, :suit_id, :place_id, :kind, :term]
-    )
-  end
-  helper_method :index_params
 
   def show_params
     params.permit(:range, :f, :t, :charts_mode, :charts_units, 'straight-line')
