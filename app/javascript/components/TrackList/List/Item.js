@@ -3,23 +3,23 @@ import PropTypes from 'prop-types'
 
 import SuitLabel from 'components/SuitLabel'
 import PlaceLabel from 'components/PlaceLabel'
-import { TrackLink, TableCell } from './elements'
+import { TrackLink, Result, Id, Pilot, Suit, Place, Comment, Timestamp } from './elements'
 
 const Item = ({ track }) => (
   <TrackLink to={`/tracks/${track.id}`} key={track.id}>
-    <TableCell>{track.id}</TableCell>
-    <TableCell>{track.pilotName}</TableCell>
-    <TableCell>
+    <Id>{track.id}</Id>
+    <Pilot>{track.pilotName}</Pilot>
+    <Suit>
       <SuitLabel name={track.suitName} code={track.manufacturerCode} />
-    </TableCell>
-    <TableCell>
+    </Suit>
+    <Place>
       <PlaceLabel name={track.placeName} code={track.countryCode} />
-    </TableCell>
-    <TableCell>{track.comment}</TableCell>
-    <TableCell>{track.distance || '—'}</TableCell>
-    <TableCell>{track.speed || '—'}</TableCell>
-    <TableCell>{track.time ? track.time.toFixed(1) : '—'}</TableCell>
-    <TableCell>{track.recordedAt}</TableCell>
+    </Place>
+    <Comment>{track.comment}</Comment>
+    <Result>{track.distance || '—'}</Result>
+    <Result>{track.speed || '—'}</Result>
+    <Result>{track.time ? track.time.toFixed(1) : '—'}</Result>
+    <Timestamp>{track.recordedAt}</Timestamp>
   </TrackLink>
 )
 
@@ -38,4 +38,5 @@ Item.propTypes = {
     recordedAt: PropTypes.string
   }).isRequired
 }
+
 export default Item

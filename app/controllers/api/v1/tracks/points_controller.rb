@@ -6,12 +6,20 @@ module Api
           authorize track
 
           @points =
-            PointsQuery
-            .execute(track, options)
+            PointsQuery.execute(track, options)
             .then { |points| PointsPostprocessor.for(track.gps_type).call(points) }
+            .then(&method(:convert_speed_to_ms))
         end
 
         private
+
+        # FIXME: Convert DB to ms, remove this
+        def convert_speed_to_ms(points)
+          points.each do |point|
+            point[:h_speed] /= 3.6
+            point[:v_speed] /= 3.6
+          end
+        end
 
         def track
           @track ||= Track.find(params[:track_id])

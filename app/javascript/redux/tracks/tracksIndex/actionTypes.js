@@ -1,4 +1,4 @@
-const prefix = '[tracks]'
+const prefix = '[tracks/index]'
 
 export const LOAD_REQUEST = `${prefix} LOAD/REQUEST`
 export const LOAD_SUCCESS = `${prefix} LOAD/SUCCESS`
