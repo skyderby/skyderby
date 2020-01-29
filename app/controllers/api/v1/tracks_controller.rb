@@ -1,6 +1,8 @@
 module Api
   module V1
     class TracksController < Api::ApplicationController
+      before_action :set_track, only: :show
+
       def index
         authorize Track
 
@@ -9,6 +11,11 @@ module Api
           .then(&method(:apply_sort))
           .then(&method(:preload_associations))
           .then(&method(:paginate))
+      end
+
+      def show
+        authorize @track
+
       end
 
       private
@@ -36,6 +43,15 @@ module Api
 
       def paginate(collection)
         collection.paginate(page: current_page, per_page: rows_per_page)
+      end
+
+      def set_track
+        @track = Track.includes(
+          :pilot,
+          { suit: :manufacturer },
+          { place: :country },
+          :video
+        ).find(params[:id])
       end
 
       def index_params
