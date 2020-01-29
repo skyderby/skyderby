@@ -2,6 +2,8 @@ module Api
   module V1
     class ProfilesController < Api::ApplicationController
       def index
+        authorize Profile
+
         @profiles =
           Profile.search(params[:search])
           .order(:name)
@@ -9,10 +11,9 @@ module Api
       end
 
       def show
-        @profile =
-          Profile
-          .includes(personal_top_scores: { virtual_competition: :group })
-          .find(params[:id])
+        @profile = Profile.find(params[:id])
+
+        authorize @profile
       end
     end
   end

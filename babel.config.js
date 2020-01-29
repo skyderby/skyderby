@@ -4,7 +4,7 @@ module.exports = {
       '@babel/preset-env',
       {
         modules: false,
-        targets: { browsers: '> 1%' },
+        targets: { browsers: '> 1%', node: 'current' },
         useBuiltIns: 'usage',
         forceAllTransforms: true,
         corejs: 3
@@ -19,5 +19,10 @@ module.exports = {
     '@babel/plugin-proposal-optional-chaining',
     '@babel/plugin-proposal-nullish-coalescing-operator',
     ['@babel/plugin-proposal-class-properties', { spec: true }]
-  ]
+  ],
+  env: {
+    test: {
+      plugins: ['@babel/plugin-transform-modules-commonjs']
+    }
+  }
 }

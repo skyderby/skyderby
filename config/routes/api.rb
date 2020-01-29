@@ -18,9 +18,10 @@ namespace :api, module: :api, defaults: { format: :json } do
 
     resources :suits, only: %i[index show]
 
-    resources :tracks, only: :index do
+    resources :tracks, only: %i[index show] do
       scope module: :tracks do
         resource :points, only: :show
+        resource :weather_data, only: :show
       end
     end
 
