@@ -1,3 +1,5 @@
+json.key_format! camelize: :lower
+
 json.array! @points do |point|
   json.extract! point,
                 :gps_time,
