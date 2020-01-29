@@ -1,19 +1,26 @@
 import React from 'react'
-import { MobileOnlyView, BrowserView } from 'react-device-detect'
+import { useSelector } from 'react-redux'
 
-import DesktopList from './DesktopList'
-import MobileList from './MobileList'
+import { selectAllTracks } from 'redux/tracks/tracksIndex/selectors'
+
+import Header from './Header'
+import Item from './Item'
+import { Container, Table, Tbody } from './elements'
 
 const List = () => {
+  const tracks = useSelector(selectAllTracks)
+
   return (
-    <>
-      <BrowserView renderWithFragment>
-        <DesktopList />
-      </BrowserView>
-      <MobileOnlyView renderWithFragment>
-        <MobileList />
-      </MobileOnlyView>
-    </>
+    <Container>
+      <Table>
+        <Header />
+        <Tbody>
+          {tracks.map(track => (
+            <Item key={track.id} track={track} />
+          ))}
+        </Tbody>
+      </Table>
+    </Container>
   )
 }
 

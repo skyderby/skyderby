@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "lint": "yarn eslint app/javascript"
+    "lint": "yarn eslint app/javascript",
+    "test": "jest"
   },
   "prettier": {
     "printWidth": 90,
@@ -9,6 +10,15 @@
     "singleQuote": true,
     "trailingComma": "none",
     "arrowParens": "avoid"
+  },
+  "jest": {
+    "roots": [
+      "spec/javascript"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app/javascript"
+    ]
   },
   "dependencies": {
     "@babel/cli": "^7.10.3",
@@ -43,6 +53,7 @@
     "lodash.debounce": "^4.0.8",
     "postcss-loader": "^3.0.0",
     "react": "^16.9",
+    "react-compound-slider": "^2.5.0",
     "react-device-detect": "^1.11.14",
     "react-dom": "^16.9",
     "react-redux": "^7.1.1",
@@ -53,19 +64,23 @@
     "redux-thunk": "^2.3.0",
     "select2": "^4.0.3",
     "stimulus": "^1.0.1",
-    "styled-components": "^5.0.0-beta.11",
+    "styled-components": "^5.0",
     "turbolinks": "^5.1.1",
     "yup": "^0.27.0"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.8.3",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.9.0",
     "eslint": "^7.6.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-react-app": "^5.0.2",
+    "eslint-plugin-jest": "^23.6.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^2.0.1",
     "prettier": "^2.0.5",
+    "jest": "^24.9.0",
     "webpack": "^4.41",
     "react-svg-loader": "^3.0.3",
     "webpack-cli": "^3.3.6",
