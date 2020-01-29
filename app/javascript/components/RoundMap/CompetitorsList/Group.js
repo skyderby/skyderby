@@ -30,11 +30,12 @@ const Group = ({ resultIds, number }) => {
 
 const Header = styled.div`
   color: #777;
+  display: flex;
   font: 16px/24px 'Proxima Nova Semibold';
   padding-bottom: 5px;
   text-transform: uppercase;
 
-  > * {
+  > :not(:last-child) {
     margin-right: 10px;
   }
 `
