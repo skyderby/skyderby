@@ -31,7 +31,7 @@ const TrackList = () => {
     <Container>
       <Header>
         <Title>Tracks</Title>
-        <ActivitySelect urlBuilder={urlBuilder}/>
+        <ActivitySelect urlBuilder={urlBuilder} />
       </Header>
 
       <Filters urlBuilder={urlBuilder} />

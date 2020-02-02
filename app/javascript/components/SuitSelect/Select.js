@@ -1,7 +1,6 @@
 import React from 'react'
 import Select from 'react-select-async-paginate'
 import axios from 'axios'
-import PropTypes from 'prop-types'
 
 import Option from './Option'
 import SingleValue from './SingleValue'

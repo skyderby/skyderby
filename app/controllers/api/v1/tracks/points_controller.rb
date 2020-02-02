@@ -6,7 +6,8 @@ module Api
           authorize track
 
           @points =
-            PointsQuery.execute(track, options)
+            PointsQuery
+            .execute(track, options)
             .then { |points| PointsPostprocessor.for(track.gps_type).call(points) }
             .then(&method(:convert_speed_to_ms))
         end

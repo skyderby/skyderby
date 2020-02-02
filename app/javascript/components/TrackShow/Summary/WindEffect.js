@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import {
   WindEffect as Container,
@@ -7,14 +8,19 @@ import {
   WindEffectValue
 } from './elements'
 
-const WindEffect = ({ rawValue, zeroWindValue }) => {
+const WindEffect = ({ rawValue = 31, zeroWindValue = 79 }) => {
   return (
     <Container>
       <WindEffectRail effect={28} />
-      <ZeroWindValue>79</ZeroWindValue>
-      <WindEffectValue>+31</WindEffectValue>
+      <ZeroWindValue>{zeroWindValue}</ZeroWindValue>
+      <WindEffectValue>{`+${rawValue}`}</WindEffectValue>
     </Container>
   )
+}
+
+WindEffect.propTypes = {
+  rawValue: PropTypes.number,
+  zeroWindValue: PropTypes.number
 }
 
 export default WindEffect

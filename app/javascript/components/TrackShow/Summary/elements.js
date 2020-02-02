@@ -8,7 +8,8 @@ export const Container = styled.div`
   justify-content: space-around;
   margin-bottom: 1rem;
 
-  > [value='distance'], [value='elevation'] {
+  > [value='distance'],
+  [value='elevation'] {
     display: none;
   }
 
@@ -16,7 +17,8 @@ export const Container = styled.div`
     grid-template-columns: repeat(3, fit-content(25%));
     justify-content: space-evenly;
 
-    > [value='distance'], [value='elevation'] {
+    > [value='distance'],
+    [value='elevation'] {
       display: block;
     }
   }
