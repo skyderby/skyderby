@@ -11,7 +11,7 @@ import userPreferences from 'redux/userPreferences'
 
 import { loadState, saveState } from 'redux/localStorage'
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   eventRound,
   eventTeams,
   places,
