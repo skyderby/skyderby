@@ -129,39 +129,40 @@ describe('cropping points', () => {
         longitude: 19.0
       }
     ])
-  }),
-    it('with end point interpolation', () => {
-      expect(cropPoints(points.many, 3000, 1500)).toEqual([
-        {
-          altitude: 3000,
-          gpsTime: Date.parse('2019-02-20T08:01:00'),
-          flTime: 60,
-          glideRatio: 1.9,
-          hSpeed: 80,
-          vSpeed: 50,
-          latitude: 25.0,
-          longitude: 17.0
-        },
-        {
-          altitude: 2000,
-          gpsTime: Date.parse('2019-02-20T08:02:00'),
-          flTime: 120,
-          glideRatio: 2.0,
-          hSpeed: 90,
-          vSpeed: 60,
-          latitude: 27.0,
-          longitude: 19.0
-        },
-        {
-          altitude: 1500,
-          gpsTime: Date.parse('2019-02-20T08:02:30'),
-          flTime: 150,
-          glideRatio: 2.5,
-          hSpeed: 65,
-          vSpeed: 35,
-          latitude: 27.5,
-          longitude: 18.5
-        }
-      ])
-    })
+  })
+
+  it('with end point interpolation', () => {
+    expect(cropPoints(points.many, 3000, 1500)).toEqual([
+      {
+        altitude: 3000,
+        gpsTime: Date.parse('2019-02-20T08:01:00'),
+        flTime: 60,
+        glideRatio: 1.9,
+        hSpeed: 80,
+        vSpeed: 50,
+        latitude: 25.0,
+        longitude: 17.0
+      },
+      {
+        altitude: 2000,
+        gpsTime: Date.parse('2019-02-20T08:02:00'),
+        flTime: 120,
+        glideRatio: 2.0,
+        hSpeed: 90,
+        vSpeed: 60,
+        latitude: 27.0,
+        longitude: 19.0
+      },
+      {
+        altitude: 1500,
+        gpsTime: Date.parse('2019-02-20T08:02:30'),
+        flTime: 150,
+        glideRatio: 2.5,
+        hSpeed: 65,
+        vSpeed: 35,
+        latitude: 27.5,
+        longitude: 18.5
+      }
+    ])
+  })
 })

@@ -19,11 +19,9 @@ describe('RangeSummary', () => {
     it('#verticalSpeed', () => {
       const summary = new RangeSummary(points)
 
-      expect(summary.verticalSpeed).toEqual({
-        avg: 85,
-        min: 32,
-        max: 118
-      })
+      expect(Math.round(summary.verticalSpeed.avg)).toEqual(24)
+      expect(Math.round(summary.verticalSpeed.min)).toEqual(32)
+      expect(Math.round(summary.verticalSpeed.max)).toEqual(118)
     })
   })
 

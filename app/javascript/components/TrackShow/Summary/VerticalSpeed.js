@@ -1,8 +1,11 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
+import I18n from 'i18n-js'
 
 import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
+import { msToKmh, msToMph } from 'utils/unitsConversion'
+
 import ChevronDown from 'icons/chevron-down.svg'
 import ChevronUp from 'icons/chevron-up.svg'
 import {
@@ -15,9 +18,6 @@ import {
   Min,
   Max
 } from './elements'
-
-const msToKmh = value => value * 3.6
-const msToMph = value => value * 2.23694
 
 const valuePresentation = (value, unitSystem) => {
   const placeholder = '---'
@@ -37,14 +37,14 @@ const VerticalSpeed = ({ value }) => {
     <SummaryItem value="vertical-speed">
       <Title>{I18n.t('tracks.indicators.vertical_speed')}</Title>
       <ValueContainer>
-        <Value>{valuePresentation(value.avg, unitSystem)}</Value>
+        <Value data-testid="value[avg]">{valuePresentation(value.avg, unitSystem)}</Value>
         <MinMaxValue>
           <Max>
-            <span>{valuePresentation(value.max, unitSystem)}</span>
+            <span data-testid="value[max]">{valuePresentation(value.max, unitSystem)}</span>
             <ChevronUp />
           </Max>
           <Min>
-            <span>{valuePresentation(value.min, unitSystem)}</span>
+            <span data-testid="value[min]">{valuePresentation(value.min, unitSystem)}</span>
             <ChevronDown />
           </Min>
         </MinMaxValue>

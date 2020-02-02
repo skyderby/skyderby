@@ -10,8 +10,8 @@ const findEndIndex = (points, startPoint, toAltitude) => {
   if (toAltitude === undefined) return lastIdx
 
   const idx = points.findIndex(
-      el => el.altitude <= toAltitude && el.gpsTime > startPoint.gpsTime
-    )
+    el => el.altitude <= toAltitude && el.gpsTime > startPoint.gpsTime
+  )
 
   return idx > -1 ? idx : lastIdx
 }
@@ -51,15 +51,21 @@ export const cropPoints = (points = [], fromAltitude, toAltitude) => {
   const endIndex = findEndIndex(points, startPoint, toAltitude)
   const endPoint = points[endIndex]
 
-  const prepend =
-    startIndex === 0 || startPoint.altitude === fromAltitude
+  const getPointsToPrepend = () => {
+    return startIndex === 0 || startPoint.altitude === fromAltitude
       ? []
       : [interpolateByAltitude(points[startIndex - 1], startPoint, fromAltitude)]
+  }
 
-  const append =
-    endIndex === points.length - 1 || endPoint.altitude === toAltitude
-      ? [points[endIndex]]
-      : [interpolateByAltitude(points[endIndex - 1], endPoint, toAltitude)]
+  const getPointsToAppend = () => {
+    if (!toAltitude || endPoint.altitude === toAltitude) return [points[endIndex]]
 
-  return [...prepend, ...points.slice(startIndex, endIndex), ...append]
+    return [interpolateByAltitude(points[endIndex - 1], endPoint, toAltitude)]
+  }
+
+  return [
+    ...getPointsToPrepend(),
+    ...points.slice(startIndex, endIndex),
+    ...getPointsToAppend()
+  ]
 }
