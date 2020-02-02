@@ -138,6 +138,10 @@ workflows:
           requires:
             - lint_ruby
             - lint_js
+      - test_js:
+          requires:
+            - lint_ruby
+            - lint_js
       - build_image:
           requires:
             - test_unit
