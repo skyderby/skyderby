@@ -6,7 +6,8 @@ module Api
       def index
         authorize Track
 
-        @tracks = policy_scope(Track.all)
+        @tracks =
+          policy_scope(Track.all)
           .then(&method(:apply_filter))
           .then(&method(:apply_sort))
           .then(&method(:preload_associations))
@@ -15,7 +16,6 @@ module Api
 
       def show
         authorize @track
-
       end
 
       private
