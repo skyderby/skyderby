@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactSelect from 'react-select'
+import PropTypes from 'prop-types'
 
 const styles = {
   container: base => ({
@@ -30,6 +31,16 @@ const Select = ({ value, options, ...props }) => {
       {...props}
     />
   )
+}
+
+Select.propTypes = {
+  value: PropTypes.string,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    })
+  ).isRequired
 }
 
 export default Select
