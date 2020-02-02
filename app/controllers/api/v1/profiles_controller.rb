@@ -5,7 +5,8 @@ module Api
         authorize Profile
 
         @profiles =
-          Profile.search(params[:search])
+          Profile
+          .search(params[:search])
           .order(:name)
           .paginate(page: current_page, per_page: rows_per_page)
       end

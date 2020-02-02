@@ -13,7 +13,7 @@ const SingleValue = ({ data: { name, countryCode }, ...props }) => (
 SingleValue.propTypes = {
   data: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    makeCode: PropTypes.string
+    countryCode: PropTypes.string
   }).isRequired
 }
 
