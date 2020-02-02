@@ -17,7 +17,14 @@
     ],
     "moduleDirectories": [
       "node_modules",
-      "app/javascript"
+      "app/javascript",
+      "spec/javascript"
+    ],
+    "moduleNameMapper": {
+       "\\.svg$": "<rootDir>/spec/javascript/jest/mocks/fileMock.js"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!geodesy)"
     ]
   },
   "dependencies": {
@@ -70,6 +77,8 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.8.3",
+    "@testing-library/jest-dom": "^5.1.0",
+    "@testing-library/react": "^9.4.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.9.0",
     "eslint": "^7.6.0",
