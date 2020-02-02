@@ -15,10 +15,13 @@ const FlatButton = styled.button`
     margin-right: 0.25em;
   }
 
-  ${props => props.active ? css`
-    color: #555;
-    background-color: #ddd;
-  ` : ''}
+  ${props =>
+    props.active
+      ? css`
+          color: #555;
+          background-color: #ddd;
+        `
+      : ''}
 
   &:hover {
     color: #333;
@@ -33,7 +36,9 @@ const FlatButton = styled.button`
     height: 1em;
     width: 1em;
 
-    path { fill: #777; }
+    path {
+      fill: #777;
+    }
   }
 `
 

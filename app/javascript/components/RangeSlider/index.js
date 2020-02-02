@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { Handles, Tracks, Ticks } from 'react-compound-slider'
 import PropTypes from 'prop-types'
 
@@ -78,8 +78,9 @@ const RangeSlider = ({ domain, values, step = 10, onChange: handleChange }) => {
 
 RangeSlider.propTypes = {
   domain: PropTypes.arrayOf(PropTypes.number).isRequired,
-  value: PropTypes.arrayOf(PropTypes.number),
+  values: PropTypes.arrayOf(PropTypes.number),
   step: PropTypes.number,
   onChange: PropTypes.func
 }
+
 export default RangeSlider
