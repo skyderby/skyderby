@@ -100,6 +100,17 @@ jobs:
       - run: bundle exec rails assets:precompile
       - run: bundle exec rspec spec --tag type:system
 
+  test_js:
+    working_directory: ~/skyderby
+    docker:
+      - image: circleci/ruby:2.6.5-node
+    steps:
+      - checkout
+      - *restore_yarn_cache
+      - run: yarn install
+      - *save_yarn_cache
+      - run: yarn test --maxWorkers=2
+
   build_image:
     working_directory: ~/skyderby
     docker:
