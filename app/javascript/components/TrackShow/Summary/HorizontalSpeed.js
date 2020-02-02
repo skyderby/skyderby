@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import I18n from 'i18n-js'
 
 import ChevronDown from 'icons/chevron-down.svg'
 import ChevronUp from 'icons/chevron-up.svg'
@@ -14,19 +16,19 @@ import {
   Max
 } from './elements'
 
-const HorizontalSpeed = ({ track }) => {
+const HorizontalSpeed = ({ value = { avg: 111, min: 12, max: 139 } }) => {
   return (
     <SummaryItem value="ground-speed">
       <Title>{I18n.t('tracks.indicators.ground_speed')}</Title>
       <ValueContainer>
-        <Value>111</Value>
+        <Value>{value.avg}</Value>
         <MinMaxValue>
           <Max>
-            <span>139</span>
+            <span>{value.max}</span>
             <ChevronUp />
           </Max>
           <Min>
-            <span>12</span>
+            <span>{value.min}</span>
             <ChevronDown />
           </Min>
         </MinMaxValue>
@@ -36,6 +38,14 @@ const HorizontalSpeed = ({ track }) => {
       <WindEffect rawValue={111} zeroWindValue={139} />
     </SummaryItem>
   )
+}
+
+HorizontalSpeed.propTypes = {
+  value: PropTypes.shape({
+    avg: PropTypes.number,
+    min: PropTypes.number,
+    max: PropTypes.number
+  }).isRequired
 }
 
 export default HorizontalSpeed
