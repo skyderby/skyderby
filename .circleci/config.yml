@@ -126,3 +126,7 @@ workflows:
           requires:
             - lint_ruby
             - lint_js
+      - test_js:
+          requires:
+            - lint_ruby
+            - lint_js
