@@ -1,5 +1,6 @@
 import React from 'react'
 import { Formik, Field } from 'formik'
+import PropTypes from 'prop-types'
 
 import Modal from 'components/ui/Modal'
 import Button from 'components/ui/Button'
@@ -69,6 +70,16 @@ const SettingsModal = ({ onSubmit, formValues, isShown, onHide: handleHide }) =>
       />
     </Modal>
   )
+}
+
+SettingsModal.propTypes = {
+  formValues: PropTypes.shape({
+    chartMode: PropTypes.string.isRequired,
+    unitSystem: PropTypes.string.isRequired
+  }).isRequired,
+  isShown: PropTypes.bool.isRequired,
+  onHide: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
 }
 
 export default SettingsModal

@@ -40,11 +40,15 @@ const VerticalSpeed = ({ value }) => {
         <Value data-testid="value[avg]">{valuePresentation(value.avg, unitSystem)}</Value>
         <MinMaxValue>
           <Max>
-            <span data-testid="value[max]">{valuePresentation(value.max, unitSystem)}</span>
+            <span data-testid="value[max]">
+              {valuePresentation(value.max, unitSystem)}
+            </span>
             <ChevronUp />
           </Max>
           <Min>
-            <span data-testid="value[min]">{valuePresentation(value.min, unitSystem)}</span>
+            <span data-testid="value[min]">
+              {valuePresentation(value.min, unitSystem)}
+            </span>
             <ChevronDown />
           </Min>
         </MinMaxValue>

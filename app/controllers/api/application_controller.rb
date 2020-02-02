@@ -14,7 +14,8 @@ module Api
     end
 
     def rows_per_page
-      params[:per_page].to_i
+      params[:per_page]
+        .to_i
         .then { |per_page| per_page.positive? ? per_page : 25 }
         .then { |per_page| [per_page, 100].min }
     end

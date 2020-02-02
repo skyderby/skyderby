@@ -63,7 +63,7 @@ class Profile < ApplicationRecord
 
   class << self
     def search(query)
-      return all unless query.present?
+      return all if query.blank?
 
       where('LOWER(profiles.name) LIKE LOWER(?)', "%#{query}%")
     end
