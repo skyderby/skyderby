@@ -38,5 +38,3 @@ export const Footer = styled.div`
   border-top: 1px solid #e5e5e5;
   padding: 10px 15px;
 `
-
-

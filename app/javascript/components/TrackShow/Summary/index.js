@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Distance from './Distance'
 import HorizontalSpeed from './HorizontalSpeed'
@@ -25,4 +26,15 @@ const Summary = ({ selectedPoints }) => {
   )
 }
 
+Summary.propTypes = {
+  selectedPoints: PropTypes.arrayOf(
+    PropTypes.shape({
+      gpsTime: PropTypes.number.isRequired,
+      altitude: PropTypes.number.isRequired,
+      elevation: PropTypes.number.isRequired,
+      vSpeed: PropTypes.number.isRequired,
+      hSpeed: PropTypes.number.isRequired
+    })
+  ).isRequired
+}
 export default Summary
