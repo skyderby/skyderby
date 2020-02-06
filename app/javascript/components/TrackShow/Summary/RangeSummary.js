@@ -32,7 +32,7 @@ export class RangeSummary {
     return this.points.reduce((acc, point, idx) => {
       if (idx === 0) return acc
 
-      const prevPoint = this.points[idx -1]
+      const prevPoint = this.points[idx - 1]
       const currentPosition = new LatLon(point.latitude, point.longitude)
       const prevPosition = new LatLon(prevPoint.latitude, prevPoint.longitude)
 

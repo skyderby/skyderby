@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "lint": "yarn eslint app/javascript",
+    "lint": "yarn eslint app/javascript spec/javascript",
     "test": "jest"
   },
   "prettier": {
