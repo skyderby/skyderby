@@ -1,7 +1,10 @@
 const findStartIndex = (points, fromAltitude) => {
   if (fromAltitude === undefined) return 0
 
-  return Math.max(points.findIndex(el => el.altitude <= fromAltitude), 0)
+  return Math.max(
+    points.findIndex(el => el.altitude <= fromAltitude),
+    0
+  )
 }
 
 const findEndIndex = (points, startPoint, toAltitude) => {
