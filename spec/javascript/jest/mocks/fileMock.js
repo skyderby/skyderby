@@ -1,3 +1,5 @@
 import React from 'react'
 
-export default () => <span />
+const FileMock = () => <span />
+
+export default FileMock
