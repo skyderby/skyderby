@@ -13,7 +13,7 @@
       "spec/javascript"
     ],
     "moduleNameMapper": {
-       "\\.svg$": "<rootDir>/spec/javascript/jest/mocks/fileMock.js"
+      "\\.svg$": "<rootDir>/spec/javascript/jest/mocks/fileMock.js"
     },
     "transformIgnorePatterns": [
       "/node_modules/(?!geodesy)"
