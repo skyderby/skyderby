@@ -1,6 +1,7 @@
 import React from 'react'
 import { Formik, Field } from 'formik'
 import PropTypes from 'prop-types'
+import I18n from 'i18n-js'
 
 import Modal from 'components/ui/Modal'
 import Button from 'components/ui/Button'
@@ -34,28 +35,30 @@ const SettingsModal = ({ onSubmit, formValues, isShown, onHide: handleHide }) =>
 
   return (
     <Modal isShown={isShown} onHide={handleHide} title="View preferences">
-      <Formik
-        initialValues={formValues}
-        onSubmit={onSubmit}
-        render={({ values, handleSubmit, setFieldValue }) => (
+      <Formik initialValues={formValues} onSubmit={onSubmit}>
+        {({ values, handleSubmit, setFieldValue }) => (
           <form onSubmit={handleSubmit}>
             <FormBody>
               <FormGroup>
-                <Label>{I18n.t('tracks.show.menu_header')}</Label>
+                <Label htmlFor="chartMode">{I18n.t('tracks.show.menu_header')}</Label>
                 <Field
                   as={Select}
+                  name="chartMode"
+                  id="chartMode"
                   value={values.chartMode}
                   options={chartModeOptions}
                   onChange={({ value }) => setFieldValue('chartMode', value)}
                 />
               </FormGroup>
               <FormGroup>
-                <Label>Units system</Label>
+                <Label htmlFor="unitSystem">Units system</Label>
                 <Field
                   as={Select}
+                  name="unitSystem"
+                  id="unitSystem"
                   value={values.unitSystem}
                   options={unitSystemOptions}
-                  onChange={({ value }) => setFieldValue('unitsSystem', value)}
+                  onChange={({ value }) => setFieldValue('unitSystem', value)}
                 />
               </FormGroup>
             </FormBody>
@@ -67,7 +70,7 @@ const SettingsModal = ({ onSubmit, formValues, isShown, onHide: handleHide }) =>
             </Footer>
           </form>
         )}
-      />
+      </Formik>
     </Modal>
   )
 }
