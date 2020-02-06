@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "yarn eslint app/javascript spec/javascript"
   },
   "jest": {
     "roots": [
