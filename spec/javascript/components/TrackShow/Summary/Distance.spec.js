@@ -36,12 +36,4 @@ describe('Summary/Distance', () => {
       expect(getByTestId('value')).toHaveTextContent('1.243')
     })
   })
-
-  describe('empty values', () => {
-    it('shows placeholder', () => {
-      const { getByTestId } = renderWithRedux(<Elevation />)
-
-      expect(getByTestId('value')).toHaveTextContent('----')
-    })
-  })
 })
