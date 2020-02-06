@@ -16,6 +16,11 @@ import jQuery from 'jquery'
 window.Rails = Rails
 window.$ = window.jQuery = jQuery
 
+import I18n from 'i18n-js'
+I18n.translations = window.I18n.translations
+I18n.defaultLocale = window.I18n.defaultLocale
+I18n.locale = window.I18n.locale
+
 import 'jquery-jcrop'
 import 'jquery-validation'
 import 'jquery-validation/dist/additional-methods'

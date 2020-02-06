@@ -6,8 +6,8 @@ export default [
     altitude: 4062.414,
     latitude: 13.1511073,
     longitude: 101.0718188,
-    hSpeed: 113.067036894048,
-    vSpeed: 32.256,
+    hSpeed: 31.407510248346668,
+    vSpeed: 8.959999999999999,
     glideRatio: 3.5053024830744
   },
   {
@@ -17,8 +17,8 @@ export default [
     altitude: 4059.897,
     latitude: 13.1511207,
     longitude: 101.0718727,
-    hSpeed: 112.400722915825,
-    vSpeed: 38.52,
+    hSpeed: 31.22242303217361,
+    vSpeed: 10.700000000000001,
     glideRatio: 2.9179834609508
   },
   {
@@ -28,8 +28,8 @@ export default [
     altitude: 4041.187,
     latitude: 13.151155,
     longitude: 101.0721128,
-    hSpeed: 89.5317901083185,
-    vSpeed: 73.548,
+    hSpeed: 24.869941696755138,
+    vSpeed: 20.43,
     glideRatio: 1.21732460581278
   },
   {
@@ -39,8 +39,8 @@ export default [
     altitude: 4015.804,
     latitude: 13.1511336,
     longitude: 101.0723038,
-    hSpeed: 75.2671242973983,
-    vSpeed: 97.02,
+    hSpeed: 20.90753452705508,
+    vSpeed: 26.95,
     glideRatio: 0.775789778369391
   },
   {
@@ -50,8 +50,8 @@ export default [
     altitude: 3986.668,
     latitude: 13.1510836,
     longitude: 101.0724815,
-    hSpeed: 75.1348978837398,
-    vSpeed: 106.452,
+    hSpeed: 20.8708049677055,
+    vSpeed: 29.57,
     glideRatio: 0.705810110507456
   },
   {
@@ -61,8 +61,8 @@ export default [
     altitude: 3956.861,
     latitude: 13.1510396,
     longitude: 101.0726771,
-    hSpeed: 80.945653768439,
-    vSpeed: 106.668,
+    hSpeed: 22.484903824566388,
+    vSpeed: 29.630000000000003,
     glideRatio: 0.758856018378886
   },
   {
@@ -72,8 +72,8 @@ export default [
     altitude: 3928.229,
     latitude: 13.1510023,
     longitude: 101.0728954,
-    hSpeed: 90.0201361474198,
-    vSpeed: 103.212,
+    hSpeed: 25.00559337428328,
+    vSpeed: 28.67,
     glideRatio: 0.872186723902451
   },
   {
@@ -83,8 +83,8 @@ export default [
     altitude: 3900.048,
     latitude: 13.1509552,
     longitude: 101.0731318,
-    hSpeed: 97.1549562297261,
-    vSpeed: 101.124,
+    hSpeed: 26.987487841590582,
+    vSpeed: 28.089999999999996,
     glideRatio: 0.960750724157729
   },
   {
@@ -94,8 +94,8 @@ export default [
     altitude: 3871.964,
     latitude: 13.1508925,
     longitude: 101.0733847,
-    hSpeed: 104.919250092631,
-    vSpeed: 100.08,
+    hSpeed: 29.144236136841943,
+    vSpeed: 27.799999999999997,
     glideRatio: 1.04835381787201
   },
   {
@@ -105,8 +105,8 @@ export default [
     altitude: 3844.207,
     latitude: 13.150826,
     longitude: 101.0736546,
-    hSpeed: 110.564445786157,
-    vSpeed: 101.34,
+    hSpeed: 30.712346051710277,
+    vSpeed: 28.15,
     glideRatio: 1.09102472652612
   },
   {
@@ -116,8 +116,8 @@ export default [
     altitude: 3814.336,
     latitude: 13.1507596,
     longitude: 101.0739376,
-    hSpeed: 116.111965894993,
-    vSpeed: 109.44,
+    hSpeed: 32.253323859720275,
+    vSpeed: 30.4,
     glideRatio: 1.06096460064869
   },
   {
@@ -127,8 +127,8 @@ export default [
     altitude: 3782.39,
     latitude: 13.1506922,
     longitude: 101.0742327,
-    hSpeed: 120.919278859907,
-    vSpeed: 116.784,
+    hSpeed: 33.58868857219639,
+    vSpeed: 32.44,
     glideRatio: 1.03540963539446
   },
   {
@@ -138,8 +138,8 @@ export default [
     altitude: 3749.185,
     latitude: 13.1506196,
     longitude: 101.074541,
-    hSpeed: 127.218748618276,
-    vSpeed: 118.008,
+    hSpeed: 35.33854128285444,
+    vSpeed: 32.78,
     glideRatio: 1.07805190002606
   },
   {
@@ -149,8 +149,8 @@ export default [
     altitude: 3721.896,
     latitude: 13.1505457,
     longitude: 101.0748695,
-    hSpeed: 132.72504782444,
-    vSpeed: 92.592,
+    hSpeed: 36.86806884012222,
+    vSpeed: 25.72,
     glideRatio: 1.43343969051798
   },
   {
@@ -160,8 +160,8 @@ export default [
     altitude: 3700.591,
     latitude: 13.1504805,
     longitude: 101.0752027,
-    hSpeed: 131.983531699981,
-    vSpeed: 72.972,
+    hSpeed: 36.66209213888361,
+    vSpeed: 20.27,
     glideRatio: 1.80868732801597
   },
   {
@@ -171,8 +171,8 @@ export default [
     altitude: 3683.23,
     latitude: 13.1504146,
     longitude: 101.0755288,
-    hSpeed: 128.064043290847,
-    vSpeed: 60.336,
+    hSpeed: 35.57334535856861,
+    vSpeed: 16.759999999999998,
     glideRatio: 2.12251463953274
   },
   {
@@ -182,8 +182,8 @@ export default [
     altitude: 3668.04,
     latitude: 13.1503463,
     longitude: 101.0758413,
-    hSpeed: 122.446462946057,
-    vSpeed: 53.46,
+    hSpeed: 34.01290637390472,
+    vSpeed: 14.85,
     glideRatio: 2.29043140565014
   },
   {
@@ -193,8 +193,8 @@ export default [
     altitude: 3653.89,
     latitude: 13.1502937,
     longitude: 101.0761413,
-    hSpeed: 116.802575588041,
-    vSpeed: 50.652,
+    hSpeed: 32.445159885566945,
+    vSpeed: 14.07,
     glideRatio: 2.30598151283347
   },
   {
@@ -204,8 +204,8 @@ export default [
     altitude: 3640.257,
     latitude: 13.1502731,
     longitude: 101.0764257,
-    hSpeed: 108.261577228489,
-    vSpeed: 49.104,
+    hSpeed: 30.072660341246944,
+    vSpeed: 13.639999999999999,
     glideRatio: 2.20474049422631
   },
   {
@@ -215,8 +215,8 @@ export default [
     altitude: 3626.033,
     latitude: 13.1502992,
     longitude: 101.0766883,
-    hSpeed: 99.9147556670185,
-    vSpeed: 52.92,
+    hSpeed: 27.754098796394025,
+    vSpeed: 14.7,
     glideRatio: 1.88803393172748
   },
   {
@@ -226,8 +226,8 @@ export default [
     altitude: 3609.653,
     latitude: 13.1503754,
     longitude: 101.0769205,
-    hSpeed: 92.6373178368199,
-    vSpeed: 60.444,
+    hSpeed: 25.732588288005527,
+    vSpeed: 16.79,
     glideRatio: 1.53261395402058
   },
   {
@@ -237,8 +237,8 @@ export default [
     altitude: 3590.844,
     latitude: 13.1505076,
     longitude: 101.077104,
-    hSpeed: 88.2245720873726,
-    vSpeed: 69.228,
+    hSpeed: 24.50682557982572,
+    vSpeed: 19.229999999999997,
     glideRatio: 1.27440590638719
   },
   {
@@ -248,8 +248,8 @@ export default [
     altitude: 3569.755,
     latitude: 13.1506835,
     longitude: 101.0772361,
-    hSpeed: 87.4446002449551,
-    vSpeed: 77.688,
+    hSpeed: 24.29016673470975,
+    vSpeed: 21.580000000000002,
     glideRatio: 1.12558696639063
   },
   {
@@ -259,8 +259,8 @@ export default [
     altitude: 3546.359,
     latitude: 13.1508959,
     longitude: 101.0773063,
-    hSpeed: 90.8103692757606,
-    vSpeed: 86.724,
+    hSpeed: 25.225102576600168,
+    vSpeed: 24.09,
     glideRatio: 1.04711924352844
   },
   {
@@ -270,8 +270,8 @@ export default [
     altitude: 3520.271,
     latitude: 13.1511319,
     longitude: 101.0773066,
-    hSpeed: 97.1382470502737,
-    vSpeed: 95.184,
+    hSpeed: 26.982846402853806,
+    vSpeed: 26.439999999999998,
     glideRatio: 1.02053125578116
   },
   {
@@ -281,8 +281,8 @@ export default [
     altitude: 3492.316,
     latitude: 13.151381,
     longitude: 101.0772377,
-    hSpeed: 106.559252024402,
-    vSpeed: 100.116,
+    hSpeed: 29.599792229000556,
+    vSpeed: 27.81,
     glideRatio: 1.06435786512048
   },
   {
@@ -292,8 +292,8 @@ export default [
     altitude: 3463.333,
     latitude: 13.1516222,
     longitude: 101.0770919,
-    hSpeed: 115.567210989969,
-    vSpeed: 105.012,
+    hSpeed: 32.10200305276916,
+    vSpeed: 29.169999999999998,
     glideRatio: 1.1005143315999
   },
   {
@@ -303,8 +303,8 @@ export default [
     altitude: 3433.467,
     latitude: 13.1518434,
     longitude: 101.0768725,
-    hSpeed: 127.706619405574,
-    vSpeed: 106.92,
+    hSpeed: 35.474060945992775,
+    vSpeed: 29.7,
     glideRatio: 1.1944128264644
   },
   {
@@ -314,8 +314,8 @@ export default [
     altitude: 3404.393,
     latitude: 13.1520419,
     longitude: 101.0765923,
-    hSpeed: 139.156583229109,
-    vSpeed: 104.544,
+    hSpeed: 38.65460645253028,
+    vSpeed: 29.04,
     glideRatio: 1.3310814894122
   },
   {
@@ -325,8 +325,8 @@ export default [
     altitude: 3375.367,
     latitude: 13.1522267,
     longitude: 101.0762712,
-    hSpeed: 148.555407845019,
-    vSpeed: 105.264,
+    hSpeed: 41.265391068060836,
+    vSpeed: 29.24,
     glideRatio: 1.41126508440701
   },
   {
@@ -336,8 +336,8 @@ export default [
     altitude: 3344.79,
     latitude: 13.1524001,
     longitude: 101.0759219,
-    hSpeed: 155.749551421505,
-    vSpeed: 111.744,
+    hSpeed: 43.26376428375139,
+    vSpeed: 31.04,
     glideRatio: 1.39380683903838
   },
   {
@@ -347,8 +347,8 @@ export default [
     altitude: 3312.912,
     latitude: 13.1525624,
     longitude: 101.0755455,
-    hSpeed: 163.760597018941,
-    vSpeed: 115.272,
+    hSpeed: 45.48905472748361,
+    vSpeed: 32.02,
     glideRatio: 1.42064505707319
   },
   {
@@ -358,8 +358,8 @@ export default [
     altitude: 3280.531,
     latitude: 13.1527209,
     longitude: 101.0751475,
-    hSpeed: 170.578428132047,
-    vSpeed: 116.604,
+    hSpeed: 47.38289670334639,
+    vSpeed: 32.39,
     glideRatio: 1.46288659164392
   },
   {
@@ -369,8 +369,8 @@ export default [
     altitude: 3248.408,
     latitude: 13.1528698,
     longitude: 101.0747263,
-    hSpeed: 177.10772518442,
-    vSpeed: 114.912,
+    hSpeed: 49.19659032900555,
+    vSpeed: 31.92,
     glideRatio: 1.5412465641919
   },
   {
@@ -380,8 +380,8 @@ export default [
     altitude: 3217.732,
     latitude: 13.1530068,
     longitude: 101.074284,
-    hSpeed: 183.493889336948,
-    vSpeed: 106.236,
+    hSpeed: 50.97052481581889,
+    vSpeed: 29.51,
     glideRatio: 1.72722889921446
   },
   {
@@ -391,8 +391,8 @@ export default [
     altitude: 3192.976,
     latitude: 13.1531246,
     longitude: 101.0738233,
-    hSpeed: 185.990971522813,
-    vSpeed: 84.528,
+    hSpeed: 51.664158756336946,
+    vSpeed: 23.48,
     glideRatio: 2.2003474768457
   },
   {
@@ -402,8 +402,8 @@ export default [
     altitude: 3172.538,
     latitude: 13.1532253,
     longitude: 101.073359,
-    hSpeed: 185.155769621149,
-    vSpeed: 70.992,
+    hSpeed: 51.432158228096945,
+    vSpeed: 19.720000000000002,
     glideRatio: 2.60812161400086
   },
   {
@@ -413,8 +413,8 @@ export default [
     altitude: 3154.86,
     latitude: 13.1533095,
     longitude: 101.072898,
-    hSpeed: 181.649821535833,
-    vSpeed: 61.596,
+    hSpeed: 50.458283759953616,
+    vSpeed: 17.11,
     glideRatio: 2.94905223611652
   },
   {
@@ -424,8 +424,8 @@ export default [
     altitude: 3139.157,
     latitude: 13.153379,
     longitude: 101.0724449,
-    hSpeed: 177.229111513882,
-    vSpeed: 55.548,
+    hSpeed: 49.23030875385611,
+    vSpeed: 15.43,
     glideRatio: 3.19055792312742
   },
   {
@@ -435,8 +435,8 @@ export default [
     altitude: 3124.753,
     latitude: 13.1534358,
     longitude: 101.0720025,
-    hSpeed: 172.421735984765,
-    vSpeed: 50.868,
+    hSpeed: 47.89492666243472,
+    vSpeed: 14.13,
     glideRatio: 3.38959141276962
   },
   {
@@ -446,8 +446,8 @@ export default [
     altitude: 3110.577,
     latitude: 13.1534832,
     longitude: 101.071571,
-    hSpeed: 168.012215984434,
-    vSpeed: 51.264,
+    hSpeed: 46.670059995676105,
+    vSpeed: 14.24,
     glideRatio: 3.27739185362893
   },
   {
@@ -457,8 +457,8 @@ export default [
     altitude: 3096.668,
     latitude: 13.1535231,
     longitude: 101.0711503,
-    hSpeed: 163.47356219279,
-    vSpeed: 50.076,
+    hSpeed: 45.409322831330556,
+    vSpeed: 13.91,
     glideRatio: 3.26450918988717
   },
   {
@@ -468,8 +468,8 @@ export default [
     altitude: 3081.887,
     latitude: 13.1535599,
     longitude: 101.0707389,
-    hSpeed: 160.076848844547,
-    vSpeed: 54.108,
+    hSpeed: 44.465791345707494,
+    vSpeed: 15.03,
     glideRatio: 2.95846915141101
   },
   {
@@ -479,8 +479,8 @@ export default [
     altitude: 3066.479,
     latitude: 13.1535922,
     longitude: 101.0703346,
-    hSpeed: 157.491668351059,
-    vSpeed: 55.872,
+    hSpeed: 43.74768565307194,
+    vSpeed: 15.52,
     glideRatio: 2.81879417867732
   },
   {
@@ -490,8 +490,8 @@ export default [
     altitude: 3050.196,
     latitude: 13.1536174,
     longitude: 101.0699352,
-    hSpeed: 155.717915732262,
-    vSpeed: 59.112,
+    hSpeed: 43.254976592294994,
+    vSpeed: 16.42,
     glideRatio: 2.63428602876341
   },
   {
@@ -501,8 +501,8 @@ export default [
     altitude: 3033.03,
     latitude: 13.1536329,
     longitude: 101.0695376,
-    hSpeed: 154.740462969451,
-    vSpeed: 62.316,
+    hSpeed: 42.98346193595861,
+    vSpeed: 17.31,
     glideRatio: 2.4831578241455
   },
   {
@@ -512,8 +512,8 @@ export default [
     altitude: 3014.729,
     latitude: 13.1536439,
     longitude: 101.0691412,
-    hSpeed: 154.711402087887,
-    vSpeed: 66.816,
+    hSpeed: 42.9753894688575,
+    vSpeed: 18.56,
     glideRatio: 2.31548434638242
   },
   {
@@ -523,8 +523,8 @@ export default [
     altitude: 2995.627,
     latitude: 13.1536508,
     longitude: 101.0687425,
-    hSpeed: 156.003967795694,
-    vSpeed: 69.66,
+    hSpeed: 43.334435498803884,
+    vSpeed: 19.349999999999998,
     glideRatio: 2.2395057105325
   },
   {
@@ -534,8 +534,8 @@ export default [
     altitude: 2975.504,
     latitude: 13.153656,
     longitude: 101.0683409,
-    hSpeed: 157.516328753561,
-    vSpeed: 73.62,
+    hSpeed: 43.75453576487806,
+    vSpeed: 20.45,
     glideRatio: 2.13958610097204
   },
   {
@@ -545,8 +545,8 @@ export default [
     altitude: 2954.687,
     latitude: 13.1536624,
     longitude: 101.0679345,
-    hSpeed: 159.327349516648,
-    vSpeed: 75.024,
+    hSpeed: 44.257597087957784,
+    vSpeed: 20.84,
     glideRatio: 2.12368508099605
   },
   {
@@ -556,8 +556,8 @@ export default [
     altitude: 2933.386,
     latitude: 13.1536687,
     longitude: 101.0675231,
-    hSpeed: 161.217650894683,
-    vSpeed: 76.464,
+    hSpeed: 44.78268080407861,
+    vSpeed: 21.24,
     glideRatio: 2.10841246723534
   },
   {
@@ -567,8 +567,8 @@ export default [
     altitude: 2911.729,
     latitude: 13.1536699,
     longitude: 101.0671078,
-    hSpeed: 162.648,
-    vSpeed: 78.48,
+    hSpeed: 45.18,
+    vSpeed: 21.8,
     glideRatio: 2.07247706422018
   },
   {
@@ -578,8 +578,8 @@ export default [
     altitude: 2889.705,
     latitude: 13.1536685,
     longitude: 101.0666886,
-    hSpeed: 164.019796707593,
-    vSpeed: 78.336,
+    hSpeed: 45.56105464099806,
+    vSpeed: 21.759999999999998,
     glideRatio: 2.09379846695763
   },
   {
@@ -589,8 +589,8 @@ export default [
     altitude: 2869.293,
     latitude: 13.1536659,
     longitude: 101.0662668,
-    hSpeed: 164.484886406016,
-    vSpeed: 72.036,
+    hSpeed: 45.69024622389333,
+    vSpeed: 20.01,
     glideRatio: 2.28337062588173
   },
   {
@@ -600,8 +600,8 @@ export default [
     altitude: 2850.5,
     latitude: 13.1536668,
     longitude: 101.0658481,
-    hSpeed: 162.722903071448,
-    vSpeed: 66.492,
+    hSpeed: 45.20080640873555,
+    vSpeed: 18.470000000000002,
     glideRatio: 2.44725535510209
   },
   {
@@ -611,8 +611,8 @@ export default [
     altitude: 2831.898,
     latitude: 13.1536757,
     longitude: 101.0654344,
-    hSpeed: 160.695427190695,
-    vSpeed: 67.5,
+    hSpeed: 44.63761866408194,
+    vSpeed: 18.75,
     glideRatio: 2.38067299541771
   },
   {
@@ -622,8 +622,8 @@ export default [
     altitude: 2812.595,
     latitude: 13.1537035,
     longitude: 101.0650262,
-    hSpeed: 158.858899807345,
-    vSpeed: 70.488,
+    hSpeed: 44.127472168706944,
+    vSpeed: 19.58,
     glideRatio: 2.25370133650188
   },
   {
@@ -633,8 +633,8 @@ export default [
     altitude: 2792.562,
     latitude: 13.1537531,
     longitude: 101.064624,
-    hSpeed: 158.269302898572,
-    vSpeed: 71.928,
+    hSpeed: 43.96369524960333,
+    vSpeed: 19.98,
     glideRatio: 2.2003851476278
   },
   {
@@ -644,8 +644,8 @@ export default [
     altitude: 2772.117,
     latitude: 13.1538132,
     longitude: 101.0642227,
-    hSpeed: 158.63458311478,
-    vSpeed: 74.412,
+    hSpeed: 44.06516197632778,
+    vSpeed: 20.67,
     glideRatio: 2.13184141153013
   },
   {
@@ -655,8 +655,8 @@ export default [
     altitude: 2750.95,
     latitude: 13.1538783,
     longitude: 101.0638211,
-    hSpeed: 159.393641629771,
-    vSpeed: 76.14,
+    hSpeed: 44.27601156382528,
+    vSpeed: 21.15,
     glideRatio: 2.09342844273406
   },
   {
@@ -666,8 +666,8 @@ export default [
     altitude: 2729.288,
     latitude: 13.1539479,
     longitude: 101.0634179,
-    hSpeed: 160.134268312563,
-    vSpeed: 79.056,
+    hSpeed: 44.48174119793416,
+    vSpeed: 21.959999999999997,
     glideRatio: 2.02558020027023
   },
   {
@@ -677,8 +677,8 @@ export default [
     altitude: 2706.658,
     latitude: 13.1540191,
     longitude: 101.0630116,
-    hSpeed: 161.883358008166,
-    vSpeed: 81.648,
+    hSpeed: 44.967599446712775,
+    vSpeed: 22.68,
     glideRatio: 1.98269838830303
   },
   {
@@ -688,8 +688,8 @@ export default [
     altitude: 2684.046,
     latitude: 13.1540908,
     longitude: 101.0626006,
-    hSpeed: 163.903920001933,
-    vSpeed: 80.46,
+    hSpeed: 45.52886666720361,
+    vSpeed: 22.349999999999998,
     glideRatio: 2.03708575692186
   },
   {
@@ -699,8 +699,8 @@ export default [
     altitude: 2661.986,
     latitude: 13.1541615,
     longitude: 101.062185,
-    hSpeed: 165.687824537592,
-    vSpeed: 79.416,
+    hSpeed: 46.024395704886665,
+    vSpeed: 22.06,
     glideRatio: 2.08632800112814
   },
   {
@@ -710,8 +710,8 @@ export default [
     altitude: 2639.963,
     latitude: 13.1542304,
     longitude: 101.0617655,
-    hSpeed: 166.147211544461,
-    vSpeed: 81,
+    hSpeed: 46.15200320679472,
+    vSpeed: 22.5,
     glideRatio: 2.05120014252421
   },
   {
@@ -721,8 +721,8 @@ export default [
     altitude: 2615.376,
     latitude: 13.1542946,
     longitude: 101.0613448,
-    hSpeed: 166.50451453339,
-    vSpeed: 90.432,
+    hSpeed: 46.251254037052774,
+    vSpeed: 25.12,
     glideRatio: 1.84121234223937
   },
   {
@@ -732,8 +732,8 @@ export default [
     altitude: 2590.417,
     latitude: 13.1543566,
     longitude: 101.0609187,
-    hSpeed: 169.006500419363,
-    vSpeed: 86.436,
+    hSpeed: 46.94625011648972,
+    vSpeed: 24.01,
     glideRatio: 1.95527905524738
   },
   {
@@ -743,8 +743,8 @@ export default [
     altitude: 2569.64,
     latitude: 13.1544105,
     longitude: 101.0604902,
-    hSpeed: 168.047679948281,
-    vSpeed: 72.396,
+    hSpeed: 46.679911096744725,
+    vSpeed: 20.11,
     glideRatio: 2.32122879645673
   },
   {
@@ -754,8 +754,8 @@ export default [
     altitude: 2550.951,
     latitude: 13.1544585,
     longitude: 101.0600659,
-    hSpeed: 165.946880175555,
-    vSpeed: 65.34,
+    hSpeed: 46.096355604320834,
+    vSpeed: 18.150000000000002,
     glideRatio: 2.5397441104309
   },
   {
@@ -765,8 +765,8 @@ export default [
     altitude: 2533.544,
     latitude: 13.1545039,
     longitude: 101.0596485,
-    hSpeed: 162.818034627617,
-    vSpeed: 62.82,
+    hSpeed: 45.22723184100472,
+    vSpeed: 17.45,
     glideRatio: 2.59181844361059
   },
   {
@@ -776,8 +776,8 @@ export default [
     altitude: 2515.556,
     latitude: 13.1545471,
     longitude: 101.0592369,
-    hSpeed: 160.768845787982,
-    vSpeed: 65.664,
+    hSpeed: 44.65801271888389,
+    vSpeed: 18.24,
     glideRatio: 2.44835596046513
   },
   {
@@ -787,8 +787,8 @@ export default [
     altitude: 2496.613,
     latitude: 13.1545885,
     longitude: 101.0588285,
-    hSpeed: 160.036176910097,
-    vSpeed: 68.328,
+    hSpeed: 44.45449358613806,
+    vSpeed: 18.98,
     glideRatio: 2.34217563678283
   },
   {
@@ -798,8 +798,8 @@ export default [
     altitude: 2476.734,
     latitude: 13.1546283,
     longitude: 101.058422,
-    hSpeed: 159.635431255094,
-    vSpeed: 72.684,
+    hSpeed: 44.343175348637224,
+    vSpeed: 20.189999999999998,
     glideRatio: 2.19629397467248
   },
   {
@@ -809,8 +809,8 @@ export default [
     altitude: 2455.433,
     latitude: 13.1546602,
     longitude: 101.0580148,
-    hSpeed: 159.862494363124,
-    vSpeed: 78.12,
+    hSpeed: 44.40624843420111,
+    vSpeed: 21.7,
     glideRatio: 2.04637089558531
   },
   {
@@ -820,8 +820,8 @@ export default [
     altitude: 2432.366,
     latitude: 13.1546824,
     longitude: 101.0576042,
-    hSpeed: 161.006058867361,
-    vSpeed: 84.636,
+    hSpeed: 44.72390524093361,
+    vSpeed: 23.509999999999998,
     glideRatio: 1.90233539944422
   },
   {
@@ -831,8 +831,8 @@ export default [
     altitude: 2407.418,
     latitude: 13.1547053,
     longitude: 101.05719,
-    hSpeed: 162.936035793191,
-    vSpeed: 90.504,
+    hSpeed: 45.260009942553054,
+    vSpeed: 25.14,
     glideRatio: 1.80031861346671
   },
   {
@@ -842,8 +842,8 @@ export default [
     altitude: 2381.296,
     latitude: 13.15473,
     longitude: 101.0567692,
-    hSpeed: 165.585294129642,
-    vSpeed: 93.852,
+    hSpeed: 45.99591503601167,
+    vSpeed: 26.07,
     glideRatio: 1.76432355335679
   },
   {
@@ -853,8 +853,8 @@ export default [
     altitude: 2355.707,
     latitude: 13.154753,
     longitude: 101.0563396,
-    hSpeed: 169.253738700213,
-    vSpeed: 90.576,
+    hSpeed: 47.01492741672583,
+    vSpeed: 25.159999999999997,
     glideRatio: 1.86863781465524
   },
   {
@@ -864,8 +864,8 @@ export default [
     altitude: 2331.443,
     latitude: 13.154775,
     longitude: 101.0559042,
-    hSpeed: 170.820823180314,
-    vSpeed: 85.932,
+    hSpeed: 47.45022866119833,
+    vSpeed: 23.87,
     glideRatio: 1.98786043825715
   },
   {
@@ -875,8 +875,8 @@ export default [
     altitude: 2308.096,
     latitude: 13.1547963,
     longitude: 101.0554662,
-    hSpeed: 171.40749299841,
-    vSpeed: 83.16,
+    hSpeed: 47.61319249955833,
+    vSpeed: 23.099999999999998,
     glideRatio: 2.06117716448305
   },
   {
@@ -886,8 +886,8 @@ export default [
     altitude: 2285.212,
     latitude: 13.1548121,
     longitude: 101.0550263,
-    hSpeed: 172.375056246546,
-    vSpeed: 82.44,
+    hSpeed: 47.881960068485,
+    vSpeed: 22.9,
     glideRatio: 2.09091528683341
   },
   {
@@ -897,8 +897,8 @@ export default [
     altitude: 2261.824,
     latitude: 13.1548263,
     longitude: 101.0545838,
-    hSpeed: 173.032092884528,
-    vSpeed: 84.348,
+    hSpeed: 48.06447024570222,
+    vSpeed: 23.43,
     glideRatio: 2.05140718078115
   },
   {
@@ -908,8 +908,8 @@ export default [
     altitude: 2238.232,
     latitude: 13.1548427,
     longitude: 101.0541385,
-    hSpeed: 174.19486398858,
-    vSpeed: 84.312,
+    hSpeed: 48.38746221905,
+    vSpeed: 23.419999999999998,
     glideRatio: 2.06607439022417
   },
   {
@@ -919,8 +919,8 @@ export default [
     altitude: 2214.289,
     latitude: 13.154849,
     longitude: 101.0536906,
-    hSpeed: 175.105199009053,
-    vSpeed: 86.472,
+    hSpeed: 48.640333058070276,
+    vSpeed: 24.019999999999996,
     glideRatio: 2.02499304987803
   },
   {
@@ -930,8 +930,8 @@ export default [
     altitude: 2189.79,
     latitude: 13.1548497,
     longitude: 101.0532399,
-    hSpeed: 175.936511912678,
-    vSpeed: 88.272,
+    hSpeed: 48.87125330907722,
+    vSpeed: 24.52,
     glideRatio: 1.99311799792322
   },
   {
@@ -941,8 +941,8 @@ export default [
     altitude: 2165.086,
     latitude: 13.1548597,
     longitude: 101.0527873,
-    hSpeed: 176.925786204273,
-    vSpeed: 88.38,
+    hSpeed: 49.146051723409165,
+    vSpeed: 24.549999999999997,
     glideRatio: 2.00187583394742
   },
   {
@@ -952,8 +952,8 @@ export default [
     altitude: 2140.308,
     latitude: 13.1548775,
     longitude: 101.0523328,
-    hSpeed: 178.009920442654,
-    vSpeed: 89.424,
+    hSpeed: 49.447200122959444,
+    vSpeed: 24.84,
     glideRatio: 1.99062802427373
   },
   {
@@ -963,8 +963,8 @@ export default [
     altitude: 2114.871,
     latitude: 13.1548994,
     longitude: 101.0518765,
-    hSpeed: 178.31138700599,
-    vSpeed: 92.304,
+    hSpeed: 49.530940834997224,
+    vSpeed: 25.64,
     glideRatio: 1.93178396392345
   },
   {
@@ -974,8 +974,8 @@ export default [
     altitude: 2088.889,
     latitude: 13.1549274,
     longitude: 101.0514172,
-    hSpeed: 180.192874664899,
-    vSpeed: 92.88,
+    hSpeed: 50.05357629580527,
+    vSpeed: 25.799999999999997,
     glideRatio: 1.94006109673664
   },
   {
@@ -985,8 +985,8 @@ export default [
     altitude: 2063.915,
     latitude: 13.154963,
     longitude: 101.0509537,
-    hSpeed: 182.13502951382,
-    vSpeed: 88.128,
+    hSpeed: 50.59306375383889,
+    vSpeed: 24.48,
     glideRatio: 2.06671012066335
   },
   {
@@ -996,8 +996,8 @@ export default [
     altitude: 2039.97,
     latitude: 13.1550081,
     longitude: 101.0504874,
-    hSpeed: 183.084915118641,
-    vSpeed: 83.412,
+    hSpeed: 50.856920866289165,
+    vSpeed: 23.17,
     glideRatio: 2.19494695150148
   },
   {
@@ -1007,8 +1007,8 @@ export default [
     altitude: 2016.53,
     latitude: 13.1550554,
     longitude: 101.0500238,
-    hSpeed: 182.593795732495,
-    vSpeed: 84.744,
+    hSpeed: 50.720498814581944,
+    vSpeed: 23.54,
     glideRatio: 2.15465160639685
   },
   {
@@ -1018,8 +1018,8 @@ export default [
     altitude: 1992.699,
     latitude: 13.1550867,
     longitude: 101.0495552,
-    hSpeed: 183.887386843144,
-    vSpeed: 85.968,
+    hSpeed: 51.07982967865111,
+    vSpeed: 23.88,
     glideRatio: 2.1390213433271
   },
   {
@@ -1029,8 +1029,8 @@ export default [
     altitude: 1968.228,
     latitude: 13.1551072,
     longitude: 101.0490833,
-    hSpeed: 184.612162979583,
-    vSpeed: 88.704,
+    hSpeed: 51.28115638321749,
+    vSpeed: 24.639999999999997,
     glideRatio: 2.0812157623059
   },
   {
@@ -1040,8 +1040,8 @@ export default [
     altitude: 1943.03,
     latitude: 13.1551275,
     longitude: 101.0486091,
-    hSpeed: 185.441790241574,
-    vSpeed: 91.044,
+    hSpeed: 51.511608400437225,
+    vSpeed: 25.29,
     glideRatio: 2.03683702650998
   },
   {
@@ -1051,8 +1051,8 @@ export default [
     altitude: 1917.195,
     latitude: 13.1551405,
     longitude: 101.0481318,
-    hSpeed: 186.986942217899,
-    vSpeed: 93.384,
+    hSpeed: 51.94081728274973,
+    vSpeed: 25.939999999999998,
     glideRatio: 2.00234453672898
   },
   {
@@ -1062,8 +1062,8 @@ export default [
     altitude: 1891.075,
     latitude: 13.155142,
     longitude: 101.0476502,
-    hSpeed: 188.434402846189,
-    vSpeed: 93.672,
+    hSpeed: 52.34288967949694,
+    vSpeed: 26.02,
     glideRatio: 2.01164064871242
   },
   {
@@ -1073,8 +1073,8 @@ export default [
     altitude: 1864.848,
     latitude: 13.1551276,
     longitude: 101.0471651,
-    hSpeed: 189.886746077761,
-    vSpeed: 94.356,
+    hSpeed: 52.74631835493361,
+    vSpeed: 26.209999999999997,
     glideRatio: 2.01245014707873
   },
   {
@@ -1084,8 +1084,8 @@ export default [
     altitude: 1838.341,
     latitude: 13.1550983,
     longitude: 101.0466786,
-    hSpeed: 190.503462393732,
-    vSpeed: 95.004,
+    hSpeed: 52.91762844270333,
+    vSpeed: 26.39,
     glideRatio: 2.00521517403195
   },
   {
@@ -1095,8 +1095,8 @@ export default [
     altitude: 1811.684,
     latitude: 13.1550538,
     longitude: 101.0461909,
-    hSpeed: 191.229451790251,
-    vSpeed: 95.796,
+    hSpeed: 53.11929216395861,
+    vSpeed: 26.61,
     glideRatio: 1.99621541390299
   },
   {
@@ -1106,8 +1106,8 @@ export default [
     altitude: 1784.937,
     latitude: 13.1549978,
     longitude: 101.0457021,
-    hSpeed: 191.563712680664,
-    vSpeed: 93.852,
+    hSpeed: 53.21214241129555,
+    vSpeed: 26.07,
     glideRatio: 2.04112552402361
   },
   {
@@ -1117,8 +1117,8 @@ export default [
     altitude: 1758.443,
     latitude: 13.154933,
     longitude: 101.0452174,
-    hSpeed: 191.13315404712,
-    vSpeed: 95.688,
+    hSpeed: 53.092542790866666,
+    vSpeed: 26.58,
     glideRatio: 1.99746210650363
   },
   {
@@ -1128,8 +1128,8 @@ export default [
     altitude: 1731.764,
     latitude: 13.1548438,
     longitude: 101.0447379,
-    hSpeed: 189.973838535731,
-    vSpeed: 95.904,
+    hSpeed: 52.77051070436972,
+    vSpeed: 26.639999999999997,
     glideRatio: 1.9808750264403
   },
   {
@@ -1139,8 +1139,8 @@ export default [
     altitude: 1704.911,
     latitude: 13.1547173,
     longitude: 101.0442719,
-    hSpeed: 187.842804834255,
-    vSpeed: 96.84,
+    hSpeed: 52.17855689840416,
+    vSpeed: 26.9,
     glideRatio: 1.93972330477339
   },
   {
@@ -1150,8 +1150,8 @@ export default [
     altitude: 1677.478,
     latitude: 13.1545481,
     longitude: 101.0438284,
-    hSpeed: 184.23903846905,
-    vSpeed: 99.18,
+    hSpeed: 51.177510685847224,
+    vSpeed: 27.55,
     glideRatio: 1.85762289240824
   },
   {
@@ -1161,8 +1161,8 @@ export default [
     altitude: 1649.115,
     latitude: 13.1543352,
     longitude: 101.043416,
-    hSpeed: 180.533252117165,
-    vSpeed: 102.312,
+    hSpeed: 50.14812558810139,
+    vSpeed: 28.419999999999998,
     glideRatio: 1.76453643870871
   },
   {
@@ -1172,8 +1172,8 @@ export default [
     altitude: 1620.703,
     latitude: 13.154087,
     longitude: 101.0430345,
-    hSpeed: 177.8719052352,
-    vSpeed: 101.772,
+    hSpeed: 49.40886256533333,
+    vSpeed: 28.27,
     glideRatio: 1.74774894111544
   },
   {
@@ -1183,8 +1183,8 @@ export default [
     altitude: 1592.561,
     latitude: 13.1538086,
     longitude: 101.0426846,
-    hSpeed: 174.484368308453,
-    vSpeed: 100.98,
+    hSpeed: 48.467880085681394,
+    vSpeed: 28.05,
     glideRatio: 1.72791016348241
   },
   {
@@ -1194,8 +1194,8 @@ export default [
     altitude: 1564.1,
     latitude: 13.153501,
     longitude: 101.0423792,
-    hSpeed: 168.907311955404,
-    vSpeed: 102.888,
+    hSpeed: 46.91869776539,
+    vSpeed: 28.580000000000002,
     glideRatio: 1.64166192321168
   },
   {
@@ -1205,8 +1205,8 @@ export default [
     altitude: 1535.034,
     latitude: 13.1531701,
     longitude: 101.0421215,
-    hSpeed: 164.415275202762,
-    vSpeed: 104.724,
+    hSpeed: 45.670909778544996,
+    vSpeed: 29.09,
     glideRatio: 1.56998658571829
   },
   {
@@ -1216,8 +1216,8 @@ export default [
     altitude: 1506.635,
     latitude: 13.1528206,
     longitude: 101.0419054,
-    hSpeed: 161.995443935933,
-    vSpeed: 100.872,
+    hSpeed: 44.998734426648056,
+    vSpeed: 28.02,
     glideRatio: 1.60595055055846
   },
   {
@@ -1227,8 +1227,8 @@ export default [
     altitude: 1479.483,
     latitude: 13.1524599,
     longitude: 101.0417201,
-    hSpeed: 160.061704351791,
-    vSpeed: 96.66,
+    hSpeed: 44.46158454216417,
+    vSpeed: 26.849999999999998,
     glideRatio: 1.65592493639345
   },
   {
@@ -1238,8 +1238,8 @@ export default [
     altitude: 1452.602,
     latitude: 13.1520943,
     longitude: 101.0415575,
-    hSpeed: 157.876533683762,
-    vSpeed: 97.416,
+    hSpeed: 43.85459268993389,
+    vSpeed: 27.06,
     glideRatio: 1.62064274537819
   },
   {
@@ -1249,8 +1249,8 @@ export default [
     altitude: 1424.582,
     latitude: 13.1517239,
     longitude: 101.0414257,
-    hSpeed: 154.891806264889,
-    vSpeed: 101.664,
+    hSpeed: 43.025501740246945,
+    vSpeed: 28.24,
     glideRatio: 1.52356592564614
   },
   {
@@ -1260,8 +1260,8 @@ export default [
     altitude: 1396.093,
     latitude: 13.1513502,
     longitude: 101.0413323,
-    hSpeed: 152.612407411717,
-    vSpeed: 101.628,
+    hSpeed: 42.39233539214361,
+    vSpeed: 28.23,
     glideRatio: 1.50167677620063
   },
   {
@@ -1271,8 +1271,8 @@ export default [
     altitude: 1368.375,
     latitude: 13.1509717,
     longitude: 101.0412662,
-    hSpeed: 153.156786490185,
-    vSpeed: 98.712,
+    hSpeed: 42.543551802829164,
+    vSpeed: 27.42,
     glideRatio: 1.55155185276547
   },
   {
@@ -1282,8 +1282,8 @@ export default [
     altitude: 1341.178,
     latitude: 13.1505895,
     longitude: 101.0412204,
-    hSpeed: 153.275152585147,
-    vSpeed: 97.2,
+    hSpeed: 42.57643127365194,
+    vSpeed: 27,
     glideRatio: 1.57690486198711
   },
   {
@@ -1293,8 +1293,8 @@ export default [
     altitude: 1314.088,
     latitude: 13.1502061,
     longitude: 101.0411966,
-    hSpeed: 152.620202961469,
-    vSpeed: 97.704,
+    hSpeed: 42.39450082263028,
+    vSpeed: 27.139999999999997,
     glideRatio: 1.56206709000112
   },
   {
@@ -1304,8 +1304,8 @@ export default [
     altitude: 1286.727,
     latitude: 13.1498232,
     longitude: 101.0411951,
-    hSpeed: 152.34188104392,
-    vSpeed: 98.496,
+    hSpeed: 42.31718917886667,
+    vSpeed: 27.36,
     glideRatio: 1.54668089104045
   },
   {
@@ -1315,8 +1315,8 @@ export default [
     altitude: 1259.089,
     latitude: 13.1494401,
     longitude: 101.0412101,
-    hSpeed: 153.136760054534,
-    vSpeed: 99.324,
+    hSpeed: 42.53798890403722,
+    vSpeed: 27.59,
     glideRatio: 1.54179010163238
   },
   {
@@ -1326,8 +1326,8 @@ export default [
     altitude: 1231.385,
     latitude: 13.1490553,
     longitude: 101.0412351,
-    hSpeed: 153.924355967469,
-    vSpeed: 99.612,
+    hSpeed: 42.75676554651917,
+    vSpeed: 27.669999999999998,
     glideRatio: 1.54523908733354
   },
   {
@@ -1337,8 +1337,8 @@ export default [
     altitude: 1203.866,
     latitude: 13.1486706,
     longitude: 101.0412711,
-    hSpeed: 153.972151507992,
-    vSpeed: 99.144,
+    hSpeed: 42.770042085553335,
+    vSpeed: 27.54,
     glideRatio: 1.55301532627281
   },
   {
@@ -1348,8 +1348,8 @@ export default [
     altitude: 1176.209,
     latitude: 13.1482879,
     longitude: 101.0413183,
-    hSpeed: 153.480143080465,
-    vSpeed: 99.468,
+    hSpeed: 42.633373077906946,
+    vSpeed: 27.63,
     glideRatio: 1.5430102453097
   },
   {
@@ -1359,8 +1359,8 @@ export default [
     altitude: 1148.58,
     latitude: 13.1479072,
     longitude: 101.0413761,
-    hSpeed: 153.319418574426,
-    vSpeed: 98.388,
+    hSpeed: 42.588727381785,
+    vSpeed: 27.330000000000002,
     glideRatio: 1.55831421082272
   },
   {
@@ -1370,8 +1370,8 @@ export default [
     altitude: 1122.385,
     latitude: 13.1475248,
     longitude: 101.0414385,
-    hSpeed: 154.689369305069,
-    vSpeed: 91.548,
+    hSpeed: 42.96926925140805,
+    vSpeed: 25.43,
     glideRatio: 1.68970779596571
   },
   {
@@ -1381,8 +1381,8 @@ export default [
     altitude: 1098.823,
     latitude: 13.1471434,
     longitude: 101.0414949,
-    hSpeed: 152.383866705108,
-    vSpeed: 81.612,
+    hSpeed: 42.32885186253,
+    vSpeed: 22.669999999999998,
     glideRatio: 1.86717476235244
   },
   {
@@ -1392,8 +1392,8 @@ export default [
     altitude: 1077.886,
     latitude: 13.1467744,
     longitude: 101.0415507,
-    hSpeed: 146.157681262396,
-    vSpeed: 73.26,
+    hSpeed: 40.59935590622111,
+    vSpeed: 20.35,
     glideRatio: 1.99505434428604
   },
   {
@@ -1403,8 +1403,8 @@ export default [
     altitude: 1057.975,
     latitude: 13.1464131,
     longitude: 101.0416044,
-    hSpeed: 144.764643860302,
-    vSpeed: 71.208,
+    hSpeed: 40.21240107230611,
+    vSpeed: 19.779999999999998,
     glideRatio: 2.03298286513175
   },
   {
@@ -1414,8 +1414,8 @@ export default [
     altitude: 1038.64,
     latitude: 13.1460585,
     longitude: 101.0416498,
-    hSpeed: 140.702466502901,
-    vSpeed: 69.408,
+    hSpeed: 39.08401847302805,
+    vSpeed: 19.28,
     glideRatio: 2.02717938138112
   },
   {
@@ -1425,8 +1425,8 @@ export default [
     altitude: 1017.986,
     latitude: 13.1457102,
     longitude: 101.0416875,
-    hSpeed: 138.786630191816,
-    vSpeed: 77.652,
+    hSpeed: 38.55184171994888,
+    vSpeed: 21.57,
     glideRatio: 1.78728983402638
   },
   {
@@ -1436,8 +1436,8 @@ export default [
     altitude: 994.606,
     latitude: 13.1453653,
     longitude: 101.0417111,
-    hSpeed: 136.605205523069,
-    vSpeed: 84.42,
+    hSpeed: 37.94589042307472,
+    vSpeed: 23.45,
     glideRatio: 1.61816163851065
   },
   {
@@ -1447,8 +1447,8 @@ export default [
     altitude: 971.436,
     latitude: 13.145028,
     longitude: 101.0417266,
-    hSpeed: 132.427970761467,
-    vSpeed: 83.088,
+    hSpeed: 36.78554743374084,
+    vSpeed: 23.08,
     glideRatio: 1.59382787841165
   },
   {
@@ -1458,8 +1458,8 @@ export default [
     altitude: 948.8,
     latitude: 13.1447554,
     longitude: 101.0417211,
-    hSpeed: 100.511342404726,
-    vSpeed: 83.52,
+    hSpeed: 27.91981733464611,
+    vSpeed: 23.2,
     glideRatio: 1.20344040235543
   },
   {
@@ -1469,8 +1469,8 @@ export default [
     altitude: 927.681,
     latitude: 13.1445536,
     longitude: 101.0416926,
-    hSpeed: 74.2723973492172,
-    vSpeed: 77.544,
+    hSpeed: 20.631221485893665,
+    vSpeed: 21.54,
     glideRatio: 0.957809725436103
   },
   {
@@ -1480,8 +1480,8 @@ export default [
     altitude: 909.666,
     latitude: 13.1444118,
     longitude: 101.0416403,
-    hSpeed: 56.4454859134014,
-    vSpeed: 61.056,
+    hSpeed: 15.679301642611499,
+    vSpeed: 16.959999999999997,
     glideRatio: 0.92448712515398
   }
 ]
