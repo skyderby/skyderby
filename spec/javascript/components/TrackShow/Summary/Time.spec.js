@@ -11,6 +11,12 @@ describe('Summary/Time', () => {
     expect(getByTestId('value')).toHaveTextContent('92.4')
   })
 
+  it('shows 1 decimal digit when whole number', () => {
+    const { getByTestId } = render(<Time value={92} />)
+
+    expect(getByTestId('value')).toHaveTextContent('92.0')
+  })
+
   it('shows placeholder if no value given', () => {
     const { getByTestId } = render(<Time />)
 
