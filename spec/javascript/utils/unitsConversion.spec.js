@@ -1,4 +1,4 @@
-import { msToKmh, msToMph, metersToFeet } from 'utils/unitsConversion'
+import { msToKmh, msToMph, metersToFeet, metersToMiles } from 'utils/unitsConversion'
 
 describe('units conversion helpers', () => {
   it('m/s to km/h', () => {
@@ -14,5 +14,12 @@ describe('units conversion helpers', () => {
 
   it('meters to feet', () => {
     expect(metersToFeet(1000)).toEqual(3280.84)
+  })
+
+  it('meters to miles', () => {
+    const result = metersToMiles(2000)
+    const rounded = Math.round(result * 1000) / 1000
+
+    expect(rounded).toEqual(1.243)
   })
 })
