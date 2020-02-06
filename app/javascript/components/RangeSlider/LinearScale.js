@@ -45,8 +45,9 @@ export class LinearScale {
   getValue(x) {
     const { domain, range } = this
 
-    return (this.interpolator ||
-      (this.interpolator = this.createInterpolator(domain, range)))(+x)
+    return (
+      this.interpolator || (this.interpolator = this.createInterpolator(domain, range))
+    )(+x)
   }
 
   setDomain(val) {
