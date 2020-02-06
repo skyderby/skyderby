@@ -10,15 +10,14 @@ import Time from './Time'
 import { Container } from './elements'
 import { RangeSummary } from './RangeSummary'
 
-const Summary = ({ selectedPoints }) => {
-  const summary = new RangeSummary(selectedPoints)
+const Summary = ({ selectedPoints, straightLine }) => {
+  const summary = new RangeSummary(selectedPoints, { straightLine })
 
-  const track = {}
   return (
     <Container>
-      <Distance track={track} />
-      <HorizontalSpeed track={track} />
-      <GlideRatio track={track} />
+      <Distance value={summary.distance} />
+      <HorizontalSpeed value={summary.horizontalSpeed} />
+      <GlideRatio value={summary.glideRatio} />
       <Elevation value={summary.elevation} />
       <VerticalSpeed value={summary.verticalSpeed} />
       <Time value={summary.time} />
@@ -31,10 +30,11 @@ Summary.propTypes = {
     PropTypes.shape({
       gpsTime: PropTypes.number.isRequired,
       altitude: PropTypes.number.isRequired,
-      elevation: PropTypes.number.isRequired,
       vSpeed: PropTypes.number.isRequired,
-      hSpeed: PropTypes.number.isRequired
+      hSpeed: PropTypes.number.isRequired,
+      glideRatio: PropTypes.number.isRequired
     })
-  ).isRequired
+  ).isRequired,
+  straightLine: PropTypes.bool.isRequired
 }
 export default Summary
