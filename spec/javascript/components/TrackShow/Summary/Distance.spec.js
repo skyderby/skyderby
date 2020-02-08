@@ -6,9 +6,15 @@ import Distance from 'components/TrackShow/Summary/Distance'
 
 describe('Summary/Distance', () => {
   it('shows elevation rounded to whole digit', () => {
-    const { getByTestId } = renderWithRedux(<Distance value={1000.373} />)
+    const { getByLabelText } = renderWithRedux(<Distance value={1000.373} />)
 
-    expect(getByTestId('value')).toHaveTextContent('1000')
+    expect(getByLabelText('distance').textContent).toBe('1000')
+  })
+
+  it('hide wind effect if no zeroWindValue provided', () => {
+    const { queryByLabelText } = renderWithRedux(<Distance value={1000.373} />)
+
+    expect(queryByLabelText('wind cancelled value')).not.toBeInTheDocument()
   })
 
   describe('metric units', () => {
@@ -18,9 +24,10 @@ describe('Summary/Distance', () => {
     }
 
     it('correct value', () => {
-      const { getByTestId } = renderComponent({ value: 1000.4 })
+      const { getByLabelText } = renderComponent({ value: 1000.4, zeroWindValue: 800 })
 
-      expect(getByTestId('value')).toHaveTextContent('1000')
+      expect(getByLabelText('distance').textContent).toBe('1000')
+      expect(getByLabelText('wind cancelled value').textContent).toBe('800')
     })
   })
 
@@ -31,9 +38,10 @@ describe('Summary/Distance', () => {
     }
 
     it('correct value', () => {
-      const { getByTestId } = renderComponent({ value: 2000 })
+      const { getByLabelText } = renderComponent({ value: 2000, zeroWindValue: 1800 })
 
-      expect(getByTestId('value')).toHaveTextContent('1.243')
+      expect(getByLabelText('distance').textContent).toBe('1.243')
+      expect(getByLabelText('wind cancelled value').textContent).toBe('1.119')
     })
   })
 })

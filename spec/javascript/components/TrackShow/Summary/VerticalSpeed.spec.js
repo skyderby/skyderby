@@ -12,27 +12,27 @@ describe('Summary/VerticalSpeed', () => {
     }
 
     it('average value', () => {
-      const { getByTestId } = renderComponent({
+      const { getByLabelText } = renderComponent({
         value: { avg: 23.373, min: 20, max: 30 }
       })
 
-      expect(getByTestId('value[avg]')).toHaveTextContent('84')
+      expect(getByLabelText('average vertical speed').textContent).toBe('84')
     })
 
     it('max value', () => {
-      const { getByTestId } = renderComponent({
+      const { getByLabelText } = renderComponent({
         value: { avg: 23.373, min: 20, max: 30 }
       })
 
-      expect(getByTestId('value[max]')).toHaveTextContent('108')
+      expect(getByLabelText('maximum vertical speed').textContent).toBe('108')
     })
 
     it('min value', () => {
-      const { getByTestId } = renderComponent({
+      const { getByLabelText } = renderComponent({
         value: { avg: 23.373, min: 20, max: 30 }
       })
 
-      expect(getByTestId('value[min]')).toHaveTextContent('72')
+      expect(getByLabelText('minimum vertical speed').textContent).toBe('72')
     })
   })
 
@@ -43,27 +43,27 @@ describe('Summary/VerticalSpeed', () => {
     }
 
     it('average value', () => {
-      const { getByTestId } = renderComponent({
+      const { getByLabelText } = renderComponent({
         value: { avg: 23.373, min: 20, max: 30 }
       })
 
-      expect(getByTestId('value[avg]')).toHaveTextContent('52')
+      expect(getByLabelText('average vertical speed').textContent).toBe('52')
     })
 
     it('max value', () => {
-      const { getByTestId } = renderComponent({
+      const { getByLabelText } = renderComponent({
         value: { avg: 23.373, min: 20, max: 30 }
       })
 
-      expect(getByTestId('value[max]')).toHaveTextContent('67')
+      expect(getByLabelText('maximum vertical speed').textContent).toBe('67')
     })
 
     it('min value', () => {
-      const { getByTestId } = renderComponent({
+      const { getByLabelText } = renderComponent({
         value: { avg: 23.373, min: 20, max: 30 }
       })
 
-      expect(getByTestId('value[min]')).toHaveTextContent('45')
+      expect(getByLabelText('minimum vertical speed').textContent).toBe('45')
     })
   })
 
@@ -74,27 +74,27 @@ describe('Summary/VerticalSpeed', () => {
     }
 
     it('average value - NaN', () => {
-      const { getByTestId } = renderComponent({
+      const { getByLabelText } = renderComponent({
         value: { avg: 0 / 0, min: 20, max: 30 }
       })
 
-      expect(getByTestId('value[avg]')).toHaveTextContent('---')
+      expect(getByLabelText('average vertical speed').textContent).toBe('---')
     })
 
     it('max value - undefined', () => {
-      const { getByTestId } = renderComponent({
+      const { getByLabelText } = renderComponent({
         value: { avg: 23.373, min: 20, max: undefined }
       })
 
-      expect(getByTestId('value[max]')).toHaveTextContent('---')
+      expect(getByLabelText('maximum vertical speed').textContent).toBe('---')
     })
 
     it('min value - null', () => {
-      const { getByTestId } = renderComponent({
+      const { getByLabelText } = renderComponent({
         value: { avg: 23.373, min: null, max: 30 }
       })
 
-      expect(getByTestId('value[min]')).toHaveTextContent('---')
+      expect(getByLabelText('minimum vertical speed').textContent).toBe('---')
     })
   })
 })

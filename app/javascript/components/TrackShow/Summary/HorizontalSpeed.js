@@ -30,7 +30,7 @@ const valuePresentation = (value, unitSystem) => {
   return placeholder
 }
 
-const HorizontalSpeed = ({ value = { avg: 111, min: 12, max: 139 } }) => {
+const HorizontalSpeed = ({ value, zeroWindValue }) => {
   const { unitSystem } = useSelector(state => state.userPreferences)
   const units = unitSystem === METRIC ? 'kmh' : 'mph'
 
@@ -38,16 +38,18 @@ const HorizontalSpeed = ({ value = { avg: 111, min: 12, max: 139 } }) => {
     <SummaryItem value="ground-speed">
       <Title>{I18n.t('tracks.indicators.ground_speed')}</Title>
       <ValueContainer>
-        <Value data-testid="value[avg]">{valuePresentation(value.avg, unitSystem)}</Value>
+        <Value aria-label="average horizontal speed">
+          {valuePresentation(value.avg, unitSystem)}
+        </Value>
         <MinMaxValue>
           <Max>
-            <span data-testid="value[max]">
+            <span aria-label="maximum horizontal speed">
               {valuePresentation(value.max, unitSystem)}
             </span>
             <ChevronUp />
           </Max>
           <Min>
-            <span data-testid="value[min]">
+            <span aria-label="minimum horizontal speed">
               {valuePresentation(value.min, unitSystem)}
             </span>
             <ChevronDown />
@@ -56,7 +58,13 @@ const HorizontalSpeed = ({ value = { avg: 111, min: 12, max: 139 } }) => {
         <Units>{I18n.t(`units.${units}`)}</Units>
       </ValueContainer>
 
-      <WindEffect rawValue={111} zeroWindValue={139} />
+      {Number.isFinite(zeroWindValue) && (
+        <WindEffect
+          rawValue={value.avg}
+          zeroWindValue={zeroWindValue}
+          valuePresenter={val => valuePresentation(val, unitSystem)}
+        />
+      )}
     </SummaryItem>
   )
 }
@@ -66,7 +74,8 @@ HorizontalSpeed.propTypes = {
     avg: PropTypes.number,
     min: PropTypes.number,
     max: PropTypes.number
-  }).isRequired
+  }).isRequired,
+  zeroWindValue: PropTypes.number
 }
 
 export default HorizontalSpeed
