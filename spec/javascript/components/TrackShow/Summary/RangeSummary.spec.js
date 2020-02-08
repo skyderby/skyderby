@@ -1,6 +1,6 @@
 import { RangeSummary } from 'components/TrackShow/Summary/RangeSummary'
 
-import points from './pointsFixture'
+import points from 'fixtures/trackPoints'
 
 describe('RangeSummary', () => {
   describe('happy path', () => {
