@@ -27,25 +27,31 @@ const valuePresentation = value => {
   }
 }
 
-const GlideRatio = ({ value }) => {
+const GlideRatio = ({ value, zeroWindValue }) => {
   return (
     <SummaryItem value="glide-ratio">
       <Title>{I18n.t('tracks.indicators.glide_ratio')}</Title>
       <ValueContainer>
-        <Value data-testid="value[avg]">{valuePresentation(value.avg)}</Value>
+        <Value aria-label="average glide ratio">{valuePresentation(value.avg)}</Value>
         <MinMaxValue>
           <Max>
-            <span data-testid="value[max]">{valuePresentation(value.max)}</span>
+            <span aria-label="maximum glide ratio">{valuePresentation(value.max)}</span>
             <ChevronUp />
           </Max>
           <Min>
-            <span data-testid="value[min]">{valuePresentation(value.min)}</span>
+            <span aria-label="minimum glide ratio">{valuePresentation(value.min)}</span>
             <ChevronDown />
           </Min>
         </MinMaxValue>
       </ValueContainer>
 
-      <WindEffect rawValue={0.6} zeroWindValue={0.23} />
+      {Number.isFinite(zeroWindValue) && (
+        <WindEffect
+          rawValue={value.avg}
+          zeroWindValue={zeroWindValue}
+          valuePresenter={valuePresentation}
+        />
+      )}
     </SummaryItem>
   )
 }
@@ -55,7 +61,8 @@ GlideRatio.propTypes = {
     avg: PropTypes.number,
     min: PropTypes.number,
     max: PropTypes.number
-  }).isRequired
+  }).isRequired,
+  zeroWindValue: PropTypes.number
 }
 
 export default GlideRatio

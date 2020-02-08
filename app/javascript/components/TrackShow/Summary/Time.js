@@ -15,7 +15,7 @@ const Time = ({ value }) => {
     <SummaryItem value="time">
       <Title>{I18n.t('tracks.indicators.duration')}</Title>
       <ValueContainer>
-        <Value data-testid="value">{valuePresentation(value)}</Value>
+        <Value aria-label="duration">{valuePresentation(value)}</Value>
         <Units>{I18n.t('units.sec')}</Units>
       </ValueContainer>
     </SummaryItem>
