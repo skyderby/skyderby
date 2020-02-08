@@ -6,9 +6,9 @@ import Elevation from 'components/TrackShow/Summary/Elevation'
 
 describe('Summary/Elevation', () => {
   it('shows elevation rounded to whole digit', () => {
-    const { getByTestId } = renderWithRedux(<Elevation value={1000.373} />)
+    const { getByLabelText } = renderWithRedux(<Elevation value={1000.373} />)
 
-    expect(getByTestId('value')).toHaveTextContent('1000')
+    expect(getByLabelText('elevation').textContent).toBe('1000')
   })
 
   describe('metric units', () => {
@@ -18,9 +18,9 @@ describe('Summary/Elevation', () => {
     }
 
     it('correct value', () => {
-      const { getByTestId } = renderComponent({ value: 1000.4 })
+      const { getByLabelText } = renderComponent({ value: 1000.4 })
 
-      expect(getByTestId('value')).toHaveTextContent('1000')
+      expect(getByLabelText('elevation').textContent).toBe('1000')
     })
   })
 
@@ -31,17 +31,17 @@ describe('Summary/Elevation', () => {
     }
 
     it('correct value', () => {
-      const { getByTestId } = renderComponent({ value: 1000 })
+      const { getByLabelText } = renderComponent({ value: 1000 })
 
-      expect(getByTestId('value')).toHaveTextContent('3281')
+      expect(getByLabelText('elevation').textContent).toBe('3281')
     })
   })
 
   describe('empty values', () => {
     it('shows placeholder', () => {
-      const { getByTestId } = renderWithRedux(<Elevation />)
+      const { getByLabelText } = renderWithRedux(<Elevation />)
 
-      expect(getByTestId('value')).toHaveTextContent('----')
+      expect(getByLabelText('elevation').textContent).toBe('----')
     })
   })
 })
