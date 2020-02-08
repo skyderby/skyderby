@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux'
 
 import { selectTrack } from 'redux/tracks'
 import { selectPoints } from 'redux/tracks/points'
+import { selectWindData } from 'redux/tracks/windData'
+import { subtractWind } from 'utils/windCancellation'
 import { usePageContext } from 'components/PageContext'
 import RangeSlider from 'components/RangeSlider'
 import Header from './Header'
@@ -25,6 +27,7 @@ const TrackShow = () => {
 
   const track = useSelector(state => selectTrack(state, trackId))
   const points = useSelector(state => selectPoints(state, trackId))
+  const windData = useSelector(state => selectWindData(state, trackId))
 
   const trackAltitudeRange = useMemo(() => getMinMaxAltitude(points), [points])
 
@@ -47,6 +50,11 @@ const TrackShow = () => {
     selectedAltitudeRange
   ])
 
+  const zeroWindPoints = useMemo(() => subtractWind(selectedPoints, windData), [
+    selectedPoints,
+    windData
+  ])
+
   if (!track) return null
 
   return (
@@ -55,7 +63,11 @@ const TrackShow = () => {
       <TrackDataContainer>
         <ViewSettings straightLine={straightLine} setStraightLine={setStraightLine} />
 
-        <Summary selectedPoints={selectedPoints} straightLine={straightLine} />
+        <Summary
+          selectedPoints={selectedPoints}
+          zeroWindPoints={zeroWindPoints}
+          straightLine={straightLine}
+        />
 
         <hr />
 
