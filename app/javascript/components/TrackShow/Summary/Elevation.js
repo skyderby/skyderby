@@ -25,7 +25,7 @@ const Elevation = ({ value }) => {
     <SummaryItem value="elevation">
       <Title>{I18n.t('tracks.indicators.elevation')}</Title>
       <ValueContainer>
-        <Value data-testid="value">{valuePresentation(value, unitSystem)}</Value>
+        <Value aria-label="elevation">{valuePresentation(value, unitSystem)}</Value>
         <Units>{I18n.t(`units.${units}`)}</Units>
       </ValueContainer>
     </SummaryItem>
