@@ -2,6 +2,7 @@ import React from 'react'
 import { render, fireEvent, wait, waitForElement } from '@testing-library/react'
 import I18n from 'i18n-js'
 
+import { createModalRoot } from 'testHelpers/createModalRoot'
 import { SINGLE_CHART, MULTI_CHART } from 'redux/userPreferences/chartMode'
 import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
 import SettingsModal from 'components/TrackShow/ViewSettings/SettingsModal'
@@ -10,11 +11,7 @@ describe('SettingsModal', () => {
   const handleSubmit = jest.fn()
   const handleHide = jest.fn()
 
-  beforeEach(() => {
-    const modalRoot = document.createElement('div')
-    modalRoot.setAttribute('id', 'modal-root')
-    document.body.appendChild(modalRoot)
-  })
+  beforeEach(() => createModalRoot())
 
   const selectOption = async ({ select, getOption }) => {
     fireEvent.keyDown(select, { keyCode: 40 })
