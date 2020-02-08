@@ -37,16 +37,18 @@ const VerticalSpeed = ({ value }) => {
     <SummaryItem value="vertical-speed">
       <Title>{I18n.t('tracks.indicators.vertical_speed')}</Title>
       <ValueContainer>
-        <Value data-testid="value[avg]">{valuePresentation(value.avg, unitSystem)}</Value>
+        <Value aria-label="average vertical speed">
+          {valuePresentation(value.avg, unitSystem)}
+        </Value>
         <MinMaxValue>
           <Max>
-            <span data-testid="value[max]">
+            <span aria-label="maximum vertical speed">
               {valuePresentation(value.max, unitSystem)}
             </span>
             <ChevronUp />
           </Max>
           <Min>
-            <span data-testid="value[min]">
+            <span aria-label="minimum vertical speed">
               {valuePresentation(value.min, unitSystem)}
             </span>
             <ChevronDown />
