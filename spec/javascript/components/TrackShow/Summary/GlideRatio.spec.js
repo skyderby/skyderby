@@ -5,81 +5,98 @@ import '@testing-library/jest-dom/extend-expect'
 import GlideRatio from 'components/TrackShow/Summary/GlideRatio'
 
 describe('Summary/GlideRatio', () => {
+  it('hide wind effect if no zeroWindValue provided', () => {
+    const { queryByLabelText } = render(
+      <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 11 }} />
+    )
+
+    expect(queryByLabelText('wind cancelled value')).not.toBeInTheDocument()
+  })
+
   describe('average value', () => {
     it('normal value', () => {
-      const { getByTestId } = render(
+      const { getByLabelText } = render(
         <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 11 }} />
       )
 
-      expect(getByTestId('value[avg]')).toHaveTextContent('1.71')
+      expect(getByLabelText('average glide ratio').textContent).toBe('1.71')
     })
 
     it('greater than 10', () => {
-      const { getByTestId } = render(
+      const { getByLabelText } = render(
         <GlideRatio value={{ avg: 100.7123, min: 0.2, max: 11 }} />
       )
 
-      expect(getByTestId('value[avg]')).toHaveTextContent('≥10')
+      expect(getByLabelText('average glide ratio').textContent).toBe('≥10')
     })
 
     it('empty', () => {
-      const { getByTestId } = render(
+      const { getByLabelText } = render(
         <GlideRatio value={{ avg: null, min: 0.2, max: 11 }} />
       )
 
-      expect(getByTestId('value[avg]')).toHaveTextContent('-.--')
+      expect(getByLabelText('average glide ratio').textContent).toBe('-.--')
     })
+  })
+
+  it('zero wind value', () => {
+    const { getByLabelText } = render(
+      <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 11 }} zeroWindValue={1.5} />
+    )
+
+    expect(getByLabelText('wind cancelled value').textContent).toBe('1.50')
+    expect(getByLabelText('wind effect').textContent).toBe('+0.21')
   })
 
   describe('max value', () => {
     it('normal value', () => {
-      const { getByTestId } = render(
+      const { getByLabelText } = render(
         <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 9 }} />
       )
 
-      expect(getByTestId('value[max]')).toHaveTextContent('9.00')
+      expect(getByLabelText('maximum glide ratio').textContent).toBe('9.00')
     })
 
     it('greater than 10', () => {
-      const { getByTestId } = render(
+      const { getByLabelText } = render(
         <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 11 }} />
       )
 
-      expect(getByTestId('value[max]')).toHaveTextContent('≥10')
+      expect(getByLabelText('maximum glide ratio').textContent).toBe('≥10')
     })
 
     it('empty', () => {
-      const { getByTestId } = render(
+      const { getByLabelText } = render(
         <GlideRatio value={{ avg: 1.71, min: 0.2, max: 0 / 0 }} />
       )
 
-      expect(getByTestId('value[max]')).toHaveTextContent('-.--')
+      expect(getByLabelText('maximum glide ratio').textContent).toBe('-.--')
     })
   })
 
   describe('min value', () => {
     it('normal value', () => {
-      const { getByTestId } = render(
+      const { getByLabelText } = render(
         <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 11 }} />
       )
 
-      expect(getByTestId('value[min]')).toHaveTextContent('0.20')
+      expect(getByLabelText('minimum glide ratio').textContent).toBe('0.20')
     })
 
     it('greater than 10', () => {
-      const { getByTestId } = render(
+      const { getByLabelText } = render(
         <GlideRatio value={{ avg: 1.7123, min: 10.2, max: 11 }} />
       )
 
-      expect(getByTestId('value[min]')).toHaveTextContent('≥10')
+      expect(getByLabelText('minimum glide ratio').textContent).toBe('≥10')
     })
 
     it('empty', () => {
-      const { getByTestId } = render(
+      const { getByLabelText } = render(
         <GlideRatio value={{ avg: 1.71, min: undefined, max: 10 }} />
       )
 
-      expect(getByTestId('value[min]')).toHaveTextContent('-.--')
+      expect(getByLabelText('minimum glide ratio').textContent).toBe('-.--')
     })
   })
 })

@@ -19,7 +19,7 @@ const valuePresentation = (value, unitSystem) => {
   return placeholder
 }
 
-const Distance = ({ value = 830 }) => {
+const Distance = ({ value, zeroWindValue }) => {
   const { unitSystem } = useSelector(state => state.userPreferences)
   const units = unitSystem === METRIC ? 'm' : 'mi'
 
@@ -27,17 +27,24 @@ const Distance = ({ value = 830 }) => {
     <SummaryItem value="distance">
       <Title>{I18n.t('tracks.indicators.distance')}</Title>
       <ValueContainer>
-        <Value data-testid="value">{valuePresentation(value, unitSystem)}</Value>
+        <Value aria-label="distance">{valuePresentation(value, unitSystem)}</Value>
         <Units>{I18n.t(`units.${units}`)}</Units>
       </ValueContainer>
 
-      <WindEffect rawValue={600} zeroWindValue={830} />
+      {Number.isFinite(zeroWindValue) && (
+        <WindEffect
+          rawValue={value}
+          zeroWindValue={zeroWindValue}
+          valuePresenter={val => valuePresentation(val, unitSystem)}
+        />
+      )}
     </SummaryItem>
   )
 }
 
 Distance.propTypes = {
-  value: PropTypes.number
+  value: PropTypes.number,
+  zeroWindValue: PropTypes.number
 }
 
 export default Distance
