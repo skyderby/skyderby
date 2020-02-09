@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import GlideRatioChart from './GlideRatioChart'
 import SpeedsChart from './SpeedsChart'
 
-const Charts = ({ points }) => {
+const Charts = ({ points, zeroWindPoints }) => {
   const glideRatioChartRef = useRef()
   const speedsChartRef = useRef()
 
@@ -19,14 +19,31 @@ const Charts = ({ points }) => {
       onTouchMove={handleShowTooltip}
       onTouchStart={handleShowTooltip}
     >
-      <GlideRatioChart points={points} ref={glideRatioChartRef} />
-      <SpeedsChart points={points} ref={speedsChartRef} />
+      <GlideRatioChart
+        points={points}
+        zeroWindPoints={zeroWindPoints}
+        ref={glideRatioChartRef}
+      />
+      <SpeedsChart points={points} zeroWindPoints={zeroWindPoints} ref={speedsChartRef} />
     </div>
   )
 }
 
 Charts.propTypes = {
-  points: PropTypes.array.isRequired
+  points: PropTypes.arrayOf(
+    PropTypes.shape({
+      hSpeed: PropTypes.number.isRequired,
+      vSpeed: PropTypes.number.isRequired,
+      glideRatio: PropTypes.number.isRequired
+    })
+  ).isRequired,
+  zeroWindPoints: PropTypes.arrayOf(
+    PropTypes.shape({
+      hSpeed: PropTypes.number.isRequired,
+      vSpeed: PropTypes.number.isRequired,
+      glideRatio: PropTypes.number.isRequired
+    })
+  )
 }
 
 export default Charts
