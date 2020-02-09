@@ -32,9 +32,7 @@ export const getWindEffect = (windData, altitude) => {
   return interpolateByAltitude([windData[index - 1], windData[index]], altitude)
 }
 
-export const subtractWind = (points = [], windData = []) => {
-  if (points.length === 0 || windData.length === 0) return []
-
+const calculateNewPosition = (points, windData) => {
   const sortedData = windData.sort((a, b) => a.altitude - b.altitude)
 
   let accumulatedWindEffect = [0, 0]
@@ -55,22 +53,43 @@ export const subtractWind = (points = [], windData = []) => {
       )
     )
 
-    const prevPosition = new LatLon(prevPoint.latitude, prevPoint.longitude)
     const currentPosition = new LatLon(point.latitude, point.longitude)
     const newPosition = currentPosition.destinationPoint(
       getMagnitude(accumulatedWindEffect),
       getDirection(accumulatedWindEffect)
     )
 
-    const hSpeed = prevPosition.distanceTo(newPosition) / timeDiff
-    const glideRatio = hSpeed / point.vSpeed !== 0 ? point.vSpeed : 0.1
-
     return {
       ...point,
       latitude: newPosition.latitude,
-      longitude: newPosition.longitude,
-      hSpeed,
-      glideRatio
+      longitude: newPosition.longitude
     }
   })
+}
+
+const calculateSpeedAndGR = (point, idx, points) => {
+  if (idx === 0) return point
+
+  const prevPoint = points[idx - 1]
+  const timeDiff = (point.gpsTime - prevPoint.gpsTime) / 1000
+
+  const prevPosition = new LatLon(prevPoint.latitude, prevPoint.longitude)
+  const currentPosition = new LatLon(point.latitude, point.longitude)
+  const hSpeed = prevPosition.distanceTo(currentPosition) / timeDiff
+  const vSpeed = point.vSpeed !== 0 ? point.vSpeed : 0.1
+  const glideRatio = hSpeed / vSpeed
+
+  return {
+    ...point,
+    hSpeed,
+    glideRatio
+  }
+}
+
+export const subtractWind = (points = [], windData = []) => {
+  if (points.length === 0 || windData.length === 0) return []
+
+  const shiftedPoints = calculateNewPosition(points, windData)
+
+  return shiftedPoints.map(calculateSpeedAndGR)
 }
