@@ -1,4 +1,6 @@
-export const buildRefreshTooltipHandler = chartRef => evt => {
+import { useImperativeHandle } from 'react'
+
+const buildRefreshTooltipHandler = chartRef => evt => {
   const chart = chartRef.current
   if (!chart) return
 
@@ -18,4 +20,14 @@ export const buildRefreshTooltipHandler = chartRef => evt => {
     chart.tooltip.refresh(points)
     chart.xAxis[0].drawCrosshair(normalizedEvent, points[0])
   }
+}
+
+export const useImperativeTooltipHandler = (ref, chart) => {
+  useImperativeHandle(
+    ref,
+    () => ({
+      refreshTooltip: buildRefreshTooltipHandler(chart)
+    }),
+    [chart]
+  )
 }
