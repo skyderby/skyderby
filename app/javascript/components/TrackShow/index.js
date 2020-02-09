@@ -78,7 +78,7 @@ const TrackShow = () => {
           step={50}
         />
 
-        <Charts points={selectedPoints} />
+        <Charts points={selectedPoints} zeroWindPoints={zeroWindPoints} />
       </TrackDataContainer>
     </PageContainer>
   )
