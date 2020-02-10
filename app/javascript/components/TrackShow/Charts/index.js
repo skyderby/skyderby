@@ -30,20 +30,8 @@ const Charts = ({ points, zeroWindPoints }) => {
 }
 
 Charts.propTypes = {
-  points: PropTypes.arrayOf(
-    PropTypes.shape({
-      hSpeed: PropTypes.number.isRequired,
-      vSpeed: PropTypes.number.isRequired,
-      glideRatio: PropTypes.number.isRequired
-    })
-  ).isRequired,
-  zeroWindPoints: PropTypes.arrayOf(
-    PropTypes.shape({
-      hSpeed: PropTypes.number.isRequired,
-      vSpeed: PropTypes.number.isRequired,
-      glideRatio: PropTypes.number.isRequired
-    })
-  )
+  points: PropTypes.array.isRequired,
+  zeroWindPoints: PropTypes.array
 }
 
 export default Charts
