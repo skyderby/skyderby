@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import Highchart from 'components/Highchart'
@@ -6,7 +7,8 @@ import Highchart from 'components/Highchart'
 import useChartOptions from './useChartOptions'
 
 const SpeedsChart = forwardRef(({ points = [], zeroWindPoints = [] }, ref) => {
-  const options = useChartOptions(points, zeroWindPoints)
+  const { unitSystem } = useSelector(state => state.userPreferences)
+  const options = useChartOptions(points, zeroWindPoints, unitSystem)
 
   return <Highchart ref={ref} options={options} />
 })
