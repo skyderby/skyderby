@@ -1,6 +1,10 @@
 import { useMemo } from 'react'
 import I18n from 'i18n-js'
+
+import { METRIC } from 'redux/userPreferences/unitSystem'
 import { restoreSeriesVisibility, saveSeriesVisibility } from 'utils/chartSeriesSettings'
+
+import { calculateChartPoints } from './calculateChartPoints'
 
 const chartName = 'SpeedsChart'
 
@@ -73,40 +77,13 @@ const baseOptions = () => ({
   }
 })
 
-export default (points, zeroWindPoints) => {
-  const calculateVerticalSpeedPoints = () =>
-    points.map(el => ({
-      x: Math.round((el.flTime - points[0].flTime) * 10) / 10,
-      y: Math.round(el.vSpeed),
-      altitude: Math.round(el.altitude)
-    }))
+export default (points, zeroWindPoints, unitSystem) => {
+  const { verticalSpeed, horizontalSpeed, fullSpeed, zeroWindSpeed } = useMemo(
+    () => calculateChartPoints(points, zeroWindPoints, unitSystem),
+    [points, zeroWindPoints, unitSystem]
+  )
 
-  const calculateHorizontalSpeedPoints = () =>
-    points.map(el => ({
-      x: Math.round((el.flTime - points[0].flTime) * 10) / 10,
-      y: Math.round(el.hSpeed),
-      altitude: Math.round(el.altitude)
-    }))
-
-  const calculateFullSpeedPoints = () =>
-    points.map(el => ({
-      x: Math.round((el.flTime - points[0].flTime) * 10) / 10,
-      y: Math.round(Math.sqrt(el.hSpeed ** 2 + el.vSpeed ** 2)),
-      altitude: Math.round(el.altitude)
-    }))
-
-  const calculateZeroWindSpeedPoints = () =>
-    zeroWindPoints.map((point, idx) => ({
-      x: Math.round((point.flTime - zeroWindPoints[0].flTime) * 10) / 10,
-      low: Math.round(point.hSpeed),
-      high: Math.round(points[idx].hSpeed),
-      altitude: Math.round(point.altitude)
-    }))
-
-  const verticalSpeedPoints = useMemo(calculateVerticalSpeedPoints, [points])
-  const horizontalSpeedPoints = useMemo(calculateHorizontalSpeedPoints, [points])
-  const fullSpeedPoints = useMemo(calculateFullSpeedPoints, [points])
-  const zeroWindSpeedPoints = useMemo(calculateZeroWindSpeedPoints, [zeroWindPoints])
+  const speedUnits = unitSystem === METRIC ? 'kmh' : 'mph'
 
   const options = {
     ...baseOptions(),
@@ -114,38 +91,38 @@ export default (points, zeroWindPoints) => {
       {
         name: I18n.t('charts.spd.series.ground'),
         code: 'ground_speed',
-        data: horizontalSpeedPoints,
+        data: horizontalSpeed,
         type: 'spline',
         color: '#52A964',
         tooltip: {
-          valueSuffix: ` ${I18n.t('units.kmh')}`
+          valueSuffix: ` ${I18n.t(`units.${speedUnits}`)}`
         }
       },
       {
         name: I18n.t('charts.spd.series.vertical'),
         code: 'vertical_speed',
-        data: verticalSpeedPoints,
+        data: verticalSpeed,
         type: 'spline',
         color: '#A7414E',
         tooltip: {
-          valueSuffix: ` ${I18n.t('units.kmh')}`
+          valueSuffix: ` ${I18n.t(`units.${speedUnits}`)}`
         }
       },
       {
         name: I18n.t('charts.spd.series.full'),
         code: 'full_speed',
-        data: fullSpeedPoints,
+        data: fullSpeed,
         type: 'spline',
         color: '#D6A184',
         visible: false,
         tooltip: {
-          valueSuffix: ` ${I18n.t('units.kmh')}`
+          valueSuffix: ` ${I18n.t(`units.${speedUnits}`)}`
         }
       },
       {
         name: I18n.t('charts.spd.series.wind_effect'),
         code: 'speed_wind_effect',
-        data: zeroWindSpeedPoints,
+        data: zeroWindSpeed,
         type: 'arearange',
         color: 'rgba(178, 201, 171, 0.5)',
         lineWidth: 1,
@@ -159,7 +136,7 @@ export default (points, zeroWindPoints) => {
             ${this.series.name}: <b> ${effectSign}${windEffect} ${this.series.tooltipOptions.valueSuffix}</b>
           `
           },
-          valueSuffix: ` ${I18n.t('units.kmh')}`
+          valueSuffix: ` ${I18n.t(`units.${speedUnits}`)}`
         }
       }
     ]
