@@ -43,7 +43,7 @@ const calculateZeroWindSpeedPoints = (zeroWindPoints, points) =>
     altitude: Math.round(point.altitude)
   }))
 
-export const calculateChartPoints = (points, zeroWindPoints, unitSystem) => {
+export const calculateSpeedPoints = (points, zeroWindPoints, unitSystem) => {
   const convertedPoints = points.map(point => convertUnits(point, unitSystem))
   const convertedZeroWindPoints = zeroWindPoints.map(point =>
     convertUnits(point, unitSystem)
