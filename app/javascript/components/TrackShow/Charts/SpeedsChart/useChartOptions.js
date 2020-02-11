@@ -4,7 +4,7 @@ import I18n from 'i18n-js'
 import { METRIC } from 'redux/userPreferences/unitSystem'
 import { restoreSeriesVisibility, saveSeriesVisibility } from 'utils/chartSeriesSettings'
 
-import { calculateChartPoints } from './calculateChartPoints'
+import { calculateSpeedPoints } from '../calculateSpeedPoints'
 
 const chartName = 'SpeedsChart'
 
@@ -79,7 +79,7 @@ const baseOptions = () => ({
 
 export default (points, zeroWindPoints, unitSystem) => {
   const { verticalSpeed, horizontalSpeed, fullSpeed, zeroWindSpeed } = useMemo(
-    () => calculateChartPoints(points, zeroWindPoints, unitSystem),
+    () => calculateSpeedPoints(points, zeroWindPoints, unitSystem),
     [points, zeroWindPoints, unitSystem]
   )
 
