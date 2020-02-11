@@ -12,7 +12,7 @@ const Highchart = forwardRef(({ options }, ref) => {
 
   useEffect(() => {
     if (chart.current) {
-      chart.current.update(options)
+      chart.current.update(options, true, true)
     } else {
       chart.current = Highcharts.chart(element.current, options)
     }
