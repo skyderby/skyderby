@@ -1,32 +1,20 @@
-import React, { useRef } from 'react'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import GlideRatioChart from './GlideRatioChart'
-import SpeedsChart from './SpeedsChart'
+import { SINGLE_CHART } from 'redux/userPreferences/chartMode'
+
+import SplittedCharts from './SplittedCharts'
+import CombinedChart from './CombinedChart'
 
 const Charts = ({ points, zeroWindPoints }) => {
-  const glideRatioChartRef = useRef()
-  const speedsChartRef = useRef()
+  const { chartMode } = useSelector(state => state.userPreferences)
 
-  const handleShowTooltip = evt => {
-    glideRatioChartRef.current.refreshTooltip(evt)
-    speedsChartRef.current.refreshTooltip(evt)
+  if (chartMode === SINGLE_CHART) {
+    return <CombinedChart points={points} zeroWindPoints={zeroWindPoints} />
+  } else {
+    return <SplittedCharts points={points} zeroWindPoints={zeroWindPoints} />
   }
-
-  return (
-    <div
-      onMouseMove={handleShowTooltip}
-      onTouchMove={handleShowTooltip}
-      onTouchStart={handleShowTooltip}
-    >
-      <GlideRatioChart
-        points={points}
-        zeroWindPoints={zeroWindPoints}
-        ref={glideRatioChartRef}
-      />
-      <SpeedsChart points={points} zeroWindPoints={zeroWindPoints} ref={speedsChartRef} />
-    </div>
-  )
 }
 
 Charts.propTypes = {

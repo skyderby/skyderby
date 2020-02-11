@@ -2,6 +2,8 @@ import { useMemo } from 'react'
 import I18n from 'i18n-js'
 import { restoreSeriesVisibility, saveSeriesVisibility } from 'utils/chartSeriesSettings'
 
+import { calculateGlideRatioPoints } from '../calculateGlideRatioPoints'
+
 const chartName = 'GlideRatioChart'
 
 const baseOptions = () => ({
@@ -79,28 +81,9 @@ const baseOptions = () => ({
   }
 })
 
-const clampValue = val => Math.round(Math.min(Math.max(val, 0), 7) * 100) / 100
-
 export default (points, zeroWindPoints) => {
-  const glideRatioPoints = useMemo(
-    () =>
-      points.map(el => ({
-        x: Math.round((el.flTime - points[0].flTime) * 10) / 10,
-        y: clampValue(el.glideRatio, 0),
-        trueValue: Math.round(el.glideRatio * 100) / 100,
-        altitude: Math.round(el.altitude)
-      })),
-    [points]
-  )
-
-  const zeroWindGlideRatioPoints = useMemo(
-    () =>
-      zeroWindPoints.map((el, idx, arr) => ({
-        x: Math.round((el.flTime - arr[0].flTime) * 10) / 10,
-        low: clampValue(el.glideRatio),
-        high: clampValue(points[idx].glideRatio),
-        trueValue: Math.round(el.glideRatio * 100) / 100
-      })),
+  const { glideRatio, zeroWindGlideRatio } = useMemo(
+    () => calculateGlideRatioPoints(points, zeroWindPoints),
     [points, zeroWindPoints]
   )
 
@@ -110,7 +93,7 @@ export default (points, zeroWindPoints) => {
       {
         name: I18n.t('charts.gr.series.gr'),
         code: 'gr',
-        data: glideRatioPoints,
+        data: glideRatio,
         tooltip: {
           valueSuffix: ''
         },
@@ -134,7 +117,7 @@ export default (points, zeroWindPoints) => {
         name: I18n.t('charts.gr.series.wind_effect'),
         code: 'gr_wind_effect',
         type: 'arearange',
-        data: zeroWindGlideRatioPoints,
+        data: zeroWindGlideRatio,
         color: 'rgba(63, 136, 167, 0.3)',
         lineWidth: 1,
         dashStyle: 'ShortDash',
