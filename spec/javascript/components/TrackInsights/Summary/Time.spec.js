@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 
-import Time from 'components/TrackShow/Summary/Time'
+import Time from 'components/TrackInsights/Summary/Time'
 
 describe('Summary/Time', () => {
   it('shows time rounded to 1 digit', () => {
