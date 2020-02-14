@@ -1,4 +1,4 @@
-import { RangeSummary } from 'components/TrackShow/Summary/RangeSummary'
+import { RangeSummary } from 'components/TrackInsights/Summary/RangeSummary'
 
 import points from 'fixtures/trackPoints'
 
