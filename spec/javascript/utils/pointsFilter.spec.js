@@ -1,4 +1,4 @@
-import { cropPoints } from 'components/TrackShow/pointsFilter'
+import { cropPoints } from 'utils/pointsFilter'
 
 const points = {
   none: [],
