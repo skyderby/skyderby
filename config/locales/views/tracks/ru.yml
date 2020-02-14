@@ -30,6 +30,7 @@ ru:
       range_from: "Диапазон с"
       range_to: "по"
       charts: 'Графики'
+      video: 'Видео'
       results: 'Результаты'
       comp_result: 'Результат в соревновании'
       online_comp_results: 'Результаты в онлайн соревнованиях'
