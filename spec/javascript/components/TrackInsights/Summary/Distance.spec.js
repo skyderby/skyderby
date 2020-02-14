@@ -2,7 +2,7 @@ import React from 'react'
 
 import renderWithRedux from 'testHelpers/renderWithRedux'
 import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
-import Distance from 'components/TrackShow/Summary/Distance'
+import Distance from 'components/TrackInsights/Summary/Distance'
 
 describe('Summary/Distance', () => {
   it('shows elevation rounded to whole digit', () => {

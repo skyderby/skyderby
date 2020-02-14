@@ -5,7 +5,7 @@ import I18n from 'i18n-js'
 import { createModalRoot } from 'testHelpers/createModalRoot'
 import { SINGLE_CHART, MULTI_CHART } from 'redux/userPreferences/chartMode'
 import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
-import SettingsModal from 'components/TrackShow/ViewSettings/SettingsModal'
+import SettingsModal from 'components/TrackInsights/ViewSettings/SettingsModal'
 
 describe('SettingsModal', () => {
   const handleSubmit = jest.fn()

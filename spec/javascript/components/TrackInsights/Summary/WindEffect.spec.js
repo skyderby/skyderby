@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 
-import WindEffect from 'components/TrackShow/Summary/WindEffect'
+import WindEffect from 'components/TrackInsights/Summary/WindEffect'
 
 describe('Summary/WindEffect', () => {
   it('when possitive wind effect', () => {
