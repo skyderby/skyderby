@@ -10,10 +10,16 @@ export const Container = styled.div`
 
 export const Row = styled.div`
   display: flex;
+
+  &:not(:first-child) {
+    margin-left: 2.5rem;
+    flex-wrap: wrap;
+  }
 `
 
 export const ProfileContainer = styled.div`
   display: flex;
+  white-space: nowrap;
 
   img {
     border-radius: 50%;
@@ -24,6 +30,8 @@ export const ProfileContainer = styled.div`
 `
 
 export const SuitContainer = styled.div`
+  white-space: nowrap;
+
   svg {
     height: 0.75rem;
     margin-right: 0.25rem;
@@ -35,7 +43,6 @@ export const SuitContainer = styled.div`
 `
 
 export const PlaceContainer = styled.div`
-  margin-left: 2.5rem;
   margin-right: 1rem;
 
   svg {

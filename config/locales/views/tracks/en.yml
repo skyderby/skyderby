@@ -30,6 +30,7 @@ en:
       range_from: "Range from:"
       range_to: "to:"
       charts: 'Charts'
+      video: 'Video'
       results: 'Results'
       comp_result: 'Result in competition'
       online_comp_results: 'Online competitions results'
