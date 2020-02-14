@@ -6,6 +6,7 @@ import { selectTrack } from 'redux/tracks'
 import { usePageContext } from 'components/PageContext'
 import TrackInsights from 'components/TrackInsights'
 import Header from './Header'
+import Navbar from './Navbar'
 import { Container } from './elements'
 
 const TrackShow = () => {
@@ -18,6 +19,7 @@ const TrackShow = () => {
   return (
     <Container>
       <Header track={track} />
+      <Navbar trackId={trackId} />
       <Switch>
         <Route
           exact
