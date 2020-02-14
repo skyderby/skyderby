@@ -13,4 +13,23 @@ const CombinedChart = ({ points, zeroWindPoints }) => {
   return <Highchart options={options} />
 }
 
+CombinedChart.propTypes = {
+  points: PropTypes.arrayOf(
+    PropTypes.shape({
+      flTime: PropTypes.number.isRequired,
+      glideRatio: PropTypes.number.isRequired,
+      vSpeed: PropTypes.number.isRequired,
+      hSpeed: PropTypes.number.isRequired,
+      altitude: PropTypes.number.isRequired
+    })
+  ).isRequired,
+  zeroWindPoints: PropTypes.arrayOf(
+    PropTypes.shape({
+      flTime: PropTypes.number.isRequired,
+      hSpeed: PropTypes.number.isRequired,
+      glideRatio: PropTypes.number.isRequired
+    })
+  )
+}
+
 export default CombinedChart
