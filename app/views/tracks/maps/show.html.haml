@@ -1,21 +1,3 @@
 - provide :title, title(@track)
 
-.track-map-data
-  .container
-    = render partial: 'tracks/header', locals: {track: @track}
-    .content-block.content-block--bordered
-      .row
-        .track-map-wrapper.col-sm-12{data: { controller: 'tracks--map',
-                                             url: url_for,
-                                             action: 'maps_api:ready@window->tracks--map#on_maps_ready maps_api:failed@window->tracks-map#on_maps_load_failed' }}
-          #track-map-loading.text-muted{'data-target': 'tracks--map.placeholder'}
-            .fa-2x
-              %i.fa.fa-fw.fa-spin.fa-circle-notch{'data-target': 'tracks--map.maps_loading_status'}
-              Loading Google Maps API
-            .fa-2x
-              %i.fa.fa-fw.fa-spin.fa-circle-notch{'data-target': 'tracks--map.data_loading_status'}
-              Loading track data
-          #track-map{'data-target': 'tracks--map.map'}
-          - if @track.weather_data.exists?
-            #track-map-polar-chart{'data-controller': 'tracks--wind-chart', 'data-url': track_weather_data_path(@track)}
-          = render 'tracks/speed_grades'
+<div data-controller="tracks--index"></div>
