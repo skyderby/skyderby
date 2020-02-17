@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
-import styled from 'styled-components'
 import { useSelector } from 'react-redux'
-import initMapsApi from 'utils/google_maps_api'
+import useGoogleMapsApi from 'utils/useGoogleMapsApi'
 
 import { selectBoundaries } from 'redux/events/round/selectors'
 
@@ -10,26 +9,18 @@ import Legend from './Legend'
 import ReferencePoints from './ReferencePoints'
 import FlightPaths from './FlightPaths'
 import DesignatedLane from './DesignatedLane'
+import { Container, MapElement } from './elements'
 
 const Map = () => {
-  const [apiReady, setApiReady] = useState(false)
   const mapElementRef = useRef()
   const [mapInstance, setMapInstance] = useState()
 
-  const onMapsApiReady = () => setApiReady(true)
+  const google = useGoogleMapsApi()
 
   const boundaries = useSelector(selectBoundaries)
 
   useEffect(() => {
-    window.addEventListener('maps_api:ready', onMapsApiReady, { once: true })
-
-    initMapsApi()
-
-    return () => window.removeEventListener('maps_api:ready', onMapsApiReady)
-  }, [])
-
-  useEffect(() => {
-    if (!apiReady) return
+    if (!google) return
 
     const options = {
       zoom: 2,
@@ -38,30 +29,17 @@ const Map = () => {
     }
 
     setMapInstance(new google.maps.Map(mapElementRef.current, options))
-  }, [apiReady])
+  }, [google])
 
   useEffect(() => {
-    if (
-      !mapInstance ||
-      !boundaries.minLatitude ||
-      !boundaries.minLongitude ||
-      !boundaries.maxLatitude ||
-      !boundaries.maxLongitude
-    )
-      return
+    if (!mapInstance || !boundaries) return
 
     const bounds = new google.maps.LatLngBounds()
     bounds.extend(new google.maps.LatLng(boundaries.minLatitude, boundaries.minLongitude))
     bounds.extend(new google.maps.LatLng(boundaries.maxLatitude, boundaries.maxLongitude))
 
     mapInstance.fitBounds(bounds)
-  }, [
-    mapInstance,
-    boundaries.minLatitude,
-    boundaries.minLongitude,
-    boundaries.maxLatitude,
-    boundaries.maxLongitude
-  ])
+  }, [mapInstance, boundaries, google])
 
   return (
     <Container>
@@ -76,19 +54,5 @@ const Map = () => {
     </Container>
   )
 }
-
-const Container = styled.div`
-  display: flex;
-  flex-basis: 70%;
-  flex-direction: column;
-  padding: 15px;
-`
-
-const MapElement = styled.div`
-  flex-basis: 100%;
-  flex-shrink: 1;
-  flex-grow: 1;
-  margin-bottom: 15px;
-`
 
 export default Map
