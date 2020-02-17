@@ -1,4 +1,4 @@
-export default function color_by_speed(speed) {
+export const colorBySpeed = speed => {
   if (speed > 250) return '#60000C'
   else if (speed > 220) return '#E7000C'
   else if (speed > 190) return '#E4670F'
