@@ -1,14 +1,21 @@
-import React, { useEffect, useRef, forwardRef } from 'react'
+import React, { useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
 import Highcharts from 'highcharts'
 import PropTypes from 'prop-types'
 
-import { useImperativeTooltipHandler } from './useImperativeTooltipHandler'
+import { refreshTooltipHandler } from './refreshTooltipHandler'
 
 const Highchart = forwardRef(({ options }, ref) => {
   const element = useRef()
   const chart = useRef()
 
-  useImperativeTooltipHandler(ref, chart)
+  useImperativeHandle(
+    ref,
+    () => ({
+      refreshTooltip: refreshTooltipHandler(chart),
+      reflow: () => chart.current.reflow()
+    }),
+    [chart]
+  )
 
   useEffect(() => {
     if (chart.current) {

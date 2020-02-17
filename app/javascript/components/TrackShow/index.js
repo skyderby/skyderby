@@ -5,6 +5,8 @@ import { Switch, Route } from 'react-router-dom'
 import { selectTrack } from 'redux/tracks'
 import { usePageContext } from 'components/PageContext'
 import TrackInsights from 'components/TrackInsights'
+import TrackMap from 'components/TrackMap'
+
 import Header from './Header'
 import Navbar from './Navbar'
 import { Container } from './elements'
@@ -33,6 +35,18 @@ const TrackShow = () => {
             />
           )}
         />
+
+        <Route
+          path="/tracks/:id/map"
+          component={() => (
+            <TrackMap
+              trackId={trackId}
+              altitudeFrom={altitudeFrom}
+              altitudeTo={altitudeTo}
+            />
+          )}
+        />
+
       </Switch>
     </Container>
   )
