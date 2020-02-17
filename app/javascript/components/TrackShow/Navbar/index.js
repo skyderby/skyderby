@@ -28,7 +28,7 @@ const Navbar = ({ trackId }) => {
           </NavLink>
         </MenuItem>
         <MenuItem>
-          <NavLink to={`/tracks/${trackId}/maps`}>
+          <NavLink to={`/tracks/${trackId}/map`}>
             <MapsIcon />
             Google maps
           </NavLink>
