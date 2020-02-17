@@ -1,3 +1,5 @@
+import { getBoundaries } from 'utils/getBoundaries'
+
 const selectAssignedReferencePointIds = state => [
   ...new Set(
     state.eventRound.referencePointAssignments
@@ -62,22 +64,5 @@ const selectAllCoordinates = state => {
 export const selectBoundaries = state => {
   const allCoordinates = selectAllCoordinates(state)
 
-  const latitudes = allCoordinates
-    .map(el => el.latitude)
-    .sort()
-    .filter(el => el)
-
-  const longitudes = allCoordinates
-    .map(el => el.longitude)
-    .sort()
-    .filter(el => el)
-
-  if (latitudes.length === 0 || longitudes.length === 0) return {}
-
-  return {
-    minLatitude: latitudes[0],
-    maxLatitude: latitudes[latitudes.length - 1],
-    minLongitude: longitudes[0],
-    maxLongitude: longitudes[longitudes.length - 1]
-  }
+  return getBoundaries(allCoordinates)
 }
