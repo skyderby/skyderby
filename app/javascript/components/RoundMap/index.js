@@ -21,7 +21,7 @@ const RoundMap = ({ eventId, roundId }) => {
   } = useSelector(state => state.eventRound)
 
   useEffect(() => {
-    dispatch(loadRoundMap(eventId, roundId))
+    dispatch(loadRoundMap(eventId, roundId, { preselectGroup: true }))
   }, [eventId, roundId, dispatch])
 
   const headerText =

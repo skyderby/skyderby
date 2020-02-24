@@ -10,7 +10,7 @@ const initialState = []
 export function assignReferencePoint(competitorId, referencePointId) {
   return async (dispatch, getState) => {
     const {
-      eventRoundMap: {
+      eventRound: {
         event: { id: eventId },
         roundId
       }
