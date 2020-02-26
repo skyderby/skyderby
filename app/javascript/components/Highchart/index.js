@@ -1,10 +1,17 @@
-import React, { useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
-import Highcharts from 'highcharts'
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useImperativeHandle,
+  forwardRef
+} from 'react'
 import PropTypes from 'prop-types'
 
 import { refreshTooltipHandler } from './refreshTooltipHandler'
 
 const Highchart = forwardRef(({ options }, ref) => {
+  const [Highcharts, setHighcharts] = useState()
+
   const element = useRef()
   const chart = useRef()
 
@@ -18,12 +25,24 @@ const Highchart = forwardRef(({ options }, ref) => {
   )
 
   useEffect(() => {
+    Promise.all([
+      import(/* webpackChunkName: "Highcharts" */ 'highcharts'),
+      import(/* webpackChunkName: "Highcharts" */ 'highcharts/highcharts-more')
+    ]).then(([{ default: highchartsModule }, { default: highchartsMoreExtension }]) => {
+      highchartsMoreExtension(highchartsModule)
+      setHighcharts(highchartsModule)
+    })
+  }, [])
+
+  useEffect(() => {
+    if (!Highcharts) return
+
     if (chart.current) {
       chart.current.update(options, true, true)
     } else {
       chart.current = Highcharts.chart(element.current, options)
     }
-  }, [options])
+  }, [options, Highcharts])
 
   useEffect(() => {
     return () => chart.current?.destroy()
