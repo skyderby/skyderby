@@ -10,7 +10,9 @@ import ListIcon from 'icons/list-ul.svg'
 import WindIcon from 'icons/wind-direction.svg'
 import { Container, Fade, Menu, MenuItem, Spacer } from './elements'
 
-const Navbar = ({ trackId }) => {
+const Navbar = ({ track }) => {
+  const { id: trackId, hasVideo, editable } = track
+
   return (
     <Container>
       <Fade />
@@ -21,12 +23,14 @@ const Navbar = ({ trackId }) => {
             {I18n.t('tracks.show.charts')}
           </NavLink>
         </MenuItem>
-        <MenuItem>
-          <NavLink to={`/tracks/${trackId}/video`}>
-            <VideoIcon />
-            {I18n.t('tracks.show.video')}
-          </NavLink>
-        </MenuItem>
+        {(hasVideo || editable) && (
+          <MenuItem>
+            <NavLink to={`/tracks/${trackId}/video`}>
+              <VideoIcon />
+              {I18n.t('tracks.show.video')}
+            </NavLink>
+          </MenuItem>
+        )}
         <MenuItem>
           <NavLink to={`/tracks/${trackId}/map`}>
             <MapsIcon />
@@ -59,7 +63,11 @@ const Navbar = ({ trackId }) => {
 }
 
 Navbar.propTypes = {
-  trackId: PropTypes.number.isRequired
+  track: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    hasVideo: PropTypes.bool.isRequired,
+    editable: PropTypes.bool.isRequired
+  })
 }
 
 export default Navbar
