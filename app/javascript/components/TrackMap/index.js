@@ -5,6 +5,7 @@ import useGoogleMapsApi from 'utils/useGoogleMapsApi'
 import { getBoundaries } from 'utils/getBoundaries'
 import { selectPoints } from 'redux/tracks/points'
 import { selectWindData } from 'redux/tracks/windData'
+import { usePageContext } from 'components/PageContext'
 
 import SpeedScale from './SpeedScale'
 import WindAloftChart from './WindAloftChart'
@@ -14,7 +15,9 @@ import { subtractWind } from 'utils/windCancellation'
 
 import Trajectory from './Trajectory'
 
-const TrackMap = ({ trackId }) => {
+const TrackMap = () => {
+  const { trackId } = usePageContext()
+
   const mapElementRef = useRef()
   const [mapInstance, setMapInstance] = useState()
   const google = useGoogleMapsApi()
