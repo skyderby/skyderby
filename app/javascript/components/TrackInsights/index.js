@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import PropTypes from 'prop-types'
 
 import { selectPoints } from 'redux/tracks/points'
 import { selectWindData } from 'redux/tracks/windData'
 import { subtractWind } from 'utils/windCancellation'
 import { cropPoints } from 'utils/pointsFilter'
 import RangeSlider from 'components/RangeSlider'
+import { usePageContext } from 'components/PageContext'
 import Summary from './Summary'
 import Charts from './Charts'
 import ViewSettings from './ViewSettings'
@@ -15,12 +15,14 @@ import useSelectedAltitudeRange from './useSelectedAltitudeRange'
 import useSyncParamsToUrl from './useSyncParamsToUrl'
 import { Container } from './elements'
 
-const TrackInsights = ({
-  trackId,
-  altitudeFrom: initialAltitudeFrom,
-  altitudeTo: initialAltitudeTo,
-  straightLine: initialStraightLine
-}) => {
+const TrackInsights = () => {
+  const {
+    trackId,
+    altitudeFrom: initialAltitudeFrom,
+    altitudeTo: initialAltitudeTo,
+    straightLine: initialStraightLine
+  } = usePageContext()
+
   const points = useSelector(state => selectPoints(state, trackId))
   const windData = useSelector(state => selectWindData(state, trackId))
 
@@ -71,13 +73,6 @@ const TrackInsights = ({
       <Charts points={selectedPoints} zeroWindPoints={zeroWindPoints} />
     </Container>
   )
-}
-
-TrackInsights.propTypes = {
-  trackId: PropTypes.number.isRequired,
-  altitudeFrom: PropTypes.number,
-  altitudeTo: PropTypes.number,
-  straightLine: PropTypes.bool
 }
 
 export default TrackInsights
