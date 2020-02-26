@@ -47,13 +47,13 @@ const baseOptions = () => ({
         x: 25,
         y: -2,
         style: {
-          color: Highcharts.getOptions().colors[1]
+          color: '#434348'
         }
       },
       title: {
         text: null,
         style: {
-          color: Highcharts.getOptions().colors[1]
+          color: '#434348'
         }
       }
     }
