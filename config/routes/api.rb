@@ -22,6 +22,7 @@ namespace :api, module: :api, defaults: { format: :json } do
       scope module: :tracks do
         resource :points, only: :show
         resource :weather_data, only: :show
+        resource :results, only: :show
       end
     end
 

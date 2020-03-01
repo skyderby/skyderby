@@ -29,6 +29,7 @@ export const Thead = styled.div`
     font-family: 'Proxima Nova Semibold';
 
     ${TableCell} {
+      color: #777;
       border-bottom: solid 2px #ddd;
       white-space: nowrap;
     }
