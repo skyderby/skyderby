@@ -1,16 +1,3 @@
-.container
-  = render partial: 'tracks/header', locals: {track: @track}
+- provide :title, title(@track)
 
-  .content-block.content-block--bordered
-    .row{'data-controller': 'tracks--globe',
-         'data-url': url_for,
-         'data-action': 'cesium_api:ready@window->tracks--globe#onCesiumReady cesium_api:failed@window->tracks--globe#onCesiumFailed'}
-      .track-map-wrapper.col-sm-12
-        #track-map-loading.text-muted{'data-target': 'tracks--globe.loadingProgress'}
-          #track-map-loading-api.fa-2x
-            %i.fa.fa-fw.fa-spin.fa-circle-notch{'data-target': 'tracks--globe.cesiumStatus'}
-            Loading Maps API
-          #track-map-loading-data.fa-2x
-            %i.fa.fa-fw.fa-spin.fa-circle-notch{'data-target': 'tracks--globe.dataStatus'}
-            Loading track data
-        #cesium-container{'data-target': 'tracks--globe.viewer'}
+<div data-controller="tracks--index"></div>
