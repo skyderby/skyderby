@@ -35,6 +35,7 @@ ru:
       comp_result: 'Результат в соревновании'
       online_comp_results: 'Результаты в онлайн соревнованиях'
       best_results: 'Лучшие результаты'
+      overall_results: 'В целом за полет'
       window: 'окно'
       loading: 'Загрузка данных трека'
     choose:

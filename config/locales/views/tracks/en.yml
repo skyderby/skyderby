@@ -35,6 +35,7 @@ en:
       comp_result: 'Result in competition'
       online_comp_results: 'Online competitions results'
       best_results: 'Best results'
+      overall_results: 'Overall'
       window: 'window'
       loading: 'Loading track data'
     choose:

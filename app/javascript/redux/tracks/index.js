@@ -11,6 +11,7 @@ import allIds from './allIds'
 import byId from './byId'
 import points from './points'
 import windData from './windData'
+import results from './results'
 import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
 
 export const loadTrack = trackId => {
@@ -47,5 +48,6 @@ export default combineReducers({
   allIds,
   byId,
   points,
-  windData
+  windData,
+  results
 })
