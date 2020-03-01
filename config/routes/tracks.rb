@@ -9,6 +9,8 @@ resources :tracks, only: [:index, :show, :edit, :update, :destroy] do
     resource :ownership, only: [:show, :update]
     resource :map, only: :show
     resource :globe, controller: 'globe', only: :show
+    resource :wind_data, controller: 'globe', only: :show
+    resource :results, controller: 'globe', only: :show
     resource :video, only: [:new, :edit, :show, :create, :update, :destroy] do
       resource :chart_data, only: :show, module: :videos
     end
