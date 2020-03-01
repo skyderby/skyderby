@@ -48,20 +48,25 @@ function getSpeed(gpsTime, distance, time, endTime, result) {
   return speed
 }
 
-function processPoints(discipline, { points, startPoint, endPoint, result }) {
+function processPoints(discipline, rangeTo, { points, startPoint, endPoint, result }) {
   const startTime = Date.parse(startPoint.gpsTime)
   const endTime = Date.parse(endPoint.gpsTime)
 
   return points
     .map(el => {
       const gpsTime = Date.parse(el.gpsTime)
-      const time = getTime(gpsTime, startTime, endTime, discipline === 'time' && result)
+      const time = getTime(
+        gpsTime,
+        startTime,
+        endTime,
+        discipline === 'time' && Math.round(result * 10) / 10
+      )
       const playerTime = roundTime(gpsTime - startTime)
       const distance = getDistance(
         el,
         startPoint,
         endPoint,
-        discipline === 'distance' && result
+        discipline === 'distance' && Math.round(result)
       )
       const chartDistance = getChartDistance(el, startPoint)
       const speed = getSpeed(
@@ -69,7 +74,7 @@ function processPoints(discipline, { points, startPoint, endPoint, result }) {
         distance,
         time,
         endTime,
-        discipline === 'speed' && result
+        discipline === 'speed' && Math.round(result)
       )
 
       return {
@@ -85,7 +90,7 @@ function processPoints(discipline, { points, startPoint, endPoint, result }) {
         speed
       }
     })
-    .filter(el => el.playerTime >= -5.1 && el.altitude > 1700)
+    .filter(el => el.playerTime >= -5.1 && el.altitude > rangeTo - 200)
 }
 
 export default processPoints
