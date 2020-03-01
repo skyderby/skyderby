@@ -1,7 +1,7 @@
 import colors from 'utils/colors'
 import { chartHeight, chartWidth, chartWindowBegins, chartWindowEnds } from './constants'
 
-function drawChart(ctx) {
+function drawChart(ctx, rangeFrom, rangeTo) {
   const fontSize = 24
 
   ctx.clearRect(0, 0, chartWidth * 0.92, chartHeight)
@@ -27,7 +27,11 @@ function drawChart(ctx) {
     ctx.moveTo(chartWidth * 0.05, lineY)
     ctx.lineTo(chartWidth * 0.92, lineY)
 
-    ctx.fillText(3000 - 200 * i, chartWidth * 0.01, lineY + fontSize / 3)
+    ctx.fillText(
+      rangeFrom - ((rangeFrom - rangeTo) / intermediateLanes) * i,
+      chartWidth * 0.01,
+      lineY + fontSize / 3
+    )
   }
   ctx.stroke()
   ctx.setLineDash([])
@@ -37,7 +41,7 @@ function drawChart(ctx) {
   ctx.strokeStyle = '#06D6A0'
   ctx.moveTo(chartWidth * 0.05, chartWindowBegins)
   ctx.lineTo(chartWidth * 0.92, chartWindowBegins)
-  ctx.fillText(3000, chartWidth * 0.01, chartWindowBegins + fontSize / 3)
+  ctx.fillText(rangeFrom, chartWidth * 0.01, chartWindowBegins + fontSize / 3)
   ctx.stroke()
   ctx.closePath()
 
@@ -45,28 +49,31 @@ function drawChart(ctx) {
   ctx.strokeStyle = '#EF476F'
   ctx.moveTo(chartWidth * 0.05, chartWindowEnds)
   ctx.lineTo(chartWidth * 0.92, chartWindowEnds)
-  ctx.fillText(2000, chartWidth * 0.01, chartWindowEnds + fontSize / 3)
+  ctx.fillText(rangeTo, chartWidth * 0.01, chartWindowEnds + fontSize / 3)
   ctx.stroke()
   ctx.closePath()
 }
 
-function getChartCoordinates(altitude, distance) {
+function getChartCoordinates(altitude, distance, rangeFrom, rangeTo) {
   const minY = chartHeight * 0.05
   const maxY = chartHeight
-  const yRatio = (chartWindowEnds - chartWindowBegins) / 1000
+  const yRatio = (chartWindowEnds - chartWindowBegins) / (rangeFrom - rangeTo)
 
   const minX = chartWidth * 0.05
   const maxX = chartWidth * 0.92
 
   const xRatio = (maxX - minX) / 5500
 
-  const y = Math.min(maxY, Math.max(minY, chartWindowBegins + (3000 - altitude) * yRatio))
+  const y = Math.min(
+    maxY,
+    Math.max(minY, chartWindowBegins + (rangeFrom - altitude) * yRatio)
+  )
   const x = Math.min(maxX, Math.max(minX, minX + (distance + 500) * xRatio))
 
   return [x, y]
 }
 
-function drawPath(ctx, points, color) {
+function drawPath(ctx, points, color, rangeFrom, rangeTo) {
   ctx.save()
   ctx.beginPath()
   ctx.lineWidth = 8
@@ -78,12 +85,17 @@ function drawPath(ctx, points, color) {
   ctx.shadowOffsetY = 3
 
   const { altitude: startAltitude, chartDistance: startDistance } = points[0]
-  const [startX, startY] = getChartCoordinates(startAltitude, startDistance)
+  const [startX, startY] = getChartCoordinates(
+    startAltitude,
+    startDistance,
+    rangeFrom,
+    rangeTo
+  )
 
   ctx.moveTo(startX, startY)
   points.forEach(point => {
     const { altitude, chartDistance } = point
-    const [x, y] = getChartCoordinates(altitude, chartDistance)
+    const [x, y] = getChartCoordinates(altitude, chartDistance, rangeFrom, rangeTo)
 
     ctx.lineTo(x, y)
   })
@@ -93,7 +105,12 @@ function drawPath(ctx, points, color) {
 
   const lastPoint = points[points.length - 1]
   const { altitude: lastAltitude, chartDistance: lastDistance } = lastPoint
-  const [lastX, lastY] = getChartCoordinates(lastAltitude, lastDistance)
+  const [lastX, lastY] = getChartCoordinates(
+    lastAltitude,
+    lastDistance,
+    rangeFrom,
+    rangeTo
+  )
 
   ctx.beginPath()
   ctx.lineWidth = 4
@@ -104,13 +121,13 @@ function drawPath(ctx, points, color) {
   ctx.restore()
 }
 
-function updateChart(ctx, paths) {
-  drawChart(ctx)
+function updateChart(ctx, paths, rangeFrom, rangeTo) {
+  drawChart(ctx, rangeFrom, rangeTo)
 
   paths.forEach((points, idx) => {
     if (points.length === 0) return
 
-    drawPath(ctx, points, colors[idx])
+    drawPath(ctx, points, colors[idx], rangeFrom, rangeTo)
   })
 }
 

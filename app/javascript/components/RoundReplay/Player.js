@@ -8,7 +8,7 @@ import { drawHeight, drawWidth } from './constants'
 import getPathsUntilTime from './getPathsUntilTime'
 import { Canvas } from './elements'
 
-const Player = ({ discipline, group = [], playing }) => {
+const Player = ({ discipline, rangeFrom, rangeTo, group = [], playing }) => {
   const [playerPoints, setPlayerPoints] = useState()
 
   const canvasRef = useRef()
@@ -34,12 +34,12 @@ const Player = ({ discipline, group = [], playing }) => {
       )
 
       updateCardNumbers(ctx, paths, discipline)
-      updateChart(ctx, paths)
+      updateChart(ctx, paths, rangeFrom, rangeTo)
 
       prevFrameTime.current = performance.now()
       requestId.current = requestAnimationFrame(drawFrame)
     },
-    [discipline, playerPoints]
+    [discipline, playerPoints, rangeFrom, rangeTo]
   )
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const Player = ({ discipline, group = [], playing }) => {
 
       const ctx = canvas.getContext('2d')
       ctx.clearRect(0, 0, drawWidth, drawHeight)
-      drawChart(ctx)
+      drawChart(ctx, rangeFrom, rangeTo)
       drawCards(ctx, group)
 
       playerTime.current = playerTime.current || 0
@@ -57,7 +57,7 @@ const Player = ({ discipline, group = [], playing }) => {
     } else {
       cancelAnimationFrame(requestId.current)
     }
-  }, [playing, drawFrame, group])
+  }, [playing, drawFrame, rangeFrom, rangeTo, group])
 
   useEffect(() => {
     if (group.length === 0) return
@@ -65,15 +65,17 @@ const Player = ({ discipline, group = [], playing }) => {
     const ctx = canvasRef.current.getContext('2d')
     ctx.clearRect(0, 0, drawWidth, drawHeight)
 
-    drawChart(ctx)
+    drawChart(ctx, rangeFrom, rangeTo)
     drawCards(ctx, group)
-  }, [group])
+  }, [group, rangeFrom, rangeTo])
 
   return <Canvas ref={canvasRef} width={drawWidth} height={drawHeight} />
 }
 
 Player.propTypes = {
   discipline: PropTypes.oneOf(['distance', 'speed', 'time']),
+  rangeFrom: PropTypes.number,
+  rangeTo: PropTypes.number,
   playing: PropTypes.bool.isRequired,
   group: PropTypes.array
 }

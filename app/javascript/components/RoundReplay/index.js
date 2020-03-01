@@ -41,7 +41,7 @@ const RoundReplay = ({ eventId, roundId }) => {
     number,
     results,
     groups: groupedResultIds,
-    event: { name: eventName }
+    event: { name: eventName, rangeFrom, rangeTo }
   } = useSelector(state => state.eventRound)
 
   const selectedResults = useSelector(selectSelectedResults)
@@ -78,7 +78,13 @@ const RoundReplay = ({ eventId, roundId }) => {
       {isLoading ? (
         <h1>Loading...</h1>
       ) : (
-        <Player discipline={discipline} group={selectedResults} playing={playing} />
+        <Player
+          discipline={discipline}
+          rangeFrom={rangeFrom}
+          rangeTo={rangeTo}
+          group={selectedResults}
+          playing={playing}
+        />
       )}
     </Container>
   )
