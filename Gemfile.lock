@@ -181,7 +181,7 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.0.0)
     nio4r (2.5.2)
-    nokogiri (1.10.4)
+    nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
     oauth2 (1.4.1)
       faraday (>= 0.8, < 0.16.0)
@@ -399,7 +399,7 @@ DEPENDENCIES
   i18n-js (>= 3.0.0.rc8)
   jbuilder (~> 2.6)
   meta_request
-  nokogiri (~> 1.8)
+  nokogiri (~> 1.10)
   omniauth-facebook
   paperclip (~> 6.0)
   pg (~> 1.0)
