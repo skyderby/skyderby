@@ -32,7 +32,7 @@ const TrackShow = () => {
         <Route path="/tracks/:id/globe" component={TrackGlobe} />
         <Route path="/tracks/:id/video" component={TrackVideo} />
         <Route path="/tracks/:id/wind_data" component={TrackWindData} />
-        <Route path="/tracks/:id/Results" component={TrackResults} />
+        <Route path="/tracks/:id/results" component={TrackResults} />
       </Switch>
     </Container>
   )
