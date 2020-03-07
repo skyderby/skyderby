@@ -1,10 +1,15 @@
 import colors from 'utils/colors'
-import { chartHeight, chartWidth, chartWindowBegins, chartWindowEnds } from './constants'
+import {
+  drawHeight as chartHeight,
+  drawWidth as chartWidth,
+  chartWindowBegins,
+  chartWindowEnds
+} from './constants'
 
 function drawChart(ctx, rangeFrom, rangeTo) {
-  const fontSize = 24
+  const fontSize = 36
 
-  ctx.clearRect(0, 0, chartWidth * 0.92, chartHeight)
+  ctx.clearRect(0, 0, chartWidth * 0.97, chartHeight)
 
   ctx.lineWidth = 4
   ctx.font = `${fontSize}px Arial`
@@ -12,7 +17,7 @@ function drawChart(ctx, rangeFrom, rangeTo) {
   ctx.beginPath()
   ctx.lineCap = 'round'
   ctx.strokeStyle = '#ddd'
-  ctx.moveTo(chartWidth * 0.05, chartHeight * 0.15)
+  ctx.moveTo(chartWidth * 0.05, 0)
   ctx.lineTo(chartWidth * 0.05, chartHeight)
   ctx.stroke()
   ctx.closePath()
@@ -25,7 +30,7 @@ function drawChart(ctx, rangeFrom, rangeTo) {
     const lineY = chartWindowBegins + i * step
 
     ctx.moveTo(chartWidth * 0.05, lineY)
-    ctx.lineTo(chartWidth * 0.92, lineY)
+    ctx.lineTo(chartWidth * 0.97, lineY)
 
     ctx.fillText(
       rangeFrom - ((rangeFrom - rangeTo) / intermediateLanes) * i,
@@ -40,7 +45,7 @@ function drawChart(ctx, rangeFrom, rangeTo) {
   ctx.beginPath()
   ctx.strokeStyle = '#06D6A0'
   ctx.moveTo(chartWidth * 0.05, chartWindowBegins)
-  ctx.lineTo(chartWidth * 0.92, chartWindowBegins)
+  ctx.lineTo(chartWidth * 0.97, chartWindowBegins)
   ctx.fillText(rangeFrom, chartWidth * 0.01, chartWindowBegins + fontSize / 3)
   ctx.stroke()
   ctx.closePath()
@@ -48,19 +53,19 @@ function drawChart(ctx, rangeFrom, rangeTo) {
   ctx.beginPath()
   ctx.strokeStyle = '#EF476F'
   ctx.moveTo(chartWidth * 0.05, chartWindowEnds)
-  ctx.lineTo(chartWidth * 0.92, chartWindowEnds)
+  ctx.lineTo(chartWidth * 0.97, chartWindowEnds)
   ctx.fillText(rangeTo, chartWidth * 0.01, chartWindowEnds + fontSize / 3)
   ctx.stroke()
   ctx.closePath()
 }
 
 function getChartCoordinates(altitude, distance, rangeFrom, rangeTo) {
-  const minY = chartHeight * 0.05
+  const minY = 0
   const maxY = chartHeight
   const yRatio = (chartWindowEnds - chartWindowBegins) / (rangeFrom - rangeTo)
 
   const minX = chartWidth * 0.05
-  const maxX = chartWidth * 0.92
+  const maxX = chartWidth * 0.97
 
   const xRatio = (maxX - minX) / 5500
 

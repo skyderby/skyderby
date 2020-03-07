@@ -1,14 +1,20 @@
 import styled from 'styled-components'
+import { devices } from 'styles/devices'
 
 export const Container = styled.div`
   background-color: white;
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 60px;
-  bottom: 41px;
+  top: 70px;
+  bottom: 0px;
   left: 0;
   right: 0;
+
+  @media ${devices.small} {
+    top: 60px;
+    bottom: 41px;
+  }
 `
 
 export const Header = styled.div`

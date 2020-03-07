@@ -32,9 +32,7 @@ export const selectSelectedResults = state => {
   const selectedResultIds = selectSelectedResultIds(state)
   const results = selectResults(state)
 
-  return results.filter(({ id }) =>
-    selectedResultIds.find(selectedId => selectedId === id)
-  )
+  return selectedResultIds.map(id => results.find(result => result.id === id))
 }
 
 const selectAllCoordinates = state => {

@@ -48,7 +48,11 @@ function getSpeed(gpsTime, distance, time, endTime, result) {
   return speed
 }
 
-function processPoints(discipline, rangeTo, { points, startPoint, endPoint, result }) {
+function processPoints(
+  discipline,
+  rangeTo,
+  { id, points, startPoint, endPoint, result }
+) {
   const startTime = Date.parse(startPoint.gpsTime)
   const endTime = Date.parse(endPoint.gpsTime)
 
@@ -78,6 +82,7 @@ function processPoints(discipline, rangeTo, { points, startPoint, endPoint, resu
       )
 
       return {
+        id,
         playerTime,
         altitude: el.altitude,
         vSpeed: Math.round(el.vSpeed),

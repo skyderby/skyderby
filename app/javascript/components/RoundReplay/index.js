@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -56,7 +56,7 @@ const RoundReplay = ({ eventId, roundId }) => {
 
   const handleGroupChange = ({ value }) => dispatch(selectGroup(value))
 
-  const groups = buildGroups(groupedResultIds, results)
+  const groups = useMemo(() => buildGroups(groupedResultIds, results), [results])
 
   const headerText =
     discipline && number && `// ${I18n.t('disciplines.' + discipline)} - ${number}`

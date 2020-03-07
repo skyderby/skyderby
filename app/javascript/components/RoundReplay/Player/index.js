@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
-import { drawChart, updateChart } from './altitudeChart'
-import { drawCards, updateCardNumbers } from './cards'
+import AltitudeChart from './AltitudeChart'
+import CompetitorCards from './CompetitorCards'
 import processPoints from './processPoints'
-import { drawHeight, drawWidth } from './constants'
 import getPathsUntilTime from './getPathsUntilTime'
-import { Canvas } from './elements'
+import { Container } from './elements'
 
 const Player = ({ discipline, rangeFrom, rangeTo, group = [], playing }) => {
   const [playerPoints, setPlayerPoints] = useState()
 
-  const canvasRef = useRef()
+  const chartRef = useRef()
+  const cardsRef = useRef()
+
   const playerTime = useRef()
   const prevFrameTime = useRef()
   const requestId = useRef()
@@ -24,33 +25,23 @@ const Player = ({ discipline, rangeFrom, rangeTo, group = [], playing }) => {
 
   const drawFrame = useCallback(
     time => {
-      if (!canvasRef.current) return
-
       playerTime.current = playerTime.current + (time - prevFrameTime.current) / 1000
-      const ctx = canvasRef.current.getContext('2d')
 
       const paths = playerPoints.map(currentPoints =>
         getPathsUntilTime(currentPoints, playerTime.current)
       )
 
-      updateCardNumbers(ctx, paths, discipline)
-      updateChart(ctx, paths, rangeFrom, rangeTo)
+      chartRef.current.drawFrame(paths)
+      cardsRef.current.drawFrame(paths)
 
       prevFrameTime.current = performance.now()
       requestId.current = requestAnimationFrame(drawFrame)
     },
-    [discipline, playerPoints, rangeFrom, rangeTo]
+    [playerPoints]
   )
 
   useEffect(() => {
     if (playing) {
-      const canvas = canvasRef.current
-
-      const ctx = canvas.getContext('2d')
-      ctx.clearRect(0, 0, drawWidth, drawHeight)
-      drawChart(ctx, rangeFrom, rangeTo)
-      drawCards(ctx, group)
-
       playerTime.current = playerTime.current || 0
       prevFrameTime.current = performance.now()
       requestId.current = requestAnimationFrame(drawFrame)
@@ -62,14 +53,15 @@ const Player = ({ discipline, rangeFrom, rangeTo, group = [], playing }) => {
   useEffect(() => {
     if (group.length === 0) return
 
-    const ctx = canvasRef.current.getContext('2d')
-    ctx.clearRect(0, 0, drawWidth, drawHeight)
-
-    drawChart(ctx, rangeFrom, rangeTo)
-    drawCards(ctx, group)
+    playerTime.current = 0
   }, [group, rangeFrom, rangeTo])
 
-  return <Canvas ref={canvasRef} width={drawWidth} height={drawHeight} />
+  return (
+    <Container>
+      <AltitudeChart ref={chartRef} rangeFrom={rangeFrom} rangeTo={rangeTo} />
+      <CompetitorCards ref={cardsRef} group={group} discipline={discipline} />
+    </Container>
+  )
 }
 
 Player.propTypes = {

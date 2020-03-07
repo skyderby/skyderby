@@ -21,4 +21,5 @@ GroupSelect.propTypes = {
     })
   ).isRequired
 }
+
 export default GroupSelect
