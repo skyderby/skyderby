@@ -31,7 +31,18 @@ module Api
         end
 
         def show_params
-          params.permit(:freq_1Hz, trimmed: {}).to_h.symbolize_keys
+          params
+            .permit(:freq_1Hz, :trimmed, trimmed: {})
+            .to_h.symbolize_keys
+            .tap(&method(:normalize_params))
+        end
+
+        def normalize_params(params)
+          if params.key?(:trimmed) && params[:trimmed].is_a?(String)
+            params[:trimmed] = params[:trimmed] == 'true'
+          end
+
+          params[:freq_1Hz] = params[:freq_1Hz] == 'true' if params.key? :freq_1Hz
         end
 
         def default_options
