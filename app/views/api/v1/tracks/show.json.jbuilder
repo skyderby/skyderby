@@ -13,6 +13,11 @@ json.place_name @track.location
 json.created_at @track.created_at.strftime('%d.%m.%Y')
 json.recorded_at @track.recorded_at.strftime('%d.%m.%Y')
 
+json.jump_range do
+  json.from @track.ff_start
+  json.to @track.ff_end
+end
+
 json.has_video @track.video.present?
 
 if downloadable && @track.track_file
