@@ -1,18 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 const BackLink = ({ children, ...props }) => (
-  <a {...props}>
+  <Link {...props}>
     <i className="fa fa-chevron-left"></i>
     &nbsp;
     {children}
-  </a>
+  </Link>
 )
 
 BackLink.propTypes = {
   children: PropTypes.node
 }
+
 export default styled(BackLink)`
   color: #555;
   border-radius: 4px;

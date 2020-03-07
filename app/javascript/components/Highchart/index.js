@@ -8,8 +8,9 @@ import React, {
 import PropTypes from 'prop-types'
 
 import { refreshTooltipHandler } from './refreshTooltipHandler'
+import Plotband from './Plotband'
 
-const Highchart = forwardRef(({ options }, ref) => {
+const Highchart = forwardRef(({ options, children }, ref) => {
   const [Highcharts, setHighcharts] = useState()
 
   const element = useRef()
@@ -48,13 +49,20 @@ const Highchart = forwardRef(({ options }, ref) => {
     return () => chart.current?.destroy()
   }, [])
 
-  return <div ref={element} />
+  return (
+    <div ref={element}>
+      {chart.current && children instanceof Function ? children(chart.current) : null}
+    </div>
+  )
 })
+
+Highchart.Plotband = Plotband
 
 Highchart.displayName = 'Highchart'
 
 Highchart.propTypes = {
-  options: PropTypes.object.isRequired
+  options: PropTypes.object.isRequired,
+  children: PropTypes.func
 }
 
 export default Highchart

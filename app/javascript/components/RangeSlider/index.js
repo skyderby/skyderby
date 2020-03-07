@@ -6,15 +6,16 @@ import HandleValues from './HandleValues'
 import { Slider, Container, Rail, Handle, Track, Tick } from './elements'
 import { calculateTicks } from './utils'
 
-const RangeSlider = ({ domain, values, step = 10, onChange: handleChange }) => {
+const RangeSlider = ({ domain, values, step = 10, onChange, onUpdate }) => {
   return (
     <Container>
       <Slider
-        reversed
+        reversed={domain[0] > domain[1]}
         domain={domain}
         values={values}
         step={step}
-        onChange={handleChange}
+        onChange={onChange}
+        onUpdate={onUpdate}
         mode={2}
       >
         <Rail />
@@ -80,7 +81,8 @@ RangeSlider.propTypes = {
   domain: PropTypes.arrayOf(PropTypes.number).isRequired,
   values: PropTypes.arrayOf(PropTypes.number),
   step: PropTypes.number,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  onUpdate: PropTypes.func
 }
 
 export default RangeSlider
