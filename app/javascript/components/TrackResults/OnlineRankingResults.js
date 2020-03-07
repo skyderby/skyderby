@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -6,7 +7,7 @@ import { selectOnlineRankingResults } from 'redux/tracks/results'
 import { formatResult } from './formatResult'
 import { Header } from './elements'
 
-const CompetitionResult = ({ trackId }) => {
+const OnlineRankingResults = ({ trackId }) => {
   const records = useSelector(state => selectOnlineRankingResults(state, trackId))
 
   if (records.length === 0) return null
@@ -17,9 +18,9 @@ const CompetitionResult = ({ trackId }) => {
       <ul>
         {records.map(record => (
           <li key={record.id}>
-            <a href={record.rankingPath}>
+            <Link to={record.rankingPath}>
               {[record.groupName, record.rankingName].filter(el => el).join(' - ')}
-            </a>
+            </Link>
             :&nbsp;
             {formatResult(record.result, record.task)}
           </li>
@@ -29,8 +30,8 @@ const CompetitionResult = ({ trackId }) => {
   )
 }
 
-CompetitionResult.propTypes = {
+OnlineRankingResults.propTypes = {
   trackId: PropTypes.number.isRequired
 }
 
-export default CompetitionResult
+export default OnlineRankingResults
