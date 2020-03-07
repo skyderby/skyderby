@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -16,7 +17,7 @@ const CompetitionResult = ({ trackId }) => {
       <Header>{I18n.t('tracks.show.comp_result')}</Header>
       <ul>
         <li>
-          <a href={competitionResult.eventPath}>{competitionResult.eventName}</a>
+          <Link to={competitionResult.eventPath}>{competitionResult.eventName}</Link>
           :&nbsp;
           {formatResult(competitionResult.result, competitionResult.task)}
         </li>
