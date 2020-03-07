@@ -14,6 +14,15 @@ const App = () => (
         <Route exact path="/tracks" component={TracksIndex} />
         <Route path="/tracks/:id/edit" component={TracksEdit} />
         <Route path="/tracks/:id" component={TracksShow} />
+
+        {/* Fallback route for server rendered part of the app */}
+        <Route
+          path="*"
+          component={({ match: { url } }) => {
+            window.location.href = url
+            return null
+          }}
+        />
       </Switch>
     </BrowserRouter>
   </Provider>
