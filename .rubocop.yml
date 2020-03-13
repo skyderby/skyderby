@@ -1,15 +1,18 @@
-require: rubocop-rails
-
-Rails:
-  Enabled: true
+require:
+  - rubocop-rails
+  - rubocop-performance
 
 AllCops:
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.6
   Exclude:
     - bin/*
     - db/**/*
     - lib/**/*
+    - vendor/**/*
     - node_modules/**/*
+
+Layout/LineLength:
+  Max: 120
 
 #################### Rails   ###############################
 Rails/SkipsModelValidations:
@@ -56,11 +59,6 @@ Metrics/ClassLength:
 Metrics/MethodLength:
   Description: 'Avoid methods longer than 10 lines of code.'
   StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#short-methods'
-  Enabled: false
-
-Metrics/LineLength:
-  Description: 'Limit lines to 80 characters.'
-  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#80-character-limits'
   Enabled: false
 
 Metrics/ModuleLength:

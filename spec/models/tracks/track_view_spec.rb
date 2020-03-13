@@ -156,6 +156,7 @@ describe Tracks::TrackView do
 
   def stub_points_fetch(object)
     start_time = 1.day.ago
+    # rubocop:disable Layout/LineLength
     allow(object).to receive(:track_points).and_return \
       [
         { gps_time: start_time,     altitude: 3500, latitude: 24.8903, longitude: 55.54479, h_speed: 20, v_speed: 20, distance: 20, glide_ratio: 2.1 },
@@ -165,5 +166,6 @@ describe Tracks::TrackView do
         { gps_time: start_time + 4, altitude: 3100, latitude: 24.8907, longitude: 55.54471, h_speed: 50, v_speed: 60, distance: 20, glide_ratio: 2.5 },
         { gps_time: start_time + 5, altitude: 3000, latitude: 24.8908, longitude: 55.54469, h_speed: 50, v_speed: 70, distance: 20, glide_ratio: 2.2 }
       ]
+    # rubocop:enable Layout/LineLength
   end
 end

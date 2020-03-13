@@ -33,19 +33,42 @@ module Tracks
     end
 
     def glide_ratio_summary
-      @glide_ratio_summary ||= GlideRatioSummary.new(points, zerowind_points, track_elevation, track_distance, zero_wind_track_distance, glide_ratio_presenter)
+      @glide_ratio_summary ||= GlideRatioSummary.new(
+        points,
+        zerowind_points,
+        track_elevation,
+        track_distance,
+        zero_wind_track_distance,
+        glide_ratio_presenter
+      )
     end
 
     def vertical_speed_summary
-      @vertical_speed_summary ||= VerticalSpeedSummary.new(points, track_elevation, time, speed_presenter)
+      @vertical_speed_summary ||= VerticalSpeedSummary.new(
+        points,
+        track_elevation,
+        time,
+        speed_presenter
+      )
     end
 
     def horizontal_speed_summary
-      @horizontal_speed_summary ||= HorizontalSpeedSummary.new(points, zerowind_points, track_distance, zero_wind_track_distance, time, speed_presenter)
+      @horizontal_speed_summary ||= HorizontalSpeedSummary.new(
+        points,
+        zerowind_points,
+        track_distance,
+        zero_wind_track_distance,
+        time,
+        speed_presenter
+      )
     end
 
     def distance_summary
-      @distance_summary ||= DistanceSummary.new(track_distance, zero_wind_track_distance, distance_presenter)
+      @distance_summary ||= DistanceSummary.new(
+        track_distance,
+        zero_wind_track_distance,
+        distance_presenter
+      )
     end
 
     def elevation

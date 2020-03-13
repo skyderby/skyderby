@@ -73,6 +73,7 @@ group :development do
   gem 'bullet'
   gem 'meta_request'
   gem 'rubocop', require: false
+  gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
 end
 

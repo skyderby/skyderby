@@ -81,6 +81,10 @@ describe 'events/scoreboards/_result' do
   end
 
   def show_link(result)
-    %(<a class="show-result" rel="nofollow" data-remote="true" href="/events/1/results/#{result.id}"><i class="fa fa-search"></i></a>)
+    [
+      %(<a class="show-result" rel="nofollow" data-remote="true" href="/events/1/results/#{result.id}">),
+      '<i class="fa fa-search"></i>',
+      '</a>'
+    ].join
   end
 end

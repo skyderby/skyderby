@@ -47,6 +47,7 @@ describe PointsQuery do
 
   def record_points(track)
     start_time = 1.day.ago.beginning_of_hour
+    # rubocop:disable Layout/LineLength
     points =
       [
         { gps_time: start_time,       fl_time: 0.0, abs_altitude: 3500, latitude: 24.8903, longitude: 55.54479, h_speed: 20, v_speed: 20, distance: 20 },
@@ -56,6 +57,7 @@ describe PointsQuery do
         { gps_time: start_time + 2.0, fl_time: 2.0, abs_altitude: 3100, latitude: 24.8907, longitude: 55.54471, h_speed: 50, v_speed: 60, distance: 20 },
         { gps_time: start_time + 2.5, fl_time: 2.5, abs_altitude: 3000, latitude: 24.8908, longitude: 55.54469, h_speed: 50, v_speed: 70, distance: 20 }
       ]
+    # rubocop:enable Layout/LineLength
     points.each { |x| track.points.create!(x) }
   end
 end

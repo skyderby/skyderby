@@ -35,7 +35,7 @@ class TrackFormatDetector
       first_row = CSV.new(file.open).shift
 
       CSV_HEADERS.select { |_, val| (val - first_row).empty? }.keys[0] ||
-        ('cyber_eye' if first_row[0] =~ /^\d{4}-\d{2}-\d{2}T/)
+        ('cyber_eye' if first_row[0].match?(/^\d{4}-\d{2}-\d{2}T/))
     end
   end
 
