@@ -20,6 +20,7 @@ describe EventPolicy do
   end
 
   describe '#show?' do
+    # rubocop:disable Layout/LineLength
     permissions_map = [
       { status: 'draft',     visibility: 'public_event',   guest: false, registered: false, participant: false, organizer: true },
       { status: 'published', visibility: 'public_event',   guest: true,  registered: true,  participant: true,  organizer: true },
@@ -31,6 +32,7 @@ describe EventPolicy do
       { status: 'published', visibility: 'private_event',  guest: false, registered: false, participant: true,  organizer: true },
       { status: 'finished',  visibility: 'private_event',  guest: false, registered: false, participant: true,  organizer: true }
     ]
+    # rubocop:enable Layout/LineLength
 
     permissions_map.each do |set|
       describe "#{set[:status]} #{set[:visibility]} event" do

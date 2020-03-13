@@ -1,5 +1,17 @@
 module TrackParser
-  PointRecord = Struct.new(:gps_time, :fl_time, :latitude, :longitude, :abs_altitude, :h_speed, :v_speed, :distance, :track_id) do
+  point_attributes = %i[
+    gps_time
+    fl_time
+    latitude
+    longitude
+    abs_altitude
+    h_speed
+    v_speed
+    distance
+    track_id
+  ]
+
+  PointRecord = Struct.new(*point_attributes) do
     def initialize(*)
       super
       self.fl_time  ||= 0.0

@@ -22,6 +22,7 @@ describe PointsPostprocessor::Default do
   def points
     start_time = 1.day.ago.beginning_of_hour
 
+    # rubocop:disable Layout/LineLength
     @points ||= [
       { gps_time: start_time,       fl_time: 0.0, altitude: 3500, latitude: 24.8903, longitude: 55.54479, h_speed: 20, v_speed: 20, distance: 20 },
       { gps_time: start_time + 0.5, fl_time: 0.5, altitude: 3400, latitude: 24.8904, longitude: 55.54477, h_speed: 30, v_speed: 30, distance: 20 },
@@ -30,5 +31,6 @@ describe PointsPostprocessor::Default do
       { gps_time: start_time + 2.0, fl_time: 2.0, altitude: 3100, latitude: 24.8907, longitude: 55.54471, h_speed: 50, v_speed: 60, distance: 20 },
       { gps_time: start_time + 2.5, fl_time: 2.5, altitude: 3000, latitude: 24.8908, longitude: 55.54469, h_speed: 50, v_speed: 70, distance: 20 }
     ]
+    # rubocop:enable Layout/LineLength
   end
 end

@@ -6,15 +6,15 @@ references:
     docker:
       - image: circleci/ruby:2.6.5-node-browsers
         environment:
-          DATABASE_URL: postgres://localhost/skyderby_test
+          DATABASE_URL: postgres://circleci:test-password@localhost/skyderby_test
           TRACK_SCANNER_URL: http://localhost:8000
           RAILS_ENV: test
           SELENIUM_HEADLESS_CHROME: 'true'
       - image: postgres:11
         environment:
           POSTGRES_USER: circleci
+          POSTGRES_PASSWORD: test-password
           POSTGRES_DB: skyderby_test
-          POSTGRES_PASSWORD: ''
       - image: skyderby/track-scanner
         command: gunicorn --workers 1 --threads 5 -b 0.0.0.0:8000 tracksegmenter:app
   save_yarn_cache: &save_yarn_cache
@@ -35,6 +35,8 @@ references:
     restore_cache:
       keys:
         - v1-gems-{{ checksum "Gemfile.lock" }}
+  install_ruby_gems: &install_ruby_gems
+    run: bundle install --path vendor/bundle
   install_chromedriver: &install_chromedriver
     run:
       command: |
@@ -55,8 +57,10 @@ jobs:
       - image: circleci/ruby:2.6.5-node
     steps:
       - checkout
-      - run: gem install rubocop rubocop-rails
-      - run: rubocop --config .rubocop.yml
+      - *restore_bundle_cache
+      - *install_ruby_gems
+      - *save_bundle_cache
+      - run: bundle exec rubocop --config .rubocop.yml
 
   lint_js:
     working_directory: ~/skyderby
@@ -75,7 +79,7 @@ jobs:
       - checkout
       - *restore_bundle_cache
       - *restore_yarn_cache
-      - run: bundle install --path vendor/bundle
+      - *install_ruby_gems
       - run: yarn install
       - *save_bundle_cache
       - *prepare_db

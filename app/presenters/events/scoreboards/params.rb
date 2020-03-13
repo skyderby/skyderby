@@ -7,7 +7,7 @@ module Events
       end
 
       def omit_penalties?
-        raw_params[:omit_penalties] == 'true'
+        raw_params[:omit_penalties].to_s.casecmp?('true')
       end
 
       def adjust_to_wind?
@@ -23,7 +23,7 @@ module Events
       end
 
       def split_by_categories?
-        raw_params[:split_by_categories].to_s.downcase != 'false'
+        !raw_params[:split_by_categories].to_s.casecmp?('false')
       end
 
       private
@@ -31,7 +31,7 @@ module Events
       attr_reader :event, :raw_params
 
       def display_raw_results
-        raw_params[:display_raw_results] == 'true'
+        raw_params[:display_raw_results].to_s.casecmp?('true')
       end
     end
   end

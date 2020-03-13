@@ -128,7 +128,7 @@ class Event < ApplicationRecord
       end
 
       def penalized
-        @penalized.to_s.downcase == 'true'
+        @penalized.to_s.casecmp?('true')
       end
     end
   end
