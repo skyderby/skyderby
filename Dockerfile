@@ -31,7 +31,8 @@ RUN mkdir -p /opt/app \
   && mkdir -p /tmp/sockets
 COPY ./ /opt/app
 
-RUN DATABASE_URL=postgres://user:pass@127.0.0.1/does_not_exist_dbname \
+RUN SECRET_KEY_BASE=just-for-precompilation \
+  DATABASE_URL=postgres://user:pass@127.0.0.1/does_not_exist_dbname \
   /bin/sh -c 'bundle exec rails assets:precompile' && \
   rm -rf node_modules
 
