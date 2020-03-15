@@ -45,7 +45,7 @@ describe Api::V1::Events::Rounds::ReferencePointAssignmentsController do
       expect(response).to be_successful
 
       assignment = event.reference_point_assignments.find_by(competitor: competitor, round: round)
-      expect(assignment.reference_point).to eq(nil)
+      expect(assignment).not_to be_present
     end
 
     it 'incorrect user nullify assignment' do

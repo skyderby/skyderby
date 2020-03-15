@@ -65,6 +65,8 @@ Rails.application.configure do
 
   config.active_job.queue_adapter = :async
 
+  config.hosts << '.skyderby.test'
+
   config.after_initialize do
     Bullet.enable = true
     Bullet.console = true

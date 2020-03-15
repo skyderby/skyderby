@@ -6,6 +6,7 @@ distance_competitor_1:
   result_net: 2900
   created_at: 2018-01-01 12:00:00
   track: hellesylt
+  uploaded_by: event_responsible
 
 speed_competitor_1:
   competitor_id: 1
@@ -15,6 +16,7 @@ speed_competitor_1:
   penalized: true
   penalty_size: 20
   penalty_reason: Lane violation
+  uploaded_by: event_responsible
   created_at: 2018-01-01 12:01:00
 
 distance_competitor_2:
@@ -22,6 +24,7 @@ distance_competitor_2:
   round_id: 1
   result: 2500
   result_net: 2400
+  uploaded_by: event_responsible
   created_at: 2018-01-01 12:03:00
 
 speed_competitor_2:
@@ -29,4 +32,5 @@ speed_competitor_2:
   round_id: 2
   result: 270
   result_net: 265
+  uploaded_by: event_responsible
   created_at: 2018-01-01 12:05:00

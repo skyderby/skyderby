@@ -101,5 +101,8 @@ Rails.application.configure do
   # Use a real queuing backend for Active Job (and separate queues per environment)
   config.active_job.queue_adapter = :sidekiq
 
+  config.hosts << '.skyderby.ru'
+  config.hosts << '.skyder.by'
+
   config.middleware.use Rack::Attack
 end

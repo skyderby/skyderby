@@ -1,7 +1,7 @@
 ruby '2.6.5'
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.2'
+gem 'rails', '~> 6.0.0'
 
 gem 'puma'
 gem 'rack-attack'
@@ -42,8 +42,8 @@ gem 'sidekiq', ' < 6'
 gem 'sidekiq-cron', '~> 1.0'
 
 # Export to Excel
-gem 'axlsx', '3.0.0.pre'
-gem 'axlsx_rails'
+gem 'caxlsx'
+gem 'caxlsx_rails'
 
 # Exception notifications and profiling
 gem 'rack-mini-profiler'
@@ -83,7 +83,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'pry-rails'
   gem 'rspec'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 4.0.0.rc1'
 end
 
 group :test do

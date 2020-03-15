@@ -18,7 +18,8 @@ feature 'Event competitors', type: :system, js: true do
     first('li.select2-results__option', text: suit.name).click
 
     click_button I18n.t('general.save')
-    sleep 0.5
+
+    expect(page).not_to have_css('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
 
     expect(page).to have_content(profile.name)
   end
@@ -46,7 +47,7 @@ feature 'Event competitors', type: :system, js: true do
     first('li.select2-results__option', text: suit.name).click
 
     click_button I18n.t('general.save')
-    sleep 0.5
+    expect(page).not_to have_css('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
 
     expect(page).to have_content(profile_name)
   end

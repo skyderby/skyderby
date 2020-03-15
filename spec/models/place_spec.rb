@@ -11,12 +11,9 @@
 #  kind       :integer          default("skydive"), not null
 #
 
-require 'spec_helper'
-
-RSpec.describe Place, type: :model do
-  let(:country) { create(:country, :norway) }
-  let(:place) { create(:place, :gridset) }
-  let(:point) { create(:point) }
+describe Place, type: :model do
+  let(:country) { countries(:norway) }
+  let(:place) { Place.create!(name: 'Gridset', country: country, latitude: 1, longitude: 2) }
 
   let(:valid_attributes) do
     {
@@ -44,10 +41,6 @@ RSpec.describe Place, type: :model do
     it 'requires longitude' do
       expect(Place.create(valid_attributes.merge(longitude: nil))).not_to be_valid
     end
-
-    # it 'requires msl' do
-    #   expect(Place.create(valid_attributes.merge(msl: nil))).not_to be_valid
-    # end
   end
 
   context 'performs search by name and country name' do
@@ -61,6 +54,15 @@ RSpec.describe Place, type: :model do
   end
 
   it 'performs search nearby place to point' do
+    track = tracks(:hellesylt)
+    place = Place.create! \
+      name: 'Lookup',
+      country: countries(:norway),
+      latitude: 20.001,
+      longitude: 30.001
+
+    point = Point.create!(track: track, latitude: 20.0015, longitude: 30.0015)
+
     expect(Place.nearby(point, 1)).to include(place)
   end
 end

@@ -1,5 +1,5 @@
 module SegmentParser
-  class GPX
+  class Gpx
     def initialize(file)
       @file = file
     end
