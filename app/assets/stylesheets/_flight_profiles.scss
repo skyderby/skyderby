@@ -1,3 +1,5 @@
+@import "./mixins/full-screen";
+
 .flight-profiles {
   @include full-screen-container;
   flex-direction: column;

@@ -21,6 +21,7 @@ FactoryBot.define do
     competitor factory: 'event_competitor'
     track_from { 'existing_track' }
     track { FactoryBot.create :empty_track }
+    uploaded_by { FactoryBot.create :profile }
     result { rand(1..1000) }
   end
 end

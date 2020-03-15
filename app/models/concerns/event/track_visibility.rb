@@ -3,7 +3,7 @@ class Event < ApplicationRecord
     extend ActiveSupport::Concern
 
     included do
-      after_save :set_tracks_visibility, on: :update, if: :saved_change_to_visibility?
+      after_update :set_tracks_visibility, if: :saved_change_to_visibility?
     end
 
     def set_tracks_visibility

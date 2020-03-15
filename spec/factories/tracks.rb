@@ -42,7 +42,7 @@ FactoryBot.define do
 
     trait :with_point do
       after :create do |track|
-        create :point, track: track, gps_time: 1.year.ago.to_f, abs_altitude: 0
+        track.points.create! gps_time: 1.year.ago.to_f, abs_altitude: 0
       end
     end
 

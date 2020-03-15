@@ -1,6 +1,6 @@
 module SegmentParser
   SEGMENT_PARSER = {
-    gpx: SegmentParser::GPX
+    gpx: SegmentParser::Gpx
   }.with_indifferent_access.freeze
 
   def self.for(format)

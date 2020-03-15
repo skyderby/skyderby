@@ -1,5 +1,5 @@
 import { Controller } from 'stimulus'
-import Rails from 'rails-ujs'
+import Rails from '@rails/ujs'
 
 const CARET_ICON = '<i class="fa fa-fw fa-caret-down"></i>'
 const ELLIPSIS_ICON = '<i class="fa fa-fw fa-ellipsis-h"></i>'

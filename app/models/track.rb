@@ -39,7 +39,7 @@ class Track < ApplicationRecord
   enum visibility: { public_track: 0, unlisted_track: 1, private_track: 2 }
   enum gps_type:   { gpx: 0, flysight: 1, columbus: 2, wintec: 3, cyber_eye: 4, kml: 5 }
 
-  belongs_to :track_file
+  belongs_to :track_file, optional: true
 
   belongs_to :pilot,
              class_name: 'Profile',

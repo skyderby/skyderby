@@ -1,5 +1,5 @@
 module SegmentParser
-  class GPX
+  class Gpx
     class Segment
       delegate :count, to: :points, prefix: true
 

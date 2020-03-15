@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SegmentParser::GPX do
+describe SegmentParser::Gpx do
   let(:path) { Rails.root.join('spec/support/tracks/two_tracks.gpx') }
   let(:file) { File.open(path) }
   let(:uploaded_file_mock) do

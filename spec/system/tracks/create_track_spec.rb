@@ -1,41 +1,41 @@
-feature 'Upload tracks', type: :system, js: true do
-  scenario 'Flysight file' do
+describe 'Upload tracks', js: true do
+  it 'Flysight file' do
     upload_track 'flysight.csv'
 
     expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
   end
 
-  scenario 'Columbus file' do
+  it 'Columbus file' do
     upload_track 'columbus.csv'
 
     expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
   end
 
-  scenario 'Wintec file' do
+  it 'Wintec file' do
     upload_track 'wintec.tes'
 
     expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
   end
 
-  scenario 'Dual XGPS160 file' do
+  it 'Dual XGPS160 file' do
     upload_track 'dual_xgps160.kml'
 
     expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
   end
 
-  scenario 'CyberEye file' do
+  it 'CyberEye file' do
     upload_track 'cyber_eye.csv'
 
     expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
   end
 
-  scenario 'Garmin gpx: one track in file' do
+  it 'Garmin gpx: one track in file' do
     upload_track 'one_track.gpx'
 
     expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
   end
 
-  scenario 'Garmin gps: multiple tracks in file' do
+  it 'Garmin gps: multiple tracks in file' do
     upload_track 'two_tracks.gpx'
     sleep 0.5 # wait for modal
     first('tr.track-segment-row').click

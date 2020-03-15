@@ -1,7 +1,6 @@
 require 'spec_helper'
 
-# If using RSpec 2.x, remove `RSpec.`
-describe 'Factory Girl' do
+describe 'FactoryBot' do
   FactoryBot.factories.map(&:name).each do |factory_name|
     describe "#{factory_name} factory" do
       # Test each factory

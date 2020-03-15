@@ -18,17 +18,27 @@
 
 describe Tournament::Match::Slot do
   it 'replace NaN in result with 0.0' do
-    record = Tournament::Match::Slot.create(result: BigDecimal::NAN)
+    record = Tournament::Match::Slot.create(attributes.merge(result: BigDecimal::NAN))
+
     expect(record.result).to eq 0.0
   end
 
   it 'replace Infinity in result with 0.0' do
-    record = Tournament::Match::Slot.create!(result: BigDecimal('Infinity'))
+    record = Tournament::Match::Slot.create!(attributes.merge(result: BigDecimal('Infinity')))
+
     expect(record.result).to eq 0.0
   end
 
   it 'correctly handles null in result' do
-    record = Tournament::Match::Slot.create!(result: nil)
+    record = Tournament::Match::Slot.create!(attributes.merge(result: nil))
+
     expect(record.result).to eq nil
+  end
+
+  def attributes
+    {
+      competitor: tournament_competitors(:race_competitor),
+      match: tournament_matches(:match_1)
+    }
   end
 end
