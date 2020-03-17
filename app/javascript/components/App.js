@@ -6,12 +6,15 @@ import store from 'redux/store'
 import TracksEdit from 'pages/tracks/Edit'
 import TracksShow from 'pages/tracks/Show'
 import TracksIndex from 'pages/tracks/Index'
+import FlightProfiles from 'pages/FlightProfiles'
 
 const App = () => (
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
-        <Route exact path="/tracks" component={TracksIndex} />
+        <Route path="/flight_profiles" component={FlightProfiles} />
+
+        <Route exact path="/tracks" exact component={TracksIndex} />
         <Route path="/tracks/:id/edit" component={TracksEdit} />
         <Route path="/tracks/:id" component={TracksShow} />
 
