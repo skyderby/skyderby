@@ -39,6 +39,7 @@ const ReferencePointSelect = props => {
 
   return (
     <Select
+      menuPlacement="auto"
       options={options}
       value={valueOption}
       placeholder={placeholder}
