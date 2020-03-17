@@ -9,12 +9,13 @@ import PropTypes from 'prop-types'
 
 import { refreshTooltipHandler } from './refreshTooltipHandler'
 import Plotband from './Plotband'
+import Series from './Series'
 
-const Highchart = forwardRef(({ options, children }, ref) => {
+const Highchart = forwardRef(({ options, children, autoResize }, ref) => {
   const [Highcharts, setHighcharts] = useState()
+  const [chart, setChart] = useState()
 
   const element = useRef()
-  const chart = useRef()
 
   useImperativeHandle(
     ref,
@@ -24,6 +25,21 @@ const Highchart = forwardRef(({ options, children }, ref) => {
     }),
     [chart]
   )
+
+  useEffect(() => {
+    if (!autoResize || !chart) return
+
+    const resizeHandler = () => {
+      const parentBoundingRect = element.current.parentElement.getBoundingClientRect()
+      chart.setSize(parentBoundingRect.width, parentBoundingRect.height, false)
+    }
+
+    window.addEventListener('resize', resizeHandler, { passive: true })
+
+    resizeHandler()
+
+    return () => window.removeEventListener('resize', resizeHandler)
+  }, [autoResize, chart])
 
   useEffect(() => {
     Promise.all([
@@ -38,25 +54,26 @@ const Highchart = forwardRef(({ options, children }, ref) => {
   useEffect(() => {
     if (!Highcharts) return
 
-    if (chart.current) {
-      chart.current.update(options, true, true)
+    if (chart) {
+      chart.update(options, true, true)
     } else {
-      chart.current = Highcharts.chart(element.current, options)
+      setChart(Highcharts.chart(element.current, options))
     }
-  }, [options, Highcharts])
+  }, [options, Highcharts, chart])
 
   useEffect(() => {
-    return () => chart.current?.destroy()
-  }, [])
+    return () => chart?.destroy()
+  }, [chart])
 
   return (
     <div ref={element}>
-      {chart.current && children instanceof Function ? children(chart.current) : null}
+      {chart && children instanceof Function ? children(chart) : null}
     </div>
   )
 })
 
 Highchart.Plotband = Plotband
+Highchart.Series = Series
 
 Highchart.displayName = 'Highchart'
 

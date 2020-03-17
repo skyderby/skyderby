@@ -1,22 +1,28 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 
+import countries from 'redux/countries'
 import eventRound from 'redux/events/round'
 import eventTeams from 'redux/events/teams'
+import flightProfiles from 'redux/flightProfiles'
 import places from 'redux/places'
 import profiles from 'redux/profiles'
 import suits from 'redux/suits'
+import terrainProfiles from 'redux/terrainProfiles'
 import tracks from 'redux/tracks'
 import userPreferences from 'redux/userPreferences'
 
 import { loadState, saveState } from 'redux/localStorage'
 
 export const rootReducer = combineReducers({
+  countries,
   eventRound,
   eventTeams,
+  flightProfiles,
   places,
   profiles,
   suits,
+  terrainProfiles,
   tracks,
   userPreferences
 })
@@ -32,8 +38,11 @@ const store = createStore(
 )
 
 store.subscribe(() => {
+  const { countries, userPreferences } = store.getState()
+
   saveState({
-    userPreferences: store.getState().userPreferences
+    countries,
+    userPreferences
   })
 })
 

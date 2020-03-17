@@ -5,18 +5,24 @@ import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
 import allIds from './allIds'
 import byId from './byId'
 
-export const loadSuit = suitId => {
-  if (!suitId) return
+export const bulkLoadCountries = ids => {
+  return async dispatch => {
+    await Promise.all(ids.map(id => dispatch(loadCountry(id))))
+  }
+}
+
+export const loadCountry = countryId => {
+  if (!countryId) return
 
   return async (dispatch, getState) => {
-    const stateData = getState().suits.byId[suitId]
+    const stateData = getState().countries.byId[countryId]
     const skip = ['loaded', 'loading'].includes(stateData?.status)
 
     if (skip) return
 
-    dispatch({ type: LOAD_REQUEST, payload: { id: suitId } })
+    dispatch({ type: LOAD_REQUEST, payload: { id: countryId } })
 
-    const dataUrl = `/api/v1/suits/${suitId}`
+    const dataUrl = `/api/v1/countries/${countryId}`
 
     try {
       const { data } = await axios.get(dataUrl)

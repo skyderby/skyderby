@@ -3,3 +3,9 @@ export const selectPlace = (state, placeId) => {
 
   return byId[placeId]
 }
+
+export const selectPlaces = state => {
+  const { allIds, byId }= state.places
+
+  return allIds.map(id => byId[id])
+}
