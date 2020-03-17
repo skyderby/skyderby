@@ -8,6 +8,8 @@ namespace :api, module: :api, defaults: { format: :json } do
       end
     end
     resources :virtual_competitions
+
+    resources :countries, only: :show
     resources :places, only: %i[index show] do
       scope module: :places do
         collection do
@@ -15,6 +17,7 @@ namespace :api, module: :api, defaults: { format: :json } do
         end
       end
     end
+    resources :terrain_profiles, only: :index
 
     resources :suits, only: %i[index show]
 

@@ -5,3 +5,5 @@ export const selectPoints = (state, trackId) => {
 
   return data.items || []
 }
+
+export const createPointsSelector = trackId => state => selectPoints(state, trackId)
