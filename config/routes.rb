@@ -3,6 +3,10 @@ require 'sidekiq/web'
 Skyderby::Application.routes.draw do
   mount ActionCable.server, at: '/cable'
 
+  # React App
+  match '/tracks(/*)', to: 'react_app#show', via: :get
+  match '/flight_profiles(/*)', to: 'react_app#show', via: :get
+
   draw :api
   draw :backward_compatibility
   draw :administrative
