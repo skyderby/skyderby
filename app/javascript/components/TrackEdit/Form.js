@@ -20,6 +20,7 @@ const Form = ({ track }) => {
 
 Form.propTypes = {
   track: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     jumpRange: PropTypes.shape({
       from: PropTypes.number.isRequired,
       to: PropTypes.number.isRequired
