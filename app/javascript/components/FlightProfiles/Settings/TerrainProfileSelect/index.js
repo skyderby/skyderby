@@ -12,7 +12,7 @@ const TerrainProfileSelect = props => {
   const options = terrainProfiles.map(el => ({
     ...el,
     value: el.id,
-    label: `${el.place.name} - ${el.name}`,
+    label: `${el.place.name} - ${el.name}`
   }))
 
   const selectedOption =

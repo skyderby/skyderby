@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import Highchart from 'components/Highchart'
 import { createTerrainProfileSelector } from 'redux/terrainProfiles'
@@ -27,8 +28,6 @@ const TerrainProfile = ({ chart, terrainProfileId }) => {
 
   const name = `${terrainProfile.place.name} - ${terrainProfile.name}`
 
-  
-
   return (
     <>
       <Highchart.Series
@@ -49,6 +48,11 @@ const TerrainProfile = ({ chart, terrainProfileId }) => {
       />
     </>
   )
+}
+
+TerrainProfile.propTypes = {
+  chart: PropTypes.object,
+  terrainProfileId: PropTypes.number.isRequired
 }
 
 export default TerrainProfile

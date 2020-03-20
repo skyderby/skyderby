@@ -5,11 +5,14 @@ import { bulkLoadPlaces } from 'redux/places'
 import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
 import allIds from './allIds'
 import byId from './byId'
+import status from './status'
 import measurements from './measurements'
 
 export const loadTerrainProfiles = () => {
   return async dispatch => {
-    const dataUrl = `/api/v1/terrain_profiles`
+    const dataUrl = '/api/v1/terrain_profiles'
+
+    dispatch({ type: LOAD_REQUEST })
 
     try {
       const { data } = await axios.get(dataUrl)

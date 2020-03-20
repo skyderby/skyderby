@@ -8,7 +8,7 @@ const withAssociations = (terrainProfile, state) => {
   return {
     ...terrainProfile,
     place,
-    country 
+    country
   }
 }
 

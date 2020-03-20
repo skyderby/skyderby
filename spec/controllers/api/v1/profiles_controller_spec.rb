@@ -18,8 +18,7 @@ describe Api::V1::ProfilesController, type: :controller do
         original: '/images/original/missing.png',
         medium: '/images/medium/missing.png',
         thumb: '/images/thumb/missing.png'
-      },
-      personal_scores: []
+      }
     }
   end
 

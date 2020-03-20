@@ -69,7 +69,8 @@ AltitudeRangeSelect.propTypes = {
   jumpRange: PropTypes.shape({
     from: PropTypes.number.isRequired,
     to: PropTypes.number.isRequired
-  })
+  }),
+  onChange: PropTypes.func.isRequired
 }
 
 export default AltitudeRangeSelect

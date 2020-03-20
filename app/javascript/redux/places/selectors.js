@@ -5,7 +5,7 @@ export const selectPlace = (state, placeId) => {
 }
 
 export const selectPlaces = state => {
-  const { allIds, byId }= state.places
+  const { allIds, byId } = state.places
 
   return allIds.map(id => byId[id])
 }

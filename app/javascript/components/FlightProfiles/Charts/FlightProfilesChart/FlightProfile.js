@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import Highchart from 'components/Highchart'
 import { createPointsSelector } from 'redux/tracks/points'
@@ -38,6 +39,11 @@ const FlightProfile = ({ chart, trackId }) => {
       place={track.placeName}
     />
   )
+}
+
+FlightProfile.propTypes = {
+  chart: PropTypes.object,
+  trackId: PropTypes.number.isRequired
 }
 
 export default FlightProfile

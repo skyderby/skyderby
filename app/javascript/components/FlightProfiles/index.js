@@ -1,18 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import Settings from './Settings'
 import Charts from './Charts'
 import { Container, SettingsContainer, ChartsAreaContainer } from './elements'
 
-const FlightProfiles = ({
-  selectedTerrainProfile: initialTerrainProfile,
-  selectedTracks: initialSelectedTracks = [],
-  straightLine: initialStraightLine
-}) => {
-  const [straightLine, setStraightLine] = useState(initialStraightLine)
-  const [selectedTracks, setSelectedTracks] = useState(initialSelectedTracks)
-  const [selectedTerrainProfile, setSelectedTerrainProfile] = useState(initialTerrainProfile)
-
+const FlightProfiles = () => {
   return (
     <Container>
       <SettingsContainer>

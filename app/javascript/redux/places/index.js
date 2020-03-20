@@ -12,7 +12,9 @@ export const bulkLoadPlaces = ids => {
   return async (dispatch, getState) => {
     await Promise.all(ids.map(id => dispatch(loadPlace(id))))
 
-    const countryIds = Array.from(new Set(selectPlaces(getState()).map(place => place.countryId)))
+    const countryIds = Array.from(
+      new Set(selectPlaces(getState()).map(place => place.countryId))
+    )
 
     await dispatch(bulkLoadCountries(countryIds))
   }
