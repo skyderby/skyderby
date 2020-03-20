@@ -23,10 +23,12 @@ export const SettingsContainer = styled.div`
   flex-shrink: 0;
   width: 100%;
   order: 2;
+  position: relative;
+  padding-bottom: 60px;
 
   @media ${devices.small} {
     border-right: solid 1px #ddd;
-    max-width: 300px;
+    width: 350px;
     order: 1;
   }
 `
