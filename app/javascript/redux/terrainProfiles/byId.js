@@ -1,10 +1,9 @@
-import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
+import { LOAD_SUCCESS } from './actionTypes'
 
 const initialState = {}
 
 const byId = (state = initialState, action) => {
   switch (action.type) {
-    case LOAD_REQUEST:
     case LOAD_SUCCESS:
       return {
         ...state,
