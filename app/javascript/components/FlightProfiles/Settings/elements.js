@@ -3,7 +3,6 @@ import styled from 'styled-components'
 export const Container = styled.div`
   height: 100%;
   overflow: auto;
-  position: relative;
 `
 
 export const Settings = styled.div`
@@ -11,8 +10,8 @@ export const Settings = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  height: 50px;
-  padding: 1rem;
+  height: 60px;
+  padding: 0.75rem 1rem;
   background-color: #fff;
   border-top: solid 1px #ddd;
 `
