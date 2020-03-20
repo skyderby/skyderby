@@ -29,7 +29,7 @@ const FlightProfilesPage = () => {
     if (selectedTerrainProfile) {
       dispatch(selectTerrainProfile(selectedTerrainProfile))
     }
-  }, [dispatch, urlParams])
+  }, [dispatch, selectedTerrainProfile, selectedTracks, urlParams])
 
   return (
     <FlightProfiles
