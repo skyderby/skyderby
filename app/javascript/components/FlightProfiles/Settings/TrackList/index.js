@@ -10,7 +10,9 @@ const TrackList = () => {
 
   return (
     <Container>
-      {tracks.map(({ id }) => <Item key={id} trackId={id} />)}
+      {tracks.map(({ id }) => (
+        <Item key={id} trackId={id} />
+      ))}
     </Container>
   )
 }
