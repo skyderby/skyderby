@@ -17,7 +17,9 @@ namespace :api, module: :api, defaults: { format: :json } do
         end
       end
     end
-    resources :terrain_profiles, only: :index
+    resources :terrain_profiles, only: :index do
+      resource :measurements, only: :show, module: :terrain_profiles
+    end
 
     resources :suits, only: %i[index show]
 

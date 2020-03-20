@@ -5,6 +5,7 @@ import { bulkLoadPlaces } from 'redux/places'
 import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
 import allIds from './allIds'
 import byId from './byId'
+import measurements from './measurements'
 
 export const loadTerrainProfiles = () => {
   return async dispatch => {
@@ -23,8 +24,11 @@ export const loadTerrainProfiles = () => {
   }
 }
 
+export * from './selectors'
+
 export default combineReducers({
   allIds,
   byId,
   status,
+  measurements
 })
