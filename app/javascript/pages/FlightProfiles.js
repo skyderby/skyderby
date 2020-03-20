@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import FlightProfiles from 'components/FlightProfiles'
 import { loadTracks } from 'redux/flightProfiles/tracksList'
 import { loadTerrainProfiles } from 'redux/terrainProfiles'
-import { toggleTrack } from 'redux/flightProfiles/selectedTracks'
+import { toggleTrack, selectTerrainProfile } from 'redux/flightProfiles'
 
 const FlightProfilesPage = () => {
   const dispatch = useDispatch()
@@ -25,6 +25,10 @@ const FlightProfilesPage = () => {
 
     dispatch(loadTracks(urlParams))
     selectedTracks.forEach(trackId => dispatch(toggleTrack(trackId)))
+
+    if (selectedTerrainProfile) {
+      dispatch(selectTerrainProfile(selectedTerrainProfile))
+    }
   }, [dispatch, urlParams])
 
   return (

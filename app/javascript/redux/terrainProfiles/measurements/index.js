@@ -5,23 +5,23 @@ import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
 import byId from './byId'
 import allIds from './allIds'
 
-export const loadTrackPoints = trackId => {
-  if (!trackId) return
+export const loadTerrainProfileMeasurement = terrainProfileId => {
+  if (!terrainProfileId) return
 
   return async (dispatch, getState) => {
-    const stateData = getState().tracks.points.byId[trackId] || {}
+    const stateData = getState().terrainProfiles.measurements.byId[terrainProfileId] || {}
     const skip = ['loaded', 'loading'].includes(stateData.status)
 
     if (skip) return
 
-    dispatch({ type: LOAD_REQUEST, payload: { id: trackId } })
+    dispatch({ type: LOAD_REQUEST, payload: { id: terrainProfileId } })
 
-    const dataUrl = `/api/v1/tracks/${trackId}/points`
+    const dataUrl = `/api/v1/terrain_profiles/${terrainProfileId}/measurements`
 
     try {
       const { data } = await axios.get(dataUrl)
 
-      dispatch({ type: LOAD_SUCCESS, payload: { id: trackId, items: data } })
+      dispatch({ type: LOAD_SUCCESS, payload: { id: terrainProfileId, items: data } })
     } catch (err) {
       alert(err)
     }
@@ -31,6 +31,6 @@ export const loadTrackPoints = trackId => {
 export * from './selectors'
 
 export default combineReducers({
-  byId,
-  allIds
+  allIds,
+  byId
 })
