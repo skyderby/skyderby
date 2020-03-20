@@ -10,7 +10,7 @@ export const loadTracks = (searchParams = {}) => {
   return async dispatch => {
     dispatch({ type: LOAD_REQUEST })
 
-    const requestParams = {...searchParams, kind: 'base' }
+    const requestParams = { ...searchParams, kind: 'base' }
     const queryString = Object.entries(requestParams)
       .map(([key, value]) => `${key}=${value}`)
       .join('&')

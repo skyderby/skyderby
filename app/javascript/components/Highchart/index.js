@@ -79,7 +79,8 @@ Highchart.displayName = 'Highchart'
 
 Highchart.propTypes = {
   options: PropTypes.object.isRequired,
-  children: PropTypes.func
+  children: PropTypes.func,
+  autoResize: PropTypes.bool
 }
 
 export default Highchart

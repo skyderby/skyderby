@@ -14,7 +14,7 @@ const App = () => (
       <Switch>
         <Route path="/flight_profiles" component={FlightProfiles} />
 
-        <Route exact path="/tracks" exact component={TracksIndex} />
+        <Route exact path="/tracks" component={TracksIndex} />
         <Route path="/tracks/:id/edit" component={TracksEdit} />
         <Route path="/tracks/:id" component={TracksShow} />
 

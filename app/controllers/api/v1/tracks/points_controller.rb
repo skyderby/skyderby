@@ -38,11 +38,8 @@ module Api
         end
 
         def normalize_params(params)
-          if params.key?(:trimmed) && params[:trimmed].is_a?(String)
-            params[:trimmed] = params[:trimmed] == 'true'
-          end
-
-          params[:freq_1Hz] = params[:freq_1Hz] == 'true' if params.key? :freq_1Hz
+          params[:trimmed] = params[:trimmed].to_s == 'true' if params.key? :trimmed
+          params[:freq_1Hz] = params[:freq_1Hz].to_s == 'true' if params.key? :freq_1Hz
         end
 
         def default_options
