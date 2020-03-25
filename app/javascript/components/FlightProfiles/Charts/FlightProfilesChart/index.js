@@ -1,17 +1,19 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import Highchart from 'components/Highchart'
-import useChartOptions from './useChartOptions'
-import FlightProfile from './FlightProfile'
-import TerrainProfile from './TerrainProfile'
 import {
   selectedTracksSelector,
   selectedTerrainProfileSelector
 } from 'redux/flightProfiles'
+import { colorByIndex } from 'utils/colors'
+import useChartOptions from './useChartOptions'
+import FlightProfile from './FlightProfile'
+import TerrainProfile from './TerrainProfile'
 
-const FlightProfilesChart = () => {
-  const options = useChartOptions()
+const FlightProfilesChart = ({ onZoomChange }) => {
+  const options = useChartOptions(onZoomChange)
   const selectedTracks = useSelector(selectedTracksSelector)
   const selectedTerrainProfile = useSelector(selectedTerrainProfileSelector)
 
@@ -19,8 +21,13 @@ const FlightProfilesChart = () => {
     <Highchart autoResize options={options}>
       {chart => (
         <>
-          {selectedTracks.map(trackId => (
-            <FlightProfile key={trackId} chart={chart} trackId={trackId} />
+          {selectedTracks.map((trackId, idx) => (
+            <FlightProfile
+              key={trackId}
+              chart={chart}
+              trackId={trackId}
+              color={colorByIndex(idx)}
+            />
           ))}
           {selectedTerrainProfile && (
             <TerrainProfile chart={chart} terrainProfileId={selectedTerrainProfile} />
@@ -29,6 +36,10 @@ const FlightProfilesChart = () => {
       )}
     </Highchart>
   )
+}
+
+FlightProfilesChart.propTypes = {
+  onZoomChange: PropTypes.func.isRequired
 }
 
 export default FlightProfilesChart

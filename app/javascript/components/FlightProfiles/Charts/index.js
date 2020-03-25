@@ -1,17 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import FlightProfilesChart from './FlightProfilesChart'
 import TerrainClearanceChart from './TerrainClearanceChart'
 import { FlightProfilesChartContainer, TerrainClearanceChartContainer } from './elements'
 
 const Charts = () => {
+  const [zoomLevel, setZoomLevel] = useState()
+
   return (
     <>
       <FlightProfilesChartContainer>
-        <FlightProfilesChart />
+        <FlightProfilesChart onZoomChange={setZoomLevel}/>
       </FlightProfilesChartContainer>
       <TerrainClearanceChartContainer>
-        <TerrainClearanceChart />
+        <TerrainClearanceChart zoomLevel={zoomLevel} />
       </TerrainClearanceChartContainer>
     </>
   )
