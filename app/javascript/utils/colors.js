@@ -1,4 +1,4 @@
-export default [
+const colors = [
   '#7cb5ec',
   '#90ed7d',
   '#f7a35c',
@@ -10,3 +10,7 @@ export default [
   '#91e8e1',
   '#434348'
 ]
+
+export const colorByIndex = idx => colors[idx % (colors.length - 1)]
+
+export default colors
