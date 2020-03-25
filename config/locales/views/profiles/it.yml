@@ -1,7 +1,7 @@
 it:
   profiles:
     header:
-      tracks: Traccie
+      tracks: Tracce
       flight_profiles: Profili di volo
     merges:
       form_modal:
