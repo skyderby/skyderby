@@ -5,9 +5,9 @@ import PropTypes from 'prop-types'
 import Highchart from 'components/Highchart'
 import { createPointsSelector } from 'redux/tracks/points'
 import { selectTrack } from 'redux/flightProfiles'
-import { calculateFlightProfile } from './utils'
+import { calculateFlightProfile } from 'utils/flightProfiles'
 
-const FlightProfile = ({ chart, trackId }) => {
+const FlightProfile = ({ chart, trackId, ...props }) => {
   const points = useSelector(createPointsSelector(trackId))
   const track = useSelector(state => selectTrack(state, trackId))
   const flightProfilePoints = useMemo(() => calculateFlightProfile(points), [points])
@@ -37,6 +37,7 @@ const FlightProfile = ({ chart, trackId }) => {
       tooltip={tooltip}
       name={name}
       place={track.placeName}
+      {...props}
     />
   )
 }

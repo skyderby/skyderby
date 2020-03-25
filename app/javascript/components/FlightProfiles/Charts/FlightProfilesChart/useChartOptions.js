@@ -1,12 +1,22 @@
 import { useMemo } from 'react'
 import I18n from 'i18n-js'
 
-const useChartOptions = () => {
+const useChartOptions = (onZoomChange) => {
   const options = useMemo(
     () => ({
       chart: {
         type: 'spline',
-        zoomType: 'x'
+        zoomType: 'x',
+        events: {
+          selection: function(evt) {
+            if (evt.xAxis) {
+              const { min, max } = evt.xAxis[0]
+              onZoomChange({ min, max })
+            } else {
+              onZoomChange(undefined)
+            }
+          }
+        }
       },
       title: {
         text: I18n.t('flight_profiles')

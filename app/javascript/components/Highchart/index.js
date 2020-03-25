@@ -11,7 +11,7 @@ import { refreshTooltipHandler } from './refreshTooltipHandler'
 import Plotband from './Plotband'
 import Series from './Series'
 
-const Highchart = forwardRef(({ options, children, autoResize }, ref) => {
+const Highchart = forwardRef(({ options, children, autoResize, loading }, ref) => {
   const [Highcharts, setHighcharts] = useState()
   const [chart, setChart] = useState()
 
@@ -62,6 +62,17 @@ const Highchart = forwardRef(({ options, children, autoResize }, ref) => {
   }, [options, Highcharts, chart])
 
   useEffect(() => {
+    if (!chart) return
+
+    if (loading) {
+      const loadingMessage = typeof loading === 'string' ? loading : undefined
+      chart.showLoading(loadingMessage)
+    } else {
+      chart.hideLoading()
+    }
+  }, [chart, loading])
+
+  useEffect(() => {
     return () => chart?.destroy()
   }, [chart])
 
@@ -80,7 +91,8 @@ Highchart.displayName = 'Highchart'
 Highchart.propTypes = {
   options: PropTypes.object.isRequired,
   children: PropTypes.func,
-  autoResize: PropTypes.bool
+  autoResize: PropTypes.bool,
+  loading: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
 }
 
 export default Highchart
