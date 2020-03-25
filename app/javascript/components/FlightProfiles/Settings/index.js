@@ -8,7 +8,8 @@ import { Container, Settings } from './elements'
 
 const Sidebar = () => {
   const dispatch = useDispatch()
-  const handleTerrainProfileChange = ({ value }) => dispatch(selectTerrainProfile(value))
+  const handleTerrainProfileChange = option =>
+    dispatch(selectTerrainProfile(option?.value || null))
 
   return (
     <Container>
