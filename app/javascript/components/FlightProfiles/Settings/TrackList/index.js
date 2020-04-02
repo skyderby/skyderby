@@ -4,14 +4,14 @@ import { useSelector } from 'react-redux'
 import { selectAllTracks } from 'redux/flightProfiles/tracksList'
 import Item from './Item'
 import { Container } from './elements'
-import TracksFilter from './TracksFilter'
+import TokenizedSearchField from 'components/TokenizedSearchField'
 
 const TrackList = () => {
   const tracks = useSelector(selectAllTracks)
 
   return (
     <Container>
-      <TracksFilter />
+      <TokenizedSearchField />
 
       {tracks.map(({ id }) => (
         <Item key={id} trackId={id} />
