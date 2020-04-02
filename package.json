@@ -90,8 +90,8 @@
     "eslint-plugin-react-hooks": "^2.0.1",
     "prettier": "^2.0.5",
     "jest": "^24.9.0",
-    "webpack": "^4.41",
     "react-svg-loader": "^3.0.3",
+    "webpack": "^4.41",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.8.0"
   }
