@@ -31,9 +31,9 @@
     "@babel/preset-env": "^7.8.7",
     "@babel/preset-react": "^7.8.3",
     "@google/markerclusterer": "^1.0.3",
-    "@rails/webpacker": "^4.0.0-rc.8",
     "@rails/actioncable": "^6.0.2",
     "@rails/ujs": "^6.0.2",
+    "@rails/webpacker": "^4.0.0-rc.8",
     "@stimulus/polyfills": "^1.1.1",
     "axios": "^0.19.0",
     "babel-loader": "^8.0.6",
@@ -83,8 +83,8 @@
     "eslint-plugin-react-hooks": "^2.0.1",
     "jest": "^24.9.0",
     "prettier": ">=1.13.0",
-    "webpack": "^4.41",
     "react-svg-loader": "^3.0.3",
+    "webpack": "^4.41",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.8.0"
   }
