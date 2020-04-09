@@ -1,9 +1,13 @@
 import React, { useRef, useState, useEffect } from 'react'
 
+import UserIcon from 'icons/user.svg'
+import PlaceIcon from 'icons/location.svg'
+import SuitIcon from 'icons/suit.svg'
+import CalendarIcon from 'icons/calendar.svg'
 import IconTimes from 'icons/times.svg'
 import Token from './Token'
 import TokenInput from './TokenInput'
-import TypeDropdown from './TypeDropdown'
+import OptionsDropdown from './OptionsDropdown'
 import useOutsideClickHandler from './useOutsideClickHandler'
 import { Container, SearchContainer, TokensList, ClearButton } from './elements'
 
@@ -11,6 +15,13 @@ const initialData = [
   { type: 'profile', operator: 'is', label: 'Aleksandr Kunin', value: 3 },
   { type: 'suit', operator: 'is', label: 'TS Nala', value: 5 },
   { type: 'place', operator: 'is', label: 'Brento', value: 7 }
+]
+
+const options = [
+  { label: 'Pilot', value: 'profile', icon: <UserIcon /> },
+  { label: 'Suit', value: 'suit', icon: <SuitIcon /> },
+  { label: 'Place', value: 'place', icon: <PlaceIcon /> },
+  { label: 'Year', value: 'year', icon: <CalendarIcon /> }
 ]
 
 const TokenizedSearchField = () => {
@@ -65,9 +76,9 @@ const TokenizedSearchField = () => {
           {tokens.map((el, idx) => (
             <Token
               key={idx}
-              {...el}
               onClick={() => handleTokenClick(idx)}
               onDelete={() => deleteByIdx(idx)}
+              {...el}
             />
           ))}
 
@@ -78,7 +89,7 @@ const TokenizedSearchField = () => {
           />
         </TokensList>
 
-        {mode === 'selectType' && <TypeDropdown onSelect={handleTypeSelect} />}
+        {mode === 'selectType' && <OptionsDropdown options={options} onSelect={handleTypeSelect} />}
       </SearchContainer>
 
       <ClearButton onClick={deleteAll}>
