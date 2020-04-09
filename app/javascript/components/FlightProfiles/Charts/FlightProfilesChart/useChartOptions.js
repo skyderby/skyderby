@@ -57,6 +57,9 @@ const useChartOptions = (onZoomChange) => {
       },
       credits: {
         enabled: false
+      },
+      legend: {
+        enabled: false
       }
     }),
     []
