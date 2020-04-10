@@ -30,9 +30,11 @@ export const loadTrack = trackId => {
 
       const { profileId, placeId, suitId } = data
 
-      dispatch(loadProfile(profileId))
-      dispatch(loadSuit(suitId))
-      dispatch(loadPlace(placeId))
+      await Promise.all([
+        dispatch(loadProfile(profileId)),
+        dispatch(loadSuit(suitId)),
+        dispatch(loadPlace(placeId))
+      ])
 
       dispatch({ type: LOAD_SUCCESS, payload: data })
     } catch (err) {
