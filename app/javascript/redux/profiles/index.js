@@ -6,9 +6,9 @@ import allIds from './allIds'
 import byId from './byId'
 
 export const loadProfile = profileId => {
-  if (!profileId) return
-
   return async (dispatch, getState) => {
+    if (!profileId) return
+
     const stateData = getState().profiles.byId[profileId] || {}
     const skip = ['loaded', 'loading'].includes(stateData.status)
 
