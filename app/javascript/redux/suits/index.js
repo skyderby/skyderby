@@ -6,9 +6,9 @@ import allIds from './allIds'
 import byId from './byId'
 
 export const loadSuit = suitId => {
-  if (!suitId) return
-
   return async (dispatch, getState) => {
+    if (!suitId) return
+
     const stateData = getState().suits.byId[suitId]
     const skip = ['loaded', 'loading'].includes(stateData?.status)
 
