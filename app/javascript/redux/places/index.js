@@ -21,9 +21,9 @@ export const bulkLoadPlaces = ids => {
 }
 
 export const loadPlace = placeId => {
-  if (!placeId) return
-
   return async (dispatch, getState) => {
+    if (!placeId) return
+
     const stateData = selectPlace(getState(), placeId)
     const skip = ['loaded', 'loading'].includes(stateData?.status)
 
