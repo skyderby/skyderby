@@ -24,24 +24,24 @@ suits.each do |attrs|
   manufacturer = Manufacturer.find_by(code: attrs['manufacturer_code'])
   raise "Manufacturer with code #{attrs['manufacturer_code']} not found." unless manufacturer
   attrs.fetch('wingsuits', []).each do |suit_name|
-    next if Wingsuit.find_by(manufacturer: manufacturer, name: suit_name)
-    suit = Wingsuit.new(manufacturer: manufacturer, name: suit_name)
+    next if Suit.find_by(manufacturer: manufacturer, name: suit_name)
+    suit = Suit.new(manufacturer: manufacturer, name: suit_name)
     suit.wingsuit!
     suit.save!
     p "Wingsuit #{attrs['manufacturer_code']} #{suit_name} created"
   end
 
   attrs.fetch('tracksuits', []).each do |suit_name|
-    next if Wingsuit.find_by(manufacturer: manufacturer, name: suit_name)
-    suit = Wingsuit.new(manufacturer: manufacturer, name: suit_name)
+    next if Suit.find_by(manufacturer: manufacturer, name: suit_name)
+    suit = Suit.new(manufacturer: manufacturer, name: suit_name)
     suit.tracksuit!
     suit.save!
     p "Tracksuit #{attrs['manufacturer_code']} #{suit_name} created"
   end
 
   attrs.fetch('slicks', []).each do |suit_name|
-    next if Wingsuit.find_by(manufacturer: manufacturer, name: suit_name)
-    suit = Wingsuit.new(manufacturer: manufacturer, name: suit_name)
+    next if Suit.find_by(manufacturer: manufacturer, name: suit_name)
+    suit = Suit.new(manufacturer: manufacturer, name: suit_name)
     suit.slick!
     suit.save!
     p "Slick suit #{attrs['manufacturer_code']} #{suit_name} created"
