@@ -15,7 +15,7 @@ const Series = ({ chart, data, ...props }) => {
   }, [chart, data, props])
 
   useEffect(() => {
-    return () => series.current?.destroy()
+    return () => series.current?.chart && series.current?.destroy()
   }, [])
 
   return null
