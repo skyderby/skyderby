@@ -15,5 +15,25 @@ export const Tag = styled.li`
   border-radius: 2px;
   color: rgba(0, 0, 0, 0.55);
   background-color: #f8f8f8;
-  padding: 2px 7px;
+  padding: 2px 0 2px 7px;
 `
+
+export const DeleteButton = styled.button`
+  border: 0;
+  background-color: transparent;
+  outline: none;
+  padding: 0 7px;
+
+  svg {
+    height: 0.75em;
+    fill: rgba(0, 0, 0, 0.55);
+  }
+
+  &:hover {
+    svg {
+      fill: rgba(0, 0, 0, 0.85);
+    }
+  }
+`
+
+export const Label = styled.span``
