@@ -1,8 +1,14 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 
+import IconTimes from 'icons/times.svg'
+
 import { createTerrainProfileSelector } from 'redux/terrainProfiles'
-import { Tag } from './elements'
+import { Tag, DeleteButton, Label } from './elements'
+
+const handleDelete = () => {
+  console.log("Kill")
+}
 
 const TerrainProfile = ({ terrainProfileId }) => {
   const terrainProfile = useSelector(createTerrainProfileSelector(terrainProfileId))
@@ -12,7 +18,14 @@ const TerrainProfile = ({ terrainProfileId }) => {
   const { place: { name: placeName }, name } = terrainProfile
 
   return (
-    <Tag>{placeName} - {name}</Tag>
+    <Tag>
+      <Label>
+        {placeName} - {name}
+      </Label>
+      <DeleteButton type="button" onClick={handleDelete}>
+        <IconTimes />
+      </DeleteButton>
+    </Tag>
   )
 }
 
