@@ -6,9 +6,9 @@ import byId from './byId'
 import allIds from './allIds'
 
 export const loadTerrainProfileMeasurement = terrainProfileId => {
-  if (!terrainProfileId) return
-
   return async (dispatch, getState) => {
+    if (!terrainProfileId) return
+
     const stateData = getState().terrainProfiles.measurements.byId[terrainProfileId] || {}
     const skip = ['loaded', 'loading'].includes(stateData.status)
 

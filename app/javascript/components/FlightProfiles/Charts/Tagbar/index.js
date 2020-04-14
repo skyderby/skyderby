@@ -1,25 +1,41 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import {
   selectedTracksSelector,
-  selectedTerrainProfileSelector
+  selectedTerrainProfileSelector,
+  selectTerrainProfile,
+  toggleTrack
 } from 'redux/flightProfiles'
-import { createTerrainProfileSelector } from 'redux/terrainProfiles'
 
 import TerrainProfileTag from './TerrainProfileTag'
 import TrackTag from './TrackTag'
 import { TagList } from './elements'
 
 const Tagbar = () => {
+  const dispatch = useDispatch()
   const terrainProfileId = useSelector(selectedTerrainProfileSelector)
   const selectedTracks = useSelector(selectedTracksSelector)
+
+  const handleDeleteTerrainProfile = () => dispatch(selectTerrainProfile(null))
+  const handleDeleteTrack = trackId => dispatch(toggleTrack(trackId))
 
   return (
     <div>
       <TagList>
-        {terrainProfileId && <TerrainProfileTag terrainProfileId={terrainProfileId} />}
-        {selectedTracks.map(trackId => <TrackTag key={trackId} trackId={trackId} />)}
+        {terrainProfileId && (
+          <TerrainProfileTag
+            terrainProfileId={terrainProfileId}
+            onDelete={handleDeleteTerrainProfile}
+          />
+        )}
+        {selectedTracks.map(trackId => (
+          <TrackTag
+            key={trackId}
+            trackId={trackId}
+            onDelete={() => handleDeleteTrack(trackId)}
+          />
+        ))}
       </TagList>
     </div>
   )
