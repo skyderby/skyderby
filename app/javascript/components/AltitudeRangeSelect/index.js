@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Highchart from 'components/Highchart'
 import RangeSlider from 'components/RangeSlider'
 import useChartOptions from './useChartOptions'
+import { ChartContainer } from './elements'
 
 const AltitudeRangeSelect = ({ trackId, jumpRange, onChange }) => {
   const [points, setPoints] = useState([])
@@ -33,26 +34,30 @@ const AltitudeRangeSelect = ({ trackId, jumpRange, onChange }) => {
 
   return (
     <>
-      <Highchart options={options}>
-        {chart => (
-          <>
-            <Highchart.Plotband
-              chart={chart}
-              from={0}
-              to={jumpRange.from}
-              color="rgba(0, 0, 0, 0.3)"
-              zIndex={8}
-            />
-            <Highchart.Plotband
-              chart={chart}
-              from={jumpRange.to}
-              to={jumpDuration}
-              color="rgba(0, 0, 0, 0.3)"
-              zIndex={8}
-            />
-          </>
-        )}
-      </Highchart>
+      <ChartContainer>
+        <Highchart options={options}>
+          {chart => (
+            <>
+              <Highchart.Plotband
+                id="from"
+                chart={chart}
+                from={0}
+                to={jumpRange.from}
+                color="rgba(0, 0, 0, 0.25)"
+                zIndex={8}
+              />
+              <Highchart.Plotband
+                id="to"
+                chart={chart}
+                from={jumpRange.to}
+                to={jumpDuration}
+                color="rgba(0, 0, 0, 0.25)"
+                zIndex={8}
+              />
+            </>
+          )}
+        </Highchart>
+      </ChartContainer>
 
       <RangeSlider
         domain={[0, jumpDuration]}
