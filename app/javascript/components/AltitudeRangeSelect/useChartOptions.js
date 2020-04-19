@@ -1,9 +1,21 @@
 import { useMemo } from 'react'
 import I18n from 'i18n-js'
 
+import { restoreSeriesVisibility, saveSeriesVisibility } from 'utils/chartSeriesSettings'
 import { msToKmh } from 'utils/unitsConversion'
 
+const chartName = 'AltitudeRangeSelect'
+
 const baseOptions = () => ({
+  chart: {
+    marginLeft: 16,
+    marginRight: 16,
+    events: {
+      load: function() {
+        restoreSeriesVisibility(chartName, this.series)
+      }
+    }
+  },
   title: {
     text: I18n.t('tracks.edit.elev_chart')
   },
@@ -11,6 +23,11 @@ const baseOptions = () => ({
     series: {
       marker: {
         radius: 1
+      },
+      events: {
+        legendItemClick: function() {
+          saveSeriesVisibility(chartName, this.options.code, !this.visible)
+        }
       }
     }
   },
@@ -18,6 +35,11 @@ const baseOptions = () => ({
     {
       title: {
         text: null
+      },
+      min: 0,
+      labels: {
+        x: 25,
+        y: -2
       }
     },
     {
@@ -26,9 +48,14 @@ const baseOptions = () => ({
       },
       gridLineWidth: 0,
       min: 0,
-      opposite: true
+      opposite: true,
+      visible: false
     }
   ],
+  xAxis: {
+    minPadding: 0,
+    maxPadding: 0
+  },
   tooltip: {
     crosshairs: true,
     shared: true
@@ -37,45 +64,35 @@ const baseOptions = () => ({
     enabled: false
   },
   legend: {
-    enabled: false
-  },
-  series: [
-    {
-      name: I18n.t('tracks.edit.elevation'),
-      pointInterval: 10,
-      tooltip: {
-        valueSuffix: ' ' + I18n.t('units.m')
-      },
-      showInLegend: false
-    }
-  ]
+    enabled: true
+  }
 })
 
 const useChartOptions = points => {
   const altitudePoints = useMemo(
     () =>
-      points.map(el => ({
-        x: Math.round((el.flTime - points[0].flTime) * 10) / 10,
-        y: Math.round(el.altitude)
-      })),
+      points.map(el => ([
+        Math.round((el.flTime - points[0].flTime) * 10) / 10,
+        Math.round(el.altitude)
+      ])),
     [points]
   )
 
   const horizontalSpeed = useMemo(
     () =>
-      points.map(el => ({
-        x: Math.round((el.flTime - points[0].flTime) * 10) / 10,
-        y: Math.round(msToKmh(el.hSpeed))
-      })),
+      points.map(el => ([
+        Math.round((el.flTime - points[0].flTime) * 10) / 10,
+        Math.round(msToKmh(el.hSpeed))
+      ])),
     [points]
   )
 
   const verticalSpeed = useMemo(
     () =>
-      points.map(el => ({
-        x: Math.round((el.flTime - points[0].flTime) * 10) / 10,
-        y: Math.round(msToKmh(el.vSpeed))
-      })),
+      points.map(el => ([
+        Math.round((el.flTime - points[0].flTime) * 10) / 10,
+        Math.round(msToKmh(el.vSpeed))
+      ])),
     [points]
   )
 
