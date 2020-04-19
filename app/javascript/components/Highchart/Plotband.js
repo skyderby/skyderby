@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-const Plotband = ({ chart, from, to, ...props }) => {
+const Plotband = ({ chart, id, from, to, ...props }) => {
   useEffect(() => {
     if (!chart) return
 
-    const plotBand = chart.xAxis[0].addPlotBand({ from, to, ...props })
+    chart.xAxis[0].addPlotBand({ id, from, to, ...props })
 
-    return () => plotBand.destroy()
+    return () => chart.xAxis?.[0].removePlotBand(id)
   }, [chart, from, to, props])
 
   return null
@@ -15,6 +15,7 @@ const Plotband = ({ chart, from, to, ...props }) => {
 
 Plotband.propTypes = {
   chart: PropTypes.object,
+  id: PropTypes.string.isRequired,
   from: PropTypes.number.isRequired,
   to: PropTypes.number.isRequired
 }
