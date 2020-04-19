@@ -64,6 +64,7 @@ const TrackInsights = () => {
       <hr />
 
       <RangeSlider
+        reversed
         domain={trackAltitudeRange || [0, 1]}
         values={selectedAltitudeRange}
         onChange={handleAltitudeRangeChange}
