@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Handles, Tracks, Ticks } from 'react-compound-slider'
 import PropTypes from 'prop-types'
 
@@ -6,16 +6,29 @@ import HandleValues from './HandleValues'
 import { Slider, Container, Rail, Handle, Track, Tick } from './elements'
 import { calculateTicks } from './utils'
 
-const RangeSlider = ({ domain, values, step = 10, onChange, onUpdate }) => {
+const RangeSlider = ({ domain, reversed, values, step = 10, onChange, onUpdate }) => {
+  const userTouched = useRef(false)
+
+  const handleSlideStart = () => (userTouched.current = true)
+
+  const handleChange = args => {
+    if (userTouched.current) onChange?.(args)
+  }
+
+  const handleUpdate = args => {
+    if (userTouched.current) onUpdate?.(args)
+  }
+
   return (
     <Container>
       <Slider
-        reversed={domain[0] > domain[1]}
+        reversed={reversed}
         domain={domain}
         values={values}
         step={step}
-        onChange={onChange}
-        onUpdate={onUpdate}
+        onChange={handleChange}
+        onUpdate={handleUpdate}
+        onSlideStart={handleSlideStart}
         mode={2}
       >
         <Rail />
