@@ -119,6 +119,7 @@ const useChartOptions = points => {
           data: horizontalSpeed,
           yAxis: 1,
           color: '#52A964',
+          lineWidth: 1,
           tooltip: {
             valueSuffix: ` ${I18n.t('units.kmh')}`,
             valueDecimals: 0
@@ -131,6 +132,7 @@ const useChartOptions = points => {
           data: verticalSpeed,
           yAxis: 1,
           color: '#A7414E',
+          lineWidth: 1,
           tooltip: {
             valueSuffix: ` ${I18n.t('units.kmh')}`,
             valueDecimals: 0
