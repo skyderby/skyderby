@@ -23,3 +23,6 @@ export const FormContainer = styled.div`
     border-right-color: #e0e0e0;
   }
 `
+
+export const FormGroup = styled.div`
+`
