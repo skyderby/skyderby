@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
+import CogIcon from 'icons/cog.svg'
 import Profile from './Profile'
 import Suit from './Suit'
 import Place from './Place'
@@ -11,6 +13,7 @@ const Header = ({ track }) => {
     <Container>
       <Row>
         <Profile profileId={track.profileId} pilotName={track.name} />
+        <Link to={`/tracks/${track.id}/edit`}><CogIcon />Edit</Link>
       </Row>
       <Row>
         <Place placeId={track.placeId} placeName={track.placeName} />
