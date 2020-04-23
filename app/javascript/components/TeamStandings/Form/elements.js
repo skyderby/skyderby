@@ -19,14 +19,6 @@ export const Label = styled.label`
   font-family: 'Proxima Nova Semibold';
 `
 
-export const Input = styled.input`
-  border: solid 1px #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-  padding: 6px 12px;
-  width: 100%;
-`
-
 export const Footer = styled.div`
   display: flex;
   justify-content: space-between;
