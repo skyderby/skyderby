@@ -2,7 +2,8 @@ import React from 'react'
 import { Formik, Field, FieldArray } from 'formik'
 import PropTypes from 'prop-types'
 
-import { FormBody, FormGroup, Label, Input, Row, DeleteButton, Footer } from './elements'
+import Input from 'components/ui/Input'
+import { FormBody, FormGroup, Label, Row, DeleteButton, Footer } from './elements'
 import CompetitorSelect from './CompetitorSelect'
 import Button from 'components/ui/Button'
 
