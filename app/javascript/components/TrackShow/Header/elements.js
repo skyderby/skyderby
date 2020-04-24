@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export const Container = styled.div`
   font-family: 'Proxima Nova Regular';
@@ -10,6 +11,7 @@ export const Container = styled.div`
 
 export const Row = styled.div`
   display: flex;
+  align-items: center;
 
   &:not(:first-child) {
     margin-left: 2.5rem;
@@ -58,4 +60,24 @@ export const PlaceContainer = styled.div`
 export const PilotName = styled.div`
   font-size: 1.5rem;
   line-height: 2rem;
+`
+
+export const EditLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+
+  svg {
+    height: 0.875em;
+    margin-right: 0.25rem;
+
+    path {
+      fill: #999;
+    }
+  }
+
+  span {
+    font-size: 1rem;
+    color: #777;
+  }
 `
