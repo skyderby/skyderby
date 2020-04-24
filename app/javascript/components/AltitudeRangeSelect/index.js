@@ -4,29 +4,28 @@ import PropTypes from 'prop-types'
 
 import Highchart from 'components/Highchart'
 import RangeSlider from 'components/RangeSlider'
-import useChartOptions from './useChartOptions'
-import { ChartContainer } from './elements'
 
-const AltitudeRangeSelect = ({ trackId, jumpRange, onChange }) => {
+import AltitudeChart from 'components/AltitudeChart'
+
+export const useTrackPoints = (trackId, options = {}) => {
   const [points, setPoints] = useState([])
-
-  const options = useChartOptions(points)
-
-  const jumpDuration = points.length > 0 ? points[points.length - 1].flTime : 1
 
   useEffect(() => {
     let isCancelled = false
-
-    const dataUrl = `/api/v1/tracks/${trackId}/points?trimmed=false`
-
+    const dataUrl = `/api/v1/tracks/${trackId}/points?trimmed=${options.trimmed}`
     axios.get(dataUrl).then(({ data }) => {
       if (isCancelled) return
-
       setPoints(data)
     })
-
     return () => (isCancelled = true)
-  }, [trackId])
+  }, [trackId, options.trimmed])
+
+  return points
+}
+
+const AltitudeRangeSelect = ({ trackId, jumpRange, onChange }) => {
+  const points = useTrackPoints(trackId, { trimmed: false })
+  const jumpDuration = points.length > 0 ? points[points.length - 1].flTime : 1
 
   const handleUpdate = values => {
     if (onChange instanceof Function) onChange({ from: values[0], to: values[1] })
@@ -34,30 +33,28 @@ const AltitudeRangeSelect = ({ trackId, jumpRange, onChange }) => {
 
   return (
     <>
-      <ChartContainer>
-        <Highchart options={options}>
-          {chart => (
-            <>
-              <Highchart.Plotband
-                id="from"
-                chart={chart}
-                from={0}
-                to={jumpRange.from}
-                color="rgba(0, 0, 0, 0.25)"
-                zIndex={8}
-              />
-              <Highchart.Plotband
-                id="to"
-                chart={chart}
-                from={jumpRange.to}
-                to={jumpDuration}
-                color="rgba(0, 0, 0, 0.25)"
-                zIndex={8}
-              />
-            </>
-          )}
-        </Highchart>
-      </ChartContainer>
+      <AltitudeChart points={points}>
+        {chart => (
+          <>
+            <Highchart.Plotband
+              id="from"
+              chart={chart}
+              from={0}
+              to={jumpRange.from}
+              color="rgba(0, 0, 0, 0.25)"
+              zIndex={8}
+            />
+            <Highchart.Plotband
+              id="to"
+              chart={chart}
+              from={jumpRange.to}
+              to={jumpDuration}
+              color="rgba(0, 0, 0, 0.25)"
+              zIndex={8}
+            />
+          </>
+        )}
+      </AltitudeChart>
 
       <RangeSlider
         domain={[0, jumpDuration]}
