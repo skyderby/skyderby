@@ -6,14 +6,17 @@ import CogIcon from 'icons/cog.svg'
 import Profile from './Profile'
 import Suit from './Suit'
 import Place from './Place'
-import { Container, Row } from './elements'
+import { Container, Row, EditLink } from './elements'
 
 const Header = ({ track }) => {
   return (
     <Container>
       <Row>
         <Profile profileId={track.profileId} pilotName={track.name} />
-        <Link to={`/tracks/${track.id}/edit`}><CogIcon />Edit</Link>
+        <EditLink to={`/tracks/${track.id}/edit`}>
+          <CogIcon />
+          <span>Edit</span>
+        </EditLink>
       </Row>
       <Row>
         <Place placeId={track.placeId} placeName={track.placeName} />
