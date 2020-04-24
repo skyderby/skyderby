@@ -8,14 +8,23 @@ import { videoCodeFromUrl } from 'utils/youtube'
 import Player from './Player'
 import { Container, Section, Description, Controls, Footer } from './elements'
 
+import AltitudeChart from 'components/AltitudeChart'
+import { useTrackPoints } from 'components/AltitudeRangeSelect'
+import { usePageContext } from 'components/PageContext'
+
 const TrackVideo = () => {
   const playerRef = useRef()
 
   const handleSubmit = values => console.log(values)
+  const { trackId } = usePageContext()
+  const points = useTrackPoints(trackId, { trimed: false })
 
   return (
     <Container>
-      <Formik initialValues={{ url: '', videoId: '', startTime: 0 }} onSubmit={handleSubmit}>
+      <Formik
+        initialValues={{ url: '', videoId: '', startTime: 0 }}
+        onSubmit={handleSubmit}
+      >
         {({ values, handleSubmit, setFieldValue }) => {
           const handleUrlChange = e => {
             const { value } = e.target
@@ -71,6 +80,7 @@ const TrackVideo = () => {
                 </Description>
                 <Controls>
                   <Input />
+                  <AltitudeChart points={points} />
                 </Controls>
               </Section>
               <Footer>

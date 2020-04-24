@@ -11,7 +11,7 @@ const baseOptions = () => ({
     marginLeft: 16,
     marginRight: 16,
     events: {
-      load: function() {
+      load: function () {
         restoreSeriesVisibility(chartName, this.series)
       }
     }
@@ -25,7 +25,7 @@ const baseOptions = () => ({
         radius: 1
       },
       events: {
-        legendItemClick: function() {
+        legendItemClick: function () {
           saveSeriesVisibility(chartName, this.options.code, !this.visible)
         }
       }
@@ -71,28 +71,28 @@ const baseOptions = () => ({
 const useChartOptions = points => {
   const altitudePoints = useMemo(
     () =>
-      points.map(el => ([
+      points.map(el => [
         Math.round((el.flTime - points[0].flTime) * 10) / 10,
         Math.round(el.altitude)
-      ])),
+      ]),
     [points]
   )
 
   const horizontalSpeed = useMemo(
     () =>
-      points.map(el => ([
+      points.map(el => [
         Math.round((el.flTime - points[0].flTime) * 10) / 10,
         Math.round(msToKmh(el.hSpeed))
-      ])),
+      ]),
     [points]
   )
 
   const verticalSpeed = useMemo(
     () =>
-      points.map(el => ([
+      points.map(el => [
         Math.round((el.flTime - points[0].flTime) * 10) / 10,
         Math.round(msToKmh(el.vSpeed))
-      ])),
+      ]),
     [points]
   )
 
