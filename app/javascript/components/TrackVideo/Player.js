@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useImperativeHandle, forwardRef } from 'react'
+import PropTypes from 'prop-types'
 
 import useYoutubeApi from 'utils/useYoutubeApi'
 
@@ -12,7 +13,6 @@ const defaultPlayerOptions = {
     rel: 0
   }
 }
-
 
 const Player = forwardRef(({ videoId }, ref) => {
   const playerContainerRef = useRef()
@@ -30,10 +30,10 @@ const Player = forwardRef(({ videoId }, ref) => {
     if (playerRef.current) {
       playerRef.current.cueVideoById({ videoId })
     } else {
-      playerRef.current = new YT.Player(
-        playerContainerRef.current,
-        { ...defaultPlayerOptions, videoId }
-      )
+      playerRef.current = new YT.Player(playerContainerRef.current, {
+        ...defaultPlayerOptions,
+        videoId
+      })
     }
   }, [YT, videoId])
 
@@ -41,11 +41,13 @@ const Player = forwardRef(({ videoId }, ref) => {
     return () => playerRef.current?.destroy()
   }, [])
 
-  return (
-    <div ref={playerContainerRef} />
-  )
+  return <div ref={playerContainerRef} />
 })
 
 Player.displayName = 'Player'
+
+Player.propTypes = {
+  videoId: PropTypes.string
+}
 
 export default Player

@@ -56,7 +56,10 @@ const RoundReplay = ({ eventId, roundId }) => {
 
   const handleGroupChange = ({ value }) => dispatch(selectGroup(value))
 
-  const groups = useMemo(() => buildGroups(groupedResultIds, results), [results])
+  const groups = useMemo(() => buildGroups(groupedResultIds, results), [
+    groupedResultIds,
+    results
+  ])
 
   const headerText =
     discipline && number && `// ${I18n.t('disciplines.' + discipline)} - ${number}`

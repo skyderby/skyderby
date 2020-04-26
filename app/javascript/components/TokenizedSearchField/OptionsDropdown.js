@@ -19,7 +19,8 @@ const OptionsDropdown = ({ options, onSelect }) => {
 }
 
 OptionsDropdown.propTypes = {
-  onSelect: PropTypes.func.isRequired
+  onSelect: PropTypes.func.isRequired,
+  options: PropTypes.array
 }
 
 export default OptionsDropdown
