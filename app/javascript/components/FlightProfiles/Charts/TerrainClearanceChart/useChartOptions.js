@@ -1,4 +1,4 @@
-const useChartOptions = (zoomLevel) => {
+const useChartOptions = zoomLevel => {
   const options = {
     chart: {
       type: 'spline',

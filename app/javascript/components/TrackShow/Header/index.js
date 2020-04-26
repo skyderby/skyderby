@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 
 import CogIcon from 'icons/cog.svg'
 import Profile from './Profile'
@@ -28,6 +27,7 @@ const Header = ({ track }) => {
 
 Header.propTypes = {
   track: PropTypes.shape({
+    id: PropTypes.number,
     name: PropTypes.string,
     suitName: PropTypes.string,
     placeName: PropTypes.string,
