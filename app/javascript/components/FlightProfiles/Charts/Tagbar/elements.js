@@ -6,7 +6,7 @@ export const TagList = styled.ul`
   padding: 0.5rem 0.75rem;
   margin: 0;
 
-  >:not(:last-child) {
+  > :not(:last-child) {
     margin-right: 0.5rem;
   }
 `

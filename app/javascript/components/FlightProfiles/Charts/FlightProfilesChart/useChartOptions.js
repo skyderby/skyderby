@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import I18n from 'i18n-js'
 
-const useChartOptions = (onZoomChange) => {
+const useChartOptions = onZoomChange => {
   const options = useMemo(
     () => ({
       chart: {
@@ -62,7 +62,7 @@ const useChartOptions = (onZoomChange) => {
         enabled: false
       }
     }),
-    []
+    [onZoomChange]
   )
 
   return options

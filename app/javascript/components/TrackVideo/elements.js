@@ -54,6 +54,4 @@ export const Controls = styled.div`
   }
 `
 
-export const Footer = styled.div`
-
-`
+export const Footer = styled.div``

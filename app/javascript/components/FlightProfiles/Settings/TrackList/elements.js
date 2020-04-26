@@ -16,9 +16,11 @@ export const Card = styled.div`
   font-family: 'Proxima Nova Regular';
   padding: 0.75rem 1rem;
 
-  ${props => props.active && css`
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2), inset 5px 0 0 rgba(117, 164, 186, 1);
-  `}
+  ${props =>
+    props.active &&
+    css`
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.2), inset 5px 0 0 rgba(117, 164, 186, 1);
+    `}
 
   > :not(:last-child) {
     margin-bottom: 0.25rem;
