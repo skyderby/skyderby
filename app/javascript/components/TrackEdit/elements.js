@@ -24,5 +24,4 @@ export const FormContainer = styled.div`
   }
 `
 
-export const FormGroup = styled.div`
-`
+export const FormGroup = styled.div``

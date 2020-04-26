@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState } from 'react'
 
 import UserIcon from 'icons/user.svg'
 import PlaceIcon from 'icons/location.svg'
@@ -29,7 +29,7 @@ const TokenizedSearchField = () => {
   const inputRef = useRef()
   const [tokens, setTokens] = useState(initialData)
   const [mode, setMode] = useState('idle')
-  const [chosenType, setChosenType] = useState()
+  const [_chosenType, setChosenType] = useState()
 
   useOutsideClickHandler(containerRef, () => {
     inputRef.current.blur()
@@ -89,7 +89,9 @@ const TokenizedSearchField = () => {
           />
         </TokensList>
 
-        {mode === 'selectType' && <OptionsDropdown options={options} onSelect={handleTypeSelect} />}
+        {mode === 'selectType' && (
+          <OptionsDropdown options={options} onSelect={handleTypeSelect} />
+        )}
       </SearchContainer>
 
       <ClearButton onClick={deleteAll}>

@@ -18,44 +18,34 @@ const Form = ({ track }) => {
             />
           </FormGroup>
 
-          <hr/>
+          <hr />
 
           <FormGroup>
-            <label>
-              Suit
-            </label>
+            <label>Suit</label>
             <input />
           </FormGroup>
 
           <FormGroup>
-            <label>
-              Place
-            </label>
+            <label>Place</label>
             <input />
           </FormGroup>
 
           <FormGroup>
-            <label>
-              Activity
-            </label>
+            <label>Activity</label>
             <input />
           </FormGroup>
 
           <FormGroup>
-            <label>
-              Visibility
-            </label>
+            <label>Visibility</label>
             <input />
           </FormGroup>
 
           <FormGroup>
-            <label>
-              Comment
-            </label>
+            <label>Comment</label>
             <textarea />
           </FormGroup>
 
-          <hr/>
+          <hr />
         </form>
       )}
     </Formik>

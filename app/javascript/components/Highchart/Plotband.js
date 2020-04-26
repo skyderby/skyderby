@@ -8,7 +8,7 @@ const Plotband = ({ chart, id, from, to, ...props }) => {
     chart.xAxis[0].addPlotBand({ id, from, to, ...props })
 
     return () => chart.xAxis?.[0].removePlotBand(id)
-  }, [chart, from, to, props])
+  }, [chart, id, from, to, props])
 
   return null
 }
