@@ -11,7 +11,7 @@ const Charts = () => {
   return (
     <>
       <FlightProfilesChartContainer>
-        <FlightProfilesChart onZoomChange={setZoomLevel}/>
+        <FlightProfilesChart onZoomChange={setZoomLevel} />
       </FlightProfilesChartContainer>
       <Tagbar />
       <TerrainClearanceChartContainer>
