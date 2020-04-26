@@ -1,6 +1,6 @@
 class ProfilePolicy < ApplicationPolicy
   def index?
-    true
+    admin?
   end
 
   def update?
