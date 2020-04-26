@@ -58,14 +58,16 @@ const TrackVideo = () => {
                   <h2>Start of the jump on video</h2>
                   <p>
                     Play video until jump started, pause the video at the beginning of the
-                    jump, then press button 'Set' in the field to paste current time.
-                    Value in the field is a seconds from beginning of video.
+                    jump, then press button &quot;Set&quot; in the field to paste current
+                    time. Value in the field is a seconds from beginning of video.
                   </p>
                 </Description>
                 <Controls>
                   <Player ref={playerRef} videoId={values.videoId} />
-                  <Field as={Input} name='startTime' />
-                  <DefaultButton type="button" onClick={setTimeFromVideo}>Set!</DefaultButton>
+                  <Field as={Input} name="startTime" />
+                  <DefaultButton type="button" onClick={setTimeFromVideo}>
+                    Set!
+                  </DefaultButton>
                 </Controls>
               </Section>
 

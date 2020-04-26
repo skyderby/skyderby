@@ -25,18 +25,17 @@ export const calculateFlightProfile = points => {
 export const calculateTerrainClearance = (points, measurements) => {
   const flightProfile = calculateFlightProfile(points)
 
-  return flightProfile
-    .map(({ x: distance, y: altitude }) => {
-      const terrainElevation = getTerrainElevation(measurements, distance)
+  return flightProfile.map(({ x: distance, y: altitude }) => {
+    const terrainElevation = getTerrainElevation(measurements, distance)
 
-      if (terrainElevation === null) {
-        return [distance, 120]
-      }
+    if (terrainElevation === null) {
+      return [distance, 120]
+    }
 
-      const distanceToTerrain = terrainElevation - altitude
+    const distanceToTerrain = terrainElevation - altitude
 
-      return [distance, Math.min(distanceToTerrain, 120)]
-    })
+    return [distance, Math.min(distanceToTerrain, 120)]
+  })
 }
 
 const getTerrainElevation = (measurements, distance) => {

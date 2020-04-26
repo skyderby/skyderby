@@ -64,7 +64,7 @@ export const Dropdown = styled.div`
   background-color: #fff;
   border-radius: 4px;
   border: 1px solid #ddd;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   left: 0;
   margin-top: 0.25rem;
   width: 100%;
@@ -86,10 +86,12 @@ export const DropdownItem = styled.li`
   svg {
     height: 0.8em;
     width: 1rem;
-    path { fill: #777; }
+    path {
+      fill: #777;
+    }
   }
 
-  >:not(:last-child) {
+  > :not(:last-child) {
     margin-right: 0.25rem;
   }
 

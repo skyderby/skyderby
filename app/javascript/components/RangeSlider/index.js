@@ -92,10 +92,11 @@ const RangeSlider = ({ domain, reversed, values, step = 10, onChange, onUpdate }
 
 RangeSlider.propTypes = {
   domain: PropTypes.arrayOf(PropTypes.number).isRequired,
-  values: PropTypes.arrayOf(PropTypes.number),
-  step: PropTypes.number,
   onChange: PropTypes.func,
-  onUpdate: PropTypes.func
+  onUpdate: PropTypes.func,
+  reversed: PropTypes.bool,
+  step: PropTypes.number,
+  values: PropTypes.arrayOf(PropTypes.number)
 }
 
 export default RangeSlider
