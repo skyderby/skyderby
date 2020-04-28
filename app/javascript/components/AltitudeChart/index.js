@@ -26,7 +26,7 @@ AltitudeChart.propTypes = {
       vSpeed: PropTypes.number
     })
   ).isRequired,
-  children: PropTypes.node
+  children: PropTypes.func
 }
 
 export default AltitudeChart
