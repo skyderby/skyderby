@@ -12,6 +12,8 @@ import AltitudeChart from 'components/AltitudeChart'
 import { useTrackPoints } from 'components/AltitudeRangeSelect'
 import { usePageContext } from 'components/PageContext'
 
+import PlotLine from 'components/Highchart/Plotline'
+
 const TrackVideo = () => {
   const playerRef = useRef()
 
@@ -82,7 +84,18 @@ const TrackVideo = () => {
                 </Description>
                 <Controls>
                   <Input />
-                  <AltitudeChart points={points} />
+                  <AltitudeChart points={points}>
+                    {chart => (
+                      <PlotLine
+                        chart={chart}
+                        color="#FF0000"
+                        id="track-offset"
+                        width={2}
+                        value={10}
+                        zIndex={8}
+                      />
+                    )}
+                  </AltitudeChart>
                 </Controls>
               </Section>
               <Footer>
