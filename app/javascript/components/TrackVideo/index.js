@@ -24,7 +24,7 @@ const TrackVideo = () => {
   return (
     <Container>
       <Formik
-        initialValues={{ url: '', videoId: '', startTime: 0 }}
+        initialValues={{ url: '', videoId: '', startTime: 0, trackOffset: 10 }}
         onSubmit={handleSubmit}
       >
         {({ values, handleSubmit, setFieldValue }) => {
@@ -37,6 +37,11 @@ const TrackVideo = () => {
 
           const setTimeFromVideo = () => {
             setFieldValue('startTime', playerRef.current.getPlayerTime())
+          }
+
+          const handleOnClick = event => {
+            const offset = Math.round(event.xAxis[0].value * 10) / 10
+            setFieldValue('trackOffset', offset)
           }
 
           return (
@@ -83,19 +88,19 @@ const TrackVideo = () => {
                   </p>
                 </Description>
                 <Controls>
-                  <Input />
-                  <AltitudeChart points={points}>
+                  <AltitudeChart points={points} onClick={handleOnClick}>
                     {chart => (
                       <PlotLine
                         chart={chart}
                         color="#FF0000"
                         id="track-offset"
                         width={2}
-                        value={10}
+                        value={Number(values.trackOffset)}
                         zIndex={8}
                       />
                     )}
                   </AltitudeChart>
+                  <Field as={Input} name="trackOffset" />
                 </Controls>
               </Section>
               <Footer>
