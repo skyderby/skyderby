@@ -6,17 +6,23 @@ import { msToKmh } from 'utils/unitsConversion'
 
 const chartName = 'AltitudeRangeSelect'
 
-const baseOptions = () => ({
+const baseOptions = onClick => ({
   chart: {
     marginLeft: 16,
     marginRight: 16,
     events: {
       load: function() {
         restoreSeriesVisibility(chartName, this.series)
+      },
+      click: event => {
+        if (event.target.textContent) return
+        onClick(event)
       }
     }
   },
   title: {
+    floating: true,
+    y: 26,
     text: I18n.t('tracks.edit.elev_chart')
   },
   plotOptions: {
@@ -68,7 +74,7 @@ const baseOptions = () => ({
   }
 })
 
-const useChartOptions = points => {
+const useChartOptions = (points, onClick) => {
   const altitudePoints = useMemo(
     () =>
       points.map(el => [
@@ -98,7 +104,7 @@ const useChartOptions = points => {
 
   const options = useMemo(
     () => ({
-      ...baseOptions(),
+      ...baseOptions(onClick),
       series: [
         {
           name: I18n.t('charts.all_data.series.height'),
