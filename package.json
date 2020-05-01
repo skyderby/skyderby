@@ -51,6 +51,7 @@
     "jquery-jcrop": "^0.9.13",
     "jquery-validation": "^1.17.0",
     "lodash.debounce": "^4.0.8",
+    "lodash.merge": "^4.6.2",
     "postcss-loader": "^3.0.0",
     "react": "^16.9",
     "react-compound-slider": "^2.5.0",
