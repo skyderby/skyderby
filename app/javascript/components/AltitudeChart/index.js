@@ -5,8 +5,8 @@ import Highchart from 'components/Highchart'
 import useChartOptions from './useChartOptions'
 import { ChartContainer } from './elements'
 
-const AltitudeChart = ({ points, children, onClick }) => {
-  const options = useChartOptions(points, onClick)
+const AltitudeChart = ({ points, children, options: additionalOptions = {} }) => {
+  const options = useChartOptions(points, additionalOptions)
 
   return (
     <>
@@ -27,7 +27,7 @@ AltitudeChart.propTypes = {
     })
   ).isRequired,
   children: PropTypes.func,
-  onClick: PropTypes.func
+  options: PropTypes.object
 }
 
 export default AltitudeChart
