@@ -34,6 +34,7 @@ export const Section = styled.div`
 
 export const Description = styled.div`
   width: 100%;
+  padding-right: 16px;
 
   h2 {
     margin: 0;
@@ -54,4 +55,51 @@ export const Controls = styled.div`
   }
 `
 
-export const Footer = styled.div``
+export const TrackChartCard = styled.div`
+  width: 100%;
+  border: solid 1px transparent;
+  border-color: ${borderColor};
+  border-radius: 4px;
+  padding: 32px 8px 8px 8px;
+  margin-bottom: 16px;
+`
+
+export const PlayerContainer = styled.div`
+  position: relative;
+  padding-bottom: calc(100% * (9 / 16));
+  height: 0;
+  margin-bottom: 16px;
+  background-color: #000;
+  border-radius: 4px;
+  overflow: hidden;
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+`
+
+export const ControlsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  max-width: 150px;
+  margin-bottom: 16px;
+
+  > * {
+    height: 2rem;
+  }
+
+  > *:not(:last-child) {
+    margin-right: 1rem;
+  }
+`
+
+export const Footer = styled.div`
+  button {
+    margin: 0 0 0 auto;
+    width: 100px;
+  }
+`
