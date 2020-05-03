@@ -9,7 +9,7 @@ import { usePageContext } from 'components/PageContext'
 
 import SpeedScale from './SpeedScale'
 import WindAloftChart from './WindAloftChart'
-import { Container, MapElement, WindAloftChartContainer } from './elements'
+import { MapElement, WindAloftChartContainer } from './elements'
 
 import { subtractWind } from 'utils/windCancellation'
 
