@@ -52,7 +52,7 @@ const VideoSetup = ({ setFieldValue, videoId }) => {
         </Description>
 
         <Controls>
-          <Player ref={playerRef} videoId={videoId} onPause={setTimeFromVideo}/>
+          <Player ref={playerRef} videoId={videoId} onPause={setTimeFromVideo} />
           <ControlsContainer>
             <Field as={Input} type="number" step="0.1" min="0" name="videoOffset" />
             <DefaultButton type="button" onClick={setTimeFromVideo}>
