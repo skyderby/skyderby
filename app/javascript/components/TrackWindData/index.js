@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 
 import { usePageContext } from 'components/PageContext'
 import { selectWindData } from 'redux/tracks/windData'
-import { Container, Table } from './elements'
+import { Table } from './elements'
 
 const TrackWindData = () => {
   const { trackId } = usePageContext()
