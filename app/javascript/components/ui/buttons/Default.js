@@ -6,10 +6,9 @@ export default styled.button`
   border: solid 1px var(--grey-30);
   color: var(--grey-80);
   font-family: 'Proxima Nova Regular';
-  height: 30px;
-  line-height: 30px;
+  font-size: 0.875rem;
   outline: none;
-  padding: 0 12px;
+  padding: 0.5rem 0.75rem;
   webkit-appearance: button;
 
   :not(:last-child) {
