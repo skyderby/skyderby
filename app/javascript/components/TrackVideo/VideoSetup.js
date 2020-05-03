@@ -1,6 +1,7 @@
 import React, { useRef, useCallback } from 'react'
-import PropTypes from 'prop-types'
 import { Field } from 'formik'
+import I18n from 'i18n-js'
+import PropTypes from 'prop-types'
 
 import { videoCodeFromUrl } from 'utils/youtube'
 
@@ -9,12 +10,7 @@ import DefaultButton from 'components/ui/buttons/Default'
 import Input from 'components/ui/Input'
 import { Section, Description, Controls, ControlsContainer } from './elements'
 
-// const simpleVideoId = () => {
-//   return videoCodeFromUrl('https://www.youtube.com/watch?v=zad8bbIWB60')
-// }
-
-const VideoSetup = ({ setFieldValue, value }) => {
-  // if (!value || value === '') value = simpleVideoId()
+const VideoSetup = ({ setFieldValue, videoId }) => {
   const playerRef = useRef()
 
   const handleUrlChange = useCallback(
@@ -27,29 +23,17 @@ const VideoSetup = ({ setFieldValue, value }) => {
   )
 
   const setTimeFromVideo = useCallback(() => {
-    setFieldValue('startTime', playerRef.current.getPlayerTime())
+    const currentTime = Math.round(playerRef.current.getPlayerTime() * 10) / 10
+    if (!Number.isNaN(currentTime)) setFieldValue('videoOffset', currentTime)
+
+    ga('send', 'event', 'trackVideo/edit', 'videoOffset/change')
   }, [setFieldValue])
-
-  const title = 'Start of the jump on video'
-  const discription = `Play video until jump started, pause the video at the beginning of the jump,
-  then press button "Set!"; in the field to paste current time. Value in
-  the field is a seconds from beginning of video.`
-
-  const ControlsBox = () => (
-    <ControlsContainer>
-      {/* Are these controls really needed? */}
-      <Field as={Input} name="startTime" />
-      <DefaultButton type="button" onClick={setTimeFromVideo}>
-        Set!
-      </DefaultButton>
-    </ControlsContainer>
-  )
 
   return (
     <>
       <Section>
         <Description>
-          <h2>Youtube video</h2>
+          <h2>{I18n.t('activerecord.attributes.track_videos.url')}</h2>
         </Description>
         <Controls>
           <Field
@@ -63,12 +47,18 @@ const VideoSetup = ({ setFieldValue, value }) => {
 
       <Section>
         <Description>
-          <h2>{title}</h2>
-          <p>{discription}</p>
+          <h2>{I18n.t('activerecord.attributes.track_videos.video_offset')}</h2>
+          <p>{I18n.t('tracks.videos.form.video_offset_description')}</p>
         </Description>
+
         <Controls>
-          <Player ref={playerRef} videoId={value} setFieldValue={setFieldValue} />
-          <ControlsBox />
+          <Player ref={playerRef} videoId={videoId} onPause={setTimeFromVideo}/>
+          <ControlsContainer>
+            <Field as={Input} type="number" step="0.1" min="0" name="videoOffset" />
+            <DefaultButton type="button" onClick={setTimeFromVideo}>
+              {I18n.t('tracks.videos.form.set')}
+            </DefaultButton>
+          </ControlsContainer>
         </Controls>
       </Section>
     </>
@@ -77,7 +67,7 @@ const VideoSetup = ({ setFieldValue, value }) => {
 
 VideoSetup.propTypes = {
   setFieldValue: PropTypes.func,
-  value: PropTypes.string
+  videoId: PropTypes.string
 }
 
 export default VideoSetup
