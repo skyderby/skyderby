@@ -30,7 +30,7 @@ export const Thead = styled.div`
 
     ${TableCell} {
       color: #777;
-      border-bottom: solid 2px #ddd;
+      border-bottom: solid 2px var(--border-color);
       white-space: nowrap;
     }
   }
@@ -41,7 +41,7 @@ export const Tbody = styled.div`
     display: table-row-group;
 
     ${TableCell} {
-      border-bottom: solid 1px #ddd;
+      border-bottom: solid 1px var(--border-color);
     }
   }
 `
@@ -56,7 +56,7 @@ const AttributeBase = styled.div`
     display: table-cell;
     font-size: inherit;
     font-family: inherit;
-    border-bottom: solid 1px #ddd;
+    border-bottom: solid 1px var(--border-color);
     padding: 0.5rem;
     line-height: inherit;
   }

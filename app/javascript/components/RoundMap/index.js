@@ -30,7 +30,7 @@ const RoundMap = ({ eventId, roundId }) => {
   return (
     <Container>
       <Header>
-        <BackLink href={`/events/${eventId}`}>{eventName}</BackLink>
+        <BackLink to={`/events/${eventId}`}>{eventName}</BackLink>
         {headerText}
       </Header>
       <MainArea>
@@ -56,8 +56,8 @@ const MainArea = styled.div`
 `
 
 RoundMap.propTypes = {
-  eventId: PropTypes.string.isRequired,
-  roundId: PropTypes.string.isRequired
+  eventId: PropTypes.number.isRequired,
+  roundId: PropTypes.number.isRequired
 }
 
 export default RoundMap

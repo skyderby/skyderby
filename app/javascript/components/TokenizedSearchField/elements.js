@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   background-color: white;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
   display: flex;
   flex-grow: 1;
@@ -63,7 +63,7 @@ export const SearchInput = styled.input`
 export const Dropdown = styled.div`
   background-color: #fff;
   border-radius: 4px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   left: 0;
   margin-top: 0.25rem;
