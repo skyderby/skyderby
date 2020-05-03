@@ -2,20 +2,18 @@ import styled from 'styled-components'
 
 import { devices } from 'styles/devices'
 
-const borderColor = '#e0e0e0'
-
 export const Container = styled.div`
   background-color: #fff;
   font-family: 'Proxima Nova Regular';
   width: 100%;
   padding: 1rem;
   border: solid 1px transparent;
-  border-top-color: ${borderColor};
-  border-bottom-color: ${borderColor};
+  border-top-color: var(--border-color);
+  border-bottom-color: var(--border-color);
 
   @media ${devices.large} {
-    border-left-color: ${borderColor};
-    border-right-color: ${borderColor};
+    border-left-color: var(--border-color);
+    border-right-color: var(--border-color);
   }
 `
 
@@ -58,7 +56,7 @@ export const Controls = styled.div`
 export const TrackChartCard = styled.div`
   width: 100%;
   border: solid 1px transparent;
-  border-color: ${borderColor};
+  border-color: var(--border-color);
   border-radius: 4px;
   padding: 32px 8px 8px 8px;
   margin-bottom: 16px;

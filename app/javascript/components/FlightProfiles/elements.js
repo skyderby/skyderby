@@ -27,7 +27,7 @@ export const SettingsContainer = styled.div`
   padding-bottom: 60px;
 
   @media ${devices.small} {
-    border-right: solid 1px #ddd;
+    border-right: solid 1px var(--border-color);
     width: 350px;
     order: 1;
   }

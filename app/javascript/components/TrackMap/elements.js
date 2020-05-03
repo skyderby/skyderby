@@ -4,14 +4,14 @@ import { devices } from 'styles/devices'
 export const Container = styled.div`
   background-color: #fff;
   border: solid 1px transparent;
-  border-top-color: #e0e0e0;
-  border-bottom-color: #e0e0e0;
+  border-top-color: var(--border-color);
+  border-bottom-color: var(--border-color);
   position: relative;
   width: 100%;
 
   @media ${devices.large} {
-    border-left-color: #e0e0e0;
-    border-right-color: #e0e0e0;
+    border-left-color: var(--border-color);
+    border-right-color: var(--border-color);
   }
 `
 

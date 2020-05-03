@@ -22,7 +22,7 @@ export const Label = styled.label`
 export const Footer = styled.div`
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid var(--border-color);
   padding: 10px 15px;
 `
 

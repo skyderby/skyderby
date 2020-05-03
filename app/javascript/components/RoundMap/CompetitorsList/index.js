@@ -19,7 +19,7 @@ const CompetitorsList = () => {
 }
 
 const Container = styled.div`
-  border-left: rgba(0, 0, 0, 0.14) 1px solid;
+  border-left: solid 1px var(--border-color);
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis: 370px;
