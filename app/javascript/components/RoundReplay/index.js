@@ -67,7 +67,7 @@ const RoundReplay = ({ eventId, roundId }) => {
   return (
     <Container>
       <Header>
-        <BackLink href={`/events/${eventId}`}>{eventName}</BackLink>
+        <BackLink to={`/events/${eventId}`}>{eventName}</BackLink>
         {headerText}
       </Header>
 
@@ -94,8 +94,8 @@ const RoundReplay = ({ eventId, roundId }) => {
 }
 
 RoundReplay.propTypes = {
-  eventId: PropTypes.string.isRequired,
-  roundId: PropTypes.string.isRequired
+  eventId: PropTypes.number.isRequired,
+  roundId: PropTypes.number.isRequired
 }
 
 export default RoundReplay
