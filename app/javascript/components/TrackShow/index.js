@@ -13,7 +13,7 @@ import TrackResults from 'components/TrackResults'
 
 import Header from './Header'
 import Navbar from './Navbar'
-import { Container } from './elements'
+import { PageContainer, ContentContainer } from './elements'
 
 const TrackShow = () => {
   const { trackId } = usePageContext()
@@ -23,18 +23,21 @@ const TrackShow = () => {
   if (!track || track.status === 'loading') return null
 
   return (
-    <Container>
+    <PageContainer>
       <Header track={track} />
       <Navbar track={track} />
-      <Switch>
-        <Route exact path="/tracks/:id" component={TrackInsights} />
-        <Route path="/tracks/:id/map" component={TrackMap} />
-        <Route path="/tracks/:id/globe" component={TrackGlobe} />
-        <Route path="/tracks/:id/video" component={TrackVideo} />
-        <Route path="/tracks/:id/wind_data" component={TrackWindData} />
-        <Route path="/tracks/:id/results" component={TrackResults} />
-      </Switch>
-    </Container>
+
+      <ContentContainer>
+        <Switch>
+          <Route exact path="/tracks/:id" component={TrackInsights} />
+          <Route path="/tracks/:id/map" component={TrackMap} />
+          <Route path="/tracks/:id/globe" component={TrackGlobe} />
+          <Route path="/tracks/:id/video" component={TrackVideo} />
+          <Route path="/tracks/:id/wind_data" component={TrackWindData} />
+          <Route path="/tracks/:id/results" component={TrackResults} />
+        </Switch>
+      </ContentContainer>
+    </PageContainer>
   )
 }
 
