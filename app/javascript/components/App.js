@@ -9,6 +9,7 @@ import TracksShow from 'pages/tracks/Show'
 import TracksIndex from 'pages/tracks/Index'
 import FlightProfiles from 'pages/FlightProfiles'
 import EventRoundMap from 'pages/events/RoundMap'
+import EventRoundReplay from 'pages/events/RoundReplay'
 
 const App = () => (
   <Provider store={store}>
@@ -23,6 +24,7 @@ const App = () => (
         <Route path="/tracks/:id" component={TracksShow} />
 
         <Route path="/events/:id/rounds/:roundId/map" component={EventRoundMap} />
+        <Route path="/events/:id/rounds/:roundId/replay" component={EventRoundReplay} />
 
         {/* Fallback route for server rendered part of the app */}
         <Route
