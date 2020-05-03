@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export default styled.button`
   background-color: #fff;
   border-radius: 4px;
-  border: solid 1px #ccc;
+  border: solid 1px var(--border-color);
   color: #555;
   font-family: 'Proxima Nova Regular';
   height: 30px;

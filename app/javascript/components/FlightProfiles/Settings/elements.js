@@ -13,5 +13,5 @@ export const Settings = styled.div`
   height: 60px;
   padding: 0.75rem 1rem;
   background-color: #fff;
-  border-top: solid 1px #ddd;
+  border-top: solid 1px var(--border-color);
 `

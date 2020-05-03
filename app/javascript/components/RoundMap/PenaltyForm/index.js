@@ -6,6 +6,8 @@ import PropTypes from 'prop-types'
 
 import { updatePenalty } from 'redux/events/round'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
+import DefaultButton from 'components/ui/buttons/Default'
+import PrimaryButton from 'components/ui/buttons/Primary'
 
 const PenaltyForm = ({ resultId, onComplete }) => {
   const dispatch = useDispatch()
@@ -67,8 +69,8 @@ const PenaltyForm = ({ resultId, onComplete }) => {
       </FormBody>
 
       <Footer>
-        <button type="submit">{I18n.t('general.save')}</button>
-        <button onClick={onComplete}>{I18n.t('general.cancel')}</button>
+        <PrimaryButton type="submit">{I18n.t('general.save')}</PrimaryButton>
+        <DefaultButton onClick={onComplete}>{I18n.t('general.cancel')}</DefaultButton>
       </Footer>
     </form>
   )
@@ -91,7 +93,7 @@ const FormGroup = styled.div`
   }
 
   input[type='text'] {
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     font-family: 'Proxima Nova Regular';
     padding: 6px 12px;
@@ -113,7 +115,7 @@ const FormBody = styled.div`
 const Footer = styled.div`
   display: flex;
   justify-content: flex-end;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid var(--border-color);
   padding: 10px 15px;
 `
 
