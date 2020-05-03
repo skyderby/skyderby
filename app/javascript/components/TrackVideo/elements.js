@@ -55,10 +55,9 @@ export const Controls = styled.div`
 
 export const TrackChartCard = styled.div`
   width: 100%;
-  border: solid 1px transparent;
-  border-color: var(--border-color);
+  border: solid 1px var(--border-color);
   border-radius: 4px;
-  padding: 32px 8px 8px 8px;
+  padding: 2rem 0.5rem 0.5rem 0.5rem;
   margin-bottom: 16px;
 `
 
@@ -82,22 +81,17 @@ export const PlayerContainer = styled.div`
 
 export const ControlsContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  max-width: 150px;
-  margin-bottom: 16px;
 
-  > * {
-    height: 2rem;
+  > input {
+    max-width: 100px;
   }
 
   > *:not(:last-child) {
-    margin-right: 1rem;
+    margin-right: 0.5rem;
   }
 `
 
 export const Footer = styled.div`
-  button {
-    margin: 0 0 0 auto;
-    width: 100px;
-  }
+  display: flex;
+  justify-content: space-between;
 `

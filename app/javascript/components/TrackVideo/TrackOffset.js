@@ -36,9 +36,6 @@ const TrackOffset = ({ setFieldValue, value }) => {
     [handleOnClick]
   )
 
-  const description = I18n.t('tracks.videos.form.track_offset_description')
-  const title = I18n.t('activerecord.attributes.track_videos.track_offset')
-
   const plotLineProps = {
     color: '#FF0000',
     id: 'track-offset',
@@ -50,8 +47,8 @@ const TrackOffset = ({ setFieldValue, value }) => {
   return (
     <Section>
       <Description>
-        <h2>{title}</h2>
-        <p>{description}</p>
+        <h2>{I18n.t('activerecord.attributes.track_videos.track_offset')}</h2>
+        <p>{I18n.t('tracks.videos.form.track_offset_description')}</p>
       </Description>
       <Controls>
         <TrackChartCard>

@@ -1,6 +1,8 @@
 import React from 'react'
 import { Formik } from 'formik'
+import I18n from 'i18n-js'
 
+import DefaultButton from 'components/ui/buttons/Default'
 import RedButton from 'components/ui/buttons/Red'
 import PrimaryButton from 'components/ui/buttons/Primary'
 import { Container, Footer } from './elements'
@@ -14,18 +16,26 @@ const TrackVideo = () => {
   return (
     <Container>
       <Formik
-        initialValues={{ url: '', videoId: '', startTime: 0, trackOffset: 10 }}
+        initialValues={{ url: '', videoId: '', videoOffset: 0, trackOffset: 0 }}
         onSubmit={handleSubmit}
       >
         {({ values, handleSubmit, setFieldValue }) => {
           return (
             <form onSubmit={handleSubmit}>
-              <VideoSetup setFieldValue={setFieldValue} value={values.videoId} />
+              <VideoSetup setFieldValue={setFieldValue} videoId={values.videoId} videoOffset={values.videoOffset} />
               <TrackOffset setFieldValue={setFieldValue} value={values.trackOffset} />
 
+              <hr />
+
               <Footer>
-                <RedButton type="button" outlined>Delete</RedButton>
-                <PrimaryButton type="submit">Save</PrimaryButton>
+                <RedButton type="button" outlined>
+                  {I18n.t('general.delete')}
+                </RedButton>
+
+                <div>
+                  <PrimaryButton type="submit">{I18n.t('general.save')}</PrimaryButton>
+                  <DefaultButton type="button">{I18n.t('general.cancel')}</DefaultButton>
+                </div>
               </Footer>
             </form>
           )
