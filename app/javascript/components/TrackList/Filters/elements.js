@@ -8,7 +8,7 @@ export const Container = styled.div`
 `
 
 export const Header = styled.div`
-  border-bottom: solid 1px #dadada;
+  border-bottom: solid 1px var(--border-color);
   padding: 0.75rem 1rem;
   font-family: 'Proxima Nova Semibold'
   font-size: 1.25rem;
