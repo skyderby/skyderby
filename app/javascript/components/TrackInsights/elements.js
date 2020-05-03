@@ -6,11 +6,11 @@ export const Container = styled.div`
   width: 100%;
   padding: 1rem;
   border: solid 1px transparent;
-  border-top-color: #e0e0e0;
-  border-bottom-color: #e0e0e0;
+  border-top-color: var(--border-color);
+  border-bottom-color: var(--border-color);
 
   @media ${devices.large} {
-    border-left-color: #e0e0e0;
-    border-right-color: #e0e0e0;
+    border-left-color: var(--border-color);
+    border-right-color: var(--border-color);
   }
 `

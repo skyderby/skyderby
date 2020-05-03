@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 
 export default styled.button`
-  background-color: #fff;
+  background-color: var(--white);
   border-radius: 4px;
-  border: solid 1px #ccc;
-  color: #555;
+  border: solid 1px var(--grey-30);
+  color: var(--grey-80);
   font-family: 'Proxima Nova Regular';
   height: 30px;
   line-height: 30px;
@@ -17,14 +17,11 @@ export default styled.button`
   }
 
   &:hover {
-    background-color: #f6f8f9;
-    border-color: #9ca6af;
-    color: #333;
+    border-color: var(--blue-50);
+    color: var(--blue-50);
   }
 
   &:disabled {
-    background-color: #e8ecee;
-    border: solid 1px #e8ecee;
-    color: #333;
+    opacity: 0.3;
   }
 `

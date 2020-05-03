@@ -2,9 +2,9 @@ import styled from 'styled-components'
 
 import FlatButton from 'components/ui/FlatButton'
 
-export const Table = styled.div`
+export const Table = styled.table`
   background-color: #fff;
-  border: solid 1px #ddd;
+  border: solid 1px var(--border-color);
   border-collapse: collapse;
   width: 100%;
   font-family: 'Proxima Nova Regular';
@@ -21,7 +21,7 @@ export const Table = styled.div`
 
   td,
   th {
-    border: solid 1px #ccc;
+    border: solid 1px var(--border-color);
     padding: 12px 16px;
     font-size: 16px;
 

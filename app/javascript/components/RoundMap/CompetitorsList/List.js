@@ -12,5 +12,5 @@ List.propTypes = {
 }
 
 export default styled(List)`
-  border-left: #ccc 2px solid;
+  border-left: solid 2px var(--border-color);
 `
