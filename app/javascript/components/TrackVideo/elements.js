@@ -2,21 +2,6 @@ import styled from 'styled-components'
 
 import { devices } from 'styles/devices'
 
-export const Container = styled.div`
-  background-color: #fff;
-  font-family: 'Proxima Nova Regular';
-  width: 100%;
-  padding: 1rem;
-  border: solid 1px transparent;
-  border-top-color: var(--border-color);
-  border-bottom-color: var(--border-color);
-
-  @media ${devices.large} {
-    border-left-color: var(--border-color);
-    border-right-color: var(--border-color);
-  }
-`
-
 export const Section = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -48,6 +33,10 @@ export const Description = styled.div`
 export const Controls = styled.div`
   width: 100%;
 
+  > *:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+
   @media ${devices.small} {
     width: 70%;
   }
@@ -57,15 +46,13 @@ export const TrackChartCard = styled.div`
   width: 100%;
   border: solid 1px var(--border-color);
   border-radius: 4px;
-  padding: 2rem 0.5rem 0.5rem 0.5rem;
-  margin-bottom: 16px;
+  padding: 1rem 0.5rem 0.5rem 0.5rem;
 `
 
 export const PlayerContainer = styled.div`
   position: relative;
   padding-bottom: calc(100% * (9 / 16));
   height: 0;
-  margin-bottom: 16px;
   background-color: #000;
   border-radius: 4px;
   overflow: hidden;

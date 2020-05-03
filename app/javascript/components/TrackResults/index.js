@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 
 import { usePageContext } from 'components/PageContext'
 import { loadTrackResults } from 'redux/tracks/results'
-import { Container } from './elements'
 import CompetitorResult from './CompetitionResult'
 import OnlineRankingResults from './OnlineRankingResults'
 import BestResults from './BestResults'
@@ -18,12 +17,12 @@ const TrackResults = () => {
   }, [dispatch, trackId])
 
   return (
-    <Container>
+    <>
       <CompetitorResult trackId={trackId} />
       <BestResults trackId={trackId} />
       <TotalResults trackId={trackId} />
       <OnlineRankingResults trackId={trackId} />
-    </Container>
+    </>
   )
 }
 

@@ -53,7 +53,7 @@ const TrackMap = () => {
   }, [mapInstance, google, points])
 
   return (
-    <Container>
+    <>
       <MapElement ref={mapElementRef}>
         <Trajectory map={mapInstance} google={google} points={points} />
         {zeroWindPoints.length > 0 && (
@@ -65,13 +65,15 @@ const TrackMap = () => {
           />
         )}
       </MapElement>
+
       <SpeedScale />
+
       {windData.length > 0 && (
         <WindAloftChartContainer>
           <WindAloftChart windData={windData} />
         </WindAloftChartContainer>
       )}
-    </Container>
+    </>
   )
 }
 
