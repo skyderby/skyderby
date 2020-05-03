@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import Button from 'components/ui/Button'
 import { selectAllTeams } from 'redux/events/teams/selectors'
 import { usePageContext } from 'components/PageContext'
+import GlobalStyle from 'components/GlobalStyle'
 
 import { Container } from './elements'
 import Scoreboard from './Scoreboard'
@@ -46,6 +47,8 @@ const TeamsCompetition = ({ competitors }) => {
 
   return (
     <Container>
+      <GlobalStyle />
+
       {editable && (
         <div>
           <Button onClick={handleAddClick}>

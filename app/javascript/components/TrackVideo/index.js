@@ -1,7 +1,7 @@
 import React from 'react'
 import { Formik } from 'formik'
 
-import DefaultButton from 'components/ui/buttons/Default'
+import RedButton from 'components/ui/buttons/Red'
 import PrimaryButton from 'components/ui/buttons/Primary'
 import { Container, Footer } from './elements'
 
@@ -24,7 +24,7 @@ const TrackVideo = () => {
               <TrackOffset setFieldValue={setFieldValue} value={values.trackOffset} />
 
               <Footer>
-                <DefaultButton type="button">Delete</DefaultButton>
+                <RedButton type="button" outlined>Delete</RedButton>
                 <PrimaryButton type="submit">Save</PrimaryButton>
               </Footer>
             </form>

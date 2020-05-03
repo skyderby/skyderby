@@ -21,6 +21,6 @@ Header.propTypes = {
 
 export default styled(Header)`
   display: flex;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid var(--border-color);
   padding: 10px 15px;
 `
