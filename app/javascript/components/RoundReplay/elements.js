@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const PlayButton = styled.button`
   background-color: white;
-  border: solid 1px #ccc;
+  border: solid 1px var(--border-color);
   border-radius: 4px;
   padding: 8px 14px;
   line-height: 20px;
