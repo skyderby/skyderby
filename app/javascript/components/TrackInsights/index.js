@@ -13,7 +13,6 @@ import ViewSettings from './ViewSettings'
 import { getMinMaxAltitude } from './minMaxAltitude'
 import useSelectedAltitudeRange from './useSelectedAltitudeRange'
 import useSyncParamsToUrl from './useSyncParamsToUrl'
-import { Container } from './elements'
 
 const TrackInsights = () => {
   const {
@@ -52,7 +51,7 @@ const TrackInsights = () => {
   ])
 
   return (
-    <Container>
+    <>
       <ViewSettings straightLine={straightLine} setStraightLine={setStraightLine} />
 
       <Summary
@@ -72,7 +71,7 @@ const TrackInsights = () => {
       />
 
       <Charts points={selectedPoints} zeroWindPoints={zeroWindPoints} />
-    </Container>
+    </>
   )
 }
 
