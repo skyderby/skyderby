@@ -9,8 +9,8 @@ import React, {
 } from 'react'
 import PropTypes from 'prop-types'
 
-import useYoutubeApi from 'utils/useYoutubeApi'
-import YoutubeIcon from './YoutubeIcon'
+import useYoutubeApi from './useYoutubeApi'
+import PlayIcon from './PlayIcon'
 import { PlayerContainer } from './elements'
 
 const Player = forwardRef(({ videoId, onPause }, ref) => {
@@ -66,7 +66,7 @@ const Player = forwardRef(({ videoId, onPause }, ref) => {
 
   return (
     <PlayerContainer>
-      {playerReady || <YoutubeIcon />}
+      {playerReady || <PlayIcon />}
       <div ref={playerContainerRef} />
     </PlayerContainer>
   )
