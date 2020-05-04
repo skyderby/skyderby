@@ -7,6 +7,7 @@ import { usePageContext } from 'components/PageContext'
 import TrackInsights from 'components/TrackInsights'
 import TrackMap from 'components/TrackMap'
 import TrackGlobe from 'components/TrackGlobe'
+import TrackVideoForm from 'components/TrackVideoForm'
 import TrackVideo from 'components/TrackVideo'
 import TrackWindData from 'components/TrackWindData'
 import TrackResults from 'components/TrackResults'
@@ -29,12 +30,13 @@ const TrackShow = () => {
 
       <ContentContainer>
         <Switch>
-          <Route exact path="/tracks/:id" component={TrackInsights} />
           <Route path="/tracks/:id/map" component={TrackMap} />
           <Route path="/tracks/:id/globe" component={TrackGlobe} />
-          <Route path="/tracks/:id/video" component={TrackVideo} />
+          <Route path="/tracks/:id/video" exact component={TrackVideo} />
+          <Route path="/tracks/:id/video/edit" component={TrackVideoForm} />
           <Route path="/tracks/:id/wind_data" component={TrackWindData} />
           <Route path="/tracks/:id/results" component={TrackResults} />
+          <Route path="/tracks/:id" component={TrackInsights} />
         </Switch>
       </ContentContainer>
     </PageContainer>
