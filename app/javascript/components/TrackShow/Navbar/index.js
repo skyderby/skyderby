@@ -26,13 +26,22 @@ const Navbar = ({ track }) => {
             {I18n.t('tracks.show.charts')}
           </NavLink>
         </MenuItem>
-        {(hasVideo || editable) && (
+        {hasVideo ? (
           <MenuItem>
             <NavLink to={`/tracks/${trackId}/video`}>
               <VideoIcon />
               {I18n.t('tracks.show.video')}
             </NavLink>
           </MenuItem>
+        ) : (
+          editable && (
+            <MenuItem>
+              <NavLink to={`/tracks/${trackId}/video/edit`}>
+                <VideoIcon />
+                {I18n.t('tracks.show.video')}
+              </NavLink>
+            </MenuItem>
+          )
         )}
         <MenuItem>
           <NavLink to={`/tracks/${trackId}/map`}>
