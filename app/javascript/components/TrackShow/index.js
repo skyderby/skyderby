@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 
 import { selectTrack } from 'redux/tracks'
 import { usePageContext } from 'components/PageContext'
@@ -30,13 +30,19 @@ const TrackShow = () => {
 
       <ContentContainer>
         <Switch>
+          <Route path="/tracks/:id" exact component={TrackInsights} />
           <Route path="/tracks/:id/map" component={TrackMap} />
           <Route path="/tracks/:id/globe" component={TrackGlobe} />
-          <Route path="/tracks/:id/video" exact component={TrackVideo} />
-          <Route path="/tracks/:id/video/edit" component={TrackVideoForm} />
           <Route path="/tracks/:id/wind_data" component={TrackWindData} />
           <Route path="/tracks/:id/results" component={TrackResults} />
-          <Route path="/tracks/:id" component={TrackInsights} />
+          {track.hasVideo && (
+            <Route path="/tracks/:id/video" exact component={TrackVideo} />
+          )}
+          {track.editable && (
+            <Route path="/tracks/:id/video/edit" component={TrackVideoForm} />
+          )}
+
+          <Route component={() => <Redirect to={`/tracks/${trackId}`} />} />
         </Switch>
       </ContentContainer>
     </PageContainer>
