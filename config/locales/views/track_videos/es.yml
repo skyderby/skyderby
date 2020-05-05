@@ -7,10 +7,8 @@ es:
         header: Configuración de sincronización para video y ruta
       form:
         url_placeholder: Ingresa el link de Youtube aquí
-        set: Definir
         video_offset_description: >
-          Inicia el video hasta que salto comience, entonces páusalo al inicio del salto
-          y presiona el botón 'Definir' en el campo de tiempo actual.
+          Inicia el video hasta que salto comience, entonces páusalo al inicio del salto.
         track_offset_description: >
           Encuentra el inicio de salto en el gráfico y haz click en él.
           Para un cambio más preciso usa la herramienta de zoom o los botones en el campo.

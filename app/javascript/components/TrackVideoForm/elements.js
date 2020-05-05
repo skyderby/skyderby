@@ -49,16 +49,8 @@ export const TrackChartCard = styled.div`
   padding: 1rem 0.5rem 0.5rem 0.5rem;
 `
 
-export const ControlsContainer = styled.div`
-  display: flex;
-
-  > input {
-    max-width: 100px;
-  }
-
-  > *:not(:last-child) {
-    margin-right: 0.5rem;
-  }
+export const InputContainer = styled.div`
+  width: 150px;
 `
 
 export const Footer = styled.div`
