@@ -18,9 +18,7 @@ const baseOptions = () => ({
     }
   },
   title: {
-    floating: true,
-    y: 26,
-    text: I18n.t('tracks.edit.elev_chart')
+    text: null
   },
   plotOptions: {
     series: {
@@ -67,7 +65,7 @@ const baseOptions = () => ({
     enabled: false
   },
   legend: {
-    enabled: true
+    enabled: false
   }
 })
 
