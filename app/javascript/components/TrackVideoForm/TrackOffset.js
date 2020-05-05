@@ -7,7 +7,7 @@ import Input from 'components/ui/Input'
 import { useTrackPoints } from 'components/AltitudeRangeSelect'
 import { usePageContext } from 'components/PageContext'
 
-import { Section, Description, Controls, TrackChartCard } from './elements'
+import { Section, Description, Controls, TrackChartCard, InputContainer } from './elements'
 import AltitudeChart from 'components/AltitudeChart'
 import PlotLine from 'components/Highchart/Plotline'
 
@@ -56,7 +56,9 @@ const TrackOffset = ({ setFieldValue, value }) => {
             {chart => <PlotLine chart={chart} {...plotLineProps} />}
           </AltitudeChart>
         </TrackChartCard>
-        <Field as={Input} name="trackOffset" />
+        <InputContainer>
+          <Field as={Input} name="trackOffset" type="number" step="0.1" />
+        </InputContainer>
       </Controls>
     </Section>
   )
