@@ -6,9 +6,8 @@ import PropTypes from 'prop-types'
 import { videoCodeFromUrl } from 'utils/youtube'
 
 import YoutubePlayer from 'components/YoutubePlayer'
-import DefaultButton from 'components/ui/buttons/Default'
 import Input from 'components/ui/Input'
-import { Section, Description, Controls, ControlsContainer } from './elements'
+import { Section, Description, Controls, InputContainer } from './elements'
 
 const VideoSetup = ({ setFieldValue, videoId }) => {
   const playerRef = useRef()
@@ -53,12 +52,9 @@ const VideoSetup = ({ setFieldValue, videoId }) => {
 
         <Controls>
           <YoutubePlayer ref={playerRef} videoId={videoId} onPause={setTimeFromVideo} />
-          <ControlsContainer>
+          <InputContainer>
             <Field as={Input} type="number" step="0.1" min="0" name="videoOffset" />
-            <DefaultButton type="button" onClick={setTimeFromVideo}>
-              {I18n.t('tracks.videos.form.set')}
-            </DefaultButton>
-          </ControlsContainer>
+          </InputContainer>
         </Controls>
       </Section>
     </>
