@@ -15,10 +15,11 @@ const TrackOffset = ({ setFieldValue, value }) => {
   const { trackId } = usePageContext()
   const points = useTrackPoints(trackId, { trimed: false })
 
-  const handleOnClick = useCallback(
+  const handleChartClick = useCallback(
     event => {
-      if (event.target.textContent) return
-      const offset = Math.round(event.xAxis[0].value * 10) / 10
+      const chartX = event.point?.x || event.xAxis[0].value
+      const offset = Math.round(chartX * 10) / 10
+
       setFieldValue('trackOffset', offset)
     },
     [setFieldValue]
@@ -27,13 +28,21 @@ const TrackOffset = ({ setFieldValue, value }) => {
   const options = useMemo(
     () => ({
       chart: {
-        zoomType: 'x',
         events: {
-          click: handleOnClick
+          click: handleChartClick
+        },
+        height: (9 / 16) * 100 + '%',
+        zoomType: 'x',
+      },
+      plotOptions: {
+        series: {
+          events: {
+            click: handleChartClick
+          }
         }
       }
     }),
-    [handleOnClick]
+    [handleChartClick]
   )
 
   const plotLineProps = {

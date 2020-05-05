@@ -22,7 +22,7 @@ export const Description = styled.div`
   h2 {
     margin: 0;
     font-size: 1.25rem;
-    line-height: 2.125rem;
+    padding: 0.375rem 0;
   }
 
   @media ${devices.small} {
@@ -43,10 +43,12 @@ export const Controls = styled.div`
 `
 
 export const TrackChartCard = styled.div`
-  width: 100%;
-  border: solid 1px var(--border-color);
   border-radius: 4px;
-  padding: 1rem 0.5rem 0.5rem 0.5rem;
+  border: solid 1px var(--border-color);
+  padding: 1rem 0.5rem 0.5rem;
+  width: 100%;
+  height: 0;
+  padding-bottom: calc(100% * (9 / 16));
 `
 
 export const InputContainer = styled.div`
