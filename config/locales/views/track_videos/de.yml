@@ -7,10 +7,8 @@ de:
         header: Video and Track Synchronisierung
       form:
         url_placeholder: Link zum YouTube Video
-        set: Set
         video_offset_description: >
           Lass das Video laufen, bis zum Exit, pausiere das Video genau am Exit.
-          Dann klicke 'Set' um die aktuelle Zeit einzutragen.
           Der angegebene Wert ist die Zeit in Sekunden vom Anfang des Videos.
         track_offset_description: >
           Finde den Exitzeitpunkt im Graphen und klicke ihn an. 
