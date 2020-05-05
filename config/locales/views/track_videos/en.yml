@@ -7,10 +7,8 @@ en:
         header: Setup video and track synchronization
       form:
         url_placeholder: Enter YouTube link here
-        set: Set
         video_offset_description: >
-          Play video until jump started, pause the video at the beginning of the jump,
-          then press button 'Set' in the field to paste current time.
+          Play video until jump started, pause the video at the beginning of the jump.
           Value in the field is a seconds from beginning of video.
         track_offset_description: >
           Find start of the jump on the chart and click on it. 
