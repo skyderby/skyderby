@@ -7,10 +7,8 @@ fr:
         header: Synchroniser la vidéo et l'enregistrement
       form:
         url_placeholder: Entrez votre lien Youtube ici.
-        set: Appliquer
         video_offset_description: >
-          Lire la vidéo jusqu'au départ du saut, mettre en pause et appuyer
-          sur le bouton appliquer pour coller le temps de la vidéo.
+          Lire la vidéo jusqu'au départ du saut, mettre en pause.
           La valeur dans le champ est 1 seconde avant le début de la vidéo.
         track_offset_description: >
           Trouver le début du saut et cliquer dessus.

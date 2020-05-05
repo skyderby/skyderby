@@ -7,10 +7,8 @@ it:
         header: Configura la sincronia tra video e traccia
       form:
         url_placeholder: Scrivi l'indirizzo di youtube qui
-        set: Imposta
         video_offset_description: >
-          Avvia il video fino all'inizio del salto, mettilo in pausa all'inizio del salto,
-          a questo punto cliccare il bottone 'Imposta' per settare il tempo corrente come inizio salto.
+          Avvia il video fino all'inizio del salto, mettilo in pausa all'inizio del salto.
           Il valore sarà espresso in secondi, partendo dall'inizio del video.
         track_offset_description: >
           Trova l'inizio del salto nei grafici e cliccaci.
