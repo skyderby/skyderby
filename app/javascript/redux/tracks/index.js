@@ -9,9 +9,12 @@ import tracksIndex from './tracksIndex'
 
 import allIds from './allIds'
 import byId from './byId'
+
 import points from './points'
 import windData from './windData'
 import results from './results'
+import videos from './videos'
+
 import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
 
 export const loadTrack = trackId => {
@@ -51,5 +54,6 @@ export default combineReducers({
   byId,
   points,
   windData,
-  results
+  results,
+  videos
 })
