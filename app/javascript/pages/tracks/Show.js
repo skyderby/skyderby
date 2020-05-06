@@ -8,6 +8,7 @@ import TrackShow from 'components/TrackShow'
 import { loadTrack } from 'redux/tracks'
 import { loadTrackPoints } from 'redux/tracks/points'
 import { loadTrackWindData } from 'redux/tracks/windData'
+import { loadTrackVideo } from 'redux/tracks/videos'
 
 const Show = ({ match }) => {
   const dispatch = useDispatch()
@@ -19,9 +20,11 @@ const Show = ({ match }) => {
   const straightLine = urlParams['straight-line'] === 'true'
 
   useEffect(() => {
-    dispatch(loadTrack(trackId))
-    dispatch(loadTrackPoints(trackId))
-    dispatch(loadTrackWindData(trackId))
+    dispatch(loadTrack(trackId)).then(() => {
+      dispatch(loadTrackPoints(trackId))
+      dispatch(loadTrackWindData(trackId))
+      dispatch(loadTrackVideo(trackId))
+    })
   }, [dispatch, trackId])
 
   return (

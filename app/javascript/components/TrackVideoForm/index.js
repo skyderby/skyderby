@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux'
 import { Formik } from 'formik'
 import I18n from 'i18n-js'
 
-import { selectTrack } from 'redux/tracks'
+import { createTrackSelector } from 'redux/tracks'
+import { createTrackVideoSelector } from 'redux/tracks/videos'
 import { usePageContext } from 'components/PageContext'
 import DefaultButton from 'components/ui/buttons/Default'
 import RedButton from 'components/ui/buttons/Red'
@@ -15,15 +16,30 @@ import { Footer } from './elements'
 
 const TrackVideoForm = () => {
   const { trackId } = usePageContext()
-  const track = useSelector(state => selectTrack(state, trackId))
+  const track = useSelector(createTrackSelector(trackId))
+  const video = useSelector(createTrackVideoSelector(trackId))
+
+  if (!['loaded', 'noVideo'].includes(video?.status)) return null
+
+  const formValues =
+    video.status === 'noVideo'
+      ? {
+          url: '',
+          videoId: '',
+          videoOffset: 0,
+          trackOffset: track.jumpRange.from
+        }
+      : {
+          url: video.url,
+          videoId: video.videoCode,
+          videoOffset: video.videoOffset,
+          trackOffset: video.trackOffset
+        }
 
   const handleSubmit = values => console.log(values)
 
   return (
-    <Formik
-      initialValues={{ url: '', videoId: '', videoOffset: 0, trackOffset: track.jumpRange.from }}
-      onSubmit={handleSubmit}
-    >
+    <Formik initialValues={formValues} onSubmit={handleSubmit}>
       {({ values, handleSubmit, setFieldValue }) => (
         <form onSubmit={handleSubmit}>
           <VideoSetup

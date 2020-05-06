@@ -3,3 +3,5 @@ export const selectTrack = (state, trackId) => {
 
   return byId[trackId]
 }
+
+export const createTrackSelector = trackId => state => selectTrack(state, trackId)
