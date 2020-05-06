@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Switch, Route, Redirect } from 'react-router-dom'
 
-import { selectTrack } from 'redux/tracks'
+import { createTrackSelector } from 'redux/tracks'
 import { usePageContext } from 'components/PageContext'
 import TrackInsights from 'components/TrackInsights'
 import TrackMap from 'components/TrackMap'
@@ -19,7 +19,7 @@ import { PageContainer, ContentContainer } from './elements'
 const TrackShow = () => {
   const { trackId } = usePageContext()
 
-  const track = useSelector(state => selectTrack(state, trackId))
+  const track = useSelector(createTrackSelector(trackId))
 
   if (!track || track.status === 'loading') return null
 
