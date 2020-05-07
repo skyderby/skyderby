@@ -28,7 +28,7 @@ namespace :api, module: :api, defaults: { format: :json } do
         resource :points, only: :show
         resource :weather_data, only: :show
         resource :results, only: :show
-        resource :video, only: :show
+        resource :video, only: %i[create show destroy]
       end
     end
 
