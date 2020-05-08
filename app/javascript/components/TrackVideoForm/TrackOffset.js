@@ -6,10 +6,16 @@ import I18n from 'i18n-js'
 import Input from 'components/ui/Input'
 import { useTrackPoints } from 'components/AltitudeRangeSelect'
 import { usePageContext } from 'components/PageContext'
-
-import { Section, Description, Controls, TrackChartCard, InputContainer } from './elements'
 import AltitudeChart from 'components/AltitudeChart'
 import PlotLine from 'components/Highchart/Plotline'
+
+import {
+  Section,
+  Description,
+  Controls,
+  TrackChartCard,
+  InputContainer
+} from './elements'
 
 const TrackOffset = ({ setFieldValue, value }) => {
   const { trackId } = usePageContext()
@@ -32,7 +38,7 @@ const TrackOffset = ({ setFieldValue, value }) => {
           click: handleChartClick
         },
         height: (9 / 16) * 100 + '%',
-        zoomType: 'x',
+        zoomType: 'x'
       },
       plotOptions: {
         series: {
