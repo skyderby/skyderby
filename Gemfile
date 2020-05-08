@@ -64,7 +64,7 @@ gem 'font-awesome-sass', '~> 5.8.1'
 gem 'sassc-rails'
 gem 'turbolinks'
 gem 'uglifier', '>= 2.7.2'
-gem 'webpacker', '~> 4.0'
+gem 'webpacker', '~> 5.1'
 
 gem 'vincenty_distance'
 

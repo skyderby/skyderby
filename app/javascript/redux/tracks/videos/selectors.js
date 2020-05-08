@@ -4,4 +4,5 @@ export const selectTrackVideo = (state, trackId) => {
   return byId[trackId]
 }
 
-export const createTrackVideoSelector = trackId => state => selectTrackVideo(state, trackId)
+export const createTrackVideoSelector = trackId => state =>
+  selectTrackVideo(state, trackId)
