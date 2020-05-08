@@ -14,7 +14,7 @@ export const loadTrackVideo = trackId => {
 
     if (skip) return
 
-    dispatch({ type: LOAD_REQUEST, payload: { id: trackId }})
+    dispatch({ type: LOAD_REQUEST, payload: { id: trackId } })
 
     const dataUrl = `/api/v1/tracks/${trackId}/video`
 
