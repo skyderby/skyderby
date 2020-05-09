@@ -1,4 +1,14 @@
-import { LOAD_REQUEST, LOAD_SUCCESS, LOAD_NO_VIDEO } from './actionTypes'
+import {
+  LOAD_REQUEST,
+  LOAD_SUCCESS,
+  LOAD_NO_VIDEO,
+  DELETE_REQUEST,
+  DELETE_SUCCESS,
+  DELETE_ERROR,
+  SAVE_SUCCESS,
+  SAVE_REQUEST,
+  SAVE_ERROR
+} from './actionTypes'
 
 const initialState = null
 
@@ -14,13 +24,31 @@ const video = (state = initialState, action) => {
       return {
         status: 'loading'
       }
+    case DELETE_REQUEST:
+      return {
+        ...state,
+        status: 'deleting'
+      }
+    case SAVE_REQUEST:
+      return {
+        ...state,
+        status: 'saving'
+      }
     case LOAD_NO_VIDEO:
+    case DELETE_SUCCESS:
       return {
         status: 'noVideo'
       }
     case LOAD_SUCCESS:
+    case SAVE_SUCCESS:
       return {
         ...normalizeData(action.payload),
+        status: 'loaded'
+      }
+    case SAVE_ERROR:
+    case DELETE_ERROR:
+      return {
+        ...state,
         status: 'loaded'
       }
     default:

@@ -42,13 +42,19 @@ const Highchart = forwardRef(({ options, children, autoResize, loading }, ref) =
   }, [autoResize, chart])
 
   useEffect(() => {
+    let effectCancelled = false
+
     Promise.all([
       import(/* webpackChunkName: "Highcharts" */ 'highcharts'),
       import(/* webpackChunkName: "Highcharts" */ 'highcharts/highcharts-more')
     ]).then(([{ default: highchartsModule }, { default: highchartsMoreExtension }]) => {
+      if (effectCancelled) return
+
       highchartsMoreExtension(highchartsModule)
       setHighcharts(highchartsModule)
     })
+
+    return () => (effectCancelled = true)
   }, [])
 
   useEffect(() => {

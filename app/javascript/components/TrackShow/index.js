@@ -35,9 +35,8 @@ const TrackShow = () => {
           <Route path="/tracks/:id/globe" component={TrackGlobe} />
           <Route path="/tracks/:id/wind_data" component={TrackWindData} />
           <Route path="/tracks/:id/results" component={TrackResults} />
-          {track.hasVideo && (
-            <Route path="/tracks/:id/video" exact component={TrackVideo} />
-          )}
+          <Route path="/tracks/:id/video" exact component={TrackVideo} />
+
           {track.editable && (
             <Route path="/tracks/:id/video/edit" component={TrackVideoForm} />
           )}
