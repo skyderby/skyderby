@@ -1,4 +1,8 @@
 import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
+import {
+  DELETE_SUCCESS as VIDEO_DELETE,
+  SAVE_SUCCESS as VIDEO_SAVE
+} from './videos/actionTypes'
 
 const initialState = null
 
@@ -14,6 +18,16 @@ const track = (state = initialState, action) => {
         ...state,
         ...action.payload,
         status: 'loaded'
+      }
+    case VIDEO_SAVE:
+      return {
+        ...state,
+        hasVideo: true
+      }
+    case VIDEO_DELETE:
+      return {
+        ...state,
+        hasVideo: false
       }
     default:
       return state

@@ -19,7 +19,7 @@ import {
 
 const TrackOffset = ({ setFieldValue, value }) => {
   const { trackId } = usePageContext()
-  const points = useTrackPoints(trackId, { trimed: false })
+  const points = useTrackPoints(trackId, { trimmed: false })
 
   const handleChartClick = useCallback(
     event => {

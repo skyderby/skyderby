@@ -3,7 +3,19 @@ import { combineReducers } from 'redux'
 
 import byId from './byId'
 import allIds from './allIds'
-import { LOAD_REQUEST, LOAD_SUCCESS, LOAD_NO_VIDEO } from './actionTypes'
+import {
+  LOAD_REQUEST,
+  LOAD_SUCCESS,
+  LOAD_NO_VIDEO,
+  SAVE_REQUEST,
+  SAVE_SUCCESS,
+  SAVE_ERROR,
+  DELETE_REQUEST,
+  DELETE_SUCCESS,
+  DELETE_ERROR
+} from './actionTypes'
+
+const videoUrl = trackId => `/api/v1/tracks/${trackId}/video`
 
 export const loadTrackVideo = trackId => {
   return async (dispatch, getState) => {
@@ -16,10 +28,8 @@ export const loadTrackVideo = trackId => {
 
     dispatch({ type: LOAD_REQUEST, payload: { id: trackId } })
 
-    const dataUrl = `/api/v1/tracks/${trackId}/video`
-
     try {
-      const { data } = await axios.get(dataUrl)
+      const { data } = await axios.get(videoUrl(trackId))
 
       dispatch({ type: LOAD_SUCCESS, payload: { id: trackId, ...data } })
     } catch (err) {
@@ -28,6 +38,34 @@ export const loadTrackVideo = trackId => {
       } else {
         alert(err)
       }
+    }
+  }
+}
+
+export const saveTrackVideo = (trackId, trackVideo) => {
+  return async dispatch => {
+    dispatch({ type: SAVE_REQUEST, payload: { id: trackId } })
+
+    try {
+      const { data } = await axios.post(videoUrl(trackId), { trackVideo })
+      dispatch({ type: SAVE_SUCCESS, payload: { id: trackId, ...data } })
+    } catch (err) {
+      dispatch({ type: SAVE_ERROR, payload: { id: trackId } })
+      alert(err)
+    }
+  }
+}
+
+export const deleteTrackVideo = trackId => {
+  return async dispatch => {
+    dispatch({ type: DELETE_REQUEST, payload: { id: trackId } })
+
+    try {
+      await axios.delete(videoUrl(trackId))
+      dispatch({ type: DELETE_SUCCESS, payload: { id: trackId } })
+    } catch (err) {
+      dispatch({ type: DELETE_ERROR, payload: { id: trackId } })
+      alert(err)
     }
   }
 }
