@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 
-import { selectPoints } from 'redux/tracks/points'
+import { createPointsSelector } from 'redux/tracks/points'
 import { selectWindData } from 'redux/tracks/windData'
 import { subtractWind } from 'utils/windCancellation'
 import { cropPoints } from 'utils/pointsFilter'
@@ -22,7 +22,7 @@ const TrackInsights = () => {
     straightLine: initialStraightLine
   } = usePageContext()
 
-  const points = useSelector(state => selectPoints(state, trackId))
+  const points = useSelector(createPointsSelector(trackId))
   const windData = useSelector(state => selectWindData(state, trackId))
 
   const trackAltitudeRange = useMemo(() => getMinMaxAltitude(points), [points])
