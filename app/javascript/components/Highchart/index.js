@@ -79,7 +79,7 @@ const Highchart = forwardRef(({ options, children, autoResize, loading }, ref) =
   }, [chart, loading])
 
   useEffect(() => {
-    return () => chart?.destroy()
+    return () => chart && chart.destroy()
   }, [chart])
 
   return (
