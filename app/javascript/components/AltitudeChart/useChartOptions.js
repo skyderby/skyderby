@@ -12,7 +12,7 @@ const baseOptions = () => ({
     marginLeft: 16,
     marginRight: 16,
     events: {
-      load: function() {
+      load: function () {
         restoreSeriesVisibility(chartName, this.series)
       }
     }
@@ -26,7 +26,7 @@ const baseOptions = () => ({
         radius: 1
       },
       events: {
-        legendItemClick: function() {
+        legendItemClick: function () {
           saveSeriesVisibility(chartName, this.options.code, !this.visible)
         }
       }
