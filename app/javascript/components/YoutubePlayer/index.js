@@ -13,7 +13,7 @@ import useYoutubeApi from './useYoutubeApi'
 import PlayIcon from './PlayIcon'
 import { PlayerContainer } from './elements'
 
-const Player = forwardRef(({ videoId, onPause }, ref) => {
+const Player = forwardRef(({ videoId, onPlay, onPause }, ref) => {
   const [player, setPlayer] = useState()
   const [playerReady, setPlayerReady] = useState()
   const playerContainerRef = useRef()
@@ -28,8 +28,9 @@ const Player = forwardRef(({ videoId, onPause }, ref) => {
   const onPlayerStateChange = useCallback(
     event => {
       if (event.data === YT.PlayerState.PAUSED) onPause?.()
+      if (event.data === YT.PlayerState.PLAYING) onPlay?.()
     },
-    [YT, onPause]
+    [YT, onPause, onPlay]
   )
 
   const playerOptions = useMemo(
@@ -76,6 +77,7 @@ Player.displayName = 'Player'
 
 Player.propTypes = {
   videoId: PropTypes.string,
+  onPlay: PropTypes.func,
   onPause: PropTypes.func
 }
 

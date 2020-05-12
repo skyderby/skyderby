@@ -89,7 +89,7 @@ export const SummaryItem = styled.div`
 `
 
 export const Title = styled.div`
-  color: #aaa;
+  color: var(--grey-40);
   font-family: 'Proxima Nova Semibold';
   text-transform: uppercase;
   overflow: hidden;
@@ -99,7 +99,7 @@ export const Title = styled.div`
 
 export const ValueContainer = styled.div`
   align-items: baseline;
-  color: #555;
+  color: var(--grey-80);
   display: flex;
   font-family: 'Proxima Nova Thin';
   white-space: nowrap;
