@@ -26,7 +26,7 @@ const WindAloftChart = ({ windData }) => {
       endAngle: 360
     },
     tooltip: {
-      formatter: function() {
+      formatter: function () {
         return `
           <b>Altitude</b> ${this.point.options.altitude} m
           <br>
@@ -41,7 +41,7 @@ const WindAloftChart = ({ windData }) => {
       min: 0,
       max: 360,
       labels: {
-        formatter: function() {
+        formatter: function () {
           return `${this.value}°`
         }
       }
@@ -51,7 +51,7 @@ const WindAloftChart = ({ windData }) => {
       max: 5,
       tickInterval: 1,
       labels: {
-        formatter: function() {
+        formatter: function () {
           return `${this.value}k`
         }
       }
@@ -63,7 +63,7 @@ const WindAloftChart = ({ windData }) => {
           align: 'left',
           verticalAlign: 'middle',
           color: '#606060',
-          formatter: function() {
+          formatter: function () {
             return `${this.point.windSpeed} m/s`
           }
         }
