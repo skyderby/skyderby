@@ -21,7 +21,7 @@ const CompetitorCards = forwardRef(({ discipline, group }, ref) => {
   const lastOrder = useRef()
 
   const setOrder = useCallback(
-    debounce(ids => {
+    ids => {
       const cardHeight =
         ids.length > 0 ? cardRefs[ids[0]].current?.getBoundingClientRect()?.height : 0
       const margin = cardHeight / 5
@@ -33,9 +33,11 @@ const CompetitorCards = forwardRef(({ discipline, group }, ref) => {
 
         card.style.transform = `translate(0px, ${(cardHeight + margin) * idx}px)`
       })
-    }, 200),
+    },
     [cardRefs]
   )
+
+  const debouncedSetOrder = useMemo(() => debounce(setOrder, 200), [setOrder])
 
   const orderCards = data => {
     const enteredWindow = data.length > 0 && !Number.isNaN(data[0][discipline])
@@ -50,7 +52,7 @@ const CompetitorCards = forwardRef(({ discipline, group }, ref) => {
     const currentOrder = orderedIds.join('-')
 
     if (currentOrder !== lastOrder.current) {
-      setOrder(orderedIds)
+      debouncedSetOrder(orderedIds)
       lastOrder.current = currentOrder
     }
   }
@@ -74,8 +76,8 @@ const CompetitorCards = forwardRef(({ discipline, group }, ref) => {
       drawCard(ctx, el, idx)
     })
 
-    setOrder(Object.keys(cardRefs))
-  }, [group, cardRefs, setOrder])
+    debouncedSetOrder(Object.keys(cardRefs))
+  }, [group, cardRefs, debouncedSetOrder])
 
   return (
     <Container>
