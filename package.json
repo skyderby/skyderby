@@ -44,7 +44,7 @@
     "@rails/webpacker": "=5.1.1",
     "@stimulus/polyfills": "^1.1.1",
     "axios": "^0.21.1",
-    "babel-loader": "^8.0.6",
+    "babel-loader": "^8.1.0",
     "bootstrap": "^3.4.1",
     "bootstrap-datepicker": "^1.7.1",
     "core-js": "^3.6.5",
@@ -53,6 +53,7 @@
     "geodesy": "^2.2.0",
     "highcharts": "^6.2.0",
     "honeybadger-js": "^0.5.5",
+    "i18n-js": "^3.5.1",
     "immer": "^5.0.0",
     "jquery": "^3.3.1",
     "jquery-jcrop": "^0.9.13",
@@ -78,7 +79,7 @@
     "yup": "^0.27.0"
   },
   "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.8.3",
+    "@babel/plugin-transform-modules-commonjs": "^7.9.6",
     "@testing-library/jest-dom": "^5.7.0",
     "@testing-library/react": "^10.0.4",
     "babel-eslint": "^10.0.1",
