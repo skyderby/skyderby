@@ -62,7 +62,7 @@ const Player = forwardRef(({ videoId, onPlay, onPause }, ref) => {
   }, [player, playerReady, videoId])
 
   useEffect(() => {
-    return () => player?.destroy()
+    return () => player && player.destroy()
   }, [player])
 
   return (
