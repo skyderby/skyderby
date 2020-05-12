@@ -1,4 +1,4 @@
-$.fn.modal.Constructor.prototype.enforceFocus = function() {}
+$.fn.modal.Constructor.prototype.enforceFocus = function () {}
 
 document.addEventListener('turbolinks:load', () => {
   $('body').tooltip({

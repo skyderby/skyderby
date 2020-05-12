@@ -12,10 +12,10 @@ export default class extends Controller {
           required: true
         }
       },
-      highlight: function(element) {
+      highlight: function (element) {
         element.closest('.form-group').classList.add('has-error')
       },
-      unhighlight: function(element) {
+      unhighlight: function (element) {
         element.closest('.form-group').classList.remove('has-error')
       }
     })

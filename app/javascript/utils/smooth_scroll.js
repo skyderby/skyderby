@@ -1,4 +1,4 @@
-export default function(element, target_position = 0, duration = 1000) {
+export default function (element, target_position = 0, duration = 1000) {
   const start_position = element.scrollTop
   const change = target_position - start_position
   const start_time = Number(new Date())

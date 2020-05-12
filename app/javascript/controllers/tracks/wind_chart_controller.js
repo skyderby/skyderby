@@ -56,10 +56,11 @@ export default class extends Controller {
         endAngle: 360
       },
       tooltip: {
-        formatter: function() {
+        formatter: function () {
           return `<b>Altitude</b> ${this.point.options.altitude} m <br>
-                 '<b>Speed:</b> ${Math.round(Number(this.point.options.wind_speed) * 10) /
-                   10} m/s <br>
+                 '<b>Speed:</b> ${
+                   Math.round(Number(this.point.options.wind_speed) * 10) / 10
+                 } m/s <br>
                  '<b>Direction:</b> ${Math.round(this.x)}°`
         }
       },
@@ -68,7 +69,7 @@ export default class extends Controller {
         min: 0,
         max: 360,
         labels: {
-          formatter: function() {
+          formatter: function () {
             return `${this.value}°`
           }
         }
@@ -78,7 +79,7 @@ export default class extends Controller {
         max: 5,
         tickInterval: 1,
         labels: {
-          formatter: function() {
+          formatter: function () {
             return `${this.value}k`
           }
         }
@@ -90,7 +91,7 @@ export default class extends Controller {
             align: 'left',
             verticalAlign: 'middle',
             color: '#606060',
-            formatter: function() {
+            formatter: function () {
               return `${Math.round(this.point.wind_speed * 10) / 10} m/s`
             }
           }
