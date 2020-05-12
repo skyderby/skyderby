@@ -14,7 +14,7 @@ const baseOptions = () => ({
     marginLeft: 0,
     marginRight: 0,
     events: {
-      load: function() {
+      load: function () {
         restoreSeriesVisibility(chartName, this.series)
       }
     }
@@ -34,7 +34,7 @@ const baseOptions = () => ({
         radius: 1
       },
       events: {
-        legendItemClick: function() {
+        legendItemClick: function () {
           saveSeriesVisibility(chartName, this.options.code, !this.visible)
         }
       }
@@ -128,7 +128,7 @@ export default (points, zeroWindPoints, unitSystem) => {
         lineWidth: 1,
         dashStyle: 'ShortDash',
         tooltip: {
-          pointFormatter: function() {
+          pointFormatter: function () {
             const windEffect = this.high - this.low
             const effectSign = windEffect > 0 ? '+' : ''
             return `
