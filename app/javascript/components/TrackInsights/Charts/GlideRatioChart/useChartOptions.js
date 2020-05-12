@@ -13,7 +13,7 @@ const baseOptions = () => ({
     marginRight: 0,
     height: '250px',
     events: {
-      load: function() {
+      load: function () {
         restoreSeriesVisibility(chartName, this.series)
       }
     }
@@ -33,7 +33,7 @@ const baseOptions = () => ({
         radius: 1
       },
       events: {
-        legendItemClick: function() {
+        legendItemClick: function () {
           saveSeriesVisibility(chartName, this.options.code, !this.visible)
         }
       }
@@ -66,7 +66,7 @@ const baseOptions = () => ({
     labels: {
       x: 20,
       y: -2,
-      formatter: function() {
+      formatter: function () {
         return this.isLast ? '≥ 7' : this.value
       }
     }
@@ -122,7 +122,7 @@ export default (points, zeroWindPoints) => {
         lineWidth: 1,
         dashStyle: 'ShortDash',
         tooltip: {
-          pointFormatter: function() {
+          pointFormatter: function () {
             const windEffect = this.high - this.low
             const effectSign = windEffect > 0 ? '+' : ''
             return `

@@ -78,7 +78,9 @@ const TrackVideoForm = () => {
 
             <div>
               <PrimaryButton type="submit">{I18n.t('general.save')}</PrimaryButton>
-              <DefaultButton type="button" onClick={handleCancel}>{I18n.t('general.cancel')}</DefaultButton>
+              <DefaultButton type="button" onClick={handleCancel}>
+                {I18n.t('general.cancel')}
+              </DefaultButton>
             </div>
           </Footer>
         </form>

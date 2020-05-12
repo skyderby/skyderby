@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent, wait, waitForElement } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import I18n from 'i18n-js'
 
 import { createModalRoot } from 'testHelpers/createModalRoot'
@@ -15,7 +15,7 @@ describe('SettingsModal', () => {
 
   const selectOption = async ({ select, getOption }) => {
     fireEvent.keyDown(select, { keyCode: 40 })
-    await waitForElement(() => getOption())
+    await waitFor(() => getOption())
     fireEvent.click(getOption())
   }
 
@@ -44,7 +44,7 @@ describe('SettingsModal', () => {
 
     fireEvent.click(getByText(I18n.t('general.save')))
 
-    await wait(() => expect(handleSubmit).toHaveBeenCalled())
+    await waitFor(() => expect(handleSubmit).toHaveBeenCalled())
 
     expect(handleSubmit.mock.calls[0][0]).toEqual({
       chartMode: SINGLE_CHART,
