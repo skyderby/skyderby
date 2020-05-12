@@ -14,7 +14,7 @@ const baseOptions = () => ({
     type: 'spline',
     height: 600,
     events: {
-      load: function() {
+      load: function () {
         restoreSeriesVisibility(chartName, this.series)
       }
     }
@@ -34,7 +34,7 @@ const baseOptions = () => ({
         radius: 1
       },
       events: {
-        legendItemClick: function() {
+        legendItemClick: function () {
           saveSeriesVisibility(chartName, this.options.code, !this.visible)
         }
       }
@@ -66,7 +66,7 @@ const baseOptions = () => ({
         text: I18n.t('charts.all_data.axis.gr')
       },
       labels: {
-        formatter: function() {
+        formatter: function () {
           return this.isLast ? '≥ 7' : this.value
         }
       },
@@ -76,7 +76,7 @@ const baseOptions = () => ({
   tooltip: {
     shared: true,
     crosshairs: true,
-    formatter: function() {
+    formatter: function () {
       return this.points
         .map(point => {
           const seriesName = point.series.name
@@ -174,7 +174,7 @@ const useChartOptions = (points, zeroWindPoints, unitSystem) => {
         lineWidth: 1,
         dashStyle: 'ShortDash',
         tooltip: {
-          pointFormatter: function() {
+          pointFormatter: function () {
             const windEffect = this.high - this.low
             const effectSign = windEffect > 0 ? '+' : ''
             return `
@@ -219,7 +219,7 @@ const useChartOptions = (points, zeroWindPoints, unitSystem) => {
         lineWidth: 1,
         dashStyle: 'ShortDash',
         tooltip: {
-          pointFormatter: function() {
+          pointFormatter: function () {
             const windEffect = this.high - this.low
             const effectSign = windEffect > 0 ? '+' : ''
             return `

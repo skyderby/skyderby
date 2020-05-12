@@ -2,7 +2,7 @@ import { LOAD_REQUEST, LOAD_SUCCESS, LOAD_ERROR } from './actionTypes'
 
 const initialState = 'idle'
 
-export default function(state = initialState, action) {
+export default (state = initialState, action) => {
   switch (action.type) {
     case LOAD_REQUEST:
       return state === 'loaded' ? 'reloading' : 'loading'

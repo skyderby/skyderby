@@ -5,7 +5,9 @@ import {
   SAVE_REQUEST,
   SAVE_SUCCESS,
   SAVE_ERROR,
-  DELETE_REQUEST, DELETE_SUCCESS, DELETE_ERROR
+  DELETE_REQUEST,
+  DELETE_SUCCESS,
+  DELETE_ERROR
 } from './actionTypes'
 import videoReducer from './video'
 

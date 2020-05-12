@@ -8,7 +8,7 @@ const useChartOptions = onZoomChange => {
         type: 'spline',
         zoomType: 'x',
         events: {
-          selection: function(evt) {
+          selection: function (evt) {
             if (evt.xAxis) {
               const { min, max } = evt.xAxis[0]
               onZoomChange({ min, max })
@@ -42,7 +42,7 @@ const useChartOptions = onZoomChange => {
         tickInterval: 100,
         min: 0,
         events: {
-          setExtremes: function(event) {
+          setExtremes: function (event) {
             this.chart.yAxis[0].setExtremes(event.min, event.max, true)
           }
         }
