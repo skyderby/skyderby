@@ -1,13 +1,38 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { Formik } from 'formik'
 import PropTypes from 'prop-types'
+import I18n from 'i18n-js'
 
 import AltitudeRangeSelect from 'components/AltitudeRangeSelect'
-import { FormGroup } from './elements'
+import DefaultButton from 'components/ui/buttons/Default'
+import RedButton from 'components/ui/buttons/Red'
+import PrimaryButton from 'components/ui/buttons/Primary'
+import { deleteTrack } from 'redux/tracks'
+
+import { FormGroup, Footer } from './elements'
 
 const Form = ({ track }) => {
+  const dispatch = useDispatch()
+
+  const formValues = {
+    jumpRange: track.jumpRange
+  }
+
+  const handleSubmit = console.log
+
+  const handleDelete = async () => {
+    const confirmed = confirm(I18n.t('tracks.show.delete_confirmation'))
+
+    if (!confirmed) return
+
+    await dispatch(deleteTrack(track.id))
+  }
+
+  const handleCancel = () => console.log('cancel')
+
   return (
-    <Formik initialValues={{ jumpRange: track.jumpRange }}>
+    <Formik initialValues={formValues} onSubmit={handleSubmit}>
       {({ values, setFieldValue, handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <FormGroup>
@@ -46,6 +71,19 @@ const Form = ({ track }) => {
           </FormGroup>
 
           <hr />
+
+          <Footer>
+            <RedButton type="button" outlined onClick={handleDelete}>
+              {I18n.t('general.delete')}
+            </RedButton>
+
+            <div>
+              <PrimaryButton type="submit">{I18n.t('general.save')}</PrimaryButton>
+              <DefaultButton type="button" onClick={handleCancel}>
+                {I18n.t('general.cancel')}
+              </DefaultButton>
+            </div>
+          </Footer>
         </form>
       )}
     </Formik>
