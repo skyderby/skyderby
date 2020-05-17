@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 
 import { createPointsSelector } from 'redux/tracks/points'
-import { selectWindData } from 'redux/tracks/windData'
+import { createWindDataSelector } from 'redux/tracks/windData'
 import { subtractWind } from 'utils/windCancellation'
 import { cropPoints } from 'utils/pointsFilter'
 import RangeSlider from 'components/RangeSlider'
@@ -23,7 +23,7 @@ const TrackInsights = () => {
   } = usePageContext()
 
   const points = useSelector(createPointsSelector(trackId))
-  const windData = useSelector(state => selectWindData(state, trackId))
+  const windData = useSelector(createWindDataSelector(trackId))
 
   const trackAltitudeRange = useMemo(() => getMinMaxAltitude(points), [points])
 
