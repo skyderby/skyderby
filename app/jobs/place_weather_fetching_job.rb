@@ -1,4 +1,6 @@
 class PlaceWeatherFetchingJob < ApplicationJob
+  queue_as :weather
+
   def perform(place_id, time_str)
     place = Place.find_by(id: place_id)
     time = Time.zone.parse(time_str)
