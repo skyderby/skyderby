@@ -5,3 +5,5 @@ export const selectWindData = (state, trackId) => {
 
   return data.items || []
 }
+
+export const createWindDataSelector = trackId => state => selectWindData(state, trackId)

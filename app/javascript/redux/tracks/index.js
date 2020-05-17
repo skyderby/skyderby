@@ -16,6 +16,14 @@ import results from './results'
 import videos from './videos'
 
 import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
+import {
+  DELETE_ERROR,
+  DELETE_REQUEST,
+  DELETE_SUCCESS,
+  LOAD_NO_VIDEO as TRACK_HAS_NO_VIDEO
+} from './videos/actionTypes'
+
+const trackUrl = trackId => `/api/v1/tracks/${trackId}`
 
 export const loadTrack = trackId => {
   return async (dispatch, getState) => {
@@ -26,10 +34,8 @@ export const loadTrack = trackId => {
 
     dispatch({ type: LOAD_REQUEST, payload: { id: trackId } })
 
-    const dataUrl = `/api/v1/tracks/${trackId}`
-
     try {
-      const { data } = await axios.get(dataUrl)
+      const { data } = await axios.get(trackUrl(trackId))
 
       const { profileId, placeId, suitId } = data
 
@@ -39,8 +45,24 @@ export const loadTrack = trackId => {
         dispatch(loadPlace(placeId))
       ])
 
+      if (!data.hasVideo) dispatch({ type: TRACK_HAS_NO_VIDEO, payload: { id: trackId } })
+
       dispatch({ type: LOAD_SUCCESS, payload: data })
     } catch (err) {
+      alert(err)
+    }
+  }
+}
+
+export const deleteTrack = trackId => {
+  return async dispatch => {
+    dispatch({ type: DELETE_REQUEST, payload: { id: trackId } })
+
+    try {
+      await axios.delete(trackUrl(trackId))
+      dispatch({ type: DELETE_SUCCESS, payload: { id: trackId } })
+    } catch (err) {
+      dispatch({ type: DELETE_ERROR, payload: { id: trackId } })
       alert(err)
     }
   }

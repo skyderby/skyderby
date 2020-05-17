@@ -1,8 +1,6 @@
 import axios from 'axios'
 import { combineReducers } from 'redux'
 
-import byId from './byId'
-import allIds from './allIds'
 import {
   LOAD_REQUEST,
   LOAD_SUCCESS,
@@ -14,6 +12,9 @@ import {
   DELETE_SUCCESS,
   DELETE_ERROR
 } from './actionTypes'
+import byId from './byId'
+import allIds from './allIds'
+import { selectTrackVideo } from './selectors'
 
 const videoUrl = trackId => `/api/v1/tracks/${trackId}/video`
 
@@ -21,7 +22,7 @@ export const loadTrackVideo = trackId => {
   return async (dispatch, getState) => {
     if (!trackId) return
 
-    const stateData = getState().tracks.videos.byId[trackId] || {}
+    const stateData = selectTrackVideo(getState(), trackId) || {}
     const skip = ['loaded', 'noVideo', 'loading'].includes(stateData.status)
 
     if (skip) return

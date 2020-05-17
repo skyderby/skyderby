@@ -25,3 +25,8 @@ export const FormContainer = styled.div`
 `
 
 export const FormGroup = styled.div``
+
+export const Footer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
