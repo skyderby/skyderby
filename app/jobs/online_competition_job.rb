@@ -8,7 +8,7 @@ class OnlineCompetitionJob < ApplicationJob
   end
 
   def calculate_results
-    OnlineCompetitionsService.new(@track).execute
+    OnlineCompetitionsService.score_track(@track)
   end
 
   def send_verify_mail

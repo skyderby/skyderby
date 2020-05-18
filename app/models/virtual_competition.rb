@@ -25,8 +25,6 @@
 class VirtualCompetition < ApplicationRecord
   include Intervals, Results, SuitableFinder
 
-  BASE_START_SPEED = 10
-
   enum jumps_kind: { skydive: 0, base: 1 }
   enum suits_kind: SuitTypes
   enum discipline: {
@@ -49,19 +47,6 @@ class VirtualCompetition < ApplicationRecord
   delegate :name, to: :place, prefix: true, allow_nil: true
   delegate :name, to: :finish_line, prefix: true, allow_nil: true
   delegate :name, to: :group, prefix: true, allow_nil: true
-
-  def window_params
-    case discipline
-    when 'distance', 'speed', 'time'
-      { from_altitude: range_from, to_altitude: range_to }
-    when 'distance_in_time'
-      { from_vertical_speed: BASE_START_SPEED, duration: discipline_parameter }
-    when 'distance_in_altitude'
-      { from_vertical_speed: BASE_START_SPEED, elevation: discipline_parameter }
-    when 'base_race'
-      { from_vertical_speed: BASE_START_SPEED, until_cross_finish_line: finish_line.to_coordinates }
-    end
-  end
 
   def task
     if %w[distance_in_time distance_in_altitude].include? discipline
