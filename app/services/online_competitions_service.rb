@@ -58,7 +58,7 @@ class OnlineCompetitionsService
 
     all_segments = competition_windows.map do |window|
       WindowRangeFinder.new(points).execute(window)
-    rescue WindowRangeFinder::ValueOutOfRange, PathIntersectionFinder::IntersectionNotFound => e
+    rescue WindowRangeFinder::ValueOutOfRange, PathIntersectionFinder::IntersectionNotFound
       nil
     end
 
