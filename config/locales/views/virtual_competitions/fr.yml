@@ -9,12 +9,12 @@ fr:
     navbar:
       overall: Vue d'ensemble
     tasks:
-      speed: Le but est de d'avoir la vitesse horizontale la plus élevée possible durant la fenêtre de compétition (%{range_from} - %{range_to} m)
-      distance: Le but est de voler le plus loin possible durant la fenêtre de compétition (%{range_from} - %{range_to} m)
+      speed: Le but est de d'avoir la vitesse horizontale la plus élevée possible durant la fenêtre de compétition (3000 - 2000 m avant 2020, 2500 - 1500 m à partir de Janvier 2020)
+      distance: Le but est de voler le plus loin possible durant la fenêtre de compétition (3000 - 2000 m avant 2020, 2500 - 1500 m à partir de Janvier 2020)
       distance_in_time: Le but est de voler le plus loin possible en %{parameter} sec
       distance_in_altitude: Le but est de voler le plus loin possible en utilisant %{parameter} metres d'altitude
       straightline_distance_in_time: Le but est de voler le plus loin possible en %{parameter} sec. Distance mesurée en ligne droite.
-      time: Le but est de voler avec la vitesse verticale la plus basse durant la fenêtre de compétition (%{range_from} - %{range_to} m)
+      time: Le but est de voler avec la vitesse verticale la plus basse durant la fenêtre de compétition (3000 - 2000 m avant 2020, 2500 - 1500 m à partir de Janvier 2020)
       flare: Le but est d'avoir le plus gros gain d'altitude possible
     place: 'Lieu:'
     worldwide: Monde entier
