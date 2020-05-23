@@ -3,7 +3,15 @@ json.key_format! camelize: :lower
 json.extract! @tracks, :current_page, :total_pages
 
 json.items @tracks do |track|
-  json.extract! track, :id, :comment, :distance, :speed, :time
+  json.extract! \
+    track,
+    :id,
+    :profile_id,
+    :suit_id,
+    :place_id,
+    :name,
+    :comment
+
   json.pilot_name track.pilot&.name || track.name
   json.manufacturer_code track.suit&.manufacturer_code
   json.suit_name track.suit_name || track.missing_suit_name

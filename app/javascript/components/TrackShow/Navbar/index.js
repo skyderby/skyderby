@@ -16,19 +16,21 @@ const Navbar = ({ track }) => {
   const { id: trackId, hasVideo, editable } = track
   const windData = useSelector(state => selectWindData(state, trackId))
 
+  const buildLink = pathname => location => ({ pathname, state: location.state })
+
   return (
     <Container>
       <Fade />
       <Menu>
         <MenuItem>
-          <NavLink exact to={`/tracks/${trackId}`}>
+          <NavLink exact to={buildLink(`/tracks/${trackId}`)}>
             <ChartIcon />
             {I18n.t('tracks.show.charts')}
           </NavLink>
         </MenuItem>
         {hasVideo ? (
           <MenuItem>
-            <NavLink to={`/tracks/${trackId}/video`}>
+            <NavLink to={buildLink(`/tracks/${trackId}/video`)}>
               <VideoIcon />
               {I18n.t('tracks.show.video')}
             </NavLink>
@@ -36,7 +38,7 @@ const Navbar = ({ track }) => {
         ) : (
           editable && (
             <MenuItem>
-              <NavLink to={`/tracks/${trackId}/video/edit`}>
+              <NavLink to={buildLink(`/tracks/${trackId}/video/edit`)}>
                 <VideoIcon />
                 {I18n.t('tracks.show.video')}
               </NavLink>
@@ -44,26 +46,26 @@ const Navbar = ({ track }) => {
           )
         )}
         <MenuItem>
-          <NavLink to={`/tracks/${trackId}/map`}>
+          <NavLink to={buildLink(`/tracks/${trackId}/map`)}>
             <MapsIcon />
             Google maps
           </NavLink>
         </MenuItem>
         <MenuItem>
-          <NavLink to={`/tracks/${trackId}/globe`}>
+          <NavLink to={buildLink(`/tracks/${trackId}/globe`)}>
             <MapsIcon />
             3D maps
           </NavLink>
         </MenuItem>
         <MenuItem>
-          <NavLink to={`/tracks/${trackId}/results`}>
+          <NavLink to={buildLink(`/tracks/${trackId}/results`)}>
             <ListIcon />
             {I18n.t('tracks.show.results')}
           </NavLink>
         </MenuItem>
         {windData.length > 0 && (
           <MenuItem>
-            <NavLink to={`/tracks/${trackId}/wind_data`}>
+            <NavLink to={buildLink(`/tracks/${trackId}/wind_data`)}>
               <WindIcon />
               {I18n.t('events.show.weather_data')}
             </NavLink>
