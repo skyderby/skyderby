@@ -1,5 +1,4 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
 import { Formik } from 'formik'
 import PropTypes from 'prop-types'
 import I18n from 'i18n-js'
@@ -8,31 +7,16 @@ import AltitudeRangeSelect from 'components/AltitudeRangeSelect'
 import DefaultButton from 'components/ui/buttons/Default'
 import RedButton from 'components/ui/buttons/Red'
 import PrimaryButton from 'components/ui/buttons/Primary'
-import { deleteTrack } from 'redux/tracks'
 
 import { FormGroup, Footer } from './elements'
 
-const Form = ({ track }) => {
-  const dispatch = useDispatch()
-
+const Form = ({ track, onSubmit, onDelete, onCancel }) => {
   const formValues = {
     jumpRange: track.jumpRange
   }
 
-  const handleSubmit = console.log
-
-  const handleDelete = async () => {
-    const confirmed = confirm(I18n.t('tracks.show.delete_confirmation'))
-
-    if (!confirmed) return
-
-    await dispatch(deleteTrack(track.id))
-  }
-
-  const handleCancel = () => console.log('cancel')
-
   return (
-    <Formik initialValues={formValues} onSubmit={handleSubmit}>
+    <Formik initialValues={formValues} onSubmit={onSubmit}>
       {({ values, setFieldValue, handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <FormGroup>
@@ -73,13 +57,13 @@ const Form = ({ track }) => {
           <hr />
 
           <Footer>
-            <RedButton type="button" outlined onClick={handleDelete}>
+            <RedButton type="button" outlined onClick={onDelete}>
               {I18n.t('general.delete')}
             </RedButton>
 
             <div>
               <PrimaryButton type="submit">{I18n.t('general.save')}</PrimaryButton>
-              <DefaultButton type="button" onClick={handleCancel}>
+              <DefaultButton type="button" onClick={onCancel}>
                 {I18n.t('general.cancel')}
               </DefaultButton>
             </div>
@@ -97,7 +81,10 @@ Form.propTypes = {
       from: PropTypes.number.isRequired,
       to: PropTypes.number.isRequired
     }).isRequired
-  }).isRequired
+  }).isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired
 }
 
 export default Form

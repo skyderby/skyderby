@@ -6,7 +6,13 @@ import PlaceLabel from 'components/PlaceLabel'
 import { TrackLink, Result, Id, Pilot, Suit, Place, Comment, Timestamp } from './elements'
 
 const Item = ({ track }) => (
-  <TrackLink to={`/tracks/${track.id}`} key={track.id}>
+  <TrackLink
+    to={location => ({
+      pathname: `/tracks/${track.id}`,
+      state: { returnTo: { ...location } }
+    })}
+    key={track.id}
+  >
     <Id>{track.id}</Id>
     <Pilot>{track.pilotName}</Pilot>
     <Suit>
