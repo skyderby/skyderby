@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -10,10 +9,10 @@ import { loadTrackPoints } from 'redux/tracks/points'
 import { loadTrackWindData } from 'redux/tracks/windData'
 import { loadTrackVideo } from 'redux/tracks/videos'
 
-const Show = ({ match }) => {
+const Show = ({ match, location: { search, state: locationState } }) => {
   const dispatch = useDispatch()
   const trackId = Number(match.params.id)
-  const urlParams = Object.fromEntries(new URLSearchParams(useLocation().search))
+  const urlParams = Object.fromEntries(new URLSearchParams(search))
 
   const altitudeFrom = urlParams.f && Number(urlParams.f)
   const altitudeTo = urlParams.t && Number(urlParams.t)
@@ -28,7 +27,9 @@ const Show = ({ match }) => {
   }, [dispatch, trackId])
 
   return (
-    <PageContext value={{ trackId, altitudeFrom, altitudeTo, straightLine }}>
+    <PageContext
+      value={{ trackId, altitudeFrom, altitudeTo, straightLine, locationState }}
+    >
       <TrackShow />
     </PageContext>
   )
@@ -39,6 +40,10 @@ Show.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired
     }).isRequired
+  }).isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+    state: PropTypes.object
   }).isRequired
 }
 
