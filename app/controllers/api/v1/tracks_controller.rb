@@ -1,7 +1,7 @@
 module Api
   module V1
     class TracksController < Api::ApplicationController
-      before_action :set_track, only: :show
+      before_action :set_track, only: %i[show update destroy]
 
       def index
         authorize Track
@@ -16,6 +16,30 @@ module Api
 
       def show
         authorize @track
+      end
+
+      def update
+        authorize @track
+
+        respond_to do |format|
+          if @track.update(update_params)
+            format.json
+          else
+            format.json do
+              render json: { errors: @track.errors }, status: :unprocessable_entity
+            end
+          end
+        end
+      end
+
+      def destroy
+        authorize @track
+
+        if @track.destroy
+          head :no_content
+        else
+          render json: { errors: @track.errors }, status: :unprocessable_entity
+        end
       end
 
       private
@@ -59,6 +83,20 @@ module Api
           :place_id,
           :kind,
           :term
+      end
+
+      def update_params
+        params.require(:track).permit \
+          :kind,
+          :location,
+          :place_id,
+          :ground_level,
+          :jump_range,
+          :missing_suit_name,
+          :suit_id,
+          :comment,
+          :visibility,
+          :disqualified_from_online_competitions
       end
     end
   end

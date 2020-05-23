@@ -6,7 +6,7 @@ import TrackEdit from 'components/TrackEdit'
 import { PageContext } from 'components/PageContext'
 import { loadTrack } from 'redux/tracks'
 
-const Edit = ({ match }) => {
+const Edit = ({ match, location: { state: locationState } }) => {
   const dispatch = useDispatch()
   const trackId = Number(match.params.id)
 
@@ -15,7 +15,7 @@ const Edit = ({ match }) => {
   }, [dispatch, trackId])
 
   return (
-    <PageContext value={{ trackId }}>
+    <PageContext value={{ trackId, locationState }}>
       <TrackEdit />
     </PageContext>
   )
@@ -26,6 +26,9 @@ Edit.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string.isRequired
     }).isRequired
+  }).isRequired,
+  location: PropTypes.shape({
+    state: PropTypes.object
   }).isRequired
 }
 

@@ -2,7 +2,7 @@ hellesylt: &default
   pilot: regular_user
   place: hellesylt
   kind: base
-  visibility: public
+  visibility: public_track
   comment: Fixture track
   ge_enabled: true
   ff_start: 0
