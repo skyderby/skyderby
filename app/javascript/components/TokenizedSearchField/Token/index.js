@@ -31,7 +31,7 @@ const Token = ({ type, label, onClick, onDelete: handleDelete }) => {
 
 Token.propTypes = {
   type: PropTypes.string.isRequired,
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   onClick: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired
 }
