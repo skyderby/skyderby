@@ -39,7 +39,8 @@ export const TokensList = styled.ul`
 
 export const ClearButton = styled.button`
   background-color: transparent;
-  border: 0;
+  border: 0.25rem solid var(--white);
+  border-radius: 4px;
   width: 2rem;
   outline: none;
 
@@ -49,6 +50,8 @@ export const ClearButton = styled.button`
   }
 
   &:hover {
+    background-color: var(--grey-10);
+
     svg {
       fill: rgba(0, 0, 0, 0.85);
     }
