@@ -3,15 +3,24 @@ import PropTypes from 'prop-types'
 
 import { Dropdown, DropdownMenu, DropdownItem } from './elements'
 
-const OptionsDropdown = ({ options, onSelect }) => {
+const Option = ({ onSelect, ...option }) => (
+  <DropdownItem onClick={() => onSelect(option)} tabIndex={1}>
+    {option.icon}
+    <span>{option.label}</span>
+  </DropdownItem>
+)
+
+const OptionsDropdown = ({ options, getOptionLabel = () => {}, onSelect }) => {
   return (
     <Dropdown>
       <DropdownMenu>
-        {options.map(({ label, icon, value }) => (
-          <DropdownItem key={value} onClick={() => onSelect(value)} tabIndex={1}>
-            {icon}
-            <span>{label}</span>
-          </DropdownItem>
+        {options.map((option, idx) => (
+          <Option
+            key={option.key || option.value || idx}
+            label={getOptionLabel?.(option)}
+            onSelect={onSelect}
+            {...option}
+          />
         ))}
       </DropdownMenu>
     </Dropdown>
@@ -20,6 +29,7 @@ const OptionsDropdown = ({ options, onSelect }) => {
 
 OptionsDropdown.propTypes = {
   onSelect: PropTypes.func.isRequired,
+  getOptionLabel: PropTypes.func,
   options: PropTypes.array
 }
 
