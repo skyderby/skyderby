@@ -1,35 +1,29 @@
 import React, { useRef, useState } from 'react'
 
-import UserIcon from 'icons/user.svg'
-import PlaceIcon from 'icons/location.svg'
-import SuitIcon from 'icons/suit.svg'
-import CalendarIcon from 'icons/calendar.svg'
 import IconTimes from 'icons/times.svg'
 import Token from './Token'
 import TokenInput from './TokenInput'
 import OptionsDropdown from './OptionsDropdown'
 import useOutsideClickHandler from './useOutsideClickHandler'
+import ValueSelect from './ValueSelect'
 import { Container, SearchContainer, TokensList, ClearButton } from './elements'
+import getSettings from './getSettings'
 
 const initialData = [
-  { type: 'profile', operator: 'is', label: 'Aleksandr Kunin', value: 3 },
-  { type: 'suit', operator: 'is', label: 'TS Nala', value: 5 },
-  { type: 'place', operator: 'is', label: 'Brento', value: 7 }
-]
-
-const options = [
-  { label: 'Pilot', value: 'profile', icon: <UserIcon /> },
-  { label: 'Suit', value: 'suit', icon: <SuitIcon /> },
-  { label: 'Place', value: 'place', icon: <PlaceIcon /> },
-  { label: 'Year', value: 'year', icon: <CalendarIcon /> }
+  { type: 'profile', label: 'Aleksandr Kunin', value: 3 },
+  { type: 'suit', label: 'TS Nala', value: 5 },
+  { type: 'place', label: 'Brento', value: 7 }
 ]
 
 const TokenizedSearchField = () => {
   const containerRef = useRef()
   const inputRef = useRef()
+  const [inputValue, setInputValue] = useState('')
   const [tokens, setTokens] = useState(initialData)
   const [mode, setMode] = useState('idle')
-  const [_chosenType, setChosenType] = useState()
+  const [typeSettings, setCurrentType] = useState()
+
+  const settings = getSettings()
 
   useOutsideClickHandler(containerRef, () => {
     inputRef.current.blur()
@@ -55,10 +49,16 @@ const TokenizedSearchField = () => {
     if (mode !== 'selectValue') evt.target.blur()
   }
 
-  const handleTypeSelect = value => {
-    setChosenType(value)
+  const handleTypeSelect = typeSettings => {
+    setCurrentType(typeSettings)
     setMode('selectValue')
     inputRef.current.focus()
+  }
+
+  const handleValueSelect = value => {
+    setTokens([...tokens, { type: typeSettings.type, ...value }])
+    setMode('idle')
+    setInputValue('')
   }
 
   const handleTokenClick = idx => {
@@ -86,11 +86,20 @@ const TokenizedSearchField = () => {
             ref={inputRef}
             onClick={handleInputClick}
             onFocus={handleInputFocus}
+            value={inputValue}
+            onChange={e => setInputValue(e.target.value)}
           />
         </TokensList>
 
         {mode === 'selectType' && (
-          <OptionsDropdown options={options} onSelect={handleTypeSelect} />
+          <OptionsDropdown options={settings} onSelect={handleTypeSelect} />
+        )}
+        {mode === 'selectValue' && (
+          <ValueSelect
+            settings={typeSettings}
+            inputValue={inputValue}
+            onSelect={handleValueSelect}
+          />
         )}
       </SearchContainer>
 
