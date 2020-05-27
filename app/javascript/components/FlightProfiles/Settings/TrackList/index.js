@@ -9,9 +9,11 @@ import TokenizedSearchField from 'components/TokenizedSearchField'
 const TrackList = () => {
   const tracks = useSelector(selectAllTracks)
 
+  const handleChange = console.log
+
   return (
     <Container>
-      <TokenizedSearchField />
+      <TokenizedSearchField initialValues={[]} dataTypes={[]} onChange={handleChange} />
 
       {tracks.map(({ id }) => (
         <Item key={id} trackId={id} />

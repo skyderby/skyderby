@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import PropTypes from 'prop-types'
 
 import IconTimes from 'icons/times.svg'
 import Token from './Token'
@@ -7,28 +8,44 @@ import OptionsDropdown from './OptionsDropdown'
 import useOutsideClickHandler from './useOutsideClickHandler'
 import ValueSelect from './ValueSelect'
 import { Container, SearchContainer, TokensList, ClearButton } from './elements'
-import getSettings from './getSettings'
 
-const initialData = [
-  { type: 'profile', label: 'Aleksandr Kunin', value: 3 },
-  { type: 'suit', label: 'TS Nala', value: 5 },
-  { type: 'place', label: 'Brento', value: 7 }
-]
+const loadTokens = async (initialValues, dataTypes) => {
+  const tokens = await Promise.all(
+    initialValues.map(async ({ type, value }) => {
+      const typeSettings = dataTypes.find(el => el.type === type)
 
-const TokenizedSearchField = () => {
+      if (!typeSettings) return
+
+      return { type, ...await typeSettings.loadOption(value) }
+    })
+  )
+
+  return tokens.filter(el => el)
+}
+
+const TokenizedSearchField = ({ initialValues = [], dataTypes = [] }) => {
   const containerRef = useRef()
   const inputRef = useRef()
   const [inputValue, setInputValue] = useState('')
-  const [tokens, setTokens] = useState(initialData)
+  const [tokens, setTokens] = useState([])
   const [mode, setMode] = useState('idle')
-  const [typeSettings, setCurrentType] = useState()
-
-  const settings = getSettings()
+  const [currentType, setCurrentType] = useState()
 
   useOutsideClickHandler(containerRef, () => {
     inputRef.current.blur()
     setMode('idle')
   })
+
+  useEffect(() => {
+    if (initialValues.length === 0 || dataTypes.length === 0) return
+    let effectCancelled = false
+
+    loadTokens(initialValues, dataTypes).then(tokens => {
+      if (!effectCancelled) setTokens(tokens)
+    })
+
+    return () => (effectCancelled = true)
+  }, [initialValues, dataTypes])
 
   const handleContainerClick = evt => {
     if (evt.target !== evt.currentTarget) return
@@ -49,14 +66,14 @@ const TokenizedSearchField = () => {
     if (mode !== 'selectValue') evt.target.blur()
   }
 
-  const handleTypeSelect = typeSettings => {
-    setCurrentType(typeSettings)
+  const handleTypeSelect = type => {
+    setCurrentType(type)
     setMode('selectValue')
     inputRef.current.focus()
   }
 
   const handleValueSelect = value => {
-    setTokens([...tokens, { type: typeSettings.type, ...value }])
+    setTokens([...tokens, { type: currentType.type, ...value }])
     setMode('idle')
     setInputValue('')
   }
@@ -83,31 +100,58 @@ const TokenizedSearchField = () => {
           ))}
 
           <TokenInput
+            aria-label="Search or filter tracks"
             ref={inputRef}
             onClick={handleInputClick}
             onFocus={handleInputFocus}
             value={inputValue}
+            placeholder="Search or filter tracks"
             onChange={e => setInputValue(e.target.value)}
           />
         </TokensList>
 
         {mode === 'selectType' && (
-          <OptionsDropdown options={settings} onSelect={handleTypeSelect} />
+          <OptionsDropdown
+            data-testid="type-dropdown"
+            options={dataTypes}
+            onSelect={handleTypeSelect}
+          />
         )}
         {mode === 'selectValue' && (
           <ValueSelect
-            settings={typeSettings}
+            settings={currentType}
             inputValue={inputValue}
             onSelect={handleValueSelect}
           />
         )}
       </SearchContainer>
 
-      <ClearButton onClick={deleteAll}>
-        <IconTimes />
-      </ClearButton>
+      {tokens.length > 0 && (
+        <ClearButton title="Clear" onClick={deleteAll}>
+          <IconTimes />
+        </ClearButton>
+      )}
     </Container>
   )
+}
+
+TokenizedSearchField.propTypes = {
+  initialValues: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string,
+      value: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    })
+  ).isRequired,
+  onChange: PropTypes.func.isRequired,
+  dataTypes: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string.isRequired,
+      icon: PropTypes.node,
+      label: PropTypes.string.isRequired,
+      getOptions: PropTypes.func.isRequired,
+      getOptionLabel: PropTypes.func
+    })
+  ).isRequired
 }
 
 export default TokenizedSearchField
