@@ -10,10 +10,10 @@ const Option = ({ onSelect, ...option }) => (
   </DropdownItem>
 )
 
-const OptionsDropdown = ({ options, getOptionLabel = () => {}, onSelect }) => {
+const OptionsDropdown = ({ options, getOptionLabel = () => {}, onSelect, ...props }) => {
   return (
     <Dropdown>
-      <DropdownMenu>
+      <DropdownMenu {...props}>
         {options.map((option, idx) => (
           <Option
             key={option.key || option.value || idx}

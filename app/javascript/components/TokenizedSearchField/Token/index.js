@@ -17,7 +17,7 @@ const Token = ({ type, label, onClick, onDelete: handleDelete }) => {
   }
 
   return (
-    <Container type={type} onClick={handleTokenClick}>
+    <Container type={type} title={`${type}: ${label}`} onClick={handleTokenClick}>
       <Type>{type}</Type>
       <Value>
         {label}
