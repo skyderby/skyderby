@@ -16,14 +16,18 @@ const loadTokens = async (initialValues, dataTypes) => {
 
       if (!typeSettings) return
 
-      return { type, ...await typeSettings.loadOption(value) }
+      return { type, ...(await typeSettings.loadOption(value)) }
     })
   )
 
-  return tokens.filter(el => el)
+  return tokens.filter(({ value }) => value)
 }
 
-const TokenizedSearchField = ({ initialValues = [], dataTypes = [] }) => {
+const TokenizedSearchField = ({
+  initialValues = [],
+  dataTypes = [],
+  onChange = () => {}
+}) => {
   const containerRef = useRef()
   const inputRef = useRef()
   const [inputValue, setInputValue] = useState('')
@@ -46,6 +50,10 @@ const TokenizedSearchField = ({ initialValues = [], dataTypes = [] }) => {
 
     return () => (effectCancelled = true)
   }, [initialValues, dataTypes])
+
+  const fireOnChange = newValues => {
+    onChange?.(newValues.map(el => ({ type: el.type, value: el.value })))
+  }
 
   const handleContainerClick = evt => {
     if (evt.target !== evt.currentTarget) return
@@ -73,7 +81,11 @@ const TokenizedSearchField = ({ initialValues = [], dataTypes = [] }) => {
   }
 
   const handleValueSelect = value => {
-    setTokens([...tokens, { type: currentType.type, ...value }])
+    const newValue = [...tokens, { type: currentType.type, ...value }]
+
+    setTokens(newValue)
+    fireOnChange(newValue)
+
     setMode('idle')
     setInputValue('')
   }
@@ -82,22 +94,35 @@ const TokenizedSearchField = ({ initialValues = [], dataTypes = [] }) => {
     console.log(idx)
   }
 
-  const deleteAll = () => setTokens([])
-  const deleteByIdx = deletedIdx =>
-    setTokens(tokens.filter((_el, idx) => idx !== deletedIdx))
+  const deleteAll = () => {
+    setTokens([])
+    fireOnChange([])
+  }
+
+  const deleteByIdx = deletedIdx => {
+    const newSetOfTokens = tokens.filter((_el, idx) => idx !== deletedIdx)
+    setTokens(newSetOfTokens)
+    fireOnChange(newSetOfTokens)
+  }
 
   return (
     <Container ref={containerRef}>
       <SearchContainer onClick={handleContainerClick}>
         <TokensList onClick={handleContainerClick}>
-          {tokens.map((el, idx) => (
-            <Token
-              key={idx}
-              onClick={() => handleTokenClick(idx)}
-              onDelete={() => deleteByIdx(idx)}
-              {...el}
-            />
-          ))}
+          {tokens.map((el, idx) => {
+            const typeSettings = dataTypes.find(({ type }) => type === el.type)
+            const label = el.label || typeSettings.getOptionLabel(el)
+
+            return (
+              <Token
+                key={idx}
+                type={el.type}
+                onClick={() => handleTokenClick(idx)}
+                onDelete={() => deleteByIdx(idx)}
+                label={label}
+              />
+            )
+          })}
 
           <TokenInput
             aria-label="Search or filter tracks"
@@ -105,7 +130,7 @@ const TokenizedSearchField = ({ initialValues = [], dataTypes = [] }) => {
             onClick={handleInputClick}
             onFocus={handleInputFocus}
             value={inputValue}
-            placeholder="Search or filter tracks"
+            placeholder={tokens.length === 0 ? 'Search or filter tracks' : ''}
             onChange={e => setInputValue(e.target.value)}
           />
         </TokensList>
@@ -127,7 +152,7 @@ const TokenizedSearchField = ({ initialValues = [], dataTypes = [] }) => {
       </SearchContainer>
 
       {tokens.length > 0 && (
-        <ClearButton title="Clear" onClick={deleteAll}>
+        <ClearButton title="Clear all" onClick={deleteAll}>
           <IconTimes />
         </ClearButton>
       )}

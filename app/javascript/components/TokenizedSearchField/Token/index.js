@@ -21,7 +21,12 @@ const Token = ({ type, label, onClick, onDelete: handleDelete }) => {
       <Type>{type}</Type>
       <Value>
         {label}
-        <DeleteButton type="button" ref={deleteButtonRef} onClick={handleDelete}>
+        <DeleteButton
+          title="Delete"
+          type="button"
+          ref={deleteButtonRef}
+          onClick={handleDelete}
+        >
           <IconTimes />
         </DeleteButton>
       </Value>
