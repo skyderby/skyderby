@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
-import axios from 'axios'
+import Api from 'api'
 
 export const usePlaceValue = placeId => {
   const [place, setPlace] = useState(null)
@@ -7,7 +7,7 @@ export const usePlaceValue = placeId => {
   const fetchInitialPlace = useCallback(async () => {
     if (place || !placeId) return
 
-    const { data } = await axios.get(`/api/v1/places/${placeId}`)
+    const data = await Api.Place.findRecord(placeId)
     setPlace({ value: data.id, label: data.name, ...data })
   }, [place, placeId])
 
