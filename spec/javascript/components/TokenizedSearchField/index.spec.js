@@ -9,8 +9,8 @@ describe('TokenizedSearchField', () => {
     type: 'year',
     label: 'Year',
     getOptions: async input =>
-      [2015, 2016, 2017, 2018, 2019]
-        .map(year => ({ value: year, label: year.toString() }))
+      ['2015', '2016', '2017', '2018', '2019']
+        .map(year => ({ value: year, label: year }))
         .filter(({ label }) => label.includes(input)),
     loadOption: async value => ({ value, label: value.toString() })
   }
@@ -31,34 +31,59 @@ describe('TokenizedSearchField', () => {
     dataTypes: [suitType, yearType]
   }
 
-  describe('initial state', () => {
-    it('displays placeholder when empty', () => {
+  describe('empty state', () => {
+    it('displays placeholder', () => {
       render(<TokenizedSearchField {...baseProps} />)
 
       const searchInput = screen.getByLabelText('Search or filter tracks')
       expect(searchInput.placeholder).toEqual('Search or filter tracks')
     })
 
-    it('hide clear button when empty', () => {
+    it('hide clear button', () => {
       render(<TokenizedSearchField {...baseProps} />)
 
-      expect(screen.queryByTitle('Clear')).not.toBeInTheDocument()
+      expect(screen.queryByTitle('Clear all')).not.toBeInTheDocument()
     })
+  })
 
-    it('loading value presentation', async () => {
+  describe('with values', () => {
+    it('hide placeholder', async () => {
       render(
         <TokenizedSearchField
           {...baseProps}
-          initialValues={[
-            { type: 'year', value: 2018 },
-            { type: 'suit', value: 'ABC' }
-          ]}
+          initialValues={[{ type: 'year', value: 2018 }]}
         />
       )
 
-      await waitFor(() => expect(screen.getByTitle('year: 2018')).toBeInTheDocument())
-      await waitFor(() => expect(screen.getByTitle('suit: ABC')).toBeInTheDocument())
+      const searchInput = screen.getByLabelText('Search or filter tracks')
+      await waitFor(() => expect(searchInput.placeholder).toEqual(''))
     })
+
+    it('show clear button', async () => {
+      render(
+        <TokenizedSearchField
+          {...baseProps}
+          initialValues={[{ type: 'year', value: 2018 }]}
+        />
+      )
+
+      await waitFor(() => expect(screen.queryByTitle('Clear all')).toBeInTheDocument())
+    })
+  })
+
+  it('loading value presentation', async () => {
+    render(
+      <TokenizedSearchField
+        {...baseProps}
+        initialValues={[
+          { type: 'year', value: 2018 },
+          { type: 'suit', value: 'ABC' }
+        ]}
+      />
+    )
+
+    await waitFor(() => expect(screen.getByTitle('year: 2018')).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByTitle('suit: ABC')).toBeInTheDocument())
   })
 
   it('displays type select on click', async () => {
@@ -74,7 +99,9 @@ describe('TokenizedSearchField', () => {
   })
 
   it('adding filter', async () => {
-    render(<TokenizedSearchField {...baseProps} />)
+    const handleChange = jest.fn()
+
+    render(<TokenizedSearchField {...baseProps} onChange={handleChange} />)
 
     fireEvent.click(screen.getByLabelText('Search or filter tracks'))
     fireEvent.click(screen.getByText('Year'))
@@ -82,5 +109,51 @@ describe('TokenizedSearchField', () => {
     fireEvent.click(await screen.findByText('2018'))
 
     await waitFor(() => expect(screen.getByTitle('year: 2018')).toBeInTheDocument())
+    expect(handleChange).toHaveBeenCalledWith([{ type: 'year', value: '2018' }])
+  })
+
+  it('delete single value', async () => {
+    const handleChange = jest.fn()
+
+    render(
+      <TokenizedSearchField
+        {...baseProps}
+        initialValues={[
+          { type: 'year', value: 2018 },
+          { type: 'suit', value: 'ABC' }
+        ]}
+        onChange={handleChange}
+      />
+    )
+
+    const yearToken = await waitFor(() => screen.getByTitle('year: 2018'))
+
+    fireEvent.click(within(yearToken).getByTitle('Delete'))
+
+    await waitFor(() => expect(screen.queryByTitle('year: 2018')).not.toBeInTheDocument())
+    expect(handleChange).toHaveBeenCalledWith([{ type: 'suit', value: 'ABC' }])
+  })
+
+  it('delete all', async () => {
+    const handleChange = jest.fn()
+
+    render(
+      <TokenizedSearchField
+        {...baseProps}
+        initialValues={[
+          { type: 'year', value: 2018 },
+          { type: 'suit', value: 'ABC' }
+        ]}
+        onChange={handleChange}
+      />
+    )
+
+    const clearButton = await waitFor(() => screen.getByTitle('Clear all'))
+
+    fireEvent.click(clearButton)
+
+    await waitFor(() => expect(screen.queryByTitle('year: 2018')).not.toBeInTheDocument())
+    await waitFor(() => expect(screen.queryByTitle('suit: ABC')).not.toBeInTheDocument())
+    expect(handleChange).toHaveBeenCalledWith([])
   })
 })
