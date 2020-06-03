@@ -37,90 +37,40 @@ export const Container = styled.li`
   cursor: pointer;
   display: flex;
 
+  --token-color: 230, 230, 230;
+  --type-alpha: 0.55;
+  --value-alpha: 0.75;
+
+  :hover {
+    --type-alpha: 0.8;
+    --value-alpha: 1;
+  }
+
   > :not(:last-child) {
     margin-right: 1px;
   }
 
   ${props => {
-    switch (props.type) {
-      case 'profile':
+    switch (props.color) {
+      case 'blue':
         return css`
-          ${Type} {
-            background-color: rgba(160, 210, 230, 0.55);
-          }
-
-          ${Value} {
-            background-color: rgba(160, 210, 230, 0.75);
-          }
-
-          &:hover {
-            ${Type} {
-              background-color: rgba(160, 210, 230, 0.8);
-            }
-
-            ${Value} {
-              background-color: rgba(160, 210, 230, 1);
-            }
-          }
+          --token-color: 160, 210, 230;
         `
-      case 'suit':
+      case 'yellow':
         return css`
-          ${Type} {
-            background-color: rgba(230, 210, 160, 0.55);
-          }
-
-          ${Value} {
-            background-color: rgba(230, 210, 160, 0.75);
-          }
-
-          &:hover {
-            ${Type} {
-              background-color: rgba(230, 210, 160, 0.8);
-            }
-
-            ${Value} {
-              background-color: rgba(230, 210, 160, 1);
-            }
-          }
+          --token-color: 230, 210, 160;
         `
-      case 'place':
+      case 'green':
         return css`
-          ${Type} {
-            background-color: rgba(160, 230, 210, 0.55);
-          }
-
-          ${Value} {
-            background-color: rgba(160, 230, 210, 0.75);
-          }
-
-          &:hover {
-            ${Type} {
-              background-color: rgba(160, 230, 210, 0.8);
-            }
-
-            ${Value} {
-              background-color: rgba(160, 230, 210, 1);
-            }
-          }
-        `
-      default:
-        return css`
-          ${Type} {
-            background-color: #f8f8f8;
-          }
-          ${Value} {
-            background-color: #f0f0f0;
-          }
-
-          &:hover {
-            ${Type} {
-              background-color: #ebebeb;
-            }
-            ${Value} {
-              background-color: #dadada;
-            }
-          }
+          --token-color: 160, 230, 210;
         `
     }
   }}
+
+  ${Type} {
+    background-color: rgba(var(--token-color), var(--type-alpha));
+  }
+  ${Value} {
+    background-color: rgba(var(--token-color), var(--value-alpha));
+  }
 `
