@@ -14,9 +14,10 @@ const toOption = suit => ({
 })
 
 export default {
-  type: 'suit',
+  type: 'suitId',
   icon: <SuitIcon />,
   label: 'Suit',
+  color: 'yellow',
   getOptions: async input => {
     const { items } = await Api.Suit.findAll({ search: input, perPage: 10 })
 
