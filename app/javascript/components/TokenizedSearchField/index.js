@@ -116,7 +116,8 @@ const TokenizedSearchField = ({
             return (
               <Token
                 key={idx}
-                type={el.type}
+                type={typeSettings.label}
+                color={typeSettings.color}
                 onClick={() => handleTokenClick(idx)}
                 onDelete={() => deleteByIdx(idx)}
                 label={label}

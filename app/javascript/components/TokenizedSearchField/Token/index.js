@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import IconTimes from 'icons/times.svg'
 import { Container, Type, Value, DeleteButton } from './elements'
 
-const Token = ({ type, label, onClick, onDelete: handleDelete }) => {
+const Token = ({ type, color, label, onClick, onDelete: handleDelete }) => {
   const deleteButtonRef = useRef()
 
   const handleTokenClick = e => {
@@ -17,7 +17,7 @@ const Token = ({ type, label, onClick, onDelete: handleDelete }) => {
   }
 
   return (
-    <Container type={type} title={`${type}: ${label}`} onClick={handleTokenClick}>
+    <Container color={color} title={`${type}: ${label}`} onClick={handleTokenClick}>
       <Type>{type}</Type>
       <Value>
         {label}
@@ -36,6 +36,7 @@ const Token = ({ type, label, onClick, onDelete: handleDelete }) => {
 
 Token.propTypes = {
   type: PropTypes.string.isRequired,
+  color: PropTypes.oneOf('blue', 'yellow', 'green'),
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   onClick: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired
