@@ -13,9 +13,10 @@ const placePresenter = ({ data }) => (
 const toOption = place => ({ value: place.id, data: place })
 
 export default {
-  type: 'place',
+  type: 'placeId',
   icon: <PlaceIcon />,
   label: 'Place',
+  color: 'green',
   getOptions: async input => {
     const { items } = await Api.Place.findAll({ search: input, perPage: 10 })
 

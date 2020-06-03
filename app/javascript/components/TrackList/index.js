@@ -1,7 +1,7 @@
 import React from 'react'
-import { useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
+import { usePageContext } from 'components/PageContext'
 import { selectPagination } from 'redux/tracks/tracksIndex'
 import Pagination from 'components/Pagination'
 import ActivitySelect from './ActivitySelect'
@@ -10,35 +10,21 @@ import List from './List'
 import { Container, Header, Title } from './elements'
 
 const TrackList = () => {
+  const { params, buildUrl } = usePageContext()
   const paginationOptions = useSelector(selectPagination)
-
-  const location = useLocation()
-  const urlParams = Object.fromEntries(new URLSearchParams(location.search))
-
-  const urlBuilder = params => {
-    const newParams = { ...urlParams, ...params }
-
-    return (
-      '?' +
-      Object.entries(newParams)
-        .filter(([_key, value]) => value)
-        .map(([key, value]) => `${key}=${value}`)
-        .join('&')
-    )
-  }
 
   return (
     <Container>
       <Header>
         <Title>Tracks</Title>
-        <ActivitySelect urlBuilder={urlBuilder} />
+        <ActivitySelect buildUrl={buildUrl} currentActivity={params.activity} />
       </Header>
 
-      <Filters urlBuilder={urlBuilder} />
+      <Filters urlBuilder={buildUrl} />
 
       <List />
 
-      <Pagination urlBuilder={urlBuilder} showAround={3} {...paginationOptions} />
+      <Pagination buildUrl={buildUrl} showAround={3} {...paginationOptions} />
     </Container>
   )
 }
