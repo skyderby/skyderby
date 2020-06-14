@@ -1,43 +1,29 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
-import IconTimes from 'icons/times.svg'
-import { Container, Type, Value, DeleteButton } from './elements'
+import SimpleValue from './SimpleValue'
+import Place from './Place'
+import Profile from './Profile'
+import Suit from './Suit'
 
-const Token = ({ type, color, label, onClick, onDelete: handleDelete }) => {
-  const deleteButtonRef = useRef()
+const componentByType = {
+  placeId: Place,
+  profileId: Profile,
+  suitId: Suit,
+  year: SimpleValue
+}
 
-  const handleTokenClick = e => {
-    const deleteButtonClicked =
-      e.target === deleteButtonRef.current || deleteButtonRef.current.contains(e.target)
-
-    if (deleteButtonClicked) return
-
-    onClick()
-  }
+const Token = ({ type, value, onClick, onDelete }) => {
+  const TokenComponent = componentByType[type]
 
   return (
-    <Container color={color} title={`${type}: ${label}`} onClick={handleTokenClick}>
-      <Type>{type}</Type>
-      <Value>
-        {label}
-        <DeleteButton
-          title="Delete"
-          type="button"
-          ref={deleteButtonRef}
-          onClick={handleDelete}
-        >
-          <IconTimes />
-        </DeleteButton>
-      </Value>
-    </Container>
+    <TokenComponent type={type} value={value} onClick={onClick} onDelete={onDelete} />
   )
 }
 
 Token.propTypes = {
-  type: PropTypes.string.isRequired,
-  color: PropTypes.oneOf('blue', 'yellow', 'green'),
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+  type: PropTypes.oneOf(['placeId', 'profileId', 'suitId', 'year']).isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   onClick: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired
 }
