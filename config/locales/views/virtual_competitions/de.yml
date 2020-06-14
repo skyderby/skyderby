@@ -5,11 +5,11 @@ de:
       show_details: 'Klicke hier für Trackdetails'
       show_profile: 'Hier klicken für Profil'
     tasks:
-      speed: Aufgabe ist es, horizontal so schnell wie möglich durch das Wettkampffenster (%{range_from} - %{range_to} m) zu fliegen.
-      distance: Aufgabe ist es, innerhalb des Wettkampffensters (%{range_from} - %{range_to} m) so weit wie möglich zu fliegen bzw. die größtmögliche Strecke über Grund zurückzulegen.
+      speed: Aufgabe ist es, horizontal so schnell wie möglich durch das Wettkampffenster (3000 - 2000 m bzw. seit Januar 2020 2500 - 1500 m) zu fliegen.
+      distance: Aufgabe ist es, innerhalb des Wettkampffensters (3000 - 2000 m bzw. seit Januar 2020 2500 - 1500 m) so weit wie möglich zu fliegen bzw. die größtmögliche Strecke über Grund zurückzulegen.
       straightline_distance_in_time: Aufgabe ist es, innerhalb von %{parameter} Sekunden so weit wie möglich zu fliegen bzw. die größtmögliche Strecke über Grund zurückzulegen. 
       distance_in_altitude: Aufgabe ist es, innerhalb eines Freifallfensters von %{parameter} Metern so weit wie möglich zu fliegen bzw. die größtmögliche Strecke über Grund zurückzulegen.
-      time: Aufgabe ist es, das Wettkampffenster (%{range_from} - %{range_to} m) mit der geringstmöglichen Fallrate zu durchfliegen.
+      time: Aufgabe ist es, das Wettkampffenster (3000 - 2000 m bzw. seit Januar 2020 2500 - 1500 m) mit der geringstmöglichen Fallrate zu durchfliegen.
       flare: Aufgabe ist es, (durch einen Flare) so viel an Höhe zu gewinnen wie möglich.
     place: 'Ort:'
     worldwide: Weltweit
