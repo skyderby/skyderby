@@ -1,45 +1,43 @@
 import axios from 'axios'
 import { combineReducers } from 'redux'
 
-import { bulkLoadCountries } from 'redux/countries'
+import { loadCountry, bulkLoadCountries } from 'redux/countries'
+import Api from 'api'
 
 import { LOAD_REQUEST, LOAD_SUCCESS, LOAD_ERROR } from './actionTypes'
 import allIds from './allIds'
 import byId from './byId'
 import { selectPlaces, selectPlace } from './selectors'
 
-export const bulkLoadPlaces = ids => {
-  return async (dispatch, getState) => {
-    await Promise.all(ids.map(id => dispatch(loadPlace(id))))
+export const bulkLoadPlaces = ids => async (dispatch, getState) => {
+  await Promise.all(ids.map(id => dispatch(loadPlace(id))))
 
-    const countryIds = Array.from(
-      new Set(selectPlaces(getState()).map(place => place.countryId))
-    )
+  const countryIds = Array.from(
+    new Set(selectPlaces(getState()).map(place => place.countryId))
+  )
 
-    await dispatch(bulkLoadCountries(countryIds))
-  }
+  await dispatch(bulkLoadCountries(countryIds))
 }
 
-export const loadPlace = placeId => {
-  return async (dispatch, getState) => {
-    if (!placeId) return
+export const loadPlace = placeId => async (dispatch, getState) => {
+  if (!placeId) return
 
-    const stateData = selectPlace(getState(), placeId)
-    const skip = ['loaded', 'loading'].includes(stateData?.status)
+  const stateData = selectPlace(getState(), placeId)
+  const skip = ['loaded', 'loading'].includes(stateData?.status)
 
-    if (skip) return
+  if (skip) return
 
-    dispatch({ type: LOAD_REQUEST, payload: { id: placeId } })
+  dispatch({ type: LOAD_REQUEST, payload: { id: placeId } })
 
-    const dataUrl = `/api/v1/places/${placeId}`
+  try {
+    const data = await Api.Place.findRecord(placeId)
 
-    try {
-      const { data } = await axios.get(dataUrl)
-      dispatch({ type: LOAD_SUCCESS, payload: data })
-    } catch (err) {
-      dispatch({ type: LOAD_ERROR, payload: { id: placeId } })
-      alert(err)
-    }
+    dispatch(loadCountry(data.countryId))
+
+    dispatch({ type: LOAD_SUCCESS, payload: data })
+  } catch (err) {
+    dispatch({ type: LOAD_ERROR, payload: { id: placeId } })
+    console.warn(err)
   }
 }
 
