@@ -1,7 +1,14 @@
 export const selectPlace = (state, placeId) => {
-  const { byId } = state.places
+  const { byId: placesById } = state.places
+  const { byId: countriesById } = state.countries
 
-  return byId[placeId]
+  const place = placesById[placeId]
+
+  if (!place) return null
+
+  const country = countriesById[place.countryId]
+
+  return { ...place, country }
 }
 
 export const selectPlaces = state => {
@@ -9,3 +16,5 @@ export const selectPlaces = state => {
 
   return allIds.map(id => byId[id])
 }
+
+export const createPlaceSelector = placeId => state => selectPlace(state, placeId)
