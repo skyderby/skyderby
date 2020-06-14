@@ -13,3 +13,5 @@ export const selectProfilePhoto = (state, profileId) => {
 
   return profile.photo || {}
 }
+
+export const createProfileSelector = profileId => state => selectProfile(state, profileId)
