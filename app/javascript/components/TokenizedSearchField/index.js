@@ -9,20 +9,6 @@ import useOutsideClickHandler from './useOutsideClickHandler'
 import ValueSelect from './ValueSelect'
 import { Container, SearchContainer, TokensList, ClearButton } from './elements'
 
-const loadTokens = async (initialValues, dataTypes) => {
-  const tokens = await Promise.all(
-    initialValues.map(async ({ type, value }) => {
-      const typeSettings = dataTypes.find(el => el.type === type)
-
-      if (!typeSettings) return
-
-      return { type, ...(await typeSettings.loadOption(value)) }
-    })
-  )
-
-  return tokens.filter(({ value }) => value)
-}
-
 const TokenizedSearchField = ({
   initialValues = [],
   dataTypes = [],
@@ -41,16 +27,10 @@ const TokenizedSearchField = ({
   })
 
   useEffect(() => {
-    if (initialValues.length === 0 || dataTypes.length === 0) return
-    let effectCancelled = false
-
-    loadTokens(initialValues, dataTypes).then(tokens => {
-      if (!effectCancelled) setTokens(tokens)
-    })
-
-    return () => (effectCancelled = true)
+    setTokens(initialValues)
   }, [initialValues, dataTypes])
 
+  console.log(tokens)
   const fireOnChange = newValues => {
     onChange?.(newValues.map(el => ({ type: el.type, value: el.value })))
   }
@@ -109,22 +89,15 @@ const TokenizedSearchField = ({
     <Container ref={containerRef}>
       <SearchContainer onClick={handleContainerClick}>
         <TokensList onClick={handleContainerClick}>
-          {tokens.map((el, idx) => {
-            const typeSettings = dataTypes.find(({ type }) => type === el.type)
-            const label = el.label || typeSettings.getOptionLabel(el)
-
-            return (
-              <Token
-                key={idx}
-                type={typeSettings.label}
-                color={typeSettings.color}
-                onClick={() => handleTokenClick(idx)}
-                onDelete={() => deleteByIdx(idx)}
-                label={label}
-              />
-            )
-          })}
-
+          {tokens.map((el, idx) => (
+            <Token
+              key={idx}
+              type={el.type}
+              value={el.value}
+              onClick={() => handleTokenClick(idx)}
+              onDelete={() => deleteByIdx(idx)}
+            />
+          ))}
           <TokenInput
             aria-label="Search or filter tracks"
             ref={inputRef}

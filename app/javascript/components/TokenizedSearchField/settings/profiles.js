@@ -12,7 +12,6 @@ const toOption = profile => ({
 export default {
   type: 'profileId',
   icon: <UserIcon />,
-  color: 'blue',
   label: 'Pilot',
   getOptions: async input => {
     const { items } = await Api.Profile.findAll({ search: input, perPage: 10 })

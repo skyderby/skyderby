@@ -16,16 +16,10 @@ export default {
   type: 'placeId',
   icon: <PlaceIcon />,
   label: 'Place',
-  color: 'green',
   getOptions: async input => {
     const { items } = await Api.Place.findAll({ search: input, perPage: 10 })
 
     return items.map(toOption)
   },
-  getOptionLabel: placePresenter,
-  loadOption: async id => {
-    const place = await Api.Place.findRecord(id)
-
-    return toOption(place)
-  }
+  getOptionLabel: placePresenter
 }
