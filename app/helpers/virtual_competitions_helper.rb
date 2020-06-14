@@ -1,38 +1,32 @@
 module VirtualCompetitionsHelper
-  def competition_unit(competition) # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
-    if competition.distance? || competition.distance_in_time? || competition.distance_in_altitude? || competition.flare?
-      t('units.m')
-    elsif competition.time? || competition.base_race?
-      t('units.t_unit')
-    elsif competition.speed?
-      t('units.kmh')
-    end
+  def competition_unit(competition)
+    untis_for_discipline = {
+      distance: t('units.m'),
+      distance_in_time: t('units.m'),
+      distance_in_altitude: t('units.m'),
+      flare: t('units.m'),
+      time: t('units.t_unit'),
+      base_race: t('units.t_unit'),
+      speed: t('units.kmh')
+    }.with_indifferent_access
+
+    untis_for_discipline[competition.discipline]
   end
 
-  def competition_task(competition) # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
-    if competition.distance?
-      t('virtual_competitions.tasks.distance',
-        range_from: competition.range_from,
-        range_to: competition.range_to)
-    elsif competition.time?
-      t('virtual_competitions.tasks.time',
-        range_from: competition.range_from,
-        range_to: competition.range_to)
-    elsif competition.speed?
-      t('virtual_competitions.tasks.speed',
-        range_from: competition.range_from,
-        range_to: competition.range_to)
-    elsif competition.distance_in_time?
-      t('virtual_competitions.tasks.straightline_distance_in_time',
-        parameter: competition.discipline_parameter)
-    elsif competition.distance_in_altitude?
-      t('virtual_competitions.tasks.distance_in_altitude',
-        parameter: competition.discipline_parameter)
-    elsif competition.flare?
-      t('virtual_competitions.tasks.flare')
-    elsif competition.base_race?
-      t('virtual_competitions.tasks.base_race')
-    end
+  def competition_task(competition)
+    task_descriptions = {
+      distance: t('virtual_competitions.tasks.distance'),
+      time: t('virtual_competitions.tasks.time'),
+      speed: t('virtual_competitions.tasks.speed'),
+      flare: t('virtual_competitions.tasks.flare'),
+      base_race: t('virtual_competitions.tasks.base_race'),
+      distance_in_time:
+        t('virtual_competitions.tasks.straightline_distance_in_time', parameter: competition.discipline_parameter),
+      distance_in_altitude:
+        t('virtual_competitions.tasks.distance_in_altitude', parameter: competition.discipline_parameter)
+    }.with_indifferent_access
+
+    task_descriptions[competition.discipline]
   end
 
   def competition_place(competition)

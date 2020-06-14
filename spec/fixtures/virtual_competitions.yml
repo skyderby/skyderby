@@ -23,3 +23,11 @@ distance_in_time:
   discipline: distance_in_time
   results_sort_order: descending
   discipline_parameter: 20
+
+skydive_distance:
+  name: Skydive distance
+  group: main
+  jumps_kind: skydive
+  discipline: distance
+  period_from: 2015-01-01
+  period_to: 2025-01-01

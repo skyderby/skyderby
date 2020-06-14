@@ -11,7 +11,12 @@ describe VirtualCompetition::SuitableFinder do
     create :online_event, :last_year
 
     track = create :empty_track, suit: create(:suit), pilot: create(:pilot)
-    expect(VirtualCompetition.suitable_for(track)).to eq [worldwide_comp]
+
+    found_competitions = VirtualCompetition.suitable_for(track)
+
+    expect(found_competitions).to include(worldwide_comp)
+    expect(found_competitions).not_to include(place_comp)
+    expect(found_competitions).not_to include(last_year_comp)
   end
 
   it 'find worldwide and place specific' do
@@ -27,9 +32,11 @@ describe VirtualCompetition::SuitableFinder do
                    pilot: create(:pilot),
                    place: place)
 
-    expect(VirtualCompetition.suitable_for(track)).to match_array(
-      [worldwide_comp, place_specific_comp]
-    )
+    found_competitions = VirtualCompetition.suitable_for(track)
+
+    expect(found_competitions).to include(worldwide_comp)
+    expect(found_competitions).to include(place_specific_comp)
+    expect(found_competitions).not_to include(last_year_comp)
   end
 
   it "returns blank array if track isn't public" do

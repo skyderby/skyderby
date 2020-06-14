@@ -1,7 +1,9 @@
 describe Tracks::FlaresDetector do
-  it 'finds flare in skydive track' do
+  it 'finds flare in skydive track', :aggregate_failures do
     points = points_for '13-31-51_Ravenna.CSV'
+
     flares = Tracks::FlaresDetector.call(points)
+
     expect(flares.count).to eq(3)
     expect(flares.first.altitude_gain).to be_within(1).of(7)
     expect(flares.first.gain_duration).to be_within(0.5).of(4)
@@ -9,6 +11,7 @@ describe Tracks::FlaresDetector do
 
   it 'handles empty points' do
     flares = Tracks::FlaresDetector.call([])
+
     expect(flares).to be_empty
   end
 
