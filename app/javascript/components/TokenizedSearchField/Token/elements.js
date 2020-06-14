@@ -50,27 +50,22 @@ export const Container = styled.li`
     margin-right: 1px;
   }
 
-  ${props => {
-    switch (props.color) {
-      case 'blue':
-        return css`
-          --token-color: 160, 210, 230;
-        `
-      case 'yellow':
-        return css`
-          --token-color: 230, 210, 160;
-        `
-      case 'green':
-        return css`
-          --token-color: 160, 230, 210;
-        `
-    }
-  }}
-
   ${Type} {
     background-color: rgba(var(--token-color), var(--type-alpha));
   }
   ${Value} {
     background-color: rgba(var(--token-color), var(--value-alpha));
   }
+`
+
+export const PlaceContainer = styled(Container)`
+  --token-color: 160, 230, 210;
+`
+
+export const ProfileContainer = styled(Container)`
+  --token-color: 160, 210, 230;
+`
+
+export const SuitContainer = styled(Container)`
+  --token-color: 230, 210, 160;
 `

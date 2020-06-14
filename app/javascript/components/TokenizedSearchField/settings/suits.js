@@ -1,6 +1,5 @@
 import React from 'react'
 
-import SuitLabel from 'components/SuitLabel'
 import SuitIcon from 'icons/suit.svg'
 import Api from 'api'
 
@@ -17,7 +16,6 @@ export default {
   type: 'suitId',
   icon: <SuitIcon />,
   label: 'Suit',
-  color: 'yellow',
   getOptions: async input => {
     const { items } = await Api.Suit.findAll({ search: input, perPage: 10 })
 
