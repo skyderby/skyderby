@@ -43,7 +43,7 @@ export const Controls = styled.div`
 `
 
 export const TrackChartCard = styled.div`
-  border-radius: 4px;
+  border-radius: var(--border-radius-md);
   border: solid 1px var(--border-color);
   padding: 1rem 0.5rem 0.5rem;
   width: 100%;
