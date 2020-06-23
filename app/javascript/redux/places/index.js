@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { combineReducers } from 'redux'
 
 import { loadCountry, bulkLoadCountries } from 'redux/countries'

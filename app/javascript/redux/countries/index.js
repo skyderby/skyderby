@@ -1,5 +1,6 @@
-import axios from 'axios'
 import { combineReducers } from 'redux'
+
+import Api from 'api'
 
 import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
 import allIds from './allIds'
@@ -19,10 +20,8 @@ export const loadCountry = countryId => async (dispatch, getState) => {
 
   dispatch({ type: LOAD_REQUEST, payload: { id: countryId } })
 
-  const dataUrl = `/api/v1/countries/${countryId}`
-
   try {
-    const { data } = await axios.get(dataUrl)
+    const data = await Api.Country.findRecord(countryId)
     dispatch({ type: LOAD_SUCCESS, payload: data })
   } catch (err) {
     alert(err)

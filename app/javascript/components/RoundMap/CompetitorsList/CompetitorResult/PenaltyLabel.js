@@ -26,7 +26,7 @@ export default styled(PenaltyLabel)`
   align-self: center;
   background-color: ${props =>
     Number(props.penaltySize) <= 20 ? defaultPenaltyColor : majorPenaltyColor};
-  border-radius: 3px;
+  border-radius: var(--border-radius-md);
   font: 11px/11px 'Proxima Nova Semibold';
   color: white;
   padding: 2px 6px 3px 6px;
