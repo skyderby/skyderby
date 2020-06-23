@@ -16,7 +16,7 @@ export const Slider = styled(SliderBase)`
 
 export const Rail = styled.div`
   background-color: #dadada;
-  border-radius: 4px;
+  border-radius: var(--border-radius-md);
   height: 12px;
   top: 25px;
   left: -6px;
@@ -54,7 +54,7 @@ export const Track = styled.div`
 
 export const SingleValueContainer = styled.div`
   background: #ed5565;
-  border-radius: 4px;
+  border-radius: var(--border-radius-md);
   color: #fff;
   font-size: 10px;
   line-height: 1.333;
@@ -82,7 +82,7 @@ export const SingleValueContainer = styled.div`
 
 export const MergedValuesContainer = styled.div`
   background: #ed5565;
-  border-radius: 4px;
+  border-radius: var(--border-radius-md);
   color: #fff;
   font-size: 10px;
   line-height: 1.333;

@@ -3,22 +3,13 @@ import styled from 'styled-components'
 export const Container = styled.div`
   background-color: white;
   border: 1px solid var(--border-color);
-  border-radius: 4px;
+  border-radius: var(--border-radius-md);
   display: flex;
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: auto;
   font-family: 'Proxima Nova Regular';
   padding-left: 0.25rem;
-`
-
-export const SearchContainer = styled.div`
-  display: flex;
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 0%;
-  min-width: 0;
-  position: relative;
 `
 
 export const TokensList = styled.ul`
@@ -40,7 +31,7 @@ export const TokensList = styled.ul`
 export const ClearButton = styled.button`
   background-color: transparent;
   border: 0.25rem solid var(--white);
-  border-radius: 4px;
+  border-radius: var(--border-radius-md);
   width: 2rem;
   outline: none;
 
@@ -65,7 +56,7 @@ export const SearchInput = styled.input`
 
 export const Dropdown = styled.div`
   background-color: #fff;
-  border-radius: 4px;
+  border-radius: var(--border-radius-md);
   border: 1px solid var(--border-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   left: 0;
