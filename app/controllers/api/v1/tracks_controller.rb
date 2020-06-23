@@ -82,7 +82,12 @@ module Api
           :suit_id,
           :place_id,
           :kind,
-          :term
+          :term,
+          :year,
+          year: [],
+          profile_id: [],
+          suit_id: [],
+          place_id: []
       end
 
       def update_params

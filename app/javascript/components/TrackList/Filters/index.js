@@ -1,11 +1,10 @@
-import React from 'react'
-import { Container, Header, Body } from './elements'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 import { usePageContext } from 'components/PageContext'
 import TokenizedSearchField from 'components/TokenizedSearchField'
 
-import { places, profiles, suits, years } from 'components/TokenizedSearchField/settings'
+import { Container } from './elements'
 
 const Filters = () => {
   const {
@@ -14,15 +13,14 @@ const Filters = () => {
   } = usePageContext()
 
   const tokens = filters.map(([type, value]) => ({ type, value }))
-  const onChange = val => updateFilters(val.map(({ type, value }) => [type, value]))
+  const onChange = useCallback(
+    val => updateFilters(val.map(({ type, value }) => [type, value])),
+    [updateFilters]
+  )
 
   return (
     <Container>
-      <TokenizedSearchField
-        initialValues={tokens}
-        onChange={onChange}
-        dataTypes={[places, profiles, suits, years]}
-      />
+      <TokenizedSearchField initialValues={tokens} onChange={onChange} />
     </Container>
   )
 }

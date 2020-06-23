@@ -24,7 +24,7 @@ const Suit = ({ value, onClick, onDelete }) => {
       e.target === deleteButtonRef.current || deleteButtonRef.current.contains(e.target)
 
     if (deleteButtonClicked) {
-      onDelete?.()
+      onDelete()
     }
 
     onClick?.()
@@ -47,8 +47,8 @@ const Suit = ({ value, onClick, onDelete }) => {
 
 Suit.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  onClick: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired
+  onDelete: PropTypes.func.isRequired,
+  onClick: PropTypes.func
 }
 
 export default Suit
