@@ -5,7 +5,7 @@ export const PlayerContainer = styled.div`
   padding-bottom: calc(100% * (9 / 16));
   height: 0;
   background-color: #000;
-  border-radius: 4px;
+  border-radius: var(--border-radius-md);
   overflow: hidden;
 
   iframe {
