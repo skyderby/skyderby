@@ -12,7 +12,7 @@ export const TagList = styled.ul`
 `
 
 export const Tag = styled.li`
-  border-radius: 2px;
+  border-radius: var(--border-radius-sm);
   color: rgba(0, 0, 0, 0.55);
   background-color: #f8f8f8;
   padding: 2px 0 2px 7px;

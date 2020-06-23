@@ -22,6 +22,10 @@ const GlobalStyle = createGlobalStyle`
 
     --border-color: var(--grey-30);
     --text-color: var(--grey-90);
+
+    --border-radius-lg: 0.5rem;
+    --border-radius-md: 0.25rem;
+    --border-radius-sm: 0.125rem;
   }
 `
 

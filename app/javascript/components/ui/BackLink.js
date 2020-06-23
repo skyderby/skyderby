@@ -17,7 +17,7 @@ BackLink.propTypes = {
 
 export default styled(BackLink)`
   color: #555;
-  border-radius: 4px;
+  border-radius: var(--border-radius-md);
   font-family: 'Proxima Nova Regular';
   font-size: 24px;
   padding: 0px 12px 0px 10px;
