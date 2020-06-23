@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export default styled.button`
   background-color: var(--white);
-  border-radius: 4px;
+  border-radius: var(--border-radius-md);
   border: solid 1px var(--grey-30);
   color: var(--grey-80);
   font-family: 'Proxima Nova Regular';
