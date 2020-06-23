@@ -13,7 +13,7 @@ const colors = {
 export default styled.div`
   align-self: center;
   background-color: ${props => colors[props.color] || colors.black};
-  border-radius: 3px;
+  border-radius: var(--border-radius-md);
   font: 11px/11px 'Proxima Nova Semibold';
   color: white;
   padding: 2px 6px 3px 6px;

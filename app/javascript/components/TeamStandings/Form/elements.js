@@ -39,7 +39,7 @@ export const Row = styled.div`
 export const DeleteButton = styled.button`
   background-color: #f1f1f1;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--border-radius-md);
   color: #777;
   height: 30px;
   width: 30px;

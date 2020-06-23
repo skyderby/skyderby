@@ -24,7 +24,7 @@ const Place = ({ value, onClick, onDelete }) => {
       e.target === deleteButtonRef.current || deleteButtonRef.current.contains(e.target)
 
     if (deleteButtonClicked) {
-      onDelete?.()
+      onDelete()
     }
 
     onClick?.()
@@ -47,8 +47,8 @@ const Place = ({ value, onClick, onDelete }) => {
 
 Place.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  onClick: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired
+  onDelete: PropTypes.func.isRequired,
+  onClick: PropTypes.func
 }
 
 export default Place

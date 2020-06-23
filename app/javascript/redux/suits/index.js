@@ -1,4 +1,4 @@
-import axios from 'axios'
+import Api from 'api'
 import { combineReducers } from 'redux'
 
 import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
@@ -16,10 +16,8 @@ export const loadSuit = suitId => {
 
     dispatch({ type: LOAD_REQUEST, payload: { id: suitId } })
 
-    const dataUrl = `/api/v1/suits/${suitId}`
-
     try {
-      const { data } = await axios.get(dataUrl)
+      const data = Api.Suit.findRecord(suitId)
       dispatch({ type: LOAD_SUCCESS, payload: data })
     } catch (err) {
       alert(err)

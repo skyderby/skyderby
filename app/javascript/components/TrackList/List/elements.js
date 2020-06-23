@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom'
 export const Container = styled.div`
   @media ${devices.small} {
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
-    background-color: #fff;
+    border-radius: var(--border-radius-md);
+    background-color: var(--white);
     padding: 0.75rem 1rem;
   }
 `

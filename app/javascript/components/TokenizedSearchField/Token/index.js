@@ -13,19 +13,16 @@ const componentByType = {
   year: SimpleValue
 }
 
-const Token = ({ type, value, onClick, onDelete }) => {
+const Token = props => {
+  const { type } = props
+
   const TokenComponent = componentByType[type]
 
-  return (
-    <TokenComponent type={type} value={value} onClick={onClick} onDelete={onDelete} />
-  )
+  return <TokenComponent {...props} />
 }
 
 Token.propTypes = {
-  type: PropTypes.oneOf(['placeId', 'profileId', 'suitId', 'year']).isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  onClick: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired
+  type: PropTypes.oneOf(['placeId', 'profileId', 'suitId', 'year']).isRequired
 }
 
 export default Token

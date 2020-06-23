@@ -29,7 +29,7 @@ const RadioButtonGroup = ({ value: currentValue, options, name, onChange }) => {
 const Container = styled.div``
 const Label = styled.label`
   border: 1px solid var(--border-color);
-  border-radius: 4px;
+  border-radius: var(--border-radius-md);
   cursor: pointer;
   text-align: center;
   margin: 0;
