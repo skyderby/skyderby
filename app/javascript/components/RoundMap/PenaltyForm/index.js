@@ -94,7 +94,7 @@ const FormGroup = styled.div`
 
   input[type='text'] {
     border: 1px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: var(--border-radius-md);
     font-family: 'Proxima Nova Regular';
     padding: 6px 12px;
     width: 100%;
