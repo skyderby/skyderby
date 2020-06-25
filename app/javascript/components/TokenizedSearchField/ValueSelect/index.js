@@ -17,12 +17,12 @@ const componentByType = {
 const ValueSelect = ({ type, onChange, ...props }) => {
   const ValueSelectComponent = componentByType[type]
 
-  const handleChange = ({ value }) => onChange({ type, value })
+  const handleChange = ({ value }) => onChange([type, value])
 
   return (
     <ValueSelectComponent
-      defaultMenuIsOpen
       autoFocus
+      openMenuOnFocus
       onChange={handleChange}
       styles={styles}
       {...props}
