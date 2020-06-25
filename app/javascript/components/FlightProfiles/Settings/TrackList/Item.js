@@ -4,15 +4,14 @@ import PropTypes from 'prop-types'
 
 import SuitLabel from 'components/SuitLabel'
 import PlaceLabel from 'components/PlaceLabel'
-import { selectTrack, toggleTrack, isTrackSelected } from 'redux/flightProfiles'
+import { toggleTrack, isTrackSelected } from 'redux/flightProfiles'
 import { Card, Row, Id, Comment, RecordedAt } from './elements'
 
-const Item = ({ trackId }) => {
+const Item = ({ track }) => {
   const dispatch = useDispatch()
-  const track = useSelector(state => selectTrack(state, trackId))
-  const active = useSelector(state => isTrackSelected(state, trackId))
+  const active = useSelector(state => isTrackSelected(state, track.id))
 
-  const handleClick = () => dispatch(toggleTrack(trackId))
+  const handleClick = () => dispatch(toggleTrack(track.id))
 
   return (
     <Card onClick={handleClick} active={active}>
