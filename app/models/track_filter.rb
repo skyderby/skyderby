@@ -33,7 +33,7 @@ class TrackFilter
   def filter_by_year(relation)
     return relation if query[:year].blank?
 
-    relation.where("DATE_PART('year', created_at) IN (?)", query[:year].map(&:to_i))
+    relation.where("DATE_PART('year', recorded_at) IN (?)", query[:year].map(&:to_i))
   end
 
   def filter_by_term(relation)
