@@ -3,30 +3,44 @@ import { isMobileOnly } from 'react-device-detect'
 
 const endpoint = '/api/v1/tracks'
 
-export const mapParamsToUrl = ({ activity, filters, page }) =>
-  '?' +
-  [
-    ['page', Number(page) > 1 ? page : undefined],
-    ['kind', activity],
-    ...filters.map(([key, value]) => [`${key}[]`, value])
-  ]
-    .filter(([_key, val]) => val)
-    .map(([key, value]) => `${key}=${value}`)
-    .join('&')
+const prefixKey = (key, prefix) => (prefix ? `${prefix}[${key}]` : key)
+const allowedFilters = ['profileId', 'suitId', 'placeId', 'year']
 
-export const extractParamsFromUrl = urlSearch => {
-  const allParams = Array.from(new URLSearchParams(urlSearch))
+export const IndexParams = {
+  mapToUrl: ({ activity, filters, page }, prefix) => {
+    const params = new URLSearchParams()
 
-  const [_activityKey, activity] = allParams.find(([key]) => key === 'kind') || []
-  const [_pageKey, page = 1] = allParams.find(([key]) => key === 'page') || []
+    if (activity) params.set(prefixKey('kind', prefix), activity)
+    if (Number(page) > 1) params.set(prefixKey('page', prefix), page)
 
-  const filters = allParams
-    .filter(([key]) => !['kind', 'page'].includes(key))
-    .map(([key, value]) => [key.replace('[]', ''), value])
+    filters.forEach(([key, val]) => params.append(`${prefixKey(key, prefix)}[]`, val))
 
-  const perPage = isMobileOnly ? 5 : 25
+    return params.toString() === '' ? '' : '?' + params.toString()
+  },
 
-  return { activity, filters, page, perPage }
+  extractFromUrl: (urlSearch, prefix) => {
+    const allParams = new URLSearchParams(urlSearch)
+
+    const activity = allParams.get(prefixKey('kind', prefix))
+    const page = allParams.get(prefixKey('page', prefix)) || 1
+
+    const filters = Array.from(allParams.entries())
+      .map(([key, val]) => {
+        const filterKey = allowedFilters.find(filter => {
+          const singularKey = prefixKey(filter, prefix)
+          const pluralKey = `${singularKey}[]`
+
+          return [singularKey, pluralKey].includes(key)
+        })
+
+        return [filterKey, val]
+      })
+      .filter(([key, _val]) => key)
+
+    const perPage = isMobileOnly ? 5 : 25
+
+    return { activity, filters, page, perPage }
+  }
 }
 
 const Track = {
@@ -37,8 +51,7 @@ const Track = {
   },
 
   findAll: async params => {
-    console.log(params)
-    const dataUrl = [endpoint, mapParamsToUrl(params)].join('')
+    const dataUrl = [endpoint, IndexParams.mapToUrl(params)].join('')
 
     const { data } = await axios.get(dataUrl)
 
