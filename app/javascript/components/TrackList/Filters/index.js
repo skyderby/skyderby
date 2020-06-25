@@ -1,5 +1,4 @@
-import React, { useCallback } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 
 import { usePageContext } from 'components/PageContext'
 import TokenizedSearchField from 'components/TokenizedSearchField'
@@ -12,21 +11,11 @@ const Filters = () => {
     updateFilters
   } = usePageContext()
 
-  const tokens = filters.map(([type, value]) => ({ type, value }))
-  const onChange = useCallback(
-    val => updateFilters(val.map(({ type, value }) => [type, value])),
-    [updateFilters]
-  )
-
   return (
     <Container>
-      <TokenizedSearchField initialValues={tokens} onChange={onChange} />
+      <TokenizedSearchField initialValues={filters} onChange={updateFilters} />
     </Container>
   )
-}
-
-Filters.propTypes = {
-  urlBuilder: PropTypes.func.isRequired
 }
 
 export default Filters

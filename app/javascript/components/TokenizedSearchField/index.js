@@ -18,9 +18,7 @@ const TokenizedSearchField = ({ initialValues = [], onChange }) => {
     setMode('idle')
   })
 
-  useEffect(() => {
-    onChange?.(tokens.map(el => ({ type: el.type, value: el.value })))
-  }, [tokens])
+  const fireOnChange = tokens => onChange?.(tokens)
 
   const handleBlur = evt => {
     if (evt.target !== evt.currentTarget) return
@@ -38,24 +36,31 @@ const TokenizedSearchField = ({ initialValues = [], onChange }) => {
   }
 
   const handleValueSelect = newToken => {
-    setTokens([...tokens, newToken])
+    const newSetOfTokens = [...tokens, newToken]
+
+    setTokens(newSetOfTokens)
+    fireOnChange(newSetOfTokens)
+
     setMode('idle')
   }
 
-  const deleteAll = () => setTokens([])
-  const deleteByIdx = deletedIdx =>
-    setTokens(tokens.filter((_el, idx) => idx !== deletedIdx))
+  const deleteAll = () => {
+    setTokens([])
+    fireOnChange([])
+  }
+
+  const deleteByIdx = deletedIdx => {
+    const newSetOfTokens = tokens.filter((_el, idx) => idx !== deletedIdx)
+
+    setTokens(newSetOfTokens)
+    fireOnChange(newSetOfTokens)
+  }
 
   return (
     <Container ref={containerRef}>
       <TokensList onClick={handleBlur}>
-        {tokens.map((el, idx) => (
-          <Token
-            key={idx}
-            type={el.type}
-            value={el.value}
-            onDelete={() => deleteByIdx(idx)}
-          />
+        {tokens.map(([type, value], idx) => (
+          <Token key={idx} type={type} value={value} onDelete={() => deleteByIdx(idx)} />
         ))}
 
         <li>

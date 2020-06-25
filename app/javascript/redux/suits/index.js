@@ -17,7 +17,7 @@ export const loadSuit = suitId => {
     dispatch({ type: LOAD_REQUEST, payload: { id: suitId } })
 
     try {
-      const data = Api.Suit.findRecord(suitId)
+      const data = await Api.Suit.findRecord(suitId)
       dispatch({ type: LOAD_SUCCESS, payload: data })
     } catch (err) {
       alert(err)
