@@ -1,22 +1,57 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState, useReducer } from 'react'
+import { useLocation } from 'react-router-dom'
 
-import { selectAllTracks } from 'redux/flightProfiles/tracksList'
+import TrackApi, { IndexParams } from 'api/Track'
+
 import Item from './Item'
 import { Container } from './elements'
 import TokenizedSearchField from 'components/TokenizedSearchField'
 
-const TrackList = () => {
-  const tracks = useSelector(selectAllTracks)
+const initialState = {
+  tracks: [],
+  page: 1,
+  hasMore: false
+}
 
-  const handleChange = console.log
+const tracksReducer = (state, { type, payload }) => {
+  switch (type) {
+    case 'LOAD':
+      return {
+        tracks: payload.items,
+        page: payload.currentPage,
+        hasMore: payload.currentPage < payload.totalPages
+      }
+    default:
+      return state
+  }
+}
+
+const TrackList = () => {
+  const location = useLocation()
+
+  const [params, setParams] = useState(() =>
+    IndexParams.extractFromUrl(location.search, 'tracks')
+  )
+  const [state, stateReducer] = useReducer(tracksReducer, initialState)
+
+  useEffect(() => {
+    TrackApi.findAll({ ...params, activity: 'base' }).then(data =>
+      stateReducer({ type: 'LOAD', payload: data })
+    )
+  }, [params])
+
+  const handleChange = filters =>
+    setParams(params => ({
+      ...params,
+      filters
+    }))
 
   return (
     <Container>
-      <TokenizedSearchField initialValues={[]} dataTypes={[]} onChange={handleChange} />
+      <TokenizedSearchField initialValues={[]} onChange={handleChange} />
 
-      {tracks.map(({ id }) => (
-        <Item key={id} trackId={id} />
+      {state.tracks.map(track => (
+        <Item key={track.id} track={track} />
       ))}
     </Container>
   )

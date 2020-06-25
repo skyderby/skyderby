@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
-import axios from 'axios'
+
+import Api from 'api'
 
 export const useSuitValue = suitId => {
   const [suit, setSuit] = useState(null)
@@ -7,7 +8,7 @@ export const useSuitValue = suitId => {
   const fetchInitialSuit = useCallback(async () => {
     if (suit || !suitId) return
 
-    const { data } = await axios.get(`/api/v1/suits/${suitId}`)
+    const data = await Api.Suit.findRecord(suitId)
     setSuit({ value: data.id, label: data.name, ...data })
   }, [suit, suitId])
 

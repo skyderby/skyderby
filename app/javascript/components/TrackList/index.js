@@ -20,7 +20,7 @@ const TrackList = () => {
         <ActivitySelect buildUrl={buildUrl} currentActivity={params.activity} />
       </Header>
 
-      <Filters urlBuilder={buildUrl} />
+      <Filters />
 
       <List />
 
