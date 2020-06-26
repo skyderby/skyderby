@@ -30,7 +30,10 @@ const Item = ({ track }) => {
 }
 
 Item.propTypes = {
-  trackId: PropTypes.number.isRequired
+  track: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    comment: PropTypes.string
+  }).isRequired
 }
 
 export default Item
