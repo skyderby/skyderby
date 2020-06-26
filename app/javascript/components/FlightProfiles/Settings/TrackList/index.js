@@ -1,30 +1,12 @@
-import React, { useEffect, useState, useReducer } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
-import TrackApi, { IndexParams } from 'api/Track'
+import { IndexParams } from 'api/Track'
 
 import Item from './Item'
+import useTracksApi from './useTracksApi'
 import { Container } from './elements'
 import TokenizedSearchField from 'components/TokenizedSearchField'
-
-const initialState = {
-  tracks: [],
-  page: 1,
-  hasMore: false
-}
-
-const tracksReducer = (state, { type, payload }) => {
-  switch (type) {
-    case 'LOAD':
-      return {
-        tracks: payload.items,
-        page: payload.currentPage,
-        hasMore: payload.currentPage < payload.totalPages
-      }
-    default:
-      return state
-  }
-}
 
 const TrackList = () => {
   const location = useLocation()
@@ -32,13 +14,20 @@ const TrackList = () => {
   const [params, setParams] = useState(() =>
     IndexParams.extractFromUrl(location.search, 'tracks')
   )
-  const [state, stateReducer] = useReducer(tracksReducer, initialState)
+
+  const { tracks, loadTracks, loadMoreTracks } = useTracksApi(params)
 
   useEffect(() => {
-    TrackApi.findAll({ ...params, activity: 'base' }).then(data =>
-      stateReducer({ type: 'LOAD', payload: data })
-    )
-  }, [params])
+    loadTracks()
+  }, [loadTracks])
+
+  const handleListScroll = e => {
+    const element = e.target
+    const scrollPercent =
+      ((element.scrollTop + element.clientHeight) / element.scrollHeight) * 100
+
+    if (scrollPercent > 85) loadMoreTracks()
+  }
 
   const handleChange = filters =>
     setParams(params => ({
@@ -47,10 +36,10 @@ const TrackList = () => {
     }))
 
   return (
-    <Container>
+    <Container onScroll={handleListScroll}>
       <TokenizedSearchField initialValues={[]} onChange={handleChange} />
 
-      {state.tracks.map(track => (
+      {tracks.map(track => (
         <Item key={track.id} track={track} />
       ))}
     </Container>
