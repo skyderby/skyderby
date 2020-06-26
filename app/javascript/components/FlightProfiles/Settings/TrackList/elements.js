@@ -1,7 +1,9 @@
 import styled, { css } from 'styled-components'
 
 export const Container = styled.div`
+  height: 100%;
   padding: 1rem;
+  overflow-y: auto;
 
   > :not(:last-child) {
     margin-bottom: 1rem;
