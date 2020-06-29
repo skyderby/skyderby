@@ -88,12 +88,7 @@ const TokenizedSearchField = ({ initialValues = [], onChange }) => {
 }
 
 TokenizedSearchField.propTypes = {
-  initialValues: PropTypes.arrayOf(
-    PropTypes.shape({
-      type: PropTypes.string,
-      value: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-    })
-  ).isRequired,
+  initialValues: PropTypes.arrayOf(PropTypes.array).isRequired,
   onChange: PropTypes.func.isRequired
 }
 
