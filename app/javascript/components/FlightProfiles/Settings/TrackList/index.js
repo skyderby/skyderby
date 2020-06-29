@@ -21,6 +21,19 @@ const TrackList = () => {
     loadTracks()
   }, [loadTracks])
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search)
+
+    const tracksKeys = Array.from(urlParams.keys()).filter(key =>
+      key.match(/^tracks\[.+\]/)
+    )
+    tracksKeys.forEach(key => urlParams.delete(key))
+
+    params.filters.forEach(([key, val]) => urlParams.append(`tracks[${key}][]`, val))
+
+    window.history.replaceState(null, '', location.pathname + '?' + urlParams.toString())
+  }, [params, location])
+
   const handleListScroll = e => {
     const element = e.target
     const scrollPercent =
@@ -37,7 +50,7 @@ const TrackList = () => {
 
   return (
     <Container onScroll={handleListScroll}>
-      <TokenizedSearchField initialValues={[]} onChange={handleChange} />
+      <TokenizedSearchField initialValues={params.filters} onChange={handleChange} />
 
       {tracks.map(track => (
         <Item key={track.id} track={track} />
