@@ -37,38 +37,27 @@ export const Thead = styled.div`
   }
 `
 
-export const Tbody = styled.div`
-  @media ${devices.small} {
-    display: table-row-group;
-
-    ${TableCell} {
-      border-bottom: solid 1px var(--border-color);
-    }
-  }
-`
-
 export const Tr = styled.div`
   display: table-row;
 `
 
-const AttributeBase = styled.div`
+const Attribute = styled.div`
   @media ${devices.small} {
     color: inherit;
     display: table-cell;
     font-size: inherit;
     font-family: inherit;
-    border-bottom: solid 1px var(--border-color);
     padding: 0.5rem;
     line-height: inherit;
   }
 `
 
-export const Result = styled(AttributeBase)`
+export const Result = styled(Attribute)`
   display: none;
   text-align: right;
 `
 
-export const Id = styled(AttributeBase)`
+export const Id = styled(Attribute)`
   flex: 50%;
   order: 0;
   color: #999;
@@ -84,7 +73,7 @@ export const Id = styled(AttributeBase)`
   }
 `
 
-export const Pilot = styled(AttributeBase)`
+export const Pilot = styled(Attribute)`
   flex: 100%;
   font-family: 'Proxima Nova Semibold';
   order: 1;
@@ -92,7 +81,7 @@ export const Pilot = styled(AttributeBase)`
   line-height: 2.5rem;
 `
 
-export const Suit = styled(AttributeBase)`
+export const Suit = styled(Attribute)`
   flex: 50%;
   order: 3;
   text-align: right;
@@ -102,12 +91,12 @@ export const Suit = styled(AttributeBase)`
   }
 `
 
-export const Place = styled(AttributeBase)`
+export const Place = styled(Attribute)`
   flex: 50%;
   order: 2;
 `
 
-export const Comment = styled(AttributeBase)`
+export const Comment = styled(Attribute)`
   flex: 100%;
   order: 4;
   color: #999;
@@ -117,7 +106,7 @@ export const Comment = styled(AttributeBase)`
   }
 `
 
-export const Timestamp = styled(AttributeBase)`
+export const Timestamp = styled(Attribute)`
   flex: 50%;
   order: 0;
   color: #999;
@@ -144,8 +133,8 @@ export const TrackLink = styled(Link)`
     margin: 0;
     padding: 0;
 
-    :last-child ${TableCell} {
-      border-bottom: none;
+    :not(:last-child) ${Attribute} {
+      border-bottom: solid 1px var(--border-color);
     }
 
     :hover {
@@ -153,5 +142,11 @@ export const TrackLink = styled(Link)`
         box-shadow: inset 3px 0 0 #75a4ba;
       }
     }
+  }
+`
+
+export const Tbody = styled.div`
+  @media ${devices.small} {
+    display: table-row-group;
   }
 `
