@@ -166,7 +166,7 @@ GEM
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
     jmespath (1.4.0)
-    json (2.2.0)
+    json (2.3.1)
     jwt (2.2.1)
     loofah (2.4.0)
       crass (~> 1.0.2)
