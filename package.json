@@ -79,6 +79,7 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.9.6",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.1",
     "@testing-library/jest-dom": "^5.7.0",
     "@testing-library/react": "^10.0.4",
     "babel-eslint": "^10.0.1",
@@ -92,6 +93,7 @@
     "eslint-plugin-react-hooks": "^4.0.1",
     "jest": "^26.0",
     "prettier": "^2.0.5",
+    "react-refresh": "^0.8.3",
     "react-svg-loader": "^3.0.3",
     "webpack": "^4.41",
     "webpack-cli": "^3.3.6",
