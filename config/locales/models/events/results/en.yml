@@ -2,6 +2,7 @@ en:
   activerecord:
     models:
       event/result: Result
+      event/full_jump: Full Jump
     attributes:
       event/result:
         file: File with track
