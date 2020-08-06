@@ -29,6 +29,10 @@ namespace :api, module: :api, defaults: { format: :json } do
         resource :weather_data, only: :show
         resource :results, only: :show
         resource :video, only: %i[create show destroy]
+
+        collection do
+          resources :files, only: :create
+        end
       end
     end
 
