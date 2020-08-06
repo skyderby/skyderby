@@ -17,6 +17,7 @@
               Close
           %h4.modal-title= t 'static_pages.index.track_form.title'
 
+        %div{data: {controller: 'new-track-form', 'user-signed-in': user_signed_in?}}
         .modal-body
           = render 'concerns/upload_progress'
 
