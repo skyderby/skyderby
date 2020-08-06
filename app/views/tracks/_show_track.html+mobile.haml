@@ -12,6 +12,8 @@
     .form-group.text-center
       - if @track.skydive? && @track_presenter.max_altitude > 3000 && @track_presenter.min_altitude < 2000
         = link_to '3000 — 2000m', track_path(@track.id, f: 3000, t: 2000), class: 'btn btn-xs btn-default button--rounded'
+      - if @track.skydive? && @track_presenter.max_altitude > 2500 && @track_presenter.min_altitude < 1500
+        = link_to '2500 — 1500m', track_path(@track.id, f: 2500, t: 1500), class: 'btn btn-xs btn-default button--rounded'
       = link_to 'Full jump', track_path(@track.id), class: 'btn btn-xs btn-default button--rounded', remote: true
 
     = render 'tracks/charts', presenter: @track_presenter
