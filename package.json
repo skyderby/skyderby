@@ -49,7 +49,7 @@
     "bootstrap-datepicker": "^1.7.1",
     "core-js": "^3.6.5",
     "css-loader": "^2.1.1",
-    "formik": "^2.0.1-rc.13",
+    "formik": "^2.1.5",
     "geodesy": "^2.2.0",
     "highcharts": "^6.2.0",
     "honeybadger-js": "^0.5.5",
