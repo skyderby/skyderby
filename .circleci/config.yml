@@ -70,8 +70,8 @@ jobs:
       - checkout
       - *restore_yarn_cache
       - run: yarn install
-      - *save_yarn_cache 
-      - run: yarn eslint ./app/javascript
+      - *save_yarn_cache
+      - run: yarn lint
 
   test_unit:
     <<: *test_defaults

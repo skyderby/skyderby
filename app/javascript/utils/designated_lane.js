@@ -1,6 +1,6 @@
 import Geospatial from 'utils/geospatial'
 
-export default function(google, map, width, length, direction, opts = {}) {
+export default function (google, map, width, length, direction, opts = {}) {
   const DLOverlay = class extends google.maps.OverlayView {
     constructor(map, width, length, direction, opts) {
       super()

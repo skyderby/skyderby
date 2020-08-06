@@ -42,14 +42,10 @@ export default class extends Controller {
         }
       },
       highlight: element => {
-        $(element)
-          .closest('.form-group')
-          .addClass('has-error')
+        $(element).closest('.form-group').addClass('has-error')
       },
       unhighlight: element => {
-        $(element)
-          .closest('.form-group')
-          .removeClass('has-error')
+        $(element).closest('.form-group').removeClass('has-error')
       },
       errorPlacement: (error, element) => {
         if (element.attr('name') == 'track_file[file]') {

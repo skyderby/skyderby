@@ -25,7 +25,7 @@ export default class extends Controller {
         boxWidth: 390,
         boxHeight: 292
       },
-      function() {
+      function () {
         self.jcrop = this
       }
     )

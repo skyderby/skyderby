@@ -1,4 +1,4 @@
-export default function(sourceArray) {
+export default function (sourceArray) {
   const array = sourceArray.slice()
 
   let currentIndex = array.length

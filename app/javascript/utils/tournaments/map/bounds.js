@@ -1,6 +1,6 @@
 import Bounds from 'utils/maps/bounds'
 
-export default function(paths) {
+export default function (paths) {
   const points = paths
     .map(el => el.path)
     .reduce((result, value) => result.concat(value), [])

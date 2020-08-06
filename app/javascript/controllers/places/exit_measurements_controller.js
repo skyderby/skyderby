@@ -42,10 +42,7 @@ export default class extends Controller {
     this.removeAll()
     rows.forEach(rowData => {
       const row = this.addRow()
-      const [altitude, distance] = rowData
-        .trim()
-        .split(' ')
-        .slice(-2)
+      const [altitude, distance] = rowData.trim().split(' ').slice(-2)
       row.querySelector('input[name$="[altitude]"]').value = altitude
       row.querySelector('input[name$="[distance]"]').value = distance
     })

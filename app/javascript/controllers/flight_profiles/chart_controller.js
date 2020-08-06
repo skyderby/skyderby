@@ -107,7 +107,7 @@ export default class extends Controller {
         tickInterval: 100,
         min: 0,
         events: {
-          setExtremes: function(event) {
+          setExtremes: function (event) {
             this.chart.yAxis[0].setExtremes(event.min, event.max, true)
           }
         }

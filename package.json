@@ -1,4 +1,15 @@
 {
+  "scripts": {
+    "lint": "yarn eslint app/javascript"
+  },
+  "prettier": {
+    "printWidth": 90,
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none",
+    "arrowParens": "avoid"
+  },
   "dependencies": {
     "@babel/cli": "^7.10.3",
     "@babel/core": "^7.10.3",
@@ -45,14 +56,14 @@
     "yup": "^0.27.0"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "eslint": "^6.4.0",
-    "eslint-config-prettier": "^4.3.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.6.0",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-config-react-app": "^5.0.2",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^2.0.1",
-    "prettier": ">=1.13.0",
+    "prettier": "^2.0.5",
     "webpack": "^4.41",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.8.0"
