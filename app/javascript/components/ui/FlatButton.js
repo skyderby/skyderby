@@ -6,8 +6,9 @@ const FlatButton = styled.button`
   border-radius: var(--border-radius-md);
   border: none;
   color: rgb(35, 82, 124);
-  display: flex;
-  font-size: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.825rem;
   margin-right: 0.25rem;
   padding: 0.25rem 0.5rem;
 

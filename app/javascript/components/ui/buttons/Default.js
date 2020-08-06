@@ -5,8 +5,10 @@ export default styled.button`
   border-radius: var(--border-radius-md);
   border: solid 1px var(--grey-30);
   color: var(--grey-80);
+  cursor: pointer;
   font-family: 'Proxima Nova Regular';
   font-size: 0.875rem;
+  line-height: normal;
   outline: none;
   padding: 0.5rem 0.75rem;
   webkit-appearance: button;
