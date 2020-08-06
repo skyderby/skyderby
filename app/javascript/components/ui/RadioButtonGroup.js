@@ -31,9 +31,10 @@ const Label = styled.label`
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius-md);
   cursor: pointer;
+  line-height: normal;
   text-align: center;
   margin: 0;
-  padding: 0.3rem 1rem;
+  padding: 0.5rem 0.75rem;
 
   &:hover {
     background-color: #e6e6e6;
