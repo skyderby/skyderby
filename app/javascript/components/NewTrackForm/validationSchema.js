@@ -3,12 +3,12 @@ import * as Yup from 'yup'
 export default loggedIn =>
   Yup.object().shape({
     ...(loggedIn ? {} : { name: Yup.string().required('Name field is required') }),
-    suitId: Yup.number().when('suitInputMode', {
+    suitId: Yup.number().when('formSupportData.suitInputMode', {
       is: 'select',
       then: Yup.number().nullable().required('Suit field is required'),
       otherwise: Yup.number().nullable()
     }),
-    missingSuitName: Yup.string().when('suitInputMode', {
+    missingSuitName: Yup.string().when('formSupportData.suitInputMode', {
       is: 'input',
       then: Yup.string().required('Suit field is required'),
       otherwise: Yup.string().nullable()
