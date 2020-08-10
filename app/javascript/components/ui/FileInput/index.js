@@ -7,7 +7,7 @@ import Input from 'components/ui/Input'
 import InputGroup from './InputGroup'
 import LoadingIndicator from './LoadingIndicator'
 
-const FileInput = ({ loading, ...props }) => {
+const FileInput = ({ loading, isInvalid, ...props }) => {
   const inputRef = useRef()
   const handleChange = event => {
     const [file] = event.target.files
@@ -22,7 +22,7 @@ const FileInput = ({ loading, ...props }) => {
   }
 
   return (
-    <InputGroup disabled={loading}>
+    <InputGroup disabled={loading} isInvalid={isInvalid}>
       <Input readonly type="text" disabled={loading} ref={inputRef} />
       <Button as="span">
         {loading ? <LoadingIndicator /> : <>&hellip;</>}
@@ -33,7 +33,8 @@ const FileInput = ({ loading, ...props }) => {
 }
 
 FileInput.propTypes = {
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  loading: PropTypes.bool
 }
 
 export default FileInput

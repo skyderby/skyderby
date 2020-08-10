@@ -3,118 +3,163 @@ import { Formik, Field } from 'formik'
 import I18n from 'i18n-js'
 import PropTypes from 'prop-types'
 
-import FormGroup from 'components/ui/FormGroup'
+import Api from 'api'
 import Label from 'components/ui/Label'
 import Input from 'components/ui/Input'
+import DefaultButton from 'components/ui/buttons/Default'
+import PrimaryButton from 'components/ui/buttons/Primary'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
 import FlatButton from 'components/ui/FlatButton'
 
 import SuitSelect from './SuitSelect'
 import TrackFileInput from './TrackFileInput'
 import SegmentSelect from './SegmentSelect'
-import { Form, InputContainer, SuitInputModeToggle } from './elements'
+import {
+  Form,
+  Footer,
+  InputContainer,
+  SuitInputModeToggle,
+  ErrorMessage
+} from './elements'
+import buildValidationSchema from './validationSchema'
 
 const NewTrackForm = ({ loggedIn }) => {
   const initialValues = {
+    name: loggedIn ? null : '',
     comment: '',
     location: '',
-    suitInputMode: 'select',
     suitId: null,
     missingSuitName: '',
     kind: 'skydive',
     visibility: 'public_track',
-    trackFile: null,
-    segment: 0
+    trackFileId: null,
+    segment: 0,
+    formSupportData: {
+      suitInputMode: 'select'
+    }
   }
 
-  const handleSubmit = console.log
+  const handleSubmit = async (
+    { formSupportData, suitId, missingSuitName, ...values },
+    actions
+  ) => {
+    const params = {
+      ...values,
+      ...(formSupportData.suitInputMode === 'select' ? { suitId } : { missingSuitName })
+    }
+
+    try {
+      const track = await Api.Track.createRecord(params)
+
+      Turbolinks.visit(`/tracks/${track.id}`)
+
+      actions.setSubmitting(false)
+    } catch (err) {
+      console.warn(err)
+    }
+  }
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-      {({ values, handleSubmit, isSubmitting }) => (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validationSchema={buildValidationSchema(loggedIn)}
+    >
+      {({ values, handleSubmit, isSubmitting, resetForm, touched, errors }) => (
         <Form onSubmit={handleSubmit}>
-          {console.log(values)}
           {loggedIn || (
-            <FormGroup>
+            <>
               <Label>{I18n.t('activerecord.attributes.track.name')}</Label>
-              <Field
-                as={Input}
-                name="name"
-                placeholder={I18n.t('static_pages.index.track_form.name_plh')}
-              />
-            </FormGroup>
-          )}
-
-          <FormGroup>
-            <Label>{I18n.t('activerecord.attributes.track.suit')}</Label>
-            <InputContainer>
-              {values.suitInputMode === 'select' ? (
-                <Field name="suitId">
-                  {({ field: { name, ...props }, form: { setFieldValue } }) => (
-                    <SuitSelect
-                      {...props}
-                      onChange={value => setFieldValue(name, value)}
-                    />
-                  )}
-                </Field>
-              ) : (
+              <InputContainer>
                 <Field
                   as={Input}
-                  name="missingSuitName"
-                  placeholder={I18n.t('tracks.form.suit_text_placeholder')}
+                  name="name"
+                  placeholder={I18n.t('static_pages.index.track_form.name_plh')}
+                  isInvalid={Boolean(touched.name && errors.name)}
+                />
+                {touched.name && errors.name && (
+                  <ErrorMessage>{errors.name}</ErrorMessage>
+                )}
+              </InputContainer>
+            </>
+          )}
+
+          <Label>{I18n.t('activerecord.attributes.track.suit')}</Label>
+          <InputContainer>
+            <Field name="suitId">
+              {({ field: { name, ...props }, form: { setFieldValue } }) => (
+                <SuitSelect
+                  hide={values.formSupportData.suitInputMode === 'input'}
+                  isInvalid={touched.suitId && errors.suitId}
+                  {...props}
+                  onChange={value => setFieldValue(name, value)}
                 />
               )}
+            </Field>
+            <Field
+              as={Input}
+              hide={values.formSupportData.suitInputMode === 'select'}
+              isInvalid={touched.missingSuitName && errors.missingSuitName}
+              name="missingSuitName"
+              placeholder={I18n.t('tracks.form.suit_text_placeholder')}
+            />
 
-              <Field name="suitInputMode">
-                {({ field: { value }, form: { setFieldValue } }) => (
-                  <SuitInputModeToggle>
-                    <span>
-                      {value === 'select'
-                        ? I18n.t('tracks.form.toggle_suit_caption')
-                        : I18n.t('tracks.form.toggle_suit_caption_select')}
-                    </span>
-                    <FlatButton
-                      as="span"
-                      onClick={() =>
-                        setFieldValue(
-                          'suitInputMode',
-                          value === 'select' ? 'input' : 'select'
-                        )
-                      }
-                    >
-                      {value === 'select'
-                        ? I18n.t('tracks.form.toggle_suit_link')
-                        : I18n.t('tracks.form.toggle_suit_link_select')}
-                    </FlatButton>
-                  </SuitInputModeToggle>
-                )}
-              </Field>
-            </InputContainer>
-          </FormGroup>
+            {touched.suitId && errors.suitId && (
+              <ErrorMessage>{errors.suitId}</ErrorMessage>
+            )}
+            {touched.missingSuitName && errors.missingSuitName && (
+              <ErrorMessage>{errors.missingSuitName}</ErrorMessage>
+            )}
 
-          <FormGroup>
-            <Label>{I18n.t('activerecord.attributes.track.place')}</Label>
+            <Field name="formSupportData.suitInputMode">
+              {({ field: { value, name }, form: { setFieldValue } }) => (
+                <SuitInputModeToggle>
+                  <span>
+                    {value === 'select'
+                      ? I18n.t('tracks.form.toggle_suit_caption')
+                      : I18n.t('tracks.form.toggle_suit_caption_select')}
+                  </span>
+                  <FlatButton
+                    as="span"
+                    onClick={() =>
+                      setFieldValue(name, value === 'select' ? 'input' : 'select')
+                    }
+                  >
+                    {value === 'select'
+                      ? I18n.t('tracks.form.toggle_suit_link')
+                      : I18n.t('tracks.form.toggle_suit_link_select')}
+                  </FlatButton>
+                </SuitInputModeToggle>
+              )}
+            </Field>
+          </InputContainer>
+
+          <Label>{I18n.t('activerecord.attributes.track.place')}</Label>
+          <InputContainer>
             <Field
               as={Input}
               name="location"
+              isInvalid={touched.location && errors.location}
               placeholder={I18n.t('static_pages.index.track_form.location_plh')}
             />
-          </FormGroup>
 
-          <FormGroup>
-            <Label>{I18n.t('activerecord.attributes.track.kind')}</Label>
-            <Field
-              as={RadioButtonGroup}
-              name="kind"
-              options={[
-                { value: 'skydive', label: 'Skydive' },
-                { value: 'base', label: 'B.A.S.E' }
-              ]}
-            />
-          </FormGroup>
+            {touched.location && errors.location && (
+              <ErrorMessage>{errors.location}</ErrorMessage>
+            )}
+          </InputContainer>
+
+          <Label>{I18n.t('activerecord.attributes.track.kind')}</Label>
+          <Field
+            as={RadioButtonGroup}
+            name="kind"
+            options={[
+              { value: 'skydive', label: 'Skydive' },
+              { value: 'base', label: 'B.A.S.E' }
+            ]}
+          />
 
           {loggedIn && (
-            <FormGroup>
+            <>
               <Label>{I18n.t('tracks.edit.visibility')}</Label>
               <Field
                 as={RadioButtonGroup}
@@ -125,18 +170,34 @@ const NewTrackForm = ({ loggedIn }) => {
                   { value: 'private_track', label: I18n.t('visibility.private') }
                 ]}
               />
-            </FormGroup>
+            </>
           )}
 
-          <FormGroup>
-            <Label>{I18n.t('activerecord.attributes.track_file.file')}</Label>
-            <InputContainer>
-              <Field name="trackFile">
-                {({ field: { name }, form: { setFieldValue } }) => (
-                  <TrackFileInput onChange={value => setFieldValue(name, value)} />
-                )}
-              </Field>
-              {(values.trackFile?.segmentsCount || 0) > 1 && (
+          <Label>{I18n.t('activerecord.attributes.track_file.file')}</Label>
+          <InputContainer>
+            <Field name="trackFileId">
+              {({ field: { name }, form: { setFieldValue } }) => (
+                <TrackFileInput
+                  isInvalid={touched.trackFile && errors.trackFile}
+                  onUploadStart={() => setFieldValue('formSupportData.isUploading', true)}
+                  onUploadEnd={() => setFieldValue('formSupportData.isUploading', false)}
+                  onChange={({ id, segmentsCount }) => {
+                    setFieldValue(name, id)
+                    setFieldValue('formSupportData.segmentsCount', segmentsCount)
+                  }}
+                />
+              )}
+            </Field>
+
+            {touched.trackFileId && errors.trackFileId && (
+              <ErrorMessage>{errors.trackFileId}</ErrorMessage>
+            )}
+          </InputContainer>
+
+          {(values.formSupportData.segmentsCount || 0) > 1 && (
+            <>
+              <Label>{I18n.t('activerecord.attributes.track_file.segment')}</Label>
+              <InputContainer>
                 <Field name="segment">
                   {({ field: { name, value }, form: { setFieldValue } }) => (
                     <SegmentSelect
@@ -150,23 +211,38 @@ const NewTrackForm = ({ loggedIn }) => {
                     />
                   )}
                 </Field>
-              )}
-            </InputContainer>
-          </FormGroup>
+              </InputContainer>
+            </>
+          )}
 
-          <FormGroup>
-            <Label>{I18n.t('activerecord.attributes.track.comment')}</Label>
-            <Field name="comment">
-              {({ field }) => (
-                <Input
-                  as="textarea"
-                  rows={3}
-                  placeholder={I18n.t('static_pages.index.track_form.comment_plh')}
-                  {...field}
-                />
-              )}
-            </Field>
-          </FormGroup>
+          <Label>{I18n.t('activerecord.attributes.track.comment')}</Label>
+          <Field name="comment">
+            {({ field }) => (
+              <Input
+                as="textarea"
+                rows={3}
+                placeholder={I18n.t('static_pages.index.track_form.comment_plh')}
+                {...field}
+              />
+            )}
+          </Field>
+
+          <Footer>
+            <PrimaryButton
+              type="submit"
+              disabled={isSubmitting || values.formSupportData.isUploading}
+            >
+              {I18n.t('static_pages.index.track_form.submit')}
+            </PrimaryButton>
+            <DefaultButton
+              type="button"
+              disabled={isSubmitting || values.formSupportData.isUploading}
+              data-dismiss="modal"
+              onClick={resetForm}
+            >
+              {I18n.t('general.cancel')}
+            </DefaultButton>
+          </Footer>
         </Form>
       )}
     </Formik>
