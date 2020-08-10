@@ -32,7 +32,13 @@ const Item = ({ track }) => {
 Item.propTypes = {
   track: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    comment: PropTypes.string
+    pilotName: PropTypes.string.isRequired,
+    suitName: PropTypes.string.isRequired,
+    placeName: PropTypes.string.isRequired,
+    countryCode: PropTypes.string,
+    manufacturerCode: PropTypes.string,
+    comment: PropTypes.string,
+    recordedAt: PropTypes.string
   }).isRequired
 }
 

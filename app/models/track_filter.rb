@@ -7,9 +7,9 @@ class TrackFilter
     return relation unless query
 
     filter_by_activity(relation)
-      .then { |relation| filter_by_associations(relation) }
-      .then { |relation| filter_by_year(relation) }
-      .then { |relation| filter_by_term(relation) }
+      .then(&method(:filter_by_associations))
+      .then(&method(:filter_by_year))
+      .then(&method(:filter_by_term))
   end
 
   private
