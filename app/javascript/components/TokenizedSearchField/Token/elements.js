@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 export const Type = styled.div`
   border-radius: 2px 0 0 2px;

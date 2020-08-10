@@ -12,7 +12,7 @@ const List = () => {
 
   return (
     <Container>
-      <Table>
+      <Table aria-label="Tracks list">
         <Header />
         <Tbody>
           {tracks.map(track => (

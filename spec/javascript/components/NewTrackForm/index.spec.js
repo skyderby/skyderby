@@ -82,7 +82,7 @@ describe('NewTrackForm', () => {
     })
 
     it('location is required', async () => {
-      const screen = render(<NewTrackForm />)
+      const screen = render(<NewTrackForm loggedIn={true} />)
 
       fireEvent.click(screen.getByText(I18n.t('static_pages.index.track_form.submit')))
 

@@ -34,7 +34,8 @@ const FileInput = ({ loading, isInvalid, ...props }) => {
 
 FileInput.propTypes = {
   onChange: PropTypes.func,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  isInvalid: PropTypes.bool
 }
 
 export default FileInput
