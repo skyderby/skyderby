@@ -11,7 +11,7 @@ const Suit = {
 
   findAll: async ({ search, perPage = 25, page }) => {
     const { data } = await axios.get(
-      `${endpoint}?search=${search}&perPage=${perPage}&page=${page}}`
+      `${endpoint}?search=${search}&perPage=${perPage}&page=${page}`
     )
 
     return data

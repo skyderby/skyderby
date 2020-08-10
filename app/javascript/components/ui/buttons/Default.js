@@ -17,7 +17,7 @@ export default styled.button`
     margin-right: 10px;
   }
 
-  &:hover {
+  &:not(:disabled):hover {
     border-color: var(--blue-50);
     color: var(--blue-50);
   }

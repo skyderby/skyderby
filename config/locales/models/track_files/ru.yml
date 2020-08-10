@@ -3,3 +3,4 @@ ru:
     attributes:
       track_file:
         file: Файл трека
+        segment: Сегмент
