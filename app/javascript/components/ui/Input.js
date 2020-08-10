@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const Input = styled.input`
   border: solid 1px var(--border-color);
@@ -20,6 +20,20 @@ const Input = styled.input`
   :disabled {
     color: var(--grey-70);
   }
+
+  ${props =>
+    props.hide
+      ? css`
+          display: none;
+        `
+      : ''}
+
+  ${props =>
+    props.isInvalid
+      ? css`
+          border-color: var(--red-80);
+        `
+      : ''}
 `
 
 export default Input

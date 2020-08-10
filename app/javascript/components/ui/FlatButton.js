@@ -9,8 +9,7 @@ const FlatButton = styled.button`
   cursor: pointer;
   display: inline-flex;
   font-size: 0.825rem;
-  margin-right: 0.25rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25em 0.5em;
 
   > :not(:last-child) {
     margin-right: 0.25em;
