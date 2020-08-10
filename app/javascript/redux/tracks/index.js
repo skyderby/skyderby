@@ -15,6 +15,8 @@ import windData from './windData'
 import results from './results'
 import videos from './videos'
 
+import { selectTrack } from './selectors'
+
 import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
 import {
   DELETE_ERROR,
@@ -27,7 +29,7 @@ const trackUrl = trackId => `/api/v1/tracks/${trackId}`
 
 export const loadTrack = trackId => {
   return async (dispatch, getState) => {
-    const stateData = getState().tracks.byId[trackId] || {}
+    const stateData = selectTrack(getState(), trackId) || {}
     const skip = ['loaded', 'loading'].includes(stateData.status)
 
     if (skip) return
