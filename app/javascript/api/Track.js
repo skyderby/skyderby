@@ -56,6 +56,12 @@ const Track = {
     const { data } = await axios.get(dataUrl)
 
     return data
+  },
+
+  createRecord: async ({ segment, ...params }) => {
+    const { data } = await axios.post(endpoint, { track: params, segment })
+
+    return data
   }
 }
 

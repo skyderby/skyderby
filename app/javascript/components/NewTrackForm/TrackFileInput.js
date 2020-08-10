@@ -6,7 +6,7 @@ import FileInput from 'components/ui/FileInput'
 
 import { ErrorMessage } from './elements'
 
-const TrackFileInput = ({ onChange }) => {
+const TrackFileInput = ({ onChange, onUploadStart, onUploadEnd, isInvalid }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState([])
 
@@ -30,6 +30,7 @@ const TrackFileInput = ({ onChange }) => {
     }
 
     setIsLoading(true)
+    onUploadStart?.()
 
     try {
       const record = await Api.TrackFile.createRecord(file)
@@ -39,12 +40,18 @@ const TrackFileInput = ({ onChange }) => {
       setErrors([err])
     }
 
+    onUploadEnd?.()
     setIsLoading(false)
   }
 
   return (
     <>
-      <FileInput accept=".csv,.gpx,.kml,.tes" loading={isLoading} onChange={submitFile} />
+      <FileInput
+        accept=".csv,.gpx,.kml,.tes"
+        loading={isLoading}
+        isInvalid={isInvalid}
+        onChange={submitFile}
+      />
       {errors.map((error, idx) => (
         <ErrorMessage key={idx}>{error}</ErrorMessage>
       ))}
@@ -53,7 +60,10 @@ const TrackFileInput = ({ onChange }) => {
 }
 
 TrackFileInput.propTypes = {
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  onUploadStart: PropTypes.func,
+  onUploadEnd: PropTypes.func,
+  isInvalid: PropTypes.bool
 }
 
 export default TrackFileInput

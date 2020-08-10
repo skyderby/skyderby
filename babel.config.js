@@ -22,7 +22,7 @@ module.exports = api => {
       '@babel/plugin-proposal-optional-chaining',
       '@babel/plugin-proposal-nullish-coalescing-operator',
       ['@babel/plugin-proposal-class-properties', { spec: true }],
-      !api.env('production') && 'react-refresh/babel'
+      api.env('development') && 'react-refresh/babel'
     ].filter(Boolean),
 
     env: {
