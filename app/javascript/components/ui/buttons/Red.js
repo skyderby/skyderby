@@ -5,7 +5,7 @@ import DefaultButton from './Default'
 const RedButton = styled(DefaultButton)`
   border-color: var(--red-70);
 
-  &:hover {
+  &:not(:disabled):hover {
     border-color: var(--red-80);
   }
 
