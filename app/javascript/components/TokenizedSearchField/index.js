@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import IconTimes from 'icons/times.svg'
@@ -57,7 +57,7 @@ const TokenizedSearchField = ({ initialValues = [], onChange }) => {
   }
 
   return (
-    <Container ref={containerRef}>
+    <Container ref={containerRef} aria-label="Search field">
       <TokensList onClick={handleBlur}>
         {tokens.map(([type, value], idx) => (
           <Token key={idx} type={type} value={value} onDelete={() => deleteByIdx(idx)} />
@@ -65,7 +65,7 @@ const TokenizedSearchField = ({ initialValues = [], onChange }) => {
 
         <li>
           {['idle', 'selectType'].includes(mode) && (
-            <TypeSelect onChange={handleTypeSelect} />
+            <TypeSelect aria-label="Select filter criteria" onChange={handleTypeSelect} />
           )}
 
           {mode === 'selectValue' && (
