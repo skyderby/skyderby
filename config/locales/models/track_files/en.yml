@@ -3,3 +3,4 @@ en:
     attributes:
       track_file:
         file: File with track
+        segment: Segment

@@ -14,6 +14,17 @@ module Api
           .then(&method(:paginate))
       end
 
+      def create
+        authorize Track
+
+        @track = CreateTrackService.call(
+          create_params.merge(owner: (current_user if current_user.registered?)),
+          segment: params[:segment]
+        )
+
+        current_user.tracks << @track.id unless current_user.registered?
+      end
+
       def show
         authorize @track
       end
@@ -88,6 +99,19 @@ module Api
           profile_id: [],
           suit_id: [],
           place_id: []
+      end
+
+      def create_params
+        params.require(:track).permit \
+          :name,
+          :kind,
+          :visibility,
+          :location,
+          :place_id,
+          :suit_id,
+          :missing_suit_name,
+          :comment,
+          :track_file_id
       end
 
       def update_params

@@ -1,99 +1,12 @@
 .modal.fade#newTrackModal{tabindex: '-1', role: 'dialog', 'data-controller': 'modal'}
   .modal-dialog
     .modal-content
-      = form_for :track_file,
-                 url: track_files_path,
-                 remote: true,
-                 html: { multipart: true,
-                         class: 'form-horizontal',
-                         role: 'form',
-                         'data-controller': 'tracks--form' } do |f|
+      .modal-header
+        %button.close{type: 'button', data: {dismiss: 'modal'}}
+          %span{aria: {hidden: 'true'}}
+            &times;
+          %span.sr-only
+            Close
+        %h4.modal-title= t 'static_pages.index.track_form.title'
 
-        .modal-header
-          %button.close{type: 'button', data: {dismiss: 'modal'}}
-            %span{aria: {hidden: 'true'}}
-              &times;
-            %span.sr-only
-              Close
-          %h4.modal-title= t 'static_pages.index.track_form.title'
-
-        %div{data: {controller: 'new-track-form', 'user-signed-in': user_signed_in?}}
-        .modal-body
-          = render 'concerns/upload_progress'
-
-          = f.fields_for :track_attributes do |builder|
-            .form-group
-              = builder.label :name, t('activerecord.attributes.track.name'), class: 'col-sm-3 control-label'
-              .col-sm-9
-                - if user_signed_in?
-                  %p.form-control-static= current_user.profile.name
-                - else
-                  = builder.text_field :name,
-                    class: 'form-control',
-                    placeholder: t('static_pages.index.track_form.name_plh'),
-                    type: 'text',
-                    value: recent_value(:name)
-
-            - recent_suit_id = recent_value(:suit_id)
-            - recent_suit_name = recent_value(:suit_name)
-            - suit_mode = recent_suit_id || !recent_suit_name ? 'select' : 'text'
-            .form-group{'data-controller': 'tracks--suit-field', 'data-mode': suit_mode}
-              = builder.label :suit, t('activerecord.attributes.track.suit'), class: 'col-sm-3 control-label'
-              .col-sm-9
-                = builder.select :suit_id,
-                                 options_for_select([ [suit_name_by_id(recent_suit_id), recent_suit_id] ], recent_suit_id),
-                                 { include_blank: true },
-                                 class: 'form-control new-track-suit-select suit-group',
-                                 'data-controller': 'select2--suits', 'data-target': 'tracks--suit-field.select'
-
-                = builder.text_field :missing_suit_name,
-                                     class: 'form-control suit-group',
-                                     placeholder: t('tracks.form.suit_text_placeholder'),
-                                     value: recent_suit_name,
-                                     'data-target': 'tracks--suit-field.text'
-
-              .col-sm-9.col-sm-offset-3
-                %p.help-block
-                  %span{'data-target': 'tracks--suit-field.caption'}= t('tracks.form.toggle_suit_caption')
-                  %a{'data-target': 'tracks--suit-field.link', 'data-action': 'tracks--suit-field#trigger', href: '#'}
-                    = t('tracks.form.toggle_suit_link')
-
-            .form-group
-              = builder.label :location, t('activerecord.attributes.track.place'), class: 'col-sm-3 control-label'
-              .col-sm-9
-                = builder.text_field :location,
-                                     class: 'form-control',
-                                     placeholder: t('static_pages.index.track_form.location_plh'),
-                                     type: 'text',
-                                     value: recent_value(:location)
-
-            = render 'tracks/form/activity', form: builder
-            = render 'tracks/form/visibility', form: builder
-
-          .form-group
-            = f.label :file, class: 'col-sm-3 control-label'
-            .col-sm-9
-              .input-group{'data-controller': 'filefield'}
-                %input.form-control{type: "text", readonly: true, 'data-target': 'filefield.text_field'}
-                %span.input-group-btn
-                  %span.btn.btn-default.btn-file
-                    &hellip;
-                    = f.file_field :file,
-                                   { accept: '.csv,.gpx,.tes,.kml',
-                                     'data-target': 'filefield.file_field',
-                                     'data-action': 'change->filefield#change'}
-
-              %p.help-block=t 'static_pages.index.track_form.help'
-
-          = f.fields_for :track_attributes do |builder|
-            .form-group
-              = builder.label :comment, t('activerecord.attributes.track.comment'), class: 'col-sm-3 control-label'
-              .col-sm-9
-                = builder.text_area :comment,
-                                    class: 'form-control',
-                                    rows: 3,
-                                    placeholder: t('static_pages.index.track_form.comment_plh')
-
-        .modal-footer
-          = f.submit t('static_pages.index.track_form.submit'), class: 'btn btn-success'
-          %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}=t('general.cancel')
+      %div{data: {controller: 'new-track-form', 'user-signed-in': user_signed_in?}}
