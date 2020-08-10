@@ -20,6 +20,12 @@ const InputGroup = styled.div`
       css`
         background-color: var(--grey-10);
       `}
+
+    ${props =>
+      props.isInvalid &&
+      css`
+        border-color: var(--red-80);
+      `}
   }
 
   input[type='file'] {
@@ -52,6 +58,15 @@ const InputGroup = styled.div`
         background-color: var(--grey-10);
         pointer-events: none;
       `}
+
+    ${props =>
+      props.isInvalid &&
+      css`
+        border-top-color: var(--red-80);
+        border-bottom-color: var(--red-80);
+        border-right-color: var(--red-80);
+      `}
+  }
   }
 `
 

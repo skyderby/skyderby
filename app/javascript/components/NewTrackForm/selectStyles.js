@@ -1,10 +1,12 @@
 const selectStyles = {
-  container: base => ({
+  container: (base, state) => ({
     ...base,
+    ...(state.selectProps?.hide ? { display: 'none' } : {}),
     flexGrow: 1
   }),
-  control: base => ({
+  control: (base, state) => ({
     ...base,
+    ...(state.selectProps?.isInvalid ? { borderColor: 'var(--red-80)' } : {}),
     minHeight: '35px'
   }),
   dropdownIndicator: base => ({

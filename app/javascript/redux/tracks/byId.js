@@ -1,4 +1,4 @@
-import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
+import { LOAD_REQUEST, LOAD_SUCCESS, CREATE_SUCCESS } from './actionTypes'
 import {
   DELETE_SUCCESS as VIDEO_DELETE,
   SAVE_SUCCESS as VIDEO_SAVE
@@ -11,6 +11,7 @@ const byId = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_REQUEST:
     case LOAD_SUCCESS:
+    case CREATE_SUCCESS:
     case VIDEO_SAVE:
     case VIDEO_DELETE:
       return {

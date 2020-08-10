@@ -7,3 +7,6 @@ export const LOAD_ERROR = `${prefix} LOAD/ERROR`
 export const DELETE_REQUEST = `${prefix} DELETE/REQUEST`
 export const DELETE_SUCCESS = `${prefix} DELETE/SUCCESS`
 export const DELETE_ERROR = `${prefix} DELETE/ERROR`
+
+export const CREATE_REQUEST = `${prefix} CREATE/REQUEST`
+export const CREATE_SUCCESS = `${prefix} CREATE/SUCCESS`

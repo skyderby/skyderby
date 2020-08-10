@@ -7,7 +7,7 @@ export default styled(DefaultButton)`
   border-color: var(--green-40);
   color: #fff;
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: var(--green-50);
     border-color: var(--green-50);
     color: #fff;
