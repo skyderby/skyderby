@@ -2,18 +2,8 @@ $('#modal').html('<%= j render('show_modal') %>');
 
 <% if @track_presenter.separate_charts? %>
   <%= render partial: 'tracks/separate_charts', locals: { presenter: @track_presenter } %>
-
-  $('#modal').one('shown.bs.modal', function() {
-    $('#glideratio_chart').highcharts().reflow();
-    $('#speeds_chart').highcharts().reflow();
-    $('#elevation_distance_chart').highcharts().reflow();
-  });
 <% else %>
   <%= render partial: 'tracks/single_chart', locals: { presenter: @track_presenter } %>
-
-  $('#modal').one('shown.bs.modal', function() {
-    $('#all_data_chart').highcharts().reflow();
-  });
 <% end %>
 
 $('#modal').modal('show');

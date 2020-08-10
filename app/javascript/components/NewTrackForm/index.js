@@ -35,7 +35,8 @@ const NewTrackForm = ({ loggedIn }) => {
     trackFileId: null,
     segment: 0,
     formSupportData: {
-      suitInputMode: 'select'
+      suitInputMode: 'select',
+      segments: []
     }
   }
 
@@ -181,8 +182,9 @@ const NewTrackForm = ({ loggedIn }) => {
                   isInvalid={touched.trackFile && errors.trackFile}
                   onUploadStart={() => setFieldValue('formSupportData.isUploading', true)}
                   onUploadEnd={() => setFieldValue('formSupportData.isUploading', false)}
-                  onChange={({ id, segmentsCount }) => {
+                  onChange={({ id, segmentsCount, segments }) => {
                     setFieldValue(name, id)
+                    setFieldValue('formSupportData.segments', segments || [])
                     setFieldValue('formSupportData.segmentsCount', segmentsCount)
                   }}
                 />
@@ -201,7 +203,7 @@ const NewTrackForm = ({ loggedIn }) => {
                 <Field name="segment">
                   {({ field: { name, value }, form: { setFieldValue } }) => (
                     <SegmentSelect
-                      options={values.trackFile.segments.map((segment, idx) => ({
+                      options={values.formSupportData.segments.map((segment, idx) => ({
                         value: idx,
                         label: segment.name,
                         segment

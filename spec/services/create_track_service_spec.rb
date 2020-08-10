@@ -30,9 +30,7 @@ describe CreateTrackService do
   end
 
   def with_missing_activity_data
-    file = Rack::Test::UploadedFile.new(
-      Rails.root.join('spec/support/tracks/flysight_warmup.csv')
-    )
+    file = fixture_file_upload('files/tracks/flysight_warmup.csv')
 
     track_file_with_missing_activity = create :track_file, file: file
 
