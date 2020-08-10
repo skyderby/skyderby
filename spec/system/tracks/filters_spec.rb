@@ -4,11 +4,16 @@ describe 'Filtering tracks list', js: true do
       suit = create :suit, name: "suit-#{x}"
       create :empty_track, suit: suit
     end
+
     visit tracks_path
 
-    select2('suit-1', from: 'query_suit_id-container')
+    within('[aria-label="Search field"]') do
+      find('[aria-label="Select filter criteria"]').send_keys :down
+      find('span', text: 'Suit').click
+      first('span', text: 'suit-1').click
+    end
 
-    expect(page).to have_css('#tracks-table > .tbody > .tr', count: 1)
-    expect(page).to have_css('#tracks-table > .tbody > .tr > .td', text: 'suit-1')
+    expect(page).to have_css('[aria-label="Tracks list"] > div', count: 2)
+    expect(page).to have_css('[aria-label="Tracks list"] span', text: 'suit-1')
   end
 end

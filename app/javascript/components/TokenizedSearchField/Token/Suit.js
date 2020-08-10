@@ -30,7 +30,7 @@ const Suit = ({ value, onClick, onDelete }) => {
     onClick?.()
   }
 
-  const title = `Place: ${data.name}`
+  const title = `Suit: ${data.name}`
 
   return (
     <SuitContainer onClick={handleTokenClick} title={title}>
