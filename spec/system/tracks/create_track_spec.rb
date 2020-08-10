@@ -38,10 +38,6 @@ describe 'Upload tracks', js: true do
   it 'Garmin gps: multiple tracks in file' do
     upload_track 'two_tracks.gpx'
 
-    expect(page).to have_css('.modal-title', text: I18n.t('tracks.choose.title'))
-
-    first('tr.track-segment-row').click
-
     expect(page).to have_css('[aria-label="distance"]', text: 6094)
   end
 
@@ -53,14 +49,16 @@ describe 'Upload tracks', js: true do
 
     sleep 0.1
 
-    within 'form[data-controller="tracks--form"]' do
-      fill_in 'track_file[track_attributes][name]', with: 'John'
+    within '[data-controller="new-track-form"]' do
+      fill_in 'name', with: 'John'
 
-      click_link I18n.t('tracks.form.toggle_suit_link') if page.has_css?('select.new-track-suit-select')
+      if page.has_css?('span', text: I18n.t('tracks.form.toggle_suit_link'))
+        find('span', text: I18n.t('tracks.form.toggle_suit_link')).click
+      end
 
-      fill_in 'track_file[track_attributes][missing_suit_name]', with: 'Horus'
+      fill_in 'missingSuitName', with: 'Horus'
 
-      fill_in 'track_file[track_attributes][location]', with: 'Africa'
+      fill_in 'location', with: 'Africa'
 
       fill_track_file file_name
 
@@ -70,6 +68,6 @@ describe 'Upload tracks', js: true do
 
   def fill_track_file(file_name)
     file = file_fixture("tracks/#{file_name}")
-    attach_file 'track_file[file]', file, make_visible: true
+    find('[type="file"]', visible: false).attach_file file, make_visible: true
   end
 end

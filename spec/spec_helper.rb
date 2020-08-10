@@ -13,7 +13,7 @@ require 'capybara/rspec'
 ActiveRecord::Migration.maintain_test_schema!
 
 Capybara.ignore_hidden_elements = true
-Capybara.default_max_wait_time = 10
+Capybara.default_max_wait_time = 5
 Capybara.asset_host = 'http://localhost:3000'
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }

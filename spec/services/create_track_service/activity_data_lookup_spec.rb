@@ -10,6 +10,7 @@ describe CreateTrackService::ActivityDataLookup do
 
   it 'returns true for garmin file' do
     file = fixture_file_upload('files/tracks/one_track.gpx')
+
     track_file = Track::File.create!(file: file)
     track_points = points(track_file)
 
@@ -20,6 +21,7 @@ describe CreateTrackService::ActivityDataLookup do
 
   it 'returns false unless data recorded' do
     file = fixture_file_upload('files/tracks/flysight_warmup.csv')
+
     track_file = Track::File.create!(file: file)
     track_points = points(track_file)
 

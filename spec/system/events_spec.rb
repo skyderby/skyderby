@@ -87,7 +87,7 @@ describe 'Scoring PPC-like competitions', js: true do
 
     sleep 0.5
 
-    file = Rails.root.join('spec', 'fixtures', 'files', 'tracks', filename)
+    file = file_fixture("tracks/#{filename}")
     attach_file 'result[track_attributes][file]', file, make_visible: true
 
     click_button I18n.t('general.save')

@@ -1,5 +1,5 @@
-feature 'Event competitors', type: :system, js: true do
-  scenario 'add competitor with existing profile' do
+describe 'Event competitors', js: true do
+  it 'add competitor with existing profile' do
     event = create :event, responsible: user
     create :event_section, event: event
 
@@ -24,7 +24,7 @@ feature 'Event competitors', type: :system, js: true do
     expect(page).to have_content(profile.name)
   end
 
-  scenario 'add competitor with new profile' do
+  it 'add competitor with new profile' do
     event = create :event, responsible: user
     create :event_section, event: event
 
@@ -37,7 +37,7 @@ feature 'Event competitors', type: :system, js: true do
     click_link I18n.t('activerecord.models.event/competitor')
     expect(page).to have_css('.modal-title', text: "#{I18n.t('activerecord.models.event/competitor')}: New")
 
-    find('label', text: I18n.t('competitors.form.create_profile')).click
+    find('label', text: I18n.t('competitors.form.create_profile')).find('input').click
 
     fill_in 'competitor_name', with: profile_name
     find('#select2-country_id-container').click

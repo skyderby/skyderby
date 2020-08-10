@@ -16,6 +16,7 @@ describe Api::V1::TracksController do
       'jumpRange' => hash_including('from', 'to')
     )
   end
+
   describe '#index' do
     it 'has correct keys in response' do
       get :index, format: :json
@@ -98,9 +99,9 @@ describe Api::V1::TracksController do
       track = tracks(:hellesylt)
       track.update(owner: users(:admin))
 
-      delete :destroy, params: { id: track.id }, format: :json
+      put :update, params: { id: track.id }, format: :json
 
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:forbidden)
     end
   end
 
