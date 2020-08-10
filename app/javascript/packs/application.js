@@ -33,13 +33,13 @@ import 'bootstrap/js/tab'
 import 'bootstrap/js/tooltip'
 import 'utils/bootstrap'
 
-// import Highcharts from 'highcharts'
-// import HighchartsMore from 'highcharts/highcharts-more'
-//
-// window.Highcharts = Highcharts
-// window.HighchartsMore = HighchartsMore
-//
-// HighchartsMore(Highcharts)
+import Highcharts from 'highcharts'
+import HighchartsMore from 'highcharts/highcharts-more'
+
+window.Highcharts = Highcharts
+window.HighchartsMore = HighchartsMore
+
+HighchartsMore(Highcharts)
 
 import 'utils/google_maps_api'
 import 'utils/cesium_api'

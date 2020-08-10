@@ -29,7 +29,7 @@ const Profile = ({ value, onClick, onDelete }) => {
     onClick?.()
   }
 
-  const title = `Place: ${data.name}`
+  const title = `Profile: ${data.name}`
 
   return (
     <ProfileContainer onClick={handleTokenClick} title={title}>
