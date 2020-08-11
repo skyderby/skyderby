@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 
 import { createPointsSelector } from 'redux/tracks/points'
 import { createWindDataSelector } from 'redux/tracks/windData'
+import { createTrackSelector } from 'redux/tracks'
 import { subtractWind } from 'utils/windCancellation'
 import { cropPoints } from 'utils/pointsFilter'
 import RangeSlider from 'components/RangeSlider'
@@ -10,6 +11,7 @@ import { usePageContext } from 'components/PageContext'
 import Summary from './Summary'
 import Charts from './Charts'
 import ViewSettings from './ViewSettings'
+import RangeShortcuts from './RangeShortcuts'
 import { getMinMaxAltitude } from './minMaxAltitude'
 import useSelectedAltitudeRange from './useSelectedAltitudeRange'
 import useSyncParamsToUrl from './useSyncParamsToUrl'
@@ -22,6 +24,7 @@ const TrackInsights = () => {
     straightLine: initialStraightLine
   } = usePageContext()
 
+  const track = useSelector(createTrackSelector(trackId))
   const points = useSelector(createPointsSelector(trackId))
   const windData = useSelector(createWindDataSelector(trackId))
 
@@ -68,6 +71,13 @@ const TrackInsights = () => {
         values={selectedAltitudeRange}
         onChange={handleAltitudeRangeChange}
         step={50}
+      />
+
+      <RangeShortcuts
+        activity={track.kind}
+        altitudeRange={trackAltitudeRange || [0, 1]}
+        selectedAltitudeRange={selectedAltitudeRange}
+        onChange={handleAltitudeRangeChange}
       />
 
       <Charts points={selectedPoints} zeroWindPoints={zeroWindPoints} />
