@@ -6,7 +6,7 @@ downloadable = policy(track).download?
 json.editable editable
 json.downloadable downloadable
 
-json.extract! track, :id, :comment, :profile_id, :suit_id, :place_id, :data_frequency
+json.extract! track, :id, :kind, :comment, :profile_id, :suit_id, :place_id, :data_frequency
 json.pilot_name track.name
 json.suit_name track.missing_suit_name
 json.place_name track.location
