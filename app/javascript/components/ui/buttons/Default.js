@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export default styled.button`
   background-color: var(--white);
@@ -25,4 +25,20 @@ export default styled.button`
   &:disabled {
     opacity: 0.3;
   }
+
+  ${props =>
+    props.size === 'xs'
+      ? css`
+          font-size: 0.75rem;
+          line-height: 1.5;
+          padding: 3px 1em 1px;
+        `
+      : ''}
+
+  ${props =>
+    props.rounded
+      ? css`
+          border-radius: 1.5em;
+        `
+      : ''}
 `

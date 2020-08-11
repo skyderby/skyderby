@@ -5,7 +5,7 @@ export const Container = styled.div`
   padding: 0 1rem;
   width: 100%;
   height: 60px;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 `
 
 export const Slider = styled(SliderBase)`
