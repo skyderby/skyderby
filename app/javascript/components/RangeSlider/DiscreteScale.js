@@ -28,8 +28,8 @@ export class DiscreteScale {
       step
     } = this
 
-    if (x === d0) return r0
-    if (x === d1) return r1
+    if (x <= d0) return r0
+    if (x >= d1) return r1
 
     const p = (clamp(x, d0, d1) - d0) / (d1 - d0)
     const b = step * Math.round((r0 + p * (r1 - r0)) / step)
