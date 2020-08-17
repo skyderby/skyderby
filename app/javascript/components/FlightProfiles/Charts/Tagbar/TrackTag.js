@@ -4,19 +4,19 @@ import PropTypes from 'prop-types'
 
 import IconTimes from 'icons/times.svg'
 
-import { selectTrack } from 'redux/flightProfiles'
+import { createTrackSelector } from 'redux/tracks'
+import { createProfileSelector } from 'redux/profiles'
 import { Tag, DeleteButton, Label } from './elements'
 
 const TrackTag = ({ trackId, onDelete }) => {
-  const track = useSelector(state => selectTrack(state, trackId))
+  const track = useSelector(createTrackSelector(trackId))
+  const profile = useSelector(createProfileSelector(track?.profileId))
 
-  if (!track) return null
+  const label = [profile?.name, `#${trackId}`].filter(Boolean).join(' - ')
 
   return (
     <Tag>
-      <Label>
-        {track.pilotName} - #{trackId}
-      </Label>
+      <Label>{label}</Label>
       <DeleteButton type="button" onClick={onDelete}>
         <IconTimes />
       </DeleteButton>

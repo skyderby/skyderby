@@ -37,7 +37,7 @@ export const loadTrackVideo = trackId => {
       if (err.response?.status === 404) {
         dispatch({ type: LOAD_NO_VIDEO, payload: { id: trackId } })
       } else {
-        alert(err)
+        throw err
       }
     }
   }
@@ -52,7 +52,8 @@ export const saveTrackVideo = (trackId, trackVideo) => {
       dispatch({ type: SAVE_SUCCESS, payload: { id: trackId, ...data } })
     } catch (err) {
       dispatch({ type: SAVE_ERROR, payload: { id: trackId } })
-      alert(err)
+
+      throw err
     }
   }
 }
@@ -66,7 +67,8 @@ export const deleteTrackVideo = trackId => {
       dispatch({ type: DELETE_SUCCESS, payload: { id: trackId } })
     } catch (err) {
       dispatch({ type: DELETE_ERROR, payload: { id: trackId } })
-      alert(err)
+
+      throw err
     }
   }
 }

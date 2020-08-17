@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import { devices } from 'styles/devices'
 
 export default styled.button`
   background-color: var(--white);
@@ -29,9 +30,13 @@ export default styled.button`
   ${props =>
     props.size === 'xs'
       ? css`
-          font-size: 0.75rem;
+          font-size: 1rem;
           line-height: 1.5;
           padding: 3px 1em 1px;
+
+          @media ${devices.small} {
+            font-size: 0.75rem;
+          }
         `
       : ''}
 

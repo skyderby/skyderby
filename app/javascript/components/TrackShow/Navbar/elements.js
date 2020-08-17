@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  height: 35px;
+  height: 2.1875rem;
   position: relative;
   overflow: hidden;
 `
@@ -22,6 +22,7 @@ export const Menu = styled.ul`
   overflow-x: scroll;
   padding: 0 1rem 2rem;
   white-space: nowrap;
+  list-style: none;
 `
 
 export const MenuItem = styled.li`
