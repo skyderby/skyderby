@@ -36,7 +36,8 @@ export const loadPlace = placeId => async (dispatch, getState) => {
     dispatch({ type: LOAD_SUCCESS, payload: data })
   } catch (err) {
     dispatch({ type: LOAD_ERROR, payload: { id: placeId } })
-    console.warn(err)
+
+    throw err
   }
 }
 

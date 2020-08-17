@@ -1,5 +1,6 @@
 import { TOGGLE_TRACK } from './actionTypes'
 import { isTrackSelected } from './selectors'
+import { loadTrack } from 'redux/tracks'
 import { loadTrackPoints } from 'redux/tracks/points'
 
 export const toggleTrack = trackId => {
@@ -9,6 +10,7 @@ export const toggleTrack = trackId => {
     const isSelected = isTrackSelected(getState(), trackId)
 
     if (isSelected) {
+      dispatch(loadTrack(trackId))
       dispatch(loadTrackPoints(trackId))
     }
   }
