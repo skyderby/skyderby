@@ -17,7 +17,7 @@ import videos from './videos'
 
 import { selectTrack } from './selectors'
 
-import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
+import { LOAD_REQUEST, LOAD_SUCCESS, LOAD_ERROR } from './actionTypes'
 import {
   DELETE_ERROR,
   DELETE_REQUEST,
@@ -51,7 +51,9 @@ export const loadTrack = trackId => {
 
       dispatch({ type: LOAD_SUCCESS, payload: data })
     } catch (err) {
-      alert(err)
+      dispatch({ type: LOAD_ERROR, payload: { id: trackId } })
+
+      throw err
     }
   }
 }
@@ -65,7 +67,8 @@ export const deleteTrack = trackId => {
       dispatch({ type: DELETE_SUCCESS, payload: { id: trackId } })
     } catch (err) {
       dispatch({ type: DELETE_ERROR, payload: { id: trackId } })
-      alert(err)
+
+      throw err
     }
   }
 }

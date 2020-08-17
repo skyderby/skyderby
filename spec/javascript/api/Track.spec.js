@@ -54,13 +54,14 @@ describe('Index params', () => {
   describe('#extractFromUrl', () => {
     it('without prefix', () => {
       const result = IndexParams.extractFromUrl(
-        '?year[]=2018&profileId[]=3&year[]=2020&page=2'
+        '?year[]=2018&profileId[]=3&year[]=2020&page=2&sortBy=id+asc'
       )
 
       expect(result).toEqual({
         activity: null,
         page: '2',
         perPage: 25,
+        sortBy: 'id asc',
         filters: [
           ['year', '2018'],
           ['profileId', '3'],
@@ -71,7 +72,7 @@ describe('Index params', () => {
 
     it('with prefix', () => {
       const result = IndexParams.extractFromUrl(
-        '?tracks[year][]=2018&tracks[profileId][]=3&tracks[year][]=2020&tracks[page]=2',
+        '?tracks[year][]=2018&tracks[profileId][]=3&tracks[year][]=2020&tracks[page]=2&tracks[sortBy]=id+asc',
         'tracks'
       )
 
@@ -79,6 +80,7 @@ describe('Index params', () => {
         activity: null,
         page: '2',
         perPage: 25,
+        sortBy: 'id asc',
         filters: [
           ['year', '2018'],
           ['profileId', '3'],

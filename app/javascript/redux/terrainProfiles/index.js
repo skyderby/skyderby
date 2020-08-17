@@ -2,7 +2,7 @@ import axios from 'axios'
 import { combineReducers } from 'redux'
 
 import { bulkLoadPlaces } from 'redux/places'
-import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
+import { LOAD_REQUEST, LOAD_SUCCESS, LOAD_ERROR } from './actionTypes'
 import allIds from './allIds'
 import byId from './byId'
 import status from './status'
@@ -22,7 +22,9 @@ export const loadTerrainProfiles = () => {
 
       dispatch({ type: LOAD_SUCCESS, payload: data })
     } catch (err) {
-      alert(err)
+      dispatch({ type: LOAD_ERROR, payload: {} })
+
+      throw err
     }
   }
 }

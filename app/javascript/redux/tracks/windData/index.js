@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { combineReducers } from 'redux'
 
-import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
+import { LOAD_REQUEST, LOAD_SUCCESS, LOAD_ERROR } from './actionTypes'
 import byId from './byId'
 import allIds from './allIds'
 
@@ -23,7 +23,9 @@ export const loadTrackWindData = trackId => {
 
       dispatch({ type: LOAD_SUCCESS, payload: { id: trackId, items: data } })
     } catch (err) {
-      alert(err)
+      dispatch({ type: LOAD_ERROR, payload: { id: trackId } })
+
+      throw err
     }
   }
 }
