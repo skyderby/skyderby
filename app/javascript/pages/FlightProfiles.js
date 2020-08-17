@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 import FlightProfiles from 'components/FlightProfiles'
-import { loadTracks } from 'redux/flightProfiles/tracksList'
 import { loadTerrainProfiles } from 'redux/terrainProfiles'
 import { toggleTrack, selectTerrainProfile } from 'redux/flightProfiles'
 
@@ -23,7 +22,6 @@ const FlightProfilesPage = () => {
   useEffect(() => {
     dispatch(loadTerrainProfiles())
 
-    dispatch(loadTracks(urlParams))
     selectedTracks.forEach(trackId => dispatch(toggleTrack(trackId)))
 
     if (selectedTerrainProfile) {
