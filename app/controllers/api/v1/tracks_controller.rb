@@ -60,7 +60,7 @@ module Api
       end
 
       def apply_sort(collection)
-        TrackOrder.new(index_params[:order]).apply(collection)
+        TrackOrder.new(index_params[:sort_by]).apply(collection)
       end
 
       def preload_associations(collection)
@@ -88,7 +88,7 @@ module Api
         params.permit \
           :per_page,
           :page,
-          :order,
+          :sort_by,
           :profile_id,
           :suit_id,
           :place_id,
