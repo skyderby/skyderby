@@ -1,7 +1,7 @@
 import Api from 'api'
 import { combineReducers } from 'redux'
 
-import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
+import { LOAD_REQUEST, LOAD_SUCCESS, LOAD_ERROR } from './actionTypes'
 import allIds from './allIds'
 import byId from './byId'
 
@@ -20,7 +20,9 @@ export const loadSuit = suitId => {
       const data = await Api.Suit.findRecord(suitId)
       dispatch({ type: LOAD_SUCCESS, payload: data })
     } catch (err) {
-      alert(err)
+      dispatch({ type: LOAD_ERROR, payload: { id: suitId } })
+
+      throw err
     }
   }
 }

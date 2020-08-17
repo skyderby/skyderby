@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const endpoint = '/api/v1/country'
+const endpoint = '/api/v1/countries'
 
 const Country = {
   async findRecord(id) {
