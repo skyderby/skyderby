@@ -35,8 +35,8 @@ export const SuitContainer = styled.div`
   white-space: nowrap;
 
   svg {
-    height: 0.75rem;
-    margin-right: 0.25rem;
+    height: 0.75em;
+    margin-right: 0.25em;
 
     path {
       fill: #999;
@@ -45,11 +45,11 @@ export const SuitContainer = styled.div`
 `
 
 export const PlaceContainer = styled.div`
-  margin-right: 1rem;
+  margin-right: 1em;
 
   svg {
-    height: 0.75rem;
-    margin-right: 0.25rem;
+    height: 0.75em;
+    margin-right: 0.25em;
 
     path {
       fill: #999;

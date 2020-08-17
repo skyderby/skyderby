@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 
 import Api from 'api'
 
-import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
+import { LOAD_REQUEST, LOAD_SUCCESS, LOAD_ERROR } from './actionTypes'
 import allIds from './allIds'
 import byId from './byId'
 
@@ -24,7 +24,9 @@ export const loadCountry = countryId => async (dispatch, getState) => {
     const data = await Api.Country.findRecord(countryId)
     dispatch({ type: LOAD_SUCCESS, payload: data })
   } catch (err) {
-    alert(err)
+    dispatch({ type: LOAD_ERROR, payload: { id: countryId } })
+
+    throw err
   }
 }
 
