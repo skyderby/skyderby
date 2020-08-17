@@ -32,12 +32,17 @@ const TracksIndex = ({ location }) => {
     [buildUrl, history, location.pathname]
   )
 
+  const updateSort = useCallback(
+    sortBy => history.replace(`${location.pathname}${buildUrl({ sortBy, page: 1 })}`),
+    [buildUrl, history, location.pathname]
+  )
+
   useEffect(() => {
     dispatch(loadTracks(params))
   }, [dispatch, params])
 
   return (
-    <PageContext value={{ updateFilters, buildUrl, params }}>
+    <PageContext value={{ updateFilters, updateSort, buildUrl, params }}>
       <TrackList />
     </PageContext>
   )

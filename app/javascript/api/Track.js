@@ -7,10 +7,11 @@ const prefixKey = (key, prefix) => (prefix ? `${prefix}[${key}]` : key)
 const allowedFilters = ['profileId', 'suitId', 'placeId', 'year']
 
 export const IndexParams = {
-  mapToUrl: ({ activity, filters, page }, prefix) => {
+  mapToUrl: ({ activity, filters, page, sortBy }, prefix) => {
     const params = new URLSearchParams()
 
     if (activity) params.set(prefixKey('kind', prefix), activity)
+    if (sortBy) params.set(prefixKey('sortBy', prefix), sortBy)
     if (Number(page) > 1) params.set(prefixKey('page', prefix), page)
 
     filters.forEach(([key, val]) => params.append(`${prefixKey(key, prefix)}[]`, val))
@@ -22,6 +23,7 @@ export const IndexParams = {
     const allParams = new URLSearchParams(urlSearch)
 
     const activity = allParams.get(prefixKey('kind', prefix))
+    const sortBy = allParams.get(prefixKey('sortBy', prefix))
     const page = allParams.get(prefixKey('page', prefix)) || 1
 
     const filters = Array.from(allParams.entries())
@@ -39,7 +41,7 @@ export const IndexParams = {
 
     const perPage = isMobileOnly ? 5 : 25
 
-    return { activity, filters, page, perPage }
+    return { activity, filters, page, perPage, sortBy }
   }
 }
 
