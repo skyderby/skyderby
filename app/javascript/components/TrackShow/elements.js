@@ -11,7 +11,7 @@ export const PageContainer = styled.div`
 `
 
 export const ContentContainer = styled.div`
-  background-color: #fff;
+  background-color: var(--white);
   font-family: 'Proxima Nova Regular';
   width: 100%;
   padding: 1rem;
@@ -20,6 +20,7 @@ export const ContentContainer = styled.div`
   border-bottom-color: var(--border-color);
 
   @media ${devices.large} {
+    border-radius: var(--border-radius-lg);
     border-left-color: var(--border-color);
     border-right-color: var(--border-color);
   }
