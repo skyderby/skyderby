@@ -1,6 +1,6 @@
 import React from 'react'
 
-import renderWithRedux from 'testHelpers/renderWithRedux'
+import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
 import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
 import VerticalSpeed from 'components/TrackInsights/Summary/VerticalSpeed'
 
@@ -8,7 +8,7 @@ describe('Summary/VerticalSpeed', () => {
   describe('metric units', () => {
     const renderComponent = props => {
       const initialState = { userPreferences: { unitSystem: METRIC } }
-      return renderWithRedux(<VerticalSpeed {...props} />, initialState)
+      return renderWithAllProviders(<VerticalSpeed {...props} />, initialState)
     }
 
     it('average value', () => {
@@ -39,7 +39,7 @@ describe('Summary/VerticalSpeed', () => {
   describe('imperial units', () => {
     const renderComponent = props => {
       const initialState = { userPreferences: { unitSystem: IMPERIAL } }
-      return renderWithRedux(<VerticalSpeed {...props} />, initialState)
+      return renderWithAllProviders(<VerticalSpeed {...props} />, initialState)
     }
 
     it('average value', () => {
@@ -70,7 +70,7 @@ describe('Summary/VerticalSpeed', () => {
   describe('empty values', () => {
     const renderComponent = props => {
       const initialState = { userPreferences: { unitSystem: METRIC } }
-      return renderWithRedux(<VerticalSpeed {...props} />, initialState)
+      return renderWithAllProviders(<VerticalSpeed {...props} />, initialState)
     }
 
     it('average value - NaN', () => {
