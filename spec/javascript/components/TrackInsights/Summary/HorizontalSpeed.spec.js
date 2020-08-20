@@ -1,6 +1,6 @@
 import React from 'react'
 
-import renderWithRedux from 'testHelpers/renderWithRedux'
+import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
 import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
 import HorizontalSpeed from 'components/TrackInsights/Summary/HorizontalSpeed'
 
@@ -8,7 +8,7 @@ describe('Summary/VerticalSpeed', () => {
   describe('metric units', () => {
     const renderComponent = props => {
       const initialState = { userPreferences: { unitSystem: METRIC } }
-      return renderWithRedux(<HorizontalSpeed {...props} />, initialState)
+      return renderWithAllProviders(<HorizontalSpeed {...props} />, initialState)
     }
 
     it('hide wind effect if no zeroWindValue provided', () => {
@@ -57,7 +57,7 @@ describe('Summary/VerticalSpeed', () => {
   describe('imperial units', () => {
     const renderComponent = props => {
       const initialState = { userPreferences: { unitSystem: IMPERIAL } }
-      return renderWithRedux(<HorizontalSpeed {...props} />, initialState)
+      return renderWithAllProviders(<HorizontalSpeed {...props} />, initialState)
     }
 
     it('average value', () => {
@@ -98,7 +98,7 @@ describe('Summary/VerticalSpeed', () => {
   describe('empty values', () => {
     const renderComponent = props => {
       const initialState = { userPreferences: { unitSystem: METRIC } }
-      return renderWithRedux(<HorizontalSpeed {...props} />, initialState)
+      return renderWithAllProviders(<HorizontalSpeed {...props} />, initialState)
     }
 
     it('average value - NaN', () => {

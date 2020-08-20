@@ -1,3 +1,5 @@
+import I18n from 'i18n-js'
+
 const taskUnits = {
   time: I18n.t('units.sec'),
   distance: I18n.t('units.m'),
