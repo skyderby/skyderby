@@ -2,7 +2,7 @@ import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import I18n from 'i18n-js'
 
-import { createModalRoot } from 'testHelpers/createModalRoot'
+import createModalRoot from 'testHelpers/createModalRoot'
 import { SINGLE_CHART, MULTI_CHART } from 'redux/userPreferences/chartMode'
 import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
 import SettingsModal from 'components/TrackInsights/ViewSettings/SettingsModal'

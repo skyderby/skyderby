@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import I18n from 'i18n-js'
 import PropTypes from 'prop-types'
 
 import { updatePreferences } from 'redux/userPreferences'
