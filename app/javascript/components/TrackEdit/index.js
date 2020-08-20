@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import I18n from 'i18n-js'
 
 import { createTrackSelector, deleteTrack } from 'redux/tracks'
 import { usePageContext } from 'components/PageContext'
