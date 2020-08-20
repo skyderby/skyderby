@@ -1,4 +1,4 @@
-import { LOAD_REQUEST, LOAD_SUCCESS, CREATE_SUCCESS } from './actionTypes'
+import { LOAD_REQUEST, LOAD_SUCCESS, LOAD_ERROR, CREATE_SUCCESS } from './actionTypes'
 import {
   DELETE_SUCCESS as VIDEO_DELETE,
   SAVE_SUCCESS as VIDEO_SAVE
@@ -12,6 +12,11 @@ const track = (state = initialState, action) => {
       return {
         ...state,
         status: 'loading'
+      }
+    case LOAD_ERROR:
+      return {
+        ...state,
+        status: 'error'
       }
     case CREATE_SUCCESS:
     case LOAD_SUCCESS:
