@@ -68,7 +68,7 @@ class SliderBase extends ReactCompoundSlider {
         pixelToStep.setStep(step).setRange([min, max])
       }
 
-      if (max > min) {
+      if (min > max) {
         console.warn(
           `${prfx} Max must be greater than min (even if reversed). Max is ${max}. Min is ${min}.`
         )

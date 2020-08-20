@@ -25,6 +25,10 @@
     },
     "transformIgnorePatterns": [
       "/node_modules/(?!geodesy)"
+    ],
+    "testURL": "http://skyderby.test",
+    "setupFilesAfterEnv": [
+      "<rootDir>/spec/javascript/jest/setup.js"
     ]
   },
   "dependencies": {
@@ -93,6 +97,7 @@
     "eslint-plugin-react-hooks": "^4.0.1",
     "jest": "^26.0",
     "prettier": "^2.0.5",
+    "nock": "^13.0.4",
     "react-refresh": "^0.8.3",
     "react-svg-loader": "^3.0.3",
     "webpack": "^4.41",

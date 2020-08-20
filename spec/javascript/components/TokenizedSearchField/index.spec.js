@@ -1,7 +1,6 @@
 import React from 'react'
-import renderWithRedux from 'testHelpers/renderWithRedux'
+import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
 import { screen, fireEvent, waitFor, within } from '@testing-library/react'
-import '@testing-library/jest-dom/extend-expect'
 
 import TokenizedSearchField from 'components/TokenizedSearchField'
 
@@ -27,13 +26,13 @@ describe('TokenizedSearchField', () => {
 
   describe('empty state', () => {
     it('displays placeholder', () => {
-      renderWithRedux(<TokenizedSearchField {...baseProps} />)
+      renderWithAllProviders(<TokenizedSearchField {...baseProps} />)
 
       expect(screen.queryByText('Search or filter tracks')).toBeInTheDocument()
     })
 
     it('hide clear button', () => {
-      renderWithRedux(<TokenizedSearchField {...baseProps} />)
+      renderWithAllProviders(<TokenizedSearchField {...baseProps} />)
 
       expect(screen.queryByTitle('Clear all')).not.toBeInTheDocument()
     })
@@ -41,7 +40,7 @@ describe('TokenizedSearchField', () => {
 
   describe('with values', () => {
     it('show clear button', async () => {
-      renderWithRedux(
+      renderWithAllProviders(
         <TokenizedSearchField {...baseProps} initialValues={[['year', 2018]]} />
       )
 
@@ -50,7 +49,7 @@ describe('TokenizedSearchField', () => {
   })
 
   it('loading value presentation', async () => {
-    renderWithRedux(
+    renderWithAllProviders(
       <TokenizedSearchField
         {...baseProps}
         initialValues={[
@@ -66,7 +65,7 @@ describe('TokenizedSearchField', () => {
   })
 
   it('displays type select on click', async () => {
-    renderWithRedux(<TokenizedSearchField {...baseProps} />)
+    renderWithAllProviders(<TokenizedSearchField {...baseProps} />)
 
     fireEvent.keyDown(await screen.findByLabelText('Select filter criteria'), {
       key: 'ArrowDown',
@@ -82,7 +81,9 @@ describe('TokenizedSearchField', () => {
   it('adding filter', async () => {
     const handleChange = jest.fn()
 
-    renderWithRedux(<TokenizedSearchField {...baseProps} onChange={handleChange} />)
+    renderWithAllProviders(
+      <TokenizedSearchField {...baseProps} onChange={handleChange} />
+    )
 
     fireEvent.keyDown(await screen.findByLabelText('Select filter criteria'), {
       key: 'ArrowDown',
@@ -98,7 +99,7 @@ describe('TokenizedSearchField', () => {
   it('delete single value', async () => {
     const handleChange = jest.fn()
 
-    renderWithRedux(
+    renderWithAllProviders(
       <TokenizedSearchField
         {...baseProps}
         initialValues={[
@@ -121,7 +122,7 @@ describe('TokenizedSearchField', () => {
   it('delete all', async () => {
     const handleChange = jest.fn()
 
-    renderWithRedux(
+    renderWithAllProviders(
       <TokenizedSearchField
         {...baseProps}
         initialValues={[
