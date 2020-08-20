@@ -1,12 +1,12 @@
 import React from 'react'
 
-import renderWithRedux from 'testHelpers/renderWithRedux'
+import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
 import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
 import Elevation from 'components/TrackInsights/Summary/Elevation'
 
 describe('Summary/Elevation', () => {
   it('shows elevation rounded to whole digit', () => {
-    const { getByLabelText } = renderWithRedux(<Elevation value={1000.373} />)
+    const { getByLabelText } = renderWithAllProviders(<Elevation value={1000.373} />)
 
     expect(getByLabelText('elevation').textContent).toBe('1000')
   })
@@ -14,7 +14,7 @@ describe('Summary/Elevation', () => {
   describe('metric units', () => {
     const renderComponent = props => {
       const initialState = { userPreferences: { unitSystem: METRIC } }
-      return renderWithRedux(<Elevation {...props} />, initialState)
+      return renderWithAllProviders(<Elevation {...props} />, initialState)
     }
 
     it('correct value', () => {
@@ -27,7 +27,7 @@ describe('Summary/Elevation', () => {
   describe('imperial units', () => {
     const renderComponent = props => {
       const initialState = { userPreferences: { unitSystem: IMPERIAL } }
-      return renderWithRedux(<Elevation {...props} />, initialState)
+      return renderWithAllProviders(<Elevation {...props} />, initialState)
     }
 
     it('correct value', () => {
@@ -39,7 +39,7 @@ describe('Summary/Elevation', () => {
 
   describe('empty values', () => {
     it('shows placeholder', () => {
-      const { getByLabelText } = renderWithRedux(<Elevation />)
+      const { getByLabelText } = renderWithAllProviders(<Elevation />)
 
       expect(getByLabelText('elevation').textContent).toBe('----')
     })

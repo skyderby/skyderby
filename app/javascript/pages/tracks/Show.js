@@ -51,7 +51,7 @@ const Show = ({ match, location: { search, state: locationState } }) => {
     )
   }
 
-  if (pageStatus === 'ServerError')
+  if (pageStatus === 'ServerError') {
     return (
       <ErrorPlaceholder title="500" description="Server error">
         <PrimaryButton as={Link} to="/tracks">
@@ -59,6 +59,7 @@ const Show = ({ match, location: { search, state: locationState } }) => {
         </PrimaryButton>
       </ErrorPlaceholder>
     )
+  }
 
   return (
     <PageContext
