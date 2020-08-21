@@ -59,7 +59,8 @@ function drawChart(ctx, rangeFrom, rangeTo) {
   ctx.closePath()
 }
 
-function getChartCoordinates(altitude, distance, rangeFrom, rangeTo) {
+function getChartCoordinates(altitude, distance, rangeFrom, rangeTo, distanceRange) {
+  const plotXPadding = 100
   const minY = 0
   const maxY = chartHeight
   const yRatio = (chartWindowEnds - chartWindowBegins) / (rangeFrom - rangeTo)
@@ -67,18 +68,22 @@ function getChartCoordinates(altitude, distance, rangeFrom, rangeTo) {
   const minX = chartWidth * 0.05
   const maxX = chartWidth * 0.97
 
-  const xRatio = (maxX - minX) / 5500
+  const xRatio =
+    (maxX - minX) / (distanceRange.max - distanceRange.min + 2 * plotXPadding)
 
   const y = Math.min(
     maxY,
     Math.max(minY, chartWindowBegins + (rangeFrom - altitude) * yRatio)
   )
-  const x = Math.min(maxX, Math.max(minX, minX + (distance + 500) * xRatio))
+  const x = Math.min(
+    maxX,
+    Math.max(minX, minX + (distance - distanceRange.min + plotXPadding) * xRatio)
+  )
 
   return [x, y]
 }
 
-function drawPath(ctx, points, color, rangeFrom, rangeTo) {
+function drawPath(ctx, points, color, rangeFrom, rangeTo, distanceRange) {
   ctx.save()
   ctx.beginPath()
   ctx.lineWidth = 8
@@ -94,13 +99,20 @@ function drawPath(ctx, points, color, rangeFrom, rangeTo) {
     startAltitude,
     startDistance,
     rangeFrom,
-    rangeTo
+    rangeTo,
+    distanceRange
   )
 
   ctx.moveTo(startX, startY)
   points.forEach(point => {
     const { altitude, chartDistance } = point
-    const [x, y] = getChartCoordinates(altitude, chartDistance, rangeFrom, rangeTo)
+    const [x, y] = getChartCoordinates(
+      altitude,
+      chartDistance,
+      rangeFrom,
+      rangeTo,
+      distanceRange
+    )
 
     ctx.lineTo(x, y)
   })
@@ -114,7 +126,8 @@ function drawPath(ctx, points, color, rangeFrom, rangeTo) {
     lastAltitude,
     lastDistance,
     rangeFrom,
-    rangeTo
+    rangeTo,
+    distanceRange
   )
 
   ctx.beginPath()
@@ -126,13 +139,13 @@ function drawPath(ctx, points, color, rangeFrom, rangeTo) {
   ctx.restore()
 }
 
-function updateChart(ctx, paths, rangeFrom, rangeTo) {
+function updateChart(ctx, paths, rangeFrom, rangeTo, distanceRange) {
   drawChart(ctx, rangeFrom, rangeTo)
 
   paths.forEach((points, idx) => {
     if (points.length === 0) return
 
-    drawPath(ctx, points, colors[idx], rangeFrom, rangeTo)
+    drawPath(ctx, points, colors[idx], rangeFrom, rangeTo, distanceRange)
   })
 }
 

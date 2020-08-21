@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 
 import AltitudeChart from './AltitudeChart'
@@ -8,7 +8,7 @@ import getPathsUntilTime from './getPathsUntilTime'
 import { Container } from './elements'
 
 const Player = ({ discipline, rangeFrom, rangeTo, group = [], playing }) => {
-  const [playerPoints, setPlayerPoints] = useState()
+  const [playerPoints, setPlayerPoints] = useState([])
 
   const chartRef = useRef()
   const cardsRef = useRef()
@@ -16,6 +16,18 @@ const Player = ({ discipline, rangeFrom, rangeTo, group = [], playing }) => {
   const playerTime = useRef()
   const prevFrameTime = useRef()
   const requestId = useRef()
+
+  const distanceRange = useMemo(
+    () =>
+      playerPoints.reduce(
+        (acc, points) => ({
+          min: Math.min(acc.min, points[0]?.chartDistance),
+          max: Math.max(acc.max, points[points.length - 1]?.chartDistance)
+        }),
+        { min: 0, max: 0 }
+      ),
+    [playerPoints]
+  )
 
   useEffect(() => {
     if (group.length === 0) return
@@ -58,7 +70,12 @@ const Player = ({ discipline, rangeFrom, rangeTo, group = [], playing }) => {
 
   return (
     <Container>
-      <AltitudeChart ref={chartRef} rangeFrom={rangeFrom} rangeTo={rangeTo} />
+      <AltitudeChart
+        ref={chartRef}
+        distanceRange={distanceRange}
+        rangeFrom={rangeFrom}
+        rangeTo={rangeTo}
+      />
       <CompetitorCards ref={cardsRef} group={group} discipline={discipline} />
     </Container>
   )

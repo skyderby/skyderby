@@ -5,13 +5,13 @@ import { drawChart, updateChart } from './utils'
 import { drawHeight, drawWidth } from './constants'
 import { Canvas } from './elements'
 
-const AltitudeChart = forwardRef(({ rangeFrom, rangeTo }, ref) => {
+const AltitudeChart = forwardRef(({ distanceRange, rangeFrom, rangeTo }, ref) => {
   const canvasRef = useRef()
 
   const drawFrame = paths => {
     const ctx = canvasRef.current?.getContext('2d')
 
-    updateChart(ctx, paths, rangeFrom, rangeTo)
+    updateChart(ctx, paths, rangeFrom, rangeTo, distanceRange)
   }
 
   useImperativeHandle(ref, () => ({ drawFrame }))
@@ -32,7 +32,11 @@ AltitudeChart.displayName = 'AltitudeChart'
 
 AltitudeChart.propTypes = {
   rangeFrom: PropTypes.number,
-  rangeTo: PropTypes.number
+  rangeTo: PropTypes.number,
+  distanceRange: PropTypes.shape({
+    min: PropTypes.number.isRequired,
+    max: PropTypes.number.isRequired
+  }).isRequired
 }
 
 export default AltitudeChart
