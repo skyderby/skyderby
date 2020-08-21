@@ -32,8 +32,10 @@ const Player = ({ discipline, rangeFrom, rangeTo, group = [], playing }) => {
   useEffect(() => {
     if (group.length === 0) return
 
-    setPlayerPoints(group.map(data => processPoints(discipline, rangeTo, data)))
-  }, [group, discipline, rangeTo])
+    setPlayerPoints(
+      group.map(data => processPoints(discipline, rangeFrom, rangeTo, data))
+    )
+  }, [group, discipline, rangeFrom, rangeTo])
 
   const drawFrame = useCallback(
     time => {

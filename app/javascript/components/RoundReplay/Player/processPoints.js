@@ -50,6 +50,7 @@ function getSpeed(gpsTime, distance, time, endTime, result) {
 
 function processPoints(
   discipline,
+  rangeFrom,
   rangeTo,
   { id, points, startPoint, endPoint, result }
 ) {
@@ -95,7 +96,9 @@ function processPoints(
         speed
       }
     })
-    .filter(el => el.playerTime >= -5.1 && el.altitude > rangeTo - 200)
+    .filter(
+      el => el.playerTime >= -5.1 && el.altitude > rangeTo - (rangeFrom - rangeTo) * 0.2
+    )
 }
 
 export default processPoints
