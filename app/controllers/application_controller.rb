@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
   include DeviseOverrides
   include AuthorizationErrorHandling
 
+  include CurrentAnnouncements
+
   include RackMiniProfiler
 
   layout :layout_by_resource

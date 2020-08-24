@@ -1,0 +1,5 @@
+<% if @announcement %>
+  <div class="announcement" data-controller="announcement">
+    <%= raw @announcement.to_html %>
+  </div>
+<% end %>

@@ -9,6 +9,7 @@
   %body
     #modal-root
     = render 'layouts/header' unless mobile_app?
+    = render template: 'announcements/active' unless controller.controller_path == 'static_pages'
 
     - if flash.count > 0
       .container.top-buffer

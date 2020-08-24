@@ -12,6 +12,7 @@
       - skip_header = yield(:skip_header).presence || false
       - unless skip_header
         = render 'layouts/header'
+        = render template: 'announcements/active'
 
       - if flash.count > 0
         .container.top-buffer
