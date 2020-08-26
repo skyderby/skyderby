@@ -5,17 +5,26 @@ import { ActivityLink } from './elements'
 
 const ActivitySelect = ({ buildUrl, currentActivity }) => (
   <div>
-    <ActivityLink to={buildUrl({ page: null, activity: null })} active={!currentActivity}>
+    <ActivityLink
+      to={location => ({ ...location, search: buildUrl({ page: null, activity: null }) })}
+      active={!currentActivity}
+    >
       All
     </ActivityLink>
     <ActivityLink
-      to={buildUrl({ page: null, activity: 'skydive' })}
+      to={location => ({
+        ...location,
+        search: buildUrl({ page: null, activity: 'skydive' })
+      })}
       active={currentActivity === 'skydive'}
     >
       Skydive
     </ActivityLink>
     <ActivityLink
-      to={buildUrl({ page: null, activity: 'base' })}
+      to={location => ({
+        ...location,
+        search: buildUrl({ page: null, activity: 'base' })
+      })}
       active={currentActivity === 'base'}
     >
       Base

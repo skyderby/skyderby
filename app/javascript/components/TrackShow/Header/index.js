@@ -10,7 +10,7 @@ import { Container, Row, EditLink } from './elements'
 const Header = ({ track }) => (
   <Container>
     <Row>
-      <Profile profileId={track.profileId} pilotName={track.name} />
+      <Profile profileId={track.profileId} pilotName={track.pilotName} />
       <EditLink
         to={location => ({
           pathname: `/tracks/${track.id}/edit`,
@@ -31,7 +31,7 @@ const Header = ({ track }) => (
 Header.propTypes = {
   track: PropTypes.shape({
     id: PropTypes.number,
-    name: PropTypes.string,
+    pilotName: PropTypes.string,
     suitName: PropTypes.string,
     placeName: PropTypes.string,
     profileId: PropTypes.number,

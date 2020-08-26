@@ -2,6 +2,7 @@ import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
   :root {
+    --blue-40: #75a4ba;
     --blue-50: #00a7ff;
     --blue-60: #008ed9;
 
@@ -17,17 +18,18 @@ const GlobalStyle = createGlobalStyle`
     --grey-50: #999;
     --grey-40: #aaa;
     --grey-30: #d3d3d3;
-    --grey-20: #e8e8e8;
+    --grey-20: #eee;
     --grey-10: #f3f3f3;
+    --grey-5: #fafafa;
 
     --white: #fff;
 
     --border-color: var(--grey-30);
     --text-color: var(--grey-90);
 
-    --border-radius-lg: 0.5rem;
-    --border-radius-md: 0.25rem;
-    --border-radius-sm: 0.125rem;
+    --border-radius-lg: 1rem;
+    --border-radius-md: 0.5rem;
+    --border-radius-sm: 0.375rem;
   }
 `
 
