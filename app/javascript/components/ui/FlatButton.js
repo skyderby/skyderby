@@ -18,14 +18,14 @@ const FlatButton = styled.button`
   ${props =>
     props.active
       ? css`
-          color: #555;
-          background-color: #ddd;
+          color: var(--grey-80);
+          background-color: var(--grey-20);
         `
       : ''}
 
   &:hover {
     color: #333;
-    background-color: #ddd;
+    background-color: var(--grey-20);
   }
 
   &:focus {
@@ -37,7 +37,7 @@ const FlatButton = styled.button`
     width: 1em;
 
     path {
-      fill: #777;
+      fill: var(--grey-70);
     }
   }
 `
