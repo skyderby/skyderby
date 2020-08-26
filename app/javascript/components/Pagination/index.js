@@ -14,24 +14,36 @@ const Pagination = ({ page = 1, totalPages = 0, showAround = 2, buildUrl }) => {
     .fill()
     .map((_, idx) => startIndex + idx)
 
-  const prevUrl = buildUrl({ page: Math.max(page - 1, 1) })
-  const nextUrl = buildUrl({ page: Math.min(page + 1, totalPages) })
-
   return (
     <Container>
-      <Page to={prevUrl}>
+      <Page
+        to={location => ({
+          ...location,
+          search: buildUrl({ page: Math.max(page - 1, 1) })
+        })}
+        disabled={page === 1}
+      >
         <Arrow>
           <IconChevronLeft />
         </Arrow>
       </Page>
 
       {pages.map(idx => (
-        <Page to={buildUrl({ page: idx })} key={idx} active={page === idx}>
+        <Page
+          to={location => ({ ...location, search: buildUrl({ page: idx }) })}
+          key={idx}
+          active={page === idx}
+        >
           {idx}
         </Page>
       ))}
 
-      <Page to={nextUrl}>
+      <Page
+        to={location => ({
+          ...location,
+          search: buildUrl({ page: Math.min(page + 1, totalPages) })
+        })}
+      >
         <Arrow>
           <IconChevronRight />
         </Arrow>
