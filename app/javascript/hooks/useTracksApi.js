@@ -1,4 +1,4 @@
-import { useReducer, useRef, useCallback } from 'react'
+import { useReducer, useCallback } from 'react'
 
 import TrackApi from 'api/Track'
 
