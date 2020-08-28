@@ -3,8 +3,7 @@ import styled from 'styled-components'
 import { devices } from 'styles/devices'
 
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
   width: 100%;
 
   @media ${devices.small} {
@@ -13,35 +12,32 @@ export const Container = styled.div`
     bottom: 41px;
     left: 0;
     right: 0;
-    flex-direction: row;
+    grid-template-columns: 350px 1fr;
+    grid-template-rows: 100%;
   }
 `
 
 export const SettingsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  width: 100%;
-  order: 2;
-  position: relative;
-  padding-bottom: 60px;
+  display: grid;
+  grid-template-rows: minmax(300px, 1fr) 60px;
 
   @media ${devices.small} {
     border-right: solid 1px var(--border-color);
-    width: 350px;
-    order: 1;
   }
 `
 
-export const ChartsAreaContainer = styled.div`
+export const TerrainProfileSelectContainer = styled.div`
+  border-top: solid 1px var(--border-color);
+  background-color: var(--white);
   display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  order: 1;
+  align-items: center;
+  padding: 0 1rem;
+`
 
-  @media ${devices.small} {
-    width: calc(100% - 300px);
-    order: 2;
-  }
+export const ChartsContainer = styled.div`
+  display: grid;
+  background-color: var(--white);
+  grid-template-rows: minmax(300px, 1fr) 2rem 9rem;
+  grid-gap: 0.5rem;
+  width: 100%;
 `

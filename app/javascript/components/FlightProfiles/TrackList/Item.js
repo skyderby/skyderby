@@ -1,17 +1,16 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import SuitLabel from 'components/SuitLabel'
 import PlaceLabel from 'components/PlaceLabel'
-import { toggleTrack, isTrackSelected } from 'redux/flightProfiles'
+import { usePageContext } from 'components/PageContext'
 import { Card, Row, Id, Comment, RecordedAt } from './elements'
 
 const Item = ({ track }) => {
-  const dispatch = useDispatch()
-  const active = useSelector(state => isTrackSelected(state, track.id))
+  const { selectedTracks, toggleTrack } = usePageContext()
+  const active = selectedTracks.includes(track.id)
 
-  const handleClick = () => dispatch(toggleTrack(track.id))
+  const handleClick = () => toggleTrack(track.id)
 
   return (
     <Card onClick={handleClick} active={active}>

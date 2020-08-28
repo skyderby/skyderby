@@ -20,7 +20,7 @@ export const ContentContainer = styled.div`
   border-bottom-color: var(--border-color);
 
   @media ${devices.large} {
-    border-radius: var(--border-radius-lg);
+    border-radius: var(--border-radius-md);
     border-left-color: var(--border-color);
     border-right-color: var(--border-color);
   }

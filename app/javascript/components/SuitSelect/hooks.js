@@ -7,12 +7,12 @@ export const useSuitValue = suitId => {
   const suitsCache = useRef({})
 
   const getSuitData = useCallback(async suitId => {
-    if (!suitsCache[suitId]) {
+    if (!suitsCache.current[suitId]) {
       const data = await Api.Suit.findRecord(suitId)
-      suitsCache[suitId] = data
+      suitsCache.current[suitId] = data
     }
 
-    return suitsCache[suitId]
+    return suitsCache.current[suitId]
   }, [])
 
   const fetchInitialSuit = useCallback(async () => {
