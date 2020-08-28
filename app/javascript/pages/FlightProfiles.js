@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { IndexParams } from 'api/Track'
-import { PageContext } from 'components/PageContext'
 import FlightProfiles from 'components/FlightProfiles'
+import useTracksApi from 'hooks/useTracksApi'
 import { loadTerrainProfiles } from 'redux/terrainProfiles'
 import { loadTrack } from 'redux/tracks'
 import { loadTrackPoints } from 'redux/tracks/points'
@@ -54,6 +54,8 @@ const FlightProfilesPage = ({ location }) => {
 
   const [params, setParams] = useState(() => extractFromUrl(location.search))
 
+  const previousTracksParams = useRef()
+
   useEffect(() => {
     const parsedParams = extractFromUrl(location.search)
 
@@ -61,6 +63,19 @@ const FlightProfilesPage = ({ location }) => {
 
     setParams(parsedParams)
   }, [params, setParams, location.search])
+
+  const { tracks, loadTracks, loadMoreTracks } = useTracksApi(params.tracksParams)
+
+  useEffect(() => {
+    const skipLoad =
+      JSON.stringify(previousTracksParams.current) === JSON.stringify(params.tracksParams)
+
+    if (skipLoad) return
+
+    loadTracks()
+
+    previousTracksParams.current = params.tracksParams
+  }, [loadTracks, params])
 
   const buildUrl = useCallback(
     newParams => {
@@ -118,17 +133,16 @@ const FlightProfilesPage = ({ location }) => {
 
     dispatch(loadTerrainProfileMeasurement(params.selectedTerrainProfile))
   }, [dispatch, params.selectedTerrainProfile])
+
   return (
-    <PageContext
-      value={{
-        ...params,
-        updateFilters,
-        setSelectedTerrainProfile,
-        toggleTrack
-      }}
-    >
-      <FlightProfiles />
-    </PageContext>
+    <FlightProfiles
+      tracks={tracks}
+      loadMoreTracks={loadMoreTracks}
+      updateFilters={updateFilters}
+      setSelectedTerrainProfile={setSelectedTerrainProfile}
+      toggleTrack={toggleTrack}
+      {...params}
+    />
   )
 }
 

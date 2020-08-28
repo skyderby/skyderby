@@ -1,13 +1,12 @@
 import React from 'react'
 import Select from 'react-select'
 import { useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import { terrainProfilesSelector } from 'redux/terrainProfiles'
-import { usePageContext } from 'components/PageContext'
 import selectStyles from 'styles/selectStyles'
 
-const TerrainProfileSelect = props => {
-  const { selectedTerrainProfile } = usePageContext()
+const TerrainProfileSelect = ({ value, ...props }) => {
   const terrainProfiles = useSelector(terrainProfilesSelector)
 
   const options = terrainProfiles.map(el => ({
@@ -16,8 +15,7 @@ const TerrainProfileSelect = props => {
     label: `${el.place.name} - ${el.name}`
   }))
 
-  const selectedOption =
-    selectedTerrainProfile && options.find(el => el.value === selectedTerrainProfile)
+  const selectedOption = value && options.find(el => el.value === value)
 
   return (
     <Select
@@ -30,6 +28,10 @@ const TerrainProfileSelect = props => {
       {...props}
     />
   )
+}
+
+TerrainProfileSelect.propTypes = {
+  value: PropTypes.number
 }
 
 export default TerrainProfileSelect
