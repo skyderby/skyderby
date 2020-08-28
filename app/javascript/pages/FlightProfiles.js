@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import isEqual from 'lodash.isequal'
 import PropTypes from 'prop-types'
 
 import { IndexParams } from 'api/Track'
@@ -59,7 +60,7 @@ const FlightProfilesPage = ({ location }) => {
   useEffect(() => {
     const parsedParams = extractFromUrl(location.search)
 
-    if (JSON.stringify(params) === JSON.stringify(parsedParams)) return
+    if (isEqual(params, parsedParams)) return
 
     setParams(parsedParams)
   }, [params, setParams, location.search])
@@ -67,8 +68,7 @@ const FlightProfilesPage = ({ location }) => {
   const { tracks, loadTracks, loadMoreTracks } = useTracksApi(params.tracksParams)
 
   useEffect(() => {
-    const skipLoad =
-      JSON.stringify(previousTracksParams.current) === JSON.stringify(params.tracksParams)
+    const skipLoad = isEqual(previousTracksParams.current, params.tracksParams)
 
     if (skipLoad) return
 
