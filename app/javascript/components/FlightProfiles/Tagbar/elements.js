@@ -20,16 +20,16 @@ export const TagList = styled.ul`
 export const Tag = styled.li`
   flex-shrink: 0;
   border-radius: var(--border-radius-sm);
-  color: rgba(0, 0, 0, 0.55);
-  background-color: #f8f8f8;
-  padding: 2px 0 2px 7px;
+  color: var(--grey-70);
+  background-color: var(--grey-10);
 `
 
 export const DeleteButton = styled.button`
-  border: 0;
   background-color: transparent;
+  border: 0;
+  border-radius: var(--border-radius-sm);
   outline: none;
-  padding: 0 7px;
+  padding: 0.25rem 0.5rem;
 
   svg {
     height: 0.75em;
@@ -37,10 +37,15 @@ export const DeleteButton = styled.button`
   }
 
   &:hover {
+    background-color: var(--grey-30);
+
     svg {
       fill: rgba(0, 0, 0, 0.85);
     }
   }
 `
 
-export const Label = styled.span``
+export const Label = styled.span`
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+`
