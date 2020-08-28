@@ -110,7 +110,7 @@ EditForm.propTypes = {
       to: PropTypes.number.isRequired
     }).isRequired,
     missingSuitName: PropTypes.string,
-    visibility: PropTypes.oneOf('public_track', 'unlisted_track', 'private_track')
+    visibility: PropTypes.oneOf(['public_track', 'unlisted_track', 'private_track'])
   }).isRequired,
   onSubmit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
