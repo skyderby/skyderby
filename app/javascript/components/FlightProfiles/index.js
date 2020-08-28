@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-
-import { usePageContext } from 'components/PageContext'
+import PropTypes from 'prop-types'
 
 import FlightProfilesChart from './FlightProfilesChart'
 import TerrainClearanceChart from './TerrainClearanceChart'
@@ -14,21 +13,35 @@ import {
   TerrainProfileSelectContainer
 } from './elements'
 
-const FlightProfiles = () => {
+const FlightProfiles = props => {
   const [zoomLevel, setZoomLevel] = useState()
+
   const {
+    tracks,
+    tracksParams: { filters },
+    updateFilters,
+    loadMoreTracks,
     selectedTracks,
     selectedTerrainProfile,
-    setSelectedTerrainProfile
-  } = usePageContext()
+    setSelectedTerrainProfile,
+    toggleTrack
+  } = props
 
   return (
     <Container>
       <SettingsContainer>
-        <TrackList />
+        <TrackList
+          tracks={tracks}
+          filters={filters}
+          selectedTracks={selectedTracks}
+          toggleTrack={toggleTrack}
+          updateFilters={updateFilters}
+          loadMoreTracks={loadMoreTracks}
+        />
 
         <TerrainProfileSelectContainer>
           <TerrainProfileSelect
+            value={selectedTerrainProfile}
             onChange={option => setSelectedTerrainProfile(option?.value || null)}
           />
         </TerrainProfileSelectContainer>
@@ -42,10 +55,14 @@ const FlightProfiles = () => {
             onZoomChange={setZoomLevel}
           />
         </div>
+
         <Tagbar
           selectedTracks={selectedTracks}
           selectedTerrainProfile={selectedTerrainProfile}
+          toggleTrack={toggleTrack}
+          setSelectedTerrainProfile={setSelectedTerrainProfile}
         />
+
         <div>
           <TerrainClearanceChart
             zoomLevel={zoomLevel}
@@ -56,6 +73,19 @@ const FlightProfiles = () => {
       </ChartsContainer>
     </Container>
   )
+}
+
+FlightProfiles.propTypes = {
+  loadMoreTracks: PropTypes.func.isRequired,
+  selectedTerrainProfile: PropTypes.number,
+  selectedTracks: PropTypes.arrayOf(PropTypes.number).isRequired,
+  setSelectedTerrainProfile: PropTypes.func.isRequired,
+  toggleTrack: PropTypes.func.isRequired,
+  tracks: PropTypes.array.isRequired,
+  tracksParams: PropTypes.shape({
+    filters: PropTypes.arrayOf(PropTypes.array)
+  }).isRequired,
+  updateFilters: PropTypes.func.isRequired
 }
 
 export default FlightProfiles

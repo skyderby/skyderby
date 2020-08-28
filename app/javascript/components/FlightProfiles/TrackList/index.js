@@ -1,28 +1,19 @@
-import React, { useEffect, useRef } from 'react'
-
-import { usePageContext } from 'components/PageContext'
+import React from 'react'
+import PropTypes from 'prop-types'
 
 import Item from './Item'
-import useTracksApi from './useTracksApi'
 import { Container } from './elements'
 import TokenizedSearchField from 'components/TokenizedSearchField'
 
-const TrackList = () => {
-  const { tracksParams, updateFilters } = usePageContext()
-  const previousParams = useRef(tracksParams)
-
-  const { tracks, loadTracks, loadMoreTracks } = useTracksApi(tracksParams)
-
-  useEffect(() => {
-    const shouldRefetch =
-      JSON.stringify(previousParams.current) === JSON.stringify(tracksParams)
-
-    if (!shouldRefetch) return
-
-    loadTracks()
-
-    previousParams.current = tracksParams
-  }, [loadTracks, tracksParams])
+const TrackList = props => {
+  const {
+    tracks,
+    filters,
+    updateFilters,
+    loadMoreTracks,
+    selectedTracks,
+    toggleTrack
+  } = props
 
   const handleListScroll = e => {
     const element = e.target
@@ -34,16 +25,27 @@ const TrackList = () => {
 
   return (
     <Container onScroll={handleListScroll}>
-      <TokenizedSearchField
-        initialValues={tracksParams.filters}
-        onChange={updateFilters}
-      />
+      <TokenizedSearchField initialValues={filters} onChange={updateFilters} />
 
       {tracks.map(track => (
-        <Item key={track.id} track={track} />
+        <Item
+          key={track.id}
+          track={track}
+          active={selectedTracks.includes(track.id)}
+          onClick={() => toggleTrack(track.id)}
+        />
       ))}
     </Container>
   )
+}
+
+TrackList.propTypes = {
+  tracks: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.number.isRequired })),
+  selectedTracks: PropTypes.arrayOf(PropTypes.number).isRequired,
+  loadMoreTracks: PropTypes.func.isRequired,
+  toggleTrack: PropTypes.func.isRequired,
+  updateFilters: PropTypes.func.isRequired,
+  filters: PropTypes.arrayOf(PropTypes.array).isRequired
 }
 
 export default TrackList
