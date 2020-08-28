@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Select from 'react-select'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { terrainProfilesSelector } from 'redux/terrainProfiles'
+import { loadTerrainProfiles, terrainProfilesSelector } from 'redux/terrainProfiles'
 import selectStyles from 'styles/selectStyles'
 
 const TerrainProfileSelect = ({ value, ...props }) => {
+  const dispatch = useDispatch()
   const terrainProfiles = useSelector(terrainProfilesSelector)
+
+  useEffect(() => {
+    dispatch(loadTerrainProfiles())
+  }, [dispatch])
 
   const options = terrainProfiles.map(el => ({
     ...el,

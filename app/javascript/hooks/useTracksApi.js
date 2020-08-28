@@ -1,4 +1,5 @@
-import { useReducer, useCallback } from 'react'
+import { useEffect, useReducer, useCallback, useRef } from 'react'
+import isEqual from 'lodash.isequal'
 
 import TrackApi from 'api/Track'
 
@@ -36,6 +37,8 @@ const tracksReducer = (state, { type, payload }) => {
 }
 
 const useTracksApi = params => {
+  const previousParams = useRef()
+
   const [state, stateReducer] = useReducer(tracksReducer, initialState)
 
   const loadTracks = useCallback(
@@ -55,6 +58,16 @@ const useTracksApi = params => {
       stateReducer({ type: 'LOAD_MORE_SUCCESS', payload: data })
     )
   }
+
+  useEffect(() => {
+    const skipLoad = isEqual(previousParams.current, params)
+
+    if (skipLoad) return
+
+    loadTracks()
+
+    previousParams.current = params
+  }, [loadTracks, params])
 
   return { tracks: state.tracks, loadTracks, loadMoreTracks }
 }

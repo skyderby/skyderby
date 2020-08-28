@@ -1,5 +1,6 @@
 import React from 'react'
 import { Field } from 'formik'
+import I18n from 'i18n-js'
 
 import FlatButton from 'components/ui/FlatButton'
 import Input from 'components/ui/Input'
