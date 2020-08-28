@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import isEqual from 'lodash.isequal'
 import PropTypes from 'prop-types'
 
 import { IndexParams } from 'api/Track'
@@ -17,7 +18,7 @@ const TracksIndex = ({ location }) => {
   useEffect(() => {
     const parsedParams = IndexParams.extractFromUrl(location.search)
 
-    if (JSON.stringify(params) === JSON.stringify(parsedParams)) return
+    if (isEqual(params, parsedParams)) return
 
     setParams(parsedParams)
   }, [params, setParams, location.search])
