@@ -42,7 +42,7 @@ const SortBySelect = ({ sortBy, onChange }) => {
 }
 
 SortBySelect.propTypes = {
-  sortBy: PropTypes.oneOfType(options.map(el => el.value)),
+  sortBy: PropTypes.oneOf(options.map(el => el.value)),
   onChange: PropTypes.func.isRequired
 }
 
