@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Select, { useSuitValue } from 'components/SuitSelect'
 
-import selectStyles from './selectStyles'
+import selectStyles from 'styles/selectStyles'
 
 const SuitSelect = ({ value, onChange, ...props }) => {
   const [suit, setSuit] = useSuitValue(value)

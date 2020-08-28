@@ -3,19 +3,25 @@ import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import Highchart from 'components/Highchart'
+import { createTrackSelector } from 'redux/tracks'
+import { createProfileSelector } from 'redux/profiles'
 import { createPointsSelector } from 'redux/tracks/points'
 import { createMeasurementsSelector } from 'redux/terrainProfiles/measurements'
 import { calculateTerrainClearance } from 'utils/flightProfiles'
 
 const TerrainClearance = ({ chart, trackId, terrainProfileId, ...props }) => {
+  const track = useSelector(createTrackSelector(trackId))
+  const profile = useSelector(createProfileSelector(track?.profileId))
   const points = useSelector(createPointsSelector(trackId))
   const measurements = useSelector(createMeasurementsSelector(terrainProfileId))
 
-  if (!points || !measurements) return null
+  if (!track || !points || !measurements) return null
 
   const chartPoints = calculateTerrainClearance(points, measurements)
 
-  return <Highchart.Series chart={chart} data={chartPoints} {...props} />
+  const name = `${profile?.name || track.pilotName} - #${trackId}`
+
+  return <Highchart.Series chart={chart} data={chartPoints} name={name} {...props} />
 }
 
 TerrainClearance.propTypes = {
