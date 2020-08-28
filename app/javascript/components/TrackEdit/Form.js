@@ -12,7 +12,7 @@ import Label from 'components/ui/Label'
 import Input from 'components/ui/Input'
 import TrackSuitField from 'components/TrackSuitField'
 
-import { Form, InputContainer, AltitudeRangeContainer, Footer } from './elements'
+import { Form, AltitudeRangeContainer, Footer } from './elements'
 
 const EditForm = ({ track, onSubmit, onDelete, onCancel }) => {
   const initialValues = {
@@ -29,7 +29,7 @@ const EditForm = ({ track, onSubmit, onDelete, onCancel }) => {
 
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit}>
-      {({ values, touched, setFieldValue, handleSubmit }) => (
+      {({ values, setFieldValue, handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
           <AltitudeRangeContainer>
             <AltitudeRangeSelect
@@ -108,7 +108,9 @@ EditForm.propTypes = {
     jumpRange: PropTypes.shape({
       from: PropTypes.number.isRequired,
       to: PropTypes.number.isRequired
-    }).isRequired
+    }).isRequired,
+    missingSuitName: PropTypes.string,
+    visibility: PropTypes.oneOf('public_track', 'unlisted_track', 'private_track')
   }).isRequired,
   onSubmit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,

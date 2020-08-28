@@ -3,30 +3,22 @@ import PropTypes from 'prop-types'
 
 import SuitLabel from 'components/SuitLabel'
 import PlaceLabel from 'components/PlaceLabel'
-import { usePageContext } from 'components/PageContext'
 import { Card, Row, Id, Comment, RecordedAt } from './elements'
 
-const Item = ({ track }) => {
-  const { selectedTracks, toggleTrack } = usePageContext()
-  const active = selectedTracks.includes(track.id)
-
-  const handleClick = () => toggleTrack(track.id)
-
-  return (
-    <Card onClick={handleClick} active={active}>
-      <Row>
-        <Id>{track.id}</Id>
-        <RecordedAt>{track.recordedAt}</RecordedAt>
-      </Row>
-      <Row>{track.pilotName}</Row>
-      <Row>
-        <PlaceLabel name={track.placeName} code={track.countryCode} />
-        <SuitLabel name={track.suitName} code={track.manufacturerCode} />
-      </Row>
-      <Comment>{track.comment}</Comment>
-    </Card>
-  )
-}
+const Item = ({ track, active, onClick }) => (
+  <Card onClick={onClick} active={active}>
+    <Row>
+      <Id>{track.id}</Id>
+      <RecordedAt>{track.recordedAt}</RecordedAt>
+    </Row>
+    <Row>{track.pilotName}</Row>
+    <Row>
+      <PlaceLabel name={track.placeName} code={track.countryCode} />
+      <SuitLabel name={track.suitName} code={track.manufacturerCode} />
+    </Row>
+    <Comment>{track.comment}</Comment>
+  </Card>
+)
 
 Item.propTypes = {
   track: PropTypes.shape({
@@ -38,7 +30,9 @@ Item.propTypes = {
     manufacturerCode: PropTypes.string,
     comment: PropTypes.string,
     recordedAt: PropTypes.string
-  }).isRequired
+  }).isRequired,
+  active: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired
 }
 
 export default Item

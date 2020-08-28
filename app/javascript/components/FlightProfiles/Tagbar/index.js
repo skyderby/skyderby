@@ -1,18 +1,16 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-import { usePageContext } from 'components/PageContext'
 import TerrainProfileTag from './TerrainProfileTag'
 import TrackTag from './TrackTag'
 import { Container, TagList } from './elements'
 
-const Tagbar = () => {
-  const {
-    selectedTracks,
-    selectedTerrainProfile,
-    toggleTrack,
-    setSelectedTerrainProfile
-  } = usePageContext()
-
+const Tagbar = ({
+  selectedTracks,
+  selectedTerrainProfile,
+  toggleTrack,
+  setSelectedTerrainProfile
+}) => {
   const deleteTerrainProfile = () => setSelectedTerrainProfile(null)
   const deleteTrack = trackId => toggleTrack(trackId)
 
@@ -35,6 +33,13 @@ const Tagbar = () => {
       </TagList>
     </Container>
   )
+}
+
+Tagbar.propTypes = {
+  selectedTracks: PropTypes.arrayOf(PropTypes.number).isRequired,
+  selectedTerrainProfile: PropTypes.number,
+  toggleTrack: PropTypes.func.isRequired,
+  setSelectedTerrainProfile: PropTypes.func.isRequired
 }
 
 export default Tagbar

@@ -46,23 +46,26 @@ export const Page = styled(({ active, ...props }) => <Link {...props} />)`
   }
 
   ${props =>
-    !props.active && !props.disabled &&
+    !props.active &&
+    !props.disabled &&
     css`
       :hover {
         background-color: var(--grey-20);
       }
-  `}
+    `}
 
-  ${props => props.active && css`
-    ::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0.25rem;
-      right: 0.25rem;
-      height: 3px;
-      background-color: var(--blue-40);
-      opacity: 0.9;
-    }
-  `}
+  ${props =>
+    props.active &&
+    css`
+      ::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0.25rem;
+        right: 0.25rem;
+        height: 3px;
+        background-color: var(--blue-40);
+        opacity: 0.9;
+      }
+    `}
 `
