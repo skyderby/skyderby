@@ -38,6 +38,7 @@ export const ChartsContainer = styled.div`
   display: grid;
   background-color: var(--white);
   grid-template-rows: minmax(300px, 1fr) 2rem 9rem;
+  grid-template-columns: minmax(250px, 1fr);
   grid-gap: 0.5rem;
-  width: 100%;
+  min-width: 0;
 `
