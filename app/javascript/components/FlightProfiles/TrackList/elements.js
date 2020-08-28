@@ -13,7 +13,7 @@ export const Container = styled.div`
 export const Card = styled.div`
   background-color: #fff;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.2), inset 5px 0 0 transparent;
-  border-radius: var(--border-radius-lg);
+  border-radius: var(--border-radius-md);
   cursor: pointer;
   font-family: 'Proxima Nova Regular';
   padding: 0.75rem 1rem;
