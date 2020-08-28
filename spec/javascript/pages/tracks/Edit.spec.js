@@ -9,8 +9,12 @@ import trackPoints from 'fixtures/trackPoints'
 import Edit from 'pages/tracks/Edit'
 
 describe('Tracks/Edit', () => {
+  beforeEach(() => nock.isActive() || nock.activate())
+  afterEach(() => nock.restore())
+
   it('200 Success', async () => {
     nock('http://skyderby.test')
+      .persist()
       .get('/api/v1/tracks/11000')
       .reply(200, {
         editable: true,
