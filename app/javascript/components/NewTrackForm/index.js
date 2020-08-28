@@ -9,18 +9,11 @@ import Input from 'components/ui/Input'
 import DefaultButton from 'components/ui/buttons/Default'
 import PrimaryButton from 'components/ui/buttons/Primary'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
-import FlatButton from 'components/ui/FlatButton'
+import TrackSuitField from 'components/TrackSuitField'
 
-import SuitSelect from './SuitSelect'
 import TrackFileInput from './TrackFileInput'
 import SegmentSelect from './SegmentSelect'
-import {
-  Form,
-  Footer,
-  InputContainer,
-  SuitInputModeToggle,
-  ErrorMessage
-} from './elements'
+import { Form, Footer, InputContainer, ErrorMessage } from './elements'
 import buildValidationSchema from './validationSchema'
 
 const NewTrackForm = ({ loggedIn }) => {
@@ -86,54 +79,7 @@ const NewTrackForm = ({ loggedIn }) => {
           )}
 
           <Label>{I18n.t('activerecord.attributes.track.suit')}</Label>
-          <InputContainer>
-            <Field name="suitId">
-              {({ field: { name, ...props }, form: { setFieldValue } }) => (
-                <SuitSelect
-                  hide={values.formSupportData.suitInputMode === 'input'}
-                  isInvalid={touched.suitId && errors.suitId}
-                  {...props}
-                  onChange={value => setFieldValue(name, value)}
-                />
-              )}
-            </Field>
-            <Field
-              as={Input}
-              hide={values.formSupportData.suitInputMode === 'select'}
-              isInvalid={touched.missingSuitName && errors.missingSuitName}
-              name="missingSuitName"
-              placeholder={I18n.t('tracks.form.suit_text_placeholder')}
-            />
-
-            {touched.suitId && errors.suitId && (
-              <ErrorMessage>{errors.suitId}</ErrorMessage>
-            )}
-            {touched.missingSuitName && errors.missingSuitName && (
-              <ErrorMessage>{errors.missingSuitName}</ErrorMessage>
-            )}
-
-            <Field name="formSupportData.suitInputMode">
-              {({ field: { value, name }, form: { setFieldValue } }) => (
-                <SuitInputModeToggle>
-                  <span>
-                    {value === 'select'
-                      ? I18n.t('tracks.form.toggle_suit_caption')
-                      : I18n.t('tracks.form.toggle_suit_caption_select')}
-                  </span>
-                  <FlatButton
-                    as="span"
-                    onClick={() =>
-                      setFieldValue(name, value === 'select' ? 'input' : 'select')
-                    }
-                  >
-                    {value === 'select'
-                      ? I18n.t('tracks.form.toggle_suit_link')
-                      : I18n.t('tracks.form.toggle_suit_link_select')}
-                  </FlatButton>
-                </SuitInputModeToggle>
-              )}
-            </Field>
-          </InputContainer>
+          <TrackSuitField />
 
           <Label>{I18n.t('activerecord.attributes.track.place')}</Label>
           <InputContainer>

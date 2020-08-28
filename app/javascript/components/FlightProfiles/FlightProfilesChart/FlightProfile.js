@@ -5,11 +5,13 @@ import PropTypes from 'prop-types'
 import Highchart from 'components/Highchart'
 import { createPointsSelector } from 'redux/tracks/points'
 import { createTrackSelector } from 'redux/tracks'
+import { createProfileSelector } from 'redux/profiles'
 import { calculateFlightProfile } from 'utils/flightProfiles'
 
 const FlightProfile = ({ chart, trackId, ...props }) => {
   const points = useSelector(createPointsSelector(trackId))
   const track = useSelector(createTrackSelector(trackId))
+  const profile = useSelector(createProfileSelector(track?.profileId))
   const flightProfilePoints = useMemo(() => calculateFlightProfile(points), [points])
 
   if (!track || !flightProfilePoints) return null
@@ -28,7 +30,7 @@ const FlightProfile = ({ chart, trackId, ...props }) => {
     `
   }
 
-  const name = `${track.pilotName} - #${trackId}`
+  const name = `${profile?.name || track.pilotName} - #${trackId}`
 
   return (
     <Highchart.Series

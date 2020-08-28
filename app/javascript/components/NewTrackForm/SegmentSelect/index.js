@@ -2,8 +2,9 @@ import React from 'react'
 import Select from 'react-select'
 import PropTypes from 'prop-types'
 
+import selectStyles from 'styles/selectStyles'
+
 import Option from './Option'
-import selectStyles from '../selectStyles'
 
 const SegmentSelect = ({ value, options, onChange, ...props }) => {
   const selectedOption = options[value]
