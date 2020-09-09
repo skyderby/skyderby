@@ -6,13 +6,7 @@ module Api
           Suit
           .left_joins(:manufacturer)
           .search(params[:search])
-          .select(
-            :id,
-            :name,
-            :kind,
-            'manufacturers.name AS make',
-            'manufacturers.code AS make_code'
-          )
+          .select(:id, :name, :kind, :manufacturer_id)
           .order('manufacturers.name, name')
           .paginate(page: current_page, per_page: rows_per_page)
 
@@ -23,6 +17,10 @@ module Api
 
       def show
         @suit = Suit.includes(:manufacturer).find(params[:id])
+
+        respond_to do |format|
+          format.json
+        end
       end
     end
   end
