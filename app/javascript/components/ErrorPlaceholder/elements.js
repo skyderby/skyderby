@@ -7,7 +7,7 @@ export const Container = styled.div`
   text-align: center;
   width: 100%;
   margin: 4rem auto;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--block-box-shadow);
 
   @media ${devices.small} {
     max-width: 768px;

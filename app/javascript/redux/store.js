@@ -4,6 +4,7 @@ import thunk from 'redux-thunk'
 import countries from 'redux/countries'
 import eventRound from 'redux/events/round'
 import eventTeams from 'redux/events/teams'
+import manufacturers from 'redux/manufacturers'
 import places from 'redux/places'
 import profiles from 'redux/profiles'
 import suits from 'redux/suits'
@@ -17,6 +18,7 @@ export const rootReducer = combineReducers({
   countries,
   eventRound,
   eventTeams,
+  manufacturers,
   places,
   profiles,
   suits,

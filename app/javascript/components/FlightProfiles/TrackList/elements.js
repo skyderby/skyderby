@@ -12,7 +12,7 @@ export const Container = styled.div`
 
 export const Card = styled.div`
   background-color: #fff;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2), inset 5px 0 0 transparent;
+  box-shadow: var(--block-box-shadow);
   border-radius: var(--border-radius-md);
   cursor: pointer;
   font-family: 'Proxima Nova Regular';
@@ -21,7 +21,7 @@ export const Card = styled.div`
   ${props =>
     props.active &&
     css`
-      box-shadow: 0 0 3px rgba(0, 0, 0, 0.2), inset 5px 0 0 rgba(117, 164, 186, 1);
+      box-shadow: var(--block-box-shadow), inset 5px 0 0 var(--blue-40);
     `}
 
   > :not(:last-child) {

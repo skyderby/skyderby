@@ -30,6 +30,8 @@ const GlobalStyle = createGlobalStyle`
     --border-radius-lg: 1rem;
     --border-radius-md: 0.5rem;
     --border-radius-sm: 0.375rem;
+
+    --block-box-shadow: 0 0 3px rgba(0, 0, 0, 0.2)
   }
 `
 

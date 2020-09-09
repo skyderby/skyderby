@@ -21,7 +21,13 @@ namespace :api, module: :api, defaults: { format: :json } do
       resource :measurements, only: :show, module: :terrain_profiles
     end
 
-    resources :suits, only: %i[index show]
+    resources :suits, only: %i[index show] do
+      collection do
+        resource :popularity, only: :show, module: :suits
+        resource :stats, only: :show, module: :suits
+      end
+    end
+    resources :manufacturers, only: %i[index show create update destroy]
 
     resources :tracks, only: %i[index create show update destroy] do
       scope module: :tracks do
