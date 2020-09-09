@@ -14,6 +14,8 @@
 #
 
 class Suit < ApplicationRecord
+  include Popularity, Stats
+
   attr_accessor :photo
 
   enum kind: SuitTypes

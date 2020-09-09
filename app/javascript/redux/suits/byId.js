@@ -1,4 +1,4 @@
-import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
+import { LOAD_REQUEST, LOAD_SUCCESS, LOAD_ALL_SUCCESS } from './actionTypes'
 import suit from './suit'
 
 const initialState = {}
@@ -11,6 +11,10 @@ const byId = (state = initialState, action) => {
         ...state,
         [action.payload.id]: suit(state[action.payload.id], action)
       }
+    case LOAD_ALL_SUCCESS:
+      return Object.fromEntries(
+        action.payload.items.map(el => [el.id, { ...el, status: 'loaded' }])
+      )
     default:
       return state
   }
