@@ -76,6 +76,7 @@
     "react-select-async-paginate": "^0.3.7",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0",
     "select2": "^4.0.3",
     "stimulus": "^1.0.1",
     "styled-components": "^5.1",

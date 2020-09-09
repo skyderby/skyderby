@@ -6,6 +6,7 @@ Skyderby::Application.routes.draw do
   # React App
   match '/tracks(/*path)', to: 'react_app#show', via: :get
   match '/flight_profiles(/*)', to: 'react_app#show', via: :get
+  match '/suits(/*path)', to: 'react_app#show', via: :get
 
   draw :api
   draw :backward_compatibility

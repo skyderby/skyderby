@@ -7,7 +7,6 @@ export const Container = styled.div`
   font-family: 'Proxima Nova Light';
   display: flex;
   justify-content: center;
-  margin: 1rem 0;
 
   > :not(:last-child) {
     margin-right: 0.75rem;
