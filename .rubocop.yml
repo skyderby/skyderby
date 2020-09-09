@@ -70,6 +70,7 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Exclude:
+    - app/models/concerns/**/*
     - app/views/**/*.json.jbuilder
     - config/**/*
     - spec/**/*

@@ -32,7 +32,7 @@ export const loadTrack = trackId => {
     const stateData = selectTrack(getState(), trackId) || {}
     const skip = ['loaded', 'loading'].includes(stateData.status)
 
-    if (skip) return
+    if (skip) return stateData
 
     dispatch({ type: LOAD_REQUEST, payload: { id: trackId } })
 
@@ -50,6 +50,8 @@ export const loadTrack = trackId => {
       if (!data.hasVideo) dispatch({ type: TRACK_HAS_NO_VIDEO, payload: { id: trackId } })
 
       dispatch({ type: LOAD_SUCCESS, payload: data })
+
+      return data
     } catch (err) {
       dispatch({ type: LOAD_ERROR, payload: { id: trackId } })
 
