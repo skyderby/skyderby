@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom'
 import { devices } from 'styles/devices'
 
 export const Container = styled.div`
+  display: grid;
+  grid-gap: 1rem;
   width: 100%;
   margin: 2rem auto;
   padding: 0 1rem;
@@ -18,7 +20,6 @@ export const Header = styled.div`
   align-items: center;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
 `
 
 export const Title = styled.h1`

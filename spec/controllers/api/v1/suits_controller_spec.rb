@@ -7,8 +7,6 @@ describe Api::V1::SuitsController do
     response_json = JSON.parse(response.body)
     fields = response_json['items'].map(&:keys).flatten.uniq
 
-    expect(fields).to match(
-      %w[id name make makeCode category]
-    )
+    expect(fields).to match(%w[id name makeId category])
   end
 end
