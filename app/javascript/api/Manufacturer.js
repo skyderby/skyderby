@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const endpoint = '/api/v1/suits'
+const endpoint = '/api/v1/manufacturers'
 
 const Suit = {
   findRecord: async id => {
@@ -9,7 +9,7 @@ const Suit = {
     return data
   },
 
-  findAll: async ({ search, perPage = 25, page }) => {
+  findAll: async ({ search = '', perPage = 25, page = 1 } = {}) => {
     const { data } = await axios.get(
       `${endpoint}?search=${search}&perPage=${perPage}&page=${page}`
     )
