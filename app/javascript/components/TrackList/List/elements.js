@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 export const Container = styled.div`
   @media ${devices.small} {
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--block-box-shadow);
     border-radius: var(--border-radius-md);
     background-color: var(--white);
     padding: 0.75rem 1rem;
@@ -117,7 +117,7 @@ export const TrackLink = styled(Link)`
   display: flex;
   flex-wrap: wrap;
   color: #333;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--block-box-shadow);
   background-color: #fff;
   margin-bottom: 0.75rem;
   padding: 1rem;
@@ -139,7 +139,7 @@ export const TrackLink = styled(Link)`
 
     :hover {
       > :first-child {
-        box-shadow: inset 3px 0 0 #75a4ba;
+        box-shadow: inset 3px 0 0 var(--blue-40);
       }
     }
   }
