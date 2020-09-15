@@ -21,7 +21,7 @@ ru:
       menu_header: 'Отображение показателей'
       menu_sep: 'На разных графиках'
       menu_one: 'На одном графике'
-      units_header: 'Единицы измерения:'
+      units_header: 'Единицы измерения'
       m_units_metric: 'Метрические (м, км/ч)'
       m_units_imperial: 'Имперские (футы, мили/ч)'
       delete_confirmation: "Вы уверены, что хотите удалить этот трек?"

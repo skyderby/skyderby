@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import I18n from 'i18n-js'
 import PropTypes from 'prop-types'
 
+import { useI18n } from 'components/TranslationsProvider'
 import Button from 'components/ui/buttons/Default'
 import CustomRangeModal from './CustomRangeModal'
 import { Container } from './elements'
@@ -12,6 +12,7 @@ const RangeShortcuts = ({
   selectedAltitudeRange,
   onChange
 }) => {
+  const { t } = useI18n()
   const [modalShown, setModalShown] = useState(false)
 
   const setCustomRange = range => {
@@ -25,12 +26,12 @@ const RangeShortcuts = ({
     <Container>
       {isSkydive && maxAltitude >= 3000 && minAltitude <= 2000 && (
         <Button rounded size="xs" onClick={() => onChange?.([3000, 2000])}>
-          3000 – 2000 {I18n.t('units.m')}
+          3000 – 2000 {t('units.m')}
         </Button>
       )}
       {isSkydive && maxAltitude >= 2500 && minAltitude <= 1500 && (
         <Button rounded size="xs" onClick={() => onChange?.([2500, 1500])}>
-          2500 – 1500 {I18n.t('units.m')}
+          2500 – 1500 {t('units.m')}
         </Button>
       )}
 

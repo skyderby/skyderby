@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import I18n from 'i18n-js'
 
+import { useI18n } from 'components/TranslationsProvider'
 import { METRIC } from 'redux/userPreferences/unitSystem'
 import { restoreSeriesVisibility, saveSeriesVisibility } from 'utils/chartSeriesSettings'
 
@@ -9,7 +9,7 @@ import { calculateGlideRatioPoints } from '../calculateGlideRatioPoints'
 
 const chartName = 'CombinedChart'
 
-const baseOptions = () => ({
+const baseOptions = t => ({
   chart: {
     type: 'spline',
     height: 600,
@@ -21,7 +21,7 @@ const baseOptions = () => ({
   },
   title: {
     style: { color: '#666', fontSize: '14px' },
-    text: I18n.t('charts.all_data.title')
+    text: t('charts.all_data.title')
   },
   plotOptions: {
     spline: {
@@ -43,13 +43,13 @@ const baseOptions = () => ({
   yAxis: [
     {
       title: {
-        text: I18n.t('charts.all_data.series.height')
+        text: t('charts.all_data.series.height')
       },
       tickInterval: 200
     },
     {
       title: {
-        text: I18n.t('charts.all_data.axis.speed')
+        text: t('charts.all_data.axis.speed')
       },
       gridLineWidth: 0,
       opposite: true
@@ -63,7 +63,7 @@ const baseOptions = () => ({
       maxPadding: 0.2,
       gridLineWidth: 0,
       title: {
-        text: I18n.t('charts.all_data.axis.gr')
+        text: t('charts.all_data.axis.gr')
       },
       labels: {
         formatter: function () {
@@ -94,6 +94,8 @@ const baseOptions = () => ({
 })
 
 const useChartOptions = (points, zeroWindPoints, unitSystem) => {
+  const { t } = useI18n()
+
   const speedUnits = unitSystem === METRIC ? 'kmh' : 'mph'
   const altitudeUnits = unitSystem === METRIC ? 'm' : 'ft'
 
@@ -117,55 +119,55 @@ const useChartOptions = (points, zeroWindPoints, unitSystem) => {
   )
 
   const options = {
-    ...baseOptions(),
+    ...baseOptions(t),
     series: [
       {
-        name: I18n.t('charts.all_data.series.height'),
+        name: t('charts.all_data.series.height'),
         code: 'height',
         data: altitudePoints,
         yAxis: 0,
         color: '#aaa',
         tooltip: {
-          valueSuffix: ` ${I18n.t('units.' + altitudeUnits)}`,
+          valueSuffix: ` ${t('units.' + altitudeUnits)}`,
           valueDecimals: 0
         }
       },
       {
-        name: I18n.t('charts.all_data.series.horiz_speed'),
+        name: t('charts.all_data.series.horiz_speed'),
         code: 'ground_speed',
         data: horizontalSpeed,
         yAxis: 1,
         color: '#52A964',
         tooltip: {
-          valueSuffix: ` ${I18n.t('units.' + speedUnits)}`,
+          valueSuffix: ` ${t('units.' + speedUnits)}`,
           valueDecimals: 0
         }
       },
       {
-        name: I18n.t('charts.all_data.series.vert_speed'),
+        name: t('charts.all_data.series.vert_speed'),
         code: 'vertical_speed',
         data: verticalSpeed,
         yAxis: 1,
         color: '#A7414E',
         tooltip: {
-          valueSuffix: ` ${I18n.t('units.' + speedUnits)}`,
+          valueSuffix: ` ${t('units.' + speedUnits)}`,
           valueDecimals: 0
         }
       },
       {
-        name: I18n.t('charts.all_data.series.full_speed'),
+        name: t('charts.all_data.series.full_speed'),
         code: 'full_speed',
         data: fullSpeed,
         yAxis: 1,
         color: '#D6A184',
         visible: false,
         tooltip: {
-          valueSuffix: ` ${I18n.t('units.' + speedUnits)}`,
+          valueSuffix: ` ${t('units.' + speedUnits)}`,
           valueDecimals: 0
         }
       },
       {
-        name: I18n.t('charts.spd.series.wind_effect'),
+        name: t('charts.spd.series.wind_effect'),
         code: 'speed_wind_effect',
         data: zeroWindSpeed,
         yAxis: 1,
@@ -182,11 +184,11 @@ const useChartOptions = (points, zeroWindPoints, unitSystem) => {
             ${this.series.name}: <b> ${effectSign}${windEffect} ${this.series.tooltipOptions.valueSuffix}</b>
           `
           },
-          valueSuffix: ` ${I18n.t(`units.${speedUnits}`)}`
+          valueSuffix: ` ${t(`units.${speedUnits}`)}`
         }
       },
       {
-        name: I18n.t('charts.all_data.series.gr'),
+        name: t('charts.all_data.series.gr'),
         code: 'gr',
         data: glideRatio,
         yAxis: 2,
@@ -210,7 +212,7 @@ const useChartOptions = (points, zeroWindPoints, unitSystem) => {
         color: '#37889B'
       },
       {
-        name: I18n.t('charts.gr.series.wind_effect'),
+        name: t('charts.gr.series.wind_effect'),
         code: 'gr_wind_effect',
         type: 'arearange',
         data: zeroWindGlideRatio,
