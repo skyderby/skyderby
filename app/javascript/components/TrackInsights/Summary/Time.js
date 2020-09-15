@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import I18n from 'i18n-js'
 
+import { useI18n } from 'components/TranslationsProvider'
 import { SummaryItem, Title, ValueContainer, Value, Units } from './elements'
 
 const valuePresentation = value => {
@@ -11,12 +11,14 @@ const valuePresentation = value => {
 }
 
 const Time = ({ value }) => {
+  const { t } = useI18n()
+
   return (
     <SummaryItem value="time">
-      <Title>{I18n.t('tracks.indicators.duration')}</Title>
+      <Title>{t('tracks.indicators.duration')}</Title>
       <ValueContainer>
         <Value aria-label="duration">{valuePresentation(value)}</Value>
-        <Units>{I18n.t('units.sec')}</Units>
+        <Units>{t('units.sec')}</Units>
       </ValueContainer>
     </SummaryItem>
   )

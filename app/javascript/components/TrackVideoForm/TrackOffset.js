@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Field } from 'formik'
-import I18n from 'i18n-js'
 
+import { useI18n } from 'components/TranslationsProvider'
 import Input from 'components/ui/Input'
 import { useTrackPoints } from 'components/AltitudeRangeSelect'
 import { usePageContext } from 'components/PageContext'
@@ -18,6 +18,7 @@ import {
 } from './elements'
 
 const TrackOffset = ({ setFieldValue, value }) => {
+  const { t } = useI18n()
   const { trackId } = usePageContext()
   const points = useTrackPoints(trackId, { trimmed: false })
 
@@ -62,8 +63,8 @@ const TrackOffset = ({ setFieldValue, value }) => {
   return (
     <Section>
       <Description>
-        <h2>{I18n.t('activerecord.attributes.track_videos.track_offset')}</h2>
-        <p>{I18n.t('tracks.videos.form.track_offset_description')}</p>
+        <h2>{t('activerecord.attributes.track_videos.track_offset')}</h2>
+        <p>{t('tracks.videos.form.track_offset_description')}</p>
       </Description>
       <Controls>
         <TrackChartCard>

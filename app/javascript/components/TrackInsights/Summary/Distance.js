@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
-import I18n from 'i18n-js'
 
+import { useI18n } from 'components/TranslationsProvider'
 import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
 import { metersToMiles } from 'utils/unitsConversion'
 
@@ -20,15 +20,16 @@ const valuePresentation = (value, unitSystem) => {
 }
 
 const Distance = ({ value, zeroWindValue }) => {
+  const { t } = useI18n()
   const { unitSystem } = useSelector(state => state.userPreferences)
   const units = unitSystem === METRIC ? 'm' : 'mi'
 
   return (
     <SummaryItem value="distance">
-      <Title>{I18n.t('tracks.indicators.distance')}</Title>
+      <Title>{t('tracks.indicators.distance')}</Title>
       <ValueContainer>
         <Value aria-label="distance">{valuePresentation(value, unitSystem)}</Value>
-        <Units>{I18n.t(`units.${units}`)}</Units>
+        <Units>{t(`units.${units}`)}</Units>
       </ValueContainer>
 
       {Number.isFinite(zeroWindValue) && (
