@@ -1,15 +1,16 @@
 import React, { useRef, useCallback } from 'react'
 import { Field } from 'formik'
-import I18n from 'i18n-js'
 import PropTypes from 'prop-types'
 
 import { videoCodeFromUrl } from 'utils/youtube'
 
+import { useI18n } from 'components/TranslationsProvider'
 import YoutubePlayer from 'components/YoutubePlayer'
 import Input from 'components/ui/Input'
 import { Section, Description, Controls, InputContainer } from './elements'
 
 const VideoSetup = ({ setFieldValue, videoId }) => {
+  const { t } = useI18n()
   const playerRef = useRef()
 
   const handleUrlChange = useCallback(
@@ -32,7 +33,7 @@ const VideoSetup = ({ setFieldValue, videoId }) => {
     <>
       <Section>
         <Description>
-          <h2>{I18n.t('activerecord.attributes.track_videos.url')}</h2>
+          <h2>{t('activerecord.attributes.track_videos.url')}</h2>
         </Description>
         <Controls>
           <Field
@@ -46,8 +47,8 @@ const VideoSetup = ({ setFieldValue, videoId }) => {
 
       <Section>
         <Description>
-          <h2>{I18n.t('activerecord.attributes.track_videos.video_offset')}</h2>
-          <p>{I18n.t('tracks.videos.form.video_offset_description')}</p>
+          <h2>{t('activerecord.attributes.track_videos.video_offset')}</h2>
+          <p>{t('tracks.videos.form.video_offset_description')}</p>
         </Description>
 
         <Controls>

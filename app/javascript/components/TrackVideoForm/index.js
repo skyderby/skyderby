@@ -2,7 +2,6 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { Formik } from 'formik'
-import I18n from 'i18n-js'
 
 import { createTrackSelector } from 'redux/tracks'
 import {
@@ -10,6 +9,7 @@ import {
   saveTrackVideo,
   deleteTrackVideo
 } from 'redux/tracks/videos'
+import { useI18n } from 'components/TranslationsProvider'
 import { usePageContext } from 'components/PageContext'
 import DefaultButton from 'components/ui/buttons/Default'
 import RedButton from 'components/ui/buttons/Red'
@@ -22,6 +22,7 @@ import { Footer } from './elements'
 const TrackVideoForm = () => {
   const dispatch = useDispatch()
   const history = useHistory()
+  const { t } = useI18n()
   const { trackId } = usePageContext()
   const track = useSelector(createTrackSelector(trackId))
   const video = useSelector(createTrackVideoSelector(trackId))
@@ -73,13 +74,13 @@ const TrackVideoForm = () => {
 
           <Footer>
             <RedButton type="button" outlined onClick={handleDelete}>
-              {I18n.t('general.delete')}
+              {t('general.delete')}
             </RedButton>
 
             <div>
-              <PrimaryButton type="submit">{I18n.t('general.save')}</PrimaryButton>
+              <PrimaryButton type="submit">{t('general.save')}</PrimaryButton>
               <DefaultButton type="button" onClick={handleCancel}>
-                {I18n.t('general.cancel')}
+                {t('general.cancel')}
               </DefaultButton>
             </div>
           </Footer>
