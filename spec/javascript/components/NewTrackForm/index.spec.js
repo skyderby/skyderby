@@ -1,51 +1,47 @@
 import React from 'react'
-import { render, fireEvent, waitFor } from '@testing-library/react'
-import I18n from 'i18n-js'
+import { fireEvent, waitFor } from '@testing-library/react'
 
+import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
 import NewTrackForm from 'components/NewTrackForm'
 
 describe('NewTrackForm', () => {
   describe('conditional field visibility', () => {
     it('name visible when not logged in', () => {
-      const screen = render(<NewTrackForm loggedIn={false} />)
+      const screen = renderWithAllProviders(<NewTrackForm loggedIn={false} />)
 
-      expect(
-        screen.queryByPlaceholderText(I18n.t('static_pages.index.track_form.name_plh'))
-      ).toBeInTheDocument()
+      expect(screen.getByPlaceholderText('John Doe')).toBeInTheDocument()
     })
 
     it('name is not visible when logged in', () => {
-      const screen = render(<NewTrackForm loggedIn={true} />)
+      const screen = renderWithAllProviders(<NewTrackForm loggedIn={true} />)
 
-      expect(
-        screen.queryByPlaceholderText(I18n.t('static_pages.index.track_form.name_plh'))
-      ).not.toBeInTheDocument()
+      expect(screen.queryByPlaceholderText('Pilot')).not.toBeInTheDocument()
     })
 
     it('visibility button group is visible when logged in', () => {
-      const screen = render(<NewTrackForm loggedIn={true} />)
+      const screen = renderWithAllProviders(<NewTrackForm loggedIn={true} />)
 
-      expect(screen.queryByText(I18n.t('tracks.edit.visibility'))).toBeInTheDocument()
-      expect(screen.queryByText(I18n.t('visibility.public'))).toBeInTheDocument()
-      expect(screen.queryByText(I18n.t('visibility.unlisted'))).toBeInTheDocument()
-      expect(screen.queryByText(I18n.t('visibility.private'))).toBeInTheDocument()
+      expect(screen.queryByText('Visibility')).toBeInTheDocument()
+      expect(screen.queryByText('Public')).toBeInTheDocument()
+      expect(screen.queryByText('Unlisted')).toBeInTheDocument()
+      expect(screen.queryByText('Private')).toBeInTheDocument()
     })
 
     it('visibility button group is hidden when logged in', () => {
-      const screen = render(<NewTrackForm loggedIn={false} />)
+      const screen = renderWithAllProviders(<NewTrackForm loggedIn={false} />)
 
-      expect(screen.queryByText(I18n.t('tracks.edit.visibility'))).not.toBeInTheDocument()
-      expect(screen.queryByText(I18n.t('visibility.public'))).not.toBeInTheDocument()
-      expect(screen.queryByText(I18n.t('visibility.unlisted'))).not.toBeInTheDocument()
-      expect(screen.queryByText(I18n.t('visibility.private'))).not.toBeInTheDocument()
+      expect(screen.queryByText('Visibility')).not.toBeInTheDocument()
+      expect(screen.queryByText('Public')).not.toBeInTheDocument()
+      expect(screen.queryByText('Unlisted')).not.toBeInTheDocument()
+      expect(screen.queryByText('Private')).not.toBeInTheDocument()
     })
   })
 
   describe('validations', () => {
     it('name is required when not logged in', async () => {
-      const screen = render(<NewTrackForm loggedIn={false} />)
+      const screen = renderWithAllProviders(<NewTrackForm loggedIn={false} />)
 
-      fireEvent.click(screen.getByText(I18n.t('static_pages.index.track_form.submit')))
+      fireEvent.click(screen.getByText('Upload'))
 
       await waitFor(() => {
         expect(screen.getByText('Name field is required')).toBeInTheDocument()
@@ -53,9 +49,9 @@ describe('NewTrackForm', () => {
     })
 
     it('suit from select is required', async () => {
-      const screen = render(<NewTrackForm loggedIn={true} />)
+      const screen = renderWithAllProviders(<NewTrackForm loggedIn={true} />)
 
-      fireEvent.click(screen.getByText(I18n.t('static_pages.index.track_form.submit')))
+      fireEvent.click(screen.getByText('Upload'))
 
       await waitFor(() => {
         expect(screen.getByText('Suit field is required')).toBeInTheDocument()
@@ -63,17 +59,15 @@ describe('NewTrackForm', () => {
     })
 
     it('suit from input is required', async () => {
-      const screen = render(<NewTrackForm loggedIn={true} />)
+      const screen = renderWithAllProviders(<NewTrackForm loggedIn={true} />)
 
-      fireEvent.click(screen.getByText(I18n.t('tracks.form.toggle_suit_link')))
+      fireEvent.click(screen.getByText('Enter suit name'))
 
       await waitFor(() => {
-        expect(
-          screen.getByPlaceholderText(I18n.t('tracks.form.suit_text_placeholder'))
-        ).toBeInTheDocument()
+        expect(screen.getByPlaceholderText('Enter suit name')).toBeInTheDocument()
       })
 
-      fireEvent.click(screen.getByText(I18n.t('static_pages.index.track_form.submit')))
+      fireEvent.click(screen.getByText('Upload'))
 
       await waitFor(() => {
         expect(screen.getByText('Suit field is required')).toBeInTheDocument()
@@ -81,9 +75,9 @@ describe('NewTrackForm', () => {
     })
 
     it('location is required', async () => {
-      const screen = render(<NewTrackForm loggedIn={true} />)
+      const screen = renderWithAllProviders(<NewTrackForm loggedIn={true} />)
 
-      fireEvent.click(screen.getByText(I18n.t('static_pages.index.track_form.submit')))
+      fireEvent.click(screen.getByText('Upload'))
 
       await waitFor(() => {
         expect(screen.getByText('Location field is required')).toBeInTheDocument()

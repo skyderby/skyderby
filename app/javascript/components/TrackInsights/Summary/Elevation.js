@@ -1,8 +1,8 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import I18n from 'i18n-js'
 
+import { useI18n } from 'components/TranslationsProvider'
 import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
 import { metersToFeet } from 'utils/unitsConversion'
 import { SummaryItem, Title, ValueContainer, Value, Units } from './elements'
@@ -18,15 +18,16 @@ const valuePresentation = (value, unitSystem) => {
 }
 
 const Elevation = ({ value }) => {
+  const { t } = useI18n()
   const { unitSystem } = useSelector(state => state.userPreferences)
   const units = unitSystem === METRIC ? 'm' : 'ft'
 
   return (
     <SummaryItem value="elevation">
-      <Title>{I18n.t('tracks.indicators.elevation')}</Title>
+      <Title>{t('tracks.indicators.elevation')}</Title>
       <ValueContainer>
         <Value aria-label="elevation">{valuePresentation(value, unitSystem)}</Value>
-        <Units>{I18n.t(`units.${units}`)}</Units>
+        <Units>{t(`units.${units}`)}</Units>
       </ValueContainer>
     </SummaryItem>
   )

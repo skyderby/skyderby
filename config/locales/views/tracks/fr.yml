@@ -18,10 +18,10 @@ fr:
     show:
       title_track: Enregistrement
       title_suit: Combinaison
-      menu_header: 'Montrer les données:'
+      menu_header: Montrer les données
       menu_sep: Sur des graphiques séparés
       menu_one: Sur un seul graphique
-      units_header: 'Unités:'
+      units_header: Unités
       m_units_metric: Métriques
       m_units_imperial: Impériales
       delete_confirmation: Êtes-vous sûr de vouloir supprimer cet enregistrement?
