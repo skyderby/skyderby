@@ -1,8 +1,8 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import I18n from 'i18n-js'
 
+import { useI18n } from 'components/TranslationsProvider'
 import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
 import { msToKmh, msToMph } from 'utils/unitsConversion'
 
@@ -30,12 +30,13 @@ const valuePresentation = (value, unitSystem) => {
 }
 
 const VerticalSpeed = ({ value }) => {
+  const { t } = useI18n()
   const { unitSystem } = useSelector(state => state.userPreferences)
   const units = unitSystem === METRIC ? 'kmh' : 'mph'
 
   return (
     <SummaryItem value="vertical-speed">
-      <Title>{I18n.t('tracks.indicators.vertical_speed')}</Title>
+      <Title>{t('tracks.indicators.vertical_speed')}</Title>
       <ValueContainer>
         <Value aria-label="average vertical speed">
           {valuePresentation(value.avg, unitSystem)}
@@ -54,7 +55,7 @@ const VerticalSpeed = ({ value }) => {
             <ChevronDown />
           </Min>
         </MinMaxValue>
-        <Units>{I18n.t(`units.${units}`)}</Units>
+        <Units>{t(`units.${units}`)}</Units>
       </ValueContainer>
     </SummaryItem>
   )

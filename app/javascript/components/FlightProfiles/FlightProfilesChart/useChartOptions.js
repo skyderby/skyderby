@@ -1,7 +1,10 @@
 import { useMemo } from 'react'
-import I18n from 'i18n-js'
+
+import { useI18n } from 'components/TranslationsProvider'
 
 const useChartOptions = onZoomChange => {
+  const { t } = useI18n()
+
   const options = useMemo(
     () => ({
       chart: {
@@ -19,7 +22,7 @@ const useChartOptions = onZoomChange => {
         }
       },
       title: {
-        text: I18n.t('flight_profiles')
+        text: t('flight_profiles')
       },
       plotOptions: {
         spline: {
@@ -62,7 +65,7 @@ const useChartOptions = onZoomChange => {
         enabled: false
       }
     }),
-    [onZoomChange]
+    [onZoomChange, t]
   )
 
   return options

@@ -18,10 +18,10 @@ en:
     show:
       title_track: 'Track'
       title_suit: 'Suit'
-      menu_header: 'Show data:'
+      menu_header: 'Show data'
       menu_sep: 'On separate charts'
       menu_one: 'On single chart'
-      units_header: 'Units:'
+      units_header: 'Units system'
       m_units_metric: 'Metric'
       m_units_imperial: 'Imperial'
       delete_confirmation: "Are you sure you want delete this track?"

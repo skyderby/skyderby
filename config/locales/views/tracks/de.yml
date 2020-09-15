@@ -17,10 +17,10 @@ de:
     show:
       title_track: Track
       title_suit: Suit
-      menu_header: 'Merkmalanzeige:'
+      menu_header: Merkmalanzeige
       menu_sep: Auf unterschiedlichen Grafiken
       menu_one: Auf einer Grafik
-      units_header: 'Maßeinheit:'
+      units_header: Maßeinheit
       m_units_metric: Metrisches Einheitssystem (m, km/h.)
       m_units_imperial: Imperiale Einheiten (Fuß, mi/h)
       delete_confirmation: Sind Sie sicher, daß Sie diesen Track entfernen möchten?

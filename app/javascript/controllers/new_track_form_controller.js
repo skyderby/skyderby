@@ -3,6 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import GlobalStyle from 'components/GlobalStyle'
+import TranslationsProvider from 'components/TranslationsProvider'
 import NewTrackForm from 'components/NewTrackForm'
 
 export default class extends Controller {
@@ -12,7 +13,9 @@ export default class extends Controller {
     ReactDOM.render(
       <>
         <GlobalStyle />
-        <NewTrackForm loggedIn={userSignedIn} />
+        <TranslationsProvider>
+          <NewTrackForm loggedIn={userSignedIn} />
+        </TranslationsProvider>
       </>,
       this.element
     )

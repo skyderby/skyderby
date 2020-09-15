@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
-import I18n from 'i18n-js'
 import merge from 'lodash.merge'
 
+import { useI18n } from 'components/TranslationsProvider'
 import { restoreSeriesVisibility, saveSeriesVisibility } from 'utils/chartSeriesSettings'
 import { msToKmh } from 'utils/unitsConversion'
 
@@ -69,7 +69,7 @@ const baseOptions = () => ({
   }
 })
 
-const buildSeries = points => {
+const buildSeries = (points, t) => {
   const altitudePoints = points.map(el => [
     Math.round((el.flTime - points[0].flTime) * 10) / 10,
     Math.round(el.altitude)
@@ -88,19 +88,19 @@ const buildSeries = points => {
   return {
     series: [
       {
-        name: I18n.t('charts.all_data.series.height'),
+        name: t('charts.all_data.series.height'),
         type: 'area',
         code: 'height',
         data: altitudePoints,
         yAxis: 0,
         color: '#9ec8f1',
         tooltip: {
-          valueSuffix: ` ${I18n.t('units.m')}`,
+          valueSuffix: ` ${t('units.m')}`,
           valueDecimals: 0
         }
       },
       {
-        name: I18n.t('charts.all_data.series.horiz_speed'),
+        name: t('charts.all_data.series.horiz_speed'),
         type: 'spline',
         code: 'ground_speed',
         data: horizontalSpeed,
@@ -108,12 +108,12 @@ const buildSeries = points => {
         color: '#52A964',
         lineWidth: 1,
         tooltip: {
-          valueSuffix: ` ${I18n.t('units.kmh')}`,
+          valueSuffix: ` ${t('units.kmh')}`,
           valueDecimals: 0
         }
       },
       {
-        name: I18n.t('charts.all_data.series.vert_speed'),
+        name: t('charts.all_data.series.vert_speed'),
         type: 'spline',
         code: 'vertical_speed',
         data: verticalSpeed,
@@ -121,7 +121,7 @@ const buildSeries = points => {
         color: '#A7414E',
         lineWidth: 1,
         tooltip: {
-          valueSuffix: ` ${I18n.t('units.kmh')}`,
+          valueSuffix: ` ${t('units.kmh')}`,
           valueDecimals: 0
         }
       }
@@ -130,7 +130,8 @@ const buildSeries = points => {
 }
 
 const useChartOptions = (points, additionalOptions) => {
-  const series = useMemo(() => buildSeries(points), [points])
+  const { t } = useI18n()
+  const series = useMemo(() => buildSeries(points, t), [points, t])
 
   const options = useMemo(() => merge(baseOptions(), additionalOptions, series), [
     additionalOptions,
