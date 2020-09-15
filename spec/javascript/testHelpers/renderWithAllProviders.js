@@ -8,6 +8,7 @@ import { createMemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 
 import { rootReducer } from 'redux/store'
+import TranslationsProvider from 'components/TranslationsProvider'
 
 export default (ui, initialState) => {
   const store = createStore(rootReducer, initialState, compose(applyMiddleware(thunk)))
@@ -15,7 +16,9 @@ export default (ui, initialState) => {
 
   const screen = render(
     <Provider store={store}>
-      <Router history={history}>{ui}</Router>
+      <TranslationsProvider>
+        <Router history={history}>{ui}</Router>
+      </TranslationsProvider>
     </Provider>
   )
 
