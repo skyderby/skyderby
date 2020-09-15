@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import I18n from 'i18n-js'
 import PropTypes from 'prop-types'
 
+import { useI18n } from 'components/TranslationsProvider'
 import { updatePreferences } from 'redux/userPreferences'
 import FlatButton from 'components/ui/FlatButton'
 import CogIcon from 'icons/cog.svg'
@@ -10,6 +10,7 @@ import SettingsModal from './SettingsModal'
 import { Container } from './elements'
 
 const ViewSettings = ({ straightLine, setStraightLine }) => {
+  const { t } = useI18n()
   const dispatch = useDispatch()
   const [showModal, setShowModal] = useState(false)
 
@@ -27,7 +28,7 @@ const ViewSettings = ({ straightLine, setStraightLine }) => {
       </FlatButton>
       <FlatButton onClick={() => setShowModal(true)}>
         <CogIcon />
-        <span>{I18n.t('general.settings')}</span>
+        <span>{t('general.settings')}</span>
       </FlatButton>
 
       <SettingsModal

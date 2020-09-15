@@ -70,8 +70,12 @@ describe('Tracks/Show', () => {
       <Show match={{ params: { id: '11000' } }} location={{ search: '' }} />
     )
 
-    await waitFor(() => expect(screen.getByText('404')).toBeInTheDocument())
-    expect(screen.getByText("Track you're looking for not found")).toBeInTheDocument()
+    await waitFor(() =>
+      expect(screen.getByText('404', { exact: false })).toBeInTheDocument()
+    )
+    expect(
+      screen.getByText("We were looking everywhere but we didn't find it")
+    ).toBeInTheDocument()
     expect(screen.getByText('Go back')).toHaveAttribute('href', '/tracks')
   })
 

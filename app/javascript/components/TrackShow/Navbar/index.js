@@ -1,6 +1,5 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import I18n from 'i18n-js'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
@@ -9,10 +8,12 @@ import VideoIcon from 'icons/play-circle.svg'
 import MapsIcon from 'icons/compass.svg'
 import ListIcon from 'icons/list-ul.svg'
 import WindIcon from 'icons/wind-direction.svg'
+import { useI18n } from 'components/TranslationsProvider'
 import { selectWindData } from 'redux/tracks/windData'
 import { Container, Fade, Menu, MenuItem, Spacer } from './elements'
 
 const Navbar = ({ track }) => {
+  const { t } = useI18n()
   const { id: trackId, hasVideo, editable } = track
   const windData = useSelector(state => selectWindData(state, trackId))
 
@@ -25,14 +26,14 @@ const Navbar = ({ track }) => {
         <MenuItem>
           <NavLink exact to={buildLink(`/tracks/${trackId}`)}>
             <ChartIcon />
-            {I18n.t('tracks.show.charts')}
+            {t('tracks.show.charts')}
           </NavLink>
         </MenuItem>
         {hasVideo ? (
           <MenuItem>
             <NavLink to={buildLink(`/tracks/${trackId}/video`)}>
               <VideoIcon />
-              {I18n.t('tracks.show.video')}
+              {t('tracks.show.video')}
             </NavLink>
           </MenuItem>
         ) : (
@@ -40,7 +41,7 @@ const Navbar = ({ track }) => {
             <MenuItem>
               <NavLink to={buildLink(`/tracks/${trackId}/video/edit`)}>
                 <VideoIcon />
-                {I18n.t('tracks.show.video')}
+                {t('tracks.show.video')}
               </NavLink>
             </MenuItem>
           )
@@ -60,14 +61,14 @@ const Navbar = ({ track }) => {
         <MenuItem>
           <NavLink to={buildLink(`/tracks/${trackId}/results`)}>
             <ListIcon />
-            {I18n.t('tracks.show.results')}
+            {t('tracks.show.results')}
           </NavLink>
         </MenuItem>
         {windData.length > 0 && (
           <MenuItem>
             <NavLink to={buildLink(`/tracks/${trackId}/wind_data`)}>
               <WindIcon />
-              {I18n.t('events.show.weather_data')}
+              {t('events.show.weather_data')}
             </NavLink>
           </MenuItem>
         )}

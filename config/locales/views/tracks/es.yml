@@ -17,10 +17,10 @@ es:
     show:
       title_track: La pista
       title_suit: Traje aereo
-      menu_header: 'La representación de los resultados:'
+      menu_header: La representación de los resultados
       menu_sep: En gráficos difirentes
       menu_one: En el mismo gráfico
-      units_header: 'Unidades de medida:'
+      units_header: Unidades de medida
       m_units_metric: Metricas
       m_units_imperial: Imperiales
       delete_confirmation: "Seguro, que quieres eliminar esta pista?"

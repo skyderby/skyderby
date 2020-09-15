@@ -1,8 +1,8 @@
 import React from 'react'
 import { Formik, Field } from 'formik'
 import PropTypes from 'prop-types'
-import I18n from 'i18n-js'
 
+import { useI18n } from 'components/TranslationsProvider'
 import Modal from 'components/ui/Modal'
 import Button from 'components/ui/Button'
 import { SINGLE_CHART, MULTI_CHART } from 'redux/userPreferences/chartMode'
@@ -11,25 +11,27 @@ import Select from './Select'
 import { FormBody, FormGroup, Label, Footer } from './elements'
 
 const SettingsModal = ({ onSubmit, formValues, isShown, onHide: handleHide }) => {
+  const { t } = useI18n()
+
   const chartModeOptions = [
     {
       value: MULTI_CHART,
-      label: I18n.t('tracks.show.menu_sep')
+      label: t('tracks.show.menu_sep')
     },
     {
       value: SINGLE_CHART,
-      label: I18n.t('tracks.show.menu_one')
+      label: t('tracks.show.menu_one')
     }
   ]
 
   const unitSystemOptions = [
     {
       value: METRIC,
-      label: I18n.t('tracks.show.m_units_metric')
+      label: t('tracks.show.m_units_metric')
     },
     {
       value: IMPERIAL,
-      label: I18n.t('tracks.show.m_units_imperial')
+      label: t('tracks.show.m_units_imperial')
     }
   ]
 
@@ -40,7 +42,7 @@ const SettingsModal = ({ onSubmit, formValues, isShown, onHide: handleHide }) =>
           <form onSubmit={handleSubmit}>
             <FormBody>
               <FormGroup>
-                <Label htmlFor="chartMode">{I18n.t('tracks.show.menu_header')}</Label>
+                <Label htmlFor="chartMode">{t('tracks.show.menu_header')}</Label>
                 <Field
                   as={Select}
                   name="chartMode"
@@ -51,7 +53,7 @@ const SettingsModal = ({ onSubmit, formValues, isShown, onHide: handleHide }) =>
                 />
               </FormGroup>
               <FormGroup>
-                <Label htmlFor="unitSystem">Units system</Label>
+                <Label htmlFor="unitSystem">{t('tracks.show.units_header')}</Label>
                 <Field
                   as={Select}
                   name="unitSystem"
@@ -63,9 +65,9 @@ const SettingsModal = ({ onSubmit, formValues, isShown, onHide: handleHide }) =>
               </FormGroup>
             </FormBody>
             <Footer>
-              <Button type="submit">{I18n.t('general.save')}</Button>
+              <Button type="submit">{t('general.save')}</Button>
               <Button type="button" onClick={handleHide}>
-                {I18n.t('general.cancel')}
+                {t('general.cancel')}
               </Button>
             </Footer>
           </form>

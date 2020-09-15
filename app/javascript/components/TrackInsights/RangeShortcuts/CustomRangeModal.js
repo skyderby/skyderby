@@ -1,8 +1,8 @@
 import React from 'react'
 import { Formik, Field } from 'formik'
-import I18n from 'i18n-js'
 import PropTypes from 'prop-types'
 
+import { useI18n } from 'components/TranslationsProvider'
 import Label from 'components/ui/Label'
 import Input from 'components/ui/Input'
 import Modal from 'components/ui/Modal'
@@ -18,6 +18,7 @@ const CustomRangeModal = ({
   maxAltitude,
   selectedAltitudeRange: [from, to]
 }) => {
+  const { t } = useI18n()
   const handleSubmit = values => onChange?.([values.from, values.to])
 
   return (
@@ -25,13 +26,13 @@ const CustomRangeModal = ({
       isShown={isShown}
       onHide={onHide}
       size="sm"
-      title={I18n.t('tracks.show.edit_range')}
+      title={t('tracks.show.edit_range')}
     >
       <Formik initialValues={{ from, to }} onSubmit={handleSubmit}>
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <Fieldset>
-              <Label htmlFor="rangeFrom">{I18n.t('tracks.show.range_from')}</Label>
+              <Label htmlFor="rangeFrom">{t('tracks.show.range_from')}</Label>
               <Field
                 as={Input}
                 type="number"
@@ -41,7 +42,7 @@ const CustomRangeModal = ({
                 max={maxAltitude}
               />
 
-              <Label htmlFor="rangeTo">{I18n.t('tracks.show.range_to')}</Label>
+              <Label htmlFor="rangeTo">{t('tracks.show.range_to')}</Label>
               <Field
                 as={Input}
                 type="number"
@@ -53,9 +54,9 @@ const CustomRangeModal = ({
             </Fieldset>
 
             <Footer>
-              <PrimaryButton type="submit">{I18n.t('general.save')}</PrimaryButton>
+              <PrimaryButton type="submit">{t('general.save')}</PrimaryButton>
               <DefaultButton type="button" onClick={onHide}>
-                {I18n.t('general.cancel')}
+                {t('general.cancel')}
               </DefaultButton>
             </Footer>
           </form>

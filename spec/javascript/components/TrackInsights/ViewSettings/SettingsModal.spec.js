@@ -1,6 +1,6 @@
 import React from 'react'
-import { render, fireEvent, waitFor } from '@testing-library/react'
-import I18n from 'i18n-js'
+import { fireEvent, waitFor } from '@testing-library/react'
+import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
 
 import createModalRoot from 'testHelpers/createModalRoot'
 import { SINGLE_CHART, MULTI_CHART } from 'redux/userPreferences/chartMode'
@@ -20,7 +20,7 @@ describe('SettingsModal', () => {
   }
 
   const renderComponent = () =>
-    render(
+    renderWithAllProviders(
       <SettingsModal
         isShown={true}
         onHide={handleHide}
@@ -33,16 +33,16 @@ describe('SettingsModal', () => {
     const { getByText, getByLabelText } = renderComponent()
 
     await selectOption({
-      select: getByLabelText(I18n.t('tracks.show.menu_header')),
-      getOption: () => getByText(I18n.t('tracks.show.menu_one'))
+      select: getByLabelText('Show data'),
+      getOption: () => getByText('On single chart')
     })
 
     await selectOption({
       select: getByLabelText('Units system'),
-      getOption: () => getByText(I18n.t('tracks.show.m_units_metric'))
+      getOption: () => getByText('Metric')
     })
 
-    fireEvent.click(getByText(I18n.t('general.save')))
+    fireEvent.click(getByText('Save'))
 
     await waitFor(() => expect(handleSubmit).toHaveBeenCalled())
 
@@ -55,7 +55,7 @@ describe('SettingsModal', () => {
   it('calls handleHide on cancel', () => {
     const { getByText } = renderComponent()
 
-    fireEvent.click(getByText(I18n.t('general.cancel')))
+    fireEvent.click(getByText('Cancel'))
 
     expect(handleHide).toHaveBeenCalled()
   })
