@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import I18n from 'i18n-js'
 import { useSelector } from 'react-redux'
 
+import { useI18n } from 'components/TranslationsProvider'
 import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
 import { msToKmh, msToMph } from 'utils/unitsConversion'
 
@@ -31,12 +31,13 @@ const valuePresentation = (value, unitSystem) => {
 }
 
 const HorizontalSpeed = ({ value, zeroWindValue }) => {
+  const { t } = useI18n()
   const { unitSystem } = useSelector(state => state.userPreferences)
   const units = unitSystem === METRIC ? 'kmh' : 'mph'
 
   return (
     <SummaryItem value="ground-speed">
-      <Title>{I18n.t('tracks.indicators.ground_speed')}</Title>
+      <Title>{t('tracks.indicators.ground_speed')}</Title>
       <ValueContainer>
         <Value aria-label="average horizontal speed">
           {valuePresentation(value.avg, unitSystem)}
@@ -55,7 +56,7 @@ const HorizontalSpeed = ({ value, zeroWindValue }) => {
             <ChevronDown />
           </Min>
         </MinMaxValue>
-        <Units>{I18n.t(`units.${units}`)}</Units>
+        <Units>{t(`units.${units}`)}</Units>
       </ValueContainer>
 
       {Number.isFinite(zeroWindValue) && (

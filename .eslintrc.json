@@ -34,7 +34,8 @@
     "Cesium": false,
     "Highcharts": false,
     "HighchartsMore": false,
-    "ga": false
+    "ga": false,
+    "__dirname": false
   },
   "rules": {
     "linebreak-style": [

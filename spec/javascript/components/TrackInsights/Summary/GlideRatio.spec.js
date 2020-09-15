@@ -1,11 +1,11 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
 
 import GlideRatio from 'components/TrackInsights/Summary/GlideRatio'
 
 describe('Summary/GlideRatio', () => {
   it('hide wind effect if no zeroWindValue provided', () => {
-    const { queryByLabelText } = render(
+    const { queryByLabelText } = renderWithAllProviders(
       <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 11 }} />
     )
 
@@ -14,7 +14,7 @@ describe('Summary/GlideRatio', () => {
 
   describe('average value', () => {
     it('normal value', () => {
-      const { getByLabelText } = render(
+      const { getByLabelText } = renderWithAllProviders(
         <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 11 }} />
       )
 
@@ -22,7 +22,7 @@ describe('Summary/GlideRatio', () => {
     })
 
     it('greater than 10', () => {
-      const { getByLabelText } = render(
+      const { getByLabelText } = renderWithAllProviders(
         <GlideRatio value={{ avg: 100.7123, min: 0.2, max: 11 }} />
       )
 
@@ -30,7 +30,7 @@ describe('Summary/GlideRatio', () => {
     })
 
     it('empty', () => {
-      const { getByLabelText } = render(
+      const { getByLabelText } = renderWithAllProviders(
         <GlideRatio value={{ avg: null, min: 0.2, max: 11 }} />
       )
 
@@ -39,7 +39,7 @@ describe('Summary/GlideRatio', () => {
   })
 
   it('zero wind value', () => {
-    const { getByLabelText } = render(
+    const { getByLabelText } = renderWithAllProviders(
       <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 11 }} zeroWindValue={1.5} />
     )
 
@@ -49,7 +49,7 @@ describe('Summary/GlideRatio', () => {
 
   describe('max value', () => {
     it('normal value', () => {
-      const { getByLabelText } = render(
+      const { getByLabelText } = renderWithAllProviders(
         <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 9 }} />
       )
 
@@ -57,7 +57,7 @@ describe('Summary/GlideRatio', () => {
     })
 
     it('greater than 10', () => {
-      const { getByLabelText } = render(
+      const { getByLabelText } = renderWithAllProviders(
         <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 11 }} />
       )
 
@@ -65,7 +65,7 @@ describe('Summary/GlideRatio', () => {
     })
 
     it('empty', () => {
-      const { getByLabelText } = render(
+      const { getByLabelText } = renderWithAllProviders(
         <GlideRatio value={{ avg: 1.71, min: 0.2, max: 0 / 0 }} />
       )
 
@@ -75,7 +75,7 @@ describe('Summary/GlideRatio', () => {
 
   describe('min value', () => {
     it('normal value', () => {
-      const { getByLabelText } = render(
+      const { getByLabelText } = renderWithAllProviders(
         <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 11 }} />
       )
 
@@ -83,7 +83,7 @@ describe('Summary/GlideRatio', () => {
     })
 
     it('greater than 10', () => {
-      const { getByLabelText } = render(
+      const { getByLabelText } = renderWithAllProviders(
         <GlideRatio value={{ avg: 1.7123, min: 10.2, max: 11 }} />
       )
 
@@ -91,7 +91,7 @@ describe('Summary/GlideRatio', () => {
     })
 
     it('empty', () => {
-      const { getByLabelText } = render(
+      const { getByLabelText } = renderWithAllProviders(
         <GlideRatio value={{ avg: 1.71, min: undefined, max: 10 }} />
       )
 
