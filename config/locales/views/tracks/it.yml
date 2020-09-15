@@ -18,10 +18,10 @@ it:
     show:
       title_track: 'Traccia'
       title_suit: 'Tuta'
-      menu_header: 'Mostra dati:'
+      menu_header: Mostra dati
       menu_sep: 'In grafici separati'
       menu_one: 'In un unico grafico'
-      units_header: 'Unità:'
+      units_header: Unità
       m_units_metric: 'Metrico'
       m_units_imperial: 'Imperiale'
       delete_confirmation: "Sicuro di voler cancellare questa traccia?"

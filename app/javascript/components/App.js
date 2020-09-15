@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import store from 'redux/store'
 import GlobalStyle from 'components/GlobalStyle'
+import TranslationsProvider from 'components/TranslationsProvider'
 import TracksEdit from 'pages/tracks/Edit'
 import TracksShow from 'pages/tracks/Show'
 import TracksIndex from 'pages/tracks/Index'
@@ -18,36 +19,41 @@ import ErrorBoundary from 'components/ErrorBoundary'
 
 const App = () => (
   <Provider store={store}>
-    <BrowserRouter>
-      <GlobalStyle />
+    <TranslationsProvider>
+      <BrowserRouter>
+        <GlobalStyle />
 
-      <ErrorBoundary>
-        <Switch>
-          <Route path="/flight_profiles" component={FlightProfiles} />
+        <ErrorBoundary>
+          <Switch>
+            <Route path="/flight_profiles" component={FlightProfiles} />
 
-          <Route exact path="/tracks" component={TracksIndex} />
-          <Route path="/tracks/:id/edit" component={TracksEdit} />
-          <Route path="/tracks/:id" component={TracksShow} />
+            <Route exact path="/tracks" component={TracksIndex} />
+            <Route path="/tracks/:id/edit" component={TracksEdit} />
+            <Route path="/tracks/:id" component={TracksShow} />
 
-          <Route path="/events/:id/rounds/:roundId/map" component={EventRoundMap} />
-          <Route path="/events/:id/rounds/:roundId/replay" component={EventRoundReplay} />
+            <Route path="/events/:id/rounds/:roundId/map" component={EventRoundMap} />
+            <Route
+              path="/events/:id/rounds/:roundId/replay"
+              component={EventRoundReplay}
+            />
 
-          <Route exact path="/suits" component={SuitsOverview} />
-          <Route path="/suits/make/:id" component={SuitsIndex} />
-          <Route path="/suits/:id/edit" component={SuitsEdit} />
-          <Route path="/suits/:id" component={SuitsShow} />
+            <Route exact path="/suits" component={SuitsOverview} />
+            <Route path="/suits/make/:id" component={SuitsIndex} />
+            <Route path="/suits/:id/edit" component={SuitsEdit} />
+            <Route path="/suits/:id" component={SuitsShow} />
 
-          {/* Fallback route for server rendered part of the app */}
-          <Route
-            path="*"
-            component={({ match: { url } }) => {
-              window.location.href = url
-              return null
-            }}
-          />
-        </Switch>
-      </ErrorBoundary>
-    </BrowserRouter>
+            {/* Fallback route for server rendered part of the app */}
+            <Route
+              path="*"
+              component={({ match: { url } }) => {
+                window.location.href = url
+                return null
+              }}
+            />
+          </Switch>
+        </ErrorBoundary>
+      </BrowserRouter>
+    </TranslationsProvider>
   </Provider>
 )
 
