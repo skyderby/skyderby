@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import I18n from 'i18n-js'
 
+import { useI18n } from 'components/TranslationsProvider'
 import ChevronDown from 'icons/chevron-down.svg'
 import ChevronUp from 'icons/chevron-up.svg'
 import WindEffect from './WindEffect'
@@ -28,9 +28,11 @@ const valuePresentation = value => {
 }
 
 const GlideRatio = ({ value, zeroWindValue }) => {
+  const { t } = useI18n()
+
   return (
     <SummaryItem value="glide-ratio">
-      <Title>{I18n.t('tracks.indicators.glide_ratio')}</Title>
+      <Title>{t('tracks.indicators.glide_ratio')}</Title>
       <ValueContainer>
         <Value aria-label="average glide ratio">{valuePresentation(value.avg)}</Value>
         <MinMaxValue>

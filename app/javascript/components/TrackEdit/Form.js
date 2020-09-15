@@ -1,8 +1,8 @@
 import React from 'react'
 import { Formik, Field } from 'formik'
 import PropTypes from 'prop-types'
-import I18n from 'i18n-js'
 
+import { useI18n } from 'components/TranslationsProvider'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
 import AltitudeRangeSelect from 'components/AltitudeRangeSelect'
 import DefaultButton from 'components/ui/buttons/Default'
@@ -15,6 +15,8 @@ import TrackSuitField from 'components/TrackSuitField'
 import { Form, AltitudeRangeContainer, Footer } from './elements'
 
 const EditForm = ({ track, onSubmit, onDelete, onCancel }) => {
+  const { t } = useI18n()
+
   const initialValues = {
     jumpRange: track.jumpRange,
     suitId: track.suitId,
@@ -41,13 +43,13 @@ const EditForm = ({ track, onSubmit, onDelete, onCancel }) => {
 
           <hr />
 
-          <Label>{I18n.t('activerecord.attributes.track.suit')}</Label>
+          <Label>{t('activerecord.attributes.track.suit')}</Label>
           <TrackSuitField />
 
-          <Label>{I18n.t('activerecord.attributes.track.place')}</Label>
+          <Label>{t('activerecord.attributes.track.place')}</Label>
           <input />
 
-          <Label>{I18n.t('activerecord.attributes.track.kind')}</Label>
+          <Label>{t('activerecord.attributes.track.kind')}</Label>
           <Field
             as={RadioButtonGroup}
             name="kind"
@@ -57,24 +59,24 @@ const EditForm = ({ track, onSubmit, onDelete, onCancel }) => {
             ]}
           />
 
-          <Label>{I18n.t('tracks.edit.visibility')}</Label>
+          <Label>{t('tracks.edit.visibility')}</Label>
           <Field
             as={RadioButtonGroup}
             name="visibility"
             options={[
-              { value: 'public_track', label: I18n.t('visibility.public') },
-              { value: 'unlisted_track', label: I18n.t('visibility.unlisted') },
-              { value: 'private_track', label: I18n.t('visibility.private') }
+              { value: 'public_track', label: t('visibility.public') },
+              { value: 'unlisted_track', label: t('visibility.unlisted') },
+              { value: 'private_track', label: t('visibility.private') }
             ]}
           />
 
-          <Label>{I18n.t('activerecord.attributes.track.comment')}</Label>
+          <Label>{t('activerecord.attributes.track.comment')}</Label>
           <Field name="comment">
             {({ field }) => (
               <Input
                 as="textarea"
                 rows={3}
-                placeholder={I18n.t('static_pages.index.track_form.comment_plh')}
+                placeholder={t('static_pages.index.track_form.comment_plh')}
                 {...field}
               />
             )}
@@ -84,13 +86,13 @@ const EditForm = ({ track, onSubmit, onDelete, onCancel }) => {
 
           <Footer>
             <RedButton type="button" outlined onClick={onDelete}>
-              {I18n.t('general.delete')}
+              {t('general.delete')}
             </RedButton>
 
             <div>
-              <PrimaryButton type="submit">{I18n.t('general.save')}</PrimaryButton>
+              <PrimaryButton type="submit">{t('general.save')}</PrimaryButton>
               <DefaultButton type="button" onClick={onCancel}>
-                {I18n.t('general.cancel')}
+                {t('general.cancel')}
               </DefaultButton>
             </div>
           </Footer>

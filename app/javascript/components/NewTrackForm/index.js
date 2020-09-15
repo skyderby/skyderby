@@ -1,9 +1,9 @@
 import React from 'react'
 import { Formik, Field } from 'formik'
-import I18n from 'i18n-js'
 import PropTypes from 'prop-types'
 
 import Api from 'api'
+import { useI18n } from 'components/TranslationsProvider'
 import Label from 'components/ui/Label'
 import Input from 'components/ui/Input'
 import DefaultButton from 'components/ui/buttons/Default'
@@ -17,6 +17,8 @@ import { Form, Footer, InputContainer, ErrorMessage } from './elements'
 import buildValidationSchema from './validationSchema'
 
 const NewTrackForm = ({ loggedIn }) => {
+  const { t } = useI18n()
+
   const initialValues = {
     name: loggedIn ? null : '',
     comment: '',
@@ -63,12 +65,12 @@ const NewTrackForm = ({ loggedIn }) => {
         <Form onSubmit={handleSubmit}>
           {loggedIn || (
             <>
-              <Label>{I18n.t('activerecord.attributes.track.name')}</Label>
+              <Label>{t('activerecord.attributes.track.name')}</Label>
               <InputContainer>
                 <Field
                   as={Input}
                   name="name"
-                  placeholder={I18n.t('static_pages.index.track_form.name_plh')}
+                  placeholder={t('static_pages.index.track_form.name_plh')}
                   isInvalid={Boolean(touched.name && errors.name)}
                 />
                 {touched.name && errors.name && (
@@ -78,16 +80,16 @@ const NewTrackForm = ({ loggedIn }) => {
             </>
           )}
 
-          <Label>{I18n.t('activerecord.attributes.track.suit')}</Label>
+          <Label>{t('activerecord.attributes.track.suit')}</Label>
           <TrackSuitField />
 
-          <Label>{I18n.t('activerecord.attributes.track.place')}</Label>
+          <Label>{t('activerecord.attributes.track.place')}</Label>
           <InputContainer>
             <Field
               as={Input}
               name="location"
               isInvalid={touched.location && errors.location}
-              placeholder={I18n.t('static_pages.index.track_form.location_plh')}
+              placeholder={t('static_pages.index.track_form.location_plh')}
             />
 
             {touched.location && errors.location && (
@@ -95,7 +97,7 @@ const NewTrackForm = ({ loggedIn }) => {
             )}
           </InputContainer>
 
-          <Label>{I18n.t('activerecord.attributes.track.kind')}</Label>
+          <Label>{t('activerecord.attributes.track.kind')}</Label>
           <Field
             as={RadioButtonGroup}
             name="kind"
@@ -107,20 +109,20 @@ const NewTrackForm = ({ loggedIn }) => {
 
           {loggedIn && (
             <>
-              <Label>{I18n.t('tracks.edit.visibility')}</Label>
+              <Label>{t('tracks.edit.visibility')}</Label>
               <Field
                 as={RadioButtonGroup}
                 name="visibility"
                 options={[
-                  { value: 'public_track', label: I18n.t('visibility.public') },
-                  { value: 'unlisted_track', label: I18n.t('visibility.unlisted') },
-                  { value: 'private_track', label: I18n.t('visibility.private') }
+                  { value: 'public_track', label: t('visibility.public') },
+                  { value: 'unlisted_track', label: t('visibility.unlisted') },
+                  { value: 'private_track', label: t('visibility.private') }
                 ]}
               />
             </>
           )}
 
-          <Label>{I18n.t('activerecord.attributes.track_file.file')}</Label>
+          <Label>{t('activerecord.attributes.track_file.file')}</Label>
           <InputContainer>
             <Field name="trackFileId">
               {({ field: { name }, form: { setFieldValue } }) => (
@@ -144,7 +146,7 @@ const NewTrackForm = ({ loggedIn }) => {
 
           {(values.formSupportData.segmentsCount || 0) > 1 && (
             <>
-              <Label>{I18n.t('activerecord.attributes.track_file.segment')}</Label>
+              <Label>{t('activerecord.attributes.track_file.segment')}</Label>
               <InputContainer>
                 <Field name="segment">
                   {({ field: { name, value }, form: { setFieldValue } }) => (
@@ -163,13 +165,13 @@ const NewTrackForm = ({ loggedIn }) => {
             </>
           )}
 
-          <Label>{I18n.t('activerecord.attributes.track.comment')}</Label>
+          <Label>{t('activerecord.attributes.track.comment')}</Label>
           <Field name="comment">
             {({ field }) => (
               <Input
                 as="textarea"
                 rows={3}
-                placeholder={I18n.t('static_pages.index.track_form.comment_plh')}
+                placeholder={t('static_pages.index.track_form.comment_plh')}
                 {...field}
               />
             )}
@@ -180,7 +182,7 @@ const NewTrackForm = ({ loggedIn }) => {
               type="submit"
               disabled={isSubmitting || values.formSupportData.isUploading}
             >
-              {I18n.t('static_pages.index.track_form.submit')}
+              {t('static_pages.index.track_form.submit')}
             </PrimaryButton>
             <DefaultButton
               type="button"
@@ -188,7 +190,7 @@ const NewTrackForm = ({ loggedIn }) => {
               data-dismiss="modal"
               onClick={resetForm}
             >
-              {I18n.t('general.cancel')}
+              {t('general.cancel')}
             </DefaultButton>
           </Footer>
         </Form>
