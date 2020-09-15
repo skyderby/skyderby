@@ -1,5 +1,8 @@
 const { environment } = require('@rails/webpacker')
 const webpack = require('webpack')
+const VirtualModulesPlugin = require('webpack-virtual-modules')
+
+const TranslationsPlugin = require('./translations')
 
 environment.plugins.append(
   'Provide',
@@ -9,6 +12,11 @@ environment.plugins.append(
     jquery: 'jquery'
   })
 )
+
+const virtualModules = new VirtualModulesPlugin()
+
+environment.plugins.append('VirtualModulesPlugin', virtualModules)
+environment.plugins.append('TranslationsPlugin', new TranslationsPlugin(virtualModules))
 
 environment.splitChunks()
 
