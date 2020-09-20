@@ -7,6 +7,7 @@ module Api
         @manufacturers =
           Manufacturer
           .order(:name)
+          .then(&method(:apply_filters))
           .paginate(page: current_page, per_page: rows_per_page)
 
         respond_to do |format|
@@ -76,6 +77,12 @@ module Api
 
       def manufacturer_params
         params.require(:manufacturer).permit(:name, :code)
+      end
+
+      def apply_filters(relation)
+        return relation if params[:ids].empty?
+
+        relation.where(id: params[:ids])
       end
     end
   end

@@ -6,7 +6,6 @@ import { ForbiddenError } from 'errors'
 import usePageStatus from 'hooks/usePageStatus'
 import PageWrapper from 'components/PageWrapper'
 import TrackEdit from 'components/TrackEdit'
-import { PageContext } from 'components/PageContext'
 import { loadTrack } from 'redux/tracks'
 
 const Edit = ({ match, location: { state: locationState } }) => {
@@ -19,8 +18,8 @@ const Edit = ({ match, location: { state: locationState } }) => {
   useEffect(() => {
     onLoadStart()
     dispatch(loadTrack(trackId))
-      .then(({ editable }) => {
-        if (!editable) throw new ForbiddenError()
+      .then(({ permissions: { canEdit } }) => {
+        if (!canEdit) throw new ForbiddenError()
       })
       .then(onLoadSuccess)
       .catch(onError)
@@ -28,9 +27,7 @@ const Edit = ({ match, location: { state: locationState } }) => {
 
   return (
     <PageWrapper {...status}>
-      <PageContext value={{ trackId, locationState }}>
-        <TrackEdit />
-      </PageContext>
+      <TrackEdit trackId={trackId} returnTo={locationState?.returnTo || '/tracks'} />
     </PageWrapper>
   )
 }
@@ -42,7 +39,9 @@ Edit.propTypes = {
     }).isRequired
   }).isRequired,
   location: PropTypes.shape({
-    state: PropTypes.object
+    state: PropTypes.shape({
+      returnTo: PropTypes.string
+    })
   }).isRequired
 }
 

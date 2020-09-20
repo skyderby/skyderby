@@ -3,7 +3,7 @@ import { Handles, Tracks, Ticks } from 'react-compound-slider'
 import PropTypes from 'prop-types'
 
 import HandleValues from './HandleValues'
-import { Slider, Container, Rail, Handle, Track, Tick } from './elements'
+import { Slider, Container, Rail, Tick } from './elements'
 import { calculateTicks } from './utils'
 
 const RangeSlider = ({ domain, reversed, values, step = 10, onChange, onUpdate }) => {
@@ -37,7 +37,8 @@ const RangeSlider = ({ domain, reversed, values, step = 10, onChange, onUpdate }
           {({ handles, getHandleProps }) => (
             <div>
               {handles.map(({ id, percent }) => (
-                <Handle
+                <div
+                  className="range-slider-handle"
                   key={`handle-${id}`}
                   style={{ left: `${percent}%` }}
                   {...getHandleProps(id)}
@@ -52,7 +53,8 @@ const RangeSlider = ({ domain, reversed, values, step = 10, onChange, onUpdate }
           {({ tracks, getTrackProps }) => (
             <div>
               {tracks.map(({ id, source, target }) => (
-                <Track
+                <div
+                  className="range-slider-track"
                   key={id}
                   style={{
                     left: `${source.percent}%`,

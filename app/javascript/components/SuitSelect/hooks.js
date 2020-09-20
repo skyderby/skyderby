@@ -8,8 +8,10 @@ export const useSuitValue = suitId => {
 
   const getSuitData = useCallback(async suitId => {
     if (!suitsCache.current[suitId]) {
-      const data = await Api.Suit.findRecord(suitId)
-      suitsCache.current[suitId] = data
+      const suit = await Api.Suit.findRecord(suitId)
+      const make = await Api.Manufacturer.findRecord(suit.makeId)
+
+      suitsCache.current[suitId] = { ...suit, make }
     }
 
     return suitsCache.current[suitId]
@@ -23,12 +25,19 @@ export const useSuitValue = suitId => {
 
     if (suit || !suitId) return
 
-    const data = await getSuitData(suitId)
-    setSuit({ value: data.id, label: data.name, ...data })
+    return await getSuitData(suitId)
   }, [suit, suitId, getSuitData])
 
   useEffect(() => {
-    fetchInitialSuit()
+    let effectCancelled = false
+
+    fetchInitialSuit().then(data => {
+      if (effectCancelled || !data) return
+
+      setSuit({ value: data.id, label: data.name, ...data })
+    })
+
+    return () => (effectCancelled = true)
   }, [fetchInitialSuit])
 
   return [suit, setSuit]

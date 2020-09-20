@@ -6,6 +6,7 @@ const GlobalStyle = createGlobalStyle`
     --blue-50: #00a7ff;
     --blue-60: #008ed9;
 
+    --red-60: #ed5565;
     --red-70: #ff5e5e;
     --red-80: #d61e1e;
 
