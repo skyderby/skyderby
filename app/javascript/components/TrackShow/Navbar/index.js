@@ -14,7 +14,11 @@ import { Container, Fade, Menu, MenuItem, Spacer } from './elements'
 
 const Navbar = ({ track }) => {
   const { t } = useI18n()
-  const { id: trackId, hasVideo, editable } = track
+  const {
+    id: trackId,
+    hasVideo,
+    permissions: { canEdit }
+  } = track
   const windData = useSelector(state => selectWindData(state, trackId))
 
   const buildLink = pathname => location => ({ pathname, state: location.state })
@@ -37,7 +41,7 @@ const Navbar = ({ track }) => {
             </NavLink>
           </MenuItem>
         ) : (
-          editable && (
+          canEdit && (
             <MenuItem>
               <NavLink to={buildLink(`/tracks/${trackId}/video/edit`)}>
                 <VideoIcon />
@@ -83,7 +87,9 @@ Navbar.propTypes = {
   track: PropTypes.shape({
     id: PropTypes.number.isRequired,
     hasVideo: PropTypes.bool.isRequired,
-    editable: PropTypes.bool.isRequired
+    permissions: PropTypes.shape({
+      canEdit: PropTypes.bool.isRequired
+    }).isRequired
   })
 }
 
