@@ -45,9 +45,11 @@ export const IndexParams = {
   }
 }
 
+const trackUrl = trackId => `${endpoint}/${trackId}`
+
 const Track = {
   findRecord: async id => {
-    const { data } = await axios.get(`${endpoint}/${id}`)
+    const { data } = await axios.get(trackUrl(id))
 
     return data
   },
@@ -62,6 +64,18 @@ const Track = {
 
   createRecord: async ({ segment, ...params }) => {
     const { data } = await axios.post(endpoint, { track: params, segment })
+
+    return data
+  },
+
+  updateRecord: async (id, changes) => {
+    const { data } = await axios.patch(trackUrl(id), { track: changes })
+
+    return data
+  },
+
+  deleteRecord: async id => {
+    const { data } = await axios.delete(trackUrl(id))
 
     return data
   }

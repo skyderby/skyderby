@@ -7,12 +7,19 @@ export const usePlaceValue = placeId => {
   const fetchInitialPlace = useCallback(async () => {
     if (place || !placeId) return
 
-    const data = await Api.Place.findRecord(placeId)
-    setPlace({ value: data.id, label: data.name, ...data })
+    return await Api.Place.findRecord(placeId)
   }, [place, placeId])
 
   useEffect(() => {
-    fetchInitialPlace()
+    let effectCancelled = false
+
+    fetchInitialPlace().then(data => {
+      if (effectCancelled || !data) return
+
+      setPlace({ value: data.id, label: data.name, ...data })
+    })
+
+    return () => (effectCancelled = true)
   }, [fetchInitialPlace])
 
   return [place, setPlace]

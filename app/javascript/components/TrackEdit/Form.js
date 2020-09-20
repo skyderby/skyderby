@@ -10,34 +10,32 @@ import PrimaryButton from 'components/ui/buttons/Primary'
 import Label from 'components/ui/Label'
 import Input from 'components/ui/Input'
 import TrackSuitField from 'components/TrackSuitField'
+import TrackLocationField from 'components/TrackLocationField'
 
 import AltitudeRangeField from './AltitudeRangeField'
 import { Form, AltitudeRangeContainer, Footer } from './elements'
 
-const EditForm = ({ track, onSubmit, onDelete, onCancel }) => {
+const EditForm = ({ fields, onSubmit, onDelete, onCancel }) => {
   const { t } = useI18n()
 
-  const initialValues = {
-    jumpRange: track.jumpRange,
-    suitId: track.suitId,
-    missingSuitName: track.missingSuitName,
-    kind: 'skydive',
-    visibility: track.visibility,
-    comment: track.comment,
-    formSupportData: {
-      suitInputMode: track.suitId ? 'select' : 'input'
-    }
-  }
-
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit}>
-      {({ values, setFieldValue, handleSubmit }) => (
+    <Formik
+      initialValues={{
+        ...fields,
+        formSupportData: {
+          suitInputMode: fields.suitId ? 'select' : 'input',
+          placeInputMode: fields.placeId ? 'select' : 'input'
+        }
+      }}
+      onSubmit={onSubmit}
+    >
+      {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
           <AltitudeRangeContainer>
             <FastField
               name="jumpRange"
               component={AltitudeRangeField}
-              trackId={track.id}
+              trackId={fields.id}
             />
           </AltitudeRangeContainer>
 
@@ -47,7 +45,7 @@ const EditForm = ({ track, onSubmit, onDelete, onCancel }) => {
           <TrackSuitField />
 
           <Label>{t('activerecord.attributes.track.place')}</Label>
-          <input />
+          <TrackLocationField />
 
           <Label>{t('activerecord.attributes.track.kind')}</Label>
           <Field
@@ -103,16 +101,19 @@ const EditForm = ({ track, onSubmit, onDelete, onCancel }) => {
 }
 
 EditForm.propTypes = {
-  track: PropTypes.shape({
+  fields: PropTypes.shape({
     id: PropTypes.number.isRequired,
     suitId: PropTypes.number,
+    placeId: PropTypes.number,
     comment: PropTypes.string,
     jumpRange: PropTypes.shape({
       from: PropTypes.number.isRequired,
       to: PropTypes.number.isRequired
     }).isRequired,
-    missingSuitName: PropTypes.string,
-    visibility: PropTypes.oneOf(['public_track', 'unlisted_track', 'private_track'])
+    missingSuitName: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+    visibility: PropTypes.oneOf(['public_track', 'unlisted_track', 'private_track']),
+    kind: PropTypes.oneOf(['skydive', 'base'])
   }).isRequired,
   onSubmit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
