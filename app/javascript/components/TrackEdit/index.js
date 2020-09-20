@@ -32,19 +32,19 @@ const TrackEdit = () => {
     history.goBack()
   }
 
+  if (!track || track.status === 'loading') return null
+
   return (
     <PageContainer>
       <BackLink to={`/tracks/${trackId}`}>{t('general.back')}</BackLink>
 
       <FormContainer>
-        {track?.status === 'loaded' && (
-          <Form
-            track={track}
-            onSubmit={handleSubmit}
-            onDelete={handleDelete}
-            onCancel={handleCancel}
-          />
-        )}
+        <Form
+          track={track}
+          onSubmit={handleSubmit}
+          onDelete={handleDelete}
+          onCancel={handleCancel}
+        />
       </FormContainer>
     </PageContainer>
   )
