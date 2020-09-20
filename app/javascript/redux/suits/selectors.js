@@ -3,9 +3,16 @@ import { createSelector } from 'reselect'
 export const selectAllSuits = state => Object.values(state.suits.byId)
 
 export const selectSuit = (state, suitId) => {
-  const { byId } = state.suits
+  const { byId: suitsById } = state.suits
+  const { byId: manufacturersById } = state.manufacturers
 
-  return byId[suitId]
+  const suit = suitsById[suitId]
+
+  if (!suit) return null
+
+  const make = manufacturersById[suit.makeId]
+
+  return { ...suit, make }
 }
 
 export const createSuitSelector = suitId => state => selectSuit(state, suitId)

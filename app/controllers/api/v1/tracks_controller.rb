@@ -115,17 +115,28 @@ module Api
       end
 
       def update_params
-        params.require(:track).permit \
+        params.require(:track).permit(
           :kind,
           :location,
           :place_id,
-          :ground_level,
-          :jump_range,
           :missing_suit_name,
           :suit_id,
           :comment,
           :visibility,
-          :disqualified_from_online_competitions
+          :disqualified_from_online_competitions,
+          jump_range: [:from, :to]
+        ).then(&method(:process_jump_range))
+      end
+
+      def process_jump_range(permitted_params)
+        return permitted_params unless permitted_params.key? :jump_range
+
+        permitted_params
+          .merge(
+            ff_start: permitted_params.dig(:jump_range, :from),
+            ff_end: permitted_params.dig(:jump_range, :to)
+          )
+          .except(:jump_range)
       end
     end
   end
