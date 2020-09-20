@@ -81,9 +81,9 @@
     "reselect": "^4.0.0",
     "select2": "^4.0.3",
     "stimulus": "^1.0.1",
-    "styled-components": "^5.1",
+    "styled-components": "^5.2.0",
     "turbolinks": "^5.1.1",
-    "yup": "^0.27.0"
+    "yup": "^0.29.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.9.6",
