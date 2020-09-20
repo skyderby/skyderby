@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, memo } from 'react'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 
@@ -23,7 +23,7 @@ export const useTrackPoints = (trackId, options = {}) => {
   return points
 }
 
-const AltitudeRangeSelect = ({ trackId, jumpRange, onChange }) => {
+const AltitudeRangeSelect = ({ trackId, value, onChange }) => {
   const points = useTrackPoints(trackId, { trimmed: false })
   const jumpDuration = points.length > 0 ? points[points.length - 1].flTime : 1
 
@@ -40,14 +40,14 @@ const AltitudeRangeSelect = ({ trackId, jumpRange, onChange }) => {
               id="from"
               chart={chart}
               from={0}
-              to={jumpRange.from}
+              to={value.from}
               color="rgba(0, 0, 0, 0.25)"
               zIndex={8}
             />
             <Highchart.Plotband
               id="to"
               chart={chart}
-              from={jumpRange.to}
+              from={value.to}
               to={jumpDuration}
               color="rgba(0, 0, 0, 0.25)"
               zIndex={8}
@@ -58,7 +58,7 @@ const AltitudeRangeSelect = ({ trackId, jumpRange, onChange }) => {
 
       <RangeSlider
         domain={[0, jumpDuration]}
-        values={[jumpRange.from, jumpRange.to]}
+        values={[value.from, value.to]}
         step={1}
         onUpdate={handleUpdate}
       />
@@ -68,11 +68,11 @@ const AltitudeRangeSelect = ({ trackId, jumpRange, onChange }) => {
 
 AltitudeRangeSelect.propTypes = {
   trackId: PropTypes.number.isRequired,
-  jumpRange: PropTypes.shape({
+  value: PropTypes.shape({
     from: PropTypes.number.isRequired,
     to: PropTypes.number.isRequired
   }),
   onChange: PropTypes.func.isRequired
 }
 
-export default AltitudeRangeSelect
+export default memo(AltitudeRangeSelect)
