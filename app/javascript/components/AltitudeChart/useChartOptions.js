@@ -7,14 +7,20 @@ import { msToKmh } from 'utils/unitsConversion'
 
 const chartName = 'AltitudeRangeSelect'
 
+const onChartLoad = function () {
+  restoreSeriesVisibility(chartName, this.series)
+}
+
+const onLegendItemClick = function () {
+  saveSeriesVisibility(chartName, this.options.code, !this.visible)
+}
+
 const baseOptions = () => ({
   chart: {
     marginLeft: 16,
     marginRight: 16,
     events: {
-      load: function () {
-        restoreSeriesVisibility(chartName, this.series)
-      }
+      load: onChartLoad
     }
   },
   title: {
@@ -26,9 +32,7 @@ const baseOptions = () => ({
         radius: 1
       },
       events: {
-        legendItemClick: function () {
-          saveSeriesVisibility(chartName, this.options.code, !this.visible)
-        }
+        legendItemClick: onLegendItemClick
       }
     }
   },

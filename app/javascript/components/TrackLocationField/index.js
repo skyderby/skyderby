@@ -5,23 +5,23 @@ import { useI18n } from 'components/TranslationsProvider'
 import FlatButton from 'components/ui/FlatButton'
 import Input from 'components/ui/Input'
 
-import SuitSelect from './SuitSelect'
+import PlaceSelect from './PlaceSelect'
 import { InputContainer, InputModeToggle, ErrorMessage } from './elements'
 
-const TrackSuitField = () => {
+const TrackLocationField = () => {
   const { t } = useI18n()
 
   return (
     <InputContainer>
-      <Field name="suitId">
+      <Field name="placeId">
         {({
           field: { name, ...props },
           form: { values, setFieldValue },
           meta: { touched, error }
         }) => (
           <>
-            <SuitSelect
-              hide={values.formSupportData.suitInputMode === 'input'}
+            <PlaceSelect
+              hide={values.formSupportData.placeInputMode === 'input'}
               isInvalid={touched && error}
               {...props}
               onChange={value => setFieldValue(name, value)}
@@ -31,13 +31,13 @@ const TrackSuitField = () => {
         )}
       </Field>
 
-      <Field name="missingSuitName">
+      <Field name="location">
         {({ field, form: { values }, meta: { touched, error } }) => (
           <>
             <Input
-              hide={values.formSupportData.suitInputMode === 'select'}
+              hide={values.formSupportData.placeInputMode === 'select'}
               isInvalid={touched && error}
-              placeholder={t('tracks.form.suit_text_placeholder')}
+              placeholder={t('tracks.form.place_text_placeholder')}
               {...field}
             />
 
@@ -46,21 +46,21 @@ const TrackSuitField = () => {
         )}
       </Field>
 
-      <Field name="formSupportData.suitInputMode">
+      <Field name="formSupportData.placeInputMode">
         {({ field: { value, name }, form: { setFieldValue } }) => (
           <InputModeToggle>
             <span>
               {value === 'select'
-                ? t('tracks.form.toggle_suit_caption')
-                : t('tracks.form.toggle_suit_caption_select')}
+                ? t('tracks.form.toggle_place_caption')
+                : t('tracks.form.toggle_place_caption_select')}
             </span>
             <FlatButton
               as="span"
               onClick={() => setFieldValue(name, value === 'select' ? 'input' : 'select')}
             >
               {value === 'select'
-                ? t('tracks.form.toggle_suit_link')
-                : t('tracks.form.toggle_suit_link_select')}
+                ? t('tracks.form.toggle_place_link')
+                : t('tracks.form.toggle_place_link_select')}
             </FlatButton>
           </InputModeToggle>
         )}
@@ -69,4 +69,4 @@ const TrackSuitField = () => {
   )
 }
 
-export default TrackSuitField
+export default TrackLocationField
