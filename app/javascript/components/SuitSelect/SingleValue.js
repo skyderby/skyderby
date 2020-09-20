@@ -4,7 +4,13 @@ import PropTypes from 'prop-types'
 
 import SuitLabel from 'components/SuitLabel'
 
-const SingleValue = ({ data: { name, make: { code } }, ...props }) => (
+const SingleValue = ({
+  data: {
+    name,
+    make: { code }
+  },
+  ...props
+}) => (
   <components.SingleValue {...props}>
     <SuitLabel name={name} code={code} />
   </components.SingleValue>

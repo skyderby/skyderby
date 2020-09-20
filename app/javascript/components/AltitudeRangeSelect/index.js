@@ -1,29 +1,16 @@
-import React, { useEffect, useState, memo } from 'react'
-import axios from 'axios'
+import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
 
 import Highchart from 'components/Highchart'
 import RangeSlider from 'components/RangeSlider'
-
 import AltitudeChart from 'components/AltitudeChart'
+import useTrackPoints from 'hooks/useTrackPoints'
 
-export const useTrackPoints = (trackId, options = {}) => {
-  const [points, setPoints] = useState([])
-
-  useEffect(() => {
-    let isCancelled = false
-    const dataUrl = `/api/v1/tracks/${trackId}/points?trimmed=${options.trimmed}`
-    axios.get(dataUrl).then(({ data }) => {
-      if (isCancelled) return
-      setPoints(data)
-    })
-    return () => (isCancelled = true)
-  }, [trackId, options.trimmed])
-
-  return points
-}
-
-const AltitudeRangeSelect = ({ trackId, value: initialValue, onChange: onChangeCallback }) => {
+const AltitudeRangeSelect = ({
+  trackId,
+  value: initialValue,
+  onChange: onChangeCallback
+}) => {
   const [value, setValue] = useState(initialValue)
 
   const points = useTrackPoints(trackId, { trimmed: false })
@@ -31,7 +18,8 @@ const AltitudeRangeSelect = ({ trackId, value: initialValue, onChange: onChangeC
 
   const handleUpdate = values => setValue({ from: values[0], to: values[1] })
   const handleChange = values => {
-    if (onChangeCallback instanceof Function) onChangeCallback({ from: values[0], to: values[1] })
+    if (onChangeCallback instanceof Function)
+      onChangeCallback({ from: values[0], to: values[1] })
   }
 
   return (

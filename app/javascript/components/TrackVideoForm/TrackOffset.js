@@ -4,10 +4,10 @@ import { Field } from 'formik'
 
 import { useI18n } from 'components/TranslationsProvider'
 import Input from 'components/ui/Input'
-import { useTrackPoints } from 'components/AltitudeRangeSelect'
 import { usePageContext } from 'components/PageContext'
 import AltitudeChart from 'components/AltitudeChart'
 import PlotLine from 'components/Highchart/Plotline'
+import useTrackPoints from 'hooks/useTrackPoints'
 
 import {
   Section,

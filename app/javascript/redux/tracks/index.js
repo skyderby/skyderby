@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux'
-import axios from 'axios'
 
 import { loadProfile } from 'redux/profiles'
 import { loadSuit } from 'redux/suits'

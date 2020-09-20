@@ -21,7 +21,7 @@ const TotalResults = ({ trackId }) => {
           <li key={task}>
             {t(`disciplines.${task}`)}
             :&nbsp;
-            {formatResult(result, task)}
+            {formatResult(result, task, t)}
           </li>
         ))}
       </ul>
