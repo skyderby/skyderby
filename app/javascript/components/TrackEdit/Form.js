@@ -1,10 +1,9 @@
 import React from 'react'
-import { Formik, Field } from 'formik'
+import { Formik, Field, FastField } from 'formik'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
-import AltitudeRangeSelect from 'components/AltitudeRangeSelect'
 import DefaultButton from 'components/ui/buttons/Default'
 import RedButton from 'components/ui/buttons/Red'
 import PrimaryButton from 'components/ui/buttons/Primary'
@@ -12,6 +11,7 @@ import Label from 'components/ui/Label'
 import Input from 'components/ui/Input'
 import TrackSuitField from 'components/TrackSuitField'
 
+import AltitudeRangeField from './AltitudeRangeField'
 import { Form, AltitudeRangeContainer, Footer } from './elements'
 
 const EditForm = ({ track, onSubmit, onDelete, onCancel }) => {
@@ -34,10 +34,10 @@ const EditForm = ({ track, onSubmit, onDelete, onCancel }) => {
       {({ values, setFieldValue, handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
           <AltitudeRangeContainer>
-            <AltitudeRangeSelect
+            <FastField
+              name="jumpRange"
+              component={AltitudeRangeField}
               trackId={track.id}
-              jumpRange={values.jumpRange}
-              onChange={val => setFieldValue('jumpRange', val)}
             />
           </AltitudeRangeContainer>
 
