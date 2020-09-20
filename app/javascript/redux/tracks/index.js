@@ -4,6 +4,7 @@ import axios from 'axios'
 import { loadProfile } from 'redux/profiles'
 import { loadSuit } from 'redux/suits'
 import { loadPlace } from 'redux/places'
+import Api from 'api'
 
 import tracksIndex from './tracksIndex'
 
@@ -17,15 +18,28 @@ import videos from './videos'
 
 import { selectTrack } from './selectors'
 
-import { LOAD_REQUEST, LOAD_SUCCESS, LOAD_ERROR } from './actionTypes'
 import {
-  DELETE_ERROR,
+  LOAD_REQUEST,
+  LOAD_SUCCESS,
+  LOAD_ERROR,
   DELETE_REQUEST,
   DELETE_SUCCESS,
-  LOAD_NO_VIDEO as TRACK_HAS_NO_VIDEO
-} from './videos/actionTypes'
+  DELETE_ERROR,
+  UPDATE_REQUEST,
+  UPDATE_SUCCESS,
+  UPDATE_ERROR
+} from './actionTypes'
+import { LOAD_NO_VIDEO as TRACK_HAS_NO_VIDEO } from './videos/actionTypes'
 
-const trackUrl = trackId => `/api/v1/tracks/${trackId}`
+const loadAssociations = async (dispatch, data) => {
+  const { profileId, placeId, suitId } = data
+
+  await Promise.all([
+    dispatch(loadProfile(profileId)),
+    dispatch(loadSuit(suitId)),
+    dispatch(loadPlace(placeId))
+  ])
+}
 
 export const loadTrack = trackId => {
   return async (dispatch, getState) => {
@@ -37,15 +51,9 @@ export const loadTrack = trackId => {
     dispatch({ type: LOAD_REQUEST, payload: { id: trackId } })
 
     try {
-      const { data } = await axios.get(trackUrl(trackId))
+      const data = await Api.Track.findRecord(trackId)
 
-      const { profileId, placeId, suitId } = data
-
-      await Promise.all([
-        dispatch(loadProfile(profileId)),
-        dispatch(loadSuit(suitId)),
-        dispatch(loadPlace(placeId))
-      ])
+      await loadAssociations(dispatch, data)
 
       if (!data.hasVideo) dispatch({ type: TRACK_HAS_NO_VIDEO, payload: { id: trackId } })
 
@@ -65,10 +73,30 @@ export const deleteTrack = trackId => {
     dispatch({ type: DELETE_REQUEST, payload: { id: trackId } })
 
     try {
-      await axios.delete(trackUrl(trackId))
+      await Api.Track.deleteRecord(trackId)
       dispatch({ type: DELETE_SUCCESS, payload: { id: trackId } })
     } catch (err) {
       dispatch({ type: DELETE_ERROR, payload: { id: trackId } })
+
+      throw err
+    }
+  }
+}
+
+export const updateTrack = (id, values) => {
+  return async dispatch => {
+    dispatch({ type: UPDATE_REQUEST, payload: { id } })
+
+    try {
+      const data = await Api.Track.updateRecord(id, values)
+
+      await loadAssociations(dispatch, data)
+
+      dispatch({ type: UPDATE_SUCCESS, payload: { id, ...data } })
+
+      return data
+    } catch (err) {
+      dispatch({ type: UPDATE_ERROR, payload: { id } })
 
       throw err
     }

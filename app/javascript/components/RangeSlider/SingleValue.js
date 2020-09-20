@@ -1,14 +1,16 @@
 import React, { forwardRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import { SingleValueContainer } from './elements'
-
 const SingleValue = forwardRef(({ handle: { value, percent } }, ref) => {
   useEffect(() => {
     ref.current.style.left = `${percent}%`
   }, [percent, ref])
 
-  return <SingleValueContainer ref={ref}>{value.toFixed()}</SingleValueContainer>
+  return (
+    <div className="range-slider-single-value" ref={ref}>
+      {value.toFixed()}
+    </div>
+  )
 })
 
 SingleValue.propTypes = {

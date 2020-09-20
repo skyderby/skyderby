@@ -38,10 +38,11 @@ const store = createStore(
 )
 
 store.subscribe(() => {
-  const { countries, userPreferences } = store.getState()
+  const { countries, manufacturers, userPreferences } = store.getState()
 
   saveState({
     countries,
+    manufacturers,
     userPreferences
   })
 })
