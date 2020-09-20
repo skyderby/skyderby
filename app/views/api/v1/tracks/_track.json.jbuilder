@@ -1,11 +1,5 @@
 json.key_format! camelize: :lower
 
-editable = policy(track).edit?
-downloadable = policy(track).download?
-
-json.editable editable
-json.downloadable downloadable
-
 json.extract! track,
               :id,
               :kind,
@@ -29,7 +23,15 @@ end
 
 json.has_video track.video.present?
 
+downloadable = policy(track).download?
+
 if downloadable && track.track_file
   json.filename track.track_file.file.original_filename
   json.download_url track_download_path(track)
+end
+
+json.permissions do
+  json.can_edit policy(track).edit?
+  json.can_download downloadable
+  json.can_edit_ownership policy([:track, :ownership]).edit?
 end

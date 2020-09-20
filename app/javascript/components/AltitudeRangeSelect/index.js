@@ -23,12 +23,15 @@ export const useTrackPoints = (trackId, options = {}) => {
   return points
 }
 
-const AltitudeRangeSelect = ({ trackId, value, onChange }) => {
+const AltitudeRangeSelect = ({ trackId, value: initialValue, onChange: onChangeCallback }) => {
+  const [value, setValue] = useState(initialValue)
+
   const points = useTrackPoints(trackId, { trimmed: false })
   const jumpDuration = points.length > 0 ? points[points.length - 1].flTime : 1
 
-  const handleUpdate = values => {
-    if (onChange instanceof Function) onChange({ from: values[0], to: values[1] })
+  const handleUpdate = values => setValue({ from: values[0], to: values[1] })
+  const handleChange = values => {
+    if (onChangeCallback instanceof Function) onChangeCallback({ from: values[0], to: values[1] })
   }
 
   return (
@@ -61,6 +64,7 @@ const AltitudeRangeSelect = ({ trackId, value, onChange }) => {
         values={[value.from, value.to]}
         step={1}
         onUpdate={handleUpdate}
+        onChange={handleChange}
       />
     </>
   )

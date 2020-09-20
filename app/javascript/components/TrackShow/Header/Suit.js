@@ -2,17 +2,17 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { selectSuit } from 'redux/suits'
+import { createSuitSelector } from 'redux/suits'
 import SuitLabel from 'components/SuitLabel'
 import SuitIcon from 'icons/suit.svg'
 
 import { SuitContainer } from './elements'
 
 const Suit = ({ suitId, suitName: userProvidedSuitName }) => {
-  const suit = useSelector(state => selectSuit(state, suitId))
+  const suit = useSelector(createSuitSelector(suitId))
 
   const suitName = suitId ? suit.name : userProvidedSuitName
-  const suitCode = suit && suit.makeCode
+  const suitCode = suit && suit.make.code
 
   return (
     <SuitContainer>
