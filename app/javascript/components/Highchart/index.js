@@ -5,6 +5,7 @@ import React, {
   useImperativeHandle,
   forwardRef
 } from 'react'
+import isEqual from 'lodash.isequal'
 import PropTypes from 'prop-types'
 
 import { refreshTooltipHandler } from './refreshTooltipHandler'
@@ -14,6 +15,7 @@ import Series from './Series'
 const Highchart = forwardRef(({ options, children, autoResize, loading }, ref) => {
   const [Highcharts, setHighcharts] = useState()
   const [chart, setChart] = useState()
+  const prevOptions = useRef()
 
   const element = useRef()
 
@@ -61,7 +63,10 @@ const Highchart = forwardRef(({ options, children, autoResize, loading }, ref) =
     if (!Highcharts) return
 
     if (chart) {
+      if (isEqual(prevOptions.current, options)) return
+
       chart.update(options, true, true)
+      prevOptions.current = options
     } else {
       setChart(Highcharts.chart(element.current, options))
     }

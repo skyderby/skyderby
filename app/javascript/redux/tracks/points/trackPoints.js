@@ -1,4 +1,5 @@
 import { LOAD_REQUEST, LOAD_SUCCESS } from './actionTypes'
+import { UPDATE_SUCCESS as TRACK_UPDATED } from '../actionTypes'
 
 const normalizeData = el => ({
   ...el,
@@ -24,6 +25,11 @@ const trackPoints = (state = initialState, action) => {
         ...state,
         items: action.payload.items.map(normalizeData),
         status: 'loaded'
+      }
+    case TRACK_UPDATED:
+      return {
+        ...state,
+        status: 'stale'
       }
     default:
       return state
