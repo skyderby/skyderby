@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useCallback } from 'react'
+import React, { createRef, useLayoutEffect, useCallback } from 'react'
 import PropTypes from 'prop-types'
 
 import SingleValue from './SingleValue'
@@ -19,7 +19,7 @@ const HandleValues = ({ handles }) => {
     [handleRefs]
   )
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const [first, second] = handleRefs.map(ref => ref.current)
     const mergedElement = mergedValuesRef.current
 
