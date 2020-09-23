@@ -1,5 +1,6 @@
 import React, {
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   useImperativeHandle,
@@ -28,7 +29,7 @@ const Highchart = forwardRef(({ options, children, autoResize, loading }, ref) =
     [chart]
   )
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!autoResize || !chart) return
 
     const resizeHandler = () => {

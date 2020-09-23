@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
+import { useLayoutEffect, memo } from 'react'
 import PropTypes from 'prop-types'
 
 const Plotline = ({ chart, id, value, ...props }) => {
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!chart) return
 
     chart.xAxis[0].addPlotLine({ id, value, ...props })
@@ -19,4 +19,4 @@ Plotline.propTypes = {
   value: PropTypes.number.isRequired
 }
 
-export default Plotline
+export default memo(Plotline)

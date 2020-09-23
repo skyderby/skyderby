@@ -1,11 +1,11 @@
-import React, { forwardRef, useEffect } from 'react'
+import React, { forwardRef, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 
 const MergedValues = forwardRef(({ handles, ...props }, ref) => {
   const values = handles.map(el => el.value).filter(value => isFinite(value))
   const percent = handles.reduce((acc, el) => acc + el.percent / handles.length, 0)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     ref.current.style.left = `${percent}%`
   }, [percent, ref])
 
