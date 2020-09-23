@@ -1,10 +1,10 @@
-import { useEffect, useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 
 const Series = ({ chart, data, ...props }) => {
   const series = useRef()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!chart) return
 
     if (series.current) {
@@ -14,7 +14,7 @@ const Series = ({ chart, data, ...props }) => {
     }
   }, [chart, data, props])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     return () => series.current?.chart && series.current?.destroy()
   }, [])
 

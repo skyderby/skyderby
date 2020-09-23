@@ -76,13 +76,16 @@
     "react-router-dom": "^5.1.2",
     "react-select": "^3.0.8",
     "react-select-async-paginate": "^0.3.7",
+    "react-svg-loader": "^3.0.3",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "select2": "^4.0.3",
     "stimulus": "^1.0.1",
-    "styled-components": "^5.2.0",
+    "styled-components": "^5.1.1",
     "turbolinks": "^5.1.1",
+    "webpack-virtual-modules": "^0.3.0",
+    "yaml-js": "^0.2.3",
     "yup": "^0.29.0"
   },
   "devDependencies": {
@@ -103,11 +106,8 @@
     "prettier": "^2.0.5",
     "nock": "^13.0.4",
     "react-refresh": "^0.8.3",
-    "react-svg-loader": "^3.0.3",
     "webpack": "^4.41",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.8.0",
-    "webpack-virtual-modules": "^0.3.0",
-    "yaml-js": "^0.2.3"
+    "webpack-dev-server": "^3.8.0"
   }
 }

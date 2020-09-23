@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
+import { useLayoutEffect, memo } from 'react'
 import PropTypes from 'prop-types'
 
 const Plotband = ({ chart, id, from, to, ...props }) => {
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!chart) return
 
     chart.xAxis[0].addPlotBand({ id, from, to, ...props })
@@ -20,4 +20,4 @@ Plotband.propTypes = {
   to: PropTypes.number.isRequired
 }
 
-export default Plotband
+export default memo(Plotband)
