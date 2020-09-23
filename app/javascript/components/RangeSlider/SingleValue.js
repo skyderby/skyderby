@@ -1,8 +1,8 @@
-import React, { forwardRef, useEffect } from 'react'
+import React, { forwardRef, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 
 const SingleValue = forwardRef(({ handle: { value, percent } }, ref) => {
-  useEffect(() => {
+  useLayoutEffect(() => {
     ref.current.style.left = `${percent}%`
   }, [percent, ref])
 
