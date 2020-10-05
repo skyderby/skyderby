@@ -33,7 +33,7 @@ gem 'kramdown'
 # Files attachments
 gem 'aws-sdk-s3'
 gem 'paperclip', '~> 6.0'
-gem 'shrine', '~> 3.0'
+gem 'shrine', '~> 3.3'
 
 # XML
 gem 'nokogiri', '~> 1.8'
