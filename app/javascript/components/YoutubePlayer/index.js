@@ -11,7 +11,8 @@ import PropTypes from 'prop-types'
 
 import useYoutubeApi from './useYoutubeApi'
 import PlayIcon from './PlayIcon'
-import { PlayerContainer } from './elements'
+
+import styles from './styles.module.scss'
 
 const Player = forwardRef(({ videoId, onPlay, onPause }, ref) => {
   const [player, setPlayer] = useState()
@@ -66,10 +67,10 @@ const Player = forwardRef(({ videoId, onPlay, onPause }, ref) => {
   }, [player])
 
   return (
-    <PlayerContainer>
+    <div className={styles.container}>
       {playerReady || <PlayIcon />}
       <div ref={playerContainerRef} />
-    </PlayerContainer>
+    </div>
   )
 })
 

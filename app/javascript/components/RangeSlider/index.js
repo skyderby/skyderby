@@ -2,9 +2,10 @@ import React, { useRef } from 'react'
 import { Handles, Tracks, Ticks } from 'react-compound-slider'
 import PropTypes from 'prop-types'
 
+import Slider from './Slider'
 import HandleValues from './HandleValues'
-import { Slider, Container, Rail, Tick } from './elements'
 import { calculateTicks } from './utils'
+import styles from './styles.module.scss'
 
 const RangeSlider = ({ domain, reversed, values, step = 10, onChange, onUpdate }) => {
   const userTouched = useRef(false)
@@ -20,8 +21,9 @@ const RangeSlider = ({ domain, reversed, values, step = 10, onChange, onUpdate }
   }
 
   return (
-    <Container>
+    <div className={styles.container}>
       <Slider
+        className={styles.slider}
         reversed={reversed}
         domain={domain}
         values={values}
@@ -31,14 +33,14 @@ const RangeSlider = ({ domain, reversed, values, step = 10, onChange, onUpdate }
         onSlideStart={handleSlideStart}
         mode={2}
       >
-        <Rail />
+        <div className={styles.rail} />
 
         <Handles>
           {({ handles, getHandleProps }) => (
             <div>
               {handles.map(({ id, percent }) => (
                 <div
-                  className="range-slider-handle"
+                  className={styles.handle}
                   key={`handle-${id}`}
                   style={{ left: `${percent}%` }}
                   {...getHandleProps(id)}
@@ -54,7 +56,7 @@ const RangeSlider = ({ domain, reversed, values, step = 10, onChange, onUpdate }
             <div>
               {tracks.map(({ id, source, target }) => (
                 <div
-                  className="range-slider-track"
+                  className={styles.track}
                   key={id}
                   style={{
                     left: `${source.percent}%`,
@@ -74,21 +76,22 @@ const RangeSlider = ({ domain, reversed, values, step = 10, onChange, onUpdate }
                 const major = domain.includes(tick.value) || tick.value % 500 === 0
 
                 return (
-                  <Tick
+                  <div
+                    className={styles.tick}
                     key={tick.id}
                     style={{ left: `${tick.percent}%` }}
                     count={ticks.length}
-                    major={major}
+                    data-major={major}
                   >
                     <span>{tick.value.toFixed()}</span>
-                  </Tick>
+                  </div>
                 )
               })}
             </div>
           )}
         </Ticks>
       </Slider>
-    </Container>
+    </div>
   )
 }
 

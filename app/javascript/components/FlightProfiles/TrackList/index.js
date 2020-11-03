@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Item from './Item'
-import { Container } from './elements'
+import Item from 'components/TrackListItem'
 import TokenizedSearchField from 'components/TokenizedSearchField'
+
+import styles from './styles.module.scss'
 
 const TrackList = props => {
   const {
@@ -24,18 +25,20 @@ const TrackList = props => {
   }
 
   return (
-    <Container onScroll={handleListScroll}>
+    <div className={styles.container} onScroll={handleListScroll}>
       <TokenizedSearchField initialValues={filters} onChange={updateFilters} />
 
       {tracks.map(track => (
         <Item
+          compact
           key={track.id}
+          as="div"
           track={track}
-          active={selectedTracks.includes(track.id)}
+          data-active={selectedTracks.includes(track.id)}
           onClick={() => toggleTrack(track.id)}
         />
       ))}
-    </Container>
+    </div>
   )
 }
 

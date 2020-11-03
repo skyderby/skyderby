@@ -1,10 +1,18 @@
 import React from 'react'
+import cx from 'clsx'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import IconChevronLeft from 'icons/chevron-left.svg'
 import IconChevronRight from 'icons/chevron-right.svg'
 
-import { Container, Arrow, Page } from './elements'
+import { showLinkOnDesktop } from './utils'
+import styles from './styles.module.scss'
+
+// [1] 2 3 4 5 6.desktop 7.desktop
+// 1 [2] 3 4 5 6.desktop 7.desktop
+// 1.desktop 2 3 [4] 5 6 7.desktop (page - idx) > 2
+// 101.desktop 102.desktop 103 104 105 106 [107]
 
 const Pagination = ({ page = 1, totalPages = 0, showAround = 2, buildUrl }) => {
   const startIndex = Math.max(page - showAround, 1)
@@ -15,40 +23,53 @@ const Pagination = ({ page = 1, totalPages = 0, showAround = 2, buildUrl }) => {
     .map((_, idx) => startIndex + idx)
 
   return (
-    <Container>
-      <Page
+    <div className={styles.container}>
+      <Link
+        className={styles.page}
         to={location => ({
           ...location,
           search: buildUrl({ page: Math.max(page - 1, 1) })
         })}
         disabled={page === 1}
       >
-        <Arrow>
+        <div className={styles.arrow}>
           <IconChevronLeft />
-        </Arrow>
-      </Page>
+        </div>
+      </Link>
 
       {pages.map(idx => (
-        <Page
+        <Link
+          className={cx(
+            styles.page,
+            showLinkOnDesktop(page, idx, totalPages) && styles.desktop
+          )}
+          data-asdf={console.log(
+            page,
+            idx,
+            totalPages,
+            showLinkOnDesktop(page, idx, totalPages),
+            cx(styles.page, true && styles.desktop)
+          )}
           to={location => ({ ...location, search: buildUrl({ page: idx }) })}
           key={idx}
-          active={page === idx}
+          data-active={page === idx}
         >
           {idx}
-        </Page>
+        </Link>
       ))}
 
-      <Page
+      <Link
+        className={styles.page}
         to={location => ({
           ...location,
           search: buildUrl({ page: Math.min(page + 1, totalPages) })
         })}
       >
-        <Arrow>
+        <div className={styles.arrow}>
           <IconChevronRight />
-        </Arrow>
-      </Page>
-    </Container>
+        </div>
+      </Link>
+    </div>
   )
 }
 

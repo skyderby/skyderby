@@ -9,11 +9,12 @@ import { usePageContext } from 'components/PageContext'
 
 import SpeedScale from './SpeedScale'
 import WindAloftChart from './WindAloftChart'
-import { MapElement, WindAloftChartContainer } from './elements'
 
 import { subtractWind } from 'utils/windCancellation'
 
 import Trajectory from './Trajectory'
+
+import styles from './styles.module.scss'
 
 const TrackMap = () => {
   const { trackId } = usePageContext()
@@ -54,7 +55,7 @@ const TrackMap = () => {
 
   return (
     <>
-      <MapElement ref={mapElementRef}>
+      <div className={styles.map} ref={mapElementRef}>
         <Trajectory map={mapInstance} google={google} points={points} />
         {zeroWindPoints.length > 0 && (
           <Trajectory
@@ -64,14 +65,14 @@ const TrackMap = () => {
             opacity={0.5}
           />
         )}
-      </MapElement>
+      </div>
 
       <SpeedScale />
 
       {windData.length > 0 && (
-        <WindAloftChartContainer>
+        <div className={styles.windsAloft}>
           <WindAloftChart windData={windData} />
-        </WindAloftChartContainer>
+        </div>
       )}
     </>
   )

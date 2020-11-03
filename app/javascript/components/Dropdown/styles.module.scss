@@ -1,0 +1,22 @@
+.container {
+  background-color: var(--white);
+  border: solid 1px var(--border-color);
+  border-radius: var(--border-radius-md);
+}
+
+.container::before {
+  background-color: var(--white);
+  border-right: solid 1px var(--border-color);
+  border-top: solid 1px var(--border-color);
+  content: '';
+  height: 0.5rem;
+  position: absolute;
+  transform: rotate(-45deg);
+  width: 0.5rem;
+  z-index: -1;
+}
+
+.container[data-popper-placement="bottom-end"]::before {
+  top: -0.25rem;
+  right: calc(var(--border-radius-md) + 0.5rem);
+}

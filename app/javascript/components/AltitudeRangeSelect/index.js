@@ -6,7 +6,7 @@ import RangeSlider from 'components/RangeSlider'
 import AltitudeChart from 'components/AltitudeChart'
 import useTrackPoints from 'hooks/useTrackPoints'
 
-import { Container } from './elements'
+import styles from './styles.module.scss'
 
 const AltitudeRangeSelect = ({
   trackId,
@@ -32,7 +32,7 @@ const AltitudeRangeSelect = ({
   }
 
   return (
-    <Container>
+    <div className={styles.container}>
       <AltitudeChart points={points}>
         {chart => (
           <>
@@ -63,7 +63,7 @@ const AltitudeRangeSelect = ({
         onUpdate={handleUpdate}
         onChange={handleChange}
       />
-    </Container>
+    </div>
   )
 }
 

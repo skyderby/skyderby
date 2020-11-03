@@ -2,7 +2,8 @@ import React, { useRef, forwardRef, useImperativeHandle } from 'react'
 
 import { useI18n } from 'components/TranslationsProvider'
 import { msToKmh } from 'utils/unitsConversion'
-import { IndicatorsContainer, ValueContainer, Value, Title } from './elements'
+
+import styles from './styles.module.scss'
 
 const altitudePlaceholder = '----'
 const speedPlaceholder = '---'
@@ -40,24 +41,32 @@ const Indicators = forwardRef((_props, ref) => {
   }))
 
   return (
-    <IndicatorsContainer>
-      <ValueContainer>
-        <Value ref={altitudeRef}>{altitudePlaceholder}</Value>
-        <Title>{t('tracks.indicators.altitude')}</Title>
-      </ValueContainer>
-      <ValueContainer>
-        <Value ref={hSpeedRef}>{speedPlaceholder}</Value>
-        <Title>{t('tracks.indicators.vertical_speed')}</Title>
-      </ValueContainer>
-      <ValueContainer>
-        <Value ref={vSpeedRef}>{speedPlaceholder}</Value>
-        <Title>{t('tracks.indicators.ground_speed')}</Title>
-      </ValueContainer>
-      <ValueContainer>
-        <Value ref={glideRatioRef}>{glideRatioPlaceholder}</Value>
-        <Title>{t('tracks.indicators.glide_ratio')}</Title>
-      </ValueContainer>
-    </IndicatorsContainer>
+    <div className={styles.indicators}>
+      <div className={styles.valueContainer}>
+        <div className={styles.value} ref={altitudeRef}>
+          {altitudePlaceholder}
+        </div>
+        <div className={styles.title}>{t('tracks.indicators.altitude')}</div>
+      </div>
+      <div className={styles.valueContainer}>
+        <div className={styles.value} ref={hSpeedRef}>
+          {speedPlaceholder}
+        </div>
+        <div className={styles.title}>{t('tracks.indicators.vertical_speed')}</div>
+      </div>
+      <div className={styles.valueContainer}>
+        <div className={styles.value} ref={vSpeedRef}>
+          {speedPlaceholder}
+        </div>
+        <div className={styles.title}>{t('tracks.indicators.ground_speed')}</div>
+      </div>
+      <div className={styles.valueContainer}>
+        <div className={styles.value} ref={glideRatioRef}>
+          {glideRatioPlaceholder}
+        </div>
+        <div className={styles.title}>{t('tracks.indicators.glide_ratio')}</div>
+      </div>
+    </div>
   )
 })
 

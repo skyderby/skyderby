@@ -60,6 +60,7 @@ const usePageStatus = options => {
     err => {
       if (err.response?.status) {
         if (err.response.status === 404) dispatch({ type: 'NOT_FOUND_ERROR' })
+        if (err.response.status === 403) dispatch({ type: 'FORBIDDEN_ERROR' })
         if (Math.floor(err.response.status / 100) === 5)
           dispatch({ type: 'SERVER_ERROR' })
       }

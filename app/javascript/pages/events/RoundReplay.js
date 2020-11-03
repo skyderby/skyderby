@@ -1,13 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import AppShell from 'components/AppShell'
 import RoundReplay from 'components/RoundReplay'
 
 const EventRoundReplay = ({ match }) => {
   const eventId = Number(match.params.id)
   const roundId = Number(match.params.roundId)
 
-  return <RoundReplay eventId={eventId} roundId={roundId} />
+  return (
+    <AppShell>
+      <RoundReplay eventId={eventId} roundId={roundId} />
+    </AppShell>
+  )
 }
 
 EventRoundReplay.propTypes = {

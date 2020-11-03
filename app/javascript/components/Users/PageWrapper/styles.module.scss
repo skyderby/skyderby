@@ -1,0 +1,54 @@
+@import 'styles/breakpoints.scss';
+
+.container {
+  height: 100%;
+
+  @include sm-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--grey-10);
+  }
+}
+
+.content {
+  background-color: var(--white);
+  display: grid;
+  grid-gap: 1rem;
+
+  @include sm-screen {
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--block-box-shadow);
+    padding: 1rem 0;
+    width: 400px;
+  }
+}
+
+.home {
+  --text-color: var(--grey-80);
+
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  font-size: 2.5rem;
+  font-weight: 100;
+  padding: 2rem;
+  text-decoration: none;
+  justify-content: center;
+
+  svg {
+    height: 2.5rem;
+    margin-right: 1rem;
+
+    path {
+      fill: var(--text-color);
+    }
+  }
+
+  @include sm-screen {
+    font-size: 1.75rem;
+    padding: 2rem;
+  }
+}

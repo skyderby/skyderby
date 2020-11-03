@@ -7,6 +7,7 @@ import eventTeams from 'redux/events/teams'
 import manufacturers from 'redux/manufacturers'
 import places from 'redux/places'
 import profiles from 'redux/profiles'
+import session from './session'
 import suits from 'redux/suits'
 import terrainProfiles from 'redux/terrainProfiles'
 import tracks from 'redux/tracks'
@@ -21,6 +22,7 @@ export const rootReducer = combineReducers({
   manufacturers,
   places,
   profiles,
+  session,
   suits,
   terrainProfiles,
   tracks,

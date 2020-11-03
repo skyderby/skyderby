@@ -2,7 +2,8 @@ import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 
 import IconTimes from 'icons/times.svg'
-import { Container, Type, Value, DeleteButton } from './elements'
+
+import styles from './styles.module.scss'
 
 const SimpleValue = ({ type, value, onClick, onDelete }) => {
   const deleteButtonRef = useRef()
@@ -21,15 +22,20 @@ const SimpleValue = ({ type, value, onClick, onDelete }) => {
   const title = `${type}: ${value}`
 
   return (
-    <Container onClick={handleTokenClick} title={title}>
-      <Type>{type}</Type>
-      <Value>
+    <li className={styles.container} onClick={handleTokenClick} title={title}>
+      <div className={styles.type}>{type}</div>
+      <div className={styles.value}>
         {value}
-        <DeleteButton title="Delete" type="button" ref={deleteButtonRef}>
+        <button
+          className={styles.deleteButton}
+          title="Delete"
+          type="button"
+          ref={deleteButtonRef}
+        >
           <IconTimes />
-        </DeleteButton>
-      </Value>
-    </Container>
+        </button>
+      </div>
+    </li>
   )
 }
 

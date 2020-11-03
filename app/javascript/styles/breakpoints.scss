@@ -1,0 +1,15 @@
+$bp-small: 768px;
+$bp-medium: 992px;
+$bp-large: 1200px;
+
+@mixin sm-screen {
+  @media screen and (min-width: $bp-small) {
+    @content;
+  }
+}
+
+@mixin lg-screen {
+  @media screen and (min-width: $bp-large) {
+    @content;
+  }
+}

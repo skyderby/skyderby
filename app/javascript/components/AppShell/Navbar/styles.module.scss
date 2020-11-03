@@ -1,0 +1,131 @@
+@import 'styles/breakpoints.scss';
+
+.header {
+  align-items: center;
+  color: var(--white);
+  background-color: var(--blue-10);
+  display: flex;
+  height: 4.5rem;
+  padding: 0 1rem;
+
+  > ul {
+    list-style: none;
+    height: 100%;
+  }
+
+  > ul > li {
+    align-items: center;
+    display: flex;
+    height: 100%;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  @include sm-screen {
+    height: 3.75rem;
+  }
+}
+
+.menu {
+  display: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+
+  @include sm-screen {
+    display: flex;
+  }
+
+  > li {
+    flex-grow: 1;
+    flex-shrink: 1;
+    position: relative;
+
+    &:not(:last-child) {
+      margin-right: 0.25rem;
+    }
+  }
+
+  a {
+    border-radius: var(--border-radius-md);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    padding: 0.5rem;
+  }
+
+  a:not(:global(.active)):hover {
+    background-color: var(--blue-20);
+  }
+
+  :global(a.active) {
+    color: var(--blue-70);
+
+    &::after {
+      content: '';
+      background-color: var(--blue-70);
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 0.25rem;
+    }
+  }
+}
+
+.rightMenu {
+  display: none;
+  margin: 0;
+  margin-left: auto;
+  padding: 0;
+
+  @include sm-screen {
+    display: flex;
+  }
+
+  > li:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}
+
+.home {
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: 100;
+  font-size: 1.75rem;
+  margin-right: 1rem;
+
+  svg {
+    height: 2.5rem;
+    margin-right: 1rem;
+
+    path {
+      fill: var(--white);
+    }
+  }
+}
+
+.logoutButton {
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  padding: 0.5rem;
+
+  &:hover {
+    background-color: var(--blue-20);
+  }
+
+  svg {
+    height: 1rem;
+
+    path {
+      fill: var(--white);
+    }
+  }
+}

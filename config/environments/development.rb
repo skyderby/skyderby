@@ -65,7 +65,8 @@ Rails.application.configure do
 
   config.active_job.queue_adapter = :async
 
-  config.hosts << '.skyderby.test'
+  # Allow any host in development by clearing whitelist
+  config.hosts.clear
 
   config.after_initialize do
     Bullet.enable = true

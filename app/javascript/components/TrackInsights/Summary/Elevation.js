@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 import { useI18n } from 'components/TranslationsProvider'
 import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
 import { metersToFeet } from 'utils/unitsConversion'
-import { SummaryItem, Title, ValueContainer, Value, Units } from './elements'
+
+import styles from './styles.module.scss'
 
 const valuePresentation = (value, unitSystem) => {
   const placeholder = '----'
@@ -23,13 +24,15 @@ const Elevation = ({ value }) => {
   const units = unitSystem === METRIC ? 'm' : 'ft'
 
   return (
-    <SummaryItem value="elevation">
-      <Title>{t('tracks.indicators.elevation')}</Title>
-      <ValueContainer>
-        <Value aria-label="elevation">{valuePresentation(value, unitSystem)}</Value>
-        <Units>{t(`units.${units}`)}</Units>
-      </ValueContainer>
-    </SummaryItem>
+    <div className={styles.summaryItem} value="elevation">
+      <div className={styles.title}>{t('tracks.indicators.elevation')}</div>
+      <div className={styles.valueContainer}>
+        <div className={styles.value} aria-label="elevation">
+          {valuePresentation(value, unitSystem)}
+        </div>
+        <div className={styles.units}>{t(`units.${units}`)}</div>
+      </div>
+    </div>
   )
 }
 

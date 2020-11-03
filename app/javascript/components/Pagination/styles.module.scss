@@ -1,0 +1,75 @@
+@import 'styles/breakpoints.scss';
+
+.container {
+  align-items: baseline;
+  display: flex;
+  justify-content: center;
+
+  > :not(:last-child) {
+    margin-right: 0.75rem;
+  }
+}
+
+.arrow {
+  display: flex;
+
+  svg {
+    height: 1rem;
+    path {
+      fill: var(--grey-50);
+    }
+  }
+}
+
+.page {
+  align-items: center;
+  border-radius: var(--border-radius-md);
+  color: var(--grey-80);
+  display: flex;
+  font-size: 1.75rem;
+  height: 3rem;
+  justify-content: center;
+  line-height: 0;
+  padding: 0 0.75rem;
+  position: relative;
+  text-decoration: none;
+
+  :focus {
+    outline: none;
+  }
+
+  :hover {
+    color: var(--grey-80);
+  }
+
+  &[data-active="true"] {
+    color: var(--blue-40);
+
+    &:hover {
+      color: var(--blue-40);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0.25rem;
+      right: 0.25rem;
+      height: 3px;
+      background-color: var(--blue-40);
+      opacity: 0.9;
+    }
+  }
+
+  &:not([data-active="true"]):not(:disabled):hover {
+    background-color: var(--grey-20);
+  }
+}
+
+.desktop {
+  display: none;
+
+  @include sm-screen {
+    display: block;
+  }
+}

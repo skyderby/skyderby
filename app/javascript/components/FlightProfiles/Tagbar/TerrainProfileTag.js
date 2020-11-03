@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 import IconTimes from 'icons/times.svg'
 
 import { createTerrainProfileSelector } from 'redux/terrainProfiles'
-import { Tag, DeleteButton, Label } from './elements'
+
+import styles from './styles.module.scss'
 
 const TerrainProfile = ({ terrainProfileId, onDelete }) => {
   const terrainProfile = useSelector(createTerrainProfileSelector(terrainProfileId))
@@ -18,14 +19,14 @@ const TerrainProfile = ({ terrainProfileId, onDelete }) => {
   } = terrainProfile
 
   return (
-    <Tag>
-      <Label>
+    <li className={styles.tag}>
+      <span className={styles.label}>
         {placeName} - {name}
-      </Label>
-      <DeleteButton type="button" onClick={onDelete}>
+      </span>
+      <button className={styles.deleteButton} type="button" onClick={onDelete}>
         <IconTimes />
-      </DeleteButton>
-    </Tag>
+      </button>
+    </li>
   )
 }
 

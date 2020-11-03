@@ -5,15 +5,8 @@ import { useI18n } from 'components/TranslationsProvider'
 import ChevronDown from 'icons/chevron-down.svg'
 import ChevronUp from 'icons/chevron-up.svg'
 import WindEffect from './WindEffect'
-import {
-  SummaryItem,
-  Title,
-  ValueContainer,
-  Value,
-  MinMaxValue,
-  Min,
-  Max
-} from './elements'
+
+import styles from './styles.module.scss'
 
 const valuePresentation = value => {
   const placeholder = '-.--'
@@ -31,21 +24,23 @@ const GlideRatio = ({ value, zeroWindValue }) => {
   const { t } = useI18n()
 
   return (
-    <SummaryItem value="glide-ratio">
-      <Title>{t('tracks.indicators.glide_ratio')}</Title>
-      <ValueContainer>
-        <Value aria-label="average glide ratio">{valuePresentation(value.avg)}</Value>
-        <MinMaxValue>
-          <Max>
+    <div className={styles.summaryItem} value="glide-ratio">
+      <div className={styles.title}>{t('tracks.indicators.glide_ratio')}</div>
+      <div className={styles.valueContainer}>
+        <div className={styles.value} aria-label="average glide ratio">
+          {valuePresentation(value.avg)}
+        </div>
+        <div className={styles.minMaxValue}>
+          <div className={styles.max}>
             <span aria-label="maximum glide ratio">{valuePresentation(value.max)}</span>
             <ChevronUp />
-          </Max>
-          <Min>
+          </div>
+          <div className={styles.min}>
             <span aria-label="minimum glide ratio">{valuePresentation(value.min)}</span>
             <ChevronDown />
-          </Min>
-        </MinMaxValue>
-      </ValueContainer>
+          </div>
+        </div>
+      </div>
 
       {Number.isFinite(zeroWindValue) && (
         <WindEffect
@@ -54,7 +49,7 @@ const GlideRatio = ({ value, zeroWindValue }) => {
           valuePresenter={valuePresentation}
         />
       )}
-    </SummaryItem>
+    </div>
   )
 }
 

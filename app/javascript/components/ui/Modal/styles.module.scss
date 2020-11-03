@@ -1,0 +1,89 @@
+@import 'styles/breakpoints.scss';
+
+.overlay {
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  padding-bottom: 10vh;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1000;
+}
+
+.container {
+  background-color: var(--white);
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  overflow: hidden;
+
+  @include sm-screen {
+    min-width: 400px;
+    max-width: 80vw;
+
+    &[data-size='sm'] {
+      width: 500px;
+    }
+
+    &[data-size='md'] {
+      width: 760px;
+    }
+
+    &[data-size='lg'] {
+      width: 960px;
+    }
+  }
+}
+
+.header {
+  align-items: center;
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  font-weight: 500;
+  color: var(--grey-70);
+  padding: 0.75rem 1rem;
+}
+
+.closeButton {
+  background-color: transparent;
+  border-radius: var(--border-radius-sm);
+  border: 0;
+  color: var(--grey-50);
+  cursor: pointer;
+  display: flex;
+  font-size: 21px;
+  font-weight: bold;
+  height: 1.5rem;
+  justify-content: flex-end;
+  margin-left: auto;
+  overflow: hidden;
+  text-shadow: 0 1px 0 var(--white);
+  width: 1.5rem;
+
+  &:hover {
+    background-color: var(--grey-20);
+  }
+
+  &:focus {
+    outline: 0;
+    background-color: var(--grey-20);
+    box-shadow: 0 0 0 0.25rem var(--grey-10);
+  }
+}
+
+.footer {
+  background-color: var(--grey-10);
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.75rem 1rem;
+
+  > :not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}

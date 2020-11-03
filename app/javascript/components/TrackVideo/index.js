@@ -43,7 +43,7 @@ const TrackVideo = () => {
   }, [])
 
   if (!track.hasVideo) {
-    if (track.editable) {
+    if (track.permissions.canEdit) {
       return <Redirect to={`/tracks/${trackId}/video/edit`} />
     } else {
       return <Redirect to={`/tracks/${trackId}`} />
