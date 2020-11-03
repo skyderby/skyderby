@@ -17,6 +17,7 @@ const tracksReducer = (state, { type, payload }) => {
         status: 'idle',
         tracks: payload.items,
         page: payload.currentPage,
+        totalPages: payload.totalPages,
         hasMore: payload.currentPage < payload.totalPages
       }
     case 'LOADING_MORE':
@@ -29,6 +30,7 @@ const tracksReducer = (state, { type, payload }) => {
         status: 'idle',
         tracks: [...state.tracks, ...payload.items],
         page: payload.currentPage,
+        totalPages: payload.totalPages,
         hasMore: payload.currentPage < payload.totalPages
       }
     default:
@@ -43,7 +45,7 @@ const useTracksApi = params => {
 
   const loadTracks = useCallback(
     () =>
-      TrackApi.findAll({ ...params, activity: 'base' }).then(data =>
+      TrackApi.findAll({ ...params }).then(data =>
         stateReducer({ type: 'LOAD_SUCCESS', payload: data })
       ),
     [params]
@@ -54,7 +56,7 @@ const useTracksApi = params => {
 
     stateReducer({ type: 'LOADING_MORE' })
 
-    TrackApi.findAll({ ...params, activity: 'base', page: state.page + 1 }).then(data =>
+    TrackApi.findAll({ ...params, page: state.page + 1 }).then(data =>
       stateReducer({ type: 'LOAD_MORE_SUCCESS', payload: data })
     )
   }
@@ -69,7 +71,9 @@ const useTracksApi = params => {
     previousParams.current = params
   }, [loadTracks, params])
 
-  return { tracks: state.tracks, loadTracks, loadMoreTracks }
+  const pagination = { page: state.page, totalPages: state.totalPages }
+
+  return { tracks: state.tracks, pagination, loadTracks, loadMoreTracks }
 }
 
 export default useTracksApi
