@@ -5,8 +5,6 @@ import { loadSuit } from 'redux/suits'
 import { loadPlace } from 'redux/places'
 import Api from 'api'
 
-import tracksIndex from './tracksIndex'
-
 import allIds from './allIds'
 import byId from './byId'
 
@@ -105,7 +103,6 @@ export const updateTrack = (id, values) => {
 export * from './selectors'
 
 export default combineReducers({
-  tracksIndex,
   allIds,
   byId,
   points,
