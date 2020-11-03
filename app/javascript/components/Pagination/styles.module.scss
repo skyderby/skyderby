@@ -1,12 +1,19 @@
 @import 'styles/breakpoints.scss';
 
 .container {
-  align-items: baseline;
+  align-items: center;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 
   > :not(:last-child) {
-    margin-right: 0.75rem;
+    margin-right: 0.25rem;
+  }
+
+  @include sm-screen {
+    > :not(:last-child) {
+      margin-right: 0.75rem;
+    }
   }
 }
 
@@ -15,6 +22,7 @@
 
   svg {
     height: 1rem;
+
     path {
       fill: var(--grey-50);
     }
@@ -27,19 +35,25 @@
   color: var(--grey-80);
   display: flex;
   font-size: 1.75rem;
-  height: 3rem;
+  height: 2.5rem;
   justify-content: center;
-  line-height: 0;
-  padding: 0 0.75rem;
+  padding: 0 0.5rem;
   position: relative;
   text-decoration: none;
 
-  :focus {
-    outline: none;
-  }
+  @include sm-screen {
+    font-size: 1.75rem;
+    height: 3rem;
+    padding: 0 0.75rem;
 
-  :hover {
-    color: var(--grey-80);
+    :focus {
+      outline: none;
+    }
+
+    &:not([data-active="true"]):not(:disabled):hover {
+      color: var(--grey-80);
+      background-color: var(--grey-20);
+    }
   }
 
   &[data-active="true"] {
@@ -61,15 +75,12 @@
     }
   }
 
-  &:not([data-active="true"]):not(:disabled):hover {
-    background-color: var(--grey-20);
-  }
 }
 
 .desktop {
   display: none;
 
   @include sm-screen {
-    display: block;
+    display: flex;
   }
 }
