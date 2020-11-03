@@ -26,7 +26,10 @@ const FlightProfilesPage = ({ location }) => {
     setParams(parsedParams)
   }, [params, setParams, location.search])
 
-  const { tracks, loadMoreTracks } = useTracksApi(params.tracksParams)
+  const { tracks, loadMoreTracks } = useTracksApi({
+    ...params.tracksParams,
+    activity: 'base'
+  })
 
   useEffect(() => {
     params.selectedTracks.map(async id => {
