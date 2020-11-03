@@ -1,15 +1,15 @@
 import React from 'react'
 
-import { Container, Spinner, Outer, Inner, Caption } from './elements'
+import styles from './styles.module.scss'
 
 const PageLoading = () => (
-  <Container>
-    <Spinner>
-      <Outer />
-      <Inner />
-    </Spinner>
-    <Caption>loading</Caption>
-  </Container>
+  <div className={styles.container}>
+    <div className={styles.spinner}>
+      <div className={styles.outer} />
+      <div className={styles.inner} />
+    </div>
+    <div className={styles.caption}>loading</div>
+  </div>
 )
 
 export default PageLoading

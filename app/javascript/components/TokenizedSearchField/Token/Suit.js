@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 import { loadSuit, createSuitSelector } from 'redux/suits'
 import IconTimes from 'icons/times.svg'
 import SuitLabel from 'components/SuitLabel'
-import { SuitContainer, Type, Value, DeleteButton } from './elements'
+
+import styles from './styles.module.scss'
 
 const Suit = ({ value, onClick, onDelete }) => {
   const dispatch = useDispatch()
@@ -33,15 +34,20 @@ const Suit = ({ value, onClick, onDelete }) => {
   const title = `Suit: ${data.name}`
 
   return (
-    <SuitContainer onClick={handleTokenClick} title={title}>
-      <Type>Suit</Type>
-      <Value>
+    <li className={styles.suitContainer} onClick={handleTokenClick} title={title}>
+      <div className={styles.type}>Suit</div>
+      <div className={styles.value}>
         <SuitLabel name={data.name} code={data.makeCode} />
-        <DeleteButton title="Delete" type="button" ref={deleteButtonRef}>
+        <button
+          className={styles.deleteButton}
+          title="Delete"
+          type="button"
+          ref={deleteButtonRef}
+        >
           <IconTimes />
-        </DeleteButton>
-      </Value>
-    </SuitContainer>
+        </button>
+      </div>
+    </li>
   )
 }
 

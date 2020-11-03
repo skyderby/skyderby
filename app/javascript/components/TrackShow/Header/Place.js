@@ -6,7 +6,7 @@ import { createPlaceSelector } from 'redux/places'
 import PlaceLabel from 'components/PlaceLabel'
 import PlaceIcon from 'icons/location.svg'
 
-import { PlaceContainer } from './elements'
+import styles from './styles.module.scss'
 
 const Place = ({ placeId, placeName: userProvidedPlaceName }) => {
   const place = useSelector(createPlaceSelector(placeId))
@@ -15,10 +15,10 @@ const Place = ({ placeId, placeName: userProvidedPlaceName }) => {
   const countryCode = place?.country?.code
 
   return (
-    <PlaceContainer>
+    <div className={styles.place}>
       <PlaceIcon />
       <PlaceLabel name={placeName} code={countryCode} />
-    </PlaceContainer>
+    </div>
   )
 }
 

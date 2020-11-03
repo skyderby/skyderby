@@ -1,0 +1,46 @@
+@import 'styles/breakpoints.scss';
+
+.container {
+  display: flex;
+  overflow-x: scroll;
+  margin-bottom: 1rem;
+
+  @include sm-screen {
+    justify-content: center;
+  }
+}
+
+.rangeButton {
+  composes: button from '~styles/button.module.scss';
+  composes: rounded from '~styles/button.module.scss';
+  composes: sizeXs from '~styles/button.module.scss';
+
+  white-space: nowrap;
+
+  &:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}
+
+.label {
+  white-space: nowrap;
+}
+
+.fieldSet {
+  display: flex;
+  align-items: baseline;
+  padding: 1rem;
+
+  &> :not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}
+
+.cancelButton {
+  composes: button from '~styles/button.module.scss';
+}
+
+.submitButton {
+  composes: button from '~styles/button.module.scss';
+  composes: primary from '~styles/button.module.scss';
+}

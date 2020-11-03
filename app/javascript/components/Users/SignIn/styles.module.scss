@@ -1,0 +1,71 @@
+@import 'styles/breakpoints.scss';
+
+.form {
+  display: grid;
+  grid-gap: 1.25rem;
+  padding: 0 2rem;
+
+  @include sm-screen {
+    padding: 0 3rem;
+  }
+}
+
+.forgotPassword {
+  display: block;
+  text-align: right;
+  color: var(--grey-70);
+}
+
+.input {
+  composes: input from '~styles/input.module.scss';
+}
+
+.primaryButton {
+  composes: button from '~styles/button.module.scss';
+  composes: cta from '~styles/button.module.scss';
+}
+
+.secondaryButton {
+  composes: button from '~styles/button.module.scss';
+  composes: sizeLg from '~styles/button.module.scss';
+
+  border-width: 2px;
+}
+
+.separator {
+  color: var(--grey-50);
+  display: flex;
+  align-items: center;
+
+  span {
+    margin: 0 0.5rem;
+    text-transform: lowercase;
+  }
+
+  @include sm-screen {
+    margin: 0.5rem 0;
+  }
+}
+
+.separatorLine {
+  height: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  border-radius: 1px;
+  border: solid 1px var(--grey-30);
+}
+
+.error {
+  color: var(--red-80);
+  font-style: italic;
+  line-height: 1.75;
+  font-size: 0.825rem;
+}
+
+.serverError {
+  composes: error;
+  border: solid 1px var(--red-80);
+  border-radius: var(--border-radius-md);
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+}
