@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import { loadSuit } from 'redux/suits'
 import usePageStatus from 'hooks/usePageStatus'
+import AppShell from 'components/AppShell'
 import SuitShow from 'components/SuitShow'
 import PageWrapper from 'components/PageWrapper'
 
@@ -20,9 +21,11 @@ const Show = ({ match }) => {
   }, [dispatch, suitId, onLoadStart, onLoadSuccess, onError])
 
   return (
-    <PageWrapper {...status}>
-      <SuitShow suitId={suitId} />
-    </PageWrapper>
+    <AppShell>
+      <PageWrapper {...status}>
+        <SuitShow suitId={suitId} />
+      </PageWrapper>
+    </AppShell>
   )
 }
 

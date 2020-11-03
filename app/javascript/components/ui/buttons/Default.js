@@ -19,8 +19,8 @@ export default styled.button`
   }
 
   &:not(:disabled):hover {
-    border-color: var(--blue-50);
-    color: var(--blue-50);
+    border-color: var(--blue-60);
+    color: var(--blue-60);
   }
 
   &:disabled {

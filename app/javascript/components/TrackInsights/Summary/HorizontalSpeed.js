@@ -9,16 +9,8 @@ import { msToKmh, msToMph } from 'utils/unitsConversion'
 import ChevronDown from 'icons/chevron-down.svg'
 import ChevronUp from 'icons/chevron-up.svg'
 import WindEffect from './WindEffect'
-import {
-  SummaryItem,
-  Title,
-  ValueContainer,
-  Value,
-  Units,
-  MinMaxValue,
-  Min,
-  Max
-} from './elements'
+
+import styles from './styles.module.scss'
 
 const valuePresentation = (value, unitSystem) => {
   const placeholder = '---'
@@ -36,28 +28,28 @@ const HorizontalSpeed = ({ value, zeroWindValue }) => {
   const units = unitSystem === METRIC ? 'kmh' : 'mph'
 
   return (
-    <SummaryItem value="ground-speed">
-      <Title>{t('tracks.indicators.ground_speed')}</Title>
-      <ValueContainer>
-        <Value aria-label="average horizontal speed">
+    <div className={styles.summaryItem} value="ground-speed">
+      <div className={styles.title}>{t('tracks.indicators.ground_speed')}</div>
+      <div className={styles.valueContainer}>
+        <div className={styles.value} aria-label="average horizontal speed">
           {valuePresentation(value.avg, unitSystem)}
-        </Value>
-        <MinMaxValue>
-          <Max>
+        </div>
+        <div className={styles.minMaxValue}>
+          <div className={styles.max}>
             <span aria-label="maximum horizontal speed">
               {valuePresentation(value.max, unitSystem)}
             </span>
             <ChevronUp />
-          </Max>
-          <Min>
+          </div>
+          <div className={styles.min}>
             <span aria-label="minimum horizontal speed">
               {valuePresentation(value.min, unitSystem)}
             </span>
             <ChevronDown />
-          </Min>
-        </MinMaxValue>
-        <Units>{t(`units.${units}`)}</Units>
-      </ValueContainer>
+          </div>
+        </div>
+        <div className={styles.units}>{t(`units.${units}`)}</div>
+      </div>
 
       {Number.isFinite(zeroWindValue) && (
         <WindEffect
@@ -66,7 +58,7 @@ const HorizontalSpeed = ({ value, zeroWindValue }) => {
           valuePresenter={val => valuePresentation(val, unitSystem)}
         />
       )}
-    </SummaryItem>
+    </div>
   )
 }
 

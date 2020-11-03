@@ -10,7 +10,7 @@ const CombinedChart = ({ points, zeroWindPoints }) => {
   const { unitSystem } = useSelector(state => state.userPreferences)
   const options = useChartOptions(points, zeroWindPoints, unitSystem)
 
-  return <Highchart options={options} />
+  return <Highchart autoResize options={options} />
 }
 
 CombinedChart.propTypes = {

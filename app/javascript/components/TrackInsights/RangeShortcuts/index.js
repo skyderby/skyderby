@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
-import Button from 'components/ui/buttons/Default'
 import CustomRangeModal from './CustomRangeModal'
-import { Container } from './elements'
+
+import styles from './styles.module.scss'
 
 const RangeShortcuts = ({
   activity,
@@ -23,25 +23,28 @@ const RangeShortcuts = ({
   const isSkydive = activity === 'skydive'
 
   return (
-    <Container>
+    <div className={styles.container}>
       {isSkydive && maxAltitude >= 3000 && minAltitude <= 2000 && (
-        <Button rounded size="xs" onClick={() => onChange?.([3000, 2000])}>
+        <button className={styles.rangeButton} onClick={() => onChange?.([3000, 2000])}>
           3000 – 2000 {t('units.m')}
-        </Button>
+        </button>
       )}
       {isSkydive && maxAltitude >= 2500 && minAltitude <= 1500 && (
-        <Button rounded size="xs" onClick={() => onChange?.([2500, 1500])}>
+        <button className={styles.rangeButton} onClick={() => onChange?.([2500, 1500])}>
           2500 – 1500 {t('units.m')}
-        </Button>
+        </button>
       )}
 
-      <Button rounded size="xs" onClick={() => setModalShown(true)}>
+      <button className={styles.rangeButton} onClick={() => setModalShown(true)}>
         Custom range
-      </Button>
+      </button>
 
-      <Button rounded size="xs" onClick={() => onChange?.([maxAltitude, minAltitude])}>
+      <button
+        className={styles.rangeButton}
+        onClick={() => onChange?.([maxAltitude, minAltitude])}
+      >
         Full jump
-      </Button>
+      </button>
 
       <CustomRangeModal
         minAltitude={minAltitude}
@@ -51,7 +54,7 @@ const RangeShortcuts = ({
         onHide={() => setModalShown(false)}
         onChange={setCustomRange}
       />
-    </Container>
+    </div>
   )
 }
 

@@ -6,14 +6,14 @@ const Input = styled.input`
   color: var(--grey-90);
   flex-grow: 1;
   flex-shrink: 1;
-  font-family: 'Proxima Nova Regular';
+  font-family: 'Proxima Nova';
   font-size: 0.875rem;
   line-height: normal;
   padding: 0.5rem 0.75rem;
   width: 100%;
 
   ::placeholder {
-    font-family: 'Proxima Nova Regular';
+    font-family: 'Proxima Nova';
     font-size: 0.875rem;
   }
 

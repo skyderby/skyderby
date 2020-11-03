@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 import { useI18n } from 'components/TranslationsProvider'
 import { selectBestResults } from 'redux/tracks/results'
 import { formatResult } from './formatResult'
-import { Header } from './elements'
+
+import styles from './styles.module.scss'
 
 const BestResults = ({ trackId }) => {
   const { t } = useI18n()
@@ -15,7 +16,7 @@ const BestResults = ({ trackId }) => {
 
   return (
     <div>
-      <Header>{t('tracks.show.best_results')}</Header>
+      <h2 className={styles.header}>{t('tracks.show.best_results')}</h2>
       <ul>
         {records.map(({ result, task, rangeFrom, rangeTo }) => (
           <li key={task}>

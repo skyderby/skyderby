@@ -1,0 +1,78 @@
+.type {
+  border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+  color: rgba(0, 0, 0, 0.55);
+  padding: 2px 7px;
+  text-transform: capitalize;
+}
+
+.value {
+  color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+  padding: 2px 0 2px 7px;
+}
+
+.container {
+  cursor: default;
+  display: flex;
+
+  --token-color: 230, 230, 230;
+  --type-alpha: 0.55;
+  --value-alpha: 0.75;
+
+  :hover {
+    --type-alpha: 0.8;
+    --value-alpha: 1;
+  }
+
+  > :not(:last-child) {
+    margin-right: 1px;
+  }
+
+  .type {
+    background-color: rgba(var(--token-color), var(--type-alpha));
+  }
+
+  .value {
+    background-color: rgba(var(--token-color), var(--value-alpha));
+  }
+}
+
+.placeContainer {
+  composes: container;
+
+  --token-color: 160, 230, 210;
+}
+
+.profileContainer {
+  composes: container;
+
+  --token-color: 160, 210, 230;
+}
+
+.suitContainer {
+  composes: container;
+
+  --token-color: 230, 210, 160;
+}
+
+.deleteButton {
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+  padding: 0 7px;
+
+  svg {
+    height: 0.75em;
+    fill: rgba(0, 0, 0, 0.55);
+  }
+
+  &:hover {
+    svg {
+      fill: rgba(0, 0, 0, 0.85);
+    }
+  }
+
+}
