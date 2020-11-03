@@ -1,7 +1,6 @@
 import React from 'react'
 import nock from 'nock'
 import { screen, waitFor } from '@testing-library/react'
-import I18n from 'i18n-js'
 
 import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
 import trackPoints from 'fixtures/trackPoints'
@@ -17,8 +16,10 @@ describe('Tracks/Edit', () => {
       .persist()
       .get('/api/v1/tracks/11000')
       .reply(200, {
-        editable: true,
-        downloadable: true,
+        permissions: {
+          canEdit: true,
+          canDownload: true
+        },
         id: 11000,
         kind: 'skydive',
         comment: '',
@@ -48,50 +49,64 @@ describe('Tracks/Edit', () => {
       .reply(200, { id: 14, name: 'France', code: 'FRA' })
 
       .get('/api/v1/suits/319')
-      .reply(200, { id: 319, name: 'Inspire', make: 'Air Glide', makeCode: 'AG' })
+      .reply(200, { id: 319, name: 'Inspire', makeId: 17 })
+
+      .get('/api/v1/manufacturers/17')
+      .reply(200, { id: 17, name: 'Air Glide', code: 'AG' })
 
     renderWithAllProviders(
       <Edit match={{ params: { id: '11000' } }} location={{ search: '' }} />
     )
 
-    await waitFor(() => expect(screen.getByText(I18n.t('general.save'))))
+    await waitFor(() => expect(screen.getByText('Save')).toBeInTheDocument())
   })
 
   it('404 Not Found', async () => {
     nock('http://skyderby.test')
-      .get('/api/v1/tracks/11000')
+      .get('/api/v1/tracks/12000')
       .reply(404, { error: 'Not Found' })
 
-    const { history } = renderWithAllProviders(
-      <Edit match={{ params: { id: '11000' } }} location={{ search: '' }} />
+    renderWithAllProviders(
+      <Edit match={{ params: { id: '12000' } }} location={{ search: '' }} />
     )
 
-    await waitFor(() => expect(history.location.pathname).toEqual('/tracks'))
+    await waitFor(() =>
+      expect(screen.getByText('404', { exact: false })).toBeInTheDocument()
+    )
+    expect(
+      screen.getByText("We were looking everywhere but we didn't find it")
+    ).toBeInTheDocument()
+    expect(screen.getByText('Go back')).toHaveAttribute('href', '/tracks/12000')
   })
 
   it('403 Forbidden', async () => {
     nock('http://skyderby.test')
-      .get('/api/v1/tracks/11000')
+      .get('/api/v1/tracks/13000')
       .reply(403, { error: 'Forbidden' })
 
-    const { history } = renderWithAllProviders(
-      <Edit match={{ params: { id: '11000' } }} location={{ search: '' }} />
+    renderWithAllProviders(
+      <Edit match={{ params: { id: '13000' } }} location={{ search: '' }} />
     )
 
-    await waitFor(() => expect(history.location.pathname).toEqual('/tracks'))
+    await waitFor(() =>
+      expect(screen.getByText("Nope, you're not allowed.")).toBeInTheDocument()
+    )
+    expect(screen.getByText('Go back')).toHaveAttribute('href', '/tracks/13000')
   })
 
   it('500 Server Error', async () => {
     nock('http://skyderby.test')
-      .get('/api/v1/tracks/11000')
+      .get('/api/v1/tracks/14000')
       .reply(500, { error: 'Internal Server Error' })
 
     renderWithAllProviders(
-      <Edit match={{ params: { id: '11000' } }} location={{ search: '' }} />
+      <Edit match={{ params: { id: '14000' } }} location={{ search: '' }} />
     )
 
-    await waitFor(() => expect(screen.getByText('500')).toBeInTheDocument())
-    expect(screen.getByText('Server error')).toBeInTheDocument()
-    expect(screen.getByText('Go back')).toHaveAttribute('href', '/tracks')
+    await waitFor(() =>
+      expect(screen.getByText('500', { exact: false })).toBeInTheDocument()
+    )
+    expect(screen.getByText("It's our fault not yours")).toBeInTheDocument()
+    expect(screen.getByText('Go back')).toHaveAttribute('href', '/tracks/14000')
   })
 })

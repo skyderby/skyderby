@@ -8,16 +8,8 @@ import { msToKmh, msToMph } from 'utils/unitsConversion'
 
 import ChevronDown from 'icons/chevron-down.svg'
 import ChevronUp from 'icons/chevron-up.svg'
-import {
-  SummaryItem,
-  Title,
-  ValueContainer,
-  Value,
-  Units,
-  MinMaxValue,
-  Min,
-  Max
-} from './elements'
+
+import styles from './styles.module.scss'
 
 const valuePresentation = (value, unitSystem) => {
   const placeholder = '---'
@@ -35,29 +27,31 @@ const VerticalSpeed = ({ value }) => {
   const units = unitSystem === METRIC ? 'kmh' : 'mph'
 
   return (
-    <SummaryItem value="vertical-speed">
-      <Title>{t('tracks.indicators.vertical_speed')}</Title>
-      <ValueContainer>
-        <Value aria-label="average vertical speed">
+    <div className={styles.summaryItem} value="vertical-speed">
+      <div className={styles.title}>{t('tracks.indicators.vertical_speed')}</div>
+      <div className={styles.valueContainer}>
+        <div className={styles.value} aria-label="average vertical speed">
           {valuePresentation(value.avg, unitSystem)}
-        </Value>
-        <MinMaxValue>
-          <Max>
+        </div>
+
+        <div className={styles.minMaxValue}>
+          <div className={styles.min}>
             <span aria-label="maximum vertical speed">
               {valuePresentation(value.max, unitSystem)}
             </span>
             <ChevronUp />
-          </Max>
-          <Min>
+          </div>
+          <div className={styles.max}>
             <span aria-label="minimum vertical speed">
               {valuePresentation(value.min, unitSystem)}
             </span>
             <ChevronDown />
-          </Min>
-        </MinMaxValue>
-        <Units>{t(`units.${units}`)}</Units>
-      </ValueContainer>
-    </SummaryItem>
+          </div>
+        </div>
+
+        <div className={styles.units}>{t(`units.${units}`)}</div>
+      </div>
+    </div>
   )
 }
 

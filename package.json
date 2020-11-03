@@ -1,4 +1,17 @@
 {
+  "browserslist": {
+    "production": [
+      ">1%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version",
+      "last 1 edge version"
+    ]
+  },
   "scripts": {
     "lint": "yarn eslint app/javascript spec/javascript",
     "test": "jest"
@@ -21,7 +34,8 @@
       "spec/javascript"
     ],
     "moduleNameMapper": {
-      "\\.svg$": "<rootDir>/spec/javascript/jest/mocks/fileMock.js"
+      "\\.svg$": "<rootDir>/spec/javascript/jest/mocks/fileMock.js",
+      "\\.(css|scss)$": "identity-obj-proxy"
     },
     "transformIgnorePatterns": [
       "/node_modules/(?!geodesy)"
@@ -43,16 +57,19 @@
     "@babel/preset-env": "^7.10.3",
     "@babel/preset-react": "^7.10.1",
     "@google/markerclusterer": "^1.0.3",
+    "@popperjs/core": "^2.5.3",
     "@rails/actioncable": "^6.0.2",
     "@rails/ujs": "^6.0.2",
     "@rails/webpacker": "=5.1.1",
+    "@reduxjs/toolkit": "^1.4.0",
     "@stimulus/polyfills": "^1.1.1",
+    "autoprefixer": "^10.0.1",
     "axios": "^0.21.2",
     "babel-loader": "^8.0.6",
     "bootstrap": "^3.4.1",
     "bootstrap-datepicker": "^1.7.1",
+    "clsx": "^1.1.1",
     "core-js": "^3.6.5",
-    "css-loader": "^2.1.1",
     "formik": "^2.1.5",
     "geodesy": "^2.2.0",
     "highcharts": "^6.2.0",
@@ -66,12 +83,14 @@
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
     "lodash.merge": "^4.6.2",
-    "postcss-loader": "^3.0.0",
+    "normalize.css": "^8.0.1",
+    "postcss": "^8.1.1",
     "prop-types": "^15.7.2",
     "react": "^16.9",
     "react-compound-slider": "^2.5.0",
     "react-device-detect": "^1.11.14",
     "react-dom": "^16.9",
+    "react-popper": "^2.2.3",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.2",
     "react-select": "^3.0.8",
@@ -102,6 +121,7 @@
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^4.0.1",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^26.0",
     "prettier": "^2.0.5",
     "nock": "^13.0.4",

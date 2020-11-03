@@ -1,0 +1,86 @@
+.toggle {
+  align-items: center;
+  background: transparent;
+  border-radius: var(--border-radius-md);
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  height: 2rem;
+  padding: 0.5rem;
+
+  > :not(:last-child) {
+    margin-right: 0.25rem;
+  }
+
+  &:hover {
+    background-color: var(--blue-20);
+  }
+
+  svg {
+    width: 0.5rem;
+    height: 0.5rem;
+
+    path {
+      fill: var(--white);
+    }
+  }
+}
+
+.flag {
+  width: 1rem;
+  height: 0.6875rem;
+  background: url('~images/flags.png') center no-repeat;
+
+  &[data-locale='ru'] {
+    background-position: -32px -11px;
+  }
+  &[data-locale='en'] {
+    background-position: 0 -11px;
+  }
+  &[data-locale='it'] {
+    background-position: -16px -11px;
+  }
+  &[data-locale='de'] {
+    background-position: 0 0;
+  }
+  &[data-locale='es'] {
+    background-position: -16px 0;
+  }
+  &[data-locale='fr'] {
+    background-position: -32px 0;
+  }
+}
+
+.localeMenu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-radius: var(--border-radius-md);
+
+  > li:not(:last-child) {
+    border-bottom: solid 1px var(--border-color);
+  }
+}
+
+.localeMenu > li:first-child > .localeButton {
+  border-top-left-radius: var(--border-radius-md);
+  border-top-right-radius: var(--border-radius-md);
+}
+
+.localeMenu > li:last-child > .localeButton {
+  border-bottom-left-radius: var(--border-radius-md);
+  border-bottom-right-radius: var(--border-radius-md);
+}
+
+.localeButton {
+  border: 0;
+  background-color: var(--white);
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  width: 100%;
+
+  &:hover {
+    background-color: var(--grey-20);
+  }
+}

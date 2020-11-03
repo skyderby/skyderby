@@ -6,7 +6,7 @@ import { createSuitSelector } from 'redux/suits'
 import SuitLabel from 'components/SuitLabel'
 import SuitIcon from 'icons/suit.svg'
 
-import { SuitContainer } from './elements'
+import styles from './styles.module.scss'
 
 const Suit = ({ suitId, suitName: userProvidedSuitName }) => {
   const suit = useSelector(createSuitSelector(suitId))
@@ -15,10 +15,10 @@ const Suit = ({ suitId, suitName: userProvidedSuitName }) => {
   const suitCode = suit && suit.make.code
 
   return (
-    <SuitContainer>
+    <div className={styles.suit}>
       <SuitIcon />
       <SuitLabel name={suitName} code={suitCode} />
-    </SuitContainer>
+    </div>
   )
 }
 

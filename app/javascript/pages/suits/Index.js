@@ -7,6 +7,7 @@ import { loadUsageStats } from 'redux/suits/usageStats'
 import { createManufacturerSelector } from 'redux/manufacturers'
 import { createSuitsByMakeSelector, selectUsageStats } from 'redux/suits'
 import usePageStatus from 'hooks/usePageStatus'
+import AppShell from 'components/AppShell'
 import PageWrapper from 'components/PageWrapper'
 import SuitsIndex from 'components/SuitsIndex'
 import MakeSuits from 'components/MakeSuits'
@@ -34,11 +35,13 @@ const Index = ({ match }) => {
   if (!manufacturer) return null
 
   return (
-    <PageWrapper {...status}>
-      <SuitsIndex>
-        <MakeSuits manufacturer={manufacturer} suits={suits} stats={stats} />
-      </SuitsIndex>
-    </PageWrapper>
+    <AppShell>
+      <PageWrapper {...status}>
+        <SuitsIndex>
+          <MakeSuits manufacturer={manufacturer} suits={suits} stats={stats} />
+        </SuitsIndex>
+      </PageWrapper>
+    </AppShell>
   )
 }
 

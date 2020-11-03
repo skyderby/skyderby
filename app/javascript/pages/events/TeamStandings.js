@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 
 import { loadTeams } from 'redux/events/teams'
 import { PageContext } from 'components/PageContext'
+import AppShell from 'components/AppShell'
 import TeamStandings from 'components/TeamStandings'
 
 const TeamStandingsPage = ({ eventId, editable }) => {
@@ -27,9 +28,11 @@ const TeamStandingsPage = ({ eventId, editable }) => {
   }, [eventId, dispatch])
 
   return (
-    <PageContext value={{ eventId, editable }}>
-      <TeamStandings competitors={competitors} />
-    </PageContext>
+    <AppShell>
+      <PageContext value={{ eventId, editable }}>
+        <TeamStandings competitors={competitors} />
+      </PageContext>
+    </AppShell>
   )
 }
 

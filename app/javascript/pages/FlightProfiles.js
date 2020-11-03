@@ -5,6 +5,7 @@ import isEqual from 'lodash.isequal'
 import PropTypes from 'prop-types'
 
 import { PageParams } from 'api/FlightProfiles'
+import AppShell from 'components/AppShell'
 import FlightProfiles from 'components/FlightProfiles'
 import useTracksApi from 'hooks/useTracksApi'
 import { loadTrack } from 'redux/tracks'
@@ -81,14 +82,16 @@ const FlightProfilesPage = ({ location }) => {
   )
 
   return (
-    <FlightProfiles
-      tracks={tracks}
-      loadMoreTracks={loadMoreTracks}
-      updateFilters={updateFilters}
-      setSelectedTerrainProfile={setSelectedTerrainProfile}
-      toggleTrack={toggleTrack}
-      {...params}
-    />
+    <AppShell>
+      <FlightProfiles
+        tracks={tracks}
+        loadMoreTracks={loadMoreTracks}
+        updateFilters={updateFilters}
+        setSelectedTerrainProfile={setSelectedTerrainProfile}
+        toggleTrack={toggleTrack}
+        {...params}
+      />
+    </AppShell>
   )
 }
 

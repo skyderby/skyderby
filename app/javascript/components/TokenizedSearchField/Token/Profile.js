@@ -4,7 +4,8 @@ import PropTypes from 'prop-types'
 
 import { loadProfile, createProfileSelector } from 'redux/profiles'
 import IconTimes from 'icons/times.svg'
-import { ProfileContainer, Type, Value, DeleteButton } from './elements'
+
+import styles from './styles.module.scss'
 
 const Profile = ({ value, onClick, onDelete }) => {
   const dispatch = useDispatch()
@@ -32,15 +33,20 @@ const Profile = ({ value, onClick, onDelete }) => {
   const title = `Profile: ${data.name}`
 
   return (
-    <ProfileContainer onClick={handleTokenClick} title={title}>
-      <Type>Profile</Type>
-      <Value>
+    <li className={styles.profileContainer} onClick={handleTokenClick} title={title}>
+      <div className={styles.type}>Profile</div>
+      <div className={styles.value}>
         {data.name}
-        <DeleteButton title="Delete" type="button" ref={deleteButtonRef}>
+        <button
+          className={styles.deleteButton}
+          title="Delete"
+          type="button"
+          ref={deleteButtonRef}
+        >
           <IconTimes />
-        </DeleteButton>
-      </Value>
-    </ProfileContainer>
+        </button>
+      </div>
+    </li>
   )
 }
 

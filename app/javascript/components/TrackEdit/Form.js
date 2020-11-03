@@ -7,13 +7,12 @@ import RadioButtonGroup from 'components/ui/RadioButtonGroup'
 import DefaultButton from 'components/ui/buttons/Default'
 import RedButton from 'components/ui/buttons/Red'
 import PrimaryButton from 'components/ui/buttons/Primary'
-import Label from 'components/ui/Label'
 import Input from 'components/ui/Input'
 import TrackSuitField from 'components/TrackSuitField'
 import TrackLocationField from 'components/TrackLocationField'
 
 import AltitudeRangeField from './AltitudeRangeField'
-import { Form, AltitudeRangeContainer, Footer } from './elements'
+import styles from './styles.module.scss'
 
 const EditForm = ({ fields, onSubmit, onDelete, onCancel }) => {
   const { t } = useI18n()
@@ -30,24 +29,30 @@ const EditForm = ({ fields, onSubmit, onDelete, onCancel }) => {
       onSubmit={onSubmit}
     >
       {({ handleSubmit }) => (
-        <Form onSubmit={handleSubmit}>
-          <AltitudeRangeContainer>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.altitudeRangeContainer}>
             <FastField
               name="jumpRange"
               component={AltitudeRangeField}
               trackId={fields.id}
             />
-          </AltitudeRangeContainer>
+          </div>
 
           <hr />
 
-          <Label>{t('activerecord.attributes.track.suit')}</Label>
+          <label className={styles.label}>
+            {t('activerecord.attributes.track.suit')}
+          </label>
           <TrackSuitField />
 
-          <Label>{t('activerecord.attributes.track.place')}</Label>
+          <label className={styles.label}>
+            {t('activerecord.attributes.track.place')}
+          </label>
           <TrackLocationField />
 
-          <Label>{t('activerecord.attributes.track.kind')}</Label>
+          <label className={styles.label}>
+            {t('activerecord.attributes.track.kind')}
+          </label>
           <Field
             as={RadioButtonGroup}
             name="kind"
@@ -57,7 +62,7 @@ const EditForm = ({ fields, onSubmit, onDelete, onCancel }) => {
             ]}
           />
 
-          <Label>{t('tracks.edit.visibility')}</Label>
+          <label className={styles.label}>{t('tracks.edit.visibility')}</label>
           <Field
             as={RadioButtonGroup}
             name="visibility"
@@ -68,7 +73,9 @@ const EditForm = ({ fields, onSubmit, onDelete, onCancel }) => {
             ]}
           />
 
-          <Label>{t('activerecord.attributes.track.comment')}</Label>
+          <label className={styles.label}>
+            {t('activerecord.attributes.track.comment')}
+          </label>
           <Field name="comment">
             {({ field }) => (
               <Input
@@ -82,7 +89,7 @@ const EditForm = ({ fields, onSubmit, onDelete, onCancel }) => {
 
           <hr />
 
-          <Footer>
+          <div className={styles.footer}>
             <RedButton type="button" outlined onClick={onDelete}>
               {t('general.delete')}
             </RedButton>
@@ -93,8 +100,8 @@ const EditForm = ({ fields, onSubmit, onDelete, onCancel }) => {
                 {t('general.cancel')}
               </DefaultButton>
             </div>
-          </Footer>
-        </Form>
+          </div>
+        </form>
       )}
     </Formik>
   )

@@ -1,4 +1,11 @@
-import React, { useState, useEffect, useContext, createContext } from 'react'
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useContext,
+  createContext
+} from 'react'
 import I18n from 'i18n-js'
 import Cookie from 'js-cookie'
 import supportedLocales from 'virtual-modules/i18n/supportedLocales'
@@ -18,9 +25,10 @@ const getInitialLocale = () => {
 }
 
 const TranslationsProvider = ({ children }) => {
+  const initialized = useRef(false)
   const [locale, setLocale] = useState(getInitialLocale)
 
-  const [translations, setTranslations] = useState()
+  const [translations, setTranslations] = useState({})
 
   const changeLocale = newLocale => {
     if (!supportedLocales.includes(newLocale)) {
@@ -32,20 +40,36 @@ const TranslationsProvider = ({ children }) => {
     }
 
     Cookie.set('locale', newLocale)
-    setLocale(newLocale)
+    loadTranslations(newLocale).then(() => setLocale(newLocale))
   }
 
+  const loadTranslations = useCallback(
+    async newLocale => {
+      if (translations[newLocale]) return
+
+      const records = await import(`virtual-modules/i18n/translations/${newLocale}`)
+      setTranslations(translations => ({ ...translations, [newLocale]: records }))
+    },
+    [translations, setTranslations]
+  )
+
   useEffect(() => {
-    import(`virtual-modules/i18n/translations/${locale}`).then(setTranslations)
-  }, [locale])
+    if (initialized.current) return
 
-  if (!translations) return null
+    loadTranslations(locale)
 
-  I18n.translations = translations
+    initialized.current = true
+  }, [locale, loadTranslations])
+
+  if (!translations[locale]) return null
+
+  I18n.translations = translations[locale]
   I18n.locale = locale
 
   return (
-    <TranslationsContext.Provider value={{ t: I18n.t, changeLocale }}>
+    <TranslationsContext.Provider
+      value={{ t: I18n.t, locale, changeLocale, supportedLocales }}
+    >
       {children}
     </TranslationsContext.Provider>
   )

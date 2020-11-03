@@ -1,0 +1,25 @@
+@import 'styles/breakpoints.scss';
+
+.pageContainer {
+  width: 100%;
+  margin: 0 auto;
+
+  @include lg-screen {
+    width: $bp-large;
+  }
+}
+
+.contentContainer {
+  background-color: var(--white);
+  border: solid 1px transparent;
+  border-bottom-color: var(--border-color);
+  border-top-color: var(--border-color);
+  padding: 1rem;
+  position: relative;
+
+  @include lg-screen {
+    border-radius: var(--border-radius-md);
+    border-left-color: var(--border-color);
+    border-right-color: var(--border-color);
+  }
+}

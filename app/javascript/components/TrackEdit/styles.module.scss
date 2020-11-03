@@ -1,0 +1,55 @@
+@import 'styles/breakpoints.scss';
+@import 'styles/label.module.scss';
+
+.pageContainer {
+  width: 100%;
+  margin: 0 auto;
+
+  @include lg-screen {
+    max-width: $bp-large;
+  }
+}
+
+.formContainer {
+  background-color: var(--white);
+  width: 100%;
+  padding: 1rem;
+  border: solid 1px transparent;
+  border-top-color: var(--border-color);
+  border-bottom-color: var(--border-color);
+
+  @include lg-screen {
+    border-left-color: var(--border-color);
+    border-right-color: var(--border-color);
+  }
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1rem 3fr 7fr 15rem;
+  grid-gap: 0.75rem 0rem;
+  font-family: 'Proxima Nova Regular';
+  padding-top: 1rem;
+  position: relative;
+
+  hr {
+    grid-column: 1/5;
+  }
+}
+
+.altitudeRangeContainer {
+  grid-column: 1/5;
+}
+
+.label {
+  composes: formLabel;
+  grid-column: 2;
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  grid-column: 1/5;
+}

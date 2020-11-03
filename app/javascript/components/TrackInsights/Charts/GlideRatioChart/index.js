@@ -8,7 +8,7 @@ import useChartOptions from './useChartOptions'
 const GlideRatioChart = forwardRef(({ points = [], zeroWindPoints = [] }, ref) => {
   const options = useChartOptions(points, zeroWindPoints)
 
-  return <Highchart ref={ref} options={options} />
+  return <Highchart autoResize ref={ref} options={options} />
 })
 
 GlideRatioChart.displayName = 'GlideRatioChart'

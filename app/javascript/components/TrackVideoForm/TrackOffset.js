@@ -9,13 +9,7 @@ import AltitudeChart from 'components/AltitudeChart'
 import PlotLine from 'components/Highchart/Plotline'
 import useTrackPoints from 'hooks/useTrackPoints'
 
-import {
-  Section,
-  Description,
-  Controls,
-  TrackChartCard,
-  InputContainer
-} from './elements'
+import styles from './styles.module.scss'
 
 const TrackOffset = ({ setFieldValue, value }) => {
   const { t } = useI18n()
@@ -61,22 +55,22 @@ const TrackOffset = ({ setFieldValue, value }) => {
   }
 
   return (
-    <Section>
-      <Description>
+    <div className={styles.section}>
+      <div className={styles.description}>
         <h2>{t('activerecord.attributes.track_videos.track_offset')}</h2>
         <p>{t('tracks.videos.form.track_offset_description')}</p>
-      </Description>
-      <Controls>
-        <TrackChartCard>
+      </div>
+      <div className={styles.controls}>
+        <div className={styles.trackChartCard}>
           <AltitudeChart points={points} options={options}>
             {chart => <PlotLine chart={chart} {...plotLineProps} />}
           </AltitudeChart>
-        </TrackChartCard>
-        <InputContainer>
+        </div>
+        <div className={styles.inputContainer}>
           <Field as={Input} name="trackOffset" type="number" step="0.1" />
-        </InputContainer>
-      </Controls>
-    </Section>
+        </div>
+      </div>
+    </div>
   )
 }
 

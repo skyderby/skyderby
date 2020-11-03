@@ -1,0 +1,7 @@
+.container {
+  display: grid;
+  min-height: 100vh;
+  grid-gap: 1rem;
+  grid-template-rows: min-content max-content min-content;
+  grid-template-columns: 100%;
+}

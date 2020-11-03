@@ -3,12 +3,10 @@ import { Formik, Field } from 'formik'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
-import Label from 'components/ui/Label'
 import Input from 'components/ui/Input'
 import Modal from 'components/ui/Modal'
-import DefaultButton from 'components/ui/buttons/Default'
-import PrimaryButton from 'components/ui/buttons/Primary'
-import { Fieldset, Footer } from './elements'
+
+import styles from './styles.module.scss'
 
 const CustomRangeModal = ({
   isShown,
@@ -28,37 +26,47 @@ const CustomRangeModal = ({
       size="sm"
       title={t('tracks.show.edit_range')}
     >
-      <Formik initialValues={{ from, to }} onSubmit={handleSubmit}>
+      <Formik
+        initialValues={{ from: Math.round(from), to: Math.round(to) }}
+        onSubmit={handleSubmit}
+      >
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
-            <Fieldset>
-              <Label htmlFor="rangeFrom">{t('tracks.show.range_from')}</Label>
+            <div className={styles.fieldSet}>
+              <label className={styles.label} htmlFor="rangeFrom">
+                {t('tracks.show.range_from')}
+              </label>
               <Field
+                autoFocus
                 as={Input}
                 type="number"
                 name="from"
                 id="rangeFrom"
-                min={minAltitude}
-                max={maxAltitude}
+                min={Math.ceil(minAltitude)}
+                max={Math.floor(maxAltitude)}
               />
 
-              <Label htmlFor="rangeTo">{t('tracks.show.range_to')}</Label>
+              <label className={styles.label} htmlFor="rangeTo">
+                {t('tracks.show.range_to')}
+              </label>
               <Field
                 as={Input}
                 type="number"
                 name="to"
                 id="rangeTo"
-                min={minAltitude}
-                max={maxAltitude}
+                min={Math.ceil(minAltitude)}
+                max={Math.floor(maxAltitude)}
               />
-            </Fieldset>
+            </div>
 
-            <Footer>
-              <PrimaryButton type="submit">{t('general.save')}</PrimaryButton>
-              <DefaultButton type="button" onClick={onHide}>
+            <Modal.Footer>
+              <button className={styles.submitButton} type="submit">
+                {t('general.save')}
+              </button>
+              <button className={styles.cancelButton} type="button" onClick={onHide}>
                 {t('general.cancel')}
-              </DefaultButton>
-            </Footer>
+              </button>
+            </Modal.Footer>
           </form>
         )}
       </Formik>

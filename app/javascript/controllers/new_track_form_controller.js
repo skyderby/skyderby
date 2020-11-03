@@ -2,7 +2,6 @@ import { Controller } from 'stimulus'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import GlobalStyle from 'components/GlobalStyle'
 import TranslationsProvider from 'components/TranslationsProvider'
 import NewTrackForm from 'components/NewTrackForm'
 
@@ -11,12 +10,9 @@ export default class extends Controller {
     const userSignedIn = this.element.hasAttribute('data-user-signed-in')
 
     ReactDOM.render(
-      <>
-        <GlobalStyle />
-        <TranslationsProvider>
-          <NewTrackForm loggedIn={userSignedIn} />
-        </TranslationsProvider>
-      </>,
+      <TranslationsProvider>
+        <NewTrackForm loggedIn={userSignedIn} />
+      </TranslationsProvider>,
       this.element
     )
   }

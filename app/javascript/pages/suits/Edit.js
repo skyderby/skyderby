@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { loadSuit } from 'redux/suits'
 import { ForbiddenError } from 'errors'
 import usePageStatus from 'hooks/usePageStatus'
+import AppShell from 'components/AppShell'
 import SuitEdit from 'components/SuitEdit'
 import PageWrapper from 'components/PageWrapper'
 
@@ -26,9 +27,11 @@ const Edit = ({ match }) => {
   }, [dispatch, suitId, onLoadStart, onLoadSuccess, onError])
 
   return (
-    <PageWrapper {...status}>
-      <SuitEdit suitId={suitId} />
-    </PageWrapper>
+    <AppShell>
+      <PageWrapper {...status}>
+        <SuitEdit suitId={suitId} />
+      </PageWrapper>
+    </AppShell>
   )
 }
 

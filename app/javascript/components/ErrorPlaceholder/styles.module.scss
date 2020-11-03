@@ -1,0 +1,34 @@
+@import 'styles/breakpoints.scss';
+
+.container {
+  background-color: var(--white);
+  padding: 4rem 2rem;
+  text-align: center;
+  width: 100%;
+  margin: 4rem auto;
+  box-shadow: var(--block-box-shadow);
+
+  @include sm-screen {
+    max-width: $bp-small;
+    padding: 4rem;
+    border-radius: var(--border-radius-lg);
+  }
+}
+
+.title {
+  color: var(--grey-60);
+  font-size: 5rem;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+}
+
+.description {
+  font-weight: 500;
+  font-size: 2rem;
+}
+
+.primaryButton {
+  composes: button from '~styles/button.module.scss';
+  composes: primary from '~styles/button.module.scss';
+}

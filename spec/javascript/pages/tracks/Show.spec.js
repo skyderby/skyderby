@@ -15,8 +15,10 @@ describe('Tracks/Show', () => {
     nock('http://skyderby.test')
       .get('/api/v1/tracks/11000')
       .reply(200, {
-        editable: false,
-        downloadable: false,
+        permissions: {
+          canEdit: false,
+          canDownload: false
+        },
         id: 11000,
         kind: 'skydive',
         comment: '',
@@ -49,7 +51,10 @@ describe('Tracks/Show', () => {
       .reply(200, { id: 14, name: 'France', code: 'FRA' })
 
       .get('/api/v1/suits/319')
-      .reply(200, { id: 319, name: 'Inspire', make: 'Air Glide', makeCode: 'AG' })
+      .reply(200, { id: 319, name: 'Inspire', makeId: 17 })
+
+      .get('/api/v1/manufacturers/17')
+      .reply(200, { id: 17, name: 'Air Glide', code: 'AG' })
 
     renderWithAllProviders(
       <Show match={{ params: { id: '11000' } }} location={{ search: '' }} />
@@ -88,8 +93,9 @@ describe('Tracks/Show', () => {
       <Show match={{ params: { id: '11000' } }} location={{ search: '' }} />
     )
 
-    await waitFor(() => expect(screen.getByText('404')).toBeInTheDocument())
-    expect(screen.getByText("Track you're looking for not found")).toBeInTheDocument()
+    await waitFor(() =>
+      expect(screen.getByText("Nope, you're not allowed.")).toBeInTheDocument()
+    )
     expect(screen.getByText('Go back')).toHaveAttribute('href', '/tracks')
   })
 
@@ -102,8 +108,10 @@ describe('Tracks/Show', () => {
       <Show match={{ params: { id: '11000' } }} location={{ search: '' }} />
     )
 
-    await waitFor(() => expect(screen.getByText('500')).toBeInTheDocument())
-    expect(screen.getByText('Server error')).toBeInTheDocument()
+    await waitFor(() =>
+      expect(screen.getByText('500', { exact: false })).toBeInTheDocument()
+    )
+    expect(screen.getByText("It's our fault not yours")).toBeInTheDocument()
     expect(screen.getByText('Go back')).toHaveAttribute('href', '/tracks')
   })
 })

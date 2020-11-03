@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import { selectProfile, selectProfilePhoto } from 'redux/profiles'
 
-import { ProfileContainer, PilotName } from './elements'
+import styles from './styles.module.scss'
 
 const defaultPhotoUrl = '/images/thumb/missing.png'
 
@@ -16,10 +16,10 @@ const Profile = ({ profileId, pilotName: userProvidedName }) => {
   const { thumb: photoUrl = defaultPhotoUrl } = photo || {}
 
   return (
-    <ProfileContainer>
+    <div className={styles.profile}>
       <img src={photoUrl} />
-      <PilotName>{pilotName}</PilotName>
-    </ProfileContainer>
+      <div className={styles.pilot}>{pilotName}</div>
+    </div>
   )
 }
 

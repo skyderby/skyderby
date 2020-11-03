@@ -1,5 +1,7 @@
 namespace :api, module: :api, defaults: { format: :json } do
   namespace :v1, module: :v1 do
+    resource :current_user, only: :show
+
     resources :profiles, only: %i[index show] do
       scope module: :profiles do
         collection do
