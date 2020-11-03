@@ -1,20 +1,20 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import isEqual from 'lodash.isequal'
 import PropTypes from 'prop-types'
 
 import { IndexParams } from 'api/Track'
-import { loadTracks } from 'redux/tracks/tracksIndex'
+import useTracksApi from 'hooks/useTracksApi'
 import { PageContext } from 'components/PageContext'
 import AppShell from 'components/AppShell'
 import TrackList from 'components/TracksIndex'
 
 const TracksIndex = ({ location }) => {
-  const dispatch = useDispatch()
   const history = useHistory()
 
   const [params, setParams] = useState(() => IndexParams.extractFromUrl(location.search))
+
+  const { tracks, pagination } = useTracksApi(params)
 
   useEffect(() => {
     const parsedParams = IndexParams.extractFromUrl(location.search)
@@ -39,14 +39,15 @@ const TracksIndex = ({ location }) => {
     [buildUrl, history, location.pathname]
   )
 
-  useEffect(() => {
-    dispatch(loadTracks(params))
-  }, [dispatch, params])
-
   return (
     <AppShell>
       <PageContext value={{ updateFilters, updateSort, buildUrl, params }}>
-        <TrackList />
+        <TrackList
+          tracks={tracks}
+          pagination={pagination}
+          params={params}
+          buildUrl={buildUrl}
+        />
       </PageContext>
     </AppShell>
   )

@@ -1,10 +1,7 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
-import { usePageContext } from 'components/PageContext'
-import { selectPagination } from 'redux/tracks/tracksIndex'
-import { selectAllTracks } from 'redux/tracks/tracksIndex/selectors'
 import Pagination from 'components/Pagination'
 import TrackList from 'components/TrackList'
 import ActivitySelect from './ActivitySelect'
@@ -12,11 +9,8 @@ import Filters from './Filters'
 
 import styles from './styles.module.scss'
 
-const TracksIndex = () => {
+const TracksIndex = ({ tracks, pagination, params, buildUrl }) => {
   const { t } = useI18n()
-  const { params, buildUrl } = usePageContext()
-  const paginationOptions = useSelector(selectPagination)
-  const tracks = useSelector(selectAllTracks)
 
   return (
     <div className={styles.container}>
@@ -29,9 +23,21 @@ const TracksIndex = () => {
 
       <TrackList tracks={tracks} />
 
-      <Pagination buildUrl={buildUrl} showAround={3} {...paginationOptions} />
+      <Pagination buildUrl={buildUrl} {...pagination} />
     </div>
   )
+}
+
+TracksIndex.propTypes = {
+  tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  pagination: PropTypes.shape({
+    page: PropTypes.number.isRequired,
+    totalPages: PropTypes.number.isRequired
+  }).isRequired,
+  params: PropTypes.shape({
+    activity: PropTypes.oneOf(['base', 'skydive'])
+  }).isRequired,
+  buildUrl: PropTypes.func.isRequired
 }
 
 export default TracksIndex
