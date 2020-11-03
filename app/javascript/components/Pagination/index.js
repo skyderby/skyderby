@@ -9,12 +9,8 @@ import IconChevronRight from 'icons/chevron-right.svg'
 import { showLinkOnDesktop } from './utils'
 import styles from './styles.module.scss'
 
-// [1] 2 3 4 5 6.desktop 7.desktop
-// 1 [2] 3 4 5 6.desktop 7.desktop
-// 1.desktop 2 3 [4] 5 6 7.desktop (page - idx) > 2
-// 101.desktop 102.desktop 103 104 105 106 [107]
-
-const Pagination = ({ page = 1, totalPages = 0, showAround = 2, buildUrl }) => {
+const Pagination = ({ page = 1, totalPages = 0, buildUrl }) => {
+  const showAround = 3
   const startIndex = Math.max(page - showAround, 1)
   const endIndex = Math.min(startIndex + showAround * 2, totalPages)
 
