@@ -8,6 +8,7 @@ import { loadTrackPoints } from 'redux/tracks/points'
 import { loadTrackWindData } from 'redux/tracks/windData'
 import { loadTrackVideo } from 'redux/tracks/videos'
 import usePageStatus from 'hooks/usePageStatus'
+import AppShell from 'components/AppShell'
 import PageWrapper from 'components/PageWrapper'
 import TrackShow from 'components/TrackShow'
 
@@ -38,13 +39,15 @@ const Show = ({ match, location: { search, state: locationState } }) => {
   }, [dispatch, trackId, onLoadStart, onLoadSuccess, onError])
 
   return (
-    <PageWrapper {...status}>
-      <PageContext
-        value={{ trackId, altitudeFrom, altitudeTo, straightLine, locationState }}
-      >
-        <TrackShow />
-      </PageContext>
-    </PageWrapper>
+    <AppShell>
+      <PageWrapper {...status}>
+        <PageContext
+          value={{ trackId, altitudeFrom, altitudeTo, straightLine, locationState }}
+        >
+          <TrackShow />
+        </PageContext>
+      </PageWrapper>
+    </AppShell>
   )
 }
 

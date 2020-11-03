@@ -42,6 +42,7 @@ const baseOptions = () => ({
         text: null
       },
       min: 0,
+      tickInterval: 500,
       labels: {
         x: 25,
         y: -2

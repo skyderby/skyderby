@@ -2,21 +2,20 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import PrimaryButton from 'components/ui/buttons/Primary'
-import { Container, Title, Description } from './elements'
+import styles from './styles.module.scss'
 
 const ErrorPlaceholder = ({ title, description, linkBack }) => {
   return (
-    <Container>
-      <Title>{title}</Title>
-      <Description>{description}</Description>
+    <div className={styles.container}>
+      <h1 className={styles.title}>{title}</h1>
+      <p className={styles.description}>{description}</p>
 
       {linkBack && (
-        <PrimaryButton as={Link} to={linkBack}>
+        <Link to={linkBack} className={styles.primaryButton}>
           Go back
-        </PrimaryButton>
+        </Link>
       )}
-    </Container>
+    </div>
   )
 }
 

@@ -1,13 +1,15 @@
 import React, { forwardRef, useLayoutEffect } from 'react'
 import PropTypes from 'prop-types'
 
+import styles from './styles.module.scss'
+
 const SingleValue = forwardRef(({ handle: { value, percent } }, ref) => {
   useLayoutEffect(() => {
     ref.current.style.left = `${percent}%`
   }, [percent, ref])
 
   return (
-    <div className="range-slider-single-value" ref={ref}>
+    <div className={styles.singleValue} ref={ref}>
       {value.toFixed()}
     </div>
   )

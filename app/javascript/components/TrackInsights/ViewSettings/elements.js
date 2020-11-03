@@ -14,8 +14,7 @@ export const Container = styled.div`
 `
 
 export const FormBody = styled.div`
-  font-family: 'Proxima Nova Regular';
-  padding: 15px;
+  padding: 1rem;
 `
 
 export const FormGroup = styled.div`
@@ -29,7 +28,7 @@ export const FormGroup = styled.div`
 
 export const Label = styled.label`
   display: block;
-  font-family: 'Proxima Nova Semibold';
+  font-weight: 500;
 `
 
 export const Footer = styled.div`
