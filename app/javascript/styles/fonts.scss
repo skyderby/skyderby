@@ -1,0 +1,22 @@
+@mixin font-face($fontFamily, $fileName, $svgLabel, $fontWeight: normal, $fontStyle: normal) {
+  @font-face {
+    font-family: $fontFamily;
+
+    src: url('~fonts/#{$fileName}.woff') format('woff'),
+         url('~fonts/#{$fileName}.ttf') format('truetype');
+
+    font-weight: $fontWeight;
+    font-style: $fontStyle;
+  }
+}
+
+@include font-face('Proxima Nova', 'ProximaNova-Thin', 'thin', 100);
+@include font-face('Proxima Nova', 'ProximaNova-Light', 'light', 200);
+@include font-face('Proxima Nova', 'ProximaNova-Regular', 'regular', 400);
+@include font-face('Proxima Nova', 'ProximaNova-Semibold', 'semibold', 500);
+@include font-face('Proxima Nova', 'ProximaNova-Bold', 'bold', 600);
+@include font-face('Proxima Nova', 'ProximaNova-ThinIt', 'thinIt', 100, italic);
+@include font-face('Proxima Nova', 'ProximaNova-LightIt', 'lightIt', 200, italic);
+@include font-face('Proxima Nova', 'ProximaNova-RegularIt', 'regularIt', 400, italic);
+@include font-face('Proxima Nova', 'ProximaNova-SemiboldIt', 'semiboldIt', 500, italic);
+@include font-face('Proxima Nova', 'ProximaNova-BoldIt', 'boldIt', 600, italic);

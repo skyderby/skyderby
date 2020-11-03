@@ -6,7 +6,8 @@ import PropTypes from 'prop-types'
 import { useI18n } from 'components/TranslationsProvider'
 import { selectCompetitionResult } from 'redux/tracks/results'
 import { formatResult } from './formatResult'
-import { Header } from './elements'
+
+import styles from './styles.module.scss'
 
 const CompetitionResult = ({ trackId }) => {
   const { t } = useI18n()
@@ -16,7 +17,7 @@ const CompetitionResult = ({ trackId }) => {
 
   return (
     <div>
-      <Header>{t('tracks.show.comp_result')}</Header>
+      <h2 className={styles.header}>{t('tracks.show.comp_result')}</h2>
       <ul>
         <li>
           <Link to={competitionResult.eventPath}>{competitionResult.eventName}</Link>

@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 import { loadPlace, createPlaceSelector } from 'redux/places'
 import IconTimes from 'icons/times.svg'
 import PlaceLabel from 'components/PlaceLabel'
-import { PlaceContainer, Type, Value, DeleteButton } from './elements'
+
+import styles from './styles.module.scss'
 
 const Place = ({ value, onClick, onDelete }) => {
   const dispatch = useDispatch()
@@ -33,15 +34,20 @@ const Place = ({ value, onClick, onDelete }) => {
   const title = `Place: ${data.name}`
 
   return (
-    <PlaceContainer onClick={handleTokenClick} title={title}>
-      <Type>Place</Type>
-      <Value>
+    <li className={styles.placeContainer} onClick={handleTokenClick} title={title}>
+      <div className={styles.type}>Place</div>
+      <div className={styles.value}>
         <PlaceLabel name={data.name} code={data.countryCode} />
-        <DeleteButton title="Delete" type="button" ref={deleteButtonRef}>
+        <button
+          className={styles.deleteButton}
+          title="Delete"
+          type="button"
+          ref={deleteButtonRef}
+        >
           <IconTimes />
-        </DeleteButton>
-      </Value>
-    </PlaceContainer>
+        </button>
+      </div>
+    </li>
   )
 }
 

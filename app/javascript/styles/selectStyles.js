@@ -6,9 +6,9 @@ const selectStyles = {
   }),
   control: (base, state) => ({
     ...base,
-    ...(state.selectProps?.isInvalid ? { borderColor: 'var(--red-80)' } : {}),
+    borderColor: state.selectProps?.isInvalid ? 'var(--red-80)' : 'var(--border-color)',
     borderRadius: 'var(--border-radius-md)',
-    minHeight: '35px'
+    minHeight: '36px'
   }),
   dropdownIndicator: base => ({
     ...base,

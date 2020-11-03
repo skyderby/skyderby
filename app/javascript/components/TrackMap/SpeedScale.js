@@ -1,18 +1,22 @@
 import React from 'react'
 
-import { SpeedScaleContainer } from './elements'
+import { useI18n } from 'components/TranslationsProvider'
+
+import styles from './styles.module.scss'
 
 const scaleItems = ['< 130', '130 - 160', '160 - 190', '190 - 220', '220 - 250', '> 250']
 
 const SpeedScale = () => {
+  const { t } = useI18n()
+
   return (
-    <SpeedScaleContainer>
+    <div className={styles.speedScale}>
       {scaleItems.map(item => (
         <div key={item}>
-          {item} {I18n.t('units.kmh')}
+          {item} {t('units.kmh')}
         </div>
       ))}
-    </SpeedScaleContainer>
+    </div>
   )
 }
 

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import { ForbiddenError } from 'errors'
 import usePageStatus from 'hooks/usePageStatus'
+import AppShell from 'components/AppShell'
 import PageWrapper from 'components/PageWrapper'
 import TrackEdit from 'components/TrackEdit'
 import { loadTrack } from 'redux/tracks'
@@ -26,9 +27,11 @@ const Edit = ({ match, location: { state: locationState } }) => {
   }, [dispatch, trackId, onLoadStart, onLoadSuccess, onError])
 
   return (
-    <PageWrapper {...status}>
-      <TrackEdit trackId={trackId} returnTo={locationState?.returnTo || '/tracks'} />
-    </PageWrapper>
+    <AppShell>
+      <PageWrapper {...status}>
+        <TrackEdit trackId={trackId} returnTo={locationState?.returnTo || '/tracks'} />
+      </PageWrapper>
+    </AppShell>
   )
 }
 
