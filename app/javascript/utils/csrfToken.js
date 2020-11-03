@@ -1,5 +1,13 @@
-export const getCSRFToken = () => {
-  const meta = document.querySelector('meta[name=csrf-token]')
+const getMetaElement = () => document.querySelector('meta[name=csrf-token]')
 
-  return meta && meta.content
+export const getCSRFToken = () => {
+  const meta = getMetaElement()
+
+  return meta.content
+}
+
+export const setCSRFToken = newToken => {
+  const meta = getMetaElement()
+
+  meta.content = newToken
 }

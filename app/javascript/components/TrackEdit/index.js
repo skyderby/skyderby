@@ -7,7 +7,7 @@ import { createTrackSelector, deleteTrack, updateTrack } from 'redux/tracks'
 import { useI18n } from 'components/TranslationsProvider'
 import BackLink from 'components/ui/BackLink'
 import Form from './Form'
-import { PageContainer, FormContainer } from './elements'
+import styles from './styles.module.scss'
 
 const TrackEdit = ({ trackId, returnTo }) => {
   const dispatch = useDispatch()
@@ -59,18 +59,18 @@ const TrackEdit = ({ trackId, returnTo }) => {
   }
 
   return (
-    <PageContainer>
+    <div className={styles.pageContainer}>
       <BackLink to={`/tracks/${trackId}`}>{t('general.back')}</BackLink>
 
-      <FormContainer>
+      <div className={styles.formContainer}>
         <Form
           fields={fields}
           onSubmit={handleSubmit}
           onDelete={handleDelete}
           onCancel={handleCancel}
         />
-      </FormContainer>
-    </PageContainer>
+      </div>
+    </div>
   )
 }
 

@@ -1,5 +1,7 @@
 import { loadScript, loadStyles } from 'utils/load_external'
 
+import Meta from 'utils/meta'
+
 const BingMapsApi = 'AiG804EvOUQOmDJV0kiOY8SSD0U1HirOAKucXLbAKTRy1XAVTaBDnO7FCty3X-n6'
 
 const StylesURL =
@@ -20,7 +22,7 @@ export function initCesiumApi() {
 function onLoad() {
   window.cesiumApiReady = true
 
-  Cesium.Ion.defaultAccessToken = window.CESIUM_API_TOKEN
+  Cesium.Ion.defaultAccessToken = Meta.cesiumApiKey
   Cesium.BingMapsApi.defaultKey = BingMapsApi
 
   dispatchReady()

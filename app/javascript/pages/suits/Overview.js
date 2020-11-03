@@ -5,6 +5,7 @@ import Api from 'api'
 import { loadAllSuits } from 'redux/suits'
 import { selectAllManufacturers } from 'redux/manufacturers'
 import usePageStatus from 'hooks/usePageStatus'
+import AppShell from 'components/AppShell'
 import PageWrapper from 'components/PageWrapper'
 import SuitsIndex from 'components/SuitsIndex'
 import SuitsOverview from 'components/SuitsOverview'
@@ -29,11 +30,13 @@ const Overview = () => {
   }, [dispatch, setPopularity, onLoadStart, onLoadSuccess, onError])
 
   return (
-    <PageWrapper {...status}>
-      <SuitsIndex>
-        <SuitsOverview allManufacturers={allManufacturers} popularity={popularity} />
-      </SuitsIndex>
-    </PageWrapper>
+    <AppShell>
+      <PageWrapper {...status}>
+        <SuitsIndex>
+          <SuitsOverview allManufacturers={allManufacturers} popularity={popularity} />
+        </SuitsIndex>
+      </PageWrapper>
+    </AppShell>
   )
 }
 

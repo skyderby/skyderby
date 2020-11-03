@@ -7,6 +7,8 @@ import { usePageContext } from 'components/PageContext'
 import Trajectory from './Trajectory'
 import ViewerClock from './ViewerClock'
 
+import styles from './styles.module.scss'
+
 const TrackGlobe = () => {
   const { trackId } = usePageContext()
 
@@ -36,7 +38,7 @@ const TrackGlobe = () => {
   if (!Cesium) return null
 
   return (
-    <div ref={element}>
+    <div className={styles.map} ref={element}>
       {points.length > 0 && (
         <>
           <ViewerClock Cesium={Cesium} viewer={viewer} points={points} />

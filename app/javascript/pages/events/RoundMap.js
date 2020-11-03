@@ -1,13 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import AppShell from 'components/AppShell'
 import RoundMap from 'components/RoundMap'
 
 const EventRoundMap = ({ match }) => {
   const eventId = Number(match.params.id)
   const roundId = Number(match.params.roundId)
 
-  return <RoundMap eventId={eventId} roundId={roundId} />
+  return (
+    <AppShell>
+      <RoundMap eventId={eventId} roundId={roundId} />
+    </AppShell>
+  )
 }
 
 EventRoundMap.propTypes = {

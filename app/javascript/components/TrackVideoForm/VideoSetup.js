@@ -7,7 +7,8 @@ import { videoCodeFromUrl } from 'utils/youtube'
 import { useI18n } from 'components/TranslationsProvider'
 import YoutubePlayer from 'components/YoutubePlayer'
 import Input from 'components/ui/Input'
-import { Section, Description, Controls, InputContainer } from './elements'
+
+import styles from './styles.module.scss'
 
 const VideoSetup = ({ setFieldValue, videoId }) => {
   const { t } = useI18n()
@@ -31,33 +32,33 @@ const VideoSetup = ({ setFieldValue, videoId }) => {
 
   return (
     <>
-      <Section>
-        <Description>
+      <div className={styles.section}>
+        <div className={styles.description}>
           <h2>{t('activerecord.attributes.track_videos.url')}</h2>
-        </Description>
-        <Controls>
+        </div>
+        <div className={styles.controls}>
           <Field
             as={Input}
             name="url"
             placeholder="Enter Youtube link here"
             onChange={handleUrlChange}
           />
-        </Controls>
-      </Section>
+        </div>
+      </div>
 
-      <Section>
-        <Description>
+      <div className={styles.section}>
+        <div className={styles.description}>
           <h2>{t('activerecord.attributes.track_videos.video_offset')}</h2>
           <p>{t('tracks.videos.form.video_offset_description')}</p>
-        </Description>
+        </div>
 
-        <Controls>
+        <div className={styles.controls}>
           <YoutubePlayer ref={playerRef} videoId={videoId} onPause={setTimeFromVideo} />
-          <InputContainer>
+          <div className={styles.inputContainer}>
             <Field as={Input} type="number" step="0.1" min="0" name="videoOffset" />
-          </InputContainer>
-        </Controls>
-      </Section>
+          </div>
+        </div>
+      </div>
     </>
   )
 }

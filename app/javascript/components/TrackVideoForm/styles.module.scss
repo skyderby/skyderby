@@ -1,0 +1,80 @@
+@import 'styles/breakpoints.scss';
+
+.section {
+  display: flex;
+  flex-wrap: wrap;
+
+  &:not(:last-child) {
+    margin-bottom: 2rem;
+  }
+
+  @include sm-screen {
+    flex-wrap: nowrap;
+  }
+}
+
+.description {
+  width: 100%;
+  padding-right: 16px;
+
+  h2 {
+    color: var(--grey-80);
+    font-weight: 500;
+    margin: 0;
+    font-size: 1.25rem;
+    padding: 0.375rem 0;
+  }
+
+  @include sm-screen {
+    width: 30%;
+  }
+}
+
+.controls {
+  width: 100%;
+
+  &> *:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+
+  @include sm-screen {
+    width: 70%;
+  }
+}
+
+.trackChartCard {
+  border-radius: var(--border-radius-md);
+  border: solid 1px var(--border-color);
+  padding: 1rem 0.5rem 0.5rem;
+  width: 100%;
+  height: 0;
+  padding-bottom: calc(100% * (9 / 16));
+}
+
+.inputContainer {
+  width: 10rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+
+  button:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}
+
+.primaryButton {
+  composes: button from '~styles/button.module.scss';
+  composes: primary from '~styles/button.module.scss';
+}
+
+.secondaryButton {
+  composes: button from '~styles/button.module.scss';
+}
+
+.dangerButton {
+  composes: button from '~styles/button.module.scss';
+  composes: red from '~styles/button.module.scss';
+  composes: outlined from '~styles/button.module.scss';
+}

@@ -6,12 +6,8 @@ import TerrainClearanceChart from './TerrainClearanceChart'
 import Tagbar from './Tagbar'
 import TrackList from './TrackList'
 import TerrainProfileSelect from './TerrainProfileSelect'
-import {
-  Container,
-  SettingsContainer,
-  ChartsContainer,
-  TerrainProfileSelectContainer
-} from './elements'
+
+import styles from './styles.module.scss'
 
 const FlightProfiles = props => {
   const [zoomLevel, setZoomLevel] = useState()
@@ -28,8 +24,8 @@ const FlightProfiles = props => {
   } = props
 
   return (
-    <Container>
-      <SettingsContainer>
+    <div className={styles.container}>
+      <div className={styles.settingsContainer}>
         <TrackList
           tracks={tracks}
           filters={filters}
@@ -39,15 +35,15 @@ const FlightProfiles = props => {
           loadMoreTracks={loadMoreTracks}
         />
 
-        <TerrainProfileSelectContainer>
+        <div className={styles.terrainProfileSelect}>
           <TerrainProfileSelect
             value={selectedTerrainProfile}
             onChange={option => setSelectedTerrainProfile(option?.value || null)}
           />
-        </TerrainProfileSelectContainer>
-      </SettingsContainer>
+        </div>
+      </div>
 
-      <ChartsContainer>
+      <div className={styles.charts}>
         <div>
           <FlightProfilesChart
             selectedTracks={selectedTracks}
@@ -70,8 +66,8 @@ const FlightProfiles = props => {
             selectedTerrainProfile={selectedTerrainProfile}
           />
         </div>
-      </ChartsContainer>
-    </Container>
+      </div>
+    </div>
   )
 }
 
