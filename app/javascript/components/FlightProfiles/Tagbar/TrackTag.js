@@ -6,7 +6,8 @@ import IconTimes from 'icons/times.svg'
 
 import { createTrackSelector } from 'redux/tracks'
 import { createProfileSelector } from 'redux/profiles'
-import { Tag, DeleteButton, Label } from './elements'
+
+import styles from './styles.module.scss'
 
 const TrackTag = ({ trackId, onDelete }) => {
   const track = useSelector(createTrackSelector(trackId))
@@ -15,12 +16,12 @@ const TrackTag = ({ trackId, onDelete }) => {
   const label = [profile?.name, `#${trackId}`].filter(Boolean).join(' - ')
 
   return (
-    <Tag>
-      <Label>{label}</Label>
-      <DeleteButton type="button" onClick={onDelete}>
+    <li className={styles.tag}>
+      <span className={styles.label}>{label}</span>
+      <button className={styles.deleteButton} type="button" onClick={onDelete}>
         <IconTimes />
-      </DeleteButton>
-    </Tag>
+      </button>
+    </li>
   )
 }
 

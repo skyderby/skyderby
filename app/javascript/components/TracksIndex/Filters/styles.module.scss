@@ -1,0 +1,10 @@
+@import 'styles/breakpoints.scss';
+
+.container {
+  display: grid;
+  grid-gap: 0.5rem;
+
+  @include sm-screen {
+    grid-template-columns: 3fr 1fr;
+  }
+}

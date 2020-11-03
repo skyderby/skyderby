@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 import { useI18n } from 'components/TranslationsProvider'
 import { selectTotalResults } from 'redux/tracks/results'
 import { formatResult } from './formatResult'
-import { Header } from './elements'
+
+import styles from './styles.module.scss'
 
 const TotalResults = ({ trackId }) => {
   const { t } = useI18n()
@@ -15,7 +16,7 @@ const TotalResults = ({ trackId }) => {
 
   return (
     <div>
-      <Header>{t('tracks.show.overall_results')}</Header>
+      <h2 className={styles.header}>{t('tracks.show.overall_results')}</h2>
       <ul>
         {records.map(({ result, task }) => (
           <li key={task}>

@@ -1,12 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import {
-  WindEffect as Container,
-  WindEffectRail,
-  ZeroWindValue,
-  WindEffectValue
-} from './elements'
+import styles from './styles.module.scss'
 
 const windEffectPresentation = (value, presenter) => {
   if (value === 0) return 0
@@ -20,15 +15,26 @@ const WindEffect = ({ rawValue, zeroWindValue, valuePresenter = val => val }) =>
     100 - (Math.min(rawValue, zeroWindValue) / Math.max(rawValue, zeroWindValue)) * 100
 
   return (
-    <Container>
-      <WindEffectRail effect={windEffectPercent} />
-      <ZeroWindValue aria-label="wind cancelled value">
+    <div className={styles.windEffectContainer}>
+      <div className={styles.windEffectRail}>
+        <div
+          className={styles.resultPercent}
+          style={{ width: `${100 - windEffectPercent}%` }}
+        />
+        <div
+          className={styles.windEffectPercent}
+          style={{ width: `${windEffectPercent}%` }}
+        />
+      </div>
+
+      <div className={styles.zeroWindValue} aria-label="wind cancelled value">
         {valuePresenter(zeroWindValue)}
-      </ZeroWindValue>
-      <WindEffectValue aria-label="wind effect">
+      </div>
+
+      <div className={styles.windEffectValue} aria-label="wind effect">
         {windEffectPresentation(windEffect, valuePresenter)}
-      </WindEffectValue>
-    </Container>
+      </div>
+    </div>
   )
 }
 

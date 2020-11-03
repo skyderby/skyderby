@@ -11,13 +11,11 @@ import {
 } from 'redux/tracks/videos'
 import { useI18n } from 'components/TranslationsProvider'
 import { usePageContext } from 'components/PageContext'
-import DefaultButton from 'components/ui/buttons/Default'
-import RedButton from 'components/ui/buttons/Red'
-import PrimaryButton from 'components/ui/buttons/Primary'
 
 import VideoSetup from './VideoSetup'
 import TrackOffset from './TrackOffset'
-import { Footer } from './elements'
+
+import styles from './styles.module.scss'
 
 const TrackVideoForm = () => {
   const dispatch = useDispatch()
@@ -72,18 +70,29 @@ const TrackVideoForm = () => {
 
           <hr />
 
-          <Footer>
-            <RedButton type="button" outlined onClick={handleDelete}>
+          <div className={styles.footer}>
+            <button
+              className={styles.dangerButton}
+              type="button"
+              outlined
+              onClick={handleDelete}
+            >
               {t('general.delete')}
-            </RedButton>
+            </button>
 
             <div>
-              <PrimaryButton type="submit">{t('general.save')}</PrimaryButton>
-              <DefaultButton type="button" onClick={handleCancel}>
+              <button className={styles.primaryButton} type="submit">
+                {t('general.save')}
+              </button>
+              <button
+                className={styles.secondaryButton}
+                type="button"
+                onClick={handleCancel}
+              >
                 {t('general.cancel')}
-              </DefaultButton>
+              </button>
             </div>
-          </Footer>
+          </div>
         </form>
       )}
     </Formik>

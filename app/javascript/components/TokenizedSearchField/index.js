@@ -6,7 +6,8 @@ import Token from './Token'
 import useOutsideClickHandler from './useOutsideClickHandler'
 import ValueSelect from './ValueSelect'
 import TypeSelect from './TypeSelect'
-import { Container, TokensList, ClearButton } from './elements'
+
+import styles from './styles.module.scss'
 
 const TokenizedSearchField = ({ initialValues = [], onChange }) => {
   const containerRef = useRef()
@@ -57,8 +58,8 @@ const TokenizedSearchField = ({ initialValues = [], onChange }) => {
   }
 
   return (
-    <Container ref={containerRef} aria-label="Search field">
-      <TokensList onClick={handleBlur}>
+    <div className={styles.container} ref={containerRef} aria-label="Search field">
+      <ul className={styles.tokensList} onClick={handleBlur}>
         {tokens.map(([type, value], idx) => (
           <Token key={idx} type={type} value={value} onDelete={() => deleteByIdx(idx)} />
         ))}
@@ -76,14 +77,14 @@ const TokenizedSearchField = ({ initialValues = [], onChange }) => {
             />
           )}
         </li>
-      </TokensList>
+      </ul>
 
       {tokens.length > 0 && (
-        <ClearButton title="Clear all" onClick={deleteAll}>
+        <button className={styles.clearButton} title="Clear all" onClick={deleteAll}>
           <IconTimes />
-        </ClearButton>
+        </button>
       )}
-    </Container>
+    </div>
   )
 }
 

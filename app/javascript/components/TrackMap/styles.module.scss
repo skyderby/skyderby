@@ -1,0 +1,55 @@
+@import 'styles/breakpoints.scss';
+
+.map {
+  height: 500px;
+  width: 100%;
+}
+
+.windsAloft {
+  position: unset;
+  height: 40%;
+
+  @include sm-screen {
+    position: absolute;
+    bottom: 2.125rem;
+    left: 1rem;
+    height: 250px;
+    width: 260px;
+  }
+}
+
+.speedScale {
+  display: flex;
+  color: var(--grey-10);
+
+  > * {
+    flex-basis: 10%;
+    flex-shrink: 1;
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  > :nth-child(1) {
+    background-color: #2d7e2e;
+  }
+
+  > :nth-child(2) {
+    background-color: #42c043;
+  }
+
+  > :nth-child(3) {
+    background-color: #d9ce34;
+  }
+
+  > :nth-child(4) {
+    background-color: #e4670f;
+  }
+
+  > :nth-child(5) {
+    background-color: #e7000c;
+  }
+
+  > :nth-child(6) {
+    background-color: #60000c;
+  }
+}

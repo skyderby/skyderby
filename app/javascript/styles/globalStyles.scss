@@ -1,0 +1,75 @@
+@import 'styles/fonts.scss';
+@import 'normalize.css';
+
+:root {
+  --blue-10: #252f3c;
+  --blue-20: #42546b;
+  --blue-40: #75a4ba;
+  --blue-50: #008ed9;
+  --blue-60-rgb: 0, 167, 255;
+  --blue-60: rgb(var(--blue-60-rgb));
+  --blue-70: #39c0ff;
+
+  --red-60: #ed5565;
+  --red-70-rgb: 255, 94, 94;
+  --red-70: rgb(var(--red-70-rgb));
+  --red-80-rgb: 214, 30, 30;
+  --red-80: rgb(var(--red-80-rgb));
+
+  --green-50-rgb: 52, 158, 52;
+  --green-50: rgb(var(--green-50-rgb));
+  --green-40: #5cb85c;
+  --green-30: #1fbe78;
+
+  --grey-90: #333;
+  --grey-80: #555;
+  --grey-70: #777;
+  --grey-50: #999;
+  --grey-40: #aaa;
+  --grey-30: #d3d3d3;
+  --grey-20: #eee;
+  --grey-10: #f3f3f3;
+  --grey-5: #fafafa;
+
+  --white: #fff;
+
+  --border-color: var(--grey-30);
+  --text-color: var(--grey-90);
+
+  --border-radius-lg: 1rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-sm: 0.375rem;
+
+  --box-shadow-color: rgba(0, 0, 0, 0.2);
+  --block-box-shadow: 0 0 3px var(--box-shadow-color);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  background-color: var(--grey-5);
+  color: var(--grey-90);
+  font-family: "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+hr {
+  border: 0;
+  border-top: solid 1px var(--grey-20);
+  margin: 1.25rem 0;
+  height: 0;
+}
+
+form {
+  margin: 0;
+}
+
+label {
+  font-weight: 500;
+  color: var(--grey-80);
+}
+
+table {
+  border-collapse: collapse;
+}
