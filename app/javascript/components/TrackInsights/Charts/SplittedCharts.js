@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import GlideRatioChart from './GlideRatioChart'
 import SpeedsChart from './SpeedsChart'
 
+import styles from './styles.module.scss'
+
 const SplittedCharts = ({ points, zeroWindPoints }) => {
   const glideRatioChartRef = useRef()
   const speedsChartRef = useRef()
@@ -15,16 +17,25 @@ const SplittedCharts = ({ points, zeroWindPoints }) => {
 
   return (
     <div
+      className={styles.separateChartsContainer}
       onMouseMove={handleShowTooltip}
       onTouchMove={handleShowTooltip}
       onTouchStart={handleShowTooltip}
     >
-      <GlideRatioChart
-        points={points}
-        zeroWindPoints={zeroWindPoints}
-        ref={glideRatioChartRef}
-      />
-      <SpeedsChart points={points} zeroWindPoints={zeroWindPoints} ref={speedsChartRef} />
+      <div>
+        <GlideRatioChart
+          points={points}
+          zeroWindPoints={zeroWindPoints}
+          ref={glideRatioChartRef}
+        />
+      </div>
+      <div>
+        <SpeedsChart
+          points={points}
+          zeroWindPoints={zeroWindPoints}
+          ref={speedsChartRef}
+        />
+      </div>
     </div>
   )
 }

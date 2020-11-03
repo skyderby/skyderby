@@ -1,0 +1,80 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem 1rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+
+  &:not(:first-child) {
+    margin-left: 2.5rem;
+    flex-wrap: wrap;
+  }
+}
+
+.editLink {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  text-decoration: none;
+
+  svg {
+    height: 0.875em;
+    margin-right: 0.25rem;
+
+    path {
+      fill: var(--grey-50);
+    }
+  }
+
+  span {
+    font-size: 1rem;
+    color: var(--grey-70);
+  }
+}
+
+.profile {
+  display: flex;
+  white-space: nowrap;
+
+  img {
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    height: 2rem;
+    width: 2rem;
+  }
+}
+
+.pilot {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.place {
+  margin-right: 1em;
+
+  svg {
+    height: 0.75em;
+    margin-right: 0.25em;
+
+    path {
+      fill: var(--grey-50);
+    }
+  }
+}
+
+.suit {
+  white-space: nowrap;
+
+  svg {
+    height: 0.75em;
+    margin-right: 0.25em;
+
+    path {
+      fill: var(--grey-50);
+    }
+  }
+
+}

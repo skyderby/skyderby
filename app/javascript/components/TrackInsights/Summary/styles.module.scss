@@ -1,0 +1,226 @@
+@import 'styles/breakpoints.scss';
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 48%);
+  grid-gap: 1rem;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+
+  > [value='distance'],
+  [value='elevation'] {
+    display: none;
+  }
+
+  @include sm-screen {
+    grid-gap: 2rem;
+    grid-template-columns: repeat(3, fit-content(25%));
+    justify-content: space-evenly;
+
+    > [value='distance'],
+    > [value='elevation'] {
+      display: block;
+    }
+  }
+}
+
+.summaryItem {
+  overflow: hidden;
+
+  &[value='glide-ratio'] {
+    grid-column: 1;
+    grid-row: 1;
+
+    @include sm-screen {
+      grid-column: 3;
+      grid-row: 1;
+    }
+  }
+
+  &[value='ground-speed'] {
+    grid-column: 2;
+    grid-row: 1;
+
+    @include sm-screen {
+      grid-column: 2;
+      grid-row: 1;
+    }
+  }
+
+  &[value='time'] {
+    grid-column: 1;
+    grid-row: 2;
+
+    @include sm-screen {
+      grid-column: 3;
+      grid-row: 2;
+    }
+  }
+
+  &[value='vertical-speed'] {
+    grid-column: 2;
+    grid-row: 2;
+
+    @include sm-screen {
+      grid-column: 2;
+      grid-row: 2;
+    }
+  }
+
+  &[value='distance'] {
+    grid-column: 1;
+    grid-row: 3;
+
+    @include sm-screen {
+      grid-column: 1;
+      grid-row: 1;
+    }
+  }
+
+  &[value='elevation'] {
+    grid-column: 2;
+    grid-row: 3;
+
+    @include sm-screen {
+      grid-column: 1;
+      grid-row: 2;
+    }
+  }
+}
+
+.title {
+  color: var(--grey-40);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.75;
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @include sm-screen {
+  }
+}
+
+.valueContainer {
+  align-items: baseline;
+  color: var(--grey-80);
+  display: flex;
+  font-weight: 200;
+  white-space: nowrap;
+
+  > :not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}
+
+.value {
+  font-size: 2.5rem;
+  font-weight: 100;
+
+  @include sm-screen {
+    font-size: 2.625rem;
+  }
+}
+
+.units {
+  font-size: 1.75rem;
+
+  @include sm-screen {
+    font-size: 2rem;
+  }
+}
+
+.minMaxValue {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  align-self: center;
+
+  >:first-child {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  >:last-child {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  > * {
+    font-size: 0.875rem;
+    > * {
+      margin-right: 0.25rem;
+    }
+  }
+}
+
+.max {
+  --text-color: var(--green-30);
+
+  span {
+    color: var(--text-color);
+  }
+
+  svg {
+    height: 1em;
+
+    path {
+      fill: var(--text-color);
+    }
+  }
+}
+
+.min {
+  --text-color: var(--red-70);
+
+  span {
+    color: var(--text-color);
+  }
+
+  svg {
+    height: 1em;
+
+    path {
+      fill: var(--text-color);
+    }
+  }
+}
+
+.windEffectContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.windEffectRail {
+  display: flex;
+  flex-basis: 100%;
+  height: 3px;
+}
+
+.resultPercent {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  display: block;
+  background-color: var(--green-30);
+  height: 2px;
+}
+
+.windEffectPercent {
+  background-color: var(--red-70);
+  height: 2px;
+}
+
+.zeroWindValue {
+  flex-basis: 50%;
+  color: var(--green-30);
+  font-weight: 200;
+}
+
+.windEffectValue {
+  flex-basis: 50%;
+  color: var(--red-70);
+  font-weight: 200;
+  text-align: right;
+}

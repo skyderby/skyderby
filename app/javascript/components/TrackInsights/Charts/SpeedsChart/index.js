@@ -10,7 +10,7 @@ const SpeedsChart = forwardRef(({ points = [], zeroWindPoints = [] }, ref) => {
   const { unitSystem } = useSelector(state => state.userPreferences)
   const options = useChartOptions(points, zeroWindPoints, unitSystem)
 
-  return <Highchart ref={ref} options={options} />
+  return <Highchart autoResize ref={ref} options={options} />
 })
 
 SpeedsChart.displayName = 'SpeedsChart'

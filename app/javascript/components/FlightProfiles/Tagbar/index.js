@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 
 import TerrainProfileTag from './TerrainProfileTag'
 import TrackTag from './TrackTag'
-import { Container, TagList } from './elements'
+
+import styles from './styles.module.scss'
 
 const Tagbar = ({
   selectedTracks,
@@ -15,8 +16,8 @@ const Tagbar = ({
   const deleteTrack = trackId => toggleTrack(trackId)
 
   return (
-    <Container>
-      <TagList>
+    <div className={styles.container}>
+      <ul className={styles.tagList}>
         {selectedTerrainProfile && (
           <TerrainProfileTag
             terrainProfileId={selectedTerrainProfile}
@@ -30,8 +31,8 @@ const Tagbar = ({
             onDelete={() => deleteTrack(trackId)}
           />
         ))}
-      </TagList>
-    </Container>
+      </ul>
+    </div>
   )
 }
 

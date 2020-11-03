@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
+import PropTypes from 'prop-types'
 
-import Overlay from './Overlay'
-import Container from './Container'
-import Header from './Header'
+import styles from './styles.module.scss'
 
 const Modal = props => {
   const {
-    size = 'medium',
+    size = 'md',
     isShown = false,
     onHide = () => {},
     title,
@@ -34,14 +33,25 @@ const Modal = props => {
   if (!internalIsShown) return ReactDOM.createPortal(null, modalRoot)
 
   return ReactDOM.createPortal(
-    <Overlay onClick={handleOverlayClick}>
-      <Container size={size}>
-        <Header title={title} handleHide={handleHide} />
+    <div className={styles.overlay} onClick={handleOverlayClick}>
+      <div className={styles.container} data-size={size}>
+        <div className={styles.header}>
+          {title}
+          <button className={styles.closeButton} onClick={handleHide}>
+            ×
+          </button>
+        </div>
+
         <div>{children}</div>
-      </Container>
-    </Overlay>,
+      </div>
+    </div>,
     modalRoot
   )
 }
+
+const Footer = ({ children }) => <div className={styles.footer}>{children}</div>
+Footer.propTypes = { children: PropTypes.node }
+
+Modal.Footer = Footer
 
 export default Modal

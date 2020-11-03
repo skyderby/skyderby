@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useLayoutEffect, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
@@ -10,7 +10,8 @@ import ListIcon from 'icons/list-ul.svg'
 import WindIcon from 'icons/wind-direction.svg'
 import { useI18n } from 'components/TranslationsProvider'
 import { selectWindData } from 'redux/tracks/windData'
-import { Container, Fade, Menu, MenuItem, Spacer } from './elements'
+
+import styles from './styles.module.scss'
 
 const Navbar = ({ track }) => {
   const { t } = useI18n()
@@ -20,66 +21,81 @@ const Navbar = ({ track }) => {
     permissions: { canEdit }
   } = track
   const windData = useSelector(state => selectWindData(state, trackId))
+  const menuRef = useRef()
+  const fadeRef = useRef()
+
+  useLayoutEffect(() => {
+    const menuElement = menuRef.current
+
+    const scrollHandler = e => {
+      fadeRef.current.style.opacity =
+        e.target.scrollLeft + e.target.clientWidth + 18 < e.target.scrollWidth ? 1 : 0
+    }
+
+    menuElement.addEventListener('scroll', scrollHandler)
+
+    return () => menuElement.removeEventListener('scroll', scrollHandler)
+  }, [])
 
   const buildLink = pathname => location => ({ pathname, state: location.state })
 
   return (
-    <Container>
-      <Fade />
-      <Menu>
-        <MenuItem>
+    <div className={styles.container}>
+      <div className={styles.fade} ref={fadeRef} />
+      <ul className={styles.menu} ref={menuRef}>
+        <li className={styles.menuItem}>
           <NavLink exact to={buildLink(`/tracks/${trackId}`)}>
             <ChartIcon />
             {t('tracks.show.charts')}
           </NavLink>
-        </MenuItem>
+        </li>
         {hasVideo ? (
-          <MenuItem>
+          <li className={styles.menuItem}>
             <NavLink to={buildLink(`/tracks/${trackId}/video`)}>
               <VideoIcon />
               {t('tracks.show.video')}
             </NavLink>
-          </MenuItem>
+          </li>
         ) : (
           canEdit && (
-            <MenuItem>
+            <li className={styles.menuItem}>
               <NavLink to={buildLink(`/tracks/${trackId}/video/edit`)}>
                 <VideoIcon />
                 {t('tracks.show.video')}
               </NavLink>
-            </MenuItem>
+            </li>
           )
         )}
-        <MenuItem>
+        <li className={styles.menuItem}>
           <NavLink to={buildLink(`/tracks/${trackId}/map`)}>
             <MapsIcon />
             Google maps
           </NavLink>
-        </MenuItem>
-        <MenuItem>
+        </li>
+        <li className={styles.menuItem}>
           <NavLink to={buildLink(`/tracks/${trackId}/globe`)}>
             <MapsIcon />
             3D maps
           </NavLink>
-        </MenuItem>
-        <MenuItem>
+        </li>
+        <li className={styles.menuItem}>
           <NavLink to={buildLink(`/tracks/${trackId}/results`)}>
             <ListIcon />
             {t('tracks.show.results')}
           </NavLink>
-        </MenuItem>
+        </li>
         {windData.length > 0 && (
-          <MenuItem>
+          <li className={styles.menuItem}>
             <NavLink to={buildLink(`/tracks/${trackId}/wind_data`)}>
               <WindIcon />
               {t('events.show.weather_data')}
             </NavLink>
-          </MenuItem>
+          </li>
         )}
 
-        <Spacer>&nbsp;</Spacer>
-      </Menu>
-    </Container>
+        <li className={styles.spacer}>&nbsp;</li>
+      </ul>
+    </div>
   )
 }
 

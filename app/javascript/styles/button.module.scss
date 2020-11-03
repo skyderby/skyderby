@@ -1,0 +1,132 @@
+@import 'styles/breakpoints.scss';
+
+.button {
+  appearance: none;
+  background-color: var(--white);
+  border-radius: var(--border-radius-md);
+  border: solid 1px var(--grey-30);
+  color: var(--grey-70);
+  cursor: pointer;
+  flex-grow: 0;
+  line-height: normal;
+  outline: none;
+  padding: 0.25rem 0.75rem;
+  text-align: center;
+  text-decoration: none;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-in-out;
+  transition-property: box-shadow, background-color, border-color, color;
+
+  &:focus {
+    box-shadow: 0 0 0 0.25rem rgba(var(--blue-60-rgb), 0.5);
+  }
+
+  &:not(:disabled):hover {
+    color: var(--grey-80);
+  }
+
+  &:disabled {
+    opacity: 0.3;
+  }
+
+  @include sm-screen {
+    font-size: 1rem;
+
+    &:not(:disabled):hover,
+    &:focus {
+      border-color: var(--blue-60);
+      color: var(--blue-60);
+    }
+  }
+}
+
+.rounded {
+  border-radius: 1.5em;
+}
+
+.sizeLg {
+  font-size: 1.25rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.sizeXs {
+  border-width: 1px;
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 3px 1em 1px;
+
+  @include sm-screen {
+    font-size: 0.75rem;
+  }
+}
+
+.cta {
+  composes: sizeLg;
+
+  color: var(--white);
+  background-color: var(--blue-50);
+  border-color: var(--blue-50);
+  border-radius: 1.5em;
+  box-shadow: 0 3px 7px var(--box-shadow-color);
+
+  &:not(:disabled):hover,
+  &:active {
+    color: var(--white);
+  }
+
+  @include sm-screen {
+    &:not(:disabled):hover,
+    &:focus {
+      color: var(--white);
+      background-color: var(--blue-60);
+      border-color: var(--blue-60);
+      box-shadow: 0 5px 10px var(--box-shadow-color);
+    }
+  }
+}
+
+.red {
+  background-color: var(--red-70);
+  border-color: var(--red-70);
+  color: var(--white);
+
+  &:not(:disabled):hover,
+  &:focus {
+    background-color: var(--red-80);
+    border-color: var(--red-80);
+    color: var(--white);
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 0.25rem rgba(var(--red-70-rgb), 0.5);
+  }
+
+  &.outlined {
+    background-color: var(--white);
+    color: var(--red-70);
+
+    &:not(:disabled):hover,
+    &:focus {
+      background-color: var(--white);
+      border-color: var(--red-80);
+      color: var(--red-80);
+    }
+  }
+}
+
+.primary {
+  background-color: var(--green-40);
+  border-color: var(--green-40);
+  color: var(--white);
+
+  &:focus {
+    box-shadow: 0 0 0 0.25rem rgba(var(--green-50-rgb), 0.5);
+  }
+
+  &:not(:disabled):hover,
+  &:focus {
+    background-color: var(--green-50);
+    border-color: var(--green-50);
+    color: var(--white);
+  }
+}

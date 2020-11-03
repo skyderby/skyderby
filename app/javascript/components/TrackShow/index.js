@@ -14,7 +14,8 @@ import TrackResults from 'components/TrackResults'
 
 import Header from './Header'
 import Navbar from './Navbar'
-import { PageContainer, ContentContainer } from './elements'
+
+import styles from './styles.module.scss'
 
 const TrackShow = () => {
   const { trackId } = usePageContext()
@@ -24,11 +25,11 @@ const TrackShow = () => {
   if (!track || track.status === 'loading') return null
 
   return (
-    <PageContainer>
+    <div className={styles.pageContainer}>
       <Header track={track} />
       <Navbar track={track} />
 
-      <ContentContainer>
+      <div className={styles.contentContainer}>
         <Switch>
           <Route path="/tracks/:id" exact component={TrackInsights} />
           <Route path="/tracks/:id/map" component={TrackMap} />
@@ -37,14 +38,14 @@ const TrackShow = () => {
           <Route path="/tracks/:id/results" component={TrackResults} />
           <Route path="/tracks/:id/video" exact component={TrackVideo} />
 
-          {track.editable && (
+          {track.permissions.canEdit && (
             <Route path="/tracks/:id/video/edit" component={TrackVideoForm} />
           )}
 
           <Route component={() => <Redirect to={`/tracks/${trackId}`} />} />
         </Switch>
-      </ContentContainer>
-    </PageContainer>
+      </div>
+    </div>
   )
 }
 

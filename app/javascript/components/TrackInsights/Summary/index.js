@@ -7,15 +7,16 @@ import GlideRatio from './GlideRatio'
 import Elevation from './Elevation'
 import VerticalSpeed from './VerticalSpeed'
 import Time from './Time'
-import { Container } from './elements'
 import { RangeSummary } from './RangeSummary'
+
+import styles from './styles.module.scss'
 
 const Summary = ({ selectedPoints, zeroWindPoints, straightLine }) => {
   const summary = new RangeSummary(selectedPoints, { straightLine })
   const zeroWindSummary = new RangeSummary(zeroWindPoints, { straightLine })
 
   return (
-    <Container>
+    <div className={styles.container}>
       <Distance value={summary.distance} zeroWindValue={zeroWindSummary.distance} />
       <HorizontalSpeed
         value={summary.horizontalSpeed}
@@ -28,7 +29,7 @@ const Summary = ({ selectedPoints, zeroWindPoints, straightLine }) => {
       <Elevation value={summary.elevation} />
       <VerticalSpeed value={summary.verticalSpeed} />
       <Time value={summary.time} />
-    </Container>
+    </div>
   )
 }
 

@@ -7,7 +7,8 @@ import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
 import { metersToMiles } from 'utils/unitsConversion'
 
 import WindEffect from './WindEffect'
-import { SummaryItem, Title, ValueContainer, Value, Units } from './elements'
+
+import styles from './styles.module.scss'
 
 const valuePresentation = (value, unitSystem) => {
   const placeholder = unitSystem === METRIC ? '----' : '-.---'
@@ -25,12 +26,14 @@ const Distance = ({ value, zeroWindValue }) => {
   const units = unitSystem === METRIC ? 'm' : 'mi'
 
   return (
-    <SummaryItem value="distance">
-      <Title>{t('tracks.indicators.distance')}</Title>
-      <ValueContainer>
-        <Value aria-label="distance">{valuePresentation(value, unitSystem)}</Value>
-        <Units>{t(`units.${units}`)}</Units>
-      </ValueContainer>
+    <div className={styles.summaryItem} value="distance">
+      <div className={styles.title}>{t('tracks.indicators.distance')}</div>
+      <div className={styles.valueContainer}>
+        <div className={styles.value} aria-label="distance">
+          {valuePresentation(value, unitSystem)}
+        </div>
+        <div className={styles.units}>{t(`units.${units}`)}</div>
+      </div>
 
       {Number.isFinite(zeroWindValue) && (
         <WindEffect
@@ -39,7 +42,7 @@ const Distance = ({ value, zeroWindValue }) => {
           valuePresenter={val => valuePresentation(val, unitSystem)}
         />
       )}
-    </SummaryItem>
+    </div>
   )
 }
 

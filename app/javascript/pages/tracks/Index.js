@@ -7,7 +7,8 @@ import PropTypes from 'prop-types'
 import { IndexParams } from 'api/Track'
 import { loadTracks } from 'redux/tracks/tracksIndex'
 import { PageContext } from 'components/PageContext'
-import TrackList from 'components/TrackList'
+import AppShell from 'components/AppShell'
+import TrackList from 'components/TracksIndex'
 
 const TracksIndex = ({ location }) => {
   const dispatch = useDispatch()
@@ -43,9 +44,11 @@ const TracksIndex = ({ location }) => {
   }, [dispatch, params])
 
   return (
-    <PageContext value={{ updateFilters, updateSort, buildUrl, params }}>
-      <TrackList />
-    </PageContext>
+    <AppShell>
+      <PageContext value={{ updateFilters, updateSort, buildUrl, params }}>
+        <TrackList />
+      </PageContext>
+    </AppShell>
   )
 }
 
