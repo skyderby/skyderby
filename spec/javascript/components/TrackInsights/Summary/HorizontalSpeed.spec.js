@@ -1,7 +1,7 @@
 import React from 'react'
 
 import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
-import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
+import { METRIC, IMPERIAL } from 'redux/userPreferences'
 import HorizontalSpeed from 'components/TrackInsights/Summary/HorizontalSpeed'
 
 describe('Summary/VerticalSpeed', () => {
