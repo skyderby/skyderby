@@ -1,8 +1,4 @@
-import { 
-  createAsyncThunk,
-  createSlice,
-  createEntityAdapter 
-} from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, createEntityAdapter } from '@reduxjs/toolkit'
 
 import Api from 'api'
 
@@ -10,9 +6,9 @@ const countriesAdapter = createEntityAdapter({
   sortComparer: (a, b) => a.name.localeCompare(b.name)
 })
 
-const {
-  selectById: selectCountry
-} = countriesAdapter.getSelectors(state => state.countries)
+const { selectById: selectCountry } = countriesAdapter.getSelectors(
+  state => state.countries
+)
 
 export const bulkLoadCountries = ids => async dispatch => {
   await Promise.all(ids.map(id => dispatch(loadCountry(id))))
