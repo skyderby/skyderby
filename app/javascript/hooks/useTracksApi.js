@@ -7,7 +7,8 @@ const initialState = {
   status: 'idle',
   tracks: [],
   page: 1,
-  hasMore: false
+  hasMore: false,
+  totalPages: 0
 }
 
 const tracksReducer = (state, { type, payload }) => {

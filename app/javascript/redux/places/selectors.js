@@ -1,12 +1,12 @@
+import { selectCountry } from 'redux/countries'
+
 export const selectPlace = (state, placeId) => {
   const { byId: placesById } = state.places
-  const { byId: countriesById } = state.countries
-
   const place = placesById[placeId]
 
   if (!place) return null
 
-  const country = countriesById[place.countryId]
+  const country = selectCountry(state, place.countryId)
 
   return { ...place, country }
 }
