@@ -31,7 +31,7 @@ export const loadPlace = placeId => async (dispatch, getState) => {
   try {
     const data = await Api.Place.findRecord(placeId)
 
-    dispatch(loadCountry(data.countryId))
+    await dispatch(loadCountry(data.countryId))
 
     dispatch({ type: LOAD_SUCCESS, payload: data })
   } catch (err) {
