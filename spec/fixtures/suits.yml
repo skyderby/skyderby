@@ -1,3 +1,7 @@
 apache:
   name: Apache Series
   manufacturer: tony
+
+nala:
+  name: Nala
+  manufacturer: tony
