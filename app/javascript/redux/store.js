@@ -1,5 +1,4 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
-import thunk from 'redux-thunk'
+import { configureStore } from '@reduxjs/toolkit'
 
 import countries from 'redux/countries'
 import eventRound from 'redux/events/round'
@@ -15,29 +14,26 @@ import userPreferences from 'redux/userPreferences'
 
 import { loadState, saveState } from 'redux/localStorage'
 
-export const rootReducer = combineReducers({
-  countries,
-  eventRound,
-  eventTeams,
-  manufacturers,
-  places,
-  profiles,
-  session,
-  suits,
-  terrainProfiles,
-  tracks,
-  userPreferences
-})
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+export const createStore = preloadedState =>
+  configureStore({
+    reducer: {
+      countries,
+      eventRound,
+      eventTeams,
+      manufacturers,
+      places,
+      profiles,
+      session,
+      suits,
+      terrainProfiles,
+      tracks,
+      userPreferences
+    },
+    preloadedState
+  })
 
 const persistedState = loadState()
-
-const store = createStore(
-  rootReducer,
-  persistedState,
-  composeEnhancers(applyMiddleware(thunk))
-)
+const store = createStore(persistedState)
 
 store.subscribe(() => {
   const { countries, manufacturers, userPreferences } = store.getState()
