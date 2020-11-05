@@ -10,6 +10,8 @@ import { showLinkOnDesktop } from './utils'
 import styles from './styles.module.scss'
 
 const Pagination = ({ page = 1, totalPages = 0, buildUrl }) => {
+  if (Number(totalPages) < 2) return null
+
   const showAround = 3
   const startIndex = Math.max(page - showAround, 1)
   const endIndex = Math.min(startIndex + showAround * 2, totalPages)
@@ -38,13 +40,6 @@ const Pagination = ({ page = 1, totalPages = 0, buildUrl }) => {
           className={cx(
             styles.page,
             showLinkOnDesktop(page, idx, totalPages) && styles.desktop
-          )}
-          data-asdf={console.log(
-            page,
-            idx,
-            totalPages,
-            showLinkOnDesktop(page, idx, totalPages),
-            cx(styles.page, true && styles.desktop)
           )}
           to={location => ({ ...location, search: buildUrl({ page: idx }) })}
           key={idx}
