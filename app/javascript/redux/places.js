@@ -4,7 +4,7 @@ import Api from 'api'
 import { loadCountry, bulkLoadCountries, selectCountry } from 'redux/countries'
 
 const placesAdapter = createEntityAdapter({
-  sortComparer: (a, b) => a.name.localeCompare(b.name)
+  sortComparer: (a, b) => a.name?.localeCompare(b.name)
 })
 
 const { selectById, selectAll } = placesAdapter.getSelectors(state => state.places)
@@ -71,11 +71,15 @@ const placesSlice = createSlice({
     },
     [loadPlace.fulfilled]: (state, { payload }) => {
       const { id, ...changes } = payload
-      placesAdapter.updateOne(state, { id: Number(id), changes, status: 'loaded' })
+      placesAdapter.updateOne(state, {
+        id: Number(id),
+        changes: { ...changes, status: 'loaded' }
+      })
     },
-    [loadPlace.rejected]: (state, { meta }) => {
+    [loadPlace.rejected]: (state, { meta, ...rest }) => {
+      console.log(rest)
       const { arg: id } = meta
-      placesAdapter.updateOne(state, { id: Number(id), status: 'error' })
+      placesAdapter.updateOne(state, { id: Number(id), changes: { status: 'error' } })
     }
   }
 })
