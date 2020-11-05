@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
-import { updatePreferences } from 'redux/userPreferences'
+import { selectUserPreferences, updatePreferences } from 'redux/userPreferences'
 import FlatButton from 'components/ui/FlatButton'
 import CogIcon from 'icons/cog.svg'
 import SettingsModal from './SettingsModal'
@@ -14,7 +14,7 @@ const ViewSettings = ({ straightLine, setStraightLine }) => {
   const dispatch = useDispatch()
   const [showModal, setShowModal] = useState(false)
 
-  const { chartMode, unitSystem } = useSelector(state => state.userPreferences)
+  const { chartMode, unitSystem } = useSelector(selectUserPreferences)
 
   const handleSave = values => {
     dispatch(updatePreferences(values))
