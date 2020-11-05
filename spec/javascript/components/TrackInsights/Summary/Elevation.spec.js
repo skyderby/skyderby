@@ -1,7 +1,7 @@
 import React from 'react'
 
 import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
-import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
+import { METRIC, IMPERIAL } from 'redux/userPreferences'
 import Elevation from 'components/TrackInsights/Summary/Elevation'
 
 describe('Summary/Elevation', () => {

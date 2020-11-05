@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import { useI18n } from 'components/TranslationsProvider'
-import { METRIC } from 'redux/userPreferences/unitSystem'
+import { METRIC } from 'redux/userPreferences'
 import { restoreSeriesVisibility, saveSeriesVisibility } from 'utils/chartSeriesSettings'
 
 import { calculateSpeedPoints } from '../calculateSpeedPoints'
