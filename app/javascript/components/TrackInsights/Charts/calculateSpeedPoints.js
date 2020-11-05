@@ -1,4 +1,4 @@
-import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
+import { METRIC, IMPERIAL } from 'redux/userPreferences'
 import { msToKmh, msToMph } from 'utils/unitsConversion'
 
 const convertValue = (value, unitSystem) => {

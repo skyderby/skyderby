@@ -2,13 +2,13 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { SINGLE_CHART } from 'redux/userPreferences/chartMode'
+import { selectUserPreferences, SINGLE_CHART } from 'redux/userPreferences'
 
 import SplittedCharts from './SplittedCharts'
 import CombinedChart from './CombinedChart'
 
 const Charts = ({ points, zeroWindPoints }) => {
-  const { chartMode } = useSelector(state => state.userPreferences)
+  const { chartMode } = useSelector(selectUserPreferences)
 
   if (chartMode === SINGLE_CHART) {
     return <CombinedChart points={points} zeroWindPoints={zeroWindPoints} />
