@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
-import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
+import { selectUserPreferences, METRIC, IMPERIAL } from 'redux/userPreferences'
 import { metersToFeet } from 'utils/unitsConversion'
 
 import styles from './styles.module.scss'
@@ -20,7 +20,7 @@ const valuePresentation = (value, unitSystem) => {
 
 const Elevation = ({ value }) => {
   const { t } = useI18n()
-  const { unitSystem } = useSelector(state => state.userPreferences)
+  const { unitSystem } = useSelector(selectUserPreferences)
   const units = unitSystem === METRIC ? 'm' : 'ft'
 
   return (

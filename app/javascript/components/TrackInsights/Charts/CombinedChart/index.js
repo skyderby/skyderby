@@ -3,11 +3,12 @@ import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import Highchart from 'components/Highchart'
+import { selectUserPreferences } from 'redux/userPreferences'
 
 import useChartOptions from './useChartOptions'
 
 const CombinedChart = ({ points, zeroWindPoints }) => {
-  const { unitSystem } = useSelector(state => state.userPreferences)
+  const { unitSystem } = useSelector(selectUserPreferences)
   const options = useChartOptions(points, zeroWindPoints, unitSystem)
 
   return <Highchart autoResize options={options} />

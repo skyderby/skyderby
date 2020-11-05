@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
-import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
+import { selectUserPreferences, METRIC, IMPERIAL } from 'redux/userPreferences'
 import { msToKmh, msToMph } from 'utils/unitsConversion'
 
 import ChevronDown from 'icons/chevron-down.svg'
@@ -23,7 +23,7 @@ const valuePresentation = (value, unitSystem) => {
 
 const VerticalSpeed = ({ value }) => {
   const { t } = useI18n()
-  const { unitSystem } = useSelector(state => state.userPreferences)
+  const { unitSystem } = useSelector(selectUserPreferences)
   const units = unitSystem === METRIC ? 'kmh' : 'mph'
 
   return (
