@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice, createEntityAdapter } from '@reduxjs/too
 import Api from 'api'
 
 const countriesAdapter = createEntityAdapter({
-  sortComparer: (a, b) => a.name.localeCompare(b.name)
+  sortComparer: (a, b) => a.name?.localeCompare(b.name)
 })
 
 const { selectById: selectCountry } = countriesAdapter.getSelectors(
@@ -44,11 +44,14 @@ const countriesSlice = createSlice({
     },
     [loadCountry.fulfilled]: (state, { payload }) => {
       const { id, ...changes } = payload
-      countriesAdapter.updateOne(state, { id: Number(id), changes, status: 'loaded' })
+      countriesAdapter.updateOne(state, {
+        id: Number(id),
+        changes: { ...changes, status: 'loaded' }
+      })
     },
     [loadCountry.rejected]: (state, { meta }) => {
       const { arg: id } = meta
-      countriesAdapter.updateOne(state, { id: Number(id), status: 'error' })
+      countriesAdapter.updateOne(state, { id: Number(id), changes: { status: 'error' } })
     }
   }
 })
