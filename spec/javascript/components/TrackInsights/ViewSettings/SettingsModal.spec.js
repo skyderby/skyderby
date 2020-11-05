@@ -3,8 +3,7 @@ import { fireEvent, waitFor } from '@testing-library/react'
 import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
 
 import createModalRoot from 'testHelpers/createModalRoot'
-import { SINGLE_CHART, MULTI_CHART } from 'redux/userPreferences/chartMode'
-import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
+import { METRIC, IMPERIAL, SINGLE_CHART, MULTI_CHART } from 'redux/userPreferences'
 import SettingsModal from 'components/TrackInsights/ViewSettings/SettingsModal'
 
 describe('SettingsModal', () => {

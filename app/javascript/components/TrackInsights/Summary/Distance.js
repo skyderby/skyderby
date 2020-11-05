@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
 import { useI18n } from 'components/TranslationsProvider'
-import { METRIC, IMPERIAL } from 'redux/userPreferences/unitSystem'
+import { selectUserPreferences, METRIC, IMPERIAL } from 'redux/userPreferences'
 import { metersToMiles } from 'utils/unitsConversion'
 
 import WindEffect from './WindEffect'
@@ -22,7 +22,7 @@ const valuePresentation = (value, unitSystem) => {
 
 const Distance = ({ value, zeroWindValue }) => {
   const { t } = useI18n()
-  const { unitSystem } = useSelector(state => state.userPreferences)
+  const { unitSystem } = useSelector(selectUserPreferences)
   const units = unitSystem === METRIC ? 'm' : 'mi'
 
   return (
