@@ -1,3 +1,3 @@
 json.key_format! camelize: :lower
 
-json.extract! @country, :id, :name, :code
+json.partial! 'country', country: @country

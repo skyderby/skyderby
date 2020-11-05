@@ -1,13 +1,29 @@
 describe Api::V1::ManufacturersController do
   render_views
 
-  it '#index' do
-    get :index, format: :json
+  describe '#index' do
+    it 'returns correct fields' do
+      get :index, format: :json
 
-    expect(response).to be_successful
-    fields = response.parsed_body['items'].map(&:keys).flatten.uniq
+      expect(response).to be_successful
+      fields = response.parsed_body['items'].map(&:keys).flatten.uniq
 
-    expect(fields).to match(%w[id name code])
+      expect(fields).to match(%w[id name code])
+    end
+
+    it 'filters by ids' do
+      tony = manufacturers(:tony)
+      rd = manufacturers(:rd)
+
+      3.times { |idx| Manufacturer.create!(name: 'test', code: idx) }
+
+      get :index, format: :json, params: { ids: [tony.id, rd.id] }
+
+      expect(response).to be_successful
+
+      codes = response.parsed_body.fetch('items').map { |el| el['code'] }
+      expect(codes).to match_array([tony.code, rd.code])
+    end
   end
 
   it '#show' do
