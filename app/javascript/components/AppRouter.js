@@ -44,7 +44,7 @@ const AppRouter = () => {
       <Route path="/suits/:id/edit" component={SuitsEdit} />
       <Route path="/suits/:id" component={SuitsShow} />
 
-      {!currentUser.authorized && (
+      {!currentUser?.authorized && (
         <>
           <Route path="/sign-in" component={UsersSignIn} />
           <Route path="/sign-up" component={UsersSignUp} />
