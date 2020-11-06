@@ -33,17 +33,16 @@ const suitUsageStatsSlice = createSlice({
   initialState: suitUsageStatsAdapter.getInitialState({ loading: {} }),
   reducers: {},
   extraReducers: {
-    [loadUsageStats.pending]: (state, { meta }) => {
+    [loadFilteredUsageStats.pending]: (state, { meta }) => {
       const { arg: ids } = meta
       ids.forEach(id => (state.loading[id] = true))
     },
-    [loadUsageStats.fulfilled]: (state, { payload, meta }) => {
+    [loadFilteredUsageStats.fulfilled]: (state, { payload: items, meta }) => {
       const { arg: ids } = meta
-      const { items } = payload
       suitUsageStatsAdapter.upsertMany(state, items)
       ids.forEach(id => delete state.loading[id])
     },
-    [loadUsageStats.rejected]: (state, { meta }) => {
+    [loadFilteredUsageStats.rejected]: (state, { meta }) => {
       const { arg: ids } = meta
       ids.forEach(id => delete state.loading[id])
     }
