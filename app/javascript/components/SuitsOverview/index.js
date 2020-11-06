@@ -3,16 +3,16 @@ import PropTypes from 'prop-types'
 
 import Highchart from 'components/Highchart'
 
-import { ChartContainer } from './elements'
 import useChartOptions from './useChartOptions'
+import styles from './styles.module.scss'
 
 const SuitsOverview = ({ popularity, allManufacturers }) => {
   const options = useChartOptions(popularity, allManufacturers)
 
   return (
-    <ChartContainer>
+    <div className={styles.chartContainer}>
       <Highchart autoResize options={options} />
-    </ChartContainer>
+    </div>
   )
 }
 
