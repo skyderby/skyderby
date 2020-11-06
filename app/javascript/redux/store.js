@@ -10,6 +10,7 @@ import session from './session'
 import suits from 'redux/suits'
 import suitUsageStats from 'redux/suitUsageStats'
 import terrainProfiles from 'redux/terrainProfiles'
+import terrainProfileMeasurements from 'redux/terrainProfileMeasurements'
 import tracks from 'redux/tracks'
 import userPreferences from 'redux/userPreferences'
 
@@ -28,6 +29,7 @@ export const createStore = preloadedState =>
       suits,
       suitUsageStats,
       terrainProfiles,
+      terrainProfileMeasurements,
       tracks,
       userPreferences
     },
