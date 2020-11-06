@@ -1,0 +1,39 @@
+.title {
+  color: var(--grey-80);
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.subtitle {
+  color: var(--grey-70);
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.link {
+  align-items: center;
+  border-radius: var(--border-radius-sm);
+  color: var(--grey-80);
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template-columns: 5fr 1fr 1fr 1fr;
+  padding: 1rem;
+
+  &:hover {
+    background-color: var(--grey-10);
+    color: var(--grey-80);
+  }
+}
+
+.suitName {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.usageStat {
+  color: var(--grey-70);
+  text-align: center;
+}
