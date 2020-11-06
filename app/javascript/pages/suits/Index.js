@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { loadAllSuits } from 'redux/suits'
-import { loadUsageStats } from 'redux/suits/usageStats'
+import { loadUsageStats, selectUsageStatsEntities } from 'redux/suitUsageStats'
 import { createManufacturerSelector } from 'redux/manufacturers'
-import { createSuitsByMakeSelector, selectUsageStats } from 'redux/suits'
+import { createSuitsByMakeSelector } from 'redux/suits'
 import usePageStatus from 'hooks/usePageStatus'
 import AppShell from 'components/AppShell'
 import PageWrapper from 'components/PageWrapper'
@@ -21,7 +21,7 @@ const Index = ({ match }) => {
 
   const manufacturer = useSelector(createManufacturerSelector(makeId))
   const suits = useSelector(createSuitsByMakeSelector(makeId))
-  const stats = useSelector(selectUsageStats)
+  const stats = useSelector(selectUsageStatsEntities)
 
   useEffect(() => {
     onLoadStart()
