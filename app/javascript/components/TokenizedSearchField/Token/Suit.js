@@ -37,7 +37,7 @@ const Suit = ({ value, onClick, onDelete }) => {
     <li className={styles.suitContainer} onClick={handleTokenClick} title={title}>
       <div className={styles.type}>Suit</div>
       <div className={styles.value}>
-        <SuitLabel name={data.name} code={data.makeCode} />
+        <SuitLabel name={data.name} code={data.make?.code} />
         <button
           className={styles.deleteButton}
           title="Delete"
