@@ -27,6 +27,8 @@ export const selectPlaces = state => {
 
 export const createPlaceSelector = placeId => state => selectPlace(state, placeId)
 
+const selectIsLoading = (state, placeId) => state.places.loading[placeId]
+
 export const bulkLoadPlaces = ids => async (dispatch, getState) => {
   await Promise.all(ids.map(id => dispatch(loadPlace(id))))
 
@@ -50,33 +52,33 @@ export const loadPlace = createAsyncThunk(
     condition: (placeId, { getState }) => {
       if (!placeId) return false
 
-      const stateData = selectById(getState(), placeId)
-      if (['loaded', 'loading'].includes(stateData?.status)) return false
+      const state = getState()
+      const recordInStore = selectById(state, placeId)
+      const isLoading = selectIsLoading(state, placeId)
 
-      return true
+      return !recordInStore && !isLoading
     }
   }
 )
 
 const placesSlice = createSlice({
   name: 'places',
-  initialState: placesAdapter.getInitialState(),
+  initialState: placesAdapter.getInitialState({ loading: {} }),
   reducers: {},
   extraReducers: {
     [loadPlace.pending]: (state, { meta }) => {
-      const { arg: id } = meta
-      placesAdapter.upsertOne(state, { id: Number(id), status: 'loading' })
+      state.loading[meta.arg] = true
     },
     [loadPlace.fulfilled]: (state, { payload }) => {
-      const { id, ...changes } = payload
-      placesAdapter.updateOne(state, {
-        id: Number(id),
-        changes: { ...changes, status: 'loaded' }
+      delete state.loading[payload.id]
+
+      placesAdapter.addOne(state, {
+        id: Number(payload.id),
+        ...payload
       })
     },
     [loadPlace.rejected]: (state, { meta }) => {
-      const { arg: id } = meta
-      placesAdapter.updateOne(state, { id: Number(id), changes: { status: 'error' } })
+      delete state.loading[meta.arg]
     }
   }
 })
