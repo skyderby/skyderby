@@ -10,7 +10,7 @@ import FlightProfiles from 'components/FlightProfiles'
 import useTracksApi from 'hooks/useTracksApi'
 import { loadTrack } from 'redux/tracks'
 import { loadTrackPoints } from 'redux/tracks/points'
-import { loadTerrainProfileMeasurement } from 'redux/terrainProfiles/measurements'
+import { loadTerrainProfileMeasurement } from 'redux/terrainProfileMeasurements'
 
 const FlightProfilesPage = ({ location }) => {
   const dispatch = useDispatch()
