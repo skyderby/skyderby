@@ -10,6 +10,8 @@ const { selectById: selectCountry } = countriesAdapter.getSelectors(
   state => state.countries
 )
 
+const selectIsLoading = (state, profileId) => state.profiles.loading[profileId]
+
 const loadCountriesByIds = createAsyncThunk('countries/bulkLoad', async ids => {
   const data = await Api.Country.pickAll(ids)
 
@@ -20,7 +22,9 @@ export const bulkLoadCountries = ids => async (dispatch, getState) => {
   const state = getState()
   const idsToFetch = ids.filter(id => {
     const recordInStore = selectCountry(state, id)
-    return !['loaded', 'loading'].includes(recordInStore?.status)
+    const isLoading = selectIsLoading(state, id)
+
+    return !recordInStore && !isLoading
   })
 
   if (idsToFetch.length === 0) return
@@ -39,57 +43,51 @@ export const loadCountry = createAsyncThunk(
     condition: (countryId, { getState }) => {
       if (!countryId) return false
 
-      const stateData = selectCountry(getState(), countryId)
-      if (['loaded', 'loading'].includes(stateData?.status)) return false
+      const state = getState()
+      const recordInStore = selectCountry(state, countryId)
+      const isLoading = selectIsLoading(state, countryId)
 
-      return true
+      return !recordInStore && !isLoading
     }
   }
 )
 
 const countriesSlice = createSlice({
   name: 'countries',
-  initialState: countriesAdapter.getInitialState(),
+  initialState: countriesAdapter.getInitialState({ loading: {} }),
   reducers: {},
   extraReducers: {
     [loadCountry.pending]: (state, { meta }) => {
-      const { arg: id } = meta
-      countriesAdapter.upsertOne(state, { id: Number(id), status: 'loading' })
+      state.loading[meta.arg] = true
     },
     [loadCountry.fulfilled]: (state, { payload }) => {
-      const { id, ...changes } = payload
-      countriesAdapter.updateOne(state, {
-        id: Number(id),
-        changes: { ...changes, status: 'loaded' }
+      delete state.loading[payload.id]
+
+      countriesAdapter.addOne(state, {
+        id: Number(payload.id),
+        ...payload
       })
     },
     [loadCountry.rejected]: (state, { meta }) => {
-      const { arg: id } = meta
-      countriesAdapter.updateOne(state, { id: Number(id), changes: { status: 'error' } })
+      delete state.loading[meta.arg]
     },
     [bulkLoadCountries.pending]: (state, { meta }) => {
       const { arg: ids } = meta
-      countriesAdapter.upsertMany(
-        state,
-        ids.map(id => ({ id: Number(id), status: 'loading' }))
-      )
+      ids.forEach(id => (state.loading[id] = true))
     },
     [bulkLoadCountries.fulfilled]: (state, { payload }) => {
       const { items } = payload
-      countriesAdapter.updateMany(
+      countriesAdapter.addMany(
         state,
         items.map(({ id, ...changes }) => ({
           id: Number(id),
-          changes: { ...changes, status: 'loaded' }
+          ...changes
         }))
       )
     },
     [bulkLoadCountries.rejected]: (state, { meta }) => {
       const { arg: ids } = meta
-      countriesAdapter.updateMany(
-        state,
-        ids.map(id => ({ id: Number(id), changes: { status: 'error' } }))
-      )
+      ids.forEach(id => delete state.loading[id])
     }
   }
 })
