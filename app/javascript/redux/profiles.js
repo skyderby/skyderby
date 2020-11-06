@@ -23,11 +23,13 @@ export const loadProfile = createAsyncThunk(
   async id => await Api.Profile.findRecord(id),
   {
     condition: (profileId, { getState }) => {
+      if (!profileId) return false
+
       const state = getState()
-      const recordInState = selectProfile(state, profileId)
+      const recordInStore = selectProfile(state, profileId)
       const isLoading = selectIsLoading(state, profileId)
 
-      return !recordInState && !isLoading
+      return !recordInStore && !isLoading
     }
   }
 )
