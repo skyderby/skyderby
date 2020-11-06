@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import Highchart from 'components/Highchart'
 import { createTerrainProfileSelector } from 'redux/terrainProfiles'
-import { createMeasurementsSelector } from 'redux/terrainProfiles/measurements'
+import { createMeasurementsSelector } from 'redux/terrainProfileMeasurements'
 
 const tooltip = {
   headerFormat: `
@@ -14,17 +14,23 @@ const tooltip = {
   pointFormat: '<span style="font-size: 16px">↓{point.y} →{point.x}</span><br/>'
 }
 
+const calcMeasurementPoints = measurements => {
+  const records = measurements?.records || []
+
+  return records.map(el => [
+    el.distance,
+    el.altitude,
+    records[records.length - 1].altitude
+  ])
+}
+
 const TerrainProfile = ({ chart, terrainProfileId }) => {
   const terrainProfile = useSelector(createTerrainProfileSelector(terrainProfileId))
   const measurements = useSelector(createMeasurementsSelector(terrainProfileId))
 
-  if (!terrainProfile) return null
+  if (!terrainProfile || !measurements) return null
 
-  const measurementPoints = measurements.map(el => [
-    el.distance,
-    el.altitude,
-    measurements[measurements.length - 1].altitude
-  ])
+  const measurementPoints = calcMeasurementPoints(measurements)
 
   const name = `${terrainProfile.place.name} - ${terrainProfile.name}`
 

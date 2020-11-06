@@ -37,7 +37,7 @@ const Place = ({ value, onClick, onDelete }) => {
     <li className={styles.placeContainer} onClick={handleTokenClick} title={title}>
       <div className={styles.type}>Place</div>
       <div className={styles.value}>
-        <PlaceLabel name={data.name} code={data.countryCode} />
+        <PlaceLabel name={data.name} code={data.country.code} />
         <button
           className={styles.deleteButton}
           title="Delete"

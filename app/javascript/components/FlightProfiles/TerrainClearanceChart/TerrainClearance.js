@@ -6,7 +6,7 @@ import Highchart from 'components/Highchart'
 import { createTrackSelector } from 'redux/tracks'
 import { createProfileSelector } from 'redux/profiles'
 import { createPointsSelector } from 'redux/tracks/points'
-import { createMeasurementsSelector } from 'redux/terrainProfiles/measurements'
+import { createMeasurementsSelector } from 'redux/terrainProfileMeasurements'
 import { calculateTerrainClearance } from 'utils/flightProfiles'
 
 const TerrainClearance = ({ chart, trackId, terrainProfileId, ...props }) => {
@@ -17,7 +17,7 @@ const TerrainClearance = ({ chart, trackId, terrainProfileId, ...props }) => {
 
   if (!track || !points || !measurements) return null
 
-  const chartPoints = calculateTerrainClearance(points, measurements)
+  const chartPoints = calculateTerrainClearance(points, measurements.records)
 
   const name = `${profile?.name || track.pilotName} - #${trackId}`
 
