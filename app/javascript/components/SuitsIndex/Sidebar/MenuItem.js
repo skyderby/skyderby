@@ -1,16 +1,17 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { MenuLink, LinkContent, Title, Subtitle } from './elements'
+import styles from './styles.module.scss'
 
 const MenuItem = ({ title, subtitle, ...props }) => (
   <li>
-    <MenuLink {...props}>
-      <LinkContent>
-        <Title>{title}</Title>
-        <Subtitle>{subtitle}</Subtitle>
-      </LinkContent>
-    </MenuLink>
+    <NavLink className={styles.link} {...props}>
+      <div className={styles.linkContent}>
+        <div className={styles.title}>{title}</div>
+        <div className={styles.subtitle}>{subtitle}</div>
+      </div>
+    </NavLink>
   </li>
 )
 
