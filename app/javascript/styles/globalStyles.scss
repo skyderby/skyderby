@@ -54,6 +54,10 @@ html, body {
   font-family: "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+a {
+  text-decoration: none;
+}
+
 hr {
   border: 0;
   border-top: solid 1px var(--grey-20);
@@ -72,4 +76,10 @@ label {
 
 table {
   border-collapse: collapse;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }

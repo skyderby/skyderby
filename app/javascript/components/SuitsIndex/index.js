@@ -3,17 +3,17 @@ import PropTypes from 'prop-types'
 
 import Sidebar from './Sidebar'
 
-import { Container, Content } from './elements'
+import styles from './styles.module.scss'
 
 const SuitsIndex = ({ children }) => {
   return (
-    <Container>
+    <div className={styles.container}>
       <Sidebar />
 
       <div>
-        <Content>{children}</Content>
+        <div className={styles.content}>{children}</div>
       </div>
-    </Container>
+    </div>
   )
 }
 
