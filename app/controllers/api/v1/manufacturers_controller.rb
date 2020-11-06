@@ -80,7 +80,7 @@ module Api
       end
 
       def apply_filters(relation)
-        return relation if params[:ids].empty?
+        return relation if params[:ids].blank?
 
         relation.where(id: params[:ids])
       end

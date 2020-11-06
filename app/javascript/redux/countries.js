@@ -3,15 +3,29 @@ import { createAsyncThunk, createSlice, createEntityAdapter } from '@reduxjs/too
 import Api from 'api'
 
 const countriesAdapter = createEntityAdapter({
-  sortComparer: (a, b) => a.name.localeCompare(b.name)
+  sortComparer: (a, b) => a.name?.localeCompare(b.name)
 })
 
 const { selectById: selectCountry } = countriesAdapter.getSelectors(
   state => state.countries
 )
 
-export const bulkLoadCountries = ids => async dispatch => {
-  await Promise.all(ids.map(id => dispatch(loadCountry(id))))
+const loadCountriesByIds = createAsyncThunk('countries/bulkLoad', async ids => {
+  const data = await Api.Country.pickAll(ids)
+
+  return data
+})
+
+export const bulkLoadCountries = ids => async (dispatch, getState) => {
+  const state = getState()
+  const idsToFetch = ids.filter(id => {
+    const recordInStore = selectCountry(state, id)
+    return !['loaded', 'loading'].includes(recordInStore?.status)
+  })
+
+  if (idsToFetch.length === 0) return
+
+  return await dispatch(loadCountriesByIds(idsToFetch))
 }
 
 export const loadCountry = createAsyncThunk(
@@ -44,11 +58,38 @@ const countriesSlice = createSlice({
     },
     [loadCountry.fulfilled]: (state, { payload }) => {
       const { id, ...changes } = payload
-      countriesAdapter.updateOne(state, { id: Number(id), changes, status: 'loaded' })
+      countriesAdapter.updateOne(state, {
+        id: Number(id),
+        changes: { ...changes, status: 'loaded' }
+      })
     },
     [loadCountry.rejected]: (state, { meta }) => {
       const { arg: id } = meta
-      countriesAdapter.updateOne(state, { id: Number(id), status: 'error' })
+      countriesAdapter.updateOne(state, { id: Number(id), changes: { status: 'error' } })
+    },
+    [bulkLoadCountries.pending]: (state, { meta }) => {
+      const { arg: ids } = meta
+      countriesAdapter.upsertMany(
+        state,
+        ids.map(id => ({ id: Number(id), status: 'loading' }))
+      )
+    },
+    [bulkLoadCountries.fulfilled]: (state, { payload }) => {
+      const { items } = payload
+      countriesAdapter.updateMany(
+        state,
+        items.map(({ id, ...changes }) => ({
+          id: Number(id),
+          changes: { ...changes, status: 'loaded' }
+        }))
+      )
+    },
+    [bulkLoadCountries.rejected]: (state, { meta }) => {
+      const { arg: ids } = meta
+      countriesAdapter.updateMany(
+        state,
+        ids.map(id => ({ id: Number(id), changes: { status: 'error' } }))
+      )
     }
   }
 })

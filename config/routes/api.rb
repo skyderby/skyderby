@@ -11,7 +11,7 @@ namespace :api, module: :api, defaults: { format: :json } do
     end
     resources :virtual_competitions
 
-    resources :countries, only: :show
+    resources :countries, only: %i[index show]
     resources :places, only: %i[index show] do
       scope module: :places do
         collection do
