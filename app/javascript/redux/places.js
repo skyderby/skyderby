@@ -11,11 +11,9 @@ const { selectById, selectAll } = placesAdapter.getSelectors(state => state.plac
 
 export const selectPlace = (state, placeId) => {
   const place = selectById(state, placeId)
-
   if (!place) return null
 
   const country = selectCountry(state, place.countryId)
-
   return { ...place, country }
 }
 
@@ -76,8 +74,7 @@ const placesSlice = createSlice({
         changes: { ...changes, status: 'loaded' }
       })
     },
-    [loadPlace.rejected]: (state, { meta, ...rest }) => {
-      console.log(rest)
+    [loadPlace.rejected]: (state, { meta }) => {
       const { arg: id } = meta
       placesAdapter.updateOne(state, { id: Number(id), changes: { status: 'error' } })
     }
