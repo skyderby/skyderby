@@ -2,6 +2,7 @@ import Country from './Country'
 import Manufacturer from './Manufacturer'
 import Place from './Place'
 import Profile from './Profile'
+import Registration from './Registration'
 import Session from './Session'
 import Suit from './Suit'
 import TerrainProfile from './TerrainProfile'
@@ -14,6 +15,7 @@ const Api = {
   Manufacturer,
   Place,
   Profile,
+  Registration,
   Session,
   Suit,
   TerrainProfile,

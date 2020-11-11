@@ -1,7 +1,8 @@
 @import 'styles/breakpoints.scss';
 
 .container {
-  height: 100%;
+  background-color: var(--white);
+  min-height: 100%;
 
   @include sm-screen {
     display: flex;
@@ -20,6 +21,7 @@
   @include sm-screen {
     border-radius: var(--border-radius-md);
     box-shadow: var(--block-box-shadow);
+    margin: 2rem auto;
     padding: 1rem 0;
     width: 400px;
   }
