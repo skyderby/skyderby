@@ -11,11 +11,9 @@ const CurrentUser = ({ user }) => {
   } = user
 
   return (
-    <li>
-      <Link to={`/profiles/${profileId}`} className={styles.profileLink}>
-        <img src={thumb} />
-      </Link>
-    </li>
+    <Link to={`/profiles/${profileId}`} className={styles.profileLink}>
+      <img src={thumb} />
+    </Link>
   )
 }
 
