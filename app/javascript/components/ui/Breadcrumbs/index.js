@@ -1,29 +1,14 @@
 import React, { Fragment } from 'react'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 import ChevronRight from 'icons/chevron-right'
 
-const BreadcrumbsContainer = styled.ul`
-  align-items: center;
-  display: flex;
-  font-family: 'Proxima Nova Regular';
-  margin: 0;
-  padding: 0.5rem 0;
+import styles from './styles.module.scss'
 
-  svg {
-    height: 0.5em;
-  }
-
-  > :not(:last-child) {
-    margin-right: 0.5em;
-  }
-`
-
-const Item = styled.li``
+const Item = props => <li {...props} />
 
 const Breadcrumbs = ({ children }) => (
-  <BreadcrumbsContainer>
+  <ul className={styles.container}>
     {Array.isArray(children)
       ? children.map((node, idx) => (
           <Fragment key={idx}>
@@ -32,7 +17,7 @@ const Breadcrumbs = ({ children }) => (
           </Fragment>
         ))
       : { children }}
-  </BreadcrumbsContainer>
+  </ul>
 )
 
 Breadcrumbs.Item = Item

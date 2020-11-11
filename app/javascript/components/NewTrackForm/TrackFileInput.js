@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 
 import Api from 'api'
 import FileInput from 'components/ui/FileInput'
-
-import { ErrorMessage } from './elements'
+import ErrorMessage from 'components/ui/ErrorMessage'
 
 const TrackFileInput = ({ onChange, onUploadStart, onUploadEnd, isInvalid }) => {
   const [isLoading, setIsLoading] = useState(false)

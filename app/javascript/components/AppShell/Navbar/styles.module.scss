@@ -129,3 +129,10 @@
     }
   }
 }
+
+.uploadTrack {
+  composes: button from '~styles/button.module.scss';
+  composes: cta from '~styles/button.module.scss';
+
+  margin-right: 2rem;
+}
