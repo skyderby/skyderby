@@ -54,6 +54,10 @@ html, body {
   font-family: "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+body.modalShown {
+  overflow: hidden;
+}
+
 a {
   text-decoration: none;
 }

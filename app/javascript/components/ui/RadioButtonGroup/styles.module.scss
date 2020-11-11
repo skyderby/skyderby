@@ -1,0 +1,41 @@
+.button {
+  composes: button from '~styles/button.module.scss';
+
+  display: inline-block;
+  &:first-child:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  &:not(:first-child):not(:last-child) {
+    border-radius: 0;
+  }
+
+  &:last-child:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  &:not(:first-child) {
+    margin-left: -1px;
+  }
+
+  > input {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    pointer-events: none;
+  }
+
+  &:hover + .button {
+    border-left-color: var(--active-border-color);
+  }
+}
+
+.active {
+  --border-color: var(--active-border-color);
+  --text-color: var(--active-text-color);
+
+  & + .button {
+    border-left-color: var(--active-border-color);
+  }
+}
