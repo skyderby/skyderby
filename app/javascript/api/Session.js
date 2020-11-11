@@ -10,7 +10,7 @@ const Session = {
   },
 
   login: async user => {
-    const { data } = await axios.post(
+    const { data, headers } = await axios.post(
       '/api/users/sign_in',
       { user },
       {
@@ -22,11 +22,9 @@ const Session = {
       }
     )
 
-    const { newCsrfToken, ...userData } = data
+    setCSRFToken(headers['new-csrf-token'])
 
-    setCSRFToken(newCsrfToken)
-
-    return userData
+    return data
   },
 
   logout: async () => {

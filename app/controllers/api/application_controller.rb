@@ -1,13 +1,11 @@
 module Api
   class ApplicationController < ::ApplicationController
+    include UnderscoreParams
+    include GlobalErrorHandling
+
     skip_before_action :verify_authenticity_token
-    before_action :underscore_params!
 
     private
-
-    def underscore_params!
-      params.deep_transform_keys!(&:underscore)
-    end
 
     def current_page
       [params[:page].to_i, 1].max

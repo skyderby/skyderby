@@ -28,7 +28,6 @@
   display: grid;
   grid-template-columns: 1rem 3fr 7fr 15rem;
   grid-gap: 0.75rem 0rem;
-  font-family: 'Proxima Nova Regular';
   padding-top: 1rem;
   position: relative;
 
@@ -52,4 +51,22 @@
   display: flex;
   justify-content: space-between;
   grid-column: 1/5;
+
+  button:not(:last-child) {
+    margin-right: 1rem;
+  }
+}
+
+.primaryButton {
+  composes: button from '~styles/button.module.scss';
+  composes: primary from '~styles/button.module.scss';
+}
+
+.secondaryButton {
+  composes: button from '~styles/button.module.scss';
+}
+
+.dangerButton {
+  composes: button from '~styles/button.module.scss';
+  composes: red from '~styles/button.module.scss';
 }

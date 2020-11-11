@@ -9,6 +9,8 @@ Skyderby::Application.routes.draw do
   devise_scope :user do
     post '/api/users/sign_in', to: 'api/users/sessions#create'
     delete '/api/users/sign_out', to: 'api/users/sessions#destroy'
+
+    post '/api/users', to: 'api/users/registrations#create'
   end
 
   # React App
