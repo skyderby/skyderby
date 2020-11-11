@@ -7,7 +7,8 @@ import { selectUserPreferences, updatePreferences } from 'redux/userPreferences'
 import FlatButton from 'components/ui/FlatButton'
 import CogIcon from 'icons/cog.svg'
 import SettingsModal from './SettingsModal'
-import { Container } from './elements'
+
+import styles from './styles.module.scss'
 
 const ViewSettings = ({ straightLine, setStraightLine }) => {
   const { t } = useI18n()
@@ -22,7 +23,7 @@ const ViewSettings = ({ straightLine, setStraightLine }) => {
   }
 
   return (
-    <Container>
+    <div className={styles.container}>
       <FlatButton active={straightLine} onClick={() => setStraightLine(!straightLine)}>
         Straight line
       </FlatButton>
@@ -37,7 +38,7 @@ const ViewSettings = ({ straightLine, setStraightLine }) => {
         onSubmit={handleSave}
         onHide={() => setShowModal(false)}
       />
-    </Container>
+    </div>
   )
 }
 

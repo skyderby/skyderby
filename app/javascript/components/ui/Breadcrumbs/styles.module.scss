@@ -1,0 +1,14 @@
+.container {
+  align-items: center;
+  display: flex;
+  margin: 0;
+  padding: 0.5rem 0;
+
+  svg {
+    height: 0.5em;
+  }
+
+  > :not(:last-child) {
+    margin-right: 0.5em;
+  }
+}

@@ -6,13 +6,14 @@ import FlatButton from 'components/ui/FlatButton'
 import Input from 'components/ui/Input'
 
 import SuitSelect from './SuitSelect'
-import { InputContainer, InputModeToggle, ErrorMessage } from './elements'
+
+import styles from './styles.module.scss'
 
 const TrackSuitField = () => {
   const { t } = useI18n()
 
   return (
-    <InputContainer>
+    <div className={styles.inputContainer}>
       <Field name="suitId">
         {({
           field: { name, ...props },
@@ -26,7 +27,7 @@ const TrackSuitField = () => {
               {...props}
               onChange={value => setFieldValue(name, value)}
             />
-            {touched && error && <ErrorMessage>{error}</ErrorMessage>}
+            {touched && error && <div className={styles.errorMessage}>{error}</div>}
           </>
         )}
       </Field>
@@ -41,14 +42,14 @@ const TrackSuitField = () => {
               {...field}
             />
 
-            {touched && error && <ErrorMessage>{error}</ErrorMessage>}
+            {touched && error && <div className={styles.errorMessage}>{error}</div>}
           </>
         )}
       </Field>
 
       <Field name="formSupportData.suitInputMode">
         {({ field: { value, name }, form: { setFieldValue } }) => (
-          <InputModeToggle>
+          <div className={styles.inputModeToggle}>
             <span>
               {value === 'select'
                 ? t('tracks.form.toggle_suit_caption')
@@ -62,10 +63,10 @@ const TrackSuitField = () => {
                 ? t('tracks.form.toggle_suit_link')
                 : t('tracks.form.toggle_suit_link_select')}
             </FlatButton>
-          </InputModeToggle>
+          </div>
         )}
       </Field>
-    </InputContainer>
+    </div>
   )
 }
 
