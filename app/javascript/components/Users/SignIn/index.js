@@ -7,9 +7,10 @@ import PropTypes from 'prop-types'
 
 import { login } from 'redux/session'
 import PageWrapper from 'components/Users/PageWrapper'
+import Separator from 'components/Users/Separator'
 import { useI18n } from 'components/TranslationsProvider'
 import validationSchema from './validationSchema'
-import styles from './styles.module.scss'
+import styles from 'components/Users/styles.module.scss'
 
 const SignIn = ({ afterLoginUrl }) => {
   const dispatch = useDispatch()
@@ -34,7 +35,7 @@ const SignIn = ({ afterLoginUrl }) => {
         validationSchema={validationSchema}
       >
         {({ touched, errors, handleSubmit, isSubmitting }) => (
-          <form onSubmit={handleSubmit} className={styles.form}>
+          <form onSubmit={handleSubmit} className={styles.container}>
             {errors.serverError && (
               <p className={styles.serverError}>
                 <strong>{errors.serverError.name}</strong>: {errors.serverError.message}
@@ -68,7 +69,7 @@ const SignIn = ({ afterLoginUrl }) => {
               )}
             </div>
 
-            <Link to="/forgot-password" className={styles.forgotPassword}>
+            <Link to="/forgot-password" className={styles.link}>
               {t('devise.shared.links.forgot_your_password')}
             </Link>
 
@@ -80,11 +81,7 @@ const SignIn = ({ afterLoginUrl }) => {
               {t('devise.sessions.new.sign_in')}
             </button>
 
-            <div className={styles.separator}>
-              <div className={styles.separatorLine} />
-              <span>{t('general.or')}</span>
-              <div className={styles.separatorLine} />
-            </div>
+            <Separator>{t('general.or')}</Separator>
 
             <Link
               to="/sign-up"

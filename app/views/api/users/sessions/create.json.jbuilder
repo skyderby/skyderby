@@ -3,8 +3,6 @@ json.key_format! camelize: :lower
 user = Current.user
 profile = Current.profile
 
-json.new_csrf_token form_authenticity_token
-
 json.authorized true
 json.user_id user.id
 json.email user.email
