@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   include Internationalization
 
   include DeviseOverrides
-  include AuthorizationErrorHandling
+  include GlobalErrorHandling
 
   include CurrentAnnouncements
 
