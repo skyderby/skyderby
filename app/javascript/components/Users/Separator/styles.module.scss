@@ -1,0 +1,24 @@
+@import 'styles/breakpoints.scss';
+
+.separator {
+  color: var(--grey-50);
+  display: flex;
+  align-items: center;
+
+  span {
+    margin: 0 0.5rem;
+    text-transform: lowercase;
+  }
+
+  @include sm-screen {
+    margin: 0.5rem 0;
+  }
+}
+
+.separatorLine {
+  height: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  border-radius: 1px;
+  border: solid 1px var(--grey-30);
+}

@@ -1,13 +1,11 @@
 @import 'styles/breakpoints.scss';
 
 .overlay {
-  align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
   bottom: 0;
-  display: flex;
-  justify-content: center;
   left: 0;
-  padding-bottom: 10vh;
+  overflow-x: hidden;
+  overflow-y: auto;
   position: fixed;
   right: 0;
   top: 0;
@@ -22,10 +20,12 @@
   flex-direction: column;
   width: 90vw;
   overflow: hidden;
+  margin: 1rem auto;
 
   @include sm-screen {
     min-width: 400px;
     max-width: 80vw;
+    margin: 2rem auto;
 
     &[data-size='sm'] {
       width: 500px;
@@ -86,4 +86,8 @@
   > :not(:last-child) {
     margin-right: 0.5rem;
   }
+}
+
+.body {
+  padding: 1rem;
 }

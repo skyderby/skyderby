@@ -1,13 +1,22 @@
 @import 'styles/breakpoints.scss';
 
 .button {
+  --background-color: var(--white);
+  --border-color: var(--grey-30);
+  --text-color: var(--grey-70);
+  --outline-color: var(--blue-60-rgb);
+  --active-background-color: var(--white);
+  --active-border-color: var(--blue-60);
+  --active-text-color: var(--blue-60);
+
   appearance: none;
-  background-color: var(--white);
+  background-color: var(--background-color);
   border-radius: var(--border-radius-md);
-  border: solid 1px var(--grey-30);
-  color: var(--grey-70);
+  border: solid 1px var(--border-color);
+  color: var(--text-color);
   cursor: pointer;
   flex-grow: 0;
+  font-weight: normal;
   line-height: normal;
   outline: none;
   padding: 0.25rem 0.75rem;
@@ -18,11 +27,7 @@
   transition-property: box-shadow, background-color, border-color, color;
 
   &:focus {
-    box-shadow: 0 0 0 0.25rem rgba(var(--blue-60-rgb), 0.5);
-  }
-
-  &:not(:disabled):hover {
-    color: var(--grey-80);
+    box-shadow: 0 0 0 0.25rem rgba(var(--outline-color), 0.5);
   }
 
   &:disabled {
@@ -34,8 +39,9 @@
 
     &:not(:disabled):hover,
     &:focus {
-      border-color: var(--blue-60);
-      color: var(--blue-60);
+      background-color: var(--active-background-color);
+      border-color: var(--active-border-color);
+      color: var(--active-text-color);
     }
   }
 }
@@ -61,72 +67,54 @@
 }
 
 .cta {
-  composes: sizeLg;
+  composes: rounded;
 
-  color: var(--white);
-  background-color: var(--blue-50);
-  border-color: var(--blue-50);
-  border-radius: 1.5em;
+  --background-color: var(--blue-50);
+  --border-color: var(--blue-50);
+  --text-color: var(--white);
+  --active-background-color: var(--blue-60);
+  --active-border-color: var(--blue-60);
+  --active-text-color: var(--white);
+
   box-shadow: 0 3px 7px var(--box-shadow-color);
-
-  &:not(:disabled):hover,
-  &:active {
-    color: var(--white);
-  }
 
   @include sm-screen {
     &:not(:disabled):hover,
     &:focus {
-      color: var(--white);
-      background-color: var(--blue-60);
-      border-color: var(--blue-60);
       box-shadow: 0 5px 10px var(--box-shadow-color);
     }
   }
 }
 
 .red {
-  background-color: var(--red-70);
-  border-color: var(--red-70);
-  color: var(--white);
-
-  &:not(:disabled):hover,
-  &:focus {
-    background-color: var(--red-80);
-    border-color: var(--red-80);
-    color: var(--white);
-  }
-
-  &:focus {
-    box-shadow: 0 0 0 0.25rem rgba(var(--red-70-rgb), 0.5);
-  }
+  --background-color: var(--red-70);
+  --border-color: var(--red-70);
+  --text-color: var(--white);
+  --outline-color: var(--red-70-rgb);
+  --active-background-color: var(--red-80);
+  --active-border-color: var(--red-80);
+  --active-text-color: var(--white);
 
   &.outlined {
-    background-color: var(--white);
-    color: var(--red-70);
-
-    &:not(:disabled):hover,
-    &:focus {
-      background-color: var(--white);
-      border-color: var(--red-80);
-      color: var(--red-80);
-    }
+    --background-color: var(--white);
+    --text-color: var(--red-70);
+    --active-background-color: var(--white);
+    --active-border-color: var(--red-80);
+    --active-text-color: var(--red-80);
   }
 }
 
 .primary {
-  background-color: var(--green-40);
-  border-color: var(--green-40);
-  color: var(--white);
+  --background-color: var(--green-40);
+  --border-color: var(--green-40);
+  --text-color: var(--white);
+  --outline-color: var(--green-50-rgb);
+  --active-background-color: var(--green-50);
+  --active-border-color: var(--green-50);
+  --active-text-color: var(--white);
+}
 
-  &:focus {
-    box-shadow: 0 0 0 0.25rem rgba(var(--green-50-rgb), 0.5);
-  }
-
-  &:not(:disabled):hover,
-  &:focus {
-    background-color: var(--green-50);
-    border-color: var(--green-50);
-    color: var(--white);
-  }
+.flat {
+  --background-color: transparent;
+  --border-color: transparent;
 }

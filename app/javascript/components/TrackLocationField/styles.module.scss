@@ -1,0 +1,18 @@
+.inputContainer {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-gap: 0.125rem 0;
+  grid-column: 3;
+}
+
+.inputModeToggle {
+  font-size: 0.825rem;
+  line-height: normal;
+
+  margin: 0;
+}
+
+.errorMessage {
+  font-size: 0.825rem;
+  color: var(--red-80);
+}

@@ -4,9 +4,6 @@ import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
-import DefaultButton from 'components/ui/buttons/Default'
-import RedButton from 'components/ui/buttons/Red'
-import PrimaryButton from 'components/ui/buttons/Primary'
 import Input from 'components/ui/Input'
 import TrackSuitField from 'components/TrackSuitField'
 import TrackLocationField from 'components/TrackLocationField'
@@ -90,15 +87,22 @@ const EditForm = ({ fields, onSubmit, onDelete, onCancel }) => {
           <hr />
 
           <div className={styles.footer}>
-            <RedButton type="button" outlined onClick={onDelete}>
+            <button
+              className={styles.dangerButton}
+              type="button"
+              outlined
+              onClick={onDelete}
+            >
               {t('general.delete')}
-            </RedButton>
+            </button>
 
             <div>
-              <PrimaryButton type="submit">{t('general.save')}</PrimaryButton>
-              <DefaultButton type="button" onClick={onCancel}>
+              <button className={styles.primaryButton} type="submit">
+                {t('general.save')}
+              </button>
+              <button className={styles.secondaryButton} type="button" onClick={onCancel}>
                 {t('general.cancel')}
-              </DefaultButton>
+              </button>
             </div>
           </div>
         </form>

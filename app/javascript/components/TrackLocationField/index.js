@@ -6,13 +6,13 @@ import FlatButton from 'components/ui/FlatButton'
 import Input from 'components/ui/Input'
 
 import PlaceSelect from './PlaceSelect'
-import { InputContainer, InputModeToggle, ErrorMessage } from './elements'
+import styles from './styles.module.scss'
 
 const TrackLocationField = () => {
   const { t } = useI18n()
 
   return (
-    <InputContainer>
+    <div className={styles.inputContainer}>
       <Field name="placeId">
         {({
           field: { name, ...props },
@@ -26,7 +26,7 @@ const TrackLocationField = () => {
               {...props}
               onChange={value => setFieldValue(name, value)}
             />
-            {touched && error && <ErrorMessage>{error}</ErrorMessage>}
+            {touched && error && <div className={styles.errorMessage}>{error}</div>}
           </>
         )}
       </Field>
@@ -41,14 +41,14 @@ const TrackLocationField = () => {
               {...field}
             />
 
-            {touched && error && <ErrorMessage>{error}</ErrorMessage>}
+            {touched && error && <div className={styles.errorMessage}>{error}</div>}
           </>
         )}
       </Field>
 
       <Field name="formSupportData.placeInputMode">
         {({ field: { value, name }, form: { setFieldValue } }) => (
-          <InputModeToggle>
+          <div className={styles.inputModeToggle}>
             <span>
               {value === 'select'
                 ? t('tracks.form.toggle_place_caption')
@@ -62,10 +62,10 @@ const TrackLocationField = () => {
                 ? t('tracks.form.toggle_place_link')
                 : t('tracks.form.toggle_place_link_select')}
             </FlatButton>
-          </InputModeToggle>
+          </div>
         )}
       </Field>
-    </InputContainer>
+    </div>
   )
 }
 

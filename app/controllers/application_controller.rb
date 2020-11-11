@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
   include ProtectFromForgery
   include Internationalization
 
+  include GlobalErrorHandling
+
   include CurrentAnnouncements
 
   layout :layout_by_resource

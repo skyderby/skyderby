@@ -15,6 +15,8 @@ import SuitsShow from 'pages/suits/Show'
 import SuitsEdit from 'pages/suits/Edit'
 import UsersSignIn from 'pages/users/SignIn'
 import UsersSignUp from 'pages/users/SignUp'
+import EmailConfirmation from 'pages/users/EmailConfirmation'
+import SuccessRegistration from 'pages/users/SuccessRegistration'
 import Loading from 'components/PageWrapper/Loading'
 
 const AppRouter = () => {
@@ -48,6 +50,8 @@ const AppRouter = () => {
         <>
           <Route path="/sign-in" component={UsersSignIn} />
           <Route path="/sign-up" component={UsersSignUp} />
+          <Route path="/success-registration" component={SuccessRegistration} />
+          <Route path="/email-confirmation" component={EmailConfirmation} />
         </>
       )}
     </Switch>
