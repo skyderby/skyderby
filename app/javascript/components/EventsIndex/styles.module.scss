@@ -1,0 +1,20 @@
+@import 'styles/breakpoints.scss';
+
+.container {
+  display: grid;
+  grid-gap: 1rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  @include lg-screen {
+    width: 1200px;
+  }
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin: 0;
+}
