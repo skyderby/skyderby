@@ -76,7 +76,7 @@
   }
 }
 
-.rightMenu {
+.rightMenuDesktop {
   display: none;
   margin: 0;
   margin-left: auto;
@@ -88,6 +88,14 @@
 
   > li:not(:last-child) {
     margin-right: 0.5rem;
+  }
+}
+
+.menuMobile {
+  display: flex;
+
+  @include sm-screen {
+    display: none;
   }
 }
 
