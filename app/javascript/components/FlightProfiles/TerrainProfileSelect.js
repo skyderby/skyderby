@@ -3,12 +3,12 @@ import Select from 'react-select'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { loadTerrainProfiles, terrainProfilesSelector } from 'redux/terrainProfiles'
+import { loadTerrainProfiles, selectAllTerrainProfiles } from 'redux/terrainProfiles'
 import selectStyles from 'styles/selectStyles'
 
 const TerrainProfileSelect = ({ value, ...props }) => {
   const dispatch = useDispatch()
-  const terrainProfiles = useSelector(terrainProfilesSelector)
+  const terrainProfiles = useSelector(selectAllTerrainProfiles)
 
   useEffect(() => {
     dispatch(loadTerrainProfiles())

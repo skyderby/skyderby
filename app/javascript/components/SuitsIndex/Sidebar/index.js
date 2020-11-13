@@ -5,7 +5,8 @@ import { selectAllManufacturers } from 'redux/manufacturers'
 import { selectAllSuits } from 'redux/suits'
 
 import MenuItem from './MenuItem'
-import { Menu, Separator } from './elements'
+
+import styles from './styles.module.scss'
 
 const Sidebar = () => {
   const allManufacturers = useSelector(selectAllManufacturers)
@@ -26,10 +27,10 @@ const Sidebar = () => {
     .sort((a, b) => a.name.localeCompare(b.name))
 
   return (
-    <Menu>
+    <ul className={styles.menu}>
       <MenuItem exact to="/suits" title="Overview" />
 
-      <Separator />
+      <li className={styles.separator} />
 
       {activeManufacturers.map(el => (
         <MenuItem
@@ -40,7 +41,7 @@ const Sidebar = () => {
         />
       ))}
 
-      <Separator />
+      <li className={styles.separator} />
 
       {inactiveManufacturers.map(el => (
         <MenuItem
@@ -50,7 +51,7 @@ const Sidebar = () => {
           subtitle={`Products: ${productsCountByMake[el.id]}`}
         />
       ))}
-    </Menu>
+    </ul>
   )
 }
 

@@ -1,0 +1,36 @@
+@import 'styles/breakpoints.scss';
+
+.container {
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+
+  & > button {
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: var(--grey-70);
+  }
+}
+
+.formGroup {
+  display: grid;
+  grid-column-gap: 1rem;
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+
+  @include sm-screen {
+    align-items: center;
+    grid-template-columns: 13rem 1fr;
+  }
+}
+
+.primaryButton {
+  composes: button from '~styles/button.module.scss';
+  composes: primary from '~styles/button.module.scss';
+}
+
+.secondaryButton {
+  composes: button from '~styles/button.module.scss';
+}
