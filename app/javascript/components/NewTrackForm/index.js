@@ -64,7 +64,7 @@ const NewTrackForm = ({ isShown, onHide, loggedIn }) => {
         {({ values, handleSubmit, isSubmitting, resetForm, touched, errors }) => (
           <form onSubmit={handleSubmit}>
             <Modal.Body className={styles.container}>
-              {loggedIn || (
+              {!loggedIn && (
                 <>
                   <label>{t('activerecord.attributes.track.name')}</label>
                   <div className={styles.formGroup}>
@@ -186,13 +186,15 @@ const NewTrackForm = ({ isShown, onHide, loggedIn }) => {
             </Modal.Body>
 
             <Modal.Footer>
-              <button className={styles.primaryButton}
+              <button
+                className={styles.primaryButton}
                 type="submit"
                 disabled={isSubmitting || values.formSupportData.isUploading}
               >
                 {t('static_pages.index.track_form.submit')}
               </button>
-              <button className={styles.secondaryButton}
+              <button
+                className={styles.secondaryButton}
                 type="button"
                 disabled={isSubmitting || values.formSupportData.isUploading}
                 data-dismiss="modal"
