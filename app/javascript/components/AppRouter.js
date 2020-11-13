@@ -3,10 +3,12 @@ import { Switch, Route } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { loadSession, selectCurrentUser } from 'redux/session'
+import Home from 'pages/Home'
 import TracksEdit from 'pages/tracks/Edit'
 import TracksShow from 'pages/tracks/Show'
 import TracksIndex from 'pages/tracks/Index'
 import FlightProfiles from 'pages/FlightProfiles'
+import EventsIndex from  'pages/events/Index'
 import EventRoundMap from 'pages/events/RoundMap'
 import EventRoundReplay from 'pages/events/RoundReplay'
 import SuitsIndex from 'pages/suits/Index'
@@ -32,12 +34,14 @@ const AppRouter = () => {
 
   return (
     <Switch>
+      <Route exact path="/" component={Home} />
       <Route path="/flight_profiles" component={FlightProfiles} />
 
       <Route exact path="/tracks" component={TracksIndex} />
       <Route path="/tracks/:id/edit" component={TracksEdit} />
       <Route path="/tracks/:id" component={TracksShow} />
 
+      <Route exact path="/events" component={EventsIndex} />
       <Route path="/events/:id/rounds/:roundId/map" component={EventRoundMap} />
       <Route path="/events/:id/rounds/:roundId/replay" component={EventRoundReplay} />
 
