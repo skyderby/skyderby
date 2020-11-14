@@ -1,12 +1,9 @@
 import React, { useState } from 'react'
 
 const MenuMobile = () => {
-  const [opened, setOpened] = useState(false)
+  const [_opened, _setOpened] = useState(false)
 
-  return (
-    <ul>
-    </ul>
-  )
+  return <ul></ul>
 }
 
 export default MenuMobile
