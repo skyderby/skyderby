@@ -14,8 +14,12 @@ json.items @events do |record|
     :place_id,
     :competitors_count,
     :country_ids,
+    :range_from,
+    :range_to,
+    :is_official,
     :updated_at,
     :created_at
 
+  json.active record.active?
   json.path polymorphic_path(record.event)
 end

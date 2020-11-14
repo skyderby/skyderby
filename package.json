@@ -70,6 +70,7 @@
     "bootstrap-datepicker": "^1.7.1",
     "clsx": "^1.1.1",
     "core-js": "^3.6.5",
+    "date-fns": "^2.16.1",
     "formik": "^2.1.5",
     "geodesy": "^2.2.0",
     "highcharts": "^6.2.0",
