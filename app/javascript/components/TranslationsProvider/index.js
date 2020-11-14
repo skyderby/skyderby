@@ -7,9 +7,20 @@ import React, {
   createContext
 } from 'react'
 import I18n from 'i18n-js'
+import { format } from 'date-fns'
+import { enUS, ru, it, fr, es, de } from 'date-fns/locale'
 import Cookie from 'js-cookie'
 import supportedLocales from 'virtual-modules/i18n/supportedLocales'
 import PropTypes from 'prop-types'
+
+const dateLocales = {
+  en: enUS,
+  ru,
+  it,
+  fr,
+  es,
+  de
+}
 
 const TranslationsContext = createContext()
 const defaultLocale = 'en'
@@ -66,9 +77,12 @@ const TranslationsProvider = ({ children }) => {
   I18n.translations = translations[locale]
   I18n.locale = locale
 
+  const formatDate = (date, formatString) =>
+    format(date, formatString, { locale: dateLocales[locale] })
+
   return (
     <TranslationsContext.Provider
-      value={{ t: I18n.t, locale, changeLocale, supportedLocales }}
+      value={{ t: I18n.t, locale, formatDate, changeLocale, supportedLocales }}
     >
       {children}
     </TranslationsContext.Provider>
