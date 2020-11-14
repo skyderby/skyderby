@@ -2,8 +2,10 @@ module Api
   module Users
     class SessionsController < Devise::SessionsController
       include UnderscoreParams
-      
+
+      # rubocop:disable Rails/LexicallyScopedActionFilter
       after_action :set_new_csrf_token, only: %i[create destroy]
+      # rubocop:enable Rails/LexicallyScopedActionFilter
 
       clear_respond_to
       respond_to :json
