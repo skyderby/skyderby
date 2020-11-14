@@ -8,7 +8,7 @@ describe Api::V1::ManufacturersController do
       expect(response).to be_successful
       fields = response.parsed_body['items'].map(&:keys).flatten.uniq
 
-      expect(fields).to match(%w[id name code])
+      expect(fields).to match(%w[id name code active])
     end
 
     it 'filters by ids' do
@@ -32,10 +32,13 @@ describe Api::V1::ManufacturersController do
     get :show, params: { id: manufacturer.id }, format: :json
 
     expect(response).to be_successful
-    expect(response.parsed_body).to eql(
-      'id' => manufacturer.id,
-      'name' => manufacturer.name,
-      'code' => manufacturer.code
+    expect(response.parsed_body).to eq(
+      {
+        id: manufacturer.id,
+        active: false,
+        name: manufacturer.name,
+        code: manufacturer.code
+      }.stringify_keys
     )
   end
 
@@ -53,10 +56,10 @@ describe Api::V1::ManufacturersController do
 
       expect(response).to be_successful
       expect(response.parsed_body).to match(
-        hash_including(
-          'name' => 'New maker',
-          'code' => 'NM'
-        )
+        hash_including({
+          name: 'New maker',
+          code: 'NM'
+        }.stringify_keys)
       )
     end
 
