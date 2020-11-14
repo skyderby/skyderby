@@ -31,7 +31,6 @@ module Api
 
         relation.where(id: params[:ids])
       end
-
     end
   end
 end
