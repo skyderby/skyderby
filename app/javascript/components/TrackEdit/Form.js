@@ -87,12 +87,7 @@ const EditForm = ({ fields, onSubmit, onDelete, onCancel }) => {
           <hr />
 
           <div className={styles.footer}>
-            <button
-              className={styles.dangerButton}
-              type="button"
-              outlined
-              onClick={onDelete}
-            >
+            <button className={styles.dangerButton} type="button" onClick={onDelete}>
               {t('general.delete')}
             </button>
 
