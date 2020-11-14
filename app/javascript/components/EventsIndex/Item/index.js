@@ -53,7 +53,7 @@ const Item = ({ event }) => {
                 <span>
                   {category} - {count}
                 </span>
-                {idx < arr.length - 1 && <span className={styles.separator}>//</span>}
+                {idx < arr.length - 1 && <span className={styles.separator}>{'//'}</span>}
               </>
             ))}
           </div>
@@ -73,11 +73,21 @@ const Item = ({ event }) => {
 
 Item.propTypes = {
   event: PropTypes.shape({
-    path: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
     active: PropTypes.bool.isRequired,
-    startsAt: PropTypes.string.isRequired,
-    placeId: PropTypes.number
+    competitorsCount: PropTypes.objectOf(PropTypes.number).isRequired,
+    isOfficial: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired,
+    path: PropTypes.string.isRequired,
+    placeId: PropTypes.number,
+    rangeFrom: PropTypes.number,
+    rangeTo: PropTypes.number,
+    rules: PropTypes.oneOf([
+      'speed_distance_time',
+      'fai',
+      'hungary_boogie',
+      'single_elimination'
+    ]).isRequired,
+    startsAt: PropTypes.string.isRequired
   })
 }
 
