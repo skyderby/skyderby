@@ -1,10 +1,9 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
 import Pagination from 'components/Pagination'
-
+import Item from './Item'
 import styles from './styles.module.scss'
 
 const EventsIndex = ({ events, pagination, buildUrl }) => {
@@ -14,12 +13,9 @@ const EventsIndex = ({ events, pagination, buildUrl }) => {
     <div className={styles.container}>
       <h1 className={styles.title}>{t('application.header.competitions')}</h1>
 
-      {events &&
-        events.map(el => (
-          <Link key={el.path} to={el.path}>
-            {el.name}
-          </Link>
-        ))}
+      {events.map(event => (
+        <Item key={event.path} event={event} />
+      ))}
 
       <Pagination buildUrl={buildUrl} {...pagination} />
     </div>
