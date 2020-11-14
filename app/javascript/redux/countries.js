@@ -71,11 +71,11 @@ const countriesSlice = createSlice({
     [loadCountry.rejected]: (state, { meta }) => {
       delete state.loading[meta.arg]
     },
-    [bulkLoadCountries.pending]: (state, { meta }) => {
+    [loadCountriesByIds.pending]: (state, { meta }) => {
       const { arg: ids } = meta
       ids.forEach(id => (state.loading[id] = true))
     },
-    [bulkLoadCountries.fulfilled]: (state, { payload }) => {
+    [loadCountriesByIds.fulfilled]: (state, { payload }) => {
       const { items } = payload
       countriesAdapter.addMany(
         state,
@@ -85,7 +85,7 @@ const countriesSlice = createSlice({
         }))
       )
     },
-    [bulkLoadCountries.rejected]: (state, { meta }) => {
+    [loadCountriesByIds.rejected]: (state, { meta }) => {
       const { arg: ids } = meta
       ids.forEach(id => delete state.loading[id])
     }

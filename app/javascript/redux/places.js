@@ -29,8 +29,13 @@ export const selectPlaces = state => {
 
 export const createPlaceSelector = placeId => state => selectPlace(state, placeId)
 
-const loadPlacesByIds = createAsyncThunk('places/bulkLoad', async ids => {
-  return await Api.Places.pickAll(ids)
+const loadPlacesByIds = createAsyncThunk('places/bulkLoad', async (ids, { dispatch }) => {
+  const data = await Api.Place.pickAll(ids)
+
+  const countryIds = data.items.map(el => el.countryId)
+  await dispatch(bulkLoadCountries(countryIds))
+
+  return data
 })
 
 export const bulkLoadPlaces = ids => async (dispatch, getState) => {
@@ -44,10 +49,7 @@ export const bulkLoadPlaces = ids => async (dispatch, getState) => {
 
   if (idsToFetch.length === 0) return
 
-  const data = await dispatch(loadPlacesByIds(idsToFetch))
-  const countryIds = data.map(el => el.countryId)
-  await dispatch(bulkLoadCountries(countryIds))
-  return data
+  return await dispatch(loadPlacesByIds(idsToFetch))
 }
 
 export const loadPlace = createAsyncThunk(
@@ -91,11 +93,11 @@ const placesSlice = createSlice({
     [loadPlace.rejected]: (state, { meta }) => {
       delete state.loading[meta.arg]
     },
-    [bulkLoadPlaces.pending]: (state, { meta }) => {
+    [loadPlacesByIds.pending]: (state, { meta }) => {
       const { arg: ids } = meta
       ids.forEach(id => (state.loading[id] = true))
     },
-    [bulkLoadPlaces.fulfilled]: (state, { payload }) => {
+    [loadPlacesByIds.fulfilled]: (state, { payload }) => {
       const { items } = payload
       placesAdapter.addMany(
         state,
@@ -105,7 +107,7 @@ const placesSlice = createSlice({
         }))
       )
     },
-    [bulkLoadPlaces.rejected]: (state, { meta }) => {
+    [loadPlacesByIds.rejected]: (state, { meta }) => {
       const { arg: ids } = meta
       ids.forEach(id => delete state.loading[id])
     }
