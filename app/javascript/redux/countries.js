@@ -6,7 +6,7 @@ const countriesAdapter = createEntityAdapter({
   sortComparer: (a, b) => a.name?.localeCompare(b.name)
 })
 
-const { selectById: selectCountry } = countriesAdapter.getSelectors(
+export const { selectById: selectCountry } = countriesAdapter.getSelectors(
   state => state.countries
 )
 
@@ -91,7 +91,5 @@ const countriesSlice = createSlice({
     }
   }
 })
-
-export { selectCountry }
 
 export default countriesSlice.reducer

@@ -6,8 +6,8 @@ import TokenizedSearchField from 'components/TokenizedSearchField'
 
 const reduxState = {
   suits: {
-    allIds: [3],
-    byId: {
+    ids: [3],
+    entities: {
       3: {
         status: 'loaded',
         id: 3,
