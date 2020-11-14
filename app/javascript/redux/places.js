@@ -9,6 +9,8 @@ const placesAdapter = createEntityAdapter({
 
 const { selectById, selectAll } = placesAdapter.getSelectors(state => state.places)
 
+const selectIsLoading = (state, placeId) => state.places.loading[placeId]
+
 export const selectPlace = (state, placeId) => {
   const place = selectById(state, placeId)
   if (!place) return null
@@ -27,16 +29,25 @@ export const selectPlaces = state => {
 
 export const createPlaceSelector = placeId => state => selectPlace(state, placeId)
 
-const selectIsLoading = (state, placeId) => state.places.loading[placeId]
+const loadPlacesByIds = createAsyncThunk('places/bulkLoad', async ids => {
+  return await Api.Places.pickAll(ids)
+})
 
 export const bulkLoadPlaces = ids => async (dispatch, getState) => {
-  await Promise.all(ids.map(id => dispatch(loadPlace(id))))
+  const state = getState()
+  const idsToFetch = ids.filter(id => {
+    const recordInStore = selectPlace(state, id)
+    const isLoading = selectIsLoading(state, id)
 
-  const countryIds = Array.from(
-    new Set(selectAll(getState()).map(place => place.countryId))
-  )
+    return !recordInStore && !isLoading
+  })
 
+  if (idsToFetch.length === 0) return
+
+  const data = await dispatch(loadPlacesByIds(idsToFetch))
+  const countryIds = data.map(el => el.countryId)
   await dispatch(bulkLoadCountries(countryIds))
+  return data
 }
 
 export const loadPlace = createAsyncThunk(
@@ -79,6 +90,24 @@ const placesSlice = createSlice({
     },
     [loadPlace.rejected]: (state, { meta }) => {
       delete state.loading[meta.arg]
+    },
+    [bulkLoadPlaces.pending]: (state, { meta }) => {
+      const { arg: ids } = meta
+      ids.forEach(id => (state.loading[id] = true))
+    },
+    [bulkLoadPlaces.fulfilled]: (state, { payload }) => {
+      const { items } = payload
+      placesAdapter.addMany(
+        state,
+        items.map(({ id, ...changes }) => ({
+          id: Number(id),
+          ...changes
+        }))
+      )
+    },
+    [bulkLoadPlaces.rejected]: (state, { meta }) => {
+      const { arg: ids } = meta
+      ids.forEach(id => delete state.loading[id])
     }
   }
 })

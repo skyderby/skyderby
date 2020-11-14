@@ -67,8 +67,8 @@ export const loadAllSuits = createAsyncThunk(
   }
 )
 
-const makesSlice = createSlice({
-  name: 'makes',
+const suitsSlice = createSlice({
+  name: 'suits',
   initialState: suitsAdapter.getInitialState(),
   reducers: {},
   extraReducers: {
@@ -100,4 +100,4 @@ const makesSlice = createSlice({
   }
 })
 
-export default makesSlice.reducer
+export default suitsSlice.reducer
