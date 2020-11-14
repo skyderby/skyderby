@@ -2,24 +2,38 @@ import React from 'react'
 import { fireEvent, waitFor } from '@testing-library/react'
 
 import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
+import createModalRoot from 'testHelpers/createModalRoot.js'
 import NewTrackForm from 'components/NewTrackForm'
 
 describe('NewTrackForm', () => {
+  beforeAll(createModalRoot)
+
+  const defaultProps = {
+    isShown: true,
+    onHide: () => {}
+  }
+
   describe('conditional field visibility', () => {
     it('name visible when not logged in', () => {
-      const screen = renderWithAllProviders(<NewTrackForm loggedIn={false} />)
+      const screen = renderWithAllProviders(
+        <NewTrackForm loggedIn={false} {...defaultProps} />
+      )
 
       expect(screen.getByPlaceholderText('John Doe')).toBeInTheDocument()
     })
 
     it('name is not visible when logged in', () => {
-      const screen = renderWithAllProviders(<NewTrackForm loggedIn={true} />)
+      const screen = renderWithAllProviders(
+        <NewTrackForm loggedIn={true} {...defaultProps} />
+      )
 
       expect(screen.queryByPlaceholderText('Pilot')).not.toBeInTheDocument()
     })
 
     it('visibility button group is visible when logged in', () => {
-      const screen = renderWithAllProviders(<NewTrackForm loggedIn={true} />)
+      const screen = renderWithAllProviders(
+        <NewTrackForm loggedIn={true} {...defaultProps} />
+      )
 
       expect(screen.queryByText('Visibility')).toBeInTheDocument()
       expect(screen.queryByText('Public')).toBeInTheDocument()
@@ -28,7 +42,9 @@ describe('NewTrackForm', () => {
     })
 
     it('visibility button group is hidden when logged in', () => {
-      const screen = renderWithAllProviders(<NewTrackForm loggedIn={false} />)
+      const screen = renderWithAllProviders(
+        <NewTrackForm loggedIn={false} {...defaultProps} />
+      )
 
       expect(screen.queryByText('Visibility')).not.toBeInTheDocument()
       expect(screen.queryByText('Public')).not.toBeInTheDocument()
@@ -39,7 +55,9 @@ describe('NewTrackForm', () => {
 
   describe('validations', () => {
     it('name is required when not logged in', async () => {
-      const screen = renderWithAllProviders(<NewTrackForm loggedIn={false} />)
+      const screen = renderWithAllProviders(
+        <NewTrackForm loggedIn={false} {...defaultProps} />
+      )
 
       fireEvent.click(screen.getByText('Upload'))
 
@@ -49,7 +67,9 @@ describe('NewTrackForm', () => {
     })
 
     it('suit from select is required', async () => {
-      const screen = renderWithAllProviders(<NewTrackForm loggedIn={true} />)
+      const screen = renderWithAllProviders(
+        <NewTrackForm loggedIn={true} {...defaultProps} />
+      )
 
       fireEvent.click(screen.getByText('Upload'))
 
@@ -59,7 +79,9 @@ describe('NewTrackForm', () => {
     })
 
     it('suit from input is required', async () => {
-      const screen = renderWithAllProviders(<NewTrackForm loggedIn={true} />)
+      const screen = renderWithAllProviders(
+        <NewTrackForm loggedIn={true} {...defaultProps} />
+      )
 
       fireEvent.click(screen.getByText('Enter suit name'))
 
@@ -75,7 +97,9 @@ describe('NewTrackForm', () => {
     })
 
     it('location is required', async () => {
-      const screen = renderWithAllProviders(<NewTrackForm loggedIn={true} />)
+      const screen = renderWithAllProviders(
+        <NewTrackForm loggedIn={true} {...defaultProps} />
+      )
 
       fireEvent.click(screen.getByText('Upload'))
 

@@ -52,15 +52,19 @@ const Modal = ({ size = 'md', isShown = false, onHide = () => {}, title, childre
   )
 }
 
+const childrenType = PropTypes.oneOfType([
+  PropTypes.arrayOf(PropTypes.node),
+  PropTypes.node
+])
 const Body = ({ children, className }) => (
   <div className={cx(styles.body, className)}>{children}</div>
 )
-Body.propTypes = { children: PropTypes.node, className: PropTypes.string }
+Body.propTypes = { children: childrenType, className: PropTypes.string }
 
 const Footer = ({ children, className }) => (
   <div className={cx(styles.footer, className)}>{children}</div>
 )
-Footer.propTypes = { children: PropTypes.node, className: PropTypes.string }
+Footer.propTypes = { children: childrenType, className: PropTypes.string }
 
 Modal.Body = Body
 Modal.Footer = Footer
