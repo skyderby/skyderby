@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_23_143437) do
+ActiveRecord::Schema.define(version: 2020_11_13_075113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -148,6 +148,7 @@ ActiveRecord::Schema.define(version: 2020_08_23_143437) do
   create_table "manufacturers", id: :serial, force: :cascade do |t|
     t.string "name", limit: 510
     t.string "code", limit: 510
+    t.boolean "active", default: false, null: false
   end
 
   create_table "organizers", id: :serial, force: :cascade do |t|
@@ -531,36 +532,6 @@ ActiveRecord::Schema.define(version: 2020_08_23_143437) do
   add_foreign_key "tracks", "profiles"
   add_foreign_key "virtual_competitions", "place_finish_lines", column: "finish_line_id"
 
-  create_view "event_lists", sql_definition: <<-SQL
-      SELECT events.event_type,
-      events.event_id,
-      events.starts_at,
-      events.status,
-      events.visibility,
-      events.responsible_id,
-      events.updated_at,
-      events.created_at
-     FROM ( SELECT 'Event'::text AS event_type,
-              events_1.id AS event_id,
-              events_1.starts_at,
-              events_1.status,
-              events_1.visibility,
-              events_1.responsible_id,
-              events_1.updated_at,
-              events_1.created_at
-             FROM events events_1
-          UNION ALL
-           SELECT 'Tournament'::text AS text,
-              tournaments.id,
-              tournaments.starts_at,
-              1,
-              0,
-              tournaments.responsible_id,
-              tournaments.updated_at,
-              tournaments.created_at
-             FROM tournaments) events
-    ORDER BY events.starts_at DESC, events.created_at DESC;
-  SQL
   create_view "interval_top_scores", sql_definition: <<-SQL
       SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id, entities.custom_interval_id ORDER BY
           CASE
@@ -677,5 +648,74 @@ ActiveRecord::Schema.define(version: 2020_08_23_143437) do
               WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
               ELSE (- entities.result)
           END DESC;
+  SQL
+  create_view "event_lists", sql_definition: <<-SQL
+      SELECT events.event_type,
+      events.event_id,
+      events.name,
+      events.rules,
+      events.starts_at,
+      events.status,
+      events.visibility,
+      events.responsible_id,
+      events.place_id,
+      events.range_from,
+      events.range_to,
+      events.is_official,
+      events.competitors_count,
+      events.country_ids,
+      events.updated_at,
+      events.created_at
+     FROM ( SELECT 'Event'::text AS event_type,
+              events_1.id AS event_id,
+              events_1.name,
+              events_1.rules,
+              events_1.starts_at,
+              events_1.status,
+              events_1.visibility,
+              events_1.responsible_id,
+              events_1.place_id,
+              events_1.range_from,
+              events_1.range_to,
+              events_1.is_official,
+              COALESCE(json_object_agg(COALESCE(competitors_count.section_name, ''::character varying), competitors_count.count) FILTER (WHERE (competitors_count.section_name IS NOT NULL)), '{}'::json) AS competitors_count,
+              participant_countries.country_ids,
+              events_1.updated_at,
+              events_1.created_at
+             FROM ((events events_1
+               LEFT JOIN ( SELECT sections.event_id,
+                      sections.name AS section_name,
+                      count(competitors.id) AS count
+                     FROM (event_sections sections
+                       LEFT JOIN event_competitors competitors ON (((sections.event_id = competitors.event_id) AND (sections.id = competitors.section_id))))
+                    GROUP BY sections.event_id, sections.name) competitors_count ON ((events_1.id = competitors_count.event_id)))
+               LEFT JOIN ( SELECT competitors.event_id,
+                      COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS country_ids
+                     FROM (event_competitors competitors
+                       LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
+                    GROUP BY competitors.event_id) participant_countries ON ((events_1.id = participant_countries.event_id)))
+            GROUP BY events_1.id, participant_countries.country_ids
+          UNION ALL
+           SELECT 'Tournament'::text,
+              tournaments.id,
+              tournaments.name,
+              3 AS rules,
+              tournaments.starts_at,
+              1,
+              0,
+              tournaments.responsible_id,
+              tournaments.place_id,
+              NULL::integer,
+              NULL::integer,
+              true AS bool,
+              json_build_object('Open', count(competitors.id)) AS json_build_object,
+              COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS "coalesce",
+              tournaments.updated_at,
+              tournaments.created_at
+             FROM ((tournaments
+               LEFT JOIN tournament_competitors competitors ON ((tournaments.id = competitors.tournament_id)))
+               LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
+            GROUP BY tournaments.id) events
+    ORDER BY events.starts_at DESC, events.created_at DESC;
   SQL
 end
