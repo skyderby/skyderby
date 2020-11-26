@@ -8,8 +8,10 @@ class WeatherFetchingJob < ApplicationJob
   end
 end
 
-Sidekiq::Cron::Job.create(
-  name: 'Fetch weather - every hour',
-  cron: '30 * * * *',
-  class: 'WeatherFetchingJob'
-)
+if Rails.env.production?
+  Sidekiq::Cron::Job.create(
+    name: 'Fetch weather - every hour',
+    cron: '30 * * * *',
+    class: 'WeatherFetchingJob'
+  )
+end
