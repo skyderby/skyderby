@@ -17,13 +17,13 @@
 }
 
 .landing__stats-count {
-  font: 30px $pn-semibold;
+  font-size: 30px;
+  font-weight: 500;
   color: $gray-dark;
   line-height: 2;
 }
 
 .landing__stats-caption {
-  font: $pn-regular;
   color: $gray-dark;
   text-transform: uppercase;
   letter-spacing: 1.2px;

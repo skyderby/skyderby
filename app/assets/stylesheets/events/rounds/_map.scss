@@ -29,7 +29,7 @@
 }
 
 .round-map-competitor {
-  font-family: $pn-regular, $fallback-fonts;
+  font-family: $fallback-fonts;
   padding: 5px 7px;
 }
 
@@ -75,14 +75,14 @@
 
 .round-map-group-title {
   color: $dark-gray-text;
-  font-family: $pn-semibold, $fallback-fonts;
+  font-family: $fallback-fonts;
   font-size: 16px;
   padding: 5px 0;
   text-transform: uppercase;
 }
 
 .round-map-group-commands {
-  font: 12px / 16px $pn-regular, $fallback-fonts;
+  font: 12px / 16px $fallback-fonts;
   margin-left: 5px;
   text-transform: initial;
 }
