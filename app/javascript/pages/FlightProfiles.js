@@ -85,7 +85,7 @@ const FlightProfilesPage = ({ location }) => {
   )
 
   return (
-    <AppShell>
+    <AppShell fullScreen>
       <FlightProfiles
         tracks={tracks}
         loadMoreTracks={loadMoreTracks}
