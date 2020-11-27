@@ -54,6 +54,8 @@ html, body {
   background-color: var(--grey-5);
   color: var(--grey-90);
   font-family: "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 body.modalShown {
