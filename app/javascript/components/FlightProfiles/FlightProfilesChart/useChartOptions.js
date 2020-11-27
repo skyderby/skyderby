@@ -22,7 +22,12 @@ const useChartOptions = onZoomChange => {
         }
       },
       title: {
-        text: t('flight_profiles')
+        text: t('flight_profiles'),
+        margin: 10,
+        style: {
+          fontFamily: 'Proxima Nova',
+          fontWeight: 500
+        }
       },
       plotOptions: {
         spline: {

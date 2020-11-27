@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import cx from 'clsx'
 import PropTypes from 'prop-types'
 
 import FlightProfilesChart from './FlightProfilesChart'
@@ -20,6 +21,8 @@ const FlightProfiles = props => {
     selectedTracks,
     selectedTerrainProfile,
     setSelectedTerrainProfile,
+    straightLine,
+    toggleStraightLine,
     toggleTrack
   } = props
 
@@ -48,6 +51,7 @@ const FlightProfiles = props => {
           <FlightProfilesChart
             selectedTracks={selectedTracks}
             selectedTerrainProfile={selectedTerrainProfile}
+            straightLine={straightLine}
             onZoomChange={setZoomLevel}
           />
         </div>
@@ -64,7 +68,17 @@ const FlightProfiles = props => {
             zoomLevel={zoomLevel}
             selectedTracks={selectedTracks}
             selectedTerrainProfile={selectedTerrainProfile}
+            straightLine={straightLine}
           />
+        </div>
+
+        <div className={styles.toolbar}>
+          <button
+            className={cx(styles.flatButton, straightLine && styles.activeButton)}
+            onClick={toggleStraightLine}
+          >
+            <span>Straight line</span>
+          </button>
         </div>
       </div>
     </div>
@@ -76,6 +90,8 @@ FlightProfiles.propTypes = {
   selectedTerrainProfile: PropTypes.number,
   selectedTracks: PropTypes.arrayOf(PropTypes.number).isRequired,
   setSelectedTerrainProfile: PropTypes.func.isRequired,
+  straightLine: PropTypes.bool.isRequired,
+  toggleStraightLine: PropTypes.func,
   toggleTrack: PropTypes.func.isRequired,
   tracks: PropTypes.array.isRequired,
   tracksParams: PropTypes.shape({
