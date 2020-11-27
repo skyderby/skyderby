@@ -3,6 +3,7 @@
 .container {
   display: grid;
   width: 100%;
+  grid-template-rows: calc(Max(100vh, 568px) - 4.5rem) 100vh;
 
   @include sm-screen {
     border-bottom: solid 1px var(--border-color);
@@ -13,30 +14,46 @@
 }
 
 .settingsContainer {
-  display: grid;
-  grid-template-rows: 1fr min-content;
+  display: grid; 
+  grid-row: 2;
+  grid-template-rows: min-content 1fr;
 
   @include sm-screen {
     border-right: solid 1px var(--border-color);
+    grid-template-rows: 1fr min-content;
+    grid-row: 1;
   }
 }
 
 .terrainProfileSelect {
-  border-top: solid 1px var(--border-color);
-  background-color: var(--white);
-  display: flex;
   align-items: center;
+  background-color: var(--white);
+  border-bottom: solid 1px var(--border-color);
+  display: flex;
+  grid-row: 1;
   padding: 0.75rem 1rem;
+
+  @include sm-screen {
+    border-bottom: 0;
+    border-top: solid 1px var(--border-color);
+    grid-row: 2;
+  }
 }
 
 .charts {
   display: grid;
   background-color: var(--white);
+  border-bottom: solid 1px var(--border-color);
+  grid-row: 1;
   grid-template-rows: minmax(300px, 1fr) 2rem 9rem;
   grid-template-columns: minmax(250px, 1fr);
   grid-gap: 0.5rem;
   min-width: 0;
   position: relative;
+
+  @include sm-screen {
+    border-bottom: 0;
+  }
 }
 
 .toolbar {
