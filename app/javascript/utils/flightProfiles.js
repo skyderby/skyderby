@@ -9,21 +9,31 @@ const calculateDistance = (first, second) => {
   return firstPosition.distanceTo(secondPosition)
 }
 
-export const calculateFlightProfile = points => {
+export const calculateFlightProfile = (points, straightLine) => {
   if (points.length === 0) return []
 
   const firstPoint = points[0]
+  let accumulatedDistance = 0
 
-  return points.map(point => ({
-    x: calculateDistance(point, firstPoint),
-    y: Math.round(Math.max(0, firstPoint.altitude - point.altitude)),
-    hSpeed: Math.round(msToKmh(point.hSpeed)),
-    vSpeed: Math.round(msToKmh(point.vSpeed))
-  }))
+  return points.map((point, idx) => {
+    const prevPoint = idx > 0 ? points[idx - 1] : firstPoint
+    const distance = straightLine
+      ? calculateDistance(point, firstPoint)
+      : accumulatedDistance + calculateDistance(prevPoint, point)
+
+    accumulatedDistance = distance
+
+    return {
+      x: distance,
+      y: Math.round(Math.max(0, firstPoint.altitude - point.altitude)),
+      hSpeed: Math.round(msToKmh(point.hSpeed)),
+      vSpeed: Math.round(msToKmh(point.vSpeed))
+    }
+  })
 }
 
-export const calculateTerrainClearance = (points, measurements) => {
-  const flightProfile = calculateFlightProfile(points)
+export const calculateTerrainClearance = (points, measurements, straightLine) => {
+  const flightProfile = calculateFlightProfile(points, straightLine)
 
   return flightProfile.map(({ x: distance, y: altitude }) => {
     const terrainElevation = getTerrainElevation(measurements, distance)

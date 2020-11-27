@@ -84,6 +84,12 @@ const FlightProfilesPage = ({ location }) => {
     [params, buildUrl, history, location.pathname]
   )
 
+  const toggleStraightLine = useCallback(() => {
+    history.replace(
+      `${location.pathname}${buildUrl({ straightLine: !params.straightLine })}`
+    )
+  }, [params, buildUrl, history, location.pathname])
+
   return (
     <AppShell fullScreen>
       <FlightProfiles
@@ -92,6 +98,7 @@ const FlightProfilesPage = ({ location }) => {
         updateFilters={updateFilters}
         setSelectedTerrainProfile={setSelectedTerrainProfile}
         toggleTrack={toggleTrack}
+        toggleStraightLine={toggleStraightLine}
         {...params}
       />
     </AppShell>
