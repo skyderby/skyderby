@@ -5,19 +5,16 @@
   width: 100%;
 
   @include sm-screen {
-    position: absolute;
-    top: 60px;
-    bottom: 41px;
-    left: 0;
-    right: 0;
+    border-bottom: solid 1px var(--border-color);
     grid-template-columns: 350px 1fr;
     grid-template-rows: 100%;
+    overflow: auto;
   }
 }
 
 .settingsContainer {
   display: grid;
-  grid-template-rows: minmax(300px, 1fr) 60px;
+  grid-template-rows: 1fr min-content;
 
   @include sm-screen {
     border-right: solid 1px var(--border-color);
@@ -29,7 +26,7 @@
   background-color: var(--white);
   display: flex;
   align-items: center;
-  padding: 0 1rem;
+  padding: 0.75rem 1rem;
 }
 
 .charts {
