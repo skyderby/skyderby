@@ -1,7 +1,7 @@
 .track-indicators {
   display: flex;
   justify-content: space-around;
-  font-family: $pn-light;
+  font-weight: 200;
 
   .units {
     font-size: 28px;
@@ -11,7 +11,7 @@
   .avg-val {
     font-size: 42px;
     color: #555;
-    font-family: $pn-thin;
+    font-weight: 200;
   }
 
   .avg-val, .units {
@@ -63,7 +63,7 @@
 
 .track-indicators__param {
   color: #aaa;
-  font-family: $pn-semibold;
+  font-weight: 500;
   text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;

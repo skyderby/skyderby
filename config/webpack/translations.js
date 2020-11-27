@@ -40,6 +40,8 @@ const buildModules = () => {
 class TranslationsPlugin {
   constructor(virtualModules) {
     this.virtualModules = virtualModules
+    this.compileHook = this.compileHook.bind(this)
+    this.afterCompileHook = this.afterCompileHook.bind(this)
   }
 
   apply(compiler) {
@@ -47,12 +49,12 @@ class TranslationsPlugin {
     compiler.hooks.afterCompile.tap('TranslationsPlugin', this.afterCompileHook)
   }
 
-  compileHook = () => {
+  compileHook() {
     const modules = buildModules()
     modules.forEach(([path, content]) => this.virtualModules.writeModule(path, content))
   }
 
-  afterCompileHook = compilation => {
+  afterCompileHook(compilation) {
     compilation.contextDependencies.add(localesPath)
   }
 }

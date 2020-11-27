@@ -27,7 +27,8 @@
   width: 100%;
 
   thead th {
-    font-family: $pn-semibold;
+    font-family: $fallback-fonts;
+    font-weight: 500;
   }
 
   thead tr {
@@ -78,7 +79,7 @@
 
 .scoreboard-section {
   .section-name {
-    font-family: $pn-semibold;
+    font-weight: 500;
     padding-right: 10px;
     text-transform: uppercase;
   }
@@ -93,7 +94,9 @@
   transition: background-color 1000ms linear;
 
   .competitor-suit {
-    font: 8px / 8px $pn-semibold;
+    font-size: 8px;
+    line-height: 8px;
+    font-weight: 500;
     letter-spacing: .8px;
     margin-top: 2px;
     text-transform: uppercase;
@@ -167,7 +170,6 @@ td.scoreboard-total-result {
 }
 
 .scoreboard-round-actions {
-  font-family: $pn-regular;
   position: absolute;
   right: 0;
   text-align: right;
