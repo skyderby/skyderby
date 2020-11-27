@@ -45,7 +45,7 @@ const SettingsModal = ({ onSubmit, formValues, isShown, onHide: handleHide }) =>
                 <Field
                   as={Select}
                   name="chartMode"
-                  id="chartMode"
+                  inputId="chartMode"
                   value={values.chartMode}
                   options={chartModeOptions}
                   onChange={({ value }) => setFieldValue('chartMode', value)}
@@ -56,7 +56,7 @@ const SettingsModal = ({ onSubmit, formValues, isShown, onHide: handleHide }) =>
                 <Field
                   as={Select}
                   name="unitSystem"
-                  id="unitSystem"
+                  inputId="unitSystem"
                   value={values.unitSystem}
                   options={unitSystemOptions}
                   onChange={({ value }) => setFieldValue('unitSystem', value)}

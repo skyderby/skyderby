@@ -8,7 +8,6 @@
   & > button {
     font-size: 1rem;
     text-transform: uppercase;
-    color: var(--grey-70);
   }
 }
 
@@ -33,4 +32,13 @@
 
 .secondaryButton {
   composes: button from '~styles/button.module.scss';
+}
+
+.flatButton {
+  composes: button from '~styles/button.module.scss';
+  composes: flat from '~styles/button.module.scss';
+}
+
+.buttonActive {
+  composes: active from '~styles/button.module.scss';
 }
