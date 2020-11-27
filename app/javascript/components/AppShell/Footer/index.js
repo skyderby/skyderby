@@ -11,7 +11,7 @@ const Footer = () => {
       © 2014 - {new Date().getFullYear()}
       &nbsp;
       {t('application.footer.made_with')}
-      &nbsp;😍&nbsp;
+      &nbsp;😍 &nbsp;
       {t('application.footer.owner')}
     </div>
   )
