@@ -3,7 +3,9 @@
   color: $white;
   display: flex;
   flex-direction: row;
-  font: 25px / 40px $pn-thin;
+  font-size: 25px;
+  line-height: 40px;
+  font-weight: 100;
   letter-spacing: .05em;
   margin-right: 15px;
   padding: 10px 0;
