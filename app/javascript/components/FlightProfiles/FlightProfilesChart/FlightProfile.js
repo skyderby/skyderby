@@ -9,12 +9,15 @@ import { createTrackSelector } from 'redux/tracks'
 import { createProfileSelector } from 'redux/profiles'
 import { calculateFlightProfile } from 'utils/flightProfiles'
 
-const FlightProfile = ({ chart, trackId, ...props }) => {
+const FlightProfile = ({ chart, trackId, straightLine, ...props }) => {
   const { t } = useI18n()
   const points = useSelector(createPointsSelector(trackId))
   const track = useSelector(createTrackSelector(trackId))
   const profile = useSelector(createProfileSelector(track?.profileId))
-  const flightProfilePoints = useMemo(() => calculateFlightProfile(points), [points])
+  const flightProfilePoints = useMemo(
+    () => calculateFlightProfile(points, straightLine),
+    [points, straightLine]
+  )
 
   if (!track || !flightProfilePoints) return null
 
@@ -48,7 +51,8 @@ const FlightProfile = ({ chart, trackId, ...props }) => {
 
 FlightProfile.propTypes = {
   chart: PropTypes.object,
-  trackId: PropTypes.number.isRequired
+  trackId: PropTypes.number.isRequired,
+  straightLine: PropTypes.bool.isRequired
 }
 
 export default FlightProfile

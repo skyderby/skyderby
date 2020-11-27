@@ -10,11 +10,13 @@
   --active-text-color: var(--blue-60);
 
   appearance: none;
+  align-items: center;
   background-color: var(--background-color);
   border-radius: var(--border-radius-md);
   border: solid 1px var(--border-color);
   color: var(--text-color);
   cursor: pointer;
+  display: flex;
   flex-grow: 0;
   font-weight: normal;
   line-height: normal;
@@ -27,7 +29,7 @@
   transition-property: box-shadow, background-color, border-color, color;
 
   &:focus {
-    box-shadow: 0 0 0 0.25rem rgba(var(--outline-color), 0.5);
+    box-shadow: 0 0 0 0.25rem rgba(var(--outline-color), var(--outline-opacity));
   }
 
   &:disabled {
@@ -37,11 +39,29 @@
   @include sm-screen {
     font-size: 1rem;
 
-    &:not(:disabled):hover,
-    &:focus {
+    &:not(:disabled):hover {
       background-color: var(--active-background-color);
       border-color: var(--active-border-color);
       color: var(--active-text-color);
+
+      svg path {
+        fill: var(--active-text-color);
+      }
+    }
+  }
+
+  >:not(:last-child) {
+    margin-right: 0.25rem;
+  }
+
+  svg {
+    height: 0.875em;
+
+    path {
+      fill: var(--text-color);
+      transition-duration: 0.25s;
+      transition-timing-function: ease-in-out;
+      transition-property: fill;
     }
   }
 }
@@ -117,4 +137,10 @@
 .flat {
   --background-color: transparent;
   --border-color: transparent;
+}
+
+.active {
+  --text-color: var(--active-text-color);
+  --border-color: var(--active-border-color);
+  --background-color: var(--active-background-color);
 }

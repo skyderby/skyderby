@@ -16,7 +16,7 @@ export const PageParams = {
       urlParams.get('selectedTerrainProfile') &&
       Number(urlParams.get('selectedTerrainProfile'))
 
-    const straightLine = urlParams.get('straight-line') === 'true'
+    const straightLine = urlParams.get('straight-line') !== 'false'
 
     return { tracksParams, selectedTracks, selectedTerrainProfile, straightLine }
   },
@@ -30,6 +30,8 @@ export const PageParams = {
     if (params.selectedTracks.length > 0) {
       urlParams.set('selectedTracks', params.selectedTracks.join(','))
     }
+
+    if (params.straightLine === false) urlParams.set('straight-line', false)
 
     if (params.selectedTerrainProfile) {
       urlParams.set('selectedTerrainProfile', params.selectedTerrainProfile)
