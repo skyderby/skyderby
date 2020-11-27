@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import cx from 'clsx'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
 import { selectUserPreferences, updatePreferences } from 'redux/userPreferences'
-import FlatButton from 'components/ui/FlatButton'
 import CogIcon from 'icons/cog.svg'
 import SettingsModal from './SettingsModal'
 
@@ -24,13 +24,17 @@ const ViewSettings = ({ straightLine, setStraightLine }) => {
 
   return (
     <div className={styles.container}>
-      <FlatButton active={straightLine} onClick={() => setStraightLine(!straightLine)}>
+      <button
+        className={cx(styles.flatButton, straightLine && styles.buttonActive)}
+        onClick={() => setStraightLine(!straightLine)}
+      >
         Straight line
-      </FlatButton>
-      <FlatButton onClick={() => setShowModal(true)}>
+      </button>
+
+      <button className={styles.flatButton} onClick={() => setShowModal(true)}>
         <CogIcon />
         <span>{t('general.settings')}</span>
-      </FlatButton>
+      </button>
 
       <SettingsModal
         isShown={showModal}

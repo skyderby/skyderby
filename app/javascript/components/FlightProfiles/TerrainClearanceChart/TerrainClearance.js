@@ -9,7 +9,13 @@ import { createPointsSelector } from 'redux/tracks/points'
 import { createMeasurementsSelector } from 'redux/terrainProfileMeasurements'
 import { calculateTerrainClearance } from 'utils/flightProfiles'
 
-const TerrainClearance = ({ chart, trackId, terrainProfileId, ...props }) => {
+const TerrainClearance = ({
+  chart,
+  trackId,
+  terrainProfileId,
+  straightLine,
+  ...props
+}) => {
   const track = useSelector(createTrackSelector(trackId))
   const profile = useSelector(createProfileSelector(track?.profileId))
   const points = useSelector(createPointsSelector(trackId))
@@ -17,7 +23,11 @@ const TerrainClearance = ({ chart, trackId, terrainProfileId, ...props }) => {
 
   if (!track || !points || !measurements) return null
 
-  const chartPoints = calculateTerrainClearance(points, measurements.records)
+  const chartPoints = calculateTerrainClearance(
+    points,
+    measurements.records,
+    straightLine
+  )
 
   const name = `${profile?.name || track.pilotName} - #${trackId}`
 
@@ -27,7 +37,8 @@ const TerrainClearance = ({ chart, trackId, terrainProfileId, ...props }) => {
 TerrainClearance.propTypes = {
   chart: PropTypes.object,
   trackId: PropTypes.number.isRequired,
-  terrainProfileId: PropTypes.number.isRequired
+  terrainProfileId: PropTypes.number.isRequired,
+  straightLine: PropTypes.number.isRequired
 }
 
 export default TerrainClearance
