@@ -3,7 +3,7 @@
 }
 
 .online-competition__header {
-  font-family: $pn-semibold, $fallback-fonts;
+  font-family: $fallback-fonts;
   font-size: 24px;
   line-height: 1.45;
   padding-left: 15px;
@@ -12,7 +12,7 @@
 
 .online-competition__subheader {
   color: lighten($main-text-color, 20%);
-  font-family: $pn-regular, $fallback-fonts;
+  font-family: $fallback-fonts;
   padding-left: 15px;
   padding-right: 15px;
   margin-bottom: 15px;
@@ -25,7 +25,7 @@
 
 .online-competition__personal-score {
   color: $table-text-color;
-  font-family: $pn-regular, $fallback-fonts;
+  font-family: $fallback-fonts;
   font-size: 18px;
 
   .td { vertical-align: middle; }
@@ -48,13 +48,13 @@
 }
 
 .online-competition__rank {
-  font-family: $pn-semibold, $fallback-fonts;
+  font-family: $fallback-fonts;
   font-size: 24px;
   color: rgba($table-text-color, 0.8);
 }
 
 .online-competition__profile {
-  font-family: $pn-semibold, $fallback-fonts;
+  font-family: $fallback-fonts;
   font-size: 16px;
 }
 
