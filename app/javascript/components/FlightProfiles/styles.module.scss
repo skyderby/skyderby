@@ -36,4 +36,19 @@
   grid-template-columns: minmax(250px, 1fr);
   grid-gap: 0.5rem;
   min-width: 0;
+  position: relative;
+}
+
+.toolbar {
+  position: absolute;
+  right: 1rem;
+  top: 0.5rem;
+}
+
+.flatButton {
+  composes: button from '~styles/button.module.scss';
+}
+
+.activeButton {
+  composes: active from '~styles/button.module.scss';
 }
