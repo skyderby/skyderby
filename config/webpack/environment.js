@@ -1,17 +1,7 @@
 const { environment } = require('@rails/webpacker')
-const webpack = require('webpack')
 const VirtualModulesPlugin = require('webpack-virtual-modules')
 
 const TranslationsPlugin = require('./translations')
-
-environment.plugins.append(
-  'Provide',
-  new webpack.ProvidePlugin({
-    $: 'jquery',
-    jQuery: 'jquery',
-    jquery: 'jquery'
-  })
-)
 
 const virtualModules = new VirtualModulesPlugin()
 
