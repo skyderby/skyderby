@@ -38,7 +38,8 @@ const useChartOptions = onZoomChange => {
         series: {
           marker: {
             radius: 1
-          }
+          },
+          fillOpacity: 0.5
         }
       },
       xAxis: {

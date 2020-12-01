@@ -56,16 +56,14 @@
   }
 }
 
-.toolbar {
-  position: absolute;
+.fab {
+  composes: fab from '~styles/button.module.scss';
+
+  position: fixed;
   right: 1rem;
-  top: 0.5rem;
-}
+  bottom: 1.5rem;
 
-.flatButton {
-  composes: button from '~styles/button.module.scss';
-}
-
-.activeButton {
-  composes: active from '~styles/button.module.scss';
+  @include sm-screen {
+    position: absolute;
+  }
 }

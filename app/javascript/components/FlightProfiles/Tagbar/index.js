@@ -10,7 +10,9 @@ const Tagbar = ({
   selectedTracks,
   selectedTerrainProfile,
   toggleTrack,
-  setSelectedTerrainProfile
+  setSelectedTerrainProfile,
+  additionalTerrainProfiles,
+  deleteAdditionalTerrainProfile
 }) => {
   const deleteTerrainProfile = () => setSelectedTerrainProfile(null)
   const deleteTrack = trackId => toggleTrack(trackId)
@@ -24,6 +26,15 @@ const Tagbar = ({
             onDelete={deleteTerrainProfile}
           />
         )}
+
+        {additionalTerrainProfiles.map(id => (
+          <TerrainProfileTag
+            key={id}
+            terrainProfileId={id}
+            onDelete={() => deleteAdditionalTerrainProfile(id)}
+          />
+        ))}
+
         {selectedTracks.map(trackId => (
           <TrackTag
             key={trackId}
@@ -40,7 +51,9 @@ Tagbar.propTypes = {
   selectedTracks: PropTypes.arrayOf(PropTypes.number).isRequired,
   selectedTerrainProfile: PropTypes.number,
   toggleTrack: PropTypes.func.isRequired,
-  setSelectedTerrainProfile: PropTypes.func.isRequired
+  setSelectedTerrainProfile: PropTypes.func.isRequired,
+  additionalTerrainProfiles: PropTypes.arrayOf(PropTypes.number).isRequired,
+  deleteAdditionalTerrainProfile: PropTypes.func.isRequired
 }
 
 export default Tagbar
