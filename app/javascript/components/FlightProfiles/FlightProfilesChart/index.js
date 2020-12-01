@@ -10,6 +10,7 @@ import TerrainProfile from './TerrainProfile'
 const FlightProfilesChart = ({
   selectedTracks,
   selectedTerrainProfile,
+  additionalTerrainProfiles,
   straightLine,
   onZoomChange
 }) => {
@@ -29,8 +30,21 @@ const FlightProfilesChart = ({
             />
           ))}
           {selectedTerrainProfile && (
-            <TerrainProfile chart={chart} terrainProfileId={selectedTerrainProfile} />
+            <TerrainProfile
+              chart={chart}
+              terrainProfileId={selectedTerrainProfile}
+              color="#b88e8d"
+            />
           )}
+
+          {additionalTerrainProfiles.map((id, idx) => (
+            <TerrainProfile
+              key={id}
+              chart={chart}
+              terrainProfileId={id}
+              color={colorByIndex(idx)}
+            />
+          ))}
         </>
       )}
     </Highchart>
@@ -38,6 +52,7 @@ const FlightProfilesChart = ({
 }
 
 FlightProfilesChart.propTypes = {
+  additionalTerrainProfiles: PropTypes.arrayOf(PropTypes.number).isRequired,
   onZoomChange: PropTypes.func.isRequired,
   selectedTracks: PropTypes.arrayOf(PropTypes.number).isRequired,
   selectedTerrainProfile: PropTypes.number,

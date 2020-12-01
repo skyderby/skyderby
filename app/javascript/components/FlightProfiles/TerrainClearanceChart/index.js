@@ -8,7 +8,12 @@ import useChartOptions from './useChartOptions'
 import PlaceholderChart from './PlaceholderChart'
 import TerrainClearance from './TerrainClearance'
 
-const TerrainClearanceChart = ({ selectedTracks, selectedTerrainProfile, zoomLevel }) => {
+const TerrainClearanceChart = ({
+  selectedTracks,
+  selectedTerrainProfile,
+  straightLine,
+  zoomLevel
+}) => {
   const options = useChartOptions(zoomLevel)
 
   const isSupporter = true
@@ -33,6 +38,7 @@ const TerrainClearanceChart = ({ selectedTracks, selectedTerrainProfile, zoomLev
               trackId={trackId}
               terrainProfileId={selectedTerrainProfile}
               color={colorByIndex(idx)}
+              straightLine={straightLine}
             />
           ))}
         </>
@@ -47,7 +53,8 @@ TerrainClearanceChart.propTypes = {
     max: PropTypes.number.isRequired
   }),
   selectedTracks: PropTypes.arrayOf(PropTypes.number).isRequired,
-  selectedTerrainProfile: PropTypes.number
+  selectedTerrainProfile: PropTypes.number,
+  straightLine: PropTypes.bool.isRequired
 }
 
 export default TerrainClearanceChart
