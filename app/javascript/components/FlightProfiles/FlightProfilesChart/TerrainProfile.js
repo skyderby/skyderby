@@ -24,7 +24,7 @@ const calcMeasurementPoints = measurements => {
   ])
 }
 
-const TerrainProfile = ({ chart, terrainProfileId }) => {
+const TerrainProfile = ({ chart, terrainProfileId, color }) => {
   const terrainProfile = useSelector(createTerrainProfileSelector(terrainProfileId))
   const measurements = useSelector(createMeasurementsSelector(terrainProfileId))
 
@@ -40,7 +40,7 @@ const TerrainProfile = ({ chart, terrainProfileId }) => {
         chart={chart}
         data={measurementPoints}
         tooltip={tooltip}
-        color="#B88E8D"
+        color={color}
         name={name}
         place={terrainProfile.place.name}
       />
@@ -48,7 +48,7 @@ const TerrainProfile = ({ chart, terrainProfileId }) => {
         chart={chart}
         type="areasplinerange"
         data={measurementPoints}
-        color="#B88E8D"
+        color={color}
         enableMouseTracking={false}
         showInLegend={false}
       />
@@ -58,6 +58,7 @@ const TerrainProfile = ({ chart, terrainProfileId }) => {
 
 TerrainProfile.propTypes = {
   chart: PropTypes.object,
+  color: PropTypes.string.isRequired,
   terrainProfileId: PropTypes.number.isRequired
 }
 
