@@ -1,10 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import isEqual from 'lodash.isequal'
 import PropTypes from 'prop-types'
 
 import { PageParams } from 'api/FlightProfiles'
+import {
+  selectUserPreferences,
+  updatePreferences,
+  STRAIGHT_LINE
+} from 'redux/userPreferences'
 import AppShell from 'components/AppShell'
 import FlightProfiles from 'components/FlightProfiles'
 import useTracksApi from 'hooks/useTracksApi'
@@ -17,6 +22,7 @@ const FlightProfilesPage = ({ location }) => {
   const history = useHistory()
 
   const [params, setParams] = useState(() => PageParams.extractFromUrl(location.search))
+  const { flightProfileDistanceCalculationMethod } = useSelector(selectUserPreferences)
 
   useEffect(() => {
     const parsedParams = PageParams.extractFromUrl(location.search)
@@ -43,6 +49,12 @@ const FlightProfilesPage = ({ location }) => {
 
     dispatch(loadTerrainProfileMeasurement(params.selectedTerrainProfile))
   }, [dispatch, params.selectedTerrainProfile])
+
+  useEffect(() => {
+    params.additionalTerrainProfiles.forEach(id => {
+      dispatch(loadTerrainProfileMeasurement(id))
+    })
+  }, [dispatch, params.additionalTerrainProfiles])
 
   const buildUrl = useCallback(
     newParams => {
@@ -72,6 +84,27 @@ const FlightProfilesPage = ({ location }) => {
     [buildUrl, history, location.pathname]
   )
 
+  const setAdditionalTerrainProfiles = useCallback(
+    ids =>
+      history.replace(
+        `${location.pathname}${buildUrl({ additionalTerrainProfiles: ids })}`
+      ),
+    [buildUrl, history, location.pathname]
+  )
+
+  const deleteAdditionalTerrainProfile = useCallback(
+    idToRemove => {
+      history.replace(
+        `${location.pathname}${buildUrl({
+          additionalTerrainProfiles: params.additionalTerrainProfiles.filter(
+            id => id !== idToRemove
+          )
+        })}`
+      )
+    },
+    [params, buildUrl, history, location.pathname]
+  )
+
   const toggleTrack = useCallback(
     trackId => {
       const trackSelected = params.selectedTracks.includes(trackId)
@@ -84,11 +117,9 @@ const FlightProfilesPage = ({ location }) => {
     [params, buildUrl, history, location.pathname]
   )
 
-  const toggleStraightLine = useCallback(() => {
-    history.replace(
-      `${location.pathname}${buildUrl({ straightLine: !params.straightLine })}`
-    )
-  }, [params, buildUrl, history, location.pathname])
+  const setDistanceCalculationMethod = value => {
+    dispatch(updatePreferences({ flightProfileDistanceCalculationMethod: value }))
+  }
 
   return (
     <AppShell fullScreen>
@@ -96,9 +127,13 @@ const FlightProfilesPage = ({ location }) => {
         tracks={tracks}
         loadMoreTracks={loadMoreTracks}
         updateFilters={updateFilters}
-        setSelectedTerrainProfile={setSelectedTerrainProfile}
         toggleTrack={toggleTrack}
-        toggleStraightLine={toggleStraightLine}
+        straightLine={flightProfileDistanceCalculationMethod === STRAIGHT_LINE}
+        distanceCalculationMethod={flightProfileDistanceCalculationMethod}
+        setSelectedTerrainProfile={setSelectedTerrainProfile}
+        setDistanceCalculationMethod={setDistanceCalculationMethod}
+        setAdditionalTerrainProfiles={setAdditionalTerrainProfiles}
+        deleteAdditionalTerrainProfile={deleteAdditionalTerrainProfile}
         {...params}
       />
     </AppShell>

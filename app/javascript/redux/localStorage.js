@@ -1,4 +1,5 @@
-const localStorageKey = 'state'
+const version = 2
+const localStorageKey = `state_v${version}`
 
 export const loadState = () => {
   try {
