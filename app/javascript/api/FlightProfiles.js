@@ -8,17 +8,26 @@ export const PageParams = {
     }
     const urlParams = new URLSearchParams(search)
 
-    const selectedTracks = urlParams.get('selectedTracks')
-      ? urlParams.get('selectedTracks').split(',').map(Number)
-      : []
+    const selectedTracks = urlParams
+      .getAll('selectedTracks[]')
+      .filter(Boolean)
+      .map(Number)
 
     const selectedTerrainProfile =
       urlParams.get('selectedTerrainProfile') &&
       Number(urlParams.get('selectedTerrainProfile'))
 
-    const straightLine = urlParams.get('straight-line') !== 'false'
+    const additionalTerrainProfiles = urlParams
+      .getAll('additionalTerrainProfiles[]')
+      .filter(Boolean)
+      .map(Number)
 
-    return { tracksParams, selectedTracks, selectedTerrainProfile, straightLine }
+    return {
+      tracksParams,
+      selectedTracks,
+      selectedTerrainProfile,
+      additionalTerrainProfiles
+    }
   },
 
   mapToUrl: params => {
@@ -27,15 +36,15 @@ export const PageParams = {
 
     const urlParams = new URLSearchParams(tracksParams)
 
-    if (params.selectedTracks.length > 0) {
-      urlParams.set('selectedTracks', params.selectedTracks.join(','))
-    }
-
-    if (params.straightLine === false) urlParams.set('straight-line', false)
+    params.selectedTracks.forEach(id => urlParams.append('selectedTracks[]', id))
 
     if (params.selectedTerrainProfile) {
       urlParams.set('selectedTerrainProfile', params.selectedTerrainProfile)
     }
+
+    Array.from(new Set(params.additionalTerrainProfiles)).forEach(id =>
+      urlParams.append('additionalTerrainProfiles[]', id)
+    )
 
     return urlParams.toString() === '' ? '' : '?' + urlParams.toString()
   }
