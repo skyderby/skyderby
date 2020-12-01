@@ -38,7 +38,7 @@ TerrainClearance.propTypes = {
   chart: PropTypes.object,
   trackId: PropTypes.number.isRequired,
   terrainProfileId: PropTypes.number.isRequired,
-  straightLine: PropTypes.number.isRequired
+  straightLine: PropTypes.bool.isRequired
 }
 
 export default TerrainClearance

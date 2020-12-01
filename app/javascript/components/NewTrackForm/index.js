@@ -198,7 +198,10 @@ const NewTrackForm = ({ isShown, onHide, loggedIn }) => {
                 type="button"
                 disabled={isSubmitting || values.formSupportData.isUploading}
                 data-dismiss="modal"
-                onClick={resetForm}
+                onClick={() => {
+                  resetForm()
+                  onHide()
+                }}
               >
                 {t('general.cancel')}
               </button>
