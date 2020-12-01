@@ -67,7 +67,6 @@ const Pagination = ({ page = 1, totalPages = 0, buildUrl }) => {
 Pagination.propTypes = {
   page: PropTypes.number,
   totalPages: PropTypes.number,
-  showAround: PropTypes.number,
   buildUrl: PropTypes.func.isRequired
 }
 export default Pagination
