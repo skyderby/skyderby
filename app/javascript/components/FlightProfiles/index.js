@@ -119,7 +119,6 @@ FlightProfiles.propTypes = {
   selectedTracks: PropTypes.arrayOf(PropTypes.number).isRequired,
   setSelectedTerrainProfile: PropTypes.func.isRequired,
   straightLine: PropTypes.bool.isRequired,
-  toggleStraightLine: PropTypes.func,
   toggleTrack: PropTypes.func.isRequired,
   tracks: PropTypes.array.isRequired,
   tracksParams: PropTypes.shape({
