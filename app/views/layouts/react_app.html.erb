@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <%= stylesheet_packs_with_chunks_tag 'application', media: 'all' %>
@@ -7,7 +8,10 @@
     <%= csrf_meta_tags %>
     <%= action_cable_meta_tag %>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Skyderby</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="maps-api-key" content="<%= ENV['MAPS_API_KEY'] %>" />
     <meta name="cesium-api-key" content="<%= ENV['CESIUM_API_TOKEN'] %>" />
     <meta name="honeybadger-api-key" content="<%= ENV['HONEYBADGER_API_KEY'] %>" />
