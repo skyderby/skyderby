@@ -26,7 +26,7 @@
         = link_to t('.tracks'), profile_tracks_path(profile)
 
       %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'profiles/flight_profiles')}
-        = link_to t('flight_profiles'), profile_flight_profiles_path(profile)
+        = link_to t('flight_profiles.title'), profile_flight_profiles_path(profile)
 
   .profile-commands
     - if policy(@profile).edit?

@@ -12,7 +12,7 @@ const CurrentUser = ({ user }) => {
 
   return (
     <Link to={`/profiles/${profileId}`} className={styles.profileLink}>
-      <img src={thumb} />
+      <img src={thumb} height="34" width="34" alt="profile photo thumb" />
     </Link>
   )
 }

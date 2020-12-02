@@ -18,7 +18,12 @@ const TrackTag = ({ trackId, onDelete }) => {
   return (
     <li className={styles.tag}>
       <span className={styles.label}>{label}</span>
-      <button className={styles.deleteButton} type="button" onClick={onDelete}>
+      <button
+        className={styles.deleteButton}
+        type="button"
+        onClick={onDelete}
+        aria-label={`Remove ${label}`}
+      >
         <IconTimes />
       </button>
     </li>
