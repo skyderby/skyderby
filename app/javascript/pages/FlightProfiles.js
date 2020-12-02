@@ -2,8 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import isEqual from 'lodash.isequal'
+import { Helmet } from 'react-helmet'
 import PropTypes from 'prop-types'
 
+import { useI18n } from 'components/TranslationsProvider'
 import { PageParams } from 'api/FlightProfiles'
 import {
   selectUserPreferences,
@@ -23,6 +25,7 @@ const FlightProfilesPage = ({ location }) => {
 
   const [params, setParams] = useState(() => PageParams.extractFromUrl(location.search))
   const { flightProfileDistanceCalculationMethod } = useSelector(selectUserPreferences)
+  const { t } = useI18n()
 
   useEffect(() => {
     const parsedParams = PageParams.extractFromUrl(location.search)
@@ -123,6 +126,11 @@ const FlightProfilesPage = ({ location }) => {
 
   return (
     <AppShell fullScreen>
+      <Helmet>
+        <title>{t('flight_profiles.title')}</title>
+        <meta name="description" content={t('flight_profiles.description')} />
+      </Helmet>
+
       <FlightProfiles
         tracks={tracks}
         loadMoreTracks={loadMoreTracks}

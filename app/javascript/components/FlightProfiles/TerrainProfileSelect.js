@@ -28,6 +28,7 @@ const TerrainProfileSelect = ({ value, ...props }) => {
       menuPlacement="auto"
       options={options}
       value={selectedOption}
+      aria-label="Select terrain profile"
       placeholder="Select terrain profile"
       styles={selectStyles}
       {...props}
