@@ -18,6 +18,7 @@ it:
     charts: Grafici
     jump_range: Intervallo di caduta libera
     or: Oppure
+    change_language: Cambia lingua
   users:
     profile:
       edit:
