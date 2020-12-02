@@ -22,7 +22,7 @@ const useChartOptions = onZoomChange => {
         }
       },
       title: {
-        text: t('flight_profiles'),
+        text: t('flight_profiles.title'),
         margin: 10,
         style: {
           fontFamily: 'Proxima Nova',

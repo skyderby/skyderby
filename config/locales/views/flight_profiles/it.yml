@@ -1,2 +1,3 @@
 it:
-  flight_profiles: Profili di volo
+  flight_profiles:
+    title: Profili di volo

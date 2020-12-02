@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
+import { useI18n } from 'components/TranslationsProvider'
 import CogIcon from 'icons/cog'
 import { STRAIGHT_LINE, TRAJECTORY_DISTANCE } from 'redux/userPreferences'
 import FlightProfilesChart from './FlightProfilesChart'
@@ -15,6 +16,7 @@ import styles from './styles.module.scss'
 const FlightProfiles = props => {
   const [zoomLevel, setZoomLevel] = useState()
   const [showModal, setShowModal] = useState(false)
+  const { t } = useI18n()
 
   const {
     additionalTerrainProfiles,
@@ -41,7 +43,7 @@ const FlightProfiles = props => {
   }
 
   return (
-    <div className={styles.container}>
+    <main id="maincontent" className={styles.container}>
       <div className={styles.settingsContainer}>
         <TrackList
           tracks={tracks}
@@ -89,7 +91,11 @@ const FlightProfiles = props => {
           />
         </div>
 
-        <button className={styles.fab} onClick={() => setShowModal(true)}>
+        <button
+          className={styles.fab}
+          onClick={() => setShowModal(true)}
+          aria-label={t('general.settings')}
+        >
           <CogIcon />
         </button>
 
@@ -103,7 +109,7 @@ const FlightProfiles = props => {
           onSubmit={applySettings}
         />
       </div>
-    </div>
+    </main>
   )
 }
 

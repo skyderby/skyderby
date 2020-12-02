@@ -33,5 +33,6 @@ export default {
   valueContainer: base => ({
     ...base,
     padding: '2px 8px 2px 4px'
-  })
+  }),
+  placeholder: base => ({ ...base, color: 'var(--grey-70)' })
 }

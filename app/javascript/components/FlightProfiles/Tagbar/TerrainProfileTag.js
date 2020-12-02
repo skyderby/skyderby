@@ -18,12 +18,17 @@ const TerrainProfile = ({ terrainProfileId, onDelete }) => {
     name
   } = terrainProfile
 
+  const label = [placeName, name].join(' - ')
+
   return (
     <li className={styles.tag}>
-      <span className={styles.label}>
-        {placeName} - {name}
-      </span>
-      <button className={styles.deleteButton} type="button" onClick={onDelete}>
+      <span className={styles.label}>{label}</span>
+      <button
+        className={styles.deleteButton}
+        type="button"
+        onClick={onDelete}
+        aria-label={`Remove ${label}`}
+      >
         <IconTimes />
       </button>
     </li>
