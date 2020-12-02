@@ -20,6 +20,7 @@ en:
     charts: Charts
     jump_range: Jump range
     or: Or
+    change_language: Change language
   users:
     profile:
       edit:
