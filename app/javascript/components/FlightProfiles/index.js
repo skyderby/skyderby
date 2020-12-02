@@ -43,8 +43,8 @@ const FlightProfiles = props => {
   }
 
   return (
-    <main id="maincontent" className={styles.container}>
-      <div className={styles.settingsContainer}>
+    <section className={styles.container}>
+      <aside className={styles.settingsContainer}>
         <TrackList
           tracks={tracks}
           filters={filters}
@@ -60,9 +60,9 @@ const FlightProfiles = props => {
             onChange={option => setSelectedTerrainProfile(option?.value || null)}
           />
         </div>
-      </div>
+      </aside>
 
-      <div className={styles.charts}>
+      <main id="maincontent" className={styles.charts}>
         <div>
           <FlightProfilesChart
             additionalTerrainProfiles={additionalTerrainProfiles}
@@ -108,8 +108,8 @@ const FlightProfiles = props => {
           onHide={() => setShowModal(false)}
           onSubmit={applySettings}
         />
-      </div>
-    </main>
+      </main>
+    </section>
   )
 }
 
