@@ -19,7 +19,7 @@
 .tag {
   flex-shrink: 0;
   border-radius: var(--border-radius-sm);
-  color: var(--grey-70);
+  color: var(--grey-80);
   background-color: var(--grey-10);
 }
 
@@ -29,12 +29,14 @@
 }
 
 .deleteButton {
-  cursor: pointer;
   background-color: transparent;
-  border: 0;
   border-radius: var(--border-radius-sm);
+  border: 0;
+  cursor: pointer;
+  height: 1.625rem;
   outline: none;
   padding: 0.25rem 0.5rem;
+  width: 1.625rem;
 
   svg {
     height: 0.75em;
