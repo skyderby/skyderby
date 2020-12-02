@@ -15,7 +15,8 @@ const selectStyles = {
     alignSelf: 'baseline',
     padding: '6px'
   }),
-  menuPortal: base => ({ ...base, zIndex: 1100 })
+  menuPortal: base => ({ ...base, zIndex: 1100 }),
+  placeholder: base => ({ ...base, color: 'var(--grey-70)' })
 }
 
 export default selectStyles

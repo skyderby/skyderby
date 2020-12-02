@@ -9,6 +9,7 @@
 
   @include lg-screen {
     width: 1200px;
+    grid-template-rows: min-content min-content max-content min-content;
   }
 }
 
@@ -43,11 +44,11 @@
   }
 
   &[data-active='true'] {
-    color: var(--blue-40);
+    color: var(--blue-30);
 
     &:hover,
     &:focus {
-      color: var(--blue-40);
+      color: var(--blue-30);
     }
 
     &::after {
@@ -58,7 +59,7 @@
       left: 0;
       right: 0;
       height: 3px;
-      background-color: var(--blue-40);
+      background-color: var(--blue-30);
       opacity: 0.9;
     }
   }

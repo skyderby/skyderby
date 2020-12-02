@@ -2,10 +2,11 @@
 @import 'normalize.css';
 
 :root {
-  --blue-10: #252f3c;
+  --blue-90: #252f3c;
   --blue-20: #42546b;
+  --blue-30: #567888;
   --blue-40: #75a4ba;
-  --blue-50: #008ed9;
+  --blue-50: #007bbd;
   --blue-60-rgb: 0, 167, 255;
   --blue-60: rgb(var(--blue-60-rgb));
   --blue-70: #39c0ff;
@@ -24,9 +25,9 @@
   --green-30: #1fbe78;
 
   --grey-90: #333;
-  --grey-80: #555;
-  --grey-70: #777;
-  --grey-50: #999;
+  --grey-80: #565656;
+  --grey-70: #737373;
+  --grey-50: #949494;
   --grey-40: #aaa;
   --grey-30: #d3d3d3;
   --grey-20: #eee;
@@ -51,10 +52,12 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   background-color: var(--grey-5);
   color: var(--grey-90);
-  font-family: "Proxima Nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Proxima Nova', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   margin: 0;
   padding: 0;
 }
