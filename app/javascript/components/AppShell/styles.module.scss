@@ -10,3 +10,18 @@
   height: 100vh;
   grid-gap: 0;
 }
+
+.skipLink {
+  position: absolute;
+  top: -40px;
+  left: 5.25rem;
+  background-color: var(--blue-10);
+  color: var(--white);
+  padding: 0 8px;
+  z-index: 10;
+  font-size: 0.75rem;
+
+  &:focus {
+    top: 0;
+  }
+}

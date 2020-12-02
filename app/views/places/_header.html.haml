@@ -32,7 +32,7 @@
 
       - if @place.base?
         %li.tabs-navbar__menuitem
-          = link_to t('flight_profiles'), place_flight_profiles_path(@place)
+          = link_to t('flight_profiles.title'), place_flight_profiles_path(@place)
 
       - if @place.base? && policy(@place).edit?
         %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'places/jump_profiles')}

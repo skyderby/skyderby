@@ -40,9 +40,9 @@ export const Navbar = styled.div`
     }
 
     &.active {
-      color: var(--blue-40);
+      color: var(--blue-30);
       cursor: default;
-      border-bottom-color: var(--blue-40);
+      border-bottom-color: var(--blue-30);
 
       div:hover {
         background-color: var(--white);
