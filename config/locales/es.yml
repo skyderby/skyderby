@@ -40,6 +40,7 @@ es:
     edit: "Editar"
     settings: Configuraciones
     or: O
+    change_language: Cambiar idioma
   users:
     profile:
       edit:
