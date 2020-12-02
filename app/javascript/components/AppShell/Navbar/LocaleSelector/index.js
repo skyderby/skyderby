@@ -15,7 +15,7 @@ const languageNames = {
 }
 
 const LocaleSelector = () => {
-  const { locale, changeLocale, supportedLocales } = useI18n()
+  const { t, locale, changeLocale, supportedLocales } = useI18n()
   const [showDropdown, setShowDropdown] = useState(false)
   const [referenceElement, setReferenceElement] = useState(null)
   const toggleRef = useRef()
@@ -29,7 +29,12 @@ const LocaleSelector = () => {
 
   return (
     <li ref={setReferenceElement}>
-      <button className={styles.toggle} ref={toggleRef} onClick={toggleDropdown}>
+      <button
+        className={styles.toggle}
+        ref={toggleRef}
+        onClick={toggleDropdown}
+        aria-label={t('general.change_language')}
+      >
         <div className={styles.flag} data-locale={locale} />
         <ChevronDown />
       </button>

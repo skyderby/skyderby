@@ -23,6 +23,7 @@ ru:
     charts: Графики
     jump_range: Отделение и открытие
     or: Или
+    change_language: Переключить язык интерфейса
   users:
     profile:
       edit:
