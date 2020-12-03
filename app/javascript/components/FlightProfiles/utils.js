@@ -9,6 +9,33 @@ const calculateDistance = (first, second) => {
   return firstPosition.distanceTo(secondPosition)
 }
 
+const getTerrainElevation = (measurements, distance) => {
+  if (!measurements) return null
+
+  for (let idx = 0; idx < measurements.length - 1; idx++) {
+    const { distance: prevDistance, altitude: prevAltitude } = measurements[idx]
+    const { distance: nextDistance, altitude: nextAltitude } = measurements[idx + 1]
+
+    if (prevDistance <= distance && nextDistance >= distance) {
+      const altitudeDiff = nextAltitude - prevAltitude
+      const coeff = (distance - prevDistance) / (nextDistance - prevDistance)
+
+      return prevAltitude + altitudeDiff * coeff
+    }
+  }
+
+  return null
+}
+
+const distanceToTerrainValue = value => {
+  if (value < 1) return '<1'
+  if (value > 120) return '>120'
+
+  return Math.round(value)
+}
+
+const distanceToTerrainY = y => Math.max(1, Math.min(y, 120))
+
 export const calculateFlightProfile = (points, straightLine) => {
   if (points.length === 0) return []
 
@@ -39,29 +66,19 @@ export const calculateTerrainClearance = (points, measurements, straightLine) =>
     const terrainElevation = getTerrainElevation(measurements, distance)
 
     if (terrainElevation === null) {
-      return [distance, 120]
+      return {
+        x: distance,
+        y: 120,
+        presentation: '>120'
+      }
     }
 
     const distanceToTerrain = terrainElevation - altitude
 
-    return [distance, Math.min(distanceToTerrain, 120)]
-  })
-}
-
-const getTerrainElevation = (measurements, distance) => {
-  if (!measurements) return null
-
-  for (let idx = 0; idx < measurements.length - 1; idx++) {
-    const { distance: prevDistance, altitude: prevAltitude } = measurements[idx]
-    const { distance: nextDistance, altitude: nextAltitude } = measurements[idx + 1]
-
-    if (prevDistance <= distance && nextDistance >= distance) {
-      const altitudeDiff = nextAltitude - prevAltitude
-      const coeff = (distance - prevDistance) / (nextDistance - prevDistance)
-
-      return prevAltitude + altitudeDiff * coeff
+    return {
+      x: distance,
+      y: distanceToTerrainY(distanceToTerrain),
+      presentation: distanceToTerrainValue(distanceToTerrain)
     }
-  }
-
-  return null
+  })
 }

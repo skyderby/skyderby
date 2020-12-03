@@ -74,7 +74,7 @@
     "date-fns": "^2.16.1",
     "formik": "^2.1.5",
     "geodesy": "^2.2.0",
-    "highcharts": "^6.2.0",
+    "highcharts": "^7.2.2",
     "honeybadger-js": "^0.5.5",
     "i18n-js": "^3.5.1",
     "immer": "^9.0.6",
