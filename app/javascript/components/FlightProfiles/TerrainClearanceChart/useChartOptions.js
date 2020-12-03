@@ -16,11 +16,22 @@ const useChartOptions = zoomLevel => {
       series: {
         marker: {
           radius: 1
-        }
+        },
+        states: {
+          inactive: {
+            enabled: false
+          }
+        },
+        zones: [
+          {
+            value: 0
+          },
+          {
+            value: 5,
+            color: 'red'
+          }
+        ]
       }
-    },
-    tooltip: {
-      crosshairs: true
     },
     yAxis: {
       title: {
@@ -47,6 +58,7 @@ const useChartOptions = zoomLevel => {
       title: {
         text: null
       },
+      crosshair: true,
       tickInterval: 100,
       tickLength: 0,
       gridLineWidth: 1,

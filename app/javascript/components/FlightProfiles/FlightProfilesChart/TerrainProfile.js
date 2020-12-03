@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
+import { I18n } from 'components/TranslationsProvider'
 import Highchart from 'components/Highchart'
 import { createTerrainProfileSelector } from 'redux/terrainProfiles'
 import { createMeasurementsSelector } from 'redux/terrainProfileMeasurements'
@@ -9,9 +10,13 @@ import { createMeasurementsSelector } from 'redux/terrainProfileMeasurements'
 const tooltip = {
   headerFormat: `
     <span style="font-size: 14px">{series.name}</span><br/>
-    <span style="font-size: 12px">{series.options.place}</span><br/>
   `,
-  pointFormat: '<span style="font-size: 16px">↓{point.y} →{point.x}</span><br/>'
+  pointFormatter: function () {
+    return `
+    <span style="font-size: 16px">↓${this.y} ${I18n.t('units.m')}
+      →${this.x} ${I18n.t('units.m')}
+    </span><br/>`
+  }
 }
 
 const calcMeasurementPoints = measurements => {
