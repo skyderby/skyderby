@@ -93,6 +93,8 @@ TranslationsProvider.propTypes = {
   children: PropTypes.element.isRequired
 }
 
-export const useI18n = () => useContext(TranslationsContext)
+const useI18n = () => useContext(TranslationsContext)
+
+export { I18n, useI18n }
 
 export default TranslationsProvider
