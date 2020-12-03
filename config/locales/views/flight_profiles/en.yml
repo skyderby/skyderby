@@ -5,3 +5,5 @@ en:
       Flight profiles is a representation of GPS tracks recorded during BASE jump
       as a chart of spent altitude vs traveled distance. In addition terrain profile
       can be plotted to find out safety margins based on skill and jump difficulty.
+    distance_traveled: Distance traveled
+    distance_to_terrain: Distance to terrain
