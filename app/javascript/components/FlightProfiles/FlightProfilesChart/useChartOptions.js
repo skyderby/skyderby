@@ -39,13 +39,19 @@ const useChartOptions = onZoomChange => {
           marker: {
             radius: 1
           },
-          fillOpacity: 0.5
+          fillOpacity: 0.7,
+          states: {
+            inactive: {
+              enabled: false
+            }
+          }
         }
       },
       xAxis: {
         title: {
           text: 'Distance from exit'
         },
+        crosshair: true,
         opposite: true,
         gridLineWidth: 1,
         tickInterval: 100,
@@ -63,6 +69,13 @@ const useChartOptions = onZoomChange => {
         reversed: true,
         tickInterval: 100,
         min: 0
+      },
+      series: {
+        states: {
+          inactive: {
+            enabled: false
+          }
+        }
       },
       credits: {
         enabled: false
