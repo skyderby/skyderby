@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
-import PlusIcon from 'icons/plus'
+import PlusIcon from 'icons/plus.svg'
 import { selectAllTeams } from 'redux/events/teams/selectors'
 import { usePageContext } from 'components/PageContext'
 

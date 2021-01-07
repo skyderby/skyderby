@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import CompassIcon from 'icons/compass'
+import CompassIcon from 'icons/compass.svg'
 
 import styles from './styles.module.scss'
 
