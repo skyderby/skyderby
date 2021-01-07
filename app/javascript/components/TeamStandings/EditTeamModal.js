@@ -24,7 +24,7 @@ const EditTeamModal = ({ id, isShown, onHide }) => {
   }
 
   return (
-    <Modal isShown={isShown} onHide={onHide} title="Edit team">
+    <Modal size="sm" isShown={isShown} onHide={onHide} title="Edit team">
       <Form
         isDeletable
         initialValues={team}

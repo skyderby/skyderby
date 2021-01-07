@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 
-import Button from 'components/ui/Button'
+import PlusIcon from 'icons/plus'
 import { selectAllTeams } from 'redux/events/teams/selectors'
 import { usePageContext } from 'components/PageContext'
 
-import { Container } from './elements'
 import Scoreboard from './Scoreboard'
 import NewTeamModal from './NewTeamModal'
+import styles from './styles.module.scss'
 
 const rankTeams = (teams, competitors) =>
   teams
@@ -45,23 +45,20 @@ const TeamsCompetition = ({ competitors }) => {
   const handleAddClick = () => setShowNewForm(true)
 
   return (
-    <Container>
+    <div className={styles.container}>
       {editable && (
         <div>
-          <Button onClick={handleAddClick}>
-            <i className="fa fa-plus" />
+          <button className={styles.button} onClick={handleAddClick}>
+            <PlusIcon />
             &nbsp; Team
-          </Button>
+          </button>
 
           <NewTeamModal isShown={showNewForm} onHide={() => setShowNewForm(false)} />
         </div>
       )}
 
       <Scoreboard rankedTeams={rankedTeams} />
-      {/* {rankedTeams.map((team, idx) => ( */}
-      {/*   <Team key={team.id} rank={idx + 1} {...team} /> */}
-      {/* ))} */}
-    </Container>
+    </div>
   )
 }
 

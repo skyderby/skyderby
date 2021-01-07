@@ -1,63 +1,43 @@
-import React, { useEffect } from 'react'
-import styled from 'styled-components'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { loadRoundMap } from 'redux/events/round'
-import { Container, Header } from 'components/ui/FullscreenContainer'
-import BackLink from 'components/ui/BackLink'
+import { useI18n } from 'components/TranslationsProvider'
+import ChevronLeftIcon from 'icons/chevron-left'
 import Map from './Map'
 import CompetitorsList from './CompetitorsList'
-import LoadingPlaceholder from './LoadingPlaceholder'
 
-const RoundMap = ({ eventId, roundId }) => {
-  const dispatch = useDispatch()
+import styles from './styles.module.scss'
 
-  const {
-    isLoading,
-    discipline,
-    number,
-    event: { name: eventName }
-  } = useSelector(state => state.eventRound)
-
-  useEffect(() => {
-    dispatch(loadRoundMap(eventId, roundId, { preselectGroup: true }))
-  }, [eventId, roundId, dispatch])
+const RoundMap = ({ discipline, number, eventId, eventName }) => {
+  const { t } = useI18n()
 
   const headerText =
-    discipline && number && `// ${I18n.t('disciplines.' + discipline)} - ${number}`
+    discipline && number && `// ${t('disciplines.' + discipline)} - ${number}`
 
   return (
-    <Container>
-      <Header>
-        <BackLink to={`/events/${eventId}`}>{eventName}</BackLink>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <Link to={`/events/${eventId}`} className={styles.backLink}>
+          <ChevronLeftIcon />
+          &nbsp;
+          {eventName}
+        </Link>
         {headerText}
-      </Header>
-      <MainArea>
-        {isLoading ? (
-          <LoadingPlaceholder />
-        ) : (
-          <>
-            <Map />
-            <CompetitorsList />
-          </>
-        )}
-      </MainArea>
-    </Container>
+      </div>
+      <section className={styles.content}>
+        <Map />
+        <CompetitorsList />
+      </section>
+    </div>
   )
 }
 
-const MainArea = styled.div`
-  display: flex;
-  flex-basis: 0;
-  flex-grow: 1;
-  flex-shrink: 1;
-  height: calc(100% - 40px);
-`
-
 RoundMap.propTypes = {
+  discipline: PropTypes.oneOf(['distance', 'speed', 'time']),
+  number: PropTypes.number.isRequired,
   eventId: PropTypes.number.isRequired,
-  roundId: PropTypes.number.isRequired
+  eventName: PropTypes.string.isRequired
 }
 
 export default RoundMap

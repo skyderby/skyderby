@@ -1,11 +1,13 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 import { selectReferencePointById } from 'redux/events/round/selectors'
+import LocationIcon from 'icons/location'
 
-const ReadOnly = ({ className, referencePointId }) => {
+import styles from './styles.module.scss'
+
+const ReadOnly = ({ referencePointId }) => {
   const referencePoint = useSelector(state =>
     selectReferencePointById(state, referencePointId)
   )
@@ -13,28 +15,15 @@ const ReadOnly = ({ className, referencePointId }) => {
   if (!referencePoint) return null
 
   return (
-    <div className={className}>
-      <i className="fa fa-map-marker-alt" />
+    <div className={styles.readOnly}>
+      <LocationIcon />
       {referencePoint.name}
     </div>
   )
 }
 
 ReadOnly.propTypes = {
-  className: PropTypes.string.isRequired,
   referencePointId: PropTypes.number
 }
 
-export default styled(ReadOnly)`
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-
-  i {
-    color: #999;
-    font-size: 10px;
-    line-height: 17px;
-    margin-right: 3px;
-  }
-`
+export default ReadOnly

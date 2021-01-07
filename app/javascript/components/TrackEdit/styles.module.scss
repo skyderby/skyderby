@@ -70,3 +70,13 @@
   composes: button from '~styles/button.module.scss';
   composes: red from '~styles/button.module.scss';
 }
+
+.backLink {
+  composes: button from '~styles/button.module.scss';
+  composes: flat from '~styles/button.module.scss';
+}
+
+.input {
+  composes: input from '~styles/input.module.scss';
+  composes: outlined from '~styles/input.module.scss';
+}
