@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 
-import ChevronRight from 'icons/chevron-right'
+import ChevronRight from 'icons/chevron-right.svg'
 
 import styles from './styles.module.scss'
 

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
-import ChevronLeftIcon from 'icons/chevron-left'
+import ChevronLeftIcon from 'icons/chevron-left.svg'
 import Map from './Map'
 import CompetitorsList from './CompetitorsList'
 
