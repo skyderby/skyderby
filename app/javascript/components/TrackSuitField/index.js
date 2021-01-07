@@ -2,11 +2,8 @@ import React from 'react'
 import { Field } from 'formik'
 
 import { useI18n } from 'components/TranslationsProvider'
-import FlatButton from 'components/ui/FlatButton'
-import Input from 'components/ui/Input'
 
 import SuitSelect from './SuitSelect'
-
 import styles from './styles.module.scss'
 
 const TrackSuitField = () => {
@@ -35,9 +32,10 @@ const TrackSuitField = () => {
       <Field name="missingSuitName">
         {({ field, form: { values }, meta: { touched, error } }) => (
           <>
-            <Input
-              hide={values.formSupportData.suitInputMode === 'select'}
-              isInvalid={touched && error}
+            <input
+              className={styles.input}
+              data-hide={values.formSupportData.suitInputMode === 'select'}
+              data-invalid={touched && error}
               placeholder={t('tracks.form.suit_text_placeholder')}
               {...field}
             />
@@ -55,14 +53,14 @@ const TrackSuitField = () => {
                 ? t('tracks.form.toggle_suit_caption')
                 : t('tracks.form.toggle_suit_caption_select')}
             </span>
-            <FlatButton
-              as="span"
+            <span
+              className={styles.flatButton}
               onClick={() => setFieldValue(name, value === 'select' ? 'input' : 'select')}
             >
               {value === 'select'
                 ? t('tracks.form.toggle_suit_link')
                 : t('tracks.form.toggle_suit_link_select')}
-            </FlatButton>
+            </span>
           </div>
         )}
       </Field>

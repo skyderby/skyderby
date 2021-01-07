@@ -1,0 +1,32 @@
+.container {
+  border-left: solid 1px var(--border-color);
+  overflow: scroll;
+  padding: 0.625rem;
+}
+
+.group {
+  padding: 0.625rem;
+}
+
+.header {
+  color: var(--grey-70);
+  display: flex;
+  font-weight: 500;
+  line-height: 1.5rem;
+  padding-bottom: 0.25rem;
+  text-transform: uppercase;
+
+  > :not(:last-child) {
+    margin-right: 0.625rem;
+  }
+}
+
+.list {
+  border-left: solid 0.125rem var(--border-color);
+}
+
+.flatButton {
+  composes: button from '~styles/button.module.scss';
+  composes: flat from '~styles/button.module.scss';
+  composes: sizeXs from '~styles/button.module.scss';
+}

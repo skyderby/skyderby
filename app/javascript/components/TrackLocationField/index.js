@@ -2,8 +2,6 @@ import React from 'react'
 import { Field } from 'formik'
 
 import { useI18n } from 'components/TranslationsProvider'
-import FlatButton from 'components/ui/FlatButton'
-import Input from 'components/ui/Input'
 
 import PlaceSelect from './PlaceSelect'
 import styles from './styles.module.scss'
@@ -34,9 +32,10 @@ const TrackLocationField = () => {
       <Field name="location">
         {({ field, form: { values }, meta: { touched, error } }) => (
           <>
-            <Input
-              hide={values.formSupportData.placeInputMode === 'select'}
-              isInvalid={touched && error}
+            <input
+              className={styles.input}
+              data-hide={values.formSupportData.placeInputMode === 'select'}
+              data-invalid={touched && error}
               placeholder={t('tracks.form.place_text_placeholder')}
               {...field}
             />
@@ -54,14 +53,14 @@ const TrackLocationField = () => {
                 ? t('tracks.form.toggle_place_caption')
                 : t('tracks.form.toggle_place_caption_select')}
             </span>
-            <FlatButton
-              as="span"
+            <span
+              className={styles.flatButton}
               onClick={() => setFieldValue(name, value === 'select' ? 'input' : 'select')}
             >
               {value === 'select'
                 ? t('tracks.form.toggle_place_link')
                 : t('tracks.form.toggle_place_link_select')}
-            </FlatButton>
+            </span>
           </div>
         )}
       </Field>
