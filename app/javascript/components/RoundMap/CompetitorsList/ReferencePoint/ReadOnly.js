@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { selectReferencePointById } from 'redux/events/round/selectors'
-import LocationIcon from 'icons/location'
+import LocationIcon from 'icons/location.svg'
 
 import styles from './styles.module.scss'
 

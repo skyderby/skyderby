@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 
 import { createTrackSelector, deleteTrack, updateTrack } from 'redux/tracks'
 import { useI18n } from 'components/TranslationsProvider'
-import ChevronLeftIcon from 'icons/chevron-left'
+import ChevronLeftIcon from 'icons/chevron-left.svg'
 import Form from './Form'
 import styles from './styles.module.scss'
 
