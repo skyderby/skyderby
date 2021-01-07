@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 
 import Api from 'api'
 import { useI18n } from 'components/TranslationsProvider'
-import Input from 'components/ui/Input'
 import Modal from 'components/ui/Modal'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
 import TrackSuitField from 'components/TrackSuitField'
@@ -69,7 +68,7 @@ const NewTrackForm = ({ isShown, onHide, loggedIn }) => {
                   <label>{t('activerecord.attributes.track.name')}</label>
                   <div className={styles.formGroup}>
                     <Field
-                      as={Input}
+                      className={styles.input}
                       name="name"
                       placeholder={t('static_pages.index.track_form.name_plh')}
                       isInvalid={Boolean(touched.name && errors.name)}
@@ -87,7 +86,7 @@ const NewTrackForm = ({ isShown, onHide, loggedIn }) => {
               <label>{t('activerecord.attributes.track.place')}</label>
               <div className={styles.formGroup}>
                 <Field
-                  as={Input}
+                  className={styles.input}
                   name="location"
                   isInvalid={touched.location && errors.location}
                   placeholder={t('static_pages.index.track_form.location_plh')}
@@ -175,8 +174,8 @@ const NewTrackForm = ({ isShown, onHide, loggedIn }) => {
               <label>{t('activerecord.attributes.track.comment')}</label>
               <Field name="comment">
                 {({ field }) => (
-                  <Input
-                    as="textarea"
+                  <textarea
+                    className={styles.input}
                     rows={3}
                     placeholder={t('static_pages.index.track_form.comment_plh')}
                     {...field}

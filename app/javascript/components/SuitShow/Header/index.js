@@ -2,36 +2,36 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { Container, Navbar, Title, Subtitle, Spacer } from './elements'
+import styles from './styles.module.scss'
 
 const Header = ({ suit, make }) => {
   return (
-    <Container>
-      <Title>{suit.name}</Title>
-      <Subtitle>{make.name}</Subtitle>
+    <div className={styles.container}>
+      <h2 className={styles.title}>{suit.name}</h2>
+      <small className={styles.subtitle}>{make.name}</small>
 
-      <Navbar>
-        <NavLink exact to={`/suits/${suit.id}`}>
+      <div className={styles.navbar}>
+        <NavLink exact to={`/suits/${suit.id}`} className={styles.navbarLink}>
           <div>Overview</div>
         </NavLink>
-        <NavLink to={`/suits/${suit.id}/videos`}>
+        <NavLink to={`/suits/${suit.id}/videos`} className={styles.navbarLink}>
           <div>Videos</div>
         </NavLink>
-        <NavLink to={`/suits/${suit.id}/tracks`}>
+        <NavLink to={`/suits/${suit.id}/tracks`} className={styles.navbarLink}>
           <div>Tracks</div>
         </NavLink>
 
         {suit.editable && (
           <>
-            <Spacer />
+            <div className={styles.spacer} />
 
-            <NavLink to={`/suits/${suit.id}/edit`}>
+            <NavLink to={`/suits/${suit.id}/edit`} className={styles.navbarLink}>
               <div>Edit</div>
             </NavLink>
           </>
         )}
-      </Navbar>
-    </Container>
+      </div>
+    </div>
   )
 }
 

@@ -9,7 +9,8 @@ import Legend from './Legend'
 import ReferencePoints from './ReferencePoints'
 import FlightPaths from './FlightPaths'
 import DesignatedLane from './DesignatedLane'
-import { Container, MapElement } from './elements'
+
+import styles from './styles.module.scss'
 
 const Map = () => {
   const mapElementRef = useRef()
@@ -42,8 +43,8 @@ const Map = () => {
   }, [mapInstance, boundaries, google])
 
   return (
-    <Container>
-      <MapElement ref={mapElementRef}>Map</MapElement>
+    <main className={styles.container}>
+      <div ref={mapElementRef}>Map</div>
       <MapContext.Provider value={{ map: mapInstance }}>
         <ReferencePoints />
         <FlightPaths />
@@ -51,7 +52,7 @@ const Map = () => {
       </MapContext.Provider>
 
       <Legend />
-    </Container>
+    </main>
   )
 }
 

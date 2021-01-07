@@ -5,7 +5,7 @@ import AltitudeChart from './AltitudeChart'
 import CompetitorCards from './CompetitorCards'
 import processPoints from './processPoints'
 import getPathsUntilTime from './getPathsUntilTime'
-import { Container } from './elements'
+import styles from './styles.module.scss'
 
 const Player = ({ discipline, rangeFrom, rangeTo, group = [], playing }) => {
   const [playerPoints, setPlayerPoints] = useState([])
@@ -71,7 +71,7 @@ const Player = ({ discipline, rangeFrom, rangeTo, group = [], playing }) => {
   }, [group, rangeFrom, rangeTo])
 
   return (
-    <Container>
+    <div className={styles.container}>
       <AltitudeChart
         ref={chartRef}
         distanceRange={distanceRange}
@@ -79,7 +79,7 @@ const Player = ({ discipline, rangeFrom, rangeTo, group = [], playing }) => {
         rangeTo={rangeTo}
       />
       <CompetitorCards ref={cardsRef} group={group} discipline={discipline} />
-    </Container>
+    </div>
   )
 }
 

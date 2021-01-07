@@ -8,7 +8,9 @@ import { PageContext } from 'components/PageContext'
 import AppShell from 'components/AppShell'
 import TeamStandings from 'components/TeamStandings'
 
-const TeamStandingsPage = ({ eventId, editable }) => {
+const TeamStandingsPage = ({ match }) => {
+  const eventId = Number(match.params.id)
+  const editable = false // FIXME: fetch from server
   const dispatch = useDispatch()
 
   const [competitors, setCompetitors] = useState([])
@@ -37,8 +39,11 @@ const TeamStandingsPage = ({ eventId, editable }) => {
 }
 
 TeamStandingsPage.propTypes = {
-  eventId: PropTypes.string.isRequired,
-  editable: PropTypes.bool.isRequired
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired
 }
 
 export default TeamStandingsPage

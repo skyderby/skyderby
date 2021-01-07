@@ -1,34 +1,38 @@
 import React from 'react'
-import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 
-import LegendItem from './LegendItem'
+import { useI18n } from 'components/TranslationsProvider'
 import {
   afterExitColor,
   windowStartColor,
   windowEndColor
 } from 'components/RoundMap/constants'
 
+import styles from './styles.module.scss'
+
 const Legend = () => {
+  const { t } = useI18n()
   const { rangeFrom, rangeTo } = useSelector(state => state.eventRound.event)
 
   return (
-    <List>
-      <LegendItem color={afterExitColor}>
-        {I18n.t('events.rounds.map.after_exit_description')}
-      </LegendItem>
-      <LegendItem color={windowStartColor}>
-        {I18n.t('events.rounds.map.start_window_description', { altitude: rangeFrom })}
-      </LegendItem>
-      <LegendItem color={windowEndColor}>
-        {I18n.t('events.rounds.map.end_window_description', { altitude: rangeTo })}
-      </LegendItem>
-    </List>
+    <div>
+      <div className={styles.item}>
+        <div className={styles.circle} style={{ backgroundColor: afterExitColor }} />
+        &nbsp; &mdash; &nbsp;
+        {t('events.rounds.map.after_exit_description')}
+      </div>
+      <div className={styles.item}>
+        <div className={styles.circle} style={{ backgroundColor: windowStartColor }} />
+        &nbsp; &mdash; &nbsp;
+        {t('events.rounds.map.start_window_description', { altitude: rangeFrom })}
+      </div>
+      <div className={styles.item}>
+        <div className={styles.circle} style={{ backgroundColor: windowEndColor }} />
+        &nbsp; &mdash; &nbsp;
+        {t('events.rounds.map.end_window_description', { altitude: rangeTo })}
+      </div>
+    </div>
   )
 }
-
-const List = styled.div`
-  flex-grow: 0;
-`
 
 export default Legend

@@ -1,48 +1,35 @@
 import React from 'react'
-import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { selectGroup } from 'redux/events/round'
-import List from './List'
+import { useI18n } from 'components/TranslationsProvider'
 import CompetitorResult from './CompetitorResult'
-import FlatButton from 'components/ui/FlatButton'
+
+import styles from './styles.module.scss'
 
 const Group = ({ resultIds, number }) => {
+  const { t } = useI18n()
   const dispatch = useDispatch()
 
   const handleSelect = () => dispatch(selectGroup(resultIds))
 
   return (
-    <Container>
-      <Header>
-        <span>{`${I18n.t('events.rounds.map.group')} ${number}`}</span>
-        <FlatButton onClick={handleSelect}>Select</FlatButton>
-      </Header>
-      <List>
+    <div className={styles.group}>
+      <div className={styles.header}>
+        <span>{`${t('events.rounds.map.group')} ${number}`}</span>
+        <button className={styles.flatButton} onClick={handleSelect}>
+          Select
+        </button>
+      </div>
+      <div className={styles.list}>
         {resultIds.map((resultId, idx) => (
           <CompetitorResult resultId={resultId} key={idx} />
         ))}
-      </List>
-    </Container>
+      </div>
+    </div>
   )
 }
-
-const Header = styled.div`
-  color: #777;
-  display: flex;
-  font: 16px/24px 'Proxima Nova Semibold';
-  padding-bottom: 5px;
-  text-transform: uppercase;
-
-  > :not(:last-child) {
-    margin-right: 10px;
-  }
-`
-
-const Container = styled.div`
-  padding: 10px;
-`
 
 Group.propTypes = {
   resultIds: PropTypes.arrayOf(PropTypes.number).isRequired,

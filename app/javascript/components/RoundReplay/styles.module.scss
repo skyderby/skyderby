@@ -1,0 +1,38 @@
+.container {
+  background-color: var(--white);
+  border-bottom: solid 1px var(--border-color);
+  display: grid;
+  grid-template-rows: 2.5rem 3.5rem calc(100% - 7rem);
+  overflow: auto;
+}
+
+.header {
+  align-items: center;
+  border-bottom: solid 1px var(--border-color);
+  color: var(--grey-50);
+  display: flex;
+  font-weight: 500;
+  font-size: 1.25rem;
+  padding: 0 0.25rem;
+}
+
+.backLink {
+  composes: button from '~styles/button.module.scss';
+  composes: flat from '~styles/button.module.scss';
+}
+
+.playerControls {
+  align-items: center;
+  display: flex;
+  padding: 15px;
+  flex-shrink: 0;
+
+  > :not(:last-child) {
+    margin-right: 10px;
+  }
+}
+
+.playButton {
+  composes: button from '~styles/button.module.scss';
+  composes: sizeLg from '~styles/button.module.scss';
+}

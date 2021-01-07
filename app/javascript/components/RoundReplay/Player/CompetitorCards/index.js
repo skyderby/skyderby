@@ -11,7 +11,7 @@ import debounce from 'lodash.debounce'
 import PropTypes from 'prop-types'
 
 import { drawCard, updateCardNumbers } from './utils'
-import { Container, Card } from './elements'
+import styles from './styles.module.scss'
 
 const CompetitorCards = forwardRef(({ discipline, group }, ref) => {
   const cardRefs = useMemo(
@@ -80,13 +80,13 @@ const CompetitorCards = forwardRef(({ discipline, group }, ref) => {
   }, [group, cardRefs, debouncedSetOrder])
 
   return (
-    <Container>
+    <div className={styles.container}>
       {group.map(record => (
-        <Card key={record.id} ref={cardRefs[record.id]}>
+        <div className={styles.card} key={record.id} ref={cardRefs[record.id]}>
           <canvas width={750} height={250} />
-        </Card>
+        </div>
       ))}
-    </Container>
+    </div>
   )
 })
 
