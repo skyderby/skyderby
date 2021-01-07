@@ -5,9 +5,10 @@
   color: var(--grey-90);
   flex-grow: 1;
   flex-shrink: 1;
-  font-size: 1.25rem;
+  font-size: 0.875rem;
   line-height: normal;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 0.75rem;
+  transition: background-color 150ms linear;
   width: 100%;
   -webkit-appearance: none;
 
@@ -18,7 +19,7 @@
   }
 
   ::placeholder {
-    font-size: 1rem;
+    font-size: 1em;
   }
 
   :disabled {
@@ -34,4 +35,14 @@
     border-width: 1px;
     border-color: var(--red-80);
   }
+}
+
+.outlined {
+  background-color: transparent;
+  border: solid 1px var(--border-color);
+}
+
+.sizeLg {
+  font-size: 1.25rem;
+  padding: 0.75em 1em;
 }
