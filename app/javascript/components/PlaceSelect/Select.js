@@ -1,5 +1,5 @@
 import React from 'react'
-import Select from 'react-select-async-paginate'
+import { AsyncPaginate as Select } from 'react-select-async-paginate'
 import axios from 'axios'
 
 import Option from './Option'
