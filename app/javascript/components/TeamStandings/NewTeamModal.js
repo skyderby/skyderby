@@ -23,7 +23,7 @@ const NewTeamModal = ({ isShown, onHide }) => {
   }
 
   return (
-    <Modal isShown={isShown} onHide={onHide} title="New team">
+    <Modal size="sm" isShown={isShown} onHide={onHide} title="New team">
       <Form initialValues={initialValues} onSubmit={handleSubmit} onCancel={onHide} />
     </Modal>
   )

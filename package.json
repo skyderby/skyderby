@@ -104,7 +104,6 @@
     "reselect": "^4.0.0",
     "select2": "^4.0.3",
     "stimulus": "^1.0.1",
-    "styled-components": "^5.1.1",
     "turbolinks": "^5.1.1",
     "webpack-virtual-modules": "^0.3.0",
     "yaml-js": "^0.2.3",

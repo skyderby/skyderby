@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
-import Input from 'components/ui/Input'
 import TrackSuitField from 'components/TrackSuitField'
 import TrackLocationField from 'components/TrackLocationField'
 
@@ -75,8 +74,8 @@ const EditForm = ({ fields, onSubmit, onDelete, onCancel }) => {
           </label>
           <Field name="comment">
             {({ field }) => (
-              <Input
-                as="textarea"
+              <textarea
+                className={styles.input}
                 rows={3}
                 placeholder={t('static_pages.index.track_form.comment_plh')}
                 {...field}

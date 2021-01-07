@@ -1,11 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { createTrackSelector, deleteTrack, updateTrack } from 'redux/tracks'
 import { useI18n } from 'components/TranslationsProvider'
-import BackLink from 'components/ui/BackLink'
+import ChevronLeftIcon from 'icons/chevron-left'
 import Form from './Form'
 import styles from './styles.module.scss'
 
@@ -60,7 +61,11 @@ const TrackEdit = ({ trackId, returnTo }) => {
 
   return (
     <div className={styles.pageContainer}>
-      <BackLink to={`/tracks/${trackId}`}>{t('general.back')}</BackLink>
+      <Link className={styles.backLink} to={`/tracks/${trackId}`}>
+        <ChevronLeftIcon />
+        &nbsp;
+        {t('general.back')}
+      </Link>
 
       <div className={styles.formContainer}>
         <Form

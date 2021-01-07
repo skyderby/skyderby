@@ -1,0 +1,54 @@
+.modalBody {
+  display: grid;
+  grid-gap: 0.75rem;
+}
+
+.formRow {
+  display: grid;
+  align-items: center;
+  grid-template-columns: min-content 1fr;
+  grid-gap: 1rem;
+}
+
+.competitorRow {
+  composes: formRow;
+  grid-template-columns: 1fr min-content;
+}
+
+.input {
+  composes: input from '~styles/input.module.scss';
+  font-size: 1rem;
+  padding: calc(0.5rem - 2px) calc(0.75rem - 2px);
+  width: 100%;
+}
+
+.primaryButton {
+  composes: button from '~styles/button.module.scss';
+  composes: primary from '~styles/button.module.scss';
+
+  display: inline-flex;
+  margin-right: 0.5rem;
+}
+
+.secondaryButton {
+  composes: button from '~styles/button.module.scss';
+
+  display: inline-flex;
+}
+
+.deleteButton {
+  composes: button from '~styles/button.module.scss';
+  composes: red from '~styles/button.module.scss';
+  composes: outlined from '~styles/button.module.scss';
+}
+
+.flatButton {
+  composes: button from '~styles/button.module.scss';
+  composes: flat from '~styles/button.module.scss';
+
+  border-color: var(--grey-10);
+  background-color: var(--grey-10);
+  width: 2.1875rem;
+  height: 2.1875rem;
+  font-weight: bold;
+}
