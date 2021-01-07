@@ -1,0 +1,14 @@
+@import 'styles/breakpoints.scss';
+
+.container {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-rows: min-content min-content max-content;
+  width: 100%;
+  margin: 0 auto;
+
+  @include sm-screen {
+    padding: 1rem 0;
+    width: $bp-small;
+  }
+}

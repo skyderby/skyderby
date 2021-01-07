@@ -1,11 +1,9 @@
 import React, { useRef } from 'react'
+import cx from 'clsx'
 import PropTypes from 'prop-types'
 
-import Button from 'components/ui/buttons/Default'
-import Input from 'components/ui/Input'
-
-import InputGroup from './InputGroup'
 import LoadingIndicator from './LoadingIndicator'
+import styles from './styles.module.scss'
 
 const FileInput = ({ loading, isInvalid, ...props }) => {
   const inputRef = useRef()
@@ -22,13 +20,25 @@ const FileInput = ({ loading, isInvalid, ...props }) => {
   }
 
   return (
-    <InputGroup disabled={loading} isInvalid={isInvalid}>
-      <Input readonly type="text" disabled={loading} ref={inputRef} />
-      <Button as="span">
+    <div
+      className={cx(
+        styles.inputGroup,
+        loading && styles.disabled,
+        isInvalid && styles.invalid
+      )}
+    >
+      <input
+        className={styles.input}
+        readOnly
+        type="text"
+        disabled={loading}
+        ref={inputRef}
+      />
+      <span className={styles.button}>
         {loading ? <LoadingIndicator /> : <>&hellip;</>}
         <input type="file" {...props} onChange={handleChange} />
-      </Button>
-    </InputGroup>
+      </span>
+    </div>
   )
 }
 

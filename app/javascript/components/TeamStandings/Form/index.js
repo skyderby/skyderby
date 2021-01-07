@@ -2,71 +2,93 @@ import React from 'react'
 import { Formik, Field, FieldArray } from 'formik'
 import PropTypes from 'prop-types'
 
-import Input from 'components/ui/Input'
-import { FormBody, FormGroup, Label, Row, DeleteButton, Footer } from './elements'
+import { useI18n } from 'components/TranslationsProvider'
+import Modal from 'components/ui/Modal'
+import PlusIcon from 'icons/plus'
 import CompetitorSelect from './CompetitorSelect'
-import Button from 'components/ui/Button'
+import styles from './styles.module.scss'
 
 const Form = ({ initialValues, onSubmit, onCancel, isDeletable, onDelete }) => {
+  const { t } = useI18n()
+
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
       render={({ values, handleSubmit, setFieldValue, isSubmitting }) => (
         <form onSubmit={handleSubmit}>
-          <FormBody>
-            <FormGroup>
-              <Label>Name</Label>
-              <Field as={Input} name="name" />
-            </FormGroup>
+          <Modal.Body className={styles.modalBody}>
+            <div className={styles.formRow}>
+              <label>Name</label>
+              <Field className={styles.input} name="name" />
+            </div>
 
-            <FormGroup>
-              <Label>Competitors</Label>
-              <FieldArray
-                name="competitorIds"
-                render={arrayHelpers => (
-                  <>
-                    {values.competitorIds.map((id, idx) => (
-                      <Row key={idx}>
-                        <Field
-                          as={CompetitorSelect}
-                          name={`competitorIds[${idx}]`}
-                          onChange={value =>
-                            setFieldValue(`competitorIds[${idx}]`, value)
-                          }
-                        />
-                        <DeleteButton onClick={() => arrayHelpers.remove(idx)}>
-                          &times;
-                        </DeleteButton>
-                      </Row>
-                    ))}
+            <FieldArray
+              name="competitorIds"
+              render={arrayHelpers => (
+                <>
+                  <div className={styles.competitorRow}>
+                    <label>Competitors</label>
+                    <button
+                      className={styles.flatButton}
+                      type="button"
+                      onClick={() => arrayHelpers.push()}
+                    >
+                      <PlusIcon />
+                    </button>
+                  </div>
 
-                    <Button type="button" onClick={() => arrayHelpers.push()}>
-                      <i className="fa fa-plus" />
-                      &nbsp; Competitor
-                    </Button>
-                  </>
-                )}
-              />
-            </FormGroup>
-          </FormBody>
-          <Footer>
+                  {values.competitorIds.map((id, idx) => (
+                    <div className={styles.competitorRow} key={idx}>
+                      <Field
+                        as={CompetitorSelect}
+                        name={`competitorIds[${idx}]`}
+                        menuPortalTarget={document.getElementById('dropdowns-root')}
+                        onChange={value => setFieldValue(`competitorIds[${idx}]`, value)}
+                      />
+                      <button
+                        className={styles.flatButton}
+                        onClick={() => arrayHelpers.remove(idx)}
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  ))}
+                </>
+              )}
+            />
+          </Modal.Body>
+          <Modal.Footer spaceBetween>
             <div>
               {isDeletable && (
-                <Button type="button" onClick={onDelete} disabled={isSubmitting}>
-                  {I18n.t('general.delete')}
-                </Button>
+                <button
+                  className={styles.deleteButton}
+                  type="button"
+                  onClick={onDelete}
+                  disabled={isSubmitting}
+                >
+                  {t('general.delete')}
+                </button>
               )}
             </div>
             <div>
-              <Button type="submit" disabled={isSubmitting}>
-                {I18n.t('general.save')}
-              </Button>
-              <Button type="button" onClick={onCancel} disabled={isSubmitting}>
-                {I18n.t('general.cancel')}
-              </Button>
+              <button
+                className={styles.primaryButton}
+                type="submit"
+                disabled={isSubmitting}
+              >
+                {t('general.save')}
+              </button>
+              <button
+                className={styles.secondaryButton}
+                type="button"
+                onClick={onCancel}
+                disabled={isSubmitting}
+              >
+                {t('general.cancel')}
+              </button>
             </div>
-          </Footer>
+          </Modal.Footer>
         </form>
       )}
     />

@@ -9,6 +9,7 @@ import TracksShow from 'pages/tracks/Show'
 import TracksIndex from 'pages/tracks/Index'
 import FlightProfiles from 'pages/FlightProfiles'
 import EventsIndex from 'pages/events/Index'
+import EventsTeamStandings from 'pages/events/TeamStandings'
 import EventRoundMap from 'pages/events/RoundMap'
 import EventRoundReplay from 'pages/events/RoundReplay'
 import SuitsIndex from 'pages/suits/Index'
@@ -42,6 +43,7 @@ const AppRouter = () => {
       <Route path="/tracks/:id" component={TracksShow} />
 
       <Route exact path="/events" component={EventsIndex} />
+      <Route path="/events/:id/teams" component={EventsTeamStandings} />
       <Route path="/events/:id/rounds/:roundId/map" component={EventRoundMap} />
       <Route path="/events/:id/rounds/:roundId/replay" component={EventRoundReplay} />
 

@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { usePageContext } from 'components/PageContext'
-import FlatButton from 'components/ui/FlatButton'
 import EditTeamModal from 'components/TeamStandings/EditTeamModal'
 
-import { TeamDetails, TeamName } from './elements'
+import styles from './styles.module.scss'
 
 const Team = ({ id, name, competitors }) => {
   const [isEditing, setIsEditing] = useState(false)
@@ -14,12 +13,14 @@ const Team = ({ id, name, competitors }) => {
   const sortedCompetitors = competitors.sort(el => -el.total_points)
 
   return (
-    <TeamDetails>
-      <TeamName>
+    <div className={styles.teamDetails}>
+      <div className={styles.teamName}>
         <span>{name}</span>
         {editable && (
           <>
-            <FlatButton onClick={() => setIsEditing(true)}>Edit</FlatButton>
+            <button className={styles.flatButton} onClick={() => setIsEditing(true)}>
+              Edit
+            </button>
             <EditTeamModal
               id={id}
               isShown={isEditing}
@@ -27,7 +28,7 @@ const Team = ({ id, name, competitors }) => {
             />
           </>
         )}
-      </TeamName>
+      </div>
       <ul>
         {sortedCompetitors.map(competitor => (
           <li key={competitor.id}>
@@ -35,7 +36,7 @@ const Team = ({ id, name, competitors }) => {
           </li>
         ))}
       </ul>
-    </TeamDetails>
+    </div>
   )
 }
 

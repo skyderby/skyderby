@@ -1,31 +1,31 @@
 import React from 'react'
-import styled from 'styled-components'
-import { useFormik } from 'formik'
+import { Formik, Field } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
+import { useI18n } from 'components/TranslationsProvider'
 import { updatePenalty } from 'redux/events/round'
+import Modal from 'components/ui/Modal'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
-import DefaultButton from 'components/ui/buttons/Default'
-import PrimaryButton from 'components/ui/buttons/Primary'
 
-const PenaltyForm = ({ resultId, onComplete }) => {
+import styles from './styles.module.scss'
+
+const PenaltyForm = ({ isShown, title, resultId, onModalHide }) => {
+  const { t } = useI18n()
   const dispatch = useDispatch()
   const { penalized, penaltySize, penaltyReason } = useSelector(state =>
     state.eventRound.results.find(({ id }) => id === resultId)
   )
 
-  const { values, handleChange, handleSubmit } = useFormik({
-    initialValues: {
-      penalized: penalized || false,
-      penaltySize: penaltySize || 0,
-      penaltyReason: penaltyReason || ''
-    },
-    onSubmit: values => {
-      dispatch(updatePenalty(resultId, values))
-      onComplete()
-    }
-  })
+  const initialValues = {
+    penalized: penalized || false,
+    penaltySize: penaltySize || 0,
+    penaltyReason: penaltyReason || ''
+  }
+
+  const handleSubmit = values => {
+    dispatch(updatePenalty(resultId, values)).then(onModalHide)
+  }
 
   const penaltyOptions = ['10', '20', '50', '100'].map(value => ({
     value,
@@ -33,95 +33,45 @@ const PenaltyForm = ({ resultId, onComplete }) => {
   }))
 
   return (
-    <form onSubmit={handleSubmit}>
-      <FormBody>
-        <FormGroup>
-          <label htmlFor="penalized">Apply penalty</label>
-          <input
-            name="penalized"
-            type="checkbox"
-            value="true"
-            checked={values.penalized}
-            onChange={handleChange}
-          />
-        </FormGroup>
+    <Modal isShown={isShown} onHide={onModalHide} size="sm" title={title}>
+      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Modal.Body className={styles.modalBody}>
+              <label className={styles.label} htmlFor="penalized">
+                Apply penalty
+              </label>
+              <Field name="penalized" type="checkbox" />
 
-        <FormGroup>
-          <label>Deduction</label>
+              <label className={styles.label}>Deduction</label>
+              <Field as={RadioButtonGroup} name="penaltySize" options={penaltyOptions} />
 
-          <RadioButtonGroup
-            name="penaltySize"
-            value={values.penaltySize}
-            options={penaltyOptions}
-            onChange={handleChange}
-          />
-        </FormGroup>
+              <label className={styles.label} htmlFor="penaltyReason">
+                Reason
+              </label>
+              <Field className={styles.input} name="penaltyReason" />
+            </Modal.Body>
 
-        <FormGroup>
-          <label htmlFor="penaltyReason">Reason</label>
-          <input
-            name="penaltyReason"
-            type="text"
-            value={values.penaltyReason}
-            onChange={handleChange}
-          />
-        </FormGroup>
-      </FormBody>
-
-      <Footer>
-        <PrimaryButton type="submit">{I18n.t('general.save')}</PrimaryButton>
-        <DefaultButton onClick={onComplete}>{I18n.t('general.cancel')}</DefaultButton>
-      </Footer>
-    </form>
+            <Modal.Footer>
+              <button className={styles.primaryButton} type="submit">
+                {t('general.save')}
+              </button>
+              <button className={styles.secondaryButton} onClick={onModalHide}>
+                {t('general.cancel')}
+              </button>
+            </Modal.Footer>
+          </form>
+        )}
+      </Formik>
+    </Modal>
   )
 }
 
-const FormGroup = styled.div`
-  align-items: center;
-  display: flex;
-  font-family: 'Proxima Nova Regular';
-  margin-bottom: 12px;
-
-  > label {
-    flex-grow: 0;
-    flex-shrink: 0;
-    font-family: 'Proxima Nova Semibold';
-    margin: 0;
-    padding: 0 1rem;
-    text-align: right;
-    width: 30%;
-  }
-
-  input[type='text'] {
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-md);
-    font-family: 'Proxima Nova Regular';
-    padding: 6px 12px;
-    width: 100%;
-  }
-
-  input[type='checkbox'] {
-    cursor: pointer;
-    height: 24px;
-    margin: 0;
-    width: 24px;
-  }
-`
-
-const FormBody = styled.div`
-  padding: 15px;
-`
-
-const Footer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  border-top: 1px solid var(--border-color);
-  padding: 10px 15px;
-`
-
 PenaltyForm.propTypes = {
+  isShown: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
   resultId: PropTypes.number.isRequired,
-  onComplete: PropTypes.func.isRequired
+  onModalHide: PropTypes.func.isRequired
 }
 
 export default PenaltyForm
