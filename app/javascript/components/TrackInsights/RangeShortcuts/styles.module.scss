@@ -44,3 +44,8 @@
   composes: button from '~styles/button.module.scss';
   composes: primary from '~styles/button.module.scss';
 }
+
+.input {
+  composes: input from '~styles/input.module.scss';
+  composes: outlined from '~styles/input.module.scss';
+}

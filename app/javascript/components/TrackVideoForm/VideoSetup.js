@@ -6,7 +6,6 @@ import { videoCodeFromUrl } from 'utils/youtube'
 
 import { useI18n } from 'components/TranslationsProvider'
 import YoutubePlayer from 'components/YoutubePlayer'
-import Input from 'components/ui/Input'
 
 import styles from './styles.module.scss'
 
@@ -38,7 +37,7 @@ const VideoSetup = ({ setFieldValue, videoId }) => {
         </div>
         <div className={styles.controls}>
           <Field
-            as={Input}
+            className={styles.input}
             name="url"
             placeholder="Enter Youtube link here"
             onChange={handleUrlChange}
@@ -55,7 +54,13 @@ const VideoSetup = ({ setFieldValue, videoId }) => {
         <div className={styles.controls}>
           <YoutubePlayer ref={playerRef} videoId={videoId} onPause={setTimeFromVideo} />
           <div className={styles.inputContainer}>
-            <Field as={Input} type="number" step="0.1" min="0" name="videoOffset" />
+            <Field
+              className={styles.input}
+              type="number"
+              step="0.1"
+              min="0"
+              name="videoOffset"
+            />
           </div>
         </div>
       </div>

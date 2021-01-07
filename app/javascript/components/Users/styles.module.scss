@@ -18,6 +18,7 @@
 
 .input {
   composes: input from '~styles/input.module.scss';
+  composes: sizeLg from '~styles/input.module.scss';
 }
 
 .primaryButton {

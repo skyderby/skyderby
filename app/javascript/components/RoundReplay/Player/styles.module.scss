@@ -1,7 +1,6 @@
-import styled from 'styled-components'
-import { devices } from 'styles/devices'
+@import 'styles/breakpoints.scss';
 
-export const Container = styled.div`
+.container {
   display: flex;
   flex-wrap: wrap;
   padding: 0 15px;
@@ -10,9 +9,9 @@ export const Container = styled.div`
     margin-bottom: 15px;
   }
 
-  @media ${devices.small} {
+  @include sm-screen {
     > :not(:last-child) {
       margin-bottom: 0;
     }
   }
-`
+}

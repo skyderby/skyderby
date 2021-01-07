@@ -8,7 +8,7 @@ const TOGGLE_RESULT = `${prefix} TOGGLE_RESULT`
 const initialState = []
 
 export const toggleResult = resultId => {
-  return dispatch => dispatch({ type: TOGGLE_RESULT, payload: resultId })
+  return async dispatch => dispatch({ type: TOGGLE_RESULT, payload: resultId })
 }
 
 export const selectGroup = resultIds => {

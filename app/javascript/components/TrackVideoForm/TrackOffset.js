@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Field } from 'formik'
 
 import { useI18n } from 'components/TranslationsProvider'
-import Input from 'components/ui/Input'
 import { usePageContext } from 'components/PageContext'
 import AltitudeChart from 'components/AltitudeChart'
 import PlotLine from 'components/Highchart/Plotline'
@@ -67,7 +66,7 @@ const TrackOffset = ({ setFieldValue, value }) => {
           </AltitudeChart>
         </div>
         <div className={styles.inputContainer}>
-          <Field as={Input} name="trackOffset" type="number" step="0.1" />
+          <Field className={styles.input} name="trackOffset" type="number" step="0.1" />
         </div>
       </div>
     </div>

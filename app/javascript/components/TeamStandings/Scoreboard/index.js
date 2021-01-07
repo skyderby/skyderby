@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Table } from './elements'
 import Team from './Team'
+import styles from './styles.module.scss'
 
 const Scoreboard = ({ rankedTeams }) => {
   return (
-    <Table>
+    <table className={styles.table}>
       <thead>
         <tr>
           <th>#</th>
@@ -25,7 +25,7 @@ const Scoreboard = ({ rankedTeams }) => {
           </tr>
         ))}
       </tbody>
-    </Table>
+    </table>
   )
 }
 

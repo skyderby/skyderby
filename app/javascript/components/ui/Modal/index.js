@@ -61,10 +61,16 @@ const Body = ({ children, className }) => (
 )
 Body.propTypes = { children: childrenType, className: PropTypes.string }
 
-const Footer = ({ children, className }) => (
-  <div className={cx(styles.footer, className)}>{children}</div>
+const Footer = ({ children, className, spaceBetween }) => (
+  <div className={cx(styles.footer, spaceBetween && styles.spaceBetween, className)}>
+    {children}
+  </div>
 )
-Footer.propTypes = { children: childrenType, className: PropTypes.string }
+Footer.propTypes = {
+  children: childrenType,
+  className: PropTypes.string,
+  spaceBetween: PropTypes.bool
+}
 
 Modal.Body = Body
 Modal.Footer = Footer
