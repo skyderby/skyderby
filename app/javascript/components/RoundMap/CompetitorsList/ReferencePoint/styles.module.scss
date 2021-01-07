@@ -1,0 +1,15 @@
+.readOnly {
+  margin-left: auto;
+  display: flex;
+  align-items: baseline;
+  white-space: nowrap;
+
+  svg {
+    height: 0.75rem;
+    margin-right: 0.25rem;
+
+    path {
+      fill: var(--grey-50);
+    }
+  }
+}

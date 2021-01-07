@@ -3,7 +3,6 @@ import { Formik, Field } from 'formik'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
-import Input from 'components/ui/Input'
 import Modal from 'components/ui/Modal'
 
 import styles from './styles.module.scss'
@@ -38,7 +37,7 @@ const CustomRangeModal = ({
               </label>
               <Field
                 autoFocus
-                as={Input}
+                className={styles.input}
                 type="number"
                 name="from"
                 id="rangeFrom"
@@ -50,7 +49,7 @@ const CustomRangeModal = ({
                 {t('tracks.show.range_to')}
               </label>
               <Field
-                as={Input}
+                className={styles.input}
                 type="number"
                 name="to"
                 id="rangeTo"

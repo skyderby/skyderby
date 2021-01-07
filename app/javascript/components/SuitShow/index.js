@@ -11,7 +11,7 @@ import SuitTracks from 'components/SuitTracks'
 import Breadcrumbs from 'components/ui/Breadcrumbs'
 
 import Header from './Header'
-import { Container } from './elements'
+import styles from './styles.module.scss'
 
 const SuitShow = ({ suitId }) => {
   const suit = useSelector(createSuitSelector(suitId))
@@ -20,7 +20,7 @@ const SuitShow = ({ suitId }) => {
   if (!suit || !make) return null
 
   return (
-    <Container>
+    <div className={styles.container}>
       <Breadcrumbs>
         <Breadcrumbs.Item>
           <Link to="/suits">Suits</Link>
@@ -38,7 +38,7 @@ const SuitShow = ({ suitId }) => {
         <Route path="/suits/:id/videos" component={SuitVideos} />
         <Route path="/suits/:id/tracks" component={SuitTracks} />
       </Switch>
-    </Container>
+    </div>
   )
 }
 

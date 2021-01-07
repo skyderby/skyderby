@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { drawChart, updateChart } from './utils'
 import { drawHeight, drawWidth } from './constants'
-import { Canvas } from './elements'
+import styles from './styles.module.scss'
 
 const AltitudeChart = forwardRef(({ distanceRange, rangeFrom, rangeTo }, ref) => {
   const canvasRef = useRef()
@@ -25,7 +25,14 @@ const AltitudeChart = forwardRef(({ distanceRange, rangeFrom, rangeTo }, ref) =>
     drawChart(ctx, rangeFrom, rangeTo)
   }, [rangeFrom, rangeTo])
 
-  return <Canvas ref={canvasRef} width={drawWidth} height={drawHeight} />
+  return (
+    <canvas
+      className={styles.canvas}
+      ref={canvasRef}
+      width={drawWidth}
+      height={drawHeight}
+    />
+  )
 })
 
 AltitudeChart.displayName = 'AltitudeChart'

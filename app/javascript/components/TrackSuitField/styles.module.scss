@@ -15,3 +15,16 @@
   font-size: 0.825rem;
   color: var(--red-80);
 }
+
+.flatButton {
+  composes: button from '~styles/button.module.scss';
+  composes: flat from '~styles/button.module.scss';
+  composes: sizeXs from '~styles/button.module.scss';
+
+  display: inline-flex;
+}
+
+.input {
+  composes: input from '~styles/input.module.scss';
+  composes: outlined from '~styles/input.module.scss';
+}
