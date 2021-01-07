@@ -71,7 +71,7 @@ const NewTrackForm = ({ isShown, onHide, loggedIn }) => {
                       className={styles.input}
                       name="name"
                       placeholder={t('static_pages.index.track_form.name_plh')}
-                      isInvalid={Boolean(touched.name && errors.name)}
+                      data-invalid={Boolean(touched.name && errors.name)}
                     />
                     {touched.name && errors.name && (
                       <ErrorMessage>{errors.name}</ErrorMessage>
@@ -88,7 +88,7 @@ const NewTrackForm = ({ isShown, onHide, loggedIn }) => {
                 <Field
                   className={styles.input}
                   name="location"
-                  isInvalid={touched.location && errors.location}
+                  data-invalid={touched.location && errors.location}
                   placeholder={t('static_pages.index.track_form.location_plh')}
                 />
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
-import CogIcon from 'icons/cog'
+import CogIcon from 'icons/cog.svg'
 import { STRAIGHT_LINE, TRAJECTORY_DISTANCE } from 'redux/userPreferences'
 import FlightProfilesChart from './FlightProfilesChart'
 import TerrainClearanceChart from './TerrainClearanceChart'

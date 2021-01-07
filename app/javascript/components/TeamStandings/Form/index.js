@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
 import Modal from 'components/ui/Modal'
-import PlusIcon from 'icons/plus'
+import PlusIcon from 'icons/plus.svg'
 import CompetitorSelect from './CompetitorSelect'
 import styles from './styles.module.scss'
 
