@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import Logo from 'icons/logo'
+import Logo from 'icons/logo.svg'
 import styles from './styles.module.scss'
 
 const PageWrapper = ({ children }) => (
