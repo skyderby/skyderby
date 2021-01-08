@@ -34,7 +34,8 @@
   }
 
   &:disabled {
-    opacity: 0.3;
+    opacity: 0.7;
+    cursor: not-allowed;
   }
 
   @include sm-screen {
@@ -115,24 +116,23 @@
   --active-background-color: var(--red-80);
   --active-border-color: var(--red-80);
   --active-text-color: var(--white);
-
-  &.outlined {
-    --background-color: var(--white);
-    --text-color: var(--red-70);
-    --active-background-color: var(--white);
-    --active-border-color: var(--red-80);
-    --active-text-color: var(--red-80);
-  }
 }
 
 .primary {
-  --background-color: var(--green-40);
-  --border-color: var(--green-40);
+  --background-color: var(--green-20);
+  --border-color: var(--green-20);
   --text-color: var(--white);
-  --outline-color: var(--green-50-rgb);
-  --active-background-color: var(--green-50);
-  --active-border-color: var(--green-50);
+  --outline-color: var(--green-40-rgb);
+  --active-background-color: var(--green-40);
+  --active-border-color: var(--green-40);
   --active-text-color: var(--white);
+}
+
+.outlined {
+  --background-color: var(--white);
+  --text-color: var(--border-color);
+  --active-background-color: var(--white);
+  --active-text-color: var(--active-border-color);
 }
 
 .flat {
