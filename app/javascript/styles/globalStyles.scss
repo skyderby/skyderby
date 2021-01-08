@@ -1,5 +1,5 @@
 @import 'styles/fonts.scss';
-@import 'normalize.css';
+@import '~normalize.css';
 
 :root {
   --blue-90: #252f3c;
@@ -21,8 +21,11 @@
 
   --green-50-rgb: 52, 158, 52;
   --green-50: rgb(var(--green-50-rgb));
-  --green-40: #5cb85c;
+  --green-40-rgb: 92, 184, 92;
+  --green-40: rgb(var(--green-40-rgb));
   --green-30: #1fbe78;
+  --green-20-rgb: 45, 134, 45;
+  --green-20: rgb(var(--green-20-rgb));
 
   --grey-90: #333;
   --grey-80: #565656;

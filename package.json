@@ -14,7 +14,9 @@
   },
   "scripts": {
     "lint": "yarn eslint app/javascript spec/javascript",
-    "test": "jest"
+    "test": "jest",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "prettier": {
     "printWidth": 90,
@@ -112,6 +114,12 @@
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.9.6",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.1",
+    "@storybook/addon-a11y": "^6.1.11",
+    "@storybook/addon-actions": "^6.1.11",
+    "@storybook/addon-essentials": "^6.1.11",
+    "@storybook/addon-links": "^6.1.11",
+    "@storybook/react": "^6.1.11",
+    "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.7.0",
     "@testing-library/react": "^10.0.4",
     "babel-eslint": "^10.0.1",
