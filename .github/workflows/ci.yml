@@ -51,7 +51,27 @@ jobs:
       - name: Install packages
         run: yarn install
       - name: Run Eslint and Prettier
-        run: yarn lint
+        run: yarn lint-code
+
+  stylelint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Nodejs
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.2.0
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install packages
+        run: yarn install
+      - name: Run Eslint and Prettier
+        run: yarn lint-styles
 
   unit-test:
     runs-on: ubuntu-latest
