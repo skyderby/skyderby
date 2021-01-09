@@ -1,36 +1,46 @@
+@import 'styles/breakpoints';
+
 .button {
   composes: button from '~styles/button.module.scss';
 
-  font-size: 1rem;
-  line-height: 1.0625rem;
+  display: inline-block;
   padding: 0.5rem 0.75rem;
 
-  display: inline-block;
-  &:first-child:not(:last-child) {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
+  font-size: 1rem;
+  line-height: 1.0625rem;
+}
 
-  &:not(:first-child):not(:last-child) {
-    border-radius: 0;
-  }
+.button:not(:first-child) {
+  margin-left: -1px;
+}
 
-  &:last-child:not(:first-child) {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
+.active + .button {
+  border-left-color: var(--active-border-color);
+}
 
-  &:not(:first-child) {
-    margin-left: -1px;
-  }
+.button:first-child:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
 
-  > input {
-    position: absolute;
-    clip: rect(0, 0, 0, 0);
-    pointer-events: none;
-  }
+.button:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
 
-  &:hover + .button {
+.button:last-child:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.button > input {
+  position: absolute;
+
+  clip: rect(0, 0, 0, 0);
+  pointer-events: none;
+}
+
+@include sm-screen {
+  .button:hover + .button {
     border-left-color: var(--active-border-color);
   }
 }
@@ -38,8 +48,4 @@
 .active {
   --border-color: var(--active-border-color);
   --text-color: var(--active-text-color);
-
-  & + .button {
-    border-left-color: var(--active-border-color);
-  }
 }

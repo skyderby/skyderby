@@ -1,36 +1,39 @@
 .title {
-  color: var(--grey-80);
-  font-size: 2rem;
-  font-weight: 600;
-  text-align: center;
   margin: 1rem 0;
+
+  color: var(--grey-80);
+  font-weight: 600;
+  font-size: 2rem;
+  text-align: center;
 }
 
 .subtitle {
   color: var(--grey-70);
-  font-size: 1.5rem;
   font-weight: 600;
+  font-size: 1.5rem;
   text-align: center;
 }
 
 .link {
-  align-items: center;
-  border-radius: var(--border-radius-sm);
-  color: var(--grey-80);
   display: grid;
   grid-gap: 0.5rem;
   grid-template-columns: 5fr 1fr 1fr 1fr;
+  align-items: center;
   padding: 1rem;
+  border-radius: var(--border-radius-sm);
+
+  color: var(--grey-80);
 
   &:hover {
-    background-color: var(--grey-10);
     color: var(--grey-80);
+
+    background-color: var(--grey-10);
   }
 }
 
 .suitName {
-  font-size: 1.125rem;
   font-weight: 500;
+  font-size: 1.125rem;
 }
 
 .usageStat {
