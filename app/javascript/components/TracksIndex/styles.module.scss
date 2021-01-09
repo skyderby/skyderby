@@ -1,4 +1,4 @@
-@import 'styles/breakpoints.scss';
+@import 'styles/breakpoints';
 
 .container {
   display: grid;
@@ -8,35 +8,39 @@
   padding: 0 1rem;
 
   @include lg-screen {
-    width: 1200px;
     grid-template-rows: min-content min-content max-content min-content;
+    width: 1200px;
   }
 }
 
 .header {
-  align-items: center;
   display: flex;
+  align-items: center;
   justify-content: space-between;
 }
 
 .title {
-  font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: 1px;
   margin: 0;
+
+  font-weight: bold;
+  font-size: 2rem;
+  letter-spacing: 1px;
 }
 
 .activityLink {
-  border-radius: var(--border-radius-md);
-  color: var(--grey-70);
-  font-size: 1rem;
-  font-weight: 500;
-  letter-spacing: 0.8px;
-  outline: none;
-  padding: 0.5rem 0.5rem;
   position: relative;
-  text-decoration: none;
+
+  padding: 0.5rem;
+  border-radius: var(--border-radius-md);
+
+  color: var(--grey-70);
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
+  text-decoration: none;
+
+  outline: none;
 
   &:hover,
   &:focus {
@@ -52,15 +56,18 @@
     }
 
     &::after {
-      content: '';
-      display: block;
       position: absolute;
+      right: 0;
       bottom: 0;
       left: 0;
-      right: 0;
+
+      display: block;
       height: 3px;
+
       background-color: var(--blue-30);
       opacity: 0.9;
+
+      content: '';
     }
   }
 

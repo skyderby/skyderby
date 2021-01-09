@@ -1,48 +1,46 @@
-@import 'styles/breakpoints.scss';
+@import 'styles/breakpoints';
 
 .header {
-  align-items: center;
-  color: var(--white);
-  background-color: var(--blue-90);
   display: flex;
+  align-items: center;
   height: 4.5rem;
   padding: 0 1rem;
 
-  > ul {
-    list-style: none;
-    height: 100%;
-  }
+  color: var(--white);
 
-  > ul > li {
-    align-items: center;
-    display: flex;
-    height: 100%;
+  background-color: var(--blue-90);
+
+  @include sm-screen {
+    height: 3.75rem;
   }
 
   a {
     color: inherit;
     text-decoration: none;
   }
-
-  @include sm-screen {
-    height: 3.75rem;
-  }
 }
 
 .menu {
   display: none;
+  height: 100%;
   margin: 0;
   padding: 0;
-  height: 100%;
+
+  list-style: none;
 
   @include sm-screen {
     display: flex;
   }
 
   > li {
+    position: relative;
+
+    display: flex;
+
     flex-grow: 1;
     flex-shrink: 1;
-    position: relative;
+    align-items: center;
+    height: 100%;
 
     &:not(:last-child) {
       margin-right: 0.25rem;
@@ -50,28 +48,32 @@
   }
 
   a {
+    padding: 0.5rem;
     border-radius: var(--border-radius-md);
+
     font-size: 0.875rem;
     text-transform: uppercase;
-    padding: 0.5rem;
   }
 
   a:not(:global(.active)):hover {
     background-color: var(--blue-20);
   }
 
-  :global(a.active) {
+  :global(.active) {
     color: var(--blue-70);
 
     &::after {
-      content: '';
-      background-color: var(--blue-70);
-      display: block;
       position: absolute;
+      right: 0;
       bottom: 0;
       left: 0;
-      right: 0;
+
+      display: block;
       height: 0.25rem;
+
+      background-color: var(--blue-70);
+
+      content: '';
     }
   }
 }
@@ -100,13 +102,14 @@
 }
 
 .home {
-  color: var(--white);
   display: flex;
   align-items: center;
-  text-transform: uppercase;
+  margin-right: 1rem;
+
+  color: var(--white);
   font-weight: 100;
   font-size: 1.75rem;
-  margin-right: 1rem;
+  text-transform: uppercase;
 
   svg {
     height: 2.5rem;
@@ -119,11 +122,12 @@
 }
 
 .logoutButton {
-  background-color: transparent;
+  padding: 0.5rem;
   border: 0;
   border-radius: var(--border-radius-md);
+
+  background-color: transparent;
   cursor: pointer;
-  padding: 0.5rem;
 
   &:hover {
     background-color: var(--blue-20);

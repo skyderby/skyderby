@@ -5,9 +5,9 @@
 
 .formRow {
   display: grid;
-  align-items: center;
-  grid-template-columns: 1fr max-content;
   grid-gap: 1rem;
+  grid-template-columns: 1fr max-content;
+  align-items: center;
 }
 
 .primaryButton {
@@ -23,9 +23,12 @@
   composes: button from '~styles/button.module.scss';
   composes: flat from '~styles/button.module.scss';
 
-  border-color: var(--grey-10);
-  background-color: var(--grey-10);
   width: 2.1875rem;
   height: 2.1875rem;
+
+  border-color: var(--grey-10);
+
   font-weight: bold;
+
+  background-color: var(--grey-10);
 }
