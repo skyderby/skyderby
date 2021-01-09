@@ -1,17 +1,17 @@
-@import 'styles/breakpoints.scss';
+@import 'styles/breakpoints';
 
 .container {
   display: flex;
   flex-wrap: wrap;
   padding: 0 15px;
 
-  > :not(:last-child) {
-    margin-bottom: 15px;
-  }
-
   @include sm-screen {
     > :not(:last-child) {
       margin-bottom: 0;
     }
+  }
+
+  > :not(:last-child) {
+    margin-bottom: 15px;
   }
 }

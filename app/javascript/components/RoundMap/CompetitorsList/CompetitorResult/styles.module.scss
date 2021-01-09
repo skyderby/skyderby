@@ -3,8 +3,8 @@
 }
 
 .row {
-  align-items: center;
   display: flex;
+  align-items: center;
 
   &:not(:last-child) {
     margin-bottom: 0.25rem;
@@ -13,14 +13,14 @@
 
 .label {
   display: flex;
-  align-items: center;
   flex-basis: 80%;
-  flex-shrink: 1;
   flex-grow: 1;
+  flex-shrink: 1;
+  align-items: center;
   min-width: 0;
   margin-bottom: 0;
 
-  input[type='checkbox'] {
+  [type='checkbox'] {
     margin: 0 5px 0 0;
   }
 
@@ -30,9 +30,10 @@
 }
 
 .additionalInfo {
-  align-items: center;
   display: flex;
+  align-items: center;
   margin-left: auto;
+
   color: var(--grey-70);
   font-size: 0.75rem;
 }
@@ -41,16 +42,18 @@
   flex-grow: 0;
   flex-shrink: 1;
   overflow: hidden;
-  text-overflow: ellipsis;
+
   white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .mark {
-  background-color: var(--grey-50);
   display: inline-block;
-  height: 0.625rem;
   width: 0.625rem;
+  height: 0.625rem;
   border-radius: 100%;
+
+  background-color: var(--grey-50);
 }
 
 .direction {
@@ -69,14 +72,16 @@
 
 .penaltyLabel {
   align-self: center;
+  padding: 2px 6px 3px;
   border-radius: var(--border-radius-md);
-  background-color: #f0ad4e;
+
+  color: var(--white);
   font-size: 11px;
   line-height: 11px;
-  color: white;
-  padding: 2px 6px 3px 6px;
-  vertical-align: baseline;
   white-space: nowrap;
+  vertical-align: baseline;
+
+  background-color: #f0ad4e;
 }
 
 .majorPenalty {
@@ -85,6 +90,6 @@
 
 .flatButton {
   composes: button from '~styles/button.module.scss';
-  composes: flat from '~styles/button.module.scss'; 
-  composes: sizeXs from '~styles/button.module.scss'; 
+  composes: flat from '~styles/button.module.scss';
+  composes: sizexs from '~styles/button.module.scss';
 }

@@ -1,9 +1,9 @@
-@import 'styles/breakpoints.scss';
+@import 'styles/breakpoints';
 
 .canvas {
-  margin-left: auto;
-  margin-right: auto;
   width: 100%;
+  margin-right: auto;
+  margin-left: auto;
 
   @include sm-screen {
     width: 80%;

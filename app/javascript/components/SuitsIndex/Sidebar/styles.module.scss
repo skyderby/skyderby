@@ -1,8 +1,8 @@
 .menu {
-  padding: 0;
   margin: 0;
+  padding: 0;
 
-  & > :not(:last-child) {
+  > :not(:last-child) {
     margin-bottom: 0.5rem;
   }
 }
@@ -11,10 +11,16 @@
   margin-bottom: 1rem;
 }
 
+.linkContent {
+  padding-left: 0.5rem;
+  border-left: solid 3px transparent;
+}
+
 .link {
-  border-radius: var(--border-radius-sm);
   display: block;
   padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-sm);
+
   text-decoration: none;
 
   &:focus {
@@ -32,16 +38,12 @@
   }
 }
 
-.linkContent {
-  border-left: solid 3px transparent;
-  padding-left: 0.5rem;
-}
-
 .title {
   border-left: solid 1px transparent;
+
   color: var(--grey-80);
-  font-size: 1.125rem;
   font-weight: 500;
+  font-size: 1.125rem;
 }
 
 .subtitle {

@@ -1,19 +1,19 @@
-@import 'styles/breakpoints.scss';
+@import 'styles/breakpoints';
 
 .container {
-  align-items: center;
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
-
-  > :not(:last-child) {
-    margin-right: 0.25rem;
-  }
+  align-items: center;
+  justify-content: center;
 
   @include sm-screen {
     > :not(:last-child) {
       margin-right: 0.75rem;
     }
+  }
+
+  > :not(:last-child) {
+    margin-right: 0.25rem;
   }
 }
 
@@ -30,33 +30,37 @@
 }
 
 .page {
-  align-items: center;
-  border-radius: var(--border-radius-md);
-  color: var(--grey-80);
-  display: flex;
-  font-size: 1.75rem;
-  height: 2.5rem;
-  justify-content: center;
-  padding: 0 0.5rem;
   position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem;
+  padding: 0 0.5rem;
+  border-radius: var(--border-radius-md);
+
+  color: var(--grey-80);
+  font-size: 1.75rem;
   text-decoration: none;
 
   @include sm-screen {
-    font-size: 1.75rem;
     height: 3rem;
     padding: 0 0.75rem;
+
+    font-size: 1.75rem;
 
     :focus {
       outline: none;
     }
 
-    &:not([data-active="true"]):not(:disabled):hover {
+    &:not([data-active='true']):not(:disabled):hover {
       color: var(--grey-80);
+
       background-color: var(--grey-20);
     }
   }
 
-  &[data-active="true"] {
+  &[data-active='true'] {
     color: var(--blue-30);
 
     &:hover {
@@ -64,17 +68,19 @@
     }
 
     &::after {
-      content: '';
       position: absolute;
+      right: 0.25rem;
       bottom: 0;
       left: 0.25rem;
-      right: 0.25rem;
+
       height: 3px;
+
       background-color: var(--blue-30);
       opacity: 0.9;
+
+      content: '';
     }
   }
-
 }
 
 .desktop {

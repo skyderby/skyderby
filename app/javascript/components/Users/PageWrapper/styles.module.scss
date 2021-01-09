@@ -1,44 +1,54 @@
-@import 'styles/breakpoints.scss';
+@import 'styles/breakpoints';
 
 .container {
-  background-color: var(--white);
   min-height: 100%;
+
+  background-color: var(--white);
 
   @include sm-screen {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+
     background-color: var(--grey-10);
   }
 }
 
 .content {
-  background-color: var(--white);
   display: grid;
   grid-gap: 1rem;
 
+  background-color: var(--white);
+
   @include sm-screen {
-    border-radius: var(--border-radius-md);
-    box-shadow: var(--block-box-shadow);
+    width: 400px;
     margin: 2rem auto;
     padding: 1rem 0;
-    width: 400px;
+    border-radius: var(--border-radius-md);
+
+    box-shadow: var(--block-box-shadow);
   }
 }
 
 .home {
   --text-color: var(--grey-80);
-
-  color: var(--text-color);
   display: flex;
   align-items: center;
-  text-transform: uppercase;
-  font-size: 2.5rem;
-  font-weight: 100;
-  padding: 2rem;
-  text-decoration: none;
   justify-content: center;
+  padding: 2rem;
+
+  color: var(--text-color);
+  font-weight: 100;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  @include sm-screen {
+    padding: 2rem;
+
+    font-size: 1.75rem;
+  }
 
   svg {
     height: 2.5rem;
@@ -47,10 +57,5 @@
     path {
       fill: var(--text-color);
     }
-  }
-
-  @include sm-screen {
-    font-size: 1.75rem;
-    padding: 2rem;
   }
 }

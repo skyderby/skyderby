@@ -1,25 +1,27 @@
 .type {
-  border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
-  color: rgba(0, 0, 0, 0.55);
   padding: 2px 7px;
+  border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+
+  color: rgba(0, 0, 0, 0.55);
   text-transform: capitalize;
 }
 
 .value {
-  color: rgba(0, 0, 0, 0.85);
   display: flex;
   align-items: center;
-  border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
   padding: 2px 0 2px 7px;
+  border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+
+  color: rgba(0, 0, 0, 0.85);
 }
 
 .container {
-  cursor: default;
-  display: flex;
-
   --token-color: 230, 230, 230;
   --type-alpha: 0.55;
   --value-alpha: 0.75;
+  display: flex;
+
+  cursor: default;
 
   :hover {
     --type-alpha: 0.8;
@@ -40,32 +42,31 @@
 }
 
 .placeContainer {
-  composes: container;
-
   --token-color: 160, 230, 210;
+  composes: container;
 }
 
 .profileContainer {
-  composes: container;
-
   --token-color: 160, 210, 230;
+  composes: container;
 }
 
 .suitContainer {
-  composes: container;
-
   --token-color: 230, 210, 160;
+  composes: container;
 }
 
 .deleteButton {
-  border: 0;
-  background-color: transparent;
-  cursor: pointer;
-  outline: none;
   padding: 0 7px;
+  border: 0;
+
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
 
   svg {
     height: 0.75em;
+
     fill: rgba(0, 0, 0, 0.55);
   }
 
@@ -74,5 +75,4 @@
       fill: rgba(0, 0, 0, 0.85);
     }
   }
-
 }

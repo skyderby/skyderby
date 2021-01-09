@@ -1,4 +1,4 @@
-@import 'styles/breakpoints.scss';
+@import 'styles/breakpoints';
 
 .container {
   display: grid;
@@ -13,8 +13,9 @@
 }
 
 .title {
-  font-size: 2rem;
-  font-weight: bold;
-  letter-spacing: 1px;
   margin: 0;
+
+  font-weight: bold;
+  font-size: 2rem;
+  letter-spacing: 1px;
 }

@@ -4,6 +4,7 @@
   100% {
     opacity: 0;
   }
+
   40% {
     opacity: 1;
   }
@@ -12,27 +13,31 @@
 .loadingContainer {
   position: absolute;
   top: 0;
+  right: 0;
   bottom: 0;
   left: 0;
-  right: 0;
-  font-size: 0.25rem;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   color: var(--grey-40);
+  font-size: 0.25rem;
   text-align: center;
   vertical-align: middle;
 }
 
 .loadingDot {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+
+  background: currentColor;
+
   animation-name: loading;
   animation-duration: 1s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
-  background: currentColor;
-  display: inline-block;
-  height: 1em;
-  width: 1em;
 
   &:not(:last-child) {
     margin-right: 0.5em;
@@ -55,38 +60,45 @@
   composes: input from '~styles/input.module.scss';
   composes: outlined from '~styles/input.module.scss';
 
+  border-right: 0;
+
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  border-right: 0;
 }
 
 .button {
   composes: button from '~styles/button.module.scss';
 
+  position: relative;
+
+  min-width: 2.25rem;
+
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  position: relative;
-  min-width: 2.25rem;
   overflow: hidden;
+
   transition: background-color 150ms linear;
 }
 
 .inputGroup {
+  position: relative;
+
   display: flex;
   flex-grow: 1;
   flex-shrink: 1;
-  position: relative;
 
-  input[type='file'] {
-    cursor: inherit;
-    display: block;
+  [type='file'] {
     position: absolute;
     top: 0;
+    right: 0;
     bottom: 0;
     left: 0;
-    right: 0;
-    opacity: 0;
+
+    display: block;
     min-width: 100%;
+
+    cursor: inherit;
+    opacity: 0;
 
     ::-webkit-file-upload-button {
       cursor: inherit;
@@ -96,6 +108,7 @@
   .disabled {
     .button {
       background-color: var(--grey-10);
+
       pointer-events: none;
     }
 
@@ -107,8 +120,8 @@
   .invalid {
     .button {
       border-top-color: var(--red-80);
-      border-bottom-color: var(--red-80);
       border-right-color: var(--red-80);
+      border-bottom-color: var(--red-80);
     }
 
     .input {
