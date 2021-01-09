@@ -1,9 +1,9 @@
-@import 'styles/breakpoints.scss';
+@import 'styles/breakpoints';
 
 .container {
   display: flex;
-  overflow-x: scroll;
   margin-bottom: 1rem;
+  overflow-x: scroll;
 
   @include sm-screen {
     justify-content: center;
@@ -13,7 +13,7 @@
 .rangeButton {
   composes: button from '~styles/button.module.scss';
   composes: rounded from '~styles/button.module.scss';
-  composes: sizeXs from '~styles/button.module.scss';
+  composes: sizexs from '~styles/button.module.scss';
 
   white-space: nowrap;
 
@@ -31,7 +31,7 @@
   align-items: baseline;
   padding: 1rem;
 
-  &> :not(:last-child) {
+  > :not(:last-child) {
     margin-right: 0.5rem;
   }
 }

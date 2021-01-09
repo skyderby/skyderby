@@ -1,12 +1,17 @@
-@mixin font-face($fontFamily, $fileName, $svgLabel, $fontWeight: normal, $fontStyle: normal) {
+@mixin font-face(
+  $fontFamily,
+  $fileName,
+  $svgLabel,
+  $fontWeight: normal,
+  $fontStyle: normal
+) {
   @font-face {
-    font-family: $fontFamily;
-
-    src: url('~fonts/#{$fileName}.woff') format('woff'),
-         url('~fonts/#{$fileName}.ttf') format('truetype');
-
     font-weight: $fontWeight;
+    font-family: $fontFamily;
     font-style: $fontStyle;
+    src:
+      url('~fonts/#{$fileName}.woff') format('woff'),
+      url('~fonts/#{$fileName}.ttf') format('truetype');
     font-display: swap;
   }
 }
