@@ -1,25 +1,28 @@
 .container {
-  background-color: var(--white);
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius-md);
   display: flex;
+  flex-basis: auto;
   flex-grow: 1;
   flex-shrink: 1;
-  flex-basis: auto;
   padding: 0.125rem 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+
+  background-color: var(--white);
 }
 
 .tokensList {
-  align-items: center;
+  position: relative;
+
   display: flex;
   flex-grow: 1;
   flex-shrink: 1;
   flex-wrap: wrap;
-  list-style-type: none;
-  margin: 0;
-  padding: 0.25rem 0 0 0;
-  position: relative;
+  align-items: center;
   width: 1px;
+  margin: 0;
+  padding: 0.25rem 0 0;
+
+  list-style-type: none;
 
   > li {
     margin-right: 0.25rem;
@@ -28,15 +31,17 @@
 }
 
 .clearButton {
-  background-color: transparent;
+  width: 2rem;
   border: 0.25rem solid var(--white);
   border-radius: var(--border-radius-md);
-  cursor: pointer;
-  width: 2rem;
+
+  background-color: transparent;
   outline: none;
+  cursor: pointer;
 
   svg {
     height: 0.75em;
+
     fill: rgba(0, 0, 0, 0.55);
   }
 

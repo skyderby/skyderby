@@ -1,53 +1,60 @@
 .container {
   position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
 }
 
 .spinner {
   position: relative;
+
   height: 40px;
 }
 
 .caption {
   color: var(--blue-40);
-  font-size: 1.5rem;
   font-weight: bold;
+  font-size: 1.5rem;
 }
 
 @keyframes rotate {
-  0%   { transform:rotate(0) }
-  50%  { transform:rotate(180deg) }
-  100% { transform:rotate(360deg) }
+  0% { transform: rotate(0); }
+  50% { transform: rotate(180deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .outer {
   position: absolute;
-  left: -20px;
   top: -20px;
-  border: 2px solid var(--blue-40);
-  border-bottom-color: transparent;
-  border-top-color: transparent;
-  border-radius: 100%;
-  height: 35px;
+  left: -20px;
+
   width: 35px;
+  height: 35px;
+  border: 2px solid var(--blue-40);
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-radius: 100%;
+
   animation: rotate 1s 0s linear infinite;
 }
 
 .inner {
   composes: outer;
-  display: inline-block;
+
   top: -10px;
   left: -10px;
+
+  display: inline-block;
   width: 15px;
   height: 15px;
-  animation-duration: 0.5s;
   border-color: var(--blue-40) transparent;
+
+  animation-duration: 0.5s;
   animation-direction: reverse;
 }
