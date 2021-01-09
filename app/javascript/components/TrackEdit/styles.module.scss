@@ -1,5 +1,4 @@
-@import 'styles/breakpoints.scss';
-@import 'styles/label.module.scss';
+@import 'styles/breakpoints';
 
 .pageContainer {
   width: 100%;
@@ -11,25 +10,27 @@
 }
 
 .formContainer {
-  background-color: var(--white);
   width: 100%;
   padding: 1rem;
   border: solid 1px transparent;
   border-top-color: var(--border-color);
   border-bottom-color: var(--border-color);
 
+  background-color: var(--white);
+
   @include lg-screen {
-    border-left-color: var(--border-color);
     border-right-color: var(--border-color);
+    border-left-color: var(--border-color);
   }
 }
 
 .form {
-  display: grid;
-  grid-template-columns: 1rem 3fr 7fr 15rem;
-  grid-gap: 0.75rem 0rem;
-  padding-top: 1rem;
   position: relative;
+
+  display: grid;
+  grid-gap: 0.75rem 0;
+  grid-template-columns: 1rem 3fr 7fr 15rem;
+  padding-top: 1rem;
 
   hr {
     grid-column: 1/5;
@@ -41,16 +42,17 @@
 }
 
 .label {
-  composes: formLabel;
+  composes: formLabel from 'styles/label.module.scss';
+
   grid-column: 2;
-  padding: 0.5rem 0.75rem;
   width: 100%;
+  padding: 0.5rem 0.75rem;
 }
 
 .footer {
   display: flex;
-  justify-content: space-between;
   grid-column: 1/5;
+  justify-content: space-between;
 
   button:not(:last-child) {
     margin-right: 1rem;

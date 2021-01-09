@@ -6,9 +6,10 @@
 .valueContainer {
   display: flex;
   flex-basis: 0;
+  flex-direction: column;
   flex-grow: 1;
   flex-shrink: 1;
-  flex-direction: column;
+
   text-align: center;
 
   :not(:last-child) {

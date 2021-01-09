@@ -1,9 +1,9 @@
-@import 'styles/breakpoints.scss';
+@import 'styles/breakpoints';
 
 .container {
-  padding: 0 2rem 1rem;
   display: grid;
   grid-gap: 1.25rem;
+  padding: 0 2rem 1rem;
 
   @include sm-screen {
     padding: 0 3rem 1rem;
@@ -12,24 +12,25 @@
 
 .link {
   display: block;
-  text-align: right;
+
   color: var(--grey-70);
+  text-align: right;
 }
 
 .input {
   composes: input from '~styles/input.module.scss';
-  composes: sizeLg from '~styles/input.module.scss';
+  composes: sizelg from '~styles/input.module.scss';
 }
 
 .primaryButton {
   composes: button from '~styles/button.module.scss';
   composes: cta from '~styles/button.module.scss';
-  composes: sizeLg from '~styles/button.module.scss';
+  composes: sizelg from '~styles/button.module.scss';
 }
 
 .secondaryButton {
   composes: button from '~styles/button.module.scss';
-  composes: sizeLg from '~styles/button.module.scss';
+  composes: sizelg from '~styles/button.module.scss';
 
   border-width: 2px;
 }
@@ -37,22 +38,23 @@
 .tertiaryButton {
   composes: button from '~styles/button.module.scss';
   composes: flat from '~styles/button.module.scss';
-  composes: sizeLg from '~styles/button.module.scss';
+  composes: sizelg from '~styles/button.module.scss';
 }
 
 .error {
   color: var(--red-80);
+  font-size: 0.825rem;
   font-style: italic;
   line-height: 1.75;
-  font-size: 0.825rem;
 }
 
 .serverError {
   composes: error;
-  border: solid 1px var(--red-80);
-  border-radius: var(--border-radius-md);
+
   margin: 0;
   padding: 0.5rem 0.75rem;
+  border: solid 1px var(--red-80);
+  border-radius: var(--border-radius-md);
 }
 
 .icon {
@@ -61,19 +63,21 @@
 }
 
 .title {
-  font-size: 2rem;
   margin: 0;
+
+  font-size: 2rem;
   text-align: center;
 }
 
 .description {
-  font-size: 1.5rem;
   margin: 0;
+
+  font-size: 1.5rem;
   text-align: center;
 }
 
 .notice {
-  font-style: italic;
   color: var(--grey-70);
+  font-style: italic;
   text-align: center;
 }
