@@ -71,7 +71,18 @@ jobs:
       - *restore_yarn_cache
       - run: yarn install
       - *save_yarn_cache
-      - run: yarn lint
+      - run: yarn lint-code
+
+  lint_styles:
+    working_directory: ~/skyderby
+    docker:
+      - image: circleci/ruby:2.6.5-node
+    steps:
+      - checkout
+      - *restore_yarn_cache
+      - run: yarn install
+      - *save_yarn_cache
+      - run: yarn lint-styles
 
   test_unit:
     <<: *test_defaults
@@ -118,6 +129,7 @@ workflows:
     jobs:
       - lint_ruby
       - lint_js
+      - lint_styles
       - test_unit:
           requires:
             - lint_ruby
