@@ -1,22 +1,26 @@
 .container {
-  background-color: var(--white);
   border: solid 1px var(--border-color);
   border-radius: var(--border-radius-md);
+
+  background-color: var(--white);
 }
 
 .container::before {
-  background-color: var(--white);
-  border-right: solid 1px var(--border-color);
-  border-top: solid 1px var(--border-color);
-  content: '';
-  height: 0.5rem;
   position: absolute;
-  transform: rotate(-45deg);
-  width: 0.5rem;
   z-index: -1;
+
+  width: 0.5rem;
+  height: 0.5rem;
+  border-top: solid 1px var(--border-color);
+  border-right: solid 1px var(--border-color);
+
+  background-color: var(--white);
+  transform: rotate(-45deg);
+
+  content: '';
 }
 
-.container[data-popper-placement="bottom-end"]::before {
+.container[data-popper-placement='bottom-end']::before {
   top: -0.25rem;
   right: calc(var(--border-radius-md) + 0.5rem);
 }

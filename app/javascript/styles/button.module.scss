@@ -1,4 +1,4 @@
-@import 'styles/breakpoints.scss';
+@import 'styles/breakpoints';
 
 .button {
   --background-color: var(--white);
@@ -9,47 +9,53 @@
   --active-border-color: var(--blue-60);
   --active-text-color: var(--blue-60);
 
-  appearance: none;
-  align-items: center;
-  background-color: var(--background-color);
-  border-radius: var(--border-radius-md);
-  border: solid 1px var(--border-color);
-  color: var(--text-color);
-  cursor: pointer;
   display: flex;
   flex-grow: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.75rem;
+  border: solid 1px var(--border-color);
+  border-radius: var(--border-radius-md);
+
+  color: var(--text-color);
   font-weight: normal;
   line-height: normal;
-  justify-content: center;
-  outline: none;
-  padding: 0.25rem 0.75rem;
   text-align: center;
   text-decoration: none;
-  transition-duration: 0.25s;
+
+  background-color: var(--background-color);
+  outline: none;
+  cursor: pointer;
+
   transition-timing-function: ease-in-out;
+  transition-duration: 0.25s;
   transition-property: box-shadow, background-color, border-color, color;
+
+  appearance: none;
+
+  @include sm-screen {
+    font-size: 1rem;
+
+    &:not(:disabled):hover {
+      border-color: var(--active-border-color);
+
+      color: var(--active-text-color);
+
+      background-color: var(--active-background-color);
+
+      svg path {
+        fill: var(--active-text-color);
+      }
+    }
+  }
 
   &:focus {
     box-shadow: 0 0 0 0.25rem rgba(var(--outline-color), var(--outline-opacity));
   }
 
   &:disabled {
-    opacity: 0.7;
     cursor: not-allowed;
-  }
-
-  @include sm-screen {
-    font-size: 1rem;
-
-    &:not(:disabled):hover {
-      background-color: var(--active-background-color);
-      border-color: var(--active-border-color);
-      color: var(--active-text-color);
-
-      svg path {
-        fill: var(--active-text-color);
-      }
-    }
+    opacity: 0.7;
   }
 
   >:not(:last-child) {
@@ -60,10 +66,11 @@
     height: 0.875em;
 
     path {
-      fill: var(--text-color);
-      transition-duration: 0.25s;
       transition-timing-function: ease-in-out;
+      transition-duration: 0.25s;
       transition-property: fill;
+
+      fill: var(--text-color);
     }
   }
 }
@@ -73,15 +80,17 @@
 }
 
 .sizeLg {
-  font-size: 1.25rem;
   padding: 0.5rem 0.75rem;
+
+  font-size: 1.25rem;
 }
 
 .sizeXs {
+  padding: 3px 1em 1px;
   border-width: 1px;
+
   font-size: 1rem;
   line-height: 1.5;
-  padding: 3px 1em 1px;
 
   @include sm-screen {
     font-size: 0.75rem;
@@ -89,8 +98,6 @@
 }
 
 .cta {
-  composes: rounded;
-
   --background-color: var(--blue-50);
   --border-color: var(--blue-50);
   --text-color: var(--white);
@@ -98,11 +105,13 @@
   --active-border-color: var(--blue-60);
   --active-text-color: var(--white);
 
+  composes: rounded;
+
   box-shadow: 0 3px 7px var(--box-shadow-color);
 
   @include sm-screen {
-    &:not(:disabled):hover,
-    &:focus {
+    &:focus,
+    &:not(:disabled):hover {
       box-shadow: 0 5px 10px var(--box-shadow-color);
     }
   }
@@ -139,7 +148,6 @@
   --background-color: transparent;
   --border-color: transparent;
   --text-color: var(--grey-50);
-
   --active-background-color: var(--grey-20);
   --active-border-color: transparent;
   --active-text-color: var(--grey-70);
@@ -155,17 +163,18 @@
   composes: button;
   composes: cta;
 
-  align-items: center;
-  border-radius: 100%;
-  box-shadow: 0 5px 10px var(--box-shadow-color);
   display: flex;
+  align-items: center;
   justify-content: center;
-  height: 2.5rem;
   width: 2.5rem;
+  height: 2.5rem;
   padding: 0;
+  border-radius: 100%;
+
+  box-shadow: 0 5px 10px var(--box-shadow-color);
 
   svg {
-    height: 1.25rem;
     width: 1.25rem;
+    height: 1.25rem;
   }
 }

@@ -1,15 +1,18 @@
 .container {
   position: relative;
-  padding-bottom: calc(100% * (9 / 16));
+
   height: 0;
-  background-color: #000;
+  padding-bottom: calc(100% * (9 / 16));
   border-radius: var(--border-radius-md);
   overflow: hidden;
+
+  background-color: #000;
 
   iframe {
     position: absolute;
     top: 0;
     left: 0;
+
     width: 100%;
     height: 100%;
   }
@@ -17,11 +20,12 @@
 
 .icon {
   position: absolute;
-  left: 50%;
   top: 50%;
+  left: 50%;
+  z-index: 63;
+
   width: 68px;
   height: 48px;
-  margin-left: -34px;
   margin-top: -24px;
-  z-index: 63;
+  margin-left: -34px;
 }

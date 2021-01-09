@@ -5,21 +5,24 @@
 
 .formRow {
   display: grid;
-  align-items: center;
-  grid-template-columns: min-content 1fr;
   grid-gap: 1rem;
+  grid-template-columns: min-content 1fr;
+  align-items: center;
 }
 
 .competitorRow {
-  composes: formRow;
+  composes: formrow;
+
   grid-template-columns: 1fr min-content;
 }
 
 .input {
   composes: input from '~styles/input.module.scss';
-  font-size: 1rem;
-  padding: calc(0.5rem - 2px) calc(0.75rem - 2px);
+
   width: 100%;
+  padding: calc(0.5rem - 2px) calc(0.75rem - 2px);
+
+  font-size: 1rem;
 }
 
 .primaryButton {
@@ -46,9 +49,12 @@
   composes: button from '~styles/button.module.scss';
   composes: flat from '~styles/button.module.scss';
 
-  border-color: var(--grey-10);
-  background-color: var(--grey-10);
   width: 2.1875rem;
   height: 2.1875rem;
+
+  border-color: var(--grey-10);
+
   font-weight: bold;
+
+  background-color: var(--grey-10);
 }

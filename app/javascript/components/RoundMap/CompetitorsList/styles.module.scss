@@ -1,7 +1,7 @@
 .container {
+  padding: 0.625rem;
   border-left: solid 1px var(--border-color);
   overflow: scroll;
-  padding: 0.625rem;
 }
 
 .group {
@@ -9,11 +9,12 @@
 }
 
 .header {
-  color: var(--grey-70);
   display: flex;
+  padding-bottom: 0.25rem;
+
+  color: var(--grey-70);
   font-weight: 500;
   line-height: 1.5rem;
-  padding-bottom: 0.25rem;
   text-transform: uppercase;
 
   > :not(:last-child) {
@@ -28,5 +29,5 @@
 .flatButton {
   composes: button from '~styles/button.module.scss';
   composes: flat from '~styles/button.module.scss';
-  composes: sizeXs from '~styles/button.module.scss';
+  composes: sizexs from '~styles/button.module.scss';
 }

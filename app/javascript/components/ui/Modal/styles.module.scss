@@ -1,26 +1,29 @@
-@import 'styles/breakpoints.scss';
+@import 'styles/breakpoints';
 
 .overlay {
-  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  right: 0;
   bottom: 0;
   left: 0;
+  z-index: 1000;
+
   overflow-x: hidden;
   overflow-y: auto;
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 1000;
+
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .container {
-  background-color: var(--white);
-  border-radius: var(--border-radius-md);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   width: 90vw;
-  overflow: hidden;
   margin: 1rem auto;
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+
+  background-color: var(--white);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 
   @include sm-screen {
     min-width: 400px;
@@ -42,46 +45,50 @@
 }
 
 .header {
-  align-items: center;
   display: flex;
-  border-bottom: 1px solid var(--border-color);
-  font-weight: 500;
-  color: var(--grey-70);
+  align-items: center;
   padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+
+  color: var(--grey-70);
+  font-weight: 500;
 }
 
 .closeButton {
-  background-color: transparent;
-  border-radius: var(--border-radius-sm);
-  border: 0;
-  color: var(--grey-50);
-  cursor: pointer;
   display: flex;
-  font-size: 21px;
-  font-weight: bold;
-  height: 1.5rem;
   justify-content: flex-end;
-  margin-left: auto;
-  overflow: hidden;
-  text-shadow: 0 1px 0 var(--white);
   width: 1.5rem;
+  height: 1.5rem;
+  margin-left: auto;
+  border: 0;
+  border-radius: var(--border-radius-sm);
+  overflow: hidden;
+
+  color: var(--grey-50);
+  font-weight: bold;
+  font-size: 21px;
+  text-shadow: 0 1px 0 var(--white);
+
+  background-color: transparent;
+  cursor: pointer;
 
   &:hover {
     background-color: var(--grey-20);
   }
 
   &:focus {
-    outline: 0;
     background-color: var(--grey-20);
+    outline: 0;
     box-shadow: 0 0 0 0.25rem var(--grey-10);
   }
 }
 
 .footer {
-  background-color: var(--grey-10);
   display: flex;
   justify-content: flex-end;
   padding: 0.75rem 1rem;
+
+  background-color: var(--grey-10);
 
   > :not(:last-child) {
     margin-right: 0.5rem;

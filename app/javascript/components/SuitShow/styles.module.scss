@@ -1,4 +1,4 @@
-@import 'styles/breakpoints.scss';
+@import 'styles/breakpoints';
 
 .container {
   display: grid;
@@ -8,7 +8,7 @@
   margin: 0 auto;
 
   @include sm-screen {
-    padding: 1rem 0;
     width: $bp-small;
+    padding: 1rem 0;
   }
 }

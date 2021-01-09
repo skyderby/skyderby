@@ -1,19 +1,21 @@
 .container {
-  background-color: var(--white);
-  border-bottom: solid 1px var(--border-color);
   display: grid;
   grid-template-rows: 2.5rem calc(100% - 2.5rem);
+  border-bottom: solid 1px var(--border-color);
   overflow: auto;
+
+  background-color: var(--white);
 }
 
 .header {
-  align-items: center;
-  border-bottom: solid 1px var(--border-color);
-  color: var(--grey-50);
   display: flex;
+  align-items: center;
+  padding: 0 0.25rem;
+  border-bottom: solid 1px var(--border-color);
+
+  color: var(--grey-50);
   font-weight: 500;
   font-size: 1.25rem;
-  padding: 0 0.25rem;
 }
 
 .backLink {
@@ -23,7 +25,6 @@
 
 .content {
   display: grid;
-  grid-template-columns: 1fr minmax(30%, 370px);
   grid-template-rows: 100%;
+  grid-template-columns: 1fr minmax(30%, 370px);
 }
-
