@@ -1,16 +1,11 @@
-@import 'styles/breakpoints.scss';
+@import 'styles/breakpoints';
 
 .container {
   display: grid;
-  grid-template-columns: repeat(2, 48%);
   grid-gap: 1rem;
+  grid-template-columns: repeat(2, 48%);
   justify-content: space-around;
   margin-bottom: 1rem;
-
-  > [value='distance'],
-  [value='elevation'] {
-    display: none;
-  }
 
   @include sm-screen {
     grid-gap: 2rem;
@@ -22,90 +17,94 @@
       display: block;
     }
   }
+
+  > [value='distance'],
+  [value='elevation'] {
+    display: none;
+  }
 }
 
 .summaryItem {
   overflow: hidden;
 
   &[value='glide-ratio'] {
-    grid-column: 1;
     grid-row: 1;
+    grid-column: 1;
 
     @include sm-screen {
-      grid-column: 3;
       grid-row: 1;
+      grid-column: 3;
     }
   }
 
   &[value='ground-speed'] {
-    grid-column: 2;
     grid-row: 1;
+    grid-column: 2;
 
     @include sm-screen {
-      grid-column: 2;
       grid-row: 1;
+      grid-column: 2;
     }
   }
 
   &[value='time'] {
-    grid-column: 1;
     grid-row: 2;
+    grid-column: 1;
 
     @include sm-screen {
-      grid-column: 3;
       grid-row: 2;
+      grid-column: 3;
     }
   }
 
   &[value='vertical-speed'] {
-    grid-column: 2;
     grid-row: 2;
+    grid-column: 2;
 
     @include sm-screen {
-      grid-column: 2;
       grid-row: 2;
+      grid-column: 2;
     }
   }
 
   &[value='distance'] {
-    grid-column: 1;
     grid-row: 3;
+    grid-column: 1;
 
     @include sm-screen {
-      grid-column: 1;
       grid-row: 1;
+      grid-column: 1;
     }
   }
 
   &[value='elevation'] {
-    grid-column: 2;
     grid-row: 3;
+    grid-column: 2;
 
     @include sm-screen {
-      grid-column: 1;
       grid-row: 2;
+      grid-column: 1;
     }
   }
 }
 
 .title {
-  color: var(--grey-40);
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 1.75;
-  text-transform: uppercase;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 
-  @include sm-screen {
-  }
+  color: var(--grey-40);
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  white-space: nowrap;
+  text-transform: uppercase;
+  text-overflow: ellipsis;
 }
 
 .valueContainer {
-  align-items: baseline;
-  color: var(--grey-80);
   display: flex;
+  align-items: baseline;
+
+  color: var(--grey-80);
   font-weight: 200;
   white-space: nowrap;
 
@@ -115,8 +114,8 @@
 }
 
 .value {
-  font-size: 2.5rem;
   font-weight: 100;
+  font-size: 2.5rem;
 
   @include sm-screen {
     font-size: 2.625rem;
@@ -135,8 +134,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: space-between;
   align-self: center;
+  justify-content: space-between;
 
   >:first-child {
     display: flex;
@@ -150,6 +149,7 @@
 
   > * {
     font-size: 0.875rem;
+
     > * {
       margin-right: 0.25rem;
     }
@@ -200,26 +200,30 @@
 }
 
 .resultPercent {
+  display: block;
+  height: 2px;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
-  display: block;
+
   background-color: var(--green-30);
-  height: 2px;
 }
 
 .windEffectPercent {
-  background-color: var(--red-70);
   height: 2px;
+
+  background-color: var(--red-70);
 }
 
 .zeroWindValue {
   flex-basis: 50%;
+
   color: var(--green-30);
   font-weight: 200;
 }
 
 .windEffectValue {
   flex-basis: 50%;
+
   color: var(--red-70);
   font-weight: 200;
   text-align: right;

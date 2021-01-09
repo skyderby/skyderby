@@ -1,7 +1,8 @@
-@import 'styles/breakpoints.scss';
+@import 'styles/breakpoints';
 
 .container {
   position: relative;
+
   flex-shrink: 0;
   width: 100%;
 
@@ -11,14 +12,17 @@
 }
 
 .card {
-  background-color: var(--white);
   position: absolute;
   top: 0;
-  left: 0;
   right: 0;
-  transition: transform 350ms ease-in;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 6px 0px;
+  left: 0;
+
   height: 12vh;
+
+  background-color: var(--white);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 1px 6px 0;
+
+  transition: transform 350ms ease-in;
 
   @include sm-screen {
     height: auto;
@@ -27,6 +31,7 @@
   canvas {
     max-width: 100%;
     max-height: 100%;
+
     vertical-align: middle;
   }
 }

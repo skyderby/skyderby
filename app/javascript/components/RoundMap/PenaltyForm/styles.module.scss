@@ -1,8 +1,8 @@
 .modalBody {
-  align-items: center;
   display: grid;
   grid-gap: 0.75rem;
   grid-template-columns: min-content 1fr;
+  align-items: center;
 }
 
 .label {
@@ -22,6 +22,7 @@
 .input {
   composes: input from '~styles/input.module.scss';
 
-  font-size: 1rem;
   padding: calc(0.5rem - 2px) calc(0.75rem - 2px);
+
+  font-size: 1rem;
 }

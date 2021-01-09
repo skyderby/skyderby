@@ -4,12 +4,13 @@
 }
 
 .tagList {
-  background-color: var(--white);
   display: flex;
-  padding: 0 0 2rem;
   margin: 0;
+  padding: 0 0 2rem;
   overflow-x: auto;
+
   list-style: none;
+  background-color: var(--white);
 
   > :not(:last-child) {
     margin-right: 0.5rem;
@@ -19,7 +20,9 @@
 .tag {
   flex-shrink: 0;
   border-radius: var(--border-radius-sm);
+
   color: var(--grey-80);
+
   background-color: var(--grey-10);
 }
 
@@ -29,17 +32,19 @@
 }
 
 .deleteButton {
-  background-color: transparent;
-  border-radius: var(--border-radius-sm);
-  border: 0;
-  cursor: pointer;
-  height: 1.625rem;
-  outline: none;
-  padding: 0.25rem 0.5rem;
   width: 1.625rem;
+  height: 1.625rem;
+  padding: 0.25rem 0.5rem;
+  border: 0;
+  border-radius: var(--border-radius-sm);
+
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
 
   svg {
     height: 0.75em;
+
     fill: rgba(0, 0, 0, 0.55);
   }
 

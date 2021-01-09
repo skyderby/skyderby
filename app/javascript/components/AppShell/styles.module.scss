@@ -1,25 +1,28 @@
 .container {
   display: grid;
-  min-height: 100vh;
   grid-gap: 1rem;
   grid-template-rows: min-content 1fr min-content;
   grid-template-columns: 100%;
+  min-height: 100vh;
 }
 
 .fullScreen {
-  height: 100vh;
   grid-gap: 0;
+  height: 100vh;
 }
 
 .skipLink {
   position: absolute;
   top: -40px;
   left: 5.25rem;
-  background-color: var(--blue-10);
-  color: var(--white);
-  padding: 0 8px;
   z-index: 10;
+
+  padding: 0 8px;
+
+  color: var(--white);
   font-size: 0.75rem;
+
+  background-color: var(--blue-10);
 
   &:focus {
     top: 0;

@@ -13,7 +13,9 @@
     ]
   },
   "scripts": {
-    "lint": "yarn eslint app/javascript spec/javascript",
+    "lint": "yarn lint-code && yarn lint-styles",
+    "lint-code": "yarn eslint app/javascript spec/javascript",
+    "lint-styles": "yarn stylelint \"app/javascript/**/*.scss\"",
     "test": "jest",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -25,6 +27,61 @@
     "singleQuote": true,
     "trailingComma": "none",
     "arrowParens": "avoid"
+  },
+  "stylelint": {
+    "extends": [
+      "stylelint-config-standard",
+      "stylelint-config-sass-guidelines",
+      "stylelint-config-css-modules",
+      "stylelint-config-rational-order"
+    ],
+    "rules": {
+      "selector-class-pattern": "^[a-z][a-zA-Z0-9]+$",
+      "max-nesting-depth": 3,
+      "order/properties-alphabetical-order": null,
+      "declaration-empty-line-before": null,
+      "value-keyword-case": [
+        "lower",
+        {
+          "ignoreProperties": [
+            "composes"
+          ]
+        }
+      ],
+      "color-named": [
+        "never",
+        {
+          "ignoreProperties": [
+            "composes"
+          ]
+        }
+      ],
+      "function-name-case": [
+        "lower",
+        {
+          "ignoreFunctions": [
+            "Min",
+            "Max"
+          ]
+        }
+      ],
+      "plugin/rational-order": [
+        true,
+        {
+          "border-in-box-model": true,
+          "empty-line-between-groups": true
+        }
+      ],
+      "at-rule-no-unknown": null,
+      "scss/at-rule-no-unknown": [
+        true,
+        {
+          "ignoreAtRules": [
+            "value"
+          ]
+        }
+      ]
+    }
   },
   "jest": {
     "roots": [
@@ -135,6 +192,12 @@
     "nock": "^13.0.4",
     "prettier": "^2.0.5",
     "react-refresh": "^0.8.3",
+    "stylelint": "^13.8.0",
+    "stylelint-config-css-modules": "^2.2.0",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-sass-guidelines": "^7.1.0",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-order": "^4.1.0",
     "webpack": "^4.41",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "=3.5.1"

@@ -1,8 +1,16 @@
+.flatButton {
+  composes: button from '~styles/button.module.scss';
+  composes: flat from '~styles/button.module.scss';
+
+  display: inline-flex;
+}
+
 .table {
-  background-color: var(--white);
+  width: 100%;
   border: solid 1px var(--border-color);
   border-collapse: collapse;
-  width: 100%;
+
+  background-color: var(--white);
 
   thead {
     font-weight: 500;
@@ -10,14 +18,14 @@
 
   th {
     color: var(--grey-70);
-    text-transform: uppercase;
     white-space: nowrap;
+    text-transform: uppercase;
   }
 
   td,
   th {
-    border: solid 1px var(--border-color);
     padding: 0.75rem 1rem;
+    border: solid 1px var(--border-color);
 
     .flatButton {
       opacity: 0;
@@ -34,6 +42,7 @@
   td:last-child,
   th:last-child {
     width: 5%;
+
     text-align: right;
   }
 
@@ -41,13 +50,6 @@
   th:first-child {
     text-align: center;
   }
-}
-
-.flatButton {
-  composes: button from '~styles/button.module.scss';
-  composes: flat from '~styles/button.module.scss';
-
-  display: inline-flex;
 }
 
 .teamName {
@@ -59,12 +61,13 @@
 }
 
 .teamDetails {
-  align-items: center;
   display: flex;
+  align-items: center;
 
   ul {
-    padding: 0;
     margin: 0;
+    padding: 0;
+
     color: var(--grey-70);
     font-size: 0.875rem;
     text-transform: capitalize;

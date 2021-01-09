@@ -1,55 +1,58 @@
-@import 'styles/breakpoints.scss';
+@import 'styles/breakpoints';
 
 .container {
   display: grid;
+  grid-template-rows: calc(max(100vh, 568px) - 4.5rem) 100vh;
   width: 100%;
-  grid-template-rows: calc(Max(100vh, 568px) - 4.5rem) 100vh;
 
   @include sm-screen {
-    border-bottom: solid 1px var(--border-color);
-    grid-template-columns: 350px 1fr;
     grid-template-rows: 100%;
+    grid-template-columns: 350px 1fr;
+    border-bottom: solid 1px var(--border-color);
     overflow: auto;
   }
 }
 
 .settingsContainer {
-  display: grid; 
+  display: grid;
   grid-row: 2;
   grid-template-rows: min-content 1fr;
 
   @include sm-screen {
-    border-right: solid 1px var(--border-color);
-    grid-template-rows: 1fr min-content;
     grid-row: 1;
+    grid-template-rows: 1fr min-content;
+    border-right: solid 1px var(--border-color);
   }
 }
 
 .terrainProfileSelect {
-  align-items: center;
-  background-color: var(--white);
-  border-bottom: solid 1px var(--border-color);
   display: flex;
   grid-row: 1;
+  align-items: center;
   padding: 0.75rem 1rem;
+  border-bottom: solid 1px var(--border-color);
+
+  background-color: var(--white);
 
   @include sm-screen {
-    border-bottom: 0;
-    border-top: solid 1px var(--border-color);
     grid-row: 2;
+    border-top: solid 1px var(--border-color);
+    border-bottom: 0;
   }
 }
 
 .charts {
+  position: relative;
+
   display: grid;
-  background-color: var(--white);
-  border-bottom: solid 1px var(--border-color);
+  grid-gap: 0.5rem;
   grid-row: 1;
   grid-template-rows: minmax(300px, 1fr) 2rem 9rem;
   grid-template-columns: minmax(250px, 1fr);
-  grid-gap: 0.5rem;
   min-width: 0;
-  position: relative;
+  border-bottom: solid 1px var(--border-color);
+
+  background-color: var(--white);
 
   @include sm-screen {
     border-bottom: 0;

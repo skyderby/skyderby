@@ -1,33 +1,35 @@
-@import 'styles/breakpoints.scss';
+@import 'styles/breakpoints';
 
 .container {
-  display: grid;
-  grid-template-columns: 1fr;
   position: relative;
 
-  & > :nth-child(2n):not(:last-child) {
-    margin-bottom: 1rem;
-  }
+  display: grid;
+  grid-template-columns: 1fr;
 
   @include sm-screen {
+    grid-gap: 0.75rem 0;
     grid-template-columns: 3fr 7fr;
-    grid-gap: 0.75rem 0rem;
 
-    & > label {
+    > label {
       padding: 0.5rem 0.75rem;
+
       text-align: right;
     }
 
-    & > :nth-child(2n):not(:last-child) {
+    > :nth-child(2n):not(:last-child) {
       margin-bottom: 0;
     }
+  }
+
+  > :nth-child(2n):not(:last-child) {
+    margin-bottom: 1rem;
   }
 }
 
 .formGroup {
   display: grid;
-  grid-template-rows: 1fr;
   grid-gap: 0.125rem 0;
+  grid-template-rows: 1fr;
 }
 
 .primaryButton {
