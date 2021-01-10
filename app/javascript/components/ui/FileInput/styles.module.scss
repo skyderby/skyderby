@@ -105,7 +105,7 @@
     }
   }
 
-  .disabled {
+  &.disabled {
     .button {
       background-color: var(--grey-10);
 
@@ -117,7 +117,7 @@
     }
   }
 
-  .invalid {
+  &.invalid {
     .button {
       border-top-color: var(--red-80);
       border-right-color: var(--red-80);
