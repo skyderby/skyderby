@@ -55,7 +55,7 @@
   }
 }
 
-.menuItem &:global(.active) {
+.menuItem :global(.active) {
   border-bottom-color: var(--blue-30);
 
   color: var(--grey-90);
