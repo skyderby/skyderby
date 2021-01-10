@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
 import Dropdown from 'components/Dropdown'
@@ -14,7 +15,7 @@ const languageNames = {
   ru: 'Русский'
 }
 
-const LocaleSelector = () => {
+const LocaleSelector = ({ className }) => {
   const { t, locale, changeLocale, supportedLocales } = useI18n()
   const [showDropdown, setShowDropdown] = useState(false)
   const [referenceElement, setReferenceElement] = useState(null)
@@ -28,7 +29,7 @@ const LocaleSelector = () => {
   }
 
   return (
-    <li ref={setReferenceElement}>
+    <li className={className} ref={setReferenceElement}>
       <button
         className={styles.toggle}
         ref={toggleRef}
@@ -60,6 +61,10 @@ const LocaleSelector = () => {
       )}
     </li>
   )
+}
+
+LocaleSelector.propTypes = {
+  className: PropTypes.string
 }
 
 export default LocaleSelector

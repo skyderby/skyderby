@@ -3,6 +3,10 @@ const path = require('path')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const isProduction = process.env.NODE_ENV === 'production'
 
+const VirtualModulesPlugin = require('webpack-virtual-modules')
+const TranslationsPlugin = require('../config/webpack/translations')
+
+
 module.exports = {
   stories: ['../app/javascript/**/*.stories.@(js|mdx)'],
   addons: [
@@ -11,10 +15,16 @@ module.exports = {
     '@storybook/addon-a11y'
   ],
   webpackFinal: async config => {
+    const virtualModules = new VirtualModulesPlugin()
+
     config.plugins = [
       !isProduction && new ReactRefreshWebpackPlugin(),
+      virtualModules,
+      new TranslationsPlugin(virtualModules),
       ...config.plugins
     ].filter(Boolean)
+
+
 
     config.resolve.modules = [
       path.resolve(__dirname, '../app/javascript'),
@@ -40,7 +50,9 @@ module.exports = {
           loader: require.resolve('css-loader'),
           options: {
             importLoaders: 1,
-            modules: true
+            modules: {
+              localIdentName: '[local]__[hash:base64:5]',
+            }
           }
         },
         require.resolve('sass-loader')
