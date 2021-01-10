@@ -7,18 +7,20 @@ import styles from './styles.module.scss'
 
 const Item = props => <li {...props} />
 
-const Breadcrumbs = ({ children }) => (
-  <ul className={styles.container}>
-    {Array.isArray(children)
-      ? children.map((node, idx) => (
-          <Fragment key={idx}>
-            {node}
-            {idx < children.length - 1 && <ChevronRight />}
-          </Fragment>
-        ))
-      : { children }}
-  </ul>
-)
+const Breadcrumbs = ({ children }) => {
+  const elements = [children].flat()
+
+  return (
+    <ul className={styles.container}>
+      {elements.map((node, idx) => (
+        <Fragment key={idx}>
+          {idx > 0 && <ChevronRight />}
+          {node}
+        </Fragment>
+      ))}
+    </ul>
+  )
+}
 
 Breadcrumbs.Item = Item
 
