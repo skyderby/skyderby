@@ -22,7 +22,7 @@ const RightMenuDesktop = () => {
     <ul className={styles.rightMenuDesktop}>
       {currentUser?.authorized ? (
         <>
-          <li>
+          <li className={styles.menuItem}>
             <button className={styles.uploadTrack} onClick={() => setShowModal(true)}>
               {t('application.header.upload_track')}
             </button>
@@ -37,7 +37,7 @@ const RightMenuDesktop = () => {
             <CurrentUser user={currentUser} />
           </li>
 
-          <li>
+          <li className={styles.menuItem}>
             <button
               onClick={handleLogout}
               className={styles.logoutButton}
@@ -47,11 +47,11 @@ const RightMenuDesktop = () => {
             </button>
           </li>
 
-          <LocaleSelector />
+          <LocaleSelector className={styles.menuItem} />
         </>
       ) : (
         <>
-          <li>
+          <li className={styles.menuItem}>
             <Link
               to={location => ({
                 pathname: '/sign-in',
@@ -62,7 +62,7 @@ const RightMenuDesktop = () => {
             </Link>
           </li>
 
-          <li>
+          <li className={styles.menuItem}>
             <Link to="/sign-up">{t('application.header.sign_up')}</Link>
           </li>
 
