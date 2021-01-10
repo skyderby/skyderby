@@ -21,12 +21,13 @@
   margin: 0;
   padding: 0;
 
-  color: var(--grey-60);
+  color: var(--grey-70);
   font-weight: bold;
   font-size: 5rem;
 }
 
 .description {
+  color: var(--grey-80);
   font-weight: 500;
   font-size: 2rem;
 }
@@ -34,4 +35,7 @@
 .primaryButton {
   composes: button from '~styles/button.module.scss';
   composes: primary from '~styles/button.module.scss';
+  composes: sizeLg from '~styles/button.module.scss';
+
+  display: inline-flex;
 }

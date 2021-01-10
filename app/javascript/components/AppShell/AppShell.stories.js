@@ -44,3 +44,20 @@ export const LoadingState = () => (
     </AppShell>
   </Provider>
 )
+
+export const Error = () => (
+  <Provider store={createStore()}>
+    <AppShell>
+      <PageWrapper
+        status="error"
+        error={{
+          title: 'Something went wrong',
+          description: 'Good news - We are on it',
+          linkBack: '/'
+        }}
+      >
+        App
+      </PageWrapper>
+    </AppShell>
+  </Provider>
+)
