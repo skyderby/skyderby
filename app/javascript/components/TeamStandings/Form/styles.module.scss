@@ -11,7 +11,7 @@
 }
 
 .competitorRow {
-  composes: formrow;
+  composes: formRow;
 
   grid-template-columns: 1fr min-content;
 }
