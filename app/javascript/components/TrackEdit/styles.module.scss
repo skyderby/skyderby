@@ -42,7 +42,7 @@
 }
 
 .label {
-  composes: formLabel from 'styles/label.module.scss';
+  composes: formLabel from '~styles/label.module.scss';
 
   grid-column: 2;
   width: 100%;

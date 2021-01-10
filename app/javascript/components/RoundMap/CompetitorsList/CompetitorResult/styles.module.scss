@@ -91,5 +91,5 @@
 .flatButton {
   composes: button from '~styles/button.module.scss';
   composes: flat from '~styles/button.module.scss';
-  composes: sizexs from '~styles/button.module.scss';
+  composes: sizeXs from '~styles/button.module.scss';
 }
