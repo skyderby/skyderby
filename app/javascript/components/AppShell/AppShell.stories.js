@@ -21,7 +21,7 @@ const session = {
 }
 
 export default {
-  title: 'components/AppShell',
+  title: 'screens/AppShell',
   component: AppShell
 }
 
