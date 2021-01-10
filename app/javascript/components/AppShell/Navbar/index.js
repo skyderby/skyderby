@@ -18,18 +18,18 @@ const Navbar = () => {
       </Link>
 
       <ul className={styles.menu}>
-        <li>
+        <li className={styles.menuItem}>
           <NavLink to="/tracks">{t('application.header.tracks')}</NavLink>
         </li>
-        <li>
+        <li className={styles.menuItem}>
           <NavLink to="/events">{t('application.header.competitions')}</NavLink>
         </li>
-        <li>
+        <li className={styles.menuItem}>
           <NavLink to="/virtual_competitions">
             {t('application.header.online_competitions')}
           </NavLink>
         </li>
-        <li>
+        <li className={styles.menuItem}>
           <NavLink to="/places">{t('application.header.places')}</NavLink>
         </li>
       </ul>
