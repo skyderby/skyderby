@@ -19,18 +19,18 @@
 
 .input {
   composes: input from '~styles/input.module.scss';
-  composes: sizelg from '~styles/input.module.scss';
+  composes: sizeLg from '~styles/input.module.scss';
 }
 
 .primaryButton {
   composes: button from '~styles/button.module.scss';
   composes: cta from '~styles/button.module.scss';
-  composes: sizelg from '~styles/button.module.scss';
+  composes: sizeLg from '~styles/button.module.scss';
 }
 
 .secondaryButton {
   composes: button from '~styles/button.module.scss';
-  composes: sizelg from '~styles/button.module.scss';
+  composes: sizeLg from '~styles/button.module.scss';
 
   border-width: 2px;
 }
@@ -38,7 +38,7 @@
 .tertiaryButton {
   composes: button from '~styles/button.module.scss';
   composes: flat from '~styles/button.module.scss';
-  composes: sizelg from '~styles/button.module.scss';
+  composes: sizeLg from '~styles/button.module.scss';
 }
 
 .error {
