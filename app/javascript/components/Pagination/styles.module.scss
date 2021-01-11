@@ -24,7 +24,7 @@
     height: 1rem;
 
     path {
-      fill: var(--grey-50);
+      fill: var(--grey-60);
     }
   }
 }
@@ -56,15 +56,15 @@
     &:not([data-active='true']):not(:disabled):hover {
       color: var(--grey-80);
 
-      background-color: var(--grey-20);
+      background-color: var(--grey-30);
     }
   }
 
   &[data-active='true'] {
-    color: var(--blue-30);
+    color: var(--blue-grey-70);
 
     &:hover {
-      color: var(--blue-30);
+      color: var(--blue-grey-70);
     }
 
     &::after {
@@ -75,7 +75,7 @@
 
       height: 3px;
 
-      background-color: var(--blue-30);
+      background-color: var(--blue-grey-70);
       opacity: 0.9;
 
       content: '';

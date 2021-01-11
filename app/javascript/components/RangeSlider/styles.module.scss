@@ -1,5 +1,5 @@
 .container {
-  --background-color: var(--red-60);
+  --background-color: var(--red-70);
   height: 60px;
   margin-bottom: 0.5rem;
 
@@ -22,7 +22,7 @@
   height: 12px;
   border-radius: var(--border-radius-md);
 
-  background-color: var(--grey-30);
+  background-color: var(--grey-40);
   outline: none;
 }
 
@@ -133,7 +133,7 @@
   height: 20px;
   padding-top: 10px;
 
-  color: var(--grey-50);
+  color: var(--grey-60);
   font-size: 9px;
   line-height: 9px;
   text-align: center;
@@ -154,7 +154,7 @@
     width: 1px;
     height: 5px;
 
-    background-color: var(--grey-30);
+    background-color: var(--grey-40);
 
     content: '';
   }
