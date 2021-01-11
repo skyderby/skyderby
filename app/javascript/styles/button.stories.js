@@ -12,10 +12,18 @@ export default {
   argTypes: { onClick: { action: 'clicked' } },
   args: {
     disabled: false
+  },
+  decorators: [story => <div style={{ padding: '2rem' }}>{story()}</div>],
+  parameters: {
+    a11y: { element: '#button' }
   }
 }
 
-const Template = args => <button {...args}>Button text</button>
+const Template = args => (
+  <button id="button" {...args}>
+    Button text
+  </button>
+)
 
 export const CTA = Template.bind({})
 

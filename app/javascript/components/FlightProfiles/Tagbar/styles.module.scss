@@ -23,7 +23,7 @@
 
   color: var(--grey-80);
 
-  background-color: var(--grey-10);
+  background-color: var(--grey-20);
 }
 
 .label {
@@ -49,7 +49,7 @@
   }
 
   &:hover {
-    background-color: var(--grey-30);
+    background-color: var(--grey-40);
 
     svg {
       fill: rgba(0, 0, 0, 0.85);

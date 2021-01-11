@@ -47,7 +47,7 @@
   }
 
   path {
-    fill: var(--grey-50);
+    fill: var(--grey-60);
   }
 
   &:focus {
@@ -56,7 +56,7 @@
 }
 
 .menuItem :global(.active) {
-  border-bottom-color: var(--blue-30);
+  border-bottom-color: var(--blue-grey-70);
 
   color: var(--grey-90);
   font-weight: 500;
@@ -79,7 +79,7 @@
 
   width: 2rem;
 
-  background: linear-gradient(to left, var(--grey-5) 45%, rgba(250, 250, 250, 0.4));
+  background: linear-gradient(to left, var(--grey-10) 45%, rgba(250, 250, 250, 0.4));
   opacity: 0;
 
   transition: opacity 0.25s ease-in-out;

@@ -2,12 +2,12 @@
 
 .button {
   --background-color: var(--white);
-  --border-color: var(--grey-30);
+  --border-color: var(--grey-40);
   --text-color: var(--grey-70);
-  --outline-color: var(--blue-60-rgb);
+  --outline-color: var(--blue-80-rgb);
   --active-background-color: var(--white);
-  --active-border-color: var(--blue-60);
-  --active-text-color: var(--blue-60);
+  --active-border-color: var(--blue-80);
+  --active-text-color: var(--blue-80);
 
   display: flex;
   flex-grow: 0;
@@ -98,11 +98,11 @@
 }
 
 .cta {
-  --background-color: var(--blue-50);
-  --border-color: var(--blue-50);
+  --background-color: var(--blue-90);
+  --border-color: var(--blue-90);
   --text-color: var(--white);
-  --active-background-color: var(--blue-60);
-  --active-border-color: var(--blue-60);
+  --active-background-color: var(--blue-80);
+  --active-border-color: var(--blue-80);
   --active-text-color: var(--white);
 
   composes: rounded;
@@ -122,18 +122,18 @@
   --border-color: var(--red-70);
   --text-color: var(--white);
   --outline-color: var(--red-70-rgb);
-  --active-background-color: var(--red-80);
-  --active-border-color: var(--red-80);
+  --active-background-color: var(--red-90);
+  --active-border-color: var(--red-90);
   --active-text-color: var(--white);
 }
 
 .primary {
-  --background-color: var(--green-20);
-  --border-color: var(--green-20);
+  --background-color: var(--green-90);
+  --border-color: var(--green-90);
   --text-color: var(--white);
-  --outline-color: var(--green-40-rgb);
-  --active-background-color: var(--green-40);
-  --active-border-color: var(--green-40);
+  --outline-color: var(--green-80-rgb);
+  --active-background-color: var(--green-80);
+  --active-border-color: var(--green-80);
   --active-text-color: var(--white);
 }
 
@@ -147,8 +147,8 @@
 .flat {
   --background-color: transparent;
   --border-color: transparent;
-  --text-color: var(--grey-50);
-  --active-background-color: var(--grey-20);
+  --text-color: var(--grey-70);
+  --active-background-color: var(--grey-30);
   --active-border-color: transparent;
   --active-text-color: var(--grey-70);
 }

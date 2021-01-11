@@ -46,14 +46,14 @@
     border-radius: var(--border-radius-sm);
 
     &:hover {
-      background-color: var(--grey-10);
+      background-color: var(--grey-20);
     }
   }
 
   &:global(.active) {
-    border-bottom-color: var(--blue-30);
+    border-bottom-color: var(--blue-grey-70);
 
-    color: var(--blue-30);
+    color: var(--blue-grey-70);
 
     cursor: default;
 

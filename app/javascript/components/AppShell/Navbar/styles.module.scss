@@ -8,7 +8,7 @@
 
   color: var(--white);
 
-  background-color: var(--blue-90);
+  background-color: var(--blue-grey-90);
 
   @include sm-screen {
     height: 3.75rem;
@@ -64,7 +64,7 @@
 }
 
 .menuItem a:not(:global(.active)):hover {
-  background-color: var(--blue-20);
+  background-color: var(--blue-grey-80);
 }
 
 .menu {
@@ -134,7 +134,7 @@
   cursor: pointer;
 
   &:hover {
-    background-color: var(--blue-20);
+    background-color: var(--blue-grey-80);
   }
 
   svg {
