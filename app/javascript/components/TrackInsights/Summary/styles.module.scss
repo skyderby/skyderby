@@ -3,7 +3,7 @@
 .container {
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: repeat(2, 48%);
+  grid-template-columns: repeat(2, 45%);
   justify-content: space-around;
   margin-bottom: 1rem;
 
@@ -11,16 +11,15 @@
     grid-gap: 2rem;
     grid-template-columns: repeat(3, fit-content(25%));
     justify-content: space-evenly;
-
-    > [value='distance'],
-    > [value='elevation'] {
-      display: block;
-    }
   }
+}
 
-  > [value='distance'],
-  [value='elevation'] {
-    display: none;
+.container > [value='distance'],
+.container > [value='elevation'] {
+  display: none;
+
+  @include sm-screen {
+    display: block;
   }
 }
 
