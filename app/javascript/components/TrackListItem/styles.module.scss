@@ -21,7 +21,7 @@
   }
 
   &[data-active='true'] {
-    box-shadow: var(--block-box-shadow), inset 5px 0 0 var(--blue-40);
+    box-shadow: var(--block-box-shadow), inset 5px 0 0 var(--blue-grey-60);
   }
 
   &:not(.compact) {
@@ -37,7 +37,7 @@
       }
 
       &:hover > :first-child {
-        box-shadow: inset 3px 0 0 var(--blue-40);
+        box-shadow: inset 3px 0 0 var(--blue-grey-60);
       }
     }
   }
