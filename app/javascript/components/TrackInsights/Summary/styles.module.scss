@@ -91,7 +91,7 @@
 .title {
   overflow: hidden;
 
-  color: var(--grey-40);
+  color: var(--grey-70);
   font-weight: 500;
   font-size: 0.875rem;
   line-height: 1.75;
@@ -157,7 +157,8 @@
 }
 
 .max {
-  --text-color: var(--green-30);
+  --text-color: var(--green-90);
+  --icon-color: var(--green-70);
 
   span {
     color: var(--text-color);
@@ -167,13 +168,14 @@
     height: 1em;
 
     path {
-      fill: var(--text-color);
+      fill: var(--icon-color);
     }
   }
 }
 
 .min {
-  --text-color: var(--red-70);
+  --text-color: var(--red-90);
+  --icon-color: var(--red-70);
 
   span {
     color: var(--text-color);
@@ -183,7 +185,7 @@
     height: 1em;
 
     path {
-      fill: var(--text-color);
+      fill: var(--icon-color);
     }
   }
 }
@@ -205,7 +207,7 @@
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
 
-  background-color: var(--green-30);
+  background-color: var(--green-70);
 }
 
 .windEffectPercent {
@@ -217,14 +219,14 @@
 .zeroWindValue {
   flex-basis: 50%;
 
-  color: var(--green-30);
+  color: var(--green-90);
   font-weight: 200;
 }
 
 .windEffectValue {
   flex-basis: 50%;
 
-  color: var(--red-70);
+  color: var(--red-90);
   font-weight: 200;
   text-align: right;
 }

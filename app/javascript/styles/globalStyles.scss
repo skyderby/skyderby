@@ -2,39 +2,34 @@
 @import '~normalize.css';
 
 :root {
-  --blue-90: #252f3c;
-  --blue-20: #42546b;
-  --blue-30: #567888;
-  --blue-40: #75a4ba;
-  --blue-50: #007bbd;
-  --blue-60-rgb: 0, 167, 255;
-  --blue-60: rgb(var(--blue-60-rgb));
+  --blue-grey-90: #252f3c;
+  --blue-grey-80: #42546b;
+  --blue-grey-70: #567888;
+  --blue-grey-60: #75a4ba;
+  --blue-90: #007bbd;
   --blue-70: #39c0ff;
-  --red-50-rgb: 255, 126, 126;
-  --red-50: rgb(var(--red-50-rgb));
-  --red-60: #ed5565;
+  --blue-80-rgb: 0, 167, 255;
+  --blue-80: rgb(var(--blue-80-rgb));
   --red-70-rgb: 255, 94, 94;
   --red-70: rgb(var(--red-70-rgb));
-  --red-80-rgb: 214, 30, 30;
-  --red-80: rgb(var(--red-80-rgb));
-  --green-50-rgb: 52, 158, 52;
-  --green-50: rgb(var(--green-50-rgb));
-  --green-40-rgb: 92, 184, 92;
-  --green-40: rgb(var(--green-40-rgb));
-  --green-30: #1fbe78;
-  --green-20-rgb: 45, 134, 45;
-  --green-20: rgb(var(--green-20-rgb));
+  --red-90-rgb: 214, 30, 30;
+  --red-90: rgb(var(--red-90-rgb));
+  --green-80-rgb: 52, 158, 52;
+  --green-80: rgb(var(--green-80-rgb));
+  --green-70-rgb: 92, 184, 92;
+  --green-70: rgb(var(--green-70-rgb));
+  --green-90-rgb: 45, 134, 45;
+  --green-90: rgb(var(--green-90-rgb));
   --grey-90: #333;
   --grey-80: #565656;
   --grey-70: #737373;
-  --grey-50: #949494;
-  --grey-40: #aaa;
-  --grey-30: #d3d3d3;
-  --grey-20: #eee;
-  --grey-10: #f3f3f3;
-  --grey-5: #fafafa;
+  --grey-60: #949494;
+  --grey-40: #d3d3d3;
+  --grey-30: #eee;
+  --grey-20: #f3f3f3;
+  --grey-10: #fafafa;
   --white: #fff;
-  --border-color: var(--grey-30);
+  --border-color: var(--grey-40);
   --text-color: var(--grey-90);
   --border-radius-lg: 1rem;
   --border-radius-md: 0.5rem;
@@ -67,7 +62,7 @@ body {
     'Segoe UI Emoji',
     'Segoe UI Symbol';
 
-  background-color: var(--grey-5);
+  background-color: var(--grey-10);
 }
 
 .modalShown {
@@ -86,7 +81,7 @@ hr {
   height: 0;
   margin: 1.25rem 0;
   border: 0;
-  border-top: solid 1px var(--grey-20);
+  border-top: solid 1px var(--grey-30);
 }
 
 form {

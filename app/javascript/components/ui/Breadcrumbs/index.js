@@ -14,7 +14,12 @@ const Breadcrumbs = ({ children }) => {
     <ul className={styles.container}>
       {elements.map((node, idx) => (
         <Fragment key={idx}>
-          {idx > 0 && <ChevronRight />}
+          {idx > 0 && (
+            <li>
+              <ChevronRight />
+            </li>
+          )}
+
           {node}
         </Fragment>
       ))}
