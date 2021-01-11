@@ -21,7 +21,7 @@
   align-items: center;
   justify-content: center;
 
-  color: var(--grey-40);
+  color: var(--grey-60);
   font-size: 0.25rem;
   text-align: center;
   vertical-align: middle;
@@ -107,25 +107,25 @@
 
   &.disabled {
     .button {
-      background-color: var(--grey-10);
+      background-color: var(--grey-20);
 
       pointer-events: none;
     }
 
     .input {
-      background-color: var(--grey-10);
+      background-color: var(--grey-20);
     }
   }
 
   &.invalid {
     .button {
-      border-top-color: var(--red-80);
-      border-right-color: var(--red-80);
-      border-bottom-color: var(--red-80);
+      border-top-color: var(--red-90);
+      border-right-color: var(--red-90);
+      border-bottom-color: var(--red-90);
     }
 
     .input {
-      border-color: var(--red-80);
+      border-color: var(--red-90);
     }
   }
 }

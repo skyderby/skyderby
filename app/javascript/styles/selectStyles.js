@@ -6,7 +6,7 @@ const selectStyles = {
   }),
   control: (base, state) => ({
     ...base,
-    borderColor: state.selectProps?.isInvalid ? 'var(--red-80)' : 'var(--border-color)',
+    borderColor: state.selectProps?.isInvalid ? 'var(--red-90)' : 'var(--border-color)',
     borderRadius: 'var(--border-radius-md)',
     minHeight: '2.1875rem'
   }),

@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
 
-  color: var(--grey-50);
+  color: var(--grey-60);
 
   @include sm-screen {
     margin: 0.5rem 0;
@@ -21,6 +21,6 @@
   flex-grow: 1;
   flex-shrink: 1;
   height: 0;
-  border: solid 1px var(--grey-30);
+  border: solid 1px var(--grey-40);
   border-radius: 1px;
 }
