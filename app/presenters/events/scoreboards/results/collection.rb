@@ -7,23 +7,23 @@ module Events
           @params = params
         end
 
-        def for(**args)
-          find(**args)
+        def for(args)
+          find(args)
         end
 
-        def best_in(**args)
-          find(**args)&.max_by { |x| x.result }
+        def best_in(args)
+          find(args)&.max_by { |x| x.result }
         end
 
-        def worst_in(**args)
-          find(**args)&.min_by { |x| x.result }
+        def worst_in(args)
+          find(args)&.min_by { |x| x.result }
         end
 
         private
 
         attr_reader :event_results, :params
 
-        def find(**args)
+        def find(args)
           index_section = lookup_section(**args)
           index_key     = lookup_key(**args)
 

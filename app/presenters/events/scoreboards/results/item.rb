@@ -46,8 +46,8 @@ module Events
 
           @points ||=
             collection
-            .best_in(**best_score_lookup_context)
-            .then { |best_result| result / best_result.result * 100 }
+            .best_in(best_score_lookup_context)
+            .then { |best_result| result.to_d / best_result.result * 100 }
             .then(&method(:apply_penalty_to_score))
         end
 

@@ -1,7 +1,7 @@
-ruby '2.7.1'
+ruby '3.0.0'
 source 'https://rubygems.org'
 
-gem 'rails', '~> 6.0.0'
+gem 'rails', '~> 6.0.3'
 
 gem 'puma'
 gem 'rack-attack'
@@ -32,7 +32,7 @@ gem 'kramdown'
 
 # Files attachments
 gem 'aws-sdk-s3'
-gem 'paperclip', '~> 6.0'
+gem 'kt-paperclip', '~> 6.4'
 gem 'shrine', '~> 3.0'
 
 # XML
@@ -47,7 +47,6 @@ gem 'caxlsx'
 gem 'caxlsx_rails'
 
 # Exception notifications and profiling
-gem 'rack-mini-profiler'
 group :production do
   gem 'honeybadger', '~> 4.0'
   gem 'skylight'
@@ -72,7 +71,6 @@ gem 'vincenty_distance'
 group :development do
   gem 'annotate'
   gem 'bullet'
-  gem 'meta_request'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
@@ -84,7 +82,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'pry-rails'
   gem 'rspec'
-  gem 'rspec-rails', '~> 4.0.0.rc1'
+  gem 'rspec-rails', '~> 4.0.0'
 end
 
 group :test do

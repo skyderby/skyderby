@@ -13,8 +13,6 @@ class ApplicationController < ActionController::Base
 
   include CurrentAnnouncements
 
-  include RackMiniProfiler
-
   layout :layout_by_resource
 
   def layout_by_resource
