@@ -12,7 +12,7 @@
 }
 
 .caption {
-  color: var(--blue-40);
+  color: var(--blue-grey-60);
   font-weight: bold;
   font-size: 1.5rem;
 }
@@ -30,7 +30,7 @@
 
   width: 35px;
   height: 35px;
-  border: 2px solid var(--blue-40);
+  border: 2px solid var(--blue-grey-60);
   border-top-color: transparent;
   border-bottom-color: transparent;
   border-radius: 100%;
@@ -47,7 +47,7 @@
   display: inline-block;
   width: 15px;
   height: 15px;
-  border-color: var(--blue-40) transparent;
+  border-color: var(--blue-grey-60) transparent;
 
   animation-duration: 0.5s;
   animation-direction: reverse;

@@ -28,12 +28,12 @@
   }
 
   &:hover {
-    background-color: var(--grey-20);
+    background-color: var(--grey-30);
   }
 
   &:global(.active) {
     .linkContent {
-      border-left-color: var(--blue-30);
+      border-left-color: var(--blue-grey-70);
     }
   }
 }

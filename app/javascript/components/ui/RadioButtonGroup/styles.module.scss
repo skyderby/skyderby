@@ -47,5 +47,6 @@
 
 .active {
   --border-color: var(--active-border-color);
-  --text-color: var(--active-text-color);
+  --background-color: var(--active-border-color);
+  --text-color: var(--white);
 }
