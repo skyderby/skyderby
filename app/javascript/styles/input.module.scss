@@ -3,23 +3,23 @@
   flex-shrink: 1;
   width: 100%;
   padding: 0.5rem 0.75rem;
-  border: solid 2px var(--grey-10);
+  border: solid 2px var(--grey-20);
   border-radius: var(--border-radius-md);
 
   color: var(--grey-90);
   font-size: 0.875rem;
   line-height: normal;
 
-  background-color: var(--grey-10);
+  background-color: var(--grey-20);
 
   transition: background-color 150ms linear;
 
   appearance: none;
 
   &:focus {
-    border-color: var(--blue-50);
+    border-color: var(--blue-90);
 
-    background-color: var(--grey-5);
+    background-color: var(--grey-10);
     outline: none;
   }
 
@@ -36,10 +36,10 @@
   }
 
   &[data-invalid='true'] {
-    border-color: var(--red-80);
+    border-color: var(--red-90);
     border-width: 1px;
 
-    color: var(--red-80);
+    color: var(--red-90);
   }
 }
 

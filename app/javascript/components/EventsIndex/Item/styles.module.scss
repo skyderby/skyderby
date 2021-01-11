@@ -41,7 +41,7 @@
 
     width: 0;
     height: 0;
-    border-color: transparent transparent var(--blue-50) transparent;
+    border-color: transparent transparent var(--blue-90) transparent;
     border-style: solid;
     border-width: 0 0 0.3125rem 0.3125rem;
 
@@ -49,10 +49,10 @@
   }
 
   &.active {
-    background-color: var(--green-40);
+    background-color: var(--green-90);
 
     &::before {
-      border-color: transparent transparent var(--green-30) transparent;
+      border-color: transparent transparent var(--green-70) transparent;
     }
   }
 }
@@ -60,13 +60,13 @@
 .official {
   margin: 0.5rem 0 0 -1px;
   padding: 0.125rem 0;
-  border-left: 2px solid var(--red-50);
+  border-left: 2px solid var(--red-90);
 
-  color: var(--red-50);
+  color: var(--red-90);
   font-size: 0.75rem;
   text-align: center;
 
-  background-color: rgba(var(--red-50-rgb), 0.1);
+  background-color: rgba(var(--red-90-rgb), 0.07);
 }
 
 .eventInfo {
@@ -80,7 +80,7 @@
 }
 
 .title {
-  color: var(--blue-30);
+  color: var(--blue-grey-70);
   font-size: 1.25rem;
 }
 
@@ -116,5 +116,5 @@
 }
 
 .separator {
-  color: var(--grey-50);
+  color: var(--grey-60);
 }

@@ -64,7 +64,7 @@
   border-radius: var(--border-radius-sm);
   overflow: hidden;
 
-  color: var(--grey-50);
+  color: var(--grey-60);
   font-weight: bold;
   font-size: 21px;
   text-shadow: 0 1px 0 var(--white);
@@ -73,13 +73,13 @@
   cursor: pointer;
 
   &:hover {
-    background-color: var(--grey-20);
+    background-color: var(--grey-30);
   }
 
   &:focus {
-    background-color: var(--grey-20);
+    background-color: var(--grey-30);
     outline: 0;
-    box-shadow: 0 0 0 0.25rem var(--grey-10);
+    box-shadow: 0 0 0 0.25rem var(--grey-20);
   }
 }
 
@@ -88,7 +88,7 @@
   justify-content: flex-end;
   padding: 0.75rem 1rem;
 
-  background-color: var(--grey-10);
+  background-color: var(--grey-20);
 
   > :not(:last-child) {
     margin-right: 0.5rem;

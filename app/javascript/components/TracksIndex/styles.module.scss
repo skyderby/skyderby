@@ -48,11 +48,11 @@
   }
 
   &[data-active='true'] {
-    color: var(--blue-30);
+    color: var(--blue-grey-70);
 
     &:hover,
     &:focus {
-      color: var(--blue-30);
+      color: var(--blue-grey-70);
     }
 
     &::after {
@@ -64,7 +64,7 @@
       display: block;
       height: 3px;
 
-      background-color: var(--blue-30);
+      background-color: var(--blue-grey-70);
       opacity: 0.9;
 
       content: '';
@@ -78,7 +78,7 @@
   &:not([data-active='true']) {
     &:hover,
     &:focus {
-      background-color: var(--grey-20);
+      background-color: var(--grey-30);
     }
   }
 }
