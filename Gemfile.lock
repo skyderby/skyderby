@@ -153,7 +153,7 @@ GEM
       temple (>= 0.8.0)
       tilt
     hashie (4.1.0)
-    honeybadger (4.2.1)
+    honeybadger (4.7.2)
     htmlentities (4.3.4)
     http_accept_language (2.1.1)
     i18n (1.8.7)
