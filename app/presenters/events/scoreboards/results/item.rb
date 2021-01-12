@@ -30,8 +30,8 @@ module Events
         def result
           @result ||=
             record
-            .then(&method(:adjust_to_wind))
-            .then(&method(:apply_penalty_to_result))
+            .then { |result| adjust_to_wind(result) }
+            .then { |result| apply_penalty_to_result(result) }
             .then { |result| result.round(round_digits) }
         end
 
@@ -47,8 +47,8 @@ module Events
           @points ||=
             collection
             .best_in(best_score_lookup_context)
-            .then { |best_result| result / best_result.result * 100 }
-            .then(&method(:apply_penalty_to_score))
+            .then { |best_result| result.to_d / best_result.result * 100 }
+            .then { |score| apply_penalty_to_score(score) }
         end
 
         def penalized?
@@ -88,6 +88,7 @@ module Events
         private
 
         attr_reader :record, :collection, :params
+
         delegate :round, :section, to: :record
 
         def adjust_to_wind(record)

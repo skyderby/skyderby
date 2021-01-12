@@ -17,7 +17,7 @@ class MovingAverage
 
     temp.each_cons(window_size).map do |window|
       keys.each do |key|
-        window[neighbors][key] = window.map { |x| x[key] }.inject(0, :+) / window_size
+        window[neighbors][key] = window.sum { |x| x[key] } / window_size
       end
       window[neighbors]
     end

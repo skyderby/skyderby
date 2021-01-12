@@ -41,7 +41,7 @@ module Manage
            .order('count_all desc')
            .limit(12)
            .count
-           .map { |profile_id, count| [Profile.find(profile_id), count] }.to_h
+           .transform_keys { |profile_id| Profile.find(profile_id) }
     end
   end
 end

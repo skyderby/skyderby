@@ -3,12 +3,12 @@ cells = %w[Rank Name Country]
 @scoreboard.rounds_by_discipline.each do |discipline, rounds|
   rounds.each do |round|
     cells << [
-      "#{t('disciplines.' + discipline)} #{round.number}",
-      t('units.' + discipline_unit(discipline.to_sym).to_s)
+      "#{t("disciplines.#{discipline}")} #{round.number}",
+      t("units.#{discipline_unit(discipline.to_sym)}")
     ].join(' - ')
-    cells << "#{t('disciplines.' + discipline)} #{round.number} - %"
+    cells << "#{t("disciplines.#{discipline}")} #{round.number} - %"
   end
-  cells << "#{t('disciplines.' + discipline)} - points"
+  cells << "#{t("disciplines.#{discipline}")} - points"
 end
 cells << 'Total points'
 

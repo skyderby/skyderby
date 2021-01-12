@@ -1,7 +1,7 @@
 describe Distance do
   describe '.load' do
     it 'correctly loads decimals' do
-      value = Distance.load(BigDecimal(100))
+      value = Distance.load(BigDecimal('100'))
       expect(value).to eq(100)
     end
 
@@ -17,12 +17,12 @@ describe Distance do
     end
 
     it 'dumps BigDecimals' do
-      expect(Distance.dump(BigDecimal(281))).to eq(281)
+      expect(Distance.dump(BigDecimal('281'))).to eq(281)
     end
 
     it 'dumps self as a BigDecimal' do
-      value = Distance.load(BigDecimal(100))
-      expect(value.dump).to eql(BigDecimal(100))
+      value = Distance.load(BigDecimal('100'))
+      expect(value.dump).to eql(BigDecimal('100'))
     end
   end
 

@@ -6,7 +6,7 @@ module Tracks
       authorize @track
 
       respond_to do |format|
-        format.html {}
+        format.html
         format.json { @track_data = Skyderby::Tracks::MapsData.new(@track) }
       end
     end

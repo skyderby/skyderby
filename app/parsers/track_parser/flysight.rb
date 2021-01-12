@@ -34,7 +34,7 @@ module TrackParser
 
     attr_reader :file
 
-    def parse_row(row)
+    def parse_row(row) # rubocop:disable Metrics/AbcSize
       PointRecord.new.tap do |r|
         r.latitude     = BigDecimal(row[LATITUDE]).truncate(10)
         r.longitude    = BigDecimal(row[LONGITUDE]).truncate(10)

@@ -5,14 +5,14 @@ module Events
               remote: true,
               'data-params': display_event_params.to_param,
               class: 'btn btn-default') do
-        concat content_tag(:i, nil, class: 'fa fa-plus text-muted')
+        concat tag.i(nil, class: 'fa fa-plus text-muted')
         concat ' '
         concat t('activerecord.models.event/section')
       end
     end
 
     def edit_section_link(event, section)
-      link_to content_tag(:i, nil, class: 'fas fa-pencil-alt text-muted'),
+      link_to tag.i(nil, class: 'fas fa-pencil-alt text-muted'),
               edit_event_section_path(event, section),
               remote: true,
               'data-params': display_event_params.to_param,
@@ -25,7 +25,7 @@ module Events
                 params: display_event_params,
                 method: :patch,
                 class: 'btn-link scoreboard-controls') do
-        content_tag(:i, nil, class: 'fa fa-chevron-up text-muted')
+        tag.i(nil, class: 'fa fa-chevron-up text-muted')
       end
     end
 
@@ -35,7 +35,7 @@ module Events
                 params: display_event_params,
                 method: :patch,
                 class: 'btn-link scoreboard-controls') do
-        content_tag(:i, nil, class: 'fa fa-chevron-down text-muted')
+        tag.i(nil, class: 'fa fa-chevron-down text-muted')
       end
     end
 
@@ -46,7 +46,7 @@ module Events
                 confirm: t('sections.show.delete_confirmation'),
                 class: 'btn-link scoreboard-controls',
                 remote: true) do
-        content_tag(:i, nil, class: 'fa fa-times text-muted')
+        tag.i(nil, class: 'fa fa-times text-muted')
       end
     end
   end

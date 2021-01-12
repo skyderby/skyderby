@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe WindowRangeFinder do
   context 'from_altitude filter' do
     it 'trim until specified altitude' do

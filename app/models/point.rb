@@ -27,7 +27,7 @@ class Point < ApplicationRecord
   scope :freq_1hz, -> { where('round(gps_time_in_seconds) = gps_time_in_seconds') }
 
   scope :trimmed, ->(seconds_before_start: 0, seconds_after_end: 0) {
-    joins <<~SQL
+    joins <<~SQL.squish
       INNER JOIN tracks
       ON tracks.id = points.track_id
       AND points.fl_time BETWEEN (tracks.ff_start - #{seconds_before_start})
@@ -46,7 +46,7 @@ class Point < ApplicationRecord
     end
 
     def point_db_statement(point)
-      statement = <<~SQL
+      statement = <<~SQL.squish
         (#{point.gps_time.to_f},
          #{point.latitude},
          #{point.longitude},

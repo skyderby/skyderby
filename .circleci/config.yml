@@ -4,7 +4,7 @@ references:
   test_defaults: &test_defaults
     working_directory: ~/skyderby
     docker:
-      - image: circleci/ruby:2.6.5-node-browsers
+      - image: circleci/ruby:3.0-node-browsers
         environment:
           DATABASE_URL: postgres://circleci:test-password@localhost/skyderby_test
           TRACK_SCANNER_URL: http://localhost:8000
@@ -54,7 +54,7 @@ jobs:
   lint_ruby:
     working_directory: ~/skyderby
     docker:
-      - image: circleci/ruby:2.6.5-node
+      - image: circleci/ruby:3.0-node
     steps:
       - checkout
       - *restore_bundle_cache
@@ -65,7 +65,7 @@ jobs:
   lint_js:
     working_directory: ~/skyderby
     docker:
-      - image: circleci/ruby:2.6.5-node
+      - image: circleci/ruby:3.0-node
     steps:
       - checkout
       - *restore_yarn_cache

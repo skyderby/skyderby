@@ -29,8 +29,6 @@ class Place < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: ->(attrs) { attrs['name'].blank? }
 
-  scope :with_measurements, -> { where(id: ExitMeasurement.distinct.pluck(:place_id)) }
-
   validates :name, presence: true
   validates :country, presence: true
   validates :latitude, presence: true

@@ -52,9 +52,7 @@ class User < ApplicationRecord
     roles.any? { |r| r.name.underscore.to_sym == role_sym }
   end
 
-  def registered?
-    true
-  end
+  def registered? = true
 
   # Using ActiveJob to deliver messages in background
   def send_devise_notification(notification, *args)
@@ -74,7 +72,7 @@ class User < ApplicationRecord
       relation = left_outer_joins(:profile)
 
       relation.where('LOWER(email) LIKE LOWER(?)', "%#{query}%")
-              .or(relation.where('users.id = ?', query.to_i))
+              .or(relation.where(users: { id: query }))
               .or(relation.where('LOWER(profiles.name) LIKE LOWER(?)', "%#{query}%"))
     end
 

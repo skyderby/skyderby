@@ -22,5 +22,5 @@ class Sponsor < ApplicationRecord
   validates :logo, attachment_presence: true
 
   has_attached_file :logo, styles: { medium: '300x120>' }
-  validates_attachment_content_type :logo, content_type: %r{\Aimage\/.*\Z}
+  validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
 end

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe 'Scoring tracks in competitions', type: :system do
   it 'Track from Csaba: distance' do
     track = create_track_from_file '2014-Csaba-Round-1.CSV'

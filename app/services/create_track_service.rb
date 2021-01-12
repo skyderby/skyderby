@@ -3,6 +3,7 @@ class CreateTrackService
     attr_reader :points
 
     def initialize(points)
+      super
       @points = points
     end
   end

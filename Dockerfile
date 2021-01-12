@@ -1,11 +1,11 @@
-FROM ruby:2.6.5
+FROM ruby:3.0.0
 
 MAINTAINER Aleksandr Kunin <skyksandr@gmail.com>
 
 RUN apt-get update -qq && apt-get install -y -qq apt-transport-https ca-certificates \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
-    && curl -sL https://deb.nodesource.com/setup_10.x | bash - \
+    && curl -sL https://deb.nodesource.com/setup_14.x | bash - \
     && apt-get install -y -qq --no-install-recommends postgresql-client nodejs yarn \
     && rm -rf /var/lib/apt/lists/*
 

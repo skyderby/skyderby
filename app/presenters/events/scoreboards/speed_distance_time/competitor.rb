@@ -15,8 +15,7 @@ module Events
 
         def total_points
           points_in_disciplines
-            .map { |_discipline, points| points }
-            .sum
+            .sum { |_discipline, points| points }
             .round(1)
         end
 
@@ -35,8 +34,7 @@ module Events
                 rounds
                 .map { |round| scoreboard.results.for(competitor: self, round: round) }
                 .compact
-                .map(&:points)
-                .sum
+                .sum(&:points)
 
               memo[discipline] = sum_of_points.to_f / rounds.count
             end

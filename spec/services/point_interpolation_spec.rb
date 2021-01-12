@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe PointInterpolation do
   it 'iterpolates by altitude' do
     expected_point = {

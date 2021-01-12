@@ -29,7 +29,7 @@ module AcceptsNestedTrack
 
   private
 
-  def create_track_from_file
+  def create_track_from_file # rubocop:disable Metrics/AbcSize
     return if track_from != 'from_file'
 
     if track_attributes&.fetch(:file).blank?

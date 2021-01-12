@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe 'Permissions: Competitions', type: :system do
   it 'User can view published and finished competitions' do
     event = create :event

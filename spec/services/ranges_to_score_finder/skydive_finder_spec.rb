@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe RangesToScoreFinder::SkydiveFinder do
   it 'returns same range as given bounds if height diff < 1000' do
     altitude_bounds = { max_altitude: 3000, min_altitude: 2700 }

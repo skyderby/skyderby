@@ -4,14 +4,14 @@ module CompetitorsHelper
             remote: true,
             'data-params': display_event_params.to_param,
             class: 'btn btn-default') do
-      concat content_tag(:i, nil, class: 'fa fa-plus text-muted')
+      concat tag.i(nil, class: 'fa fa-plus text-muted')
       concat ' '
       concat t('activerecord.models.event/competitor')
     end
   end
 
   def edit_competitor_link(event, competitor)
-    link_to content_tag(:i, nil, class: 'fas fa-pencil-alt text-gray'),
+    link_to tag.i(nil, class: 'fas fa-pencil-alt text-gray'),
             edit_event_competitor_path(event, competitor),
             remote: true,
             'data-params': display_event_params.to_param,
@@ -24,7 +24,7 @@ module CompetitorsHelper
               remote: true,
               params: display_event_params,
               class: 'btn-link scoreboard-controls' do
-      content_tag(:i, nil, class: 'fa fa-times text-gray')
+      tag.i(nil, class: 'fa fa-times text-gray')
     end
   end
 end

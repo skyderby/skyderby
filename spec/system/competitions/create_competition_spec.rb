@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 feature 'Creating new competitions', type: :system do
   scenario 'Registered user able to create new competition', js: true do
     sign_in users(:regular_user)

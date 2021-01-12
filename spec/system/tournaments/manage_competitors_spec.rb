@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 feature 'Manage tournament competitors', type: :system, js: true do
   scenario 'add competitor with existed profile' do
     sign_in users(:regular_user)

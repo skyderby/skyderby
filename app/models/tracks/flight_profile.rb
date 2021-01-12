@@ -27,14 +27,13 @@ module Tracks
     end
 
     def track_points
-      @track_points ||= begin
-          PointsQuery.execute(
-            track,
-            trimmed: true,
-            freq_1hz: true,
-            only: %i[altitude latitude longitude h_speed v_speed]
-          )
-        end
+      @track_points ||=
+        PointsQuery.execute(
+          track,
+          trimmed: true,
+          freq_1hz: true,
+          only: %i[altitude latitude longitude h_speed v_speed]
+        )
     end
 
     attr_reader :track

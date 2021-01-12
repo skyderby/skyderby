@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe 'Adding place', type: :system do
   it 'Non admin user do not see add button' do
     visit places_path

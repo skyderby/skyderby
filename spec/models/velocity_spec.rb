@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Velocity do
   describe '.load' do
     it 'load 100 correctly' do
@@ -19,7 +17,7 @@ describe Velocity do
     end
 
     it 'dumps BigDecimals' do
-      expect(Velocity.dump(BigDecimal(281))).to eq(281)
+      expect(Velocity.dump(BigDecimal('281'))).to eq(281)
     end
   end
 end
