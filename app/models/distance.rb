@@ -10,7 +10,7 @@ class Distance < DelegateClass(BigDecimal)
   end
 
   def self.dump(obj)
-    return obj unless obj.class == Distance
+    return obj unless obj.instance_of?(Distance)
 
     obj.dump
   end
@@ -42,7 +42,7 @@ class Distance < DelegateClass(BigDecimal)
   end
 
   def value_to_decimal(value)
-    if value.class == BigDecimal
+    if value.instance_of?(BigDecimal)
       value
     elsif value.respond_to?(:to_d)
       value.to_d

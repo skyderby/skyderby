@@ -15,8 +15,8 @@ module Tracks
       return [] unless ranges
 
       ranges
-        .then(&method(:remove_short_ranges))
-        .then(&method(:rearrange_to_selected_range))
+        .then { |ranges| remove_short_ranges(ranges) }
+        .then { |ranges| rearrange_to_selected_range(ranges) }
         .compact
     end
 

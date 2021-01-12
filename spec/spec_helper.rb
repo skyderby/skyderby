@@ -16,7 +16,7 @@ Capybara.ignore_hidden_elements = true
 Capybara.default_max_wait_time = 10
 Capybara.asset_host = 'http://localhost:3000'
 
-Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 I18n.locale = :en
 

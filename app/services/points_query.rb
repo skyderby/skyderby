@@ -96,8 +96,8 @@ class PointsQuery
     def call
       track
         .points
-        .then(&method(:trim))
-        .then(&method(:reorder))
+        .then { |points| trim(points) }
+        .then { |points| reorder(points) }
     end
 
     private
@@ -107,7 +107,7 @@ class PointsQuery
     def trim(scope)
       return scope unless trimmed
 
-      ff_start, ff_end = Track.where(id: track.id).pluck(:ff_start, :ff_end).first
+      ff_start, ff_end = Track.where(id: track.id).pick(:ff_start, :ff_end)
       ff_start -= trim_options[:seconds_before_start] if trim_options[:seconds_before_start]
 
       scope.where('fl_time BETWEEN ? AND ?', ff_start, ff_end)
@@ -154,7 +154,7 @@ class PointsQuery
       return select_statements unless freq_1hz
 
       select_statements.tap do |statements|
-        statements[0] = Arel.sql('DISTINCT ON (floor(gps_time_in_seconds)) ' + statements.first)
+        statements[0] = Arel.sql("DISTINCT ON (floor(gps_time_in_seconds)) #{statements.first}")
       end
     end
 

@@ -17,9 +17,7 @@
 #  owner_id             :integer
 #
 
-require 'spec_helper'
-
-describe Profile, type: :model do
+describe Profile do
   describe '#cropping?' do
     it 'true if all attrs present' do
       profile = Profile.new(crop_x: 1, crop_y: 1, crop_h: 1, crop_w: 1)

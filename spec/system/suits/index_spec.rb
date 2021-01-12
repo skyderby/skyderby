@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 feature 'Suits: index page', type: :system do
   scenario 'Access by any user' do
     visit suits_path

@@ -13,9 +13,7 @@
 #  description        :text
 #
 
-require 'spec_helper'
-
-RSpec.describe Suit, type: :model do
+describe Suit do
   let(:manufacturer) { create(:manufacturer, name: 'Phoenix Fly') }
   let(:suit) { create(:suit, name: 'Ghost 3') }
 

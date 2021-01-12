@@ -25,7 +25,7 @@ class TrackVideo < ApplicationRecord
   private
 
   def parse_url
-    regexp = %r{^.*(youtu.be/|v/|u/\w/|embed/|watch\?v=|\&v=)([^#\&\?]*).*}
+    regexp = %r{^.*(youtu.be/|v/|u/\w/|embed/|watch\?v=|&v=)([^#&?]*).*}
     self.video_code = url.match(regexp)[2]
   end
 end

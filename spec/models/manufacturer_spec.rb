@@ -7,9 +7,7 @@
 #  code :string(510)
 #
 
-require 'spec_helper'
-
-describe Manufacturer, type: :model do
+describe Manufacturer do
   it 'name is required' do
     expect(Manufacturer.create).not_to be_valid
   end

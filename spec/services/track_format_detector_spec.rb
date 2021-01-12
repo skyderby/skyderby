@@ -1,7 +1,5 @@
-require 'spec_helper'
-
 describe TrackFormatDetector do
-  EXAMPLES = {
+  examples = {
     'two_tracks.gpx' => 'gpx',
     'dual_xgps160.kml' => 'kml',
     'wintec.tes' => 'wintec',
@@ -10,7 +8,7 @@ describe TrackFormatDetector do
     'cyber_eye.csv' => 'cyber_eye'
   }.freeze
 
-  EXAMPLES.each do |file_name, format|
+  examples.each do |file_name, format|
     it "determines #{format} format" do
       extension = File.extname(file_name).delete('.').downcase
       file = File.open(Rails.root.join('spec/support/tracks', file_name))

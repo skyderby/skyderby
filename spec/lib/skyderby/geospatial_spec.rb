@@ -1,4 +1,4 @@
-require 'spec_helper'
+TestPoint = Struct.new(:latitude, :longitude)
 
 describe Skyderby::Geospatial do
   it 'calculates distance between points defined as arrays' do
@@ -8,8 +8,6 @@ describe Skyderby::Geospatial do
   end
 
   it 'calculates distance between points defined as objects with lat, lon attrs' do
-    TestPoint = Struct.new(:latitude, :longitude)
-
     expect(
       Skyderby::Geospatial.distance_between_points(
         TestPoint.new(40.7486, -73.9864),

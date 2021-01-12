@@ -32,7 +32,7 @@ module Profiles
     def profile_scores
       profile_scores_query = VirtualCompetition::AnnualTopScore.where(profile: profile).to_sql
 
-      <<~SQL
+      <<~SQL.squish
         INNER JOIN (#{profile_scores_query}) AS profile_scores
         ON profile_scores.virtual_competition_id = annual_top_scores.virtual_competition_id
         AND profile_scores.year = annual_top_scores.year

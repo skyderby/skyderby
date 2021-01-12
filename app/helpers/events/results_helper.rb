@@ -6,7 +6,7 @@ module Events
         'result[round_id]' => round.id
       }.merge(display_event_params).to_param
 
-      link_to content_tag('i', nil, class: 'fa fa-upload'),
+      link_to tag.i(nil, class: 'fa fa-upload'),
               new_event_result_path(event),
               remote: true,
               'data-params': data_params.to_param,
@@ -20,7 +20,7 @@ module Events
               class: 'show-result',
               rel: 'nofollow') do
         class_list = can_update ? 'fas fa-pencil-alt' : 'fa fa-search'
-        content_tag('i', nil, class: class_list)
+        tag.i(nil, class: class_list)
       end
     end
 
@@ -37,7 +37,7 @@ module Events
     def event_result_presentation(event_track)
       "#{I18n.t('activerecord.models.event/result')}: " \
         "#{event_track.competitor.name} | " \
-        "#{I18n.t('disciplines.' + event_track.round_discipline)} - " \
+        "#{I18n.t("disciplines.#{event_track.round_discipline}")} - " \
         "#{event_track.round_number}"
     end
   end

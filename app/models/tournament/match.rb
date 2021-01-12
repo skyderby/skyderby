@@ -26,9 +26,10 @@ class Tournament::Match < ApplicationRecord
               converter: proc { |t| convert_to_time(t) }
 
   def self.convert_to_time(time)
-    if time.is_a?(Time)
+    case time
+    when Time
       time
-    elsif time.is_a?(String)
+    when String
       Time.zone.parse(time)
     else
       Time.zone.at(time / 1000.0)

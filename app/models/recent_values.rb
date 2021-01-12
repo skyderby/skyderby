@@ -1,5 +1,6 @@
 class RecentValues
   attr_reader :values
+
   delegate :[], to: :values
 
   def initialize(cookies)

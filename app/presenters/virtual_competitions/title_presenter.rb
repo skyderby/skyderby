@@ -9,7 +9,7 @@ module VirtualCompetitions
     end
 
     def call
-      group_name = competition.group ? competition.group.name + ' - ' : ''
+      group_name = competition.group ? "#{competition.group.name} - " : ''
       group_name + competition.name
     end
 

@@ -26,7 +26,7 @@ module Tracks
         )
       end
 
-      headings.inject(0.0) { |acc, elem| acc + elem } / headings.size
+      headings.sum(0.0) { |acc, elem| acc + elem } / headings.size
     end
 
     def points

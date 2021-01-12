@@ -8,7 +8,7 @@ class Velocity < DelegateClass(BigDecimal)
   end
 
   def self.dump(obj)
-    return obj unless obj.class == Velocity
+    return obj unless obj.instance_of?(Velocity)
 
     obj.dump
   end
@@ -74,9 +74,9 @@ class Velocity < DelegateClass(BigDecimal)
   end
 
   def value_to_decimal(value)
-    if value.class == BigDecimal
+    if value.instance_of?(BigDecimal)
       value
-    elsif value.class == Float
+    elsif value.instance_of?(Float)
       float_val = value.nan? || value.infinite? ? 0.0 : value
       float_val.to_d
     elsif value.respond_to?(:to_d)

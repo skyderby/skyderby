@@ -26,21 +26,9 @@ class TrackRange
 
   attr_reader :track, :opts
 
-  def max_altitude
-    track.altitude_bounds[:max_altitude]
-  end
+  def max_altitude = track.altitude_bounds[:max_altitude]
 
-  def min_altitude
-    track.altitude_bounds[:min_altitude]
-  end
+  def min_altitude = track.altitude_bounds[:min_altitude]
 
-  def convert_from_string(value)
-    if value.nil?
-      nil
-    elsif value.class == String && value.empty?
-      nil
-    else
-      value.to_f
-    end
-  end
+  def convert_from_string(value) = value.presence&.to_f
 end

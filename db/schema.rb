@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_13_075113) do
+ActiveRecord::Schema.define(version: 2021_01_12_074526) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2020_11_13_075113) do
   create_table "countries", id: :serial, force: :cascade do |t|
     t.string "name", limit: 510
     t.string "code", limit: 510
+    t.index ["code"], name: "index_countries_on_code", unique: true
   end
 
   create_table "event_competitors", id: :serial, force: :cascade do |t|
@@ -149,6 +150,7 @@ ActiveRecord::Schema.define(version: 2020_11_13_075113) do
     t.string "name", limit: 510
     t.string "code", limit: 510
     t.boolean "active", default: false, null: false
+    t.index ["code"], name: "index_manufacturers_on_code", unique: true
   end
 
   create_table "organizers", id: :serial, force: :cascade do |t|

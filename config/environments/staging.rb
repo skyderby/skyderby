@@ -49,7 +49,7 @@ Skyderby::Application.configure do
   # config.force_ssl = true
 
   # Set to :debug to see everything in the log.
-  config.logger       = Logger.new(STDOUT)
+  config.logger       = Logger.new($stdout)
   config.logger.level = Logger.const_get('INFO')
   config.log_level    = :info
 

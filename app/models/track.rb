@@ -84,9 +84,7 @@ class Track < ApplicationRecord
   delegate :name, to: :suit, allow_nil: true, prefix: true
   delegate :event, to: :event_result, allow_nil: true
 
-  def jump_range
-    "#{ff_start};#{ff_end}"
-  end
+  def jump_range = "#{ff_start};#{ff_end}"
 
   def jump_range=(val)
     self.ff_start, self.ff_end = val.split(';')
@@ -96,9 +94,7 @@ class Track < ApplicationRecord
     (points.last.gps_time_in_seconds - points.first.gps_time_in_seconds).to_i
   end
 
-  def competitive?
-    event_result.present?
-  end
+  def competitive? = event_result.present?
 
   def msl_offset
     @msl_offset ||= begin
@@ -112,13 +108,9 @@ class Track < ApplicationRecord
     end
   end
 
-  def start_time
-    points.trimmed.first&.gps_time
-  end
+  def start_time = points.trimmed.first&.gps_time
 
-  def abs_altitude?
-    ge_enabled
-  end
+  def abs_altitude? = ge_enabled
 
   def point_altitude_field
     ("abs_altitude - #{msl_offset}" if abs_altitude?) || 'elevation'
@@ -134,8 +126,11 @@ class Track < ApplicationRecord
 
   def altitude_bounds
     @altitude_bounds ||= begin
-      query_result = PointsQuery.execute(self, freq_1hz: true, trimmed: true, only: [:altitude])
-      points_altitude = query_result.map { |val| val[:altitude] }
+      points_altitude =
+        PointsQuery
+        .execute(self, freq_1hz: true, trimmed: true, only: [:altitude])
+        .pluck(:altitude)
+
       points_altitude = [0] if points_altitude.blank?
       {
         max_altitude: points_altitude.max,
@@ -145,9 +140,7 @@ class Track < ApplicationRecord
     end
   end
 
-  def recorded_at
-    super || created_at
-  end
+  def recorded_at = super || created_at
 
   private
 

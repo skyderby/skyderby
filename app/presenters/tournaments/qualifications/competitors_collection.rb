@@ -16,8 +16,8 @@ module Tournaments
       def competitors
         @competitors =
           tournament_competitors
-          .then(&method(:map_competitors))
-          .then(&method(:sort_competitors))
+          .then { |collection| map_competitors(collection) }
+          .then { |collection| sort_competitors(collection) }
       end
 
       def map_competitors(collection)

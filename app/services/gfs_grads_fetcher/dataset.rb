@@ -6,7 +6,9 @@ class GfsGradsFetcher
     SERVICE_URL = 'https://nomads.ncep.noaa.gov/dods'.freeze
 
     class DateOutOfRange      < StandardError; end
+
     class NoDatasetAvailable  < StandardError; end
+
     class UnknownAvailability < StandardError; end
 
     def initialize(opts = {})

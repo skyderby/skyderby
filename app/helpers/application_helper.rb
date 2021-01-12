@@ -1,11 +1,7 @@
 module ApplicationHelper
   def page_title(title)
     base_title = I18n.t 'static_pages.index.title'
-    if title.empty?
-      'Skyderby: ' + base_title
-    else
-      title + ' - Skyderby'
-    end
+    title.present? ? "#{title} - Skyderby" : "Skyderby: #{base_title}"
   end
 
   def lang_presentation(lang_code)
@@ -20,11 +16,10 @@ module ApplicationHelper
   end
 
   def lang_menu
-    content_tag(:ul, class: 'dropdown-menu dropdown-menu-right', role: 'menu') do
+    tag.ul(class: 'dropdown-menu dropdown-menu-right', role: 'menu') do
       I18n.available_locales.each do |locale_code|
-        concat content_tag(:li,
-                           link_to(lang_presentation(locale_code), { locale: locale_code }, rel: 'nofollow'),
-                           class: (I18n.locale == locale_code ? 'active' : ''))
+        link = link_to(lang_presentation(locale_code), { locale: locale_code }, rel: 'nofollow')
+        concat tag.li(link, class: (I18n.locale == locale_code ? 'active' : ''))
       end
     end
   end

@@ -19,4 +19,18 @@ describe Announcement do
     expect(active_announcements).to include('Current')
     expect(active_announcements).not_to include('Past')
   end
+
+  it '#to_html' do
+    announcement = described_class.create! \
+      name: 'Thanks',
+      text: '*Thank you* for supporting [Skyderby](https://skyderby.ru)',
+      period_from: 1.week.ago,
+      period_to: 1.week.from_now
+
+    result = announcement.to_html.strip
+
+    expect(result).to eq(
+      '<p><em>Thank you</em> for supporting <a href="https://skyderby.ru">Skyderby</a></p>'
+    )
+  end
 end

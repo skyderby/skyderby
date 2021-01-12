@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe 'Locale redirects routing', type: :request do
   after(:each) do
     I18n.locale = :en

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe RangesToScoreFinder::BaseFinder do
   it 'returns range as given bounds, start altitude lower on 10 meters' do
     altitude_bounds = { max_altitude: 3000, min_altitude: -30 }

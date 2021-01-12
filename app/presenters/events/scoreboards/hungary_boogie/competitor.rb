@@ -12,7 +12,7 @@ module Events
         def total_points
           return 0 if counted_results.blank?
 
-          @total_points ||= counted_results.map(&:result).sum.to_f / jumps_for_total
+          @total_points ||= counted_results.sum(&:result).to_f / jumps_for_total
         end
 
         def results
@@ -31,7 +31,7 @@ module Events
         def average_result
           return 0 if results.blank?
 
-          results.map(&:result).inject(0.0, :+) / results.size
+          results.sum(0.0, &:result) / results.size
         end
 
         private

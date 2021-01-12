@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe TrackSegment do
   subject { TrackSegment.new(sample_points) }
 

@@ -28,7 +28,7 @@ module TrackParser
       @file = args[:file]
     end
 
-    def parse
+    def parse # rubocop:disable Metrics/AbcSize
       track_points = []
 
       current_point_time = nil
@@ -39,7 +39,7 @@ module TrackParser
         end
 
         if current_point_time && elem.name == 'coord'
-          point_params = elem.text.split(' ')
+          point_params = elem.text.split
           track_points << PointRecord.new.tap do |p|
             p.latitude = point_params[1].to_f
             p.longitude = point_params[0].to_f

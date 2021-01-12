@@ -1,5 +1,6 @@
 class WindowRangeFinder
   class UnknownFilter   < StandardError; end
+
   class ValueOutOfRange < StandardError; end
 
   # Order matters
@@ -47,7 +48,7 @@ class WindowRangeFinder
       points[index]
     ).execute(by: :altitude, with_value: altitude)
 
-    @points = [interpolated_point] + points[index..-1]
+    @points = [interpolated_point] + points[index..]
   end
 
   def to_altitude(altitude)
@@ -79,7 +80,7 @@ class WindowRangeFinder
       points[index]
     ).execute(by: :v_speed, with_value: speed)
 
-    @points = [interpolated_point] + points[index..-1]
+    @points = [interpolated_point] + points[index..]
   end
 
   def from_gps_time(gps_time)
@@ -98,7 +99,7 @@ class WindowRangeFinder
       points[index]
     ).execute(by: :gps_time, with_value: gps_time)
 
-    @points = [interpolated_point] + points[index..-1]
+    @points = [interpolated_point] + points[index..]
   end
 
   def duration(time)

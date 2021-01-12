@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Skyderby::Trigonometry do
   before do
     Skyderby::Trigonometry.module_eval do

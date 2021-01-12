@@ -5,7 +5,5 @@ class Announcement < ApplicationRecord
 
   scope :active, -> { where('NOW() BETWEEN period_from AND period_to') }
 
-  def to_html
-    Kramdown::Document.new(text).to_html
-  end
+  def to_html = Kramdown::Document.new(text).to_html
 end
