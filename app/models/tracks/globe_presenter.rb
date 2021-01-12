@@ -4,9 +4,7 @@ module Tracks
       @track = track
     end
 
-    def pilot_name
-      track.pilot_name || track.name
-    end
+    def pilot_name = track.pilot_name || track.name
 
     def start_time
       points.first && points.first[:gps_time] || track.recorded_at
@@ -26,21 +24,16 @@ module Tracks
         )
       end
 
-      headings.sum(0.0) { |acc, elem| acc + elem } / headings.size
+      headings.sum(0.0) / headings.size
     end
 
     def points
       @points ||=
-        track.points.trimmed(seconds_before_start: 5).freq_1hz.pluck_to_hash(
-          'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
-          :abs_altitude,
-          :latitude,
-          :longitude,
-          :h_speed,
-          :v_speed,
-          'CASE WHEN v_speed = 0 THEN h_speed / 0.1
-                ELSE h_speed / ABS(v_speed)
-          END AS glide_ratio'
+        PointsQuery.execute(
+          track,
+          trimmed: { seconds_before_start: 5 },
+          freq_1hz: true,
+          only: %i[gps_time abs_altitude latitude longitude h_speed v_speed glide_ratio]
         )
     end
 
