@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 6.0.3'
 
-gem 'puma'
+gem 'puma', '< 6'
 gem 'rack-attack'
 gem 'rack-cors'
 
