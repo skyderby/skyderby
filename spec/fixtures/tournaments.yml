@@ -1,27 +1,17 @@
 world_base_race:
   name: WBR
-  place: hellesylt
+  place: hellesylt_wbr
+  finish_line: hellesylt_wbr_legacy
   responsible: regular_user
   starts_at: 2016-07-03
-  finish_start_lat: 62.0573629049
-  finish_start_lon: 6.9466106097
-  finish_end_lat: 62.0538370911
-  finish_end_lon: 6.9480893046
-  exit_lat: 62.0578307
-  exit_lon: 6.9715718
   has_qualification: false
   bracket_size: 2
 
 qualification_loen:
   name: WBR Qualification - Loen
   place: loen
+  finish_line: loen_wbr
   responsible: regular_user
   starts_at: 2016-07-03
-  finish_start_lat: 61.873144426
-  finish_start_lon: 6.8371879648
-  finish_end_lat: 61.8743634807
-  finish_end_lon: 6.8443581779
-  exit_lat: 61.88504129
-  exit_lon: 6.83213621
   has_qualification: true
   bracket_size: 2

@@ -4,21 +4,24 @@ module Tournaments
     CompetitorData = Struct.new(:name, :color, :path)
 
     delegate :tournament, to: :match
-    delegate :exit_lat, :exit_lon, to: :tournament
+    delegate :place, to: :tournament
 
     class PathBuilder
+      def self.call(slot)
+        new(slot).call
+      end
+
       def initialize(slot)
         @slot = slot
       end
 
-      def execute
-        slot
-          .track
-          .points
-          .trimmed(seconds_before_start: SECONDS_BEFORE_START)
-          .freq_1hz
-          .pluck_to_hash(:latitude, :longitude)
-          .map { |p| { lat: p[:latitude].to_f, lng: p[:longitude].to_f } }
+      def call
+        PointsQuery.execute(
+          slot.track,
+          trimmed: { seconds_before_start: SECONDS_BEFORE_START },
+          freq_1hz: true,
+          only: %i[gps_time latitude longitude]
+        ).map { |p| { lat: p[:latitude].to_f, lng: p[:longitude].to_f } }
       end
 
       private
@@ -48,18 +51,13 @@ module Tournaments
         CompetitorData.new.tap do |c|
           c.name = val.competitor_name
           c.color = COLORS[index]
-          c.path = PathBuilder.new(val).execute
+          c.path = PathBuilder.call(val)
         end
       end
     end
 
     def finish_line
-      match.tournament.finish_line.map do |point|
-        {
-          latitude: point.latitude,
-          longitude: point.longitude
-        }
-      end
+      match.tournament.finish_line.to_coordinates
     end
 
     private

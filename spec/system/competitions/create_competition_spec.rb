@@ -9,7 +9,7 @@ feature 'Creating new competitions', type: :system do
     fill_in :event_name, with: 'Test event'
     fill_in :event_range_from, with: 3000
     fill_in :event_range_to, with: 2000
-    select2 places(:hellesylt).name, from: 'event_place_id'
+    select2 places(:hellesylt_wbr).name, from: 'event_place_id'
 
     find('input[type="submit"]').click
 

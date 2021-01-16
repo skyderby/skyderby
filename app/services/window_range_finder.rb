@@ -120,16 +120,7 @@ class WindowRangeFinder
   def elevation(altitude)
     lookup_altitude = points.first[:altitude] - altitude
 
-    index = points.index { |x| x[:altitude] <= lookup_altitude }
-
-    raise ValueOutOfRange if index.nil? || index.zero?
-
-    interpolated_point = PointInterpolation.new(
-      points[index - 1],
-      points[index]
-    ).execute(by: :altitude, with_value: lookup_altitude)
-
-    @points = points[0..(index - 1)] + [interpolated_point]
+    to_altitude(lookup_altitude)
   end
 
   def until_cross_finish_line(finish_line)

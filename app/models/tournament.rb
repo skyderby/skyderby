@@ -34,6 +34,7 @@ class Tournament < ApplicationRecord
   belongs_to :responsible, class_name: 'User'
 
   belongs_to :place
+  belongs_to :finish_line, class_name: 'Place::FinishLine'
 
   has_many :organizers, as: :organizable, dependent: :delete_all
   has_many :competitors, dependent: :restrict_with_error
@@ -49,31 +50,10 @@ class Tournament < ApplicationRecord
 
   after_initialize :set_default_values
 
-  def finish_line
-    [
-      Coordinate.new(
-        latitude: finish_start_lat,
-        longitude: finish_start_lon
-      ),
-      Coordinate.new(
-        latitude: finish_end_lat,
-        longitude: finish_end_lon
-      )
-    ]
-  end
-
-  def with_qualification?
-    has_qualification
-  end
-
-  def active?
-    starts_at < Time.zone.now && !finished?
-  end
+  def active? = starts_at < Time.zone.now && !finished?
 
   # For compatibility with Event
-  def finished?
-    false
-  end
+  def finished? = false
 
   private
 

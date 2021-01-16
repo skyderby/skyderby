@@ -5,42 +5,69 @@
     \// Finish line
 
   .content-block
-    %h2= @finish_line.name
+    .row{'data-controller': 'places--finish-line-map'}
+      .col-sm-7
 
-    %h3.modal-form__section-title
-      %span.modal-form__section-number 1
-      Exit
+        %h2= @finish_line.name
 
-    .row
-      .col-sm-3
-        %label Latitude
-        %p.form-control-static= @place.latitude
+        %h3.modal-form__section-title
+          %span.modal-form__section-number 1
+          Exit
 
-      .col-sm-3
-        %label Longitude
-        %p.form-control-static= @place.longitude
 
-    %h3.modal-form__section-title
-      %span.modal-form__section-number 2
-      Coordinates
+        .row
+          .col-sm-3
+            %label Latitude
+            %p.form-control-static{'data-target': 'places--finish-line-map.exit_lat'}= @place.latitude
 
-    .row
-      .col-sm-3
-        %label Start latitude
-        %p.form-control-static= @finish_line.start_latitude
+          .col-sm-3
+            %label Longitude
+            %p.form-control-static{'data-target': 'places--finish-line-map.exit_lon'}= @place.longitude
 
-      .col-sm-3
-        %label Start longitude
-        %p.form-control-static= @finish_line.start_longitude
+        %h3.modal-form__section-title
+          %span.modal-form__section-number 2
+          Coordinates
 
-      .col-sm-3
-        %label End latitude
-        %p.form-control-static= @finish_line.end_latitude
+        .row
+          .col-sm-3
+            %label Start latitude
+            %p.form-control-static{'data-target': 'places--finish-line-map.finish_start_lat'}= @finish_line.start_latitude
 
-      .col-sm-3
-        %label End longitude
-        %p.form-control-static= @finish_line.end_longitude
+          .col-sm-3
+            %label Start longitude
+            %p.form-control-static{'data-target': 'places--finish-line-map.finish_start_lon'}= @finish_line.start_longitude
 
+          .col-sm-3
+            %label End latitude
+            %p.form-control-static{'data-target': 'places--finish-line-map.finish_end_lat'}= @finish_line.end_latitude
+
+          .col-sm-3
+            %label End longitude
+            %p.form-control-static{'data-target': 'places--finish-line-map.finish_end_lon'}= @finish_line.end_longitude
+
+        %h3.modal-form__section-title
+          %span.modal-form__section-number 3
+          Finish line params
+
+        .row
+          .col-sm-3
+            %label Distance from exit
+            %p.form-control-static{'data-target': 'places--finish-line-map.distance'}
+
+          .col-sm-3
+            %label Length
+            %p.form-control-static{'data-target': 'places--finish-line-map.length'}
+
+          .col-sm-3
+            %label Center latitude
+            %p.form-control-static{'data-target': 'places--finish-line-map.center_lat'}
+
+          .col-sm-3
+            %label Center longitude
+            %p.form-control-static{'data-target': 'places--finish-line-map.center_lon'}
+
+      .col-sm-5
+        .finish-line-map{'data-target': 'places--finish-line-map.map'}
     .row
       .col-sm-12
         = link_to edit_place_finish_line_path(@finish_line.place, @finish_line), class: 'btn btn-default' do

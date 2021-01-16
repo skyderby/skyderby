@@ -1,6 +1,6 @@
 module Tournaments
   class MatchGlobe
-    SECONDS_BEFORE_START = 10
+    SECONDS_BEFORE_START = 5
     FINISH_LINE_ALTITUDE = 500
     CENTER_LINE_ALTITUDE = 1000
     CompetitorData = Struct.new(:name, :color, :points)
@@ -11,15 +11,12 @@ module Tournaments
       end
 
       def execute
-        slot
-          .track
-          .points
-          .trimmed(seconds_before_start: SECONDS_BEFORE_START)
-          .freq_1hz
-          .pluck_to_hash(:latitude,
-                         :longitude,
-                         :abs_altitude,
-                         'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time')
+        PointsQuery.execute(
+          slot.track,
+          trimmed: { seconds_before_start: SECONDS_BEFORE_START },
+          freq_1hz: true,
+          only: %i[gps_time latitude longitude abs_altitude]
+        ).each { |point| point[:gps_time] = point[:gps_time].iso8601 }
       end
 
       private
@@ -57,15 +54,19 @@ module Tournaments
     end
 
     def finish_line
-      match.tournament.finish_line.map do |point|
-        [point.longitude, point.latitude, finish_line_altitude]
+      match.tournament.finish_line.to_coordinates.map do |point|
+        [point[:longitude].to_f, point[:latitude].to_f, finish_line_altitude]
       end.flatten
     end
 
     def center_line
       [
-        finish_line_center[:longitude], finish_line_center[:latitude], finish_line_altitude,
-        match.tournament.exit_lon, match.tournament.exit_lat, start_altitude
+        match.tournament.finish_line.center[:longitude].to_f,
+        match.tournament.finish_line.center[:latitude].to_f,
+        finish_line_altitude,
+        match.tournament.place.longitude.to_f,
+        match.tournament.place.latitude.to_f,
+        start_altitude
       ]
     end
 
@@ -83,19 +84,6 @@ module Tournaments
 
     def finish_line_altitude
       stop_altitude + FINISH_LINE_ALTITUDE
-    end
-
-    def finish_line_center # rubocop:disable Metrics/AbcSize
-      start_lat = match.tournament.finish_line.first.latitude
-      end_lat = match.tournament.finish_line.last.latitude
-
-      start_lon = match.tournament.finish_line.first.longitude
-      end_lon = match.tournament.finish_line.last.longitude
-
-      center_lat = start_lat + (end_lat - start_lat) / 2
-      center_lon = start_lon + (end_lon - start_lon) / 2
-
-      { latitude: center_lat, longitude: center_lon }
     end
   end
 end

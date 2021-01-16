@@ -3,7 +3,7 @@ class PathIntersectionFinder
 
   def initialize(track_points, finish_line)
     @track_points = track_points
-    @finish_segment = flight_segment_in_mercator(finish_line)
+    @finish_segment = flight_segment_in_mercator(finish_line.to_coordinates)
   end
 
   def execute

@@ -4,6 +4,12 @@ hellesylt:
   latitude: 62.057917
   longitude: 6.971847
 
+hellesylt_wbr:
+  name: Hellesylt(WBR)
+  country: norway
+  latitude: 62.0578307
+  longitude: 6.9715718
+
 loen:
   name: Loen
   country: norway
