@@ -18,7 +18,7 @@ describe OnlineCompetitionsService do
   it 'BASE Race', :aggregate_failures do
     competition = virtual_competitions(:base_race)
 
-    track = create_track_from_file 'WBR/Yegor_16_Round3.CSV', kind: :base
+    track = create_track_from_file 'WBR/Yegor_16_Round3.CSV', kind: :base, place: places(:hellesylt)
 
     described_class.score_track(track)
 

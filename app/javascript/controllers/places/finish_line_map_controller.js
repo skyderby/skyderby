@@ -215,6 +215,7 @@ export default class extends Controller {
   }
 
   set center_lat(value) {
+    this.center_latTarget.innerText = value
     this.center_latTarget.value = value
   }
 
@@ -223,11 +224,12 @@ export default class extends Controller {
   }
 
   set center_lon(value) {
+    this.center_lonTarget.innerText = value
     this.center_lonTarget.value = value
   }
 
   get finish_start_lat() {
-    return Number(this.finish_start_latTarget.value)
+    return Number(this.finish_start_latTarget.value || this.finish_start_latTarget.innerText)
   }
 
   set finish_start_lat(value) {
@@ -235,7 +237,7 @@ export default class extends Controller {
   }
 
   get finish_start_lon() {
-    return Number(this.finish_start_lonTarget.value)
+    return Number(this.finish_start_lonTarget.value || this.finish_start_lonTarget.innerText)
   }
 
   set finish_start_lon(value) {
@@ -243,7 +245,7 @@ export default class extends Controller {
   }
 
   get finish_end_lat() {
-    return Number(this.finish_end_latTarget.value)
+    return Number(this.finish_end_latTarget.value || this.finish_end_latTarget.innerText)
   }
 
   set finish_end_lat(value) {
@@ -251,7 +253,7 @@ export default class extends Controller {
   }
 
   get finish_end_lon() {
-    return Number(this.finish_end_lonTarget.value)
+    return Number(this.finish_end_lonTarget.value || this.finish_end_lonTarget.innerText)
   }
 
   set finish_end_lon(value) {
@@ -259,7 +261,7 @@ export default class extends Controller {
   }
 
   get exit_lat() {
-    return Number(this.exit_latTarget.value)
+    return Number(this.exit_latTarget.value || this.exit_latTarget.innerText)
   }
 
   set exit_lat(value) {
@@ -267,7 +269,7 @@ export default class extends Controller {
   }
 
   get exit_lon() {
-    return Number(this.exit_lonTarget.value)
+    return Number(this.exit_lonTarget.value || this.exit_lonTarget.innerText)
   }
 
   set exit_lon(value) {
@@ -279,11 +281,12 @@ export default class extends Controller {
   }
 
   set length(value) {
+    this.lengthTarget.innerText = `${value} ${I18n.t('units.m')}`
     this.lengthTarget.value = value
   }
 
   set distance(value) {
-    this.distanceTarget.innerText = value.toFixed()
+    this.distanceTarget.innerText = `${value.toFixed()} ${I18n.t('units.m')}`
   }
 
   get map() {

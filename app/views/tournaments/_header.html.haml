@@ -15,7 +15,7 @@
     - if policy(@tournament).update? || @tournament.rounds.any?
       = link_to tournament_path(@tournament), class: ['btn-flat btn-tab', ('active' if controller_path == 'tournaments')] do
         Scoreboard
-    - if @tournament.with_qualification?
+    - if @tournament.has_qualification
       = link_to tournament_qualification_path(@tournament), class: ['btn-flat btn-tab', ('active' if controller_path == 'tournaments/qualifications')] do
         Qualification
     - if policy(@tournament).edit?

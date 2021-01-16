@@ -5,6 +5,6 @@
       - if policy(@tournament).update? || @tournament.rounds.any?
         %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'tournaments')}
           = link_to 'Scoreboard', tournament_path(@tournament)
-      - if @tournament.with_qualification?
+      - if @tournament.has_qualification
         %li.tabs-navbar__menuitem{class: ('tabs-navbar--active' if controller_path == 'tournaments/qualifications')}
           = link_to 'Qualification', tournament_qualification_path(@tournament)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_12_074526) do
+ActiveRecord::Schema.define(version: 2021_01_16_064549) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -352,18 +352,14 @@ ActiveRecord::Schema.define(version: 2021_01_12_074526) do
     t.integer "discipline"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.decimal "finish_start_lat", precision: 15, scale: 10
-    t.decimal "finish_start_lon", precision: 15, scale: 10
-    t.decimal "finish_end_lat", precision: 15, scale: 10
-    t.decimal "finish_end_lon", precision: 15, scale: 10
     t.date "starts_at"
-    t.decimal "exit_lat", precision: 15, scale: 10
-    t.decimal "exit_lon", precision: 15, scale: 10
     t.integer "profile_id"
     t.integer "bracket_size"
     t.boolean "has_qualification"
     t.integer "responsible_id"
     t.integer "status", default: 0, null: false
+    t.bigint "finish_line_id"
+    t.index ["finish_line_id"], name: "index_tournaments_on_finish_line_id"
     t.index ["profile_id"], name: "index_tournaments_on_profile_id"
   end
 
@@ -530,6 +526,7 @@ ActiveRecord::Schema.define(version: 2021_01_12_074526) do
   add_foreign_key "qualification_jumps", "qualification_rounds"
   add_foreign_key "qualification_jumps", "tracks"
   add_foreign_key "tournament_competitors", "profiles"
+  add_foreign_key "tournaments", "place_finish_lines", column: "finish_line_id"
   add_foreign_key "tournaments", "profiles"
   add_foreign_key "tracks", "profiles"
   add_foreign_key "virtual_competitions", "place_finish_lines", column: "finish_line_id"

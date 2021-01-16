@@ -45,7 +45,7 @@ class OnlineCompetitionsService
 
     return unless track_segment
 
-    competition.results.create(
+    competition.results.create!(
       track: track,
       result: track_segment.public_send(competition.task),
       highest_gr: track_segment.max_gr,
@@ -90,7 +90,7 @@ class OnlineCompetitionsService
     when 'distance_in_altitude'
       [{ from_vertical_speed: BASE_START_SPEED, elevation: competition.discipline_parameter }]
     when 'base_race'
-      [{ from_vertical_speed: BASE_START_SPEED, until_cross_finish_line: competition.finish_line.to_coordinates }]
+      [{ from_vertical_speed: BASE_START_SPEED, until_cross_finish_line: competition.finish_line }]
     end
   end
 end

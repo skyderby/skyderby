@@ -5,3 +5,19 @@ hellesylt:
   start_longitude: 6.947
   end_latitude: 62.0547
   end_longitude: 6.9477
+
+hellesylt_wbr_legacy:
+  place: hellesylt_wbr
+  name: legacy
+  start_latitude: 62.0573629049
+  start_longitude: 6.9466106097
+  end_latitude: 62.0538370911
+  end_longitude: 6.9480893046
+
+loen_wbr:
+  place: loen
+  name: wbr
+  start_latitude: 61.873144426
+  start_longitude: 6.8371879648
+  end_latitude: 61.8743634807
+  end_longitude: 6.8443581779

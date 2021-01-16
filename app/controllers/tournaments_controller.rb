@@ -57,13 +57,8 @@ class TournamentsController < ApplicationController
     params.require(:tournament).permit(
       :name,
       :place_id,
-      :finish_start_lat,
-      :finish_start_lon,
-      :finish_end_lat,
-      :finish_end_lon,
+      :finish_line_id,
       :starts_at,
-      :exit_lat,
-      :exit_lon,
       :bracket_size,
       :has_qualification
     )
