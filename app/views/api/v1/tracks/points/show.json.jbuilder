@@ -1,6 +1,5 @@
 json.array! @points do |point|
   json.extract! point,
-                :gps_time,
                 :fl_time,
                 :abs_altitude,
                 :altitude,
@@ -9,4 +8,5 @@ json.array! @points do |point|
                 :h_speed,
                 :v_speed,
                 :glide_ratio
+  json.gps_time point.gps_time.iso8601(3)
 end

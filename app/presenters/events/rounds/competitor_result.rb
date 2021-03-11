@@ -8,27 +8,15 @@ module Events
       delegate :direction, to: :window_points
       delegate :start_point, :end_point, to: :window_points
 
-      def photo
-        competitor.profile.userpic
-      end
+      def photo = competitor.profile.userpic
 
-      def empty?
-        points.blank?
-      end
+      def empty? = points.blank?
 
-      def present?
-        !empty?
-      end
+      def present? = !empty?
 
-      def start_time
-        return track.recorded_at if points.blank?
+      def start_time = points.blank? ? track.recorded_at : points.first[:gps_time]
 
-        points.first[:gps_time]
-      end
-
-      def exit_altitude
-        exit_point[:altitude]
-      end
+      def exit_altitude = exit_point[:altitude]
 
       def after_exit_point
         time_for_lookup = exit_time + DL_STARTS_AFTER

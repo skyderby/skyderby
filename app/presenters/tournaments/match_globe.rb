@@ -16,7 +16,7 @@ module Tournaments
           trimmed: { seconds_before_start: SECONDS_BEFORE_START },
           freq_1hz: true,
           only: %i[gps_time latitude longitude abs_altitude]
-        ).each { |point| point[:gps_time] = point[:gps_time].iso8601 }
+        ).each { |point| point[:gps_time] = point[:gps_time].iso8601(3) }
       end
 
       private

@@ -229,7 +229,9 @@ export default class extends Controller {
   }
 
   get finish_start_lat() {
-    return Number(this.finish_start_latTarget.value || this.finish_start_latTarget.innerText)
+    return Number(
+      this.finish_start_latTarget.value || this.finish_start_latTarget.innerText
+    )
   }
 
   set finish_start_lat(value) {
@@ -237,7 +239,9 @@ export default class extends Controller {
   }
 
   get finish_start_lon() {
-    return Number(this.finish_start_lonTarget.value || this.finish_start_lonTarget.innerText)
+    return Number(
+      this.finish_start_lonTarget.value || this.finish_start_lonTarget.innerText
+    )
   }
 
   set finish_start_lon(value) {

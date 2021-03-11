@@ -33,19 +33,23 @@ json.results do
     json.exitAltitude competitor_result.exit_altitude.to_i
 
     json.afterExitPoint do
-      json.extract! competitor_result.after_exit_point, :latitude, :longitude, :gps_time
+      json.extract! competitor_result.after_exit_point, :latitude, :longitude
+      json.gpsTime competitor_result.after_exit_point[:gps_time].iso8601(3)
     end
 
     json.startPoint do
-      json.extract! competitor_result.start_point, :latitude, :longitude, :gps_time
+      json.extract! competitor_result.start_point, :latitude, :longitude
+      json.gpsTime competitor_result.start_point[:gps_time].iso8601(3)
     end
 
     json.endPoint do
-      json.extract! competitor_result.end_point, :latitude, :longitude, :gps_time
+      json.extract! competitor_result.end_point, :latitude, :longitude
+      json.gpsTime competitor_result.end_point[:gps_time].iso8601(3)
     end
 
     json.points competitor_result.points do |point|
-      json.extract! point, :latitude, :longitude, :altitude, :v_speed, :gps_time, :abs_altitude
+      json.extract! point, :latitude, :longitude, :altitude, :v_speed, :abs_altitude
+      json.gpsTime point[:gps_time].iso8601(3)
     end
   end
 end
