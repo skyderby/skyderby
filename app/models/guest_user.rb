@@ -29,31 +29,19 @@ class GuestUser
     @tracks = TrackCollection.new(store)
   end
 
-  def registered?
-    false
-  end
+  def id = nil
 
-  def has_role?(_role) # rubocop:disable Naming/PredicateName
-    false
-  end
+  def registered? = false
 
-  def profile
-    nil
-  end
+  def has_role?(_role) = false # rubocop:disable Naming/PredicateName
 
-  def organizer_of_events
-    []
-  end
+  def profile = nil
 
-  def organizer_of_event?(_event)
-    false
-  end
+  def organizer_of_events = []
 
-  def responsible_of_events
-    []
-  end
+  def organizer_of_event?(_event) = false
 
-  def participant_of_events
-    []
-  end
+  def responsible_of_events = []
+
+  def participant_of_events = []
 end

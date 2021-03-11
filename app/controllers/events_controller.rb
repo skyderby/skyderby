@@ -10,7 +10,7 @@ class EventsController < ApplicationController
 
     @events =
       policy_scope(EventList.all)
-      .includes(event: { place: :country })
+      .includes(place: :country)
       .paginate(page: params[:page], per_page: rows_per_page)
 
     fresh_when etags_for(@events)

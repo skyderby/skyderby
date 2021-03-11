@@ -1,7 +1,7 @@
 import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
 
-const maxAllowedViolationUntilExitWindow = 300
-const maxAllowedViolationAfterExitWindow = 600
+const maxAllowedDeviationUntilExitWindow = 300
+const maxAllowedDeviationAfterExitWindow = 600
 
 const mostDistantPoint = (
   points,
@@ -73,12 +73,12 @@ const getLaneViolation = (points, laneEnterPoint, referencePoint, exitWindowPoin
   )
 
   if (
-    mostDistantPointAfterWindowExit.distance > maxAllowedViolationAfterExitWindow &&
+    mostDistantPointAfterWindowExit.distance > maxAllowedDeviationAfterExitWindow &&
     mostDistantPointAfterWindowExit.distance > mostDistantPointUntilWindowExit.distance
   ) {
     return mostDistantPointAfterWindowExit
   } else if (
-    mostDistantPointUntilWindowExit.distance > maxAllowedViolationUntilExitWindow
+    mostDistantPointUntilWindowExit.distance > maxAllowedDeviationUntilExitWindow
   ) {
     return mostDistantPointUntilWindowExit
   } else {

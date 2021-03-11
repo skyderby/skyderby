@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::Base
+  include DeviseOverrides
+  include AuthorizationErrorHandling
+
   include SetCurrentRequestDetails
 
   include Pundit
@@ -7,9 +10,6 @@ class ApplicationController < ActionController::Base
 
   include ProtectFromForgery
   include Internationalization
-
-  include DeviseOverrides
-  include AuthorizationErrorHandling
 
   include CurrentAnnouncements
 
