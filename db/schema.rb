@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_16_064549) do
+ActiveRecord::Schema.define(version: 2021_03_11_044738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,22 @@ ActiveRecord::Schema.define(version: 2021_01_16_064549) do
     t.string "comment"
     t.integer "category", default: 0, null: false
     t.date "achieved_at"
+  end
+
+  create_table "competition_series", force: :cascade do |t|
+    t.string "name"
+    t.integer "status", default: 0, null: false
+    t.integer "visibility", default: 0, null: false
+    t.bigint "responsible_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "competition_series_included_competitions", force: :cascade do |t|
+    t.bigint "competition_series_id"
+    t.bigint "event_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "countries", id: :serial, force: :cascade do |t|
@@ -127,23 +143,25 @@ ActiveRecord::Schema.define(version: 2021_01_16_064549) do
 
   create_table "events", id: :serial, force: :cascade do |t|
     t.string "name", limit: 510
-    t.integer "range_from"
-    t.integer "range_to"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "status", default: 0
-    t.integer "profile_id"
     t.integer "place_id"
     t.boolean "is_official"
     t.integer "rules", default: 0
     t.date "starts_at"
     t.boolean "wind_cancellation", default: false
     t.integer "visibility", default: 0
-    t.integer "number_of_results_for_total"
     t.integer "responsible_id"
-    t.integer "designated_lane_start", default: 1, null: false
-    t.boolean "apply_penalty_to_score", default: false, null: false
-    t.boolean "use_teams", default: false, null: false
+    t.string "type", null: false
+    t.integer "range_from"
+    t.integer "range_to"
+    t.integer "number_of_results_for_total"
+    t.integer "designated_lane_start", default: 0, null: false
+    t.boolean "apply_penalty_to_score"
+    t.boolean "use_teams"
+    t.bigint "profile_id"
+    t.index ["profile_id"], name: "index_events_on_profile_id"
   end
 
   create_table "manufacturers", id: :serial, force: :cascade do |t|
@@ -516,10 +534,12 @@ ActiveRecord::Schema.define(version: 2021_01_16_064549) do
   end
 
   add_foreign_key "badges", "profiles"
+  add_foreign_key "competition_series", "users", column: "responsible_id"
+  add_foreign_key "competition_series_included_competitions", "competition_series"
+  add_foreign_key "competition_series_included_competitions", "events"
   add_foreign_key "event_competitors", "event_teams", column: "team_id"
   add_foreign_key "event_competitors", "profiles"
   add_foreign_key "event_results", "tracks"
-  add_foreign_key "events", "profiles"
   add_foreign_key "place_finish_lines", "places"
   add_foreign_key "place_weather_data", "places"
   add_foreign_key "profiles", "countries"
@@ -651,70 +671,25 @@ ActiveRecord::Schema.define(version: 2021_01_16_064549) do
   create_view "event_lists", sql_definition: <<-SQL
       SELECT events.event_type,
       events.event_id,
-      events.name,
-      events.rules,
       events.starts_at,
       events.status,
       events.visibility,
-      events.responsible_id,
-      events.place_id,
-      events.range_from,
-      events.range_to,
-      events.is_official,
-      events.competitors_count,
-      events.country_ids,
-      events.updated_at,
-      events.created_at
+      events.profile_id
      FROM ( SELECT 'Event'::text AS event_type,
               events_1.id AS event_id,
-              events_1.name,
-              events_1.rules,
               events_1.starts_at,
               events_1.status,
               events_1.visibility,
-              events_1.responsible_id,
-              events_1.place_id,
-              events_1.range_from,
-              events_1.range_to,
-              events_1.is_official,
-              COALESCE(json_object_agg(COALESCE(competitors_count.section_name, ''::character varying), competitors_count.count) FILTER (WHERE (competitors_count.section_name IS NOT NULL)), '{}'::json) AS competitors_count,
-              participant_countries.country_ids,
-              events_1.updated_at,
-              events_1.created_at
-             FROM ((events events_1
-               LEFT JOIN ( SELECT sections.event_id,
-                      sections.name AS section_name,
-                      count(competitors.id) AS count
-                     FROM (event_sections sections
-                       LEFT JOIN event_competitors competitors ON (((sections.event_id = competitors.event_id) AND (sections.id = competitors.section_id))))
-                    GROUP BY sections.event_id, sections.name) competitors_count ON ((events_1.id = competitors_count.event_id)))
-               LEFT JOIN ( SELECT competitors.event_id,
-                      COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS country_ids
-                     FROM (event_competitors competitors
-                       LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
-                    GROUP BY competitors.event_id) participant_countries ON ((events_1.id = participant_countries.event_id)))
-            GROUP BY events_1.id, participant_countries.country_ids
+              events_1.profile_id
+             FROM events events_1
           UNION ALL
            SELECT 'Tournament'::text,
               tournaments.id,
-              tournaments.name,
-              3 AS rules,
               tournaments.starts_at,
               1,
               0,
-              tournaments.responsible_id,
-              tournaments.place_id,
-              NULL::integer,
-              NULL::integer,
-              true AS bool,
-              json_build_object('Open', count(competitors.id)) AS json_build_object,
-              COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS "coalesce",
-              tournaments.updated_at,
-              tournaments.created_at
-             FROM ((tournaments
-               LEFT JOIN tournament_competitors competitors ON ((tournaments.id = competitors.tournament_id)))
-               LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
-            GROUP BY tournaments.id) events
-    ORDER BY events.starts_at DESC, events.created_at DESC;
+              NULL::bigint
+             FROM tournaments) events
+    ORDER BY events.starts_at DESC;
   SQL
 end
