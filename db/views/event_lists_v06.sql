@@ -99,7 +99,7 @@ FROM (
     NULL,
     NULL,
     TRUE,
-    json_object_agg(events.name, competitors_count.count),
+    json_object_agg(events.name, competitors_count.count) FILTER ( WHERE events.name IS NOT NULL ),
     participant_countries.country_ids,
     series.updated_at,
     series.created_at

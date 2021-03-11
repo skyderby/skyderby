@@ -2,7 +2,7 @@
   .comp-list-params
     .comp-rules
       = 'Rules: '
-      = event.rules.humanize
+      = event.speed_distance_time? ? 'GPS Performance' : 'Hungary Boogie'
     .comp-window
       = 'Competition window: '
       = "#{event.range_from} - #{event.range_to} #{t('units.m')}"

@@ -7,4 +7,10 @@ class CompetitionSeries < ApplicationRecord
   has_many :competitions, through: :included_competitions, source: :event
 
   validates :responsible, :name, presence: true
+
+  def active? = started && !finished?
+
+  def started = starts_at && starts_at < Time.zone.now
+
+  def starts_at = competitions.minimum(:starts_at)
 end

@@ -29,7 +29,7 @@
 
       .events-list__item-info
         Rules:
-        %span= event.rules.humanize
+        %span= event.speed_distance_time? ? 'GPS Performance' : 'Hungary Boogie'
 
       .events-list__item-info
         Competition window:
