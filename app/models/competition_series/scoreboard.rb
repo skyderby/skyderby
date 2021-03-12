@@ -29,9 +29,11 @@ class CompetitionSeries::Scoreboard
   def rounds
     @rounds ||=
       Event::Round
-      .where(event: series.competitions)
-      .select(:discipline, :number)
+      .select(:discipline, :number, 'min(created_at)')
       .distinct
+      .where(event: series.competitions)
+      .group(:discipline, :number)
+      .order(:number, 'min(created_at)')
       .map { |record| Round.new(record.discipline, record.number) }
   end
 
