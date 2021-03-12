@@ -38,76 +38,7 @@
       </thead>
 
       <% scoreboard.categories.each do |category| %>
-        <tbody>
-          <tr>
-            <td class="scoreboard-section" colspan="<%= scoreboard.columns_count %>">
-              <span class="section-name"><%= category.name %></span>
-            </td>
-
-            <% category.standings.each do |row| %>
-              <tr class="scoreboard-competitor">
-                <td class="text-center"><%= row.rank %></td>
-                <td class="competitor-cell">
-                  <%= link_to row.competitor.name.titleize, profile_path(row.competitor.profile), class: 'competitor-name' %>
-                  <div class="competitor-suit text-gray">
-                    <%= row.competitor.suit.manufacturer_code %>
-                    <%= row.competitor.suit.name %>
-                  </div>
-                </td>
-                <td class="text-center">
-                <span data-toggle="tooltip" title="<%= row.competitor.country_name %>">
-                  <%= row.competitor.country_code %>
-                </span>
-
-                </td>
-
-                <% scoreboard.rounds_by_discipline.each do |discipline, rounds| %>
-                  <% rounds.each do |round| %>
-                    <% result = row.result_in_round(round) %>
-                    <% if result %>
-                      <td class="scoreboard-result <%= 'text-green' if result.best_result %>">
-                        <%= result&.formatted_result %>
-                        <% if result.penalized %>
-                          <sup class="text-danger">
-                            <%= "-#{result.penalty_size}%" %>
-                          </sup>
-                        <% end %>
-
-                        <span>
-                          <%= show_event_track_link(result.record.round.event, result.record, false) %>
-                        </span>
-                      </td>
-                      <td class="text-right">
-                        <% if result.penalized %>
-                        <span class="dotted-underline" data-toggle="tooltip" title="<%= result.penalty_reason %>">
-                          <%= result.formatted_points %>
-                        </span>
-
-                        <% else %>
-                          <%= result.formatted_points %>
-                        <% end %>
-                      </td>
-                    <% else %>
-                      <td></td>
-                      <td></td>
-                    <% end %>
-                  <% end %>
-
-                  <td class="text-right">
-                    <% points_in_discipline = row.points_in_disciplines[discipline] %>
-                    <%= points_in_discipline&.positive? ? format('%.1f', points_in_discipline) : '' %>
-                  </td>
-                <% end %>
-
-                <td class="scoreboard-total-result">
-                  <% if row.total_points.positive? %>
-                    <%= format('%.1f', row.total_points) %>
-                  <% end %>
-                </td>
-              </tr>
-            <% end %>
-          </tr>
-        </tbody>
+        <%= render 'competition_series/scoreboards/category', category: category, scoreboard: scoreboard %>
       <% end %>
     </table>
   </div>

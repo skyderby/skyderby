@@ -27,9 +27,7 @@ class Event::Competitor < ApplicationRecord
 
   validates :suit, :event, :section, :profile, presence: true
 
-  delegate :name, to: :profile, allow_nil: true
-  delegate :country_id, to: :profile, allow_nil: true
-  delegate :country_name, to: :profile, allow_nil: true
-  delegate :country_code, to: :profile, allow_nil: true
+  delegate :name, :country_id, :country_name, :country_code, to: :profile, allow_nil: true
   delegate :name, to: :suit, prefix: true, allow_nil: true
+  delegate :place, to: :event
 end
