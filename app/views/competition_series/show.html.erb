@@ -10,10 +10,14 @@
       </div>
     </div>
 
-    <div class="row">
-      <h1 class="text-muted text-center">
-        🙅 Let it be Surprise
-      </h1>
-    </div>
+    <% if @competition_series.surprise? %>
+      <div class="row">
+        <h1 class="text-muted text-center">
+          🙅 Let it be Surprise
+        </h1>
+      </div>
+    <% else %>
+      <%= render @scoreboard %>
+    <% end %>
   </div>
 </div>
