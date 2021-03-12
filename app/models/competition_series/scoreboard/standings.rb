@@ -1,11 +1,12 @@
 class CompetitionSeries::Scoreboard::Standings
   class Result
-    attr_reader :record, :points
+    attr_reader :record, :points, :best_result
 
-    delegate :round, :competitor, :penalized, :penalty_size, to: :record
+    delegate :round, :competitor, :penalized, :penalty_size, :penalty_reason, to: :record
 
     def initialize(record)
       @record = record
+      @best_result = false
     end
 
     def formatted_result
@@ -20,9 +21,8 @@ class CompetitionSeries::Scoreboard::Standings
 
     def formatted_points
       return '' if result.zero? && !penalized
-      return '' unless points
 
-      format('%.1f', points.round(1))
+      format('%.1f', points.to_f.round(1))
     end
 
     def result
@@ -37,6 +37,8 @@ class CompetitionSeries::Scoreboard::Standings
 
       @points = result.to_d / best_result * 100
     end
+
+    def best_result! = @best_result = true
   end
 
   class Row
@@ -119,9 +121,10 @@ class CompetitionSeries::Scoreboard::Standings
       round_results = results.select { |result| round.includes?(result.round) }
       next if round_results.empty?
 
-      best_result = round_results.max_by(&:result).result
+      best_result_record = round_results.max_by(&:result)
+      best_result_record.best_result!
 
-      round_results.each { |record| record.calculate_points_from(best_result) }
+      round_results.each { |record| record.calculate_points_from(best_result_record.result) }
     end
   end
 

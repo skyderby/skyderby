@@ -65,7 +65,7 @@
                   <% rounds.each do |round| %>
                     <% result = row.result_in_round(round) %>
                     <% if result %>
-                      <td class="scoreboard-result">
+                      <td class="scoreboard-result <%= 'text-green' if result.best_result %>">
                         <%= result&.formatted_result %>
                         <% if result.penalized %>
                           <sup class="text-danger">
@@ -78,7 +78,14 @@
                         </span>
                       </td>
                       <td class="text-right">
-                        <%= result.formatted_points %>
+                        <% if result.penalized %>
+                        <span class="dotted-underline" data-toggle="tooltip" title="<%= result.penalty_reason %>">
+                          <%= result.formatted_points %>
+                        </span>
+
+                        <% else %>
+                          <%= result.formatted_points %>
+                        <% end %>
                       </td>
                     <% else %>
                       <td></td>
