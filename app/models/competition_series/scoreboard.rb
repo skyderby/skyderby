@@ -40,7 +40,7 @@ class CompetitionSeries::Scoreboard
   def competitors
     @competitors ||=
       Event::Competitor
-      .includes(:section, event: :place)
+      .includes(:section, event: :place, suit: :manufacturer, profile: :country)
       .where(event: series.competitions)
   end
 
