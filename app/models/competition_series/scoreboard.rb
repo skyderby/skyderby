@@ -1,13 +1,13 @@
 class CompetitionSeries::Scoreboard
   include ActiveModel::Conversion
 
-  attr_reader :series, :params
+  attr_reader :series, :settings
 
   delegate :adjust_to_wind?, :split_by_categories?, to: :params
 
   def initialize(series, params)
     @series = series
-    @params = params
+    @settings = Settings.new(params)
   end
 
   def rounds_by_discipline = rounds.group_by(&:discipline)
@@ -34,7 +34,7 @@ class CompetitionSeries::Scoreboard
       .where(event: series.competitions)
       .group(:discipline, :number)
       .order(:number, 'min(created_at)')
-      .map { |record| Round.new(record.discipline, record.number) }
+      .map { |record| build_round(record) }
   end
 
   def competitors
@@ -42,6 +42,12 @@ class CompetitionSeries::Scoreboard
       Event::Competitor
       .includes(:section, event: :place, suit: :manufacturer, profile: :country)
       .where(event: series.competitions)
+  end
+
+  def build_round(record)
+    Round
+      .new(record.discipline, record.number)
+      .tap { |round| round.excluded! if settings.excluded_rounds.include? round.slug  }
   end
 
   def build_category(category)

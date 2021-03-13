@@ -12,10 +12,10 @@ class CompetitionSeriesController < ApplicationController
   end
 
   def scoreboard_params
-    @scoreboard_params ||= Events::Scoreboards::Params.new(@competition_series, display_event_params)
-  end
-
-  def display_event_params
-    params.permit(:display_raw_results, :omit_penalties, :split_by_categories)
+    params.permit \
+      :display_raw_results,
+      :omit_penalties,
+      :split_by_categories,
+      excluded_rounds: []
   end
 end

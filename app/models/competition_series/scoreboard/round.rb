@@ -10,4 +10,14 @@ class CompetitionSeries::Scoreboard::Round
     discipline == other.discipline &&
       number == other.number
   end
+
+  def slug
+    "#{discipline}-#{number}"
+  end
+
+  def included? = !excluded?
+
+  def excluded? = @excluded || false
+
+  def excluded! = @excluded = true
 end
