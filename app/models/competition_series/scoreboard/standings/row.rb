@@ -15,14 +15,16 @@ class CompetitionSeries::Scoreboard::Standings::Row
   def points_in_disciplines
     @points_in_disciplines ||=
       rounds_by_discipline.each_with_object({}) do |(discipline, rounds), memo|
-        sum_of_points =
-          rounds
-            .select(&:included?)
-            .map { |round| result_in_round(round) }
-            .compact
-            .sum(&:points)
+        active_rounds = rounds.select(&:included?)
+        next if active_rounds.count.zero?
 
-        memo[discipline] = sum_of_points.to_f / rounds.count
+        sum_of_points =
+          active_rounds
+          .map { |round| result_in_round(round) }
+          .compact
+          .sum(&:points)
+
+        memo[discipline] = sum_of_points.to_f / active_rounds.count
       end
   end
 
