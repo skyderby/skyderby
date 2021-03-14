@@ -29,7 +29,7 @@
             <% if result %>
               <%
                 result_class =
-                  if round.excluded?
+                  if !round.completed
                     'text-gray'
                   elsif result.best_result
                     'text-green'
@@ -48,9 +48,9 @@
                 </span>
               </td>
 
-              <td class="text-right <%= 'text-gray' if round.excluded? %>">
+              <td class="text-right <%= 'text-gray' unless round.completed %>">
                 <% if result.penalized %>
-                  <span class="dotted-underline" data-toggle="tooltip" title="<%= result.penalty_reason %>">
+                  <span class="dotted-underline <%= 'text-gray' unless round.completed %>" data-toggle="tooltip" title="<%= result.penalty_reason %>">
                     <%= result.formatted_points %>
                   </span>
                 <% else %>

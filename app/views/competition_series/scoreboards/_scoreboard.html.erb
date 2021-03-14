@@ -19,7 +19,7 @@
         <tr>
           <% scoreboard.rounds_by_discipline.each do |_discipline, rounds| %>
             <% rounds.each do |round| %>
-              <th class="scoreboard-round <%= 'text-gray' if round.excluded? %>" colspan="2">
+              <th class="scoreboard-round <%= 'text-gray' unless round.completed %>" colspan="2">
                 <%= round.number %>
               </th>
             <% end %>
@@ -30,10 +30,10 @@
         <tr>
           <% scoreboard.rounds_by_discipline.each do |discipline, rounds| %>
             <% rounds.each do |round| %>
-              <th class="text-center <%= 'text-gray' if round.excluded? %>">
+              <th class="text-center <%= 'text-gray' unless round.completed %>">
                 <%= t("units.#{discipline_unit(discipline.to_sym)}")%>
               </th>
-              <th class="text-center <%= 'text-gray' if round.excluded? %>">
+              <th class="text-center <%= 'text-gray' unless round.completed %>">
                 %
               </th>
             <% end %>

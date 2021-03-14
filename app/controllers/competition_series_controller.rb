@@ -15,7 +15,6 @@ class CompetitionSeriesController < ApplicationController
     params.permit \
       :display_raw_results,
       :omit_penalties,
-      :split_by_categories,
-      excluded_rounds: []
+      :split_by_categories
   end
 end

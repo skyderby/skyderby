@@ -27,14 +27,7 @@ class CompetitionSeries::Scoreboard
   private
 
   def rounds
-    @rounds ||=
-      Event::Round
-      .select(:discipline, :number, 'min(created_at)')
-      .distinct
-      .where(event: series.competitions)
-      .group(:discipline, :number)
-      .order(:number, 'min(created_at)')
-      .map { |record| build_round(record) }
+    @rounds ||= series.rounds.order(:number, :created_at)
   end
 
   def competitors
@@ -42,12 +35,6 @@ class CompetitionSeries::Scoreboard
       Event::Competitor
       .includes(:section, event: :place, suit: :manufacturer, profile: :country)
       .where(event: series.competitions)
-  end
-
-  def build_round(record)
-    Round
-      .new(record.discipline, record.number)
-      .tap { |round| round.excluded! if settings.excluded_rounds.include? round.slug  }
   end
 
   def build_category(category)

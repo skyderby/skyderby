@@ -3,6 +3,7 @@ class CompetitionSeries < ApplicationRecord
   enum visibility: { public_event: 0, unlisted_event: 1, private_event: 2 }
 
   belongs_to :responsible, class_name: 'User', inverse_of: :responsible_of_events
+  has_many :rounds, dependent: :destroy
   has_many :included_competitions, dependent: :destroy
   has_many :competitions, through: :included_competitions, source: :event
 

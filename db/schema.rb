@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_11_045630) do
+ActiveRecord::Schema.define(version: 2021_03_14_070505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,16 @@ ActiveRecord::Schema.define(version: 2021_03_11_045630) do
     t.bigint "event_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "competition_series_rounds", force: :cascade do |t|
+    t.bigint "competition_series_id"
+    t.integer "discipline", default: 0, null: false
+    t.integer "number"
+    t.boolean "completed", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["competition_series_id"], name: "index_competition_series_rounds_on_competition_series_id"
   end
 
   create_table "countries", id: :serial, force: :cascade do |t|
@@ -536,6 +546,7 @@ ActiveRecord::Schema.define(version: 2021_03_11_045630) do
   add_foreign_key "competition_series", "users", column: "responsible_id"
   add_foreign_key "competition_series_included_competitions", "competition_series"
   add_foreign_key "competition_series_included_competitions", "events"
+  add_foreign_key "competition_series_rounds", "competition_series"
   add_foreign_key "event_competitors", "event_teams", column: "team_id"
   add_foreign_key "event_competitors", "profiles"
   add_foreign_key "event_results", "tracks"
@@ -747,7 +758,7 @@ ActiveRecord::Schema.define(version: 2021_03_11_045630) do
               NULL::integer,
               NULL::integer,
               true AS bool,
-              json_object_agg(events_1.name, competitors_count.count) AS json_object_agg,
+              json_object_agg(events_1.name, competitors_count.count) FILTER (WHERE (events_1.name IS NOT NULL)) AS json_object_agg,
               participant_countries.country_ids,
               series.updated_at,
               series.created_at

@@ -15,7 +15,7 @@ class CompetitionSeries::Scoreboard::Standings::Row
   def points_in_disciplines
     @points_in_disciplines ||=
       rounds_by_discipline.each_with_object({}) do |(discipline, rounds), memo|
-        active_rounds = rounds.select(&:included?)
+        active_rounds = rounds.select(&:completed)
         next if active_rounds.count.zero?
 
         sum_of_points =
