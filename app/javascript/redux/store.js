@@ -1,17 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import countries from 'redux/countries'
 import eventRound from 'redux/events/round'
 import eventTeams from 'redux/events/teams'
 import manufacturers from 'redux/manufacturers'
-import places from 'redux/places'
-import profiles from 'redux/profiles'
 import session from './session'
 import suits from 'redux/suits'
 import suitUsageStats from 'redux/suitUsageStats'
-import terrainProfiles from 'redux/terrainProfiles'
-import terrainProfileMeasurements from 'redux/terrainProfileMeasurements'
-import tracks from 'redux/tracks'
 import userPreferences from 'redux/userPreferences'
 
 import { loadState, saveState } from 'redux/localStorage'
@@ -19,18 +13,12 @@ import { loadState, saveState } from 'redux/localStorage'
 export const createStore = preloadedState =>
   configureStore({
     reducer: {
-      countries,
       eventRound,
       eventTeams,
       manufacturers,
-      places,
-      profiles,
       session,
       suits,
       suitUsageStats,
-      terrainProfiles,
-      terrainProfileMeasurements,
-      tracks,
       userPreferences
     },
     preloadedState

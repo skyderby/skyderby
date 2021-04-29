@@ -1,24 +1,21 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
-import { selectBestResults } from 'redux/tracks/results'
 import { formatResult } from './formatResult'
 
 import styles from './styles.module.scss'
 
-const BestResults = ({ trackId }) => {
+const BestResults = ({ results }) => {
   const { t } = useI18n()
-  const records = useSelector(state => selectBestResults(state, trackId))
 
-  if (records.length === 0) return null
+  if (results.length === 0) return null
 
   return (
     <div>
       <h2 className={styles.header}>{t('tracks.show.best_results')}</h2>
       <ul>
-        {records.map(({ result, task, rangeFrom, rangeTo }) => (
+        {results.map(({ result, task, rangeFrom, rangeTo }) => (
           <li key={task}>
             {t(`disciplines.${task}`)}
             :&nbsp;
@@ -32,7 +29,22 @@ const BestResults = ({ trackId }) => {
 }
 
 BestResults.propTypes = {
-  trackId: PropTypes.number.isRequired
+  results: PropTypes.arrayOf(
+    PropTypes.shape({
+      result: PropTypes.number.isRequired,
+      task: PropTypes.oneOf([
+        'time',
+        'distance',
+        'speed',
+        'distanceInTime',
+        'distanceInAltitude',
+        'flare',
+        'baseRace'
+      ]).isRequired,
+      rangeFrom: PropTypes.number,
+      rangeTo: PropTypes.number
+    })
+  )
 }
 
 export default BestResults

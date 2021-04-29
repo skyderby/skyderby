@@ -37,6 +37,8 @@ class Event::Round < ApplicationRecord
     signed_off_by.present?
   end
 
+  def slug = "#{discipline}-#{number}"
+
   private
 
   def set_number

@@ -24,7 +24,7 @@ const Block = ({ color, inverse, ...props }) => (
   />
 )
 
-Block.propTypes = { color: PropTypes.string }
+Block.propTypes = { color: PropTypes.string, inverse: PropTypes.bool }
 
 export const Colors = () => (
   <div style={{ padding: '1rem' }}>

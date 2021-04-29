@@ -1,29 +1,42 @@
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import { usePageContext } from 'components/PageContext'
-import { loadTrackResults } from 'redux/tracks/results'
+import { useTrackResults } from 'api/hooks/tracks/results'
+import TrackShowContainer from 'components/TrackShowContainer'
 import CompetitorResult from './CompetitionResult'
 import OnlineRankingResults from './OnlineRankingResults'
 import BestResults from './BestResults'
 import TotalResults from './TotalResults'
 
-const TrackResults = () => {
-  const dispatch = useDispatch()
-  const { trackId } = usePageContext()
+const TrackResults = ({ match }) => {
+  const trackId = Number(match.params.id)
+  const { data: results, isLoading } = useTrackResults(trackId)
 
-  useEffect(() => {
-    dispatch(loadTrackResults(trackId))
-  }, [dispatch, trackId])
+  if (isLoading) return null
+
+  const {
+    competitionResult,
+    bestResults = [],
+    totalResults = [],
+    onlineRankingResults = []
+  } = results
 
   return (
-    <>
-      <CompetitorResult trackId={trackId} />
-      <BestResults trackId={trackId} />
-      <TotalResults trackId={trackId} />
-      <OnlineRankingResults trackId={trackId} />
-    </>
+    <TrackShowContainer shrinkToContent>
+      <CompetitorResult result={competitionResult} />
+      <BestResults results={bestResults} />
+      <TotalResults results={totalResults} />
+      <OnlineRankingResults results={onlineRankingResults} />
+    </TrackShowContainer>
   )
+}
+
+TrackResults.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired
 }
 
 export default TrackResults

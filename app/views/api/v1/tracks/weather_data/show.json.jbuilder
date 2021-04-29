@@ -1,5 +1,8 @@
 json.key_format! camelize: :lower
 
 json.array! @weather_data do |item|
-  json.extract! item, :actual_on, :altitude, :wind_speed, :wind_direction
+  json.action_on item.actual_on.iso8601(3)
+  json.altitude item.altitude.to_f
+  json.wind_speed item.wind_speed.to_f
+  json.wind_direction item.wind_direction.to_f
 end

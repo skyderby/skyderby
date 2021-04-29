@@ -6,11 +6,11 @@ import Pagination from 'components/Pagination'
 import TrackList from 'components/TrackList'
 import ActivitySelect from './ActivitySelect'
 import Filters from './Filters'
-
 import styles from './styles.module.scss'
 
-const TracksIndex = ({ tracks, pagination, params, buildUrl }) => {
+const TracksIndex = props => {
   const { t } = useI18n()
+  const { tracks, pagination, params, buildUrl, updateFilters, updateSort } = props
 
   return (
     <div className={styles.container}>
@@ -19,7 +19,7 @@ const TracksIndex = ({ tracks, pagination, params, buildUrl }) => {
         <ActivitySelect buildUrl={buildUrl} currentActivity={params.activity} />
       </div>
 
-      <Filters />
+      <Filters params={params} updateFilters={updateFilters} updateSort={updateSort} />
 
       <TrackList tracks={tracks} />
 
@@ -37,7 +37,9 @@ TracksIndex.propTypes = {
   params: PropTypes.shape({
     activity: PropTypes.oneOf(['base', 'skydive'])
   }).isRequired,
-  buildUrl: PropTypes.func.isRequired
+  buildUrl: PropTypes.func.isRequired,
+  updateFilters: PropTypes.func.isRequired,
+  updateSort: PropTypes.func.isRequired
 }
 
 export default TracksIndex

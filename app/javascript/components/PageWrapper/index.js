@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 import ErrorPlaceholder from 'components/ErrorPlaceholder'
 import Loading from './Loading'
 
-const PageWrapper = ({ error, status, children, ...props }) => {
-  if (status === 'loading') return <Loading />
+const PageWrapper = ({ isLoading, error, status, children, ...props }) => {
+  if (isLoading || status === 'loading') return <Loading />
 
-  if (status === 'error') return <ErrorPlaceholder {...error} {...props} />
+  if (error || status === 'error') return <ErrorPlaceholder {...error} {...props} />
 
   return children
 }
@@ -18,7 +18,7 @@ PageWrapper.propTypes = {
     description: PropTypes.string.isRequired,
     linkBack: PropTypes.string
   }),
-  status: PropTypes.oneOf(['idle', 'loading', 'error']).isRequired,
+  status: PropTypes.oneOf(['idle', 'loading', 'success', 'error']).isRequired,
   children: PropTypes.node
 }
 

@@ -4,6 +4,10 @@ module Api
       def index
         @terrain_profiles = Place::JumpLine.all
       end
+
+      def show
+        @terrain_profile = Place::JumpLine.find(params[:id])
+      end
     end
   end
 end

@@ -13,13 +13,9 @@ Skyderby::Application.routes.draw do
     post '/api/users', to: 'api/users/registrations#create'
   end
 
-  # React App
-  match '/tracks(/*path)', to: 'react_app#show', via: :get
-  match '/flight_profiles(/*)', to: 'react_app#show', via: :get
-  match '/suits(/*path)', to: 'react_app#show', via: :get
-
   draw :api
-  match '/(*path)', to: 'react_app#show', via: :get
+  get '/(*path)', to: 'react_app#show'
+
   draw :backward_compatibility
   draw :administrative
   draw :static

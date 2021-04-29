@@ -1,24 +1,18 @@
-import React, { useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 
-import { loadPlace, createPlaceSelector } from 'redux/places'
 import IconTimes from 'icons/times.svg'
 import PlaceLabel from 'components/PlaceLabel'
 
 import styles from './styles.module.scss'
+import { usePlaceQuery } from 'api/hooks/places'
 
 const Place = ({ value, onClick, onDelete }) => {
-  const dispatch = useDispatch()
   const deleteButtonRef = useRef()
 
-  useEffect(() => {
-    dispatch(loadPlace(value))
-  }, [dispatch, value])
+  const { data: place } = usePlaceQuery(value)
 
-  const data = useSelector(createPlaceSelector(value))
-
-  if (!data) return null
+  if (!place) return null
 
   const handleTokenClick = e => {
     const deleteButtonClicked =
@@ -31,13 +25,13 @@ const Place = ({ value, onClick, onDelete }) => {
     onClick?.()
   }
 
-  const title = `Place: ${data.name}`
+  const title = `Place: ${place.name}`
 
   return (
     <li className={styles.placeContainer} onClick={handleTokenClick} title={title}>
       <div className={styles.type}>Place</div>
       <div className={styles.value}>
-        <PlaceLabel name={data.name} code={data.country.code} />
+        <PlaceLabel name={place.name} code={place.country.code} />
         <button
           className={styles.deleteButton}
           title="Delete"

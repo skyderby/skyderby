@@ -19,7 +19,7 @@ namespace :api, module: :api, defaults: { format: :json } do
         end
       end
     end
-    resources :terrain_profiles, only: :index do
+    resources :terrain_profiles, only: %i[index show] do
       resource :measurements, only: :show, module: :terrain_profiles
     end
 
@@ -60,6 +60,13 @@ namespace :api, module: :api, defaults: { format: :json } do
         resources :reference_points, only: :index
         resources :teams, only: %i[index create update destroy]
       end
+    end
+
+    resources :performance_competitions, only: :show do
+      resources :rounds, module: :performance_competitions
+      resources :competitors, module: :performance_competitions
+      resources :categories, module: :performance_competitions
+      resources :standings, only: :index, module: :performance_competitions
     end
 
     namespace :stats, module: :stats do
