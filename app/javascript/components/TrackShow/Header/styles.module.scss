@@ -1,17 +1,27 @@
+@import 'styles/breakpoints';
+
 .container {
-  display: flex;
-  flex-direction: column;
-  padding: 0 1rem 1rem;
+  border-bottom: solid 1px var(--border-color);
+
+  background-color: var(--white);
+}
+
+.content {
+  display: grid;
+  grid-gap: 1rem;
+  padding: 1rem 0 0;
+
+  @include lg-screen {
+    width: 1200px;
+    margin: 0 auto;
+  }
 }
 
 .row {
-  display: flex;
-  align-items: center;
-
-  &:not(:first-child) {
-    flex-wrap: wrap;
-    margin-left: 2.5rem;
-  }
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: min-content min-content min-content 1fr;
+  align-items: baseline;
 }
 
 .editLink {
@@ -55,7 +65,7 @@
 }
 
 .place {
-  margin-right: 1em;
+  white-space: nowrap;
 
   svg {
     height: 0.75em;
@@ -78,4 +88,12 @@
       fill: var(--grey-60);
     }
   }
+}
+
+.trackId {
+  margin-left: auto;
+
+  color: var(--grey-60);
+  font-weight: 500;
+  font-size: 1.5rem;
 }

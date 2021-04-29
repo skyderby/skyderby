@@ -1,11 +1,11 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { I18n } from 'components/TranslationsProvider'
 import Highchart from 'components/Highchart'
-import { createTerrainProfileSelector } from 'redux/terrainProfiles'
-import { createMeasurementsSelector } from 'redux/terrainProfileMeasurements'
+import { useTerrainProfileQuery } from 'api/hooks/terrainProfiles'
+import { usePlaceQuery } from 'api/hooks/places'
+import { useTerrainProfileMeasurementQuery } from 'api/hooks/terrainProfileMeasurements'
 
 const tooltip = {
   headerFormat: `
@@ -19,25 +19,23 @@ const tooltip = {
   }
 }
 
-const calcMeasurementPoints = measurements => {
-  const records = measurements?.records || []
-
-  return records.map(el => [
+const calcMeasurementPoints = measurements =>
+  measurements.map(el => [
     el.distance,
     el.altitude,
-    records[records.length - 1].altitude
+    measurements[measurements.length - 1].altitude
   ])
-}
 
 const TerrainProfile = ({ chart, terrainProfileId, color }) => {
-  const terrainProfile = useSelector(createTerrainProfileSelector(terrainProfileId))
-  const measurements = useSelector(createMeasurementsSelector(terrainProfileId))
+  const { data: terrainProfile } = useTerrainProfileQuery(terrainProfileId)
+  const { data: measurements = [] } = useTerrainProfileMeasurementQuery(terrainProfileId)
+  const { data: place } = usePlaceQuery(terrainProfile?.placeId)
 
   if (!terrainProfile || !measurements) return null
 
   const measurementPoints = calcMeasurementPoints(measurements)
 
-  const name = `${terrainProfile.place.name} - ${terrainProfile.name}`
+  const name = `${place?.name} - ${terrainProfile?.name}`
 
   return (
     <>
@@ -47,7 +45,7 @@ const TerrainProfile = ({ chart, terrainProfileId, color }) => {
         tooltip={tooltip}
         color={color}
         name={name}
-        place={terrainProfile.place.name}
+        place={place?.name}
       />
       <Highchart.Series
         chart={chart}

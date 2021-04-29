@@ -1,27 +1,7 @@
-@import 'styles/breakpoints';
-
 .pageContainer {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-rows: min-content auto;
+
   width: 100%;
-  margin: 0 auto;
-
-  @include lg-screen {
-    width: $bp-large;
-  }
-}
-
-.contentContainer {
-  position: relative;
-
-  padding: 1rem;
-  border: solid 1px transparent;
-  border-top-color: var(--border-color);
-  border-bottom-color: var(--border-color);
-
-  background-color: var(--white);
-
-  @include lg-screen {
-    border-right-color: var(--border-color);
-    border-left-color: var(--border-color);
-    border-radius: var(--border-radius-md);
-  }
 }

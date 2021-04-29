@@ -6,7 +6,7 @@ module Api
           Suit
           .left_joins(:manufacturer)
           .search(params[:search])
-          .then(&method(:apply_filters))
+          .then { |rel| apply_filters(rel) }
           .select(:id, :name, :kind, :manufacturer_id)
           .order('manufacturers.name, name')
           .paginate(page: current_page, per_page: rows_per_page)
@@ -17,7 +17,7 @@ module Api
       end
 
       def show
-        @suit = Suit.includes(:manufacturer).find(params[:id])
+        @suit = authorize Suit.find(params[:id])
 
         respond_to do |format|
           format.json

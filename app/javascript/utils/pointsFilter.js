@@ -1,3 +1,5 @@
+import { getTime, fromUnixTime } from 'date-fns'
+
 const findStartIndex = (points, fromAltitude) => {
   if (fromAltitude === undefined) return 0
 
@@ -24,7 +26,7 @@ const interpolateByAltitude = (first, second, altitude) => {
 
   const newPoint = { ...first, altitude }
 
-  const filedsToInterpolate = [
+  const fieldsToInterpolate = [
     'gpsTime',
     'flTime',
     'latitude',
@@ -34,9 +36,13 @@ const interpolateByAltitude = (first, second, altitude) => {
     'glideRatio'
   ]
 
-  filedsToInterpolate.forEach(key => {
+  fieldsToInterpolate.forEach(key => {
     newPoint[key] = interpolateField(first, second, key, coeff)
   })
+
+  newPoint.gpsTime = fromUnixTime(
+    getTime(first.gpsTime) + (getTime(second.gpsTime) - getTime(first.gpsTime)) * coeff
+  )
 
   return newPoint
 }

@@ -6,25 +6,26 @@ if @track.competitive?
     json.event_name @track.event_result.event.name
     json.event_path event_path(@track.event_result.event)
     json.task @track.event_result.round_discipline
-    json.result @track.event_result.result
+    json.result @track.event_result.result.to_f
   end
 else
   json.competition_result nil
 end
 
 if @track.skydive?
-  json.best_results @track.track_results do |result|
-    json.task result.discipline
-    json.extract! result, :result, :range_from, :range_to
+  json.best_results @track.track_results do |record|
+    json.task record.discipline
+    json.result record.result.to_f
+    json.extract! record, :range_from, :range_to
   end
 else
   json.best_results []
 end
 
 if @track.base?
-  json.total_results @track.track_results do |result|
-    json.task result.discipline
-    json.extract! result, :result
+  json.total_results @track.track_results do |record|
+    json.task record.discipline
+    json.result record.result.to_f
   end
 else
   json.total_results []
@@ -36,5 +37,5 @@ json.online_ranking_results @track.virtual_competition_results do |result|
   json.group_name result.virtual_competition.group_name
   json.ranking_name result.virtual_competition.name
   json.task result.virtual_competition.discipline
-  json.result result.result
+  json.result result.result.to_f
 end

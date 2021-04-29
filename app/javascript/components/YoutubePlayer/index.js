@@ -3,8 +3,6 @@ import React, {
   useEffect,
   useState,
   useImperativeHandle,
-  useMemo,
-  useCallback,
   forwardRef
 } from 'react'
 import PropTypes from 'prop-types'
@@ -15,30 +13,28 @@ import PlayIcon from './PlayIcon'
 import styles from './styles.module.scss'
 
 const Player = forwardRef(({ videoId, onPlay, onPause }, ref) => {
-  const [player, setPlayer] = useState()
-  const [playerReady, setPlayerReady] = useState()
-  const playerContainerRef = useRef()
   const YT = useYoutubeApi()
+  const [player, setPlayer] = useState()
+  const playerContainerRef = useRef()
+  const onPlayRef = useRef()
+  const onPauseRef = useRef()
+  onPlayRef.current = onPlay
+  onPauseRef.current = onPause
 
   useImperativeHandle(ref, () => ({
     getPlayerTime: () => player?.getCurrentTime?.()
   }))
 
-  const onPlayerReady = useCallback(() => setPlayerReady(true), [setPlayerReady])
+  useEffect(() => {
+    if (!YT || player) return
 
-  const onPlayerStateChange = useCallback(
-    event => {
-      if (event.data === YT.PlayerState.PAUSED) onPause?.()
-      if (event.data === YT.PlayerState.PLAYING) onPlay?.()
-    },
-    [YT, onPause, onPlay]
-  )
-
-  const playerOptions = useMemo(
-    () => ({
+    const playerOptions = {
       events: {
-        onReady: onPlayerReady,
-        onStateChange: onPlayerStateChange
+        onReady: event => setPlayer(event.target),
+        onStateChange: event => {
+          if (event.data === YT.PlayerState.PAUSED) onPauseRef.current?.()
+          if (event.data === YT.PlayerState.PLAYING) onPlayRef.current?.()
+        }
       },
       playerVars: {
         autoplay: 0,
@@ -46,29 +42,24 @@ const Player = forwardRef(({ videoId, onPlay, onPause }, ref) => {
         iv_load_policy: 3,
         rel: 0
       }
-    }),
-    [onPlayerReady, onPlayerStateChange]
-  )
+    }
+
+    new YT.Player(playerContainerRef.current, playerOptions)
+  }, [YT, player, setPlayer])
 
   useEffect(() => {
-    if (!YT) return
-
-    setPlayer(new YT.Player(playerContainerRef.current, playerOptions))
-  }, [YT, playerOptions])
-
-  useEffect(() => {
-    if (!playerReady || !videoId) return
+    if (!player || !videoId) return
 
     player.cueVideoById({ videoId })
-  }, [player, playerReady, videoId])
+  }, [player, videoId])
 
   useEffect(() => {
-    return () => player && player.destroy()
+    return () => player?.destroy()
   }, [player])
 
   return (
     <div className={styles.container}>
-      {playerReady || <PlayIcon />}
+      {!player && <PlayIcon />}
       <div ref={playerContainerRef} />
     </div>
   )

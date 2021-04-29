@@ -2,18 +2,15 @@ import React, { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Field } from 'formik'
 
+import { useTrackPointsQuery } from 'api/hooks/tracks/points'
 import { useI18n } from 'components/TranslationsProvider'
-import { usePageContext } from 'components/PageContext'
 import AltitudeChart from 'components/AltitudeChart'
 import PlotLine from 'components/Highchart/Plotline'
-import useTrackPoints from 'hooks/useTrackPoints'
-
 import styles from './styles.module.scss'
 
-const TrackOffset = ({ setFieldValue, value }) => {
+const TrackOffset = ({ trackId, setFieldValue, value }) => {
   const { t } = useI18n()
-  const { trackId } = usePageContext()
-  const points = useTrackPoints(trackId, { trimmed: false })
+  const { data: points = [] } = useTrackPointsQuery(trackId, { trimmed: false })
 
   const handleChartClick = useCallback(
     event => {
@@ -74,6 +71,7 @@ const TrackOffset = ({ setFieldValue, value }) => {
 }
 
 TrackOffset.propTypes = {
+  trackId: PropTypes.number.isRequired,
   setFieldValue: PropTypes.func,
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 }

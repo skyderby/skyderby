@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react'
-import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
+import { useTrackQuery } from 'api/hooks/tracks'
+import { useTrackPointsQuery } from 'api/hooks/tracks/points'
+import { useProfileQuery } from 'api/hooks/profiles'
 import { I18n } from 'components/TranslationsProvider'
 import Highchart from 'components/Highchart'
-import { createPointsSelector } from 'redux/tracks/points'
-import { createTrackSelector } from 'redux/tracks'
-import { createProfileSelector } from 'redux/profiles'
 import { calculateFlightProfile } from 'components/FlightProfiles/utils'
 
 const headerFormat = `
@@ -27,9 +26,9 @@ const pointFormatter = function () {
 const tooltip = { headerFormat, pointFormatter }
 
 const FlightProfile = ({ chart, trackId, straightLine, ...props }) => {
-  const points = useSelector(createPointsSelector(trackId))
-  const track = useSelector(createTrackSelector(trackId))
-  const profile = useSelector(createProfileSelector(track?.profileId))
+  const { data: points = [] } = useTrackPointsQuery(trackId)
+  const { data: track } = useTrackQuery(trackId)
+  const { data: profile } = useProfileQuery(track?.profileId)
   const flightProfilePoints = useMemo(
     () => calculateFlightProfile(points, straightLine),
     [points, straightLine]

@@ -1,28 +1,25 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
-import { selectCompetitionResult } from 'redux/tracks/results'
 import { formatResult } from './formatResult'
 
 import styles from './styles.module.scss'
 
-const CompetitionResult = ({ trackId }) => {
+const CompetitionResult = ({ result }) => {
   const { t } = useI18n()
-  const competitionResult = useSelector(state => selectCompetitionResult(state, trackId))
 
-  if (!competitionResult) return null
+  if (!result) return null
 
   return (
     <div>
       <h2 className={styles.header}>{t('tracks.show.comp_result')}</h2>
       <ul>
         <li>
-          <Link to={competitionResult.eventPath}>{competitionResult.eventName}</Link>
+          <Link to={result.eventPath}>{result.eventName}</Link>
           :&nbsp;
-          {formatResult(competitionResult.result, competitionResult.task, t)}
+          {formatResult(result.result, result.task, t)}
         </li>
       </ul>
     </div>
@@ -30,7 +27,20 @@ const CompetitionResult = ({ trackId }) => {
 }
 
 CompetitionResult.propTypes = {
-  trackId: PropTypes.number.isRequired
+  result: PropTypes.shape({
+    eventPath: PropTypes.string.isRequired,
+    eventName: PropTypes.string.isRequired,
+    result: PropTypes.number.isRequired,
+    task: PropTypes.oneOf([
+      'time',
+      'distance',
+      'speed',
+      'distanceInTime',
+      'distanceInAltitude',
+      'flare',
+      'baseRace'
+    ]).isRequired
+  })
 }
 
 export default CompetitionResult

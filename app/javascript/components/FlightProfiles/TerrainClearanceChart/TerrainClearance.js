@@ -1,15 +1,14 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { I18n } from 'components/TranslationsProvider'
 import Highchart from 'components/Highchart'
-import { createTrackSelector } from 'redux/tracks'
-import { createProfileSelector } from 'redux/profiles'
-import { createPlaceSelector } from 'redux/places'
-import { createPointsSelector } from 'redux/tracks/points'
-import { createMeasurementsSelector } from 'redux/terrainProfileMeasurements'
 import { calculateTerrainClearance } from 'components/FlightProfiles/utils'
+import { useTrackQuery } from 'api/hooks/tracks'
+import { useProfileQuery } from 'api/hooks/profiles'
+import { usePlaceQuery } from 'api/hooks/places'
+import { useTrackPointsQuery } from 'api/hooks/tracks/points'
+import { useTerrainProfileMeasurementQuery } from 'api/hooks/terrainProfileMeasurements'
 
 const headerFormat = `
   <span style="font-size: 14px">{series.name}</span><br/>
@@ -34,19 +33,15 @@ const TerrainClearance = ({
   straightLine,
   ...props
 }) => {
-  const track = useSelector(createTrackSelector(trackId))
-  const profile = useSelector(createProfileSelector(track?.profileId))
-  const place = useSelector(createPlaceSelector(track?.placeId))
-  const points = useSelector(createPointsSelector(trackId))
-  const measurements = useSelector(createMeasurementsSelector(terrainProfileId))
+  const { data: track } = useTrackQuery(trackId)
+  const { data: profile } = useProfileQuery(track?.profileId)
+  const { data: place } = usePlaceQuery(track?.placeId)
+  const { data: points } = useTrackPointsQuery(trackId)
+  const { data: measurements } = useTerrainProfileMeasurementQuery(terrainProfileId)
 
   if (!track || !points || !measurements) return null
 
-  const chartPoints = calculateTerrainClearance(
-    points,
-    measurements.records,
-    straightLine
-  )
+  const chartPoints = calculateTerrainClearance(points, measurements, straightLine)
 
   const name = `${profile?.name || track.pilotName} - #${trackId}`
 

@@ -5,10 +5,11 @@ json.array! @points do |point|
                 :fl_time,
                 :abs_altitude,
                 :altitude,
-                :latitude,
-                :longitude,
                 :h_speed,
                 :v_speed,
                 :glide_ratio
+
+  json.latitude point[:latitude].to_f
+  json.longitude point[:longitude].to_f
   json.gps_time point[:gps_time].iso8601(3)
 end

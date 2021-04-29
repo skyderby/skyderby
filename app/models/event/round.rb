@@ -45,6 +45,8 @@ class Event::Round < ApplicationRecord
 
   def tracks_visibility = completed ? event.tracks_visibility : Track.visibilities[:private_track]
 
+  def slug = "#{discipline}-#{number}"
+
   private
 
   def set_number

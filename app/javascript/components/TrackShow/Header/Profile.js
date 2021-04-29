@@ -1,19 +1,16 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { selectProfile, selectProfilePhoto } from 'redux/profiles'
-
+import { useProfileQuery } from 'api/hooks/profiles'
 import styles from './styles.module.scss'
 
 const defaultPhotoUrl = '/images/thumb/missing.png'
 
 const Profile = ({ profileId, pilotName: userProvidedName }) => {
-  const profile = useSelector(state => selectProfile(state, profileId))
-  const photo = useSelector(state => selectProfilePhoto(state, profileId))
+  const { data: profile } = useProfileQuery(profileId)
+  const photoUrl = profile?.photo?.thumb ?? defaultPhotoUrl
 
-  const pilotName = profileId ? profile.name : userProvidedName
-  const { thumb: photoUrl = defaultPhotoUrl } = photo || {}
+  const pilotName = profileId ? profile?.name : userProvidedName
 
   return (
     <div className={styles.profile}>
