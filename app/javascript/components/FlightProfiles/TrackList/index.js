@@ -1,32 +1,41 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
+import { useTracksInfiniteQuery } from 'api/hooks/tracks'
 import Item from 'components/TrackListItem'
 import TokenizedSearchField from 'components/TokenizedSearchField'
-
+import usePageParams from 'components/FlightProfiles/usePageParams'
 import styles from './styles.module.scss'
 
-const TrackList = props => {
+const TrackList = () => {
   const {
-    tracks,
-    filters,
+    params: { tracksParams, selectedTracks },
     updateFilters,
-    loadMoreTracks,
-    selectedTracks,
     toggleTrack
-  } = props
+  } = usePageParams()
+
+  const { data, fetchNextPage, isFetchingNextPage } = useTracksInfiniteQuery({
+    ...tracksParams,
+    activity: 'base'
+  })
+
+  const tracks = (data?.pages || []).reduce((acc, page) => acc.concat(page.items), [])
 
   const handleListScroll = e => {
+    if (isFetchingNextPage) return
+
     const element = e.target
     const scrollPercent =
       ((element.scrollTop + element.clientHeight) / element.scrollHeight) * 100
 
-    if (scrollPercent > 85) loadMoreTracks()
+    if (scrollPercent > 85) fetchNextPage()
   }
 
   return (
     <div className={styles.container} onScroll={handleListScroll}>
-      <TokenizedSearchField initialValues={filters} onChange={updateFilters} />
+      <TokenizedSearchField
+        initialValues={tracksParams.filters}
+        onChange={updateFilters}
+      />
 
       {tracks.map(track => (
         <Item
@@ -40,15 +49,6 @@ const TrackList = props => {
       ))}
     </div>
   )
-}
-
-TrackList.propTypes = {
-  tracks: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.number.isRequired })),
-  selectedTracks: PropTypes.arrayOf(PropTypes.number).isRequired,
-  loadMoreTracks: PropTypes.func.isRequired,
-  toggleTrack: PropTypes.func.isRequired,
-  updateFilters: PropTypes.func.isRequired,
-  filters: PropTypes.arrayOf(PropTypes.array).isRequired
 }
 
 export default TrackList

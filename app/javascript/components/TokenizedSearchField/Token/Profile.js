@@ -1,23 +1,17 @@
-import React, { useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 
-import { loadProfile, createProfileSelector } from 'redux/profiles'
 import IconTimes from 'icons/times.svg'
 
 import styles from './styles.module.scss'
+import { useProfileQuery } from 'api/hooks/profiles'
 
 const Profile = ({ value, onClick, onDelete }) => {
-  const dispatch = useDispatch()
   const deleteButtonRef = useRef()
 
-  useEffect(() => {
-    dispatch(loadProfile(value))
-  }, [dispatch, value])
+  const { data: profile } = useProfileQuery(value)
 
-  const data = useSelector(createProfileSelector(value))
-
-  if (!data) return null
+  if (!profile) return null
 
   const handleTokenClick = e => {
     const deleteButtonClicked =
@@ -30,13 +24,13 @@ const Profile = ({ value, onClick, onDelete }) => {
     onClick?.()
   }
 
-  const title = `Profile: ${data.name}`
+  const title = `Profile: ${profile.name}`
 
   return (
     <li className={styles.profileContainer} onClick={handleTokenClick} title={title}>
       <div className={styles.type}>Profile</div>
       <div className={styles.value}>
-        {data.name}
+        {profile.name}
         <button
           className={styles.deleteButton}
           title="Delete"

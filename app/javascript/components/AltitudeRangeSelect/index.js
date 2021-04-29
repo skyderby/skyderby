@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import Highchart from 'components/Highchart'
 import RangeSlider from 'components/RangeSlider'
 import AltitudeChart from 'components/AltitudeChart'
-import useTrackPoints from 'hooks/useTrackPoints'
 
 import styles from './styles.module.scss'
+import { useTrackPointsQuery } from 'api/hooks/tracks/points'
 
 const AltitudeRangeSelect = ({
   trackId,
@@ -15,7 +15,7 @@ const AltitudeRangeSelect = ({
 }) => {
   const [value, setValue] = useState(initialValue)
 
-  const points = useTrackPoints(trackId, { trimmed: false })
+  const { data: points = [] } = useTrackPointsQuery(trackId, { trimmed: false })
   const jumpDuration = points.length > 0 ? points[points.length - 1].flTime : 1
 
   const handleUpdate = values => {

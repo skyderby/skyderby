@@ -9,7 +9,7 @@ module Api
             PointsQuery
             .execute(track, options)
             .then { |points| PointsPostprocessor.for(track.gps_type).call(points) }
-            .then(&method(:convert_speed_to_ms))
+            .then { |points| convert_speed_to_ms(points) }
         end
 
         private
@@ -34,7 +34,7 @@ module Api
           params
             .permit(:freq_1Hz, :trimmed, trimmed: {})
             .to_h.symbolize_keys
-            .tap(&method(:normalize_params))
+            .tap { |params| normalize_params(params) }
         end
 
         def normalize_params(params)

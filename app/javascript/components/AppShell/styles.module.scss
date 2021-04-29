@@ -1,13 +1,11 @@
 .container {
   display: grid;
-  grid-gap: 1rem;
   grid-template-rows: min-content 1fr min-content;
   grid-template-columns: 100%;
   min-height: 100vh;
 }
 
 .fullScreen {
-  grid-gap: 0;
   height: 100vh;
 }
 

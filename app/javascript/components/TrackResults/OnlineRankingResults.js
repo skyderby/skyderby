@@ -1,25 +1,22 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
-import { selectOnlineRankingResults } from 'redux/tracks/results'
 import { formatResult } from './formatResult'
 
 import styles from './styles.module.scss'
 
-const OnlineRankingResults = ({ trackId }) => {
+const OnlineRankingResults = ({ results }) => {
   const { t } = useI18n()
-  const records = useSelector(state => selectOnlineRankingResults(state, trackId))
 
-  if (records.length === 0) return null
+  if (results.length === 0) return null
 
   return (
     <div>
       <h2 className={styles.header}>{t('tracks.show.online_comp_results')}</h2>
       <ul>
-        {records.map(record => (
+        {results.map(record => (
           <li key={record.id}>
             <Link to={record.rankingPath}>
               {[record.groupName, record.rankingName].filter(el => el).join(' - ')}
@@ -34,7 +31,23 @@ const OnlineRankingResults = ({ trackId }) => {
 }
 
 OnlineRankingResults.propTypes = {
-  trackId: PropTypes.number.isRequired
+  results: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      rankingPath: PropTypes.string.isRequired,
+      rankingName: PropTypes.string.isRequired,
+      result: PropTypes.number.isRequired,
+      task: PropTypes.oneOf([
+        'time',
+        'distance',
+        'speed',
+        'distanceInTime',
+        'distanceInAltitude',
+        'flare',
+        'baseRace'
+      ]).isRequired
+    })
+  )
 }
 
 export default OnlineRankingResults
