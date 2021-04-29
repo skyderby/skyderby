@@ -1,102 +1,116 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { Formik } from 'formik'
+import PropTypes from 'prop-types'
 
-import { createTrackSelector } from 'redux/tracks'
+import { useTrackQuery } from 'api/hooks/tracks'
 import {
-  createTrackVideoSelector,
-  saveTrackVideo,
-  deleteTrackVideo
-} from 'redux/tracks/videos'
+  useDeleteVideoMutation,
+  useEditVideoMutation,
+  useTrackVideoQuery
+} from 'api/hooks/tracks/video'
 import { useI18n } from 'components/TranslationsProvider'
-import { usePageContext } from 'components/PageContext'
-
+import TrackShowContainer from 'components/TrackShowContainer'
 import VideoSetup from './VideoSetup'
 import TrackOffset from './TrackOffset'
-
 import styles from './styles.module.scss'
 
-const TrackVideoForm = () => {
-  const dispatch = useDispatch()
+const TrackVideoForm = ({ match }) => {
+  const trackId = Number(match.params.id)
   const history = useHistory()
   const { t } = useI18n()
-  const { trackId } = usePageContext()
-  const track = useSelector(createTrackSelector(trackId))
-  const video = useSelector(createTrackVideoSelector(trackId))
+  const { data: track } = useTrackQuery(trackId)
+  const { data: video, isLoading } = useTrackVideoQuery(trackId, {
+    enabled: track?.hasVideo
+  })
+  const saveMutation = useEditVideoMutation()
+  const deleteMutation = useDeleteVideoMutation()
 
-  if (!['loaded', 'noVideo'].includes(video?.status)) return null
+  if (isLoading) return null
 
-  const isNewVideo = video.status === 'noVideo'
-  const formValues = isNewVideo
+  const formValues = track.hasVideo
     ? {
-        url: '',
-        videoId: '',
-        videoOffset: 0,
-        trackOffset: track.jumpRange.from
-      }
-    : {
         url: video.url,
         videoId: video.videoCode,
         videoOffset: video.videoOffset,
         trackOffset: video.trackOffset
       }
+    : {
+        url: '',
+        videoId: '',
+        videoOffset: 0,
+        trackOffset: track.jumpRange.from
+      }
 
   const handleSubmit = async values => {
-    await dispatch(saveTrackVideo(trackId, values))
+    await saveMutation.mutateAsync({ id: trackId, changes: values })
     history.push(`/tracks/${trackId}/video`)
   }
 
   const handleDelete = async () => {
-    await dispatch(deleteTrackVideo(trackId))
+    await deleteMutation.mutateAsync(trackId)
     history.push(`/tracks/${trackId}`)
   }
 
   const handleCancel = () => {
-    const url = `/tracks/${trackId}${isNewVideo ? '' : '/video'}`
+    const url = `/tracks/${trackId}${track.hasVideo ? '/video' : ''}`
     history.push(url)
   }
 
   return (
-    <Formik initialValues={formValues} onSubmit={handleSubmit}>
-      {({ values, handleSubmit, setFieldValue }) => (
-        <form onSubmit={handleSubmit}>
-          <VideoSetup
-            setFieldValue={setFieldValue}
-            videoId={values.videoId}
-            videoOffset={values.videoOffset}
-          />
-          <TrackOffset setFieldValue={setFieldValue} value={values.trackOffset} />
+    <TrackShowContainer shrinkToContent>
+      <Formik initialValues={formValues} onSubmit={handleSubmit}>
+        {({ values, handleSubmit, setFieldValue }) => (
+          <form onSubmit={handleSubmit}>
+            <VideoSetup
+              setFieldValue={setFieldValue}
+              videoId={values.videoId}
+              videoOffset={values.videoOffset}
+            />
+            <TrackOffset
+              trackId={trackId}
+              setFieldValue={setFieldValue}
+              value={values.trackOffset}
+            />
 
-          <hr />
+            <hr />
 
-          <div className={styles.footer}>
-            <button
-              className={styles.dangerButton}
-              type="button"
-              outlined
-              onClick={handleDelete}
-            >
-              {t('general.delete')}
-            </button>
-
-            <div>
-              <button className={styles.primaryButton} type="submit">
-                {t('general.save')}
-              </button>
+            <div className={styles.footer}>
               <button
-                className={styles.secondaryButton}
+                className={styles.dangerButton}
                 type="button"
-                onClick={handleCancel}
+                outlined
+                onClick={handleDelete}
               >
-                {t('general.cancel')}
+                {t('general.delete')}
               </button>
+
+              <div>
+                <button className={styles.primaryButton} type="submit">
+                  {t('general.save')}
+                </button>
+                <button
+                  className={styles.secondaryButton}
+                  type="button"
+                  onClick={handleCancel}
+                >
+                  {t('general.cancel')}
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
-      )}
-    </Formik>
+          </form>
+        )}
+      </Formik>
+    </TrackShowContainer>
   )
+}
+
+TrackVideoForm.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired
 }
 
 export default TrackVideoForm

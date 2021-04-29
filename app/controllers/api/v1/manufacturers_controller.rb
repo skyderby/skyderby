@@ -7,7 +7,7 @@ module Api
         @manufacturers =
           Manufacturer
           .order(:name)
-          .then(&method(:apply_filters))
+          .then { |rel| apply_filters(rel) }
           .paginate(page: current_page, per_page: rows_per_page)
 
         respond_to do |format|

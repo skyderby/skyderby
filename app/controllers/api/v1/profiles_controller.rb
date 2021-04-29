@@ -5,7 +5,7 @@ module Api
         @profiles =
           Profile
           .order(:name)
-          .then(&method(:search))
+          .then { |relation| apply_filters(relation) }
           .paginate(page: current_page, per_page: rows_per_page)
       end
 
@@ -15,7 +15,8 @@ module Api
 
       private
 
-      def search(relation)
+      def apply_filters(relation)
+        return relation.where(id: params[:ids]) if params[:ids].present?
         return relation.none if params[:search].to_s.length < 3
 
         relation.search(params[:search])

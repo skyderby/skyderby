@@ -8,10 +8,10 @@ module Api
 
         @tracks =
           policy_scope(Track.all)
-          .then(&method(:apply_filter))
-          .then(&method(:apply_sort))
-          .then(&method(:preload_associations))
-          .then(&method(:paginate))
+          .then { |rel| apply_filter(rel) }
+          .then { |rel| apply_sort(rel) }
+          .then { |rel| preload_associations(rel) }
+          .then { |rel| paginate(rel) }
       end
 
       def create
@@ -125,7 +125,7 @@ module Api
           :visibility,
           :disqualified_from_online_competitions,
           jump_range: [:from, :to]
-        ).then(&method(:process_jump_range))
+        ).then { |permitted_params| process_jump_range(permitted_params) }
       end
 
       def process_jump_range(permitted_params)

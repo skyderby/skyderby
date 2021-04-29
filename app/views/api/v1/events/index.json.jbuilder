@@ -6,7 +6,6 @@ json.items @events do |record|
   json.extract! \
     record,
     :name,
-    :rules,
     :starts_at,
     :status,
     :visibility,
@@ -20,6 +19,17 @@ json.items @events do |record|
     :updated_at,
     :created_at
 
+  type =
+    if record.event_type == 'Event' && %w[speed_distance_time fai].include?(record.rules)
+      'performance_competition'
+    elsif record.event_type == 'Event' && record.rules == 'hungary_boogie'
+      'hungary_boogie'
+    else
+      record.event_type.underscore.downcase
+    end
+
+  json.id record.event_id
+  json.type type.camelize(:lower)
+
   json.active record.active?
-  json.path polymorphic_path(record.event)
 end

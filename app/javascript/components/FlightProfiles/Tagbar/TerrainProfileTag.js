@@ -1,24 +1,19 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import IconTimes from 'icons/times.svg'
 
-import { createTerrainProfileSelector } from 'redux/terrainProfiles'
-
 import styles from './styles.module.scss'
+import { useTerrainProfileQuery } from 'api/hooks/terrainProfiles'
+import { usePlaceQuery } from 'api/hooks/places'
 
 const TerrainProfile = ({ terrainProfileId, onDelete }) => {
-  const terrainProfile = useSelector(createTerrainProfileSelector(terrainProfileId))
+  const { data: terrainProfile } = useTerrainProfileQuery(terrainProfileId)
+  const { data: place } = usePlaceQuery(terrainProfile?.placeId)
 
   if (!terrainProfile) return null
 
-  const {
-    place: { name: placeName },
-    name
-  } = terrainProfile
-
-  const label = [placeName, name].join(' - ')
+  const label = [place?.name, terrainProfile.name].join(' - ')
 
   return (
     <li className={styles.tag}>

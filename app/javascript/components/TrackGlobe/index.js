@@ -1,22 +1,21 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 
-import { selectPoints } from 'redux/tracks/points'
+import { useTrackPointsQuery } from 'api/hooks/tracks/points'
 import useCesiumApi from 'utils/useCesiumApi'
-import { usePageContext } from 'components/PageContext'
+import TrackShowContainer from 'components/TrackShowContainer'
 import Trajectory from './Trajectory'
 import ViewerClock from './ViewerClock'
-
 import styles from './styles.module.scss'
 
-const TrackGlobe = () => {
-  const { trackId } = usePageContext()
+const TrackGlobe = ({ match }) => {
+  const trackId = Number(match.params.id)
 
   const Cesium = useCesiumApi()
   const element = useRef()
   const [viewer, setViewer] = useState()
 
-  const points = useSelector(state => selectPoints(state, trackId))
+  const { data: points = [] } = useTrackPointsQuery(trackId)
 
   useEffect(() => {
     if (!Cesium) return
@@ -38,15 +37,25 @@ const TrackGlobe = () => {
   if (!Cesium) return null
 
   return (
-    <div className={styles.map} ref={element}>
-      {points.length > 0 && (
-        <>
-          <ViewerClock Cesium={Cesium} viewer={viewer} points={points} />
-          <Trajectory Cesium={Cesium} viewer={viewer} points={points} />
-        </>
-      )}
-    </div>
+    <TrackShowContainer>
+      <div className={styles.map} ref={element}>
+        {points.length > 0 && (
+          <>
+            <ViewerClock Cesium={Cesium} viewer={viewer} points={points} />
+            <Trajectory Cesium={Cesium} viewer={viewer} points={points} />
+          </>
+        )}
+      </div>
+    </TrackShowContainer>
   )
+}
+
+TrackGlobe.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired
 }
 
 export default TrackGlobe
