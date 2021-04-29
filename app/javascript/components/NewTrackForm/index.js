@@ -1,8 +1,9 @@
 import React from 'react'
 import { Formik, Field } from 'formik'
+import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import Api from 'api'
+import { useNewTrackMutation } from 'api/hooks/tracks/track'
 import { useI18n } from 'components/TranslationsProvider'
 import Modal from 'components/ui/Modal'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
@@ -16,6 +17,8 @@ import styles from './styles.module.scss'
 
 const NewTrackForm = ({ isShown, onHide, loggedIn }) => {
   const { t } = useI18n()
+  const history = useHistory()
+  const newTrackMutation = useNewTrackMutation()
 
   const initialValues = {
     name: loggedIn ? null : '',
@@ -33,21 +36,20 @@ const NewTrackForm = ({ isShown, onHide, loggedIn }) => {
     }
   }
 
-  const handleSubmit = async (
-    { formSupportData, suitId, missingSuitName, ...values },
-    actions
-  ) => {
+  const handleSubmit = async ({
+    formSupportData,
+    suitId,
+    missingSuitName,
+    ...values
+  }) => {
     const params = {
       ...values,
       ...(formSupportData.suitInputMode === 'select' ? { suitId } : { missingSuitName })
     }
 
     try {
-      const track = await Api.Track.createRecord(params)
-
-      Turbolinks.visit(`/tracks/${track.id}`)
-
-      actions.setSubmitting(false)
+      const { data: track } = await newTrackMutation.mutateAsync(params)
+      history.push(`/tracks/${track.id}`)
     } catch (err) {
       console.warn(err)
     }

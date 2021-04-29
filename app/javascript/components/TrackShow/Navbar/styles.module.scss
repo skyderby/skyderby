@@ -10,7 +10,7 @@
 .menu {
   display: flex;
   margin: 0;
-  padding: 0 1rem 2rem;
+  padding: 0;
   overflow-x: scroll;
 
   white-space: nowrap;
@@ -32,14 +32,7 @@
 
 .menuItem a {
   display: flex;
-  align-items: center;
-  padding: 0 8px;
   border-bottom: solid 3px transparent;
-
-  color: var(--grey-70);
-  line-height: 2rem;
-  white-space: nowrap;
-  text-decoration: none;
 
   svg {
     height: 1em;
@@ -55,19 +48,42 @@
   }
 }
 
+.menuItem a span {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  border-radius: var(--border-radius-md);
+
+  color: var(--grey-70);
+  line-height: 2rem;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
 .menuItem :global(.active) {
   border-bottom-color: var(--blue-grey-70);
 
-  color: var(--grey-90);
-  font-weight: 500;
+  span {
+    color: var(--blue-grey-70);
+    font-weight: 500;
+  }
 
   path {
-    fill: var(--grey-70);
+    fill: var(--blue-grey-70);
   }
+}
+
+.menuItem a:hover span,
+:global(.keyboardNavigation) .menuItem a:focus span {
+  background-color: var(--grey-30);
 }
 
 .spacer {
   width: 2rem;
+}
+
+.right {
+  margin-left: auto;
 }
 
 .fade {

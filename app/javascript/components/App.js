@@ -1,4 +1,6 @@
 import React, { useLayoutEffect } from 'react'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
@@ -7,6 +9,8 @@ import TranslationsProvider from 'components/TranslationsProvider'
 import AppRouter from './AppRouter'
 
 import 'styles/globalStyles'
+
+const queryClient = new QueryClient()
 
 const App = () => {
   useLayoutEffect(() => {
@@ -29,13 +33,17 @@ const App = () => {
   }, [])
 
   return (
-    <Provider store={store}>
-      <TranslationsProvider>
-        <BrowserRouter>
-          <AppRouter />
-        </BrowserRouter>
-      </TranslationsProvider>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <TranslationsProvider>
+          <BrowserRouter>
+            <AppRouter />
+          </BrowserRouter>
+        </TranslationsProvider>
+      </Provider>
+
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   )
 }
 

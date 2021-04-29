@@ -36,7 +36,7 @@ const Summary = ({ selectedPoints, zeroWindPoints, straightLine }) => {
 Summary.propTypes = {
   selectedPoints: PropTypes.arrayOf(
     PropTypes.shape({
-      gpsTime: PropTypes.number.isRequired,
+      gpsTime: PropTypes.instanceOf(Date).isRequired,
       latitude: PropTypes.number.isRequired,
       longitude: PropTypes.number.isRequired,
       altitude: PropTypes.number.isRequired,
@@ -48,7 +48,7 @@ Summary.propTypes = {
   straightLine: PropTypes.bool.isRequired,
   zeroWindPoints: PropTypes.arrayOf(
     PropTypes.shape({
-      gpsTime: PropTypes.number.isRequired,
+      gpsTime: PropTypes.instanceOf(Date).isRequired,
       latitude: PropTypes.number.isRequired,
       longitude: PropTypes.number.isRequired,
       altitude: PropTypes.number.isRequired,

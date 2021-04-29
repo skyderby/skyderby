@@ -1,19 +1,24 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { createTrackSelector, deleteTrack, updateTrack } from 'redux/tracks'
+import {
+  useTrackQuery,
+  useEditTrackMutation,
+  useDeleteTrackMutation
+} from 'api/hooks/tracks'
 import { useI18n } from 'components/TranslationsProvider'
-import ChevronLeftIcon from 'icons/chevron-left.svg'
+import TrackShowContainer from 'components/TrackShowContainer'
 import Form from './Form'
-import styles from './styles.module.scss'
 
-const TrackEdit = ({ trackId, returnTo }) => {
-  const dispatch = useDispatch()
+const TrackEdit = ({ match, location }) => {
+  const trackId = Number(match.params.id)
+  const returnTo = location.state?.returnTo ?? '/tracks'
+
   const history = useHistory()
-  const track = useSelector(createTrackSelector(trackId))
+  const { data: track } = useTrackQuery(trackId)
+  const editMutation = useEditTrackMutation()
+  const deleteMutation = useDeleteTrackMutation()
   const { t } = useI18n()
 
   const handleSubmit = async (formValues, { setSubmitting }) => {
@@ -30,7 +35,7 @@ const TrackEdit = ({ trackId, returnTo }) => {
         : { placeId: formValues.placeId, location: null })
     }
 
-    await dispatch(updateTrack(trackId, values))
+    await editMutation.mutateAsync({ id: trackId, changes: values })
 
     setSubmitting(false)
 
@@ -42,13 +47,9 @@ const TrackEdit = ({ trackId, returnTo }) => {
 
     if (!confirmed) return
 
-    await dispatch(deleteTrack(track.id))
+    await deleteMutation.mutateAsync(trackId)
 
     history.push(returnTo)
-  }
-
-  const handleCancel = () => {
-    history.goBack()
   }
 
   if (!track || track.status === 'loading') return null
@@ -60,28 +61,21 @@ const TrackEdit = ({ trackId, returnTo }) => {
   }
 
   return (
-    <div className={styles.pageContainer}>
-      <Link className={styles.backLink} to={`/tracks/${trackId}`}>
-        <ChevronLeftIcon />
-        &nbsp;
-        {t('general.back')}
-      </Link>
-
-      <div className={styles.formContainer}>
-        <Form
-          fields={fields}
-          onSubmit={handleSubmit}
-          onDelete={handleDelete}
-          onCancel={handleCancel}
-        />
-      </div>
-    </div>
+    <TrackShowContainer>
+      <Form fields={fields} onSubmit={handleSubmit} onDelete={handleDelete} />
+    </TrackShowContainer>
   )
 }
 
 TrackEdit.propTypes = {
-  trackId: PropTypes.number.isRequired,
-  returnTo: PropTypes.string.isRequired
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired,
+  location: PropTypes.shape({
+    state: PropTypes.object
+  })
 }
 
 export default TrackEdit

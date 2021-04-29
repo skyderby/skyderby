@@ -1,0 +1,42 @@
+@import 'styles/breakpoints';
+
+.container {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 1rem;
+  border: solid 1px transparent;
+  border-top-color: var(--border-color);
+  border-bottom-color: var(--border-color);
+
+  background-color: var(--white);
+
+  @include lg-screen {
+    width: 1200px;
+    margin: 0 auto;
+
+    border-right-color: var(--border-color);
+    border-left-color: var(--border-color);
+    border-radius: var(--border-radius-md);
+  }
+}
+
+.shrinkToContent {
+  @include lg-screen {
+    margin: 0 auto auto;
+  }
+}
+
+.settings {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+
+  > button,
+  > a {
+    font-size: 1rem;
+    text-transform: uppercase;
+  }
+}

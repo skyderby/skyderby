@@ -3,31 +3,30 @@ import { useHistory } from 'react-router-dom'
 import isEqual from 'lodash.isequal'
 import PropTypes from 'prop-types'
 
-import { IndexParams } from 'api/Track'
-import useTracksApi from 'hooks/useTracksApi'
-import { PageContext } from 'components/PageContext'
+import { extractParamsFromUrl, mapParamsToUrl, useTracksQuery } from 'api/hooks/tracks'
 import AppShell from 'components/AppShell'
 import TrackList from 'components/TracksIndex'
+import PageWrapper from 'components/PageWrapper'
 
 const TracksIndex = ({ location }) => {
   const history = useHistory()
+  const [params, setParams] = useState(() => extractParamsFromUrl(location.search))
 
-  const [params, setParams] = useState(() => IndexParams.extractFromUrl(location.search))
-
-  const { tracks, pagination } = useTracksApi(params)
+  const { data = {}, status, error } = useTracksQuery(params)
+  const tracks = data.items || []
+  const pagination = { page: data.currentPage, totalPages: data.totalPages }
 
   useEffect(() => {
-    const parsedParams = IndexParams.extractFromUrl(location.search)
+    const parsedParams = extractParamsFromUrl(location.search)
 
     if (isEqual(params, parsedParams)) return
 
     setParams(parsedParams)
   }, [params, setParams, location.search])
 
-  const buildUrl = useCallback(
-    newParams => IndexParams.mapToUrl({ ...params, ...newParams }),
-    [params]
-  )
+  const buildUrl = useCallback(newParams => mapParamsToUrl({ ...params, ...newParams }), [
+    params
+  ])
 
   const updateFilters = useCallback(
     filters => history.replace(`${location.pathname}${buildUrl({ filters, page: 1 })}`),
@@ -41,14 +40,16 @@ const TracksIndex = ({ location }) => {
 
   return (
     <AppShell>
-      <PageContext value={{ updateFilters, updateSort, buildUrl, params }}>
+      <PageWrapper status={status} error={error}>
         <TrackList
           tracks={tracks}
           pagination={pagination}
+          updateFilters={updateFilters}
+          updateSort={updateSort}
           params={params}
           buildUrl={buildUrl}
         />
-      </PageContext>
+      </PageWrapper>
     </AppShell>
   )
 }

@@ -1,51 +1,53 @@
-import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React from 'react'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { PageContext } from 'components/PageContext'
-import { loadTrack } from 'redux/tracks'
-import { loadTrackPoints } from 'redux/tracks/points'
-import { loadTrackWindData } from 'redux/tracks/windData'
-import { loadTrackVideo } from 'redux/tracks/videos'
-import usePageStatus from 'hooks/usePageStatus'
+import { useTrackQuery } from 'api/hooks/tracks'
 import AppShell from 'components/AppShell'
 import PageWrapper from 'components/PageWrapper'
 import TrackShow from 'components/TrackShow'
+import TrackInsights from 'components/TrackInsights'
+import TrackMap from 'components/TrackMap'
+import TrackGlobe from 'components/TrackGlobe'
+import TrackWindData from 'components/TrackWindData'
+import TrackResults from 'components/TrackResults'
+import TrackVideo from 'components/TrackVideo'
+import TrackVideoForm from 'components/TrackVideoForm'
+import TrackEdit from 'components/TrackEdit'
 
-const Show = ({ match, location: { search, state: locationState } }) => {
-  const dispatch = useDispatch()
+const Show = ({ match }) => {
   const trackId = Number(match.params.id)
-  const urlParams = Object.fromEntries(new URLSearchParams(search))
-  const [status, { onLoadStart, onLoadSuccess, onError }] = usePageStatus({
-    linkBack: '/tracks'
+
+  const { data: track, isLoading, status, error } = useTrackQuery(trackId, {
+    preload: ['points', 'windData', 'video']
   })
-
-  const altitudeFrom = urlParams.f && Number(urlParams.f)
-  const altitudeTo = urlParams.t && Number(urlParams.t)
-  const straightLine = urlParams['straight-line'] === 'true'
-
-  useEffect(() => {
-    onLoadStart()
-    dispatch(loadTrack(trackId))
-      .then(() =>
-        Promise.all([
-          dispatch(loadTrackPoints(trackId)),
-          dispatch(loadTrackWindData(trackId)),
-          dispatch(loadTrackVideo(trackId))
-        ])
-      )
-      .then(onLoadSuccess)
-      .catch(onError)
-  }, [dispatch, trackId, onLoadStart, onLoadSuccess, onError])
 
   return (
     <AppShell>
-      <PageWrapper {...status}>
-        <PageContext
-          value={{ trackId, altitudeFrom, altitudeTo, straightLine, locationState }}
-        >
-          <TrackShow />
-        </PageContext>
+      <PageWrapper status={status} error={error}>
+        {!isLoading && (
+          <TrackShow track={track}>
+            <Switch>
+              <Route path="/tracks/:id" exact component={TrackInsights} />
+              <Route path="/tracks/:id/map" component={TrackMap} />
+              <Route path="/tracks/:id/globe" component={TrackGlobe} />
+              <Route path="/tracks/:id/wind_data" component={TrackWindData} />
+              <Route path="/tracks/:id/results" component={TrackResults} />
+              {track.hasVideo && (
+                <Route path="/tracks/:id/video" exact component={TrackVideo} />
+              )}
+
+              {track.permissions.canEdit && (
+                <>
+                  <Route path="/tracks/:id/edit" component={TrackEdit} />
+                  <Route path="/tracks/:id/video/edit" component={TrackVideoForm} />
+                </>
+              )}
+
+              <Route component={() => <Redirect to={`/tracks/${track.id}`} />} />
+            </Switch>
+          </TrackShow>
+        )}
       </PageWrapper>
     </AppShell>
   )
