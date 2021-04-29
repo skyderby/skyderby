@@ -14,7 +14,7 @@ const userPreferencesSlice = createSlice({
   initialState: {
     chartMode: MULTI_CHART,
     unitSystem: METRIC,
-    flightProfileDistanceCalculationMethod: STRAIGHT_LINE
+    flightProfileDistanceCalculationMethod: TRAJECTORY_DISTANCE
   },
   reducers: {
     updatePreferences(state, action) {

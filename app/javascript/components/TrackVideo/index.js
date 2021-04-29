@@ -1,20 +1,24 @@
 import React, { useCallback, useEffect, useRef } from 'react'
-import { useSelector } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
-import { createTrackSelector } from 'redux/tracks'
-import { createPointsSelector } from 'redux/tracks/points'
-import { createTrackVideoSelector } from 'redux/tracks/videos'
-import { usePageContext } from 'components/PageContext'
+import { useI18n } from 'components/TranslationsProvider'
 import YoutubePlayer from 'components/YoutubePlayer'
+import TrackShowContainer from 'components/TrackShowContainer'
+import CogIcon from 'icons/cog.svg'
 import Indicators from './Indicators'
 import { getDataForTime } from './utils'
+import { useTrackQuery } from 'api/hooks/tracks'
+import { useTrackPointsQuery } from 'api/hooks/tracks/points'
+import { useTrackVideoQuery } from 'api/hooks/tracks/video'
+import styles from './styles.module.scss'
 
-const TrackVideo = () => {
-  const { trackId } = usePageContext()
-  const track = useSelector(createTrackSelector(trackId))
-  const points = useSelector(createPointsSelector(trackId))
-  const video = useSelector(createTrackVideoSelector(trackId))
+const TrackVideo = ({ match }) => {
+  const trackId = Number(match.params.id)
+  const { t } = useI18n()
+  const { data: track } = useTrackQuery(trackId)
+  const { data: points = [] } = useTrackPointsQuery(trackId)
+  const { data: video } = useTrackVideoQuery(trackId)
 
   const requestId = useRef()
   const playerRef = useRef()
@@ -53,7 +57,16 @@ const TrackVideo = () => {
   if (!video) return null
 
   return (
-    <div>
+    <TrackShowContainer shrinkToContent>
+      {track.permissions.canEdit && (
+        <TrackShowContainer.Settings>
+          <Link to={`/tracks/${trackId}/video/edit`} className={styles.flatButton}>
+            <CogIcon />
+            <span>{t('general.settings')}</span>
+          </Link>
+        </TrackShowContainer.Settings>
+      )}
+
       <YoutubePlayer
         ref={playerRef}
         videoId={video.videoCode}
@@ -61,8 +74,16 @@ const TrackVideo = () => {
         onPause={onPause}
       />
       <Indicators ref={indicatorsRef} />
-    </div>
+    </TrackShowContainer>
   )
+}
+
+TrackVideo.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired
 }
 
 export default TrackVideo

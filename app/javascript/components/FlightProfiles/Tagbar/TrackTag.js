@@ -1,17 +1,15 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import IconTimes from 'icons/times.svg'
 
-import { createTrackSelector } from 'redux/tracks'
-import { createProfileSelector } from 'redux/profiles'
-
 import styles from './styles.module.scss'
+import { useTrackQuery } from 'api/hooks/tracks'
+import { useProfileQuery } from 'api/hooks/profiles'
 
 const TrackTag = ({ trackId, onDelete }) => {
-  const track = useSelector(createTrackSelector(trackId))
-  const profile = useSelector(createProfileSelector(track?.profileId))
+  const { data: track } = useTrackQuery(trackId)
+  const { data: profile } = useProfileQuery(track?.profileId)
 
   const label = [profile?.name, `#${trackId}`].filter(Boolean).join(' - ')
 

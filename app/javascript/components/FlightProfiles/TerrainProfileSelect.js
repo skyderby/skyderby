@@ -1,24 +1,26 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Select from 'react-select'
-import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { loadTerrainProfiles, selectAllTerrainProfiles } from 'redux/terrainProfiles'
+import { useTerrainProfilesQuery } from 'api/hooks/terrainProfiles'
+import { usePlaceQueries } from 'api/hooks/places'
 import selectStyles from 'styles/selectStyles'
 
 const TerrainProfileSelect = ({ value, ...props }) => {
-  const dispatch = useDispatch()
-  const terrainProfiles = useSelector(selectAllTerrainProfiles)
+  const { data } = useTerrainProfilesQuery()
+  const terrainProfiles = data?.items || []
+  const placeQueries = usePlaceQueries(terrainProfiles.map(el => el.placeId))
+  const places = placeQueries.map(query => query.data)
 
-  useEffect(() => {
-    dispatch(loadTerrainProfiles())
-  }, [dispatch])
+  const options = terrainProfiles.map(el => {
+    const place = places.find(place => place.id === el.placeId)
 
-  const options = terrainProfiles.map(el => ({
-    ...el,
-    value: el.id,
-    label: `${el.place.name} - ${el.name}`
-  }))
+    return {
+      ...el,
+      value: el.id,
+      label: `${place?.name} - ${el.name}`
+    }
+  })
 
   const selectedOption = value && options.find(el => el.value === value)
 

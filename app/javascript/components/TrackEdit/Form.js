@@ -6,11 +6,10 @@ import { useI18n } from 'components/TranslationsProvider'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
 import TrackSuitField from 'components/TrackSuitField'
 import TrackLocationField from 'components/TrackLocationField'
-
 import AltitudeRangeField from './AltitudeRangeField'
 import styles from './styles.module.scss'
 
-const EditForm = ({ fields, onSubmit, onDelete, onCancel }) => {
+const EditForm = ({ fields, onSubmit, onDelete }) => {
   const { t } = useI18n()
 
   return (
@@ -94,9 +93,6 @@ const EditForm = ({ fields, onSubmit, onDelete, onCancel }) => {
               <button className={styles.primaryButton} type="submit">
                 {t('general.save')}
               </button>
-              <button className={styles.secondaryButton} type="button" onClick={onCancel}>
-                {t('general.cancel')}
-              </button>
             </div>
           </div>
         </form>
@@ -121,8 +117,7 @@ EditForm.propTypes = {
     kind: PropTypes.oneOf(['skydive', 'base'])
   }).isRequired,
   onSubmit: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired
+  onDelete: PropTypes.func.isRequired
 }
 
 export default EditForm

@@ -1,31 +1,43 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getDate } from 'date-fns'
 import cx from 'clsx'
 import PropTypes from 'prop-types'
 
-import { createPlaceSelector } from 'redux/places'
 import LocationIcon from 'icons/location.svg'
 import SuitIcon from 'icons/suit.svg'
 import { useI18n } from 'components/TranslationsProvider'
 import PlaceLabel from 'components/PlaceLabel'
 import styles from './styles.module.scss'
+import { usePlaceQuery } from 'api/hooks/places'
+import { useCountryQuery } from 'api/hooks/countries'
+
+const types = {
+  performanceCompetition: 'GPS Performance',
+  hungaryBoogie: 'Hungary Boogie',
+  tournament: 'Single elimination',
+  competitionSeries: 'Cumulative scoreboard'
+}
+
+const eventUrl = ({ type, id }) => {
+  const prefixes = {
+    performanceCompetition: 'performance',
+    hungaryBoogie: 'boogie',
+    tournament: 'tournament',
+    competitionSeries: 'series'
+  }
+
+  return `/events/${prefixes[type]}/${id}`
+}
 
 const Item = ({ event }) => {
   const { t, formatDate } = useI18n()
-  const place = useSelector(createPlaceSelector(event.placeId))
+  const { data: place } = usePlaceQuery(event.placeId)
+  const { data: country } = useCountryQuery(place?.countryId)
   const competitorsCount = Object.entries(event.competitorsCount)
 
-  const rulesNames = {
-    speed_distance_time: 'GPS Performance',
-    fai: 'GPS Performance',
-    hungary_boogie: 'Hungary Boogie',
-    single_elimination: 'Single elimination'
-  }
-
   return (
-    <Link to={event.path} className={styles.container}>
+    <Link to={eventUrl(event)} className={styles.container}>
       <div>
         <div className={cx(styles.date, event.active && styles.active)}>
           {getDate(new Date(event.startsAt))}
@@ -41,7 +53,7 @@ const Item = ({ event }) => {
         {place && (
           <div className={styles.description}>
             <LocationIcon className={styles.placeIcon} />
-            <PlaceLabel name={place.name} code={place.country.code} />
+            <PlaceLabel name={place.name} code={country.code} />
           </div>
         )}
         {competitorsCount.length > 0 && (
@@ -60,7 +72,9 @@ const Item = ({ event }) => {
         )}
 
         <hr />
-        <div className={styles.description}>Rules: {rulesNames[event.rules]}</div>
+
+        <div className={styles.description}>Type: {types[event.type]}</div>
+
         {event.rangeFrom && event.rangeTo && (
           <div className={styles.description}>
             Competition window: {event.rangeFrom} - {event.rangeTo} {t('units.m')}
@@ -81,11 +95,11 @@ Item.propTypes = {
     placeId: PropTypes.number,
     rangeFrom: PropTypes.number,
     rangeTo: PropTypes.number,
-    rules: PropTypes.oneOf([
-      'speed_distance_time',
-      'fai',
-      'hungary_boogie',
-      'single_elimination'
+    type: PropTypes.oneOf([
+      'performanceCompetition',
+      'hungaryBoogie',
+      'tournament',
+      'competitionSeries'
     ]).isRequired,
     startsAt: PropTypes.string.isRequired
   })

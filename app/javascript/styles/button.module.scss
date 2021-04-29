@@ -140,8 +140,9 @@
 .outlined {
   --background-color: var(--white);
   --text-color: var(--border-color);
-  --active-background-color: var(--white);
-  --active-text-color: var(--active-border-color);
+  // TODO: check other buttons in stylebook
+  //--active-background-color: var(--white);
+  //--active-text-color: var(--active-border-color);
 }
 
 .flat {

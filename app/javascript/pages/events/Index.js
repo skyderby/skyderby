@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import isEqual from 'lodash.isequal'
 import PropTypes from 'prop-types'
 
+import { useEventsQuery } from 'api/hooks/events'
 import AppShell from 'components/AppShell'
 import EventsIndex from 'components/EventsIndex'
-import { bulkLoadPlaces } from 'redux/places'
-import useEventsApi from 'hooks/useEventsApi'
+import PageWrapper from 'components/PageWrapper'
 
 const extractParamsFromUrl = search => {
   const urlParams = new URLSearchParams(search)
@@ -23,16 +22,10 @@ const mapParamsToUrl = ({ page }) => {
 }
 
 const Index = ({ location }) => {
-  const dispatch = useDispatch()
   const [params, setParams] = useState(() => extractParamsFromUrl(location.search))
-  const { events, pagination } = useEventsApi(params)
-
-  useEffect(() => {
-    const placeIds = events.map(event => event.placeId).filter(Boolean)
-    if (placeIds.length === 0) return
-
-    dispatch(bulkLoadPlaces(placeIds))
-  }, [dispatch, events])
+  const { data = {}, status, error } = useEventsQuery(params)
+  const events = data.items || []
+  const pagination = { page: data.currentPage, totalPages: data.totalPages }
 
   useEffect(() => {
     const parsedParams = extractParamsFromUrl(location.search)
@@ -44,7 +37,9 @@ const Index = ({ location }) => {
 
   return (
     <AppShell>
-      <EventsIndex buildUrl={mapParamsToUrl} events={events} pagination={pagination} />
+      <PageWrapper status={status} error={error}>
+        <EventsIndex buildUrl={mapParamsToUrl} events={events} pagination={pagination} />
+      </PageWrapper>
     </AppShell>
   )
 }

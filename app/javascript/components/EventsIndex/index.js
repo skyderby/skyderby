@@ -14,7 +14,7 @@ const EventsIndex = ({ events, pagination, buildUrl }) => {
       <h1 className={styles.title}>{t('application.header.competitions')}</h1>
 
       {events.map(event => (
-        <Item key={event.path} event={event} />
+        <Item key={`${event.type}/${event.id}`} event={event} />
       ))}
 
       <Pagination buildUrl={buildUrl} {...pagination} />

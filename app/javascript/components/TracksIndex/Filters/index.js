@@ -1,18 +1,18 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-import { usePageContext } from 'components/PageContext'
 import TokenizedSearchField from 'components/TokenizedSearchField'
 
 import SortBySelect from './SortBySelect'
 
 import styles from './styles.module.scss'
 
-const Filters = () => {
+const Filters = props => {
   const {
     params: { filters, sortBy },
     updateFilters,
     updateSort
-  } = usePageContext()
+  } = props
 
   return (
     <div className={styles.container}>
@@ -22,4 +22,12 @@ const Filters = () => {
   )
 }
 
+Filters.propTypes = {
+  params: PropTypes.shape({
+    filters: PropTypes.array,
+    sortBy: PropTypes.oneOf([])
+  }).isRequired,
+  updateFilters: PropTypes.func.isRequired,
+  updateSort: PropTypes.func.isRequired
+}
 export default Filters
