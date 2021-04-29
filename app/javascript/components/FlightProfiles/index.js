@@ -20,10 +20,6 @@ const FlightProfiles = props => {
 
   const {
     additionalTerrainProfiles,
-    tracks,
-    tracksParams: { filters },
-    updateFilters,
-    loadMoreTracks,
     selectedTracks,
     selectedTerrainProfile,
     setSelectedTerrainProfile,
@@ -45,14 +41,7 @@ const FlightProfiles = props => {
   return (
     <section className={styles.container}>
       <aside className={styles.settingsContainer}>
-        <TrackList
-          tracks={tracks}
-          filters={filters}
-          selectedTracks={selectedTracks}
-          toggleTrack={toggleTrack}
-          updateFilters={updateFilters}
-          loadMoreTracks={loadMoreTracks}
-        />
+        <TrackList />
 
         <div className={styles.terrainProfileSelect}>
           <TerrainProfileSelect
@@ -120,17 +109,11 @@ FlightProfiles.propTypes = {
   setDistanceCalculationMethod: PropTypes.func.isRequired,
   setAdditionalTerrainProfiles: PropTypes.func.isRequired,
   deleteAdditionalTerrainProfile: PropTypes.func.isRequired,
-  loadMoreTracks: PropTypes.func.isRequired,
   selectedTerrainProfile: PropTypes.number,
   selectedTracks: PropTypes.arrayOf(PropTypes.number).isRequired,
   setSelectedTerrainProfile: PropTypes.func.isRequired,
   straightLine: PropTypes.bool.isRequired,
-  toggleTrack: PropTypes.func.isRequired,
-  tracks: PropTypes.array.isRequired,
-  tracksParams: PropTypes.shape({
-    filters: PropTypes.arrayOf(PropTypes.array)
-  }).isRequired,
-  updateFilters: PropTypes.func.isRequired
+  toggleTrack: PropTypes.func.isRequired
 }
 
 export default FlightProfiles

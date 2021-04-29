@@ -51,7 +51,7 @@ describe Api::V1::TracksController do
 
       get :index, format: :json
 
-      track_ids = response.parsed_body.dig('items').map { |track| track['id'] }
+      track_ids = response.parsed_body['items'].map { |track| track['id'] }
 
       expect(track_ids).to include(visible_track.id)
       expect(track_ids).not_to include(hidden_track.id)

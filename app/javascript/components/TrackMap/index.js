@@ -1,30 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import useGoogleMapsApi from 'utils/useGoogleMapsApi'
 import { getBoundaries } from 'utils/getBoundaries'
-import { selectPoints } from 'redux/tracks/points'
-import { selectWindData } from 'redux/tracks/windData'
-import { usePageContext } from 'components/PageContext'
-
+import { useTrackPointsQuery } from 'api/hooks/tracks/points'
+import { useTrackWindDataQuery } from 'api/hooks/tracks/windData'
+import TrackShowContainer from 'components/TrackShowContainer'
 import SpeedScale from './SpeedScale'
 import WindAloftChart from './WindAloftChart'
-
 import { subtractWind } from 'utils/windCancellation'
-
 import Trajectory from './Trajectory'
-
 import styles from './styles.module.scss'
 
-const TrackMap = () => {
-  const { trackId } = usePageContext()
+const TrackMap = ({ match }) => {
+  const trackId = Number(match.params.id)
 
   const mapElementRef = useRef()
   const [mapInstance, setMapInstance] = useState()
   const google = useGoogleMapsApi()
 
-  const points = useSelector(state => selectPoints(state, trackId))
-  const windData = useSelector(state => selectWindData(state, trackId))
+  const { data: points = [] } = useTrackPointsQuery(trackId)
+  const { data: windData = [] } = useTrackWindDataQuery(trackId)
   const zeroWindPoints = subtractWind(points, windData)
 
   useEffect(() => {
@@ -54,7 +50,7 @@ const TrackMap = () => {
   }, [mapInstance, google, points])
 
   return (
-    <>
+    <TrackShowContainer>
       <div className={styles.map} ref={mapElementRef}>
         <Trajectory map={mapInstance} google={google} points={points} />
         {zeroWindPoints.length > 0 && (
@@ -74,8 +70,16 @@ const TrackMap = () => {
           <WindAloftChart windData={windData} />
         </div>
       )}
-    </>
+    </TrackShowContainer>
   )
+}
+
+TrackMap.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired
 }
 
 export default TrackMap

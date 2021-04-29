@@ -1,52 +1,25 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { Switch, Route, Redirect } from 'react-router-dom'
-
-import { createTrackSelector } from 'redux/tracks'
-import { usePageContext } from 'components/PageContext'
-import TrackInsights from 'components/TrackInsights'
-import TrackMap from 'components/TrackMap'
-import TrackGlobe from 'components/TrackGlobe'
-import TrackVideoForm from 'components/TrackVideoForm'
-import TrackVideo from 'components/TrackVideo'
-import TrackWindData from 'components/TrackWindData'
-import TrackResults from 'components/TrackResults'
+import PropTypes from 'prop-types'
 
 import Header from './Header'
 import Navbar from './Navbar'
 
 import styles from './styles.module.scss'
 
-const TrackShow = () => {
-  const { trackId } = usePageContext()
-
-  const track = useSelector(createTrackSelector(trackId))
-
-  if (!track || track.status === 'loading') return null
-
+const TrackShow = ({ track, children }) => {
   return (
     <div className={styles.pageContainer}>
-      <Header track={track} />
-      <Navbar track={track} />
+      <Header track={track}>
+        <Navbar track={track} />
+      </Header>
 
-      <div className={styles.contentContainer}>
-        <Switch>
-          <Route path="/tracks/:id" exact component={TrackInsights} />
-          <Route path="/tracks/:id/map" component={TrackMap} />
-          <Route path="/tracks/:id/globe" component={TrackGlobe} />
-          <Route path="/tracks/:id/wind_data" component={TrackWindData} />
-          <Route path="/tracks/:id/results" component={TrackResults} />
-          <Route path="/tracks/:id/video" exact component={TrackVideo} />
-
-          {track.permissions.canEdit && (
-            <Route path="/tracks/:id/video/edit" component={TrackVideoForm} />
-          )}
-
-          <Route component={() => <Redirect to={`/tracks/${trackId}`} />} />
-        </Switch>
-      </div>
+      {children}
     </div>
   )
 }
 
+TrackShow.propTypes = {
+  track: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired
+}
 export default TrackShow

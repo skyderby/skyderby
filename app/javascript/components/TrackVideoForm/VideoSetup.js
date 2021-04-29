@@ -25,8 +25,6 @@ const VideoSetup = ({ setFieldValue, videoId }) => {
   const setTimeFromVideo = useCallback(() => {
     const currentTime = Math.round(playerRef.current.getPlayerTime() * 10) / 10
     if (!Number.isNaN(currentTime)) setFieldValue('videoOffset', currentTime)
-
-    ga('send', 'event', 'trackVideo/edit', 'videoOffset/change')
   }, [setFieldValue])
 
   return (

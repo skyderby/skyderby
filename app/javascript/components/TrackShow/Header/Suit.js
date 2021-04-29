@@ -1,23 +1,23 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { createSuitSelector } from 'redux/suits'
 import SuitLabel from 'components/SuitLabel'
 import SuitIcon from 'icons/suit.svg'
 
 import styles from './styles.module.scss'
+import { useSuitQuery } from 'api/hooks/suits'
+import { useManufacturerQuery } from 'api/hooks/manufacturer'
 
 const Suit = ({ suitId, suitName: userProvidedSuitName }) => {
-  const suit = useSelector(createSuitSelector(suitId))
+  const { data: suit } = useSuitQuery(suitId)
+  const { data: make } = useManufacturerQuery(suit?.makeId)
 
-  const suitName = suitId ? suit.name : userProvidedSuitName
-  const suitCode = suit && suit.make.code
+  const suitName = suitId ? suit?.name : userProvidedSuitName
 
   return (
     <div className={styles.suit}>
       <SuitIcon />
-      <SuitLabel name={suitName} code={suitCode} />
+      <SuitLabel name={suitName} code={make?.code} />
     </div>
   )
 }
