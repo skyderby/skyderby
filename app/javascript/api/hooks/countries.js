@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQueries, useQuery } from 'react-query'
 import axios from 'axios'
 import { loadIds } from 'api/helpers'
 
@@ -37,3 +37,10 @@ export const getQueryOptions = id => ({
 })
 
 export const useCountryQuery = id => useQuery(getQueryOptions(id))
+
+export const useCountryQueries = ids =>
+  useQueries(
+    Array.from(new Set(ids))
+      .filter(Boolean)
+      .map(id => getQueryOptions(id))
+  )

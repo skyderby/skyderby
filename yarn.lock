@@ -1418,6 +1418,11 @@
   resolved "https://registry.yarnpkg.com/@google/markerclusterer/-/markerclusterer-1.0.3.tgz#830b9dbba85fae9537a16d17947b484f9e860c65"
   integrity sha512-/fRbSPyQKnm43zRnoyMerbiGS3vG3WkZiLgpBF3ovoLO84sKhEAzKMVcyozy/khEHlZoMJ9Axkr0NRVJRAQhcg==
 
+"@googlemaps/markerclustererplus@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@googlemaps/markerclustererplus/-/markerclustererplus-1.1.2.tgz#e0bb6e52bb67127aa1b9f085c5576f42e729fb58"
+  integrity sha512-f1g0OseUGelMvIVLyGAkPm+8XhGKCI8ttLa2X3KYm4L7HDE6rAUoptr3pPSd9Ym8He5cWVP5c0WMl5oxknOe6A==
+
 "@icons/material@^0.2.4":
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
