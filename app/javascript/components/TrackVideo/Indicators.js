@@ -27,9 +27,7 @@ const Indicators = forwardRef((_props, ref) => {
 
   const setValues = ({ altitude, vSpeed, hSpeed, glideRatio }) => {
     altitudeMajorRef.current.innerText = Math.floor(altitude / 10).toFixed()
-    altitudeMinorRef.current.innerText = (
-      altitude - Math.floor((altitude * 10) / 10)
-    ).toFixed()
+    altitudeMinorRef.current.innerText = '0'
     vSpeedRef.current.innerText = msToKmh(vSpeed).toFixed()
     hSpeedRef.current.innerText = msToKmh(hSpeed).toFixed()
     glideRatioRef.current.innerText = glideRatio.toFixed(2)
