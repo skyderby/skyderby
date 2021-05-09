@@ -1,0 +1,135 @@
+@import 'styles/breakpoints';
+
+.container {
+  display: grid;
+  grid-template-rows: calc(max(100vh, 568px) - 4.5rem) 100vh;
+  width: 100%;
+
+  @include sm-screen {
+    grid-template-rows: 100%;
+    grid-template-columns: 350px 1fr;
+    border-bottom: solid 1px var(--border-color);
+    overflow: auto;
+  }
+}
+
+.sidebar {
+  display: grid;
+  grid-row: 2;
+  grid-template-rows: min-content 1fr;
+
+  @include sm-screen {
+    grid-row: 1;
+    grid-template-rows: min-content 1fr;
+    border-right: solid 1px var(--border-color);
+  }
+}
+
+.map {
+  position: relative;
+
+  display: grid;
+  grid-row: 1;
+  grid-template-rows: 100%;
+  grid-template-columns: 100%;
+  min-width: 0;
+  border-bottom: solid 1px var(--border-color);
+
+  background-color: var(--white);
+
+  @include sm-screen {
+    border-bottom: 0;
+  }
+}
+
+.placesList {
+  height: 100%;
+  padding: 0 1rem 1rem;
+  overflow-y: auto;
+}
+
+.countryTitle {
+  margin: 0;
+  padding: 0.25rem 0;
+
+  color: var(--grey-80);
+
+  font-weight: 500;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+}
+
+.countryPlaces:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.place {
+  display: flex;
+  align-items: center;
+
+  &:not(:last-child) {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.placeName {
+  flex-grow: 1;
+  padding-left: 0.75rem;
+
+  color: var(--grey-90);
+  font-size: 1.125rem;
+
+  &:hover {
+    color: var(--blue-grey-80);
+  }
+}
+
+.actionButton {
+  composes: button from '~styles/button.module.scss';
+  composes: flat from '~styles/button.module.scss';
+
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 2.1875rem;
+  height: 2.1875rem;
+  padding: 0;
+  border-color: var(--grey-20);
+
+  font-weight: bold;
+  font-size: 1.25rem;
+
+  background-color: var(--grey-20);
+}
+
+.actionButton.active {
+  --text-color: var(--blue-grey-60);
+}
+
+.place .actionButton {
+  width: 1.75rem;
+  height: 1.75rem;
+
+  visibility: hidden;
+}
+
+.place:hover .actionButton {
+  visibility: visible;
+}
+
+.place:hover {
+  box-shadow: inset 3px 0 0 var(--blue-grey-60);
+}
+
+.settings {
+  display: flex;
+  padding: 1rem;
+
+  > :not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}
+
+.searchInput {
+  composes: input from '~styles/input.module.scss';
+  composes: outlined from '~styles/input.module.scss';
+}
