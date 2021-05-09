@@ -61,7 +61,7 @@ const TrackEdit = ({ match, location }) => {
   }
 
   return (
-    <TrackShowContainer>
+    <TrackShowContainer shrinkToContent>
       <Form fields={fields} onSubmit={handleSubmit} onDelete={handleDelete} />
     </TrackShowContainer>
   )
