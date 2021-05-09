@@ -25,7 +25,7 @@ const TrackVideo = ({ match }) => {
   const indicatorsRef = useRef()
 
   const drawFrame = useCallback(() => {
-    const currentTime = playerRef.current.getPlayerTime()
+    const currentTime = playerRef.current?.getPlayerTime()
     const currentData = getDataForTime(points, video, currentTime)
 
     indicatorsRef.current.setData(currentData)

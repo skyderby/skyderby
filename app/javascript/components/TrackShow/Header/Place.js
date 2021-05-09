@@ -8,7 +8,7 @@ import styles from './styles.module.scss'
 import { usePlaceQuery } from 'api/hooks/places'
 import { useCountryQuery } from 'api/hooks/countries'
 
-const Place = ({ placeId, placeName: userProvidedPlaceName }) => {
+const Place = ({ placeId, location: userProvidedPlaceName }) => {
   const { data: place } = usePlaceQuery(placeId)
   const { data: country } = useCountryQuery(place?.countryId)
 
@@ -25,7 +25,7 @@ const Place = ({ placeId, placeName: userProvidedPlaceName }) => {
 
 Place.propTypes = {
   placeId: PropTypes.number,
-  placeName: PropTypes.string
+  location: PropTypes.string
 }
 
 export default Place
