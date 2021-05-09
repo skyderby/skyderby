@@ -12,7 +12,7 @@ const Header = ({ track, children }) => (
     <div className={styles.content}>
       <div className={styles.row}>
         <Profile profileId={track.profileId} pilotName={track.pilotName} />
-        <Place placeId={track.placeId} placeName={track.placeName} />
+        <Place placeId={track.placeId} location={track.location} />
         <Suit suitId={track.suitId} suitName={track.suitName} />
         <div className={styles.trackId}>#{track.id}</div>
       </div>
@@ -27,7 +27,7 @@ Header.propTypes = {
     id: PropTypes.number,
     pilotName: PropTypes.string,
     suitName: PropTypes.string,
-    placeName: PropTypes.string,
+    location: PropTypes.string,
     profileId: PropTypes.number,
     placeId: PropTypes.number,
     suitId: PropTypes.number,

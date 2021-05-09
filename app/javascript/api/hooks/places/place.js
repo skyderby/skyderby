@@ -10,7 +10,6 @@ import { loadIds } from 'api/helpers'
 const endpoint = '/api/v1/places'
 
 const getPlace = id => axios.get(`${endpoint}/${id}`)
-
 const getPlacesById = ids => loadIds(endpoint, ids)
 
 const getQueryKey = id => ['places', id]
