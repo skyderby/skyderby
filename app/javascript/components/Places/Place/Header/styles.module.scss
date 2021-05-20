@@ -1,0 +1,48 @@
+@import 'styles/breakpoints';
+
+.container {
+  display: grid;
+  grid-gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  padding: 0 1rem;
+  border-bottom: solid 1px var(--border-color);
+
+  background-color: var(--white);
+
+  @include lg-screen {
+    padding: 0 calc(100vw - 1200px - 2rem);
+  }
+}
+
+.title {
+  margin: 0.25rem 0;
+}
+
+.coordinates {
+  display: flex;
+  color: var(--grey-70);
+
+  >:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+
+  svg {
+    width: 1em;
+    height: 1em;
+  }
+
+  svg path {
+    fill: var(--grey-60);
+  }
+}
+
+.cover {
+  height: 20rem;
+
+  border-bottom-right-radius: var(--border-radius-lg);
+  border-bottom-left-radius: var(--border-radius-lg);
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
