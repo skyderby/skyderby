@@ -1,9 +1,17 @@
+@import 'styles/breakpoints';
+
 .container {
+  display: grid;
+  grid-gap: 1rem;
   margin-bottom: 0.75rem;
-  padding: 1rem;
+  padding: 1rem 1rem 0;
   border-bottom: solid 1px var(--border-color);
 
   background-color: var(--white);
+
+  @include lg-screen {
+    padding: 1rem calc(100vw - 1200px - 2rem) 0;
+  }
 }
 
 .eventName {
