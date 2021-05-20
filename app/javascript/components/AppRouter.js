@@ -22,7 +22,7 @@ import UsersSignUp from 'pages/users/SignUp'
 import EmailConfirmation from 'pages/users/EmailConfirmation'
 import SuccessRegistration from 'pages/users/SuccessRegistration'
 import Loading from 'components/PageWrapper/Loading'
-import PlacesIndex from 'pages/places/Index'
+import Places from 'components/Places'
 
 const AppRouter = () => {
   const dispatch = useDispatch()
@@ -50,7 +50,7 @@ const AppRouter = () => {
       <Route path="/events/series/:id" component={SeriesPage} />
       <Route path="/events/performance/:id" component={PerformancePage} />
 
-      <Route exact path="/places" component={PlacesIndex} />
+      <Route path="/places" component={Places} />
 
       <Route exact path="/suits" component={SuitsOverview} />
       <Route path="/suits/make/:id" component={SuitsIndex} />
