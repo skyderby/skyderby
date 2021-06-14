@@ -31,6 +31,7 @@ namespace :api, module: :api, defaults: { format: :json } do
     end
     resources :manufacturers, only: %i[index show create update destroy]
 
+    resources :videos, only: :index
     resources :tracks, only: %i[index create show update destroy] do
       scope module: :tracks do
         resource :points, only: :show

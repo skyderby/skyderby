@@ -1,23 +1,13 @@
 class TrackPolicy < ApplicationPolicy
-  def index?
-    true
-  end
+  def index? = true
 
-  def create?
-    true
-  end
+  def create? = true
 
-  def show?
-    public_track? || unlisted_track? || can_change?
-  end
+  def show? = public_track? || unlisted_track? || can_change?
 
-  def update?
-    can_change?
-  end
+  def update? = can_change?
 
-  def destroy?
-    can_change?
-  end
+  def destroy? = can_change?
 
   def download?
     return true if admin?
@@ -31,9 +21,7 @@ class TrackPolicy < ApplicationPolicy
 
   delegate :public_track?, :unlisted_track?, to: :record
 
-  def can_change?
-    admin? || owner? || organizer_of_event_track_belongs_to?
-  end
+  def can_change? = admin? || owner? || organizer_of_event_track_belongs_to?
 
   def owner?
     if user.registered?

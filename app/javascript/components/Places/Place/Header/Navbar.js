@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import PageNavbar from 'components/PageNavbar'
-import CogIcon from 'icons/cog.svg';
+import CogIcon from 'icons/cog.svg'
 
 const Navbar = ({ place }) => {
   const placeUrl = `/places/${place.id}`
