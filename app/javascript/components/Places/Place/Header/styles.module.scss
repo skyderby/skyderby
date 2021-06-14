@@ -3,14 +3,13 @@
 .container {
   display: grid;
   grid-gap: 0.5rem;
-  margin-bottom: 0.75rem;
   padding: 0 1rem;
   border-bottom: solid 1px var(--border-color);
 
   background-color: var(--white);
 
   @include lg-screen {
-    padding: 0 calc(100vw - 1200px - 2rem);
+    padding: 0 calc((100vw - 1200px) / 2 + 1rem);
   }
 }
 
@@ -20,6 +19,7 @@
 
 .coordinates {
   display: flex;
+
   color: var(--grey-70);
 
   >:not(:last-child) {

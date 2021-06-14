@@ -51,7 +51,7 @@ class Track < ApplicationRecord
   belongs_to :suit, optional: true
 
   has_one :event_result, class_name: 'Event::Result', dependent: :restrict_with_error
-  has_one :video, class_name: 'TrackVideo', dependent: :destroy, inverse_of: :track
+  has_one :video, dependent: :destroy
 
   has_one :time,
           -> { where(discipline: Result.disciplines[:time]) },
