@@ -55,4 +55,5 @@ Navbar.propTypes = {
     id: PropTypes.number.isRequired
   }).isRequired
 }
+
 export default Navbar
