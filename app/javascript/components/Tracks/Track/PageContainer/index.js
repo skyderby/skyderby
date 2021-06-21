@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import styles from './styles.module.scss'
 
-const TrackShowContainer = ({ children, shrinkToContent = false }) => (
+const PageContainer = ({ children, shrinkToContent = false }) => (
   <div className={cx(styles.container, shrinkToContent && styles.shrinkToContent)}>
     {children}
   </div>
@@ -12,7 +12,7 @@ const TrackShowContainer = ({ children, shrinkToContent = false }) => (
 
 const Settings = ({ children }) => <div className={styles.settings}>{children}</div>
 
-TrackShowContainer.propTypes = {
+PageContainer.propTypes = {
   children: PropTypes.node.isRequired,
   shrinkToContent: PropTypes.bool
 }
@@ -21,6 +21,6 @@ Settings.propTypes = {
   children: PropTypes.node.isRequired
 }
 
-TrackShowContainer.Settings = Settings
+PageContainer.Settings = Settings
 
-export default TrackShowContainer
+export default PageContainer

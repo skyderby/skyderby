@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { Handles, Tracks, Ticks } from 'react-compound-slider'
 import PropTypes from 'prop-types'
 
@@ -7,19 +7,7 @@ import HandleValues from './HandleValues'
 import { calculateTicks } from './utils'
 import styles from './styles.module.scss'
 
-const RangeSlider = ({ domain, reversed, values, step = 10, onChange, onUpdate }) => {
-  const userTouched = useRef(false)
-
-  const handleSlideStart = () => (userTouched.current = true)
-
-  const handleChange = args => {
-    if (userTouched.current) onChange?.(args)
-  }
-
-  const handleUpdate = args => {
-    if (userTouched.current) onUpdate?.(args)
-  }
-
+const RangeSlider = ({ domain, reversed, values, step = 10, ...props }) => {
   return (
     <div className={styles.container}>
       <Slider
@@ -28,10 +16,8 @@ const RangeSlider = ({ domain, reversed, values, step = 10, onChange, onUpdate }
         domain={domain}
         values={values}
         step={step}
-        onChange={handleChange}
-        onUpdate={handleUpdate}
-        onSlideStart={handleSlideStart}
         mode={2}
+        {...props}
       >
         <div className={styles.rail} />
 
@@ -97,8 +83,6 @@ const RangeSlider = ({ domain, reversed, values, step = 10, onChange, onUpdate }
 
 RangeSlider.propTypes = {
   domain: PropTypes.arrayOf(PropTypes.number).isRequired,
-  onChange: PropTypes.func,
-  onUpdate: PropTypes.func,
   reversed: PropTypes.bool,
   step: PropTypes.number,
   values: PropTypes.arrayOf(PropTypes.number)
