@@ -8,7 +8,7 @@ import {
   useDeleteTrackMutation
 } from 'api/hooks/tracks'
 import { useI18n } from 'components/TranslationsProvider'
-import TrackShowContainer from 'components/Tracks/Track/PageContainer'
+import PageContainer from 'components/Tracks/Track/PageContainer'
 import Form from './Form'
 
 const TrackEdit = ({ trackId }) => {
@@ -61,9 +61,9 @@ const TrackEdit = ({ trackId }) => {
   }
 
   return (
-    <TrackShowContainer shrinkToContent>
+    <PageContainer shrinkToContent>
       <Form fields={fields} onSubmit={handleSubmit} onDelete={handleDelete} />
-    </TrackShowContainer>
+    </PageContainer>
   )
 }
 

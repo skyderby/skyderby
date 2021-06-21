@@ -40,7 +40,7 @@ const interpolateByAltitude = (first, second, altitude) => {
     newPoint[key] = interpolateField(first, second, key, coeff)
   })
 
-  newPoint.gpsTime = fromUnixTime(
+  newPoint.gpsTime = new Date(
     getTime(first.gpsTime) + (getTime(second.gpsTime) - getTime(first.gpsTime)) * coeff
   )
 
@@ -60,21 +60,15 @@ export const cropPoints = (points = [], fromAltitude, toAltitude) => {
   const endIndex = findEndIndex(points, startPoint, toAltitude)
   const endPoint = points[endIndex]
 
-  const getPointsToPrepend = () => {
-    return startIndex === 0 || startPoint.altitude === fromAltitude
+  const pointsToPrepend =
+    startIndex === 0 || startPoint.altitude === fromAltitude
       ? []
       : [interpolateByAltitude(points[startIndex - 1], startPoint, fromAltitude)]
-  }
 
-  const getPointsToAppend = () => {
-    if (!toAltitude || endPoint.altitude === toAltitude) return [points[endIndex]]
+  const pointsToAppend =
+    !toAltitude || endPoint.altitude === toAltitude
+      ? [points[endIndex]]
+      : [interpolateByAltitude(points[endIndex - 1], endPoint, toAltitude)]
 
-    return [interpolateByAltitude(points[endIndex - 1], endPoint, toAltitude)]
-  }
-
-  return [
-    ...getPointsToPrepend(),
-    ...points.slice(startIndex, endIndex),
-    ...getPointsToAppend()
-  ]
+  return [...pointsToPrepend, ...points.slice(startIndex, endIndex), ...pointsToAppend]
 }
