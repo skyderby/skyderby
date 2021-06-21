@@ -48,9 +48,9 @@ Item.propTypes = {
   compact: PropTypes.bool,
   track: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    placeId: PropTypes.number.isRequired,
+    placeId: PropTypes.number,
     suitId: PropTypes.number.isRequired,
-    profileId: PropTypes.number.isRequired,
+    profileId: PropTypes.number,
     pilotName: PropTypes.string.isRequired,
     suitName: PropTypes.string.isRequired,
     placeName: PropTypes.string.isRequired,
