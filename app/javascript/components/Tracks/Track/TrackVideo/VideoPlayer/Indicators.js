@@ -6,31 +6,27 @@ import { msToKmh } from 'utils/unitsConversion'
 import styles from './styles.module.scss'
 
 const valuePlaceholder = '---'
-const minorValuePlaceholder = '-'
-const valueWithDecimalPlaceholder = '-.--'
+const valueWithDecimalPlaceholder = '-.-'
 
 const Indicators = forwardRef((_props, ref) => {
   const { t } = useI18n()
-  const altitudeMajorRef = useRef()
-  const altitudeMinorRef = useRef()
+  const altitudeRef = useRef()
   const hSpeedRef = useRef()
   const vSpeedRef = useRef()
   const glideRatioRef = useRef()
 
   const setBlankValues = () => {
-    altitudeMajorRef.current.innerText = valuePlaceholder
-    altitudeMinorRef.current.innerText = minorValuePlaceholder
+    altitudeRef.current.innerText = valuePlaceholder
     vSpeedRef.current.innerText = valuePlaceholder
     hSpeedRef.current.innerText = valuePlaceholder
     glideRatioRef.current.innerText = valueWithDecimalPlaceholder
   }
 
   const setValues = ({ altitude, vSpeed, hSpeed, glideRatio }) => {
-    altitudeMajorRef.current.innerText = Math.floor(altitude / 10).toFixed()
-    altitudeMinorRef.current.innerText = '0'
+    altitudeRef.current.innerText = Math.round(altitude / 10) * 10
     vSpeedRef.current.innerText = msToKmh(vSpeed).toFixed()
     hSpeedRef.current.innerText = msToKmh(hSpeed).toFixed()
-    glideRatioRef.current.innerText = glideRatio.toFixed(2)
+    glideRatioRef.current.innerText = glideRatio.toFixed(1)
   }
 
   useImperativeHandle(ref, () => ({
@@ -47,11 +43,8 @@ const Indicators = forwardRef((_props, ref) => {
     <div className={styles.indicators}>
       <div className={styles.valueContainer}>
         <div>
-          <span className={styles.value} ref={altitudeMajorRef}>
+          <span className={styles.value} ref={altitudeRef}>
             {valuePlaceholder}
-          </span>
-          <span className={styles.minorValue} ref={altitudeMinorRef}>
-            {minorValuePlaceholder}
           </span>
           &nbsp;
           <span className={styles.units}>{t('units.m')}</span>
