@@ -167,15 +167,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 1.75em;
+  height: 1.75em;
   padding: 0;
   border-radius: 100%;
+
+  font-size: 1.5rem;
 
   box-shadow: 0 5px 10px var(--box-shadow-color);
 
   svg {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 1em;
+    height: 1em;
   }
 }
