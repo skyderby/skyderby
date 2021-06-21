@@ -78,7 +78,6 @@ const VideoSettings = ({ trackId }) => {
               <button
                 className={styles.dangerButton}
                 type="button"
-                outlined
                 onClick={handleDelete}
               >
                 {t('general.delete')}
