@@ -1,24 +1,19 @@
-import React, { useEffect, useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 
-import { loadSuit, createSuitSelector } from 'redux/suits'
+import { useSuitQuery } from 'api/hooks/suits'
+import { useManufacturerQuery } from 'api/hooks/manufacturer'
 import IconTimes from 'icons/times.svg'
 import SuitLabel from 'components/SuitLabel'
-
 import styles from './styles.module.scss'
 
 const Suit = ({ value, onClick, onDelete }) => {
-  const dispatch = useDispatch()
   const deleteButtonRef = useRef()
 
-  useEffect(() => {
-    dispatch(loadSuit(value))
-  }, [dispatch, value])
+  const { data: suit, isLoading } = useSuitQuery(value)
+  const { data: make } = useManufacturerQuery(suit?.makeId)
 
-  const data = useSelector(createSuitSelector(value))
-
-  if (!data) return null
+  if (isLoading) return null
 
   const handleTokenClick = e => {
     const deleteButtonClicked =
@@ -31,13 +26,13 @@ const Suit = ({ value, onClick, onDelete }) => {
     onClick?.()
   }
 
-  const title = `Suit: ${data.name}`
+  const title = `Suit: ${suit.name}`
 
   return (
     <li className={styles.suitContainer} onClick={handleTokenClick} title={title}>
       <div className={styles.type}>Suit</div>
       <div className={styles.value}>
-        <SuitLabel name={data.name} code={data.make?.code} />
+        <SuitLabel name={suit.name} code={make.code} />
         <button
           className={styles.deleteButton}
           title="Delete"
