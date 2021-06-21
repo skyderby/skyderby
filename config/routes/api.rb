@@ -63,11 +63,14 @@ namespace :api, module: :api, defaults: { format: :json } do
       end
     end
 
-    resources :performance_competitions, only: :show do
-      resources :rounds, module: :performance_competitions
-      resources :competitors, module: :performance_competitions
-      resources :categories, module: :performance_competitions
-      resources :standings, only: :index, module: :performance_competitions
+    resources :performance_competitions, only: %i[show create] do
+      scope module: :performance_competitions do
+        resources :rounds
+        resources :competitors
+        resources :categories
+        resources :standings, only: :index
+        resources :reference_points, only: %i[index create update destroy]
+      end
     end
 
     namespace :stats, module: :stats do
