@@ -33,3 +33,7 @@ json.items @events do |record|
 
   json.active record.active?
 end
+
+json.permissions do
+  json.create policy(Event).create?
+end
