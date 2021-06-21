@@ -15,3 +15,9 @@ loen:
   country: norway
   latitude: 61.88504129
   longitude: 6.83213621
+
+ravenna:
+  name: DZ Ravenna
+  country: italy
+  latitude: 44.36142261
+  longitude: 12.21614242
