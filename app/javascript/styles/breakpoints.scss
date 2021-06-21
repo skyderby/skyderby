@@ -8,6 +8,12 @@ $bp-large: 1200px;
   }
 }
 
+@mixin md-screen {
+  @media screen and (min-width: $bp-medium) {
+    @content;
+  }
+}
+
 @mixin lg-screen {
   @media screen and (min-width: $bp-large) {
     @content;

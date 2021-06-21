@@ -1,0 +1,51 @@
+.formFields {
+  display: grid;
+  grid-gap: 0.75rem 0;
+  grid-template-columns: 3fr 7fr;
+  padding: 1rem;
+
+  > label {
+    padding: 0.5rem 0.75rem;
+
+    text-align: right;
+  }
+}
+
+.input {
+  composes: input from '~styles/input.module.scss';
+  composes: outlined from '~styles/input.module.scss';
+}
+
+.competitionWindow {
+  display: flex;
+  align-items: center;
+
+  > .input {
+    max-width: 10rem;
+  }
+
+  > :not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+
+  border-top: solid 1px var(--border-color);
+
+  > :not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}
+
+.primaryButton {
+  composes: button from '~styles/button.module.scss';
+  composes: primary from '~styles/button.module.scss';
+}
+
+.secondaryButton {
+  composes: button from '~styles/button.module.scss';
+}

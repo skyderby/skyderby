@@ -4,15 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { loadSession, selectCurrentUser } from 'redux/session'
 import Home from 'pages/Home'
-import TracksShow from 'pages/tracks/Show'
-import TracksIndex from 'pages/tracks/Index'
 import FlightProfiles from 'pages/FlightProfiles'
-import EventsIndex from 'pages/events/Index'
-import EventsTeamStandings from 'pages/events/TeamStandings'
-import EventRoundMap from 'pages/events/RoundMap'
-import EventRoundReplay from 'pages/events/RoundReplay'
-import PerformancePage from 'pages/events/Performance'
-import SeriesPage from 'pages/events/Series'
 import SuitsIndex from 'pages/suits/Index'
 import SuitsOverview from 'pages/suits/Overview'
 import SuitsShow from 'pages/suits/Show'
@@ -23,6 +15,8 @@ import EmailConfirmation from 'pages/users/EmailConfirmation'
 import SuccessRegistration from 'pages/users/SuccessRegistration'
 import Loading from 'components/PageWrapper/Loading'
 import Places from 'components/Places'
+import Events from 'components/Events'
+import Tracks from 'components/Tracks'
 
 const AppRouter = () => {
   const dispatch = useDispatch()
@@ -39,17 +33,8 @@ const AppRouter = () => {
     <Switch>
       <Route exact path="/" component={Home} />
       <Route path="/flight_profiles" component={FlightProfiles} />
-
-      <Route exact path="/tracks" component={TracksIndex} />
-      <Route path="/tracks/:id" component={TracksShow} />
-
-      <Route exact path="/events" component={EventsIndex} />
-      <Route path="/events/:id/teams" component={EventsTeamStandings} />
-      <Route path="/events/:id/rounds/:roundId/map" component={EventRoundMap} />
-      <Route path="/events/:id/rounds/:roundId/replay" component={EventRoundReplay} />
-      <Route path="/events/series/:id" component={SeriesPage} />
-      <Route path="/events/performance/:id" component={PerformancePage} />
-
+      <Route path="/tracks" component={Tracks} />
+      <Route path="/events" component={Events} />
       <Route path="/places" component={Places} />
 
       <Route exact path="/suits" component={SuitsOverview} />
