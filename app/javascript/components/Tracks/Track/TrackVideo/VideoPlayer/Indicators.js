@@ -53,16 +53,6 @@ const Indicators = forwardRef((_props, ref) => {
       </div>
       <div className={styles.valueContainer}>
         <div>
-          <span className={styles.value} ref={hSpeedRef}>
-            {valuePlaceholder}
-          </span>
-          &nbsp;
-          <span className={styles.units}>{t('units.kmh')}</span>
-        </div>
-        <div className={styles.title}>{t('tracks.indicators.ground_speed')}</div>
-      </div>
-      <div className={styles.valueContainer}>
-        <div>
           <span className={styles.value} ref={vSpeedRef}>
             {valuePlaceholder}
           </span>
@@ -70,6 +60,16 @@ const Indicators = forwardRef((_props, ref) => {
           <span className={styles.units}>{t('units.kmh')}</span>
         </div>
         <div className={styles.title}>{t('tracks.indicators.vertical_speed')}</div>
+      </div>
+      <div className={styles.valueContainer}>
+        <div>
+          <span className={styles.value} ref={hSpeedRef}>
+            {valuePlaceholder}
+          </span>
+          &nbsp;
+          <span className={styles.units}>{t('units.kmh')}</span>
+        </div>
+        <div className={styles.title}>{t('tracks.indicators.ground_speed')}</div>
       </div>
       <div className={styles.valueContainer}>
         <div className={styles.value} ref={glideRatioRef}>
