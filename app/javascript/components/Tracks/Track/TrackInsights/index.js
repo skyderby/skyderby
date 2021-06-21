@@ -8,7 +8,7 @@ import { useTrackWindDataQuery } from 'api/hooks/tracks/windData'
 import { subtractWind } from 'utils/windCancellation'
 import { cropPoints } from 'utils/pointsFilter'
 import RangeSlider from 'components/RangeSlider'
-import TrackShowContainer from 'components/TrackShowContainer'
+import PageContainer from 'components/Tracks/Track/PageContainer'
 import Summary from './Summary'
 import Charts from './Charts'
 import ViewSettings from './ViewSettings'
@@ -77,7 +77,7 @@ const TrackInsights = ({ trackId }) => {
   ])
 
   return (
-    <TrackShowContainer>
+    <PageContainer>
       <ViewSettings straightLine={straightLine} setStraightLine={setStraightLine} />
 
       <Summary
@@ -104,7 +104,7 @@ const TrackInsights = ({ trackId }) => {
       />
 
       <Charts points={selectedPoints} zeroWindPoints={zeroWindPoints} />
-    </TrackShowContainer>
+    </PageContainer>
   )
 }
 
