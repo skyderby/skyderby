@@ -1,18 +1,19 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 
+import { usePlaceQuery } from 'api/hooks/places'
+import { useCountryQuery } from 'api/hooks/countries'
 import IconTimes from 'icons/times.svg'
 import PlaceLabel from 'components/PlaceLabel'
-
 import styles from './styles.module.scss'
-import { usePlaceQuery } from 'api/hooks/places'
 
 const Place = ({ value, onClick, onDelete }) => {
   const deleteButtonRef = useRef()
 
-  const { data: place } = usePlaceQuery(value)
+  const { data: place, isLoading } = usePlaceQuery(value)
+  const { data: country } = useCountryQuery(place?.countryId)
 
-  if (!place) return null
+  if (isLoading) return null
 
   const handleTokenClick = e => {
     const deleteButtonClicked =
@@ -31,7 +32,7 @@ const Place = ({ value, onClick, onDelete }) => {
     <li className={styles.placeContainer} onClick={handleTokenClick} title={title}>
       <div className={styles.type}>Place</div>
       <div className={styles.value}>
-        <PlaceLabel name={place.name} code={place.country.code} />
+        <PlaceLabel name={place.name} code={country.code} />
         <button
           className={styles.deleteButton}
           title="Delete"
