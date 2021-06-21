@@ -1,0 +1,47 @@
+@import 'styles/breakpoints';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 1rem;
+
+  @include md-screen {
+    width: $bp-medium;
+  }
+
+  > :not(:last-child) {
+    margin-bottom: 1rem;
+  }
+}
+
+.pageTitle {
+  color: var(--grey-80);
+  line-height: 3rem;
+  text-align: center;
+}
+
+.card {
+  padding: 1rem;
+  border-radius: var(--border-radius-md);
+
+  background-color: var(--white);
+  box-shadow: var(--block-box-shadow);
+
+  transition: box-shadow 0.25s ease-in-out, transform 0.25s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 3px 7px var(--box-shadow-color);
+  transform: translateY(-1px);
+}
+
+.title {
+  margin: 0;
+
+  color: var(--grey-80);
+}
+
+.details {
+  color: var(--grey-90);
+}

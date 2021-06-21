@@ -5,3 +5,7 @@ norway:
 russia:
   name: Russia
   code: RUS
+
+italy:
+  name: Italy
+  code: ITA
