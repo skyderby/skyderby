@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
@@ -23,23 +23,21 @@ const VideoPlayer = ({ trackId }) => {
   const playerRef = useRef()
   const indicatorsRef = useRef()
 
-  const drawFrame = useCallback(() => {
+  const drawFrame = () => {
     const currentTime = playerRef.current?.getPlayerTime()
     const currentData = getDataForTime(points, video, currentTime)
 
-    indicatorsRef.current.setData(currentData)
+    indicatorsRef.current?.setData(currentData)
 
     requestId.current = requestAnimationFrame(drawFrame)
-  }, [points, video])
+  }
 
-  const onPlay = useCallback(() => {
-    requestId.current = requestAnimationFrame(drawFrame)
-  }, [drawFrame])
+  const onPlay = () => (requestId.current = requestAnimationFrame(drawFrame))
 
-  const onPause = useCallback(() => {
+  const onPause = () => {
     cancelAnimationFrame(requestId.current)
     requestId.current = undefined
-  }, [])
+  }
 
   useEffect(() => {
     return () => requestId.current && cancelAnimationFrame(requestId.current)
