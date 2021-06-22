@@ -14,8 +14,12 @@ const queryFn = async ctx => {
   return data
 }
 
-export const useRoundsQuery = eventId =>
-  useQuery({
-    queryKey: queryKey(eventId),
-    queryFn
-  })
+const getQueryOptions = eventId => ({
+  queryKey: queryKey(eventId),
+  queryFn
+})
+
+export const preloadRounds = (eventId, queryClient) =>
+  queryClient.prefetchQuery(getQueryOptions(eventId))
+
+export const useRoundsQuery = eventId => useQuery(getQueryOptions(eventId))
