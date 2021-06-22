@@ -20,7 +20,7 @@ class PerformanceCompetition::Scoreboard::Standings::Row
 
         next unless results_in_discipline.any?
 
-        memo[discipline] = results_in_discipline.sum(&:points).to_f / rounds.count
+        memo[discipline] = results_in_discipline.map { |result| result.points.to_f }.sum / rounds.count
       end
   end
 

@@ -7,6 +7,7 @@ import AppShell from 'components/AppShell'
 import Header from './Header'
 import Scoreboard from './Scoreboard'
 import ReferencePoints from './ReferencePoints'
+import Maps from './Maps'
 
 const Show = ({ match }) => {
   const eventId = Number(match.params.id)
@@ -24,6 +25,9 @@ const Show = ({ match }) => {
           </Route>
           <Route path={`${match.path}/reference_points`}>
             <ReferencePoints eventId={eventId} />
+          </Route>
+          <Route path={`${match.path}/maps/:roundId?`}>
+            <Maps eventId={eventId} />
           </Route>
         </Switch>
       </div>

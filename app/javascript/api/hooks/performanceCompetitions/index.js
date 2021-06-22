@@ -1,2 +1,3 @@
 export * from './performanceCompetition'
-export { default as useReferencePointsQuery } from './referencePoints'
+export { useReferencePointsQuery } from './referencePoints'
+export { useRoundsQuery } from './rounds'
