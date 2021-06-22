@@ -1,6 +1,5 @@
 import Country from './Country'
 import Manufacturer from './Manufacturer'
-import PerformanceCompetitions from './PerformanceCompetitions'
 import Place from './Place'
 import Profile from './Profile'
 import Registration from './Registration'
@@ -14,7 +13,6 @@ import TrackFile from './TrackFile'
 const Api = {
   Country,
   Manufacturer,
-  PerformanceCompetitions,
   Place,
   Profile,
   Registration,
