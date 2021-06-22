@@ -3,13 +3,13 @@ import { useQuery } from 'react-query'
 import PropTypes from 'prop-types'
 
 import Api from 'api'
+import { useRoundsQuery } from 'api/hooks/performanceCompetitions'
 import ActionsBar from './ActionsBar'
 import TableHeader from './TableHeader'
 import TableBody from './TableBody'
 import styles from './styles.module.scss'
 import useCompetitorsQuery from './useCompetitorsQuery'
 import useCategoriesQuery from './useCategoriesQuery'
-import useRoundsQuery from './useRoundsQuery'
 
 const groupByTask = rounds => {
   const tasks = Array.from(new Set(rounds.map(el => el.task)))
@@ -18,7 +18,7 @@ const groupByTask = rounds => {
 }
 
 const Scoreboard = ({ eventId }) => {
-  const { rounds, isLoading: isRoundsLoading } = useRoundsQuery(eventId)
+  const { data: rounds, isLoading: isRoundsLoading } = useRoundsQuery(eventId)
   const { categories, isLoading: isCategoriesLoading } = useCategoriesQuery(eventId)
   const { data: competitors = [], isLoading: isCompetitorsLoading } = useCompetitorsQuery(
     eventId
