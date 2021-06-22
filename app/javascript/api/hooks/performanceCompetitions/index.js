@@ -1,3 +1,6 @@
 export * from './performanceCompetition'
 export { useReferencePointsQuery } from './referencePoints'
 export { useRoundsQuery } from './rounds'
+export { useCategoriesQuery } from './categories'
+export { useCompetitorsQuery } from './competitors'
+export { useStandingsQuery } from './standings'
