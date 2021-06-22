@@ -14,10 +14,8 @@ const queryFn = async ctx => {
   return data
 }
 
-const useReferencePointsQuery = eventId =>
+export const useReferencePointsQuery = eventId =>
   useQuery({
     queryKey: queryKey(eventId),
     queryFn
   })
-
-export default useReferencePointsQuery
