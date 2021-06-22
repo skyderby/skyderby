@@ -5,14 +5,14 @@ import { useProfileQuery } from 'api/hooks/profiles'
 import { useCountryQuery } from 'api/hooks/countries'
 import styles from './styles.module.scss'
 
-const formatedResult = (record, task) => {
+const formattedResult = (record, task) => {
   if (!record) return
 
   const result = Number(record.result)
   return result.toFixed(task === 'distance' ? 0 : 1)
 }
 
-const formatedPoints = record => {
+const formattedPoints = record => {
   if (!record) return
 
   const score = Number(record.points)
@@ -33,11 +33,12 @@ const StandingRow = ({ row, competitor, roundsByTask }) => {
         <React.Fragment key={task}>
           {rounds.map(round => (
             <React.Fragment key={round.slug}>
+              {!row.roundResults && console.log(row)}
               <td className={styles.roundResult}>
-                {formatedResult(row.roundResults[round.slug], task)}
+                {formattedResult(row.roundResults[round.slug], task)}
               </td>
               <td className={styles.roundScore}>
-                {formatedPoints(row.roundResults[round.slug])}
+                {formattedPoints(row.roundResults[round.slug])}
               </td>
             </React.Fragment>
           ))}
