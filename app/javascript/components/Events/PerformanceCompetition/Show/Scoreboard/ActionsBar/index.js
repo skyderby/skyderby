@@ -5,7 +5,7 @@ import styles from './styles.module.scss'
 
 const ActionsBar = () => {
   return (
-    <ul className={styles.container}>
+    <div className={styles.container}>
       <button className={styles.button}>
         <PlusIcon /> &nbsp; Category
       </button>
@@ -15,7 +15,7 @@ const ActionsBar = () => {
       <button className={styles.button}>
         <PlusIcon /> &nbsp; Round
       </button>
-    </ul>
+    </div>
   )
 }
 
