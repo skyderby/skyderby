@@ -1,15 +1,16 @@
 import React from 'react'
-import { useQuery } from 'react-query'
 import PropTypes from 'prop-types'
 
-import Api from 'api'
-import { useRoundsQuery } from 'api/hooks/performanceCompetitions'
+import {
+  useRoundsQuery,
+  useCategoriesQuery,
+  useCompetitorsQuery,
+  useStandingsQuery
+} from 'api/hooks/performanceCompetitions'
 import ActionsBar from './ActionsBar'
 import TableHeader from './TableHeader'
 import TableBody from './TableBody'
 import styles from './styles.module.scss'
-import useCompetitorsQuery from './useCompetitorsQuery'
-import useCategoriesQuery from './useCategoriesQuery'
 
 const groupByTask = rounds => {
   const tasks = Array.from(new Set(rounds.map(el => el.task)))
@@ -18,21 +19,10 @@ const groupByTask = rounds => {
 }
 
 const Scoreboard = ({ eventId }) => {
-  const { data: rounds, isLoading: isRoundsLoading } = useRoundsQuery(eventId)
-  const { categories, isLoading: isCategoriesLoading } = useCategoriesQuery(eventId)
-  const { data: competitors = [], isLoading: isCompetitorsLoading } = useCompetitorsQuery(
-    eventId
-  )
-
-  const {
-    data: standings = [],
-    isLoading: isStandingsLoading
-  } = useQuery(`performanceCompetitions/${eventId}/standings`, () =>
-    Api.PerformanceCompetitions.Standings.findAll(eventId)
-  )
-
-  const isLoading =
-    isRoundsLoading || isCategoriesLoading || isCompetitorsLoading || isStandingsLoading
+  const { data: standings, isLoading } = useStandingsQuery(eventId)
+  const { data: rounds } = useRoundsQuery(eventId)
+  const { data: categories } = useCategoriesQuery(eventId)
+  const { data: competitors } = useCompetitorsQuery(eventId)
 
   if (isLoading) return null
 
