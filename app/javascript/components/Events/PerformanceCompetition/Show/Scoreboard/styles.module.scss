@@ -1,9 +1,12 @@
+@import 'styles/breakpoints';
+
 .container {
-  padding: 0 1rem;
+  padding: 0 1rem 1rem;
 }
 
 .scoreboardTable {
-  width: 100%;
+  width: $bp-large;
+  margin: 0 auto;
   border-collapse: collapse;
 
   font-size: 0.875rem;
@@ -32,8 +35,11 @@
 }
 
 .scoreboardTable tr:first-child > th:first-child,
+.scoreboardTable tbody > tr:not(:first-child) > td:nth-child(1),
 .scoreboardTable tbody > tr:not(:first-child) > td:nth-child(3) {
   width: 1%;
+
+  text-align: center;
 }
 
 .scoreboardTable tr:first-child > th:nth-child(2) {
