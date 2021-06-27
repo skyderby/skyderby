@@ -1,16 +1,17 @@
 module TrackParser
   class Columbus
-    # Column indexes
-    INDEX     = 0
-    TAG       = 1
-    DATE      = 2
-    TIME      = 3
-    LATITUDE  = 4
-    LONGITUDE = 5
-    ALTITUDE  = 6
-    SPEED     = 7
-    HEADING   = 8
-    VOX       = 9
+    FIELDS_INDEXES = {
+      index: 0,
+      tag: 1,
+      date: 2,
+      time: 3,
+      latitude: 4,
+      longitude: 5,
+      altitude: 6,
+      speed: 7,
+      heading: 8,
+      vox: 9
+    }.freeze
 
     # Coordinates suffixes
     NORTH = 'N'.freeze
@@ -25,7 +26,7 @@ module TrackParser
     def parse
       track_points = []
       CSV.new(file.open, skip_lines: /^INDEX/).each do |row|
-        next if row[ALTITUDE].to_f.zero?
+        next if row[FIELDS_INDEXES[:altitude]].to_f.zero?
 
         track_points << parse_row(row)
       end
@@ -39,10 +40,11 @@ module TrackParser
 
     def parse_row(row)
       PointRecord.new.tap do |r|
-        r.latitude     = parse_coordinate row[LATITUDE]
-        r.longitude    = parse_coordinate row[LONGITUDE]
-        r.abs_altitude = BigDecimal(row[ALTITUDE])
-        r.gps_time = parse_datetime(date: row[DATE], time: row[TIME])
+        r.latitude     = parse_coordinate row[FIELDS_INDEXES[:latitude]]
+        r.longitude    = parse_coordinate row[FIELDS_INDEXES[:longitude]]
+        r.abs_altitude = BigDecimal(row[FIELDS_INDEXES[:altitude]])
+        r.heading = row[FIELDS_INDEXES[:heading]]
+        r.gps_time = parse_datetime(date: row[FIELDS_INDEXES[:date]], time: row[FIELDS_INDEXES[:time]])
       end
     end
 

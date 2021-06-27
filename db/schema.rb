@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_14_070505) do
+ActiveRecord::Schema.define(version: 2021_06_27_083927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(version: 2021_03_14_070505) do
     t.integer "range_from"
     t.integer "range_to"
     t.integer "number_of_results_for_total"
-    t.integer "designated_lane_start", default: 0, null: false
+    t.integer "designated_lane_start", default: 1, null: false
     t.boolean "apply_penalty_to_score"
     t.boolean "use_teams"
     t.bigint "profile_id"
@@ -258,6 +258,13 @@ ActiveRecord::Schema.define(version: 2021_03_14_070505) do
     t.float "abs_altitude"
     t.decimal "gps_time_in_seconds", precision: 17, scale: 3
     t.integer "track_id"
+    t.float "horizontal_accuracy"
+    t.float "vertical_accuracy"
+    t.float "speed_accuracy"
+    t.float "heading_accuracy"
+    t.float "heading"
+    t.integer "number_of_satellites"
+    t.integer "gps_fix"
     t.index ["track_id"], name: "index_points_on_track_id"
   end
 
