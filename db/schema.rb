@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_27_142237) do
+ActiveRecord::Schema.define(version: 2021_06_27_144910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -319,6 +319,20 @@ ActiveRecord::Schema.define(version: 2021_06_27_142237) do
     t.index ["event_id"], name: "index_speed_skydiving_competition_categories_on_event_id"
   end
 
+  create_table "speed_skydiving_competition_competitors", force: :cascade do |t|
+    t.bigint "event_id"
+    t.bigint "category_id"
+    t.bigint "profile_id"
+    t.bigint "team_id"
+    t.integer "assigned_number"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["category_id"], name: "index_speed_skydiving_competition_competitors_on_category_id"
+    t.index ["event_id"], name: "index_speed_skydiving_competition_competitors_on_event_id"
+    t.index ["profile_id"], name: "index_speed_skydiving_competition_competitors_on_profile_id"
+    t.index ["team_id"], name: "index_speed_skydiving_competition_competitors_on_team_id"
+  end
+
   create_table "speed_skydiving_competition_rounds", force: :cascade do |t|
     t.integer "number", default: 1, null: false
     t.bigint "event_id"
@@ -603,6 +617,10 @@ ActiveRecord::Schema.define(version: 2021_06_27_142237) do
   add_foreign_key "qualification_jumps", "qualification_rounds"
   add_foreign_key "qualification_jumps", "tracks"
   add_foreign_key "speed_skydiving_competition_categories", "speed_skydiving_competitions", column: "event_id"
+  add_foreign_key "speed_skydiving_competition_competitors", "profiles"
+  add_foreign_key "speed_skydiving_competition_competitors", "speed_skydiving_competition_categories", column: "category_id"
+  add_foreign_key "speed_skydiving_competition_competitors", "speed_skydiving_competition_teams", column: "team_id"
+  add_foreign_key "speed_skydiving_competition_competitors", "speed_skydiving_competitions", column: "event_id"
   add_foreign_key "speed_skydiving_competition_rounds", "speed_skydiving_competitions", column: "event_id"
   add_foreign_key "speed_skydiving_competition_teams", "speed_skydiving_competitions", column: "event_id"
   add_foreign_key "speed_skydiving_competitions", "places"
