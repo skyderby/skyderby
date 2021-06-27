@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 
 import { useNewPerformanceEventMutation } from 'api/hooks/performanceCompetitions'
 import AppShell from 'components/AppShell'
-import Form from 'components/Events/PerformanceCompetition/Form'
+import Form from '../Form'
 import styles from './styles.module.scss'
 
 const NewEvent = () => {
