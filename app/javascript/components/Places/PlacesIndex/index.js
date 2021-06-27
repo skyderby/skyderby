@@ -5,7 +5,7 @@ import cx from 'clsx'
 import debounce from 'lodash.debounce'
 
 import useGoogleMapsApi from 'utils/useGoogleMapsApi'
-import { usePlacesQuery } from 'api/hooks/places'
+import { useAllPlacesQuery } from 'api/hooks/places'
 import LocateIcon from 'icons/locate'
 import CompassIcon from 'icons/compass'
 import useCountriesWithPlaces from './useCountriesWithPlaces'
@@ -23,7 +23,7 @@ const PlacesIndex = () => {
   const [selectedPlace, setSelectedPlace] = useState()
   const google = useGoogleMapsApi()
 
-  const { data: places = [] } = usePlacesQuery()
+  const { data: places = [] } = useAllPlacesQuery()
   const countriesWithPlaces = useCountriesWithPlaces(
     places,
     searchTerm,
