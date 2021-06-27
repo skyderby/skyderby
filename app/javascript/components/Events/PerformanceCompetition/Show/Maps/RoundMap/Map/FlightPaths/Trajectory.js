@@ -1,10 +1,6 @@
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 
-import MapContext from 'components/RoundMap/Map/MapContext'
-
-const Trajectory = ({ color: strokeColor, points }) => {
-  const { map } = useContext(MapContext)
-
+const Trajectory = ({ color: strokeColor, points, map }) => {
   const path = points.map(({ latitude, longitude }) => ({
     lat: Number(latitude),
     lng: Number(longitude)

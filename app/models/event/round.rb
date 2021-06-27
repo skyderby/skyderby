@@ -26,6 +26,7 @@ class Event::Round < ApplicationRecord
   has_many :results, dependent: :restrict_with_error
   has_many :reference_point_assignments, dependent: :delete_all
 
+  scope :ordered, -> { order(:number, :created_at) }
   validates :event, :discipline, presence: true
 
   delegate :range_from, to: :event
