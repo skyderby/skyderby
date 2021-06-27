@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_27_083927) do
+ActiveRecord::Schema.define(version: 2021_06_27_132935) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -310,6 +310,21 @@ ActiveRecord::Schema.define(version: 2021_06_27_083927) do
     t.string "name", limit: 510
   end
 
+  create_table "speed_skydiving_competitions", force: :cascade do |t|
+    t.string "name"
+    t.date "starts_at"
+    t.integer "status", default: 0, null: false
+    t.integer "visibility", default: 0, null: false
+    t.boolean "is_official", default: false, null: false
+    t.boolean "use_teams", default: false, null: false
+    t.bigint "responsible_id"
+    t.bigint "place_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["place_id"], name: "index_speed_skydiving_competitions_on_place_id"
+    t.index ["responsible_id"], name: "index_speed_skydiving_competitions_on_responsible_id"
+  end
+
   create_table "sponsors", id: :serial, force: :cascade do |t|
     t.string "name", limit: 510
     t.string "logo_file_name", limit: 510
@@ -562,6 +577,8 @@ ActiveRecord::Schema.define(version: 2021_06_27_083927) do
   add_foreign_key "profiles", "countries"
   add_foreign_key "qualification_jumps", "qualification_rounds"
   add_foreign_key "qualification_jumps", "tracks"
+  add_foreign_key "speed_skydiving_competitions", "places"
+  add_foreign_key "speed_skydiving_competitions", "users", column: "responsible_id"
   add_foreign_key "tournament_competitors", "profiles"
   add_foreign_key "tournaments", "place_finish_lines", column: "finish_line_id"
   add_foreign_key "tournaments", "profiles"
