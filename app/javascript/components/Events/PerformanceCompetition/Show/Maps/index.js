@@ -4,8 +4,9 @@ import { useRoundsQuery } from 'api/hooks/performanceCompetitions'
 import { compareAsc, parseISO } from 'date-fns'
 import PropTypes from 'prop-types'
 
+import RoundsBar from './RoundsBar'
+import RoundMap from './RoundMap'
 import styles from './styles.module.scss'
-import RoundsBar from 'components/Events/PerformanceCompetition/Show/Maps/RoundsBar'
 
 const mapsPath = (eventId, roundId) => `/events/performance/${eventId}/maps/${roundId}`
 const orderChronologically = rounds =>
@@ -31,7 +32,7 @@ const Maps = ({ eventId }) => {
   return (
     <div className={styles.container}>
       <RoundsBar eventId={eventId} rounds={sortedRounds} />
-      Maps ${roundId}
+      <RoundMap eventId={eventId} roundId={roundId} />
     </div>
   )
 }
