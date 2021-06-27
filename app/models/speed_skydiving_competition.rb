@@ -4,4 +4,6 @@ class SpeedSkydivingCompetition < ApplicationRecord
 
   belongs_to :responsible, class_name: 'User', inverse_of: :responsible_of_events
   belongs_to :place
+
+  has_many :categories, foreign_key: :event_id, inverse_of: :event, dependent: :restrict_with_error
 end
