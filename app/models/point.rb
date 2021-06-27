@@ -1,20 +1,3 @@
-# == Schema Information
-#
-# Table name: points
-#
-#  id                  :integer          not null, primary key
-#  fl_time             :float
-#  latitude            :decimal(15, 10)
-#  longitude           :decimal(15, 10)
-#  elevation           :float
-#  distance            :float
-#  v_speed             :float
-#  h_speed             :float
-#  abs_altitude        :float
-#  gps_time_in_seconds :decimal(17, 3)
-#  track_id            :integer
-#
-
 class Point < ApplicationRecord
   belongs_to :track
 
@@ -46,7 +29,7 @@ class Point < ApplicationRecord
     end
 
     def point_db_statement(point)
-      statement = <<~SQL.squish
+      <<~SQL.squish
         (#{point.gps_time.to_f},
          #{point.latitude},
          #{point.longitude},
@@ -55,21 +38,40 @@ class Point < ApplicationRecord
          #{point.fl_time},
          #{point.v_speed},
          #{point.h_speed},
+         #{nullable(point.horizontal_accuracy)},
+         #{nullable(point.vertical_accuracy)},
+         #{nullable(point.speed_accuracy)},
+         #{nullable(point.heading)},
+         #{nullable(point.heading_accuracy)},
+         #{nullable(point.gps_fix)},
+         #{nullable(point.number_of_satellites)},
          #{point.track_id})
       SQL
-      statement.delete("\n")
     end
 
     def db_columns
-      ' gps_time_in_seconds,
-        latitude,
-        longitude,
-        abs_altitude,
-        distance,
-        fl_time,
-        v_speed,
-        h_speed,
-        track_id'
+      %w[
+        gps_time_in_seconds
+        latitude
+        longitude
+        abs_altitude
+        distance
+        fl_time
+        v_speed
+        h_speed
+        horizontal_accuracy
+        vertical_accuracy
+        speed_accuracy
+        heading
+        heading_accuracy
+        gps_fix
+        number_of_satellites
+        track_id
+      ].join(', ')
+    end
+
+    def nullable(field)
+      field || 'NULL'
     end
   end
 end

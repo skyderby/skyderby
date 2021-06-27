@@ -7,6 +7,13 @@ module TrackParser
     abs_altitude
     h_speed
     v_speed
+    horizontal_accuracy
+    vertical_accuracy
+    speed_accuracy
+    heading
+    heading_accuracy
+    gps_fix
+    number_of_satellites
     distance
     track_id
   ]

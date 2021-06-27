@@ -1,5 +1,3 @@
-json.key_format! camelize: :lower
-
 json.array! @points do |point|
   json.extract! point,
                 :fl_time,
