@@ -68,6 +68,7 @@ namespace :api, module: :api, defaults: { format: :json } do
         resources :rounds
         resources :competitors
         resources :categories
+        resources :results
         resources :standings, only: :index
         resources :reference_points, only: %i[index create update destroy]
       end

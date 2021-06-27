@@ -1,10 +1,6 @@
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 
-import MapContext from 'components/RoundMap/Map/MapContext'
-
-const Marker = ({ color, latitude, longitude }) => {
-  const { map } = useContext(MapContext)
-
+const Marker = ({ map, color, latitude, longitude }) => {
   useEffect(() => {
     if (!map) return
 

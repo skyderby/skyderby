@@ -15,46 +15,37 @@
 #  disqualification_reason :string
 #
 
-class Event < ApplicationRecord
-  class Result < ApplicationRecord
-    include EventOngoingValidation, Event::Namespace, AcceptsNestedTrack,
-            SubmissionAuthor, SubmissionResult, ReviewableByJudge, ExitTime
+class Event::Result < ApplicationRecord
+  include EventOngoingValidation, Event::Namespace, AcceptsNestedTrack,
+          SubmissionAuthor, SubmissionResult, ReviewableByJudge, ExitDetails
 
-    belongs_to :track
-    belongs_to :round, class_name: 'Event::Round'
-    belongs_to :competitor, touch: true
+  belongs_to :track
+  belongs_to :round, class_name: 'Event::Round'
+  belongs_to :competitor, touch: true
 
-    scope :chronologically, -> { order(:created_at) }
+  scope :chronologically, -> { order(:created_at) }
 
-    validates :competitor, :round, :track, presence: true
-    validates :competitor_id, uniqueness: { scope: :round_id }, on: :create
-    validate_duplicates_on_file_with EventTracks::FileDuplicationValidator
+  validates :competitor, :round, :track, presence: true
+  validates :competitor_id, uniqueness: { scope: :round_id }, on: :create
+  validate_duplicates_on_file_with EventTracks::FileDuplicationValidator
 
-    delegate :event, :event_id, :range_from, :range_to, to: :round
-    delegate :discipline, :number, to: :round, prefix: true
-    delegate :section, to: :competitor
-    delegate :tracks_visibility, to: :round
+  delegate :event, :event_id, :range_from, :range_to, :tracks_visibility to: :round
+  delegate :discipline, :number, to: :round, prefix: true
+  delegate :section, to: :competitor
 
-    def reference_point
-      round.reference_point_assignments.find_by(competitor: competitor)&.reference_point
-    end
-
-    def penalty_sizes
-      [10, 20, 50, 100]
-    end
-
-    private
-
-    def track_owner
-      event
-    end
-
-    def track_comment
-      "#{event.name} - #{round_discipline.humanize} #{round_number}"
-    end
-
-    def track_activity
-      :skydive
-    end
+  def reference_point
+    round.reference_point_assignments.find_by(competitor: competitor)&.reference_point
   end
+
+  def penalty_sizes
+    [10, 20, 50, 100]
+  end
+
+  private
+
+  def track_owner = event
+
+  def track_comment = "#{event.name} - #{round_discipline.humanize} #{round_number}"
+
+  def track_activity = :skydive
 end
