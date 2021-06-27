@@ -2,8 +2,7 @@ import React from 'react'
 import { Field } from 'formik'
 
 import { useI18n } from 'components/TranslationsProvider'
-
-import PlaceSelect from './PlaceSelect'
+import PlaceSelect from 'components/PlaceSelect'
 import styles from './styles.module.scss'
 
 const TrackLocationField = () => {
@@ -22,7 +21,7 @@ const TrackLocationField = () => {
               hide={values.formSupportData.placeInputMode === 'input'}
               isInvalid={touched && error}
               {...props}
-              onChange={value => setFieldValue(name, value)}
+              onChange={option => setFieldValue(name, option.value)}
             />
             {touched && error && <div className={styles.errorMessage}>{error}</div>}
           </>

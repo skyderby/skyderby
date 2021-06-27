@@ -1,2 +1,2 @@
-export * from './place'
-export * from './places'
+export { usePlaceQuery, usePlaceQueries, preloadPlaces, placeQuery } from './place'
+export { useAllPlacesQuery, placesQuery } from './places'
