@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import axios from 'axios'
 
-import { getQueryOptions as getPlaceQueryOptions } from 'api/hooks/places'
+import { placeQuery } from 'api/hooks/places'
 
 const endpoint = '/api/v1/performance_competitions'
 
@@ -15,7 +15,7 @@ const getQueryFn = queryClient => async ctx => {
   const { data } = await getEvent(id)
 
   if (data.placeId) {
-    await queryClient.prefetchQuery(getPlaceQueryOptions(data.placeId, queryClient))
+    await queryClient.prefetchQuery(placeQuery(data.placeId, queryClient))
   }
 
   return data
