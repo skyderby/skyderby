@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_27_132935) do
+ActiveRecord::Schema.define(version: 2021_06_27_141202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -310,6 +310,23 @@ ActiveRecord::Schema.define(version: 2021_06_27_132935) do
     t.string "name", limit: 510
   end
 
+  create_table "speed_skydiving_competition_categories", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "position", default: 0, null: false
+    t.bigint "event_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["event_id"], name: "index_speed_skydiving_competition_categories_on_event_id"
+  end
+
+  create_table "speed_skydiving_competition_rounds", force: :cascade do |t|
+    t.integer "number", default: 1, null: false
+    t.bigint "event_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["event_id"], name: "index_speed_skydiving_competition_rounds_on_event_id"
+  end
+
   create_table "speed_skydiving_competitions", force: :cascade do |t|
     t.string "name"
     t.date "starts_at"
@@ -577,6 +594,8 @@ ActiveRecord::Schema.define(version: 2021_06_27_132935) do
   add_foreign_key "profiles", "countries"
   add_foreign_key "qualification_jumps", "qualification_rounds"
   add_foreign_key "qualification_jumps", "tracks"
+  add_foreign_key "speed_skydiving_competition_categories", "speed_skydiving_competitions", column: "event_id"
+  add_foreign_key "speed_skydiving_competition_rounds", "speed_skydiving_competitions", column: "event_id"
   add_foreign_key "speed_skydiving_competitions", "places"
   add_foreign_key "speed_skydiving_competitions", "users", column: "responsible_id"
   add_foreign_key "tournament_competitors", "profiles"
