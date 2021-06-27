@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(version: 2021_06_27_083927) do
     t.integer "range_from"
     t.integer "range_to"
     t.integer "number_of_results_for_total"
-    t.integer "designated_lane_start", default: 0, null: false
+    t.integer "designated_lane_start", default: 1, null: false
     t.boolean "apply_penalty_to_score"
     t.boolean "use_teams"
     t.bigint "profile_id"
