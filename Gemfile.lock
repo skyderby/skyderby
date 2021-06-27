@@ -188,14 +188,14 @@ GEM
       nokogiri (~> 1)
       rake
     mini_mime (1.0.2)
-    mini_portile2 (2.5.0)
+    mini_portile2 (2.5.3)
     minitest (5.14.4)
     msgpack (1.3.3)
     multi_json (1.14.1)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     nio4r (2.5.4)
-    nokogiri (1.11.1)
+    nokogiri (1.11.4)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
     oauth2 (1.4.4)
@@ -413,7 +413,7 @@ DEPENDENCIES
   jbuilder (~> 2.6)
   kramdown
   kt-paperclip (~> 6.4)
-  nokogiri (~> 1.8)
+  nokogiri (~> 1.11)
   omniauth-facebook
   pg (~> 1.0)
   pluck_to_hash
