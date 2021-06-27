@@ -1,13 +1,11 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useSelector } from 'react-redux'
 
-import MapContext from 'components/RoundMap/Map/MapContext'
 import Overlay from './Overlay'
 import Marker from './Marker'
 import MostDistantPoint from './MostDistantPoint'
 
-const DesignatedLane = () => {
-  const { map } = useContext(MapContext)
+const DesignatedLane = ({ map }) => {
   const {
     enabled,
     startPoint: initialStartPoint = {},
