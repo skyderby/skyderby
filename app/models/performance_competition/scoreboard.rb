@@ -6,7 +6,7 @@ class PerformanceCompetition::Scoreboard
 
   def categories
     @categories ||=
-      event.sections.map { |record| build_category(record) }
+      event.sections.ordered.map { |record| build_category(record) }
   end
 
   private
@@ -23,7 +23,7 @@ class PerformanceCompetition::Scoreboard
   end
 
   def rounds
-    @rounds ||= event.rounds
+    @rounds ||= event.rounds.ordered
   end
 
   def competitors

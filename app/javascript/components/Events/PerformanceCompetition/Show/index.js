@@ -8,6 +8,7 @@ import Header from './Header'
 import Scoreboard from './Scoreboard'
 import ReferencePoints from './ReferencePoints'
 import Maps from './Maps'
+import styles from './styles.module.scss'
 
 const Show = ({ match }) => {
   const eventId = Number(match.params.id)
@@ -16,7 +17,7 @@ const Show = ({ match }) => {
 
   return (
     <AppShell>
-      <div>
+      <div className={styles.container}>
         <Header event={event} />
 
         <Switch>

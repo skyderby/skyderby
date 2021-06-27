@@ -2,11 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 import { useI18n } from 'components/TranslationsProvider'
-import {
-  afterExitColor,
-  windowStartColor,
-  windowEndColor
-} from 'components/RoundMap/constants'
+import { afterExitColor, windowStartColor, windowEndColor } from '../../constants'
 
 import styles from './styles.module.scss'
 
