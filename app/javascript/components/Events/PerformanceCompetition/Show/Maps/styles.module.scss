@@ -1,6 +1,9 @@
 @import 'styles/breakpoints';
 
 .container {
+  display: grid;
+  grid-gap: 1rem;
+
   @include lg-screen {
     width: $bp-large;
     margin: 0 auto;
