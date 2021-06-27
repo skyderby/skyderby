@@ -12,7 +12,7 @@ const endpoint = '/api/v1/places'
 const getPlace = id => axios.get(`${endpoint}/${id}`)
 const getPlacesById = ids => loadIds(endpoint, ids)
 
-const getQueryKey = id => ['places', id]
+export const getQueryKey = id => ['places', id]
 
 const buildQueryFn = queryClient => async ctx => {
   const [_key, id] = ctx.queryKey
@@ -39,7 +39,7 @@ export const preloadPlaces = async (ids, queryClient) => {
   return places
 }
 
-export const getQueryOptions = (id, queryClient) => ({
+export const placeQuery = (id, queryClient) => ({
   queryKey: getQueryKey(id),
   queryFn: buildQueryFn(queryClient),
   enabled: !!id,
@@ -49,10 +49,10 @@ export const getQueryOptions = (id, queryClient) => ({
 
 export const usePlaceQuery = id => {
   const queryClient = useQueryClient()
-  return useQuery(getQueryOptions(id, queryClient))
+  return useQuery(placeQuery(id, queryClient))
 }
 
 export const usePlaceQueries = ids => {
   const queryClient = useQueryClient()
-  return useQueries(ids.filter(Boolean).map(id => getQueryOptions(id, queryClient)))
+  return useQueries(ids.filter(Boolean).map(id => placeQuery(id, queryClient)))
 }
