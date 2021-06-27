@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from 'react-query'
 import axios from 'axios'
 
 import { preloadCountries } from 'api/hooks/countries'
+import { getQueryKey as getPlaceQueryKey } from './place'
 
 const endpoint = '/api/v1/places'
 
@@ -32,26 +33,57 @@ const getAllPlaces = async () => {
   return allChunks.map(chunk => chunk.items).flat()
 }
 
-const getQueryKey = () => ['places']
+const getPlaces = params => axios.get(buildUrl(params))
 
-const buildQueryFn = queryClient => async () => {
+const getQueryKey = params => ['places', params].filter(Boolean)
+
+const cachePlaces = (places, queryClient) =>
+  places
+    .filter(place => !queryClient.getQueryData(getPlaceQueryKey(place.id)))
+    .forEach(place => queryClient.setQueryData(getQueryKey(place.id), place))
+
+const buildAllPlacesQueryFn = queryClient => async () => {
   const places = await getAllPlaces()
 
   const countryIds = places.map(place => place.countryId)
   await preloadCountries(countryIds, queryClient)
 
+  cachePlaces(places, queryClient)
+
   return places
 }
 
-export const getQueryOptions = queryClient => ({
-  queryKey: getQueryKey(),
-  queryFn: buildQueryFn(queryClient),
+const buildPlacesQueryFn = queryClient => async ctx => {
+  const [_key, params] = ctx.queryKey
+  const { data } = await getPlaces(params)
+
+  const places = data?.items ?? []
+
+  const countryIds = places.map(place => place.countryId)
+  await preloadCountries(countryIds, queryClient)
+
+  cachePlaces(places, queryClient)
+
+  return data
+}
+
+const cacheOptions = {
   cacheTime: 60 * 30 * 1000,
   staleTime: 60 * 10 * 1000
+}
+
+export const placesQuery = (params, queryClient) => ({
+  queryKey: getQueryKey(params),
+  queryFn: buildPlacesQueryFn(queryClient),
+  ...cacheOptions
 })
 
-export const usePlacesQuery = () => {
+export const useAllPlacesQuery = () => {
   const queryClient = useQueryClient()
 
-  return useQuery(getQueryOptions(queryClient))
+  return useQuery({
+    queryKey: getQueryKey(),
+    queryFn: buildAllPlacesQueryFn(queryClient),
+    ...cacheOptions
+  })
 }
