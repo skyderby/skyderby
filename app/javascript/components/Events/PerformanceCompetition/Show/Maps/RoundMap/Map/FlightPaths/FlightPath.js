@@ -8,17 +8,17 @@ import {
   afterExitColor,
   windowStartColor,
   windowEndColor
-} from 'components/RoundMap/constants'
+} from '../../constants'
 
 const FlightPath = props => {
-  const { color, points, afterExitPoint, startPoint, endPoint } = props
+  const { color, points, afterExitPoint, startPoint, endPoint, map } = props
 
   return (
     <>
-      <Trajectory color={color} points={points} />
-      <Marker color={windowStartColor} {...startPoint} />
-      <Marker color={windowEndColor} {...endPoint} />
-      <Marker color={afterExitColor} {...afterExitPoint} />
+      <Trajectory color={color} points={points} map={map} />
+      <Marker color={windowStartColor} {...startPoint} map={map} />
+      <Marker color={windowEndColor} {...endPoint} map={map} />
+      <Marker color={afterExitColor} {...afterExitPoint} map={map} />
     </>
   )
 }
