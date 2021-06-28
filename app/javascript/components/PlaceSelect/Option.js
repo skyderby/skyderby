@@ -4,16 +4,18 @@ import PropTypes from 'prop-types'
 
 import PlaceLabel from 'components/PlaceLabel'
 
-const Option = ({ data: { name, countryCode }, ...props }) => (
+const Option = ({ data: { name, country }, ...props }) => (
   <components.Option {...props}>
-    <PlaceLabel name={name} code={countryCode} />
+    <PlaceLabel name={name} code={country?.code} />
   </components.Option>
 )
 
 Option.propTypes = {
   data: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    countryCode: PropTypes.string
+    country: PropTypes.shape({
+      code: PropTypes.string.isRequired
+    })
   }).isRequired
 }
 export default Option
