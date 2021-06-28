@@ -8,14 +8,14 @@ const getCountry = id => axios.get(`${endpoint}/${id}`)
 
 const getCountriesById = ids => loadIds(endpoint, ids)
 
-const getQueryKey = id => ['countries', id]
-
 const queryFn = async ctx => {
   const [_key, id] = ctx.queryKey
   const { data } = await getCountry(id)
 
   return data
 }
+
+export const getQueryKey = id => ['countries', id]
 
 export const preloadCountries = async (ids, queryClient) => {
   const missingIds = ids
