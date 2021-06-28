@@ -2,8 +2,7 @@ import React from 'react'
 import { Field } from 'formik'
 
 import { useI18n } from 'components/TranslationsProvider'
-
-import SuitSelect from './SuitSelect'
+import SuitSelect from 'components/SuitSelect'
 import styles from './styles.module.scss'
 
 const TrackSuitField = () => {
@@ -22,7 +21,7 @@ const TrackSuitField = () => {
               hide={values.formSupportData.suitInputMode === 'input'}
               isInvalid={touched && error}
               {...props}
-              onChange={value => setFieldValue(name, value)}
+              onChange={option => setFieldValue(name, option.value)}
             />
             {touched && error && <div className={styles.errorMessage}>{error}</div>}
           </>

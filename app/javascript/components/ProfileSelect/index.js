@@ -2,11 +2,15 @@ import React, { useCallback } from 'react'
 import { AsyncPaginate as Select } from 'react-select-async-paginate'
 import { useQueryClient } from 'react-query'
 
-import { profilesQuery } from 'api/hooks/profiles'
+import { profilesQuery, useProfileQuery } from 'api/hooks/profiles'
 import selectStyles from 'styles/selectStyles'
+import PropTypes from 'prop-types'
 
-const ProfileSelect = props => {
+const ProfileSelect = ({ value: profileId, ...props }) => {
   const queryClient = useQueryClient()
+  const { data: profile } = useProfileQuery(profileId)
+
+  const selectedOption = profile ? { value: el.id, label: el.name } : null
 
   const loadOptions = useCallback(
     async (search, _loadedOptions, { page }) => {
@@ -33,11 +37,16 @@ const ProfileSelect = props => {
   return (
     <Select
       loadOptions={loadOptions}
+      value={selectedOption}
       additional={{ page: 1 }}
       styles={selectStyles}
       {...props}
     />
   )
+}
+
+ProfileSelect.propTypes = {
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
 export default ProfileSelect
