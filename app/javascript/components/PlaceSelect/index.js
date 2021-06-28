@@ -7,11 +7,16 @@ import { usePlaceQuery, placesQuery } from 'api/hooks/places'
 import selectStyles from 'styles/selectStyles'
 import Option from './Option'
 import SingleValue from './SingleValue'
+import { useCountryQuery, getQueryKey as getCountryQueryKey } from 'api/hooks/countries'
 
 const PlaceSelect = ({ value: placeId, ...props }) => {
   const queryClient = useQueryClient()
   const { data: place } = usePlaceQuery(placeId)
-  const selectedValue = place ? { value: place.id, label: place.name, ...place } : null
+  const { data: country } = useCountryQuery(place?.countryId)
+
+  const selectedOption = place
+    ? { value: place.id, label: place.name, ...place, country }
+    : null
 
   const loadOptions = useCallback(
     async (search, _loadedOptions, { page }) => {
@@ -22,7 +27,12 @@ const PlaceSelect = ({ value: placeId, ...props }) => {
       const { items, currentPage, totalPages } = data
 
       const hasMore = currentPage < totalPages
-      const options = items.map(el => ({ value: el.id, label: el.name, ...el }))
+      const options = items.map(el => ({
+        value: el.id,
+        label: el.name,
+        ...el,
+        country: queryClient.getQueryData(getCountryQueryKey(el.countryId))
+      }))
 
       return {
         options,
@@ -41,7 +51,7 @@ const PlaceSelect = ({ value: placeId, ...props }) => {
       loadOptions={loadOptions}
       additional={{ page: 1 }}
       styles={selectStyles}
-      value={selectedValue}
+      value={selectedOption}
       {...props}
     />
   )
