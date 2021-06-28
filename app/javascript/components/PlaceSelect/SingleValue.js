@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 
 import PlaceLabel from 'components/PlaceLabel'
 
-const SingleValue = ({ data: { name, countryCode }, ...props }) => {
+const SingleValue = ({ data: { name, country }, ...props }) => {
   return (
     <components.SingleValue {...props}>
-      <PlaceLabel name={name} code={countryCode} />
+      <PlaceLabel name={name} code={country?.code} />
     </components.SingleValue>
   )
 }
@@ -15,7 +15,9 @@ const SingleValue = ({ data: { name, countryCode }, ...props }) => {
 SingleValue.propTypes = {
   data: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    countryCode: PropTypes.string
+    country: PropTypes.shape({
+      code: PropTypes.string
+    })
   }).isRequired
 }
 

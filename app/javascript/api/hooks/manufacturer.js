@@ -8,14 +8,14 @@ const getManufacturer = id => axios.get(`${endpoint}/${id}`)
 
 const getManufacturersById = ids => loadIds(endpoint, ids)
 
-const getQueryKey = id => ['manufacturers', id]
-
 const queryFn = async ctx => {
   const [_key, id] = ctx.queryKey
   const { data } = await getManufacturer(id)
 
   return data
 }
+
+export const getQueryKey = id => ['manufacturers', id]
 
 export const preloadManufacturers = async (ids, queryClient) => {
   const missingIds = ids

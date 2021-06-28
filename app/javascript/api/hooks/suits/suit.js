@@ -13,8 +13,6 @@ const getSuit = id => axios.get(`${endpoint}/${id}`)
 
 const getSuitsById = ids => loadIds(endpoint, ids)
 
-const getQueryKey = id => ['suits', id]
-
 const buildQueryFn = queryClient => async ctx => {
   const [_key, id] = ctx.queryKey
   const { data } = await getSuit(id)
@@ -23,6 +21,8 @@ const buildQueryFn = queryClient => async ctx => {
 
   return data
 }
+
+export const getQueryKey = id => ['suits', id]
 
 export const preloadSuits = async (ids, queryClient) => {
   const missingIds = ids
