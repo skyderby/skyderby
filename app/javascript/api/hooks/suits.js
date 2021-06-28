@@ -25,7 +25,9 @@ const buildQueryFn = queryClient => async ctx => {
 }
 
 export const preloadSuits = async (ids, queryClient) => {
-  const missingIds = ids.filter(id => !queryClient.getQueryData(getQueryKey(id)))
+  const missingIds = ids
+    .filter(Boolean)
+    .filter(id => !queryClient.getQueryData(getQueryKey(id)))
 
   if (missingIds.length === 0) return
 
