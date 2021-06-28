@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useQueryClient } from 'react-query'
 import { AsyncPaginate as Select } from 'react-select-async-paginate'
 import PropTypes from 'prop-types'
@@ -13,22 +13,27 @@ const PlaceSelect = ({ value: placeId, ...props }) => {
   const { data: place } = usePlaceQuery(placeId)
   const selectedValue = place ? { value: place.id, label: place.name, ...place } : null
 
-  const loadOptions = async (search, _loadedOptions, { page }) => {
-    const data = await queryClient.fetchQuery(placesQuery({ search, page }, queryClient))
+  const loadOptions = useCallback(
+    async (search, _loadedOptions, { page }) => {
+      const data = await queryClient.fetchQuery(
+        placesQuery({ search, page }, queryClient)
+      )
 
-    const { items, currentPage, totalPages } = data
+      const { items, currentPage, totalPages } = data
 
-    const hasMore = currentPage < totalPages
-    const options = items.map(el => ({ value: el.id, label: el.name, ...el }))
+      const hasMore = currentPage < totalPages
+      const options = items.map(el => ({ value: el.id, label: el.name, ...el }))
 
-    return {
-      options,
-      hasMore,
-      additional: {
-        page: currentPage + 1
+      return {
+        options,
+        hasMore,
+        additional: {
+          page: currentPage + 1
+        }
       }
-    }
-  }
+    },
+    [queryClient]
+  )
 
   return (
     <Select
