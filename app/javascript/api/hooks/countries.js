@@ -18,7 +18,9 @@ const queryFn = async ctx => {
 }
 
 export const preloadCountries = async (ids, queryClient) => {
-  const missingIds = ids.filter(id => !queryClient.getQueryData(getQueryKey(id)))
+  const missingIds = ids
+    .filter(Boolean)
+    .filter(id => !queryClient.getQueryData(getQueryKey(id)))
 
   const { items: countries } = await getCountriesById(missingIds)
   countries?.forEach(country =>

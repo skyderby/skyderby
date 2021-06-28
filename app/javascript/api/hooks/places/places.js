@@ -40,7 +40,7 @@ const getQueryKey = params => ['places', params].filter(Boolean)
 const cachePlaces = (places, queryClient) =>
   places
     .filter(place => !queryClient.getQueryData(getPlaceQueryKey(place.id)))
-    .forEach(place => queryClient.setQueryData(getQueryKey(place.id), place))
+    .forEach(place => queryClient.setQueryData(getPlaceQueryKey(place.id), place))
 
 const buildAllPlacesQueryFn = queryClient => async () => {
   const places = await getAllPlaces()
