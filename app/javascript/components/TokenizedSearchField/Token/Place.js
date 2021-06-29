@@ -11,7 +11,6 @@ const Place = ({ value, onClick, onDelete }) => {
   const deleteButtonRef = useRef()
 
   const { data: place, isLoading } = usePlaceQuery(value)
-  const { data: country } = useCountryQuery(place?.countryId)
 
   if (isLoading) return null
 
@@ -32,7 +31,7 @@ const Place = ({ value, onClick, onDelete }) => {
     <li className={styles.placeContainer} onClick={handleTokenClick} title={title}>
       <div className={styles.type}>Place</div>
       <div className={styles.value}>
-        <PlaceLabel name={place.name} code={country.code} />
+        <PlaceLabel placeId={value} />
         <button
           className={styles.deleteButton}
           title="Delete"

@@ -32,8 +32,6 @@ const eventUrl = ({ type, id }) => {
 
 const Item = ({ event }) => {
   const { t, formatDate } = useI18n()
-  const { data: place } = usePlaceQuery(event.placeId)
-  const { data: country } = useCountryQuery(place?.countryId)
   const competitorsCount = Object.entries(event.competitorsCount)
 
   return (
@@ -50,10 +48,9 @@ const Item = ({ event }) => {
 
       <div className={styles.eventInfo}>
         <div className={styles.title}>{event.name}</div>
-        {place && (
+        {event.placeId && (
           <div className={styles.description}>
-            <LocationIcon className={styles.placeIcon} />
-            <PlaceLabel name={place.name} code={country.code} />
+            <PlaceLabel withIcon placeId={event.placeId} />
           </div>
         )}
         {competitorsCount.length > 0 && (
