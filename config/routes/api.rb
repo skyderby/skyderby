@@ -74,6 +74,16 @@ namespace :api, module: :api, defaults: { format: :json } do
       end
     end
 
+    resources :speed_skydiving_competitions, only: %i[show create] do
+      scope module: :speed_skydiving_competitions do
+        resources :rounds
+        resources :competitors
+        resources :categories
+        resources :results
+        resources :standings, only: :index
+      end
+    end
+
     namespace :stats, module: :stats do
       resources :registrations, only: :index
     end

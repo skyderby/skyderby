@@ -1,9 +1,7 @@
 json.extract! event,
               :id,
               :name,
+              :starts_at,
               :place_id,
               :visibility,
-              :status,
-              :starts_at,
-              :range_from,
-              :range_to
+              :status
