@@ -20,7 +20,7 @@
 .row {
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: min-content min-content min-content 1fr;
+  grid-template-columns: max-content max-content max-content 1fr;
   align-items: center;
 }
 
