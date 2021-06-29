@@ -2,15 +2,23 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
+import { usePlaceQuery } from 'api/hooks/places'
+import { useCountryQuery } from 'api/hooks/countries'
+import PlaceIcon from 'icons/location.svg'
 import styles from './styles.module.scss'
 
-const PlaceLabel = ({ name, msl, code }) => {
+const PlaceLabel = ({ placeId, fallbackName, withIcon = false, withMsl = false }) => {
   const { t } = useI18n()
+  const { data: place } = usePlaceQuery(placeId)
+  const { data: country } = useCountryQuery(place?.countryId)
+
+  const { name = fallbackName, msl } = place ?? {}
 
   return (
-    <span>
+    <div className={styles.container}>
+      {withIcon && <PlaceIcon />}
       {name && <span>{name}</span>}
-      {msl !== undefined && (
+      {withMsl && (
         <>
           &nbsp;
           <span>
@@ -18,22 +26,23 @@ const PlaceLabel = ({ name, msl, code }) => {
           </span>
         </>
       )}
-      {code && (
+      {country && (
         <>
           &nbsp;
           <span className={styles.separator}>{'//'}</span>
           &nbsp;
-          <span className={styles.countryCode}>{code}</span>
+          <span className={styles.countryCode}>{country?.code}</span>
         </>
       )}
-    </span>
+    </div>
   )
 }
 
 PlaceLabel.propTypes = {
-  name: PropTypes.string,
-  code: PropTypes.string,
-  msl: PropTypes.number
+  placeId: PropTypes.number,
+  fallbackName: PropTypes.string,
+  withIcon: PropTypes.bool,
+  withMsl: PropTypes.bool
 }
 
 export default PlaceLabel

@@ -14,14 +14,11 @@ import { useProfileQuery } from 'api/hooks/profiles'
 import { useSuitQuery } from 'api/hooks/suits'
 
 const Item = ({ track, compact = false, as: Component = Link, ...props }) => {
-  const { data: place } = usePlaceQuery(track.placeId)
-  const { data: country } = useCountryQuery(place?.countryId)
   const { data: suit } = useSuitQuery(track.suitId)
   const { data: manufacturer } = useManufacturerQuery(suit?.makeId)
   const { data: profile } = useProfileQuery(track.profileId)
 
   const suitName = suit?.name ?? track.suitName
-  const placeName = place?.name ?? track.placeName
   const name = profile?.name ?? track.pilotName
 
   return (
@@ -32,7 +29,7 @@ const Item = ({ track, compact = false, as: Component = Link, ...props }) => {
         <SuitLabel name={suitName} code={manufacturer?.code} />
       </div>
       <div className={styles.place}>
-        <PlaceLabel name={placeName} code={country?.code} />
+        <PlaceLabel placeId={track.placeId} fallbackName={track.placeName} />
       </div>
       <div className={styles.comment}>{track.comment}</div>
       <div className={styles.result}>{track.distance || '—'}</div>

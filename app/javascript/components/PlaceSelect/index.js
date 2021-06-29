@@ -14,9 +14,7 @@ const PlaceSelect = ({ value: placeId, ...props }) => {
   const { data: place } = usePlaceQuery(placeId)
   const { data: country } = useCountryQuery(place?.countryId)
 
-  const selectedOption = place
-    ? { value: place.id, label: place.name, ...place, country }
-    : null
+  const selectedOption = place ? { value: place.id, label: place.name } : null
 
   const loadOptions = useCallback(
     async (search, _loadedOptions, { page }) => {
@@ -29,9 +27,7 @@ const PlaceSelect = ({ value: placeId, ...props }) => {
       const hasMore = currentPage < totalPages
       const options = items.map(el => ({
         value: el.id,
-        label: el.name,
-        ...el,
-        country: queryClient.getQueryData(getCountryQueryKey(el.countryId))
+        label: el.name
       }))
 
       return {
