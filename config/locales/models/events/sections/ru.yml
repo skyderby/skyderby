@@ -10,7 +10,7 @@ ru:
         event/section:
           attributes:
             name:
-              blank: Не указано название класса.
+              blank: Название обязательно для заполнения
             base:
               restrict_dependent_destroy:
                 many: Перед удалением класса необходимо удалить или переместить из него участников.
