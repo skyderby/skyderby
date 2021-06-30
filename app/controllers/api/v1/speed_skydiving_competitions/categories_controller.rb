@@ -4,7 +4,7 @@ class Api::V1::SpeedSkydivingCompetitions::CategoriesController < Api::Applicati
   def index
     authorize @event, :show?
 
-    @categories = @event.categories
+    @categories = @event.categories.sorted
   end
 
   def create
@@ -16,7 +16,35 @@ class Api::V1::SpeedSkydivingCompetitions::CategoriesController < Api::Applicati
       if @category.save
         format.json
       else
-        format.json { { errors: @category.errors } }
+        format.json { render json: { errors: @category.errors }, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update
+    authorize @event, :update?
+
+    @category = @event.categories.find(params[:id])
+
+    respond_to do |format|
+      if @category.update(category_params)
+        format.json
+      else
+        format.json { render json: { errors: @category.errors }, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    authorize @event, :update?
+
+    @category = @event.categories.find(params[:id])
+
+    respond_to do |format|
+      if @category.destroy
+        format.json
+      else
+        format.json { render json: { errors: @category.errors }, status: :unprocessable_entity }
       end
     end
   end
