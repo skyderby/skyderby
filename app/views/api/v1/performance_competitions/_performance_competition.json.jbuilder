@@ -7,3 +7,7 @@ json.extract! event,
               :starts_at,
               :range_from,
               :range_to
+
+json.permissions do
+  json.can_edit policy(event).edit?
+end

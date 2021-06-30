@@ -5,3 +5,7 @@ json.extract! event,
               :place_id,
               :visibility,
               :status
+
+json.permissions do
+  json.can_edit policy(event).edit?
+end
