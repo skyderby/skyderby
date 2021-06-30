@@ -21,7 +21,7 @@ const SuccessRegistration = () => {
           {t('devise.registrations.back_to_main_page')}
         </Link>
 
-        <Link className={styles.tertiaryButton} to="/email-confirmation">
+        <Link className={styles.tertiaryButton} to="/users/email-confirmation">
           {t('devise.shared.links.didn_t_receive_confirmation_instructions')}
         </Link>
       </div>
