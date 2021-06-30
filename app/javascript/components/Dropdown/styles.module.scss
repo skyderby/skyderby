@@ -22,5 +22,5 @@
 
 .container[data-popper-placement='bottom-end']::before {
   top: -0.25rem;
-  right: calc(var(--border-radius-md) + 0.5rem);
+  right: calc(var(--border-radius-md) + 0.125rem);
 }

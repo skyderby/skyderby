@@ -1,10 +1,11 @@
-import React, { useState, useLayoutEffect } from 'react'
+import React, { useState, useLayoutEffect, forwardRef } from 'react'
 import ReactDOM from 'react-dom'
 import { usePopper } from 'react-popper'
+import PropTypes from 'prop-types'
 
 import styles from './styles.module.scss'
 
-const Dropdown = ({ referenceElement, children, options }) => {
+const Dropdown = forwardRef(({ referenceElement, children, options }, ref) => {
   const [popperElement, setPopperElement] = useState(null)
   const {
     styles: { popper: position },
@@ -17,10 +18,15 @@ const Dropdown = ({ referenceElement, children, options }) => {
     popperElement.querySelector('button').focus()
   }, [popperElement])
 
+  const setRef = node => {
+    setPopperElement(node)
+    ref.current = node
+  }
+
   return ReactDOM.createPortal(
     <div
       className={styles.container}
-      ref={setPopperElement}
+      ref={setRef}
       style={position}
       {...attributes.popper}
     >
@@ -28,6 +34,14 @@ const Dropdown = ({ referenceElement, children, options }) => {
     </div>,
     document.getElementById('dropdowns-root')
   )
+})
+
+Dropdown.displayName = 'Dropdown'
+
+Dropdown.propTypes = {
+  referenceElement: PropTypes.instanceOf(Element).isRequired,
+  children: PropTypes.node.isRequired,
+  options: PropTypes.object,
 }
 
 export default Dropdown
