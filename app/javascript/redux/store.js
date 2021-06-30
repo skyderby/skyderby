@@ -3,7 +3,6 @@ import { configureStore } from '@reduxjs/toolkit'
 import eventRound from 'redux/events/round'
 import eventTeams from 'redux/events/teams'
 import manufacturers from 'redux/manufacturers'
-import session from './session'
 import suits from 'redux/suits'
 import suitUsageStats from 'redux/suitUsageStats'
 import userPreferences from 'redux/userPreferences'
@@ -16,7 +15,6 @@ export const createStore = preloadedState =>
       eventRound,
       eventTeams,
       manufacturers,
-      session,
       suits,
       suitUsageStats,
       userPreferences
@@ -28,11 +26,9 @@ const persistedState = loadState()
 const store = createStore(persistedState)
 
 store.subscribe(() => {
-  const { countries, manufacturers, userPreferences } = store.getState()
+  const { userPreferences } = store.getState()
 
   saveState({
-    countries,
-    manufacturers,
     userPreferences
   })
 })
