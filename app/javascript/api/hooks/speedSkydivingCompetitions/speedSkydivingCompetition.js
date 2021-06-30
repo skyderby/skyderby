@@ -6,7 +6,7 @@ import { placeQuery } from 'api/hooks/places'
 
 const endpoint = '/api/v1/speed_skydiving_competitions'
 
-const queryKey = id => ['speed_skydiving_competitions', id]
+const queryKey = id => ['speedSkydivingCompetitions', id]
 
 const getEvent = id => axios.get(`${endpoint}/${id}`)
 const createEvent = speedSkydivingCompetition =>

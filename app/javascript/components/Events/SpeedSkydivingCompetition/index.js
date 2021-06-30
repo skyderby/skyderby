@@ -9,7 +9,7 @@ const SpeedSkydivingCompetition = ({ match }) => {
   return (
     <Switch>
       <Route exact path={`${match.path}/new`} component={NewEvent} />
-      <Route path={`${match.path}/:id`} component={Show} />
+      <Route path={`${match.path}/:eventId`} component={Show} />
     </Switch>
   )
 }

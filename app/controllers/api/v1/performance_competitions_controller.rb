@@ -22,7 +22,7 @@ class Api::V1::PerformanceCompetitionsController < Api::ApplicationController
   private
 
   def event_params
-    params.require(:performance_competition).permit(
+    params.require(:performance_competition).permit \
       :name,
       :starts_at,
       :place_id,
@@ -31,6 +31,5 @@ class Api::V1::PerformanceCompetitionsController < Api::ApplicationController
       :status,
       :visibility,
       :use_teams
-    )
   end
 end
