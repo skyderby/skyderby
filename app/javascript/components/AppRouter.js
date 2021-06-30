@@ -1,31 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
 
-import { loadSession, selectCurrentUser } from 'redux/session'
+import { useCurrentUserQuery } from 'api/hooks/sessions'
 import Home from 'pages/Home'
 import FlightProfiles from 'pages/FlightProfiles'
 import SuitsIndex from 'pages/suits/Index'
 import SuitsOverview from 'pages/suits/Overview'
 import SuitsShow from 'pages/suits/Show'
 import SuitsEdit from 'pages/suits/Edit'
-import UsersSignIn from 'pages/users/SignIn'
-import UsersSignUp from 'pages/users/SignUp'
-import EmailConfirmation from 'pages/users/EmailConfirmation'
-import SuccessRegistration from 'pages/users/SuccessRegistration'
 import Loading from 'components/PageWrapper/Loading'
 import Places from 'components/Places'
 import Events from 'components/Events'
 import Tracks from 'components/Tracks'
+import Users from 'components/Users'
 
 const AppRouter = () => {
-  const dispatch = useDispatch()
-  const [isLoading, setIsLoading] = useState(true)
-  const currentUser = useSelector(selectCurrentUser)
-
-  useEffect(() => {
-    dispatch(loadSession()).then(() => setIsLoading(false))
-  }, [dispatch, setIsLoading])
+  const { isLoading } = useCurrentUserQuery()
 
   if (isLoading) return <Loading />
 
@@ -36,20 +26,12 @@ const AppRouter = () => {
       <Route path="/tracks" component={Tracks} />
       <Route path="/events" component={Events} />
       <Route path="/places" component={Places} />
+      <Route path="/users" component={Users} />
 
       <Route exact path="/suits" component={SuitsOverview} />
       <Route path="/suits/make/:id" component={SuitsIndex} />
       <Route path="/suits/:id/edit" component={SuitsEdit} />
       <Route path="/suits/:id" component={SuitsShow} />
-
-      {!currentUser?.authorized && (
-        <>
-          <Route path="/sign-in" component={UsersSignIn} />
-          <Route path="/sign-up" component={UsersSignUp} />
-          <Route path="/success-registration" component={SuccessRegistration} />
-          <Route path="/email-confirmation" component={EmailConfirmation} />
-        </>
-      )}
     </Switch>
   )
 }
