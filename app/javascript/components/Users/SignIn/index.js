@@ -1,30 +1,31 @@
 import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Formik, Field } from 'formik'
-import { useDispatch } from 'react-redux'
-import { unwrapResult } from '@reduxjs/toolkit'
 import PropTypes from 'prop-types'
 
-import { login } from 'redux/session'
+import { useLoginMutation } from 'api/hooks/sessions'
 import PageWrapper from 'components/Users/PageWrapper'
 import Separator from 'components/Users/Separator'
 import { useI18n } from 'components/TranslationsProvider'
 import validationSchema from './validationSchema'
 import styles from 'components/Users/styles.module.scss'
 
-const SignIn = ({ afterLoginUrl }) => {
-  const dispatch = useDispatch()
+const defaultAfterLoginUrl = '/'
+
+const SignIn = ({ location }) => {
   const history = useHistory()
   const { t } = useI18n()
+  const loginMutation = useLoginMutation()
 
-  const handleSubmit = (values, formikBag) => {
-    dispatch(login(values))
-      .then(unwrapResult)
-      .then(() => history.push(afterLoginUrl))
-      .catch(err => {
-        formikBag.setSubmitting(false)
-        formikBag.setFieldError('serverError', err)
-      })
+  const afterLoginUrl = location.state?.afterLoginUrl ?? defaultAfterLoginUrl
+
+  const handleSubmit = async (values, formikBag) => {
+    try {
+      await loginMutation.mutateAsync(values)
+      history.push(afterLoginUrl)
+    } catch (err) {
+      formikBag.setSubmitting(false)
+    }
   }
 
   return (
@@ -36,9 +37,9 @@ const SignIn = ({ afterLoginUrl }) => {
       >
         {({ touched, errors, handleSubmit, isSubmitting }) => (
           <form onSubmit={handleSubmit} className={styles.container}>
-            {errors.serverError && (
+            {loginMutation.error && (
               <p className={styles.serverError}>
-                <strong>{errors.serverError.name}</strong>: {errors.serverError.message}
+                {loginMutation.error.response.data?.error || loginMutation.error.message}
               </p>
             )}
 
@@ -48,6 +49,7 @@ const SignIn = ({ afterLoginUrl }) => {
                 name="email"
                 className={styles.input}
                 placeholder="Email"
+                autoComplete="username"
                 data-invalid={errors.email && touched.email}
               />
               {errors.email && touched.email && (
@@ -84,7 +86,7 @@ const SignIn = ({ afterLoginUrl }) => {
             <Separator>{t('general.or')}</Separator>
 
             <Link
-              to="/sign-up"
+              to="/users/sign-up"
               className={styles.secondaryButton}
               disabled={isSubmitting}
             >
@@ -106,7 +108,11 @@ const SignIn = ({ afterLoginUrl }) => {
 }
 
 SignIn.propTypes = {
-  afterLoginUrl: PropTypes.string.isRequired
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      afterLoginUrl: PropTypes.string
+    })
+  })
 }
 
 export default SignIn
