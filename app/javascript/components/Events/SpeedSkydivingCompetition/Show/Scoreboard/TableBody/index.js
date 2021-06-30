@@ -1,13 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Category from './Category'
+import styles from './styles.module.scss'
+
 const Index = ({ event, rounds, competitors, categories, standings }) => {
   return (
     <>
       {categories.map(category => (
-        <tbody key={category.id}>
+        <tbody key={category.id} className={styles.categoryStandings}>
           <tr>
-            <td colSpan={rounds.length + 5}>{category.name}</td>
+            <Category event={event} category={category} colSpan={rounds.length + 5} />
           </tr>
         </tbody>
       ))}

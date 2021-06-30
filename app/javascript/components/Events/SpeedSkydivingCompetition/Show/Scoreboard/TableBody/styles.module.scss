@@ -1,0 +1,35 @@
+.categoryStandings:first-of-type .actionButton:nth-child(4) {
+  display: none;
+}
+
+.categoryStandings:last-of-type .positionButton:last-child {
+  display: none;
+}
+
+.categoryCell {
+  > :first-child {
+    margin-right: 0.75rem;
+  }
+
+  > :not(:last-child):not(:first-child) {
+    margin-right: 0.25rem;
+  }
+}
+
+.actionButton {
+  composes: button from '~styles/button';
+  composes: flat from '~styles/button';
+
+  display: inline-flex;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0.25rem;
+
+  font-size: 0.825rem;
+
+  visibility: hidden;
+}
+
+.categoryCell:hover .actionButton {
+  visibility: visible;
+}

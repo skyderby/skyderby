@@ -65,11 +65,7 @@ class Event::Section < ApplicationRecord
     self.order = max_order_within_event + 1
   end
 
-  def max_order_within_event
-    event.sections.maximum(:order) || 0
-  end
+  def max_order_within_event = event.sections.maximum(:order) || 0
 
-  def min_order_within_event
-    event.sections.minimum(:order) || 0
-  end
+  def min_order_within_event = event.sections.minimum(:order) || 0
 end
