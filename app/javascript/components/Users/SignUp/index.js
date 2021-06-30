@@ -15,7 +15,7 @@ const SignUp = () => {
   const handleSubmit = async (values, { setSubmitting, setFieldError }) => {
     try {
       await Api.Registration.create(values)
-      history.push('/success-registration')
+      history.push('/users/success-registration')
     } catch (err) {
       setSubmitting(false)
 
@@ -50,6 +50,7 @@ const SignUp = () => {
                 name="email"
                 className={styles.input}
                 placeholder="Email"
+                autoComplete="username"
                 data-invalid={errors.email && touched.email}
               />
               {errors.email && touched.email && (
@@ -99,14 +100,14 @@ const SignUp = () => {
 
             <Separator>{t('general.or')}</Separator>
             <Link
-              to="/sign-in"
+              to="/users/sign-in"
               className={styles.secondaryButton}
               disabled={isSubmitting}
             >
               {t('devise.shared.links.sign_in')}
             </Link>
 
-            <Link to="/email-confirmation" className={styles.tertiaryButton}>
+            <Link to="/users/email-confirmation" className={styles.tertiaryButton}>
               {t('devise.shared.links.didn_t_receive_confirmation_instructions')}
             </Link>
           </form>
