@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
 
-import { selectCurrentUser, logout } from 'redux/session'
+import { useCurrentUserQuery, useLogoutMutation } from 'api/hooks/sessions'
 import { useI18n } from 'components/TranslationsProvider'
 import NewTrackForm from 'components/NewTrackForm'
 import ExitIcon from 'icons/exit.svg'
@@ -11,12 +10,12 @@ import CurrentUser from './CurrentUser'
 import styles from './styles.module.scss'
 
 const RightMenuDesktop = () => {
-  const dispatch = useDispatch()
   const { t } = useI18n()
   const [showModal, setShowModal] = useState(false)
-  const currentUser = useSelector(selectCurrentUser)
+  const { data: currentUser } = useCurrentUserQuery()
+  const logoutMutation = useLogoutMutation()
 
-  const handleLogout = () => dispatch(logout())
+  const handleLogout = () => logoutMutation.mutate()
 
   return (
     <ul className={styles.rightMenuDesktop}>
@@ -54,7 +53,7 @@ const RightMenuDesktop = () => {
           <li className={styles.menuItem}>
             <Link
               to={location => ({
-                pathname: '/sign-in',
+                pathname: '/users/sign-in',
                 state: { afterLoginUrl: location.pathname }
               })}
             >
@@ -63,7 +62,7 @@ const RightMenuDesktop = () => {
           </li>
 
           <li className={styles.menuItem}>
-            <Link to="/sign-up">{t('application.header.sign_up')}</Link>
+            <Link to="/users/sign-up">{t('application.header.sign_up')}</Link>
           </li>
 
           <LocaleSelector />
