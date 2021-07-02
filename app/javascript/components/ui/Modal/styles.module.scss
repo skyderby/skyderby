@@ -28,7 +28,7 @@
   @include sm-screen {
     min-width: 400px;
     max-width: 80vw;
-    margin: 2rem auto;
+    margin: 5rem auto 2rem;
 
     &[data-size='sm'] {
       width: 500px;
