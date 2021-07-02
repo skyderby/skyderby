@@ -4,6 +4,7 @@ export {
 } from './speedSkydivingCompetition'
 
 export { useRoundsQuery, useNewRoundMutation, useDeleteRoundMutation } from './rounds'
+
 export {
   useCategoriesQuery,
   useNewCategoryMutation,
@@ -11,5 +12,12 @@ export {
   useDeleteCategoryMutation,
   useChangePositionMutation
 } from './categories'
-export { useCompetitorsQuery, useNewCompetitorMutation } from './competitors'
+
+export {
+  useCompetitorsQuery,
+  useCompetitorQuery,
+  useNewCompetitorMutation,
+  useDeleteCompetitorMutation
+} from './competitors'
+
 export { useStandingsQuery } from './standings'

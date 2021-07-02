@@ -2,7 +2,11 @@ module Api
   module V1
     class CountriesController < Api::ApplicationController
       def index
-        @countries = Country.order(:name).then { |rel| apply_filters(rel) }
+        @countries =
+          Country
+          .order(:name)
+          .then { |rel| apply_filters(rel) }
+          .then { |rel| rel.search(params[:search]) }
       end
 
       def show

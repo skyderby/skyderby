@@ -1,21 +1,3 @@
-.categoryStandings:first-of-type .actionButton:nth-child(4) {
-  display: none;
-}
-
-.categoryStandings:last-of-type .positionButton:last-child {
-  display: none;
-}
-
-.categoryCell {
-  > :first-child {
-    margin-right: 0.75rem;
-  }
-
-  > :not(:last-child):not(:first-child) {
-    margin-right: 0.25rem;
-  }
-}
-
 .actionButton {
   composes: button from '~styles/button';
   composes: flat from '~styles/button';
@@ -30,6 +12,26 @@
   visibility: hidden;
 }
 
-.categoryCell:hover .actionButton {
+.categoryCell:hover .actionButton,
+.competitorCell:hover .actionButton {
   visibility: visible;
+}
+
+.categoryStandings:first-of-type .actionButton:nth-child(4) {
+  display: none;
+}
+
+.categoryStandings:last-of-type .positionButton:last-child {
+  display: none;
+}
+
+.categoryCell,
+.competitorCell {
+  > :first-child {
+    margin-right: 0.75rem;
+  }
+
+  > :not(:last-child):not(:first-child) {
+    margin-right: 0.25rem;
+  }
 }

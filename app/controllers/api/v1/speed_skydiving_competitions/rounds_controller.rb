@@ -16,7 +16,7 @@ class Api::V1::SpeedSkydivingCompetitions::RoundsController < Api::ApplicationCo
       if @round.save
         format.json
       else
-        format.json { { errors: @round.errors } }
+        format.json { render json: { errors: @round.errors }, status: :unprocessable_entity }
       end
     end
   end
@@ -30,7 +30,7 @@ class Api::V1::SpeedSkydivingCompetitions::RoundsController < Api::ApplicationCo
       if @round.destroy
         format.json
       else
-        format.json { { errors: @round.errors } }
+        format.json { render json: { errors: @round.errors }, status: :unprocessable_entity }
       end
     end
   end
