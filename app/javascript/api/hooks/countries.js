@@ -1,21 +1,29 @@
 import { useQueries, useQuery } from 'react-query'
 import axios from 'axios'
-import { loadIds } from 'api/helpers'
+import { loadIds, urlWithParams } from 'api/helpers'
 
 const endpoint = '/api/v1/countries'
 
 const getCountry = id => axios.get(`${endpoint}/${id}`)
-
+const getCountries = params => axios.get(urlWithParams(endpoint, params))
 const getCountriesById = ids => loadIds(endpoint, ids)
 
-const queryFn = async ctx => {
+const queryCountry = ctx => {
   const [_key, id] = ctx.queryKey
-  const { data } = await getCountry(id)
-
-  return data
+  return getCountry(id).then(response => response.data)
 }
 
-export const getQueryKey = id => ['countries', id]
+const queryCountries = ctx => {
+  const [_key, params] = ctx.queryKey
+  return getCountries(params).then(response => response.data)
+}
+
+const getQueryKey = id => ['countries', id]
+
+const cacheOptions = {
+  cacheTime: Infinity,
+  staleTime: Infinity
+}
 
 export const preloadCountries = async (ids, queryClient) => {
   const missingIds = ids
@@ -32,10 +40,9 @@ export const preloadCountries = async (ids, queryClient) => {
 
 export const getQueryOptions = id => ({
   queryKey: getQueryKey(id),
-  queryFn,
+  queryFn: queryCountry,
   enabled: !!id,
-  cacheTime: Infinity,
-  staleTime: Infinity
+  ...cacheOptions
 })
 
 export const useCountryQuery = id => useQuery(getQueryOptions(id))
@@ -46,3 +53,9 @@ export const useCountryQueries = ids =>
       .filter(Boolean)
       .map(id => getQueryOptions(id))
   )
+
+export const countriesQuery = params => ({
+  queryKey: ['countries', params].filter(Boolean),
+  queryFn: queryCountries,
+  ...cacheOptions
+})

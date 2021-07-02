@@ -3,21 +3,11 @@ import axios from 'axios'
 
 import { preloadCountries } from 'api/hooks/countries'
 import { getQueryKey as getProfileQueryKey } from './profile'
+import { urlWithParams } from 'api/helpers'
 
 const endpoint = '/api/v1/profiles'
 
-const buildUrl = (params = {}) => {
-  const urlParams = new URLSearchParams()
-  Object.entries(params).forEach(([key, value]) => {
-    urlParams.set(key, value)
-  })
-
-  return `${endpoint}?${urlParams.toString()}`
-}
-
-const getProfiles = params => axios.get(buildUrl(params))
-
-const getQueryKey = params => ['profiles', params].filter(Boolean)
+const getProfiles = params => axios.get(urlWithParams(endpoint, params))
 
 const cacheProfiles = (profiles, queryClient) =>
   profiles
@@ -44,7 +34,7 @@ const cacheOptions = {
 }
 
 export const profilesQuery = (params, queryClient) => ({
-  queryKey: getQueryKey(params),
+  queryKey: ['profiles', params].filter(Boolean),
   queryFn: buildQueryFn(queryClient),
   ...cacheOptions
 })
