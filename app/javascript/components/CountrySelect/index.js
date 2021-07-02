@@ -2,20 +2,20 @@ import React, { useCallback } from 'react'
 import { AsyncPaginate as Select } from 'react-select-async-paginate'
 import { useQueryClient } from 'react-query'
 
-import { profilesQuery, useProfileQuery } from 'api/hooks/profiles'
+import { countriesQuery, useCountryQuery } from 'api/hooks/countries'
 import selectStyles from 'styles/selectStyles'
 import PropTypes from 'prop-types'
 
-const ProfileSelect = ({ value: profileId, ...props }) => {
+const CountrySelect = ({ value: countryId, ...props }) => {
   const queryClient = useQueryClient()
-  const { data: profile } = useProfileQuery(profileId)
+  const { data: country } = useCountryQuery(countryId)
 
-  const selectedOption = profile ? { value: profile.id, label: profile.name } : null
+  const selectedOption = country ? { value: country.id, label: country.name } : null
 
   const loadOptions = useCallback(
     async (search, _loadedOptions, { page }) => {
       const data = await queryClient.fetchQuery(
-        profilesQuery({ page, search }, queryClient)
+        countriesQuery({ page, search }, queryClient)
       )
 
       const { items, currentPage, totalPages } = data
@@ -46,8 +46,8 @@ const ProfileSelect = ({ value: profileId, ...props }) => {
   )
 }
 
-ProfileSelect.propTypes = {
+CountrySelect.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
-export default ProfileSelect
+export default CountrySelect
