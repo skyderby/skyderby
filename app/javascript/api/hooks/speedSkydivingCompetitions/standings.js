@@ -11,24 +11,30 @@ const getStandings = eventId => axios.get(endpoint(eventId))
 
 const queryKey = eventId => ['speedSkydivingCompetitions', eventId, 'standings']
 
-const buildQueryFn = queryClient => async ctx => {
+const buildQueryFn = (queryClient, options) => async ctx => {
   const [_key, eventId] = ctx.queryKey
   const { data } = await getStandings(eventId)
 
-  await Promise.all([
-    preloadCompetitors(eventId, queryClient),
-    preloadCategories(eventId, queryClient),
-    preloadRounds(eventId, queryClient)
-  ])
+  const preload = Object.fromEntries((options.preload || []).map(key => [key, true]))
+
+  await Promise.all(
+    [
+      preload.competitors && preloadCompetitors(eventId, queryClient),
+      preload.categories && preloadCategories(eventId, queryClient),
+      preload.rounds && preloadRounds(eventId, queryClient)
+    ].filter(Boolean)
+  )
 
   return data
 }
 
-export const useStandingsQuery = eventId => {
+export const standingsQuery = (eventId, queryClient, options) => ({
+  queryKey: queryKey(eventId),
+  queryFn: buildQueryFn(queryClient, options)
+})
+
+export const useStandingsQuery = (eventId, options) => {
   const queryClient = useQueryClient()
 
-  return useQuery({
-    queryKey: queryKey(eventId),
-    queryFn: buildQueryFn(queryClient)
-  })
+  return useQuery(standingsQuery(eventId, queryClient, options))
 }

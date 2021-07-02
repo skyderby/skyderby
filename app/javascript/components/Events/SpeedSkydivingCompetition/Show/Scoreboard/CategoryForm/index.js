@@ -8,7 +8,13 @@ import ErrorText from 'components/ui/ErrorMessage'
 import validationSchema from './validationSchema'
 import styles from './styles.module.scss'
 
-const CategoryForm = ({ initialValues, onSubmit: save, onHide: hide }) => {
+const defaultInitialValues = { name: '' }
+
+const CategoryForm = ({
+  initialValues = defaultInitialValues,
+  onSubmit: save,
+  onHide: hide
+}) => {
   const { t } = useI18n()
 
   const handleSubmit = async (values, formikBag) => {
@@ -68,7 +74,7 @@ const CategoryForm = ({ initialValues, onSubmit: save, onHide: hide }) => {
 CategoryForm.propTypes = {
   initialValues: PropTypes.shape({
     name: PropTypes.string
-  }).isRequired,
+  }),
   onSubmit: PropTypes.func.isRequired,
   onHide: PropTypes.func.isRequired
 }
