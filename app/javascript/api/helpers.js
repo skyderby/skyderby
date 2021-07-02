@@ -16,3 +16,12 @@ export const loadIds = async (indexEndpoint, ids) => {
 
   return data
 }
+
+export const urlWithParams = (endpoint, params = {}) => {
+  const urlParams = new URLSearchParams()
+  Object.entries(params).forEach(([key, value]) => {
+    urlParams.set(key, value)
+  })
+
+  return `${endpoint}?${urlParams.toString()}`
+}

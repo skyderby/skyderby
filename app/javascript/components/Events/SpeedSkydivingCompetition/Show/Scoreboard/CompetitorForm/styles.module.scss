@@ -18,3 +18,32 @@
   grid-template-columns: max-content 1fr;
   align-items: baseline;
 }
+
+.newProfileGroup {
+  display: grid;
+  grid-auto-flow: column;
+  grid-row-gap: 0.25rem;
+  grid-column-gap: 1rem;
+  grid-template-rows: max-content max-content;
+  grid-template-columns: 3fr 1fr;
+}
+
+.radioInput {
+  display: flex;
+  align-items: center;
+
+  input {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.375rem;
+  }
+}
+
+.inputGroup {
+  display: grid;
+  grid-gap: 0.25rem;
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+}
