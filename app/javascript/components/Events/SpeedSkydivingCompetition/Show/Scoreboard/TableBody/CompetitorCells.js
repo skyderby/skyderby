@@ -1,21 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import {
   useCompetitorQuery,
-  useDeleteCompetitorMutation
+  useDeleteCompetitorMutation,
+  useEditCompetitorMutation
 } from 'api/hooks/speedSkydivingCompetitions'
 import { useProfileQuery } from 'api/hooks/profiles'
 import { useCountryQuery } from 'api/hooks/countries'
 import PencilIcon from 'icons/pencil'
 import TimesIcon from 'icons/times'
+import CompetitorForm from '../CompetitorForm'
 import styles from './styles.module.scss'
 
 const CompetitorCells = ({ event, competitorId }) => {
+  const [competitorFormShown, setCompetitorFormShown] = useState(false)
   const { data: competitor } = useCompetitorQuery(event.id, competitorId)
   const { data: profile } = useProfileQuery(competitor?.profileId)
   const { data: country } = useCountryQuery(profile?.countryId)
 
+  const editMutation = useEditCompetitorMutation()
   const deleteMutation = useDeleteCompetitorMutation()
   const deleteCompetitor = () =>
     deleteMutation.mutate({
@@ -27,19 +31,33 @@ const CompetitorCells = ({ event, competitorId }) => {
     <>
       <td className={styles.competitorCell}>
         <span>{profile?.name}</span>
-        {competitor?.assignedNumber && <span>`#${competitor.assignedNumber}`</span>}
+        {competitor?.assignedNumber && (
+          <span className={styles.assignedNumber}>#{competitor.assignedNumber}</span>
+        )}
         {event.permissions.canEdit && (
-          <>
-            <button className={styles.actionButton}>
+          <div className={styles.actions}>
+            <button
+              className={styles.actionButton}
+              onClick={() => setCompetitorFormShown(true)}
+            >
               <PencilIcon />
             </button>
             <button className={styles.actionButton} onClick={deleteCompetitor}>
               <TimesIcon />
             </button>
-          </>
+          </div>
         )}
       </td>
       <td>{country?.code}</td>
+
+      {competitorFormShown && (
+        <CompetitorForm
+          eventId={event.id}
+          initialValues={competitor}
+          mutation={editMutation}
+          onHide={() => setCompetitorFormShown(false)}
+        />
+      )}
     </>
   )
 }
