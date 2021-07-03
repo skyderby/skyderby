@@ -2,10 +2,21 @@ de:
   activerecord:
     models:
       place: 'Orte'
+      place/photo: Fotos
+      place/jump_line: Sprungprofile
     attributes:
       place:
         name: 'Name'
         country: 'Land'
+        placeholder: 'Wähle dein Land'
         latitude: 'Latitude'
         longitude: 'Longitude'
         msl: 'Höhe (MSL)'
+        kind: 'Standorttyp'
+        kinds:
+          skydive: 'Flugplatz'
+          base: 'B.A.S.E.'
+      place/photo:
+        image: Bilddatei
+  views:
+    places: 'Neuen Ort'
