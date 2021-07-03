@@ -8,8 +8,15 @@ en:
       place:
         name: Name
         country: Country
+        placeholder: 'Select country'
         latitude: Latitude
         longitude: Longitude
         msl: Elevation (MSL)
+        kind: Location type
+        kinds:
+          skydive: 'Dropzone'
+          base: 'B.A.S.E.'
       place/photo:
         image: File with photo
+  views:
+    places: 'New location'

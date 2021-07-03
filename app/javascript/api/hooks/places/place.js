@@ -1,4 +1,4 @@
-import { useQueries, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQueries, useQuery, useQueryClient } from 'react-query'
 import axios from 'axios'
 
 import {
@@ -6,6 +6,7 @@ import {
   preloadCountries
 } from 'api/hooks/countries'
 import { loadIds } from 'api/helpers'
+import { getCSRFToken } from 'utils/csrfToken'
 
 const endpoint = '/api/v1/places'
 
@@ -57,4 +58,19 @@ export const usePlaceQuery = id => {
 export const usePlaceQueries = ids => {
   const queryClient = useQueryClient()
   return useQueries(ids.filter(Boolean).map(id => placeQuery(id, queryClient)))
+}
+
+const queryKey = id => ['place', id]
+
+const createEvent = place =>
+  axios.post(endpoint, { place }, { headers: { 'X-CSRF-Token': getCSRFToken() } })
+
+export const useNewPlaceMutation = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation(createEvent, {
+    onSuccess(response) {
+      queryClient.setQueryData(queryKey(response.data.id), response.data)
+    }
+  })
 }
