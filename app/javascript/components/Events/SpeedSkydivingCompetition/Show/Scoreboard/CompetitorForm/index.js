@@ -21,29 +21,19 @@ const defaultInitialValues = {
   newProfile: 'false'
 }
 
-const CompetitorForm = ({
-  eventId,
-  initialValues = defaultInitialValues,
-  onSubmit: save,
-  onHide: hide
-}) => {
+const CompetitorForm = ({ eventId, initialValues = {}, mutation, onHide: hide }) => {
   const { t } = useI18n()
 
   const handleSubmit = async (values, formikBag) => {
+    const { newProfile, profileId, profileAttributes, ...params } = values
     const competitorParams = {
-      categoryId: values.categoryId,
-      assignedNumber: values.assignedNumber,
-      ...(values.newProfile === 'true'
-        ? {
-            profileAttributes: values.profileAttributes
-          }
-        : {
-            profileId: values.profileId
-          })
+      eventId,
+      ...params,
+      ...(newProfile === 'true' ? { profileAttributes } : { profileId })
     }
 
     try {
-      await save(competitorParams)
+      await mutation.mutateAsync(competitorParams)
       hide()
     } catch (err) {
       formikBag.setSubmitting(false)
@@ -54,7 +44,7 @@ const CompetitorForm = ({
   return (
     <Modal isShown={true} onHide={hide} title="New competitor" size="sm">
       <Formik
-        initialValues={initialValues}
+        initialValues={{ ...defaultInitialValues, ...initialValues }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
@@ -182,7 +172,11 @@ CompetitorForm.propTypes = {
     categoryId: PropTypes.number,
     assignedNumber: PropTypes.number
   }),
-  onSubmit: PropTypes.func.isRequired,
+  mutation: PropTypes.shape({
+    mutate: PropTypes.func.isRequired,
+    mutateAsync: PropTypes.func.isRequired,
+    error: PropTypes.object
+  }).isRequired,
   onHide: PropTypes.func.isRequired
 }
 

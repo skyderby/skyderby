@@ -12,6 +12,8 @@ const getCompetitors = eventId => axios.get(collectionEndpoint(eventId))
 const getCompetitor = (eventId, id) => axios.get(elementEndpoint(eventId, id))
 const createCompetitor = ({ eventId, ...competitor }) =>
   axios.post(collectionEndpoint(eventId), { competitor })
+const updateCompetitor = ({ eventId, id, ...competitor }) =>
+  axios.put(elementEndpoint(eventId, id), { competitor })
 const deleteCompetitor = ({ eventId, id }) => axios.delete(elementEndpoint(eventId, id))
 
 const collectionKey = eventId => ['speedSkydivingCompetitions', eventId, 'competitors']
@@ -34,7 +36,7 @@ const queryCompetitors = async (ctx, queryClient) => {
 }
 
 const queryCompetitor = async ctx => {
-  const [_key, eventId, _model, id] = ctx
+  const [_key, eventId, _model, id] = ctx.queryKey
   return getCompetitor(eventId, id).then(response => response.data)
 }
 
@@ -62,6 +64,23 @@ export const useNewCompetitorMutation = () => {
     onSuccess(response, { eventId }) {
       const data = queryClient.getQueryData(collectionKey(eventId))
       queryClient.setQueryData(collectionKey(eventId), [...data, response.data])
+      queryClient.refetchQueries(standingsQuery(eventId, queryClient))
+    }
+  })
+}
+
+export const useEditCompetitorMutation = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation(updateCompetitor, {
+    onSuccess(response, { eventId, id }) {
+      const data = queryClient.getQueryData(collectionKey(eventId))
+      console.log({ data, eventId, id, response })
+      queryClient.setQueryData(
+        collectionKey(eventId),
+        data.map(competitor => (competitor.id === id ? response.data : competitor))
+      )
+      console.log(queryClient.getQueryData(collectionKey(eventId)))
       queryClient.refetchQueries(standingsQuery(eventId, queryClient))
     }
   })
