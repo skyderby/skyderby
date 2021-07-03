@@ -8,8 +8,15 @@ ru:
       place:
         name: 'Название'
         country: 'Страна'
+        placeholder: 'Выберете страну'
         latitude: 'Широта'
         longitude: 'Долгота'
         msl: 'Превышение над уровнем моря'
+        kind: 'Тип локации'
+        kinds:
+          skydive: 'Аэродром'
+          base: 'B.A.S.E.'
       place/photo:
         image: Файл с изображением
+  views:
+    places: 'Новая лоакация'
