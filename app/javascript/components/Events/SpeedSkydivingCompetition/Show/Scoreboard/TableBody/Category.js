@@ -31,7 +31,7 @@ const Category = ({ event, category, colSpan }) => {
     <td colSpan={colSpan} className={styles.categoryCell}>
       <span>{category.name}</span>
       {event.permissions.canEdit && (
-        <>
+        <div className={styles.actions}>
           <button
             className={styles.actionButton}
             onClick={() => setCategoryFormShown(true)}
@@ -61,7 +61,7 @@ const Category = ({ event, category, colSpan }) => {
               initialValues={category}
             />
           )}
-        </>
+        </div>
       )}
     </td>
   )
