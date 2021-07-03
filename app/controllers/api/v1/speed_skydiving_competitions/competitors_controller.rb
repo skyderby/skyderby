@@ -7,12 +7,6 @@ class Api::V1::SpeedSkydivingCompetitions::CompetitorsController < Api::Applicat
     @competitors = @event.competitors
   end
 
-  def show
-    authorize @event, :show?
-
-    @competitor = @event.competitors.find(params[:id])
-  end
-
   def create
     authorize @event, :update?
 
