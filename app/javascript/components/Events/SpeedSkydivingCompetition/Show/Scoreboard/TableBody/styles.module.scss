@@ -1,3 +1,8 @@
+.actions {
+  display: inline-flex;
+  margin-left: 0.5rem;
+}
+
 .actionButton {
   composes: button from '~styles/button';
   composes: flat from '~styles/button';
@@ -17,21 +22,26 @@
   visibility: visible;
 }
 
-.categoryStandings:first-of-type .actionButton:nth-child(4) {
+.categoryStandings:first-of-type .actions .actionButton:nth-child(3) {
   display: none;
 }
 
-.categoryStandings:last-of-type .positionButton:last-child {
+.categoryStandings:last-of-type .actions .positionButton:last-child {
   display: none;
 }
 
-.categoryCell,
 .competitorCell {
-  > :first-child {
-    margin-right: 0.75rem;
+  > :not(:last-child) {
+    margin-right: 0.25rem;
   }
+}
 
+.categoryCell {
   > :not(:last-child):not(:first-child) {
     margin-right: 0.25rem;
   }
+}
+
+.assignedNumber {
+  color: var(--grey-70);
 }

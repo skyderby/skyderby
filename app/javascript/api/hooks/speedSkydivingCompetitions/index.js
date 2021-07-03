@@ -17,6 +17,7 @@ export {
   useCompetitorsQuery,
   useCompetitorQuery,
   useNewCompetitorMutation,
+  useEditCompetitorMutation,
   useDeleteCompetitorMutation
 } from './competitors'
 

@@ -21,8 +21,6 @@ const ActionsBar = ({ eventId }) => {
 
   const addRound = () => newRoundMutation.mutateAsync(eventId)
   const addCategory = values => newCategoryMutation.mutateAsync({ eventId, ...values })
-  const addCompetitor = values =>
-    newCompetitorMutation.mutateAsync({ eventId, ...values })
 
   return (
     <div className={styles.container}>
@@ -43,7 +41,7 @@ const ActionsBar = ({ eventId }) => {
       {competitorFormShown && (
         <CompetitorForm
           eventId={eventId}
-          onSubmit={addCompetitor}
+          mutation={newCompetitorMutation}
           onHide={() => setCompetitorFormShown(false)}
         />
       )}
