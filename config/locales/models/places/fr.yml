@@ -2,10 +2,21 @@ fr:
   activerecord:
     models:
       place: Lieu
+      place/photo: Photos
+      place/jump_line: Profils de saut
     attributes:
       place:
         name: Nom
         country: Pays
+        placeholder: 'Choisis ton pays'
         latitude: Latitude
         longitude: Longitude
         msl: Hauteur (MSL)
+        kind: 'Type de lieu'
+        kinds:
+          skydive: 'Aérodrome'
+          base: 'B.A.S.E.'
+      place/photo:
+        image: Fichier d'image
+  views:
+    places: 'Nouvel Lieu'

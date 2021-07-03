@@ -134,6 +134,9 @@ const PlacesIndex = () => {
           >
             <CompassIcon />
           </button>
+          <Link to={'/places/new'} className={styles.placeName}>
+            +
+          </Link>
         </div>
 
         <div className={styles.placesList}>
