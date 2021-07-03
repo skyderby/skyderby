@@ -2,10 +2,21 @@ it:
   activerecord:
     models:
       place: Luoghi
+      place/photo: Fotografie
+      place/jump_line: Salta i profili
     attributes:
       place:
         name: Nome
         country: Nazione
+        placeholder: 'Scegli il tuo paese'
         latitude: Latitudine
         longitude: Longitudine
         msl: Altitudine (Sul Livello del Mare)
+        kind: 'Tipo di posizione'
+        kinds:
+          skydive: 'Aeroporto'
+          base: 'B.A.S.E.'
+      place/photo:
+        image: File immagine
+  views:
+    places: 'Nuova luogo'
