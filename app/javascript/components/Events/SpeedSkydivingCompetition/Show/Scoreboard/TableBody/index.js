@@ -10,9 +10,8 @@ const Index = ({ event, rounds, competitors, categories, standings }) => {
     <>
       {categories.map(category => (
         <tbody key={category.id} className={styles.categoryStandings}>
-          <tr>
-            <Category event={event} category={category} colSpan={rounds.length + 5} />
-          </tr>
+          <Category event={event} category={category} colSpan={rounds.length + 5} />
+
           {standings
             .find(({ categoryId }) => category.id === categoryId)
             .rows.map(row => (
