@@ -28,42 +28,44 @@ const Category = ({ event, category, colSpan }) => {
     positionMutation.mutate({ eventId: event.id, id: category.id, direction: 'down' })
 
   return (
-    <td colSpan={colSpan} className={styles.categoryCell}>
-      <span>{category.name}</span>
-      {event.permissions.canEdit && (
-        <div className={styles.actions}>
-          <button
-            className={styles.actionButton}
-            onClick={() => setCategoryFormShown(true)}
-          >
-            <PencilIcon />
-          </button>
-          <button className={styles.actionButton} onClick={handleDelete}>
-            <TimesIcon />
-          </button>
-          <button
-            className={cx(styles.actionButton, styles.positionButton)}
-            onClick={moveUp}
-          >
-            <ChevronUpIcon />
-          </button>
-          <button
-            className={cx(styles.actionButton, styles.positionButton)}
-            onClick={moveDown}
-          >
-            <ChevronDownIcon />
-          </button>
+    <tr>
+      <td colSpan={colSpan} className={styles.categoryCell}>
+        <span>{category.name}</span>
+        {event.permissions.canEdit && (
+          <div className={styles.actions}>
+            <button
+              className={styles.actionButton}
+              onClick={() => setCategoryFormShown(true)}
+            >
+              <PencilIcon />
+            </button>
+            <button className={styles.actionButton} onClick={handleDelete}>
+              <TimesIcon />
+            </button>
+            <button
+              className={cx(styles.actionButton, styles.positionButton)}
+              onClick={moveUp}
+            >
+              <ChevronUpIcon />
+            </button>
+            <button
+              className={cx(styles.actionButton, styles.positionButton)}
+              onClick={moveDown}
+            >
+              <ChevronDownIcon />
+            </button>
 
-          {categoryFormShown && (
-            <CategoryForm
-              onHide={() => setCategoryFormShown(false)}
-              onSubmit={updateCategory}
-              initialValues={category}
-            />
-          )}
-        </div>
-      )}
-    </td>
+            {categoryFormShown && (
+              <CategoryForm
+                onHide={() => setCategoryFormShown(false)}
+                onSubmit={updateCategory}
+                initialValues={category}
+              />
+            )}
+          </div>
+        )}
+      </td>
+    </tr>
   )
 }
 
