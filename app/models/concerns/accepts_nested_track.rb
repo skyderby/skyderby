@@ -10,7 +10,7 @@ module AcceptsNestedTrack
   included do
     attr_accessor :track_attributes, :track_from
 
-    after_commit :enque_jobs
+    after_commit :enqueue_jobs
 
     before_validation :create_track_from_file
 
@@ -46,7 +46,7 @@ module AcceptsNestedTrack
       kind: track_activity,
       track_file_id: track_file.id,
       profile_id: competitor.profile_id,
-      suit_id: competitor.suit_id,
+      suit_id: suit_id,
       visibility: tracks_visibility,
       comment: track_comment
     ).except(:file)
@@ -54,7 +54,9 @@ module AcceptsNestedTrack
     self.track = CreateTrackService.call(params)
   end
 
-  def enque_jobs
+  def suit_id = competitor.respond_to?(:suit_id) ? competitor.suit_id : nil
+
+  def enqueue_jobs
     ResultsJob.perform_later track_id
     OnlineCompetitionJob.perform_later track_id
   end
