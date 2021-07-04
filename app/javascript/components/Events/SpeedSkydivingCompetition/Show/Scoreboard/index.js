@@ -15,7 +15,7 @@ import styles from './styles.module.scss'
 const Scoreboard = ({ match }) => {
   const eventId = Number(match.params.eventId)
   const { data: standings, isLoading } = useStandingsQuery(eventId, {
-    preload: ['rounds', 'categories', 'competitors']
+    preload: ['rounds', 'categories', 'competitors', 'results']
   })
 
   const { data: rounds } = useRoundsQuery(eventId)
