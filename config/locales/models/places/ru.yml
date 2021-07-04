@@ -19,4 +19,4 @@ ru:
       place/photo:
         image: Файл с изображением
   views:
-    places: 'Новая лоакация'
+    places: 'Новая локация'

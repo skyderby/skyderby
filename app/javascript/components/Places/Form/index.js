@@ -77,7 +77,7 @@ const Form = props => {
             <button type="submit" className={styles.primaryButton}>
               {t('general.save')}
             </button>
-            <Link to="/events/new" className={styles.secondaryButton}>
+            <Link to="/places" className={styles.secondaryButton}>
               {t('general.cancel')}
             </Link>
           </div>
