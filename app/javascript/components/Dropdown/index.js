@@ -41,7 +41,7 @@ Dropdown.displayName = 'Dropdown'
 Dropdown.propTypes = {
   referenceElement: PropTypes.instanceOf(Element).isRequired,
   children: PropTypes.node.isRequired,
-  options: PropTypes.object,
+  options: PropTypes.object
 }
 
 export default Dropdown
