@@ -20,7 +20,7 @@ const Dropdown = forwardRef(({ referenceElement, children, options }, ref) => {
 
   const setRef = node => {
     setPopperElement(node)
-    ref.current = node
+    if (ref) ref.current = node
   }
 
   return ReactDOM.createPortal(
@@ -41,7 +41,7 @@ Dropdown.displayName = 'Dropdown'
 Dropdown.propTypes = {
   referenceElement: PropTypes.instanceOf(Element).isRequired,
   children: PropTypes.node.isRequired,
-  options: PropTypes.object,
+  options: PropTypes.object
 }
 
 export default Dropdown

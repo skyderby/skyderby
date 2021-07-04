@@ -65,7 +65,7 @@ const RightMenuDesktop = () => {
             <Link to="/users/sign-up">{t('application.header.sign_up')}</Link>
           </li>
 
-          <LocaleSelector />
+          <LocaleSelector className={styles.menuItem} />
         </>
       )}
     </ul>
