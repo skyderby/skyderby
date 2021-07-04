@@ -18,7 +18,8 @@ export const mapParamsToUrl = ({ activity, filters, page, sortBy }, prefix) => {
   if (sortBy) params.set(prefixKey('sortBy', prefix), sortBy)
   if (Number(page) > 1) params.set(prefixKey('page', prefix), page)
 
-  filters.forEach(([key, val]) => params.append(`${prefixKey(key, prefix)}[]`, val))
+  const filterEntries = Array.isArray(filters) ? filters : Object.entries(filters)
+  filterEntries.forEach(([key, val]) => params.append(`${prefixKey(key, prefix)}[]`, val))
 
   return params.toString() === '' ? '' : '?' + params.toString()
 }
@@ -63,14 +64,16 @@ const buildQueryFn = queryClient => async ctx => {
   return data
 }
 
+export const tracksQuery = (params, queryClient, options = {}) => ({
+  queryKey: ['tracks', params],
+  queryFn: buildQueryFn(queryClient),
+  ...options
+})
+
 export const useTracksQuery = params => {
   const queryClient = useQueryClient()
 
-  return useQuery({
-    queryKey: ['tracks', params],
-    queryFn: buildQueryFn(queryClient),
-    keepPreviousData: true
-  })
+  return useQuery(tracksQuery(params, queryClient, { keepPreviousData: true }))
 }
 
 export const useTracksInfiniteQuery = ({ page, ...params }) => {
