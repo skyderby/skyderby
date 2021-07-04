@@ -21,7 +21,7 @@
 #
 
 class Event < ApplicationRecord
-  include TrackVisibility, DesignatedLane
+  include CompetitionTrackVisibility, DesignatedLane
 
   enum status: { draft: 0, published: 1, finished: 2, surprise: 3 }
   enum rules: { speed_distance_time: 0, fai: 1, hungary_boogie: 2 }

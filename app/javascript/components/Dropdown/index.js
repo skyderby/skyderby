@@ -20,7 +20,7 @@ const Dropdown = forwardRef(({ referenceElement, children, options }, ref) => {
 
   const setRef = node => {
     setPopperElement(node)
-    ref.current = node
+    if (ref) ref.current = node
   }
 
   return ReactDOM.createPortal(
