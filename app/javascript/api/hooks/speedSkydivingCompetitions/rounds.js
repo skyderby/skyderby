@@ -1,5 +1,4 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query'
-
 import axios from 'axios'
 
 const endpoint = eventId => `/api/v1/speed_skydiving_competitions/${eventId}/rounds`
@@ -18,15 +17,19 @@ const queryFn = async ctx => {
   return data
 }
 
-const getQueryOptions = eventId => ({
+const roundsQuery = (eventId, options = {}) => ({
   queryKey: queryKey(eventId),
-  queryFn
+  queryFn,
+  ...options
 })
 
 export const preloadRounds = (eventId, queryClient) =>
-  queryClient.prefetchQuery(getQueryOptions(eventId))
+  queryClient.prefetchQuery(roundsQuery(eventId))
 
-export const useRoundsQuery = eventId => useQuery(getQueryOptions(eventId))
+export const useRoundsQuery = eventId => useQuery(roundsQuery(eventId))
+
+export const useRoundQuery = (eventId, id) =>
+  useQuery(roundsQuery(eventId, { select: data => data.find(round => round.id === id) }))
 
 export const useNewRoundMutation = () => {
   const queryClient = useQueryClient()
