@@ -41,7 +41,8 @@ const resultsQuery = (eventId, options = {}) => ({
 export const preloadResults = (eventId, queryClient) =>
   queryClient.prefetchQuery(resultsQuery(eventId))
 
-export const useResultsQuery = eventId => useQuery(resultsQuery(eventId))
+export const useResultsQuery = (eventId, options) =>
+  useQuery(resultsQuery(eventId, options))
 
 export const useResultQuery = (eventId, id) =>
   useQuery(
