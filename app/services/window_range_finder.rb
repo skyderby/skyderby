@@ -10,6 +10,7 @@ class WindowRangeFinder
     from_gps_time
     duration
     elevation
+    elevation_with_breakoff
     to_altitude
     until_cross_finish_line
   ].freeze
@@ -119,6 +120,15 @@ class WindowRangeFinder
 
   def elevation(altitude)
     lookup_altitude = points.first[:altitude] - altitude
+
+    to_altitude(lookup_altitude)
+  end
+
+  def elevation_with_breakoff(options)
+    altitude = options[:altitude]
+    breakoff = options[:breakoff]
+
+    lookup_altitude = [breakoff, points.first[:altitude] - altitude].max
 
     to_altitude(lookup_altitude)
   end
