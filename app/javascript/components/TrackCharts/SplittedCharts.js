@@ -6,7 +6,7 @@ import SpeedsChart from './SpeedsChart'
 
 import styles from './styles.module.scss'
 
-const SplittedCharts = ({ points, zeroWindPoints }) => {
+const SplittedCharts = ({ points, zeroWindPoints, children }) => {
   const glideRatioChartRef = useRef()
   const speedsChartRef = useRef()
 
@@ -27,14 +27,14 @@ const SplittedCharts = ({ points, zeroWindPoints }) => {
           points={points}
           zeroWindPoints={zeroWindPoints}
           ref={glideRatioChartRef}
-        />
+        >
+          {children}
+        </GlideRatioChart>
       </div>
       <div>
-        <SpeedsChart
-          points={points}
-          zeroWindPoints={zeroWindPoints}
-          ref={speedsChartRef}
-        />
+        <SpeedsChart points={points} zeroWindPoints={zeroWindPoints} ref={speedsChartRef}>
+          {children}
+        </SpeedsChart>
       </div>
     </div>
   )
@@ -42,7 +42,8 @@ const SplittedCharts = ({ points, zeroWindPoints }) => {
 
 SplittedCharts.propTypes = {
   points: PropTypes.array.isRequired,
-  zeroWindPoints: PropTypes.array
+  zeroWindPoints: PropTypes.array,
+  children: PropTypes.func
 }
 
 export default SplittedCharts
