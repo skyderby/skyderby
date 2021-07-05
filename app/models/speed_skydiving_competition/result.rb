@@ -13,6 +13,8 @@ class SpeedSkydivingCompetition::Result < ApplicationRecord
   delegate :number, to: :round, prefix: true
   delegate :tracks_visibility, to: :event
 
+  accepts_nested_attributes_for :track, update_only: true, reject_if: :new_record?
+
   private
 
   def track_owner = event
