@@ -32,14 +32,14 @@ module Api
 
         def show_params
           params
-            .permit(:freq_1Hz, :trimmed, trimmed: {})
+            .permit(:original_frequency, :trimmed, trimmed: {})
             .to_h.symbolize_keys
             .tap { |params| normalize_params(params) }
         end
 
         def normalize_params(params)
           params[:trimmed] = params[:trimmed].to_s == 'true' if params.key? :trimmed
-          params[:freq_1Hz] = params[:freq_1Hz].to_s == 'true' if params.key? :freq_1Hz
+          params[:freq_1hz] = false if params[:original_frequency] == 'true'
         end
 
         def default_options
