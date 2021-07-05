@@ -4,16 +4,23 @@ import PropTypes from 'prop-types'
 import { useCompetitorQuery, useRoundQuery } from 'api/hooks/speedSkydivingCompetitions'
 import { useProfileQuery } from 'api/hooks/profiles'
 import Modal from 'components/ui/Modal'
-import { useI18n } from 'components/TranslationsProvider'
 import Charts from './Charts'
-import styles from './styles.module.scss'
+import JumpRange from './JumpRange'
+import TabBar from './TabBar'
 
 const ResultModal = ({ event, result, onHide: hide, deleteResult }) => {
-  const { t } = useI18n()
   const [currentTab, setCurrentTab] = useState('charts')
   const { data: competitor } = useCompetitorQuery(event.id, result.competitorId)
   const { data: profile } = useProfileQuery(competitor?.profileId)
   const { data: round } = useRoundQuery(event.id, result.roundId)
+
+  const tabProps = {
+    event: event,
+    result: result,
+    deleteResult: deleteResult,
+    hide: hide,
+    tabBar: <TabBar currentTab={currentTab} setCurrentTab={setCurrentTab} />
+  }
 
   return (
     <Modal
@@ -22,17 +29,8 @@ const ResultModal = ({ event, result, onHide: hide, deleteResult }) => {
       title={`Result: ${profile?.name} - Round ${round?.number}`}
       size="md"
     >
-      <Modal.Body>
-        {currentTab === 'charts' && <Charts result={result} />}
-        Result: {result.result}
-      </Modal.Body>
-      <Modal.Footer>
-        {event.permissions.canEdit && (
-          <button className={styles.deleteButton} onClick={deleteResult}>
-            {t('general.delete')}
-          </button>
-        )}
-      </Modal.Footer>
+      {currentTab === 'charts' && <Charts {...tabProps} />}
+      {currentTab === 'jumpRange' && <JumpRange {...tabProps} />}
     </Modal>
   )
 }
