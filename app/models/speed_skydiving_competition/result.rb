@@ -1,5 +1,5 @@
 class SpeedSkydivingCompetition::Result < ApplicationRecord
-  include AcceptsNestedTrack
+  include AcceptsNestedTrack, SubmissionResult
 
   belongs_to :event, class_name: 'SpeedSkydivingCompetition', inverse_of: :rounds
   belongs_to :competitor
@@ -10,16 +10,10 @@ class SpeedSkydivingCompetition::Result < ApplicationRecord
 
   validates :competitor_id, uniqueness: { scope: :round_id }, on: :create
 
-  before_save :calculate_result
-
   delegate :number, to: :round, prefix: true
   delegate :tracks_visibility, to: :event
 
   private
-
-  def calculate_result
-    self.result = 450
-  end
 
   def track_owner = event
 

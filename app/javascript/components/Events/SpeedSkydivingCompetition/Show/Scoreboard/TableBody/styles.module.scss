@@ -44,6 +44,12 @@
 
 .resultCell {
   position: relative;
+
+  text-align: right;
+}
+
+.standingRow > td.resultCell {
+  padding: 0;
 }
 
 .newResult {
@@ -69,10 +75,45 @@
   }
 }
 
+.showResult {
+  position: relative;
+
+  display: block;
+  width: 100%;
+  height: 2.25rem;
+  padding: 0 0.5rem;
+  border: 0;
+
+  text-align: right;
+
+  background-color: var(--white);
+  cursor: pointer;
+}
+
+.showResult:hover::before {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  height: 3px;
+
+  background-color: var(--blue-80);
+
+  content: '';
+}
+
 .resultCell:hover .newResult {
   visibility: visible;
 }
 
 .assignedNumber {
   color: var(--grey-70);
+}
+
+.standingRow {
+  td:nth-last-child(1),
+  td:nth-last-child(2) {
+    text-align: right;
+  }
 }
