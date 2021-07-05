@@ -6,10 +6,15 @@ module SpeedSkydivingCompetition::Result::SubmissionResult
   end
 
   def calculate_result
-    best_range = ResultScore.new(self).calculate
+    scoring = ResultScore.new(self)
+    best_range = scoring.calculate
     return unless best_range
 
-    self.result = best_range[:speed] * 3.6
+    assign_attributes \
+      result: best_range[:speed] * 3.6,
+      exit_altitude: scoring.exit_altitude,
+      window_start_time: best_range.dig(:start_point, :gps_time),
+      window_end_time: best_range.dig(:end_point, :gps_time)
   end
 
   class ResultScore
@@ -26,6 +31,8 @@ module SpeedSkydivingCompetition::Result::SubmissionResult
     def calculate
       ranges.max_by { |range| range[:speed] }
     end
+
+    def exit_altitude = exit_point[:altitude]
 
     private
 
@@ -62,17 +69,16 @@ module SpeedSkydivingCompetition::Result::SubmissionResult
         .points
     end
 
-    def exit_time
+    def exit_time = exit_point[:gps_time]
+
+    def exit_point
       gr_threshold = 10
 
-      exit_point =
-        points
+      points
         .each_cons(15).find([points.first]) do |range|
           range.all? { |point| point[:glide_ratio] < gr_threshold }
         end
         .first
-
-      exit_point[:gps_time]
     end
 
     def points
