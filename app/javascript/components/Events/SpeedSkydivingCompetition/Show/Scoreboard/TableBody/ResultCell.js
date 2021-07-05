@@ -3,23 +3,58 @@ import PropTypes from 'prop-types'
 
 import UploadIcon from 'icons/upload'
 import NewResultForm from '../NewResultForm'
+import ResultModal from '../ResultModal'
 import styles from './styles.module.scss'
+import { useDeleteResultMutation } from 'api/hooks/speedSkydivingCompetitions'
 
-const ResultCell = ({ event, roundId, competitorId }) => {
+const ResultCell = ({ event, roundId, competitorId, result }) => {
   const [showNewResultModal, setShowNewResultModal] = useState(false)
+  const [showResultModal, setShowResultModal] = useState(false)
+  const deleteMutation = useDeleteResultMutation()
+
+  const hideResultModal = () => setShowResultModal(false)
+
+  const deleteResult = async () => {
+    if (!confirm('Are you sure you want delete this result?')) return
+
+    try {
+      await deleteMutation.mutateAsync({ eventId: event.id, id: result.id })
+      hideResultModal()
+    } catch (err) {
+      console.warn(err)
+    }
+  }
 
   return (
     <td className={styles.resultCell}>
-      {event.permissions.canEdit && (
+      {result ? (
         <>
-          <button
-            className={styles.newResult}
-            onClick={() => setShowNewResultModal(true)}
-          >
-            <UploadIcon />
+          <button className={styles.showResult} onClick={() => setShowResultModal(true)}>
+            {result.result.toFixed(2)}
           </button>
 
-          {showNewResultModal && (
+          {showResultModal && (
+            <ResultModal
+              event={event}
+              result={result}
+              deleteResult={deleteResult}
+              onHide={hideResultModal}
+            />
+          )}
+        </>
+      ) : (
+        <>
+          {event.permissions.canEdit && (
+            <button
+              className={styles.newResult}
+              onClick={() => setShowNewResultModal(true)}
+              title="Upload new result"
+            >
+              <UploadIcon />
+            </button>
+          )}
+
+          {!result && showNewResultModal && (
             <NewResultForm
               event={event}
               competitorId={competitorId}
@@ -41,7 +76,10 @@ ResultCell.propTypes = {
     permissions: PropTypes.shape({
       canEdit: PropTypes.bool.isRequired
     }).isRequired
-  }).isRequired
+  }).isRequired,
+  result: PropTypes.shape({
+    result: PropTypes.number
+  })
 }
 
 export default ResultCell
