@@ -1,3 +1,42 @@
+.defaultButton {
+  composes: button from '~styles/button';
+}
+
+.primaryButton {
+  composes: button from '~styles/button';
+  composes: primary from '~styles/button';
+}
+
 .deleteButton {
   composes: button from '~styles/button';
+  composes: red from '~styles/button';
+  composes: outlined from '~styles/button';
+}
+
+.tabBar {
+  display: flex;
+
+  > :not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}
+
+.tabBarButton {
+  composes: button from '~styles/button';
+  composes: flat from '~styles/button';
+}
+
+.activeTab {
+  --active-text-color: var(--white);
+  --active-background-color: var(--blue-grey-70);
+
+  composes: active from '~styles/button';
+}
+
+.footerRight {
+  display: flex;
+
+  > :not(:last-child) {
+    margin-right: 0.5rem;
+  }
 }

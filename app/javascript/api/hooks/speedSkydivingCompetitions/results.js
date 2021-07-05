@@ -2,26 +2,28 @@ import { useQuery, useMutation, useQueryClient } from 'react-query'
 import axios from 'axios'
 
 import { standingsQuery } from './standings'
+import { queryKey as trackQueryKey } from 'api/hooks/tracks/track'
 
-const endpoint = eventId => `/api/v1/speed_skydiving_competitions/${eventId}/results`
-
-const getResults = eventId => axios.get(endpoint(eventId))
+const collectionEndpoint = eventId =>
+  `/api/v1/speed_skydiving_competitions/${eventId}/results`
+const elementEndpoint = (eventId, id) => `${collectionEndpoint(eventId)}/${id}`
+const getResults = eventId => axios.get(collectionEndpoint(eventId))
 
 const createResult = ({ eventId, ...values }) => {
   const formData = new FormData()
   Object.entries(values)
     .filter(([key]) => key !== 'trackFile')
     .forEach(([key, value]) => formData.set(`result[${key}]`, value))
-  formData.set('result[trackAttributes][file]', values.trackFile)
 
-  return axios.post(endpoint(eventId), formData, {
+  return axios.post(collectionEndpoint(eventId), formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
   })
 }
-
-const deleteResult = ({ eventId, id }) => axios.delete(`${endpoint(eventId)}/${id}`)
+const updateResult = ({ eventId, id, ...result }) =>
+  axios.put(elementEndpoint(eventId, id), { result })
+const deleteResult = ({ eventId, id }) => axios.delete(elementEndpoint(eventId, id))
 
 const queryKey = eventId => ['speedSkydivingCompetitions', eventId, 'results']
 
@@ -56,6 +58,22 @@ export const useNewResultMutation = () => {
     onSuccess(response, { eventId }) {
       const data = queryClient.getQueryData(queryKey(eventId))
       queryClient.setQueryData(queryKey(eventId), [...data, response.data])
+      queryClient.refetchQueries(standingsQuery(eventId, queryClient))
+    }
+  })
+}
+
+export const useEditResultMutation = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation(updateResult, {
+    onSuccess(response, { eventId, id }) {
+      const data = queryClient.getQueryData(queryKey(eventId))
+      queryClient.setQueryData(
+        queryKey(eventId),
+        data.map(result => (result.id === id ? response.data : result))
+      )
+      queryClient.invalidateQueries(trackQueryKey(response.data.trackId))
       queryClient.refetchQueries(standingsQuery(eventId, queryClient))
     }
   })
