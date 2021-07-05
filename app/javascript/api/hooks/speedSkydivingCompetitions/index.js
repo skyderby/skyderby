@@ -30,6 +30,7 @@ export {
   useResultsQuery,
   useResultQuery,
   useNewResultMutation,
+  useEditResultMutation,
   useDeleteResultMutation
 } from './results'
 

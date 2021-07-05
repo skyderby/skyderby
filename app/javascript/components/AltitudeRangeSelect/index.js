@@ -27,13 +27,12 @@ const AltitudeRangeSelect = ({
   }
 
   const handleChange = values => {
-    if (onChangeCallback instanceof Function)
-      onChangeCallback({ from: values[0], to: values[1] })
+    onChangeCallback?.({ from: values[0], to: values[1] })
   }
 
   return (
     <div className={styles.container}>
-      <AltitudeChart points={points}>
+      <AltitudeChart points={points} options={{ chart: { zoomType: 'x' } }}>
         {chart => (
           <>
             <Highchart.Plotband
@@ -42,7 +41,7 @@ const AltitudeRangeSelect = ({
               from={0}
               to={value.from}
               color="rgba(0, 0, 0, 0.25)"
-              zIndex={8}
+              zIndex={5}
             />
             <Highchart.Plotband
               id="to"
@@ -50,7 +49,7 @@ const AltitudeRangeSelect = ({
               from={value.to}
               to={jumpDuration}
               color="rgba(0, 0, 0, 0.25)"
-              zIndex={8}
+              zIndex={5}
             />
           </>
         )}
