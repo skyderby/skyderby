@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { useI18n } from 'components/TranslationsProvider'
+import { I18n } from 'components/TranslationsProvider'
 import { METRIC } from 'redux/userPreferences'
 import { restoreSeriesVisibility, saveSeriesVisibility } from 'utils/chartSeriesSettings'
 
@@ -8,7 +8,7 @@ import { calculateSpeedPoints } from '../calculateSpeedPoints'
 
 const chartName = 'SpeedsChart'
 
-const baseOptions = t => ({
+const baseOptions = () => ({
   chart: {
     type: 'spline',
     marginLeft: 0,
@@ -21,7 +21,7 @@ const baseOptions = t => ({
   },
   title: {
     style: { color: '#666', fontSize: '14px' },
-    text: t('charts.spd.title')
+    text: I18n.t('charts.spd.title')
   },
   plotOptions: {
     spline: {
@@ -63,8 +63,8 @@ const baseOptions = t => ({
     crosshairs: true,
     valueDecimals: 0,
     headerFormat: `
-      ${t('charts.elev.series.height')}:
-      {point.point.options.altitude}${t('units.m')}<br>
+      ${I18n.t('charts.elev.series.height')}:
+      {point.point.options.altitude}${I18n.t('units.m')}<br>
     `
   },
   credits: {
@@ -78,8 +78,6 @@ const baseOptions = t => ({
 })
 
 export default (points, zeroWindPoints, unitSystem) => {
-  const { t } = useI18n()
-
   const { verticalSpeed, horizontalSpeed, fullSpeed, zeroWindSpeed } = useMemo(
     () => calculateSpeedPoints(points, zeroWindPoints, unitSystem),
     [points, zeroWindPoints, unitSystem]
@@ -88,41 +86,41 @@ export default (points, zeroWindPoints, unitSystem) => {
   const speedUnits = unitSystem === METRIC ? 'kmh' : 'mph'
 
   const options = {
-    ...baseOptions(t),
+    ...baseOptions(),
     series: [
       {
-        name: t('charts.spd.series.ground'),
+        name: I18n.t('charts.spd.series.ground'),
         code: 'ground_speed',
         data: horizontalSpeed,
         type: 'spline',
         color: '#52A964',
         tooltip: {
-          valueSuffix: ` ${t(`units.${speedUnits}`)}`
+          valueSuffix: ` ${I18n.t(`units.${speedUnits}`)}`
         }
       },
       {
-        name: t('charts.spd.series.vertical'),
+        name: I18n.t('charts.spd.series.vertical'),
         code: 'vertical_speed',
         data: verticalSpeed,
         type: 'spline',
         color: '#A7414E',
         tooltip: {
-          valueSuffix: ` ${t(`units.${speedUnits}`)}`
+          valueSuffix: ` ${I18n.t(`units.${speedUnits}`)}`
         }
       },
       {
-        name: t('charts.spd.series.full'),
+        name: I18n.t('charts.spd.series.full'),
         code: 'full_speed',
         data: fullSpeed,
         type: 'spline',
         color: '#D6A184',
         visible: false,
         tooltip: {
-          valueSuffix: ` ${t(`units.${speedUnits}`)}`
+          valueSuffix: ` ${I18n.t(`units.${speedUnits}`)}`
         }
       },
       {
-        name: t('charts.spd.series.wind_effect'),
+        name: I18n.t('charts.spd.series.wind_effect'),
         code: 'speed_wind_effect',
         data: zeroWindSpeed,
         type: 'arearange',
@@ -138,7 +136,7 @@ export default (points, zeroWindPoints, unitSystem) => {
             ${this.series.name}: <b> ${effectSign}${windEffect} ${this.series.tooltipOptions.valueSuffix}</b>
           `
           },
-          valueSuffix: ` ${t(`units.${speedUnits}`)}`
+          valueSuffix: ` ${I18n.t(`units.${speedUnits}`)}`
         }
       }
     ]
