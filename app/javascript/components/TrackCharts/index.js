@@ -7,19 +7,22 @@ import { selectUserPreferences, SINGLE_CHART } from 'redux/userPreferences'
 import SplittedCharts from './SplittedCharts'
 import CombinedChart from './CombinedChart'
 
-const Charts = ({ points, zeroWindPoints }) => {
+const Charts = ({ points, zeroWindPoints, children }) => {
   const { chartMode } = useSelector(selectUserPreferences)
 
-  if (chartMode === SINGLE_CHART) {
-    return <CombinedChart points={points} zeroWindPoints={zeroWindPoints} />
-  } else {
-    return <SplittedCharts points={points} zeroWindPoints={zeroWindPoints} />
-  }
+  const ChartComponent = chartMode === SINGLE_CHART ? CombinedChart : SplittedCharts
+
+  return (
+    <ChartComponent points={points} zeroWindPoints={zeroWindPoints}>
+      {children}
+    </ChartComponent>
+  )
 }
 
 Charts.propTypes = {
   points: PropTypes.array.isRequired,
-  zeroWindPoints: PropTypes.array
+  zeroWindPoints: PropTypes.array,
+  children: PropTypes.func
 }
 
 export default Charts

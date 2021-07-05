@@ -1,13 +1,13 @@
 import { useMemo } from 'react'
 
-import { useI18n } from 'components/TranslationsProvider'
+import { I18n } from 'components/TranslationsProvider'
 import { restoreSeriesVisibility, saveSeriesVisibility } from 'utils/chartSeriesSettings'
 
 import { calculateGlideRatioPoints } from '../calculateGlideRatioPoints'
 
 const chartName = 'GlideRatioChart'
 
-const baseOptions = t => ({
+const baseOptions = () => ({
   chart: {
     type: 'spline',
     marginLeft: 0,
@@ -21,7 +21,7 @@ const baseOptions = t => ({
   },
   title: {
     style: { color: '#555', fontSize: '14px' },
-    text: t('charts.gr.title')
+    text: I18n.t('charts.gr.title')
   },
   plotOptions: {
     spline: {
@@ -45,8 +45,8 @@ const baseOptions = t => ({
     shared: true,
     valueDecimals: 2,
     headerFormat: `
-      ${t('charts.elev.series.height')}:
-      {point.point.options.altitude}${t('units.m')}<br>
+      ${I18n.t('charts.elev.series.height')}:
+      {point.point.options.altitude}${I18n.t('units.m')}<br>
     `,
     pointFormat: `
       <span style="color:{series.color}">\u25CF</span>
@@ -83,17 +83,16 @@ const baseOptions = t => ({
 })
 
 export default (points, zeroWindPoints) => {
-  const { t } = useI18n()
   const { glideRatio, zeroWindGlideRatio } = useMemo(
     () => calculateGlideRatioPoints(points, zeroWindPoints),
     [points, zeroWindPoints]
   )
 
   const options = {
-    ...baseOptions(t),
+    ...baseOptions(),
     series: [
       {
-        name: t('charts.gr.series.gr'),
+        name: I18n.t('charts.gr.series.gr'),
         code: 'gr',
         data: glideRatio,
         tooltip: {
@@ -116,7 +115,7 @@ export default (points, zeroWindPoints) => {
         zIndex: 2
       },
       {
-        name: t('charts.gr.series.wind_effect'),
+        name: I18n.t('charts.gr.series.wind_effect'),
         code: 'gr_wind_effect',
         type: 'arearange',
         data: zeroWindGlideRatio,
