@@ -21,6 +21,20 @@ class Api::V1::SpeedSkydivingCompetitions::ResultsController < Api::ApplicationC
     end
   end
 
+  def destroy
+    authorize @event, :update?
+
+    @result = @event.results.find(params[:id])
+
+    respond_to do |format|
+      if @result.destroy
+        format.json
+      else
+        format.json { render json: { errors: @result.errors }, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
 
   def set_event
