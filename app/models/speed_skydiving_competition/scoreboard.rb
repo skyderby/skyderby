@@ -12,9 +12,24 @@ class SpeedSkydivingCompetition::Scoreboard
   attr_reader :event
 
   def category_standings(category)
+    category_competitors = competitors.select { |competitor| competitor.category == category }
+    category_results = results.select { |result| category_competitors.include? result.competitor }
+
     {
       category: category,
-      standings: event.competitors.filter { |competitor| competitor.category == category }
+      standings: Standings.build(category_competitors, rounds, category_results)
     }
+  end
+
+  def rounds
+    @rounds ||= event.rounds
+  end
+
+  def competitors
+    @competitors ||= event.competitors.includes(:category)
+  end
+
+  def results
+    @results ||= event.results.includes(:round, :competitor)
   end
 end
