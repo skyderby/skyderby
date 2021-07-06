@@ -10,11 +10,9 @@ const deleteRound = ({ eventId, roundId }) =>
 
 const queryKey = eventId => ['speedSkydivingCompetitions', eventId, 'rounds']
 
-const queryFn = async ctx => {
+const queryFn = ctx => {
   const [_key, eventId] = ctx.queryKey
-  const { data } = await getRounds(eventId)
-
-  return data
+  return getRounds(eventId).then(response => response.data)
 }
 
 const roundsQuery = (eventId, options = {}) => ({

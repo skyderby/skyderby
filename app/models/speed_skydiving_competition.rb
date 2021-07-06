@@ -12,6 +12,7 @@ class SpeedSkydivingCompetition < ApplicationRecord
     has_many :rounds
     has_many :competitors
     has_many :results
+    has_many :teams
   end
 
   def active? = starts_at < Time.zone.now && !finished?
