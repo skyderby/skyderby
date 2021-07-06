@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query'
-
 import axios from 'axios'
+
+import { standingsQuery } from './standings'
 
 const endpoint = eventId => `/api/v1/speed_skydiving_competitions/${eventId}/categories`
 const categoryUrl = (eventId, id) => `${endpoint(eventId)}/${id}`
@@ -41,6 +42,7 @@ export const useNewCategoryMutation = () => {
     onSuccess(response, { eventId }) {
       const data = queryClient.getQueryData(queryKey(eventId))
       queryClient.setQueryData(queryKey(eventId), [...data, response.data])
+      queryClient.refetchQueries(standingsQuery(eventId, queryClient))
     }
   })
 }
@@ -62,7 +64,8 @@ export const useDeleteCategoryMutation = () => {
 
   return useMutation(deleteCategory, {
     onSuccess(response, { eventId }) {
-      return queryClient.invalidateQueries(queryKey(eventId))
+      queryClient.invalidateQueries(queryKey(eventId))
+      queryClient.refetchQueries(standingsQuery(eventId, queryClient))
     }
   })
 }
