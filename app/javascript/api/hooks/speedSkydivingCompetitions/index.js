@@ -34,4 +34,14 @@ export {
   useDeleteResultMutation
 } from './results'
 
+export {
+  useTeamsQuery,
+  useTeamQuery,
+  useNewTeamMutation,
+  useEditTeamMutation,
+  useDeleteTeamMutation
+} from './teams'
+
 export { useStandingsQuery } from './standings'
+
+export { useTeamStandingsQuery } from './teamStandings'

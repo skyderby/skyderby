@@ -12,5 +12,6 @@ class SpeedSkydivingCompetition < ApplicationRecord
     has_many :rounds
     has_many :competitors
     has_many :results
+    has_many :teams
   end
 end
