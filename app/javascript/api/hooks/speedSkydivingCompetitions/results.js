@@ -11,9 +11,7 @@ const getResults = eventId => axios.get(collectionEndpoint(eventId))
 
 const createResult = ({ eventId, ...values }) => {
   const formData = new FormData()
-  Object.entries(values)
-    .filter(([key]) => key !== 'trackFile')
-    .forEach(([key, value]) => formData.set(`result[${key}]`, value))
+  Object.entries(values).forEach(([key, value]) => formData.set(`result[${key}]`, value))
 
   return axios.post(collectionEndpoint(eventId), formData, {
     headers: {

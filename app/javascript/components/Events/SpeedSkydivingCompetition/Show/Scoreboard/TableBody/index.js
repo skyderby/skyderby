@@ -14,7 +14,7 @@ const Index = ({ event, rounds, competitors, categories, standings }) => {
 
           {standings
             .find(({ categoryId }) => category.id === categoryId)
-            .rows.map(row => (
+            ?.rows?.map(row => (
               <StandingRow
                 key={row.competitorId}
                 event={event}
