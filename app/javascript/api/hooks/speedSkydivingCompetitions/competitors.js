@@ -29,7 +29,7 @@ const queryCompetitors = async (ctx, queryClient) => {
   return data
 }
 
-const competitorsQuery = (eventId, queryClient, options) => ({
+export const competitorsQuery = (eventId, queryClient, options) => ({
   queryKey: collectionKey(eventId),
   queryFn: ctx => queryCompetitors(ctx, queryClient),
   ...options
@@ -38,10 +38,10 @@ const competitorsQuery = (eventId, queryClient, options) => ({
 export const preloadCompetitors = (eventId, queryClient) =>
   queryClient.prefetchQuery(competitorsQuery(eventId, queryClient))
 
-export const useCompetitorsQuery = eventId => {
+export const useCompetitorsQuery = (eventId, options) => {
   const queryClient = useQueryClient()
 
-  return useQuery(competitorsQuery(eventId, queryClient))
+  return useQuery(competitorsQuery(eventId, queryClient, options))
 }
 
 export const useCompetitorQuery = (eventId, id) => {

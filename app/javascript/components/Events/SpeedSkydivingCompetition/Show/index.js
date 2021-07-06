@@ -6,6 +6,7 @@ import { useSpeedSkydivingCompetitionQuery } from 'api/hooks/speedSkydivingCompe
 import AppShell from 'components/AppShell'
 import Header from './Header'
 import Scoreboard from './Scoreboard'
+import TeamsScoreboard from './TeamsScoreboard'
 import styles from './styles.module.scss'
 import PageLoading from 'components/PageWrapper/Loading'
 
@@ -24,6 +25,7 @@ const Show = ({ match }) => {
 
           <Switch>
             <Route exact path={`${match.path}/`} component={Scoreboard} />
+            <Route exact path={`${match.path}/teams`} component={TeamsScoreboard} />
           </Switch>
         </div>
       )}

@@ -1,0 +1,45 @@
+.primaryButton {
+  composes: button from '~styles/button.module.scss';
+  composes: primary from '~styles/button.module.scss';
+}
+
+.secondaryButton {
+  composes: button from '~styles/button.module.scss';
+}
+
+.input {
+  composes: input from '~styles/input.module.scss';
+  composes: outlined from '~styles/input.module.scss';
+}
+
+.flatButton {
+  composes: button from '~styles/button.module.scss';
+  composes: flat from '~styles/button.module.scss';
+
+  width: 2.1875rem;
+  height: 2.1875rem;
+
+  border-color: var(--grey-20);
+
+  font-weight: bold;
+
+  background-color: var(--grey-20);
+}
+
+.formRow {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: min-content 1fr;
+  align-items: center;
+}
+
+.competitorRow {
+  composes: formRow;
+
+  grid-template-columns: 1fr min-content;
+}
+
+.modalBody {
+  display: grid;
+  grid-gap: 0.75rem;
+}
