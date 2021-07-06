@@ -38,28 +38,40 @@
   text-align: center;
 }
 
-.scoreboardTable tbody > tr:first-child td {
-  width: 1%;
-
-  font-weight: 500;
-  text-transform: uppercase;
+.scoreboardTable th:first-child,
+.scoreboardTable td:first-child {
+  width: 3%;
 }
 
-.scoreboardTable tr:first-child > th:first-child,
-.scoreboardTable tbody > tr:not(:first-child) > td:nth-child(1),
-.scoreboardTable tbody > tr:not(:first-child) > td:nth-child(3) {
-  width: 1%;
-
-  text-align: center;
+.scoreboardTable th:last-child,
+.scoreboardTable td:last-child {
+  width: 15%;
 }
 
-.scoreboardTable tr:first-child > th:nth-child(2) {
-  text-align: left;
+.actions {
+  display: inline-flex;
+  margin-left: 0.5rem;
 }
 
-.taskScore,
-.totalScore,
-.roundResult,
-.roundScore {
-  text-align: right;
+.actionButton {
+  composes: button from '~styles/button';
+  composes: flat from '~styles/button';
+
+  display: inline-flex;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0.25rem;
+
+  font-size: 0.825rem;
+
+  visibility: hidden;
+}
+
+.teamCell:hover .actionButton {
+  visibility: visible;
+}
+
+.competitorNames {
+  font-style: italic;
+  color: var(--grey-80);
 }

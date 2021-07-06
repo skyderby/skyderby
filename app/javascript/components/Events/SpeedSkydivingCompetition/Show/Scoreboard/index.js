@@ -25,7 +25,7 @@ const Scoreboard = ({ match }) => {
   if (isLoading) return null
 
   return (
-    <div>
+    <div className={styles.container}>
       {event.permissions.canEdit && <ActionsBar eventId={eventId} />}
 
       <table className={styles.scoreboardTable}>
