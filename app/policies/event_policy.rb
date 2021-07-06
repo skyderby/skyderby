@@ -1,11 +1,7 @@
 class EventPolicy < ApplicationPolicy
-  def index?
-    true
-  end
+  def index? = true
 
-  def create?
-    user.registered?
-  end
+  def create? = user.registered?
 
   def show?
     return true if admin?
