@@ -4,7 +4,8 @@ json.extract! event,
               :starts_at,
               :place_id,
               :visibility,
-              :status
+              :status,
+              :use_teams
 
 json.permissions do
   json.can_edit policy(event).edit?
