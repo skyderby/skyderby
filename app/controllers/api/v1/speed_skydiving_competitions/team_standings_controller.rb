@@ -1,10 +1,10 @@
-class Api::V1::SpeedSkydivingCompetitions::StandingsController < Api::ApplicationController
+class Api::V1::SpeedSkydivingCompetitions::TeamStandingsController < Api::ApplicationController
   before_action :set_event
 
   def show
     authorize @event, :show?
 
-    @standings = SpeedSkydivingCompetition::Scoreboard.new(@event)
+    @standings = SpeedSkydivingCompetition::TeamStandings.new(@event)
   end
 
   private
