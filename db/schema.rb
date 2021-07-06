@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_27_083927) do
+ActiveRecord::Schema.define(version: 2021_07_05_161336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -310,6 +310,77 @@ ActiveRecord::Schema.define(version: 2021_06_27_083927) do
     t.string "name", limit: 510
   end
 
+  create_table "speed_skydiving_competition_categories", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "position", default: 0, null: false
+    t.bigint "event_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["event_id"], name: "index_speed_skydiving_competition_categories_on_event_id"
+  end
+
+  create_table "speed_skydiving_competition_competitors", force: :cascade do |t|
+    t.bigint "event_id"
+    t.bigint "category_id"
+    t.bigint "profile_id"
+    t.bigint "team_id"
+    t.integer "assigned_number"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["category_id"], name: "index_speed_skydiving_competition_competitors_on_category_id"
+    t.index ["event_id"], name: "index_speed_skydiving_competition_competitors_on_event_id"
+    t.index ["profile_id"], name: "index_speed_skydiving_competition_competitors_on_profile_id"
+    t.index ["team_id"], name: "index_speed_skydiving_competition_competitors_on_team_id"
+  end
+
+  create_table "speed_skydiving_competition_results", force: :cascade do |t|
+    t.bigint "event_id"
+    t.bigint "round_id"
+    t.bigint "competitor_id"
+    t.bigint "track_id"
+    t.decimal "result", precision: 10, scale: 5
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "window_start_time"
+    t.datetime "window_end_time"
+    t.index ["competitor_id", "round_id"], name: "speed_skydiving_results_by_competitor_and_rounds", unique: true
+    t.index ["competitor_id"], name: "index_speed_skydiving_competition_results_on_competitor_id"
+    t.index ["event_id"], name: "index_speed_skydiving_competition_results_on_event_id"
+    t.index ["round_id"], name: "index_speed_skydiving_competition_results_on_round_id"
+    t.index ["track_id"], name: "index_speed_skydiving_competition_results_on_track_id"
+  end
+
+  create_table "speed_skydiving_competition_rounds", force: :cascade do |t|
+    t.integer "number", default: 1, null: false
+    t.bigint "event_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["event_id"], name: "index_speed_skydiving_competition_rounds_on_event_id"
+  end
+
+  create_table "speed_skydiving_competition_teams", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "event_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["event_id"], name: "index_speed_skydiving_competition_teams_on_event_id"
+  end
+
+  create_table "speed_skydiving_competitions", force: :cascade do |t|
+    t.string "name"
+    t.date "starts_at"
+    t.integer "status", default: 0, null: false
+    t.integer "visibility", default: 0, null: false
+    t.boolean "is_official", default: false, null: false
+    t.boolean "use_teams", default: false, null: false
+    t.bigint "responsible_id"
+    t.bigint "place_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["place_id"], name: "index_speed_skydiving_competitions_on_place_id"
+    t.index ["responsible_id"], name: "index_speed_skydiving_competitions_on_responsible_id"
+  end
+
   create_table "sponsors", id: :serial, force: :cascade do |t|
     t.string "name", limit: 510
     t.string "logo_file_name", limit: 510
@@ -562,6 +633,19 @@ ActiveRecord::Schema.define(version: 2021_06_27_083927) do
   add_foreign_key "profiles", "countries"
   add_foreign_key "qualification_jumps", "qualification_rounds"
   add_foreign_key "qualification_jumps", "tracks"
+  add_foreign_key "speed_skydiving_competition_categories", "speed_skydiving_competitions", column: "event_id"
+  add_foreign_key "speed_skydiving_competition_competitors", "profiles"
+  add_foreign_key "speed_skydiving_competition_competitors", "speed_skydiving_competition_categories", column: "category_id"
+  add_foreign_key "speed_skydiving_competition_competitors", "speed_skydiving_competition_teams", column: "team_id"
+  add_foreign_key "speed_skydiving_competition_competitors", "speed_skydiving_competitions", column: "event_id"
+  add_foreign_key "speed_skydiving_competition_results", "speed_skydiving_competition_competitors", column: "competitor_id"
+  add_foreign_key "speed_skydiving_competition_results", "speed_skydiving_competition_rounds", column: "round_id"
+  add_foreign_key "speed_skydiving_competition_results", "speed_skydiving_competitions", column: "event_id"
+  add_foreign_key "speed_skydiving_competition_results", "tracks"
+  add_foreign_key "speed_skydiving_competition_rounds", "speed_skydiving_competitions", column: "event_id"
+  add_foreign_key "speed_skydiving_competition_teams", "speed_skydiving_competitions", column: "event_id"
+  add_foreign_key "speed_skydiving_competitions", "places"
+  add_foreign_key "speed_skydiving_competitions", "users", column: "responsible_id"
   add_foreign_key "tournament_competitors", "profiles"
   add_foreign_key "tournaments", "place_finish_lines", column: "finish_line_id"
   add_foreign_key "tournaments", "profiles"
