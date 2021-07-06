@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from 'react-query'
+import { useQueries, useQuery, useQueryClient } from 'react-query'
 import axios from 'axios'
 
 import { preloadCountries } from 'api/hooks/countries'
@@ -51,4 +51,10 @@ export const preloadProfiles = async (ids, queryClient) => {
 export const useProfileQuery = id => {
   const queryClient = useQueryClient()
   return useQuery(profileQuery(id, queryClient))
+}
+
+export const useProfileQueries = ids => {
+  const queryClient = useQueryClient()
+
+  return useQueries(ids.map(id => profileQuery(id, queryClient)))
 }
