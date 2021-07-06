@@ -21,6 +21,8 @@ const Modal = ({ size = 'md', isShown = false, onHide = () => {}, title, childre
   useEffect(() => {
     setIsShown(isShown)
     setBodyScroll(isShown)
+
+    return () => setBodyScroll(false)
   }, [isShown])
 
   const handleOverlayClick = e => {
