@@ -7,8 +7,6 @@ import SuitLabel from 'components/SuitLabel'
 import PlaceLabel from 'components/PlaceLabel'
 
 import styles from './styles.module.scss'
-import { usePlaceQuery } from 'api/hooks/places'
-import { useCountryQuery } from 'api/hooks/countries'
 import { useManufacturerQuery } from 'api/hooks/manufacturer'
 import { useProfileQuery } from 'api/hooks/profiles'
 import { useSuitQuery } from 'api/hooks/suits'
@@ -46,11 +44,11 @@ Item.propTypes = {
   track: PropTypes.shape({
     id: PropTypes.number.isRequired,
     placeId: PropTypes.number,
-    suitId: PropTypes.number.isRequired,
+    suitId: PropTypes.number,
     profileId: PropTypes.number,
-    pilotName: PropTypes.string.isRequired,
-    suitName: PropTypes.string.isRequired,
-    placeName: PropTypes.string.isRequired,
+    pilotName: PropTypes.string,
+    suitName: PropTypes.string,
+    placeName: PropTypes.string,
     comment: PropTypes.string,
     distance: PropTypes.number,
     speed: PropTypes.number,

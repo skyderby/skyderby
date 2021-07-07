@@ -58,12 +58,12 @@ const Item = ({ event }) => {
             <SuitIcon className={styles.suitIcon} />
 
             {competitorsCount.map(([category, count], idx, arr) => (
-              <>
+              <React.Fragment key={idx}>
                 <span>
                   {category} - {count}
                 </span>
                 {idx < arr.length - 1 && <span className={styles.separator}>{'//'}</span>}
-              </>
+              </React.Fragment>
             ))}
           </div>
         )}
@@ -86,9 +86,8 @@ Item.propTypes = {
   event: PropTypes.shape({
     active: PropTypes.bool.isRequired,
     competitorsCount: PropTypes.objectOf(PropTypes.number).isRequired,
-    isOfficial: PropTypes.bool.isRequired,
+    isOfficial: PropTypes.bool,
     name: PropTypes.string.isRequired,
-    path: PropTypes.string.isRequired,
     placeId: PropTypes.number,
     rangeFrom: PropTypes.number,
     rangeTo: PropTypes.number,
