@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <%= render 'layouts/google_analytics' %>
+
     <%= stylesheet_packs_with_chunks_tag 'application', media: 'all' %>
     <%= javascript_packs_with_chunks_tag 'application', defer: 'defer' %>
     <%= javascript_pack_tag 'application', defer: 'defer' %>
