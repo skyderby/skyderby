@@ -10,7 +10,14 @@ import AppRouter from './AppRouter'
 
 import 'styles/globalStyles'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000,
+      refetchOnMount: false
+    }
+  }
+})
 
 const App = () => {
   useLayoutEffect(() => {
