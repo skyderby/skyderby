@@ -24,8 +24,8 @@ const StandingRow = ({ event, row, rounds }) => {
           result={results.find(result => result.roundId === round.id)}
         />
       ))}
-      <td>{results.length > 0 ? row.total : ''}</td>
-      <td>{results.length > 0 ? row.average : ''}</td>
+      <td>{results.length > 0 ? row.total.toFixed(2) : ''}</td>
+      <td>{results.length > 0 ? row.average.toFixed(2) : ''}</td>
     </tr>
   )
 }
