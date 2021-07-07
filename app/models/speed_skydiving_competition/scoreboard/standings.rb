@@ -15,7 +15,7 @@ class SpeedSkydivingCompetition::Scoreboard::Standings
       total = competitor_results.sum(&:result)
       average = competitor_results.any? ? total / competitor_results.size : 0
 
-      { competitor: competitor, total: total, average: average }
+      { competitor: competitor, total: total.round(2), average: average.round(2) }
     end
 
     standings
