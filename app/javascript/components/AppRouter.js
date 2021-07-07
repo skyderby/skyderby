@@ -1,24 +1,18 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
-import { useCurrentUserQuery } from 'api/hooks/sessions'
 import Home from 'pages/Home'
 import FlightProfiles from 'pages/FlightProfiles'
 import SuitsIndex from 'pages/suits/Index'
 import SuitsOverview from 'pages/suits/Overview'
 import SuitsShow from 'pages/suits/Show'
 import SuitsEdit from 'pages/suits/Edit'
-import Loading from 'components/PageWrapper/Loading'
 import Places from 'components/Places'
 import Events from 'components/Events'
 import Tracks from 'components/Tracks'
 import Users from 'components/Users'
 
 const AppRouter = () => {
-  const { isLoading } = useCurrentUserQuery()
-
-  if (isLoading) return <Loading />
-
   return (
     <Switch>
       <Route exact path="/" component={Home} />
