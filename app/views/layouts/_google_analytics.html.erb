@@ -1,0 +1,18 @@
+<% if Rails.env.production?  %>
+  <script>
+    window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+    ga('create', 'UA-52322845-1', 'auto');
+  </script>
+  <script async src='https://www.google-analytics.com/analytics.js'></script>
+<% elsif Rails.env.development? %>
+  <script>
+    window.ga = window.ga || function () {
+      const params = Array.prototype.slice.call(arguments, ga.length);
+      console.log("GoogleAnalytics: " + params);
+    }
+  </script>
+<% else %>
+  <script>
+    window.ga = () => {};
+  </script>
+<% end %>

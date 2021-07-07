@@ -59,7 +59,7 @@ const RangeShortcuts = ({
 }
 
 RangeShortcuts.propTypes = {
-  activity: PropTypes.oneOf(['skydive', 'base']),
+  activity: PropTypes.oneOf(['skydive', 'base', 'speed_skydiving']),
   altitudeRange: PropTypes.arrayOf(PropTypes.number).isRequired,
   selectedAltitudeRange: PropTypes.arrayOf(PropTypes.number).isRequired,
   onChange: PropTypes.func
