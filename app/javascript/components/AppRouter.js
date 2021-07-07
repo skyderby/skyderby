@@ -1,5 +1,5 @@
-import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Switch, Route, useHistory, useLocation } from 'react-router-dom'
 
 import Home from 'pages/Home'
 import FlightProfiles from 'pages/FlightProfiles'
@@ -12,7 +12,21 @@ import Events from 'components/Events'
 import Tracks from 'components/Tracks'
 import Users from 'components/Users'
 
+const reportLocation = location =>
+  window.ga('send', 'pageview', location.pathname + location.search)
+
 const AppRouter = () => {
+  const history = useHistory()
+  const location = useLocation()
+
+  useEffect(() => {
+    const unlisten = history.listen(reportLocation)
+
+    reportLocation(location)
+
+    return () => unlisten()
+  }, [])
+
   return (
     <Switch>
       <Route exact path="/" component={Home} />
