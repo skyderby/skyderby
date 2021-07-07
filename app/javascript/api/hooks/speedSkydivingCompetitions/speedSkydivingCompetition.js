@@ -16,7 +16,7 @@ const createEvent = speedSkydivingCompetition =>
     { headers: { 'X-CSRF-Token': getCSRFToken() } }
   )
 
-const getQueryFn = queryClient => async ctx => {
+const buildQueryFn = queryClient => async ctx => {
   const [_key, id] = ctx.queryKey
   const { data } = await getEvent(id)
 
@@ -27,9 +27,9 @@ const getQueryFn = queryClient => async ctx => {
   return data
 }
 
-const getQueryOptions = (id, queryClient) => ({
+export const speedSkydivingCompetitionQuery = (id, queryClient) => ({
   queryKey: queryKey(id),
-  queryFn: getQueryFn(queryClient),
+  queryFn: buildQueryFn(queryClient),
   enabled: !!id
 })
 
@@ -43,7 +43,10 @@ export const useNewSpeedSkydivingCompetitionMutation = () => {
   })
 }
 
+export const preloadSpeedSkydivingCompetition = (id, queryClient) =>
+  queryClient.prefetchQuery(speedSkydivingCompetitionQuery(id, queryClient))
+
 export const useSpeedSkydivingCompetitionQuery = id => {
   const queryClient = useQueryClient()
-  return useQuery(getQueryOptions(id, queryClient))
+  return useQuery(speedSkydivingCompetitionQuery(id, queryClient))
 }
