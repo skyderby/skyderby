@@ -1,8 +1,19 @@
-import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Route, Switch, Redirect } from 'react-router-dom'
+import { useQueryClient } from 'react-query'
 import PropTypes from 'prop-types'
 
-import { useSpeedSkydivingCompetitionQuery } from 'api/hooks/speedSkydivingCompetitions'
+import {
+  preloadCategories,
+  preloadCompetitors,
+  preloadResults,
+  preloadRounds,
+  preloadSpeedSkydivingCompetition,
+  preloadTeams,
+  useSpeedSkydivingCompetitionQuery,
+  preloadStandings,
+  preloadTeamStandings
+} from 'api/hooks/speedSkydivingCompetitions'
 import AppShell from 'components/AppShell'
 import Header from './Header'
 import Scoreboard from './Scoreboard'
@@ -12,8 +23,22 @@ import PageLoading from 'components/PageWrapper/Loading'
 
 const Show = ({ match }) => {
   const eventId = Number(match.params.eventId)
+  const queryClient = useQueryClient()
+  const [isLoading, setIsLoading] = useState(true)
+  const { data: event } = useSpeedSkydivingCompetitionQuery(eventId)
 
-  const { data: event, isLoading } = useSpeedSkydivingCompetitionQuery(eventId)
+  useEffect(() => {
+    Promise.all([
+      preloadSpeedSkydivingCompetition(eventId, queryClient),
+      preloadCategories(eventId, queryClient),
+      preloadRounds(eventId, queryClient),
+      preloadCompetitors(eventId, queryClient),
+      preloadResults(eventId, queryClient),
+      preloadTeams(eventId, queryClient),
+      preloadStandings(eventId, queryClient),
+      preloadTeamStandings(eventId, queryClient)
+    ]).then(() => setIsLoading(false))
+  }, [eventId])
 
   return (
     <AppShell>

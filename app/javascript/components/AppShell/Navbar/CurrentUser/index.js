@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
@@ -26,4 +26,6 @@ CurrentUser.propTypes = {
   }).isRequired
 }
 
-export default CurrentUser
+const userIdEqual = (prevProps, nextProps) => prevProps.user?.id === nextProps.user?.id
+
+export default memo(CurrentUser, userIdEqual)
