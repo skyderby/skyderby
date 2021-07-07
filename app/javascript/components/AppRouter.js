@@ -13,7 +13,9 @@ import Tracks from 'components/Tracks'
 import Users from 'components/Users'
 
 const reportLocation = location =>
-  window.ga('send', 'pageview', location.pathname + location.search)
+  window.gtag('event', 'page_view', {
+    page_path: location.pathname + location.search
+  })
 
 const AppRouter = () => {
   const history = useHistory()
