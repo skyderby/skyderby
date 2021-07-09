@@ -7,12 +7,12 @@ import { selectUserPreferences } from 'redux/userPreferences'
 
 import useChartOptions from './useChartOptions'
 
-const CombinedChart = ({ points, zeroWindPoints = [], children }) => {
+const CombinedChart = ({ points, zeroWindPoints = [], additionalSeries, children, ...props }) => {
   const { unitSystem } = useSelector(selectUserPreferences)
-  const options = useChartOptions(points, zeroWindPoints, unitSystem)
+  const options = useChartOptions(points, zeroWindPoints, unitSystem, additionalSeries)
 
   return (
-    <Highchart autoResize options={options}>
+    <Highchart autoResize options={options} {...props}>
       {children}
     </Highchart>
   )
