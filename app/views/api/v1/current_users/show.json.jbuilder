@@ -17,3 +17,7 @@ if @user.registered?
 else
   json.authorized false
 end
+
+json.permissions do
+  json.canCreatePlace policy(Place).create?
+end
