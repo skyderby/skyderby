@@ -79,7 +79,7 @@ const StandingRow = ({ event, teamId, rank, total }) => {
           </div>
         )}
       </td>
-      <td>{total}</td>
+      <td>{total && total.toFixed(2)}</td>
     </tr>
   )
 }
