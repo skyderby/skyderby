@@ -42,11 +42,13 @@ const JumpRange = ({ event, result, tabBar, deleteResult, hide }) => {
 
         <hr />
 
-        <AltitudeRangeSelect
-          trackId={track.id}
-          value={track.jumpRange}
-          onChange={setSelectedRange}
-        />
+        {!isLoading && (
+          <AltitudeRangeSelect
+            trackId={track.id}
+            value={track.jumpRange}
+            onChange={setSelectedRange}
+          />
+        )}
       </Modal.Body>
       <Modal.Footer spaceBetween>
         <div>

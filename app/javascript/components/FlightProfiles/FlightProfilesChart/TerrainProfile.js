@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
 import { I18n } from 'components/TranslationsProvider'
@@ -65,4 +65,4 @@ TerrainProfile.propTypes = {
   terrainProfileId: PropTypes.number.isRequired
 }
 
-export default TerrainProfile
+export default memo(TerrainProfile)
