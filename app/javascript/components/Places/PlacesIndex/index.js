@@ -6,8 +6,10 @@ import debounce from 'lodash.debounce'
 
 import useGoogleMapsApi from 'utils/useGoogleMapsApi'
 import { useAllPlacesQuery } from 'api/hooks/places'
+import { useCurrentUserQuery } from 'api/hooks/sessions'
 import LocateIcon from 'icons/locate'
 import CompassIcon from 'icons/compass'
+import PlusIcon from 'icons/plus.svg'
 import useCountriesWithPlaces from './useCountriesWithPlaces'
 import styles from './styles.module.scss'
 
@@ -29,6 +31,9 @@ const PlacesIndex = () => {
     searchTerm,
     followMap && bounds
   )
+
+  const { data: currentUser } = useCurrentUserQuery()
+  const canCreatePlace = currentUser?.permissions.canCreatePlace
 
   useEffect(() => {
     if (!google) return
@@ -134,9 +139,11 @@ const PlacesIndex = () => {
           >
             <CompassIcon />
           </button>
-          <Link to={'/places/new'} className={styles.placeName}>
-            +
-          </Link>
+          {canCreatePlace && (
+            <Link to={'/places/new'} className={styles.fab}>
+              <PlusIcon />
+            </Link>
+          )}
         </div>
 
         <div className={styles.placesList}>

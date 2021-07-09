@@ -12,7 +12,7 @@ namespace :api, module: :api, defaults: { format: :json } do
     resources :virtual_competitions
 
     resources :countries, only: %i[index show]
-    resources :places, only: %i[index show] do
+    resources :places, only: %i[index show create] do
       scope module: :places do
         collection do
           resources :exit_measurements, only: %i[index show]
