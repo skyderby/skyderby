@@ -19,7 +19,9 @@ const ResultModal = ({ event, result, onHide: hide, deleteResult }) => {
     result: result,
     deleteResult: deleteResult,
     hide: hide,
-    tabBar: <TabBar currentTab={currentTab} setCurrentTab={setCurrentTab} />
+    tabBar: event.permissions.canEdit ? (
+      <TabBar currentTab={currentTab} setCurrentTab={setCurrentTab} />
+    ) : null
   }
 
   return (
@@ -27,7 +29,7 @@ const ResultModal = ({ event, result, onHide: hide, deleteResult }) => {
       isShown={true}
       onHide={hide}
       title={`Result: ${profile?.name} - Round ${round?.number}`}
-      size="md"
+      size="lg"
     >
       {currentTab === 'charts' && <Charts {...tabProps} />}
       {currentTab === 'jumpRange' && <JumpRange {...tabProps} />}

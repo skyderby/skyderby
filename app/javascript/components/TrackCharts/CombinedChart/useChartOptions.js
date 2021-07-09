@@ -11,7 +11,6 @@ const chartName = 'CombinedChart'
 
 const baseOptions = () => ({
   chart: {
-    type: 'spline',
     height: 600,
     events: {
       load: function () {
@@ -19,10 +18,7 @@ const baseOptions = () => ({
       }
     }
   },
-  title: {
-    style: { color: '#666', fontSize: '14px' },
-    text: I18n.t('charts.all_data.title')
-  },
+  title: null,
   plotOptions: {
     spline: {
       marker: {
@@ -36,6 +32,11 @@ const baseOptions = () => ({
       events: {
         legendItemClick: function () {
           saveSeriesVisibility(chartName, this.options.code, !this.visible)
+        }
+      },
+      states: {
+        inactive: {
+          enabled: false
         }
       }
     }
@@ -71,6 +72,11 @@ const baseOptions = () => ({
         }
       },
       opposite: true
+    },
+    {
+      min: 0,
+      max: 50,
+      visible: false
     }
   ],
   tooltip: {
@@ -93,7 +99,7 @@ const baseOptions = () => ({
   }
 })
 
-const useChartOptions = (points, zeroWindPoints, unitSystem) => {
+const useChartOptions = (points, zeroWindPoints, unitSystem, additionalSeries) => {
   const speedUnits = unitSystem === METRIC ? 'kmh' : 'mph'
   const altitudeUnits = unitSystem === METRIC ? 'm' : 'ft'
 
@@ -228,7 +234,8 @@ const useChartOptions = (points, zeroWindPoints, unitSystem) => {
           `
           }
         }
-      }
+      },
+      ...additionalSeries
     ]
   }
 
