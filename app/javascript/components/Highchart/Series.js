@@ -7,10 +7,10 @@ const Series = ({ chart, data, ...props }) => {
   useLayoutEffect(() => {
     if (!chart) return
 
-    if (series.current) {
-      series.current.update({ data, ...props })
+    if (!series.current) {
+      series.current = chart.addSeries({ name, data, ...props })
     } else {
-      series.current = chart.addSeries({ data, ...props })
+      series.current.update({ data, ...props })
     }
   }, [chart, data, props])
 
