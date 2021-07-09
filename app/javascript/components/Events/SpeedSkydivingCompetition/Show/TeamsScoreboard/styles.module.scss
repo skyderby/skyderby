@@ -14,7 +14,6 @@
 .scoreboardTable {
   width: 100%;
   border: var(--default-border);
-  border-radius: var(--border-radius-md);
   border-collapse: collapse;
   overflow: hidden;
 
@@ -22,7 +21,11 @@
 
   background-color: var(--white);
 
-  box-shadow: var(--block-box-shadow);
+  @include lg-screen {
+    border-radius: var(--border-radius-md);
+
+    box-shadow: var(--block-box-shadow);
+  }
 }
 
 .scoreboardTable td,
@@ -46,6 +49,14 @@
 .scoreboardTable th:last-child,
 .scoreboardTable td:last-child {
   width: 15%;
+}
+
+.scoreboardTable td:first-child {
+  text-align: center;
+}
+
+.scoreboardTable td:last-child {
+  text-align: right;
 }
 
 .actions {
