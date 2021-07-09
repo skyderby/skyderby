@@ -21,10 +21,10 @@
 
   background-color: var(--white);
 
-  box-shadow: var(--block-box-shadow);
-
   @include lg-screen {
     border-radius: var(--border-radius-md);
+
+    box-shadow: var(--block-box-shadow);
   }
 }
 
