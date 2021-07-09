@@ -3,9 +3,13 @@
 .container {
   display: flex;
 
+  border-top: var(--default-border);
+  border-bottom: var(--default-border);
+
   background-color: var(--white);
 
   @include lg-screen {
+    border: var(--default-border);
     border-radius: var(--border-radius-md);
 
     box-shadow: var(--block-box-shadow);
