@@ -13,6 +13,7 @@ const NewPlace = () => {
   const createEvent = async values => {
     try {
       const { data: place } = await newEventMutation.mutateAsync(values)
+      console.log(place)
       history.push(`/places/${place.id}`)
     } catch (err) {
       console.warn(err)

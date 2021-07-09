@@ -133,3 +133,15 @@
   composes: input from '~styles/input.module.scss';
   composes: outlined from '~styles/input.module.scss';
 }
+
+.fab {
+  composes: fab from '~styles/button.module.scss';
+
+  position: fixed;
+  left: 17rem;
+  bottom: 1.5rem;
+
+  @include sm-screen {
+    position: absolute;
+  }
+}
