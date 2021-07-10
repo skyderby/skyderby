@@ -1,7 +1,7 @@
 class Api::V1::SpeedSkydivingCompetitions::StandingsController < Api::ApplicationController
   before_action :set_event
 
-  def index
+  def show
     authorize @event, :show?
 
     @standings = SpeedSkydivingCompetition::Scoreboard.new(@event)

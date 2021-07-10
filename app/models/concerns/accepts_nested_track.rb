@@ -8,9 +8,9 @@ module AcceptsNestedTrack
   extend ActiveSupport::Concern
 
   included do
-    attr_accessor :track_attributes, :track_from
+    attr_accessor :track_file, :track_from
 
-    after_commit :enque_jobs
+    after_commit :enqueue_jobs
 
     before_validation :create_track_from_file
 
@@ -32,29 +32,31 @@ module AcceptsNestedTrack
   def create_track_from_file # rubocop:disable Metrics/AbcSize
     return if track_from != 'from_file'
 
-    if track_attributes&.fetch(:file).blank?
+    if track_file.blank?
       errors.add(:base, :track_file_blank)
       throw(:abort)
     end
 
-    track_file = TrackFile.create(file: track_attributes[:file])
+    track_file_record = TrackFile.create(file: track_file)
 
-    check_duplicates_for track_file
+    check_duplicates_for track_file_record
 
-    params = track_attributes.merge(
+    params = {
       owner: track_owner,
       kind: track_activity,
-      track_file_id: track_file.id,
+      track_file_id: track_file_record.id,
       profile_id: competitor.profile_id,
-      suit_id: competitor.suit_id,
+      suit_id: suit_id,
       visibility: tracks_visibility,
       comment: track_comment
-    ).except(:file)
+    }
 
     self.track = CreateTrackService.call(params)
   end
 
-  def enque_jobs
+  def suit_id = competitor.respond_to?(:suit_id) ? competitor.suit_id : nil
+
+  def enqueue_jobs
     ResultsJob.perform_later track_id
     OnlineCompetitionJob.perform_later track_id
   end

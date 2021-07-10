@@ -1,0 +1,77 @@
+@import 'styles/breakpoints';
+
+.container {
+  display: grid;
+  grid-gap: 1rem;
+  width: 100%;
+  margin: 0 auto;
+
+  @include lg-screen {
+    width: $bp-large;
+  }
+}
+
+.scoreboardTable {
+  width: 100%;
+  border: var(--default-border);
+  border-radius: var(--border-radius-md);
+  border-collapse: collapse;
+  overflow: hidden;
+
+  font-size: 0.875rem;
+
+  background-color: var(--white);
+
+  box-shadow: var(--block-box-shadow);
+}
+
+.scoreboardTable td,
+.scoreboardTable th {
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+
+  vertical-align: middle;
+}
+
+.scoreboardTable thead th {
+  font-weight: 500;
+  text-align: center;
+}
+
+.scoreboardTable th:first-child,
+.scoreboardTable td:first-child {
+  width: 3%;
+}
+
+.scoreboardTable th:last-child,
+.scoreboardTable td:last-child {
+  width: 15%;
+}
+
+.actions {
+  display: inline-flex;
+  margin-left: 0.5rem;
+}
+
+.actionButton {
+  composes: button from '~styles/button';
+  composes: flat from '~styles/button';
+
+  display: inline-flex;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0.25rem;
+
+  font-size: 0.825rem;
+
+  visibility: hidden;
+}
+
+.teamCell:hover .actionButton {
+  visibility: visible;
+}
+
+.competitorNames {
+  font-style: italic;
+  color: var(--grey-80);
+}

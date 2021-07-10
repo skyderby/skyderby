@@ -12,16 +12,16 @@ import styles from './styles.module.scss'
 const RightMenuDesktop = () => {
   const { t } = useI18n()
   const [showModal, setShowModal] = useState(false)
-  const { data: currentUser } = useCurrentUserQuery()
+  const { data: currentUser, isLoading } = useCurrentUserQuery()
   const logoutMutation = useLogoutMutation()
 
   const handleLogout = () => logoutMutation.mutate()
 
   return (
     <ul className={styles.rightMenuDesktop}>
-      {currentUser?.authorized ? (
+      {!isLoading && currentUser.authorized && (
         <>
-          <li className={styles.menuItem}>
+          <li key="upload-track" className={styles.menuItem}>
             <button className={styles.uploadTrack} onClick={() => setShowModal(true)}>
               {t('application.header.upload_track')}
             </button>
@@ -32,11 +32,9 @@ const RightMenuDesktop = () => {
             />
           </li>
 
-          <li>
-            <CurrentUser user={currentUser} />
-          </li>
+          <li key="current-user">{!isLoading && <CurrentUser user={currentUser} />}</li>
 
-          <li className={styles.menuItem}>
+          <li key="logout" className={styles.menuItem}>
             <button
               onClick={handleLogout}
               className={styles.logoutButton}
@@ -45,12 +43,12 @@ const RightMenuDesktop = () => {
               <ExitIcon />
             </button>
           </li>
-
-          <LocaleSelector className={styles.menuItem} />
         </>
-      ) : (
+      )}
+
+      {!isLoading && !currentUser.authorized && (
         <>
-          <li className={styles.menuItem}>
+          <li key="login" className={styles.menuItem}>
             <Link
               to={location => ({
                 pathname: '/users/sign-in',
@@ -61,13 +59,18 @@ const RightMenuDesktop = () => {
             </Link>
           </li>
 
-          <li className={styles.menuItem}>
+          <li key="signup" className={styles.menuItem}>
             <Link to="/users/sign-up">{t('application.header.sign_up')}</Link>
           </li>
+<<<<<<< HEAD
 
           <LocaleSelector className={styles.menuItem} />
+=======
+>>>>>>> 90b3dd510b646ace5eb6f9133f41c565fd75cb71
         </>
       )}
+
+      <LocaleSelector className={styles.menuItem} />
     </ul>
   )
 }

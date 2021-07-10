@@ -5,18 +5,12 @@ import PropTypes from 'prop-types'
 import LoadingIndicator from './LoadingIndicator'
 import styles from './styles.module.scss'
 
-const FileInput = ({ loading, isInvalid, ...props }) => {
+const FileInput = ({ loading, isInvalid, onChange, ...props }) => {
   const inputRef = useRef()
   const handleChange = event => {
     const [file] = event.target.files
-
-    if (file) {
-      inputRef.current.value = file.name
-    } else {
-      inputRef.current.value = ''
-    }
-
-    props.onChange?.(event)
+    inputRef.current.value = file ? file.name : ''
+    onChange?.(event)
   }
 
   return (
@@ -36,7 +30,7 @@ const FileInput = ({ loading, isInvalid, ...props }) => {
       />
       <span className={styles.button}>
         {loading ? <LoadingIndicator /> : <>&hellip;</>}
-        <input type="file" {...props} onChange={handleChange} />
+        <input type="file" onChange={handleChange} {...props} />
       </span>
     </div>
   )

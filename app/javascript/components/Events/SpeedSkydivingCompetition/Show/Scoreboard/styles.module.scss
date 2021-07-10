@@ -1,8 +1,18 @@
 @import 'styles/breakpoints';
 
-.scoreboardTable {
-  width: $bp-large;
+.container {
+  display: grid;
+  grid-gap: 1rem;
+  width: 100%;
   margin: 0 auto;
+
+  @include lg-screen {
+    width: $bp-large;
+  }
+}
+
+.scoreboardTable {
+  width: 100%;
   border: var(--default-border);
   border-radius: var(--border-radius-md);
   border-collapse: collapse;

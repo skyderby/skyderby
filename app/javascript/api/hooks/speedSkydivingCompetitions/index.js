@@ -1,23 +1,53 @@
 export {
   useSpeedSkydivingCompetitionQuery,
-  useNewSpeedSkydivingCompetitionMutation
+  useNewSpeedSkydivingCompetitionMutation,
+  preloadSpeedSkydivingCompetition
 } from './speedSkydivingCompetition'
 
-export { useRoundsQuery, useNewRoundMutation, useDeleteRoundMutation } from './rounds'
+export {
+  useRoundsQuery,
+  useRoundQuery,
+  useNewRoundMutation,
+  useDeleteRoundMutation,
+  preloadRounds
+} from './rounds'
 
 export {
   useCategoriesQuery,
   useNewCategoryMutation,
   useEditCategoryMutation,
   useDeleteCategoryMutation,
-  useChangePositionMutation
+  useChangePositionMutation,
+  preloadCategories
 } from './categories'
 
 export {
   useCompetitorsQuery,
   useCompetitorQuery,
   useNewCompetitorMutation,
-  useDeleteCompetitorMutation
+  useEditCompetitorMutation,
+  useDeleteCompetitorMutation,
+  preloadCompetitors
 } from './competitors'
 
-export { useStandingsQuery } from './standings'
+export {
+  useResultsQuery,
+  useResultQuery,
+  useNewResultMutation,
+  useEditResultMutation,
+  useDeleteResultMutation,
+  preloadResults
+} from './results'
+
+export {
+  useTeamsQuery,
+  useTeamQuery,
+  useNewTeamMutation,
+  useEditTeamMutation,
+  useDeleteTeamMutation,
+  preloadTeams
+} from './teams'
+
+export { useStandingsQuery, preloadStandings } from './standings'
+
+export { useTeamStandingsQuery, preloadTeamStandings } from './teamStandings'

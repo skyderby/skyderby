@@ -14,10 +14,7 @@ import styles from './styles.module.scss'
 
 const Scoreboard = ({ match }) => {
   const eventId = Number(match.params.eventId)
-  const { data: standings, isLoading } = useStandingsQuery(eventId, {
-    preload: ['rounds', 'categories', 'competitors']
-  })
-
+  const { data: standings, isLoading } = useStandingsQuery(eventId)
   const { data: rounds } = useRoundsQuery(eventId)
   const { data: categories } = useCategoriesQuery(eventId)
   const { data: event } = useSpeedSkydivingCompetitionQuery(eventId)
@@ -25,7 +22,7 @@ const Scoreboard = ({ match }) => {
   if (isLoading) return null
 
   return (
-    <div>
+    <div className={styles.container}>
       {event.permissions.canEdit && <ActionsBar eventId={eventId} />}
 
       <table className={styles.scoreboardTable}>

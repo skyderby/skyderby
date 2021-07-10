@@ -77,12 +77,14 @@ namespace :api, module: :api, defaults: { format: :json } do
     resources :speed_skydiving_competitions, only: %i[show create] do
       scope module: :speed_skydiving_competitions do
         resources :rounds, only: %i[index show create update destroy]
-        resources :competitors, only: %i[index show create update destroy]
+        resources :competitors, only: %i[index create update destroy]
         resources :categories, only: %i[index show create update destroy] do
           resource :position, only: :update, module: :categories
         end
         resources :results, only: %i[index show create update destroy]
-        resources :standings, only: :index
+        resources :teams, only: %i[index create update destroy]
+        resource :standings, only: :show
+        resource :team_standings, only: :show
       end
     end
 

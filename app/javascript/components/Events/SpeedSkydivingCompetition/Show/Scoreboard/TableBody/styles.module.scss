@@ -1,3 +1,8 @@
+.actions {
+  display: inline-flex;
+  margin-left: 0.5rem;
+}
+
 .actionButton {
   composes: button from '~styles/button';
   composes: flat from '~styles/button';
@@ -17,21 +22,98 @@
   visibility: visible;
 }
 
-.categoryStandings:first-of-type .actionButton:nth-child(4) {
+.categoryStandings:first-of-type .actions .actionButton:nth-child(3) {
   display: none;
 }
 
-.categoryStandings:last-of-type .positionButton:last-child {
+.categoryStandings:last-of-type .actions .positionButton:last-child {
   display: none;
 }
 
-.categoryCell,
 .competitorCell {
-  > :first-child {
-    margin-right: 0.75rem;
+  > :not(:last-child) {
+    margin-right: 0.25rem;
   }
+}
 
+.categoryCell {
   > :not(:last-child):not(:first-child) {
     margin-right: 0.25rem;
+  }
+}
+
+.resultCell {
+  position: relative;
+
+  text-align: right;
+}
+
+.standingRow > td.resultCell {
+  padding: 0;
+}
+
+.newResult {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  border: 0;
+
+  background-color: var(--blue-80);
+  visibility: hidden;
+  cursor: pointer;
+
+  svg {
+    height: 1rem;
+
+    path {
+      fill: var(--white);
+    }
+  }
+}
+
+.showResult {
+  position: relative;
+
+  display: block;
+  width: 100%;
+  height: 2.25rem;
+  padding: 0 0.5rem;
+  border: 0;
+
+  text-align: right;
+
+  background-color: var(--white);
+  cursor: pointer;
+}
+
+.showResult:hover::before {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  height: 3px;
+
+  background-color: var(--blue-80);
+
+  content: '';
+}
+
+.resultCell:hover .newResult {
+  visibility: visible;
+}
+
+.assignedNumber {
+  color: var(--grey-70);
+}
+
+.standingRow {
+  td:nth-last-child(1),
+  td:nth-last-child(2) {
+    text-align: right;
   }
 }

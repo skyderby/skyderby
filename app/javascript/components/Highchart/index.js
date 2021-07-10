@@ -11,6 +11,7 @@ import PropTypes from 'prop-types'
 
 import { refreshTooltipHandler } from './refreshTooltipHandler'
 import Plotband from './Plotband'
+import Plotline from './Plotline'
 import Series from './Series'
 
 const Highchart = forwardRef(({ options, children, autoResize, loading }, ref) => {
@@ -96,6 +97,7 @@ const Highchart = forwardRef(({ options, children, autoResize, loading }, ref) =
 })
 
 Highchart.Plotband = Plotband
+Highchart.Plotline = Plotline
 Highchart.Series = Series
 
 Highchart.displayName = 'Highchart'

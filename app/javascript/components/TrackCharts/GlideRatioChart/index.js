@@ -5,11 +5,17 @@ import Highchart from 'components/Highchart'
 
 import useChartOptions from './useChartOptions'
 
-const GlideRatioChart = forwardRef(({ points = [], zeroWindPoints = [] }, ref) => {
-  const options = useChartOptions(points, zeroWindPoints)
+const GlideRatioChart = forwardRef(
+  ({ points = [], zeroWindPoints = [], children }, ref) => {
+    const options = useChartOptions(points, zeroWindPoints)
 
-  return <Highchart autoResize ref={ref} options={options} />
-})
+    return (
+      <Highchart autoResize ref={ref} options={options}>
+        {children}
+      </Highchart>
+    )
+  }
+)
 
 GlideRatioChart.displayName = 'GlideRatioChart'
 
@@ -26,7 +32,8 @@ GlideRatioChart.propTypes = {
       flTime: PropTypes.number.isRequired,
       glideRatio: PropTypes.number.isRequired
     })
-  )
+  ),
+  children: PropTypes.func
 }
 
 export default GlideRatioChart

@@ -21,6 +21,20 @@ class Api::V1::SpeedSkydivingCompetitions::CompetitorsController < Api::Applicat
     end
   end
 
+  def update
+    authorize @event, :update?
+
+    @competitor = @event.competitors.find(params[:id])
+
+    respond_to do |format|
+      if @competitor.update(competitor_params)
+        format.json
+      else
+        format.json { render json: { errors: @competitor.errors }, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def destroy
     authorize @event, :update?
 
@@ -42,10 +56,15 @@ class Api::V1::SpeedSkydivingCompetitions::CompetitorsController < Api::Applicat
   end
 
   def competitor_params
-    params.require(:competitor).permit \
+    permitted_params = [
       :profile_id,
       :category_id,
       :assigned_number,
-      profile_attributes: [:name, :country_id]
+      { profile_attributes: [:name, :country_id] }
+    ]
+
+    params.require(:competitor).permit(permitted_params).tap do |attrs|
+      attrs[:profile_attributes][:owner] = @event if attrs[:profile_attributes].present?
+    end
   end
 end
