@@ -12,7 +12,7 @@
 #  video_code   :string(510)
 #
 
-describe TrackVideo, type: :model do
+describe Track::Video, type: :model do
   it 'get correct video code from url' do
     video = TrackVideo.create(url: 'https://www.youtube.com/watch?v=CHEVKtmncD4')
     expect(video.video_code).to eq('CHEVKtmncD4')
