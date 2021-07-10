@@ -64,10 +64,10 @@ const RightMenuDesktop = () => {
           <li className={styles.menuItem}>
             <Link to="/users/sign-up">{t('application.header.sign_up')}</Link>
           </li>
-
-          <LocaleSelector className={styles.menuItem} />
         </>
       )}
+
+      <LocaleSelector className={styles.menuItem} />
     </ul>
   )
 }
