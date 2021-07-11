@@ -16,19 +16,6 @@
   composes: outlined from '~styles/input.module.scss';
 }
 
-.competitionWindow {
-  display: flex;
-  align-items: center;
-
-  > .input {
-    max-width: 10rem;
-  }
-
-  > :not(:last-child) {
-    margin-right: 0.5rem;
-  }
-}
-
 .footer {
   display: flex;
   justify-content: flex-end;
