@@ -7,16 +7,17 @@ import { useNewPlaceMutation } from 'api/hooks/places'
 import { useI18n } from 'components/TranslationsProvider'
 
 const NewPlace = () => {
-  const newEventMutation = useNewPlaceMutation()
+  const newPlaceMutation = useNewPlaceMutation()
   const history = useHistory()
 
   const createEvent = async values => {
     try {
-      const { data: place } = await newEventMutation.mutateAsync(values)
-      console.log(place)
+      const { data: place } = await newPlaceMutation.mutateAsync(values)
+      console.log('pop')
       history.push(`/places/${place.id}`)
     } catch (err) {
       console.warn(err)
+      console.log(err.message)
     }
   }
 

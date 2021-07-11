@@ -46,7 +46,8 @@ const Form = props => {
                 {({ field: { name, ...props }, form: { setFieldValue } }) => (
                   <CountrySelect
                     {...props}
-                    aria-label={t('activerecord.attributes.place.country.placeholder')}
+                    placeholder={t('activerecord.attributes.place.placeholder')}
+                    aria-label="Select country"
                     onChange={({ value }) => setFieldValue(name, value)}
                   />
                 )}
