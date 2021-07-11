@@ -15,10 +15,9 @@ const Places = () => {
     <AppShell fullScreen>
       <Switch>
         <Route exact path="/places" component={PlacesIndex} />
-        <Route exact path="/places/new">
-          {canCreatePlace ? <NewPlace /> : <Redirect to="/places" />}
-        </Route>
+        {canCreatePlace && <Route exact path="/places/new" component={NewPlace} />}
         <Route path="/places/:id(\d+)" component={Place} />
+        <Route component={() => <Redirect to="/places" />} />
       </Switch>
     </AppShell>
   )
