@@ -12,6 +12,8 @@ const endpoint = '/api/v1/places'
 
 const getPlace = id => axios.get(`${endpoint}/${id}`)
 const getPlacesById = ids => loadIds(endpoint, ids)
+const createPlace = place =>
+  axios.post(endpoint, { place }, { headers: { 'X-CSRF-Token': getCSRFToken() } })
 
 export const getQueryKey = id => ['places', id]
 
@@ -62,13 +64,10 @@ export const usePlaceQueries = ids => {
 
 const queryKey = id => ['place', id]
 
-const createEvent = place =>
-  axios.post(endpoint, { place }, { headers: { 'X-CSRF-Token': getCSRFToken() } })
-
 export const useNewPlaceMutation = () => {
   const queryClient = useQueryClient()
 
-  return useMutation(createEvent, {
+  return useMutation(createPlace, {
     onSuccess(response) {
       queryClient.setQueryData(queryKey(response.data.id), response.data)
     }

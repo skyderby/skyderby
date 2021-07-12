@@ -34,7 +34,7 @@ const NewPlace = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.pageTitle}>{t('views.places')}</h1>
+      <h1 className={styles.pageTitle}>{t('views.places.title')}</h1>
       <div className={styles.card}>
         <Form initialValues={initialValues} onSubmit={createEvent} />
       </div>
