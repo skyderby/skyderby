@@ -1,0 +1,38 @@
+.container {
+  composes: container from '~styles/scoreboard';
+}
+
+.scoreboardTable {
+  composes: table from '~styles/scoreboard';
+}
+
+.scoreboardTable tbody td:nth-child(1),
+.scoreboardTable tbody td:nth-child(3) {
+  width: 1%;
+}
+
+.scoreboardTable tbody td:nth-last-child(1),
+.scoreboardTable tbody td:nth-last-child(2) {
+  text-align: right;
+}
+
+.scoreboardTable .resultCell {
+  padding: 0;
+}
+
+.competitorCell {
+  > :not(:last-child) {
+    margin-right: 0.25rem;
+  }
+}
+
+.assignedNumber {
+  color: var(--grey-70);
+}
+
+.category {
+  color: var(--grey-60);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
