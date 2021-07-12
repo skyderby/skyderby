@@ -84,6 +84,7 @@ namespace :api, module: :api, defaults: { format: :json } do
         resources :results, only: %i[index show create update destroy]
         resources :teams, only: %i[index create update destroy]
         resource :standings, only: :show
+        resource :open_standings, only: :show
         resource :team_standings, only: :show
       end
     end
