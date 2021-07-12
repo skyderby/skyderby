@@ -1,12 +1,21 @@
 import * as Yup from 'yup'
+import { I18n } from 'components/TranslationsProvider'
 
-const schema = Yup.object().shape({
-  name: Yup.string().required('This field is required'),
-  countryId: Yup.number().nullable().required('This field is required'),
-  latitude: Yup.number().nullable().required('This field is required'),
-  longitude: Yup.number().nullable().required('This field is required'),
-  msl: Yup.number().nullable().required('This field is required'),
-  kind: Yup.string().nullable().required('This field is required')
+export default Yup.object().shape({
+  name: Yup.string().required(() => I18n.t('activerecord.errors.place.name')),
+  countryId: Yup.number()
+    .nullable()
+    .required(() => I18n.t('activerecord.errors.place.countryId')),
+  latitude: Yup.number()
+    .nullable()
+    .required(() => I18n.t('activerecord.errors.place.latitude')),
+  longitude: Yup.number()
+    .nullable()
+    .required(() => I18n.t('activerecord.errors.place.longitude')),
+  msl: Yup.number()
+    .nullable()
+    .required(() => I18n.t('activerecord.errors.place.msl')),
+  kind: Yup.string()
+    .nullable()
+    .required(() => I18n.t('activerecord.errors.place.kind'))
 })
-
-export default schema
