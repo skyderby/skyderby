@@ -16,4 +16,6 @@ class SpeedSkydivingCompetition < ApplicationRecord
   end
 
   def active? = starts_at < Time.zone.now && !finished?
+
+  def use_open_scoreboard = categories.count > 1
 end
