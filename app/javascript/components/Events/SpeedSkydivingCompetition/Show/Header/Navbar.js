@@ -21,6 +21,17 @@ const Navbar = ({ event }) => {
         </NavLink>
       </PageNavbar.Item>
 
+      {event.useOpenScoreboard && (
+        <PageNavbar.Item>
+          <NavLink to={`${eventUrl}/open_event`}>
+            <span>
+              <ListIcon />
+              Open Event
+            </span>
+          </NavLink>
+        </PageNavbar.Item>
+      )}
+
       {event.useTeams && (
         <PageNavbar.Item>
           <NavLink to={`${eventUrl}/teams`}>
@@ -58,7 +69,8 @@ const Navbar = ({ event }) => {
 Navbar.propTypes = {
   event: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    useTeams: PropTypes.bool.isRequired
+    useTeams: PropTypes.bool.isRequired,
+    useOpenScoreboard: PropTypes.bool.isRequired
   }).isRequired
 }
 
