@@ -46,13 +46,13 @@ const Form = props => {
                 {({ field: { name, ...props }, form: { setFieldValue } }) => (
                   <CountrySelect
                     {...props}
-                    placeholder={t('activerecord.attributes.place.placeholder')}
+                    placeholder={t('views.places.placeholder')}
                     aria-label="Select country"
                     onChange={({ value }) => setFieldValue(name, value)}
                   />
                 )}
               </Field>
-              <ErrorMessage name="placeId" component={ErrorText} />
+              <ErrorMessage name="countryId" component={ErrorText} />
             </div>
 
             <label>{t('activerecord.attributes.place.latitude')}</label>
