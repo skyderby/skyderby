@@ -8,7 +8,6 @@ fr:
       place:
         name: Nom
         country: Pays
-        placeholder: 'Choisis ton pays'
         latitude: Latitude
         longitude: Longitude
         msl: Hauteur (MSL)
@@ -18,5 +17,15 @@ fr:
           base: 'B.A.S.E.'
       place/photo:
         image: Fichier d'image
+    errors:
+      place:
+        name: Name is required
+        countryId: Country is required
+        latitude: Latitude is required
+        longitude: Longitude is required
+        msl: Mean sea level is required
+        kind: Type of location is required
   views:
-    places: 'Nouvel Lieu'
+    places: 
+      title: 'Nouvel Lieu'
+      placeholder: 'Choisis ton pays'
