@@ -11,13 +11,13 @@ import {
   preloadSpeedSkydivingCompetition,
   preloadTeams,
   useSpeedSkydivingCompetitionQuery,
-  preloadStandings,
-  preloadTeamStandings
+  preloadStandings
 } from 'api/hooks/speedSkydivingCompetitions'
 import AppShell from 'components/AppShell'
 import Header from './Header'
 import Scoreboard from './Scoreboard'
 import TeamsScoreboard from './TeamsScoreboard'
+import OpenScoreboard from './OpenScoreboard'
 import styles from './styles.module.scss'
 import PageLoading from 'components/PageWrapper/Loading'
 
@@ -35,8 +35,7 @@ const Show = ({ match }) => {
       preloadCompetitors(eventId, queryClient),
       preloadResults(eventId, queryClient),
       preloadTeams(eventId, queryClient),
-      preloadStandings(eventId, queryClient),
-      preloadTeamStandings(eventId, queryClient)
+      preloadStandings(eventId, queryClient)
     ]).then(() => setIsLoading(false))
   }, [eventId])
 
@@ -50,7 +49,12 @@ const Show = ({ match }) => {
 
           <Switch>
             <Route exact path={`${match.path}/`} component={Scoreboard} />
-            <Route exact path={`${match.path}/teams`} component={TeamsScoreboard} />
+            {event.useOpenScoreboard && (
+              <Route exact path={`${match.path}/open_event`} component={OpenScoreboard} />
+            )}
+            {event.useTeams && (
+              <Route exact path={`${match.path}/teams`} component={TeamsScoreboard} />
+            )}
           </Switch>
         </div>
       )}
