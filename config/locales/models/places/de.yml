@@ -8,7 +8,6 @@ de:
       place:
         name: 'Name'
         country: 'Land'
-        placeholder: 'Wähle dein Land'
         latitude: 'Latitude'
         longitude: 'Longitude'
         msl: 'Höhe (MSL)'
@@ -18,5 +17,15 @@ de:
           base: 'B.A.S.E.'
       place/photo:
         image: Bilddatei
+    errors:
+      place:
+        name: Name is required
+        countryId: Country is required
+        latitude: Latitude is required
+        longitude: Longitude is required
+        msl: Mean sea level is required
+        kind: Type of location is required
   views:
-    places: 'Neuen Ort'
+    places: 
+      title: 'Neuen Ort'
+      placeholder: 'Wähle dein Land'
