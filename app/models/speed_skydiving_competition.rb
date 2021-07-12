@@ -14,4 +14,6 @@ class SpeedSkydivingCompetition < ApplicationRecord
     has_many :results
     has_many :teams
   end
+
+  def use_open_scoreboard = categories.count > 1
 end

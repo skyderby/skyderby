@@ -25,15 +25,22 @@ const queryFn = async ctx => {
   return data
 }
 
-const getQueryOptions = eventId => ({
+const categoriesQuery = (eventId, options = {}) => ({
   queryKey: queryKey(eventId),
-  queryFn
+  queryFn,
+  ...options
 })
 
 export const preloadCategories = (eventId, queryClient) =>
-  queryClient.prefetchQuery(getQueryOptions(eventId))
+  queryClient.prefetchQuery(categoriesQuery(eventId))
 
-export const useCategoriesQuery = eventId => useQuery(getQueryOptions(eventId))
+export const useCategoriesQuery = (eventId, options) =>
+  useQuery(categoriesQuery(eventId, options))
+
+export const useCategoryQuery = (eventId, categoryId) =>
+  useCategoriesQuery(eventId, {
+    select: data => data.find(category => category.id === categoryId)
+  })
 
 export const useNewCategoryMutation = () => {
   const queryClient = useQueryClient()

@@ -14,6 +14,7 @@ export {
 
 export {
   useCategoriesQuery,
+  useCategoryQuery,
   useNewCategoryMutation,
   useEditCategoryMutation,
   useDeleteCategoryMutation,
@@ -51,3 +52,5 @@ export {
 export { useStandingsQuery, preloadStandings } from './standings'
 
 export { useTeamStandingsQuery, preloadTeamStandings } from './teamStandings'
+
+export { useOpenStandingsQuery, preloadOpenStandings } from './openStandings'
