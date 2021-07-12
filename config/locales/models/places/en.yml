@@ -8,7 +8,6 @@ en:
       place:
         name: Name
         country: Country
-        placeholder: 'Select country'
         latitude: Latitude
         longitude: Longitude
         msl: Elevation (MSL)
@@ -18,5 +17,15 @@ en:
           base: 'B.A.S.E.'
       place/photo:
         image: File with photo
+    errors:
+      place:
+        name: Name is required
+        countryId: Country is required
+        latitude: Latitude is required
+        longitude: Longitude is required
+        msl: Mean sea level is required
+        kind: Type of location is required
   views:
-    places: 'New location'
+    places: 
+      title: 'New location'
+      placeholder: 'Select country'
