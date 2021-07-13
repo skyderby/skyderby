@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import Overlay from './Overlay'
 import Marker from './Marker'
@@ -53,6 +54,10 @@ const DesignatedLane = ({ map }) => {
       {laneViolation && <MostDistantPoint map={map} laneViolation={laneViolation} />}
     </>
   )
+}
+
+DesignatedLane.propTypes = {
+  map: PropTypes.object.isRequired
 }
 
 export default DesignatedLane
