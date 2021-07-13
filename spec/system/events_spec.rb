@@ -1,4 +1,4 @@
-describe 'Scoring PPC-like competitions', js: true do
+describe 'Scoring PPC-like competitions', js: true, skip: true do
   it 'complete test' do
     user = users(:regular_user)
     sign_in user

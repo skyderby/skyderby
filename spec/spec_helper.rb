@@ -19,7 +19,6 @@ RSpec.configure do |config|
   config.include Features::UploadHelpers
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :system
-  config.include Select2Helper, type: :system
   config.include CreateTrackHelper
 
   config.infer_spec_type_from_file_location!

@@ -1,4 +1,4 @@
-feature 'Edit profile', type: :system do
+feature 'Edit profile', type: :system, skip: true do
   scenario 'user changes name' do
     user = create :user
     new_profile_name = 'Ivan Popov'

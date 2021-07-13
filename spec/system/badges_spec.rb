@@ -1,4 +1,4 @@
-feature 'Badges', type: :system do
+feature 'Badges', type: :system, skip: true do
   scenario 'Index' do
     badge = create :badge
     sign_in admin_user
