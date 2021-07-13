@@ -36,7 +36,7 @@ gem 'kt-paperclip', '~> 6.4'
 gem 'shrine', '~> 3.0'
 
 # XML
-gem 'nokogiri', '~> 1.8'
+gem 'nokogiri', '~> 1.11'
 
 # Background jobs
 gem 'sidekiq', ' < 6'
