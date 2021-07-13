@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import { useQueryClient } from 'react-query'
 import PropTypes from 'prop-types'
 
@@ -37,7 +37,7 @@ const Show = ({ match }) => {
       preloadTeams(eventId, queryClient),
       preloadStandings(eventId, queryClient)
     ]).then(() => setIsLoading(false))
-  }, [eventId])
+  }, [eventId, queryClient])
 
   return (
     <AppShell>

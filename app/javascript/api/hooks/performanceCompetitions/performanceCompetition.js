@@ -8,7 +8,8 @@ const endpoint = '/api/v1/performance_competitions'
 const queryKey = id => ['performance_competitions', id]
 
 const getEvent = id => axios.get(`${endpoint}/${id}`)
-const createEvent = performanceCompetition => axios.post(endpoint, { performanceCompetition })
+const createEvent = performanceCompetition =>
+  axios.post(endpoint, { performanceCompetition })
 
 const getQueryFn = queryClient => async ctx => {
   const [_key, id] = ctx.queryKey

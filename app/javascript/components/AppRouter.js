@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Switch, Route, useHistory, useLocation } from 'react-router-dom'
+import { Switch, Route, useHistory } from 'react-router-dom'
 
 import Home from 'pages/Home'
 import FlightProfiles from 'pages/FlightProfiles'
@@ -19,15 +19,14 @@ const reportLocation = location =>
 
 const AppRouter = () => {
   const history = useHistory()
-  const location = useLocation()
 
   useEffect(() => {
     const unlisten = history.listen(reportLocation)
 
-    reportLocation(location)
+    reportLocation(history.location)
 
     return () => unlisten()
-  }, [])
+  }, [history])
 
   return (
     <Switch>

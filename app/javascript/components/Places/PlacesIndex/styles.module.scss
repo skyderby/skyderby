@@ -138,8 +138,8 @@
   composes: fab from '~styles/button.module.scss';
 
   position: fixed;
-  left: 17rem;
   bottom: 1.5rem;
+  left: 17rem;
 
   @include sm-screen {
     position: absolute;

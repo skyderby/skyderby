@@ -5,7 +5,7 @@ import Category from './Category'
 import StandingRow from './StandingRow'
 import styles from './styles.module.scss'
 
-const Index = ({ event, rounds, competitors, categories, standings }) => {
+const TableBody = ({ event, rounds, categories, standings }) => {
   return (
     <>
       {categories.map(category => (
@@ -28,7 +28,7 @@ const Index = ({ event, rounds, competitors, categories, standings }) => {
   )
 }
 
-Index.propTypes = {
+TableBody.propTypes = {
   rounds: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -61,4 +61,4 @@ Index.propTypes = {
   ).isRequired
 }
 
-export default Index
+export default TableBody

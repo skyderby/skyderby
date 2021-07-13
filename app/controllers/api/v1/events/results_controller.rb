@@ -4,12 +4,6 @@ module Api
       class ResultsController < Api::ApplicationController
         before_action :set_event
 
-        def index
-          authorize @event, :show?
-
-          @results = @event.results.includes(:round, competitor: :profile).chronologically
-        end
-
         def create
           authorize @event, :update?
 
@@ -44,7 +38,7 @@ module Api
             :penalized,
             :penalty_size,
             :penalty_reason,
-            track_attributes: [:file],
+            :track_file,
             jump_range: [:exit_time, :deploy_time],
             reference_point: [:name, :latitude, :longitude]
           )
