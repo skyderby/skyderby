@@ -48,7 +48,7 @@ module SpeedSkydivingCompetition::Result::SubmissionResult
       end_time = (start_point[:gps_time] + LOOKUP_TIME.seconds).iso8601(3)
       end_point = points_by_time[end_time]
 
-      return until end_point
+      return until end_point # rubocop:disable Lint/UnreachableLoop
 
       average_speed = (start_point[:altitude] - end_point[:altitude]) / LOOKUP_TIME
       { start_point: start_point, end_point: end_point, speed: average_speed }

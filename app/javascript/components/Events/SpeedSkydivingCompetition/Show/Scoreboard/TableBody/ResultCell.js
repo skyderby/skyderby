@@ -80,6 +80,7 @@ ResultCell.propTypes = {
     }).isRequired
   }).isRequired,
   result: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     result: PropTypes.number
   })
 }

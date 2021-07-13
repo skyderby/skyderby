@@ -2,7 +2,7 @@ import React from 'react'
 
 import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
 import { METRIC, IMPERIAL } from 'redux/userPreferences'
-import VerticalSpeed from 'components/TrackInsights/Summary/VerticalSpeed'
+import VerticalSpeed from 'components/Tracks/Track/TrackInsights/Summary/VerticalSpeed'
 
 describe('Summary/VerticalSpeed', () => {
   describe('metric units', () => {

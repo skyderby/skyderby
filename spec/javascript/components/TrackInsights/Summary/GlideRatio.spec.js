@@ -1,7 +1,7 @@
 import React from 'react'
 import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
 
-import GlideRatio from 'components/TrackInsights/Summary/GlideRatio'
+import GlideRatio from 'components/Tracks/Track/TrackInsights/Summary/GlideRatio'
 
 describe('Summary/GlideRatio', () => {
   it('hide wind effect if no zeroWindValue provided', () => {
