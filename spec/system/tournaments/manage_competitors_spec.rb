@@ -1,4 +1,4 @@
-feature 'Manage tournament competitors', type: :system, js: true do
+feature 'Manage tournament competitors', type: :system, js: true, skip: true do
   scenario 'add competitor with existed profile' do
     sign_in users(:regular_user)
 

@@ -1,4 +1,4 @@
-feature 'Event sections (categories)', type: :system, js: true do
+feature 'Event sections (categories)', type: :system, js: true, skip: true do
   scenario 'add section' do
     user = create :user
     event = create(:event,

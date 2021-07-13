@@ -1,4 +1,4 @@
-describe 'Event competitors', js: true do
+describe 'Event competitors', js: true, skip: true do
   it 'add competitor with existing profile' do
     event = create :event, responsible: user
     create :event_section, event: event
