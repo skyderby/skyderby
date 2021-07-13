@@ -1,4 +1,4 @@
-describe 'Sponsorable', js: true do
+describe 'Sponsorable', js: true, skip: true do
   it 'Competition sponsor' do
     user = create :user
     sign_in user

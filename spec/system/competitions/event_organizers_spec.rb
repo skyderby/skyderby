@@ -1,4 +1,4 @@
-feature 'Event organizers', type: :system, js: true do
+feature 'Event organizers', type: :system, js: true, skip: true do
   scenario 'add organizer' do
     event = events(:published_public)
     organizer = users(:regular_user)

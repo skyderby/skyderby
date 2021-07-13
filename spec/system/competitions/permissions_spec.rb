@@ -1,4 +1,4 @@
-describe 'Permissions: Competitions', type: :system do
+describe 'Permissions: Competitions', type: :system, skip: true do
   it 'User can view published and finished competitions' do
     event = create :event
     event.public_event!
