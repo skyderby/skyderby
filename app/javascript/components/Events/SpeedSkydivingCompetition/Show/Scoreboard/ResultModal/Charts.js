@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import { parseISO, differenceInMilliseconds } from 'date-fns'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
@@ -7,58 +6,16 @@ import { useTrackPointsQuery } from 'api/hooks/tracks/points'
 import TrackCharts from 'components/TrackCharts/CombinedChart'
 import Highchart from 'components/Highchart'
 import Modal from 'components/ui/Modal'
+import {
+  buildAccuracySeries,
+  findResultWindow,
+  findPositionForAltitude,
+  findPlotbandPosition
+} from './utils'
 import styles from './styles.module.scss'
 
 const breakoffAltitude = 1707 // 5600 ft
 const windowHeight = 2256 // 7400 ft
-const validationWindowHeight = 1000
-
-const findPositionForAltitude = (points, altitude) => {
-  const idx = points.findIndex(point => point.altitude <= altitude)
-  const firstPoint = points[idx]
-  const secondPoint = points[idx + 1]
-
-  const flTime =
-    firstPoint.flTime +
-    ((secondPoint.flTime - firstPoint.flTime) /
-      (firstPoint.altitude - secondPoint.altitude)) *
-      (firstPoint.altitude - altitude)
-
-  return flTime - points[0].flTime
-}
-
-const findPlotbandPosition = (firstPoint, windowStart, windowEnd) => {
-  const windowStartTime = parseISO(windowStart)
-  const windowEndTime = parseISO(windowEnd)
-
-  return {
-    from: differenceInMilliseconds(windowStartTime, firstPoint.gpsTime) / 1000,
-    to: differenceInMilliseconds(windowEndTime, firstPoint.gpsTime) / 1000
-  }
-}
-
-const buildAccuracySeries = (points, windowEndAltitude) => {
-  const validationWindowStart = windowEndAltitude + validationWindowHeight
-
-  const data = points
-    .filter(
-      point =>
-        point.altitude <= validationWindowStart && point.altitude >= windowEndAltitude
-    )
-    .map(point => [point.flTime - points[0].flTime, point.verticalAccuracy])
-
-  return {
-    name: 'Vertical Accuracy',
-    type: 'column',
-    yAxis: 3,
-    zones: [
-      { value: 0, color: '#ccc' },
-      { value: 3.25, color: '#ccc' },
-      { color: 'red' }
-    ],
-    data
-  }
-}
 
 const Charts = ({ event, result, deleteResult, hide, tabBar }) => {
   const { t } = useI18n()
@@ -66,7 +23,9 @@ const Charts = ({ event, result, deleteResult, hide, tabBar }) => {
     originalFrequency: true
   })
 
-  const windowEndAltitude = Math.max(result.exitAltitude - windowHeight, breakoffAltitude)
+  const { exitAltitude, windowStartTime, windowEndTime } = result
+
+  const windowEndAltitude = Math.max(exitAltitude - windowHeight, breakoffAltitude)
 
   const plotLineValue = isLoading
     ? null
@@ -74,7 +33,12 @@ const Charts = ({ event, result, deleteResult, hide, tabBar }) => {
 
   const plotBandPosition = isLoading
     ? null
-    : findPlotbandPosition(points[0], result.windowStartTime, result.windowEndTime)
+    : findPlotbandPosition(points[0], windowStartTime, windowEndTime)
+
+  const resultWindow = useMemo(
+    () => (isLoading ? null : findResultWindow(points, windowStartTime, windowEndTime)),
+    [points, isLoading, windowStartTime, windowEndTime]
+  )
 
   const accuracySeries = useMemo(() => buildAccuracySeries(points, windowEndAltitude), [
     points,
@@ -86,6 +50,23 @@ const Charts = ({ event, result, deleteResult, hide, tabBar }) => {
       <Modal.Body>
         {tabBar}
         {tabBar && <hr />}
+
+        <div className={styles.indicators}>
+          <div className={styles.indicatorTitle}>Result</div>
+          <div className={styles.indicatorValue}>
+            {result.result.toFixed(2)} {t('units.kmh')}
+          </div>
+          <div className={styles.indicatorTitle}>Exit Altitude</div>
+          <div className={styles.indicatorValue}>
+            {result.exitAltitude} {t('units.m')}
+          </div>
+          <div className={styles.indicatorTitle}>Window</div>
+          <div className={styles.indicatorValue}>
+            {resultWindow?.join(' - ') || '---'} {t('units.m')}
+          </div>
+        </div>
+
+        <hr />
 
         <div className={styles.trackChart}>
           <TrackCharts points={points} additionalSeries={[accuracySeries]}>
