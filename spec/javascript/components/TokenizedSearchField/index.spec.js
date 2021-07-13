@@ -1,28 +1,36 @@
 import React from 'react'
-import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
+import renderWithAllProviders, { queryClient } from 'testHelpers/renderWithAllProviders'
 import { screen, fireEvent, waitFor, within } from '@testing-library/react'
 
 import TokenizedSearchField from 'components/TokenizedSearchField'
-
-const reduxState = {
-  suits: {
-    ids: [3],
-    entities: {
-      3: {
-        status: 'loaded',
-        id: 3,
-        name: 'Nala',
-        make: 'Tony Suits'
-      }
-    }
-  }
-}
 
 describe('TokenizedSearchField', () => {
   const baseProps = {
     initialValues: [],
     onChange: () => {}
   }
+
+  beforeEach(() => {
+    const queryOptions = {
+      cacheTime: Infinity,
+      staleTime: Infinity
+    }
+
+    queryClient.setQueryData(
+      ['suits', 3],
+      { id: 3, name: 'Nala', makeId: 1 },
+      queryOptions
+    )
+    queryClient.setQueryData(
+      ['manufacturers', 1],
+      { id: 1, name: 'TonySuits', code: 'TS' },
+      queryOptions
+    )
+  })
+
+  afterEach(() => {
+    queryClient.clear()
+  })
 
   describe('empty state', () => {
     it('displays placeholder', () => {
@@ -56,8 +64,7 @@ describe('TokenizedSearchField', () => {
           ['year', 2018],
           ['suitId', 3]
         ]}
-      />,
-      reduxState
+      />
     )
 
     await waitFor(() => expect(screen.getByTitle('year: 2018')).toBeInTheDocument())
@@ -107,8 +114,7 @@ describe('TokenizedSearchField', () => {
           ['suitId', 3]
         ]}
         onChange={handleChange}
-      />,
-      reduxState
+      />
     )
 
     const yearToken = await screen.findByTitle('year: 2018')
@@ -130,8 +136,7 @@ describe('TokenizedSearchField', () => {
           ['suitId', 3]
         ]}
         onChange={handleChange}
-      />,
-      reduxState
+      />
     )
 
     const clearButton = await screen.findByTitle('Clear all')

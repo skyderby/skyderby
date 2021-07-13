@@ -4,7 +4,7 @@ import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
 
 import createModalRoot from 'testHelpers/createModalRoot'
 import { METRIC, IMPERIAL, SINGLE_CHART, MULTI_CHART } from 'redux/userPreferences'
-import SettingsModal from 'components/TrackInsights/ViewSettings/SettingsModal'
+import SettingsModal from 'components/Tracks/Track/TrackInsights/ViewSettings/SettingsModal'
 
 describe('SettingsModal', () => {
   const handleSubmit = jest.fn()

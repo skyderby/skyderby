@@ -14,27 +14,27 @@
 
 describe Track::Video, type: :model do
   it 'get correct video code from url' do
-    video = TrackVideo.create(url: 'https://www.youtube.com/watch?v=CHEVKtmncD4')
+    video = Track::Video.create(url: 'https://www.youtube.com/watch?v=CHEVKtmncD4')
     expect(video.video_code).to eq('CHEVKtmncD4')
   end
 
   it 'requires video_offset' do
-    video = TrackVideo.new(correct_attributes.merge(video_offset: nil))
+    video = Track::Video.new(correct_attributes.merge(video_offset: nil))
     expect(video).not_to be_valid
   end
 
   it 'video_offset should be numeric' do
-    video = TrackVideo.new(correct_attributes.merge(video_offset: 'aaa'))
+    video = Track::Video.new(correct_attributes.merge(video_offset: 'aaa'))
     expect(video).not_to be_valid
   end
 
   it 'requires track_offset' do
-    video = TrackVideo.new(correct_attributes.merge(track_offset: nil))
+    video = Track::Video.new(correct_attributes.merge(track_offset: nil))
     expect(video).not_to be_valid
   end
 
   it 'track_offset should be numeric' do
-    video = TrackVideo.new(correct_attributes.merge(track_offset: 'aaa'))
+    video = Track::Video.new(correct_attributes.merge(track_offset: 'aaa'))
     expect(video).not_to be_valid
   end
 

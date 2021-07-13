@@ -2,7 +2,6 @@ import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 
 import { usePlaceQuery } from 'api/hooks/places'
-import { useCountryQuery } from 'api/hooks/countries'
 import IconTimes from 'icons/times.svg'
 import PlaceLabel from 'components/PlaceLabel'
 import styles from './styles.module.scss'
