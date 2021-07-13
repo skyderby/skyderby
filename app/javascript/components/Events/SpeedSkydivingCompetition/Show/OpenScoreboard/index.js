@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 
 import {
   useRoundsQuery,
-  useOpenStandingsQuery, useSpeedSkydivingCompetitionQuery
+  useOpenStandingsQuery,
+  useSpeedSkydivingCompetitionQuery
 } from 'api/hooks/speedSkydivingCompetitions'
 import StandingRow from './StandingRow'
 import styles from './styles.module.scss'
@@ -16,7 +17,6 @@ const OpenScoreboard = ({ match }) => {
 
   if (isLoading) return null
 
-  console.log(standings)
   return (
     <div className={styles.container}>
       <table className={styles.scoreboardTable}>

@@ -1,5 +1,5 @@
 describe SegmentParser::Gpx do
-  let(:file) { fixture_file_upload('files/tracks/two_tracks.gpx') }
+  let(:file) { fixture_file_upload('tracks/two_tracks.gpx') }
 
   it 'should return segments' do
     parser = described_class.new(file)

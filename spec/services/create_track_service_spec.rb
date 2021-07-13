@@ -30,7 +30,7 @@ describe CreateTrackService do
   end
 
   def with_missing_activity_data
-    file = File.open(file_fixture('tracks/flysight_warmup.csv'))
+    file = fixture_file_upload('tracks/flysight_warmup.csv'))
     track_file_with_missing_activity = Track::File.create!(file: file)
 
     valid_params.merge(track_file_id: track_file_with_missing_activity.id)

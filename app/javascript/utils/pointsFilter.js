@@ -1,4 +1,4 @@
-import { getTime, fromUnixTime } from 'date-fns'
+import { getTime } from 'date-fns'
 
 const findStartIndex = (points, fromAltitude) => {
   if (fromAltitude === undefined) return 0

@@ -7,7 +7,13 @@ import { selectUserPreferences } from 'redux/userPreferences'
 
 import useChartOptions from './useChartOptions'
 
-const CombinedChart = ({ points, zeroWindPoints = [], additionalSeries, children, ...props }) => {
+const CombinedChart = ({
+  points,
+  zeroWindPoints = [],
+  additionalSeries,
+  children,
+  ...props
+}) => {
   const { unitSystem } = useSelector(selectUserPreferences)
   const options = useChartOptions(points, zeroWindPoints, unitSystem, additionalSeries)
 
@@ -35,7 +41,8 @@ CombinedChart.propTypes = {
       glideRatio: PropTypes.number.isRequired
     })
   ),
-  children: PropTypes.func
+  children: PropTypes.func,
+  additionalSeries: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default CombinedChart

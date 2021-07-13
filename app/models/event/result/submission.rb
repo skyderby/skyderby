@@ -12,7 +12,7 @@ class Event < ApplicationRecord
                     :round_name,
                     :penalty_size,
                     :penalty_reason,
-                    :track_attributes
+                    :track_file
 
       attr_writer :competitor_name,
                   :reference_point,
@@ -78,7 +78,7 @@ class Event < ApplicationRecord
           penalized: penalized,
           penalty_size: penalty_size,
           penalty_reason: penalty_reason,
-          track_attributes: track_attributes,
+          track_file: track_file,
           track_from: 'from_file'
         }
       end

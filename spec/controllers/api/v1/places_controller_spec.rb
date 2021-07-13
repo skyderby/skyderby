@@ -8,7 +8,7 @@ describe Api::V1::PlacesController do
       response_json = JSON.parse(response.body)
       fields = response_json['items'].map(&:keys).flatten.uniq
 
-      expect(fields).to match(%w[id name countryId])
+      expect(fields).to match(%w[id name countryId kind latitude longitude msl cover photos])
     end
 
     it 'filters by ids' do

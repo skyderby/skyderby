@@ -46,7 +46,7 @@ const buildAllSuitsQueryFn = queryClient => async () => {
   const suits = await getAllSuits()
 
   const makeIds = suits.map(suit => suit.makeId)
-  await preloadManufacturers(countryIds, queryClient)
+  await preloadManufacturers(makeIds, queryClient)
 
   cacheSuits(suits, queryClient)
 

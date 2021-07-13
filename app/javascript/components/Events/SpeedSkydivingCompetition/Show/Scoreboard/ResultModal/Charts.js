@@ -77,7 +77,8 @@ const Charts = ({ event, result, deleteResult, hide, tabBar }) => {
     : findPlotbandPosition(points[0], result.windowStartTime, result.windowEndTime)
 
   const accuracySeries = useMemo(() => buildAccuracySeries(points, windowEndAltitude), [
-    points
+    points,
+    windowEndAltitude
   ])
 
   return (

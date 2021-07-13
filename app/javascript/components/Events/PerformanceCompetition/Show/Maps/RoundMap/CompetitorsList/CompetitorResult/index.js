@@ -1,24 +1,22 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { toggleResult, showDlForResult } from 'redux/events/round'
+import { showDlForResult } from 'redux/events/round'
 import { useI18n } from 'components/TranslationsProvider'
 
-import Direction from './Direction'
 import Mark from './Mark'
 import PenaltyLabel from './PenaltyLabel'
 import ExitAltitude from './ExitAltitude'
 import ReferencePoint from '../ReferencePoint'
-import PenaltyForm from '../../PenaltyForm'
 
 import styles from './styles.module.scss'
 import { useProfileQuery } from 'api/hooks/profiles'
 
 const CompetitorResult = ({ competitor, checked, color, onToggle: handleToggle }) => {
-  const { t } = useI18n()
+  const { t: _t } = useI18n()
   const dispatch = useDispatch()
-  const [showPenaltyModal, setShowPenaltyModal] = useState(false)
+  const [_showPenaltyModal, setShowPenaltyModal] = useState(false)
   const { data: profile } = useProfileQuery(competitor.profileId)
 
   const result = competitor.result
@@ -77,6 +75,7 @@ CompetitorResult.propTypes = {
       penaltySize: PropTypes.number
     })
   }).isRequired,
+  onToggle: PropTypes.func.isRequired,
   checked: PropTypes.bool.isRequired,
   color: PropTypes.string.isRequired
 }

@@ -20,7 +20,7 @@ describe Api::V1::Tracks::VideosController do
       expect(response).to have_http_status(:success)
 
       response_json = JSON.parse(response.body)
-      expect(response_json.keys).to match_array(%w[url videoCode trackOffset videoOffset])
+      expect(response_json.keys).to match_array(%w[trackId url videoCode trackOffset videoOffset])
     end
 
     it 'private track' do

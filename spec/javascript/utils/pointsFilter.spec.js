@@ -5,7 +5,7 @@ const points = {
   one: [
     {
       altitude: 3000,
-      gpsTime: Date.parse('2019-02-20T08:01:00'),
+      gpsTime: new Date('2019-02-20T08:01:00'),
       flTime: 60,
       distance: 0,
       hSpeed: 60,
@@ -17,7 +17,7 @@ const points = {
   many: [
     {
       altitude: 4000,
-      gpsTime: Date.parse('2019-02-20T08:00:00'),
+      gpsTime: new Date('2019-02-20T08:00:00'),
       flTime: 0,
       glideRatio: 2.0,
       hSpeed: 60,
@@ -27,7 +27,7 @@ const points = {
     },
     {
       altitude: 3000,
-      gpsTime: Date.parse('2019-02-20T08:01:00'),
+      gpsTime: new Date('2019-02-20T08:01:00'),
       flTime: 60,
       glideRatio: 1.9,
       hSpeed: 80,
@@ -37,7 +37,7 @@ const points = {
     },
     {
       altitude: 2000,
-      gpsTime: Date.parse('2019-02-20T08:02:00'),
+      gpsTime: new Date('2019-02-20T08:02:00'),
       flTime: 120,
       glideRatio: 2.0,
       hSpeed: 90,
@@ -47,7 +47,7 @@ const points = {
     },
     {
       altitude: 1000,
-      gpsTime: Date.parse('2019-02-20T08:03:00'),
+      gpsTime: new Date('2019-02-20T08:03:00'),
       flTime: 180,
       glideRatio: 3.0,
       hSpeed: 40,
@@ -75,7 +75,7 @@ describe('cropping points', () => {
     expect(cropPoints(points.many, 3000, 2000)).toEqual([
       {
         altitude: 3000,
-        gpsTime: Date.parse('2019-02-20T08:01:00'),
+        gpsTime: new Date('2019-02-20T08:01:00'),
         flTime: 60,
         glideRatio: 1.9,
         hSpeed: 80,
@@ -85,7 +85,7 @@ describe('cropping points', () => {
       },
       {
         altitude: 2000,
-        gpsTime: Date.parse('2019-02-20T08:02:00'),
+        gpsTime: new Date('2019-02-20T08:02:00'),
         flTime: 120,
         glideRatio: 2.0,
         hSpeed: 90,
@@ -100,7 +100,7 @@ describe('cropping points', () => {
     expect(cropPoints(points.many, 3500, 2000)).toEqual([
       {
         altitude: 3500,
-        gpsTime: Date.parse('2019-02-20T08:00:30'),
+        gpsTime: new Date('2019-02-20T08:00:30'),
         flTime: 30,
         glideRatio: 1.95,
         hSpeed: 70,
@@ -110,7 +110,7 @@ describe('cropping points', () => {
       },
       {
         altitude: 3000,
-        gpsTime: Date.parse('2019-02-20T08:01:00'),
+        gpsTime: new Date('2019-02-20T08:01:00'),
         flTime: 60,
         glideRatio: 1.9,
         hSpeed: 80,
@@ -120,7 +120,7 @@ describe('cropping points', () => {
       },
       {
         altitude: 2000,
-        gpsTime: Date.parse('2019-02-20T08:02:00'),
+        gpsTime: new Date('2019-02-20T08:02:00'),
         flTime: 120,
         glideRatio: 2.0,
         hSpeed: 90,
@@ -135,7 +135,7 @@ describe('cropping points', () => {
     expect(cropPoints(points.many, 3000, 1500)).toEqual([
       {
         altitude: 3000,
-        gpsTime: Date.parse('2019-02-20T08:01:00'),
+        gpsTime: new Date('2019-02-20T08:01:00'),
         flTime: 60,
         glideRatio: 1.9,
         hSpeed: 80,
@@ -145,7 +145,7 @@ describe('cropping points', () => {
       },
       {
         altitude: 2000,
-        gpsTime: Date.parse('2019-02-20T08:02:00'),
+        gpsTime: new Date('2019-02-20T08:02:00'),
         flTime: 120,
         glideRatio: 2.0,
         hSpeed: 90,
@@ -155,7 +155,7 @@ describe('cropping points', () => {
       },
       {
         altitude: 1500,
-        gpsTime: Date.parse('2019-02-20T08:02:30'),
+        gpsTime: new Date('2019-02-20T08:02:30'),
         flTime: 150,
         glideRatio: 2.5,
         hSpeed: 65,
