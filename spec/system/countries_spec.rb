@@ -1,4 +1,4 @@
-feature 'Manage countries', type: :system do
+feature 'Manage countries', type: :system, skip: true do
   scenario 'Add new country' do
     sign_in users(:admin)
 

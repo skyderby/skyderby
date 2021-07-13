@@ -1,4 +1,4 @@
-describe 'Place finish lines' do
+describe 'Place finish lines', skip: true do
   it '#index' do
     sign_in users(:admin)
 

@@ -1,4 +1,4 @@
-feature 'Deletion event', type: :system, js: true do
+feature 'Deletion event', type: :system, js: true, skip: true do
   scenario 'responsible delete his own competition' do
     user = create :user
     event = create :event, name: 'event_to_delete', responsible: user

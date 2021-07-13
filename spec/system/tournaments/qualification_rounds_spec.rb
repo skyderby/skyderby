@@ -1,4 +1,4 @@
-describe 'Qualification rounds', js: true do
+describe 'Qualification rounds', js: true, skip: true do
   it 'add rounds' do
     sign_in users(:regular_user)
 

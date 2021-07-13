@@ -1,4 +1,4 @@
-feature 'Creating new competitions', type: :system do
+feature 'Creating new competitions', type: :system, skip: true do
   scenario 'Registered user able to create new competition', js: true do
     sign_in users(:regular_user)
     visit events_path

@@ -1,4 +1,4 @@
-feature 'Show profile', type: :system do
+feature 'Show profile', type: :system, skip: true do
   scenario 'Guest user view profile' do
     profile = create :profile
     visit profile_path(profile)

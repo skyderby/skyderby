@@ -56,7 +56,11 @@ const NewTrackForm = ({ isShown, onHide, loggedIn }) => {
   }
 
   return (
-    <Modal isShown={isShown} onHide={onHide}>
+    <Modal
+      isShown={isShown}
+      onHide={onHide}
+      title={t('static_pages.index.track_form.title')}
+    >
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}
