@@ -1,4 +1,4 @@
-feature 'Qualification jumps', type: :system, js: true do
+feature 'Qualification jumps', type: :system, js: true, skip: true do
   scenario 'add and score qualification jump' do
     sign_in users(:regular_user)
 

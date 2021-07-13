@@ -1,4 +1,4 @@
-describe 'index' do
+describe 'index', skip: true do
   it 'shows competitions' do
     competition = create :virtual_competition
 
