@@ -1,4 +1,4 @@
-feature 'Profile badges', type: :system do
+feature 'Profile badges', type: :system, skip: true do
   scenario 'Create', js: true do
     user = create :user, :admin
     sign_in user

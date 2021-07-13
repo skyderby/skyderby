@@ -1,4 +1,4 @@
-feature 'Event profiles', type: :system do
+feature 'Event profiles', type: :system, skip: true do
   scenario 'change name by responsible of event' do
     user = create :user
     event = create :event, responsible: user

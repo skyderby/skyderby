@@ -1,4 +1,4 @@
-describe 'Adding place', type: :system do
+describe 'Adding place', type: :system, skip: true do
   it 'Non admin user do not see add button' do
     visit places_path
     expect(page).not_to have_css('a', text: I18n.t('places.index.new'))

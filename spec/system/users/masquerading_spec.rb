@@ -1,4 +1,4 @@
-feature 'Masquerading', type: :system do
+feature 'Masquerading', type: :system, skip: true do
   scenario 'Admin can masquerade as another user' do
     admin = create :user, :admin
     user  = create :user
