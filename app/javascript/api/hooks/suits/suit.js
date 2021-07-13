@@ -1,10 +1,7 @@
 import axios from 'axios'
 import { useQuery, useQueryClient } from 'react-query'
 
-import {
-  getQueryOptions as getManufacturerQueryOptions,
-  preloadManufacturers
-} from 'api/hooks/manufacturer'
+import { preloadManufacturers } from 'api/hooks/manufacturer'
 import { loadIds } from 'api/helpers'
 
 const endpoint = '/api/v1/suits'
@@ -17,7 +14,7 @@ const buildQueryFn = queryClient => async ctx => {
   const [_key, id] = ctx.queryKey
   const { data } = await getSuit(id)
 
-  await queryClient.prefetchQuery(getManufacturerQueryOptions(data.makeId))
+  await preloadManufacturers([data.makeId], queryClient)
 
   return data
 }

@@ -6,7 +6,7 @@ describe Api::V1::Events::CompetitorsController do
     expect(response.successful?).to be_truthy
 
     response_json = JSON.parse(response.body)
-    expect(response_json).to eq(JSON.parse(expected_response.to_json))
+    expect(response_json).to match(JSON.parse(expected_response.to_json))
   end
 
   def expected_response
@@ -14,17 +14,17 @@ describe Api::V1::Events::CompetitorsController do
       {
         id: 1,
         name: 'John',
-        suit_id: suits(:apache).id,
-        suit_name: 'Apache Series',
-        category_id: event_sections(:speed_distance_time_advanced).id,
-        category_name: 'Advanced'
+        suitId: suits(:apache).id,
+        suitName: 'Apache Series',
+        categoryId: event_sections(:speed_distance_time_advanced).id,
+        categoryName: 'Advanced'
       }, {
         id: 2,
         name: 'Travis',
-        suit_id: suits(:apache).id,
-        suit_name: 'Apache Series',
-        category_id: event_sections(:speed_distance_time_advanced).id,
-        category_name: 'Advanced'
+        suitId: suits(:apache).id,
+        suitName: 'Apache Series',
+        categoryId: event_sections(:speed_distance_time_advanced).id,
+        categoryName: 'Advanced'
       }
     ]
   end

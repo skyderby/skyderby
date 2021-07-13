@@ -21,7 +21,7 @@ const EventsIndex = ({ location }) => {
   const { t } = useI18n()
   const urlParams = new URLSearchParams(location.search)
   const page = urlParams.get('page') || '1'
-  const { data, status, error } = useEventsQuery({ page })
+  const { data } = useEventsQuery({ page })
   const events = data?.items || []
   const pagination = { page: data?.currentPage, totalPages: data?.totalPages }
 

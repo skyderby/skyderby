@@ -1,7 +1,7 @@
 class SpeedSkydivingCompetition::Category < ApplicationRecord
   belongs_to :event, class_name: 'SpeedSkydivingCompetition', inverse_of: :categories
 
-  scope :sorted, ->{ order(:position) }
+  scope :sorted, -> { order(:position) }
   validates :name, presence: true
 
   before_create :set_position
