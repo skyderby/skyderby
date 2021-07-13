@@ -4,13 +4,10 @@ import { getDate } from 'date-fns'
 import cx from 'clsx'
 import PropTypes from 'prop-types'
 
-import LocationIcon from 'icons/location.svg'
 import SuitIcon from 'icons/suit.svg'
 import { useI18n } from 'components/TranslationsProvider'
 import PlaceLabel from 'components/PlaceLabel'
 import styles from './styles.module.scss'
-import { usePlaceQuery } from 'api/hooks/places'
-import { useCountryQuery } from 'api/hooks/countries'
 
 const types = {
   performanceCompetition: 'GPS Performance',

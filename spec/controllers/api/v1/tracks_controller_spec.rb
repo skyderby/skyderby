@@ -8,12 +8,12 @@ describe Api::V1::TracksController do
       'suitId',
       'placeId',
       'dataFrequency',
-      'downloadable',
       'hasVideo',
       'comment',
       'createdAt',
       'recordedAt',
-      'jumpRange' => hash_including('from', 'to')
+      'jumpRange' => hash_including('from', 'to'),
+      'permissions' => hash_including('canEdit', 'canDownload', 'canEditOwnership')
     )
   end
 

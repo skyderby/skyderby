@@ -49,7 +49,7 @@ const StandingRow = ({ event, rounds, rank, competitorId, total, average }) => {
 
 StandingRow.propTypes = {
   event: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired
   }).isRequired,
   rank: PropTypes.number.isRequired,
   competitorId: PropTypes.number.isRequired,

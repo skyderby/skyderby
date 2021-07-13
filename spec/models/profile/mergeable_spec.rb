@@ -40,7 +40,7 @@ describe Profile::Mergeable do
 
   describe 'userpic' do
     it 'merge userpic from source' do
-      source = Profile.create(name: 'Ivan', userpic: fixture_file_upload('files/profile_userpic.png'))
+      source = Profile.create(name: 'Ivan', userpic: fixture_file_upload('profile_userpic.png'))
       destination = Profile.create(name: 'Peter')
 
       destination.merge_with(source)
@@ -50,7 +50,7 @@ describe Profile::Mergeable do
 
     it 'do not wipe existent userpic' do
       source = Profile.create(name: 'Ivan')
-      destination = Profile.create(name: 'Peter', userpic: fixture_file_upload('files/profile_userpic.png'))
+      destination = Profile.create(name: 'Peter', userpic: fixture_file_upload('profile_userpic.png'))
 
       destination.merge_with(source)
 

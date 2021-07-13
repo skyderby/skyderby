@@ -7,12 +7,10 @@ import { usePlaceQuery, placesQuery } from 'api/hooks/places'
 import selectStyles from 'styles/selectStyles'
 import Option from './Option'
 import SingleValue from './SingleValue'
-import { useCountryQuery, getQueryKey as getCountryQueryKey } from 'api/hooks/countries'
 
 const PlaceSelect = ({ value: placeId, ...props }) => {
   const queryClient = useQueryClient()
   const { data: place } = usePlaceQuery(placeId)
-  const { data: country } = useCountryQuery(place?.countryId)
 
   const selectedOption = place ? { value: place.id, label: place.name } : null
 

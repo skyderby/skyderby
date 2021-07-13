@@ -4,7 +4,7 @@ describe Api::V1::Tracks::FilesController do
   describe '#create' do
     it 'flysight file with one segment' do
       params = {
-        'file': fixture_file_upload('files/tracks/distance_2454.csv')
+        'file': fixture_file_upload('tracks/distance_2454.csv')
       }
 
       post :create, params: params, format: :json
@@ -21,7 +21,7 @@ describe Api::V1::Tracks::FilesController do
 
     it 'garmin file with multiple segments' do
       params = {
-        'file': fixture_file_upload('files/tracks/two_tracks.gpx')
+        'file': fixture_file_upload('tracks/two_tracks.gpx')
       }
 
       post :create, params: params, format: :json
@@ -42,7 +42,7 @@ describe Api::V1::Tracks::FilesController do
 
     it 'invalid file' do
       params = {
-        'file': fixture_file_upload('files/skyderby_logo.png')
+        'file': fixture_file_upload('skyderby_logo.png')
       }
 
       post :create, params: params, format: :json

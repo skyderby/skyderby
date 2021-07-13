@@ -4,11 +4,7 @@ import PropTypes from 'prop-types'
 import Trajectory from './Trajectory'
 import Marker from './Marker'
 
-import {
-  afterExitColor,
-  windowStartColor,
-  windowEndColor
-} from '../../constants'
+import { afterExitColor, windowStartColor, windowEndColor } from '../../constants'
 
 const FlightPath = props => {
   const { color, points, afterExitPoint, startPoint, endPoint, map } = props
@@ -42,7 +38,8 @@ FlightPath.propTypes = {
   endPoint: PropTypes.shape({
     latitude: PropTypes.string.isRequired,
     longitude: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  map: PropTypes.object.isRequired
 }
 
 export default FlightPath

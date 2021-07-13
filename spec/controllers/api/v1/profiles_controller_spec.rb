@@ -10,6 +10,7 @@ describe Api::V1::ProfilesController, type: :controller do
       {
         id: profile.id,
         name: profile.name,
+        countryId: nil,
         photo: {
           original: '/images/original/missing.png',
           medium: '/images/medium/missing.png',

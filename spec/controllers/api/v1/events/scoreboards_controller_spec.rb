@@ -31,11 +31,11 @@ describe Api::V1::Events::ScoreboardsController do
       competitors: [{
         id: competitor2.id,
         name: 'Travis',
-        section_id: section_advanced.id,
-        country_code: 'NOR',
-        suit_name: 'TS Apache Series',
-        team_id: nil,
-        total_points: 183.3,
+        sectionId: section_advanced.id,
+        countryCode: 'NOR',
+        suitName: 'TS Apache Series',
+        teamId: nil,
+        totalPoints: 183.3,
         results: [{
           discipline: 'distance',
           round: 1,
@@ -50,11 +50,11 @@ describe Api::V1::Events::ScoreboardsController do
       }, {
         id: competitor1.id,
         name: 'John',
-        section_id: section_advanced.id,
-        country_code: 'NOR',
-        suit_name: 'TS Apache Series',
-        team_id: nil,
-        total_points: 174.1,
+        sectionId: section_advanced.id,
+        countryCode: 'NOR',
+        suitName: 'TS Apache Series',
+        teamId: nil,
+        totalPoints: 174.1,
         results: [{
           discipline: 'distance',
           round: 1,

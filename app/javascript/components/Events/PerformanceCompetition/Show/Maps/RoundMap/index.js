@@ -23,7 +23,7 @@ const RoundMap = ({ eventId, roundId }) => {
 
   return (
     <section className={styles.container}>
-      <Map/>
+      <Map />
 
       <CompetitorsList
         groups={competitorsByGroup}

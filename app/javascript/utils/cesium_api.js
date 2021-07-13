@@ -4,8 +4,10 @@ import Meta from 'utils/meta'
 
 const BingMapsApi = 'AiG804EvOUQOmDJV0kiOY8SSD0U1HirOAKucXLbAKTRy1XAVTaBDnO7FCty3X-n6'
 
-const StylesURL = 'https://cesium.com/downloads/cesiumjs/releases/1.63/Build/Cesium/Widgets/widgets.css'
-const ScriptURL = 'https://cesium.com/downloads/cesiumjs/releases/1.63/Build/Cesium/Cesium.js'
+const StylesURL =
+  'https://cesium.com/downloads/cesiumjs/releases/1.63/Build/Cesium/Widgets/widgets.css'
+const ScriptURL =
+  'https://cesium.com/downloads/cesiumjs/releases/1.63/Build/Cesium/Cesium.js'
 
 export function initCesiumApi() {
   if (window.cesiumApiReady) {

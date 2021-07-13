@@ -1,5 +1,5 @@
 import React from 'react'
-import { Formik, Field, ErrorMessage } from 'formik'
+import { Formik, Field } from 'formik'
 import PropTypes from 'prop-types'
 
 import Modal from 'components/ui/Modal'

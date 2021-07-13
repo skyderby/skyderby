@@ -1,7 +1,7 @@
 import React from 'react'
 import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
 
-import Time from 'components/TrackInsights/Summary/Time'
+import Time from 'components/Tracks/Track/TrackInsights/Summary/Time'
 
 describe('Summary/Time', () => {
   it('shows time rounded to 1 digit', () => {
