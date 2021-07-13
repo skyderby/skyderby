@@ -3,6 +3,7 @@ import axios from 'axios'
 
 import { standingsQuery } from './standings'
 import { queryKey as trackQueryKey } from 'api/hooks/tracks/track'
+import { queryKey as trackPointsQueryKey } from 'api/hooks/tracks/points'
 
 const collectionEndpoint = eventId =>
   `/api/v1/speed_skydiving_competitions/${eventId}/results`
@@ -72,6 +73,10 @@ export const useEditResultMutation = () => {
         data.map(result => (result.id === id ? response.data : result))
       )
       queryClient.invalidateQueries(trackQueryKey(response.data.trackId))
+      queryClient.invalidateQueries(
+        trackPointsQueryKey(response.data.trackId, { originalFrequency: true }),
+        { refetchInactive: true }
+      )
       queryClient.refetchQueries(standingsQuery(eventId, queryClient))
     }
   })

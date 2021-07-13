@@ -44,3 +44,28 @@
 .trackChart {
   height: 600px;
 }
+
+.indicators {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 0.5rem;
+  grid-template-rows: auto auto;
+  grid-template-columns: repeat(3, auto);
+}
+
+.indicatorTitle,
+.indicatorValue {
+  text-align: center;
+}
+
+.indicatorTitle {
+  color: var(--grey-70);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.indicatorValue {
+  color: var(--grey-80);
+  font-weight: 100;
+  font-size: 2.5rem;
+}
