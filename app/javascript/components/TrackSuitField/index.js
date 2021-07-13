@@ -20,6 +20,8 @@ const TrackSuitField = () => {
             <SuitSelect
               hide={values.formSupportData.suitInputMode === 'input'}
               isInvalid={touched && error}
+              placeholder={t('tracks.form.suit_select_placeholder')}
+              aria-label={t('tracks.form.suit_select_placeholder')}
               {...props}
               onChange={option => setFieldValue(name, option.value)}
             />

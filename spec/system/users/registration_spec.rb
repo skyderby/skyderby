@@ -1,4 +1,4 @@
-describe 'User registration', type: :system, js: true do
+describe 'User registration', type: :system, js: true, skip: true do
   it 'register if all filled' do
     visit new_user_registration_path
 

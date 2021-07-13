@@ -42,28 +42,22 @@ describe 'Upload tracks', js: true do
   end
 
   def upload_track(file_name)
+    sign_in users(:regular_user)
     visit root_path
-    click_link I18n.t('application.header.upload_track')
+    find_button(I18n.t('application.header.upload_track')).click
 
-    expect(page).to have_css('.modal-title', text: I18n.t('static_pages.index.track_form.title'))
+    expect(page).to have_content(I18n.t('static_pages.index.track_form.title'))
+
+    find("[aria-label='#{I18n.t('tracks.form.suit_select_placeholder')}']").send_keys :arrow_down
+    first('span', exact_text: 'TS Nala').click
+
+    fill_in 'location', with: 'Random Airfield'
+
+    fill_track_file file_name
 
     sleep 0.1
 
-    within '[data-controller="new-track-form"]' do
-      fill_in 'name', with: 'John'
-
-      if page.has_css?('span', text: I18n.t('tracks.form.toggle_suit_link'))
-        find('span', text: I18n.t('tracks.form.toggle_suit_link')).click
-      end
-
-      fill_in 'missingSuitName', with: 'Horus'
-
-      fill_in 'location', with: 'Africa'
-
-      fill_track_file file_name
-
-      click_button I18n.t('static_pages.index.track_form.submit')
-    end
+    find_button(I18n.t('static_pages.index.track_form.submit')).click
   end
 
   def fill_track_file(file_name)

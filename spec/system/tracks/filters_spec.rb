@@ -1,4 +1,4 @@
-describe 'Filtering tracks list', js: true do
+describe 'Filtering tracks list', js: true, skip: true do
   it 'Filter by suit' do
     3.times do |x|
       suit = create :suit, name: "suit-#{x}"
