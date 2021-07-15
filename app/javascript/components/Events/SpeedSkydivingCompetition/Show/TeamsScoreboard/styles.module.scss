@@ -1,14 +1,15 @@
 @import 'styles/breakpoints';
 
 .container {
-  display: grid;
-  grid-gap: 1rem;
-  width: 100%;
-  margin: 0 auto;
+  composes: container from '~styles/scoreboard';
+}
 
-  @include lg-screen {
-    width: $bp-large;
-  }
+.tableWrapper {
+  composes: tableWrapper from '~styles/scoreboard';
+}
+
+.stickyHeader {
+  composes: stickyHeader from '~styles/scoreboard';
 }
 
 .scoreboardTable {
