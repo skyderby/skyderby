@@ -2,6 +2,14 @@
   composes: container from '~styles/scoreboard';
 }
 
+.tableWrapper {
+  composes: tableWrapper from '~styles/scoreboard';
+}
+
+.stickyHeader {
+  composes: stickyHeader from '~styles/scoreboard';
+}
+
 .scoreboardTable {
   composes: table from '~styles/scoreboard';
 }
