@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { useI18n } from 'components/TranslationsProvider'
 import Round from './Round'
 
-const Index = ({ event, rounds }) => {
+const TableHeader = ({ event, rounds }) => {
   const { t } = useI18n()
 
   return (
@@ -22,7 +22,7 @@ const Index = ({ event, rounds }) => {
   )
 }
 
-Index.propTypes = {
+TableHeader.propTypes = {
   rounds: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -37,4 +37,4 @@ Index.propTypes = {
   }).isRequired
 }
 
-export default Index
+export default TableHeader
