@@ -9,7 +9,7 @@
   background-color: var(--white);
 
   @include lg-screen {
-    border: var(--default-border);
+    border: 0;
     border-radius: var(--border-radius-md);
 
     box-shadow: var(--block-box-shadow);
