@@ -11,6 +11,16 @@
   }
 }
 
+.tableWrapper {
+  overflow-x: auto;
+
+  @include lg-screen {
+    border-radius: var(--border-radius-md);
+
+    box-shadow: var(--block-box-shadow);
+  }
+}
+
 .table {
   width: 100%;
   border: var(--default-border);
@@ -23,8 +33,6 @@
 
   @include lg-screen {
     border-radius: var(--border-radius-md);
-
-    box-shadow: var(--block-box-shadow);
   }
 }
 
@@ -39,4 +47,19 @@
 .table thead th {
   font-weight: 500;
   text-align: center;
+}
+
+.stickyHeader {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 10;
+
+  border-bottom: var(--default-border);
+
+  @include lg-screen {
+    right: auto;
+    left: auto;
+  }
 }

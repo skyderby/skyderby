@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 
 import {
@@ -8,14 +8,29 @@ import {
 import ActionsBar from './ActionsBar'
 import styles from './styles.module.scss'
 import StandingRow from 'components/Events/SpeedSkydivingCompetition/Show/TeamsScoreboard/StandingRow'
+import useStickyTableHeader from 'hooks/useStickyTableHeader'
 
 const TeamsScoreboard = ({ match }) => {
   const eventId = Number(match.params.eventId)
-
   const { data: teamStandings, isLoading } = useTeamStandingsQuery(eventId, {
     preload: ['competitors', 'teams']
   })
   const { data: event } = useSpeedSkydivingCompetitionQuery(eventId)
+
+  const tableRef = useRef()
+  const stickyContainerRef = useRef()
+
+  const header = (
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Team</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+  )
+
+  const showStickyHeader = useStickyTableHeader(tableRef, stickyContainerRef)
 
   if (isLoading) return null
 
@@ -23,26 +38,27 @@ const TeamsScoreboard = ({ match }) => {
     <div className={styles.container}>
       {event.permissions.canEdit && <ActionsBar eventId={eventId} />}
 
-      <table className={styles.scoreboardTable}>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Team</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {teamStandings.map(row => (
-            <StandingRow
-              key={row.teamId}
-              event={event}
-              teamId={row.teamId}
-              rank={row.rank}
-              total={row.total}
-            />
-          ))}
-        </tbody>
-      </table>
+      <div className={styles.stickyHeader} ref={stickyContainerRef}>
+        {showStickyHeader && <table className={styles.scoreboardTable}>{header}</table>}
+      </div>
+
+      <div className={styles.tableWrapper}>
+        <table className={styles.scoreboardTable} ref={tableRef}>
+          {header}
+
+          <tbody>
+            {teamStandings.map(row => (
+              <StandingRow
+                key={row.teamId}
+                event={event}
+                teamId={row.teamId}
+                rank={row.rank}
+                total={row.total}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
