@@ -7,7 +7,7 @@
 
   @include lg-screen {
     width: $bp-large;
-    margin: 0 auto 1rem;
+    margin: 0 auto;
     border-radius: var(--border-radius-md);
 
     box-shadow: var(--block-box-shadow);
