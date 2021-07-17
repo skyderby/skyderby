@@ -9,17 +9,20 @@ const queryKey = eventId => ['performanceCompetition', eventId, 'rounds']
 
 const queryFn = async ctx => {
   const [_key, eventId] = ctx.queryKey
-  const { data } = await getRounds(eventId)
-
-  return data
+  return getRounds(eventId).then(response => response.data)
 }
 
-const getQueryOptions = eventId => ({
+const roundsQuery = (eventId, options = {}) => ({
   queryKey: queryKey(eventId),
-  queryFn
+  queryFn,
+  ...options
 })
 
 export const preloadRounds = (eventId, queryClient) =>
-  queryClient.prefetchQuery(getQueryOptions(eventId))
+  queryClient.prefetchQuery(roundsQuery(eventId))
 
-export const useRoundsQuery = eventId => useQuery(getQueryOptions(eventId))
+export const useRoundsQuery = (eventId, options) =>
+  useQuery(roundsQuery(eventId, options))
+
+export const useRoundQuery = (eventId, id) =>
+  useQuery(roundsQuery(eventId, { select: data => data.find(round => round.id === id) }))

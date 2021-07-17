@@ -1,34 +1,25 @@
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery } from 'react-query'
 import axios from 'axios'
-
-import { preloadCompetitors } from './competitors'
-import { preloadCategories } from './categories'
-import { preloadRounds } from './rounds'
 
 const endpoint = eventId => `/api/v1/performance_competitions/${eventId}/standings`
 
-const getRounds = eventId => axios.get(endpoint(eventId))
+const getStandings = eventId => axios.get(endpoint(eventId))
 
 const queryKey = eventId => ['performanceCompetition', eventId, 'standings']
 
-const buildQueryFn = queryClient => async ctx => {
+const queryFn = async ctx => {
   const [_key, eventId] = ctx.queryKey
-  const { data } = await getRounds(eventId)
-
-  await Promise.all([
-    preloadCompetitors(eventId, queryClient),
-    preloadCategories(eventId, queryClient),
-    preloadRounds(eventId, queryClient)
-  ])
-
-  return data
+  return getStandings(eventId).then(response => response.data)
 }
 
-export const useStandingsQuery = eventId => {
-  const queryClient = useQueryClient()
+export const standingsQuery = (eventId, options) => ({
+  queryKey: queryKey(eventId),
+  queryFn,
+  ...options
+})
 
-  return useQuery({
-    queryKey: queryKey(eventId),
-    queryFn: buildQueryFn(queryClient)
-  })
-}
+export const preloadStandings = (eventId, queryClient) =>
+  queryClient.prefetchQuery(standingsQuery(eventId))
+
+export const useStandingsQuery = (eventId, options) =>
+  useQuery(standingsQuery(eventId, options))

@@ -1,3 +1,1 @@
-json.array! @categories do |category|
-  json.extract! category, :id, :name, :order
-end
+json.array! @categories, partial: 'category', as: :category
