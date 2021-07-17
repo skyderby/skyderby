@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { useProfileQuery } from 'api/hooks/profiles'
-import { useCountryQuery } from 'api/hooks/countries'
+import CompetitorCells from './CompetitorCells'
 import styles from './styles.module.scss'
 
 const formattedResult = (record, task) => {
@@ -19,15 +18,11 @@ const formattedPoints = record => {
   return score.toFixed(1)
 }
 
-const StandingRow = ({ row, competitor, roundsByTask }) => {
-  const { data: profile } = useProfileQuery(competitor.profileId)
-  const { data: country } = useCountryQuery(profile?.countryId)
-
+const StandingRow = ({ event, row, roundsByTask }) => {
   return (
     <tr>
       <td>{row.rank}</td>
-      <td>{profile?.name}</td>
-      <td>{country?.code}</td>
+      <CompetitorCells event={event} competitorId={row.competitorId} />
 
       {roundsByTask.map(([task, rounds]) => (
         <React.Fragment key={task}>
@@ -57,6 +52,7 @@ StandingRow.propTypes = {
   roundsByTask: PropTypes.arrayOf(PropTypes.array).isRequired,
   row: PropTypes.shape({
     rank: PropTypes.number.isRequired,
+    competitorId: PropTypes.number.isRequired,
     roundResults: PropTypes.object,
     pointsInDisciplines: PropTypes.object,
     totalPoints: PropTypes.number
