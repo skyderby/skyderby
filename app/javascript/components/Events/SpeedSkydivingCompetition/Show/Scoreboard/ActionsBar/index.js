@@ -7,7 +7,7 @@ import {
   useNewCompetitorMutation
 } from 'api/hooks/speedSkydivingCompetitions'
 import PlusIcon from 'icons/plus.svg'
-import CategoryForm from '../CategoryForm'
+import CategoryForm from 'components/CategoryForm'
 import CompetitorForm from '../CompetitorForm'
 import styles from './styles.module.scss'
 
@@ -16,11 +16,12 @@ const ActionsBar = ({ eventId }) => {
   const [competitorFormShown, setCompetitorFormShown] = useState(false)
 
   const newRoundMutation = useNewRoundMutation()
-  const newCategoryMutation = useNewCategoryMutation()
+  const newCategoryMutation = useNewCategoryMutation(eventId, {
+    onSuccess: () => setCategoryFormShown(false)
+  })
   const newCompetitorMutation = useNewCompetitorMutation()
 
   const addRound = () => newRoundMutation.mutateAsync(eventId)
-  const addCategory = values => newCategoryMutation.mutateAsync({ eventId, ...values })
 
   return (
     <div className={styles.container}>
@@ -35,7 +36,10 @@ const ActionsBar = ({ eventId }) => {
       </button>
 
       {categoryFormShown && (
-        <CategoryForm onSubmit={addCategory} onHide={() => setCategoryFormShown(false)} />
+        <CategoryForm
+          mutation={newCategoryMutation}
+          onHide={() => setCategoryFormShown(false)}
+        />
       )}
 
       {competitorFormShown && (
