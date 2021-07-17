@@ -67,7 +67,9 @@ namespace :api, module: :api, defaults: { format: :json } do
       scope module: :performance_competitions do
         resources :rounds, only: %i[index show create update destroy]
         resources :competitors, only: %i[index show create update destroy]
-        resources :categories, only: %i[index show create update destroy]
+        resources :categories, only: %i[index show create update destroy] do
+          resource :position, only: :update, module: :categories
+        end
         resources :results, only: %i[index show create update destroy]
         resources :standings, only: :index
         resources :reference_points, only: %i[index create update destroy]

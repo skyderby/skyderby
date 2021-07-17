@@ -2,19 +2,23 @@ import { useQuery, useMutation, useQueryClient } from 'react-query'
 import axios from 'axios'
 
 import { standingsQuery } from './standings'
+import { getCSRFToken } from 'utils/csrfToken'
 
 const endpoint = eventId => `/api/v1/speed_skydiving_competitions/${eventId}/categories`
 const categoryUrl = (eventId, id) => `${endpoint(eventId)}/${id}`
 const categoryPositionUrl = (eventId, id) => `${categoryUrl(eventId, id)}/position`
 
+const getHeaders = () => ({ 'X-CSRF-Token': getCSRFToken() })
+
 const getCategories = eventId => axios.get(endpoint(eventId))
 const createCategory = ({ eventId, ...category }) =>
-  axios.post(endpoint(eventId), { category })
+  axios.post(endpoint(eventId), { category }, { headers: getHeaders() })
 const updateCategory = ({ eventId, id, ...category }) =>
-  axios.put(categoryUrl(eventId, id), { category })
-const deleteCategory = ({ eventId, id }) => axios.delete(categoryUrl(eventId, id))
+  axios.put(categoryUrl(eventId, id), { category }, { headers: getHeaders() })
+const deleteCategory = ({ eventId, id }) =>
+  axios.delete(categoryUrl(eventId, id), { headers: getHeaders() })
 const updateCategoryPosition = ({ eventId, id, direction }) =>
-  axios.put(categoryPositionUrl(eventId, id), { direction })
+  axios.put(categoryPositionUrl(eventId, id), { direction }, { headers: getHeaders() })
 
 const queryKey = eventId => ['speedSkydivingCompetitions', eventId, 'categories']
 
@@ -42,26 +46,32 @@ export const useCategoryQuery = (eventId, categoryId) =>
     select: data => data.find(category => category.id === categoryId)
   })
 
-export const useNewCategoryMutation = () => {
+export const useNewCategoryMutation = (eventId, options = {}) => {
   const queryClient = useQueryClient()
 
-  return useMutation(createCategory, {
-    onSuccess(response, { eventId }) {
+  const mutationFn = values => createCategory({ ...values, eventId })
+
+  return useMutation(mutationFn, {
+    async onSuccess(response) {
       const data = queryClient.getQueryData(queryKey(eventId))
       queryClient.setQueryData(queryKey(eventId), [...data, response.data])
-      queryClient.refetchQueries(standingsQuery(eventId, queryClient))
+      await queryClient.refetchQueries(standingsQuery(eventId, queryClient))
+      options.onSuccess?.()
     }
   })
 }
 
-export const useEditCategoryMutation = () => {
+export const useEditCategoryMutation = (eventId, options = {}) => {
   const queryClient = useQueryClient()
 
-  return useMutation(updateCategory, {
-    onSuccess(response, { eventId, id }) {
+  const mutationFn = values => updateCategory({ ...values, eventId })
+
+  return useMutation(mutationFn, {
+    onSuccess(response, { id }) {
       queryClient.setQueryData(queryKey(eventId), categories =>
         categories.map(category => (category.id === id ? response.data : category))
       )
+      options.onSuccess?.()
     }
   })
 }

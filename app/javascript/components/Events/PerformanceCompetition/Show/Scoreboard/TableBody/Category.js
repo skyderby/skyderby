@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import cx from 'clsx'
 import PropTypes from 'prop-types'
 
-import {
-  useEditCategoryMutation,
-  useDeleteCategoryMutation,
-  useChangePositionMutation
-} from 'api/hooks/speedSkydivingCompetitions'
 import CategoryForm from 'components/CategoryForm'
+import {
+  useChangePositionMutation,
+  useDeleteCategoryMutation,
+  useEditCategoryMutation
+} from 'api/hooks/performanceCompetitions'
 import PencilIcon from 'icons/pencil'
 import ChevronUpIcon from 'icons/chevron-up'
 import ChevronDownIcon from 'icons/chevron-down'
@@ -32,6 +32,7 @@ const Category = ({ event, category, colSpan }) => {
     <tr>
       <td colSpan={colSpan} className={styles.categoryCell}>
         <span>{category.name}</span>
+
         {event.permissions.canEdit && (
           <div className={styles.actions}>
             <button

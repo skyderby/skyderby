@@ -1,22 +1,19 @@
 @import 'styles/breakpoints';
 
 .container {
-  padding: 0 1rem 1rem;
+  composes: container from '~styles/scoreboard';
+}
+
+.tableWrapper {
+  composes: tableWrapper from '~styles/scoreboard';
+}
+
+.stickyHeader {
+  composes: stickyHeader from '~styles/scoreboard';
 }
 
 .scoreboardTable {
-  width: $bp-large;
-  margin: 0 auto;
-  border: var(--default-border);
-  border-radius: var(--border-radius-md);
-  border-collapse: collapse;
-  overflow: hidden;
-
-  font-size: 0.875rem;
-
-  background-color: var(--white);
-
-  box-shadow: var(--block-box-shadow);
+  composes: table from '~styles/scoreboard';
 }
 
 .scoreboardTable td,

@@ -1,9 +1,10 @@
-class Api::V1::SpeedSkydivingCompetitions::Categories::PositionsController < Api::ApplicationController
+class Api::V1::PerformanceCompetitions::Categories::PositionsController < Api::ApplicationController
   before_action :set_event
 
   def update
     authorize @event, :update?
-    category = @event.categories.find(params[:category_id])
+
+    category = @event.sections.find(params[:category_id])
 
     respond_to do |format|
       case direction
@@ -22,7 +23,7 @@ class Api::V1::SpeedSkydivingCompetitions::Categories::PositionsController < Api
   private
 
   def set_event
-    @event = SpeedSkydivingCompetition.find(params[:speed_skydiving_competition_id])
+    @event = Event.speed_distance_time.find(params[:performance_competition_id])
   end
 
   def direction = params[:direction].to_s.downcase
