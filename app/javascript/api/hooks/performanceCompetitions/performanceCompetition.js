@@ -22,11 +22,19 @@ const getQueryFn = queryClient => async ctx => {
   return data
 }
 
-const getQueryOptions = (id, queryClient) => ({
+const performanceEventQuery = (id, queryClient) => ({
   queryKey: queryKey(id),
   queryFn: getQueryFn(queryClient),
   enabled: !!id
 })
+
+export const preloadPerformanceEvent = (id, queryClient) =>
+  queryClient.prefetchQuery(performanceEventQuery(id, queryClient))
+
+export const usePerformanceEventQuery = id => {
+  const queryClient = useQueryClient()
+  return useQuery(performanceEventQuery(id, queryClient))
+}
 
 export const useNewPerformanceEventMutation = () => {
   const queryClient = useQueryClient()
@@ -36,9 +44,4 @@ export const useNewPerformanceEventMutation = () => {
       queryClient.setQueryData(queryKey(response.data.id), response.data)
     }
   })
-}
-
-export const usePerformanceEventQuery = id => {
-  const queryClient = useQueryClient()
-  return useQuery(getQueryOptions(id, queryClient))
 }

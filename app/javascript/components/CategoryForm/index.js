@@ -12,15 +12,14 @@ const defaultInitialValues = { name: '' }
 
 const CategoryForm = ({
   initialValues = defaultInitialValues,
-  onSubmit: save,
+  mutation,
   onHide: hide
 }) => {
   const { t } = useI18n()
 
   const handleSubmit = async (values, formikBag) => {
     try {
-      await save(values)
-      hide()
+      mutation.mutate(values)
     } catch (err) {
       formikBag.setSubmitting(false)
       console.warn(err)
@@ -75,7 +74,9 @@ CategoryForm.propTypes = {
   initialValues: PropTypes.shape({
     name: PropTypes.string
   }),
-  onSubmit: PropTypes.func.isRequired,
+  mutation: PropTypes.shape({
+    mutate: PropTypes.func.isRequired
+  }).isRequired,
   onHide: PropTypes.func.isRequired
 }
 

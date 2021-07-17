@@ -1,7 +1,32 @@
-export * from './performanceCompetition'
+export {
+  usePerformanceEventQuery,
+  useNewPerformanceEventMutation,
+  preloadPerformanceEvent
+} from './performanceCompetition'
+
+export { useRoundsQuery, useRoundQuery, preloadRounds } from './rounds'
+
+export {
+  useCategoriesQuery,
+  useCategoryQuery,
+  preloadCategories,
+  useNewCategoryMutation,
+  useEditCategoryMutation,
+  useDeleteCategoryMutation,
+  useChangePositionMutation
+} from './categories'
+
+export {
+  useCompetitorsQuery,
+  useCompetitorQuery,
+  preloadCompetitors,
+  useNewCompetitorMutation,
+  useEditCompetitorMutation,
+  useDeleteCompetitorMutation
+} from './competitors'
+
+export { useResultsQuery, useResultQuery, preloadResults } from './results'
+
 export { useReferencePointsQuery } from './referencePoints'
-export { useRoundsQuery } from './rounds'
-export { useCategoriesQuery } from './categories'
-export { useCompetitorsQuery } from './competitors'
-export { useResultsQuery } from './results'
-export { useStandingsQuery } from './standings'
+
+export { useStandingsQuery, preloadStandings } from './standings'
