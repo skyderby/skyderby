@@ -14,12 +14,18 @@ const queryFn = async ctx => {
   return data
 }
 
-const getQueryOptions = eventId => ({
+const resultsQuery = (eventId, options = {}) => ({
   queryKey: queryKey(eventId),
-  queryFn
+  queryFn,
+  ...options
 })
 
 export const preloadResults = (eventId, queryClient) =>
-  queryClient.prefetchQuery(getQueryOptions(eventId))
+  queryClient.prefetchQuery(resultsQuery(eventId))
 
-export const useResultsQuery = eventId => useQuery(getQueryOptions(eventId))
+export const useResultsQuery = eventId => useQuery(resultsQuery(eventId))
+
+export const useResultQuery = (eventId, id) =>
+  useQuery(
+    resultsQuery(eventId, { select: data => data.find(result => result.id === id) })
+  )

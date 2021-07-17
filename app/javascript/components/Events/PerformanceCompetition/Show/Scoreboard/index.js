@@ -5,7 +5,8 @@ import {
   useRoundsQuery,
   useCategoriesQuery,
   useCompetitorsQuery,
-  useStandingsQuery
+  useStandingsQuery,
+  usePerformanceEventQuery
 } from 'api/hooks/performanceCompetitions'
 import ActionsBar from './ActionsBar'
 import TableHeader from './TableHeader'
@@ -18,11 +19,13 @@ const groupByTask = rounds => {
   return tasks.map(task => [task, rounds.filter(el => el.task === task)])
 }
 
-const Scoreboard = ({ eventId }) => {
+const Scoreboard = ({ match }) => {
+  const eventId = Number(match.params.eventId)
   const { data: standings, isLoading } = useStandingsQuery(eventId)
   const { data: rounds } = useRoundsQuery(eventId)
   const { data: categories } = useCategoriesQuery(eventId)
   const { data: competitors } = useCompetitorsQuery(eventId)
+  const { data: event } = usePerformanceEventQuery(eventId)
 
   if (isLoading) return null
 
@@ -30,23 +33,30 @@ const Scoreboard = ({ eventId }) => {
 
   return (
     <div className={styles.container}>
-      <ActionsBar />
+      {event.permissions.canEdit && <ActionsBar eventId={eventId} />}
 
-      <table className={styles.scoreboardTable}>
-        <TableHeader roundsByTask={roundsByTask} />
-        <TableBody
-          roundsByTask={roundsByTask}
-          competitors={competitors}
-          categories={categories}
-          standings={standings}
-        />
-      </table>
+      <div className={styles.tableWrapper}>
+        <table className={styles.scoreboardTable}>
+          <TableHeader roundsByTask={roundsByTask} />
+          <TableBody
+            event={event}
+            roundsByTask={roundsByTask}
+            competitors={competitors}
+            categories={categories}
+            standings={standings}
+          />
+        </table>
+      </div>
     </div>
   )
 }
 
 Scoreboard.propTypes = {
-  eventId: PropTypes.number.isRequired
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      eventId: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired
 }
 
 export default Scoreboard
