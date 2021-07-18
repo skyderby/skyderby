@@ -7,6 +7,7 @@ import {
 } from 'api/hooks/countries'
 import { loadIds } from 'api/helpers'
 import { getCSRFToken } from 'utils/csrfToken'
+import { getQueryKey as getListQueryKey } from './places'
 
 const endpoint = '/api/v1/places'
 
@@ -14,6 +15,13 @@ const getPlace = id => axios.get(`${endpoint}/${id}`)
 const getPlacesById = ids => loadIds(endpoint, ids)
 const createPlace = place =>
   axios.post(endpoint, { place }, { headers: { 'X-CSRF-Token': getCSRFToken() } })
+
+const updatePlace = place =>
+  axios.put(
+    `${endpoint}/${place.id}`,
+    { place },
+    { headers: { 'X-CSRF-Token': getCSRFToken() } }
+  )
 
 export const getQueryKey = id => ['places', id]
 
@@ -62,14 +70,25 @@ export const usePlaceQueries = ids => {
   return useQueries(ids.filter(Boolean).map(id => placeQuery(id, queryClient)))
 }
 
-const queryKey = id => ['place', id]
-
 export const useNewPlaceMutation = () => {
   const queryClient = useQueryClient()
 
   return useMutation(createPlace, {
     onSuccess(response) {
-      queryClient.setQueryData(queryKey(response.data.id), response.data)
+      queryClient.setQueryData(getQueryKey(response.data.id), response.data)
+    }
+  })
+}
+
+export const useEditPlaceMutation = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation(updatePlace, {
+    onSuccess(response, { id }) {
+      queryClient.setQueryData(getQueryKey(id), response.data)
+      queryClient.setQueryData(getListQueryKey(), places =>
+        places.map(place => (place.id === id ? response.data : place))
+      )
     }
   })
 }

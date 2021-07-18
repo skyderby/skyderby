@@ -35,7 +35,7 @@ const getAllPlaces = async () => {
 
 const getPlaces = params => axios.get(buildUrl(params))
 
-const getQueryKey = params => ['places', params].filter(Boolean)
+export const getQueryKey = params => ['places', params].filter(Boolean)
 
 const cachePlaces = (places, queryClient) =>
   places
