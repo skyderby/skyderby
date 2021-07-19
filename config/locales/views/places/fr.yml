@@ -7,3 +7,12 @@ fr:
     show:
       visited_by: Visité par
       delete_confirmation: Êtes-vous sûr de vouloir supprimer ce lieu?
+    title: Locations
+    description: >
+      Locations are places on the map where located Dropzones or B.A.S.E. sites 
+      with some information about these places.
+    new: New
+    overview: Overview
+    videos: Videos
+    tracks: Tracks
+    edit: Edit

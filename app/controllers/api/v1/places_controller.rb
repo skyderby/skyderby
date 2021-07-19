@@ -26,6 +26,19 @@ module Api
         end
       end
 
+      def update
+        @place = Place.find(place_params[:id])
+        authorize @place
+
+        respond_to do |format|
+          if @place.update(place_params)
+            format.json
+          else
+            format.json { render json: @place.errors, status: :unprocessable_entity }
+          end
+        end
+      end
+
       private
 
       def apply_filters(relation)
@@ -36,6 +49,7 @@ module Api
 
       def place_params
         params.require(:place).permit \
+          :id,
           :country_id,
           :kind,
           :name,

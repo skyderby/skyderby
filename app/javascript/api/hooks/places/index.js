@@ -1,5 +1,6 @@
 export {
   useNewPlaceMutation,
+  useEditPlaceMutation,
   usePlaceQuery,
   usePlaceQueries,
   preloadPlaces,

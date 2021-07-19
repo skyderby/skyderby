@@ -7,3 +7,12 @@ ru:
     show:
       visited_by: 'Здесь летали'
       delete_confirmation: 'Вы уверены, что хотиту удалить эту локацию?'
+    title: Локации
+    description: >
+      Locations are places on the map where located Dropzones or B.A.S.E. sites 
+      with information about these places.
+    new: Создание
+    overview: Полезная информация
+    videos: Видео
+    tracks: История прыжков
+    edit: Редактировать
