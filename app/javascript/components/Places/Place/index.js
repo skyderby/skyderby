@@ -7,6 +7,7 @@ import Loading from 'components/PageWrapper/Loading'
 import Header from './Header'
 import Overview from './Overview'
 import Videos from './Videos'
+import Tracks from './Tracks'
 import Edit from './Edit'
 import styles from './styles.module.scss'
 
@@ -23,7 +24,7 @@ const Place = ({ match }) => {
       <Switch>
         <Route exact path="/places/:id" component={Overview} />
         <Route path="/places/:id/videos" component={Videos} />
-        <Route path="/places/:id/tracks" component={() => <div />} />
+        <Route path="/places/:id/tracks" component={Tracks} />
         <Route path="/places/:id/edit" component={Edit} />
       </Switch>
     </div>

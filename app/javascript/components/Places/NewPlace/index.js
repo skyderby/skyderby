@@ -1,10 +1,11 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
+import { Helmet } from 'react-helmet'
 
+import { useI18n } from 'components/TranslationsProvider'
 import Form from '../Form'
 import styles from './styles.module.scss'
 import { useNewPlaceMutation } from 'api/hooks/places'
-import { useI18n } from 'components/TranslationsProvider'
 
 const NewPlace = () => {
   const newPlaceMutation = useNewPlaceMutation()
@@ -32,6 +33,10 @@ const NewPlace = () => {
 
   return (
     <div className={styles.container}>
+      <Helmet>
+        <title>{`${t('places.title')} | ${t('places.new')}`}</title>
+        <meta name="description" content={t('places.description')} />
+      </Helmet>
       <h1 className={styles.pageTitle}>{t('views.places.title')}</h1>
       <div className={styles.card}>
         <Form initialValues={initialValues} onSubmit={createEvent} />
