@@ -1,18 +1,24 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import axios from 'axios'
+
 import { preloadProfiles } from 'api/hooks/profiles'
+import { getCSRFToken } from 'utils/csrfToken'
 import { standingsQuery } from './standings'
+import { preloadSuits } from 'api/hooks/suits'
 
 const collectionEndpoint = eventId =>
   `/api/v1/performance_competitions/${eventId}/competitors`
 const elementEndpoint = (eventId, id) => `${collectionEndpoint(eventId)}/${id}`
 
+const getHeaders = () => ({ 'X-CSRF-Token': getCSRFToken() })
+
 const getCompetitors = eventId => axios.get(collectionEndpoint(eventId))
 const createCompetitor = ({ eventId, ...competitor }) =>
-  axios.post(collectionEndpoint(eventId), { competitor })
+  axios.post(collectionEndpoint(eventId), { competitor }, { headers: getHeaders() })
 const updateCompetitor = ({ eventId, id, ...competitor }) =>
-  axios.put(elementEndpoint(eventId, id), { competitor })
-const deleteCompetitor = ({ eventId, id }) => axios.delete(elementEndpoint(eventId, id))
+  axios.put(elementEndpoint(eventId, id), { competitor }, { headers: getHeaders() })
+const deleteCompetitor = ({ eventId, id }) =>
+  axios.delete(elementEndpoint(eventId, id), { headers: getHeaders() })
 
 const collectionKey = eventId => ['performanceCompetition', eventId, 'competitors']
 
@@ -20,10 +26,16 @@ const queryCompetitors = async (ctx, queryClient) => {
   const [_key, eventId] = ctx.queryKey
   const { data } = await getCompetitors(eventId)
 
-  await preloadProfiles(
-    data.map(record => record.profileId),
-    queryClient
-  )
+  await Promise.all([
+    preloadProfiles(
+      data.map(record => record.profileId),
+      queryClient
+    ),
+    preloadSuits(
+      data.map(record => record.suitId),
+      queryClient
+    )
+  ])
 
   return data
 }
@@ -53,29 +65,31 @@ export const useCompetitorQuery = (eventId, id) => {
   )
 }
 
-export const useNewCompetitorMutation = () => {
+export const useNewCompetitorMutation = (eventId, options = {}) => {
   const queryClient = useQueryClient()
 
   return useMutation(createCompetitor, {
-    onSuccess(response, { eventId }) {
+    async onSuccess(response) {
       const data = queryClient.getQueryData(collectionKey(eventId))
       queryClient.setQueryData(collectionKey(eventId), [...data, response.data])
-      queryClient.refetchQueries(standingsQuery(eventId, queryClient))
+      await queryClient.refetchQueries(standingsQuery(eventId, queryClient))
+      options.onSuccess?.()
     }
   })
 }
 
-export const useEditCompetitorMutation = () => {
+export const useEditCompetitorMutation = (eventId, options = {}) => {
   const queryClient = useQueryClient()
 
   return useMutation(updateCompetitor, {
-    onSuccess(response, { eventId, id }) {
+    async onSuccess(response, { eventId, id }) {
       const data = queryClient.getQueryData(collectionKey(eventId))
       queryClient.setQueryData(
         collectionKey(eventId),
         data.map(competitor => (competitor.id === id ? response.data : competitor))
       )
-      queryClient.refetchQueries(standingsQuery(eventId, queryClient))
+      await queryClient.refetchQueries(standingsQuery(eventId, queryClient))
+      options.onSuccess?.()
     }
   })
 }

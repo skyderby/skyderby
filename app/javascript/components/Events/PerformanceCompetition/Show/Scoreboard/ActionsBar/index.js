@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 
-import { useNewCategoryMutation } from 'api/hooks/performanceCompetitions'
+import {
+  useNewCategoryMutation,
+  useNewCompetitorMutation
+} from 'api/hooks/performanceCompetitions'
 import PlusIcon from 'icons/plus.svg'
 import CategoryForm from 'components/CategoryForm'
+import CompetitorForm from '../CompetitorForm'
 import styles from './styles.module.scss'
 
 const ActionsBar = ({ eventId }) => {
@@ -11,6 +15,9 @@ const ActionsBar = ({ eventId }) => {
 
   const newCategoryMutation = useNewCategoryMutation(eventId, {
     onSuccess: () => setCategoryFormShown(false)
+  })
+  const newCompetitorMutation = useNewCompetitorMutation(eventId, {
+    onSuccess: () => setCompetitorFormShown(false)
   })
 
   return (
@@ -29,6 +36,14 @@ const ActionsBar = ({ eventId }) => {
         <CategoryForm
           mutation={newCategoryMutation}
           onHide={() => setCategoryFormShown(false)}
+        />
+      )}
+
+      {competitorFormShown && (
+        <CompetitorForm
+          eventId={eventId}
+          mutation={newCompetitorMutation}
+          onHide={() => setCompetitorFormShown(false)}
         />
       )}
     </div>
