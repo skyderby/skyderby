@@ -2,18 +2,22 @@ import axios from 'axios'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 
 import { preloadProfiles } from 'api/hooks/profiles'
+import { getCSRFToken } from 'utils/csrfToken'
 import { standingsQuery } from './standings'
 
 const collectionEndpoint = eventId =>
   `/api/v1/speed_skydiving_competitions/${eventId}/competitors`
 const elementEndpoint = (eventId, id) => `${collectionEndpoint(eventId)}/${id}`
 
+const getHeaders = () => ({ 'X-CSRF-Token': getCSRFToken() })
+
 const getCompetitors = eventId => axios.get(collectionEndpoint(eventId))
 const createCompetitor = ({ eventId, ...competitor }) =>
-  axios.post(collectionEndpoint(eventId), { competitor })
+  axios.post(collectionEndpoint(eventId), { competitor }, { headers: getHeaders() })
 const updateCompetitor = ({ eventId, id, ...competitor }) =>
-  axios.put(elementEndpoint(eventId, id), { competitor })
-const deleteCompetitor = ({ eventId, id }) => axios.delete(elementEndpoint(eventId, id))
+  axios.put(elementEndpoint(eventId, id), { competitor }, { headers: getHeaders() })
+const deleteCompetitor = ({ eventId, id }) =>
+  axios.delete(elementEndpoint(eventId, id), { headers: getHeaders() })
 
 const collectionKey = eventId => ['speedSkydivingCompetitions', eventId, 'competitors']
 
