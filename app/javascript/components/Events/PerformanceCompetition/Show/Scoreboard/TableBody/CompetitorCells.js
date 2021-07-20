@@ -10,16 +10,24 @@ import { useProfileQuery } from 'api/hooks/profiles'
 import { useCountryQuery } from 'api/hooks/countries'
 import PencilIcon from 'icons/pencil'
 import TimesIcon from 'icons/times'
-// import CompetitorForm from '../CompetitorForm'
+import CompetitorForm from '../CompetitorForm'
 import styles from './styles.module.scss'
+import SuitLabel from 'components/SuitLabel'
+import { useSuitQuery } from 'api/hooks/suits'
+import { useManufacturerQuery } from 'api/hooks/manufacturer'
 
 const CompetitorCells = ({ event, competitorId }) => {
   const [competitorFormShown, setCompetitorFormShown] = useState(false)
   const { data: competitor } = useCompetitorQuery(event.id, competitorId)
   const { data: profile } = useProfileQuery(competitor?.profileId)
   const { data: country } = useCountryQuery(profile?.countryId)
+  const { data: suit } = useSuitQuery(competitor?.suitId)
+  const { data: make } = useManufacturerQuery(suit?.makeId)
 
-  const editMutation = useEditCompetitorMutation()
+  const editMutation = useEditCompetitorMutation(event.id, {
+    onSuccess: () => setCompetitorFormShown(false)
+  })
+
   const deleteMutation = useDeleteCompetitorMutation()
   const deleteCompetitor = () =>
     deleteMutation.mutate({
@@ -30,34 +38,39 @@ const CompetitorCells = ({ event, competitorId }) => {
   return (
     <>
       <td className={styles.competitorCell}>
-        <span>{profile?.name}</span>
-        {competitor?.assignedNumber && (
-          <span className={styles.assignedNumber}>#{competitor.assignedNumber}</span>
-        )}
-        {event.permissions.canEdit && (
-          <div className={styles.actions}>
-            <button
-              className={styles.actionButton}
-              onClick={() => setCompetitorFormShown(true)}
-            >
-              <PencilIcon />
-            </button>
-            <button className={styles.actionButton} onClick={deleteCompetitor}>
-              <TimesIcon />
-            </button>
-          </div>
-        )}
+        <div className={styles.competitorMain}>
+          <span>{profile?.name}</span>
+          {competitor?.assignedNumber && (
+            <span className={styles.assignedNumber}>#{competitor.assignedNumber}</span>
+          )}
+          {event.permissions.canEdit && (
+            <div className={styles.actions}>
+              <button
+                className={styles.actionButton}
+                onClick={() => setCompetitorFormShown(true)}
+              >
+                <PencilIcon />
+              </button>
+              <button className={styles.actionButton} onClick={deleteCompetitor}>
+                <TimesIcon />
+              </button>
+            </div>
+          )}
+        </div>
+        <div className={styles.competitorAdditional}>
+          <SuitLabel name={suit?.name} code={make?.code} />
+        </div>
       </td>
       <td>{country?.code}</td>
 
-      {/*{competitorFormShown && (*/}
-      {/*  // <CompetitorForm*/}
-      {/*  //   eventId={event.id}*/}
-      {/*  //   initialValues={competitor}*/}
-      {/*  //   mutation={editMutation}*/}
-      {/*  //   onHide={() => setCompetitorFormShown(false)}*/}
-      {/*  // />*/}
-      {/*)}*/}
+      {competitorFormShown && (
+        <CompetitorForm
+          eventId={event.id}
+          initialValues={competitor}
+          mutation={editMutation}
+          onHide={() => setCompetitorFormShown(false)}
+        />
+      )}
     </>
   )
 }

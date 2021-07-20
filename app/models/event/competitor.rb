@@ -30,4 +30,6 @@ class Event::Competitor < ApplicationRecord
   delegate :name, :country_id, :country_name, :country_code, to: :profile, allow_nil: true
   delegate :name, to: :suit, prefix: true, allow_nil: true
   delegate :place, to: :event
+
+  accepts_nested_attributes_for :profile
 end
