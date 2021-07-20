@@ -49,6 +49,7 @@ const StandingRow = ({ event, row, roundsByTask }) => {
 }
 
 StandingRow.propTypes = {
+  event: PropTypes.object.isRequired,
   roundsByTask: PropTypes.arrayOf(PropTypes.array).isRequired,
   row: PropTypes.shape({
     rank: PropTypes.number.isRequired,
