@@ -14,6 +14,11 @@ Skyderby::Application.routes.draw do
   end
 
   draw :api
+  namespace :assets do
+    namespace :link_previews do
+      resources :tracks, only: :show
+    end
+  end
   get '/(*path)', to: 'react_app#show'
 
   draw :backward_compatibility
