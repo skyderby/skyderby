@@ -43,8 +43,8 @@ export const useLoginMutation = () => {
   const queryClient = useQueryClient()
 
   return useMutation(login, {
-    onSuccess(response) {
-      queryClient.setQueryData(queryKey, response.data)
+    onSuccess(data) {
+      queryClient.setQueryData(queryKey, data)
     }
   })
 }
