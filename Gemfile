@@ -67,6 +67,7 @@ gem 'uglifier', '>= 2.7.2'
 gem 'webpacker', '~> 5.1'
 
 gem 'vincenty_distance'
+gem 'mini_magick'
 
 group :development do
   gem 'annotate'
