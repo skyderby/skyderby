@@ -44,6 +44,7 @@ export const useLoginMutation = () => {
 
   return useMutation(login, {
     onSuccess(data) {
+      queryClient.clear()
       queryClient.setQueryData(queryKey, data)
     }
   })
@@ -54,7 +55,7 @@ export const useLogoutMutation = () => {
 
   return useMutation(logout, {
     onSuccess() {
-      queryClient.removeQueries(queryKey)
+      queryClient.clear()
     }
   })
 }
