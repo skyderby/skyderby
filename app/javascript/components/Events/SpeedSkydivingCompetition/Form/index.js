@@ -10,11 +10,17 @@ import RadioButtonGroup from 'components/ui/RadioButtonGroup'
 import validationSchema from './validationSchema'
 import styles from './styles.module.scss'
 
-const Form = props => {
+const Form = ({ initialValues, mutation, returnUrl }) => {
   const { t } = useI18n()
 
+  const handleSubmit = values => mutation.mutate(values)
+
   return (
-    <Formik {...props} validationSchema={validationSchema}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={handleSubmit}
+    >
       {({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <div className={styles.formFields}>
@@ -79,7 +85,7 @@ const Form = props => {
             <button type="submit" className={styles.primaryButton}>
               {t('general.save')}
             </button>
-            <Link to="/events/new" className={styles.secondaryButton}>
+            <Link to={returnUrl} className={styles.secondaryButton}>
               {t('general.cancel')}
             </Link>
           </div>
@@ -96,7 +102,11 @@ Form.propTypes = {
     useTeams: PropTypes.oneOf(['true', 'false']).isRequired,
     visibility: PropTypes.oneOf(['private_event', 'unlisted_event', 'public_event'])
       .isRequired
-  })
+  }),
+  mutation: PropTypes.shape({
+    mutate: PropTypes.func.isRequired
+  }).isRequired,
+  returnUrl: PropTypes.string.isRequired
 }
 
 export default Form
