@@ -8,17 +8,10 @@ import styles from './styles.module.scss'
 import { useNewSpeedSkydivingCompetitionMutation } from 'api/hooks/speedSkydivingCompetitions'
 
 const NewEvent = () => {
-  const newEventMutation = useNewSpeedSkydivingCompetitionMutation()
   const history = useHistory()
-
-  const createEvent = async values => {
-    try {
-      const { data: event } = await newEventMutation.mutateAsync(values)
-      history.push(`/events/speed_skydiving/${event.id}`)
-    } catch (err) {
-      console.warn(err)
-    }
-  }
+  const newEventMutation = useNewSpeedSkydivingCompetitionMutation({
+    onSuccess: event => history.push(`/events/speed_skydiving/${event.id}`)
+  })
 
   const initialValues = {
     name: '',
@@ -33,7 +26,11 @@ const NewEvent = () => {
       <div className={styles.container}>
         <h1 className={styles.pageTitle}>New Speed Skydiving Competition</h1>
         <div className={styles.card}>
-          <Form initialValues={initialValues} onSubmit={createEvent} />
+          <Form
+            initialValues={initialValues}
+            mutation={newEventMutation}
+            returnUrl="/events/speed_skydiving/new"
+          />
         </div>
       </div>
     </AppShell>

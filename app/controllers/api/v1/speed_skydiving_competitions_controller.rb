@@ -1,4 +1,6 @@
 class Api::V1::SpeedSkydivingCompetitionsController < Api::ApplicationController
+  before_action :set_event, only: %i[show update]
+
   def create
     authorize SpeedSkydivingCompetition
     @event = SpeedSkydivingCompetition.new(event_params) do |event|
@@ -15,7 +17,19 @@ class Api::V1::SpeedSkydivingCompetitionsController < Api::ApplicationController
   end
 
   def show
-    @event = authorize SpeedSkydivingCompetition.find(params[:id])
+    authorize @event
+  end
+
+  def update
+    authorize @event
+
+    respond_to do |format|
+      if @event.update(event_params)
+        format.json
+      else
+        format.json { render json: @event.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   private
@@ -28,5 +42,9 @@ class Api::V1::SpeedSkydivingCompetitionsController < Api::ApplicationController
       :status,
       :visibility,
       :use_teams
+  end
+
+  def set_event
+    @event = SpeedSkydivingCompetition.find(params[:id])
   end
 end
