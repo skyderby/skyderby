@@ -34,3 +34,8 @@
 .button:not(:disabled):hover {
   border-right: var(--default-border);
 }
+
+.actionButton {
+  composes: button from '~styles/button';
+  composes: flat from '~styles/button';
+}
