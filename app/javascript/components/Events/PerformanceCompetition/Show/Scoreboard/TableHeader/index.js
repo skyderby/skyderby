@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
+import Round from './Round'
 
 const taskUnits = {
   distance: 'm',
@@ -9,7 +10,7 @@ const taskUnits = {
   time: 'sec'
 }
 
-const TableHeader = ({ roundsByTask }) => {
+const TableHeader = ({ event, roundsByTask }) => {
   const { t } = useI18n()
 
   return (
@@ -30,9 +31,7 @@ const TableHeader = ({ roundsByTask }) => {
         {roundsByTask.map(([task, rounds]) => (
           <React.Fragment key={task}>
             {rounds.map(round => (
-              <th key={round.slug} colSpan={2}>
-                {round.number}
-              </th>
+              <Round key={round.slug} event={event} round={round} />
             ))}
             <th rowSpan={2}>%</th>
           </React.Fragment>
@@ -53,7 +52,8 @@ const TableHeader = ({ roundsByTask }) => {
 }
 
 TableHeader.propTypes = {
-  roundsByTask: PropTypes.arrayOf(PropTypes.array).isRequired
+  roundsByTask: PropTypes.arrayOf(PropTypes.array).isRequired,
+  event: PropTypes.object.isRequired
 }
 
 export default TableHeader
