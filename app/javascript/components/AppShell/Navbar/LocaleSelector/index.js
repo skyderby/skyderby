@@ -5,6 +5,7 @@ import { useI18n } from 'components/TranslationsProvider'
 import Dropdown from 'components/Dropdown'
 import ChevronDown from 'icons/chevron-down.svg'
 import styles from './styles.module.scss'
+import useClickOutside from 'hooks/useClickOutside'
 
 const languageNames = {
   de: 'Deutsch',
@@ -18,8 +19,11 @@ const languageNames = {
 const LocaleSelector = ({ className }) => {
   const { t, locale, changeLocale, supportedLocales } = useI18n()
   const [showDropdown, setShowDropdown] = useState(false)
-  const [referenceElement, setReferenceElement] = useState(null)
+  const referenceElement = useRef()
   const toggleRef = useRef()
+  const menuRef = useRef()
+
+  useClickOutside([menuRef, referenceElement], () => setShowDropdown(false))
 
   const toggleDropdown = () => setShowDropdown(val => !val)
   const handleChangeLocaleClick = newLocale => {
@@ -29,7 +33,7 @@ const LocaleSelector = ({ className }) => {
   }
 
   return (
-    <li className={className} ref={setReferenceElement}>
+    <li className={className} ref={referenceElement}>
       <button
         className={styles.toggle}
         ref={toggleRef}
@@ -42,8 +46,9 @@ const LocaleSelector = ({ className }) => {
 
       {showDropdown && (
         <Dropdown
-          referenceElement={referenceElement}
+          referenceElement={referenceElement.current}
           options={{ placement: 'bottom-end' }}
+          ref={menuRef}
         >
           <ul className={styles.localeMenu}>
             {supportedLocales.map(key => (
