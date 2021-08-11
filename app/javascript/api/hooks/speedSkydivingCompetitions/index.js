@@ -1,6 +1,7 @@
 export {
   useSpeedSkydivingCompetitionQuery,
   useNewSpeedSkydivingCompetitionMutation,
+  useEditSpeedSkydivingCompetitionMutation,
   preloadSpeedSkydivingCompetition
 } from './speedSkydivingCompetition'
 

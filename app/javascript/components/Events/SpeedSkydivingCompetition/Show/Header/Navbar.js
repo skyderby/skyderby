@@ -2,12 +2,13 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
+import { useI18n } from 'components/TranslationsProvider'
+import PageNavbar from 'components/PageNavbar'
 import CogIcon from 'icons/cog.svg'
 import ListIcon from 'icons/list-ul.svg'
-import PageNavbar from 'components/PageNavbar'
-import MapsIcon from 'icons/compass.svg'
 
 const Navbar = ({ event }) => {
+  const { t } = useI18n()
   const eventUrl = `/events/speed_skydiving/${event.id}`
 
   return (
@@ -43,25 +44,20 @@ const Navbar = ({ event }) => {
         </PageNavbar.Item>
       )}
 
-      <PageNavbar.Item>
-        <NavLink to={`${eventUrl}/maps`}>
-          <span>
-            <MapsIcon />
-            Maps
-          </span>
-        </NavLink>
-      </PageNavbar.Item>
+      {event.permissions.canEdit && (
+        <>
+          <PageNavbar.Spacer />
 
-      <PageNavbar.Spacer />
-
-      <PageNavbar.Item right>
-        <NavLink to={`${eventUrl}/edit`}>
-          <span>
-            <CogIcon />
-            Edit
-          </span>
-        </NavLink>
-      </PageNavbar.Item>
+          <PageNavbar.Item right>
+            <NavLink to={`${eventUrl}/edit`}>
+              <span>
+                <CogIcon />
+                {t('general.settings')}
+              </span>
+            </NavLink>
+          </PageNavbar.Item>
+        </>
+      )}
     </PageNavbar>
   )
 }
@@ -70,7 +66,10 @@ Navbar.propTypes = {
   event: PropTypes.shape({
     id: PropTypes.number.isRequired,
     useTeams: PropTypes.bool.isRequired,
-    useOpenScoreboard: PropTypes.bool.isRequired
+    useOpenScoreboard: PropTypes.bool.isRequired,
+    permissions: PropTypes.shape({
+      canEdit: PropTypes.bool.isRequired
+    }).isRequired
   }).isRequired
 }
 
