@@ -37,7 +37,7 @@ const Scoreboard = ({ match }) => {
 
       <div className={styles.tableWrapper}>
         <table className={styles.scoreboardTable}>
-          <TableHeader roundsByTask={roundsByTask} />
+          <TableHeader event={event} roundsByTask={roundsByTask} />
           <TableBody
             event={event}
             roundsByTask={roundsByTask}
