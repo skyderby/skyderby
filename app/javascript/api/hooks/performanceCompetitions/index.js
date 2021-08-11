@@ -4,7 +4,13 @@ export {
   preloadPerformanceEvent
 } from './performanceCompetition'
 
-export { useRoundsQuery, useRoundQuery, preloadRounds } from './rounds'
+export {
+  useRoundsQuery,
+  useRoundQuery,
+  preloadRounds,
+  useNewRoundMutation,
+  useDeleteRoundMutation
+} from './rounds'
 
 export {
   useCategoriesQuery,

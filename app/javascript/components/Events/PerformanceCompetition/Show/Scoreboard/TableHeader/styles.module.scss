@@ -1,0 +1,25 @@
+table > thead .round {
+  position: relative;
+
+  padding: 0.5rem 1rem;
+}
+
+.showActionsButton {
+  --text-color: var(--grey-60);
+
+  composes: button from '~styles/button';
+  composes: flat from '~styles/button';
+
+  position: absolute;
+  top: 0.375rem;
+  right: 0.25rem;
+
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+}
+
+.actionButton {
+  composes: button from '~styles/button';
+  composes: flat from '~styles/button';
+}
