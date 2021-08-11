@@ -14,12 +14,13 @@ import {
   preloadStandings
 } from 'api/hooks/speedSkydivingCompetitions'
 import AppShell from 'components/AppShell'
+import PageLoading from 'components/PageWrapper/Loading'
 import Header from './Header'
 import Scoreboard from './Scoreboard'
 import TeamsScoreboard from './TeamsScoreboard'
 import OpenScoreboard from './OpenScoreboard'
+import Edit from './Edit'
 import styles from './styles.module.scss'
-import PageLoading from 'components/PageWrapper/Loading'
 
 const Show = ({ match }) => {
   const eventId = Number(match.params.eventId)
@@ -54,6 +55,9 @@ const Show = ({ match }) => {
             )}
             {event.useTeams && (
               <Route exact path={`${match.path}/teams`} component={TeamsScoreboard} />
+            )}
+            {event.permissions.canEdit && (
+              <Route exact path={`${match.path}/edit`} component={Edit} />
             )}
           </Switch>
         </div>

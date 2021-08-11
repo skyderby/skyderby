@@ -15,6 +15,12 @@ const createEvent = speedSkydivingCompetition =>
     { speedSkydivingCompetition },
     { headers: { 'X-CSRF-Token': getCSRFToken() } }
   )
+const updateEvent = ({ id, ...speedSkydivingCompetition }) =>
+  axios.put(
+    `${endpoint}/${id}`,
+    { speedSkydivingCompetition },
+    { headers: { 'X-CSRF-Token': getCSRFToken() } }
+  )
 
 const buildQueryFn = queryClient => async ctx => {
   const [_key, id] = ctx.queryKey
@@ -33,20 +39,32 @@ export const speedSkydivingCompetitionQuery = (id, queryClient) => ({
   enabled: !!id
 })
 
-export const useNewSpeedSkydivingCompetitionMutation = () => {
-  const queryClient = useQueryClient()
-
-  return useMutation(createEvent, {
-    onSuccess(response) {
-      queryClient.setQueryData(queryKey(response.data.id), response.data)
-    }
-  })
-}
-
 export const preloadSpeedSkydivingCompetition = (id, queryClient) =>
   queryClient.prefetchQuery(speedSkydivingCompetitionQuery(id, queryClient))
 
 export const useSpeedSkydivingCompetitionQuery = id => {
   const queryClient = useQueryClient()
   return useQuery(speedSkydivingCompetitionQuery(id, queryClient))
+}
+
+export const useNewSpeedSkydivingCompetitionMutation = (options = {}) => {
+  const queryClient = useQueryClient()
+
+  return useMutation(createEvent, {
+    onSuccess(response) {
+      queryClient.setQueryData(queryKey(response.data.id), response.data)
+      options.onSuccess?.(response.data)
+    }
+  })
+}
+
+export const useEditSpeedSkydivingCompetitionMutation = (options = {}) => {
+  const queryClient = useQueryClient()
+
+  return useMutation(updateEvent, {
+    onSuccess(response) {
+      queryClient.setQueryData(queryKey(response.data.id), response.data)
+      options.onSuccess?.()
+    }
+  })
 }
