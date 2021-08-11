@@ -5,7 +5,9 @@ import Category from './Category'
 import StandingRow from './StandingRow'
 
 const categoryColSpan = roundsByTask =>
-  roundsByTask.length + roundsByTask.map(([_task, rounds]) => rounds).flat().length + 5
+  roundsByTask.length +
+  roundsByTask.map(([_task, rounds]) => rounds).flat().length * 2 +
+  4
 
 const TableBody = ({ event, roundsByTask, categories, standings }) => {
   return (
