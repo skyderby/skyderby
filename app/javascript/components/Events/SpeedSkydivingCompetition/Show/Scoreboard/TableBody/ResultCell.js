@@ -6,7 +6,10 @@ import UploadIcon from 'icons/upload'
 import NewResultForm from '../NewResultForm'
 import ResultModal from '../ResultModal'
 import styles from './styles.module.scss'
-import { useDeleteResultMutation } from 'api/hooks/speedSkydivingCompetitions'
+import {
+  useDeleteResultMutation,
+  useNewResultMutation
+} from 'api/hooks/speedSkydivingCompetitions'
 
 const ResultCell = ({ className, event, roundId, competitorId, result }) => {
   const [showNewResultModal, setShowNewResultModal] = useState(false)
@@ -14,6 +17,12 @@ const ResultCell = ({ className, event, roundId, competitorId, result }) => {
   const deleteMutation = useDeleteResultMutation()
 
   const hideResultModal = () => setShowResultModal(false)
+  const hideResultSubmissionModal = () => setShowNewResultModal(false)
+  const newResultMutation = useNewResultMutation({
+    onSuccess: () => {
+      hideResultSubmissionModal()
+    }
+  })
 
   const deleteResult = async () => {
     if (!confirm('Are you sure you want delete this result?')) return
@@ -59,8 +68,9 @@ const ResultCell = ({ className, event, roundId, competitorId, result }) => {
             <NewResultForm
               event={event}
               competitorId={competitorId}
+              mutation={newResultMutation}
               roundId={roundId}
-              onHide={() => setShowNewResultModal(false)}
+              onHide={hideResultSubmissionModal}
             />
           )}
         </>
