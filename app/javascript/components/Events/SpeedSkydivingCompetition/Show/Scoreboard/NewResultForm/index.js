@@ -2,11 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Formik, Field, ErrorMessage } from 'formik'
 
-import {
-  useCompetitorQuery,
-  useNewResultMutation,
-  useRoundQuery
-} from 'api/hooks/speedSkydivingCompetitions'
+import { useCompetitorQuery, useRoundQuery } from 'api/hooks/speedSkydivingCompetitions'
 import { useProfileQuery } from 'api/hooks/profiles'
 import { useI18n } from 'components/TranslationsProvider'
 import Modal from 'components/ui/Modal'
@@ -22,24 +18,21 @@ const initialValues = {
   trackFile: null
 }
 
-const NewResultForm = ({ event, roundId, competitorId, onHide: hide }) => {
+const NewResultForm = ({ mutation, event, roundId, competitorId, onHide: hide }) => {
   const { t } = useI18n()
   const { data: competitor } = useCompetitorQuery(event.id, competitorId)
   const { data: profile } = useProfileQuery(competitor?.profileId)
   const { data: round } = useRoundQuery(event.id, roundId)
-  const newResultMutation = useNewResultMutation()
 
   const saveResult = async (values, formikBag) => {
     try {
-      await newResultMutation.mutateAsync({
+      await mutation.mutateAsync({
         ...values,
         eventId: event.id,
         competitorId: competitor.id,
         roundId: roundId
       })
-      hide()
     } catch (err) {
-      console.warn(err)
       formikBag.setSubmitting(false)
     }
   }
@@ -59,6 +52,11 @@ const NewResultForm = ({ event, roundId, competitorId, onHide: hide }) => {
         {({ handleSubmit, isSubmitting }) => (
           <form onSubmit={handleSubmit}>
             <Modal.Body>
+              {mutation.error && (
+                <p className={styles.serverError}>
+                  {mutation.error.response.data?.error ?? mutation.error.message}
+                </p>
+              )}
               <div className={styles.inputGroup}>
                 <label className={styles.radioInput}>
                   <Field type="radio" name="trackFrom" value="from_file" />
@@ -129,6 +127,13 @@ const NewResultForm = ({ event, roundId, competitorId, onHide: hide }) => {
 }
 
 NewResultForm.propTypes = {
+  mutation: PropTypes.shape({
+    mutateAsync: PropTypes.func.isRequired,
+    error: PropTypes.shape({
+      message: PropTypes.string,
+      response: PropTypes.any
+    })
+  }).isRequired,
   event: PropTypes.shape({
     id: PropTypes.number.isRequired
   }).isRequired,
