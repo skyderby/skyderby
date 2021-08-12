@@ -50,14 +50,15 @@ export const useResultQuery = (eventId, id) =>
     resultsQuery(eventId, { select: data => data.find(result => result.id === id) })
   )
 
-export const useNewResultMutation = () => {
+export const useNewResultMutation = (options = {}) => {
   const queryClient = useQueryClient()
 
   return useMutation(createResult, {
-    onSuccess(response, { eventId }) {
+    async onSuccess(response, { eventId }) {
       const data = queryClient.getQueryData(queryKey(eventId))
       queryClient.setQueryData(queryKey(eventId), [...data, response.data])
-      queryClient.refetchQueries(standingsQuery(eventId, queryClient))
+      await queryClient.refetchQueries(standingsQuery(eventId, queryClient))
+      options.onSuccess?.(response.data)
     }
   })
 }
