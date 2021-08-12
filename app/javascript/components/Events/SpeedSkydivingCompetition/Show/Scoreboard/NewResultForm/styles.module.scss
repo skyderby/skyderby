@@ -26,3 +26,19 @@
     margin-bottom: 1rem;
   }
 }
+
+.error {
+  color: var(--red-90);
+  font-size: 0.825rem;
+  font-style: italic;
+  line-height: 1.75;
+}
+
+.serverError {
+  composes: error;
+
+  margin: 0 0 1rem;
+  padding: 0.5rem 0.75rem;
+  border: solid 1px var(--red-90);
+  border-radius: var(--border-radius-md);
+}
