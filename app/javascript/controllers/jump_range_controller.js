@@ -18,7 +18,12 @@ export default class extends Controller {
       .then(data => {
         const chart = this.highchart
 
-        chart.series[0].setData(data)
+        const altitudeData = data.map(point => [point.fl_time, point.altitude])
+        const hSpeedData = data.map(point => [point.fl_time, Math.round(point.h_speed)])
+        const vSpeedData = data.map(point => [point.fl_time, Math.round(point.v_speed)])
+        chart.series[0].setData(altitudeData)
+        chart.series[1].setData(hSpeedData)
+        chart.series[2].setData(vSpeedData)
         chart.hideLoading()
         this.set_plot_bands(range_from, range_to)
       })
@@ -53,7 +58,8 @@ export default class extends Controller {
     this.chart.highcharts = new Highcharts.Chart({
       chart: {
         renderTo: this.chart,
-        type: 'area'
+        type: 'area',
+        zoomType: 'x'
       },
       title: {
         text: I18n.t('tracks.edit.elev_chart')
@@ -65,11 +71,21 @@ export default class extends Controller {
           }
         }
       },
-      yAxis: {
-        title: {
-          text: null
+      yAxis: [
+        {
+          title: {
+            text: null
+          },
+          min: 0
+        },
+        {
+          title: {
+            text: null
+          },
+          min: 0,
+          opposite: true
         }
-      },
+      ],
       xAxis: {
         plotBands: [
           {
@@ -87,6 +103,7 @@ export default class extends Controller {
         ]
       },
       tooltip: {
+        shared: true,
         crosshairs: true
       },
       credits: {
@@ -100,6 +117,26 @@ export default class extends Controller {
             valueSuffix: ' ' + I18n.t('units.m')
           },
           showInLegend: false
+        },
+        {
+          name: I18n.t('charts.spd.series.ground'),
+          type: 'spline',
+          code: 'ground_speed',
+          color: '#52A964',
+          yAxis: 1,
+          tooltip: {
+            valueSuffix: ` ${I18n.t('units.kmh')}`
+          }
+        },
+        {
+          name: I18n.t('charts.spd.series.vertical'),
+          type: 'spline',
+          code: 'vertical_speed',
+          color: '#A7414E',
+          yAxis: 1,
+          tooltip: {
+            valueSuffix: ` ${I18n.t('units.kmh')}`
+          }
         }
       ]
     })

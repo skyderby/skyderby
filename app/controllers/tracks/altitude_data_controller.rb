@@ -17,7 +17,7 @@ module Tracks
     end
 
     def points
-      PointsQuery.execute(track, freq_1hz: true, only: %i[fl_time altitude])
+      PointsQuery.execute(track, only: %i[fl_time altitude h_speed v_speed])
     end
   end
 end
