@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Switch, Route, useHistory } from 'react-router-dom'
 
-import Home from 'pages/Home'
+import Landing from 'components/Landing'
 import FlightProfiles from 'pages/FlightProfiles'
 import SuitsIndex from 'pages/suits/Index'
 import SuitsOverview from 'pages/suits/Overview'
@@ -30,7 +30,7 @@ const AppRouter = () => {
 
   return (
     <Switch>
-      <Route exact path="/" component={Home} />
+      <Route exact path="/" component={Landing} />
       <Route path="/flight_profiles" component={FlightProfiles} />
       <Route path="/tracks" component={Tracks} />
       <Route path="/events" component={Events} />
