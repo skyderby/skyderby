@@ -100,19 +100,6 @@ jobs:
       - run: bundle exec rails assets:precompile
       - run: bundle exec rspec spec --tag type:system
 
-  build_image:
-    working_directory: ~/skyderby
-    docker:
-      - image: docker:18.09
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run: docker build -t skyderby/app .
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - run: docker push skyderby/app:latest
-
-
 workflows:
   version: 2
   lint_test_build:
@@ -127,10 +114,3 @@ workflows:
           requires:
             - lint_ruby
             - lint_js
-      - build_image:
-          requires:
-            - test_unit
-            - test_system
-          filters:
-            branches:
-              only: dev
