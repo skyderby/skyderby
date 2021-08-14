@@ -20,6 +20,7 @@ import Scoreboard from './Scoreboard'
 import TeamsScoreboard from './TeamsScoreboard'
 import OpenScoreboard from './OpenScoreboard'
 import Edit from './Edit'
+import Downloads from './Downloads'
 import styles from './styles.module.scss'
 
 const Show = ({ match }) => {
@@ -51,13 +52,16 @@ const Show = ({ match }) => {
           <Switch>
             <Route exact path={`${match.path}/`} component={Scoreboard} />
             {event.useOpenScoreboard && (
-              <Route exact path={`${match.path}/open_event`} component={OpenScoreboard} />
+              <Route path={`${match.path}/open_event`} component={OpenScoreboard} />
             )}
             {event.useTeams && (
-              <Route exact path={`${match.path}/teams`} component={TeamsScoreboard} />
+              <Route path={`${match.path}/teams`} component={TeamsScoreboard} />
             )}
             {event.permissions.canEdit && (
-              <Route exact path={`${match.path}/edit`} component={Edit} />
+              <>
+                <Route path={`${match.path}/downloads`} component={Downloads} />
+                <Route path={`${match.path}/edit`} component={Edit} />
+              </>
             )}
           </Switch>
         </div>
