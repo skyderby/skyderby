@@ -13,7 +13,7 @@ const MergedValues = forwardRef(({ handles, ...props }, ref) => {
 
   return (
     <div className={styles.mergedValues} ref={ref} {...props}>
-      {`${Math.max(...values).toFixed()} – ${Math.min(...values).toFixed()}`}
+      {`${Math.min(...values).toFixed()} - ${Math.max(...values).toFixed()}`}
     </div>
   )
 })
