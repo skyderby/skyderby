@@ -1,0 +1,54 @@
+.hero {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 25rem;
+
+  background-image: url('~images/homeImage.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.darkLayer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.heroText {
+  z-index: 2;
+
+  max-width: 40rem;
+
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  font-size: 3rem;
+  letter-spacing: 1.5px;
+  text-align: center;
+}
+
+@keyframes warning-text {
+  50% {
+    opacity: 0;
+  }
+}
+
+.warningText {
+  composes: heroText;
+
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: var(--border-radius-lg);
+
+  font-size: 2rem;
+
+  background-color: var(--red-90);
+}
