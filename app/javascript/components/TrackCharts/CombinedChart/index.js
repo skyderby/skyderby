@@ -10,7 +10,7 @@ import useChartOptions from './useChartOptions'
 const CombinedChart = ({
   points,
   zeroWindPoints = [],
-  additionalSeries,
+  additionalSeries = [],
   children,
   ...props
 }) => {
