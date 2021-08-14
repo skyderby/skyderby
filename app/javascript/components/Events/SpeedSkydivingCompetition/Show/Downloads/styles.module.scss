@@ -1,0 +1,21 @@
+@import 'styles/breakpoints';
+
+.container {
+  width: $bp-small;
+  margin: 0 auto;
+  padding: 1rem;
+  border-radius: var(--border-radius-md);
+
+  box-shadow: var(--block-box-shadow);
+  background-color: var(--white);
+}
+
+.downloadButton {
+  composes: button from '~styles/button';
+
+  display: inline-flex;
+
+  &:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}
