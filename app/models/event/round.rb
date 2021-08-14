@@ -24,6 +24,7 @@ class Event::Round < ApplicationRecord
              inverse_of: false
 
   has_many :results, dependent: :restrict_with_error
+  has_many :tracks, through: :results
   has_many :reference_point_assignments, dependent: :delete_all
 
   validates :event, :discipline, presence: true
@@ -33,9 +34,16 @@ class Event::Round < ApplicationRecord
 
   before_create :set_number
 
-  def signed_off
-    signed_off_by.present?
+  after_update :set_tracks_visibility, if: :saved_change_to_completed_at?
+
+  def completed = completed_at.present?
+
+  def completed=(status)
+    round_competed = ActiveModel::Type::Boolean.new.cast(status)
+    self.completed_at = round_competed ? Time.zone.now : nil
   end
+
+  def tracks_visibility = completed ? event.tracks_visibility : Track.visibilities[:private_track]
 
   private
 
@@ -44,6 +52,10 @@ class Event::Round < ApplicationRecord
       event.rounds.where(discipline: discipline.to_sym).maximum(:number) || 0
 
     self.number = current_number + 1
+  end
+
+  def set_tracks_visibility
+    tracks.find_each { |track| track.update!(visibility: tracks_visibility) }
   end
 
   class << self

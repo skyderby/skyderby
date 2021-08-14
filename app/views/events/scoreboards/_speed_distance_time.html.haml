@@ -17,6 +17,13 @@
                 %th.scoreboard-round{colspan: 2}
                   .scoreboard-round-content
                     = round.number
+                    - if can_update
+                      - if round.completed
+                        &nbsp;
+                        %i.fa.fa-lock.text-muted
+                      -else
+                        &nbsp;
+                        %i.fa.fa-unlock-alt.text-muted
                     .scoreboard-round-actions.dropdown
                       %button.btn-link{'data-toggle': 'dropdown'}
                         %i.fa.fa-ellipsis-v.text-muted
@@ -37,6 +44,22 @@
                         - if can_update
                           %li.divider
                           %li
+                            - if round.completed
+                              = button_to event_round_path(@event, round),
+                                          method: :put,
+                                          params: { round: { completed: false } },
+                                          remote: true,
+                                          class: 'btn-link' do
+                                Mark uncomplete
+                            - else
+                              = button_to event_round_path(@event, round),
+                                          method: :put,
+                                          params: { round: { completed: true } },
+                                          remote: true,
+                                          class: 'btn-link' do
+                                Mark complete
+                          %li.divider
+                          %li
                             = button_to event_round_path(@event, round),
                                         method: :delete,
                                         remote: true,
@@ -47,7 +70,7 @@
 
           %tr
             - @scoreboard.rounds_by_discipline.each do |discipline, rounds|
-              - rounds.each do |round|
+              - rounds.each do
                 %th.text-center= t('units.' + discipline_unit(discipline.to_sym).to_s)
                 %th.text-center %
 
@@ -84,7 +107,7 @@
                 - @scoreboard.rounds_by_discipline.each do |discipline, rounds|
                   - rounds.each do |round|
                     - result = @scoreboard.results.for(competitor: competitor, round: round)
-                    - if result
+                    - if result && (round.completed || can_update)
                       = render 'events/scoreboards/result',
                                { event: @scoreboard.event,
                                  result: result,
@@ -92,14 +115,15 @@
                                  result_class: ('text-green' if result.best_in_round_and_category?) }
 
                       %td.text-right
-                        - if result.penalized?
-                          %span.dotted-underline{'data-toggle': 'tooltip', title: result.penalty_reason}
-                            = result.formated_points
+                        - if round.completed
+                          - if result.penalized?
+                            %span.dotted-underline{'data-toggle': 'tooltip', title: result.penalty_reason}
+                              = result.formated_points
 
-                            - if result.apply_penalty_to_score?
-                              %sup.text-danger= "-#{result.penalty_size}%"
-                        - else
-                          = result.formated_points
+                              - if result.apply_penalty_to_score?
+                                %sup.text-danger= "-#{result.penalty_size}%"
+                          - else
+                            = result.formated_points
                     - elsif can_update
                       %td.scoreboard-result.text-center
                         %span= new_event_track_link(@scoreboard.event, competitor, round)

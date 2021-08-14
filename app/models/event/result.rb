@@ -33,7 +33,7 @@ class Event < ApplicationRecord
     delegate :event, :event_id, :range_from, :range_to, to: :round
     delegate :discipline, :number, to: :round, prefix: true
     delegate :section, to: :competitor
-    delegate :tracks_visibility, to: :event
+    delegate :tracks_visibility, to: :round
 
     def reference_point
       round.reference_point_assignments.find_by(competitor: competitor)&.reference_point

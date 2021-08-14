@@ -30,13 +30,16 @@ module Events
         def points_in_disciplines
           @points_in_disciplines ||=
             scoreboard.rounds_by_discipline.each_with_object({}) do |(discipline, rounds), memo|
+              active_rounds = rounds.select(&:completed)
+              next if active_rounds.count.zero?
+
               sum_of_points =
-                rounds
+                active_rounds
                 .map { |round| scoreboard.results.for(competitor: self, round: round) }
                 .compact
                 .sum(&:points)
 
-              memo[discipline] = sum_of_points.to_f / rounds.count
+              memo[discipline] = sum_of_points.to_f / active_rounds.count
             end
         end
       end
