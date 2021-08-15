@@ -15,7 +15,9 @@ const AltitudeRangeSelect = ({
 }) => {
   const [value, setValue] = useState(initialValue)
 
-  const { data: points = [] } = useTrackPointsQuery(trackId, { trimmed: false })
+  const { data: points = [], isLoading } = useTrackPointsQuery(trackId, {
+    trimmed: false
+  })
   const jumpDuration = points.length > 0 ? points[points.length - 1].flTime : 1
 
   const handleUpdate = values => {
@@ -32,7 +34,11 @@ const AltitudeRangeSelect = ({
 
   return (
     <div className={styles.container}>
-      <AltitudeChart points={points} options={{ chart: { zoomType: 'x' } }}>
+      <AltitudeChart
+        points={points}
+        options={{ chart: { zoomType: 'x' } }}
+        loading={isLoading}
+      >
         {chart => (
           <>
             <Highchart.Plotband
