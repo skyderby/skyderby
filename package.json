@@ -37,7 +37,7 @@
     "highcharts": "^6.0.7",
     "honeybadger-js": "^0.5.5",
     "immer": "^8.0.1",
-    "jquery": "^3.5.0",
+    "jquery": "3.4.1",
     "jquery-jcrop": "^0.9.13",
     "jquery-validation": "^1.19.3",
     "lodash.debounce": "^4.0.8",

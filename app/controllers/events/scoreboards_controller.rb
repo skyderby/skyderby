@@ -14,8 +14,11 @@ module Events
       respond_to do |format|
         format.js
         format.html { redirect_to @event }
+        format.xml do
+          response.headers['Content-Disposition'] = "attachment; filename=#{Date.today.iso8601} - #{@event.name.to_param}.xml"
+        end
         format.xlsx do
-          response.headers['Content-Disposition'] = "attachment; filename='#{@event.name.to_param}.xlsx'"
+          response.headers['Content-Disposition'] = "attachment; filename=#{@event.name.to_param}.xlsx"
         end
       end
     end
