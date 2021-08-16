@@ -1,0 +1,15 @@
+.inside-iframe {
+  .navbar,
+  .announcement,
+  footer {
+    display: none;
+  }
+
+  #wrap {
+    padding: 0;
+
+    > .container {
+      padding: 0;
+    }
+  }
+}

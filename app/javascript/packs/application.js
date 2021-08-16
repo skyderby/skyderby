@@ -51,3 +51,7 @@ window.cable = createConsumer()
 
 Turbolinks.start()
 Rails.start()
+
+if (window.parent !== window) {
+  document.documentElement.classList.add('inside-iframe')
+}

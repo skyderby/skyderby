@@ -36,3 +36,17 @@
     margin-right: 5px;
   }
 }
+
+.inside-iframe {
+  .event-result__header {
+    display: none;
+  }
+
+  .designated-lane-form {
+    display: none;
+  }
+
+  .content-block {
+    margin: 0;
+  }
+}

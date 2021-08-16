@@ -48,6 +48,8 @@ module Events
     def edit; end
 
     def show
+      response.headers['X-FRAME-OPTIONS'] = 'ALLOWALL'
+
       raise Pundit::NotAuthorizedError unless policy(@event).show?
 
       @track_presenter = Tracks::CompetitionTrackView.new \
