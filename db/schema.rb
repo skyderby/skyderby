@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_14_032626) do
+ActiveRecord::Schema.define(version: 2021_08_16_024610) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 2021_08_14_032626) do
     t.integer "section_id"
     t.integer "profile_id"
     t.bigint "team_id"
-    t.integer "assigned_number"
+    t.string "assigned_number"
     t.index ["event_id"], name: "index_event_competitors_on_event_id"
     t.index ["team_id"], name: "index_event_competitors_on_team_id"
   end
@@ -325,7 +325,7 @@ ActiveRecord::Schema.define(version: 2021_08_14_032626) do
     t.bigint "category_id"
     t.bigint "profile_id"
     t.bigint "team_id"
-    t.integer "assigned_number"
+    t.string "assigned_number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["category_id"], name: "index_speed_skydiving_competition_competitors_on_category_id"
