@@ -31,9 +31,9 @@ xml.EventResult do
               xml.Flight(No: round.number) do
                 xml.tag! discipline.to_s.capitalize, result.formated
                 xml.Percentage result.formated_points
-                xml.Notes do
-                  xml.iframe(src: event_result_url(@event, result), height: '700px', width: '500px')
-                end
+                xml.Notes(<<~HTML)
+                  <iframe src=\"#{event_result_url(@event, result)}" height="700px" width="500px" />
+                HTML
               end
             end
 
