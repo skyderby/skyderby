@@ -22,9 +22,10 @@ xml.EventResult do
         xml.Rank rank
         xml.Total format('%.1f', competitor.total_points)
 
-        @scoreboard.rounds_by_discipline.each do |discipline, rounds|
-          xml.tag! discipline.to_s.capitalize do
-            rounds.select(&:completed).each do |round|
+        %w[distance speed time].each do |discipline|
+          xml.tag! discipline.capitalize do
+            rounds = @scoreboard.rounds.select { |round| round.discipline == discipline && round.completed }
+            rounds.each do |round|
               result = @scoreboard.results.for(competitor: competitor, round: round)
               next unless result
 
