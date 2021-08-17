@@ -1,3 +1,6 @@
+ordered_tasks = %w[distance speed time]
+russia_restricted = @event.is_official && [2020, 2021].include?(@event.starts_at.year)
+
 xml.instruct!
 xml.EventResult do
   xml.UniqueCode "skyderby-ws-performance-#{@event.id}"
@@ -12,7 +15,6 @@ xml.EventResult do
         xml.CompetitionNo competitor.assigned_number
         xml.Name competitor.name
 
-        russia_restricted = @event.is_official && [2020, 2021].include?(@event.starts_at.year)
         if russia_restricted && competitor.country_code == 'RUS'
           xml.Nation 'RPF'
         else
@@ -22,7 +24,7 @@ xml.EventResult do
         xml.Rank rank
         xml.Total format('%.1f', competitor.total_points)
 
-        %w[distance speed time].each do |discipline|
+        ordered_tasks.each do |discipline|
           xml.tag! discipline.capitalize do
             rounds = @scoreboard.rounds.select { |round| round.discipline == discipline && round.completed }
             rounds.each do |round|
