@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const maxAltitude = 3810
-const minAltitude = 3048
+const maxAltitude = 3353
+const minAltitude = 3200
 
 const ExitAltitude = ({ altitude }) => {
   if (!altitude) return null

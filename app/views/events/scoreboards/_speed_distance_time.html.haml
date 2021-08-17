@@ -24,48 +24,49 @@
                       -else
                         &nbsp;
                         %i.fa.fa-unlock-alt.text-muted
-                    .scoreboard-round-actions.dropdown
-                      %button.btn-link{'data-toggle': 'dropdown'}
-                        %i.fa.fa-ellipsis-v.text-muted
-                      %ul.dropdown-menu.dropdown-menu-right
-                        %li
-                          = link_to event_round_map_path(@event, round), rel: 'nofollow' do
-                            %i.fa.fa-fw.far.fa-compass.text-muted
-                            Google maps
-                        %li
-                          = link_to event_round_globe_path(@event, round), remote: true, class: 'round-map-view', rel: 'nofollow' do
-                            %i.fa.fa-fw.far.fa-compass.text-muted
-                            3D maps
-                        %li
-                          = link_to event_round_replay_path(@event, round), rel: 'nofollow' do
-                            %i.fa.fa-fw.fas.fa-play.text-muted
-                            Replay
+                    - if can_update || round.completed
+                      .scoreboard-round-actions.dropdown
+                        %button.btn-link{'data-toggle': 'dropdown'}
+                          %i.fa.fa-ellipsis-v.text-muted
+                        %ul.dropdown-menu.dropdown-menu-right
+                          %li
+                            = link_to event_round_map_path(@event, round), rel: 'nofollow' do
+                              %i.fa.fa-fw.far.fa-compass.text-muted
+                              Google maps
+                          %li
+                            = link_to event_round_globe_path(@event, round), remote: true, class: 'round-map-view', rel: 'nofollow' do
+                              %i.fa.fa-fw.far.fa-compass.text-muted
+                              3D maps
+                          %li
+                            = link_to event_round_replay_path(@event, round), rel: 'nofollow' do
+                              %i.fa.fa-fw.fas.fa-play.text-muted
+                              Replay
 
-                        - if can_update
-                          %li.divider
-                          %li
-                            - if round.completed
+                          - if can_update
+                            %li.divider
+                            %li
+                              - if round.completed
+                                = button_to event_round_path(@event, round),
+                                            method: :put,
+                                            params: { round: { completed: false } },
+                                            remote: true,
+                                            class: 'btn-link' do
+                                  Mark uncomplete
+                              - else
+                                = button_to event_round_path(@event, round),
+                                            method: :put,
+                                            params: { round: { completed: true } },
+                                            remote: true,
+                                            class: 'btn-link' do
+                                  Mark complete
+                            %li.divider
+                            %li
                               = button_to event_round_path(@event, round),
-                                          method: :put,
-                                          params: { round: { completed: false } },
+                                          method: :delete,
                                           remote: true,
                                           class: 'btn-link' do
-                                Mark uncomplete
-                            - else
-                              = button_to event_round_path(@event, round),
-                                          method: :put,
-                                          params: { round: { completed: true } },
-                                          remote: true,
-                                          class: 'btn-link' do
-                                Mark complete
-                          %li.divider
-                          %li
-                            = button_to event_round_path(@event, round),
-                                        method: :delete,
-                                        remote: true,
-                                        class: 'btn-link' do
-                              %i.fa.fa-fw.fa-times.text-muted
-                              = t('general.delete')
+                                %i.fa.fa-fw.fa-times.text-muted
+                                = t('general.delete')
               %th.text-center{rowspan: 2, 'data-discipline' => discipline, 'data-role' => 'points'} %
 
           %tr
