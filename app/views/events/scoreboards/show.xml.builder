@@ -29,14 +29,18 @@ xml.EventResult do
             rounds = @scoreboard.rounds.select { |round| round.discipline == discipline && round.completed }
             rounds.each do |round|
               result = @scoreboard.results.for(competitor: competitor, round: round)
-              next unless result
 
               xml.Flight(No: round.number) do
-                xml.tag! discipline.to_s.capitalize, result.formated
-                xml.Percentage result.formated_points
-                xml.Notes(<<~HTML)
-                  <iframe src=\"#{event_result_url(@event, result)}" height="700px" width="500px" />
-                HTML
+                if result
+                  xml.tag! discipline.to_s.capitalize, result.formated
+                  xml.Percentage result.formated_points
+                  xml.Notes(<<~HTML)
+                    <iframe src=\"#{event_result_url(@event, result)}" height="700px" width="500px" />
+                  HTML
+                else
+                  xml.tag! discipline.to_s.capitalize, ''
+                  xml.Percentage ''
+                end
               end
             end
 
