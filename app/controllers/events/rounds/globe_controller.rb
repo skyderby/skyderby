@@ -5,6 +5,9 @@ module Events
 
       def show
         @round_map = Globe.new(@round)
+
+        allowed_to_view = policy(@event).edit? || @round.completed
+        redirect_to event_path(@event) unless allowed_to_view
       end
 
       private

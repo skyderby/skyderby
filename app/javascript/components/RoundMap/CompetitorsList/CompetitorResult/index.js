@@ -22,6 +22,7 @@ const CompetitorResult = ({ className, resultId }) => {
   const { discipline, number } = useSelector(state => state.eventRound)
   const {
     name,
+    assignedNumber,
     competitorId,
     direction,
     exitAltitude,
@@ -50,7 +51,9 @@ const CompetitorResult = ({ className, resultId }) => {
         <Label>
           <input type="checkbox" checked={checked} onChange={handleSelect} />
           <Mark color={color} />
-          <Name>{name}</Name>
+          <Name>
+            <span className="text-muted">#{assignedNumber}</span> {name}
+          </Name>
           <PenaltyLabel penalized={penalized} penaltySize={penaltySize} />
         </Label>
 

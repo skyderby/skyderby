@@ -11,8 +11,13 @@ const ExitAltitude = ({ altitude }) => {
 
   return (
     <span>
-      {showWarning && <i className="fa fa-exclamantion-triangle text-warning" />}
-      Exit: {altitude}
+      Exit: {altitude}m
+      {showWarning && (
+        <>
+          &nbsp;
+          <i className="fas fa-exclamation-triangle text-warning" />
+        </>
+      )}
     </span>
   )
 }

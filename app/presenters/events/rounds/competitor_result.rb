@@ -4,7 +4,7 @@ module Events
       DL_STARTS_AFTER = 10.seconds
       NullWindowPoints = Struct.new(:start_point, :end_point, :direction)
 
-      delegate :name, to: :competitor
+      delegate :name, :assigned_number, to: :competitor
       delegate :direction, to: :window_points
       delegate :start_point, :end_point, to: :window_points
 

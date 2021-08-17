@@ -21,6 +21,7 @@ json.results do
     json.extract! competitor_result,
                   :id,
                   :name,
+                  :assigned_number,
                   :competitor_id,
                   :result,
                   :penalized,
