@@ -52,7 +52,7 @@ const MainArea = styled.div`
   flex-basis: 0;
   flex-grow: 1;
   flex-shrink: 1;
-  height: 100%;
+  height: calc(100% - 40px);
 `
 
 RoundMap.propTypes = {
