@@ -9,7 +9,7 @@ xml.EventResult do
     rank = 0
     previous_total = 0
     section.competitors.each_with_index do |competitor, index|
-      rank = competitor.total_points == previous_total && total_points.positive? ? rank : index + 1
+      rank = competitor.total_points == previous_total && competitor.total_points.positive? ? rank : index + 1
 
       xml.Entrant do
         xml.CompetitionNo competitor.assigned_number
