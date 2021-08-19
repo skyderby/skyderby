@@ -81,6 +81,8 @@
                   = link_to 'Export to Excel', event_scoreboard_path(@event, format: :xlsx), rel: 'nofollow'
                 %li
                   = link_to 'Export to ISC format', event_scoreboard_path(@event, format: :xml), rel: 'nofollow'
+                %li
+                  = link_to 'Export Teams to ISC format', event_team_scoreboard_path(@event, format: :xml), rel: 'nofollow'
 
     - if !@event.surprise? || can_manage
       = render @scoreboard, can_manage: can_manage
