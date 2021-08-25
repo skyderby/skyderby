@@ -1,5 +1,5 @@
 import React from 'react'
-import { AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import PropTypes from 'prop-types'
 
 import Item from 'components/TrackListItem'
@@ -12,8 +12,8 @@ const TrackList = ({ tracks }) => {
       <div className={styles.table} aria-label="Tracks list">
         <Header />
 
-        <div className={styles.tbody}>
-          <AnimatePresence exitBeforeEnter>
+        <AnimatePresence exitBeforeEnter>
+          <motion.div className={styles.tbody} key={tracks.map(t => t.id).join('-')}>
             {tracks.map((track, index) => (
               <Item
                 key={track.id}
@@ -25,8 +25,8 @@ const TrackList = ({ tracks }) => {
                 })}
               />
             ))}
-          </AnimatePresence>
-        </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   )
