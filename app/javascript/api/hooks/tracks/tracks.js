@@ -44,7 +44,7 @@ export const extractParamsFromUrl = (urlSearch, prefix) => {
     })
     .filter(([key, _val]) => key)
 
-  const perPage = isMobileOnly ? 5 : 25
+  const perPage = isMobileOnly ? 5 : 20
 
   return { activity, filters, page, perPage, sortBy }
 }

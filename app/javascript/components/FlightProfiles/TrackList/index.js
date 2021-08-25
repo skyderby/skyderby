@@ -19,7 +19,7 @@ const TrackList = () => {
     activity: 'base'
   })
 
-  const tracks = (data?.pages || []).reduce((acc, page) => acc.concat(page.items), [])
+  const pages = data?.pages || []
 
   const handleListScroll = e => {
     if (isFetchingNextPage) return
@@ -38,17 +38,21 @@ const TrackList = () => {
         onChange={updateFilters}
       />
 
-      <AnimatePresence exitBeforeEnter>
-        {tracks.map((track, index) => (
-          <Item
-            compact
-            key={track.id}
-            as={motion.div}
-            track={track}
-            delayIndex={data.pages.length === 1 ? index : 0}
-            data-active={selectedTracks.includes(track.id)}
-            onClick={() => toggleTrack(track.id)}
-          />
+      <AnimatePresence>
+        {pages.map(({ items: tracks }, idx) => (
+          <React.Fragment key={idx}>
+            {tracks.map((track, index) => (
+              <Item
+                compact
+                key={track.id}
+                as={motion.div}
+                track={track}
+                delayIndex={data.pages.length === 1 ? index : 0}
+                data-active={selectedTracks.includes(track.id)}
+                onClick={() => toggleTrack(track.id)}
+              />
+            ))}
+          </React.Fragment>
         ))}
       </AnimatePresence>
     </div>
