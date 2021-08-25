@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
 import PropTypes from 'prop-types'
 
 import { useEventsQuery } from 'api/hooks/events'
@@ -30,9 +31,13 @@ const EventsIndex = ({ location }) => {
       <div className={styles.container}>
         <h1 className={styles.title}>{t('application.header.competitions')}</h1>
 
-        {events.map(event => (
-          <Item key={`${event.type}/${event.id}`} event={event} />
-        ))}
+        <AnimatePresence exitBeforeEnter>
+          <React.Fragment key={events.map(e => e.id).join(',')}>
+            {events.map((event, idx) => (
+              <Item key={`${event.type}/${event.id}`} event={event} delayIndex={idx} />
+            ))}
+          </React.Fragment>
+        </AnimatePresence>
 
         <Pagination buildUrl={mapParamsToUrl} {...pagination} />
 
