@@ -2,9 +2,11 @@ import { useQuery, useQueryClient, useInfiniteQuery } from 'react-query'
 import { isMobileOnly } from 'react-device-detect'
 import axios from 'axios'
 
-import { preloadPlaces } from 'api/hooks/places'
-import { preloadProfiles } from 'api/hooks/profiles'
-import { preloadSuits } from 'api/hooks/suits'
+import { cachePlaces } from 'api/hooks/places'
+import { cacheProfiles } from 'api/hooks/profiles'
+import { cacheSuits } from 'api/hooks/suits'
+import { cacheCountries } from 'api/hooks/countries'
+import { cacheManufacturers } from 'api/hooks/manufacturer'
 
 const endpoint = '/api/v1/tracks'
 
@@ -51,15 +53,19 @@ export const extractParamsFromUrl = (urlSearch, prefix) => {
 
 const getTracks = params => axios.get([endpoint, mapParamsToUrl(params)].join(''))
 
+const cacheRelations = (relations, queryClient) => {
+  cachePlaces(relations.places, queryClient)
+  cacheSuits(relations.suits, queryClient)
+  cacheProfiles(relations.profiles, queryClient)
+  cacheCountries(relations.countries, queryClient)
+  cacheManufacturers(relations.manufacturers, queryClient)
+}
+
 const buildQueryFn = queryClient => async ctx => {
   const [_key, params] = ctx.queryKey
   const { data } = await getTracks({ ...params, page: ctx.pageParam ?? params.page ?? 1 })
 
-  await Promise.all([
-    preloadPlaces(data.items.map(track => track.placeId).filter(Boolean), queryClient),
-    preloadSuits(data.items.map(track => track.suitId).filter(Boolean), queryClient),
-    preloadProfiles(data.items.map(track => track.profileId).filter(Boolean), queryClient)
-  ])
+  cacheRelations(data.relations, queryClient)
 
   return data
 }

@@ -21,6 +21,9 @@ const buildQueryFn = queryClient => async ctx => {
 
 export const getQueryKey = id => ['suits', id]
 
+export const cacheSuits = (suits, queryClient) =>
+  suits.forEach(suit => queryClient.setQueryData(getQueryKey(suit.id), suit))
+
 export const preloadSuits = async (ids, queryClient) => {
   const missingIds = ids
     .filter(Boolean)
@@ -29,8 +32,7 @@ export const preloadSuits = async (ids, queryClient) => {
   if (missingIds.length === 0) return
 
   const { items: suits } = await getSuitsById(missingIds)
-
-  suits.forEach(suit => queryClient.setQueryData(getQueryKey(suit.id), suit))
+  cacheSuits(suits, queryClient)
 
   await preloadManufacturers(
     suits.map(place => place.makeId),
@@ -40,7 +42,7 @@ export const preloadSuits = async (ids, queryClient) => {
   return suits
 }
 
-export const getQueryOptions = (id, queryClient) => ({
+const suitQuery = (id, queryClient) => ({
   queryKey: getQueryKey(id),
   queryFn: buildQueryFn(queryClient),
   enabled: !!id,
@@ -48,7 +50,7 @@ export const getQueryOptions = (id, queryClient) => ({
   staleTime: 60 * 10 * 1000
 })
 
-export const useSuitQuery = id => {
+export const useSuitQuery = (id, options = {}) => {
   const queryClient = useQueryClient()
-  return useQuery(getQueryOptions(id, queryClient))
+  return useQuery({ ...suitQuery(id, queryClient), ...options })
 }
