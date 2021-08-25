@@ -5,7 +5,7 @@ import { preloadPlaces } from 'api/hooks/places'
 
 const endpoint = '/api/v1/events'
 
-const getEvents = async ({ page = 1, perPage = 10 }) => {
+const getEvents = async ({ page = 1, perPage = 7 }) => {
   const urlParams = new URLSearchParams()
   urlParams.set('page', page)
   urlParams.set('perPage', perPage)
