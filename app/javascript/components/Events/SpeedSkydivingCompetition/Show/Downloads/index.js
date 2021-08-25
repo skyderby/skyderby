@@ -1,9 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import styles from './styles.module.scss'
 
-const Downloads = props => {
+const Downloads = () => {
   return (
     <div className={styles.container}>
       <div>
@@ -27,7 +26,5 @@ const Downloads = props => {
     </div>
   )
 }
-
-Downloads.propTypes = {}
 
 export default Downloads
