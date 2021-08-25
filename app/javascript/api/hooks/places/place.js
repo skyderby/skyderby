@@ -1,10 +1,7 @@
 import { useMutation, useQueries, useQuery, useQueryClient } from 'react-query'
 import axios from 'axios'
 
-import {
-  getQueryOptions as getCountryQueryOptions,
-  preloadCountries
-} from 'api/hooks/countries'
+import { preloadCountries } from 'api/hooks/countries'
 import { loadIds } from 'api/helpers'
 import { getCSRFToken } from 'utils/csrfToken'
 
@@ -21,10 +18,13 @@ const buildQueryFn = queryClient => async ctx => {
   const [_key, id] = ctx.queryKey
   const { data } = await getPlace(id)
 
-  await queryClient.prefetchQuery(getCountryQueryOptions(data.countryId))
+  await preloadCountries([data.countryId], queryClient)
 
   return data
 }
+
+export const cachePlaces = (places, queryClient) =>
+  places.forEach(place => queryClient.setQueryData(getQueryKey(place.id), place))
 
 export const preloadPlaces = async (ids, queryClient) => {
   const missingIds = ids
@@ -34,7 +34,7 @@ export const preloadPlaces = async (ids, queryClient) => {
   if (missingIds.length === 0) return
 
   const { items: places } = await getPlacesById(missingIds)
-  places.forEach(place => queryClient.setQueryData(getQueryKey(place.id), place))
+  cachePlaces(places, queryClient)
 
   await preloadCountries(
     places.map(place => place.countryId),
@@ -52,9 +52,9 @@ export const placeQuery = (id, queryClient) => ({
   staleTime: 60 * 10 * 1000
 })
 
-export const usePlaceQuery = id => {
+export const usePlaceQuery = (id, options = {}) => {
   const queryClient = useQueryClient()
-  return useQuery(placeQuery(id, queryClient))
+  return useQuery({ ...placeQuery(id, queryClient), ...options })
 }
 
 export const usePlaceQueries = ids => {

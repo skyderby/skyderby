@@ -30,6 +30,9 @@ const profileQuery = (id, queryClient) => ({
 
 export const getQueryKey = id => ['profiles', id]
 
+export const cacheProfiles = (profiles, queryClient) =>
+  profiles.forEach(profile => queryClient.setQueryData(getQueryKey(profile.id), profile))
+
 export const preloadProfiles = async (ids, queryClient) => {
   const missingIds = ids
     .filter(Boolean)
@@ -38,7 +41,7 @@ export const preloadProfiles = async (ids, queryClient) => {
   if (missingIds.length === 0) return
 
   const { items: profiles } = await getProfilesById(missingIds)
-  profiles.forEach(profile => queryClient.setQueryData(getQueryKey(profile.id), profile))
+  cacheProfiles(profiles, queryClient)
 
   await preloadCountries(
     profiles.map(profile => profile.countryId),
@@ -48,9 +51,9 @@ export const preloadProfiles = async (ids, queryClient) => {
   return profiles
 }
 
-export const useProfileQuery = id => {
+export const useProfileQuery = (id, options = {}) => {
   const queryClient = useQueryClient()
-  return useQuery(profileQuery(id, queryClient))
+  return useQuery({ ...profileQuery(id, queryClient), ...options })
 }
 
 export const useProfileQueries = ids => {
