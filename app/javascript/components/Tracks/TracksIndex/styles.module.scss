@@ -3,6 +3,7 @@
 .container {
   display: grid;
   grid-gap: 1rem;
+  grid-template-rows: min-content min-content 1fr min-content;
   width: 100%;
   margin: 0 auto;
   padding: 1rem;

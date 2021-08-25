@@ -1,4 +1,5 @@
 import React from 'react'
+import { AnimatePresence } from 'framer-motion'
 import PropTypes from 'prop-types'
 
 import Item from 'components/TrackListItem'
@@ -12,16 +13,19 @@ const TrackList = ({ tracks }) => {
         <Header />
 
         <div className={styles.tbody}>
-          {tracks.map(track => (
-            <Item
-              key={track.id}
-              track={track}
-              to={location => ({
-                pathname: `/tracks/${track.id}`,
-                state: { returnTo: { ...location } }
-              })}
-            />
-          ))}
+          <AnimatePresence exitBeforeEnter>
+            {tracks.map((track, index) => (
+              <Item
+                key={track.id}
+                track={track}
+                index={index}
+                to={location => ({
+                  pathname: `/tracks/${track.id}`,
+                  state: { returnTo: { ...location } }
+                })}
+              />
+            ))}
+          </AnimatePresence>
         </div>
       </div>
     </div>
