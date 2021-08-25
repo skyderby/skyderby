@@ -1,2 +1,2 @@
-export { useSuitQuery, preloadSuits } from './suit'
+export { useSuitQuery, preloadSuits, cacheSuits } from './suit'
 export { useAllSuitsQuery, suitsQuery } from './suits'
