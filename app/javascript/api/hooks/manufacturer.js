@@ -17,6 +17,11 @@ const queryFn = async ctx => {
 
 export const getQueryKey = id => ['manufacturers', id]
 
+export const cacheManufacturers = (manufacturers, queryClient) =>
+  manufacturers.forEach(manufacturer =>
+    queryClient.setQueryData(getQueryKey(manufacturer.id), manufacturer)
+  )
+
 export const preloadManufacturers = async (ids, queryClient) => {
   const missingIds = ids
     .filter(Boolean)
@@ -25,14 +30,12 @@ export const preloadManufacturers = async (ids, queryClient) => {
   if (missingIds.length === 0) return
 
   const { items: manufacturers } = await getManufacturersById(missingIds)
-  manufacturers.forEach(manufacturer =>
-    queryClient.setQueryData(getQueryKey(manufacturer.id), manufacturer)
-  )
+  cacheManufacturers(manufacturers, queryClient)
 
   return manufacturers
 }
 
-export const getQueryOptions = id => ({
+const manufacturerQuery = id => ({
   queryKey: getQueryKey(id),
   queryFn,
   enabled: !!id,
@@ -40,4 +43,5 @@ export const getQueryOptions = id => ({
   staleTime: 30 * 60 * 1000
 })
 
-export const useManufacturerQuery = id => useQuery(getQueryOptions(id))
+export const useManufacturerQuery = (id, options = {}) =>
+  useQuery({ ...manufacturerQuery(id), ...options })

@@ -19,9 +19,9 @@ const Item = ({
   as: Component = motion(Link),
   ...props
 }) => {
-  const { data: suit } = useSuitQuery(track.suitId)
-  const { data: manufacturer } = useManufacturerQuery(suit?.makeId)
-  const { data: profile } = useProfileQuery(track.profileId)
+  const { data: suit } = useSuitQuery(track.suitId, { enabled: false })
+  const { data: manufacturer } = useManufacturerQuery(suit?.makeId, { enabled: false })
+  const { data: profile } = useProfileQuery(track.profileId, { enabled: false })
 
   const suitName = suit?.name ?? track.suitName
   const name = profile?.name ?? track.pilotName
@@ -47,7 +47,11 @@ const Item = ({
         <SuitLabel name={suitName} code={manufacturer?.code} />
       </div>
       <div className={styles.place}>
-        <PlaceLabel placeId={track.placeId} fallbackName={track.placeName} />
+        <PlaceLabel
+          placeId={track.placeId}
+          fallbackName={track.placeName}
+          refetchEnabled={false}
+        />
       </div>
       <div className={styles.comment}>{track.comment}</div>
       <div className={styles.result}>{track.distance || '—'}</div>
