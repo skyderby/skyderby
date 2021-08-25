@@ -134,6 +134,7 @@
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
     "formik": "^2.1.5",
+    "framer-motion": "^4.1.17",
     "geodesy": "^2.2.0",
     "highcharts": "^9.0.1",
     "honeybadger-js": "^0.5.5",
