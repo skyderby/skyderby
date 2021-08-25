@@ -1,4 +1,5 @@
 import React from 'react'
+import { AnimatePresence } from 'framer-motion'
 import PropTypes from 'prop-types'
 
 import TerrainProfileTag from './TerrainProfileTag'
@@ -20,28 +21,31 @@ const Tagbar = ({
   return (
     <div className={styles.container}>
       <ul className={styles.tagList}>
-        {selectedTerrainProfile && (
-          <TerrainProfileTag
-            terrainProfileId={selectedTerrainProfile}
-            onDelete={deleteTerrainProfile}
-          />
-        )}
+        <AnimatePresence>
+          {selectedTerrainProfile && (
+            <TerrainProfileTag
+              key="selected-terrain-profile"
+              terrainProfileId={selectedTerrainProfile}
+              onDelete={deleteTerrainProfile}
+            />
+          )}
 
-        {additionalTerrainProfiles.map(id => (
-          <TerrainProfileTag
-            key={id}
-            terrainProfileId={id}
-            onDelete={() => deleteAdditionalTerrainProfile(id)}
-          />
-        ))}
+          {additionalTerrainProfiles.map(id => (
+            <TerrainProfileTag
+              key={`additional-terrain-profile-${id}`}
+              terrainProfileId={id}
+              onDelete={() => deleteAdditionalTerrainProfile(id)}
+            />
+          ))}
 
-        {selectedTracks.map(trackId => (
-          <TrackTag
-            key={trackId}
-            trackId={trackId}
-            onDelete={() => deleteTrack(trackId)}
-          />
-        ))}
+          {selectedTracks.map(trackId => (
+            <TrackTag
+              key={trackId}
+              trackId={trackId}
+              onDelete={() => deleteTrack(trackId)}
+            />
+          ))}
+        </AnimatePresence>
       </ul>
     </div>
   )
