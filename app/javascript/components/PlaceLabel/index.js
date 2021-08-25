@@ -7,10 +7,17 @@ import { useCountryQuery } from 'api/hooks/countries'
 import PlaceIcon from 'icons/location.svg'
 import styles from './styles.module.scss'
 
-const PlaceLabel = ({ placeId, fallbackName, withIcon = false, withMsl = false }) => {
+const PlaceLabel = ({
+  placeId,
+  fallbackName,
+  withIcon = false,
+  withMsl = false,
+  refetchEnabled
+}) => {
   const { t } = useI18n()
-  const { data: place } = usePlaceQuery(placeId)
-  const { data: country } = useCountryQuery(place?.countryId)
+  const enabled = refetchEnabled ?? true
+  const { data: place } = usePlaceQuery(placeId, { enabled })
+  const { data: country } = useCountryQuery(place?.countryId, { enabled })
 
   const { name = fallbackName, msl } = place ?? {}
 
@@ -42,7 +49,8 @@ PlaceLabel.propTypes = {
   placeId: PropTypes.number,
   fallbackName: PropTypes.string,
   withIcon: PropTypes.bool,
-  withMsl: PropTypes.bool
+  withMsl: PropTypes.bool,
+  refetchEnabled: PropTypes.bool
 }
 
 export default PlaceLabel

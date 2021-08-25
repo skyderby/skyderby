@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import PropTypes from 'prop-types'
 
@@ -42,4 +42,4 @@ TrackList.propTypes = {
 
 TrackList.Item = Item
 
-export default TrackList
+export default memo(TrackList)

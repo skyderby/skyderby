@@ -68,10 +68,10 @@ module Api
           .left_outer_joins(:time, :distance, :speed)
           .includes \
             :video,
-            :pilot,
             :distance,
             :speed,
             :time,
+            pilot: :country,
             place: [:country],
             suit: [:manufacturer]
       end
