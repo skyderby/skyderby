@@ -28,6 +28,8 @@ const eventUrl = ({ type, id }) => {
   return `/events/${prefixes[type]}/${id}`
 }
 
+const MotionLink = motion(Link)
+
 const Item = ({ event, delayIndex }) => {
   const { t, formatDate } = useI18n()
   const competitorsCount = Object.entries(event.competitorsCount)
@@ -39,10 +41,9 @@ const Item = ({ event, delayIndex }) => {
   }
 
   return (
-    <Link
+    <MotionLink
       to={eventUrl(event)}
       className={styles.container}
-      component={motion.a}
       variants={animationVariants}
       initial="hidden"
       animate="show"
@@ -90,7 +91,7 @@ const Item = ({ event, delayIndex }) => {
           </div>
         )}
       </div>
-    </Link>
+    </MotionLink>
   )
 }
 
