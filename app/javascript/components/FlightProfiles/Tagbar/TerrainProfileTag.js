@@ -1,4 +1,5 @@
 import React from 'react'
+import { motion } from 'framer-motion'
 import PropTypes from 'prop-types'
 
 import IconTimes from 'icons/times.svg'
@@ -16,7 +17,12 @@ const TerrainProfile = ({ terrainProfileId, onDelete }) => {
   const label = [place?.name, terrainProfile.name].join(' - ')
 
   return (
-    <li className={styles.tag}>
+    <motion.li
+      className={styles.tag}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <span className={styles.label}>{label}</span>
       <button
         className={styles.deleteButton}
@@ -26,7 +32,7 @@ const TerrainProfile = ({ terrainProfileId, onDelete }) => {
       >
         <IconTimes />
       </button>
-    </li>
+    </motion.li>
   )
 }
 
