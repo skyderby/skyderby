@@ -25,33 +25,37 @@ const cacheOptions = {
   staleTime: Infinity
 }
 
+export const cacheCountries = (countries, queryClient) =>
+  countries?.forEach(country =>
+    queryClient.setQueryData(getQueryKey(country.id), country)
+  )
+
 export const preloadCountries = async (ids, queryClient) => {
   const missingIds = ids
     .filter(Boolean)
     .filter(id => !queryClient.getQueryData(getQueryKey(id)))
 
   const { items: countries } = await getCountriesById(missingIds)
-  countries?.forEach(country =>
-    queryClient.setQueryData(getQueryKey(country.id), country)
-  )
+  cacheCountries(countries, queryClient)
 
   return countries
 }
 
-export const getQueryOptions = id => ({
+export const countryQuery = id => ({
   queryKey: getQueryKey(id),
   queryFn: queryCountry,
   enabled: !!id,
   ...cacheOptions
 })
 
-export const useCountryQuery = id => useQuery(getQueryOptions(id))
+export const useCountryQuery = (id, options = {}) =>
+  useQuery({ ...countryQuery(id), ...options })
 
 export const useCountryQueries = ids =>
   useQueries(
     Array.from(new Set(ids))
       .filter(Boolean)
-      .map(id => getQueryOptions(id))
+      .map(id => countryQuery(id))
   )
 
 export const countriesQuery = params => ({
