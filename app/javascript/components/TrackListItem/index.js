@@ -12,13 +12,11 @@ import { useManufacturerQuery } from 'api/hooks/manufacturer'
 import { useProfileQuery } from 'api/hooks/profiles'
 import { useSuitQuery } from 'api/hooks/suits'
 
-const DefaultComponent = props => <Link component={motion.a} {...props} />
-
 const Item = ({
   track,
   delayIndex,
   compact = false,
-  as: Component = DefaultComponent,
+  as: Component = motion(Link),
   ...props
 }) => {
   const { data: suit } = useSuitQuery(track.suitId)
