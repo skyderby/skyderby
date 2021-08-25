@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import cx from 'clsx'
 import PropTypes from 'prop-types'
 
@@ -11,7 +12,15 @@ import { useManufacturerQuery } from 'api/hooks/manufacturer'
 import { useProfileQuery } from 'api/hooks/profiles'
 import { useSuitQuery } from 'api/hooks/suits'
 
-const Item = ({ track, compact = false, as: Component = Link, ...props }) => {
+const DefaultComponent = props => <Link component={motion.a} {...props} />
+
+const Item = ({
+  track,
+  delayIndex,
+  compact = false,
+  as: Component = DefaultComponent,
+  ...props
+}) => {
   const { data: suit } = useSuitQuery(track.suitId)
   const { data: manufacturer } = useManufacturerQuery(suit?.makeId)
   const { data: profile } = useProfileQuery(track.profileId)
@@ -19,8 +28,21 @@ const Item = ({ track, compact = false, as: Component = Link, ...props }) => {
   const suitName = suit?.name ?? track.suitName
   const name = profile?.name ?? track.pilotName
 
+  const animationVariants = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { duration: 0.4, delay: 0.02 * delayIndex } },
+    exit: { opacity: 0, transition: { duration: 0.25 } }
+  }
+
   return (
-    <Component className={cx(styles.trackLink, compact && styles.compact)} {...props}>
+    <Component
+      className={cx(styles.trackLink, compact && styles.compact)}
+      variants={animationVariants}
+      initial="hidden"
+      animate="show"
+      exit="exit"
+      {...props}
+    >
       <div className={styles.id}>{track.id}</div>
       <div className={styles.pilot}>{name}</div>
       <div className={styles.suit}>
@@ -41,6 +63,7 @@ const Item = ({ track, compact = false, as: Component = Link, ...props }) => {
 Item.propTypes = {
   as: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
   compact: PropTypes.bool,
+  delayIndex: PropTypes.number,
   track: PropTypes.shape({
     id: PropTypes.number.isRequired,
     placeId: PropTypes.number,
