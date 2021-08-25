@@ -1,4 +1,5 @@
 import React from 'react'
+import { motion } from 'framer-motion'
 import PropTypes from 'prop-types'
 
 import IconTimes from 'icons/times.svg'
@@ -8,13 +9,22 @@ import { useTrackQuery } from 'api/hooks/tracks'
 import { useProfileQuery } from 'api/hooks/profiles'
 
 const TrackTag = ({ trackId, onDelete }) => {
-  const { data: track } = useTrackQuery(trackId)
-  const { data: profile } = useProfileQuery(track?.profileId)
+  const { data: track, isLoading: trackIsLoading } = useTrackQuery(trackId)
+  const { data: profile, isLoading: profileIsLoading } = useProfileQuery(track?.profileId)
 
-  const label = [profile?.name, `#${trackId}`].filter(Boolean).join(' - ')
+  if (trackIsLoading || profileIsLoading) return null
+
+  const label = [profile?.name ?? track?.pilotName, `#${trackId}`]
+    .filter(Boolean)
+    .join(' - ')
 
   return (
-    <li className={styles.tag}>
+    <motion.li
+      className={styles.tag}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <span className={styles.label}>{label}</span>
       <button
         className={styles.deleteButton}
@@ -24,7 +34,7 @@ const TrackTag = ({ trackId, onDelete }) => {
       >
         <IconTimes />
       </button>
-    </li>
+    </motion.li>
   )
 }
 
