@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { getDate } from 'date-fns'
 import cx from 'clsx'
 import PropTypes from 'prop-types'
@@ -27,12 +28,26 @@ const eventUrl = ({ type, id }) => {
   return `/events/${prefixes[type]}/${id}`
 }
 
-const Item = ({ event }) => {
+const Item = ({ event, delayIndex }) => {
   const { t, formatDate } = useI18n()
   const competitorsCount = Object.entries(event.competitorsCount)
 
+  const animationVariants = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { duration: 0.4, delay: 0.02 * delayIndex } },
+    exit: { opacity: 0, transition: { duration: 0.25 } }
+  }
+
   return (
-    <Link to={eventUrl(event)} className={styles.container}>
+    <Link
+      to={eventUrl(event)}
+      className={styles.container}
+      component={motion.a}
+      variants={animationVariants}
+      initial="hidden"
+      animate="show"
+      exit="exit"
+    >
       <div>
         <div className={cx(styles.date, event.active && styles.active)}>
           {getDate(new Date(event.startsAt))}
@@ -95,7 +110,8 @@ Item.propTypes = {
       'competitionSeries'
     ]).isRequired,
     startsAt: PropTypes.string.isRequired
-  })
+  }),
+  delayIndex: PropTypes.number
 }
 
 export default Item
