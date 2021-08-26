@@ -22,7 +22,8 @@ const eventUrl = ({ type, id }) => {
     performanceCompetition: 'performance',
     hungaryBoogie: 'boogie',
     tournament: 'tournament',
-    competitionSeries: 'series'
+    competitionSeries: 'series',
+    speedSkydivingCompetition: 'speed_skydiving'
   }
 
   return `/events/${prefixes[type]}/${id}`
