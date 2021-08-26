@@ -14,13 +14,13 @@ const ExitAltitude = ({ altitude }) => {
 
   return (
     <span>
-      Exit: {altitude}m
+      Exit: {altitude} {t('units.m')}
       {showWarning && (
         <>
           &nbsp;
           <i className="fas fa-exclamation-triangle text-warning" />
         </>
-      )} {t('units.m')}
+      )}
     </span>
   )
 }
