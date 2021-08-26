@@ -45,8 +45,6 @@ const RightMenuDesktop = () => {
               <ExitIcon />
             </button>
           </li>
-
-          <LocaleSelector className={styles.menuItem} />
         </>
       ) : (
         <>

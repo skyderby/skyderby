@@ -29,7 +29,7 @@ class Event::Result < ApplicationRecord
   validates :competitor_id, uniqueness: { scope: :round_id }, on: :create
   validate_duplicates_on_file_with EventTracks::FileDuplicationValidator
 
-  delegate :event, :event_id, :range_from, :range_to, :tracks_visibility to: :round
+  delegate :event, :event_id, :range_from, :range_to, :tracks_visibility, to: :round
   delegate :discipline, :number, to: :round, prefix: true
   delegate :section, to: :competitor
 
