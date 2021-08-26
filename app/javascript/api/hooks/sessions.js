@@ -4,7 +4,11 @@ import { useQuery, useQueryClient, useMutation } from 'react-query'
 import { getCSRFToken, setCSRFToken } from 'utils/csrfToken'
 
 const getCurrentUser = () =>
-  axios.get('/api/v1/current_user').then(response => response.data)
+  fetch('/api/v1/current_user', {
+    method: 'GET',
+    credentials: 'include',
+    mode: 'no-cors'
+  }).then(response => response.json())
 
 const login = async user => {
   const { data, headers } = await axios.post(
