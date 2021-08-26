@@ -1,0 +1,39 @@
+<% event = speed_skydiving_competition %>
+<%= link_to speed_skydiving_competition_path(event.id), class: ['events-list__item', ('active' if event.active?)] do %>
+  <div class="events-list__item-sidebar">
+    <div class="events-list__item-date">
+      <%= event.starts_at.strftime '%d' %>
+      <span><%= event.starts_at.strftime '%b\'%y' %></span>
+    </div>
+    <% if event.is_official %>
+      .events-list__item-official official
+    <% end %>
+  </div>
+  <div class="events-list__item-content">
+    <div class="events-list__item-title"><%= event.name %></div>
+    <% if event.place.present? %>
+      <div class="event__place">
+        <i class="fa fa-map-marker-alt"></i>
+        <%= event.place.name %>
+        <span><%= event.place.country_code %></span>
+      </div>
+    <% end %>
+    <% categories = event.categories.order(:position) %>
+    <% if categories.any? %>
+      <div class="events-list__item-participants">
+        <% categories.each do |category| %>
+          <p>
+            <%= category.name %> – <span><%= category.competitors.count %></span>
+          </p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <hr />
+
+    <div class="events-list__item-info">
+      Rules:
+      <span>Speed Skydiving</span>
+    </div>
+  </div>
+<% end %>

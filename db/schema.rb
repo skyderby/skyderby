@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_16_024610) do
+ActiveRecord::Schema.define(version: 2021_08_26_055435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -840,6 +840,36 @@ ActiveRecord::Schema.define(version: 2021_08_16_024610) do
                LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
             GROUP BY tournaments.id
           UNION ALL
+           SELECT 'SpeedSkydivingCompetition'::text,
+              events_1.id,
+              events_1.name,
+              NULL::integer,
+              events_1.starts_at,
+              events_1.status,
+              events_1.visibility,
+              events_1.responsible_id,
+              events_1.place_id,
+              NULL::integer,
+              NULL::integer,
+              events_1.is_official,
+              COALESCE(json_object_agg(COALESCE(competitors_count.category_name, ''::character varying), competitors_count.count) FILTER (WHERE (competitors_count.category_name IS NOT NULL)), '{}'::json) AS "coalesce",
+              participant_countries.country_ids,
+              events_1.updated_at,
+              events_1.created_at
+             FROM ((speed_skydiving_competitions events_1
+               LEFT JOIN ( SELECT categories.event_id,
+                      categories.name AS category_name,
+                      count(competitors.id) AS count
+                     FROM (speed_skydiving_competition_categories categories
+                       LEFT JOIN speed_skydiving_competition_competitors competitors ON (((categories.event_id = competitors.event_id) AND (categories.id = competitors.category_id))))
+                    GROUP BY categories.event_id, categories.name) competitors_count ON ((events_1.id = competitors_count.event_id)))
+               LEFT JOIN ( SELECT competitors.event_id,
+                      COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS country_ids
+                     FROM (speed_skydiving_competition_competitors competitors
+                       LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
+                    GROUP BY competitors.event_id) participant_countries ON ((events_1.id = participant_countries.event_id)))
+            GROUP BY events_1.id, participant_countries.country_ids
+          UNION ALL
            SELECT 'CompetitionSeries'::text,
               series.id,
               series.name,
@@ -848,7 +878,7 @@ ActiveRecord::Schema.define(version: 2021_08_16_024610) do
               series.status,
               series.visibility,
               series.responsible_id,
-              NULL::integer,
+              NULL::bigint,
               NULL::integer,
               NULL::integer,
               true AS bool,

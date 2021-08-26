@@ -62,9 +62,7 @@ class Event < ApplicationRecord
     self.range_to ||= 2000
   end
 
-  def active?
-    starts_at < Time.zone.now && !finished?
-  end
+  def active? = starts_at < Time.zone.now && !finished?
 
   private
 

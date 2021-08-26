@@ -19,6 +19,7 @@ Skyderby::Application.routes.draw do
   draw :tournaments
 
   resources :competition_series, only: :show
+  resources :speed_skydiving_competitions, only: :show
 
   root 'static_pages#index'
 end
