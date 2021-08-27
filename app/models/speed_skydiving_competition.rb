@@ -15,6 +15,8 @@ class SpeedSkydivingCompetition < ApplicationRecord
     has_many :teams
   end
 
+  has_many :tracks, through: :results
+
   def active? = starts_at < Time.zone.now && !finished?
 
   def use_open_scoreboard = categories.count > 1
