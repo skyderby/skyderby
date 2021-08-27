@@ -16,8 +16,8 @@ import styles from './styles.module.scss'
 const Scoreboard = ({ match }) => {
   const eventId = Number(match.params.eventId)
   const { data: standings, isLoading } = useStandingsQuery(eventId)
-  const { data: rounds } = useRoundsQuery(eventId)
-  const { data: categories } = useCategoriesQuery(eventId)
+  const { data: rounds = [] } = useRoundsQuery(eventId)
+  const { data: categories = [] } = useCategoriesQuery(eventId)
   const { data: event } = useSpeedSkydivingCompetitionQuery(eventId)
   const tableRef = useRef()
   const stickyContainerRef = useRef()
