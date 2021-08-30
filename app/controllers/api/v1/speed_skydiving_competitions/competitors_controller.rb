@@ -4,7 +4,7 @@ class Api::V1::SpeedSkydivingCompetitions::CompetitorsController < Api::Applicat
   def index
     authorize @event, :show?
 
-    @competitors = @event.competitors
+    @competitors = @event.competitors.includes(profile: :country)
   end
 
   def create

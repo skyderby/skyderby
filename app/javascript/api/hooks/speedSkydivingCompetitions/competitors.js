@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 
-import { preloadProfiles } from 'api/hooks/profiles'
+import { cacheProfiles } from 'api/hooks/profiles'
+import { cacheCountries } from 'api/hooks/countries'
 import { getCSRFToken } from 'utils/csrfToken'
 import { standingsQuery } from './standings'
 
@@ -25,12 +26,10 @@ const queryCompetitors = async (ctx, queryClient) => {
   const [_key, eventId] = ctx.queryKey
   const { data } = await getCompetitors(eventId)
 
-  await preloadProfiles(
-    data.map(competitor => competitor.profileId),
-    queryClient
-  )
+  cacheProfiles(data.relations.profiles, queryClient)
+  cacheCountries(data.relations.countries, queryClient)
 
-  return data
+  return data.items
 }
 
 export const competitorsQuery = (eventId, queryClient, options) => ({
