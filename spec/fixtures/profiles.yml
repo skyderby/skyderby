@@ -26,3 +26,13 @@ competitor_2:
   name: Travis
   owner: published_public (Event)
   country: norway
+
+maynard:
+  name: Ingrid Maynard
+  owner: nationals (SpeedSkydivingCompetition)
+  country: norway
+
+hinton:
+  name: Nigel Hinton
+  owner: nationals (SpeedSkydivingCompetition)
+  country: norway

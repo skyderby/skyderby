@@ -2,19 +2,25 @@ import React, { useState } from 'react'
 import cx from 'clsx'
 import PropTypes from 'prop-types'
 
+import {
+  useCompetitorQuery,
+  useDeleteResultMutation,
+  useNewResultMutation,
+  useRoundQuery
+} from 'api/hooks/speedSkydivingCompetitions'
+import { useProfileQuery } from 'api/hooks/profiles'
 import UploadIcon from 'icons/upload'
 import NewResultForm from '../NewResultForm'
 import ResultModal from '../ResultModal'
 import styles from './styles.module.scss'
-import {
-  useDeleteResultMutation,
-  useNewResultMutation
-} from 'api/hooks/speedSkydivingCompetitions'
 
 const ResultCell = ({ className, event, roundId, competitorId, result }) => {
   const [showNewResultModal, setShowNewResultModal] = useState(false)
   const [showResultModal, setShowResultModal] = useState(false)
   const deleteMutation = useDeleteResultMutation()
+  const { data: competitor } = useCompetitorQuery(event.id, competitorId)
+  const { data: round } = useRoundQuery(event.id, roundId)
+  const { data: profile } = useProfileQuery(competitor?.profileId, { enabled: false })
 
   const hideResultModal = () => setShowResultModal(false)
   const hideResultSubmissionModal = () => setShowNewResultModal(false)
@@ -39,7 +45,11 @@ const ResultCell = ({ className, event, roundId, competitorId, result }) => {
     <td className={cx(className, styles.resultCell)}>
       {result ? (
         <>
-          <button className={styles.showResult} onClick={() => setShowResultModal(true)}>
+          <button
+            className={styles.showResult}
+            onClick={() => setShowResultModal(true)}
+            title={`Show result for ${profile.name} in round ${round.number}`}
+          >
             {result.result.toFixed(2)}
           </button>
 
@@ -58,7 +68,7 @@ const ResultCell = ({ className, event, roundId, competitorId, result }) => {
             <button
               className={styles.newResult}
               onClick={() => setShowNewResultModal(true)}
-              title="Upload new result"
+              title={`Submit result for ${profile.name} in round ${round.number}`}
             >
               <UploadIcon />
             </button>

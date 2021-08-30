@@ -7,4 +7,6 @@ class SpeedSkydivingCompetition::Competitor < ApplicationRecord
   has_many :results, dependent: :restrict_with_error
 
   accepts_nested_attributes_for :profile
+
+  delegate :name, to: :profile
 end
