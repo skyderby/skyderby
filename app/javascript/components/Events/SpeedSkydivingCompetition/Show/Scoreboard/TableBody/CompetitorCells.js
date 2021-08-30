@@ -16,8 +16,8 @@ import styles from './styles.module.scss'
 const CompetitorCells = ({ event, competitorId }) => {
   const [competitorFormShown, setCompetitorFormShown] = useState(false)
   const { data: competitor } = useCompetitorQuery(event.id, competitorId)
-  const { data: profile } = useProfileQuery(competitor?.profileId)
-  const { data: country } = useCountryQuery(profile?.countryId)
+  const { data: profile } = useProfileQuery(competitor?.profileId, { enabled: false })
+  const { data: country } = useCountryQuery(profile?.countryId, { enabled: false })
 
   const editMutation = useEditCompetitorMutation()
   const deleteMutation = useDeleteCompetitorMutation()

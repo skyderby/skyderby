@@ -21,3 +21,10 @@ ravenna:
   country: italy
   latitude: 44.36142261
   longitude: 12.21614242
+
+puschino:
+  name: DZ Puschino
+  country: russia
+  latitude: 54.789712
+  longitude: 37.642467
+  msl: 238
