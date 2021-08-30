@@ -1,0 +1,11 @@
+hinton:
+  event: nationals
+  category: male
+  profile: hinton
+  assigned_number: 001
+
+maynard:
+  event: nationals
+  category: female
+  profile: maynard
+  assigned_number: 002
