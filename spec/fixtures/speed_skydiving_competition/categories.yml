@@ -1,0 +1,9 @@
+male:
+  name: Male
+  event: nationals
+  position: 0
+
+female:
+  name: Female
+  event: nationals
+  position: 1
