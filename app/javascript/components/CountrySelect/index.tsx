@@ -4,9 +4,15 @@ import { useQueryClient } from 'react-query'
 
 import { countriesQuery, useCountryQuery } from 'api/hooks/countries'
 import selectStyles from 'styles/selectStyles'
-import PropTypes from 'prop-types'
 
-const CountrySelect = ({ value: countryId, ...props }) => {
+type CountrySelectProps = {
+  value?: number
+}
+
+const CountrySelect = ({
+  value: countryId,
+  ...props
+}: CountrySelectProps): JSX.Element => {
   const queryClient = useQueryClient()
   const { data: country } = useCountryQuery(countryId)
 
@@ -14,9 +20,7 @@ const CountrySelect = ({ value: countryId, ...props }) => {
 
   const loadOptions = useCallback(
     async (search, _loadedOptions, { page }) => {
-      const data = await queryClient.fetchQuery(
-        countriesQuery({ page, search }, queryClient)
-      )
+      const data = await queryClient.fetchQuery(countriesQuery({ page, search }))
 
       const { items, currentPage, totalPages } = data
 
@@ -44,10 +48,6 @@ const CountrySelect = ({ value: countryId, ...props }) => {
       {...props}
     />
   )
-}
-
-CountrySelect.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
 export default CountrySelect
