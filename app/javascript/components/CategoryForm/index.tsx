@@ -1,6 +1,5 @@
 import React from 'react'
-import { Formik, Field, ErrorMessage } from 'formik'
-import PropTypes from 'prop-types'
+import { Formik, Field, ErrorMessage, FormikHelpers } from 'formik'
 
 import { useI18n } from 'components/TranslationsProvider'
 import Modal from 'components/ui/Modal'
@@ -8,16 +7,29 @@ import ErrorText from 'components/ui/ErrorMessage'
 import validationSchema from './validationSchema'
 import styles from './styles.module.scss'
 
+interface FormData {
+  id?: number
+  name: string
+}
+
+type FormProps = {
+  initialValues: FormData
+  mutation: {
+    mutate: (params: FormData) => void
+  }
+  onHide: () => void
+}
+
 const defaultInitialValues = { name: '' }
 
 const CategoryForm = ({
   initialValues = defaultInitialValues,
   mutation,
   onHide: hide
-}) => {
+}: FormProps): JSX.Element => {
   const { t } = useI18n()
 
-  const handleSubmit = async (values, formikBag) => {
+  const handleSubmit = async (values: FormData, formikBag: FormikHelpers<FormData>) => {
     try {
       mutation.mutate(values)
     } catch (err) {
@@ -27,7 +39,7 @@ const CategoryForm = ({
   }
 
   return (
-    <Modal isShown={true} onHide={hide} title="New category" size="sm">
+    <Modal isShown={true} onHide={hide} title="New category" size={Modal.Size.small}>
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}
@@ -68,16 +80,6 @@ const CategoryForm = ({
       </Formik>
     </Modal>
   )
-}
-
-CategoryForm.propTypes = {
-  initialValues: PropTypes.shape({
-    name: PropTypes.string
-  }),
-  mutation: PropTypes.shape({
-    mutate: PropTypes.func.isRequired
-  }).isRequired,
-  onHide: PropTypes.func.isRequired
 }
 
 export default CategoryForm
