@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "lib": ["es6", "dom"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "target": "es5",
+    "jsx": "react",
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "*": ["*", "app/javascript/*"]
+    }
+  },
+  "include": [
+    "./app/javascript"
+  ],
+  "exclude": [
+    "**/*.spec.ts",
+    "node_modules",
+    "vendor",
+    "public"
+  ],
+  "compileOnSave": false
+}
