@@ -1,20 +1,41 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import cx from 'clsx'
-import PropTypes from 'prop-types'
 
 import styles from './styles.module.scss'
 
 const bodyClassName = 'modalShown'
-const setBodyScroll = modalShown => {
+const setBodyScroll = (modalShown: boolean): void => {
+  const body = document.querySelector('body')
+
   if (modalShown) {
-    document.querySelector('body').classList.add(bodyClassName)
+    body!.classList.add(bodyClassName)
   } else {
-    document.querySelector('body').classList.remove(bodyClassName)
+    body!.classList.remove(bodyClassName)
   }
 }
 
-const Modal = ({ size = 'md', isShown = false, onHide = () => {}, title, children }) => {
+enum ModalSize {
+  small = 'sm',
+  medium = 'md',
+  large = 'lg'
+}
+
+type ModalProps = {
+  size: ModalSize
+  isShown: boolean
+  title: string
+  onHide?: () => void
+  children: React.ReactNode
+}
+
+const Modal = ({
+  size = ModalSize.medium,
+  isShown = false,
+  onHide = () => undefined,
+  title,
+  children
+}: ModalProps): JSX.Element => {
   const [internalIsShown, setIsShown] = useState(isShown)
   const modalRoot = document.getElementById('modal-root')
 
@@ -25,17 +46,17 @@ const Modal = ({ size = 'md', isShown = false, onHide = () => {}, title, childre
     return () => setBodyScroll(false)
   }, [isShown])
 
-  const handleOverlayClick = e => {
+  const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) handleHide(e)
   }
 
-  const handleHide = e => {
+  const handleHide = (e: React.MouseEvent) => {
     e.preventDefault()
     onHide()
     setIsShown(false)
   }
 
-  if (!internalIsShown) return ReactDOM.createPortal(null, modalRoot)
+  if (!internalIsShown) return ReactDOM.createPortal(null, modalRoot!)
 
   return ReactDOM.createPortal(
     <div className={styles.overlay} onClick={handleOverlayClick}>
@@ -50,30 +71,32 @@ const Modal = ({ size = 'md', isShown = false, onHide = () => {}, title, childre
         <div>{children}</div>
       </div>
     </div>,
-    modalRoot
+    modalRoot!
   )
 }
 
-const childrenType = PropTypes.oneOfType([
-  PropTypes.arrayOf(PropTypes.node),
-  PropTypes.node
-])
-const Body = ({ children, className }) => (
+type BodyProps = {
+  className?: string
+  children: React.ReactNode | React.ReactNode[]
+}
+
+const Body = ({ children, className }: BodyProps): JSX.Element => (
   <div className={cx(styles.body, className)}>{children}</div>
 )
-Body.propTypes = { children: childrenType, className: PropTypes.string }
 
-const Footer = ({ children, className, spaceBetween }) => (
+type FooterProps = {
+  className?: string
+  children: React.ReactNode | React.ReactNode[]
+  spaceBetween?: boolean
+}
+
+const Footer = ({ children, className, spaceBetween }: FooterProps): JSX.Element => (
   <div className={cx(styles.footer, spaceBetween && styles.spaceBetween, className)}>
     {children}
   </div>
 )
-Footer.propTypes = {
-  children: childrenType,
-  className: PropTypes.string,
-  spaceBetween: PropTypes.bool
-}
 
+Modal.Size = ModalSize
 Modal.Body = Body
 Modal.Footer = Footer
 

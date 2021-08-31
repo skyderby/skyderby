@@ -11,9 +11,8 @@ import { format } from 'date-fns'
 import { enUS, ru, it, fr, es, de } from 'date-fns/locale'
 import Cookie from 'js-cookie'
 import supportedLocales from 'virtual-modules/i18n/supportedLocales'
-import PropTypes from 'prop-types'
 
-const dateLocales = {
+const dateLocales: { [key: string]: Locale } = {
   en: enUS,
   ru,
   it,
@@ -22,12 +21,36 @@ const dateLocales = {
   de
 }
 
-const TranslationsContext = createContext()
+interface TranslationEntry {
+  [key: string]: string | TranslationEntry
+}
+
+type Translations = {
+  [locale: string]: TranslationEntry
+}
+
+type TranslationsDict = {
+  [locale: string]: Translations
+}
+
+type I18nContextType = {
+  t: (key: string) => string
+  supportedLocales: string[]
+  locale?: string
+  formatDate?: (date: Date, format: string) => string
+  changeLocale?: (locale: string) => void
+}
+
 const defaultLocale = 'en'
+
+const TranslationsContext = createContext<I18nContextType>({
+  t: I18n.t,
+  supportedLocales
+})
 
 const getInitialLocale = () => {
   const chosenLocale = Cookie.get('locale')
-  if (supportedLocales.includes(chosenLocale)) return chosenLocale
+  if (chosenLocale && supportedLocales.includes(chosenLocale)) return chosenLocale
 
   const browserLocale = window.navigator.language.slice(0, 2).toLowerCase()
   if (supportedLocales.includes(browserLocale)) return browserLocale
@@ -35,13 +58,17 @@ const getInitialLocale = () => {
   return defaultLocale
 }
 
-const TranslationsProvider = ({ children }) => {
+const TranslationsProvider = ({
+  children
+}: {
+  children: React.ReactNode
+}): JSX.Element | null => {
   const initialized = useRef(false)
   const [locale, setLocale] = useState(getInitialLocale)
 
-  const [translations, setTranslations] = useState({})
+  const [translations, setTranslations] = useState<TranslationsDict>({})
 
-  const changeLocale = newLocale => {
+  const changeLocale = (newLocale: string) => {
     if (!supportedLocales.includes(newLocale)) {
       console.warn(
         `Unsupported locale ${newLocale}, supported locales are: ${supportedLocales}`
@@ -77,7 +104,7 @@ const TranslationsProvider = ({ children }) => {
   I18n.translations = translations[locale]
   I18n.locale = locale
 
-  const formatDate = (date, formatString) =>
+  const formatDate = (date: Date, formatString: string): string =>
     format(date, formatString, { locale: dateLocales[locale] })
 
   return (
@@ -87,10 +114,6 @@ const TranslationsProvider = ({ children }) => {
       {children}
     </TranslationsContext.Provider>
   )
-}
-
-TranslationsProvider.propTypes = {
-  children: PropTypes.element.isRequired
 }
 
 const useI18n = () => useContext(TranslationsContext)
