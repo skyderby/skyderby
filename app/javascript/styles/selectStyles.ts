@@ -1,4 +1,6 @@
-const selectStyles = {
+import { StylesConfig, OptionTypeBase } from 'react-select'
+
+const selectStyles: StylesConfig<OptionTypeBase, boolean> = {
   container: (base, state) => ({
     ...base,
     ...(state.selectProps?.hide ? { display: 'none' } : {}),
