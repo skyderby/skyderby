@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
-    "strict": true,
     "declaration": false,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
     "lib": ["es6", "dom"],
     "module": "esnext",
     "moduleResolution": "node",
@@ -12,6 +14,7 @@
     "target": "es5",
     "jsx": "react",
     "noEmit": true,
+    "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "*": ["*", "app/javascript/*"]
