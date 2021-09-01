@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from 'react-query'
 import axios from 'axios'
 
-import { preloadCountries } from 'api/hooks/countries'
+import { cacheCountries, preloadCountries } from 'api/hooks/countries'
 import { getQueryKey as getPlaceQueryKey } from './place'
 
 const endpoint = '/api/v1/places'
@@ -28,9 +28,7 @@ const getAllPlaces = async () => {
     })
   )
 
-  const allChunks = [firstChunk, ...restChunks]
-
-  return allChunks.map(chunk => chunk.items).flat()
+  return [firstChunk, ...restChunks]
 }
 
 const getPlaces = params => axios.get(buildUrl(params))
@@ -43,12 +41,13 @@ const cachePlaces = (places, queryClient) =>
     .forEach(place => queryClient.setQueryData(getPlaceQueryKey(place.id), place))
 
 const buildAllPlacesQueryFn = queryClient => async () => {
-  const places = await getAllPlaces()
+  const chunks = await getAllPlaces()
 
-  const countryIds = places.map(place => place.countryId)
-  await preloadCountries(countryIds, queryClient)
+  const places = chunks.map(chunk => chunk.items).flat()
+  const countries = chunks.map(chunk => chunk.relations.countries).flat()
 
   cachePlaces(places, queryClient)
+  cacheCountries(countries, queryClient)
 
   return places
 }
