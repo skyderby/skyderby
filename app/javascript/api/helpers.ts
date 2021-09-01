@@ -1,7 +1,9 @@
 import axios from 'axios'
 
 type EmptyResponse = {
-  items: []
+  items: never[]
+  currentPage: number
+  totalPages: number
 }
 
 export async function loadIds<Type>(
@@ -10,7 +12,7 @@ export async function loadIds<Type>(
 ): Promise<Type | EmptyResponse> {
   const uniqueIds = Array.from(new Set(ids.filter(Boolean)))
 
-  if (uniqueIds.length === 0) return { items: [] }
+  if (uniqueIds.length === 0) return { items: [], currentPage: 1, totalPages: 1 }
 
   const params = uniqueIds.reduce((acc, id) => {
     acc.append('ids[]', String(id))
