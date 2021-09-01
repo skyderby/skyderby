@@ -5,11 +5,24 @@ import PropTypes from 'prop-types'
 import LoadingIndicator from './LoadingIndicator'
 import styles from './styles.module.scss'
 
-const FileInput = ({ loading, isInvalid, onChange, ...props }) => {
-  const inputRef = useRef()
-  const handleChange = event => {
-    const [file] = event.target.files
-    inputRef.current.value = file ? file.name : ''
+type FileInputProps = {
+  loading?: boolean
+  isInvalid?: boolean
+  onChange?: (e: React.ChangeEvent) => unknown
+}
+
+const FileInput = ({
+  loading,
+  isInvalid,
+  onChange,
+  ...props
+}: FileInputProps): JSX.Element => {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const handleChange = (event: React.ChangeEvent) => {
+    const files = (event.target as HTMLInputElement).files
+    const file = files ? files[0] : null
+    if (inputRef.current) inputRef.current.value = file ? file.name : ''
     onChange?.(event)
   }
 

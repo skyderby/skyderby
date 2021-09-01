@@ -4,19 +4,25 @@ import PropTypes from 'prop-types'
 
 import styles from './styles.module.scss'
 
-const PageNavbar = ({ children }) => {
-  const menuRef = useRef()
-  const fadeRef = useRef()
+type PageNavbarProps = {
+  children: React.ReactNode | React.ReactNode[]
+}
+
+const PageNavbar = ({ children }: PageNavbarProps): JSX.Element => {
+  const menuRef = useRef<HTMLUListElement>(null)
+  const fadeRef = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
     const menuElement = menuRef.current
     const fadeElement = fadeRef.current
 
+    if (!menuElement || !fadeElement) return
+
     const handleScroll = () => {
       const scrollable =
         menuElement.scrollLeft + menuElement.clientWidth + 18 < menuElement.scrollWidth
       fadeElement.style.visibility = scrollable ? 'visible' : 'hidden'
-      fadeElement.style.opacity = scrollable ? 1 : 0
+      fadeElement.style.opacity = String(scrollable ? 1 : 0)
     }
 
     handleScroll()
@@ -35,7 +41,12 @@ const PageNavbar = ({ children }) => {
   )
 }
 
-const Item = ({ children, right }) => (
+type ItemProps = {
+  children: React.ReactNode | React.ReactNode[]
+  right?: boolean
+}
+
+const Item = ({ children, right }: ItemProps) => (
   <li className={cx(styles.menuItem, right && styles.right)}>{children}</li>
 )
 PageNavbar.Item = Item
