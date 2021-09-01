@@ -1,14 +1,25 @@
 import React from 'react'
 import cx from 'clsx'
-import PropTypes from 'prop-types'
 
 import styles from './styles.module.scss'
 
-const RadioButtonGroup = ({ value: currentValue, options, name, onChange }) => {
+type RadioButtonGroupProps = {
+  name: string
+  value?: string | number
+  options: Record<string, string>[]
+  onChange: (e: React.ChangeEvent) => unknown
+}
+
+const RadioButtonGroup = ({
+  value: currentValue,
+  options,
+  name,
+  onChange
+}: RadioButtonGroupProps): JSX.Element => {
   return (
     <div>
       {options.map(({ label, value }, idx) => {
-        const checked = value.toString() === (currentValue || '').toString()
+        const checked = String(value) === (currentValue || '').toString()
 
         return (
           <label className={cx(styles.button, checked && styles.active)} key={idx}>
@@ -26,22 +37,6 @@ const RadioButtonGroup = ({ value: currentValue, options, name, onChange }) => {
       })}
     </div>
   )
-}
-
-RadioButtonGroup.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired
-    })
-  ).isRequired,
-  name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
-}
-
-RadioButtonGroup.defaultProps = {
-  value: ''
 }
 
 export default RadioButtonGroup
