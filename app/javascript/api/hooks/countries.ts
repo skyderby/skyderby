@@ -1,5 +1,4 @@
 import {
-  useQueries,
   useQuery,
   QueryClient,
   UseQueryResult,
@@ -10,15 +9,15 @@ import axios from 'axios'
 import { loadIds, urlWithParams } from 'api/helpers'
 
 export type CountryType = {
-  id?: number
-  name?: string
-  code?: string
+  id: number
+  name: string
+  code: string
 }
 
 type CountriesIndexData = {
-  items?: CountryType[]
-  currentPage?: number
-  totalPages?: number
+  items: CountryType[]
+  currentPage: number
+  totalPages: number
 }
 
 type RecordQueryKey = [string, number | undefined]
@@ -59,7 +58,6 @@ const queryCountries: QueryFunction<
   return getCountries(params)
 }
 
-const recordQueryKey = (id: number | undefined): RecordQueryKey => ['countries', id]
 const indexQueryKey = (params: IndexParamsType): IndexQueryKey => ['countries', params]
 
 const cacheOptions = {
@@ -89,14 +87,10 @@ export const preloadCountries = async (
   return countries
 }
 
-export const countryQuery = (
-  id: number | undefined
-): UseQueryOptions<CountryType, Error, CountryType, RecordQueryKey> => ({
-  queryKey: recordQueryKey(id),
-  queryFn: queryCountry,
-  enabled: Boolean(id),
-  ...cacheOptions
-})
+export const recordQueryKey = (id: number | undefined): RecordQueryKey => [
+  'countries',
+  id
+]
 
 export const countriesQuery = (
   params: IndexParamsType
@@ -106,18 +100,20 @@ export const countriesQuery = (
   ...cacheOptions
 })
 
+export const countryQuery = (
+  id: number | undefined
+): UseQueryOptions<CountryType, Error, CountryType, RecordQueryKey> => ({
+  queryKey: recordQueryKey(id),
+  queryFn: queryCountry,
+  enabled: Boolean(id),
+  ...cacheOptions
+})
+
 export const useCountryQuery = (
   id: number | undefined,
-  options: UseQueryOptions = {}
+  options: UseQueryOptions<CountryType, Error, CountryType, RecordQueryKey> = {}
 ): UseQueryResult<CountryType> =>
   useQuery({
     ...countryQuery(id),
     ...options
   })
-
-export const useCountryQueries = (ids: number[]): UseQueryResult<CountryType>[] =>
-  useQueries(
-    Array.from(new Set(ids))
-      .filter(Boolean)
-      .map(id => countryQuery(id))
-  )
