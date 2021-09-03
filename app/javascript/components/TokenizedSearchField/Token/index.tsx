@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { ValueKey } from 'components/TokenizedSearchField/types'
 import SimpleValue from './SimpleValue'
 import Place from './Place'
 import Profile from './Profile'
@@ -13,9 +14,11 @@ const componentByType = {
   year: SimpleValue
 }
 
-const Token = props => {
-  const { type } = props
+type TokenProps = {
+  type: ValueKey
+}
 
+const Token = ({ type, ...props }: TokenProps): JSX.Element => {
   const TokenComponent = componentByType[type]
 
   return <TokenComponent {...props} />

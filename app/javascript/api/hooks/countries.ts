@@ -8,39 +8,38 @@ import {
 import axios from 'axios'
 import { loadIds, urlWithParams } from 'api/helpers'
 
-export type CountryType = {
+export type CountryRecord = {
   id: number
   name: string
   code: string
 }
 
-type CountriesIndexData = {
-  items: CountryType[]
+type CountriesIndex = {
+  items: CountryRecord[]
   currentPage: number
   totalPages: number
 }
 
-type RecordQueryKey = [string, number | undefined]
-
-type IndexParamsType = {
+type IndexParams = {
   search?: string
   page?: number
   perPage?: number
 }
 
-type IndexQueryKey = [string, IndexParamsType]
+type RecordQueryKey = [string, number | undefined]
+type IndexQueryKey = [string, IndexParams]
 
 const endpoint = '/api/v1/countries'
 
-const getCountry = (id: number): Promise<CountryType> =>
+const getCountry = (id: number): Promise<CountryRecord> =>
   axios.get(`${endpoint}/${id}`).then(response => response.data)
 
-const getCountries = (params: IndexParamsType): Promise<CountriesIndexData> =>
+const getCountries = (params: IndexParams): Promise<CountriesIndex> =>
   axios.get(urlWithParams(endpoint, params)).then(response => response.data)
 
-const getCountriesById = (ids: number[]) => loadIds<CountriesIndexData>(endpoint, ids)
+const getCountriesById = (ids: number[]) => loadIds<CountriesIndex>(endpoint, ids)
 
-const queryCountry: QueryFunction<CountryType, RecordQueryKey> = ctx => {
+const queryCountry: QueryFunction<CountryRecord, RecordQueryKey> = ctx => {
   const [_key, id] = ctx.queryKey
 
   if (typeof id !== 'number') {
@@ -50,15 +49,12 @@ const queryCountry: QueryFunction<CountryType, RecordQueryKey> = ctx => {
   return getCountry(id)
 }
 
-const queryCountries: QueryFunction<
-  CountriesIndexData,
-  [string, IndexParamsType]
-> = ctx => {
+const queryCountries: QueryFunction<CountriesIndex, [string, IndexParams]> = ctx => {
   const [_key, params] = ctx.queryKey
   return getCountries(params)
 }
 
-const indexQueryKey = (params: IndexParamsType): IndexQueryKey => ['countries', params]
+const indexQueryKey = (params: IndexParams): IndexQueryKey => ['countries', params]
 
 const cacheOptions = {
   cacheTime: Infinity,
@@ -66,7 +62,7 @@ const cacheOptions = {
 }
 
 export const cacheCountries = (
-  countries: CountryType[],
+  countries: CountryRecord[],
   queryClient: QueryClient
 ): void =>
   countries?.forEach(country =>
@@ -76,7 +72,7 @@ export const cacheCountries = (
 export const preloadCountries = async (
   ids: number[],
   queryClient: QueryClient
-): Promise<CountryType[]> => {
+): Promise<CountryRecord[]> => {
   const missingIds = ids
     .filter(Boolean)
     .filter(id => !queryClient.getQueryData(recordQueryKey(id)))
@@ -93,8 +89,8 @@ export const recordQueryKey = (id: number | undefined): RecordQueryKey => [
 ]
 
 export const countriesQuery = (
-  params: IndexParamsType
-): UseQueryOptions<CountriesIndexData, Error, CountryType, IndexQueryKey> => ({
+  params: IndexParams
+): UseQueryOptions<CountriesIndex, Error, CountryRecord, IndexQueryKey> => ({
   queryKey: indexQueryKey(params),
   queryFn: queryCountries,
   ...cacheOptions
@@ -102,7 +98,7 @@ export const countriesQuery = (
 
 export const countryQuery = (
   id: number | undefined
-): UseQueryOptions<CountryType, Error, CountryType, RecordQueryKey> => ({
+): UseQueryOptions<CountryRecord, Error, CountryRecord, RecordQueryKey> => ({
   queryKey: recordQueryKey(id),
   queryFn: queryCountry,
   enabled: Boolean(id),
@@ -111,8 +107,8 @@ export const countryQuery = (
 
 export const useCountryQuery = (
   id: number | undefined,
-  options: UseQueryOptions<CountryType, Error, CountryType, RecordQueryKey> = {}
-): UseQueryResult<CountryType> =>
+  options: UseQueryOptions<CountryRecord, Error, CountryRecord, RecordQueryKey> = {}
+): UseQueryResult<CountryRecord> =>
   useQuery({
     ...countryQuery(id),
     ...options

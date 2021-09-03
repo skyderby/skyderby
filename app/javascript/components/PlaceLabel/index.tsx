@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
 import { usePlaceQuery } from 'api/hooks/places'
@@ -7,13 +6,21 @@ import { useCountryQuery } from 'api/hooks/countries'
 import PlaceIcon from 'icons/location.svg'
 import styles from './styles.module.scss'
 
+type PlaceLabelProps = {
+  placeId?: number
+  fallbackName?: string
+  withIcon?: boolean
+  withMsl?: boolean
+  refetchEnabled?: boolean
+}
+
 const PlaceLabel = ({
   placeId,
   fallbackName,
   withIcon = false,
   withMsl = false,
   refetchEnabled
-}) => {
+}: PlaceLabelProps): JSX.Element => {
   const { t } = useI18n()
   const enabled = refetchEnabled ?? true
   const { data: place } = usePlaceQuery(placeId, { enabled })
@@ -25,7 +32,7 @@ const PlaceLabel = ({
     <div className={styles.container}>
       {withIcon && <PlaceIcon />}
       {name && <span>{name}</span>}
-      {withMsl && (
+      {withMsl && msl !== undefined && (
         <>
           &nbsp;
           <span>
@@ -43,14 +50,6 @@ const PlaceLabel = ({
       )}
     </div>
   )
-}
-
-PlaceLabel.propTypes = {
-  placeId: PropTypes.number,
-  fallbackName: PropTypes.string,
-  withIcon: PropTypes.bool,
-  withMsl: PropTypes.bool,
-  refetchEnabled: PropTypes.bool
 }
 
 export default PlaceLabel
