@@ -3,26 +3,30 @@ import Select from 'react-select'
 import PropTypes from 'prop-types'
 
 import { useTerrainProfilesQuery } from 'api/hooks/terrainProfiles'
-import { usePlaceQueries } from 'api/hooks/places'
+import { usePlaces } from 'api/hooks/places'
 import selectStyles from 'styles/selectStyles'
 
-const TerrainProfileSelect = ({ value, ...props }) => {
-  const { data } = useTerrainProfilesQuery()
-  const terrainProfiles = data?.items || []
-  const placeQueries = usePlaceQueries(terrainProfiles.map(el => el.placeId))
-  const places = placeQueries.map(query => query.data)
+type TerrainProfileSelectProps = {
+  value?: number
+}
+
+const TerrainProfileSelect = ({
+  value,
+  ...props
+}: TerrainProfileSelectProps): JSX.Element => {
+  const { data: terrainProfiles = [] } = useTerrainProfilesQuery()
+  const places = usePlaces(terrainProfiles.map(el => el.placeId))
 
   const options = terrainProfiles.map(el => {
     const place = places.find(place => place.id === el.placeId)
 
     return {
-      ...el,
       value: el.id,
       label: `${place?.name} - ${el.name}`
     }
   })
 
-  const selectedOption = value && options.find(el => el.value === value)
+  const selectedOption = value ? options.find(el => el.value === value) : null
 
   return (
     <Select
