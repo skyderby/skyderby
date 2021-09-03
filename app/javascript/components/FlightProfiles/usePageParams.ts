@@ -2,10 +2,18 @@ import { useCallback } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import {
   extractParamsFromUrl as extractTrackParamsFromUrl,
-  mapParamsToUrl as mapTrackParamsToUrl
+  mapParamsToUrl as mapTrackParamsToUrl,
+  TrackURLParams
 } from 'api/hooks/tracks'
 
-const extractParamsFromUrl = search => {
+type FlightProfilesURLParams = {
+  tracksParams: TrackURLParams
+  selectedTracks: number[]
+  selectedTerrainProfile: number | null
+  additionalTerrainProfiles: number[]
+}
+
+const extractParamsFromUrl = (search: string): FlightProfilesURLParams => {
   const tracksParams = {
     ...extractTrackParamsFromUrl(search, 'tracks'),
     activity: 'base'
@@ -14,9 +22,9 @@ const extractParamsFromUrl = search => {
 
   const selectedTracks = urlParams.getAll('selectedTracks[]').filter(Boolean).map(Number)
 
-  const selectedTerrainProfile =
-    urlParams.get('selectedTerrainProfile') &&
-    Number(urlParams.get('selectedTerrainProfile'))
+  const selectedTerrainProfile = urlParams.get('selectedTerrainProfile')
+    ? Number(urlParams.get('selectedTerrainProfile'))
+    : null
 
   const additionalTerrainProfiles = urlParams
     .getAll('additionalTerrainProfiles[]')
@@ -31,26 +39,30 @@ const extractParamsFromUrl = search => {
   }
 }
 
-const mapParamsToUrl = params => {
+const mapParamsToUrl = (params: FlightProfilesURLParams): string => {
   const { activity, ...mergedTracksParams } = params.tracksParams
   const tracksParams = mapTrackParamsToUrl(mergedTracksParams, 'tracks')
 
   const urlParams = new URLSearchParams(tracksParams)
 
-  params.selectedTracks.forEach(id => urlParams.append('selectedTracks[]', id))
+  params.selectedTracks.forEach(id => urlParams.append('selectedTracks[]', String(id)))
 
   if (params.selectedTerrainProfile) {
-    urlParams.set('selectedTerrainProfile', params.selectedTerrainProfile)
+    urlParams.set('selectedTerrainProfile', String(params.selectedTerrainProfile))
   }
 
   Array.from(new Set(params.additionalTerrainProfiles)).forEach(id =>
-    urlParams.append('additionalTerrainProfiles[]', id)
+    urlParams.append('additionalTerrainProfiles[]', String(id))
   )
 
   return urlParams.toString() === '' ? '' : '?' + urlParams.toString()
 }
 
-const usePageParams = () => {
+type PageParams = {
+  params: FlightProfilesURLParams
+}
+
+const usePageParams = (): PageParams => {
   const history = useHistory()
   const location = useLocation()
   const params = extractParamsFromUrl(location.search)

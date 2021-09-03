@@ -1,21 +1,27 @@
 import React, { useRef } from 'react'
-import PropTypes from 'prop-types'
 
 import { usePlaceQuery } from 'api/hooks/places'
 import IconTimes from 'icons/times.svg'
 import PlaceLabel from 'components/PlaceLabel'
 import styles from './styles.module.scss'
 
-const Place = ({ value, onClick, onDelete }) => {
-  const deleteButtonRef = useRef()
+type PlaceProps = {
+  value: string | number
+  onDelete: (e?: React.MouseEvent) => unknown
+  onClick?: (e?: React.MouseEvent) => unknown
+}
 
-  const { data: place, isLoading } = usePlaceQuery(value)
+const Place = ({ value, onClick, onDelete }: PlaceProps): JSX.Element | null => {
+  const deleteButtonRef = useRef<HTMLButtonElement>(null)
+  const placeId = Number(value)
+  const { data: place, isLoading } = usePlaceQuery(placeId)
 
   if (isLoading) return null
 
-  const handleTokenClick = e => {
+  const handleTokenClick = (e: React.MouseEvent) => {
     const deleteButtonClicked =
-      e.target === deleteButtonRef.current || deleteButtonRef.current.contains(e.target)
+      e.target === deleteButtonRef.current ||
+      deleteButtonRef.current?.contains(e.target as Node)
 
     if (deleteButtonClicked) {
       onDelete()
@@ -24,13 +30,13 @@ const Place = ({ value, onClick, onDelete }) => {
     onClick?.()
   }
 
-  const title = `Place: ${place.name}`
+  const title = `Place: ${place?.name}`
 
   return (
     <li className={styles.placeContainer} onClick={handleTokenClick} title={title}>
       <div className={styles.type}>Place</div>
       <div className={styles.value}>
-        <PlaceLabel placeId={value} />
+        <PlaceLabel placeId={placeId} />
         <button
           className={styles.deleteButton}
           title="Delete"
@@ -42,12 +48,6 @@ const Place = ({ value, onClick, onDelete }) => {
       </div>
     </li>
   )
-}
-
-Place.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onClick: PropTypes.func
 }
 
 export default Place
