@@ -1,5 +1,5 @@
 import React from 'react'
-import Select from 'react-select'
+import Select, { NamedProps } from 'react-select'
 
 import CalendarIcon from 'icons/calendar.svg'
 import PlaceIcon from 'icons/location.svg'
@@ -17,7 +17,7 @@ const options = [
   { label: 'Year', value: 'year', icon: <CalendarIcon /> }
 ]
 
-const TypeSelect = props => {
+const TypeSelect = (props: NamedProps): JSX.Element => {
   return (
     <Select
       components={{ Option }}
