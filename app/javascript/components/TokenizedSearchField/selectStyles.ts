@@ -1,4 +1,6 @@
-export default {
+import { StylesConfig, OptionTypeBase } from 'react-select'
+
+const selectStyles: StylesConfig<OptionTypeBase, boolean> = {
   container: base => ({
     ...base,
     minWidth: '220px'
@@ -36,3 +38,5 @@ export default {
   }),
   placeholder: base => ({ ...base, color: 'var(--grey-70)' })
 }
+
+export default selectStyles

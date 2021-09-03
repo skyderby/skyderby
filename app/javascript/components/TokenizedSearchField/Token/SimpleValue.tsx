@@ -1,16 +1,29 @@
 import React, { useRef } from 'react'
-import PropTypes from 'prop-types'
 
 import IconTimes from 'icons/times.svg'
 
+import { ValueKey } from 'components/TokenizedSearchField/types'
 import styles from './styles.module.scss'
 
-const SimpleValue = ({ type, value, onClick, onDelete }) => {
-  const deleteButtonRef = useRef()
+type SimpleValueProps = {
+  type: ValueKey
+  value: string | number
+  onDelete: (e?: React.MouseEvent) => unknown
+  onClick?: (e?: React.MouseEvent) => unknown
+}
 
-  const handleTokenClick = e => {
+const SimpleValue = ({
+  type,
+  value,
+  onClick,
+  onDelete
+}: SimpleValueProps): JSX.Element => {
+  const deleteButtonRef = useRef<HTMLButtonElement>(null)
+
+  const handleTokenClick = (e: React.MouseEvent) => {
     const deleteButtonClicked =
-      e.target === deleteButtonRef.current || deleteButtonRef.current.contains(e.target)
+      e.target === deleteButtonRef.current ||
+      deleteButtonRef.current?.contains(e.target as Node)
 
     if (deleteButtonClicked) {
       onDelete()
@@ -37,13 +50,6 @@ const SimpleValue = ({ type, value, onClick, onDelete }) => {
       </div>
     </li>
   )
-}
-
-SimpleValue.propTypes = {
-  type: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onClick: PropTypes.func
 }
 
 export default SimpleValue

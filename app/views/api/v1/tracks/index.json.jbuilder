@@ -6,6 +6,7 @@ json.items @tracks do |track|
   json.extract! \
     track,
     :id,
+    :kind,
     :profile_id,
     :suit_id,
     :place_id,

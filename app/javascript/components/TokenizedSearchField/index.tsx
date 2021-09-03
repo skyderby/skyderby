@@ -2,26 +2,35 @@ import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import IconTimes from 'icons/times.svg'
+import useClickOutside from 'hooks/useClickOutside'
 import Token from './Token'
-import useOutsideClickHandler from './useOutsideClickHandler'
 import ValueSelect from './ValueSelect'
 import TypeSelect from './TypeSelect'
+import { Mode, TokenTuple, ValueKey } from './types'
 
 import styles from './styles.module.scss'
 
-const TokenizedSearchField = ({ initialValues = [], onChange }) => {
-  const containerRef = useRef()
-  const [tokens, setTokens] = useState(initialValues)
-  const [mode, setMode] = useState('idle')
-  const [currentType, setCurrentType] = useState()
+type TokenizedSearchFieldProps = {
+  initialValues?: TokenTuple[]
+  onChange: (tokens: TokenTuple[]) => unknown
+}
 
-  useOutsideClickHandler(containerRef, () => {
+const TokenizedSearchField = ({
+  initialValues = [],
+  onChange
+}: TokenizedSearchFieldProps): JSX.Element => {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [tokens, setTokens] = useState(initialValues)
+  const [mode, setMode] = useState<Mode>('idle')
+  const [currentType, setCurrentType] = useState<ValueKey>()
+
+  useClickOutside(containerRef, () => {
     setMode('idle')
   })
 
-  const fireOnChange = tokens => onChange?.(tokens)
+  const fireOnChange = (tokens: TokenTuple[]) => onChange?.(tokens)
 
-  const handleBlur = evt => {
+  const handleBlur = (evt: React.MouseEvent | React.FocusEvent) => {
     if (evt.target !== evt.currentTarget) return
 
     if (mode === 'idle') {
@@ -31,12 +40,12 @@ const TokenizedSearchField = ({ initialValues = [], onChange }) => {
     }
   }
 
-  const handleTypeSelect = ({ value }) => {
+  const handleTypeSelect = ({ value }: { value: ValueKey }) => {
     setCurrentType(value)
     setMode('selectValue')
   }
 
-  const handleValueSelect = newToken => {
+  const handleValueSelect = (newToken: TokenTuple) => {
     const newSetOfTokens = [...tokens, newToken]
 
     setTokens(newSetOfTokens)
@@ -50,7 +59,7 @@ const TokenizedSearchField = ({ initialValues = [], onChange }) => {
     fireOnChange([])
   }
 
-  const deleteByIdx = deletedIdx => {
+  const deleteByIdx = (deletedIdx: number) => {
     const newSetOfTokens = tokens.filter((_el, idx) => idx !== deletedIdx)
 
     setTokens(newSetOfTokens)
