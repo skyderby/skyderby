@@ -1,9 +1,14 @@
 import axios from 'axios'
 
-type EmptyResponse = {
+export type EmptyResponse = {
   items: never[]
   currentPage: number
   totalPages: number
+}
+
+interface DepaginateParams {
+  page?: number
+  perPage: number
 }
 
 export async function loadIds<Type>(
@@ -24,6 +29,26 @@ export async function loadIds<Type>(
   const { data } = await axios.get(`${indexEndpoint}?${params.toString()}`)
 
   return data
+}
+
+export async function depaginate<Type>(
+  buildUrl: (params: DepaginateParams) => string,
+  perPage = 100
+): Promise<Type[]> {
+  const { data: firstChunk } = await axios.get(buildUrl({ perPage }))
+
+  const restPages = new Array(firstChunk.totalPages - 1)
+    .fill(undefined)
+    .map((_el, idx) => idx + 2)
+
+  const restChunks = await Promise.all(
+    restPages.map(async page => {
+      const { data } = await axios.get(buildUrl({ page, perPage }))
+      return data
+    })
+  )
+
+  return [firstChunk, ...restChunks]
 }
 
 export function urlWithParams(
