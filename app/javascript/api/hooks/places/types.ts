@@ -35,6 +35,6 @@ export type IndexParams = {
   perPage?: number
 }
 
-export type RecordQueryKey = ['places', number | undefined]
+export type RecordQueryKey = ['places', number | null | undefined]
 export type IndexQueryKey = ['places', IndexParams]
 export type AllPlacesQueryKey = ['places', 'all']

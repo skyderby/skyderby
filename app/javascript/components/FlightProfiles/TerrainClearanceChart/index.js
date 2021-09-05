@@ -16,12 +16,6 @@ const TerrainClearanceChart = ({
 }) => {
   const options = useChartOptions(zoomLevel)
 
-  const isSupporter = true
-
-  if (!isSupporter) {
-    return <PlaceholderChart text={'This chart available as a Supporter reward'} />
-  }
-
   if (!selectedTerrainProfile) {
     return <PlaceholderChart text={'Select terrain profile to view this chart'} />
   }

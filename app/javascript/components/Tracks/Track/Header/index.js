@@ -13,7 +13,7 @@ const Header = ({ track }) => (
       <div className={styles.row}>
         <Profile profileId={track.profileId} pilotName={track.pilotName} />
         <PlaceLabel withIcon placeId={track.placeId} fallbackName={track.location} />
-        <Suit suitId={track.suitId} suitName={track.suitName} />
+        <Suit suitId={track.suitId} suitName={track.missingSuitName} />
         <div className={styles.trackId}>#{track.id}</div>
       </div>
 
@@ -26,7 +26,7 @@ Header.propTypes = {
   track: PropTypes.shape({
     id: PropTypes.number,
     pilotName: PropTypes.string,
-    suitName: PropTypes.string,
+    missingSuitName: PropTypes.string,
     location: PropTypes.string,
     profileId: PropTypes.number,
     placeId: PropTypes.number,

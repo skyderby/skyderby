@@ -2,6 +2,7 @@ import {
   QueryClient,
   QueryFunction,
   useMutation,
+  UseMutationResult,
   useQuery,
   useQueryClient,
   UseQueryOptions,
@@ -23,7 +24,7 @@ import { getAllPlaces, getPlaces, getPlace, getPlacesById, createPlace } from '.
 
 const allPlacesQueryKey: AllPlacesQueryKey = ['places', 'all']
 const indexQueryKey = (params: IndexParams): IndexQueryKey => ['places', params]
-const recordQueryKey = (id: number | undefined): RecordQueryKey => ['places', id]
+const recordQueryKey = (id: number | null | undefined): RecordQueryKey => ['places', id]
 
 const buildAllPlacesQueryFn = (
   queryClient: QueryClient
@@ -101,7 +102,7 @@ const cacheOptions = {
 }
 
 export const placeQuery = (
-  id: number | undefined,
+  id: number | null | undefined,
   queryClient: QueryClient
 ): UseQueryOptions<PlaceRecord, Error, PlaceRecord, RecordQueryKey> => ({
   queryKey: recordQueryKey(id),
@@ -111,7 +112,7 @@ export const placeQuery = (
 })
 
 export const usePlaceQuery = (
-  id: number | undefined,
+  id: number | null | undefined,
   options: UseQueryOptions<PlaceRecord, Error, PlaceRecord, RecordQueryKey> = {}
 ): UseQueryResult<PlaceRecord> => {
   const queryClient = useQueryClient()
@@ -144,14 +145,20 @@ export const useAllPlacesQuery = (): UseQueryResult<PlaceRecord[]> => {
 export const usePlaces = (ids: number[]): PlaceRecord[] => {
   const queryClient = useQueryClient()
   return ids
-    .map(id => (id ? queryClient.getQueryData<PlaceRecord>(recordQueryKey(id)) : undefined))
+    .map(id =>
+      id ? queryClient.getQueryData<PlaceRecord>(recordQueryKey(id)) : undefined
+    )
     .filter((record): record is PlaceRecord => record !== undefined)
 }
 
-export const useNewPlaceMutation = () => {
+export const useNewPlaceMutation = (): UseMutationResult<
+  AxiosResponse<PlaceRecord>,
+  AxiosError,
+  PlaceRecord
+> => {
   const queryClient = useQueryClient()
 
-  return useMutation<AxiosResponse<PlaceRecord>, AxiosError, PlaceRecord>(createPlace, {
+  return useMutation(createPlace, {
     onSuccess(response) {
       queryClient.setQueryData(recordQueryKey(response.data.id), response.data)
     }

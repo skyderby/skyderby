@@ -18,9 +18,12 @@ import {
   RecordQueryKey
 } from './types'
 
-const recordQueryKey = (id: number | undefined): RecordQueryKey => ['profiles', id]
+const recordQueryKey = (id: number | null | undefined): RecordQueryKey => ['profiles', id]
 
-export const cacheProfiles = (profiles: ProfileRecord[], queryClient: QueryClient): void =>
+export const cacheProfiles = (
+  profiles: ProfileRecord[],
+  queryClient: QueryClient
+): void =>
   profiles
     .filter(profile => !queryClient.getQueryData(recordQueryKey(profile.id)))
     .forEach(profile => queryClient.setQueryData(recordQueryKey(profile.id), profile))
@@ -105,7 +108,7 @@ export const useProfilesQuery = (
 type QueryOptions = UseQueryOptions<ProfileRecord, Error, ProfileRecord, RecordQueryKey>
 
 const profileQuery = (
-  id: number | undefined,
+  id: number | null | undefined,
   queryClient: QueryClient
 ): QueryOptions => ({
   queryKey: recordQueryKey(id),
@@ -115,7 +118,7 @@ const profileQuery = (
 })
 
 export const useProfileQuery = (
-  id: number | undefined,
+  id: number | null | undefined,
   options: QueryOptions = {}
 ): UseQueryResult<ProfileRecord> => {
   const queryClient = useQueryClient()

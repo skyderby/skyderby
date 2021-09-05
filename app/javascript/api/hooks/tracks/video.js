@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 
-import { queryKey as trackQueryKey } from 'api/hooks/tracks/track'
+import { trackQuery } from 'api/hooks/tracks/track'
 
 const videoUrl = id => `/api/v1/tracks/${id}/video`
 
@@ -42,7 +42,7 @@ export const useEditVideoMutation = () => {
       const trackId = variables.id
 
       queryClient.setQueryData(queryKey(trackId), response.data)
-      queryClient.setQueryData(trackQueryKey(trackId), data => ({
+      queryClient.setQueryData(trackQuery(trackId).queryKey, data => ({
         ...data,
         hasVideo: true
       }))
