@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useQueryClient } from 'react-query'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { useTrackQuery } from 'api/hooks/tracks'
+import { preloadPoints } from 'api/hooks/tracks/points'
+import { preloadWindData } from 'api/hooks/tracks/windData'
 import AppShell from 'components/AppShell'
 import Loading from 'components/PageWrapper/Loading'
 import Header from './Header'
@@ -17,10 +20,18 @@ import styles from './styles.module.scss'
 
 const Track = ({ match }) => {
   const trackId = Number(match.params.id)
+  const queryClient = useQueryClient()
+  const [isPointsLoading, setIsPointsLoading] = useState(true)
+  const { data: track, isLoading: isTrackLoading } = useTrackQuery(trackId)
 
-  const { data: track, isLoading } = useTrackQuery(trackId, {
-    preload: ['points', 'windData', 'video']
-  })
+  const isLoading = isPointsLoading || isTrackLoading
+
+  useEffect(() => {
+    Promise.all([
+      preloadPoints(queryClient, trackId),
+      preloadWindData(queryClient, trackId)
+    ]).then(setIsPointsLoading(false))
+  }, [trackId, queryClient, setIsPointsLoading])
 
   return (
     <AppShell>
