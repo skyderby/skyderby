@@ -3,11 +3,11 @@ import { useHistory, useLocation } from 'react-router-dom'
 import {
   extractParamsFromUrl as extractTrackParamsFromUrl,
   mapParamsToUrl as mapTrackParamsToUrl,
-  TrackURLParams
+  IndexParams
 } from 'api/hooks/tracks'
 
 type FlightProfilesURLParams = {
-  tracksParams: TrackURLParams
+  tracksParams: IndexParams
   selectedTracks: number[]
   selectedTerrainProfile: number | null
   additionalTerrainProfiles: number[]

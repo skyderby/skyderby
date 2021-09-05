@@ -7,12 +7,12 @@ json.extract! track,
               :profile_id,
               :suit_id,
               :place_id,
+              :missing_suit_name,
               :location,
               :data_frequency,
               :visibility
 
 json.pilot_name track.name
-json.suit_name track.missing_suit_name
 json.created_at track.created_at.strftime('%d.%m.%Y')
 json.recorded_at track.recorded_at.strftime('%d.%m.%Y')
 
