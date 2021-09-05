@@ -30,13 +30,12 @@
     "$": false,
     "I18n": false,
     "YT": false,
-    "Turbolinks": false,
     "Rails": false,
     "google": false,
     "Cesium": false,
-    "Highcharts": false,
-    "HighchartsMore": false,
     "ga": false,
+    "module": false,
+    "process": false,
     "__dirname": false
   },
   "rules": {

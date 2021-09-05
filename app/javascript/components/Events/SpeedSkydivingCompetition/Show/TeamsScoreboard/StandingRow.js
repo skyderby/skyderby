@@ -11,7 +11,7 @@ import PencilIcon from 'icons/pencil'
 import TimesIcon from 'icons/times'
 import TeamForm from './TeamForm'
 import styles from './styles.module.scss'
-import { useProfileQueries } from 'api/hooks/profiles/profile'
+import { useProfileQueries } from 'api/hooks/profiles'
 
 const teamCompetitorNames = (competitors, profileQueries) =>
   competitors

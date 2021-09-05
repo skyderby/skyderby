@@ -68,6 +68,16 @@ export const preloadManufacturers = async (
   return manufacturers
 }
 
+export const getCachedManufacturers = (
+  ids: number[],
+  queryClient: QueryClient
+): ManufacturerRecord[] =>
+  ids
+    .map(id =>
+      id ? queryClient.getQueryData<ManufacturerRecord>(recordQueryKey(id)) : undefined
+    )
+    .filter((record): record is ManufacturerRecord => record !== undefined)
+
 type QueryOptions = UseQueryOptions<
   ManufacturerRecord,
   Error,
@@ -86,4 +96,5 @@ const manufacturerQuery = (id: number | undefined): QueryOptions => ({
 export const useManufacturerQuery = (
   id: number | undefined,
   options: QueryOptions = {}
-): UseQueryResult<ManufacturerRecord> => useQuery({ ...manufacturerQuery(id), ...options })
+): UseQueryResult<ManufacturerRecord> =>
+  useQuery({ ...manufacturerQuery(id), ...options })

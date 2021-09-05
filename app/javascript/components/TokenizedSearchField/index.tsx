@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
-import IconTimes from 'icons/times.svg'
 import useClickOutside from 'hooks/useClickOutside'
+import IconTimes from 'icons/times.svg'
 import Token from './Token'
 import ValueSelect from './ValueSelect'
 import TypeSelect from './TypeSelect'

@@ -21,5 +21,5 @@ export type IndexParams = {
   perPage?: number
 }
 
-export type RecordQueryKey = ['profiles', number | undefined]
+export type RecordQueryKey = ['profiles', number | null | undefined]
 export type IndexQueryKey = ['profiles', IndexParams]
