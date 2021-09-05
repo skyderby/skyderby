@@ -6,11 +6,9 @@ import { IndexParams, ProfilesIndex, ProfileRecord } from './types'
 const endpoint = '/api/v1/profiles'
 
 export const getProfile = (id: number): Promise<ProfileRecord> =>
-  axios.get(`${endpoint}/${id}`)
+  axios.get(`${endpoint}/${id}`).then(response => response.data)
 
-export const getProfilesById = (
-  ids: number[]
-): Promise<ProfilesIndex | EmptyResponse> =>
+export const getProfilesById = (ids: number[]): Promise<ProfilesIndex | EmptyResponse> =>
   loadIds<ProfilesIndex>(endpoint, ids)
 
 export const getProfiles = (params: IndexParams): Promise<ProfilesIndex> =>

@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { ValueKey } from 'components/TokenizedSearchField/types'
 import SimpleValue from './SimpleValue'
@@ -16,16 +15,15 @@ const componentByType = {
 
 type TokenProps = {
   type: ValueKey
+  value: string | number
+  onDelete: (e?: React.MouseEvent) => unknown
 }
 
-const Token = ({ type, ...props }: TokenProps): JSX.Element => {
+const Token = (props: TokenProps): JSX.Element => {
+  const { type } = props
   const TokenComponent = componentByType[type]
 
   return <TokenComponent {...props} />
-}
-
-Token.propTypes = {
-  type: PropTypes.oneOf(['placeId', 'profileId', 'suitId', 'year']).isRequired
 }
 
 export default Token

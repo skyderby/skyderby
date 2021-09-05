@@ -26,7 +26,7 @@ type IndexParams = {
   perPage?: number
 }
 
-type RecordQueryKey = [string, number | undefined]
+type RecordQueryKey = ['countries', number | undefined]
 type IndexQueryKey = [string, IndexParams]
 
 const endpoint = '/api/v1/countries'

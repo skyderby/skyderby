@@ -23,7 +23,7 @@ const Item = ({
   const { data: manufacturer } = useManufacturerQuery(suit?.makeId, { enabled: false })
   const { data: profile } = useProfileQuery(track.profileId, { enabled: false })
 
-  const suitName = suit?.name ?? track.suitName
+  const suitName = suit?.name ?? track.missingSuitName
   const name = profile?.name ?? track.pilotName
 
   const animationVariants = {

@@ -2,8 +2,8 @@ import { useQuery, useMutation, useQueryClient } from 'react-query'
 import axios from 'axios'
 
 import { standingsQuery } from './standings'
-import { queryKey as trackQueryKey } from 'api/hooks/tracks/track'
-import { queryKey as trackPointsQueryKey } from 'api/hooks/tracks/points'
+import { trackQuery } from 'api/hooks/tracks/track'
+import { pointsQuery } from 'api/hooks/tracks/points'
 
 const collectionEndpoint = eventId =>
   `/api/v1/speed_skydiving_competitions/${eventId}/results`
@@ -73,9 +73,9 @@ export const useEditResultMutation = () => {
         queryKey(eventId),
         data.map(result => (result.id === id ? response.data : result))
       )
-      queryClient.invalidateQueries(trackQueryKey(response.data.trackId))
+      queryClient.invalidateQueries(trackQuery(response.data.trackId).queryKey)
       queryClient.invalidateQueries(
-        trackPointsQueryKey(response.data.trackId, { originalFrequency: true }),
+        pointsQuery(response.data.trackId, { originalFrequency: true }).queryKey,
         { refetchInactive: true }
       )
       queryClient.refetchQueries(standingsQuery(eventId, queryClient))

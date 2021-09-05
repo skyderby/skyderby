@@ -4,23 +4,77 @@ import { SuitRecord } from 'api/hooks/suits'
 import { ProfileRecord } from 'api/hooks/profiles'
 import { ManufacturerRecord } from 'api/hooks/manufacturer'
 
-type TrackActivity = 'base' | 'skydive' | 'speed_skydiving'
+export type TrackActivity = 'base' | 'skydive' | 'speed_skydiving'
+export type TrackVisibility = 'public_track' | 'unlisted_track' | 'private_track'
+export type TrackJumpRange = {
+  from: number
+  to: number
+}
 
-export type TrackRecord = {
-  id: number
-  kind: TrackActivity
-  placeId: number | null
-  profileId: number | null
-  suitId: number | null
-  location: string | null
-  name: string | null
-  suitName: string | null
+type BestResults = {
   distance: number | null
   speed: number | null
   time: number | null
-  recordedAt: string
-  comment: string
 }
+
+export type BaseTrackRecord = {
+  id: number
+  kind: TrackActivity
+  visibility: TrackVisibility
+  comment: string
+  profileId: number | null
+  suitId: number | null
+  placeId: number | null
+  location: string | null
+  pilotName: string | null
+  missingSuitName: string | null
+  recordedAt: string
+  createdAt: string
+}
+
+export type TrackRecord = BaseTrackRecord & {
+  jumpRange: TrackJumpRange
+  hasVideo: boolean
+  trackFile?: {
+    filename: string
+    downloadUrl: string
+  }
+  permissions: {
+    canEdit: boolean
+    canEditOwnership: boolean
+    canDownload: boolean
+  }
+}
+
+type SelectedSuit = {
+  suitId: number
+  missingSuitName: null
+}
+
+type MissingSuit = {
+  suitId: null
+  missingSuitName: string
+}
+
+type SelectedPlace = {
+  placeId: number
+  location: null
+}
+
+type MissingPlace = {
+  placeId: null
+  location: string
+}
+
+export type TrackFields = (SelectedSuit | MissingSuit) &
+  (SelectedPlace | MissingPlace) & {
+    jumpRange: TrackJumpRange
+    kind: TrackActivity
+    visibility: TrackVisibility
+    comment: string
+  }
+
+export type TrackIndexRecord = BaseTrackRecord & BestResults
 
 export type TrackRelations = {
   countries: CountryRecord[]
@@ -31,7 +85,7 @@ export type TrackRelations = {
 }
 
 export type TracksIndex = {
-  items: TrackRecord[]
+  items: TrackIndexRecord[]
   currentPage: number
   totalPages: number
   relations: TrackRelations
