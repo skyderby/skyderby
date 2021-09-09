@@ -6,9 +6,10 @@ import IconTimes from 'icons/times.svg'
 import Token from './Token'
 import ValueSelect from './ValueSelect'
 import TypeSelect from './TypeSelect'
-import { Mode, TokenTuple, ValueKey } from './types'
+import { Mode, TokenTuple, ValueKey, isAllowedValueKey, allowedValueKeys } from './types'
 
 import styles from './styles.module.scss'
+import { ValueType } from 'react-select'
 
 type TokenizedSearchFieldProps = {
   initialValues?: TokenTuple[]
@@ -40,8 +41,20 @@ const TokenizedSearchField = ({
     }
   }
 
-  const handleTypeSelect = ({ value }: { value: ValueKey }) => {
-    setCurrentType(value)
+  const handleTypeSelect = (option: ValueType<{ value: string }, false>) => {
+    if (!option) {
+      setMode('idle')
+      return
+    }
+
+    if (!isAllowedValueKey(option.value)) {
+      console.warn(
+        `Expected value key to be one of [${allowedValueKeys}], but got ${option.value}`
+      )
+      return
+    }
+
+    setCurrentType(option.value)
     setMode('selectValue')
   }
 

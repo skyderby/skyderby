@@ -9,6 +9,7 @@ type AltitudeChartProps = {
   points: PointRecord[]
   children: (chart: Chart) => JSX.Element | null
   options: Options
+  loading?: boolean
 }
 
 const AltitudeChart = ({

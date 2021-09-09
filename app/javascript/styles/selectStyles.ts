@@ -1,6 +1,6 @@
-import { StylesConfig, OptionTypeBase } from 'react-select'
+import { StylesConfig } from 'react-select'
 
-const selectStyles: StylesConfig<OptionTypeBase, boolean> = {
+const getSelectStyles = <OptionType>(): StylesConfig<OptionType, boolean> => ({
   container: (base, state) => ({
     ...base,
     ...(state.selectProps?.hide ? { display: 'none' } : {}),
@@ -19,6 +19,6 @@ const selectStyles: StylesConfig<OptionTypeBase, boolean> = {
   }),
   menuPortal: base => ({ ...base, zIndex: 1100 }),
   placeholder: base => ({ ...base, color: 'var(--grey-70)' })
-}
+})
 
-export default selectStyles
+export default getSelectStyles

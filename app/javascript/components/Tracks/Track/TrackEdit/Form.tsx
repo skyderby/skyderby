@@ -1,5 +1,5 @@
 import React from 'react'
-import { Formik, Field, FastField } from 'formik'
+import { Formik, Field, FastField, FieldProps, FormikHelpers } from 'formik'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
@@ -8,8 +8,16 @@ import TrackSuitField from 'components/TrackSuitField'
 import TrackLocationField from 'components/TrackLocationField'
 import AltitudeRangeField from './AltitudeRangeField'
 import styles from './styles.module.scss'
+import { TrackFields } from 'api/hooks/tracks'
+import { FormData } from 'components/Tracks/Track/TrackEdit/types'
 
-const EditForm = ({ fields, onSubmit, onDelete }) => {
+type EditFormProps = {
+  fields: TrackFields & { id: number }
+  onSubmit: (values: FormData, formikBag: FormikHelpers<FormData>) => Promise<unknown>
+  onDelete: () => unknown
+}
+
+const EditForm = ({ fields, onSubmit, onDelete }: EditFormProps): JSX.Element => {
   const { t } = useI18n()
 
   return (
@@ -72,7 +80,7 @@ const EditForm = ({ fields, onSubmit, onDelete }) => {
             {t('activerecord.attributes.track.comment')}
           </label>
           <Field name="comment">
-            {({ field }) => (
+            {({ field }: FieldProps) => (
               <textarea
                 className={styles.input}
                 rows={3}

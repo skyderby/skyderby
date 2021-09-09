@@ -20,7 +20,7 @@ import {
 
 const allSuitsQueryKey: AllSuitsQueryKey = ['suits', 'all']
 const indexQueryKey = (params: IndexParams): IndexQueryKey => ['suits', params]
-const recordQueryKey = (id: number | undefined): RecordQueryKey => ['suits', id]
+const recordQueryKey = (id: number | null | undefined): RecordQueryKey => ['suits', id]
 
 const buildQueryFn = (
   queryClient: QueryClient
@@ -100,7 +100,10 @@ const cacheOptions = {
 
 type QueryOptions = UseQueryOptions<SuitRecord, Error, SuitRecord, RecordQueryKey>
 
-const suitQuery = (id: number | undefined, queryClient: QueryClient): QueryOptions => ({
+const suitQuery = (
+  id: number | null | undefined,
+  queryClient: QueryClient
+): QueryOptions => ({
   queryKey: recordQueryKey(id),
   queryFn: buildQueryFn(queryClient),
   enabled: !!id,
@@ -109,7 +112,7 @@ const suitQuery = (id: number | undefined, queryClient: QueryClient): QueryOptio
 })
 
 export const useSuitQuery = (
-  id: number | undefined,
+  id: number | null | undefined,
   options: QueryOptions = {}
 ): UseQueryResult<SuitRecord> => {
   const queryClient = useQueryClient()
