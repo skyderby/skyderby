@@ -1,14 +1,18 @@
 import React, { useCallback } from 'react'
 import { useQueryClient } from 'react-query'
+import { Props } from 'react-select'
 import { AsyncPaginate as Select } from 'react-select-async-paginate'
 
 import { usePlaceQuery, placesQuery } from 'api/hooks/places'
-import selectStyles from 'styles/selectStyles'
+import getSelectStyles from 'styles/selectStyles'
 import Option from './Option'
 import SingleValue from './SingleValue'
+import { OptionType } from './types'
 
-type PlaceSelectProps = {
-  value?: number
+type PlaceSelectProps = Props<OptionType, boolean> & {
+  value: number
+  hide?: boolean
+  isInvalid?: string | boolean
 }
 
 const PlaceSelect = ({ value: placeId, ...props }: PlaceSelectProps): JSX.Element => {
@@ -47,7 +51,7 @@ const PlaceSelect = ({ value: placeId, ...props }: PlaceSelectProps): JSX.Elemen
       components={{ Option, SingleValue }}
       loadOptions={loadOptions}
       additional={{ page: 1 }}
-      styles={selectStyles}
+      styles={getSelectStyles<OptionType>()}
       value={selectedOption}
       {...props}
     />

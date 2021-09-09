@@ -5,24 +5,16 @@ import TerrainProfileTag from './TerrainProfileTag'
 import TrackTag from './TrackTag'
 
 import styles from './styles.module.scss'
+import usePageParams from 'components/FlightProfiles/usePageParams'
 
-type TagbarProps = {
-  selectedTracks: number[]
-  selectedTerrainProfile: number | undefined
-  additionalTerrainProfiles: number[]
-  toggleTrack: (id: number) => unknown
-  setSelectedTerrainProfile: (id: null) => unknown
-  deleteAdditionalTerrainProfile: (id: number) => unknown
-}
+const Tagbar = (): JSX.Element => {
+  const {
+    params: { selectedTracks, selectedTerrainProfile, additionalTerrainProfiles },
+    setSelectedTerrainProfile,
+    deleteAdditionalTerrainProfile,
+    toggleTrack
+  } = usePageParams()
 
-const Tagbar = ({
-  selectedTracks,
-  selectedTerrainProfile,
-  additionalTerrainProfiles,
-  toggleTrack,
-  setSelectedTerrainProfile,
-  deleteAdditionalTerrainProfile
-}: TagbarProps): JSX.Element => {
   const deleteTerrainProfile = () => setSelectedTerrainProfile(null)
   const deleteTrack = (trackId: number) => toggleTrack(trackId)
 
