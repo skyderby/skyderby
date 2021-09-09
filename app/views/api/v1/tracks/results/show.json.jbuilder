@@ -32,7 +32,7 @@ else
 end
 
 json.online_ranking_results @track.virtual_competition_results do |result|
-  json.id result.id
+  json.rankingId result.virtual_competition_id
   json.ranking_path virtual_competition_path(result.virtual_competition)
   json.group_name result.virtual_competition.group_name
   json.ranking_name result.virtual_competition.name

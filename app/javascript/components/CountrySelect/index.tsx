@@ -3,7 +3,7 @@ import { AsyncPaginate as Select } from 'react-select-async-paginate'
 import { useQueryClient } from 'react-query'
 
 import { countriesQuery, useCountryQuery } from 'api/hooks/countries'
-import selectStyles from 'styles/selectStyles'
+import getSelectStyles from 'styles/selectStyles'
 
 type CountrySelectProps = {
   value?: number
@@ -43,7 +43,7 @@ const CountrySelect = ({
       loadOptions={loadOptions}
       value={selectedOption}
       additional={{ page: 1 }}
-      styles={selectStyles}
+      styles={getSelectStyles()}
       menuPortalTarget={document.getElementById('dropdowns-root')}
       {...props}
     />

@@ -3,7 +3,8 @@ import { useHistory, useLocation } from 'react-router-dom'
 import {
   extractParamsFromUrl as extractTrackParamsFromUrl,
   mapParamsToUrl as mapTrackParamsToUrl,
-  IndexParams
+  IndexParams,
+  TrackFilters
 } from 'api/hooks/tracks'
 
 type FlightProfilesURLParams = {
@@ -14,10 +15,10 @@ type FlightProfilesURLParams = {
 }
 
 const extractParamsFromUrl = (search: string): FlightProfilesURLParams => {
-  const tracksParams = {
-    ...extractTrackParamsFromUrl(search, 'tracks'),
+  const tracksParams = Object.assign(extractTrackParamsFromUrl(search, 'tracks'), {
     activity: 'base'
-  }
+  })
+
   const urlParams = new URLSearchParams(search)
 
   const selectedTracks = urlParams.getAll('selectedTracks[]').filter(Boolean).map(Number)
@@ -60,6 +61,11 @@ const mapParamsToUrl = (params: FlightProfilesURLParams): string => {
 
 type PageParams = {
   params: FlightProfilesURLParams
+  setSelectedTerrainProfile: (id: number | null) => void
+  setAdditionalTerrainProfiles: (ids: number[]) => void
+  deleteAdditionalTerrainProfile: (id: number) => void
+  toggleTrack: (id: number) => void
+  updateFilters: (filters: TrackFilters) => void
 }
 
 const usePageParams = (): PageParams => {

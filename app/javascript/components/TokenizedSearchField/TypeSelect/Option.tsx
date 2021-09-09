@@ -2,10 +2,9 @@ import React from 'react'
 import { components, OptionProps } from 'react-select'
 
 type OptionType = {
-  data: {
-    icon: JSX.Element
-    label: string
-  }
+  label: string
+  value: string
+  icon: React.ReactNode
 }
 
 const Option = (props: OptionProps<OptionType, false>): JSX.Element => (

@@ -20,6 +20,6 @@ export type IndexParams = {
   perPage?: number
 }
 
-export type RecordQueryKey = ['suits', number | undefined]
+export type RecordQueryKey = ['suits', number | null | undefined]
 export type IndexQueryKey = ['suits', IndexParams]
 export type AllSuitsQueryKey = ['suits', 'all']

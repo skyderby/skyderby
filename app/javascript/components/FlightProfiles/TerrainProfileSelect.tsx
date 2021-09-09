@@ -1,13 +1,17 @@
 import React from 'react'
-import Select from 'react-select'
-import PropTypes from 'prop-types'
+import Select, { Props } from 'react-select'
 
 import { useTerrainProfilesQuery } from 'api/hooks/terrainProfiles'
 import { usePlaces } from 'api/hooks/places'
-import selectStyles from 'styles/selectStyles'
+import getSelectStyles from 'styles/selectStyles'
 
-type TerrainProfileSelectProps = {
-  value?: number
+type OptionType = {
+  value: number
+  label: string
+}
+
+type TerrainProfileSelectProps = Omit<Props<OptionType>, 'value'> & {
+  value?: number | null
 }
 
 const TerrainProfileSelect = ({
@@ -29,21 +33,17 @@ const TerrainProfileSelect = ({
   const selectedOption = value ? options.find(el => el.value === value) : null
 
   return (
-    <Select
+    <Select<OptionType>
       isClearable
       menuPlacement="auto"
       options={options}
       value={selectedOption}
       aria-label="Select terrain profile"
       placeholder="Select terrain profile"
-      styles={selectStyles}
+      styles={getSelectStyles<OptionType>()}
       {...props}
     />
   )
-}
-
-TerrainProfileSelect.propTypes = {
-  value: PropTypes.number
 }
 
 export default TerrainProfileSelect
