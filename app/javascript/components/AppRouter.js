@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Switch, Route, useHistory } from 'react-router-dom'
 
 import Landing from 'components/Landing'
-import FlightProfiles from 'pages/FlightProfiles'
+import FlightProfiles from 'components/FlightProfiles'
 import SuitsIndex from 'pages/suits/Index'
 import SuitsOverview from 'pages/suits/Overview'
 import SuitsShow from 'pages/suits/Show'

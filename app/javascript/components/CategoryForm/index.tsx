@@ -39,7 +39,7 @@ const CategoryForm = ({
   }
 
   return (
-    <Modal isShown={true} onHide={hide} title="New category" size={Modal.Size.small}>
+    <Modal isShown={true} onHide={hide} title="New category" size="sm">
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}
