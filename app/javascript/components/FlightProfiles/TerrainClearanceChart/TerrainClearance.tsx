@@ -16,7 +16,6 @@ const headerFormat = `
 `
 
 const pointFormatter = function (this: Point): string {
-  console.log(this)
   return `
     <span style="margin-top: 10px"><b>${I18n.t('flight_profiles.distance_traveled')}:</b>
       ${Math.round(this.x)} ${I18n.t('units.m')}</span><br/>
@@ -32,6 +31,7 @@ type TerrainClearanceProps = {
   trackId: number
   terrainProfileId: number
   straightLine: boolean
+  color: string
 }
 
 const TerrainClearance = ({

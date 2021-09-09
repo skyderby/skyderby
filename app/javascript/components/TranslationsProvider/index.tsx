@@ -25,18 +25,15 @@ type TranslationsDict = {
   [locale in ApplicationLocale]?: Translations
 }
 
-type I18nContextType = {
+type UseI18nContext = {
   t: (key: string) => string
   supportedLocales: ApplicationLocale[]
-  locale?: ApplicationLocale
-  formatDate?: (date: Date, format: string) => string
-  changeLocale?: (locale: ApplicationLocale) => void
+  changeLocale: (locale: ApplicationLocale) => void
+  locale: ApplicationLocale
+  formatDate: (date: Date, format: string) => string
 }
 
-const TranslationsContext = createContext<I18nContextType>({
-  t: I18n.t,
-  supportedLocales
-})
+const TranslationsContext = createContext<UseI18nContext | undefined>(undefined)
 
 const isSupportedLocale = (key: string): key is ApplicationLocale => {
   return supportedLocales.includes(key as ApplicationLocale)
@@ -112,7 +109,15 @@ const TranslationsProvider = ({
   )
 }
 
-const useI18n = () => useContext(TranslationsContext)
+const useI18n = (): UseI18nContext => {
+  const context = useContext(TranslationsContext)
+
+  if (context === undefined) {
+    throw new Error('useI18n must be used within a TranslationsProvider')
+  }
+
+  return context
+}
 
 export { I18n, useI18n }
 

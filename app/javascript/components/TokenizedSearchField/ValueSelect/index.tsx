@@ -1,11 +1,11 @@
 import React from 'react'
-import { OptionTypeBase } from 'react-select'
+import { NamedProps, ValueType } from 'react-select'
 
 import ProfileSelect from 'components/ProfileSelect'
 import PlaceSelect from 'components/PlaceSelect'
 import SuitSelect from 'components/SuitSelect'
 import YearSelect from './YearSelect'
-import styles from '../selectStyles'
+import getSelectStyles from '../selectStyles'
 import { TokenTuple, ValueKey } from '../types'
 
 const componentByType = {
@@ -15,22 +15,33 @@ const componentByType = {
   suitId: SuitSelect
 }
 
-type ValueSelectProps = {
-  type: ValueKey
+type OptionType = { label: string; value: number }
+
+type ValueSelectProps = Omit<NamedProps<OptionType>, 'onChange'> & {
+  type: ValueKey | undefined
   onChange: (value: TokenTuple) => unknown
 }
 
-const ValueSelect = ({ type, onChange, ...props }: ValueSelectProps): JSX.Element => {
+const ValueSelect = ({
+  type,
+  onChange,
+  ...props
+}: ValueSelectProps): JSX.Element | null => {
+  if (type === undefined) return null
+
   const ValueSelectComponent = componentByType[type]
 
-  const handleChange = (option: OptionTypeBase) => onChange([type, option.value])
+  const handleChange = (option: ValueType<OptionType, boolean>) => {
+    if (option === null) return
+    if ('value' in option) onChange([type, option.value])
+  }
 
   return (
     <ValueSelectComponent
       autoFocus
       openMenuOnFocus
       onChange={handleChange}
-      styles={styles}
+      styles={getSelectStyles()}
       {...props}
     />
   )

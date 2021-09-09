@@ -1,16 +1,20 @@
 import React, { useCallback } from 'react'
+import { Props } from 'react-select'
 import { AsyncPaginate as Select } from 'react-select-async-paginate'
-import PropTypes from 'prop-types'
 
-import selectStyles from 'styles/selectStyles'
+import getSelectStyles from 'styles/selectStyles'
 import Option from './Option'
 import SingleValue from './SingleValue'
 import { useQueryClient } from 'react-query'
 import { suitsQuery, useSuitQuery } from 'api/hooks/suits'
 import { getCachedManufacturers, useManufacturerQuery } from 'api/hooks/manufacturer'
 
-type SuitSelectProps = {
-  value?: number
+import { OptionType } from './types'
+
+type SuitSelectProps = Props<OptionType, boolean> & {
+  value: number | undefined
+  hide?: boolean
+  isInvalid?: string | boolean
 }
 
 const SuitSelect = ({ value: suitId, ...props }: SuitSelectProps): JSX.Element => {
@@ -54,14 +58,10 @@ const SuitSelect = ({ value: suitId, ...props }: SuitSelectProps): JSX.Element =
       value={selectedOption}
       loadOptions={loadOptions}
       additional={{ page: 1 }}
-      styles={selectStyles}
+      styles={getSelectStyles<OptionType>()}
       {...props}
     />
   )
-}
-
-SuitSelect.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 }
 
 export default SuitSelect

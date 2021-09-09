@@ -22,7 +22,7 @@ const endpoint = (id: number) => `/api/v1/tracks/${id}`
 
 const getTrack = (id: number): Promise<TrackRecord> =>
   axios.get(endpoint(id)).then(response => response.data)
-const createTrack = (track: TrackFields): Promise<AxiosResponse<TrackRecord>> =>
+const createTrack = (track: Partial<TrackFields>): Promise<AxiosResponse<TrackRecord>> =>
   axios.post('/api/v1/tracks', { track })
 const updateTrack = ({
   id,
@@ -58,7 +58,7 @@ export const useTrackQuery = (id: number | undefined): UseQueryResult<TrackRecor
 export const useNewTrackMutation = (): UseMutationResult<
   AxiosResponse<TrackRecord>,
   AxiosError,
-  TrackFields
+  Partial<TrackFields>
 > => {
   const queryClient = useQueryClient()
 

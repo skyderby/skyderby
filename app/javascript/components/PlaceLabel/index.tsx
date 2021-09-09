@@ -7,8 +7,8 @@ import PlaceIcon from 'icons/location.svg'
 import styles from './styles.module.scss'
 
 type PlaceLabelProps = {
-  placeId?: number
-  fallbackName?: string
+  placeId?: number | null
+  fallbackName?: string | null
   withIcon?: boolean
   withMsl?: boolean
   refetchEnabled?: boolean

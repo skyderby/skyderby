@@ -1,14 +1,12 @@
 import React from 'react'
-import Select, { NamedProps } from 'react-select'
+import Select, { Props } from 'react-select'
 
 import CalendarIcon from 'icons/calendar.svg'
 import PlaceIcon from 'icons/location.svg'
 import SuitIcon from 'icons/suit.svg'
 import UserIcon from 'icons/user.svg'
-
+import getSelectStyles from '../selectStyles'
 import Option from './Option'
-
-import styles from '../selectStyles'
 
 const options = [
   { label: 'Profile', value: 'profileId', icon: <UserIcon /> },
@@ -17,13 +15,19 @@ const options = [
   { label: 'Year', value: 'year', icon: <CalendarIcon /> }
 ]
 
-const TypeSelect = (props: NamedProps): JSX.Element => {
+type OptionType = {
+  label: string
+  value: string
+  icon: React.ReactNode
+}
+
+const TypeSelect = (props: Props<OptionType>): JSX.Element => {
   return (
-    <Select
+    <Select<OptionType, false>
       components={{ Option }}
       options={options}
       placeholder="Search or filter tracks"
-      styles={styles}
+      styles={getSelectStyles<OptionType>()}
       {...props}
     />
   )

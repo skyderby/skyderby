@@ -4,8 +4,10 @@ import { SuitRecord } from 'api/hooks/suits'
 import { ProfileRecord } from 'api/hooks/profiles'
 import { ManufacturerRecord } from 'api/hooks/manufacturer'
 
-export type TrackActivity = 'base' | 'skydive' | 'speed_skydiving'
-export type TrackVisibility = 'public_track' | 'unlisted_track' | 'private_track'
+const allowedActivities = ['base', 'skydive', 'speed_skydiving'] as const
+const allowedVisibilities = ['public_track', 'unlisted_track', 'private_track'] as const
+export type TrackActivity = typeof allowedActivities[number]
+export type TrackVisibility = typeof allowedVisibilities[number]
 export type TrackJumpRange = {
   from: number
   to: number
@@ -46,33 +48,16 @@ export type TrackRecord = BaseTrackRecord & {
   }
 }
 
-type SelectedSuit = {
-  suitId: number
-  missingSuitName: null
+export type TrackFields = {
+  kind: TrackActivity
+  visibility: TrackVisibility
+  jumpRange: TrackJumpRange
+  suitId: number | null
+  placeId: number | null
+  location: string | null
+  missingSuitName: string | null
+  comment: string
 }
-
-type MissingSuit = {
-  suitId: null
-  missingSuitName: string
-}
-
-type SelectedPlace = {
-  placeId: number
-  location: null
-}
-
-type MissingPlace = {
-  placeId: null
-  location: string
-}
-
-export type TrackFields = (SelectedSuit | MissingSuit) &
-  (SelectedPlace | MissingPlace) & {
-    jumpRange: TrackJumpRange
-    kind: TrackActivity
-    visibility: TrackVisibility
-    comment: string
-  }
 
 export type TrackIndexRecord = BaseTrackRecord & BestResults
 
@@ -108,11 +93,24 @@ export const allowedSortByValues = [
 export type FilterKey = typeof allowedFilters[number]
 export type FilterTuple = [FilterKey, string | number]
 export type SortByValue = typeof allowedSortByValues[number]
+export type TrackFilters = FilterTuple[] | { [key in FilterKey]: string | number }
+
+export const isAllowedActivity = (activity: string | null): activity is TrackActivity => {
+  if (!activity) return false
+  return allowedActivities.includes(activity as TrackActivity)
+}
+
+export const isAllowedSort = (sortBy: string | null): sortBy is SortByValue => {
+  if (!sortBy) return false
+  return allowedSortByValues.includes(sortBy as SortByValue)
+}
 
 export type IndexParams = {
   activity?: TrackActivity
-  filters?: FilterTuple[] | { [key in FilterKey]: string | number }
+  filters?: TrackFilters
+  search?: string
   page?: number
+  perPage?: number
   sortBy?: SortByValue
 }
 

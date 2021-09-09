@@ -1,14 +1,10 @@
 import React from 'react'
 import { components, OptionProps } from 'react-select'
-import PropTypes from 'prop-types'
 
 import PlaceLabel from 'components/PlaceLabel'
+import { OptionType } from './types'
 
-type OptionType = {
-  value: number
-}
-
-const Option = (props: OptionProps<OptionType, false>): JSX.Element => {
+const Option = (props: OptionProps<OptionType, boolean>): JSX.Element => {
   const {
     data: { value }
   } = props
@@ -18,10 +14,6 @@ const Option = (props: OptionProps<OptionType, false>): JSX.Element => {
       <PlaceLabel placeId={value} />
     </components.Option>
   )
-}
-
-Option.propTypes = {
-  value: PropTypes.number.isRequired
 }
 
 export default Option

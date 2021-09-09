@@ -1,4 +1,4 @@
-interface ZoomLevel {
+type ZoomLevel = null | {
   min?: number
   max?: number
 }

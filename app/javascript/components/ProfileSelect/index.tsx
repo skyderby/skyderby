@@ -1,11 +1,17 @@
 import React, { useCallback } from 'react'
+import { Props } from 'react-select'
 import { AsyncPaginate as Select } from 'react-select-async-paginate'
 import { useQueryClient } from 'react-query'
 
 import { profilesQuery, useProfileQuery } from 'api/hooks/profiles'
-import selectStyles from 'styles/selectStyles'
+import getSelectStyles from 'styles/selectStyles'
 
-type ProfileSelectProps = {
+type OptionType = {
+  label: string
+  value: number
+}
+
+type ProfileSelectProps = Omit<Props<OptionType, boolean>, 'value'> & {
   value?: number
 }
 
@@ -45,7 +51,7 @@ const ProfileSelect = ({
       loadOptions={loadOptions}
       value={selectedOption}
       additional={{ page: 1 }}
-      styles={selectStyles}
+      styles={getSelectStyles<OptionType>()}
       menuPortalTarget={document.getElementById('dropdowns-root')}
       {...props}
     />

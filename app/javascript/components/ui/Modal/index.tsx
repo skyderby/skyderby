@@ -6,23 +6,29 @@ import styles from './styles.module.scss'
 
 const bodyClassName = 'modalShown'
 const setBodyScroll = (modalShown: boolean): void => {
-  const body = document.querySelector('body')
-
   if (modalShown) {
-    body!.classList.add(bodyClassName)
+    document.body.classList.add(bodyClassName)
   } else {
-    body!.classList.remove(bodyClassName)
+    document.body.classList.remove(bodyClassName)
   }
 }
 
-enum ModalSize {
-  small = 'sm',
-  medium = 'md',
-  large = 'lg'
+const getPortalRoot = () => {
+  const elementId = 'modal-root'
+  const existedRoot = document.getElementById(elementId)
+  if (existedRoot) return existedRoot
+
+  const createdRoot = document.createElement('div')
+  createdRoot.setAttribute('id', elementId)
+  document.body.insertAdjacentElement('beforeend', createdRoot)
+
+  return createdRoot
 }
 
+type ModalSize = 'sm' | 'md' | 'lg'
+
 type ModalProps = {
-  size: ModalSize
+  size?: ModalSize
   isShown: boolean
   title: string
   onHide?: () => void
@@ -30,14 +36,14 @@ type ModalProps = {
 }
 
 const Modal = ({
-  size = ModalSize.medium,
+  size = 'md',
   isShown = false,
   onHide = () => undefined,
   title,
   children
 }: ModalProps): JSX.Element => {
   const [internalIsShown, setIsShown] = useState(isShown)
-  const modalRoot = document.getElementById('modal-root')
+  const modalRoot = getPortalRoot()
 
   useEffect(() => {
     setIsShown(isShown)
@@ -56,7 +62,7 @@ const Modal = ({
     setIsShown(false)
   }
 
-  if (!internalIsShown) return ReactDOM.createPortal(null, modalRoot!)
+  if (!internalIsShown) return ReactDOM.createPortal(null, modalRoot)
 
   return ReactDOM.createPortal(
     <div className={styles.overlay} onClick={handleOverlayClick}>
@@ -71,7 +77,7 @@ const Modal = ({
         <div>{children}</div>
       </div>
     </div>,
-    modalRoot!
+    modalRoot
   )
 }
 
@@ -96,7 +102,6 @@ const Footer = ({ children, className, spaceBetween }: FooterProps): JSX.Element
   </div>
 )
 
-Modal.Size = ModalSize
 Modal.Body = Body
 Modal.Footer = Footer
 
