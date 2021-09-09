@@ -1,13 +1,13 @@
-import React, { useRef } from 'react'
+import React, { InputHTMLAttributes, useRef } from 'react'
 import cx from 'clsx'
 import PropTypes from 'prop-types'
 
 import LoadingIndicator from './LoadingIndicator'
 import styles from './styles.module.scss'
 
-type FileInputProps = {
+type FileInputProps = InputHTMLAttributes<HTMLInputElement> & {
   loading?: boolean
-  isInvalid?: boolean
+  isInvalid?: boolean | string
   onChange?: (e: React.ChangeEvent) => unknown
 }
 

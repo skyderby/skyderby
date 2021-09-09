@@ -19,5 +19,5 @@ else
 end
 
 json.permissions do
-  json.canCreatePlace policy(Place).create?
+  json.can_create_place policy(Place).create?
 end

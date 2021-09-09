@@ -2,8 +2,8 @@ import { MutableRefObject, useEffect, useRef } from 'react'
 
 type CallbackFn = (e: MouseEvent) => unknown
 type ElementRefs =
-  | MutableRefObject<HTMLElement | null>
-  | MutableRefObject<HTMLElement | null>[]
+  | MutableRefObject<HTMLElement | null | undefined>
+  | MutableRefObject<HTMLElement | null | undefined>[]
 
 const ensureArray = (value: ElementRefs) => (Array.isArray(value) ? value : [value])
 

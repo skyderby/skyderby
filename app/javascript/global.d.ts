@@ -7,3 +7,8 @@ declare module 'icons/*' {
   const resource: any
   export = resource
 }
+
+declare interface Window {
+  HB_API_KEY?: string
+  ENVIRONMENT_NAME?: string
+}
