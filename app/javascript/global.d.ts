@@ -12,3 +12,5 @@ declare interface Window {
   HB_API_KEY?: string
   ENVIRONMENT_NAME?: string
 }
+
+declare type AnyHTMLElement = HTMLElementTagNameMap[keyof HTMLElementTagNameMap]

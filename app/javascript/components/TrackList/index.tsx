@@ -11,10 +11,6 @@ type TrackListProps = {
   tracks: TrackIndexRecord[]
 }
 
-interface LocationState {
-  returnTo?: Location | string
-}
-
 const TrackList = ({ tracks }: TrackListProps): JSX.Element => {
   return (
     <div className={styles.container}>
@@ -28,9 +24,7 @@ const TrackList = ({ tracks }: TrackListProps): JSX.Element => {
                 key={track.id}
                 track={track}
                 delayIndex={index}
-                to={(
-                  location: Location<LocationState>
-                ): LocationDescriptorObject<LocationState> => ({
+                to={(location: Location<unknown>): LocationDescriptorObject<unknown> => ({
                   pathname: `/tracks/${track.id}`,
                   state: { returnTo: { ...location } }
                 })}
