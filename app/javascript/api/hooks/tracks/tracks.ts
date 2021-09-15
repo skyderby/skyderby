@@ -53,7 +53,10 @@ export const mapParamsToUrl = (
   return params.toString() === '' ? '' : '?' + params.toString()
 }
 
-export const extractParamsFromUrl = (urlSearch: string, prefix: string): IndexParams => {
+export const extractParamsFromUrl = (
+  urlSearch: string,
+  prefix: string
+): Omit<IndexParams, 'filters'> & { filters: FilterTuple[] } => {
   const allParams = new URLSearchParams(urlSearch)
 
   const activityParam = allParams.get(prefixKey('kind', prefix))

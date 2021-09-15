@@ -1,7 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, LinkProps } from 'react-router-dom'
 import { LocationDescriptor, Location } from 'history'
-import { motion, MotionProps } from 'framer-motion'
+import { motion, MotionProps, HTMLMotionProps } from 'framer-motion'
 import cx from 'clsx'
 
 import SuitLabel from 'components/SuitLabel'
@@ -13,27 +13,43 @@ import { useSuitQuery } from 'api/hooks/suits'
 import { TrackIndexRecord } from 'api/hooks/tracks'
 import styles from './styles.module.scss'
 
-interface LocationState {
-  returnTo?: Location | string
-}
-
-type ItemProps = {
+interface BaseItemProps {
   track: TrackIndexRecord
   delayIndex?: number
   compact?: boolean
-  as?: React.ComponentType<React.HTMLAttributes<HTMLElement> & MotionProps>
-  to?:
-    | LocationDescriptor<LocationState>
-    | ((location: Location<LocationState>) => LocationDescriptor<LocationState>)
+  active?: boolean
 }
 
-const Item = ({
+interface LinkItemProps extends React.HTMLAttributes<HTMLAnchorElement> {
+  as?: React.ComponentType<
+    React.HTMLAttributes<HTMLAnchorElement> & MotionProps & LinkProps
+  >
+  to:
+    | LocationDescriptor<unknown>
+    | ((location: Location<unknown>) => LocationDescriptor<unknown>)
+}
+
+interface ItemProps extends React.HTMLAttributes<HTMLDivElement> {
+  track: TrackIndexRecord
+  delayIndex?: number
+  compact?: boolean
+  active?: boolean
+  as: React.ForwardRefExoticComponent<HTMLMotionProps<'div'>>
+}
+
+interface ItemComponent {
+  (props: BaseItemProps & LinkItemProps): JSX.Element
+  (props: BaseItemProps & ItemProps): JSX.Element
+}
+
+const Item: ItemComponent = ({
   track,
   delayIndex = 0,
   compact = false,
+  active = false,
   as: Component = motion(Link),
   ...props
-}: ItemProps): JSX.Element => {
+}: BaseItemProps & (LinkItemProps | ItemProps)): JSX.Element => {
   const { data: suit } = useSuitQuery(track.suitId, { enabled: false })
   const { data: manufacturer } = useManufacturerQuery(suit?.makeId, { enabled: false })
   const { data: profile } = useProfileQuery(track.profileId, { enabled: false })
@@ -49,7 +65,7 @@ const Item = ({
 
   return (
     <Component
-      className={cx(styles.trackLink, compact && styles.compact)}
+      className={cx(styles.trackLink, compact && styles.compact, active && styles.active)}
       variants={animationVariants}
       initial="hidden"
       animate="show"

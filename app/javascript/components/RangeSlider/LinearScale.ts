@@ -1,13 +1,21 @@
 import { ticks } from 'd3-array'
 
+import { Range } from './types'
+
+type Interpolator = (x: number) => number
+
 export class LinearScale {
+  domain: Range
+  range: Range
+  interpolator: Interpolator | null
+
   constructor() {
     this.domain = [0, 1]
     this.range = [0, 1]
     this.interpolator = null
   }
 
-  createInterpolator(domain, range) {
+  createInterpolator(domain: Range, range: Range): Interpolator {
     const d0 = domain[0]
     const d1 = domain[1]
 
@@ -21,7 +29,7 @@ export class LinearScale {
     }
   }
 
-  interpolateValue(a, b) {
+  interpolateValue(a: number, b: number): Interpolator {
     return (
       (a = +a),
       (b -= a),
@@ -31,18 +39,18 @@ export class LinearScale {
     )
   }
 
-  deinterpolateValue(a, b) {
+  deinterpolateValue(a: number, b: number): Interpolator {
     // eslint-disable-next-line no-cond-assign
     return (b -= a = +a) ? x => (x - a) / b : () => b
   }
 
-  rescale() {
+  rescale(): LinearScale {
     this.interpolator = null
 
     return this
   }
 
-  getValue(x) {
+  getValue(x: number): number {
     const { domain, range } = this
 
     return (
@@ -50,7 +58,7 @@ export class LinearScale {
     )(+x)
   }
 
-  setDomain(val) {
+  setDomain(val: Range): LinearScale {
     this.domain = [val[0], val[1]]
 
     this.rescale()
@@ -58,18 +66,18 @@ export class LinearScale {
     return this
   }
 
-  getDomain() {
+  getDomain(): Range {
     return this.domain
   }
 
-  setRange(val) {
+  setRange(val: Range): LinearScale {
     this.range = [val[0], val[1]]
 
     return this
   }
 
-  getTicks(count) {
+  getTicks(count: number): number[] {
     const d = this.domain
-    return ticks(d[0], d[d.length - 1], count ? count : 10)
+    return ticks(d[0], d[1], count ? count : 10)
   }
 }
