@@ -48,7 +48,7 @@ const TrackList = (): JSX.Element => {
                 as={motion.div}
                 track={track}
                 delayIndex={pages.length === 1 ? index : 0}
-                data-active={selectedTracks.includes(track.id)}
+                active={selectedTracks.includes(track.id)}
                 onClick={() => toggleTrack(track.id)}
               />
             ))}

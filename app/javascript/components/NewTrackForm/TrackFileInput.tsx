@@ -5,7 +5,7 @@ import FileInput from 'components/ui/FileInput'
 import ErrorMessage from 'components/ui/ErrorMessage'
 import { useField, FieldAttributes } from 'formik'
 
-type TrackFileInputProps = Partial<Omit<FieldAttributes<File>, 'onChange'>> & {
+interface TrackFileInputProps extends Partial<Omit<FieldAttributes<File>, 'onChange'>> {
   onUploadStart: () => void
   onUploadEnd: () => void
   onChange: (record: TrackFileRecord) => void

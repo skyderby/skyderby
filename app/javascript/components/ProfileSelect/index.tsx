@@ -6,12 +6,12 @@ import { useQueryClient } from 'react-query'
 import { profilesQuery, useProfileQuery } from 'api/hooks/profiles'
 import getSelectStyles from 'styles/selectStyles'
 
-type OptionType = {
+export interface OptionType {
   label: string
   value: number
 }
 
-type ProfileSelectProps = Omit<Props<OptionType, boolean>, 'value'> & {
+interface ProfileSelectProps extends Omit<Props<OptionType, boolean>, 'value'> {
   value?: number
 }
 

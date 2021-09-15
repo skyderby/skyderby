@@ -5,8 +5,6 @@ import { Options } from '@popperjs/core'
 
 import styles from './styles.module.scss'
 
-type AnyHTMLElement = HTMLElementTagNameMap[keyof HTMLElementTagNameMap]
-
 type DropdownProps = {
   referenceElement: AnyHTMLElement | null
   children: React.ReactNode
