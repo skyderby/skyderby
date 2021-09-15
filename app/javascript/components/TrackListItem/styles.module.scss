@@ -20,7 +20,7 @@
     text-decoration: none;
   }
 
-  &[data-active='true'] {
+  .active {
     box-shadow: var(--block-box-shadow), inset 5px 0 0 var(--blue-grey-60);
   }
 

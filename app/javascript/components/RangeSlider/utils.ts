@@ -1,4 +1,7 @@
-export const haveIntersection = (first, second) => {
+export const haveIntersection = (
+  first: HTMLDivElement | undefined | null,
+  second: HTMLDivElement | undefined | null
+): boolean => {
   if (!first || !second) return false
 
   const firstRect = first.getBoundingClientRect()
@@ -13,12 +16,12 @@ export const haveIntersection = (first, second) => {
   )
 }
 
-export const calculateTicks = (domain, step = 100) => {
+export const calculateTicks = (domain: readonly number[], step = 100): number[] => {
   const min = Math.min(...domain) || 0
   const max = Math.max(...domain) || 0
 
   const intermediateTicks = Array(Math.floor((max - min) / step))
-    .fill()
+    .fill(undefined)
     .map((_, idx) => min + step * (idx + 1))
     .map(tick => Math.round(tick / 100) * 100)
 

@@ -1,11 +1,11 @@
 import { ManufacturerRecord } from 'api/hooks/manufacturer'
 
-export type OptionData = {
+export interface OptionData {
   name: string
   make: ManufacturerRecord
 }
 
-export type OptionType = {
+export interface OptionType {
   value: number
   label: string
   data: OptionData
