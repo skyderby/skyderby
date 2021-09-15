@@ -1,13 +1,17 @@
 import React, { createRef, useLayoutEffect, useCallback } from 'react'
-import PropTypes from 'prop-types'
 
+import { SliderItem } from 'react-compound-slider'
 import SingleValue from './SingleValue'
 import MergedValues from './MergedValues'
 import { haveIntersection } from './utils'
 
-const HandleValues = ({ handles }) => {
-  const handleRefs = handles.map(() => createRef())
-  const mergedValuesRef = createRef()
+type HandleValuesProps = {
+  handles: SliderItem[]
+}
+
+const HandleValues = ({ handles }: HandleValuesProps): JSX.Element => {
+  const handleRefs = handles.map(() => createRef<HTMLDivElement>())
+  const mergedValuesRef = createRef<HTMLDivElement>()
 
   const setIndividualHandlesOpacity = useCallback(
     value =>
@@ -24,11 +28,11 @@ const HandleValues = ({ handles }) => {
     const mergedElement = mergedValuesRef.current
 
     if (haveIntersection(first, second)) {
-      setIndividualHandlesOpacity(0)
-      mergedElement.style.opacity = 1
+      setIndividualHandlesOpacity('0')
+      if (mergedElement) mergedElement.style.opacity = '1'
     } else {
-      setIndividualHandlesOpacity(1)
-      mergedElement.style.opacity = 0
+      setIndividualHandlesOpacity('1')
+      if (mergedElement) mergedElement.style.opacity = '0'
     }
   }, [handles, handleRefs, mergedValuesRef, setIndividualHandlesOpacity])
 
@@ -50,14 +54,6 @@ const HandleValues = ({ handles }) => {
       <MergedValues handles={handles} ref={mergedValuesRef} style={{ opacity: 0 }} />
     </>
   )
-}
-
-HandleValues.propTypes = {
-  handles: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.number
-    })
-  ).isRequired
 }
 
 export default HandleValues

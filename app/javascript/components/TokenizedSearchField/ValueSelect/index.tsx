@@ -1,5 +1,5 @@
 import React from 'react'
-import { NamedProps, ValueType } from 'react-select'
+import { Props, ValueType } from 'react-select'
 
 import ProfileSelect from 'components/ProfileSelect'
 import PlaceSelect from 'components/PlaceSelect'
@@ -15,9 +15,12 @@ const componentByType = {
   suitId: SuitSelect
 }
 
-type OptionType = { label: string; value: number }
+interface OptionType {
+  label: string
+  value: number
+}
 
-type ValueSelectProps = Omit<NamedProps<OptionType>, 'onChange'> & {
+interface ValueSelectProps extends Omit<Props<OptionType>, 'onChange, value'> {
   type: ValueKey | undefined
   onChange: (value: TokenTuple) => unknown
 }

@@ -9,8 +9,8 @@ import Option from './Option'
 import SingleValue from './SingleValue'
 import { OptionType } from './types'
 
-type PlaceSelectProps = Props<OptionType, boolean> & {
-  value: number
+interface PlaceSelectProps extends Omit<Props<OptionType, boolean>, 'value'> {
+  value?: number
   hide?: boolean
   isInvalid?: string | boolean
 }
@@ -57,5 +57,7 @@ const PlaceSelect = ({ value: placeId, ...props }: PlaceSelectProps): JSX.Elemen
     />
   )
 }
+
+export type { OptionType }
 
 export default PlaceSelect

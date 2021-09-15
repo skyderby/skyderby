@@ -1,4 +1,4 @@
-export type OptionType = {
+export interface OptionType {
   label: string
   value: number
 }

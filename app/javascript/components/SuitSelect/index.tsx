@@ -11,8 +11,8 @@ import { getCachedManufacturers, useManufacturerQuery } from 'api/hooks/manufact
 
 import { OptionType } from './types'
 
-type SuitSelectProps = Props<OptionType, boolean> & {
-  value: number | undefined
+interface SuitSelectProps extends Omit<Props<OptionType, boolean>, 'value'> {
+  value?: number | undefined
   hide?: boolean
   isInvalid?: string | boolean
 }
@@ -63,5 +63,7 @@ const SuitSelect = ({ value: suitId, ...props }: SuitSelectProps): JSX.Element =
     />
   )
 }
+
+export type { OptionType }
 
 export default SuitSelect

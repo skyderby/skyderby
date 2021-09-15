@@ -1,14 +1,17 @@
 import React from 'react'
-import Select, { NamedProps } from 'react-select'
+import Select, { Props } from 'react-select'
 
 const allYears = Array(new Date().getFullYear() - 2014 + 1)
   .fill(undefined)
   .map((_v, idx) => 2014 + idx)
 
-type OptionType = { label: string; value: number }
-
-type YearSelectProps = Omit<NamedProps<OptionType, boolean>, 'value'> & {
+export interface OptionType {
+  label: string
   value: number
+}
+
+interface YearSelectProps extends Omit<Props<OptionType, boolean>, 'value'> {
+  value?: number
 }
 
 const YearSelect = ({ value, ...props }: YearSelectProps): JSX.Element => {

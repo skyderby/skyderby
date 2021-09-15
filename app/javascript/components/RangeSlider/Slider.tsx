@@ -1,25 +1,52 @@
-import { Slider as ReactCompoundSlider } from 'react-compound-slider'
+import React from 'react'
+import { Slider as ReactCompoundSlider, SliderProps } from 'react-compound-slider'
 import { LinearScale } from './LinearScale'
 import { DiscreteScale } from './DiscreteScale'
 
 const prfx = 'react-compound-slider:'
 
-const compare = b => (m, d, i) => m && b[i] === d
+type Comparator = (m: boolean | number, d: number, i: number) => boolean
 
-const equal = (a, b) => {
+const compare = (b: readonly number[]): Comparator => (m, d, i) =>
+  m ? b[i] === d : false
+
+const equal = (a: readonly number[], b: readonly number[]): boolean | number => {
   return a === b || (a.length === b.length && a.reduce(compare(b), true))
 }
 
-const getHandles = (values = [], reversed) =>
+const getHandles = (values: readonly number[] = [], reversed: boolean | undefined) =>
   values
     .map((val, i) => ({ key: `$$-${i}`, val }))
     .sort((a, b) => (reversed ? b.val - a.val : a.val - b.val))
 
-class Slider extends ReactCompoundSlider {
+interface HandleItem {
+  key: string
+  val: number
+}
+
+type SliderState = {
+  step: number
+  values: Readonly<number[]>
+  domain: Readonly<number[]>
+  handles: HandleItem[]
+  reversed: boolean
+  activeHandleID: string
+  valueToPerc: LinearScale
+  valueToStep: DiscreteScale
+  pixelToStep: DiscreteScale
+}
+
+const defaultStep = 1
+const defaultDomain = [0, 100]
+
+class Slider extends (ReactCompoundSlider as React.ComponentClass<
+  SliderProps,
+  SliderState
+>) {
   state = {
-    step: 0.1,
+    step: defaultStep,
     values: [],
-    domain: [0, 100],
+    domain: defaultDomain,
     handles: [],
     reversed: false,
     activeHandleID: '',
@@ -28,14 +55,24 @@ class Slider extends ReactCompoundSlider {
     pixelToStep: new DiscreteScale()
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const { step, values, domain, reversed, onUpdate, onChange } = nextProps
+  static getDerivedStateFromProps(
+    nextProps: SliderProps,
+    prevState: SliderState
+  ): Partial<SliderState> | null {
+    const {
+      step = defaultStep,
+      values,
+      domain = defaultDomain,
+      reversed,
+      onUpdate,
+      onChange
+    } = nextProps
 
     let valueToPerc = prevState.valueToPerc
     let valueToStep = prevState.valueToStep
     let pixelToStep = prevState.pixelToStep
 
-    const nextState = {}
+    const nextState: Partial<SliderState> = {}
 
     if (!valueToPerc || !valueToStep || !pixelToStep) {
       valueToPerc = new LinearScale()
@@ -57,6 +94,7 @@ class Slider extends ReactCompoundSlider {
       reversed !== prevState.reversed
     ) {
       const [min, max] = domain
+      if (min === undefined || max === undefined) return null
 
       valueToStep.setStep(step).setRange([min, max]).setDomain([min, max])
 
@@ -77,8 +115,8 @@ class Slider extends ReactCompoundSlider {
       const handles = getHandles(values || prevState.values, reversed)
 
       if (values === undefined || values === prevState.values) {
-        onUpdate(handles.map(d => d.val))
-        onChange(handles.map(d => d.val))
+        onUpdate?.(handles.map(d => d.val))
+        onChange?.(handles.map(d => d.val))
       }
 
       nextState.step = step

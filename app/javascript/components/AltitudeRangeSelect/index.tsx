@@ -13,12 +13,15 @@ type Value = {
   to: number
 }
 
-type Range = [number, number]
-
 type AltitudeRangeSelectProps = {
   trackId: number
   value: Value
   onChange: (value: Value) => unknown
+}
+
+type Range = [number, number]
+const isValidRange = (value: readonly number[]): value is Range => {
+  return value.length === 2 && Number.isFinite(value[0] && Number.isFinite(value[1]))
 }
 
 const getJumpDuration = (points: PointRecord[]) => {
@@ -42,15 +45,18 @@ const AltitudeRangeSelect = ({
   })
   const jumpDuration = getJumpDuration(points)
 
-  const handleUpdate = (values: Range) => {
-    const newValue = { from: values[0], to: values[1] }
+  const handleUpdate = (values: readonly number[]) => {
+    if (!isValidRange(values)) return
 
+    const newValue = { from: values[0], to: values[1] }
     if (value.from === newValue.from && value.to === newValue.to) return
 
     setValue(newValue)
   }
 
-  const handleChange = (values: Range) => {
+  const handleChange = (values: readonly number[]) => {
+    if (!isValidRange(values)) return
+
     onChangeCallback?.({ from: values[0], to: values[1] })
   }
 
