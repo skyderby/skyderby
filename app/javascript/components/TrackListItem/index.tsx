@@ -1,7 +1,5 @@
 import React from 'react'
-import { Link, LinkProps } from 'react-router-dom'
-import { LocationDescriptor, Location } from 'history'
-import { motion, MotionProps, HTMLMotionProps } from 'framer-motion'
+import { motion } from 'framer-motion'
 import cx from 'clsx'
 
 import SuitLabel from 'components/SuitLabel'
@@ -13,43 +11,27 @@ import { useSuitQuery } from 'api/hooks/suits'
 import { TrackIndexRecord } from 'api/hooks/tracks'
 import styles from './styles.module.scss'
 
-interface BaseItemProps {
+type BaseProps<Props = unknown> = {
   track: TrackIndexRecord
   delayIndex?: number
   compact?: boolean
   active?: boolean
+  as?: string | React.ComponentType<Props>
 }
 
-interface LinkItemProps extends React.HTMLAttributes<HTMLAnchorElement> {
-  as?: React.ComponentType<
-    React.HTMLAttributes<HTMLAnchorElement> & MotionProps & LinkProps
-  >
-  to:
-    | LocationDescriptor<unknown>
-    | ((location: Location<unknown>) => LocationDescriptor<unknown>)
-}
+type ItemProps<
+  Element = HTMLAnchorElement,
+  Props = unknown
+> = React.HTMLAttributes<Element> & Props & BaseProps<Props>
 
-interface ItemProps extends React.HTMLAttributes<HTMLDivElement> {
-  track: TrackIndexRecord
-  delayIndex?: number
-  compact?: boolean
-  active?: boolean
-  as: React.ForwardRefExoticComponent<HTMLMotionProps<'div'>>
-}
-
-interface ItemComponent {
-  (props: BaseItemProps & LinkItemProps): JSX.Element
-  (props: BaseItemProps & ItemProps): JSX.Element
-}
-
-const Item: ItemComponent = ({
+function Item<Element = HTMLDivElement, Props = unknown>({
   track,
   delayIndex = 0,
   compact = false,
   active = false,
-  as: Component = motion(Link),
+  as: Component = 'div',
   ...props
-}: BaseItemProps & (LinkItemProps | ItemProps)): JSX.Element => {
+}: ItemProps<Element, Props>): JSX.Element {
   const { data: suit } = useSuitQuery(track.suitId, { enabled: false })
   const { data: manufacturer } = useManufacturerQuery(suit?.makeId, { enabled: false })
   const { data: profile } = useProfileQuery(track.profileId, { enabled: false })
@@ -63,8 +45,10 @@ const Item: ItemComponent = ({
     exit: { opacity: 0, transition: { duration: 0.25 } }
   }
 
+  const MotionComponent = motion<Props>(Component)
+
   return (
-    <Component
+    <MotionComponent
       className={cx(styles.trackLink, compact && styles.compact, active && styles.active)}
       variants={animationVariants}
       initial="hidden"
@@ -89,7 +73,7 @@ const Item: ItemComponent = ({
       <div className={styles.result}>{track.speed || '—'}</div>
       <div className={styles.result}>{track.time ? track.time.toFixed(1) : '—'}</div>
       <div className={styles.timestamp}>{track.recordedAt}</div>
-    </Component>
+    </MotionComponent>
   )
 }
 
