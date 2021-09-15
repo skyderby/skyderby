@@ -8,18 +8,18 @@ const allowedActivities = ['base', 'skydive', 'speed_skydiving'] as const
 const allowedVisibilities = ['public_track', 'unlisted_track', 'private_track'] as const
 export type TrackActivity = typeof allowedActivities[number]
 export type TrackVisibility = typeof allowedVisibilities[number]
-export type TrackJumpRange = {
+export interface TrackJumpRange {
   from: number
   to: number
 }
 
-type BestResults = {
+interface BestResults {
   distance: number | null
   speed: number | null
   time: number | null
 }
 
-export type BaseTrackRecord = {
+export interface BaseTrackRecord {
   id: number
   kind: TrackActivity
   visibility: TrackVisibility
@@ -34,7 +34,7 @@ export type BaseTrackRecord = {
   createdAt: string
 }
 
-export type TrackRecord = BaseTrackRecord & {
+export interface TrackRecord extends BaseTrackRecord {
   jumpRange: TrackJumpRange
   hasVideo: boolean
   trackFile?: {
@@ -48,7 +48,7 @@ export type TrackRecord = BaseTrackRecord & {
   }
 }
 
-export type TrackFields = {
+export interface TrackFields {
   kind: TrackActivity
   visibility: TrackVisibility
   jumpRange: TrackJumpRange
@@ -61,7 +61,7 @@ export type TrackFields = {
 
 export type TrackIndexRecord = BaseTrackRecord & BestResults
 
-export type TrackRelations = {
+export interface TrackRelations {
   countries: CountryRecord[]
   places: PlaceRecord[]
   suits: SuitRecord[]
@@ -69,7 +69,7 @@ export type TrackRelations = {
   profiles: ProfileRecord[]
 }
 
-export type TracksIndex = {
+export interface TracksIndex {
   items: TrackIndexRecord[]
   currentPage: number
   totalPages: number
@@ -105,7 +105,7 @@ export const isAllowedSort = (sortBy: string | null): sortBy is SortByValue => {
   return allowedSortByValues.includes(sortBy as SortByValue)
 }
 
-export type IndexParams = {
+export interface IndexParams {
   activity?: TrackActivity
   filters?: TrackFilters
   search?: string

@@ -4,11 +4,12 @@ import {
   extractParamsFromUrl as extractTrackParamsFromUrl,
   mapParamsToUrl as mapTrackParamsToUrl,
   IndexParams,
-  TrackFilters
+  TrackFilters,
+  FilterTuple
 } from 'api/hooks/tracks'
 
-type FlightProfilesURLParams = {
-  tracksParams: IndexParams
+interface FlightProfilesURLParams {
+  tracksParams: Omit<IndexParams, 'filters'> & { filters: FilterTuple[] }
   selectedTracks: number[]
   selectedTerrainProfile: number | null
   additionalTerrainProfiles: number[]

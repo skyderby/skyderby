@@ -9,7 +9,7 @@ interface Coordinates {
   longitude: number
 }
 
-type FlightProfileChartPoint = {
+interface FlightProfileChartPoint {
   x: number
   y: number
   custom: {
@@ -18,7 +18,7 @@ type FlightProfileChartPoint = {
   }
 }
 
-export type TerrainClearanceChartPoint = {
+export interface TerrainClearanceChartPoint {
   x: number
   y: number
   custom: {
@@ -35,8 +35,13 @@ const calculateDistance = (first: Coordinates, second: Coordinates): number => {
 
 const getTerrainElevation = (measurements: MeasurementRecord[], distance: number) => {
   for (let idx = 0; idx < measurements.length - 1; idx++) {
-    const { distance: prevDistance, altitude: prevAltitude } = measurements[idx]
-    const { distance: nextDistance, altitude: nextAltitude } = measurements[idx + 1]
+    const prevRecord = measurements[idx]
+    const nextRecord = measurements[idx + 1]
+
+    if (!prevRecord || !nextRecord) continue
+
+    const { distance: prevDistance, altitude: prevAltitude } = prevRecord
+    const { distance: nextDistance, altitude: nextAltitude } = nextRecord
 
     if (prevDistance <= distance && nextDistance >= distance) {
       const altitudeDiff = nextAltitude - prevAltitude
@@ -62,13 +67,15 @@ export const calculateFlightProfile = (
   points: PointRecord[],
   straightLine: boolean
 ): FlightProfileChartPoint[] => {
-  if (points.length === 0) return []
-
   const firstPoint = points[0]
+  if (!firstPoint) return []
+
   let accumulatedDistance = 0
 
   return points.map((point, idx) => {
-    const prevPoint = idx > 0 ? points[idx - 1] : firstPoint
+    // The only way prev point could be undefined is at position -1
+    // Nullish coalescing added to satisfy TypeScript's noUncheckedIndexedAccess
+    const prevPoint = points[idx - 1] ?? firstPoint
     const distance = straightLine
       ? calculateDistance(point, firstPoint)
       : accumulatedDistance + calculateDistance(prevPoint, point)
