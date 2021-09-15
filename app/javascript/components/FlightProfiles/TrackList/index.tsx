@@ -42,10 +42,10 @@ const TrackList = (): JSX.Element => {
         {pages.map(({ items: tracks }, idx) => (
           <React.Fragment key={idx}>
             {tracks.map((track, index) => (
-              <Item
+              <Item<HTMLDivElement>
                 compact
                 key={track.id}
-                as={motion.div}
+                as="div"
                 track={track}
                 delayIndex={pages.length === 1 ? index : 0}
                 active={selectedTracks.includes(track.id)}

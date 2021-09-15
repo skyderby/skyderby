@@ -9,15 +9,16 @@ interface TrackFileInputProps extends Partial<Omit<FieldAttributes<File>, 'onCha
   onUploadStart: () => void
   onUploadEnd: () => void
   onChange: (record: TrackFileRecord) => void
+  name: string
 }
 
 const TrackFileInput = ({
   onUploadStart,
   onUploadEnd,
   onChange,
-  ...props
+  name
 }: TrackFileInputProps): JSX.Element => {
-  const [_field, meta] = useField(props)
+  const [_field, meta] = useField(name)
   const [validationError, setValidationError] = useState<string | null>(null)
 
   const { mutate, reset, isLoading, error: serverError } = useNewTrackFileMutation({
