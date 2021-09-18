@@ -29,14 +29,19 @@ describe Api::V1::TracksController do
             match(
               hash_including(
                 'id',
-                'name',
+                'kind',
+                'visibility',
                 'profileId',
                 'suitId',
                 'placeId',
+                'missingSuitName',
+                'location',
+                'pilotName',
                 'distance',
                 'speed',
                 'time',
                 'comment',
+                'createdAt',
                 'recordedAt'
               )
             )
