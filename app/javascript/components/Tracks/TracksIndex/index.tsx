@@ -1,26 +1,35 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { Location } from 'history'
 
 import { useI18n } from 'components/TranslationsProvider'
+import {
+  IndexParams,
+  extractParamsFromUrl,
+  mapParamsToUrl,
+  useTracksQuery
+} from 'api/hooks/tracks'
 import AppShell from 'components/AppShell'
 import Pagination from 'components/Pagination'
 import TrackList from 'components/TrackList'
 import ActivitySelect from './ActivitySelect'
 import Filters from './Filters'
 import styles from './styles.module.scss'
-import { extractParamsFromUrl, mapParamsToUrl, useTracksQuery } from 'api/hooks/tracks'
 
-const TracksIndex = ({ location }) => {
+type TracksIndexProps = {
+  location: Location
+}
+
+const TracksIndex = ({ location }: TracksIndexProps): JSX.Element => {
   const { t } = useI18n()
 
   const params = extractParamsFromUrl(location.search)
-  const { data = {}, isLoading } = useTracksQuery(params)
-  const tracks = data.items || []
+  const { data, isLoading } = useTracksQuery(params)
+  const tracks = data?.items ?? []
   const pagination = isLoading
     ? null
-    : { page: data.currentPage, totalPages: data.totalPages }
+    : { page: data?.currentPage, totalPages: data?.totalPages }
 
-  const buildUrl = newParams => mapParamsToUrl({ ...params, ...newParams })
+  const buildUrl = (newParams: IndexParams) => mapParamsToUrl({ ...params, ...newParams })
 
   return (
     <AppShell>
@@ -38,13 +47,6 @@ const TracksIndex = ({ location }) => {
       </div>
     </AppShell>
   )
-}
-
-TracksIndex.propTypes = {
-  location: PropTypes.shape({
-    search: PropTypes.string,
-    pathname: PropTypes.string
-  }).isRequired
 }
 
 export default TracksIndex

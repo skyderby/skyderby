@@ -1,13 +1,17 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import Profile from './Profile'
 import Suit from './Suit'
 import Navbar from './Navbar'
 import styles from './styles.module.scss'
 import PlaceLabel from 'components/PlaceLabel'
+import { TrackRecord } from 'api/hooks/tracks'
 
-const Header = ({ track }) => (
+type HeaderProps = {
+  track: TrackRecord
+}
+
+const Header = ({ track }: HeaderProps): JSX.Element => (
   <div className={styles.container}>
     <div className={styles.content}>
       <div className={styles.row}>
@@ -21,20 +25,5 @@ const Header = ({ track }) => (
     </div>
   </div>
 )
-
-Header.propTypes = {
-  track: PropTypes.shape({
-    id: PropTypes.number,
-    pilotName: PropTypes.string,
-    missingSuitName: PropTypes.string,
-    location: PropTypes.string,
-    profileId: PropTypes.number,
-    placeId: PropTypes.number,
-    suitId: PropTypes.number,
-    permissions: PropTypes.shape({
-      canEdit: PropTypes.bool.isRequired
-    }).isRequired
-  }).isRequired
-}
 
 export default Header
