@@ -84,6 +84,17 @@ jobs:
       - *save_yarn_cache
       - run: yarn lint-styles
 
+  typescript_check:
+    working_directory: ~/skyderby
+    docker:
+        - image: circleci/ruby:3.0.0-node
+    steps:
+      - checkout
+      - *restore_yarn_cache
+      - run: yarn install
+      - *save_yarn_cache
+      - run: yarn tsc
+
   test_unit:
     <<: *test_defaults
     steps:
@@ -130,6 +141,7 @@ workflows:
       - lint_ruby
       - lint_js
       - lint_styles
+      - typescript_check
       - test_unit:
           requires:
             - lint_ruby

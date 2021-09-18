@@ -1,5 +1,5 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
   "env": {
     "es6": true,
     "browser": true,
@@ -7,11 +7,13 @@
   },
   "extends": [
     "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended"
   ],
   "plugins": [
+    "@typescript-eslint",
     "react-hooks",
     "jest"
   ],
@@ -28,13 +30,12 @@
     "$": false,
     "I18n": false,
     "YT": false,
-    "Turbolinks": false,
     "Rails": false,
     "google": false,
     "Cesium": false,
-    "Highcharts": false,
-    "HighchartsMore": false,
     "ga": false,
+    "module": false,
+    "process": false,
     "__dirname": false
   },
   "rules": {
@@ -51,10 +52,11 @@
       "error",
       "never"
     ],
-    "no-unused-vars": [
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
       "error",
       { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_", "ignoreRestSiblings": true }
     ],
-    "react/no-unused-prop-types": ["error"]
+    "react/prop-types": "off"
   }
 }

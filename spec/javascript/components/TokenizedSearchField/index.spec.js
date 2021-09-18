@@ -7,7 +7,7 @@ import TokenizedSearchField from 'components/TokenizedSearchField'
 describe('TokenizedSearchField', () => {
   const baseProps = {
     initialValues: [],
-    onChange: () => {}
+    onChange: () => undefined
   }
 
   beforeEach(() => {
@@ -100,7 +100,7 @@ describe('TokenizedSearchField', () => {
     fireEvent.click(await screen.findByText('2018'))
 
     await waitFor(() => expect(screen.getByTitle('year: 2018')).toBeInTheDocument())
-    expect(handleChange).toHaveBeenCalledWith([['year', '2018']])
+    expect(handleChange).toHaveBeenCalledWith([['year', 2018]])
   })
 
   it('delete single value', async () => {
