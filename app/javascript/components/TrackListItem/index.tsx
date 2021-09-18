@@ -1,5 +1,6 @@
 import React from 'react'
-import { motion } from 'framer-motion'
+import { Link, LinkProps as ReactRouterLinkProps } from 'react-router-dom'
+import { motion, MotionProps } from 'framer-motion'
 import cx from 'clsx'
 
 import SuitLabel from 'components/SuitLabel'
@@ -11,27 +12,11 @@ import { useSuitQuery } from 'api/hooks/suits'
 import { TrackIndexRecord } from 'api/hooks/tracks'
 import styles from './styles.module.scss'
 
-type BaseProps<Props = unknown> = {
+type DetailsProps = {
   track: TrackIndexRecord
-  delayIndex?: number
-  compact?: boolean
-  active?: boolean
-  as?: string | React.ComponentType<Props>
 }
 
-type ItemProps<
-  Element = HTMLAnchorElement,
-  Props = unknown
-> = React.HTMLAttributes<Element> & Props & BaseProps<Props>
-
-function Item<Element = HTMLDivElement, Props = unknown>({
-  track,
-  delayIndex = 0,
-  compact = false,
-  active = false,
-  as: Component = 'div',
-  ...props
-}: ItemProps<Element, Props>): JSX.Element {
+const ItemDetails = ({ track }: DetailsProps): JSX.Element => {
   const { data: suit } = useSuitQuery(track.suitId, { enabled: false })
   const { data: manufacturer } = useManufacturerQuery(suit?.makeId, { enabled: false })
   const { data: profile } = useProfileQuery(track.profileId, { enabled: false })
@@ -39,23 +24,8 @@ function Item<Element = HTMLDivElement, Props = unknown>({
   const suitName = suit?.name ?? track.missingSuitName
   const name = profile?.name ?? track.pilotName
 
-  const animationVariants = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { duration: 0.4, delay: 0.02 * delayIndex } },
-    exit: { opacity: 0, transition: { duration: 0.25 } }
-  }
-
-  const MotionComponent = motion<Props>(Component)
-
   return (
-    <MotionComponent
-      className={cx(styles.trackLink, compact && styles.compact, active && styles.active)}
-      variants={animationVariants}
-      initial="hidden"
-      animate="show"
-      exit="exit"
-      {...props}
-    >
+    <>
       <div className={styles.id}>{track.id}</div>
       <div className={styles.pilot}>{name}</div>
       <div className={styles.suit}>
@@ -73,8 +43,82 @@ function Item<Element = HTMLDivElement, Props = unknown>({
       <div className={styles.result}>{track.speed || '—'}</div>
       <div className={styles.result}>{track.time ? track.time.toFixed(1) : '—'}</div>
       <div className={styles.timestamp}>{track.recordedAt}</div>
-    </MotionComponent>
+    </>
   )
 }
 
-export default Item
+const classNames = (active: boolean, compact: boolean): string =>
+  cx(styles.trackLink, compact && styles.compact, active && styles.active)
+
+type BaseProps = {
+  track: TrackIndexRecord
+  delayIndex?: number
+  compact?: boolean
+  active?: boolean
+}
+
+type LinkProps = BaseProps &
+  React.HTMLAttributes<HTMLAnchorElement> &
+  ReactRouterLinkProps &
+  MotionProps
+
+const ItemLink = ({
+  track,
+  delayIndex = 0,
+  compact = false,
+  active = false,
+  ...props
+}: LinkProps): JSX.Element => {
+  const MotionLink = motion(Link)
+
+  const animationVariants = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { duration: 0.4, delay: 0.02 * delayIndex } },
+    exit: { opacity: 0, transition: { duration: 0.25 } }
+  }
+
+  return (
+    <MotionLink
+      className={classNames(active, compact)}
+      variants={animationVariants}
+      initial="hidden"
+      animate="show"
+      exit="exit"
+      {...props}
+    >
+      <ItemDetails track={track} />
+    </MotionLink>
+  )
+}
+
+type ButtonProps = BaseProps & React.HTMLAttributes<HTMLButtonElement> & MotionProps
+
+const ItemButton = ({
+  track,
+  delayIndex = 0,
+  compact = false,
+  active = false,
+  ...props
+}: ButtonProps): JSX.Element => {
+  const animationVariants = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { duration: 0.4, delay: 0.02 * delayIndex } },
+    exit: { opacity: 0, transition: { duration: 0.25 } }
+  }
+
+  return (
+    <motion.button
+      className={classNames(active, compact)}
+      variants={animationVariants}
+      initial="hidden"
+      animate="show"
+      exit="exit"
+      title={`Toggle track #${track.id}`}
+      {...props}
+    >
+      <ItemDetails track={track} />
+    </motion.button>
+  )
+}
+
+export default { Link: ItemLink, Button: ItemButton }

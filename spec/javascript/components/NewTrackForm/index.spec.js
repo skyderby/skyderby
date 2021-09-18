@@ -10,7 +10,7 @@ describe('NewTrackForm', () => {
 
   const defaultProps = {
     isShown: true,
-    onHide: () => {}
+    onHide: () => undefined
   }
 
   describe('conditional field visibility', () => {
