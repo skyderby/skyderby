@@ -11,15 +11,10 @@ import {
 import { isMobileOnly } from 'react-device-detect'
 import axios from 'axios'
 
-import { cachePlaces } from 'api/hooks/places'
-import { cacheProfiles } from 'api/hooks/profiles'
-import { cacheSuits } from 'api/hooks/suits'
-import { cacheCountries } from 'api/hooks/countries'
-import { cacheManufacturers } from 'api/hooks/manufacturer'
+import { cacheRelations } from './utils'
 import {
   TracksIndex,
   IndexParams,
-  TrackRelations,
   IndexQueryKey,
   InfiniteIndexQueryKey,
   allowedFilters,
@@ -55,7 +50,7 @@ export const mapParamsToUrl = (
 
 export const extractParamsFromUrl = (
   urlSearch: string,
-  prefix: string
+  prefix = ''
 ): Omit<IndexParams, 'filters'> & { filters: FilterTuple[] } => {
   const allParams = new URLSearchParams(urlSearch)
 
@@ -87,14 +82,6 @@ export const extractParamsFromUrl = (
 
 const getTracks = (params: IndexParams): Promise<TracksIndex> =>
   axios.get([endpoint, mapParamsToUrl(params)].join('')).then(response => response.data)
-
-const cacheRelations = (relations: TrackRelations, queryClient: QueryClient) => {
-  cachePlaces(relations.places, queryClient)
-  cacheSuits(relations.suits, queryClient)
-  cacheProfiles(relations.profiles, queryClient)
-  cacheCountries(relations.countries, queryClient)
-  cacheManufacturers(relations.manufacturers, queryClient)
-}
 
 const buildQueryFn = (
   queryClient: QueryClient

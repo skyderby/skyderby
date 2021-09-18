@@ -1,6 +1,11 @@
 import { StylesConfig } from 'react-select'
 
-const getSelectStyles = <OptionType>(): StylesConfig<OptionType, boolean> => ({
+interface OptionType {
+  value: string | number
+  label: string
+}
+
+const getSelectStyles = <T = OptionType>(): StylesConfig<T, boolean> => ({
   container: (base, state) => ({
     ...base,
     ...(state.selectProps?.hide ? { display: 'none' } : {}),

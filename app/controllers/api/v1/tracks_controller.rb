@@ -81,7 +81,10 @@ module Api
       end
 
       def set_track
-        @track = Track.includes(:video).find(params[:id])
+        @track =
+          Track
+          .includes(:video, place: [:country], pilot: [:country], suit: [:manufacturer])
+          .find(params[:id])
       end
 
       def index_params
