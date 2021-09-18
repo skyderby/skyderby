@@ -108,7 +108,7 @@ Form.propTypes = {
 
 Form.defaultProps = {
   isDeletable: false,
-  onDelete: () => {}
+  onDelete: () => undefined
 }
 
 export default Form
