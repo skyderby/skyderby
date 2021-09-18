@@ -24,7 +24,7 @@ const TrackList = ({ tracks }: TrackListProps): JSX.Element => {
                 key={track.id}
                 track={track}
                 delayIndex={index}
-                to={(location: Location<unknown>): LocationDescriptorObject<unknown> => ({
+                to={(location: Location): LocationDescriptorObject => ({
                   pathname: `/tracks/${track.id}`,
                   state: { returnTo: { ...location } }
                 })}

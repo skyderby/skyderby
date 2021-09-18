@@ -1,4 +1,5 @@
 import {
+  QueryClient,
   QueryFunction,
   useMutation,
   UseMutationResult,
@@ -9,8 +10,9 @@ import {
 } from 'react-query'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
+import { cacheRelations } from './utils'
 import { pointsQuery } from 'api/hooks/tracks/points'
-import { TrackRecord, TrackFields } from './types'
+import { TrackRecord, TrackFields, TrackRelations } from './types'
 
 type TrackChanges = {
   id: number
@@ -20,7 +22,7 @@ type TrackChanges = {
 type RecordQueryKey = ['tracks', number | undefined]
 const endpoint = (id: number) => `/api/v1/tracks/${id}`
 
-const getTrack = (id: number): Promise<TrackRecord> =>
+const getTrack = (id: number): Promise<TrackRecord & { relations: TrackRelations }> =>
   axios.get(endpoint(id)).then(response => response.data)
 const createTrack = (track: Partial<TrackFields>): Promise<AxiosResponse<TrackRecord>> =>
   axios.post('/api/v1/tracks', { track })
@@ -32,28 +34,38 @@ const updateTrack = ({
 const deleteTrack = (id: number): Promise<TrackRecord> =>
   axios.delete(endpoint(id)).then(response => response.data)
 
-const queryFn: QueryFunction<TrackRecord, RecordQueryKey> = ctx => {
+const buildQueryFn = (
+  queryClient: QueryClient
+): QueryFunction<TrackRecord, RecordQueryKey> => async ctx => {
   const [_key, id] = ctx.queryKey
 
   if (typeof id !== 'number') {
     throw new Error(`Expected track id to be a number, received ${typeof id}`)
   }
 
-  return getTrack(id)
+  const { relations, ...data } = await getTrack(id)
+
+  cacheRelations(relations, queryClient)
+
+  return data
 }
 
 export const recordQueryKey = (id: number | undefined): RecordQueryKey => ['tracks', id]
 
 export const trackQuery = (
-  id: number | undefined
+  id: number | undefined,
+  queryClient: QueryClient
 ): UseQueryOptions<TrackRecord, Error, TrackRecord, RecordQueryKey> => ({
   queryKey: recordQueryKey(id),
-  queryFn: queryFn,
+  queryFn: buildQueryFn(queryClient),
   enabled: Boolean(id)
 })
 
-export const useTrackQuery = (id: number | undefined): UseQueryResult<TrackRecord> =>
-  useQuery(trackQuery(id))
+export const useTrackQuery = (id: number | undefined): UseQueryResult<TrackRecord> => {
+  const queryClient = useQueryClient()
+
+  return useQuery(trackQuery(id, queryClient))
+}
 
 export const useNewTrackMutation = (): UseMutationResult<
   AxiosResponse<TrackRecord>,

@@ -1,14 +1,25 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
+import { IndexParams, TrackActivity } from 'api/hooks/tracks'
 import styles from './styles.module.scss'
 
-const ActivitySelect = ({ buildUrl, currentActivity }) => (
+type ActivitySelectProps = {
+  buildUrl: (params: IndexParams) => string
+  currentActivity: TrackActivity | undefined
+}
+
+const ActivitySelect = ({
+  buildUrl,
+  currentActivity
+}: ActivitySelectProps): JSX.Element => (
   <div>
     <Link
       className={styles.activityLink}
-      to={location => ({ ...location, search: buildUrl({ page: null, activity: null }) })}
+      to={location => ({
+        ...location,
+        search: buildUrl({ page: 1, activity: undefined })
+      })}
       data-active={!currentActivity}
     >
       All
@@ -17,7 +28,7 @@ const ActivitySelect = ({ buildUrl, currentActivity }) => (
       className={styles.activityLink}
       to={location => ({
         ...location,
-        search: buildUrl({ page: null, activity: 'skydive' })
+        search: buildUrl({ page: 1, activity: 'skydive' })
       })}
       data-active={currentActivity === 'skydive'}
     >
@@ -27,7 +38,7 @@ const ActivitySelect = ({ buildUrl, currentActivity }) => (
       className={styles.activityLink}
       to={location => ({
         ...location,
-        search: buildUrl({ page: null, activity: 'base' })
+        search: buildUrl({ page: 1, activity: 'base' })
       })}
       data-active={currentActivity === 'base'}
     >
@@ -35,10 +46,5 @@ const ActivitySelect = ({ buildUrl, currentActivity }) => (
     </Link>
   </div>
 )
-
-ActivitySelect.propTypes = {
-  buildUrl: PropTypes.func.isRequired,
-  currentActivity: PropTypes.string
-}
 
 export default ActivitySelect

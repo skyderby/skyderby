@@ -8,9 +8,14 @@ import styles from './styles.module.scss'
 import { useSuitQuery } from 'api/hooks/suits'
 import { useManufacturerQuery } from 'api/hooks/manufacturer'
 
-const Suit = ({ suitId, suitName: userProvidedSuitName }) => {
-  const { data: suit } = useSuitQuery(suitId)
-  const { data: make } = useManufacturerQuery(suit?.makeId)
+type SuitProps = {
+  suitId?: number | null
+  suitName?: string | null
+}
+
+const Suit = ({ suitId, suitName: userProvidedSuitName }: SuitProps): JSX.Element => {
+  const { data: suit } = useSuitQuery(suitId, { enabled: false })
+  const { data: make } = useManufacturerQuery(suit?.makeId, { enabled: false })
 
   const suitName = suitId ? suit?.name : userProvidedSuitName
 
