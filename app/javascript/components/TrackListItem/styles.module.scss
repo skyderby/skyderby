@@ -1,27 +1,40 @@
 @import 'styles/breakpoints';
 
 .trackLink {
+  --default-box-shadow: 0 0 5px var(--box-shadow-color), inset 0 0 0 transparent;
+  --pressed-box-shadow: 0 0 2px var(--box-shadow-color);
+  --active-box-shadow: inset 5px 0 0 var(--blue-grey-60);
+
   display: grid;
   grid-row-gap: 0.25rem;
   grid-template-columns: 2fr 1fr;
+  width: 100%;
   margin-bottom: 0.75rem;
   padding: 1rem;
+  border: 0;
   border-radius: var(--border-radius-md);
 
   color: var(--grey-90);
+  text-align: left;
   text-decoration: none;
 
   background-color: var(--white);
-  box-shadow: var(--block-box-shadow);
+  box-shadow: var(--default-box-shadow);
   cursor: pointer;
+
+  transition: box-shadow 0.1s ease-in-out;
 
   &:hover {
     color: var(--grey-90);
     text-decoration: none;
   }
 
-  .active {
-    box-shadow: var(--block-box-shadow), inset 5px 0 0 var(--blue-grey-60);
+  &.active {
+    box-shadow: var(--default-box-shadow), var(--active-box-shadow);
+  }
+
+  &.active:active {
+    box-shadow: var(--pressed-box-shadow), var(--active-box-shadow);
   }
 
   &:not(.compact) {
@@ -40,6 +53,10 @@
         box-shadow: inset 3px 0 0 var(--blue-grey-60);
       }
     }
+  }
+
+  &:active:not(.active) {
+    box-shadow: var(--pressed-box-shadow);
   }
 }
 
