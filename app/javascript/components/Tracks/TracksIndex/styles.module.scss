@@ -10,7 +10,7 @@
 
   @include lg-screen {
     grid-template-rows: min-content min-content max-content min-content;
-    width: 1200px;
+    width: $bp-large;
   }
 }
 

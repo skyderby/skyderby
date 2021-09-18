@@ -9,10 +9,11 @@ import { showLinkOnDesktop } from './utils'
 import styles from './styles.module.scss'
 
 type PaginationProps = {
-  page: number
-  totalPages: number
+  page?: number
+  totalPages?: number
   buildUrl: (params: { page: number }) => string
 }
+
 const Pagination = ({
   page = 1,
   totalPages = 0,

@@ -1,8 +1,9 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { Location, LocationDescriptorObject } from 'history'
 
 import { useTrackWindDataQuery } from 'api/hooks/tracks/windData'
+import { TrackRecord } from 'api/hooks/tracks'
 import ChartIcon from 'icons/chart-bar.svg'
 import VideoIcon from 'icons/play-circle.svg'
 import MapsIcon from 'icons/compass.svg'
@@ -12,16 +13,25 @@ import CogIcon from 'icons/cog.svg'
 import { useI18n } from 'components/TranslationsProvider'
 import PageNavbar from 'components/PageNavbar'
 
-const Navbar = ({ track }) => {
+type NavbarProps = {
+  track: TrackRecord
+}
+
+const Navbar = ({ track }: NavbarProps): JSX.Element => {
   const { t } = useI18n()
   const {
     id: trackId,
     hasVideo,
     permissions: { canEdit }
   } = track
-  const { data: windData = [] } = useTrackWindDataQuery()
+  const { data: windData = [] } = useTrackWindDataQuery(trackId)
 
-  const withLocationState = pathname => location => ({ pathname, state: location.state })
+  const withLocationState = (pathname: string) => (
+    location: Location
+  ): LocationDescriptorObject => ({
+    pathname,
+    state: location.state
+  })
 
   return (
     <PageNavbar>
@@ -105,16 +115,6 @@ const Navbar = ({ track }) => {
       )}
     </PageNavbar>
   )
-}
-
-Navbar.propTypes = {
-  track: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    hasVideo: PropTypes.bool.isRequired,
-    permissions: PropTypes.shape({
-      canEdit: PropTypes.bool.isRequired
-    }).isRequired
-  })
 }
 
 export default Navbar
