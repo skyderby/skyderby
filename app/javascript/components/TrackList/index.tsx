@@ -1,6 +1,5 @@
 import React, { memo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Link, LinkProps } from 'react-router-dom'
 import { Location, LocationDescriptorObject } from 'history'
 
 import Item from 'components/TrackListItem'
@@ -21,11 +20,10 @@ const TrackList = ({ tracks }: TrackListProps): JSX.Element => {
         <AnimatePresence exitBeforeEnter>
           <motion.div className={styles.tbody} key={tracks.map(t => t.id).join('-')}>
             {tracks.map((track, index) => (
-              <Item<HTMLAnchorElement, LinkProps>
+              <Item.Link
                 key={track.id}
                 track={track}
                 delayIndex={index}
-                as={Link}
                 to={(location: Location<unknown>): LocationDescriptorObject<unknown> => ({
                   pathname: `/tracks/${track.id}`,
                   state: { returnTo: { ...location } }

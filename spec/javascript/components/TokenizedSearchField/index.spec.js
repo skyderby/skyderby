@@ -7,7 +7,7 @@ import TokenizedSearchField from 'components/TokenizedSearchField'
 describe('TokenizedSearchField', () => {
   const baseProps = {
     initialValues: [],
-    onChange: () => {}
+    onChange: () => undefined
   }
 
   beforeEach(() => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 
 import { useTracksInfiniteQuery } from 'api/hooks/tracks'
 import Item from 'components/TrackListItem'
@@ -42,10 +42,9 @@ const TrackList = (): JSX.Element => {
         {pages.map(({ items: tracks }, idx) => (
           <React.Fragment key={idx}>
             {tracks.map((track, index) => (
-              <Item<HTMLDivElement>
+              <Item.Button
                 compact
                 key={track.id}
-                as="div"
                 track={track}
                 delayIndex={pages.length === 1 ? index : 0}
                 active={selectedTracks.includes(track.id)}
