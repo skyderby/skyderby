@@ -1,9 +1,14 @@
-const getPointsAroundTime = (points, flTime) => {
+import { PointRecord } from 'api/hooks/tracks/points'
+import { VideoRecord } from 'api/hooks/tracks/video'
+
+const getPointsAroundTime = (points: PointRecord[], flTime: number): PointRecord[] => {
   for (let idx = 0; idx < points.length; idx++) {
     if (idx === 0) continue
 
     const first = points[idx - 1]
     const second = points[idx]
+
+    if (!first || !second) continue
 
     if (first.flTime <= flTime && flTime <= second.flTime) {
       return [first, second]
@@ -13,9 +18,13 @@ const getPointsAroundTime = (points, flTime) => {
   return []
 }
 
-const interpolateValue = (first, second, factor) => first + (second - first) * factor
+const interpolateValue = (first: number, second: number, factor: number): number =>
+  first + (second - first) * factor
 
-const getInterpolatedPoint = (points, flTime) => {
+const getInterpolatedPoint = (
+  points: PointRecord[],
+  flTime: number
+): Partial<PointRecord> | null => {
   const [first, second] = getPointsAroundTime(points, flTime)
 
   if (!first || !second) return null
@@ -30,7 +39,13 @@ const getInterpolatedPoint = (points, flTime) => {
   }
 }
 
-export const getDataForTime = (points, videoSettings, time) => {
+export const getDataForTime = (
+  points: PointRecord[],
+  videoSettings: VideoRecord | undefined,
+  time: number
+): Partial<PointRecord> | null => {
+  if (!videoSettings) return null
+
   const { trackOffset, videoOffset } = videoSettings
   const relativeTime = time - videoOffset
 

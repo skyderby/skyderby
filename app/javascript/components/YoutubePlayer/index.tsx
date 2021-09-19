@@ -5,19 +5,23 @@ import React, {
   useImperativeHandle,
   forwardRef
 } from 'react'
-import PropTypes from 'prop-types'
 
 import useYoutubeApi from './useYoutubeApi'
 import PlayIcon from './PlayIcon'
-
 import styles from './styles.module.scss'
 
-const Player = forwardRef(({ videoId, onPlay, onPause }, ref) => {
+type PlayerProps = {
+  videoId: string | undefined
+  onPlay?: () => void
+  onPause?: () => void
+}
+
+const Player = forwardRef(({ videoId, onPlay, onPause }: PlayerProps, ref) => {
   const YT = useYoutubeApi()
-  const [player, setPlayer] = useState()
-  const playerContainerRef = useRef()
-  const onPlayRef = useRef()
-  const onPauseRef = useRef()
+  const [player, setPlayer] = useState<YT.Player>()
+  const playerContainerRef = useRef<HTMLDivElement>(null)
+  const onPlayRef = useRef<PlayerProps['onPlay']>()
+  const onPauseRef = useRef<PlayerProps['onPause']>()
   onPlayRef.current = onPlay
   onPauseRef.current = onPause
 
@@ -30,8 +34,8 @@ const Player = forwardRef(({ videoId, onPlay, onPause }, ref) => {
 
     const playerOptions = {
       events: {
-        onReady: event => setPlayer(event.target),
-        onStateChange: event => {
+        onReady: (event: YT.PlayerEvent) => setPlayer(event.target),
+        onStateChange: (event: YT.OnStateChangeEvent) => {
           if (event.data === YT.PlayerState.PAUSED) onPauseRef.current?.()
           if (event.data === YT.PlayerState.PLAYING) onPlayRef.current?.()
         }
@@ -44,7 +48,9 @@ const Player = forwardRef(({ videoId, onPlay, onPause }, ref) => {
       }
     }
 
-    new YT.Player(playerContainerRef.current, playerOptions)
+    if (playerContainerRef.current) {
+      new YT.Player(playerContainerRef.current, playerOptions)
+    }
   }, [YT, player, setPlayer])
 
   useEffect(() => {
@@ -66,11 +72,5 @@ const Player = forwardRef(({ videoId, onPlay, onPause }, ref) => {
 })
 
 Player.displayName = 'Player'
-
-Player.propTypes = {
-  videoId: PropTypes.string,
-  onPlay: PropTypes.func,
-  onPause: PropTypes.func
-}
 
 export default Player

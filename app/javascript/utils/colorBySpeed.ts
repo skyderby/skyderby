@@ -1,4 +1,4 @@
-export const colorBySpeed = speed => {
+export const colorBySpeed = (speed: number): string => {
   if (speed > 250) return '#60000C'
   else if (speed > 220) return '#E7000C'
   else if (speed > 190) return '#E4670F'

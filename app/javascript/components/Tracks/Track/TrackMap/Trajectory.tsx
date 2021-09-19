@@ -1,11 +1,23 @@
 import { useEffect } from 'react'
-import PropTypes from 'prop-types'
 
 import { polylinesBySpeed } from 'utils/polylinesBySpeed'
+import { PointRecord } from 'api/hooks/tracks/points'
 
-const Trajectory = ({ map, google, points, opacity: strokeOpacity = 1 }) => {
+type TrajectoryProps = {
+  map: google.maps.Map | undefined
+  google: typeof google | undefined
+  points: PointRecord[]
+  opacity?: number
+}
+
+const Trajectory = ({
+  map,
+  google,
+  points,
+  opacity: strokeOpacity = 1
+}: TrajectoryProps): null => {
   useEffect(() => {
-    if (!map) return
+    if (!map || !google) return
 
     const polylines = polylinesBySpeed(points).map(
       ({ path, color: strokeColor }) =>
@@ -20,19 +32,8 @@ const Trajectory = ({ map, google, points, opacity: strokeOpacity = 1 }) => {
 
     return () => polylines.forEach(polyline => polyline.setMap(null))
   }, [map, google, points, strokeOpacity])
+
   return null
 }
 
-Trajectory.propTypes = {
-  map: PropTypes.object,
-  google: PropTypes.object,
-  points: PropTypes.arrayOf(
-    PropTypes.shape({
-      latitude: PropTypes.number.isRequired,
-      longitude: PropTypes.number.isRequired,
-      hSpeed: PropTypes.number.isRequired
-    })
-  ).isRequired,
-  opacity: PropTypes.number
-}
 export default Trajectory

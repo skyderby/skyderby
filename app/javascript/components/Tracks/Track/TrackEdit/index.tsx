@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormikHelpers } from 'formik'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory, match } from 'react-router-dom'
+import { Location } from 'history'
 
 import {
   useTrackQuery,
@@ -13,16 +14,17 @@ import PageContainer from 'components/Tracks/Track/PageContainer'
 import Form from './Form'
 import { FormData } from './types'
 
-type TrackEditProps = {
-  trackId: number
-}
-
 interface LocationState {
   returnTo?: string
 }
 
-const TrackEdit = ({ trackId }: TrackEditProps): JSX.Element | null => {
-  const location = useLocation<LocationState>()
+type TrackEditProps = {
+  match: match<{ id: string }>
+  location: Location<LocationState>
+}
+
+const TrackEdit = ({ match, location }: TrackEditProps): JSX.Element | null => {
+  const trackId = Number(match.params.id)
   const returnTo = location.state?.returnTo ?? '/tracks'
 
   const history = useHistory()
