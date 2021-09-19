@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import PropTypes from 'prop-types'
+import { OptionsZoomTypeValue } from 'highcharts'
 import { Field } from 'formik'
 
 import { useTrackPointsQuery } from 'api/hooks/tracks/points'
@@ -8,7 +8,17 @@ import AltitudeChart from 'components/AltitudeChart'
 import PlotLine from 'components/Highchart/Plotline'
 import styles from './styles.module.scss'
 
-const TrackOffset = ({ trackId, setFieldValue, value }) => {
+type TrackOffsetProps = {
+  trackId: number
+  setFieldValue: (name: string, value: string | number | undefined) => void
+  value: number | undefined
+}
+
+const TrackOffset = ({
+  trackId,
+  setFieldValue,
+  value
+}: TrackOffsetProps): JSX.Element => {
   const { t } = useI18n()
   const { data: points = [] } = useTrackPointsQuery(trackId, { trimmed: false })
 
@@ -29,7 +39,7 @@ const TrackOffset = ({ trackId, setFieldValue, value }) => {
           click: handleChartClick
         },
         height: (9 / 16) * 100 + '%',
-        zoomType: 'x'
+        zoomType: 'x' as OptionsZoomTypeValue
       },
       plotOptions: {
         series: {
@@ -68,12 +78,6 @@ const TrackOffset = ({ trackId, setFieldValue, value }) => {
       </div>
     </div>
   )
-}
-
-TrackOffset.propTypes = {
-  trackId: PropTypes.number.isRequired,
-  setFieldValue: PropTypes.func,
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 }
 
 export default TrackOffset

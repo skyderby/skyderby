@@ -1,17 +1,22 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { match } from 'react-router-dom'
 
 import { useTrackResults } from 'api/hooks/tracks/results'
 import PageContainer from 'components/Tracks/Track/PageContainer'
-import CompetitorResult from './CompetitionResult'
+import CompetitionResult from './CompetitionResult'
 import OnlineRankingResults from './OnlineRankingResults'
 import BestResults from './BestResults'
 import TotalResults from './TotalResults'
 
-const TrackResults = ({ trackId }) => {
+type TrackResults = {
+  match: match<{ id: string }>
+}
+
+const TrackResults = ({ match }: TrackResults): JSX.Element | null => {
+  const trackId = Number(match.params.id)
   const { data: results, isLoading } = useTrackResults(trackId)
 
-  if (isLoading) return null
+  if (isLoading || !results) return null
 
   const {
     competitionResult,
@@ -22,16 +27,12 @@ const TrackResults = ({ trackId }) => {
 
   return (
     <PageContainer shrinkToContent>
-      <CompetitorResult result={competitionResult} />
+      <CompetitionResult result={competitionResult} />
       <BestResults results={bestResults} />
       <TotalResults results={totalResults} />
       <OnlineRankingResults results={onlineRankingResults} />
     </PageContainer>
   )
-}
-
-TrackResults.propTypes = {
-  trackId: PropTypes.number.isRequired
 }
 
 export default TrackResults

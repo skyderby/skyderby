@@ -1,12 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
+import { ResultsRecord } from 'api/hooks/tracks/results'
 import { formatResult } from './formatResult'
-
 import styles from './styles.module.scss'
 
-const BestResults = ({ results }) => {
+type BestResultsProps = {
+  results: ResultsRecord['bestResults']
+}
+
+const BestResults = ({ results }: BestResultsProps): JSX.Element | null => {
   const { t } = useI18n()
 
   if (results.length === 0) return null
@@ -19,31 +22,12 @@ const BestResults = ({ results }) => {
           <li key={task}>
             {t(`disciplines.${task}`)}
             :&nbsp;
-            {formatResult(result, task, t)}
+            {formatResult(result, task)}
             &nbsp; ({rangeFrom} - {rangeTo})
           </li>
         ))}
       </ul>
     </div>
-  )
-}
-
-BestResults.propTypes = {
-  results: PropTypes.arrayOf(
-    PropTypes.shape({
-      result: PropTypes.number.isRequired,
-      task: PropTypes.oneOf([
-        'time',
-        'distance',
-        'speed',
-        'distanceInTime',
-        'distanceInAltitude',
-        'flare',
-        'baseRace'
-      ]).isRequired,
-      rangeFrom: PropTypes.number,
-      rangeTo: PropTypes.number
-    })
   )
 }
 

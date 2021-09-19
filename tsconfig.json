@@ -5,7 +5,6 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "strict": true,
-    "noUncheckedIndexedAccess": true,
     "lib": ["esnext", "dom", "dom.iterable"],
     "module": "esnext",
     "moduleResolution": "node",

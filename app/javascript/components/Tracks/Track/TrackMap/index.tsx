@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import PropTypes from 'prop-types'
+import { match } from 'react-router-dom'
 
 import useGoogleMapsApi from 'utils/useGoogleMapsApi'
 import { getBoundaries } from 'utils/getBoundaries'
@@ -12,9 +12,14 @@ import { subtractWind } from 'utils/windCancellation'
 import Trajectory from './Trajectory'
 import styles from './styles.module.scss'
 
-const TrackMap = ({ trackId }) => {
-  const mapElementRef = useRef()
-  const [mapInstance, setMapInstance] = useState()
+type TrackMapProps = {
+  match: match<{ id: string }>
+}
+
+const TrackMap = ({ match }: TrackMapProps): JSX.Element => {
+  const trackId = Number(match.params.id)
+  const mapElementRef = useRef<HTMLDivElement>(null)
+  const [mapInstance, setMapInstance] = useState<google.maps.Map>()
   const google = useGoogleMapsApi()
 
   const { data: points = [] } = useTrackPointsQuery(trackId)
@@ -22,7 +27,7 @@ const TrackMap = ({ trackId }) => {
   const zeroWindPoints = subtractWind(points, windData)
 
   useEffect(() => {
-    if (!google) return
+    if (!google || !mapElementRef.current) return
 
     const options = {
       zoom: 2,
@@ -34,7 +39,7 @@ const TrackMap = ({ trackId }) => {
   }, [google])
 
   useEffect(() => {
-    if (!mapInstance) return
+    if (!google || !mapInstance) return
 
     const boundaries = getBoundaries(points)
 
@@ -70,10 +75,6 @@ const TrackMap = ({ trackId }) => {
       )}
     </PageContainer>
   )
-}
-
-TrackMap.propTypes = {
-  trackId: PropTypes.number.isRequired
 }
 
 export default TrackMap

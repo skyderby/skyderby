@@ -1,4 +1,4 @@
-import { loadScript, loadStyles } from 'utils/load_external'
+import { loadScript, loadStyles } from 'utils/loadExternal'
 
 import Meta from 'utils/meta'
 

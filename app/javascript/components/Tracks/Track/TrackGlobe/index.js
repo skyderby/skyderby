@@ -8,7 +8,8 @@ import Trajectory from './Trajectory'
 import ViewerClock from './ViewerClock'
 import styles from './styles.module.scss'
 
-const TrackGlobe = ({ trackId }) => {
+const TrackGlobe = ({ match }) => {
+  const trackId = Number(match.params.id)
   const Cesium = useCesiumApi()
   const element = useRef()
   const [viewer, setViewer] = useState()
