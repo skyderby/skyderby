@@ -1,17 +1,20 @@
 import React, { useRef, useCallback } from 'react'
 import { Field } from 'formik'
-import PropTypes from 'prop-types'
-
-import { videoCodeFromUrl } from 'utils/youtube'
 
 import { useI18n } from 'components/TranslationsProvider'
+import { videoCodeFromUrl } from 'components/YoutubePlayer/useYoutubeApi'
 import YoutubePlayer from 'components/YoutubePlayer'
 
 import styles from './styles.module.scss'
 
-const VideoSetup = ({ setFieldValue, videoId }) => {
+type VideoSetup = {
+  setFieldValue: (name: string, value: string | number | undefined | null) => void
+  videoId?: string
+}
+
+const VideoSetup = ({ setFieldValue, videoId }: VideoSetup): JSX.Element => {
   const { t } = useI18n()
-  const playerRef = useRef()
+  const playerRef = useRef<{ getPlayerTime(): number | undefined }>()
 
   const handleUrlChange = useCallback(
     e => {
@@ -23,8 +26,11 @@ const VideoSetup = ({ setFieldValue, videoId }) => {
   )
 
   const setTimeFromVideo = useCallback(() => {
-    const currentTime = Math.round(playerRef.current.getPlayerTime() * 10) / 10
-    if (!Number.isNaN(currentTime)) setFieldValue('videoOffset', currentTime)
+    if (!playerRef.current) return
+
+    const playerTime = playerRef.current.getPlayerTime()
+    if (playerTime === undefined) return
+    setFieldValue('videoOffset', Math.round(playerTime * 10) / 10)
   }, [setFieldValue])
 
   return (
@@ -64,11 +70,6 @@ const VideoSetup = ({ setFieldValue, videoId }) => {
       </div>
     </>
   )
-}
-
-VideoSetup.propTypes = {
-  setFieldValue: PropTypes.func,
-  videoId: PropTypes.string
 }
 
 export default VideoSetup

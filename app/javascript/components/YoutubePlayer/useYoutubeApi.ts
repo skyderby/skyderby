@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { loadScript } from 'utils/load_external'
+import { loadScript } from 'utils/loadExternal'
 
 const apiReady = 'youtube_api:ready'
 const apiError = 'youtube_api:failed'
@@ -29,8 +29,8 @@ const initYoutubeApi = () => {
   }
 }
 
-const useYoutubeApi = () => {
-  const [YT, setYT] = useState()
+const useYoutubeApi = (): typeof window.YT | undefined => {
+  const [YT, setYT] = useState<typeof window.YT>()
 
   useEffect(() => {
     const onApiReady = () => setYT(window.YT)
@@ -43,6 +43,13 @@ const useYoutubeApi = () => {
   }, [])
 
   return YT
+}
+
+export const videoCodeFromUrl = (url: string): string | undefined => {
+  const regex = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
+  const regex_matches = regex.exec(url)
+  if (!regex_matches) return
+  return regex_matches[2]
 }
 
 export default useYoutubeApi

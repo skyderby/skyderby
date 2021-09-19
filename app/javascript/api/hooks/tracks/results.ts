@@ -1,12 +1,23 @@
 import axios from 'axios'
 import { QueryFunction, useQuery, UseQueryOptions, UseQueryResult } from 'react-query'
 
-type Task = 'distance' | 'speed' | 'time' | 'vertical_speed'
+export type Task =
+  | 'distance'
+  | 'speed'
+  | 'time'
+  | 'vertical_speed'
+  | 'distance_in_time'
+  | 'distance_in_altitude'
+  | 'flare'
+  | 'base_race'
 
-type ResultsRecord = {
+export interface ResultsRecord {
   competitionResult: null | {
     eventId: number
+    eventName: string
+    eventType: 'performance' | 'speed_skydiving' | 'boogie' | 'tournament'
     task: Task
+    result: number
   }
   bestResults: Array<{
     task: Task
@@ -20,6 +31,8 @@ type ResultsRecord = {
   }>
   onlineRankingResults: Array<{
     rankingId: number
+    rankingName: string
+    groupName: string
     task: Task
     result: number
   }>

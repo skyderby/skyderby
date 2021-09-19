@@ -4,10 +4,16 @@ import {
   vectorFromMagnitudeAndDirection,
   sumVectors,
   getMagnitude,
-  getDirection
+  getDirection,
+  Vector
 } from 'utils/vectors'
+import { PointRecord } from 'api/hooks/tracks/points'
+import { WindDataRecord } from 'api/hooks/tracks/windData'
 
-const interpolateByAltitude = ([first, second], altitude) => {
+const interpolateByAltitude = (
+  [first, second]: WindDataRecord[],
+  altitude: number
+): Pick<WindDataRecord, 'windSpeed' | 'windDirection'> => {
   const interpolationFactor =
     (altitude - first.altitude) / (second.altitude - first.altitude)
 
@@ -20,22 +26,25 @@ const interpolateByAltitude = ([first, second], altitude) => {
   }
 }
 
-export const getWindEffect = (windData, altitude) => {
+export const getWindEffect = (
+  windData: WindDataRecord[],
+  altitude: number
+): Pick<WindDataRecord, 'windSpeed' | 'windDirection'> => {
   const firstRecord = windData[0]
   const lastRecord = windData[windData.length - 1]
 
-  if (altitude <= firstRecord.altitude) return firstRecord.altitude
-  if (altitude >= lastRecord.altitude) return lastRecord.altitude
+  if (altitude <= firstRecord.altitude) return firstRecord
+  if (altitude >= lastRecord.altitude) return lastRecord
 
   const index = windData.findIndex(el => el.altitude >= altitude)
 
   return interpolateByAltitude([windData[index - 1], windData[index]], altitude)
 }
 
-const calculateNewPosition = (points, windData) => {
+const calculateNewPosition = (points: PointRecord[], windData: WindDataRecord[]) => {
   const sortedData = windData.sort((a, b) => a.altitude - b.altitude)
 
-  let accumulatedWindEffect = [0, 0]
+  let accumulatedWindEffect: Vector = [0, 0]
 
   return points.map((point, idx) => {
     if (idx === 0) return point
@@ -43,7 +52,7 @@ const calculateNewPosition = (points, windData) => {
     const windEffect = getWindEffect(sortedData, point.altitude)
 
     const prevPoint = points[idx - 1]
-    const timeDiff = (point.gpsTime - prevPoint.gpsTime) / 1000
+    const timeDiff = (point.gpsTime.getTime() - prevPoint.gpsTime.getTime()) / 1000
 
     accumulatedWindEffect = sumVectors(
       accumulatedWindEffect,
@@ -67,11 +76,15 @@ const calculateNewPosition = (points, windData) => {
   })
 }
 
-const calculateSpeedAndGR = (point, idx, points) => {
+const calculateSpeedAndGR = (
+  point: PointRecord,
+  idx: number,
+  points: PointRecord[]
+): PointRecord => {
   if (idx === 0) return point
 
   const prevPoint = points[idx - 1]
-  const timeDiff = (point.gpsTime - prevPoint.gpsTime) / 1000
+  const timeDiff = (point.gpsTime.getTime() - prevPoint.gpsTime.getTime()) / 1000
 
   const prevPosition = new LatLon(prevPoint.latitude, prevPoint.longitude)
   const currentPosition = new LatLon(point.latitude, point.longitude)
@@ -86,7 +99,10 @@ const calculateSpeedAndGR = (point, idx, points) => {
   }
 }
 
-export const subtractWind = (points = [], windData = []) => {
+export const subtractWind = (
+  points: PointRecord[] = [],
+  windData: WindDataRecord[] = []
+): PointRecord[] => {
   if (points.length === 0 || windData.length === 0) return []
 
   const shiftedPoints = calculateNewPosition(points, windData)

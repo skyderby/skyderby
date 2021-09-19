@@ -1,12 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
+import { ResultsRecord } from 'api/hooks/tracks/results'
 import { formatResult } from './formatResult'
-
 import styles from './styles.module.scss'
 
-const TotalResults = ({ results }) => {
+type TotalResultsProps = {
+  results: ResultsRecord['totalResults']
+}
+
+const TotalResults = ({ results }: TotalResultsProps): JSX.Element | null => {
   const { t } = useI18n()
 
   if (results.length === 0) return null
@@ -19,20 +22,11 @@ const TotalResults = ({ results }) => {
           <li key={task}>
             {t(`disciplines.${task}`)}
             :&nbsp;
-            {formatResult(result, task, t)}
+            {formatResult(result, task)}
           </li>
         ))}
       </ul>
     </div>
-  )
-}
-
-TotalResults.propTypes = {
-  results: PropTypes.arrayOf(
-    PropTypes.shape({
-      result: PropTypes.number.isRequired,
-      task: PropTypes.string // TODO: Specify one of
-    })
   )
 }
 

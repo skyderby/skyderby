@@ -4,33 +4,48 @@ import { useI18n } from 'components/TranslationsProvider'
 import { msToKmh } from 'utils/unitsConversion'
 
 import styles from './styles.module.scss'
+import { PointRecord } from 'api/hooks/tracks/points'
 
 const valuePlaceholder = '---'
 const valueWithDecimalPlaceholder = '-.-'
 
 const Indicators = forwardRef((_props, ref) => {
   const { t } = useI18n()
-  const altitudeRef = useRef()
-  const hSpeedRef = useRef()
-  const vSpeedRef = useRef()
-  const glideRatioRef = useRef()
+  const altitudeRef = useRef<HTMLSpanElement>(null)
+  const hSpeedRef = useRef<HTMLSpanElement>(null)
+  const vSpeedRef = useRef<HTMLSpanElement>(null)
+  const glideRatioRef = useRef<HTMLDivElement>(null)
 
   const setBlankValues = () => {
-    altitudeRef.current.innerText = valuePlaceholder
-    vSpeedRef.current.innerText = valuePlaceholder
-    hSpeedRef.current.innerText = valuePlaceholder
-    glideRatioRef.current.innerText = valueWithDecimalPlaceholder
+    if (altitudeRef.current) altitudeRef.current.innerText = valuePlaceholder
+    if (vSpeedRef.current) vSpeedRef.current.innerText = valuePlaceholder
+    if (hSpeedRef.current) hSpeedRef.current.innerText = valuePlaceholder
+    if (glideRatioRef.current)
+      glideRatioRef.current.innerText = valueWithDecimalPlaceholder
   }
 
-  const setValues = ({ altitude, vSpeed, hSpeed, glideRatio }) => {
-    altitudeRef.current.innerText = Math.round(altitude / 10) * 10
-    vSpeedRef.current.innerText = msToKmh(vSpeed).toFixed()
-    hSpeedRef.current.innerText = msToKmh(hSpeed).toFixed()
-    glideRatioRef.current.innerText = glideRatio.toFixed(1)
+  const setValues = ({
+    altitude,
+    vSpeed,
+    hSpeed,
+    glideRatio
+  }: Partial<PointRecord>): void => {
+    if (altitudeRef.current && altitude !== undefined) {
+      altitudeRef.current.innerText = (Math.round(altitude / 10) * 10).toFixed()
+    }
+    if (vSpeedRef.current && vSpeed !== undefined) {
+      vSpeedRef.current.innerText = msToKmh(vSpeed).toFixed()
+    }
+    if (hSpeedRef.current && hSpeed !== undefined) {
+      hSpeedRef.current.innerText = msToKmh(hSpeed).toFixed()
+    }
+    if (glideRatioRef.current && glideRatio !== undefined) {
+      glideRatioRef.current.innerText = glideRatio.toFixed(1)
+    }
   }
 
   useImperativeHandle(ref, () => ({
-    setData: data => {
+    setData: (data: Partial<PointRecord> | null): void => {
       if (data) {
         setValues(data)
       } else {
