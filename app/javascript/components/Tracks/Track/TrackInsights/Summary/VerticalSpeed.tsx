@@ -17,7 +17,7 @@ const valuePresentation = (
   unitSystem: UnitSystem
 ): string | number => {
   const placeholder = '---'
-  if (value === null) return placeholder
+  if (!value || Number.isNaN(value)) return placeholder
 
   if (unitSystem === METRIC) return Math.round(msToKmh(value))
   if (unitSystem === IMPERIAL) return Math.round(msToMph(value))
