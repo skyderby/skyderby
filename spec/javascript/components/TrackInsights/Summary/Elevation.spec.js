@@ -1,20 +1,30 @@
 import React from 'react'
 
 import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
-import { METRIC, IMPERIAL } from 'redux/userPreferences'
+import TrackViewPreferencesProvider, {
+  METRIC,
+  IMPERIAL
+} from 'components/TrackViewPreferences'
 import Elevation from 'components/Tracks/Track/TrackInsights/Summary/Elevation'
 
 describe('Summary/Elevation', () => {
   it('shows elevation rounded to whole digit', () => {
-    const { getByLabelText } = renderWithAllProviders(<Elevation value={1000.373} />)
+    const { getByLabelText } = renderWithAllProviders(
+      <TrackViewPreferencesProvider>
+        <Elevation value={1000.373} />
+      </TrackViewPreferencesProvider>
+    )
 
     expect(getByLabelText('elevation').textContent).toBe('1000')
   })
 
   describe('metric units', () => {
     const renderComponent = props => {
-      const initialState = { userPreferences: { unitSystem: METRIC } }
-      return renderWithAllProviders(<Elevation {...props} />, initialState)
+      return renderWithAllProviders(
+        <TrackViewPreferencesProvider initialValues={{ unitSystem: METRIC }}>
+          <Elevation {...props} />
+        </TrackViewPreferencesProvider>
+      )
     }
 
     it('correct value', () => {
@@ -26,8 +36,11 @@ describe('Summary/Elevation', () => {
 
   describe('imperial units', () => {
     const renderComponent = props => {
-      const initialState = { userPreferences: { unitSystem: IMPERIAL } }
-      return renderWithAllProviders(<Elevation {...props} />, initialState)
+      return renderWithAllProviders(
+        <TrackViewPreferencesProvider initialValues={{ unitSystem: IMPERIAL }}>
+          <Elevation {...props} />
+        </TrackViewPreferencesProvider>
+      )
     }
 
     it('correct value', () => {
@@ -39,7 +52,11 @@ describe('Summary/Elevation', () => {
 
   describe('empty values', () => {
     it('shows placeholder', () => {
-      const { getByLabelText } = renderWithAllProviders(<Elevation />)
+      const { getByLabelText } = renderWithAllProviders(
+        <TrackViewPreferencesProvider>
+          <Elevation value={null} />
+        </TrackViewPreferencesProvider>
+      )
 
       expect(getByLabelText('elevation').textContent).toBe('----')
     })

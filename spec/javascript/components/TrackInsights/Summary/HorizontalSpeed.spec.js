@@ -1,14 +1,20 @@
 import React from 'react'
 
 import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
-import { METRIC, IMPERIAL } from 'redux/userPreferences'
+import TrackViewPreferencesProvider, {
+  METRIC,
+  IMPERIAL
+} from 'components/TrackViewPreferences'
 import HorizontalSpeed from 'components/Tracks/Track/TrackInsights/Summary/HorizontalSpeed'
 
 describe('Summary/VerticalSpeed', () => {
   describe('metric units', () => {
     const renderComponent = props => {
-      const initialState = { userPreferences: { unitSystem: METRIC } }
-      return renderWithAllProviders(<HorizontalSpeed {...props} />, initialState)
+      return renderWithAllProviders(
+        <TrackViewPreferencesProvider initialValues={{ unitSystem: METRIC }}>
+          <HorizontalSpeed {...props} />
+        </TrackViewPreferencesProvider>
+      )
     }
 
     it('hide wind effect if no zeroWindValue provided', () => {
@@ -56,8 +62,11 @@ describe('Summary/VerticalSpeed', () => {
 
   describe('imperial units', () => {
     const renderComponent = props => {
-      const initialState = { userPreferences: { unitSystem: IMPERIAL } }
-      return renderWithAllProviders(<HorizontalSpeed {...props} />, initialState)
+      return renderWithAllProviders(
+        <TrackViewPreferencesProvider initialValues={{ unitSystem: IMPERIAL }}>
+          <HorizontalSpeed {...props} />
+        </TrackViewPreferencesProvider>
+      )
     }
 
     it('average value', () => {
@@ -97,8 +106,11 @@ describe('Summary/VerticalSpeed', () => {
 
   describe('empty values', () => {
     const renderComponent = props => {
-      const initialState = { userPreferences: { unitSystem: METRIC } }
-      return renderWithAllProviders(<HorizontalSpeed {...props} />, initialState)
+      return renderWithAllProviders(
+        <TrackViewPreferencesProvider initialValues={{ unitSystem: METRIC }}>
+          <HorizontalSpeed {...props} />
+        </TrackViewPreferencesProvider>
+      )
     }
 
     it('average value - NaN', () => {
@@ -107,14 +119,6 @@ describe('Summary/VerticalSpeed', () => {
       })
 
       expect(getByLabelText('average horizontal speed').textContent).toBe('---')
-    })
-
-    it('max value - undefined', () => {
-      const { getByLabelText } = renderComponent({
-        value: { avg: 23.373, min: 20, max: undefined }
-      })
-
-      expect(getByLabelText('maximum horizontal speed').textContent).toBe('---')
     })
 
     it('min value - null', () => {

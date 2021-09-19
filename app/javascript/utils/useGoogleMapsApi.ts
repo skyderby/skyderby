@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
 
+import Meta from 'utils/meta'
+
 const loader = new Loader({
-  apiKey: window.MAPS_API_KEY ?? '',
+  apiKey: Meta.mapsApiKey ?? '',
   version: 'weekly',
   libraries: []
 })

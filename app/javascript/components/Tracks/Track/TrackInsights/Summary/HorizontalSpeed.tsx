@@ -18,7 +18,7 @@ const valuePresentation = (
   unitSystem: UnitSystem
 ): string | number => {
   const placeholder = '---'
-  if (value === null) return placeholder
+  if (!value || Number.isNaN(value)) return placeholder
 
   if (unitSystem === METRIC) return Math.round(msToKmh(value))
   if (unitSystem === IMPERIAL) return Math.round(msToMph(value))
@@ -42,7 +42,7 @@ const HorizontalSpeed = ({ value, zeroWindValue }: HorizontalSpeedProps): JSX.El
   } = useTrackViewPreferences()
   const units = unitSystem === METRIC ? 'kmh' : 'mph'
   const { min, max, avg } = value
-  const showWindEffect = avg !== null && zeroWindValue !== null
+  const showWindEffect = avg && zeroWindValue
 
   return (
     <div className={styles.summaryItem} data-value="ground-speed">
