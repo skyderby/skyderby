@@ -8,7 +8,7 @@ import styles from './styles.module.scss'
 
 const valuePresentation = (value: number | null): string => {
   const placeholder = '-.--'
-  if (value === null) return placeholder
+  if (!value || Number.isNaN(value)) return placeholder
 
   const roundedValue = Math.round(value * 100) / 100
   if (roundedValue >= 10) {
@@ -30,7 +30,7 @@ type GlideRatioProps = {
 const GlideRatio = ({ value, zeroWindValue }: GlideRatioProps): JSX.Element => {
   const { t } = useI18n()
   const { min, max, avg } = value
-  const showWindEffect = avg !== null && zeroWindValue !== null
+  const showWindEffect = avg && zeroWindValue
 
   return (
     <div className={styles.summaryItem} data-value="glide-ratio">

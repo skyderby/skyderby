@@ -3,7 +3,12 @@ import { fireEvent, waitFor } from '@testing-library/react'
 import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
 
 import createModalRoot from 'testHelpers/createModalRoot'
-import { METRIC, IMPERIAL, SINGLE_CHART, MULTI_CHART } from 'redux/userPreferences'
+import TrackViewPreferencesProvider, {
+  METRIC,
+  IMPERIAL,
+  SINGLE_CHART,
+  SEPARATE_CHARTS
+} from 'components/TrackViewPreferences'
 import SettingsModal from 'components/Tracks/Track/TrackInsights/ViewSettings/SettingsModal'
 
 describe('SettingsModal', () => {
@@ -20,12 +25,14 @@ describe('SettingsModal', () => {
 
   const renderComponent = () =>
     renderWithAllProviders(
-      <SettingsModal
-        isShown={true}
-        onHide={handleHide}
-        formValues={{ chartMode: MULTI_CHART, unitSystem: IMPERIAL }}
-        onSubmit={handleSubmit}
-      />
+      <TrackViewPreferencesProvider>
+        <SettingsModal
+          isShown={true}
+          onHide={handleHide}
+          formValues={{ chartMode: SEPARATE_CHARTS, unitSystem: IMPERIAL }}
+          onSubmit={handleSubmit}
+        />
+      </TrackViewPreferencesProvider>
     )
 
   it('submitting changed values', async () => {
