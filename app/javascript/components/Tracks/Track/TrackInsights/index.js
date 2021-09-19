@@ -15,7 +15,8 @@ import ViewSettings from './ViewSettings'
 import RangeShortcuts from './RangeShortcuts'
 import { getMinMaxAltitude } from './minMaxAltitude'
 
-const TrackInsights = ({ trackId }) => {
+const TrackInsights = ({ match }) => {
+  const trackId = Number(match.params.id)
   const history = useHistory()
   const location = useLocation()
   const { data: track } = useTrackQuery(trackId)

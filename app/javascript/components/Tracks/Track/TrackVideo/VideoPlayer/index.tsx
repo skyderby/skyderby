@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react'
 import { Link, Redirect } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
 import YoutubePlayer from 'components/YoutubePlayer'
@@ -9,23 +8,29 @@ import CogIcon from 'icons/cog.svg'
 import Indicators from './Indicators'
 import { getDataForTime } from './utils'
 import { useTrackQuery } from 'api/hooks/tracks'
-import { useTrackPointsQuery } from 'api/hooks/tracks/points'
+import { PointRecord, useTrackPointsQuery } from 'api/hooks/tracks/points'
 import { useTrackVideoQuery } from 'api/hooks/tracks/video'
 import styles from './styles.module.scss'
 
-const VideoPlayer = ({ trackId }) => {
+type VideoPlayerProps = {
+  trackId: number
+}
+
+const VideoPlayer = ({ trackId }: VideoPlayerProps): JSX.Element | null => {
   const { t } = useI18n()
   const { data: track } = useTrackQuery(trackId)
   const { data: points = [] } = useTrackPointsQuery(trackId)
   const { data: video } = useTrackVideoQuery(trackId)
 
-  const requestId = useRef()
-  const playerRef = useRef()
-  const indicatorsRef = useRef()
+  const requestId = useRef<number>()
+  const playerRef = useRef<{ getPlayerTime: () => number | undefined }>()
+  const indicatorsRef = useRef<{
+    setData: (point: Partial<PointRecord> | null) => void
+  }>()
 
   const drawFrame = () => {
     const currentTime = playerRef.current?.getPlayerTime()
-    const currentData = getDataForTime(points, video, currentTime)
+    const currentData = currentTime ? getDataForTime(points, video, currentTime) : null
 
     indicatorsRef.current?.setData(currentData)
 
@@ -35,16 +40,20 @@ const VideoPlayer = ({ trackId }) => {
   const onPlay = () => (requestId.current = requestAnimationFrame(drawFrame))
 
   const onPause = () => {
-    cancelAnimationFrame(requestId.current)
-    requestId.current = undefined
+    if (requestId.current) {
+      cancelAnimationFrame(requestId.current)
+      requestId.current = undefined
+    }
   }
 
   useEffect(() => {
-    return () => requestId.current && cancelAnimationFrame(requestId.current)
+    return () => {
+      requestId.current && cancelAnimationFrame(requestId.current)
+    }
   }, [])
 
-  if (!track.hasVideo) {
-    if (track.permissions.canEdit) {
+  if (!track?.hasVideo) {
+    if (track?.permissions.canEdit) {
       return <Redirect to={`/tracks/${trackId}/video/edit`} />
     } else {
       return <Redirect to={`/tracks/${trackId}`} />
@@ -73,10 +82,6 @@ const VideoPlayer = ({ trackId }) => {
       <Indicators ref={indicatorsRef} />
     </PageContainer>
   )
-}
-
-VideoPlayer.propTypes = {
-  trackId: PropTypes.number.isRequired
 }
 
 export default VideoPlayer
