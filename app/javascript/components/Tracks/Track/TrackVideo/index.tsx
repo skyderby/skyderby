@@ -1,13 +1,16 @@
 import React from 'react'
-import { Route, Switch, useRouteMatch } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { Route, Switch, match } from 'react-router-dom'
 
 import { useTrackQuery } from 'api/hooks/tracks'
 import VideoSettings from './VideoSettings'
 import VideoPlayer from './VideoPlayer'
 
-const TrackVideo = ({ trackId }) => {
-  const match = useRouteMatch()
+type TrackVideoProps = {
+  match: match<{ id: string }>
+}
+
+const TrackVideo = ({ match }: TrackVideoProps): JSX.Element => {
+  const trackId = Number(match.params.id)
   const { data: track } = useTrackQuery(trackId)
 
   return (
@@ -15,7 +18,7 @@ const TrackVideo = ({ trackId }) => {
       <Route exact path={`${match.path}`}>
         <VideoPlayer trackId={trackId} />
       </Route>
-      {track.permissions.canEdit && (
+      {track?.permissions?.canEdit && (
         <Route path={`${match.path}/edit`}>
           <VideoSettings trackId={trackId} />
         </Route>
@@ -24,7 +27,4 @@ const TrackVideo = ({ trackId }) => {
   )
 }
 
-TrackVideo.propTypes = {
-  trackId: PropTypes.number.isRequired
-}
 export default TrackVideo
