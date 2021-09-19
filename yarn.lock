@@ -2826,6 +2826,11 @@
   resolved "https://registry.yarnpkg.com/@types/braces/-/braces-3.0.0.tgz#7da1c0d44ff1c7eb660a36ec078ea61ba7eb42cb"
   integrity sha512-TbH79tcyi9FHwbyboOKeRachRq63mSuWYXOflsNO9ZyE5ClQ/JaozNKl+aWUq87qPNsXasXxi2AbgfwIJ+8GQw==
 
+"@types/cesium@^1.67.14":
+  version "1.67.14"
+  resolved "https://registry.yarnpkg.com/@types/cesium/-/cesium-1.67.14.tgz#abc880e24943a559550aca9bfd028bf741f4e4a6"
+  integrity sha512-BGek4o6VY25IqmpdBd1awlULSVjyRrbn111xI/LRZQf4QUPlYfsXOYkun8vcXr+u+iYQkh9LAYNf2h0lE95xcA==
+
 "@types/d3-array@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@types/d3-array/-/d3-array-3.0.1.tgz#0ff28ee7052a2e504cb951d17df7437c33d442d6"

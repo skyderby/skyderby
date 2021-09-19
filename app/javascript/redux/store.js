@@ -5,9 +5,6 @@ import eventTeams from 'redux/events/teams'
 import manufacturers from 'redux/manufacturers'
 import suits from 'redux/suits'
 import suitUsageStats from 'redux/suitUsageStats'
-import userPreferences from 'redux/userPreferences'
-
-import { loadState, saveState } from 'redux/localStorage'
 
 export const createStore = preloadedState =>
   configureStore({
@@ -16,21 +13,11 @@ export const createStore = preloadedState =>
       eventTeams,
       manufacturers,
       suits,
-      suitUsageStats,
-      userPreferences
+      suitUsageStats
     },
     preloadedState
   })
 
-const persistedState = loadState()
-const store = createStore(persistedState)
-
-store.subscribe(() => {
-  const { userPreferences } = store.getState()
-
-  saveState({
-    userPreferences
-  })
-})
+const store = createStore()
 
 export default store

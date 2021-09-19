@@ -14,8 +14,8 @@
   }
 }
 
-.container > [value='distance'],
-.container > [value='elevation'] {
+.container > [data-value='distance'],
+.container > [data-value='elevation'] {
   display: none;
 
   @include sm-screen {
@@ -26,7 +26,7 @@
 .summaryItem {
   overflow: hidden;
 
-  &[value='glide-ratio'] {
+  &[data-value='glide-ratio'] {
     grid-row: 1;
     grid-column: 1;
 
@@ -36,7 +36,7 @@
     }
   }
 
-  &[value='ground-speed'] {
+  &[data-value='ground-speed'] {
     grid-row: 1;
     grid-column: 2;
 
@@ -46,7 +46,7 @@
     }
   }
 
-  &[value='time'] {
+  &[data-value='time'] {
     grid-row: 2;
     grid-column: 1;
 
@@ -56,7 +56,7 @@
     }
   }
 
-  &[value='vertical-speed'] {
+  &[data-value='vertical-speed'] {
     grid-row: 2;
     grid-column: 2;
 
@@ -66,7 +66,7 @@
     }
   }
 
-  &[value='distance'] {
+  &[data-value='distance'] {
     grid-row: 3;
     grid-column: 1;
 
@@ -76,7 +76,7 @@
     }
   }
 
-  &[value='elevation'] {
+  &[data-value='elevation'] {
     grid-row: 3;
     grid-column: 2;
 

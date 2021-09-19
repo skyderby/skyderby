@@ -12,7 +12,7 @@ declare module 'highcharts' {
 }
 
 export const refreshTooltipHandler = throttle(
-  (chart: Chart | undefined) => (evt: React.MouseEvent) => {
+  (chart: Chart | undefined) => (evt: React.MouseEvent | React.TouchEvent) => {
     if (!chart) return
 
     const normalizedEvent = chart.pointer?.normalize(evt.nativeEvent)
@@ -29,9 +29,8 @@ export const refreshTooltipHandler = throttle(
     }, [])
 
     if (points.length > 0) {
-      points[0]?.onMouseOver()
       chart.tooltip.refresh(points)
-      chart.xAxis[0]?.drawCrosshair(normalizedEvent, points[0])
+      chart.xAxis[0].drawCrosshair(normalizedEvent, points[0])
     }
   },
   20
