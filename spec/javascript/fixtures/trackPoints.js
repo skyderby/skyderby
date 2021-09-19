@@ -1,6 +1,6 @@
 export default [
   {
-    gpsTime: 1484814388800,
+    gpsTime: new Date(1484814388800),
     flTime: 500.2,
     absAltitude: 4130.414,
     altitude: 4062.414,
@@ -11,7 +11,7 @@ export default [
     glideRatio: 3.5053024830744
   },
   {
-    gpsTime: 1484814389000,
+    gpsTime: new Date(1484814389000),
     flTime: 500.4,
     absAltitude: 4127.897,
     altitude: 4059.897,
@@ -22,7 +22,7 @@ export default [
     glideRatio: 2.9179834609508
   },
   {
-    gpsTime: 1484814390000,
+    gpsTime: new Date(1484814390000),
     flTime: 501.4,
     absAltitude: 4109.187,
     altitude: 4041.187,
@@ -33,7 +33,7 @@ export default [
     glideRatio: 1.21732460581278
   },
   {
-    gpsTime: 1484814391000,
+    gpsTime: new Date(1484814391000),
     flTime: 502.4,
     absAltitude: 4083.804,
     altitude: 4015.804,
@@ -44,7 +44,7 @@ export default [
     glideRatio: 0.775789778369391
   },
   {
-    gpsTime: 1484814392000,
+    gpsTime: new Date(1484814392000),
     flTime: 503.4,
     absAltitude: 4054.668,
     altitude: 3986.668,
@@ -55,7 +55,7 @@ export default [
     glideRatio: 0.705810110507456
   },
   {
-    gpsTime: 1484814393000,
+    gpsTime: new Date(1484814393000),
     flTime: 504.4,
     absAltitude: 4024.861,
     altitude: 3956.861,
@@ -66,7 +66,7 @@ export default [
     glideRatio: 0.758856018378886
   },
   {
-    gpsTime: 1484814394000,
+    gpsTime: new Date(1484814394000),
     flTime: 505.4,
     absAltitude: 3996.229,
     altitude: 3928.229,
@@ -77,7 +77,7 @@ export default [
     glideRatio: 0.872186723902451
   },
   {
-    gpsTime: 1484814395000,
+    gpsTime: new Date(1484814395000),
     flTime: 506.4,
     absAltitude: 3968.048,
     altitude: 3900.048,
@@ -88,7 +88,7 @@ export default [
     glideRatio: 0.960750724157729
   },
   {
-    gpsTime: 1484814396000,
+    gpsTime: new Date(1484814396000),
     flTime: 507.4,
     absAltitude: 3939.964,
     altitude: 3871.964,
@@ -99,7 +99,7 @@ export default [
     glideRatio: 1.04835381787201
   },
   {
-    gpsTime: 1484814397000,
+    gpsTime: new Date(1484814397000),
     flTime: 508.4,
     absAltitude: 3912.207,
     altitude: 3844.207,
@@ -110,7 +110,7 @@ export default [
     glideRatio: 1.09102472652612
   },
   {
-    gpsTime: 1484814398000,
+    gpsTime: new Date(1484814398000),
     flTime: 509.4,
     absAltitude: 3882.336,
     altitude: 3814.336,
@@ -121,7 +121,7 @@ export default [
     glideRatio: 1.06096460064869
   },
   {
-    gpsTime: 1484814399000,
+    gpsTime: new Date(1484814399000),
     flTime: 510.4,
     absAltitude: 3850.39,
     altitude: 3782.39,
@@ -132,7 +132,7 @@ export default [
     glideRatio: 1.03540963539446
   },
   {
-    gpsTime: 1484814400000,
+    gpsTime: new Date(1484814400000),
     flTime: 511.4,
     absAltitude: 3817.185,
     altitude: 3749.185,
@@ -143,7 +143,7 @@ export default [
     glideRatio: 1.07805190002606
   },
   {
-    gpsTime: 1484814401000,
+    gpsTime: new Date(1484814401000),
     flTime: 512.4,
     absAltitude: 3789.896,
     altitude: 3721.896,
@@ -154,7 +154,7 @@ export default [
     glideRatio: 1.43343969051798
   },
   {
-    gpsTime: 1484814402000,
+    gpsTime: new Date(1484814402000),
     flTime: 513.4,
     absAltitude: 3768.591,
     altitude: 3700.591,
@@ -165,7 +165,7 @@ export default [
     glideRatio: 1.80868732801597
   },
   {
-    gpsTime: 1484814403000,
+    gpsTime: new Date(1484814403000),
     flTime: 514.4,
     absAltitude: 3751.23,
     altitude: 3683.23,
@@ -176,7 +176,7 @@ export default [
     glideRatio: 2.12251463953274
   },
   {
-    gpsTime: 1484814404000,
+    gpsTime: new Date(1484814404000),
     flTime: 515.4,
     absAltitude: 3736.04,
     altitude: 3668.04,
@@ -187,7 +187,7 @@ export default [
     glideRatio: 2.29043140565014
   },
   {
-    gpsTime: 1484814405000,
+    gpsTime: new Date(1484814405000),
     flTime: 516.4,
     absAltitude: 3721.89,
     altitude: 3653.89,
@@ -198,7 +198,7 @@ export default [
     glideRatio: 2.30598151283347
   },
   {
-    gpsTime: 1484814406000,
+    gpsTime: new Date(1484814406000),
     flTime: 517.4,
     absAltitude: 3708.257,
     altitude: 3640.257,
@@ -209,7 +209,7 @@ export default [
     glideRatio: 2.20474049422631
   },
   {
-    gpsTime: 1484814407000,
+    gpsTime: new Date(1484814407000),
     flTime: 518.4,
     absAltitude: 3694.033,
     altitude: 3626.033,
@@ -220,7 +220,7 @@ export default [
     glideRatio: 1.88803393172748
   },
   {
-    gpsTime: 1484814408000,
+    gpsTime: new Date(1484814408000),
     flTime: 519.4,
     absAltitude: 3677.653,
     altitude: 3609.653,
@@ -231,7 +231,7 @@ export default [
     glideRatio: 1.53261395402058
   },
   {
-    gpsTime: 1484814409000,
+    gpsTime: new Date(1484814409000),
     flTime: 520.4,
     absAltitude: 3658.844,
     altitude: 3590.844,
@@ -242,7 +242,7 @@ export default [
     glideRatio: 1.27440590638719
   },
   {
-    gpsTime: 1484814410000,
+    gpsTime: new Date(1484814410000),
     flTime: 521.4,
     absAltitude: 3637.755,
     altitude: 3569.755,
@@ -253,7 +253,7 @@ export default [
     glideRatio: 1.12558696639063
   },
   {
-    gpsTime: 1484814411000,
+    gpsTime: new Date(1484814411000),
     flTime: 522.4,
     absAltitude: 3614.359,
     altitude: 3546.359,
@@ -264,7 +264,7 @@ export default [
     glideRatio: 1.04711924352844
   },
   {
-    gpsTime: 1484814412000,
+    gpsTime: new Date(1484814412000),
     flTime: 523.4,
     absAltitude: 3588.271,
     altitude: 3520.271,
@@ -275,7 +275,7 @@ export default [
     glideRatio: 1.02053125578116
   },
   {
-    gpsTime: 1484814413000,
+    gpsTime: new Date(1484814413000),
     flTime: 524.4,
     absAltitude: 3560.316,
     altitude: 3492.316,
@@ -286,7 +286,7 @@ export default [
     glideRatio: 1.06435786512048
   },
   {
-    gpsTime: 1484814414000,
+    gpsTime: new Date(1484814414000),
     flTime: 525.4,
     absAltitude: 3531.333,
     altitude: 3463.333,
@@ -297,7 +297,7 @@ export default [
     glideRatio: 1.1005143315999
   },
   {
-    gpsTime: 1484814415000,
+    gpsTime: new Date(1484814415000),
     flTime: 526.4,
     absAltitude: 3501.467,
     altitude: 3433.467,
@@ -308,7 +308,7 @@ export default [
     glideRatio: 1.1944128264644
   },
   {
-    gpsTime: 1484814416000,
+    gpsTime: new Date(1484814416000),
     flTime: 527.4,
     absAltitude: 3472.393,
     altitude: 3404.393,
@@ -319,7 +319,7 @@ export default [
     glideRatio: 1.3310814894122
   },
   {
-    gpsTime: 1484814417000,
+    gpsTime: new Date(1484814417000),
     flTime: 528.4,
     absAltitude: 3443.367,
     altitude: 3375.367,
@@ -330,7 +330,7 @@ export default [
     glideRatio: 1.41126508440701
   },
   {
-    gpsTime: 1484814418000,
+    gpsTime: new Date(1484814418000),
     flTime: 529.4,
     absAltitude: 3412.79,
     altitude: 3344.79,
@@ -341,7 +341,7 @@ export default [
     glideRatio: 1.39380683903838
   },
   {
-    gpsTime: 1484814419000,
+    gpsTime: new Date(1484814419000),
     flTime: 530.4,
     absAltitude: 3380.912,
     altitude: 3312.912,
@@ -352,7 +352,7 @@ export default [
     glideRatio: 1.42064505707319
   },
   {
-    gpsTime: 1484814420000,
+    gpsTime: new Date(1484814420000),
     flTime: 531.4,
     absAltitude: 3348.531,
     altitude: 3280.531,
@@ -363,7 +363,7 @@ export default [
     glideRatio: 1.46288659164392
   },
   {
-    gpsTime: 1484814421000,
+    gpsTime: new Date(1484814421000),
     flTime: 532.4,
     absAltitude: 3316.408,
     altitude: 3248.408,
@@ -374,7 +374,7 @@ export default [
     glideRatio: 1.5412465641919
   },
   {
-    gpsTime: 1484814422000,
+    gpsTime: new Date(1484814422000),
     flTime: 533.4,
     absAltitude: 3285.732,
     altitude: 3217.732,
@@ -385,7 +385,7 @@ export default [
     glideRatio: 1.72722889921446
   },
   {
-    gpsTime: 1484814423000,
+    gpsTime: new Date(1484814423000),
     flTime: 534.4,
     absAltitude: 3260.976,
     altitude: 3192.976,
@@ -396,7 +396,7 @@ export default [
     glideRatio: 2.2003474768457
   },
   {
-    gpsTime: 1484814424000,
+    gpsTime: new Date(1484814424000),
     flTime: 535.4,
     absAltitude: 3240.538,
     altitude: 3172.538,
@@ -407,7 +407,7 @@ export default [
     glideRatio: 2.60812161400086
   },
   {
-    gpsTime: 1484814425000,
+    gpsTime: new Date(1484814425000),
     flTime: 536.4,
     absAltitude: 3222.86,
     altitude: 3154.86,
@@ -418,7 +418,7 @@ export default [
     glideRatio: 2.94905223611652
   },
   {
-    gpsTime: 1484814426000,
+    gpsTime: new Date(1484814426000),
     flTime: 537.4,
     absAltitude: 3207.157,
     altitude: 3139.157,
@@ -429,7 +429,7 @@ export default [
     glideRatio: 3.19055792312742
   },
   {
-    gpsTime: 1484814427000,
+    gpsTime: new Date(1484814427000),
     flTime: 538.4,
     absAltitude: 3192.753,
     altitude: 3124.753,
@@ -440,7 +440,7 @@ export default [
     glideRatio: 3.38959141276962
   },
   {
-    gpsTime: 1484814428000,
+    gpsTime: new Date(1484814428000),
     flTime: 539.4,
     absAltitude: 3178.577,
     altitude: 3110.577,
@@ -451,7 +451,7 @@ export default [
     glideRatio: 3.27739185362893
   },
   {
-    gpsTime: 1484814429000,
+    gpsTime: new Date(1484814429000),
     flTime: 540.4,
     absAltitude: 3164.668,
     altitude: 3096.668,
@@ -462,7 +462,7 @@ export default [
     glideRatio: 3.26450918988717
   },
   {
-    gpsTime: 1484814430000,
+    gpsTime: new Date(1484814430000),
     flTime: 541.4,
     absAltitude: 3149.887,
     altitude: 3081.887,
@@ -473,7 +473,7 @@ export default [
     glideRatio: 2.95846915141101
   },
   {
-    gpsTime: 1484814431000,
+    gpsTime: new Date(1484814431000),
     flTime: 542.4,
     absAltitude: 3134.479,
     altitude: 3066.479,
@@ -484,7 +484,7 @@ export default [
     glideRatio: 2.81879417867732
   },
   {
-    gpsTime: 1484814432000,
+    gpsTime: new Date(1484814432000),
     flTime: 543.4,
     absAltitude: 3118.196,
     altitude: 3050.196,
@@ -495,7 +495,7 @@ export default [
     glideRatio: 2.63428602876341
   },
   {
-    gpsTime: 1484814433000,
+    gpsTime: new Date(1484814433000),
     flTime: 544.4,
     absAltitude: 3101.03,
     altitude: 3033.03,
@@ -506,7 +506,7 @@ export default [
     glideRatio: 2.4831578241455
   },
   {
-    gpsTime: 1484814434000,
+    gpsTime: new Date(1484814434000),
     flTime: 545.4,
     absAltitude: 3082.729,
     altitude: 3014.729,
@@ -517,7 +517,7 @@ export default [
     glideRatio: 2.31548434638242
   },
   {
-    gpsTime: 1484814435000,
+    gpsTime: new Date(1484814435000),
     flTime: 546.4,
     absAltitude: 3063.627,
     altitude: 2995.627,
@@ -528,7 +528,7 @@ export default [
     glideRatio: 2.2395057105325
   },
   {
-    gpsTime: 1484814436000,
+    gpsTime: new Date(1484814436000),
     flTime: 547.4,
     absAltitude: 3043.504,
     altitude: 2975.504,
@@ -539,7 +539,7 @@ export default [
     glideRatio: 2.13958610097204
   },
   {
-    gpsTime: 1484814437000,
+    gpsTime: new Date(1484814437000),
     flTime: 548.4,
     absAltitude: 3022.687,
     altitude: 2954.687,
@@ -550,7 +550,7 @@ export default [
     glideRatio: 2.12368508099605
   },
   {
-    gpsTime: 1484814438000,
+    gpsTime: new Date(1484814438000),
     flTime: 549.4,
     absAltitude: 3001.386,
     altitude: 2933.386,
@@ -561,7 +561,7 @@ export default [
     glideRatio: 2.10841246723534
   },
   {
-    gpsTime: 1484814439000,
+    gpsTime: new Date(1484814439000),
     flTime: 550.4,
     absAltitude: 2979.729,
     altitude: 2911.729,
@@ -572,7 +572,7 @@ export default [
     glideRatio: 2.07247706422018
   },
   {
-    gpsTime: 1484814440000,
+    gpsTime: new Date(1484814440000),
     flTime: 551.4,
     absAltitude: 2957.705,
     altitude: 2889.705,
@@ -583,7 +583,7 @@ export default [
     glideRatio: 2.09379846695763
   },
   {
-    gpsTime: 1484814441000,
+    gpsTime: new Date(1484814441000),
     flTime: 552.4,
     absAltitude: 2937.293,
     altitude: 2869.293,
@@ -594,7 +594,7 @@ export default [
     glideRatio: 2.28337062588173
   },
   {
-    gpsTime: 1484814442000,
+    gpsTime: new Date(1484814442000),
     flTime: 553.4,
     absAltitude: 2918.5,
     altitude: 2850.5,
@@ -605,7 +605,7 @@ export default [
     glideRatio: 2.44725535510209
   },
   {
-    gpsTime: 1484814443000,
+    gpsTime: new Date(1484814443000),
     flTime: 554.4,
     absAltitude: 2899.898,
     altitude: 2831.898,
@@ -616,7 +616,7 @@ export default [
     glideRatio: 2.38067299541771
   },
   {
-    gpsTime: 1484814444000,
+    gpsTime: new Date(1484814444000),
     flTime: 555.4,
     absAltitude: 2880.595,
     altitude: 2812.595,
@@ -627,7 +627,7 @@ export default [
     glideRatio: 2.25370133650188
   },
   {
-    gpsTime: 1484814445000,
+    gpsTime: new Date(1484814445000),
     flTime: 556.4,
     absAltitude: 2860.562,
     altitude: 2792.562,
@@ -638,7 +638,7 @@ export default [
     glideRatio: 2.2003851476278
   },
   {
-    gpsTime: 1484814446000,
+    gpsTime: new Date(1484814446000),
     flTime: 557.4,
     absAltitude: 2840.117,
     altitude: 2772.117,
@@ -649,7 +649,7 @@ export default [
     glideRatio: 2.13184141153013
   },
   {
-    gpsTime: 1484814447000,
+    gpsTime: new Date(1484814447000),
     flTime: 558.4,
     absAltitude: 2818.95,
     altitude: 2750.95,
@@ -660,7 +660,7 @@ export default [
     glideRatio: 2.09342844273406
   },
   {
-    gpsTime: 1484814448000,
+    gpsTime: new Date(1484814448000),
     flTime: 559.4,
     absAltitude: 2797.288,
     altitude: 2729.288,
@@ -671,7 +671,7 @@ export default [
     glideRatio: 2.02558020027023
   },
   {
-    gpsTime: 1484814449000,
+    gpsTime: new Date(1484814449000),
     flTime: 560.4,
     absAltitude: 2774.658,
     altitude: 2706.658,
@@ -682,7 +682,7 @@ export default [
     glideRatio: 1.98269838830303
   },
   {
-    gpsTime: 1484814450000,
+    gpsTime: new Date(1484814450000),
     flTime: 561.4,
     absAltitude: 2752.046,
     altitude: 2684.046,
@@ -693,7 +693,7 @@ export default [
     glideRatio: 2.03708575692186
   },
   {
-    gpsTime: 1484814451000,
+    gpsTime: new Date(1484814451000),
     flTime: 562.4,
     absAltitude: 2729.986,
     altitude: 2661.986,
@@ -704,7 +704,7 @@ export default [
     glideRatio: 2.08632800112814
   },
   {
-    gpsTime: 1484814452000,
+    gpsTime: new Date(1484814452000),
     flTime: 563.4,
     absAltitude: 2707.963,
     altitude: 2639.963,
@@ -715,7 +715,7 @@ export default [
     glideRatio: 2.05120014252421
   },
   {
-    gpsTime: 1484814453000,
+    gpsTime: new Date(1484814453000),
     flTime: 564.4,
     absAltitude: 2683.376,
     altitude: 2615.376,
@@ -726,7 +726,7 @@ export default [
     glideRatio: 1.84121234223937
   },
   {
-    gpsTime: 1484814454000,
+    gpsTime: new Date(1484814454000),
     flTime: 565.4,
     absAltitude: 2658.417,
     altitude: 2590.417,
@@ -737,7 +737,7 @@ export default [
     glideRatio: 1.95527905524738
   },
   {
-    gpsTime: 1484814455000,
+    gpsTime: new Date(1484814455000),
     flTime: 566.4,
     absAltitude: 2637.64,
     altitude: 2569.64,
@@ -748,7 +748,7 @@ export default [
     glideRatio: 2.32122879645673
   },
   {
-    gpsTime: 1484814456000,
+    gpsTime: new Date(1484814456000),
     flTime: 567.4,
     absAltitude: 2618.951,
     altitude: 2550.951,
@@ -759,7 +759,7 @@ export default [
     glideRatio: 2.5397441104309
   },
   {
-    gpsTime: 1484814457000,
+    gpsTime: new Date(1484814457000),
     flTime: 568.4,
     absAltitude: 2601.544,
     altitude: 2533.544,
@@ -770,7 +770,7 @@ export default [
     glideRatio: 2.59181844361059
   },
   {
-    gpsTime: 1484814458000,
+    gpsTime: new Date(1484814458000),
     flTime: 569.4,
     absAltitude: 2583.556,
     altitude: 2515.556,
@@ -781,7 +781,7 @@ export default [
     glideRatio: 2.44835596046513
   },
   {
-    gpsTime: 1484814459000,
+    gpsTime: new Date(1484814459000),
     flTime: 570.4,
     absAltitude: 2564.613,
     altitude: 2496.613,
@@ -792,7 +792,7 @@ export default [
     glideRatio: 2.34217563678283
   },
   {
-    gpsTime: 1484814460000,
+    gpsTime: new Date(1484814460000),
     flTime: 571.4,
     absAltitude: 2544.734,
     altitude: 2476.734,
@@ -803,7 +803,7 @@ export default [
     glideRatio: 2.19629397467248
   },
   {
-    gpsTime: 1484814461000,
+    gpsTime: new Date(1484814461000),
     flTime: 572.4,
     absAltitude: 2523.433,
     altitude: 2455.433,
@@ -814,7 +814,7 @@ export default [
     glideRatio: 2.04637089558531
   },
   {
-    gpsTime: 1484814462000,
+    gpsTime: new Date(1484814462000),
     flTime: 573.4,
     absAltitude: 2500.366,
     altitude: 2432.366,
@@ -825,7 +825,7 @@ export default [
     glideRatio: 1.90233539944422
   },
   {
-    gpsTime: 1484814463000,
+    gpsTime: new Date(1484814463000),
     flTime: 574.4,
     absAltitude: 2475.418,
     altitude: 2407.418,
@@ -836,7 +836,7 @@ export default [
     glideRatio: 1.80031861346671
   },
   {
-    gpsTime: 1484814464000,
+    gpsTime: new Date(1484814464000),
     flTime: 575.4,
     absAltitude: 2449.296,
     altitude: 2381.296,
@@ -847,7 +847,7 @@ export default [
     glideRatio: 1.76432355335679
   },
   {
-    gpsTime: 1484814465000,
+    gpsTime: new Date(1484814465000),
     flTime: 576.4,
     absAltitude: 2423.707,
     altitude: 2355.707,
@@ -858,7 +858,7 @@ export default [
     glideRatio: 1.86863781465524
   },
   {
-    gpsTime: 1484814466000,
+    gpsTime: new Date(1484814466000),
     flTime: 577.4,
     absAltitude: 2399.443,
     altitude: 2331.443,
@@ -869,7 +869,7 @@ export default [
     glideRatio: 1.98786043825715
   },
   {
-    gpsTime: 1484814467000,
+    gpsTime: new Date(1484814467000),
     flTime: 578.4,
     absAltitude: 2376.096,
     altitude: 2308.096,
@@ -880,7 +880,7 @@ export default [
     glideRatio: 2.06117716448305
   },
   {
-    gpsTime: 1484814468000,
+    gpsTime: new Date(1484814468000),
     flTime: 579.4,
     absAltitude: 2353.212,
     altitude: 2285.212,
@@ -891,7 +891,7 @@ export default [
     glideRatio: 2.09091528683341
   },
   {
-    gpsTime: 1484814469000,
+    gpsTime: new Date(1484814469000),
     flTime: 580.4,
     absAltitude: 2329.824,
     altitude: 2261.824,
@@ -902,7 +902,7 @@ export default [
     glideRatio: 2.05140718078115
   },
   {
-    gpsTime: 1484814470000,
+    gpsTime: new Date(1484814470000),
     flTime: 581.4,
     absAltitude: 2306.232,
     altitude: 2238.232,
@@ -913,7 +913,7 @@ export default [
     glideRatio: 2.06607439022417
   },
   {
-    gpsTime: 1484814471000,
+    gpsTime: new Date(1484814471000),
     flTime: 582.4,
     absAltitude: 2282.289,
     altitude: 2214.289,
@@ -924,7 +924,7 @@ export default [
     glideRatio: 2.02499304987803
   },
   {
-    gpsTime: 1484814472000,
+    gpsTime: new Date(1484814472000),
     flTime: 583.4,
     absAltitude: 2257.79,
     altitude: 2189.79,
@@ -935,7 +935,7 @@ export default [
     glideRatio: 1.99311799792322
   },
   {
-    gpsTime: 1484814473000,
+    gpsTime: new Date(1484814473000),
     flTime: 584.4,
     absAltitude: 2233.086,
     altitude: 2165.086,
@@ -946,7 +946,7 @@ export default [
     glideRatio: 2.00187583394742
   },
   {
-    gpsTime: 1484814474000,
+    gpsTime: new Date(1484814474000),
     flTime: 585.4,
     absAltitude: 2208.308,
     altitude: 2140.308,
@@ -957,7 +957,7 @@ export default [
     glideRatio: 1.99062802427373
   },
   {
-    gpsTime: 1484814475000,
+    gpsTime: new Date(1484814475000),
     flTime: 586.4,
     absAltitude: 2182.871,
     altitude: 2114.871,
@@ -968,7 +968,7 @@ export default [
     glideRatio: 1.93178396392345
   },
   {
-    gpsTime: 1484814476000,
+    gpsTime: new Date(1484814476000),
     flTime: 587.4,
     absAltitude: 2156.889,
     altitude: 2088.889,
@@ -979,7 +979,7 @@ export default [
     glideRatio: 1.94006109673664
   },
   {
-    gpsTime: 1484814477000,
+    gpsTime: new Date(1484814477000),
     flTime: 588.4,
     absAltitude: 2131.915,
     altitude: 2063.915,
@@ -990,7 +990,7 @@ export default [
     glideRatio: 2.06671012066335
   },
   {
-    gpsTime: 1484814478000,
+    gpsTime: new Date(1484814478000),
     flTime: 589.4,
     absAltitude: 2107.97,
     altitude: 2039.97,
@@ -1001,7 +1001,7 @@ export default [
     glideRatio: 2.19494695150148
   },
   {
-    gpsTime: 1484814479000,
+    gpsTime: new Date(1484814479000),
     flTime: 590.4,
     absAltitude: 2084.53,
     altitude: 2016.53,
@@ -1012,7 +1012,7 @@ export default [
     glideRatio: 2.15465160639685
   },
   {
-    gpsTime: 1484814480000,
+    gpsTime: new Date(1484814480000),
     flTime: 591.4,
     absAltitude: 2060.699,
     altitude: 1992.699,
@@ -1023,7 +1023,7 @@ export default [
     glideRatio: 2.1390213433271
   },
   {
-    gpsTime: 1484814481000,
+    gpsTime: new Date(1484814481000),
     flTime: 592.4,
     absAltitude: 2036.228,
     altitude: 1968.228,
@@ -1034,7 +1034,7 @@ export default [
     glideRatio: 2.0812157623059
   },
   {
-    gpsTime: 1484814482000,
+    gpsTime: new Date(1484814482000),
     flTime: 593.4,
     absAltitude: 2011.03,
     altitude: 1943.03,
@@ -1045,7 +1045,7 @@ export default [
     glideRatio: 2.03683702650998
   },
   {
-    gpsTime: 1484814483000,
+    gpsTime: new Date(1484814483000),
     flTime: 594.4,
     absAltitude: 1985.195,
     altitude: 1917.195,
@@ -1056,7 +1056,7 @@ export default [
     glideRatio: 2.00234453672898
   },
   {
-    gpsTime: 1484814484000,
+    gpsTime: new Date(1484814484000),
     flTime: 595.4,
     absAltitude: 1959.075,
     altitude: 1891.075,
@@ -1067,7 +1067,7 @@ export default [
     glideRatio: 2.01164064871242
   },
   {
-    gpsTime: 1484814485000,
+    gpsTime: new Date(1484814485000),
     flTime: 596.4,
     absAltitude: 1932.848,
     altitude: 1864.848,
@@ -1078,7 +1078,7 @@ export default [
     glideRatio: 2.01245014707873
   },
   {
-    gpsTime: 1484814486000,
+    gpsTime: new Date(1484814486000),
     flTime: 597.4,
     absAltitude: 1906.341,
     altitude: 1838.341,
@@ -1089,7 +1089,7 @@ export default [
     glideRatio: 2.00521517403195
   },
   {
-    gpsTime: 1484814487000,
+    gpsTime: new Date(1484814487000),
     flTime: 598.4,
     absAltitude: 1879.684,
     altitude: 1811.684,
@@ -1100,7 +1100,7 @@ export default [
     glideRatio: 1.99621541390299
   },
   {
-    gpsTime: 1484814488000,
+    gpsTime: new Date(1484814488000),
     flTime: 599.4,
     absAltitude: 1852.937,
     altitude: 1784.937,
@@ -1111,7 +1111,7 @@ export default [
     glideRatio: 2.04112552402361
   },
   {
-    gpsTime: 1484814489000,
+    gpsTime: new Date(1484814489000),
     flTime: 600.4,
     absAltitude: 1826.443,
     altitude: 1758.443,
@@ -1122,7 +1122,7 @@ export default [
     glideRatio: 1.99746210650363
   },
   {
-    gpsTime: 1484814490000,
+    gpsTime: new Date(1484814490000),
     flTime: 601.4,
     absAltitude: 1799.764,
     altitude: 1731.764,
@@ -1133,7 +1133,7 @@ export default [
     glideRatio: 1.9808750264403
   },
   {
-    gpsTime: 1484814491000,
+    gpsTime: new Date(1484814491000),
     flTime: 602.4,
     absAltitude: 1772.911,
     altitude: 1704.911,
@@ -1144,7 +1144,7 @@ export default [
     glideRatio: 1.93972330477339
   },
   {
-    gpsTime: 1484814492000,
+    gpsTime: new Date(1484814492000),
     flTime: 603.4,
     absAltitude: 1745.478,
     altitude: 1677.478,
@@ -1155,7 +1155,7 @@ export default [
     glideRatio: 1.85762289240824
   },
   {
-    gpsTime: 1484814493000,
+    gpsTime: new Date(1484814493000),
     flTime: 604.4,
     absAltitude: 1717.115,
     altitude: 1649.115,
@@ -1166,7 +1166,7 @@ export default [
     glideRatio: 1.76453643870871
   },
   {
-    gpsTime: 1484814494000,
+    gpsTime: new Date(1484814494000),
     flTime: 605.4,
     absAltitude: 1688.703,
     altitude: 1620.703,
@@ -1177,7 +1177,7 @@ export default [
     glideRatio: 1.74774894111544
   },
   {
-    gpsTime: 1484814495000,
+    gpsTime: new Date(1484814495000),
     flTime: 606.4,
     absAltitude: 1660.561,
     altitude: 1592.561,
@@ -1188,7 +1188,7 @@ export default [
     glideRatio: 1.72791016348241
   },
   {
-    gpsTime: 1484814496000,
+    gpsTime: new Date(1484814496000),
     flTime: 607.4,
     absAltitude: 1632.1,
     altitude: 1564.1,
@@ -1199,7 +1199,7 @@ export default [
     glideRatio: 1.64166192321168
   },
   {
-    gpsTime: 1484814497000,
+    gpsTime: new Date(1484814497000),
     flTime: 608.4,
     absAltitude: 1603.034,
     altitude: 1535.034,
@@ -1210,7 +1210,7 @@ export default [
     glideRatio: 1.56998658571829
   },
   {
-    gpsTime: 1484814498000,
+    gpsTime: new Date(1484814498000),
     flTime: 609.4,
     absAltitude: 1574.635,
     altitude: 1506.635,
@@ -1221,7 +1221,7 @@ export default [
     glideRatio: 1.60595055055846
   },
   {
-    gpsTime: 1484814499000,
+    gpsTime: new Date(1484814499000),
     flTime: 610.4,
     absAltitude: 1547.483,
     altitude: 1479.483,
@@ -1232,7 +1232,7 @@ export default [
     glideRatio: 1.65592493639345
   },
   {
-    gpsTime: 1484814500000,
+    gpsTime: new Date(1484814500000),
     flTime: 611.4,
     absAltitude: 1520.602,
     altitude: 1452.602,
@@ -1243,7 +1243,7 @@ export default [
     glideRatio: 1.62064274537819
   },
   {
-    gpsTime: 1484814501000,
+    gpsTime: new Date(1484814501000),
     flTime: 612.4,
     absAltitude: 1492.582,
     altitude: 1424.582,
@@ -1254,7 +1254,7 @@ export default [
     glideRatio: 1.52356592564614
   },
   {
-    gpsTime: 1484814502000,
+    gpsTime: new Date(1484814502000),
     flTime: 613.4,
     absAltitude: 1464.093,
     altitude: 1396.093,
@@ -1265,7 +1265,7 @@ export default [
     glideRatio: 1.50167677620063
   },
   {
-    gpsTime: 1484814503000,
+    gpsTime: new Date(1484814503000),
     flTime: 614.4,
     absAltitude: 1436.375,
     altitude: 1368.375,
@@ -1276,7 +1276,7 @@ export default [
     glideRatio: 1.55155185276547
   },
   {
-    gpsTime: 1484814504000,
+    gpsTime: new Date(1484814504000),
     flTime: 615.4,
     absAltitude: 1409.178,
     altitude: 1341.178,
@@ -1287,7 +1287,7 @@ export default [
     glideRatio: 1.57690486198711
   },
   {
-    gpsTime: 1484814505000,
+    gpsTime: new Date(1484814505000),
     flTime: 616.4,
     absAltitude: 1382.088,
     altitude: 1314.088,
@@ -1298,7 +1298,7 @@ export default [
     glideRatio: 1.56206709000112
   },
   {
-    gpsTime: 1484814506000,
+    gpsTime: new Date(1484814506000),
     flTime: 617.4,
     absAltitude: 1354.727,
     altitude: 1286.727,
@@ -1309,7 +1309,7 @@ export default [
     glideRatio: 1.54668089104045
   },
   {
-    gpsTime: 1484814507000,
+    gpsTime: new Date(1484814507000),
     flTime: 618.4,
     absAltitude: 1327.089,
     altitude: 1259.089,
@@ -1320,7 +1320,7 @@ export default [
     glideRatio: 1.54179010163238
   },
   {
-    gpsTime: 1484814508000,
+    gpsTime: new Date(1484814508000),
     flTime: 619.4,
     absAltitude: 1299.385,
     altitude: 1231.385,
@@ -1331,7 +1331,7 @@ export default [
     glideRatio: 1.54523908733354
   },
   {
-    gpsTime: 1484814509000,
+    gpsTime: new Date(1484814509000),
     flTime: 620.4,
     absAltitude: 1271.866,
     altitude: 1203.866,
@@ -1342,7 +1342,7 @@ export default [
     glideRatio: 1.55301532627281
   },
   {
-    gpsTime: 1484814510000,
+    gpsTime: new Date(1484814510000),
     flTime: 621.4,
     absAltitude: 1244.209,
     altitude: 1176.209,
@@ -1353,7 +1353,7 @@ export default [
     glideRatio: 1.5430102453097
   },
   {
-    gpsTime: 1484814511000,
+    gpsTime: new Date(1484814511000),
     flTime: 622.4,
     absAltitude: 1216.58,
     altitude: 1148.58,
@@ -1364,7 +1364,7 @@ export default [
     glideRatio: 1.55831421082272
   },
   {
-    gpsTime: 1484814512000,
+    gpsTime: new Date(1484814512000),
     flTime: 623.4,
     absAltitude: 1190.385,
     altitude: 1122.385,
@@ -1375,7 +1375,7 @@ export default [
     glideRatio: 1.68970779596571
   },
   {
-    gpsTime: 1484814513000,
+    gpsTime: new Date(1484814513000),
     flTime: 624.4,
     absAltitude: 1166.823,
     altitude: 1098.823,
@@ -1386,7 +1386,7 @@ export default [
     glideRatio: 1.86717476235244
   },
   {
-    gpsTime: 1484814514000,
+    gpsTime: new Date(1484814514000),
     flTime: 625.4,
     absAltitude: 1145.886,
     altitude: 1077.886,
@@ -1397,7 +1397,7 @@ export default [
     glideRatio: 1.99505434428604
   },
   {
-    gpsTime: 1484814515000,
+    gpsTime: new Date(1484814515000),
     flTime: 626.4,
     absAltitude: 1125.975,
     altitude: 1057.975,
@@ -1408,7 +1408,7 @@ export default [
     glideRatio: 2.03298286513175
   },
   {
-    gpsTime: 1484814516000,
+    gpsTime: new Date(1484814516000),
     flTime: 627.4,
     absAltitude: 1106.64,
     altitude: 1038.64,
@@ -1419,7 +1419,7 @@ export default [
     glideRatio: 2.02717938138112
   },
   {
-    gpsTime: 1484814517000,
+    gpsTime: new Date(1484814517000),
     flTime: 628.4,
     absAltitude: 1085.986,
     altitude: 1017.986,
@@ -1430,7 +1430,7 @@ export default [
     glideRatio: 1.78728983402638
   },
   {
-    gpsTime: 1484814518000,
+    gpsTime: new Date(1484814518000),
     flTime: 629.4,
     absAltitude: 1062.606,
     altitude: 994.606,
@@ -1441,7 +1441,7 @@ export default [
     glideRatio: 1.61816163851065
   },
   {
-    gpsTime: 1484814519000,
+    gpsTime: new Date(1484814519000),
     flTime: 630.4,
     absAltitude: 1039.436,
     altitude: 971.436,
@@ -1452,7 +1452,7 @@ export default [
     glideRatio: 1.59382787841165
   },
   {
-    gpsTime: 1484814520000,
+    gpsTime: new Date(1484814520000),
     flTime: 631.4,
     absAltitude: 1016.8,
     altitude: 948.8,
@@ -1463,7 +1463,7 @@ export default [
     glideRatio: 1.20344040235543
   },
   {
-    gpsTime: 1484814521000,
+    gpsTime: new Date(1484814521000),
     flTime: 632.4,
     absAltitude: 995.681,
     altitude: 927.681,
@@ -1474,7 +1474,7 @@ export default [
     glideRatio: 0.957809725436103
   },
   {
-    gpsTime: 1484814522000,
+    gpsTime: new Date(1484814522000),
     flTime: 633.4,
     absAltitude: 977.666,
     altitude: 909.666,

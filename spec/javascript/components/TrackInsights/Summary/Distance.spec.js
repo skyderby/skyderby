@@ -1,26 +1,40 @@
 import React from 'react'
 
 import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
-import { METRIC, IMPERIAL } from 'redux/userPreferences'
+import TrackViewPreferencesProvider, {
+  METRIC,
+  IMPERIAL
+} from 'components/TrackViewPreferences'
 import Distance from 'components/Tracks/Track/TrackInsights/Summary/Distance'
 
 describe('Summary/Distance', () => {
   it('shows elevation rounded to whole digit', () => {
-    const { getByLabelText } = renderWithAllProviders(<Distance value={1000.373} />)
+    const { getByLabelText } = renderWithAllProviders(
+      <TrackViewPreferencesProvider>
+        <Distance value={1000.373} />
+      </TrackViewPreferencesProvider>
+    )
 
     expect(getByLabelText('distance').textContent).toBe('1000')
   })
 
   it('hide wind effect if no zeroWindValue provided', () => {
-    const { queryByLabelText } = renderWithAllProviders(<Distance value={1000.373} />)
+    const { queryByLabelText } = renderWithAllProviders(
+      <TrackViewPreferencesProvider>
+        <Distance value={1000.373} />
+      </TrackViewPreferencesProvider>
+    )
 
     expect(queryByLabelText('wind cancelled value')).not.toBeInTheDocument()
   })
 
   describe('metric units', () => {
     const renderComponent = props => {
-      const initialState = { userPreferences: { unitSystem: METRIC } }
-      return renderWithAllProviders(<Distance {...props} />, initialState)
+      return renderWithAllProviders(
+        <TrackViewPreferencesProvider initialValues={{ unitSystem: METRIC }}>
+          <Distance {...props} />
+        </TrackViewPreferencesProvider>
+      )
     }
 
     it('correct value', () => {
@@ -33,8 +47,11 @@ describe('Summary/Distance', () => {
 
   describe('imperial units', () => {
     const renderComponent = props => {
-      const initialState = { userPreferences: { unitSystem: IMPERIAL } }
-      return renderWithAllProviders(<Distance {...props} />, initialState)
+      return renderWithAllProviders(
+        <TrackViewPreferencesProvider initialValues={{ unitSystem: IMPERIAL }}>
+          <Distance {...props} />
+        </TrackViewPreferencesProvider>
+      )
     }
 
     it('correct value', () => {

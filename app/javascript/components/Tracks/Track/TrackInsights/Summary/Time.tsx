@@ -4,7 +4,7 @@ import { useI18n } from 'components/TranslationsProvider'
 import styles from './styles.module.scss'
 
 const valuePresentation = (value: number | null): string | number => {
-  if (value === null) return '--.-'
+  if (!value || Number.isNaN(value)) return '--.-'
 
   return value.toFixed(1)
 }

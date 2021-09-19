@@ -13,7 +13,7 @@ import styles from './styles.module.scss'
 
 const valuePresentation = (value: number | null, unitSystem: UnitSystem) => {
   const placeholder = unitSystem === METRIC ? '----' : '-.---'
-  if (value === null) return placeholder
+  if (!value || Number.isNaN(value)) return placeholder
 
   if (unitSystem === METRIC) return Math.round(value)
   if (unitSystem === IMPERIAL) return Math.round(metersToMiles(value) * 1000) / 1000
@@ -33,7 +33,7 @@ const Distance = ({ value, zeroWindValue }: DistanceProps): JSX.Element => {
   } = useTrackViewPreferences()
   const units = unitSystem === METRIC ? 'm' : 'mi'
 
-  const showWindEffect = zeroWindValue !== null && value !== null
+  const showWindEffect = zeroWindValue && value
 
   return (
     <div className={styles.summaryItem} data-value="distance">

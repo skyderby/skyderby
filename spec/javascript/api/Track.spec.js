@@ -1,4 +1,4 @@
-import { IndexParams } from 'api/Track'
+import { mapParamsToUrl, extractParamsFromUrl } from 'api/hooks/tracks'
 
 describe('Index params', () => {
   describe('#mapToUrl', () => {
@@ -9,19 +9,19 @@ describe('Index params', () => {
     }
 
     it('default params', () => {
-      const result = IndexParams.mapToUrl(defaultParams)
+      const result = mapParamsToUrl(defaultParams)
 
       expect(result).toEqual('')
     })
 
     it('with page > 1', () => {
-      const result = IndexParams.mapToUrl({ ...defaultParams, page: 2 })
+      const result = mapParamsToUrl({ ...defaultParams, page: 2 })
 
       expect(result).toEqual('?page=2')
     })
 
     it('with filters', () => {
-      const result = IndexParams.mapToUrl({
+      const result = mapParamsToUrl({
         ...defaultParams,
         filters: [
           ['year', 2018],
@@ -33,7 +33,7 @@ describe('Index params', () => {
     })
 
     it('with prefix', () => {
-      const result = IndexParams.mapToUrl(
+      const result = mapParamsToUrl(
         {
           ...defaultParams,
           page: 2,
@@ -53,14 +53,14 @@ describe('Index params', () => {
 
   describe('#extractFromUrl', () => {
     it('without prefix', () => {
-      const result = IndexParams.extractFromUrl(
+      const result = extractParamsFromUrl(
         '?year[]=2018&profileId[]=3&year[]=2020&page=2&sortBy=id+asc'
       )
 
       expect(result).toEqual({
-        activity: null,
-        page: '2',
-        perPage: 25,
+        activity: undefined,
+        page: 2,
+        perPage: 20,
         sortBy: 'id asc',
         filters: [
           ['year', '2018'],
@@ -71,15 +71,15 @@ describe('Index params', () => {
     })
 
     it('with prefix', () => {
-      const result = IndexParams.extractFromUrl(
+      const result = extractParamsFromUrl(
         '?tracks[year][]=2018&tracks[profileId][]=3&tracks[year][]=2020&tracks[page]=2&tracks[sortBy]=id+asc',
         'tracks'
       )
 
       expect(result).toEqual({
-        activity: null,
-        page: '2',
-        perPage: 25,
+        activity: undefined,
+        page: 2,
+        perPage: 20,
         sortBy: 'id asc',
         filters: [
           ['year', '2018'],

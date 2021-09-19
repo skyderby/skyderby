@@ -67,13 +67,18 @@ const TrackViewPreferencesContext = createContext<UseTrackViewPreferences | unde
 )
 
 type TrackViewPreferencesProviderProps = {
+  initialValues?: Partial<ViewPreferences>
   children: React.ReactNode
 }
 
 const TrackViewPreferencesProvider = ({
+  initialValues = {},
   children
 }: TrackViewPreferencesProviderProps): JSX.Element => {
-  const [viewPreferences, setViewPreferences] = useState<ViewPreferences>(loadPreferences)
+  const [viewPreferences, setViewPreferences] = useState<ViewPreferences>(() => ({
+    ...loadPreferences(),
+    ...initialValues
+  }))
 
   useEffect(() => {
     localStorage.setItem(viewPreferencesKey, JSON.stringify(viewPreferences))
@@ -90,7 +95,9 @@ export const useTrackViewPreferences = (): UseTrackViewPreferences => {
   const context = useContext(TrackViewPreferencesContext)
 
   if (context === undefined) {
-    throw new Error('useI18n must be used within a TranslationsProvider')
+    throw new Error(
+      'useTrackViewPreferences must be used within a TrackViewPreferencesProvider'
+    )
   }
 
   return context
