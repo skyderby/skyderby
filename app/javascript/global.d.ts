@@ -15,6 +15,7 @@ declare interface Window {
   youtubeApiReady?: boolean
   onYouTubeIframeAPIReady?: () => void
   onYoutubeApiLoadingError?: () => void
+  cesiumApiReady?: boolean
 }
 
 declare type AnyHTMLElement = HTMLElementTagNameMap[keyof HTMLElementTagNameMap]
