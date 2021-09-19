@@ -2,9 +2,20 @@ json.key_format! camelize: :lower
 
 if @track.competitive?
   json.competition_result do
-    json.event_id @track.event_result.event_id
-    json.event_name @track.event_result.event.name
-    json.event_path event_path(@track.event_result.event)
+    event = @track.event_result.event
+    event_type =
+      case event
+      when Event
+        event.hungary_boogie? ? :boogie : :performance
+      when SpeedSkydivingCompetition
+        :speed_skydiving
+      when Tournament
+        :tournament
+      end
+
+    json.event_id event.id
+    json.event_name event.name
+    json.event_type event_type
     json.task @track.event_result.round_discipline
     json.result @track.event_result.result.to_f
   end
@@ -32,10 +43,9 @@ else
 end
 
 json.online_ranking_results @track.virtual_competition_results do |result|
-  json.rankingId result.virtual_competition_id
-  json.ranking_path virtual_competition_path(result.virtual_competition)
-  json.group_name result.virtual_competition.group_name
+  json.ranking_id result.virtual_competition_id
   json.ranking_name result.virtual_competition.name
+  json.group_name result.virtual_competition.group_name
   json.task result.virtual_competition.discipline
   json.result result.result.to_f
 end

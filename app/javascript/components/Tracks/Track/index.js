@@ -30,7 +30,7 @@ const Track = ({ match }) => {
     Promise.all([
       preloadPoints(queryClient, trackId),
       preloadWindData(queryClient, trackId)
-    ]).then(setIsPointsLoading(false))
+    ]).then(() => setIsPointsLoading(false))
   }, [trackId, queryClient, setIsPointsLoading])
 
   return (
@@ -42,30 +42,16 @@ const Track = ({ match }) => {
           <Header track={track} />
 
           <Switch>
-            <Route exact path={match.path}>
-              <TrackInsights trackId={trackId} />
-            </Route>
-            <Route path={`${match.path}/map`}>
-              <TrackMap trackId={trackId} />
-            </Route>
-            <Route path={`${match.path}/globe`}>
-              <TrackGlobe trackId={trackId} />
-            </Route>
-            <Route path={`${match.path}/wind_data`}>
-              <TrackWindData trackId={trackId} />
-            </Route>
-            <Route path={`${match.path}/results`}>
-              <TrackResults trackId={trackId} />
-            </Route>
+            <Route exact path={match.path} component={TrackInsights} />
+            <Route path={`${match.path}/map`} component={TrackMap} />
+            <Route path={`${match.path}/globe`} component={TrackGlobe} />
+            <Route path={`${match.path}/wind_data`} component={TrackWindData} />
+            <Route path={`${match.path}/results`} component={TrackResults} />
             {(track.hasVideo || track.permissions.canEdit) && (
-              <Route path={`${match.path}/video`}>
-                <TrackVideo trackId={trackId} />
-              </Route>
+              <Route path={`${match.path}/video`} component={TrackVideo} />
             )}
             {track.permissions.canEdit && (
-              <Route path={`${match.path}/edit`}>
-                <TrackEdit trackId={trackId} />
-              </Route>
+              <Route path={`${match.path}/edit`} component={TrackEdit} />
             )}
 
             <Route component={() => <Redirect to={`/tracks/${track.id}`} />} />

@@ -1,16 +1,27 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import {
+  AxisLabelsFormatterContextObject,
+  PointLabelObject,
+  TooltipFormatterContextObject
+} from 'highcharts'
 
+import { WindDataRecord } from 'api/hooks/tracks/windData'
 import Highchart from 'components/Highchart'
 
-const WindAloftChart = ({ windData }) => {
+type WindAloftChartProps = {
+  windData: WindDataRecord[]
+}
+
+const WindAloftChart = ({ windData }: WindAloftChartProps): JSX.Element => {
   const chartData = windData
     .filter(el => el.altitude <= 5000)
     .map(el => ({
       x: Number(el.windDirection),
       y: Math.round(el.altitude / 100) / 10,
-      altitude: Math.round(el.altitude),
-      windSpeed: Math.round(el.windSpeed * 10) / 10
+      custom: {
+        altitude: Math.round(el.altitude),
+        windSpeed: Math.round(el.windSpeed * 10) / 10
+      }
     }))
 
   const options = {
@@ -26,11 +37,11 @@ const WindAloftChart = ({ windData }) => {
       endAngle: 360
     },
     tooltip: {
-      formatter: function () {
+      formatter: function (this: TooltipFormatterContextObject): string {
         return `
-          <b>Altitude</b> ${this.point.options.altitude} m
+          <b>Altitude</b> ${this.point.options.custom?.altitude} m
           <br>
-          <b>Speed:</b> ${this.point.options.windSpeed} m/s
+          <b>Speed:</b> ${this.point.options.custom?.windSpeed} m/s
           <br>
           <b>Direction:</b> ${Math.round(this.x)}°
         `
@@ -41,7 +52,7 @@ const WindAloftChart = ({ windData }) => {
       min: 0,
       max: 360,
       labels: {
-        formatter: function () {
+        formatter: function (this: AxisLabelsFormatterContextObject<number>) {
           return `${this.value}°`
         }
       }
@@ -51,7 +62,7 @@ const WindAloftChart = ({ windData }) => {
       max: 5,
       tickInterval: 1,
       labels: {
-        formatter: function () {
+        formatter: function (this: AxisLabelsFormatterContextObject<number>) {
           return `${this.value}k`
         }
       }
@@ -60,11 +71,11 @@ const WindAloftChart = ({ windData }) => {
       series: {
         dataLabels: {
           enabled: true,
-          align: 'left',
-          verticalAlign: 'middle',
+          align: 'left' as const,
+          verticalAlign: 'middle' as const,
           color: '#606060',
-          formatter: function () {
-            return `${this.point.windSpeed} m/s`
+          formatter: function (this: PointLabelObject) {
+            return `${this.point.options.custom?.windSpeed} m/s`
           }
         }
       },
@@ -78,26 +89,18 @@ const WindAloftChart = ({ windData }) => {
     },
     series: [
       {
-        type: 'scatter',
+        type: 'scatter' as const,
         name: 'Wind speed',
         data: chartData,
         pointPlacement: 'between'
       }
     ],
-    credits: false
+    credits: {
+      enabled: false
+    }
   }
 
   return <Highchart options={options} />
-}
-
-WindAloftChart.propTypes = {
-  windData: PropTypes.arrayOf(
-    PropTypes.shape({
-      altitude: PropTypes.number.isRequired,
-      windDirection: PropTypes.number.isRequired,
-      windSpeed: PropTypes.number.isRequired
-    })
-  )
 }
 
 export default WindAloftChart
