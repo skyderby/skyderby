@@ -92,7 +92,7 @@ describe('Summary/GlideRatio', () => {
 
     it('empty', () => {
       const { getByLabelText } = renderWithAllProviders(
-        <GlideRatio value={{ avg: 1.71, min: undefined, max: 10 }} />
+        <GlideRatio value={{ avg: 1.71, min: null, max: 10 }} />
       )
 
       expect(getByLabelText('minimum glide ratio').textContent).toBe('-.--')
