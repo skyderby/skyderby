@@ -1,5 +1,3 @@
-json.key_format! camelize: :lower
-
 json.extract! @events, :current_page, :total_pages
 
 json.items @events do |record|
@@ -34,6 +32,14 @@ json.items @events do |record|
   json.active record.active?
 end
 
+json.relations do
+  places = @events.map(&:place).compact
+  json.places places, partial: 'api/v1/places/place', as: :place, include_photos: false
+
+  countries = places.map(&:country).compact.uniq
+  json.countries countries, partial: 'api/v1/countries/country', as: :country
+end
+
 json.permissions do
-  json.create policy(Event).create?
+  json.can_create policy(Event).create?
 end
