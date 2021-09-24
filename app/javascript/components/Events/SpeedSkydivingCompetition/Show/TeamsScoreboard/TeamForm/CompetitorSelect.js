@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import { useCompetitorsQuery } from 'api/hooks/speedSkydivingCompetitions'
 import { useProfileQueries } from 'api/hooks/profiles'
-import selectStyles from 'styles/selectStyles'
+import getSelectStyles from 'styles/selectStyles'
 
 const CompetitorSelect = ({ eventId, value, ...props }) => {
   const { data: competitors = [] } = useCompetitorsQuery(eventId)
@@ -25,7 +25,7 @@ const CompetitorSelect = ({ eventId, value, ...props }) => {
       options={options}
       value={selectedOption}
       {...props}
-      styles={selectStyles}
+      styles={getSelectStyles()}
       menuPortalTarget={document.getElementById('dropdowns-root')}
     />
   )

@@ -4,7 +4,7 @@ import Select from 'react-select'
 import PropTypes from 'prop-types'
 
 import { usePageContext } from 'components/PageContext'
-import selectStyles from 'styles/selectStyles'
+import getSelectStyles from 'styles/selectStyles'
 
 const theme = theme => ({
   ...theme,
@@ -42,7 +42,7 @@ const CompetitorSelect = ({ value, onChange, ...props }) => {
       value={selectedOption}
       options={options}
       onChange={handleChange}
-      styles={selectStyles}
+      styles={getSelectStyles()}
       theme={theme}
       {...props}
     />
