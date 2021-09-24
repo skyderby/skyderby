@@ -8,6 +8,7 @@ module Api
 
         @events =
           policy_scope(EventList.all)
+          .includes(:place)
           .paginate(page: current_page, per_page: rows_per_page)
       end
 
