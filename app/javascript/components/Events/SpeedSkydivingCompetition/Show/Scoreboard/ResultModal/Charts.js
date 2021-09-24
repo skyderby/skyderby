@@ -13,6 +13,7 @@ import {
   findPlotbandPosition
 } from './utils'
 import styles from './styles.module.scss'
+import TrackViewPreferencesProvider from 'components/TrackViewPreferences'
 
 const breakoffAltitude = 1707 // 5600 ft
 const windowHeight = 2256 // 7400 ft
@@ -51,61 +52,63 @@ const Charts = ({ event, result, deleteResult, hide, tabBar }) => {
         {tabBar}
         {tabBar && <hr />}
 
-        <div className={styles.indicators}>
-          <div className={styles.indicatorTitle}>Result</div>
-          <div className={styles.indicatorValue}>
-            {result.result.toFixed(2)} {t('units.kmh')}
+        <TrackViewPreferencesProvider>
+          <div className={styles.indicators}>
+            <div className={styles.indicatorTitle}>Result</div>
+            <div className={styles.indicatorValue}>
+              {result.result.toFixed(2)} {t('units.kmh')}
+            </div>
+            <div className={styles.indicatorTitle}>Exit Altitude</div>
+            <div className={styles.indicatorValue}>
+              {result.exitAltitude} {t('units.m')}
+            </div>
+            <div className={styles.indicatorTitle}>Window</div>
+            <div className={styles.indicatorValue}>
+              {resultWindow?.join(' - ') || '---'} {t('units.m')}
+            </div>
           </div>
-          <div className={styles.indicatorTitle}>Exit Altitude</div>
-          <div className={styles.indicatorValue}>
-            {result.exitAltitude} {t('units.m')}
-          </div>
-          <div className={styles.indicatorTitle}>Window</div>
-          <div className={styles.indicatorValue}>
-            {resultWindow?.join(' - ') || '---'} {t('units.m')}
-          </div>
-        </div>
 
-        <hr />
+          <hr />
 
-        <div className={styles.trackChart}>
-          <TrackCharts points={points} additionalSeries={[accuracySeries]}>
-            {chart => (
-              <>
-                {plotLineValue && (
-                  <Highchart.Plotline
-                    chart={chart}
-                    id="windowEnd"
-                    value={plotLineValue}
-                    color="red"
-                    label={{
-                      text: `End of window - ${windowEndAltitude.toFixed()} ${t(
-                        'units.m'
-                      )}`,
-                      style: { color: 'red' },
-                      y: 100
-                    }}
-                  />
-                )}
-                {plotBandPosition && (
-                  <Highchart.Plotband
-                    id="result"
-                    chart={chart}
-                    color="rgba(0, 150, 0, 0.25)"
-                    zIndex={8}
-                    label={{
-                      text: `Best speed: ${result.result.toFixed(2)} ${t('units.kmh')}`,
-                      rotation: 90,
-                      textAlign: 'left',
-                      y: 100
-                    }}
-                    {...plotBandPosition}
-                  />
-                )}
-              </>
-            )}
-          </TrackCharts>
-        </div>
+          <div className={styles.trackChart}>
+            <TrackCharts points={points} additionalSeries={[accuracySeries]}>
+              {chart => (
+                <>
+                  {plotLineValue && (
+                    <Highchart.Plotline
+                      chart={chart}
+                      id="windowEnd"
+                      value={plotLineValue}
+                      color="red"
+                      label={{
+                        text: `End of window - ${windowEndAltitude.toFixed()} ${t(
+                          'units.m'
+                        )}`,
+                        style: { color: 'red' },
+                        y: 100
+                      }}
+                    />
+                  )}
+                  {plotBandPosition && (
+                    <Highchart.Plotband
+                      id="result"
+                      chart={chart}
+                      color="rgba(0, 150, 0, 0.25)"
+                      zIndex={8}
+                      label={{
+                        text: `Best speed: ${result.result.toFixed(2)} ${t('units.kmh')}`,
+                        rotation: 90,
+                        textAlign: 'left',
+                        y: 100
+                      }}
+                      {...plotBandPosition}
+                    />
+                  )}
+                </>
+              )}
+            </TrackCharts>
+          </div>
+        </TrackViewPreferencesProvider>
       </Modal.Body>
       <Modal.Footer spaceBetween={event.permissions.canEdit}>
         {event.permissions.canEdit && (
