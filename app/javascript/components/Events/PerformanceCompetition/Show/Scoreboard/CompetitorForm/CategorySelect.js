@@ -3,7 +3,7 @@ import Select from 'react-select'
 import PropTypes from 'prop-types'
 
 import { useCategoriesQuery } from 'api/hooks/performanceCompetitions'
-import selectStyles from 'styles/selectStyles'
+import getSelectStyles from 'styles/selectStyles'
 
 const CategorySelect = ({ eventId, value, ...props }) => {
   const { data: categories = [] } = useCategoriesQuery(eventId)
@@ -20,7 +20,7 @@ const CategorySelect = ({ eventId, value, ...props }) => {
       options={options}
       value={selectedOption}
       {...props}
-      styles={selectStyles}
+      styles={getSelectStyles()}
       menuPortalTarget={document.getElementById('dropdowns-root')}
     />
   )
