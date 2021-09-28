@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import AppShell from 'components/AppShell'
 import styles from './styles.module.scss'
 
-const EventTypeSelect = () => {
+const EventTypeSelect = (): JSX.Element => {
   return (
     <AppShell>
       <div className={styles.container}>
