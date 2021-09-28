@@ -1,10 +1,16 @@
 import React from 'react'
 import cx from 'clsx'
-import PropTypes from 'prop-types'
 
 import styles from './styles.module.scss'
 
-const TabBar = ({ currentTab, setCurrentTab }) => {
+type Tab = 'charts' | 'jumpRange'
+
+type TagBarProps = {
+  currentTab: Tab
+  setCurrentTab: React.Dispatch<React.SetStateAction<Tab>>
+}
+
+const TabBar = ({ currentTab, setCurrentTab }: TagBarProps): JSX.Element => {
   return (
     <div className={styles.tabBar}>
       <button
@@ -24,11 +30,6 @@ const TabBar = ({ currentTab, setCurrentTab }) => {
       </button>
     </div>
   )
-}
-
-TabBar.propTypes = {
-  currentTab: PropTypes.oneOf(['charts', 'jumpRange']).isRequired,
-  setCurrentTab: PropTypes.func.isRequired
 }
 
 export default TabBar
