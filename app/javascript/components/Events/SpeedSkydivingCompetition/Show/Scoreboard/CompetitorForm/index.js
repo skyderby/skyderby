@@ -66,6 +66,7 @@ const CompetitorForm = ({ eventId, initialValues = {}, mutation, onHide: hide })
                       <ProfileSelect
                         isInvalid={touched && error}
                         {...props}
+                        menuPortalTarget={document.getElementById('dropdowns-root')}
                         onChange={option => setFieldValue(name, option.value)}
                       />
                     </>

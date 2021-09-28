@@ -52,7 +52,6 @@ const ProfileSelect = ({
       value={selectedOption}
       additional={{ page: 1 }}
       styles={getSelectStyles<OptionType>()}
-      menuPortalTarget={document.getElementById('dropdowns-root')}
       {...props}
     />
   )
