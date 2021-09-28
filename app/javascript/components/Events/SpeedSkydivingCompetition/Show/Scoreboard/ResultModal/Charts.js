@@ -6,6 +6,7 @@ import { useTrackPointsQuery } from 'api/hooks/tracks/points'
 import TrackCharts from 'components/TrackCharts/CombinedChart'
 import Highchart from 'components/Highchart'
 import Modal from 'components/ui/Modal'
+import Indicators from './Indicators'
 import {
   buildAccuracySeries,
   findResultWindow,
@@ -53,20 +54,7 @@ const Charts = ({ event, result, deleteResult, hide, tabBar }) => {
         {tabBar && <hr />}
 
         <TrackViewPreferencesProvider>
-          <div className={styles.indicators}>
-            <div className={styles.indicatorTitle}>Result</div>
-            <div className={styles.indicatorValue}>
-              {result.result.toFixed(2)} {t('units.kmh')}
-            </div>
-            <div className={styles.indicatorTitle}>Exit Altitude</div>
-            <div className={styles.indicatorValue}>
-              {result.exitAltitude} {t('units.m')}
-            </div>
-            <div className={styles.indicatorTitle}>Window</div>
-            <div className={styles.indicatorValue}>
-              {resultWindow?.join(' - ') || '---'} {t('units.m')}
-            </div>
-          </div>
+          <Indicators result={result} resultWindow={resultWindow} />
 
           <hr />
 
