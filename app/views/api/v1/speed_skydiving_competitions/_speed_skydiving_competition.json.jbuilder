@@ -6,7 +6,9 @@ json.extract! event,
               :visibility,
               :status,
               :use_teams,
-              :use_open_scoreboard
+              :use_open_scoreboard,
+              :created_at,
+              :updated_at
 
 json.permissions do
   json.can_edit policy(event).edit?

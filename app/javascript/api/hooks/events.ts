@@ -18,17 +18,17 @@ type IndexParams = {
   perPage?: number
 }
 
-type EventType =
+export type EventType =
   | 'speedSkydivingCompetition'
   | 'performanceCompetition'
   | 'hungaryBoogie'
   | 'tournament'
   | 'competitionSeries'
 
-type EventStatus = 'draft' | 'published' | 'finished' | 'surprise'
-type EventVisibility = 'public_event' | 'unlisted_event' | 'private_event'
+export type EventStatus = 'draft' | 'published' | 'finished' | 'surprise'
+export type EventVisibility = 'public_event' | 'unlisted_event' | 'private_event'
 
-type EventIndexRecord = {
+export type EventIndexRecord = {
   id: number
   type: EventType
   name: string
@@ -38,7 +38,7 @@ type EventIndexRecord = {
   visibility: EventVisibility
   responsibleId: number
   placeId: number
-  competitorsCount: unknown
+  competitorsCount: Record<string, number>[]
   countryIds: number[]
   rangeFrom?: number
   rangeTo?: number

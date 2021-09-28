@@ -3,21 +3,22 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { getDate } from 'date-fns'
 import cx from 'clsx'
-import PropTypes from 'prop-types'
 
 import SuitIcon from 'icons/suit.svg'
 import { useI18n } from 'components/TranslationsProvider'
 import PlaceLabel from 'components/PlaceLabel'
 import styles from './styles.module.scss'
+import { EventIndexRecord, EventType } from 'api/hooks/events'
 
-const types = {
+const types: Record<EventType, string> = {
   performanceCompetition: 'GPS Performance',
   hungaryBoogie: 'Hungary Boogie',
   tournament: 'Single elimination',
-  competitionSeries: 'Cumulative scoreboard'
+  competitionSeries: 'Cumulative scoreboard',
+  speedSkydivingCompetition: 'Speed Skydiving'
 }
 
-const eventUrl = ({ type, id }) => {
+const eventUrl = ({ type, id }: { type: EventType; id: number }) => {
   const prefixes = {
     performanceCompetition: 'performance',
     hungaryBoogie: 'boogie',
@@ -31,7 +32,12 @@ const eventUrl = ({ type, id }) => {
 
 const MotionLink = motion(Link)
 
-const Item = ({ event, delayIndex }) => {
+type ItemProps = {
+  event: EventIndexRecord
+  delayIndex: number
+}
+
+const Item = ({ event, delayIndex }: ItemProps): JSX.Element => {
   const { t, formatDate } = useI18n()
   const competitorsCount = Object.entries(event.competitorsCount)
 
@@ -94,26 +100,6 @@ const Item = ({ event, delayIndex }) => {
       </div>
     </MotionLink>
   )
-}
-
-Item.propTypes = {
-  event: PropTypes.shape({
-    active: PropTypes.bool.isRequired,
-    competitorsCount: PropTypes.objectOf(PropTypes.number).isRequired,
-    isOfficial: PropTypes.bool,
-    name: PropTypes.string.isRequired,
-    placeId: PropTypes.number,
-    rangeFrom: PropTypes.number,
-    rangeTo: PropTypes.number,
-    type: PropTypes.oneOf([
-      'performanceCompetition',
-      'hungaryBoogie',
-      'tournament',
-      'competitionSeries'
-    ]).isRequired,
-    startsAt: PropTypes.string.isRequired
-  }),
-  delayIndex: PropTypes.number
 }
 
 export default Item

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Location } from 'history'
 import { AnimatePresence } from 'framer-motion'
-import PropTypes from 'prop-types'
 
 import { useEventsQuery, mapParamsToUrl, extractParamsFromUrl } from 'api/hooks/events'
 import { useI18n } from 'components/TranslationsProvider'
@@ -11,7 +11,11 @@ import PlusIcon from 'icons/plus'
 import Item from './Item'
 import styles from './styles.module.scss'
 
-const EventsIndex = ({ location }) => {
+type EventsIndexProps = {
+  location: Location
+}
+
+const EventsIndex = ({ location }: EventsIndexProps): JSX.Element => {
   const { t } = useI18n()
   const { page } = extractParamsFromUrl(location.search)
   const { data } = useEventsQuery({ page })
@@ -41,12 +45,6 @@ const EventsIndex = ({ location }) => {
       </div>
     </AppShell>
   )
-}
-
-EventsIndex.propTypes = {
-  location: PropTypes.shape({
-    search: PropTypes.string
-  }).isRequired
 }
 
 export default EventsIndex
