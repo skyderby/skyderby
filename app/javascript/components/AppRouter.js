@@ -2,14 +2,11 @@ import React, { useEffect } from 'react'
 import { Switch, Route, useHistory } from 'react-router-dom'
 
 import Landing from 'components/Landing'
-import FlightProfiles from 'components/FlightProfiles'
-import SuitsIndex from 'pages/suits/Index'
-import SuitsOverview from 'pages/suits/Overview'
-import SuitsShow from 'pages/suits/Show'
-import SuitsEdit from 'pages/suits/Edit'
-import Places from 'components/Places'
-import Events from 'components/Events'
 import Tracks from 'components/Tracks'
+import Events from 'components/Events'
+import FlightProfiles from 'components/FlightProfiles'
+import Places from 'components/Places'
+import Suits from 'components/Suits'
 import Users from 'components/Users'
 
 const reportLocation = location =>
@@ -36,11 +33,7 @@ const AppRouter = () => {
       <Route path="/events" component={Events} />
       <Route path="/places" component={Places} />
       <Route path="/users" component={Users} />
-
-      <Route exact path="/suits" component={SuitsOverview} />
-      <Route path="/suits/make/:id" component={SuitsIndex} />
-      <Route path="/suits/:id/edit" component={SuitsEdit} />
-      <Route path="/suits/:id" component={SuitsShow} />
+      <Route path="/suits" component={Suits} />
     </Switch>
   )
 }
