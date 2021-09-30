@@ -1,10 +1,16 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 import styles from './styles.module.scss'
+import { SuitRecord } from 'api/hooks/suits'
+import { ManufacturerRecord } from 'api/hooks/manufacturer'
 
-const Header = ({ suit, make }) => {
+type HeaderProps = {
+  suit: SuitRecord
+  make: ManufacturerRecord
+}
+
+const Header = ({ suit, make }: HeaderProps): JSX.Element => {
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>{suit.name}</h2>
@@ -33,17 +39,6 @@ const Header = ({ suit, make }) => {
       </div>
     </div>
   )
-}
-
-Header.propTypes = {
-  suit: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    editable: PropTypes.bool.isRequired
-  }).isRequired,
-  make: PropTypes.shape({
-    name: PropTypes.string.isRequired
-  })
 }
 
 export default Header
