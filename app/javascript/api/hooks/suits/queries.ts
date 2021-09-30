@@ -7,10 +7,9 @@ import {
   UseQueryResult
 } from 'react-query'
 
-import { preloadManufacturers } from 'api/hooks/manufacturer'
+import { cacheManufacturers, preloadManufacturers } from 'api/hooks/manufacturer'
 import { getAllSuits, getSuit, getSuits, getSuitsById } from './requests'
 import {
-  AllSuitsQueryKey,
   IndexParams,
   IndexQueryKey,
   RecordQueryKey,
@@ -18,7 +17,6 @@ import {
   SuitRecord
 } from './types'
 
-const allSuitsQueryKey: AllSuitsQueryKey = ['suits', 'all']
 const indexQueryKey = (params: IndexParams): IndexQueryKey => ['suits', params]
 const recordQueryKey = (id: number | null | undefined): RecordQueryKey => ['suits', id]
 
@@ -40,13 +38,14 @@ const buildQueryFn = (
 
 const buildAllSuitsQueryFn = (
   queryClient: QueryClient
-): QueryFunction<SuitRecord[], AllSuitsQueryKey> => async () => {
-  const chunks = await getAllSuits()
+): QueryFunction<SuitRecord[], IndexQueryKey> => async ctx => {
+  const [_key, params] = ctx.queryKey
+  const chunks = await getAllSuits(params)
   const suits = chunks.map(chunk => chunk.items).flat()
-  const makeIds = suits.map(suit => suit.makeId)
-  await preloadManufacturers(makeIds, queryClient)
+  const manufacturers = chunks.map(chunk => chunk.relations.manufacturers).flat()
 
   cacheSuits(suits, queryClient)
+  cacheManufacturers(manufacturers, queryClient)
 
   return suits
 }
@@ -58,11 +57,8 @@ const buildSuitsQueryFn = (
   const data = await getSuits(params)
 
   const suits = data.items
-
-  const makeIds = suits.map(suit => suit.makeId)
-  await preloadManufacturers(makeIds, queryClient)
-
   cacheSuits(suits, queryClient)
+  cacheManufacturers(data.relations?.manufacturers, queryClient)
 
   return data
 }
@@ -128,11 +124,13 @@ export const suitsQuery = (
   ...cacheOptions
 })
 
-export const useAllSuitsQuery = (): UseQueryResult<SuitRecord[]> => {
+export const useAllSuitsQuery = (
+  params: IndexParams = {}
+): UseQueryResult<SuitRecord[]> => {
   const queryClient = useQueryClient()
 
   return useQuery({
-    queryKey: allSuitsQueryKey,
+    queryKey: indexQueryKey(params),
     queryFn: buildAllSuitsQueryFn(queryClient),
     ...cacheOptions
   })

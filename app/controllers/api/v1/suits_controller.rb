@@ -27,9 +27,15 @@ module Api
       private
 
       def apply_filters(relation)
-        return relation if params[:ids].blank?
-
-        relation.where(id: params[:ids])
+        relation
+          .then { |rel| params[:ids].present? ? rel.where(id: params[:ids]) : rel }
+          .then do |rel|
+            if params[:manufacturer_id].present?
+              rel.where(manufacturer_id: params[:manufacturer_id])
+            else
+              rel
+            end
+          end
       end
     end
   end

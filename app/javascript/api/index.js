@@ -1,9 +1,7 @@
 import Registration from './Registration'
-import Suit from './Suit'
 
 const Api = {
-  Registration,
-  Suit
+  Registration
 }
 
 export default Api

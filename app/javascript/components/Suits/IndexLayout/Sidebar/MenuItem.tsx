@@ -1,10 +1,14 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { NavLink, NavLinkProps } from 'react-router-dom'
 
 import styles from './styles.module.scss'
 
-const MenuItem = ({ title, subtitle, ...props }) => (
+type MenuItemProps = NavLinkProps & {
+  title: string
+  subtitle?: string
+}
+
+const MenuItem = ({ title, subtitle, ...props }: MenuItemProps): JSX.Element => (
   <li>
     <NavLink className={styles.link} {...props}>
       <div className={styles.linkContent}>
@@ -14,10 +18,5 @@ const MenuItem = ({ title, subtitle, ...props }) => (
     </NavLink>
   </li>
 )
-
-MenuItem.propTypes = {
-  title: PropTypes.string.isRequired,
-  subtitle: PropTypes.string
-}
 
 export default MenuItem

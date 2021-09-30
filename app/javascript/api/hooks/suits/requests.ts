@@ -20,8 +20,8 @@ export const getSuit = (id: number): Promise<SuitRecord> =>
 export const getSuitsById = (ids: number[]): Promise<SuitsIndex | EmptyResponse> =>
   loadIds<SuitsIndex>(endpoint, ids)
 
-export const getAllSuits = async (): Promise<SuitsIndex[]> =>
-  depaginate<SuitsIndex>(buildUrl)
+export const getAllSuits = async (params: IndexParams): Promise<SuitsIndex[]> =>
+  depaginate<SuitsIndex>(pagination => buildUrl({ ...params, ...pagination }))
 
 export const getSuits = (params: IndexParams): Promise<SuitsIndex> =>
   axios.get(buildUrl(params)).then(response => response.data)

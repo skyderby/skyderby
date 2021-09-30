@@ -12,6 +12,7 @@ export type ManufacturerRecord = {
   id: number
   name: string
   code: string
+  active: boolean
 }
 
 type ManufacturersIndex = {
@@ -20,19 +21,23 @@ type ManufacturersIndex = {
   totalPages: number
 }
 
-export type RecordQueryKey = ['manufacturers', number | undefined]
+export type CollectionQueryKey = readonly ['manufacturers']
+export type RecordQueryKey = readonly ['manufacturers', number | undefined]
 
 const endpoint = '/api/v1/manufacturers'
 
 const getManufacturer = (id: number): Promise<ManufacturerRecord> =>
   axios.get(`${endpoint}/${id}`).then(response => response.data)
 
+const getAllManufacturers = (): Promise<ManufacturersIndex> =>
+  axios.get(endpoint).then(response => response.data)
+
 const getManufacturersById = (
   ids: number[]
 ): Promise<ManufacturersIndex | EmptyResponse> =>
   loadIds<ManufacturersIndex>(endpoint, ids)
 
-const queryFn: QueryFunction<ManufacturerRecord, RecordQueryKey> = async ctx => {
+const recordQueryFn: QueryFunction<ManufacturerRecord, RecordQueryKey> = async ctx => {
   const [_key, id] = ctx.queryKey
 
   if (typeof id !== 'number') {
@@ -43,6 +48,15 @@ const queryFn: QueryFunction<ManufacturerRecord, RecordQueryKey> = async ctx => 
 }
 
 const recordQueryKey = (id: number | undefined): RecordQueryKey => ['manufacturers', id]
+
+const collectionQueryFn: QueryFunction<
+  ManufacturerRecord[],
+  CollectionQueryKey
+> = async () => {
+  const { items } = await getAllManufacturers()
+
+  return items
+}
 
 export const cacheManufacturers = (
   manufacturers: ManufacturerRecord[],
@@ -85,12 +99,16 @@ type QueryOptions = UseQueryOptions<
   RecordQueryKey
 >
 
-const manufacturerQuery = (id: number | undefined): QueryOptions => ({
-  queryKey: recordQueryKey(id),
-  queryFn,
-  enabled: Boolean(id),
+const cacheOptions = {
   cacheTime: 60 * 60 * 1000,
   staleTime: 30 * 60 * 1000
+}
+
+const manufacturerQuery = (id: number | undefined): QueryOptions => ({
+  queryKey: recordQueryKey(id),
+  queryFn: recordQueryFn,
+  enabled: Boolean(id),
+  ...cacheOptions
 })
 
 export const useManufacturerQuery = (
@@ -98,3 +116,18 @@ export const useManufacturerQuery = (
   options: QueryOptions = {}
 ): UseQueryResult<ManufacturerRecord> =>
   useQuery({ ...manufacturerQuery(id), ...options })
+
+const manufacturersQuery = () => ({
+  queryKey: ['manufacturers'] as const,
+  queryFn: collectionQueryFn,
+  ...cacheOptions
+})
+
+export const useManufacturersQuery = (
+  options: UseQueryOptions<
+    ManufacturerRecord[],
+    Error,
+    ManufacturerRecord[],
+    CollectionQueryKey
+  > = {}
+) => useQuery({ ...manufacturersQuery(), ...options })
