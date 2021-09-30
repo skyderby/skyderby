@@ -7,7 +7,7 @@ import styles from './styles.module.scss'
 const Item = (props: HTMLAttributes<HTMLLIElement>): JSX.Element => <li {...props} />
 
 type BreadcrumbsProps = {
-  children: typeof Item[]
+  children: React.ReactNode
 }
 
 const Breadcrumbs = ({ children }: BreadcrumbsProps): JSX.Element => {

@@ -1,18 +1,15 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 
-import { selectAllManufacturers } from 'redux/manufacturers'
-import { selectAllSuits } from 'redux/suits'
-
+import { useManufacturersQuery } from 'api/hooks/manufacturer'
+import { useAllSuitsQuery } from 'api/hooks/suits'
 import MenuItem from './MenuItem'
-
 import styles from './styles.module.scss'
 
 const Sidebar = () => {
-  const allManufacturers = useSelector(selectAllManufacturers)
-  const allSuits = useSelector(selectAllSuits)
+  const { data: allSuits = [] } = useAllSuitsQuery()
+  const { data: allManufacturers = [] } = useManufacturersQuery()
 
-  const productsCountByMake = allSuits.reduce((acc, suit) => {
+  const productsCountByMake = allSuits.reduce<Record<string, number>>((acc, suit) => {
     acc[suit.makeId] = (acc[suit.makeId] || 0) + 1
 
     return acc
@@ -48,7 +45,7 @@ const Sidebar = () => {
           key={el.id}
           to={`/suits/make/${el.id}`}
           title={el.name}
-          subtitle={`Products: ${productsCountByMake[el.id]}`}
+          subtitle={`Products: ${productsCountByMake[el.id] ?? ''}`}
         />
       ))}
     </ul>
