@@ -1,3 +1,5 @@
+import { ManufacturerRecord } from 'api/hooks/manufacturer'
+
 type SuitCategory = 'wingsuit' | 'tracksuit' | 'slick' | 'monotrack'
 
 export type SuitRecord = {
@@ -12,14 +14,17 @@ export type SuitsIndex = {
   items: SuitRecord[]
   currentPage: number
   totalPages: number
+  relations: {
+    manufacturers: ManufacturerRecord[]
+  }
 }
 
 export type IndexParams = {
   search?: string
+  manufacturerId?: number
   page?: number
   perPage?: number
 }
 
 export type RecordQueryKey = ['suits', number | null | undefined]
 export type IndexQueryKey = ['suits', IndexParams]
-export type AllSuitsQueryKey = ['suits', 'all']
