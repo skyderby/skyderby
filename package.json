@@ -13,6 +13,9 @@
     ]
   },
   "scripts": {
+    "dev": "next dev ./frontend -p 3001",
+    "build": "next build ./frontend",
+    "start": "next start ./frontend",
     "lint": "yarn lint-code && yarn lint-styles",
     "lint-code": "yarn eslint app/javascript",
     "lint-styles": "yarn stylelint \"app/javascript/**/*.scss\"",
@@ -150,7 +153,10 @@
     "lodash.merge": "^4.6.2",
     "lodash.throttle": "^4.1.1",
     "mini-css-extract-plugin": "^2.6.1",
+    "next": "^11.1.2",
+    "next-translate": "^1.1.0",
     "normalize.css": "^8.0.1",
+    "postcss": "^8.1.1",
     "postcss": "^8.4.16",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-import": "^14.1.0",

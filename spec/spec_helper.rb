@@ -6,8 +6,12 @@ require 'capybara/rspec'
 
 ActiveRecord::Migration.maintain_test_schema!
 
+NEXT_PORT = 4001
+
 Capybara.ignore_hidden_elements = true
 Capybara.default_max_wait_time = 5
+Capybara.app_host = "http://localhost:#{NEXT_PORT}"
+Capybara.server_port = 33_001
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
@@ -29,6 +33,9 @@ RSpec.configure do |config|
   config.global_fixtures = :all
   config.use_transactional_fixtures = true
 
+  config.order = :random
+  Kernel.srand config.seed
+
   config.prepend_before(:each, type: :system) do
     headless = ENV['SELENIUM_HEADLESS_CHROME'].present?
     browser = headless ? :headless_chrome : :chrome
@@ -38,6 +45,6 @@ RSpec.configure do |config|
     end
   end
 
-  config.order = :random
-  Kernel.srand config.seed
+  config.before(:suite) { NextServer.start }
+  config.after(:suite) { NextServer.stop }
 end

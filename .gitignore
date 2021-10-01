@@ -25,3 +25,6 @@ yarn-error.log
 /public/assets
 /public/packs
 /public/packs-test
+
+# Ignore next.js artifacts
+.next
