@@ -21,6 +21,12 @@
     border-left-color: var(--border-color);
     border-radius: var(--border-radius-md);
   }
+
+  @media (prefers-color-scheme: dark) {
+    border-color: var(--grey-80);
+
+    background-color: var(--grey-90);
+  }
 }
 
 .shrinkToContent {

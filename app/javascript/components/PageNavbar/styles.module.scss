@@ -58,24 +58,38 @@
   line-height: 2rem;
   white-space: nowrap;
   text-decoration: none;
+
+  @media (prefers-color-scheme: dark) {
+    color: var(--grey-40);
+  }
 }
 
 .menuItem :global(.active) {
-  border-bottom-color: var(--blue-grey-70);
+  --color: var(--blue-grey-70);
+
+  border-bottom-color: var(--color);
 
   span {
-    color: var(--blue-grey-70);
+    color: var(--color);
     font-weight: 500;
   }
 
   path {
-    fill: var(--blue-grey-70);
+    fill: var(--color);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    --color: var(--blue-grey-60);
   }
 }
 
 .menuItem a:hover span,
 :global(.keyboardNavigation) .menuItem a:focus span {
   background-color: var(--grey-30);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--grey-80);
+  }
 }
 
 .spacer {
