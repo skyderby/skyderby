@@ -14,6 +14,12 @@
     height: 3.75rem;
   }
 
+  @media (prefers-color-scheme: dark) {
+    border-bottom: 1px solid var(--grey-80);
+
+    background-color: var(--grey-90);
+  }
+
   a {
     color: inherit;
     text-decoration: none;

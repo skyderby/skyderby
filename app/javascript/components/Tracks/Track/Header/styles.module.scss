@@ -1,9 +1,15 @@
 @import 'styles/breakpoints';
 
 .container {
-  border-bottom: solid 1px var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 
   background-color: var(--white);
+
+  @media (prefers-color-scheme: dark) {
+    border-bottom: 1px solid var(--grey-80);
+
+    background-color: var(--grey-90);
+  }
 }
 
 .content {

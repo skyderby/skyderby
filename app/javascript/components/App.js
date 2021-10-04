@@ -9,6 +9,7 @@ import TranslationsProvider from 'components/TranslationsProvider'
 import AppRouter from './AppRouter'
 
 import 'styles/globalStyles'
+import { Helmet } from 'react-helmet'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -44,6 +45,9 @@ const App = () => {
       <Provider store={store}>
         <TranslationsProvider>
           <BrowserRouter>
+            <Helmet>
+              <meta name="color-scheme" content="dark light" />
+            </Helmet>
             <AppRouter />
           </BrowserRouter>
         </TranslationsProvider>
