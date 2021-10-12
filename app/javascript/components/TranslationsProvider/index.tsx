@@ -26,7 +26,7 @@ type TranslationsDict = {
 }
 
 type UseI18nContext = {
-  t: (key: string) => string
+  t: typeof I18n.t
   supportedLocales: ApplicationLocale[]
   changeLocale: (locale: ApplicationLocale) => void
   locale: ApplicationLocale
