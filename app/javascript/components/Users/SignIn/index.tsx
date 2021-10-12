@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import { Formik, Field } from 'formik'
-import PropTypes from 'prop-types'
+import { Location } from 'history'
+import { Formik, Field, FormikHelpers } from 'formik'
 
 import { useLoginMutation } from 'api/hooks/sessions'
 import PageWrapper from 'components/Users/PageWrapper'
@@ -10,19 +10,31 @@ import { useI18n } from 'components/TranslationsProvider'
 import validationSchema from './validationSchema'
 import styles from 'components/Users/styles.module.scss'
 
-const defaultAfterLoginUrl = '/'
+type SignInProps = {
+  location: Location<{ returnTo?: string }>
+}
 
-const SignIn = ({ location }) => {
+interface FormValues {
+  email: string
+  password: string
+}
+
+const initialValues = { email: '', password: '' }
+
+const SignIn = ({ location }: SignInProps): JSX.Element => {
   const history = useHistory()
   const { t } = useI18n()
   const loginMutation = useLoginMutation()
 
-  const afterLoginUrl = location.state?.afterLoginUrl ?? defaultAfterLoginUrl
+  const returnTo = location.state?.returnTo ?? '/'
 
-  const handleSubmit = async (values, formikBag) => {
+  const handleSubmit = async (
+    values: FormValues,
+    formikBag: FormikHelpers<FormValues>
+  ): Promise<void> => {
     try {
       await loginMutation.mutateAsync(values)
-      history.push(afterLoginUrl)
+      history.push(returnTo)
     } catch (err) {
       formikBag.setSubmitting(false)
     }
@@ -31,7 +43,7 @@ const SignIn = ({ location }) => {
   return (
     <PageWrapper>
       <Formik
-        initialValues={{ email: '', password: '' }}
+        initialValues={initialValues}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
@@ -39,7 +51,8 @@ const SignIn = ({ location }) => {
           <form onSubmit={handleSubmit} className={styles.container}>
             {loginMutation.error && (
               <p className={styles.serverError}>
-                {loginMutation.error.response.data?.error || loginMutation.error.message}
+                {loginMutation.error?.response?.data?.error ||
+                  loginMutation.error.message}
               </p>
             )}
 
@@ -85,19 +98,11 @@ const SignIn = ({ location }) => {
 
             <Separator>{t('general.or')}</Separator>
 
-            <Link
-              to="/users/sign-up"
-              className={styles.secondaryButton}
-              disabled={isSubmitting}
-            >
+            <Link to="/users/sign-up" className={styles.secondaryButton}>
               {t('devise.shared.links.sign_up')}
             </Link>
 
-            <a
-              href="/users/auth/facebook"
-              className={styles.secondaryButton}
-              disabled={isSubmitting}
-            >
+            <a href="/users/auth/facebook" className={styles.secondaryButton}>
               {t('devise.shared.links.sign_in_with_provider', { provider: 'Facebook' })}
             </a>
           </form>
@@ -105,14 +110,6 @@ const SignIn = ({ location }) => {
       </Formik>
     </PageWrapper>
   )
-}
-
-SignIn.propTypes = {
-  location: PropTypes.shape({
-    state: PropTypes.shape({
-      afterLoginUrl: PropTypes.string
-    })
-  })
 }
 
 export default SignIn
