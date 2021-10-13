@@ -11,7 +11,7 @@ import TerrainProfileSelect from '../TerrainProfileSelect'
 import styles from './styles.module.scss'
 
 type FormData = {
-  straightLine: boolean
+  straightLine: string
   additionalTerrainProfiles: number[]
 }
 
@@ -40,10 +40,10 @@ const SettingsModal = ({
                 <label>Calculate distance</label>
                 <Field
                   as={RadioButtonGroup}
-                  name="calculateDistanceBy"
+                  name="straightLine"
                   options={[
-                    { value: true, label: 'by straight line' },
-                    { value: false, label: 'by trajectory' }
+                    { value: 'true', label: 'by straight line' },
+                    { value: 'false', label: 'by trajectory' }
                   ]}
                 />
               </div>
