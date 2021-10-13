@@ -7,6 +7,7 @@ import {
   TrackFilters,
   FilterTuple
 } from 'api/hooks/tracks'
+import isEqual from 'lodash.isequal'
 
 interface FlightProfilesURLParams {
   tracksParams: Omit<IndexParams, 'filters'> & { filters: FilterTuple[] }
@@ -103,10 +104,13 @@ const usePageParams = (): PageParams => {
   )
 
   const setAdditionalTerrainProfiles = useCallback(
-    ids =>
+    ids => {
+      if (isEqual(ids, params.additionalTerrainProfiles)) return
+
       history.replace(
         `${location.pathname}${buildUrl({ additionalTerrainProfiles: ids })}`
-      ),
+      )
+    },
     [buildUrl, history, location.pathname]
   )
 
