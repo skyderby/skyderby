@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import parseISO from 'date-fns/parseISO'
 import {
   QueryClient,
@@ -30,7 +30,9 @@ const getWindData = async (id: number | undefined) => {
     throw new Error(`Expected track id to be a number, received ${typeof id}`)
   }
 
-  const records = await axios.get(dataUrl).then(response => response.data)
+  const records = await axios
+    .get<never, AxiosResponse<RawRecord[]>>(dataUrl)
+    .then(response => response.data)
 
   return records.map(normalize)
 }

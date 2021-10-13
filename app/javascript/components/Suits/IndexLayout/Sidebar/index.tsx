@@ -5,7 +5,7 @@ import { useAllSuitsQuery } from 'api/hooks/suits'
 import MenuItem from './MenuItem'
 import styles from './styles.module.scss'
 
-const Sidebar = () => {
+const Sidebar = (): JSX.Element => {
   const { data: allSuits = [] } = useAllSuitsQuery()
   const { data: allManufacturers = [] } = useManufacturersQuery()
 

@@ -82,7 +82,7 @@ export const preloadSuits = async (
   cacheSuits(suits, queryClient)
 
   await preloadManufacturers(
-    suits.map(place => place.makeId),
+    suits.map(suit => suit.makeId),
     queryClient
   )
 
