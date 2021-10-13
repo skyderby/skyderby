@@ -1,4 +1,15 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
+
+export type IndexResponse<
+  Type = never,
+  Relations = undefined
+> = (Relations extends undefined
+  ? { relations?: Record<string, never[]> }
+  : { relations: Relations }) & {
+  items: Type[]
+  currentPage: number
+  totalPages: number
+}
 
 export type EmptyResponse = {
   items: never[]
@@ -11,10 +22,10 @@ interface DepaginateParams {
   perPage: number
 }
 
-export async function loadIds<Type>(
+export async function loadIds<Type, Relations = undefined>(
   indexEndpoint: string,
   ids: number[]
-): Promise<Type | EmptyResponse> {
+): Promise<IndexResponse<Type, Relations> | EmptyResponse> {
   const uniqueIds = Array.from(new Set(ids.filter(Boolean)))
 
   if (uniqueIds.length === 0) return { items: [], currentPage: 1, totalPages: 1 }
@@ -26,16 +37,21 @@ export async function loadIds<Type>(
 
   params.set('perPage', String(uniqueIds.length))
 
-  const { data } = await axios.get(`${indexEndpoint}?${params.toString()}`)
+  const { data } = await axios.get<never, AxiosResponse<IndexResponse<Type, Relations>>>(
+    `${indexEndpoint}?${params.toString()}`
+  )
 
   return data
 }
 
-export async function depaginate<Type>(
+export async function depaginate<Type = never, Relations = undefined>(
   buildUrl: (params: DepaginateParams) => string,
   perPage = 100
-): Promise<Type[]> {
-  const { data: firstChunk } = await axios.get(buildUrl({ perPage }))
+): Promise<IndexResponse<Type, Relations>[]> {
+  const { data: firstChunk } = await axios.get<
+    never,
+    AxiosResponse<IndexResponse<Type, Relations>>
+  >(buildUrl({ perPage }))
 
   const restPages = new Array(firstChunk.totalPages - 1)
     .fill(undefined)

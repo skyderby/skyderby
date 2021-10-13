@@ -23,9 +23,12 @@ const endpoint = (eventId: number) =>
   `/api/v1/speed_skydiving_competitions/${eventId}/rounds`
 
 const getRounds = (eventId: number) =>
-  axios.get(endpoint(eventId)).then(response => response.data)
-const createRound = (eventId: number): Promise<AxiosResponse<SerializedData>> =>
-  axios.post(endpoint(eventId))
+  axios
+    .get<never, AxiosResponse<SerializedData[]>>(endpoint(eventId))
+    .then(response => response.data)
+
+const createRound = (eventId: number) =>
+  axios.post<never, AxiosResponse<SerializedData>>(endpoint(eventId))
 
 type DeleteVariables = {
   eventId: number

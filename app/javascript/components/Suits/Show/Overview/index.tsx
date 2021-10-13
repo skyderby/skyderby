@@ -1,6 +1,6 @@
 import React from 'react'
 
-const SuitOverview = () => {
+const SuitOverview = (): JSX.Element => {
   return <h1>Overview</h1>
 }
 

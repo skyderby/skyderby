@@ -51,8 +51,7 @@ const SignIn = ({ location }: SignInProps): JSX.Element => {
           <form onSubmit={handleSubmit} className={styles.container}>
             {loginMutation.error && (
               <p className={styles.serverError}>
-                {loginMutation.error?.response?.data?.error ||
-                  loginMutation.error.message}
+                {loginMutation.error.response?.data?.error || loginMutation.error.message}
               </p>
             )}
 
