@@ -14,17 +14,19 @@ import TerrainProfileSelect from './TerrainProfileSelect'
 import SettingsModal from './SettingsModal'
 import styles from './styles.module.scss'
 
-const straightLineKey = 'flightProfiles_unroll'
+const straightLineKey = 'flightProfiles/unroll'
+
+const getStraightLineSavedSetting = () => {
+  const localStorageValue = localStorage.getItem(straightLineKey)
+  if (localStorageValue === null) return false
+  return localStorageValue.toLowerCase() === 'true'
+}
 
 const FlightProfiles = (): JSX.Element => {
   const { t } = useI18n()
   const [zoomLevel, setZoomLevel] = useState<{ min: number; max: number } | null>(null)
   const [showModal, setShowModal] = useState(false)
-  const [straightLine, setStraightLine] = useState<boolean>(() => {
-    const localStorageValue = localStorage.getItem(straightLineKey)
-    if (!localStorageValue) return true
-    return String(localStorageValue).toLowerCase() === 'true'
-  })
+  const [straightLine, setStraightLine] = useState<boolean>(getStraightLineSavedSetting)
 
   useEffect(() => {
     localStorage.setItem(straightLineKey, String(straightLine))
@@ -40,10 +42,10 @@ const FlightProfiles = (): JSX.Element => {
     straightLine,
     additionalTerrainProfiles
   }: {
-    straightLine: boolean
+    straightLine: string
     additionalTerrainProfiles: number[]
   }) => {
-    setStraightLine(straightLine)
+    setStraightLine(straightLine === 'true')
     setAdditionalTerrainProfiles(additionalTerrainProfiles)
 
     setShowModal(false)
@@ -98,7 +100,7 @@ const FlightProfiles = (): JSX.Element => {
 
           <SettingsModal
             initialValues={{
-              straightLine,
+              straightLine: String(straightLine),
               additionalTerrainProfiles
             }}
             isShown={showModal}
