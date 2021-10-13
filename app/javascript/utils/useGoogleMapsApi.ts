@@ -9,7 +9,7 @@ const loader = new Loader({
   libraries: []
 })
 
-const useGoogleMapsApi = () => {
+const useGoogleMapsApi = (): typeof google | undefined => {
   const [mapsApi, setMapsApi] = useState<typeof google>()
 
   useEffect(() => {

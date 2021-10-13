@@ -11,7 +11,7 @@ export const vectorFromMagnitudeAndDirection = (
   Math.sin(degreesToRadians(direction)) * magnitude
 ]
 
-export const sumVectors = (...vectors: Vector[]) =>
+export const sumVectors = (...vectors: Vector[]): Vector =>
   vectors.reduce((acc, current) => [acc[0] + current[0], acc[1] + current[1]])
 
 export const getMagnitude = (vector: Vector): number =>

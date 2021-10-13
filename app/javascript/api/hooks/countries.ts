@@ -37,7 +37,7 @@ const getCountry = (id: number): Promise<CountryRecord> =>
 const getCountries = (params: IndexParams): Promise<CountriesIndex> =>
   axios.get(urlWithParams(endpoint, params)).then(response => response.data)
 
-const getCountriesById = (ids: number[]) => loadIds<CountriesIndex>(endpoint, ids)
+const getCountriesById = (ids: number[]) => loadIds<CountryRecord>(endpoint, ids)
 
 const queryCountry: QueryFunction<CountryRecord, RecordQueryKey> = ctx => {
   const [_key, id] = ctx.queryKey

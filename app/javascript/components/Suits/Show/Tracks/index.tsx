@@ -1,6 +1,6 @@
 import React from 'react'
 
-const SuitTracks = () => {
+const SuitTracks = (): JSX.Element => {
   return <h1>Tracks</h1>
 }
 

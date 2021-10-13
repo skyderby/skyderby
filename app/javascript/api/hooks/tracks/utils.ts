@@ -6,7 +6,10 @@ import { cacheProfiles } from 'api/hooks/profiles'
 import { cacheCountries } from 'api/hooks/countries'
 import { cacheManufacturers } from 'api/hooks/manufacturer'
 
-export const cacheRelations = (relations: TrackRelations, queryClient: QueryClient) => {
+export const cacheRelations = (
+  relations: TrackRelations,
+  queryClient: QueryClient
+): void => {
   cachePlaces(relations.places, queryClient)
   cacheSuits(relations.suits, queryClient)
   cacheProfiles(relations.profiles, queryClient)

@@ -54,34 +54,33 @@ const deserialize = (result: SerializedResult): Result => ({
 })
 
 const getResults = (eventId: number) =>
-  axios.get(collectionEndpoint(eventId)).then(response => response.data)
+  axios
+    .get<never, AxiosResponse<SerializedResult[]>>(collectionEndpoint(eventId))
+    .then(response => response.data)
 
-const createResult = ({
-  eventId,
-  ...values
-}: CreateVariables): Promise<AxiosResponse<SerializedResult>> => {
+const createResult = ({ eventId, ...values }: CreateVariables) => {
   const formData = new FormData()
   Object.entries(values).forEach(([key, value]) => formData.set(`result[${key}]`, value))
 
-  return axios.post(collectionEndpoint(eventId), formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
+  return axios.post<FormData, AxiosResponse<SerializedResult>>(
+    collectionEndpoint(eventId),
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     }
-  })
+  )
 }
 
-const updateResult = ({
-  eventId,
-  id,
-  ...result
-}: UpdateVariables): Promise<AxiosResponse<SerializedResult>> =>
-  axios.put(elementEndpoint(eventId, id), { result })
+const updateResult = ({ eventId, id, ...result }: UpdateVariables) =>
+  axios.put<
+    { result: Omit<UpdateVariables, 'id' | 'eventId'> },
+    AxiosResponse<SerializedResult>
+  >(elementEndpoint(eventId, id), { result })
 
-const deleteResult = ({
-  eventId,
-  id
-}: DeleteVariables): Promise<AxiosResponse<SerializedResult>> =>
-  axios.delete(elementEndpoint(eventId, id))
+const deleteResult = ({ eventId, id }: DeleteVariables) =>
+  axios.delete<never, AxiosResponse<SerializedResult>>(elementEndpoint(eventId, id))
 
 const queryKey = (eventId: number): QueryKey => [
   'speedSkydivingCompetitions',

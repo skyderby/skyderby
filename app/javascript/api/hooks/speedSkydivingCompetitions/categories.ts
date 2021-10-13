@@ -20,7 +20,6 @@ type SerializedCategory = {
 }
 
 type CreateVariables = {
-  eventId: number
   name: string
 }
 
@@ -57,18 +56,44 @@ const categoryUrl = (eventId: number, id: number) => `${endpoint(eventId)}/${id}
 const categoryPositionUrl = (eventId: number, id: number) =>
   `${categoryUrl(eventId, id)}/position`
 
-const getHeaders = () => ({ 'X-CSRF-Token': getCSRFToken() })
+const getHeaders = () => ({ 'X-CSRF-Token': String(getCSRFToken()) })
 
 const getCategories = (eventId: number) =>
-  axios.get(endpoint(eventId)).then(response => response.data)
-const createCategory = ({ eventId, ...category }: CreateVariables) =>
-  axios.post(endpoint(eventId), { category }, { headers: getHeaders() })
-const updateCategory = ({ eventId, id, ...category }: UpdateVariables) =>
-  axios.put(categoryUrl(eventId, id), { category }, { headers: getHeaders() })
+  axios
+    .get<never, AxiosResponse<SerializedCategory[]>>(endpoint(eventId))
+    .then(response => response.data)
+
+const createCategory = ({
+  eventId,
+  ...category
+}: CreateVariables & { eventId: number }) =>
+  axios.post<{ category: CreateVariables }, AxiosResponse<SerializedCategory>>(
+    endpoint(eventId),
+    { category },
+    { headers: getHeaders() }
+  )
+
+const updateCategory = ({
+  eventId,
+  id,
+  ...category
+}: UpdateVariables & { eventId: number }) =>
+  axios.put<
+    { category: Omit<UpdateVariables, 'eventId' | 'id'> },
+    AxiosResponse<SerializedCategory>
+  >(categoryUrl(eventId, id), { category }, { headers: getHeaders() })
+
 const deleteCategory = ({ eventId, id }: DeleteVariables) =>
-  axios.delete(categoryUrl(eventId, id), { headers: getHeaders() })
+  axios.delete<never, AxiosResponse<SerializedCategory>>(categoryUrl(eventId, id), {
+    headers: getHeaders()
+  })
+
 const updateCategoryPosition = ({ eventId, id, direction }: PositionVariables) =>
-  axios.put(categoryPositionUrl(eventId, id), { direction }, { headers: getHeaders() })
+  axios.put<Pick<PositionVariables, 'direction'>, AxiosResponse<void>>(
+    categoryPositionUrl(eventId, id),
+    { direction },
+    { headers: getHeaders() }
+  )
 
 const queryKey = (eventId: number): QueryKey => [
   'speedSkydivingCompetitions',
@@ -110,11 +135,10 @@ export const useCategoryQuery = (
 export const useNewCategoryMutation = (
   eventId: number,
   options: MutationOptions = {}
-) => {
+): UseMutationResult<AxiosResponse<SerializedCategory>, AxiosError, CreateVariables> => {
   const queryClient = useQueryClient()
 
-  const mutationFn = (values: Omit<CreateVariables, 'eventId'>) =>
-    createCategory({ ...values, eventId })
+  const mutationFn = (values: CreateVariables) => createCategory({ ...values, eventId })
 
   return useMutation(mutationFn, {
     async onSuccess(response) {
@@ -131,11 +155,10 @@ export const useNewCategoryMutation = (
 export const useEditCategoryMutation = (
   eventId: number,
   options: MutationOptions = {}
-) => {
+): UseMutationResult<AxiosResponse<SerializedCategory>, AxiosError, UpdateVariables> => {
   const queryClient = useQueryClient()
 
-  const mutationFn = (values: Omit<UpdateVariables, 'eventId'>) =>
-    updateCategory({ ...values, eventId })
+  const mutationFn = (values: UpdateVariables) => updateCategory({ ...values, eventId })
 
   return useMutation(mutationFn, {
     onSuccess(response, { id }) {

@@ -1,9 +1,11 @@
+import { Options } from 'highcharts'
+
 type ZoomLevel = null | {
   min?: number
   max?: number
 }
 
-const useChartOptions = (zoomLevel: ZoomLevel = {}) => {
+const useChartOptions = (zoomLevel: ZoomLevel = {}): Options => {
   return {
     chart: {
       type: 'spline',

@@ -42,17 +42,25 @@ const endpoint = '/api/v1/speed_skydiving_competitions'
 const queryKey = (id: number): QueryKey => ['speedSkydivingCompetitions', id]
 
 const getEvent = (id: number) =>
-  axios.get(`${endpoint}/${id}`).then(response => response.data)
+  axios
+    .get<never, AxiosResponse<SerializedData>>(`${endpoint}/${id}`)
+    .then(response => response.data)
 
 const createEvent = (speedSkydivingCompetition: CreateVariables) =>
-  axios.post(
+  axios.post<
+    { speedSkydivingCompetition: CreateVariables },
+    AxiosResponse<SerializedData>
+  >(
     endpoint,
     { speedSkydivingCompetition },
     { headers: { 'X-CSRF-Token': getCSRFToken() } }
   )
 
 const updateEvent = ({ id, ...speedSkydivingCompetition }: UpdateVariables) =>
-  axios.put(
+  axios.put<
+    { speedSkydivingCompetition: Omit<UpdateVariables, 'id'> },
+    AxiosResponse<SerializedData>
+  >(
     `${endpoint}/${id}`,
     { speedSkydivingCompetition },
     { headers: { 'X-CSRF-Token': getCSRFToken() } }
@@ -68,7 +76,7 @@ const buildQueryFn = (
     await queryClient.prefetchQuery(placeQuery(data.placeId, queryClient))
   }
 
-  return data
+  return deserialize(data)
 }
 
 export const speedSkydivingCompetitionQuery = (
