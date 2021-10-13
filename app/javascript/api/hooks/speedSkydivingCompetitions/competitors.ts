@@ -11,14 +11,22 @@ import {
 } from 'react-query'
 import { parseISO } from 'date-fns'
 
-import { cacheProfiles } from 'api/hooks/profiles'
-import { cacheCountries } from 'api/hooks/countries'
+import { cacheProfiles, ProfileRecord } from 'api/hooks/profiles'
+import { cacheCountries, CountryRecord } from 'api/hooks/countries'
 import { getCSRFToken } from 'utils/csrfToken'
 import { standingsQuery } from './standings'
 import { Competitor } from './types'
 
 type SerializedCompetitor = {
   [K in keyof Competitor]: Competitor[K] extends Date ? string : Competitor[K]
+}
+
+interface IndexResponse {
+  items: SerializedCompetitor[]
+  relations: {
+    profiles: ProfileRecord[]
+    countries: CountryRecord[]
+  }
 }
 
 type CreateVariables = {
@@ -59,13 +67,26 @@ const elementEndpoint = (eventId: number, id: number) =>
 const getHeaders = () => ({ 'X-CSRF-Token': getCSRFToken() })
 
 const getCompetitors = (eventId: number) =>
-  axios.get(collectionEndpoint(eventId)).then(response => response.data)
+  axios
+    .get<never, AxiosResponse<IndexResponse>>(collectionEndpoint(eventId))
+    .then(response => response.data)
+
 const createCompetitor = ({ eventId, ...competitor }: CreateVariables) =>
-  axios.post(collectionEndpoint(eventId), { competitor }, { headers: getHeaders() })
+  axios.post<
+    { competitor: Omit<CreateVariables, 'eventId'> },
+    AxiosResponse<SerializedCompetitor>
+  >(collectionEndpoint(eventId), { competitor }, { headers: getHeaders() })
+
 const updateCompetitor = ({ eventId, id, ...competitor }: UpdateVariables) =>
-  axios.put(elementEndpoint(eventId, id), { competitor }, { headers: getHeaders() })
+  axios.put<
+    { competitor: Omit<UpdateVariables, 'id' | 'eventId'> },
+    AxiosResponse<SerializedCompetitor>
+  >(elementEndpoint(eventId, id), { competitor }, { headers: getHeaders() })
+
 const deleteCompetitor = ({ eventId, id }: DeleteVariables) =>
-  axios.delete(elementEndpoint(eventId, id), { headers: getHeaders() })
+  axios.delete<never, AxiosResponse<SerializedCompetitor>>(elementEndpoint(eventId, id), {
+    headers: getHeaders()
+  })
 
 const collectionKey = (eventId: number): QueryKey => [
   'speedSkydivingCompetitions',

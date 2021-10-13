@@ -5,8 +5,8 @@ import {
   UseQueryOptions,
   UseQueryResult
 } from 'react-query'
-import axios from 'axios'
-import { loadIds, EmptyResponse } from 'api/helpers'
+import axios, { AxiosResponse } from 'axios'
+import { loadIds } from 'api/helpers'
 
 export type ManufacturerRecord = {
   id: number
@@ -26,16 +26,17 @@ export type RecordQueryKey = readonly ['manufacturers', number | undefined]
 
 const endpoint = '/api/v1/manufacturers'
 
-const getManufacturer = (id: number): Promise<ManufacturerRecord> =>
-  axios.get(`${endpoint}/${id}`).then(response => response.data)
+const getManufacturer = (id: number) =>
+  axios
+    .get<never, AxiosResponse<ManufacturerRecord>>(`${endpoint}/${id}`)
+    .then(response => response.data)
 
-const getAllManufacturers = (): Promise<ManufacturersIndex> =>
-  axios.get(endpoint).then(response => response.data)
+const getAllManufacturers = () =>
+  axios
+    .get<never, AxiosResponse<ManufacturersIndex>>(endpoint)
+    .then(response => response.data)
 
-const getManufacturersById = (
-  ids: number[]
-): Promise<ManufacturersIndex | EmptyResponse> =>
-  loadIds<ManufacturersIndex>(endpoint, ids)
+const getManufacturersById = (ids: number[]) => loadIds<ManufacturerRecord>(endpoint, ids)
 
 const recordQueryFn: QueryFunction<ManufacturerRecord, RecordQueryKey> = async ctx => {
   const [_key, id] = ctx.queryKey

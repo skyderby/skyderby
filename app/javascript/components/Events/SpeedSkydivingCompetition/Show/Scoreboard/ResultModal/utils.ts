@@ -1,5 +1,6 @@
 import { differenceInMilliseconds, isEqual } from 'date-fns'
 import { PointRecord } from 'api/hooks/tracks/points'
+import { SeriesOptionsType } from 'highcharts'
 
 const validationWindowHeight = 1000
 
@@ -31,7 +32,10 @@ export const findPlotbandPosition = (
   }
 }
 
-export const buildAccuracySeries = (points: PointRecord[], windowEndAltitude: number) => {
+export const buildAccuracySeries = (
+  points: PointRecord[],
+  windowEndAltitude: number
+): SeriesOptionsType => {
   const validationWindowStart = windowEndAltitude + validationWindowHeight
 
   const data = points
