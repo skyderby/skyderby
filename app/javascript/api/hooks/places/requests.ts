@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import { loadIds, EmptyResponse, depaginate } from 'api/helpers'
+import { loadIds, depaginate } from 'api/helpers'
 import { getCSRFToken } from 'utils/csrfToken'
 
 import { IndexParams, PlacesIndex, PlaceRecord } from './types'
@@ -16,16 +16,24 @@ const buildUrl = (params: IndexParams = {}): string => {
 }
 
 export const getAllPlaces = async (): Promise<PlacesIndex[]> =>
-  depaginate<PlacesIndex>(buildUrl)
+  depaginate<PlaceRecord, PlacesIndex['relations']>(buildUrl)
 
 export const getPlaces = (params: IndexParams): Promise<PlacesIndex> =>
-  axios.get(buildUrl(params)).then(response => response.data)
+  axios
+    .get<never, AxiosResponse<PlacesIndex>>(buildUrl(params))
+    .then(response => response.data)
 
 export const getPlace = (id: number): Promise<PlaceRecord> =>
-  axios.get(`${endpoint}/${id}`).then(response => response.data)
+  axios
+    .get<never, AxiosResponse<PlaceRecord>>(`${endpoint}/${id}`)
+    .then(response => response.data)
 
-export const getPlacesById = (ids: number[]): Promise<PlacesIndex | EmptyResponse> =>
-  loadIds<PlacesIndex>(endpoint, ids)
+export const getPlacesById = (ids: number[]): Promise<Omit<PlacesIndex, 'relations'>> =>
+  loadIds<PlaceRecord>(endpoint, ids)
 
 export const createPlace = (place: PlaceRecord): Promise<AxiosResponse<PlaceRecord>> =>
-  axios.post(endpoint, { place }, { headers: { 'X-CSRF-Token': getCSRFToken() } })
+  axios.post<{ place: PlaceRecord }, AxiosResponse<PlaceRecord>>(
+    endpoint,
+    { place },
+    { headers: { 'X-CSRF-Token': String(getCSRFToken()) } }
+  )

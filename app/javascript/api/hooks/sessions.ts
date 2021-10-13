@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import {
   useQuery,
   useQueryClient,
@@ -44,8 +44,11 @@ const getCurrentUser = () =>
     mode: 'no-cors'
   }).then(response => response.json())
 
-const login = async (user: LoginData): Promise<AuthorizedUser> => {
-  const { data, headers } = await axios.post(
+const login = async (user: LoginData) => {
+  const { data, headers } = await axios.post<
+    { user: LoginData },
+    AxiosResponse<AuthorizedUser>
+  >(
     '/api/users/sign_in',
     { user },
     {
@@ -80,7 +83,7 @@ export const useCurrentUserQuery = (): UseQueryResult<CurrentUser> =>
 
 export const useLoginMutation = (): UseMutationResult<
   AuthorizedUser,
-  AxiosError,
+  AxiosError<{ error: string }>,
   LoginData
 > => {
   const queryClient = useQueryClient()

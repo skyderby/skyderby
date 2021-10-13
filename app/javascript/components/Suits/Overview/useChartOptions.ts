@@ -124,8 +124,7 @@ const useChartOptions = (
   }))
 
   const series = useMemo(() => buildSeries(suitsWithPopularity, manufacturers), [
-    suits,
-    suitsPopularity,
+    suitsWithPopularity,
     manufacturers
   ])
 

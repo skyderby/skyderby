@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { loadIds, EmptyResponse, depaginate } from 'api/helpers'
+import axios, { AxiosResponse } from 'axios'
+import { loadIds, depaginate } from 'api/helpers'
 
 import { SuitRecord, SuitsIndex, IndexParams } from './types'
 
@@ -15,13 +15,18 @@ const buildUrl = (params: IndexParams = {}): string => {
 }
 
 export const getSuit = (id: number): Promise<SuitRecord> =>
-  axios.get(`${endpoint}/${id}`).then(response => response.data)
+  axios
+    .get<never, AxiosResponse<SuitRecord>>(`${endpoint}/${id}`)
+    .then(response => response.data)
 
-export const getSuitsById = (ids: number[]): Promise<SuitsIndex | EmptyResponse> =>
-  loadIds<SuitsIndex>(endpoint, ids)
+export const getSuitsById = (ids: number[]) => loadIds<SuitRecord>(endpoint, ids)
 
 export const getAllSuits = async (params: IndexParams): Promise<SuitsIndex[]> =>
-  depaginate<SuitsIndex>(pagination => buildUrl({ ...params, ...pagination }))
+  depaginate<SuitRecord, SuitsIndex['relations']>(pagination =>
+    buildUrl({ ...params, ...pagination })
+  )
 
 export const getSuits = (params: IndexParams): Promise<SuitsIndex> =>
-  axios.get(buildUrl(params)).then(response => response.data)
+  axios
+    .get<never, AxiosResponse<SuitsIndex>>(buildUrl(params))
+    .then(response => response.data)

@@ -5,7 +5,7 @@ import Overview from './Overview'
 import MakeSuits from './MakeSuits'
 import Show from './Show'
 
-const Suits = () => (
+const Suits = (): JSX.Element => (
   <Switch>
     <Route exact path="/suits" component={Overview} />
     <Route path="/suits/make/:id" component={MakeSuits} />

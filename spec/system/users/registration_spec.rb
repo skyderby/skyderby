@@ -112,7 +112,6 @@ describe 'User registration', type: :system, js: true do
 
       expect(page).not_to have_text('Welcome! You have signed up successfully.')
       expect(page).to have_text('has already been taken')
-      ы
     end
   end
 end

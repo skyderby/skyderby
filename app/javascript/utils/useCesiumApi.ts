@@ -3,7 +3,7 @@ import Cesium from 'cesium'
 
 import { initCesiumApi } from 'utils/cesiumApi'
 
-const useCesiumApi = () => {
+const useCesiumApi = (): typeof Cesium | undefined => {
   const [cesium, setCesium] = useState<typeof Cesium>()
 
   useEffect(() => {
