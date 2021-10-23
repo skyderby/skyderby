@@ -1,0 +1,11 @@
+module Tournaments
+  module Qualifications
+    module ResultScoped
+      extend ActiveSupport::Concern
+
+      @result: QualificationJump
+
+      def set_result: () -> QualificationJump
+    end
+  end
+end

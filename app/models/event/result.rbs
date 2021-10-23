@@ -1,0 +1,4 @@
+class Event
+  class Result
+  end
+end

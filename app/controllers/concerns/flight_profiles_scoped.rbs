@@ -1,0 +1,9 @@
+module FlightProfilesScoped
+  extend ActiveSupport::Concern
+
+  @scope: Profile | VirtualCompetition | Place
+
+  def scope_tracks: () -> [Track]
+  def load_scope: () -> void
+  def scope_class: () -> (singleton(Profile) | singleton(VirtualCompetition) | singleton(Place) | nil)
+end
