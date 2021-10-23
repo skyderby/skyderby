@@ -80,8 +80,10 @@ group :development, :test do
   gem 'byebug'
   gem 'dotenv-rails'
   gem 'factory_bot_rails'
+  gem 'rbs'
   gem 'rspec'
   gem 'rspec-rails', '~> 5.0.0'
+  gem 'steep'
 end
 
 group :test do

@@ -1,0 +1,8 @@
+module TournamentScoped
+  extend ActiveSupport::Concern
+
+  @tournament: Tournament
+
+  def respond_with_scoreboard: () -> void
+  def set_tournament: () -> void
+end

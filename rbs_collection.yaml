@@ -1,0 +1,32 @@
+# Download sources
+sources:
+  - name: ruby/gem_rbs_collection
+    remote: https://github.com/ruby/gem_rbs_collection.git
+    revision: main
+    repo_dir: gems
+
+# A directory to install the downloaded RBSs
+path: .gem_rbs_collection
+
+gems:
+  - name: rbs
+    ignore: true
+
+  - name: pathname
+  - name: logger
+  - name: mutex_m
+  - name: date
+  - name: monitor
+  - name: singleton
+  - name: tsort
+  - name: time
+
+  - name: rack
+
+  - name: activesupport
+  - name: actionpack
+  - name: activejob
+  - name: activemodel
+  - name: actionview
+  - name: activerecord
+  - name: railties

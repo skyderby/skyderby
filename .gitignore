@@ -7,6 +7,7 @@
 # Ignore bundler config.
 /.idea
 /.bundle
+/.gem_rbs_collection
 
 .env
 

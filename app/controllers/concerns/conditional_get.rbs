@@ -1,0 +1,5 @@
+module ConditionalGet
+  extend ActiveSupport::Concern
+
+  def etags_for: [X] (X) -> [X, int | nil, String, bool]
+end

@@ -1,0 +1,7 @@
+module Internationalization
+  extend ActiveSupport::Concern
+
+  def set_locale: () -> void
+  def process_locale_param: () -> void
+  def user_locale: () -> (String | nil)
+end
