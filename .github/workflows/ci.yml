@@ -60,7 +60,7 @@ jobs:
       - name: Set up Nodejs
         uses: actions/setup-node@v1
         with:
-          node-version: 14.2.0
+          node-version: 14.16.0
       - name: Cache node modules
         uses: actions/cache@v1
         with:
@@ -80,7 +80,7 @@ jobs:
       - name: Set up Nodejs
         uses: actions/setup-node@v1
         with:
-          node-version: 14.2.0
+          node-version: 14.16.0
       - name: Cache node modules
         uses: actions/cache@v1
         with:
@@ -164,7 +164,7 @@ jobs:
       - name: Set up Nodejs
         uses: actions/setup-node@v1
         with:
-          node-version: 14.2.0
+          node-version: 14.16.0
       - name: Cache node modules
         uses: actions/cache@v1
         with:
