@@ -4,6 +4,11 @@ module VirtualCompetitions
       when_valid_params do
         @competition = YearPresenter.new(params)
       end
+
+      respond_to do |format|
+        format.html
+        format.js
+      end
     end
 
     def self.controller_path

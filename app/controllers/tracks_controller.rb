@@ -25,6 +25,12 @@ class TracksController < ApplicationController
                 place: [:country],
                 suit: [:manufacturer]
               ).paginate(page: params[:page], per_page: rows_per_page)
+
+    respond_to do |format|
+      format.html
+      format.js
+      format.json
+    end
   end
 
   def show
@@ -43,6 +49,10 @@ class TracksController < ApplicationController
 
   def edit
     authorize @track
+
+    respond_to do |format|
+      format.html
+    end
   rescue Pundit::NotAuthorizedError
     redirect_to @track
   end

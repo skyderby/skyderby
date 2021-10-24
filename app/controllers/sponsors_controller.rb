@@ -5,6 +5,10 @@ class SponsorsController < ApplicationController
 
   def new
     @sponsor = Sponsor.new
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def create

@@ -3,6 +3,10 @@ class CompetitionSeriesController < ApplicationController
 
   def show
     @scoreboard = CompetitionSeries::Scoreboard.new @competition_series, scoreboard_params
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   private

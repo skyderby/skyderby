@@ -14,11 +14,19 @@ class EventsController < ApplicationController
       .paginate(page: params[:page], per_page: rows_per_page)
 
     fresh_when etags_for(@events)
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def new
     authorize Event
     @event = Event.new
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def create
@@ -38,6 +46,10 @@ class EventsController < ApplicationController
 
   def edit
     authorize @event
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def update
@@ -58,6 +70,11 @@ class EventsController < ApplicationController
     @scoreboard = Events::Scoreboards.for(@event, scoreboard_params(@event))
 
     fresh_when etags_for(@event).push(display_event_params), last_modified: @event.updated_at
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def destroy

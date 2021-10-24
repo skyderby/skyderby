@@ -10,6 +10,12 @@ class ProfilesController < ApplicationController
       .search(params[:search])
       .order(:name)
       .paginate(page: params[:page], per_page: 25)
+
+    respond_to do |format|
+      format.html
+      format.js
+      format.json
+    end
   end
 
   def show
@@ -17,10 +23,18 @@ class ProfilesController < ApplicationController
     authorize profile
 
     @profile = Profiles::Overview.new(profile)
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def edit
     authorize @profile
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def update
@@ -44,8 +58,8 @@ class ProfilesController < ApplicationController
 
     respond_to do |format|
       if @profile.destroy
-        format.js
         format.html { redirect_to profiles_path }
+        format.js
       else
         format.html { render :show }
         format.js do

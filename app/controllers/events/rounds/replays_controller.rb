@@ -7,7 +7,14 @@ module Events
         authorize @event
 
         allowed_to_view = policy(@event).edit? || @round.completed
+
         redirect_to event_path(@event) unless allowed_to_view
+
+        respond_to do |format|
+          format.html
+          format.js
+          format.json
+        end
       end
 
       private

@@ -7,13 +7,17 @@ class PlacesController < ApplicationController
     @places = Place.includes(:country)
                    .order('countries.name, places.name')
                    .group_by(&:country)
+
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
   def show
     authorize @place
 
     respond_to do |format|
-      format.json
       format.html do
         @tracks =
           Track
@@ -29,17 +33,26 @@ class PlacesController < ApplicationController
             suit: :manufacturer
           ).paginate(page: params[:page], per_page: 50)
       end
+      format.json
     end
   end
 
   def edit
     authorize @place
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def new
     authorize :place
 
     @place = Place.new
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def create
