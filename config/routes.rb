@@ -3,6 +3,19 @@ require 'sidekiq/web'
 Skyderby::Application.routes.draw do
   mount ActionCable.server, at: '/cable'
 
+  # Backward compatibility routes
+  # App used to have locale scoped routes
+  locales = /en|ru|es|de|fr|it/
+  get '/:locale/*path', to: redirect('/%{path}'), locale: locales, format: false
+  get '/:locale', to: redirect('/'), locale: locales, format: false
+  get '/track/*path', to: redirect('/tracks/%{path}'), defaults: { path: '' }
+  get '/tracks/:id/google_maps', to: redirect('/tracks/%{id}/map')
+  get '/tracks/:id/google_earth', to: redirect('/tracks/%{id}/globe')
+  get '/tracks/:id/replay', to: redirect('/tracks/%{id}/video')
+  get '/user_profiles/:id', to: redirect('/profiles/%{id}')
+  get '/virtual_competitions(*path)', to: redirect('/online_rankings%{path}'), defaults: { path: '' }
+  get '/wingsuits(*path)', to: redirect('/suits%{path}'), defaults: { path: '' }
+
   devise_for :users, skip: [:sessions, :registrations], controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
@@ -13,12 +26,12 @@ Skyderby::Application.routes.draw do
     post '/api/users', to: 'api/users/registrations#create'
   end
 
+  get '/ping', to: proc { [200, {}, ['']] }
+
   draw :api
   get '/(*path)', to: 'react_app#show'
 
-  draw :backward_compatibility
   draw :administrative
-  draw :static
   draw :tracks
   draw :sponsors
   draw :organizers
