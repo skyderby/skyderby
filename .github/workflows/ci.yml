@@ -238,3 +238,8 @@ jobs:
       - run: bundle exec rails webpacker:compile
       - run: bundle exec rails db:test:prepare
       - run: bundle exec rspec spec --tag type:system
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Failure screenshots
+          path: tmp/screenshots
