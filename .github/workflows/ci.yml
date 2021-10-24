@@ -240,6 +240,7 @@ jobs:
       - run: bundle exec rspec spec --tag type:system
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
+        if: failure()
         with:
           name: Failure screenshots
           path: tmp/screenshots
