@@ -27,8 +27,7 @@ type SerializedData = {
     : SpeedSkydivingCompetition[K]
 }
 
-type CreateVariables = Partial<Omit<SpeedSkydivingCompetition, 'id'>>
-type UpdateVariables = { id: number } & Partial<Omit<SpeedSkydivingCompetition, 'id'>>
+type EventVariables = Partial<SpeedSkydivingCompetition>
 
 const deserialize = (event: SerializedData): SpeedSkydivingCompetition => ({
   ...event,
@@ -46,9 +45,9 @@ const getEvent = (id: number) =>
     .get<never, AxiosResponse<SerializedData>>(`${endpoint}/${id}`)
     .then(response => response.data)
 
-const createEvent = (speedSkydivingCompetition: CreateVariables) =>
+const createEvent = (speedSkydivingCompetition: EventVariables) =>
   axios.post<
-    { speedSkydivingCompetition: CreateVariables },
+    { speedSkydivingCompetition: EventVariables },
     AxiosResponse<SerializedData>
   >(
     endpoint,
@@ -56,11 +55,8 @@ const createEvent = (speedSkydivingCompetition: CreateVariables) =>
     { headers: { 'X-CSRF-Token': getCSRFToken() } }
   )
 
-const updateEvent = ({ id, ...speedSkydivingCompetition }: UpdateVariables) =>
-  axios.put<
-    { speedSkydivingCompetition: Omit<UpdateVariables, 'id'> },
-    AxiosResponse<SerializedData>
-  >(
+const updateEvent = (id: number, speedSkydivingCompetition: EventVariables) =>
+  axios.put<{ speedSkydivingCompetition: EventVariables }, AxiosResponse<SerializedData>>(
     `${endpoint}/${id}`,
     { speedSkydivingCompetition },
     { headers: { 'X-CSRF-Token': getCSRFToken() } }
@@ -108,7 +104,7 @@ export const useSpeedSkydivingCompetitionQuery = (
 
 export const useNewSpeedSkydivingCompetitionMutation = (
   options: MutationOptions = {}
-): UseMutationResult<AxiosResponse<SerializedData>, AxiosError, CreateVariables> => {
+): UseMutationResult<AxiosResponse<SerializedData>, AxiosError, EventVariables> => {
   const queryClient = useQueryClient()
 
   return useMutation(createEvent, {
@@ -121,13 +117,16 @@ export const useNewSpeedSkydivingCompetitionMutation = (
 }
 
 export const useEditSpeedSkydivingCompetitionMutation = (
+  eventId: number,
   options: MutationOptions = {}
-): UseMutationResult<AxiosResponse<SerializedData>, AxiosError, UpdateVariables> => {
+): UseMutationResult<AxiosResponse<SerializedData>, AxiosError, EventVariables> => {
   const queryClient = useQueryClient()
 
-  return useMutation(updateEvent, {
+  const mutateFn = (data: EventVariables) => updateEvent(eventId, data)
+
+  return useMutation(mutateFn, {
     onSuccess(response) {
-      queryClient.setQueryData(queryKey(response.data.id), response.data)
+      queryClient.setQueryData(queryKey(eventId), response.data)
       options.onSuccess?.()
     }
   })

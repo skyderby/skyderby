@@ -1,10 +1,11 @@
 import React, { useState, useRef } from 'react'
+import cx from 'clsx'
 
 import { useI18n } from 'components/TranslationsProvider'
 import Dropdown from 'components/Dropdown'
 import ChevronDown from 'icons/chevron-down.svg'
-import styles from './styles.module.scss'
 import useClickOutside from 'hooks/useClickOutside'
+import styles from './styles.module.scss'
 
 const languageNames: { [locale in ApplicationLocale]: string } = {
   de: 'Deutsch',
@@ -24,7 +25,7 @@ const LocaleSelector = ({ className }: LocaleSelectorProps): JSX.Element => {
   const [showDropdown, setShowDropdown] = useState(false)
   const referenceElement = useRef<HTMLLIElement>(null)
   const toggleRef = useRef<HTMLButtonElement>(null)
-  const menuRef = useRef<HTMLElement>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
 
   useClickOutside([menuRef, referenceElement], () => setShowDropdown(false))
 
@@ -38,7 +39,7 @@ const LocaleSelector = ({ className }: LocaleSelectorProps): JSX.Element => {
   return (
     <li className={className} ref={referenceElement}>
       <button
-        className={styles.toggle}
+        className={cx(styles.toggle, showDropdown && styles.active)}
         ref={toggleRef}
         onClick={toggleDropdown}
         aria-label={t('general.change_language')}
@@ -50,7 +51,10 @@ const LocaleSelector = ({ className }: LocaleSelectorProps): JSX.Element => {
       {showDropdown && (
         <Dropdown
           referenceElement={referenceElement.current}
-          options={{ placement: 'bottom-end' }}
+          options={{
+            placement: 'bottom-end',
+            modifiers: [{ name: 'offset', options: { offset: [0, 10] } }]
+          }}
           ref={menuRef}
         >
           <ul className={styles.localeMenu}>

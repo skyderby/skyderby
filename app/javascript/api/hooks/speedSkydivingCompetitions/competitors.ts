@@ -29,22 +29,14 @@ interface IndexResponse {
   }
 }
 
-type CreateVariables = {
-  eventId: number
-  profileId: number
-  categoryId: number
-  assignedNumber: number
+interface CompetitorVariables {
+  categoryId: number | null
+  assignedNumber: number | null
+  profileId?: number | null
   profileAttributes: {
     name: string
-    countryId: number
-  }
-}
-
-type UpdateVariables = CreateVariables & { id: number }
-
-type DeleteVariables = {
-  eventId: number
-  id: number
+    countryId: number | null
+  } | null
 }
 
 type MutationOptions = {
@@ -71,19 +63,21 @@ const getCompetitors = (eventId: number) =>
     .get<never, AxiosResponse<IndexResponse>>(collectionEndpoint(eventId))
     .then(response => response.data)
 
-const createCompetitor = ({ eventId, ...competitor }: CreateVariables) =>
-  axios.post<
-    { competitor: Omit<CreateVariables, 'eventId'> },
-    AxiosResponse<SerializedCompetitor>
-  >(collectionEndpoint(eventId), { competitor }, { headers: getHeaders() })
+const createCompetitor = (eventId: number, competitor: CompetitorVariables) =>
+  axios.post<{ competitor: CompetitorVariables }, AxiosResponse<SerializedCompetitor>>(
+    collectionEndpoint(eventId),
+    { competitor },
+    { headers: getHeaders() }
+  )
 
-const updateCompetitor = ({ eventId, id, ...competitor }: UpdateVariables) =>
-  axios.put<
-    { competitor: Omit<UpdateVariables, 'id' | 'eventId'> },
-    AxiosResponse<SerializedCompetitor>
-  >(elementEndpoint(eventId, id), { competitor }, { headers: getHeaders() })
+const updateCompetitor = (eventId: number, id: number, competitor: CompetitorVariables) =>
+  axios.put<{ competitor: CompetitorVariables }, AxiosResponse<SerializedCompetitor>>(
+    elementEndpoint(eventId, id),
+    { competitor },
+    { headers: getHeaders() }
+  )
 
-const deleteCompetitor = ({ eventId, id }: DeleteVariables) =>
+const deleteCompetitor = (eventId: number, id: number) =>
   axios.delete<never, AxiosResponse<SerializedCompetitor>>(elementEndpoint(eventId, id), {
     headers: getHeaders()
   })
@@ -136,17 +130,23 @@ export const useCompetitorQuery = (
     select: data => data.find(competitor => competitor.id === id)
   })
 
-export const useNewCompetitorMutation = (
-  options: MutationOptions = {}
-): UseMutationResult<
+export type NewCompetitorMutation = UseMutationResult<
   AxiosResponse<SerializedCompetitor>,
   AxiosError,
-  CreateVariables
-> => {
+  CompetitorVariables
+>
+
+export const useNewCompetitorMutation = (
+  eventId: number,
+  options: MutationOptions = {}
+): NewCompetitorMutation => {
   const queryClient = useQueryClient()
 
-  return useMutation(createCompetitor, {
-    async onSuccess(response, { eventId }) {
+  const mutateFn = (variables: CompetitorVariables) =>
+    createCompetitor(eventId, variables)
+
+  return useMutation(mutateFn, {
+    async onSuccess(response) {
       const data: Competitor[] = queryClient.getQueryData(collectionKey(eventId)) ?? []
       const competitor = deserialize(response.data)
       queryClient.setQueryData(collectionKey(eventId), [...data, competitor])
@@ -156,22 +156,31 @@ export const useNewCompetitorMutation = (
   })
 }
 
-export const useEditCompetitorMutation = (
-  options: MutationOptions = {}
-): UseMutationResult<
+export type EditCompetitorMutation = UseMutationResult<
   AxiosResponse<SerializedCompetitor>,
   AxiosError,
-  UpdateVariables
-> => {
+  CompetitorVariables
+>
+
+export const useEditCompetitorMutation = (
+  eventId: number,
+  competitorId: number,
+  options: MutationOptions = {}
+): EditCompetitorMutation => {
   const queryClient = useQueryClient()
 
-  return useMutation(updateCompetitor, {
-    async onSuccess(response, { eventId, id }) {
+  const mutateFn = (variables: CompetitorVariables) =>
+    updateCompetitor(eventId, competitorId, variables)
+
+  return useMutation(mutateFn, {
+    async onSuccess(response) {
       const data: Competitor[] = queryClient.getQueryData(collectionKey(eventId)) ?? []
       const updatedCompetitor = deserialize(response.data)
       queryClient.setQueryData(
         collectionKey(eventId),
-        data.map(competitor => (competitor.id === id ? updatedCompetitor : competitor))
+        data.map(competitor =>
+          competitor.id === competitorId ? updatedCompetitor : competitor
+        )
       )
       await queryClient.refetchQueries(standingsQuery(eventId))
       options?.onSuccess?.(updatedCompetitor)
@@ -180,22 +189,21 @@ export const useEditCompetitorMutation = (
 }
 
 export const useDeleteCompetitorMutation = (
+  eventId: number,
+  competitorId: number,
   options: MutationOptions = {}
-): UseMutationResult<
-  AxiosResponse<SerializedCompetitor>,
-  AxiosError,
-  DeleteVariables
-> => {
+): UseMutationResult<AxiosResponse<SerializedCompetitor>, AxiosError> => {
   const queryClient = useQueryClient()
 
-  return useMutation(deleteCompetitor, {
-    async onSuccess(response, { eventId, id }) {
+  const mutateFn = () => deleteCompetitor(eventId, competitorId)
+  return useMutation(mutateFn, {
+    async onSuccess(response) {
       const data: Competitor[] = queryClient.getQueryData(collectionKey(eventId)) ?? []
       const competitor = deserialize(response.data)
       await queryClient.refetchQueries(standingsQuery(eventId))
       queryClient.setQueryData(
         collectionKey(eventId),
-        data.filter(competitor => competitor.id !== id)
+        data.filter(competitor => competitor.id !== competitorId)
       )
       options?.onSuccess?.(competitor)
     }

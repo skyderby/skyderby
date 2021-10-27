@@ -36,10 +36,10 @@ export interface Category {
 
 export interface Competitor {
   id: number
-  profile_id: number
-  category_id: number
-  team_id: number
-  assigned_number: number
+  profileId: number
+  categoryId: number
+  teamId: number
+  assignedNumber: number
   createdAt: Date
   updatedAt: Date
 }

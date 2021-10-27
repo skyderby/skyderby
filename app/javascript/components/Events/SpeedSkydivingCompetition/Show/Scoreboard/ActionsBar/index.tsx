@@ -1,27 +1,32 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 
 import {
   useNewCategoryMutation,
   useNewRoundMutation,
   useNewCompetitorMutation
 } from 'api/hooks/speedSkydivingCompetitions'
+import { SpeedSkydivingCompetition } from 'api/hooks/speedSkydivingCompetitions/types'
 import PlusIcon from 'icons/plus.svg'
 import CategoryForm from 'components/CategoryForm'
 import CompetitorForm from '../CompetitorForm'
+import StatusMenu from './StatusMenu'
 import styles from './styles.module.scss'
 
-const ActionsBar = ({ eventId }) => {
+type ActionsBarProps = {
+  event: SpeedSkydivingCompetition
+}
+
+const ActionsBar = ({ event }: ActionsBarProps): JSX.Element => {
   const [categoryFormShown, setCategoryFormShown] = useState(false)
   const [competitorFormShown, setCompetitorFormShown] = useState(false)
 
   const newRoundMutation = useNewRoundMutation()
-  const newCategoryMutation = useNewCategoryMutation(eventId, {
+  const newCategoryMutation = useNewCategoryMutation(event.id, {
     onSuccess: () => setCategoryFormShown(false)
   })
-  const newCompetitorMutation = useNewCompetitorMutation()
+  const newCompetitorMutation = useNewCompetitorMutation(event.id)
 
-  const addRound = () => newRoundMutation.mutateAsync(eventId)
+  const addRound = () => newRoundMutation.mutateAsync(event.id)
 
   return (
     <div className={styles.container}>
@@ -35,6 +40,10 @@ const ActionsBar = ({ eventId }) => {
         <PlusIcon /> &nbsp; Round
       </button>
 
+      <div className={styles.spacer} />
+
+      <StatusMenu event={event} />
+
       {categoryFormShown && (
         <CategoryForm
           mutation={newCategoryMutation}
@@ -44,17 +53,13 @@ const ActionsBar = ({ eventId }) => {
 
       {competitorFormShown && (
         <CompetitorForm
-          eventId={eventId}
+          eventId={event.id}
           mutation={newCompetitorMutation}
           onHide={() => setCompetitorFormShown(false)}
         />
       )}
     </div>
   )
-}
-
-ActionsBar.propTypes = {
-  eventId: PropTypes.number.isRequired
 }
 
 export default ActionsBar

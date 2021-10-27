@@ -12,20 +12,21 @@ import PencilIcon from 'icons/pencil'
 import TimesIcon from 'icons/times'
 import CompetitorForm from '../CompetitorForm'
 import styles from './styles.module.scss'
+import { SpeedSkydivingCompetition } from 'api/hooks/speedSkydivingCompetitions/types'
 
-const CompetitorCells = ({ event, competitorId }) => {
+type CompetitorCellsProps = {
+  event: SpeedSkydivingCompetition
+  competitorId: number
+}
+
+const CompetitorCells = ({ event, competitorId }: CompetitorCellsProps): JSX.Element => {
   const [competitorFormShown, setCompetitorFormShown] = useState(false)
   const { data: competitor } = useCompetitorQuery(event.id, competitorId)
   const { data: profile } = useProfileQuery(competitor?.profileId, { enabled: false })
   const { data: country } = useCountryQuery(profile?.countryId, { enabled: false })
 
-  const editMutation = useEditCompetitorMutation()
-  const deleteMutation = useDeleteCompetitorMutation()
-  const deleteCompetitor = () =>
-    deleteMutation.mutate({
-      eventId: event.id,
-      id: competitorId
-    })
+  const editMutation = useEditCompetitorMutation(event.id, competitorId)
+  const deleteMutation = useDeleteCompetitorMutation(event.id, competitorId)
 
   return (
     <>
@@ -42,7 +43,10 @@ const CompetitorCells = ({ event, competitorId }) => {
             >
               <PencilIcon />
             </button>
-            <button className={styles.actionButton} onClick={deleteCompetitor}>
+            <button
+              className={styles.actionButton}
+              onClick={() => deleteMutation.mutate(undefined)}
+            >
               <TimesIcon />
             </button>
           </div>

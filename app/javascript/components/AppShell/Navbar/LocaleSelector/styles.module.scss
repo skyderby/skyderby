@@ -13,10 +13,6 @@
     margin-right: 0.25rem;
   }
 
-  &:hover {
-    background-color: var(--blue-grey-80);
-  }
-
   svg {
     width: 0.5rem;
     height: 0.5rem;
@@ -25,6 +21,11 @@
       fill: var(--white);
     }
   }
+}
+
+.toggle.active,
+.toggle:hover {
+  background-color: var(--blue-grey-80);
 }
 
 .flag {
