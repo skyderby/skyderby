@@ -1,11 +1,19 @@
 import React from 'react'
-import Select from 'react-select'
-import PropTypes from 'prop-types'
+import Select, { Props } from 'react-select'
 
 import { useCategoriesQuery } from 'api/hooks/speedSkydivingCompetitions'
 import getSelectStyles from 'styles/selectStyles'
 
-const CategorySelect = ({ eventId, value, ...props }) => {
+interface CategorySelectProps extends Omit<Props, 'value'> {
+  eventId: number
+  value?: number
+}
+
+const CategorySelect = ({
+  eventId,
+  value,
+  ...props
+}: CategorySelectProps): JSX.Element => {
   const { data: categories = [] } = useCategoriesQuery(eventId)
 
   const options = categories.map(category => ({
@@ -24,11 +32,6 @@ const CategorySelect = ({ eventId, value, ...props }) => {
       menuPortalTarget={document.getElementById('dropdowns-root')}
     />
   )
-}
-
-CategorySelect.propTypes = {
-  eventId: PropTypes.number.isRequired,
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 }
 
 export default CategorySelect

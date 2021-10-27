@@ -1,9 +1,10 @@
-import React, { useState, useLayoutEffect, forwardRef } from 'react'
+import React, { useState, useLayoutEffect, forwardRef, ButtonHTMLAttributes } from 'react'
 import ReactDOM from 'react-dom'
 import { usePopper } from 'react-popper'
 import { Options } from '@popperjs/core'
 
 import styles from './styles.module.scss'
+import cx from 'clsx'
 
 type DropdownProps = {
   referenceElement: AnyHTMLElement | null
@@ -23,7 +24,7 @@ const getPortalRoot = () => {
   return createdRoot
 }
 
-const Dropdown = forwardRef<AnyHTMLElement, DropdownProps>(
+const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
   ({ referenceElement, children, options }, ref) => {
     const [popperElement, setPopperElement] = useState<HTMLElement>()
     const {
@@ -61,6 +62,17 @@ const Dropdown = forwardRef<AnyHTMLElement, DropdownProps>(
   }
 )
 
+const Button = ({
+  active = false,
+  className,
+  ...props
+}: { active?: boolean } & React.DetailedHTMLProps<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>): JSX.Element => (
+  <button className={cx(styles.button, active && styles.active, className)} {...props} />
+)
+
 Dropdown.displayName = 'Dropdown'
 
-export default Dropdown
+export default Object.assign(Dropdown, { Button })

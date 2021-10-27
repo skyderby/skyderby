@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react'
 import { AsyncPaginate as Select } from 'react-select-async-paginate'
+import { Props } from 'react-select'
 import { useQueryClient } from 'react-query'
 
 import { countriesQuery, useCountryQuery } from 'api/hooks/countries'
 import getSelectStyles from 'styles/selectStyles'
 
-type CountrySelectProps = {
+interface CountrySelectProps extends Omit<Props, 'value'> {
   value?: number
 }
 
