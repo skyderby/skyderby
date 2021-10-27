@@ -13,7 +13,7 @@ const Edit = ({ match }) => {
   const eventId = Number(match.params.eventId)
   const history = useHistory()
   const { data: event } = useSpeedSkydivingCompetitionQuery(eventId)
-  const editMutation = useEditSpeedSkydivingCompetitionMutation({
+  const editMutation = useEditSpeedSkydivingCompetitionMutation(eventId, {
     onSuccess: () => history.push(`/events/speed_skydiving/${event.id}`)
   })
 
