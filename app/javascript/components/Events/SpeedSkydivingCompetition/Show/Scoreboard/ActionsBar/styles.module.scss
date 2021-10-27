@@ -36,3 +36,22 @@
 .button:not(:disabled):hover {
   border-right: var(--default-border);
 }
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.buttonRight {
+  border-right: 0;
+  border-left: var(--default-border);
+
+  &:last-child {
+    border-top-right-radius: var(--border-radius-md);
+    border-bottom-right-radius: var(--border-radius-md);
+  }
+
+  &:not(:disabled):hover {
+    border-right: 0;
+    border-left: var(--default-border);
+  }
+}
