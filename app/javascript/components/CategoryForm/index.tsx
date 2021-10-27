@@ -13,7 +13,7 @@ interface FormData {
 }
 
 type FormProps = {
-  initialValues: FormData
+  initialValues?: FormData
   mutation: {
     mutate: (params: FormData) => void
   }

@@ -121,7 +121,7 @@ export const preloadCategories = (
 
 export const useCategoriesQuery = <Type = Category[]>(
   eventId: number,
-  options: UseQueryOptions<Category[], Error, Type, QueryKey>
+  options: UseQueryOptions<Category[], Error, Type, QueryKey> = {}
 ): UseQueryResult<Type> => useQuery({ ...categoriesQuery(eventId), ...options })
 
 export const useCategoryQuery = (

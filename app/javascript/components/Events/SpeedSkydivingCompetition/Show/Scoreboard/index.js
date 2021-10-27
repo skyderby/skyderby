@@ -30,7 +30,7 @@ const Scoreboard = ({ match }) => {
 
   return (
     <div className={styles.container}>
-      {event.permissions.canEdit && <ActionsBar eventId={eventId} />}
+      {event.permissions.canEdit && <ActionsBar event={event} />}
 
       <div className={styles.stickyHeader} ref={stickyContainerRef}>
         {showStickyHeader && <table className={styles.scoreboardTable}>{header}</table>}

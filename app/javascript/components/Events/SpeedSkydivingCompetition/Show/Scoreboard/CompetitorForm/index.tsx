@@ -1,6 +1,6 @@
 import React from 'react'
-import { Formik, Field } from 'formik'
-import PropTypes from 'prop-types'
+import { Formik, Field, FormikHelpers, FieldProps } from 'formik'
+import { ValueType } from 'react-select'
 
 import Modal from 'components/ui/Modal'
 import { useI18n } from 'components/TranslationsProvider'
@@ -9,8 +9,33 @@ import CountrySelect from 'components/CountrySelect'
 import CategorySelect from './CategorySelect'
 import validationSchema from './validationSchema'
 import styles from './styles.module.scss'
+import {
+  EditCompetitorMutation,
+  NewCompetitorMutation
+} from 'api/hooks/speedSkydivingCompetitions/competitors'
 
-const defaultInitialValues = {
+interface CompetitorData {
+  profileId: number | null
+  profileAttributes: {
+    name: string
+    countryId: number | null
+  }
+  categoryId: number | null
+  assignedNumber: number | null
+}
+
+interface FormData extends CompetitorData {
+  newProfile: 'true' | 'false'
+}
+
+type CompetitorFormProps = {
+  eventId: number
+  initialValues?: Partial<CompetitorData>
+  mutation: NewCompetitorMutation | EditCompetitorMutation
+  onHide: () => unknown
+}
+
+const defaultInitialValues: FormData = {
   profileId: null,
   profileAttributes: {
     name: '',
@@ -21,15 +46,21 @@ const defaultInitialValues = {
   newProfile: 'false'
 }
 
-const CompetitorForm = ({ eventId, initialValues = {}, mutation, onHide: hide }) => {
+const CompetitorForm = ({
+  eventId,
+  initialValues = {},
+  mutation,
+  onHide: hide
+}: CompetitorFormProps): JSX.Element => {
   const { t } = useI18n()
 
-  const handleSubmit = async (values, formikBag) => {
+  const handleSubmit = async (values: FormData, formikBag: FormikHelpers<FormData>) => {
     const { newProfile, profileId, profileAttributes, ...params } = values
     const competitorParams = {
-      eventId,
       ...params,
-      ...(newProfile === 'true' ? { profileAttributes } : { profileId })
+      ...(newProfile === 'true'
+        ? { profileAttributes, profileId: null }
+        : { profileId, profileAttributes: null })
     }
 
     try {
@@ -61,13 +92,19 @@ const CompetitorForm = ({ eventId, initialValues = {}, mutation, onHide: hide })
                     field: { name, ...props },
                     form: { setFieldValue },
                     meta: { touched, error }
-                  }) => (
+                  }: FieldProps): JSX.Element => (
                     <>
                       <ProfileSelect
                         isInvalid={touched && error}
                         {...props}
                         menuPortalTarget={document.getElementById('dropdowns-root')}
-                        onChange={option => setFieldValue(name, option.value)}
+                        onChange={(option: ValueType<{ value: number }, false>) => {
+                          if (option === null) {
+                            setFieldValue(name, null)
+                          } else {
+                            setFieldValue(name, option.value)
+                          }
+                        }}
                       />
                     </>
                   )}
@@ -95,11 +132,17 @@ const CompetitorForm = ({ eventId, initialValues = {}, mutation, onHide: hide })
                       field: { name, ...props },
                       form: { setFieldValue },
                       meta: { touched, error }
-                    }) => (
+                    }: FieldProps): JSX.Element => (
                       <CountrySelect
                         isInvalid={touched && error}
                         {...props}
-                        onChange={option => setFieldValue(name, option.value)}
+                        onChange={(option: ValueType<{ value: number }, false>) => {
+                          if (option === null) {
+                            setFieldValue(name, null)
+                          } else {
+                            setFieldValue(name, option.value)
+                          }
+                        }}
                       />
                     )}
                   </Field>
@@ -126,14 +169,20 @@ const CompetitorForm = ({ eventId, initialValues = {}, mutation, onHide: hide })
                     field: { name, ...props },
                     form: { setFieldValue },
                     meta: { touched, error }
-                  }) => (
+                  }: FieldProps): JSX.Element => (
                     <>
                       <CategorySelect
                         isInvalid={touched && error}
                         eventId={eventId}
                         {...props}
                         menuPortalTarget={document.getElementById('dropdowns-root')}
-                        onChange={option => setFieldValue(name, option.value)}
+                        onChange={(option: ValueType<{ value: number }, false>) => {
+                          if (option === null) {
+                            setFieldValue(name, null)
+                          } else {
+                            setFieldValue(name, option.value)
+                          }
+                        }}
                       />
                     </>
                   )}
@@ -164,21 +213,6 @@ const CompetitorForm = ({ eventId, initialValues = {}, mutation, onHide: hide })
       </Formik>
     </Modal>
   )
-}
-
-CompetitorForm.propTypes = {
-  eventId: PropTypes.number.isRequired,
-  initialValues: PropTypes.shape({
-    profileId: PropTypes.number,
-    categoryId: PropTypes.number,
-    assignedNumber: PropTypes.number
-  }),
-  mutation: PropTypes.shape({
-    mutate: PropTypes.func.isRequired,
-    mutateAsync: PropTypes.func.isRequired,
-    error: PropTypes.object
-  }).isRequired,
-  onHide: PropTypes.func.isRequired
 }
 
 export default CompetitorForm
