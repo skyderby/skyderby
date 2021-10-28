@@ -52,7 +52,7 @@ const Navbar = ({ event }) => {
             <NavLink to={`${eventUrl}/edit`}>
               <span>
                 <CogIcon />
-                {t('general.settings')}
+                {t('general.edit')}
               </span>
             </NavLink>
           </PageNavbar.Item>
