@@ -4,11 +4,13 @@ import PropTypes from 'prop-types'
 
 import CogIcon from 'icons/cog.svg'
 import ListIcon from 'icons/list-ul.svg'
+import { useI18n } from 'components/TranslationsProvider'
 import PageNavbar from 'components/PageNavbar'
 import MapsIcon from 'icons/compass.svg'
 
 const Navbar = ({ event }) => {
   const eventUrl = `/events/performance/${event.id}`
+  const { t } = useI18n()
 
   return (
     <PageNavbar>
@@ -42,7 +44,7 @@ const Navbar = ({ event }) => {
         <NavLink to={`${eventUrl}/edit`}>
           <span>
             <CogIcon />
-            Edit
+            {t('general.edit')}
           </span>
         </NavLink>
       </PageNavbar.Item>
