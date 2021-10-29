@@ -1,4 +1,4 @@
-class SpeedSkydivingCompetition::Scoreboard:: Standings
+class SpeedSkydivingCompetition::Scoreboard::Standings
   def self.build(*args)
     new(*args).build
   end

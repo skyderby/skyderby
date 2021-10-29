@@ -30,10 +30,11 @@ const RangeSlider = ({
       <Handles>
         {({ handles, getHandleProps }) => (
           <div>
-            {handles.map(({ id, percent }) => (
+            {handles.map(({ id, percent }, idx) => (
               <div
                 className={styles.handle}
                 key={`handle-${id}`}
+                data-test-id={`handle-${idx}`}
                 style={{ left: `${percent}%` }}
                 {...getHandleProps(id)}
               />

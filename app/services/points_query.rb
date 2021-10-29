@@ -45,21 +45,18 @@ class PointsQuery
   end
 
   def execute
-    points = scope.pluck_to_hash(*select_columns)
-    calc_time_diff points
+    scope
+      .pluck_to_hash(*select_columns)
+      .then { |points| calc_time_diff points }
   end
 
   private
 
   attr_reader :track, :query_opts, :trimmed, :freq_1hz
 
-  def scope
-    ScopeBuilder.call(track, trimmed, freq_1hz)
-  end
+  def scope = ScopeBuilder.call(track, trimmed, freq_1hz)
 
-  def select_columns
-    QueryBuilder.new(track, query_opts).execute
-  end
+  def select_columns = QueryBuilder.new(track, query_opts).execute
 
   def calc_time_diff(points)
     return points unless time_diff_selected
@@ -76,15 +73,11 @@ class PointsQuery
   end
 
   class << self
-    def execute(*args)
-      new(*args).execute
-    end
+    def execute(*args) = new(*args).execute
   end
 
   class ScopeBuilder
-    def self.call(*args)
-      new(*args).call
-    end
+    def self.call(*args) = new(*args).call
 
     def initialize(track, trimmed, freq_1hz)
       @track = track
@@ -169,8 +162,6 @@ class PointsQuery
       COLUMNS.slice(*only_columns)
     end
 
-    def start_time_in_seconds
-      track.points.first&.gps_time_in_seconds.to_f
-    end
+    def start_time_in_seconds = track.points.first&.gps_time_in_seconds.to_f
   end
 end

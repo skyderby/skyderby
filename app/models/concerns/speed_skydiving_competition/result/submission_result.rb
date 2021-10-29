@@ -2,19 +2,26 @@ module SpeedSkydivingCompetition::Result::SubmissionResult
   extend ActiveSupport::Concern
 
   included do
-    before_save :calculate_result
+    before_create :calculate_result
   end
 
   def calculate_result
     scoring = ResultScore.new(self)
     best_range = scoring.calculate
-    return unless best_range
 
-    assign_attributes \
-      result: best_range[:speed] * 3.6,
-      exit_altitude: scoring.exit_altitude,
-      window_start_time: best_range.dig(:start_point, :gps_time),
-      window_end_time: best_range.dig(:end_point, :gps_time)
+    if best_range
+      assign_attributes \
+        result: best_range[:speed] * 3.6,
+        exit_altitude: scoring.exit_altitude,
+        window_start_time: best_range.dig(:start_point, :gps_time),
+        window_end_time: best_range.dig(:end_point, :gps_time)
+    else
+      assign_attributes \
+        result: nil,
+        exit_altitude: nil,
+        window_start_time: nil,
+        window_end_time: nil
+    end
   end
 
   class ResultScore
