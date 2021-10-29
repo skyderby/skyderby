@@ -1,4 +1,4 @@
-describe 'User registration', type: :system, js: true do
+describe 'User registration', js: true do
   it 'register if all filled' do
     visit '/users/sign-up'
 
@@ -7,12 +7,13 @@ describe 'User registration', type: :system, js: true do
     fill_in 'password', with: '123456'
     fill_in 'passwordConfirmation', with: '123456'
 
-    expect { click_button I18n.t('devise.registrations.new.sign_up') }.to change { User.count }.by(1)
-    expect(User.last.name).to eq('Ivan Ivanov')
+    click_button I18n.t('devise.registrations.new.sign_up')
 
     expect(page).to have_text('Welcome! You have signed up successfully.')
     expect(page).to have_css('a', text: 'Back to main page')
     expect(page).to have_css('a', text: "Didn't receive confirmation instructions?")
+
+    expect(User.last.name).to eq('Ivan Ivanov')
   end
 
   describe 'client side validations' do
