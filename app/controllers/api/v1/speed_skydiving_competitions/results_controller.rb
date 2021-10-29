@@ -26,12 +26,14 @@ class Api::V1::SpeedSkydivingCompetitions::ResultsController < Api::ApplicationC
 
     @result = @event.results.find(params[:id])
 
+    @result.transaction do
+      @result.track.update!(update_params[:track_attributes])
+      @result.calculate_result
+      @result.save!
+    end
+
     respond_to do |format|
-      if @result.update(update_params)
-        format.json
-      else
-        format.json { render json: { errors: @result.errors }, status: :unprocessable_entity }
-      end
+      format.json
     end
   end
 
