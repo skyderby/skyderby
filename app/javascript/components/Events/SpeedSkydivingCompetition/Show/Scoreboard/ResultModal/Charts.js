@@ -33,9 +33,10 @@ const Charts = ({ event, result, deleteResult, hide, tabBar }) => {
     ? null
     : findPositionForAltitude(points, windowEndAltitude)
 
-  const plotBandPosition = isLoading
-    ? null
-    : findPlotbandPosition(points[0], windowStartTime, windowEndTime)
+  const plotBandPosition =
+    isLoading || !Number.isFinite(result.result)
+      ? null
+      : findPlotbandPosition(points[0], result)
 
   const resultWindow = useMemo(
     () => (isLoading ? null : findResultWindow(points, windowStartTime, windowEndTime)),

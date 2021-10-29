@@ -21,7 +21,7 @@ type AltitudeRangeSelectProps = {
 
 type Range = [number, number]
 const isValidRange = (value: readonly number[]): value is Range => {
-  return value.length === 2 && Number.isFinite(value[0] && Number.isFinite(value[1]))
+  return value.length === 2 && Number.isFinite(value[0]) && Number.isFinite(value[1])
 }
 
 const getJumpDuration = (points: PointRecord[]) => {
