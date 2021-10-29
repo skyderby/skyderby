@@ -78,7 +78,10 @@
 .showResult {
   position: relative;
 
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
   width: 100%;
   height: 2.25rem;
   padding: 0 0.5rem;
@@ -88,6 +91,15 @@
 
   background-color: var(--white);
   cursor: pointer;
+
+  .warningIcon {
+    height: 1.25em;
+    margin: auto;
+
+    path {
+      fill: var(--red-70);
+    }
+  }
 }
 
 .showResult:hover::before {

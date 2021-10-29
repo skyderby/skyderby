@@ -1,14 +1,17 @@
 import { differenceInMilliseconds, isEqual } from 'date-fns'
-import { PointRecord } from 'api/hooks/tracks/points'
 import { SeriesOptionsType } from 'highcharts'
+import { PointRecord } from 'api/hooks/tracks/points'
+import { Result } from 'api/hooks/speedSkydivingCompetitions/types'
 
 const validationWindowHeight = 1000
 
 export const findPositionForAltitude = (
   points: PointRecord[],
   altitude: number
-): number => {
+): number | null => {
   const idx = points.findIndex(point => point.altitude <= altitude)
+  if (idx === -1) return null
+
   const firstPoint = points[idx]
   const secondPoint = points[idx + 1]
 
@@ -23,9 +26,10 @@ export const findPositionForAltitude = (
 
 export const findPlotbandPosition = (
   firstPoint: PointRecord,
-  windowStartTime: Date,
-  windowEndTime: Date
+  result: Result
 ): { from: number; to: number } => {
+  const { windowStartTime, windowEndTime } = result
+
   return {
     from: differenceInMilliseconds(windowStartTime, firstPoint.gpsTime) / 1000,
     to: differenceInMilliseconds(windowEndTime, firstPoint.gpsTime) / 1000

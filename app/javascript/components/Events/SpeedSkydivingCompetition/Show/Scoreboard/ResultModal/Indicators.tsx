@@ -20,15 +20,33 @@ const Indicators = ({ result, resultWindow }: IndicatorsProps): JSX.Element => {
     <div className={styles.indicators}>
       <div className={styles.indicatorTitle}>Result</div>
       <div className={styles.indicatorValue}>
-        {result.result.toFixed(2)} {t('units.kmh')}
+        {Number.isFinite(result.result) ? (
+          <>
+            {result.result.toFixed(2)} {t('units.kmh')}
+          </>
+        ) : (
+          <>&mdash;</>
+        )}
       </div>
       <div className={styles.indicatorTitle}>Exit Altitude</div>
       <div className={styles.indicatorValue}>
-        {result.exitAltitude} {t('units.m')}
+        {Number.isFinite(result.exitAltitude) ? (
+          <>
+            {result.exitAltitude} {t('units.m')}
+          </>
+        ) : (
+          <>&mdash;</>
+        )}
       </div>
       <div className={styles.indicatorTitle}>Window</div>
       <div className={styles.indicatorValue}>
-        {resultWindow?.join(' - ') || '---'} {t('units.m')}
+        {(resultWindow?.length || 0) > 0 ? (
+          <>
+            {resultWindow?.join(' - ')} {t('units.m')}
+          </>
+        ) : (
+          <>&mdash;</>
+        )}
       </div>
     </div>
   )
