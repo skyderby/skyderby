@@ -9,10 +9,20 @@ import {
   useRoundQuery
 } from 'api/hooks/speedSkydivingCompetitions'
 import { useProfileQuery } from 'api/hooks/profiles'
-import UploadIcon from 'icons/upload'
+import UploadIcon from 'icons/upload.svg'
+import TriangleExclamationIcon from 'icons/triangle-exclamation.svg'
 import NewResultForm from '../NewResultForm'
 import ResultModal from '../ResultModal'
 import styles from './styles.module.scss'
+
+const resultPresentation = (result, editable) => {
+  if (Number.isFinite(result.result)) return result.result.toFixed(2)
+  if (editable) {
+    return (
+      <TriangleExclamationIcon className={styles.warningIcon} title="Calculation error" />
+    )
+  }
+}
 
 const ResultCell = ({ className, event, roundId, competitorId, result }) => {
   const [showNewResultModal, setShowNewResultModal] = useState(false)
@@ -50,7 +60,7 @@ const ResultCell = ({ className, event, roundId, competitorId, result }) => {
             onClick={() => setShowResultModal(true)}
             title={`Show result for ${profile.name} in round ${round.number}`}
           >
-            {result.result.toFixed(2)}
+            {resultPresentation(result, event.permissions.canEdit)}
           </button>
 
           {showResultModal && (
