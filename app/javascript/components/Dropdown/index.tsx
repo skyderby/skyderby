@@ -1,6 +1,7 @@
 import React, { useState, useLayoutEffect, forwardRef, ButtonHTMLAttributes } from 'react'
 import ReactDOM from 'react-dom'
 import { usePopper } from 'react-popper'
+import { motion, useAnimation } from 'framer-motion'
 import { Options } from '@popperjs/core'
 
 import styles from './styles.module.scss'
@@ -27,7 +28,9 @@ const getPortalRoot = () => {
 const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
   ({ referenceElement, children, options }, ref) => {
     const [popperElement, setPopperElement] = useState<HTMLElement>()
+    const controls = useAnimation()
     const {
+      state,
       styles: { popper: position },
       attributes
     } = usePopper(referenceElement, popperElement, options)
@@ -48,15 +51,29 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       }
     }
 
+    useLayoutEffect(() => {
+      if (state === null) return
+
+      controls.set({ scale: 0.9, ...state.modifiersData.popperOffsets })
+      controls.start(
+        {
+          scale: 1,
+          ...state.modifiersData.popperOffsets
+        },
+        { type: 'spring', duration: 0.2 }
+      )
+    }, [state])
+
     return ReactDOM.createPortal(
-      <div
+      <motion.div
+        animate={controls}
         className={styles.container}
         ref={setRef}
         style={position}
         {...attributes.popper}
       >
         {children}
-      </div>,
+      </motion.div>,
       getPortalRoot()
     )
   }
