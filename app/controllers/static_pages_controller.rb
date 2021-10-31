@@ -1,6 +1,6 @@
 class StaticPagesController < ApplicationController
   def index
-    @track_file = TrackFile.new
+    @track_file = Track::File.new
     @page = LandingPage.new
   end
 

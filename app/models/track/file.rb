@@ -11,7 +11,7 @@
 #  updated_at        :datetime         not null
 #
 
-class TrackFile < ApplicationRecord
+class Track::File < ApplicationRecord
   include TrackUploader::Attachment.new(:file)
 
   attr_accessor :track_attributes

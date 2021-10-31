@@ -19,7 +19,7 @@ class TrackResultsService
     [:speed, :distance, :time].each do |task|
       best_task_result = track_segments.max_by { |x| x.public_send(task) }
 
-      track.track_results.create! \
+      track.results.create! \
         discipline: task,
         range_from: best_task_result.start_altitude,
         range_to: best_task_result.end_altitude,

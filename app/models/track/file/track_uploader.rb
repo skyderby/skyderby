@@ -1,5 +1,4 @@
-class TrackUploader < Shrine
-  plugin :keep_files
+class Track::File::TrackUploader < Shrine
   plugin :validation_helpers
   plugin :add_metadata
   plugin :pretty_location
@@ -13,7 +12,7 @@ class TrackUploader < Shrine
     validate_extension_inclusion %w[csv gpx tes kml]
   end
 
-  def basic_location(_id, metadata:)
+  def basic_location(_io, metadata:)
     metadata['filename'].to_s
   end
 end
