@@ -1,12 +1,12 @@
 require 'fileutils'
 
-# rake download_competition_files\[25,'./tmp/download/'\]
+# rake download_speed_skydiving_event_files\[25,'./tmp/download/'\]
 
-task :download_competition_files, [:event_id, :path] => [:environment] do |task, args|
+task :download_speed_skydiving_event_files, [:event_id, :path] => [:environment] do |task, args|
   target_folder = File.expand_path(args.path)
   puts "## Downloading files to #{target_folder}"
 
-  results = Event.find(args.event_id).results
+  results = SpeedSkydivingCompetition.find(args.event_id).results
 
   results.find_each do |result|
     file = result.track.track_file.file
@@ -15,8 +15,7 @@ task :download_competition_files, [:event_id, :path] => [:environment] do |task,
     filename = [
       competitor.assigned_number,
       competitor.name.gsub(' ', '_'),
-      round.discipline.capitalize,
-      round.number,
+      "Round_#{round.number}",
       file.original_filename
     ].select(&:present?).join('_')
 
