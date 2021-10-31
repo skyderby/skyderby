@@ -1,0 +1,26 @@
+name: Backups / PG_Base
+
+on:
+  schedule:
+    - cron: 0 3 * * *
+
+jobs:
+  pg_basebackup:
+    name: PG Base Backup
+    runs-on: app_host
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+      AWS_DEFAULT_REGION: us-west-1
+    steps:
+      - working-directory: /opt/app/skyderby
+        run: docker-compose exec -T db /bin/bash -c "pg_basebackup --format=tar -D - --gzip --wal-method=fetch -U skyderby" | aws s3 cp - s3://pg-backup.skyderby.ru/pg_backup.tar.gz
+  cleanup_wal_files:
+    name: Cleanup WAL files
+    runs-on: app_host
+    needs:
+      - pg_basebackup
+    steps:
+      - run: |
+          wal_files=$(docker volume inspect pg_wal_archive --format '{{ .Mountpoint }}')
+          find $wal_files -mtime +2 -delete
