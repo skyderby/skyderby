@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_26_055435) do
+ActiveRecord::Schema.define(version: 2021_11_01_070729) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -225,6 +225,7 @@ ActiveRecord::Schema.define(version: 2021_08_26_055435) do
     t.datetime "image_updated_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "image_data"
     t.index ["place_id"], name: "index_place_photos_on_place_id"
   end
 
@@ -282,6 +283,7 @@ ActiveRecord::Schema.define(version: 2021_08_26_055435) do
     t.integer "country_id"
     t.string "owner_type"
     t.integer "owner_id"
+    t.jsonb "userpic_data"
     t.index ["country_id"], name: "index_profiles_on_country_id"
     t.index ["country_id"], name: "user_profiles_country_id_idx"
     t.index ["owner_type", "owner_id"], name: "index_profiles_on_owner_type_and_owner_id"
@@ -395,6 +397,7 @@ ActiveRecord::Schema.define(version: 2021_08_26_055435) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "sponsorable_type"
+    t.jsonb "logo_data"
     t.index ["sponsorable_id", "sponsorable_type"], name: "index_sponsors_on_sponsorable_id_and_sponsorable_type"
     t.index ["sponsorable_id"], name: "event_sponsors_event_id_idx"
     t.index ["sponsorable_id"], name: "index_sponsors_on_sponsorable_id"
@@ -404,10 +407,6 @@ ActiveRecord::Schema.define(version: 2021_08_26_055435) do
     t.integer "manufacturer_id"
     t.string "name", limit: 510
     t.integer "kind", default: 0
-    t.string "photo_file_name", limit: 510
-    t.string "photo_content_type", limit: 510
-    t.integer "photo_file_size"
-    t.datetime "photo_updated_at"
     t.text "description"
     t.index ["manufacturer_id"], name: "index_suits_on_manufacturer_id"
   end
@@ -655,84 +654,6 @@ ActiveRecord::Schema.define(version: 2021_08_26_055435) do
   add_foreign_key "tracks", "profiles"
   add_foreign_key "virtual_competitions", "place_finish_lines", column: "finish_line_id"
 
-  create_view "interval_top_scores", sql_definition: <<-SQL
-      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id, entities.custom_interval_id ORDER BY
-          CASE
-              WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
-              ELSE (- entities.result)
-          END DESC) AS rank,
-      entities.virtual_competition_id,
-      entities.track_id,
-      entities.result,
-      entities.highest_speed,
-      entities.highest_gr,
-      entities.profile_id,
-      entities.suit_id,
-      entities.custom_interval_id,
-      entities.recorded_at
-     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id, intervals.id) results.virtual_competition_id,
-              results.track_id,
-              results.result,
-              results.highest_speed,
-              results.highest_gr,
-              tracks.profile_id,
-              tracks.suit_id,
-              tracks.recorded_at,
-              competitions.results_sort_order,
-              intervals.id AS custom_interval_id
-             FROM (((virtual_competition_results results
-               JOIN virtual_competitions competitions ON ((results.virtual_competition_id = competitions.id)))
-               LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
-               JOIN virtual_competition_custom_intervals intervals ON (((intervals.virtual_competition_id = competitions.id) AND ((tracks.recorded_at >= intervals.period_from) AND (tracks.recorded_at <= intervals.period_to)))))
-            ORDER BY results.virtual_competition_id, tracks.profile_id, intervals.id,
-                  CASE
-                      WHEN ((competitions.results_sort_order)::text = 'descending'::text) THEN results.result
-                      ELSE (- results.result)
-                  END DESC) entities
-    ORDER BY
-          CASE
-              WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
-              ELSE (- entities.result)
-          END DESC;
-  SQL
-  create_view "personal_top_scores", sql_definition: <<-SQL
-      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id ORDER BY
-          CASE
-              WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
-              ELSE (- entities.result)
-          END DESC) AS rank,
-      entities.virtual_competition_id,
-      entities.track_id,
-      entities.result,
-      entities.highest_speed,
-      entities.highest_gr,
-      entities.profile_id,
-      entities.suit_id,
-      entities.recorded_at,
-      entities.results_sort_order
-     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id) results.virtual_competition_id,
-              results.track_id,
-              results.result,
-              results.highest_speed,
-              results.highest_gr,
-              tracks.profile_id,
-              tracks.suit_id,
-              tracks.recorded_at,
-              competitions.results_sort_order
-             FROM ((virtual_competition_results results
-               JOIN virtual_competitions competitions ON ((results.virtual_competition_id = competitions.id)))
-               LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
-            ORDER BY results.virtual_competition_id, tracks.profile_id,
-                  CASE
-                      WHEN ((competitions.results_sort_order)::text = 'descending'::text) THEN results.result
-                      ELSE (- results.result)
-                  END DESC) entities
-    ORDER BY
-          CASE
-              WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
-              ELSE (- entities.result)
-          END DESC;
-  SQL
   create_view "annual_top_scores", sql_definition: <<-SQL
       SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id, entities.year ORDER BY
           CASE
@@ -819,7 +740,7 @@ ActiveRecord::Schema.define(version: 2021_08_26_055435) do
                     GROUP BY competitors.event_id) participant_countries ON ((events_1.id = participant_countries.event_id)))
             GROUP BY events_1.id, participant_countries.country_ids
           UNION ALL
-           SELECT 'Tournament'::text,
+           SELECT 'Tournament'::text AS text,
               tournaments.id,
               tournaments.name,
               3 AS rules,
@@ -828,8 +749,8 @@ ActiveRecord::Schema.define(version: 2021_08_26_055435) do
               0,
               tournaments.responsible_id,
               tournaments.place_id,
-              NULL::integer,
-              NULL::integer,
+              NULL::integer AS int4,
+              NULL::integer AS int4,
               true AS bool,
               json_build_object('Open', count(competitors.id)) AS json_build_object,
               COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS "coalesce",
@@ -840,17 +761,17 @@ ActiveRecord::Schema.define(version: 2021_08_26_055435) do
                LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
             GROUP BY tournaments.id
           UNION ALL
-           SELECT 'SpeedSkydivingCompetition'::text,
+           SELECT 'SpeedSkydivingCompetition'::text AS text,
               events_1.id,
               events_1.name,
-              NULL::integer,
+              NULL::integer AS int4,
               events_1.starts_at,
               events_1.status,
               events_1.visibility,
               events_1.responsible_id,
               events_1.place_id,
-              NULL::integer,
-              NULL::integer,
+              NULL::integer AS int4,
+              NULL::integer AS int4,
               events_1.is_official,
               COALESCE(json_object_agg(COALESCE(competitors_count.category_name, ''::character varying), competitors_count.count) FILTER (WHERE (competitors_count.category_name IS NOT NULL)), '{}'::json) AS "coalesce",
               participant_countries.country_ids,
@@ -870,17 +791,17 @@ ActiveRecord::Schema.define(version: 2021_08_26_055435) do
                     GROUP BY competitors.event_id) participant_countries ON ((events_1.id = participant_countries.event_id)))
             GROUP BY events_1.id, participant_countries.country_ids
           UNION ALL
-           SELECT 'CompetitionSeries'::text,
+           SELECT 'CompetitionSeries'::text AS text,
               series.id,
               series.name,
-              NULL::integer,
+              NULL::integer AS int4,
               min(events_1.starts_at) AS min,
               series.status,
               series.visibility,
               series.responsible_id,
-              NULL::bigint,
-              NULL::integer,
-              NULL::integer,
+              NULL::bigint AS int8,
+              NULL::integer AS int4,
+              NULL::integer AS int4,
               true AS bool,
               json_object_agg(events_1.name, competitors_count.count) FILTER (WHERE (events_1.name IS NOT NULL)) AS json_object_agg,
               participant_countries.country_ids,
@@ -902,5 +823,83 @@ ActiveRecord::Schema.define(version: 2021_08_26_055435) do
                     GROUP BY competitors.event_id) participant_countries ON ((events_1.id = participant_countries.event_id)))
             GROUP BY series.id, participant_countries.country_ids) events
     ORDER BY events.starts_at DESC, events.created_at DESC;
+  SQL
+  create_view "interval_top_scores", sql_definition: <<-SQL
+      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id, entities.custom_interval_id ORDER BY
+          CASE
+              WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
+              ELSE (- entities.result)
+          END DESC) AS rank,
+      entities.virtual_competition_id,
+      entities.track_id,
+      entities.result,
+      entities.highest_speed,
+      entities.highest_gr,
+      entities.profile_id,
+      entities.suit_id,
+      entities.custom_interval_id,
+      entities.recorded_at
+     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id, intervals.id) results.virtual_competition_id,
+              results.track_id,
+              results.result,
+              results.highest_speed,
+              results.highest_gr,
+              tracks.profile_id,
+              tracks.suit_id,
+              tracks.recorded_at,
+              competitions.results_sort_order,
+              intervals.id AS custom_interval_id
+             FROM (((virtual_competition_results results
+               JOIN virtual_competitions competitions ON ((results.virtual_competition_id = competitions.id)))
+               LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
+               JOIN virtual_competition_custom_intervals intervals ON (((intervals.virtual_competition_id = competitions.id) AND ((tracks.recorded_at >= intervals.period_from) AND (tracks.recorded_at <= intervals.period_to)))))
+            ORDER BY results.virtual_competition_id, tracks.profile_id, intervals.id,
+                  CASE
+                      WHEN ((competitions.results_sort_order)::text = 'descending'::text) THEN results.result
+                      ELSE (- results.result)
+                  END DESC) entities
+    ORDER BY
+          CASE
+              WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
+              ELSE (- entities.result)
+          END DESC;
+  SQL
+  create_view "personal_top_scores", sql_definition: <<-SQL
+      SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id ORDER BY
+          CASE
+              WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
+              ELSE (- entities.result)
+          END DESC) AS rank,
+      entities.virtual_competition_id,
+      entities.track_id,
+      entities.result,
+      entities.highest_speed,
+      entities.highest_gr,
+      entities.profile_id,
+      entities.suit_id,
+      entities.recorded_at,
+      entities.results_sort_order
+     FROM ( SELECT DISTINCT ON (results.virtual_competition_id, tracks.profile_id) results.virtual_competition_id,
+              results.track_id,
+              results.result,
+              results.highest_speed,
+              results.highest_gr,
+              tracks.profile_id,
+              tracks.suit_id,
+              tracks.recorded_at,
+              competitions.results_sort_order
+             FROM ((virtual_competition_results results
+               JOIN virtual_competitions competitions ON ((results.virtual_competition_id = competitions.id)))
+               LEFT JOIN tracks tracks ON ((tracks.id = results.track_id)))
+            ORDER BY results.virtual_competition_id, tracks.profile_id,
+                  CASE
+                      WHEN ((competitions.results_sort_order)::text = 'descending'::text) THEN results.result
+                      ELSE (- results.result)
+                  END DESC) entities
+    ORDER BY
+          CASE
+              WHEN ((entities.results_sort_order)::text = 'descending'::text) THEN entities.result
+              ELSE (- entities.result)
+          END DESC;
   SQL
 end

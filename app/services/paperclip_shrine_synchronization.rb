@@ -1,4 +1,4 @@
-module PaperclipShrineSync
+module PaperclipShrineSynchronization
   def self.included(model)
     model.before_save do
       Paperclip::AttachmentRegistry.each_definition do |klass, name, _options|
@@ -9,13 +9,13 @@ module PaperclipShrineSync
 
   def write_shrine_data(name)
     attachment = send(name)
-    attacher   = Shrine::Attacher.from_model(self, name)
+    attacher = Shrine::Attacher.from_model(self, name)
 
     if attachment.size.present?
       attacher.set shrine_file(attachment)
 
-      attachment.styles.each do |derivative_name, style|
-        attacher.merge_derivatives(derivative_name => shrine_file(style))
+      attachment.styles.each do |style_name, style|
+        attacher.merge_derivatives(style_name => shrine_file(style))
       end
     else
       attacher.set nil
@@ -32,13 +32,14 @@ module PaperclipShrineSync
     end
   end
 
-  # If you'll be using a `:prefix` on your Shrine storage, or you're storing
-  # files on the filesystem, make sure to subtract the appropriate part
-  # from the path assigned to `:id`.
   def shrine_attachment_file(attachment)
+    location = attachment.path
+    # if you're storing files on disk, make sure to subtract the absolute path
+    location = location.sub(%r{^#{storage.prefix}/}, '') if storage.prefix
+
     Shrine.uploaded_file(
-      storage: :cache,
-      id: attachment.path,
+      storage: :store,
+      id: location,
       metadata: {
         'size' => attachment.size,
         'filename' => attachment.original_filename,
@@ -50,11 +51,17 @@ module PaperclipShrineSync
   # If you'll be using a `:prefix` on your Shrine storage, or you're storing
   # files on the filesystem, make sure to subtract the appropriate part
   # from the path assigned to `:id`.
-  def style_to_shrine_data(style)
+  def shrine_style_file(style)
+    location = style.attachment.path(style.name)
+    # if you're storing files on disk, make sure to subtract the absolute path
+    location = location.sub(%r{^#{storage.prefix}/}, '') if storage.prefix
+
     Shrine.uploaded_file(
-      storage: :cache,
-      id: style.attachment.path(style.name),
+      storage: :store,
+      id: location,
       metadata: {}
     )
   end
+
+  def storage = Shrine.storages[:store]
 end

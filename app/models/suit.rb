@@ -6,10 +6,6 @@
 #  manufacturer_id    :integer
 #  name               :string(510)
 #  kind               :integer          default("wingsuit")
-#  photo_file_name    :string(510)
-#  photo_content_type :string(510)
-#  photo_file_size    :integer
-#  photo_updated_at   :datetime
 #  description        :text
 #
 
@@ -29,14 +25,6 @@ class Suit < ApplicationRecord
 
   delegate :name, to: :manufacturer, prefix: true, allow_nil: true
   delegate :code, to: :manufacturer, prefix: true, allow_nil: true
-
-  has_attached_file :photo,
-                    styles: { medium: '250x250#',
-                              thumb: '32x32#' },
-                    default_url: '/images/:style/missing.png'
-
-  validates_attachment_content_type :photo, content_type:
-    ['image/jpeg', 'image/jpg', 'image/png']
 
   def pilots_accessible_by(user)
     Profile.where(id: tracks.unscope(:order)

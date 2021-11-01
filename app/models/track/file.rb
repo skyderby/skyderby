@@ -16,7 +16,10 @@ class Track::File < ApplicationRecord
 
   attr_accessor :track_attributes
 
-  has_one :track, dependent: :restrict_with_error
+  has_one :track,
+          foreign_key: :track_file_id,
+          dependent: :restrict_with_error,
+          inverse_of: :track_file
 
   delegate :empty?, to: :segments, prefix: true
 

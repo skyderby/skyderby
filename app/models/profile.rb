@@ -51,6 +51,8 @@ class Profile < ApplicationRecord
   validates_attachment_content_type :userpic, content_type:
     ['image/jpeg', 'image/jpg', 'image/png']
 
+  include PaperclipShrineSynchronization
+
   def cropping?
     %w[crop_x crop_y crop_h crop_w].all? { |attr| public_send(attr).present? }
   end
