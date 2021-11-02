@@ -1,6 +1,6 @@
 .online-competition-winner
   .online-competition-winner__photo
-    = image_tag result.profile.userpic.url(:medium)
+    = image_tag result.profile.userpic_url(:medium)
   .online-competition-winner__caption
     = link_to result.profile.name.titleize,
               profile_path(result.profile),

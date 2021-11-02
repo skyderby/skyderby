@@ -12,7 +12,6 @@ module Profiles
       authorize @profile, :update?
 
       @profile.update(avatar_params)
-      @profile.userpic.reprocess!
 
       respond_to do |format|
         format.js

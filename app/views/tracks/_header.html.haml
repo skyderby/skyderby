@@ -4,7 +4,7 @@
       %h1.light-header
         - if track.pilot
           %a{href: profile_path(track.pilot)}
-            = image_tag track.pilot.userpic.url(:thumb), :class => 'img-rounded img-50 loading-bg'
+            = image_tag track.pilot.userpic_url(:thumb), :class => 'img-rounded img-50 loading-bg'
             = track.pilot.name
         - else
           = track.name

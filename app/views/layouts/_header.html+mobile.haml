@@ -15,7 +15,7 @@
       .main-menu__bar
         - if user_signed_in?
           = link_to profile_path(current_user.profile), class: 'main-menu__profile' do
-            = image_tag current_user.profile.userpic.url(:thumb), class: 'main-menu__avatar'
+            = image_tag current_user.profile.userpic_url(:thumb), class: 'main-menu__avatar'
             %p= current_user.name
         - else
           .main-menu__profile

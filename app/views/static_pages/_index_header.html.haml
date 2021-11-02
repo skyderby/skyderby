@@ -8,7 +8,7 @@
         %a.dropdown-toggle.profile-dropdown{href: '#', data: {toggle: 'dropdown'}}
           - if masquerading?
             %i.fa.fa-lg.fa-exclamation-triangle.text-danger
-          - avatar = current_user.profile ? current_user.profile.userpic.url(:thumb) : '/images/thumb/missing.png'
+          - avatar = current_user.profile ? current_user.profile.userpic_url(:thumb) : '/images/thumb/missing.png'
           = image_tag avatar, id: 'userpic-thumb', class: 'nav-profile'
 
         %ul.dropdown-menu

@@ -16,7 +16,7 @@ results_by_pilot =
 json.results results_by_pilot do |json, results|
   json.pilot do |json|
     json.extract! results[:pilot], :id, :name
-    json.userpic_url asset_url(results[:pilot].userpic.url(:medium))
+    json.userpic_url asset_url(results[:pilot].userpic_url(:medium))
   end
 
   json.best_result do |json|

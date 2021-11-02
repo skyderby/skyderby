@@ -9,7 +9,7 @@
           %div= t('.visited_by') + ':'
           - pilots.each do |pilot|
             %a{href: profile_path(pilot)}
-              %img.img-50{src: pilot.userpic.url(:thumb), 'data-toggle' => 'tooltip', title: pilot.name}
+              %img.img-50{src: pilot.userpic_url(:thumb), 'data-toggle' => 'tooltip', title: pilot.name}
       %hr
 
     #tracks-table.table.table-hover

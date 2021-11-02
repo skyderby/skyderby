@@ -8,7 +8,7 @@
 
   %div{class: (mobile? ? 'event-result__body' : 'content-block content-block--bordered')}
     .event-result__title-bar
-      = image_tag @result.competitor.profile.userpic.url(:thumb)
+      = image_tag @result.competitor.profile.userpic_url(:thumb)
       = @result.competitor.name
       |
       = "#{t('disciplines.' + @result.round_discipline)} - #{@result.round_number}"
