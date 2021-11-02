@@ -11,12 +11,15 @@
 #  updated_at        :datetime         not null
 #
 
-class TrackFile < ApplicationRecord
+class Track::File < ApplicationRecord
   include TrackUploader::Attachment.new(:file)
 
   attr_accessor :track_attributes
 
-  has_one :track, dependent: :restrict_with_error
+  has_one :track,
+          foreign_key: :track_file_id,
+          dependent: :restrict_with_error,
+          inverse_of: :track_file
 
   delegate :empty?, to: :segments, prefix: true
 

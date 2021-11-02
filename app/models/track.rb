@@ -39,7 +39,7 @@ class Track < ApplicationRecord
   enum visibility: { public_track: 0, unlisted_track: 1, private_track: 2 }
   enum gps_type:   { gpx: 0, flysight: 1, columbus: 2, wintec: 3, cyber_eye: 4, kml: 5 }
 
-  belongs_to :track_file, optional: true
+  belongs_to :track_file, class_name: 'Track::File', optional: true
 
   belongs_to :pilot,
              class_name: 'Profile',
@@ -54,22 +54,22 @@ class Track < ApplicationRecord
   has_one :video, class_name: 'TrackVideo', dependent: :destroy, inverse_of: :track
 
   has_one :time,
-          -> { where(discipline: TrackResult.disciplines[:time]) },
-          class_name: 'TrackResult',
+          -> { where(discipline: Result.disciplines[:time]) },
+          class_name: 'Track::Result',
           inverse_of: :track
 
   has_one :distance,
-          -> { where(discipline: TrackResult.disciplines[:distance]) },
-          class_name: 'TrackResult',
+          -> { where(discipline: Result.disciplines[:distance]) },
+          class_name: 'Track::Result',
           inverse_of: :track
 
   has_one :speed,
-          -> { where(discipline: TrackResult.disciplines[:speed]) },
-          class_name: 'TrackResult',
+          -> { where(discipline: Result.disciplines[:speed]) },
+          class_name: 'Track::Result',
           inverse_of: :track
 
   has_many :points, -> { order :gps_time_in_seconds }, dependent: :delete_all, inverse_of: :track
-  has_many :track_results, dependent: :destroy
+  has_many :results, dependent: :destroy
   has_many :virtual_competition_results, class_name: 'VirtualCompetition::Result', dependent: :destroy
 
   validates :name, presence: true, unless: :pilot
@@ -117,7 +117,7 @@ class Track < ApplicationRecord
   end
 
   def delete_results
-    track_results.delete_all
+    results.delete_all
   end
 
   def delete_online_competitions_results

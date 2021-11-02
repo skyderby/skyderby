@@ -32,6 +32,7 @@ gem 'kramdown'
 
 # Files attachments
 gem 'aws-sdk-s3'
+gem 'image_processing', '~> 1.12'
 gem 'kt-paperclip', '~> 6.4'
 gem 'shrine', '~> 3.0'
 

@@ -41,7 +41,7 @@ module EventTracks
 
     def duplicate
       @duplicate ||=
-        TrackFile
+        Track::File
         .joins(track: [event_result: [round: :event]])
         .where("file_data->'metadata'->>'md5' = ?", track_file.file.metadata['md5'])
         .where('events.id' => result.event_id)

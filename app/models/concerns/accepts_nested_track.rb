@@ -37,7 +37,7 @@ module AcceptsNestedTrack
       throw(:abort)
     end
 
-    track_file = TrackFile.create(file: track_attributes[:file])
+    track_file = Track::File.create(file: track_attributes[:file])
 
     check_duplicates_for track_file
 

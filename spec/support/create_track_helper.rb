@@ -3,7 +3,7 @@ module CreateTrackHelper
     pilot = create :pilot
     suit = create :suit
 
-    track_file = TrackFile.create(
+    track_file = Track::File.create(
       file: File.new(Rails.root.join('spec', 'support', 'tracks', filename.to_s))
     )
 

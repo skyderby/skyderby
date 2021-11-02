@@ -10,7 +10,7 @@
 #  result     :float
 #
 
-class TrackResult < ApplicationRecord
+class Track::Result < ApplicationRecord
   enum discipline: { time: 0, distance: 1, speed: 2 }
 
   belongs_to :track

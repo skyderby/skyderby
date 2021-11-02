@@ -2,7 +2,7 @@ class TrackFilesController < ApplicationController
   def create
     authorize Track
 
-    @track_file = TrackFile.new(track_file_params)
+    @track_file = Track::File.new(track_file_params)
 
     unless @track_file.save
       render template: 'errors/ajax_errors',
@@ -22,7 +22,7 @@ class TrackFilesController < ApplicationController
   end
 
   def show
-    @track_file = TrackFile.find(params[:track_file_id])
+    @track_file = Track::File.find(params[:track_file_id])
   end
 
   private

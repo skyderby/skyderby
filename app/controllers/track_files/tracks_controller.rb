@@ -36,7 +36,7 @@ module TrackFiles
     end
 
     def track_file
-      TrackFile.find(params[:track_file_id])
+      Track::File.find(params[:track_file_id])
     end
   end
 end
