@@ -3,10 +3,6 @@
     %i.fa.fa-chevron-left
     Suits list
   .row
-    - if @suit.photo.exists?
-      .col-sm-3
-        .top-buffer
-          = image_tag(@suit.photo.url(:medium), class: 'img-responsive img-rounded loading-bg')
     .col-sm-9
       %h1
         = @suit.name
