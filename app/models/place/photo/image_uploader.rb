@@ -1,4 +1,5 @@
 class Place::Photo::ImageUploader < Shrine
+  plugin :validation_helpers
   plugin :pretty_location
   plugin :default_url
 

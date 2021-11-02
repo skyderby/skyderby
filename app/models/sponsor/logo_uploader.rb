@@ -1,4 +1,5 @@
-class Place::Photo::ImageUploader < Shrine
+class Sponsor::LogoUploader < Shrine
+  plugin :validation_helpers
   plugin :pretty_location
 
   Attacher.derivatives do |original|
