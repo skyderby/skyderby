@@ -10,9 +10,9 @@ if @user.registered?
   json.country_id @profile.country_id
 
   json.photo do |json|
-    json.original @profile.userpic.url
-    json.medium @profile.userpic.url(:medium)
-    json.thumb @profile.userpic.url(:thumb)
+    json.original @profile.userpic_url
+    json.medium @profile.userpic_url(:medium)
+    json.thumb @profile.userpic_url(:thumb)
   end
 else
   json.authorized false
