@@ -31,7 +31,7 @@ json.relations do
   json.manufacturers manufacturers, partial: 'api/v1/manufacturers/manufacturer', as: :manufacturer
 
   places = @tracks.map(&:place).compact
-  json.places places, partial: 'api/v1/places/place', as: :place, include_photos: false
+  json.places places, partial: 'api/v1/places/place', as: :place, without_photos: true
 
   profiles = @tracks.map(&:pilot).compact
   json.profiles profiles, partial: 'api/v1/profiles/profile', as: :profile
