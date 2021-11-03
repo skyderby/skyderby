@@ -11,7 +11,7 @@ class Place < ApplicationRecord
     end
 
     def photo_url
-      photo.image.present? ? photo.image.url(:large) : google_map_image
+      photo.image.present? ? photo.image_url(:large) : google_map_image
     end
 
     def google_map_image
