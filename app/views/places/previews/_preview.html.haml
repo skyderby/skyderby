@@ -1,4 +1,4 @@
-.place-preview__photo{style: "background-image: url(#{@place.photo.image.url(:thumb)});"}
+.place-preview__photo{style: "background-image: url(#{@place.photo.image_url(:thumb)});"}
 .place-preview__title= @place.name
 .place-preview__geo
   %div

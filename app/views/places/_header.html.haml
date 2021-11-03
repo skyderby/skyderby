@@ -3,7 +3,7 @@
 .row
   .col-sm-12
     .place-header
-      .place__photo{style: "background-image: url(#{@place.photo.image.url(:large)})"}
+      .place__photo{style: "background-image: url(#{@place.photo.image_url(:large)})"}
       .place-header__description
         .place-header__description-container
           .place-header__title= @place.name

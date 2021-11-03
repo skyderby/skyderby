@@ -16,13 +16,10 @@
 #
 
 class Sponsor < ApplicationRecord
+  include LogoUploader::Attachment(:logo)
+  after_validation { logo_derivatives! if logo_changed? }
+
   belongs_to :sponsorable, polymorphic: true, touch: true
 
-  validates :name, :website, presence: true
-  validates :logo, attachment_presence: true
-
-  has_attached_file :logo, styles: { medium: '300x120>' }
-  validates_attachment_content_type :logo, content_type: %r{\Aimage/.*\Z}
-
-  include PaperclipShrineSynchronization
+  validates :name, :website, :logo, presence: true
 end

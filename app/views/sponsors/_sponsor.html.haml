@@ -1,6 +1,6 @@
 .col-md-3.col-sm-3.text-center.sponsor{id: "#{dom_id(sponsor)}"}
   %a{href: sponsor.website}
-    %img.img-responsive{src: sponsor.logo.url(:medium), 'data-toggle' => 'tooltip', title: sponsor.name}
+    %img.img-responsive{src: sponsor.logo_url(:medium), 'data-toggle' => 'tooltip', title: sponsor.name}
   - if editable
     = button_to polymorphic_path([sponsor.sponsorable, sponsor]),
                 method: :delete,

@@ -30,7 +30,7 @@
               - else
                 %i.fa.fa-fw
             %a{href: profile_path(slot.competitor.profile_id)}
-              = image_tag slot.competitor.profile.userpic.url(:thumb)
+              = image_tag slot.competitor.profile.userpic_url(:thumb)
               = slot.competitor.name
         - else
           .tournament-competitor-profile ?

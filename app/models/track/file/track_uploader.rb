@@ -1,7 +1,7 @@
 class Track::File::TrackUploader < Shrine
   plugin :validation_helpers
   plugin :add_metadata
-  plugin :pretty_location
+  plugin :pretty_location, namespace: '_'
 
   add_metadata :md5 do |io|
     calculate_signature(io, :md5)

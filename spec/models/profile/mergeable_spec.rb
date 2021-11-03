@@ -1,24 +1,20 @@
 describe Profile::Mergeable do
   describe 'merge fields and associations' do
-    subject do
-      source = Profile.create!(
-        name: 'Ivan',
-        owner: users(:regular_user),
-        country: countries(:norway)
-      )
+    let(:country) { countries(:norway) }
+    let(:source) { Profile.create!(name: 'Ivan', owner: users(:regular_user), country: country) }
 
+    before do
       5.times do
         create :empty_track, pilot: source
         create :badge, profile: source
       end
+    end
 
-      destination = Profile.create!(
+    subject do
+      Profile.create!(
         name: 'Peter',
         owner: events(:published_public)
-      )
-
-      destination.merge_with(source)
-      destination
+      ).tap { |profile| profile.merge_with(source) }
     end
 
     it 'should not merge name' do
@@ -43,18 +39,14 @@ describe Profile::Mergeable do
       source = Profile.create(name: 'Ivan', userpic: fixture_file_upload('files/profile_userpic.png'))
       destination = Profile.create(name: 'Peter')
 
-      destination.merge_with(source)
-
-      expect(destination.userpic_file_name).to eq('profile_userpic.png')
+      expect { destination.merge_with(source) }.to(change { destination.userpic }.from(nil))
     end
 
     it 'do not wipe existent userpic' do
       source = Profile.create(name: 'Ivan')
       destination = Profile.create(name: 'Peter', userpic: fixture_file_upload('files/profile_userpic.png'))
 
-      destination.merge_with(source)
-
-      expect(destination.userpic_file_name).to eq('profile_userpic.png')
+      expect { destination.merge_with(source) }.not_to(change { destination.userpic })
     end
   end
 

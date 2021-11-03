@@ -19,6 +19,7 @@
 
 class Profile < ApplicationRecord
   include Ownerable, Mergeable
+  include AvatarUploader::Attachment(:userpic)
 
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
 
@@ -36,42 +37,22 @@ class Profile < ApplicationRecord
   has_many :event_competitors, class_name: 'Event::Competitor', dependent: :restrict_with_error
   has_many :personal_top_scores, class_name: 'VirtualCompetition::PersonalTopScore' # rubocop:disable Rails/HasManyOrHasOneDependent
 
-  has_attached_file :userpic,
-                    styles: { large: '500x500>',
-                              medium: '150x150#',
-                              thumb: '32x32#' },
-                    processors: [:jcropper],
-                    default_url: '/images/:style/missing.png'
+  after_validation { userpic_derivatives! if userpic_changed? }
 
   delegate :name, to: :country, prefix: true, allow_nil: true
   delegate :code, to: :country, prefix: true, allow_nil: true
 
   validates :name, presence: true
 
-  validates_attachment_content_type :userpic, content_type:
-    ['image/jpeg', 'image/jpg', 'image/png']
+  def cropping? = %w[crop_x crop_y crop_h crop_w].all? { |attr| public_send(attr).present? }
 
-  include PaperclipShrineSynchronization
+  def name = super.presence || 'Name not set'
 
-  def cropping?
-    %w[crop_x crop_y crop_h crop_w].all? { |attr| public_send(attr).present? }
-  end
+  def competitor_of_events = event_competitors.select(:event_id).map(&:event)
 
-  def name
-    super.presence || 'Name not set'
-  end
-
-  def competitor_of_events
-    event_competitors.select(:event_id).map(&:event)
-  end
-
-  def participant_of_events
-    organizer_of_events + competitor_of_events
-  end
+  def participant_of_events = organizer_of_events + competitor_of_events
 
   class << self
-    def search(query)
-      where('LOWER(profiles.name) LIKE LOWER(?)', "%#{query}%")
-    end
+    def search(query) = where('LOWER(profiles.name) LIKE LOWER(?)', "%#{query}%")
   end
 end
