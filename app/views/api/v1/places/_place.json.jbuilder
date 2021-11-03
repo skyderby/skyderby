@@ -12,7 +12,7 @@ if include_photos
 
   json.photos place.photos do |photo|
     json.id photo.id
-    json.large photo.image.url(:large)
-    json.thumb photo.image.url(:thumb)
+    json.large photo.image_url(:large)
+    json.thumb photo.image_url(:thumb)
   end
 end
