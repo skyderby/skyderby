@@ -1,6 +1,6 @@
 class Place::Photo::ImageUploader < Shrine
   plugin :validation_helpers
-  plugin :pretty_location
+  plugin :pretty_location, namespace: '_'
   plugin :default_url
 
   Attacher.default_url { '/images/place_photo.jpg' }
