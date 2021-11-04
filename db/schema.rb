@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_01_070729) do
+ActiveRecord::Schema.define(version: 2021_11_04_152939) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -219,10 +219,6 @@ ActiveRecord::Schema.define(version: 2021_11_01_070729) do
 
   create_table "place_photos", force: :cascade do |t|
     t.bigint "place_id"
-    t.string "image_file_name"
-    t.string "image_content_type"
-    t.integer "image_file_size"
-    t.datetime "image_updated_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "image_data"
@@ -274,10 +270,6 @@ ActiveRecord::Schema.define(version: 2021_11_01_070729) do
     t.string "last_name", limit: 510
     t.string "first_name", limit: 510
     t.string "name", limit: 510
-    t.string "userpic_file_name", limit: 510
-    t.string "userpic_content_type", limit: 510
-    t.integer "userpic_file_size"
-    t.datetime "userpic_updated_at"
     t.integer "default_units", default: 0
     t.integer "default_chart_view", default: 0
     t.integer "country_id"
@@ -388,10 +380,6 @@ ActiveRecord::Schema.define(version: 2021_11_01_070729) do
 
   create_table "sponsors", id: :serial, force: :cascade do |t|
     t.string "name", limit: 510
-    t.string "logo_file_name", limit: 510
-    t.string "logo_content_type", limit: 510
-    t.integer "logo_file_size"
-    t.datetime "logo_updated_at"
     t.string "website", limit: 510
     t.integer "sponsorable_id"
     t.datetime "created_at", null: false
