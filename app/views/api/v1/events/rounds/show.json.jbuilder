@@ -28,7 +28,7 @@ json.results do
                   :penalty_size,
                   :penalty_reason
 
-    json.photo competitor_result.photo.url(:thumb)
+    json.photo competitor_result.photo_url(:thumb)
 
     json.direction competitor_result.direction.to_i
     json.exitAltitude competitor_result.exit_altitude.to_i
