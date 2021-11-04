@@ -109,7 +109,6 @@ GEM
       actionpack (>= 3.1)
       caxlsx (>= 3.0)
     childprocess (3.0.0)
-    climate_control (0.2.0)
     codeclimate-test-reporter (1.0.9)
       simplecov (<= 0.13)
     concurrent-ruby (1.1.8)
@@ -170,12 +169,6 @@ GEM
     jwt (2.2.1)
     kramdown (2.3.0)
       rexml
-    kt-paperclip (6.4.0)
-      activemodel (>= 4.2.0)
-      activesupport (>= 4.2.0)
-      mime-types
-      mimemagic (~> 0.3.0)
-      terrapin (~> 0.6.0)
     loofah (2.9.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -184,9 +177,6 @@ GEM
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (1.0.0)
-    mime-types (3.3.1)
-      mime-types-data (~> 3.2015)
-    mime-types-data (3.2020.1104)
     mimemagic (0.3.10)
       nokogiri (~> 1)
       rake
@@ -362,8 +352,6 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     temple (0.8.2)
-    terrapin (0.6.0)
-      climate_control (>= 0.0.3, < 1.0)
     thor (1.1.0)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -419,7 +407,6 @@ DEPENDENCIES
   image_processing (~> 1.12)
   jbuilder (~> 2.6)
   kramdown
-  kt-paperclip (~> 6.4)
   nokogiri (~> 1.11)
   omniauth-facebook
   pg (~> 1.0)
