@@ -8,7 +8,7 @@ module Events
       delegate :direction, to: :window_points
       delegate :start_point, :end_point, to: :window_points
 
-      def photo_url = competitor.profile.userpic_url
+      def photo_url(...) = competitor.profile.userpic_url(...)
 
       def empty? = points.blank?
 
