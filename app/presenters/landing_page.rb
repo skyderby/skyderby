@@ -10,4 +10,8 @@ class LandingPage
   def online_competitions_summary
     @online_competitions_summary ||= VirtualCompetitions::Summary.new
   end
+
+  def contribution_summary
+    @contribution_summary ||= Contribution::Summary.new
+  end
 end

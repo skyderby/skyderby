@@ -1,0 +1,36 @@
+<div class="contributors">
+  <h2>I want to thank these amazing people 😍</h2>
+  <h3>
+    In past month Skyderby received
+    <% if contributions.number_of_contributions_this_month == 1 %> only <% end %>
+    <%= contributions.number_of_contributions_this_month %>
+    financial
+    <% if contributions.number_of_contributions_this_month == 1 %> contribution <% else %> contribution <% end %>
+    from
+  </h3>
+    <% if contributions.number_of_contributions_this_month.positive? %>
+      <div class="contributors-list">
+        <% contributions.this_month_contributors.each do |detail| %>
+        <div class="contributor">
+          <img src="<%= detail.contributor.userpic_url(:thumb) %>" />
+          <div class="contributor-name"><%= detail.contributor.name %></div>
+        </div>
+        <% end %>
+      </div>
+    <% end %>
+  <h3>Along with previously received from:</h3>
+  <div class="contributors-list">
+    <% contributions.sample_of_previous_contributions.each do |detail| %>
+      <div class="contributor">
+        <img src="<%= detail.contributor.userpic_url(:thumb) %>" />
+        <div class="contributor-name"><%= detail.contributor.name %></div>
+      </div>
+    <% end %>
+    <div class="contributor">and more...</div>
+  </div>
+  <div class="contributors-footer">
+    <a href="https://www.paypal.me/skyksandr" class="btn nav-menu-cta nav-menu-cta--primary" target="_blank" rel="nofollow noopener">
+      Make a Contribution via PayPal
+    </a>
+  </div>
+</div>

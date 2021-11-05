@@ -18,8 +18,8 @@
     .about-me__photo
       = image_tag 'a_kunin.jpg', class: 'img-circle'
     .about-me__info
-      %span.about-me__greeting= t('.about_me.greeting')
-      %p= t('.about_me.message')
+      %span.about-me__greeting Brought to you by Aleksandr Kunin
+      %p Developing Skyderby since May 2014 to make You fly better, faster, longer
       %div.about-me__contacts
         %a{href: 'https://www.facebook.com/skyksandr'}
           %i.fab.fa-facebook
@@ -31,15 +31,7 @@
           %i.fab.fa-whatsapp
           +7(903)139-0137
 
-
-.container.top-buffer
-  .row
-    .donate
-      .donate__text
-        = t('.donate')
-      .donate__link
-        = link_to 'https://www.paypal.me/skyksandr' do
-          = image_tag 'paypalme.png'
+  = render 'contributions', contributions: @page.contribution_summary
 
 %hr
 
@@ -95,4 +87,4 @@
     .col-lg-2.col-md-2.col-sm-3.col-xs-6.top-buffer
       #gpx-sf.grayed
       %div.text-center
-        Files in GPX format 
+        Files in GPX format

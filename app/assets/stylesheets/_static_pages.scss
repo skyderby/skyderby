@@ -1,7 +1,4 @@
 
-// Common variables
-//
-
 $sf-background-color: lightgray;
 $sf-height: 150px;
 
@@ -35,7 +32,7 @@ pre.prettyprint {
 }
 
 .text-darkgray {
-  color: rgb(85, 85, 85);	
+  color: rgb(85, 85, 85);
 }
 
 .competition-header h2 {
@@ -69,7 +66,7 @@ pre.prettyprint {
 
 .competitions-label {
   background-color: rgb(61, 134, 170);
-  color: white;	
+  color: white;
 }
 
 .competitions-label:hover {
@@ -90,7 +87,7 @@ pre.prettyprint {
   letter-spacing: 1.3px;
 }
 .btn-browse {
-  // background-color: rgba(0, 0, 0, 0.15);	
+  // background-color: rgba(0, 0, 0, 0.15);
   font-weight: 200;
   letter-spacing: 1.3px;
   color: white;
@@ -205,4 +202,3 @@ pre.prettyprint {
     background-size: contain;
     height: $sf-height;
 }
-
