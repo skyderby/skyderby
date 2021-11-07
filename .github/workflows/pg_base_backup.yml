@@ -24,8 +24,8 @@ jobs:
       - name: Remove old WAL archive files
         working-directory: /opt/app/skyderby
         run: |
-          docker-compose exec db find /wal_archive -type f -name "*.backup" -mtime +$((60*48)) -exec /bin/bash -c 'pg_archivecleanup -d /wal_archive $(basename  "$1")' - {} \;
+          docker-compose exec -T db find /wal_archive -type f -name "*.backup" -mmin +$((60*48)) -exec /bin/bash -c 'pg_archivecleanup -d /wal_archive $(basename  "$1")' - {} \;
       - name: Remove backup labels
         working-directory: /opt/app/skyderby
         run: |
-          docker-compose exec db find /wal_archive -type f -name "*.backup" -mmin +$((60*48)) -print -exec rm '{}' \;
+          docker-compose exec -T db find /wal_archive -type f -name "*.backup" -mmin +$((60*48)) -print -exec rm '{}' \;
