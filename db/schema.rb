@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_04_152939) do
+ActiveRecord::Schema.define(version: 2021_11_05_133526) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,23 @@ ActiveRecord::Schema.define(version: 2021_11_04_152939) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["competition_series_id"], name: "index_competition_series_rounds_on_competition_series_id"
+  end
+
+  create_table "contribution_details", force: :cascade do |t|
+    t.string "contributor_type", null: false
+    t.bigint "contributor_id", null: false
+    t.bigint "contribution_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["contribution_id"], name: "index_contribution_details_on_contribution_id"
+    t.index ["contributor_type", "contributor_id"], name: "index_contribution_details_on_contributor"
+  end
+
+  create_table "contributions", force: :cascade do |t|
+    t.decimal "amount"
+    t.date "received_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "countries", id: :serial, force: :cascade do |t|
@@ -615,6 +632,7 @@ ActiveRecord::Schema.define(version: 2021_11_04_152939) do
   add_foreign_key "competition_series_included_competitions", "competition_series"
   add_foreign_key "competition_series_included_competitions", "events"
   add_foreign_key "competition_series_rounds", "competition_series"
+  add_foreign_key "contribution_details", "contributions"
   add_foreign_key "event_competitors", "event_teams", column: "team_id"
   add_foreign_key "event_competitors", "profiles"
   add_foreign_key "event_results", "tracks"

@@ -21,13 +21,16 @@
     - else
       = link_to t('devise.shared.links.sign_up'), new_registration_path(:user), class: 'btn btn-success btn-lg'
 
+  %section
+    = render 'contributions', contributions: @page.contribution_summary
+
   %section.landing__section
     %h2.landing__section-header Полёты
     %p.landing__section-subheader во всех ракурсах
     %img.landing__section-image{src: asset_path('tracks-overview-mobile.png')}
     %p.landing__section-description
       С какой скоростью я летел? А сколько из нее добавлял ветер?
-      Вам будет легко найти ответы на эти вопросы, а также посмотреть на трек на 
+      Вам будет легко найти ответы на эти вопросы, а также посмотреть на трек на
       карте, в 3D, синхронизировать с видео и многое другое
 
   %section.landing__section
