@@ -5,7 +5,7 @@ module Api
         def create
           authorize Track
 
-          @track_file = TrackFile.new(track_file_params)
+          @track_file = Track::File.new(track_file_params)
 
           respond_to do |format|
             if @track_file.save
