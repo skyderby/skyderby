@@ -42,7 +42,7 @@ const getCurrentUser = () =>
     method: 'GET',
     credentials: 'include',
     mode: 'no-cors'
-  }).then(response => response.json())
+  }).then(response => response.json()).then(json => {console.log(json); return json})
 
 const login = async (user: LoginData) => {
   const { data, headers } = await axios.post<
@@ -90,8 +90,8 @@ export const useLoginMutation = (): UseMutationResult<
 
   return useMutation(login, {
     onSuccess(data) {
-      queryClient.clear()
       queryClient.setQueryData(queryKey, data)
+      return queryClient.resetQueries()
     }
   })
 }
@@ -101,7 +101,7 @@ export const useLogoutMutation = (): UseMutationResult<void> => {
 
   return useMutation(logout, {
     onSuccess() {
-      queryClient.clear()
+      return queryClient.resetQueries()
     }
   })
 }
