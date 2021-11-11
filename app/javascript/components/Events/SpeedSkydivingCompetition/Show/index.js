@@ -43,7 +43,7 @@ const Show = ({ match }) => {
 
   return (
     <AppShell>
-      {isLoading ? (
+      {!event || isLoading ? (
         <PageLoading />
       ) : (
         <div className={styles.container}>
