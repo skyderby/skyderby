@@ -12,7 +12,7 @@ import {
   preloadTeams,
   useSpeedSkydivingCompetitionQuery,
   preloadStandings
-} from 'api/hooks/speedSkydivingCompetitions'
+} from 'api/speedSkydivingCompetitions'
 import AppShell from 'components/AppShell'
 import PageLoading from 'components/PageWrapper/Loading'
 import Header from './Header'

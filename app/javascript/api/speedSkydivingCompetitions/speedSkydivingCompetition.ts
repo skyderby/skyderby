@@ -12,8 +12,8 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 import { parseISO } from 'date-fns'
 
 import { getCSRFToken } from 'utils/csrfToken'
-import { placeQuery } from 'api/hooks/places'
-import { SpeedSkydivingCompetition } from 'api/hooks/speedSkydivingCompetitions/types'
+import { placeQuery } from 'api/places'
+import { SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions/types'
 
 type QueryKey = ['speedSkydivingCompetitions', number]
 

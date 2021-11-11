@@ -7,7 +7,7 @@ import {
   UseQueryResult
 } from 'react-query'
 
-import { cacheManufacturers, preloadManufacturers } from 'api/hooks/manufacturer'
+import { cacheManufacturers, preloadManufacturers } from 'api/manufacturer'
 import { getAllSuits, getSuit, getSuits, getSuitsById } from './requests'
 import {
   IndexParams,

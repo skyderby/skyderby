@@ -7,7 +7,7 @@ import {
   useCompetitorsQuery,
   useStandingsQuery,
   usePerformanceEventQuery
-} from 'api/hooks/performanceCompetitions'
+} from 'api/performanceCompetitions'
 import ActionsBar from './ActionsBar'
 import TableHeader from './TableHeader'
 import TableBody from './TableBody'

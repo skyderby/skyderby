@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
-import { useTrackPointsQuery } from 'api/hooks/tracks/points'
+import { useTrackPointsQuery } from 'api/tracks/points'
 import TrackCharts from 'components/TrackCharts/CombinedChart'
 import Highchart from 'components/Highchart'
 import Modal from 'components/ui/Modal'

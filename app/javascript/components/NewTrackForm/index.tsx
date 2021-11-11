@@ -2,7 +2,7 @@ import React from 'react'
 import { Formik, Field, FieldProps } from 'formik'
 import { useHistory } from 'react-router-dom'
 
-import { useNewTrackMutation } from 'api/hooks/tracks/track'
+import { useNewTrackMutation } from 'api/tracks/track'
 import { useI18n } from 'components/TranslationsProvider'
 import Modal from 'components/ui/Modal'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
@@ -13,7 +13,7 @@ import TrackFileInput from './TrackFileInput'
 import SegmentSelect from './SegmentSelect'
 import validationSchema from './validationSchema'
 import styles from './styles.module.scss'
-import { TrackActivity, TrackFileRecord, TrackVisibility } from 'api/hooks/tracks'
+import { TrackActivity, TrackFileRecord, TrackVisibility } from 'api/tracks'
 
 type NewTrackFormProps = {
   isShown: boolean

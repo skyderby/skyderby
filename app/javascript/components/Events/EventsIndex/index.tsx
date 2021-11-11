@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Location } from 'history'
 import { AnimatePresence } from 'framer-motion'
 
-import { useEventsQuery, mapParamsToUrl, extractParamsFromUrl } from 'api/hooks/events'
+import { useEventsQuery, mapParamsToUrl, extractParamsFromUrl } from 'api/events'
 import { useI18n } from 'components/TranslationsProvider'
 import AppShell from 'components/AppShell'
 import Pagination from 'components/Pagination'

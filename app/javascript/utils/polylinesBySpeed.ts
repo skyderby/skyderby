@@ -1,6 +1,6 @@
 import { colorBySpeed } from 'utils/colorBySpeed'
 import { msToKmh } from 'utils/unitsConversion'
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 
 type PointWithColor = PointRecord & { color: string }
 type Pairs = Array<[PointWithColor, PointWithColor]>

@@ -5,7 +5,7 @@ import {
   useRoundsQuery,
   useOpenStandingsQuery,
   useSpeedSkydivingCompetitionQuery
-} from 'api/hooks/speedSkydivingCompetitions'
+} from 'api/speedSkydivingCompetitions'
 import useStickyTableHeader from 'hooks/useStickyTableHeader'
 import StandingRow from './StandingRow'
 import styles from './styles.module.scss'

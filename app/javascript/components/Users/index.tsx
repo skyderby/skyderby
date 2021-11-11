@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch, Route, Redirect, match } from 'react-router-dom'
 
-import { useCurrentUserQuery } from 'api/hooks/sessions'
+import { useCurrentUserQuery } from 'api/sessions'
 import SignIn from './SignIn'
 import SignUp from './SignUp'
 import EmailConfirmation from './EmailConfirmation'

@@ -4,8 +4,8 @@ import { motion } from 'framer-motion'
 import IconTimes from 'icons/times.svg'
 
 import styles from './styles.module.scss'
-import { useTerrainProfileQuery } from 'api/hooks/terrainProfiles'
-import { usePlaceQuery } from 'api/hooks/places'
+import { useTerrainProfileQuery } from 'api/terrainProfiles'
+import { usePlaceQuery } from 'api/places'
 
 type TerrainProfileTagProps = {
   terrainProfileId: number

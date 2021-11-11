@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import {
   useEditSpeedSkydivingCompetitionMutation,
   useSpeedSkydivingCompetitionQuery
-} from 'api/hooks/speedSkydivingCompetitions'
+} from 'api/speedSkydivingCompetitions'
 import Form from 'components/Events/SpeedSkydivingCompetition/Form'
 import styles from './styles.module.scss'
 

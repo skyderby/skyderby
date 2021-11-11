@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch, match } from 'react-router-dom'
 
-import { useTrackQuery } from 'api/hooks/tracks'
+import { useTrackQuery } from 'api/tracks'
 import VideoSettings from './VideoSettings'
 import VideoPlayer from './VideoPlayer'
 

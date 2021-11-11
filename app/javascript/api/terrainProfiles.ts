@@ -7,7 +7,7 @@ import {
   UseQueryResult
 } from 'react-query'
 import axios from 'axios'
-import { cachePlaces, PlaceRecord } from 'api/hooks/places'
+import { cachePlaces, PlaceRecord } from 'api/places'
 
 type TerrainProfileRecord = {
   id: number

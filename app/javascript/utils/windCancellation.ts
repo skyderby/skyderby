@@ -7,8 +7,8 @@ import {
   getDirection,
   Vector
 } from 'utils/vectors'
-import { PointRecord } from 'api/hooks/tracks/points'
-import { WindDataRecord } from 'api/hooks/tracks/windData'
+import { PointRecord } from 'api/tracks/points'
+import { WindDataRecord } from 'api/tracks/windData'
 
 const interpolateByAltitude = (
   [first, second]: WindDataRecord[],

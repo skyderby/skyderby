@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 import Highcharts, { PointLabelObject, Options } from 'highcharts'
-import { SuitsPopularityRecord } from 'api/hooks/suitsPopularity'
-import { SuitRecord } from 'api/hooks/suits'
-import { ManufacturerRecord } from 'api/hooks/manufacturer'
+import { SuitsPopularityRecord } from 'api/suitsPopularity'
+import { SuitRecord } from 'api/suits'
+import { ManufacturerRecord } from 'api/manufacturer'
 
 const baseOptions: Options = {
   chart: {

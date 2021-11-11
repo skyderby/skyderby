@@ -1,5 +1,5 @@
 import { PointOptionsObject } from 'highcharts'
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 
 const clampValue = (val: number): number =>
   Math.round(Math.min(Math.max(val, 0), 7) * 100) / 100

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { useCurrentUserQuery, useLogoutMutation } from 'api/hooks/sessions'
+import { useCurrentUserQuery, useLogoutMutation } from 'api/sessions'
 import { useI18n } from 'components/TranslationsProvider'
 import NewTrackForm from 'components/NewTrackForm'
 import ExitIcon from 'icons/exit.svg'

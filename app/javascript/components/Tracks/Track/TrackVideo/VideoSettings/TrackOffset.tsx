@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react'
 import { OptionsZoomTypeValue } from 'highcharts'
 import { Field } from 'formik'
 
-import { useTrackPointsQuery } from 'api/hooks/tracks/points'
+import { useTrackPointsQuery } from 'api/tracks/points'
 import { useI18n } from 'components/TranslationsProvider'
 import AltitudeChart from 'components/AltitudeChart'
 import PlotLine from 'components/Highchart/Plotline'

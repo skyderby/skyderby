@@ -3,10 +3,10 @@ import cx from 'clsx'
 
 import Dropdown from 'components/Dropdown'
 import ChevronDownIcon from 'icons/chevron-down.svg'
-import { useEditSpeedSkydivingCompetitionMutation } from 'api/hooks/speedSkydivingCompetitions'
+import { useEditSpeedSkydivingCompetitionMutation } from 'api/speedSkydivingCompetitions'
 import { useI18n } from 'components/TranslationsProvider'
 import useClickOutside from 'hooks/useClickOutside'
-import { SpeedSkydivingCompetition } from 'api/hooks/speedSkydivingCompetitions/types'
+import { SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions/types'
 import styles from './styles.module.scss'
 
 type StatusMenuProps = {

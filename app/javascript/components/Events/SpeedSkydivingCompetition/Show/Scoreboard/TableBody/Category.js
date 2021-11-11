@@ -6,7 +6,7 @@ import {
   useEditCategoryMutation,
   useDeleteCategoryMutation,
   useChangePositionMutation
-} from 'api/hooks/speedSkydivingCompetitions'
+} from 'api/speedSkydivingCompetitions'
 import CategoryForm from 'components/CategoryForm'
 import PencilIcon from 'icons/pencil'
 import ChevronUpIcon from 'icons/chevron-up'

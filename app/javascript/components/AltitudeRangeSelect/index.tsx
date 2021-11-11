@@ -1,7 +1,7 @@
 import React, { useState, memo } from 'react'
 import { Chart } from 'highcharts'
 
-import { PointRecord, useTrackPointsQuery } from 'api/hooks/tracks/points'
+import { PointRecord, useTrackPointsQuery } from 'api/tracks/points'
 import Highchart from 'components/Highchart'
 import RangeSlider from 'components/RangeSlider'
 import AltitudeChart from 'components/AltitudeChart'

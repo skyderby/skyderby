@@ -7,8 +7,8 @@ import {
   useDeleteResultMutation,
   useNewResultMutation,
   useRoundQuery
-} from 'api/hooks/speedSkydivingCompetitions'
-import { useProfileQuery } from 'api/hooks/profiles'
+} from 'api/speedSkydivingCompetitions'
+import { useProfileQuery } from 'api/profiles'
 import UploadIcon from 'icons/upload.svg'
 import TriangleExclamationIcon from 'icons/triangle-exclamation.svg'
 import NewResultForm from '../NewResultForm'

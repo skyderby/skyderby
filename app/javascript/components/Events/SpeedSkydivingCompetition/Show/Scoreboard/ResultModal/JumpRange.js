@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { useEditResultMutation } from 'api/hooks/speedSkydivingCompetitions'
+import { useEditResultMutation } from 'api/speedSkydivingCompetitions'
 import { useI18n } from 'components/TranslationsProvider'
 import Modal from 'components/ui/Modal'
-import { useTrackQuery } from 'api/hooks/tracks'
+import { useTrackQuery } from 'api/tracks'
 import AltitudeRangeSelect from 'components/AltitudeRangeSelect'
 import styles from './styles.module.scss'
 

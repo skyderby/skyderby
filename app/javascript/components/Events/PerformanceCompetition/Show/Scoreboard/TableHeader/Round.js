@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { useDeleteRoundMutation } from 'api/hooks/performanceCompetitions'
+import { useDeleteRoundMutation } from 'api/performanceCompetitions'
 import useClickOutside from 'hooks/useClickOutside'
 import { useI18n } from 'components/TranslationsProvider'
 import EllipsisIcon from 'icons/ellipsis-v'

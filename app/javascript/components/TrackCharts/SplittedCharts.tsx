@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { Chart } from 'highcharts'
 
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 import GlideRatioChart from './GlideRatioChart'
 import SpeedsChart from './SpeedsChart'
 import styles from './styles.module.scss'

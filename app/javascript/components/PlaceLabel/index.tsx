@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { useI18n } from 'components/TranslationsProvider'
-import { usePlaceQuery } from 'api/hooks/places'
-import { useCountryQuery } from 'api/hooks/countries'
+import { usePlaceQuery } from 'api/places'
+import { useCountryQuery } from 'api/countries'
 import PlaceIcon from 'icons/location.svg'
 import styles from './styles.module.scss'
 

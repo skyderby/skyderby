@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 
-import { useSuitQuery } from 'api/hooks/suits'
-import { useManufacturerQuery } from 'api/hooks/manufacturer'
+import { useSuitQuery } from 'api/suits'
+import { useManufacturerQuery } from 'api/manufacturer'
 import IconTimes from 'icons/times.svg'
 import SuitLabel from 'components/SuitLabel'
 import styles from './styles.module.scss'

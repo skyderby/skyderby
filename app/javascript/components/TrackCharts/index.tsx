@@ -3,7 +3,7 @@ import { Chart } from 'highcharts'
 
 import SplittedCharts from './SplittedCharts'
 import CombinedChart from './CombinedChart'
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 import { useTrackViewPreferences, SINGLE_CHART } from 'components/TrackViewPreferences'
 
 type ChartsProps = {

@@ -10,7 +10,7 @@ import {
   preloadResults,
   preloadCategories,
   preloadCompetitors
-} from 'api/hooks/performanceCompetitions'
+} from 'api/performanceCompetitions'
 
 import AppShell from 'components/AppShell'
 import Header from './Header'

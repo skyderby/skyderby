@@ -2,7 +2,7 @@ import React from 'react'
 import format from 'date-fns/format'
 import { useHistory } from 'react-router-dom'
 
-import { useNewPerformanceEventMutation } from 'api/hooks/performanceCompetitions'
+import { useNewPerformanceEventMutation } from 'api/performanceCompetitions'
 import AppShell from 'components/AppShell'
 import Form from '../Form'
 import styles from './styles.module.scss'

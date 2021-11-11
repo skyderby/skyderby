@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Map from './Map'
 import CompetitorsList from './CompetitorsList'
 
-import { useCompetitorsQuery, useResultsQuery } from 'api/hooks/performanceCompetitions'
+import { useCompetitorsQuery, useResultsQuery } from 'api/performanceCompetitions'
 import groupByJumpRun from './groupByJumpRun'
 import styles from './styles.module.scss'
 

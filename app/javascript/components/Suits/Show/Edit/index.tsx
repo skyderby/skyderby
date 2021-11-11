@@ -1,8 +1,8 @@
 import React from 'react'
 import { match } from 'react-router-dom'
 
-import { useSuitQuery } from 'api/hooks/suits'
-import { useManufacturerQuery } from 'api/hooks/manufacturer'
+import { useSuitQuery } from 'api/suits'
+import { useManufacturerQuery } from 'api/manufacturer'
 
 type EditProps = {
   match: match<{ id: string }>
