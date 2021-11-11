@@ -50,7 +50,7 @@ const RightMenuDesktop = (): JSX.Element => {
                 <Link
                   to={location => ({
                     pathname: '/users/sign-in',
-                    state: { afterLoginUrl: location.pathname }
+                    state: { returnTo: location.pathname }
                   })}
                 >
                   {t('application.header.sign_in')}
