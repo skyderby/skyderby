@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import styles from './styles.module.scss'
-import { useTrackQuery } from 'api/hooks/tracks'
-import { useProfileQuery } from 'api/hooks/profiles'
-import { useSuitQuery } from 'api/hooks/suits'
+import { useTrackQuery } from 'api/tracks'
+import { useProfileQuery } from 'api/profiles'
+import { useSuitQuery } from 'api/suits'
 
 const thumbnailUrl = videoCode =>
   `url(https://img.youtube.com/vi/${videoCode}/mqdefault.jpg)`

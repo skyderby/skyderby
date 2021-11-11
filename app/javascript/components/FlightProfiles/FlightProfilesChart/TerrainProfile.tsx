@@ -4,12 +4,12 @@ import PropTypes from 'prop-types'
 
 import { I18n } from 'components/TranslationsProvider'
 import Highchart from 'components/Highchart'
-import { useTerrainProfileQuery } from 'api/hooks/terrainProfiles'
-import { usePlaceQuery } from 'api/hooks/places'
+import { useTerrainProfileQuery } from 'api/terrainProfiles'
+import { usePlaceQuery } from 'api/places'
 import {
   MeasurementRecord,
   useTerrainProfileMeasurementQuery
-} from 'api/hooks/terrainProfileMeasurements'
+} from 'api/terrainProfileMeasurements'
 
 const tooltip = {
   headerFormat: `

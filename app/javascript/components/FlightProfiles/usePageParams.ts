@@ -6,7 +6,7 @@ import {
   IndexParams,
   TrackFilters,
   FilterTuple
-} from 'api/hooks/tracks'
+} from 'api/tracks'
 import isEqual from 'lodash.isequal'
 
 interface FlightProfilesURLParams {

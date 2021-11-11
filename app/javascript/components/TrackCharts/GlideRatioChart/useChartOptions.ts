@@ -7,7 +7,7 @@ import {
   Point
 } from 'highcharts'
 
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 import { I18n } from 'components/TranslationsProvider'
 import { restoreSeriesVisibility, saveSeriesVisibility } from 'components/Highchart/utils'
 import { calculateGlideRatioPoints } from '../calculateGlideRatioPoints'

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Redirect, useRouteMatch } from 'react-router-dom'
-import { useRoundsQuery } from 'api/hooks/performanceCompetitions'
+import { useRoundsQuery } from 'api/performanceCompetitions'
 import { compareAsc, parseISO } from 'date-fns'
 import PropTypes from 'prop-types'
 

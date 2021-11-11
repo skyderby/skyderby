@@ -3,7 +3,7 @@ import React, { useRef } from 'react'
 import IconTimes from 'icons/times.svg'
 
 import styles from './styles.module.scss'
-import { useProfileQuery } from 'api/hooks/profiles'
+import { useProfileQuery } from 'api/profiles'
 
 type ProfileProps = {
   value: string | number

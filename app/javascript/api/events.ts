@@ -7,8 +7,8 @@ import {
 } from 'react-query'
 import axios from 'axios'
 
-import { cachePlaces, PlaceRecord } from 'api/hooks/places'
-import { cacheCountries, CountryRecord } from 'api/hooks/countries'
+import { cachePlaces, PlaceRecord } from 'api/places'
+import { cacheCountries, CountryRecord } from 'api/countries'
 import parseISO from 'date-fns/parseISO'
 
 const endpoint = '/api/v1/events'

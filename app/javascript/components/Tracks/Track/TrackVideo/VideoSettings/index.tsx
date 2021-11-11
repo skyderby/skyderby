@@ -2,13 +2,13 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { Formik } from 'formik'
 
-import { useTrackQuery } from 'api/hooks/tracks'
+import { useTrackQuery } from 'api/tracks'
 import {
   useDeleteVideoMutation,
   useEditVideoMutation,
   useTrackVideoQuery,
   VideoRecord
-} from 'api/hooks/tracks/video'
+} from 'api/tracks/video'
 import { useI18n } from 'components/TranslationsProvider'
 import PageContainer from 'components/Tracks/Track/PageContainer'
 import VideoSetup from './VideoSetup'

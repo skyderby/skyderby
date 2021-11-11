@@ -1,5 +1,5 @@
-import { PointRecord } from 'api/hooks/tracks/points'
-import { VideoRecord } from 'api/hooks/tracks/video'
+import { PointRecord } from 'api/tracks/points'
+import { VideoRecord } from 'api/tracks/video'
 
 const getPointsAroundTime = (points: PointRecord[], flTime: number): PointRecord[] => {
   for (let idx = 0; idx < points.length; idx++) {

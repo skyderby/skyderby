@@ -6,10 +6,10 @@ import cx from 'clsx'
 import SuitLabel from 'components/SuitLabel'
 import PlaceLabel from 'components/PlaceLabel'
 
-import { useManufacturerQuery } from 'api/hooks/manufacturer'
-import { useProfileQuery } from 'api/hooks/profiles'
-import { useSuitQuery } from 'api/hooks/suits'
-import { TrackIndexRecord } from 'api/hooks/tracks'
+import { useManufacturerQuery } from 'api/manufacturer'
+import { useProfileQuery } from 'api/profiles'
+import { useSuitQuery } from 'api/suits'
+import { TrackIndexRecord } from 'api/tracks'
 import styles from './styles.module.scss'
 
 type DetailsProps = {

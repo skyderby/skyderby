@@ -1,4 +1,4 @@
-import { CountryRecord } from 'api/hooks/countries'
+import { CountryRecord } from 'api/countries'
 
 type PlaceKind = 'base' | 'skydive'
 

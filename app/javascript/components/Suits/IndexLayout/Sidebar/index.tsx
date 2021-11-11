@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { useManufacturersQuery } from 'api/hooks/manufacturer'
-import { useAllSuitsQuery } from 'api/hooks/suits'
+import { useManufacturersQuery } from 'api/manufacturer'
+import { useAllSuitsQuery } from 'api/suits'
 import MenuItem from './MenuItem'
 import styles from './styles.module.scss'
 

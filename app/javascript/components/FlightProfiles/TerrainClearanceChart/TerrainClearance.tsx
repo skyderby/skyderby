@@ -4,11 +4,11 @@ import { Chart, Point } from 'highcharts'
 import { I18n } from 'components/TranslationsProvider'
 import Highchart from 'components/Highchart'
 import { calculateTerrainClearance } from 'components/FlightProfiles/utils'
-import { useTrackQuery } from 'api/hooks/tracks'
-import { useProfileQuery } from 'api/hooks/profiles'
-import { usePlaceQuery } from 'api/hooks/places'
-import { useTrackPointsQuery } from 'api/hooks/tracks/points'
-import { useTerrainProfileMeasurementQuery } from 'api/hooks/terrainProfileMeasurements'
+import { useTrackQuery } from 'api/tracks'
+import { useProfileQuery } from 'api/profiles'
+import { usePlaceQuery } from 'api/places'
+import { useTrackPointsQuery } from 'api/tracks/points'
+import { useTerrainProfileMeasurementQuery } from 'api/terrainProfileMeasurements'
 
 const headerFormat = `
   <span style="font-size: 14px">{series.name}</span><br/>

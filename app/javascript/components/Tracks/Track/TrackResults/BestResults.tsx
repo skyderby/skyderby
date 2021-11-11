@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { useI18n } from 'components/TranslationsProvider'
-import { ResultsRecord } from 'api/hooks/tracks/results'
+import { ResultsRecord } from 'api/tracks/results'
 import { formatResult } from './formatResult'
 import styles from './styles.module.scss'
 

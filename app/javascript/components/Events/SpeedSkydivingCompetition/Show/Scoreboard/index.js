@@ -5,8 +5,8 @@ import {
   useCategoriesQuery,
   useRoundsQuery,
   useSpeedSkydivingCompetitionQuery
-} from 'api/hooks/speedSkydivingCompetitions'
-import { useStandingsQuery } from 'api/hooks/speedSkydivingCompetitions'
+} from 'api/speedSkydivingCompetitions'
+import { useStandingsQuery } from 'api/speedSkydivingCompetitions'
 import useStickyTableHeader from 'hooks/useStickyTableHeader'
 import ActionsBar from './ActionsBar'
 import TableHeader from './TableHeader'

@@ -11,7 +11,7 @@ import {
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
 import { cacheRelations } from './utils'
-import { pointsQuery } from 'api/hooks/tracks/points'
+import { pointsQuery } from 'api/tracks/points'
 import { TrackRecord, TrackFields, TrackRelations } from './types'
 
 type TrackChanges = {

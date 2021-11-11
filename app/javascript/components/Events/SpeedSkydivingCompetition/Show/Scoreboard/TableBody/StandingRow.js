@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { useResultsQuery } from 'api/hooks/speedSkydivingCompetitions'
+import { useResultsQuery } from 'api/speedSkydivingCompetitions'
 import CompetitorCells from './CompetitorCells'
 import ResultCell from './ResultCell'
 import styles from './styles.module.scss'

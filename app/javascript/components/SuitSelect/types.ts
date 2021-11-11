@@ -1,4 +1,4 @@
-import { ManufacturerRecord } from 'api/hooks/manufacturer'
+import { ManufacturerRecord } from 'api/manufacturer'
 
 export interface OptionData {
   name: string

@@ -1,8 +1,8 @@
-import { CountryRecord } from 'api/hooks/countries'
-import { PlaceRecord } from 'api/hooks/places'
-import { SuitRecord } from 'api/hooks/suits'
-import { ProfileRecord } from 'api/hooks/profiles'
-import { ManufacturerRecord } from 'api/hooks/manufacturer'
+import { CountryRecord } from 'api/countries'
+import { PlaceRecord } from 'api/places'
+import { SuitRecord } from 'api/suits'
+import { ProfileRecord } from 'api/profiles'
+import { ManufacturerRecord } from 'api/manufacturer'
 
 const allowedActivities = ['base', 'skydive', 'speed_skydiving'] as const
 const allowedVisibilities = ['public_track', 'unlisted_track', 'private_track'] as const

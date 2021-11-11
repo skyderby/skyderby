@@ -7,7 +7,7 @@ import {
 } from 'react-query'
 import axios from 'axios'
 
-import { CompetitorStandingRow } from 'api/hooks/speedSkydivingCompetitions/types'
+import { CompetitorStandingRow } from 'api/speedSkydivingCompetitions/types'
 
 type QueryKey = ['speedSkydivingCompetitions', number, 'openStandings']
 

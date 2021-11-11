@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
 import { polylinesBySpeed } from 'utils/polylinesBySpeed'
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 
 type TrajectoryProps = {
   map: google.maps.Map | undefined

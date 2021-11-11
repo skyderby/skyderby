@@ -2,7 +2,7 @@ import React from 'react'
 import Select from 'react-select'
 import PropTypes from 'prop-types'
 
-import { useCategoriesQuery } from 'api/hooks/performanceCompetitions'
+import { useCategoriesQuery } from 'api/performanceCompetitions'
 import getSelectStyles from 'styles/selectStyles'
 
 const CategorySelect = ({ eventId, value, ...props }) => {

@@ -3,7 +3,7 @@ import { AsyncPaginate as Select } from 'react-select-async-paginate'
 import { Props } from 'react-select'
 import { useQueryClient } from 'react-query'
 
-import { countriesQuery, useCountryQuery } from 'api/hooks/countries'
+import { countriesQuery, useCountryQuery } from 'api/countries'
 import getSelectStyles from 'styles/selectStyles'
 
 interface CountrySelectProps extends Omit<Props, 'value'> {

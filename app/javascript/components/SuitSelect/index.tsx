@@ -6,8 +6,8 @@ import getSelectStyles from 'styles/selectStyles'
 import Option from './Option'
 import SingleValue from './SingleValue'
 import { useQueryClient } from 'react-query'
-import { suitsQuery, useSuitQuery } from 'api/hooks/suits'
-import { getCachedManufacturers, useManufacturerQuery } from 'api/hooks/manufacturer'
+import { suitsQuery, useSuitQuery } from 'api/suits'
+import { getCachedManufacturers, useManufacturerQuery } from 'api/manufacturer'
 
 import { OptionType } from './types'
 

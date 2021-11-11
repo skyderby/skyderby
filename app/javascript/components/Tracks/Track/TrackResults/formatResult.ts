@@ -1,5 +1,5 @@
 import { I18n } from 'components/TranslationsProvider'
-import { Task } from 'api/hooks/tracks/results'
+import { Task } from 'api/tracks/results'
 
 const taskUnits = {
   distance: 'units.m',

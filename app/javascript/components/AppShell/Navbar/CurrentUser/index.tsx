@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { Link } from 'react-router-dom'
 
-import { AuthorizedUser } from 'api/hooks/sessions'
+import { AuthorizedUser } from 'api/sessions'
 import styles from './styles.module.scss'
 
 type CurrentUserProps = {

@@ -1,4 +1,4 @@
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 
 export const getMinMaxAltitude = (points: PointRecord[]): readonly number[] => {
   if (points.length < 1) return []

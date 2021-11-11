@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { useCompetitorQuery, useRoundQuery } from 'api/hooks/speedSkydivingCompetitions'
-import { useProfileQuery } from 'api/hooks/profiles'
+import { useCompetitorQuery, useRoundQuery } from 'api/speedSkydivingCompetitions'
+import { useProfileQuery } from 'api/profiles'
 import Modal from 'components/ui/Modal'
 import Charts from './Charts'
 import JumpRange from './JumpRange'

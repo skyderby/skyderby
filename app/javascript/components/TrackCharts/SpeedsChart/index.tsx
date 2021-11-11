@@ -3,7 +3,7 @@ import { Chart } from 'highcharts'
 
 import Highchart from 'components/Highchart'
 import useChartOptions from './useChartOptions'
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 import { useTrackViewPreferences } from 'components/TrackViewPreferences'
 
 type SpeedsChartProps = {

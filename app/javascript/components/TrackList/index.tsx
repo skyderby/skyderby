@@ -5,7 +5,7 @@ import { Location, LocationDescriptorObject } from 'history'
 import Item from 'components/TrackListItem'
 import Header from './Header'
 import styles from './styles.module.scss'
-import { TrackIndexRecord } from 'api/hooks/tracks'
+import { TrackIndexRecord } from 'api/tracks'
 
 type TrackListProps = {
   tracks: TrackIndexRecord[]

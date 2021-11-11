@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { TrackActivity } from 'api/hooks/tracks'
+import { TrackActivity } from 'api/tracks'
 import { useI18n } from 'components/TranslationsProvider'
 import CustomRangeModal from './CustomRangeModal'
 import styles from './styles.module.scss'

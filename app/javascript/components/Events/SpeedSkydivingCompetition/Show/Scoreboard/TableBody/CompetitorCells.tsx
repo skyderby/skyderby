@@ -5,14 +5,14 @@ import {
   useCompetitorQuery,
   useDeleteCompetitorMutation,
   useEditCompetitorMutation
-} from 'api/hooks/speedSkydivingCompetitions'
-import { useProfileQuery } from 'api/hooks/profiles'
-import { useCountryQuery } from 'api/hooks/countries'
+} from 'api/speedSkydivingCompetitions'
+import { useProfileQuery } from 'api/profiles'
+import { useCountryQuery } from 'api/countries'
 import PencilIcon from 'icons/pencil'
 import TimesIcon from 'icons/times'
 import CompetitorForm from '../CompetitorForm'
 import styles from './styles.module.scss'
-import { SpeedSkydivingCompetition } from 'api/hooks/speedSkydivingCompetitions/types'
+import { SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions/types'
 
 type CompetitorCellsProps = {
   event: SpeedSkydivingCompetition

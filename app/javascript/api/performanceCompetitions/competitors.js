@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import axios from 'axios'
 
-import { preloadProfiles } from 'api/hooks/profiles'
+import { preloadProfiles } from 'api/profiles'
 import { getCSRFToken } from 'utils/csrfToken'
 import { standingsQuery } from './standings'
-import { preloadSuits } from 'api/hooks/suits'
+import { preloadSuits } from 'api/suits'
 
 const collectionEndpoint = eventId =>
   `/api/v1/performance_competitions/${eventId}/competitors`

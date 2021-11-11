@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { SuitRecord } from 'api/hooks/suits'
-import { useSuitsStats } from 'api/hooks/suitsStats'
+import { SuitRecord } from 'api/suits'
+import { useSuitsStats } from 'api/suitsStats'
 import Suit from './Suit'
 import styles from './styles.module.scss'
 

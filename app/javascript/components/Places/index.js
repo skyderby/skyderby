@@ -6,7 +6,7 @@ import PlacesIndex from 'components/Places/PlacesIndex'
 import Place from 'components/Places/Place'
 import NewPlace from './NewPlace'
 import Loading from 'components/PageWrapper/Loading'
-import { useCurrentUserQuery } from 'api/hooks/sessions'
+import { useCurrentUserQuery } from 'api/sessions'
 
 const Places = () => {
   const { data: currentUser, isLoading } = useCurrentUserQuery()

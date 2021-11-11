@@ -1,4 +1,4 @@
-import { recordQueryKey } from 'api/hooks/countries'
+import { recordQueryKey } from 'api/countries'
 import { useQueryClient } from 'react-query'
 
 const useCountriesWithPlaces = (places, searchTerm, bounds) => {

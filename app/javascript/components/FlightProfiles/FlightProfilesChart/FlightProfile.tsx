@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react'
 import { Chart, Point } from 'highcharts'
 
-import { useTrackQuery } from 'api/hooks/tracks'
-import { useTrackPointsQuery } from 'api/hooks/tracks/points'
-import { useProfileQuery } from 'api/hooks/profiles'
+import { useTrackQuery } from 'api/tracks'
+import { useTrackPointsQuery } from 'api/tracks/points'
+import { useProfileQuery } from 'api/profiles'
 import { I18n } from 'components/TranslationsProvider'
 import Highchart from 'components/Highchart'
 import { calculateFlightProfile } from 'components/FlightProfiles/utils'
-import { usePlaceQuery } from 'api/hooks/places'
+import { usePlaceQuery } from 'api/places'
 
 const headerFormat = `
   <span style="font-size: 14px">{series.name}</span><br/>

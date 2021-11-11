@@ -7,7 +7,7 @@ import {
   extractParamsFromUrl,
   mapParamsToUrl,
   useTracksQuery
-} from 'api/hooks/tracks'
+} from 'api/tracks'
 import AppShell from 'components/AppShell'
 import Pagination from 'components/Pagination'
 import TrackList from 'components/TrackList'
