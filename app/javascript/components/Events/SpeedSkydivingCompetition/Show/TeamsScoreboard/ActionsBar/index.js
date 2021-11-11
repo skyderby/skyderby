@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import PlusIcon from 'icons/plus.svg'
 import TeamForm from '../TeamForm'
 import styles from './styles.module.scss'
-import { useNewTeamMutation } from 'api/hooks/speedSkydivingCompetitions'
+import { useNewTeamMutation } from 'api/speedSkydivingCompetitions'
 
 const ActionsBar = ({ eventId }) => {
   const [teamFormShown, setTeamFormShown] = useState(false)

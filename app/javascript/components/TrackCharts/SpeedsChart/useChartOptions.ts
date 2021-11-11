@@ -3,7 +3,7 @@ import { Chart, Options, Point, Series } from 'highcharts'
 
 import { I18n } from 'components/TranslationsProvider'
 import { METRIC, UnitSystem } from 'components/TrackViewPreferences'
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 import { restoreSeriesVisibility, saveSeriesVisibility } from 'components/Highchart/utils'
 import { calculateSpeedPoints } from '../calculateSpeedPoints'
 

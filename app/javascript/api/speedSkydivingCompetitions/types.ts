@@ -1,4 +1,4 @@
-import { EventStatus, EventVisibility } from 'api/hooks/events'
+import { EventStatus, EventVisibility } from 'api/events'
 
 export interface TeamRecord {
   id: number

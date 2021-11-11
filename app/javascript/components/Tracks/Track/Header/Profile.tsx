@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { useProfileQuery } from 'api/hooks/profiles'
+import { useProfileQuery } from 'api/profiles'
 import styles from './styles.module.scss'
 
 const defaultPhotoUrl = '/images/thumb/missing.png'

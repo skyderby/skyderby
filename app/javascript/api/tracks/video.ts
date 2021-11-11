@@ -9,9 +9,9 @@ import {
   UseQueryResult
 } from 'react-query'
 
-import { trackQuery } from 'api/hooks/tracks/track'
+import { trackQuery } from 'api/tracks/track'
 import { getCSRFToken } from 'utils/csrfToken'
-import { TrackRecord } from 'api/hooks/tracks/types'
+import { TrackRecord } from 'api/tracks/types'
 
 export interface VideoRecord {
   trackId: number

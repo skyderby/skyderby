@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { match } from 'react-router-dom'
 import Cesium from 'cesium'
 
-import { useTrackPointsQuery } from 'api/hooks/tracks/points'
+import { useTrackPointsQuery } from 'api/tracks/points'
 import useCesiumApi from 'utils/useCesiumApi'
 import PageContainer from 'components/Tracks/Track/PageContainer'
 import Trajectory from './Trajectory'

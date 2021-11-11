@@ -2,7 +2,7 @@ import React from 'react'
 import Select from 'react-select'
 
 import getSelectStyles from 'styles/selectStyles'
-import { IndexParams, isAllowedSort } from 'api/hooks/tracks'
+import { IndexParams, isAllowedSort } from 'api/tracks'
 
 const options = [
   { label: 'Id: Desc', value: 'id desc' },

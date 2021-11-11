@@ -7,9 +7,9 @@ import PageContainer from 'components/Tracks/Track/PageContainer'
 import CogIcon from 'icons/cog.svg'
 import Indicators from './Indicators'
 import { getDataForTime } from './utils'
-import { useTrackQuery } from 'api/hooks/tracks'
-import { PointRecord, useTrackPointsQuery } from 'api/hooks/tracks/points'
-import { useTrackVideoQuery } from 'api/hooks/tracks/video'
+import { useTrackQuery } from 'api/tracks'
+import { PointRecord, useTrackPointsQuery } from 'api/tracks/points'
+import { useTrackVideoQuery } from 'api/tracks/video'
 import styles from './styles.module.scss'
 
 type VideoPlayerProps = {

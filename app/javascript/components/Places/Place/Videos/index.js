@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import useVideosQuery from 'api/hooks/videos'
+import useVideosQuery from 'api/videos'
 import Card from './Card'
 import styles from './styles.module.scss'
 

@@ -10,7 +10,7 @@ import {
   TrackIndexRecord,
   TrackFilters,
   TrackRecord
-} from 'api/hooks/tracks'
+} from 'api/tracks'
 
 const buildOption = (track: TrackIndexRecord | TrackRecord) => ({
   value: track.id,

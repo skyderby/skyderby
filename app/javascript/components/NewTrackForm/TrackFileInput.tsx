@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { TrackFileRecord, useNewTrackFileMutation } from 'api/hooks/tracks'
+import { TrackFileRecord, useNewTrackFileMutation } from 'api/tracks'
 import FileInput from 'components/ui/FileInput'
 import ErrorMessage from 'components/ui/ErrorMessage'
 import { useField, FieldAttributes } from 'formik'

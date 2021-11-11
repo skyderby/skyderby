@@ -4,9 +4,9 @@ import {
   useCategoryQuery,
   useCompetitorQuery,
   useResultsQuery
-} from 'api/hooks/speedSkydivingCompetitions'
-import { useProfileQuery } from 'api/hooks/profiles'
-import { useCountryQuery } from 'api/hooks/countries'
+} from 'api/speedSkydivingCompetitions'
+import { useProfileQuery } from 'api/profiles'
+import { useCountryQuery } from 'api/countries'
 import ResultCell from '../Scoreboard/TableBody/ResultCell'
 import styles from './styles.module.scss'
 

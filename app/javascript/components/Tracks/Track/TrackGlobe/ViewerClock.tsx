@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import Cesium from 'cesium'
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 
 type ViewerClockProps = {
   Cesium: typeof Cesium

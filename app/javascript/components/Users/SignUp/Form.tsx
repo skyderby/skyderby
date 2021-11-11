@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Field, Formik, FormikHelpers } from 'formik'
 import axios from 'axios'
 
-import { SignUpForm, ServerErrors, SignUpMutation } from 'api/hooks/users'
+import { SignUpForm, ServerErrors, SignUpMutation } from 'api/users'
 import { useI18n } from 'components/TranslationsProvider'
 import styles from 'components/Users/styles.module.scss'
 import Separator from 'components/Users/Separator'

@@ -12,7 +12,7 @@ import styles from './styles.module.scss'
 import {
   EditCompetitorMutation,
   NewCompetitorMutation
-} from 'api/hooks/speedSkydivingCompetitions/competitors'
+} from 'api/speedSkydivingCompetitions/competitors'
 
 interface CompetitorData {
   profileId: number | null

@@ -2,8 +2,8 @@ import React from 'react'
 import Select from 'react-select'
 import PropTypes from 'prop-types'
 
-import { useCompetitorsQuery } from 'api/hooks/speedSkydivingCompetitions'
-import { useProfileQueries } from 'api/hooks/profiles'
+import { useCompetitorsQuery } from 'api/speedSkydivingCompetitions'
+import { useProfileQueries } from 'api/profiles'
 import getSelectStyles from 'styles/selectStyles'
 
 const CompetitorSelect = ({ eventId, value, ...props }) => {

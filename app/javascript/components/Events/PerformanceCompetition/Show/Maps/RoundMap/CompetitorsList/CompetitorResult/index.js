@@ -11,7 +11,7 @@ import ExitAltitude from './ExitAltitude'
 import ReferencePoint from '../ReferencePoint'
 
 import styles from './styles.module.scss'
-import { useProfileQuery } from 'api/hooks/profiles'
+import { useProfileQuery } from 'api/profiles'
 
 const CompetitorResult = ({ competitor, checked, color, onToggle: handleToggle }) => {
   const { t: _t } = useI18n()

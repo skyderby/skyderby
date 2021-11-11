@@ -1,7 +1,7 @@
 import React from 'react'
 import { Chart, SeriesOptionsType } from 'highcharts'
 
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 import Highchart from 'components/Highchart'
 import { useTrackViewPreferences } from 'components/TrackViewPreferences'
 import useChartOptions from './useChartOptions'

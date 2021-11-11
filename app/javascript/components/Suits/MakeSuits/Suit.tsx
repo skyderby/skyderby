@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { SuitRecord } from 'api/hooks/suits'
+import { SuitRecord } from 'api/suits'
 import styles from './styles.module.scss'
-import { useSuitStatsQuery } from 'api/hooks/suitsStats'
+import { useSuitStatsQuery } from 'api/suitsStats'
 
 type SuitProps = {
   suit: SuitRecord
