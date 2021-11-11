@@ -8,7 +8,7 @@ import {
   useEditTrackMutation,
   useDeleteTrackMutation,
   TrackFields
-} from 'api/hooks/tracks'
+} from 'api/tracks'
 import { useI18n } from 'components/TranslationsProvider'
 import PageContainer from 'components/Tracks/Track/PageContainer'
 import Form from './Form'

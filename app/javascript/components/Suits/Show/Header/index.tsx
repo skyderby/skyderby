@@ -2,8 +2,8 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 import styles from './styles.module.scss'
-import { SuitRecord } from 'api/hooks/suits'
-import { ManufacturerRecord } from 'api/hooks/manufacturer'
+import { SuitRecord } from 'api/suits'
+import { ManufacturerRecord } from 'api/manufacturer'
 
 type HeaderProps = {
   suit: SuitRecord

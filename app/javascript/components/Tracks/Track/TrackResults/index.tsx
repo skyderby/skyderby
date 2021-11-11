@@ -1,7 +1,7 @@
 import React from 'react'
 import { match } from 'react-router-dom'
 
-import { useTrackResults } from 'api/hooks/tracks/results'
+import { useTrackResults } from 'api/tracks/results'
 import PageContainer from 'components/Tracks/Track/PageContainer'
 import CompetitionResult from './CompetitionResult'
 import OnlineRankingResults from './OnlineRankingResults'

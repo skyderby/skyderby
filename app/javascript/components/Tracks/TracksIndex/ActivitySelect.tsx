@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { IndexParams, TrackActivity } from 'api/hooks/tracks'
+import { IndexParams, TrackActivity } from 'api/tracks'
 import styles from './styles.module.scss'
 
 type ActivitySelectProps = {

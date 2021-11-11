@@ -8,7 +8,7 @@ import TrackSuitField from 'components/TrackSuitField'
 import TrackLocationField from 'components/TrackLocationField'
 import AltitudeRangeField from './AltitudeRangeField'
 import styles from './styles.module.scss'
-import { TrackFields } from 'api/hooks/tracks'
+import { TrackFields } from 'api/tracks'
 import { FormData } from 'components/Tracks/Track/TrackEdit/types'
 
 type EditFormProps = {

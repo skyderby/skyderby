@@ -7,7 +7,7 @@ import {
   useChangePositionMutation,
   useDeleteCategoryMutation,
   useEditCategoryMutation
-} from 'api/hooks/performanceCompetitions'
+} from 'api/performanceCompetitions'
 import PencilIcon from 'icons/pencil'
 import ChevronUpIcon from 'icons/chevron-up'
 import ChevronDownIcon from 'icons/chevron-down'

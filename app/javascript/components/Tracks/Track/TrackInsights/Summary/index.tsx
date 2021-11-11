@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 import Distance from './Distance'
 import HorizontalSpeed from './HorizontalSpeed'
 import GlideRatio from './GlideRatio'

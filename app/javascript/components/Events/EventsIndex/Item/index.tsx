@@ -8,7 +8,7 @@ import SuitIcon from 'icons/suit.svg'
 import { useI18n } from 'components/TranslationsProvider'
 import PlaceLabel from 'components/PlaceLabel'
 import styles from './styles.module.scss'
-import { EventIndexRecord, EventType } from 'api/hooks/events'
+import { EventIndexRecord, EventType } from 'api/events'
 
 const types: Record<EventType, string> = {
   performanceCompetition: 'GPS Performance',

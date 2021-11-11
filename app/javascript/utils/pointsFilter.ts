@@ -1,5 +1,5 @@
 import { getTime } from 'date-fns'
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 
 const findStartIndex = (points: PointRecord[], fromAltitude: number): number => {
   if (fromAltitude === undefined) return 0

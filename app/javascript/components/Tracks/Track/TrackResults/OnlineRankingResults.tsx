@@ -5,7 +5,7 @@ import { useI18n } from 'components/TranslationsProvider'
 import { formatResult } from './formatResult'
 
 import styles from './styles.module.scss'
-import { ResultsRecord } from 'api/hooks/tracks/results'
+import { ResultsRecord } from 'api/tracks/results'
 
 type OnlineRankingResults = {
   results: ResultsRecord['onlineRankingResults']

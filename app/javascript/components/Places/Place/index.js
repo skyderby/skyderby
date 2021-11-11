@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { usePlaceQuery } from 'api/hooks/places'
+import { usePlaceQuery } from 'api/places'
 import Loading from 'components/PageWrapper/Loading'
 import Header from './Header'
 import Overview from './Overview'

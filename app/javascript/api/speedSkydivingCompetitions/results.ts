@@ -12,8 +12,8 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 import { parseISO } from 'date-fns'
 
 import { standingsQuery } from './standings'
-import { trackQuery } from 'api/hooks/tracks/track'
-import { pointsQuery } from 'api/hooks/tracks/points'
+import { trackQuery } from 'api/tracks/track'
+import { pointsQuery } from 'api/tracks/points'
 import { Result } from './types'
 
 type QueryKey = ['speedSkydivingCompetitions', number, 'results']

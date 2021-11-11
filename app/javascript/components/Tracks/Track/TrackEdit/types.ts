@@ -1,4 +1,4 @@
-import { TrackFields } from 'api/hooks/tracks'
+import { TrackFields } from 'api/tracks'
 
 export type FormData = TrackFields & {
   formSupportData: {

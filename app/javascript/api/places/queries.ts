@@ -10,7 +10,7 @@ import {
 } from 'react-query'
 import { AxiosError, AxiosResponse } from 'axios'
 
-import { cacheCountries, preloadCountries } from 'api/hooks/countries'
+import { cacheCountries, preloadCountries } from 'api/countries'
 
 import {
   PlaceRecord,

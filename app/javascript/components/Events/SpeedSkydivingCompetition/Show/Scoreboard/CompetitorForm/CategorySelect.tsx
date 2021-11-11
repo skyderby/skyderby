@@ -1,7 +1,7 @@
 import React from 'react'
 import Select, { Props } from 'react-select'
 
-import { useCategoriesQuery } from 'api/hooks/speedSkydivingCompetitions'
+import { useCategoriesQuery } from 'api/speedSkydivingCompetitions'
 import getSelectStyles from 'styles/selectStyles'
 
 interface CategorySelectProps extends Omit<Props, 'value'> {

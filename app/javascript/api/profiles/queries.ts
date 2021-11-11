@@ -7,7 +7,7 @@ import {
   UseQueryOptions,
   UseQueryResult
 } from 'react-query'
-import { preloadCountries } from 'api/hooks/countries'
+import { preloadCountries } from 'api/countries'
 
 import { getProfiles, getProfilesById, getProfile } from './requests'
 import {

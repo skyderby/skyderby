@@ -4,7 +4,7 @@ import {
   useNewCategoryMutation,
   useNewCompetitorMutation,
   useNewRoundMutation
-} from 'api/hooks/performanceCompetitions'
+} from 'api/performanceCompetitions'
 import useClickOutside from 'hooks/useClickOutside'
 import Dropdown from 'components/Dropdown'
 import { useI18n } from 'components/TranslationsProvider'

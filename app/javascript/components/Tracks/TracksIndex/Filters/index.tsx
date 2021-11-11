@@ -1,7 +1,7 @@
 import React from 'react'
 import { useLocation, useHistory } from 'react-router-dom'
 
-import { extractParamsFromUrl, IndexParams, mapParamsToUrl } from 'api/hooks/tracks'
+import { extractParamsFromUrl, IndexParams, mapParamsToUrl } from 'api/tracks'
 import TokenizedSearchField from 'components/TokenizedSearchField'
 import SortBySelect from './SortBySelect'
 import styles from './styles.module.scss'

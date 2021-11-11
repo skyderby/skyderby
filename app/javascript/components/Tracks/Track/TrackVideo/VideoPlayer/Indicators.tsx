@@ -4,7 +4,7 @@ import { useI18n } from 'components/TranslationsProvider'
 import { msToKmh } from 'utils/unitsConversion'
 
 import styles from './styles.module.scss'
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 
 const valuePlaceholder = '---'
 const valueWithDecimalPlaceholder = '-.-'

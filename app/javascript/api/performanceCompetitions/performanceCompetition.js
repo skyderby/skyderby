@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import axios from 'axios'
 
-import { placeQuery } from 'api/hooks/places'
+import { placeQuery } from 'api/places'
 
 const endpoint = '/api/v1/performance_competitions'
 

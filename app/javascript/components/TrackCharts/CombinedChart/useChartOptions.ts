@@ -15,7 +15,7 @@ import { restoreSeriesVisibility, saveSeriesVisibility } from 'components/Highch
 
 import { calculateSpeedPoints } from '../calculateSpeedPoints'
 import { calculateGlideRatioPoints } from '../calculateGlideRatioPoints'
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 
 const chartName = 'CombinedChart'
 

@@ -1,4 +1,4 @@
-import { Segment } from 'api/hooks/tracks'
+import { Segment } from 'api/tracks'
 
 export type OptionType = {
   value: number

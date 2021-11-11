@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { Location } from 'history'
 import { Formik, Field, FormikHelpers } from 'formik'
 
-import { useLoginMutation } from 'api/hooks/sessions'
+import { useLoginMutation } from 'api/sessions'
 import PageWrapper from 'components/Users/PageWrapper'
 import Separator from 'components/Users/Separator'
 import { useI18n } from 'components/TranslationsProvider'
