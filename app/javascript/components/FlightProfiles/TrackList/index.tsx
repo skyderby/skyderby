@@ -1,7 +1,7 @@
 import React from 'react'
 import { AnimatePresence } from 'framer-motion'
 
-import { useTracksInfiniteQuery } from 'api/hooks/tracks'
+import { useTracksInfiniteQuery } from 'api/tracks'
 import Item from 'components/TrackListItem'
 import TokenizedSearchField from 'components/TokenizedSearchField'
 import usePageParams from 'components/FlightProfiles/usePageParams'

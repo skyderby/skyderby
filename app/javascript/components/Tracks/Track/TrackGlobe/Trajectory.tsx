@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react'
 import Cesium from 'cesium'
 
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 
 type TrajectoryProps = {
   Cesium: typeof Cesium

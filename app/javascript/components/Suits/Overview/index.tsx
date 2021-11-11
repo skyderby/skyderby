@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { useManufacturersQuery } from 'api/hooks/manufacturer'
+import { useManufacturersQuery } from 'api/manufacturer'
 import Highchart from 'components/Highchart'
 import IndexLayout from 'components/Suits/IndexLayout'
 import useChartOptions from './useChartOptions'
 import styles from './styles.module.scss'
-import { useSuitPopularityQuery } from 'api/hooks/suitsPopularity'
-import { useAllSuitsQuery } from 'api/hooks/suits'
+import { useSuitPopularityQuery } from 'api/suitsPopularity'
+import { useAllSuitsQuery } from 'api/suits'
 
 const SuitsOverview = (): JSX.Element => {
   const { data: suits } = useAllSuitsQuery()

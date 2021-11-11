@@ -4,8 +4,8 @@ import {
   useNewCategoryMutation,
   useNewRoundMutation,
   useNewCompetitorMutation
-} from 'api/hooks/speedSkydivingCompetitions'
-import { SpeedSkydivingCompetition } from 'api/hooks/speedSkydivingCompetitions/types'
+} from 'api/speedSkydivingCompetitions'
+import { SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions/types'
 import PlusIcon from 'icons/plus.svg'
 import CategoryForm from 'components/CategoryForm'
 import CompetitorForm from '../CompetitorForm'

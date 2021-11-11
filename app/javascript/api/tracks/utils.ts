@@ -1,10 +1,10 @@
-import { TrackRelations } from 'api/hooks/tracks/types'
+import { TrackRelations } from 'api/tracks/types'
 import { QueryClient } from 'react-query'
-import { cachePlaces } from 'api/hooks/places'
-import { cacheSuits } from 'api/hooks/suits'
-import { cacheProfiles } from 'api/hooks/profiles'
-import { cacheCountries } from 'api/hooks/countries'
-import { cacheManufacturers } from 'api/hooks/manufacturer'
+import { cachePlaces } from 'api/places'
+import { cacheSuits } from 'api/suits'
+import { cacheProfiles } from 'api/profiles'
+import { cacheCountries } from 'api/countries'
+import { cacheManufacturers } from 'api/manufacturer'
 
 export const cacheRelations = (
   relations: TrackRelations,

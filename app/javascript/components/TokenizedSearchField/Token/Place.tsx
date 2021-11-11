@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 
-import { usePlaceQuery } from 'api/hooks/places'
+import { usePlaceQuery } from 'api/places'
 import IconTimes from 'icons/times.svg'
 import PlaceLabel from 'components/PlaceLabel'
 import styles from './styles.module.scss'

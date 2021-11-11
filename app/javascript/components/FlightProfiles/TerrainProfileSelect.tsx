@@ -1,8 +1,8 @@
 import React from 'react'
 import Select, { Props } from 'react-select'
 
-import { useTerrainProfilesQuery } from 'api/hooks/terrainProfiles'
-import { usePlaces } from 'api/hooks/places'
+import { useTerrainProfilesQuery } from 'api/terrainProfiles'
+import { usePlaces } from 'api/places'
 import getSelectStyles from 'styles/selectStyles'
 
 type OptionType = {

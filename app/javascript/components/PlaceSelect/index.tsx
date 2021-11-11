@@ -3,7 +3,7 @@ import { useQueryClient } from 'react-query'
 import { Props } from 'react-select'
 import { AsyncPaginate as Select } from 'react-select-async-paginate'
 
-import { usePlaceQuery, placesQuery } from 'api/hooks/places'
+import { usePlaceQuery, placesQuery } from 'api/places'
 import getSelectStyles from 'styles/selectStyles'
 import Option from './Option'
 import SingleValue from './SingleValue'

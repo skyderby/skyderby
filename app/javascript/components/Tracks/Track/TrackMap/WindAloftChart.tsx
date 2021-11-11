@@ -5,7 +5,7 @@ import {
   TooltipFormatterContextObject
 } from 'highcharts'
 
-import { WindDataRecord } from 'api/hooks/tracks/windData'
+import { WindDataRecord } from 'api/tracks/windData'
 import Highchart from 'components/Highchart'
 
 type WindAloftChartProps = {

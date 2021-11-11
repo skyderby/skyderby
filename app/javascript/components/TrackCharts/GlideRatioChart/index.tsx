@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react'
 import Highchart from 'components/Highchart'
 
 import useChartOptions from './useChartOptions'
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 import { Chart } from 'highcharts'
 
 type GlideRatioChartProps = {

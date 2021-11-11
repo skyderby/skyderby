@@ -11,8 +11,8 @@ import {
 } from 'react-query'
 import { parseISO } from 'date-fns'
 
-import { cacheProfiles, ProfileRecord } from 'api/hooks/profiles'
-import { cacheCountries, CountryRecord } from 'api/hooks/countries'
+import { cacheProfiles, ProfileRecord } from 'api/profiles'
+import { cacheCountries, CountryRecord } from 'api/countries'
 import { getCSRFToken } from 'utils/csrfToken'
 import { standingsQuery } from './standings'
 import { Competitor } from './types'

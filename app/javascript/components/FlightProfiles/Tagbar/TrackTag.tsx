@@ -4,8 +4,8 @@ import { motion } from 'framer-motion'
 import IconTimes from 'icons/times.svg'
 
 import styles from './styles.module.scss'
-import { useTrackQuery } from 'api/hooks/tracks'
-import { useProfileQuery } from 'api/hooks/profiles'
+import { useTrackQuery } from 'api/tracks'
+import { useProfileQuery } from 'api/profiles'
 
 type TrackTagProps = {
   trackId: number

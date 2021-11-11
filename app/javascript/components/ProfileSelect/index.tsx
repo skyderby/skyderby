@@ -3,7 +3,7 @@ import { Props } from 'react-select'
 import { AsyncPaginate as Select } from 'react-select-async-paginate'
 import { useQueryClient } from 'react-query'
 
-import { profilesQuery, useProfileQuery } from 'api/hooks/profiles'
+import { profilesQuery, useProfileQuery } from 'api/profiles'
 import getSelectStyles from 'styles/selectStyles'
 
 export interface OptionType {

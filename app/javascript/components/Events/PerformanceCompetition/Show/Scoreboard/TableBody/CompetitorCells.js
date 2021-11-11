@@ -5,16 +5,16 @@ import {
   useCompetitorQuery,
   useDeleteCompetitorMutation,
   useEditCompetitorMutation
-} from 'api/hooks/performanceCompetitions'
-import { useProfileQuery } from 'api/hooks/profiles'
-import { useCountryQuery } from 'api/hooks/countries'
+} from 'api/performanceCompetitions'
+import { useProfileQuery } from 'api/profiles'
+import { useCountryQuery } from 'api/countries'
 import PencilIcon from 'icons/pencil'
 import TimesIcon from 'icons/times'
 import CompetitorForm from '../CompetitorForm'
 import styles from './styles.module.scss'
 import SuitLabel from 'components/SuitLabel'
-import { useSuitQuery } from 'api/hooks/suits'
-import { useManufacturerQuery } from 'api/hooks/manufacturer'
+import { useSuitQuery } from 'api/suits'
+import { useManufacturerQuery } from 'api/manufacturer'
 
 const CompetitorCells = ({ event, competitorId }) => {
   const [competitorFormShown, setCompetitorFormShown] = useState(false)

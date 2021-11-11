@@ -1,8 +1,8 @@
 import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
 
 import { msToKmh } from 'utils/unitsConversion'
-import { MeasurementRecord } from 'api/hooks/terrainProfileMeasurements'
-import { PointRecord } from 'api/hooks/tracks/points'
+import { MeasurementRecord } from 'api/terrainProfileMeasurements'
+import { PointRecord } from 'api/tracks/points'
 
 interface Coordinates {
   latitude: number

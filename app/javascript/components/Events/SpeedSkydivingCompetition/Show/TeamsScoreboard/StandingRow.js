@@ -6,12 +6,12 @@ import {
   useDeleteTeamMutation,
   useEditTeamMutation,
   useTeamQuery
-} from 'api/hooks/speedSkydivingCompetitions'
+} from 'api/speedSkydivingCompetitions'
 import PencilIcon from 'icons/pencil'
 import TimesIcon from 'icons/times'
 import TeamForm from './TeamForm'
 import styles from './styles.module.scss'
-import { useProfileQueries } from 'api/hooks/profiles'
+import { useProfileQueries } from 'api/profiles'
 
 const teamCompetitorNames = (competitors, profileQueries) =>
   competitors

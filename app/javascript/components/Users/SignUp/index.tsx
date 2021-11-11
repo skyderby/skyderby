@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { useSignUpMutation } from 'api/hooks/users'
+import { useSignUpMutation } from 'api/users'
 import PageWrapper from 'components/Users/PageWrapper'
 import SuccessRegistration from './SuccessRegistration'
 import Form from './Form'

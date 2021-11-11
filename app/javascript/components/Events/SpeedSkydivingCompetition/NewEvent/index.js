@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 import AppShell from 'components/AppShell'
 import Form from '../Form'
 import styles from './styles.module.scss'
-import { useNewSpeedSkydivingCompetitionMutation } from 'api/hooks/speedSkydivingCompetitions'
+import { useNewSpeedSkydivingCompetitionMutation } from 'api/speedSkydivingCompetitions'
 
 const NewEvent = () => {
   const history = useHistory()

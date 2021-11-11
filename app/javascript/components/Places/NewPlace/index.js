@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 import Form from '../Form'
 import styles from './styles.module.scss'
-import { useNewPlaceMutation } from 'api/hooks/places'
+import { useNewPlaceMutation } from 'api/places'
 import { useI18n } from 'components/TranslationsProvider'
 
 const NewPlace = () => {

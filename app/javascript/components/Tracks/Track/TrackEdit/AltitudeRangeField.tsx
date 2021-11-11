@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 
 import AltitudeRangeSelect from 'components/AltitudeRangeSelect'
 import { FieldInputProps, FormikProps } from 'formik'
-import { TrackJumpRange } from 'api/hooks/tracks'
+import { TrackJumpRange } from 'api/tracks'
 import { FormData } from './types'
 
 type AltitudeRangeFieldProps = {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import {
   useSpeedSkydivingCompetitionQuery,
   useTeamStandingsQuery
-} from 'api/hooks/speedSkydivingCompetitions'
+} from 'api/speedSkydivingCompetitions'
 import ActionsBar from './ActionsBar'
 import styles from './styles.module.scss'
 import StandingRow from 'components/Events/SpeedSkydivingCompetition/Show/TeamsScoreboard/StandingRow'

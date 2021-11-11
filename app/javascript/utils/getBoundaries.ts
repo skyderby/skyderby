@@ -1,4 +1,4 @@
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 
 type Boundaries = {
   minLatitude: number

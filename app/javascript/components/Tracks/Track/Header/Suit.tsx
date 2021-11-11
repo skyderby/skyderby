@@ -5,8 +5,8 @@ import SuitLabel from 'components/SuitLabel'
 import SuitIcon from 'icons/suit.svg'
 
 import styles from './styles.module.scss'
-import { useSuitQuery } from 'api/hooks/suits'
-import { useManufacturerQuery } from 'api/hooks/manufacturer'
+import { useSuitQuery } from 'api/suits'
+import { useManufacturerQuery } from 'api/manufacturer'
 
 type SuitProps = {
   suitId?: number | null

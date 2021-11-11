@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import styles from './styles.module.scss'
-import { useReferencePointsQuery } from 'api/hooks/performanceCompetitions'
+import { useReferencePointsQuery } from 'api/performanceCompetitions'
 
 const ReferencePoints = ({ eventId }) => {
   const { data: items = [] } = useReferencePointsQuery(eventId)

@@ -1,5 +1,5 @@
 import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
-import { PointRecord } from 'api/hooks/tracks/points'
+import { PointRecord } from 'api/tracks/points'
 
 type AvgMinMax = {
   avg: number
