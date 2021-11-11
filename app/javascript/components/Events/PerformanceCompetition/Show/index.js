@@ -28,7 +28,6 @@ const Show = ({ match }) => {
 
   useEffect(() => {
     Promise.all([
-      preloadPerformanceEvent(eventId, queryClient),
       preloadCategories(eventId, queryClient),
       preloadRounds(eventId, queryClient),
       preloadCompetitors(eventId, queryClient),
@@ -38,7 +37,7 @@ const Show = ({ match }) => {
 
   return (
     <AppShell>
-      {isLoading ? (
+      {!event || isLoading ? (
         <PageLoading />
       ) : (
         <div className={styles.container}>
