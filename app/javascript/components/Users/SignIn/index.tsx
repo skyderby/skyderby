@@ -4,7 +4,7 @@ import { Location } from 'history'
 import { Formik, Field, FormikHelpers } from 'formik'
 
 import { useLoginMutation } from 'api/sessions'
-import PageWrapper from 'components/Users/PageWrapper'
+import Layout from 'components/Users/Layout'
 import Separator from 'components/Users/Separator'
 import { useI18n } from 'components/TranslationsProvider'
 import validationSchema from './validationSchema'
@@ -41,7 +41,7 @@ const SignIn = ({ location }: SignInProps): JSX.Element => {
   }
 
   return (
-    <PageWrapper>
+    <Layout>
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}
@@ -107,7 +107,7 @@ const SignIn = ({ location }: SignInProps): JSX.Element => {
           </form>
         )}
       </Formik>
-    </PageWrapper>
+    </Layout>
   )
 }
 
