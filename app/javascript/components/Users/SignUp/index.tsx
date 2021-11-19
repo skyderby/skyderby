@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { useSignUpMutation } from 'api/users'
-import PageWrapper from 'components/Users/PageWrapper'
+import Layout from 'components/Users/Layout'
 import SuccessRegistration from './SuccessRegistration'
 import Form from './Form'
 
@@ -12,9 +12,7 @@ const SignUp = (): JSX.Element => {
   })
 
   return (
-    <PageWrapper>
-      {signedUp ? <SuccessRegistration /> : <Form mutation={mutation} />}
-    </PageWrapper>
+    <Layout>{signedUp ? <SuccessRegistration /> : <Form mutation={mutation} />}</Layout>
   )
 }
 
