@@ -98,7 +98,7 @@ const queryUsers: QueryFunction<IndexResponse, IndexQueryKey> = async ctx => {
 
 const signUp = async (user: SignUpForm): Promise<User> => {
   const { data, headers } = await axios.post<{ user: SignUpForm }, AxiosResponse<User>>(
-    endpoint,
+    '/api/users',
     { user },
     {
       headers: {
