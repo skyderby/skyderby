@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 
 import {
   usePerformanceEventQuery,
-  preloadPerformanceEvent,
   preloadRounds,
   preloadResults,
   preloadCategories,
