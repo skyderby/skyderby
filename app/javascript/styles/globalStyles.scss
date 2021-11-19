@@ -95,7 +95,32 @@ label {
 }
 
 table {
+  width: 100%;
+
   border-collapse: collapse;
+
+  th,
+  td {
+    padding: 0.5rem;
+  }
+
+  thead {
+    font-weight: 500;
+
+    th {
+      padding: 0.5rem 1rem;
+      border-bottom: solid 2px var(--border-color);
+
+      color: var(--grey-70);
+      white-space: nowrap;
+    }
+  }
+
+  tbody {
+    td {
+      border-bottom: solid 1px var(--border-color);
+    }
+  }
 }
 
 ul {
