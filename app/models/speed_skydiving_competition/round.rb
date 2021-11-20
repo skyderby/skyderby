@@ -8,6 +8,8 @@ class SpeedSkydivingCompetition::Round < ApplicationRecord
   before_create :set_number
   after_destroy :renumber_subsequent
 
+  scope :ordered, -> { order(:number, :created_at) }
+
   private
 
   def set_number
