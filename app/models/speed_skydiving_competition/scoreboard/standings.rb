@@ -3,15 +3,15 @@ class SpeedSkydivingCompetition::Scoreboard::Standings
     new(*args).build
   end
 
-  def initialize(competitors, rounds, results)
+  def initialize(competitors, completed_rounds, results)
     @competitors = competitors
-    @rounds = rounds
+    @completed_rounds = completed_rounds
     @results = results
   end
 
   def build
     standings = competitors.map do |competitor|
-      competitor_results = results.select { |result| result.competitor == competitor }
+      competitor_results = accountable_results_for(competitor)
       total = competitor_results.sum { |record| record.result || 0.0 }
       average = competitor_results.any? ? total / competitor_results.size : 0
 
@@ -25,14 +25,21 @@ class SpeedSkydivingCompetition::Scoreboard::Standings
 
   private
 
-  attr_reader :competitors, :rounds, :results
+  attr_reader :competitors, :completed_rounds, :results
+
+  def accountable_results_for(competitor)
+    results.select do |result|
+      result.competitor == competitor && completed_rounds.include?(result.round)
+    end
+  end
 
   def assign_ranks(standings)
     return standings unless standings.any?
 
     standings.first[:rank] = 1
     standings.each_cons(2).with_index do |(prev, curr), index|
-      curr[:rank] = prev[:total] == curr[:total] ? prev[:rank] : index + 2
+      same_rank = prev[:total] == curr[:total] && curr[:total].positive?
+      curr[:rank] = same_rank ? prev[:rank] : index + 2
     end
   end
 end

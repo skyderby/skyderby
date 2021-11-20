@@ -24,6 +24,12 @@ class SpeedSkydivingCompetition::TeamStandings
       .round(2)
   end
 
+  def accountable_team_results(team)
+    results.select do |result|
+      team.competitors.include?(result.competitor) && completed_rounds.include?(result.round)
+    end
+  end
+
   def assign_ranks(standings)
     return standings unless standings.any?
 
@@ -31,6 +37,10 @@ class SpeedSkydivingCompetition::TeamStandings
     standings.each_cons(2).with_index do |(prev, curr), index|
       curr[:rank] = prev[:total] == curr[:total] ? prev[:rank] : index + 2
     end
+  end
+
+  def completed_rounds
+    @completed_rounds = event.rounds.completed
   end
 
   def teams
