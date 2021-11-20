@@ -1,7 +1,10 @@
 import React, { useRef, useState } from 'react'
 
 import { Round, SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions/types'
-import { useDeleteRoundMutation } from 'api/speedSkydivingCompetitions'
+import {
+  useDeleteRoundMutation,
+  useEditRoundMutation
+} from 'api/speedSkydivingCompetitions'
 import useClickOutside from 'hooks/useClickOutside'
 import { useI18n } from 'components/TranslationsProvider'
 import EllipsisIcon from 'icons/ellipsis-v'
@@ -19,11 +22,22 @@ const RoundCell = ({ event, round }: RoundProps): JSX.Element => {
   const actionsButtonRef = useRef<HTMLTableCellElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
   const deleteMutation = useDeleteRoundMutation()
+  const editMutation = useEditRoundMutation()
 
   useClickOutside([menuRef, actionsButtonRef], () => setShowRoundActions(false))
 
   const deleteRound = () =>
     deleteMutation.mutate({ eventId: event.id, roundId: round.id })
+
+  const toggleCompleted = () => {
+    editMutation.mutate({
+      eventId: event.id,
+      roundId: round.id,
+      completed: !round.completed
+    })
+
+    setShowRoundActions(false)
+  }
 
   return (
     <th className={styles.round} ref={actionsButtonRef}>
@@ -42,9 +56,12 @@ const RoundCell = ({ event, round }: RoundProps): JSX.Element => {
               referenceElement={actionsButtonRef.current}
               options={{ placement: 'bottom-end' }}
             >
-              <button className={styles.actionButton} onClick={deleteRound}>
+              <Dropdown.Button onClick={toggleCompleted}>
+                {round.completed ? 'Mark uncompleted' : 'Mark complete'}
+              </Dropdown.Button>
+              <Dropdown.Button onClick={deleteRound}>
                 {t('general.delete')}
-              </button>
+              </Dropdown.Button>
             </Dropdown>
           )}
         </>
