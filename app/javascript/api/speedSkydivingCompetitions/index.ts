@@ -9,6 +9,7 @@ export {
   useRoundsQuery,
   useRoundQuery,
   useNewRoundMutation,
+  useEditRoundMutation,
   useDeleteRoundMutation,
   preloadRounds
 } from './rounds'
