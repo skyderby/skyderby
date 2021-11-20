@@ -17,12 +17,12 @@ class SpeedSkydivingCompetition::Scoreboard
 
     {
       category: category,
-      standings: Standings.build(category_competitors, rounds, category_results)
+      standings: Standings.build(category_competitors, completed_rounds, category_results)
     }
   end
 
-  def rounds
-    @rounds ||= event.rounds
+  def completed_rounds
+    @completed_rounds ||= event.rounds.completed
   end
 
   def competitors
