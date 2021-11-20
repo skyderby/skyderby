@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
-import PropTypes from 'prop-types'
 
+import { Round, SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions/types'
 import { useDeleteRoundMutation } from 'api/speedSkydivingCompetitions'
 import useClickOutside from 'hooks/useClickOutside'
 import { useI18n } from 'components/TranslationsProvider'
@@ -8,11 +8,16 @@ import EllipsisIcon from 'icons/ellipsis-v'
 import Dropdown from 'components/Dropdown'
 import styles from './styles.module.scss'
 
-const Round = ({ event, round }) => {
+type RoundProps = {
+  event: SpeedSkydivingCompetition
+  round: Round
+}
+
+const RoundCell = ({ event, round }: RoundProps): JSX.Element => {
   const { t } = useI18n()
   const [showRoundActions, setShowRoundActions] = useState(false)
-  const actionsButtonRef = useRef()
-  const menuRef = useRef()
+  const actionsButtonRef = useRef<HTMLTableCellElement>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
   const deleteMutation = useDeleteRoundMutation()
 
   useClickOutside([menuRef, actionsButtonRef], () => setShowRoundActions(false))
@@ -48,17 +53,4 @@ const Round = ({ event, round }) => {
   )
 }
 
-Round.propTypes = {
-  round: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    number: PropTypes.number.isRequired
-  }).isRequired,
-  event: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    permissions: PropTypes.shape({
-      canEdit: PropTypes.bool.isRequired
-    }).isRequired
-  }).isRequired
-}
-
-export default Round
+export default RoundCell
