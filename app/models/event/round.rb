@@ -13,6 +13,7 @@
 
 class Event::Round < ApplicationRecord
   include EventOngoingValidation, Event::Namespace
+  include Completable
 
   enum discipline: { time: 0, distance: 1, speed: 2, vertical_speed: 3 }
 
@@ -36,13 +37,6 @@ class Event::Round < ApplicationRecord
   before_create :set_number
 
   after_update :set_tracks_visibility, if: :saved_change_to_completed_at?
-
-  def completed = completed_at.present?
-
-  def completed=(status)
-    round_competed = ActiveModel::Type::Boolean.new.cast(status)
-    self.completed_at = round_competed ? Time.zone.now : nil
-  end
 
   def tracks_visibility = completed ? event.tracks_visibility : Track.visibilities[:private_track]
 
