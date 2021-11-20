@@ -13,6 +13,7 @@ export type GuestUser = {
   authorized: false
   permissions: {
     canCreatePlace: false
+    canManageUsers: false
   }
 }
 
@@ -28,6 +29,10 @@ export type AuthorizedUser = {
     medium: string
     thumb: string
   }
+  permissions: {
+    canCreatePlace: boolean
+    canManageUsers: boolean
+  }
 }
 
 export type CurrentUser = GuestUser | AuthorizedUser
@@ -42,7 +47,7 @@ const getCurrentUser = () =>
     method: 'GET',
     credentials: 'include',
     mode: 'no-cors'
-  }).then(response => response.json()).then(json => {console.log(json); return json})
+  }).then(response => response.json())
 
 const login = async (user: LoginData) => {
   const { data, headers } = await axios.post<

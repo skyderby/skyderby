@@ -20,4 +20,5 @@ end
 
 json.permissions do
   json.can_create_place policy(Place).create?
+  json.can_manage_users policy(User).index?
 end
