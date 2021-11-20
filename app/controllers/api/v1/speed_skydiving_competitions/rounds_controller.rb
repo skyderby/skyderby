@@ -21,6 +21,20 @@ class Api::V1::SpeedSkydivingCompetitions::RoundsController < Api::ApplicationCo
     end
   end
 
+  def update
+    authorize @event, :update?
+
+    @round = @event.rounds.find(params[:id])
+
+    respond_to do |format|
+      if @round.update(round_params)
+        format.json
+      else
+        format.json { render json: { errors: @round.errors }, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def destroy
     authorize @event, :update?
 
@@ -39,5 +53,9 @@ class Api::V1::SpeedSkydivingCompetitions::RoundsController < Api::ApplicationCo
 
   def set_event
     @event = SpeedSkydivingCompetition.find(params[:speed_skydiving_competition_id])
+  end
+
+  def round_params
+    params.require(:round).permit(:completed)
   end
 end

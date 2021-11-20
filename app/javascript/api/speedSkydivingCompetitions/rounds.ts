@@ -12,6 +12,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 import { parseISO } from 'date-fns'
 
 import { Round } from './types'
+import { standingsQuery } from 'api/speedSkydivingCompetitions/standings'
 
 type QueryKey = ['speedSkydivingCompetitions', number, 'rounds']
 
@@ -19,16 +20,31 @@ type SerializedData = {
   [K in keyof Round]: Round[K] extends Date ? string : Round[K]
 }
 
-const endpoint = (eventId: number) =>
+const collectionEndpoint = (eventId: number) =>
   `/api/v1/speed_skydiving_competitions/${eventId}/rounds`
+
+const recordEndpoint = (eventId: number, roundId: number) =>
+  `${collectionEndpoint(eventId)}/${roundId}`
 
 const getRounds = (eventId: number) =>
   axios
-    .get<never, AxiosResponse<SerializedData[]>>(endpoint(eventId))
+    .get<never, AxiosResponse<SerializedData[]>>(collectionEndpoint(eventId))
     .then(response => response.data)
 
 const createRound = (eventId: number) =>
-  axios.post<never, AxiosResponse<SerializedData>>(endpoint(eventId))
+  axios.post<never, AxiosResponse<SerializedData>>(collectionEndpoint(eventId))
+
+type UpdateVariables = {
+  eventId: number
+  roundId: number
+  completed: boolean
+}
+
+const updateRound = ({ eventId, roundId, ...round }: UpdateVariables) =>
+  axios.put<
+    { round: Omit<UpdateVariables, 'eventId' | 'roundId'> },
+    AxiosResponse<SerializedData>
+  >(recordEndpoint(eventId, roundId), { round })
 
 type DeleteVariables = {
   eventId: number
@@ -38,8 +54,8 @@ type DeleteVariables = {
 const deleteRound = ({
   eventId,
   roundId
-}: DeleteVariables): Promise<AxiosResponse<Round>> =>
-  axios.delete(`${endpoint(eventId)}/${roundId}`)
+}: DeleteVariables): Promise<AxiosResponse<SerializedData>> =>
+  axios.delete(recordEndpoint(eventId, roundId))
 
 const deserialize = (round: SerializedData): Round => ({
   ...round,
@@ -99,8 +115,29 @@ export const useNewRoundMutation = (): UseMutationResult<
   })
 }
 
+export const useEditRoundMutation = (): UseMutationResult<
+  AxiosResponse<SerializedData>,
+  AxiosError,
+  UpdateVariables
+> => {
+  const queryClient = useQueryClient()
+
+  return useMutation(updateRound, {
+    onSuccess(response, { eventId }) {
+      const data: Round[] = queryClient.getQueryData(queryKey(eventId)) ?? []
+      const updatedRound = deserialize(response.data)
+      queryClient.setQueryData(
+        queryKey(eventId),
+        data.map(round => (round.id === updatedRound.id ? updatedRound : round))
+      )
+
+      return queryClient.refetchQueries(standingsQuery(eventId))
+    }
+  })
+}
+
 export const useDeleteRoundMutation = (): UseMutationResult<
-  AxiosResponse<Round>,
+  AxiosResponse<SerializedData>,
   AxiosError,
   DeleteVariables
 > => {
