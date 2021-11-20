@@ -27,7 +27,7 @@ downloadable = policy(track).download?
 
 if downloadable && track.track_file
   json.filename track.track_file.file.original_filename
-  json.download_url track_download_path(track)
+  json.download_url assets_track_file_path(track)
 end
 
 json.permissions do
