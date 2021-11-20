@@ -18,8 +18,3 @@ table > thead .round {
   height: 1.25rem;
   padding: 0;
 }
-
-.actionButton {
-  composes: button from '~styles/button';
-  composes: flat from '~styles/button';
-}
