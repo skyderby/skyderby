@@ -4,7 +4,7 @@ class Api::V1::SpeedSkydivingCompetitions::RoundsController < Api::ApplicationCo
   def index
     authorize @event, :show?
 
-    @rounds = @event.rounds
+    @rounds = @event.rounds.ordered
   end
 
   def create
