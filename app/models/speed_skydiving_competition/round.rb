@@ -1,4 +1,6 @@
 class SpeedSkydivingCompetition::Round < ApplicationRecord
+  include Completable
+
   belongs_to :event, touch: true, class_name: 'SpeedSkydivingCompetition', inverse_of: :rounds
 
   validates :number, presence: true
