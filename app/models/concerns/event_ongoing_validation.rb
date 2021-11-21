@@ -2,12 +2,12 @@ module EventOngoingValidation
   extend ActiveSupport::Concern
 
   included do
-    validate :event_ongoing_validation
+    validate :validate_event_not_finished
 
-    before_destroy :event_ongoing_validation
+    before_destroy :validate_event_not_finished
   end
 
-  def event_ongoing_validation
+  def validate_event_not_finished
     return unless event&.finished?
 
     errors.add(:base, :event_finished)
