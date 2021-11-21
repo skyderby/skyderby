@@ -1,5 +1,5 @@
 class SpeedSkydivingCompetition::Round < ApplicationRecord
-  include Completable
+  include Completable, EventOngoingValidation
 
   belongs_to :event, touch: true, class_name: 'SpeedSkydivingCompetition', inverse_of: :rounds
 
