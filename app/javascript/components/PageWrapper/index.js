@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import ErrorPlaceholder from 'components/ErrorPlaceholder'
+import ErrorPlaceholder from 'components/ErrorPage'
 import Loading from './Loading'
 
 const PageWrapper = ({ isLoading, error, status, children, ...props }) => {
