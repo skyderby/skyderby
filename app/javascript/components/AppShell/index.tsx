@@ -10,10 +10,12 @@ import styles from './styles.module.scss'
 
 type AppShellProps = {
   fullScreen?: boolean
-  children: React.ReactNode | React.ReactNode[]
 }
 
-const AppShell = ({ fullScreen, children }: AppShellProps): JSX.Element => {
+const AppShell = ({
+  fullScreen,
+  children
+}: React.PropsWithChildren<AppShellProps>): JSX.Element => {
   const { locale } = useI18n()
 
   return (
