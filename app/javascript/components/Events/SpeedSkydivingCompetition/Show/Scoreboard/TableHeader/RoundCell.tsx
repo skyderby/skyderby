@@ -1,4 +1,6 @@
 import React, { useRef, useState } from 'react'
+import cx from 'clsx'
+import Tippy from '@tippyjs/react'
 
 import { Round, SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions/types'
 import {
@@ -8,6 +10,8 @@ import {
 import useClickOutside from 'hooks/useClickOutside'
 import { useI18n } from 'components/TranslationsProvider'
 import EllipsisIcon from 'icons/ellipsis-v'
+import CircleIcon from 'icons/circle'
+import CheckCircleIcon from 'icons/check-circle'
 import Dropdown from 'components/Dropdown'
 import styles from './styles.module.scss'
 
@@ -41,6 +45,19 @@ const RoundCell = ({ event, round }: RoundProps): JSX.Element => {
 
   return (
     <th className={styles.round} ref={actionsButtonRef}>
+      {(round.completed || event.permissions.canEdit) && (
+        <Tippy
+          content={
+            round.completed
+              ? 'Round results are final'
+              : 'Mark round as completed when results are final'
+          }
+        >
+          <div className={cx(styles.roundStatus, round.completed && styles.completed)}>
+            {round.completed ? <CheckCircleIcon /> : <CircleIcon />}
+          </div>
+        </Tippy>
+      )}
       {round.number}
       {event.permissions.canEdit && (
         <>

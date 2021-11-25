@@ -11,6 +11,8 @@ const StandingRow = ({ event, row, rounds }) => {
     select: data => data.filter(result => result.competitorId === row.competitorId)
   })
 
+  const atLeastOneRoundComplete = rounds.find(round => round.completed) !== undefined
+
   return (
     <tr className={styles.standingRow}>
       <td>{row.rank}</td>
@@ -24,8 +26,8 @@ const StandingRow = ({ event, row, rounds }) => {
           result={results.find(result => result.roundId === round.id)}
         />
       ))}
-      <td>{results.length > 0 ? row.total.toFixed(2) : ''}</td>
-      <td>{results.length > 0 ? row.average.toFixed(2) : ''}</td>
+      <td>{atLeastOneRoundComplete ? row.total.toFixed(2) : ''}</td>
+      <td>{atLeastOneRoundComplete ? row.average.toFixed(2) : ''}</td>
     </tr>
   )
 }
