@@ -80,7 +80,7 @@ export const speedSkydivingCompetitionQuery = (
   queryClient: QueryClient
 ): UseQueryOptions<
   SpeedSkydivingCompetition,
-  Error,
+  AxiosError,
   SpeedSkydivingCompetition,
   QueryKey
 > => ({
@@ -97,7 +97,7 @@ export const preloadSpeedSkydivingCompetition = (
 
 export const useSpeedSkydivingCompetitionQuery = (
   id: number
-): UseQueryResult<SpeedSkydivingCompetition> => {
+): UseQueryResult<SpeedSkydivingCompetition, AxiosError> => {
   const queryClient = useQueryClient()
   return useQuery(speedSkydivingCompetitionQuery(id, queryClient))
 }

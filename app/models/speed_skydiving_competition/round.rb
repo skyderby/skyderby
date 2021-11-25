@@ -1,10 +1,14 @@
 class SpeedSkydivingCompetition::Round < ApplicationRecord
+  include Completable, EventOngoingValidation
+
   belongs_to :event, touch: true, class_name: 'SpeedSkydivingCompetition', inverse_of: :rounds
 
   validates :number, presence: true
 
   before_create :set_number
   after_destroy :renumber_subsequent
+
+  scope :ordered, -> { order(:number, :created_at) }
 
   private
 

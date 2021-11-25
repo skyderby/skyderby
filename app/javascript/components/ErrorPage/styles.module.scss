@@ -2,7 +2,7 @@
 
 .container {
   width: 100%;
-  margin: 4rem auto;
+  margin: 4rem auto auto;
   padding: 4rem 2rem;
 
   text-align: center;
@@ -34,7 +34,7 @@
 
 .primaryButton {
   composes: button from '~styles/button.module.scss';
-  composes: primary from '~styles/button.module.scss';
+  composes: cta from '~styles/button.module.scss';
   composes: sizeLg from '~styles/button.module.scss';
 
   display: inline-flex;

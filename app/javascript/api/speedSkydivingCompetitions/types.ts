@@ -47,6 +47,7 @@ export interface Competitor {
 export interface Round {
   id: number
   number: number
+  completed: boolean
   createdAt: Date
   updatedAt: Date
 }
