@@ -74,7 +74,7 @@ const ResultCell = ({ className, event, roundId, competitorId, result }) => {
         </>
       ) : (
         <>
-          {event.permissions.canEdit && (
+          {event.permissions.canEdit && !round.completed && (
             <button
               className={styles.newResult}
               onClick={() => setShowNewResultModal(true)}
@@ -83,6 +83,8 @@ const ResultCell = ({ className, event, roundId, competitorId, result }) => {
               <UploadIcon />
             </button>
           )}
+
+          {round.completed && <span className={styles.emptyResult}>0.00</span>}
 
           {!result && showNewResultModal && (
             <NewResultForm
