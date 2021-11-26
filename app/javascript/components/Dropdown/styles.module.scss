@@ -29,8 +29,8 @@
 }
 
 .button {
-  composes: button from '~styles/button';
-  composes: flat from '~styles/button';
+  composes: button from '~styles/button.module.scss';
+  composes: flat from '~styles/button.module.scss';
 
   justify-content: flex-start;
   padding: 0.5rem 0.75rem;
