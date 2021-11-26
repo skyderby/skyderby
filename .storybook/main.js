@@ -12,8 +12,12 @@ module.exports = {
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
-    '@storybook/addon-a11y'
+    '@storybook/addon-a11y',
+    '@storybook/addon-postcss'
   ],
+  typescript: {
+    reactDocgen: 'none'
+  },
   webpackFinal: async config => {
     const virtualModules = new VirtualModulesPlugin()
 
@@ -55,8 +59,19 @@ module.exports = {
             }
           }
         },
-        require.resolve('sass-loader')
-      ]
+        {
+          loader: require.resolve('sass-loader'),
+          options: {
+            sassOptions: {
+              includePaths: [
+                path.resolve(__dirname, '../node_modules'),
+                path.resolve(__dirname, '../app/javascript')
+              ]
+            }
+          }
+        }
+      ],
+      include: path.resolve(__dirname, '../')
     })
 
     return config
