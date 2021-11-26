@@ -1,6 +1,5 @@
 import React from 'react'
-import { Link, useHistory } from 'react-router-dom'
-import { Location } from 'history'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import { Formik, Field, FormikHelpers } from 'formik'
 
 import { useLoginMutation } from 'api/sessions'
@@ -10,10 +9,6 @@ import { useI18n } from 'components/TranslationsProvider'
 import validationSchema from './validationSchema'
 import styles from 'components/Users/styles.module.scss'
 
-type SignInProps = {
-  location: Location<{ returnTo?: string }>
-}
-
 interface FormValues {
   email: string
   password: string
@@ -21,8 +16,9 @@ interface FormValues {
 
 const initialValues = { email: '', password: '' }
 
-const SignIn = ({ location }: SignInProps): JSX.Element => {
+const SignIn = (): JSX.Element => {
   const history = useHistory()
+  const location = useLocation<{ returnTo?: string }>()
   const { t } = useI18n()
   const loginMutation = useLoginMutation()
 
