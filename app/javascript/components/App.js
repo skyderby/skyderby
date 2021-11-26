@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from 'react'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
@@ -7,21 +7,11 @@ import { BrowserRouter } from 'react-router-dom'
 import store from 'redux/store'
 import TranslationsProvider from 'components/TranslationsProvider'
 import AppRouter from './AppRouter'
+import queryClient from './queryClient'
 
-import 'styles/globalStyles'
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 60 * 1000,
-      refetchOnMount: false,
-      retry: (failureCount, error) => {
-        if ([401, 403, 404, 500].includes(error?.response?.status)) return false
-        return failureCount < 3
-      }
-    }
-  }
-})
+import 'normalize.css'
+import 'tippy.js/dist/tippy.css'
+import 'styles/globalStyles.scss'
 
 const App = () => {
   useLayoutEffect(() => {

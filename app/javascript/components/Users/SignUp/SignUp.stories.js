@@ -1,7 +1,5 @@
 import React from 'react'
-import { Provider } from 'react-redux'
 
-import { createStore } from 'redux/store'
 import SignUp from './'
 
 export default {
@@ -9,8 +7,4 @@ export default {
   component: SignUp
 }
 
-export const Default = () => (
-  <Provider store={createStore()}>
-    <SignUp />
-  </Provider>
-)
+export const Default = () => <SignUp />

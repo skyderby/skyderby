@@ -1,63 +1,63 @@
 import React from 'react'
-import { Provider } from 'react-redux'
+import { rest } from 'msw'
 
-import { createStore } from 'redux/store'
-import PageWrapper from 'components/PageWrapper'
 import AppShell from './'
-
-const session = {
-  loaded: true,
-  currentUser: {
-    authorized: true,
-    userId: 3,
-    email: 'aleksandr@kunin.ru',
-    profileId: 3,
-    name: 'Aleksandr Kunin',
-    countryId: 3,
-    photo: {
-      thumb: 'https://loremflickr.com/34/34/selfie'
-    }
-  }
-}
+import PageLoading from 'components/PageWrapper/Loading'
+import ErrorPage from 'components/ErrorPage'
 
 export default {
   title: 'screens/AppShell',
   component: AppShell
 }
 
-export const NotLoggedIn = () => (
-  <Provider store={createStore()}>
-    <AppShell>App</AppShell>
-  </Provider>
-)
+const notAuthorizedParams = {
+  msw: [
+    rest.get('/api/v1/current_user', (req, res, ctx) =>
+      res(ctx.json({ authorized: false }))
+    )
+  ]
+}
 
-export const LoggedIn = () => (
-  <Provider store={createStore({ session })}>
-    <AppShell>App</AppShell>
-  </Provider>
-)
+const authorizedParams = {
+  msw: [
+    rest.get('/api/v1/current_user', (req, res, ctx) =>
+      res(
+        ctx.json({
+          authorized: true,
+          userId: 3,
+          email: 'user@example.com',
+          profileId: 3,
+          name: 'Aleksandr Kunin',
+          countryId: 3,
+          photo: {
+            thumb: 'https://loremflickr.com/34/34/selfie'
+          },
+          permissions: {
+            canCreatePlace: true,
+            canManageUsers: true
+          }
+        })
+      )
+    )
+  ]
+}
+
+export const NotLoggedIn = () => <AppShell>App</AppShell>
+NotLoggedIn.parameters = notAuthorizedParams
+
+export const LoggedIn = () => <AppShell>App</AppShell>
+LoggedIn.parameters = authorizedParams
 
 export const LoadingState = () => (
-  <Provider store={createStore()}>
-    <AppShell>
-      <PageWrapper status="loading">App</PageWrapper>
-    </AppShell>
-  </Provider>
+  <AppShell>
+    <PageLoading />
+  </AppShell>
 )
+LoadingState.parameters = notAuthorizedParams
 
 export const Error = () => (
-  <Provider store={createStore()}>
-    <AppShell>
-      <PageWrapper
-        status="error"
-        error={{
-          title: 'Something went wrong',
-          description: 'Good news - We are on it',
-          linkBack: '/'
-        }}
-      >
-        App
-      </PageWrapper>
-    </AppShell>
-  </Provider>
+  <AppShell>
+    <ErrorPage.NotFound />
+  </AppShell>
 )
+Error.parameters = notAuthorizedParams
