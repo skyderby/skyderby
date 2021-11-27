@@ -3,11 +3,11 @@ import cx from 'clsx'
 
 import styles from './styles.module.scss'
 
-type RadioButtonGroupProps = {
+export type RadioButtonGroupProps = {
   name: string
   value?: string | number
   options: Record<string, string>[]
-  onChange: (e: React.ChangeEvent) => unknown
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => unknown
 }
 
 const RadioButtonGroup = ({

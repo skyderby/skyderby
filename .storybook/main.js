@@ -8,7 +8,7 @@ const TranslationsPlugin = require('../config/webpack/translations')
 
 
 module.exports = {
-  stories: ['../app/javascript/**/*.stories.@(js|mdx)'],
+  stories: ['../app/javascript/**/*.stories.@(js|tsx|mdx)'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
