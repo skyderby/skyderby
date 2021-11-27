@@ -1,6 +1,14 @@
 @import 'styles/breakpoints';
 
+.coverContainer {
+  @include lg-screen {
+    padding: 0 calc((100vw - 1200px) / 2 + 1rem);
+  }
+}
+
 .container {
+  position: sticky;
+  top: 0;
   display: grid;
   grid-gap: 0.5rem;
   padding: 0 1rem;

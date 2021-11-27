@@ -6,11 +6,18 @@ import PlaceIcon from 'icons/location.svg'
 import Navbar from './Navbar'
 import styles from './styles.module.scss'
 
+const Cover = ({ place }) => {
+  return (
+    <div className={styles.coverContainer}>
+      <div className={styles.cover} style={{ backgroundImage: `url(${place.cover})` }} />
+    </div>
+  )
+}
+
 const Header = ({ place }) => {
   const { t } = useI18n()
   return (
     <div className={styles.container}>
-      <div className={styles.cover} style={{ backgroundImage: `url(${place.cover})` }} />
       <h2 className={styles.title}>{place.name}</h2>
       <div className={styles.coordinates}>
         <PlaceIcon />
@@ -37,4 +44,4 @@ Header.propTypes = {
     msl: PropTypes.number
   }).isRequired
 }
-export default Header
+export { Header, Cover }
