@@ -5,7 +5,7 @@ module Api
         authorize Track::Video
 
         @videos =
-          policy_scope(Track::Video.left_joins(:track).all)
+          policy_scope(Track::Video.left_joins(:track).order('tracks.recorded_at desc'))
           .then { |rel| apply_filter(rel) }
           .then { |rel| rel.paginate(page: current_page, per_page: rows_per_page) }
       end
