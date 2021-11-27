@@ -13,8 +13,9 @@ json.extract! track,
               :visibility
 
 json.pilot_name track.name
-json.created_at track.created_at.strftime('%d.%m.%Y')
-json.recorded_at track.recorded_at.strftime('%d.%m.%Y')
+json.created_at track.created_at.iso8601
+json.updated_at track.updated_at.iso8601
+json.recorded_at track.recorded_at.iso8601
 
 json.jump_range do
   json.from track.ff_start
