@@ -6,8 +6,11 @@
   margin-bottom: 0.75rem;
   padding: 0 1rem;
 
-  @include lg-screen {
+  @include sm-screen {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include lg-screen {
     padding: 1rem calc((100vw - 1200px) / 2 + 1rem);
   }
 }
