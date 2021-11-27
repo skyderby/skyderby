@@ -8,34 +8,6 @@
 
   @include lg-screen {
     grid-template-columns: repeat(3, 1fr);
-    padding: 0 calc((100vw - 1200px) / 2 + 1rem);
-  }
-}
-
-.card {
-  display: grid;
-  border-radius: var(--border-radius-lg);
-  overflow: hidden;
-
-  background-color: var(--white);
-  box-shadow: var(--block-box-shadow);
-}
-
-.cover {
-  width: 100%;
-  height: 180px;
-
-  background-position: center;
-
-  background-size: cover;
-}
-
-.details {
-  padding: 1rem;
-
-  strong {
-    color: var(--grey-80);
-    font-weight: 500;
-    font-size: 1.25rem;
+    padding: 1rem calc((100vw - 1200px) / 2 + 1rem);
   }
 }

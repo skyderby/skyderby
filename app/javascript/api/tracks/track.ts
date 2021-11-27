@@ -13,25 +13,41 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 import { cacheRelations } from './utils'
 import { pointsQuery } from 'api/tracks/points'
 import { TrackRecord, TrackFields, TrackRelations } from './types'
+import { parseISO } from 'date-fns'
 
 type TrackChanges = {
   id: number
   changes: TrackFields
 }
 
+type SerializedTrackRecord = {
+  [K in keyof TrackRecord]: TrackRecord[K] extends Date ? string : TrackRecord[K]
+}
+
 type RecordQueryKey = ['tracks', number | undefined]
 const endpoint = (id: number) => `/api/v1/tracks/${id}`
 
-const getTrack = (id: number): Promise<TrackRecord & { relations: TrackRelations }> =>
+const deserialize = (track: SerializedTrackRecord): TrackRecord => ({
+  ...track,
+  createdAt: parseISO(track.createdAt),
+  updatedAt: parseISO(track.updatedAt),
+  recordedAt: parseISO(track.recordedAt)
+})
+
+const getTrack = (
+  id: number
+): Promise<SerializedTrackRecord & { relations: TrackRelations }> =>
   axios.get(endpoint(id)).then(response => response.data)
-const createTrack = (track: Partial<TrackFields>): Promise<AxiosResponse<TrackRecord>> =>
+const createTrack = (
+  track: Partial<TrackFields>
+): Promise<AxiosResponse<SerializedTrackRecord>> =>
   axios.post('/api/v1/tracks', { track })
 const updateTrack = ({
   id,
   changes
-}: TrackChanges): Promise<AxiosResponse<TrackRecord>> =>
+}: TrackChanges): Promise<AxiosResponse<SerializedTrackRecord>> =>
   axios.put(endpoint(id), { track: changes })
-const deleteTrack = (id: number): Promise<TrackRecord> =>
+const deleteTrack = (id: number): Promise<SerializedTrackRecord> =>
   axios.delete(endpoint(id)).then(response => response.data)
 
 const buildQueryFn = (
@@ -47,7 +63,7 @@ const buildQueryFn = (
 
   cacheRelations(relations, queryClient)
 
-  return data
+  return deserialize(data)
 }
 
 export const recordQueryKey = (id: number | undefined): RecordQueryKey => ['tracks', id]
@@ -68,7 +84,7 @@ export const useTrackQuery = (id: number | undefined): UseQueryResult<TrackRecor
 }
 
 export const useNewTrackMutation = (): UseMutationResult<
-  AxiosResponse<TrackRecord>,
+  AxiosResponse<SerializedTrackRecord>,
   AxiosError,
   Partial<TrackFields>
 > => {
@@ -76,13 +92,14 @@ export const useNewTrackMutation = (): UseMutationResult<
 
   return useMutation(createTrack, {
     onSuccess(response) {
-      queryClient.setQueryData(recordQueryKey(response.data.id), response.data)
+      const track = deserialize(response.data)
+      queryClient.setQueryData(recordQueryKey(response.data.id), track)
     }
   })
 }
 
 export const useEditTrackMutation = (): UseMutationResult<
-  AxiosResponse<TrackRecord>,
+  AxiosResponse<SerializedTrackRecord>,
   AxiosError,
   TrackChanges
 > => {
@@ -91,15 +108,16 @@ export const useEditTrackMutation = (): UseMutationResult<
   return useMutation(updateTrack, {
     onSuccess(response, variables) {
       const id = variables.id
+      const track = deserialize(response.data)
 
-      queryClient.setQueryData(recordQueryKey(id), response.data)
-      queryClient.invalidateQueries(pointsQuery(id).queryKey, { exact: true })
+      queryClient.setQueryData(recordQueryKey(id), track)
+      return queryClient.invalidateQueries(pointsQuery(id).queryKey, { exact: true })
     }
   })
 }
 
 export const useDeleteTrackMutation = (): UseMutationResult<
-  TrackRecord,
+  SerializedTrackRecord,
   AxiosError,
   number
 > => useMutation(deleteTrack)
