@@ -30,8 +30,9 @@ export interface BaseTrackRecord {
   location: string | null
   pilotName: string | null
   missingSuitName: string | null
-  recordedAt: string
-  createdAt: string
+  recordedAt: Date
+  createdAt: Date
+  updatedAt: Date
 }
 
 export interface TrackRecord extends BaseTrackRecord {
