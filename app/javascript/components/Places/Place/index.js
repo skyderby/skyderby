@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import { usePlaceQuery } from 'api/places'
 import Loading from 'components/PageWrapper/Loading'
-import Header from './Header'
+import { Header, Cover } from './Header'
 import Overview from './Overview'
 import Videos from './Videos'
 import styles from './styles.module.scss'
@@ -17,6 +17,7 @@ const Place = ({ match }) => {
 
   return (
     <div className={styles.container}>
+      <Cover place={place} />
       <Header place={place} />
 
       <Switch>
