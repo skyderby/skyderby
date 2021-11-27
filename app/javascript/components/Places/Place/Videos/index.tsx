@@ -1,11 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import type { match } from 'react-router-dom'
 
 import useVideosQuery from 'api/videos'
-import Card from './Card'
+import VideoThumbnail from 'components/VideoThumbnail'
 import styles from './styles.module.scss'
 
-const Videos = ({ match }) => {
+type VideosProps = {
+  match: match
+}
+
+const Videos = ({ match }: VideosProps): JSX.Element => {
   const placeId = Number(match.params.id)
   const { data } = useVideosQuery({ placeId })
 
@@ -14,18 +18,10 @@ const Videos = ({ match }) => {
   return (
     <div className={styles.container}>
       {items.map(video => (
-        <Card key={video.trackId} video={video} />
+        <VideoThumbnail key={video.trackId} video={video} />
       ))}
     </div>
   )
-}
-
-Videos.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string.isRequired
-    }).isRequired
-  }).isRequired
 }
 
 export default Videos
