@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { match } from 'react-router-dom'
 
 import useGoogleMapsApi from 'utils/useGoogleMapsApi'
 import { getBoundaries } from 'utils/getBoundaries'
@@ -13,11 +12,10 @@ import Trajectory from './Trajectory'
 import styles from './styles.module.scss'
 
 type TrackMapProps = {
-  match: match<{ id: string }>
+  trackId: number
 }
 
-const TrackMap = ({ match }: TrackMapProps): JSX.Element => {
-  const trackId = Number(match.params.id)
+const TrackMap = ({ trackId }: TrackMapProps): JSX.Element => {
   const mapElementRef = useRef<HTMLDivElement>(null)
   const [mapInstance, setMapInstance] = useState<google.maps.Map>()
   const google = useGoogleMapsApi()

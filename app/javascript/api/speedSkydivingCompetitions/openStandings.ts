@@ -50,6 +50,6 @@ export const preloadOpenStandings = (
 
 export const useOpenStandingsQuery = (
   eventId: number,
-  options: OptionsType
+  options: OptionsType = {}
 ): UseQueryResult<CompetitorStandingRow[]> =>
   useQuery(openStandingsQuery(eventId, options))

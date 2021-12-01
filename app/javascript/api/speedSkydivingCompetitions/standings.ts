@@ -51,5 +51,5 @@ export const preloadStandings = (
 
 export const useStandingsQuery = (
   eventId: number,
-  options: OptionsType
+  options: OptionsType = {}
 ): UseQueryResult<CategoryStandings[]> => useQuery(standingsQuery(eventId, options))

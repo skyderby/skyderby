@@ -1,29 +1,33 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 import PageNavbar from 'components/PageNavbar'
 import CogIcon from 'icons/cog.svg'
+import type { PlaceRecord } from 'api/places'
 
-const Navbar = ({ place }) => {
+type NavbarProps = {
+  place: PlaceRecord
+}
+
+const Navbar = ({ place }: NavbarProps): JSX.Element => {
   const placeUrl = `/places/${place.id}`
 
   return (
     <PageNavbar>
       <PageNavbar.Item>
-        <NavLink exact to={placeUrl}>
+        <NavLink end to={placeUrl}>
           <span>Overview</span>
         </NavLink>
       </PageNavbar.Item>
 
       <PageNavbar.Item>
-        <NavLink exact to={`${placeUrl}/videos`}>
+        <NavLink to={`${placeUrl}/videos`}>
           <span>Videos</span>
         </NavLink>
       </PageNavbar.Item>
 
       <PageNavbar.Item>
-        <NavLink exact to={`${placeUrl}/tracks`}>
+        <NavLink to={`${placeUrl}/tracks`}>
           <span>Tracks</span>
         </NavLink>
       </PageNavbar.Item>
@@ -40,12 +44,6 @@ const Navbar = ({ place }) => {
       </PageNavbar.Item>
     </PageNavbar>
   )
-}
-
-Navbar.propTypes = {
-  place: PropTypes.shape({
-    id: PropTypes.number.isRequired
-  }).isRequired
 }
 
 export default Navbar
