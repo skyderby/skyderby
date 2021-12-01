@@ -4,12 +4,12 @@ declare module '*.scss' {
 }
 
 declare module 'icons/*' {
-  const resource: any
+  const resource: React.FunctionComponent<React.SVGAttributes<SVGElement>>
   export = resource
 }
 
 declare module '*.jpg' {
-  const resource: any
+  const resource: string
   export = resource
 }
 
