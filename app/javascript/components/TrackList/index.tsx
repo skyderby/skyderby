@@ -1,17 +1,19 @@
 import React, { memo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Location, LocationDescriptorObject } from 'history'
 
 import Item from 'components/TrackListItem'
 import Header from './Header'
 import styles from './styles.module.scss'
 import { TrackIndexRecord } from 'api/tracks'
+import { useLocation } from 'react-router-dom'
 
 type TrackListProps = {
   tracks: TrackIndexRecord[]
 }
 
 const TrackList = ({ tracks }: TrackListProps): JSX.Element => {
+  const location = useLocation()
+
   return (
     <div className={styles.container}>
       <div className={styles.table} aria-label="Tracks list">
@@ -24,10 +26,8 @@ const TrackList = ({ tracks }: TrackListProps): JSX.Element => {
                 key={track.id}
                 track={track}
                 delayIndex={index}
-                to={(location: Location): LocationDescriptorObject => ({
-                  pathname: `/tracks/${track.id}`,
-                  state: { returnTo: { ...location } }
-                })}
+                to={`/tracks/${track.id}`}
+                state={{ returnTo: { ...location } }}
               />
             ))}
           </motion.div>

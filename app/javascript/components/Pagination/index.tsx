@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'clsx'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import IconChevronLeft from 'icons/chevron-left.svg'
 import IconChevronRight from 'icons/chevron-right.svg'
@@ -19,6 +19,7 @@ const Pagination = ({
   totalPages = 0,
   buildUrl
 }: PaginationProps): JSX.Element | null => {
+  const location = useLocation()
   if (Number(totalPages) < 2) return null
 
   const showAround = 3
@@ -33,10 +34,10 @@ const Pagination = ({
     <div className={styles.container}>
       <Link
         className={styles.page}
-        to={location => ({
+        to={{
           ...location,
           search: buildUrl({ page: Math.max(page - 1, 1) })
-        })}
+        }}
       >
         <div className={styles.arrow}>
           <IconChevronLeft />
@@ -49,7 +50,7 @@ const Pagination = ({
             styles.page,
             showLinkOnDesktop(page, idx, totalPages) && styles.desktop
           )}
-          to={location => ({ ...location, search: buildUrl({ page: idx }) })}
+          to={{ ...location, search: buildUrl({ page: idx }) }}
           key={idx}
           data-active={page === idx}
         >
@@ -59,10 +60,10 @@ const Pagination = ({
 
       <Link
         className={styles.page}
-        to={location => ({
+        to={{
           ...location,
           search: buildUrl({ page: Math.min(page + 1, totalPages) })
-        })}
+        }}
       >
         <div className={styles.arrow}>
           <IconChevronRight />

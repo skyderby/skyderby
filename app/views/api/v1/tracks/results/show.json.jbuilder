@@ -24,7 +24,7 @@ else
 end
 
 if @track.skydive?
-  json.best_results @track.track_results do |record|
+  json.best_results @track.results do |record|
     json.task record.discipline
     json.result record.result.to_f
     json.extract! record, :range_from, :range_to

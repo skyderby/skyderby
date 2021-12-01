@@ -1,4 +1,5 @@
 import React from 'react'
+import { Outlet } from 'react-router-dom'
 import cx from 'clsx'
 import { Helmet } from 'react-helmet'
 
@@ -13,8 +14,7 @@ type AppShellProps = {
 }
 
 const AppShell = ({
-  fullScreen,
-  children
+  fullScreen
 }: React.PropsWithChildren<AppShellProps>): JSX.Element => {
   const { locale } = useI18n()
 
@@ -30,7 +30,9 @@ const AppShell = ({
 
       <div className={cx(styles.container, fullScreen && styles.fullScreen)}>
         <Navbar />
-        <ErrorBoundary>{children}</ErrorBoundary>
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
         <Footer />
       </div>
     </>

@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-import PropTypes from 'prop-types'
 
 import {
   useCategoriesQuery,
@@ -13,8 +12,7 @@ import TableHeader from './TableHeader'
 import TableBody from './TableBody'
 import styles from './styles.module.scss'
 
-const Scoreboard = ({ match }) => {
-  const eventId = Number(match.params.eventId)
+const Scoreboard = ({ eventId }) => {
   const { data: standings, isLoading } = useStandingsQuery(eventId)
   const { data: rounds = [] } = useRoundsQuery(eventId)
   const { data: categories = [] } = useCategoriesQuery(eventId)
@@ -52,11 +50,4 @@ const Scoreboard = ({ match }) => {
   )
 }
 
-Scoreboard.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      eventId: PropTypes.string.isRequired
-    }).isRequired
-  }).isRequired
-}
 export default Scoreboard

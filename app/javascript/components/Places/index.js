@@ -1,7 +1,6 @@
 import React from 'react'
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 
-import AppShell from 'components/AppShell'
 import PlacesIndex from 'components/Places/PlacesIndex'
 import Place from 'components/Places/Place'
 import NewPlace from './NewPlace'
@@ -12,19 +11,15 @@ const Places = () => {
   const { data: currentUser, isLoading } = useCurrentUserQuery()
   const canCreatePlace = currentUser?.permissions.canCreatePlace
 
+  if (isLoading) return <Loading />
+
   return (
-    <AppShell fullScreen>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <Switch>
-          <Route exact path="/places" component={PlacesIndex} />
-          {canCreatePlace && <Route exact path="/places/new" component={NewPlace} />}
-          <Route path="/places/:id(\d+)" component={Place} />
-          <Route component={() => <Redirect to="/places" />} />
-        </Switch>
-      )}
-    </AppShell>
+    <Routes>
+      <Route index element={<PlacesIndex />} />
+      <Route path=":id/*" element={<Place />} />
+      {canCreatePlace && <Route path="new" element={<NewPlace />} />}
+      <Route render={() => <Navigate to="/places" />} />
+    </Routes>
   )
 }
 

@@ -1,6 +1,5 @@
 import React from 'react'
 
-import AppShell from 'components/AppShell'
 import Sidebar from './Sidebar'
 import styles from './styles.module.scss'
 
@@ -10,15 +9,13 @@ type IndexLayoutProps = {
 
 const IndexLayout = ({ children }: IndexLayoutProps): JSX.Element => {
   return (
-    <AppShell>
-      <div className={styles.container}>
-        <Sidebar />
+    <div className={styles.container}>
+      <Sidebar />
 
-        <div>
-          <div className={styles.content}>{children}</div>
-        </div>
+      <div>
+        <div className={styles.content}>{children}</div>
       </div>
-    </AppShell>
+    </div>
   )
 }
 

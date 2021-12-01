@@ -24,7 +24,7 @@ type SerializedTrackRecord = {
   [K in keyof TrackRecord]: TrackRecord[K] extends Date ? string : TrackRecord[K]
 }
 
-type RecordQueryKey = ['tracks', number | undefined]
+type RecordQueryKey = ['tracks', number]
 const endpoint = (id: number) => `/api/v1/tracks/${id}`
 
 const deserialize = (track: SerializedTrackRecord): TrackRecord => ({
@@ -34,10 +34,13 @@ const deserialize = (track: SerializedTrackRecord): TrackRecord => ({
   recordedAt: parseISO(track.recordedAt)
 })
 
-const getTrack = (
-  id: number
-): Promise<SerializedTrackRecord & { relations: TrackRelations }> =>
-  axios.get(endpoint(id)).then(response => response.data)
+const getTrack = (id: number) =>
+  axios
+    .get<never, AxiosResponse<SerializedTrackRecord & { relations: TrackRelations }>>(
+      endpoint(id)
+    )
+    .then(response => response.data)
+
 const createTrack = (
   track: Partial<TrackFields>
 ): Promise<AxiosResponse<SerializedTrackRecord>> =>
@@ -55,10 +58,6 @@ const buildQueryFn = (
 ): QueryFunction<TrackRecord, RecordQueryKey> => async ctx => {
   const [_key, id] = ctx.queryKey
 
-  if (typeof id !== 'number') {
-    throw new Error(`Expected track id to be a number, received ${typeof id}`)
-  }
-
   const { relations, ...data } = await getTrack(id)
 
   cacheRelations(relations, queryClient)
@@ -66,20 +65,19 @@ const buildQueryFn = (
   return deserialize(data)
 }
 
-export const recordQueryKey = (id: number | undefined): RecordQueryKey => ['tracks', id]
+export const recordQueryKey = (id: number): RecordQueryKey => ['tracks', id]
 
 export const trackQuery = (
-  id: number | undefined,
+  id: number,
   queryClient: QueryClient
-): UseQueryOptions<TrackRecord, Error, TrackRecord, RecordQueryKey> => ({
+): UseQueryOptions<TrackRecord, AxiosError, TrackRecord, RecordQueryKey> => ({
   queryKey: recordQueryKey(id),
   queryFn: buildQueryFn(queryClient),
   enabled: Boolean(id)
 })
 
-export const useTrackQuery = (id: number | undefined): UseQueryResult<TrackRecord> => {
+export const useTrackQuery = (id: number): UseQueryResult<TrackRecord, AxiosError> => {
   const queryClient = useQueryClient()
-
   return useQuery(trackQuery(id, queryClient))
 }
 

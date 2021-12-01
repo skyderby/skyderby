@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { ValueType } from 'react-select'
 import { Helmet } from 'react-helmet'
 
-import AppShell from 'components/AppShell'
 import { useI18n } from 'components/TranslationsProvider'
 import usePageParams from 'components/FlightProfiles/usePageParams'
 import CogIcon from 'icons/cog.svg'
@@ -52,64 +51,59 @@ const FlightProfiles = (): JSX.Element => {
   }
 
   return (
-    <AppShell fullScreen>
+    <section className={styles.container}>
       <Helmet>
         <title>{t('flight_profiles.title')}</title>
         <meta name="description" content={t('flight_profiles.description')} />
       </Helmet>
-      <section className={styles.container}>
-        <aside className={styles.settingsContainer}>
-          <TrackList />
+      <aside className={styles.settingsContainer}>
+        <TrackList />
 
-          <div className={styles.terrainProfileSelect}>
-            <TerrainProfileSelect
-              value={selectedTerrainProfile}
-              onChange={(option: ValueType<{ value: number }, false>) =>
-                setSelectedTerrainProfile(option?.value || null)
-              }
-            />
-          </div>
-        </aside>
-
-        <main id="maincontent" className={styles.charts}>
-          <div>
-            <FlightProfilesChart
-              straightLine={straightLine}
-              onZoomChange={setZoomLevel}
-            />
-          </div>
-
-          <Tagbar />
-
-          <div>
-            <TerrainClearanceChart
-              zoomLevel={zoomLevel}
-              selectedTracks={selectedTracks}
-              selectedTerrainProfile={selectedTerrainProfile}
-              straightLine={straightLine}
-            />
-          </div>
-
-          <button
-            className={styles.fab}
-            onClick={() => setShowModal(true)}
-            aria-label={t('general.settings')}
-          >
-            <CogIcon />
-          </button>
-
-          <SettingsModal
-            initialValues={{
-              straightLine: String(straightLine),
-              additionalTerrainProfiles
-            }}
-            isShown={showModal}
-            onHide={() => setShowModal(false)}
-            onSubmit={applySettings}
+        <div className={styles.terrainProfileSelect}>
+          <TerrainProfileSelect
+            value={selectedTerrainProfile}
+            onChange={(option: ValueType<{ value: number }, false>) =>
+              setSelectedTerrainProfile(option?.value || null)
+            }
           />
-        </main>
-      </section>
-    </AppShell>
+        </div>
+      </aside>
+
+      <main id="maincontent" className={styles.charts}>
+        <div>
+          <FlightProfilesChart straightLine={straightLine} onZoomChange={setZoomLevel} />
+        </div>
+
+        <Tagbar />
+
+        <div>
+          <TerrainClearanceChart
+            zoomLevel={zoomLevel}
+            selectedTracks={selectedTracks}
+            selectedTerrainProfile={selectedTerrainProfile}
+            straightLine={straightLine}
+          />
+        </div>
+
+        <button
+          className={styles.fab}
+          onClick={() => setShowModal(true)}
+          aria-label={t('general.settings')}
+        >
+          <CogIcon />
+        </button>
+
+        <SettingsModal
+          initialValues={{
+            straightLine: String(straightLine),
+            additionalTerrainProfiles
+          }}
+          isShown={showModal}
+          onHide={() => setShowModal(false)}
+          onSubmit={applySettings}
+        />
+      </main>
+    </section>
   )
 }
 

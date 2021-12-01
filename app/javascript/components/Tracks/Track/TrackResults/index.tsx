@@ -1,5 +1,4 @@
 import React from 'react'
-import { match } from 'react-router-dom'
 
 import { useTrackResults } from 'api/tracks/results'
 import PageContainer from 'components/Tracks/Track/PageContainer'
@@ -8,12 +7,11 @@ import OnlineRankingResults from './OnlineRankingResults'
 import BestResults from './BestResults'
 import TotalResults from './TotalResults'
 
-type TrackResults = {
-  match: match<{ id: string }>
+type TrackResultsProps = {
+  trackId: number
 }
 
-const TrackResults = ({ match }: TrackResults): JSX.Element | null => {
-  const trackId = Number(match.params.id)
+const TrackResults = ({ trackId }: TrackResultsProps): JSX.Element | null => {
   const { data: results, isLoading } = useTrackResults(trackId)
 
   if (isLoading || !results) return null

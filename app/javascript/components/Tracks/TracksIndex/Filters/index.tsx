@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { extractParamsFromUrl, IndexParams, mapParamsToUrl } from 'api/tracks'
 import TokenizedSearchField from 'components/TokenizedSearchField'
@@ -8,17 +8,17 @@ import styles from './styles.module.scss'
 
 const Filters = (): JSX.Element => {
   const location = useLocation()
-  const history = useHistory()
+  const navigate = useNavigate()
   const params = extractParamsFromUrl(location.search)
 
   const buildUrl = (newParams: IndexParams): string =>
     mapParamsToUrl({ ...params, ...newParams })
 
   const updateFilters = (filters: IndexParams['filters']): void =>
-    history.replace(`${location.pathname}${buildUrl({ filters, page: 1 })}`)
+    navigate(`${location.pathname}${buildUrl({ filters, page: 1 })}`, { replace: true })
 
   const updateSort = (sortBy: IndexParams['sortBy']): void =>
-    history.replace(`${location.pathname}${buildUrl({ sortBy, page: 1 })}`)
+    navigate(`${location.pathname}${buildUrl({ sortBy, page: 1 })}`, { replace: true })
 
   return (
     <div className={styles.container}>

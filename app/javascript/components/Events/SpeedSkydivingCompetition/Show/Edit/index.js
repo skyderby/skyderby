@@ -1,6 +1,5 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { useNavigate } from 'react-router-dom'
 
 import {
   useEditSpeedSkydivingCompetitionMutation,
@@ -9,12 +8,11 @@ import {
 import Form from 'components/Events/SpeedSkydivingCompetition/Form'
 import styles from './styles.module.scss'
 
-const Edit = ({ match }) => {
-  const eventId = Number(match.params.eventId)
-  const history = useHistory()
+const Edit = ({ eventId }) => {
+  const navigate = useNavigate()
   const { data: event } = useSpeedSkydivingCompetitionQuery(eventId)
   const editMutation = useEditSpeedSkydivingCompetitionMutation(eventId, {
-    onSuccess: () => history.push(`/events/speed_skydiving/${event.id}`)
+    onSuccess: () => navigate(`/events/speed_skydiving/${event.id}`)
   })
 
   const initialValues = {
@@ -31,14 +29,6 @@ const Edit = ({ match }) => {
       />
     </div>
   )
-}
-
-Edit.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      eventId: PropTypes.string.isRequired
-    }).isRequired
-  }).isRequired
 }
 
 export default Edit

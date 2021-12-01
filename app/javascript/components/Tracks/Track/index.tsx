@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useQueryClient } from 'react-query'
-import { Redirect, Route, Switch, match } from 'react-router-dom'
+import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 
 import { useTrackQuery } from 'api/tracks'
 import { preloadPoints } from 'api/tracks/points'
 import { preloadWindData } from 'api/tracks/windData'
-import AppShell from 'components/AppShell'
 import Loading from 'components/PageWrapper/Loading'
 import Header from './Header'
 import TrackInsights from './TrackInsights'
@@ -14,56 +13,57 @@ import TrackGlobe from './TrackGlobe'
 import TrackWindData from './TrackWindData'
 import TrackResults from './TrackResults'
 import TrackVideo from './TrackVideo'
+import TrackVideoSettings from './TrackVideoSettings'
 import TrackEdit from './TrackEdit'
 import styles from './styles.module.scss'
+import ErrorPage from 'components/ErrorPage'
 
-type TrackProps = {
-  match: match<{ id: string }>
-}
-
-const Track = ({ match }: TrackProps): JSX.Element => {
-  const trackId = Number(match.params.id)
+const Track = (): JSX.Element | null => {
+  const params = useParams()
+  const trackId = Number(params.id)
   const queryClient = useQueryClient()
-  const [isPointsLoading, setIsPointsLoading] = useState(true)
-  const { data: track, isLoading: isTrackLoading } = useTrackQuery(trackId)
-
-  const isLoading = isPointsLoading || isTrackLoading
+  const { data: track, isLoading, isError, error } = useTrackQuery(trackId)
 
   useEffect(() => {
-    Promise.all([
-      preloadPoints(queryClient, trackId),
-      preloadWindData(queryClient, trackId)
-    ]).then(() => setIsPointsLoading(false))
-  }, [trackId, queryClient, setIsPointsLoading])
+    if (isLoading || isError) return
+
+    preloadPoints(queryClient, trackId)
+    preloadWindData(queryClient, trackId)
+  }, [trackId, queryClient, isLoading, isError])
+
+  if (isLoading) return <Loading />
+  if (isError) return ErrorPage.forError(error, { linkBack: '/tracks' })
+  if (!track) return null // hard to imagine when isLoading and isError false and track is not there
 
   return (
-    <AppShell>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        track && (
-          <div className={styles.container}>
-            <Header track={track} />
+    <div className={styles.container}>
+      <Header track={track} />
 
-            <Switch>
-              <Route exact path={match.path} component={TrackInsights} />
-              <Route path={`${match.path}/map`} component={TrackMap} />
-              <Route path={`${match.path}/globe`} component={TrackGlobe} />
-              <Route path={`${match.path}/wind_data`} component={TrackWindData} />
-              <Route path={`${match.path}/results`} component={TrackResults} />
-              {(track.hasVideo || track.permissions.canEdit) && (
-                <Route path={`${match.path}/video`} component={TrackVideo} />
-              )}
-              {track.permissions.canEdit && (
-                <Route path={`${match.path}/edit`} component={TrackEdit} />
-              )}
+      <Routes>
+        <Route index element={<TrackInsights trackId={trackId} />} />
+        <Route path="map" element={<TrackMap trackId={trackId} />} />
+        <Route path="globe" element={<TrackGlobe trackId={trackId} />} />
+        <Route path="wind_data" element={<TrackWindData trackId={trackId} />} />
+        <Route path="results" element={<TrackResults trackId={trackId} />} />
+        {track.hasVideo && (
+          <Route path="video" element={<TrackVideo trackId={trackId} />} />
+        )}
+        {!track.hasVideo && track?.permissions.canEdit && (
+          <Route
+            path="video"
+            element={<Navigate to={`/tracks/${trackId}/video/edit`} />}
+          />
+        )}
+        {track.permissions.canEdit && (
+          <>
+            <Route path="edit" element={<TrackEdit trackId={trackId} />} />
+            <Route path="video/edit" element={<TrackVideoSettings trackId={trackId} />} />
+          </>
+        )}
 
-              <Route component={() => <Redirect to={`/tracks/${trackId}`} />} />
-            </Switch>
-          </div>
-        )
-      )}
-    </AppShell>
+        <Route path="*" element={<Navigate to={`/tracks/${trackId}`} />} />
+      </Routes>
+    </div>
   )
 }
 

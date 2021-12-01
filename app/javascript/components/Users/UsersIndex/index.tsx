@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { Location } from 'history'
 import debounce from 'lodash.debounce'
 
@@ -18,7 +18,7 @@ const extractParamsFromUrl = (location: Location): IndexParams => {
 }
 
 const UsersIndex = (): JSX.Element => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
   const { formatDate } = useI18n()
   const urlParams = useMemo(() => extractParamsFromUrl(location), [location.search])
@@ -34,7 +34,7 @@ const UsersIndex = (): JSX.Element => {
 
   const handleSearchChange = debounce(event => {
     const urlParams = mapParamsToUrl({ searchTerm: event.target.value, page: 1 })
-    history.push(location.pathname + urlParams)
+    navigate(location.pathname + urlParams)
   }, 200)
 
   return (

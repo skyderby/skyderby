@@ -15,7 +15,7 @@ const Navbar = ({ event }) => {
   return (
     <PageNavbar>
       <PageNavbar.Item>
-        <NavLink exact to={eventUrl}>
+        <NavLink end to={eventUrl}>
           <span>
             <ListIcon />
             Scoreboard
