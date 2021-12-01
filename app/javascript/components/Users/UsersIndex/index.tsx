@@ -21,7 +21,7 @@ const UsersIndex = (): JSX.Element => {
   const navigate = useNavigate()
   const location = useLocation()
   const { formatDate } = useI18n()
-  const urlParams = useMemo(() => extractParamsFromUrl(location), [location.search])
+  const urlParams = useMemo(() => extractParamsFromUrl(location), [location])
   const { data, isLoading } = useUsersQuery(urlParams)
   const users = data?.items ?? []
   const pagination = isLoading

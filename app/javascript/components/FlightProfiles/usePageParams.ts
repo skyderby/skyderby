@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import {
   extractParamsFromUrl as extractTrackParamsFromUrl,
@@ -73,7 +73,7 @@ type PageParams = {
 const usePageParams = (): PageParams => {
   const navigate = useNavigate()
   const location = useLocation()
-  const params = extractParamsFromUrl(location.search)
+  const params = useMemo(() => extractParamsFromUrl(location.search), [location.search])
 
   const buildUrl = useCallback(
     newParams => {
@@ -115,7 +115,7 @@ const usePageParams = (): PageParams => {
         replace: true
       })
     },
-    [buildUrl, navigate, location.pathname]
+    [buildUrl, navigate, location.pathname, params]
   )
 
   const deleteAdditionalTerrainProfile = useCallback(
