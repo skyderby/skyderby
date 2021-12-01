@@ -1,12 +1,16 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
+import { PlaceRecord } from 'api/places'
 import PlaceIcon from 'icons/location.svg'
 import Navbar from './Navbar'
 import styles from './styles.module.scss'
 
-const Header = ({ place }) => {
+type HeaderProps = {
+  place: PlaceRecord
+}
+
+const Header = ({ place }: HeaderProps): JSX.Element => {
   const { t } = useI18n()
   return (
     <div className={styles.container}>
@@ -28,13 +32,4 @@ const Header = ({ place }) => {
   )
 }
 
-Header.propTypes = {
-  place: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    cover: PropTypes.string.isRequired,
-    latitude: PropTypes.number.isRequired,
-    longitude: PropTypes.number.isRequired,
-    msl: PropTypes.number
-  }).isRequired
-}
 export default Header

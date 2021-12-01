@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Formik } from 'formik'
 
 import { useTrackQuery } from 'api/tracks'
@@ -15,24 +15,24 @@ import VideoSetup from './VideoSetup'
 import TrackOffset from './TrackOffset'
 import styles from './styles.module.scss'
 
-type VideoSettingsProps = {
+type FormData = Omit<VideoRecord, 'trackId'>
+
+type TrackVideoSettingsProps = {
   trackId: number
 }
 
-type FormData = Omit<VideoRecord, 'trackId'>
-
-const VideoSettings = ({ trackId }: VideoSettingsProps): JSX.Element | null => {
-  const history = useHistory()
+const TrackVideoSettings = ({ trackId }: TrackVideoSettingsProps): JSX.Element | null => {
+  const navigate = useNavigate()
   const { t } = useI18n()
   const { data: track, isLoading: trackIsLoading } = useTrackQuery(trackId)
   const { data: video, isLoading: videoIsLoading } = useTrackVideoQuery(trackId, {
     enabled: track?.hasVideo
   })
   const saveMutation = useEditVideoMutation({
-    onSuccess: () => history.push(`/tracks/${trackId}/video`)
+    onSuccess: () => navigate(`/tracks/${trackId}/video`)
   })
   const deleteMutation = useDeleteVideoMutation({
-    onSuccess: () => history.push(`/tracks/${trackId}`)
+    onSuccess: () => navigate(`/tracks/${trackId}`)
   })
 
   if (videoIsLoading || trackIsLoading) return null
@@ -56,10 +56,8 @@ const VideoSettings = ({ trackId }: VideoSettingsProps): JSX.Element | null => {
 
   const handleDelete = () => deleteMutation.mutate(trackId)
 
-  const handleCancel = () => {
-    const url = `/tracks/${trackId}${track?.hasVideo ? '/video' : ''}`
-    history.push(url)
-  }
+  const handleCancel = () =>
+    navigate(`/tracks/${trackId}${track?.hasVideo ? '/video' : ''}`)
 
   return (
     <PageContainer shrinkToContent>
@@ -104,4 +102,4 @@ const VideoSettings = ({ trackId }: VideoSettingsProps): JSX.Element | null => {
   )
 }
 
-export default VideoSettings
+export default TrackVideoSettings

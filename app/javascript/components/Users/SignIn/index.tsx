@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useHistory, useLocation } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { Formik, Field, FormikHelpers } from 'formik'
 
 import { useLoginMutation } from 'api/sessions'
@@ -17,8 +17,8 @@ interface FormValues {
 const initialValues = { email: '', password: '' }
 
 const SignIn = (): JSX.Element => {
-  const history = useHistory()
-  const location = useLocation<{ returnTo?: string }>()
+  const navigate = useNavigate()
+  const location = useLocation()
   const { t } = useI18n()
   const loginMutation = useLoginMutation()
 
@@ -30,7 +30,7 @@ const SignIn = (): JSX.Element => {
   ): Promise<void> => {
     try {
       await loginMutation.mutateAsync(values)
-      history.push(returnTo)
+      navigate(returnTo)
     } catch (err) {
       formikBag.setSubmitting(false)
     }

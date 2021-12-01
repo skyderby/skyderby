@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Routes, Route, useParams } from 'react-router-dom'
 import { useQueryClient } from 'react-query'
-import PropTypes from 'prop-types'
 
 import {
   usePerformanceEventQuery,
@@ -11,7 +10,6 @@ import {
   preloadCompetitors
 } from 'api/performanceCompetitions'
 
-import AppShell from 'components/AppShell'
 import Header from './Header'
 import Scoreboard from './Scoreboard'
 import ReferencePoints from './ReferencePoints'
@@ -19,8 +17,9 @@ import Maps from './Maps'
 import styles from './styles.module.scss'
 import PageLoading from 'components/PageWrapper/Loading'
 
-const Show = ({ match }) => {
-  const eventId = Number(match.params.eventId)
+const Show = () => {
+  const params = useParams()
+  const eventId = Number(params.eventId)
   const queryClient = useQueryClient()
   const [isLoading, setIsLoading] = useState(true)
   const { data: event } = usePerformanceEventQuery(eventId)
@@ -34,32 +33,19 @@ const Show = ({ match }) => {
     ]).then(() => setIsLoading(false))
   }, [eventId, queryClient, setIsLoading])
 
+  if (!event || isLoading) return <PageLoading />
+
   return (
-    <AppShell>
-      {!event || isLoading ? (
-        <PageLoading />
-      ) : (
-        <div className={styles.container}>
-          <Header event={event} />
+    <div className={styles.container}>
+      <Header event={event} />
 
-          <Switch>
-            <Route exact path={`${match.path}/`} component={Scoreboard} />
-            <Route path={`${match.path}/reference_points`} component={ReferencePoints} />
-            <Route path={`${match.path}/maps/:roundId?`} component={Maps} />
-          </Switch>
-        </div>
-      )}
-    </AppShell>
+      <Routes>
+        <Route index element={<Scoreboard eventId={eventId} />} />
+        <Route path="reference_points" element={<ReferencePoints eventId={eventId} />} />
+        <Route path="/maps/:roundId?" element={<Maps eventId={eventId} />} />
+      </Routes>
+    </div>
   )
-}
-
-Show.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      eventId: PropTypes.string.isRequired
-    }).isRequired,
-    path: PropTypes.string.isRequired
-  }).isRequired
 }
 
 export default Show

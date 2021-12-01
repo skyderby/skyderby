@@ -86,7 +86,7 @@ export const speedSkydivingCompetitionQuery = (
 > => ({
   queryKey: queryKey(id),
   queryFn: buildQueryFn(queryClient),
-  enabled: !!id
+  enabled: Boolean(id)
 })
 
 export const preloadSpeedSkydivingCompetition = (

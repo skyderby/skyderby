@@ -38,19 +38,21 @@ const NotFound = (props: Omit<ErrorPageProps, 'title' | 'description'>): JSX.Ele
   <ErrorPage title="📡 #404" description="Page you're looking for not found" {...props} />
 )
 
+const UnknownError = (
+  props: Omit<ErrorPageProps, 'title' | 'description'>
+): JSX.Element => (
+  <ErrorPage title="🤦 Oops" description="Something went wrong" {...props} />
+)
+
 interface PageParams {
-  layout?: React.ComponentType
   linkBack?: string
 }
 
-const forError = (
-  error: AxiosError,
-  { layout: Layout = AppShell, linkBack }: PageParams
-): JSX.Element => (
-  <Layout>
-    {error?.response?.status === 403 && <Forbidden linkBack={linkBack} />}
-    {error?.response?.status === 404 && <NotFound linkBack={linkBack} />}
-  </Layout>
-)
+const forError = (error: AxiosError | null, { linkBack }: PageParams): JSX.Element => {
+  if (error?.response?.status === 403) return <Forbidden linkBack={linkBack} />
+  if (error?.response?.status === 404) return <NotFound linkBack={linkBack} />
+
+  return <UnknownError linkBack={linkBack} />
+}
 
 export default Object.assign(ErrorPage, { Forbidden, NotFound, forError })

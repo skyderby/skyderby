@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import Form from '../Form'
 import styles from './styles.module.scss'
@@ -8,12 +8,12 @@ import { useI18n } from 'components/TranslationsProvider'
 
 const NewPlace = () => {
   const newPlaceMutation = useNewPlaceMutation()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const createEvent = async values => {
     try {
       const { data: place } = await newPlaceMutation.mutateAsync(values)
-      history.push(`/places/${place.id}`)
+      navigate(`/places/${place.id}`)
     } catch (err) {
       console.warn(err.message)
     }

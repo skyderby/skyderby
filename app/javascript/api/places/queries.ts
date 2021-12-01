@@ -104,7 +104,7 @@ const cacheOptions = {
 export const placeQuery = (
   id: number | null | undefined,
   queryClient: QueryClient
-): UseQueryOptions<PlaceRecord, Error, PlaceRecord, RecordQueryKey> => ({
+): UseQueryOptions<PlaceRecord, AxiosError, PlaceRecord, RecordQueryKey> => ({
   queryKey: recordQueryKey(id),
   queryFn: buildPlaceQueryFn(queryClient),
   enabled: Boolean(id),
@@ -113,8 +113,8 @@ export const placeQuery = (
 
 export const usePlaceQuery = (
   id: number | null | undefined,
-  options: UseQueryOptions<PlaceRecord, Error, PlaceRecord, RecordQueryKey> = {}
-): UseQueryResult<PlaceRecord> => {
+  options: UseQueryOptions<PlaceRecord, AxiosError, PlaceRecord, RecordQueryKey> = {}
+): UseQueryResult<PlaceRecord, AxiosError> => {
   const queryClient = useQueryClient()
 
   return useQuery({

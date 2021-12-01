@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-import PropTypes from 'prop-types'
 
 import {
   useRoundsQuery,
@@ -10,8 +9,7 @@ import useStickyTableHeader from 'hooks/useStickyTableHeader'
 import StandingRow from './StandingRow'
 import styles from './styles.module.scss'
 
-const OpenScoreboard = ({ match }) => {
-  const eventId = Number(match.params.eventId)
+const OpenScoreboard = ({ eventId }) => {
   const { data: standings, isLoading } = useOpenStandingsQuery(eventId)
   const { data: event } = useSpeedSkydivingCompetitionQuery(eventId)
   const { data: rounds } = useRoundsQuery(eventId)
@@ -62,14 +60,6 @@ const OpenScoreboard = ({ match }) => {
       </div>
     </div>
   )
-}
-
-OpenScoreboard.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      eventId: PropTypes.string.isRequired
-    }).isRequired
-  }).isRequired
 }
 
 export default OpenScoreboard

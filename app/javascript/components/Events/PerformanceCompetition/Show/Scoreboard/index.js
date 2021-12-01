@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import {
   useRoundsQuery,
@@ -19,8 +18,7 @@ const groupByTask = rounds => {
   return tasks.map(task => [task, rounds.filter(el => el.task === task)])
 }
 
-const Scoreboard = ({ match }) => {
-  const eventId = Number(match.params.eventId)
+const Scoreboard = ({ eventId }) => {
   const { data: standings, isLoading } = useStandingsQuery(eventId)
   const { data: rounds } = useRoundsQuery(eventId)
   const { data: categories } = useCategoriesQuery(eventId)
@@ -49,14 +47,6 @@ const Scoreboard = ({ match }) => {
       </div>
     </div>
   )
-}
-
-Scoreboard.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      eventId: PropTypes.string.isRequired
-    }).isRequired
-  }).isRequired
 }
 
 export default Scoreboard

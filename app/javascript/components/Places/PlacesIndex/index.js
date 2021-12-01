@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import MarkerClusterer from '@googlemaps/markerclustererplus'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import cx from 'clsx'
 import debounce from 'lodash.debounce'
 
@@ -14,7 +14,7 @@ import useCountriesWithPlaces from './useCountriesWithPlaces'
 import styles from './styles.module.scss'
 
 const PlacesIndex = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const mapElementRef = useRef()
   const infoWindowRef = useRef()
   const markers = useRef([])
@@ -101,14 +101,14 @@ const PlacesIndex = () => {
     const clickHandler = event => {
       if (event.target.matches('#infowindow-link')) {
         event.preventDefault()
-        history.push(event.target.getAttribute('href'))
+        navigate(event.target.getAttribute('href'))
       }
     }
 
     document.addEventListener('click', clickHandler)
 
     return () => document.removeEventListener('click', clickHandler)
-  }, [history])
+  }, [navigate])
 
   const zoomTo = place => {
     map.setZoom(10)

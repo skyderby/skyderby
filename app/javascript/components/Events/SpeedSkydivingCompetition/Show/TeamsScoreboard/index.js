@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-import PropTypes from 'prop-types'
 
 import {
   useSpeedSkydivingCompetitionQuery,
@@ -10,8 +9,7 @@ import styles from './styles.module.scss'
 import StandingRow from 'components/Events/SpeedSkydivingCompetition/Show/TeamsScoreboard/StandingRow'
 import useStickyTableHeader from 'hooks/useStickyTableHeader'
 
-const TeamsScoreboard = ({ match }) => {
-  const eventId = Number(match.params.eventId)
+const TeamsScoreboard = ({ eventId }) => {
   const { data: teamStandings, isLoading } = useTeamStandingsQuery(eventId, {
     preload: ['competitors', 'teams']
   })
@@ -61,14 +59,6 @@ const TeamsScoreboard = ({ match }) => {
       </div>
     </div>
   )
-}
-
-TeamsScoreboard.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      eventId: PropTypes.string.isRequired
-    }).isRequired
-  }).isRequired
 }
 
 export default TeamsScoreboard

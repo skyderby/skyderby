@@ -1,6 +1,6 @@
 import React from 'react'
 import format from 'date-fns/format'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import AppShell from 'components/AppShell'
 import Form from '../Form'
@@ -8,9 +8,9 @@ import styles from './styles.module.scss'
 import { useNewSpeedSkydivingCompetitionMutation } from 'api/speedSkydivingCompetitions'
 
 const NewEvent = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const newEventMutation = useNewSpeedSkydivingCompetitionMutation({
-    onSuccess: event => history.push(`/events/speed_skydiving/${event.id}`)
+    onSuccess: event => navigate(`/events/speed_skydiving/${event.id}`)
   })
 
   const initialValues = {

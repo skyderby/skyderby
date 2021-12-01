@@ -25,7 +25,7 @@ const Sidebar = (): JSX.Element => {
 
   return (
     <ul className={styles.menu}>
-      <MenuItem exact to="/suits" title="Overview" />
+      <MenuItem end to="/suits" title="Overview" />
 
       <li className={styles.separator} />
 

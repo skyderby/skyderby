@@ -1,16 +1,14 @@
 import React from 'react'
-import type { match } from 'react-router-dom'
 
 import useVideosQuery from 'api/videos'
 import VideoThumbnail from 'components/VideoThumbnail'
 import styles from './styles.module.scss'
 
 type VideosProps = {
-  match: match
+  placeId: number
 }
 
-const Videos = ({ match }: VideosProps): JSX.Element => {
-  const placeId = Number(match.params.id)
+const Videos = ({ placeId }: VideosProps): JSX.Element => {
   const { data } = useVideosQuery({ placeId })
 
   const items = data?.items ?? []

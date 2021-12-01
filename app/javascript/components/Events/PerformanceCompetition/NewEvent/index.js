@@ -1,6 +1,6 @@
 import React from 'react'
 import format from 'date-fns/format'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { useNewPerformanceEventMutation } from 'api/performanceCompetitions'
 import AppShell from 'components/AppShell'
@@ -9,12 +9,12 @@ import styles from './styles.module.scss'
 
 const NewEvent = () => {
   const newEventMutation = useNewPerformanceEventMutation()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const createEvent = async values => {
     try {
       const { data: event } = await newEventMutation.mutateAsync(values)
-      history.push(`/events/performance/${event.id}`)
+      navigate(`/events/performance/${event.id}`)
     } catch (err) {
       console.warn(err)
     }

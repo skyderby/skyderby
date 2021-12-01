@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import { useCurrentUserQuery, useLogoutMutation } from 'api/sessions'
 import { useI18n } from 'components/TranslationsProvider'
@@ -11,6 +11,7 @@ import styles from './styles.module.scss'
 
 const RightMenuDesktop = (): JSX.Element => {
   const { t } = useI18n()
+  const location = useLocation()
   const [showModal, setShowModal] = useState(false)
   const { data: currentUser, isLoading } = useCurrentUserQuery()
   const logoutMutation = useLogoutMutation()
@@ -47,12 +48,7 @@ const RightMenuDesktop = (): JSX.Element => {
           ) : (
             <>
               <li className={styles.menuItem}>
-                <Link
-                  to={location => ({
-                    pathname: '/users/sign-in',
-                    state: { returnTo: location.pathname }
-                  })}
-                >
+                <Link to="/users/sign-in" state={{ returnTo: location.pathname }}>
                   {t('application.header.sign_in')}
                 </Link>
               </li>

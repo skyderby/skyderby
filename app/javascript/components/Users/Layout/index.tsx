@@ -8,7 +8,7 @@ type PageWrapperProps = {
   children: React.ReactNode
 }
 
-const PageWrapper = ({ children }: PageWrapperProps): JSX.Element => (
+const UsersLayout = ({ children }: PageWrapperProps): JSX.Element => (
   <div className={styles.container}>
     <div className={styles.content}>
       <Link to="/" className={styles.home}>
@@ -21,4 +21,4 @@ const PageWrapper = ({ children }: PageWrapperProps): JSX.Element => (
   </div>
 )
 
-export default PageWrapper
+export default UsersLayout

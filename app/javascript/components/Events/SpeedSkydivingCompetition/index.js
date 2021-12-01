@@ -1,23 +1,16 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { Route, Routes } from 'react-router-dom'
 
 import NewEvent from './NewEvent'
 import Show from './Show'
 
-const SpeedSkydivingCompetition = ({ match }) => {
+const SpeedSkydivingCompetition = () => {
   return (
-    <Switch>
-      <Route exact path={`${match.path}/new`} component={NewEvent} />
-      <Route path={`${match.path}/:eventId`} component={Show} />
-    </Switch>
+    <Routes>
+      <Route exact path="new" element={<NewEvent />} />
+      <Route path=":eventId/*" element={<Show />} />
+    </Routes>
   )
-}
-
-SpeedSkydivingCompetition.propTypes = {
-  match: PropTypes.shape({
-    path: PropTypes.string.isRequired
-  }).isRequired
 }
 
 export default SpeedSkydivingCompetition

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 
 import EventsIndex from './EventsIndex'
 import EventTypeSelect from './EventTypeSelect'
@@ -8,14 +8,14 @@ import SpeedSkydivingCompetition from './SpeedSkydivingCompetition'
 
 const Events = () => {
   return (
-    <Switch>
-      <Route exact path="/events" component={EventsIndex} />
-      <Route exact path="/events/new" component={EventTypeSelect} />
-      <Route path="/events/performance" component={PerformanceCompetition} />
-      <Route path="/events/speed_skydiving" component={SpeedSkydivingCompetition} />
+    <Routes>
+      <Route index element={<EventsIndex />} />
+      <Route path="/new" element={<EventTypeSelect />} />
+      <Route path="/performance/*" element={<PerformanceCompetition />} />
+      <Route path="/speed_skydiving/*" element={<SpeedSkydivingCompetition />} />
 
-      <Route component={() => <Redirect to="/events" />} />
-    </Switch>
+      <Route render={() => <Navigate to="/events" />} />
+    </Routes>
   )
 }
 
