@@ -1,6 +1,6 @@
 import React from 'react'
 import { Formik, Field, FieldProps } from 'formik'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { useNewTrackMutation } from 'api/tracks/track'
 import { useI18n } from 'components/TranslationsProvider'
@@ -43,7 +43,7 @@ type FormData = {
 
 const NewTrackForm = ({ isShown, onHide }: NewTrackFormProps): JSX.Element => {
   const { t } = useI18n()
-  const history = useHistory()
+  const navigate = useNavigate()
   const newTrackMutation = useNewTrackMutation()
 
   const initialValues: FormData = {
@@ -74,7 +74,7 @@ const NewTrackForm = ({ isShown, onHide }: NewTrackFormProps): JSX.Element => {
 
     try {
       const { data: track } = await newTrackMutation.mutateAsync(params)
-      history.push(`/tracks/${track.id}`)
+      navigate(`/tracks/${track.id}`)
     } catch (err) {
       console.warn(err)
     }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route, Link, match } from 'react-router-dom'
+import { Routes, Route, Link, useParams } from 'react-router-dom'
 
 import { useSuitQuery } from 'api/suits'
 import { useManufacturerQuery } from 'api/manufacturer'
@@ -11,12 +11,9 @@ import Edit from './Edit'
 import Header from './Header'
 import styles from './styles.module.scss'
 
-type ShowProps = {
-  match: match<{ id: string }>
-}
-
-const Show = ({ match }: ShowProps): JSX.Element | null => {
-  const suitId = Number(match.params.id)
+const Show = (): JSX.Element | null => {
+  const params = useParams()
+  const suitId = Number(params.id)
   const { data: suit } = useSuitQuery(suitId)
   const { data: make } = useManufacturerQuery(suit?.makeId)
 
@@ -36,12 +33,12 @@ const Show = ({ match }: ShowProps): JSX.Element | null => {
 
       <Header suit={suit} make={make} />
 
-      <Switch>
-        <Route exact path="/suits/:id" component={Overview} />
-        <Route path="/suits/:id/edit" component={Edit} />
-        <Route path="/suits/:id/videos" component={Videos} />
-        <Route path="/suits/:id/tracks" component={Tracks} />
-      </Switch>
+      <Routes>
+        <Route index element={<Overview />} />
+        <Route path="edit" element={<Edit suitId={suitId} />} />
+        <Route path="videos" element={<Videos />} />
+        <Route path="tracks" element={<Tracks />} />
+      </Routes>
     </div>
   )
 }

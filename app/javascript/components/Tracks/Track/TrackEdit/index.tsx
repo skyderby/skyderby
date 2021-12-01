@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormikHelpers } from 'formik'
-import { useHistory, match } from 'react-router-dom'
-import { Location } from 'history'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import {
   useTrackQuery,
@@ -14,20 +13,15 @@ import PageContainer from 'components/Tracks/Track/PageContainer'
 import Form from './Form'
 import { FormData } from './types'
 
-interface LocationState {
-  returnTo?: string
-}
-
 type TrackEditProps = {
-  match: match<{ id: string }>
-  location: Location<LocationState>
+  trackId: number
 }
 
-const TrackEdit = ({ match, location }: TrackEditProps): JSX.Element | null => {
-  const trackId = Number(match.params.id)
+const TrackEdit = ({ trackId }: TrackEditProps): JSX.Element | null => {
+  const location = useLocation()
   const returnTo = location.state?.returnTo ?? '/tracks'
 
-  const history = useHistory()
+  const navigate = useNavigate()
   const { data: track } = useTrackQuery(trackId)
   const editMutation = useEditTrackMutation()
   const deleteMutation = useDeleteTrackMutation()
@@ -54,7 +48,7 @@ const TrackEdit = ({ match, location }: TrackEditProps): JSX.Element | null => {
 
     setSubmitting(false)
 
-    history.push(`/tracks/${trackId}`)
+    navigate(`/tracks/${trackId}`)
   }
 
   const handleDelete = async () => {
@@ -64,7 +58,7 @@ const TrackEdit = ({ match, location }: TrackEditProps): JSX.Element | null => {
 
     await deleteMutation.mutateAsync(trackId)
 
-    history.push(returnTo)
+    navigate(returnTo)
   }
 
   if (!track) return null

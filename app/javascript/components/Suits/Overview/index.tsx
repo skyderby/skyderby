@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { useManufacturersQuery } from 'api/manufacturer'
 import Highchart from 'components/Highchart'
@@ -22,22 +21,6 @@ const SuitsOverview = (): JSX.Element => {
         <Highchart autoResize options={options} />
       </div>
     </IndexLayout>
-  )
-}
-
-SuitsOverview.propTypes = {
-  popularity: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      makeId: PropTypes.number.isRequired,
-      popularity: PropTypes.number.isRequired
-    })
-  ),
-  allManufacturers: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired
-    })
   )
 }
 

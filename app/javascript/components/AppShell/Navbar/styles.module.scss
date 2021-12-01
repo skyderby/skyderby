@@ -11,7 +11,7 @@
   background-color: var(--blue-grey-90);
 
   @include sm-screen {
-    height: 3.75rem;
+    height: var(--header-height);
   }
 
   a {

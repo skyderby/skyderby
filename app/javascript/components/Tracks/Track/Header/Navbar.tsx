@@ -1,6 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
-import { Location, LocationDescriptorObject } from 'history'
+import { NavLink, useLocation } from 'react-router-dom'
 
 import { useTrackWindDataQuery } from 'api/tracks/windData'
 import { TrackRecord } from 'api/tracks'
@@ -19,6 +18,7 @@ type NavbarProps = {
 
 const Navbar = ({ track }: NavbarProps): JSX.Element => {
   const { t } = useI18n()
+  const location = useLocation()
   const {
     id: trackId,
     hasVideo,
@@ -26,17 +26,10 @@ const Navbar = ({ track }: NavbarProps): JSX.Element => {
   } = track
   const { data: windData = [] } = useTrackWindDataQuery(trackId)
 
-  const withLocationState = (pathname: string) => (
-    location: Location
-  ): LocationDescriptorObject => ({
-    pathname,
-    state: location.state
-  })
-
   return (
     <PageNavbar>
       <PageNavbar.Item>
-        <NavLink exact to={withLocationState(`/tracks/${trackId}`)}>
+        <NavLink end to={`/tracks/${trackId}`} state={location.state}>
           <span>
             <ChartIcon />
             {t('tracks.show.charts')}
@@ -46,7 +39,7 @@ const Navbar = ({ track }: NavbarProps): JSX.Element => {
 
       {hasVideo ? (
         <PageNavbar.Item>
-          <NavLink to={withLocationState(`/tracks/${trackId}/video`)}>
+          <NavLink to={`/tracks/${trackId}/video`} state={location.state}>
             <span>
               <VideoIcon />
               {t('tracks.show.video')}
@@ -56,7 +49,7 @@ const Navbar = ({ track }: NavbarProps): JSX.Element => {
       ) : (
         canEdit && (
           <PageNavbar.Item>
-            <NavLink to={withLocationState(`/tracks/${trackId}/video/edit`)}>
+            <NavLink to={`/tracks/${trackId}/video/edit`} state={location.state}>
               <span>
                 <VideoIcon />
                 {t('tracks.show.video')}
@@ -67,7 +60,7 @@ const Navbar = ({ track }: NavbarProps): JSX.Element => {
       )}
 
       <PageNavbar.Item>
-        <NavLink to={withLocationState(`/tracks/${trackId}/map`)}>
+        <NavLink to={`/tracks/${trackId}/map`} state={location.state}>
           <span>
             <MapsIcon />
             Google maps
@@ -75,7 +68,7 @@ const Navbar = ({ track }: NavbarProps): JSX.Element => {
         </NavLink>
       </PageNavbar.Item>
       <PageNavbar.Item>
-        <NavLink to={withLocationState(`/tracks/${trackId}/globe`)}>
+        <NavLink to={`/tracks/${trackId}/globe`} state={location.state}>
           <span>
             <MapsIcon />
             3D maps
@@ -83,7 +76,7 @@ const Navbar = ({ track }: NavbarProps): JSX.Element => {
         </NavLink>
       </PageNavbar.Item>
       <PageNavbar.Item>
-        <NavLink to={withLocationState(`/tracks/${trackId}/results`)}>
+        <NavLink to={`/tracks/${trackId}/results`} state={location.state}>
           <span>
             <ListIcon />
             {t('tracks.show.results')}
@@ -92,7 +85,7 @@ const Navbar = ({ track }: NavbarProps): JSX.Element => {
       </PageNavbar.Item>
       {windData.length > 0 && (
         <PageNavbar.Item>
-          <NavLink to={withLocationState(`/tracks/${trackId}/wind_data`)}>
+          <NavLink to={`/tracks/${trackId}/wind_data`} state={location.state}>
             <span>
               <WindIcon />
               {t('events.show.weather_data')}
@@ -105,7 +98,7 @@ const Navbar = ({ track }: NavbarProps): JSX.Element => {
 
       {track.permissions.canEdit && (
         <PageNavbar.Item right>
-          <NavLink to={withLocationState(`/tracks/${track.id}/edit`)}>
+          <NavLink to={`/tracks/${track.id}/edit`} state={location.state}>
             <span>
               <CogIcon />
               Edit

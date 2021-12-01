@@ -1,5 +1,4 @@
 import React from 'react'
-import { match } from 'react-router-dom'
 
 import { useI18n } from 'components/TranslationsProvider'
 import PageContainer from 'components/Tracks/Track/PageContainer'
@@ -7,11 +6,10 @@ import { useTrackWindDataQuery } from 'api/tracks/windData'
 import styles from './styles.module.scss'
 
 type TrackWindDataProps = {
-  match: match<{ id: string }>
+  trackId: number
 }
 
-const TrackWindData = ({ match }: TrackWindDataProps): JSX.Element => {
-  const trackId = Number(match.params.id)
+const TrackWindData = ({ trackId }: TrackWindDataProps): JSX.Element => {
   const { t } = useI18n()
   const { data: windData = [] } = useTrackWindDataQuery(trackId)
 

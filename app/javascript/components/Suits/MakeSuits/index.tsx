@@ -1,6 +1,5 @@
 import React from 'react'
-import { match } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { useParams } from 'react-router-dom'
 
 import { useManufacturerQuery } from 'api/manufacturer'
 import { useAllSuitsQuery } from 'api/suits'
@@ -15,12 +14,9 @@ const suitCategories = [
   { category: 'slick', label: 'Slick suits' }
 ]
 
-type MakeSuitsProps = {
-  match: match<{ id: string }>
-}
-
-const MakeSuits = ({ match }: MakeSuitsProps): JSX.Element => {
-  const makeId = Number(match.params.id)
+const MakeSuits = (): JSX.Element => {
+  const params = useParams()
+  const makeId = Number(params.id)
   const { data: manufacturer } = useManufacturerQuery(makeId)
   const { data: suits = [] } = useAllSuitsQuery({ manufacturerId: makeId })
 
@@ -38,25 +34,6 @@ const MakeSuits = ({ match }: MakeSuitsProps): JSX.Element => {
         ))}
       </div>
     </IndexLayout>
-  )
-}
-
-MakeSuits.propTypes = {
-  manufacturer: PropTypes.shape({
-    name: PropTypes.string.isRequired
-  }),
-  suits: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      category: PropTypes.oneOf(suitCategories.map(el => el.category)).isRequired
-    })
-  ),
-  stats: PropTypes.objectOf(
-    PropTypes.shape({
-      profiles: PropTypes.number.isRequired,
-      baseTracks: PropTypes.number.isRequired,
-      skydiveTracks: PropTypes.number.isRequired
-    })
   )
 }
 
