@@ -1,5 +1,5 @@
 import React from 'react'
-import { Redirect, useRouteMatch } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import { useRoundsQuery } from 'api/performanceCompetitions'
 import { compareAsc, parseISO } from 'date-fns'
 import PropTypes from 'prop-types'
@@ -15,8 +15,8 @@ const orderChronologically = rounds =>
   )
 
 const Maps = ({ eventId }) => {
-  const match = useRouteMatch()
-  const roundId = Number(match.params.roundId)
+  const params = useParams()
+  const roundId = Number(params.roundId)
   const { data: rounds, isLoading } = useRoundsQuery(eventId)
 
   if (isLoading) return null
@@ -27,7 +27,7 @@ const Maps = ({ eventId }) => {
 
   const sortedRounds = orderChronologically(rounds)
 
-  if (!roundId) return <Redirect to={mapsPath(eventId, sortedRounds[0].id)} />
+  if (!roundId) return <Navigate to={mapsPath(eventId, sortedRounds[0].id)} />
 
   return (
     <div className={styles.container}>

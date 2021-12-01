@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import {
   extractParamsFromUrl as extractTrackParamsFromUrl,
   mapParamsToUrl as mapTrackParamsToUrl,
@@ -71,7 +71,7 @@ type PageParams = {
 }
 
 const usePageParams = (): PageParams => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
   const params = extractParamsFromUrl(location.search)
 
@@ -93,38 +93,43 @@ const usePageParams = (): PageParams => {
 
   const updateFilters = useCallback(
     filters =>
-      history.replace(`${location.pathname}${buildUrl({ tracksParams: { filters } })}`),
-    [buildUrl, history, location.pathname]
+      navigate(`${location.pathname}${buildUrl({ tracksParams: { filters } })}`, {
+        replace: true
+      }),
+    [buildUrl, navigate, location.pathname]
   )
 
   const setSelectedTerrainProfile = useCallback(
     selectedTerrainProfile =>
-      history.replace(`${location.pathname}${buildUrl({ selectedTerrainProfile })}`),
-    [buildUrl, history, location.pathname]
+      navigate(`${location.pathname}${buildUrl({ selectedTerrainProfile })}`, {
+        replace: true
+      }),
+    [buildUrl, navigate, location.pathname]
   )
 
   const setAdditionalTerrainProfiles = useCallback(
     ids => {
       if (isEqual(ids, params.additionalTerrainProfiles)) return
 
-      history.replace(
-        `${location.pathname}${buildUrl({ additionalTerrainProfiles: ids })}`
-      )
+      navigate(`${location.pathname}${buildUrl({ additionalTerrainProfiles: ids })}`, {
+        replace: true
+      })
     },
-    [buildUrl, history, location.pathname]
+    [buildUrl, navigate, location.pathname]
   )
 
   const deleteAdditionalTerrainProfile = useCallback(
     idToRemove => {
-      history.replace(
+      navigate(
         `${location.pathname}${buildUrl({
           additionalTerrainProfiles: params.additionalTerrainProfiles.filter(
             id => id !== idToRemove
           )
-        })}`
+        })}`,
+        { replace: true }
       )
     },
-    [params, buildUrl, history, location.pathname]
+    [params, buildUrl, navigate, location.pathname]
   )
 
   const toggleTrack = useCallback(
@@ -134,9 +139,9 @@ const usePageParams = (): PageParams => {
         ? params.selectedTracks.filter(el => el !== trackId)
         : [...params.selectedTracks, trackId]
 
-      history.replace(`${location.pathname}${buildUrl({ selectedTracks })}`)
+      navigate(`${location.pathname}${buildUrl({ selectedTracks })}`, { replace: true })
     },
-    [params, buildUrl, history, location.pathname]
+    [params, buildUrl, navigate, location.pathname]
   )
 
   return {

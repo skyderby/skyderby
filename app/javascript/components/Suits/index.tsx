@@ -1,16 +1,16 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
 import Overview from './Overview'
 import MakeSuits from './MakeSuits'
 import Show from './Show'
 
 const Suits = (): JSX.Element => (
-  <Switch>
-    <Route exact path="/suits" component={Overview} />
-    <Route path="/suits/make/:id" component={MakeSuits} />
-    <Route path="/suits/:id" component={Show} />
-  </Switch>
+  <Routes>
+    <Route index element={<Overview />} />
+    <Route path="make/:id" element={<MakeSuits />} />
+    <Route path=":id" element={<Show />} />
+  </Routes>
 )
 
 export default Suits

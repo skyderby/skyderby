@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { match } from 'react-router-dom'
-import Cesium from 'cesium'
+import type Cesium from 'cesium'
 
 import { useTrackPointsQuery } from 'api/tracks/points'
 import useCesiumApi from 'utils/useCesiumApi'
@@ -10,11 +9,10 @@ import ViewerClock from './ViewerClock'
 import styles from './styles.module.scss'
 
 type TrackGlobeProps = {
-  match: match<{ id: string }>
+  trackId: number
 }
 
-const TrackGlobe = ({ match }: TrackGlobeProps): JSX.Element | null => {
-  const trackId = Number(match.params.id)
+const TrackGlobe = ({ trackId }: TrackGlobeProps): JSX.Element | null => {
   const Cesium = useCesiumApi()
   const element = useRef<HTMLDivElement>(null)
   const [viewer, setViewer] = useState<Cesium.Viewer>()

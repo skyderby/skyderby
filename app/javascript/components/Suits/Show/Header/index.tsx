@@ -17,7 +17,7 @@ const Header = ({ suit, make }: HeaderProps): JSX.Element => {
       <small className={styles.subtitle}>{make.name}</small>
 
       <div className={styles.navbar}>
-        <NavLink exact to={`/suits/${suit.id}`} className={styles.navbarLink}>
+        <NavLink end to={`/suits/${suit.id}`} className={styles.navbarLink}>
           <div>Overview</div>
         </NavLink>
         <NavLink to={`/suits/${suit.id}/videos`} className={styles.navbarLink}>

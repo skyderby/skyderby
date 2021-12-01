@@ -1,5 +1,5 @@
 import React from 'react'
-import { Location } from 'history'
+import { useLocation } from 'react-router-dom'
 
 import { useI18n } from 'components/TranslationsProvider'
 import {
@@ -8,19 +8,15 @@ import {
   mapParamsToUrl,
   useTracksQuery
 } from 'api/tracks'
-import AppShell from 'components/AppShell'
 import Pagination from 'components/Pagination'
 import TrackList from 'components/TrackList'
 import ActivitySelect from './ActivitySelect'
 import Filters from './Filters'
 import styles from './styles.module.scss'
 
-type TracksIndexProps = {
-  location: Location
-}
-
-const TracksIndex = ({ location }: TracksIndexProps): JSX.Element => {
+const TracksIndex = (): JSX.Element => {
   const { t } = useI18n()
+  const location = useLocation()
 
   const params = extractParamsFromUrl(location.search)
   const { data, isLoading } = useTracksQuery(params)
@@ -32,20 +28,18 @@ const TracksIndex = ({ location }: TracksIndexProps): JSX.Element => {
   const buildUrl = (newParams: IndexParams) => mapParamsToUrl({ ...params, ...newParams })
 
   return (
-    <AppShell>
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>{t('application.header.tracks')}</h1>
-          <ActivitySelect buildUrl={buildUrl} currentActivity={params.activity} />
-        </div>
-
-        <Filters />
-
-        <TrackList tracks={tracks} />
-
-        {pagination && <Pagination buildUrl={buildUrl} {...pagination} />}
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h1 className={styles.title}>{t('application.header.tracks')}</h1>
+        <ActivitySelect buildUrl={buildUrl} currentActivity={params.activity} />
       </div>
-    </AppShell>
+
+      <Filters />
+
+      <TrackList tracks={tracks} />
+
+      {pagination && <Pagination buildUrl={buildUrl} {...pagination} />}
+    </div>
   )
 }
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Switch, Route, useHistory } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 
 import Landing from 'components/Landing'
 import Tracks from 'components/Tracks'
@@ -8,6 +8,8 @@ import FlightProfiles from 'components/FlightProfiles'
 import Places from 'components/Places'
 import Suits from 'components/Suits'
 import Users from 'components/Users'
+import AppShell from 'components/AppShell'
+import ErrorPage from 'components/ErrorPage'
 
 const reportLocation = location =>
   window.gtag('event', 'page_view', {
@@ -15,26 +17,27 @@ const reportLocation = location =>
   })
 
 const AppRouter = () => {
-  const history = useHistory()
+  const location = useLocation()
 
   useEffect(() => {
-    const unlisten = history.listen(reportLocation)
-
-    reportLocation(history.location)
-
-    return () => unlisten()
-  }, [history])
+    reportLocation(location)
+  }, [location])
 
   return (
-    <Switch>
-      <Route exact path="/" component={Landing} />
-      <Route path="/flight_profiles" component={FlightProfiles} />
-      <Route path="/tracks" component={Tracks} />
-      <Route path="/events" component={Events} />
-      <Route path="/places" component={Places} />
-      <Route path="/users" component={Users} />
-      <Route path="/suits" component={Suits} />
-    </Switch>
+    <Routes>
+      <Route path="/" element={<AppShell />}>
+        <Route index element={<Landing />} />
+        <Route path="flight_profiles" element={<FlightProfiles />} />
+        <Route path="tracks/*" element={<Tracks />} />
+        <Route path="events/*" element={<Events />} />
+        <Route path="places/*" element={<Places />} />
+        <Route path="suits/*" element={<Suits />} />
+
+        <Route path="*" element={<ErrorPage.NotFound />} />
+      </Route>
+
+      <Route path="/users/*" element={<Users />} />
+    </Routes>
   )
 }
 

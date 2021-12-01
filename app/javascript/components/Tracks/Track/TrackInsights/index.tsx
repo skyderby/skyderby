@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
-import { useHistory, match } from 'react-router-dom'
-import { Location } from 'history'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import { useTrackQuery } from 'api/tracks'
 import { useTrackPointsQuery } from 'api/tracks/points'
@@ -17,13 +16,12 @@ import RangeShortcuts from './RangeShortcuts'
 import { getMinMaxAltitude } from './minMaxAltitude'
 
 type TrackInsightsProps = {
-  match: match<{ id: string }>
-  location: Location
+  trackId: number
 }
 
-const TrackInsights = ({ match, location }: TrackInsightsProps): JSX.Element => {
-  const trackId = Number(match.params.id)
-  const history = useHistory()
+const TrackInsights = ({ trackId }: TrackInsightsProps): JSX.Element => {
+  const location = useLocation()
+  const navigate = useNavigate()
   const { data: track } = useTrackQuery(trackId)
   const { data: points = [] } = useTrackPointsQuery(trackId)
   const { data: windData = [] } = useTrackWindDataQuery(trackId)
@@ -42,7 +40,10 @@ const TrackInsights = ({ match, location }: TrackInsightsProps): JSX.Element => 
     } else {
       params.delete('straight-line')
     }
-    history.replace({ pathname: location.pathname, search: params.toString() })
+    navigate(
+      { pathname: location.pathname, search: params.toString() },
+      { replace: true }
+    )
   }
 
   const altitudeFrom = altitudeFromParam
@@ -68,7 +69,10 @@ const TrackInsights = ({ match, location }: TrackInsightsProps): JSX.Element => 
       params.set('t', String(valueTo))
     }
 
-    history.replace({ pathname: location.pathname, search: params.toString() })
+    navigate(
+      { pathname: location.pathname, search: params.toString() },
+      { replace: true }
+    )
   }
 
   const selectedPoints = useMemo(() => cropPoints(points, altitudeFrom, altitudeTo), [
