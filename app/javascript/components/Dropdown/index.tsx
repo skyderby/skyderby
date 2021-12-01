@@ -62,7 +62,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
         },
         { type: 'spring', duration: 0.2 }
       )
-    }, [state])
+    }, [state, controls])
 
     return ReactDOM.createPortal(
       <motion.div
