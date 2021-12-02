@@ -18,6 +18,7 @@ module.exports = {
   typescript: {
     reactDocgen: 'none'
   },
+  staticDirs: ['../public'],
   webpackFinal: async config => {
     const virtualModules = new VirtualModulesPlugin()
 
