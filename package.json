@@ -17,7 +17,7 @@
     "lint-code": "yarn eslint app/javascript spec/javascript",
     "lint-styles": "yarn stylelint \"app/javascript/**/*.scss\"",
     "test": "jest",
-    "storybook": "start-storybook -s public -p 6006",
+    "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
   "prettier": {
