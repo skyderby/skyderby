@@ -1,5 +1,6 @@
 import React from 'react'
 import { rest } from 'msw'
+import { Routes, Route } from 'react-router-dom'
 
 import AppShell from './'
 import PageLoading from 'components/PageWrapper/Loading'
@@ -42,22 +43,38 @@ const authorizedParams = {
   ]
 }
 
-export const NotLoggedIn = () => <AppShell>App</AppShell>
+export const NotLoggedIn = () => (
+  <Routes>
+    <Route path="*" element={<AppShell />}>
+      <Route path="*" element={<h1 style={{ textAlign: 'center' }}>App</h1>} />
+    </Route>
+  </Routes>
+)
 NotLoggedIn.parameters = notAuthorizedParams
 
-export const LoggedIn = () => <AppShell>App</AppShell>
+export const LoggedIn = () => (
+  <Routes>
+    <Route path="*" element={<AppShell />}>
+      <Route path="*" element={<h1 style={{ textAlign: 'center' }}>App</h1>} />
+    </Route>
+  </Routes>
+)
 LoggedIn.parameters = authorizedParams
 
 export const LoadingState = () => (
-  <AppShell>
-    <PageLoading />
-  </AppShell>
+  <Routes>
+    <Route path="*" element={<AppShell />}>
+      <Route path="*" element={<PageLoading />} />
+    </Route>
+  </Routes>
 )
 LoadingState.parameters = notAuthorizedParams
 
 export const Error = () => (
-  <AppShell>
-    <ErrorPage.NotFound />
-  </AppShell>
+  <Routes>
+    <Route path="*" element={<AppShell />}>
+      <Route path="*" element={<ErrorPage.NotFound />} />
+    </Route>
+  </Routes>
 )
 Error.parameters = notAuthorizedParams
