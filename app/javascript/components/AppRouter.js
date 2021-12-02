@@ -11,16 +11,15 @@ import Users from 'components/Users'
 import AppShell from 'components/AppShell'
 import ErrorPage from 'components/ErrorPage'
 
-const reportLocation = location =>
-  window.gtag('event', 'page_view', {
-    page_path: location.pathname + location.search
-  })
+const reportLocation = pagePath =>
+  window.gtag('event', 'page_view', { page_path: pagePath })
 
 const AppRouter = () => {
   const location = useLocation()
 
   useEffect(() => {
-    reportLocation(location)
+    const pagePath = location.pathname + location.search
+    reportLocation(pagePath)
   }, [location])
 
   return (

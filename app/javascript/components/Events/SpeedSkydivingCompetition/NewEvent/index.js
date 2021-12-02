@@ -2,7 +2,6 @@ import React from 'react'
 import format from 'date-fns/format'
 import { useNavigate } from 'react-router-dom'
 
-import AppShell from 'components/AppShell'
 import Form from '../Form'
 import styles from './styles.module.scss'
 import { useNewSpeedSkydivingCompetitionMutation } from 'api/speedSkydivingCompetitions'
@@ -22,18 +21,16 @@ const NewEvent = () => {
   }
 
   return (
-    <AppShell>
-      <div className={styles.container}>
-        <h1 className={styles.pageTitle}>New Speed Skydiving Competition</h1>
-        <div className={styles.card}>
-          <Form
-            initialValues={initialValues}
-            mutation={newEventMutation}
-            returnUrl="/events/speed_skydiving/new"
-          />
-        </div>
+    <div className={styles.container}>
+      <h1 className={styles.pageTitle}>New Speed Skydiving Competition</h1>
+      <div className={styles.card}>
+        <Form
+          initialValues={initialValues}
+          mutation={newEventMutation}
+          returnUrl="/events/speed_skydiving/new"
+        />
       </div>
-    </AppShell>
+    </div>
   )
 }
 
