@@ -24,7 +24,7 @@
   @include sm-screen {
     width: 400px;
     margin: 2rem auto;
-    padding: 1rem 0;
+    padding: 2rem 0;
     border-radius: var(--border-radius-md);
 
     box-shadow: var(--block-box-shadow);
@@ -36,7 +36,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
 
   color: var(--text-color);
   font-weight: 100;
@@ -45,8 +44,6 @@
   text-decoration: none;
 
   @include sm-screen {
-    padding: 2rem;
-
     font-size: 1.75rem;
   }
 
