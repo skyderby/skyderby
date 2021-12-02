@@ -1,14 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 
 import Logo from 'icons/logo.svg'
 import styles from './styles.module.scss'
 
-type PageWrapperProps = {
-  children: React.ReactNode
-}
-
-const UsersLayout = ({ children }: PageWrapperProps): JSX.Element => (
+const UsersLayout = (): JSX.Element => (
   <div className={styles.container}>
     <div className={styles.content}>
       <Link to="/" className={styles.home}>
@@ -16,7 +12,7 @@ const UsersLayout = ({ children }: PageWrapperProps): JSX.Element => (
         Skyderby
       </Link>
 
-      {children}
+      <Outlet />
     </div>
   </div>
 )
