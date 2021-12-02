@@ -3,7 +3,6 @@ import format from 'date-fns/format'
 import { useNavigate } from 'react-router-dom'
 
 import { useNewPerformanceEventMutation } from 'api/performanceCompetitions'
-import AppShell from 'components/AppShell'
 import Form from '../Form'
 import styles from './styles.module.scss'
 
@@ -31,14 +30,12 @@ const NewEvent = () => {
   }
 
   return (
-    <AppShell>
-      <div className={styles.container}>
-        <h1 className={styles.pageTitle}>New GPS Performance Competition</h1>
-        <div className={styles.card}>
-          <Form initialValues={initialValues} onSubmit={createEvent} />
-        </div>
+    <div className={styles.container}>
+      <h1 className={styles.pageTitle}>New GPS Performance Competition</h1>
+      <div className={styles.card}>
+        <Form initialValues={initialValues} onSubmit={createEvent} />
       </div>
-    </AppShell>
+    </div>
   )
 }
 

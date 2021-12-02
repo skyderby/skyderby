@@ -6,6 +6,8 @@ import SignIn from './SignIn'
 import SignUp from './SignUp'
 import EmailConfirmation from './EmailConfirmation'
 import UsersIndex from './UsersIndex'
+import AppShell from 'components/AppShell'
+import Layout from 'components/Users/Layout'
 
 const Users = (): JSX.Element | null => {
   const { data: currentUser, isLoading } = useCurrentUserQuery()
@@ -15,9 +17,11 @@ const Users = (): JSX.Element | null => {
   if (currentUser?.authorized) {
     return (
       <Routes>
-        {currentUser?.permissions?.canManageUsers && (
-          <Route index element={<UsersIndex />} />
-        )}
+        <Route element={<AppShell />}>
+          {currentUser?.permissions?.canManageUsers && (
+            <Route index element={<UsersIndex />} />
+          )}
+        </Route>
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
@@ -25,9 +29,11 @@ const Users = (): JSX.Element | null => {
   } else {
     return (
       <Routes>
-        <Route path="sign-in" element={<SignIn />} />
-        <Route path="sign-up" element={<SignUp />} />
-        <Route path="email-confirmation" element={<EmailConfirmation />} />
+        <Route element={<Layout />}>
+          <Route path="sign-in" element={<SignIn />} />
+          <Route path="sign-up" element={<SignUp />} />
+          <Route path="email-confirmation" element={<EmailConfirmation />} />
+        </Route>
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

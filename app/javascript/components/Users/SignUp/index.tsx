@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
 import { useSignUpMutation } from 'api/users'
-import Layout from 'components/Users/Layout'
 import SuccessRegistration from './SuccessRegistration'
 import Form from './Form'
 
@@ -11,9 +10,7 @@ const SignUp = (): JSX.Element => {
     onSuccess: () => setSignedUp(true)
   })
 
-  return (
-    <Layout>{signedUp ? <SuccessRegistration /> : <Form mutation={mutation} />}</Layout>
-  )
+  return signedUp ? <SuccessRegistration /> : <Form mutation={mutation} />
 }
 
 export default SignUp
