@@ -1,7 +1,6 @@
 import React from 'react'
-import { Formik, Field, ErrorMessage } from 'formik'
+import { Formik, Field, ErrorMessage, FieldProps } from 'formik'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
 import ErrorText from 'components/ui/ErrorMessage'
 import { useI18n } from 'components/TranslationsProvider'
@@ -9,12 +8,25 @@ import CountrySelect from 'components/CountrySelect'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
 import validationSchema from './validationSchema'
 import styles from './styles.module.scss'
+import { CreateVariables, NewPlaceMutation } from 'api/places'
+import { ValueType } from 'react-select'
 
-const Form = props => {
+type FormProps = {
+  initialValues: CreateVariables
+  mutation: NewPlaceMutation
+}
+
+const Form = ({ initialValues, mutation }: FormProps): JSX.Element => {
   const { t } = useI18n()
 
+  const handleSubmit = (values: CreateVariables) => mutation.mutate(values)
+
   return (
-    <Formik {...props} validationSchema={validationSchema}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validationSchema={validationSchema}
+    >
       {({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <div className={styles.formFields}>
@@ -43,12 +55,21 @@ const Form = props => {
             <label>{t('activerecord.attributes.place.country')}</label>
             <div>
               <Field name="countryId">
-                {({ field: { name, ...props }, form: { setFieldValue } }) => (
+                {({
+                  field: { name, ...props },
+                  form: { setFieldValue }
+                }: FieldProps): JSX.Element => (
                   <CountrySelect
                     {...props}
                     placeholder={t('views.places.placeholder')}
                     aria-label="Select country"
-                    onChange={({ value }) => setFieldValue(name, value)}
+                    onChange={(option: ValueType<{ value: number }, false>) => {
+                      if (option === null) {
+                        setFieldValue(name, null)
+                      } else {
+                        setFieldValue(name, option.value)
+                      }
+                    }}
                   />
                 )}
               </Field>
@@ -86,16 +107,6 @@ const Form = props => {
       )}
     </Formik>
   )
-}
-
-Form.propTypes = {
-  initialValues: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    kind: PropTypes.oneOf(['skydive', 'base']).isRequired,
-    latitude: PropTypes.number.isRequired,
-    longitude: PropTypes.number.isRequired,
-    msl: PropTypes.number.isRequired
-  })
 }
 
 export default Form
