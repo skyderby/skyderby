@@ -1,15 +1,11 @@
 import React from 'react'
-import { Formik, Field, FormikHelpers } from 'formik'
+import { Formik, Field } from 'formik'
 
 import validationSchema from './validationSchema'
 import styles from 'components/Users/styles.module.scss'
 import Separator from 'components/Users/Separator'
 import { Link } from 'react-router-dom'
 import { useI18n } from 'components/TranslationsProvider'
-
-interface FormValues {
-  email: string
-}
 
 const initialValues = { email: '' }
 
