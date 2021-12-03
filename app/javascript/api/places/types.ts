@@ -1,6 +1,7 @@
 import { CountryRecord } from 'api/countries'
 
-type PlaceKind = 'base' | 'skydive'
+export const placeTypes = ['base', 'skydive'] as const
+type PlaceKind = typeof placeTypes[number]
 
 type PlacePhoto = {
   id: number
@@ -34,7 +35,3 @@ export type IndexParams = {
   page?: number
   perPage?: number
 }
-
-export type RecordQueryKey = ['places', number | null | undefined]
-export type IndexQueryKey = ['places', IndexParams]
-export type AllPlacesQueryKey = ['places', 'all']
