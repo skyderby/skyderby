@@ -5,10 +5,27 @@ import Form from '../Form'
 import styles from './styles.module.scss'
 import { useNewPlaceMutation } from 'api/places'
 import { useI18n } from 'components/TranslationsProvider'
+import { useCurrentUserQuery } from 'api/sessions'
+import Loading from 'components/PageWrapper/Loading'
+
+const initialValues = {
+  countryId: null,
+  kind: 'skydive',
+  name: '',
+  latitude: '',
+  longitude: '',
+  msl: ''
+}
 
 const NewPlace = () => {
+  const { t } = useI18n()
+  const { data: currentUser, isLoading } = useCurrentUserQuery()
   const newPlaceMutation = useNewPlaceMutation()
   const navigate = useNavigate()
+
+  if (isLoading) return <Loading />
+
+  if (!currentUser?.permissions.canCreatePlace) navigate('/places')
 
   const createEvent = async values => {
     try {
@@ -18,17 +35,6 @@ const NewPlace = () => {
       console.warn(err.message)
     }
   }
-
-  const initialValues = {
-    countryId: null,
-    kind: 'skydive',
-    name: '',
-    latitude: 0,
-    longitude: 0,
-    msl: 0
-  }
-
-  const { t } = useI18n()
 
   return (
     <div className={styles.container}>
