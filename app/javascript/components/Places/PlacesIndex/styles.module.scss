@@ -8,6 +8,7 @@
   @include sm-screen {
     grid-template-rows: 100%;
     grid-template-columns: 350px 1fr;
+    height: calc(100vh - var(--header-height) - var(--footer-height));
     border-bottom: solid 1px var(--border-color);
     overflow: auto;
   }
