@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-import { useCurrentUserQuery, useLogoutMutation } from 'api/sessions'
+import { useCurrentUserQuery } from 'api/sessions'
 import { useI18n } from 'components/TranslationsProvider'
 import NewTrackForm from 'components/NewTrackForm'
-import ExitIcon from 'icons/exit.svg'
 import LocaleSelector from './LocaleSelector'
 import CurrentUser from './CurrentUser'
+import LogoutButton from './LogoutButton'
 import styles from './styles.module.scss'
 
 const RightMenuDesktop = (): JSX.Element => {
@@ -14,9 +14,6 @@ const RightMenuDesktop = (): JSX.Element => {
   const location = useLocation()
   const [showModal, setShowModal] = useState(false)
   const { data: currentUser, isLoading } = useCurrentUserQuery()
-  const logoutMutation = useLogoutMutation()
-
-  const handleLogout = () => logoutMutation.mutate({})
 
   return (
     <ul className={styles.rightMenuDesktop}>
@@ -36,13 +33,7 @@ const RightMenuDesktop = (): JSX.Element => {
               </li>
 
               <li className={styles.menuItem}>
-                <button
-                  onClick={handleLogout}
-                  className={styles.logoutButton}
-                  title={t('application.header.sign_out')}
-                >
-                  <ExitIcon />
-                </button>
+                <LogoutButton />
               </li>
             </>
           ) : (
