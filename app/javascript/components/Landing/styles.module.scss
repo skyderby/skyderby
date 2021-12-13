@@ -1,3 +1,5 @@
+@import "styles/breakpoints";
+
 .hero {
   position: relative;
 
@@ -26,13 +28,19 @@
 .heroText {
   z-index: 2;
 
-  max-width: 40rem;
+  max-width: 100%;
 
   color: rgba(255, 255, 255, 0.9);
   font-weight: 500;
-  font-size: 3rem;
+  font-size: 2rem;
   letter-spacing: 1.5px;
   text-align: center;
+
+  @include sm-screen {
+    max-width: 40rem;
+
+    font-size: 3rem;
+  }
 }
 
 @keyframes warning-text {
@@ -48,7 +56,13 @@
   padding: 1rem;
   border-radius: var(--border-radius-lg);
 
-  font-size: 2rem;
+  font-size: 1.5rem;
 
   background-color: var(--red-90);
+
+  @include sm-screen {
+    max-width: 40rem;
+
+    font-size: 2rem;
+  }
 }

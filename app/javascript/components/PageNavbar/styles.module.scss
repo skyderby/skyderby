@@ -61,15 +61,15 @@
 }
 
 .menuItem :global(.active) {
-  border-bottom-color: var(--blue-grey-70);
+  border-bottom-color: var(--blue-grey-60);
 
   span {
-    color: var(--blue-grey-70);
+    color: var(--blue-grey-60);
     font-weight: 500;
   }
 
   path {
-    fill: var(--blue-grey-70);
+    fill: var(--blue-grey-60);
   }
 }
 

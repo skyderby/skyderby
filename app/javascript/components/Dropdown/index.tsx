@@ -6,23 +6,12 @@ import { Options } from '@popperjs/core'
 
 import styles from './styles.module.scss'
 import cx from 'clsx'
+import usePortalRoot from 'hooks/usePortalRoot'
 
 type DropdownProps = {
   referenceElement: AnyHTMLElement | null
   children: React.ReactNode
   options: Partial<Options>
-}
-
-const getPortalRoot = () => {
-  const elementId = 'dropdowns-root'
-  const existedRoot = document.getElementById(elementId)
-  if (existedRoot) return existedRoot
-
-  const createdRoot = document.createElement('div')
-  createdRoot.setAttribute('id', elementId)
-  document.body.insertAdjacentElement('beforeend', createdRoot)
-
-  return createdRoot
 }
 
 const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
@@ -34,6 +23,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       styles: { popper: position },
       attributes
     } = usePopper(referenceElement, popperElement, options)
+    const dropdownRoot = usePortalRoot('dropdowns-root')
 
     useLayoutEffect(() => {
       if (!popperElement) return
@@ -74,7 +64,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       >
         {children}
       </motion.div>,
-      getPortalRoot()
+      dropdownRoot
     )
   }
 )

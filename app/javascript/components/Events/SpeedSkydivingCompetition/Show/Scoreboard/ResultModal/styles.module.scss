@@ -28,7 +28,7 @@
 
 .activeTab {
   --active-text-color: var(--white);
-  --active-background-color: var(--blue-grey-70);
+  --active-background-color: var(--blue-grey-60);
 
   composes: active from '~styles/button';
 }
