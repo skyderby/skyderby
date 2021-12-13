@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { useI18n } from 'components/TranslationsProvider'
 import Logo from 'icons/logo.svg'
 import RightMenuDesktop from './RightMenuDesktop'
-import MenuMobile from './MenuMobile'
+import MobileMenu from './MobileMenu'
 import styles from './styles.module.scss'
 
 const Navbar = (): JSX.Element => {
@@ -35,7 +35,7 @@ const Navbar = (): JSX.Element => {
       </ul>
 
       <RightMenuDesktop />
-      <MenuMobile />
+      <MobileMenu />
     </nav>
   )
 }

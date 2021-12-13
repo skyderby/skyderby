@@ -81,7 +81,7 @@
   font-size: 1.125rem;
 
   &:hover {
-    color: var(--blue-grey-80);
+    color: var(--blue-grey-70);
   }
 }
 
@@ -103,7 +103,7 @@
 }
 
 .actionButton.active {
-  --text-color: var(--blue-grey-60);
+  --text-color: var(--blue-grey-50);
 }
 
 .place .actionButton {
@@ -118,7 +118,7 @@
 }
 
 .place:hover {
-  box-shadow: inset 3px 0 0 var(--blue-grey-60);
+  box-shadow: inset 3px 0 0 var(--blue-grey-50);
 }
 
 .settings {

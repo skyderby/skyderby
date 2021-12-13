@@ -3,7 +3,7 @@
 .trackLink {
   --default-box-shadow: 0 0 5px var(--box-shadow-color), inset 0 0 0 transparent;
   --pressed-box-shadow: 0 0 2px var(--box-shadow-color);
-  --active-box-shadow: inset 5px 0 0 var(--blue-grey-60);
+  --active-box-shadow: inset 5px 0 0 var(--blue-grey-50);
 
   display: grid;
   grid-row-gap: 0.25rem;
@@ -50,7 +50,7 @@
       }
 
       &:hover > :first-child {
-        box-shadow: inset 3px 0 0 var(--blue-grey-60);
+        box-shadow: inset 3px 0 0 var(--blue-grey-50);
       }
     }
   }
