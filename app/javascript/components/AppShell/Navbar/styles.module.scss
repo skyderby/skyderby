@@ -64,7 +64,7 @@
 }
 
 .menuItem a:not(:global(.active)):hover {
-  background-color: var(--blue-grey-80);
+  background-color: var(--blue-grey-70);
 }
 
 .menu {
@@ -96,11 +96,17 @@
   }
 }
 
-.menuMobile {
-  display: flex;
+.sidebar {
+  position: absolute;
+  top: 0;
+  right: -80vw;
+  background-color: var(--blue-grey-60);
+  height: 100vh;
+  width: 80vw;
+  z-index: 10;
 
-  @include sm-screen {
-    display: none;
+  &.active {
+    right: 0;
   }
 }
 
@@ -134,7 +140,7 @@
   cursor: pointer;
 
   &:hover {
-    background-color: var(--blue-grey-80);
+    background-color: var(--blue-grey-70);
   }
 
   svg {

@@ -2,28 +2,9 @@ import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import cx from 'clsx'
 
+import usePortalRoot from 'hooks/usePortalRoot'
+import useDocumentBodyScroll from 'hooks/useDocumentBodyScroll'
 import styles from './styles.module.scss'
-
-const bodyClassName = 'modalShown'
-const setBodyScroll = (modalShown: boolean): void => {
-  if (modalShown) {
-    document.body.classList.add(bodyClassName)
-  } else {
-    document.body.classList.remove(bodyClassName)
-  }
-}
-
-const getPortalRoot = () => {
-  const elementId = 'modal-root'
-  const existedRoot = document.getElementById(elementId)
-  if (existedRoot) return existedRoot
-
-  const createdRoot = document.createElement('div')
-  createdRoot.setAttribute('id', elementId)
-  document.body.insertAdjacentElement('beforeend', createdRoot)
-
-  return createdRoot
-}
 
 type ModalSize = 'sm' | 'md' | 'lg'
 
@@ -43,13 +24,14 @@ const Modal = ({
   children
 }: ModalProps): JSX.Element => {
   const [internalIsShown, setIsShown] = useState(isShown)
-  const modalRoot = getPortalRoot()
+  const modalRoot = usePortalRoot('modal-root')
+  const { enableScroll, setScroll } = useDocumentBodyScroll()
 
   useEffect(() => {
     setIsShown(isShown)
-    setBodyScroll(isShown)
+    setScroll({ enabled: !isShown })
 
-    return () => setBodyScroll(false)
+    return () => enableScroll()
   }, [isShown])
 
   const handleOverlayClick = (e: React.MouseEvent) => {
