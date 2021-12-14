@@ -13,7 +13,7 @@ class SpeedSkydivingCompetition::Scoreboard::Standings
     standings = competitors.map do |competitor|
       competitor_results = accountable_results_for(competitor)
       total = competitor_results.sum { |record| record.result || 0.0 }
-      average = competitor_results.any? ? total / competitor_results.size : 0
+      average = completed_rounds.any? ? total / completed_rounds.size : 0
 
       { competitor: competitor, total: total.round(2), average: average.round(2) }
     end
