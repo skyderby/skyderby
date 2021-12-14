@@ -3,6 +3,10 @@
 .mainHeaderItems {
   display: flex;
   margin-left: auto;
+
+  @include sm-screen {
+    display: none;
+  }
 }
 
 .titleMenu {
