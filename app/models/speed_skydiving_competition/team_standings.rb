@@ -15,7 +15,7 @@ class SpeedSkydivingCompetition::TeamStandings
   attr_reader :event
 
   def calculate_team_score(team)
-    team_results = results.select { |record| team.competitors.include? record.competitor }
+    team_results = accountable_team_results(team)
     return if team_results.blank?
 
     team_results
