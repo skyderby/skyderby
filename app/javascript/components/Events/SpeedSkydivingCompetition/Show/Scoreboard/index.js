@@ -8,7 +8,7 @@ import {
 import { useStandingsQuery } from 'api/speedSkydivingCompetitions'
 import useStickyTableHeader from 'hooks/useStickyTableHeader'
 import ActionsBar from './ActionsBar'
-import TableHeader from './TableHeader'
+import TableHeader from '../ScoreboardHeader'
 import TableBody from './TableBody'
 import styles from './styles.module.scss'
 
