@@ -156,9 +156,9 @@ export const useEditResultMutation = (
         queryClient.invalidateQueries(
           pointsQuery(response.data.trackId, { originalFrequency: true }).queryKey,
           { refetchInactive: true }
-        ),
-        queryClient.refetchQueries(standingsQuery(eventId))
+        )
       ])
+
       options.onSuccess?.(updatedResult)
     }
   })

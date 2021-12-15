@@ -13,6 +13,8 @@ import { parseISO } from 'date-fns'
 
 import { Round } from './types'
 import { standingsQuery } from 'api/speedSkydivingCompetitions/standings'
+import { openStandingsQuery } from 'api/speedSkydivingCompetitions/openStandings'
+import { teamStandingsQuery } from 'api/speedSkydivingCompetitions/teamStandings'
 
 type QueryKey = ['speedSkydivingCompetitions', number, 'rounds']
 
@@ -131,7 +133,17 @@ export const useEditRoundMutation = (): UseMutationResult<
         data.map(round => (round.id === updatedRound.id ? updatedRound : round))
       )
 
-      return queryClient.refetchQueries(standingsQuery(eventId))
+      return Promise.all([
+        queryClient.invalidateQueries(standingsQuery(eventId).queryKey, {
+          refetchInactive: true
+        }),
+        queryClient.invalidateQueries(openStandingsQuery(eventId).queryKey, {
+          refetchInactive: true
+        }),
+        queryClient.invalidateQueries(teamStandingsQuery(eventId).queryKey, {
+          refetchInactive: true
+        })
+      ])
     }
   })
 }
