@@ -7,6 +7,7 @@ import {
 } from 'api/speedSkydivingCompetitions'
 import useStickyTableHeader from 'hooks/useStickyTableHeader'
 import StandingRow from './StandingRow'
+import TableHeader from '../ScoreboardHeader'
 import styles from './styles.module.scss'
 
 const OpenScoreboard = ({ eventId }) => {
@@ -16,19 +17,7 @@ const OpenScoreboard = ({ eventId }) => {
   const tableRef = useRef()
   const stickyContainerRef = useRef()
 
-  const header = (
-    <thead>
-      <tr>
-        <th>#</th>
-        <th colSpan={2}>Competitor</th>
-        {rounds.map(round => (
-          <th key={round.id}>{round.number}</th>
-        ))}
-        <th>Total</th>
-        <th>Avg</th>
-      </tr>
-    </thead>
-  )
+  const header = <TableHeader event={event} rounds={rounds} />
 
   const showStickyHeader = useStickyTableHeader(tableRef, stickyContainerRef)
 
