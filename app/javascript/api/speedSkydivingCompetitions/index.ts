@@ -1,3 +1,17 @@
+export type {
+  SpeedSkydivingCompetitionMutation,
+  EventVariables
+} from './speedSkydivingCompetition'
+
+export type {
+  SpeedSkydivingCompetition,
+  Category,
+  Round,
+  Result,
+  CompetitorStandingRow,
+  CategoryStandings
+} from './types'
+
 export {
   useSpeedSkydivingCompetitionQuery,
   useNewSpeedSkydivingCompetitionMutation,

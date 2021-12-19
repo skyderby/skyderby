@@ -4,10 +4,10 @@ import { Route, Routes } from 'react-router-dom'
 import NewEvent from './NewEvent'
 import Show from './Show'
 
-const SpeedSkydivingCompetition = () => {
+const SpeedSkydivingCompetition = (): JSX.Element => {
   return (
     <Routes>
-      <Route exact path="new" element={<NewEvent />} />
+      <Route path="new" element={<NewEvent />} />
       <Route path=":eventId/*" element={<Show />} />
     </Routes>
   )

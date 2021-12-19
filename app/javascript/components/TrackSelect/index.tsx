@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import { AsyncPaginate as Select } from 'react-select-async-paginate'
+import type { Props } from 'react-select'
 import { useQueryClient } from 'react-query'
 
 import getSelectStyles from 'styles/selectStyles'
@@ -17,7 +18,7 @@ const buildOption = (track: TrackIndexRecord | TrackRecord) => ({
   label: [`#${track.id}`, track.comment].filter(Boolean).join(' - ')
 })
 
-type TrackSelectProps = {
+type TrackSelectProps = Omit<Props, 'value'> & {
   value: number
   filters: TrackFilters
 }

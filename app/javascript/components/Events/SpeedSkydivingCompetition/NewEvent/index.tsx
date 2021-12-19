@@ -1,23 +1,24 @@
 import React from 'react'
-import format from 'date-fns/format'
 import { useNavigate } from 'react-router-dom'
 
+import { useNewSpeedSkydivingCompetitionMutation } from 'api/speedSkydivingCompetitions'
+import { useI18n } from 'components/TranslationsProvider'
 import Form from '../Form'
 import styles from './styles.module.scss'
-import { useNewSpeedSkydivingCompetitionMutation } from 'api/speedSkydivingCompetitions'
 
 const NewEvent = () => {
   const navigate = useNavigate()
+  const { formatDate } = useI18n()
   const newEventMutation = useNewSpeedSkydivingCompetitionMutation({
     onSuccess: event => navigate(`/events/speed_skydiving/${event.id}`)
   })
 
   const initialValues = {
     name: '',
-    startsAt: format(new Date(), 'yyyy-MM-dd'),
+    startsAt: formatDate(new Date(), 'yyyy-MM-dd'),
     placeId: null,
-    visibility: 'public_event',
-    useTeams: 'false'
+    visibility: 'public_event' as const,
+    useTeams: 'false' as const
   }
 
   return (

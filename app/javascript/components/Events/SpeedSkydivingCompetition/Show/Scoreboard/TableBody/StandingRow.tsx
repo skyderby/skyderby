@@ -1,13 +1,23 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-import { useResultsQuery } from 'api/speedSkydivingCompetitions'
+import {
+  SpeedSkydivingCompetition,
+  useResultsQuery,
+  Round,
+  CompetitorStandingRow
+} from 'api/speedSkydivingCompetitions'
 import CompetitorCells from './CompetitorCells'
 import ResultCell from './ResultCell'
 import styles from './styles.module.scss'
 
-const StandingRow = ({ event, row, rounds }) => {
-  const { data: results } = useResultsQuery(event.id, {
+type StandingRowProps = {
+  event: SpeedSkydivingCompetition
+  row: CompetitorStandingRow
+  rounds: Round[]
+}
+
+const StandingRow = ({ event, row, rounds }: StandingRowProps): JSX.Element => {
+  const { data: results = [] } = useResultsQuery(event.id, {
     select: data => data.filter(result => result.competitorId === row.competitorId)
   })
 
@@ -30,21 +40,6 @@ const StandingRow = ({ event, row, rounds }) => {
       <td>{atLeastOneRoundComplete ? row.average.toFixed(2) : ''}</td>
     </tr>
   )
-}
-
-StandingRow.propTypes = {
-  event: PropTypes.object.isRequired,
-  row: PropTypes.shape({
-    rank: PropTypes.number.isRequired,
-    competitorId: PropTypes.number.isRequired,
-    total: PropTypes.number,
-    average: PropTypes.number
-  }).isRequired,
-  rounds: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired
-    })
-  ).isRequired
 }
 
 export default StandingRow

@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import cx from 'clsx'
 
+import { eventStatuses } from 'api/events'
 import Dropdown from 'components/Dropdown'
 import ChevronDownIcon from 'icons/chevron-down.svg'
 import { useEditSpeedSkydivingCompetitionMutation } from 'api/speedSkydivingCompetitions'
@@ -42,7 +43,7 @@ const StatusMenu = ({ event }: StatusMenuProps): JSX.Element => {
             modifiers: [{ name: 'offset', options: { offset: [0, 10] } }]
           }}
         >
-          {(['draft', 'published', 'finished', 'surprise'] as const).map(status => (
+          {eventStatuses.map(status => (
             <Dropdown.Button
               key={status}
               active={event.status === status}

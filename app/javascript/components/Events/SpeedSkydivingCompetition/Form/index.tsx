@@ -1,19 +1,30 @@
 import React from 'react'
-import { Formik, Field, ErrorMessage } from 'formik'
+import { Formik, Field, ErrorMessage, FieldProps } from 'formik'
 import { Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
+import {
+  SpeedSkydivingCompetitionMutation,
+  EventVariables
+} from 'api/speedSkydivingCompetitions'
+import { eventVisibilities } from 'api/events'
 import ErrorText from 'components/ui/ErrorMessage'
 import { useI18n } from 'components/TranslationsProvider'
 import PlaceSelect from 'components/PlaceSelect'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
 import validationSchema from './validationSchema'
 import styles from './styles.module.scss'
+import { ValueType } from 'react-select'
 
-const Form = ({ initialValues, mutation, returnUrl }) => {
+type FormProps = {
+  initialValues: EventVariables
+  mutation: SpeedSkydivingCompetitionMutation
+  returnUrl: string
+}
+
+const Form = ({ initialValues, mutation, returnUrl }: FormProps): JSX.Element => {
   const { t } = useI18n()
 
-  const handleSubmit = values => mutation.mutate(values)
+  const handleSubmit = (values: EventVariables) => mutation.mutate(values)
 
   return (
     <Formik
@@ -39,11 +50,17 @@ const Form = ({ initialValues, mutation, returnUrl }) => {
             <label>{t('activerecord.attributes.event.place')}</label>
             <div>
               <Field name="placeId">
-                {({ field: { name, ...props }, form: { setFieldValue } }) => (
+                {({ field: { name, ...props }, form: { setFieldValue } }: FieldProps) => (
                   <PlaceSelect
                     {...props}
                     aria-label="Select place"
-                    onChange={({ value }) => setFieldValue(name, value)}
+                    onChange={(option: ValueType<{ value: number }, false>) => {
+                      if (option === null) {
+                        setFieldValue(name, null)
+                      } else {
+                        setFieldValue(name, option.value)
+                      }
+                    }}
                   />
                 )}
               </Field>
@@ -54,20 +71,10 @@ const Form = ({ initialValues, mutation, returnUrl }) => {
             <Field
               as={RadioButtonGroup}
               name="visibility"
-              options={[
-                {
-                  value: 'public_event',
-                  label: t('activerecord.attributes.event.visibilities.public_event')
-                },
-                {
-                  value: 'unlisted_event',
-                  label: t('activerecord.attributes.event.visibilities.unlisted_event')
-                },
-                {
-                  value: 'private_event',
-                  label: t('activerecord.attributes.event.visibilities.private_event')
-                }
-              ]}
+              options={eventVisibilities.map(visibility => ({
+                value: visibility,
+                label: t(`activerecord.attributes.event.visibilities.${visibility}`)
+              }))}
             />
 
             <label>{t('activerecord.attributes.event.use_teams')}</label>
@@ -93,20 +100,6 @@ const Form = ({ initialValues, mutation, returnUrl }) => {
       )}
     </Formik>
   )
-}
-
-Form.propTypes = {
-  initialValues: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    startsAt: PropTypes.string.isRequired,
-    useTeams: PropTypes.oneOf(['true', 'false']).isRequired,
-    visibility: PropTypes.oneOf(['private_event', 'unlisted_event', 'public_event'])
-      .isRequired
-  }),
-  mutation: PropTypes.shape({
-    mutate: PropTypes.func.isRequired
-  }).isRequired,
-  returnUrl: PropTypes.string.isRequired
 }
 
 export default Form

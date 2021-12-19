@@ -45,6 +45,7 @@ const Show = () => {
 
   if (isLoading) return <PageLoading />
   if (isError) return ErrorPage.forError(error, { linkBack: '/events' })
+  if (!event) return null
 
   return (
     <div className={styles.container}>

@@ -115,7 +115,7 @@ export const preloadCompetitors = (
 
 export const useCompetitorsQuery = <Type = Competitor[]>(
   eventId: number,
-  options: UseQueryOptions<Competitor[], Error, Type, QueryKey>
+  options?: UseQueryOptions<Competitor[], Error, Type, QueryKey>
 ): UseQueryResult<Type> => {
   const queryClient = useQueryClient()
 

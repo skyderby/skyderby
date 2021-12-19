@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 
 import PlusIcon from 'icons/plus.svg'
 import TeamForm from '../TeamForm'
 import styles from './styles.module.scss'
 import { useNewTeamMutation } from 'api/speedSkydivingCompetitions'
 
-const ActionsBar = ({ eventId }) => {
+type ActionsBarProps = {
+  eventId: number
+}
+
+const ActionsBar = ({ eventId }: ActionsBarProps): JSX.Element => {
   const [teamFormShown, setTeamFormShown] = useState(false)
-  const newTeamMutation = useNewTeamMutation()
+  const newTeamMutation = useNewTeamMutation(eventId)
 
   const showTeamForm = () => setTeamFormShown(true)
   const hideTeamForm = () => setTeamFormShown(false)
@@ -29,10 +32,6 @@ const ActionsBar = ({ eventId }) => {
       )}
     </div>
   )
-}
-
-ActionsBar.propTypes = {
-  eventId: PropTypes.number.isRequired
 }
 
 export default ActionsBar

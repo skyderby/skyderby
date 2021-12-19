@@ -19,6 +19,23 @@ type SerializedTeam = {
   [K in keyof TeamRecord]: TeamRecord[K] extends Date ? string : TeamRecord[K]
 }
 
+export type TeamVariables = {
+  name: string
+  competitorIds: number[]
+}
+
+export type NewTeamMutation = UseMutationResult<
+  AxiosResponse<SerializedTeam>,
+  AxiosError,
+  TeamVariables
+>
+
+export type EditTeamMutation = UseMutationResult<
+  AxiosResponse<SerializedTeam>,
+  AxiosError,
+  TeamVariables
+>
+
 const collectionUrl = (eventId: number) =>
   `/api/v1/speed_skydiving_competitions/${eventId}/teams`
 const elementUrl = (eventId: number, id: number) => `${collectionUrl(eventId)}/${id}`
@@ -26,19 +43,17 @@ const elementUrl = (eventId: number, id: number) => `${collectionUrl(eventId)}/$
 const getTeams = (eventId: number): Promise<SerializedTeam[]> =>
   axios.get(collectionUrl(eventId)).then(response => response.data)
 
-const createTeam = ({
-  eventId,
-  ...team
-}: Omit<TeamRecord, 'id'> & { eventId: number }): Promise<
-  AxiosResponse<SerializedTeam>
-> => axios.post(collectionUrl(eventId), { team })
+const createTeam = (eventId: number, team: TeamVariables) =>
+  axios.post<{ team: TeamVariables }, AxiosResponse<SerializedTeam>>(
+    collectionUrl(eventId),
+    { team }
+  )
 
-const updateTeam = ({
-  eventId,
-  id,
-  ...team
-}: TeamRecord & { eventId: number }): Promise<AxiosResponse<SerializedTeam>> =>
-  axios.put(elementUrl(eventId, id), { team })
+const updateTeam = (eventId: number, id: number, team: TeamVariables) =>
+  axios.put<{ team: TeamVariables }, AxiosResponse<SerializedTeam>>(
+    elementUrl(eventId, id),
+    { team }
+  )
 
 const deleteTeam = ({
   eventId,
@@ -96,15 +111,13 @@ export const useTeamQuery = (
     select: (data: TeamRecord[]) => data.find(team => team.id === id)
   })
 
-export const useNewTeamMutation = (): UseMutationResult<
-  AxiosResponse<SerializedTeam>,
-  AxiosError,
-  Omit<TeamRecord, 'id'> & { eventId: number }
-> => {
+export const useNewTeamMutation = (eventId: number): NewTeamMutation => {
   const queryClient = useQueryClient()
 
-  return useMutation(createTeam, {
-    async onSuccess(response, { eventId }) {
+  const mutateFn = (team: TeamVariables) => createTeam(eventId, team)
+
+  return useMutation(mutateFn, {
+    async onSuccess(response) {
       await Promise.all([
         queryClient.refetchQueries(teamStandingsQuery(eventId)),
         queryClient.refetchQueries(competitorsQuery(eventId, queryClient))
@@ -117,15 +130,13 @@ export const useNewTeamMutation = (): UseMutationResult<
   })
 }
 
-export const useEditTeamMutation = (): UseMutationResult<
-  AxiosResponse<SerializedTeam>,
-  AxiosError,
-  TeamRecord & { eventId: number }
-> => {
+export const useEditTeamMutation = (eventId: number, id: number): EditTeamMutation => {
   const queryClient = useQueryClient()
 
-  return useMutation(updateTeam, {
-    async onSuccess(response, { eventId, id }) {
+  const mutateFn = (team: TeamVariables) => updateTeam(eventId, id, team)
+
+  return useMutation(mutateFn, {
+    async onSuccess(response) {
       await Promise.all([
         queryClient.refetchQueries(teamStandingsQuery(eventId)),
         queryClient.refetchQueries(competitorsQuery(eventId, queryClient))

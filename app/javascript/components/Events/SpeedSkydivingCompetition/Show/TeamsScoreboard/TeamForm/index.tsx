@@ -1,7 +1,12 @@
 import React from 'react'
-import { Formik, Field, FieldArray } from 'formik'
-import PropTypes from 'prop-types'
+import { ValueType } from 'react-select'
+import { Formik, Field, FieldArray, FormikHelpers } from 'formik'
 
+import type {
+  EditTeamMutation,
+  NewTeamMutation,
+  TeamVariables
+} from 'api/speedSkydivingCompetitions/teams'
 import { useI18n } from 'components/TranslationsProvider'
 import Modal from 'components/ui/Modal'
 import PlusIcon from 'icons/plus.svg'
@@ -10,7 +15,15 @@ import CompetitorSelect from './CompetitorSelect'
 import validationSchema from './validationSchema'
 import styles from './styles.module.scss'
 
-const defaultValues = {
+type TeamFormProps = {
+  eventId: number
+  title: string
+  mutation: NewTeamMutation | EditTeamMutation
+  onHide: () => unknown
+  initialValues?: TeamVariables
+}
+
+const defaultValues: TeamVariables = {
   name: '',
   competitorIds: []
 }
@@ -21,12 +34,15 @@ const TeamForm = ({
   mutation,
   onHide: hide,
   initialValues = defaultValues
-}) => {
+}: TeamFormProps): JSX.Element => {
   const { t } = useI18n()
 
-  const handleSubmit = async (values, formikBag) => {
+  const handleSubmit = async (
+    values: TeamVariables,
+    formikBag: FormikHelpers<TeamVariables>
+  ) => {
     try {
-      await mutation.mutateAsync({ eventId, ...values })
+      await mutation.mutateAsync(values)
       hide()
     } catch (err) {
       alert(err)
@@ -57,22 +73,26 @@ const TeamForm = ({
                       <button
                         className={styles.flatButton}
                         type="button"
-                        onClick={() => push()}
+                        onClick={() => push({})}
                       >
                         <PlusIcon />
                       </button>
                     </div>
 
-                    {values.competitorIds.map((id, idx) => (
+                    {values.competitorIds.map((id: number, idx: number) => (
                       <div className={styles.competitorRow} key={idx}>
                         <Field
                           as={CompetitorSelect}
                           name={`competitorIds[${idx}]`}
                           eventId={eventId}
                           menuPortalTarget={document.getElementById('dropdowns-root')}
-                          onChange={option =>
-                            setFieldValue(`competitorIds[${idx}]`, option.value)
-                          }
+                          onChange={(option: ValueType<{ value: number }, false>) => {
+                            if (option === null) {
+                              setFieldValue(`competitorIds[${idx}]`, null)
+                            } else {
+                              setFieldValue(`competitorIds[${idx}]`, option.value)
+                            }
+                          }}
                         />
                         <button className={styles.flatButton} onClick={() => remove(idx)}>
                           <TimesIcon />
@@ -106,19 +126,6 @@ const TeamForm = ({
       </Formik>
     </Modal>
   )
-}
-
-TeamForm.propTypes = {
-  eventId: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  mutation: PropTypes.shape({
-    mutateAsync: PropTypes.func.isRequired
-  }).isRequired,
-  onHide: PropTypes.func.isRequired,
-  initialValues: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    competitorIds: PropTypes.arrayOf(PropTypes.number).isRequired
-  })
 }
 
 export default TeamForm

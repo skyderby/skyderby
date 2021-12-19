@@ -1,11 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import PlaceLabel from 'components/PlaceLabel'
 import Navbar from './Navbar'
 import styles from './styles.module.scss'
+import { SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions'
 
-const Header = ({ event }) => {
+type HeaderProps = {
+  event: SpeedSkydivingCompetition
+}
+
+const Header = ({ event }: HeaderProps): JSX.Element | null => {
   if (!event) return null
 
   return (
@@ -17,13 +21,6 @@ const Header = ({ event }) => {
       <Navbar event={event} />
     </div>
   )
-}
-
-Header.propTypes = {
-  event: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    placeId: PropTypes.number.isRequired
-  })
 }
 
 export default Header

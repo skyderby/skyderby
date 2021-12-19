@@ -25,8 +25,15 @@ export type EventType =
   | 'tournament'
   | 'competitionSeries'
 
-export type EventStatus = 'draft' | 'published' | 'finished' | 'surprise'
-export type EventVisibility = 'public_event' | 'unlisted_event' | 'private_event'
+export const eventStatuses = ['draft', 'published', 'finished', 'surprise']
+export type EventStatus = typeof eventStatuses[number]
+
+export const eventVisibilities = [
+  'public_event',
+  'unlisted_event',
+  'private_event'
+] as const
+export type EventVisibility = typeof eventVisibilities[number]
 
 export type EventIndexRecord = {
   id: number

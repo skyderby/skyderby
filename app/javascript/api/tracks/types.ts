@@ -94,7 +94,7 @@ export const allowedSortByValues = [
 export type FilterKey = typeof allowedFilters[number]
 export type FilterTuple = [FilterKey, string | number]
 export type SortByValue = typeof allowedSortByValues[number]
-export type TrackFilters = FilterTuple[] | { [key in FilterKey]: string | number }
+export type TrackFilters = FilterTuple[] | { [key in FilterKey]?: string | number }
 
 export const isAllowedActivity = (activity: string | null): activity is TrackActivity => {
   if (!activity) return false

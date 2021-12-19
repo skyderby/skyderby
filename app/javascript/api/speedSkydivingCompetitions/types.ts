@@ -2,7 +2,7 @@ import { EventStatus, EventVisibility } from 'api/events'
 
 export interface TeamRecord {
   id: number
-  name: number
+  name: string
   competitorIds: number[]
   createdAt: Date
   updatedAt: Date
@@ -11,14 +11,14 @@ export interface TeamRecord {
 export interface TeamStandingRow {
   rank: number
   teamId: number
-  total: number | null
+  total: number
 }
 
 export interface CompetitorStandingRow {
   rank: number
   competitorId: number
-  total: number | null
-  average: number | null
+  total: number
+  average: number
 }
 
 export interface CategoryStandings {

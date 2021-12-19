@@ -3,7 +3,7 @@ import cx from 'clsx'
 
 import styles from './styles.module.scss'
 
-type Tab = 'charts' | 'jumpRange'
+export type Tab = 'charts' | 'jumpRange'
 
 type TagBarProps = {
   currentTab: Tab

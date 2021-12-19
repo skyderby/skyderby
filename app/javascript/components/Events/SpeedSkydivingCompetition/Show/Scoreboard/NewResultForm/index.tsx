@@ -1,8 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { Formik, Field, ErrorMessage } from 'formik'
+import { Formik, Field, ErrorMessage, FieldProps, FormikHelpers } from 'formik'
 
-import { useCompetitorQuery, useRoundQuery } from 'api/speedSkydivingCompetitions'
+import {
+  SpeedSkydivingCompetition,
+  useCompetitorQuery,
+  useRoundQuery
+} from 'api/speedSkydivingCompetitions'
 import { useProfileQuery } from 'api/profiles'
 import { useI18n } from 'components/TranslationsProvider'
 import Modal from 'components/ui/Modal'
@@ -11,25 +14,46 @@ import TrackSelect from 'components/TrackSelect'
 import ErrorText from 'components/ui/ErrorMessage'
 import validationSchema from './validationSchema'
 import styles from './styles.module.scss'
+import { ValueType } from 'react-select'
+import {
+  NewResultMutation,
+  CreateVariables
+} from 'api/speedSkydivingCompetitions/results'
 
-const initialValues = {
-  trackFrom: 'from_file',
+type FormData = Omit<CreateVariables, 'eventId' | 'roundId' | 'competitorId'>
+
+const initialValues: FormData = {
+  trackFrom: 'from_file' as const,
   trackId: null,
   trackFile: null
 }
 
-const NewResultForm = ({ mutation, event, roundId, competitorId, onHide: hide }) => {
+type NewResultFormProps = {
+  mutation: NewResultMutation
+  event: SpeedSkydivingCompetition
+  roundId: number
+  competitorId: number
+  onHide: () => unknown
+}
+
+const NewResultForm = ({
+  mutation,
+  event,
+  roundId,
+  competitorId,
+  onHide: hide
+}: NewResultFormProps): JSX.Element => {
   const { t } = useI18n()
   const { data: competitor } = useCompetitorQuery(event.id, competitorId)
   const { data: profile } = useProfileQuery(competitor?.profileId)
   const { data: round } = useRoundQuery(event.id, roundId)
 
-  const saveResult = async (values, formikBag) => {
+  const saveResult = async (values: FormData, formikBag: FormikHelpers<FormData>) => {
     try {
       await mutation.mutateAsync({
         ...values,
         eventId: event.id,
-        competitorId: competitor.id,
+        competitorId: competitorId,
         roundId: roundId
       })
     } catch (err) {
@@ -54,7 +78,7 @@ const NewResultForm = ({ mutation, event, roundId, competitorId, onHide: hide })
             <Modal.Body>
               {mutation.error && (
                 <p className={styles.serverError}>
-                  {mutation.error.response.data?.error ?? mutation.error.message}
+                  {mutation.error.response?.data?.error ?? mutation.error.message}
                 </p>
               )}
               <div className={styles.inputGroup}>
@@ -67,12 +91,22 @@ const NewResultForm = ({ mutation, event, roundId, competitorId, onHide: hide })
                     field: { name, value, ...props },
                     form: { setFieldValue },
                     meta: { touched, error }
-                  }) => (
+                  }: FieldProps) => (
                     <FileInput
                       isInvalid={touched && error}
                       accept=".csv"
                       {...props}
-                      onChange={evt => setFieldValue(name, evt.currentTarget.files[0])}
+                      onChange={event => {
+                        const target = event.target as HTMLInputElement
+                        const files = target.files
+                        const file = files?.[0]
+
+                        if (file) {
+                          setFieldValue(name, file)
+                        } else {
+                          setFieldValue(name, null)
+                        }
+                      }}
                     />
                   )}
                 </Field>
@@ -89,12 +123,18 @@ const NewResultForm = ({ mutation, event, roundId, competitorId, onHide: hide })
                     field: { name, ...props },
                     form: { setFieldValue },
                     meta: { touched, error }
-                  }) => (
+                  }: FieldProps) => (
                     <TrackSelect
                       isInvalid={touched && error}
-                      filters={{ profileId: competitor.profileId }}
+                      filters={{ profileId: competitor?.profileId }}
                       {...props}
-                      onChange={option => setFieldValue(name, option.value)}
+                      onChange={(option: ValueType<{ value: number }, false>) => {
+                        if (option === null) {
+                          setFieldValue(name, null)
+                        } else {
+                          setFieldValue(name, option.value)
+                        }
+                      }}
                     />
                   )}
                 </Field>
@@ -124,22 +164,6 @@ const NewResultForm = ({ mutation, event, roundId, competitorId, onHide: hide })
       </Formik>
     </Modal>
   )
-}
-
-NewResultForm.propTypes = {
-  mutation: PropTypes.shape({
-    mutateAsync: PropTypes.func.isRequired,
-    error: PropTypes.shape({
-      message: PropTypes.string,
-      response: PropTypes.any
-    })
-  }).isRequired,
-  event: PropTypes.shape({
-    id: PropTypes.number.isRequired
-  }).isRequired,
-  roundId: PropTypes.number.isRequired,
-  competitorId: PropTypes.number.isRequired,
-  onHide: PropTypes.func.isRequired
 }
 
 export default NewResultForm

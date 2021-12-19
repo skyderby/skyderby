@@ -1,15 +1,32 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { useCompetitorQuery, useRoundQuery } from 'api/speedSkydivingCompetitions'
+import {
+  Result,
+  SpeedSkydivingCompetition,
+  useCompetitorQuery,
+  useRoundQuery
+} from 'api/speedSkydivingCompetitions'
 import { useProfileQuery } from 'api/profiles'
 import Modal from 'components/ui/Modal'
 import Charts from './Charts'
 import JumpRange from './JumpRange'
-import TabBar from './TabBar'
+import TabBar, { Tab } from './TabBar'
 
-const ResultModal = ({ event, result, onHide: hide, deleteResult }) => {
-  const [currentTab, setCurrentTab] = useState('charts')
+type ResultModalProps = {
+  event: SpeedSkydivingCompetition
+  result: Result
+  onHide: () => unknown
+  deleteResult: () => unknown
+}
+
+const ResultModal = ({
+  event,
+  result,
+  onHide: hide,
+  deleteResult
+}: ResultModalProps): JSX.Element => {
+  const [currentTab, setCurrentTab] = useState<Tab>('charts')
   const { data: competitor } = useCompetitorQuery(event.id, result.competitorId)
   const { data: profile } = useProfileQuery(competitor?.profileId)
   const { data: round } = useRoundQuery(event.id, result.roundId)

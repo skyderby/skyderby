@@ -1,18 +1,37 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 
-import { useEditResultMutation } from 'api/speedSkydivingCompetitions'
+import {
+  SpeedSkydivingCompetition,
+  Result,
+  useEditResultMutation
+} from 'api/speedSkydivingCompetitions'
 import { useI18n } from 'components/TranslationsProvider'
 import Modal from 'components/ui/Modal'
 import { useTrackQuery } from 'api/tracks'
 import AltitudeRangeSelect from 'components/AltitudeRangeSelect'
 import styles from './styles.module.scss'
 
-const JumpRange = ({ event, result, tabBar, deleteResult, hide }) => {
+type JumpRangeProps = {
+  event: SpeedSkydivingCompetition
+  result: Result
+  tabBar: JSX.Element | null
+  deleteResult: () => unknown
+  hide: () => unknown
+}
+
+type SelectedRange = { from: number; to: number } | undefined
+
+const JumpRange = ({
+  event,
+  result,
+  tabBar,
+  deleteResult,
+  hide
+}: JumpRangeProps): JSX.Element | null => {
   const { t } = useI18n()
   const { data: track, isLoading } = useTrackQuery(result.trackId)
-  const [selectedRange, setSelectedRange] = useState()
-  const editMutation = useEditResultMutation()
+  const [selectedRange, setSelectedRange] = useState<SelectedRange>()
+  const editMutation = useEditResultMutation({ onSuccess: hide })
 
   if (isLoading) return null
 
@@ -28,8 +47,6 @@ const JumpRange = ({ event, result, tabBar, deleteResult, hide }) => {
           ffEnd: selectedRange.to
         }
       })
-
-      hide()
     } catch (err) {
       alert(err)
     }
@@ -42,7 +59,7 @@ const JumpRange = ({ event, result, tabBar, deleteResult, hide }) => {
 
         <hr />
 
-        {!isLoading && (
+        {!isLoading && track && (
           <AltitudeRangeSelect
             trackId={track.id}
             value={track.jumpRange}
@@ -71,22 +88,6 @@ const JumpRange = ({ event, result, tabBar, deleteResult, hide }) => {
       </Modal.Footer>
     </>
   )
-}
-
-JumpRange.propTypes = {
-  event: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    permissions: PropTypes.shape({
-      canEdit: PropTypes.bool.isRequired
-    }).isRequired
-  }).isRequired,
-  result: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    trackId: PropTypes.number.isRequired
-  }).isRequired,
-  deleteResult: PropTypes.func.isRequired,
-  hide: PropTypes.func.isRequired,
-  tabBar: PropTypes.object.isRequired
 }
 
 export default JumpRange
