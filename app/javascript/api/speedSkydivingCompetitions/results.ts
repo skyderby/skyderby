@@ -18,13 +18,22 @@ import { Result } from './types'
 
 type QueryKey = ['speedSkydivingCompetitions', number, 'results']
 
-type CreateVariables = {
+export type CreateVariables = {
   eventId: number
+  competitorId: number
+  roundId: number
+  trackFrom: 'from_file' | 'existent'
+  trackFile: File | null
+  trackId: number | null
 }
 
 type UpdateVariables = {
   eventId: number
   id: number
+  trackAttributes?: {
+    ffStart: number
+    ffEnd: number
+  }
 }
 
 type DeleteVariables = {
@@ -39,6 +48,12 @@ type MutationOptions = {
 type SerializedResult = {
   [K in keyof Result]: Result[K] extends Date ? string : Result[K]
 }
+
+export type NewResultMutation = UseMutationResult<
+  AxiosResponse<SerializedResult>,
+  AxiosError<{ error: string }>,
+  CreateVariables
+>
 
 const collectionEndpoint = (eventId: number) =>
   `/api/v1/speed_skydiving_competitions/${eventId}/results`
@@ -121,7 +136,7 @@ export const useResultQuery = (
 
 export const useNewResultMutation = (
   options: MutationOptions = {}
-): UseMutationResult<AxiosResponse<SerializedResult>, AxiosError, CreateVariables> => {
+): NewResultMutation => {
   const queryClient = useQueryClient()
 
   return useMutation(createResult, {

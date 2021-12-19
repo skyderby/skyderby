@@ -19,12 +19,8 @@ type SerializedCategory = {
   [K in keyof Category]: Category[K] extends Date ? string : Category[K]
 }
 
-type CreateVariables = {
+type CategoryVariables = {
   name: string
-}
-
-type UpdateVariables = CreateVariables & {
-  id: number
 }
 
 type DeleteVariables = {
@@ -66,8 +62,8 @@ const getCategories = (eventId: number) =>
 const createCategory = ({
   eventId,
   ...category
-}: CreateVariables & { eventId: number }) =>
-  axios.post<{ category: CreateVariables }, AxiosResponse<SerializedCategory>>(
+}: CategoryVariables & { eventId: number }) =>
+  axios.post<{ category: CategoryVariables }, AxiosResponse<SerializedCategory>>(
     endpoint(eventId),
     { category },
     { headers: getHeaders() }
@@ -77,11 +73,12 @@ const updateCategory = ({
   eventId,
   id,
   ...category
-}: UpdateVariables & { eventId: number }) =>
-  axios.put<
-    { category: Omit<UpdateVariables, 'eventId' | 'id'> },
-    AxiosResponse<SerializedCategory>
-  >(categoryUrl(eventId, id), { category }, { headers: getHeaders() })
+}: CategoryVariables & { eventId: number; id: number }) =>
+  axios.put<{ category: CategoryVariables }, AxiosResponse<SerializedCategory>>(
+    categoryUrl(eventId, id),
+    { category },
+    { headers: getHeaders() }
+  )
 
 const deleteCategory = ({ eventId, id }: DeleteVariables) =>
   axios.delete<never, AxiosResponse<SerializedCategory>>(categoryUrl(eventId, id), {
@@ -126,7 +123,7 @@ export const useCategoriesQuery = <Type = Category[]>(
 
 export const useCategoryQuery = (
   eventId: number,
-  categoryId: number
+  categoryId: number | undefined
 ): UseQueryResult<Category | undefined> =>
   useCategoriesQuery<Category | undefined>(eventId, {
     select: data => data.find(category => category.id === categoryId)
@@ -135,10 +132,14 @@ export const useCategoryQuery = (
 export const useNewCategoryMutation = (
   eventId: number,
   options: MutationOptions = {}
-): UseMutationResult<AxiosResponse<SerializedCategory>, AxiosError, CreateVariables> => {
+): UseMutationResult<
+  AxiosResponse<SerializedCategory>,
+  AxiosError,
+  CategoryVariables
+> => {
   const queryClient = useQueryClient()
 
-  const mutationFn = (values: CreateVariables) => createCategory({ ...values, eventId })
+  const mutationFn = (values: CategoryVariables) => createCategory({ ...values, eventId })
 
   return useMutation(mutationFn, {
     async onSuccess(response) {
@@ -154,20 +155,26 @@ export const useNewCategoryMutation = (
 
 export const useEditCategoryMutation = (
   eventId: number,
+  categoryId: number,
   options: MutationOptions = {}
-): UseMutationResult<AxiosResponse<SerializedCategory>, AxiosError, UpdateVariables> => {
+): UseMutationResult<
+  AxiosResponse<SerializedCategory>,
+  AxiosError,
+  CategoryVariables
+> => {
   const queryClient = useQueryClient()
 
-  const mutationFn = (values: UpdateVariables) => updateCategory({ ...values, eventId })
+  const mutationFn = (values: CategoryVariables) =>
+    updateCategory({ ...values, eventId, id: categoryId })
 
   return useMutation(mutationFn, {
-    onSuccess(response, { id }) {
+    onSuccess(response) {
       const data: Category[] = queryClient.getQueryData(queryKey(eventId)) ?? []
       const updatedCategory = deserialize(response.data)
 
       queryClient.setQueryData(
         queryKey(eventId),
-        data.map(category => (category.id === id ? updatedCategory : category))
+        data.map(category => (category.id === categoryId ? updatedCategory : category))
       )
       options.onSuccess?.(updatedCategory)
     }

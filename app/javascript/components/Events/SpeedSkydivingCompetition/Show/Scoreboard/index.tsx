@@ -12,19 +12,23 @@ import TableHeader from '../ScoreboardHeader'
 import TableBody from './TableBody'
 import styles from './styles.module.scss'
 
-const Scoreboard = ({ eventId }) => {
-  const { data: standings, isLoading } = useStandingsQuery(eventId)
+type ScoreboardProps = {
+  eventId: number
+}
+
+const Scoreboard = ({ eventId }: ScoreboardProps): JSX.Element | null => {
+  const { data: standings = [], isLoading } = useStandingsQuery(eventId)
   const { data: rounds = [] } = useRoundsQuery(eventId)
   const { data: categories = [] } = useCategoriesQuery(eventId)
   const { data: event } = useSpeedSkydivingCompetitionQuery(eventId)
-  const tableRef = useRef()
-  const stickyContainerRef = useRef()
-
-  const header = <TableHeader event={event} rounds={rounds} />
+  const tableRef = useRef<HTMLTableElement>(null)
+  const stickyContainerRef = useRef<HTMLDivElement>(null)
 
   const showStickyHeader = useStickyTableHeader(tableRef, stickyContainerRef)
 
-  if (isLoading) return null
+  if (isLoading || !event) return null
+
+  const header = <TableHeader event={event} rounds={rounds} />
 
   return (
     <div className={styles.container}>

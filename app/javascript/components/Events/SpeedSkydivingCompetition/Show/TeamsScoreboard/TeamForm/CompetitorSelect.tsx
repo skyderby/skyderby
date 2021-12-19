@@ -1,12 +1,20 @@
 import React from 'react'
-import Select from 'react-select'
-import PropTypes from 'prop-types'
+import Select, { Props } from 'react-select'
 
 import { useCompetitorsQuery } from 'api/speedSkydivingCompetitions'
 import { useProfileQueries } from 'api/profiles'
 import getSelectStyles from 'styles/selectStyles'
 
-const CompetitorSelect = ({ eventId, value, ...props }) => {
+type CompetitorSelectProps = Omit<Props, 'value'> & {
+  eventId: number
+  value?: number | null
+}
+
+const CompetitorSelect = ({
+  eventId,
+  value,
+  ...props
+}: CompetitorSelectProps): JSX.Element => {
   const { data: competitors = [] } = useCompetitorsQuery(eventId)
   const profileQueries = useProfileQueries(
     competitors.map(competitor => competitor.profileId)
@@ -14,9 +22,10 @@ const CompetitorSelect = ({ eventId, value, ...props }) => {
 
   const options = competitors.map(competitor => ({
     value: competitor.id,
-    label: profileQueries.find(
-      query => !query.isLoading && query.data.id === competitor.profileId
-    )?.data?.name
+    label:
+      profileQueries.find(
+        query => !query.isLoading && query.data?.id === competitor.profileId
+      )?.data?.name ?? ''
   }))
   const selectedOption = options.find(option => option.value === value)
 
@@ -29,11 +38,6 @@ const CompetitorSelect = ({ eventId, value, ...props }) => {
       menuPortalTarget={document.getElementById('dropdowns-root')}
     />
   )
-}
-
-CompetitorSelect.propTypes = {
-  eventId: PropTypes.number.isRequired,
-  value: PropTypes.number
 }
 
 export default CompetitorSelect
