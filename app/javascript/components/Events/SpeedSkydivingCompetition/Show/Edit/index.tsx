@@ -7,17 +7,26 @@ import {
 } from 'api/speedSkydivingCompetitions'
 import Form from 'components/Events/SpeedSkydivingCompetition/Form'
 import styles from './styles.module.scss'
+import { useI18n } from 'components/TranslationsProvider'
 
-const Edit = ({ eventId }) => {
+type EditProps = {
+  eventId: number
+}
+
+const Edit = ({ eventId }: EditProps): JSX.Element | null => {
   const navigate = useNavigate()
-  const { data: event } = useSpeedSkydivingCompetitionQuery(eventId)
+  const { formatDate } = useI18n()
+  const { data: event, isLoading } = useSpeedSkydivingCompetitionQuery(eventId)
   const editMutation = useEditSpeedSkydivingCompetitionMutation(eventId, {
-    onSuccess: () => navigate(`/events/speed_skydiving/${event.id}`)
+    onSuccess: () => navigate(`/events/speed_skydiving/${eventId}`)
   })
+
+  if (isLoading || !event) return null
 
   const initialValues = {
     ...event,
-    useTeams: event.useTeams.toString()
+    startsAt: formatDate(event.startsAt, 'yyyy-MM-dd'),
+    useTeams: event.useTeams ? ('true' as const) : ('false' as const)
   }
 
   return (

@@ -10,7 +10,7 @@ interface Result {
 
 type IndicatorsProps = {
   result: Result
-  resultWindow?: [number, number]
+  resultWindow?: number[]
 }
 
 const Indicators = ({ result, resultWindow }: IndicatorsProps): JSX.Element => {

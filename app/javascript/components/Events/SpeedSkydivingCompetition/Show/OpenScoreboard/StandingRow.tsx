@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {
   useCategoryQuery,
   useCompetitorQuery,
@@ -9,13 +8,30 @@ import { useProfileQuery } from 'api/profiles'
 import { useCountryQuery } from 'api/countries'
 import ResultCell from '../Scoreboard/TableBody/ResultCell'
 import styles from './styles.module.scss'
+import type { Round, SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions'
 
-const StandingRow = ({ event, rounds, rank, competitorId, total, average }) => {
+type StandingRowProps = {
+  event: SpeedSkydivingCompetition
+  rounds: Round[]
+  rank: number
+  competitorId: number
+  total: number
+  average: number
+}
+
+const StandingRow = ({
+  event,
+  rounds,
+  rank,
+  competitorId,
+  total,
+  average
+}: StandingRowProps): JSX.Element => {
   const { data: competitor } = useCompetitorQuery(event.id, competitorId)
   const { data: category } = useCategoryQuery(event.id, competitor?.categoryId)
   const { data: profile } = useProfileQuery(competitor?.profileId)
   const { data: country } = useCountryQuery(profile?.countryId)
-  const { data: results } = useResultsQuery(event.id, {
+  const { data: results = [] } = useResultsQuery(event.id, {
     select: data => data.filter(result => result.competitorId === competitorId)
   })
 
@@ -47,22 +63,6 @@ const StandingRow = ({ event, rounds, rank, competitorId, total, average }) => {
       <td>{atLeastOneRoundComplete ? average.toFixed(2) : ''}</td>
     </tr>
   )
-}
-
-StandingRow.propTypes = {
-  event: PropTypes.shape({
-    id: PropTypes.number.isRequired
-  }).isRequired,
-  rank: PropTypes.number.isRequired,
-  competitorId: PropTypes.number.isRequired,
-  total: PropTypes.number,
-  average: PropTypes.number,
-  rounds: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      number: PropTypes.number.isRequired
-    })
-  ).isRequired
 }
 
 export default StandingRow

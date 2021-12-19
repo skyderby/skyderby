@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 
 import {
+  SpeedSkydivingCompetition,
   useCompetitorsQuery,
   useDeleteTeamMutation,
   useEditTeamMutation,
@@ -12,27 +12,38 @@ import TimesIcon from 'icons/times'
 import TeamForm from './TeamForm'
 import styles from './styles.module.scss'
 import { useProfileQueries } from 'api/profiles'
+import { Competitor } from 'api/speedSkydivingCompetitions/types'
 
-const teamCompetitorNames = (competitors, profileQueries) =>
+type StandingRowProps = {
+  event: SpeedSkydivingCompetition
+  teamId: number
+  rank: number
+  total: number
+}
+
+const teamCompetitorNames = (
+  competitors: Competitor[],
+  profileQueries: ReturnType<typeof useProfileQueries>
+): string =>
   competitors
     .map(
       competitor =>
         profileQueries.find(
-          query => !query.isLoading && query.data.id === competitor.profileId
+          query => !query.isLoading && query.data?.id === competitor.profileId
         )?.data?.name
     )
     .join(', ')
 
-const StandingRow = ({ event, teamId, rank, total }) => {
+const StandingRow = ({ event, teamId, rank, total }: StandingRowProps): JSX.Element => {
   const [showEditModal, setShowEditModal] = useState(false)
   const { data: team } = useTeamQuery(event.id, teamId)
-  const { data: competitors } = useCompetitorsQuery(event.id, {
+  const { data: competitors = [] } = useCompetitorsQuery(event.id, {
     select: data => data.filter(competitor => competitor.teamId === teamId)
   })
   const profileQueries = useProfileQueries(
     competitors.map(competitor => competitor.profileId)
   )
-  const editMutation = useEditTeamMutation()
+  const editMutation = useEditTeamMutation(event.id, teamId)
   const deleteMutation = useDeleteTeamMutation()
   const deleteTeam = () => {
     if (confirm('Are you sure you want delete this team?')) {
@@ -82,18 +93,6 @@ const StandingRow = ({ event, teamId, rank, total }) => {
       <td>{total && total.toFixed(2)}</td>
     </tr>
   )
-}
-
-StandingRow.propTypes = {
-  event: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    permissions: PropTypes.shape({
-      canEdit: PropTypes.bool.isRequired
-    }).isRequired
-  }).isRequired,
-  teamId: PropTypes.number.isRequired,
-  rank: PropTypes.number.isRequired,
-  total: PropTypes.number
 }
 
 export default StandingRow

@@ -2,7 +2,11 @@ import React from 'react'
 
 import styles from './styles.module.scss'
 
-const Downloads = () => {
+type DownloadsProps = {
+  eventId: number
+}
+
+const Downloads = ({ eventId: _eventId }: DownloadsProps): JSX.Element => {
   return (
     <div className={styles.container}>
       <div>
