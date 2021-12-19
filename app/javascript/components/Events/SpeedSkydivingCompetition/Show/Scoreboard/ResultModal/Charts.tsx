@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react'
-import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
 import { useTrackPointsQuery } from 'api/tracks/points'
@@ -15,11 +14,26 @@ import {
 } from './utils'
 import styles from './styles.module.scss'
 import TrackViewPreferencesProvider from 'components/TrackViewPreferences'
+import { Result, SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions'
 
 const breakoffAltitude = 1707 // 5600 ft
 const windowHeight = 2256 // 7400 ft
 
-const Charts = ({ event, result, deleteResult, hide, tabBar }) => {
+type ChartsProps = {
+  event: SpeedSkydivingCompetition
+  result: Result
+  deleteResult: () => unknown
+  hide: () => unknown
+  tabBar: JSX.Element | null
+}
+
+const Charts = ({
+  event,
+  result,
+  deleteResult,
+  hide,
+  tabBar
+}: ChartsProps): JSX.Element => {
   const { t } = useI18n()
   const { data: points = [], isLoading } = useTrackPointsQuery(result.trackId, {
     originalFrequency: true
@@ -39,7 +53,8 @@ const Charts = ({ event, result, deleteResult, hide, tabBar }) => {
       : findPlotbandPosition(points[0], result)
 
   const resultWindow = useMemo(
-    () => (isLoading ? null : findResultWindow(points, windowStartTime, windowEndTime)),
+    () =>
+      isLoading ? undefined : findResultWindow(points, windowStartTime, windowEndTime),
     [points, isLoading, windowStartTime, windowEndTime]
   )
 
@@ -111,24 +126,6 @@ const Charts = ({ event, result, deleteResult, hide, tabBar }) => {
       </Modal.Footer>
     </>
   )
-}
-
-Charts.propTypes = {
-  event: PropTypes.shape({
-    permissions: PropTypes.shape({
-      canEdit: PropTypes.bool.isRequired
-    }).isRequired
-  }).isRequired,
-  result: PropTypes.shape({
-    trackId: PropTypes.number.isRequired,
-    exitAltitude: PropTypes.number.isRequired,
-    windowStartTime: PropTypes.string.isRequired,
-    windowEndTime: PropTypes.string.isRequired,
-    result: PropTypes.number.isRequired
-  }).isRequired,
-  deleteResult: PropTypes.func.isRequired,
-  hide: PropTypes.func.isRequired,
-  tabBar: PropTypes.object
 }
 
 export default Charts

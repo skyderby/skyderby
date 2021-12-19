@@ -8,7 +8,7 @@ import useChartOptions from './useChartOptions'
 
 type CombinedChartProps = {
   points: PointRecord[]
-  zeroWindPoints: PointRecord[]
+  zeroWindPoints?: PointRecord[]
   additionalSeries?: SeriesOptionsType[]
   children?: (chart: Chart) => JSX.Element | null
 }

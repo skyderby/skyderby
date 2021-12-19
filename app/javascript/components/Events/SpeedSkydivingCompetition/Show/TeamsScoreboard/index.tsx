@@ -9,14 +9,17 @@ import styles from './styles.module.scss'
 import StandingRow from 'components/Events/SpeedSkydivingCompetition/Show/TeamsScoreboard/StandingRow'
 import useStickyTableHeader from 'hooks/useStickyTableHeader'
 
-const TeamsScoreboard = ({ eventId }) => {
-  const { data: teamStandings, isLoading } = useTeamStandingsQuery(eventId, {
-    preload: ['competitors', 'teams']
-  })
+type TeamsScoreboardProps = {
+  eventId: number
+}
+
+const TeamsScoreboard = ({ eventId }: TeamsScoreboardProps): JSX.Element | null => {
+  const { data: teamStandings = [], isLoading } = useTeamStandingsQuery(eventId)
   const { data: event } = useSpeedSkydivingCompetitionQuery(eventId)
 
-  const tableRef = useRef()
-  const stickyContainerRef = useRef()
+  const tableRef = useRef<HTMLTableElement>(null)
+  const stickyContainerRef = useRef<HTMLDivElement>(null)
+  const showStickyHeader = useStickyTableHeader(tableRef, stickyContainerRef)
 
   const header = (
     <thead>
@@ -28,9 +31,7 @@ const TeamsScoreboard = ({ eventId }) => {
     </thead>
   )
 
-  const showStickyHeader = useStickyTableHeader(tableRef, stickyContainerRef)
-
-  if (isLoading) return null
+  if (isLoading || !event) return null
 
   return (
     <div className={styles.container}>

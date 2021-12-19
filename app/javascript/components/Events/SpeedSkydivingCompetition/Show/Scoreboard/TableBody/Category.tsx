@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import cx from 'clsx'
-import PropTypes from 'prop-types'
 
 import {
   useEditCategoryMutation,
@@ -14,9 +13,20 @@ import ChevronDownIcon from 'icons/chevron-down'
 import TimesIcon from 'icons/times'
 import styles from './styles.module.scss'
 
-const Category = ({ event, category, colSpan }) => {
+import type {
+  SpeedSkydivingCompetition,
+  Category as CategoryRecord
+} from 'api/speedSkydivingCompetitions'
+
+type CategoryProps = {
+  event: SpeedSkydivingCompetition
+  category: CategoryRecord
+  colSpan: number
+}
+
+const Category = ({ event, category, colSpan }: CategoryProps): JSX.Element => {
   const [categoryFormShown, setCategoryFormShown] = useState(false)
-  const editMutation = useEditCategoryMutation(event.id, {
+  const editMutation = useEditCategoryMutation(event.id, category.id, {
     onSuccess: () => setCategoryFormShown(false)
   })
   const deleteMutation = useDeleteCategoryMutation()
@@ -68,21 +78,6 @@ const Category = ({ event, category, colSpan }) => {
       </td>
     </tr>
   )
-}
-
-Category.propTypes = {
-  category: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    position: PropTypes.number.isRequired
-  }).isRequired,
-  colSpan: PropTypes.number.isRequired,
-  event: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    permissions: PropTypes.shape({
-      canEdit: PropTypes.bool.isRequired
-    }).isRequired
-  }).isRequired
 }
 
 export default Category

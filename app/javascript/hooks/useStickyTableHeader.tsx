@@ -1,6 +1,7 @@
 import { useCallback, useLayoutEffect, useState } from 'react'
+import type { RefObject } from 'react'
 
-const syncHeaderCellsWidth = (source, destination) => {
+const syncHeaderCellsWidth = (source: HTMLTableElement, destination: AnyHTMLElement) => {
   const original_cells = source.querySelectorAll('th')
   destination.style.width = source.getBoundingClientRect().width + 'px'
 
@@ -9,7 +10,10 @@ const syncHeaderCellsWidth = (source, destination) => {
   })
 }
 
-const useStickyTableHeader = (tableRef, containerRef) => {
+const useStickyTableHeader = (
+  tableRef: RefObject<HTMLTableElement>,
+  containerRef: RefObject<AnyHTMLElement>
+) => {
   const [isSticky, setIsSticky] = useState(false)
 
   const tableParent = tableRef.current?.parentElement
@@ -17,11 +21,11 @@ const useStickyTableHeader = (tableRef, containerRef) => {
   const handleScroll = useCallback(() => {
     if (!tableRef.current) return
 
-    const currentOffset = document.scrollingElement.scrollTop
-    const tableHeaderHeight = tableRef.current.querySelector('thead').offsetHeight
-    const tableOffsetTop = tableRef.current.getBoundingClientRect().top + pageYOffset
+    const currentOffset = document.scrollingElement?.scrollTop ?? 0
+    const tableHeaderHeight = tableRef.current.querySelector('thead')?.offsetHeight ?? 0
+    const tableOffsetTop = tableRef.current.getBoundingClientRect().top + window.scrollY
     const tableOffsetBottom =
-      tableRef.current.getBoundingClientRect().bottom + pageYOffset - tableHeaderHeight
+      tableRef.current.getBoundingClientRect().bottom + window.scrollY - tableHeaderHeight
 
     const shouldDisplayStickyHeader =
       currentOffset >= tableOffsetTop && currentOffset <= tableOffsetBottom
@@ -32,13 +36,16 @@ const useStickyTableHeader = (tableRef, containerRef) => {
   }, [setIsSticky, isSticky, tableRef])
 
   const handleResize = useCallback(() => {
+    if (!tableRef.current || !containerRef.current) return
+
     syncHeaderCellsWidth(tableRef.current, containerRef.current)
   }, [tableRef, containerRef])
 
   const handleHorizontalScroll = useCallback(() => {
-    if (!isSticky || !tableParent) return
+    const tableClone = containerRef.current?.querySelector('table')
 
-    const tableClone = containerRef.current.querySelector('table')
+    if (!isSticky || !tableParent || !tableClone) return
+
     tableClone.style.transform = `translateX(-${tableParent.scrollLeft}px)`
   }, [tableParent, isSticky, containerRef])
 

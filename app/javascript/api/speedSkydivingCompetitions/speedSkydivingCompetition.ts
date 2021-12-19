@@ -14,11 +14,12 @@ import { parseISO } from 'date-fns'
 import { getCSRFToken } from 'utils/csrfToken'
 import { placeQuery } from 'api/places'
 import { SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions/types'
+import { EventStatus, EventVisibility } from 'api/events'
 
 type QueryKey = ['speedSkydivingCompetitions', number]
 
 interface MutationOptions {
-  onSuccess?: (data?: SpeedSkydivingCompetition) => unknown
+  onSuccess?: (data: SpeedSkydivingCompetition) => unknown
 }
 
 type SerializedData = {
@@ -27,7 +28,20 @@ type SerializedData = {
     : SpeedSkydivingCompetition[K]
 }
 
-type EventVariables = Partial<SpeedSkydivingCompetition>
+export type EventVariables = Partial<{
+  name: string
+  startsAt: string
+  placeId: number | null
+  visibility: EventVisibility
+  status: EventStatus
+  useTeams: 'true' | 'false'
+}>
+
+export type SpeedSkydivingCompetitionMutation = UseMutationResult<
+  AxiosResponse<SerializedData>,
+  AxiosError,
+  EventVariables
+>
 
 const deserialize = (event: SerializedData): SpeedSkydivingCompetition => ({
   ...event,
@@ -104,7 +118,7 @@ export const useSpeedSkydivingCompetitionQuery = (
 
 export const useNewSpeedSkydivingCompetitionMutation = (
   options: MutationOptions = {}
-): UseMutationResult<AxiosResponse<SerializedData>, AxiosError, EventVariables> => {
+): SpeedSkydivingCompetitionMutation => {
   const queryClient = useQueryClient()
 
   return useMutation(createEvent, {
@@ -119,15 +133,16 @@ export const useNewSpeedSkydivingCompetitionMutation = (
 export const useEditSpeedSkydivingCompetitionMutation = (
   eventId: number,
   options: MutationOptions = {}
-): UseMutationResult<AxiosResponse<SerializedData>, AxiosError, EventVariables> => {
+): SpeedSkydivingCompetitionMutation => {
   const queryClient = useQueryClient()
 
   const mutateFn = (data: EventVariables) => updateEvent(eventId, data)
 
   return useMutation(mutateFn, {
     onSuccess(response) {
-      queryClient.setQueryData(queryKey(eventId), response.data)
-      options.onSuccess?.()
+      const event = deserialize(response.data)
+      queryClient.setQueryData(queryKey(eventId), event)
+      options.onSuccess?.(event)
     }
   })
 }

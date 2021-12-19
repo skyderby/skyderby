@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import cx from 'clsx'
-import PropTypes from 'prop-types'
 
 import {
+  Result,
+  SpeedSkydivingCompetition,
   useCompetitorQuery,
   useDeleteResultMutation,
   useNewResultMutation,
@@ -15,16 +16,34 @@ import NewResultForm from '../NewResultForm'
 import ResultModal from '../ResultModal'
 import styles from './styles.module.scss'
 
-const resultPresentation = (result, editable) => {
-  if (Number.isFinite(result.result)) return result.result.toFixed(2)
+const isCalculated = (result: Result) => Number.isFinite(result.result)
+
+const resultPresentation = (result: Result, editable: boolean) => {
+  if (isCalculated(result)) return result.result.toFixed(2)
   if (editable) {
     return (
-      <TriangleExclamationIcon className={styles.warningIcon} title="Calculation error" />
+      <span title="Calculation error">
+        <TriangleExclamationIcon className={styles.warningIcon} />
+      </span>
     )
   }
 }
 
-const ResultCell = ({ className, event, roundId, competitorId, result }) => {
+type ResultCellProps = {
+  className?: string
+  event: SpeedSkydivingCompetition
+  roundId: number
+  competitorId: number
+  result: Result | undefined
+}
+
+const ResultCell = ({
+  className,
+  event,
+  roundId,
+  competitorId,
+  result
+}: ResultCellProps): JSX.Element => {
   const [showNewResultModal, setShowNewResultModal] = useState(false)
   const [showResultModal, setShowResultModal] = useState(false)
   const deleteMutation = useDeleteResultMutation()
@@ -41,6 +60,7 @@ const ResultCell = ({ className, event, roundId, competitorId, result }) => {
   })
 
   const deleteResult = async () => {
+    if (!result) return
     if (!confirm('Are you sure you want delete this result?')) return
 
     try {
@@ -56,9 +76,9 @@ const ResultCell = ({ className, event, roundId, competitorId, result }) => {
       {result ? (
         <>
           <button
-            className={styles.showResult}
+            className={cx(styles.showResult, !isCalculated(result) && styles.withWarning)}
             onClick={() => setShowResultModal(true)}
-            title={`Show result for ${profile.name} in round ${round.number}`}
+            title={`Show result for ${profile?.name} in round ${round?.number}`}
           >
             {resultPresentation(result, event.permissions.canEdit)}
           </button>
@@ -74,17 +94,17 @@ const ResultCell = ({ className, event, roundId, competitorId, result }) => {
         </>
       ) : (
         <>
-          {event.permissions.canEdit && !round.completed && (
+          {event.permissions.canEdit && !round?.completed && (
             <button
               className={styles.newResult}
               onClick={() => setShowNewResultModal(true)}
-              title={`Submit result for ${profile.name} in round ${round.number}`}
+              title={`Submit result for ${profile?.name} in round ${round?.number}`}
             >
               <UploadIcon />
             </button>
           )}
 
-          {round.completed && <span className={styles.emptyResult}>0.00</span>}
+          {round?.completed && <span className={styles.emptyResult}>0.00</span>}
 
           {!result && showNewResultModal && (
             <NewResultForm
@@ -99,22 +119,6 @@ const ResultCell = ({ className, event, roundId, competitorId, result }) => {
       )}
     </td>
   )
-}
-
-ResultCell.propTypes = {
-  className: PropTypes.string,
-  roundId: PropTypes.number.isRequired,
-  competitorId: PropTypes.number.isRequired,
-  event: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    permissions: PropTypes.shape({
-      canEdit: PropTypes.bool.isRequired
-    }).isRequired
-  }).isRequired,
-  result: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    result: PropTypes.number
-  })
 }
 
 export default ResultCell
