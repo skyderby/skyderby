@@ -4,5 +4,5 @@ class SpeedSkydivingCompetition::Result < ApplicationRecord
   belongs_to :round
   belongs_to :track
 
-  has_many :penalties, class_name: 'SpeedSkydivingCompetition::Result::Penalty'
+  has_many :penalties, class_name: 'SpeedSkydivingCompetition::Result::Penalty', dependent: :destroy
 end
