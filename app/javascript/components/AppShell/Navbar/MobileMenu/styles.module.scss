@@ -92,6 +92,6 @@
 }
 
 .menuButton {
-  composes: button from '~styles/button';
-  composes: sizeLg from '~styles/button';
+  composes: button from '~styles/button.module.scss';
+  composes: sizeLg from '~styles/button.module.scss';
 }
