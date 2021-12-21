@@ -14,6 +14,11 @@ class SpeedSkydivingCompetition::Result < ApplicationRecord
   delegate :tracks_visibility, to: :event
 
   accepts_nested_attributes_for :track, update_only: true, reject_if: :new_record?
+  accepts_nested_attributes_for :penalties, update_only: true
+
+  def penalty_size = 100 - penalties.inject(100) { |sum, penalty| sum * penalty.factor }
+
+  def final_result = result.to_f * (1 - penalty_size / 100)
 
   private
 

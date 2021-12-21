@@ -53,6 +53,7 @@ export {
   useNewResultMutation,
   useEditResultMutation,
   useDeleteResultMutation,
+  useSetResultPenaltiesMutation,
   preloadResults
 } from './results'
 

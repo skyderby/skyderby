@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 
 import {
   Result,
@@ -11,6 +10,7 @@ import { useProfileQuery } from 'api/profiles'
 import Modal from 'components/ui/Modal'
 import Charts from './Charts'
 import JumpRange from './JumpRange'
+import Penalties from './Penalties'
 import TabBar, { Tab } from './TabBar'
 
 type ResultModalProps = {
@@ -50,26 +50,9 @@ const ResultModal = ({
     >
       {currentTab === 'charts' && <Charts {...tabProps} />}
       {currentTab === 'jumpRange' && <JumpRange {...tabProps} />}
+      {currentTab === 'penalties' && <Penalties {...tabProps} />}
     </Modal>
   )
-}
-
-ResultModal.propTypes = {
-  event: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    permissions: PropTypes.shape({
-      canEdit: PropTypes.bool.isRequired
-    }).isRequired
-  }).isRequired,
-  result: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    competitorId: PropTypes.number.isRequired,
-    roundId: PropTypes.number.isRequired,
-    trackId: PropTypes.number.isRequired,
-    result: PropTypes.number
-  }).isRequired,
-  onHide: PropTypes.func.isRequired,
-  deleteResult: PropTypes.func.isRequired
 }
 
 export default ResultModal
