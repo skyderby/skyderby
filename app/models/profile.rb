@@ -51,7 +51,7 @@ class Profile < ApplicationRecord
            class_name: 'VirtualCompetition::PersonalTopScore'
   has_many :contribution_details,
            class_name: 'Contribution::Detail',
-           foreign_key: :contributor_id,
+           as: :contributor,
            inverse_of: :contributor,
            dependent: :restrict_with_error
   has_many :contributions, through: :contribution_details

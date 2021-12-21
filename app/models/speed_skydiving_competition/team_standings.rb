@@ -19,8 +19,8 @@ class SpeedSkydivingCompetition::TeamStandings
     return if team_results.blank?
 
     team_results
-      .select { |record| record.result.present? }
-      .sum(&:result)
+      .select { |record| record.final_result.present? }
+      .sum(&:final_result)
       .round(2)
   end
 

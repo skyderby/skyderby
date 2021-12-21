@@ -3,7 +3,8 @@ import cx from 'clsx'
 
 import styles from './styles.module.scss'
 
-export type Tab = 'charts' | 'jumpRange'
+const tabs = ['charts', 'jumpRange', 'penalties'] as const
+export type Tab = typeof tabs[number]
 
 type TagBarProps = {
   currentTab: Tab
@@ -11,23 +12,23 @@ type TagBarProps = {
 }
 
 const TabBar = ({ currentTab, setCurrentTab }: TagBarProps): JSX.Element => {
+  const tabTitles = {
+    charts: 'Charts',
+    jumpRange: 'Jump Range',
+    penalties: 'Penalties'
+  }
+
   return (
     <div className={styles.tabBar}>
-      <button
-        className={cx(styles.tabBarButton, currentTab === 'charts' && styles.activeTab)}
-        onClick={() => setCurrentTab('charts')}
-      >
-        Charts
-      </button>
-      <button
-        className={cx(
-          styles.tabBarButton,
-          currentTab === 'jumpRange' && styles.activeTab
-        )}
-        onClick={() => setCurrentTab('jumpRange')}
-      >
-        Jump Range
-      </button>
+      {tabs.map(tab => (
+        <button
+          key={tab}
+          className={cx(styles.tabBarButton, currentTab === tab && styles.activeTab)}
+          onClick={() => setCurrentTab(tab)}
+        >
+          {tabTitles[tab]}
+        </button>
+      ))}
     </div>
   )
 }
