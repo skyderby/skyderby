@@ -13,6 +13,18 @@
   composes: outlined from '~styles/button';
 }
 
+.flatButton {
+  composes: button from '~styles/button';
+  composes: flat from '~styles/button';
+
+  width: 2.1875rem;
+  height: 2.1875rem;
+
+  border-color: var(--grey-20);
+
+  background-color: var(--grey-20);
+}
+
 .tabBar {
   display: flex;
 
@@ -68,4 +80,17 @@
   color: var(--grey-80);
   font-weight: 100;
   font-size: 2.5rem;
+}
+
+.input {
+  composes: input from '~styles/input.module.scss';
+  composes: outlined from '~styles/input.module.scss';
+}
+
+.penaltyRow {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: 5rem 20rem max-content;
+  align-items: center;
+  margin: 0.5rem 0;
 }

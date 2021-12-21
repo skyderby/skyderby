@@ -48,8 +48,7 @@ class Profile < ApplicationRecord
   has_many :personal_top_scores, class_name: 'VirtualCompetition::PersonalTopScore' # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :contribution_details,
            class_name: 'Contribution::Detail',
-           foreign_key: :contributor_id,
-           foreign_type: :contributor_type,
+           as: :contributor,
            inverse_of: :contributor,
            dependent: :restrict_with_error
   has_many :contributions, through: :contribution_details

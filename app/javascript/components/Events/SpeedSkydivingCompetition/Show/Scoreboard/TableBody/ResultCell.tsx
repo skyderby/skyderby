@@ -19,7 +19,19 @@ import styles from './styles.module.scss'
 const isCalculated = (result: Result) => Number.isFinite(result.result)
 
 const resultPresentation = (result: Result, editable: boolean) => {
-  if (isCalculated(result)) return result.result.toFixed(2)
+  if (isCalculated(result))
+    return (
+      <span>
+        {result.finalResult.toFixed(2)}
+        {result.penalties.length > 0 && (
+          <sup className={styles.penalty}>
+            &nbsp;
+            {`-${result.penaltySize.toFixed()}%`}
+          </sup>
+        )}
+      </span>
+    )
+
   if (editable) {
     return (
       <span title="Calculation error">

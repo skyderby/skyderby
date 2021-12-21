@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react'
 
-import { useI18n } from 'components/TranslationsProvider'
 import { useTrackPointsQuery } from 'api/tracks/points'
+import { Result, SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions'
+import { useI18n } from 'components/TranslationsProvider'
 import TrackCharts from 'components/TrackCharts/CombinedChart'
 import Highchart from 'components/Highchart'
 import Modal from 'components/ui/Modal'
@@ -12,9 +13,8 @@ import {
   findPositionForAltitude,
   findPlotbandPosition
 } from './utils'
-import styles from './styles.module.scss'
 import TrackViewPreferencesProvider from 'components/TrackViewPreferences'
-import { Result, SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions'
+import styles from './styles.module.scss'
 
 const breakoffAltitude = 1707 // 5600 ft
 const windowHeight = 2256 // 7400 ft
