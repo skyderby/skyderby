@@ -10,13 +10,13 @@ import {
 } from 'api/speedSkydivingCompetitions'
 import PlusIcon from 'icons/plus'
 import TimesIcon from 'icons/times'
-import styles from '../styles.module.scss'
+import styles from './styles.module.scss'
 
 type PenaltiesProps = {
   event: SpeedSkydivingCompetition
   result: Result
   tabBar: JSX.Element | null
-  hide: () => unknown
+  hide: () => void
 }
 
 type FormData = {
@@ -32,7 +32,7 @@ const Penalties = ({ event, result, tabBar, hide }: PenaltiesProps): JSX.Element
   const handleSave = (values: FormData, formikBag: FormikHelpers<FormData>) => {
     mutation.mutate(
       { penaltiesAttributes: values.penalties },
-      { onSettled: () => formikBag.setSubmitting(false) }
+      { onSettled: () => formikBag.setSubmitting(false), onSuccess: () => hide() }
     )
   }
 
