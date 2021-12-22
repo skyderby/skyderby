@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'clsx'
+import Tippy from '@tippyjs/react'
 
 import {
   Result,
@@ -17,26 +18,52 @@ import ResultModal from '../ResultModal'
 import styles from './styles.module.scss'
 
 const isCalculated = (result: Result) => Number.isFinite(result.result)
+const hasPenalty = (result: Result) => result.penalties.length > 0
+const penaltyDescription = (result: Result) => {
+  if (!hasPenalty(result)) return ''
+  const rawResult = result.result.toFixed(2)
+  const finalResult = result.finalResult.toFixed(2)
+  const penalty = result.penaltySize.toFixed()
+  return (
+    <>
+      <span>
+        {rawResult} - {penalty}% = {finalResult}
+      </span>
+      <br />
+      Reason:
+      <ul>
+        {result.penalties.map((penalty, idx) => (
+          <li key={idx}>- {penalty.reason}</li>
+        ))}
+      </ul>
+    </>
+  )
+}
 
 const resultPresentation = (result: Result, editable: boolean) => {
-  if (isCalculated(result))
+  if (isCalculated(result)) {
     return (
-      <span>
-        {result.finalResult.toFixed(2)}
-        {result.penalties.length > 0 && (
-          <sup className={styles.penalty}>
-            &nbsp;
-            {`-${result.penaltySize.toFixed()}%`}
-          </sup>
-        )}
-      </span>
+      <Tippy content={penaltyDescription(result)} disabled={!hasPenalty(result)}>
+        <span>
+          {result.result.toFixed(2)}
+          {hasPenalty(result) && (
+            <sup className={styles.penalty}>
+              &nbsp;
+              {`-${result.penaltySize.toFixed()}%`}
+            </sup>
+          )}
+        </span>
+      </Tippy>
     )
+  }
 
   if (editable) {
     return (
-      <span title="Calculation error">
-        <TriangleExclamationIcon className={styles.warningIcon} />
-      </span>
+      <Tippy content="Calculation error">
+        <span>
+          <TriangleExclamationIcon className={styles.warningIcon} />
+        </span>
+      </Tippy>
     )
   }
 }
