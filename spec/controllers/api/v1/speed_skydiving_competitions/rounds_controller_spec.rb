@@ -109,7 +109,7 @@ describe Api::V1::SpeedSkydivingCompetitions::RoundsController do
   end
 
   describe '#destroy' do
-    let(:round) { event.rounds.find_by(number: 1) }
+    let(:round) { event.rounds.find_by(number: 7) }
     let(:params) { { speed_skydiving_competition_id: event.id, id: round.id } }
 
     subject do
