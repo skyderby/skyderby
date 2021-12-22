@@ -45,7 +45,7 @@ const resultPresentation = (result: Result, editable: boolean) => {
     return (
       <Tippy content={penaltyDescription(result)} disabled={!hasPenalty(result)}>
         <span>
-          {result.result.toFixed(2)}
+          {result.finalResult.toFixed(2)}
           {hasPenalty(result) && (
             <sup className={styles.penalty}>
               &nbsp;
