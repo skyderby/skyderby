@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import client from 'api/client'
 import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -19,7 +19,7 @@ const TeamStandingsPage = ({ match }) => {
     const url = `/api/v1/events/${eventId}/scoreboard.json`
     const {
       data: { competitors }
-    } = await axios.get(url)
+    } = await client.get(url)
 
     setCompetitors(competitors)
   }

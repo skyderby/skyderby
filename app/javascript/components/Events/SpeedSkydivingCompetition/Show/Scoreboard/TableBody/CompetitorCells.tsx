@@ -1,18 +1,19 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import toast from 'react-hot-toast'
 
 import {
   useCompetitorQuery,
   useDeleteCompetitorMutation,
   useEditCompetitorMutation
 } from 'api/speedSkydivingCompetitions'
+import { SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions/types'
 import { useProfileQuery } from 'api/profiles'
 import { useCountryQuery } from 'api/countries'
+import RequestErrorToast from 'components/RequestErrorToast'
 import PencilIcon from 'icons/pencil'
 import TimesIcon from 'icons/times'
 import CompetitorForm from '../CompetitorForm'
 import styles from './styles.module.scss'
-import { SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions/types'
 
 type CompetitorCellsProps = {
   event: SpeedSkydivingCompetition
@@ -27,6 +28,13 @@ const CompetitorCells = ({ event, competitorId }: CompetitorCellsProps): JSX.Ele
 
   const editMutation = useEditCompetitorMutation(event.id, competitorId)
   const deleteMutation = useDeleteCompetitorMutation(event.id, competitorId)
+
+  const handleDelete = () =>
+    deleteMutation.mutate(undefined, {
+      onError: error => {
+        toast.error(<RequestErrorToast response={error.response} />)
+      }
+    })
 
   return (
     <>
@@ -43,10 +51,7 @@ const CompetitorCells = ({ event, competitorId }: CompetitorCellsProps): JSX.Ele
             >
               <PencilIcon />
             </button>
-            <button
-              className={styles.actionButton}
-              onClick={() => deleteMutation.mutate(undefined)}
-            >
+            <button className={styles.actionButton} onClick={handleDelete}>
               <TimesIcon />
             </button>
           </div>
@@ -64,16 +69,6 @@ const CompetitorCells = ({ event, competitorId }: CompetitorCellsProps): JSX.Ele
       )}
     </>
   )
-}
-
-CompetitorCells.propTypes = {
-  event: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    permissions: PropTypes.shape({
-      canEdit: PropTypes.bool.isRequired
-    }).isRequired
-  }).isRequired,
-  competitorId: PropTypes.number.isRequired
 }
 
 export default CompetitorCells

@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from 'react-query'
-import axios from 'axios'
+import client from 'api/client'
 
 export interface SuitsPopularityRecord {
   suitId: number
@@ -8,7 +8,7 @@ export interface SuitsPopularityRecord {
 
 const endpoint = '/api/v1/suits/popularity'
 
-const getPopularity = () => axios.get(endpoint).then(response => response.data)
+const getPopularity = () => client.get(endpoint).then(response => response.data)
 
 export const useSuitPopularityQuery = (): UseQueryResult<SuitsPopularityRecord[]> =>
   useQuery({

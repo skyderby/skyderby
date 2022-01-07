@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 
 import {
   useNewCategoryMutation,
@@ -8,6 +9,7 @@ import {
 import { SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions/types'
 import PlusIcon from 'icons/plus.svg'
 import CategoryForm from 'components/CategoryForm'
+import RequestErrorToast from 'components/RequestErrorToast'
 import CompetitorForm from '../CompetitorForm'
 import StatusMenu from './StatusMenu'
 import styles from './styles.module.scss'
@@ -26,7 +28,12 @@ const ActionsBar = ({ event }: ActionsBarProps): JSX.Element => {
   })
   const newCompetitorMutation = useNewCompetitorMutation(event.id)
 
-  const addRound = () => newRoundMutation.mutateAsync(event.id)
+  const addRound = () =>
+    newRoundMutation.mutate(event.id, {
+      onError: error => {
+        toast.error(<RequestErrorToast response={error.response} />)
+      }
+    })
 
   return (
     <div className={styles.container}>

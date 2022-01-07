@@ -16,7 +16,7 @@ class Api::V1::SpeedSkydivingCompetitions::TeamsController < Api::ApplicationCon
       if @team.save
         format.json
       else
-        format.json { render json: { errors: @team.errors }, status: :unprocessable_entity }
+        format.json { respond_with_errors @team.errors }
       end
     end
   end
@@ -30,7 +30,7 @@ class Api::V1::SpeedSkydivingCompetitions::TeamsController < Api::ApplicationCon
       if @team.update(team_params)
         format.json
       else
-        format.json { render json: { errors: @team.errors }, status: :unprocessable_entity }
+        format.json { respond_with_errors @team.errors }
       end
     end
   end
@@ -44,7 +44,7 @@ class Api::V1::SpeedSkydivingCompetitions::TeamsController < Api::ApplicationCon
       if @team.destroy
         format.json
       else
-        format.json { render json: { errors: @team.errors }, status: :unprocessable_entity }
+        format.json { respond_with_errors @team.errors }
       end
     end
   end

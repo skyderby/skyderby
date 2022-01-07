@@ -6,14 +6,14 @@ import {
   UseQueryOptions,
   UseQueryResult
 } from 'react-query'
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import client, { AxiosError, AxiosResponse } from 'api/client'
 
 import { PlaceRecord } from 'api/places/types'
 import { cacheOptions, endpoint, recordQueryKey, RecordQueryKey } from 'api/places/utils'
 import { preloadCountries } from 'api/countries'
 
 const getPlace = (id: number): Promise<PlaceRecord> =>
-  axios
+  client
     .get<never, AxiosResponse<PlaceRecord>>(`${endpoint}/${id}`)
     .then(response => response.data)
 

@@ -1,7 +1,6 @@
 import { useMutation, UseMutationResult, useQueryClient } from 'react-query'
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import client, { AxiosError, AxiosResponse } from 'api/client'
 import { PlaceRecord } from './types'
-import { getCSRFToken } from 'utils/csrfToken'
 
 import { endpoint, recordQueryKey } from './utils'
 
@@ -19,11 +18,7 @@ type MutationOptions = {
 }
 
 const createPlace = (place: CreateVariables): Promise<AxiosResponse<PlaceRecord>> =>
-  axios.post<{ place: CreateVariables }, AxiosResponse<PlaceRecord>>(
-    endpoint,
-    { place },
-    { headers: { 'X-CSRF-Token': String(getCSRFToken()) } }
-  )
+  client.post<{ place: CreateVariables }, AxiosResponse<PlaceRecord>>(endpoint, { place })
 
 const useNewPlaceMutation = (options: MutationOptions): NewPlaceMutation => {
   const queryClient = useQueryClient()

@@ -5,7 +5,7 @@ import {
   UseQueryOptions,
   UseQueryResult
 } from 'react-query'
-import axios from 'axios'
+import client from 'api/client'
 
 import { TeamStandingRow } from './types'
 
@@ -15,7 +15,7 @@ const endpoint = (eventId: number) =>
   `/api/v1/speed_skydiving_competitions/${eventId}/team_standings`
 
 const getStandings = (eventId: number) =>
-  axios.get(endpoint(eventId)).then(response => response.data)
+  client.get(endpoint(eventId)).then(response => response.data)
 
 const queryKey = (eventId: number): QueryKey => [
   'speedSkydivingCompetitions',

@@ -1,0 +1,19 @@
+fr:
+  activerecord:
+    models:
+      speed_skydiving_competition/competitor: Compétiteur
+    attributes:
+      speed_skydiving_competition/competitor:
+        category: Catégorie
+    errors:
+      models:
+        speed_skydiving_competition/competitor:
+          attributes:
+            profile:
+              blank: Profil du pilote doit être renseigné
+            category:
+              blank: Catégorie doit être renseigné
+            base:
+              restrict_dependent_destroy:
+                many: Pour supprimer le compétiteur veuillez d'abord supprimer ses résultats
+              event_finished: Les modifications ne sont plus possibles car la compétition est finie

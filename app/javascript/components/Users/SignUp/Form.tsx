@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Field, Formik, FormikHelpers } from 'formik'
-import axios from 'axios'
+import client from 'api/client'
 
 import { SignUpForm, ServerErrors, SignUpMutation } from 'api/users'
 import { useI18n } from 'components/TranslationsProvider'
@@ -38,7 +38,7 @@ const Form = ({ mutation }: FormProps): JSX.Element => {
     } catch (err) {
       formikBag.setSubmitting(false)
 
-      if (axios.isAxiosError(err)) {
+      if (client.isClientError(err)) {
         const {
           errors: { name, email, password, ...rest }
         } = err.response?.data ?? emptyErrors

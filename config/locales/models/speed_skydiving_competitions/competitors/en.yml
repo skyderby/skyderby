@@ -1,0 +1,20 @@
+en:
+  activerecord:
+    models:
+      speed_skydiving_competition/competitor: Competitor
+    attributes:
+      speed_skydiving_competition/competitor:
+        category: Category
+        assigned_number: Assigned number
+    errors:
+      models:
+        speed_skydiving_competition/competitor:
+          attributes:
+            profile:
+              blank: Pilot profile has to be filled
+            category:
+              blank: Category has to be filled
+            base:
+              restrict_dependent_destroy:
+                many: To delete competitor delete his results first.
+              event_finished: Changes couldn't be made because event is finished.

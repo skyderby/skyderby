@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import axios from 'axios'
+import client from 'api/client'
 import Select from 'react-select'
 import PropTypes from 'prop-types'
 
@@ -24,7 +24,7 @@ const CompetitorSelect = ({ value, onChange, ...props }) => {
 
   const loadOptions = useCallback(async () => {
     const dataUrl = `/api/v1/events/${eventId}/competitors`
-    const { data } = await axios.get(dataUrl)
+    const { data } = await client.get(dataUrl)
 
     setOptions(data.map(el => ({ value: el.id.toString(), label: el.name })))
   }, [eventId])

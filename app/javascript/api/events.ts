@@ -5,7 +5,7 @@ import {
   useQueryClient,
   UseQueryResult
 } from 'react-query'
-import axios from 'axios'
+import client from 'api/client'
 
 import { cachePlaces, PlaceRecord } from 'api/places'
 import { cacheCountries, CountryRecord } from 'api/countries'
@@ -105,7 +105,7 @@ const getEvents = ({
 
   const url = [endpoint, urlParams.toString()].join('?')
 
-  return axios.get(url).then(response => response.data)
+  return client.get(url).then(response => response.data)
 }
 
 const buildQueryFn = (
