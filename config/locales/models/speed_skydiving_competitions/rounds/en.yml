@@ -1,0 +1,12 @@
+en:
+  activerecord:
+    models:
+      speed_skydiving_competition/round: Round
+    errors:
+      models:
+        speed_skydiving_competition/round:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: Delete round results first
+              event_finished: Changes couldn't be made because event is finished.

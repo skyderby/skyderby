@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
+import client, { AxiosResponse } from 'api/client'
 
 export type IndexResponse<
   Type = never,
@@ -37,7 +37,7 @@ export async function loadIds<Type, Relations = undefined>(
 
   params.set('perPage', String(uniqueIds.length))
 
-  const { data } = await axios.get<never, AxiosResponse<IndexResponse<Type, Relations>>>(
+  const { data } = await client.get<never, AxiosResponse<IndexResponse<Type, Relations>>>(
     `${indexEndpoint}?${params.toString()}`
   )
 
@@ -48,7 +48,7 @@ export async function depaginate<Type = never, Relations = undefined>(
   buildUrl: (params: DepaginateParams) => string,
   perPage = 100
 ): Promise<IndexResponse<Type, Relations>[]> {
-  const { data: firstChunk } = await axios.get<
+  const { data: firstChunk } = await client.get<
     never,
     AxiosResponse<IndexResponse<Type, Relations>>
   >(buildUrl({ perPage }))
@@ -59,7 +59,7 @@ export async function depaginate<Type = never, Relations = undefined>(
 
   const restChunks = await Promise.all(
     restPages.map(async page => {
-      const { data } = await axios.get(buildUrl({ page, perPage }))
+      const { data } = await client.get(buildUrl({ page, perPage }))
       return data
     })
   )

@@ -1,0 +1,17 @@
+de:
+  activerecord:
+    models:
+      speed_skydiving_competition/category: Kategorie
+    attributes:
+      speed_skydiving_competition/category:
+        name: Name
+    errors:
+      models:
+        speed_skydiving_competition/category:
+          attributes:
+            name:
+              blank: Name muss ausgefüllt werden.
+            base:
+              restrict_dependent_destroy:
+                many: Bitte lösche oder verschiebe die Teilnehmer in eine andere Kategorie bevor du diese Kategorie löscht.
+              event_finished: Es konnten keine Änderungen vorgenommen werden, da der Wettkampf bereits beendet ist.

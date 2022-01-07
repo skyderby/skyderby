@@ -1,8 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import axios from 'axios'
+import client from 'api/client'
 
 import { preloadProfiles } from 'api/profiles'
-import { getCSRFToken } from 'utils/csrfToken'
 import { standingsQuery } from './standings'
 import { preloadSuits } from 'api/suits'
 
@@ -10,15 +9,12 @@ const collectionEndpoint = eventId =>
   `/api/v1/performance_competitions/${eventId}/competitors`
 const elementEndpoint = (eventId, id) => `${collectionEndpoint(eventId)}/${id}`
 
-const getHeaders = () => ({ 'X-CSRF-Token': getCSRFToken() })
-
-const getCompetitors = eventId => axios.get(collectionEndpoint(eventId))
+const getCompetitors = eventId => client.get(collectionEndpoint(eventId))
 const createCompetitor = ({ eventId, ...competitor }) =>
-  axios.post(collectionEndpoint(eventId), { competitor }, { headers: getHeaders() })
+  client.post(collectionEndpoint(eventId), { competitor })
 const updateCompetitor = ({ eventId, id, ...competitor }) =>
-  axios.put(elementEndpoint(eventId, id), { competitor }, { headers: getHeaders() })
-const deleteCompetitor = ({ eventId, id }) =>
-  axios.delete(elementEndpoint(eventId, id), { headers: getHeaders() })
+  client.put(elementEndpoint(eventId, id), { competitor })
+const deleteCompetitor = ({ eventId, id }) => client.delete(elementEndpoint(eventId, id))
 
 const collectionKey = eventId => ['performanceCompetition', eventId, 'competitors']
 

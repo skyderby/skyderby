@@ -8,7 +8,7 @@ import {
   UseQueryResult,
   UseMutationResult
 } from 'react-query'
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import client, { AxiosError, AxiosResponse } from 'api/client'
 import { parseISO } from 'date-fns'
 
 import { Round } from './types'
@@ -29,12 +29,12 @@ const recordEndpoint = (eventId: number, roundId: number) =>
   `${collectionEndpoint(eventId)}/${roundId}`
 
 const getRounds = (eventId: number) =>
-  axios
+  client
     .get<never, AxiosResponse<SerializedData[]>>(collectionEndpoint(eventId))
     .then(response => response.data)
 
 const createRound = (eventId: number) =>
-  axios.post<never, AxiosResponse<SerializedData>>(collectionEndpoint(eventId))
+  client.post<never, AxiosResponse<SerializedData>>(collectionEndpoint(eventId))
 
 type UpdateVariables = {
   eventId: number
@@ -43,7 +43,7 @@ type UpdateVariables = {
 }
 
 const updateRound = ({ eventId, roundId, ...round }: UpdateVariables) =>
-  axios.put<
+  client.put<
     { round: Omit<UpdateVariables, 'eventId' | 'roundId'> },
     AxiosResponse<SerializedData>
   >(recordEndpoint(eventId, roundId), { round })
@@ -57,7 +57,7 @@ const deleteRound = ({
   eventId,
   roundId
 }: DeleteVariables): Promise<AxiosResponse<SerializedData>> =>
-  axios.delete(recordEndpoint(eventId, roundId))
+  client.delete(recordEndpoint(eventId, roundId))
 
 const deserialize = (round: SerializedData): Round => ({
   ...round,

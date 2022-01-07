@@ -1,0 +1,17 @@
+ru:
+  activerecord:
+    models:
+      speed_skydiving_competition/category: Класс
+    attributes:
+      speed_skydiving_competition/category:
+        name: Название
+    errors:
+      models:
+        speed_skydiving_competition/category:
+          attributes:
+            name:
+              blank: Название обязательно для заполнения
+            base:
+              restrict_dependent_destroy:
+                many: Перед удалением класса необходимо удалить или переместить из него участников.
+              event_finished: Изменения не могут быть выполнены, т.к. соревнование завершено.

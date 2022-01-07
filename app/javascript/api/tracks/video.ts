@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import client, { AxiosError, AxiosResponse } from 'api/client'
 import {
   QueryFunction,
   useMutation,
@@ -10,7 +10,6 @@ import {
 } from 'react-query'
 
 import { trackQuery } from 'api/tracks/track'
-import { getCSRFToken } from 'utils/csrfToken'
 import { TrackRecord } from 'api/tracks/types'
 
 export interface VideoRecord {
@@ -31,7 +30,7 @@ type VideoQueryKey = ['trackVideo', number | undefined]
 const videoUrl = (id: number): string => `/api/v1/tracks/${id}/video`
 
 const getVideo = async (id: number) => {
-  const { data } = await axios.get(videoUrl(id))
+  const { data } = await client.get(videoUrl(id))
   return data
 }
 
@@ -39,14 +38,9 @@ const updateVideo = async ({
   id,
   changes
 }: VideoParams): Promise<AxiosResponse<VideoRecord>> =>
-  axios.post(
-    videoUrl(id),
-    { trackVideo: changes },
-    { headers: { 'X-CSRF-Token': getCSRFToken() } }
-  )
+  client.post(videoUrl(id), { trackVideo: changes })
 
-const deleteVideo = async (id: number) =>
-  axios.delete(videoUrl(id), { headers: { 'X-CSRF-Token': getCSRFToken() } })
+const deleteVideo = async (id: number) => client.delete(videoUrl(id))
 
 const queryFn: QueryFunction<VideoRecord, VideoQueryKey> = ctx => {
   const [_key, id] = ctx.queryKey

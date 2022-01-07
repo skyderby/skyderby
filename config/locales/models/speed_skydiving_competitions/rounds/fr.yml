@@ -1,0 +1,12 @@
+fr:
+  activerecord:
+    models:
+      speed_skydiving_competition/round: Manche
+    errors:
+      models:
+        speed_skydiving_competition/round:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: Pour supprimer la manche veuillez supprimer d'abord les résultats
+              event_finished: Les modifications ne sont plus possibles car la compétition est finie

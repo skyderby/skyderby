@@ -1,5 +1,5 @@
 import { useMutation, UseMutationOptions, UseMutationResult } from 'react-query'
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import client, { AxiosError, AxiosResponse } from 'api/client'
 
 const endpoint = '/api/v1/tracks/files'
 
@@ -21,7 +21,7 @@ const createTrackFile = (file: File) => {
   const formData = new FormData()
   formData.append('file', file)
 
-  return axios
+  return client
     .post<FormData, AxiosResponse<TrackFileRecord>>(endpoint, formData)
     .then(response => response.data)
 }

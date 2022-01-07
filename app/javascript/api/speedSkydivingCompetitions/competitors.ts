@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import client, { AxiosError, AxiosResponse } from 'api/client'
 import {
   useQuery,
   useMutation,
@@ -13,7 +13,6 @@ import { parseISO } from 'date-fns'
 
 import { cacheProfiles, ProfileRecord } from 'api/profiles'
 import { cacheCountries, CountryRecord } from 'api/countries'
-import { getCSRFToken } from 'utils/csrfToken'
 import { standingsQuery } from './standings'
 import { Competitor } from './types'
 
@@ -56,31 +55,25 @@ const collectionEndpoint = (eventId: number) =>
 const elementEndpoint = (eventId: number, id: number) =>
   `${collectionEndpoint(eventId)}/${id}`
 
-const getHeaders = () => ({ 'X-CSRF-Token': getCSRFToken() })
-
 const getCompetitors = (eventId: number) =>
-  axios
+  client
     .get<never, AxiosResponse<IndexResponse>>(collectionEndpoint(eventId))
     .then(response => response.data)
 
 const createCompetitor = (eventId: number, competitor: CompetitorVariables) =>
-  axios.post<{ competitor: CompetitorVariables }, AxiosResponse<SerializedCompetitor>>(
+  client.post<{ competitor: CompetitorVariables }, AxiosResponse<SerializedCompetitor>>(
     collectionEndpoint(eventId),
-    { competitor },
-    { headers: getHeaders() }
+    { competitor }
   )
 
 const updateCompetitor = (eventId: number, id: number, competitor: CompetitorVariables) =>
-  axios.put<{ competitor: CompetitorVariables }, AxiosResponse<SerializedCompetitor>>(
+  client.put<{ competitor: CompetitorVariables }, AxiosResponse<SerializedCompetitor>>(
     elementEndpoint(eventId, id),
-    { competitor },
-    { headers: getHeaders() }
+    { competitor }
   )
 
 const deleteCompetitor = (eventId: number, id: number) =>
-  axios.delete<never, AxiosResponse<SerializedCompetitor>>(elementEndpoint(eventId, id), {
-    headers: getHeaders()
-  })
+  client.delete<never, AxiosResponse<SerializedCompetitor>>(elementEndpoint(eventId, id))
 
 const collectionKey = (eventId: number): QueryKey => [
   'speedSkydivingCompetitions',

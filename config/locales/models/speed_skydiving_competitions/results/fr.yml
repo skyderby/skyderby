@@ -1,0 +1,21 @@
+fr:
+  activerecord:
+    models:
+      speed_skydiving_competition/result: Résultat
+    attributes:
+      speed_skydiving_competition/result:
+        file: Fichier de l'enregistrement
+        track: Enregistrement
+        is_disqualified: Est disqualifié
+        disqualification_reason: Raison
+    errors:
+      models:
+        speed_skydiving_competition/result:
+          attributes:
+            track:
+              blank: Aucun enregistrement sélectionné pour calculer le résultat.
+            result:
+              duplicate: Il y a déà un résultat existant pour ce compétiteur dans cette manche. Rafraîchir la poage pour le voir.
+            base:
+              event_finished: Les modifications ne sont plus possibles car la compétition est finie
+              track_file_blank: Enregistrement vide.

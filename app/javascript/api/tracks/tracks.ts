@@ -9,7 +9,7 @@ import {
   UseInfiniteQueryResult
 } from 'react-query'
 import { isMobileOnly } from 'react-device-detect'
-import axios from 'axios'
+import client from 'api/client'
 
 import { cacheRelations } from './utils'
 import {
@@ -81,7 +81,7 @@ export const extractParamsFromUrl = (
 }
 
 const getTracks = (params: IndexParams): Promise<TracksIndex> =>
-  axios.get([endpoint, mapParamsToUrl(params)].join('')).then(response => response.data)
+  client.get([endpoint, mapParamsToUrl(params)].join('')).then(response => response.data)
 
 const buildQueryFn = (
   queryClient: QueryClient

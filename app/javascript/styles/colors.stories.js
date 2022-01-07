@@ -96,6 +96,7 @@ export const Colors = () => (
       <Block color={'var(--red-70)'} inverse>
         red-70
       </Block>
+      <Block color={'var(--red-20)'}>red-20</Block>
     </Row>
   </div>
 )

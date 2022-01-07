@@ -1,4 +1,4 @@
-import axios from 'axios'
+import client from 'api/client'
 import { combineReducers } from 'redux'
 
 import { getCSRFToken } from 'utils/csrfToken'
@@ -21,7 +21,7 @@ export const loadTeams = eventId => {
     const dataUrl = `/api/v1/events/${eventId}/teams`
 
     try {
-      const { data } = await axios.get(dataUrl)
+      const { data } = await client.get(dataUrl)
       dispatch({ type: LOAD_SUCCESS, payload: data })
     } catch (err) {
       dispatch({ type: LOAD_ERROR, payload: err })
@@ -34,7 +34,7 @@ export const createTeam = (eventId, input) => {
     const dataUrl = `/api/v1/events/${eventId}/teams`
 
     try {
-      const { data } = await axios.post(dataUrl, input, {
+      const { data } = await client.post(dataUrl, input, {
         headers: {
           'X-CSRF-Token': getCSRFToken()
         }
@@ -52,7 +52,7 @@ export const updateTeam = (eventId, teamId, input) => {
     const dataUrl = `/api/v1/events/${eventId}/teams/${teamId}`
 
     try {
-      const { data } = await axios.patch(dataUrl, input, {
+      const { data } = await client.patch(dataUrl, input, {
         headers: {
           'X-CSRF-Token': getCSRFToken()
         }
@@ -70,7 +70,7 @@ export const deleteTeam = (eventId, teamId) => {
     const dataUrl = `/api/v1/events/${eventId}/teams/${teamId}`
 
     try {
-      await axios.delete(dataUrl, {
+      await client.delete(dataUrl, {
         headers: {
           'X-CSRF-Token': getCSRFToken()
         }

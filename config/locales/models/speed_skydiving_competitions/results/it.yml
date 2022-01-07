@@ -1,0 +1,22 @@
+it:
+  activerecord:
+    models:
+      speed_skydiving_competition/result: Risultati
+    attributes:
+      speed_skydiving_competition/result:
+        file: File con tracce
+        track: Traccia
+        uploaded_by: Caricato da
+        is_disqualified: Squalificato
+        disqualification_reason: Motivazione
+    errors:
+      models:
+        speed_skydiving_competition/result:
+          attributes:
+            track:
+              blank: Non è stata selezionata una traccia da cui calcolare i risultati.
+            result:
+              duplicate: Esiste già un risultato per questo concorrente in questo round. Fai un Refresh della pagina per vederlo.
+            base:
+              event_finished: Non puoi effettuare modifiche perché l'evento è concluso.
+              track_file_blank: Non è stata selezionato un file da cui calcolare i risultati.

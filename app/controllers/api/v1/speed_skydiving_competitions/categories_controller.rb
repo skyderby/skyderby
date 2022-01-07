@@ -16,7 +16,7 @@ class Api::V1::SpeedSkydivingCompetitions::CategoriesController < Api::Applicati
       if @category.save
         format.json
       else
-        format.json { render json: { errors: @category.errors }, status: :unprocessable_entity }
+        format.json { respond_with_errors @category.errors }
       end
     end
   end
@@ -30,7 +30,7 @@ class Api::V1::SpeedSkydivingCompetitions::CategoriesController < Api::Applicati
       if @category.update(category_params)
         format.json
       else
-        format.json { render json: { errors: @category.errors }, status: :unprocessable_entity }
+        format.json { respond_with_errors @category.errors }
       end
     end
   end
@@ -44,7 +44,7 @@ class Api::V1::SpeedSkydivingCompetitions::CategoriesController < Api::Applicati
       if @category.destroy
         format.json
       else
-        format.json { render json: { errors: @category.errors }, status: :unprocessable_entity }
+        format.json { respond_with_errors @category.errors }
       end
     end
   end

@@ -1,0 +1,19 @@
+de:
+  activerecord:
+    models:
+      speed_skydiving_competition/competitor: Teilnehmer
+    attributes:
+      speed_skydiving_competition/competitor:
+        category: Kategorie
+    errors:
+      models:
+        speed_skydiving_competition/competitor:
+          attributes:
+            profile:
+              blank: Teilnehmerprofil' muss ausgewählt werden.
+            category:
+              blank: Kategorie muss ausgewählt werden.
+            base:
+              restrict_dependent_destroy:
+                many: Um einen Wettkämpfer zu löschen müssen seine Ergebnisse vorher gelöscht werden.
+              event_finished: Es konnten keine Änderungen vorgenommen werden, da der Wettkampf bereits beendet ist.

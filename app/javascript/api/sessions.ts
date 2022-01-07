@@ -1,4 +1,3 @@
-import axios, { AxiosError, AxiosResponse } from 'axios'
 import {
   useQuery,
   useQueryClient,
@@ -7,7 +6,7 @@ import {
   UseMutationResult
 } from 'react-query'
 
-import { getCSRFToken, setCSRFToken } from 'utils/csrfToken'
+import client, { AxiosError, AxiosResponse } from 'api/client'
 
 export type GuestUser = {
   authorized: false
@@ -50,36 +49,15 @@ const getCurrentUser = () =>
   }).then(response => response.json())
 
 const login = async (user: LoginData) => {
-  const { data, headers } = await axios.post<
-    { user: LoginData },
-    AxiosResponse<AuthorizedUser>
-  >(
+  const { data } = await client.post<{ user: LoginData }, AxiosResponse<AuthorizedUser>>(
     '/api/users/sign_in',
-    { user },
-    {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': getCSRFToken()
-      }
-    }
+    { user }
   )
-
-  setCSRFToken(headers['new-csrf-token'])
 
   return data
 }
 
-const logout = async (): Promise<void> => {
-  const { headers } = await axios.delete('/api/users/sign_out', {
-    headers: {
-      Accept: 'application/json',
-      'X-CSRF-Token': getCSRFToken()
-    }
-  })
-
-  setCSRFToken(headers['new-csrf-token'])
-}
+const logout = () => client.delete<void, AxiosResponse<void>>('/api/users/sign_out')
 
 const queryKey = ['currentUser']
 
@@ -101,7 +79,7 @@ export const useLoginMutation = (): UseMutationResult<
   })
 }
 
-export const useLogoutMutation = (): UseMutationResult<void> => {
+export const useLogoutMutation = (): UseMutationResult<AxiosResponse<void>> => {
   const queryClient = useQueryClient()
 
   return useMutation(logout, {

@@ -1,4 +1,4 @@
-import axios from 'axios'
+import client from 'api/client'
 
 const prefix = '[event]'
 
@@ -20,7 +20,7 @@ export const loadEvent = id => {
     const dataUrl = `/api/v1/events/${id}`
 
     try {
-      const { data } = await axios.get(dataUrl)
+      const { data } = await client.get(dataUrl)
       dispatch({ type: LOAD_SUCCESS, payload: data })
     } catch (err) {
       dispatch({ type: LOAD_ERROR, payload: err })
