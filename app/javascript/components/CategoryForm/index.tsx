@@ -6,6 +6,10 @@ import Modal from 'components/ui/Modal'
 import ErrorText from 'components/ui/ErrorMessage'
 import validationSchema from './validationSchema'
 import styles from './styles.module.scss'
+import toast from 'react-hot-toast'
+import RequestErrorToast from 'components/RequestErrorToast'
+import { UseMutationResult } from 'react-query'
+import { AxiosError } from 'axios'
 
 interface FormData {
   id?: number
@@ -14,9 +18,7 @@ interface FormData {
 
 type FormProps = {
   initialValues?: FormData
-  mutation: {
-    mutate: (params: FormData) => void
-  }
+  mutation: UseMutationResult<unknown, AxiosError<Record<string, string[]>>, FormData>
   onHide: () => void
 }
 
@@ -30,12 +32,12 @@ const CategoryForm = ({
   const { t } = useI18n()
 
   const handleSubmit = async (values: FormData, formikBag: FormikHelpers<FormData>) => {
-    try {
-      mutation.mutate(values)
-    } catch (err) {
-      formikBag.setSubmitting(false)
-      console.warn(err)
-    }
+    mutation.mutate(values, {
+      onSettled: () => formikBag.setSubmitting(false),
+      onError: error => {
+        toast.error(<RequestErrorToast response={error.response} />)
+      }
+    })
   }
 
   return (

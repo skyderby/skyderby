@@ -6,7 +6,7 @@ import {
   UseQueryOptions,
   UseQueryResult
 } from 'react-query'
-import axios from 'axios'
+import client from 'api/client'
 import { cachePlaces, PlaceRecord } from 'api/places'
 
 type TerrainProfileRecord = {
@@ -25,7 +25,7 @@ type TerrainProfilesIndex = {
 const endpoint = '/api/v1/terrain_profiles'
 
 const getTerrainProfiles = (): Promise<TerrainProfilesIndex> =>
-  axios.get(endpoint).then(response => response.data)
+  client.get(endpoint).then(response => response.data)
 
 const recordQueryKey = (id: number) => ['terrainProfiles', id]
 const indexQueryKey = ['terrainProfiles']

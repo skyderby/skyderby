@@ -5,7 +5,7 @@ import {
   UseQueryOptions,
   UseQueryResult
 } from 'react-query'
-import axios, { AxiosResponse } from 'axios'
+import client, { AxiosResponse } from 'api/client'
 import parseISO from 'date-fns/parseISO'
 
 type RequestOptions = {
@@ -48,7 +48,7 @@ const getPoints = async (id: number, opts: RequestOptions): Promise<PointRecord[
 
   const url = `/api/v1/tracks/${id}/points?${queryString.toString()}`
 
-  const points = await axios
+  const points = await client
     .get<never, AxiosResponse<RawPoint[]>>(url)
     .then(response => response.data)
 

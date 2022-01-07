@@ -16,7 +16,7 @@ class Api::V1::SpeedSkydivingCompetitions::CompetitorsController < Api::Applicat
       if @competitor.save
         format.json
       else
-        format.json { render json: { errors: @competitor.errors }, status: :unprocessable_entity }
+        format.json { respond_with_errors @competitor.errors }
       end
     end
   end
@@ -30,7 +30,7 @@ class Api::V1::SpeedSkydivingCompetitions::CompetitorsController < Api::Applicat
       if @competitor.update(competitor_params)
         format.json
       else
-        format.json { render json: { errors: @competitor.errors }, status: :unprocessable_entity }
+        format.json { respond_with_errors @competitor.errors }
       end
     end
   end
@@ -44,7 +44,7 @@ class Api::V1::SpeedSkydivingCompetitions::CompetitorsController < Api::Applicat
       if @competitor.destroy
         format.json
       else
-        format.json { render json: { errors: @competitor.errors }, status: :unprocessable_entity }
+        format.json { respond_with_errors @competitor.errors }
       end
     end
   end

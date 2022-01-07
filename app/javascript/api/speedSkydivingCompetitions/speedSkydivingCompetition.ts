@@ -8,10 +8,9 @@ import {
   UseQueryOptions,
   UseQueryResult
 } from 'react-query'
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import client, { AxiosError, AxiosResponse } from 'api/client'
 import { parseISO } from 'date-fns'
 
-import { getCSRFToken } from 'utils/csrfToken'
 import { placeQuery } from 'api/places'
 import { SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions/types'
 import { EventStatus, EventVisibility } from 'api/events'
@@ -55,26 +54,21 @@ const endpoint = '/api/v1/speed_skydiving_competitions'
 const queryKey = (id: number): QueryKey => ['speedSkydivingCompetitions', id]
 
 const getEvent = (id: number) =>
-  axios
+  client
     .get<never, AxiosResponse<SerializedData>>(`${endpoint}/${id}`)
     .then(response => response.data)
 
 const createEvent = (speedSkydivingCompetition: EventVariables) =>
-  axios.post<
+  client.post<
     { speedSkydivingCompetition: EventVariables },
     AxiosResponse<SerializedData>
-  >(
-    endpoint,
-    { speedSkydivingCompetition },
-    { headers: { 'X-CSRF-Token': getCSRFToken() } }
-  )
+  >(endpoint, { speedSkydivingCompetition })
 
 const updateEvent = (id: number, speedSkydivingCompetition: EventVariables) =>
-  axios.put<{ speedSkydivingCompetition: EventVariables }, AxiosResponse<SerializedData>>(
-    `${endpoint}/${id}`,
-    { speedSkydivingCompetition },
-    { headers: { 'X-CSRF-Token': getCSRFToken() } }
-  )
+  client.put<
+    { speedSkydivingCompetition: EventVariables },
+    AxiosResponse<SerializedData>
+  >(`${endpoint}/${id}`, { speedSkydivingCompetition })
 
 const buildQueryFn = (
   queryClient: QueryClient

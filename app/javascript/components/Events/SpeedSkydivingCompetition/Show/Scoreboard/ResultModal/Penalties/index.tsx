@@ -1,5 +1,6 @@
 import React from 'react'
 import { Formik, Field, FieldArray, FormikHelpers, FormikErrors } from 'formik'
+import toast from 'react-hot-toast'
 
 import Modal from 'components/ui/Modal'
 import { useI18n } from 'components/TranslationsProvider'
@@ -8,6 +9,7 @@ import {
   SpeedSkydivingCompetition,
   useSetResultPenaltiesMutation
 } from 'api/speedSkydivingCompetitions'
+import RequestErrorToast from 'components/RequestErrorToast'
 import PlusIcon from 'icons/plus'
 import TimesIcon from 'icons/times'
 import validationSchema from './validationSchema'
@@ -33,7 +35,13 @@ const Penalties = ({ event, result, tabBar, hide }: PenaltiesProps): JSX.Element
   const handleSave = (values: FormData, formikBag: FormikHelpers<FormData>) => {
     mutation.mutate(
       { penaltiesAttributes: values.penalties },
-      { onSettled: () => formikBag.setSubmitting(false), onSuccess: () => hide() }
+      {
+        onSettled: () => formikBag.setSubmitting(false),
+        onSuccess: () => hide(),
+        onError: error => {
+          toast.error(<RequestErrorToast response={error.response} />)
+        }
+      }
     )
   }
 

@@ -1,0 +1,12 @@
+de:
+  activerecord:
+    models:
+      speed_skydiving_competition/round: Runde
+    errors:
+      models:
+        speed_skydiving_competition/round:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: Lösche bitte zuerst die Rundenergebnisse
+              event_finished: Es konnten keine Änderungen vorgenommen werden, da der Wettkampf bereits beendet ist.

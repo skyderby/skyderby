@@ -1,5 +1,6 @@
 import React from 'react'
 import { Formik, Field, FormikHelpers, FieldProps } from 'formik'
+import toast from 'react-hot-toast'
 import { ValueType } from 'react-select'
 
 import Modal from 'components/ui/Modal'
@@ -13,6 +14,7 @@ import {
   EditCompetitorMutation,
   NewCompetitorMutation
 } from 'api/speedSkydivingCompetitions/competitors'
+import RequestErrorToast from 'components/RequestErrorToast'
 
 interface CompetitorData {
   profileId: number | null
@@ -32,7 +34,7 @@ type CompetitorFormProps = {
   eventId: number
   initialValues?: Partial<CompetitorData>
   mutation: NewCompetitorMutation | EditCompetitorMutation
-  onHide: () => unknown
+  onHide: () => void
 }
 
 const defaultInitialValues: FormData = {
@@ -63,13 +65,13 @@ const CompetitorForm = ({
         : { profileId, profileAttributes: null })
     }
 
-    try {
-      await mutation.mutateAsync(competitorParams)
-      hide()
-    } catch (err) {
-      formikBag.setSubmitting(false)
-      console.warn(err)
-    }
+    mutation.mutate(competitorParams, {
+      onSuccess: () => hide(),
+      onSettled: () => formikBag.setSubmitting(false),
+      onError: error => {
+        toast.error(<RequestErrorToast response={error.response} />)
+      }
+    })
   }
 
   return (

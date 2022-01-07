@@ -1,5 +1,5 @@
 class SpeedSkydivingCompetition::Result < ApplicationRecord
-  include AcceptsNestedTrack, SubmissionResult
+  include AcceptsNestedTrack, SubmissionResult, EventOngoingValidation
 
   belongs_to :event, class_name: 'SpeedSkydivingCompetition', inverse_of: :rounds
   belongs_to :competitor
@@ -9,6 +9,9 @@ class SpeedSkydivingCompetition::Result < ApplicationRecord
   has_many :penalties, class_name: 'SpeedSkydivingCompetition::Result::Penalty', dependent: :destroy
 
   validates :competitor_id, uniqueness: { scope: :round_id }, on: :create
+  validate :round_must_be_in_progress
+
+  before_destroy :can_be_destroyed?
 
   delegate :number, to: :round, prefix: true
   delegate :tracks_visibility, to: :event
@@ -27,4 +30,13 @@ class SpeedSkydivingCompetition::Result < ApplicationRecord
   def track_comment = "#{event.name} - Round #{round_number}"
 
   def track_activity = :speed_skydiving
+
+  def can_be_destroyed? = round_must_be_in_progress || throw(:abort)
+
+  def round_must_be_in_progress
+    return true unless round.completed?
+
+    errors.add(:base, :round_completed)
+    false
+  end
 end

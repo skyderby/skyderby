@@ -1,0 +1,19 @@
+es:
+  activerecord:
+    models:
+      speed_skydiving_competition/competitor: Competidor
+    attributes:
+      speed_skydiving_competition/competitor:
+        category: Categoría
+    errors:
+      models:
+        speed_skydiving_competition/competitor:
+          attributes:
+            profile:
+              blank: El perfil es requerido
+            category:
+              blank: La categoría es requerido
+            base:
+              restrict_dependent_destroy:
+                many: Para eliminar competidor, elimine primero sus resultados
+              event_finished: La competencia está terminada

@@ -1,0 +1,17 @@
+fr:
+  activerecord:
+    models:
+      speed_skydiving_competition/category: Catégorie
+    attributes:
+      speed_skydiving_competition/category:
+        name: Nom
+    errors:
+      models:
+        speed_skydiving_competition/category:
+          attributes:
+            name:
+              blank: Nom doit être renseigné
+            base:
+              restrict_dependent_destroy:
+                many: Pour supprimer la catégorie veuillez déplacer les compétiteurs dans une autre catégorie
+              event_finished: Les modifications ne sont plus possibles car la compétition est finie

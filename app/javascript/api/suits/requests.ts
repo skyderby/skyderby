@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
+import client, { AxiosResponse } from 'api/client'
 import { loadIds, depaginate } from 'api/helpers'
 
 import { SuitRecord, SuitsIndex, IndexParams } from './types'
@@ -15,7 +15,7 @@ const buildUrl = (params: IndexParams = {}): string => {
 }
 
 export const getSuit = (id: number): Promise<SuitRecord> =>
-  axios
+  client
     .get<never, AxiosResponse<SuitRecord>>(`${endpoint}/${id}`)
     .then(response => response.data)
 
@@ -27,6 +27,6 @@ export const getAllSuits = async (params: IndexParams): Promise<SuitsIndex[]> =>
   )
 
 export const getSuits = (params: IndexParams): Promise<SuitsIndex> =>
-  axios
+  client
     .get<never, AxiosResponse<SuitsIndex>>(buildUrl(params))
     .then(response => response.data)

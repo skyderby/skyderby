@@ -1,4 +1,4 @@
-import axios from 'axios'
+import client from 'api/client'
 import { QueryFunction, useQuery, UseQueryResult } from 'react-query'
 
 import { VideoRecord } from './tracks/video'
@@ -23,7 +23,7 @@ const getVideos = async (params: IndexParams = {}): Promise<VideosIndex> => {
 
   const url = [endpoint, urlParams.toString()].join('?')
 
-  return axios.get(url).then(response => response.data)
+  return client.get(url).then(response => response.data)
 }
 
 const queryFn: QueryFunction<VideosIndex, VideosQueryKey> = ctx => {

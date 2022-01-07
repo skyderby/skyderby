@@ -1,9 +1,9 @@
 import { useQuery } from 'react-query'
-import axios from 'axios'
+import client from 'api/client'
 
 const endpoint = eventId => `/api/v1/performance_competitions/${eventId}/standings`
 
-const getStandings = eventId => axios.get(endpoint(eventId))
+const getStandings = eventId => client.get(endpoint(eventId))
 
 const queryKey = eventId => ['performanceCompetition', eventId, 'standings']
 

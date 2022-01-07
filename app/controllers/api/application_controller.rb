@@ -17,5 +17,9 @@ module Api
         .then { |per_page| per_page.positive? ? per_page : 25 }
         .then { |per_page| [per_page, 100].min }
     end
+
+    def respond_with_errors(errors)
+      render json: { errors: errors }, status: :unprocessable_entity
+    end
   end
 end

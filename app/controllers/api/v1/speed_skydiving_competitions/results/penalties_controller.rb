@@ -8,15 +8,10 @@ class Api::V1::SpeedSkydivingCompetitions::Results::PenaltiesController < Api::A
     @result.transaction do
       @result.penalties.clear
       @result.penalties_attributes = penalties_params[:penalties_attributes]
+      @result.save!
     end
-
-    respond_to do |format|
-      if @result.save
-        format.json
-      else
-        format.json { render json: @result.errors, status: :unprocessable_entity }
-      end
-    end
+  rescue ActiveRecord::RecordInvalid
+    respond_with_errors @result.errors
   end
 
   private

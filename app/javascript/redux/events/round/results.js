@@ -1,4 +1,4 @@
-import axios from 'axios'
+import client from 'api/client'
 
 import { LOAD_REQUEST, LOAD_SUCCESS, LOAD_ERROR } from './actionTypes.js'
 import { colorByIndex } from 'utils/colors'
@@ -19,7 +19,7 @@ export function updatePenalty(resultId, penalty) {
     const url = `/api/v1/events/${eventId}/results/${resultId}/penalty`
 
     try {
-      await axios.put(url, {
+      await client.put(url, {
         penalty: { ...penalty }
       })
 

@@ -1,6 +1,8 @@
-import React, { useRef, useState } from 'react'
-import cx from 'clsx'
+import React, { useRef, useState, useMemo } from 'react'
+import { AxiosError } from 'axios'
+import toast from 'react-hot-toast'
 import Tippy from '@tippyjs/react'
+import cx from 'clsx'
 
 import { Round, SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions/types'
 import {
@@ -13,6 +15,7 @@ import EllipsisIcon from 'icons/ellipsis-v'
 import CircleIcon from 'icons/circle'
 import CheckCircleIcon from 'icons/check-circle'
 import Dropdown from 'components/Dropdown'
+import RequestErrorToast from 'components/RequestErrorToast'
 import styles from './styles.module.scss'
 
 type RoundProps = {
@@ -30,17 +33,28 @@ const RoundCell = ({ event, round }: RoundProps): JSX.Element => {
 
   useClickOutside([menuRef, actionsButtonRef], () => setShowRoundActions(false))
 
+  const mutationOptions = useMemo(
+    () => ({
+      onSettled: () => setShowRoundActions(false),
+      onError: (error: AxiosError<Record<string, string[]>>) => {
+        toast.error(<RequestErrorToast response={error.response} />)
+      }
+    }),
+    []
+  )
+
   const deleteRound = () =>
-    deleteMutation.mutate({ eventId: event.id, roundId: round.id })
+    deleteMutation.mutate({ eventId: event.id, roundId: round.id }, mutationOptions)
 
   const toggleCompleted = () => {
-    editMutation.mutate({
-      eventId: event.id,
-      roundId: round.id,
-      completed: !round.completed
-    })
-
-    setShowRoundActions(false)
+    editMutation.mutate(
+      {
+        eventId: event.id,
+        roundId: round.id,
+        completed: !round.completed
+      },
+      mutationOptions
+    )
   }
 
   return (
