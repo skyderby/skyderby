@@ -1,4 +1,4 @@
-import axios from 'axios'
+import client from 'api/client'
 
 import { LOAD_REQUEST, LOAD_SUCCESS, LOAD_ERROR } from './actionTypes.js'
 import { loadEvent } from './event'
@@ -15,7 +15,7 @@ export function loadRoundMap(eventId, roundId, options = {}) {
       dispatch(loadEvent(eventId))
       dispatch(loadReferencePoints(eventId))
 
-      const { data } = await axios.get(dataUrl)
+      const { data } = await client.get(dataUrl)
       dispatch({ type: LOAD_SUCCESS, payload: data })
 
       const { groups } = data

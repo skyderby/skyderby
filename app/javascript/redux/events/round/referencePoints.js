@@ -1,4 +1,4 @@
-import axios from 'axios'
+import client from 'api/client'
 
 const prefix = '[events/round/referencePoints]'
 
@@ -15,7 +15,7 @@ export function loadReferencePoints(eventId) {
     const dataUrl = `/api/v1/events/${eventId}/reference_points`
 
     try {
-      const { data } = await axios.get(dataUrl)
+      const { data } = await client.get(dataUrl)
       dispatch({ type: LOAD_SUCCESS, payload: data })
     } catch (err) {
       dispatch({ type: LOAD_ERROR, payload: err })

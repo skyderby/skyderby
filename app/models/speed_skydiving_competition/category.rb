@@ -1,4 +1,6 @@
 class SpeedSkydivingCompetition::Category < ApplicationRecord
+  include EventOngoingValidation
+
   belongs_to :event, class_name: 'SpeedSkydivingCompetition', inverse_of: :categories
   has_many :competitors,
            class_name: 'SpeedSkydivingCompetition::Competitor',

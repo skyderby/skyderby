@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'clsx'
+import toast from 'react-hot-toast'
 import Tippy from '@tippyjs/react'
 
 import {
@@ -13,6 +14,7 @@ import {
 import { useProfileQuery } from 'api/profiles'
 import UploadIcon from 'icons/upload.svg'
 import TriangleExclamationIcon from 'icons/triangle-exclamation.svg'
+import RequestErrorToast from 'components/RequestErrorToast'
 import NewResultForm from '../NewResultForm'
 import ResultModal from '../ResultModal'
 import styles from './styles.module.scss'
@@ -102,12 +104,15 @@ const ResultCell = ({
     if (!result) return
     if (!confirm('Are you sure you want delete this result?')) return
 
-    try {
-      await deleteMutation.mutateAsync({ eventId: event.id, id: result.id })
-      hideResultModal()
-    } catch (err) {
-      console.warn(err)
-    }
+    deleteMutation.mutate(
+      { eventId: event.id, id: result.id },
+      {
+        onSuccess: () => hideResultModal(),
+        onError: error => {
+          toast.error(<RequestErrorToast response={error.response} />)
+        }
+      }
+    )
   }
 
   return (

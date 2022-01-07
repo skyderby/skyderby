@@ -8,7 +8,7 @@ import {
   UseQueryResult,
   UseMutationResult
 } from 'react-query'
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import client, { AxiosError, AxiosResponse } from 'api/client'
 import { parseISO } from 'date-fns'
 
 import { standingsQuery } from './standings'
@@ -17,7 +17,6 @@ import { pointsQuery } from 'api/tracks/points'
 import { Result } from './types'
 import { openStandingsQuery } from 'api/speedSkydivingCompetitions/openStandings'
 import { teamStandingsQuery } from 'api/speedSkydivingCompetitions/teamStandings'
-import { getCSRFToken } from 'utils/csrfToken'
 
 type QueryKey = ['speedSkydivingCompetitions', number, 'results']
 
@@ -69,8 +68,6 @@ const elementEndpoint = (eventId: number, id: number) =>
 const penaltiesEndpoint = (eventId: number, id: number) =>
   `${elementEndpoint(eventId, id)}/penalties`
 
-const getHeaders = () => ({ 'X-CSRF-Token': String(getCSRFToken()) })
-
 const deserialize = (result: SerializedResult): Result => ({
   ...result,
   windowStartTime: parseISO(result.windowStartTime),
@@ -80,7 +77,7 @@ const deserialize = (result: SerializedResult): Result => ({
 })
 
 const getResults = (eventId: number) =>
-  axios
+  client
     .get<never, AxiosResponse<SerializedResult[]>>(collectionEndpoint(eventId))
     .then(response => response.data)
 
@@ -88,12 +85,11 @@ const createResult = ({ eventId, ...values }: CreateVariables) => {
   const formData = new FormData()
   Object.entries(values).forEach(([key, value]) => formData.set(`result[${key}]`, value))
 
-  return axios.post<FormData, AxiosResponse<SerializedResult>>(
+  return client.post<FormData, AxiosResponse<SerializedResult>>(
     collectionEndpoint(eventId),
     formData,
     {
       headers: {
-        ...getHeaders(),
         'Content-Type': 'multipart/form-data'
       }
     }
@@ -101,25 +97,22 @@ const createResult = ({ eventId, ...values }: CreateVariables) => {
 }
 
 const updateResult = ({ eventId, id, ...result }: UpdateVariables) =>
-  axios.put<
+  client.put<
     { result: Omit<UpdateVariables, 'id' | 'eventId'> },
     AxiosResponse<SerializedResult>
-  >(elementEndpoint(eventId, id), { result }, { headers: getHeaders() })
+  >(elementEndpoint(eventId, id), { result })
 
 const deleteResult = ({ eventId, id }: DeleteVariables) =>
-  axios.delete<never, AxiosResponse<SerializedResult>>(elementEndpoint(eventId, id), {
-    headers: getHeaders()
-  })
+  client.delete<never, AxiosResponse<SerializedResult>>(elementEndpoint(eventId, id))
 
 const updateResultPenalties = (
   eventId: number,
   id: number,
   penalties: PenaltiesVariables
 ) =>
-  axios.put<PenaltiesVariables, AxiosResponse<SerializedResult>>(
+  client.put<PenaltiesVariables, AxiosResponse<SerializedResult>>(
     penaltiesEndpoint(eventId, id),
-    penalties,
-    { headers: getHeaders() }
+    penalties
   )
 
 const queryKey = (eventId: number): QueryKey => [
@@ -206,7 +199,11 @@ export const useEditResultMutation = (
 
 export const useDeleteResultMutation = (
   options: MutationOptions = {}
-): UseMutationResult<AxiosResponse<SerializedResult>, AxiosError, DeleteVariables> => {
+): UseMutationResult<
+  AxiosResponse<SerializedResult>,
+  AxiosError<Record<string, string[]>>,
+  DeleteVariables
+> => {
   const queryClient = useQueryClient()
 
   return useMutation(deleteResult, {
@@ -226,7 +223,11 @@ export const useDeleteResultMutation = (
 export const useSetResultPenaltiesMutation = (
   eventId: number,
   id: number
-): UseMutationResult<AxiosResponse<SerializedResult>, AxiosError, PenaltiesVariables> => {
+): UseMutationResult<
+  AxiosResponse<SerializedResult>,
+  AxiosError<Record<string, string[]>>,
+  PenaltiesVariables
+> => {
   const queryClient = useQueryClient()
 
   const mutationFn = (variables: PenaltiesVariables) =>

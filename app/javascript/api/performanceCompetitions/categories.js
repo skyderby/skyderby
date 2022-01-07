@@ -1,24 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import axios from 'axios'
+import client from 'api/client'
 
-import { getCSRFToken } from 'utils/csrfToken'
 import { standingsQuery } from './standings'
 
 const endpoint = eventId => `/api/v1/performance_competitions/${eventId}/categories`
 const categoryUrl = (eventId, id) => `${endpoint(eventId)}/${id}`
 const categoryPositionUrl = (eventId, id) => `${categoryUrl(eventId, id)}/position`
 
-const getHeaders = () => ({ 'X-CSRF-Token': getCSRFToken() })
-
-const getCategories = eventId => axios.get(endpoint(eventId))
+const getCategories = eventId => client.get(endpoint(eventId))
 const createCategory = ({ eventId, ...category }) =>
-  axios.post(endpoint(eventId), { category }, { headers: getHeaders() })
+  client.post(endpoint(eventId), { category })
 const updateCategory = ({ eventId, id, ...category }) =>
-  axios.put(categoryUrl(eventId, id), { category }, { headers: getHeaders() })
-const deleteCategory = ({ eventId, id }) =>
-  axios.delete(categoryUrl(eventId, id), { headers: getHeaders() })
+  client.put(categoryUrl(eventId, id), { category })
+const deleteCategory = ({ eventId, id }) => client.delete(categoryUrl(eventId, id))
 const updateCategoryPosition = ({ eventId, id, direction }) =>
-  axios.put(categoryPositionUrl(eventId, id), { direction }, { headers: getHeaders() })
+  client.put(categoryPositionUrl(eventId, id), { direction })
 
 const queryKey = eventId => ['performanceCompetition', eventId, 'categories']
 

@@ -1,4 +1,4 @@
-import axios from 'axios'
+import client from 'api/client'
 import { QueryFunction, useQuery, UseQueryOptions, UseQueryResult } from 'react-query'
 
 export type Task =
@@ -41,7 +41,7 @@ export interface ResultsRecord {
 type ResultsQueryKey = ['trackResults', number | undefined]
 
 const getResults = async (id: number) => {
-  const { data } = await axios.get(`/api/v1/tracks/${id}/results`)
+  const { data } = await client.get(`/api/v1/tracks/${id}/results`)
   return data
 }
 

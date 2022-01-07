@@ -8,7 +8,7 @@ import {
   UseQueryOptions,
   UseQueryResult
 } from 'react-query'
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import client, { AxiosError, AxiosResponse } from 'api/client'
 
 import { cacheRelations } from './utils'
 import { pointsQuery } from 'api/tracks/points'
@@ -35,7 +35,7 @@ const deserialize = (track: SerializedTrackRecord): TrackRecord => ({
 })
 
 const getTrack = (id: number) =>
-  axios
+  client
     .get<never, AxiosResponse<SerializedTrackRecord & { relations: TrackRelations }>>(
       endpoint(id)
     )
@@ -44,14 +44,14 @@ const getTrack = (id: number) =>
 const createTrack = (
   track: Partial<TrackFields>
 ): Promise<AxiosResponse<SerializedTrackRecord>> =>
-  axios.post('/api/v1/tracks', { track })
+  client.post('/api/v1/tracks', { track })
 const updateTrack = ({
   id,
   changes
 }: TrackChanges): Promise<AxiosResponse<SerializedTrackRecord>> =>
-  axios.put(endpoint(id), { track: changes })
+  client.put(endpoint(id), { track: changes })
 const deleteTrack = (id: number): Promise<SerializedTrackRecord> =>
-  axios.delete(endpoint(id)).then(response => response.data)
+  client.delete(endpoint(id)).then(response => response.data)
 
 const buildQueryFn = (
   queryClient: QueryClient

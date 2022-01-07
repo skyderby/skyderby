@@ -17,11 +17,20 @@ import type {
   SpeedSkydivingCompetition,
   Category as CategoryRecord
 } from 'api/speedSkydivingCompetitions'
+import RequestErrorToast from 'components/RequestErrorToast'
+import toast from 'react-hot-toast'
+import { AxiosError } from 'axios'
 
 type CategoryProps = {
   event: SpeedSkydivingCompetition
   category: CategoryRecord
   colSpan: number
+}
+
+const mutationOptions = {
+  onError: (error: AxiosError<Record<string, string[]>>) => {
+    toast.error(<RequestErrorToast response={error.response} />)
+  }
 }
 
 const Category = ({ event, category, colSpan }: CategoryProps): JSX.Element => {
@@ -32,11 +41,18 @@ const Category = ({ event, category, colSpan }: CategoryProps): JSX.Element => {
   const deleteMutation = useDeleteCategoryMutation()
   const positionMutation = useChangePositionMutation()
 
-  const handleDelete = () => deleteMutation.mutate({ eventId: event.id, id: category.id })
+  const handleDelete = () =>
+    deleteMutation.mutate({ eventId: event.id, id: category.id }, mutationOptions)
   const moveUp = () =>
-    positionMutation.mutate({ eventId: event.id, id: category.id, direction: 'up' })
+    positionMutation.mutate(
+      { eventId: event.id, id: category.id, direction: 'up' },
+      mutationOptions
+    )
   const moveDown = () =>
-    positionMutation.mutate({ eventId: event.id, id: category.id, direction: 'down' })
+    positionMutation.mutate(
+      { eventId: event.id, id: category.id, direction: 'down' },
+      mutationOptions
+    )
 
   return (
     <tr>

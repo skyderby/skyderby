@@ -5,7 +5,7 @@ import {
   UseQueryOptions,
   UseQueryResult
 } from 'react-query'
-import axios from 'axios'
+import client from 'api/client'
 
 export interface SuitStatsRecord {
   suitId: number
@@ -26,7 +26,7 @@ const getStats = (ids: number[] = []): Promise<SuitStatsRecord[]> => {
 
   const url = `${endpoint}?${params.toString()}`
 
-  return axios.get(url).then(response => response.data)
+  return client.get(url).then(response => response.data)
 }
 
 const suitStatsQueryFn: QueryFunction<SuitStatsRecord, QueryKey> = async ctx => {

@@ -11,6 +11,7 @@ import { format } from 'date-fns'
 import { enUS, ru, it, fr, es, de } from 'date-fns/locale'
 import Cookie from 'js-cookie'
 import supportedLocales from 'virtual-modules/i18n/supportedLocales'
+import { Helmet } from 'react-helmet'
 
 const dateLocales: { [key in ApplicationLocale]: Locale } = {
   en: enUS,
@@ -104,6 +105,10 @@ const TranslationsProvider = ({
     <TranslationsContext.Provider
       value={{ t: I18n.t, locale, formatDate, changeLocale, supportedLocales }}
     >
+      <Helmet>
+        <html lang={locale} />
+      </Helmet>
+
       {children}
     </TranslationsContext.Provider>
   )
