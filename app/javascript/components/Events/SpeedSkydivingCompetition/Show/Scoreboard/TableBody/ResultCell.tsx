@@ -62,7 +62,7 @@ const resultPresentation = (result: Result, editable: boolean) => {
   if (editable) {
     return (
       <Tippy content="Calculation error">
-        <span>
+        <span title="Calculation error">
           <TriangleExclamationIcon className={styles.warningIcon} />
         </span>
       </Tippy>
