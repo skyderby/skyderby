@@ -1,0 +1,23 @@
+ru:
+  activerecord:
+    models:
+      speed_skydiving_competition/competitor: Участник
+    attributes:
+      speed_skydiving_competition/competitor:
+        category: Класс
+        profile: Профиль
+        assigned_number: Назначенный номер
+      speed_skydiving_competition/competitor/profile:
+        name: Имя Фамилия
+    errors:
+      models:
+        speed_skydiving_competition/competitor:
+          attributes:
+            profile:
+              blank: Не заполнено обязательное поле "Профиль пилота"
+            category:
+              blank: Не заполнено обязательное поле "Класс"
+            base:
+              restrict_dependent_destroy:
+                many: Для удаления участника необходимо сначала удалить его результаты.
+              event_finished: Изменения не могут быть выполнены, т.к. соревнование завершено.

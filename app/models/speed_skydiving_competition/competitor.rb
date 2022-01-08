@@ -1,4 +1,6 @@
 class SpeedSkydivingCompetition::Competitor < ApplicationRecord
+  include EventOngoingValidation
+
   belongs_to :event, class_name: 'SpeedSkydivingCompetition', inverse_of: :competitors, touch: true
   belongs_to :category
   belongs_to :profile

@@ -1,4 +1,4 @@
-import axios from 'axios'
+import client from 'api/client'
 
 import { LOAD_REQUEST, LOAD_SUCCESS, LOAD_ERROR } from './actionTypes.js'
 
@@ -19,7 +19,7 @@ export function assignReferencePoint(competitorId, referencePointId) {
     const url = `/api/v1/events/${eventId}/rounds/${roundId}/reference_point_assignments`
 
     try {
-      await axios.post(url, {
+      await client.post(url, {
         competitor_id: competitorId,
         reference_point_id: referencePointId
       })

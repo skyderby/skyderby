@@ -1,0 +1,19 @@
+it:
+  activerecord:
+    models:
+      speed_skydiving_competition/competitor: Concorrente
+    attributes:
+      speed_skydiving_competition/competitor:
+        category: Categoria
+    errors:
+      models:
+        speed_skydiving_competition/competitor:
+          attributes:
+            profile:
+              blank: Devi scegliere un profilo
+            category:
+              blank: Devi scegliere una categoria
+            base:
+              restrict_dependent_destroy:
+                many: Per cancellare un concorrente cancella prima i suoi risultati.
+              event_finished: Non puoi effettuare modifiche perché l'evento è concluso.

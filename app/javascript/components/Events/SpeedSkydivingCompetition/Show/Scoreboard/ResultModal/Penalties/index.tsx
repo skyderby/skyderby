@@ -1,5 +1,6 @@
 import React from 'react'
-import { Formik, Field, FieldArray, FormikHelpers } from 'formik'
+import { Formik, Field, FieldArray, FormikHelpers, FormikErrors } from 'formik'
+import toast from 'react-hot-toast'
 
 import Modal from 'components/ui/Modal'
 import { useI18n } from 'components/TranslationsProvider'
@@ -8,9 +9,11 @@ import {
   SpeedSkydivingCompetition,
   useSetResultPenaltiesMutation
 } from 'api/speedSkydivingCompetitions'
+import RequestErrorToast from 'components/RequestErrorToast'
 import PlusIcon from 'icons/plus'
 import TimesIcon from 'icons/times'
-import styles from './styles.module.scss'
+import validationSchema from './validationSchema'
+import styles from '../styles.module.scss'
 
 type PenaltiesProps = {
   event: SpeedSkydivingCompetition
@@ -32,13 +35,23 @@ const Penalties = ({ event, result, tabBar, hide }: PenaltiesProps): JSX.Element
   const handleSave = (values: FormData, formikBag: FormikHelpers<FormData>) => {
     mutation.mutate(
       { penaltiesAttributes: values.penalties },
-      { onSettled: () => formikBag.setSubmitting(false), onSuccess: () => hide() }
+      {
+        onSettled: () => formikBag.setSubmitting(false),
+        onSuccess: () => hide(),
+        onError: error => {
+          toast.error(<RequestErrorToast response={error.response} />)
+        }
+      }
     )
   }
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSave}>
-      {({ handleSubmit, isSubmitting, values }) => (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSave}
+      validationSchema={validationSchema}
+    >
+      {({ handleSubmit, isSubmitting, values, errors, touched }) => (
         <form onSubmit={handleSubmit}>
           <Modal.Body>
             {tabBar}
@@ -57,23 +70,43 @@ const Penalties = ({ event, result, tabBar, hide }: PenaltiesProps): JSX.Element
                       <PlusIcon />
                     </button>
                   </div>
-                  {values.penalties.map((_, idx) => (
-                    <div className={styles.penaltyRow} key={idx}>
-                      <Field
-                        name={`penalties.${idx}.percent`}
-                        type="number"
-                        className={styles.input}
-                      />
-                      <Field name={`penalties.${idx}.reason`} className={styles.input} />
-                      <button
-                        type="button"
-                        onClick={() => remove(idx)}
-                        className={styles.flatButton}
-                      >
-                        <TimesIcon />
-                      </button>
-                    </div>
-                  ))}
+                  {values.penalties.map((_, idx) => {
+                    const rowErrors =
+                      typeof errors?.penalties?.[idx] === 'object'
+                        ? (errors?.penalties?.[idx] as FormikErrors<
+                            Result['penalties'][number]
+                          >)
+                        : {}
+
+                    return (
+                      <div className={styles.penaltyRow} key={idx}>
+                        <Field
+                          name={`penalties.${idx}.percent`}
+                          type="number"
+                          className={styles.input}
+                          data-invalid={
+                            rowErrors.percent && touched?.penalties?.[idx]?.percent
+                          }
+                          placeholder="0..100%"
+                        />
+                        <Field
+                          name={`penalties.${idx}.reason`}
+                          className={styles.input}
+                          data-invalid={
+                            rowErrors.reason && touched?.penalties?.[idx]?.reason
+                          }
+                          placeholder="Specify a reason"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => remove(idx)}
+                          className={styles.flatButton}
+                        >
+                          <TimesIcon />
+                        </button>
+                      </div>
+                    )
+                  })}
                 </>
               )}
             </FieldArray>

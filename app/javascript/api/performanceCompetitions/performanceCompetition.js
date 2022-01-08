@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import axios from 'axios'
+import client from 'api/client'
 
 import { placeQuery } from 'api/places'
 
@@ -7,9 +7,9 @@ const endpoint = '/api/v1/performance_competitions'
 
 const queryKey = id => ['performance_competitions', id]
 
-const getEvent = id => axios.get(`${endpoint}/${id}`)
+const getEvent = id => client.get(`${endpoint}/${id}`)
 const createEvent = performanceCompetition =>
-  axios.post(endpoint, { performanceCompetition })
+  client.post(endpoint, { performanceCompetition })
 
 const getQueryFn = queryClient => async ctx => {
   const [_key, id] = ctx.queryKey

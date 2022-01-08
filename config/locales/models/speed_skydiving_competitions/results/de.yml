@@ -1,0 +1,21 @@
+de:
+  activerecord:
+    models:
+      speed_skydiving_competition/result: Ergebnis
+    attributes:
+      speed_skydiving_competition/result:
+        file: Datei mit Track
+        track: Track
+        is_disqualified: Ist disqualifiziert
+        disqualification_reason: Grund
+    errors:
+      models:
+        speed_skydiving_competition/result:
+          attributes:
+            track:
+              blank: Kein Track ausgewählt um Ergebnisse berechnen zu können.
+            result:
+              duplicate: Für diesen Teilnehmer existiert schon ein Ergebnis in dieser Runde. Bitte aktualisieren sie die Seite.
+            base:
+              event_finished: Es können keine Änderungen mehr gemacht werden, da der Wettbewerb bereits beendet ist.
+              track_file_blank: Keine Datei ausgewählt um Ergebisse berechnen zu können.

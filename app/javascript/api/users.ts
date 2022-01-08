@@ -5,10 +5,8 @@ import {
   useQuery,
   UseQueryResult
 } from 'react-query'
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import client, { AxiosError, AxiosResponse } from 'api/client'
 import { parseISO } from 'date-fns'
-
-import { getCSRFToken, setCSRFToken } from 'utils/csrfToken'
 
 interface MutationOptions {
   onSuccess?: () => unknown
@@ -76,7 +74,7 @@ export const mapParamsToUrl = (params: IndexParams): string => {
 
 const getUsers = (params: IndexParams) => {
   const url = `${endpoint}${mapParamsToUrl(params)}`
-  return axios
+  return client
     .get<never, AxiosResponse<IndexResponse<SerializedUserIndexRecord>>>(url)
     .then(response => response.data)
 }
@@ -97,19 +95,10 @@ const queryUsers: QueryFunction<IndexResponse, IndexQueryKey> = async ctx => {
 }
 
 const signUp = async (user: SignUpForm): Promise<User> => {
-  const { data, headers } = await axios.post<{ user: SignUpForm }, AxiosResponse<User>>(
+  const { data } = await client.post<{ user: SignUpForm }, AxiosResponse<User>>(
     '/api/users',
-    { user },
-    {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': String(getCSRFToken())
-      }
-    }
+    { user }
   )
-
-  setCSRFToken(headers['new-csrf-token'])
 
   return data
 }

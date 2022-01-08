@@ -8,7 +8,7 @@ import {
   UseQueryResult,
   UseMutationResult
 } from 'react-query'
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import client, { AxiosError, AxiosResponse } from 'api/client'
 import { parseISO } from 'date-fns'
 
 import { competitorsQuery } from './competitors'
@@ -41,16 +41,16 @@ const collectionUrl = (eventId: number) =>
 const elementUrl = (eventId: number, id: number) => `${collectionUrl(eventId)}/${id}`
 
 const getTeams = (eventId: number): Promise<SerializedTeam[]> =>
-  axios.get(collectionUrl(eventId)).then(response => response.data)
+  client.get(collectionUrl(eventId)).then(response => response.data)
 
 const createTeam = (eventId: number, team: TeamVariables) =>
-  axios.post<{ team: TeamVariables }, AxiosResponse<SerializedTeam>>(
+  client.post<{ team: TeamVariables }, AxiosResponse<SerializedTeam>>(
     collectionUrl(eventId),
     { team }
   )
 
 const updateTeam = (eventId: number, id: number, team: TeamVariables) =>
-  axios.put<{ team: TeamVariables }, AxiosResponse<SerializedTeam>>(
+  client.put<{ team: TeamVariables }, AxiosResponse<SerializedTeam>>(
     elementUrl(eventId, id),
     { team }
   )
@@ -61,7 +61,7 @@ const deleteTeam = ({
 }: {
   eventId: number
   id: TeamRecord['id']
-}): Promise<AxiosResponse<SerializedTeam>> => axios.delete(elementUrl(eventId, id))
+}): Promise<AxiosResponse<SerializedTeam>> => client.delete(elementUrl(eventId, id))
 
 type QueryKey = ['speedSkydivingCompetitions', number, 'teams']
 

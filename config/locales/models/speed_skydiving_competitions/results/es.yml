@@ -1,0 +1,21 @@
+es:
+  activerecord:
+    models:
+      speed_skydiving_competition/result: Resultado
+    attributes:
+      speed_skydiving_competition/result:
+        file: El archivo de la pista
+        track: La pista
+        penalized: Castigar
+        penalty_reason: Rason de castigar
+    errors:
+      models:
+        speed_skydiving_competition/result:
+          attributes:
+            track:
+              blank: No track selected to calculate result from.
+            result:
+              duplicate: For this competitor in this round result already exist. Refresh page to see it.
+            base:
+              event_finished: La competencia está terminada
+              track_file_blank: No file choosen to calculate result from.

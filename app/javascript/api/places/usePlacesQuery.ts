@@ -9,10 +9,10 @@ import {
 } from './utils'
 import { cacheCountries } from 'api/countries'
 import { cachePlaces } from './utils'
-import axios, { AxiosResponse } from 'axios'
+import client, { AxiosResponse } from 'api/client'
 
 export const getPlaces = (params: IndexParams): Promise<PlacesIndex> =>
-  axios
+  client
     .get<never, AxiosResponse<PlacesIndex>>(buildUrl(params))
     .then(response => response.data)
 

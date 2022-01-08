@@ -5,7 +5,7 @@ import {
   UseQueryOptions,
   UseQueryResult
 } from 'react-query'
-import axios, { AxiosResponse } from 'axios'
+import client, { AxiosResponse } from 'api/client'
 import { loadIds } from 'api/helpers'
 
 export type ManufacturerRecord = {
@@ -27,12 +27,12 @@ export type RecordQueryKey = readonly ['manufacturers', number | undefined]
 const endpoint = '/api/v1/manufacturers'
 
 const getManufacturer = (id: number) =>
-  axios
+  client
     .get<never, AxiosResponse<ManufacturerRecord>>(`${endpoint}/${id}`)
     .then(response => response.data)
 
 const getAllManufacturers = () =>
-  axios
+  client
     .get<never, AxiosResponse<ManufacturersIndex>>(endpoint)
     .then(response => response.data)
 

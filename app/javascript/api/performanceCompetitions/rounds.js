@@ -1,16 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import axios from 'axios'
-
-import { getCSRFToken } from 'utils/csrfToken'
+import client from 'api/client'
 
 const endpoint = eventId => `/api/v1/performance_competitions/${eventId}/rounds`
-const getHeaders = () => ({ 'X-CSRF-Token': getCSRFToken() })
 
-const getRounds = eventId => axios.get(endpoint(eventId))
-const createRound = ({ eventId, ...round }) =>
-  axios.post(endpoint(eventId), { round }, { headers: getHeaders() })
-const deleteRound = ({ eventId, id }) =>
-  axios.delete(`${endpoint(eventId)}/${id}`, { headers: getHeaders() })
+const getRounds = eventId => client.get(endpoint(eventId))
+const createRound = ({ eventId, ...round }) => client.post(endpoint(eventId), { round })
+const deleteRound = ({ eventId, id }) => client.delete(`${endpoint(eventId)}/${id}`)
 
 const queryKey = eventId => ['performanceCompetition', eventId, 'rounds']
 

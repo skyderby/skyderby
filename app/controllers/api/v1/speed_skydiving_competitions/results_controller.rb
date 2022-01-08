@@ -16,7 +16,7 @@ class Api::V1::SpeedSkydivingCompetitions::ResultsController < Api::ApplicationC
       if @result.save
         format.json
       else
-        format.json { render json: { errors: @result.errors }, status: :unprocessable_entity }
+        format.json { respond_with_errors @result.errors }
       end
     end
   end
@@ -46,7 +46,7 @@ class Api::V1::SpeedSkydivingCompetitions::ResultsController < Api::ApplicationC
       if @result.destroy
         format.json
       else
-        format.json { render json: { errors: @result.errors }, status: :unprocessable_entity }
+        format.json { respond_with_errors @result.errors }
       end
     end
   end

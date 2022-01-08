@@ -1,0 +1,17 @@
+it:
+  activerecord:
+    models:
+      speed_skydiving_competition/category: Categoria
+    attributes:
+      speed_skydiving_competition/category:
+        name: Nome
+    errors:
+      models:
+        speed_skydiving_competition/category:
+          attributes:
+            name:
+              blank: Devi scrivere un nome.
+            base:
+              restrict_dependent_destroy:
+                many: Per cortesia sposta i competitori su un'altra categoria prima di cancellare questa.
+              event_finished: Non puoi effettuare modifiche perché l'evento è concluso.

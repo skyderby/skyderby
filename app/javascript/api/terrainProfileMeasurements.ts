@@ -1,5 +1,5 @@
 import { QueryFunction, useQuery, UseQueryOptions, UseQueryResult } from 'react-query'
-import axios from 'axios'
+import client from 'api/client'
 
 export type MeasurementRecord = {
   altitude: number
@@ -9,7 +9,9 @@ export type MeasurementRecord = {
 type RecordQueryKey = ['terrainProfileMeasurements', number | undefined]
 
 const getMeasurement = (id: number): Promise<MeasurementRecord[]> =>
-  axios.get(`/api/v1/terrain_profiles/${id}/measurements`).then(response => response.data)
+  client
+    .get(`/api/v1/terrain_profiles/${id}/measurements`)
+    .then(response => response.data)
 
 const recordQueryKey = (id: number | undefined): RecordQueryKey => [
   'terrainProfileMeasurements',

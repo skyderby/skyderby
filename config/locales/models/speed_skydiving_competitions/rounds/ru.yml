@@ -1,0 +1,12 @@
+ru:
+  activerecord:
+    models:
+      speed_skydiving_competition/round: Раунд
+    errors:
+      models:
+        speed_skydiving_competition/round:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: Перед удалением раунда необходимо удалить результаты раунда.
+              event_finished: Изменения не могут быть выполнены, т.к. соревнование завершено.

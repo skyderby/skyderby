@@ -8,11 +8,10 @@ import {
   UseQueryResult,
   UseMutationResult
 } from 'react-query'
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import client, { AxiosError, AxiosResponse } from 'api/client'
 import { parseISO } from 'date-fns'
 
 import { standingsQuery } from './standings'
-import { getCSRFToken } from 'utils/csrfToken'
 import { Category } from './types'
 
 type SerializedCategory = {
@@ -52,10 +51,8 @@ const categoryUrl = (eventId: number, id: number) => `${endpoint(eventId)}/${id}
 const categoryPositionUrl = (eventId: number, id: number) =>
   `${categoryUrl(eventId, id)}/position`
 
-const getHeaders = () => ({ 'X-CSRF-Token': String(getCSRFToken()) })
-
 const getCategories = (eventId: number) =>
-  axios
+  client
     .get<never, AxiosResponse<SerializedCategory[]>>(endpoint(eventId))
     .then(response => response.data)
 
@@ -63,10 +60,9 @@ const createCategory = ({
   eventId,
   ...category
 }: CategoryVariables & { eventId: number }) =>
-  axios.post<{ category: CategoryVariables }, AxiosResponse<SerializedCategory>>(
+  client.post<{ category: CategoryVariables }, AxiosResponse<SerializedCategory>>(
     endpoint(eventId),
-    { category },
-    { headers: getHeaders() }
+    { category }
   )
 
 const updateCategory = ({
@@ -74,22 +70,18 @@ const updateCategory = ({
   id,
   ...category
 }: CategoryVariables & { eventId: number; id: number }) =>
-  axios.put<{ category: CategoryVariables }, AxiosResponse<SerializedCategory>>(
+  client.put<{ category: CategoryVariables }, AxiosResponse<SerializedCategory>>(
     categoryUrl(eventId, id),
-    { category },
-    { headers: getHeaders() }
+    { category }
   )
 
 const deleteCategory = ({ eventId, id }: DeleteVariables) =>
-  axios.delete<never, AxiosResponse<SerializedCategory>>(categoryUrl(eventId, id), {
-    headers: getHeaders()
-  })
+  client.delete<never, AxiosResponse<SerializedCategory>>(categoryUrl(eventId, id))
 
 const updateCategoryPosition = ({ eventId, id, direction }: PositionVariables) =>
-  axios.put<Pick<PositionVariables, 'direction'>, AxiosResponse<void>>(
+  client.put<Pick<PositionVariables, 'direction'>, AxiosResponse<void>>(
     categoryPositionUrl(eventId, id),
-    { direction },
-    { headers: getHeaders() }
+    { direction }
   )
 
 const queryKey = (eventId: number): QueryKey => [

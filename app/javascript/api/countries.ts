@@ -5,7 +5,8 @@ import {
   UseQueryOptions,
   QueryFunction
 } from 'react-query'
-import axios from 'axios'
+
+import client from 'api/client'
 import { loadIds, urlWithParams } from 'api/helpers'
 
 export type CountryRecord = {
@@ -32,10 +33,10 @@ type IndexQueryKey = [string, IndexParams]
 const endpoint = '/api/v1/countries'
 
 const getCountry = (id: number): Promise<CountryRecord> =>
-  axios.get(`${endpoint}/${id}`).then(response => response.data)
+  client.get(`${endpoint}/${id}`).then(response => response.data)
 
 const getCountries = (params: IndexParams): Promise<CountriesIndex> =>
-  axios.get(urlWithParams(endpoint, params)).then(response => response.data)
+  client.get(urlWithParams(endpoint, params)).then(response => response.data)
 
 const getCountriesById = (ids: number[]) => loadIds<CountryRecord>(endpoint, ids)
 
