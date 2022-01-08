@@ -10,3 +10,6 @@ hellesylt: &default
 
 track_with_video:
   <<: *default
+
+speed_skydiving_track:
+  <<: *default
