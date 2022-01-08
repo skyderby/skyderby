@@ -8,7 +8,7 @@ describe 'Handling recording with poor signal' do
     sign_in event.responsible
     visit "/events/speed_skydiving/#{event.id}"
 
-    submit_result(competitor, 1, file_fixture('tracks/speed_skydiving_poor_signal.csv'))
+    submit_result(competitor, 2, file_fixture('tracks/speed_skydiving_poor_signal.csv'))
 
     expect(page).to have_css('[title="Calculation error"]')
     find('[title="Calculation error"]').click
