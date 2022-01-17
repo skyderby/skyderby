@@ -60,11 +60,11 @@ const Show = () => {
           {event.useTeams && (
             <Route path="teams" element={<TeamsScoreboard eventId={eventId} />} />
           )}
+          {event.permissions.canDownload && (
+            <Route path="downloads" element={<Downloads eventId={eventId} />} />
+          )}
           {event.permissions.canEdit && (
-            <>
-              <Route path="downloads" element={<Downloads eventId={eventId} />} />
-              <Route path="edit" element={<Edit eventId={eventId} />} />
-            </>
+            <Route path="edit" element={<Edit eventId={eventId} />} />
           )}
         </Routes>
       )}
