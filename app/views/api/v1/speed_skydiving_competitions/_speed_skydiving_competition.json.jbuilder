@@ -12,4 +12,5 @@ json.extract! event,
 
 json.permissions do
   json.can_edit policy(event).edit?
+  json.can_download policy(event).download?
 end

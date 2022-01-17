@@ -48,6 +48,14 @@ const Navbar = ({ event }: NavbarProps): JSX.Element => {
         </PageNavbar.Item>
       )}
 
+      {event.permissions.canDownload && (
+        <PageNavbar.Item>
+          <NavLink to={`${eventUrl}/downloads`}>
+            <span>Downloads</span>
+          </NavLink>
+        </PageNavbar.Item>
+      )}
+
       {event.permissions.canEdit && (
         <>
           <PageNavbar.Spacer />

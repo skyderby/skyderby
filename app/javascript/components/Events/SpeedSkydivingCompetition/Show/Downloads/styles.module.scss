@@ -10,6 +10,16 @@
   box-shadow: var(--block-box-shadow);
 }
 
+.section {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+
+  h2 {
+    font-size: 1rem;
+  }
+}
+
 .downloadButton {
   composes: button from '~styles/button';
 

@@ -133,6 +133,14 @@ Skyderby::Application.routes.draw do
 
   namespace :assets, module: :assets do
     resources :track_files, only: :show
+
+    resources :speed_skydiving_competitions, only: [] do
+      scope module: :speed_skydiving_competitions do
+        resource :scoreboard, only: :show
+        resource :open_event_scoreboard, only: :show
+        resource :team_standings, only: :show
+      end
+    end
   end
 
   get '/(*path)', to: 'react_app#show'
