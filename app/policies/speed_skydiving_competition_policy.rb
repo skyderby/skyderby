@@ -19,6 +19,8 @@ class SpeedSkydivingCompetitionPolicy < ApplicationPolicy
     responsible? || user.organizer_of_event?(record)
   end
 
+  def download? = admin?
+
   def responsible?
     return false unless user.registered?
 

@@ -88,5 +88,6 @@ export interface SpeedSkydivingCompetition {
 
   permissions: {
     canEdit: boolean
+    canDownload: boolean
   }
 }
