@@ -1,6 +1,7 @@
 FROM ruby:3.0.0
 
 MAINTAINER Aleksandr Kunin <skyksandr@gmail.com>
+LABEL org.opencontainers.image.source=https://github.com/skyderby/skyderby
 
 RUN apt-get update -qq && apt-get install -y -qq apt-transport-https ca-certificates \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
