@@ -14,7 +14,7 @@
 #
 
 class Event::Competitor < ApplicationRecord
-  include EventOngoingValidation, Event::Namespace
+  include EventOngoingValidation, Event::Namespace, CompetitorCountry
 
   belongs_to :event, touch: true
   belongs_to :section
@@ -27,7 +27,7 @@ class Event::Competitor < ApplicationRecord
 
   validates :suit, :event, :section, :profile, presence: true
 
-  delegate :name, :country_id, :country_name, :country_code, to: :profile, allow_nil: true
+  delegate :name, to: :profile, allow_nil: true
   delegate :name, to: :suit, prefix: true, allow_nil: true
   delegate :place, to: :event
 
