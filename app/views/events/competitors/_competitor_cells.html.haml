@@ -11,10 +11,5 @@
     = competitor.suit_name
 
 %td.text-center
-  - russia_restricted = @event.is_official && [2020, 2021].include?(@event.starts_at.year)
-  - if russia_restricted && competitor.country_code == 'RUS'
-    %span{'data-toggle' => 'tooltip', title: 'Neutral Athletes'}
-      = 'RPF'
-  - else
-    %span{'data-toggle' => 'tooltip', title: competitor.country_name}
-      = competitor.country_code
+  %span{'data-toggle' => 'tooltip', title: competitor.country_name}
+    = competitor.country_code

@@ -1,5 +1,4 @@
 ordered_tasks = %w[distance speed time]
-russia_restricted = @event.is_official && [2020, 2021].include?(@event.starts_at.year)
 
 xml.instruct!
 xml.EventResult do
@@ -15,13 +14,7 @@ xml.EventResult do
       xml.Entrant do
         xml.CompetitionNo competitor.assigned_number
         xml.Name competitor.name
-
-        if russia_restricted && competitor.country_code == 'RUS'
-          xml.Nation 'RPF'
-        else
-          xml.Nation competitor.country_code
-        end
-
+        xml.Nation competitor.country_code
         xml.Rank rank
         xml.Total format('%.1f', competitor.total_points)
 
