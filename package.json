@@ -36,7 +36,7 @@
     "geodesy": "^2.2.0",
     "highcharts": "^6.0.7",
     "honeybadger-js": "^0.5.5",
-    "immer": "^8.0.1",
+    "immer": "^9.0.6",
     "jquery": "3.4.1",
     "jquery-jcrop": "^0.9.13",
     "jquery-validation": "^1.19.3",
