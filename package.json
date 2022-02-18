@@ -26,7 +26,7 @@
     "@rails/ujs": "^6.0.2",
     "@rails/webpacker": "^4.0.0-rc.8",
     "@stimulus/polyfills": "^1.1.1",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "babel-loader": "^8.0.6",
     "bootstrap": "^3.4.1",
     "bootstrap-datepicker": "^1.7.1",
