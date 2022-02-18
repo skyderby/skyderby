@@ -1,0 +1,44 @@
+<li class="comp-list-item <%= 'active' if speed_skydiving_competition_series.active? %>">
+  <div class="comp-list-params">
+    <div class="comp-rules">
+      Rules: Speed Skydiving
+    </div>
+    <div class="event-start-date text-muted text-center">
+      <span>
+        <%= speed_skydiving_competition_series.starts_at&.strftime '%d' %>
+      </span>
+      <em>
+        <%= speed_skydiving_competition_series.starts_at&.strftime '%b\'%y'  %>
+      </em>
+    </div>
+  </div>
+
+  <div class="event-list-details">
+    <h3 class="comp-list-title">
+      <%= link_to speed_skydiving_competition_series_path(speed_skydiving_competition_series) do %>
+        <span class="comp-name">
+          <%= speed_skydiving_competition_series.name %>
+        </span>
+      <% end %>
+
+      <% if speed_skydiving_competition_series.unlisted_event? %>
+        <i class="fa fa-eye-slash" data-toggle="tooltip" title="<%= t('visibility.unlisted') %>"></i>
+      <% elsif speed_skydiving_competition_series.private_event? %>
+        <i class="fa fa-lock" data-toggle="tooltip" title="<%= t('visibility.private') %>"></i>
+      <% end %>
+
+      <small>Official</small>
+    </h3>
+
+    <% if speed_skydiving_competition_series.competitions.any? %>
+      <div class="comp-classes text-muted">
+        Competitions:
+        <ul>
+          <% speed_skydiving_competition_series.competitions.each do |competition| %>
+            <li><%= competition.name %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</li>

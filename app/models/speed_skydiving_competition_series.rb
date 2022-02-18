@@ -5,7 +5,7 @@ class SpeedSkydivingCompetitionSeries < ApplicationRecord
   belongs_to :responsible, class_name: 'User', inverse_of: :responsible_of_events
   has_many :rounds, dependent: :destroy
   has_many :included_competitions, dependent: :destroy
-  has_many :competitions, through: :included_competitions, source: :event
+  has_many :competitions, through: :included_competitions, source: :speed_skydiving_competition
 
   validates :responsible, :name, presence: true
 

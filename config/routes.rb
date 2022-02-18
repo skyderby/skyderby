@@ -21,6 +21,7 @@ Skyderby::Application.routes.draw do
   get '/competition_series(*path)', to: redirect('/performance_competition_series%{path}'), defaults: { path: '' }
 
   resources :performance_competition_series, only: :show
+  resources :speed_skydiving_competition_series, only: :show
   resources :speed_skydiving_competitions, only: :show
 
   root 'static_pages#index'
