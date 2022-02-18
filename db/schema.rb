@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_12_111856) do
+ActiveRecord::Schema.define(version: 2022_02_18_181020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -379,6 +379,34 @@ ActiveRecord::Schema.define(version: 2022_02_12_111856) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "completed_at"
     t.index ["event_id"], name: "index_speed_skydiving_competition_rounds_on_event_id"
+  end
+
+  create_table "speed_skydiving_competition_series", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "status", default: 0, null: false
+    t.integer "visibility", default: 0, null: false
+    t.bigint "responsible_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["responsible_id"], name: "index_speed_skydiving_competition_series_on_responsible_id"
+  end
+
+  create_table "speed_skydiving_competition_series_included_competitions", force: :cascade do |t|
+    t.bigint "speed_skydiving_competition_series_id"
+    t.bigint "speed_skydiving_competition_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["speed_skydiving_competition_id"], name: "index_included_competitions_on_competition_id"
+    t.index ["speed_skydiving_competition_series_id"], name: "index_included_competitions_on_competition_series_id"
+  end
+
+  create_table "speed_skydiving_competition_series_rounds", force: :cascade do |t|
+    t.bigint "speed_skydiving_competition_series_id"
+    t.integer "number", null: false
+    t.datetime "completed_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["speed_skydiving_competition_series_id"], name: "index_rounds_on_speed_skydiving_competition_series_id"
   end
 
   create_table "speed_skydiving_competition_teams", force: :cascade do |t|
