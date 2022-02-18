@@ -1,4 +1,4 @@
-class CompetitionSeries::Scoreboard::Standings
+class PerformanceCompetitionSeries::Scoreboard::Standings
   def self.build(*args)
     new(*args).build
   end

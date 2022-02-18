@@ -1,4 +1,4 @@
-class CompetitionSeries::Scoreboard::Category
+class PerformanceCompetitionSeries::Scoreboard::Category
   attr_reader :name, :standings
 
   def initialize(name, standings)

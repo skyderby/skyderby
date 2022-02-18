@@ -1,4 +1,4 @@
-class CompetitionSeries::Scoreboard::Standings::Row
+class PerformanceCompetitionSeries::Scoreboard::Standings::Row
   attr_accessor :rank
   attr_reader :competitor
 

@@ -1,8 +1,8 @@
-class CompetitionSeriesController < ApplicationController
+class PerformanceCompetitionSeriesController < ApplicationController
   before_action :set_competition_series, only: :show
 
   def show
-    @scoreboard = CompetitionSeries::Scoreboard.new @competition_series, scoreboard_params
+    @scoreboard = PerformanceCompetitionSeries::Scoreboard.new @competition_series, scoreboard_params
 
     respond_to do |format|
       format.html
@@ -12,7 +12,7 @@ class CompetitionSeriesController < ApplicationController
   private
 
   def set_competition_series
-    @competition_series = CompetitionSeries.find(params[:id])
+    @competition_series = PerformanceCompetitionSeries.find(params[:id])
   end
 
   def scoreboard_params
