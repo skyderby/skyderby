@@ -8,7 +8,7 @@ class SpeedSkydivingCompetitionSeries::Round < ApplicationRecord
   private
 
   def set_number
-    last_rount_number = speed_skydiving_competition_series.rounds.maximum(:number) || 0
-    self.number = last_rount_number + 1
+    last_round_number = speed_skydiving_competition_series.rounds.maximum(:number) || 0
+    self.number = last_round_number + 1
   end
 end
