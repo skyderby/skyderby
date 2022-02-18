@@ -112,7 +112,7 @@ GEM
     codeclimate-test-reporter (1.0.9)
       simplecov (<= 0.13)
     concurrent-ruby (1.1.8)
-    connection_pool (2.2.2)
+    connection_pool (2.2.5)
     content_disposition (1.0.0)
     crass (1.0.6)
     devise (4.7.3)
@@ -226,8 +226,6 @@ GEM
       rack (>= 1.0, < 3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
-    rack-protection (2.0.5)
-      rack
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -260,7 +258,7 @@ GEM
       thor (>= 0.20.3, < 2.0)
     rainbow (3.0.0)
     rake (13.0.3)
-    redis (4.1.0)
+    redis (4.6.0)
     regexp_parser (1.8.2)
     responders (3.0.1)
       actionpack (>= 5.0)
@@ -327,11 +325,10 @@ GEM
     shrine (3.3.0)
       content_disposition (~> 1.0)
       down (~> 5.1)
-    sidekiq (5.2.5)
-      connection_pool (~> 2.2, >= 2.2.2)
-      rack (>= 1.5.0)
-      rack-protection (>= 1.5.0)
-      redis (>= 3.3.5, < 5)
+    sidekiq (6.4.0)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      redis (>= 4.2.0)
     sidekiq-cron (1.1.0)
       fugit (~> 1.1)
       sidekiq (>= 4.2.1)
@@ -425,7 +422,7 @@ DEPENDENCIES
   scenic
   selenium-webdriver
   shrine (~> 3.0)
-  sidekiq (< 6)
+  sidekiq (< 7)
   sidekiq-cron (~> 1.0)
   simplecov
   skylight
