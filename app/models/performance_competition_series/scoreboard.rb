@@ -1,4 +1,4 @@
-class CompetitionSeries::Scoreboard
+class PerformanceCompetitionSeries::Scoreboard
   include ActiveModel::Conversion
 
   attr_reader :series, :settings

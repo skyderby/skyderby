@@ -1,4 +1,4 @@
-class CompetitionSeries::Scoreboard::Standings::Result
+class PerformanceCompetitionSeries::Scoreboard::Standings::Result
   attr_reader :record, :points, :best_result
 
   delegate :round, :competitor, :penalized, :penalty_size, :penalty_reason, to: :record

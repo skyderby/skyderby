@@ -1,4 +1,4 @@
-class CompetitionSeries::Scoreboard::Settings
+class PerformanceCompetitionSeries::Scoreboard::Settings
   include ActiveModel::Model, ActiveModel::Attributes
 
   attribute :display_raw_results, :boolean, default: false
