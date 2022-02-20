@@ -23,7 +23,8 @@ export type EventType =
   | 'performanceCompetition'
   | 'hungaryBoogie'
   | 'tournament'
-  | 'competitionSeries'
+  | 'performanceCompetitionSeries'
+  | 'speedSkydivingCompetitionSeries'
 
 export const eventStatuses = ['draft', 'published', 'finished', 'surprise']
 export type EventStatus = typeof eventStatuses[number]
