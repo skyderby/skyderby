@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 
 import Show from './Show'
 
-const SpeedSkydivingCompetionSeries = () => {
+const SpeedSkydivingCompetitionSeries = () => {
   return (
     <Routes>
       <Route path=":eventId/*" element={<Show />} />
@@ -11,4 +11,4 @@ const SpeedSkydivingCompetionSeries = () => {
   )
 }
 
-export default SpeedSkydivingCompetionSeries
+export default SpeedSkydivingCompetitionSeries
