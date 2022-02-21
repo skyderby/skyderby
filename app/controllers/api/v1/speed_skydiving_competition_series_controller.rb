@@ -1,5 +1,6 @@
 class Api::V1::SpeedSkydivingCompetitionSeriesController < Api::ApplicationController
   def show
-    @event = SpeedSkydivingCompetitionSeries.find(params[:id])
+    @event = authorize SpeedSkydivingCompetitionSeries.includes(competitions: { place: :country })
+                                                      .find(params[:id])
   end
 end

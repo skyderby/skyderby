@@ -17,4 +17,10 @@ json.relations do
   json.competitions competitions,
                     partial: 'api/v1/speed_skydiving_competitions/speed_skydiving_competition',
                     as: :event
+
+  places = event.competitions.map(&:place)
+  json.places places, partial: 'api/v1/places/place', as: :place, without_photos: true
+
+  countries = places.map(&:country).uniq
+  json.countries countries, partial: 'api/v1/countries/country', as: :country
 end
