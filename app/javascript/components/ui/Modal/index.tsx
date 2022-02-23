@@ -32,7 +32,7 @@ const Modal = ({
     setScroll({ enabled: !isShown })
 
     return () => enableScroll()
-  }, [isShown])
+  }, [isShown, enableScroll, setScroll])
 
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) handleHide(e)
