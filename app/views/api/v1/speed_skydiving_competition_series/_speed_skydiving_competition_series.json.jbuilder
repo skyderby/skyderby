@@ -5,6 +5,7 @@ json.extract! event,
               :visibility,
               :status,
               :competition_ids,
+              :place_ids,
               :created_at,
               :updated_at
 

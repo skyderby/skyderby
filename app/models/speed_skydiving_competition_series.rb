@@ -6,6 +6,7 @@ class SpeedSkydivingCompetitionSeries < ApplicationRecord
   has_many :rounds, dependent: :destroy
   has_many :included_competitions, dependent: :destroy
   has_many :competitions, through: :included_competitions, source: :speed_skydiving_competition
+  has_many :places, through: :competitions
 
   validates :responsible, :name, presence: true
 
