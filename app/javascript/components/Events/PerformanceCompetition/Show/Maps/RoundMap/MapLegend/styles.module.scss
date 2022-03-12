@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  padding: 0 0.5rem 0.25rem;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+
+  font-size: 0.75rem;
+  line-height: 1rem;
+
+  &:not(:last-child) {
+    margin-right: 1.5rem;
+  }
+}
+
+.circle {
+  display: block;
+  width: 0.85em;
+  height: 0.85em;
+  border-radius: 100%;
+}

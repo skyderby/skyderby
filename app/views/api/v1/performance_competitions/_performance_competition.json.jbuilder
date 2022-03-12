@@ -5,6 +5,7 @@ json.extract! event,
               :visibility,
               :status,
               :starts_at,
+              :use_teams,
               :range_from,
               :range_to
 

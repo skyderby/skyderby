@@ -13,7 +13,7 @@ module Events
       def update
         @result.transaction do
           @result.track.update!(jump_range_params)
-          @result.calc_result
+          @result.calculate_result
           @result.save!
         end
 

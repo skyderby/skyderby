@@ -6,7 +6,7 @@ class Event::Result < ApplicationRecord
       before_create :calc_result
     end
 
-    def calc_result
+    def calculate_result
       self.result = EventResultService.new(track, round).calculate
 
       return unless event.wind_cancellation

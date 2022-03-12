@@ -33,6 +33,7 @@ const CategoryForm = ({
 
   const handleSubmit = async (values: FormData, formikBag: FormikHelpers<FormData>) => {
     mutation.mutate(values, {
+      onSuccess: () => hide(),
       onSettled: () => formikBag.setSubmitting(false),
       onError: error => {
         toast.error(<RequestErrorToast response={error.response} />)
