@@ -1,5 +1,8 @@
 import client, { AxiosResponse } from 'api/client'
 
+export type Serialized<T> = { [K in keyof T]: T[K] extends Date ? string : T[K] }
+export type Nullable<T> = { [K in keyof T]: T[K] | null }
+
 export type IndexResponse<
   Type = never,
   Relations = undefined

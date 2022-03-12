@@ -11,9 +11,7 @@ ru:
         competitor: Участник
         direction: Направление
         group: Группа
-        start_window_description: точка, в которой участник вошел в соревновательное окно (%{altitude} метров)
-        end_window_description: точка, в которой участник вышел из соревновательного окна (%{altitude} метров)
-        after_exit_description: точка, в которой участник был через 10 секунд после выхода из самолета
+        after_exit_description: 10 секунд после отделения
     show:
       round_map_view: 'Треки раунда на карте'
       comp_window: 'Соревновательный диапазон'

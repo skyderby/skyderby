@@ -11,9 +11,7 @@ fr:
         competitor: Compétiteur
         direction: Direction
         group: Groupe
-        start_window_description: point d'entrée dans la fenêtre de compétition (%{altitude} meters)
-        end_window_description: point de sortie dans la fenêtre de compétition (%{altitude} meters)
-        after_exit_description: point 10 secondes après la sortie de la fenêtre de compétition
+        after_exit_description: 10 secondes après sortir de avion
     show:
       competitor: Compétiteur
       round_map_view: Vue de enregistrements de la manche sur la carte
