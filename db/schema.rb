@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_18_195025) do
+ActiveRecord::Schema.define(version: 2022_03_12_142425) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,6 +112,9 @@ ActiveRecord::Schema.define(version: 2022_02_18_195025) do
     t.string "penalty_reason"
     t.boolean "penalized", default: false, null: false
     t.integer "penalty_size"
+    t.decimal "exit_altitude", precision: 10, scale: 3
+    t.datetime "exited_at"
+    t.integer "heading_within_window"
     t.index ["profile_id"], name: "index_event_results_on_profile_id"
     t.index ["round_id", "competitor_id"], name: "index_event_results_on_round_id_and_competitor_id", unique: true
     t.index ["round_id"], name: "index_event_results_on_round_id"

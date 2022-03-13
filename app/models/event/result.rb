@@ -17,8 +17,9 @@
 
 class Event < ApplicationRecord
   class Result < ApplicationRecord
+    include TrackPoints # provides points and window_points
     include EventOngoingValidation, Event::Namespace, AcceptsNestedTrack,
-            SubmissionAuthor, SubmissionResult, ReviewableByJudge, ExitTime
+            SubmissionAuthor, SubmissionResult, ReviewableByJudge, ExitTime, FlightDetails
 
     belongs_to :track
     belongs_to :round, class_name: 'Event::Round'
@@ -39,22 +40,14 @@ class Event < ApplicationRecord
       round.reference_point_assignments.find_by(competitor: competitor)&.reference_point
     end
 
-    def penalty_sizes
-      [10, 20, 50, 100]
-    end
+    def penalty_sizes = [10, 20, 50, 100]
 
     private
 
-    def track_owner
-      event
-    end
+    def track_owner = event
 
-    def track_comment
-      "#{event.name} - #{round_discipline.humanize} #{round_number}"
-    end
+    def track_comment = "#{event.name} - #{round_discipline.humanize} #{round_number}"
 
-    def track_activity
-      :skydive
-    end
+    def track_activity = :skydive
   end
 end

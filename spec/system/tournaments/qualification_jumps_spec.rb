@@ -9,7 +9,7 @@ feature 'Qualification jumps', type: :system, js: true do
 
     expect(page).to have_css '.modal-dialog'
 
-    file = Rails.root.join('spec/support/tracks/loen_jump_one_08-02-19.CSV')
+    file = file_fixture('tracks/loen_jump_one_08-02-19.CSV')
     attach_file 'result[track_attributes][file]', file, make_visible: true
 
     click_button I18n.t('general.save')
