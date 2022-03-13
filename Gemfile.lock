@@ -182,15 +182,15 @@ GEM
       rake
     mini_magick (4.11.0)
     mini_mime (1.0.2)
-    mini_portile2 (2.6.1)
+    mini_portile2 (2.8.0)
     minitest (5.14.4)
     msgpack (1.3.3)
     multi_json (1.14.1)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     nio4r (2.5.8)
-    nokogiri (1.12.5)
-      mini_portile2 (~> 2.6.1)
+    nokogiri (1.13.2)
+      mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     oauth2 (1.4.4)
       faraday (>= 0.8, < 2.0)
@@ -404,7 +404,7 @@ DEPENDENCIES
   image_processing (~> 1.12)
   jbuilder (~> 2.6)
   kramdown
-  nokogiri (~> 1.12)
+  nokogiri (~> 1.13)
   omniauth-facebook
   pg (~> 1.0)
   pluck_to_hash
