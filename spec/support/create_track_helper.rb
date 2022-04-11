@@ -1,11 +1,9 @@
 module CreateTrackHelper
   def create_track_from_file(filename, **args)
-    pilot = create :pilot
-    suit = create :suit
+    pilot = args.delete(:pilot) || Profile.create!(name: 'Creet T. Heler')
+    suit = args.delete(:suit) || Suit.create!(name: 'CTH Suit', manufacturer: manufacturers(:tony))
 
-    track_file = Track::File.create(
-      file: File.new(Rails.root.join('spec', 'support', 'tracks', filename.to_s))
-    )
+    track_file = Track::File.create!(file: File.open(file_fixture("tracks/#{filename}")))
 
     params = {
       track_file_id: track_file.id,

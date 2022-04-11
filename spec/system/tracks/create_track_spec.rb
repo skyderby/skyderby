@@ -63,7 +63,7 @@ describe 'Upload tracks', js: true do
   end
 
   def fill_track_file(file_name)
-    file = Rails.root.join('spec', 'support', 'tracks', file_name)
+    file = file_fixture("tracks/#{file_name}")
     attach_file 'track_file[file]', file, make_visible: true
   end
 end

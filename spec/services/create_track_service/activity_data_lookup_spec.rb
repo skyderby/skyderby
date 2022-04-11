@@ -1,6 +1,6 @@
 describe CreateTrackService::ActivityDataLookup do
   it 'returns true if data recorded' do
-    track_file = create :track_file
+    track_file = Track::File.create!(file: File.open(file_fixture('tracks/flysight.csv')))
     track_points = points(track_file)
 
     result = CreateTrackService::ActivityDataLookup.call(track_points)
@@ -9,11 +9,8 @@ describe CreateTrackService::ActivityDataLookup do
   end
 
   it 'returns true for garmin file' do
-    file = Rack::Test::UploadedFile.new(
-      Rails.root.join('spec/support/tracks/one_track.gpx')
-    )
-
-    track_file = create :track_file, file: file
+    file = fixture_file_upload('files/tracks/one_track.gpx')
+    track_file = Track::File.create!(file: file)
     track_points = points(track_file)
 
     result = CreateTrackService::ActivityDataLookup.call(track_points)
@@ -22,11 +19,8 @@ describe CreateTrackService::ActivityDataLookup do
   end
 
   it 'returns false unless data recorded' do
-    file = Rack::Test::UploadedFile.new(
-      Rails.root.join('spec/support/tracks/flysight_warmup.csv')
-    )
-
-    track_file = create :track_file, file: file
+    file = fixture_file_upload('files/tracks/flysight_warmup.csv')
+    track_file = Track::File.create!(file: file)
     track_points = points(track_file)
 
     result = CreateTrackService::ActivityDataLookup.call(track_points)
