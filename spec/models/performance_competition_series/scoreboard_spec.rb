@@ -23,7 +23,7 @@ describe PerformanceCompetitionSeries::Scoreboard do
 
       categories = described_class.new(series, {}).categories
 
-      expect(categories.map(&:name)).to eq(%w[OPEN intermediate])
+      expect(categories.map { _1.name.downcase }).to eq(%w[open intermediate])
     end
   end
 end
