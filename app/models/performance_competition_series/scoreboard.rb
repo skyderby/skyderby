@@ -16,9 +16,9 @@ class PerformanceCompetitionSeries::Scoreboard
     @categories ||=
       Event::Section
       .where(event: series.competitions)
-      .select(:name, 'avg("order") AS order')
+      .select('MIN(name) AS name', 'avg("order") AS order')
       .order('avg("order")')
-      .group(:name)
+      .group('UPPER(name)')
       .map { |record| build_category(record) }
   end
 
