@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_12_142425) do
+ActiveRecord::Schema.define(version: 2022_04_17_103756) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -940,12 +940,12 @@ ActiveRecord::Schema.define(version: 2022_03_12_142425) do
                      FROM (event_competitors competitors
                        JOIN performance_competition_series_included_competitions included_competitions_1 ON ((included_competitions_1.event_id = competitors.event_id)))
                     GROUP BY competitors.event_id) competitors_count ON ((events_1.id = competitors_count.event_id)))
-               LEFT JOIN ( SELECT competitors.event_id,
+               LEFT JOIN ( SELECT included_competitions_1.performance_competition_series_id,
                       COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS country_ids
                      FROM ((event_competitors competitors
                        JOIN performance_competition_series_included_competitions included_competitions_1 ON ((included_competitions_1.event_id = competitors.event_id)))
                        LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
-                    GROUP BY competitors.event_id) participant_countries ON ((events_1.id = participant_countries.event_id)))
+                    GROUP BY included_competitions_1.performance_competition_series_id) participant_countries ON ((series.id = participant_countries.performance_competition_series_id)))
             GROUP BY series.id, participant_countries.country_ids
           UNION ALL
            SELECT 'SpeedSkydivingCompetitionSeries'::text,
