@@ -2,9 +2,11 @@ class PerformanceCompetitionSeries::Scoreboard::Standings::Result
   attr_reader :record, :points, :best_result
 
   delegate :round, :competitor, :penalized, :penalty_size, :penalty_reason, to: :record
+  delegate :display_raw_results, to: :settings
 
-  def initialize(record)
+  def initialize(record, settings)
     @record = record
+    @settings = settings
     @best_result = false
   end
 
@@ -25,10 +27,10 @@ class PerformanceCompetitionSeries::Scoreboard::Standings::Result
   end
 
   def result
-    return 0 unless record.result_net
+    value = record.public_send(result_field)
+    return 0 unless value
 
-    (record.result_net - record.result_net / 100 * penalty_size.to_f)
-      .round(round.distance? ? 0 : 1)
+    (value - value / 100 * penalty_size.to_f).round(precision)
   end
 
   def calculate_points_from(best_result)
@@ -38,4 +40,12 @@ class PerformanceCompetitionSeries::Scoreboard::Standings::Result
   end
 
   def best_result! = @best_result = true
+
+  private
+
+  def result_field = display_raw_results ? :result : :result_net
+
+  def precision = round.distance? ? 0 : 1
+
+  attr_reader :settings
 end

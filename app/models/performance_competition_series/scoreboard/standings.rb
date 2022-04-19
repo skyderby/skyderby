@@ -3,10 +3,10 @@ class PerformanceCompetitionSeries::Scoreboard::Standings
     new(*args).build
   end
 
-  def initialize(competitors, rounds, result_records)
+  def initialize(competitors, rounds, results)
     @competitors = competitors
     @rounds = rounds
-    @result_records = result_records
+    @results = results
   end
 
   def build
@@ -25,7 +25,7 @@ class PerformanceCompetitionSeries::Scoreboard::Standings
 
   private
 
-  attr_reader :competitors, :result_records, :rounds
+  attr_reader :competitors, :results, :rounds
 
   def assign_ranks(standings)
     return standings unless standings.any?
@@ -46,9 +46,5 @@ class PerformanceCompetitionSeries::Scoreboard::Standings
 
       round_results.each { |record| record.calculate_points_from(best_result_record.result) }
     end
-  end
-
-  def results
-    @results ||= result_records.map { |record| Result.new(record) }
   end
 end

@@ -3,8 +3,6 @@ class PerformanceCompetitionSeries::Scoreboard
 
   attr_reader :series, :settings
 
-  delegate :adjust_to_wind?, :split_by_categories?, to: :params
-
   def initialize(series, params)
     @series = series
     @settings = Settings.new(params)
@@ -53,5 +51,6 @@ class PerformanceCompetitionSeries::Scoreboard
       Event::Result
       .includes(:round, :competitor)
       .where(round: Event::Round.where(event: series.competitions))
+      .map { |record| Standings::Result.new(record, settings) }
   end
 end
