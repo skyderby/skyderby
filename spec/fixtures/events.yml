@@ -11,6 +11,7 @@ published_public:
   id: 1
   name: PPC-like
   status: published
+  place: ravenna
 
 draft_public:
   <<: *PPC_DEFAULTS

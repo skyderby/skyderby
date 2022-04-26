@@ -14,7 +14,7 @@ const Events = () => {
       <Route path="/performance/*" element={<PerformanceCompetition />} />
       <Route path="/speed_skydiving/*" element={<SpeedSkydivingCompetition />} />
 
-      <Route render={() => <Navigate to="/events" />} />
+      <Route path="*" element={<Navigate to="/events" />} />
     </Routes>
   )
 }

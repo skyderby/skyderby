@@ -1,7 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
+import { PerformanceCompetition, Round } from 'api/performanceCompetitions'
 import RoundCell from './RoundCell'
 
 const taskUnits = {
@@ -10,7 +10,12 @@ const taskUnits = {
   time: 'sec'
 }
 
-const TableHeader = ({ event, roundsByTask }) => {
+type TableHeaderProps = {
+  event: PerformanceCompetition
+  roundsByTask: [Round['task'], Round[]][]
+}
+
+const TableHeader = ({ event, roundsByTask }: TableHeaderProps) => {
   const { t } = useI18n()
 
   return (
@@ -49,11 +54,6 @@ const TableHeader = ({ event, roundsByTask }) => {
       </tr>
     </thead>
   )
-}
-
-TableHeader.propTypes = {
-  roundsByTask: PropTypes.arrayOf(PropTypes.array).isRequired,
-  event: PropTypes.object.isRequired
 }
 
 export default TableHeader

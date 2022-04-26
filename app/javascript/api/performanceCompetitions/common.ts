@@ -24,12 +24,19 @@ export interface PerformanceCompetition {
   }
 }
 
-export type SerializedPerformanceCompetition = Serialized<PerformanceCompetition>
+export interface PerformanceCompetitionVariables {
+  name?: string
+  startsAt?: string
+  placeId?: number | null
+  visibility?: EventVisibility
+  status?: EventStatus
+  useTeams?: 'true' | 'false'
+  useOpenScoreboard?: 'true' | 'false'
+  rangeFrom?: number
+  rangeTo?: number
+}
 
-export type PerformanceCompetitionVariables = Omit<
-  PerformanceCompetition,
-  'id' | 'createdAt' | 'updatedAt' | 'permissions'
->
+export type SerializedPerformanceCompetition = Serialized<PerformanceCompetition>
 
 export const queryKey = (id: number): QueryKey => ['performance_competitions', id]
 

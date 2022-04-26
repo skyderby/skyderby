@@ -28,7 +28,9 @@ const Map = ({ children }: MapProps) => {
     const options = {
       zoom: 2,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
-      center: new google.maps.LatLng(20.0, 20.0)
+      center: new google.maps.LatLng(20.0, 20.0),
+      fullscreenControl: false,
+      streetViewControl: false
     }
 
     setMapInstance(new google.maps.Map(mapElementRef.current, options))
