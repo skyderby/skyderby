@@ -81,15 +81,28 @@
   white-space: nowrap;
   vertical-align: baseline;
 
-  background-color: #f0ad4e;
+  background-color: var(--yellow-70);
 }
 
 .majorPenalty {
-  background-color: #d9534f;
+  background-color: var(--red-70);
 }
 
 .flatButton {
   composes: button from '~styles/button.module.scss';
   composes: flat from '~styles/button.module.scss';
   composes: sizeXs from '~styles/button.module.scss';
+}
+
+.exitAltitude {
+  display: inline-flex;
+}
+
+.warningIcon {
+  height: .75rem;
+  margin-left: 0.25rem;
+
+  path {
+    fill: var(--yellow-70)
+  }
 }

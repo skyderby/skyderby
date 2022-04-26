@@ -21,11 +21,12 @@ const theme = theme => ({
   }
 })
 
+const placeholder = <i className="fa fa-ellipsis-h" />
+const blankOption = { value: undefined, label: placeholder }
+
 const ReferencePointSelect = props => {
   const { referencePoints, value: selectedReferencePoint, ...selectProps } = props
-  const placeholder = <i className="fa fa-ellipsis-h" />
 
-  const blankOption = { value: undefined, label: placeholder }
   const options = [
     blankOption,
     ...(referencePoints || []).map(({ id, name }) => ({

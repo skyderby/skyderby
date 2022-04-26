@@ -3,7 +3,7 @@ import React from 'react'
 import styles from './styles.module.scss'
 
 type MarkProps = {
-  color: string
+  color?: string
 }
 
 const Mark = ({ color }: MarkProps) => (

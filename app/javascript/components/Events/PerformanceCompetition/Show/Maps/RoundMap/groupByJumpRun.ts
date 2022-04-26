@@ -1,14 +1,18 @@
 import { I18n } from 'components/TranslationsProvider'
 import { compareAsc, differenceInSeconds } from 'date-fns'
 import { Competitor, Result } from 'api/performanceCompetitions'
+import { ManufacturerRecord } from 'api/manufacturer'
 
-const splitByStartTime = (jumpRunSeparation: number) => (acc: Result[][], record: Result) => {
+const splitByStartTime = (jumpRunSeparation: number) => (
+  acc: Result[][],
+  record: Result
+) => {
   if (acc.length === 0) return [[record]]
 
   const lastGroup = acc[acc.length - 1]
   const lastRecord = lastGroup[lastGroup.length - 1]
   const nextJumpRun =
-    differenceInSeconds(record.startTime, lastRecord.startTime) >= jumpRunSeparation
+    differenceInSeconds(record.exitedAt, lastRecord.exitedAt) >= jumpRunSeparation
 
   if (nextJumpRun) {
     acc.push([record])
@@ -19,34 +23,27 @@ const splitByStartTime = (jumpRunSeparation: number) => (acc: Result[][], record
   return acc
 }
 
+type CompetitorWithResult = Competitor & {
+  result: Result
+}
+
 const groupByJumpRun = (
-  competitors: Competitor[],
+  competitorsWithResults: Competitor[],
   results: Result[],
   jumpRunSeparation = 120
-) => {
-  const competitorsWithResults = competitors.map(competitor => ({
-    ...competitor,
-    result: results.find(({ competitorId }) => competitor.id === competitorId)
-  }))
-
-  const competitorsWithoutResults = competitorsWithResults.filter(
-    record => !record.result
-  )
-
+): CompetitorWithResult[][] => {
   const groups = Array.from(results)
-    .sort((a, b) => compareAsc(a.startTime, b.startTime))
+    .sort((a, b) => compareAsc(a.exitedAt, b.exitedAt))
     .reduce(splitByStartTime(jumpRunSeparation), [])
-    .map((results, idx) => ({
-      name: `${I18n.t('events.rounds.map.group')} ${idx + 1}`,
-      selectable: true,
-      competitors: results.map(result =>
-        competitorsWithResults.find(({ id }) => id === result.competitorId)
-      )
-    }))
+    .map((results, idx) =>
+      results
+        .map(result =>
+          competitorsWithResults.find(({ id }) => id === result.competitorId)
+        )
+        .filter((record): record is CompetitorWithResult => record !== undefined)
+    )
 
-  return groups.concat([
-    { name: 'Without results', selectable: false, competitors: competitorsWithoutResults }
-  ])
+  return groups
 }
 
 export default groupByJumpRun

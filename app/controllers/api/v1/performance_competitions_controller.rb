@@ -14,7 +14,19 @@ class Api::V1::PerformanceCompetitionsController < Api::ApplicationController
       if @event.save
         format.json
       else
-        format.json { render json: @event.errors, status: :unprocessable_entity }
+        format.json { respond_with_errors(@event.errors) }
+      end
+    end
+  end
+
+  def update
+    @event = authorize Event.speed_distance_time.find(params[:id])
+
+    respond_to do |format|
+      if @event.update(event_params)
+        format.json
+      else
+        format.json { respond_with_errors(@event.errors) }
       end
     end
   end

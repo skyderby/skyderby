@@ -4,6 +4,6 @@ class Api::V1::PerformanceCompetitions::ResultsController < ApplicationControlle
 
     authorize event, :show?
 
-    @results = event.results.with_exit_details
+    @results = event.results
   end
 end

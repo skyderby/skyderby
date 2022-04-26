@@ -28,7 +28,7 @@ const NewEvent = () => {
         <Form
           initialValues={initialValues}
           mutation={newEventMutation}
-          returnUrl="/events/speed_skydiving/new"
+          returnUrl="/events/new"
         />
       </div>
     </div>

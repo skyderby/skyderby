@@ -1,28 +1,31 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
 
-import { showDlForResult } from 'redux/events/round'
 import { useI18n } from 'components/TranslationsProvider'
-
+import { Competitor, Result } from 'api/performanceCompetitions'
+import { useProfileQuery } from 'api/profiles'
 import Mark from './Mark'
 import PenaltyLabel from './PenaltyLabel'
 import ExitAltitude from './ExitAltitude'
-import ReferencePoint from '../ReferencePoint'
-
+import ReferencePoint from './ReferencePoint'
 import styles from './styles.module.scss'
-import { useProfileQuery } from 'api/profiles'
+import Direction from 'components/Events/PerformanceCompetition/Show/Maps/RoundMap/CompetitorRow/Direction'
 
-const CompetitorResult = ({ competitor, checked, color, onToggle: handleToggle }) => {
+type WithResultProps = {
+  competitor: Competitor & { result: Result}
+  checked: boolean
+  color: string
+  onToggle: () => unknown
+  onToggleDL: () => unknown
+}
+
+const WithResult = ({ competitor, checked, color, onToggle: handleToggle, onToggleDL: handleShowDL }: WithResultProps) => {
   const { t: _t } = useI18n()
-  const dispatch = useDispatch()
   const [_showPenaltyModal, setShowPenaltyModal] = useState(false)
   const { data: profile } = useProfileQuery(competitor.profileId)
 
   const result = competitor.result
 
   // const modalTitle = `${name} | ${t('disciplines.' + discipline)} - ${number}`
-  const handleShowDL = () => dispatch(showDlForResult(competitor))
   const handleShowPenaltyModal = () => setShowPenaltyModal(true)
   // const onModalHide = () => setShowPenaltyModal(false)
 
@@ -41,9 +44,7 @@ const CompetitorResult = ({ competitor, checked, color, onToggle: handleToggle }
           <input type="checkbox" checked={checked} onChange={handleToggle} />
           <Mark color={result && color} />
           <span className={styles.name}>{profile?.name}</span>
-          {result && (
-            <PenaltyLabel penalized={result.penalized} penaltySize={result.penaltySize} />
-          )}
+          <PenaltyLabel penalized={result.penalized} penaltySize={result.penaltySize} />
         </label>
 
         <ReferencePoint competitorId={competitor.id} />
@@ -58,26 +59,31 @@ const CompetitorResult = ({ competitor, checked, color, onToggle: handleToggle }
         </button>
 
         <div className={styles.additionalInfo}>
-          {result && <ExitAltitude altitude={result.exitAltitude} />}
+          <Direction direction={result.headingWithinWindow} />
+          <ExitAltitude altitude={result.exitAltitude} />
         </div>
       </div>
     </div>
   )
 }
 
-CompetitorResult.propTypes = {
-  competitor: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    profileId: PropTypes.number.isRequired,
-    result: PropTypes.shape({
-      exitAltitude: PropTypes.number.isRequired,
-      penalized: PropTypes.bool.isRequired,
-      penaltySize: PropTypes.number
-    })
-  }).isRequired,
-  onToggle: PropTypes.func.isRequired,
-  checked: PropTypes.bool.isRequired,
-  color: PropTypes.string.isRequired
+type WithoutResultProps = {
+  competitor: Competitor
 }
 
-export default CompetitorResult
+const WithoutResult = ({ competitor }: WithoutResultProps) => {
+  const { data: profile } = useProfileQuery(competitor.profileId)
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.row}>
+        <label className={styles.label}>
+          <Mark />
+          <span className={styles.name}>{profile?.name}</span>
+        </label>
+      </div>
+    </div>
+  )
+}
+
+export default Object.assign({}, { WithResult, WithoutResult })

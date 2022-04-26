@@ -2,10 +2,17 @@ import React from 'react'
 
 import styles from './styles.module.scss'
 
-type GroupProps = {
+type GroupProps =
+  {
   name: string
-  selectable: boolean
+  selectable: true
   onToggle: () => unknown
+  children: React.ReactNode
+}
+| {
+  name: string
+  selectable: false
+  onToggle?: undefined
   children: React.ReactNode
 }
 

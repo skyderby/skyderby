@@ -10,3 +10,38 @@
 
   box-shadow: var(--block-box-shadow);
 }
+
+.competitors {
+  padding: 0.625rem;
+  border-left: solid 1px var(--border-color);
+  overflow: scroll;
+}
+
+
+.group {
+  padding: 0.625rem;
+}
+
+.header {
+  display: flex;
+  padding-bottom: 0.25rem;
+
+  color: var(--grey-70);
+  font-weight: 500;
+  line-height: 1.5rem;
+  text-transform: uppercase;
+
+  > :not(:last-child) {
+    margin-right: 0.625rem;
+  }
+}
+
+.list {
+  border-left: solid 0.125rem var(--border-color);
+}
+
+.flatButton {
+  composes: button from '~styles/button.module.scss';
+  composes: flat from '~styles/button.module.scss';
+  composes: sizeXs from '~styles/button.module.scss';
+}

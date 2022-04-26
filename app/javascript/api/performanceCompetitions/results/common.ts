@@ -15,21 +15,26 @@ export interface Result {
   resultNet: number
   points: number
   exitAltitude: number
-  startTime: Date
+  exitedAt: Date
+  headingWithinWindow: number
   createdAt: Date
   updatedAt: Date
 }
 
 export type SerializedResult = Serialized<Result>
 
-export const queryKey = (eventId: number): QueryKey => ['performanceCompetition', eventId, 'results']
+export const queryKey = (eventId: number): QueryKey => [
+  'performanceCompetition',
+  eventId,
+  'results'
+]
 
 export const collectionEndpoint = (eventId: number) =>
   `/api/v1/performance_competitions/${eventId}/results`
 
 export const deserialize = (result: SerializedResult): Result => ({
   ...result,
-  startTime: parseISO(result.startTime),
+  exitedAt: parseISO(result.exitedAt),
   createdAt: parseISO(result.createdAt),
   updatedAt: parseISO(result.updatedAt)
 })

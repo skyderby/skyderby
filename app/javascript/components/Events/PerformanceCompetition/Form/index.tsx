@@ -1,20 +1,53 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { Formik, Field, ErrorMessage } from 'formik'
-import PropTypes from 'prop-types'
+import { AxiosError, AxiosResponse } from 'axios'
+import { UseMutationResult } from 'react-query'
+import { Link, useNavigate } from 'react-router-dom'
+import { Formik, Field, ErrorMessage, FieldProps, FormikHelpers } from 'formik'
+import { ValueType } from 'react-select'
+import toast from 'react-hot-toast'
 
+import { PerformanceCompetitionVariables } from 'api/performanceCompetitions'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
 import PlaceSelect from 'components/PlaceSelect'
 import { useI18n } from 'components/TranslationsProvider'
+import RequestErrorToast from 'components/RequestErrorToast'
 import ErrorText from 'components/ui/ErrorMessage'
 import validationSchema from './validationSchema'
 import styles from './styles.module.scss'
 
-const Form = props => {
+type FormProps = {
+  initialValues: PerformanceCompetitionVariables
+  mutation: UseMutationResult<
+    AxiosResponse<{ id: number }>,
+    AxiosError<Record<string, string[]>>,
+    PerformanceCompetitionVariables
+  >
+  returnUrl: string
+}
+
+const Form = ({ initialValues, mutation, returnUrl }: FormProps) => {
   const { t } = useI18n()
+  const navigate = useNavigate()
+
+  const handleSubmit = (
+    values: PerformanceCompetitionVariables,
+    formikBag: FormikHelpers<PerformanceCompetitionVariables>
+  ) => {
+    mutation.mutate(values, {
+      onSuccess: response => navigate(`/events/performance/${response.data.id}`),
+      onSettled: () => formikBag.setSubmitting(false),
+      onError: error => {
+        toast.error(<RequestErrorToast response={error.response} />)
+      }
+    })
+  }
 
   return (
-    <Formik {...props} validationSchema={validationSchema}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validationSchema={validationSchema}
+    >
       {({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <div className={styles.formFields}>
@@ -40,11 +73,17 @@ const Form = props => {
             <label>{t('activerecord.attributes.event.place')}</label>
             <div>
               <Field name="placeId">
-                {({ field: { name, ...props }, form: { setFieldValue } }) => (
+                {({ field: { name, ...props }, form: { setFieldValue } }: FieldProps) => (
                   <PlaceSelect
                     {...props}
                     aria-label="Select place"
-                    onChange={({ value }) => setFieldValue(name, value)}
+                    onChange={(option: ValueType<{ value: number }, false>) => {
+                      if (option === null) {
+                        setFieldValue(name, null)
+                      } else {
+                        setFieldValue(name, option.value)
+                      }
+                    }}
                   />
                 )}
               </Field>
@@ -86,7 +125,7 @@ const Form = props => {
             <button type="submit" className={styles.primaryButton}>
               {t('general.save')}
             </button>
-            <Link to="/events/new" className={styles.secondaryButton}>
+            <Link to={returnUrl} className={styles.secondaryButton}>
               {t('general.cancel')}
             </Link>
           </div>
@@ -94,16 +133,6 @@ const Form = props => {
       )}
     </Formik>
   )
-}
-
-Form.propTypes = {
-  initialValues: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    startsAt: PropTypes.string.isRequired,
-    useTeams: PropTypes.oneOf(['true', 'false']).isRequired,
-    visibility: PropTypes.oneOf(['private_event', 'unlisted_event', 'public_event'])
-      .isRequired
-  })
 }
 
 export default Form
