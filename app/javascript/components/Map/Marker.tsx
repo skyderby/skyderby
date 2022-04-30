@@ -1,6 +1,15 @@
 import { useEffect } from 'react'
 
-const Marker = ({ latitude, longitude, map }) => {
+import useMapContext from './MapContext'
+
+type MarkerProps = {
+  latitude: number
+  longitude: number
+}
+
+const Marker = ({ latitude, longitude }: MarkerProps) => {
+  const { map } = useMapContext()
+
   useEffect(() => {
     if (!map) return
 

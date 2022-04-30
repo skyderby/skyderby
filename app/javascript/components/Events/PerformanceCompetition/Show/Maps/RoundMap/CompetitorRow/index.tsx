@@ -1,24 +1,37 @@
 import React, { useState } from 'react'
 
 import { useI18n } from 'components/TranslationsProvider'
-import { Competitor, Result } from 'api/performanceCompetitions'
+import type {
+  Competitor,
+  Result,
+  ReferencePoint as ReferencePointType,
+  PerformanceCompetition
+} from 'api/performanceCompetitions'
 import { useProfileQuery } from 'api/profiles'
 import Mark from './Mark'
 import PenaltyLabel from './PenaltyLabel'
 import ExitAltitude from './ExitAltitude'
+import Direction from './Direction'
 import ReferencePoint from './ReferencePoint'
 import styles from './styles.module.scss'
-import Direction from 'components/Events/PerformanceCompetition/Show/Maps/RoundMap/CompetitorRow/Direction'
 
 type WithResultProps = {
-  competitor: Competitor & { result: Result}
+  event: PerformanceCompetition
+  competitor: Competitor & { result: Result } & {
+    referencePoint: ReferencePointType | null
+  } & { color: string }
   checked: boolean
-  color: string
   onToggle: () => unknown
   onToggleDL: () => unknown
 }
 
-const WithResult = ({ competitor, checked, color, onToggle: handleToggle, onToggleDL: handleShowDL }: WithResultProps) => {
+const WithResult = ({
+  event,
+  competitor,
+  checked,
+  onToggle: handleToggle,
+  onToggleDL: handleShowDL
+}: WithResultProps) => {
   const { t: _t } = useI18n()
   const [_showPenaltyModal, setShowPenaltyModal] = useState(false)
   const { data: profile } = useProfileQuery(competitor.profileId)
@@ -42,12 +55,12 @@ const WithResult = ({ competitor, checked, color, onToggle: handleToggle, onTogg
       <div className={styles.row}>
         <label className={styles.label}>
           <input type="checkbox" checked={checked} onChange={handleToggle} />
-          <Mark color={result && color} />
+          <Mark color={competitor.color} />
           <span className={styles.name}>{profile?.name}</span>
           <PenaltyLabel penalized={result.penalized} penaltySize={result.penaltySize} />
         </label>
 
-        <ReferencePoint competitorId={competitor.id} />
+        <ReferencePoint event={event} roundId={result.roundId} competitor={competitor} />
       </div>
 
       <div className={styles.row}>
@@ -67,11 +80,7 @@ const WithResult = ({ competitor, checked, color, onToggle: handleToggle, onTogg
   )
 }
 
-type WithoutResultProps = {
-  competitor: Competitor
-}
-
-const WithoutResult = ({ competitor }: WithoutResultProps) => {
+const WithoutResult = ({ competitor }: { competitor: Competitor }) => {
   const { data: profile } = useProfileQuery(competitor.profileId)
 
   return (

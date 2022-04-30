@@ -1,43 +1,58 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
 
-import { assignReferencePoint } from 'redux/events/round/referencePointAssignments'
-import { selectReferencePoints } from 'redux/events/round/selectors'
-
-import ReadOnly from './ReadOnly'
 import Select from './Select'
+import {
+  Competitor,
+  PerformanceCompetition,
+  ReferencePoint as ReferencePointType,
+  useReferencePointsQuery,
+  useUpdateReferencePointAssignmentMutation
+} from 'api/performanceCompetitions'
+import LocationIcon from 'icons/location.svg'
 
-const ReferencePoint = ({ competitorId }) => {
-  const dispatch = useDispatch()
+import styles from './styles.module.scss'
+import { ValueType } from 'react-select'
 
-  const { editable } = useSelector(state => state.eventRound)
-  const { referencePointId } = useSelector(
-    state =>
-      state.eventRound.referencePointAssignments.find(
-        el => el.competitorId === competitorId
-      ) || {}
-  )
-
-  const referencePoints = useSelector(selectReferencePoints)
-
-  const handleChange = ({ value }) => {
-    dispatch(assignReferencePoint(competitorId, value))
-  }
-
-  return editable ? (
-    <Select
-      value={referencePointId}
-      referencePoints={referencePoints}
-      onChange={handleChange}
-    />
-  ) : (
-    <ReadOnly referencePointId={referencePointId} />
-  )
+type ReferencePointProps = {
+  event: PerformanceCompetition
+  roundId: number
+  competitor: Competitor & { referencePoint: ReferencePointType | null }
 }
 
-ReferencePoint.propTypes = {
-  competitorId: PropTypes.number.isRequired
+const ReferencePoint = ({ event, roundId, competitor }: ReferencePointProps) => {
+  const { data: referencePoints = [] } = useReferencePointsQuery(event.id)
+  const mutation = useUpdateReferencePointAssignmentMutation(event.id)
+
+  if (event.permissions.canEdit) {
+    const updateAssignment = (referencePointId: number | null) => {
+      mutation.mutate({
+        roundId,
+        competitorId: competitor.id,
+        referencePointId
+      })
+    }
+
+    return (
+      <Select
+        value={competitor.referencePoint}
+        referencePoints={referencePoints}
+        onChange={(option: ValueType<{ value: number }, false>) => {
+          if (option === null) {
+            updateAssignment(null)
+          } else {
+            updateAssignment(option.value)
+          }
+        }}
+      />
+    )
+  }
+
+  return competitor.referencePoint ? (
+    <div className={styles.readOnly}>
+      <LocationIcon />
+      {competitor.referencePoint.name}
+    </div>
+  ) : null
 }
 
 export default ReferencePoint

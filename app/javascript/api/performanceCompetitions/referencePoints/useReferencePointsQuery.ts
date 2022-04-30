@@ -2,7 +2,7 @@ import { QueryFunction, useQuery } from 'react-query'
 import client from 'api/client'
 import { AxiosResponse } from 'axios'
 
-interface ReferencePoint {
+export interface ReferencePoint {
   id: number
   name: string
   latitude: number

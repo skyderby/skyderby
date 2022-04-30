@@ -1,4 +1,7 @@
-import { PointRecord } from 'api/tracks/points'
+interface Coordinate {
+  latitude: number
+  longitude: number
+}
 
 type Boundaries = {
   minLatitude: number
@@ -7,7 +10,7 @@ type Boundaries = {
   maxLongitude: number
 }
 
-export const getBoundaries = (points: PointRecord[]): Boundaries | null => {
+export const getBoundaries = (points: Coordinate[]): Boundaries | null => {
   const latitudes = points
     .map(el => el.latitude)
     .sort()
