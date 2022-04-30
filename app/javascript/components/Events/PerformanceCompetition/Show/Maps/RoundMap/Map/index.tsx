@@ -4,7 +4,6 @@ import useGoogleMapsApi from 'utils/useGoogleMapsApi'
 
 import { selectBoundaries } from 'redux/events/round/selectors'
 
-import ReferencePoints from './ReferencePoints'
 import FlightPaths from './FlightPaths'
 import DesignatedLane from './DesignatedLane'
 
@@ -50,7 +49,6 @@ const Map = ({ children }: MapProps) => {
     <main className={styles.container}>
       <div ref={mapElementRef}>Map</div>
 
-      <ReferencePoints map={mapInstance} />
       <FlightPaths map={mapInstance} />
       <DesignatedLane map={mapInstance} />
 

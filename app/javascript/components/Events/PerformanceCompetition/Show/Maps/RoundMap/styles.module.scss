@@ -45,3 +45,9 @@
   composes: flat from '~styles/button.module.scss';
   composes: sizeXs from '~styles/button.module.scss';
 }
+
+.map {
+  display: grid;
+  grid-row-gap: 0.5rem;
+  grid-template-rows: 1fr min-content;
+}

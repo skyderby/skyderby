@@ -1,42 +1,52 @@
 import React from 'react'
-import Select from 'react-select'
-import PropTypes from 'prop-types'
+import Select, { StylesConfig, Theme, ValueType, ActionMeta, Props } from 'react-select'
+import { ReferencePoint } from 'api/performanceCompetitions'
+import { OptionType } from 'components/SuitSelect'
 
-const styles = {
+const styles: StylesConfig<{ value: number | null }, boolean> = {
   control: base => ({
     ...base,
+    fontSize: '14px',
     width: '5rem'
   }),
   placeholder: base => ({
     ...base,
-    fontSize: '12px'
+    fontSize: '14px'
   })
 }
 
-const theme = theme => ({
+const theme = (theme: Theme): Theme => ({
   ...theme,
   spacing: {
     baseUnit: 2,
-    menuGutter: 4
+    menuGutter: 4,
+    controlHeight: 28
   }
 })
 
-const placeholder = <i className="fa fa-ellipsis-h" />
-const blankOption = { value: undefined, label: placeholder }
+const placeholder = <>&mdash;</>
+const blankOption = { value: null, label: placeholder }
 
-const ReferencePointSelect = props => {
-  const { referencePoints, value: selectedReferencePoint, ...selectProps } = props
+interface ReferencePointSelectProps extends Omit<Props<OptionType, boolean>, 'value'> {
+  value: ReferencePoint | null
+  referencePoints: ReferencePoint[]
+}
 
+const ReferencePointSelect = ({
+  value: selectedReferencePoint,
+  referencePoints,
+  ...selectProps
+}: ReferencePointSelectProps) => {
   const options = [
     blankOption,
-    ...(referencePoints || []).map(({ id, name }) => ({
+    ...(referencePoints).map(({ id, name }) => ({
       value: id,
       label: name
     }))
   ]
 
   const valueOption =
-    selectedReferencePoint && options.find(el => el.value === selectedReferencePoint)
+    selectedReferencePoint && options.find(el => el.value === selectedReferencePoint.id)
 
   return (
     <Select
@@ -46,19 +56,10 @@ const ReferencePointSelect = props => {
       placeholder={placeholder}
       theme={theme}
       styles={styles}
+      menuPortalTarget={document.getElementById('dropdowns-root')}
       {...selectProps}
     />
   )
-}
-
-ReferencePointSelect.propTypes = {
-  referencePoints: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string
-    })
-  ).isRequired,
-  value: PropTypes.number
 }
 
 export default ReferencePointSelect

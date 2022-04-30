@@ -1,6 +1,6 @@
 import { I18n } from 'components/TranslationsProvider'
 import { compareAsc, differenceInSeconds } from 'date-fns'
-import { Competitor, Result } from 'api/performanceCompetitions'
+import { Competitor, ReferencePoint, Result } from 'api/performanceCompetitions'
 import { ManufacturerRecord } from 'api/manufacturer'
 
 const splitByStartTime = (jumpRunSeparation: number) => (
@@ -25,7 +25,7 @@ const splitByStartTime = (jumpRunSeparation: number) => (
 
 type CompetitorWithResult = Competitor & {
   result: Result
-}
+} & { referencePoint: ReferencePoint }
 
 const groupByJumpRun = (
   competitorsWithResults: Competitor[],
