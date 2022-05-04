@@ -1,6 +1,11 @@
 import React from 'react'
 
-import { PerformanceCompetition, Round, Category as CategoryRecord, CategoryStandings } from 'api/performanceCompetitions'
+import {
+  PerformanceCompetition,
+  Round,
+  Category as CategoryRecord,
+  CategoryStandings
+} from 'api/performanceCompetitions'
 import Category from './Category'
 import StandingRow from './StandingRow'
 

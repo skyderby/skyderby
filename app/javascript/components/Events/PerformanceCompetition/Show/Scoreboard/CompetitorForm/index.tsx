@@ -39,7 +39,6 @@ type CompetitorFormProps = {
   initialValues?: Partial<FormData>
 }
 
-
 const defaultInitialValues: FormData = {
   profileId: null,
   profileAttributes: {

@@ -1,6 +1,9 @@
 import { useEffect } from 'react'
+import useMapContext from 'components/Map/MapContext'
 
-const MostDistantPoint = ({ map, laneViolation }) => {
+const MostDistantPoint = ({ laneViolation }) => {
+  const { map } = useMapContext()
+
   useEffect(() => {
     if (!map || !laneViolation) return
 

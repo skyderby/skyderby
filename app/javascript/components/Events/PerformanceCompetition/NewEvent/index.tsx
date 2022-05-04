@@ -1,16 +1,9 @@
 import React from 'react'
-import { FormikHelpers } from 'formik'
 import format from 'date-fns/format'
 
-import {
-  useCreatePerformanceCompetitionMutation,
-  PerformanceCompetitionVariables
-} from 'api/performanceCompetitions'
+import { useCreatePerformanceCompetitionMutation } from 'api/performanceCompetitions'
 import Form from '../Form'
 import styles from './styles.module.scss'
-import { EventVisibility } from 'api/events'
-import toast from 'react-hot-toast'
-import RequestErrorToast from 'components/RequestErrorToast'
 
 const initialValues = {
   name: '',

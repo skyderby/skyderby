@@ -23,8 +23,10 @@ const Show = () => {
   const params = useParams()
   const eventId = Number(params.eventId)
   const queryClient = useQueryClient()
-  const [associationsLoaded, setAssociationsLoaded] = useState(true)
-  const { data: event, isLoading, isError, error } = usePerformanceCompetitionQuery(eventId)
+  const [associationsLoaded, setAssociationsLoaded] = useState(false)
+  const { data: event, isLoading, isError, error } = usePerformanceCompetitionQuery(
+    eventId
+  )
 
   useEffect(() => {
     if (isLoading || isError) return
@@ -34,8 +36,8 @@ const Show = () => {
       queryClient.prefetchQuery(competitorsQuery(eventId, queryClient)),
       queryClient.prefetchQuery(roundsQuery(eventId)),
       queryClient.prefetchQuery(resultsQuery(eventId))
-    ]).then(() => setAssociationsLoaded(false))
-  }, [eventId, queryClient, setAssociationsLoaded])
+    ]).then(() => setAssociationsLoaded(true))
+  }, [eventId, isLoading, isError, queryClient, setAssociationsLoaded])
 
   if (isLoading) return <PageLoading />
   if (isError) return ErrorPage.forError(error, { linkBack: '/events' })
@@ -45,13 +47,18 @@ const Show = () => {
     <div className={styles.container}>
       <Header event={event} />
 
-      <Routes>
-        <Route index element={<Scoreboard eventId={eventId} />} />
-        <Route path="reference_points" element={<ReferencePoints eventId={eventId} />} />
-        <Route path="maps" element={<Maps eventId={eventId} />} />
-        <Route path="maps/:roundId" element={<Maps eventId={eventId} />} />
-        <Route path="edit" element={<Edit eventId={eventId} />} />
-      </Routes>
+      {associationsLoaded && (
+        <Routes>
+          <Route index element={<Scoreboard eventId={eventId} />} />
+          <Route
+            path="reference_points"
+            element={<ReferencePoints eventId={eventId} />}
+          />
+          <Route path="maps" element={<Maps eventId={eventId} />} />
+          <Route path="maps/:roundId" element={<Maps eventId={eventId} />} />
+          <Route path="edit" element={<Edit eventId={eventId} />} />
+        </Routes>
+      )}
     </div>
   )
 }

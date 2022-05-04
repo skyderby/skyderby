@@ -77,22 +77,13 @@ const ActionsBar = ({ eventId }: ActionsBarProps) => {
           referenceElement={newRoundButtonRef.current}
           options={{ placement: 'bottom-end' }}
         >
-          <button
-            className={styles.actionButton}
-            onClick={() => createRoundMutation.mutate('speed')}
-          >
+          <button className={styles.actionButton} onClick={() => createRound('speed')}>
             {t('disciplines.speed')}
           </button>
-          <button
-            className={styles.actionButton}
-            onClick={() => createRoundMutation.mutate('distance')}
-          >
+          <button className={styles.actionButton} onClick={() => createRound('distance')}>
             {t('disciplines.distance')}
           </button>
-          <button
-            className={styles.actionButton}
-            onClick={() => createRoundMutation.mutate('time')}
-          >
+          <button className={styles.actionButton} onClick={() => createRound('time')}>
             {t('disciplines.time')}
           </button>
         </Dropdown>

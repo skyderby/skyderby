@@ -1,14 +1,16 @@
 import LatLon from 'geodesy/latlon-ellipsoidal-vincenty'
+import { PointRecord } from 'api/tracks/points'
+import { ReferencePoint } from 'api/performanceCompetitions'
 
 const maxAllowedDeviationUntilExitWindow = 300
 const maxAllowedDeviationAfterExitWindow = 600
 
 const mostDistantPoint = (
-  points,
-  laneEnterPoint,
-  referencePoint,
-  startPoint,
-  endPoint
+  points: PointRecord[],
+  laneEnterPoint: PointRecord,
+  referencePoint: ReferencePoint,
+  startPoint: PointRecord,
+  endPoint: PointRecord
 ) => {
   if (!startPoint || !referencePoint) return
 
@@ -16,12 +18,8 @@ const mostDistantPoint = (
   const refPointCoordinate = new LatLon(referencePoint.latitude, referencePoint.longitude)
   const distanceFromLaneEnterToReferencePoint = laneEnter.distanceTo(refPointCoordinate)
 
-  const startTime = Date.parse(startPoint.gpsTime)
-  const endTime = Date.parse(endPoint.gpsTime)
-
   const pointsWithDistances = points.map(point => {
-    const gpsTime = Date.parse(point.gpsTime)
-    if (gpsTime < startTime || gpsTime > endTime) {
+    if (point.gpsTime < startPoint.gpsTime || point.gpsTime > endPoint.gpsTime) {
       return { ...point, distance: 0 }
     }
 
@@ -55,7 +53,14 @@ const mostDistantPoint = (
   )
 }
 
-const getLaneViolation = (points, laneEnterPoint, referencePoint, exitWindowPoint) => {
+const getLaneViolation = (
+  points: PointRecord[],
+  laneEnterPoint: PointRecord,
+  referencePoint: ReferencePoint,
+  exitWindowPoint: PointRecord
+) => {
+  if (points.length === 0 || !laneEnterPoint || !referencePoint) return undefined
+
   const mostDistantPointUntilWindowExit = mostDistantPoint(
     points,
     laneEnterPoint,

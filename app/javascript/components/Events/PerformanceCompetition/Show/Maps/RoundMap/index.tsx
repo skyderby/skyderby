@@ -9,15 +9,18 @@ import {
   useCompetitorsQuery,
   usePerformanceCompetitionQuery,
   useResultsQuery,
-  Competitor,
-  ReferencePoint,
   useReferencePointsQuery,
-  useReferencePointAssignmentsQuery
+  useReferencePointAssignmentsQuery,
+  Competitor,
+  Result
 } from 'api/performanceCompetitions'
 import { I18n } from 'components/TranslationsProvider'
 import { colorByIndex } from 'utils/colors'
 import groupByJumpRun from './groupByJumpRun'
 import styles from './styles.module.scss'
+import FlightPath from 'components/Events/PerformanceCompetition/Show/Maps/RoundMap/FlightPath'
+import { compareAsc } from 'date-fns'
+import DesignatedLane from 'components/Events/PerformanceCompetition/Show/Maps/RoundMap/DesignatedLane'
 
 type RoundMapProps = {
   eventId: number
@@ -43,9 +46,7 @@ const RoundMap = ({ eventId, roundId }: RoundMapProps) => {
   const [selectedCompetitors, setSelectedCompetitors] = useState<number[]>([])
   const [designatedLaneId, setDesignatedLaneId] = useState<number | null>(null)
 
-  if (isLoading || !event) return null
-
-  const competitorsWithResults = useMemo(
+  const competitorsRoundMapData = useMemo(
     () =>
       competitors.map(competitor => {
         const referencePointAssignment = referencePointAssignments.find(
@@ -55,24 +56,33 @@ const RoundMap = ({ eventId, roundId }: RoundMapProps) => {
         const referencePoint =
           referencePoints.find(({ id }) => id === referencePointId) ?? null
         const result = results.find(({ competitorId }) => competitor.id === competitorId)
+        const selected = selectedCompetitors.includes(competitor.id)
 
-        return { ...competitor, result, referencePoint }
+        return { ...competitor, result, referencePoint, selected }
       }),
-    [competitors, results, referencePoints, referencePointAssignments]
+    [
+      competitors,
+      results,
+      referencePoints,
+      referencePointAssignments,
+      selectedCompetitors
+    ]
   )
 
   const competitorsWithoutResults = useMemo(
-    () => competitorsWithResults.filter(record => !record.result),
-    [competitorsWithResults]
+    () => competitorsRoundMapData.filter(record => !record.result),
+    [competitorsRoundMapData]
   )
 
-  const groups = useMemo(
-    () =>
-      groupByJumpRun(competitorsWithResults, results).map(group =>
-        group.map((competitor, idx) => ({ ...competitor, color: colorByIndex(idx) }))
-      ),
-    [competitorsWithResults, results]
-  )
+  const competitorsWithResults = competitorsRoundMapData
+    .filter(
+      (record: { result: Result | undefined }): record is { result: Result } =>
+        record.result !== undefined
+    )
+    .sort((a, b) => compareAsc(a.result.exitedAt, b.result.exitedAt))
+    .map((competitor, idx) => ({ ...competitor, color: colorByIndex(idx) }))
+
+  const groups = groupByJumpRun(competitorsWithResults)
 
   const referencePointsUsedInCurrentRound = referencePoints.filter(referencePoint =>
     referencePointAssignments.find(
@@ -100,10 +110,22 @@ const RoundMap = ({ eventId, roundId }: RoundMapProps) => {
   const selectGroup = (group: Competitor[]) =>
     setSelectedCompetitors(group.map(record => record.id))
 
+  if (isLoading || !event) return null
+
+  const competitorToShowDL =
+    designatedLaneId &&
+    competitorsWithResults.find(competitor => competitor.id === designatedLaneId)
+
   return (
     <section className={styles.container}>
       <main className={styles.map}>
         <Map autoFitBounds>
+          {competitorsWithResults
+            .filter(competitor => competitor.selected)
+            .map(competitor => (
+              <FlightPath key={competitor.id} event={event} competitor={competitor} />
+            ))}
+
           {referencePointsUsedInCurrentRound.map(referencePoint => (
             <Map.Marker
               key={referencePoint.id}
@@ -111,6 +133,10 @@ const RoundMap = ({ eventId, roundId }: RoundMapProps) => {
               longitude={referencePoint.longitude}
             />
           ))}
+
+          {competitorToShowDL && (
+            <DesignatedLane event={event} competitor={competitorToShowDL} />
+          )}
         </Map>
         <MapLegend rangeFrom={event.rangeFrom} rangeTo={event.rangeTo} />
       </main>
@@ -123,12 +149,12 @@ const RoundMap = ({ eventId, roundId }: RoundMapProps) => {
             name={`${I18n.t('events.rounds.map.group')} ${idx + 1}`}
             onToggle={() => selectGroup(group)}
           >
-            {group.map((competitor, idx) => (
+            {group.map(competitor => (
               <CompetitorRow.WithResult
                 key={competitor.id}
                 event={event}
                 competitor={competitor}
-                checked={selectedCompetitors.includes(competitor.id)}
+                checked={competitor.selected}
                 onToggle={() => toggleCompetitor(competitor.id)}
                 onToggleDL={() => toggleDL(competitor.id)}
               />
@@ -138,7 +164,7 @@ const RoundMap = ({ eventId, roundId }: RoundMapProps) => {
 
         {competitorsWithoutResults.length > 0 && (
           <Group name="Without results" selectable={false}>
-            {competitorsWithoutResults.map((competitor, idx) => (
+            {competitorsWithoutResults.map(competitor => (
               <CompetitorRow.WithoutResult key={competitor.id} competitor={competitor} />
             ))}
           </Group>

@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from 'react-query'
+import { UseQueryResult } from 'react-query'
 
 import useResultsQuery from './useResultsQuery'
 import { Result } from './common'
