@@ -7,9 +7,10 @@ import {
 } from 'react-query'
 import client, { AxiosResponse } from 'api/client'
 import parseISO from 'date-fns/parseISO'
+import { AxiosError } from 'axios'
 
 type RequestOptions = {
-  trimmed?: boolean
+  trimmed?: boolean | { secondsBeforeStart: number }
   originalFrequency?: boolean
 }
 
@@ -42,7 +43,13 @@ const normalize = (point: RawPoint): PointRecord =>
 
 const getPoints = async (id: number, opts: RequestOptions): Promise<PointRecord[]> => {
   const queryString = Object.entries(opts).reduce((acc, [key, value]) => {
-    acc.set(key, String(value))
+    if (typeof value === 'object') {
+      Object.entries(value).forEach(([nestedKey, nestedValue]) => {
+        acc.set(`${key}[${nestedKey}]`, String(nestedValue))
+      })
+    } else {
+      acc.set(key, String(value))
+    }
     return acc
   }, new URLSearchParams())
 
@@ -65,10 +72,17 @@ const queryFn: QueryFunction<PointRecord[], PointsQueryKey> = ctx => {
   return getPoints(id, opts)
 }
 
+type QueryOptions = UseQueryOptions<
+  PointRecord[],
+  AxiosError,
+  PointRecord[],
+  PointsQueryKey
+>
+
 export const pointsQuery = (
   id: number | undefined,
   opts: RequestOptions = {}
-): UseQueryOptions<PointRecord[], Error, PointRecord[], PointsQueryKey> => ({
+): QueryOptions => ({
   queryKey: pointsQueryKey(id, opts),
   queryFn,
   enabled: Boolean(id)
@@ -82,5 +96,7 @@ export const preloadPoints = (
 
 export const useTrackPointsQuery = (
   id: number | undefined,
-  opts: RequestOptions = {}
-): UseQueryResult<PointRecord[]> => useQuery(pointsQuery(id, opts))
+  requestOptions: RequestOptions = {},
+  queryOptions: QueryOptions = {}
+): UseQueryResult<PointRecord[]> =>
+  useQuery({ ...pointsQuery(id, requestOptions), ...queryOptions })

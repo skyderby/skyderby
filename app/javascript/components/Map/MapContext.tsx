@@ -1,9 +1,10 @@
-import React, { createContext, useContext, useState } from 'react'
-import useGoogleMapsApi from 'utils/useGoogleMapsApi'
+import { createContext, useContext } from 'react'
 
 type MapContext = {
   map: google.maps.Map
   google: typeof google
+  registerCoordinates: (coordinates: { latitude: number; longitude: number }[]) => number
+  deregisterCoordinates: (id: number) => void
 }
 const MapContext = createContext<MapContext | undefined>(undefined)
 

@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 import useGoogleMapsApi from 'utils/useGoogleMapsApi'
+import { getBoundaries } from 'utils/getBoundaries'
 import { MapContext } from './MapContext'
 import Marker from './Marker'
-import { getBoundaries } from 'utils/getBoundaries'
+import Polyline from './Polyline'
 
 type MapProps = {
   children?: React.ReactNode
@@ -11,29 +12,33 @@ type MapProps = {
   autoFitBounds?: boolean
 }
 
+interface Coordinate {
+  latitude: number
+  longitude: number
+}
+
 const Map = ({ children, autoFitBounds = false, options = {} }: MapProps) => {
   const mapElementRef = useRef<HTMLDivElement>(null)
   const [map, setMap] = useState<google.maps.Map>()
+  const objId = useRef(0)
+  const [coordinates, setCoordinates] = useState<Record<string, Coordinate[]>>({})
   const google = useGoogleMapsApi()
 
-  const coordinates = autoFitBounds
-    ? React.Children.map(React.Children.toArray(children), child => {
-        if (React.isValidElement(child)) {
-          if (
-            Number.isFinite(child.props.latitude) &&
-            Number.isFinite(child.props.longitude)
-          ) {
-            return {
-              latitude: child.props.latitude,
-              longitude: child.props.longitude
-            }
-          }
-        }
-      }).filter(el => el !== undefined)
-    : []
+  const registerCoordinates = (coordinates: Coordinate[]) => {
+    const id = objId.current++
+    setCoordinates(prev => ({ ...prev, [id]: coordinates }))
+
+    return id
+  }
+
+  const deregisterCoordinates = (id: number) => {
+    setCoordinates(prev =>
+      Object.fromEntries(Object.entries(prev).filter(([key]) => key !== id.toString()))
+    )
+  }
 
   const { minLatitude, minLongitude, maxLatitude, maxLongitude } =
-    getBoundaries(coordinates) ?? {}
+    getBoundaries(Object.values(coordinates).flat()) ?? {}
 
   useEffect(() => {
     if (!google || !map || !autoFitBounds) return
@@ -66,10 +71,14 @@ const Map = ({ children, autoFitBounds = false, options = {} }: MapProps) => {
     <div ref={mapElementRef}>
       Map
       {google && map && (
-        <MapContext.Provider value={{ google, map }}>{children}</MapContext.Provider>
+        <MapContext.Provider
+          value={{ google, map, registerCoordinates, deregisterCoordinates }}
+        >
+          {children}
+        </MapContext.Provider>
       )}
     </div>
   )
 }
 
-export default Object.assign(Map, { Marker })
+export default Object.assign(Map, { Marker, Polyline })

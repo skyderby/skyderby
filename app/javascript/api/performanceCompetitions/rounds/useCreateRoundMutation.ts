@@ -10,10 +10,10 @@ import {
 } from './common'
 
 const createRound = (eventId: number, discipline: Round['task']) =>
-  client.post<
-    { round: { discipline: Round['task'] } },
-    AxiosResponse<SerializedRound>
-  >(collectionEndpoint(eventId), { round: { discipline } })
+  client.post<{ round: { discipline: Round['task'] } }, AxiosResponse<SerializedRound>>(
+    collectionEndpoint(eventId),
+    { round: { discipline } }
+  )
 
 const useCreateRoundMutation = (
   eventId: number

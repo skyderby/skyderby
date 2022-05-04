@@ -9,7 +9,8 @@ type RoundsBarProps = {
   eventId: number
   rounds: Round[]
 }
-const mapsPath = (eventId: number, roundId: number) => `/events/performance/${eventId}/maps/${roundId}`
+const mapsPath = (eventId: number, roundId: number) =>
+  `/events/performance/${eventId}/maps/${roundId}`
 
 const RoundsBar = ({ eventId, rounds }: RoundsBarProps) => {
   const { t } = useI18n()

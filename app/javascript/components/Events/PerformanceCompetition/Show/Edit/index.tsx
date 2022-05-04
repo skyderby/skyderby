@@ -1,5 +1,4 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import {
   usePerformanceCompetitionQuery,
@@ -15,7 +14,6 @@ type EditProps = {
 }
 
 const Edit = ({ eventId }: EditProps): JSX.Element | null => {
-  const navigate = useNavigate()
   const { formatDate } = useI18n()
   const { data: event, isLoading } = usePerformanceCompetitionQuery(eventId)
   const editMutation = useUpdatePerformanceCompetitionMutation(eventId)

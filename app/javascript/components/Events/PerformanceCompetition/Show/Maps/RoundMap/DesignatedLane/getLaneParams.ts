@@ -20,7 +20,7 @@ const nullParams = {
 const isValidPoint = (point: MaybePoint): point is Point =>
   Boolean(point.latitude && point.longitude)
 
-export default (startPoint: MaybePoint, endPoint: MaybePoint) => {
+const getLaneParams = (startPoint: MaybePoint, endPoint: MaybePoint) => {
   const width = 1200
 
   if (!isValidPoint(startPoint) || !isValidPoint(endPoint)) return nullParams
@@ -39,3 +39,5 @@ export default (startPoint: MaybePoint, endPoint: MaybePoint) => {
     bearing: startCoordinate.initialBearingTo(endCoordinate)
   }
 }
+
+export default getLaneParams

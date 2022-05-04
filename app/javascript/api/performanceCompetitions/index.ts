@@ -11,4 +11,3 @@ export { default as useCreatePerformanceCompetitionMutation } from './useCreateP
 export { default as useUpdatePerformanceCompetitionMutation } from './useUpdatePerformanceCompetitionMutation'
 export { default as useStandingsQuery } from './useStandingsQuery'
 export type { StandingRow, CategoryStandings } from './useStandingsQuery'
-

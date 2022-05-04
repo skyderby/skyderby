@@ -1,18 +1,21 @@
-import { I18n } from 'components/TranslationsProvider'
-import { compareAsc, differenceInSeconds } from 'date-fns'
-import { Competitor, ReferencePoint, Result } from 'api/performanceCompetitions'
-import { ManufacturerRecord } from 'api/manufacturer'
+import { differenceInSeconds } from 'date-fns'
+import { Result } from 'api/performanceCompetitions'
+
+interface CompetitorWithResult {
+  result: Result
+}
 
 const splitByStartTime = (jumpRunSeparation: number) => (
-  acc: Result[][],
-  record: Result
+  acc: CompetitorWithResult[][],
+  record: CompetitorWithResult
 ) => {
   if (acc.length === 0) return [[record]]
 
   const lastGroup = acc[acc.length - 1]
   const lastRecord = lastGroup[lastGroup.length - 1]
   const nextJumpRun =
-    differenceInSeconds(record.exitedAt, lastRecord.exitedAt) >= jumpRunSeparation
+    differenceInSeconds(record.result.exitedAt, lastRecord.result.exitedAt) >=
+    jumpRunSeparation
 
   if (nextJumpRun) {
     acc.push([record])
@@ -23,27 +26,14 @@ const splitByStartTime = (jumpRunSeparation: number) => (
   return acc
 }
 
-type CompetitorWithResult = Competitor & {
-  result: Result
-} & { referencePoint: ReferencePoint }
-
 const groupByJumpRun = (
-  competitorsWithResults: Competitor[],
-  results: Result[],
+  competitorsWithResults: CompetitorWithResult[],
   jumpRunSeparation = 120
 ): CompetitorWithResult[][] => {
-  const groups = Array.from(results)
-    .sort((a, b) => compareAsc(a.exitedAt, b.exitedAt))
-    .reduce(splitByStartTime(jumpRunSeparation), [])
-    .map((results, idx) =>
-      results
-        .map(result =>
-          competitorsWithResults.find(({ id }) => id === result.competitorId)
-        )
-        .filter((record): record is CompetitorWithResult => record !== undefined)
-    )
-
-  return groups
+  return Array.from(competitorsWithResults).reduce(
+    splitByStartTime(jumpRunSeparation),
+    []
+  )
 }
 
 export default groupByJumpRun

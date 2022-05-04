@@ -1,5 +1,5 @@
 import React from 'react'
-import Select, { StylesConfig, Theme, ValueType, ActionMeta, Props } from 'react-select'
+import Select, { StylesConfig, Theme, Props } from 'react-select'
 import { ReferencePoint } from 'api/performanceCompetitions'
 import { OptionType } from 'components/SuitSelect'
 
@@ -39,7 +39,7 @@ const ReferencePointSelect = ({
 }: ReferencePointSelectProps) => {
   const options = [
     blankOption,
-    ...(referencePoints).map(({ id, name }) => ({
+    ...referencePoints.map(({ id, name }) => ({
       value: id,
       label: name
     }))

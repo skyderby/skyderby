@@ -1,13 +1,25 @@
 import { useMemo, useEffect } from 'react'
 
 import getLaneParams from './getLaneParams'
+import useMapContext from 'components/Map/MapContext'
 
-const Overlay = ({ map, startPoint, endPoint }) => {
+interface Coordinate {
+  latitude: number
+  longitude: number
+}
+
+type OverlayProps = {
+  startPoint: Coordinate
+  endPoint: Coordinate
+}
+
+const Overlay = ({ startPoint, endPoint }: OverlayProps) => {
+  const { map } = useMapContext()
   const overlay = useMemo(() => new google.maps.OverlayView(), [])
 
   const div = useMemo(() => {
     const div = document.createElement('div')
-    div.style.opacity = 0
+    div.style.opacity = '0'
     div.style.borderStyle = 'none'
     div.style.borderWidth = '0px'
     div.style.position = 'absolute'
@@ -36,7 +48,7 @@ const Overlay = ({ map, startPoint, endPoint }) => {
     const southWest = projection.fromLatLngToDivPixel(bounds.getSouthWest())
     const northEast = projection.fromLatLngToDivPixel(bounds.getNorthEast())
 
-    div.style.opacity = 1
+    div.style.opacity = '1'
     div.style.left = `${southWest.x}px`
     div.style.top = `${northEast.y}px`
     div.style.height = `${southWest.y - northEast.y}px`
@@ -46,7 +58,7 @@ const Overlay = ({ map, startPoint, endPoint }) => {
 
   overlay.onAdd = () => overlay.getPanes().overlayLayer.appendChild(div)
   overlay.draw = draw
-  overlay.onRemove = () => div.parentNode.removeChild(div)
+  overlay.onRemove = () => div.parentNode?.removeChild(div)
 
   useEffect(() => {
     if (!map) return
