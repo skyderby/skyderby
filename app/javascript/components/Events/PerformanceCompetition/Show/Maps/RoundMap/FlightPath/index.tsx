@@ -24,7 +24,8 @@ const FlightPath = ({ event, competitor }: FlightPathProps) => {
       <Map.Polyline color={competitor.color} points={points} />
       {startPoint && (
         <Map.Marker
-          {...startPoint}
+          latitude={startPoint.latitude}
+          longitude={startPoint.longitude}
           icon={{
             path: google.maps.SymbolPath.CIRCLE,
             strokeWeight: 5,
@@ -36,7 +37,8 @@ const FlightPath = ({ event, competitor }: FlightPathProps) => {
       )}
       {endPoint && (
         <Map.Marker
-          {...endPoint}
+          latitude={endPoint.latitude}
+          longitude={endPoint.longitude}
           icon={{
             path: google.maps.SymbolPath.CIRCLE,
             strokeWeight: 5,
@@ -48,7 +50,8 @@ const FlightPath = ({ event, competitor }: FlightPathProps) => {
       )}
       {afterExitPoint && (
         <Map.Marker
-          {...afterExitPoint}
+          latitude={afterExitPoint.latitude}
+          longitude={afterExitPoint.longitude}
           icon={{
             path: google.maps.SymbolPath.CIRCLE,
             strokeWeight: 5,

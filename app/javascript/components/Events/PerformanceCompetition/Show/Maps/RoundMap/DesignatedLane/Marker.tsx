@@ -22,6 +22,7 @@ const Marker = ({ latitude, longitude, onDrag }: MarkerProps) => {
   useEffect(() => {
     marker.current = new google.maps.Marker({
       map: map,
+      zIndex: 10,
       draggable: true,
       icon: ICON
     })
