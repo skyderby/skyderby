@@ -1,5 +1,5 @@
-import { getTime } from 'date-fns'
 import { PointRecord } from 'api/tracks/points'
+import interpolateByAltitude from 'utils/interpolateByAltitude'
 
 const findStartIndex = (points: PointRecord[], fromAltitude: number): number => {
   if (fromAltitude === undefined) return 0
@@ -24,44 +24,6 @@ const findEndIndex = (
   )
 
   return idx > -1 ? idx : lastIdx
-}
-
-const interpolateByAltitude = (
-  first: PointRecord,
-  second: PointRecord,
-  altitude: number
-): PointRecord => {
-  const coeff = (first.altitude - altitude) / (first.altitude - second.altitude)
-
-  const newPoint = { ...first, altitude }
-
-  const numericFields: Array<keyof Omit<PointRecord, 'gpsTime'>> = [
-    'flTime',
-    'latitude',
-    'longitude',
-    'hSpeed',
-    'vSpeed',
-    'glideRatio'
-  ]
-
-  numericFields.forEach(key => {
-    newPoint[key] = interpolateField(first, second, key, coeff)
-  })
-
-  newPoint.gpsTime = new Date(
-    getTime(first.gpsTime) + (getTime(second.gpsTime) - getTime(first.gpsTime)) * coeff
-  )
-
-  return newPoint
-}
-
-const interpolateField = (
-  first: PointRecord,
-  second: PointRecord,
-  key: keyof Omit<PointRecord, 'gpsTime'>,
-  coeff: number
-): number => {
-  return first[key] + (second[key] - first[key]) * coeff
 }
 
 export const cropPoints = (

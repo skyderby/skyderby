@@ -17,6 +17,7 @@ export interface PerformanceCompetition {
   rangeTo: number
   createdAt: Date
   updatedAt: Date
+  designatedLaneStart: 'on10Sec' | 'onEnterWindow'
 
   permissions: {
     canEdit: boolean

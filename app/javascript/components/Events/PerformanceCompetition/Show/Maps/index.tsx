@@ -30,7 +30,7 @@ const Maps = ({ eventId }: MapsProps) => {
       <div className={styles.emptyState}>No rounds added to this scoreboard yet.</div>
     )
 
-  if (!roundId) return <Navigate to={mapsPath(eventId, rounds[0].id)} />
+  if (!roundId) return <Navigate replace to={mapsPath(eventId, rounds[0].id)} />
 
   return (
     <div className={styles.container}>

@@ -1,40 +1,45 @@
 import React, { useState, useEffect, useCallback } from 'react'
 
+import {
+  Competitor,
+  PerformanceCompetition,
+  ReferencePoint,
+  Result
+} from 'api/performanceCompetitions'
+import useResultPoints from 'components/Events/PerformanceCompetition/useResultPoints'
 import Overlay from './Overlay'
 import Marker from './Marker'
 import MostDistantPoint from './MostDistantPoint'
-import { Competitor } from 'api/performanceCompetitions'
-import useResultPoints from 'components/Events/PerformanceCompetition/useResultPoints'
 import getLaneViolation from 'utils/checkLaneViolation'
 
+interface Coordinate {
+  latitude: number
+  longitude: number
+}
+
 type DesignatedLaneProps = {
-  competitor: Competitor
+  event: PerformanceCompetition
+  competitor: Competitor & { result: Result; referencePoint: ReferencePoint }
 }
 
 const DesignatedLane = ({ event, competitor }: DesignatedLaneProps) => {
   const {
     points,
     afterExitPoint,
+    startPoint: enterWindowPoint,
     endPoint: exitWindowPoint,
     isLoading
   } = useResultPoints(event, competitor.result)
 
-  const initialStartPoint = afterExitPoint
+  const initialStartPoint =
+    event.designatedLaneStart === 'on10Sec' ? afterExitPoint : enterWindowPoint
   const initialEndPoint = competitor.referencePoint
 
-  const [startPoint, setStartPoint] = useState(null)
-  const [endPoint, setEndPoint] = useState(null)
-
-  const laneViolation = getLaneViolation(
-    points,
-    startPoint,
-    competitor.referencePoint,
-    exitWindowPoint
-  )
-
+  const [startPoint, setStartPoint] = useState<Coordinate | null>(null)
+  const [endPoint, setEndPoint] = useState<Coordinate | null>(null)
 
   useEffect(() => {
-    const { latitude, longitude } = initialStartPoint
+    const { latitude, longitude } = initialStartPoint ?? {}
 
     if (!latitude || !longitude) return
 
@@ -52,11 +57,31 @@ const DesignatedLane = ({ event, competitor }: DesignatedLaneProps) => {
   const handleStartPointDrag = useCallback(coordinates => setStartPoint(coordinates), [])
   const handleEndPointDrag = useCallback(coordinates => setEndPoint(coordinates), [])
 
+  if (isLoading) return null
+
+  const laneViolation =
+    initialStartPoint &&
+    endPoint &&
+    exitWindowPoint &&
+    getLaneViolation(points, initialStartPoint, endPoint, exitWindowPoint)
+
   return (
     <>
-      <Overlay startPoint={startPoint} endPoint={endPoint} />
-      <Marker {...startPoint} onDrag={handleStartPointDrag} />
-      <Marker {...endPoint} onDrag={handleEndPointDrag} />
+      {startPoint && endPoint && <Overlay startPoint={startPoint} endPoint={endPoint} />}
+      {startPoint && (
+        <Marker
+          latitude={startPoint.latitude}
+          longitude={startPoint.longitude}
+          onDrag={handleStartPointDrag}
+        />
+      )}
+      {endPoint && (
+        <Marker
+          latitude={endPoint.latitude}
+          longitude={endPoint.longitude}
+          onDrag={handleEndPointDrag}
+        />
+      )}
 
       {laneViolation && <MostDistantPoint laneViolation={laneViolation} />}
     </>
