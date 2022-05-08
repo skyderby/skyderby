@@ -18,7 +18,7 @@
 class Event::Result < ApplicationRecord
   include TrackPoints # provides points and window_points
   include EventOngoingValidation, Event::Namespace, AcceptsNestedTrack,
-          SubmissionAuthor, SubmissionResult, ReviewableByJudge, ExitDetails, FlightDetails
+          SubmissionAuthor, SubmissionResult, ReviewableByJudge, FlightDetails
 
   belongs_to :track
   belongs_to :round, class_name: 'Event::Round'
@@ -39,7 +39,6 @@ class Event::Result < ApplicationRecord
   end
 
   def penalty_sizes = [10, 20, 50, 100]
-
 
   private
 

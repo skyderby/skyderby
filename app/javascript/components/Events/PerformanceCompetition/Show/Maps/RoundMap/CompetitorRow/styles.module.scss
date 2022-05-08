@@ -1,0 +1,125 @@
+.container {
+  padding: 5px 7px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+
+  &:not(:last-child) {
+    margin-bottom: 0.25rem;
+  }
+}
+
+.label {
+  display: flex;
+  flex-basis: 80%;
+  flex-grow: 1;
+  flex-shrink: 1;
+  align-items: center;
+  min-width: 0;
+  margin-right: 5px;
+  margin-bottom: 0;
+  padding: 0 5px;
+  border-radius: var(--border-radius-sm);
+
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.875rem;
+
+  [type='checkbox'] {
+    margin: 0 5px 0 0;
+  }
+
+  >:not(:last-child) {
+    margin-right: 5px;
+  }
+}
+
+.label.active {
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--grey-20);
+  }
+}
+
+.additionalInfo {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+
+  color: var(--grey-70);
+  font-size: 0.75rem;
+}
+
+.name {
+  flex-grow: 0;
+  flex-shrink: 1;
+  overflow: hidden;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.mark {
+  display: inline-block;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 100%;
+
+  background-color: var(--grey-60);
+}
+
+.direction {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 5px;
+
+  svg {
+    height: 0.625rem;
+  }
+
+  path {
+    fill: var(--grey-70);
+  }
+}
+
+.penaltyLabel {
+  align-self: center;
+  padding: 2px 6px 3px;
+  border-radius: var(--border-radius-md);
+
+  color: var(--white);
+  font-size: 11px;
+  line-height: 11px;
+  white-space: nowrap;
+  vertical-align: baseline;
+
+  background-color: var(--yellow-70);
+}
+
+.majorPenalty {
+  background-color: var(--red-70);
+}
+
+.flatButton {
+  composes: button from '~styles/button.module.scss';
+  composes: flat from '~styles/button.module.scss';
+  composes: sizeXs from '~styles/button.module.scss';
+}
+
+.exitAltitude {
+  display: inline-flex;
+}
+
+.warningIcon {
+  height: 0.75rem;
+  margin-left: 0.25rem;
+
+  path {
+    fill: var(--yellow-70);
+  }
+}

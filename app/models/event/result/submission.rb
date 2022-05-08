@@ -58,7 +58,7 @@ class Event < ApplicationRecord
         @result.track.update! ff_start: relative_exit_time, ff_end: relative_deploy_time
 
         @result.track_from = 'existent'
-        @result.calc_result
+        @result.calculate_result
         @result.save!
       end
 
