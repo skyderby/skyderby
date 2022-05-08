@@ -40,7 +40,6 @@ class Event::Result < ApplicationRecord
 
   def penalty_sizes = [10, 20, 50, 100]
 
-
   private
 
   def track_owner = event
