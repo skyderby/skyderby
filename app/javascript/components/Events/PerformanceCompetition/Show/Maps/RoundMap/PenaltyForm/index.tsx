@@ -1,30 +1,50 @@
 import React from 'react'
 import { Formik, Field } from 'formik'
-import { useDispatch, useSelector } from 'react-redux'
-import PropTypes from 'prop-types'
 
+import {
+  PerformanceCompetition,
+  Result,
+  PenaltyVariables,
+  useCompetitorQuery,
+  useRoundQuery,
+  useSetPenaltiesMutation
+} from 'api/performanceCompetitions'
+import { useProfileQuery } from 'api/profiles'
 import { useI18n } from 'components/TranslationsProvider'
-import { updatePenalty } from 'redux/events/round'
 import Modal from 'components/ui/Modal'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
 
 import styles from './styles.module.scss'
+import toast from 'react-hot-toast'
+import RequestErrorToast from 'components/RequestErrorToast'
 
-const PenaltyForm = ({ isShown, title, resultId, onModalHide }) => {
+type PenaltyFormProps = {
+  event: PerformanceCompetition
+  result: Result
+  onModalHide: () => void
+}
+
+const PenaltyForm = ({ event, result, onModalHide: closeModal }: PenaltyFormProps) => {
   const { t } = useI18n()
-  const dispatch = useDispatch()
-  const { penalized, penaltySize, penaltyReason } = useSelector(state =>
-    state.eventRound.results.find(({ id }) => id === resultId)
-  )
+  const { data: competitor } = useCompetitorQuery(event.id, result.competitorId)
+  const { data: profile } = useProfileQuery(competitor?.profileId)
+  const { data: round } = useRoundQuery(event.id, result.roundId)
+  const mutation = useSetPenaltiesMutation(event.id, result.id)
+  const title = `${profile?.name} | ${t('disciplines.' + round?.task)} - ${round?.number}`
 
   const initialValues = {
-    penalized: penalized || false,
-    penaltySize: penaltySize || 0,
-    penaltyReason: penaltyReason || ''
+    penalized: result.penalized || false,
+    penaltySize: result.penaltySize || 0,
+    penaltyReason: result.penaltyReason || ''
   }
 
-  const handleSubmit = values => {
-    dispatch(updatePenalty(resultId, values)).then(onModalHide)
+  const handleSubmit = (values: PenaltyVariables) => {
+    mutation.mutate(values, {
+      onSuccess: () => closeModal(),
+      onError: error => {
+        toast.error(<RequestErrorToast response={error.response} />)
+      }
+    })
   }
 
   const penaltyOptions = ['10', '20', '50', '100'].map(value => ({
@@ -33,7 +53,7 @@ const PenaltyForm = ({ isShown, title, resultId, onModalHide }) => {
   }))
 
   return (
-    <Modal isShown={isShown} onHide={onModalHide} size="sm" title={title}>
+    <Modal isShown onHide={closeModal} size="sm" title={title}>
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
@@ -41,7 +61,7 @@ const PenaltyForm = ({ isShown, title, resultId, onModalHide }) => {
               <label className={styles.label} htmlFor="penalized">
                 Apply penalty
               </label>
-              <Field name="penalized" type="checkbox" />
+              <Field id="penalized" name="penalized" type="checkbox" />
 
               <label className={styles.label}>Deduction</label>
               <Field as={RadioButtonGroup} name="penaltySize" options={penaltyOptions} />
@@ -49,14 +69,14 @@ const PenaltyForm = ({ isShown, title, resultId, onModalHide }) => {
               <label className={styles.label} htmlFor="penaltyReason">
                 Reason
               </label>
-              <Field className={styles.input} name="penaltyReason" />
+              <Field className={styles.input} id="penaltyReason" name="penaltyReason" />
             </Modal.Body>
 
             <Modal.Footer>
               <button className={styles.primaryButton} type="submit">
                 {t('general.save')}
               </button>
-              <button className={styles.secondaryButton} onClick={onModalHide}>
+              <button className={styles.secondaryButton} onClick={closeModal}>
                 {t('general.cancel')}
               </button>
             </Modal.Footer>
@@ -65,13 +85,6 @@ const PenaltyForm = ({ isShown, title, resultId, onModalHide }) => {
       </Formik>
     </Modal>
   )
-}
-
-PenaltyForm.propTypes = {
-  isShown: PropTypes.bool.isRequired,
-  title: PropTypes.string.isRequired,
-  resultId: PropTypes.number.isRequired,
-  onModalHide: PropTypes.func.isRequired
 }
 
 export default PenaltyForm

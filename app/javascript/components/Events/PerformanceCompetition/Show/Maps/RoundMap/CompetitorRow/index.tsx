@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import cx from 'clsx'
+import Tippy from '@tippyjs/react'
 
 import { useI18n } from 'components/TranslationsProvider'
 import type {
@@ -8,14 +9,15 @@ import type {
   ReferencePoint as ReferencePointType,
   PerformanceCompetition
 } from 'api/performanceCompetitions'
+import useResultPoints from 'components/Events/PerformanceCompetition/useResultPoints'
 import { useProfileQuery } from 'api/profiles'
 import Mark from './Mark'
 import PenaltyLabel from './PenaltyLabel'
 import ExitAltitude from './ExitAltitude'
 import Direction from './Direction'
 import ReferencePoint from './ReferencePoint'
+import PenaltyForm from '../PenaltyForm'
 import styles from './styles.module.scss'
-import useResultPoints from 'components/Events/PerformanceCompetition/useResultPoints'
 
 type WithResultProps = {
   event: PerformanceCompetition
@@ -35,7 +37,7 @@ const WithResult = ({
   onToggleDL: handleShowDL
 }: WithResultProps) => {
   const { t: _t } = useI18n()
-  const [_showPenaltyModal, setShowPenaltyModal] = useState(false)
+  const [showPenaltyModal, setShowPenaltyModal] = useState(false)
   const { data: profile } = useProfileQuery(competitor.profileId)
   const { isLoading } = useResultPoints(event, competitor.result, {
     enabled: checked
@@ -43,19 +45,14 @@ const WithResult = ({
 
   const result = competitor.result
 
-  // const modalTitle = `${name} | ${t('disciplines.' + discipline)} - ${number}`
   const handleShowPenaltyModal = () => setShowPenaltyModal(true)
-  // const onModalHide = () => setShowPenaltyModal(false)
+  const onModalHide = () => setShowPenaltyModal(false)
 
   return (
     <div className={styles.container}>
-      {/*<PenaltyForm*/}
-      {/*  title={modalTitle}*/}
-      {/*  resultId={competitor}*/}
-      {/*  isShown={showPenaltyModal}*/}
-      {/*  onModalHide={onModalHide}*/}
-      {/*  onComplete={onModalHide}*/}
-      {/*/>*/}
+      {showPenaltyModal && (
+        <PenaltyForm event={event} result={result} onModalHide={onModalHide} />
+      )}
 
       <div className={styles.row}>
         <label className={cx(styles.label, styles.active)}>
@@ -74,12 +71,25 @@ const WithResult = ({
       </div>
 
       <div className={styles.row}>
-        <button className={styles.flatButton} onClick={handleShowDL}>
-          Show DL
-        </button>
-        <button className={styles.flatButton} onClick={handleShowPenaltyModal}>
-          Penalties
-        </button>
+        <Tippy
+          content="To verify designated lane assign reference point first"
+          disabled={competitor.referencePoint !== null}
+        >
+          <span>
+            <button
+              className={styles.flatButton}
+              onClick={handleShowDL}
+              disabled={!competitor.referencePoint}
+            >
+              Show DL
+            </button>
+          </span>
+        </Tippy>
+        {event.permissions.canEdit && (
+          <button className={styles.flatButton} onClick={handleShowPenaltyModal}>
+            Penalties
+          </button>
+        )}
 
         <div className={styles.additionalInfo}>
           <Direction direction={result.headingWithinWindow} />
