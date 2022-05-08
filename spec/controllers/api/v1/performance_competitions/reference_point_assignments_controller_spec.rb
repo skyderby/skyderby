@@ -50,7 +50,8 @@ describe Api::V1::PerformanceCompetitions::ReferencePointAssignmentsController d
         }
       }
 
-      expect { post :create, params: params, format: :json }.to change { event.reference_point_assignments.count }.by(-1)
+      expect { post :create, params: params, format: :json }.to \
+        change { event.reference_point_assignments.count }.by(-1)
 
       expect(response).to be_successful
       expect(event.reference_point_assignments.find_by(competitor: competitor, round: round)).not_to be_present
