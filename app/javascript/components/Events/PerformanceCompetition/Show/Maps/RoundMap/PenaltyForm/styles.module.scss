@@ -21,6 +21,7 @@
 
 .input {
   composes: input from '~styles/input.module.scss';
+  composes: outlined from '~styles/input.module.scss';
 
   padding: calc(0.5rem - 2px) calc(0.75rem - 2px);
 

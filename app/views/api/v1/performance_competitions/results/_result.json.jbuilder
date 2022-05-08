@@ -1,4 +1,5 @@
 json.extract! result,
+              :id,
               :competitor_id,
               :round_id,
               :track_id,

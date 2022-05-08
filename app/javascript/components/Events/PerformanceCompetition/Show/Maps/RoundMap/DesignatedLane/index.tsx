@@ -19,7 +19,7 @@ interface Coordinate {
 
 type DesignatedLaneProps = {
   event: PerformanceCompetition
-  competitor: Competitor & { result: Result; referencePoint: ReferencePoint }
+  competitor: Competitor & { result: Result; referencePoint: ReferencePoint | null }
 }
 
 const DesignatedLane = ({ event, competitor }: DesignatedLaneProps) => {
@@ -47,10 +47,9 @@ const DesignatedLane = ({ event, competitor }: DesignatedLaneProps) => {
   }, [initialStartPoint])
 
   useEffect(() => {
+    if (!initialEndPoint) return
+
     const { latitude, longitude } = initialEndPoint
-
-    if (!latitude || !longitude) return
-
     setEndPoint({ latitude, longitude })
   }, [initialEndPoint])
 
