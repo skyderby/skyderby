@@ -3,7 +3,7 @@ class Event::Result < ApplicationRecord
     extend ActiveSupport::Concern
 
     included do
-      before_create :calc_result
+      before_create :calculate_result
     end
 
     def calculate_result
