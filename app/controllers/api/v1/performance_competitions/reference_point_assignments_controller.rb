@@ -1,18 +1,16 @@
 class Api::V1::PerformanceCompetitions::ReferencePointAssignmentsController < Api::ApplicationController
+  before_action :set_event
+
   def index
-    event = Event.speed_distance_time.find(params[:performance_competition_id])
+    authorize @event, :show?
 
-    authorize event, :show?
-
-    @assignments = event.reference_point_assignments
+    @assignments = @event.reference_point_assignments
   end
 
   def create
-    event = Event.speed_distance_time.find(params[:performance_competition_id])
+    authorize @event, :update?
 
-    authorize event, :update?
-
-    @assignment = event.reference_point_assignments.find_or_initialize_by(
+    @assignment = @event.reference_point_assignments.find_or_initialize_by(
       round_id: assignment_params[:round_id],
       competitor_id: assignment_params[:competitor_id]
     )
@@ -26,5 +24,9 @@ class Api::V1::PerformanceCompetitions::ReferencePointAssignmentsController < Ap
 
   def assignment_params
     params.require(:reference_point_assignment).permit(:round_id, :competitor_id, :reference_point_id)
+  end
+
+  def set_event
+    @event = Event.speed_distance_time.find(params[:performance_competition_id])
   end
 end
