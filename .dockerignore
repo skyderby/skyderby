@@ -1,14 +1,16 @@
+# Ignore bundler config.
+/.bundle
+
 .git
 .dockerignore
 .idea
 
-public/system
-public/assets
-
-# Ignore bundler config.
-/.bundle
+/public/system
+/public/assets
+/public/packs
+/public/packs-test
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
-node_modules
+/node_modules
