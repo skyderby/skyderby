@@ -175,3 +175,47 @@ jobs:
       - run: bundle exec rails webpacker:compile
       - run: bundle exec rails db:test:prepare
       - run: bundle exec rspec spec --tag type:system
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: Failure screenshots
+          path: tmp/screenshots
+
+  publish-docker-image:
+    runs-on: ubuntu-latest
+    needs:
+      - unit-test
+      - unit-test-js
+      - system-test
+    if: ${{ contains('dev next', github.ref_name) && github.event_name == 'push' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      - name: Login to Github Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/skyderby/app:${{ (github.ref_name == 'next' && 'next') || 'latest' }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
