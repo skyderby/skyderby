@@ -12,10 +12,7 @@ RUN apt-get update -qq && apt-get install -y -qq apt-transport-https ca-certific
 
 RUN echo "gem: --no-rdoc --no-ri" >> ~/.gemrc
 
-ENV RAILS_ENV production
-ENV NODE_ENV production
-
-ENV LISTEN_ON 8000
+ENV RAILS_ENV=production NODE_ENV=production
 
 WORKDIR /tmp
 COPY ./Gemfile Gemfile
@@ -25,7 +22,7 @@ RUN bundle install --without development test --jobs 20 --retry 5
 WORKDIR /opt/app
 COPY ./package.json package.json
 COPY ./yarn.lock yarn.lock
-RUN yarn
+RUN yarn install --production
 
 RUN mkdir -p /opt/app \
   && mkdir -p /tmp/pids \
@@ -33,7 +30,6 @@ RUN mkdir -p /opt/app \
 COPY ./ /opt/app
 
 RUN SECRET_KEY_BASE=just-for-precompilation \
-  DATABASE_URL=postgres://user:pass@127.0.0.1/does_not_exist_dbname \
   /bin/sh -c 'bundle exec rails assets:precompile' && \
   rm -rf node_modules
 
@@ -41,5 +37,4 @@ VOLUME /opt/app/public/assets
 VOLUME /opt/app/public/packs
 VOLUME /opt/app/public
 
-CMD rails db:migrate \
-  && bundle exec puma -C config/puma.rb
+CMD rails db:migrate && bundle exec puma -C config/puma.rb
