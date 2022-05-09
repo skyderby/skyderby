@@ -5,40 +5,26 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 # Ignore bundler config.
+/.idea
 /.bundle
 
-# Ignore the default SQLite database.
-/db/*.sqlite3
-/db/*.sqlite3-journal
+.env
 
-# Ignore all logfiles and tempfiles.
+/node_modules
+
 /log/*.log
 /tmp
 .byebug_history
+.yarn-integrity
+yarn-debug.log*
+yarn-error.log
 
 /coverage
 
 /public/system
 /public/assets
-/public/javascripts/i18n.js
-/public/javascripts/translations.js
-
-/.idea
-*.sw*
-/tags
-
-.tern-project
-
-*.swn
-*.swo
-
-.env
-
-# Ignore application configuration
-/config/application.yml
 /public/packs
 /public/packs-test
-/node_modules
-yarn-debug.log*
-.yarn-integrity
-yarn-error.log
+
+
+
