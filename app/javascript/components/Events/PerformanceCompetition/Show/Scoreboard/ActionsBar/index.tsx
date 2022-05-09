@@ -43,17 +43,23 @@ const ActionsBar = ({ eventId }: ActionsBarProps) => {
   return (
     <div className={styles.container}>
       <button className={styles.button} onClick={() => setCategoryFormShown(true)}>
-        <PlusIcon /> &nbsp; Category
+        <PlusIcon />
+        &nbsp;
+        <span>Category</span>
       </button>
       <button className={styles.button} onClick={() => setCompetitorFormShown(true)}>
-        <PlusIcon /> &nbsp; Competitor
+        <PlusIcon />
+        &nbsp;
+        <span>Competitor</span>
       </button>
       <button
         className={styles.button}
         onClick={toggleRoundsDropdown}
         ref={newRoundButtonRef}
       >
-        <PlusIcon /> &nbsp; Round
+        <PlusIcon />
+        &nbsp;
+        <span>Round</span>
       </button>
 
       {categoryFormShown && (

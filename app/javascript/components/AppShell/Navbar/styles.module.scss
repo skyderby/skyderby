@@ -63,7 +63,7 @@
   }
 }
 
-.menuItem a:not(:global(.active)):hover {
+.menuItem a:hover {
   background-color: var(--blue-grey-70);
 }
 
