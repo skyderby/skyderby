@@ -186,7 +186,6 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - unit-test
-      - unit-test-js
       - system-test
     if: ${{ contains('dev next', github.ref_name) && github.event_name == 'push' }}
     steps:
