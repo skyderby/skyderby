@@ -128,6 +128,8 @@ Skyderby::Application.routes.draw do
         end
       end
 
+      resources :speed_skydiving_competition_series, only: %i[show]
+
       namespace :stats, module: :stats do
         resources :registrations, only: :index
       end

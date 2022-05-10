@@ -14,7 +14,8 @@ const types: Record<EventType, string> = {
   performanceCompetition: 'GPS Performance',
   hungaryBoogie: 'Hungary Boogie',
   tournament: 'Single elimination',
-  competitionSeries: 'Cumulative scoreboard',
+  performanceCompetitionSeries: 'Cumulative scoreboard (Wingsuit performance)',
+  speedSkydivingCompetitionSeries: 'Cumulative scoreboard (Speed Skydiving)',
   speedSkydivingCompetition: 'Speed Skydiving'
 }
 
@@ -23,7 +24,8 @@ const eventUrl = ({ type, id }: { type: EventType; id: number }) => {
     performanceCompetition: 'performance',
     hungaryBoogie: 'boogie',
     tournament: 'tournament',
-    competitionSeries: 'series',
+    performanceCompetitionSeries: 'performance_series',
+    speedSkydivingCompetitionSeries: 'speed_skydiving_series',
     speedSkydivingCompetition: 'speed_skydiving'
   }
 
