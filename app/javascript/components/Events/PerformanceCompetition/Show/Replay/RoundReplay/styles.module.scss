@@ -1,10 +1,13 @@
 .container {
   display: grid;
-  grid-template-rows: 2.5rem 3.5rem calc(100% - 7rem);
+  grid-gap: 0.5rem;
+  grid-template-rows: 2.5rem calc(100% - 3rem);
   border-bottom: solid 1px var(--border-color);
+  border-radius: var(--border-radius-md);
   overflow: auto;
 
   background-color: var(--white);
+  box-shadow: var(--block-box-shadow);
 }
 
 .header {

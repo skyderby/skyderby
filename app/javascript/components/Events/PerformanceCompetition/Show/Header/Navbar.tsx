@@ -7,6 +7,7 @@ import ListIcon from 'icons/list-ul.svg'
 import { useI18n } from 'components/TranslationsProvider'
 import PageNavbar from 'components/PageNavbar'
 import MapsIcon from 'icons/compass.svg'
+import VideoIcon from 'icons/play-circle.svg'
 
 type NavbarProps = {
   event: PerformanceCompetition
@@ -32,6 +33,15 @@ const Navbar = ({ event }: NavbarProps) => {
           <span>
             <MapsIcon />
             Maps
+          </span>
+        </NavLink>
+      </PageNavbar.Item>
+
+      <PageNavbar.Item>
+        <NavLink to={`${eventUrl}/replay`}>
+          <span>
+            <VideoIcon />
+            Replay
           </span>
         </NavLink>
       </PageNavbar.Item>

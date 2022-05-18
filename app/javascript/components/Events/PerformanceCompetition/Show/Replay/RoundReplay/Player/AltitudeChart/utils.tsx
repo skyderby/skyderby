@@ -5,8 +5,9 @@ import {
   chartWindowBegins,
   chartWindowEnds
 } from './constants'
+import { PlayerPoint } from '../types'
 
-function drawChart(ctx, rangeFrom, rangeTo) {
+function drawChart(ctx: CanvasRenderingContext2D, rangeFrom: number, rangeTo: number) {
   const fontSize = 36
 
   ctx.clearRect(0, 0, chartWidth * 0.97, chartHeight)
@@ -33,7 +34,7 @@ function drawChart(ctx, rangeFrom, rangeTo) {
     ctx.lineTo(chartWidth * 0.97, lineY)
 
     ctx.fillText(
-      rangeFrom - ((rangeFrom - rangeTo) / intermediateLanes) * i,
+      String(rangeFrom - ((rangeFrom - rangeTo) / intermediateLanes) * i),
       chartWidth * 0.01,
       lineY + fontSize / 3
     )
@@ -46,7 +47,7 @@ function drawChart(ctx, rangeFrom, rangeTo) {
   ctx.strokeStyle = '#06D6A0'
   ctx.moveTo(chartWidth * 0.05, chartWindowBegins)
   ctx.lineTo(chartWidth * 0.97, chartWindowBegins)
-  ctx.fillText(rangeFrom, chartWidth * 0.01, chartWindowBegins + fontSize / 3)
+  ctx.fillText(String(rangeFrom), chartWidth * 0.01, chartWindowBegins + fontSize / 3)
   ctx.stroke()
   ctx.closePath()
 
@@ -54,12 +55,18 @@ function drawChart(ctx, rangeFrom, rangeTo) {
   ctx.strokeStyle = '#EF476F'
   ctx.moveTo(chartWidth * 0.05, chartWindowEnds)
   ctx.lineTo(chartWidth * 0.97, chartWindowEnds)
-  ctx.fillText(rangeTo, chartWidth * 0.01, chartWindowEnds + fontSize / 3)
+  ctx.fillText(String(rangeTo), chartWidth * 0.01, chartWindowEnds + fontSize / 3)
   ctx.stroke()
   ctx.closePath()
 }
 
-function getChartCoordinates(altitude, distance, rangeFrom, rangeTo, distanceRange) {
+function getChartCoordinates(
+  altitude: number,
+  distance: number,
+  rangeFrom: number,
+  rangeTo: number,
+  distanceRange: { min: number; max: number }
+) {
   const plotXPadding = 100
   const minY = 0
   const maxY = chartHeight
@@ -83,7 +90,14 @@ function getChartCoordinates(altitude, distance, rangeFrom, rangeTo, distanceRan
   return [x, y]
 }
 
-function drawPath(ctx, points, color, rangeFrom, rangeTo, distanceRange) {
+function drawPath(
+  ctx: CanvasRenderingContext2D,
+  points: PlayerPoint[],
+  color: string,
+  rangeFrom: number,
+  rangeTo: number,
+  distanceRange: { min: number; max: number }
+) {
   ctx.save()
   ctx.beginPath()
   ctx.lineWidth = 8
@@ -139,10 +153,16 @@ function drawPath(ctx, points, color, rangeFrom, rangeTo, distanceRange) {
   ctx.restore()
 }
 
-function updateChart(ctx, paths, rangeFrom, rangeTo, distanceRange) {
+function updateChart(
+  ctx: CanvasRenderingContext2D,
+  paths: PlayerPoint[][],
+  rangeFrom: number,
+  rangeTo: number,
+  distanceRange: { min: number; max: number }
+) {
   drawChart(ctx, rangeFrom, rangeTo)
 
-  paths.forEach((points, idx) => {
+  paths.forEach((points, idx: number) => {
     if (points.length === 0) return
 
     drawPath(ctx, points, colors[idx], rangeFrom, rangeTo, distanceRange)
