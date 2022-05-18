@@ -1,0 +1,11 @@
+.selectButton {
+  --text-color: var(--grey-80);
+
+  composes: button from '~styles/button.module.scss';
+  composes: outlined from '~styles/button.module.scss';
+  composes: sizeXs from '~styles/button.module.scss';
+
+  display: inline-flex;
+  margin-left: 1rem;
+  padding: 0 0.5rem;
+}

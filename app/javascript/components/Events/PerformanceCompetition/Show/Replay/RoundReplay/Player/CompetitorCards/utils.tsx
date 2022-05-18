@@ -1,9 +1,17 @@
+import { differenceInMilliseconds, differenceInSeconds } from 'date-fns'
 import colors from 'utils/colors'
+import { ProfileRecord } from 'api/profiles'
+import { PlayerPoint } from '../types'
 
 const boxHeight = 250
 const boxWidth = 759
 
-function drawSpeedometer(ctx, textX, textY, point) {
+function drawSpeedometer(
+  ctx: CanvasRenderingContext2D,
+  textX: number,
+  textY: number,
+  point: { vSpeed: number }
+) {
   const speedometerX = textX + 600
   const speedometerY = textY + 60
   const textMargin = 10
@@ -42,13 +50,13 @@ function drawSpeedometer(ctx, textX, textY, point) {
 
   ctx.textBaseline = 'top'
   ctx.font = '50px Arial'
-  ctx.fillText(point.vSpeed, speedometerX + textMargin, speedometerY + textMargin)
+  ctx.fillText(String(point.vSpeed), speedometerX + textMargin, speedometerY + textMargin)
 
   ctx.restore()
 }
 
-export const updateCardNumbers = (ctx, point, discipline) => {
-  const value = point[discipline]
+export const updateCardNumbers = (ctx: CanvasRenderingContext2D, point: PlayerPoint) => {
+  const value = point.taskResult
   const textX = 40
   const textY = 100
 
@@ -62,10 +70,10 @@ export const updateCardNumbers = (ctx, point, discipline) => {
 
   ctx.font = '140px Arial'
   ctx.textBaseline = 'top'
-  ctx.fillText(value || '', textX, textY)
+  ctx.fillText(String(value || ''), textX, textY)
 
-  if (point.gpsTime + 200 > point.endTime) {
-    const timeDiff = (point.gpsTime - point.endTime) / 1000
+  if (differenceInMilliseconds(point.gpsTime, point.endTime) > 200) {
+    const timeDiff = differenceInSeconds(point.gpsTime, point.endTime)
     const blur = Math.max(0, 5 - timeDiff * 10)
     if (blur > 0) {
       ctx.shadowBlur = blur
@@ -73,14 +81,18 @@ export const updateCardNumbers = (ctx, point, discipline) => {
       ctx.shadowOffsetX = 0
       ctx.shadowOffsetY = 1
       ctx.fillStyle = '#59C3C3'
-      ctx.fillText(value || '', textX, textY)
+      ctx.fillText(String(value || ''), textX, textY)
     }
   }
 
   ctx.restore()
 }
 
-export const drawCard = (ctx, el, idx = 0) => {
+export const drawCard = (
+  ctx: CanvasRenderingContext2D,
+  el: { profile: ProfileRecord },
+  idx = 0
+) => {
   const boxX = 0
   const boxY = 0
   const photoRadius = 30
@@ -109,7 +121,11 @@ export const drawCard = (ctx, el, idx = 0) => {
   ctx.textBaseline = 'top'
   ctx.font = '40px Arial'
   ctx.fillStyle = '#555'
-  ctx.fillText(el.name, photoX + photoRadius * 2 + photoPadding, photoY + photoRadius / 3)
+  ctx.fillText(
+    el.profile.name,
+    photoX + photoRadius * 2 + photoPadding,
+    photoY + photoRadius / 3
+  )
   ctx.restore()
 
   const img = new Image()

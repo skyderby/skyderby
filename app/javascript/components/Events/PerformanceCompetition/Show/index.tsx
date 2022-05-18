@@ -14,6 +14,7 @@ import Header from './Header'
 import Scoreboard from './Scoreboard'
 import ReferencePoints from './ReferencePoints'
 import Maps from './Maps'
+import Replay from './Replay'
 import Edit from './Edit'
 import styles from './styles.module.scss'
 import PageLoading from 'components/PageWrapper/Loading'
@@ -56,6 +57,8 @@ const Show = () => {
           />
           <Route path="maps" element={<Maps eventId={eventId} />} />
           <Route path="maps/:roundId" element={<Maps eventId={eventId} />} />
+          <Route path="replay" element={<Replay eventId={eventId} />} />
+          <Route path="replay/:roundId" element={<Replay eventId={eventId} />} />
           <Route path="edit" element={<Edit eventId={eventId} />} />
         </Routes>
       )}
