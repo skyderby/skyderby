@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react'
-import { compareAsc, differenceInSeconds } from 'date-fns'
+import { useEffect, useMemo, useState } from 'react'
+import { compareAsc } from 'date-fns'
 
 import {
   Competitor,
@@ -11,6 +11,7 @@ import {
   useResultsQuery
 } from 'api/performanceCompetitions'
 import { colorByIndex } from 'utils/colors'
+import groupByJumpRun from 'utils/groupByJumpRun'
 
 const ids = (records: { id: number }[]) => records.map(record => record.id)
 
@@ -32,33 +33,6 @@ interface CompetitorWithoutResult extends Omit<CompetitorRoundMapData, 'result'>
   result: undefined
 }
 
-const splitByStartTime = (jumpRunSeparation: number) => (
-  acc: CompetitorWithResultAndColor[][],
-  record: CompetitorWithResultAndColor
-) => {
-  if (acc.length === 0) return [[record]]
-
-  const lastGroup = acc[acc.length - 1]
-  const lastRecord = lastGroup[lastGroup.length - 1]
-  const nextJumpRun =
-    differenceInSeconds(record.result.exitedAt, lastRecord.result.exitedAt) >=
-    jumpRunSeparation
-
-  if (nextJumpRun) {
-    acc.push([record])
-    return acc
-  }
-
-  lastGroup.push(record)
-  return acc
-}
-
-const groupByJumpRun = (
-  competitorsWithResults: CompetitorWithResultAndColor[],
-  jumpRunSeparation = 120
-): CompetitorWithResultAndColor[][] =>
-  Array.from(competitorsWithResults).reduce(splitByStartTime(jumpRunSeparation), [])
-
 const useRoundMapState = (eventId: number, roundId: number) => {
   const { data: competitors = [] } = useCompetitorsQuery(eventId)
   const { data: results = [] } = useResultsQuery(eventId, {
@@ -74,6 +48,10 @@ const useRoundMapState = (eventId: number, roundId: number) => {
 
   const [selectedCompetitors, setSelectedCompetitors] = useState<number[]>([])
   const [designatedLaneId, setDesignatedLaneId] = useState<number | null>(null)
+
+  useEffect(() => {
+    setSelectedCompetitors([])
+  }, [roundId])
 
   const competitorsRoundMapData = useMemo(
     () =>
