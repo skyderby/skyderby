@@ -8,7 +8,8 @@ export default [
     longitude: 101.0718188,
     hSpeed: 31.407510248346668,
     vSpeed: 8.959999999999999,
-    glideRatio: 3.5053024830744
+    glideRatio: 3.5053024830744,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814389000),
@@ -19,7 +20,8 @@ export default [
     longitude: 101.0718727,
     hSpeed: 31.22242303217361,
     vSpeed: 10.700000000000001,
-    glideRatio: 2.9179834609508
+    glideRatio: 2.9179834609508,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814390000),
@@ -30,7 +32,8 @@ export default [
     longitude: 101.0721128,
     hSpeed: 24.869941696755138,
     vSpeed: 20.43,
-    glideRatio: 1.21732460581278
+    glideRatio: 1.21732460581278,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814391000),
@@ -41,7 +44,8 @@ export default [
     longitude: 101.0723038,
     hSpeed: 20.90753452705508,
     vSpeed: 26.95,
-    glideRatio: 0.775789778369391
+    glideRatio: 0.775789778369391,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814392000),
@@ -52,7 +56,8 @@ export default [
     longitude: 101.0724815,
     hSpeed: 20.8708049677055,
     vSpeed: 29.57,
-    glideRatio: 0.705810110507456
+    glideRatio: 0.705810110507456,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814393000),
@@ -63,7 +68,8 @@ export default [
     longitude: 101.0726771,
     hSpeed: 22.484903824566388,
     vSpeed: 29.630000000000003,
-    glideRatio: 0.758856018378886
+    glideRatio: 0.758856018378886,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814394000),
@@ -74,7 +80,8 @@ export default [
     longitude: 101.0728954,
     hSpeed: 25.00559337428328,
     vSpeed: 28.67,
-    glideRatio: 0.872186723902451
+    glideRatio: 0.872186723902451,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814395000),
@@ -85,7 +92,8 @@ export default [
     longitude: 101.0731318,
     hSpeed: 26.987487841590582,
     vSpeed: 28.089999999999996,
-    glideRatio: 0.960750724157729
+    glideRatio: 0.960750724157729,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814396000),
@@ -96,7 +104,8 @@ export default [
     longitude: 101.0733847,
     hSpeed: 29.144236136841943,
     vSpeed: 27.799999999999997,
-    glideRatio: 1.04835381787201
+    glideRatio: 1.04835381787201,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814397000),
@@ -107,7 +116,8 @@ export default [
     longitude: 101.0736546,
     hSpeed: 30.712346051710277,
     vSpeed: 28.15,
-    glideRatio: 1.09102472652612
+    glideRatio: 1.09102472652612,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814398000),
@@ -118,7 +128,8 @@ export default [
     longitude: 101.0739376,
     hSpeed: 32.253323859720275,
     vSpeed: 30.4,
-    glideRatio: 1.06096460064869
+    glideRatio: 1.06096460064869,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814399000),
@@ -129,7 +140,8 @@ export default [
     longitude: 101.0742327,
     hSpeed: 33.58868857219639,
     vSpeed: 32.44,
-    glideRatio: 1.03540963539446
+    glideRatio: 1.03540963539446,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814400000),
@@ -140,7 +152,8 @@ export default [
     longitude: 101.074541,
     hSpeed: 35.33854128285444,
     vSpeed: 32.78,
-    glideRatio: 1.07805190002606
+    glideRatio: 1.07805190002606,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814401000),
@@ -151,7 +164,8 @@ export default [
     longitude: 101.0748695,
     hSpeed: 36.86806884012222,
     vSpeed: 25.72,
-    glideRatio: 1.43343969051798
+    glideRatio: 1.43343969051798,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814402000),
@@ -162,7 +176,8 @@ export default [
     longitude: 101.0752027,
     hSpeed: 36.66209213888361,
     vSpeed: 20.27,
-    glideRatio: 1.80868732801597
+    glideRatio: 1.80868732801597,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814403000),
@@ -173,7 +188,8 @@ export default [
     longitude: 101.0755288,
     hSpeed: 35.57334535856861,
     vSpeed: 16.759999999999998,
-    glideRatio: 2.12251463953274
+    glideRatio: 2.12251463953274,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814404000),
@@ -184,7 +200,8 @@ export default [
     longitude: 101.0758413,
     hSpeed: 34.01290637390472,
     vSpeed: 14.85,
-    glideRatio: 2.29043140565014
+    glideRatio: 2.29043140565014,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814405000),
@@ -195,7 +212,8 @@ export default [
     longitude: 101.0761413,
     hSpeed: 32.445159885566945,
     vSpeed: 14.07,
-    glideRatio: 2.30598151283347
+    glideRatio: 2.30598151283347,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814406000),
@@ -206,7 +224,8 @@ export default [
     longitude: 101.0764257,
     hSpeed: 30.072660341246944,
     vSpeed: 13.639999999999999,
-    glideRatio: 2.20474049422631
+    glideRatio: 2.20474049422631,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814407000),
@@ -217,7 +236,8 @@ export default [
     longitude: 101.0766883,
     hSpeed: 27.754098796394025,
     vSpeed: 14.7,
-    glideRatio: 1.88803393172748
+    glideRatio: 1.88803393172748,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814408000),
@@ -228,7 +248,8 @@ export default [
     longitude: 101.0769205,
     hSpeed: 25.732588288005527,
     vSpeed: 16.79,
-    glideRatio: 1.53261395402058
+    glideRatio: 1.53261395402058,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814409000),
@@ -239,7 +260,8 @@ export default [
     longitude: 101.077104,
     hSpeed: 24.50682557982572,
     vSpeed: 19.229999999999997,
-    glideRatio: 1.27440590638719
+    glideRatio: 1.27440590638719,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814410000),
@@ -250,7 +272,8 @@ export default [
     longitude: 101.0772361,
     hSpeed: 24.29016673470975,
     vSpeed: 21.580000000000002,
-    glideRatio: 1.12558696639063
+    glideRatio: 1.12558696639063,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814411000),
@@ -261,7 +284,8 @@ export default [
     longitude: 101.0773063,
     hSpeed: 25.225102576600168,
     vSpeed: 24.09,
-    glideRatio: 1.04711924352844
+    glideRatio: 1.04711924352844,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814412000),
@@ -272,7 +296,8 @@ export default [
     longitude: 101.0773066,
     hSpeed: 26.982846402853806,
     vSpeed: 26.439999999999998,
-    glideRatio: 1.02053125578116
+    glideRatio: 1.02053125578116,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814413000),
@@ -283,7 +308,8 @@ export default [
     longitude: 101.0772377,
     hSpeed: 29.599792229000556,
     vSpeed: 27.81,
-    glideRatio: 1.06435786512048
+    glideRatio: 1.06435786512048,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814414000),
@@ -294,7 +320,8 @@ export default [
     longitude: 101.0770919,
     hSpeed: 32.10200305276916,
     vSpeed: 29.169999999999998,
-    glideRatio: 1.1005143315999
+    glideRatio: 1.1005143315999,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814415000),
@@ -305,7 +332,8 @@ export default [
     longitude: 101.0768725,
     hSpeed: 35.474060945992775,
     vSpeed: 29.7,
-    glideRatio: 1.1944128264644
+    glideRatio: 1.1944128264644,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814416000),
@@ -316,7 +344,8 @@ export default [
     longitude: 101.0765923,
     hSpeed: 38.65460645253028,
     vSpeed: 29.04,
-    glideRatio: 1.3310814894122
+    glideRatio: 1.3310814894122,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814417000),
@@ -327,7 +356,8 @@ export default [
     longitude: 101.0762712,
     hSpeed: 41.265391068060836,
     vSpeed: 29.24,
-    glideRatio: 1.41126508440701
+    glideRatio: 1.41126508440701,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814418000),
@@ -338,7 +368,8 @@ export default [
     longitude: 101.0759219,
     hSpeed: 43.26376428375139,
     vSpeed: 31.04,
-    glideRatio: 1.39380683903838
+    glideRatio: 1.39380683903838,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814419000),
@@ -349,7 +380,8 @@ export default [
     longitude: 101.0755455,
     hSpeed: 45.48905472748361,
     vSpeed: 32.02,
-    glideRatio: 1.42064505707319
+    glideRatio: 1.42064505707319,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814420000),
@@ -360,7 +392,8 @@ export default [
     longitude: 101.0751475,
     hSpeed: 47.38289670334639,
     vSpeed: 32.39,
-    glideRatio: 1.46288659164392
+    glideRatio: 1.46288659164392,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814421000),
@@ -371,7 +404,8 @@ export default [
     longitude: 101.0747263,
     hSpeed: 49.19659032900555,
     vSpeed: 31.92,
-    glideRatio: 1.5412465641919
+    glideRatio: 1.5412465641919,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814422000),
@@ -382,7 +416,8 @@ export default [
     longitude: 101.074284,
     hSpeed: 50.97052481581889,
     vSpeed: 29.51,
-    glideRatio: 1.72722889921446
+    glideRatio: 1.72722889921446,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814423000),
@@ -393,7 +428,8 @@ export default [
     longitude: 101.0738233,
     hSpeed: 51.664158756336946,
     vSpeed: 23.48,
-    glideRatio: 2.2003474768457
+    glideRatio: 2.2003474768457,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814424000),
@@ -404,7 +440,8 @@ export default [
     longitude: 101.073359,
     hSpeed: 51.432158228096945,
     vSpeed: 19.720000000000002,
-    glideRatio: 2.60812161400086
+    glideRatio: 2.60812161400086,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814425000),
@@ -415,7 +452,8 @@ export default [
     longitude: 101.072898,
     hSpeed: 50.458283759953616,
     vSpeed: 17.11,
-    glideRatio: 2.94905223611652
+    glideRatio: 2.94905223611652,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814426000),
@@ -426,7 +464,8 @@ export default [
     longitude: 101.0724449,
     hSpeed: 49.23030875385611,
     vSpeed: 15.43,
-    glideRatio: 3.19055792312742
+    glideRatio: 3.19055792312742,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814427000),
@@ -437,7 +476,8 @@ export default [
     longitude: 101.0720025,
     hSpeed: 47.89492666243472,
     vSpeed: 14.13,
-    glideRatio: 3.38959141276962
+    glideRatio: 3.38959141276962,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814428000),
@@ -448,7 +488,8 @@ export default [
     longitude: 101.071571,
     hSpeed: 46.670059995676105,
     vSpeed: 14.24,
-    glideRatio: 3.27739185362893
+    glideRatio: 3.27739185362893,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814429000),
@@ -459,7 +500,8 @@ export default [
     longitude: 101.0711503,
     hSpeed: 45.409322831330556,
     vSpeed: 13.91,
-    glideRatio: 3.26450918988717
+    glideRatio: 3.26450918988717,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814430000),
@@ -470,7 +512,8 @@ export default [
     longitude: 101.0707389,
     hSpeed: 44.465791345707494,
     vSpeed: 15.03,
-    glideRatio: 2.95846915141101
+    glideRatio: 2.95846915141101,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814431000),
@@ -481,7 +524,8 @@ export default [
     longitude: 101.0703346,
     hSpeed: 43.74768565307194,
     vSpeed: 15.52,
-    glideRatio: 2.81879417867732
+    glideRatio: 2.81879417867732,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814432000),
@@ -492,7 +536,8 @@ export default [
     longitude: 101.0699352,
     hSpeed: 43.254976592294994,
     vSpeed: 16.42,
-    glideRatio: 2.63428602876341
+    glideRatio: 2.63428602876341,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814433000),
@@ -503,7 +548,8 @@ export default [
     longitude: 101.0695376,
     hSpeed: 42.98346193595861,
     vSpeed: 17.31,
-    glideRatio: 2.4831578241455
+    glideRatio: 2.4831578241455,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814434000),
@@ -514,7 +560,8 @@ export default [
     longitude: 101.0691412,
     hSpeed: 42.9753894688575,
     vSpeed: 18.56,
-    glideRatio: 2.31548434638242
+    glideRatio: 2.31548434638242,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814435000),
@@ -525,7 +572,8 @@ export default [
     longitude: 101.0687425,
     hSpeed: 43.334435498803884,
     vSpeed: 19.349999999999998,
-    glideRatio: 2.2395057105325
+    glideRatio: 2.2395057105325,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814436000),
@@ -536,7 +584,8 @@ export default [
     longitude: 101.0683409,
     hSpeed: 43.75453576487806,
     vSpeed: 20.45,
-    glideRatio: 2.13958610097204
+    glideRatio: 2.13958610097204,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814437000),
@@ -547,7 +596,8 @@ export default [
     longitude: 101.0679345,
     hSpeed: 44.257597087957784,
     vSpeed: 20.84,
-    glideRatio: 2.12368508099605
+    glideRatio: 2.12368508099605,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814438000),
@@ -558,7 +608,8 @@ export default [
     longitude: 101.0675231,
     hSpeed: 44.78268080407861,
     vSpeed: 21.24,
-    glideRatio: 2.10841246723534
+    glideRatio: 2.10841246723534,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814439000),
@@ -569,7 +620,8 @@ export default [
     longitude: 101.0671078,
     hSpeed: 45.18,
     vSpeed: 21.8,
-    glideRatio: 2.07247706422018
+    glideRatio: 2.07247706422018,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814440000),
@@ -580,7 +632,8 @@ export default [
     longitude: 101.0666886,
     hSpeed: 45.56105464099806,
     vSpeed: 21.759999999999998,
-    glideRatio: 2.09379846695763
+    glideRatio: 2.09379846695763,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814441000),
@@ -591,7 +644,8 @@ export default [
     longitude: 101.0662668,
     hSpeed: 45.69024622389333,
     vSpeed: 20.01,
-    glideRatio: 2.28337062588173
+    glideRatio: 2.28337062588173,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814442000),
@@ -602,7 +656,8 @@ export default [
     longitude: 101.0658481,
     hSpeed: 45.20080640873555,
     vSpeed: 18.470000000000002,
-    glideRatio: 2.44725535510209
+    glideRatio: 2.44725535510209,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814443000),
@@ -613,7 +668,8 @@ export default [
     longitude: 101.0654344,
     hSpeed: 44.63761866408194,
     vSpeed: 18.75,
-    glideRatio: 2.38067299541771
+    glideRatio: 2.38067299541771,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814444000),
@@ -624,7 +680,8 @@ export default [
     longitude: 101.0650262,
     hSpeed: 44.127472168706944,
     vSpeed: 19.58,
-    glideRatio: 2.25370133650188
+    glideRatio: 2.25370133650188,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814445000),
@@ -635,7 +692,8 @@ export default [
     longitude: 101.064624,
     hSpeed: 43.96369524960333,
     vSpeed: 19.98,
-    glideRatio: 2.2003851476278
+    glideRatio: 2.2003851476278,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814446000),
@@ -646,7 +704,8 @@ export default [
     longitude: 101.0642227,
     hSpeed: 44.06516197632778,
     vSpeed: 20.67,
-    glideRatio: 2.13184141153013
+    glideRatio: 2.13184141153013,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814447000),
@@ -657,7 +716,8 @@ export default [
     longitude: 101.0638211,
     hSpeed: 44.27601156382528,
     vSpeed: 21.15,
-    glideRatio: 2.09342844273406
+    glideRatio: 2.09342844273406,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814448000),
@@ -668,7 +728,8 @@ export default [
     longitude: 101.0634179,
     hSpeed: 44.48174119793416,
     vSpeed: 21.959999999999997,
-    glideRatio: 2.02558020027023
+    glideRatio: 2.02558020027023,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814449000),
@@ -679,7 +740,8 @@ export default [
     longitude: 101.0630116,
     hSpeed: 44.967599446712775,
     vSpeed: 22.68,
-    glideRatio: 1.98269838830303
+    glideRatio: 1.98269838830303,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814450000),
@@ -690,7 +752,8 @@ export default [
     longitude: 101.0626006,
     hSpeed: 45.52886666720361,
     vSpeed: 22.349999999999998,
-    glideRatio: 2.03708575692186
+    glideRatio: 2.03708575692186,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814451000),
@@ -701,7 +764,8 @@ export default [
     longitude: 101.062185,
     hSpeed: 46.024395704886665,
     vSpeed: 22.06,
-    glideRatio: 2.08632800112814
+    glideRatio: 2.08632800112814,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814452000),
@@ -712,7 +776,8 @@ export default [
     longitude: 101.0617655,
     hSpeed: 46.15200320679472,
     vSpeed: 22.5,
-    glideRatio: 2.05120014252421
+    glideRatio: 2.05120014252421,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814453000),
@@ -723,7 +788,8 @@ export default [
     longitude: 101.0613448,
     hSpeed: 46.251254037052774,
     vSpeed: 25.12,
-    glideRatio: 1.84121234223937
+    glideRatio: 1.84121234223937,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814454000),
@@ -734,7 +800,8 @@ export default [
     longitude: 101.0609187,
     hSpeed: 46.94625011648972,
     vSpeed: 24.01,
-    glideRatio: 1.95527905524738
+    glideRatio: 1.95527905524738,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814455000),
@@ -745,7 +812,8 @@ export default [
     longitude: 101.0604902,
     hSpeed: 46.679911096744725,
     vSpeed: 20.11,
-    glideRatio: 2.32122879645673
+    glideRatio: 2.32122879645673,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814456000),
@@ -756,7 +824,8 @@ export default [
     longitude: 101.0600659,
     hSpeed: 46.096355604320834,
     vSpeed: 18.150000000000002,
-    glideRatio: 2.5397441104309
+    glideRatio: 2.5397441104309,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814457000),
@@ -767,7 +836,8 @@ export default [
     longitude: 101.0596485,
     hSpeed: 45.22723184100472,
     vSpeed: 17.45,
-    glideRatio: 2.59181844361059
+    glideRatio: 2.59181844361059,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814458000),
@@ -778,7 +848,8 @@ export default [
     longitude: 101.0592369,
     hSpeed: 44.65801271888389,
     vSpeed: 18.24,
-    glideRatio: 2.44835596046513
+    glideRatio: 2.44835596046513,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814459000),
@@ -789,7 +860,8 @@ export default [
     longitude: 101.0588285,
     hSpeed: 44.45449358613806,
     vSpeed: 18.98,
-    glideRatio: 2.34217563678283
+    glideRatio: 2.34217563678283,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814460000),
@@ -800,7 +872,8 @@ export default [
     longitude: 101.058422,
     hSpeed: 44.343175348637224,
     vSpeed: 20.189999999999998,
-    glideRatio: 2.19629397467248
+    glideRatio: 2.19629397467248,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814461000),
@@ -811,7 +884,8 @@ export default [
     longitude: 101.0580148,
     hSpeed: 44.40624843420111,
     vSpeed: 21.7,
-    glideRatio: 2.04637089558531
+    glideRatio: 2.04637089558531,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814462000),
@@ -822,7 +896,8 @@ export default [
     longitude: 101.0576042,
     hSpeed: 44.72390524093361,
     vSpeed: 23.509999999999998,
-    glideRatio: 1.90233539944422
+    glideRatio: 1.90233539944422,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814463000),
@@ -833,7 +908,8 @@ export default [
     longitude: 101.05719,
     hSpeed: 45.260009942553054,
     vSpeed: 25.14,
-    glideRatio: 1.80031861346671
+    glideRatio: 1.80031861346671,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814464000),
@@ -844,7 +920,8 @@ export default [
     longitude: 101.0567692,
     hSpeed: 45.99591503601167,
     vSpeed: 26.07,
-    glideRatio: 1.76432355335679
+    glideRatio: 1.76432355335679,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814465000),
@@ -855,7 +932,8 @@ export default [
     longitude: 101.0563396,
     hSpeed: 47.01492741672583,
     vSpeed: 25.159999999999997,
-    glideRatio: 1.86863781465524
+    glideRatio: 1.86863781465524,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814466000),
@@ -866,7 +944,8 @@ export default [
     longitude: 101.0559042,
     hSpeed: 47.45022866119833,
     vSpeed: 23.87,
-    glideRatio: 1.98786043825715
+    glideRatio: 1.98786043825715,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814467000),
@@ -877,7 +956,8 @@ export default [
     longitude: 101.0554662,
     hSpeed: 47.61319249955833,
     vSpeed: 23.099999999999998,
-    glideRatio: 2.06117716448305
+    glideRatio: 2.06117716448305,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814468000),
@@ -888,7 +968,8 @@ export default [
     longitude: 101.0550263,
     hSpeed: 47.881960068485,
     vSpeed: 22.9,
-    glideRatio: 2.09091528683341
+    glideRatio: 2.09091528683341,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814469000),
@@ -899,7 +980,8 @@ export default [
     longitude: 101.0545838,
     hSpeed: 48.06447024570222,
     vSpeed: 23.43,
-    glideRatio: 2.05140718078115
+    glideRatio: 2.05140718078115,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814470000),
@@ -910,7 +992,8 @@ export default [
     longitude: 101.0541385,
     hSpeed: 48.38746221905,
     vSpeed: 23.419999999999998,
-    glideRatio: 2.06607439022417
+    glideRatio: 2.06607439022417,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814471000),
@@ -921,7 +1004,8 @@ export default [
     longitude: 101.0536906,
     hSpeed: 48.640333058070276,
     vSpeed: 24.019999999999996,
-    glideRatio: 2.02499304987803
+    glideRatio: 2.02499304987803,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814472000),
@@ -932,7 +1016,8 @@ export default [
     longitude: 101.0532399,
     hSpeed: 48.87125330907722,
     vSpeed: 24.52,
-    glideRatio: 1.99311799792322
+    glideRatio: 1.99311799792322,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814473000),
@@ -943,7 +1028,8 @@ export default [
     longitude: 101.0527873,
     hSpeed: 49.146051723409165,
     vSpeed: 24.549999999999997,
-    glideRatio: 2.00187583394742
+    glideRatio: 2.00187583394742,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814474000),
@@ -954,7 +1040,8 @@ export default [
     longitude: 101.0523328,
     hSpeed: 49.447200122959444,
     vSpeed: 24.84,
-    glideRatio: 1.99062802427373
+    glideRatio: 1.99062802427373,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814475000),
@@ -965,7 +1052,8 @@ export default [
     longitude: 101.0518765,
     hSpeed: 49.530940834997224,
     vSpeed: 25.64,
-    glideRatio: 1.93178396392345
+    glideRatio: 1.93178396392345,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814476000),
@@ -976,7 +1064,8 @@ export default [
     longitude: 101.0514172,
     hSpeed: 50.05357629580527,
     vSpeed: 25.799999999999997,
-    glideRatio: 1.94006109673664
+    glideRatio: 1.94006109673664,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814477000),
@@ -987,7 +1076,8 @@ export default [
     longitude: 101.0509537,
     hSpeed: 50.59306375383889,
     vSpeed: 24.48,
-    glideRatio: 2.06671012066335
+    glideRatio: 2.06671012066335,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814478000),
@@ -998,7 +1088,8 @@ export default [
     longitude: 101.0504874,
     hSpeed: 50.856920866289165,
     vSpeed: 23.17,
-    glideRatio: 2.19494695150148
+    glideRatio: 2.19494695150148,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814479000),
@@ -1009,7 +1100,8 @@ export default [
     longitude: 101.0500238,
     hSpeed: 50.720498814581944,
     vSpeed: 23.54,
-    glideRatio: 2.15465160639685
+    glideRatio: 2.15465160639685,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814480000),
@@ -1020,7 +1112,8 @@ export default [
     longitude: 101.0495552,
     hSpeed: 51.07982967865111,
     vSpeed: 23.88,
-    glideRatio: 2.1390213433271
+    glideRatio: 2.1390213433271,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814481000),
@@ -1031,7 +1124,8 @@ export default [
     longitude: 101.0490833,
     hSpeed: 51.28115638321749,
     vSpeed: 24.639999999999997,
-    glideRatio: 2.0812157623059
+    glideRatio: 2.0812157623059,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814482000),
@@ -1042,7 +1136,8 @@ export default [
     longitude: 101.0486091,
     hSpeed: 51.511608400437225,
     vSpeed: 25.29,
-    glideRatio: 2.03683702650998
+    glideRatio: 2.03683702650998,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814483000),
@@ -1053,7 +1148,8 @@ export default [
     longitude: 101.0481318,
     hSpeed: 51.94081728274973,
     vSpeed: 25.939999999999998,
-    glideRatio: 2.00234453672898
+    glideRatio: 2.00234453672898,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814484000),
@@ -1064,7 +1160,8 @@ export default [
     longitude: 101.0476502,
     hSpeed: 52.34288967949694,
     vSpeed: 26.02,
-    glideRatio: 2.01164064871242
+    glideRatio: 2.01164064871242,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814485000),
@@ -1075,7 +1172,8 @@ export default [
     longitude: 101.0471651,
     hSpeed: 52.74631835493361,
     vSpeed: 26.209999999999997,
-    glideRatio: 2.01245014707873
+    glideRatio: 2.01245014707873,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814486000),
@@ -1086,7 +1184,8 @@ export default [
     longitude: 101.0466786,
     hSpeed: 52.91762844270333,
     vSpeed: 26.39,
-    glideRatio: 2.00521517403195
+    glideRatio: 2.00521517403195,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814487000),
@@ -1097,7 +1196,8 @@ export default [
     longitude: 101.0461909,
     hSpeed: 53.11929216395861,
     vSpeed: 26.61,
-    glideRatio: 1.99621541390299
+    glideRatio: 1.99621541390299,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814488000),
@@ -1108,7 +1208,8 @@ export default [
     longitude: 101.0457021,
     hSpeed: 53.21214241129555,
     vSpeed: 26.07,
-    glideRatio: 2.04112552402361
+    glideRatio: 2.04112552402361,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814489000),
@@ -1119,7 +1220,8 @@ export default [
     longitude: 101.0452174,
     hSpeed: 53.092542790866666,
     vSpeed: 26.58,
-    glideRatio: 1.99746210650363
+    glideRatio: 1.99746210650363,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814490000),
@@ -1130,7 +1232,8 @@ export default [
     longitude: 101.0447379,
     hSpeed: 52.77051070436972,
     vSpeed: 26.639999999999997,
-    glideRatio: 1.9808750264403
+    glideRatio: 1.9808750264403,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814491000),
@@ -1141,7 +1244,8 @@ export default [
     longitude: 101.0442719,
     hSpeed: 52.17855689840416,
     vSpeed: 26.9,
-    glideRatio: 1.93972330477339
+    glideRatio: 1.93972330477339,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814492000),
@@ -1152,7 +1256,8 @@ export default [
     longitude: 101.0438284,
     hSpeed: 51.177510685847224,
     vSpeed: 27.55,
-    glideRatio: 1.85762289240824
+    glideRatio: 1.85762289240824,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814493000),
@@ -1163,7 +1268,8 @@ export default [
     longitude: 101.043416,
     hSpeed: 50.14812558810139,
     vSpeed: 28.419999999999998,
-    glideRatio: 1.76453643870871
+    glideRatio: 1.76453643870871,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814494000),
@@ -1174,7 +1280,8 @@ export default [
     longitude: 101.0430345,
     hSpeed: 49.40886256533333,
     vSpeed: 28.27,
-    glideRatio: 1.74774894111544
+    glideRatio: 1.74774894111544,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814495000),
@@ -1185,7 +1292,8 @@ export default [
     longitude: 101.0426846,
     hSpeed: 48.467880085681394,
     vSpeed: 28.05,
-    glideRatio: 1.72791016348241
+    glideRatio: 1.72791016348241,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814496000),
@@ -1196,7 +1304,8 @@ export default [
     longitude: 101.0423792,
     hSpeed: 46.91869776539,
     vSpeed: 28.580000000000002,
-    glideRatio: 1.64166192321168
+    glideRatio: 1.64166192321168,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814497000),
@@ -1207,7 +1316,8 @@ export default [
     longitude: 101.0421215,
     hSpeed: 45.670909778544996,
     vSpeed: 29.09,
-    glideRatio: 1.56998658571829
+    glideRatio: 1.56998658571829,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814498000),
@@ -1218,7 +1328,8 @@ export default [
     longitude: 101.0419054,
     hSpeed: 44.998734426648056,
     vSpeed: 28.02,
-    glideRatio: 1.60595055055846
+    glideRatio: 1.60595055055846,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814499000),
@@ -1229,7 +1340,8 @@ export default [
     longitude: 101.0417201,
     hSpeed: 44.46158454216417,
     vSpeed: 26.849999999999998,
-    glideRatio: 1.65592493639345
+    glideRatio: 1.65592493639345,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814500000),
@@ -1240,7 +1352,8 @@ export default [
     longitude: 101.0415575,
     hSpeed: 43.85459268993389,
     vSpeed: 27.06,
-    glideRatio: 1.62064274537819
+    glideRatio: 1.62064274537819,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814501000),
@@ -1251,7 +1364,8 @@ export default [
     longitude: 101.0414257,
     hSpeed: 43.025501740246945,
     vSpeed: 28.24,
-    glideRatio: 1.52356592564614
+    glideRatio: 1.52356592564614,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814502000),
@@ -1262,7 +1376,8 @@ export default [
     longitude: 101.0413323,
     hSpeed: 42.39233539214361,
     vSpeed: 28.23,
-    glideRatio: 1.50167677620063
+    glideRatio: 1.50167677620063,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814503000),
@@ -1273,7 +1388,8 @@ export default [
     longitude: 101.0412662,
     hSpeed: 42.543551802829164,
     vSpeed: 27.42,
-    glideRatio: 1.55155185276547
+    glideRatio: 1.55155185276547,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814504000),
@@ -1284,7 +1400,8 @@ export default [
     longitude: 101.0412204,
     hSpeed: 42.57643127365194,
     vSpeed: 27,
-    glideRatio: 1.57690486198711
+    glideRatio: 1.57690486198711,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814505000),
@@ -1295,7 +1412,8 @@ export default [
     longitude: 101.0411966,
     hSpeed: 42.39450082263028,
     vSpeed: 27.139999999999997,
-    glideRatio: 1.56206709000112
+    glideRatio: 1.56206709000112,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814506000),
@@ -1306,7 +1424,8 @@ export default [
     longitude: 101.0411951,
     hSpeed: 42.31718917886667,
     vSpeed: 27.36,
-    glideRatio: 1.54668089104045
+    glideRatio: 1.54668089104045,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814507000),
@@ -1317,7 +1436,8 @@ export default [
     longitude: 101.0412101,
     hSpeed: 42.53798890403722,
     vSpeed: 27.59,
-    glideRatio: 1.54179010163238
+    glideRatio: 1.54179010163238,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814508000),
@@ -1328,7 +1448,8 @@ export default [
     longitude: 101.0412351,
     hSpeed: 42.75676554651917,
     vSpeed: 27.669999999999998,
-    glideRatio: 1.54523908733354
+    glideRatio: 1.54523908733354,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814509000),
@@ -1339,7 +1460,8 @@ export default [
     longitude: 101.0412711,
     hSpeed: 42.770042085553335,
     vSpeed: 27.54,
-    glideRatio: 1.55301532627281
+    glideRatio: 1.55301532627281,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814510000),
@@ -1350,7 +1472,8 @@ export default [
     longitude: 101.0413183,
     hSpeed: 42.633373077906946,
     vSpeed: 27.63,
-    glideRatio: 1.5430102453097
+    glideRatio: 1.5430102453097,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814511000),
@@ -1361,7 +1484,8 @@ export default [
     longitude: 101.0413761,
     hSpeed: 42.588727381785,
     vSpeed: 27.330000000000002,
-    glideRatio: 1.55831421082272
+    glideRatio: 1.55831421082272,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814512000),
@@ -1372,7 +1496,8 @@ export default [
     longitude: 101.0414385,
     hSpeed: 42.96926925140805,
     vSpeed: 25.43,
-    glideRatio: 1.68970779596571
+    glideRatio: 1.68970779596571,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814513000),
@@ -1383,7 +1508,8 @@ export default [
     longitude: 101.0414949,
     hSpeed: 42.32885186253,
     vSpeed: 22.669999999999998,
-    glideRatio: 1.86717476235244
+    glideRatio: 1.86717476235244,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814514000),
@@ -1394,7 +1520,8 @@ export default [
     longitude: 101.0415507,
     hSpeed: 40.59935590622111,
     vSpeed: 20.35,
-    glideRatio: 1.99505434428604
+    glideRatio: 1.99505434428604,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814515000),
@@ -1405,7 +1532,8 @@ export default [
     longitude: 101.0416044,
     hSpeed: 40.21240107230611,
     vSpeed: 19.779999999999998,
-    glideRatio: 2.03298286513175
+    glideRatio: 2.03298286513175,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814516000),
@@ -1416,7 +1544,8 @@ export default [
     longitude: 101.0416498,
     hSpeed: 39.08401847302805,
     vSpeed: 19.28,
-    glideRatio: 2.02717938138112
+    glideRatio: 2.02717938138112,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814517000),
@@ -1427,7 +1556,8 @@ export default [
     longitude: 101.0416875,
     hSpeed: 38.55184171994888,
     vSpeed: 21.57,
-    glideRatio: 1.78728983402638
+    glideRatio: 1.78728983402638,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814518000),
@@ -1438,7 +1568,8 @@ export default [
     longitude: 101.0417111,
     hSpeed: 37.94589042307472,
     vSpeed: 23.45,
-    glideRatio: 1.61816163851065
+    glideRatio: 1.61816163851065,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814519000),
@@ -1449,7 +1580,8 @@ export default [
     longitude: 101.0417266,
     hSpeed: 36.78554743374084,
     vSpeed: 23.08,
-    glideRatio: 1.59382787841165
+    glideRatio: 1.59382787841165,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814520000),
@@ -1460,7 +1592,8 @@ export default [
     longitude: 101.0417211,
     hSpeed: 27.91981733464611,
     vSpeed: 23.2,
-    glideRatio: 1.20344040235543
+    glideRatio: 1.20344040235543,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814521000),
@@ -1471,7 +1604,8 @@ export default [
     longitude: 101.0416926,
     hSpeed: 20.631221485893665,
     vSpeed: 21.54,
-    glideRatio: 0.957809725436103
+    glideRatio: 0.957809725436103,
+    verticalAccuracy: 1.25
   },
   {
     gpsTime: new Date(1484814522000),
@@ -1482,6 +1616,7 @@ export default [
     longitude: 101.0416403,
     hSpeed: 15.679301642611499,
     vSpeed: 16.959999999999997,
-    glideRatio: 0.92448712515398
+    glideRatio: 0.92448712515398,
+    verticalAccuracy: 1.25
   }
 ]

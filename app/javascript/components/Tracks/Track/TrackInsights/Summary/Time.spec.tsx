@@ -1,7 +1,7 @@
 import React from 'react'
-import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
+import renderWithAllProviders from 'jest/renderWithAllProviders'
 
-import Time from 'components/Tracks/Track/TrackInsights/Summary/Time'
+import Time from './Time'
 
 describe('Summary/Time', () => {
   it('shows time rounded to 1 digit', () => {
@@ -14,12 +14,6 @@ describe('Summary/Time', () => {
     const { getByLabelText } = renderWithAllProviders(<Time value={92} />)
 
     expect(getByLabelText('duration').textContent).toBe('92.0')
-  })
-
-  it('shows placeholder if no value given', () => {
-    const { getByLabelText } = renderWithAllProviders(<Time />)
-
-    expect(getByLabelText('duration').textContent).toBe('--.-')
   })
 
   it('shows placeholder in case of NaN', () => {

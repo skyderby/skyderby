@@ -1,7 +1,7 @@
 const path = require('path')
 const glob = require('glob')
 const fs = require('fs')
-const yaml = require('yaml-js')
+const yaml = require('js-yaml')
 const merge = require('lodash.merge')
 
 const localesPath = path.resolve(__dirname, '../locales')
@@ -10,7 +10,9 @@ const buildModules = () => {
   const filesList = glob.sync('**/*.yml', { cwd: localesPath })
 
   const translations = filesList.reduce((acc, filename) => {
-    const fileContent = yaml.load(fs.readFileSync(path.join(localesPath, filename)))
+    const fileContent = yaml.load(
+      fs.readFileSync(path.join(localesPath, filename), 'utf8')
+    )
 
     return merge(acc, fileContent)
   }, {})

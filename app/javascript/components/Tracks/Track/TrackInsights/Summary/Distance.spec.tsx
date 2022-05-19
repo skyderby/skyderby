@@ -1,17 +1,19 @@
 import React from 'react'
 
-import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
+import renderWithAllProviders from 'jest/renderWithAllProviders'
 import TrackViewPreferencesProvider, {
   METRIC,
   IMPERIAL
 } from 'components/TrackViewPreferences'
-import Distance from 'components/Tracks/Track/TrackInsights/Summary/Distance'
+import Distance from './Distance'
+
+type Props = Parameters<typeof Distance>[0]
 
 describe('Summary/Distance', () => {
   it('shows elevation rounded to whole digit', () => {
     const { getByLabelText } = renderWithAllProviders(
       <TrackViewPreferencesProvider>
-        <Distance value={1000.373} />
+        <Distance value={1000.373} zeroWindValue={null} />
       </TrackViewPreferencesProvider>
     )
 
@@ -21,7 +23,7 @@ describe('Summary/Distance', () => {
   it('hide wind effect if no zeroWindValue provided', () => {
     const { queryByLabelText } = renderWithAllProviders(
       <TrackViewPreferencesProvider>
-        <Distance value={1000.373} />
+        <Distance value={1000.373} zeroWindValue={null} />
       </TrackViewPreferencesProvider>
     )
 
@@ -29,7 +31,7 @@ describe('Summary/Distance', () => {
   })
 
   describe('metric units', () => {
-    const renderComponent = props => {
+    const renderComponent = (props: Props) => {
       return renderWithAllProviders(
         <TrackViewPreferencesProvider initialValues={{ unitSystem: METRIC }}>
           <Distance {...props} />
@@ -46,7 +48,7 @@ describe('Summary/Distance', () => {
   })
 
   describe('imperial units', () => {
-    const renderComponent = props => {
+    const renderComponent = (props: Props) => {
       return renderWithAllProviders(
         <TrackViewPreferencesProvider initialValues={{ unitSystem: IMPERIAL }}>
           <Distance {...props} />

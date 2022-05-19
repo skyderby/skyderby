@@ -1,8 +1,8 @@
 import React from 'react'
-import renderWithAllProviders, { queryClient } from 'testHelpers/renderWithAllProviders'
+import renderWithAllProviders, { queryClient } from 'jest/renderWithAllProviders'
 import { screen, fireEvent, waitFor, within } from '@testing-library/react'
 
-import TokenizedSearchField from 'components/TokenizedSearchField'
+import TokenizedSearchField from './'
 
 describe('TokenizedSearchField', () => {
   const baseProps = {

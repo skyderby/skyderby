@@ -1,12 +1,12 @@
 import React from 'react'
-import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
+import renderWithAllProviders from 'jest/renderWithAllProviders'
 
-import GlideRatio from 'components/Tracks/Track/TrackInsights/Summary/GlideRatio'
+import GlideRatio from './GlideRatio'
 
 describe('Summary/GlideRatio', () => {
   it('hide wind effect if no zeroWindValue provided', () => {
     const { queryByLabelText } = renderWithAllProviders(
-      <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 11 }} />
+      <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 11 }} zeroWindValue={null} />
     )
 
     expect(queryByLabelText('wind cancelled value')).not.toBeInTheDocument()
@@ -15,7 +15,7 @@ describe('Summary/GlideRatio', () => {
   describe('average value', () => {
     it('normal value', () => {
       const { getByLabelText } = renderWithAllProviders(
-        <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 11 }} />
+        <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 11 }} zeroWindValue={null} />
       )
 
       expect(getByLabelText('average glide ratio').textContent).toBe('1.71')
@@ -23,7 +23,7 @@ describe('Summary/GlideRatio', () => {
 
     it('greater than 10', () => {
       const { getByLabelText } = renderWithAllProviders(
-        <GlideRatio value={{ avg: 100.7123, min: 0.2, max: 11 }} />
+        <GlideRatio value={{ avg: 100.7123, min: 0.2, max: 11 }} zeroWindValue={null} />
       )
 
       expect(getByLabelText('average glide ratio').textContent).toBe('≥10')
@@ -31,7 +31,7 @@ describe('Summary/GlideRatio', () => {
 
     it('empty', () => {
       const { getByLabelText } = renderWithAllProviders(
-        <GlideRatio value={{ avg: null, min: 0.2, max: 11 }} />
+        <GlideRatio value={{ avg: null, min: 0.2, max: 11 }} zeroWindValue={null} />
       )
 
       expect(getByLabelText('average glide ratio').textContent).toBe('-.--')
@@ -50,7 +50,7 @@ describe('Summary/GlideRatio', () => {
   describe('max value', () => {
     it('normal value', () => {
       const { getByLabelText } = renderWithAllProviders(
-        <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 9 }} />
+        <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 9 }} zeroWindValue={null} />
       )
 
       expect(getByLabelText('maximum glide ratio').textContent).toBe('9.00')
@@ -58,7 +58,7 @@ describe('Summary/GlideRatio', () => {
 
     it('greater than 10', () => {
       const { getByLabelText } = renderWithAllProviders(
-        <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 11 }} />
+        <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 11 }} zeroWindValue={null} />
       )
 
       expect(getByLabelText('maximum glide ratio').textContent).toBe('≥10')
@@ -66,7 +66,7 @@ describe('Summary/GlideRatio', () => {
 
     it('empty', () => {
       const { getByLabelText } = renderWithAllProviders(
-        <GlideRatio value={{ avg: 1.71, min: 0.2, max: 0 / 0 }} />
+        <GlideRatio value={{ avg: 1.71, min: 0.2, max: 0 / 0 }} zeroWindValue={null} />
       )
 
       expect(getByLabelText('maximum glide ratio').textContent).toBe('-.--')
@@ -76,7 +76,7 @@ describe('Summary/GlideRatio', () => {
   describe('min value', () => {
     it('normal value', () => {
       const { getByLabelText } = renderWithAllProviders(
-        <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 11 }} />
+        <GlideRatio value={{ avg: 1.7123, min: 0.2, max: 11 }} zeroWindValue={null} />
       )
 
       expect(getByLabelText('minimum glide ratio').textContent).toBe('0.20')
@@ -84,7 +84,7 @@ describe('Summary/GlideRatio', () => {
 
     it('greater than 10', () => {
       const { getByLabelText } = renderWithAllProviders(
-        <GlideRatio value={{ avg: 1.7123, min: 10.2, max: 11 }} />
+        <GlideRatio value={{ avg: 1.7123, min: 10.2, max: 11 }} zeroWindValue={null} />
       )
 
       expect(getByLabelText('minimum glide ratio').textContent).toBe('≥10')
@@ -92,7 +92,7 @@ describe('Summary/GlideRatio', () => {
 
     it('empty', () => {
       const { getByLabelText } = renderWithAllProviders(
-        <GlideRatio value={{ avg: 1.71, min: null, max: 10 }} />
+        <GlideRatio value={{ avg: 1.71, min: null, max: 10 }} zeroWindValue={null} />
       )
 
       expect(getByLabelText('minimum glide ratio').textContent).toBe('-.--')

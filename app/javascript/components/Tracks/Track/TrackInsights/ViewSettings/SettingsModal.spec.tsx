@@ -1,15 +1,15 @@
 import React from 'react'
 import { fireEvent, waitFor } from '@testing-library/react'
-import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
+import renderWithAllProviders from 'jest/renderWithAllProviders'
 
-import createModalRoot from 'testHelpers/createModalRoot'
+import createModalRoot from 'jest/createModalRoot'
 import TrackViewPreferencesProvider, {
   METRIC,
   IMPERIAL,
   SINGLE_CHART,
   SEPARATE_CHARTS
 } from 'components/TrackViewPreferences'
-import SettingsModal from 'components/Tracks/Track/TrackInsights/ViewSettings/SettingsModal'
+import SettingsModal from './SettingsModal'
 
 describe('SettingsModal', () => {
   const handleSubmit = jest.fn()
@@ -17,7 +17,13 @@ describe('SettingsModal', () => {
 
   beforeEach(() => createModalRoot())
 
-  const selectOption = async ({ select, getOption }) => {
+  const selectOption = async ({
+    select,
+    getOption
+  }: {
+    select: HTMLElement
+    getOption: () => HTMLElement
+  }) => {
     fireEvent.keyDown(select, { keyCode: 40 })
     await waitFor(() => getOption())
     fireEvent.click(getOption())

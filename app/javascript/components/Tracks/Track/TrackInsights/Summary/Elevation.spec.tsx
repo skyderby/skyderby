@@ -1,11 +1,13 @@
 import React from 'react'
 
-import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
+import renderWithAllProviders from 'jest/renderWithAllProviders'
 import TrackViewPreferencesProvider, {
   METRIC,
   IMPERIAL
 } from 'components/TrackViewPreferences'
-import Elevation from 'components/Tracks/Track/TrackInsights/Summary/Elevation'
+import Elevation from './Elevation'
+
+type Props = Parameters<typeof Elevation>[0]
 
 describe('Summary/Elevation', () => {
   it('shows elevation rounded to whole digit', () => {
@@ -19,7 +21,7 @@ describe('Summary/Elevation', () => {
   })
 
   describe('metric units', () => {
-    const renderComponent = props => {
+    const renderComponent = (props: Props) => {
       return renderWithAllProviders(
         <TrackViewPreferencesProvider initialValues={{ unitSystem: METRIC }}>
           <Elevation {...props} />
@@ -35,7 +37,7 @@ describe('Summary/Elevation', () => {
   })
 
   describe('imperial units', () => {
-    const renderComponent = props => {
+    const renderComponent = (props: Props) => {
       return renderWithAllProviders(
         <TrackViewPreferencesProvider initialValues={{ unitSystem: IMPERIAL }}>
           <Elevation {...props} />

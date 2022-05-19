@@ -32,7 +32,7 @@ describe('Pagination/showLinkOnDesktop', () => {
     const activePage = 1
     const result = Object.fromEntries(
       Array(7)
-        .fill()
+        .fill(undefined)
         .map((_val, idx) => [idx + 1, showLinkOnDesktop(activePage, idx + 1, 100)])
     )
 
@@ -53,7 +53,7 @@ describe('Pagination/showLinkOnDesktop', () => {
     const activePage = 99
     const result = Object.fromEntries(
       Array(7)
-        .fill()
+        .fill(undefined)
         .map((_val, idx) => [idx + 94, showLinkOnDesktop(activePage, idx + 94, 100)])
     )
 

@@ -1,15 +1,17 @@
 import React from 'react'
 
-import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
+import renderWithAllProviders from 'jest/renderWithAllProviders'
 import TrackViewPreferencesProvider, {
   METRIC,
   IMPERIAL
 } from 'components/TrackViewPreferences'
-import HorizontalSpeed from 'components/Tracks/Track/TrackInsights/Summary/HorizontalSpeed'
+import HorizontalSpeed from './HorizontalSpeed'
+
+type Props = Parameters<typeof HorizontalSpeed>[0]
 
 describe('Summary/VerticalSpeed', () => {
   describe('metric units', () => {
-    const renderComponent = props => {
+    const renderComponent = (props: Props) => {
       return renderWithAllProviders(
         <TrackViewPreferencesProvider initialValues={{ unitSystem: METRIC }}>
           <HorizontalSpeed {...props} />
@@ -19,7 +21,8 @@ describe('Summary/VerticalSpeed', () => {
 
     it('hide wind effect if no zeroWindValue provided', () => {
       const { queryByLabelText } = renderComponent({
-        value: { avg: 23.373, min: 20, max: 30 }
+        value: { avg: 23.373, min: 20, max: 30 },
+        zeroWindValue: null
       })
 
       expect(queryByLabelText('wind cancelled value')).not.toBeInTheDocument()
@@ -27,7 +30,8 @@ describe('Summary/VerticalSpeed', () => {
 
     it('average value', () => {
       const { getByLabelText } = renderComponent({
-        value: { avg: 23.373, min: 20, max: 30 }
+        value: { avg: 23.373, min: 20, max: 30 },
+        zeroWindValue: null
       })
 
       expect(getByLabelText('average horizontal speed').textContent).toBe('84')
@@ -45,7 +49,8 @@ describe('Summary/VerticalSpeed', () => {
 
     it('max value', () => {
       const { getByLabelText } = renderComponent({
-        value: { avg: 23.373, min: 20, max: 30 }
+        value: { avg: 23.373, min: 20, max: 30 },
+        zeroWindValue: null
       })
 
       expect(getByLabelText('maximum horizontal speed').textContent).toBe('108')
@@ -53,7 +58,8 @@ describe('Summary/VerticalSpeed', () => {
 
     it('min value', () => {
       const { getByLabelText } = renderComponent({
-        value: { avg: 23.373, min: 20, max: 30 }
+        value: { avg: 23.373, min: 20, max: 30 },
+        zeroWindValue: null
       })
 
       expect(getByLabelText('minimum horizontal speed').textContent).toBe('72')
@@ -61,7 +67,7 @@ describe('Summary/VerticalSpeed', () => {
   })
 
   describe('imperial units', () => {
-    const renderComponent = props => {
+    const renderComponent = (props: Props) => {
       return renderWithAllProviders(
         <TrackViewPreferencesProvider initialValues={{ unitSystem: IMPERIAL }}>
           <HorizontalSpeed {...props} />
@@ -71,7 +77,8 @@ describe('Summary/VerticalSpeed', () => {
 
     it('average value', () => {
       const { getByLabelText } = renderComponent({
-        value: { avg: 23.373, min: 20, max: 30 }
+        value: { avg: 23.373, min: 20, max: 30 },
+        zeroWindValue: null
       })
 
       expect(getByLabelText('average horizontal speed').textContent).toBe('52')
@@ -89,7 +96,8 @@ describe('Summary/VerticalSpeed', () => {
 
     it('max value', () => {
       const { getByLabelText } = renderComponent({
-        value: { avg: 23.373, min: 20, max: 30 }
+        value: { avg: 23.373, min: 20, max: 30 },
+        zeroWindValue: null
       })
 
       expect(getByLabelText('maximum horizontal speed').textContent).toBe('67')
@@ -97,7 +105,8 @@ describe('Summary/VerticalSpeed', () => {
 
     it('min value', () => {
       const { getByLabelText } = renderComponent({
-        value: { avg: 23.373, min: 20, max: 30 }
+        value: { avg: 23.373, min: 20, max: 30 },
+        zeroWindValue: null
       })
 
       expect(getByLabelText('minimum horizontal speed').textContent).toBe('45')
@@ -105,7 +114,7 @@ describe('Summary/VerticalSpeed', () => {
   })
 
   describe('empty values', () => {
-    const renderComponent = props => {
+    const renderComponent = (props: Props) => {
       return renderWithAllProviders(
         <TrackViewPreferencesProvider initialValues={{ unitSystem: METRIC }}>
           <HorizontalSpeed {...props} />
@@ -115,7 +124,8 @@ describe('Summary/VerticalSpeed', () => {
 
     it('average value - NaN', () => {
       const { getByLabelText } = renderComponent({
-        value: { avg: 0 / 0, min: 20, max: 30 }
+        value: { avg: 0 / 0, min: 20, max: 30 },
+        zeroWindValue: null
       })
 
       expect(getByLabelText('average horizontal speed').textContent).toBe('---')
@@ -123,7 +133,8 @@ describe('Summary/VerticalSpeed', () => {
 
     it('min value - null', () => {
       const { getByLabelText } = renderComponent({
-        value: { avg: 23.373, min: null, max: 30 }
+        value: { avg: 23.373, min: null, max: 30 },
+        zeroWindValue: null
       })
 
       expect(getByLabelText('minimum horizontal speed').textContent).toBe('---')

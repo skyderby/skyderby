@@ -14,12 +14,14 @@ const interpolateByAltitude = (
   const newPoint = { ...first, altitude }
 
   const numericFields: Array<keyof Omit<PointRecord, 'gpsTime'>> = [
+    'absAltitude',
     'flTime',
     'latitude',
     'longitude',
     'hSpeed',
     'vSpeed',
-    'glideRatio'
+    'glideRatio',
+    'verticalAccuracy'
   ]
 
   numericFields.forEach(key => {

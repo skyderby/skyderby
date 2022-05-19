@@ -14,7 +14,7 @@
   },
   "scripts": {
     "lint": "yarn lint-code && yarn lint-styles",
-    "lint-code": "yarn eslint app/javascript spec/javascript",
+    "lint-code": "yarn eslint app/javascript",
     "lint-styles": "yarn stylelint \"app/javascript/**/*.scss\"",
     "test": "jest",
     "storybook": "start-storybook -p 6006",
@@ -86,7 +86,7 @@
   },
   "jest": {
     "roots": [
-      "spec/javascript"
+      "app/javascript"
     ],
     "moduleDirectories": [
       "node_modules",
@@ -94,7 +94,7 @@
       "spec/javascript"
     ],
     "moduleNameMapper": {
-      "\\.svg$": "<rootDir>/spec/javascript/jest/mocks/fileMock.js",
+      "\\.svg$": "<rootDir>/app/javascript/jest/mocks/fileMock.tsx",
       "\\.(css|scss)$": "identity-obj-proxy"
     },
     "transformIgnorePatterns": [
@@ -102,7 +102,7 @@
     ],
     "testURL": "http://skyderby.test",
     "setupFilesAfterEnv": [
-      "<rootDir>/spec/javascript/jest/setup.js"
+      "<rootDir>/app/javascript/jest/setup.ts"
     ]
   },
   "dependencies": {
@@ -140,6 +140,7 @@
     "honeybadger-js": "^2.3.0",
     "i18n-js": "^3.5.1",
     "js-cookie": "^2.2.1",
+    "js-yaml": "^4.1.0",
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
     "lodash.merge": "^4.6.2",
@@ -162,7 +163,6 @@
     "redux-thunk": "^2.3.0",
     "tippy.js": "^6.3.7",
     "webpack-virtual-modules": "^0.3.0",
-    "yaml-js": "^0.2.3",
     "yup": "^0.32.8"
   },
   "devDependencies": {
@@ -183,8 +183,9 @@
     "@types/googlemaps": "^3.43.3",
     "@types/gtag.js": "^0.0.10",
     "@types/i18n-js": "^3.8.2",
-    "@types/jest": "^27.0.1",
+    "@types/jest": "^27.5.1",
     "@types/js-cookie": "^2.2.7",
+    "@types/js-yaml": "^4.0.5",
     "@types/lodash.debounce": "^4.0.6",
     "@types/lodash.isequal": "^4.5.5",
     "@types/lodash.merge": "^4.6.6",

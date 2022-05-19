@@ -1,24 +1,23 @@
 import React, { createContext, useContext } from 'react'
 import I18n from 'i18n-js'
-import PropTypes from 'prop-types'
-import yaml from 'yaml-js'
+import yaml from 'js-yaml'
 import path from 'path'
 import glob from 'glob'
 import fs from 'fs'
 import merge from 'lodash.merge'
 
-const TranslationsContext = createContext()
+const TranslationsContext = createContext<{ t: typeof I18n.t } | undefined>(undefined)
 
 const localesPath = path.resolve(__dirname, '../../../../config/locales')
 const filesList = glob.sync('**/*.yml', { cwd: localesPath })
 
 const translations = filesList.reduce((acc, filename) => {
-  const fileContent = yaml.load(fs.readFileSync(path.join(localesPath, filename)))
+  const fileContent = yaml.load(fs.readFileSync(path.join(localesPath, filename), 'utf8'))
 
   return merge(acc, fileContent)
 }, {})
 
-const mockTranslationsProvider = ({ children }) => {
+const mockTranslationsProvider = ({ children }: { children: React.ReactNode }) => {
   I18n.translations = translations
   I18n.locale = 'en'
 
@@ -27,10 +26,6 @@ const mockTranslationsProvider = ({ children }) => {
       {children}
     </TranslationsContext.Provider>
   )
-}
-
-mockTranslationsProvider.propTypes = {
-  children: PropTypes.element.isRequired
 }
 
 // eslint-disable-next-line react-hooks/rules-of-hooks

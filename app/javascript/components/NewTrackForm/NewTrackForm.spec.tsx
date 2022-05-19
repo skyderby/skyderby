@@ -1,9 +1,9 @@
 import React from 'react'
 import { fireEvent, waitFor } from '@testing-library/react'
 
-import renderWithAllProviders from 'testHelpers/renderWithAllProviders'
-import createModalRoot from 'testHelpers/createModalRoot.js'
-import NewTrackForm from 'components/NewTrackForm'
+import renderWithAllProviders from 'jest/renderWithAllProviders'
+import createModalRoot from 'jest/createModalRoot'
+import NewTrackForm from './'
 
 describe('NewTrackForm', () => {
   beforeAll(createModalRoot)
