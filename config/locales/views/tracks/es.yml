@@ -27,7 +27,6 @@ es:
       manage: "Сorrección"
       edit_range: "Editar rango"
       range_from: "Rango desde:"
-      range_to: "to:"
       range_to: "A:"
       charts: Gráficos
       results: Resultados
