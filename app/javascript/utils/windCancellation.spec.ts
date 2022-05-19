@@ -1,8 +1,8 @@
 import { getWindEffect, subtractWind } from 'utils/windCancellation'
 import { RangeSummary } from 'components/Tracks/Track/TrackInsights/Summary/RangeSummary'
 
-import points from 'fixtures/trackPoints'
-import windData from 'fixtures/windData'
+import points from 'jest/fixtures/trackPoints'
+import windData from 'jest/fixtures/windData'
 
 describe('wind cancellation', () => {
   it('getWindEffect', () => {
@@ -21,8 +21,8 @@ describe('wind cancellation', () => {
 
     const summary = new RangeSummary(zeroWindPoints)
 
-    expect(Math.round(summary.distance)).toEqual(5006)
-    expect(Math.round(summary.horizontalSpeed.avg)).toEqual(38)
-    expect(Math.round(summary.glideRatio.avg * 100) / 100).toEqual(1.59)
+    expect(Math.round(Number(summary.distance))).toEqual(5006)
+    expect(Math.round(Number(summary.horizontalSpeed.avg))).toEqual(38)
+    expect(Math.round(Number(summary.glideRatio.avg) * 100) / 100).toEqual(1.59)
   })
 })

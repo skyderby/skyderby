@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 
-import WindEffect from 'components/Tracks/Track/TrackInsights/Summary/WindEffect'
+import WindEffect from './WindEffect'
 
 describe('Summary/WindEffect', () => {
   it('when possitive wind effect', () => {

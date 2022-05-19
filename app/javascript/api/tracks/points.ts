@@ -15,16 +15,16 @@ type RequestOptions = {
 }
 
 export type PointRecord = {
+  gpsTime: Date
   flTime: number
   absAltitude: number
   altitude: number
+  latitude: number
+  longitude: number
   hSpeed: number
   vSpeed: number
   glideRatio: number
   verticalAccuracy: number
-  latitude: number
-  longitude: number
-  gpsTime: Date
 }
 
 type RawPoint = Omit<PointRecord, 'gpsTime'> & { gpsTime: string }

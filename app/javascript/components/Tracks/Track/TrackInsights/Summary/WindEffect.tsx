@@ -17,7 +17,7 @@ type ValuePresenter = (val: number) => number | string
 type WindEffectProps = {
   rawValue: number
   zeroWindValue: number
-  valuePresenter: ValuePresenter
+  valuePresenter?: ValuePresenter
 }
 
 const WindEffect = ({
