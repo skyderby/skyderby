@@ -1,11 +1,12 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState, useCallback } from 'react'
 import MarkerClusterer from '@googlemaps/markerclustererplus'
 import { Link, useNavigate } from 'react-router-dom'
 import cx from 'clsx'
 import debounce from 'lodash.debounce'
 
+import Map from 'components/Map'
 import useGoogleMapsApi from 'utils/useGoogleMapsApi'
-import { useAllPlacesQuery } from 'api/places'
+import { PlaceRecord, useAllPlacesQuery } from 'api/places'
 import { useCurrentUserQuery } from 'api/sessions'
 import LocateIcon from 'icons/locate'
 import CompassIcon from 'icons/compass'
@@ -15,57 +16,42 @@ import styles from './styles.module.scss'
 
 const PlacesIndex = () => {
   const navigate = useNavigate()
-  const mapElementRef = useRef()
   const infoWindowRef = useRef()
-  const markers = useRef([])
-  const [map, setMap] = useState()
-  const [followMap, setFollowMap] = useState(true)
+  const markers = useRef<(google.maps.Marker & { placeId: number })[]>([])
+  const [map, setMap] = useState<google.maps.Map | undefined>()
+  const [followMap, setFollowMap] = useState<boolean>(true)
   const [searchTerm, setSearchTerm] = useState('')
-  const [bounds, setBounds] = useState()
-  const [selectedPlace, setSelectedPlace] = useState()
+  const [bounds, setBounds] = useState<google.maps.LatLngBounds | null | undefined>()
+  const [selectedPlace, setSelectedPlace] = useState<{
+    place: PlaceRecord
+    marker: google.maps.Marker
+  } | null>(null)
   const google = useGoogleMapsApi()
 
   const { data: places = [] } = useAllPlacesQuery()
   const countriesWithPlaces = useCountriesWithPlaces(
     places,
     searchTerm,
-    followMap && bounds
+    followMap ? bounds : undefined
   )
 
   const { data: currentUser } = useCurrentUserQuery()
   const canCreatePlace = currentUser?.permissions.canCreatePlace
+  const positionChangeHandler = debounce(
+    (map: google.maps.Map) => setBounds(map.getBounds()),
+    200
+  )
 
   useEffect(() => {
-    if (!google) return
-
-    const options = {
-      zoom: 3,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      center: new google.maps.LatLng(20.0, 20.0)
-    }
-
-    const map = new google.maps.Map(mapElementRef.current, options)
-
-    const positionChangeHandler = debounce(() => setBounds(map.getBounds()), 200)
-
-    google.maps.event.addListener(map, 'zoom_changed', positionChangeHandler)
-    google.maps.event.addListener(map, 'center_changed', positionChangeHandler)
-
-    setMap(map)
-    setBounds(map.getBounds())
-  }, [google])
-
-  useEffect(() => {
-    if (!map || places.length === 0) return
+    if (!google || !map || places.length === 0) return
 
     markers.current = places.map(place => {
       const marker = new google.maps.Marker({
         position: { lat: place.latitude, lng: place.longitude }
       })
-      marker.placeId = place.id
       marker.addListener('click', () => setSelectedPlace({ place, marker }))
 
-      return marker
+      return Object.assign(marker, { placeId: place.id })
     })
 
     const clusterer = new MarkerClusterer(map, markers.current, {
@@ -81,27 +67,29 @@ const PlacesIndex = () => {
   }, [map, places, google])
 
   useEffect(() => {
-    if (!selectedPlace) return
+    if (!google || !selectedPlace) return
 
     const { place, marker } = selectedPlace
     const infoWindow = infoWindowRef.current ?? new google.maps.InfoWindow()
     infoWindow.setContent(`
       <h2>${place.name}</h2>
-      <a id="infowindow-link" href="/places/${place.id}">See details</a>
+      <a id='infowindow-link' href='/places/${place.id}'>See details</a>
     `)
     infoWindow.setPosition({ lat: place.latitude, lng: place.longitude })
     infoWindow.open(map, marker)
 
     google.maps.event.addListener(infoWindow, 'closeclick', () => setSelectedPlace(null))
 
-    return () => infoWindow.setMap(null)
+    return () => infoWindow.close()
   }, [selectedPlace, setSelectedPlace, google, map])
 
   useLayoutEffect(() => {
-    const clickHandler = event => {
-      if (event.target.matches('#infowindow-link')) {
+    const clickHandler = (event: MouseEvent) => {
+      const target = event.target as HTMLAnchorElement
+      if (target.matches('#infowindow-link')) {
         event.preventDefault()
-        navigate(event.target.getAttribute('href'))
+        const href = target.getAttribute('href')
+        href && navigate(href)
       }
     }
 
@@ -110,17 +98,21 @@ const PlacesIndex = () => {
     return () => document.removeEventListener('click', clickHandler)
   }, [navigate])
 
-  const zoomTo = place => {
-    map.setZoom(10)
-    map.panTo({ lat: place.latitude, lng: place.longitude })
+  const zoomTo = useCallback(
+    (place: PlaceRecord) => {
+      if (!map || !google) return
+      map.setZoom(10)
+      map.panTo({ lat: place.latitude, lng: place.longitude })
 
-    const marker = markers.current.find(el => el.placeId === place.id)
+      const marker = markers.current.find(el => el.placeId === place.id)
 
-    if (!marker) return
+      if (!marker) return
 
-    marker.setAnimation(google.maps.Animation.BOUNCE)
-    setTimeout(() => marker.setAnimation(null), 2000)
-  }
+      marker.setAnimation(google.maps.Animation.BOUNCE)
+      setTimeout(() => marker.setAnimation(null), 2000)
+    },
+    [map, google]
+  )
 
   return (
     <section className={styles.container}>
@@ -167,7 +159,13 @@ const PlacesIndex = () => {
         </div>
       </aside>
 
-      <main className={styles.map} ref={mapElementRef} />
+      <main className={styles.map}>
+        <Map
+          afterInitialize={setMap}
+          onZoomChanged={positionChangeHandler}
+          onCenterChanged={positionChangeHandler}
+        />
+      </main>
     </section>
   )
 }

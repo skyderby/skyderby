@@ -1,11 +1,19 @@
-import { recordQueryKey } from 'api/countries'
+import { CountryRecord, recordQueryKey } from 'api/countries'
 import { useQueryClient } from 'react-query'
+import { PlaceRecord } from 'api/places'
 
-const useCountriesWithPlaces = (places, searchTerm, bounds) => {
+const useCountriesWithPlaces = (
+  places: PlaceRecord[],
+  searchTerm: string,
+  bounds: google.maps.LatLngBounds | null | undefined
+) => {
   const queryClient = useQueryClient()
-  const countries = Array.from(new Set(places.map(place => place.countryId))).map(id =>
-    queryClient.getQueryData(recordQueryKey(id))
-  )
+  const countries = Array.from(new Set(places.map(place => place.countryId)))
+    .map(id => queryClient.getQueryData<CountryRecord>(recordQueryKey(id)))
+    .filter(
+      (country: CountryRecord | undefined): country is CountryRecord =>
+        country !== undefined
+    )
 
   const term = searchTerm.toLowerCase()
   const filteredPlaces =

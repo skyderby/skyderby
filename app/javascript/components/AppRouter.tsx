@@ -11,7 +11,7 @@ import Users from 'components/Users'
 import AppShell from 'components/AppShell'
 import ErrorPage from 'components/ErrorPage'
 
-const reportLocation = pagePath =>
+const reportLocation = (pagePath: string) =>
   window.gtag('event', 'page_view', { page_path: pagePath })
 
 const AppRouter = () => {

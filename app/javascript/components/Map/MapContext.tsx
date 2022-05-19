@@ -3,8 +3,10 @@ import { createContext, useContext } from 'react'
 type MapContext = {
   map: google.maps.Map
   google: typeof google
-  registerCoordinates: (coordinates: { latitude: number; longitude: number }[]) => number
-  deregisterCoordinates: (id: number) => void
+  registerCoordinates: (
+    coordinates: { latitude: number; longitude: number }[]
+  ) => number | null
+  deregisterCoordinates: (id: number | null) => void
 }
 const MapContext = createContext<MapContext | undefined>(undefined)
 

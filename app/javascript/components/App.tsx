@@ -1,12 +1,10 @@
 import React, { useLayoutEffect } from 'react'
 import { QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { Helmet } from 'react-helmet'
 
-import store from 'redux/store'
 import TranslationsProvider from 'components/TranslationsProvider'
 import AppRouter from './AppRouter'
 import queryClient from './queryClient'
@@ -17,13 +15,13 @@ import 'styles/globalStyles.scss'
 
 const App = () => {
   useLayoutEffect(() => {
-    const keyPressListener = e => {
+    const keyPressListener = (e: KeyboardEvent) => {
       if (e.code !== 'Tab') return
 
-      document.querySelector('body').classList.add('keyboardNavigation')
+      document.body.classList.add('keyboardNavigation')
     }
     const clickListener = () => {
-      document.querySelector('body').classList.remove('keyboardNavigation')
+      document.body.classList.remove('keyboardNavigation')
     }
 
     document.addEventListener('keydown', keyPressListener)
@@ -57,13 +55,11 @@ const App = () => {
         }}
       />
 
-      <Provider store={store}>
-        <TranslationsProvider>
-          <BrowserRouter>
-            <AppRouter />
-          </BrowserRouter>
-        </TranslationsProvider>
-      </Provider>
+      <TranslationsProvider>
+        <BrowserRouter>
+          <AppRouter />
+        </BrowserRouter>
+      </TranslationsProvider>
 
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
