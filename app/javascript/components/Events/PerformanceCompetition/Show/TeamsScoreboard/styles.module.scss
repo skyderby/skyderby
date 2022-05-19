@@ -1,0 +1,61 @@
+.container {
+  composes: container from '~styles/scoreboard';
+}
+
+.tableWrapper {
+  composes: tableWrapper from '~styles/scoreboard';
+}
+
+.stickyHeader {
+  composes: stickyHeader from '~styles/scoreboard';
+}
+
+.scoreboardTable {
+  composes: table from '~styles/scoreboard';
+}
+
+.scoreboardTable th:first-child,
+.scoreboardTable td:first-child {
+  width: 3%;
+}
+
+.scoreboardTable th:last-child,
+.scoreboardTable td:last-child {
+  width: 15%;
+}
+
+.scoreboardTable td:first-child {
+  text-align: center;
+}
+
+.scoreboardTable td:last-child {
+  text-align: right;
+}
+
+.actions {
+  display: inline-flex;
+  margin-left: 0.5rem;
+}
+
+.actionButton {
+  composes: button from '~styles/button';
+  composes: flat from '~styles/button';
+
+  display: inline-flex;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0.25rem;
+
+  font-size: 0.825rem;
+
+  visibility: hidden;
+}
+
+.teamCell:hover .actionButton {
+  visibility: visible;
+}
+
+.competitorNames {
+  color: var(--grey-80);
+  font-style: italic;
+}

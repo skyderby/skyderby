@@ -14,10 +14,9 @@ import { parseISO } from 'date-fns'
 import { competitorsQuery } from './competitors'
 import { teamStandingsQuery } from './teamStandings'
 import { TeamRecord } from './types'
+import { Serialized } from 'api/helpers'
 
-type SerializedTeam = {
-  [K in keyof TeamRecord]: TeamRecord[K] extends Date ? string : TeamRecord[K]
-}
+type SerializedTeam = Serialized<TeamRecord>
 
 export type TeamVariables = {
   name: string

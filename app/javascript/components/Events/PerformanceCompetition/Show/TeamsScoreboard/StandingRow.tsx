@@ -1,21 +1,21 @@
 import React, { useState } from 'react'
 
 import {
-  SpeedSkydivingCompetition,
+  PerformanceCompetition,
   Competitor,
   useCompetitorsQuery,
+  useUpdateTeamMutation,
   useDeleteTeamMutation,
-  useEditTeamMutation,
   useTeamQuery
-} from 'api/speedSkydivingCompetitions'
+} from 'api/performanceCompetitions'
+import { useProfileQueries } from 'api/profiles'
 import PencilIcon from 'icons/pencil'
 import TimesIcon from 'icons/times'
 import TeamForm from 'components/TeamForm'
 import styles from './styles.module.scss'
-import { useProfileQueries } from 'api/profiles'
 
 type StandingRowProps = {
-  event: SpeedSkydivingCompetition
+  event: PerformanceCompetition
   teamId: number
   rank: number
   total: number
@@ -43,11 +43,11 @@ const StandingRow = ({ event, teamId, rank, total }: StandingRowProps): JSX.Elem
   const profileQueries = useProfileQueries(
     competitors.map(competitor => competitor.profileId)
   )
-  const editMutation = useEditTeamMutation(event.id, teamId)
-  const deleteMutation = useDeleteTeamMutation()
+  const editMutation = useUpdateTeamMutation(event.id, teamId)
+  const deleteMutation = useDeleteTeamMutation(event.id, teamId)
   const deleteTeam = () => {
     if (confirm('Are you sure you want delete this team?')) {
-      deleteMutation.mutate({ eventId: event.id, id: teamId })
+      deleteMutation.mutate(undefined)
     }
   }
 

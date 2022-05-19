@@ -1,0 +1,38 @@
+@import 'styles/breakpoints';
+
+.container {
+  display: flex;
+
+  border-top: var(--default-border);
+  border-bottom: var(--default-border);
+
+  background-color: var(--white);
+
+  @include lg-screen {
+    border: 0;
+    border-radius: var(--border-radius-md);
+
+    box-shadow: var(--block-box-shadow);
+  }
+}
+
+.button {
+  composes: button from '~styles/button.module.scss';
+  composes: flat from '~styles/button.module.scss';
+
+  padding: 0.5rem 0.75rem;
+  border-right: var(--default-border);
+}
+
+.button:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.button:not(:first-child) {
+  border-radius: 0;
+}
+
+.button:not(:disabled):hover {
+  border-right: var(--default-border);
+}
