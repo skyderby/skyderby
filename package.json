@@ -197,6 +197,7 @@
     "@types/d3-array": "^3.0.1",
     "@types/geodesy": "^2.2.2",
     "@types/googlemaps": "^3.43.3",
+    "@types/gtag.js": "^0.0.10",
     "@types/i18n-js": "^3.8.2",
     "@types/jest": "^27.0.1",
     "@types/js-cookie": "^2.2.7",

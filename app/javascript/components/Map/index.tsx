@@ -10,6 +10,9 @@ type MapProps = {
   children?: React.ReactNode
   options?: google.maps.MapOptions
   autoFitBounds?: boolean
+  afterInitialize?: (map: google.maps.Map) => void
+  onZoomChanged?: (map: google.maps.Map) => void
+  onCenterChanged?: (map: google.maps.Map) => void
 }
 
 interface Coordinate {
@@ -17,21 +20,45 @@ interface Coordinate {
   longitude: number
 }
 
-const Map = ({ children, autoFitBounds = false, options = {} }: MapProps) => {
+const Map = (props: MapProps) => {
+  const {
+    children,
+    autoFitBounds = false,
+    options = {},
+    afterInitialize,
+    onZoomChanged,
+    onCenterChanged
+  } = props
+
+  const optionsRef = useRef<google.maps.MapOptions>(options)
+  const onZoomChangedRef = useRef(onZoomChanged)
+  const onCenterChangedRef = useRef(onCenterChanged)
   const mapElementRef = useRef<HTMLDivElement>(null)
   const [map, setMap] = useState<google.maps.Map>()
   const objId = useRef(0)
   const [coordinates, setCoordinates] = useState<Record<string, Coordinate[]>>({})
   const google = useGoogleMapsApi()
 
+  useEffect(() => {
+    onZoomChangedRef.current = onZoomChanged
+  }, [onZoomChanged])
+
+  useEffect(() => {
+    onCenterChangedRef.current = onCenterChanged
+  }, [onCenterChanged])
+
   const registerCoordinates = (coordinates: Coordinate[]) => {
+    if (!autoFitBounds) return null
+
     const id = objId.current++
     setCoordinates(prev => ({ ...prev, [id]: coordinates }))
 
     return id
   }
 
-  const deregisterCoordinates = (id: number) => {
+  const deregisterCoordinates = (id: number | null) => {
+    if (!autoFitBounds || !id) return
+
     setCoordinates(prev =>
       Object.fromEntries(Object.entries(prev).filter(([key]) => key !== id.toString()))
     )
@@ -61,15 +88,27 @@ const Map = ({ children, autoFitBounds = false, options = {} }: MapProps) => {
       center: new google.maps.LatLng(20.0, 20.0),
       fullscreenControl: false,
       streetViewControl: false,
-      ...options
+      ...optionsRef.current
     }
 
-    setMap(new google.maps.Map(mapElementRef.current, mapOptions))
+    const map = new google.maps.Map(mapElementRef.current, mapOptions)
+    setMap(map)
+    afterInitialize?.(map)
   }, [google])
+
+  useEffect(() => {
+    if (!google || !map) return
+
+    google.maps.event.addListener(map, 'zoom_changed', () =>
+      onZoomChangedRef.current?.(map)
+    )
+    google.maps.event.addListener(map, 'center_changed', () =>
+      onCenterChangedRef.current?.(map)
+    )
+  }, [map, google])
 
   return (
     <div ref={mapElementRef}>
-      Map
       {google && map && (
         <MapContext.Provider
           value={{ google, map, registerCoordinates, deregisterCoordinates }}

@@ -32,7 +32,7 @@ const Polyline = ({ points, color: strokeColor }: PolylineProps) => {
       deregisterCoordinates(coordinatesId)
       polyline.setMap(null)
     }
-  }, [points])
+  }, [map, registerCoordinates, deregisterCoordinates, strokeColor, points])
 
   return null
 }
