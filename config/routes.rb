@@ -105,9 +105,11 @@ Skyderby::Application.routes.draw do
           resources :results, only: %i[index show create update destroy] do
             resource :penalties, only: :update, module: :results
           end
-          resources :standings, only: :index
           resources :reference_points, only: %i[index create update destroy]
           resources :reference_point_assignments, only: %i[index create]
+          resources :teams, only: %i[index create update destroy]
+          resource :standings, only: :show
+          resource :team_standings, only: :show
         end
       end
 

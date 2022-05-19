@@ -29,6 +29,15 @@ const Navbar = ({ event }: NavbarProps) => {
       </PageNavbar.Item>
 
       <PageNavbar.Item>
+        <NavLink end to={`${eventUrl}/teams`}>
+          <span>
+            <ListIcon />
+            Teams
+          </span>
+        </NavLink>
+      </PageNavbar.Item>
+
+      <PageNavbar.Item>
         <NavLink to={`${eventUrl}/maps`}>
           <span>
             <MapsIcon />

@@ -1,5 +1,5 @@
 class Api::V1::PerformanceCompetitions::StandingsController < ApplicationController
-  def index
+  def show
     event = Event.speed_distance_time.find(params[:performance_competition_id])
 
     authorize event, :show?

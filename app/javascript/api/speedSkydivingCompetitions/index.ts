@@ -5,6 +5,7 @@ export type {
 
 export type {
   SpeedSkydivingCompetition,
+  Competitor,
   Category,
   Round,
   Result,

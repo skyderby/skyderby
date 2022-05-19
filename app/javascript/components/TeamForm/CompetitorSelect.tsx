@@ -1,20 +1,23 @@
 import React from 'react'
 import Select, { Props } from 'react-select'
+import { UseQueryResult } from 'react-query'
 
-import { useCompetitorsQuery } from 'api/speedSkydivingCompetitions'
 import { useProfileQueries } from 'api/profiles'
 import getSelectStyles from 'styles/selectStyles'
 
-type CompetitorSelectProps = Omit<Props, 'value'> & {
+type CompetitorSelectProps<TCompetitor> = Omit<Props, 'value'> & {
   eventId: number
+  competitorsQuery: (eventId: number) => UseQueryResult<TCompetitor[]>
   value?: number | null
 }
 
-const CompetitorSelect = ({
+const CompetitorSelect = <TCompetitor extends { profileId: number; id: number }>({
   eventId,
+  competitorsQuery: useCompetitorsQuery,
   value,
   ...props
-}: CompetitorSelectProps): JSX.Element => {
+}: CompetitorSelectProps<TCompetitor>): JSX.Element => {
+  console.log(useCompetitorsQuery)
   const { data: competitors = [] } = useCompetitorsQuery(eventId)
   const profileQueries = useProfileQueries(
     competitors.map(competitor => competitor.profileId)

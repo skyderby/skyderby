@@ -3,7 +3,8 @@ import React, { useState } from 'react'
 import PlusIcon from 'icons/plus.svg'
 import TeamForm from 'components/TeamForm'
 import styles from './styles.module.scss'
-import { useNewTeamMutation, useCompetitorsQuery } from 'api/speedSkydivingCompetitions'
+import { useCreateTeamMutation } from 'api/performanceCompetitions'
+import { useCompetitorsQuery } from 'api/performanceCompetitions'
 
 type ActionsBarProps = {
   eventId: number
@@ -11,7 +12,7 @@ type ActionsBarProps = {
 
 const ActionsBar = ({ eventId }: ActionsBarProps): JSX.Element => {
   const [teamFormShown, setTeamFormShown] = useState(false)
-  const newTeamMutation = useNewTeamMutation(eventId)
+  const newTeamMutation = useCreateTeamMutation(eventId)
 
   const showTeamForm = () => setTeamFormShown(true)
   const hideTeamForm = () => setTeamFormShown(false)

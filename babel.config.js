@@ -27,9 +27,6 @@ module.exports = api => {
     ].filter(Boolean),
 
     env: {
-      production: {
-        plugins: ['transform-react-remove-prop-types']
-      },
       test: {
         plugins: ['@babel/plugin-transform-modules-commonjs']
       }

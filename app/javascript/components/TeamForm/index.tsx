@@ -1,37 +1,47 @@
 import React from 'react'
+import { AxiosError } from 'axios'
+import { UseMutationResult, UseQueryResult } from 'react-query'
+import toast from 'react-hot-toast'
 import { ValueType } from 'react-select'
 import { Formik, Field, FieldArray, FormikHelpers } from 'formik'
 
-import type {
-  EditTeamMutation,
-  NewTeamMutation,
-  TeamVariables
-} from 'api/speedSkydivingCompetitions/teams'
 import { useI18n } from 'components/TranslationsProvider'
 import Modal from 'components/ui/Modal'
+import RequestErrorToast from 'components/RequestErrorToast'
 import PlusIcon from 'icons/plus.svg'
 import TimesIcon from 'icons/times.svg'
 import CompetitorSelect from './CompetitorSelect'
 import validationSchema from './validationSchema'
 import styles from './styles.module.scss'
 
+interface TeamVariables {
+  name: string
+  competitorIds: number[]
+}
+
+const defaultValues = {
+  name: '',
+  competitorIds: []
+}
+
 type TeamFormProps = {
   eventId: number
   title: string
-  mutation: NewTeamMutation | EditTeamMutation
-  onHide: () => unknown
+  mutation: UseMutationResult<
+    unknown,
+    AxiosError<Record<string, string[]>>,
+    TeamVariables
+  >
+  competitorsQuery: (eventId: number) => UseQueryResult
+  onHide: () => void
   initialValues?: TeamVariables
-}
-
-const defaultValues: TeamVariables = {
-  name: '',
-  competitorIds: []
 }
 
 const TeamForm = ({
   eventId,
   title,
   mutation,
+  competitorsQuery,
   onHide: hide,
   initialValues = defaultValues
 }: TeamFormProps): JSX.Element => {
@@ -41,13 +51,13 @@ const TeamForm = ({
     values: TeamVariables,
     formikBag: FormikHelpers<TeamVariables>
   ) => {
-    try {
-      await mutation.mutateAsync(values)
-      hide()
-    } catch (err) {
-      alert(err)
-      formikBag.setSubmitting(false)
-    }
+    mutation.mutate(values, {
+      onSuccess: () => hide(),
+      onSettled: () => formikBag.setSubmitting(false),
+      onError: error => {
+        toast.error(<RequestErrorToast response={error.response} />)
+      }
+    })
   }
 
   return (
@@ -85,6 +95,7 @@ const TeamForm = ({
                           as={CompetitorSelect}
                           name={`competitorIds[${idx}]`}
                           eventId={eventId}
+                          competitorsQuery={competitorsQuery}
                           menuPortalTarget={document.getElementById('dropdowns-root')}
                           onChange={(option: ValueType<{ value: number }, false>) => {
                             if (option === null) {

@@ -33,6 +33,7 @@ const Map = (props: MapProps) => {
   const optionsRef = useRef<google.maps.MapOptions>(options)
   const onZoomChangedRef = useRef(onZoomChanged)
   const onCenterChangedRef = useRef(onCenterChanged)
+  const afterInitializeRef = useRef(afterInitialize)
   const mapElementRef = useRef<HTMLDivElement>(null)
   const [map, setMap] = useState<google.maps.Map>()
   const objId = useRef(0)
@@ -93,7 +94,7 @@ const Map = (props: MapProps) => {
 
     const map = new google.maps.Map(mapElementRef.current, mapOptions)
     setMap(map)
-    afterInitialize?.(map)
+    afterInitializeRef.current?.(map)
   }, [google])
 
   useEffect(() => {
