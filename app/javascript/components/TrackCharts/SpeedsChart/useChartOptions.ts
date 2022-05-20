@@ -67,7 +67,7 @@ const baseOptions = (): Options => ({
     valueDecimals: 0,
     headerFormat: `
       ${I18n.t('charts.elev.series.height')}:
-      {point.point.options.altitude}${I18n.t('units.m')}<br>
+      {point.point.options.custom.altitude}${I18n.t('units.m')}<br>
     `
   },
   credits: {

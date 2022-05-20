@@ -1,6 +1,5 @@
 import React from 'react'
 import { PointerEventObject, Series } from 'highcharts'
-import throttle from 'lodash.throttle'
 import { Chart, Point } from 'highcharts'
 
 // See: https://github.com/highcharts/highcharts/issues/12532
@@ -11,30 +10,29 @@ declare module 'highcharts' {
   }
 }
 
-export const refreshTooltipHandler = throttle(
-  (chart: Chart | undefined) => (evt: React.MouseEvent | React.TouchEvent) => {
-    if (!chart) return
+export const refreshTooltipHandler = (chart: Chart | undefined) => (
+  evt: React.MouseEvent | React.TouchEvent
+) => {
+  if (!chart) return
 
-    const normalizedEvent = chart.pointer?.normalize(evt.nativeEvent)
+  const normalizedEvent = chart.pointer?.normalize(evt.nativeEvent)
 
-    if (!normalizedEvent) return
+  if (!normalizedEvent) return
 
-    const points = chart.series.reduce((result: Point[], series) => {
-      if (!series.visible || series.options.enableMouseTracking === false) return result
+  const points = chart.series.reduce((result: Point[], series) => {
+    if (!series.visible || series.options.enableMouseTracking === false) return result
 
-      const point = series.searchPoint(normalizedEvent, true)
-      if (point) result.push(point)
+    const point = series.searchPoint(normalizedEvent, true)
+    if (point) result.push(point)
 
-      return result
-    }, [])
+    return result
+  }, [])
 
-    if (points.length > 0) {
-      chart.tooltip.refresh(points)
-      chart.xAxis[0].drawCrosshair(normalizedEvent, points[0])
-    }
-  },
-  20
-)
+  if (points.length > 0) {
+    chart.tooltip.refresh(points)
+    chart.xAxis[0].drawCrosshair(normalizedEvent, points[0])
+  }
+}
 
 const getKey = (chartName: string, seriesCode: string) => `${chartName}/${seriesCode}`
 
