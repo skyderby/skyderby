@@ -20,7 +20,8 @@ const CountrySelect = ({
   const selectedOption = country ? { value: country.id, label: country.name } : null
 
   const loadOptions = useCallback(
-    async (search, _loadedOptions, { page }) => {
+    async (search: string, _loadedOptions: unknown, meta: unknown) => {
+      const { page } = meta as { page: number }
       const data = await queryClient.fetchQuery(countriesQuery({ page, search }))
 
       const { items, currentPage, totalPages } = data

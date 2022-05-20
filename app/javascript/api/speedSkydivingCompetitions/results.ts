@@ -12,7 +12,7 @@ import client, { AxiosError, AxiosResponse } from 'api/client'
 import { parseISO } from 'date-fns'
 
 import { standingsQuery } from './standings'
-import { trackQuery } from 'api/tracks/track'
+import { trackQuery } from 'api/tracks'
 import { pointsQuery } from 'api/tracks/points'
 import { Result } from './types'
 import { openStandingsQuery } from 'api/speedSkydivingCompetitions/openStandings'
@@ -183,9 +183,7 @@ export const useEditResultMutation = (
         data.map(result => (result.id === id ? updatedResult : result))
       )
       await Promise.all([
-        queryClient.invalidateQueries(
-          trackQuery(response.data.trackId, queryClient).queryKey
-        ),
+        queryClient.invalidateQueries(trackQuery(response.data.trackId).queryKey),
         queryClient.invalidateQueries(
           pointsQuery(response.data.trackId, { originalFrequency: true }).queryKey,
           { refetchInactive: true }

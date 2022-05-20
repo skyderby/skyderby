@@ -4,7 +4,6 @@ import {
   extractParamsFromUrl as extractTrackParamsFromUrl,
   mapParamsToUrl as mapTrackParamsToUrl,
   IndexParams,
-  TrackFilters,
   FilterTuple
 } from 'api/tracks'
 import isEqual from 'lodash.isequal'
@@ -61,22 +60,13 @@ const mapParamsToUrl = (params: FlightProfilesURLParams): string => {
   return urlParams.toString() === '' ? '' : '?' + urlParams.toString()
 }
 
-type PageParams = {
-  params: FlightProfilesURLParams
-  setSelectedTerrainProfile: (id: number | null) => void
-  setAdditionalTerrainProfiles: (ids: number[]) => void
-  deleteAdditionalTerrainProfile: (id: number) => void
-  toggleTrack: (id: number) => void
-  updateFilters: (filters: TrackFilters) => void
-}
-
-const usePageParams = (): PageParams => {
+const usePageParams = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const params = useMemo(() => extractParamsFromUrl(location.search), [location.search])
 
   const buildUrl = useCallback(
-    newParams => {
+    (newParams: Partial<FlightProfilesURLParams>) => {
       const mergedParams = {
         ...params,
         ...newParams,
@@ -92,7 +82,7 @@ const usePageParams = (): PageParams => {
   )
 
   const updateFilters = useCallback(
-    filters =>
+    (filters: FilterTuple[]) =>
       navigate(`${location.pathname}${buildUrl({ tracksParams: { filters } })}`, {
         replace: true
       }),
@@ -100,7 +90,7 @@ const usePageParams = (): PageParams => {
   )
 
   const setSelectedTerrainProfile = useCallback(
-    selectedTerrainProfile =>
+    (selectedTerrainProfile: number | null) =>
       navigate(`${location.pathname}${buildUrl({ selectedTerrainProfile })}`, {
         replace: true
       }),
@@ -108,7 +98,7 @@ const usePageParams = (): PageParams => {
   )
 
   const setAdditionalTerrainProfiles = useCallback(
-    ids => {
+    (ids: number[]) => {
       if (isEqual(ids, params.additionalTerrainProfiles)) return
 
       navigate(`${location.pathname}${buildUrl({ additionalTerrainProfiles: ids })}`, {
@@ -119,7 +109,7 @@ const usePageParams = (): PageParams => {
   )
 
   const deleteAdditionalTerrainProfile = useCallback(
-    idToRemove => {
+    (idToRemove: number) => {
       navigate(
         `${location.pathname}${buildUrl({
           additionalTerrainProfiles: params.additionalTerrainProfiles.filter(
@@ -133,7 +123,7 @@ const usePageParams = (): PageParams => {
   )
 
   const toggleTrack = useCallback(
-    trackId => {
+    (trackId: number) => {
       const trackSelected = params.selectedTracks.includes(trackId)
       const selectedTracks = trackSelected
         ? params.selectedTracks.filter(el => el !== trackId)

@@ -79,9 +79,7 @@ const Item = ({ event, delayIndex }: ItemProps): JSX.Element => {
 
             {competitorsCount.map(([category, count], idx, arr) => (
               <React.Fragment key={idx}>
-                <span>
-                  {category} - {count}
-                </span>
+                <span>{`${category} - ${count}`}</span>
                 {idx < arr.length - 1 && <span className={styles.separator}>{'//'}</span>}
               </React.Fragment>
             ))}

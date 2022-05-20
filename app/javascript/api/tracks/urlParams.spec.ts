@@ -1,4 +1,4 @@
-import { mapParamsToUrl, extractParamsFromUrl } from 'api/tracks'
+import { mapParamsToUrl, extractParamsFromUrl } from './urlParams'
 
 describe('Index params', () => {
   describe('#mapToUrl', () => {

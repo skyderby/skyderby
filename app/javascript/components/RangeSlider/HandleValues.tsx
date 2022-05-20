@@ -14,7 +14,7 @@ const HandleValues = ({ handles }: HandleValuesProps): JSX.Element => {
   const mergedValuesRef = createRef<HTMLDivElement>()
 
   const setIndividualHandlesOpacity = useCallback(
-    value =>
+    (value: string) =>
       handleRefs.forEach(ref => {
         if (!ref.current) return
 

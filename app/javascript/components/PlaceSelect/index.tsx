@@ -22,7 +22,8 @@ const PlaceSelect = ({ value: placeId, ...props }: PlaceSelectProps): JSX.Elemen
   const selectedOption = place ? { value: place.id, label: place.name } : null
 
   const loadOptions = useCallback(
-    async (search, _loadedOptions, { page }) => {
+    async (search: string, _loadedOptions: unknown, meta: unknown) => {
+      const { page } = meta as { page: number }
       const data = await queryClient.fetchQuery(
         placesQuery({ search, page }, queryClient)
       )

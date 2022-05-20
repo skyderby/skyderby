@@ -32,11 +32,11 @@ const CompetitorCards = forwardRef<CompetitorCardsHandle, CompetitorCardsProps>(
     const lastOrder = useRef<string>()
 
     const setOrder = useCallback(
-      ids => {
+      (ids: string[]) => {
         const cardHeight = cardRefs[ids[0]]?.current?.getBoundingClientRect()?.height ?? 0
         const margin = cardHeight / 5
 
-        ids.forEach((id: number, idx: number) => {
+        ids.forEach((id: string, idx: number) => {
           const card = cardRefs[id].current
 
           if (!card) return
@@ -57,7 +57,7 @@ const CompetitorCards = forwardRef<CompetitorCardsHandle, CompetitorCardsProps>(
       const orderedIds = data
         .map(point => ({ id: point.id, result: point.taskResult }))
         .sort((a, b) => Number(b.result) - Number(a.result))
-        .map(({ id }) => id)
+        .map(({ id }) => String(id))
 
       const currentOrder = orderedIds.join('-')
 

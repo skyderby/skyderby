@@ -2,7 +2,12 @@ import React from 'react'
 import { Formik, Field, FieldProps } from 'formik'
 import { useNavigate } from 'react-router-dom'
 
-import { useNewTrackMutation } from 'api/tracks/track'
+import {
+  useCreateTrackMutation,
+  TrackActivity,
+  TrackFileRecord,
+  TrackVisibility
+} from 'api/tracks'
 import { useI18n } from 'components/TranslationsProvider'
 import Modal from 'components/ui/Modal'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
@@ -13,7 +18,6 @@ import TrackFileInput from './TrackFileInput'
 import SegmentSelect from './SegmentSelect'
 import validationSchema from './validationSchema'
 import styles from './styles.module.scss'
-import { TrackActivity, TrackFileRecord, TrackVisibility } from 'api/tracks'
 
 type NewTrackFormProps = {
   isShown: boolean
@@ -44,7 +48,7 @@ type FormData = {
 const NewTrackForm = ({ isShown, onHide }: NewTrackFormProps): JSX.Element => {
   const { t } = useI18n()
   const navigate = useNavigate()
-  const newTrackMutation = useNewTrackMutation()
+  const newTrackMutation = useCreateTrackMutation()
 
   const initialValues: FormData = {
     comment: '',

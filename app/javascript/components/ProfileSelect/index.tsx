@@ -25,7 +25,8 @@ const ProfileSelect = ({
   const selectedOption = profile ? { value: profile.id, label: profile.name } : null
 
   const loadOptions = useCallback(
-    async (search, _loadedOptions, { page }) => {
+    async (search: string, _loadedOptions: unknown, meta: unknown) => {
+      const { page } = meta as { page: number }
       const data = await queryClient.fetchQuery(
         profilesQuery({ page, search }, queryClient)
       )

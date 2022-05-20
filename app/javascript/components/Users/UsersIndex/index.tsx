@@ -27,9 +27,10 @@ const UsersIndex = (): JSX.Element => {
     ? null
     : { page: data?.currentPage, totalPages: data?.totalPages }
 
-  const buildUrl = useCallback(params => mapParamsToUrl({ ...urlParams, ...params }), [
-    urlParams
-  ])
+  const buildUrl = useCallback(
+    (params: Partial<IndexParams>) => mapParamsToUrl({ ...urlParams, ...params }),
+    [urlParams]
+  )
 
   const handleSearchChange = debounce(event => {
     const urlParams = mapParamsToUrl({ searchTerm: event.target.value, page: 1 })

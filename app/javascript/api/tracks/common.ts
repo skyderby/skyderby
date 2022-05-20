@@ -1,23 +1,23 @@
-import { CountryRecord } from 'api/countries'
-import { PlaceRecord } from 'api/places'
-import { SuitRecord } from 'api/suits'
-import { ProfileRecord } from 'api/profiles'
-import { ManufacturerRecord } from 'api/manufacturer'
+import { parseISO } from 'date-fns'
+import { cachePlaces, PlaceRecord } from 'api/places'
+import { cacheSuits, SuitRecord } from 'api/suits'
+import { cacheProfiles, ProfileRecord } from 'api/profiles'
+import { cacheCountries, CountryRecord } from 'api/countries'
+import { cacheManufacturers, ManufacturerRecord } from 'api/manufacturer'
+import queryClient from 'components/queryClient'
+import { Serialized } from 'api/helpers'
 
 const allowedActivities = ['base', 'skydive', 'speed_skydiving'] as const
 const allowedVisibilities = ['public_track', 'unlisted_track', 'private_track'] as const
 export type TrackActivity = typeof allowedActivities[number]
 export type TrackVisibility = typeof allowedVisibilities[number]
+
 export interface TrackJumpRange {
   from: number
   to: number
 }
 
-interface BestResults {
-  distance: number | null
-  speed: number | null
-  time: number | null
-}
+export type SerializedTrackRecord = Serialized<TrackRecord>
 
 export interface BaseTrackRecord {
   id: number
@@ -49,7 +49,15 @@ export interface TrackRecord extends BaseTrackRecord {
   }
 }
 
-export interface TrackFields {
+interface BestResults {
+  distance: number | null
+  speed: number | null
+  time: number | null
+}
+
+export type TrackIndexRecord = BaseTrackRecord & BestResults
+
+export type TrackVariables = Partial<{
   kind: TrackActivity
   visibility: TrackVisibility
   jumpRange: TrackJumpRange
@@ -58,9 +66,7 @@ export interface TrackFields {
   location: string | null
   missingSuitName: string | null
   comment: string
-}
-
-export type TrackIndexRecord = BaseTrackRecord & BestResults
+}>
 
 export interface TrackRelations {
   countries: CountryRecord[]
@@ -70,12 +76,25 @@ export interface TrackRelations {
   profiles: ProfileRecord[]
 }
 
-export interface TracksIndex {
-  items: TrackIndexRecord[]
+export interface TracksIndex<T> {
+  items: T[]
   currentPage: number
   totalPages: number
   relations: TrackRelations
 }
+
+export interface IndexParams {
+  activity?: TrackActivity
+  filters?: TrackFilters
+  search?: string
+  page?: number
+  perPage?: number
+  sortBy?: SortByValue
+}
+
+export type IndexQueryKey = ['tracks', IndexParams]
+export type InfiniteIndexQueryKey = ['infiniteTracks', IndexParams]
+export type RecordQueryKey = ['tracks', number]
 
 export const allowedFilters = ['profileId', 'suitId', 'placeId', 'year'] as const
 export const allowedSortByValues = [
@@ -106,14 +125,25 @@ export const isAllowedSort = (sortBy: string | null): sortBy is SortByValue => {
   return allowedSortByValues.includes(sortBy as SortByValue)
 }
 
-export interface IndexParams {
-  activity?: TrackActivity
-  filters?: TrackFilters
-  search?: string
-  page?: number
-  perPage?: number
-  sortBy?: SortByValue
+export const collectionEndpoint = '/api/v1/tracks'
+export const elementEndpoint = (id: number) => `${collectionEndpoint}/${id}`
+export const recordQueryKey = (id: number): RecordQueryKey => ['tracks', id]
+
+export const cacheRelations = (relations: TrackRelations): void => {
+  cachePlaces(relations.places, queryClient)
+  cacheSuits(relations.suits, queryClient)
+  cacheProfiles(relations.profiles, queryClient)
+  cacheCountries(relations.countries, queryClient)
+  cacheManufacturers(relations.manufacturers, queryClient)
 }
 
-export type IndexQueryKey = ['tracks', IndexParams]
-export type InfiniteIndexQueryKey = ['infiniteTracks', IndexParams]
+export const deserialize = <
+  TIn extends { createdAt: string; updatedAt: string; recordedAt: string }
+>(
+  track: TIn
+) => ({
+  ...track,
+  createdAt: parseISO(track.createdAt),
+  updatedAt: parseISO(track.updatedAt),
+  recordedAt: parseISO(track.recordedAt)
+})

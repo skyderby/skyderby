@@ -4,7 +4,6 @@ import type { Props } from 'react-select'
 import { useQueryClient } from 'react-query'
 
 import getSelectStyles from 'styles/selectStyles'
-import PropTypes from 'prop-types'
 import {
   useTrackQuery,
   tracksQuery,
@@ -34,7 +33,8 @@ const TrackSelect = ({
   const selectedOption = track ? buildOption(track) : null
 
   const loadOptions = useCallback(
-    async (search, _loadedOptions, { page }) => {
+    async (search: string, _loadedOptions: unknown, meta: unknown) => {
+      const { page } = meta as { page: number }
       const data = await queryClient.fetchQuery(
         tracksQuery({ page, search, filters }, queryClient)
       )
@@ -65,11 +65,6 @@ const TrackSelect = ({
       {...props}
     />
   )
-}
-
-TrackSelect.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  filters: PropTypes.object
 }
 
 export default TrackSelect

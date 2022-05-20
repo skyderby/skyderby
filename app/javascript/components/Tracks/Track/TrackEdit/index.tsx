@@ -4,9 +4,9 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import {
   useTrackQuery,
-  useEditTrackMutation,
+  useUpdateTrackMutation,
   useDeleteTrackMutation,
-  TrackFields
+  TrackVariables
 } from 'api/tracks'
 import { useI18n } from 'components/TranslationsProvider'
 import PageContainer from 'components/Tracks/Track/PageContainer'
@@ -23,15 +23,15 @@ const TrackEdit = ({ trackId }: TrackEditProps): JSX.Element | null => {
 
   const navigate = useNavigate()
   const { data: track } = useTrackQuery(trackId)
-  const editMutation = useEditTrackMutation()
-  const deleteMutation = useDeleteTrackMutation()
+  const editMutation = useUpdateTrackMutation(trackId)
+  const deleteMutation = useDeleteTrackMutation(trackId)
   const { t } = useI18n()
 
   const handleSubmit = async (
     formValues: FormData,
     { setSubmitting }: FormikHelpers<FormData>
   ) => {
-    const values: TrackFields = {
+    const values: TrackVariables = {
       jumpRange: formValues.jumpRange,
       kind: formValues.kind,
       visibility: formValues.visibility,
@@ -44,7 +44,7 @@ const TrackEdit = ({ trackId }: TrackEditProps): JSX.Element | null => {
         : { placeId: formValues.placeId, location: null })
     }
 
-    await editMutation.mutateAsync({ id: trackId, changes: values })
+    await editMutation.mutateAsync(values)
 
     setSubmitting(false)
 
@@ -56,7 +56,7 @@ const TrackEdit = ({ trackId }: TrackEditProps): JSX.Element | null => {
 
     if (!confirmed) return
 
-    await deleteMutation.mutateAsync(trackId)
+    await deleteMutation.mutateAsync()
 
     navigate(returnTo)
   }

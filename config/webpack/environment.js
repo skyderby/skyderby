@@ -28,6 +28,18 @@ environment.loaders.insert(
   { before: 'file' }
 )
 
+environment.config.merge({
+  module: {
+    rules: [
+      {
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto'
+      }
+    ]
+  }
+})
+
 const fileLoader = environment.loaders.get('file')
 fileLoader.exclude = /\.(svg)$/i
 

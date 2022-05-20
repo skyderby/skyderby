@@ -1,5 +1,10 @@
 import React, { useCallback, useMemo } from 'react'
-import { OptionsZoomTypeValue } from 'highcharts'
+import {
+  ChartClickEventObject,
+  OptionsZoomTypeValue,
+  PointerEventObject,
+  SeriesClickEventObject
+} from 'highcharts'
 import { Field } from 'formik'
 
 import { useTrackPointsQuery } from 'api/tracks/points'
@@ -23,8 +28,18 @@ const TrackOffset = ({
   const { data: points = [] } = useTrackPointsQuery(trackId, { trimmed: false })
 
   const handleChartClick = useCallback(
-    event => {
-      const chartX = event.point?.x || event.xAxis[0].value
+    (event: PointerEventObject) => {
+      const chartX = (event as ChartClickEventObject).xAxis[0].value
+      const offset = Math.round(chartX * 10) / 10
+
+      setFieldValue('trackOffset', offset)
+    },
+    [setFieldValue]
+  )
+
+  const handleSeriesClick = useCallback(
+    (event: SeriesClickEventObject) => {
+      const chartX = event.point?.x
       const offset = Math.round(chartX * 10) / 10
 
       setFieldValue('trackOffset', offset)
@@ -44,12 +59,12 @@ const TrackOffset = ({
       plotOptions: {
         series: {
           events: {
-            click: handleChartClick
+            click: handleSeriesClick
           }
         }
       }
     }),
-    [handleChartClick]
+    [handleChartClick, handleSeriesClick]
   )
 
   const plotLineProps = {

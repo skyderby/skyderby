@@ -9,8 +9,8 @@ import {
   UseQueryResult
 } from 'react-query'
 
-import { trackQuery } from 'api/tracks/track'
-import { TrackRecord } from 'api/tracks/types'
+import { trackQuery } from './useTrackQuery'
+import { TrackRecord } from './common'
 
 export interface VideoRecord {
   trackId: number
@@ -79,7 +79,7 @@ export const useEditVideoMutation = (
   return useMutation(updateVideo, {
     onSuccess(response, variables) {
       const trackId = variables.id
-      const trackQueryKey = trackQuery(trackId, queryClient).queryKey
+      const trackQueryKey = trackQuery(trackId).queryKey
 
       queryClient.setQueryData(queryKey(trackId), response.data)
 

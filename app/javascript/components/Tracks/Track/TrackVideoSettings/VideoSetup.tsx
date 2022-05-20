@@ -17,8 +17,9 @@ const VideoSetup = ({ setFieldValue, videoId }: VideoSetup): JSX.Element => {
   const playerRef = useRef<{ getPlayerTime(): number | undefined }>()
 
   const handleUrlChange = useCallback(
-    e => {
-      const { value: url } = e.target
+    (event: InputEvent) => {
+      const target = event.target as HTMLInputElement
+      const { value: url } = target
       setFieldValue('url', url)
       setFieldValue('videoId', videoCodeFromUrl(url))
     },

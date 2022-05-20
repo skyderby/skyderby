@@ -53,8 +53,14 @@ const DesignatedLane = ({ event, competitor }: DesignatedLaneProps) => {
     setEndPoint({ latitude, longitude })
   }, [initialEndPoint])
 
-  const handleStartPointDrag = useCallback(coordinates => setStartPoint(coordinates), [])
-  const handleEndPointDrag = useCallback(coordinates => setEndPoint(coordinates), [])
+  const handleStartPointDrag = useCallback(
+    (coordinates: Coordinate) => setStartPoint(coordinates),
+    []
+  )
+  const handleEndPointDrag = useCallback(
+    (coordinates: Coordinate) => setEndPoint(coordinates),
+    []
+  )
 
   if (isLoading) return null
 
