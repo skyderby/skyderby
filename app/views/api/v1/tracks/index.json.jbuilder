@@ -19,8 +19,9 @@ json.items @tracks do |track|
   json.distance track.distance&.result.to_i
   json.speed track.speed&.result.to_i
   json.time track.time&.result.to_f.round(1)
-  json.created_at track.created_at.strftime('%d.%m.%Y')
-  json.recorded_at track.recorded_at.strftime('%d.%m.%Y')
+  json.created_at track.created_at.iso8601
+  json.updated_at track.created_at.iso8601
+  json.recorded_at track.recorded_at.iso8601
 end
 
 json.relations do

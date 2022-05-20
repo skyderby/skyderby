@@ -42,7 +42,7 @@ const ItemDetails = ({ track }: DetailsProps): JSX.Element => {
       <div className={styles.result}>{track.distance || '—'}</div>
       <div className={styles.result}>{track.speed || '—'}</div>
       <div className={styles.result}>{track.time ? track.time.toFixed(1) : '—'}</div>
-      <div className={styles.timestamp}>{track.recordedAt.toLocaleString()}</div>
+      <div className={styles.timestamp}>{track.recordedAt.toLocaleDateString()}</div>
     </>
   )
 }
