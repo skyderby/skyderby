@@ -16,7 +16,9 @@ class VirtualCompetition::Result < ApplicationRecord
   belongs_to :virtual_competition
   belongs_to :track
 
-  validates :track_id, uniqueness: { scope: :virtual_competition_id }
+  validates :track_id, uniqueness: { scope: %i[virtual_competition_id wind_cancelled] }
+
+  scope :wind_cancellation, ->(enabled) { where(wind_cancelled: enabled) }
 
   delegate :suit, to: :track
   delegate :place, to: :track

@@ -7,7 +7,6 @@ module VirtualCompetitions
       @online_competitions ||=
         VirtualCompetition
         .where(display_on_start_page: true)
-        .includes(personal_top_scores: [:profile, :track])
         .group_by(&:jumps_kind)
     end
   end
