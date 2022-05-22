@@ -54,6 +54,8 @@ class OnlineCompetitionsService
   end
 
   def score_performance_wind_cancelled
+    return unless track.place
+
     track_segment = best_track_segment_wind_cancelled
     return unless track_segment
 
