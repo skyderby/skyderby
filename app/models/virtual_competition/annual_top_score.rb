@@ -22,6 +22,8 @@ class VirtualCompetition::AnnualTopScore < ApplicationRecord
   belongs_to :profile
   belongs_to :suit
 
+  scope :wind_cancellation, ->(enabled) { where(wind_cancelled: enabled) }
+
   private
 
   def readonly?

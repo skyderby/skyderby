@@ -35,7 +35,10 @@ class Profile < ApplicationRecord
   has_many :base_tracks, -> { base.order('created_at DESC') }, class_name: 'Track', inverse_of: false
   has_many :badges, -> { order(achieved_at: :desc) }, dependent: :delete_all, inverse_of: :profile
   has_many :event_competitors, class_name: 'Event::Competitor', dependent: :restrict_with_error
-  has_many :personal_top_scores, class_name: 'VirtualCompetition::PersonalTopScore' # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :personal_top_scores,
+           -> { wind_cancellation(false) },
+           inverse_of: :profile,
+           class_name: 'VirtualCompetition::PersonalTopScore'
   has_many :contribution_details,
            class_name: 'Contribution::Detail',
            foreign_key: :contributor_id,

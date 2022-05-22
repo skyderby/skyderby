@@ -12,16 +12,13 @@ module VirtualCompetitions
       super(competition)
     end
 
-    def title
-      VirtualCompetitions::TitlePresenter.call(competition)
-    end
+    def title = VirtualCompetitions::TitlePresenter.call(competition)
 
-    def overall?
-      false
-    end
+    def overall? = false
 
     def scores
       @scores ||= interval_top_scores.for(interval)
+                                     .wind_cancellation(false)
                                      .includes(associations)
                                      .paginate(page: page, per_page: 25)
     end

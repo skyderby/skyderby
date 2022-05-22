@@ -24,6 +24,7 @@ class VirtualCompetition::IntervalTopScore < ApplicationRecord
   belongs_to :suit
 
   scope :for, ->(interval) { where(custom_interval: interval) }
+  scope :wind_cancellation, ->(enabled) { where(wind_cancelled: enabled) }
 
   private
 

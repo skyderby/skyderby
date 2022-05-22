@@ -14,5 +14,5 @@
             .leaderboard-stack__panel
               .leaderboard-stack__panel-header
                 = link_to competition.name, virtual_competition_path(competition)
-              - leaders = competition.personal_top_scores.first(3)
+              - leaders = competition.personal_top_scores.wind_cancellation(false).first(3)
               = render 'virtual_competitions/leaderboard', leaders: leaders, orientation: :vertical

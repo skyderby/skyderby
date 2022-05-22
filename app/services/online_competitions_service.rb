@@ -22,6 +22,7 @@ class OnlineCompetitionsService
       score_flare
     else
       score_performance
+      score_performance_wind_cancelled if track.skydive?
     end
   end
 
@@ -35,7 +36,7 @@ class OnlineCompetitionsService
 
     highest_flare = flares.max_by(&:altitude_gain)
 
-    competition.results.create \
+    competition.results.create! \
       track: track,
       result: highest_flare.altitude_gain
   end
@@ -45,16 +46,28 @@ class OnlineCompetitionsService
 
     return unless track_segment
 
-    competition.results.create!(
+    competition.results.create! \
       track: track,
       result: track_segment.public_send(competition.task),
       highest_gr: track_segment.max_gr,
       highest_speed: track_segment.max_ground_speed
-    )
+  end
+
+  def score_performance_wind_cancelled
+    track_segment = best_track_segment_wind_cancelled
+    return unless track_segment
+
+    competition.results.create! \
+      track: track,
+      result: track_segment.public_send(competition.task),
+      highest_gr: track_segment.max_gr,
+      highest_speed: track_segment.max_ground_speed,
+      wind_cancelled: true
   end
 
   def best_track_segment
     points = track_points(trimmed: { seconds_before_start: 10 })
+    points = yield points if block_given?
 
     all_segments = competition_windows.map do |window|
       WindowRangeFinder.new(points).execute(window)
@@ -69,11 +82,24 @@ class OnlineCompetitionsService
     end
   end
 
+  def best_track_segment_wind_cancelled
+    best_track_segment do |points|
+      return if points.empty?
+
+      start_time = points.first[:gps_time].beginning_of_hour
+      weather_data = track.place.weather_data.for_time(start_time)
+      return if weather_data.empty?
+
+      wind_data = WindCancellation::WindData.new(weather_data)
+      WindCancellation::WindSubtraction.new(points, wind_data).execute
+    end
+  end
+
   def track_points(trimmed: true)
     raw_points = PointsQuery.execute(
       track,
       trimmed: trimmed,
-      only: [:gps_time, :altitude, :latitude, :longitude, :h_speed, :v_speed, :glide_ratio]
+      only: [:gps_time, :time_diff, :altitude, :latitude, :longitude, :h_speed, :v_speed, :glide_ratio]
     )
 
     PointsPostprocessor.for(track.gps_type).call(raw_points)

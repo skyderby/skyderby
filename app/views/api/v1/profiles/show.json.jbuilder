@@ -6,7 +6,7 @@ json.photo do |json|
 end
 
 json.personal_scores do |json|
-  json.array! @profile.personal_top_scores do |score|
+  json.array! @profile.personal_top_scores.wind_cancellation(false) do |score|
     json.partial! score.virtual_competition
     json.overall_rank score.rank
     json.overall_result format_result(score.result, score.virtual_competition)

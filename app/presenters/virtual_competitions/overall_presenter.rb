@@ -26,7 +26,7 @@ module VirtualCompetitions
     end
 
     def scores
-      @scores ||= personal_top_scores.includes(associations).paginate(page: page, per_page: 25)
+      @scores ||= personal_top_scores.wind_cancellation(false).includes(associations).paginate(page: page, per_page: 25)
     end
 
     private
