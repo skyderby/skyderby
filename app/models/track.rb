@@ -74,7 +74,7 @@ class Track < ApplicationRecord
            -> { wind_cancellation(false) },
            class_name: 'VirtualCompetition::Result',
            inverse_of: :track
-  has_many :all_virtual_cometition_results, class_name: 'VirtualCompetition::Result', dependent: :destroy
+  has_many :all_virtual_competition_results, class_name: 'VirtualCompetition::Result', dependent: :destroy
 
   validates :name, presence: true, unless: :pilot
 
@@ -94,9 +94,7 @@ class Track < ApplicationRecord
     self.ff_start, self.ff_end = val.split(';')
   end
 
-  def duration
-    (points.last.gps_time_in_seconds - points.first.gps_time_in_seconds).to_i
-  end
+  def duration = (points.last.gps_time_in_seconds - points.first.gps_time_in_seconds).to_i
 
   def competitive? = event_result.present?
 
@@ -116,17 +114,11 @@ class Track < ApplicationRecord
 
   def abs_altitude? = ge_enabled
 
-  def point_altitude_field
-    ("abs_altitude - #{msl_offset}" if abs_altitude?) || 'elevation'
-  end
+  def point_altitude_field = ("abs_altitude - #{msl_offset}" if abs_altitude?) || 'elevation'
 
-  def delete_results
-    results.delete_all
-  end
+  def delete_results = results.delete_all
 
-  def delete_online_competitions_results
-    virtual_competition_results.delete_all
-  end
+  def delete_online_competitions_results = all_virtual_competition_results.delete_all
 
   def altitude_bounds
     @altitude_bounds ||= begin

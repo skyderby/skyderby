@@ -59,6 +59,14 @@ describe Track, type: :model do
       track.destroy
       expect(track.destroyed?).to be_falsey
     end
+
+    it 'cleans up online competition results ' do
+      online_competition = virtual_competitions(:base_race)
+      track = create :empty_track
+      online_competition.results.create!(track: track, result: 123)
+
+      expect { track.destroy }.to change { online_competition.results.count }.by(-1)
+    end
   end
 
   describe '#delete' do
@@ -67,6 +75,20 @@ describe Track, type: :model do
       event_results(:distance_competitor_1).update_columns(track_id: track.id)
 
       expect { track.delete }.to raise_exception(ActiveRecord::InvalidForeignKey)
+    end
+  end
+
+  describe '#delete_online_competitions_results' do
+    it 'deletes all results' do
+      online_competition = virtual_competitions(:skydive_distance)
+      track = create :empty_track
+      results = [
+        online_competition.results.create!(track: track, result: 123),
+        online_competition.results.create!(track: track, result: 123, wind_cancelled: true)
+      ]
+
+      expect { track.delete_online_competitions_results }
+        .to change { online_competition.results.where(id: results.map(&:id)).count }.from(2).to(0)
     end
   end
 end
