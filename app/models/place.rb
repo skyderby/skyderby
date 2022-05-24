@@ -12,7 +12,7 @@
 #
 
 class Place < ApplicationRecord
-  include Photos
+  include Photos, Stats
 
   enum kind: { skydive: 0, base: 1 }
 

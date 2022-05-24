@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Routes, useParams } from 'react-router-dom'
 
 import { usePlaceQuery } from 'api/places'
-import Loading from 'components/PageWrapper/Loading'
+import Loading from 'components/LoadingSpinner'
 import Header from './Header'
 import Overview from './Overview'
 import Videos from './Videos'
