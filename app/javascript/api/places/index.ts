@@ -1,8 +1,10 @@
 export { default as usePlaceQuery, placeQuery } from './usePlaceQuery'
-export * from './usePlacesQuery'
+export { default as usePlaces, placesQuery } from './usePlacesQuery'
+export { default as useAllPlacesQuery } from './useAllPlacesQuery'
+export { default as usePlaceStatsQuery } from './usePlaceStatsQuery'
+export type { PlaceStats } from './usePlaceStatsQuery'
 export { default as preloadPlaces } from './preloadPlaces'
 export { default as useNewPlaceMutation } from './useNewPlaceMutation'
-export { default as useAllPlacesQuery } from './useAllPlacesQuery'
 export { placeTypes } from './types'
 export { cachePlaces } from './utils'
 

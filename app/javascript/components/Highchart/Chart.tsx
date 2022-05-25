@@ -6,7 +6,7 @@ import React, {
   useImperativeHandle,
   forwardRef
 } from 'react'
-import { Chart, Options } from 'highcharts'
+import type { Chart, Options } from 'highcharts'
 import isEqual from 'lodash.isequal'
 
 import { refreshTooltipHandler } from './utils'

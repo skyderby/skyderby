@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import {
+import type {
   AxisLabelsFormatterContextObject,
   Options,
   Chart,
@@ -76,7 +76,7 @@ const baseOptions = (): Options => ({
     labels: {
       x: 20,
       y: -2,
-      formatter: function (this: AxisLabelsFormatterContextObject<number>) {
+      formatter: function (this: AxisLabelsFormatterContextObject) {
         return this.isLast ? '≥ 7' : String(this.value)
       }
     }

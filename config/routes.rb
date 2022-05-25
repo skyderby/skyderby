@@ -49,6 +49,7 @@ Skyderby::Application.routes.draw do
           collection do
             resources :exit_measurements, only: %i[index show]
           end
+          resource :stats, only: :show
         end
       end
       resources :terrain_profiles, only: %i[index show] do

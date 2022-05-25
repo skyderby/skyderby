@@ -11,7 +11,7 @@ import {
   useSpeedSkydivingCompetitionQuery,
   preloadStandings
 } from 'api/speedSkydivingCompetitions'
-import PageLoading from 'components/PageWrapper/Loading'
+import PageLoading from 'components/LoadingSpinner'
 import ErrorPage from 'components/ErrorPage'
 import Header from './Header'
 import Scoreboard from './Scoreboard'

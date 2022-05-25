@@ -1,5 +1,5 @@
 import { useLayoutEffect, memo } from 'react'
-import { AxisPlotLinesOptions, Chart } from 'highcharts'
+import type { AxisPlotLinesOptions, Chart } from 'highcharts'
 
 type PlotlineProps = AxisPlotLinesOptions & {
   chart: Chart

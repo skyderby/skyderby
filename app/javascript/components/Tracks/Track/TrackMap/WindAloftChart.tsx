@@ -1,8 +1,9 @@
 import React from 'react'
-import {
+import type {
   AxisLabelsFormatterContextObject,
   PointLabelObject,
-  TooltipFormatterContextObject
+  TooltipFormatterContextObject,
+  Options
 } from 'highcharts'
 
 import { WindDataRecord } from 'api/tracks/windData'
@@ -24,7 +25,7 @@ const WindAloftChart = ({ windData }: WindAloftChartProps): JSX.Element => {
       }
     }))
 
-  const options = {
+  const options: Options = {
     chart: {
       polar: true,
       height: 250
@@ -43,7 +44,7 @@ const WindAloftChart = ({ windData }: WindAloftChartProps): JSX.Element => {
           <br>
           <b>Speed:</b> ${this.point.options.custom?.windSpeed} m/s
           <br>
-          <b>Direction:</b> ${Math.round(this.x)}°
+          <b>Direction:</b> ${Math.round(Number(this.x))}°
         `
       }
     },
@@ -52,7 +53,7 @@ const WindAloftChart = ({ windData }: WindAloftChartProps): JSX.Element => {
       min: 0,
       max: 360,
       labels: {
-        formatter: function (this: AxisLabelsFormatterContextObject<number>) {
+        formatter: function (this: AxisLabelsFormatterContextObject) {
           return `${this.value}°`
         }
       }
@@ -62,7 +63,7 @@ const WindAloftChart = ({ windData }: WindAloftChartProps): JSX.Element => {
       max: 5,
       tickInterval: 1,
       labels: {
-        formatter: function (this: AxisLabelsFormatterContextObject<number>) {
+        formatter: function (this: AxisLabelsFormatterContextObject) {
           return `${this.value}k`
         }
       }
@@ -91,8 +92,7 @@ const WindAloftChart = ({ windData }: WindAloftChartProps): JSX.Element => {
       {
         type: 'scatter' as const,
         name: 'Wind speed',
-        data: chartData,
-        pointPlacement: 'between'
+        data: chartData
       }
     ],
     credits: {

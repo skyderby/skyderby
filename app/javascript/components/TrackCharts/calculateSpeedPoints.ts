@@ -1,7 +1,7 @@
 import { METRIC, IMPERIAL, UnitSystem } from 'components/TrackViewPreferences'
 import { msToKmh, msToMph } from 'utils/unitsConversion'
 import { PointRecord } from 'api/tracks/points'
-import { PointOptionsObject } from 'highcharts'
+import type { PointOptionsObject } from 'highcharts'
 
 const convertValue = (value: number, unitSystem: UnitSystem) => {
   if (unitSystem === METRIC) return msToKmh(value)

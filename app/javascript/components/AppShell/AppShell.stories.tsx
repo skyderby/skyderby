@@ -3,7 +3,7 @@ import { rest } from 'msw'
 import { Routes, Route } from 'react-router-dom'
 
 import AppShell from './'
-import PageLoading from 'components/PageWrapper/Loading'
+import PageLoading from 'components/LoadingSpinner'
 import ErrorPage from 'components/ErrorPage'
 
 export default {

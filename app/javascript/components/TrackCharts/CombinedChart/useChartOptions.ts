@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import {
+import type {
   AxisLabelsFormatterContextObject,
   Chart,
   Options,
@@ -80,7 +80,7 @@ const baseOptions = (): Options => ({
         text: I18n.t('charts.all_data.axis.gr')
       },
       labels: {
-        formatter: function (this: AxisLabelsFormatterContextObject<number>) {
+        formatter: function (this: AxisLabelsFormatterContextObject) {
           return this.isLast ? '≥ 7' : String(this.value)
         }
       },

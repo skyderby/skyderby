@@ -6,7 +6,7 @@ import styles from './styles.module.scss'
 import { CreateVariables, PlaceRecord, useNewPlaceMutation } from 'api/places'
 import { useI18n } from 'components/TranslationsProvider'
 import { useCurrentUserQuery } from 'api/sessions'
-import Loading from 'components/PageWrapper/Loading'
+import Loading from 'components/LoadingSpinner'
 
 const initialValues: CreateVariables = {
   countryId: null,

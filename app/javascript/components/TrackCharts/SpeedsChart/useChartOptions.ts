@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Chart, Options, Point, Series } from 'highcharts'
+import type { Chart, Options, Point, Series } from 'highcharts'
 
 import { I18n } from 'components/TranslationsProvider'
 import { METRIC, UnitSystem } from 'components/TrackViewPreferences'

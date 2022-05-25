@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import {
+import type {
   ChartClickEventObject,
   OptionsZoomTypeValue,
   PointerEventObject,

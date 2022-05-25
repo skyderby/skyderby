@@ -18,7 +18,7 @@ import Maps from './Maps'
 import Replay from './Replay'
 import Edit from './Edit'
 import styles from './styles.module.scss'
-import PageLoading from 'components/PageWrapper/Loading'
+import PageLoading from 'components/LoadingSpinner'
 import ErrorPage from 'components/ErrorPage'
 
 const Show = () => {

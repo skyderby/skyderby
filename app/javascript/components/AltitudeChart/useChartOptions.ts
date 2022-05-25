@@ -5,7 +5,7 @@ import { I18n } from 'components/TranslationsProvider'
 import { restoreSeriesVisibility, saveSeriesVisibility } from 'components/Highchart'
 import { msToKmh } from 'utils/unitsConversion'
 import { PointRecord } from 'api/tracks/points'
-import { Chart, Options, Series } from 'highcharts'
+import type { Chart, Options, Series } from 'highcharts'
 
 const chartName = 'AltitudeRangeSelect'
 

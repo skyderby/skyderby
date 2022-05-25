@@ -1,5 +1,5 @@
 import React from 'react'
-import { Chart, Point } from 'highcharts'
+import type { Chart, Point } from 'highcharts'
 
 import { I18n } from 'components/TranslationsProvider'
 import Highchart from 'components/Highchart'
