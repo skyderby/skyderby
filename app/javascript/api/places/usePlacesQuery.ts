@@ -40,7 +40,7 @@ export const placesQuery = (
   ...cacheOptions
 })
 
-export const usePlaces = (ids: number[]): PlaceRecord[] => {
+const usePlaces = (ids: number[]): PlaceRecord[] => {
   const queryClient = useQueryClient()
   return ids
     .map(id =>
@@ -48,3 +48,5 @@ export const usePlaces = (ids: number[]): PlaceRecord[] => {
     )
     .filter((record): record is PlaceRecord => record !== undefined)
 }
+
+export default usePlaces
