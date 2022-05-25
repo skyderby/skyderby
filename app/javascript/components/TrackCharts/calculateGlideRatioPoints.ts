@@ -1,4 +1,4 @@
-import { PointOptionsObject } from 'highcharts'
+import type { PointOptionsObject } from 'highcharts'
 import { PointRecord } from 'api/tracks/points'
 
 const clampValue = (val: number): number =>

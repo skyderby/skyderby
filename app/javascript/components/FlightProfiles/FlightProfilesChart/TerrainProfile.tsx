@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { Chart, Point } from 'highcharts'
+import type { Chart, Point } from 'highcharts'
 import PropTypes from 'prop-types'
 
 import { I18n } from 'components/TranslationsProvider'

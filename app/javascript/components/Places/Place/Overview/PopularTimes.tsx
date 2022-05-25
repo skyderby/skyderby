@@ -2,7 +2,7 @@ import React from 'react'
 import Highchart from 'components/Highchart'
 import { PlaceStats } from 'api/places'
 import { useI18n } from 'components/TranslationsProvider'
-import Highcharts from 'highcharts'
+import colors from 'utils/colors'
 
 type PopularTimesProps = {
   popularTimes: PlaceStats['popularTimes']
@@ -43,7 +43,7 @@ const PopularTimes = ({ popularTimes }: PopularTimesProps) => {
       shared: true
     },
     plotOptions: {
-      series: {
+      column: {
         borderRadius: 8,
         pointWidth: 16
       }
@@ -51,16 +51,18 @@ const PopularTimes = ({ popularTimes }: PopularTimesProps) => {
     series: [
       {
         name: 'Tracks recorded',
+        type: 'column' as const,
         yAxis: 0,
-        color: Highcharts.getOptions().colors?.[0],
+        color: colors[0],
         data: new Array(12)
           .fill(undefined)
           .map((_val, idx) => popularTimes[String(idx + 1)].trackCount)
       },
       {
         name: 'People visited',
+        type: 'column' as const,
         yAxis: 1,
-        color: Highcharts.getOptions().colors?.[8],
+        color: colors[4],
         data: new Array(12)
           .fill(undefined)
           .map((_val, idx) => popularTimes[String(idx + 1)].peopleCount)

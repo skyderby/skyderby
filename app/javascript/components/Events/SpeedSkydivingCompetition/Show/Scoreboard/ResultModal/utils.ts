@@ -1,5 +1,5 @@
 import { differenceInMilliseconds, isEqual } from 'date-fns'
-import { SeriesOptionsType } from 'highcharts'
+import type { SeriesOptionsType } from 'highcharts'
 import { PointRecord } from 'api/tracks/points'
 import { Result } from 'api/speedSkydivingCompetitions/types'
 

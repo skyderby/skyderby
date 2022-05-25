@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react'
-import { Chart } from 'highcharts'
+import type { Chart } from 'highcharts'
 
 import Highchart from 'components/Highchart'
 import useChartOptions from './useChartOptions'

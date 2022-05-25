@@ -1,5 +1,5 @@
 import React from 'react'
-import { Chart, SeriesOptionsType } from 'highcharts'
+import type { Chart, SeriesOptionsType } from 'highcharts'
 
 import { PointRecord } from 'api/tracks/points'
 import Highchart from 'components/Highchart'

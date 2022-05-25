@@ -1,6 +1,5 @@
 import { useLayoutEffect, useRef } from 'react'
-import { Chart, Series as SeriesType, SeriesOptionsType } from 'highcharts'
-import PropTypes from 'prop-types'
+import type { Chart, Series as SeriesType, SeriesOptionsType } from 'highcharts'
 
 type SeriesProps = SeriesOptionsType & {
   chart: Chart
@@ -24,11 +23,6 @@ const Series = ({ chart, ...seriesOptions }: SeriesProps): null => {
   }, [])
 
   return null
-}
-
-Series.propTypes = {
-  chart: PropTypes.object,
-  data: PropTypes.array
 }
 
 export default Series

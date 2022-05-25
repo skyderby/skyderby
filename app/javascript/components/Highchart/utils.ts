@@ -1,14 +1,5 @@
 import React from 'react'
-import { PointerEventObject, Series } from 'highcharts'
-import { Chart, Point } from 'highcharts'
-
-// See: https://github.com/highcharts/highcharts/issues/12532
-// searchPoint method missing in Series' typescript definition
-declare module 'highcharts' {
-  interface Series {
-    searchPoint: (event: PointerEventObject, compareX: boolean) => Point | undefined
-  }
-}
+import type { Chart, Point, Series } from 'highcharts'
 
 export const refreshTooltipHandler = (chart: Chart | undefined) => (
   evt: React.MouseEvent | React.TouchEvent

@@ -1,5 +1,5 @@
 import React, { useState, memo } from 'react'
-import { Chart } from 'highcharts'
+import type { Chart } from 'highcharts'
 
 import { PointRecord, useTrackPointsQuery } from 'api/tracks/points'
 import Highchart from 'components/Highchart'

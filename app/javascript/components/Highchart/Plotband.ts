@@ -1,5 +1,5 @@
 import { useLayoutEffect, memo } from 'react'
-import { AxisPlotBandsOptions, Chart } from 'highcharts'
+import type { AxisPlotBandsOptions, Chart } from 'highcharts'
 
 type PlotbandProps = AxisPlotBandsOptions & {
   chart: Chart

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Chart } from 'highcharts'
+import type { Chart } from 'highcharts'
 
 import SplittedCharts from './SplittedCharts'
 import CombinedChart from './CombinedChart'

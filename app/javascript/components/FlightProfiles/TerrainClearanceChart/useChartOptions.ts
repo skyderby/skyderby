@@ -1,4 +1,4 @@
-import { Options } from 'highcharts'
+import type { Options } from 'highcharts'
 
 type ZoomLevel = null | {
   min?: number

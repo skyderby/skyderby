@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { Chart } from 'highcharts'
+import type { Chart } from 'highcharts'
 
 import { PointRecord } from 'api/tracks/points'
 import GlideRatioChart from './GlideRatioChart'
