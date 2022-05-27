@@ -8,13 +8,18 @@ import {
 } from 'react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
 
-import { PlaceRecord } from 'api/places/types'
-import { cacheOptions, endpoint, recordQueryKey, RecordQueryKey } from 'api/places/utils'
+import {
+  cacheOptions,
+  elementEndpoint,
+  recordQueryKey,
+  PlaceRecord,
+  RecordQueryKey
+} from './common'
 import { preloadCountries } from 'api/countries'
 
 const getPlace = (id: number): Promise<PlaceRecord> =>
   client
-    .get<never, AxiosResponse<PlaceRecord>>(`${endpoint}/${id}`)
+    .get<never, AxiosResponse<PlaceRecord>>(elementEndpoint(id))
     .then(response => response.data)
 
 const buildQueryFn = (

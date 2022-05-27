@@ -7,6 +7,10 @@ json.latitude place.latitude.to_f
 json.longitude place.longitude.to_f
 json.msl place.msl.to_f
 
+json.permissions do
+  json.can_edit policy(place).edit?
+end
+
 unless without_photos
   json.cover place.photo_url
 

@@ -34,14 +34,16 @@ const Navbar = ({ place }: NavbarProps): JSX.Element => {
 
       <PageNavbar.Spacer />
 
-      <PageNavbar.Item right>
-        <NavLink to={`${placeUrl}/edit`}>
-          <span>
-            <CogIcon />
-            Edit
-          </span>
-        </NavLink>
-      </PageNavbar.Item>
+      {place.permissions.canEdit && (
+        <PageNavbar.Item right>
+          <NavLink to={`${placeUrl}/edit`}>
+            <span>
+              <CogIcon />
+              Edit
+            </span>
+          </NavLink>
+        </PageNavbar.Item>
+      )}
     </PageNavbar>
   )
 }

@@ -1,0 +1,18 @@
+@import 'styles/breakpoints';
+
+.container {
+  border: solid 1px transparent;
+  border-top-color: var(--border-color);
+  border-bottom-color: var(--border-color);
+
+  background-color: var(--white);
+
+  @include md-screen {
+    width: calc(#{$bp-small} - 2rem);
+    margin: 0 auto;
+
+    border-right-color: var(--border-color);
+    border-left-color: var(--border-color);
+    border-radius: var(--border-radius-md);
+  }
+}
