@@ -31,7 +31,7 @@ const NewPlace = () => {
     <div className={styles.container}>
       <h1 className={styles.pageTitle}>{t('views.places.title')}</h1>
       <div className={styles.card}>
-        <Form initialValues={initialValues} mutation={mutation} />
+        <Form initialValues={initialValues} mutation={mutation} returnUrl="/places" />
       </div>
     </div>
   )

@@ -18,7 +18,12 @@ const Edit = ({ placeId }: EditProps) => {
 
   return (
     <div className={styles.container}>
-      <Form initialValues={place} mutation={mutation} deleteMutation={deleteMutation} />
+      <Form
+        initialValues={place}
+        mutation={mutation}
+        deleteMutation={deleteMutation}
+        returnUrl={`/places/${placeId}`}
+      />
     </div>
   )
 }

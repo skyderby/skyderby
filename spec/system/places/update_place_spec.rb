@@ -22,6 +22,17 @@ describe 'Edit place page:' do
     expect(page).to have_link(href: "/places/#{place.id}/edit")
   end
 
+  it 'cancel button navigates to overview tab' do
+    place = places(:ravenna)
+
+    sign_in users(:admin)
+    visit("/places/#{place.id}/edit")
+
+    click_link I18n.t('general.cancel')
+
+    expect(page).to have_current_path("/places/#{place.id}")
+  end
+
   it 'admin user is able to fill the form and update place' do
     sign_in users(:admin)
     visit "/places/#{place.id}"
