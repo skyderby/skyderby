@@ -44,7 +44,7 @@ Skyderby::Application.routes.draw do
       resources :virtual_competitions
 
       resources :countries, only: %i[index show]
-      resources :places, only: %i[index show create] do
+      resources :places, only: %i[index show create update destroy] do
         scope module: :places do
           collection do
             resources :exit_measurements, only: %i[index show]

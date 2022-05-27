@@ -1,14 +1,16 @@
 import { QueryClient, QueryFunction, useQueryClient, UseQueryOptions } from 'react-query'
-import { IndexParams, PlaceRecord, PlacesIndex } from 'api/places/types'
 import {
+  IndexParams,
+  PlaceRecord,
+  PlacesIndex,
   buildUrl,
   cacheOptions,
   indexQueryKey,
   IndexQueryKey,
-  recordQueryKey
-} from './utils'
+  recordQueryKey,
+  cachePlaces
+} from './common'
 import { cacheCountries } from 'api/countries'
-import { cachePlaces } from './utils'
 import client, { AxiosResponse } from 'api/client'
 
 export const getPlaces = (params: IndexParams): Promise<PlacesIndex> =>

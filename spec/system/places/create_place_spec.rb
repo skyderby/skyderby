@@ -43,7 +43,9 @@ describe 'Create location page:' do
 
     click_button I18n.t('general.save')
 
-    expect(page).not_to have_current_path('/places/new')
+    place_id = Place.last.id
+
+    expect(page).to have_current_path("/places/#{place_id}")
     expect(page).to have_css('h2', text: 'New test location')
     expect(page).to have_css('span', text: 'Overview')
     expect(page).to have_css('span', text: 'Videos')

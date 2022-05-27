@@ -18,7 +18,7 @@ class Place < ApplicationRecord
 
   belongs_to :country
 
-  has_many :tracks, -> { order('created_at DESC') }, inverse_of: :place
+  has_many :tracks, dependent: :restrict_with_error
   has_many :pilots, -> { distinct }, through: :tracks
   has_many :events, dependent: :restrict_with_error
   has_many :weather_data, dependent: :delete_all

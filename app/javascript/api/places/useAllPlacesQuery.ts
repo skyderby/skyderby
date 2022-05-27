@@ -6,14 +6,15 @@ import {
   UseQueryResult
 } from 'react-query'
 
-import { PlaceRecord, PlacesIndex } from 'api/places/types'
 import {
   AllPlacesQueryKey,
   allPlacesQueryKey,
   cacheOptions,
   cachePlaces,
-  buildUrl
-} from './utils'
+  buildUrl,
+  PlaceRecord,
+  PlacesIndex
+} from './common'
 import { cacheCountries } from 'api/countries'
 import { depaginate } from 'api/helpers'
 

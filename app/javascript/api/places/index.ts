@@ -1,12 +1,10 @@
+export type { PlaceStats } from './usePlaceStatsQuery'
+export type { PlaceRecord, PlaceVariables } from './common'
+
 export { default as usePlaceQuery, placeQuery } from './usePlaceQuery'
 export { default as usePlaces, placesQuery } from './usePlacesQuery'
 export { default as useAllPlacesQuery } from './useAllPlacesQuery'
 export { default as usePlaceStatsQuery } from './usePlaceStatsQuery'
-export type { PlaceStats } from './usePlaceStatsQuery'
-export { default as preloadPlaces } from './preloadPlaces'
-export { default as useNewPlaceMutation } from './useNewPlaceMutation'
-export { placeTypes } from './types'
-export { cachePlaces } from './utils'
-
-export type { CreateVariables, NewPlaceMutation } from './useNewPlaceMutation'
-export type { PlaceRecord } from './types'
+export { default as useCreatePlaceMutation } from './useCreatePlaceMutation'
+export { default as useUpdatePlaceMutation } from './useUpdatePlaceMutation'
+export { cachePlaces, placeTypes } from './common'

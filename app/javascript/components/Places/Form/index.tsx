@@ -1,25 +1,57 @@
 import React from 'react'
-import { Formik, Field, ErrorMessage, FieldProps } from 'formik'
-import { Link } from 'react-router-dom'
+import { Formik, Field, ErrorMessage, FieldProps, FormikHelpers } from 'formik'
+import { Link, useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
+import type { ValueType } from 'react-select'
+import type { UseMutationResult } from 'react-query'
+import type { AxiosError, AxiosResponse } from 'axios'
 
+import { PlaceRecord, PlaceVariables } from 'api/places'
 import ErrorText from 'components/ui/ErrorMessage'
 import { useI18n } from 'components/TranslationsProvider'
 import CountrySelect from 'components/CountrySelect'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
 import validationSchema from './validationSchema'
 import styles from './styles.module.scss'
-import { CreateVariables, NewPlaceMutation } from 'api/places'
-import { ValueType } from 'react-select'
+import RequestErrorToast from 'components/RequestErrorToast'
 
 type FormProps = {
-  initialValues: CreateVariables
-  mutation: NewPlaceMutation
+  initialValues: PlaceVariables
+  mutation: UseMutationResult<
+    AxiosResponse<PlaceRecord>,
+    AxiosError<Record<string, string[]>>,
+    PlaceVariables
+  >
+  deleteMutation?: UseMutationResult<
+    AxiosResponse<PlaceRecord>,
+    AxiosError<Record<string, string[]>>,
+    void
+  >
 }
 
-const Form = ({ initialValues, mutation }: FormProps): JSX.Element => {
+const Form = ({ initialValues, mutation, deleteMutation }: FormProps): JSX.Element => {
   const { t } = useI18n()
+  const navigate = useNavigate()
 
-  const handleSubmit = (values: CreateVariables) => mutation.mutate(values)
+  const deletable = deleteMutation !== undefined
+
+  const handleSubmit = (values: PlaceVariables, helpers: FormikHelpers<PlaceVariables>) =>
+    mutation.mutate(values, {
+      onSuccess: response => navigate(`/places/${response.data.id}`),
+      onSettled: () => helpers.setSubmitting(false)
+    })
+
+  const handleDelete = () =>
+    deleteMutation &&
+    deleteMutation.mutate(undefined, {
+      onSuccess: () => {
+        navigate('/places')
+        toast.success('Place had been successfully deleted.')
+      },
+      onError: error => {
+        toast.error(<RequestErrorToast response={error.response} />)
+      }
+    })
 
   return (
     <Formik
@@ -96,6 +128,15 @@ const Form = ({ initialValues, mutation }: FormProps): JSX.Element => {
           </div>
 
           <div className={styles.footer}>
+            {deletable && (
+              <button
+                type="button"
+                className={styles.deleteButton}
+                onClick={handleDelete}
+              >
+                {t('general.delete')}
+              </button>
+            )}
             <button type="submit" className={styles.primaryButton}>
               {t('general.save')}
             </button>
