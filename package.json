@@ -119,7 +119,7 @@
     "@babel/preset-typescript": "^7.15.0",
     "@google/markerclusterer": "^1.0.3",
     "@googlemaps/js-api-loader": "^1.12.3",
-    "@googlemaps/markerclustererplus": "^1.1.2",
+    "@googlemaps/markerclusterer": "^2.0.7",
     "@popperjs/core": "^2.5.3",
     "@rails/actioncable": "^6.0.2",
     "@rails/ujs": "^6.0.2",

@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState, useCallback } from 'react'
-import MarkerClusterer from '@googlemaps/markerclustererplus'
+import { MarkerClusterer } from '@googlemaps/markerclusterer'
 import { Link, useNavigate } from 'react-router-dom'
 import cx from 'clsx'
 import debounce from 'lodash.debounce'
@@ -54,10 +54,9 @@ const PlacesIndex = () => {
       return Object.assign(marker, { placeId: place.id })
     })
 
-    const clusterer = new MarkerClusterer(map, markers.current, {
-      gridSize: 50,
-      maxZoom: 6,
-      imagePath: '/markerclusterer/m'
+    const clusterer = new MarkerClusterer({
+      map,
+      markers: markers.current
     })
 
     return () => {
