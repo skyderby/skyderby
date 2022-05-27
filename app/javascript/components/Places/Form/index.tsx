@@ -27,9 +27,15 @@ type FormProps = {
     AxiosError<Record<string, string[]>>,
     void
   >
+  returnUrl: string
 }
 
-const Form = ({ initialValues, mutation, deleteMutation }: FormProps): JSX.Element => {
+const Form = ({
+  initialValues,
+  mutation,
+  deleteMutation,
+  returnUrl
+}: FormProps): JSX.Element => {
   const { t } = useI18n()
   const navigate = useNavigate()
 
@@ -140,7 +146,7 @@ const Form = ({ initialValues, mutation, deleteMutation }: FormProps): JSX.Eleme
             <button type="submit" className={styles.primaryButton}>
               {t('general.save')}
             </button>
-            <Link to="/places" className={styles.secondaryButton}>
+            <Link to={returnUrl} className={styles.secondaryButton}>
               {t('general.cancel')}
             </Link>
           </div>

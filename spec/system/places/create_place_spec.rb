@@ -28,6 +28,15 @@ describe 'Create location page:' do
     expect(page).to have_current_path('/places/new')
   end
 
+  it 'cancel button navigates to place index' do
+    sign_in users(:admin)
+    visit('/places/new')
+
+    click_link I18n.t('general.cancel')
+
+    expect(page).to have_current_path('/places')
+  end
+
   it 'admin user is able to fill the form and save new place' do
     sign_in users(:admin)
     visit '/places'
