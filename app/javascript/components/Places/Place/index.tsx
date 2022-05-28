@@ -6,6 +6,7 @@ import Loading from 'components/LoadingSpinner'
 import Header from './Header'
 import Overview from './Overview'
 import Videos from './Videos'
+import Tracks from './Tracks'
 import Edit from './Edit'
 import styles from './styles.module.scss'
 import ErrorPage from 'components/ErrorPage'
@@ -26,7 +27,7 @@ const Place = () => {
       <Routes>
         <Route index element={<Overview placeId={id} />} />
         <Route path="videos" element={<Videos placeId={id} />} />
-        <Route path="tracks" element={<div />} />
+        <Route path="tracks" element={<Tracks placeId={id} />} />
         {place.permissions.canEdit && (
           <Route path="edit" element={<Edit placeId={id} />} />
         )}

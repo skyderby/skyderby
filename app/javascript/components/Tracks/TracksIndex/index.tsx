@@ -34,7 +34,7 @@ const TracksIndex = (): JSX.Element => {
         <ActivitySelect buildUrl={buildUrl} currentActivity={params.activity} />
       </div>
 
-      <Filters />
+      <Filters params={params} buildUrl={buildUrl} />
 
       <TrackList tracks={tracks} />
 

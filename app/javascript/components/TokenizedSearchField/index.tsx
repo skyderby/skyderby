@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react'
-import PropTypes from 'prop-types'
 
 import useClickOutside from 'hooks/useClickOutside'
 import IconTimes from 'icons/times.svg'
@@ -14,11 +13,13 @@ import { ValueType } from 'react-select'
 type TokenizedSearchFieldProps = {
   initialValues?: TokenTuple[]
   onChange: (tokens: TokenTuple[]) => unknown
+  exclude?: typeof allowedValueKeys[number]
 }
 
 const TokenizedSearchField = ({
   initialValues = [],
-  onChange
+  onChange,
+  exclude
 }: TokenizedSearchFieldProps): JSX.Element => {
   const containerRef = useRef<HTMLDivElement>(null)
   const [tokens, setTokens] = useState(initialValues)
@@ -88,7 +89,11 @@ const TokenizedSearchField = ({
 
         <li>
           {['idle', 'selectType'].includes(mode) && (
-            <TypeSelect aria-label="Select filter criteria" onChange={handleTypeSelect} />
+            <TypeSelect
+              aria-label="Select filter criteria"
+              onChange={handleTypeSelect}
+              exclude={exclude}
+            />
           )}
 
           {mode === 'selectValue' && (
@@ -108,11 +113,6 @@ const TokenizedSearchField = ({
       )}
     </div>
   )
-}
-
-TokenizedSearchField.propTypes = {
-  initialValues: PropTypes.arrayOf(PropTypes.array).isRequired,
-  onChange: PropTypes.func.isRequired
 }
 
 export default TokenizedSearchField

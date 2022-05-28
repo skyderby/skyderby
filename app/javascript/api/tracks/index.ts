@@ -7,7 +7,8 @@ export type {
   TrackIndexRecord,
   TrackRecord,
   TrackFilters,
-  FilterTuple
+  FilterTuple,
+  FilterKey
 } from './common'
 export { isAllowedActivity, isAllowedSort } from './common'
 export * from './urlParams'

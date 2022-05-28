@@ -111,7 +111,7 @@ export const allowedSortByValues = [
 ] as const
 
 export type FilterKey = typeof allowedFilters[number]
-export type FilterTuple = [FilterKey, string | number]
+export type FilterTuple = readonly [FilterKey, string | number]
 export type SortByValue = typeof allowedSortByValues[number]
 export type TrackFilters = FilterTuple[] | { [key in FilterKey]?: string | number }
 
