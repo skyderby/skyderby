@@ -19,9 +19,30 @@
 
 .row {
   display: grid;
-  grid-gap: 1rem;
-  grid-template-columns: max-content max-content max-content 1fr;
+  grid-gap: 0.25rem 1rem;
+  grid-template-columns: 3fr 1fr;
   align-items: center;
+  padding: 0 0.5rem;
+
+  @include sm-screen {
+    grid-gap: 1rem;
+    grid-template-columns: max-content max-content 1fr;
+  }
+}
+
+.suitAndPlace {
+  display: flex;
+  grid-row: 2;
+  padding-left: 2.5rem;
+
+  @include sm-screen {
+    grid-row: auto;
+    padding: 0;
+  }
+
+  >:not(:last-child) {
+    margin-right: 0.5rem;
+  }
 }
 
 .editLink {
