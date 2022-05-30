@@ -146,7 +146,7 @@
     "lodash.merge": "^4.6.2",
     "lodash.throttle": "^4.1.1",
     "normalize.css": "^8.0.1",
-    "postcss": "^8.1.1",
+    "postcss": "^8.2.13",
     "postcss-loader": "^4.3.0",
     "react": "^18.1.0",
     "react-compound-slider": "^2.5.0",
