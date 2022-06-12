@@ -1,4 +1,4 @@
-const usePortalRoot = (elementId: string): HTMLElement => {
+const useRoot = (elementId: string): HTMLElement => {
   const existentNode = document.getElementById(elementId)
   if (existentNode) return existentNode
 
@@ -9,4 +9,4 @@ const usePortalRoot = (elementId: string): HTMLElement => {
   return newNode
 }
 
-export default usePortalRoot
+export default useRoot

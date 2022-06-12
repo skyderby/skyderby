@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import { useCurrentUserQuery } from 'api/sessions'
 import { useI18n } from 'components/TranslationsProvider'
 import MenuButton from 'components/ui/MenuButton'
-import usePortalRoot from 'hooks/usePortalRoot'
+import useRoot from 'hooks/useRoot'
 import useDocumentBodyScroll from 'hooks/useDocumentBodyScroll'
 import LocaleSelector from '../LocaleSelector'
 import LogoutButton from '../LogoutButton'
@@ -39,7 +39,7 @@ const menuVariants = {
 
 const Sidebar = ({ onToggle: toggle }: SidebarProps): JSX.Element | null => {
   const { t } = useI18n()
-  const sidebarRoot = usePortalRoot('sidebar-root')
+  const sidebarRoot = useRoot('sidebar-root')
   const { enableScroll, disableScroll } = useDocumentBodyScroll()
   const { data: currentUser, isLoading } = useCurrentUserQuery()
 

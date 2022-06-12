@@ -1,15 +1,12 @@
 import React from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-import { useI18n } from 'components/TranslationsProvider'
 import Logo from 'icons/logo.svg'
-import RightMenuDesktop from './RightMenuDesktop'
+import DesktopMenu from './DesktopMenu'
 import MobileMenu from './MobileMenu'
 import styles from './styles.module.scss'
 
 const Navbar = (): JSX.Element => {
-  const { t } = useI18n()
-
   return (
     <nav className={styles.header}>
       <Link to="/" className={styles.home}>
@@ -17,24 +14,7 @@ const Navbar = (): JSX.Element => {
         Skyderby
       </Link>
 
-      <ul className={styles.menu}>
-        <li className={styles.menuItem}>
-          <NavLink to="/tracks">{t('application.header.tracks')}</NavLink>
-        </li>
-        <li className={styles.menuItem}>
-          <NavLink to="/events">{t('application.header.competitions')}</NavLink>
-        </li>
-        <li className={styles.menuItem}>
-          <NavLink to="/virtual_competitions">
-            {t('application.header.online_competitions')}
-          </NavLink>
-        </li>
-        <li className={styles.menuItem}>
-          <NavLink to="/places">{t('application.header.places')}</NavLink>
-        </li>
-      </ul>
-
-      <RightMenuDesktop />
+      <DesktopMenu />
       <MobileMenu />
     </nav>
   )

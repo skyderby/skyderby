@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import cx from 'clsx'
 
-import usePortalRoot from 'hooks/usePortalRoot'
+import useRoot from 'hooks/useRoot'
 import useDocumentBodyScroll from 'hooks/useDocumentBodyScroll'
 import styles from './styles.module.scss'
 
@@ -24,7 +24,7 @@ const Modal = ({
   children
 }: ModalProps): JSX.Element => {
   const [internalIsShown, setIsShown] = useState(isShown)
-  const modalRoot = usePortalRoot('modal-root')
+  const modalRoot = useRoot('modal-root')
   const { enableScroll, setScroll } = useDocumentBodyScroll()
 
   useEffect(() => {

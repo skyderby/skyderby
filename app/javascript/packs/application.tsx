@@ -2,9 +2,9 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 
 import App from 'components/App'
+import useRoot from 'hooks/useRoot'
 
 document.addEventListener('DOMContentLoaded', () => {
-  const container = document.getElementById('root')
-  const root = createRoot(container)
+  const root = createRoot(useRoot('root'))
   root.render(<App />)
 })
