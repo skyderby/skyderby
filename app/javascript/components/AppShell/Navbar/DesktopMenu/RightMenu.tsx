@@ -4,12 +4,12 @@ import { Link, useLocation } from 'react-router-dom'
 import { useCurrentUserQuery } from 'api/sessions'
 import { useI18n } from 'components/TranslationsProvider'
 import NewTrackForm from 'components/NewTrackForm'
-import LocaleSelector from './LocaleSelector'
-import CurrentUser from './CurrentUser'
-import LogoutButton from './LogoutButton'
+import LocaleSelector from '../LocaleSelector'
+import CurrentUser from '../CurrentUser'
+import LogoutButton from '../LogoutButton'
 import styles from './styles.module.scss'
 
-const RightMenuDesktop = (): JSX.Element => {
+const RightMenu = (): JSX.Element => {
   const { t } = useI18n()
   const location = useLocation()
   const [showModal, setShowModal] = useState(false)
@@ -56,4 +56,4 @@ const RightMenuDesktop = (): JSX.Element => {
   )
 }
 
-export default RightMenuDesktop
+export default RightMenu

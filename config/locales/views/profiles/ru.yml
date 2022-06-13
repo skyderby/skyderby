@@ -1,5 +1,6 @@
 ru:
   profiles:
+    title: Спортсмены
     header:
       tracks: Треки
       flight_profiles: Профили полетов

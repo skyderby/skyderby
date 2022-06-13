@@ -20,82 +20,6 @@
   }
 }
 
-.menuItem {
-  position: relative;
-
-  display: flex;
-
-  flex-grow: 1;
-  flex-shrink: 1;
-  align-items: center;
-  height: 100%;
-
-  &:not(:last-child) {
-    margin-right: 0.25rem;
-  }
-}
-
-.menuItem a {
-  padding: 0.5rem;
-  border-radius: var(--border-radius-md);
-}
-
-.menu .menuItem a {
-  font-size: 0.875rem;
-  text-transform: uppercase;
-}
-
-.menuItem a:global(.active) {
-  color: var(--blue-70);
-
-  &::after {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-
-    display: block;
-    height: 0.25rem;
-
-    background-color: var(--blue-70);
-
-    content: '';
-  }
-}
-
-.menuItem a:hover {
-  background-color: var(--blue-grey-70);
-}
-
-.menu {
-  display: none;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-
-  list-style: none;
-
-  @include sm-screen {
-    display: flex;
-  }
-}
-
-.rightMenuDesktop {
-  display: none;
-  margin: 0;
-  margin-left: auto;
-  padding: 0;
-
-  @include sm-screen {
-    display: flex;
-    align-items: center;
-  }
-
-  .menuItem:not(:last-child) {
-    margin-right: 0.5rem;
-  }
-}
-
 .sidebar {
   position: absolute;
   top: 0;
@@ -152,11 +76,4 @@
       fill: var(--white);
     }
   }
-}
-
-.uploadTrack {
-  composes: button from '~styles/button.module.scss';
-  composes: cta from '~styles/button.module.scss';
-
-  margin-right: 2rem;
 }

@@ -6,7 +6,7 @@ import { Options } from '@popperjs/core'
 
 import styles from './styles.module.scss'
 import cx from 'clsx'
-import usePortalRoot from 'hooks/usePortalRoot'
+import useRoot from 'hooks/useRoot'
 
 type DropdownProps = {
   referenceElement: AnyHTMLElement | null
@@ -23,7 +23,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(
       styles: { popper: position },
       attributes
     } = usePopper(referenceElement, popperElement, options)
-    const dropdownRoot = usePortalRoot('dropdowns-root')
+    const dropdownRoot = useRoot('dropdowns-root')
 
     useLayoutEffect(() => {
       if (!popperElement) return
@@ -76,7 +76,7 @@ const Button = ({
 }: { active?: boolean } & React.DetailedHTMLProps<
   ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
->): JSX.Element => (
+>) => (
   <button className={cx(styles.button, active && styles.active, className)} {...props} />
 )
 

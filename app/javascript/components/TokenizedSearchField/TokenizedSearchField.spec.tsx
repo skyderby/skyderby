@@ -11,21 +11,12 @@ describe('TokenizedSearchField', () => {
   }
 
   beforeEach(() => {
-    const queryOptions = {
-      cacheTime: Infinity,
-      staleTime: Infinity
-    }
-
-    queryClient.setQueryData(
-      ['suits', 3],
-      { id: 3, name: 'Nala', makeId: 1 },
-      queryOptions
-    )
-    queryClient.setQueryData(
-      ['manufacturers', 1],
-      { id: 1, name: 'TonySuits', code: 'TS' },
-      queryOptions
-    )
+    queryClient.setQueryData(['suits', 3], { id: 3, name: 'Nala', makeId: 1 })
+    queryClient.setQueryData(['manufacturers', 1], {
+      id: 1,
+      name: 'TonySuits',
+      code: 'TS'
+    })
   })
 
   afterEach(() => {
