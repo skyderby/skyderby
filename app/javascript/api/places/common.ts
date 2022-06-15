@@ -14,7 +14,7 @@ export type PlaceRecord = {
   id: number
   name: string
   countryId: number
-  msl?: number
+  msl: number | null
   kind: PlaceKind
   latitude: number
   longitude: number

@@ -1,26 +1,31 @@
 import { QueryFunction, useQuery } from 'react-query'
 import client from 'api/client'
 import { AxiosResponse } from 'axios'
-import { Serialized } from 'api/helpers'
 import { parseISO } from 'date-fns'
 
 export type PlaceStats = {
-  lastTrackRecordedAt: Date
+  lastTrackRecordedAt: Date | null
   popularTimes: Record<string, { trackCount: number; peopleCount: number }>
+}
+
+type SerializedStats = Omit<PlaceStats, 'lastTrackRecordedAt'> & {
+  lastTrackRecordedAt: string | null
 }
 
 type QueryKey = ['place', number, 'stats']
 
 const endpoint = (placeId: number) => `/api/v1/places/${placeId}/stats`
 
-const deserialize = (record: Serialized<PlaceStats>): PlaceStats => ({
+const deserialize = (record: SerializedStats): PlaceStats => ({
   ...record,
-  lastTrackRecordedAt: parseISO(record.lastTrackRecordedAt)
+  lastTrackRecordedAt: record.lastTrackRecordedAt
+    ? parseISO(record.lastTrackRecordedAt)
+    : null
 })
 
 const getPlaceStats = (placeId: number) =>
   client
-    .get<never, AxiosResponse<Serialized<PlaceStats>>>(endpoint(placeId))
+    .get<never, AxiosResponse<SerializedStats>>(endpoint(placeId))
     .then(response => response.data)
 
 const queryFn: QueryFunction<PlaceStats, QueryKey> = async ctx => {

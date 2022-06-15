@@ -20,7 +20,7 @@ const Header = ({ place }: HeaderProps): JSX.Element => {
         <PlaceIcon />
         <span>Lat: {place.latitude}</span>
         <span>Lon: {place.longitude}</span>
-        {place.msl !== undefined && (
+        {place.msl !== undefined && place.msl !== null && (
           <span>
             MSL: {place.msl} {t('units.m')}
           </span>

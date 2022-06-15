@@ -1,7 +1,7 @@
 import React from 'react'
 import { usePlaceStatsQuery } from 'api/places'
+import PopularTimes from './PopularTimes'
 import styles from './styles.module.scss'
-import PopularTimes from 'components/Places/Place/Overview/PopularTimes'
 
 type OverviewProps = {
   placeId: number
@@ -15,7 +15,12 @@ const Overview = ({ placeId }: OverviewProps) => {
   return (
     <div className={styles.container}>
       <PopularTimes popularTimes={stats.popularTimes} />
-      Last track recorded: {stats.lastTrackRecordedAt.toLocaleDateString()}
+      Last track recorded:{' '}
+      {stats.lastTrackRecordedAt ? (
+        stats.lastTrackRecordedAt.toLocaleDateString()
+      ) : (
+        <>&mdash;</>
+      )}
     </div>
   )
 }

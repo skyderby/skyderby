@@ -32,7 +32,7 @@ const PlaceLabel = ({
     <div className={styles.container}>
       {withIcon && <PlaceIcon />}
       {name && <span>{name}</span>}
-      {withMsl && msl !== undefined && (
+      {withMsl && msl !== undefined && msl !== null && (
         <>
           &nbsp;
           <span>
