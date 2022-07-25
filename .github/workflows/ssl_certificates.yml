@@ -20,7 +20,7 @@ jobs:
       - name: Fetch state from S3
         run: aws s3 sync s3://certificates.skyderby.ru $GITHUB_WORKSPACE/certificates
       - name: Download acme.sh
-        run: git clone https://github.com/skyksandr/acme.sh.git
+        run: git clone https://github.com/acmesh-official/acme.sh.git
       - name: Install acme.sh
         working-directory: acme.sh
         run: |
@@ -34,8 +34,7 @@ jobs:
           ~/.acme.sh/acme.sh --renew --dns dns_vultr \
             -d *.skyderby.ru -d skyderby.ru \
             -d *.skyder.by -d skyder.by \
-            -d *.skyderby.io -d skyderby.io \
-            --staging
+            -d *.skyderby.io -d skyderby.io
           echo ::set-output name=exit_code::$?
       - name: Sync state with S3
         if: steps.renewal.outputs.exit_code == 0
