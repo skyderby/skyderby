@@ -1,0 +1,84 @@
+name: Renew SSL certificates
+
+on:
+  schedule:
+    - cron: 0 2 * * *
+
+jobs:
+  renew_certificates:
+    name: Renew Certificates
+    runs-on: ubuntu-latest
+    outputs:
+      renewal_exit_code: ${{ steps.renewal.outputs.exit_code }}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+      AWS_DEFAULT_REGION: us-west-1
+      VULTR_API_KEY: ${{ secrets.VULTR_API_KEY }}
+    steps:
+      - run: mkdir -p $GITHUB_WORKSPACE/certificates
+      - name: Fetch state from S3
+        run: aws s3 sync s3://certificates.skyderby.ru $GITHUB_WORKSPACE/certificates
+      - name: Download acme.sh
+        run: git clone https://github.com/skyksandr/acme.sh.git
+      - name: Install acme.sh
+        working-directory: acme.sh
+        run: |
+          ./acme.sh --install --cert-home $GITHUB_WORKSPACE/certificates --accountemail skyksandr@gmail.com
+          ~/.acme.sh/acme.sh --version
+      - name: Issue a certificate
+        id: renewal
+        continue-on-error: true
+        run: |
+          set +e
+          ~/.acme.sh/acme.sh --renew --dns dns_vultr \
+            -d *.skyderby.ru -d skyderby.ru \
+            -d *.skyder.by -d skyder.by \
+            -d *.skyderby.io -d skyderby.io \
+            --staging
+          echo ::set-output name=exit_code::$?
+      - name: Sync state with S3
+        if: steps.renewal.outputs.exit_code == 0
+        run: aws s3 sync $GITHUB_WORKSPACE/certificates s3://certificates.skyderby.ru
+      - name: Check renewal status code
+        if: steps.renewal.outputs.exit_code != 0 && steps.renewal.outputs.exit_code != 2
+        run: |
+          echo Exit code ${{ steps.renewal.outputs.exit_code }}
+          exit 1
+
+  install_certificates:
+    name: Install Certificates
+    runs-on: app_host
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+    needs:
+      - renew_certificates
+    if: needs.renew_certificates.outputs.renewal_exit_code == 0
+    steps:
+      - name: Download Certificates
+        working-directory: /opt/app/skyderby
+        run: aws s3 sync s3://certificates.skyderby.ru certificates
+      - name: Restart Nginx
+        working-directory: /opt/app/skyderby
+        run: docker-compose restart web
+
+  test_certificate:
+    name: Verify certificate end date
+    runs-on: ubuntu-latest
+    needs:
+      - install_certificates
+    if: ${{ always() }}
+    steps:
+      - name: Verify certificate end date
+        run: | 
+          dateEnd=$(
+            openssl s_client -servername skyderby.ru -connect skyderby.ru:443 2>/dev/null <<< 'Q' \
+            | openssl x509 -noout -dates \
+            | grep notAfter \
+            | cut -f2 -d= \
+          )
+          daysLeft=$(( ($(date +%s -d "$dateEnd") - $(date +%s -d "00:00"))/86400))
+          echo "Certificate end date:" $dateEnd
+          echo "Days left: " $daysLeft
+          if [[ $daysLeft -lt 10 ]]; then exit 1; fi
