@@ -9,6 +9,7 @@ class Contribution::Summary
       .includes(:contributor)
       .joins(:contribution)
       .where("contributions.received_at > NOW() - interval '30 days'")
+      .order('contributions.received_at DESC')
   end
 
   def previous_contributions
