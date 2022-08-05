@@ -1,6 +1,0 @@
-module ActiveSupport
-  module Concern
-    def class_methods: { () -> void } -> void
-    def included: (?base: Class) { () -> void } -> void
-  end
-end
