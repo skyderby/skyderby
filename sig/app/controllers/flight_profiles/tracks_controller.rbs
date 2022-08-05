@@ -1,0 +1,7 @@
+module FlightProfiles
+  class TracksController < ApplicationController
+    include FlightProfilesScoped
+
+    def index: () -> untyped
+  end
+end

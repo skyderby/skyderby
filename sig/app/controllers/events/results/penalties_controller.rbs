@@ -1,0 +1,17 @@
+module Events
+  module Results
+    class PenaltiesController < ApplicationController
+      include EventTrackScoped
+
+      include EventScoped
+
+      def show: () -> untyped
+
+      def update: () -> untyped
+
+      private
+
+      def penalty_params: () -> untyped
+    end
+  end
+end

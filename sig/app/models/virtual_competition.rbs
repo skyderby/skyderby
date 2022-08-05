@@ -1,0 +1,11 @@
+class VirtualCompetition < ApplicationRecord
+  include Intervals
+
+  include Results
+
+  include SuitableFinder
+
+  def task: () -> ("distance" | "time" | untyped)
+
+  def worldwide?: () -> untyped
+end

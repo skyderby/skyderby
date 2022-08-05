@@ -1,0 +1,7 @@
+class Track < ApplicationRecord
+  module WeatherData
+    extend ActiveSupport::Concern
+
+    def weather_data: () -> untyped
+  end
+end

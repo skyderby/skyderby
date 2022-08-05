@@ -1,0 +1,21 @@
+class QualificationJump < ApplicationRecord
+  include AcceptsNestedTrack
+
+  include Tournament::SubmissionResult
+
+  def start_time: () -> (nil | untyped)
+
+  def start_time=: (untyped val) -> untyped
+
+  def track_owner: () -> untyped
+
+  def tracks_visibility: () -> :public_track
+
+  def track_activity: () -> :base
+
+  def track_comment: () -> ::String
+
+  private
+
+  def finish_line: () -> untyped
+end

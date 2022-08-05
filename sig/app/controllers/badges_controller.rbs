@@ -1,0 +1,15 @@
+class BadgesController < ApplicationController
+  def index: () -> untyped
+
+  def edit: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def set_badge: () -> untyped
+
+  def badge_params: () -> untyped
+end

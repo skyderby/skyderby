@@ -1,0 +1,19 @@
+class CreateTrackService
+  class ActivityDataLookup
+    SEARCH_SECONDS: 3
+
+    SPEED_THRESHOLD: 20
+
+    def self.call: (untyped points) -> untyped
+
+    def initialize: (untyped points) -> void
+
+    def call: () -> (true | false)
+
+    private
+
+    attr_reader points: untyped
+
+    def activity_present: (untyped points_range) -> untyped
+  end
+end

@@ -1,0 +1,15 @@
+module Profiles
+  class MergesController < ApplicationController
+    def new: () -> untyped
+
+    def create: () -> untyped
+
+    private
+
+    def merge_params: () -> untyped
+
+    def set_destination_profile: () -> untyped
+
+    def authorize_action: () -> (nil | untyped)
+  end
+end

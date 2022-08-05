@@ -1,0 +1,3 @@
+module TournamentRoundsHelper
+  def add_tournament_round_button: (untyped tournament) -> untyped
+end

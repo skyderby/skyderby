@@ -1,0 +1,13 @@
+module Assets
+  module SpeedSkydivingCompetitions
+    class OpenEventScoreboardsController < ApplicationController
+      def show: () -> untyped
+
+      private
+
+      def filename: () -> ::String
+
+      def set_event: () -> untyped
+    end
+  end
+end

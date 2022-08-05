@@ -1,0 +1,23 @@
+class SpeedSkydivingCompetition::Result < ApplicationRecord
+  include AcceptsNestedTrack
+
+  include SubmissionResult
+
+  include EventOngoingValidation
+
+  def penalty_size: () -> untyped
+
+  def final_result: () -> untyped
+
+  private
+
+  def track_owner: () -> untyped
+
+  def track_comment: () -> ::String
+
+  def track_activity: () -> :speed_skydiving
+
+  def can_be_destroyed?: () -> untyped
+
+  def round_must_be_in_progress: () -> (true | false)
+end

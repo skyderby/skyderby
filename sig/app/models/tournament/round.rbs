@@ -1,0 +1,5 @@
+class Tournament::Round < ApplicationRecord
+  def set_order: () -> untyped
+
+  def max_order_within_event: () -> untyped
+end

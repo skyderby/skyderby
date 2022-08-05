@@ -1,0 +1,3 @@
+module UsersHelper
+  def user_select_option: (untyped user) -> (nil | ::Array[untyped])
+end

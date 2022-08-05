@@ -1,0 +1,9 @@
+module Profiles
+  class Overview < SimpleDelegator
+    def ranking_positions: () -> untyped
+
+    private
+
+    def profile: () -> untyped
+  end
+end

@@ -1,0 +1,39 @@
+module Events
+  module Rounds
+    class Globe
+      CompetitorData: untyped
+
+      class EntityBuilder
+        def initialize: (untyped result) -> void
+
+        def execute: () -> untyped
+
+        private
+
+        attr_reader result: untyped
+      end
+
+      COLORS: ::Array["#7cb5ec" | "#434348" | "#90ed7d" | "#f7a35c" | "#8085e9" | "#f15c80" | "#e4d354" | "#8085e8" | "#8d4653" | "#91e8e1"]
+
+      def initialize: (untyped round) -> void
+
+      def competitors_by_groups: () -> untyped
+
+      def competitors: () -> untyped
+
+      def start_time: () -> untyped
+
+      def stop_time: () -> untyped
+
+      def boundaries_position: () -> { latitude: untyped, longitude: untyped, ground_offset: untyped }
+
+      private
+
+      attr_reader round: untyped
+
+      def colors: () -> untyped
+
+      def all_points: () -> untyped
+    end
+  end
+end

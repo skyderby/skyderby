@@ -1,0 +1,5 @@
+module Events
+  module RoundsHelper
+    def add_round_button: (untyped event, untyped discipline) -> untyped
+  end
+end

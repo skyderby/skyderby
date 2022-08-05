@@ -1,0 +1,19 @@
+module SegmentParser
+  class NullSegment
+    attr_reader name: untyped
+
+    attr_reader points_count: untyped
+
+    attr_reader h_up: untyped
+
+    attr_reader h_down: untyped
+
+    def initialize: () -> void
+  end
+
+  class Default
+    def initialize: (untyped file) -> void
+
+    def segments: () -> ::Array[untyped]
+  end
+end

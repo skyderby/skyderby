@@ -1,0 +1,15 @@
+module Tracks
+  module ValuePresenters
+    class Altitude
+      def initialize: (?::String unit_system) -> void
+
+      def call: (untyped value) -> untyped
+
+      private
+
+      attr_reader unit_system: untyped
+
+      def convert: (untyped value) -> untyped
+    end
+  end
+end

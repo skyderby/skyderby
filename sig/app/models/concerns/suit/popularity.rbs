@@ -1,0 +1,11 @@
+class Suit < ApplicationRecord
+  module Popularity
+    extend ActiveSupport::Concern
+
+    def popularity: (untyped period_from, untyped period_to, untyped activity) -> untyped
+
+    def build_tracks_query: (untyped period_from, untyped period_to, untyped activity) -> untyped
+
+    def filter_by_activity: (untyped relation, untyped activity) -> untyped
+  end
+end

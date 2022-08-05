@@ -1,0 +1,17 @@
+class PerformanceCompetition::Scoreboard
+  def initialize: (untyped event, untyped params) -> void
+
+  def categories: () -> untyped
+
+  private
+
+  attr_reader event: untyped
+
+  def build_category: (untyped category) -> { category: untyped, standings: untyped }
+
+  def rounds: () -> untyped
+
+  def competitors: () -> untyped
+
+  def results: () -> untyped
+end

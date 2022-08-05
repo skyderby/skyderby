@@ -1,0 +1,13 @@
+class Tournament < ApplicationRecord
+  module SubmissionResult
+    extend ActiveSupport::Concern
+
+    SECONDS_BEFORE_START: 10
+
+    def calculate_result: () -> untyped
+
+    def on_intersection_not_found: () -> untyped
+
+    def track_points: () -> untyped
+  end
+end

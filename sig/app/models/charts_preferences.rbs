@@ -1,0 +1,29 @@
+class ChartsPreferences
+  DEFAULT_UNITS: "metric"
+
+  AVAILABLE_UNITS: ::Array["metric" | "imperial"]
+
+  DEFAULT_MODE: "separate"
+
+  AVAILABLE_MODES: ::Array["separate" | "single"]
+
+  def initialize: (untyped value_store) -> void
+
+  def unit_system: () -> untyped
+
+  def metric?: () -> untyped
+
+  def imperial?: () -> untyped
+
+  def separate?: () -> untyped
+
+  def single?: () -> untyped
+
+  def preferred_units: () -> untyped
+
+  private
+
+  attr_reader value_store: untyped
+
+  def preferred_mode: () -> untyped
+end

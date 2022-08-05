@@ -1,0 +1,2 @@
+class VirtualCompetition::Group < ApplicationRecord
+end

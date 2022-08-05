@@ -1,0 +1,21 @@
+module Api
+  module V1
+    module Events
+      class TeamsController < ApplicationController
+        def index: () -> untyped
+
+        def create: () -> untyped
+
+        def update: () -> untyped
+
+        def destroy: () -> untyped
+
+        private
+
+        def set_event: () -> untyped
+
+        def team_params: () -> untyped
+      end
+    end
+  end
+end

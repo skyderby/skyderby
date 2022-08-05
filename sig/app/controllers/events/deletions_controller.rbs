@@ -1,0 +1,15 @@
+module Events
+  class DeletionsController < ApplicationController
+    def new: () -> untyped
+
+    def create: () -> untyped
+
+    private
+
+    def set_event: () -> untyped
+
+    def deletion_params: () -> untyped
+
+    def delete_tracks_param: () -> untyped
+  end
+end

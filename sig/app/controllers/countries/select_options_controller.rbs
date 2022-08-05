@@ -1,0 +1,9 @@
+module Countries
+  class SelectOptionsController < ApplicationController
+    def index: () -> untyped
+
+    def search_query: () -> untyped
+
+    def page: () -> untyped
+  end
+end

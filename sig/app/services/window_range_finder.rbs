@@ -1,0 +1,34 @@
+class WindowRangeFinder
+  class UnknownFilter < StandardError
+  end
+
+  class ValueOutOfRange < StandardError
+  end
+
+  # Order matters
+  ALLOWED_FILTERS: ::Array[:from_altitude | :from_vertical_speed | :from_gps_time | :duration | :elevation | :elevation_with_breakoff | :to_altitude | :until_cross_finish_line]
+
+  def initialize: (untyped points) -> void
+
+  def execute: (untyped args) -> untyped
+
+  private
+
+  attr_reader points: untyped
+
+  def from_altitude: (untyped altitude) -> untyped
+
+  def to_altitude: (untyped altitude) -> untyped
+
+  def from_vertical_speed: (untyped speed) -> untyped
+
+  def from_gps_time: (untyped gps_time) -> untyped
+
+  def duration: (untyped time) -> untyped
+
+  def elevation: (untyped altitude) -> untyped
+
+  def elevation_with_breakoff: (untyped options) -> untyped
+
+  def until_cross_finish_line: (untyped finish_line) -> untyped
+end

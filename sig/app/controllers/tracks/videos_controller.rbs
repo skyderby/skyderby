@@ -1,0 +1,23 @@
+module Tracks
+  class VideosController < ApplicationController
+    def new: () -> (nil | untyped)
+
+    def edit: () -> untyped
+
+    def show: () -> untyped
+
+    def create: () -> untyped
+
+    def update: () -> untyped
+
+    def destroy: () -> untyped
+
+    private
+
+    def set_track: () -> untyped
+
+    def authorize_edit: () -> untyped
+
+    def video_params: () -> untyped
+  end
+end

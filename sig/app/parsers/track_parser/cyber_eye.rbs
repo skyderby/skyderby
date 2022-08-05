@@ -1,0 +1,9 @@
+module TrackParser
+  class CyberEye < Flysight
+    FIELDS_INDEXES: { time: 0, latitude: 1, longitude: 2, altitude: 3, speed_north: 4, speed_east: 5, speed_vertical: 6, horizontal_accuracy: 7, vertical_accuracy: 8, speed_accuracy: 9, gps_fix: 10, number_of_satellites: 11 }
+
+    private
+
+    def parse_row: (untyped row) -> untyped
+  end
+end

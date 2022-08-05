@@ -1,0 +1,11 @@
+module Tournaments
+  class RoundsController < ApplicationController
+    def create: () -> untyped
+
+    def destroy: () -> untyped
+
+    private
+
+    def set_tournament: () -> untyped
+  end
+end

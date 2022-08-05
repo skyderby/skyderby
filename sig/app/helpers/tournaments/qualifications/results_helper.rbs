@@ -1,0 +1,11 @@
+module Tournaments
+  module Qualifications
+    module ResultsHelper
+      def new_qualification_track_link: (untyped tournament, untyped competitor, untyped round) -> untyped
+
+      def show_qualification_track_link: (untyped tournament, untyped result, untyped editable) -> untyped
+
+      def delete_qualification_track_link: (untyped tournament, untyped result) -> untyped
+    end
+  end
+end

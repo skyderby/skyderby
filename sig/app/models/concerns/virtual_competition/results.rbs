@@ -1,0 +1,9 @@
+class VirtualCompetition < ApplicationRecord
+  module Results
+    extend ActiveSupport::Concern
+
+    private
+
+    def set_results_sort_order: () -> untyped
+  end
+end

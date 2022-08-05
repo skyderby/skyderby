@@ -1,0 +1,1 @@
+SuitTypes: ::Array["wingsuit" | "tracksuit" | "slick" | "monotrack"]

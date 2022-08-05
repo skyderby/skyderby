@@ -1,0 +1,18 @@
+class PointInterpolation
+  class ValueOutOfRange < StandardError
+  end
+
+  def initialize: (untyped first_point, untyped second_point) -> void
+
+  def execute: (by: untyped, with_value: untyped) -> untyped
+
+  private
+
+  INTERPOLATION_FIELDS: ::Array[:gps_time | :latitude | :longitude | :altitude | :h_speed | :v_speed | :distance]
+
+  def interpolate: (untyped factor) -> untyped
+
+  def interpolation_factor: (untyped field, untyped value) -> untyped
+
+  def interpolate_field: (untyped field, untyped factor) -> untyped
+end

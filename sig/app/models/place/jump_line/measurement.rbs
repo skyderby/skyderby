@@ -1,0 +1,2 @@
+class Place::JumpLine::Measurement < ApplicationRecord
+end

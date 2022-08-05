@@ -1,0 +1,15 @@
+class PlacePolicy < ApplicationPolicy
+  def index?: () -> true
+
+  def show?: () -> true
+
+  def create?: () -> untyped
+
+  def update?: () -> untyped
+
+  def destroy?: () -> untyped
+
+  private
+
+  def can_edit?: () -> untyped
+end

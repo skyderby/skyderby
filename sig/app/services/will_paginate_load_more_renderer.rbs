@@ -1,0 +1,7 @@
+class WillPaginateLoadMoreRenderer < WillPaginate::ActionView::LinkRenderer
+  def next_page: () -> (nil | untyped)
+
+  def pagination: () -> ::Array[:next_page]
+
+  def tag: (untyped name, untyped value, ?::Hash[untyped, untyped] attributes) -> untyped
+end

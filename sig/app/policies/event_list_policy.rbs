@@ -1,0 +1,5 @@
+class EventListPolicy < ApplicationPolicy
+  class Scope < Scope
+    def resolve: () -> untyped
+  end
+end

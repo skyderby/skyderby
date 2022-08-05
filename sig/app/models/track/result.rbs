@@ -1,0 +1,5 @@
+class Track::Result < ApplicationRecord
+  private
+
+  def replace_nan_with_zero: () -> (nil | untyped)
+end

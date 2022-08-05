@@ -1,0 +1,5 @@
+module Profiles
+  class TracksController < ApplicationController
+    def index: () -> untyped
+  end
+end

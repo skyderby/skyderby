@@ -1,0 +1,37 @@
+class Track < ApplicationRecord
+  include Ownerable
+
+  include WeatherData
+
+  def jump_range: () -> ::String
+
+  def jump_range=: (untyped val) -> untyped
+
+  def duration: () -> untyped
+
+  def competitive?: () -> untyped
+
+  def msl_offset: () -> untyped
+
+  def start_time: () -> untyped
+
+  def abs_altitude?: () -> untyped
+
+  def point_altitude_field: () -> untyped
+
+  def delete_results: () -> untyped
+
+  def delete_online_competitions_results: () -> untyped
+
+  def altitude_bounds: () -> untyped
+
+  def recorded_at: () -> untyped
+
+  private
+
+  def used_in_competition?: () -> untyped
+
+  def self.search: (untyped query) -> untyped
+
+  def self.accessible_by: (untyped user) -> untyped
+end

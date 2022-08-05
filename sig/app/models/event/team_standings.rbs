@@ -1,0 +1,17 @@
+class Event::TeamStandings
+  Row: untyped
+
+  def initialize: (untyped event, untyped personal_standings) -> void
+
+  def ranking: () -> untyped
+
+  private
+
+  attr_reader event: untyped
+
+  attr_reader personal_standings: untyped
+
+  def score_team: (untyped team) -> untyped
+
+  def competitors: () -> untyped
+end

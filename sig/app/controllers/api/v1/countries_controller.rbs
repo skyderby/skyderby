@@ -1,0 +1,13 @@
+module Api
+  module V1
+    class CountriesController < Api::ApplicationController
+      def index: () -> untyped
+
+      def show: () -> untyped
+
+      private
+
+      def apply_filters: (untyped relation) -> untyped
+    end
+  end
+end

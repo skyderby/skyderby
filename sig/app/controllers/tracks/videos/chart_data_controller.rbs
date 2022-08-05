@@ -1,0 +1,9 @@
+module Tracks
+  module Videos
+    class ChartDataController < ApplicationController
+      def show: () -> untyped
+
+      def track: () -> untyped
+    end
+  end
+end

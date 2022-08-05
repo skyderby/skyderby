@@ -1,0 +1,9 @@
+module Internationalization
+  extend ActiveSupport::Concern
+
+  def set_locale: () -> untyped
+
+  def process_locale_param: () -> untyped
+
+  def user_locale: () -> untyped
+end

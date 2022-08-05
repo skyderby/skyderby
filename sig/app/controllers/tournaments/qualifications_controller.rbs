@@ -1,0 +1,5 @@
+module Tournaments
+  class QualificationsController < ApplicationController
+    def show: () -> untyped
+  end
+end

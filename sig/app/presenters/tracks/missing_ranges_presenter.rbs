@@ -1,0 +1,23 @@
+module Tracks
+  class MissingRangesPresenter
+    def self.call: (*untyped args) -> untyped
+
+    def initialize: (untyped ranges, untyped start_time, untyped end_time) -> void
+
+    def call: () -> (::Array[untyped] | untyped)
+
+    private
+
+    attr_reader ranges: untyped
+
+    attr_reader start_time: untyped
+
+    attr_reader end_time: untyped
+
+    def remove_short_ranges: (untyped ranges) -> untyped
+
+    def rearrange_to_selected_range: (untyped ranges) -> untyped
+
+    def selected_range: () -> ::Range[untyped]
+  end
+end

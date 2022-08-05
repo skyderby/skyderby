@@ -1,0 +1,7 @@
+class Api::V1::SpeedSkydivingCompetitions::OpenStandingsController < Api::ApplicationController
+  def show: () -> untyped
+
+  private
+
+  def set_event: () -> untyped
+end

@@ -1,0 +1,13 @@
+module Tracks
+  class WeatherData
+    class Row
+      attr_reader altitude: untyped
+
+      attr_reader wind_speed: untyped
+
+      attr_reader wind_direction: untyped
+
+      def initialize: (untyped weather_datum, untyped selected_units) -> void
+    end
+  end
+end

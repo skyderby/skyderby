@@ -1,0 +1,21 @@
+module Tracks
+  class GlobePresenter
+    def initialize: (untyped track) -> void
+
+    def pilot_name: () -> untyped
+
+    def start_time: () -> untyped
+
+    def stop_time: () -> untyped
+
+    def avg_heading: () -> untyped
+
+    def points: () -> untyped
+
+    def nearby_places: () -> (::Array[untyped] | untyped)
+
+    private
+
+    attr_reader track: untyped
+  end
+end

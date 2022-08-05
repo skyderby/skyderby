@@ -1,0 +1,29 @@
+#
+# Required interface for this concern:
+# - track_owner
+# - track_visibility
+# - track_comment
+# - competitor - profile and suit will be filled to track from competitor
+module AcceptsNestedTrack
+  extend ActiveSupport::Concern
+
+  attr_accessor track_file: untyped
+
+  attr_accessor track_from: untyped
+
+  def self.validate_duplicates_on_file_with: (untyped validator) -> untyped
+
+  class NullDuplicatesValidator
+    def self.call: (*untyped _args) -> false
+  end
+
+  private
+
+  def create_track_from_file: () -> (nil | untyped)
+
+  def suit_id: () -> (untyped | nil)
+
+  def enqueue_jobs: () -> untyped
+
+  def check_duplicates_for: (untyped track_file) -> untyped
+end

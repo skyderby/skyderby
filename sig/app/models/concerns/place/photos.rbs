@@ -1,0 +1,11 @@
+class Place < ApplicationRecord
+  module Photos
+    extend ActiveSupport::Concern
+
+    def photo: () -> untyped
+
+    def photo_url: () -> untyped
+
+    def google_map_image: () -> ::String
+  end
+end

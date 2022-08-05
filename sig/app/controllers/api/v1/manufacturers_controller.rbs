@@ -1,0 +1,21 @@
+module Api
+  module V1
+    class ManufacturersController < ApplicationController
+      def index: () -> untyped
+
+      def show: () -> untyped
+
+      def create: () -> untyped
+
+      def update: () -> untyped
+
+      def destroy: () -> untyped
+
+      private
+
+      def manufacturer_params: () -> untyped
+
+      def apply_filters: (untyped relation) -> untyped
+    end
+  end
+end

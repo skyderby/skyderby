@@ -1,0 +1,13 @@
+module Profiles
+  class AvatarsController < ApplicationController
+    def new: () -> untyped
+
+    def create: () -> untyped
+
+    private
+
+    def set_profile: () -> untyped
+
+    def avatar_params: () -> untyped
+  end
+end

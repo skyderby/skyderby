@@ -1,0 +1,5 @@
+module Tracks
+  class ResultsController < ApplicationController
+    def show: () -> untyped
+  end
+end

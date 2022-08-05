@@ -1,0 +1,9 @@
+module Ownerable
+  extend ActiveSupport::Concern
+
+  def belongs_to_user?: () -> untyped
+
+  def belongs_to_event?: () -> untyped
+
+  def belongs_to_tournament?: () -> untyped
+end

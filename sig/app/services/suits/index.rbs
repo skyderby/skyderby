@@ -1,0 +1,5 @@
+module Suits
+  module Index
+    def self.for: (untyped params) -> untyped
+  end
+end

@@ -1,0 +1,31 @@
+module Tournaments
+  class MatchMap
+    SECONDS_BEFORE_START: 10
+
+    CompetitorData: untyped
+
+    class PathBuilder
+      def self.call: (untyped slot) -> untyped
+
+      def initialize: (untyped slot) -> void
+
+      def call: () -> untyped
+
+      private
+
+      attr_reader slot: untyped
+    end
+
+    COLORS: ::Array["#7cb5ec" | "#90ed7d" | "#f7a35c" | "#8085e9" | "#f15c80" | "#e4d354" | "#8085e8" | "#8d4653" | "#91e8e1" | "#434348"]
+
+    def initialize: (untyped match) -> void
+
+    def competitors: () -> untyped
+
+    def finish_line: () -> untyped
+
+    private
+
+    attr_reader match: untyped
+  end
+end

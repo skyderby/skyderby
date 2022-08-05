@@ -1,0 +1,23 @@
+module VirtualCompetitions
+  class OverallPresenter < SimpleDelegator
+    def initialize: (untyped params) -> void
+
+    def title: () -> untyped
+
+    def overall?: () -> true
+
+    def year: () -> nil
+
+    def interval: () -> nil
+
+    def scores: () -> untyped
+
+    private
+
+    attr_reader page: untyped
+
+    attr_reader competition: untyped
+
+    def associations: () -> ::Array[{ suit: :manufacturer } | { track: ::Array[{ place: :country } | :video] } | :profile]
+  end
+end

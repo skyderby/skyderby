@@ -1,0 +1,13 @@
+class SpeedSkydivingCompetition::Round < ApplicationRecord
+  include Completable
+
+  include EventOngoingValidation
+
+  private
+
+  def set_number: () -> untyped
+
+  def renumber_subsequent: () -> untyped
+
+  def last_number_within_event: () -> untyped
+end

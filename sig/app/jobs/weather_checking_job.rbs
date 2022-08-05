@@ -1,0 +1,3 @@
+class WeatherCheckingJob < ApplicationJob
+  def perform: (untyped track_id) -> (nil | untyped)
+end

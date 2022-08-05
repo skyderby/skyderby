@@ -1,0 +1,39 @@
+class GfsGradsFetcher
+  class Dataset
+    DATASETS_INTERVAL: 6
+
+    DATASETS_HISTORY_DAYS: 12
+
+    DAYS_IN_DATASET: 5
+
+    SERVICE_URL: "https://nomads.ncep.noaa.gov/dods"
+
+    class DateOutOfRange < StandardError
+    end
+
+    class NoDatasetAvailable < StandardError
+    end
+
+    class UnknownAvailability < StandardError
+    end
+
+    def initialize: (?::Hash[untyped, untyped] opts) -> void
+
+    def available?: () -> untyped
+
+    def url: (?ext: ::String) -> ::String
+
+    def name: () -> ::String
+
+    def start_time: () -> untyped
+
+    def self.for: (untyped date_time) -> untyped
+
+    private
+
+    # time_offset values - 00, 06, 12, 18
+    def time_offset: () -> untyped
+
+    attr_reader date_time: untyped
+  end
+end

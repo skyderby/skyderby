@@ -1,0 +1,9 @@
+class Api::V1::PerformanceCompetitions::Results::PenaltiesController < Api::ApplicationController
+  def update: () -> untyped
+
+  private
+
+  def set_event: () -> untyped
+
+  def penalty_params: () -> untyped
+end

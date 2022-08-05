@@ -1,0 +1,9 @@
+class Suit < ApplicationRecord
+  module Stats
+    extend ActiveSupport::Concern
+
+    def stats: () -> untyped
+
+    def stats_from_tracks_query: () -> untyped
+  end
+end

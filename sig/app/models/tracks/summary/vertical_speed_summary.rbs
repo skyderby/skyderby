@@ -1,0 +1,23 @@
+module Tracks
+  module Summary
+    class VerticalSpeedSummary
+      def initialize: (untyped points, untyped elevation, untyped time, untyped presenter) -> void
+
+      def avg_vertical_speed: () -> (nil | untyped)
+
+      def min_vertical_speed: () -> (::Float | untyped)
+
+      def max_vertical_speed: () -> (::Float | untyped)
+
+      private
+
+      attr_reader points: untyped
+
+      attr_reader elevation: untyped
+
+      attr_reader time: untyped
+
+      attr_reader presenter: untyped
+    end
+  end
+end

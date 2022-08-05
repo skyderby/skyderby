@@ -1,0 +1,13 @@
+module Api
+  module Users
+    class SessionsController < Devise::SessionsController
+      include UnderscoreParams
+
+      private
+
+      def respond_to_on_destroy: () -> untyped
+
+      def set_new_csrf_token: () -> untyped
+    end
+  end
+end

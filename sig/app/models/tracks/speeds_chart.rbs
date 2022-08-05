@@ -1,0 +1,9 @@
+module Tracks
+  module SpeedsChart
+    extend ActiveSupport::Concern
+
+    private
+
+    def speeds_chart_data: () -> untyped
+  end
+end

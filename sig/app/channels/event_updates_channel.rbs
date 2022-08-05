@@ -1,0 +1,3 @@
+class EventUpdatesChannel < ApplicationCable::Channel
+  def subscribed: () -> untyped
+end

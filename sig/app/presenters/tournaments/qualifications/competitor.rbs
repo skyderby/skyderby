@@ -1,0 +1,17 @@
+module Tournaments
+  module Qualifications
+    class Competitor < SimpleDelegator
+      def initialize: (untyped record, untyped scoreboard) -> void
+
+      def results: () -> untyped
+
+      def result_in_round: (untyped round) -> untyped
+
+      def best_result: () -> untyped
+
+      private
+
+      attr_reader scoreboard: untyped
+    end
+  end
+end

@@ -1,0 +1,23 @@
+module Events
+  module Scoreboards
+    class HungaryBoogie
+      class Competitor < SimpleDelegator
+        def initialize: (untyped record, untyped scoreboard) -> void
+
+        def total_points: () -> (0 | untyped)
+
+        def results: () -> untyped
+
+        def counted_results: () -> untyped
+
+        def average_result: () -> (0 | untyped)
+
+        private
+
+        attr_reader record: untyped
+
+        attr_reader scoreboard: untyped
+      end
+    end
+  end
+end

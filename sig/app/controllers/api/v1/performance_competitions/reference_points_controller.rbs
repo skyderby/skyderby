@@ -1,0 +1,3 @@
+class Api::V1::PerformanceCompetitions::ReferencePointsController < ApplicationController
+  def index: () -> untyped
+end

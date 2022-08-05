@@ -1,0 +1,7 @@
+class Event::Result < ApplicationRecord
+  module SubmissionResult
+    extend ActiveSupport::Concern
+
+    def calculate_result: () -> (nil | untyped)
+  end
+end

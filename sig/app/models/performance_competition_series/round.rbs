@@ -1,0 +1,7 @@
+class PerformanceCompetitionSeries::Round < ApplicationRecord
+  def includes?: (untyped round) -> untyped
+
+  private
+
+  def set_number: () -> untyped
+end

@@ -1,0 +1,5 @@
+module Assets
+  class TrackFilesController < ApplicationController
+    def show: () -> untyped
+  end
+end

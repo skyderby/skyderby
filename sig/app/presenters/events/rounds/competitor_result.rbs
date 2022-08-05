@@ -1,0 +1,19 @@
+module Events
+  module Rounds
+    class CompetitorResult < SimpleDelegator
+      DL_STARTS_AFTER: untyped
+
+      NullWindowPoints: untyped
+
+      def photo_url: (*untyped) ?{ () -> untyped } -> untyped
+
+      def empty?: () -> untyped
+
+      def present?: () -> untyped
+
+      def start_time: () -> untyped
+
+      def after_exit_point: () -> untyped
+    end
+  end
+end

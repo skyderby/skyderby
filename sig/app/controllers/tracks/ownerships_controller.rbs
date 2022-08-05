@@ -1,0 +1,15 @@
+module Tracks
+  class OwnershipsController < ApplicationController
+    def show: () -> untyped
+
+    def update: () -> untyped
+
+    private
+
+    def ownership_params: () -> untyped
+
+    def set_track: () -> untyped
+
+    def authorize_action: () -> untyped
+  end
+end

@@ -1,0 +1,7 @@
+module Manage
+  class AccountsController < ApplicationController
+    def index: () -> untyped
+
+    def show: () -> untyped
+  end
+end

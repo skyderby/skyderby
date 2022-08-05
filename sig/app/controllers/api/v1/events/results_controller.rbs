@@ -1,0 +1,15 @@
+module Api
+  module V1
+    module Events
+      class ResultsController < Api::ApplicationController
+        def create: () -> untyped
+
+        private
+
+        def set_event: () -> untyped
+
+        def result_params: () -> untyped
+      end
+    end
+  end
+end

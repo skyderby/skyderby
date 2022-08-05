@@ -1,0 +1,19 @@
+class Api::V1::PlacesController < Api::ApplicationController
+  def index: () -> untyped
+
+  def show: () -> untyped
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def set_place: () -> untyped
+
+  def apply_filters: (untyped relation) -> untyped
+
+  def place_params: () -> untyped
+end

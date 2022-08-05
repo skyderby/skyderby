@@ -1,0 +1,7 @@
+module Assets
+  module SpeedSkydivingCompetitions
+    class TeamStandingsController < ApplicationController
+      def show: () -> nil
+    end
+  end
+end

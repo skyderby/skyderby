@@ -1,0 +1,25 @@
+module Places
+  class FinishLinesController < ApplicationController
+    def index: () -> untyped
+
+    def new: () -> untyped
+
+    def create: () -> untyped
+
+    def show: () -> untyped
+
+    def edit: () -> untyped
+
+    def update: () -> untyped
+
+    def destroy: () -> untyped
+
+    private
+
+    def load_place: () -> untyped
+
+    def load_finish_line: () -> untyped
+
+    def finish_line_params: () -> untyped
+  end
+end

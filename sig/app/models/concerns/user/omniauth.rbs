@@ -1,0 +1,9 @@
+module User::Omniauth
+  extend ActiveSupport::Concern
+
+  def add_data_from_facebook: (untyped auth) -> untyped
+
+  def from_omniauth: (untyped auth) -> untyped
+
+  def create_from_omniauth: (untyped auth) -> untyped
+end

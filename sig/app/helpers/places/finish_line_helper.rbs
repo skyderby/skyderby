@@ -1,0 +1,15 @@
+module Places
+  module FinishLineHelper
+    RED: "0xff0000ff"
+
+    YELLOW: "0xffFF00FF"
+
+    PATH_WEIGHT: "3"
+
+    HOST: "https://maps.googleapis.com/maps/api/staticmap?"
+
+    def finish_line_static_map: (untyped finish_line) -> untyped
+
+    def static_polyline_path: (untyped color, *untyped coordinates) -> untyped
+  end
+end

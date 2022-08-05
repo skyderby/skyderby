@@ -1,0 +1,9 @@
+module Api
+  module V1
+    module TerrainProfiles
+      class MeasurementsController < Api::ApplicationController
+        def show: () -> untyped
+      end
+    end
+  end
+end

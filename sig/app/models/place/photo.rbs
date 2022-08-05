@@ -1,0 +1,2 @@
+class Place::Photo < ApplicationRecord
+end

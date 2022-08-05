@@ -1,0 +1,23 @@
+class CountriesController < ApplicationController
+  def index: () -> untyped
+
+  def show: () -> untyped
+
+  def new: () -> untyped
+
+  def edit: () -> untyped
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def set_country: () -> untyped
+
+  def country_params: () -> untyped
+
+  def expire_cache: () -> untyped
+end

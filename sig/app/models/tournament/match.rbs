@@ -1,0 +1,5 @@
+class Tournament::Match < ApplicationRecord
+  include Slots
+
+  def self.convert_to_time: (untyped time) -> untyped
+end

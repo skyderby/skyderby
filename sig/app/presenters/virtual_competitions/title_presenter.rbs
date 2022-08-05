@@ -1,0 +1,13 @@
+module VirtualCompetitions
+  class TitlePresenter
+    def self.call: (untyped competition) -> untyped
+
+    def initialize: (untyped competition) -> void
+
+    def call: () -> untyped
+
+    private
+
+    attr_reader competition: untyped
+  end
+end

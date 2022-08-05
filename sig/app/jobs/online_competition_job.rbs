@@ -1,0 +1,7 @@
+class OnlineCompetitionJob < ApplicationJob
+  def perform: (untyped track_id) -> (nil | untyped)
+
+  def calculate_results: () -> untyped
+
+  def send_verify_mail: () -> (nil | untyped)
+end

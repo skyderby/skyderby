@@ -1,0 +1,5 @@
+module SuitsHelper
+  def suit_name_by_id: (untyped id) -> (nil | untyped)
+
+  def suit_presentation: (untyped suit) -> (nil | untyped)
+end

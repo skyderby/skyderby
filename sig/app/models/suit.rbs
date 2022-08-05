@@ -1,0 +1,11 @@
+class Suit < ApplicationRecord
+  include Popularity
+
+  include Stats
+
+  attr_accessor photo: untyped
+
+  def pilots_accessible_by: (untyped user) -> untyped
+
+  def self.search: (untyped query) -> untyped
+end

@@ -1,0 +1,9 @@
+module Tournaments
+  module Matches
+    class MapsController < ApplicationController
+      include TournamentScoped
+
+      def show: () -> untyped
+    end
+  end
+end

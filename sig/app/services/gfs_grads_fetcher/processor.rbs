@@ -1,0 +1,19 @@
+class GfsGradsFetcher
+  class Processor
+    include ::Skyderby::Trigonometry
+
+    def initialize: (untyped input) -> void
+
+    def execute: () -> untyped
+
+    private
+
+    attr_reader input: untyped
+
+    def validate_input!: () -> (nil | untyped)
+
+    def speed_from_components: (u: untyped, v: untyped) -> untyped
+
+    def direction_from_components: (u: untyped, v: untyped) -> untyped
+  end
+end

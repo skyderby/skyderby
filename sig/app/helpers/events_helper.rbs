@@ -1,0 +1,9 @@
+module EventsHelper
+  def edit_event_link: (untyped event) -> untyped
+
+  def change_event_status_button: (untyped event, untyped status) -> untyped
+
+  def display_event_form_params: () -> untyped
+
+  def event_select_option: (untyped event) -> (::Array[untyped] | nil)
+end

@@ -1,0 +1,17 @@
+class Profile < ApplicationRecord
+  module Mergeable
+    extend ActiveSupport::Concern
+
+    def has_many_associations: () -> untyped
+
+    def merge_with: (untyped another) -> (false | untyped)
+
+    private
+
+    def merge_attributes_from: (untyped another) -> untyped
+
+    def replace_reference_in_associations: (untyped another) -> untyped
+
+    def replace_reference_in_collection: (untyped collection) -> untyped
+  end
+end

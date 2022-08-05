@@ -1,0 +1,13 @@
+module Api
+  module V1
+    class VideosController < ApplicationController
+      def index: () -> untyped
+
+      private
+
+      def apply_filter: (untyped rel) -> untyped
+
+      def index_params: () -> untyped
+    end
+  end
+end

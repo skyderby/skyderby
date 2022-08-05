@@ -1,0 +1,29 @@
+module Suits
+  module Index
+    class ManufacturerSuits
+      include ManufacturerCategories
+
+      def initialize: (untyped manufacturer_id) -> void
+
+      def overview?: () -> false
+
+      def manufacturer: () -> untyped
+
+      def wingsuits: () -> untyped
+
+      def tracksuits: () -> untyped
+
+      def monotracks: () -> untyped
+
+      def slicks: () -> untyped
+
+      private
+
+      def suits: () -> untyped
+
+      def tracks_count_query: () -> ::String
+
+      attr_reader manufacturer_id: untyped
+    end
+  end
+end

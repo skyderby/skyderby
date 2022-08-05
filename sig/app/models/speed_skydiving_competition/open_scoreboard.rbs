@@ -1,0 +1,13 @@
+class SpeedSkydivingCompetition::OpenScoreboard
+  Category: untyped
+
+  attr_reader event: untyped
+
+  def initialize: (untyped event) -> void
+
+  def standings: () -> untyped
+
+  private
+
+  def completed_rounds: () -> untyped
+end

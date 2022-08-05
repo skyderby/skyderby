@@ -1,0 +1,5 @@
+module SponsorsHelper
+  def new_sponsor_link: (untyped sponsorable) -> untyped
+
+  def copy_sponsors_link: (untyped sponsorable) -> untyped
+end

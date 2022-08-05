@@ -1,0 +1,37 @@
+module PointsPostprocessor
+  class Default
+    FILTER_WINDOW_SIZE: 5
+
+    MOVING_AVG_WINDOW_SIZE: 7
+
+    MOVING_AVG_KEYS: ::Array[:h_speed | :v_speed]
+
+    def self.call: (untyped points, ?speed_units: ::Symbol) -> untyped
+
+    def initialize: (untyped points, ?speed_units: ::Symbol) -> void
+
+    def call: () -> untyped
+
+    private
+
+    attr_reader points: untyped
+
+    attr_reader speed_units: untyped
+
+    def process_by_distances: (untyped tmp_points) -> untyped
+
+    def neighbors: () -> untyped
+
+    def calculate_speeds: (untyped window) -> untyped
+
+    def speed_in_units: (untyped speed) -> untyped
+
+    def distance_in_window: (untyped window) -> untyped
+
+    def altitude_changes_in_window: (untyped window) -> untyped
+
+    def apply_moving_average: (untyped tmp_points) -> untyped
+
+    def adjust_glide_ratio: (untyped tmp_points) -> untyped
+  end
+end

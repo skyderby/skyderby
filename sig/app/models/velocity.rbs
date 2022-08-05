@@ -1,0 +1,41 @@
+class Velocity
+  KNOTS_IN_MS: ::Float
+
+  KMH_IN_MS: ::Float
+
+  MPH_IN_MS: ::Float
+
+  def self.load: (untyped velocity) -> (untyped | nil)
+
+  def self.dump: (untyped obj) -> untyped
+
+  def initialize: (untyped velocity, ?::String unit) -> void
+
+  def dump: () -> untyped
+
+  def convert_to: (untyped unit) -> untyped
+
+  def convert_from: (untyped val, untyped unit) -> untyped
+
+  def to_ms: () -> untyped
+
+  def to_knots: () -> untyped
+
+  # Converts speed in m/s to km/h
+  # convertation doing by multiplying on 3600 (second in hour)
+  # and dividing by 1000 (meters in km).
+  # x * 3600 / 1000 = x * 3.6
+  def to_kmh: () -> untyped
+
+  def to_mph: () -> untyped
+
+  def from_ms: (untyped val) -> untyped
+
+  def from_knots: (untyped val) -> untyped
+
+  def from_kmh: (untyped val) -> untyped
+
+  def from_mph: (untyped val) -> untyped
+
+  def value_to_decimal: (untyped value) -> untyped
+end

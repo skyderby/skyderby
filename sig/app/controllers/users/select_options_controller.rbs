@@ -1,0 +1,11 @@
+module Users
+  class SelectOptionsController < ApplicationController
+    def index: () -> untyped
+
+    private
+
+    def search_query: () -> untyped
+
+    def page: () -> untyped
+  end
+end

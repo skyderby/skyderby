@@ -1,0 +1,5 @@
+class Track::Video < ApplicationRecord
+  private
+
+  def parse_url: () -> untyped
+end

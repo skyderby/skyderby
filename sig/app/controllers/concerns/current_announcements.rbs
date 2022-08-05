@@ -1,0 +1,5 @@
+module CurrentAnnouncements
+  extend ActiveSupport::Concern
+
+  def set_current_announcement: () -> (nil | untyped)
+end

@@ -1,0 +1,27 @@
+module Tracks
+  class WeatherData
+    class SelectedUnits
+      DEFAULT_ALTITUDE_UNITS: "m"
+
+      DEFAULT_SPEED_UNITS: "ms"
+
+      def initialize: (untyped params) -> void
+
+      def altitude: () -> untyped
+
+      def speed: () -> untyped
+
+      private
+
+      attr_reader params: untyped
+
+      def available_altitude_units: () -> untyped
+
+      def available_speed_units: () -> untyped
+
+      def selected_altitude_units: () -> untyped
+
+      def selected_speed_units: () -> untyped
+    end
+  end
+end

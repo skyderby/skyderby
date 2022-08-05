@@ -1,0 +1,3 @@
+class Api::V1::Places::StatsController < Api::ApplicationController
+  def show: () -> untyped
+end

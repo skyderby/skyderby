@@ -1,0 +1,5 @@
+module Tracks
+  class DownloadsController < ApplicationController
+    def show: () -> untyped
+  end
+end

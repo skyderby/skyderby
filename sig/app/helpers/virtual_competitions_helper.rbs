@@ -1,0 +1,11 @@
+module VirtualCompetitionsHelper
+  def competition_unit: (untyped competition) -> untyped
+
+  def competition_task: (untyped competition) -> untyped
+
+  def competition_place: (untyped competition) -> untyped
+
+  def competition_suit: (untyped competition) -> (untyped | untyped | nil)
+
+  def format_result: (untyped result, untyped competition) -> untyped
+end

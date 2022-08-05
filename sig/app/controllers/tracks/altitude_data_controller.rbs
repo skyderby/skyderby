@@ -1,0 +1,11 @@
+module Tracks
+  class AltitudeDataController < ApplicationController
+    def show: () -> untyped
+
+    private
+
+    def track: () -> untyped
+
+    def points: () -> untyped
+  end
+end

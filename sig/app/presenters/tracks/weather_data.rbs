@@ -1,0 +1,23 @@
+module Tracks
+  class WeatherData
+    ALTITUDE_UNITS: ::Array["m" | "ft"]
+
+    SPEED_UNITS: ::Array["ms" | "knots" | "kmh" | "mph"]
+
+    attr_reader track: untyped
+
+    attr_reader selected_units: untyped
+
+    def initialize: (untyped track, untyped params) -> void
+
+    def rows: () -> untyped
+
+    def altitude_units: () -> untyped
+
+    def speed_units: () -> untyped
+
+    private
+
+    def units_from: (untyped params) -> untyped
+  end
+end

@@ -1,0 +1,29 @@
+class Event::Result < ApplicationRecord
+  include TrackPoints
+
+  include EventOngoingValidation
+
+  include Event::Namespace
+
+  include AcceptsNestedTrack
+
+  include SubmissionAuthor
+
+  include SubmissionResult
+
+  include ReviewableByJudge
+
+  include FlightDetails
+
+  def reference_point: () -> untyped
+
+  def penalty_sizes: () -> ::Array[10 | 20 | 50 | 100]
+
+  private
+
+  def track_owner: () -> untyped
+
+  def track_comment: () -> ::String
+
+  def track_activity: () -> :skydive
+end

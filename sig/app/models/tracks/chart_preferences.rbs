@@ -1,0 +1,17 @@
+module Tracks
+  module ChartPreferences
+    def single_chart?: () -> untyped
+
+    def separate_charts?: () -> untyped
+
+    def metric_units?: () -> untyped
+
+    def imperial_units?: () -> untyped
+
+    def speed_units: () -> untyped
+
+    def distance_units: () -> untyped
+
+    def altitude_units: () -> untyped
+  end
+end

@@ -1,0 +1,22 @@
+class TrackFormatDetector
+  class UnknownFormat < StandardError
+  end
+
+  FILE_SPECIFIC_DETECTOR: untyped
+
+  CSV_HEADERS: ::Hash[::String, ::Array["time" | "lat" | "lon" | "hMSL" | "velN" | "velE" | "velD" | "hAcc" | "vAcc" | "sAcc"] | ::Array["INDEX" | "TAG" | "DATE" | "TIME" | "LATITUDE N/S" | "LONGITUDE E/W" | "HEIGHT" | "SPEED" | "HEADING" | "VOX"]]
+
+  def self.call: (*untyped args) -> untyped
+
+  def initialize: (untyped file, untyped extension) -> void
+
+  def call: () -> untyped
+
+  private
+
+  def self.determine_csv_format: (untyped file) -> untyped
+
+  attr_reader file: untyped
+
+  attr_reader extension: untyped
+end

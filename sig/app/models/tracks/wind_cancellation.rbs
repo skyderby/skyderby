@@ -1,0 +1,9 @@
+module Tracks
+  module WindCancellation
+    def wind_cancelation?: () -> untyped
+
+    def weather_data: () -> untyped
+
+    def zerowind_points: () -> untyped
+  end
+end

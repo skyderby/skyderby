@@ -1,0 +1,29 @@
+module Tournaments
+  module Matches
+    module Slots
+      class ResultsController < ApplicationController
+        include TournamentScoped
+
+        def show: () -> untyped
+
+        def new: () -> untyped
+
+        def create: () -> untyped
+
+        def destroy: () -> untyped
+
+        private
+
+        def set_match: () -> untyped
+
+        def set_slot: () -> untyped
+
+        def show_params: () -> untyped
+
+        def destroy_params: () -> { track: nil, result: nil, is_disqualified: false, notes: "" }
+
+        def result_params: () -> untyped
+      end
+    end
+  end
+end

@@ -1,0 +1,9 @@
+module Api
+  module V1
+    module Stats
+      class RegistrationsController < Api::ApplicationController
+        def index: () -> untyped
+      end
+    end
+  end
+end

@@ -1,0 +1,5 @@
+module Tracks
+  class FlightProfilesController < ApplicationController
+    def show: () -> untyped
+  end
+end

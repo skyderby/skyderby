@@ -1,0 +1,3 @@
+class PlaceWeatherFetchingJob < ApplicationJob
+  def perform: (untyped place_id, untyped time_str) -> (nil | untyped)
+end

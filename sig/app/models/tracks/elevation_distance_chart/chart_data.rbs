@@ -1,0 +1,23 @@
+module Tracks
+  module ElevationDistanceChart
+    class ChartData
+      def initialize: (untyped points, untyped altitude_presenter, untyped distance_presenter) -> void
+
+      def altitude_chart_line: () -> untyped
+
+      def elevation_chart_line: () -> (::Array[untyped] | untyped)
+
+      def distance_chart_line: () -> untyped
+
+      private
+
+      attr_reader points: untyped
+
+      attr_reader altitude_presenter: untyped
+
+      attr_reader distance_presenter: untyped
+
+      attr_reader min_gps_time: untyped
+    end
+  end
+end

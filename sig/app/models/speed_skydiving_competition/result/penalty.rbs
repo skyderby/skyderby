@@ -1,0 +1,3 @@
+class SpeedSkydivingCompetition::Result::Penalty < ApplicationRecord
+  def factor: () -> untyped
+end

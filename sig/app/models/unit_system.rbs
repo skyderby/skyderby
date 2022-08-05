@@ -1,0 +1,7 @@
+module UnitSystem
+  UnitSystemData: untyped
+
+  Metric: untyped
+
+  Imperial: untyped
+end

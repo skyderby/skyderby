@@ -1,0 +1,7 @@
+module Api
+  module V1
+    class UsersController < Api::ApplicationController
+      def index: () -> untyped
+    end
+  end
+end

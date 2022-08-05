@@ -1,0 +1,9 @@
+class Point < ApplicationRecord
+  def self.bulk_insert: (points: untyped, track_id: untyped) -> untyped
+
+  def self.point_db_statement: (untyped point) -> untyped
+
+  def self.db_columns: () -> untyped
+
+  def self.nullable: (untyped field) -> untyped
+end

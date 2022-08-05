@@ -1,0 +1,5 @@
+module Tracks
+  class UploadsController < ApplicationController
+    def new: () -> nil
+  end
+end

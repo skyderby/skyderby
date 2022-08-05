@@ -1,0 +1,13 @@
+class Api::V1::SpeedSkydivingCompetitionsController < Api::ApplicationController
+  def create: () -> untyped
+
+  def show: () -> untyped
+
+  def update: () -> untyped
+
+  private
+
+  def event_params: () -> untyped
+
+  def set_event: () -> untyped
+end

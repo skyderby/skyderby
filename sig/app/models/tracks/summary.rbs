@@ -1,0 +1,25 @@
+module Tracks
+  module Summary
+    extend ActiveSupport::Concern
+
+    def glide_ratio_summary: () -> untyped
+
+    def vertical_speed_summary: () -> untyped
+
+    def horizontal_speed_summary: () -> untyped
+
+    def distance_summary: () -> untyped
+
+    def elevation: () -> untyped
+
+    def time: () -> (::Float | untyped)
+
+    def straight_line_distance: () -> untyped
+
+    def track_trajectory_distance: () -> untyped
+
+    def zero_wind_trajectory_distance: () -> untyped
+
+    def calculate_trajectory_distance: (untyped points) -> untyped
+  end
+end

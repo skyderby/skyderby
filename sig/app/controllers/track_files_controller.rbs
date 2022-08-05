@@ -1,0 +1,15 @@
+class TrackFilesController < ApplicationController
+  def create: () -> (nil | untyped)
+
+  def show: () -> untyped
+
+  private
+
+  def build_track: () -> untyped
+
+  def track_file_params: () -> untyped
+
+  def track_attributes: () -> untyped
+
+  def store_recent_values: (untyped form_params) -> untyped
+end

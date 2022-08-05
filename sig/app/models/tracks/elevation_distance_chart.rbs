@@ -1,0 +1,9 @@
+module Tracks
+  module ElevationDistanceChart
+    extend ActiveSupport::Concern
+
+    private
+
+    def elevation_distance_chart_data: () -> untyped
+  end
+end

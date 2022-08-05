@@ -1,0 +1,11 @@
+module MobileFormatOverride
+  extend ActiveSupport::Concern
+
+  def set_mobile_variant: () -> (nil | untyped)
+
+  def mobile?: () -> untyped
+
+  def mobile_app?: () -> untyped
+
+  def mobile_param?: () -> untyped
+end

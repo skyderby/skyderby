@@ -1,0 +1,19 @@
+class TrackRange
+  def initialize: (untyped track, ?::Hash[untyped, untyped] opts) -> void
+
+  def from: () -> untyped
+
+  def to: () -> untyped
+
+  private
+
+  attr_reader track: untyped
+
+  attr_reader opts: untyped
+
+  def max_altitude: () -> untyped
+
+  def min_altitude: () -> untyped
+
+  def convert_from_string: (untyped value) -> untyped
+end

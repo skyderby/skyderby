@@ -1,0 +1,7 @@
+module Tournaments
+  module Matches
+    module SlotsHelper
+      def match_slot_presentation: (untyped slot) -> ::String
+    end
+  end
+end

@@ -1,0 +1,5 @@
+module PointsPostprocessor
+  POSTPROCESSOR: untyped
+
+  def self.for: (untyped format) -> untyped
+end

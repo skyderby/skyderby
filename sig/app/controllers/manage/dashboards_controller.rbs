@@ -1,0 +1,5 @@
+module Manage
+  class DashboardsController < ApplicationController
+    def show: () -> untyped
+  end
+end

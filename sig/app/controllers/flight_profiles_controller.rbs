@@ -1,0 +1,5 @@
+class FlightProfilesController < ApplicationController
+  include FlightProfilesScoped
+
+  def show: () -> untyped
+end

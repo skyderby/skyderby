@@ -1,0 +1,15 @@
+class Api::V1::SpeedSkydivingCompetitions::RoundsController < Api::ApplicationController
+  def index: () -> untyped
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def set_event: () -> untyped
+
+  def round_params: () -> untyped
+end

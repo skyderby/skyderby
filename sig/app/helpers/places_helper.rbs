@@ -1,0 +1,5 @@
+module PlacesHelper
+  def place_name_by_id: (untyped id) -> (nil | untyped)
+
+  def place_presentation: (untyped place) -> untyped
+end

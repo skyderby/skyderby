@@ -1,0 +1,21 @@
+module SegmentParser
+  class Gpx
+    class Segment
+      def initialize: (untyped node) -> void
+
+      def name: () -> untyped
+
+      def h_up: () -> untyped
+
+      def h_down: () -> untyped
+
+      private
+
+      attr_reader node: untyped
+
+      def points: () -> untyped
+
+      def changes_in_altitude: () -> untyped
+    end
+  end
+end

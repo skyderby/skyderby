@@ -1,0 +1,5 @@
+module PointsPostprocessor
+  class NullPostprocessor
+    def self.call: (untyped points, *untyped _args) -> untyped
+  end
+end

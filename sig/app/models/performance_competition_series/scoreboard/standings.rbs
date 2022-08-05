@@ -1,0 +1,19 @@
+class PerformanceCompetitionSeries::Scoreboard::Standings
+  def self.build: (*untyped args) -> untyped
+
+  def initialize: (untyped competitors, untyped rounds, untyped results) -> void
+
+  def build: () -> untyped
+
+  private
+
+  attr_reader competitors: untyped
+
+  attr_reader results: untyped
+
+  attr_reader rounds: untyped
+
+  def assign_ranks: (untyped standings) -> untyped
+
+  def calculate_points: () -> untyped
+end
