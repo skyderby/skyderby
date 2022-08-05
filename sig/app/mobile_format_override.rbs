@@ -1,8 +1,0 @@
-module MobileFormatOverride
-  extend ActiveSupport::Concern
-
-  def set_mobile_variant: () -> void
-  def mobile?: () -> bool
-  def mobile_app?: () -> bool
-  def mobile_param?: () -> bool
-end

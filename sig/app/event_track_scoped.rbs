@@ -1,8 +1,0 @@
-module EventTrackScoped
-  extend ActiveSupport::Concern
-
-  @result: Event::Result
-
-  private def set_result: () -> void
-  private def respond_with_scoreboard: () -> void
-end

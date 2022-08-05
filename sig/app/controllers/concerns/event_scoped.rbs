@@ -1,19 +1,17 @@
 module EventScoped
+  type scoreboard = Events::Scoreboards::SpeedDistanceTime | Events::Scoreboards::HungaryBoogie
+
   extend ActiveSupport::Concern
 
-  def display_event_params: () -> untyped
+  @scoreboard: scoreboard
+  @event: Event
+  @scoreboard_params: Events::Scoreboards::Params
 
-  def respond_with_scoreboard: () -> untyped
-
-  def respond_with_errors: (untyped errors) -> untyped
-
-  def create_scoreboard: (untyped event_id) -> untyped
-
-  def load_event: (untyped event_id) -> untyped
-
-  def scoreboard_params: (untyped event) -> untyped
-
-  def authorize_event: () -> (nil | untyped)
-
-  def set_event: () -> untyped
+  def display_event_params: () -> ::ActionController::Parameters
+  def respond_with_scoreboard: () -> void
+  def respond_with_errors: (ActiveModel::Errors errors) -> void
+  def create_scoreboard: (event_id: int) -> scoreboard
+  def load_event: (event_id: int) -> void
+  def scoreboard_params: (Event event) -> Events::Scoreboards::Params
+  def authorize_event: () -> void
 end
