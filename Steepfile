@@ -1,5 +1,5 @@
 target :app do
-  signature 'app'
+  signature 'sig'
   signature 'vendor/sig'
 
   check 'app/controllers/concerns'
