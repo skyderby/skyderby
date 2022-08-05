@@ -1,0 +1,7 @@
+module ActionMailer
+  class Base
+  end
+
+  class Preview
+  end
+end

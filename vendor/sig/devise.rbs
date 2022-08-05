@@ -1,0 +1,18 @@
+module Devise
+  class OmniauthCallbacksController
+  end
+
+  class SessionsController
+  end
+
+  class RegistrationsController
+  end
+
+  class Mailer
+  end
+
+  module Controllers
+    module UrlHelpers
+    end
+  end
+end
