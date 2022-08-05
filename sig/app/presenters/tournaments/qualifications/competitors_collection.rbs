@@ -1,9 +1,11 @@
 module Tournaments
   module Qualifications
     class CompetitorsCollection
-      include Enumerable
+      include Enumerable[Competitor]
 
       def initialize: (untyped tournament_competitors, untyped scoreboard) -> void
+
+      def each: () { (Competitor) -> void } -> void
 
       private
 
