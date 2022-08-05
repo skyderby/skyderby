@@ -1,5 +1,9 @@
-module DeviseOverrides
+module DeviseOverrides : _DeviseModule
   extend ActiveSupport::Concern
+
+  interface _DeviseModule
+    def current_user: () -> untyped
+  end
 
   def current_user: () -> (User | GuestUser)
   def user_signed_in?: () -> bool
