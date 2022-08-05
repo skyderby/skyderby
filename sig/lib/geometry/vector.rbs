@@ -1,0 +1,28 @@
+module Geometry
+  class Vector
+    def ==: (untyped vector) -> untyped
+
+    # Modulus of vector. Also known as length, size or norm
+    def modulus: () -> untyped
+
+    # z-coordinate of cross product (also known as vector product or outer product)
+    # It is positive if other vector should be turned counter-clockwise in order to superpose them.
+    # It is negetive if other vector should be turned clockwise in order to superpose them.
+    # It is zero when vectors are collinear.
+    # Remark: x- and y- coordinates of plane vectors cross product are always zero
+    def cross_product: (untyped vector) -> untyped
+
+    # Scalar product, also known as inner product or dot product
+    def scalar_product: (untyped vector) -> untyped
+
+    def collinear_with?: (untyped vector) -> untyped
+
+    def +: (untyped vector) -> untyped
+
+    def -: (untyped vector) -> untyped
+
+    def *: (untyped scalar) -> untyped
+
+    def coerce: (untyped scalar) -> (::Array[self | untyped] | untyped)
+  end
+end

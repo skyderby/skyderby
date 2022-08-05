@@ -1,0 +1,7 @@
+module Geometry
+  include Math
+
+  extend Math
+
+  def self?.distance: (untyped point1, untyped point2) -> untyped
+end

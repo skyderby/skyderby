@@ -1,0 +1,11 @@
+# Copied from https://github.com/DanielVartanov/ruby-geometry
+# because of name conflict
+module Geometry
+  class SegmentsDoNotIntersect < StandardError
+  end
+
+  class SegmentsOverlap < StandardError
+  end
+
+  Segment: untyped
+end

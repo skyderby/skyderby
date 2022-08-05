@@ -1,0 +1,5 @@
+class MailerPreviews::DeviseMailerPreview < ActionMailer::Preview
+  def confirmation_instructions: () -> untyped
+
+  def reset_password_instructions: () -> untyped
+end

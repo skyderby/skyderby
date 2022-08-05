@@ -1,0 +1,5 @@
+# Copied from https://github.com/DanielVartanov/ruby-geometry
+# because of name conflict
+module Geometry
+  Point: untyped
+end

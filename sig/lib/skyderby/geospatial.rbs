@@ -1,0 +1,55 @@
+module Skyderby
+  module Geospatial
+    extend ::Skyderby::Geospatial
+
+    extend Skyderby::Trigonometry
+
+    # Earth's radius
+    EARTH_RADIUS_M: 6371000
+
+    # Equatorial Radius, WGS84
+    EQUATORIAL_RADIUS: ::Float
+
+    POLAR_RADIUS: ::Float
+
+    RATIO: untyped
+
+    ECCENT: untyped
+
+    COM: untyped
+
+    # Method calculates distance between two points that defined
+    # as objects with getter methods latitude and longitude.
+    # For example Struct.new(:latitude, :longitude)
+    def distance_between_points: (untyped a, untyped b) -> untyped
+
+    # Method calculates distance between points defined
+    # by coordinates.
+    # Method uses Havershine formula.
+    # Coordinates must be defined as array of two numbers
+    # [latitude, longitude]
+    def distance: (untyped a, untyped b) -> untyped
+
+    def coordinates_to_mercator: (untyped latitude, untyped longitude) -> { x: untyped, y: untyped }
+
+    def mercator_to_coordinates: (untyped x, untyped y) -> { latitude: untyped, longitude: untyped }
+
+    # Given a start point, initial bearing, and distance, this will calculate
+    # the destination point and final bearing travelling along a 
+    # (shortest distance) great circle arc.
+    # http://www.movable-type.co.uk/scripts/latlong.html
+    def shift_position: (untyped orig_lat_deg, untyped orig_lon_deg, untyped distance, untyped bearing) -> { latitude: untyped, longitude: untyped }
+
+    def bearing_between: (untyped lat1_deg, untyped lon1_deg, untyped lat2_deg, untyped lon2_deg) -> untyped
+
+    private
+
+    def longitude_to_merc_x: (untyped longitude) -> untyped
+
+    def latitude_to_merc_y: (untyped latitude) -> untyped
+
+    def merc_x_to_longitude: (untyped x) -> untyped
+
+    def merc_y_to_latitude: (untyped y) -> untyped
+  end
+end
