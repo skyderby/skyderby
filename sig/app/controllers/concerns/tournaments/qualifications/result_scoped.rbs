@@ -1,0 +1,9 @@
+module Tournaments
+  module Qualifications
+    module ResultScoped
+      extend ActiveSupport::Concern
+
+      def set_result: () -> untyped
+    end
+  end
+end

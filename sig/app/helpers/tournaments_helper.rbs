@@ -1,0 +1,3 @@
+module TournamentsHelper
+  def tournament_select_option: (untyped tournament) -> (::Array[untyped] | nil)
+end

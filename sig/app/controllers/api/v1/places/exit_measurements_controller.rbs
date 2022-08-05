@@ -1,0 +1,15 @@
+module Api
+  module V1
+    module Places
+      class ExitMeasurementsController < Api::ApplicationController
+        def index: () -> untyped
+
+        def show: () -> untyped
+
+        private
+
+        def search_query: () -> untyped
+      end
+    end
+  end
+end

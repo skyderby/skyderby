@@ -1,0 +1,5 @@
+module Tracks
+  class JumpRangesController < ApplicationController
+    def show: () -> untyped
+  end
+end

@@ -1,0 +1,19 @@
+module Tracks
+  module WindCancellation
+    class Processor
+      def self.call: (untyped points, untyped weather_data) -> untyped
+
+      def initialize: (untyped points, untyped weather_data) -> void
+
+      def call: () -> (::Array[untyped] | untyped)
+
+      private
+
+      attr_reader points: untyped
+
+      attr_reader weather_data: untyped
+
+      def calculate: () -> untyped
+    end
+  end
+end

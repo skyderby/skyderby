@@ -1,0 +1,7 @@
+class ManagePolicy
+  attr_reader user: untyped
+
+  def initialize: (untyped user) -> void
+
+  def manage?: () -> untyped
+end

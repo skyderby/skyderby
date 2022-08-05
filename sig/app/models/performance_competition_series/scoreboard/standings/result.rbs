@@ -1,0 +1,27 @@
+class PerformanceCompetitionSeries::Scoreboard::Standings::Result
+  attr_reader record: untyped
+
+  attr_reader points: untyped
+
+  attr_reader best_result: untyped
+
+  def initialize: (untyped record, untyped settings) -> void
+
+  def formatted_result: () -> ("" | untyped)
+
+  def formatted_points: () -> ("" | untyped)
+
+  def result: () -> (0 | untyped)
+
+  def calculate_points_from: (untyped best_result) -> (nil | untyped)
+
+  def best_result!: () -> untyped
+
+  private
+
+  def result_field: () -> (:result | :result_net)
+
+  def precision: () -> (0 | 1)
+
+  attr_reader settings: untyped
+end

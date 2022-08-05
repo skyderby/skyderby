@@ -1,0 +1,15 @@
+module Api
+  class ApplicationController < ::ApplicationController
+    include UnderscoreParams
+
+    include GlobalErrorHandling
+
+    private
+
+    def current_page: () -> untyped
+
+    def rows_per_page: () -> untyped
+
+    def respond_with_errors: (untyped errors, ?::Symbol status) -> untyped
+  end
+end

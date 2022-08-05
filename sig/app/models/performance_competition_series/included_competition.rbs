@@ -1,0 +1,2 @@
+class PerformanceCompetitionSeries::IncludedCompetition < ApplicationRecord
+end

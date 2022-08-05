@@ -1,0 +1,9 @@
+module Tournaments
+  module Qualifications
+    module RespondWithScoreboard
+      extend ActiveSupport::Concern
+
+      def respond_with_scoreboard: () -> untyped
+    end
+  end
+end

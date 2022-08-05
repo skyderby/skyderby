@@ -1,0 +1,19 @@
+module Profiles
+  class RankingPositions
+    def initialize: (untyped profile) -> void
+
+    def by_competition: () -> untyped
+
+    private
+
+    attr_reader profile: untyped
+
+    def filtered_results: () -> untyped
+
+    def results: () -> untyped
+
+    def profile_scores: () -> untyped
+
+    def current_year: () -> untyped
+  end
+end

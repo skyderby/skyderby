@@ -1,0 +1,7 @@
+class Api::V1::PerformanceCompetitions::StandingsController < ApplicationController
+  def show: () -> untyped
+
+  private
+
+  def scoreboard_params: () -> untyped
+end

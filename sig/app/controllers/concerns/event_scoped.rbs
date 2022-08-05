@@ -1,0 +1,19 @@
+module EventScoped
+  extend ActiveSupport::Concern
+
+  def display_event_params: () -> untyped
+
+  def respond_with_scoreboard: () -> untyped
+
+  def respond_with_errors: (untyped errors) -> untyped
+
+  def create_scoreboard: (untyped event_id) -> untyped
+
+  def load_event: (untyped event_id) -> untyped
+
+  def scoreboard_params: (untyped event) -> untyped
+
+  def authorize_event: () -> (nil | untyped)
+
+  def set_event: () -> untyped
+end

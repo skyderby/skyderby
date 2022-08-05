@@ -1,0 +1,15 @@
+class Event < ApplicationRecord
+  include CompetitionTrackVisibility
+
+  include DesignatedLane
+
+  def active?: () -> untyped
+
+  private
+
+  def check_name_and_range: () -> untyped
+
+  def broadcast_update: () -> untyped
+
+  def self.search: (untyped query) -> untyped
+end

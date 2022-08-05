@@ -1,0 +1,31 @@
+module TrackParser
+  class Wintec
+    ROW_PATTERN: "SLLLS"
+
+    ROW_SIZE: untyped
+
+    BYTES_RECORD: 16
+
+    def initialize: (?::Hash[untyped, untyped] args) -> void
+
+    def parse: () -> untyped
+
+    private
+
+    attr_reader file: untyped
+
+    def unpacked_data: () -> untyped
+
+    def file_data: () -> untyped
+
+    def parse_row: (untyped unpacked_string, untyped start_index) -> untyped
+
+    def parse_point: (untyped row) -> untyped
+
+    def parse_datetime: (untyped val) -> untyped
+
+    def parse_date: (untyped binarydate) -> ::String
+
+    def parse_time: (untyped binarydate) -> ::String
+  end
+end

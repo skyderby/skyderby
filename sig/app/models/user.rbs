@@ -1,0 +1,20 @@
+class User < ApplicationRecord
+  include ParticipantOfEvents
+
+  include User::Omniauth
+
+  def has_role?: (untyped role_sym) -> untyped
+
+  def registered?: () -> true
+
+  # Using ActiveJob to deliver messages in background
+  def send_devise_notification: (untyped notification, *untyped args) -> untyped
+
+  private
+
+  def assign_default_role: () -> untyped
+
+  def self.search: (untyped query) -> untyped
+
+  def self.search_by_name: (untyped query) -> untyped
+end

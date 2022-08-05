@@ -1,0 +1,15 @@
+module DeviseOverrides
+  extend ActiveSupport::Concern
+
+  def current_user: () -> untyped
+
+  def user_signed_in?: () -> untyped
+
+  def configure_permitted_parameters: () -> untyped
+
+  def store_current_location: () -> (untyped | nil)
+
+  def after_sign_in_path_for: (untyped _resource) -> untyped
+
+  def after_sign_out_path_for: (untyped _resource) -> untyped
+end

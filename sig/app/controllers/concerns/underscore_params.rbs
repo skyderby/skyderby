@@ -1,0 +1,5 @@
+module UnderscoreParams
+  extend ActiveSupport::Concern
+
+  def underscore_params!: () -> untyped
+end

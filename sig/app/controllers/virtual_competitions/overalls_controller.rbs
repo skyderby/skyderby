@@ -1,0 +1,7 @@
+module VirtualCompetitions
+  class OverallsController < ApplicationController
+    def show: () -> untyped
+
+    def self.controller_path: () -> "virtual_competitions"
+  end
+end

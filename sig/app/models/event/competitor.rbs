@@ -1,0 +1,7 @@
+class Event::Competitor < ApplicationRecord
+  include EventOngoingValidation
+
+  include Event::Namespace
+
+  include CompetitorCountry
+end

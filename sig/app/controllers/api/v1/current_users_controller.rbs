@@ -1,0 +1,7 @@
+module Api
+  module V1
+    class CurrentUsersController < ApplicationController
+      def show: () -> untyped
+    end
+  end
+end

@@ -1,0 +1,25 @@
+class Place::WeatherDatum < ApplicationRecord
+  attr_accessor altitude_unit: untyped
+
+  attr_accessor wind_speed_unit: untyped
+
+  attr_reader altitude_in_units: untyped
+
+  attr_reader wind_speed_in_units: untyped
+
+  def wind_speed_in_units=: (untyped value) -> untyped
+
+  def altitude_in_units=: (untyped value) -> untyped
+
+  private
+
+  def value_from_param: (untyped value) -> (nil | untyped)
+
+  def altitude_present?: () -> (nil | untyped)
+
+  def wind_speed_present?: () -> (nil | untyped)
+
+  def set_altitude: () -> (nil | untyped)
+
+  def set_wind_speed: () -> (nil | untyped)
+end

@@ -1,0 +1,52 @@
+module Events
+  module Scoreboards
+    module Results
+      class Collection
+        def initialize: (untyped event_results, untyped params) -> void
+
+        def for: (untyped args) -> untyped
+
+        def best_in: (untyped args) -> untyped
+
+        def worst_in: (untyped args) -> untyped
+
+        private
+
+        attr_reader event_results: untyped
+
+        attr_reader params: untyped
+
+        def find: (untyped args) -> untyped
+
+        def lookup_key: (?round: untyped?, ?section: untyped?, ?competitor: untyped?) -> (::String | ::String | untyped | untyped | untyped | nil)
+
+        def lookup_section: (?round: untyped?, ?section: untyped?, ?competitor: untyped?) -> (:by_rounds_and_sections | :by_rounds_and_competitors | :by_rounds | :by_sections | :by_competitors | nil)
+
+        #
+        # Results have following structure:
+        # {
+        #   by_rounds: {
+        #     [round_id]: [result1, ...]
+        #   },
+        #   by_sections: {
+        #     [section_id]: [result1, ...]
+        #   },
+        #   by_competitors: {
+        #     [competitor_id]: [result1, ...]
+        #   },
+        #   by_rounds_and_sections: {
+        #     "[round_id]-[section_id]": [result1, ...]
+        #   },
+        #   by_rounds_and_competitors: {
+        #     "[round_id]-[competitor_id]": result1
+        #   }
+        # }
+        def results_index: () -> untyped
+
+        def blank_index: () -> untyped
+
+        def records: () -> untyped
+      end
+    end
+  end
+end

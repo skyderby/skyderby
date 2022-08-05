@@ -1,0 +1,23 @@
+module Events
+  module Scoreboards
+    class SpeedDistanceTime
+      class Competitor < SimpleDelegator
+        def initialize: (untyped record, untyped scoreboard) -> void
+
+        def points_in_discipline: (untyped discipline) -> untyped
+
+        def total_points: () -> untyped
+
+        def results: () -> untyped
+
+        private
+
+        attr_reader record: untyped
+
+        attr_reader scoreboard: untyped
+
+        def points_in_disciplines: () -> untyped
+      end
+    end
+  end
+end

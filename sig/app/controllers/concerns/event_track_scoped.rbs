@@ -1,0 +1,9 @@
+module EventTrackScoped
+  extend ActiveSupport::Concern
+
+  private
+
+  def set_result: () -> untyped
+
+  def respond_with_scoreboard: () -> untyped
+end

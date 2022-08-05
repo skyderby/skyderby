@@ -1,0 +1,15 @@
+class EventResultService
+  def initialize: (untyped track, untyped round, ?wind_cancellation: bool) -> void
+
+  def calculate: () -> untyped
+
+  private
+
+  attr_reader track: untyped
+
+  attr_reader wind_cancellation: untyped
+
+  def subtract_wind: (untyped points) -> untyped
+
+  def track_points: () -> untyped
+end

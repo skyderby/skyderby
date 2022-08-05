@@ -1,0 +1,3 @@
+class Country < ApplicationRecord
+  def self.search: (untyped query) -> untyped
+end

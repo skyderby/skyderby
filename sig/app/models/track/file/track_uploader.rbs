@@ -1,0 +1,3 @@
+class Track::File::TrackUploader < Shrine
+  def basic_location: (untyped _io, metadata: untyped) -> untyped
+end

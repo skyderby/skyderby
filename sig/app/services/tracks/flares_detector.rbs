@@ -1,0 +1,37 @@
+module Tracks
+  class FlaresDetector
+    class Flare
+      def initialize: (untyped points) -> void
+
+      def altitude_gain: () -> untyped
+
+      def gain_duration: () -> untyped
+
+      private
+
+      def higher_point: () -> untyped
+
+      attr_reader points: untyped
+    end
+
+    def self.call: (untyped points) -> untyped
+
+    def initialize: (untyped points) -> void
+
+    def call: () -> untyped
+
+    private
+
+    def find_flares: () -> untyped
+
+    def flares_segments: () -> untyped
+
+    def all_segments: () -> untyped
+
+    def flares_map: () -> untyped
+
+    def current_gain: (untyped prev, untyped current) -> untyped
+
+    attr_reader points: untyped
+  end
+end

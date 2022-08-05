@@ -1,0 +1,29 @@
+module Suits
+  module Index
+    class Overview
+      include ManufacturerCategories
+
+      def initialize: (untyped params) -> void
+
+      def overview?: () -> true
+
+      def manufacturer: () -> nil
+
+      def filter_by_activity?: () -> untyped
+
+      def skydive?: () -> untyped
+
+      def base?: () -> untyped
+
+      def suits_popularity: () -> untyped
+
+      private
+
+      attr_reader params: untyped
+
+      def suits_popularity_query: () -> untyped
+
+      def tracks_query: () -> untyped
+    end
+  end
+end

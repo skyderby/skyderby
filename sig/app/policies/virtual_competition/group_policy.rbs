@@ -1,0 +1,5 @@
+class VirtualCompetition::GroupPolicy < ApplicationPolicy
+  def index?: () -> untyped
+
+  def show?: () -> untyped
+end

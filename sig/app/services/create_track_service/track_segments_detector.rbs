@@ -1,0 +1,15 @@
+class CreateTrackService
+  class TrackSegmentsDetector
+    def self.call: (untyped points, ?untyped adapter) -> untyped
+
+    def initialize: (untyped points, untyped adapter) -> void
+
+    def call: () -> untyped
+
+    private
+
+    attr_reader points: untyped
+
+    def process_ranges: (untyped ranges) -> untyped
+  end
+end

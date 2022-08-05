@@ -1,0 +1,3 @@
+class SpeedSkydivingCompetitionSeriesController < ApplicationController
+  def show: () -> untyped
+end

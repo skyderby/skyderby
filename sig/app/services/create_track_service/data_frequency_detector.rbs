@@ -1,0 +1,21 @@
+class CreateTrackService
+  class DataFrequencyDetector
+    DEFAULT_FREQUENCY: 1
+
+    def self.call: (untyped points) -> untyped
+
+    def initialize: (untyped points) -> void
+
+    def call: () -> untyped
+
+    private
+
+    attr_reader points: untyped
+
+    def most_popular_frequency: () -> untyped
+
+    def most_popular_time_difference: () -> untyped
+
+    def relative_time_stats: () -> untyped
+  end
+end

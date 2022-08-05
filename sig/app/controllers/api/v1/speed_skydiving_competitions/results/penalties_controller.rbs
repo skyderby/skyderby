@@ -1,0 +1,9 @@
+class Api::V1::SpeedSkydivingCompetitions::Results::PenaltiesController < Api::ApplicationController
+  def update: () -> untyped
+
+  private
+
+  def set_event: () -> untyped
+
+  def penalties_params: () -> untyped
+end

@@ -1,0 +1,24 @@
+module Api
+  module V1
+    module Tracks
+      class PointsController < ApplicationController
+        def show: () -> untyped
+
+        private
+
+        # FIXME: Convert DB to ms, remove this
+        def convert_speed_to_ms: (untyped points) -> untyped
+
+        def track: () -> untyped
+
+        def options: () -> untyped
+
+        def show_params: () -> untyped
+
+        def normalize_params: (untyped params) -> untyped
+
+        def default_options: () -> { :freq_1hz => true, trimmed: true }
+      end
+    end
+  end
+end

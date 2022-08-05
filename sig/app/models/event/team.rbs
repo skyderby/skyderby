@@ -1,0 +1,3 @@
+class Event::Team < ApplicationRecord
+  include Event::Namespace
+end

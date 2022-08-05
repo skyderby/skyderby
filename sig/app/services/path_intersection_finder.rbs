@@ -1,0 +1,20 @@
+class PathIntersectionFinder
+  class IntersectionNotFound < StandardError
+  end
+
+  def initialize: (untyped track_points, untyped finish_line) -> void
+
+  def execute: () -> untyped
+
+  private
+
+  attr_reader track_points: untyped
+
+  attr_reader finish_segment: untyped
+
+  def flight_segment_in_mercator: (untyped pair) -> untyped
+
+  def interpolation_field: (untyped segment) -> (:latitude | :longitude)
+
+  def interpolate_by_latitude?: (untyped segment) -> untyped
+end

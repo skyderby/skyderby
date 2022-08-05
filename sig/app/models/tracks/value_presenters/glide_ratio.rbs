@@ -1,0 +1,7 @@
+module Tracks
+  module ValuePresenters
+    class GlideRatio
+      def call: (untyped value) -> untyped
+    end
+  end
+end

@@ -1,0 +1,27 @@
+class Event::Section < ApplicationRecord
+  include EventOngoingValidation
+
+  include Event::Namespace
+
+  def first_position?: () -> untyped
+
+  def last_position?: () -> untyped
+
+  def move_upper: () -> (nil | untyped)
+
+  def move_lower: () -> (nil | untyped)
+
+  private
+
+  def swap_position_with: (untyped other_section) -> untyped
+
+  def lower_section: () -> untyped
+
+  def higher_section: () -> untyped
+
+  def set_order: () -> untyped
+
+  def max_order_within_event: () -> untyped
+
+  def min_order_within_event: () -> untyped
+end

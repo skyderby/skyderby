@@ -1,0 +1,29 @@
+module Tournaments
+  class CompetitorsController < ApplicationController
+    def index: () -> untyped
+
+    def new: () -> untyped
+
+    def edit: () -> nil
+
+    def create: () -> untyped
+
+    def update: () -> untyped
+
+    def destroy: () -> untyped
+
+    private
+
+    def respond_with_index: () -> untyped
+
+    def respond_with_errors: () -> untyped
+
+    def tournament: () -> untyped
+
+    def set_tournament_competitor: () -> untyped
+
+    def tournament_competitor_params: () -> untyped
+
+    def authorize_tournament: () -> untyped
+  end
+end

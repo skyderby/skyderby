@@ -1,0 +1,31 @@
+module Tracks
+  module Summary
+    class GlideRatioSummary
+      def initialize: (untyped points, untyped zerowind_points, untyped track_elevation, untyped track_distance, untyped zero_wind_distance, untyped presenter) -> void
+
+      def glide_ratio: () -> (::Float | untyped)
+
+      def min_glide_ratio: () -> (::Float | untyped)
+
+      def max_glide_ratio: () -> (::Float | untyped)
+
+      def zero_wind_glide_ratio: () -> (::Float | untyped)
+
+      def glide_ratio_wind_effect: () -> ::String
+
+      private
+
+      attr_reader points: untyped
+
+      attr_reader zerowind_points: untyped
+
+      attr_reader track_elevation: untyped
+
+      attr_reader track_distance: untyped
+
+      attr_reader zero_wind_distance: untyped
+
+      attr_reader presenter: untyped
+    end
+  end
+end

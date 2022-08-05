@@ -1,0 +1,3 @@
+module ProtectFromForgery
+  extend ActiveSupport::Concern
+end

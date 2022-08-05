@@ -1,0 +1,35 @@
+module Tournaments
+  module Qualifications
+    class ResultsController < ApplicationController
+      include ChartParams
+
+      include TournamentScoped
+
+      include RespondWithScoreboard
+
+      def new: () -> untyped
+
+      def create: () -> untyped
+
+      def show: () -> untyped
+
+      def edit: () -> untyped
+
+      def update: () -> untyped
+
+      def destroy: () -> untyped
+
+      private
+
+      def set_round: () -> untyped
+
+      def set_result: () -> untyped
+
+      def new_result_params: () -> untyped
+
+      def update_result_params: () -> untyped
+
+      def show_params: () -> untyped
+    end
+  end
+end

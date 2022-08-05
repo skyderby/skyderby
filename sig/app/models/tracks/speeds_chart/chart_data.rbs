@@ -1,0 +1,25 @@
+module Tracks
+  module SpeedsChart
+    class ChartData
+      def initialize: (untyped points, untyped zerowind_points, untyped speed_presenter) -> void
+
+      def ground_speed_chart_line: () -> untyped
+
+      def vertical_speed_chart_line: () -> untyped
+
+      def full_speed_chart_line: () -> untyped
+
+      def wind_effect_speed_chart_line: () -> untyped
+
+      private
+
+      attr_reader points: untyped
+
+      attr_reader zerowind_points: untyped
+
+      attr_reader speed_presenter: untyped
+
+      attr_reader min_gps_time: untyped
+    end
+  end
+end

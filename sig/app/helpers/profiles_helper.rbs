@@ -1,0 +1,5 @@
+module ProfilesHelper
+  def profile_name_by_id: (untyped id) -> untyped
+
+  def profile_select_option: (untyped profile) -> (::Array[untyped] | nil)
+end

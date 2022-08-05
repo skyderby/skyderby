@@ -1,0 +1,5 @@
+class SpeedSkydivingCompetition::Competitor < ApplicationRecord
+  include EventOngoingValidation
+
+  include CompetitorCountry
+end

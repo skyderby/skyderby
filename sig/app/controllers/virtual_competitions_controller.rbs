@@ -1,0 +1,23 @@
+class VirtualCompetitionsController < ApplicationController
+  def index: () -> untyped
+
+  def new: () -> untyped
+
+  def show: () -> untyped
+
+  def edit: () -> untyped
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def set_competition: () -> untyped
+
+  def show_params: () -> untyped
+
+  def competition_params: () -> untyped
+end

@@ -1,0 +1,13 @@
+class TrackResultsService
+  attr_reader track: untyped
+
+  def initialize: (untyped track) -> void
+
+  def execute: () -> (nil | untyped)
+
+  private
+
+  def track_points: () -> untyped
+
+  def ranges_to_score: () -> untyped
+end

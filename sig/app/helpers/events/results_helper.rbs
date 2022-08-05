@@ -1,0 +1,11 @@
+module Events
+  module ResultsHelper
+    def new_event_track_link: (untyped event, untyped competitor, untyped round) -> untyped
+
+    def show_event_track_link: (untyped event, untyped event_track, untyped can_update) -> untyped
+
+    def delete_event_track_link: (untyped event_track) -> untyped
+
+    def event_result_presentation: (untyped event_track) -> ::String
+  end
+end

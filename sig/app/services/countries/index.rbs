@@ -1,0 +1,9 @@
+module Countries
+  class Index
+    def top_by_tracks: () -> untyped
+
+    def top_by_profiles: () -> untyped
+
+    def countries: () -> untyped
+  end
+end

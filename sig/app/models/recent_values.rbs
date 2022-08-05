@@ -1,0 +1,13 @@
+class RecentValues
+  attr_reader values: untyped
+
+  def initialize: (untyped cookies) -> void
+
+  def add: (untyped key, untyped val) -> untyped
+
+  def delete: (untyped key) -> untyped
+
+  private
+
+  def dump: () -> untyped
+end

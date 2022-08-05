@@ -1,0 +1,17 @@
+module PointsProcessor
+  class Extended < Default
+    MS_IN_KMH: ::Float
+
+    private
+
+    def before_calculation: () -> untyped
+
+    def filter_by_frequency: () -> untyped
+
+    def additional_processing: (untyped prev_point, untyped cur_point) -> untyped
+
+    def calc_h_speed: (untyped prev_point, untyped cur_point) -> untyped
+
+    def calc_v_speed: (untyped prev_point, untyped cur_point) -> untyped
+  end
+end

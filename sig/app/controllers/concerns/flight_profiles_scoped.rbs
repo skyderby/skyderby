@@ -1,0 +1,9 @@
+module FlightProfilesScoped
+  extend ActiveSupport::Concern
+
+  def scope_tracks: () -> untyped
+
+  def load_scope: () -> untyped
+
+  def scope_class: () -> untyped
+end

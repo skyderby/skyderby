@@ -1,0 +1,9 @@
+module Completable
+  extend ActiveSupport::Concern
+
+  def completed: () -> untyped
+
+  alias completed? completed
+
+  def completed=: (untyped status) -> untyped
+end

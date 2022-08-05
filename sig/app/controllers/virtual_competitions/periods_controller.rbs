@@ -1,0 +1,13 @@
+module VirtualCompetitions
+  class PeriodsController < ApplicationController
+    def show: () -> untyped
+
+    def self.controller_path: () -> "virtual_competitions"
+
+    private
+
+    def when_valid_params: () { () -> untyped } -> untyped
+
+    def redirect_to_parent_controller: () -> untyped
+  end
+end

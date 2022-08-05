@@ -1,0 +1,25 @@
+module EventTracks
+  class FileDuplicationValidator
+    def self.call: (*untyped args) -> untyped
+
+    def initialize: (untyped result, untyped track_file) -> void
+
+    def call: () -> (false | true)
+
+    private
+
+    attr_reader result: untyped
+
+    attr_reader track_file: untyped
+
+    def pilot_name: () -> untyped
+
+    def round_presentation: () -> ::String
+
+    def round: () -> untyped
+
+    def track: () -> untyped
+
+    def duplicate: () -> untyped
+  end
+end

@@ -1,0 +1,11 @@
+class Api::V1::PerformanceCompetitions::ReferencePointAssignmentsController < Api::ApplicationController
+  def index: () -> untyped
+
+  def create: () -> untyped
+
+  private
+
+  def assignment_params: () -> untyped
+
+  def set_event: () -> untyped
+end

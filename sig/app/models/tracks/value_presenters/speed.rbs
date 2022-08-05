@@ -1,0 +1,19 @@
+module Tracks
+  module ValuePresenters
+    class Speed
+      def initialize: (?::String unit_system) -> void
+
+      def call: (untyped value) -> untyped
+
+      private
+
+      attr_reader unit_system: untyped
+
+      def convert: (untyped value) -> untyped
+
+      def ms_to_kmh: (untyped value) -> untyped
+
+      def ms_to_mph: (untyped value) -> untyped
+    end
+  end
+end

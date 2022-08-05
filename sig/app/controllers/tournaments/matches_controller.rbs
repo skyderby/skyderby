@@ -1,0 +1,21 @@
+module Tournaments
+  class MatchesController < ApplicationController
+    include TournamentScoped
+
+    def edit: () -> nil
+
+    def create: () -> untyped
+
+    def update: () -> untyped
+
+    def destroy: () -> untyped
+
+    private
+
+    def set_match: () -> untyped
+
+    def authorize_action: () -> untyped
+
+    def match_params: () -> untyped
+  end
+end

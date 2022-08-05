@@ -1,0 +1,5 @@
+module EventOngoingValidation
+  extend ActiveSupport::Concern
+
+  def validate_event_not_finished: () -> (nil | untyped)
+end

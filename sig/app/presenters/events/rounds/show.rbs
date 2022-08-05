@@ -1,0 +1,17 @@
+module Events
+  module Rounds
+    class Show
+      GROUP_SEPARATION: untyped
+
+      attr_reader round: untyped
+
+      attr_reader event: untyped
+
+      def initialize: (untyped event, untyped round_id) -> void
+
+      def groups: () -> untyped
+
+      def competitor_results: () -> untyped
+    end
+  end
+end

@@ -1,0 +1,11 @@
+module Tracks
+  class WeatherDataController < ApplicationController
+    def show: () -> untyped
+
+    private
+
+    def track: () -> untyped
+
+    def index_params: () -> untyped
+  end
+end

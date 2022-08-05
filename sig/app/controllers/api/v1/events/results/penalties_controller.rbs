@@ -1,0 +1,15 @@
+module Api
+  module V1
+    module Events
+      module Results
+        class PenaltiesController < ApplicationController
+          def update: () -> untyped
+
+          private
+
+          def penalty_params: () -> untyped
+        end
+      end
+    end
+  end
+end

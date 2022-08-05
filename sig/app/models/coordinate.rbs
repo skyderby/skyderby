@@ -1,0 +1,11 @@
+class Coordinate
+  attr_reader latitude: untyped
+
+  attr_reader longitude: untyped
+
+  def initialize: (latitude: untyped, longitude: untyped) -> void
+
+  def []: (untyped key) -> untyped
+
+  def self.[]: (untyped latitude, untyped longitude) -> untyped
+end

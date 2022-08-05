@@ -1,0 +1,23 @@
+class PerformanceCompetition::TeamScoreboard
+  def initialize: (untyped event) -> void
+
+  def rows: () -> untyped
+
+  private
+
+  attr_reader event: untyped
+
+  def calculate_team_score: (untyped team) -> { team: untyped, score: untyped }
+
+  def assign_ranks: (untyped teams) -> untyped
+
+  def standings: () -> untyped
+
+  def team_competitors: (untyped team) -> untyped
+
+  def competitors: () -> untyped
+
+  def rounds: () -> untyped
+
+  def results: () -> untyped
+end

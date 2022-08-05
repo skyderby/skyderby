@@ -1,0 +1,7 @@
+module Place::Stats
+  extend ActiveSupport::Concern
+
+  def popular_times: () -> untyped
+
+  def last_track_recorded_at: () -> untyped
+end

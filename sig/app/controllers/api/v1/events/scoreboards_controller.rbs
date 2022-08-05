@@ -1,0 +1,11 @@
+module Api
+  module V1
+    module Events
+      class ScoreboardsController < ApplicationController
+        include EventScoped
+
+        def show: () -> untyped
+      end
+    end
+  end
+end

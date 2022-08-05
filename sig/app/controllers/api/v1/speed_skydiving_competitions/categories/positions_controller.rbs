@@ -1,0 +1,9 @@
+class Api::V1::SpeedSkydivingCompetitions::Categories::PositionsController < Api::ApplicationController
+  def update: () -> untyped
+
+  private
+
+  def set_event: () -> untyped
+
+  def direction: () -> untyped
+end

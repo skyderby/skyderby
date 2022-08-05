@@ -1,0 +1,23 @@
+class Profile < ApplicationRecord
+  include Ownerable
+
+  include Mergeable
+
+  attr_accessor crop_x: untyped
+
+  attr_accessor crop_y: untyped
+
+  attr_accessor crop_w: untyped
+
+  attr_accessor crop_h: untyped
+
+  def cropping?: () -> untyped
+
+  def name: () -> untyped
+
+  def competitor_of_events: () -> untyped
+
+  def participant_of_events: () -> untyped
+
+  def self.search: (untyped query) -> untyped
+end

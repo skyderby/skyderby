@@ -1,0 +1,9 @@
+module SponsorableLoading
+  extend ActiveSupport::Concern
+
+  def load_sponsorable: () -> untyped
+
+  def sponsorable_class: () -> untyped
+
+  def authorize_sponsorable: () -> (nil | untyped)
+end

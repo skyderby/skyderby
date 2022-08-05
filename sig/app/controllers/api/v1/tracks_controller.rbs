@@ -1,0 +1,35 @@
+module Api
+  module V1
+    class TracksController < Api::ApplicationController
+      def index: () -> untyped
+
+      def create: () -> untyped
+
+      def show: () -> untyped
+
+      def update: () -> untyped
+
+      def destroy: () -> untyped
+
+      private
+
+      def apply_filter: (untyped collection) -> untyped
+
+      def apply_sort: (untyped collection) -> untyped
+
+      def preload_associations: (untyped collection) -> untyped
+
+      def paginate: (untyped collection) -> untyped
+
+      def set_track: () -> untyped
+
+      def index_params: () -> untyped
+
+      def create_params: () -> untyped
+
+      def update_params: () -> untyped
+
+      def process_jump_range: (untyped permitted_params) -> untyped
+    end
+  end
+end

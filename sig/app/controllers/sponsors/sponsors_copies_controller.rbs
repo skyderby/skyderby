@@ -1,0 +1,13 @@
+module Sponsors
+  class SponsorsCopiesController < ApplicationController
+    include SponsorableLoading
+
+    def new: () -> nil
+
+    def create: () -> untyped
+
+    private
+
+    def copy_params: () -> untyped
+  end
+end

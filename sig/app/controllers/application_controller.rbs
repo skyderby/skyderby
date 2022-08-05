@@ -1,0 +1,21 @@
+class ApplicationController < ActionController::Base
+  include DeviseOverrides
+
+  include SetCurrentRequestDetails
+
+  include Pundit
+
+  include MobileFormatOverride
+
+  include ConditionalGet
+
+  include ProtectFromForgery
+
+  include Internationalization
+
+  include GlobalErrorHandling
+
+  include CurrentAnnouncements
+
+  def layout_by_resource: () -> ("sessions" | "application")
+end

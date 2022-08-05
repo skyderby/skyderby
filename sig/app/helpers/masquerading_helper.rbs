@@ -1,0 +1,3 @@
+module MasqueradingHelper
+  def masquerading?: () -> untyped
+end

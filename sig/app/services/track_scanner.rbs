@@ -1,0 +1,53 @@
+class TrackScanner
+  ScanResult: untyped
+
+  class NullRange
+    def initialize: (untyped points) -> void
+
+    def start_point: () -> untyped
+
+    def deploy_point: () -> untyped
+
+    def start_time: () -> untyped
+
+    def deploy_time: () -> untyped
+
+    def require_review?: () -> true
+
+    private
+
+    attr_reader points: untyped
+  end
+
+  #
+  # Exception that raised when service failed to find flight data in given
+  # dataset
+  class NoFlightData < StandardError
+  end
+
+  def self.call: (untyped points) -> untyped
+
+  def initialize: (untyped points) -> void
+
+  def call: () -> untyped
+
+  private
+
+  attr_reader points: untyped
+
+  def request: () -> untyped
+
+  def check_status: (untyped response) -> (nil | untyped)
+
+  def convert: (untyped response) -> untyped
+
+  def closest_point_to: (untyped time) -> untyped
+
+  def request_body: () -> untyped
+
+  def connection: () -> untyped
+
+  def uri: () -> untyped
+
+  def service_address: () -> untyped
+end

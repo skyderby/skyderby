@@ -1,0 +1,19 @@
+class Track < ApplicationRecord
+  class Ownership
+    TYPES: ::Array["None" | "User" | "Event" | "Tournament"]
+
+    include ActiveModel::Model
+
+    attr_reader track: untyped
+
+    def initialize: (untyped track) -> void
+
+    def profile: () -> untyped
+
+    def profile_id: () -> untyped
+
+    def name: () -> untyped
+
+    def type: () -> untyped
+  end
+end

@@ -1,0 +1,5 @@
+module SegmentParser
+  SEGMENT_PARSER: untyped
+
+  def self.for: (untyped format) -> untyped
+end

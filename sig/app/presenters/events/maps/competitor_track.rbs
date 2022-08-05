@@ -1,0 +1,25 @@
+class Events::Maps::CompetitorTrack < SimpleDelegator
+  attr_accessor color: untyped
+
+  def empty?: () -> untyped
+
+  def present?: () -> untyped
+
+  def start_time: () -> untyped
+
+  def path_coordinates: () -> untyped
+
+  def start_point: () -> untyped
+
+  def end_point: () -> untyped
+
+  def after_exit_point: () -> untyped
+
+  def reference_point: () -> (nil | untyped)
+
+  private
+
+  def map_marker: (untyped point) -> { lat: untyped, lng: untyped, gpsTime: untyped }
+
+  def ten_seconds_after_exit_point: () -> untyped
+end

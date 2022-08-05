@@ -1,0 +1,31 @@
+class TracksController < ApplicationController
+  include ChartParams
+
+  include UnitsHelper
+
+  def index: () -> untyped
+
+  def show: () -> untyped
+
+  def edit: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def set_track: () -> untyped
+
+  def track_params: () -> untyped
+
+  def index_params: () -> untyped
+
+  def show_params: () -> untyped
+
+  def straight_line_distance: () -> untyped
+
+  def process_range: () -> untyped
+
+  def altitude_units: () -> untyped
+end

@@ -1,0 +1,37 @@
+module SpeedSkydivingCompetition::Result::SubmissionResult
+  extend ActiveSupport::Concern
+
+  def calculate_result: () -> untyped
+
+  class ResultScore
+    BREAKOFF_ALTITUDE: 1707
+
+    WINDOW: 2256
+
+    LOOKUP_TIME: 3
+
+    def initialize: (untyped result) -> void
+
+    def calculate: () -> untyped
+
+    def exit_altitude: () -> untyped
+
+    private
+
+    attr_reader result: untyped
+
+    def ranges: () -> untyped
+
+    def build_range: (untyped start_point) -> (nil | { start_point: untyped, end_point: untyped, speed: untyped })
+
+    def points_by_time: () -> untyped
+
+    def window_points: () -> untyped
+
+    def exit_time: () -> untyped
+
+    def exit_point: () -> untyped
+
+    def points: () -> untyped
+  end
+end

@@ -1,0 +1,27 @@
+module Tracks
+  module TrackViewBase
+    include ChartPreferences
+
+    include WindCancellation
+
+    include Summary
+
+    include GlideRatioChart
+
+    include SpeedsChart
+
+    include ElevationDistanceChart
+
+    def glide_ratio_presenter: () -> untyped
+
+    def speed_presenter: () -> untyped
+
+    def altitude_presenter: () -> untyped
+
+    def distance_presenter: () -> untyped
+
+    def missing_ranges: () -> (::Array[untyped] | untyped)
+
+    attr_reader chart_preferences: untyped
+  end
+end

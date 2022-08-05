@@ -1,0 +1,21 @@
+class CreateTrackService
+  class MissingRangesDetector
+    def self.call: (*untyped args) -> untyped
+
+    def initialize: (untyped points, untyped data_frequency) -> void
+
+    def call: () -> untyped
+
+    private
+
+    attr_reader points: untyped
+
+    attr_reader data_frequency: untyped
+
+    def range_summary: (untyped range) -> { start: untyped, end: untyped, default_freq: untyped }
+
+    def ranges: () -> untyped
+
+    def frequency: (untyped prev_point, untyped current_point) -> untyped
+  end
+end

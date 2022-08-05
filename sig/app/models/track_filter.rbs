@@ -1,0 +1,17 @@
+class TrackFilter
+  def initialize: (untyped query) -> void
+
+  def apply: (untyped relation) -> untyped
+
+  private
+
+  attr_reader query: untyped
+
+  def filter_by_activity: (untyped relation) -> untyped
+
+  def filter_by_associations: (untyped relation) -> untyped
+
+  def filter_by_year: (untyped relation) -> untyped
+
+  def filter_by_term: (untyped relation) -> untyped
+end

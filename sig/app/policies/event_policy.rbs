@@ -1,0 +1,23 @@
+class EventPolicy < ApplicationPolicy
+  def index?: () -> true
+
+  def create?: () -> untyped
+
+  def show?: () -> (true | untyped)
+
+  def update?: () -> untyped
+
+  def destroy?: () -> untyped
+
+  private
+
+  def participant?: () -> (false | untyped)
+
+  def organizer?: () -> (false | untyped)
+
+  def responsible?: () -> (false | untyped)
+
+  class Scope < Scope
+    def resolve: () -> untyped
+  end
+end

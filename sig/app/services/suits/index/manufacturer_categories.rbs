@@ -1,0 +1,9 @@
+module Suits
+  module Index
+    module ManufacturerCategories
+      def popular_manufacturers: () -> untyped
+
+      def other_manufacturers: () -> untyped
+    end
+  end
+end

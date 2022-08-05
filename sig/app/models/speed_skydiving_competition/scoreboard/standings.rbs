@@ -1,0 +1,19 @@
+class SpeedSkydivingCompetition::Scoreboard::Standings
+  def self.build: (*untyped args) -> untyped
+
+  def initialize: (untyped competitors, untyped completed_rounds, untyped results) -> void
+
+  def build: () -> untyped
+
+  private
+
+  attr_reader competitors: untyped
+
+  attr_reader completed_rounds: untyped
+
+  attr_reader results: untyped
+
+  def accountable_results_for: (untyped competitor) -> untyped
+
+  def assign_ranks: (untyped standings) -> untyped
+end

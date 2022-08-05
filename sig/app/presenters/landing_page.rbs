@@ -1,0 +1,9 @@
+class LandingPage
+  def users_count: () -> ::String
+
+  def tracks_count: () -> ::String
+
+  def online_competitions_summary: () -> untyped
+
+  def contribution_summary: () -> untyped
+end

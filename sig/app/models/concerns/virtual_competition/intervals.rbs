@@ -1,0 +1,13 @@
+class VirtualCompetition < ApplicationRecord
+  module Intervals
+    extend ActiveSupport::Concern
+
+    def years: () -> untyped
+
+    def last_year: () -> untyped
+
+    def intervals: () -> untyped
+
+    def last_interval: () -> untyped
+  end
+end

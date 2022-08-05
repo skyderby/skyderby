@@ -1,0 +1,9 @@
+module Api
+  module V1
+    module Profiles
+      class CurrentsController < ApplicationController
+        def show: () -> untyped
+      end
+    end
+  end
+end

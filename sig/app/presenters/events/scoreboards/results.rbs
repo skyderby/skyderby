@@ -1,0 +1,7 @@
+module Events
+  module Scoreboards
+    module Results
+      def results: () -> untyped
+    end
+  end
+end

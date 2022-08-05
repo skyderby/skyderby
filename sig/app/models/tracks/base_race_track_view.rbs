@@ -1,0 +1,19 @@
+module Tracks
+  class BaseRaceTrackView
+    include TrackViewBase
+
+    def initialize: (untyped base_race_track, untyped chart_preferences) -> void
+
+    private
+
+    attr_reader base_race_track: untyped
+
+    def track_elevation: () -> (0 | untyped)
+
+    def track_distance: () -> untyped
+
+    def zero_wind_track_distance: () -> untyped
+
+    def points: () -> untyped
+  end
+end

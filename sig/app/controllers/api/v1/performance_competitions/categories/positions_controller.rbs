@@ -1,0 +1,9 @@
+class Api::V1::PerformanceCompetitions::Categories::PositionsController < Api::ApplicationController
+  def update: () -> untyped
+
+  private
+
+  def set_event: () -> untyped
+
+  def direction: () -> untyped
+end

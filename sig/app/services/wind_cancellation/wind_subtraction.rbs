@@ -1,0 +1,15 @@
+module WindCancellation
+  class WindSubtraction
+    include Skyderby::Trigonometry
+
+    include Skyderby::Geospatial
+
+    def initialize: (untyped points, untyped weather_data) -> void
+
+    def execute: () -> untyped
+
+    private
+
+    def vector_from_wind_data: (untyped altitude, untyped time) -> untyped
+  end
+end

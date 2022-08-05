@@ -1,0 +1,5 @@
+class Place::FinishLine < ApplicationRecord
+  def to_coordinates: () -> ::Array[{ latitude: untyped, longitude: untyped }]
+
+  def center: () -> { latitude: untyped, longitude: untyped }
+end

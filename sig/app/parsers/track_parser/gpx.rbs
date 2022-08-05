@@ -1,0 +1,15 @@
+module TrackParser
+  class Gpx
+    def initialize: (?::Hash[untyped, untyped] args) -> void
+
+    def parse: () -> untyped
+
+    private
+
+    attr_reader file: untyped
+
+    attr_reader segment: untyped
+
+    def parse_point: (untyped node) -> untyped
+  end
+end

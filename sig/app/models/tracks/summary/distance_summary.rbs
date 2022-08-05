@@ -1,0 +1,25 @@
+module Tracks
+  module Summary
+    class DistanceSummary
+      def initialize: (untyped track_distance, untyped zero_wind_distance, untyped presenter) -> void
+
+      def distance: () -> untyped
+
+      def zero_wind_distance: () -> untyped
+
+      def distance_wind_effect: () -> ::String
+
+      def distance_wind_effect_in_percents: () -> (0 | untyped)
+
+      def zero_wind_distance_in_percents: () -> untyped
+
+      private
+
+      attr_reader track_distance: untyped
+
+      attr_reader zero_wind_track_distance: untyped
+
+      attr_reader presenter: untyped
+    end
+  end
+end

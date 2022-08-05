@@ -1,0 +1,17 @@
+class SpeedSkydivingCompetitionPolicy < ApplicationPolicy
+  def create?: () -> untyped
+
+  def show?: () -> (true | untyped)
+
+  def update?: () -> untyped
+
+  def destroy?: () -> untyped
+
+  def organizer?: () -> (false | untyped)
+
+  def download?: () -> untyped
+
+  def responsible?: () -> (false | untyped)
+
+  def participant?: () -> (false | untyped)
+end

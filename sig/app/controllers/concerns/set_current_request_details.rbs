@@ -1,0 +1,3 @@
+module SetCurrentRequestDetails
+  extend ActiveSupport::Concern
+end

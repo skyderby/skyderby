@@ -1,0 +1,13 @@
+class GfsGradsFetcher
+  class Parser
+    def initialize: (untyped input) -> void
+
+    def execute: () -> untyped
+
+    private
+
+    def parse_parameter: (untyped str) -> untyped
+
+    attr_reader input: untyped
+  end
+end

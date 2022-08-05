@@ -1,0 +1,17 @@
+module Tournaments
+  module Qualifications
+    class Scoreboard
+      def initialize: (untyped tournament) -> void
+
+      def rounds: () -> untyped
+
+      def competitors: () -> untyped
+
+      def results: () -> untyped
+
+      private
+
+      attr_reader tournament: untyped
+    end
+  end
+end

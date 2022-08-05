@@ -1,0 +1,21 @@
+module Tournaments
+  module Matches
+    module Slots
+      class JumpRangesController < ApplicationController
+        include TournamentScoped
+
+        def show: () -> untyped
+
+        def update: () -> untyped
+
+        private
+
+        def jump_range_params: () -> untyped
+
+        def set_match: () -> untyped
+
+        def set_slot: () -> untyped
+      end
+    end
+  end
+end

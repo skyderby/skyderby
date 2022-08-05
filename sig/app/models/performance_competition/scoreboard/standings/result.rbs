@@ -1,0 +1,15 @@
+class PerformanceCompetition::Scoreboard::Standings::Result
+  attr_reader record: untyped
+
+  attr_reader points: untyped
+
+  attr_reader best_result: untyped
+
+  def initialize: (untyped record) -> void
+
+  def result: () -> (0 | untyped)
+
+  def calculate_points_from: (untyped best_result) -> (nil | untyped)
+
+  def best_result!: () -> untyped
+end

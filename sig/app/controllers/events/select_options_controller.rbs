@@ -1,0 +1,7 @@
+module Events
+  class SelectOptionsController < ApplicationController
+    def index: () -> untyped
+
+    def search_query: () -> untyped
+  end
+end

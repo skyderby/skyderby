@@ -1,0 +1,3 @@
+class ResultsJob < ApplicationJob
+  def perform: (untyped track_id) -> untyped
+end

@@ -1,0 +1,17 @@
+module Events
+  module Results
+    class JumpRangesController < ApplicationController
+      include EventTrackScoped
+
+      include EventScoped
+
+      def show: () -> untyped
+
+      def update: () -> untyped
+
+      private
+
+      def jump_range_params: () -> untyped
+    end
+  end
+end

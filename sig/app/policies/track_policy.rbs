@@ -1,0 +1,25 @@
+class TrackPolicy < ApplicationPolicy
+  def index?: () -> true
+
+  def create?: () -> true
+
+  def show?: () -> untyped
+
+  def update?: () -> untyped
+
+  def destroy?: () -> untyped
+
+  def download?: () -> (true | false | untyped)
+
+  private
+
+  def can_change?: () -> untyped
+
+  def owner?: () -> untyped
+
+  def organizer_of_event_track_belongs_to?: () -> (false | untyped)
+
+  class Scope < Scope
+    def resolve: () -> untyped
+  end
+end

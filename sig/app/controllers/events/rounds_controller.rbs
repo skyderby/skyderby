@@ -1,0 +1,19 @@
+module Events
+  class RoundsController < ApplicationController
+    include EventScoped
+
+    def create: () -> untyped
+
+    def update: () -> untyped
+
+    def destroy: () -> untyped
+
+    private
+
+    def set_round: () -> untyped
+
+    def round_params: () -> untyped
+
+    def update_round_params: () -> untyped
+  end
+end

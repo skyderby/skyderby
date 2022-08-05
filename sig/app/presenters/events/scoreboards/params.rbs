@@ -1,0 +1,25 @@
+module Events
+  module Scoreboards
+    class Params
+      def initialize: (untyped event, untyped raw_params) -> void
+
+      def omit_penalties?: () -> untyped
+
+      def adjust_to_wind?: () -> untyped
+
+      def apply_penalty_to_score?: () -> untyped
+
+      def apply_penalty_to_result?: () -> untyped
+
+      def split_by_categories?: () -> untyped
+
+      private
+
+      attr_reader event: untyped
+
+      attr_reader raw_params: untyped
+
+      def display_raw_results: () -> untyped
+    end
+  end
+end

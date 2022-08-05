@@ -1,0 +1,15 @@
+module Events
+  module Scoreboards
+    class Category < SimpleDelegator
+      def initialize: (untyped section, untyped scoreboard, untyped collection_class) -> void
+
+      def competitors: () -> untyped
+
+      private
+
+      attr_reader scoreboard: untyped
+
+      attr_reader collection_class: untyped
+    end
+  end
+end

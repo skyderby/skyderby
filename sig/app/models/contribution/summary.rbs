@@ -1,0 +1,9 @@
+class Contribution::Summary
+  def number_of_contributions_this_month: () -> untyped
+
+  def sample_of_previous_contributions: () -> untyped
+
+  def this_month_contributors: () -> untyped
+
+  def previous_contributions: () -> untyped
+end

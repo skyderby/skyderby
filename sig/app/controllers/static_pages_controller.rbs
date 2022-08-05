@@ -1,0 +1,10 @@
+class StaticPagesController < ApplicationController
+  def index: () -> untyped
+
+  def manage: () -> untyped
+
+  # End point for NewRelic availability monitoring
+  def ping: () -> untyped
+
+  def about: () -> nil
+end
