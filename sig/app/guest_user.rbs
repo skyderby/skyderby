@@ -1,3 +1,0 @@
-class GuestUser
-  def initialize: (ActionController::Cookies cookies) -> void
-end

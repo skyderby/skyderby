@@ -13,7 +13,7 @@ class GuestUser
 
   attr_reader tracks: untyped
 
-  def initialize: (untyped store) -> void
+  def initialize: (ActionController::Cookies cookies) -> void
 
   def id: () -> nil
 

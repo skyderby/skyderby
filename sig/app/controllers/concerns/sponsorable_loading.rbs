@@ -1,9 +1,13 @@
 module SponsorableLoading
+  type sponsorable = Event | Tournament | VirtualCompetition
+
   extend ActiveSupport::Concern
 
-  def load_sponsorable: () -> untyped
+  @sponsorable: sponsorable
 
-  def sponsorable_class: () -> untyped
+  def load_sponsorable: () -> void
 
-  def authorize_sponsorable: () -> (nil | untyped)
+  def sponsorable_class: () -> (singleton(::Event) | singleton(::Tournament) | singleton(::VirtualCompetition) | nil)
+
+  def authorize_sponsorable: () -> void
 end

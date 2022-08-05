@@ -3,7 +3,9 @@ module Tournaments
     module ResultScoped
       extend ActiveSupport::Concern
 
-      def set_result: () -> untyped
+      @result: QualificationJump
+
+      def set_result: () -> QualificationJump
     end
   end
 end

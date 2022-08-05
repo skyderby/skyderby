@@ -1,9 +1,9 @@
 module FlightProfilesScoped
   extend ActiveSupport::Concern
 
-  def scope_tracks: () -> untyped
+  @scope: Profile | VirtualCompetition | Place
 
-  def load_scope: () -> untyped
-
-  def scope_class: () -> untyped
+  def scope_tracks: () -> [Track]
+  def load_scope: () -> void
+  def scope_class: () -> (singleton(Profile) | singleton(VirtualCompetition) | singleton(Place) | nil)
 end

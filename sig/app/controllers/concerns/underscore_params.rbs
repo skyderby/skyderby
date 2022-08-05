@@ -1,5 +1,5 @@
 module UnderscoreParams
   extend ActiveSupport::Concern
 
-  def underscore_params!: () -> untyped
+  def underscore_params!: () -> ActionController::Parameters
 end
