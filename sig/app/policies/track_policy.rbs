@@ -19,7 +19,7 @@ class TrackPolicy < ApplicationPolicy
 
   def organizer_of_event_track_belongs_to?: () -> (false | untyped)
 
-  class Scope < Scope
+  class Scope < ApplicationPolicy::Scope
     def resolve: () -> untyped
   end
 end

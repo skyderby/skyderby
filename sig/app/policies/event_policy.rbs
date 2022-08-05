@@ -17,7 +17,7 @@ class EventPolicy < ApplicationPolicy
 
   def responsible?: () -> (false | untyped)
 
-  class Scope < Scope
+  class Scope < ApplicationPolicy::Scope
     def resolve: () -> untyped
   end
 end
