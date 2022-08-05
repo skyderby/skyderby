@@ -1,0 +1,3 @@
+class MailerPreviews::AdminMailerPreview < ActionMailer::Preview
+  def verify_online_competition_result: () -> untyped
+end

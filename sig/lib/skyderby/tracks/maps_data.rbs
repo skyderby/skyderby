@@ -1,0 +1,23 @@
+module Skyderby
+  module Tracks
+    class MapsData
+      def initialize: (untyped track) -> void
+
+      # Track may have weather data associated by itself or
+      # associated with place or with event
+      def weather_data: () -> untyped
+
+      def points: () -> untyped
+
+      def zerowind_points: () -> (::Array[untyped] | untyped)
+
+      private
+
+      attr_reader track: untyped
+
+      def start_time: () -> untyped
+
+      def track_points: () -> untyped
+    end
+  end
+end

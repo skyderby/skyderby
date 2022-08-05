@@ -1,0 +1,13 @@
+module Skyderby
+  module Trigonometry
+    RAD_PER_DEG: untyped
+
+    DEG_PER_RAD: untyped
+
+    def normalize_angle: (untyped angle) -> untyped
+
+    def deg_to_rad: (untyped angle) -> untyped
+
+    def rad_to_deg: (untyped angle) -> untyped
+  end
+end
