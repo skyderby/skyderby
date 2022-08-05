@@ -1,0 +1,362 @@
+class VirtualCompetition < ::ApplicationRecord
+  class Result < ::ApplicationRecord
+    extend _ActiveRecord_Relation_ClassMethods[VirtualCompetition::Result, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def virtual_competition_id: () -> Integer?
+
+      def virtual_competition_id=: (Integer?) -> Integer?
+
+      def virtual_competition_id?: () -> bool
+
+      def virtual_competition_id_changed?: () -> bool
+
+      def virtual_competition_id_change: () -> [ Integer?, Integer? ]
+
+      def virtual_competition_id_will_change!: () -> void
+
+      def virtual_competition_id_was: () -> Integer?
+
+      def virtual_competition_id_previously_changed?: () -> bool
+
+      def virtual_competition_id_previous_change: () -> Array[Integer?]?
+
+      def virtual_competition_id_previously_was: () -> Integer?
+
+      def virtual_competition_id_before_last_save: () -> Integer?
+
+      def virtual_competition_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def virtual_competition_id_in_database: () -> Integer?
+
+      def saved_change_to_virtual_competition_id: () -> Array[Integer?]?
+
+      def saved_change_to_virtual_competition_id?: () -> bool
+
+      def will_save_change_to_virtual_competition_id?: () -> bool
+
+      def restore_virtual_competition_id!: () -> void
+
+      def clear_virtual_competition_id_change: () -> void
+
+      def track_id: () -> Integer?
+
+      def track_id=: (Integer?) -> Integer?
+
+      def track_id?: () -> bool
+
+      def track_id_changed?: () -> bool
+
+      def track_id_change: () -> [ Integer?, Integer? ]
+
+      def track_id_will_change!: () -> void
+
+      def track_id_was: () -> Integer?
+
+      def track_id_previously_changed?: () -> bool
+
+      def track_id_previous_change: () -> Array[Integer?]?
+
+      def track_id_previously_was: () -> Integer?
+
+      def track_id_before_last_save: () -> Integer?
+
+      def track_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def track_id_in_database: () -> Integer?
+
+      def saved_change_to_track_id: () -> Array[Integer?]?
+
+      def saved_change_to_track_id?: () -> bool
+
+      def will_save_change_to_track_id?: () -> bool
+
+      def restore_track_id!: () -> void
+
+      def clear_track_id_change: () -> void
+
+      def result: () -> Float?
+
+      def result=: (Float?) -> Float?
+
+      def result?: () -> bool
+
+      def result_changed?: () -> bool
+
+      def result_change: () -> [ Float?, Float? ]
+
+      def result_will_change!: () -> void
+
+      def result_was: () -> Float?
+
+      def result_previously_changed?: () -> bool
+
+      def result_previous_change: () -> Array[Float?]?
+
+      def result_previously_was: () -> Float?
+
+      def result_before_last_save: () -> Float?
+
+      def result_change_to_be_saved: () -> Array[Float?]?
+
+      def result_in_database: () -> Float?
+
+      def saved_change_to_result: () -> Array[Float?]?
+
+      def saved_change_to_result?: () -> bool
+
+      def will_save_change_to_result?: () -> bool
+
+      def restore_result!: () -> void
+
+      def clear_result_change: () -> void
+
+      def created_at: () -> ActiveSupport::TimeWithZone?
+
+      def created_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+      def created_at?: () -> bool
+
+      def created_at_changed?: () -> bool
+
+      def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def created_at_will_change!: () -> void
+
+      def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_previously_changed?: () -> bool
+
+      def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_created_at?: () -> bool
+
+      def will_save_change_to_created_at?: () -> bool
+
+      def restore_created_at!: () -> void
+
+      def clear_created_at_change: () -> void
+
+      def updated_at: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+      def updated_at?: () -> bool
+
+      def updated_at_changed?: () -> bool
+
+      def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def updated_at_will_change!: () -> void
+
+      def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_previously_changed?: () -> bool
+
+      def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_updated_at?: () -> bool
+
+      def will_save_change_to_updated_at?: () -> bool
+
+      def restore_updated_at!: () -> void
+
+      def clear_updated_at_change: () -> void
+
+      def highest_speed: () -> Float?
+
+      def highest_speed=: (Float?) -> Float?
+
+      def highest_speed?: () -> bool
+
+      def highest_speed_changed?: () -> bool
+
+      def highest_speed_change: () -> [ Float?, Float? ]
+
+      def highest_speed_will_change!: () -> void
+
+      def highest_speed_was: () -> Float?
+
+      def highest_speed_previously_changed?: () -> bool
+
+      def highest_speed_previous_change: () -> Array[Float?]?
+
+      def highest_speed_previously_was: () -> Float?
+
+      def highest_speed_before_last_save: () -> Float?
+
+      def highest_speed_change_to_be_saved: () -> Array[Float?]?
+
+      def highest_speed_in_database: () -> Float?
+
+      def saved_change_to_highest_speed: () -> Array[Float?]?
+
+      def saved_change_to_highest_speed?: () -> bool
+
+      def will_save_change_to_highest_speed?: () -> bool
+
+      def restore_highest_speed!: () -> void
+
+      def clear_highest_speed_change: () -> void
+
+      def highest_gr: () -> Float?
+
+      def highest_gr=: (Float?) -> Float?
+
+      def highest_gr?: () -> bool
+
+      def highest_gr_changed?: () -> bool
+
+      def highest_gr_change: () -> [ Float?, Float? ]
+
+      def highest_gr_will_change!: () -> void
+
+      def highest_gr_was: () -> Float?
+
+      def highest_gr_previously_changed?: () -> bool
+
+      def highest_gr_previous_change: () -> Array[Float?]?
+
+      def highest_gr_previously_was: () -> Float?
+
+      def highest_gr_before_last_save: () -> Float?
+
+      def highest_gr_change_to_be_saved: () -> Array[Float?]?
+
+      def highest_gr_in_database: () -> Float?
+
+      def saved_change_to_highest_gr: () -> Array[Float?]?
+
+      def saved_change_to_highest_gr?: () -> bool
+
+      def will_save_change_to_highest_gr?: () -> bool
+
+      def restore_highest_gr!: () -> void
+
+      def clear_highest_gr_change: () -> void
+
+      def wind_cancelled: () -> bool
+
+      def wind_cancelled=: (bool) -> bool
+
+      def wind_cancelled?: () -> bool
+
+      def wind_cancelled_changed?: () -> bool
+
+      def wind_cancelled_change: () -> [ bool?, bool? ]
+
+      def wind_cancelled_will_change!: () -> void
+
+      def wind_cancelled_was: () -> bool?
+
+      def wind_cancelled_previously_changed?: () -> bool
+
+      def wind_cancelled_previous_change: () -> Array[bool?]?
+
+      def wind_cancelled_previously_was: () -> bool?
+
+      def wind_cancelled_before_last_save: () -> bool?
+
+      def wind_cancelled_change_to_be_saved: () -> Array[bool?]?
+
+      def wind_cancelled_in_database: () -> bool?
+
+      def saved_change_to_wind_cancelled: () -> Array[bool?]?
+
+      def saved_change_to_wind_cancelled?: () -> bool
+
+      def will_save_change_to_wind_cancelled?: () -> bool
+
+      def restore_wind_cancelled!: () -> void
+
+      def clear_wind_cancelled_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def virtual_competition: () -> VirtualCompetition
+    def virtual_competition=: (VirtualCompetition?) -> VirtualCompetition?
+    def reload_virtual_competition: () -> VirtualCompetition?
+    def build_virtual_competition: (untyped) -> VirtualCompetition
+    def create_virtual_competition: (untyped) -> VirtualCompetition
+    def create_virtual_competition!: (untyped) -> VirtualCompetition
+    def track: () -> Track
+    def track=: (Track?) -> Track?
+    def reload_track: () -> Track?
+    def build_track: (untyped) -> Track
+    def create_track: (untyped) -> Track
+    def create_track!: (untyped) -> Track
+
+    def self.wind_cancellation: (untyped enabled) -> ActiveRecord_Relation
+
+    module GeneratedRelationMethods
+      def wind_cancellation: (untyped enabled) -> ActiveRecord_Relation
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[VirtualCompetition::Result, Integer]
+      include Enumerable[VirtualCompetition::Result]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[VirtualCompetition::Result, Integer]
+    end
+  end
+end

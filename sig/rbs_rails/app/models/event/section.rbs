@@ -1,0 +1,184 @@
+class Event < ::ApplicationRecord
+  class Section < ::ApplicationRecord
+    extend _ActiveRecord_Relation_ClassMethods[Event::Section, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def name: () -> String?
+
+      def name=: (String?) -> String?
+
+      def name?: () -> bool
+
+      def name_changed?: () -> bool
+
+      def name_change: () -> [ String?, String? ]
+
+      def name_will_change!: () -> void
+
+      def name_was: () -> String?
+
+      def name_previously_changed?: () -> bool
+
+      def name_previous_change: () -> Array[String?]?
+
+      def name_previously_was: () -> String?
+
+      def name_before_last_save: () -> String?
+
+      def name_change_to_be_saved: () -> Array[String?]?
+
+      def name_in_database: () -> String?
+
+      def saved_change_to_name: () -> Array[String?]?
+
+      def saved_change_to_name?: () -> bool
+
+      def will_save_change_to_name?: () -> bool
+
+      def restore_name!: () -> void
+
+      def clear_name_change: () -> void
+
+      def order: () -> Integer?
+
+      def order=: (Integer?) -> Integer?
+
+      def order?: () -> bool
+
+      def order_changed?: () -> bool
+
+      def order_change: () -> [ Integer?, Integer? ]
+
+      def order_will_change!: () -> void
+
+      def order_was: () -> Integer?
+
+      def order_previously_changed?: () -> bool
+
+      def order_previous_change: () -> Array[Integer?]?
+
+      def order_previously_was: () -> Integer?
+
+      def order_before_last_save: () -> Integer?
+
+      def order_change_to_be_saved: () -> Array[Integer?]?
+
+      def order_in_database: () -> Integer?
+
+      def saved_change_to_order: () -> Array[Integer?]?
+
+      def saved_change_to_order?: () -> bool
+
+      def will_save_change_to_order?: () -> bool
+
+      def restore_order!: () -> void
+
+      def clear_order_change: () -> void
+
+      def event_id: () -> Integer?
+
+      def event_id=: (Integer?) -> Integer?
+
+      def event_id?: () -> bool
+
+      def event_id_changed?: () -> bool
+
+      def event_id_change: () -> [ Integer?, Integer? ]
+
+      def event_id_will_change!: () -> void
+
+      def event_id_was: () -> Integer?
+
+      def event_id_previously_changed?: () -> bool
+
+      def event_id_previous_change: () -> Array[Integer?]?
+
+      def event_id_previously_was: () -> Integer?
+
+      def event_id_before_last_save: () -> Integer?
+
+      def event_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def event_id_in_database: () -> Integer?
+
+      def saved_change_to_event_id: () -> Array[Integer?]?
+
+      def saved_change_to_event_id?: () -> bool
+
+      def will_save_change_to_event_id?: () -> bool
+
+      def restore_event_id!: () -> void
+
+      def clear_event_id_change: () -> void
+    end
+    include GeneratedAttributeMethods
+    def competitors: () -> Event::Competitor::ActiveRecord_Associations_CollectionProxy
+    def competitors=: (Event::Competitor::ActiveRecord_Associations_CollectionProxy | Array[Event::Competitor]) -> (Event::Competitor::ActiveRecord_Associations_CollectionProxy | Array[Event::Competitor])
+    def competitor_ids: () -> Array[Integer]
+    def competitor_ids=: (Array[Integer]) -> Array[Integer]
+    def results: () -> Event::Result::ActiveRecord_Associations_CollectionProxy
+    def results=: (Event::Result::ActiveRecord_Associations_CollectionProxy | Array[Event::Result]) -> (Event::Result::ActiveRecord_Associations_CollectionProxy | Array[Event::Result])
+    def result_ids: () -> Array[Integer]
+    def result_ids=: (Array[Integer]) -> Array[Integer]
+
+    def event: () -> Event
+    def event=: (Event?) -> Event?
+    def reload_event: () -> Event?
+    def build_event: (untyped) -> Event
+    def create_event: (untyped) -> Event
+    def create_event!: (untyped) -> Event
+
+    def self.ordered: () -> ActiveRecord_Relation
+
+    module GeneratedRelationMethods
+      def ordered: () -> ActiveRecord_Relation
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Event::Section, Integer]
+      include Enumerable[Event::Section]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Event::Section, Integer]
+    end
+  end
+end

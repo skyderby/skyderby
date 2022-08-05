@@ -1,0 +1,681 @@
+class Point < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[Point, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def fl_time: () -> Float?
+
+    def fl_time=: (Float?) -> Float?
+
+    def fl_time?: () -> bool
+
+    def fl_time_changed?: () -> bool
+
+    def fl_time_change: () -> [ Float?, Float? ]
+
+    def fl_time_will_change!: () -> void
+
+    def fl_time_was: () -> Float?
+
+    def fl_time_previously_changed?: () -> bool
+
+    def fl_time_previous_change: () -> Array[Float?]?
+
+    def fl_time_previously_was: () -> Float?
+
+    def fl_time_before_last_save: () -> Float?
+
+    def fl_time_change_to_be_saved: () -> Array[Float?]?
+
+    def fl_time_in_database: () -> Float?
+
+    def saved_change_to_fl_time: () -> Array[Float?]?
+
+    def saved_change_to_fl_time?: () -> bool
+
+    def will_save_change_to_fl_time?: () -> bool
+
+    def restore_fl_time!: () -> void
+
+    def clear_fl_time_change: () -> void
+
+    def latitude: () -> BigDecimal?
+
+    def latitude=: (BigDecimal?) -> BigDecimal?
+
+    def latitude?: () -> bool
+
+    def latitude_changed?: () -> bool
+
+    def latitude_change: () -> [ BigDecimal?, BigDecimal? ]
+
+    def latitude_will_change!: () -> void
+
+    def latitude_was: () -> BigDecimal?
+
+    def latitude_previously_changed?: () -> bool
+
+    def latitude_previous_change: () -> Array[BigDecimal?]?
+
+    def latitude_previously_was: () -> BigDecimal?
+
+    def latitude_before_last_save: () -> BigDecimal?
+
+    def latitude_change_to_be_saved: () -> Array[BigDecimal?]?
+
+    def latitude_in_database: () -> BigDecimal?
+
+    def saved_change_to_latitude: () -> Array[BigDecimal?]?
+
+    def saved_change_to_latitude?: () -> bool
+
+    def will_save_change_to_latitude?: () -> bool
+
+    def restore_latitude!: () -> void
+
+    def clear_latitude_change: () -> void
+
+    def longitude: () -> BigDecimal?
+
+    def longitude=: (BigDecimal?) -> BigDecimal?
+
+    def longitude?: () -> bool
+
+    def longitude_changed?: () -> bool
+
+    def longitude_change: () -> [ BigDecimal?, BigDecimal? ]
+
+    def longitude_will_change!: () -> void
+
+    def longitude_was: () -> BigDecimal?
+
+    def longitude_previously_changed?: () -> bool
+
+    def longitude_previous_change: () -> Array[BigDecimal?]?
+
+    def longitude_previously_was: () -> BigDecimal?
+
+    def longitude_before_last_save: () -> BigDecimal?
+
+    def longitude_change_to_be_saved: () -> Array[BigDecimal?]?
+
+    def longitude_in_database: () -> BigDecimal?
+
+    def saved_change_to_longitude: () -> Array[BigDecimal?]?
+
+    def saved_change_to_longitude?: () -> bool
+
+    def will_save_change_to_longitude?: () -> bool
+
+    def restore_longitude!: () -> void
+
+    def clear_longitude_change: () -> void
+
+    def elevation: () -> Float?
+
+    def elevation=: (Float?) -> Float?
+
+    def elevation?: () -> bool
+
+    def elevation_changed?: () -> bool
+
+    def elevation_change: () -> [ Float?, Float? ]
+
+    def elevation_will_change!: () -> void
+
+    def elevation_was: () -> Float?
+
+    def elevation_previously_changed?: () -> bool
+
+    def elevation_previous_change: () -> Array[Float?]?
+
+    def elevation_previously_was: () -> Float?
+
+    def elevation_before_last_save: () -> Float?
+
+    def elevation_change_to_be_saved: () -> Array[Float?]?
+
+    def elevation_in_database: () -> Float?
+
+    def saved_change_to_elevation: () -> Array[Float?]?
+
+    def saved_change_to_elevation?: () -> bool
+
+    def will_save_change_to_elevation?: () -> bool
+
+    def restore_elevation!: () -> void
+
+    def clear_elevation_change: () -> void
+
+    def distance: () -> Float?
+
+    def distance=: (Float?) -> Float?
+
+    def distance?: () -> bool
+
+    def distance_changed?: () -> bool
+
+    def distance_change: () -> [ Float?, Float? ]
+
+    def distance_will_change!: () -> void
+
+    def distance_was: () -> Float?
+
+    def distance_previously_changed?: () -> bool
+
+    def distance_previous_change: () -> Array[Float?]?
+
+    def distance_previously_was: () -> Float?
+
+    def distance_before_last_save: () -> Float?
+
+    def distance_change_to_be_saved: () -> Array[Float?]?
+
+    def distance_in_database: () -> Float?
+
+    def saved_change_to_distance: () -> Array[Float?]?
+
+    def saved_change_to_distance?: () -> bool
+
+    def will_save_change_to_distance?: () -> bool
+
+    def restore_distance!: () -> void
+
+    def clear_distance_change: () -> void
+
+    def v_speed: () -> Float?
+
+    def v_speed=: (Float?) -> Float?
+
+    def v_speed?: () -> bool
+
+    def v_speed_changed?: () -> bool
+
+    def v_speed_change: () -> [ Float?, Float? ]
+
+    def v_speed_will_change!: () -> void
+
+    def v_speed_was: () -> Float?
+
+    def v_speed_previously_changed?: () -> bool
+
+    def v_speed_previous_change: () -> Array[Float?]?
+
+    def v_speed_previously_was: () -> Float?
+
+    def v_speed_before_last_save: () -> Float?
+
+    def v_speed_change_to_be_saved: () -> Array[Float?]?
+
+    def v_speed_in_database: () -> Float?
+
+    def saved_change_to_v_speed: () -> Array[Float?]?
+
+    def saved_change_to_v_speed?: () -> bool
+
+    def will_save_change_to_v_speed?: () -> bool
+
+    def restore_v_speed!: () -> void
+
+    def clear_v_speed_change: () -> void
+
+    def h_speed: () -> Float?
+
+    def h_speed=: (Float?) -> Float?
+
+    def h_speed?: () -> bool
+
+    def h_speed_changed?: () -> bool
+
+    def h_speed_change: () -> [ Float?, Float? ]
+
+    def h_speed_will_change!: () -> void
+
+    def h_speed_was: () -> Float?
+
+    def h_speed_previously_changed?: () -> bool
+
+    def h_speed_previous_change: () -> Array[Float?]?
+
+    def h_speed_previously_was: () -> Float?
+
+    def h_speed_before_last_save: () -> Float?
+
+    def h_speed_change_to_be_saved: () -> Array[Float?]?
+
+    def h_speed_in_database: () -> Float?
+
+    def saved_change_to_h_speed: () -> Array[Float?]?
+
+    def saved_change_to_h_speed?: () -> bool
+
+    def will_save_change_to_h_speed?: () -> bool
+
+    def restore_h_speed!: () -> void
+
+    def clear_h_speed_change: () -> void
+
+    def abs_altitude: () -> Float?
+
+    def abs_altitude=: (Float?) -> Float?
+
+    def abs_altitude?: () -> bool
+
+    def abs_altitude_changed?: () -> bool
+
+    def abs_altitude_change: () -> [ Float?, Float? ]
+
+    def abs_altitude_will_change!: () -> void
+
+    def abs_altitude_was: () -> Float?
+
+    def abs_altitude_previously_changed?: () -> bool
+
+    def abs_altitude_previous_change: () -> Array[Float?]?
+
+    def abs_altitude_previously_was: () -> Float?
+
+    def abs_altitude_before_last_save: () -> Float?
+
+    def abs_altitude_change_to_be_saved: () -> Array[Float?]?
+
+    def abs_altitude_in_database: () -> Float?
+
+    def saved_change_to_abs_altitude: () -> Array[Float?]?
+
+    def saved_change_to_abs_altitude?: () -> bool
+
+    def will_save_change_to_abs_altitude?: () -> bool
+
+    def restore_abs_altitude!: () -> void
+
+    def clear_abs_altitude_change: () -> void
+
+    def gps_time_in_seconds: () -> BigDecimal?
+
+    def gps_time_in_seconds=: (BigDecimal?) -> BigDecimal?
+
+    def gps_time_in_seconds?: () -> bool
+
+    def gps_time_in_seconds_changed?: () -> bool
+
+    def gps_time_in_seconds_change: () -> [ BigDecimal?, BigDecimal? ]
+
+    def gps_time_in_seconds_will_change!: () -> void
+
+    def gps_time_in_seconds_was: () -> BigDecimal?
+
+    def gps_time_in_seconds_previously_changed?: () -> bool
+
+    def gps_time_in_seconds_previous_change: () -> Array[BigDecimal?]?
+
+    def gps_time_in_seconds_previously_was: () -> BigDecimal?
+
+    def gps_time_in_seconds_before_last_save: () -> BigDecimal?
+
+    def gps_time_in_seconds_change_to_be_saved: () -> Array[BigDecimal?]?
+
+    def gps_time_in_seconds_in_database: () -> BigDecimal?
+
+    def saved_change_to_gps_time_in_seconds: () -> Array[BigDecimal?]?
+
+    def saved_change_to_gps_time_in_seconds?: () -> bool
+
+    def will_save_change_to_gps_time_in_seconds?: () -> bool
+
+    def restore_gps_time_in_seconds!: () -> void
+
+    def clear_gps_time_in_seconds_change: () -> void
+
+    def track_id: () -> Integer?
+
+    def track_id=: (Integer?) -> Integer?
+
+    def track_id?: () -> bool
+
+    def track_id_changed?: () -> bool
+
+    def track_id_change: () -> [ Integer?, Integer? ]
+
+    def track_id_will_change!: () -> void
+
+    def track_id_was: () -> Integer?
+
+    def track_id_previously_changed?: () -> bool
+
+    def track_id_previous_change: () -> Array[Integer?]?
+
+    def track_id_previously_was: () -> Integer?
+
+    def track_id_before_last_save: () -> Integer?
+
+    def track_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def track_id_in_database: () -> Integer?
+
+    def saved_change_to_track_id: () -> Array[Integer?]?
+
+    def saved_change_to_track_id?: () -> bool
+
+    def will_save_change_to_track_id?: () -> bool
+
+    def restore_track_id!: () -> void
+
+    def clear_track_id_change: () -> void
+
+    def horizontal_accuracy: () -> Float?
+
+    def horizontal_accuracy=: (Float?) -> Float?
+
+    def horizontal_accuracy?: () -> bool
+
+    def horizontal_accuracy_changed?: () -> bool
+
+    def horizontal_accuracy_change: () -> [ Float?, Float? ]
+
+    def horizontal_accuracy_will_change!: () -> void
+
+    def horizontal_accuracy_was: () -> Float?
+
+    def horizontal_accuracy_previously_changed?: () -> bool
+
+    def horizontal_accuracy_previous_change: () -> Array[Float?]?
+
+    def horizontal_accuracy_previously_was: () -> Float?
+
+    def horizontal_accuracy_before_last_save: () -> Float?
+
+    def horizontal_accuracy_change_to_be_saved: () -> Array[Float?]?
+
+    def horizontal_accuracy_in_database: () -> Float?
+
+    def saved_change_to_horizontal_accuracy: () -> Array[Float?]?
+
+    def saved_change_to_horizontal_accuracy?: () -> bool
+
+    def will_save_change_to_horizontal_accuracy?: () -> bool
+
+    def restore_horizontal_accuracy!: () -> void
+
+    def clear_horizontal_accuracy_change: () -> void
+
+    def vertical_accuracy: () -> Float?
+
+    def vertical_accuracy=: (Float?) -> Float?
+
+    def vertical_accuracy?: () -> bool
+
+    def vertical_accuracy_changed?: () -> bool
+
+    def vertical_accuracy_change: () -> [ Float?, Float? ]
+
+    def vertical_accuracy_will_change!: () -> void
+
+    def vertical_accuracy_was: () -> Float?
+
+    def vertical_accuracy_previously_changed?: () -> bool
+
+    def vertical_accuracy_previous_change: () -> Array[Float?]?
+
+    def vertical_accuracy_previously_was: () -> Float?
+
+    def vertical_accuracy_before_last_save: () -> Float?
+
+    def vertical_accuracy_change_to_be_saved: () -> Array[Float?]?
+
+    def vertical_accuracy_in_database: () -> Float?
+
+    def saved_change_to_vertical_accuracy: () -> Array[Float?]?
+
+    def saved_change_to_vertical_accuracy?: () -> bool
+
+    def will_save_change_to_vertical_accuracy?: () -> bool
+
+    def restore_vertical_accuracy!: () -> void
+
+    def clear_vertical_accuracy_change: () -> void
+
+    def speed_accuracy: () -> Float?
+
+    def speed_accuracy=: (Float?) -> Float?
+
+    def speed_accuracy?: () -> bool
+
+    def speed_accuracy_changed?: () -> bool
+
+    def speed_accuracy_change: () -> [ Float?, Float? ]
+
+    def speed_accuracy_will_change!: () -> void
+
+    def speed_accuracy_was: () -> Float?
+
+    def speed_accuracy_previously_changed?: () -> bool
+
+    def speed_accuracy_previous_change: () -> Array[Float?]?
+
+    def speed_accuracy_previously_was: () -> Float?
+
+    def speed_accuracy_before_last_save: () -> Float?
+
+    def speed_accuracy_change_to_be_saved: () -> Array[Float?]?
+
+    def speed_accuracy_in_database: () -> Float?
+
+    def saved_change_to_speed_accuracy: () -> Array[Float?]?
+
+    def saved_change_to_speed_accuracy?: () -> bool
+
+    def will_save_change_to_speed_accuracy?: () -> bool
+
+    def restore_speed_accuracy!: () -> void
+
+    def clear_speed_accuracy_change: () -> void
+
+    def heading_accuracy: () -> Float?
+
+    def heading_accuracy=: (Float?) -> Float?
+
+    def heading_accuracy?: () -> bool
+
+    def heading_accuracy_changed?: () -> bool
+
+    def heading_accuracy_change: () -> [ Float?, Float? ]
+
+    def heading_accuracy_will_change!: () -> void
+
+    def heading_accuracy_was: () -> Float?
+
+    def heading_accuracy_previously_changed?: () -> bool
+
+    def heading_accuracy_previous_change: () -> Array[Float?]?
+
+    def heading_accuracy_previously_was: () -> Float?
+
+    def heading_accuracy_before_last_save: () -> Float?
+
+    def heading_accuracy_change_to_be_saved: () -> Array[Float?]?
+
+    def heading_accuracy_in_database: () -> Float?
+
+    def saved_change_to_heading_accuracy: () -> Array[Float?]?
+
+    def saved_change_to_heading_accuracy?: () -> bool
+
+    def will_save_change_to_heading_accuracy?: () -> bool
+
+    def restore_heading_accuracy!: () -> void
+
+    def clear_heading_accuracy_change: () -> void
+
+    def heading: () -> Float?
+
+    def heading=: (Float?) -> Float?
+
+    def heading?: () -> bool
+
+    def heading_changed?: () -> bool
+
+    def heading_change: () -> [ Float?, Float? ]
+
+    def heading_will_change!: () -> void
+
+    def heading_was: () -> Float?
+
+    def heading_previously_changed?: () -> bool
+
+    def heading_previous_change: () -> Array[Float?]?
+
+    def heading_previously_was: () -> Float?
+
+    def heading_before_last_save: () -> Float?
+
+    def heading_change_to_be_saved: () -> Array[Float?]?
+
+    def heading_in_database: () -> Float?
+
+    def saved_change_to_heading: () -> Array[Float?]?
+
+    def saved_change_to_heading?: () -> bool
+
+    def will_save_change_to_heading?: () -> bool
+
+    def restore_heading!: () -> void
+
+    def clear_heading_change: () -> void
+
+    def number_of_satellites: () -> Integer?
+
+    def number_of_satellites=: (Integer?) -> Integer?
+
+    def number_of_satellites?: () -> bool
+
+    def number_of_satellites_changed?: () -> bool
+
+    def number_of_satellites_change: () -> [ Integer?, Integer? ]
+
+    def number_of_satellites_will_change!: () -> void
+
+    def number_of_satellites_was: () -> Integer?
+
+    def number_of_satellites_previously_changed?: () -> bool
+
+    def number_of_satellites_previous_change: () -> Array[Integer?]?
+
+    def number_of_satellites_previously_was: () -> Integer?
+
+    def number_of_satellites_before_last_save: () -> Integer?
+
+    def number_of_satellites_change_to_be_saved: () -> Array[Integer?]?
+
+    def number_of_satellites_in_database: () -> Integer?
+
+    def saved_change_to_number_of_satellites: () -> Array[Integer?]?
+
+    def saved_change_to_number_of_satellites?: () -> bool
+
+    def will_save_change_to_number_of_satellites?: () -> bool
+
+    def restore_number_of_satellites!: () -> void
+
+    def clear_number_of_satellites_change: () -> void
+
+    def gps_fix: () -> Integer?
+
+    def gps_fix=: (Integer?) -> Integer?
+
+    def gps_fix?: () -> bool
+
+    def gps_fix_changed?: () -> bool
+
+    def gps_fix_change: () -> [ Integer?, Integer? ]
+
+    def gps_fix_will_change!: () -> void
+
+    def gps_fix_was: () -> Integer?
+
+    def gps_fix_previously_changed?: () -> bool
+
+    def gps_fix_previous_change: () -> Array[Integer?]?
+
+    def gps_fix_previously_was: () -> Integer?
+
+    def gps_fix_before_last_save: () -> Integer?
+
+    def gps_fix_change_to_be_saved: () -> Array[Integer?]?
+
+    def gps_fix_in_database: () -> Integer?
+
+    def saved_change_to_gps_fix: () -> Array[Integer?]?
+
+    def saved_change_to_gps_fix?: () -> bool
+
+    def will_save_change_to_gps_fix?: () -> bool
+
+    def restore_gps_fix!: () -> void
+
+    def clear_gps_fix_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def track: () -> Track
+  def track=: (Track?) -> Track?
+  def reload_track: () -> Track?
+  def build_track: (untyped) -> Track
+  def create_track: (untyped) -> Track
+  def create_track!: (untyped) -> Track
+
+  def self.freq_1hz: () -> ActiveRecord_Relation
+  def self.trimmed: (?seconds_before_start: untyped, ?seconds_after_end: untyped) -> ActiveRecord_Relation
+
+  module GeneratedRelationMethods
+    def freq_1hz: () -> ActiveRecord_Relation
+
+    def trimmed: (?seconds_before_start: untyped, ?seconds_after_end: untyped) -> ActiveRecord_Relation
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Point, Integer]
+    include Enumerable[Point]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Point, Integer]
+  end
+end

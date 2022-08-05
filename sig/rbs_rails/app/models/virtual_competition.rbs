@@ -1,0 +1,874 @@
+class VirtualCompetition < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[VirtualCompetition, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def jumps_kind: () -> String?
+
+    def jumps_kind=: (String?) -> String?
+
+    def jumps_kind?: () -> bool
+
+    def jumps_kind_changed?: () -> bool
+
+    def jumps_kind_change: () -> [ String?, String? ]
+
+    def jumps_kind_will_change!: () -> void
+
+    def jumps_kind_was: () -> String?
+
+    def jumps_kind_previously_changed?: () -> bool
+
+    def jumps_kind_previous_change: () -> Array[String?]?
+
+    def jumps_kind_previously_was: () -> String?
+
+    def jumps_kind_before_last_save: () -> String?
+
+    def jumps_kind_change_to_be_saved: () -> Array[String?]?
+
+    def jumps_kind_in_database: () -> String?
+
+    def saved_change_to_jumps_kind: () -> Array[String?]?
+
+    def saved_change_to_jumps_kind?: () -> bool
+
+    def will_save_change_to_jumps_kind?: () -> bool
+
+    def restore_jumps_kind!: () -> void
+
+    def clear_jumps_kind_change: () -> void
+
+    def suits_kind: () -> Integer?
+
+    def suits_kind=: (Integer?) -> Integer?
+
+    def suits_kind?: () -> bool
+
+    def suits_kind_changed?: () -> bool
+
+    def suits_kind_change: () -> [ Integer?, Integer? ]
+
+    def suits_kind_will_change!: () -> void
+
+    def suits_kind_was: () -> Integer?
+
+    def suits_kind_previously_changed?: () -> bool
+
+    def suits_kind_previous_change: () -> Array[Integer?]?
+
+    def suits_kind_previously_was: () -> Integer?
+
+    def suits_kind_before_last_save: () -> Integer?
+
+    def suits_kind_change_to_be_saved: () -> Array[Integer?]?
+
+    def suits_kind_in_database: () -> Integer?
+
+    def saved_change_to_suits_kind: () -> Array[Integer?]?
+
+    def saved_change_to_suits_kind?: () -> bool
+
+    def will_save_change_to_suits_kind?: () -> bool
+
+    def restore_suits_kind!: () -> void
+
+    def clear_suits_kind_change: () -> void
+
+    def place_id: () -> Integer?
+
+    def place_id=: (Integer?) -> Integer?
+
+    def place_id?: () -> bool
+
+    def place_id_changed?: () -> bool
+
+    def place_id_change: () -> [ Integer?, Integer? ]
+
+    def place_id_will_change!: () -> void
+
+    def place_id_was: () -> Integer?
+
+    def place_id_previously_changed?: () -> bool
+
+    def place_id_previous_change: () -> Array[Integer?]?
+
+    def place_id_previously_was: () -> Integer?
+
+    def place_id_before_last_save: () -> Integer?
+
+    def place_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def place_id_in_database: () -> Integer?
+
+    def saved_change_to_place_id: () -> Array[Integer?]?
+
+    def saved_change_to_place_id?: () -> bool
+
+    def will_save_change_to_place_id?: () -> bool
+
+    def restore_place_id!: () -> void
+
+    def clear_place_id_change: () -> void
+
+    def period_from: () -> Date?
+
+    def period_from=: (Date?) -> Date?
+
+    def period_from?: () -> bool
+
+    def period_from_changed?: () -> bool
+
+    def period_from_change: () -> [ Date?, Date? ]
+
+    def period_from_will_change!: () -> void
+
+    def period_from_was: () -> Date?
+
+    def period_from_previously_changed?: () -> bool
+
+    def period_from_previous_change: () -> Array[Date?]?
+
+    def period_from_previously_was: () -> Date?
+
+    def period_from_before_last_save: () -> Date?
+
+    def period_from_change_to_be_saved: () -> Array[Date?]?
+
+    def period_from_in_database: () -> Date?
+
+    def saved_change_to_period_from: () -> Array[Date?]?
+
+    def saved_change_to_period_from?: () -> bool
+
+    def will_save_change_to_period_from?: () -> bool
+
+    def restore_period_from!: () -> void
+
+    def clear_period_from_change: () -> void
+
+    def period_to: () -> Date?
+
+    def period_to=: (Date?) -> Date?
+
+    def period_to?: () -> bool
+
+    def period_to_changed?: () -> bool
+
+    def period_to_change: () -> [ Date?, Date? ]
+
+    def period_to_will_change!: () -> void
+
+    def period_to_was: () -> Date?
+
+    def period_to_previously_changed?: () -> bool
+
+    def period_to_previous_change: () -> Array[Date?]?
+
+    def period_to_previously_was: () -> Date?
+
+    def period_to_before_last_save: () -> Date?
+
+    def period_to_change_to_be_saved: () -> Array[Date?]?
+
+    def period_to_in_database: () -> Date?
+
+    def saved_change_to_period_to: () -> Array[Date?]?
+
+    def saved_change_to_period_to?: () -> bool
+
+    def will_save_change_to_period_to?: () -> bool
+
+    def restore_period_to!: () -> void
+
+    def clear_period_to_change: () -> void
+
+    def discipline: () -> String?
+
+    def discipline=: (String?) -> String?
+
+    def discipline?: () -> bool
+
+    def discipline_changed?: () -> bool
+
+    def discipline_change: () -> [ String?, String? ]
+
+    def discipline_will_change!: () -> void
+
+    def discipline_was: () -> String?
+
+    def discipline_previously_changed?: () -> bool
+
+    def discipline_previous_change: () -> Array[String?]?
+
+    def discipline_previously_was: () -> String?
+
+    def discipline_before_last_save: () -> String?
+
+    def discipline_change_to_be_saved: () -> Array[String?]?
+
+    def discipline_in_database: () -> String?
+
+    def saved_change_to_discipline: () -> Array[String?]?
+
+    def saved_change_to_discipline?: () -> bool
+
+    def will_save_change_to_discipline?: () -> bool
+
+    def restore_discipline!: () -> void
+
+    def clear_discipline_change: () -> void
+
+    def discipline_parameter: () -> Integer?
+
+    def discipline_parameter=: (Integer?) -> Integer?
+
+    def discipline_parameter?: () -> bool
+
+    def discipline_parameter_changed?: () -> bool
+
+    def discipline_parameter_change: () -> [ Integer?, Integer? ]
+
+    def discipline_parameter_will_change!: () -> void
+
+    def discipline_parameter_was: () -> Integer?
+
+    def discipline_parameter_previously_changed?: () -> bool
+
+    def discipline_parameter_previous_change: () -> Array[Integer?]?
+
+    def discipline_parameter_previously_was: () -> Integer?
+
+    def discipline_parameter_before_last_save: () -> Integer?
+
+    def discipline_parameter_change_to_be_saved: () -> Array[Integer?]?
+
+    def discipline_parameter_in_database: () -> Integer?
+
+    def saved_change_to_discipline_parameter: () -> Array[Integer?]?
+
+    def saved_change_to_discipline_parameter?: () -> bool
+
+    def will_save_change_to_discipline_parameter?: () -> bool
+
+    def restore_discipline_parameter!: () -> void
+
+    def clear_discipline_parameter_change: () -> void
+
+    def created_at: () -> ActiveSupport::TimeWithZone?
+
+    def created_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+
+    def updated_at: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+    def updated_at?: () -> bool
+
+    def updated_at_changed?: () -> bool
+
+    def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+    def updated_at_will_change!: () -> void
+
+    def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_previously_changed?: () -> bool
+
+    def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+    def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+    def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+    def saved_change_to_updated_at?: () -> bool
+
+    def will_save_change_to_updated_at?: () -> bool
+
+    def restore_updated_at!: () -> void
+
+    def clear_updated_at_change: () -> void
+
+    def name: () -> String?
+
+    def name=: (String?) -> String?
+
+    def name?: () -> bool
+
+    def name_changed?: () -> bool
+
+    def name_change: () -> [ String?, String? ]
+
+    def name_will_change!: () -> void
+
+    def name_was: () -> String?
+
+    def name_previously_changed?: () -> bool
+
+    def name_previous_change: () -> Array[String?]?
+
+    def name_previously_was: () -> String?
+
+    def name_before_last_save: () -> String?
+
+    def name_change_to_be_saved: () -> Array[String?]?
+
+    def name_in_database: () -> String?
+
+    def saved_change_to_name: () -> Array[String?]?
+
+    def saved_change_to_name?: () -> bool
+
+    def will_save_change_to_name?: () -> bool
+
+    def restore_name!: () -> void
+
+    def clear_name_change: () -> void
+
+    def group_id: () -> Integer?
+
+    def group_id=: (Integer?) -> Integer?
+
+    def group_id?: () -> bool
+
+    def group_id_changed?: () -> bool
+
+    def group_id_change: () -> [ Integer?, Integer? ]
+
+    def group_id_will_change!: () -> void
+
+    def group_id_was: () -> Integer?
+
+    def group_id_previously_changed?: () -> bool
+
+    def group_id_previous_change: () -> Array[Integer?]?
+
+    def group_id_previously_was: () -> Integer?
+
+    def group_id_before_last_save: () -> Integer?
+
+    def group_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def group_id_in_database: () -> Integer?
+
+    def saved_change_to_group_id: () -> Array[Integer?]?
+
+    def saved_change_to_group_id?: () -> bool
+
+    def will_save_change_to_group_id?: () -> bool
+
+    def restore_group_id!: () -> void
+
+    def clear_group_id_change: () -> void
+
+    def range_from: () -> Integer?
+
+    def range_from=: (Integer?) -> Integer?
+
+    def range_from?: () -> bool
+
+    def range_from_changed?: () -> bool
+
+    def range_from_change: () -> [ Integer?, Integer? ]
+
+    def range_from_will_change!: () -> void
+
+    def range_from_was: () -> Integer?
+
+    def range_from_previously_changed?: () -> bool
+
+    def range_from_previous_change: () -> Array[Integer?]?
+
+    def range_from_previously_was: () -> Integer?
+
+    def range_from_before_last_save: () -> Integer?
+
+    def range_from_change_to_be_saved: () -> Array[Integer?]?
+
+    def range_from_in_database: () -> Integer?
+
+    def saved_change_to_range_from: () -> Array[Integer?]?
+
+    def saved_change_to_range_from?: () -> bool
+
+    def will_save_change_to_range_from?: () -> bool
+
+    def restore_range_from!: () -> void
+
+    def clear_range_from_change: () -> void
+
+    def range_to: () -> Integer?
+
+    def range_to=: (Integer?) -> Integer?
+
+    def range_to?: () -> bool
+
+    def range_to_changed?: () -> bool
+
+    def range_to_change: () -> [ Integer?, Integer? ]
+
+    def range_to_will_change!: () -> void
+
+    def range_to_was: () -> Integer?
+
+    def range_to_previously_changed?: () -> bool
+
+    def range_to_previous_change: () -> Array[Integer?]?
+
+    def range_to_previously_was: () -> Integer?
+
+    def range_to_before_last_save: () -> Integer?
+
+    def range_to_change_to_be_saved: () -> Array[Integer?]?
+
+    def range_to_in_database: () -> Integer?
+
+    def saved_change_to_range_to: () -> Array[Integer?]?
+
+    def saved_change_to_range_to?: () -> bool
+
+    def will_save_change_to_range_to?: () -> bool
+
+    def restore_range_to!: () -> void
+
+    def clear_range_to_change: () -> void
+
+    def display_highest_speed: () -> bool?
+
+    def display_highest_speed=: (bool?) -> bool?
+
+    def display_highest_speed?: () -> bool
+
+    def display_highest_speed_changed?: () -> bool
+
+    def display_highest_speed_change: () -> [ bool?, bool? ]
+
+    def display_highest_speed_will_change!: () -> void
+
+    def display_highest_speed_was: () -> bool?
+
+    def display_highest_speed_previously_changed?: () -> bool
+
+    def display_highest_speed_previous_change: () -> Array[bool?]?
+
+    def display_highest_speed_previously_was: () -> bool?
+
+    def display_highest_speed_before_last_save: () -> bool?
+
+    def display_highest_speed_change_to_be_saved: () -> Array[bool?]?
+
+    def display_highest_speed_in_database: () -> bool?
+
+    def saved_change_to_display_highest_speed: () -> Array[bool?]?
+
+    def saved_change_to_display_highest_speed?: () -> bool
+
+    def will_save_change_to_display_highest_speed?: () -> bool
+
+    def restore_display_highest_speed!: () -> void
+
+    def clear_display_highest_speed_change: () -> void
+
+    def display_highest_gr: () -> bool?
+
+    def display_highest_gr=: (bool?) -> bool?
+
+    def display_highest_gr?: () -> bool
+
+    def display_highest_gr_changed?: () -> bool
+
+    def display_highest_gr_change: () -> [ bool?, bool? ]
+
+    def display_highest_gr_will_change!: () -> void
+
+    def display_highest_gr_was: () -> bool?
+
+    def display_highest_gr_previously_changed?: () -> bool
+
+    def display_highest_gr_previous_change: () -> Array[bool?]?
+
+    def display_highest_gr_previously_was: () -> bool?
+
+    def display_highest_gr_before_last_save: () -> bool?
+
+    def display_highest_gr_change_to_be_saved: () -> Array[bool?]?
+
+    def display_highest_gr_in_database: () -> bool?
+
+    def saved_change_to_display_highest_gr: () -> Array[bool?]?
+
+    def saved_change_to_display_highest_gr?: () -> bool
+
+    def will_save_change_to_display_highest_gr?: () -> bool
+
+    def restore_display_highest_gr!: () -> void
+
+    def clear_display_highest_gr_change: () -> void
+
+    def display_on_start_page: () -> bool?
+
+    def display_on_start_page=: (bool?) -> bool?
+
+    def display_on_start_page?: () -> bool
+
+    def display_on_start_page_changed?: () -> bool
+
+    def display_on_start_page_change: () -> [ bool?, bool? ]
+
+    def display_on_start_page_will_change!: () -> void
+
+    def display_on_start_page_was: () -> bool?
+
+    def display_on_start_page_previously_changed?: () -> bool
+
+    def display_on_start_page_previous_change: () -> Array[bool?]?
+
+    def display_on_start_page_previously_was: () -> bool?
+
+    def display_on_start_page_before_last_save: () -> bool?
+
+    def display_on_start_page_change_to_be_saved: () -> Array[bool?]?
+
+    def display_on_start_page_in_database: () -> bool?
+
+    def saved_change_to_display_on_start_page: () -> Array[bool?]?
+
+    def saved_change_to_display_on_start_page?: () -> bool
+
+    def will_save_change_to_display_on_start_page?: () -> bool
+
+    def restore_display_on_start_page!: () -> void
+
+    def clear_display_on_start_page_change: () -> void
+
+    def default_view: () -> String
+
+    def default_view=: (String) -> String
+
+    def default_view?: () -> bool
+
+    def default_view_changed?: () -> bool
+
+    def default_view_change: () -> [ String?, String? ]
+
+    def default_view_will_change!: () -> void
+
+    def default_view_was: () -> String?
+
+    def default_view_previously_changed?: () -> bool
+
+    def default_view_previous_change: () -> Array[String?]?
+
+    def default_view_previously_was: () -> String?
+
+    def default_view_before_last_save: () -> String?
+
+    def default_view_change_to_be_saved: () -> Array[String?]?
+
+    def default_view_in_database: () -> String?
+
+    def saved_change_to_default_view: () -> Array[String?]?
+
+    def saved_change_to_default_view?: () -> bool
+
+    def will_save_change_to_default_view?: () -> bool
+
+    def restore_default_view!: () -> void
+
+    def clear_default_view_change: () -> void
+
+    def finish_line_id: () -> Integer?
+
+    def finish_line_id=: (Integer?) -> Integer?
+
+    def finish_line_id?: () -> bool
+
+    def finish_line_id_changed?: () -> bool
+
+    def finish_line_id_change: () -> [ Integer?, Integer? ]
+
+    def finish_line_id_will_change!: () -> void
+
+    def finish_line_id_was: () -> Integer?
+
+    def finish_line_id_previously_changed?: () -> bool
+
+    def finish_line_id_previous_change: () -> Array[Integer?]?
+
+    def finish_line_id_previously_was: () -> Integer?
+
+    def finish_line_id_before_last_save: () -> Integer?
+
+    def finish_line_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def finish_line_id_in_database: () -> Integer?
+
+    def saved_change_to_finish_line_id: () -> Array[Integer?]?
+
+    def saved_change_to_finish_line_id?: () -> bool
+
+    def will_save_change_to_finish_line_id?: () -> bool
+
+    def restore_finish_line_id!: () -> void
+
+    def clear_finish_line_id_change: () -> void
+
+    def interval_type: () -> Integer
+
+    def interval_type=: (Integer) -> Integer
+
+    def interval_type?: () -> bool
+
+    def interval_type_changed?: () -> bool
+
+    def interval_type_change: () -> [ Integer?, Integer? ]
+
+    def interval_type_will_change!: () -> void
+
+    def interval_type_was: () -> Integer?
+
+    def interval_type_previously_changed?: () -> bool
+
+    def interval_type_previous_change: () -> Array[Integer?]?
+
+    def interval_type_previously_was: () -> Integer?
+
+    def interval_type_before_last_save: () -> Integer?
+
+    def interval_type_change_to_be_saved: () -> Array[Integer?]?
+
+    def interval_type_in_database: () -> Integer?
+
+    def saved_change_to_interval_type: () -> Array[Integer?]?
+
+    def saved_change_to_interval_type?: () -> bool
+
+    def will_save_change_to_interval_type?: () -> bool
+
+    def restore_interval_type!: () -> void
+
+    def clear_interval_type_change: () -> void
+
+    def results_sort_order: () -> String
+
+    def results_sort_order=: (String) -> String
+
+    def results_sort_order?: () -> bool
+
+    def results_sort_order_changed?: () -> bool
+
+    def results_sort_order_change: () -> [ String?, String? ]
+
+    def results_sort_order_will_change!: () -> void
+
+    def results_sort_order_was: () -> String?
+
+    def results_sort_order_previously_changed?: () -> bool
+
+    def results_sort_order_previous_change: () -> Array[String?]?
+
+    def results_sort_order_previously_was: () -> String?
+
+    def results_sort_order_before_last_save: () -> String?
+
+    def results_sort_order_change_to_be_saved: () -> Array[String?]?
+
+    def results_sort_order_in_database: () -> String?
+
+    def saved_change_to_results_sort_order: () -> Array[String?]?
+
+    def saved_change_to_results_sort_order?: () -> bool
+
+    def will_save_change_to_results_sort_order?: () -> bool
+
+    def restore_results_sort_order!: () -> void
+
+    def clear_results_sort_order_change: () -> void
+  end
+  include GeneratedAttributeMethods
+  def results: () -> VirtualCompetition::Result::ActiveRecord_Associations_CollectionProxy
+  def results=: (VirtualCompetition::Result::ActiveRecord_Associations_CollectionProxy | Array[VirtualCompetition::Result]) -> (VirtualCompetition::Result::ActiveRecord_Associations_CollectionProxy | Array[VirtualCompetition::Result])
+  def result_ids: () -> Array[Integer]
+  def result_ids=: (Array[Integer]) -> Array[Integer]
+  def personal_top_scores: () -> VirtualCompetition::PersonalTopScore::ActiveRecord_Associations_CollectionProxy
+  def personal_top_scores=: (VirtualCompetition::PersonalTopScore::ActiveRecord_Associations_CollectionProxy | Array[VirtualCompetition::PersonalTopScore]) -> (VirtualCompetition::PersonalTopScore::ActiveRecord_Associations_CollectionProxy | Array[VirtualCompetition::PersonalTopScore])
+  def personal_top_score_ids: () -> Array[Integer]
+  def personal_top_score_ids=: (Array[Integer]) -> Array[Integer]
+  def annual_top_scores: () -> VirtualCompetition::AnnualTopScore::ActiveRecord_Associations_CollectionProxy
+  def annual_top_scores=: (VirtualCompetition::AnnualTopScore::ActiveRecord_Associations_CollectionProxy | Array[VirtualCompetition::AnnualTopScore]) -> (VirtualCompetition::AnnualTopScore::ActiveRecord_Associations_CollectionProxy | Array[VirtualCompetition::AnnualTopScore])
+  def annual_top_score_ids: () -> Array[Integer]
+  def annual_top_score_ids=: (Array[Integer]) -> Array[Integer]
+  def interval_top_scores: () -> VirtualCompetition::IntervalTopScore::ActiveRecord_Associations_CollectionProxy
+  def interval_top_scores=: (VirtualCompetition::IntervalTopScore::ActiveRecord_Associations_CollectionProxy | Array[VirtualCompetition::IntervalTopScore]) -> (VirtualCompetition::IntervalTopScore::ActiveRecord_Associations_CollectionProxy | Array[VirtualCompetition::IntervalTopScore])
+  def interval_top_score_ids: () -> Array[Integer]
+  def interval_top_score_ids=: (Array[Integer]) -> Array[Integer]
+  def custom_intervals: () -> VirtualCompetition::CustomInterval::ActiveRecord_Associations_CollectionProxy
+  def custom_intervals=: (VirtualCompetition::CustomInterval::ActiveRecord_Associations_CollectionProxy | Array[VirtualCompetition::CustomInterval]) -> (VirtualCompetition::CustomInterval::ActiveRecord_Associations_CollectionProxy | Array[VirtualCompetition::CustomInterval])
+  def custom_interval_ids: () -> Array[Integer]
+  def custom_interval_ids=: (Array[Integer]) -> Array[Integer]
+  def sponsors: () -> Sponsor::ActiveRecord_Associations_CollectionProxy
+  def sponsors=: (Sponsor::ActiveRecord_Associations_CollectionProxy | Array[Sponsor]) -> (Sponsor::ActiveRecord_Associations_CollectionProxy | Array[Sponsor])
+  def sponsor_ids: () -> Array[Integer]
+  def sponsor_ids=: (Array[Integer]) -> Array[Integer]
+
+  def place: () -> Place
+  def place=: (Place?) -> Place?
+  def reload_place: () -> Place?
+  def build_place: (untyped) -> Place
+  def create_place: (untyped) -> Place
+  def create_place!: (untyped) -> Place
+  def finish_line: () -> Place::FinishLine
+  def finish_line=: (Place::FinishLine?) -> Place::FinishLine?
+  def reload_finish_line: () -> Place::FinishLine?
+  def build_finish_line: (untyped) -> Place::FinishLine
+  def create_finish_line: (untyped) -> Place::FinishLine
+  def create_finish_line!: (untyped) -> Place::FinishLine
+  def group: () -> VirtualCompetition::Group
+  def group=: (VirtualCompetition::Group?) -> VirtualCompetition::Group?
+  def reload_group: () -> VirtualCompetition::Group?
+  def build_group: (untyped) -> VirtualCompetition::Group
+  def create_group: (untyped) -> VirtualCompetition::Group
+  def create_group!: (untyped) -> VirtualCompetition::Group
+
+  def skydive!: () -> bool
+  def skydive?: () -> bool
+  def base!: () -> bool
+  def base?: () -> bool
+  def time!: () -> bool
+  def time?: () -> bool
+  def distance!: () -> bool
+  def distance?: () -> bool
+  def speed!: () -> bool
+  def speed?: () -> bool
+  def distance_in_time!: () -> bool
+  def distance_in_time?: () -> bool
+  def distance_in_altitude!: () -> bool
+  def distance_in_altitude?: () -> bool
+  def flare!: () -> bool
+  def flare?: () -> bool
+  def base_race!: () -> bool
+  def base_race?: () -> bool
+  def default_overall!: () -> bool
+  def default_overall?: () -> bool
+  def default_last_year!: () -> bool
+  def default_last_year?: () -> bool
+  def self.skydive: () -> ActiveRecord_Relation
+  def self.base: () -> ActiveRecord_Relation
+  def self.time: () -> ActiveRecord_Relation
+  def self.distance: () -> ActiveRecord_Relation
+  def self.speed: () -> ActiveRecord_Relation
+  def self.distance_in_time: () -> ActiveRecord_Relation
+  def self.distance_in_altitude: () -> ActiveRecord_Relation
+  def self.flare: () -> ActiveRecord_Relation
+  def self.base_race: () -> ActiveRecord_Relation
+  def self.default_overall: () -> ActiveRecord_Relation
+  def self.default_last_year: () -> ActiveRecord_Relation
+
+  module GeneratedRelationMethods
+    def skydive: () -> ActiveRecord_Relation
+
+    def base: () -> ActiveRecord_Relation
+
+    def time: () -> ActiveRecord_Relation
+
+    def distance: () -> ActiveRecord_Relation
+
+    def speed: () -> ActiveRecord_Relation
+
+    def distance_in_time: () -> ActiveRecord_Relation
+
+    def distance_in_altitude: () -> ActiveRecord_Relation
+
+    def flare: () -> ActiveRecord_Relation
+
+    def base_race: () -> ActiveRecord_Relation
+
+    def default_overall: () -> ActiveRecord_Relation
+
+    def default_last_year: () -> ActiveRecord_Relation
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[VirtualCompetition, Integer]
+    include Enumerable[VirtualCompetition]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[VirtualCompetition, Integer]
+  end
+end
