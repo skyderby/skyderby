@@ -1,0 +1,65 @@
+@import 'styles/breakpoints';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: $bp-large;
+  margin: 0 auto 2rem;
+
+  >:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+}
+
+.title {
+  margin-top: 0;
+}
+
+.input {
+  composes: input from '~styles/input';
+  composes: outlined from '~styles/input';
+}
+
+.tableWrapper {
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius-md);
+
+  background-color: var(--white);
+  box-shadow: var(--block-box-shadow);
+}
+
+.table {
+  display: table;
+  width: 100%;
+}
+
+.thead {
+  display: table-header-group;
+
+  font-weight: 500;
+}
+
+.tbody {
+  display: table-row-group;
+}
+
+.row {
+  display: table-row;
+}
+
+.cell {
+  display: table-cell;
+  padding: 0.5rem;
+  border-bottom: solid 1px var(--border-color);
+
+  color: var(--grey-80);
+}
+
+.thead .cell {
+  padding: 0.5rem 1rem;
+  border-bottom: solid 2px var(--border-color);
+
+  color: var(--grey-70);
+  white-space: nowrap;
+}

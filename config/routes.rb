@@ -38,7 +38,7 @@ Skyderby::Application.routes.draw do
           resource :stats, only: :show, module: :contributions
         end
       end
-      resources :users, only: :index
+      resources :users, only: %i[index show destroy]
       resources :profiles, only: %i[index show] do
         scope module: :profiles do
           collection do

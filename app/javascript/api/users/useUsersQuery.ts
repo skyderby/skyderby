@@ -1,31 +1,15 @@
-import {
-  QueryFunction,
-  useMutation,
-  UseMutationResult,
-  useQuery,
-  UseQueryResult
-} from 'react-query'
-import client, { AxiosError, AxiosResponse } from 'api/client'
+import { QueryFunction, useQuery, UseQueryResult } from 'react-query'
 import { parseISO } from 'date-fns'
+import client, { AxiosResponse } from 'api/client'
+import { User } from './common'
 
-interface MutationOptions {
-  onSuccess?: () => unknown
-}
+type IndexQueryKey = ['users', IndexParams]
 
-export interface SignUpForm {
-  email: string
-  password: string
-  passwordConfirmation: string
-  profileAttributes: {
-    name: string
-  }
-}
-
-export interface User {
-  id: number
-  email: string
-  provider: 'facebook' | null
-  uid: string | null
+export interface IndexParams {
+  page?: number
+  perPage?: number
+  searchTerm?: string
+  sortBy?: 'id asc' | 'id desc' | 'name asc' | 'name desc'
 }
 
 export interface UserIndexRecord extends User {
@@ -40,26 +24,11 @@ type SerializedUserIndexRecord = {
     : UserIndexRecord[K]
 }
 
-export interface IndexParams {
-  page?: number
-  perPage?: number
-  searchTerm?: string
-  sortBy?: 'id asc' | 'id desc' | 'name asc' | 'name desc'
-}
-
 interface IndexResponse<T = UserIndexRecord> {
   items: T[]
   currentPage: number
   totalPages: number
 }
-
-export interface ServerErrors {
-  errors: Record<string, string[]>
-}
-
-export type SignUpMutation = UseMutationResult<User, AxiosError<ServerErrors>, SignUpForm>
-
-type IndexQueryKey = ['users', IndexParams]
 
 const endpoint = '/api/v1/users'
 
@@ -94,25 +63,10 @@ const queryUsers: QueryFunction<IndexResponse, IndexQueryKey> = async ctx => {
   }
 }
 
-const signUp = async (user: SignUpForm): Promise<User> => {
-  const { data } = await client.post<{ user: SignUpForm }, AxiosResponse<User>>(
-    '/api/users',
-    { user }
-  )
-
-  return data
-}
-
-export const useSignUpMutation = (options: MutationOptions = {}): SignUpMutation => {
-  return useMutation(signUp, {
-    onSuccess() {
-      options?.onSuccess?.()
-    }
-  })
-}
-
-export const useUsersQuery = (params: IndexParams = {}): UseQueryResult<IndexResponse> =>
+const useUsersQuery = (params: IndexParams = {}): UseQueryResult<IndexResponse> =>
   useQuery({
     queryFn: queryUsers,
     queryKey: ['users', params]
   })
+
+export default useUsersQuery

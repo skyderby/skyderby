@@ -1,0 +1,21 @@
+.container {
+  padding: 1rem;
+  border-radius: var(--border-radius-md);
+
+  background-color: var(--white);
+  box-shadow: var(--block-box-shadow);
+}
+
+.actions {
+  display: flex;
+
+  > :not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}
+
+.dangerButton {
+  composes: button from '~styles/button.module.scss';
+  composes: red from '~styles/button.module.scss';
+  composes: outlined from '~styles/button.module.scss';
+}

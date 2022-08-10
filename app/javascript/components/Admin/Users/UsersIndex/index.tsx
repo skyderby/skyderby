@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { Location } from 'history'
 import debounce from 'lodash.debounce'
 
@@ -51,28 +51,30 @@ const UsersIndex = (): JSX.Element => {
       </div>
 
       <div className={styles.tableWrapper}>
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th title="Confirmed" />
-              <th>Name</th>
-              <th>E-mail</th>
-              <th>Signed up</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div className={styles.table}>
+          <div className={styles.thead}>
+            <div className={styles.row}>
+              <div className={styles.cell}>#</div>
+              <div className={styles.cell} title="Confirmed" />
+              <div className={styles.cell}>Name</div>
+              <div className={styles.cell}>E-mail</div>
+              <div className={styles.cell}>Signed up</div>
+            </div>
+          </div>
+          <div className={styles.tbody}>
             {users.map(user => (
-              <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{!user.confirmed && '👾'}</td>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{formatDate(user.createdAt, 'dd MMM yyyy')}</td>
-              </tr>
+              <Link to={user.id.toString()} className={styles.row} key={user.id}>
+                <div className={styles.cell}>{user.id}</div>
+                <div className={styles.cell}>{!user.confirmed && '👾'}</div>
+                <div className={styles.cell}>{user.name}</div>
+                <div className={styles.cell}>{user.email}</div>
+                <div className={styles.cell}>
+                  {formatDate(user.createdAt, 'dd MMM yyyy')}
+                </div>
+              </Link>
             ))}
-          </tbody>
-        </table>
+          </div>
+        </div>
       </div>
 
       {pagination && <Pagination buildUrl={buildUrl} {...pagination} />}

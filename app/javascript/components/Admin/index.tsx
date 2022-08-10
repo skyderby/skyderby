@@ -5,6 +5,7 @@ import { useCurrentUserQuery } from 'api/sessions'
 import ErrorPage from 'components/ErrorPage'
 import Dashboard from './Dashboard'
 import Contributions from './Contributions'
+import Users from './Users'
 import styles from './styles.module.scss'
 
 const Admin = () => {
@@ -16,24 +17,26 @@ const Admin = () => {
 
   return (
     <div className={styles.container}>
-      <aside>
-        <ul>
+      <aside className={styles.sidebar}>
+        <ul className={styles.menu}>
           <li>
             <NavLink end to="">
               Dashboard
             </NavLink>
           </li>
           <li>
-            <NavLink end to="contributions">
-              Contributions
-            </NavLink>
+            <NavLink to="contributions">Contributions</NavLink>
+          </li>
+          <li>
+            <NavLink to="users">Users</NavLink>
           </li>
         </ul>
       </aside>
-      <main>
+      <main className={styles.content}>
         <Routes>
           <Route index element={<Dashboard />} />
           <Route path="contributions/*" element={<Contributions />} />
+          <Route path="users/*" element={<Users />} />
         </Routes>
       </main>
     </div>

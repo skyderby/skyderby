@@ -28,7 +28,7 @@ class Profile < ApplicationRecord
 
   belongs_to :country, optional: true
 
-  has_many :tracks, -> { order('recorded_at DESC') }, inverse_of: :pilot
+  has_many :tracks, -> { order('recorded_at DESC') }, inverse_of: :pilot, dependent: :destroy
   has_many :public_tracks,
            -> { where(visibility: 0).order('created_at DESC') },
            class_name: 'Track', inverse_of: false
