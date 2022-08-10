@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 
 import Landing from 'components/Landing'
+import Admin from 'components/Admin'
 import Tracks from 'components/Tracks'
 import Events from 'components/Events'
 import FlightProfiles from 'components/FlightProfiles'
@@ -31,6 +32,7 @@ const AppRouter = () => {
         <Route path="events/*" element={<Events />} />
         <Route path="places/*" element={<Places />} />
         <Route path="suits/*" element={<Suits />} />
+        <Route path="admin/*" element={<Admin />} />
 
         <Route path="*" element={<ErrorPage.NotFound />} />
       </Route>
