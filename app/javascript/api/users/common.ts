@@ -21,4 +21,8 @@ export type SerializedUser = Omit<UserWithDetails, 'currentSignInAt' | 'lastSign
   lastSignInAt: string | null
 }
 
+export interface ServerErrors {
+  errors: Record<string, string[]>
+}
+
 export const elementEndpoint = (id: number) => `/api/v1/users/${id}`

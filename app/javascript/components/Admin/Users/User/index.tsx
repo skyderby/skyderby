@@ -2,8 +2,7 @@ import React from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import toast from 'react-hot-toast'
 
-import { useUserQuery } from 'api/users'
-import useDeleteUserMutation from 'api/users/useDeleteUserMutation'
+import { useUserQuery, useDeleteUserMutation } from 'api/users'
 import RequestErrorToast from 'components/RequestErrorToast'
 import styles from './styles.module.scss'
 

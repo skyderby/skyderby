@@ -1,6 +1,6 @@
 import { useMutation, UseMutationResult } from 'react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
-import { User } from './common'
+import { User, ServerErrors } from './common'
 
 interface MutationOptions {
   onSuccess?: () => unknown
@@ -13,10 +13,6 @@ export interface SignUpForm {
   profileAttributes: {
     name: string
   }
-}
-
-export interface ServerErrors {
-  errors: Record<string, string[]>
 }
 
 export type SignUpMutation = UseMutationResult<User, AxiosError<ServerErrors>, SignUpForm>

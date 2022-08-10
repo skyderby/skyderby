@@ -1,7 +1,7 @@
-import client from 'api/client'
-import { AxiosError, AxiosResponse } from 'axios'
-import { elementEndpoint, SerializedUser } from './common'
 import { useMutation } from 'react-query'
+import { AxiosError, AxiosResponse } from 'axios'
+import client from 'api/client'
+import { elementEndpoint, SerializedUser } from './common'
 
 type Variables = { destroyProfile: boolean } | undefined
 
