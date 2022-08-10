@@ -1,0 +1,44 @@
+.container {
+  display: grid;
+  grid-template-areas:
+    'title title title'
+    'main  main  pastQ'
+    'main  main  pastYear'
+    'main  main  rest';
+  width: 300px;
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+
+  background-color: var(--white);
+  box-shadow: var(--block-box-shadow);
+}
+
+.title {
+  grid-area: title;
+  padding: 0.25rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+
+  color: var(--grey-70);
+  text-align: center;
+
+  text-transform: uppercase;
+}
+
+.thisMonth {
+  grid-area: main;
+  padding: 1.5rem 2rem;
+
+  color: var(--grey-70);
+  font-weight: bold;
+  font-size: 3rem;
+}
+
+.past90Days {
+  grid-area: pastQ;
+  padding: 0.5rem 1rem;
+}
+
+.pastYear {
+  grid-area: pastYear;
+  padding: 0.5rem 1rem;
+}

@@ -5,8 +5,7 @@ describe Api::V1::CountriesController do
     it 'returns correct fields' do
       get :index, format: :json
 
-      response_json = JSON.parse(response.body)
-      fields = response_json['items'].map(&:keys).flatten.uniq
+      fields = response.parsed_body['items'].map(&:keys).flatten.uniq
 
       expect(fields).to match(%w[id name code])
     end

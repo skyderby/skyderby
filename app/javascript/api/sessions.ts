@@ -11,6 +11,7 @@ import client, { AxiosError, AxiosResponse } from 'api/client'
 export type GuestUser = {
   authorized: false
   permissions: {
+    canAccessAdminPanel: false
     canCreatePlace: false
     canManageUsers: false
   }
@@ -29,6 +30,7 @@ export type AuthorizedUser = {
     thumb: string
   }
   permissions: {
+    canAccessAdminPanel: boolean
     canCreatePlace: boolean
     canManageUsers: boolean
   }

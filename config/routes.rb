@@ -33,7 +33,11 @@ Skyderby::Application.routes.draw do
   namespace :api, module: :api, defaults: { format: :json } do
     namespace :v1, module: :v1 do
       resource :current_user, only: :show
-      resources :contributions, only: :index
+      resources :contributions, only: :index do
+        collection do
+          resource :stats, only: :show, module: :contributions
+        end
+      end
       resources :users, only: :index
       resources :profiles, only: %i[index show] do
         scope module: :profiles do
