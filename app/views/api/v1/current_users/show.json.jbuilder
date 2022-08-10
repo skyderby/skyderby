@@ -19,6 +19,7 @@ else
 end
 
 json.permissions do
+  json.can_access_admin_panel @user.has_role?(:admin)
   json.can_create_place policy(Place).create?
   json.can_manage_users policy(User).index?
 end
