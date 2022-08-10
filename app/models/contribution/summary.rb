@@ -8,7 +8,7 @@ class Contribution::Summary
       Contribution::Detail
       .includes(:contributor)
       .joins(:contribution)
-      .where("contributions.received_at > NOW() - interval '30 days'")
+      .merge(Contribution.in_past_days(30))
   end
 
   def previous_contributions
@@ -17,6 +17,12 @@ class Contribution::Summary
       .select('DISTINCT contributor_type, contributor_id')
       .includes(:contributor)
       .joins(:contribution)
-      .where("contributions.received_at <= NOW() - interval '30 days'")
+      .merge(Contribution.in_past_days(30))
   end
+
+  def this_month_amount = Contribution.in_this_month.sum(:amount)
+
+  def past_90_days_amount = Contribution.in_past_days(90).sum(:amount)
+
+  def past_year_amount = Contribution.in_past_days(365).sum(:amount)
 end
