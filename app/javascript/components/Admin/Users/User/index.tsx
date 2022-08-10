@@ -1,14 +1,43 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 import { useUserQuery } from 'api/users'
+import useDeleteUserMutation from 'api/users/useDeleteUserMutation'
+import RequestErrorToast from 'components/RequestErrorToast'
 import styles from './styles.module.scss'
 
 const User = () => {
   const params = useParams()
+  const location = useLocation()
+  const navigate = useNavigate()
   const userId = Number(params.id)
   const { data: user, isSuccess } = useUserQuery(userId)
+  const deleteMutation = useDeleteUserMutation(userId)
+  const returnTo = location.state?.returnTo ?? '/admin/users'
 
+  const performDelete = ({ destroyProfile }: { destroyProfile: boolean }) => {
+    const confirmed = confirm(
+      'This operation is not reversible. Are you sure you want to continue?'
+    )
+
+    if (!confirmed) return
+
+    deleteMutation.mutate(
+      { destroyProfile },
+      {
+        onSuccess: () => {
+          navigate(returnTo)
+        },
+        onError: error => {
+          toast.error(<RequestErrorToast response={error.response} />)
+        }
+      }
+    )
+  }
+
+  const deleteUser = () => performDelete({ destroyProfile: false })
+  const deleteUserWithProfile = () => performDelete({ destroyProfile: true })
   if (!isSuccess) return null
 
   return (
@@ -42,6 +71,18 @@ const User = () => {
           <dt>Track count</dt>
           <dd>{user.trackCount}</dd>
         </dl>
+
+        <hr />
+
+        <div className={styles.actions}>
+          <button className={styles.dangerButton} onClick={deleteUserWithProfile}>
+            Delete user with associated profile
+          </button>
+
+          <button className={styles.dangerButton} onClick={deleteUser}>
+            Delete user only
+          </button>
+        </div>
       </div>
     </div>
   )

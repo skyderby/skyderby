@@ -1,29 +1,10 @@
 import { QueryFunction, useQuery } from 'react-query'
-import client from 'api/client'
-import parseISO from 'date-fns/parseISO'
 import { AxiosResponse } from 'axios'
-
-type User = {
-  id: number
-  email: string
-  signInCount: number
-  currentSignInIp: string
-  lastSignInIp: string
-  currentSignInAt: Date | null
-  lastSignInAt: Date | null
-  name: string
-  country: string
-  trackCount: number
-}
-
-type SerializedUser = Omit<User, 'currentSignInAt' | 'lastSignInAt'> & {
-  currentSignInAt: string | null
-  lastSignInAt: string | null
-}
+import parseISO from 'date-fns/parseISO'
+import client from 'api/client'
+import { elementEndpoint, SerializedUser, FullUser as User } from './common'
 
 type RecordQueryKey = ['users', number]
-
-const recordUrl = (id: number) => `/api/v1/users/${id}`
 
 const deserialize = (record: SerializedUser): User => ({
   ...record,
@@ -33,7 +14,7 @@ const deserialize = (record: SerializedUser): User => ({
 
 const getUser = (id: number) =>
   client
-    .get<never, AxiosResponse<SerializedUser>>(recordUrl(id))
+    .get<never, AxiosResponse<SerializedUser>>(elementEndpoint(id))
     .then(response => response.data)
 
 const queryFn: QueryFunction<User, RecordQueryKey> = async ctx => {
