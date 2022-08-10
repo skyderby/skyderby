@@ -72,7 +72,7 @@ describe Api::V1::PerformanceCompetitions::ReferencePointAssignmentsController d
       post :create, params: params, format: :json
 
       expect(response).to be_forbidden
-      expect(response.parsed_body).to eq({ 'error' => 'forbidden' })
+      expect(response.parsed_body).to eq({ 'errors' => { 'base' => ['forbidden'] } })
     end
   end
 end
