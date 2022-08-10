@@ -5,27 +5,15 @@ import { useCurrentUserQuery } from 'api/sessions'
 import SignIn from './SignIn'
 import SignUp from './SignUp'
 import EmailConfirmation from './EmailConfirmation'
-import UsersIndex from './UsersIndex'
-import AppShell from 'components/AppShell'
 import Layout from 'components/Users/Layout'
 
 const Users = (): JSX.Element | null => {
-  const { data: currentUser, isLoading } = useCurrentUserQuery()
+  const { data: currentUser, isSuccess } = useCurrentUserQuery()
 
-  if (isLoading) return null
+  if (!isSuccess) return null
 
   if (currentUser?.authorized) {
-    return (
-      <Routes>
-        <Route element={<AppShell />}>
-          {currentUser?.permissions?.canManageUsers && (
-            <Route index element={<UsersIndex />} />
-          )}
-        </Route>
-
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    )
+    return <Navigate replace to="/" />
   } else {
     return (
       <Routes>

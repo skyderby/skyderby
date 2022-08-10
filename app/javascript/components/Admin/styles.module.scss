@@ -2,3 +2,32 @@
   display: grid;
   grid-template-columns: 300px 1fr;
 }
+
+.sidebar {
+  margin: 1.5rem;
+  margin-bottom: auto;
+  border-radius: var(--border-radius-md);
+
+  background-color: var(--white);
+  box-shadow: var(--block-box-shadow);
+}
+
+.content {
+  padding: 1.5rem;
+}
+
+.menu {
+  padding: 0.5rem 0;
+}
+
+.menu li a {
+  display: block;
+  padding: 0.5rem 1rem;
+  border-left: 0.25rem solid transparent;
+}
+
+.menu li a:global(.active) {
+  border-left-color: var(--blue-grey-50);
+
+  font-weight: 500;
+}

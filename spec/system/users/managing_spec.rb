@@ -2,23 +2,23 @@ describe 'User management' do
   describe 'permissions' do
     it 'admin user can see' do
       sign_in users(:admin)
-      visit '/users'
+      visit '/admin/users'
 
       expect(page).to have_css('h1', text: 'Users')
     end
 
     it 'redirects non-admin to main page' do
       sign_in users(:regular_user)
-      visit '/users'
+      visit '/admin/users'
 
-      expect(page).to have_current_path('/')
+      expect(page).to have_text("You're not allowed to view this page.")
     end
   end
 
   describe 'filtering' do
     before do
       sign_in users(:admin)
-      visit '/users'
+      visit '/admin/users'
     end
 
     it 'search by name' do
