@@ -2,7 +2,7 @@ import { QueryFunction, useQuery } from 'react-query'
 import { AxiosResponse } from 'axios'
 import parseISO from 'date-fns/parseISO'
 import client from 'api/client'
-import { elementEndpoint, SerializedUser, FullUser as User } from './common'
+import { elementEndpoint, SerializedUser, UserWithDetails as User } from './common'
 
 type RecordQueryKey = ['users', number]
 

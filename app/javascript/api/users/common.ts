@@ -5,7 +5,7 @@ export interface User {
   uid: string | null
 }
 
-export interface FullUser extends User {
+export interface UserWithDetails extends User {
   signInCount: number
   currentSignInIp: string
   lastSignInIp: string
@@ -16,7 +16,7 @@ export interface FullUser extends User {
   trackCount: number
 }
 
-export type SerializedUser = Omit<FullUser, 'currentSignInAt' | 'lastSignInAt'> & {
+export type SerializedUser = Omit<UserWithDetails, 'currentSignInAt' | 'lastSignInAt'> & {
   currentSignInAt: string | null
   lastSignInAt: string | null
 }
