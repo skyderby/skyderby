@@ -37,6 +37,8 @@ const UsersIndex = (): JSX.Element => {
     navigate(location.pathname + urlParams)
   }, 200)
 
+  const currentPath = [location.pathname, location.search].filter(Boolean).join('')
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -45,30 +47,53 @@ const UsersIndex = (): JSX.Element => {
           className={styles.input}
           type="search"
           name="searchTerm"
+          defaultValue={urlParams.searchTerm?.toString()}
           placeholder="Search users by id, name, email"
           onChange={handleSearchChange}
         />
       </div>
 
       <div className={styles.tableWrapper}>
-        <div className={styles.table}>
-          <div className={styles.thead}>
-            <div className={styles.row}>
-              <div className={styles.cell}>#</div>
-              <div className={styles.cell} title="Confirmed" />
-              <div className={styles.cell}>Name</div>
-              <div className={styles.cell}>E-mail</div>
-              <div className={styles.cell}>Signed up</div>
+        <div className={styles.table} role="table">
+          <div className={styles.thead} role="rowgroup">
+            <div className={styles.row} role="rowheader">
+              <div className={styles.cell} role="cell">
+                #
+              </div>
+              <div className={styles.cell} title="Confirmed" role="cell" />
+              <div className={styles.cell} role="cell">
+                Name
+              </div>
+              <div className={styles.cell} role="cell">
+                E-mail
+              </div>
+              <div className={styles.cell} role="cell">
+                Signed up
+              </div>
             </div>
           </div>
-          <div className={styles.tbody}>
+          <div className={styles.tbody} role="rowgroup">
             {users.map(user => (
-              <Link to={user.id.toString()} className={styles.row} key={user.id}>
-                <div className={styles.cell}>{user.id}</div>
-                <div className={styles.cell}>{!user.confirmed && '👾'}</div>
-                <div className={styles.cell}>{user.name}</div>
-                <div className={styles.cell}>{user.email}</div>
-                <div className={styles.cell}>
+              <Link
+                to={user.id.toString()}
+                className={styles.row}
+                key={user.id}
+                state={{ returnTo: currentPath }}
+                role="row"
+              >
+                <div className={styles.cell} role="cell">
+                  {user.id}
+                </div>
+                <div className={styles.cell} role="cell">
+                  {!user.confirmed && '👾'}
+                </div>
+                <div className={styles.cell} role="cell">
+                  {user.name}
+                </div>
+                <div className={styles.cell} role="cell">
+                  {user.email}
+                </div>
+                <div className={styles.cell} role="cell">
                   {formatDate(user.createdAt, 'dd MMM yyyy')}
                 </div>
               </Link>
