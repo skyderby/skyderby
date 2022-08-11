@@ -2,9 +2,14 @@ import { QueryFunction, useQuery } from 'react-query'
 import { AxiosResponse } from 'axios'
 import parseISO from 'date-fns/parseISO'
 import client from 'api/client'
-import { elementEndpoint, SerializedUser, UserWithDetails as User } from './common'
+import {
+  elementEndpoint,
+  recordQueryKey,
+  SerializedUser,
+  UserWithDetails as User
+} from './common'
 
-type RecordQueryKey = ['users', number]
+type RecordQueryKey = readonly ['users', number]
 
 const deserialize = (record: SerializedUser): User => ({
   ...record,
@@ -26,7 +31,7 @@ const queryFn: QueryFunction<User, RecordQueryKey> = async ctx => {
 
 const useUserQuery = (id: number) =>
   useQuery({
-    queryKey: ['users', id],
+    queryKey: recordQueryKey(id),
     queryFn
   })
 

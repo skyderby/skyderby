@@ -13,7 +13,6 @@ const User = () => {
   const userId = Number(params.id)
   const { data: user, isSuccess } = useUserQuery(userId)
   const deleteMutation = useDeleteUserMutation(userId)
-  const returnTo = location.state?.returnTo ?? '/admin/users'
 
   const performDelete = ({ destroyProfile }: { destroyProfile: boolean }) => {
     const confirmed = confirm(
@@ -26,7 +25,8 @@ const User = () => {
       { destroyProfile },
       {
         onSuccess: () => {
-          navigate(returnTo)
+          navigate(location.state?.returnTo ?? '/admin/users')
+          toast.success(`User ${user?.name} had been successfully deleted.`)
         },
         onError: error => {
           toast.error(<RequestErrorToast response={error.response} />)

@@ -10,6 +10,6 @@ json.extract! user,
 json.current_sign_in_at user.current_sign_in_at&.iso8601
 json.last_sign_in_at user.last_sign_in_at&.iso8601
 
-json.name user.profile.name
-json.country user.profile.country&.name
-json.track_count user.profile.tracks.count
+json.name user.profile&.name
+json.country user.profile&.country&.name
+json.track_count user.profile&.tracks&.count

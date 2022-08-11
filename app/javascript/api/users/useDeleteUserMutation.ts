@@ -1,7 +1,7 @@
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import { AxiosError, AxiosResponse } from 'axios'
 import client from 'api/client'
-import { elementEndpoint, SerializedUser } from './common'
+import { elementEndpoint, recordQueryKey, SerializedUser } from './common'
 
 type Variables = { destroyProfile: boolean } | undefined
 
@@ -13,11 +13,18 @@ const deleteUser = (id: number, destroyProfile: boolean) =>
     .then(response => response.data)
 
 const useDeleteUserMutation = (id: number) => {
+  const queryClient = useQueryClient()
   const mutateFn = (variables: Variables) =>
     deleteUser(id, variables?.destroyProfile || false)
 
   return useMutation<SerializedUser, AxiosError<Record<string, string[]>>, Variables>(
-    mutateFn
+    mutateFn,
+    {
+      onSuccess() {
+        queryClient.removeQueries(recordQueryKey(id))
+        queryClient.invalidateQueries(['users'])
+      }
+    }
   )
 }
 
