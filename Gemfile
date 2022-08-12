@@ -1,7 +1,7 @@
 ruby '3.1.2'
 source 'https://rubygems.org'
 
-gem 'rails', '~> 6.1.6'
+gem 'rails', '~> 7.0.3'
 
 gem 'puma', '< 6'
 gem 'rack-attack'
@@ -62,15 +62,11 @@ gem 'browser'
 gem 'webpacker', '~> 5.1'
 
 gem 'matrix'
-gem 'net-imap', require: false
-gem 'net-pop', require: false
-gem 'net-smtp', require: false
 
 gem 'vincenty_distance'
 
 group :development do
   gem 'annotate'
-  gem 'bullet'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
