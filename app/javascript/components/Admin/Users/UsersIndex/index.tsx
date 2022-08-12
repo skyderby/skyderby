@@ -70,6 +70,9 @@ const UsersIndex = (): JSX.Element => {
               <div className={styles.cell} role="cell">
                 Signed up
               </div>
+              <div className={styles.cell} role="cell">
+                Sign in count
+              </div>
             </div>
           </div>
           <div className={styles.tbody} role="rowgroup">
@@ -95,6 +98,9 @@ const UsersIndex = (): JSX.Element => {
                 </div>
                 <div className={styles.cell} role="cell">
                   {formatDate(user.createdAt, 'dd MMM yyyy')}
+                </div>
+                <div className={styles.cell} role="cell">
+                  {user.signInCount}
                 </div>
               </Link>
             ))}

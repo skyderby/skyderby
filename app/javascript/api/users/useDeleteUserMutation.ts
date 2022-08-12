@@ -20,9 +20,9 @@ const useDeleteUserMutation = (id: number) => {
   return useMutation<SerializedUser, AxiosError<Record<string, string[]>>, Variables>(
     mutateFn,
     {
-      onSuccess() {
+      async onSuccess() {
         queryClient.removeQueries(recordQueryKey(id))
-        queryClient.invalidateQueries(['users'])
+        await queryClient.invalidateQueries('users')
       }
     }
   )
