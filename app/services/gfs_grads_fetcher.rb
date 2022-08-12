@@ -43,7 +43,7 @@ class GfsGradsFetcher
       VALUES.map do |key|
         url = "#{dataset.url}?#{key}#{value_params(key)}"
         Thread.new do
-          Hash[key, Net::HTTP.get(URI.parse(url))]
+          { key => Net::HTTP.get(URI.parse(url)) }
         end
       end
 

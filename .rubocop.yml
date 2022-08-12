@@ -45,6 +45,9 @@ Style/FormatStringToken:
 Style/Documentation:
   Enabled: false
 
+Style/FetchEnvVar:
+  Enabled: false
+
 #################### Lint    ################################
 
 Lint/ShadowingOuterLocalVariable:

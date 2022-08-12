@@ -56,12 +56,12 @@ module RangesToScoreFinder
 
     # round lower to step size
     def max_altitude
-      altitude_bounds[:max_altitude] - altitude_bounds[:max_altitude] % STEP
+      altitude_bounds[:max_altitude] - (altitude_bounds[:max_altitude] % STEP)
     end
 
     # rounds upper to step size
     def min_altitude
-      altitude_addition = STEP - altitude_bounds[:min_altitude] % STEP
+      altitude_addition = STEP - (altitude_bounds[:min_altitude] % STEP)
       altitude_addition = 0 if altitude_addition == 50
       bounds_altitude = altitude_bounds[:min_altitude] + altitude_addition
 

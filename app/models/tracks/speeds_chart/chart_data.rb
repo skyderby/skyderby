@@ -22,7 +22,7 @@ module Tracks
 
       def full_speed_chart_line
         points.map do |x|
-          full_speed = Math.sqrt(x[:v_speed]**2 + x[:h_speed]**2)
+          full_speed = Math.sqrt((x[:v_speed]**2) + (x[:h_speed]**2))
           [(x[:gps_time] - min_gps_time).round(1), speed_presenter.call(full_speed)]
         end.to_json
       end

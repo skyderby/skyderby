@@ -31,7 +31,7 @@ class GfsGradsFetcher
       end
 
       array_values = input.slice(:hgtprs, :ugrdprs, :vgrdprs)
-      counts = array_values.map { |key, val| Hash[key, val.count] }.reduce(&:merge)
+      counts = array_values.map { |key, val| { key => val.count } }.reduce(&:merge)
 
       return if counts.values.uniq.one?
 
@@ -39,11 +39,11 @@ class GfsGradsFetcher
     end
 
     def speed_from_components(u:, v:) # rubocop:disable Naming/MethodParameterName
-      Math.sqrt(u**2 + v**2)
+      Math.sqrt((u**2) + (v**2))
     end
 
     def direction_from_components(u:, v:) # rubocop:disable Naming/MethodParameterName
-      DEG_PER_RAD * Math.atan2(u, v) + 180
+      (DEG_PER_RAD * Math.atan2(u, v)) + 180
     end
   end
 end

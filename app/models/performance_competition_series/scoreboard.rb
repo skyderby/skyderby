@@ -20,7 +20,7 @@ class PerformanceCompetitionSeries::Scoreboard
       .map { |record| build_category(record) }
   end
 
-  def columns_count = rounds.count * 2 + rounds_by_discipline.count + 4
+  def columns_count = (rounds.count * 2) + rounds_by_discipline.count + 4
 
   private
 

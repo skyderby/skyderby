@@ -30,9 +30,7 @@ module TrackParser
     attr_reader :file
 
     def unpacked_data
-      @unpacked_data ||= begin
-        file_data.unpack(ROW_PATTERN * (file_data.length / BYTES_RECORD))
-      end
+      @unpacked_data ||= file_data.unpack(ROW_PATTERN * (file_data.length / BYTES_RECORD))
     end
 
     def file_data

@@ -1,3 +1,5 @@
+Range = Struct.new(:from, :to, keyword_init: true)
+
 describe Tracks::TrackView do
   it '#elevation' do
     stub_points_fetch(presenter)
@@ -144,14 +146,8 @@ describe Tracks::TrackView do
 
   def presenter
     track = Track.new(gps_type: :flysight)
+    range = Range.new(from: 3500, to: 3000)
     @presenter ||= Tracks::TrackView.new(track, range, ChartsPreferences.new({}), false)
-  end
-
-  def range
-    OpenStruct.new.tap do |range|
-      range.from = 3500
-      range.to = 3000
-    end
   end
 
   def stub_points_fetch(object)

@@ -26,7 +26,7 @@ class TrackFilter
     [:profile_id, :suit_id, :place_id].inject(relation) do |rel, key|
       next rel if query[key].blank?
 
-      rel.where(Hash[key, query[key]])
+      rel.where({ key => query[key] })
     end
   end
 

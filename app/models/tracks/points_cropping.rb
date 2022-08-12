@@ -40,7 +40,7 @@ module Tracks
     end
 
     def interpolate_field(first, second, key, coeff)
-      first[key] + (second[key] - first[key]) * coeff
+      first[key] + ((second[key] - first[key]) * coeff)
     end
   end
 end

@@ -11,7 +11,7 @@ class PerformanceCompetition::Scoreboard::Standings::Result
   def result
     return 0 unless record.result
 
-    (record.result - record.result / 100 * penalty_size.to_f)
+    (record.result - (record.result / 100 * penalty_size.to_f))
       .round(round.distance? ? 0 : 1)
   end
 
