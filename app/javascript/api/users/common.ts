@@ -3,10 +3,10 @@ export interface User {
   email: string
   provider: 'facebook' | null
   uid: string | null
+  signInCount: number
 }
 
 export interface UserWithDetails extends User {
-  signInCount: number
   currentSignInIp: string
   lastSignInIp: string
   currentSignInAt: Date | null
