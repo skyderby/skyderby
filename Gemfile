@@ -1,7 +1,7 @@
 ruby '3.1.2'
 source 'https://rubygems.org'
 
-gem 'rails', '~> 6.1.3'
+gem 'rails', '~> 6.1.6'
 
 gem 'puma', '< 6'
 gem 'rack-attack'
@@ -35,8 +35,9 @@ gem 'aws-sdk-s3'
 gem 'image_processing', '~> 1.12'
 gem 'shrine', '~> 3.0'
 
-# XML
+# XML & YAML
 gem 'nokogiri', '~> 1.13'
+gem 'psych', '< 4'
 
 # Background jobs
 gem 'sidekiq', '< 7'
@@ -58,13 +59,12 @@ gem 'i18n-js', '>= 3.0.0.rc8'
 
 gem 'browser'
 
-# Assets
-gem 'bootstrap-sass', '~> 3.4.1'
-gem 'font-awesome-sass', '~> 5.8.1'
-gem 'sassc-rails'
-gem 'turbolinks'
-gem 'uglifier', '>= 2.7.2'
 gem 'webpacker', '~> 5.1'
+
+gem 'matrix'
+gem 'net-imap', require: false
+gem 'net-pop', require: false
+gem 'net-smtp', require: false
 
 gem 'vincenty_distance'
 
