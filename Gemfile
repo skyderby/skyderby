@@ -76,6 +76,7 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'rbs'
+  gem 'rbs_rails', require: false
   gem 'rspec'
   gem 'rspec-rails', '~> 5.0.0'
   gem 'steep'

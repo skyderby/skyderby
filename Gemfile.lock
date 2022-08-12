@@ -287,6 +287,9 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rbs (2.6.0)
+    rbs_rails (0.11.0)
+      parser
+      rbs (>= 1)
     redis (4.6.0)
     regexp_parser (1.8.2)
     responders (3.0.1)
@@ -435,6 +438,7 @@ DEPENDENCIES
   rack-cors
   rails (~> 7.0.3)
   rbs
+  rbs_rails
   rspec
   rspec-rails (~> 5.0.0)
   rubocop
