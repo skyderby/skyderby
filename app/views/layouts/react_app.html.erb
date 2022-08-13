@@ -3,8 +3,7 @@
   <head>
     <%= render 'layouts/google_analytics' %>
 
-    <%= stylesheet_packs_with_chunks_tag 'application', media: 'all' %>
-    <%= javascript_packs_with_chunks_tag 'application', defer: 'defer' %>
+    <%= stylesheet_pack_tag 'application', media: 'all' %>
     <%= javascript_pack_tag 'application', defer: 'defer' %>
 
     <%= csrf_meta_tags %>
@@ -12,10 +11,10 @@
 
     <title>Skyderby</title>
 
-    <link rel="preload" as="font" href="<%= asset_pack_path 'media/fonts/ProximaNova-Regular.woff' %>" crossorigin="anonymous" />
-    <link rel="preload" as="font" href="<%= asset_pack_path 'media/fonts/ProximaNova-Thin.woff' %>" crossorigin="anonymous" />
-    <link rel="preload" as="font" href="<%= asset_pack_path 'media/fonts/ProximaNova-Bold.woff' %>" crossorigin="anonymous" />
-    <link rel="preload" as="font" href="<%= asset_pack_path 'media/fonts/ProximaNova-Semibold.woff' %>" crossorigin="anonymous" />
+    <link rel="preload" as="font" href="<%= asset_pack_path 'static/ProximaNova-Regular.woff' %>" crossorigin="anonymous" />
+    <link rel="preload" as="font" href="<%= asset_pack_path 'static/ProximaNova-Thin.woff' %>" crossorigin="anonymous" />
+    <link rel="preload" as="font" href="<%= asset_pack_path 'static/ProximaNova-Bold.woff' %>" crossorigin="anonymous" />
+    <link rel="preload" as="font" href="<%= asset_pack_path 'static/ProximaNova-Semibold.woff' %>" crossorigin="anonymous" />
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

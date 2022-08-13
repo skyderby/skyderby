@@ -59,7 +59,7 @@ gem 'i18n-js', '>= 3.0.0.rc8'
 
 gem 'browser'
 
-gem 'webpacker', '~> 5.1'
+gem 'shakapacker', '6.5.0'
 
 gem 'matrix'
 
