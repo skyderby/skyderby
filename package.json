@@ -150,6 +150,7 @@
     "normalize.css": "^8.0.1",
     "postcss": "^8.4.16",
     "postcss-loader": "^7.0.1",
+    "postcss-import": "^14.1.0",
     "react": "^18.1.0",
     "react-compound-slider": "^2.5.0",
     "react-device-detect": "^1.11.14",
