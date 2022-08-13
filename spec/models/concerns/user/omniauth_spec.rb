@@ -1,6 +1,3 @@
-Auth = Struct.new(:provider, :uid, :info, keyword_init: true)
-AuthInfo = Struct.new(:email, :image, :first_name, :last_name, keyword_init: true)
-
 describe User::Omniauth do
   it 'finds user by provider and uid' do
     user = User.create! \
@@ -9,10 +6,10 @@ describe User::Omniauth do
       provider: :facebook,
       uid: '000-000'
 
-    auth = Auth.new \
+    auth = OmniAuth::AuthHash.new \
       provider: :facebook,
       uid: '000-000',
-      info: AuthInfo.new(email: 'xx@zz.yyy')
+      info: { email: 'xx@zz.yyy' }
 
     found_user = User.from_omniauth(auth)
 
@@ -24,10 +21,10 @@ describe User::Omniauth do
       email: 'ab@example.com',
       password: Devise.friendly_token[0, 20]
 
-    auth = Auth.new \
+    auth = OmniAuth::AuthHash.new \
       provider: :facebook,
       uid: '000-000',
-      info: AuthInfo.new(email: 'ab@example.com')
+      info: { email: 'ab@example.com' }
 
     found_user = User.from_omniauth(auth)
 
@@ -36,15 +33,15 @@ describe User::Omniauth do
 
   describe 'create new user from auth info' do
     let :auth do
-      Auth.new \
+      OmniAuth::AuthHash.new \
         provider: :facebook,
         uid: '000-000',
-        info: AuthInfo.new(
+        info: {
           email: 'ab@example.com',
           image: '',
           first_name: 'Ivan',
           last_name: 'Petrov'
-        )
+        }
     end
 
     subject { User.from_omniauth(auth) }
