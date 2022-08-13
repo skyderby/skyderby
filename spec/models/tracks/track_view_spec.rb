@@ -1,6 +1,6 @@
-Range = Struct.new(:from, :to, keyword_init: true)
-
 describe Tracks::TrackView do
+  let(:range) { double(TrackRange, from: 3500, to: 3000) }
+
   it '#elevation' do
     stub_points_fetch(presenter)
 
@@ -146,7 +146,6 @@ describe Tracks::TrackView do
 
   def presenter
     track = Track.new(gps_type: :flysight)
-    range = Range.new(from: 3500, to: 3000)
     @presenter ||= Tracks::TrackView.new(track, range, ChartsPreferences.new({}), false)
   end
 

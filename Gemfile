@@ -83,6 +83,6 @@ end
 group :test do
   gem 'capybara'
   gem 'cuprite'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '>= 4.0.0'
   gem 'simplecov'
 end
