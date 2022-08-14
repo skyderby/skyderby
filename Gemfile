@@ -35,9 +35,8 @@ gem 'aws-sdk-s3'
 gem 'image_processing', '~> 1.12'
 gem 'shrine', '~> 3.0'
 
-# XML & YAML
+# XML
 gem 'nokogiri', '~> 1.13'
-gem 'psych', '< 4'
 
 # Background jobs
 gem 'sidekiq', '< 7'
