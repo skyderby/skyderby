@@ -1,0 +1,320 @@
+class Track < ::ApplicationRecord
+  class Video < ::ApplicationRecord
+    extend _ActiveRecord_Relation_ClassMethods[Track::Video, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def track_id: () -> Integer?
+
+      def track_id=: (Integer?) -> Integer?
+
+      def track_id?: () -> bool
+
+      def track_id_changed?: () -> bool
+
+      def track_id_change: () -> [ Integer?, Integer? ]
+
+      def track_id_will_change!: () -> void
+
+      def track_id_was: () -> Integer?
+
+      def track_id_previously_changed?: () -> bool
+
+      def track_id_previous_change: () -> Array[Integer?]?
+
+      def track_id_previously_was: () -> Integer?
+
+      def track_id_before_last_save: () -> Integer?
+
+      def track_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def track_id_in_database: () -> Integer?
+
+      def saved_change_to_track_id: () -> Array[Integer?]?
+
+      def saved_change_to_track_id?: () -> bool
+
+      def will_save_change_to_track_id?: () -> bool
+
+      def restore_track_id!: () -> void
+
+      def clear_track_id_change: () -> void
+
+      def url: () -> String?
+
+      def url=: (String?) -> String?
+
+      def url?: () -> bool
+
+      def url_changed?: () -> bool
+
+      def url_change: () -> [ String?, String? ]
+
+      def url_will_change!: () -> void
+
+      def url_was: () -> String?
+
+      def url_previously_changed?: () -> bool
+
+      def url_previous_change: () -> Array[String?]?
+
+      def url_previously_was: () -> String?
+
+      def url_before_last_save: () -> String?
+
+      def url_change_to_be_saved: () -> Array[String?]?
+
+      def url_in_database: () -> String?
+
+      def saved_change_to_url: () -> Array[String?]?
+
+      def saved_change_to_url?: () -> bool
+
+      def will_save_change_to_url?: () -> bool
+
+      def restore_url!: () -> void
+
+      def clear_url_change: () -> void
+
+      def video_offset: () -> BigDecimal?
+
+      def video_offset=: (BigDecimal?) -> BigDecimal?
+
+      def video_offset?: () -> bool
+
+      def video_offset_changed?: () -> bool
+
+      def video_offset_change: () -> [ BigDecimal?, BigDecimal? ]
+
+      def video_offset_will_change!: () -> void
+
+      def video_offset_was: () -> BigDecimal?
+
+      def video_offset_previously_changed?: () -> bool
+
+      def video_offset_previous_change: () -> Array[BigDecimal?]?
+
+      def video_offset_previously_was: () -> BigDecimal?
+
+      def video_offset_before_last_save: () -> BigDecimal?
+
+      def video_offset_change_to_be_saved: () -> Array[BigDecimal?]?
+
+      def video_offset_in_database: () -> BigDecimal?
+
+      def saved_change_to_video_offset: () -> Array[BigDecimal?]?
+
+      def saved_change_to_video_offset?: () -> bool
+
+      def will_save_change_to_video_offset?: () -> bool
+
+      def restore_video_offset!: () -> void
+
+      def clear_video_offset_change: () -> void
+
+      def track_offset: () -> BigDecimal?
+
+      def track_offset=: (BigDecimal?) -> BigDecimal?
+
+      def track_offset?: () -> bool
+
+      def track_offset_changed?: () -> bool
+
+      def track_offset_change: () -> [ BigDecimal?, BigDecimal? ]
+
+      def track_offset_will_change!: () -> void
+
+      def track_offset_was: () -> BigDecimal?
+
+      def track_offset_previously_changed?: () -> bool
+
+      def track_offset_previous_change: () -> Array[BigDecimal?]?
+
+      def track_offset_previously_was: () -> BigDecimal?
+
+      def track_offset_before_last_save: () -> BigDecimal?
+
+      def track_offset_change_to_be_saved: () -> Array[BigDecimal?]?
+
+      def track_offset_in_database: () -> BigDecimal?
+
+      def saved_change_to_track_offset: () -> Array[BigDecimal?]?
+
+      def saved_change_to_track_offset?: () -> bool
+
+      def will_save_change_to_track_offset?: () -> bool
+
+      def restore_track_offset!: () -> void
+
+      def clear_track_offset_change: () -> void
+
+      def created_at: () -> untyped?
+
+      def created_at=: (untyped?) -> untyped?
+
+      def created_at?: () -> bool
+
+      def created_at_changed?: () -> bool
+
+      def created_at_change: () -> [ untyped?, untyped? ]
+
+      def created_at_will_change!: () -> void
+
+      def created_at_was: () -> untyped?
+
+      def created_at_previously_changed?: () -> bool
+
+      def created_at_previous_change: () -> Array[untyped?]?
+
+      def created_at_previously_was: () -> untyped?
+
+      def created_at_before_last_save: () -> untyped?
+
+      def created_at_change_to_be_saved: () -> Array[untyped?]?
+
+      def created_at_in_database: () -> untyped?
+
+      def saved_change_to_created_at: () -> Array[untyped?]?
+
+      def saved_change_to_created_at?: () -> bool
+
+      def will_save_change_to_created_at?: () -> bool
+
+      def restore_created_at!: () -> void
+
+      def clear_created_at_change: () -> void
+
+      def updated_at: () -> untyped?
+
+      def updated_at=: (untyped?) -> untyped?
+
+      def updated_at?: () -> bool
+
+      def updated_at_changed?: () -> bool
+
+      def updated_at_change: () -> [ untyped?, untyped? ]
+
+      def updated_at_will_change!: () -> void
+
+      def updated_at_was: () -> untyped?
+
+      def updated_at_previously_changed?: () -> bool
+
+      def updated_at_previous_change: () -> Array[untyped?]?
+
+      def updated_at_previously_was: () -> untyped?
+
+      def updated_at_before_last_save: () -> untyped?
+
+      def updated_at_change_to_be_saved: () -> Array[untyped?]?
+
+      def updated_at_in_database: () -> untyped?
+
+      def saved_change_to_updated_at: () -> Array[untyped?]?
+
+      def saved_change_to_updated_at?: () -> bool
+
+      def will_save_change_to_updated_at?: () -> bool
+
+      def restore_updated_at!: () -> void
+
+      def clear_updated_at_change: () -> void
+
+      def video_code: () -> String?
+
+      def video_code=: (String?) -> String?
+
+      def video_code?: () -> bool
+
+      def video_code_changed?: () -> bool
+
+      def video_code_change: () -> [ String?, String? ]
+
+      def video_code_will_change!: () -> void
+
+      def video_code_was: () -> String?
+
+      def video_code_previously_changed?: () -> bool
+
+      def video_code_previous_change: () -> Array[String?]?
+
+      def video_code_previously_was: () -> String?
+
+      def video_code_before_last_save: () -> String?
+
+      def video_code_change_to_be_saved: () -> Array[String?]?
+
+      def video_code_in_database: () -> String?
+
+      def saved_change_to_video_code: () -> Array[String?]?
+
+      def saved_change_to_video_code?: () -> bool
+
+      def will_save_change_to_video_code?: () -> bool
+
+      def restore_video_code!: () -> void
+
+      def clear_video_code_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def track: () -> Track
+    def track=: (Track?) -> Track?
+    def reload_track: () -> Track?
+    def build_track: (untyped) -> Track
+    def create_track: (untyped) -> Track
+    def create_track!: (untyped) -> Track
+
+    def self.by_place: (untyped place_id) -> ActiveRecord_Relation
+
+    module GeneratedRelationMethods
+      def by_place: (untyped place_id) -> ActiveRecord_Relation
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Track::Video, Integer]
+      include Enumerable[Track::Video]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Track::Video, Integer]
+    end
+  end
+end

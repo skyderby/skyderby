@@ -1,0 +1,23 @@
+module TrackParser
+  class Flysight
+    FIELDS_INDEXES: { time: 0, latitude: 1, longitude: 2, altitude: 3, speed_north: 4, speed_east: 5, speed_vertical: 6, horizontal_accuracy: 7, vertical_accuracy: 8, speed_accuracy: 9, heading: 10, heading_accuracy: 11, gps_fix: 12, number_of_satellites: 13 }
+
+    MS_IN_KMH: ::Float
+
+    def initialize: (?::Hash[untyped, untyped] args) -> void
+
+    def parse: () -> untyped
+
+    private
+
+    attr_reader file: untyped
+
+    def parse_row: (untyped row) -> untyped
+
+    def ground_speed_from_components: (north: untyped, east: untyped) -> untyped
+
+    def vertical_speed: (untyped value) -> untyped
+
+    def gps_time: (untyped time_str) -> untyped
+  end
+end

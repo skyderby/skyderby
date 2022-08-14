@@ -1,0 +1,33 @@
+class TrackOrder
+  attr_reader attribute: untyped
+
+  attr_reader direction: untyped
+
+  ALLOWED_FIELDS: ::Array["ID" | "RECORDED_AT" | "SPEED" | "DISTANCE" | "TIME"]
+
+  ALLOWED_DIRECTIONS: ::Array["ASC" | "DESC"]
+
+  ORDERS: untyped
+
+  ATTR_INDEX: 0
+
+  DIRECTION_INDEX: 1
+
+  DEFAULT_ATTR: "ID"
+
+  DEFAULT_DIRECTION: "DESC"
+
+  DEFAULT_ORDER: ::String
+
+  def initialize: (untyped param_string) -> void
+
+  def apply: (untyped relation) -> untyped
+
+  private
+
+  def order_valid: () -> untyped
+
+  def default_order: () -> untyped
+
+  def order_clause: (untyped attr, untyped dir) -> ::String
+end

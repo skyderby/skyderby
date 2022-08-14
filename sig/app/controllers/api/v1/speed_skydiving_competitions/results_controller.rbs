@@ -1,0 +1,17 @@
+class Api::V1::SpeedSkydivingCompetitions::ResultsController < Api::ApplicationController
+  def index: () -> untyped
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def set_event: () -> untyped
+
+  def create_params: () -> untyped
+
+  def update_params: () -> untyped
+end

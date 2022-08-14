@@ -1,0 +1,363 @@
+class QualificationJump < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[QualificationJump, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def qualification_round_id: () -> Integer?
+
+    def qualification_round_id=: (Integer?) -> Integer?
+
+    def qualification_round_id?: () -> bool
+
+    def qualification_round_id_changed?: () -> bool
+
+    def qualification_round_id_change: () -> [ Integer?, Integer? ]
+
+    def qualification_round_id_will_change!: () -> void
+
+    def qualification_round_id_was: () -> Integer?
+
+    def qualification_round_id_previously_changed?: () -> bool
+
+    def qualification_round_id_previous_change: () -> Array[Integer?]?
+
+    def qualification_round_id_previously_was: () -> Integer?
+
+    def qualification_round_id_before_last_save: () -> Integer?
+
+    def qualification_round_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def qualification_round_id_in_database: () -> Integer?
+
+    def saved_change_to_qualification_round_id: () -> Array[Integer?]?
+
+    def saved_change_to_qualification_round_id?: () -> bool
+
+    def will_save_change_to_qualification_round_id?: () -> bool
+
+    def restore_qualification_round_id!: () -> void
+
+    def clear_qualification_round_id_change: () -> void
+
+    def competitor_id: () -> Integer?
+
+    def competitor_id=: (Integer?) -> Integer?
+
+    def competitor_id?: () -> bool
+
+    def competitor_id_changed?: () -> bool
+
+    def competitor_id_change: () -> [ Integer?, Integer? ]
+
+    def competitor_id_will_change!: () -> void
+
+    def competitor_id_was: () -> Integer?
+
+    def competitor_id_previously_changed?: () -> bool
+
+    def competitor_id_previous_change: () -> Array[Integer?]?
+
+    def competitor_id_previously_was: () -> Integer?
+
+    def competitor_id_before_last_save: () -> Integer?
+
+    def competitor_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def competitor_id_in_database: () -> Integer?
+
+    def saved_change_to_competitor_id: () -> Array[Integer?]?
+
+    def saved_change_to_competitor_id?: () -> bool
+
+    def will_save_change_to_competitor_id?: () -> bool
+
+    def restore_competitor_id!: () -> void
+
+    def clear_competitor_id_change: () -> void
+
+    def result: () -> BigDecimal?
+
+    def result=: (BigDecimal?) -> BigDecimal?
+
+    def result?: () -> bool
+
+    def result_changed?: () -> bool
+
+    def result_change: () -> [ BigDecimal?, BigDecimal? ]
+
+    def result_will_change!: () -> void
+
+    def result_was: () -> BigDecimal?
+
+    def result_previously_changed?: () -> bool
+
+    def result_previous_change: () -> Array[BigDecimal?]?
+
+    def result_previously_was: () -> BigDecimal?
+
+    def result_before_last_save: () -> BigDecimal?
+
+    def result_change_to_be_saved: () -> Array[BigDecimal?]?
+
+    def result_in_database: () -> BigDecimal?
+
+    def saved_change_to_result: () -> Array[BigDecimal?]?
+
+    def saved_change_to_result?: () -> bool
+
+    def will_save_change_to_result?: () -> bool
+
+    def restore_result!: () -> void
+
+    def clear_result_change: () -> void
+
+    def track_id: () -> Integer?
+
+    def track_id=: (Integer?) -> Integer?
+
+    def track_id?: () -> bool
+
+    def track_id_changed?: () -> bool
+
+    def track_id_change: () -> [ Integer?, Integer? ]
+
+    def track_id_will_change!: () -> void
+
+    def track_id_was: () -> Integer?
+
+    def track_id_previously_changed?: () -> bool
+
+    def track_id_previous_change: () -> Array[Integer?]?
+
+    def track_id_previously_was: () -> Integer?
+
+    def track_id_before_last_save: () -> Integer?
+
+    def track_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def track_id_in_database: () -> Integer?
+
+    def saved_change_to_track_id: () -> Array[Integer?]?
+
+    def saved_change_to_track_id?: () -> bool
+
+    def will_save_change_to_track_id?: () -> bool
+
+    def restore_track_id!: () -> void
+
+    def clear_track_id_change: () -> void
+
+    def created_at: () -> untyped
+
+    def created_at=: (untyped) -> untyped
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ untyped?, untyped? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> untyped?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[untyped?]?
+
+    def created_at_previously_was: () -> untyped?
+
+    def created_at_before_last_save: () -> untyped?
+
+    def created_at_change_to_be_saved: () -> Array[untyped?]?
+
+    def created_at_in_database: () -> untyped?
+
+    def saved_change_to_created_at: () -> Array[untyped?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+
+    def updated_at: () -> untyped
+
+    def updated_at=: (untyped) -> untyped
+
+    def updated_at?: () -> bool
+
+    def updated_at_changed?: () -> bool
+
+    def updated_at_change: () -> [ untyped?, untyped? ]
+
+    def updated_at_will_change!: () -> void
+
+    def updated_at_was: () -> untyped?
+
+    def updated_at_previously_changed?: () -> bool
+
+    def updated_at_previous_change: () -> Array[untyped?]?
+
+    def updated_at_previously_was: () -> untyped?
+
+    def updated_at_before_last_save: () -> untyped?
+
+    def updated_at_change_to_be_saved: () -> Array[untyped?]?
+
+    def updated_at_in_database: () -> untyped?
+
+    def saved_change_to_updated_at: () -> Array[untyped?]?
+
+    def saved_change_to_updated_at?: () -> bool
+
+    def will_save_change_to_updated_at?: () -> bool
+
+    def restore_updated_at!: () -> void
+
+    def clear_updated_at_change: () -> void
+
+    def start_time_in_seconds: () -> BigDecimal?
+
+    def start_time_in_seconds=: (BigDecimal?) -> BigDecimal?
+
+    def start_time_in_seconds?: () -> bool
+
+    def start_time_in_seconds_changed?: () -> bool
+
+    def start_time_in_seconds_change: () -> [ BigDecimal?, BigDecimal? ]
+
+    def start_time_in_seconds_will_change!: () -> void
+
+    def start_time_in_seconds_was: () -> BigDecimal?
+
+    def start_time_in_seconds_previously_changed?: () -> bool
+
+    def start_time_in_seconds_previous_change: () -> Array[BigDecimal?]?
+
+    def start_time_in_seconds_previously_was: () -> BigDecimal?
+
+    def start_time_in_seconds_before_last_save: () -> BigDecimal?
+
+    def start_time_in_seconds_change_to_be_saved: () -> Array[BigDecimal?]?
+
+    def start_time_in_seconds_in_database: () -> BigDecimal?
+
+    def saved_change_to_start_time_in_seconds: () -> Array[BigDecimal?]?
+
+    def saved_change_to_start_time_in_seconds?: () -> bool
+
+    def will_save_change_to_start_time_in_seconds?: () -> bool
+
+    def restore_start_time_in_seconds!: () -> void
+
+    def clear_start_time_in_seconds_change: () -> void
+
+    def canopy_time: () -> BigDecimal?
+
+    def canopy_time=: (BigDecimal?) -> BigDecimal?
+
+    def canopy_time?: () -> bool
+
+    def canopy_time_changed?: () -> bool
+
+    def canopy_time_change: () -> [ BigDecimal?, BigDecimal? ]
+
+    def canopy_time_will_change!: () -> void
+
+    def canopy_time_was: () -> BigDecimal?
+
+    def canopy_time_previously_changed?: () -> bool
+
+    def canopy_time_previous_change: () -> Array[BigDecimal?]?
+
+    def canopy_time_previously_was: () -> BigDecimal?
+
+    def canopy_time_before_last_save: () -> BigDecimal?
+
+    def canopy_time_change_to_be_saved: () -> Array[BigDecimal?]?
+
+    def canopy_time_in_database: () -> BigDecimal?
+
+    def saved_change_to_canopy_time: () -> Array[BigDecimal?]?
+
+    def saved_change_to_canopy_time?: () -> bool
+
+    def will_save_change_to_canopy_time?: () -> bool
+
+    def restore_canopy_time!: () -> void
+
+    def clear_canopy_time_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def competitor: () -> Tournament::Competitor
+  def competitor=: (Tournament::Competitor?) -> Tournament::Competitor?
+  def reload_competitor: () -> Tournament::Competitor?
+  def build_competitor: (untyped) -> Tournament::Competitor
+  def create_competitor: (untyped) -> Tournament::Competitor
+  def create_competitor!: (untyped) -> Tournament::Competitor
+  def qualification_round: () -> QualificationRound
+  def qualification_round=: (QualificationRound?) -> QualificationRound?
+  def reload_qualification_round: () -> QualificationRound?
+  def build_qualification_round: (untyped) -> QualificationRound
+  def create_qualification_round: (untyped) -> QualificationRound
+  def create_qualification_round!: (untyped) -> QualificationRound
+  def track: () -> Track
+  def track=: (Track?) -> Track?
+  def reload_track: () -> Track?
+  def build_track: (untyped) -> Track
+  def create_track: (untyped) -> Track
+  def create_track!: (untyped) -> Track
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[QualificationJump, Integer]
+    include Enumerable[QualificationJump]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[QualificationJump, Integer]
+  end
+end

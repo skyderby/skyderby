@@ -1,0 +1,33 @@
+class GuestUser
+  class TrackCollection
+    def initialize: (untyped store) -> void
+
+    def <<: (untyped id) -> untyped
+
+    private
+
+    attr_reader store: untyped
+
+    def collection: () -> (::Array[untyped] | untyped)
+  end
+
+  attr_reader tracks: untyped
+
+  def initialize: (ActionController::Cookies cookies) -> void
+
+  def id: () -> nil
+
+  def registered?: () -> false
+
+  def has_role?: (untyped _role) -> false
+
+  def profile: () -> nil
+
+  def organizer_of_events: () -> ::Array[untyped]
+
+  def organizer_of_event?: (untyped _event) -> false
+
+  def responsible_of_events: () -> ::Array[untyped]
+
+  def participant_of_events: () -> ::Array[untyped]
+end

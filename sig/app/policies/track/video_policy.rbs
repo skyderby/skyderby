@@ -1,0 +1,9 @@
+class Track::VideoPolicy < ApplicationPolicy
+  def index?: () -> true
+
+  class Scope < ApplicationPolicy::Scope
+    def resolve: () -> untyped
+
+    def tracks_scope: () -> untyped
+  end
+end

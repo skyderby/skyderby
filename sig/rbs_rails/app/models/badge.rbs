@@ -1,0 +1,391 @@
+class Badge < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[Badge, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def name: () -> String?
+
+    def name=: (String?) -> String?
+
+    def name?: () -> bool
+
+    def name_changed?: () -> bool
+
+    def name_change: () -> [ String?, String? ]
+
+    def name_will_change!: () -> void
+
+    def name_was: () -> String?
+
+    def name_previously_changed?: () -> bool
+
+    def name_previous_change: () -> Array[String?]?
+
+    def name_previously_was: () -> String?
+
+    def name_before_last_save: () -> String?
+
+    def name_change_to_be_saved: () -> Array[String?]?
+
+    def name_in_database: () -> String?
+
+    def saved_change_to_name: () -> Array[String?]?
+
+    def saved_change_to_name?: () -> bool
+
+    def will_save_change_to_name?: () -> bool
+
+    def restore_name!: () -> void
+
+    def clear_name_change: () -> void
+
+    def kind: () -> String?
+
+    def kind=: (String?) -> String?
+
+    def kind?: () -> bool
+
+    def kind_changed?: () -> bool
+
+    def kind_change: () -> [ String?, String? ]
+
+    def kind_will_change!: () -> void
+
+    def kind_was: () -> String?
+
+    def kind_previously_changed?: () -> bool
+
+    def kind_previous_change: () -> Array[String?]?
+
+    def kind_previously_was: () -> String?
+
+    def kind_before_last_save: () -> String?
+
+    def kind_change_to_be_saved: () -> Array[String?]?
+
+    def kind_in_database: () -> String?
+
+    def saved_change_to_kind: () -> Array[String?]?
+
+    def saved_change_to_kind?: () -> bool
+
+    def will_save_change_to_kind?: () -> bool
+
+    def restore_kind!: () -> void
+
+    def clear_kind_change: () -> void
+
+    def profile_id: () -> Integer?
+
+    def profile_id=: (Integer?) -> Integer?
+
+    def profile_id?: () -> bool
+
+    def profile_id_changed?: () -> bool
+
+    def profile_id_change: () -> [ Integer?, Integer? ]
+
+    def profile_id_will_change!: () -> void
+
+    def profile_id_was: () -> Integer?
+
+    def profile_id_previously_changed?: () -> bool
+
+    def profile_id_previous_change: () -> Array[Integer?]?
+
+    def profile_id_previously_was: () -> Integer?
+
+    def profile_id_before_last_save: () -> Integer?
+
+    def profile_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def profile_id_in_database: () -> Integer?
+
+    def saved_change_to_profile_id: () -> Array[Integer?]?
+
+    def saved_change_to_profile_id?: () -> bool
+
+    def will_save_change_to_profile_id?: () -> bool
+
+    def restore_profile_id!: () -> void
+
+    def clear_profile_id_change: () -> void
+
+    def created_at: () -> untyped?
+
+    def created_at=: (untyped?) -> untyped?
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ untyped?, untyped? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> untyped?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[untyped?]?
+
+    def created_at_previously_was: () -> untyped?
+
+    def created_at_before_last_save: () -> untyped?
+
+    def created_at_change_to_be_saved: () -> Array[untyped?]?
+
+    def created_at_in_database: () -> untyped?
+
+    def saved_change_to_created_at: () -> Array[untyped?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+
+    def updated_at: () -> untyped?
+
+    def updated_at=: (untyped?) -> untyped?
+
+    def updated_at?: () -> bool
+
+    def updated_at_changed?: () -> bool
+
+    def updated_at_change: () -> [ untyped?, untyped? ]
+
+    def updated_at_will_change!: () -> void
+
+    def updated_at_was: () -> untyped?
+
+    def updated_at_previously_changed?: () -> bool
+
+    def updated_at_previous_change: () -> Array[untyped?]?
+
+    def updated_at_previously_was: () -> untyped?
+
+    def updated_at_before_last_save: () -> untyped?
+
+    def updated_at_change_to_be_saved: () -> Array[untyped?]?
+
+    def updated_at_in_database: () -> untyped?
+
+    def saved_change_to_updated_at: () -> Array[untyped?]?
+
+    def saved_change_to_updated_at?: () -> bool
+
+    def will_save_change_to_updated_at?: () -> bool
+
+    def restore_updated_at!: () -> void
+
+    def clear_updated_at_change: () -> void
+
+    def comment: () -> String?
+
+    def comment=: (String?) -> String?
+
+    def comment?: () -> bool
+
+    def comment_changed?: () -> bool
+
+    def comment_change: () -> [ String?, String? ]
+
+    def comment_will_change!: () -> void
+
+    def comment_was: () -> String?
+
+    def comment_previously_changed?: () -> bool
+
+    def comment_previous_change: () -> Array[String?]?
+
+    def comment_previously_was: () -> String?
+
+    def comment_before_last_save: () -> String?
+
+    def comment_change_to_be_saved: () -> Array[String?]?
+
+    def comment_in_database: () -> String?
+
+    def saved_change_to_comment: () -> Array[String?]?
+
+    def saved_change_to_comment?: () -> bool
+
+    def will_save_change_to_comment?: () -> bool
+
+    def restore_comment!: () -> void
+
+    def clear_comment_change: () -> void
+
+    def category: () -> String
+
+    def category=: (String) -> String
+
+    def category?: () -> bool
+
+    def category_changed?: () -> bool
+
+    def category_change: () -> [ String?, String? ]
+
+    def category_will_change!: () -> void
+
+    def category_was: () -> String?
+
+    def category_previously_changed?: () -> bool
+
+    def category_previous_change: () -> Array[String?]?
+
+    def category_previously_was: () -> String?
+
+    def category_before_last_save: () -> String?
+
+    def category_change_to_be_saved: () -> Array[String?]?
+
+    def category_in_database: () -> String?
+
+    def saved_change_to_category: () -> Array[String?]?
+
+    def saved_change_to_category?: () -> bool
+
+    def will_save_change_to_category?: () -> bool
+
+    def restore_category!: () -> void
+
+    def clear_category_change: () -> void
+
+    def achieved_at: () -> Date?
+
+    def achieved_at=: (Date?) -> Date?
+
+    def achieved_at?: () -> bool
+
+    def achieved_at_changed?: () -> bool
+
+    def achieved_at_change: () -> [ Date?, Date? ]
+
+    def achieved_at_will_change!: () -> void
+
+    def achieved_at_was: () -> Date?
+
+    def achieved_at_previously_changed?: () -> bool
+
+    def achieved_at_previous_change: () -> Array[Date?]?
+
+    def achieved_at_previously_was: () -> Date?
+
+    def achieved_at_before_last_save: () -> Date?
+
+    def achieved_at_change_to_be_saved: () -> Array[Date?]?
+
+    def achieved_at_in_database: () -> Date?
+
+    def saved_change_to_achieved_at: () -> Array[Date?]?
+
+    def saved_change_to_achieved_at?: () -> bool
+
+    def will_save_change_to_achieved_at?: () -> bool
+
+    def restore_achieved_at!: () -> void
+
+    def clear_achieved_at_change: () -> void
+  end
+  include GeneratedAttributeMethods
+
+  def profile: () -> Profile
+  def profile=: (Profile?) -> Profile?
+  def reload_profile: () -> Profile?
+  def build_profile: (untyped) -> Profile
+  def create_profile: (untyped) -> Profile
+  def create_profile!: (untyped) -> Profile
+
+  def competition!: () -> bool
+  def competition?: () -> bool
+  def online!: () -> bool
+  def online?: () -> bool
+  def sponsor!: () -> bool
+  def sponsor?: () -> bool
+  def skyderby!: () -> bool
+  def skyderby?: () -> bool
+  def special!: () -> bool
+  def special?: () -> bool
+  def gold!: () -> bool
+  def gold?: () -> bool
+  def silver!: () -> bool
+  def silver?: () -> bool
+  def bronze!: () -> bool
+  def bronze?: () -> bool
+  def self.competition: () -> ActiveRecord_Relation
+  def self.online: () -> ActiveRecord_Relation
+  def self.sponsor: () -> ActiveRecord_Relation
+  def self.skyderby: () -> ActiveRecord_Relation
+  def self.special: () -> ActiveRecord_Relation
+  def self.gold: () -> ActiveRecord_Relation
+  def self.silver: () -> ActiveRecord_Relation
+  def self.bronze: () -> ActiveRecord_Relation
+
+  module GeneratedRelationMethods
+    def competition: () -> ActiveRecord_Relation
+
+    def online: () -> ActiveRecord_Relation
+
+    def sponsor: () -> ActiveRecord_Relation
+
+    def skyderby: () -> ActiveRecord_Relation
+
+    def special: () -> ActiveRecord_Relation
+
+    def gold: () -> ActiveRecord_Relation
+
+    def silver: () -> ActiveRecord_Relation
+
+    def bronze: () -> ActiveRecord_Relation
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Badge, Integer]
+    include Enumerable[Badge]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Badge, Integer]
+  end
+end

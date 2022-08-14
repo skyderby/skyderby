@@ -1,0 +1,17 @@
+module Places
+  class PhotosController < ApplicationController
+    def index: () -> untyped
+
+    def new: () -> untyped
+
+    def create: () -> untyped
+
+    def destroy: () -> untyped
+
+    private
+
+    def set_place: () -> untyped
+
+    def photo_params: () -> untyped
+  end
+end

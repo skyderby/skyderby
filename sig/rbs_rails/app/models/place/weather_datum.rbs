@@ -1,0 +1,320 @@
+class Place < ::ApplicationRecord
+  class WeatherDatum < ::ApplicationRecord
+    extend _ActiveRecord_Relation_ClassMethods[Place::WeatherDatum, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def actual_on: () -> ActiveSupport::TimeWithZone?
+
+      def actual_on=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+      def actual_on?: () -> bool
+
+      def actual_on_changed?: () -> bool
+
+      def actual_on_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def actual_on_will_change!: () -> void
+
+      def actual_on_was: () -> ActiveSupport::TimeWithZone?
+
+      def actual_on_previously_changed?: () -> bool
+
+      def actual_on_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def actual_on_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def actual_on_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def actual_on_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def actual_on_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_actual_on: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_actual_on?: () -> bool
+
+      def will_save_change_to_actual_on?: () -> bool
+
+      def restore_actual_on!: () -> void
+
+      def clear_actual_on_change: () -> void
+
+      def altitude: () -> BigDecimal?
+
+      def altitude=: (BigDecimal?) -> BigDecimal?
+
+      def altitude?: () -> bool
+
+      def altitude_changed?: () -> bool
+
+      def altitude_change: () -> [ BigDecimal?, BigDecimal? ]
+
+      def altitude_will_change!: () -> void
+
+      def altitude_was: () -> BigDecimal?
+
+      def altitude_previously_changed?: () -> bool
+
+      def altitude_previous_change: () -> Array[BigDecimal?]?
+
+      def altitude_previously_was: () -> BigDecimal?
+
+      def altitude_before_last_save: () -> BigDecimal?
+
+      def altitude_change_to_be_saved: () -> Array[BigDecimal?]?
+
+      def altitude_in_database: () -> BigDecimal?
+
+      def saved_change_to_altitude: () -> Array[BigDecimal?]?
+
+      def saved_change_to_altitude?: () -> bool
+
+      def will_save_change_to_altitude?: () -> bool
+
+      def restore_altitude!: () -> void
+
+      def clear_altitude_change: () -> void
+
+      def wind_speed: () -> BigDecimal?
+
+      def wind_speed=: (BigDecimal?) -> BigDecimal?
+
+      def wind_speed?: () -> bool
+
+      def wind_speed_changed?: () -> bool
+
+      def wind_speed_change: () -> [ BigDecimal?, BigDecimal? ]
+
+      def wind_speed_will_change!: () -> void
+
+      def wind_speed_was: () -> BigDecimal?
+
+      def wind_speed_previously_changed?: () -> bool
+
+      def wind_speed_previous_change: () -> Array[BigDecimal?]?
+
+      def wind_speed_previously_was: () -> BigDecimal?
+
+      def wind_speed_before_last_save: () -> BigDecimal?
+
+      def wind_speed_change_to_be_saved: () -> Array[BigDecimal?]?
+
+      def wind_speed_in_database: () -> BigDecimal?
+
+      def saved_change_to_wind_speed: () -> Array[BigDecimal?]?
+
+      def saved_change_to_wind_speed?: () -> bool
+
+      def will_save_change_to_wind_speed?: () -> bool
+
+      def restore_wind_speed!: () -> void
+
+      def clear_wind_speed_change: () -> void
+
+      def wind_direction: () -> BigDecimal?
+
+      def wind_direction=: (BigDecimal?) -> BigDecimal?
+
+      def wind_direction?: () -> bool
+
+      def wind_direction_changed?: () -> bool
+
+      def wind_direction_change: () -> [ BigDecimal?, BigDecimal? ]
+
+      def wind_direction_will_change!: () -> void
+
+      def wind_direction_was: () -> BigDecimal?
+
+      def wind_direction_previously_changed?: () -> bool
+
+      def wind_direction_previous_change: () -> Array[BigDecimal?]?
+
+      def wind_direction_previously_was: () -> BigDecimal?
+
+      def wind_direction_before_last_save: () -> BigDecimal?
+
+      def wind_direction_change_to_be_saved: () -> Array[BigDecimal?]?
+
+      def wind_direction_in_database: () -> BigDecimal?
+
+      def saved_change_to_wind_direction: () -> Array[BigDecimal?]?
+
+      def saved_change_to_wind_direction?: () -> bool
+
+      def will_save_change_to_wind_direction?: () -> bool
+
+      def restore_wind_direction!: () -> void
+
+      def clear_wind_direction_change: () -> void
+
+      def created_at: () -> ActiveSupport::TimeWithZone
+
+      def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def created_at?: () -> bool
+
+      def created_at_changed?: () -> bool
+
+      def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def created_at_will_change!: () -> void
+
+      def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_previously_changed?: () -> bool
+
+      def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_created_at?: () -> bool
+
+      def will_save_change_to_created_at?: () -> bool
+
+      def restore_created_at!: () -> void
+
+      def clear_created_at_change: () -> void
+
+      def updated_at: () -> ActiveSupport::TimeWithZone
+
+      def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def updated_at?: () -> bool
+
+      def updated_at_changed?: () -> bool
+
+      def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def updated_at_will_change!: () -> void
+
+      def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_previously_changed?: () -> bool
+
+      def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_updated_at?: () -> bool
+
+      def will_save_change_to_updated_at?: () -> bool
+
+      def restore_updated_at!: () -> void
+
+      def clear_updated_at_change: () -> void
+
+      def place_id: () -> Integer?
+
+      def place_id=: (Integer?) -> Integer?
+
+      def place_id?: () -> bool
+
+      def place_id_changed?: () -> bool
+
+      def place_id_change: () -> [ Integer?, Integer? ]
+
+      def place_id_will_change!: () -> void
+
+      def place_id_was: () -> Integer?
+
+      def place_id_previously_changed?: () -> bool
+
+      def place_id_previous_change: () -> Array[Integer?]?
+
+      def place_id_previously_was: () -> Integer?
+
+      def place_id_before_last_save: () -> Integer?
+
+      def place_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def place_id_in_database: () -> Integer?
+
+      def saved_change_to_place_id: () -> Array[Integer?]?
+
+      def saved_change_to_place_id?: () -> bool
+
+      def will_save_change_to_place_id?: () -> bool
+
+      def restore_place_id!: () -> void
+
+      def clear_place_id_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def place: () -> Place
+    def place=: (Place?) -> Place?
+    def reload_place: () -> Place?
+    def build_place: (untyped) -> Place
+    def create_place: (untyped) -> Place
+    def create_place!: (untyped) -> Place
+
+    def self.for_time: (untyped time) -> ActiveRecord_Relation
+
+    module GeneratedRelationMethods
+      def for_time: (untyped time) -> ActiveRecord_Relation
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Place::WeatherDatum, Integer]
+      include Enumerable[Place::WeatherDatum]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Place::WeatherDatum, Integer]
+    end
+  end
+end

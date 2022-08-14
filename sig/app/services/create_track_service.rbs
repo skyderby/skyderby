@@ -1,0 +1,53 @@
+class CreateTrackService
+  class MissingActivityData < StandardError
+    attr_reader points: untyped
+
+    def initialize: (untyped points) -> void
+  end
+
+  def self.call: (untyped params, ?segment: ::Integer) -> untyped
+
+  def initialize: (untyped params, ?segment: ::Integer) -> void
+
+  def call: () -> untyped
+
+  private
+
+  attr_reader segment: untyped
+
+  attr_reader params: untyped
+
+  def track: () -> untyped
+
+  def set_profile: () -> (untyped | nil)
+
+  def set_file_metadata: () -> untyped
+
+  def set_jump_range: () -> untyped
+
+  def points: () -> untyped
+
+  def read_points_from_file: (file: untyped, segment: untyped, format: untyped) -> untyped
+
+  def track_file: () -> untyped
+
+  def data_frequency: () -> untyped
+
+  def missing_ranges: () -> untyped
+
+  def jump_range: () -> untyped
+
+  # Find and set place as closest to start of jump range
+  # and set ground level if place found as place msl offset
+  def set_place: () -> untyped
+
+  # Record track, then assign to it points and
+  # record points to db
+  def save_track: () -> untyped
+
+  def enque_jobs: () -> untyped
+
+  def search_radius: () -> untyped
+
+  def find_place: (untyped start_point, untyped radius) -> untyped
+end

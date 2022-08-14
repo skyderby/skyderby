@@ -1,0 +1,5 @@
+class Organizer < ApplicationRecord
+  include EventOngoingValidation
+
+  alias event organizable
+end

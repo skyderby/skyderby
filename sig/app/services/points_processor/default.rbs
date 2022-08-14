@@ -1,0 +1,25 @@
+module PointsProcessor
+  class Default
+    def initialize: (untyped points) -> void
+
+    def execute: () -> untyped
+
+    private
+
+    # template method
+    def before_calculation: () -> nil
+
+    def calculate_additional_params: () -> untyped
+
+    def process_pair_points: (untyped prev_point, untyped cur_point) -> untyped
+
+    def calc_fl_time: (untyped prev_point, untyped cur_point) -> untyped
+
+    def calc_distance: (untyped prev_point, untyped cur_point) -> untyped
+
+    # template method
+    def additional_processing: (untyped prev_point, untyped cur_point) -> nil
+
+    attr_reader points: untyped
+  end
+end

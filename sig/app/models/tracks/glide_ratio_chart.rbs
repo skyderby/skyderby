@@ -1,0 +1,9 @@
+module Tracks
+  module GlideRatioChart
+    extend ActiveSupport::Concern
+
+    private
+
+    def glide_ratio_chart_data: () -> untyped
+  end
+end

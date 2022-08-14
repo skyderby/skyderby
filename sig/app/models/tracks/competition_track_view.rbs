@@ -1,0 +1,37 @@
+module Tracks
+  class CompetitionTrackView
+    include TrackViewBase
+
+    include TrackPoints
+
+    include PointsCropping
+
+    def initialize: (untyped event_result, untyped chart_preferences) -> void
+
+    def time: () -> untyped
+
+    def avg_horizontal_speed: () -> untyped
+
+    def distance: () -> untyped
+
+    def trajectory_distance: () -> untyped
+
+    def zero_wind_track_distance: () -> untyped
+
+    private
+
+    attr_reader event_result: untyped
+
+    def track_elevation: () -> untyped
+
+    def track_distance: () -> untyped
+
+    def track: () -> untyped
+
+    def range_from: () -> untyped
+
+    def range_to: () -> untyped
+
+    def points: () -> untyped
+  end
+end

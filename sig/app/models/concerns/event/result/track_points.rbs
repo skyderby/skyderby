@@ -1,0 +1,11 @@
+class Event::Result < ApplicationRecord
+  module TrackPoints
+    extend ActiveSupport::Concern
+
+    NullWindowPoints: untyped
+
+    def window_points: () -> untyped
+
+    def points: () -> untyped
+  end
+end

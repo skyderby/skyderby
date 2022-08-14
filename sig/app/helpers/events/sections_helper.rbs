@@ -1,0 +1,13 @@
+module Events
+  module SectionsHelper
+    def new_section_link: (untyped event) -> untyped
+
+    def edit_section_link: (untyped event, untyped section) -> untyped
+
+    def move_section_upper_button: (untyped event, untyped section) -> untyped
+
+    def move_section_lower_button: (untyped event, untyped section) -> untyped
+
+    def delete_section_button: (untyped event, untyped section) -> untyped
+  end
+end

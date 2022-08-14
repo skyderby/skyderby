@@ -1,0 +1,11 @@
+class VirtualCompetitionPolicy < ApplicationPolicy
+  def index?: () -> true
+
+  def create?: () -> untyped
+
+  def show?: () -> true
+
+  def update?: () -> untyped
+
+  def destroy?: () -> untyped
+end

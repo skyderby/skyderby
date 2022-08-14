@@ -1,0 +1,19 @@
+module Api
+  module V1
+    module Tracks
+      class VideosController < ApplicationController
+        def show: () -> untyped
+
+        def create: () -> untyped
+
+        def destroy: () -> untyped
+
+        private
+
+        def video_params: () -> untyped
+
+        def set_track: () -> untyped
+      end
+    end
+  end
+end

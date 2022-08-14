@@ -1,0 +1,13 @@
+class Tournament < ApplicationRecord
+  class Match < ApplicationRecord
+    module Slots
+      extend ActiveSupport::Concern
+
+      def free_slots: () -> untyped
+
+      private
+
+      def build_slots: () -> untyped
+    end
+  end
+end

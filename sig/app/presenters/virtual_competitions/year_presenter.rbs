@@ -1,0 +1,21 @@
+module VirtualCompetitions
+  class YearPresenter < SimpleDelegator
+    attr_reader year: untyped
+
+    def initialize: (untyped params) -> void
+
+    def title: () -> untyped
+
+    def overall?: () -> false
+
+    def scores: () -> untyped
+
+    private
+
+    attr_reader page: untyped
+
+    attr_reader competition: untyped
+
+    def associations: () -> ::Array[{ suit: :manufacturer } | { track: ::Array[{ place: :country } | :video] } | :profile]
+  end
+end

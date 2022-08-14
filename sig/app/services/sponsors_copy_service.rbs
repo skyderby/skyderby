@@ -1,0 +1,9 @@
+class SponsorsCopyService
+  def call: (source: untyped, target: untyped) -> untyped
+
+  private
+
+  attr_reader target: untyped
+
+  def copy: (untyped sponsor) -> untyped
+end

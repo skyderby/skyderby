@@ -1,0 +1,21 @@
+module VirtualCompetitions
+  class PersonDetails
+    def initialize: (virtual_competition_id: untyped, profile_id: untyped) -> void
+
+    def top_results: () -> untyped
+
+    def chart_data: () -> untyped
+
+    def competition: () -> untyped
+
+    private
+
+    attr_reader virtual_competition_id: untyped
+
+    attr_reader profile_id: untyped
+
+    def results_count: () -> 10
+
+    def results_order: () -> ::String
+  end
+end

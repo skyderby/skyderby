@@ -1,0 +1,49 @@
+module Events
+  module Scoreboards
+    module Results
+      class Item < SimpleDelegator
+        def initialize: (untyped record, untyped collection, untyped params) -> void
+
+        def formated: () -> ("" | untyped)
+
+        def result: () -> untyped
+
+        def formated_points: () -> ("" | untyped)
+
+        def points: () -> (0 | untyped)
+
+        def penalized?: () -> (false | untyped)
+
+        def penalty_size: () -> (0 | untyped)
+
+        def penalty_reason: () -> ("" | untyped)
+
+        def valid?: () -> untyped
+
+        def best_in_round_and_category?: () -> untyped
+
+        def best_in_category?: () -> untyped
+
+        def worst_in_category?: () -> untyped
+
+        private
+
+        attr_reader record: untyped
+
+        attr_reader collection: untyped
+
+        attr_reader params: untyped
+
+        def adjust_to_wind: (untyped record) -> untyped
+
+        def round_digits: () -> (0 | 1)
+
+        def apply_penalty_to_result: (untyped result) -> untyped
+
+        def apply_penalty_to_score: (untyped score) -> untyped
+
+        def best_score_lookup_context: () -> ({ round: untyped, section: untyped } | { round: untyped })
+      end
+    end
+  end
+end

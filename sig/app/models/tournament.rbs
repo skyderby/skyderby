@@ -1,0 +1,12 @@
+class Tournament < ApplicationRecord
+  def active?: () -> untyped
+
+  # For compatibility with Event
+  def finished?: () -> false
+
+  private
+
+  def set_default_values: () -> (nil | untyped)
+
+  def self.search: (untyped query) -> untyped
+end

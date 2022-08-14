@@ -1,0 +1,13 @@
+module Api
+  module V1
+    class EventsController < ApplicationController
+      def index: () -> untyped
+
+      def show: () -> untyped
+
+      private
+
+      def set_event: () -> untyped
+    end
+  end
+end

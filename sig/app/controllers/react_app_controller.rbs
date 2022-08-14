@@ -1,0 +1,3 @@
+class ReactAppController < ApplicationController
+  def show: () -> nil
+end

@@ -1,0 +1,7 @@
+class PerformanceCompetitionSeries::Scoreboard::Category
+  attr_reader name: untyped
+
+  attr_reader standings: untyped
+
+  def initialize: (untyped name, untyped standings) -> void
+end

@@ -1,0 +1,7 @@
+class Event::Result < ApplicationRecord
+  module SubmissionAuthor
+    extend ActiveSupport::Concern
+
+    def set_uploaded_by: () -> untyped
+  end
+end

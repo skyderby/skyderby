@@ -1,0 +1,23 @@
+module Tournaments
+  module Qualifications
+    class CompetitorsCollection
+      include Enumerable[Competitor]
+
+      def initialize: (untyped tournament_competitors, untyped scoreboard) -> void
+
+      def each: () { (Competitor) -> void } -> void
+
+      private
+
+      attr_reader tournament_competitors: untyped
+
+      attr_reader scoreboard: untyped
+
+      def competitors: () -> untyped
+
+      def map_competitors: (untyped collection) -> untyped
+
+      def sort_competitors: (untyped collection) -> untyped
+    end
+  end
+end

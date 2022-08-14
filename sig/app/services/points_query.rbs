@@ -1,0 +1,107 @@
+#
+# Query object for track points
+#
+# Arguments:
+# - track (required) - instance of Track model, track which points will be queried
+# - opts (optional) - Hash with following available options:
+#   - freq_1hz - Boolean. True to select one point per second, false or all points
+#   - trimmed - Boolean or Hash with trim options:
+#     - seconds_before_start
+#   - only - array of column names to query
+#
+#  Columns:
+#  - gps_time     - time recorded by device. Timezone - UTC
+#  - fl_time      - relative time from start of track
+#  - abs_altitude - absolute altitude recorded by device
+#  - altitude     - altitude relative to ground
+#  - latitude     - latitude
+#  - longitude    - longitude
+#  - h_speed      - horizontal speed in km/h
+#  - v_speed      - vertical speed in km/h
+#  - distance     - distance covered from previous point
+#  - time_diff    - difference in time from previous point
+#  - glide_ratio  - horizontal speed divided by vertical speed
+#
+# Examples:
+#
+# Query points from 20 sec before flight start. Only columns:
+#   - gps_time
+#   - altitude
+#   - latitude
+#   - longitude
+#
+# PointsQuery.execute(
+#   track,
+#   trimmed: { seconds_before_start: 20 },
+#   only: %i[gps_time altitude latitude longitude]
+# )
+#
+class PointsQuery
+  def initialize: (untyped track, ?::Hash[untyped, untyped] opts) -> void
+
+  def execute: () -> untyped
+
+  private
+
+  attr_reader track: untyped
+
+  attr_reader query_opts: untyped
+
+  attr_reader trimmed: untyped
+
+  attr_reader freq_1hz: untyped
+
+  def scope: () -> untyped
+
+  def select_columns: () -> untyped
+
+  def calc_time_diff: (untyped points) -> untyped
+
+  def time_diff_selected: () -> untyped
+
+  def self.execute: (*untyped args) -> untyped
+
+  class ScopeBuilder
+    def self.call: (*untyped args) -> untyped
+
+    def initialize: (untyped track, untyped trimmed, untyped freq_1hz) -> void
+
+    def call: () -> untyped
+
+    private
+
+    attr_reader track: untyped
+
+    attr_reader trimmed: untyped
+
+    attr_reader trim_options: untyped
+
+    attr_reader freq_1hz: untyped
+
+    def trim: (untyped scope) -> untyped
+
+    def reorder: (untyped scope) -> untyped
+
+    def reduced_frequency_order: () -> ::Array[untyped | :gps_time_in_seconds]
+  end
+
+  class QueryBuilder
+    COLUMNS: untyped
+
+    def initialize: (untyped track, ?::Hash[untyped, untyped] opts) -> void
+
+    def execute: () -> untyped
+
+    private
+
+    attr_reader track: untyped
+
+    attr_reader only_columns: untyped
+
+    attr_reader freq_1hz: untyped
+
+    def select_columns: () -> untyped
+
+    def start_time_in_seconds: () -> untyped
+  end
+end

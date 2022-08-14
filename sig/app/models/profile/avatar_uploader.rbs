@@ -1,0 +1,5 @@
+class Profile::AvatarUploader < Shrine
+  class Attacher
+    def apply_crop: (untyped magick) -> untyped
+  end
+end

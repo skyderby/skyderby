@@ -1,0 +1,9 @@
+module VirtualCompetitions
+  class PersonDetailsController < ApplicationController
+    def show: () -> untyped
+
+    private
+
+    def details_params: () -> untyped
+  end
+end

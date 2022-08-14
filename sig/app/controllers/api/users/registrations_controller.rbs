@@ -1,0 +1,13 @@
+module Api
+  module Users
+    class RegistrationsController < Devise::RegistrationsController
+      include UnderscoreParams
+
+      include GlobalErrorHandling
+
+      private
+
+      def set_new_csrf_token: () -> untyped
+    end
+  end
+end

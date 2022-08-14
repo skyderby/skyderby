@@ -1,0 +1,264 @@
+class Tournament < ::ApplicationRecord
+  class Match < ::ApplicationRecord
+    extend _ActiveRecord_Relation_ClassMethods[Tournament::Match, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def start_time_in_seconds: () -> BigDecimal?
+
+      def start_time_in_seconds=: (BigDecimal?) -> BigDecimal?
+
+      def start_time_in_seconds?: () -> bool
+
+      def start_time_in_seconds_changed?: () -> bool
+
+      def start_time_in_seconds_change: () -> [ BigDecimal?, BigDecimal? ]
+
+      def start_time_in_seconds_will_change!: () -> void
+
+      def start_time_in_seconds_was: () -> BigDecimal?
+
+      def start_time_in_seconds_previously_changed?: () -> bool
+
+      def start_time_in_seconds_previous_change: () -> Array[BigDecimal?]?
+
+      def start_time_in_seconds_previously_was: () -> BigDecimal?
+
+      def start_time_in_seconds_before_last_save: () -> BigDecimal?
+
+      def start_time_in_seconds_change_to_be_saved: () -> Array[BigDecimal?]?
+
+      def start_time_in_seconds_in_database: () -> BigDecimal?
+
+      def saved_change_to_start_time_in_seconds: () -> Array[BigDecimal?]?
+
+      def saved_change_to_start_time_in_seconds?: () -> bool
+
+      def will_save_change_to_start_time_in_seconds?: () -> bool
+
+      def restore_start_time_in_seconds!: () -> void
+
+      def clear_start_time_in_seconds_change: () -> void
+
+      def round_id: () -> Integer?
+
+      def round_id=: (Integer?) -> Integer?
+
+      def round_id?: () -> bool
+
+      def round_id_changed?: () -> bool
+
+      def round_id_change: () -> [ Integer?, Integer? ]
+
+      def round_id_will_change!: () -> void
+
+      def round_id_was: () -> Integer?
+
+      def round_id_previously_changed?: () -> bool
+
+      def round_id_previous_change: () -> Array[Integer?]?
+
+      def round_id_previously_was: () -> Integer?
+
+      def round_id_before_last_save: () -> Integer?
+
+      def round_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def round_id_in_database: () -> Integer?
+
+      def saved_change_to_round_id: () -> Array[Integer?]?
+
+      def saved_change_to_round_id?: () -> bool
+
+      def will_save_change_to_round_id?: () -> bool
+
+      def restore_round_id!: () -> void
+
+      def clear_round_id_change: () -> void
+
+      def created_at: () -> untyped
+
+      def created_at=: (untyped) -> untyped
+
+      def created_at?: () -> bool
+
+      def created_at_changed?: () -> bool
+
+      def created_at_change: () -> [ untyped?, untyped? ]
+
+      def created_at_will_change!: () -> void
+
+      def created_at_was: () -> untyped?
+
+      def created_at_previously_changed?: () -> bool
+
+      def created_at_previous_change: () -> Array[untyped?]?
+
+      def created_at_previously_was: () -> untyped?
+
+      def created_at_before_last_save: () -> untyped?
+
+      def created_at_change_to_be_saved: () -> Array[untyped?]?
+
+      def created_at_in_database: () -> untyped?
+
+      def saved_change_to_created_at: () -> Array[untyped?]?
+
+      def saved_change_to_created_at?: () -> bool
+
+      def will_save_change_to_created_at?: () -> bool
+
+      def restore_created_at!: () -> void
+
+      def clear_created_at_change: () -> void
+
+      def updated_at: () -> untyped
+
+      def updated_at=: (untyped) -> untyped
+
+      def updated_at?: () -> bool
+
+      def updated_at_changed?: () -> bool
+
+      def updated_at_change: () -> [ untyped?, untyped? ]
+
+      def updated_at_will_change!: () -> void
+
+      def updated_at_was: () -> untyped?
+
+      def updated_at_previously_changed?: () -> bool
+
+      def updated_at_previous_change: () -> Array[untyped?]?
+
+      def updated_at_previously_was: () -> untyped?
+
+      def updated_at_before_last_save: () -> untyped?
+
+      def updated_at_change_to_be_saved: () -> Array[untyped?]?
+
+      def updated_at_in_database: () -> untyped?
+
+      def saved_change_to_updated_at: () -> Array[untyped?]?
+
+      def saved_change_to_updated_at?: () -> bool
+
+      def will_save_change_to_updated_at?: () -> bool
+
+      def restore_updated_at!: () -> void
+
+      def clear_updated_at_change: () -> void
+
+      def match_type: () -> String
+
+      def match_type=: (String) -> String
+
+      def match_type?: () -> bool
+
+      def match_type_changed?: () -> bool
+
+      def match_type_change: () -> [ String?, String? ]
+
+      def match_type_will_change!: () -> void
+
+      def match_type_was: () -> String?
+
+      def match_type_previously_changed?: () -> bool
+
+      def match_type_previous_change: () -> Array[String?]?
+
+      def match_type_previously_was: () -> String?
+
+      def match_type_before_last_save: () -> String?
+
+      def match_type_change_to_be_saved: () -> Array[String?]?
+
+      def match_type_in_database: () -> String?
+
+      def saved_change_to_match_type: () -> Array[String?]?
+
+      def saved_change_to_match_type?: () -> bool
+
+      def will_save_change_to_match_type?: () -> bool
+
+      def restore_match_type!: () -> void
+
+      def clear_match_type_change: () -> void
+    end
+    include GeneratedAttributeMethods
+    def slots: () -> Tournament::Match::Slot::ActiveRecord_Associations_CollectionProxy
+    def slots=: (Tournament::Match::Slot::ActiveRecord_Associations_CollectionProxy | Array[Tournament::Match::Slot]) -> (Tournament::Match::Slot::ActiveRecord_Associations_CollectionProxy | Array[Tournament::Match::Slot])
+    def slot_ids: () -> Array[Integer]
+    def slot_ids=: (Array[Integer]) -> Array[Integer]
+
+    def round: () -> Tournament::Round
+    def round=: (Tournament::Round?) -> Tournament::Round?
+    def reload_round: () -> Tournament::Round?
+    def build_round: (untyped) -> Tournament::Round
+    def create_round: (untyped) -> Tournament::Round
+    def create_round!: (untyped) -> Tournament::Round
+
+    def regular!: () -> bool
+    def regular?: () -> bool
+    def gold_finals!: () -> bool
+    def gold_finals?: () -> bool
+    def bronze_finals!: () -> bool
+    def bronze_finals?: () -> bool
+    def self.regular: () -> ActiveRecord_Relation
+    def self.gold_finals: () -> ActiveRecord_Relation
+    def self.bronze_finals: () -> ActiveRecord_Relation
+
+    module GeneratedRelationMethods
+      def regular: () -> ActiveRecord_Relation
+
+      def gold_finals: () -> ActiveRecord_Relation
+
+      def bronze_finals: () -> ActiveRecord_Relation
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Tournament::Match, Integer]
+      include Enumerable[Tournament::Match]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Tournament::Match, Integer]
+    end
+  end
+end

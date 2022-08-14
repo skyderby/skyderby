@@ -1,0 +1,71 @@
+class Event < ApplicationRecord
+  class Result < ApplicationRecord
+    class Submission
+      include ActiveModel::Model
+
+      extend ActiveModel::Naming
+
+      attr_reader result: untyped
+
+      attr_reader errors: untyped
+
+      attr_accessor event_id: untyped
+
+      attr_accessor competitor_id: untyped
+
+      attr_accessor round_id: untyped
+
+      attr_accessor round_name: untyped
+
+      attr_accessor penalty_size: untyped
+
+      attr_accessor penalty_reason: untyped
+
+      attr_accessor track_file: untyped
+
+      attr_writer competitor_name: untyped
+
+      attr_writer reference_point: untyped
+
+      attr_writer jump_range: untyped
+
+      attr_writer penalized: untyped
+
+      def initialize: (untyped args) -> void
+
+      def save: () -> (false | untyped)
+
+      private
+
+      def create_result: () -> untyped
+
+      def set_jump_range: () -> (nil | untyped)
+
+      def assign_reference_point: () -> (nil | untyped)
+
+      def result_params: () -> { competitor: untyped, round: untyped, penalized: untyped, penalty_size: untyped, penalty_reason: untyped, track_file: untyped, track_from: "from_file" }
+
+      def competitor: () -> untyped
+
+      def round: () -> untyped
+
+      def event: () -> untyped
+
+      def competitor_by_name: () -> untyped
+
+      def competitor_name: () -> untyped
+
+      def find_or_create_reference_point: () -> untyped
+
+      def exit_time: () -> (nil | untyped)
+
+      def deploy_time: () -> (nil | untyped)
+
+      def reference_point: () -> untyped
+
+      def jump_range: () -> untyped
+
+      def penalized: () -> untyped
+    end
+  end
+end

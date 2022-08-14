@@ -1,0 +1,9 @@
+class Event::Result < ApplicationRecord
+  module FlightDetails
+    extend ActiveSupport::Concern
+
+    def save_flight_details: () -> (nil | untyped)
+
+    def exit_point: () -> untyped
+  end
+end

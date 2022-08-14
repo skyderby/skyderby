@@ -1,0 +1,23 @@
+module Api
+  module V1
+    module Events
+      module Rounds
+        class ReferencePointAssignmentsController < ApplicationController
+          include EventScoped
+
+          def create: () -> untyped
+
+          private
+
+          def set_round: () -> untyped
+
+          def assignment_params: () -> untyped
+
+          def reference_point_id: () -> untyped
+
+          def competitor_id: () -> untyped
+        end
+      end
+    end
+  end
+end

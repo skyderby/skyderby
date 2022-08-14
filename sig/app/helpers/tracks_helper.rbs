@@ -1,0 +1,27 @@
+module TracksHelper
+  def title: (untyped track) -> ::String
+
+  def subheader: (untyped track) -> ::String
+
+  def track_presentation: (untyped track) -> ::String
+
+  def track_pilot_name: (untyped track) -> untyped
+
+  def track_pilot_country_code: (untyped track) -> (untyped | "")
+
+  def track_place: (untyped track) -> untyped
+
+  def track_place_name: (untyped track) -> untyped
+
+  def track_place_country_code: (untyped track) -> untyped
+
+  def tracks_index: () -> untyped
+
+  def range_title: (untyped result) -> (::String | nil)
+
+  def track_visibility_options: () -> untyped
+
+  def track_icons: (untyped track) -> untyped
+
+  def tracks_sort_header: (untyped order_field, untyped order_direction, untyped field, untyped field_presentation) -> untyped
+end

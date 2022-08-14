@@ -1,0 +1,15 @@
+module Tracks
+  class FlightProfile
+    def initialize: (untyped track_id) -> void
+
+    def points: () -> (::Array[untyped] | untyped)
+
+    private
+
+    def start_point: () -> untyped
+
+    def track_points: () -> untyped
+
+    attr_reader track: untyped
+  end
+end

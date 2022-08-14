@@ -1,0 +1,9 @@
+class Tournament::Competitor < ApplicationRecord
+  attr_accessor profile_attributes: untyped
+
+  attr_accessor profile_mode: untyped
+
+  private
+
+  def create_profile: () -> (nil | untyped)
+end

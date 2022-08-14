@@ -1,0 +1,3 @@
+class AdminMailer < ApplicationMailer
+  def verify_online_competition_result: (untyped track) -> untyped
+end

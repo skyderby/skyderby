@@ -1,0 +1,7 @@
+module Events
+  module Scoreboards
+    class HungaryBoogie
+      @event: Event
+    end
+  end
+end

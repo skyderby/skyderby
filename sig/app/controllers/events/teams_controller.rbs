@@ -1,0 +1,5 @@
+module Events
+  class TeamsController < ApplicationController
+    def show: () -> untyped
+  end
+end

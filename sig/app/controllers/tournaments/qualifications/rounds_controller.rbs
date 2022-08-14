@@ -1,0 +1,17 @@
+module Tournaments
+  module Qualifications
+    class RoundsController < ApplicationController
+      include TournamentScoped
+
+      include RespondWithScoreboard
+
+      def create: () -> untyped
+
+      def destroy: () -> untyped
+
+      private
+
+      def authorize_tournament: () -> untyped
+    end
+  end
+end

@@ -1,0 +1,11 @@
+module ApplicationHelper
+  def page_title: (untyped title) -> untyped
+
+  def lang_presentation: (untyped lang_code) -> untyped
+
+  def lang_menu: () -> untyped
+
+  def bootstrap_class_for: (untyped flash_type) -> untyped
+
+  def maps_api_key: () -> untyped
+end

@@ -1,0 +1,6 @@
+module WillPaginate
+  module ActionView
+    class LinkRenderer
+    end
+  end
+end

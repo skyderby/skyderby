@@ -1,0 +1,2 @@
+class Place::Photo::ImageUploader < Shrine
+end

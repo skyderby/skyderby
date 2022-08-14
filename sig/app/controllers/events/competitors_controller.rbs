@@ -1,0 +1,21 @@
+module Events
+  class CompetitorsController < ApplicationController
+    include EventScoped
+
+    def create: () -> untyped
+
+    def update: () -> untyped
+
+    def destroy: () -> untyped
+
+    def new: () -> untyped
+
+    def edit: () -> nil
+
+    private
+
+    def set_competitor: () -> untyped
+
+    def competitor_params: () -> untyped
+  end
+end

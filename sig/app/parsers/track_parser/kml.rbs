@@ -1,0 +1,13 @@
+module TrackParser
+  class Kml
+    def initialize: (?::Hash[untyped, untyped] args) -> void
+
+    def parse: () -> untyped
+
+    private
+
+    attr_reader file: untyped
+
+    def elements: () -> untyped
+  end
+end

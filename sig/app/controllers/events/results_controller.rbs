@@ -1,0 +1,31 @@
+module Events
+  class ResultsController < ApplicationController
+    include EventScoped
+
+    include UnitsHelper
+
+    include ChartParams
+
+    def create: () -> untyped
+
+    def update: () -> untyped
+
+    def destroy: () -> untyped
+
+    def new: () -> untyped
+
+    def edit: () -> nil
+
+    def show: () -> untyped
+
+    private
+
+    def set_event_result: () -> untyped
+
+    def respond_with_scoreboard: () -> untyped
+
+    def result_params: () -> untyped
+
+    def show_params: () -> untyped
+  end
+end

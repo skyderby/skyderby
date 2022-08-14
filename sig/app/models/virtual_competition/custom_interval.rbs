@@ -1,0 +1,7 @@
+class VirtualCompetition::CustomInterval < ApplicationRecord
+  def to_param: () -> untyped
+
+  private
+
+  def generate_slug: () -> untyped
+end

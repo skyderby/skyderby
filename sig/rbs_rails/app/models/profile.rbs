@@ -1,0 +1,454 @@
+class Profile < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[Profile, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def last_name: () -> String?
+
+    def last_name=: (String?) -> String?
+
+    def last_name?: () -> bool
+
+    def last_name_changed?: () -> bool
+
+    def last_name_change: () -> [ String?, String? ]
+
+    def last_name_will_change!: () -> void
+
+    def last_name_was: () -> String?
+
+    def last_name_previously_changed?: () -> bool
+
+    def last_name_previous_change: () -> Array[String?]?
+
+    def last_name_previously_was: () -> String?
+
+    def last_name_before_last_save: () -> String?
+
+    def last_name_change_to_be_saved: () -> Array[String?]?
+
+    def last_name_in_database: () -> String?
+
+    def saved_change_to_last_name: () -> Array[String?]?
+
+    def saved_change_to_last_name?: () -> bool
+
+    def will_save_change_to_last_name?: () -> bool
+
+    def restore_last_name!: () -> void
+
+    def clear_last_name_change: () -> void
+
+    def first_name: () -> String?
+
+    def first_name=: (String?) -> String?
+
+    def first_name?: () -> bool
+
+    def first_name_changed?: () -> bool
+
+    def first_name_change: () -> [ String?, String? ]
+
+    def first_name_will_change!: () -> void
+
+    def first_name_was: () -> String?
+
+    def first_name_previously_changed?: () -> bool
+
+    def first_name_previous_change: () -> Array[String?]?
+
+    def first_name_previously_was: () -> String?
+
+    def first_name_before_last_save: () -> String?
+
+    def first_name_change_to_be_saved: () -> Array[String?]?
+
+    def first_name_in_database: () -> String?
+
+    def saved_change_to_first_name: () -> Array[String?]?
+
+    def saved_change_to_first_name?: () -> bool
+
+    def will_save_change_to_first_name?: () -> bool
+
+    def restore_first_name!: () -> void
+
+    def clear_first_name_change: () -> void
+
+    def name: () -> String?
+
+    def name=: (String?) -> String?
+
+    def name?: () -> bool
+
+    def name_changed?: () -> bool
+
+    def name_change: () -> [ String?, String? ]
+
+    def name_will_change!: () -> void
+
+    def name_was: () -> String?
+
+    def name_previously_changed?: () -> bool
+
+    def name_previous_change: () -> Array[String?]?
+
+    def name_previously_was: () -> String?
+
+    def name_before_last_save: () -> String?
+
+    def name_change_to_be_saved: () -> Array[String?]?
+
+    def name_in_database: () -> String?
+
+    def saved_change_to_name: () -> Array[String?]?
+
+    def saved_change_to_name?: () -> bool
+
+    def will_save_change_to_name?: () -> bool
+
+    def restore_name!: () -> void
+
+    def clear_name_change: () -> void
+
+    def default_units: () -> String?
+
+    def default_units=: (String?) -> String?
+
+    def default_units?: () -> bool
+
+    def default_units_changed?: () -> bool
+
+    def default_units_change: () -> [ String?, String? ]
+
+    def default_units_will_change!: () -> void
+
+    def default_units_was: () -> String?
+
+    def default_units_previously_changed?: () -> bool
+
+    def default_units_previous_change: () -> Array[String?]?
+
+    def default_units_previously_was: () -> String?
+
+    def default_units_before_last_save: () -> String?
+
+    def default_units_change_to_be_saved: () -> Array[String?]?
+
+    def default_units_in_database: () -> String?
+
+    def saved_change_to_default_units: () -> Array[String?]?
+
+    def saved_change_to_default_units?: () -> bool
+
+    def will_save_change_to_default_units?: () -> bool
+
+    def restore_default_units!: () -> void
+
+    def clear_default_units_change: () -> void
+
+    def default_chart_view: () -> String?
+
+    def default_chart_view=: (String?) -> String?
+
+    def default_chart_view?: () -> bool
+
+    def default_chart_view_changed?: () -> bool
+
+    def default_chart_view_change: () -> [ String?, String? ]
+
+    def default_chart_view_will_change!: () -> void
+
+    def default_chart_view_was: () -> String?
+
+    def default_chart_view_previously_changed?: () -> bool
+
+    def default_chart_view_previous_change: () -> Array[String?]?
+
+    def default_chart_view_previously_was: () -> String?
+
+    def default_chart_view_before_last_save: () -> String?
+
+    def default_chart_view_change_to_be_saved: () -> Array[String?]?
+
+    def default_chart_view_in_database: () -> String?
+
+    def saved_change_to_default_chart_view: () -> Array[String?]?
+
+    def saved_change_to_default_chart_view?: () -> bool
+
+    def will_save_change_to_default_chart_view?: () -> bool
+
+    def restore_default_chart_view!: () -> void
+
+    def clear_default_chart_view_change: () -> void
+
+    def country_id: () -> Integer?
+
+    def country_id=: (Integer?) -> Integer?
+
+    def country_id?: () -> bool
+
+    def country_id_changed?: () -> bool
+
+    def country_id_change: () -> [ Integer?, Integer? ]
+
+    def country_id_will_change!: () -> void
+
+    def country_id_was: () -> Integer?
+
+    def country_id_previously_changed?: () -> bool
+
+    def country_id_previous_change: () -> Array[Integer?]?
+
+    def country_id_previously_was: () -> Integer?
+
+    def country_id_before_last_save: () -> Integer?
+
+    def country_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def country_id_in_database: () -> Integer?
+
+    def saved_change_to_country_id: () -> Array[Integer?]?
+
+    def saved_change_to_country_id?: () -> bool
+
+    def will_save_change_to_country_id?: () -> bool
+
+    def restore_country_id!: () -> void
+
+    def clear_country_id_change: () -> void
+
+    def owner_type: () -> String?
+
+    def owner_type=: (String?) -> String?
+
+    def owner_type?: () -> bool
+
+    def owner_type_changed?: () -> bool
+
+    def owner_type_change: () -> [ String?, String? ]
+
+    def owner_type_will_change!: () -> void
+
+    def owner_type_was: () -> String?
+
+    def owner_type_previously_changed?: () -> bool
+
+    def owner_type_previous_change: () -> Array[String?]?
+
+    def owner_type_previously_was: () -> String?
+
+    def owner_type_before_last_save: () -> String?
+
+    def owner_type_change_to_be_saved: () -> Array[String?]?
+
+    def owner_type_in_database: () -> String?
+
+    def saved_change_to_owner_type: () -> Array[String?]?
+
+    def saved_change_to_owner_type?: () -> bool
+
+    def will_save_change_to_owner_type?: () -> bool
+
+    def restore_owner_type!: () -> void
+
+    def clear_owner_type_change: () -> void
+
+    def owner_id: () -> Integer?
+
+    def owner_id=: (Integer?) -> Integer?
+
+    def owner_id?: () -> bool
+
+    def owner_id_changed?: () -> bool
+
+    def owner_id_change: () -> [ Integer?, Integer? ]
+
+    def owner_id_will_change!: () -> void
+
+    def owner_id_was: () -> Integer?
+
+    def owner_id_previously_changed?: () -> bool
+
+    def owner_id_previous_change: () -> Array[Integer?]?
+
+    def owner_id_previously_was: () -> Integer?
+
+    def owner_id_before_last_save: () -> Integer?
+
+    def owner_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def owner_id_in_database: () -> Integer?
+
+    def saved_change_to_owner_id: () -> Array[Integer?]?
+
+    def saved_change_to_owner_id?: () -> bool
+
+    def will_save_change_to_owner_id?: () -> bool
+
+    def restore_owner_id!: () -> void
+
+    def clear_owner_id_change: () -> void
+
+    def userpic_data: () -> untyped?
+
+    def userpic_data=: (untyped?) -> untyped?
+
+    def userpic_data?: () -> bool
+
+    def userpic_data_changed?: () -> bool
+
+    def userpic_data_change: () -> [ untyped?, untyped? ]
+
+    def userpic_data_will_change!: () -> void
+
+    def userpic_data_was: () -> untyped?
+
+    def userpic_data_previously_changed?: () -> bool
+
+    def userpic_data_previous_change: () -> Array[untyped?]?
+
+    def userpic_data_previously_was: () -> untyped?
+
+    def userpic_data_before_last_save: () -> untyped?
+
+    def userpic_data_change_to_be_saved: () -> Array[untyped?]?
+
+    def userpic_data_in_database: () -> untyped?
+
+    def saved_change_to_userpic_data: () -> Array[untyped?]?
+
+    def saved_change_to_userpic_data?: () -> bool
+
+    def will_save_change_to_userpic_data?: () -> bool
+
+    def restore_userpic_data!: () -> void
+
+    def clear_userpic_data_change: () -> void
+  end
+  include GeneratedAttributeMethods
+  def tracks: () -> Track::ActiveRecord_Associations_CollectionProxy
+  def tracks=: (Track::ActiveRecord_Associations_CollectionProxy | Array[Track]) -> (Track::ActiveRecord_Associations_CollectionProxy | Array[Track])
+  def track_ids: () -> Array[Integer]
+  def track_ids=: (Array[Integer]) -> Array[Integer]
+  def public_tracks: () -> Track::ActiveRecord_Associations_CollectionProxy
+  def public_tracks=: (Track::ActiveRecord_Associations_CollectionProxy | Array[Track]) -> (Track::ActiveRecord_Associations_CollectionProxy | Array[Track])
+  def public_track_ids: () -> Array[Integer]
+  def public_track_ids=: (Array[Integer]) -> Array[Integer]
+  def base_tracks: () -> Track::ActiveRecord_Associations_CollectionProxy
+  def base_tracks=: (Track::ActiveRecord_Associations_CollectionProxy | Array[Track]) -> (Track::ActiveRecord_Associations_CollectionProxy | Array[Track])
+  def base_track_ids: () -> Array[Integer]
+  def base_track_ids=: (Array[Integer]) -> Array[Integer]
+  def badges: () -> Badge::ActiveRecord_Associations_CollectionProxy
+  def badges=: (Badge::ActiveRecord_Associations_CollectionProxy | Array[Badge]) -> (Badge::ActiveRecord_Associations_CollectionProxy | Array[Badge])
+  def badge_ids: () -> Array[Integer]
+  def badge_ids=: (Array[Integer]) -> Array[Integer]
+  def performance_competition_participation: () -> Event::Competitor::ActiveRecord_Associations_CollectionProxy
+  def performance_competition_participation=: (Event::Competitor::ActiveRecord_Associations_CollectionProxy | Array[Event::Competitor]) -> (Event::Competitor::ActiveRecord_Associations_CollectionProxy | Array[Event::Competitor])
+  def performance_competition_participation_ids: () -> Array[Integer]
+  def performance_competition_participation_ids=: (Array[Integer]) -> Array[Integer]
+  def speed_skydiving_competition_participations: () -> SpeedSkydivingCompetition::Competitor::ActiveRecord_Associations_CollectionProxy
+  def speed_skydiving_competition_participations=: (SpeedSkydivingCompetition::Competitor::ActiveRecord_Associations_CollectionProxy | Array[SpeedSkydivingCompetition::Competitor]) -> (SpeedSkydivingCompetition::Competitor::ActiveRecord_Associations_CollectionProxy | Array[SpeedSkydivingCompetition::Competitor])
+  def speed_skydiving_competition_participation_ids: () -> Array[Integer]
+  def speed_skydiving_competition_participation_ids=: (Array[Integer]) -> Array[Integer]
+  def events: () -> Event::ActiveRecord_Associations_CollectionProxy
+  def events=: (Event::ActiveRecord_Associations_CollectionProxy | Array[Event]) -> (Event::ActiveRecord_Associations_CollectionProxy | Array[Event])
+  def event_ids: () -> Array[Integer]
+  def event_ids=: (Array[Integer]) -> Array[Integer]
+  def speed_skydiving_competitions: () -> SpeedSkydivingCompetition::ActiveRecord_Associations_CollectionProxy
+  def speed_skydiving_competitions=: (SpeedSkydivingCompetition::ActiveRecord_Associations_CollectionProxy | Array[SpeedSkydivingCompetition]) -> (SpeedSkydivingCompetition::ActiveRecord_Associations_CollectionProxy | Array[SpeedSkydivingCompetition])
+  def speed_skydiving_competition_ids: () -> Array[Integer]
+  def speed_skydiving_competition_ids=: (Array[Integer]) -> Array[Integer]
+  def personal_top_scores: () -> VirtualCompetition::PersonalTopScore::ActiveRecord_Associations_CollectionProxy
+  def personal_top_scores=: (VirtualCompetition::PersonalTopScore::ActiveRecord_Associations_CollectionProxy | Array[VirtualCompetition::PersonalTopScore]) -> (VirtualCompetition::PersonalTopScore::ActiveRecord_Associations_CollectionProxy | Array[VirtualCompetition::PersonalTopScore])
+  def personal_top_score_ids: () -> Array[Integer]
+  def personal_top_score_ids=: (Array[Integer]) -> Array[Integer]
+  def contribution_details: () -> Contribution::Detail::ActiveRecord_Associations_CollectionProxy
+  def contribution_details=: (Contribution::Detail::ActiveRecord_Associations_CollectionProxy | Array[Contribution::Detail]) -> (Contribution::Detail::ActiveRecord_Associations_CollectionProxy | Array[Contribution::Detail])
+  def contribution_detail_ids: () -> Array[Integer]
+  def contribution_detail_ids=: (Array[Integer]) -> Array[Integer]
+  def contributions: () -> Contribution::ActiveRecord_Associations_CollectionProxy
+  def contributions=: (Contribution::ActiveRecord_Associations_CollectionProxy | Array[Contribution]) -> (Contribution::ActiveRecord_Associations_CollectionProxy | Array[Contribution])
+  def contribution_ids: () -> Array[Integer]
+  def contribution_ids=: (Array[Integer]) -> Array[Integer]
+
+  def owner: () -> untyped
+  def owner=: (untyped?) -> untyped?
+  def reload_owner: () -> untyped?
+  def country: () -> Country
+  def country=: (Country?) -> Country?
+  def reload_country: () -> Country?
+  def build_country: (untyped) -> Country
+  def create_country: (untyped) -> Country
+  def create_country!: (untyped) -> Country
+
+  def metric!: () -> bool
+  def metric?: () -> bool
+  def imperial!: () -> bool
+  def imperial?: () -> bool
+  def multi!: () -> bool
+  def multi?: () -> bool
+  def single!: () -> bool
+  def single?: () -> bool
+  def self.metric: () -> ActiveRecord_Relation
+  def self.imperial: () -> ActiveRecord_Relation
+  def self.multi: () -> ActiveRecord_Relation
+  def self.single: () -> ActiveRecord_Relation
+
+  module GeneratedRelationMethods
+    def metric: () -> ActiveRecord_Relation
+
+    def imperial: () -> ActiveRecord_Relation
+
+    def multi: () -> ActiveRecord_Relation
+
+    def single: () -> ActiveRecord_Relation
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Profile, Integer]
+    include Enumerable[Profile]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Profile, Integer]
+  end
+end

@@ -1,0 +1,21 @@
+module Tournaments
+  module Qualifications
+    module Results
+      class JumpRangesController < ApplicationController
+        include TournamentScoped
+
+        include ResultScoped
+
+        include RespondWithScoreboard
+
+        def show: () -> untyped
+
+        def update: () -> untyped
+
+        private
+
+        def jump_range_params: () -> untyped
+      end
+    end
+  end
+end

@@ -1,0 +1,25 @@
+class PerformanceCompetitionSeries::Scoreboard
+  include ActiveModel::Conversion
+
+  attr_reader series: untyped
+
+  attr_reader settings: untyped
+
+  def initialize: (untyped series, untyped params) -> void
+
+  def rounds_by_discipline: () -> untyped
+
+  def categories: () -> untyped
+
+  def columns_count: () -> untyped
+
+  private
+
+  def rounds: () -> untyped
+
+  def competitors: () -> untyped
+
+  def build_category: (untyped category) -> untyped
+
+  def results: () -> untyped
+end

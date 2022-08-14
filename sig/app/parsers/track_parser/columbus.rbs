@@ -1,0 +1,28 @@
+module TrackParser
+  class Columbus
+    FIELDS_INDEXES: { index: 0, tag: 1, date: 2, time: 3, latitude: 4, longitude: 5, altitude: 6, speed: 7, heading: 8, vox: 9 }
+
+    # Coordinates suffixes
+    NORTH: "N"
+
+    SOUTH: "S"
+
+    EAST: "E"
+
+    WEST: "W"
+
+    def initialize: (?::Hash[untyped, untyped] args) -> void
+
+    def parse: () -> untyped
+
+    private
+
+    attr_reader file: untyped
+
+    def parse_row: (untyped row) -> untyped
+
+    def parse_coordinate: (untyped coordinate_str) -> untyped
+
+    def parse_datetime: (date: untyped, time: untyped) -> untyped
+  end
+end

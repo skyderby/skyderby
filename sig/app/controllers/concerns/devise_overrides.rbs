@@ -1,0 +1,14 @@
+module DeviseOverrides : _DeviseModule
+  extend ActiveSupport::Concern
+
+  interface _DeviseModule
+    def current_user: () -> untyped
+  end
+
+  def current_user: () -> (User | GuestUser)
+  def user_signed_in?: () -> bool
+  def store_current_location: () -> void
+  def configure_permitted_parameters: () -> untyped
+  def after_sign_in_path_for: (User) -> String
+  def after_sign_out_path_for: (User) -> String
+end

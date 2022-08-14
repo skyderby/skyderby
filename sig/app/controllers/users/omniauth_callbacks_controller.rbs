@@ -1,0 +1,13 @@
+module Users
+  class OmniauthCallbacksController < Devise::OmniauthCallbacksController
+    def facebook: () -> untyped
+
+    def failure: () -> untyped
+
+    private
+
+    def connect_facebook: () -> untyped
+
+    def register_facebook: () -> untyped
+  end
+end

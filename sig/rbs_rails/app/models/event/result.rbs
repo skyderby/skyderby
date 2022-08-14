@@ -1,0 +1,590 @@
+class Event < ::ApplicationRecord
+  class Result < ::ApplicationRecord
+    extend _ActiveRecord_Relation_ClassMethods[Event::Result, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def round_id: () -> Integer?
+
+      def round_id=: (Integer?) -> Integer?
+
+      def round_id?: () -> bool
+
+      def round_id_changed?: () -> bool
+
+      def round_id_change: () -> [ Integer?, Integer? ]
+
+      def round_id_will_change!: () -> void
+
+      def round_id_was: () -> Integer?
+
+      def round_id_previously_changed?: () -> bool
+
+      def round_id_previous_change: () -> Array[Integer?]?
+
+      def round_id_previously_was: () -> Integer?
+
+      def round_id_before_last_save: () -> Integer?
+
+      def round_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def round_id_in_database: () -> Integer?
+
+      def saved_change_to_round_id: () -> Array[Integer?]?
+
+      def saved_change_to_round_id?: () -> bool
+
+      def will_save_change_to_round_id?: () -> bool
+
+      def restore_round_id!: () -> void
+
+      def clear_round_id_change: () -> void
+
+      def track_id: () -> Integer?
+
+      def track_id=: (Integer?) -> Integer?
+
+      def track_id?: () -> bool
+
+      def track_id_changed?: () -> bool
+
+      def track_id_change: () -> [ Integer?, Integer? ]
+
+      def track_id_will_change!: () -> void
+
+      def track_id_was: () -> Integer?
+
+      def track_id_previously_changed?: () -> bool
+
+      def track_id_previous_change: () -> Array[Integer?]?
+
+      def track_id_previously_was: () -> Integer?
+
+      def track_id_before_last_save: () -> Integer?
+
+      def track_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def track_id_in_database: () -> Integer?
+
+      def saved_change_to_track_id: () -> Array[Integer?]?
+
+      def saved_change_to_track_id?: () -> bool
+
+      def will_save_change_to_track_id?: () -> bool
+
+      def restore_track_id!: () -> void
+
+      def clear_track_id_change: () -> void
+
+      def created_at: () -> untyped?
+
+      def created_at=: (untyped?) -> untyped?
+
+      def created_at?: () -> bool
+
+      def created_at_changed?: () -> bool
+
+      def created_at_change: () -> [ untyped?, untyped? ]
+
+      def created_at_will_change!: () -> void
+
+      def created_at_was: () -> untyped?
+
+      def created_at_previously_changed?: () -> bool
+
+      def created_at_previous_change: () -> Array[untyped?]?
+
+      def created_at_previously_was: () -> untyped?
+
+      def created_at_before_last_save: () -> untyped?
+
+      def created_at_change_to_be_saved: () -> Array[untyped?]?
+
+      def created_at_in_database: () -> untyped?
+
+      def saved_change_to_created_at: () -> Array[untyped?]?
+
+      def saved_change_to_created_at?: () -> bool
+
+      def will_save_change_to_created_at?: () -> bool
+
+      def restore_created_at!: () -> void
+
+      def clear_created_at_change: () -> void
+
+      def updated_at: () -> untyped?
+
+      def updated_at=: (untyped?) -> untyped?
+
+      def updated_at?: () -> bool
+
+      def updated_at_changed?: () -> bool
+
+      def updated_at_change: () -> [ untyped?, untyped? ]
+
+      def updated_at_will_change!: () -> void
+
+      def updated_at_was: () -> untyped?
+
+      def updated_at_previously_changed?: () -> bool
+
+      def updated_at_previous_change: () -> Array[untyped?]?
+
+      def updated_at_previously_was: () -> untyped?
+
+      def updated_at_before_last_save: () -> untyped?
+
+      def updated_at_change_to_be_saved: () -> Array[untyped?]?
+
+      def updated_at_in_database: () -> untyped?
+
+      def saved_change_to_updated_at: () -> Array[untyped?]?
+
+      def saved_change_to_updated_at?: () -> bool
+
+      def will_save_change_to_updated_at?: () -> bool
+
+      def restore_updated_at!: () -> void
+
+      def clear_updated_at_change: () -> void
+
+      def competitor_id: () -> Integer?
+
+      def competitor_id=: (Integer?) -> Integer?
+
+      def competitor_id?: () -> bool
+
+      def competitor_id_changed?: () -> bool
+
+      def competitor_id_change: () -> [ Integer?, Integer? ]
+
+      def competitor_id_will_change!: () -> void
+
+      def competitor_id_was: () -> Integer?
+
+      def competitor_id_previously_changed?: () -> bool
+
+      def competitor_id_previous_change: () -> Array[Integer?]?
+
+      def competitor_id_previously_was: () -> Integer?
+
+      def competitor_id_before_last_save: () -> Integer?
+
+      def competitor_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def competitor_id_in_database: () -> Integer?
+
+      def saved_change_to_competitor_id: () -> Array[Integer?]?
+
+      def saved_change_to_competitor_id?: () -> bool
+
+      def will_save_change_to_competitor_id?: () -> bool
+
+      def restore_competitor_id!: () -> void
+
+      def clear_competitor_id_change: () -> void
+
+      def result: () -> BigDecimal?
+
+      def result=: (BigDecimal?) -> BigDecimal?
+
+      def result?: () -> bool
+
+      def result_changed?: () -> bool
+
+      def result_change: () -> [ BigDecimal?, BigDecimal? ]
+
+      def result_will_change!: () -> void
+
+      def result_was: () -> BigDecimal?
+
+      def result_previously_changed?: () -> bool
+
+      def result_previous_change: () -> Array[BigDecimal?]?
+
+      def result_previously_was: () -> BigDecimal?
+
+      def result_before_last_save: () -> BigDecimal?
+
+      def result_change_to_be_saved: () -> Array[BigDecimal?]?
+
+      def result_in_database: () -> BigDecimal?
+
+      def saved_change_to_result: () -> Array[BigDecimal?]?
+
+      def saved_change_to_result?: () -> bool
+
+      def will_save_change_to_result?: () -> bool
+
+      def restore_result!: () -> void
+
+      def clear_result_change: () -> void
+
+      def profile_id: () -> Integer?
+
+      def profile_id=: (Integer?) -> Integer?
+
+      def profile_id?: () -> bool
+
+      def profile_id_changed?: () -> bool
+
+      def profile_id_change: () -> [ Integer?, Integer? ]
+
+      def profile_id_will_change!: () -> void
+
+      def profile_id_was: () -> Integer?
+
+      def profile_id_previously_changed?: () -> bool
+
+      def profile_id_previous_change: () -> Array[Integer?]?
+
+      def profile_id_previously_was: () -> Integer?
+
+      def profile_id_before_last_save: () -> Integer?
+
+      def profile_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def profile_id_in_database: () -> Integer?
+
+      def saved_change_to_profile_id: () -> Array[Integer?]?
+
+      def saved_change_to_profile_id?: () -> bool
+
+      def will_save_change_to_profile_id?: () -> bool
+
+      def restore_profile_id!: () -> void
+
+      def clear_profile_id_change: () -> void
+
+      def result_net: () -> BigDecimal?
+
+      def result_net=: (BigDecimal?) -> BigDecimal?
+
+      def result_net?: () -> bool
+
+      def result_net_changed?: () -> bool
+
+      def result_net_change: () -> [ BigDecimal?, BigDecimal? ]
+
+      def result_net_will_change!: () -> void
+
+      def result_net_was: () -> BigDecimal?
+
+      def result_net_previously_changed?: () -> bool
+
+      def result_net_previous_change: () -> Array[BigDecimal?]?
+
+      def result_net_previously_was: () -> BigDecimal?
+
+      def result_net_before_last_save: () -> BigDecimal?
+
+      def result_net_change_to_be_saved: () -> Array[BigDecimal?]?
+
+      def result_net_in_database: () -> BigDecimal?
+
+      def saved_change_to_result_net: () -> Array[BigDecimal?]?
+
+      def saved_change_to_result_net?: () -> bool
+
+      def will_save_change_to_result_net?: () -> bool
+
+      def restore_result_net!: () -> void
+
+      def clear_result_net_change: () -> void
+
+      def penalty_reason: () -> String?
+
+      def penalty_reason=: (String?) -> String?
+
+      def penalty_reason?: () -> bool
+
+      def penalty_reason_changed?: () -> bool
+
+      def penalty_reason_change: () -> [ String?, String? ]
+
+      def penalty_reason_will_change!: () -> void
+
+      def penalty_reason_was: () -> String?
+
+      def penalty_reason_previously_changed?: () -> bool
+
+      def penalty_reason_previous_change: () -> Array[String?]?
+
+      def penalty_reason_previously_was: () -> String?
+
+      def penalty_reason_before_last_save: () -> String?
+
+      def penalty_reason_change_to_be_saved: () -> Array[String?]?
+
+      def penalty_reason_in_database: () -> String?
+
+      def saved_change_to_penalty_reason: () -> Array[String?]?
+
+      def saved_change_to_penalty_reason?: () -> bool
+
+      def will_save_change_to_penalty_reason?: () -> bool
+
+      def restore_penalty_reason!: () -> void
+
+      def clear_penalty_reason_change: () -> void
+
+      def penalized: () -> bool
+
+      def penalized=: (bool) -> bool
+
+      def penalized?: () -> bool
+
+      def penalized_changed?: () -> bool
+
+      def penalized_change: () -> [ bool?, bool? ]
+
+      def penalized_will_change!: () -> void
+
+      def penalized_was: () -> bool?
+
+      def penalized_previously_changed?: () -> bool
+
+      def penalized_previous_change: () -> Array[bool?]?
+
+      def penalized_previously_was: () -> bool?
+
+      def penalized_before_last_save: () -> bool?
+
+      def penalized_change_to_be_saved: () -> Array[bool?]?
+
+      def penalized_in_database: () -> bool?
+
+      def saved_change_to_penalized: () -> Array[bool?]?
+
+      def saved_change_to_penalized?: () -> bool
+
+      def will_save_change_to_penalized?: () -> bool
+
+      def restore_penalized!: () -> void
+
+      def clear_penalized_change: () -> void
+
+      def penalty_size: () -> Integer?
+
+      def penalty_size=: (Integer?) -> Integer?
+
+      def penalty_size?: () -> bool
+
+      def penalty_size_changed?: () -> bool
+
+      def penalty_size_change: () -> [ Integer?, Integer? ]
+
+      def penalty_size_will_change!: () -> void
+
+      def penalty_size_was: () -> Integer?
+
+      def penalty_size_previously_changed?: () -> bool
+
+      def penalty_size_previous_change: () -> Array[Integer?]?
+
+      def penalty_size_previously_was: () -> Integer?
+
+      def penalty_size_before_last_save: () -> Integer?
+
+      def penalty_size_change_to_be_saved: () -> Array[Integer?]?
+
+      def penalty_size_in_database: () -> Integer?
+
+      def saved_change_to_penalty_size: () -> Array[Integer?]?
+
+      def saved_change_to_penalty_size?: () -> bool
+
+      def will_save_change_to_penalty_size?: () -> bool
+
+      def restore_penalty_size!: () -> void
+
+      def clear_penalty_size_change: () -> void
+
+      def exit_altitude: () -> BigDecimal?
+
+      def exit_altitude=: (BigDecimal?) -> BigDecimal?
+
+      def exit_altitude?: () -> bool
+
+      def exit_altitude_changed?: () -> bool
+
+      def exit_altitude_change: () -> [ BigDecimal?, BigDecimal? ]
+
+      def exit_altitude_will_change!: () -> void
+
+      def exit_altitude_was: () -> BigDecimal?
+
+      def exit_altitude_previously_changed?: () -> bool
+
+      def exit_altitude_previous_change: () -> Array[BigDecimal?]?
+
+      def exit_altitude_previously_was: () -> BigDecimal?
+
+      def exit_altitude_before_last_save: () -> BigDecimal?
+
+      def exit_altitude_change_to_be_saved: () -> Array[BigDecimal?]?
+
+      def exit_altitude_in_database: () -> BigDecimal?
+
+      def saved_change_to_exit_altitude: () -> Array[BigDecimal?]?
+
+      def saved_change_to_exit_altitude?: () -> bool
+
+      def will_save_change_to_exit_altitude?: () -> bool
+
+      def restore_exit_altitude!: () -> void
+
+      def clear_exit_altitude_change: () -> void
+
+      def exited_at: () -> ActiveSupport::TimeWithZone?
+
+      def exited_at=: (ActiveSupport::TimeWithZone?) -> ActiveSupport::TimeWithZone?
+
+      def exited_at?: () -> bool
+
+      def exited_at_changed?: () -> bool
+
+      def exited_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def exited_at_will_change!: () -> void
+
+      def exited_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def exited_at_previously_changed?: () -> bool
+
+      def exited_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def exited_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def exited_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def exited_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def exited_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_exited_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_exited_at?: () -> bool
+
+      def will_save_change_to_exited_at?: () -> bool
+
+      def restore_exited_at!: () -> void
+
+      def clear_exited_at_change: () -> void
+
+      def heading_within_window: () -> Integer?
+
+      def heading_within_window=: (Integer?) -> Integer?
+
+      def heading_within_window?: () -> bool
+
+      def heading_within_window_changed?: () -> bool
+
+      def heading_within_window_change: () -> [ Integer?, Integer? ]
+
+      def heading_within_window_will_change!: () -> void
+
+      def heading_within_window_was: () -> Integer?
+
+      def heading_within_window_previously_changed?: () -> bool
+
+      def heading_within_window_previous_change: () -> Array[Integer?]?
+
+      def heading_within_window_previously_was: () -> Integer?
+
+      def heading_within_window_before_last_save: () -> Integer?
+
+      def heading_within_window_change_to_be_saved: () -> Array[Integer?]?
+
+      def heading_within_window_in_database: () -> Integer?
+
+      def saved_change_to_heading_within_window: () -> Array[Integer?]?
+
+      def saved_change_to_heading_within_window?: () -> bool
+
+      def will_save_change_to_heading_within_window?: () -> bool
+
+      def restore_heading_within_window!: () -> void
+
+      def clear_heading_within_window_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def uploaded_by: () -> Profile
+    def uploaded_by=: (Profile?) -> Profile?
+    def reload_uploaded_by: () -> Profile?
+    def build_uploaded_by: (untyped) -> Profile
+    def create_uploaded_by: (untyped) -> Profile
+    def create_uploaded_by!: (untyped) -> Profile
+    def track: () -> Track
+    def track=: (Track?) -> Track?
+    def reload_track: () -> Track?
+    def build_track: (untyped) -> Track
+    def create_track: (untyped) -> Track
+    def create_track!: (untyped) -> Track
+    def round: () -> Event::Round
+    def round=: (Event::Round?) -> Event::Round?
+    def reload_round: () -> Event::Round?
+    def build_round: (untyped) -> Event::Round
+    def create_round: (untyped) -> Event::Round
+    def create_round!: (untyped) -> Event::Round
+    def competitor: () -> Event::Competitor
+    def competitor=: (Event::Competitor?) -> Event::Competitor?
+    def reload_competitor: () -> Event::Competitor?
+    def build_competitor: (untyped) -> Event::Competitor
+    def create_competitor: (untyped) -> Event::Competitor
+    def create_competitor!: (untyped) -> Event::Competitor
+
+    def self.chronologically: () -> ActiveRecord_Relation
+
+    module GeneratedRelationMethods
+      def chronologically: () -> ActiveRecord_Relation
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Event::Result, Integer]
+      include Enumerable[Event::Result]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Event::Result, Integer]
+    end
+  end
+end

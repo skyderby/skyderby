@@ -1,0 +1,5 @@
+module Tracks
+  class GlobeController < ApplicationController
+    def show: () -> untyped
+  end
+end

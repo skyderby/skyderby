@@ -1,0 +1,27 @@
+module Events
+  module Scoreboards
+    class SpeedDistanceTime
+      class CompetitorsCollection
+        include Enumerable[Competitor]
+
+        def initialize: (untyped competitors, untyped scoreboard) -> void
+
+        def each: () { (Competitor) -> void } -> void
+
+        def to_a: () -> untyped
+
+        private
+
+        attr_reader section_competitors: untyped
+
+        attr_reader scoreboard: untyped
+
+        def competitors: () -> untyped
+
+        def map_competitors: (untyped collection) -> untyped
+
+        def sort_competitors: (untyped collection) -> untyped
+      end
+    end
+  end
+end

@@ -1,0 +1,9 @@
+module Manage
+  class MissingPlacesController < ApplicationController
+    def index: () -> untyped
+
+    private
+
+    def rows_per_page: () -> 50
+  end
+end

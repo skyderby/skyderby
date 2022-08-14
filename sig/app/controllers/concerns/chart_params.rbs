@@ -1,0 +1,5 @@
+module ChartParams
+  extend ActiveSupport::Concern
+
+  def save_chart_settings: () -> untyped
+end

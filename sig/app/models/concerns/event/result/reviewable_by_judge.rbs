@@ -1,0 +1,7 @@
+class Event::Result < ApplicationRecord
+  module ReviewableByJudge
+    extend ActiveSupport::Concern
+
+    def need_review?: () -> untyped
+  end
+end

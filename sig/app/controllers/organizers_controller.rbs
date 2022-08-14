@@ -1,0 +1,19 @@
+class OrganizersController < ApplicationController
+  def new: () -> untyped
+
+  def create: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def respond_with_error: () -> untyped
+
+  def organizer_params: () -> untyped
+
+  def organizable: () -> untyped
+
+  def organizable_class: () -> untyped
+
+  def authorize_organizable: () -> untyped
+end

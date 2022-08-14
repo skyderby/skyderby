@@ -1,0 +1,7 @@
+module Tracks
+  class RawTrackView < TrackView
+    private
+
+    def points: () -> untyped
+  end
+end

@@ -1,0 +1,1269 @@
+class Track < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[Track, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def name: () -> String?
+
+    def name=: (String?) -> String?
+
+    def name?: () -> bool
+
+    def name_changed?: () -> bool
+
+    def name_change: () -> [ String?, String? ]
+
+    def name_will_change!: () -> void
+
+    def name_was: () -> String?
+
+    def name_previously_changed?: () -> bool
+
+    def name_previous_change: () -> Array[String?]?
+
+    def name_previously_was: () -> String?
+
+    def name_before_last_save: () -> String?
+
+    def name_change_to_be_saved: () -> Array[String?]?
+
+    def name_in_database: () -> String?
+
+    def saved_change_to_name: () -> Array[String?]?
+
+    def saved_change_to_name?: () -> bool
+
+    def will_save_change_to_name?: () -> bool
+
+    def restore_name!: () -> void
+
+    def clear_name_change: () -> void
+
+    def created_at: () -> untyped?
+
+    def created_at=: (untyped?) -> untyped?
+
+    def created_at?: () -> bool
+
+    def created_at_changed?: () -> bool
+
+    def created_at_change: () -> [ untyped?, untyped? ]
+
+    def created_at_will_change!: () -> void
+
+    def created_at_was: () -> untyped?
+
+    def created_at_previously_changed?: () -> bool
+
+    def created_at_previous_change: () -> Array[untyped?]?
+
+    def created_at_previously_was: () -> untyped?
+
+    def created_at_before_last_save: () -> untyped?
+
+    def created_at_change_to_be_saved: () -> Array[untyped?]?
+
+    def created_at_in_database: () -> untyped?
+
+    def saved_change_to_created_at: () -> Array[untyped?]?
+
+    def saved_change_to_created_at?: () -> bool
+
+    def will_save_change_to_created_at?: () -> bool
+
+    def restore_created_at!: () -> void
+
+    def clear_created_at_change: () -> void
+
+    def updated_at: () -> untyped?
+
+    def updated_at=: (untyped?) -> untyped?
+
+    def updated_at?: () -> bool
+
+    def updated_at_changed?: () -> bool
+
+    def updated_at_change: () -> [ untyped?, untyped? ]
+
+    def updated_at_will_change!: () -> void
+
+    def updated_at_was: () -> untyped?
+
+    def updated_at_previously_changed?: () -> bool
+
+    def updated_at_previous_change: () -> Array[untyped?]?
+
+    def updated_at_previously_was: () -> untyped?
+
+    def updated_at_before_last_save: () -> untyped?
+
+    def updated_at_change_to_be_saved: () -> Array[untyped?]?
+
+    def updated_at_in_database: () -> untyped?
+
+    def saved_change_to_updated_at: () -> Array[untyped?]?
+
+    def saved_change_to_updated_at?: () -> bool
+
+    def will_save_change_to_updated_at?: () -> bool
+
+    def restore_updated_at!: () -> void
+
+    def clear_updated_at_change: () -> void
+
+    def missing_suit_name: () -> String?
+
+    def missing_suit_name=: (String?) -> String?
+
+    def missing_suit_name?: () -> bool
+
+    def missing_suit_name_changed?: () -> bool
+
+    def missing_suit_name_change: () -> [ String?, String? ]
+
+    def missing_suit_name_will_change!: () -> void
+
+    def missing_suit_name_was: () -> String?
+
+    def missing_suit_name_previously_changed?: () -> bool
+
+    def missing_suit_name_previous_change: () -> Array[String?]?
+
+    def missing_suit_name_previously_was: () -> String?
+
+    def missing_suit_name_before_last_save: () -> String?
+
+    def missing_suit_name_change_to_be_saved: () -> Array[String?]?
+
+    def missing_suit_name_in_database: () -> String?
+
+    def saved_change_to_missing_suit_name: () -> Array[String?]?
+
+    def saved_change_to_missing_suit_name?: () -> bool
+
+    def will_save_change_to_missing_suit_name?: () -> bool
+
+    def restore_missing_suit_name!: () -> void
+
+    def clear_missing_suit_name_change: () -> void
+
+    def comment: () -> String?
+
+    def comment=: (String?) -> String?
+
+    def comment?: () -> bool
+
+    def comment_changed?: () -> bool
+
+    def comment_change: () -> [ String?, String? ]
+
+    def comment_will_change!: () -> void
+
+    def comment_was: () -> String?
+
+    def comment_previously_changed?: () -> bool
+
+    def comment_previous_change: () -> Array[String?]?
+
+    def comment_previously_was: () -> String?
+
+    def comment_before_last_save: () -> String?
+
+    def comment_change_to_be_saved: () -> Array[String?]?
+
+    def comment_in_database: () -> String?
+
+    def saved_change_to_comment: () -> Array[String?]?
+
+    def saved_change_to_comment?: () -> bool
+
+    def will_save_change_to_comment?: () -> bool
+
+    def restore_comment!: () -> void
+
+    def clear_comment_change: () -> void
+
+    def location: () -> String?
+
+    def location=: (String?) -> String?
+
+    def location?: () -> bool
+
+    def location_changed?: () -> bool
+
+    def location_change: () -> [ String?, String? ]
+
+    def location_will_change!: () -> void
+
+    def location_was: () -> String?
+
+    def location_previously_changed?: () -> bool
+
+    def location_previous_change: () -> Array[String?]?
+
+    def location_previously_was: () -> String?
+
+    def location_before_last_save: () -> String?
+
+    def location_change_to_be_saved: () -> Array[String?]?
+
+    def location_in_database: () -> String?
+
+    def saved_change_to_location: () -> Array[String?]?
+
+    def saved_change_to_location?: () -> bool
+
+    def will_save_change_to_location?: () -> bool
+
+    def restore_location!: () -> void
+
+    def clear_location_change: () -> void
+
+    def user_id: () -> Integer?
+
+    def user_id=: (Integer?) -> Integer?
+
+    def user_id?: () -> bool
+
+    def user_id_changed?: () -> bool
+
+    def user_id_change: () -> [ Integer?, Integer? ]
+
+    def user_id_will_change!: () -> void
+
+    def user_id_was: () -> Integer?
+
+    def user_id_previously_changed?: () -> bool
+
+    def user_id_previous_change: () -> Array[Integer?]?
+
+    def user_id_previously_was: () -> Integer?
+
+    def user_id_before_last_save: () -> Integer?
+
+    def user_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def user_id_in_database: () -> Integer?
+
+    def saved_change_to_user_id: () -> Array[Integer?]?
+
+    def saved_change_to_user_id?: () -> bool
+
+    def will_save_change_to_user_id?: () -> bool
+
+    def restore_user_id!: () -> void
+
+    def clear_user_id_change: () -> void
+
+    def kind: () -> String?
+
+    def kind=: (String?) -> String?
+
+    def kind?: () -> bool
+
+    def kind_changed?: () -> bool
+
+    def kind_change: () -> [ String?, String? ]
+
+    def kind_will_change!: () -> void
+
+    def kind_was: () -> String?
+
+    def kind_previously_changed?: () -> bool
+
+    def kind_previous_change: () -> Array[String?]?
+
+    def kind_previously_was: () -> String?
+
+    def kind_before_last_save: () -> String?
+
+    def kind_change_to_be_saved: () -> Array[String?]?
+
+    def kind_in_database: () -> String?
+
+    def saved_change_to_kind: () -> Array[String?]?
+
+    def saved_change_to_kind?: () -> bool
+
+    def will_save_change_to_kind?: () -> bool
+
+    def restore_kind!: () -> void
+
+    def clear_kind_change: () -> void
+
+    def suit_id: () -> Integer?
+
+    def suit_id=: (Integer?) -> Integer?
+
+    def suit_id?: () -> bool
+
+    def suit_id_changed?: () -> bool
+
+    def suit_id_change: () -> [ Integer?, Integer? ]
+
+    def suit_id_will_change!: () -> void
+
+    def suit_id_was: () -> Integer?
+
+    def suit_id_previously_changed?: () -> bool
+
+    def suit_id_previous_change: () -> Array[Integer?]?
+
+    def suit_id_previously_was: () -> Integer?
+
+    def suit_id_before_last_save: () -> Integer?
+
+    def suit_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def suit_id_in_database: () -> Integer?
+
+    def saved_change_to_suit_id: () -> Array[Integer?]?
+
+    def saved_change_to_suit_id?: () -> bool
+
+    def will_save_change_to_suit_id?: () -> bool
+
+    def restore_suit_id!: () -> void
+
+    def clear_suit_id_change: () -> void
+
+    def ff_start: () -> Integer?
+
+    def ff_start=: (Integer?) -> Integer?
+
+    def ff_start?: () -> bool
+
+    def ff_start_changed?: () -> bool
+
+    def ff_start_change: () -> [ Integer?, Integer? ]
+
+    def ff_start_will_change!: () -> void
+
+    def ff_start_was: () -> Integer?
+
+    def ff_start_previously_changed?: () -> bool
+
+    def ff_start_previous_change: () -> Array[Integer?]?
+
+    def ff_start_previously_was: () -> Integer?
+
+    def ff_start_before_last_save: () -> Integer?
+
+    def ff_start_change_to_be_saved: () -> Array[Integer?]?
+
+    def ff_start_in_database: () -> Integer?
+
+    def saved_change_to_ff_start: () -> Array[Integer?]?
+
+    def saved_change_to_ff_start?: () -> bool
+
+    def will_save_change_to_ff_start?: () -> bool
+
+    def restore_ff_start!: () -> void
+
+    def clear_ff_start_change: () -> void
+
+    def ff_end: () -> Integer?
+
+    def ff_end=: (Integer?) -> Integer?
+
+    def ff_end?: () -> bool
+
+    def ff_end_changed?: () -> bool
+
+    def ff_end_change: () -> [ Integer?, Integer? ]
+
+    def ff_end_will_change!: () -> void
+
+    def ff_end_was: () -> Integer?
+
+    def ff_end_previously_changed?: () -> bool
+
+    def ff_end_previous_change: () -> Array[Integer?]?
+
+    def ff_end_previously_was: () -> Integer?
+
+    def ff_end_before_last_save: () -> Integer?
+
+    def ff_end_change_to_be_saved: () -> Array[Integer?]?
+
+    def ff_end_in_database: () -> Integer?
+
+    def saved_change_to_ff_end: () -> Array[Integer?]?
+
+    def saved_change_to_ff_end?: () -> bool
+
+    def will_save_change_to_ff_end?: () -> bool
+
+    def restore_ff_end!: () -> void
+
+    def clear_ff_end_change: () -> void
+
+    def ge_enabled: () -> bool?
+
+    def ge_enabled=: (bool?) -> bool?
+
+    def ge_enabled?: () -> bool
+
+    def ge_enabled_changed?: () -> bool
+
+    def ge_enabled_change: () -> [ bool?, bool? ]
+
+    def ge_enabled_will_change!: () -> void
+
+    def ge_enabled_was: () -> bool?
+
+    def ge_enabled_previously_changed?: () -> bool
+
+    def ge_enabled_previous_change: () -> Array[bool?]?
+
+    def ge_enabled_previously_was: () -> bool?
+
+    def ge_enabled_before_last_save: () -> bool?
+
+    def ge_enabled_change_to_be_saved: () -> Array[bool?]?
+
+    def ge_enabled_in_database: () -> bool?
+
+    def saved_change_to_ge_enabled: () -> Array[bool?]?
+
+    def saved_change_to_ge_enabled?: () -> bool
+
+    def will_save_change_to_ge_enabled?: () -> bool
+
+    def restore_ge_enabled!: () -> void
+
+    def clear_ge_enabled_change: () -> void
+
+    def visibility: () -> String?
+
+    def visibility=: (String?) -> String?
+
+    def visibility?: () -> bool
+
+    def visibility_changed?: () -> bool
+
+    def visibility_change: () -> [ String?, String? ]
+
+    def visibility_will_change!: () -> void
+
+    def visibility_was: () -> String?
+
+    def visibility_previously_changed?: () -> bool
+
+    def visibility_previous_change: () -> Array[String?]?
+
+    def visibility_previously_was: () -> String?
+
+    def visibility_before_last_save: () -> String?
+
+    def visibility_change_to_be_saved: () -> Array[String?]?
+
+    def visibility_in_database: () -> String?
+
+    def saved_change_to_visibility: () -> Array[String?]?
+
+    def saved_change_to_visibility?: () -> bool
+
+    def will_save_change_to_visibility?: () -> bool
+
+    def restore_visibility!: () -> void
+
+    def clear_visibility_change: () -> void
+
+    def profile_id: () -> Integer?
+
+    def profile_id=: (Integer?) -> Integer?
+
+    def profile_id?: () -> bool
+
+    def profile_id_changed?: () -> bool
+
+    def profile_id_change: () -> [ Integer?, Integer? ]
+
+    def profile_id_will_change!: () -> void
+
+    def profile_id_was: () -> Integer?
+
+    def profile_id_previously_changed?: () -> bool
+
+    def profile_id_previous_change: () -> Array[Integer?]?
+
+    def profile_id_previously_was: () -> Integer?
+
+    def profile_id_before_last_save: () -> Integer?
+
+    def profile_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def profile_id_in_database: () -> Integer?
+
+    def saved_change_to_profile_id: () -> Array[Integer?]?
+
+    def saved_change_to_profile_id?: () -> bool
+
+    def will_save_change_to_profile_id?: () -> bool
+
+    def restore_profile_id!: () -> void
+
+    def clear_profile_id_change: () -> void
+
+    def place_id: () -> Integer?
+
+    def place_id=: (Integer?) -> Integer?
+
+    def place_id?: () -> bool
+
+    def place_id_changed?: () -> bool
+
+    def place_id_change: () -> [ Integer?, Integer? ]
+
+    def place_id_will_change!: () -> void
+
+    def place_id_was: () -> Integer?
+
+    def place_id_previously_changed?: () -> bool
+
+    def place_id_previous_change: () -> Array[Integer?]?
+
+    def place_id_previously_was: () -> Integer?
+
+    def place_id_before_last_save: () -> Integer?
+
+    def place_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def place_id_in_database: () -> Integer?
+
+    def saved_change_to_place_id: () -> Array[Integer?]?
+
+    def saved_change_to_place_id?: () -> bool
+
+    def will_save_change_to_place_id?: () -> bool
+
+    def restore_place_id!: () -> void
+
+    def clear_place_id_change: () -> void
+
+    def gps_type: () -> String?
+
+    def gps_type=: (String?) -> String?
+
+    def gps_type?: () -> bool
+
+    def gps_type_changed?: () -> bool
+
+    def gps_type_change: () -> [ String?, String? ]
+
+    def gps_type_will_change!: () -> void
+
+    def gps_type_was: () -> String?
+
+    def gps_type_previously_changed?: () -> bool
+
+    def gps_type_previous_change: () -> Array[String?]?
+
+    def gps_type_previously_was: () -> String?
+
+    def gps_type_before_last_save: () -> String?
+
+    def gps_type_change_to_be_saved: () -> Array[String?]?
+
+    def gps_type_in_database: () -> String?
+
+    def saved_change_to_gps_type: () -> Array[String?]?
+
+    def saved_change_to_gps_type?: () -> bool
+
+    def will_save_change_to_gps_type?: () -> bool
+
+    def restore_gps_type!: () -> void
+
+    def clear_gps_type_change: () -> void
+
+    def file_file_name: () -> String?
+
+    def file_file_name=: (String?) -> String?
+
+    def file_file_name?: () -> bool
+
+    def file_file_name_changed?: () -> bool
+
+    def file_file_name_change: () -> [ String?, String? ]
+
+    def file_file_name_will_change!: () -> void
+
+    def file_file_name_was: () -> String?
+
+    def file_file_name_previously_changed?: () -> bool
+
+    def file_file_name_previous_change: () -> Array[String?]?
+
+    def file_file_name_previously_was: () -> String?
+
+    def file_file_name_before_last_save: () -> String?
+
+    def file_file_name_change_to_be_saved: () -> Array[String?]?
+
+    def file_file_name_in_database: () -> String?
+
+    def saved_change_to_file_file_name: () -> Array[String?]?
+
+    def saved_change_to_file_file_name?: () -> bool
+
+    def will_save_change_to_file_file_name?: () -> bool
+
+    def restore_file_file_name!: () -> void
+
+    def clear_file_file_name_change: () -> void
+
+    def file_content_type: () -> String?
+
+    def file_content_type=: (String?) -> String?
+
+    def file_content_type?: () -> bool
+
+    def file_content_type_changed?: () -> bool
+
+    def file_content_type_change: () -> [ String?, String? ]
+
+    def file_content_type_will_change!: () -> void
+
+    def file_content_type_was: () -> String?
+
+    def file_content_type_previously_changed?: () -> bool
+
+    def file_content_type_previous_change: () -> Array[String?]?
+
+    def file_content_type_previously_was: () -> String?
+
+    def file_content_type_before_last_save: () -> String?
+
+    def file_content_type_change_to_be_saved: () -> Array[String?]?
+
+    def file_content_type_in_database: () -> String?
+
+    def saved_change_to_file_content_type: () -> Array[String?]?
+
+    def saved_change_to_file_content_type?: () -> bool
+
+    def will_save_change_to_file_content_type?: () -> bool
+
+    def restore_file_content_type!: () -> void
+
+    def clear_file_content_type_change: () -> void
+
+    def file_file_size: () -> Integer?
+
+    def file_file_size=: (Integer?) -> Integer?
+
+    def file_file_size?: () -> bool
+
+    def file_file_size_changed?: () -> bool
+
+    def file_file_size_change: () -> [ Integer?, Integer? ]
+
+    def file_file_size_will_change!: () -> void
+
+    def file_file_size_was: () -> Integer?
+
+    def file_file_size_previously_changed?: () -> bool
+
+    def file_file_size_previous_change: () -> Array[Integer?]?
+
+    def file_file_size_previously_was: () -> Integer?
+
+    def file_file_size_before_last_save: () -> Integer?
+
+    def file_file_size_change_to_be_saved: () -> Array[Integer?]?
+
+    def file_file_size_in_database: () -> Integer?
+
+    def saved_change_to_file_file_size: () -> Array[Integer?]?
+
+    def saved_change_to_file_file_size?: () -> bool
+
+    def will_save_change_to_file_file_size?: () -> bool
+
+    def restore_file_file_size!: () -> void
+
+    def clear_file_file_size_change: () -> void
+
+    def file_updated_at: () -> untyped?
+
+    def file_updated_at=: (untyped?) -> untyped?
+
+    def file_updated_at?: () -> bool
+
+    def file_updated_at_changed?: () -> bool
+
+    def file_updated_at_change: () -> [ untyped?, untyped? ]
+
+    def file_updated_at_will_change!: () -> void
+
+    def file_updated_at_was: () -> untyped?
+
+    def file_updated_at_previously_changed?: () -> bool
+
+    def file_updated_at_previous_change: () -> Array[untyped?]?
+
+    def file_updated_at_previously_was: () -> untyped?
+
+    def file_updated_at_before_last_save: () -> untyped?
+
+    def file_updated_at_change_to_be_saved: () -> Array[untyped?]?
+
+    def file_updated_at_in_database: () -> untyped?
+
+    def saved_change_to_file_updated_at: () -> Array[untyped?]?
+
+    def saved_change_to_file_updated_at?: () -> bool
+
+    def will_save_change_to_file_updated_at?: () -> bool
+
+    def restore_file_updated_at!: () -> void
+
+    def clear_file_updated_at_change: () -> void
+
+    def track_file_id: () -> Integer?
+
+    def track_file_id=: (Integer?) -> Integer?
+
+    def track_file_id?: () -> bool
+
+    def track_file_id_changed?: () -> bool
+
+    def track_file_id_change: () -> [ Integer?, Integer? ]
+
+    def track_file_id_will_change!: () -> void
+
+    def track_file_id_was: () -> Integer?
+
+    def track_file_id_previously_changed?: () -> bool
+
+    def track_file_id_previous_change: () -> Array[Integer?]?
+
+    def track_file_id_previously_was: () -> Integer?
+
+    def track_file_id_before_last_save: () -> Integer?
+
+    def track_file_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def track_file_id_in_database: () -> Integer?
+
+    def saved_change_to_track_file_id: () -> Array[Integer?]?
+
+    def saved_change_to_track_file_id?: () -> bool
+
+    def will_save_change_to_track_file_id?: () -> bool
+
+    def restore_track_file_id!: () -> void
+
+    def clear_track_file_id_change: () -> void
+
+    def ground_level: () -> BigDecimal?
+
+    def ground_level=: (BigDecimal?) -> BigDecimal?
+
+    def ground_level?: () -> bool
+
+    def ground_level_changed?: () -> bool
+
+    def ground_level_change: () -> [ BigDecimal?, BigDecimal? ]
+
+    def ground_level_will_change!: () -> void
+
+    def ground_level_was: () -> BigDecimal?
+
+    def ground_level_previously_changed?: () -> bool
+
+    def ground_level_previous_change: () -> Array[BigDecimal?]?
+
+    def ground_level_previously_was: () -> BigDecimal?
+
+    def ground_level_before_last_save: () -> BigDecimal?
+
+    def ground_level_change_to_be_saved: () -> Array[BigDecimal?]?
+
+    def ground_level_in_database: () -> BigDecimal?
+
+    def saved_change_to_ground_level: () -> Array[BigDecimal?]?
+
+    def saved_change_to_ground_level?: () -> bool
+
+    def will_save_change_to_ground_level?: () -> bool
+
+    def restore_ground_level!: () -> void
+
+    def clear_ground_level_change: () -> void
+
+    def recorded_at: () -> untyped?
+
+    def recorded_at=: (untyped?) -> untyped?
+
+    def recorded_at?: () -> bool
+
+    def recorded_at_changed?: () -> bool
+
+    def recorded_at_change: () -> [ untyped?, untyped? ]
+
+    def recorded_at_will_change!: () -> void
+
+    def recorded_at_was: () -> untyped?
+
+    def recorded_at_previously_changed?: () -> bool
+
+    def recorded_at_previous_change: () -> Array[untyped?]?
+
+    def recorded_at_previously_was: () -> untyped?
+
+    def recorded_at_before_last_save: () -> untyped?
+
+    def recorded_at_change_to_be_saved: () -> Array[untyped?]?
+
+    def recorded_at_in_database: () -> untyped?
+
+    def saved_change_to_recorded_at: () -> Array[untyped?]?
+
+    def saved_change_to_recorded_at?: () -> bool
+
+    def will_save_change_to_recorded_at?: () -> bool
+
+    def restore_recorded_at!: () -> void
+
+    def clear_recorded_at_change: () -> void
+
+    def disqualified_from_online_competitions: () -> bool
+
+    def disqualified_from_online_competitions=: (bool) -> bool
+
+    def disqualified_from_online_competitions?: () -> bool
+
+    def disqualified_from_online_competitions_changed?: () -> bool
+
+    def disqualified_from_online_competitions_change: () -> [ bool?, bool? ]
+
+    def disqualified_from_online_competitions_will_change!: () -> void
+
+    def disqualified_from_online_competitions_was: () -> bool?
+
+    def disqualified_from_online_competitions_previously_changed?: () -> bool
+
+    def disqualified_from_online_competitions_previous_change: () -> Array[bool?]?
+
+    def disqualified_from_online_competitions_previously_was: () -> bool?
+
+    def disqualified_from_online_competitions_before_last_save: () -> bool?
+
+    def disqualified_from_online_competitions_change_to_be_saved: () -> Array[bool?]?
+
+    def disqualified_from_online_competitions_in_database: () -> bool?
+
+    def saved_change_to_disqualified_from_online_competitions: () -> Array[bool?]?
+
+    def saved_change_to_disqualified_from_online_competitions?: () -> bool
+
+    def will_save_change_to_disqualified_from_online_competitions?: () -> bool
+
+    def restore_disqualified_from_online_competitions!: () -> void
+
+    def clear_disqualified_from_online_competitions_change: () -> void
+
+    def data_frequency: () -> BigDecimal?
+
+    def data_frequency=: (BigDecimal?) -> BigDecimal?
+
+    def data_frequency?: () -> bool
+
+    def data_frequency_changed?: () -> bool
+
+    def data_frequency_change: () -> [ BigDecimal?, BigDecimal? ]
+
+    def data_frequency_will_change!: () -> void
+
+    def data_frequency_was: () -> BigDecimal?
+
+    def data_frequency_previously_changed?: () -> bool
+
+    def data_frequency_previous_change: () -> Array[BigDecimal?]?
+
+    def data_frequency_previously_was: () -> BigDecimal?
+
+    def data_frequency_before_last_save: () -> BigDecimal?
+
+    def data_frequency_change_to_be_saved: () -> Array[BigDecimal?]?
+
+    def data_frequency_in_database: () -> BigDecimal?
+
+    def saved_change_to_data_frequency: () -> Array[BigDecimal?]?
+
+    def saved_change_to_data_frequency?: () -> bool
+
+    def will_save_change_to_data_frequency?: () -> bool
+
+    def restore_data_frequency!: () -> void
+
+    def clear_data_frequency_change: () -> void
+
+    def missing_ranges: () -> untyped?
+
+    def missing_ranges=: (untyped?) -> untyped?
+
+    def missing_ranges?: () -> bool
+
+    def missing_ranges_changed?: () -> bool
+
+    def missing_ranges_change: () -> [ untyped?, untyped? ]
+
+    def missing_ranges_will_change!: () -> void
+
+    def missing_ranges_was: () -> untyped?
+
+    def missing_ranges_previously_changed?: () -> bool
+
+    def missing_ranges_previous_change: () -> Array[untyped?]?
+
+    def missing_ranges_previously_was: () -> untyped?
+
+    def missing_ranges_before_last_save: () -> untyped?
+
+    def missing_ranges_change_to_be_saved: () -> Array[untyped?]?
+
+    def missing_ranges_in_database: () -> untyped?
+
+    def saved_change_to_missing_ranges: () -> Array[untyped?]?
+
+    def saved_change_to_missing_ranges?: () -> bool
+
+    def will_save_change_to_missing_ranges?: () -> bool
+
+    def restore_missing_ranges!: () -> void
+
+    def clear_missing_ranges_change: () -> void
+
+    def require_range_review: () -> bool
+
+    def require_range_review=: (bool) -> bool
+
+    def require_range_review?: () -> bool
+
+    def require_range_review_changed?: () -> bool
+
+    def require_range_review_change: () -> [ bool?, bool? ]
+
+    def require_range_review_will_change!: () -> void
+
+    def require_range_review_was: () -> bool?
+
+    def require_range_review_previously_changed?: () -> bool
+
+    def require_range_review_previous_change: () -> Array[bool?]?
+
+    def require_range_review_previously_was: () -> bool?
+
+    def require_range_review_before_last_save: () -> bool?
+
+    def require_range_review_change_to_be_saved: () -> Array[bool?]?
+
+    def require_range_review_in_database: () -> bool?
+
+    def saved_change_to_require_range_review: () -> Array[bool?]?
+
+    def saved_change_to_require_range_review?: () -> bool
+
+    def will_save_change_to_require_range_review?: () -> bool
+
+    def restore_require_range_review!: () -> void
+
+    def clear_require_range_review_change: () -> void
+
+    def owner_type: () -> String?
+
+    def owner_type=: (String?) -> String?
+
+    def owner_type?: () -> bool
+
+    def owner_type_changed?: () -> bool
+
+    def owner_type_change: () -> [ String?, String? ]
+
+    def owner_type_will_change!: () -> void
+
+    def owner_type_was: () -> String?
+
+    def owner_type_previously_changed?: () -> bool
+
+    def owner_type_previous_change: () -> Array[String?]?
+
+    def owner_type_previously_was: () -> String?
+
+    def owner_type_before_last_save: () -> String?
+
+    def owner_type_change_to_be_saved: () -> Array[String?]?
+
+    def owner_type_in_database: () -> String?
+
+    def saved_change_to_owner_type: () -> Array[String?]?
+
+    def saved_change_to_owner_type?: () -> bool
+
+    def will_save_change_to_owner_type?: () -> bool
+
+    def restore_owner_type!: () -> void
+
+    def clear_owner_type_change: () -> void
+
+    def owner_id: () -> Integer?
+
+    def owner_id=: (Integer?) -> Integer?
+
+    def owner_id?: () -> bool
+
+    def owner_id_changed?: () -> bool
+
+    def owner_id_change: () -> [ Integer?, Integer? ]
+
+    def owner_id_will_change!: () -> void
+
+    def owner_id_was: () -> Integer?
+
+    def owner_id_previously_changed?: () -> bool
+
+    def owner_id_previous_change: () -> Array[Integer?]?
+
+    def owner_id_previously_was: () -> Integer?
+
+    def owner_id_before_last_save: () -> Integer?
+
+    def owner_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def owner_id_in_database: () -> Integer?
+
+    def saved_change_to_owner_id: () -> Array[Integer?]?
+
+    def saved_change_to_owner_id?: () -> bool
+
+    def will_save_change_to_owner_id?: () -> bool
+
+    def restore_owner_id!: () -> void
+
+    def clear_owner_id_change: () -> void
+
+    def flares: () -> untyped?
+
+    def flares=: (untyped?) -> untyped?
+
+    def flares?: () -> bool
+
+    def flares_changed?: () -> bool
+
+    def flares_change: () -> [ untyped?, untyped? ]
+
+    def flares_will_change!: () -> void
+
+    def flares_was: () -> untyped?
+
+    def flares_previously_changed?: () -> bool
+
+    def flares_previous_change: () -> Array[untyped?]?
+
+    def flares_previously_was: () -> untyped?
+
+    def flares_before_last_save: () -> untyped?
+
+    def flares_change_to_be_saved: () -> Array[untyped?]?
+
+    def flares_in_database: () -> untyped?
+
+    def saved_change_to_flares: () -> Array[untyped?]?
+
+    def saved_change_to_flares?: () -> bool
+
+    def will_save_change_to_flares?: () -> bool
+
+    def restore_flares!: () -> void
+
+    def clear_flares_change: () -> void
+  end
+  include GeneratedAttributeMethods
+  def points: () -> Point::ActiveRecord_Associations_CollectionProxy
+  def points=: (Point::ActiveRecord_Associations_CollectionProxy | Array[Point]) -> (Point::ActiveRecord_Associations_CollectionProxy | Array[Point])
+  def point_ids: () -> Array[Integer]
+  def point_ids=: (Array[Integer]) -> Array[Integer]
+  def results: () -> Track::Result::ActiveRecord_Associations_CollectionProxy
+  def results=: (Track::Result::ActiveRecord_Associations_CollectionProxy | Array[Track::Result]) -> (Track::Result::ActiveRecord_Associations_CollectionProxy | Array[Track::Result])
+  def result_ids: () -> Array[Integer]
+  def result_ids=: (Array[Integer]) -> Array[Integer]
+  def virtual_competition_results: () -> VirtualCompetition::Result::ActiveRecord_Associations_CollectionProxy
+  def virtual_competition_results=: (VirtualCompetition::Result::ActiveRecord_Associations_CollectionProxy | Array[VirtualCompetition::Result]) -> (VirtualCompetition::Result::ActiveRecord_Associations_CollectionProxy | Array[VirtualCompetition::Result])
+  def virtual_competition_result_ids: () -> Array[Integer]
+  def virtual_competition_result_ids=: (Array[Integer]) -> Array[Integer]
+  def all_virtual_competition_results: () -> VirtualCompetition::Result::ActiveRecord_Associations_CollectionProxy
+  def all_virtual_competition_results=: (VirtualCompetition::Result::ActiveRecord_Associations_CollectionProxy | Array[VirtualCompetition::Result]) -> (VirtualCompetition::Result::ActiveRecord_Associations_CollectionProxy | Array[VirtualCompetition::Result])
+  def all_virtual_competition_result_ids: () -> Array[Integer]
+  def all_virtual_competition_result_ids=: (Array[Integer]) -> Array[Integer]
+  def event_result: () -> Event::Result?
+  def event_result=: (Event::Result?) -> Event::Result?
+  def build_event_result: (untyped) -> Event::Result
+  def create_event_result: (untyped) -> Event::Result
+  def create_event_result!: (untyped) -> Event::Result
+  def reload_event_result: () -> Event::Result?
+  def video: () -> Track::Video?
+  def video=: (Track::Video?) -> Track::Video?
+  def build_video: (untyped) -> Track::Video
+  def create_video: (untyped) -> Track::Video
+  def create_video!: (untyped) -> Track::Video
+  def reload_video: () -> Track::Video?
+  def time: () -> Track::Result?
+  def time=: (Track::Result?) -> Track::Result?
+  def build_time: (untyped) -> Track::Result
+  def create_time: (untyped) -> Track::Result
+  def create_time!: (untyped) -> Track::Result
+  def reload_time: () -> Track::Result?
+  def distance: () -> Track::Result?
+  def distance=: (Track::Result?) -> Track::Result?
+  def build_distance: (untyped) -> Track::Result
+  def create_distance: (untyped) -> Track::Result
+  def create_distance!: (untyped) -> Track::Result
+  def reload_distance: () -> Track::Result?
+  def speed: () -> Track::Result?
+  def speed=: (Track::Result?) -> Track::Result?
+  def build_speed: (untyped) -> Track::Result
+  def create_speed: (untyped) -> Track::Result
+  def create_speed!: (untyped) -> Track::Result
+  def reload_speed: () -> Track::Result?
+  def owner: () -> untyped
+  def owner=: (untyped?) -> untyped?
+  def reload_owner: () -> untyped?
+  def track_file: () -> Track::File
+  def track_file=: (Track::File?) -> Track::File?
+  def reload_track_file: () -> Track::File?
+  def build_track_file: (untyped) -> Track::File
+  def create_track_file: (untyped) -> Track::File
+  def create_track_file!: (untyped) -> Track::File
+  def pilot: () -> Profile
+  def pilot=: (Profile?) -> Profile?
+  def reload_pilot: () -> Profile?
+  def build_pilot: (untyped) -> Profile
+  def create_pilot: (untyped) -> Profile
+  def create_pilot!: (untyped) -> Profile
+  def place: () -> Place
+  def place=: (Place?) -> Place?
+  def reload_place: () -> Place?
+  def build_place: (untyped) -> Place
+  def create_place: (untyped) -> Place
+  def create_place!: (untyped) -> Place
+  def suit: () -> Suit
+  def suit=: (Suit?) -> Suit?
+  def reload_suit: () -> Suit?
+  def build_suit: (untyped) -> Suit
+  def create_suit: (untyped) -> Suit
+  def create_suit!: (untyped) -> Suit
+
+  def skydive!: () -> bool
+  def skydive?: () -> bool
+  def base!: () -> bool
+  def base?: () -> bool
+  def speed_skydiving!: () -> bool
+  def speed_skydiving?: () -> bool
+  def public_track!: () -> bool
+  def public_track?: () -> bool
+  def unlisted_track!: () -> bool
+  def unlisted_track?: () -> bool
+  def private_track!: () -> bool
+  def private_track?: () -> bool
+  def gpx!: () -> bool
+  def gpx?: () -> bool
+  def flysight!: () -> bool
+  def flysight?: () -> bool
+  def columbus!: () -> bool
+  def columbus?: () -> bool
+  def wintec!: () -> bool
+  def wintec?: () -> bool
+  def cyber_eye!: () -> bool
+  def cyber_eye?: () -> bool
+  def kml!: () -> bool
+  def kml?: () -> bool
+  def self.skydive: () -> ActiveRecord_Relation
+  def self.base: () -> ActiveRecord_Relation
+  def self.speed_skydiving: () -> ActiveRecord_Relation
+  def self.public_track: () -> ActiveRecord_Relation
+  def self.unlisted_track: () -> ActiveRecord_Relation
+  def self.private_track: () -> ActiveRecord_Relation
+  def self.gpx: () -> ActiveRecord_Relation
+  def self.flysight: () -> ActiveRecord_Relation
+  def self.columbus: () -> ActiveRecord_Relation
+  def self.wintec: () -> ActiveRecord_Relation
+  def self.cyber_eye: () -> ActiveRecord_Relation
+  def self.kml: () -> ActiveRecord_Relation
+
+  module GeneratedRelationMethods
+    def skydive: () -> ActiveRecord_Relation
+
+    def base: () -> ActiveRecord_Relation
+
+    def speed_skydiving: () -> ActiveRecord_Relation
+
+    def public_track: () -> ActiveRecord_Relation
+
+    def unlisted_track: () -> ActiveRecord_Relation
+
+    def private_track: () -> ActiveRecord_Relation
+
+    def gpx: () -> ActiveRecord_Relation
+
+    def flysight: () -> ActiveRecord_Relation
+
+    def columbus: () -> ActiveRecord_Relation
+
+    def wintec: () -> ActiveRecord_Relation
+
+    def cyber_eye: () -> ActiveRecord_Relation
+
+    def kml: () -> ActiveRecord_Relation
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Track, Integer]
+    include Enumerable[Track]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Track, Integer]
+  end
+end

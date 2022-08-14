@@ -1,0 +1,11 @@
+module RangesToScoreFinder
+  class BaseFinder
+    def initialize: (untyped altitude_bounds) -> void
+
+    def calculate: () -> ::Array[{ start_altitude: untyped, end_altitude: untyped }]
+
+    private
+
+    attr_reader altitude_bounds: untyped
+  end
+end

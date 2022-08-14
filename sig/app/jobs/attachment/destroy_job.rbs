@@ -1,0 +1,5 @@
+module Attachment
+  class DestroyJob < ApplicationJob
+    def perform: (untyped attacher_class, untyped data) -> untyped
+  end
+end

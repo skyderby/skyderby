@@ -1,0 +1,219 @@
+class Suit < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[Suit, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def manufacturer_id: () -> Integer?
+
+    def manufacturer_id=: (Integer?) -> Integer?
+
+    def manufacturer_id?: () -> bool
+
+    def manufacturer_id_changed?: () -> bool
+
+    def manufacturer_id_change: () -> [ Integer?, Integer? ]
+
+    def manufacturer_id_will_change!: () -> void
+
+    def manufacturer_id_was: () -> Integer?
+
+    def manufacturer_id_previously_changed?: () -> bool
+
+    def manufacturer_id_previous_change: () -> Array[Integer?]?
+
+    def manufacturer_id_previously_was: () -> Integer?
+
+    def manufacturer_id_before_last_save: () -> Integer?
+
+    def manufacturer_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def manufacturer_id_in_database: () -> Integer?
+
+    def saved_change_to_manufacturer_id: () -> Array[Integer?]?
+
+    def saved_change_to_manufacturer_id?: () -> bool
+
+    def will_save_change_to_manufacturer_id?: () -> bool
+
+    def restore_manufacturer_id!: () -> void
+
+    def clear_manufacturer_id_change: () -> void
+
+    def name: () -> String?
+
+    def name=: (String?) -> String?
+
+    def name?: () -> bool
+
+    def name_changed?: () -> bool
+
+    def name_change: () -> [ String?, String? ]
+
+    def name_will_change!: () -> void
+
+    def name_was: () -> String?
+
+    def name_previously_changed?: () -> bool
+
+    def name_previous_change: () -> Array[String?]?
+
+    def name_previously_was: () -> String?
+
+    def name_before_last_save: () -> String?
+
+    def name_change_to_be_saved: () -> Array[String?]?
+
+    def name_in_database: () -> String?
+
+    def saved_change_to_name: () -> Array[String?]?
+
+    def saved_change_to_name?: () -> bool
+
+    def will_save_change_to_name?: () -> bool
+
+    def restore_name!: () -> void
+
+    def clear_name_change: () -> void
+
+    def kind: () -> Integer?
+
+    def kind=: (Integer?) -> Integer?
+
+    def kind?: () -> bool
+
+    def kind_changed?: () -> bool
+
+    def kind_change: () -> [ Integer?, Integer? ]
+
+    def kind_will_change!: () -> void
+
+    def kind_was: () -> Integer?
+
+    def kind_previously_changed?: () -> bool
+
+    def kind_previous_change: () -> Array[Integer?]?
+
+    def kind_previously_was: () -> Integer?
+
+    def kind_before_last_save: () -> Integer?
+
+    def kind_change_to_be_saved: () -> Array[Integer?]?
+
+    def kind_in_database: () -> Integer?
+
+    def saved_change_to_kind: () -> Array[Integer?]?
+
+    def saved_change_to_kind?: () -> bool
+
+    def will_save_change_to_kind?: () -> bool
+
+    def restore_kind!: () -> void
+
+    def clear_kind_change: () -> void
+
+    def description: () -> String?
+
+    def description=: (String?) -> String?
+
+    def description?: () -> bool
+
+    def description_changed?: () -> bool
+
+    def description_change: () -> [ String?, String? ]
+
+    def description_will_change!: () -> void
+
+    def description_was: () -> String?
+
+    def description_previously_changed?: () -> bool
+
+    def description_previous_change: () -> Array[String?]?
+
+    def description_previously_was: () -> String?
+
+    def description_before_last_save: () -> String?
+
+    def description_change_to_be_saved: () -> Array[String?]?
+
+    def description_in_database: () -> String?
+
+    def saved_change_to_description: () -> Array[String?]?
+
+    def saved_change_to_description?: () -> bool
+
+    def will_save_change_to_description?: () -> bool
+
+    def restore_description!: () -> void
+
+    def clear_description_change: () -> void
+  end
+  include GeneratedAttributeMethods
+  def tracks: () -> Track::ActiveRecord_Associations_CollectionProxy
+  def tracks=: (Track::ActiveRecord_Associations_CollectionProxy | Array[Track]) -> (Track::ActiveRecord_Associations_CollectionProxy | Array[Track])
+  def track_ids: () -> Array[Integer]
+  def track_ids=: (Array[Integer]) -> Array[Integer]
+  def competitors: () -> Event::Competitor::ActiveRecord_Associations_CollectionProxy
+  def competitors=: (Event::Competitor::ActiveRecord_Associations_CollectionProxy | Array[Event::Competitor]) -> (Event::Competitor::ActiveRecord_Associations_CollectionProxy | Array[Event::Competitor])
+  def competitor_ids: () -> Array[Integer]
+  def competitor_ids=: (Array[Integer]) -> Array[Integer]
+  def pilots: () -> Profile::ActiveRecord_Associations_CollectionProxy
+  def pilots=: (Profile::ActiveRecord_Associations_CollectionProxy | Array[Profile]) -> (Profile::ActiveRecord_Associations_CollectionProxy | Array[Profile])
+  def pilot_ids: () -> Array[Integer]
+  def pilot_ids=: (Array[Integer]) -> Array[Integer]
+
+  def manufacturer: () -> Manufacturer
+  def manufacturer=: (Manufacturer?) -> Manufacturer?
+  def reload_manufacturer: () -> Manufacturer?
+  def build_manufacturer: (untyped) -> Manufacturer
+  def create_manufacturer: (untyped) -> Manufacturer
+  def create_manufacturer!: (untyped) -> Manufacturer
+
+  module GeneratedRelationMethods
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Suit, Integer]
+    include Enumerable[Suit]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Suit, Integer]
+  end
+end

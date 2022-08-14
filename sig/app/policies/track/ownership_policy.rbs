@@ -1,0 +1,5 @@
+class Track::OwnershipPolicy < ApplicationPolicy
+  def show?: () -> untyped
+
+  def update?: () -> untyped
+end

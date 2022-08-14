@@ -1,0 +1,3 @@
+module RecentValuesHelper
+  def recent_value: (untyped key) -> untyped
+end

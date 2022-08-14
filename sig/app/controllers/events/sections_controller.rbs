@@ -1,0 +1,25 @@
+module Events
+  class SectionsController < ApplicationController
+    include EventScoped
+
+    def create: () -> untyped
+
+    def update: () -> untyped
+
+    def destroy: () -> untyped
+
+    def move_upper: () -> untyped
+
+    def move_lower: () -> untyped
+
+    def new: () -> untyped
+
+    def edit: () -> nil
+
+    private
+
+    def set_section: () -> untyped
+
+    def section_params: () -> untyped
+  end
+end

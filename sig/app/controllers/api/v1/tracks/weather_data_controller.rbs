@@ -1,0 +1,13 @@
+module Api
+  module V1
+    module Tracks
+      class WeatherDataController < ApplicationController
+        def show: () -> untyped
+
+        private
+
+        def track: () -> untyped
+      end
+    end
+  end
+end

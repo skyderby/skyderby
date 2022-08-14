@@ -1,0 +1,38 @@
+module RangesToScoreFinder
+  class SkydiveFinder
+    STEP: 50
+
+    RANGE_SIZE: 1000
+
+    MIN_ALTITUDE: 1000
+
+    def initialize: (untyped altitude_bounds) -> void
+
+    # returns array of hashes with structure
+    # [
+    #   { start_altitude: 3050, end_altitude: 2050 }
+    #   { start_altitude: 3000, end_altitude: 2000 }
+    # ]
+    def calculate: () -> (::Array[untyped] | untyped)
+
+    private
+
+    attr_reader altitude_bounds: untyped
+
+    def single_range?: () -> untyped
+
+    def whole_range: () -> ::Array[{ start_altitude: untyped, end_altitude: untyped }]
+
+    def split_bounds_on_ranges: () -> untyped
+
+    def steps: () -> untyped
+
+    def height_diff: () -> untyped
+
+    # round lower to step size
+    def max_altitude: () -> untyped
+
+    # rounds upper to step size
+    def min_altitude: () -> untyped
+  end
+end

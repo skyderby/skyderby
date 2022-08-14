@@ -1,0 +1,27 @@
+module Events
+  module Rounds
+    class Map
+      COLORS: ::Array["#7cb5ec" | "#434348" | "#90ed7d" | "#f7a35c" | "#8085e9" | "#f15c80" | "#e4d354" | "#8085e8" | "#8d4653" | "#91e8e1"]
+
+      attr_reader round: untyped
+
+      def initialize: (untyped round) -> void
+
+      def competitors: () -> untyped
+
+      def competitors_by_groups: () -> untyped
+
+      def show_reference_points?: () -> untyped
+
+      def reference_points: () -> untyped
+
+      def reference_point_assignment: (untyped competitor) -> untyped
+
+      private
+
+      def reference_point_assignments: () -> untyped
+
+      def colors: () -> untyped
+    end
+  end
+end

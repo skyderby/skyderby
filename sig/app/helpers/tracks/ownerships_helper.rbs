@@ -1,0 +1,5 @@
+module Tracks
+  module OwnershipsHelper
+    def track_ownership_type_options: () -> untyped
+  end
+end

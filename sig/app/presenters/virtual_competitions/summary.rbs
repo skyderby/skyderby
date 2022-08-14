@@ -1,0 +1,5 @@
+module VirtualCompetitions
+  class Summary
+    def online_competitions: () -> untyped
+  end
+end

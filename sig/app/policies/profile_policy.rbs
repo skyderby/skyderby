@@ -1,0 +1,13 @@
+class ProfilePolicy < ApplicationPolicy
+  def index?: () -> untyped
+
+  def update?: () -> untyped
+
+  def masquerade?: () -> untyped
+
+  def merge?: () -> untyped
+
+  def owner?: () -> untyped
+
+  def organizer_of_event?: () -> untyped
+end

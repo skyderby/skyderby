@@ -1,0 +1,7 @@
+module CompetitionTrackVisibility
+  extend ActiveSupport::Concern
+
+  def set_tracks_visibility: () -> untyped
+
+  def tracks_visibility: () -> untyped
+end

@@ -1,0 +1,27 @@
+module Events
+  module Scoreboards
+    class SpeedDistanceTime
+      include Events::Scoreboards::Results
+
+      attr_reader event: untyped
+
+      def initialize: (untyped event, untyped params) -> void
+
+      def columns_count: () -> untyped
+
+      def display_raw_results?: () -> untyped
+
+      def sections: () -> untyped
+
+      def rounds: () -> untyped
+
+      def rounds_by_discipline: () -> untyped
+
+      def to_partial_path: () -> "events/scoreboards/speed_distance_time"
+
+      private
+
+      attr_reader params: untyped
+    end
+  end
+end

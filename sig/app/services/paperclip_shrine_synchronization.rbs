@@ -1,0 +1,18 @@
+module PaperclipShrineSynchronization
+  def self.included: (untyped model) -> untyped
+
+  def write_shrine_data: (untyped name) -> untyped
+
+  private
+
+  def shrine_file: (untyped object) -> untyped
+
+  def shrine_attachment_file: (untyped attachment) -> untyped
+
+  # If you'll be using a `:prefix` on your Shrine storage, or you're storing
+  # files on the filesystem, make sure to subtract the appropriate part
+  # from the path assigned to `:id`.
+  def shrine_style_file: (untyped style) -> untyped
+
+  def storage: () -> untyped
+end

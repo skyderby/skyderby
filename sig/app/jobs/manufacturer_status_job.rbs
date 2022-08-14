@@ -1,0 +1,7 @@
+class ManufacturerStatusJob < ApplicationJob
+  def perform: () -> untyped
+
+  private
+
+  def active_manufacturers: () -> untyped
+end

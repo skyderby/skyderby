@@ -1,0 +1,9 @@
+module Api
+  module V1
+    class VirtualCompetitionsController < Api::ApplicationController
+      def index: () -> untyped
+
+      def show: () -> untyped
+    end
+  end
+end

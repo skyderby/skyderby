@@ -1,0 +1,9 @@
+module Tracks
+  module PointsCropping
+    def cropped_points: (untyped points, untyped range_from, untyped range_to) -> untyped
+
+    def interpolate_by_altitude: (untyped first, untyped second, untyped altitude) -> untyped
+
+    def interpolate_field: (untyped first, untyped second, untyped key, untyped coeff) -> untyped
+  end
+end

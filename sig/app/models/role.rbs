@@ -1,0 +1,3 @@
+class Role < ApplicationRecord
+  def self.admin: () -> untyped
+end

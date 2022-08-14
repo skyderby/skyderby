@@ -1,0 +1,13 @@
+module TrackFiles
+  class TracksController < ApplicationController
+    def create: () -> untyped
+
+    private
+
+    def build_track: () -> untyped
+
+    def track_params: () -> untyped
+
+    def track_file: () -> untyped
+  end
+end

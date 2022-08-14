@@ -1,0 +1,2 @@
+class Contribution::Detail < ApplicationRecord
+end

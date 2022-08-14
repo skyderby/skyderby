@@ -1,0 +1,3 @@
+class Api::V1::PerformanceCompetitions::ResultsController < ApplicationController
+  def index: () -> untyped
+end

@@ -1,0 +1,13 @@
+module Profiles
+  class Tracks < SimpleDelegator
+    attr_reader tracks: untyped
+
+    def initialize: (untyped profile, untyped tracks) -> void
+
+    def tracks_by_month: () -> untyped
+
+    private
+
+    attr_reader profile: untyped
+  end
+end

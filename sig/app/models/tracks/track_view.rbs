@@ -1,0 +1,35 @@
+module Tracks
+  class TrackView
+    include TrackViewBase
+
+    include TrackPoints
+
+    include PointsCropping
+
+    attr_reader track: untyped
+
+    def self.for: (untyped track, untyped params, untyped session) -> untyped
+
+    def initialize: (untyped track, untyped range, untyped chart_preferences, untyped use_straight_line_distance) -> void
+
+    def min_altitude: () -> untyped
+
+    def max_altitude: () -> untyped
+
+    def range_from: () -> untyped
+
+    def range_to: () -> untyped
+
+    private
+
+    attr_reader use_straight_line_distance: untyped
+
+    def track_elevation: () -> untyped
+
+    def track_distance: () -> untyped
+
+    def zero_wind_track_distance: () -> untyped
+
+    def points: () -> untyped
+  end
+end

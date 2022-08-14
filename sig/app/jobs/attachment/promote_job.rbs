@@ -1,0 +1,5 @@
+module Attachment
+  class PromoteJob < ApplicationJob
+    def perform: (untyped attacher_class, untyped record_class, untyped record_id, untyped name, untyped file_data) -> untyped
+  end
+end

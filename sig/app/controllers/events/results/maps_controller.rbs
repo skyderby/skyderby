@@ -1,0 +1,11 @@
+module Events
+  module Results
+    class MapsController < ApplicationController
+      include EventTrackScoped
+
+      include EventScoped
+
+      def show: () -> untyped
+    end
+  end
+end

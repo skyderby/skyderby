@@ -1,0 +1,175 @@
+class Place < ::ApplicationRecord
+  class JumpLine < ::ApplicationRecord
+    class Measurement < ::ApplicationRecord
+      extend _ActiveRecord_Relation_ClassMethods[Place::JumpLine::Measurement, ActiveRecord_Relation, Integer]
+
+      module GeneratedAttributeMethods
+        def id: () -> Integer
+
+        def id=: (Integer) -> Integer
+
+        def id?: () -> bool
+
+        def id_changed?: () -> bool
+
+        def id_change: () -> [ Integer?, Integer? ]
+
+        def id_will_change!: () -> void
+
+        def id_was: () -> Integer?
+
+        def id_previously_changed?: () -> bool
+
+        def id_previous_change: () -> Array[Integer?]?
+
+        def id_previously_was: () -> Integer?
+
+        def id_before_last_save: () -> Integer?
+
+        def id_change_to_be_saved: () -> Array[Integer?]?
+
+        def id_in_database: () -> Integer?
+
+        def saved_change_to_id: () -> Array[Integer?]?
+
+        def saved_change_to_id?: () -> bool
+
+        def will_save_change_to_id?: () -> bool
+
+        def restore_id!: () -> void
+
+        def clear_id_change: () -> void
+
+        def altitude: () -> Integer?
+
+        def altitude=: (Integer?) -> Integer?
+
+        def altitude?: () -> bool
+
+        def altitude_changed?: () -> bool
+
+        def altitude_change: () -> [ Integer?, Integer? ]
+
+        def altitude_will_change!: () -> void
+
+        def altitude_was: () -> Integer?
+
+        def altitude_previously_changed?: () -> bool
+
+        def altitude_previous_change: () -> Array[Integer?]?
+
+        def altitude_previously_was: () -> Integer?
+
+        def altitude_before_last_save: () -> Integer?
+
+        def altitude_change_to_be_saved: () -> Array[Integer?]?
+
+        def altitude_in_database: () -> Integer?
+
+        def saved_change_to_altitude: () -> Array[Integer?]?
+
+        def saved_change_to_altitude?: () -> bool
+
+        def will_save_change_to_altitude?: () -> bool
+
+        def restore_altitude!: () -> void
+
+        def clear_altitude_change: () -> void
+
+        def distance: () -> Integer?
+
+        def distance=: (Integer?) -> Integer?
+
+        def distance?: () -> bool
+
+        def distance_changed?: () -> bool
+
+        def distance_change: () -> [ Integer?, Integer? ]
+
+        def distance_will_change!: () -> void
+
+        def distance_was: () -> Integer?
+
+        def distance_previously_changed?: () -> bool
+
+        def distance_previous_change: () -> Array[Integer?]?
+
+        def distance_previously_was: () -> Integer?
+
+        def distance_before_last_save: () -> Integer?
+
+        def distance_change_to_be_saved: () -> Array[Integer?]?
+
+        def distance_in_database: () -> Integer?
+
+        def saved_change_to_distance: () -> Array[Integer?]?
+
+        def saved_change_to_distance?: () -> bool
+
+        def will_save_change_to_distance?: () -> bool
+
+        def restore_distance!: () -> void
+
+        def clear_distance_change: () -> void
+
+        def jump_line_id: () -> Integer?
+
+        def jump_line_id=: (Integer?) -> Integer?
+
+        def jump_line_id?: () -> bool
+
+        def jump_line_id_changed?: () -> bool
+
+        def jump_line_id_change: () -> [ Integer?, Integer? ]
+
+        def jump_line_id_will_change!: () -> void
+
+        def jump_line_id_was: () -> Integer?
+
+        def jump_line_id_previously_changed?: () -> bool
+
+        def jump_line_id_previous_change: () -> Array[Integer?]?
+
+        def jump_line_id_previously_was: () -> Integer?
+
+        def jump_line_id_before_last_save: () -> Integer?
+
+        def jump_line_id_change_to_be_saved: () -> Array[Integer?]?
+
+        def jump_line_id_in_database: () -> Integer?
+
+        def saved_change_to_jump_line_id: () -> Array[Integer?]?
+
+        def saved_change_to_jump_line_id?: () -> bool
+
+        def will_save_change_to_jump_line_id?: () -> bool
+
+        def restore_jump_line_id!: () -> void
+
+        def clear_jump_line_id_change: () -> void
+      end
+      include GeneratedAttributeMethods
+
+      def jump_line: () -> Place::JumpLine
+      def jump_line=: (Place::JumpLine?) -> Place::JumpLine?
+      def reload_jump_line: () -> Place::JumpLine?
+      def build_jump_line: (untyped) -> Place::JumpLine
+      def create_jump_line: (untyped) -> Place::JumpLine
+      def create_jump_line!: (untyped) -> Place::JumpLine
+
+      module GeneratedRelationMethods
+      end
+
+      class ActiveRecord_Relation < ::ActiveRecord::Relation
+        include GeneratedRelationMethods
+        include _ActiveRecord_Relation[Place::JumpLine::Measurement, Integer]
+        include Enumerable[Place::JumpLine::Measurement]
+      end
+
+      class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+        include GeneratedRelationMethods
+        include _ActiveRecord_Relation[Place::JumpLine::Measurement, Integer]
+      end
+    end
+  end
+end

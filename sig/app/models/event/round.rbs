@@ -1,0 +1,19 @@
+class Event::Round < ApplicationRecord
+  include EventOngoingValidation
+
+  include Event::Namespace
+
+  include Completable
+
+  def tracks_visibility: () -> untyped
+
+  def slug: () -> ::String
+
+  private
+
+  def set_number: () -> untyped
+
+  def set_tracks_visibility: () -> untyped
+
+  def self.by_name: (untyped name) -> untyped
+end

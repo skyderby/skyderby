@@ -1,0 +1,41 @@
+module Tournaments
+  class MatchGlobe
+    SECONDS_BEFORE_START: 5
+
+    FINISH_LINE_ALTITUDE: 500
+
+    CENTER_LINE_ALTITUDE: 1000
+
+    CompetitorData: untyped
+
+    class EntityBuilder
+      def initialize: (untyped slot) -> void
+
+      def execute: () -> untyped
+
+      private
+
+      attr_reader slot: untyped
+    end
+
+    attr_reader match: untyped
+
+    COLORS: ::Array["#7cb5ec" | "#90ed7d" | "#f7a35c" | "#8085e9" | "#f15c80" | "#e4d354" | "#8085e8" | "#8d4653" | "#91e8e1" | "#434348"]
+
+    def initialize: (untyped match) -> void
+
+    def competitors: () -> untyped
+
+    def finish_line: () -> untyped
+
+    def center_line: () -> ::Array[untyped]
+
+    def center_line_minimums: () -> ::Array[untyped]
+
+    def start_altitude: () -> untyped
+
+    def stop_altitude: () -> untyped
+
+    def finish_line_altitude: () -> untyped
+  end
+end

@@ -1,0 +1,13 @@
+class Track::File < ApplicationRecord
+  attr_accessor track_attributes: untyped
+
+  def track_file_data: (?::Integer index) -> untyped
+
+  def segments: () -> untyped
+
+  def one_segment?: () -> untyped
+
+  def file_extension: () -> untyped
+
+  def file_format: () -> untyped
+end

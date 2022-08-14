@@ -1,0 +1,7 @@
+class EventList < ApplicationRecord
+  def active?: () -> untyped
+
+  private
+
+  def read_only?: () -> true
+end

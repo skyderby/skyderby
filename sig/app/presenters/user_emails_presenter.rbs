@@ -1,0 +1,11 @@
+class UserEmailsPresenter
+  def self.call: (untyped users) -> untyped
+
+  def initialize: (untyped users) -> void
+
+  def call: () -> untyped
+
+  private
+
+  attr_reader users: untyped
+end

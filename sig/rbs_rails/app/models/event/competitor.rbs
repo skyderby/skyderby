@@ -1,0 +1,457 @@
+class Event < ::ApplicationRecord
+  class Competitor < ::ApplicationRecord
+    extend _ActiveRecord_Relation_ClassMethods[Event::Competitor, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def event_id: () -> Integer?
+
+      def event_id=: (Integer?) -> Integer?
+
+      def event_id?: () -> bool
+
+      def event_id_changed?: () -> bool
+
+      def event_id_change: () -> [ Integer?, Integer? ]
+
+      def event_id_will_change!: () -> void
+
+      def event_id_was: () -> Integer?
+
+      def event_id_previously_changed?: () -> bool
+
+      def event_id_previous_change: () -> Array[Integer?]?
+
+      def event_id_previously_was: () -> Integer?
+
+      def event_id_before_last_save: () -> Integer?
+
+      def event_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def event_id_in_database: () -> Integer?
+
+      def saved_change_to_event_id: () -> Array[Integer?]?
+
+      def saved_change_to_event_id?: () -> bool
+
+      def will_save_change_to_event_id?: () -> bool
+
+      def restore_event_id!: () -> void
+
+      def clear_event_id_change: () -> void
+
+      def user_id: () -> Integer?
+
+      def user_id=: (Integer?) -> Integer?
+
+      def user_id?: () -> bool
+
+      def user_id_changed?: () -> bool
+
+      def user_id_change: () -> [ Integer?, Integer? ]
+
+      def user_id_will_change!: () -> void
+
+      def user_id_was: () -> Integer?
+
+      def user_id_previously_changed?: () -> bool
+
+      def user_id_previous_change: () -> Array[Integer?]?
+
+      def user_id_previously_was: () -> Integer?
+
+      def user_id_before_last_save: () -> Integer?
+
+      def user_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def user_id_in_database: () -> Integer?
+
+      def saved_change_to_user_id: () -> Array[Integer?]?
+
+      def saved_change_to_user_id?: () -> bool
+
+      def will_save_change_to_user_id?: () -> bool
+
+      def restore_user_id!: () -> void
+
+      def clear_user_id_change: () -> void
+
+      def created_at: () -> untyped?
+
+      def created_at=: (untyped?) -> untyped?
+
+      def created_at?: () -> bool
+
+      def created_at_changed?: () -> bool
+
+      def created_at_change: () -> [ untyped?, untyped? ]
+
+      def created_at_will_change!: () -> void
+
+      def created_at_was: () -> untyped?
+
+      def created_at_previously_changed?: () -> bool
+
+      def created_at_previous_change: () -> Array[untyped?]?
+
+      def created_at_previously_was: () -> untyped?
+
+      def created_at_before_last_save: () -> untyped?
+
+      def created_at_change_to_be_saved: () -> Array[untyped?]?
+
+      def created_at_in_database: () -> untyped?
+
+      def saved_change_to_created_at: () -> Array[untyped?]?
+
+      def saved_change_to_created_at?: () -> bool
+
+      def will_save_change_to_created_at?: () -> bool
+
+      def restore_created_at!: () -> void
+
+      def clear_created_at_change: () -> void
+
+      def updated_at: () -> untyped?
+
+      def updated_at=: (untyped?) -> untyped?
+
+      def updated_at?: () -> bool
+
+      def updated_at_changed?: () -> bool
+
+      def updated_at_change: () -> [ untyped?, untyped? ]
+
+      def updated_at_will_change!: () -> void
+
+      def updated_at_was: () -> untyped?
+
+      def updated_at_previously_changed?: () -> bool
+
+      def updated_at_previous_change: () -> Array[untyped?]?
+
+      def updated_at_previously_was: () -> untyped?
+
+      def updated_at_before_last_save: () -> untyped?
+
+      def updated_at_change_to_be_saved: () -> Array[untyped?]?
+
+      def updated_at_in_database: () -> untyped?
+
+      def saved_change_to_updated_at: () -> Array[untyped?]?
+
+      def saved_change_to_updated_at?: () -> bool
+
+      def will_save_change_to_updated_at?: () -> bool
+
+      def restore_updated_at!: () -> void
+
+      def clear_updated_at_change: () -> void
+
+      def suit_id: () -> Integer?
+
+      def suit_id=: (Integer?) -> Integer?
+
+      def suit_id?: () -> bool
+
+      def suit_id_changed?: () -> bool
+
+      def suit_id_change: () -> [ Integer?, Integer? ]
+
+      def suit_id_will_change!: () -> void
+
+      def suit_id_was: () -> Integer?
+
+      def suit_id_previously_changed?: () -> bool
+
+      def suit_id_previous_change: () -> Array[Integer?]?
+
+      def suit_id_previously_was: () -> Integer?
+
+      def suit_id_before_last_save: () -> Integer?
+
+      def suit_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def suit_id_in_database: () -> Integer?
+
+      def saved_change_to_suit_id: () -> Array[Integer?]?
+
+      def saved_change_to_suit_id?: () -> bool
+
+      def will_save_change_to_suit_id?: () -> bool
+
+      def restore_suit_id!: () -> void
+
+      def clear_suit_id_change: () -> void
+
+      def name: () -> String?
+
+      def name=: (String?) -> String?
+
+      def name?: () -> bool
+
+      def name_changed?: () -> bool
+
+      def name_change: () -> [ String?, String? ]
+
+      def name_will_change!: () -> void
+
+      def name_was: () -> String?
+
+      def name_previously_changed?: () -> bool
+
+      def name_previous_change: () -> Array[String?]?
+
+      def name_previously_was: () -> String?
+
+      def name_before_last_save: () -> String?
+
+      def name_change_to_be_saved: () -> Array[String?]?
+
+      def name_in_database: () -> String?
+
+      def saved_change_to_name: () -> Array[String?]?
+
+      def saved_change_to_name?: () -> bool
+
+      def will_save_change_to_name?: () -> bool
+
+      def restore_name!: () -> void
+
+      def clear_name_change: () -> void
+
+      def section_id: () -> Integer?
+
+      def section_id=: (Integer?) -> Integer?
+
+      def section_id?: () -> bool
+
+      def section_id_changed?: () -> bool
+
+      def section_id_change: () -> [ Integer?, Integer? ]
+
+      def section_id_will_change!: () -> void
+
+      def section_id_was: () -> Integer?
+
+      def section_id_previously_changed?: () -> bool
+
+      def section_id_previous_change: () -> Array[Integer?]?
+
+      def section_id_previously_was: () -> Integer?
+
+      def section_id_before_last_save: () -> Integer?
+
+      def section_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def section_id_in_database: () -> Integer?
+
+      def saved_change_to_section_id: () -> Array[Integer?]?
+
+      def saved_change_to_section_id?: () -> bool
+
+      def will_save_change_to_section_id?: () -> bool
+
+      def restore_section_id!: () -> void
+
+      def clear_section_id_change: () -> void
+
+      def profile_id: () -> Integer?
+
+      def profile_id=: (Integer?) -> Integer?
+
+      def profile_id?: () -> bool
+
+      def profile_id_changed?: () -> bool
+
+      def profile_id_change: () -> [ Integer?, Integer? ]
+
+      def profile_id_will_change!: () -> void
+
+      def profile_id_was: () -> Integer?
+
+      def profile_id_previously_changed?: () -> bool
+
+      def profile_id_previous_change: () -> Array[Integer?]?
+
+      def profile_id_previously_was: () -> Integer?
+
+      def profile_id_before_last_save: () -> Integer?
+
+      def profile_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def profile_id_in_database: () -> Integer?
+
+      def saved_change_to_profile_id: () -> Array[Integer?]?
+
+      def saved_change_to_profile_id?: () -> bool
+
+      def will_save_change_to_profile_id?: () -> bool
+
+      def restore_profile_id!: () -> void
+
+      def clear_profile_id_change: () -> void
+
+      def team_id: () -> Integer?
+
+      def team_id=: (Integer?) -> Integer?
+
+      def team_id?: () -> bool
+
+      def team_id_changed?: () -> bool
+
+      def team_id_change: () -> [ Integer?, Integer? ]
+
+      def team_id_will_change!: () -> void
+
+      def team_id_was: () -> Integer?
+
+      def team_id_previously_changed?: () -> bool
+
+      def team_id_previous_change: () -> Array[Integer?]?
+
+      def team_id_previously_was: () -> Integer?
+
+      def team_id_before_last_save: () -> Integer?
+
+      def team_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def team_id_in_database: () -> Integer?
+
+      def saved_change_to_team_id: () -> Array[Integer?]?
+
+      def saved_change_to_team_id?: () -> bool
+
+      def will_save_change_to_team_id?: () -> bool
+
+      def restore_team_id!: () -> void
+
+      def clear_team_id_change: () -> void
+
+      def assigned_number: () -> String?
+
+      def assigned_number=: (String?) -> String?
+
+      def assigned_number?: () -> bool
+
+      def assigned_number_changed?: () -> bool
+
+      def assigned_number_change: () -> [ String?, String? ]
+
+      def assigned_number_will_change!: () -> void
+
+      def assigned_number_was: () -> String?
+
+      def assigned_number_previously_changed?: () -> bool
+
+      def assigned_number_previous_change: () -> Array[String?]?
+
+      def assigned_number_previously_was: () -> String?
+
+      def assigned_number_before_last_save: () -> String?
+
+      def assigned_number_change_to_be_saved: () -> Array[String?]?
+
+      def assigned_number_in_database: () -> String?
+
+      def saved_change_to_assigned_number: () -> Array[String?]?
+
+      def saved_change_to_assigned_number?: () -> bool
+
+      def will_save_change_to_assigned_number?: () -> bool
+
+      def restore_assigned_number!: () -> void
+
+      def clear_assigned_number_change: () -> void
+    end
+    include GeneratedAttributeMethods
+    def results: () -> Event::Result::ActiveRecord_Associations_CollectionProxy
+    def results=: (Event::Result::ActiveRecord_Associations_CollectionProxy | Array[Event::Result]) -> (Event::Result::ActiveRecord_Associations_CollectionProxy | Array[Event::Result])
+    def result_ids: () -> Array[Integer]
+    def result_ids=: (Array[Integer]) -> Array[Integer]
+    def reference_point_assignments: () -> Event::ReferencePointAssignment::ActiveRecord_Associations_CollectionProxy
+    def reference_point_assignments=: (Event::ReferencePointAssignment::ActiveRecord_Associations_CollectionProxy | Array[Event::ReferencePointAssignment]) -> (Event::ReferencePointAssignment::ActiveRecord_Associations_CollectionProxy | Array[Event::ReferencePointAssignment])
+    def reference_point_assignment_ids: () -> Array[Integer]
+    def reference_point_assignment_ids=: (Array[Integer]) -> Array[Integer]
+
+    def event: () -> Event
+    def event=: (Event?) -> Event?
+    def reload_event: () -> Event?
+    def build_event: (untyped) -> Event
+    def create_event: (untyped) -> Event
+    def create_event!: (untyped) -> Event
+    def section: () -> Event::Section
+    def section=: (Event::Section?) -> Event::Section?
+    def reload_section: () -> Event::Section?
+    def build_section: (untyped) -> Event::Section
+    def create_section: (untyped) -> Event::Section
+    def create_section!: (untyped) -> Event::Section
+    def profile: () -> Profile
+    def profile=: (Profile?) -> Profile?
+    def reload_profile: () -> Profile?
+    def build_profile: (untyped) -> Profile
+    def create_profile: (untyped) -> Profile
+    def create_profile!: (untyped) -> Profile
+    def suit: () -> Suit
+    def suit=: (Suit?) -> Suit?
+    def reload_suit: () -> Suit?
+    def build_suit: (untyped) -> Suit
+    def create_suit: (untyped) -> Suit
+    def create_suit!: (untyped) -> Suit
+    def team: () -> Event::Team
+    def team=: (Event::Team?) -> Event::Team?
+    def reload_team: () -> Event::Team?
+    def build_team: (untyped) -> Event::Team
+    def create_team: (untyped) -> Event::Team
+    def create_team!: (untyped) -> Event::Team
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Event::Competitor, Integer]
+      include Enumerable[Event::Competitor]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Event::Competitor, Integer]
+    end
+  end
+end

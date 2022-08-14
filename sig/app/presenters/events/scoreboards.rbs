@@ -1,0 +1,5 @@
+module Events
+  module Scoreboards
+    def self.for: (untyped event, untyped params) -> untyped
+  end
+end

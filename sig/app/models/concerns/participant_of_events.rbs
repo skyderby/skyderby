@@ -1,0 +1,13 @@
+# Concern used by User model and provides interface that used in policies
+# to check permissions to view and change event or tournament
+module ParticipantOfEvents
+  extend ActiveSupport::Concern
+
+  def organizer_of_events: () -> untyped
+
+  def organizer_of_event?: (untyped event) -> untyped
+
+  def participant_of_events: () -> untyped
+
+  def competitor_of_events: () -> untyped
+end

@@ -1,0 +1,11 @@
+module RangesToScoreFinder
+  FINDER_BY_ACTIVITY: untyped
+
+  def self.for: (untyped activity) -> untyped
+
+  class NullRangeFinder
+    def initialize: (untyped altitude_bounds) -> void
+
+    def calculate: () -> ::Array[untyped]
+  end
+end

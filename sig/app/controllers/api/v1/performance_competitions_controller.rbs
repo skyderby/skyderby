@@ -1,0 +1,11 @@
+class Api::V1::PerformanceCompetitionsController < Api::ApplicationController
+  def show: () -> untyped
+
+  def create: () -> untyped
+
+  def update: () -> untyped
+
+  private
+
+  def event_params: () -> untyped
+end

@@ -1,0 +1,13 @@
+module Events
+  class ReferencePointsController < ApplicationController
+    include EventScoped
+
+    def show: () -> nil
+
+    def update: () -> untyped
+
+    private
+
+    def reference_points_params: () -> untyped
+  end
+end

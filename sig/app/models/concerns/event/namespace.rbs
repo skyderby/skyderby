@@ -1,0 +1,7 @@
+class Event < ApplicationRecord
+  module Namespace
+    extend ActiveSupport::Concern
+
+    def model_name: () -> untyped
+  end
+end

@@ -1,0 +1,7 @@
+module Tournaments
+  module Matches
+    class GlobeController < ApplicationController
+      def show: () -> untyped
+    end
+  end
+end

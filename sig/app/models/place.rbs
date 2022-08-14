@@ -1,0 +1,11 @@
+class Place < ApplicationRecord
+  include Photos
+
+  include Stats
+
+  def pilots_accessible_by: (untyped user) -> untyped
+
+  def self.search: (untyped query) -> untyped
+
+  def self.nearby: (untyped point, untyped radius) -> untyped
+end

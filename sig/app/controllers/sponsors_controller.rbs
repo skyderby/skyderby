@@ -1,0 +1,17 @@
+class SponsorsController < ApplicationController
+  include SponsorableLoading
+
+  def new: () -> untyped
+
+  def create: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def respond_with_error: () -> untyped
+
+  def set_sponsor: () -> untyped
+
+  def sponsor_params: () -> untyped
+end

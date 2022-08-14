@@ -1,0 +1,6 @@
+# This model represent BASE exit line, path that basejumper can fly.
+# Main purpose of creating this model was feature-request to make
+# ability to store multiple exit measurements for one BASE exit.
+class Place::JumpLine < ApplicationRecord
+  def full_name: () -> ::String
+end

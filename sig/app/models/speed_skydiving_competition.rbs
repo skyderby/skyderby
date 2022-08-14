@@ -1,0 +1,7 @@
+class SpeedSkydivingCompetition < ApplicationRecord
+  include CompetitionTrackVisibility
+
+  def active?: () -> untyped
+
+  def use_open_scoreboard: () -> untyped
+end

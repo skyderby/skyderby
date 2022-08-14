@@ -1,0 +1,23 @@
+module Tracks
+  module GlideRatioChart
+    class ChartData
+      def initialize: (untyped points, untyped zerowind_points, untyped presenter) -> void
+
+      def glide_ratio_chart_line: () -> untyped
+
+      def wind_effect_glide_ratio_chart_line: () -> untyped
+
+      private
+
+      attr_reader points: untyped
+
+      attr_reader zerowind_points: untyped
+
+      attr_reader min_gps_time: untyped
+
+      attr_reader presenter: untyped
+
+      def y_for_glide_ratio: (untyped value) -> (0 | 7 | untyped)
+    end
+  end
+end

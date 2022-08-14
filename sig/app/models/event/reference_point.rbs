@@ -1,0 +1,3 @@
+class Event::ReferencePoint < ApplicationRecord
+  def self.find_or_create: (untyped opts) -> (nil | untyped)
+end

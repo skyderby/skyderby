@@ -1,0 +1,34 @@
+class Distance
+  # Conversion factors
+  # Feets in meter
+  FT_IN_M: ::Float
+
+  # Meters in mile
+  M_IN_MI: ::Float
+
+  def self.load: (untyped distance) -> (untyped | nil)
+
+  def self.dump: (untyped obj) -> untyped
+
+  def initialize: (untyped distance, ?::String unit) -> void
+
+  def dump: () -> untyped
+
+  def convert_to: (untyped unit) -> untyped
+
+  def convert_from: (untyped val, untyped unit) -> untyped
+
+  def value_to_decimal: (untyped value) -> untyped
+
+  def to_m: () -> untyped
+
+  def to_mi: () -> untyped
+
+  def to_ft: () -> untyped
+
+  def from_m: (untyped val) -> untyped
+
+  def from_mi: (untyped val) -> untyped
+
+  def from_ft: (untyped val) -> untyped
+end

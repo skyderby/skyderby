@@ -1,0 +1,29 @@
+class TrackSegment
+  attr_reader points: untyped
+
+  attr_reader start_point: untyped
+
+  attr_reader end_point: untyped
+
+  def initialize: (untyped points) -> void
+
+  def start_altitude: () -> untyped
+
+  def end_altitude: () -> untyped
+
+  def distance: () -> (0 | untyped)
+
+  alias straight_line_distance distance
+
+  def direction: () -> untyped
+
+  def speed: () -> untyped
+
+  def time: () -> untyped
+
+  def max_gr: () -> untyped
+
+  def max_ground_speed: () -> untyped
+
+  def vertical_speed: () -> untyped
+end

@@ -1,0 +1,11 @@
+class EventDeletion
+  def self.execute: (untyped event, ?::Hash[untyped, untyped] options) -> untyped
+
+  def initialize: (untyped event, ?::Hash[untyped, untyped] options) -> void
+
+  def execute: () -> untyped
+
+  private
+
+  attr_reader delete_tracks: untyped
+end

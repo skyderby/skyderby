@@ -1,0 +1,5 @@
+class Event < ApplicationRecord
+  module DesignatedLane
+    extend ActiveSupport::Concern
+  end
+end

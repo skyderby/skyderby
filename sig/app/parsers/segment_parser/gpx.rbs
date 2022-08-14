@@ -1,0 +1,13 @@
+module SegmentParser
+  class Gpx
+    def initialize: (untyped file) -> void
+
+    def segments: () -> untyped
+
+    private
+
+    attr_reader file: untyped
+
+    def xml_document: () -> untyped
+  end
+end

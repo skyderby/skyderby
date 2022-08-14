@@ -1,0 +1,5 @@
+module Tracks
+  module TrackPoints
+    def track_points: () -> untyped
+  end
+end

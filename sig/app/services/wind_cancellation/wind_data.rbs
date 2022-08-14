@@ -1,0 +1,19 @@
+module WindCancellation
+  class WindData
+    def initialize: (untyped weather_data) -> void
+
+    def weather_on: (untyped date, untyped altitude) -> untyped
+
+    private
+
+    def group_by_altitude_and_date: (untyped weather_data) -> untyped
+
+    def filter_by_date: (untyped weather_data, untyped date) -> untyped
+
+    def select_by_altitude: (untyped weather_data, untyped altitude) -> untyped
+
+    def interpolate: (untyped pair, untyped altitude) -> untyped
+
+    def interpolation_factor: (untyped pair, untyped altitude) -> untyped
+  end
+end

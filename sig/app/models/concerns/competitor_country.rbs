@@ -1,0 +1,9 @@
+module CompetitorCountry
+  extend ActiveSupport::Concern
+
+  def country_code: () -> untyped
+
+  def country_name: () -> untyped
+
+  def russia_restricted?: () -> untyped
+end

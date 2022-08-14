@@ -1,0 +1,21 @@
+class PerformanceCompetition::Scoreboard::Standings::Row
+  attr_accessor rank: untyped
+
+  attr_reader competitor: untyped
+
+  attr_reader results: untyped
+
+  def initialize: (untyped competitor, untyped results, untyped rounds) -> void
+
+  def total_points: () -> untyped
+
+  def points_in_disciplines: () -> untyped
+
+  def result_in_round: (untyped round) -> untyped
+
+  private
+
+  attr_reader rounds: untyped
+
+  def rounds_by_discipline: () -> untyped
+end

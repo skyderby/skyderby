@@ -1,0 +1,13 @@
+module Events
+  class TeamScoreboardsController < ApplicationController
+    include EventScoped
+
+    def show: () -> untyped
+
+    private
+
+    def set_event: () -> untyped
+
+    def set_scoreboard: () -> untyped
+  end
+end

@@ -1,0 +1,15 @@
+module Api
+  module V1
+    module Suits
+      class StatsController < ApplicationController
+        def show: () -> untyped
+
+        private
+
+        def requested_ids: () -> untyped
+
+        def stats_params: () -> untyped
+      end
+    end
+  end
+end

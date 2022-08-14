@@ -1,0 +1,45 @@
+module Events
+  class CompetitorRegistration
+    include ActiveModel::Model
+
+    attr_accessor id: untyped
+
+    attr_accessor event_id: untyped
+
+    attr_accessor section_id: untyped
+
+    attr_accessor suit_id: untyped
+
+    attr_accessor profile_id: untyped
+
+    attr_accessor new_profile: untyped
+
+    attr_accessor name: untyped
+
+    attr_accessor country_id: untyped
+
+    attr_accessor assigned_number: untyped
+
+    def create: () -> (false | untyped)
+
+    def update: () -> (false | untyped)
+
+    private
+
+    def create_competitor: () -> untyped
+
+    def update_competitor: () -> untyped
+
+    def competitor: () -> untyped
+
+    def competitor_params: () -> { event_id: untyped, section_id: untyped, suit_id: untyped, profile: untyped, assigned_number: untyped }
+
+    def profile: () -> untyped
+
+    def profile_attributes_valid: () -> (untyped | untyped | nil)
+
+    def build_profile: () -> untyped
+
+    def new_profile?: () -> untyped
+  end
+end

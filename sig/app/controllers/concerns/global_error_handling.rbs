@@ -1,0 +1,3 @@
+module GlobalErrorHandling
+  extend ActiveSupport::Concern
+end

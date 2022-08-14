@@ -1,0 +1,3 @@
+class WeatherFetchingJob < ApplicationJob
+  def perform: () -> untyped
+end

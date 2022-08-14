@@ -1,0 +1,317 @@
+class Place < ::ApplicationRecord
+  extend _ActiveRecord_Relation_ClassMethods[Place, ActiveRecord_Relation, Integer]
+
+  module GeneratedAttributeMethods
+    def id: () -> Integer
+
+    def id=: (Integer) -> Integer
+
+    def id?: () -> bool
+
+    def id_changed?: () -> bool
+
+    def id_change: () -> [ Integer?, Integer? ]
+
+    def id_will_change!: () -> void
+
+    def id_was: () -> Integer?
+
+    def id_previously_changed?: () -> bool
+
+    def id_previous_change: () -> Array[Integer?]?
+
+    def id_previously_was: () -> Integer?
+
+    def id_before_last_save: () -> Integer?
+
+    def id_change_to_be_saved: () -> Array[Integer?]?
+
+    def id_in_database: () -> Integer?
+
+    def saved_change_to_id: () -> Array[Integer?]?
+
+    def saved_change_to_id?: () -> bool
+
+    def will_save_change_to_id?: () -> bool
+
+    def restore_id!: () -> void
+
+    def clear_id_change: () -> void
+
+    def name: () -> String?
+
+    def name=: (String?) -> String?
+
+    def name?: () -> bool
+
+    def name_changed?: () -> bool
+
+    def name_change: () -> [ String?, String? ]
+
+    def name_will_change!: () -> void
+
+    def name_was: () -> String?
+
+    def name_previously_changed?: () -> bool
+
+    def name_previous_change: () -> Array[String?]?
+
+    def name_previously_was: () -> String?
+
+    def name_before_last_save: () -> String?
+
+    def name_change_to_be_saved: () -> Array[String?]?
+
+    def name_in_database: () -> String?
+
+    def saved_change_to_name: () -> Array[String?]?
+
+    def saved_change_to_name?: () -> bool
+
+    def will_save_change_to_name?: () -> bool
+
+    def restore_name!: () -> void
+
+    def clear_name_change: () -> void
+
+    def latitude: () -> BigDecimal?
+
+    def latitude=: (BigDecimal?) -> BigDecimal?
+
+    def latitude?: () -> bool
+
+    def latitude_changed?: () -> bool
+
+    def latitude_change: () -> [ BigDecimal?, BigDecimal? ]
+
+    def latitude_will_change!: () -> void
+
+    def latitude_was: () -> BigDecimal?
+
+    def latitude_previously_changed?: () -> bool
+
+    def latitude_previous_change: () -> Array[BigDecimal?]?
+
+    def latitude_previously_was: () -> BigDecimal?
+
+    def latitude_before_last_save: () -> BigDecimal?
+
+    def latitude_change_to_be_saved: () -> Array[BigDecimal?]?
+
+    def latitude_in_database: () -> BigDecimal?
+
+    def saved_change_to_latitude: () -> Array[BigDecimal?]?
+
+    def saved_change_to_latitude?: () -> bool
+
+    def will_save_change_to_latitude?: () -> bool
+
+    def restore_latitude!: () -> void
+
+    def clear_latitude_change: () -> void
+
+    def longitude: () -> BigDecimal?
+
+    def longitude=: (BigDecimal?) -> BigDecimal?
+
+    def longitude?: () -> bool
+
+    def longitude_changed?: () -> bool
+
+    def longitude_change: () -> [ BigDecimal?, BigDecimal? ]
+
+    def longitude_will_change!: () -> void
+
+    def longitude_was: () -> BigDecimal?
+
+    def longitude_previously_changed?: () -> bool
+
+    def longitude_previous_change: () -> Array[BigDecimal?]?
+
+    def longitude_previously_was: () -> BigDecimal?
+
+    def longitude_before_last_save: () -> BigDecimal?
+
+    def longitude_change_to_be_saved: () -> Array[BigDecimal?]?
+
+    def longitude_in_database: () -> BigDecimal?
+
+    def saved_change_to_longitude: () -> Array[BigDecimal?]?
+
+    def saved_change_to_longitude?: () -> bool
+
+    def will_save_change_to_longitude?: () -> bool
+
+    def restore_longitude!: () -> void
+
+    def clear_longitude_change: () -> void
+
+    def country_id: () -> Integer?
+
+    def country_id=: (Integer?) -> Integer?
+
+    def country_id?: () -> bool
+
+    def country_id_changed?: () -> bool
+
+    def country_id_change: () -> [ Integer?, Integer? ]
+
+    def country_id_will_change!: () -> void
+
+    def country_id_was: () -> Integer?
+
+    def country_id_previously_changed?: () -> bool
+
+    def country_id_previous_change: () -> Array[Integer?]?
+
+    def country_id_previously_was: () -> Integer?
+
+    def country_id_before_last_save: () -> Integer?
+
+    def country_id_change_to_be_saved: () -> Array[Integer?]?
+
+    def country_id_in_database: () -> Integer?
+
+    def saved_change_to_country_id: () -> Array[Integer?]?
+
+    def saved_change_to_country_id?: () -> bool
+
+    def will_save_change_to_country_id?: () -> bool
+
+    def restore_country_id!: () -> void
+
+    def clear_country_id_change: () -> void
+
+    def msl: () -> BigDecimal?
+
+    def msl=: (BigDecimal?) -> BigDecimal?
+
+    def msl?: () -> bool
+
+    def msl_changed?: () -> bool
+
+    def msl_change: () -> [ BigDecimal?, BigDecimal? ]
+
+    def msl_will_change!: () -> void
+
+    def msl_was: () -> BigDecimal?
+
+    def msl_previously_changed?: () -> bool
+
+    def msl_previous_change: () -> Array[BigDecimal?]?
+
+    def msl_previously_was: () -> BigDecimal?
+
+    def msl_before_last_save: () -> BigDecimal?
+
+    def msl_change_to_be_saved: () -> Array[BigDecimal?]?
+
+    def msl_in_database: () -> BigDecimal?
+
+    def saved_change_to_msl: () -> Array[BigDecimal?]?
+
+    def saved_change_to_msl?: () -> bool
+
+    def will_save_change_to_msl?: () -> bool
+
+    def restore_msl!: () -> void
+
+    def clear_msl_change: () -> void
+
+    def kind: () -> String
+
+    def kind=: (String) -> String
+
+    def kind?: () -> bool
+
+    def kind_changed?: () -> bool
+
+    def kind_change: () -> [ String?, String? ]
+
+    def kind_will_change!: () -> void
+
+    def kind_was: () -> String?
+
+    def kind_previously_changed?: () -> bool
+
+    def kind_previous_change: () -> Array[String?]?
+
+    def kind_previously_was: () -> String?
+
+    def kind_before_last_save: () -> String?
+
+    def kind_change_to_be_saved: () -> Array[String?]?
+
+    def kind_in_database: () -> String?
+
+    def saved_change_to_kind: () -> Array[String?]?
+
+    def saved_change_to_kind?: () -> bool
+
+    def will_save_change_to_kind?: () -> bool
+
+    def restore_kind!: () -> void
+
+    def clear_kind_change: () -> void
+  end
+  include GeneratedAttributeMethods
+  def photos: () -> Place::Photo::ActiveRecord_Associations_CollectionProxy
+  def photos=: (Place::Photo::ActiveRecord_Associations_CollectionProxy | Array[Place::Photo]) -> (Place::Photo::ActiveRecord_Associations_CollectionProxy | Array[Place::Photo])
+  def photo_ids: () -> Array[Integer]
+  def photo_ids=: (Array[Integer]) -> Array[Integer]
+  def tracks: () -> Track::ActiveRecord_Associations_CollectionProxy
+  def tracks=: (Track::ActiveRecord_Associations_CollectionProxy | Array[Track]) -> (Track::ActiveRecord_Associations_CollectionProxy | Array[Track])
+  def track_ids: () -> Array[Integer]
+  def track_ids=: (Array[Integer]) -> Array[Integer]
+  def pilots: () -> Profile::ActiveRecord_Associations_CollectionProxy
+  def pilots=: (Profile::ActiveRecord_Associations_CollectionProxy | Array[Profile]) -> (Profile::ActiveRecord_Associations_CollectionProxy | Array[Profile])
+  def pilot_ids: () -> Array[Integer]
+  def pilot_ids=: (Array[Integer]) -> Array[Integer]
+  def events: () -> Event::ActiveRecord_Associations_CollectionProxy
+  def events=: (Event::ActiveRecord_Associations_CollectionProxy | Array[Event]) -> (Event::ActiveRecord_Associations_CollectionProxy | Array[Event])
+  def event_ids: () -> Array[Integer]
+  def event_ids=: (Array[Integer]) -> Array[Integer]
+  def weather_data: () -> Place::WeatherDatum::ActiveRecord_Associations_CollectionProxy
+  def weather_data=: (Place::WeatherDatum::ActiveRecord_Associations_CollectionProxy | Array[Place::WeatherDatum]) -> (Place::WeatherDatum::ActiveRecord_Associations_CollectionProxy | Array[Place::WeatherDatum])
+  def weather_datum_ids: () -> Array[Integer]
+  def weather_datum_ids=: (Array[Integer]) -> Array[Integer]
+  def jump_lines: () -> Place::JumpLine::ActiveRecord_Associations_CollectionProxy
+  def jump_lines=: (Place::JumpLine::ActiveRecord_Associations_CollectionProxy | Array[Place::JumpLine]) -> (Place::JumpLine::ActiveRecord_Associations_CollectionProxy | Array[Place::JumpLine])
+  def jump_line_ids: () -> Array[Integer]
+  def jump_line_ids=: (Array[Integer]) -> Array[Integer]
+  def finish_lines: () -> Place::FinishLine::ActiveRecord_Associations_CollectionProxy
+  def finish_lines=: (Place::FinishLine::ActiveRecord_Associations_CollectionProxy | Array[Place::FinishLine]) -> (Place::FinishLine::ActiveRecord_Associations_CollectionProxy | Array[Place::FinishLine])
+  def finish_line_ids: () -> Array[Integer]
+  def finish_line_ids=: (Array[Integer]) -> Array[Integer]
+
+  def country: () -> Country
+  def country=: (Country?) -> Country?
+  def reload_country: () -> Country?
+  def build_country: (untyped) -> Country
+  def create_country: (untyped) -> Country
+  def create_country!: (untyped) -> Country
+
+  def skydive!: () -> bool
+  def skydive?: () -> bool
+  def base!: () -> bool
+  def base?: () -> bool
+  def self.skydive: () -> ActiveRecord_Relation
+  def self.base: () -> ActiveRecord_Relation
+
+  module GeneratedRelationMethods
+    def skydive: () -> ActiveRecord_Relation
+
+    def base: () -> ActiveRecord_Relation
+  end
+
+  class ActiveRecord_Relation < ::ActiveRecord::Relation
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Place, Integer]
+    include Enumerable[Place]
+  end
+
+  class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+    include GeneratedRelationMethods
+    include _ActiveRecord_Relation[Place, Integer]
+  end
+end

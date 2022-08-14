@@ -1,0 +1,7 @@
+class PerformanceCompetitionSeries < ApplicationRecord
+  def active?: () -> untyped
+
+  def started: () -> untyped
+
+  def starts_at: () -> untyped
+end

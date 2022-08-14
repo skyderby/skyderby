@@ -1,0 +1,3 @@
+module QualificationJumpsHelper
+  def qualification_jump_presentation: (untyped qualification_jump) -> ::String
+end

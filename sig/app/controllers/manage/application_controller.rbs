@@ -1,0 +1,5 @@
+module Manage
+  class ApplicationController < ::ApplicationController
+    def ensure_permissions: () -> (nil | untyped)
+  end
+end

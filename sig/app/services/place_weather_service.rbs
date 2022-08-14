@@ -1,0 +1,15 @@
+class PlaceWeatherService
+  def initialize: (untyped opts) -> void
+
+  def execute: () -> untyped
+
+  private
+
+  attr_reader place: untyped
+
+  attr_reader date_time: untyped
+
+  def data_exists?: () -> untyped
+
+  def record_weather_data: (untyped gfs_data) -> untyped
+end

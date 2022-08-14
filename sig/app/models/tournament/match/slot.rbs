@@ -1,0 +1,21 @@
+class Tournament::Match::Slot < ApplicationRecord
+  include AcceptsNestedTrack
+
+  include Tournament::SubmissionResult
+
+  private
+
+  def on_intersection_not_found: () -> untyped
+
+  def finish_line: () -> untyped
+
+  def track_owner: () -> untyped
+
+  def tracks_visibility: () -> :public_track
+
+  def track_activity: () -> :base
+
+  def track_comment: () -> ::String
+
+  def replace_nan_with_zero: () -> (nil | untyped)
+end

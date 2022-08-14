@@ -1,0 +1,51 @@
+# Fetching parameters
+#
+# hgtsfc  ** surface geopotential height [gpm]
+#  - request params [time = 0..120][lat = 0..720][lon = 0..1439]
+#
+# hgtprs  ** (1000 975 950 925 900.. 7 5 3 2 1) geopotential height [gpm]
+# ugrdprs ** (1000 975 950 925 900.. 7 5 3 2 1) u-component of wind [m/s]
+# vgrdprs ** (1000 975 950 925 900.. 7 5 3 2 1) v-component of wind [m/s]
+#  - request params [time = 0..120][lev = 0..30][lat = 0..720][lon = 0..1439]
+#
+# Longitude: 0.00000000000°E to 359.75000000000°E (1440 points, avg. res. 0.25°)
+# Latitude: -90.00000000000°N to 90.00000000000°N (721 points, avg. res. 0.25°)
+# Altitude:  1000.00000000000 to 1.00000000000 (31 points, avg. res. 33.3)
+# Time: 00Z03JAN2017 to 00Z08JAN2017 (121 points, avg. res. 0.042 days)
+# Time resolution ~ 1h (1.008h)
+#
+class GfsGradsFetcher
+  LEVELS: "0:20"
+
+  LAT_LON_RESOLUTION: ::Float
+
+  VALUES: ::Array[:hgtsfc | :hgtprs | :ugrdprs | :vgrdprs]
+
+  def initialize: (?::Hash[untyped, untyped] opts) -> void
+
+  def execute: () -> untyped
+
+  private
+
+  def fetch: () -> untyped
+
+  def value_params: (untyped val_key) -> untyped
+
+  def latitude_param: () -> ::String
+
+  def longitude_param: () -> ::String
+
+  def altitude_param: () -> ::String
+
+  def time_param: () -> ::String
+
+  def normalized_longitude: () -> untyped
+
+  attr_reader latitude: untyped
+
+  attr_reader longitude: untyped
+
+  attr_reader date_time: untyped
+
+  attr_reader dataset: untyped
+end

@@ -1,0 +1,13 @@
+class MovingAverage
+  def initialize: (untyped values, window_size: untyped, keys: untyped) -> void
+
+  def execute: () -> untyped
+
+  private
+
+  attr_reader values: untyped
+
+  attr_reader window_size: untyped
+
+  attr_reader keys: untyped
+end

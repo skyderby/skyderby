@@ -1,0 +1,17 @@
+module Manage
+  class Dashboard
+    def tracks_count: () -> untyped
+
+    def users_count: () -> untyped
+
+    def profiles_count: () -> untyped
+
+    def events_count: () -> untyped
+
+    def uploads_by_month: () -> untyped
+
+    def registrations_by_month: () -> untyped
+
+    def top_active_users: () -> untyped
+  end
+end

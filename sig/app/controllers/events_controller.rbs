@@ -1,0 +1,25 @@
+class EventsController < ApplicationController
+  include EventScoped
+
+  def index: () -> untyped
+
+  def new: () -> untyped
+
+  def create: () -> untyped
+
+  def edit: () -> untyped
+
+  def update: () -> untyped
+
+  def show: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def set_event: () -> untyped
+
+  def event_params: () -> untyped
+
+  def update_event_params: () -> untyped
+end

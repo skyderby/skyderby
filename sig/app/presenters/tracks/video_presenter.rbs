@@ -1,0 +1,11 @@
+class Tracks::VideoPresenter
+  attr_reader track: untyped
+
+  def initialize: (untyped track) -> void
+
+  def points: () -> untyped
+
+  private
+
+  attr_reader video: untyped
+end

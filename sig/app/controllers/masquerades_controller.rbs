@@ -1,0 +1,11 @@
+class MasqueradesController < ApplicationController
+  include MasqueradingHelper
+
+  def new: () -> untyped
+
+  def destroy: () -> untyped
+
+  private
+
+  def authorize_admin: () -> untyped
+end

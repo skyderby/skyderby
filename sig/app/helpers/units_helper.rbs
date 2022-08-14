@@ -1,0 +1,7 @@
+module UnitsHelper
+  def distance_units_by_type: (untyped unit_type) -> ("m" | "mi")
+
+  def altitude_units_by_type: (untyped unit_type) -> ("m" | "ft")
+
+  def speed_units_by_type: (untyped unit_type) -> ("kmh" | "mph")
+end

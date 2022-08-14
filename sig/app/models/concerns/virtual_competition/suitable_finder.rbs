@@ -1,0 +1,11 @@
+class VirtualCompetition < ApplicationRecord
+  module SuitableFinder
+    extend ActiveSupport::Concern
+
+    def suitable_for: (untyped track) -> untyped
+
+    private
+
+    def available_for_scoring: (untyped track) -> untyped
+  end
+end

@@ -1,0 +1,27 @@
+module Events
+  module Scoreboards
+    class HungaryBoogie
+      include Events::Scoreboards::Results
+
+      attr_reader event: untyped
+
+      def initialize: (untyped event, untyped params) -> void
+
+      def display_raw_results?: () -> untyped
+
+      def columns_count: () -> untyped
+
+      def sections: () -> untyped
+
+      def jumps_for_total: () -> untyped
+
+      def rounds: () -> untyped
+
+      def to_partial_path: () -> "events/scoreboards/hungary_boogie"
+
+      private
+
+      attr_reader params: untyped
+    end
+  end
+end

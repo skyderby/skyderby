@@ -1,0 +1,29 @@
+class OnlineCompetitionsService
+  BASE_START_SPEED: 10
+
+  def self.score_track: (untyped track) -> untyped
+
+  def initialize: (untyped track, untyped competition) -> void
+
+  def score: () -> untyped
+
+  private
+
+  attr_reader track: untyped
+
+  attr_reader competition: untyped
+
+  def score_flare: () -> (nil | untyped)
+
+  def score_performance: () -> (nil | untyped)
+
+  def score_performance_wind_cancelled: () -> (nil | untyped)
+
+  def best_track_segment: () { (untyped) -> untyped } -> untyped
+
+  def best_track_segment_wind_cancelled: () -> untyped
+
+  def track_points: (?trimmed: bool) -> untyped
+
+  def competition_windows: () -> untyped
+end

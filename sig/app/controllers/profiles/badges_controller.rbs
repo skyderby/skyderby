@@ -1,0 +1,13 @@
+module Profiles
+  class BadgesController < ApplicationController
+    def new: () -> untyped
+
+    def create: () -> untyped
+
+    private
+
+    def set_profile: () -> untyped
+
+    def badge_params: () -> untyped
+  end
+end

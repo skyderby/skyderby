@@ -1,0 +1,317 @@
+class Track < ::ApplicationRecord
+  class File < ::ApplicationRecord
+    extend _ActiveRecord_Relation_ClassMethods[Track::File, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def file_file_name: () -> String?
+
+      def file_file_name=: (String?) -> String?
+
+      def file_file_name?: () -> bool
+
+      def file_file_name_changed?: () -> bool
+
+      def file_file_name_change: () -> [ String?, String? ]
+
+      def file_file_name_will_change!: () -> void
+
+      def file_file_name_was: () -> String?
+
+      def file_file_name_previously_changed?: () -> bool
+
+      def file_file_name_previous_change: () -> Array[String?]?
+
+      def file_file_name_previously_was: () -> String?
+
+      def file_file_name_before_last_save: () -> String?
+
+      def file_file_name_change_to_be_saved: () -> Array[String?]?
+
+      def file_file_name_in_database: () -> String?
+
+      def saved_change_to_file_file_name: () -> Array[String?]?
+
+      def saved_change_to_file_file_name?: () -> bool
+
+      def will_save_change_to_file_file_name?: () -> bool
+
+      def restore_file_file_name!: () -> void
+
+      def clear_file_file_name_change: () -> void
+
+      def file_content_type: () -> String?
+
+      def file_content_type=: (String?) -> String?
+
+      def file_content_type?: () -> bool
+
+      def file_content_type_changed?: () -> bool
+
+      def file_content_type_change: () -> [ String?, String? ]
+
+      def file_content_type_will_change!: () -> void
+
+      def file_content_type_was: () -> String?
+
+      def file_content_type_previously_changed?: () -> bool
+
+      def file_content_type_previous_change: () -> Array[String?]?
+
+      def file_content_type_previously_was: () -> String?
+
+      def file_content_type_before_last_save: () -> String?
+
+      def file_content_type_change_to_be_saved: () -> Array[String?]?
+
+      def file_content_type_in_database: () -> String?
+
+      def saved_change_to_file_content_type: () -> Array[String?]?
+
+      def saved_change_to_file_content_type?: () -> bool
+
+      def will_save_change_to_file_content_type?: () -> bool
+
+      def restore_file_content_type!: () -> void
+
+      def clear_file_content_type_change: () -> void
+
+      def file_file_size: () -> Integer?
+
+      def file_file_size=: (Integer?) -> Integer?
+
+      def file_file_size?: () -> bool
+
+      def file_file_size_changed?: () -> bool
+
+      def file_file_size_change: () -> [ Integer?, Integer? ]
+
+      def file_file_size_will_change!: () -> void
+
+      def file_file_size_was: () -> Integer?
+
+      def file_file_size_previously_changed?: () -> bool
+
+      def file_file_size_previous_change: () -> Array[Integer?]?
+
+      def file_file_size_previously_was: () -> Integer?
+
+      def file_file_size_before_last_save: () -> Integer?
+
+      def file_file_size_change_to_be_saved: () -> Array[Integer?]?
+
+      def file_file_size_in_database: () -> Integer?
+
+      def saved_change_to_file_file_size: () -> Array[Integer?]?
+
+      def saved_change_to_file_file_size?: () -> bool
+
+      def will_save_change_to_file_file_size?: () -> bool
+
+      def restore_file_file_size!: () -> void
+
+      def clear_file_file_size_change: () -> void
+
+      def file_updated_at: () -> untyped?
+
+      def file_updated_at=: (untyped?) -> untyped?
+
+      def file_updated_at?: () -> bool
+
+      def file_updated_at_changed?: () -> bool
+
+      def file_updated_at_change: () -> [ untyped?, untyped? ]
+
+      def file_updated_at_will_change!: () -> void
+
+      def file_updated_at_was: () -> untyped?
+
+      def file_updated_at_previously_changed?: () -> bool
+
+      def file_updated_at_previous_change: () -> Array[untyped?]?
+
+      def file_updated_at_previously_was: () -> untyped?
+
+      def file_updated_at_before_last_save: () -> untyped?
+
+      def file_updated_at_change_to_be_saved: () -> Array[untyped?]?
+
+      def file_updated_at_in_database: () -> untyped?
+
+      def saved_change_to_file_updated_at: () -> Array[untyped?]?
+
+      def saved_change_to_file_updated_at?: () -> bool
+
+      def will_save_change_to_file_updated_at?: () -> bool
+
+      def restore_file_updated_at!: () -> void
+
+      def clear_file_updated_at_change: () -> void
+
+      def created_at: () -> untyped
+
+      def created_at=: (untyped) -> untyped
+
+      def created_at?: () -> bool
+
+      def created_at_changed?: () -> bool
+
+      def created_at_change: () -> [ untyped?, untyped? ]
+
+      def created_at_will_change!: () -> void
+
+      def created_at_was: () -> untyped?
+
+      def created_at_previously_changed?: () -> bool
+
+      def created_at_previous_change: () -> Array[untyped?]?
+
+      def created_at_previously_was: () -> untyped?
+
+      def created_at_before_last_save: () -> untyped?
+
+      def created_at_change_to_be_saved: () -> Array[untyped?]?
+
+      def created_at_in_database: () -> untyped?
+
+      def saved_change_to_created_at: () -> Array[untyped?]?
+
+      def saved_change_to_created_at?: () -> bool
+
+      def will_save_change_to_created_at?: () -> bool
+
+      def restore_created_at!: () -> void
+
+      def clear_created_at_change: () -> void
+
+      def updated_at: () -> untyped
+
+      def updated_at=: (untyped) -> untyped
+
+      def updated_at?: () -> bool
+
+      def updated_at_changed?: () -> bool
+
+      def updated_at_change: () -> [ untyped?, untyped? ]
+
+      def updated_at_will_change!: () -> void
+
+      def updated_at_was: () -> untyped?
+
+      def updated_at_previously_changed?: () -> bool
+
+      def updated_at_previous_change: () -> Array[untyped?]?
+
+      def updated_at_previously_was: () -> untyped?
+
+      def updated_at_before_last_save: () -> untyped?
+
+      def updated_at_change_to_be_saved: () -> Array[untyped?]?
+
+      def updated_at_in_database: () -> untyped?
+
+      def saved_change_to_updated_at: () -> Array[untyped?]?
+
+      def saved_change_to_updated_at?: () -> bool
+
+      def will_save_change_to_updated_at?: () -> bool
+
+      def restore_updated_at!: () -> void
+
+      def clear_updated_at_change: () -> void
+
+      def file_data: () -> untyped?
+
+      def file_data=: (untyped?) -> untyped?
+
+      def file_data?: () -> bool
+
+      def file_data_changed?: () -> bool
+
+      def file_data_change: () -> [ untyped?, untyped? ]
+
+      def file_data_will_change!: () -> void
+
+      def file_data_was: () -> untyped?
+
+      def file_data_previously_changed?: () -> bool
+
+      def file_data_previous_change: () -> Array[untyped?]?
+
+      def file_data_previously_was: () -> untyped?
+
+      def file_data_before_last_save: () -> untyped?
+
+      def file_data_change_to_be_saved: () -> Array[untyped?]?
+
+      def file_data_in_database: () -> untyped?
+
+      def saved_change_to_file_data: () -> Array[untyped?]?
+
+      def saved_change_to_file_data?: () -> bool
+
+      def will_save_change_to_file_data?: () -> bool
+
+      def restore_file_data!: () -> void
+
+      def clear_file_data_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def track: () -> Track?
+    def track=: (Track?) -> Track?
+    def build_track: (untyped) -> Track
+    def create_track: (untyped) -> Track
+    def create_track!: (untyped) -> Track
+    def reload_track: () -> Track?
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Track::File, Integer]
+      include Enumerable[Track::File]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Track::File, Integer]
+    end
+  end
+end

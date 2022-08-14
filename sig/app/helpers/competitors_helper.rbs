@@ -1,0 +1,7 @@
+module CompetitorsHelper
+  def new_competitor_link: (untyped event) -> untyped
+
+  def edit_competitor_link: (untyped event, untyped competitor) -> untyped
+
+  def delete_competitor_button: (untyped event, untyped competitor) -> untyped
+end
