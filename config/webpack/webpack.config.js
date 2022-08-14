@@ -1,6 +1,5 @@
 const { webpackConfig, devServer, merge } = require('shakapacker')
 const VirtualModulesPlugin = require('webpack-virtual-modules')
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 const TranslationsPlugin = require('./translations')
@@ -26,6 +25,15 @@ webpackConfig.module.rules.forEach(rule => {
   })
 })
 
+const reactRefreshPlugin = () => {
+  const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+  return new ReactRefreshWebpackPlugin({
+    overlay: {
+      sockPort: devServer.port
+    }
+  })
+}
+
 const options = {
   resolve: {
     extensions: [
@@ -42,12 +50,7 @@ const options = {
   plugins: [
     virtualModules,
     new TranslationsPlugin(virtualModules),
-    isDevelopment &&
-      new ReactRefreshWebpackPlugin({
-        overlay: {
-          sockPort: devServer.port
-        }
-      })
+    isDevelopment && reactRefreshPlugin()
   ].filter(Boolean),
   module: {
     rules: [
