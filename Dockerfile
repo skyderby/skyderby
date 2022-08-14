@@ -29,9 +29,7 @@ RUN mkdir -p /opt/app \
   && mkdir -p /tmp/sockets
 COPY ./ /opt/app
 
-RUN SECRET_KEY_BASE=just-for-precompilation \
-  /bin/sh -c 'bundle exec rails assets:precompile' && \
-  rm -rf node_modules
+RUN /bin/sh -c 'bundle exec rake webpacker:compile' && rm -rf node_modules
 
 VOLUME /opt/app/public/assets
 VOLUME /opt/app/public/packs
