@@ -1,0 +1,260 @@
+class Track < ::ApplicationRecord
+  class Result < ::ApplicationRecord
+    extend _ActiveRecord_Relation_ClassMethods[Track::Result, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def track_id: () -> Integer?
+
+      def track_id=: (Integer?) -> Integer?
+
+      def track_id?: () -> bool
+
+      def track_id_changed?: () -> bool
+
+      def track_id_change: () -> [ Integer?, Integer? ]
+
+      def track_id_will_change!: () -> void
+
+      def track_id_was: () -> Integer?
+
+      def track_id_previously_changed?: () -> bool
+
+      def track_id_previous_change: () -> Array[Integer?]?
+
+      def track_id_previously_was: () -> Integer?
+
+      def track_id_before_last_save: () -> Integer?
+
+      def track_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def track_id_in_database: () -> Integer?
+
+      def saved_change_to_track_id: () -> Array[Integer?]?
+
+      def saved_change_to_track_id?: () -> bool
+
+      def will_save_change_to_track_id?: () -> bool
+
+      def restore_track_id!: () -> void
+
+      def clear_track_id_change: () -> void
+
+      def discipline: () -> String?
+
+      def discipline=: (String?) -> String?
+
+      def discipline?: () -> bool
+
+      def discipline_changed?: () -> bool
+
+      def discipline_change: () -> [ String?, String? ]
+
+      def discipline_will_change!: () -> void
+
+      def discipline_was: () -> String?
+
+      def discipline_previously_changed?: () -> bool
+
+      def discipline_previous_change: () -> Array[String?]?
+
+      def discipline_previously_was: () -> String?
+
+      def discipline_before_last_save: () -> String?
+
+      def discipline_change_to_be_saved: () -> Array[String?]?
+
+      def discipline_in_database: () -> String?
+
+      def saved_change_to_discipline: () -> Array[String?]?
+
+      def saved_change_to_discipline?: () -> bool
+
+      def will_save_change_to_discipline?: () -> bool
+
+      def restore_discipline!: () -> void
+
+      def clear_discipline_change: () -> void
+
+      def range_from: () -> Integer?
+
+      def range_from=: (Integer?) -> Integer?
+
+      def range_from?: () -> bool
+
+      def range_from_changed?: () -> bool
+
+      def range_from_change: () -> [ Integer?, Integer? ]
+
+      def range_from_will_change!: () -> void
+
+      def range_from_was: () -> Integer?
+
+      def range_from_previously_changed?: () -> bool
+
+      def range_from_previous_change: () -> Array[Integer?]?
+
+      def range_from_previously_was: () -> Integer?
+
+      def range_from_before_last_save: () -> Integer?
+
+      def range_from_change_to_be_saved: () -> Array[Integer?]?
+
+      def range_from_in_database: () -> Integer?
+
+      def saved_change_to_range_from: () -> Array[Integer?]?
+
+      def saved_change_to_range_from?: () -> bool
+
+      def will_save_change_to_range_from?: () -> bool
+
+      def restore_range_from!: () -> void
+
+      def clear_range_from_change: () -> void
+
+      def range_to: () -> Integer?
+
+      def range_to=: (Integer?) -> Integer?
+
+      def range_to?: () -> bool
+
+      def range_to_changed?: () -> bool
+
+      def range_to_change: () -> [ Integer?, Integer? ]
+
+      def range_to_will_change!: () -> void
+
+      def range_to_was: () -> Integer?
+
+      def range_to_previously_changed?: () -> bool
+
+      def range_to_previous_change: () -> Array[Integer?]?
+
+      def range_to_previously_was: () -> Integer?
+
+      def range_to_before_last_save: () -> Integer?
+
+      def range_to_change_to_be_saved: () -> Array[Integer?]?
+
+      def range_to_in_database: () -> Integer?
+
+      def saved_change_to_range_to: () -> Array[Integer?]?
+
+      def saved_change_to_range_to?: () -> bool
+
+      def will_save_change_to_range_to?: () -> bool
+
+      def restore_range_to!: () -> void
+
+      def clear_range_to_change: () -> void
+
+      def result: () -> Float?
+
+      def result=: (Float?) -> Float?
+
+      def result?: () -> bool
+
+      def result_changed?: () -> bool
+
+      def result_change: () -> [ Float?, Float? ]
+
+      def result_will_change!: () -> void
+
+      def result_was: () -> Float?
+
+      def result_previously_changed?: () -> bool
+
+      def result_previous_change: () -> Array[Float?]?
+
+      def result_previously_was: () -> Float?
+
+      def result_before_last_save: () -> Float?
+
+      def result_change_to_be_saved: () -> Array[Float?]?
+
+      def result_in_database: () -> Float?
+
+      def saved_change_to_result: () -> Array[Float?]?
+
+      def saved_change_to_result?: () -> bool
+
+      def will_save_change_to_result?: () -> bool
+
+      def restore_result!: () -> void
+
+      def clear_result_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def track: () -> Track
+    def track=: (Track?) -> Track?
+    def reload_track: () -> Track?
+    def build_track: (untyped) -> Track
+    def create_track: (untyped) -> Track
+    def create_track!: (untyped) -> Track
+
+    def time!: () -> bool
+    def time?: () -> bool
+    def distance!: () -> bool
+    def distance?: () -> bool
+    def speed!: () -> bool
+    def speed?: () -> bool
+    def self.time: () -> ActiveRecord_Relation
+    def self.distance: () -> ActiveRecord_Relation
+    def self.speed: () -> ActiveRecord_Relation
+
+    module GeneratedRelationMethods
+      def time: () -> ActiveRecord_Relation
+
+      def distance: () -> ActiveRecord_Relation
+
+      def speed: () -> ActiveRecord_Relation
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Track::Result, Integer]
+      include Enumerable[Track::Result]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Track::Result, Integer]
+    end
+  end
+end

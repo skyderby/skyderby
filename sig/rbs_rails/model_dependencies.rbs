@@ -1,0 +1,116 @@
+class ApplicationRecord < ActiveRecord::Base
+end
+class Tournament::Match::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Tournament::Match::Slot::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class QualificationJump::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class SpeedSkydivingCompetition::Competitor::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class SpeedSkydivingCompetition::Result::Penalty::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class SpeedSkydivingCompetition::Result::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Place::JumpLine::Measurement::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Event::Competitor::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Point::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Track::Result::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class VirtualCompetition::Result::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Track::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Profile::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class SpeedSkydivingCompetitionSeries::Round::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class SpeedSkydivingCompetitionSeries::IncludedCompetition::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class SpeedSkydivingCompetition::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class SpeedSkydivingCompetition::Category::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class SpeedSkydivingCompetition::Round::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class SpeedSkydivingCompetition::Team::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Assignment::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class User::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Organizer::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Tournament::Competitor::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Tournament::Round::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class QualificationRound::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Sponsor::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Badge::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Event::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class VirtualCompetition::PersonalTopScore < ApplicationRecord
+end
+class VirtualCompetition::PersonalTopScore::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Contribution::Detail::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Contribution::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class PerformanceCompetitionSeries::Round::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class PerformanceCompetitionSeries::IncludedCompetition::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Suit::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Place::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Tournament::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Role::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class VirtualCompetition::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class VirtualCompetition::AnnualTopScore < ApplicationRecord
+end
+class VirtualCompetition::AnnualTopScore::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class VirtualCompetition::IntervalTopScore < ApplicationRecord
+end
+class VirtualCompetition::IntervalTopScore::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class VirtualCompetition::CustomInterval::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Place::Photo::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Place::WeatherDatum::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Place::JumpLine::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Place::FinishLine::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Event::Result::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Event::ReferencePointAssignment::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Event::ReferencePoint::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Event::Section::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Event::Round::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class Event::Team::ActiveRecord_Associations_CollectionProxy < ActiveRecord::Associations::CollectionProxy
+end
+class ActiveRecord::Associations::CollectionProxy < ActiveRecord::Relation
+end
+class ActiveRecord::Relation < Object
+end
+module ActiveRecord::Associations
+end

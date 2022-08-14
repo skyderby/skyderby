@@ -188,7 +188,16 @@ class Contribution < ::ApplicationRecord
   def detail_ids: () -> Array[Integer]
   def detail_ids=: (Array[Integer]) -> Array[Integer]
 
+  def self.in_this_month: () -> ActiveRecord_Relation
+  def self.in_past_days: (untyped days) -> ActiveRecord_Relation
+  def self.chronologically: () -> ActiveRecord_Relation
+
   module GeneratedRelationMethods
+    def in_this_month: () -> ActiveRecord_Relation
+
+    def in_past_days: (untyped days) -> ActiveRecord_Relation
+
+    def chronologically: () -> ActiveRecord_Relation
   end
 
   class ActiveRecord_Relation < ::ActiveRecord::Relation

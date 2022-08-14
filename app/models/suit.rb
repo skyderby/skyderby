@@ -19,7 +19,7 @@ class Suit < ApplicationRecord
   belongs_to :manufacturer
 
   has_many :tracks, -> { order('created_at DESC') }, inverse_of: :suit
-  has_many :competitors, dependent: :restrict_with_error
+  has_many :competitors, class_name: 'Event::Competitor', dependent: :restrict_with_error
   has_many :pilots, through: :tracks
 
   validates :name, presence: true

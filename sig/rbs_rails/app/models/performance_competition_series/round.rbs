@@ -1,0 +1,301 @@
+class PerformanceCompetitionSeries < ::ApplicationRecord
+  class Round < ::ApplicationRecord
+    extend _ActiveRecord_Relation_ClassMethods[PerformanceCompetitionSeries::Round, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def performance_competition_series_id: () -> Integer?
+
+      def performance_competition_series_id=: (Integer?) -> Integer?
+
+      def performance_competition_series_id?: () -> bool
+
+      def performance_competition_series_id_changed?: () -> bool
+
+      def performance_competition_series_id_change: () -> [ Integer?, Integer? ]
+
+      def performance_competition_series_id_will_change!: () -> void
+
+      def performance_competition_series_id_was: () -> Integer?
+
+      def performance_competition_series_id_previously_changed?: () -> bool
+
+      def performance_competition_series_id_previous_change: () -> Array[Integer?]?
+
+      def performance_competition_series_id_previously_was: () -> Integer?
+
+      def performance_competition_series_id_before_last_save: () -> Integer?
+
+      def performance_competition_series_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def performance_competition_series_id_in_database: () -> Integer?
+
+      def saved_change_to_performance_competition_series_id: () -> Array[Integer?]?
+
+      def saved_change_to_performance_competition_series_id?: () -> bool
+
+      def will_save_change_to_performance_competition_series_id?: () -> bool
+
+      def restore_performance_competition_series_id!: () -> void
+
+      def clear_performance_competition_series_id_change: () -> void
+
+      def discipline: () -> String
+
+      def discipline=: (String) -> String
+
+      def discipline?: () -> bool
+
+      def discipline_changed?: () -> bool
+
+      def discipline_change: () -> [ String?, String? ]
+
+      def discipline_will_change!: () -> void
+
+      def discipline_was: () -> String?
+
+      def discipline_previously_changed?: () -> bool
+
+      def discipline_previous_change: () -> Array[String?]?
+
+      def discipline_previously_was: () -> String?
+
+      def discipline_before_last_save: () -> String?
+
+      def discipline_change_to_be_saved: () -> Array[String?]?
+
+      def discipline_in_database: () -> String?
+
+      def saved_change_to_discipline: () -> Array[String?]?
+
+      def saved_change_to_discipline?: () -> bool
+
+      def will_save_change_to_discipline?: () -> bool
+
+      def restore_discipline!: () -> void
+
+      def clear_discipline_change: () -> void
+
+      def number: () -> Integer?
+
+      def number=: (Integer?) -> Integer?
+
+      def number?: () -> bool
+
+      def number_changed?: () -> bool
+
+      def number_change: () -> [ Integer?, Integer? ]
+
+      def number_will_change!: () -> void
+
+      def number_was: () -> Integer?
+
+      def number_previously_changed?: () -> bool
+
+      def number_previous_change: () -> Array[Integer?]?
+
+      def number_previously_was: () -> Integer?
+
+      def number_before_last_save: () -> Integer?
+
+      def number_change_to_be_saved: () -> Array[Integer?]?
+
+      def number_in_database: () -> Integer?
+
+      def saved_change_to_number: () -> Array[Integer?]?
+
+      def saved_change_to_number?: () -> bool
+
+      def will_save_change_to_number?: () -> bool
+
+      def restore_number!: () -> void
+
+      def clear_number_change: () -> void
+
+      def completed: () -> bool
+
+      def completed=: (bool) -> bool
+
+      def completed?: () -> bool
+
+      def completed_changed?: () -> bool
+
+      def completed_change: () -> [ bool?, bool? ]
+
+      def completed_will_change!: () -> void
+
+      def completed_was: () -> bool?
+
+      def completed_previously_changed?: () -> bool
+
+      def completed_previous_change: () -> Array[bool?]?
+
+      def completed_previously_was: () -> bool?
+
+      def completed_before_last_save: () -> bool?
+
+      def completed_change_to_be_saved: () -> Array[bool?]?
+
+      def completed_in_database: () -> bool?
+
+      def saved_change_to_completed: () -> Array[bool?]?
+
+      def saved_change_to_completed?: () -> bool
+
+      def will_save_change_to_completed?: () -> bool
+
+      def restore_completed!: () -> void
+
+      def clear_completed_change: () -> void
+
+      def created_at: () -> ActiveSupport::TimeWithZone
+
+      def created_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def created_at?: () -> bool
+
+      def created_at_changed?: () -> bool
+
+      def created_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def created_at_will_change!: () -> void
+
+      def created_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_previously_changed?: () -> bool
+
+      def created_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def created_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def created_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_created_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_created_at?: () -> bool
+
+      def will_save_change_to_created_at?: () -> bool
+
+      def restore_created_at!: () -> void
+
+      def clear_created_at_change: () -> void
+
+      def updated_at: () -> ActiveSupport::TimeWithZone
+
+      def updated_at=: (ActiveSupport::TimeWithZone) -> ActiveSupport::TimeWithZone
+
+      def updated_at?: () -> bool
+
+      def updated_at_changed?: () -> bool
+
+      def updated_at_change: () -> [ ActiveSupport::TimeWithZone?, ActiveSupport::TimeWithZone? ]
+
+      def updated_at_will_change!: () -> void
+
+      def updated_at_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_previously_changed?: () -> bool
+
+      def updated_at_previous_change: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_previously_was: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_before_last_save: () -> ActiveSupport::TimeWithZone?
+
+      def updated_at_change_to_be_saved: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def updated_at_in_database: () -> ActiveSupport::TimeWithZone?
+
+      def saved_change_to_updated_at: () -> Array[ActiveSupport::TimeWithZone?]?
+
+      def saved_change_to_updated_at?: () -> bool
+
+      def will_save_change_to_updated_at?: () -> bool
+
+      def restore_updated_at!: () -> void
+
+      def clear_updated_at_change: () -> void
+    end
+    include GeneratedAttributeMethods
+
+    def performance_competition_series: () -> PerformanceCompetitionSeries
+    def performance_competition_series=: (PerformanceCompetitionSeries?) -> PerformanceCompetitionSeries?
+    def reload_performance_competition_series: () -> PerformanceCompetitionSeries?
+    def build_performance_competition_series: (untyped) -> PerformanceCompetitionSeries
+    def create_performance_competition_series: (untyped) -> PerformanceCompetitionSeries
+    def create_performance_competition_series!: (untyped) -> PerformanceCompetitionSeries
+
+    def time!: () -> bool
+    def time?: () -> bool
+    def distance!: () -> bool
+    def distance?: () -> bool
+    def speed!: () -> bool
+    def speed?: () -> bool
+    def vertical_speed!: () -> bool
+    def vertical_speed?: () -> bool
+    def self.time: () -> ActiveRecord_Relation
+    def self.distance: () -> ActiveRecord_Relation
+    def self.speed: () -> ActiveRecord_Relation
+    def self.vertical_speed: () -> ActiveRecord_Relation
+
+    module GeneratedRelationMethods
+      def time: () -> ActiveRecord_Relation
+
+      def distance: () -> ActiveRecord_Relation
+
+      def speed: () -> ActiveRecord_Relation
+
+      def vertical_speed: () -> ActiveRecord_Relation
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[PerformanceCompetitionSeries::Round, Integer]
+      include Enumerable[PerformanceCompetitionSeries::Round]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[PerformanceCompetitionSeries::Round, Integer]
+    end
+  end
+end

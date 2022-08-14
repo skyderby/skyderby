@@ -1,0 +1,337 @@
+class Tournament < ::ApplicationRecord
+  class Competitor < ::ApplicationRecord
+    extend _ActiveRecord_Relation_ClassMethods[Tournament::Competitor, ActiveRecord_Relation, Integer]
+
+    module GeneratedAttributeMethods
+      def id: () -> Integer
+
+      def id=: (Integer) -> Integer
+
+      def id?: () -> bool
+
+      def id_changed?: () -> bool
+
+      def id_change: () -> [ Integer?, Integer? ]
+
+      def id_will_change!: () -> void
+
+      def id_was: () -> Integer?
+
+      def id_previously_changed?: () -> bool
+
+      def id_previous_change: () -> Array[Integer?]?
+
+      def id_previously_was: () -> Integer?
+
+      def id_before_last_save: () -> Integer?
+
+      def id_change_to_be_saved: () -> Array[Integer?]?
+
+      def id_in_database: () -> Integer?
+
+      def saved_change_to_id: () -> Array[Integer?]?
+
+      def saved_change_to_id?: () -> bool
+
+      def will_save_change_to_id?: () -> bool
+
+      def restore_id!: () -> void
+
+      def clear_id_change: () -> void
+
+      def tournament_id: () -> Integer?
+
+      def tournament_id=: (Integer?) -> Integer?
+
+      def tournament_id?: () -> bool
+
+      def tournament_id_changed?: () -> bool
+
+      def tournament_id_change: () -> [ Integer?, Integer? ]
+
+      def tournament_id_will_change!: () -> void
+
+      def tournament_id_was: () -> Integer?
+
+      def tournament_id_previously_changed?: () -> bool
+
+      def tournament_id_previous_change: () -> Array[Integer?]?
+
+      def tournament_id_previously_was: () -> Integer?
+
+      def tournament_id_before_last_save: () -> Integer?
+
+      def tournament_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def tournament_id_in_database: () -> Integer?
+
+      def saved_change_to_tournament_id: () -> Array[Integer?]?
+
+      def saved_change_to_tournament_id?: () -> bool
+
+      def will_save_change_to_tournament_id?: () -> bool
+
+      def restore_tournament_id!: () -> void
+
+      def clear_tournament_id_change: () -> void
+
+      def profile_id: () -> Integer?
+
+      def profile_id=: (Integer?) -> Integer?
+
+      def profile_id?: () -> bool
+
+      def profile_id_changed?: () -> bool
+
+      def profile_id_change: () -> [ Integer?, Integer? ]
+
+      def profile_id_will_change!: () -> void
+
+      def profile_id_was: () -> Integer?
+
+      def profile_id_previously_changed?: () -> bool
+
+      def profile_id_previous_change: () -> Array[Integer?]?
+
+      def profile_id_previously_was: () -> Integer?
+
+      def profile_id_before_last_save: () -> Integer?
+
+      def profile_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def profile_id_in_database: () -> Integer?
+
+      def saved_change_to_profile_id: () -> Array[Integer?]?
+
+      def saved_change_to_profile_id?: () -> bool
+
+      def will_save_change_to_profile_id?: () -> bool
+
+      def restore_profile_id!: () -> void
+
+      def clear_profile_id_change: () -> void
+
+      def suit_id: () -> Integer?
+
+      def suit_id=: (Integer?) -> Integer?
+
+      def suit_id?: () -> bool
+
+      def suit_id_changed?: () -> bool
+
+      def suit_id_change: () -> [ Integer?, Integer? ]
+
+      def suit_id_will_change!: () -> void
+
+      def suit_id_was: () -> Integer?
+
+      def suit_id_previously_changed?: () -> bool
+
+      def suit_id_previous_change: () -> Array[Integer?]?
+
+      def suit_id_previously_was: () -> Integer?
+
+      def suit_id_before_last_save: () -> Integer?
+
+      def suit_id_change_to_be_saved: () -> Array[Integer?]?
+
+      def suit_id_in_database: () -> Integer?
+
+      def saved_change_to_suit_id: () -> Array[Integer?]?
+
+      def saved_change_to_suit_id?: () -> bool
+
+      def will_save_change_to_suit_id?: () -> bool
+
+      def restore_suit_id!: () -> void
+
+      def clear_suit_id_change: () -> void
+
+      def created_at: () -> untyped
+
+      def created_at=: (untyped) -> untyped
+
+      def created_at?: () -> bool
+
+      def created_at_changed?: () -> bool
+
+      def created_at_change: () -> [ untyped?, untyped? ]
+
+      def created_at_will_change!: () -> void
+
+      def created_at_was: () -> untyped?
+
+      def created_at_previously_changed?: () -> bool
+
+      def created_at_previous_change: () -> Array[untyped?]?
+
+      def created_at_previously_was: () -> untyped?
+
+      def created_at_before_last_save: () -> untyped?
+
+      def created_at_change_to_be_saved: () -> Array[untyped?]?
+
+      def created_at_in_database: () -> untyped?
+
+      def saved_change_to_created_at: () -> Array[untyped?]?
+
+      def saved_change_to_created_at?: () -> bool
+
+      def will_save_change_to_created_at?: () -> bool
+
+      def restore_created_at!: () -> void
+
+      def clear_created_at_change: () -> void
+
+      def updated_at: () -> untyped
+
+      def updated_at=: (untyped) -> untyped
+
+      def updated_at?: () -> bool
+
+      def updated_at_changed?: () -> bool
+
+      def updated_at_change: () -> [ untyped?, untyped? ]
+
+      def updated_at_will_change!: () -> void
+
+      def updated_at_was: () -> untyped?
+
+      def updated_at_previously_changed?: () -> bool
+
+      def updated_at_previous_change: () -> Array[untyped?]?
+
+      def updated_at_previously_was: () -> untyped?
+
+      def updated_at_before_last_save: () -> untyped?
+
+      def updated_at_change_to_be_saved: () -> Array[untyped?]?
+
+      def updated_at_in_database: () -> untyped?
+
+      def saved_change_to_updated_at: () -> Array[untyped?]?
+
+      def saved_change_to_updated_at?: () -> bool
+
+      def will_save_change_to_updated_at?: () -> bool
+
+      def restore_updated_at!: () -> void
+
+      def clear_updated_at_change: () -> void
+
+      def is_disqualified: () -> bool?
+
+      def is_disqualified=: (bool?) -> bool?
+
+      def is_disqualified?: () -> bool
+
+      def is_disqualified_changed?: () -> bool
+
+      def is_disqualified_change: () -> [ bool?, bool? ]
+
+      def is_disqualified_will_change!: () -> void
+
+      def is_disqualified_was: () -> bool?
+
+      def is_disqualified_previously_changed?: () -> bool
+
+      def is_disqualified_previous_change: () -> Array[bool?]?
+
+      def is_disqualified_previously_was: () -> bool?
+
+      def is_disqualified_before_last_save: () -> bool?
+
+      def is_disqualified_change_to_be_saved: () -> Array[bool?]?
+
+      def is_disqualified_in_database: () -> bool?
+
+      def saved_change_to_is_disqualified: () -> Array[bool?]?
+
+      def saved_change_to_is_disqualified?: () -> bool
+
+      def will_save_change_to_is_disqualified?: () -> bool
+
+      def restore_is_disqualified!: () -> void
+
+      def clear_is_disqualified_change: () -> void
+
+      def disqualification_reason: () -> String?
+
+      def disqualification_reason=: (String?) -> String?
+
+      def disqualification_reason?: () -> bool
+
+      def disqualification_reason_changed?: () -> bool
+
+      def disqualification_reason_change: () -> [ String?, String? ]
+
+      def disqualification_reason_will_change!: () -> void
+
+      def disqualification_reason_was: () -> String?
+
+      def disqualification_reason_previously_changed?: () -> bool
+
+      def disqualification_reason_previous_change: () -> Array[String?]?
+
+      def disqualification_reason_previously_was: () -> String?
+
+      def disqualification_reason_before_last_save: () -> String?
+
+      def disqualification_reason_change_to_be_saved: () -> Array[String?]?
+
+      def disqualification_reason_in_database: () -> String?
+
+      def saved_change_to_disqualification_reason: () -> Array[String?]?
+
+      def saved_change_to_disqualification_reason?: () -> bool
+
+      def will_save_change_to_disqualification_reason?: () -> bool
+
+      def restore_disqualification_reason!: () -> void
+
+      def clear_disqualification_reason_change: () -> void
+    end
+    include GeneratedAttributeMethods
+    def match_slots: () -> Tournament::Match::Slot::ActiveRecord_Associations_CollectionProxy
+    def match_slots=: (Tournament::Match::Slot::ActiveRecord_Associations_CollectionProxy | Array[Tournament::Match::Slot]) -> (Tournament::Match::Slot::ActiveRecord_Associations_CollectionProxy | Array[Tournament::Match::Slot])
+    def match_slot_ids: () -> Array[Integer]
+    def match_slot_ids=: (Array[Integer]) -> Array[Integer]
+    def qualification_jumps: () -> QualificationJump::ActiveRecord_Associations_CollectionProxy
+    def qualification_jumps=: (QualificationJump::ActiveRecord_Associations_CollectionProxy | Array[QualificationJump]) -> (QualificationJump::ActiveRecord_Associations_CollectionProxy | Array[QualificationJump])
+    def qualification_jump_ids: () -> Array[Integer]
+    def qualification_jump_ids=: (Array[Integer]) -> Array[Integer]
+
+    def tournament: () -> Tournament
+    def tournament=: (Tournament?) -> Tournament?
+    def reload_tournament: () -> Tournament?
+    def build_tournament: (untyped) -> Tournament
+    def create_tournament: (untyped) -> Tournament
+    def create_tournament!: (untyped) -> Tournament
+    def profile: () -> Profile
+    def profile=: (Profile?) -> Profile?
+    def reload_profile: () -> Profile?
+    def build_profile: (untyped) -> Profile
+    def create_profile: (untyped) -> Profile
+    def create_profile!: (untyped) -> Profile
+    def suit: () -> Suit
+    def suit=: (Suit?) -> Suit?
+    def reload_suit: () -> Suit?
+    def build_suit: (untyped) -> Suit
+    def create_suit: (untyped) -> Suit
+    def create_suit!: (untyped) -> Suit
+
+    module GeneratedRelationMethods
+    end
+
+    class ActiveRecord_Relation < ::ActiveRecord::Relation
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Tournament::Competitor, Integer]
+      include Enumerable[Tournament::Competitor]
+    end
+
+    class ActiveRecord_Associations_CollectionProxy < ::ActiveRecord::Associations::CollectionProxy
+      include GeneratedRelationMethods
+      include _ActiveRecord_Relation[Tournament::Competitor, Integer]
+    end
+  end
+end
