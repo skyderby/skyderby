@@ -11,6 +11,8 @@ module SegmentParser
   end
 
   class Default
+    def initialize(...); end
+
     def segments
       [NullSegment.new]
     end
