@@ -30,7 +30,7 @@ class PerformanceCompetitionSeries::Scoreboard::Standings::Result
     value = record.public_send(result_field)
     return 0 unless value
 
-    (value - value / 100 * penalty_size.to_f).round(precision)
+    (value - (value / 100 * penalty_size.to_f)).round(precision)
   end
 
   def calculate_points_from(best_result)

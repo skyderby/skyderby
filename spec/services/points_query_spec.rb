@@ -3,9 +3,9 @@ describe PointsQuery do
     result = PointsQuery.execute(track, only: [:fl_time, :abs_altitude], freq_1hz: true)
     expect(result).to match(
       [
-        { 'fl_time': 0.0, 'abs_altitude': 3500 },
-        { 'fl_time': 1.0, 'abs_altitude': 3300 },
-        { 'fl_time': 2.0, 'abs_altitude': 3100 }
+        { fl_time: 0.0, abs_altitude: 3500 },
+        { fl_time: 1.0, abs_altitude: 3300 },
+        { fl_time: 2.0, abs_altitude: 3100 }
       ]
     )
   end
@@ -14,9 +14,9 @@ describe PointsQuery do
     result = PointsQuery.execute(track, only: [:fl_time, :abs_altitude], trimmed: true)
     expect(result).to match(
       [
-        { 'fl_time': 1.0, 'abs_altitude': 3300 },
-        { 'fl_time': 1.5, 'abs_altitude': 3200 },
-        { 'fl_time': 2.0, 'abs_altitude': 3100 }
+        { fl_time: 1.0, abs_altitude: 3300 },
+        { fl_time: 1.5, abs_altitude: 3200 },
+        { fl_time: 2.0, abs_altitude: 3100 }
       ]
     )
   end
@@ -30,10 +30,10 @@ describe PointsQuery do
 
     expect(result).to match(
       [
-        { 'fl_time': 0.5, 'abs_altitude': 3400 },
-        { 'fl_time': 1.0, 'abs_altitude': 3300 },
-        { 'fl_time': 1.5, 'abs_altitude': 3200 },
-        { 'fl_time': 2.0, 'abs_altitude': 3100 }
+        { fl_time: 0.5, abs_altitude: 3400 },
+        { fl_time: 1.0, abs_altitude: 3300 },
+        { fl_time: 1.5, abs_altitude: 3200 },
+        { fl_time: 2.0, abs_altitude: 3100 }
       ]
     )
   end

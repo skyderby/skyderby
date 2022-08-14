@@ -7,11 +7,11 @@ module Tracks
     def pilot_name = track.pilot_name || track.name
 
     def start_time
-      points.first && points.first[:gps_time] || track.recorded_at
+      (points.first && points.first[:gps_time]) || track.recorded_at
     end
 
     def stop_time
-      points.last && points.last[:gps_time] || track.recorded_at
+      (points.last && points.last[:gps_time]) || track.recorded_at
     end
 
     def avg_heading

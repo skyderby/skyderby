@@ -6,10 +6,10 @@ describe User::Omniauth do
       provider: :facebook,
       uid: '000-000'
 
-    auth = OpenStruct.new \
+    auth = OmniAuth::AuthHash.new \
       provider: :facebook,
       uid: '000-000',
-      info: OpenStruct.new(email: 'xx@zz.yyy')
+      info: { email: 'xx@zz.yyy' }
 
     found_user = User.from_omniauth(auth)
 
@@ -21,10 +21,10 @@ describe User::Omniauth do
       email: 'ab@example.com',
       password: Devise.friendly_token[0, 20]
 
-    auth = OpenStruct.new \
+    auth = OmniAuth::AuthHash.new \
       provider: :facebook,
       uid: '000-000',
-      info: OpenStruct.new(email: 'ab@example.com')
+      info: { email: 'ab@example.com' }
 
     found_user = User.from_omniauth(auth)
 
@@ -33,15 +33,15 @@ describe User::Omniauth do
 
   describe 'create new user from auth info' do
     let :auth do
-      OpenStruct.new \
+      OmniAuth::AuthHash.new \
         provider: :facebook,
         uid: '000-000',
-        info: OpenStruct.new(
+        info: {
           email: 'ab@example.com',
           image: '',
           first_name: 'Ivan',
           last_name: 'Petrov'
-        )
+        }
     end
 
     subject { User.from_omniauth(auth) }

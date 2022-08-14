@@ -21,7 +21,7 @@ class SpeedSkydivingCompetition::Result < ApplicationRecord
 
   def penalty_size = 100 - penalties.inject(100) { |sum, penalty| sum * penalty.factor }
 
-  def final_result = result.to_f * (1 - penalty_size / 100)
+  def final_result = result.to_f * (1 - (penalty_size / 100))
 
   private
 

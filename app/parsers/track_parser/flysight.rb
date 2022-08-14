@@ -62,7 +62,7 @@ module TrackParser
     end
 
     def ground_speed_from_components(north:, east:)
-      Math.sqrt(north.to_f**2 + east.to_f**2) * MS_IN_KMH
+      Math.sqrt((north.to_f**2) + (east.to_f**2)) * MS_IN_KMH
     end
 
     def vertical_speed(value)

@@ -1,7 +1,7 @@
-ruby '3.0.0'
+ruby '3.1.2'
 source 'https://rubygems.org'
 
-gem 'rails', '~> 6.1.3'
+gem 'rails', '~> 7.0.3'
 
 gem 'puma', '< 6'
 gem 'rack-attack'
@@ -58,19 +58,14 @@ gem 'i18n-js', '>= 3.0.0.rc8'
 
 gem 'browser'
 
-# Assets
-gem 'bootstrap-sass', '~> 3.4.1'
-gem 'font-awesome-sass', '~> 5.8.1'
-gem 'sassc-rails'
-gem 'turbolinks'
-gem 'uglifier', '>= 2.7.2'
-gem 'webpacker', '~> 5.1'
+gem 'shakapacker', '6.5.0'
+
+gem 'matrix'
 
 gem 'vincenty_distance'
 
 group :development do
   gem 'annotate'
-  gem 'bullet'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
@@ -87,6 +82,6 @@ end
 group :test do
   gem 'capybara'
   gem 'cuprite'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '>= 4.0.0'
   gem 'simplecov'
 end

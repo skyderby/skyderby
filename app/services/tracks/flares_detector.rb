@@ -48,8 +48,8 @@ module Tracks
 
     def all_segments
       flares_map.slice_when do |before, after|
-        before[:altitude_gain].zero? && after[:altitude_gain].positive? ||
-          before[:altitude_gain].positive? && after[:altitude_gain].zero?
+        (before[:altitude_gain].zero? && after[:altitude_gain].positive?) ||
+          (before[:altitude_gain].positive? && after[:altitude_gain].zero?)
       end
     end
 

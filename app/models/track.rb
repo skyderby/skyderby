@@ -99,7 +99,7 @@ class Track < ApplicationRecord
   def competitive? = event_result.present?
 
   def msl_offset
-    @msl_offset ||= begin
+    @msl_offset ||=
       if ground_level&.positive?
         ground_level
       elsif place_msl
@@ -107,7 +107,6 @@ class Track < ApplicationRecord
       else
         points.minimum(:abs_altitude) || 0
       end
-    end
   end
 
   def start_time = points.trimmed.first&.gps_time

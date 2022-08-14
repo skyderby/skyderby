@@ -41,6 +41,6 @@ class PointInterpolation
   end
 
   def interpolate_field(field, factor)
-    @first_point[field] + (@second_point[field] - @first_point[field]) * factor
+    @first_point[field] + ((@second_point[field] - @first_point[field]) * factor)
   end
 end

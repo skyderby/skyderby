@@ -1,7 +1,7 @@
 describe Skyderby::Trigonometry do
   before do
     Skyderby::Trigonometry.module_eval do
-      module_function :normalize_angle # rubocop:disable Style/AccessModifierDeclarations
+      module_function :normalize_angle
     end
   end
 

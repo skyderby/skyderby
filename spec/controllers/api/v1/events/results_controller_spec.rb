@@ -29,7 +29,7 @@ describe Api::V1::Events::ResultsController do
         'reference_point[longitude]': '40.0',
         'jump_range[exit_time]': '2018-02-24T15:23:44.40Z',
         'jump_range[deploy_time]': '2018-02-24T15:26:24.40Z',
-        'track_file': fixture_file_upload('tracks/distance_2454.csv')
+        track_file: fixture_file_upload('tracks/distance_2454.csv')
       }
 
       post :create, params: params, format: :json

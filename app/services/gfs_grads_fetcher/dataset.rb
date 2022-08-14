@@ -62,7 +62,7 @@ class GfsGradsFetcher
     # time_offset values - 00, 06, 12, 18
     def time_offset
       current_hour = date_time.hour
-      format('%02d', current_hour - current_hour % DATASETS_INTERVAL)
+      format('%02d', current_hour - (current_hour % DATASETS_INTERVAL))
     end
 
     attr_reader :date_time

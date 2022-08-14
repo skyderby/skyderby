@@ -108,7 +108,7 @@ module Events
           return result unless apply_penalty_to_result?
           return result unless record.penalized
 
-          result - result / 100 * record.penalty_size
+          result - (result / 100 * record.penalty_size)
         end
 
         def apply_penalty_to_score(score)
@@ -116,7 +116,7 @@ module Events
           return score unless apply_penalty_to_score?
           return score unless record.penalized
 
-          score - score / 100 * record.penalty_size
+          score - (score / 100 * record.penalty_size)
         end
 
         def best_score_lookup_context
