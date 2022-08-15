@@ -24,8 +24,9 @@ class CreateTrackService
       set_jump_range
       set_place
       save_track
-      enque_jobs
     end
+
+    enque_jobs
 
     track
   end
