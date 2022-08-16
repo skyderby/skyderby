@@ -1,9 +1,8 @@
 const { webpackConfig, devServer, merge } = require('shakapacker')
 const VirtualModulesPlugin = require('webpack-virtual-modules')
-const isDevelopment = process.env.NODE_ENV !== 'production'
-
 const TranslationsPlugin = require('./translations')
 
+const isDevelopment = process.env.NODE_ENV !== 'production'
 const virtualModules = new VirtualModulesPlugin()
 
 const svgRule = webpackConfig.module.rules.find(rule => rule.test.test('.svg'))
@@ -12,18 +11,6 @@ if (svgRule) {
     ? new RegExp(svgRule.exclude.source + /|\.svg$/.source)
     : /\.svg$/
 }
-
-// Patch css-loader rule to support css-modules
-const cssLoader = require.resolve('css-loader')
-webpackConfig.module.rules.forEach(rule => {
-  rule?.use?.forEach(loader => {
-    if (loader?.loader === cssLoader) {
-      loader.options.modules = {
-        auto: true
-      }
-    }
-  })
-})
 
 const reactRefreshPlugin = () => {
   const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
