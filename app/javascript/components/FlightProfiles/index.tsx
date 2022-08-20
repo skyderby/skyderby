@@ -8,7 +8,7 @@ import CogIcon from 'icons/cog.svg'
 import FlightProfilesChart from './FlightProfilesChart'
 import TerrainClearanceChart from './TerrainClearanceChart'
 import Tagbar from './Tagbar'
-import TrackList from './TrackList'
+import TrackListSidebar from 'components/TrackListSidebar'
 import TerrainProfileSelect from './TerrainProfileSelect'
 import SettingsModal from './SettingsModal'
 import styles from './styles.module.scss'
@@ -32,7 +32,14 @@ const FlightProfiles = (): JSX.Element => {
   }, [straightLine])
 
   const {
-    params: { selectedTerrainProfile, selectedTracks, additionalTerrainProfiles },
+    params: {
+      tracksParams,
+      selectedTerrainProfile,
+      selectedTracks,
+      additionalTerrainProfiles
+    },
+    updateFilters,
+    toggleTrack,
     setSelectedTerrainProfile,
     setAdditionalTerrainProfiles
   } = usePageParams()
@@ -57,7 +64,13 @@ const FlightProfiles = (): JSX.Element => {
         <meta name="description" content={t('flight_profiles.description')} />
       </Helmet>
       <aside className={styles.settingsContainer}>
-        <TrackList />
+        <TrackListSidebar
+          activity="base"
+          tracksParams={tracksParams}
+          selectedTracks={selectedTracks}
+          onFilterChange={updateFilters}
+          onTrackToggle={toggleTrack}
+        />
 
         <div className={styles.terrainProfileSelect}>
           <TerrainProfileSelect

@@ -1,22 +1,34 @@
 import React from 'react'
 import { AnimatePresence } from 'framer-motion'
 
-import { useTracksInfiniteQuery } from 'api/tracks'
+import {
+  useTracksInfiniteQuery,
+  TrackActivity,
+  IndexParams,
+  FilterTuple
+} from 'api/tracks'
 import Item from 'components/TrackListItem'
 import TokenizedSearchField from 'components/TokenizedSearchField'
-import usePageParams from 'components/FlightProfiles/usePageParams'
 import styles from './styles.module.scss'
 
-const TrackList = (): JSX.Element => {
-  const {
-    params: { tracksParams, selectedTracks },
-    updateFilters,
-    toggleTrack
-  } = usePageParams()
+type TrackListProps = {
+  activity: TrackActivity
+  tracksParams: Omit<IndexParams, 'filters'> & { filters: FilterTuple[] }
+  selectedTracks: number[]
+  onFilterChange: (filters: FilterTuple[]) => void
+  onTrackToggle: (id: number) => void
+}
 
+const TrackList = ({
+  activity,
+  tracksParams,
+  selectedTracks,
+  onFilterChange,
+  onTrackToggle
+}: TrackListProps): JSX.Element => {
   const { data, fetchNextPage, isFetchingNextPage } = useTracksInfiniteQuery({
     ...tracksParams,
-    activity: 'base'
+    activity
   })
 
   const pages = data?.pages || []
@@ -35,7 +47,7 @@ const TrackList = (): JSX.Element => {
     <div className={styles.container} onScroll={handleListScroll}>
       <TokenizedSearchField
         initialValues={tracksParams.filters}
-        onChange={updateFilters}
+        onChange={onFilterChange}
       />
 
       <AnimatePresence>
@@ -48,7 +60,7 @@ const TrackList = (): JSX.Element => {
                 track={track}
                 delayIndex={pages.length === 1 ? index : 0}
                 active={selectedTracks.includes(track.id)}
-                onClick={() => toggleTrack(track.id)}
+                onClick={() => onTrackToggle(track.id)}
               />
             ))}
           </React.Fragment>
