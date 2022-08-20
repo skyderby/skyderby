@@ -1,0 +1,15 @@
+@import 'styles/breakpoints';
+
+.container {
+  display: grid;
+  grid-template-rows: calc(max(100vh, 568px) - 4.5rem) 100vh;
+  width: 100%;
+
+  @include sm-screen {
+    grid-template-rows: 100%;
+    grid-template-columns: 350px 1fr;
+    height: calc(100vh - var(--footer-height) - var(--header-height));
+    border-bottom: solid 1px var(--border-color);
+    overflow: auto;
+  }
+}

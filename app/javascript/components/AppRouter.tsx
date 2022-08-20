@@ -9,6 +9,7 @@ import FlightProfiles from 'components/FlightProfiles'
 import Places from 'components/Places'
 import Suits from 'components/Suits'
 import Users from 'components/Users'
+import Replay from 'components/Replay'
 import AppShell from 'components/AppShell'
 import ErrorPage from 'components/ErrorPage'
 import ResultIframe from 'components/Events/SpeedSkydivingCompetition/ResultIframe'
@@ -33,6 +34,7 @@ const AppRouter = () => {
         <Route path="events/*" element={<Events />} />
         <Route path="places/*" element={<Places />} />
         <Route path="suits/*" element={<Suits />} />
+        <Route path="replay" element={<Replay />} />
         <Route path="admin/*" element={<Admin />} />
 
         <Route path="*" element={<ErrorPage.NotFound />} />
