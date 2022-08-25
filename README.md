@@ -62,13 +62,6 @@ So I decided to create a new application.
 
 Alex and Svetlana Rubinshtein, Shane Dunn, Aleksey Shatilov, Valeriy Salcutsan, Simon Repton, Evgeniy Pavlov, Egor Orlow, Simon Perriard, Aleksey Galda, Flo Kas, Csaba Szörényi, Aleksandr Zharikov, Ekaterina Larina,  Tatyana Holm, Yulia Makoveeva, Daniel Duarte, Leonid Sigalov, Sergey Panteleev.
 
-## Technologies we use
-
-Building complex software requires ample toolbox.
-Here are just some of the technologies, Skyderby build with:
-
-![Technologies](https://cloud.githubusercontent.com/assets/5262979/24458827/bd08491a-14a2-11e7-8ef3-0e3a56747c8c.png)
-
 ## Licensing
 
 Code released under AGPLv3 license.
