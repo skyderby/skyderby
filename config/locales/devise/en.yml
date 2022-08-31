@@ -29,6 +29,12 @@ en:
         updated_at: Updated at
     models:
       user: User
+    errors:
+      models:
+        user:
+          attributes:
+            reset_password_token:
+              invalid: Reset password token is invalid
   devise:
     confirmations:
       confirmed: Your email address has been successfully confirmed.

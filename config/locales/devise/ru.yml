@@ -29,6 +29,14 @@ ru:
         updated_at: "Дата обновления"
     models:
       user: "Пользователь"
+    errors:
+      models:
+        user:
+          attributes:
+            reset_password_token:
+              invalid: Не корректный ключ восстановления пароля
+            email:
+              taken: Пользователь с указанным адресом электронной почты уже существует
   devise:
     confirmations:
       confirmed: "Ваш адрес эл. почты успешно подтвержден."
