@@ -4450,6 +4450,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/canvas-confetti@^1.4.3":
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/@types/canvas-confetti/-/canvas-confetti-1.4.3.tgz#2540cda5353b1f7efd581f4950bfc48d165cca89"
+  integrity sha512-UwFPTsW1ZwVyo/ETp4hPSikSD7yl2V42E3VWBF5P/0+DHO4iajyceWv7hfNdZ2AX5tkZnuViiBWOqyCPohU2FQ==
+
 "@types/cesium@^1.67.14":
   version "1.67.14"
   resolved "https://registry.npmjs.org/@types/cesium/-/cesium-1.67.14.tgz"
@@ -6763,6 +6768,11 @@ caniuse-lite@^1.0.30001370, caniuse-lite@^1.0.30001373:
   version "1.0.30001375"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001375.tgz#8e73bc3d1a4c800beb39f3163bf0190d7e5d7672"
   integrity sha512-kWIMkNzLYxSvnjy0hL8w1NOaWNr2rn39RTAVyIwcw8juu60bZDWiF1/loOYANzjtJmy6qPgNmn38ro5Pygagdw==
+
+canvas-confetti@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/canvas-confetti/-/canvas-confetti-1.5.1.tgz#bf5b8622ef3bcd347378a972fc4194a89cfe0c9b"
+  integrity sha512-Ncz+oZJP6OvY7ti4E1slxVlyAV/3g7H7oQtcCDXgwGgARxPnwYY9PW5Oe+I8uvspYNtuHviAdgA0LfcKFWJfpg==
 
 capture-exit@^2.0.0:
   version "2.0.0"

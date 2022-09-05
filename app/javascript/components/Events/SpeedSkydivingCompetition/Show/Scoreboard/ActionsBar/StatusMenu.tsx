@@ -14,6 +14,21 @@ type StatusMenuProps = {
   event: SpeedSkydivingCompetition
 }
 
+function fireConfetti() {
+  import('canvas-confetti').then(({ default: confetti }) => {
+    confetti({
+      particleCount: 300,
+      angle: 90,
+      spread: 135,
+      startVelocity: 65,
+      ticks: 200,
+      origin: {
+        y: 1.25
+      }
+    })
+  })
+}
+
 const StatusMenu = ({ event }: StatusMenuProps): JSX.Element => {
   const { t } = useI18n()
   const [showStatuses, setShowStatuses] = useState(false)
@@ -24,6 +39,17 @@ const StatusMenu = ({ event }: StatusMenuProps): JSX.Element => {
   useClickOutside([menuRef, changeStatusButtonRef], () => setShowStatuses(false))
 
   const toggleStatusesDropdown = () => setShowStatuses(open => !open)
+
+  const setEventStatus = (status: SpeedSkydivingCompetition['status']) => {
+    editEventMutation.mutate(
+      { status },
+      {
+        onSuccess: () => {
+          if (status === 'finished') fireConfetti()
+        }
+      }
+    )
+  }
 
   return (
     <button
@@ -48,7 +74,7 @@ const StatusMenu = ({ event }: StatusMenuProps): JSX.Element => {
               key={status}
               active={event.status === status}
               className={styles.actionButton}
-              onClick={() => editEventMutation.mutate({ status })}
+              onClick={() => setEventStatus(status)}
             >
               {t(`event_status.${status}`)}
             </Dropdown.Button>
