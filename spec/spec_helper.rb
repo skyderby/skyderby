@@ -15,6 +15,7 @@ I18n.locale = :en
 
 RSpec.configure do |config|
   config.include ActiveSupport::Testing::TimeHelpers
+  config.include ActiveJob::TestHelper
   config.include FactoryBot::Syntax::Methods
   config.include Features::UploadHelpers
   config.include Devise::Test::ControllerHelpers, type: :controller

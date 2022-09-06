@@ -50,19 +50,14 @@ development:
     #
     # mini-extract-css-plugin is a required dependency in both cases.
     inline_css: true
-    # Defaults to the inverse of hmr. Uncomment to manually set this.
-    # live_reload: true
     client:
-      # Should we show a full-screen overlay in the browser when there are compiler errors or warnings?
       overlay: true
       # May also be a string
       # webSocketURL:
       #  hostname: "0.0.0.0"
       #  pathname: "/ws"
       #  port: 8080
-    # Should we use gzip compression?
     compress: true
-    # Note that apps that do not check the host are vulnerable to DNS rebinding attacks
     allowed_hosts: "all"
     pretty: true
     headers:
@@ -74,21 +69,17 @@ development:
 test:
   <<: *default
   compile: true
-
-  # Compile test packs to a separate directory
+  compiler_strategy: mtime
   public_output_path: packs-test
 
   dev_server:
     <<: *dev_server
-    public: localhost:33035
     port: 33035
+    public: localhost:33035
 
 
 production:
   <<: *default
 
-  # Production depends on precompilation of packs prior to booting for performance.
   compile: false
-
-  # Cache manifest.json for performance
   cache_manifest: true

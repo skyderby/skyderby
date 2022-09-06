@@ -1,9 +1,0 @@
-ru:
-  activerecord:
-    errors:
-      models:
-        user:
-          attributes:
-            email:
-              taken: 'Пользователь с указанным адресом электронной почты уже существует'
-

@@ -77,7 +77,7 @@ const SignIn = (): JSX.Element => {
             )}
           </div>
 
-          <Link to="/forgot-password" className={styles.link}>
+          <Link to="/users/forgot-password" className={styles.link}>
             {t('devise.shared.links.forgot_your_password')}
           </Link>
 

@@ -27,6 +27,12 @@ fr:
         updated_at: Date de mise à jour
     models:
       user: Utilisateur
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: "L'utilisateur avec cette adresse mail n'existe pas"
   devise:
     confirmations:
       confirmed: Votre compte a été confirmé avec succès.
