@@ -35,6 +35,8 @@ en:
           attributes:
             reset_password_token:
               invalid: Reset password token is invalid
+            confirmation_token:
+              invalid: Confirmation token is invalid
   devise:
     confirmations:
       confirmed: Your email address has been successfully confirmed.

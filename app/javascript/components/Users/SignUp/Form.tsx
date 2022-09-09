@@ -137,7 +137,7 @@ const Form = ({ mutation }: FormProps): JSX.Element => {
             {t('devise.shared.links.sign_in')}
           </Link>
 
-          <Link to="/users/email-confirmation" className={styles.tertiaryButton}>
+          <Link to="/users/resend-confirmation" className={styles.tertiaryButton}>
             {t('devise.shared.links.didn_t_receive_confirmation_instructions')}
           </Link>
         </form>

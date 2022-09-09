@@ -35,6 +35,8 @@ ru:
           attributes:
             reset_password_token:
               invalid: Не корректный ключ восстановления пароля
+            confirmation_token:
+              invalid: Не корректный ключ подтверждения адреса электронной почты
             email:
               taken: Пользователь с указанным адресом электронной почты уже существует
   devise:

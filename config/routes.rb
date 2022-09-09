@@ -19,7 +19,7 @@ Skyderby::Application.routes.draw do
   get '/wingsuits(*path)', to: redirect('/suits%{path}'), defaults: { path: '' }
 
   devise_for :users,
-             skip: [:sessions, :registrations, :passwords],
+             skip: [:sessions, :registrations, :passwords, :confirmations],
              controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   devise_scope :user do
     post '/api/users/sign_in', to: 'api/users/sessions#create'
@@ -28,8 +28,11 @@ Skyderby::Application.routes.draw do
     post '/api/users', to: 'api/users/registrations#create'
     post '/api/users/passwords', to: 'api/users/passwords#create'
     put '/api/users/passwords', to: 'api/users/passwords#update'
+    post '/api/users/confirmations', to: 'api/users/confirmations#create'
+    put '/api/users/confirmations', to: 'api/users/confirmations#show'
 
     get '/users/new-password', to: 'react_app#show', as: :edit_user_password
+    get '/users/email-confirmation', to: 'react_app#show', as: :user_confirmation
   end
 
   get '/ping', to: proc { [200, {}, ['']] }
