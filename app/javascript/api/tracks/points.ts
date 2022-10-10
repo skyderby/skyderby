@@ -25,6 +25,7 @@ export type PointRecord = {
   vSpeed: number
   glideRatio: number
   verticalAccuracy: number
+  speedAccuracy: number
 }
 
 type RawPoint = Omit<PointRecord, 'gpsTime'> & { gpsTime: string }
