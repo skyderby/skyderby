@@ -3,7 +3,7 @@ require:
   - rubocop-performance
 
 AllCops:
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.1
   NewCops: enable
   Exclude:
     - bin/*
@@ -15,12 +15,10 @@ AllCops:
 Layout/LineLength:
   Max: 120
 
-#################### Rails   ###############################
 Rails/SkipsModelValidations:
   Exclude:
     - spec/**/*
 
-#################### Style   ###############################
 Style/Lambda:
   Enabled: false
 
@@ -48,13 +46,12 @@ Style/Documentation:
 Style/FetchEnvVar:
   Enabled: false
 
-#################### Lint    ################################
+Style/HashSyntax:
+  EnforcedShorthandSyntax: either
 
 Lint/ShadowingOuterLocalVariable:
   Exclude:
     - app/views/**/*.json.jbuilder
-
-#################### Metrics ################################
 
 Metrics/ClassLength:
   Description: 'Avoid classes longer than 100 lines of code.'

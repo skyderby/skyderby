@@ -247,7 +247,7 @@ jobs:
         if: failure()
         with:
           name: Failure screenshots
-          path: tmp/screenshots
+          path: tmp/capybara
 
   publish-docker-image:
     runs-on: ubuntu-latest

@@ -6,6 +6,7 @@ describe EventListPolicy::Scope do
     expect(event_array).to match_array [
       events(:finished_public),
       events(:published_public),
+      speed_skydiving_competitions(:nationals),
       tournaments(:world_base_race),
       tournaments(:qualification_loen)
     ]
@@ -21,6 +22,7 @@ describe EventListPolicy::Scope do
       events(:draft_public),
       events(:published_public),
       events(:finished_public),
+      speed_skydiving_competitions(:nationals),
       tournaments(:world_base_race),
       tournaments(:qualification_loen)
     ]
@@ -36,6 +38,7 @@ describe EventListPolicy::Scope do
       events(:draft_public),
       events(:published_public),
       events(:finished_public),
+      speed_skydiving_competitions(:nationals),
       tournaments(:world_base_race),
       tournaments(:qualification_loen)
     ]

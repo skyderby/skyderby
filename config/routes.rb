@@ -34,6 +34,10 @@ Skyderby::Application.routes.draw do
 
   get '/ping', to: proc { [200, {}, ['']] }
 
+  concern :organizable do
+    resources :organizers, only: %i[index create destroy]
+  end
+
   namespace :api, module: :api, defaults: { format: :json } do
     namespace :v1, module: :v1 do
       resource :current_user, only: :show
@@ -123,7 +127,7 @@ Skyderby::Application.routes.draw do
         end
       end
 
-      resources :speed_skydiving_competitions, only: %i[show create update] do
+      resources :speed_skydiving_competitions, concerns: [:organizable], only: %i[show create update] do
         scope module: :speed_skydiving_competitions do
           resources :rounds, only: %i[index create update destroy]
           resources :competitors, only: %i[index create update destroy]

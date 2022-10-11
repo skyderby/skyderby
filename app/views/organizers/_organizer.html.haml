@@ -1,8 +1,0 @@
-%li.organizers__item{id: dom_id(organizer)}
-  %span= organizer.name
-  - if policy(organizer.organizable).update? && !organizer.organizable.finished?
-    = button_to polymorphic_path([organizer.organizable, organizer]),
-                method: :delete,
-                remote: true,
-                class: 'delete-organizer btn-link' do
-      %i.fa.fa-times.text-muted

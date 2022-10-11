@@ -1,25 +1,27 @@
 class SpeedSkydivingCompetitionPolicy < ApplicationPolicy
   def create? = user.registered?
 
-  def show?
-    return true if admin?
-    return organizer? if record.draft?
+  def show? # rubocop:disable Metrics/CyclomaticComplexity
+    return true if admin? || organizer? || responsible?
+    return organizer? || responsible? if record.draft?
     return true if record.public_event? || record.unlisted_event?
 
     participant?
   end
 
-  def update? = organizer? || admin?
+  def update? = organizer? || responsible? || admin?
 
   def destroy? = responsible? || admin?
+
+  def download? = organizer? || responsible? || admin?
+
+  private
 
   def organizer?
     return false unless user.registered?
 
-    responsible? || user.organizer_of_event?(record)
+    record.organizers.any? { |organizer| organizer.user == user }
   end
-
-  def download? = admin?
 
   def responsible?
     return false unless user.registered?

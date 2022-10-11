@@ -15,6 +15,7 @@ class SpeedSkydivingCompetition < ApplicationRecord
     has_many :teams
   end
 
+  has_many :organizers, as: :organizable, dependent: :delete_all
   has_many :tracks, through: :results
 
   def active? = starts_at < Time.zone.now && !finished?

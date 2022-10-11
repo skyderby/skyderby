@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-size: 0.875rem;
+}
+
+.photo {
+  max-width: 70px;
+  max-height: 70px;
+  margin-bottom: 0.5em;
+  border-radius: 100%;
+}

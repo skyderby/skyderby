@@ -18,7 +18,8 @@ class Organizer < ApplicationRecord
 
   validates :organizable, :user, presence: true
 
-  delegate :name, to: :user, allow_nil: true
+  delegate :profile, to: :user, allow_nil: true
+  delegate :id, to: :profile, allow_nil: true, prefix: true
 
   alias event organizable
 end
