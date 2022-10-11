@@ -7,6 +7,7 @@ import {
 } from 'api/speedSkydivingCompetitions'
 import { useStandingsQuery } from 'api/speedSkydivingCompetitions'
 import useStickyTableHeader from 'hooks/useStickyTableHeader'
+import Organizers from 'components/Organizers'
 import ActionsBar from './ActionsBar'
 import TableHeader from '../ScoreboardHeader'
 import TableBody from './TableBody'
@@ -50,6 +51,12 @@ const Scoreboard = ({ eventId }: ScoreboardProps): JSX.Element | null => {
           />
         </table>
       </div>
+
+      <Organizers
+        eventType="speedSkydiving"
+        eventId={event.id}
+        editable={event.permissions.canEdit}
+      />
     </div>
   )
 }
