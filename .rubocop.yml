@@ -3,7 +3,7 @@ require:
   - rubocop-performance
 
 AllCops:
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.1
   NewCops: enable
   Exclude:
     - bin/*
@@ -47,6 +47,9 @@ Style/Documentation:
 
 Style/FetchEnvVar:
   Enabled: false
+
+Style/HashSyntax:
+  EnforcedShorthandSyntax: consistent
 
 #################### Lint    ################################
 

@@ -8,17 +8,29 @@ module Assets
 
         @standings = SpeedSkydivingCompetition::Scoreboard.new(@event)
 
-        respond_to do |format|
-          format.xml do
-            response.headers['Content-Disposition'] = "attachment; filename=#{filename}.xml"
-          end
-          format.xlsx do
-            response.headers['Content-Disposition'] = "attachment; filename=#{filename}.xlsx"
-          end
+        zip_stream = Zip::OutputStream.write_buffer do |zip|
+          write_files_to_archive(zip)
         end
+
+        zip_stream.rewind
+        send_data zip_stream.read,
+                  type: 'application/zip',
+                  disposition: 'attachment',
+                  filename: "category-standings-#{@event.name.parameterize}.zip"
       end
 
       private
+
+      def write_files_to_archive(zip)
+        @standings.categories.each do |category_standings|
+          category, standings = category_standings.values_at(:category, :standings)
+
+          category_name = category.name.downcase.parameterize
+          filename = "#{category_name}.xml"
+          zip.put_next_entry(filename)
+          zip.write(render_to_string('show', locals: { category_name:, standings: }))
+        end
+      end
 
       def filename
         formatted_date = Time.zone.now.to_date.iso8601
