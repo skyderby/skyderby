@@ -15,12 +15,10 @@ AllCops:
 Layout/LineLength:
   Max: 120
 
-#################### Rails   ###############################
 Rails/SkipsModelValidations:
   Exclude:
     - spec/**/*
 
-#################### Style   ###############################
 Style/Lambda:
   Enabled: false
 
@@ -49,15 +47,11 @@ Style/FetchEnvVar:
   Enabled: false
 
 Style/HashSyntax:
-  EnforcedShorthandSyntax: consistent
-
-#################### Lint    ################################
+  EnforcedShorthandSyntax: either
 
 Lint/ShadowingOuterLocalVariable:
   Exclude:
     - app/views/**/*.json.jbuilder
-
-#################### Metrics ################################
 
 Metrics/ClassLength:
   Description: 'Avoid classes longer than 100 lines of code.'
