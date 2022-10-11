@@ -154,6 +154,7 @@ Skyderby::Application.routes.draw do
         resource :scoreboard, only: :show
         resource :open_event_scoreboard, only: :show
         resource :team_standings, only: :show
+        resource :gps_recordings, only: :show
       end
     end
   end

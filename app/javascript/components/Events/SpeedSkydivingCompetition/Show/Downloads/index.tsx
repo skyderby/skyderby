@@ -12,7 +12,6 @@ const Downloads = ({ eventId: eventId }: DownloadsProps): JSX.Element => {
       <div className={styles.section}>
         <h2>Scoreboard Download</h2>
         <div className={styles.buttons}>
-          <a className={styles.downloadButton}>Excel</a>
           <a
             className={styles.downloadButton}
             href={`/assets/speed_skydiving_competitions/${eventId}/scoreboard.xml`}
@@ -26,7 +25,6 @@ const Downloads = ({ eventId: eventId }: DownloadsProps): JSX.Element => {
       <div className={styles.section}>
         <h2>Open-Event Scoreboard Download</h2>
         <div className={styles.buttons}>
-          <a className={styles.downloadButton}>Excel</a>
           <a
             className={styles.downloadButton}
             href={`/assets/speed_skydiving_competitions/${eventId}/open_event_scoreboard.xml`}
@@ -40,7 +38,6 @@ const Downloads = ({ eventId: eventId }: DownloadsProps): JSX.Element => {
       <div className={styles.section}>
         <h2>Team standings</h2>
         <div className={styles.buttons}>
-          <a className={styles.downloadButton}>Excel</a>
           <a
             className={styles.downloadButton}
             href={`/assets/speed_skydiving_competitions/${eventId}/team_standings.xml`}
@@ -54,7 +51,12 @@ const Downloads = ({ eventId: eventId }: DownloadsProps): JSX.Element => {
       <div className={styles.section}>
         <h2>GPS Recordings</h2>
         <div className={styles.buttons}>
-          <a className={styles.downloadButton}>zip archive</a>
+          <a
+            className={styles.downloadButton}
+            href={`/assets/speed_skydiving_competitions/${eventId}/gps_recordings`}
+          >
+            ZIP archive
+          </a>
         </div>
       </div>
     </div>

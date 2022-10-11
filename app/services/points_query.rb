@@ -130,7 +130,8 @@ class PointsQuery
       distance: 'distance',
       time_diff: '0 AS time_diff',
       glide_ratio: 'CASE WHEN v_speed = 0 THEN h_speed / 0.1 ELSE h_speed / ABS(v_speed) END AS glide_ratio',
-      vertical_accuracy: 'vertical_accuracy'
+      vertical_accuracy: 'vertical_accuracy',
+      speed_accuracy: 'speed_accuracy'
     }.with_indifferent_access.freeze
 
     def initialize(track, opts = {})

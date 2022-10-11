@@ -47,17 +47,13 @@ export const buildAccuracySeries = (
       point =>
         point.altitude <= validationWindowStart && point.altitude >= windowEndAltitude
     )
-    .map(point => [point.flTime - points[0].flTime, point.verticalAccuracy])
+    .map(point => [point.flTime - points[0].flTime, point.speedAccuracy])
 
   return {
-    name: 'Vertical Accuracy',
+    name: 'Speed Accuracy',
     type: 'column',
-    yAxis: 3,
-    zones: [
-      { value: 0, color: '#ccc' },
-      { value: 3.25, color: '#ccc' },
-      { color: 'red' }
-    ],
+    yAxis: 2,
+    zones: [{ value: 0, color: '#ccc' }, { value: 3, color: '#ccc' }, { color: 'red' }],
     data
   }
 }
