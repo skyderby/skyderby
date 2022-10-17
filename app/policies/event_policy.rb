@@ -11,13 +11,11 @@ class EventPolicy < ApplicationPolicy
     participant?
   end
 
-  def update?
-    organizer? || admin?
-  end
+  def update? = organizer? || admin?
 
-  def destroy?
-    responsible? || admin?
-  end
+  def destroy? = responsible? || admin?
+
+  def download? = organizer? || admin?
 
   private
 
