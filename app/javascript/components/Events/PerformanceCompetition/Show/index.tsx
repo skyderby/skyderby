@@ -16,6 +16,7 @@ import TeamsScoreboard from './TeamsScoreboard'
 import ReferencePoints from './ReferencePoints'
 import Maps from './Maps'
 import Replay from './Replay'
+import Downloads from './Downloads'
 import Edit from './Edit'
 import styles from './styles.module.scss'
 import PageLoading from 'components/LoadingSpinner'
@@ -61,6 +62,7 @@ const Show = () => {
           <Route path="replay" element={<Replay eventId={eventId} />} />
           <Route path="replay/:roundId" element={<Replay eventId={eventId} />} />
           <Route path="teams" element={<TeamsScoreboard eventId={eventId} />} />
+          <Route path="downloads" element={<Downloads eventId={eventId} />} />
           <Route path="edit" element={<Edit eventId={eventId} />} />
         </Routes>
       )}

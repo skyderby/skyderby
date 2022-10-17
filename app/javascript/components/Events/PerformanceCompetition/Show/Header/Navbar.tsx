@@ -61,16 +61,28 @@ const Navbar = ({ event }: NavbarProps) => {
         </NavLink>
       </PageNavbar.Item>
 
-      <PageNavbar.Spacer />
+      {event.permissions.canDownload && (
+        <PageNavbar.Item>
+          <NavLink to={`${eventUrl}/downloads`}>
+            <span>Downloads</span>
+          </NavLink>
+        </PageNavbar.Item>
+      )}
 
-      <PageNavbar.Item right>
-        <NavLink to={`${eventUrl}/edit`}>
-          <span>
-            <CogIcon />
-            {t('general.edit')}
-          </span>
-        </NavLink>
-      </PageNavbar.Item>
+      {event.permissions.canEdit && (
+        <>
+          <PageNavbar.Spacer />
+
+          <PageNavbar.Item right>
+            <NavLink to={`${eventUrl}/edit`}>
+              <span>
+                <CogIcon />
+                {t('general.edit')}
+              </span>
+            </NavLink>
+          </PageNavbar.Item>
+        </>
+      )}
     </PageNavbar>
   )
 }

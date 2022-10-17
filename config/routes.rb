@@ -161,6 +161,13 @@ Skyderby::Application.routes.draw do
         resource :gps_recordings, only: :show
       end
     end
+
+    resources :performance_competitions, only: [] do
+      scope module: :performance_competitions do
+        resource :team_standings, only: :show
+        resource :gps_recordings, only: :show
+      end
+    end
   end
 
   get '/(*path)', to: 'react_app#show'
