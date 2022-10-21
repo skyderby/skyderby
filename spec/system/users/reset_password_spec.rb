@@ -10,6 +10,8 @@ describe 'Reset Password' do
 
     visit '/users/forgot-password'
 
+    expect(page).to have_css('h2', text: I18n.t('devise.shared.links.forgot_your_password'))
+
     fill_in 'email', with: email
 
     perform_enqueued_jobs do
@@ -30,6 +32,8 @@ describe 'Reset Password' do
 
     visit URI.parse(link_to_reset).request_uri
 
+    expect(page).to have_css('h2', text: I18n.t('devise.passwords.edit.change_your_password'))
+
     fill_in 'password', with: 'NEW PASSWORD'
     fill_in 'passwordConfirmation', with: 'NEW PASSWORD'
     click_button I18n.t('devise.passwords.edit.change_your_password')
@@ -40,6 +44,8 @@ describe 'Reset Password' do
 
   it 'invalid reset_password_token' do
     visit '/users/new-password?reset_password_token=INVALID_TOKEN'
+
+    expect(page).to have_css('h2', text: I18n.t('devise.passwords.edit.change_your_password'))
 
     fill_in 'password', with: 'NEW PASSWORD'
     fill_in 'passwordConfirmation', with: 'NEW PASSWORD'

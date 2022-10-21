@@ -45,7 +45,7 @@ const ForgotPassword = () => {
   if (submitted) {
     return (
       <div className={styles.container}>
-        <h2 className={styles.title}>{t('devise.shared.links.forgot_your_password')}</h2>
+        <h2 className={styles.title}>{t('devise.passwords.new.forgot_your_password')}</h2>
         <div className={styles.icon}>📬</div>
         <div className={styles.description}>
           {t('devise.passwords.send_instructions')}
@@ -66,7 +66,7 @@ const ForgotPassword = () => {
       {({ touched, errors, handleSubmit, isSubmitting }) => (
         <form onSubmit={handleSubmit} className={styles.container}>
           <h2 className={styles.title}>
-            {t('devise.shared.links.forgot_your_password')}
+            {t('devise.passwords.new.forgot_your_password')}
           </h2>
           {errors.serverError && (
             <p className={styles.serverError}>{errors.serverError}</p>
