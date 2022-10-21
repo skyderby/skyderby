@@ -9,6 +9,9 @@ describe 'Events - Speed Skydiving' do
 
       sign_in users(:event_responsible)
       visit "/events/speed_skydiving/#{event.id}"
+
+      expect(page).to have_css('h2', text: event.name.upcase)
+
       submit_result(competitor, 2, file_fixture('tracks/speed_skydiving_411.csv'))
 
       expect(page).to have_css('button', text: '411.71')
@@ -25,6 +28,9 @@ describe 'Events - Speed Skydiving' do
 
       sign_in users(:event_responsible)
       visit "/events/speed_skydiving/#{event.id}"
+
+      expect(page).to have_css('h2', text: event.name.upcase)
+
       submit_result(competitor, 2, file_fixture('tracks/speed_skydiving_411.csv'))
 
       expect(page).to have_css('button', text: '411.71')
@@ -41,6 +47,9 @@ describe 'Events - Speed Skydiving' do
 
       sign_in users(:event_responsible)
       visit "/events/speed_skydiving/#{event.id}"
+
+      expect(page).to have_css('h2', text: event.name.upcase)
+
       submit_result(competitor, 2, file_fixture('tracks/speed_skydiving_411.csv'))
 
       expect(page).to have_css('button', text: '411.71')
