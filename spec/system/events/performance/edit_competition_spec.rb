@@ -7,6 +7,8 @@ describe 'Edit performance competition event' do
     sign_in event.responsible
     visit "/events/performance/#{event.id}/edit"
 
+    expect(page).to have_css('h2', text: 'OLD NAME')
+
     fill_in 'name', with: new_event_name
     click_button I18n.t('general.save')
 
