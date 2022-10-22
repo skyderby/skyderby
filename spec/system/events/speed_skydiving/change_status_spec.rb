@@ -6,6 +6,8 @@ describe 'Changing Speed Skydiving event status' do
     event.draft!
     visit "/events/speed_skydiving/#{event.id}"
 
+    expect(page).to have_css('h2', text: event.name.upcase)
+
     click_button status_button_text('draft')
 
     click_button I18n.t('event_status.finished')

@@ -2,6 +2,8 @@ describe 'User registration', js: true do
   it 'register if all filled' do
     visit '/users/sign-up'
 
+    expect(page).to have_css('button', text: I18n.t('devise.registrations.new.sign_up'))
+
     fill_in 'profileAttributes[name]', with: 'Ivan Ivanov'
     fill_in 'email', with: 'some@example.com'
     fill_in 'password', with: '123456'
@@ -20,6 +22,8 @@ describe 'User registration', js: true do
     it 'name is required' do
       visit '/users/sign-up'
 
+      expect(page).to have_css('button', text: I18n.t('devise.registrations.new.sign_up'))
+
       fill_in 'email', with: 'some@example.com'
       fill_in 'password', with: '123456'
       fill_in 'passwordConfirmation', with: '123456'
@@ -33,6 +37,8 @@ describe 'User registration', js: true do
     it 'email is required' do
       visit '/users/sign-up'
 
+      expect(page).to have_css('button', text: I18n.t('devise.registrations.new.sign_up'))
+
       fill_in 'profileAttributes[name]', with: 'Ivan Ivanov'
       fill_in 'password', with: '123456'
       fill_in 'passwordConfirmation', with: '123456'
@@ -45,6 +51,8 @@ describe 'User registration', js: true do
 
     it 'email should be valid' do
       visit '/users/sign-up'
+
+      expect(page).to have_css('button', text: I18n.t('devise.registrations.new.sign_up'))
 
       fill_in 'profileAttributes[name]', with: 'Ivan Ivanov'
       fill_in 'email', with: 'invalid.email'
@@ -60,6 +68,8 @@ describe 'User registration', js: true do
     it 'password is required' do
       visit '/users/sign-up'
 
+      expect(page).to have_css('button', text: I18n.t('devise.registrations.new.sign_up'))
+
       fill_in 'profileAttributes[name]', with: 'Ivan Ivanov'
       fill_in 'email', with: 'some@example.com'
 
@@ -71,6 +81,8 @@ describe 'User registration', js: true do
 
     it 'password should be at least 6 characters' do
       visit '/users/sign-up'
+
+      expect(page).to have_css('button', text: I18n.t('devise.registrations.new.sign_up'))
 
       fill_in 'profileAttributes[name]', with: 'Ivan Ivanov'
       fill_in 'email', with: 'some@example.com'
@@ -85,6 +97,8 @@ describe 'User registration', js: true do
 
     it 'password confirmation must match password' do
       visit '/users/sign-up'
+
+      expect(page).to have_css('button', text: I18n.t('devise.registrations.new.sign_up'))
 
       fill_in 'profileAttributes[name]', with: 'Ivan Ivanov'
       fill_in 'email', with: 'some@example.com'
@@ -103,6 +117,8 @@ describe 'User registration', js: true do
       User.create!(email: 'some@example.com', password: '123456')
 
       visit '/users/sign-up'
+
+      expect(page).to have_css('button', text: I18n.t('devise.registrations.new.sign_up'))
 
       fill_in 'profileAttributes[name]', with: 'Ivan Ivanov'
       fill_in 'email', with: 'some@example.com'
