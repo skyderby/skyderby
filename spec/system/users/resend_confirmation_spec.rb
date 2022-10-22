@@ -27,9 +27,8 @@ describe 'Resend confirmation flow' do
 
     expect(link_to_reset).not_to be_nil
 
-    visit link_to_reset
+    visit URI.parse(link_to_reset).request_uri
     expect(page).to have_text(I18n.t('devise.confirmations.confirmed'))
-    sleep 3
   end
 
   it 'when coming with invalid confirmation_token' do
