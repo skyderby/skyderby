@@ -17,11 +17,9 @@ xml.EventResult do
           if result
             xml.Notes(<<~HTML)
               <iframe src=\"#{speed_skydiving_competition_result_iframe_url(@event.id, result.id)}"
-                      height="700px"
+                      height="550px"
                       width="750px" />
             HTML
-          else
-            xml.Notes ''
           end
         end
       end

@@ -16,12 +16,10 @@ xml.EventResult do
           xml.Result result&.final_result&.round(2) || ''
           if result
             xml.Notes(<<~HTML)
-              <iframe src=\"#{speed_skydiving_competition_result_iframe_path(@event.id, result.id)}"
-                      height="700px"
+              <iframe src=\"#{speed_skydiving_competition_result_iframe_url(@event.id, result.id)}"
+                      height="550px"
                       width="750px" />
             HTML
-          else
-            xml.Notes ''
           end
         end
       end
