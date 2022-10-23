@@ -10,7 +10,7 @@ const Downloads = ({ eventId: eventId }: DownloadsProps): JSX.Element => {
   return (
     <div className={styles.container}>
       <div className={styles.section}>
-        <h2>Scoreboard Download</h2>
+        <h2>Scoreboard (by category) Download</h2>
         <div className={styles.buttons}>
           <a
             className={styles.downloadButton}
