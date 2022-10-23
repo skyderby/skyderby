@@ -1,3 +1,5 @@
+require 'zip'
+
 module Assets
   module SpeedSkydivingCompetitions
     class ScoreboardsController < ApplicationController

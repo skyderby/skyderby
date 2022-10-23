@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 
 import { useTrackPointsQuery } from 'api/tracks/points'
-import { Result, SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions'
+import { Result } from 'api/speedSkydivingCompetitions'
 import { useI18n } from 'components/TranslationsProvider'
 import TrackCharts from 'components/TrackCharts/CombinedChart'
 import Highchart from 'components/Highchart'
@@ -20,20 +20,11 @@ const breakoffAltitude = 1707 // 5600 ft
 const windowHeight = 2256 // 7400 ft
 
 type ChartsProps = {
-  event: SpeedSkydivingCompetition
   result: Result
-  deleteResult: () => unknown
-  hide: () => unknown
-  tabBar: JSX.Element | null
+  tabBar?: JSX.Element | null
 }
 
-const Charts = ({
-  event,
-  result,
-  deleteResult,
-  hide,
-  tabBar
-}: ChartsProps): JSX.Element => {
+const Charts = ({ result, tabBar = null }: ChartsProps): JSX.Element => {
   const { t } = useI18n()
   const { data: points = [], isLoading } = useTrackPointsQuery(result.trackId, {
     originalFrequency: true
@@ -114,16 +105,6 @@ const Charts = ({
           </div>
         </TrackViewPreferencesProvider>
       </Modal.Body>
-      <Modal.Footer spaceBetween={event.permissions.canEdit}>
-        {event.permissions.canEdit && (
-          <button className={styles.deleteButton} onClick={deleteResult}>
-            {t('general.delete')}
-          </button>
-        )}
-        <button className={styles.defaultButton} onClick={hide}>
-          {t('general.back')}
-        </button>
-      </Modal.Footer>
     </>
   )
 }

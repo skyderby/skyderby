@@ -11,6 +11,7 @@ import Suits from 'components/Suits'
 import Users from 'components/Users'
 import AppShell from 'components/AppShell'
 import ErrorPage from 'components/ErrorPage'
+import ResultIframe from 'components/Events/SpeedSkydivingCompetition/ResultIframe'
 
 const reportLocation = (pagePath: string) =>
   window.gtag('event', 'page_view', { page_path: pagePath })
@@ -36,6 +37,11 @@ const AppRouter = () => {
 
         <Route path="*" element={<ErrorPage.NotFound />} />
       </Route>
+
+      <Route
+        path="/iframes/events/speed_skydiving/:eventId/results/:resultId"
+        element={<ResultIframe />}
+      />
 
       <Route path="/users/*" element={<Users />} />
     </Routes>

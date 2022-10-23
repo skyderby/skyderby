@@ -173,5 +173,10 @@ Skyderby::Application.routes.draw do
     end
   end
 
+  # needed to set X-FRAME-OPTIONS to allow embedding in iframes
+  get '/iframes/events/speed_skydiving/:event_id/results/:id',
+      to: 'react_app#allow_iframe',
+      as: :speed_skydiving_competition_result_iframe
+
   get '/(*path)', to: 'react_app#show'
 end
