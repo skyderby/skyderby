@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_21_092055) do
-
+ActiveRecord::Schema.define(version: 2022_10_24_055231) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -143,6 +142,7 @@ ActiveRecord::Schema.define(version: 2022_05_21_092055) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "country_id"
     t.index ["event_id"], name: "index_event_teams_on_event_id"
   end
 
@@ -417,6 +417,7 @@ ActiveRecord::Schema.define(version: 2022_05_21_092055) do
     t.bigint "event_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "country_id"
     t.index ["event_id"], name: "index_speed_skydiving_competition_teams_on_event_id"
   end
 
@@ -673,6 +674,7 @@ ActiveRecord::Schema.define(version: 2022_05_21_092055) do
   add_foreign_key "event_competitors", "event_teams", column: "team_id"
   add_foreign_key "event_competitors", "profiles"
   add_foreign_key "event_results", "tracks"
+  add_foreign_key "event_teams", "countries"
   add_foreign_key "performance_competition_series", "users", column: "responsible_id"
   add_foreign_key "performance_competition_series_included_competitions", "events"
   add_foreign_key "performance_competition_series_included_competitions", "performance_competition_series"
@@ -693,6 +695,7 @@ ActiveRecord::Schema.define(version: 2022_05_21_092055) do
   add_foreign_key "speed_skydiving_competition_results", "speed_skydiving_competitions", column: "event_id"
   add_foreign_key "speed_skydiving_competition_results", "tracks"
   add_foreign_key "speed_skydiving_competition_rounds", "speed_skydiving_competitions", column: "event_id"
+  add_foreign_key "speed_skydiving_competition_teams", "countries"
   add_foreign_key "speed_skydiving_competition_teams", "speed_skydiving_competitions", column: "event_id"
   add_foreign_key "speed_skydiving_competitions", "places"
   add_foreign_key "speed_skydiving_competitions", "users", column: "responsible_id"
