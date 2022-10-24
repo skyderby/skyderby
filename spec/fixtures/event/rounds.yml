@@ -3,11 +3,11 @@ distance_round_1:
   event_id: 1
   discipline: distance
   number: 1
-  completed_at: 2020-01-01
+  completed_at: 2020-01-01 00:00:00
 
 speed_round_1:
   id: 2
   event_id: 1
   discipline: speed
   number: 1
-  completed_at: 2020-01-01
+  completed_at: 2020-01-01 00:00:00
