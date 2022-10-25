@@ -3,7 +3,7 @@ class SpeedSkydivingCompetition::OpenScoreboard
 
   attr_reader :event
 
-  delegate :competitors, :results, to: :event
+  delegate :competitors, to: :event
 
   def initialize(event)
     @event = event
@@ -21,5 +21,9 @@ class SpeedSkydivingCompetition::OpenScoreboard
 
   def completed_rounds
     event.rounds.completed
+  end
+
+  def results
+    event.results.includes(:competitor, :round, :penalties)
   end
 end

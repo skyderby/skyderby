@@ -4,7 +4,7 @@ class Api::V1::SpeedSkydivingCompetitions::ResultsController < Api::ApplicationC
   def index
     authorize @event, :show?
 
-    @results = @event.results
+    @results = @event.results.includes(:penalties)
   end
 
   def create
