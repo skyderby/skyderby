@@ -30,6 +30,6 @@ class SpeedSkydivingCompetition::Scoreboard
   end
 
   def results
-    @results ||= event.results.includes(:round, :competitor)
+    @results ||= event.results.includes(:round, :competitor, :penalties)
   end
 end
