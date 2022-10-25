@@ -1,1 +1,1 @@
-json.array! @rounds, partial: 'round', as: :round
+json.array! @rounds, partial: 'round', as: :round, cached: true
