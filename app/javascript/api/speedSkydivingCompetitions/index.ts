@@ -1,3 +1,5 @@
+export * from './results'
+
 export type {
   SpeedSkydivingCompetitionMutation,
   EventVariables
@@ -8,7 +10,6 @@ export type {
   Competitor,
   Category,
   Round,
-  Result,
   CompetitorStandingRow,
   CategoryStandings
 } from './types'
@@ -47,16 +48,6 @@ export {
   useDeleteCompetitorMutation,
   preloadCompetitors
 } from './competitors'
-
-export {
-  useResultsQuery,
-  useResultQuery,
-  useNewResultMutation,
-  useEditResultMutation,
-  useDeleteResultMutation,
-  useSetResultPenaltiesMutation,
-  preloadResults
-} from './results'
 
 export {
   useTeamsQuery,

@@ -1,7 +1,7 @@
 import { differenceInMilliseconds, isEqual } from 'date-fns'
 import type { SeriesOptionsType } from 'highcharts'
 import { PointRecord } from 'api/tracks/points'
-import { Result } from 'api/speedSkydivingCompetitions/types'
+import { Result } from 'api/speedSkydivingCompetitions'
 
 const validationWindowHeight = 1000
 

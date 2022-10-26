@@ -15,12 +15,15 @@ import ErrorText from 'components/ui/ErrorMessage'
 import validationSchema from './validationSchema'
 import styles from './styles.module.scss'
 import { ValueType } from 'react-select'
-import {
-  NewResultMutation,
-  CreateVariables
-} from 'api/speedSkydivingCompetitions/results'
+import useCreateResultMutation from 'api/speedSkydivingCompetitions/results/useCreateResultMutation'
+import toast from 'react-hot-toast'
+import RequestErrorToast from 'components/RequestErrorToast'
 
-type FormData = Omit<CreateVariables, 'eventId' | 'roundId' | 'competitorId'>
+type FormData = {
+  trackFrom: 'from_file' | 'existent'
+  trackFile: File | null
+  trackId: number | null
+}
 
 const initialValues: FormData = {
   trackFrom: 'from_file' as const,
@@ -29,15 +32,13 @@ const initialValues: FormData = {
 }
 
 type NewResultFormProps = {
-  mutation: NewResultMutation
   event: SpeedSkydivingCompetition
   roundId: number
   competitorId: number
-  onHide: () => unknown
+  onHide: () => void
 }
 
 const NewResultForm = ({
-  mutation,
   event,
   roundId,
   competitorId,
@@ -47,18 +48,24 @@ const NewResultForm = ({
   const { data: competitor } = useCompetitorQuery(event.id, competitorId)
   const { data: profile } = useProfileQuery(competitor?.profileId)
   const { data: round } = useRoundQuery(event.id, roundId)
+  const mutation = useCreateResultMutation(event.id)
 
   const saveResult = async (values: FormData, formikBag: FormikHelpers<FormData>) => {
-    try {
-      await mutation.mutateAsync({
+    mutation.mutate(
+      {
         ...values,
         eventId: event.id,
         competitorId: competitorId,
         roundId: roundId
-      })
-    } catch (err) {
-      formikBag.setSubmitting(false)
-    }
+      },
+      {
+        onSuccess: () => hide(),
+        onSettled: () => formikBag.setSubmitting(false),
+        onError: error => {
+          toast.error(<RequestErrorToast response={error.response} />)
+        }
+      }
+    )
   }
 
   return (
