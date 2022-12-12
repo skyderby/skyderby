@@ -4,10 +4,10 @@ require 'shrine/storage/s3'
 
 s3_options = {
   bucket: ENV['SHRINE_S3_BUCKET'],
-  region: ENV['AWS_REGION'],
-  access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-  secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-  endpoint: "https://s3.#{ENV['AWS_REGION']}.amazonaws.com"
+  region: ENV['SHRINE_S3_REGION'],
+  access_key_id: ENV['SHRINE_S3_ACCESS_KEY_ID'],
+  secret_access_key: ENV['SHRINE_S3_SECRET_KEY'],
+  endpoint: "https://s3.#{ENV['SHRINE_S3_REGION']}.amazonaws.com"
 }
 
 Shrine.storages[:cache] = Shrine::Storage::FileSystem.new('public', prefix: 'system')
