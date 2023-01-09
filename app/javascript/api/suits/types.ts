@@ -1,6 +1,6 @@
 import { ManufacturerRecord } from 'api/manufacturer'
 
-type SuitCategory = 'wingsuit' | 'tracksuit' | 'slick' | 'monotrack'
+export type SuitCategory = 'wingsuit' | 'tracksuit' | 'slick' | 'monotrack'
 
 export type SuitRecord = {
   id: number

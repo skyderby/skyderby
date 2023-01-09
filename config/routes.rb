@@ -57,7 +57,7 @@ Skyderby::Application.routes.draw do
           end
         end
       end
-      resources :virtual_competitions
+      resources :online_rankings, only: %i[index show]
 
       resources :countries, only: %i[index show]
       resources :places, only: %i[index show create update destroy] do

@@ -25,7 +25,7 @@
 class VirtualCompetition < ApplicationRecord
   include Intervals, Results, SuitableFinder
 
-  enum jumps_kind: { skydive: 0, base: 1 }
+  enum jumps_kind: { skydive: 0, base: 1, speed_skydiving: 2, swoop: 3 }
   enum suits_kind: SuitTypes
   enum discipline: {
     time: 0,
