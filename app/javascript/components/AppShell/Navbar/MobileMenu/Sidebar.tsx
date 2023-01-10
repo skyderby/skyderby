@@ -90,7 +90,7 @@ const Sidebar = ({ onToggle: toggle }: SidebarProps): JSX.Element | null => {
             </NavLink>
           </li>
           <li className={styles.menuItem}>
-            <NavLink to="/virtual_competitions" onClick={toggle}>
+            <NavLink to="/online_rankings" onClick={toggle}>
               {t('application.header.online_competitions')}
             </NavLink>
           </li>

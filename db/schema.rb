@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_24_055231) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_10_144136) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -628,6 +628,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_24_055231) do
     t.string "name", limit: 510
     t.timestamptz "created_at"
     t.timestamptz "updated_at"
+    t.boolean "cumulative", default: false, null: false
+    t.boolean "featured", default: false, null: false
   end
 
   create_table "virtual_competition_results", id: :serial, force: :cascade do |t|
@@ -665,6 +667,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_24_055231) do
     t.bigint "finish_line_id"
     t.integer "interval_type", default: 0, null: false
     t.string "results_sort_order", default: "descending", null: false
+    t.boolean "featured", default: false, null: false
     t.index ["finish_line_id"], name: "index_virtual_competitions_on_finish_line_id"
     t.index ["place_id"], name: "index_virtual_competitions_on_place_id"
   end

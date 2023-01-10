@@ -1,10 +1,12 @@
 json.items @online_rankings do |ranking|
   json.extract! ranking,
+                :id,
+                :name,
+                :featured,
                 :period_from,
                 :period_to,
                 :discipline,
                 :discipline_parameter,
-                :name,
                 :group_id,
                 :place_id,
                 :finish_line_id,

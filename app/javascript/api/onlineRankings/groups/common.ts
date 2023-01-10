@@ -7,6 +7,8 @@ type RecordQueryKey = ['onlineRankingGroups', number]
 export interface OnlineRankingGroup {
   id: number
   name: string
+  cumulative: boolean
+  featured: boolean
   createdAt: Date
   updatedAt: Date
 }

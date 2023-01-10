@@ -19,10 +19,11 @@ type DefaultView = 'default_overall' | 'default_last_year'
 
 export interface OnlineRanking {
   id: number
+  name: string
+  featured: boolean
   groupId: number
   placeId: number
   finishLineId: number
-  name: string
   jumpsKind: TrackActivity
   suitsKind: SuitCategory
   discipline: Discipline
