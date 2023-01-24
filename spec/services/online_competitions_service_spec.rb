@@ -31,7 +31,7 @@ describe OnlineCompetitionsService do
 
   it 'Skydive distance prior to 2020', :aggregate_failures do
     place = create :place, name: 'Ravenna', msl: 0
-    competition = virtual_competitions(:skydive_distance)
+    competition = virtual_competitions(:skydive_distance_wingsuit)
 
     track = create_track_from_file(
       '13-31-51_Ravenna.CSV',
@@ -51,7 +51,7 @@ describe OnlineCompetitionsService do
 
   it 'Skydive distance with wind cancellation', :aggregate_failures do
     place = create :place, name: 'Ravenna', msl: 0
-    competition = virtual_competitions(:skydive_distance)
+    competition = virtual_competitions(:skydive_distance_wingsuit)
     place.weather_data.create!(
       actual_on: '2017-06-03T11:00:00Z',
       altitude: 0,
@@ -87,7 +87,7 @@ describe OnlineCompetitionsService do
   # So 3000-2000 range should be chosen
   it 'Skydive distance starting 2020', :aggregate_failures do
     place = create :place, name: 'Ravenna', msl: 500
-    competition = virtual_competitions(:skydive_distance)
+    competition = virtual_competitions(:skydive_distance_wingsuit)
 
     track = create_track_from_file(
       '13-31-51_Ravenna.CSV',
@@ -108,7 +108,7 @@ describe OnlineCompetitionsService do
 
   it 'When one range out of data recorded' do
     place = create :place, name: 'Ravenna', msl: 1000
-    competition = virtual_competitions(:skydive_distance)
+    competition = virtual_competitions(:skydive_distance_wingsuit)
 
     track = create_track_from_file(
       '13-31-51_Ravenna.CSV',

@@ -67,7 +67,7 @@
   .form-group
     = f.label :suits_kind, class: 'col-sm-2 control-label', for: :suits_kind
     .btn-group.col-sm-10{:data => {:toggle => 'buttons'}}
-      - SuitTypes.each do |type|
+      - Suit::TYPES.each do |type|
         %label.btn.btn-default{ class:  ('active' if @competition.suits_kind == type) }
           = f.radio_button 'suits_kind', type
           = type.capitalize

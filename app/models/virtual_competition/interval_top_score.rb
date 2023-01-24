@@ -28,7 +28,5 @@ class VirtualCompetition::IntervalTopScore < ApplicationRecord
 
   private
 
-  def readonly?
-    true
-  end
+  def readonly? = true
 end

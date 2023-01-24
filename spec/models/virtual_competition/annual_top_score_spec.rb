@@ -1,5 +1,5 @@
 describe VirtualCompetition::AnnualTopScore do
-  let!(:competition) { virtual_competitions(:skydive_distance) }
+  let!(:competition) { virtual_competitions(:skydive_distance_wingsuit) }
   let(:profile) { profiles(:competitor_1) }
 
   before do

@@ -80,7 +80,7 @@ describe Track, type: :model do
 
   describe '#delete_online_competitions_results' do
     it 'deletes all results' do
-      online_competition = virtual_competitions(:skydive_distance)
+      online_competition = virtual_competitions(:skydive_distance_wingsuit)
       track = create :empty_track
       results = [
         online_competition.results.create!(track: track, result: 123),

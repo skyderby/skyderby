@@ -1,7 +1,14 @@
 apache:
   name: Apache Series
+  kind: wingsuit
   manufacturer: tony
 
 nala:
   name: Nala
+  kind: wingsuit
   manufacturer: tony
+
+oneshot:
+  name: One Shot
+  kind: tracksuit
+  manufacturer: rd

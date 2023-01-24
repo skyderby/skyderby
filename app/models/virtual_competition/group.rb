@@ -10,6 +10,11 @@
 
 class VirtualCompetition::Group < ApplicationRecord
   has_many :virtual_competitions, dependent: :restrict_with_error
+  has_many :overall_standing_rows # rubocop:disable Rails/HasManyOrHasOneDependent
 
   validates :name, presence: true
+
+  def overall_standings
+    OverallStandings.new(self)
+  end
 end
