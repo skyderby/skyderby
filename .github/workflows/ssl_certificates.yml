@@ -18,7 +18,7 @@ jobs:
     steps:
       - run: mkdir -p $GITHUB_WORKSPACE/certificates
       - name: Fetch state from S3
-        run: aws s3 sync s3://certificates.skyderby.ru $GITHUB_WORKSPACE/certificates
+        run: aws s3 cp --recursive s3://certificates.skyderby.ru $GITHUB_WORKSPACE/certificates
       - name: Download acme.sh
         run: git clone https://github.com/acmesh-official/acme.sh.git
       - name: Install acme.sh
@@ -35,10 +35,12 @@ jobs:
             -d *.skyderby.ru -d skyderby.ru \
             -d *.skyder.by -d skyder.by \
             -d *.skyderby.io -d skyderby.io
-          echo ::set-output name=exit_code::$?
+          echo "exit_code=$?" >> $GITHUB_OUTPUT
+      - name: Show exit code
+        run: echo exit_code=${{ steps.renewal.outputs.exit_code }}
       - name: Sync state with S3
         if: steps.renewal.outputs.exit_code == 0
-        run: aws s3 sync $GITHUB_WORKSPACE/certificates s3://certificates.skyderby.ru
+        run: aws s3 cp --recursive $GITHUB_WORKSPACE/certificates s3://certificates.skyderby.ru
       - name: Check renewal status code
         if: steps.renewal.outputs.exit_code != 0 && steps.renewal.outputs.exit_code != 2
         run: |
@@ -56,8 +58,8 @@ jobs:
     if: needs.renew_certificates.outputs.renewal_exit_code == 0
     steps:
       - name: Download Certificates
-        working-directory: /opt/app/skyderby
-        run: aws s3 sync s3://certificates.skyderby.ru certificates
+        working-directory: /opt/app/skyderby/certificates
+        run: aws s3 cp --recursive s3://certificates.skyderby.ru/ .
       - name: Restart Nginx
         working-directory: /opt/app/skyderby
         run: docker-compose restart web
