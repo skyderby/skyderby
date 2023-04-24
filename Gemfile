@@ -39,7 +39,7 @@ gem 'shrine', '~> 3.0'
 gem 'nokogiri', '~> 1.13'
 
 # Background jobs
-gem 'sidekiq', '< 7'
+gem 'sidekiq', '< 8'
 gem 'sidekiq-cron', '~> 1.0'
 
 # Export to Excel
