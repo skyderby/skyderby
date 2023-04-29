@@ -7,7 +7,7 @@ RUN apt-get update -qq && apt-get install -y -qq apt-transport-https ca-certific
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
     && curl -sL https://deb.nodesource.com/setup_14.x | bash - \
-    && apt-get install -y -qq --no-install-recommends postgresql-client nodejs yarn \
+    && apt-get install -y -qq --no-install-recommends postgresql-client nodejs yarn python2 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN echo "gem: --no-rdoc --no-ri" >> ~/.gemrc
