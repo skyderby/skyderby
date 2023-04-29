@@ -1,4 +1,4 @@
-FROM ruby:3.0.0
+FROM ruby:3.1.2
 
 MAINTAINER Aleksandr Kunin <skyksandr@gmail.com>
 LABEL org.opencontainers.image.source=https://github.com/skyderby/skyderby

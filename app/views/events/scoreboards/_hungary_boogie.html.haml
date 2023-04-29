@@ -9,7 +9,7 @@
             %th.text-center{rowspan: 3} #
             %th{rowspan: 2, colspan: 2}= t('activerecord.models.event/competitor')
             %th.text-center{colspan: @scoreboard.rounds.count}
-              = "#{t('disciplines.distance')}, #{t('units.' + discipline_unit(:distance).to_s)}"
+              = "#{t('disciplines.' + @scoreboard.rounds.first&.discipline || 'distance')}, #{t('units.' + discipline_unit(:distance).to_s)}"
             %th.text-center{rowspan: 2}= t('events.show.total')
           %tr
             - @scoreboard.rounds.each do |round|

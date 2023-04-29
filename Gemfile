@@ -1,4 +1,4 @@
-ruby '3.0.0'
+ruby '3.1.2'
 source 'https://rubygems.org'
 
 gem 'rails', '~> 6.0.3'
@@ -37,6 +37,7 @@ gem 'shrine', '~> 3.0'
 
 # XML
 gem 'nokogiri', '~> 1.13'
+gem 'psych', '< 4'
 
 # Background jobs
 gem 'sidekiq', '< 7'
