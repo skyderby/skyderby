@@ -189,6 +189,10 @@ GEM
     multi_json (1.14.1)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
+    net-imap (0.3.1)
+      net-protocol
+    net-pop (0.1.2)
+      net-protocol
     net-protocol (0.2.1)
       timeout
     net-smtp (0.3.3)
@@ -413,6 +417,8 @@ DEPENDENCIES
   jbuilder (~> 2.6)
   kramdown
   matrix
+  net-imap
+  net-pop
   net-smtp
   nokogiri (~> 1.13)
   omniauth-facebook
