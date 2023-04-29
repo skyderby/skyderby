@@ -70,6 +70,8 @@ gem 'webpacker', '~> 4.0'
 gem 'matrix'
 gem 'vincenty_distance'
 
+gem 'net-imap', require: false
+gem 'net-pop', require: false
 gem 'net-smtp', require: false
 
 group :development do
