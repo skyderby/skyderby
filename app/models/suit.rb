@@ -16,12 +16,11 @@ class Suit < ApplicationRecord
 
   belongs_to :manufacturer
 
-  has_many :tracks, -> { order('created_at DESC') }, inverse_of: :suit
+  has_many :tracks, -> { order('created_at DESC') }, inverse_of: :suit, dependent: :nullify
   has_many :competitors, dependent: :restrict_with_error
   has_many :pilots, through: :tracks
 
   validates :name, presence: true
-  validates :manufacturer, presence: true
 
   delegate :name, to: :manufacturer, prefix: true, allow_nil: true
   delegate :code, to: :manufacturer, prefix: true, allow_nil: true

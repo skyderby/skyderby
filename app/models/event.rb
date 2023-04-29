@@ -45,7 +45,7 @@ class Event < ApplicationRecord
            dependent: :delete_all,
            inverse_of: :sponsorable
 
-  validates :responsible, :name, :range_from, :range_to, :starts_at, presence: true
+  validates :name, :range_from, :range_to, :starts_at, presence: true
 
   before_validation :check_name_and_range, on: :create
 

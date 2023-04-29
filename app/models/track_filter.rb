@@ -7,7 +7,7 @@ class TrackFilter
     return relation unless query
 
     [:profile_id, :suit_id, :place_id].each do |key|
-      relation = relation.where(Hash[key, query[key]]) if query[key].present?
+      relation = relation.where({ key => query[key] }) if query[key].present?
     end
 
     relation = relation.public_send(query[:kind]) if Track.kinds.key? query[:kind]

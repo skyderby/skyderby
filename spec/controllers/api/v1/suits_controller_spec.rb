@@ -4,8 +4,7 @@ describe Api::V1::SuitsController do
   it '#index' do
     get :index, format: :json
 
-    response_json = JSON.parse(response.body)
-    fields = response_json.map(&:keys).flatten.uniq
+    fields = response.parsed_body.map(&:keys).flatten.uniq
 
     expect(fields).to match(
       %w[id name make make_code category]

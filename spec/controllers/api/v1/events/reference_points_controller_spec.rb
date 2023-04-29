@@ -12,10 +12,10 @@ describe Api::V1::Events::ReferencePointsController do
       aggregate_failures 'testing response' do
         expect(response).to be_successful
 
-        response_data = JSON.parse(response.body)
-        expect(response_data.map { |el| el['name'] }).to eq(%w[R1 R2])
-        expect(response_data.map { |el| el['latitude'] }).to eq(['20.0', '30.0'])
-        expect(response_data.map { |el| el['longitude'] }).to eq(['25.0', '35.0'])
+        response_data = response.parsed_body
+        expect(response_data.pluck('name')).to eq(%w[R1 R2])
+        expect(response_data.pluck('latitude')).to eq(['20.0', '30.0'])
+        expect(response_data.pluck('longitude')).to eq(['25.0', '35.0'])
       end
     end
 

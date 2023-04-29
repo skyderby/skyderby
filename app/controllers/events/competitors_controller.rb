@@ -5,6 +5,10 @@ module Events
     before_action :set_event, :authorize_event
     before_action :set_competitor, only: [:edit, :update, :destroy]
 
+    def new
+      @competitor = @event.competitors.new
+    end
+
     def create
       @registration = CompetitorRegistration.new(competitor_params)
 
@@ -38,10 +42,6 @@ module Events
       else
         respond_with_errors(@competitor.errors)
       end
-    end
-
-    def new
-      @competitor = @event.competitors.new
     end
 
     def edit; end

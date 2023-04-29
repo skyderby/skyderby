@@ -27,7 +27,7 @@ class Event::Round < ApplicationRecord
   has_many :tracks, through: :results
   has_many :reference_point_assignments, dependent: :delete_all
 
-  validates :event, :discipline, presence: true
+  validates :discipline, presence: true
 
   delegate :range_from, to: :event
   delegate :range_to, to: :event

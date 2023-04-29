@@ -37,8 +37,8 @@ Skyderby::Application.configure do
 
   Rails.application.config.middleware.use ExceptionNotification::Rack,
                                           slack: {
-                                            webhook_url: ENV['SLACK_WEBHOOK_URL'],
-                                            channel: ENV['SLACK_CHANNEL']
+                                            webhook_url: ENV.fetch('SLACK_WEBHOOK_URL', nil),
+                                            channel: ENV.fetch('SLACK_CHANNEL', nil)
                                           }
 
   # Specifies the header that your server uses for sending files.
@@ -50,7 +50,7 @@ Skyderby::Application.configure do
 
   # Set to :debug to see everything in the log.
   config.logger       = Logger.new($stdout)
-  config.logger.level = Logger.const_get('INFO')
+  config.logger.level = Logger.const_get(:INFO)
   config.log_level    = :info
 
   # Prepend all log lines with the following tags.
@@ -75,11 +75,11 @@ Skyderby::Application.configure do
   config.action_mailer.default_url_options = { host: 'skyderby.ru' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: ENV['SMTP_ADDRESS'],
-    port: ENV['SMTP_PORT'],
-    domain: ENV['SMTP_DOMAIN'],
-    user_name: ENV['SMTP_USER_NAME'],
-    password: ENV['SMTP_PASSWORD']
+    address: ENV.fetch('SMTP_ADDRESS', nil),
+    port: ENV.fetch('SMTP_PORT', nil),
+    domain: ENV.fetch('SMTP_DOMAIN', nil),
+    user_name: ENV.fetch('SMTP_USER_NAME', nil),
+    password: ENV.fetch('SMTP_PASSWORD', nil)
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
@@ -93,5 +93,5 @@ Skyderby::Application.configure do
   # config.autoflush_log = false
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  config.log_formatter = Logger::Formatter.new
 end

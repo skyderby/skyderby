@@ -16,8 +16,6 @@ class Organizer < ApplicationRecord
   belongs_to :organizable, polymorphic: true, touch: true
   belongs_to :user
 
-  validates :organizable, :user, presence: true
-
   delegate :name, to: :user, allow_nil: true
 
   alias event organizable

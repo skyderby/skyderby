@@ -44,7 +44,7 @@ class Tournament < ApplicationRecord
   has_many :qualification_rounds, dependent: :restrict_with_error
   has_many :qualification_jumps, through: :qualification_rounds
 
-  has_many :sponsors, -> { order(:created_at) }, as: :sponsorable, inverse_of: :sponsorable
+  has_many :sponsors, -> { order(:created_at) }, as: :sponsorable, inverse_of: :sponsorable, dependent: :destroy
 
   delegate :name, to: :place, prefix: true, allow_nil: true
 

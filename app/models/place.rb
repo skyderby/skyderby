@@ -18,7 +18,7 @@ class Place < ApplicationRecord
 
   belongs_to :country
 
-  has_many :tracks, -> { order('created_at DESC') }, inverse_of: :place
+  has_many :tracks, -> { order('created_at DESC') }, inverse_of: :place, dependent: :nullify
   has_many :pilots, -> { distinct }, through: :tracks
   has_many :events, dependent: :restrict_with_error
   has_many :weather_data, dependent: :delete_all
@@ -29,10 +29,7 @@ class Place < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: ->(attrs) { attrs['name'].blank? }
 
-  validates :name, presence: true
-  validates :country, presence: true
-  validates :latitude, presence: true
-  validates :longitude, presence: true
+  validates :name, :latitude, :longitude, presence: true
 
   delegate :name, to: :country, prefix: true, allow_nil: true
   delegate :code, to: :country, prefix: true, allow_nil: true

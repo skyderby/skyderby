@@ -67,7 +67,10 @@ gem 'turbolinks'
 gem 'uglifier', '>= 2.7.2'
 gem 'webpacker', '~> 4.0'
 
+gem 'matrix'
 gem 'vincenty_distance'
+
+gem 'net-smtp', require: false
 
 group :development do
   gem 'annotate'

@@ -36,7 +36,7 @@ xml.EventResult do
                   xml.tag! discipline.to_s.capitalize, result.formated
                   xml.Percentage result.formated_points
                   xml.Notes(<<~HTML)
-                    <iframe src=\"#{event_result_url(@event, result)}" height="700px" width="750px" />
+                    <iframe src="#{event_result_url(@event, result)}" height="700px" width="750px" />
                   HTML
                 else
                   xml.tag! discipline.to_s.capitalize, ''

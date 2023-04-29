@@ -15,7 +15,7 @@ class Event::Section < ApplicationRecord
   has_many :competitors, dependent: :restrict_with_error
   has_many :results, through: :competitors
 
-  validates :name, :event, presence: true
+  validates :name, presence: true
 
   before_create :set_order
 

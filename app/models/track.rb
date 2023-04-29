@@ -56,24 +56,28 @@ class Track < ApplicationRecord
   has_one :time,
           -> { where(discipline: Result.disciplines[:time]) },
           class_name: 'Track::Result',
-          inverse_of: :track
+          inverse_of: :track,
+          dependent: :destroy
 
   has_one :distance,
           -> { where(discipline: Result.disciplines[:distance]) },
           class_name: 'Track::Result',
-          inverse_of: :track
+          inverse_of: :track,
+          dependent: :destroy
 
   has_one :speed,
           -> { where(discipline: Result.disciplines[:speed]) },
           class_name: 'Track::Result',
-          inverse_of: :track
+          inverse_of: :track,
+          dependent: :destroy
 
   has_many :points, -> { order :gps_time_in_seconds }, dependent: :delete_all, inverse_of: :track
   has_many :results, dependent: :destroy
   has_many :virtual_competition_results,
            -> { wind_cancellation(false) },
            class_name: 'VirtualCompetition::Result',
-           inverse_of: :track
+           inverse_of: :track,
+           dependent: :destroy
   has_many :all_virtual_competition_results, class_name: 'VirtualCompetition::Result', dependent: :destroy
 
   validates :name, presence: true, unless: :pilot
@@ -99,7 +103,7 @@ class Track < ApplicationRecord
   def competitive? = event_result.present?
 
   def msl_offset
-    @msl_offset ||= begin
+    @msl_offset ||=
       if ground_level&.positive?
         ground_level
       elsif place_msl
@@ -107,7 +111,6 @@ class Track < ApplicationRecord
       else
         points.minimum(:abs_altitude) || 0
       end
-    end
   end
 
   def start_time = points.trimmed.first&.gps_time

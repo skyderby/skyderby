@@ -6,9 +6,9 @@ describe Api::V1::Events::ResultsController do
 
     get :index, params: { event_id: event.id }, format: :json
 
-    response_json = JSON.parse(response.body)
-    result_numbers = response_json.map { |entity| entity['result'] }
-    rounds = response_json.map { |entity| entity['round_name'] }
+    response_json = response.parsed_body
+    result_numbers = response_json.pluck('result')
+    rounds = response_json.pluck('round_name')
 
     expect(result_numbers).to eq(['3000.0', '250.0', '2500.0', '270.0'])
     expect(rounds).to eq(%w[Distance-1 Speed-1 Distance-1 Speed-1])
@@ -49,7 +49,7 @@ describe Api::V1::Events::ResultsController do
 
       expect(response.successful?).to be_truthy
 
-      response_json = JSON.parse(response.body)
+      response_json = response.parsed_body
 
       result = event.results.last
       expect(response_json['id']).to eq(result.id)

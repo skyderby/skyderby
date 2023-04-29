@@ -61,7 +61,7 @@ module Suits
         scope =
           Track
           .where('recorded_at > ?', 1.year.ago.beginning_of_day)
-          .where.not(suit_id: nil, profile_id: nil)
+          .where('suit_id IS NOT NULL AND profile_id IS NOT NULL')
           .select('count(distinct profile_id) as count', :suit_id)
           .group(:suit_id)
 
