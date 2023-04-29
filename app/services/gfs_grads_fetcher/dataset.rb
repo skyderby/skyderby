@@ -47,7 +47,7 @@ class GfsGradsFetcher
       date_range = (today - DATASETS_HISTORY_DAYS)..(today + DAYS_IN_DATASET)
       raise DateOutOfRange unless date_range.cover? date_time.to_date
 
-      dataset_date_time = date_time > Time.current ? Time.current : date_time
+      dataset_date_time = [date_time, Time.current].min
       dataset = new(date_time: dataset_date_time)
       return dataset if dataset.available?
 

@@ -1,4 +1,4 @@
-ruby '3.0.0'
+ruby '3.1.2'
 source 'https://rubygems.org'
 
 gem 'rails', '~> 6.0.3'
@@ -37,6 +37,7 @@ gem 'shrine', '~> 3.0'
 
 # XML
 gem 'nokogiri', '~> 1.13'
+gem 'psych', '< 4'
 
 # Background jobs
 gem 'sidekiq', '< 7'
@@ -66,7 +67,10 @@ gem 'turbolinks'
 gem 'uglifier', '>= 2.7.2'
 gem 'webpacker', '~> 4.0'
 
+gem 'matrix'
 gem 'vincenty_distance'
+
+gem 'net-smtp', require: false
 
 group :development do
   gem 'annotate'

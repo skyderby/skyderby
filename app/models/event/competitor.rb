@@ -25,8 +25,6 @@ class Event::Competitor < ApplicationRecord
   has_many :results, dependent: :restrict_with_error
   has_many :reference_point_assignments, dependent: :delete_all
 
-  validates :suit, :event, :section, :profile, presence: true
-
   delegate :name, :country_id, :country_name, :country_code, to: :profile, allow_nil: true
   delegate :name, to: :suit, prefix: true, allow_nil: true
   delegate :place, to: :event

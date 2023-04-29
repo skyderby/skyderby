@@ -5,7 +5,7 @@ class VirtualCompetition < ApplicationRecord
     included do
       enum interval_type: { annual: 0, custom_intervals: 1 }
 
-      has_many :custom_intervals, -> { order(:period_to) }, inverse_of: :virtual_competition
+      has_many :custom_intervals, -> { order(:period_to) }, inverse_of: :virtual_competition, dependent: :destroy
     end
 
     def years

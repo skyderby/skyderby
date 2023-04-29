@@ -66,15 +66,15 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.asset_host = ENV['MAILER_ASSET_HOST']
-  config.action_mailer.default_url_options = { host: ENV['MAILER_URL_HOST'] }
+  config.action_mailer.asset_host = ENV.fetch('MAILER_ASSET_HOST', nil)
+  config.action_mailer.default_url_options = { host: ENV.fetch('MAILER_URL_HOST', nil) }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: ENV['SMTP_ADDRESS'],
-    port: ENV['SMTP_PORT'],
-    domain: ENV['SMTP_DOMAIN'],
-    user_name: ENV['SMTP_USER_NAME'],
-    password: ENV['SMTP_PASSWORD']
+    address: ENV.fetch('SMTP_ADDRESS', nil),
+    port: ENV.fetch('SMTP_PORT', nil),
+    domain: ENV.fetch('SMTP_DOMAIN', nil),
+    user_name: ENV.fetch('SMTP_USER_NAME', nil),
+    password: ENV.fetch('SMTP_PASSWORD', nil)
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
@@ -85,7 +85,7 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  config.log_formatter = Logger::Formatter.new
 
   # Use a different logger for distributed setups.
   # require 'syslog/logger'

@@ -1,6 +1,6 @@
 module DeepTransformKeys
-  def deep_transform_keys!(&block)
-    @parameters.deep_transform_keys!(&block)
+  def deep_transform_keys!(&)
+    @parameters.deep_transform_keys!(&)
     self
   end
 end

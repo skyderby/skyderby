@@ -23,8 +23,6 @@ Rails.application.configure do
     config.public_file_server.headers = {
       'Cache-Control' => 'public, max-age=172800'
     }
-
-    Rack::MiniProfiler.config.disable_caching = false
   else
     config.action_controller.perform_caching = false
 

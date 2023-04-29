@@ -20,8 +20,7 @@ class PerformanceCompetitionSeries::Scoreboard::Standings::Row
 
         sum_of_points =
           active_rounds
-          .map { |round| result_in_round(round) }
-          .compact
+          .filter_map { |round| result_in_round(round) }
           .sum { |result| result.points.to_f }
 
         memo[discipline] = sum_of_points.to_f / active_rounds.count

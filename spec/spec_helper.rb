@@ -18,7 +18,7 @@ Capybara.asset_host = 'http://localhost:3000'
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
-I18n.locale = :en
+I18n.locale = :en # rubocop:disable Rails/I18nLocaleAssignment
 
 RSpec.configure do |config|
   config.include ActiveSupport::Testing::TimeHelpers
@@ -36,7 +36,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.before(:each, type: :system) do
-    I18n.locale = :en
+    I18n.locale = :en # rubocop:disable Rails/I18nLocaleAssignment
 
     driven_by :rack_test
     default_url_options[:locale] = :en

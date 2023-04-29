@@ -7,6 +7,8 @@ class EventResultService
   end
 
   def calculate
+    return flare if @task == :flare
+
     points =
       if wind_cancellation
         subtract_wind(track_points)
@@ -28,6 +30,13 @@ class EventResultService
 
   attr_reader :track, :wind_cancellation
 
+  def flare
+    flares = Tracks::FlaresDetector.call(track_points)
+    return 0 unless flares.any?
+
+    flares.max_by(&:altitude_gain).altitude_gain
+  end
+
   def subtract_wind(points)
     start_time = points.first[:gps_time].beginning_of_hour
     weather_data = @event.place.weather_data.for_time(start_time)
@@ -40,7 +49,7 @@ class EventResultService
     @track_points ||= PointsQuery.execute(
       track,
       trimmed: true,
-      only: %i[gps_time time_diff altitude latitude longitude]
+      only: %i[gps_time time_diff altitude latitude longitude v_speed]
     )
   end
 end

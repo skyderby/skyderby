@@ -28,17 +28,19 @@ class Profile < ApplicationRecord
 
   belongs_to :country, optional: true
 
-  has_many :tracks, -> { order('recorded_at DESC') }, inverse_of: :pilot
+  has_many :tracks, -> { order('recorded_at DESC') }, inverse_of: :pilot, dependent: :nullify
   has_many :public_tracks,
            -> { where(visibility: 0).order('created_at DESC') },
-           class_name: 'Track', inverse_of: false
-  has_many :base_tracks, -> { base.order('created_at DESC') }, class_name: 'Track', inverse_of: false
+           class_name: 'Track', inverse_of: false, dependent: :nullify
+  has_many :base_tracks,
+           -> { base.order('created_at DESC') }, class_name: 'Track', inverse_of: false, dependent: :nullify
   has_many :badges, -> { order(achieved_at: :desc) }, dependent: :delete_all, inverse_of: :profile
   has_many :event_competitors, class_name: 'Event::Competitor', dependent: :restrict_with_error
   has_many :personal_top_scores,
            -> { wind_cancellation(false) },
            inverse_of: :profile,
-           class_name: 'VirtualCompetition::PersonalTopScore'
+           class_name: 'VirtualCompetition::PersonalTopScore',
+           dependent: :restrict_with_error
   has_many :contribution_details,
            class_name: 'Contribution::Detail',
            foreign_key: :contributor_id,

@@ -14,8 +14,7 @@ describe Api::V1::Profiles::CurrentsController do
 
       expect(response.successful?).to be_truthy
 
-      response_json = JSON.parse(response.body)
-      expect(response_json['name']).to eq('Regular user')
+      expect(response.parsed_body['name']).to eq('Regular user')
     end
   end
 end

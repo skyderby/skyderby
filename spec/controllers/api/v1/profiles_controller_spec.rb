@@ -4,10 +4,9 @@ describe Api::V1::ProfilesController, type: :controller do
   it '#show' do
     get :show, params: { id: profile.id }, format: :json
 
-    response_json = JSON.parse(response.body)
     expected_json = JSON.parse(expected_result.to_json)
 
-    expect(response_json).to eq(expected_json)
+    expect(response.parsed_body).to eq(expected_json)
   end
 
   def expected_result

@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Ruby 3.0.0
+      - name: Setup Ruby 3.1.2
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.0.0
+          ruby-version: 3.1.2
       - name: Cache gems
         uses: actions/cache@v1
         with:
@@ -37,10 +37,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Nodejs
+      - name: Setup Nodejs
         uses: actions/setup-node@v1
         with:
           node-version: 14.16.0
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '2.7'
       - name: Cache node modules
         uses: actions/cache@v1
         with:
@@ -82,14 +86,18 @@ jobs:
           - 8000:80
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Ruby 3.0.0
+      - name: Setup Ruby 3.1.2
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.0.0
-      - name: Set up Nodejs
+          ruby-version: 3.1.2
+      - name: Setup Nodejs
         uses: actions/setup-node@v1
         with:
           node-version: 14.16.0
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '2.7'
       - name: Cache gems
         uses: actions/cache@v1
         with:
@@ -144,14 +152,18 @@ jobs:
           - 8000:80
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Ruby 3.0.0
+      - name: Setup Ruby 3.1.2
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.0.0
-      - name: Set up Nodejs
+          ruby-version: 3.1.2
+      - name: Setup Nodejs
         uses: actions/setup-node@v1
         with:
           node-version: 14.16.0
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '2.7'
       - name: Cache gems
         uses: actions/cache@v1
         with:

@@ -12,11 +12,11 @@ module Events
         end
 
         def best_in(args)
-          find(args)&.max_by { |x| x.result }
+          find(args)&.max_by(&:result)
         end
 
         def worst_in(args)
-          find(args)&.min_by { |x| x.result }
+          find(args)&.min_by(&:result)
         end
 
         private

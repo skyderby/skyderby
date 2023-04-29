@@ -3,7 +3,7 @@ require:
   - rubocop-performance
 
 AllCops:
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.1
   NewCops: enable
   Exclude:
     - bin/*
@@ -45,11 +45,20 @@ Style/FormatStringToken:
 Style/Documentation:
   Enabled: false
 
+Style/HashSyntax:
+  Enabled: false
+
+Style/OpenStructUse:
+  Enabled: false
+
 #################### Lint    ################################
 
 Lint/ShadowingOuterLocalVariable:
   Exclude:
     - app/views/**/*.json.jbuilder
+
+Lint/AmbiguousOperatorPrecedence:
+  Enabled: false
 
 #################### Metrics ################################
 
@@ -78,3 +87,9 @@ Metrics/BlockLength:
 
 Naming/VariableNumber:
   Enabled: false # TODO: Enable
+
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+Rails/ActionOrder:
+  Enabled: false

@@ -31,7 +31,7 @@ class GfsGradsFetcher
       end
 
       array_values = input.slice(:hgtprs, :ugrdprs, :vgrdprs)
-      counts = array_values.map { |key, val| Hash[key, val.count] }.reduce(&:merge)
+      counts = array_values.map { |key, val| { key => val.count } }.reduce(&:merge)
 
       return if counts.values.uniq.one?
 

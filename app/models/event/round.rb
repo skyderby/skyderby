@@ -14,7 +14,7 @@
 class Event::Round < ApplicationRecord
   include EventOngoingValidation, Event::Namespace
 
-  enum discipline: { time: 0, distance: 1, speed: 2, vertical_speed: 3 }
+  enum discipline: { time: 0, distance: 1, speed: 2, vertical_speed: 3, flare: 4 }
 
   belongs_to :event, touch: true
   belongs_to :signed_off_by,
@@ -27,7 +27,7 @@ class Event::Round < ApplicationRecord
   has_many :tracks, through: :results
   has_many :reference_point_assignments, dependent: :delete_all
 
-  validates :event, :discipline, presence: true
+  validates :discipline, presence: true
 
   delegate :range_from, to: :event
   delegate :range_to, to: :event

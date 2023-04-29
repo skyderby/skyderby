@@ -5,8 +5,7 @@ describe Api::V1::Events::CompetitorsController do
     get :index, params: { event_id: events(:published_public).id }, format: :json
     expect(response.successful?).to be_truthy
 
-    response_json = JSON.parse(response.body)
-    expect(response_json).to eq(JSON.parse(expected_response.to_json))
+    expect(response.parsed_body).to eq(JSON.parse(expected_response.to_json))
   end
 
   def expected_response

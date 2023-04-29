@@ -8,9 +8,8 @@ describe Api::V1::Tracks::PointsController do
 
       get :show, params: { track_id: track.id }, format: :json
 
-      response_json = JSON.parse(response.body)
       expect(response).to have_http_status(:success)
-      expect(response_json.count).to eq(34)
+      expect(response.parsed_body.count).to eq(34)
     end
 
     it 'private track' do

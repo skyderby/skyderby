@@ -27,7 +27,6 @@ class Event < ApplicationRecord
 
     scope :chronologically, -> { order(:created_at) }
 
-    validates :competitor, :round, :track, presence: true
     validates :competitor_id, uniqueness: { scope: :round_id }, on: :create
     validate_duplicates_on_file_with EventTracks::FileDuplicationValidator
 

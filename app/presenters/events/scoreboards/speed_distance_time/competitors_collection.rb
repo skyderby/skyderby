@@ -9,8 +9,8 @@ module Events
           @scoreboard = scoreboard
         end
 
-        def each(&block)
-          competitors.each(&block)
+        def each(&)
+          competitors.each(&)
         end
 
         def to_a
