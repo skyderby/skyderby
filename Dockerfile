@@ -17,7 +17,7 @@ ENV RAILS_ENV=production NODE_ENV=production
 WORKDIR /tmp
 COPY ./Gemfile Gemfile
 COPY ./Gemfile.lock Gemfile.lock
-RUN bundle config set --local without 'development test' && bundle install --jobs 20 --retry 5
+RUN bundle install --jobs 20 --retry 5
 
 WORKDIR /opt/app
 COPY ./package.json package.json
