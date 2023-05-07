@@ -17,6 +17,7 @@ const getInterpolatedPoint = (
 
   return {
     altitude: interpolateValue(first.altitude, second.altitude, interpolationFactor),
+    fullSpeed: interpolateValue(first.fullSpeed, second.fullSpeed, interpolationFactor),
     hSpeed: interpolateValue(first.hSpeed, second.hSpeed, interpolationFactor),
     vSpeed: interpolateValue(first.vSpeed, second.vSpeed, interpolationFactor),
     glideRatio: interpolateValue(first.glideRatio, second.glideRatio, interpolationFactor)

@@ -127,6 +127,7 @@ class PointsQuery
       longitude: 'longitude',
       h_speed: 'h_speed',
       v_speed: 'v_speed',
+      full_speed: 'sqrt(h_speed * h_speed + v_speed * v_speed) AS full_speed',
       distance: 'distance',
       time_diff: '0 AS time_diff',
       glide_ratio: 'CASE WHEN v_speed = 0 THEN h_speed / 0.1 ELSE h_speed / ABS(v_speed) END AS glide_ratio',

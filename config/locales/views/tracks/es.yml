@@ -10,6 +10,7 @@ es:
       distance: Distancia
       elevation: Diferencia en altura
       altitude: Height
+      full_speed: Velocidad 3D
       ground_speed: Velocidad horizontal
       vertical_speed: Velocidad vertical
       duration: Duración

@@ -19,6 +19,7 @@ module Api
           points.each do |point|
             point[:h_speed] /= 3.6
             point[:v_speed] /= 3.6
+            point[:full_speed] /= 3.6
           end
         end
 

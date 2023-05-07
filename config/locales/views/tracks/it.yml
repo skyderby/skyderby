@@ -11,6 +11,7 @@ it:
       distance: Distanza
       elevation: Differenza di quota
       altitude: Altitudine
+      full_speed: Velocità totale
       ground_speed: Velocità orizzontale
       vertical_speed: Velocità verticale
       duration: Tempo
