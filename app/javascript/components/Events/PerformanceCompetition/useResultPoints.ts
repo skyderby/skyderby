@@ -5,9 +5,26 @@ import addSeconds from 'date-fns/addSeconds'
 import { PerformanceCompetition, Result } from 'api/performanceCompetitions'
 import { PointRecord, pointsQuery, useTrackPointsQuery } from 'api/tracks/points'
 
-import getPointsAround from 'utils/getPointsAround'
 import interpolateByAltitude from 'utils/interpolateByAltitude'
 import { QueryClient } from 'react-query'
+
+const getPointsAround = <TPoint>(
+  points: TPoint[],
+  predicate: (a: TPoint, b: TPoint) => boolean
+) => {
+  for (let idx = 0; idx < points.length; idx++) {
+    if (idx === 0) continue
+
+    const first = points[idx - 1]
+    const second = points[idx]
+
+    if (!first || !second) continue
+
+    if (predicate(first, second)) return [first, second]
+  }
+
+  return null
+}
 
 const getPointForAltitude = (points: PointRecord[], altitude: number) => {
   const [first, second] =

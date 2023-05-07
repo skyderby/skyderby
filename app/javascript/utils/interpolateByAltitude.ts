@@ -21,6 +21,7 @@ const interpolateByAltitude = (
     'hSpeed',
     'vSpeed',
     'glideRatio',
+    'speedAccuracy',
     'verticalAccuracy'
   ]
 
