@@ -11,6 +11,7 @@ en:
       distance: Distance
       elevation: Height diff.
       altitude: Height
+      full_speed: Full speed
       ground_speed: Ground speed
       vertical_speed: Vertical speed
       duration: Time

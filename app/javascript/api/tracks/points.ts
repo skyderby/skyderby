@@ -21,6 +21,7 @@ export type PointRecord = {
   altitude: number
   latitude: number
   longitude: number
+  fullSpeed: number
   hSpeed: number
   vSpeed: number
   glideRatio: number

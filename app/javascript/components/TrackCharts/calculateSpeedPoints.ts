@@ -12,6 +12,7 @@ const convertValue = (value: number, unitSystem: UnitSystem) => {
 
 const convertUnits = (point: PointRecord, unitSystem: UnitSystem) => ({
   ...point,
+  fullSpeed: convertValue(point.fullSpeed, unitSystem),
   hSpeed: convertValue(point.hSpeed, unitSystem),
   vSpeed: convertValue(point.vSpeed, unitSystem)
 })
@@ -37,7 +38,7 @@ const calculateHorizontalSpeedPoints = (points: PointRecord[]): PointOptionsObje
 const calculateFullSpeedPoints = (points: PointRecord[]): PointOptionsObject[] =>
   points.map(el => ({
     x: Math.round((el.flTime - points[0].flTime) * 10) / 10,
-    y: Math.round(Math.sqrt(el.hSpeed ** 2 + el.vSpeed ** 2)),
+    y: Math.round(el.fullSpeed),
     custom: {
       altitude: Math.round(el.altitude)
     }

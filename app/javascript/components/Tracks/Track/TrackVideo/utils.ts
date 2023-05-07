@@ -1,6 +1,6 @@
 import { PointRecord } from 'api/tracks/points'
 import { VideoRecord } from 'api/tracks/video'
-import getPointsAround from 'utils/getPointsAround'
+import getPointsAroundTime from './getPointsAroundTime'
 
 const interpolateValue = (first: number, second: number, factor: number): number =>
   first + (second - first) * factor
@@ -9,11 +9,7 @@ const getInterpolatedPoint = (
   points: PointRecord[],
   flTime: number
 ): Partial<PointRecord> | null => {
-  const [first, second] =
-    getPointsAround(
-      points,
-      (first, second) => first.flTime <= flTime && flTime <= second.flTime
-    ) ?? []
+  const [first, second] = getPointsAroundTime(points, flTime) ?? []
 
   if (!first || !second) return null
 
@@ -21,6 +17,7 @@ const getInterpolatedPoint = (
 
   return {
     altitude: interpolateValue(first.altitude, second.altitude, interpolationFactor),
+    fullSpeed: interpolateValue(first.fullSpeed, second.fullSpeed, interpolationFactor),
     hSpeed: interpolateValue(first.hSpeed, second.hSpeed, interpolationFactor),
     vSpeed: interpolateValue(first.vSpeed, second.vSpeed, interpolationFactor),
     glideRatio: interpolateValue(first.glideRatio, second.glideRatio, interpolationFactor)

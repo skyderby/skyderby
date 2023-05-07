@@ -14,6 +14,7 @@ const points = {
       vSpeed: 30,
       latitude: 20.0,
       longitude: 15.0,
+      speedAccuracy: 0.3,
       verticalAccuracy: 1.25
     }
   ],
@@ -28,6 +29,7 @@ const points = {
       vSpeed: 30,
       latitude: 20.0,
       longitude: 15.0,
+      speedAccuracy: 0.3,
       verticalAccuracy: 1.75
     },
     {
@@ -40,6 +42,7 @@ const points = {
       vSpeed: 50,
       latitude: 25.0,
       longitude: 17.0,
+      speedAccuracy: 0.3,
       verticalAccuracy: 1.25
     },
     {
@@ -52,6 +55,7 @@ const points = {
       vSpeed: 60,
       latitude: 27.0,
       longitude: 19.0,
+      speedAccuracy: 0.3,
       verticalAccuracy: 1.25
     },
     {
@@ -64,6 +68,7 @@ const points = {
       vSpeed: 10,
       latitude: 28.0,
       longitude: 18.0,
+      speedAccuracy: 0.3,
       verticalAccuracy: 1.25
     }
   ]
@@ -90,6 +95,7 @@ describe('cropping points', () => {
         vSpeed: 50,
         latitude: 25.0,
         longitude: 17.0,
+        speedAccuracy: 0.3,
         verticalAccuracy: 1.25
       },
       {
@@ -102,6 +108,7 @@ describe('cropping points', () => {
         vSpeed: 60,
         latitude: 27.0,
         longitude: 19.0,
+        speedAccuracy: 0.3,
         verticalAccuracy: 1.25
       }
     ])
@@ -119,6 +126,7 @@ describe('cropping points', () => {
         vSpeed: 40,
         latitude: 22.5,
         longitude: 16.0,
+        speedAccuracy: 0.3,
         verticalAccuracy: 1.5
       },
       {
@@ -131,6 +139,7 @@ describe('cropping points', () => {
         vSpeed: 50,
         latitude: 25.0,
         longitude: 17.0,
+        speedAccuracy: 0.3,
         verticalAccuracy: 1.25
       },
       {
@@ -143,6 +152,7 @@ describe('cropping points', () => {
         vSpeed: 60,
         latitude: 27.0,
         longitude: 19.0,
+        speedAccuracy: 0.3,
         verticalAccuracy: 1.25
       }
     ])
@@ -160,6 +170,7 @@ describe('cropping points', () => {
         vSpeed: 50,
         latitude: 25.0,
         longitude: 17.0,
+        speedAccuracy: 0.3,
         verticalAccuracy: 1.25
       },
       {
@@ -172,6 +183,7 @@ describe('cropping points', () => {
         vSpeed: 60,
         latitude: 27.0,
         longitude: 19.0,
+        speedAccuracy: 0.3,
         verticalAccuracy: 1.25
       },
       {
@@ -184,6 +196,7 @@ describe('cropping points', () => {
         vSpeed: 35,
         latitude: 27.5,
         longitude: 18.5,
+        speedAccuracy: 0.3,
         verticalAccuracy: 1.25
       }
     ])

@@ -7,6 +7,7 @@ json.array! @points do |point|
                 :altitude,
                 :h_speed,
                 :v_speed,
+                :full_speed,
                 :glide_ratio,
                 :vertical_accuracy,
                 :speed_accuracy

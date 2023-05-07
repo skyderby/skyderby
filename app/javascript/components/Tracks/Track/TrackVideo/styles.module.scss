@@ -1,22 +1,50 @@
 .indicators {
   display: flex;
+  justify-content: space-around;
   width: 100%;
+  padding: 1rem 0;
 }
 
 .valueContainer {
   display: flex;
   flex-basis: 0;
   flex-direction: column;
-  flex-grow: 1;
-  flex-shrink: 1;
 
   text-align: center;
 }
 
 .value {
   color: var(--grey-80);
-  font-weight: 100;
+  font-weight: 200;
   font-size: 2.5rem;
+}
+
+.title {
+  color: var(--grey-70);
+  font-weight: 500;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.glideContainer {
+  display: grid;
+  flex-shrink: 1;
+  grid-column-gap: 0.5rem;
+  grid-template-columns: 1fr 30px;
+
+  .value {
+    grid-column: 1;
+    width: 70px;
+  }
+
+  .title {
+    grid-column: 1/3;
+  }
+
+  .angle {
+    grid-column: 2;
+    height: 2.875rem;
+  }
 }
 
 .minorValue {
@@ -30,12 +58,6 @@
 .units {
   font-weight: 200;
   font-size: 1.5rem;
-}
-
-.title {
-  color: var(--grey-70);
-  font-weight: 500;
-  text-transform: uppercase;
 }
 
 .flatButton {

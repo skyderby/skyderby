@@ -11,6 +11,7 @@ ru:
       distance: Дистанция
       elevation: Перепад высот
       altitude: Высота
+      full_speed: Полная скорость
       ground_speed: Путевая скорость
       vertical_speed: Вертикальная скорость
       duration: Продолжительность

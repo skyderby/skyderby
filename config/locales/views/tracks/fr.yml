@@ -11,6 +11,7 @@ fr:
       distance: Distance
       elevation: Hauteur
       altitude: Altitude
+      full_speed: Vitesse sur trajectoire
       ground_speed: Vitesse sol
       vertical_speed: Vitesse verticale
       duration: Temps
