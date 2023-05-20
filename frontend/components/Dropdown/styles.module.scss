@@ -1,0 +1,55 @@
+.container {
+  z-index: 20;
+
+  display: flex;
+  flex-direction: column;
+  border: solid 1px var(--border-color);
+  border-radius: var(--border-radius-md);
+
+  background-color: var(--white);
+}
+
+.container::before {
+  position: absolute;
+  z-index: -1;
+
+  width: 0.5rem;
+  height: 0.5rem;
+  border-top: solid 1px var(--border-color);
+  border-right: solid 1px var(--border-color);
+
+  background-color: var(--white);
+
+  content: '';
+}
+
+.container[data-popper-placement='bottom-end']::before {
+  top: -0.25rem;
+  right: calc(var(--border-radius-md) + 0.125rem);
+
+  transform: rotate(-45deg) translateX(2px);
+}
+
+.button {
+  composes: button from '~styles/button.module.scss';
+  composes: flat from '~styles/button.module.scss';
+
+  justify-content: flex-start;
+  padding: 0.5rem 0.75rem;
+  border: 0;
+  border-radius: 0;
+}
+
+.button:first-child {
+  border-top-left-radius: var(--border-radius-md);
+  border-top-right-radius: var(--border-radius-md);
+}
+
+.button:last-child {
+  border-bottom-right-radius: var(--border-radius-md);
+  border-bottom-left-radius: var(--border-radius-md);
+}
+
+.button.active {
+  box-shadow: inset 5px 0 0 var(--blue-grey-50);
+}

@@ -417,6 +417,7 @@ DEPENDENCIES
   pundit
   rack-attack
   rack-cors
+  rack-proxy
   rails (~> 7.0.3)
   rspec
   rspec-rails (~> 5.0.0)

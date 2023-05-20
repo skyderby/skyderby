@@ -27,10 +27,17 @@
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
-    "./app/javascript"
+    "./app/javascript",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "**/*.spec.ts",

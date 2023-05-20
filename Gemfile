@@ -6,6 +6,7 @@ gem 'rails', '~> 7.0.3'
 gem 'puma', '< 6'
 gem 'rack-attack'
 gem 'rack-cors'
+gem 'rack-proxy'
 
 # DB
 gem 'pg', '~> 1.0'
