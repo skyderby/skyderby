@@ -226,7 +226,7 @@
     "msw-storybook-addon": "^1.6.0",
     "prettier": "^2.0.5",
     "react-refresh": "^0.14.0",
-    "stylelint": "^13.8.0",
+    "stylelint": "^15.10.1",
     "stylelint-config-css-modules": "^2.2.0",
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-config-sass-guidelines": "^7.1.0",
