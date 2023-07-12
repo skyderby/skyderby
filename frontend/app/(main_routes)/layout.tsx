@@ -3,7 +3,11 @@ import AppShell from 'components/AppShell'
 import { currentLocale } from 'components/useI18n'
 import 'styles/globalStyles.scss'
 
-const RootLayout = ({ children }) => {
+type Props = {
+  children: React.ReactNode
+}
+
+const RootLayout = ({ children }: Props) => {
   const locale = currentLocale()
 
   return (

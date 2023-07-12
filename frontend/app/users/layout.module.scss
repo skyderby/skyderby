@@ -1,0 +1,59 @@
+@import 'styles/breakpoints';
+
+.container {
+  min-height: 100vh;
+  padding: 2rem 0;
+
+  background-color: var(--white);
+
+  @include sm-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--grey-20);
+  }
+}
+
+.content {
+  display: grid;
+  grid-gap: 1rem;
+
+  background-color: var(--white);
+
+  @include sm-screen {
+    width: 400px;
+    margin: 2rem auto;
+    padding: 2rem 0;
+    border-radius: var(--border-radius-md);
+
+    box-shadow: var(--block-box-shadow);
+  }
+}
+
+.home {
+  --text-color: var(--grey-80);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--text-color);
+  font-weight: 100;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  @include sm-screen {
+    font-size: 1.75rem;
+  }
+
+  svg {
+    height: 2.5rem;
+    margin-right: 1rem;
+
+    path {
+      fill: var(--text-color);
+    }
+  }
+}

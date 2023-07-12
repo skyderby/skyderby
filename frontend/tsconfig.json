@@ -21,7 +21,7 @@
     "paths": {
       "*": [
         "*",
-        "app/javascript/*"
+        "./frontend/*"
       ]
     },
     "allowJs": true,
@@ -36,7 +36,7 @@
     ]
   },
   "include": [
-    "./app/javascript",
+    "./frontend",
     ".next/types/**/*.ts"
   ],
   "exclude": [

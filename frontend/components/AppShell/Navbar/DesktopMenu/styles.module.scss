@@ -1,0 +1,166 @@
+@import 'styles/breakpoints';
+
+.menuItem {
+  position: relative;
+
+  display: flex;
+
+  flex-shrink: 1;
+  align-items: center;
+  height: 100%;
+
+  &:not(:last-child) {
+    margin-right: 0.25rem;
+  }
+}
+
+.dropdownItem {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+
+  font-size: 0.875rem;
+  text-transform: uppercase;
+
+  a {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-left: 4px solid transparent;
+
+    color: var(--grey-90);
+  }
+
+  &:first-child {
+    border-top-left-radius: var(--border-radius-md);
+    border-top-right-radius: var(--border-radius-md);
+  }
+
+  &:last-child {
+    border-bottom-right-radius: var(--border-radius-md);
+    border-bottom-left-radius: var(--border-radius-md);
+  }
+}
+
+.menuItem a {
+  padding: 0.5rem;
+  border-radius: var(--border-radius-md);
+
+  white-space: nowrap;
+}
+
+.menu .menuItem a {
+  font-size: 0.875rem;
+  text-transform: uppercase;
+}
+
+.menuItem a:global(.active) {
+  color: var(--blue-70);
+
+  &::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    display: block;
+    height: 0.25rem;
+
+    background-color: var(--blue-70);
+
+    content: '';
+  }
+}
+
+.dropdownItem a:global(.active) {
+  border-left-color: var(--blue-grey-60);
+}
+
+.menuItem a:hover {
+  background-color: var(--blue-grey-70);
+}
+
+.dropdownItem a:hover {
+  background-color: var(--grey-20);
+}
+
+.collapsed {
+  order: 10;
+
+  visibility: hidden;
+}
+
+.overflowMenu {
+  display: flex;
+  align-items: center;
+  order: 1;
+
+  background-color: var(--blue-grey-90);
+
+  button {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    height: 2rem;
+    border: 0;
+    border-radius: var(--border-radius-md);
+
+    color: var(--white);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+
+    background-color: transparent;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--blue-grey-70);
+    }
+  }
+
+  svg {
+    height: 1rem;
+
+    path {
+      fill: var(--white);
+    }
+  }
+}
+
+.menu {
+  display: none;
+  height: 100%;
+  margin: 0;
+  padding: 0 2rem 0 0;
+
+  list-style: none;
+
+  @include sm-screen {
+    display: flex;
+    overflow: hidden;
+  }
+}
+
+.rightMenuDesktop {
+  display: none;
+  margin: 0;
+  margin-left: auto;
+  padding: 0;
+
+  @include sm-screen {
+    display: flex;
+    align-items: center;
+  }
+
+  .menuItem:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}
+
+.uploadTrack {
+  composes: button from '~styles/button.module.scss';
+  composes: cta from '~styles/button.module.scss';
+
+  margin-right: 2rem;
+
+  white-space: nowrap;
+}

@@ -34,6 +34,6 @@ class FrontendProxy < Rack::Proxy
   end
 end
 
-if Rails.env.development? || Rails.env.test?
+if Rails.env.test?
   Rails.application.config.middleware.use FrontendProxy, { ssl_verify_none: true, backend: ENV['FRONTEND_URL'] }
 end

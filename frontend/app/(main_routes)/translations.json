@@ -1,0 +1,20 @@
+{
+  "en": {
+    "app_description": "The most advanced flight analysis and competition scoring"
+  },
+  "ru": {
+    "app_description": "Профессиональный анализ полетов и проведение соревнований"
+  },
+  "it": {
+    "app_description": "Il più avanzato sistema di analisi di volo e di punteggio per le competizioni"
+  },
+  "fr": {
+    "app_description": "Réalisé avec 😍 par Aleksandr Kunin"
+  },
+  "es": {
+    "app_description": "Hecho con 😍 por Aleksandr Kunin"
+  },
+  "de": {
+    "app_description": "Modernste Fluganalyse und Wettkampfauswertung"
+  }
+}

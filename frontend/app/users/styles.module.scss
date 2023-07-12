@@ -1,0 +1,88 @@
+@import 'styles/breakpoints';
+
+.container {
+  display: grid;
+  grid-gap: 1.25rem;
+  padding: 0 2rem 1rem;
+
+  @include sm-screen {
+    padding: 0 3rem 1rem;
+  }
+}
+
+.link {
+  display: block;
+  margin-left: auto;
+
+  color: var(--grey-70);
+  text-align: right;
+}
+
+.input {
+  composes: input from '~styles/input.module.scss';
+  composes: sizeLg from '~styles/input.module.scss';
+}
+
+.primaryButton {
+  composes: button from '~styles/button.module.scss';
+  composes: cta from '~styles/button.module.scss';
+  composes: sizeLg from '~styles/button.module.scss';
+}
+
+.secondaryButton {
+  composes: button from '~styles/button.module.scss';
+  composes: sizeLg from '~styles/button.module.scss';
+
+  border-width: 2px;
+}
+
+.tertiaryButton {
+  composes: button from '~styles/button.module.scss';
+  composes: flat from '~styles/button.module.scss';
+  composes: sizeLg from '~styles/button.module.scss';
+}
+
+.error {
+  color: var(--red-90);
+  font-size: 0.825rem;
+  font-style: italic;
+  line-height: 1.75;
+}
+
+.serverError {
+  composes: error;
+
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  border: solid 1px var(--red-90);
+  border-radius: var(--border-radius-md);
+}
+
+.icon {
+  font-size: 3rem;
+  text-align: center;
+}
+
+.title {
+  margin: 0.5rem 0 1rem;
+  padding-bottom: 1rem;
+  border-bottom: solid 2px var(--grey-40);
+
+  font-weight: normal;
+  font-size: 1.75rem;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.description {
+  margin: 0;
+
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.notice {
+  color: var(--grey-70);
+  font-style: italic;
+  text-align: center;
+}

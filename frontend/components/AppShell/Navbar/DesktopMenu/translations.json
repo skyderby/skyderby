@@ -1,0 +1,62 @@
+{
+  "en": {
+    "tracks": "Tracks",
+    "competitions": "Competitions",
+    "online_competitions": "World Ranking",
+    "places": "Places",
+    "flight_profiles": "Flight Profiles",
+    "sign_in": "Sign in",
+    "sign_up": "Sign up",
+    "sign_out": "Sign out"
+  },
+  "ru": {
+    "tracks": "Треки",
+    "competitions": "Соревнования",
+    "online_competitions": "Мировой рейтинг",
+    "places": "Локации",
+    "flight_profiles": "Профили Полётов",
+    "sign_in":  "Войти",
+    "sign_up":  "Зарегистрироваться",
+    "sign_out":  "Выйти"
+  },
+  "it": {
+    "tracks": "Tracce",
+    "competitions": "Competizioni",
+    "online_competitions": "Classifica mondiale",
+    "places": "Luoghi",
+    "flight_profiles": "Profili di volo",
+    "sign_in":  "Accedi",
+    "sign_up":  "Registrati",
+    "sign_out":  "Esci"
+  },
+  "fr": {
+    "tracks": "Tracks",
+    "competitions": "Compétitions",
+    "online_competitions": "Classement mondial",
+    "places": "Lieux",
+    "flight_profiles": "Profils de vol",
+    "sign_in":  "Se connecter",
+    "sign_up":  "S'inscrire",
+    "sign_out":  "Déconnexion"
+  },
+  "es": {
+    "tracks": "Lista de pistas",
+    "competitions": "Las competiciones",
+    "online_competitions": "Clasificación mundial",
+    "places": "Ubicaciones",
+    "flight_profiles": "Perfiles de vuelo",
+    "sign_in":  "Iniciar sesión",
+    "sign_up":  "Registrarse",
+    "sign_out":  "Cerrar sesión"
+  },
+  "de": {
+    "tracks": "Trackliste",
+    "online_competitions": "Weltweites Ranking",
+    "competitions": "Wettkampf",
+    "places": "Orte",
+    "flight_profiles": "Flugprofile",
+    "sign_in":  "Anmelden",
+    "sign_up":  "Registrieren",
+    "sign_out":  "Abmelden"
+  }
+}

@@ -1,0 +1,104 @@
+@import 'styles/breakpoints';
+
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  margin: 1rem auto;
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+
+  background-color: var(--white);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+
+  @include sm-screen {
+    min-width: 400px;
+    max-width: 80vw;
+    margin: 5rem auto 2rem;
+
+    &[data-size='sm'] {
+      width: 500px;
+    }
+
+    &[data-size='md'] {
+      width: 760px;
+    }
+
+    &[data-size='lg'] {
+      width: 960px;
+    }
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+
+  color: var(--grey-70);
+  font-weight: 500;
+}
+
+.closeButton {
+  display: flex;
+  justify-content: flex-end;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-left: auto;
+  border: 0;
+  border-radius: var(--border-radius-sm);
+  overflow: hidden;
+
+  color: var(--grey-60);
+  font-weight: bold;
+  font-size: 21px;
+  text-shadow: 0 1px 0 var(--white);
+
+  background-color: transparent;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--grey-30);
+  }
+
+  &:focus {
+    background-color: var(--grey-30);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem var(--grey-20);
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.75rem 1rem;
+
+  background-color: var(--grey-20);
+
+  > :not(:last-child) {
+    margin-right: 0.5rem;
+  }
+
+  &.spaceBetween {
+    justify-content: space-between;
+  }
+}
+
+.body {
+  padding: 1rem;
+}

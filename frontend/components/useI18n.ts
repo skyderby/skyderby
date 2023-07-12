@@ -6,6 +6,10 @@ import { match } from '@formatjs/intl-localematcher'
 const availableLocales = ['en', 'ru', 'fr', 'it', 'es', 'de']
 const defaultLocale = 'en'
 
+type ApplicationLocale = typeof availableLocales[number]
+type TranslationValue = string | Record<string, string>
+type Translation = Record<ApplicationLocale, TranslationValue>
+
 export const currentLocale = () => {
   const cookieStore = cookies()
   const headersList = headers()
@@ -23,7 +27,7 @@ export const currentLocale = () => {
   return match(requestedLocales, availableLocales, defaultLocale)
 }
 
-const useI18n = (translations: Record<string, string>) => {
+const useI18n = (translations: Translation) => {
   const i18n = new I18n(translations)
   const locale = currentLocale()
   i18n.locale = locale

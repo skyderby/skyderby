@@ -21,7 +21,8 @@
     "paths": {
       "*": [
         "*",
-        "app/javascript/*"
+        "app/javascript/*",
+        "frontend/*"
       ]
     },
     "allowJs": true,
@@ -30,7 +31,8 @@
     "isolatedModules": true
   },
   "include": [
-    "./app/javascript"
+    "./app/javascript",
+    "./frontend"
   ],
   "exclude": [
     "**/*.spec.ts",

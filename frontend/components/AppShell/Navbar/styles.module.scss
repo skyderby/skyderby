@@ -1,0 +1,79 @@
+@import 'styles/breakpoints';
+
+.header {
+  display: flex;
+  align-items: center;
+  height: 4.5rem;
+  padding: 0 1rem;
+
+  color: var(--white);
+
+  background-color: var(--blue-grey-90);
+
+  @include sm-screen {
+    height: var(--header-height);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+.sidebar {
+  position: absolute;
+  top: 0;
+  right: -80vw;
+  z-index: 10;
+
+  width: 80vw;
+  height: 100vh;
+
+  background-color: var(--blue-grey-60);
+
+  &.active {
+    right: 0;
+  }
+}
+
+.home {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+
+  color: var(--white);
+  font-weight: 100;
+  font-size: 1.75rem;
+  text-transform: uppercase;
+
+  svg {
+    height: 2.5rem;
+    margin-right: 1rem;
+
+    path {
+      fill: var(--white);
+    }
+  }
+}
+
+.logoutButton {
+  display: flex;
+  padding: 0.5rem;
+  border: 0;
+  border-radius: var(--border-radius-md);
+
+  background-color: transparent;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--blue-grey-70);
+  }
+
+  svg {
+    height: 1rem;
+
+    path {
+      fill: var(--white);
+    }
+  }
+}

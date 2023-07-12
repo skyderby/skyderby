@@ -1,0 +1,52 @@
+@import 'styles/breakpoints';
+
+.button {
+  composes: button from '~styles/button.module.scss';
+
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+
+  font-size: 1rem;
+  line-height: 1.0625rem;
+}
+
+.button:not(:first-child) {
+  margin-left: -1px;
+}
+
+.active + .button {
+  border-left-color: var(--active-border-color);
+}
+
+.button:first-child:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.button:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+.button:last-child:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.button > input {
+  position: absolute;
+
+  clip: rect(0, 0, 0, 0);
+  pointer-events: none;
+}
+
+@include sm-screen {
+  .button:hover + .button {
+    border-left-color: var(--active-border-color);
+  }
+}
+
+.active {
+  --border-color: var(--active-border-color);
+  --background-color: var(--active-border-color);
+  --text-color: var(--white);
+}
