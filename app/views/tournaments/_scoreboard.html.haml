@@ -1,6 +1,8 @@
 .row.tournament-scoreboard
-  .col-lg-1
-  - @tournament.rounds.each do |round|
+  - rounds = @tournament.rounds.order(:order)
+  - if rounds.size < 4
+    .col-lg-1
+  - rounds.each do |round|
     = render partial: 'tournaments/rounds/round', locals: { round: round }
 
 

@@ -15,9 +15,13 @@
           %i.fa.fa-plus
           Round
 
-    .scoreboard
-      .scoreboard-scroll
-        = render 'qualification_table'
+    - if @tournament.surprise? && !editable
+      %h1.text-muted.text-center
+        🙅 Let it be a Surprise
+    - else
+      .scoreboard
+        .scoreboard-scroll
+          = render 'qualification_table'
 
     .container
       .row.top-buffer
