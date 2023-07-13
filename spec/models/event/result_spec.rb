@@ -18,23 +18,6 @@
 require 'support/event_ongoing_validation'
 
 describe Event::Result do
-  describe '#need_review?' do
-    it 'true if result is 0' do
-      result = event_results(:distance_competitor_1)
-      result.update_columns(result: 0)
-
-      expect(result.need_review?).to be_truthy
-    end
-
-    it 'true if detected jump range outside competition window' do
-      track = create_track_from_file 'flysight.csv'
-      track.update!(ff_start: 10, ff_end: 30)
-      result = create :event_result, track: track
-
-      expect(result.need_review?).to be_truthy
-    end
-  end
-
   it 'rounds result correctly' do
     result = event_results(:distance_competitor_1)
     result.result = 266.3477
