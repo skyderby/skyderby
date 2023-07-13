@@ -12,7 +12,7 @@ on:
 
 jobs:
   rubocop:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Setup Ruby 3.1.2
@@ -23,9 +23,9 @@ jobs:
         uses: actions/cache@v1
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-ruby-${{ hashFiles('./Gemfile.lock') }}
+          key: ${{ runner.os }}-ruby-v2-${{ hashFiles('./Gemfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-ruby-
+            ${{ runner.os }}-ruby-v2-
       - name: Install gems
         run: |
           bundle config path vendor/bundle
@@ -34,17 +34,13 @@ jobs:
         run: bundle exec rubocop --parallel
 
   eslint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Setup Nodejs
         uses: actions/setup-node@v1
         with:
           node-version: 14.16.0
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '2.7'
       - name: Cache node modules
         uses: actions/cache@v1
         with:
@@ -58,7 +54,7 @@ jobs:
         run: yarn lint
 
   unit-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs:
       - rubocop
       - eslint
@@ -94,17 +90,13 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14.16.0
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '2.7'
       - name: Cache gems
         uses: actions/cache@v1
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-ruby-${{ hashFiles('./Gemfile.lock') }}
+          key: ${{ runner.os }}-ruby-v2-${{ hashFiles('./Gemfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-ruby-
+            ${{ runner.os }}-ruby-v2-
       - name: Cache node modules
         uses: actions/cache@v1
         with:
@@ -123,7 +115,7 @@ jobs:
       - run: bundle exec rspec spec --tag ~type:system
 
   system-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs:
       - rubocop
       - eslint
@@ -160,17 +152,13 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14.16.0
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '2.7'
       - name: Cache gems
         uses: actions/cache@v1
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-ruby-${{ hashFiles('./Gemfile.lock') }}
+          key: ${{ runner.os }}-ruby-v2-${{ hashFiles('./Gemfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-ruby-
+            ${{ runner.os }}-ruby-v2-
       - name: Cache node modules
         uses: actions/cache@v1
         with:
@@ -195,7 +183,7 @@ jobs:
           path: tmp/screenshots
 
   publish-docker-image:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs:
       - unit-test
       - system-test
