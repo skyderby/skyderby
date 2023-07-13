@@ -12,7 +12,7 @@ on:
 
 jobs:
   rubocop:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Setup Ruby 3.1.2
@@ -34,7 +34,7 @@ jobs:
         run: bundle exec rubocop --parallel
 
   eslint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - name: Setup Nodejs
@@ -58,7 +58,7 @@ jobs:
         run: yarn lint
 
   unit-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs:
       - rubocop
       - eslint
@@ -123,7 +123,7 @@ jobs:
       - run: bundle exec rspec spec --tag ~type:system
 
   system-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs:
       - rubocop
       - eslint
@@ -195,7 +195,7 @@ jobs:
           path: tmp/screenshots
 
   publish-docker-image:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs:
       - unit-test
       - system-test
