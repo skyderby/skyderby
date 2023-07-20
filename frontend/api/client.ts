@@ -16,6 +16,7 @@ async function client(path: string, config?: RequestInit) {
       ...config?.headers
     }
   }
+
   return fetch(process.env.BACKEND_URL + path, configWithCredentials)
 }
 
