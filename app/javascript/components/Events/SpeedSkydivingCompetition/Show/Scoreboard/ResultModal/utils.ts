@@ -47,7 +47,10 @@ export const buildAccuracySeries = (
       point =>
         point.altitude <= validationWindowStart && point.altitude >= windowEndAltitude
     )
-    .map(point => [point.flTime - points[0].flTime, point.speedAccuracy])
+    .map(point => [
+      point.flTime - points[0].flTime,
+      (Math.sqrt(2) * point.verticalAccuracy) / 3
+    ])
 
   return {
     name: 'Speed Accuracy',
