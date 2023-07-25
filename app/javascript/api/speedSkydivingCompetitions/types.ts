@@ -52,28 +52,6 @@ export interface Round {
   updatedAt: Date
 }
 
-export interface Penalty {
-  percent: number
-  reason: string
-}
-
-export interface Result {
-  id: number
-  eventId: number
-  competitorId: number
-  roundId: number
-  trackId: number
-  exitAltitude: number
-  result: number
-  finalResult: number
-  penaltySize: number
-  windowStartTime: Date
-  windowEndTime: Date
-  penalties: Penalty[]
-  createdAt: Date
-  updatedAt: Date
-}
-
 export interface SpeedSkydivingCompetition {
   id: number
   name: string

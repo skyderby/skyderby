@@ -8,7 +8,6 @@ import {
   SpeedSkydivingCompetition,
   useCompetitorQuery,
   useDeleteResultMutation,
-  useNewResultMutation,
   useRoundQuery
 } from 'api/speedSkydivingCompetitions'
 import { useProfileQuery } from 'api/profiles'
@@ -84,35 +83,27 @@ const ResultCell = ({
   roundId,
   competitorId,
   result
-}: ResultCellProps): JSX.Element => {
+}: ResultCellProps) => {
   const [showNewResultModal, setShowNewResultModal] = useState(false)
   const [showResultModal, setShowResultModal] = useState(false)
-  const deleteMutation = useDeleteResultMutation()
+  const deleteMutation = useDeleteResultMutation(event.id, result?.id)
   const { data: competitor } = useCompetitorQuery(event.id, competitorId)
   const { data: round } = useRoundQuery(event.id, roundId)
   const { data: profile } = useProfileQuery(competitor?.profileId, { enabled: false })
 
   const hideResultModal = () => setShowResultModal(false)
   const hideResultSubmissionModal = () => setShowNewResultModal(false)
-  const newResultMutation = useNewResultMutation({
-    onSuccess: () => {
-      hideResultSubmissionModal()
-    }
-  })
 
-  const deleteResult = async () => {
+  const deleteResult = () => {
     if (!result) return
     if (!confirm('Are you sure you want delete this result?')) return
 
-    deleteMutation.mutate(
-      { eventId: event.id, id: result.id },
-      {
-        onSuccess: () => hideResultModal(),
-        onError: error => {
-          toast.error(<RequestErrorToast response={error.response} />)
-        }
+    deleteMutation.mutate(undefined, {
+      onSuccess: () => hideResultModal(),
+      onError: error => {
+        toast.error(<RequestErrorToast response={error.response} />)
       }
-    )
+    })
   }
 
   return (
@@ -154,7 +145,6 @@ const ResultCell = ({
             <NewResultForm
               event={event}
               competitorId={competitorId}
-              mutation={newResultMutation}
               roundId={roundId}
               onHide={hideResultSubmissionModal}
             />

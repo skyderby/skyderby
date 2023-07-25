@@ -1,22 +1,24 @@
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
 
 import {
   SpeedSkydivingCompetition,
   Result,
-  useEditResultMutation
+  useUpdateResultMutation
 } from 'api/speedSkydivingCompetitions'
 import { useI18n } from 'components/TranslationsProvider'
 import Modal from 'components/ui/Modal'
 import { useTrackQuery } from 'api/tracks'
 import AltitudeRangeSelect from 'components/AltitudeRangeSelect'
 import styles from './styles.module.scss'
+import RequestErrorToast from 'components/RequestErrorToast'
 
 type JumpRangeProps = {
   event: SpeedSkydivingCompetition
   result: Result
   tabBar: JSX.Element | null
   deleteResult: () => unknown
-  hide: () => unknown
+  hide: () => void
 }
 
 type SelectedRange = { from: number; to: number } | undefined
@@ -31,25 +33,27 @@ const JumpRange = ({
   const { t } = useI18n()
   const { data: track, isLoading } = useTrackQuery(result.trackId)
   const [selectedRange, setSelectedRange] = useState<SelectedRange>()
-  const editMutation = useEditResultMutation({ onSuccess: hide })
+  const updateMutation = useUpdateResultMutation(event.id, result.id)
 
   if (isLoading) return null
 
   const handleSave = async () => {
     if (!selectedRange) return hide()
 
-    try {
-      await editMutation.mutateAsync({
-        eventId: event.id,
-        id: result.id,
+    updateMutation.mutate(
+      {
         trackAttributes: {
           ffStart: selectedRange.from,
           ffEnd: selectedRange.to
         }
-      })
-    } catch (err) {
-      alert(err)
-    }
+      },
+      {
+        onSuccess: () => hide(),
+        onError: error => {
+          toast.error(<RequestErrorToast response={error.response} />)
+        }
+      }
+    )
   }
 
   return (
