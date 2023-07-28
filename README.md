@@ -53,6 +53,13 @@ So I decided to create a new application.
 - Visit `http://127.0.0.1:3000`
 - Log in with your admin user email and password
 
+To allow uploading tracks, run the track scanner application:
+
+- git clone `skyderby/track-scanner`
+- cd track-scanner
+- docker build -t track-scanner .
+- docker run -p 80:8080 track-scanner
+
 ### TODO
 
 - Fix postgres usage so that the config file doesn't need to be edited
