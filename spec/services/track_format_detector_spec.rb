@@ -4,6 +4,7 @@ describe TrackFormatDetector do
     'dual_xgps160.kml' => 'kml',
     'wintec.tes' => 'wintec',
     'flysight.csv' => 'flysight',
+    'fs2-track.csv' => 'flysight2',
     'columbus.csv' => 'columbus',
     'cyber_eye.csv' => 'cyber_eye'
   }.freeze

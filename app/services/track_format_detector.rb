@@ -11,6 +11,7 @@ class TrackFormatDetector
   }.with_indifferent_access.freeze
 
   CSV_HEADERS = {
+    'flysight2' => %w[$FLYS 1],
     'flysight' => %w[time lat lon hMSL velN velE velD hAcc vAcc sAcc],
     'columbus' => ['INDEX', 'TAG', 'DATE', 'TIME', 'LATITUDE N/S', 'LONGITUDE E/W', 'HEIGHT', 'SPEED', 'HEADING', 'VOX']
   }.freeze
