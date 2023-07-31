@@ -5,6 +5,12 @@ describe 'Upload tracks', js: true do
     expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
   end
 
+  it 'Flysight2 file' do
+    upload_track 'fs2-track.csv'
+
+    expect(page).to have_css('a.btn-tab.active', text: I18n.t('tracks.show.charts'))
+  end
+
   it 'Columbus file' do
     upload_track 'columbus.csv'
 
