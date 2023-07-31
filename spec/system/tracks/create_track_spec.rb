@@ -5,6 +5,12 @@ describe 'Upload tracks', js: true do
     expect(page).to have_css('[aria-label="distance"]', text: 3496)
   end
 
+  it 'Flysight2 file' do
+    upload_track 'fs2-track.csv'
+
+    expect(page).to have_css('[aria-label="distance"]', text: 10_334)
+  end
+
   it 'Columbus file' do
     upload_track 'columbus.csv'
 
