@@ -1,29 +1,54 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import { QueryClient, useQueryClient } from 'react-query'
+import cx from 'clsx'
 
-import {
-  Competitor,
-  PerformanceCompetition,
-  Result,
-  Round
-} from 'api/performanceCompetitions'
+import { Competitor, Result, Round } from 'api/performanceCompetitions'
+import { ProfileRecord } from 'api/profiles'
+import { pointsQuery } from 'api/tracks/points'
+import getPointForAltitude from 'utils/getPointForAltitude'
 import AltitudeChart, { AltitudeChartHandle } from './AltitudeChart'
 import CompetitorCards, { CompetitorCardsHandle } from './CompetitorCards'
 import processPoints from './processPoints'
 import getPathsUntilTime from './getPathsUntilTime'
-import styles from './styles.module.scss'
-import { ProfileRecord } from 'api/profiles'
-import { useQueryClient } from 'react-query'
-import { fetchResultPoints } from 'components/Events/PerformanceCompetition/useResultPoints'
 import { PlayerPoint } from './types'
+import styles from './styles.module.scss'
 
 type PlayerProps = {
-  event: PerformanceCompetition
+  windowStart: number
+  windowEnd: number
   task: Round['task']
   playing: boolean
   group: (Competitor & { result: Result; profile: ProfileRecord })[]
+  cardsPosition: 'right' | 'bottom'
 }
 
-const Player = ({ event, task, group = [], playing }: PlayerProps) => {
+const fetchTrackPoints = async (
+  queryClient: QueryClient,
+  trackId: number,
+  windowStart: number,
+  windowEnd: number
+) => {
+  const points = await queryClient.fetchQuery(
+    pointsQuery(trackId, {
+      trimmed: { secondsBeforeStart: 7 },
+      originalFrequency: true
+    })
+  )
+
+  const startPoint = getPointForAltitude(points, windowStart)
+  const endPoint = getPointForAltitude(points, windowEnd)
+
+  return { points, startPoint, endPoint }
+}
+
+const Player = ({
+  task,
+  windowStart,
+  windowEnd,
+  group = [],
+  playing,
+  cardsPosition = 'right'
+}: PlayerProps) => {
   const queryClient = useQueryClient()
   const [playerPoints, setPlayerPoints] = useState<PlayerPoint[][]>([])
 
@@ -34,7 +59,6 @@ const Player = ({ event, task, group = [], playing }: PlayerProps) => {
   const prevFrameTime = useRef<number>(0)
   const requestId = useRef<number>()
 
-  const { rangeFrom, rangeTo } = event
   const distanceRange = useMemo(
     () =>
       playerPoints.reduce(
@@ -53,14 +77,19 @@ const Player = ({ event, task, group = [], playing }: PlayerProps) => {
     Promise.all(
       group.map(async record => ({
         ...record,
-        ...(await fetchResultPoints(queryClient, event, record.result))
+        ...(await fetchTrackPoints(
+          queryClient,
+          record.result.trackId,
+          windowStart,
+          windowEnd
+        ))
       }))
     )
       .then(group =>
-        group.map(record => processPoints(task, event.rangeFrom, event.rangeTo, record))
+        group.map(record => processPoints(task, windowStart, windowEnd, record))
       )
       .then(group => setPlayerPoints(group))
-  }, [event, queryClient, group, task])
+  }, [queryClient, group, task, windowStart, windowEnd])
 
   const drawFrame = useCallback(
     (time: number) => {
@@ -87,23 +116,27 @@ const Player = ({ event, task, group = [], playing }: PlayerProps) => {
     } else {
       requestId.current && cancelAnimationFrame(requestId.current)
     }
-  }, [playing, drawFrame, rangeFrom, rangeTo, group])
+  }, [playing, drawFrame, windowStart, windowEnd, group])
 
   useEffect(() => {
     if (group.length === 0) return
 
     playerTime.current = 0
-  }, [group, rangeFrom, rangeTo])
+  }, [group, windowStart, windowEnd])
 
   return (
-    <div className={styles.container}>
+    <div className={cx(styles.container, cardsPosition === 'bottom' && styles.vertical)}>
       <AltitudeChart
         ref={chartRef}
         distanceRange={distanceRange}
-        rangeFrom={rangeFrom}
-        rangeTo={rangeTo}
+        rangeFrom={windowStart}
+        rangeTo={windowEnd}
       />
-      <CompetitorCards ref={cardsRef} group={group} />
+      <CompetitorCards
+        ref={cardsRef}
+        group={group}
+        horizontal={cardsPosition === 'bottom'}
+      />
     </div>
   )
 }

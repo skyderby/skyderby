@@ -45,13 +45,43 @@ function interpolate(first: number, second: number, factor: number) {
   return first + (second - first) * factor
 }
 
+const getClosestIndex = (points: PlayerPoint[], time: number) => {
+  let start = 0
+  let end = points.length - 1
+
+  if (time < points[start].playerTime) return start
+  if (time > points[end].playerTime) return end
+
+  while (start <= end) {
+    const middle = Math.floor((start + end) / 2)
+
+    if (time === points[middle].playerTime) {
+      return middle
+    }
+
+    if (time <= points[middle].playerTime && time >= points[middle - 1].playerTime) {
+      return middle - 1
+    }
+
+    if (time < points[middle].playerTime) {
+      end = middle - 1
+    } else {
+      start = middle + 1
+    }
+  }
+
+  // This should never happen and is here to satisfy TypeScript
+  throw new Error('Could not find closest index')
+}
+
 export default function getPathsUntilTime(
   points: PlayerPoint[],
   time: number,
   task: Round['task']
 ) {
   const seekTime = time - 5
-  const pointsBeforeTime = points.filter(el => el.playerTime <= seekTime)
+  const closestIndex = getClosestIndex(points, seekTime)
+  const pointsBeforeTime = points.slice(0, closestIndex + 1)
 
   if (pointsBeforeTime.length === 0) return pointsBeforeTime
 

@@ -8,6 +8,7 @@ import React, {
   useRef
 } from 'react'
 import debounce from 'lodash.debounce'
+import cx from 'clsx'
 
 import { drawCard, updateCardNumbers } from './utils'
 import styles from './styles.module.scss'
@@ -17,6 +18,7 @@ import { PlayerPoint } from '../types'
 
 type CompetitorCardsProps = {
   group: (Competitor & { profile: ProfileRecord; result: Result })[]
+  horizontal?: boolean
 }
 
 export type CompetitorCardsHandle = {
@@ -24,7 +26,7 @@ export type CompetitorCardsHandle = {
 }
 
 const CompetitorCards = forwardRef<CompetitorCardsHandle, CompetitorCardsProps>(
-  ({ group }, ref) => {
+  ({ group, horizontal }, ref) => {
     const cardRefs = useMemo(
       () => Object.fromEntries(group.map(({ id }) => [id, createRef<HTMLDivElement>()])),
       [group]
@@ -34,6 +36,7 @@ const CompetitorCards = forwardRef<CompetitorCardsHandle, CompetitorCardsProps>(
     const setOrder = useCallback(
       (ids: string[]) => {
         const cardHeight = cardRefs[ids[0]]?.current?.getBoundingClientRect()?.height ?? 0
+        const cardWidth = cardRefs[ids[0]]?.current?.getBoundingClientRect()?.width ?? 0
         const margin = cardHeight / 5
 
         ids.forEach((id: string, idx: number) => {
@@ -41,7 +44,11 @@ const CompetitorCards = forwardRef<CompetitorCardsHandle, CompetitorCardsProps>(
 
           if (!card) return
 
-          card.style.transform = `translate(0px, ${(cardHeight + margin) * idx}px)`
+          if (horizontal) {
+            card.style.transform = `translate(${(cardWidth + margin) * idx}px, 0px)`
+          } else {
+            card.style.transform = `translate(0px, ${(cardHeight + margin) * idx}px)`
+          }
         })
       },
       [cardRefs]
@@ -94,7 +101,7 @@ const CompetitorCards = forwardRef<CompetitorCardsHandle, CompetitorCardsProps>(
     }, [group, cardRefs, debouncedSetOrder])
 
     return (
-      <div className={styles.container}>
+      <div className={cx(styles.container, horizontal && styles.horizontal)}>
         {group.map(record => (
           <div className={styles.card} key={record.id} ref={cardRefs[record.id]}>
             <canvas width={750} height={250} />

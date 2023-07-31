@@ -14,4 +14,8 @@
   > :not(:last-child) {
     margin-bottom: 15px;
   }
+
+  &.vertical {
+    flex-direction: column;
+  }
 }

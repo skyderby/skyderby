@@ -30,6 +30,13 @@
   transform: rotate(-45deg) translateX(2px);
 }
 
+.container[data-popper-placement='bottom-start']::before {
+  top: -0.25rem;
+  left: calc(var(--border-radius-md) + 0.125rem);
+
+  transform: rotate(-45deg) translateX(2px);
+}
+
 .button {
   composes: button from '~styles/button.module.scss';
   composes: flat from '~styles/button.module.scss';
