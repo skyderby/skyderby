@@ -7,7 +7,7 @@ module Tracks
     class << self
       def for(track, params, session)
         view_class =
-          if track.flysight? || track.cyber_eye?
+          if track.flysight? || track.cyber_eye? || track.flysight2?
             self
           else
             Tracks::RawTrackView
