@@ -8,6 +8,10 @@ export * from './referencePoints'
 export * from './teams'
 
 export { default as usePerformanceCompetitionQuery } from './usePerformanceCompetitionQuery'
+export {
+  default as usePerformanceCompetitionsQuery,
+  performanceCompetitionsQuery
+} from './usePerformanceCompetitionsQuery'
 export { default as useCreatePerformanceCompetitionMutation } from './useCreatePerformanceCompetitionMutation'
 export { default as useUpdatePerformanceCompetitionMutation } from './useUpdatePerformanceCompetitionMutation'
 export { default as useStandingsQuery } from './useStandingsQuery'

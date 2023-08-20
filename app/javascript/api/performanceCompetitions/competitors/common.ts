@@ -42,6 +42,7 @@ export const collectionEndpoint = (eventId: number) =>
   `/api/v1/performance_competitions/${eventId}/competitors`
 export const elementEndpoint = (eventId: number, id: number) =>
   `${collectionEndpoint(eventId)}/${id}`
+export const copyEndpoint = (eventId: number) => `${collectionEndpoint(eventId)}/copy`
 
 export const deserialize = (competitor: SerializedCompetitor): Competitor => ({
   ...competitor,
