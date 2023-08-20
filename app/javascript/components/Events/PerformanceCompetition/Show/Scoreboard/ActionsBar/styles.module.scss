@@ -35,6 +35,22 @@
   border-right: var(--default-border);
 }
 
+.right {
+  margin-left: auto;
+  border-right: 0;
+  border-left: var(--default-border);
+}
+
+.right:last-child {
+  border-top-right-radius: var(--border-radius-md);
+  border-bottom-right-radius: var(--border-radius-md);
+}
+
+.right:not(:disabled):hover {
+  border-right: 0;
+  border-left: var(--default-border);
+}
+
 .actionButton {
   composes: button from '~styles/button';
   composes: flat from '~styles/button';

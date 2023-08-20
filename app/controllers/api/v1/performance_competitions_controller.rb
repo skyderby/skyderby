@@ -1,4 +1,14 @@
 class Api::V1::PerformanceCompetitionsController < Api::ApplicationController
+  def index
+    authorize Event
+
+    @events =
+      policy_scope(Event.speed_distance_time)
+      .order(starts_at: :desc)
+      .then { |relation| relation.search(params[:search]) }
+      .paginate(page: current_page, per_page: rows_per_page)
+  end
+
   def show
     @event = authorize Event.speed_distance_time.find(params[:id])
   end

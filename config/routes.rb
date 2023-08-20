@@ -112,10 +112,14 @@ Skyderby::Application.routes.draw do
         end
       end
 
-      resources :performance_competitions, only: %i[show create update] do
+      resources :performance_competitions, only: %i[index show create update] do
         scope module: :performance_competitions do
           resources :rounds, only: %i[index create update destroy]
-          resources :competitors, only: %i[index create update destroy]
+          resources :competitors, only: %i[index create update destroy] do
+            collection do
+              resource :copy, only: :create, module: :competitors
+            end
+          end
           resources :categories, only: %i[index create update destroy] do
             resource :position, only: :update, module: :categories
           end

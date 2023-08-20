@@ -2,7 +2,7 @@ import { parseISO } from 'date-fns'
 import { EventStatus, EventVisibility } from 'api/events'
 import { Serialized } from 'api/helpers'
 
-export type QueryKey = ['performance_competitions', number]
+export type QueryKey = ['performanceCompetition', number | undefined]
 
 export interface PerformanceCompetition {
   id: number
@@ -39,7 +39,10 @@ export interface PerformanceCompetitionVariables {
 
 export type SerializedPerformanceCompetition = Serialized<PerformanceCompetition>
 
-export const queryKey = (id: number): QueryKey => ['performance_competitions', id]
+export const queryKey = (id: number | undefined): QueryKey => [
+  'performanceCompetition',
+  id
+]
 
 export const collectionEndpoint = '/api/v1/performance_competitions'
 export const elementEndpoint = (id: number) => `${collectionEndpoint}/${id}`

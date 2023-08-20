@@ -14,7 +14,7 @@
 #
 
 class Event::Competitor < ApplicationRecord
-  include EventOngoingValidation, Event::Namespace, CompetitorCountry
+  include EventOngoingValidation, Event::Namespace, CompetitorCountry, Copyable
 
   belongs_to :event, touch: true
   belongs_to :section

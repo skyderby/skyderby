@@ -1,0 +1,29 @@
+.primaryButton {
+  composes: button from '~styles/button.module.scss';
+  composes: primary from '~styles/button.module.scss';
+}
+
+.secondaryButton {
+  composes: button from '~styles/button.module.scss';
+}
+
+.input {
+  composes: input from '~styles/input.module.scss';
+  composes: outlined from '~styles/input.module.scss';
+}
+
+.formGroup {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: max-content 1fr;
+  align-items: baseline;
+}
+
+.inputGroup {
+  display: grid;
+  grid-gap: 0.25rem;
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+}

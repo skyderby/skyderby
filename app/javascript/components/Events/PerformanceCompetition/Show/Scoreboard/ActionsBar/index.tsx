@@ -1,9 +1,11 @@
 import React, { useRef, useState } from 'react'
+import cx from 'clsx'
 
 import {
   useCreateCategoryMutation,
   useCreateCompetitorMutation,
   useCreateRoundMutation,
+  useCopyCompetitorsMutation,
   Round
 } from 'api/performanceCompetitions'
 import useClickOutside from 'hooks/useClickOutside'
@@ -11,7 +13,9 @@ import Dropdown from 'components/Dropdown'
 import { useI18n } from 'components/TranslationsProvider'
 import CategoryForm from 'components/CategoryForm'
 import PlusIcon from 'icons/plus.svg'
+import ChevronDownIcon from 'icons/chevron-down.svg'
 import CompetitorForm from '../CompetitorForm'
+import CopyFromOtherEventForm from '../CopyFromOtherEventForm'
 import styles from './styles.module.scss'
 
 type ActionsBarProps = {
@@ -22,16 +26,24 @@ const ActionsBar = ({ eventId }: ActionsBarProps) => {
   const { t } = useI18n()
   const [categoryFormShown, setCategoryFormShown] = useState(false)
   const [competitorFormShown, setCompetitorFormShown] = useState(false)
+  const [copyCompetitorsFormShow, setCopyCompetitorsFormShown] = useState(false)
   const [showRoundActions, setShowRoundActions] = useState(false)
+  const [showMoreActions, setShowMoreActions] = useState(false)
 
   const newRoundButtonRef = useRef<HTMLButtonElement>(null)
-  const menuRef = useRef<HTMLDivElement>(null)
+  const newRoundMenuRef = useRef<HTMLDivElement>(null)
+  useClickOutside([newRoundMenuRef, newRoundButtonRef], () => setShowRoundActions(false))
 
-  useClickOutside([menuRef, newRoundButtonRef], () => setShowRoundActions(false))
+  const moreActionsButtonRef = useRef<HTMLButtonElement>(null)
+  const moreActionsMenuRef = useRef<HTMLDivElement>(null)
+  useClickOutside([moreActionsMenuRef, moreActionsButtonRef], () =>
+    setShowMoreActions(false)
+  )
 
   const createCategoryMutation = useCreateCategoryMutation(eventId)
   const createCompetitorMutation = useCreateCompetitorMutation(eventId)
   const createRoundMutation = useCreateRoundMutation(eventId)
+  const copyCompetitorsMutation = useCopyCompetitorsMutation(eventId)
 
   const createRound = (task: Round['task']) =>
     createRoundMutation.mutate(task, {
@@ -39,6 +51,7 @@ const ActionsBar = ({ eventId }: ActionsBarProps) => {
     })
 
   const toggleRoundsDropdown = () => setShowRoundActions(prev => !prev)
+  const toggleMoreActionsDropdown = () => setShowMoreActions(prev => !prev)
 
   return (
     <div className={styles.container}>
@@ -60,6 +73,16 @@ const ActionsBar = ({ eventId }: ActionsBarProps) => {
         <PlusIcon />
         &nbsp;
         <span>Round</span>
+        &nbsp;
+        <ChevronDownIcon />
+      </button>
+      <button
+        className={cx(styles.button, styles.right)}
+        onClick={toggleMoreActionsDropdown}
+        ref={moreActionsButtonRef}
+      >
+        More &nbsp;
+        <ChevronDownIcon />
       </button>
 
       {categoryFormShown && (
@@ -77,9 +100,16 @@ const ActionsBar = ({ eventId }: ActionsBarProps) => {
         />
       )}
 
+      {copyCompetitorsFormShow && (
+        <CopyFromOtherEventForm
+          mutation={copyCompetitorsMutation}
+          onHide={() => setCopyCompetitorsFormShown(false)}
+        />
+      )}
+
       {showRoundActions && (
         <Dropdown
-          ref={menuRef}
+          ref={newRoundMenuRef}
           referenceElement={newRoundButtonRef.current}
           options={{ placement: 'bottom-end' }}
         >
@@ -91,6 +121,24 @@ const ActionsBar = ({ eventId }: ActionsBarProps) => {
           </button>
           <button className={styles.actionButton} onClick={() => createRound('time')}>
             {t('disciplines.time')}
+          </button>
+        </Dropdown>
+      )}
+
+      {showMoreActions && (
+        <Dropdown
+          ref={moreActionsMenuRef}
+          referenceElement={moreActionsButtonRef.current}
+          options={{ placement: 'bottom-end' }}
+        >
+          <button
+            className={styles.actionButton}
+            onClick={() => {
+              setShowMoreActions(false)
+              setCopyCompetitorsFormShown(true)
+            }}
+          >
+            Copy competitors
           </button>
         </Dropdown>
       )}

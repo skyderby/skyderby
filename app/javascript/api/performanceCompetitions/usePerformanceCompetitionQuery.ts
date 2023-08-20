@@ -27,6 +27,7 @@ const buildQueryFn = (
   queryClient: QueryClient
 ): QueryFunction<PerformanceCompetition, QueryKey> => async ctx => {
   const [_key, id] = ctx.queryKey
+  if (!id) throw new Error('id is required')
   const data = await getEvent(id)
 
   if (data.placeId) {
@@ -37,7 +38,7 @@ const buildQueryFn = (
 }
 
 const performanceCompetitionQuery = (
-  id: number,
+  id: number | undefined,
   queryClient: QueryClient
 ): UseQueryOptions<
   PerformanceCompetition,
@@ -50,7 +51,7 @@ const performanceCompetitionQuery = (
   enabled: !!id
 })
 
-const usePerformanceCompetitionQuery = (id: number) => {
+const usePerformanceCompetitionQuery = (id: number | undefined) => {
   const queryClient = useQueryClient()
   return useQuery(performanceCompetitionQuery(id, queryClient))
 }
