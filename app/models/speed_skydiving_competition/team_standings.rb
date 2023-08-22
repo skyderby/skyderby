@@ -35,7 +35,8 @@ class SpeedSkydivingCompetition::TeamStandings
 
     standings.first[:rank] = 1
     standings.each_cons(2).with_index do |(prev, curr), index|
-      curr[:rank] = prev[:total] == curr[:total] ? prev[:rank] : index + 2
+      same_rank = prev[:total] == curr[:total] && curr[:total]&.positive?
+      curr[:rank] = same_rank ? prev[:rank] : index + 2
     end
   end
 
