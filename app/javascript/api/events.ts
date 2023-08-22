@@ -25,7 +25,7 @@ export type EventType =
   | 'tournament'
   | 'competitionSeries'
 
-export const eventStatuses = ['draft', 'published', 'finished', 'surprise']
+export const eventStatuses = ['draft', 'published', 'finished', 'surprise'] as const
 export type EventStatus = typeof eventStatuses[number]
 
 export const eventVisibilities = [

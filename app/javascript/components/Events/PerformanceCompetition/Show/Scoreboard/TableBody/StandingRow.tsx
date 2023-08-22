@@ -1,13 +1,14 @@
 import React from 'react'
 
 import {
+  useResultsQuery,
   PerformanceCompetition,
-  Result,
   Round,
   StandingRow as StandingRowType
 } from 'api/performanceCompetitions'
 import CompetitorCells from './CompetitorCells'
 import styles from './styles.module.scss'
+import ResultCells from './ResultCells'
 
 type StandingRowProps = {
   event: PerformanceCompetition
@@ -15,38 +16,27 @@ type StandingRowProps = {
   roundsByTask: [Round['task'], Round[]][]
 }
 
-const formattedResult = (record: Result, task: Round['task']) => {
-  if (!record) return
-
-  const result = Number(record.result)
-  return result.toFixed(task === 'distance' ? 0 : 1)
-}
-
-const formattedPoints = (record: Result) => {
-  if (!record) return
-
-  const score = Number(record.points)
-  return score.toFixed(1)
-}
-
 const StandingRow = ({ event, row, roundsByTask }: StandingRowProps) => {
+  const { data: results = [] } = useResultsQuery(event.id, {
+    select: data => data.filter(result => result.competitorId === row.competitorId)
+  })
+
   return (
-    <tr>
+    <tr className={styles.standingRow}>
       <td>{row.rank}</td>
       <CompetitorCells event={event} competitorId={row.competitorId} />
 
       {roundsByTask.map(([task, rounds]) => (
         <React.Fragment key={task}>
           {rounds.map(round => (
-            <React.Fragment key={round.slug}>
-              {!row.roundResults && console.log(row)}
-              <td className={styles.roundResult}>
-                {formattedResult(row.roundResults[round.slug], task)}
-              </td>
-              <td className={styles.roundScore}>
-                {formattedPoints(row.roundResults[round.slug])}
-              </td>
-            </React.Fragment>
+            <ResultCells
+              key={round.slug}
+              event={event}
+              result={results.find(
+                result => result.id === row.roundResults[round.slug]?.id
+              )}
+              points={row.roundResults[round.slug]?.points}
+            />
           ))}
           <td className={styles.taskScore}>
             {row.pointsInDisciplines[task]?.toFixed(1)}

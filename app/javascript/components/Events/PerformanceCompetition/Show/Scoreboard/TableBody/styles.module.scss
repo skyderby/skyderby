@@ -31,6 +31,8 @@
 }
 
 .competitorCell {
+  padding: 0.25rem 0.5rem;
+
   > :not(:last-child) {
     margin-right: 0.25rem;
   }
@@ -94,9 +96,12 @@
 .showResult {
   position: relative;
 
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
   width: 100%;
-  height: 2.25rem;
+  height: 3rem;
   padding: 0 0.5rem;
   border: 0;
 
@@ -104,6 +109,19 @@
 
   background-color: var(--white);
   cursor: pointer;
+
+  &.withWarning {
+    align-items: center;
+  }
+
+  .warningIcon {
+    height: 1.25em;
+    margin: auto;
+
+    path {
+      fill: var(--red-70);
+    }
+  }
 }
 
 .showResult:hover::before {

@@ -1,17 +1,21 @@
 import React, { useRef, useState } from 'react'
-import cx from 'clsx'
+import { UseMutationResult } from 'react-query'
+import { AxiosError } from 'axios'
 
-import { eventStatuses } from 'api/events'
+import { EventStatus, eventStatuses } from 'api/events'
+import { useI18n } from 'components/TranslationsProvider'
 import Dropdown from 'components/Dropdown'
 import ChevronDownIcon from 'icons/chevron-down.svg'
-import { useEditSpeedSkydivingCompetitionMutation } from 'api/speedSkydivingCompetitions'
-import { useI18n } from 'components/TranslationsProvider'
 import useClickOutside from 'hooks/useClickOutside'
-import { SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions/types'
-import styles from './styles.module.scss'
 
 type StatusMenuProps = {
-  event: SpeedSkydivingCompetition
+  currentStatus: EventStatus
+  className: string
+  mutation: UseMutationResult<
+    unknown,
+    AxiosError<Record<string, string[]>>,
+    Partial<{ status: EventStatus }>
+  >
 }
 
 function fireConfetti() {
@@ -29,10 +33,13 @@ function fireConfetti() {
   })
 }
 
-const StatusMenu = ({ event }: StatusMenuProps): JSX.Element => {
+const StatusMenu = ({
+  currentStatus,
+  className,
+  mutation
+}: StatusMenuProps): JSX.Element => {
   const { t } = useI18n()
   const [showStatuses, setShowStatuses] = useState(false)
-  const editEventMutation = useEditSpeedSkydivingCompetitionMutation(event.id)
 
   const changeStatusButtonRef = useRef<HTMLButtonElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -40,8 +47,8 @@ const StatusMenu = ({ event }: StatusMenuProps): JSX.Element => {
 
   const toggleStatusesDropdown = () => setShowStatuses(open => !open)
 
-  const setEventStatus = (status: SpeedSkydivingCompetition['status']) => {
-    editEventMutation.mutate(
+  const setEventStatus = (status: EventStatus) => {
+    mutation.mutate(
       { status },
       {
         onSuccess: () => {
@@ -53,11 +60,11 @@ const StatusMenu = ({ event }: StatusMenuProps): JSX.Element => {
 
   return (
     <button
-      className={cx(styles.button, styles.buttonRight)}
+      className={className}
       ref={changeStatusButtonRef}
       onClick={toggleStatusesDropdown}
     >
-      {t('activerecord.attributes.event.status')}: {t(`event_status.${event.status}`)}
+      {t('activerecord.attributes.event.status')}: {t(`event_status.${currentStatus}`)}
       &nbsp;
       <ChevronDownIcon />
       {showStatuses && (
@@ -72,8 +79,7 @@ const StatusMenu = ({ event }: StatusMenuProps): JSX.Element => {
           {eventStatuses.map(status => (
             <Dropdown.Button
               key={status}
-              active={event.status === status}
-              className={styles.actionButton}
+              active={currentStatus === status}
               onClick={() => setEventStatus(status)}
             >
               {t(`event_status.${status}`)}
