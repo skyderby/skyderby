@@ -30,7 +30,7 @@ module Assets
           category_name = category.name.downcase.parameterize
           filename = "#{category_name}.xml"
           zip.put_next_entry(filename)
-          zip.write(render_to_string('show', locals: { category_name:, standings: }))
+          zip.write(render_to_string('show', locals: { category_id: category.id, standings: }))
         end
       end
 

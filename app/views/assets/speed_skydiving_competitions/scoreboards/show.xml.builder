@@ -1,6 +1,6 @@
 xml.instruct!
 xml.EventResult do
-  xml.UniqueCode "skyderby-speed-skydiving-#{@event.id}-#{category_name}"
+  xml.UniqueCode "skyderby-speed-skydiving-#{@event.id}-#{category_id}"
 
   standings.each do |row|
     xml.Entrant do
