@@ -15,7 +15,6 @@ const Downloads = ({ eventId: eventId }: DownloadsProps): JSX.Element => {
           <a
             className={styles.downloadButton}
             href={`/assets/speed_skydiving_competitions/${eventId}/scoreboard.xml`}
-            target="_blank"
             rel="nofollow noreferrer"
           >
             ISC format
@@ -28,7 +27,6 @@ const Downloads = ({ eventId: eventId }: DownloadsProps): JSX.Element => {
           <a
             className={styles.downloadButton}
             href={`/assets/speed_skydiving_competitions/${eventId}/open_event_scoreboard.xml`}
-            target="_blank"
             rel="nofollow noreferrer"
           >
             ISC format
@@ -41,7 +39,6 @@ const Downloads = ({ eventId: eventId }: DownloadsProps): JSX.Element => {
           <a
             className={styles.downloadButton}
             href={`/assets/speed_skydiving_competitions/${eventId}/team_standings.xml`}
-            target="_blank"
             rel="nofollow noreferrer"
           >
             ISC format

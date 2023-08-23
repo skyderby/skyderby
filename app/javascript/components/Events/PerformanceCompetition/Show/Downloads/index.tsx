@@ -23,7 +23,6 @@ const Downloads = ({ eventId }: DownloadsProps) => {
           <a
             className={styles.downloadButton}
             href={`/assets/performance_competitions/${eventId}/scoreboard.xml`}
-            target="_blank"
             rel="nofollow noreferrer"
           >
             ISC format
@@ -36,7 +35,6 @@ const Downloads = ({ eventId }: DownloadsProps) => {
           <a
             className={styles.downloadButton}
             href={`/assets/performance_competitions/${eventId}/task_scoreboards`}
-            target="_blank"
             rel="nofollow noreferrer"
           >
             ISC format
@@ -49,7 +47,6 @@ const Downloads = ({ eventId }: DownloadsProps) => {
           <a
             className={styles.downloadButton}
             href={`/assets/performance_competitions/${eventId}/team_standings.xml`}
-            target="_blank"
             rel="nofollow noreferrer"
           >
             ISC format
