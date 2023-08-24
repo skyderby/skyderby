@@ -32,7 +32,8 @@ class PerformanceCompetition::Scoreboard::Standings
 
     standings.first.rank = 1
     standings.each_cons(2).with_index do |(prev, curr), index|
-      curr.rank = prev.total_points == curr.total_points ? prev.rank : index + 2
+      same_rank = prev.total_points == curr.total_points && curr.total_points&.positive?
+      curr.rank = same_rank ? prev.rank : index + 2
     end
   end
 

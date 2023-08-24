@@ -1,6 +1,6 @@
 class PerformanceCompetition::Scoreboard::Standings::Row
   attr_accessor :rank
-  attr_reader :competitor, :results
+  attr_reader :competitor, :rounds, :results
 
   def initialize(competitor, results, rounds)
     @competitor = competitor
@@ -27,8 +27,6 @@ class PerformanceCompetition::Scoreboard::Standings::Row
   def result_in_round(round) = results.find { |result| result.round == round }
 
   private
-
-  attr_reader :rounds
 
   def rounds_by_discipline = rounds.group_by(&:discipline)
 end

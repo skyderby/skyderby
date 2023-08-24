@@ -16,6 +16,7 @@ class Event::Round < ApplicationRecord
   include Completable
 
   enum discipline: { time: 0, distance: 1, speed: 2, vertical_speed: 3 }
+  alias_attribute :task, :discipline
 
   belongs_to :event, touch: true
   belongs_to :signed_off_by,

@@ -171,6 +171,7 @@ Skyderby::Application.routes.draw do
 
     resources :performance_competitions, only: [] do
       scope module: :performance_competitions do
+        resource :task_scoreboards, only: :show
         resource :team_standings, only: :show
         resource :gps_recordings, only: :show
       end

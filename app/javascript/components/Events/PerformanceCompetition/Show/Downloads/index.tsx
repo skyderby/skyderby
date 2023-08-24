@@ -34,7 +34,7 @@ const Downloads = ({ eventId }: DownloadsProps) => {
         <div className={styles.buttons}>
           <a
             className={styles.downloadButton}
-            href={`/assets/performance_competitions/${eventId}/task_scoreboards`}
+            href={`/assets/performance_competitions/${eventId}/task_scoreboards.xml`}
             rel="nofollow noreferrer"
           >
             ISC format
