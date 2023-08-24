@@ -35,8 +35,11 @@
   border-right: var(--default-border);
 }
 
-.right {
+.pullRight {
   margin-left: auto;
+}
+
+.right {
   border-right: 0;
   border-left: var(--default-border);
 }
@@ -49,9 +52,4 @@
 .right:not(:disabled):hover {
   border-right: 0;
   border-left: var(--default-border);
-}
-
-.actionButton {
-  composes: button from '~styles/button';
-  composes: flat from '~styles/button';
 }

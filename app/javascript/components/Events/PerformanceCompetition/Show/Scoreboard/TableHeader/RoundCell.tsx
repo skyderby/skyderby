@@ -42,7 +42,10 @@ const RoundCell = ({ event, round }: RoundProps) => {
             <Dropdown
               ref={menuRef}
               referenceElement={actionsButtonRef.current}
-              options={{ placement: 'bottom-end' }}
+              options={{
+                placement: 'bottom-end',
+                modifiers: [{ name: 'offset', options: { offset: [0, 10] } }]
+              }}
             >
               <button className={styles.actionButton} onClick={deleteRound}>
                 {t('general.delete')}

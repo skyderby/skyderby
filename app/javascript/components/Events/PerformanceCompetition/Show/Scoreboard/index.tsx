@@ -34,7 +34,7 @@ const Scoreboard = ({ eventId }: ScoreboardProps) => {
 
   return (
     <div className={styles.container}>
-      {event.permissions.canEdit && <ActionsBar eventId={eventId} />}
+      {event.permissions.canEdit && <ActionsBar event={event} />}
 
       <div className={styles.tableWrapper}>
         <table className={styles.scoreboardTable}>

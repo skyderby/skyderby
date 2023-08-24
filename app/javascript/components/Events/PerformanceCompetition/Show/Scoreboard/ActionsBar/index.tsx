@@ -6,12 +6,15 @@ import {
   useCreateCompetitorMutation,
   useCreateRoundMutation,
   useCopyCompetitorsMutation,
-  Round
+  useUpdatePerformanceCompetitionMutation,
+  Round,
+  PerformanceCompetition
 } from 'api/performanceCompetitions'
 import useClickOutside from 'hooks/useClickOutside'
 import Dropdown from 'components/Dropdown'
 import { useI18n } from 'components/TranslationsProvider'
 import CategoryForm from 'components/CategoryForm'
+import StatusMenu from 'components/Events/StatusMenu'
 import PlusIcon from 'icons/plus.svg'
 import ChevronDownIcon from 'icons/chevron-down.svg'
 import CompetitorForm from '../CompetitorForm'
@@ -19,10 +22,10 @@ import CopyFromOtherEventForm from '../CopyFromOtherEventForm'
 import styles from './styles.module.scss'
 
 type ActionsBarProps = {
-  eventId: number
+  event: PerformanceCompetition
 }
 
-const ActionsBar = ({ eventId }: ActionsBarProps) => {
+const ActionsBar = ({ event }: ActionsBarProps) => {
   const { t } = useI18n()
   const [categoryFormShown, setCategoryFormShown] = useState(false)
   const [competitorFormShown, setCompetitorFormShown] = useState(false)
@@ -40,10 +43,11 @@ const ActionsBar = ({ eventId }: ActionsBarProps) => {
     setShowMoreActions(false)
   )
 
-  const createCategoryMutation = useCreateCategoryMutation(eventId)
-  const createCompetitorMutation = useCreateCompetitorMutation(eventId)
-  const createRoundMutation = useCreateRoundMutation(eventId)
-  const copyCompetitorsMutation = useCopyCompetitorsMutation(eventId)
+  const createCategoryMutation = useCreateCategoryMutation(event.id)
+  const createCompetitorMutation = useCreateCompetitorMutation(event.id)
+  const createRoundMutation = useCreateRoundMutation(event.id)
+  const copyCompetitorsMutation = useCopyCompetitorsMutation(event.id)
+  const editEventMutation = useUpdatePerformanceCompetitionMutation(event.id)
 
   const createRound = (task: Round['task']) =>
     createRoundMutation.mutate(task, {
@@ -76,6 +80,12 @@ const ActionsBar = ({ eventId }: ActionsBarProps) => {
         &nbsp;
         <ChevronDownIcon />
       </button>
+
+      <StatusMenu
+        currentStatus={event.status}
+        className={cx(styles.button, styles.pullRight, styles.right)}
+        mutation={editEventMutation}
+      />
       <button
         className={cx(styles.button, styles.right)}
         onClick={toggleMoreActionsDropdown}
@@ -94,7 +104,7 @@ const ActionsBar = ({ eventId }: ActionsBarProps) => {
 
       {competitorFormShown && (
         <CompetitorForm
-          eventId={eventId}
+          eventId={event.id}
           mutation={createCompetitorMutation}
           onHide={() => setCompetitorFormShown(false)}
         />
@@ -111,17 +121,20 @@ const ActionsBar = ({ eventId }: ActionsBarProps) => {
         <Dropdown
           ref={newRoundMenuRef}
           referenceElement={newRoundButtonRef.current}
-          options={{ placement: 'bottom-end' }}
+          options={{
+            placement: 'bottom-end',
+            modifiers: [{ name: 'offset', options: { offset: [0, 10] } }]
+          }}
         >
-          <button className={styles.actionButton} onClick={() => createRound('speed')}>
+          <Dropdown.Button onClick={() => createRound('speed')}>
             {t('disciplines.speed')}
-          </button>
-          <button className={styles.actionButton} onClick={() => createRound('distance')}>
+          </Dropdown.Button>
+          <Dropdown.Button onClick={() => createRound('distance')}>
             {t('disciplines.distance')}
-          </button>
-          <button className={styles.actionButton} onClick={() => createRound('time')}>
+          </Dropdown.Button>
+          <Dropdown.Button onClick={() => createRound('time')}>
             {t('disciplines.time')}
-          </button>
+          </Dropdown.Button>
         </Dropdown>
       )}
 
@@ -129,17 +142,19 @@ const ActionsBar = ({ eventId }: ActionsBarProps) => {
         <Dropdown
           ref={moreActionsMenuRef}
           referenceElement={moreActionsButtonRef.current}
-          options={{ placement: 'bottom-end' }}
+          options={{
+            placement: 'bottom-end',
+            modifiers: [{ name: 'offset', options: { offset: [0, 10] } }]
+          }}
         >
-          <button
-            className={styles.actionButton}
+          <Dropdown.Button
             onClick={() => {
               setShowMoreActions(false)
               setCopyCompetitorsFormShown(true)
             }}
           >
             Copy competitors
-          </button>
+          </Dropdown.Button>
         </Dropdown>
       )}
     </div>

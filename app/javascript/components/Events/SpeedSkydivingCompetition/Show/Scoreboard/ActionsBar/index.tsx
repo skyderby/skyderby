@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
+import cx from 'clsx'
 
 import {
   useNewCategoryMutation,
   useNewRoundMutation,
-  useNewCompetitorMutation
+  useNewCompetitorMutation,
+  useEditSpeedSkydivingCompetitionMutation
 } from 'api/speedSkydivingCompetitions'
 import { SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions/types'
 import PlusIcon from 'icons/plus.svg'
 import CategoryForm from 'components/CategoryForm'
 import RequestErrorToast from 'components/RequestErrorToast'
 import CompetitorForm from '../CompetitorForm'
-import StatusMenu from './StatusMenu'
+import StatusMenu from 'components/Events/StatusMenu'
 import styles from './styles.module.scss'
 
 type ActionsBarProps = {
@@ -27,6 +29,7 @@ const ActionsBar = ({ event }: ActionsBarProps): JSX.Element => {
     onSuccess: () => setCategoryFormShown(false)
   })
   const newCompetitorMutation = useNewCompetitorMutation(event.id)
+  const editEventMutation = useEditSpeedSkydivingCompetitionMutation(event.id)
 
   const addRound = () =>
     newRoundMutation.mutate(event.id, {
@@ -49,7 +52,11 @@ const ActionsBar = ({ event }: ActionsBarProps): JSX.Element => {
 
       <div className={styles.spacer} />
 
-      <StatusMenu event={event} />
+      <StatusMenu
+        currentStatus={event.status}
+        className={cx(styles.button, styles.buttonRight)}
+        mutation={editEventMutation}
+      />
 
       {categoryFormShown && (
         <CategoryForm
