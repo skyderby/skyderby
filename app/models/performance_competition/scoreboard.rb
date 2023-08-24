@@ -23,7 +23,7 @@ class PerformanceCompetition::Scoreboard
   end
 
   def rounds
-    @rounds ||= event.rounds.ordered
+    @rounds ||= event.rounds.completed.ordered
   end
 
   def competitors

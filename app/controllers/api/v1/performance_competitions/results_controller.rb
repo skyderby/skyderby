@@ -4,6 +4,13 @@ class Api::V1::PerformanceCompetitions::ResultsController < ApplicationControlle
 
     authorize event, :show?
 
-    @results = event.results
+    @results =
+      if policy(event).update?
+        event.results
+      elsif !event.surprise?
+        event.results.where(round: event.rounds.completed)
+      else
+        Event::Result.none
+      end
   end
 end

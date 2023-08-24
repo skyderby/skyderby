@@ -48,7 +48,7 @@ const ResultModal = ({ event, result, onHide: hide, deleteResult }: ResultModalP
     >
       {currentTab === 'charts' && (
         <>
-          <div>Charts</div>
+          <div>Here will be charts soon</div>
         </>
       )}
     </Modal>

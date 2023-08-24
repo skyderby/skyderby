@@ -81,7 +81,9 @@ const ResultCells = ({ event, result, points }: ResultCellsProps) => {
             )}
           </React.Fragment>
         ) : (
-          <button className={styles.newResult}></button>
+          <>
+            {event.permissions.canEdit && <button className={styles.newResult}></button>}
+          </>
         )}
       </td>
       <td className={styles.roundScore}>{formattedPoints(points)}</td>
