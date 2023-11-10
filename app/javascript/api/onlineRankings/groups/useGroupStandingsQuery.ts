@@ -1,4 +1,4 @@
-import client from 'api/client'
+import client, { AxiosResponse } from 'api/client'
 import { QueryFunction, useQuery } from 'react-query'
 import { SuitCategory } from 'api/suits'
 
@@ -15,16 +15,19 @@ type GroupStandings = {
 const endpoint = (groupId: number) =>
   `/api/v1/online_rankings/groups/${groupId}/overall_standings`
 
-const getStandings = (groupId: number) => client.get(endpoint(groupId))
+const getStandings = (groupId: number) =>
+  client
+    .get<never, AxiosResponse<GroupStandings[]>>(endpoint(groupId))
+    .then(response => response.data)
 
-const queryFn: QueryFunction<, QueryKey> = ctx => {
+const queryFn: QueryFunction<GroupStandings[], QueryKey> = ctx => {
   const [_key, groupId] = ctx.queryKey
-  return getStandings(groupId).then(response => response.data)
+  return getStandings(groupId)
 }
 
 const useGroupStandingsQuery = (groupId: number) =>
   useQuery({
-    queryKey: ['onlineRankingGroupStandings', groupId] as const,
+    queryKey: ['onlineRankingGroupStandings', groupId],
     queryFn
   })
 

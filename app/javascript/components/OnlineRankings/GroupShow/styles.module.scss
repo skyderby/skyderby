@@ -1,0 +1,7 @@
+.container {
+
+}
+
+.scoreboardTable {
+  composes: table from '~styles/scoreboard';
+}
