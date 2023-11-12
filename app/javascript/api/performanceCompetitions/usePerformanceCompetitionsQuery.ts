@@ -1,4 +1,4 @@
-import { QueryFunction, useQuery, UseQueryOptions } from 'react-query'
+import { QueryFunction, useQuery, UseQueryOptions } from '@tanstack/react-query'
 import { PerformanceCompetition, collectionEndpoint } from './common'
 import client, { AxiosResponse } from 'api/client'
 import { urlWithParams } from 'api/helpers'

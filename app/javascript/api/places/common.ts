@@ -1,4 +1,4 @@
-import { QueryClient } from 'react-query'
+import { QueryClient } from '@tanstack/react-query'
 import { CountryRecord } from 'api/countries'
 
 export const placeTypes = ['base', 'skydive'] as const
@@ -67,7 +67,7 @@ export const recordQueryKey = (id: number | null | undefined): RecordQueryKey =>
 ]
 
 export const cacheOptions = {
-  cacheTime: 60 * 30 * 1000,
+  gcTime: 60 * 30 * 1000,
   staleTime: 60 * 10 * 1000
 }
 
@@ -83,4 +83,6 @@ export const buildUrl = (params: IndexParams = {}): string => {
 export const cachePlaces = (places: PlaceRecord[], queryClient: QueryClient): void =>
   places
     .filter(place => !queryClient.getQueryData(recordQueryKey(place.id)))
-    .forEach(place => queryClient.setQueryData(recordQueryKey(place.id), place))
+    .forEach(place =>
+      queryClient.setQueryData<PlaceRecord>(recordQueryKey(place.id), place)
+    )

@@ -16,7 +16,7 @@ const EmailConfirmation = () => {
     setTimeout(() => confirmEmail({ confirmationToken }), 1000)
   }, [confirmEmail, confirmationToken])
 
-  if (mutation.isIdle || mutation.isLoading) {
+  if (mutation.isIdle || mutation.isPending) {
     return (
       <div className={styles.container}>
         <LoadingSpinner caption="Confirming your email" />

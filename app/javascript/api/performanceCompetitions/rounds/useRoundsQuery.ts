@@ -1,4 +1,9 @@
-import { QueryFunction, useQuery, UseQueryOptions, UseQueryResult } from 'react-query'
+import {
+  QueryFunction,
+  useQuery,
+  UseQueryOptions,
+  UseQueryResult
+} from '@tanstack/react-query'
 
 import {
   Round,
@@ -32,7 +37,7 @@ export const roundsQuery = <T = Round[]>(eventId: number): RoundsQueryOptions<T>
 
 const useRoundsQuery = <T = Round[]>(
   eventId: number,
-  options: RoundsQueryOptions<T> = {}
+  options: Omit<RoundsQueryOptions<T>, 'queryKey' | 'queryFn'> = {}
 ): UseQueryResult<T> => useQuery({ ...roundsQuery<T>(eventId), ...options })
 
 export default useRoundsQuery

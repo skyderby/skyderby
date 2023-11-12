@@ -1,4 +1,9 @@
-import { QueryFunction, useQuery, UseQueryOptions, UseQueryResult } from 'react-query'
+import {
+  QueryFunction,
+  useQuery,
+  UseQueryOptions,
+  UseQueryResult
+} from '@tanstack/react-query'
 import { AxiosError, AxiosResponse } from 'axios'
 import client from 'api/client'
 

@@ -5,7 +5,7 @@ import {
   useQueryClient,
   UseQueryOptions,
   UseQueryResult
-} from 'react-query'
+} from '@tanstack/react-query'
 import client from 'api/client'
 import { cachePlaces, PlaceRecord } from 'api/places'
 
@@ -35,7 +35,7 @@ const cacheTerrainProfiles = (
   queryClient: QueryClient
 ) =>
   terrainProfiles.forEach(record =>
-    queryClient.setQueryData(recordQueryKey(record.id), record)
+    queryClient.setQueryData<TerrainProfileRecord>(recordQueryKey(record.id), record)
   )
 
 const buildIndexQueryFn = (
@@ -62,12 +62,15 @@ export const terrainProfilesQuery = <Type = TerrainProfileRecord[]>(
 })
 
 export const useTerrainProfilesQuery = <Type = TerrainProfileRecord[]>(
-  options: UseQueryOptions<TerrainProfileRecord[], Error, Type> = {}
+  options: Omit<
+    UseQueryOptions<TerrainProfileRecord[], Error, Type>,
+    'queryKey' | 'queryFn'
+  > = {}
 ): UseQueryResult<Type> => {
   const queryClient = useQueryClient()
 
   return useQuery({
-    ...terrainProfilesQuery(queryClient),
+    ...terrainProfilesQuery<Type>(queryClient),
     ...options
   })
 }

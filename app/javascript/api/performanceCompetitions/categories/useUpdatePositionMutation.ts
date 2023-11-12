@@ -1,4 +1,4 @@
-import { useMutation, UseMutationResult, useQueryClient } from 'react-query'
+import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query'
 
 import client, { AxiosResponse, AxiosError } from 'api/client'
 import { categoryUrl, queryKey } from './common'
@@ -22,9 +22,10 @@ const useChangePositionMutation = (
 
   const mutationFn = (direction: Direction) =>
     updateCategoryPosition(eventId, id, direction)
-  return useMutation(mutationFn, {
+  return useMutation({
+    mutationFn,
     onSuccess() {
-      return queryClient.invalidateQueries(queryKey(eventId))
+      return queryClient.invalidateQueries({ queryKey: queryKey(eventId) })
     }
   })
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { AxiosError, AxiosResponse } from 'axios'
-import { UseMutationResult } from 'react-query'
+import { UseMutationResult } from '@tanstack/react-query'
 import { Link, useNavigate } from 'react-router-dom'
 import { Formik, Field, ErrorMessage, FieldProps, FormikHelpers } from 'formik'
 import { ValueType } from 'react-select'

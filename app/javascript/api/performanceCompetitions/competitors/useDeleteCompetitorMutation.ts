@@ -1,4 +1,4 @@
-import { useMutation, UseMutationResult, useQueryClient } from 'react-query'
+import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query'
 import { standingsQuery } from 'api/performanceCompetitions/useStandingsQuery'
 import client, { AxiosResponse, AxiosError } from 'api/client'
 import { Competitor, elementEndpoint, queryKey, SerializedCompetitor } from './common'
@@ -14,7 +14,8 @@ const useDeleteCompetitorMutation = (
 
   const mutationFn = () => deleteCompetitor(eventId, id)
 
-  return useMutation(mutationFn, {
+  return useMutation({
+    mutationFn,
     async onSuccess() {
       const data: Competitor[] = queryClient.getQueryData(queryKey(eventId)) ?? []
 

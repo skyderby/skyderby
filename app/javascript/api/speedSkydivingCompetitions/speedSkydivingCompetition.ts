@@ -7,7 +7,7 @@ import {
   useQueryClient,
   UseQueryOptions,
   UseQueryResult
-} from 'react-query'
+} from '@tanstack/react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
 import { parseISO } from 'date-fns'
 
@@ -115,7 +115,8 @@ export const useNewSpeedSkydivingCompetitionMutation = (
 ): SpeedSkydivingCompetitionMutation => {
   const queryClient = useQueryClient()
 
-  return useMutation(createEvent, {
+  return useMutation({
+    mutationFn: createEvent,
     onSuccess(response) {
       const event = deserialize(response.data)
       queryClient.setQueryData(queryKey(event.id), event)
@@ -130,9 +131,10 @@ export const useEditSpeedSkydivingCompetitionMutation = (
 ): SpeedSkydivingCompetitionMutation => {
   const queryClient = useQueryClient()
 
-  const mutateFn = (data: EventVariables) => updateEvent(eventId, data)
+  const mutationFn = (data: EventVariables) => updateEvent(eventId, data)
 
-  return useMutation(mutateFn, {
+  return useMutation({
+    mutationFn,
     onSuccess(response) {
       const event = deserialize(response.data)
       queryClient.setQueryData(queryKey(eventId), event)

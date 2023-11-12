@@ -12,7 +12,7 @@ import processPoints from './processPoints'
 import getPathsUntilTime from './getPathsUntilTime'
 import styles from './styles.module.scss'
 import { ProfileRecord } from 'api/profiles'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { fetchResultPoints } from 'components/Events/PerformanceCompetition/useResultPoints'
 import { PlayerPoint } from './types'
 

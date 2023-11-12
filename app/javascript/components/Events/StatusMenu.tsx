@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { UseMutationResult } from 'react-query'
+import { UseMutationResult } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 
 import { EventStatus, eventStatuses } from 'api/events'

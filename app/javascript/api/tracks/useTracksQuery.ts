@@ -1,4 +1,9 @@
-import { QueryFunction, useQuery, UseQueryOptions, UseQueryResult } from 'react-query'
+import {
+  QueryFunction,
+  useQuery,
+  UseQueryOptions,
+  UseQueryResult
+} from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
 import client from 'api/client'
 import {
@@ -26,7 +31,8 @@ const getTracks = (params: IndexParams) =>
 
 export const queryFn: QueryFunction<
   IndexResult,
-  IndexQueryKey | InfiniteIndexQueryKey
+  IndexQueryKey | InfiniteIndexQueryKey,
+  number | never
 > = async ctx => {
   const [_key, params] = ctx.queryKey
   const { items, relations, ...pagination } = await getTracks({

@@ -2,7 +2,7 @@ import React from 'react'
 import { Formik, Field, FormikHelpers, FieldProps, ErrorMessage } from 'formik'
 import { ValueType } from 'react-select'
 import toast from 'react-hot-toast'
-import { UseMutationResult } from 'react-query'
+import { UseMutationResult } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 
 import Modal from 'components/ui/Modal'

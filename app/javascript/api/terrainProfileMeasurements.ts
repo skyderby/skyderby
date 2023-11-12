@@ -1,4 +1,9 @@
-import { QueryFunction, useQuery, UseQueryOptions, UseQueryResult } from 'react-query'
+import {
+  QueryFunction,
+  useQuery,
+  UseQueryOptions,
+  UseQueryResult
+} from '@tanstack/react-query'
 import client from 'api/client'
 
 export type MeasurementRecord = {
@@ -34,7 +39,7 @@ const measurementsQuery = (
   queryKey: recordQueryKey(id),
   queryFn,
   enabled: Boolean(id),
-  cacheTime: 30 * 60 * 1000,
+  gcTime: 30 * 60 * 1000,
   staleTime: 10 * 60 * 1000
 })
 

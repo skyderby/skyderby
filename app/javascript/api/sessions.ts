@@ -4,7 +4,7 @@ import {
   useMutation,
   UseQueryResult,
   UseMutationResult
-} from 'react-query'
+} from '@tanstack/react-query'
 
 import client, { AxiosError, AxiosResponse } from 'api/client'
 
@@ -68,15 +68,16 @@ export const useCurrentUserQuery = (): UseQueryResult<CurrentUser> =>
 
 export const useLoginMutation = (): UseMutationResult<
   AuthorizedUser,
-  AxiosError<{ error: string }>,
+  AxiosError<Record<string, string[]>>,
   LoginData
 > => {
   const queryClient = useQueryClient()
 
-  return useMutation(login, {
+  return useMutation({
+    mutationFn: login,
     onSuccess(data) {
       queryClient.setQueryData(queryKey, data)
-      return queryClient.resetQueries()
+      queryClient.resetQueries()
     }
   })
 }
@@ -84,7 +85,8 @@ export const useLoginMutation = (): UseMutationResult<
 export const useLogoutMutation = (): UseMutationResult<AxiosResponse<void>> => {
   const queryClient = useQueryClient()
 
-  return useMutation(logout, {
+  return useMutation({
+    mutationFn: logout,
     onSuccess() {
       return queryClient.resetQueries()
     }

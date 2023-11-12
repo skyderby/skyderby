@@ -5,7 +5,7 @@ import {
   useQueryClient,
   UseQueryOptions,
   UseQueryResult
-} from 'react-query'
+} from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 
 import client, { AxiosResponse } from 'api/client'
@@ -46,7 +46,10 @@ export const competitorsQuery = (eventId: number, queryClient: QueryClient) => (
 
 const useCompetitorsQuery = <T = Competitor[]>(
   eventId: number,
-  options: UseQueryOptions<Competitor[], AxiosError, T, QueryKey> = {}
+  options: Omit<
+    UseQueryOptions<Competitor[], AxiosError, T, QueryKey>,
+    'queryKey' | 'queryFn'
+  > = {}
 ): UseQueryResult<T> => {
   const queryClient = useQueryClient()
 

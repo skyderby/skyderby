@@ -1,4 +1,4 @@
-import { useMutation, UseMutationResult, useQueryClient } from 'react-query'
+import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query'
 import type { AxiosError, AxiosResponse } from 'axios'
 import client from 'api/client'
 import { standingsQuery } from 'api/speedSkydivingCompetitions/standings'
@@ -34,7 +34,8 @@ const useSetResultPenaltiesMutation = (
   const mutationFn = (variables: PenaltiesVariables) =>
     updateResultPenalties(eventId, id, variables)
 
-  return useMutation(mutationFn, {
+  return useMutation({
+    mutationFn,
     async onSuccess(response) {
       const data: Result[] = queryClient.getQueryData(queryKey(eventId)) ?? []
       const updatedResult = deserialize(response.data)
@@ -44,14 +45,17 @@ const useSetResultPenaltiesMutation = (
       )
 
       return Promise.all([
-        queryClient.invalidateQueries(standingsQuery(eventId).queryKey, {
-          refetchInactive: true
+        queryClient.invalidateQueries({
+          queryKey: standingsQuery(eventId).queryKey,
+          refetchType: 'all'
         }),
-        queryClient.invalidateQueries(openStandingsQuery(eventId).queryKey, {
-          refetchInactive: true
+        queryClient.invalidateQueries({
+          queryKey: openStandingsQuery(eventId).queryKey,
+          refetchType: 'all'
         }),
-        queryClient.invalidateQueries(teamStandingsQuery(eventId).queryKey, {
-          refetchInactive: true
+        queryClient.invalidateQueries({
+          queryKey: teamStandingsQuery(eventId).queryKey,
+          refetchType: 'all'
         })
       ])
     }

@@ -1,5 +1,10 @@
 import client from 'api/client'
-import { QueryFunction, useQuery, UseQueryOptions, UseQueryResult } from 'react-query'
+import {
+  QueryFunction,
+  useQuery,
+  UseQueryOptions,
+  UseQueryResult
+} from '@tanstack/react-query'
 
 export type Task =
   | 'distance'

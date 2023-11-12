@@ -5,7 +5,7 @@ import { AsyncPaginate as Select } from 'react-select-async-paginate'
 import getSelectStyles from 'styles/selectStyles'
 import Option from './Option'
 import SingleValue from './SingleValue'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { suitsQuery, useSuitQuery } from 'api/suits'
 import { getCachedManufacturers, useManufacturerQuery } from 'api/manufacturer'
 

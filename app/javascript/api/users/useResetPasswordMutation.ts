@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { AxiosError, AxiosResponse } from 'axios'
 import client from 'api/client'
 
@@ -23,6 +23,6 @@ const resetPassword = async (variables: Variables) => {
 }
 
 const useResetPasswordMutation = () =>
-  useMutation<AxiosResponse, AxiosError<Errors>, Variables>(resetPassword)
+  useMutation<AxiosResponse, AxiosError<Errors>, Variables>({ mutationFn: resetPassword })
 
 export default useResetPasswordMutation

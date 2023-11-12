@@ -1,4 +1,4 @@
-import { UseQueryResult } from 'react-query'
+import { UseQueryResult } from '@tanstack/react-query'
 
 import useCategoriesQuery from './useCategoriesQuery'
 import { Category } from './common'

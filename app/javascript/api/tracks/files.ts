@@ -1,4 +1,4 @@
-import { useMutation, UseMutationOptions, UseMutationResult } from 'react-query'
+import { useMutation, UseMutationOptions, UseMutationResult } from '@tanstack/react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
 
 const endpoint = '/api/v1/tracks/files'
@@ -29,4 +29,4 @@ const createTrackFile = (file: File) => {
 export const useNewTrackFileMutation = (
   options: UseMutationOptions<TrackFileRecord, AxiosError, File> = {}
 ): UseMutationResult<TrackFileRecord, AxiosError, File> =>
-  useMutation(createTrackFile, options)
+  useMutation({ mutationFn: createTrackFile, ...options })

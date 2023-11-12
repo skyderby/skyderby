@@ -4,7 +4,7 @@ import {
   useQuery,
   useQueryClient,
   UseQueryOptions
-} from 'react-query'
+} from '@tanstack/react-query'
 import { AxiosResponse, AxiosError } from 'axios'
 
 import client from 'api/client'

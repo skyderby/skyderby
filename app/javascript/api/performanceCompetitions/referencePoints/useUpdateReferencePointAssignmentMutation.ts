@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import client, { AxiosResponse } from 'api/client'
 import {
@@ -28,7 +28,8 @@ const useUpdateReferencePointAssignmentMutation = (eventId: number) => {
   const mutationFn = (variables: AssignmentVariables) =>
     updateAssignment(eventId, variables)
 
-  return useMutation(mutationFn, {
+  return useMutation({
+    mutationFn,
     async onSuccess(response, variables) {
       const isDeletion = variables.referencePointId === null
       const data: ReferencePointAssignment[] =

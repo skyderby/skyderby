@@ -3,7 +3,7 @@ import { Formik, Field, ErrorMessage, FieldProps, FormikHelpers } from 'formik'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import type { ValueType } from 'react-select'
-import type { UseMutationResult } from 'react-query'
+import type { UseMutationResult } from '@tanstack/react-query'
 import type { AxiosError, AxiosResponse } from 'axios'
 
 import { PlaceRecord, PlaceVariables } from 'api/places'

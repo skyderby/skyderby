@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { AsyncPaginate as Select } from 'react-select-async-paginate'
 import type { Props } from 'react-select'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 
 import getSelectStyles from 'styles/selectStyles'
 import {

@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { AxiosError, AxiosResponse } from 'axios'
 import client from 'api/client'
 import { Serialized } from 'api/helpers'
@@ -10,11 +10,11 @@ const deleteTrack = (id: number) =>
     .then(response => response.data)
 
 const useDeleteTrackMutation = (id: number) => {
-  const mutateFn = () => deleteTrack(id)
+  const mutationFn = () => deleteTrack(id)
 
-  return useMutation<Serialized<TrackRecord>, AxiosError<Record<string, string[]>>>(
-    mutateFn
-  )
+  return useMutation<Serialized<TrackRecord>, AxiosError<Record<string, string[]>>>({
+    mutationFn
+  })
 }
 
 export default useDeleteTrackMutation

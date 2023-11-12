@@ -2,7 +2,7 @@ import React from 'react'
 import { Formik, Field, FieldProps, FormikHelpers } from 'formik'
 import toast from 'react-hot-toast'
 import type { ValueType } from 'react-select'
-import type { UseMutationResult } from 'react-query'
+import type { UseMutationResult } from '@tanstack/react-query'
 import type { AxiosError } from 'axios'
 
 import { CompetitorVariables } from 'api/performanceCompetitions'

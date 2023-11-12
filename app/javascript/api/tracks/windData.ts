@@ -6,7 +6,7 @@ import {
   useQuery,
   UseQueryOptions,
   UseQueryResult
-} from 'react-query'
+} from '@tanstack/react-query'
 
 export type WindDataRecord = {
   actualOn: Date

@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import client from 'api/client'
 
 export type ContributionStats = {

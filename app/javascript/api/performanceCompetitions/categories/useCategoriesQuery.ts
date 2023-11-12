@@ -1,4 +1,9 @@
-import { QueryFunction, useQuery, UseQueryOptions, UseQueryResult } from 'react-query'
+import {
+  QueryFunction,
+  useQuery,
+  UseQueryOptions,
+  UseQueryResult
+} from '@tanstack/react-query'
 
 import client, { AxiosResponse, AxiosError } from 'api/client'
 import { Category, SerializedCategory, QueryKey, deserialize } from './common'
@@ -32,7 +37,10 @@ export const categoriesQuery = <T = Category[]>(
 
 const useCategoriesQuery = <T = Category[]>(
   eventId: number,
-  options: UseQueryOptions<Category[], AxiosError, T, QueryKey> = {}
-): UseQueryResult<T> => useQuery({ ...categoriesQuery(eventId), ...options })
+  options: Omit<
+    UseQueryOptions<Category[], AxiosError, T, QueryKey>,
+    'queryKey' | 'queryFn'
+  > = {}
+): UseQueryResult<T> => useQuery({ ...categoriesQuery<T>(eventId), ...options })
 
 export default useCategoriesQuery

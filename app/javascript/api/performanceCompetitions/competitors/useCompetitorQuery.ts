@@ -1,4 +1,4 @@
-import { UseQueryResult } from 'react-query'
+import { UseQueryResult } from '@tanstack/react-query'
 
 import useCompetitorsQuery from './useCompetitorsQuery'
 import { Competitor } from './common'

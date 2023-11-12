@@ -7,7 +7,7 @@ import {
   UseQueryOptions,
   UseQueryResult,
   UseMutationResult
-} from 'react-query'
+} from '@tanstack/react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
 import { parseISO } from 'date-fns'
 
@@ -110,8 +110,11 @@ export const preloadCategories = (
 
 export const useCategoriesQuery = <Type = Category[]>(
   eventId: number,
-  options: UseQueryOptions<Category[], Error, Type, QueryKey> = {}
-): UseQueryResult<Type> => useQuery({ ...categoriesQuery(eventId), ...options })
+  options: Omit<
+    UseQueryOptions<Category[], Error, Type, QueryKey>,
+    'queryKey' | 'queryFn'
+  > = {}
+): UseQueryResult<Type> => useQuery({ ...categoriesQuery<Type>(eventId), ...options })
 
 export const useCategoryQuery = (
   eventId: number,
@@ -133,7 +136,8 @@ export const useNewCategoryMutation = (
 
   const mutationFn = (values: CategoryVariables) => createCategory({ ...values, eventId })
 
-  return useMutation(mutationFn, {
+  return useMutation({
+    mutationFn,
     async onSuccess(response) {
       const data: Category[] = queryClient.getQueryData(queryKey(eventId)) ?? []
       const category = deserialize(response.data)
@@ -159,7 +163,8 @@ export const useEditCategoryMutation = (
   const mutationFn = (values: CategoryVariables) =>
     updateCategory({ ...values, eventId, id: categoryId })
 
-  return useMutation(mutationFn, {
+  return useMutation({
+    mutationFn,
     onSuccess(response) {
       const data: Category[] = queryClient.getQueryData(queryKey(eventId)) ?? []
       const updatedCategory = deserialize(response.data)
@@ -178,11 +183,12 @@ export const useDeleteCategoryMutation = (
 ): UseMutationResult<AxiosResponse<SerializedCategory>, AxiosError, DeleteVariables> => {
   const queryClient = useQueryClient()
 
-  return useMutation(deleteCategory, {
+  return useMutation({
+    mutationFn: deleteCategory,
     async onSuccess(response, { eventId }) {
       const category = deserialize(response.data)
       await Promise.all([
-        queryClient.invalidateQueries(queryKey(eventId)),
+        queryClient.invalidateQueries({ queryKey: queryKey(eventId) }),
         queryClient.refetchQueries(standingsQuery(eventId))
       ])
       options.onSuccess?.(category)
@@ -197,9 +203,10 @@ export const useChangePositionMutation = (): UseMutationResult<
 > => {
   const queryClient = useQueryClient()
 
-  return useMutation(updateCategoryPosition, {
-    onSuccess(response, { eventId }) {
-      return queryClient.invalidateQueries(queryKey(eventId))
+  return useMutation({
+    mutationFn: updateCategoryPosition,
+    onSuccess(_response, { eventId }) {
+      return queryClient.invalidateQueries({ queryKey: queryKey(eventId) })
     }
   })
 }

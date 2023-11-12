@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { AxiosError, AxiosResponse } from 'axios'
 import client from 'api/client'
 import { trackQuery } from 'api/tracks'
@@ -24,26 +24,27 @@ const useUpdateResultMutation = (eventId: number, id: number) => {
 
   const mutationFn = (result: UpdateVariables) => updateResult(eventId, id, result)
 
-  return useMutation<AxiosResponse<SerializedResult>, AxiosError, UpdateVariables>(
+  return useMutation<AxiosResponse<SerializedResult>, AxiosError, UpdateVariables>({
     mutationFn,
-    {
-      async onSuccess(response) {
-        const data: Result[] = queryClient.getQueryData(queryKey(eventId)) ?? []
-        const updatedResult = deserialize(response.data)
-        queryClient.setQueryData(
-          queryKey(eventId),
-          data.map(result => (result.id === id ? updatedResult : result))
-        )
-        await Promise.all([
-          queryClient.invalidateQueries(trackQuery(response.data.trackId).queryKey),
-          queryClient.invalidateQueries(
-            pointsQuery(response.data.trackId, { originalFrequency: true }).queryKey,
-            { refetchInactive: true }
-          )
-        ])
-      }
+    async onSuccess(response) {
+      const data: Result[] = queryClient.getQueryData(queryKey(eventId)) ?? []
+      const updatedResult = deserialize(response.data)
+      queryClient.setQueryData(
+        queryKey(eventId),
+        data.map(result => (result.id === id ? updatedResult : result))
+      )
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: trackQuery(response.data.trackId).queryKey
+        }),
+        queryClient.invalidateQueries({
+          queryKey: pointsQuery(response.data.trackId, { originalFrequency: true })
+            .queryKey,
+          refetchType: 'all'
+        })
+      ])
     }
-  )
+  })
 }
 
 export default useUpdateResultMutation

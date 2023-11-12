@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosResponse, AxiosError } from 'axios'
 import client from 'api/client'
 import {
@@ -21,7 +21,8 @@ const useCreateTrackMutation = () => {
     AxiosResponse<SerializedTrackRecord>,
     AxiosError<Record<string, string[]>>,
     TrackVariables
-  >(createTrack, {
+  >({
+    mutationFn: createTrack,
     onSuccess(response) {
       const track = deserialize(response.data)
       queryClient.setQueryData(recordQueryKey(response.data.id), track)

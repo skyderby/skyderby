@@ -1,4 +1,9 @@
-import { QueryClient, QueryFunction, useQueryClient, UseQueryOptions } from 'react-query'
+import {
+  QueryClient,
+  QueryFunction,
+  useQueryClient,
+  UseQueryOptions
+} from '@tanstack/react-query'
 import {
   IndexParams,
   PlaceRecord,

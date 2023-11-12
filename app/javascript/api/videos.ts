@@ -1,5 +1,5 @@
 import client from 'api/client'
-import { QueryFunction, useQuery, UseQueryResult } from 'react-query'
+import { QueryFunction, useQuery, UseQueryResult } from '@tanstack/react-query'
 
 import { VideoRecord } from './tracks/video'
 

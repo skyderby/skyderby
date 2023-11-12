@@ -1,4 +1,9 @@
-import { QueryFunction, useQuery, UseQueryOptions, UseQueryResult } from 'react-query'
+import {
+  QueryFunction,
+  useQuery,
+  UseQueryOptions,
+  UseQueryResult
+} from '@tanstack/react-query'
 import { AxiosError, AxiosResponse } from 'axios'
 
 import client from 'api/client'
@@ -30,7 +35,10 @@ export const resultsQuery = (eventId: number) => ({
 
 const useResultsQuery = <T = Result[]>(
   eventId: number,
-  options: UseQueryOptions<Result[], AxiosError, T, QueryKey> = {}
+  options: Omit<
+    UseQueryOptions<Result[], AxiosError, T, QueryKey>,
+    'queryKey' | 'queryFn'
+  > = {}
 ): UseQueryResult<T> => useQuery({ ...resultsQuery(eventId), ...options })
 
 export default useResultsQuery

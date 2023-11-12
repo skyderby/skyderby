@@ -4,7 +4,7 @@ import {
   useQuery,
   UseQueryOptions,
   UseQueryResult
-} from 'react-query'
+} from '@tanstack/react-query'
 import client from 'api/client'
 
 import { CompetitorStandingRow } from 'api/speedSkydivingCompetitions/types'
@@ -34,9 +34,11 @@ type OptionsType = UseQueryOptions<
   QueryKey
 >
 
+type OptionsWithoutQueryKey = Omit<OptionsType, 'queryKey' | 'queryFn'>
+
 export const openStandingsQuery = (
   eventId: number,
-  options: OptionsType = {}
+  options: OptionsWithoutQueryKey = {}
 ): OptionsType => ({
   queryKey: queryKey(eventId),
   queryFn,
@@ -50,6 +52,6 @@ export const preloadOpenStandings = (
 
 export const useOpenStandingsQuery = (
   eventId: number,
-  options: OptionsType = {}
+  options: OptionsWithoutQueryKey = {}
 ): UseQueryResult<CompetitorStandingRow[]> =>
   useQuery(openStandingsQuery(eventId, options))

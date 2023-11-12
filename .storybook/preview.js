@@ -1,7 +1,7 @@
 import React from 'react'
 import { initializeWorker, mswDecorator } from 'msw-storybook-addon'
 import { MemoryRouter as Router } from 'react-router-dom'
-import { QueryClientProvider } from 'react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
 
 import TranslationsProvider from 'components/TranslationsProvider'
 import queryClient from 'components/queryClient'
@@ -31,8 +31,4 @@ const cacheResetDecorator = Story => {
   return <Story />
 }
 
-export const decorators = [
-  mswDecorator,
-  cacheResetDecorator,
-  providersDecorator
-]
+export const decorators = [mswDecorator, cacheResetDecorator, providersDecorator]

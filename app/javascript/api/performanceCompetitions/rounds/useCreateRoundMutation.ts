@@ -1,4 +1,4 @@
-import { useMutation, UseMutationResult, useQueryClient } from 'react-query'
+import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query'
 import { AxiosError, AxiosResponse } from 'axios'
 import client from 'api/client'
 import {
@@ -22,7 +22,8 @@ const useCreateRoundMutation = (
 
   const mutationFn = (discipline: Round['task']) => createRound(eventId, discipline)
 
-  return useMutation(mutationFn, {
+  return useMutation({
+    mutationFn,
     onSuccess(response) {
       const data: Round[] = queryClient.getQueryData(queryKey(eventId)) ?? []
       const round = deserialize(response.data)

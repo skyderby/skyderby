@@ -5,7 +5,7 @@ import {
   useQueryClient,
   UseQueryOptions,
   UseQueryResult
-} from 'react-query'
+} from '@tanstack/react-query'
 
 import { cacheManufacturers, preloadManufacturers } from 'api/manufacturer'
 import { getAllSuits, getSuit, getSuits, getSuitsById } from './requests'
@@ -66,7 +66,7 @@ const buildSuitsQueryFn = (
 export const cacheSuits = (suits: SuitRecord[], queryClient: QueryClient): void =>
   suits
     .filter(suit => !queryClient.getQueryData(recordQueryKey(suit.id)))
-    .forEach(suit => queryClient.setQueryData(recordQueryKey(suit.id), suit))
+    .forEach(suit => queryClient.setQueryData<SuitRecord>(recordQueryKey(suit.id), suit))
 
 export const preloadSuits = async (
   ids: number[],
@@ -90,7 +90,7 @@ export const preloadSuits = async (
 }
 
 const cacheOptions = {
-  cacheTime: 60 * 30 * 1000,
+  gcTime: 60 * 30 * 1000,
   staleTime: 60 * 10 * 1000
 }
 
@@ -103,13 +103,13 @@ const suitQuery = (
   queryKey: recordQueryKey(id),
   queryFn: buildQueryFn(queryClient),
   enabled: !!id,
-  cacheTime: 60 * 30 * 1000,
+  gcTime: 60 * 30 * 1000,
   staleTime: 60 * 10 * 1000
 })
 
 export const useSuitQuery = (
   id: number | null | undefined,
-  options: QueryOptions = {}
+  options: Omit<QueryOptions, 'queryKey' | 'queryFn'> = {}
 ): UseQueryResult<SuitRecord> => {
   const queryClient = useQueryClient()
   return useQuery({ ...suitQuery(id, queryClient), ...options })

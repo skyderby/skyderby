@@ -1,6 +1,6 @@
 import React from 'react'
 import Select, { Props } from 'react-select'
-import { UseQueryResult } from 'react-query'
+import { UseQueryResult } from '@tanstack/react-query'
 
 import { useProfileQueries } from 'api/profiles'
 import getSelectStyles from 'styles/selectStyles'

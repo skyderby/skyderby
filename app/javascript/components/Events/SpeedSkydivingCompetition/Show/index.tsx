@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Routes, useParams } from 'react-router-dom'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 
 import {
   preloadCategories,

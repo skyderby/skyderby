@@ -5,7 +5,7 @@ import {
   useQueryClient,
   UseQueryOptions,
   UseQueryResult
-} from 'react-query'
+} from '@tanstack/react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
 
 import {
@@ -38,10 +38,12 @@ const buildQueryFn = (
   return place
 }
 
+type QueryOptions = UseQueryOptions<PlaceRecord, AxiosError, PlaceRecord, RecordQueryKey>
+
 export const placeQuery = (
   id: number | null | undefined,
   queryClient: QueryClient
-): UseQueryOptions<PlaceRecord, AxiosError, PlaceRecord, RecordQueryKey> => ({
+): QueryOptions => ({
   queryKey: recordQueryKey(id),
   queryFn: buildQueryFn(queryClient),
   enabled: Boolean(id),
@@ -50,7 +52,7 @@ export const placeQuery = (
 
 const usePlaceQuery = (
   id: number | null | undefined,
-  options: UseQueryOptions<PlaceRecord, AxiosError, PlaceRecord, RecordQueryKey> = {}
+  options: Omit<QueryOptions, 'queryKey' | 'queryFn'> = {}
 ): UseQueryResult<PlaceRecord, AxiosError> => {
   const queryClient = useQueryClient()
 
