@@ -1,8 +1,7 @@
 import {
-  useQuery,
+  useSuspenseQuery,
   useQueryClient,
   useMutation,
-  UseQueryResult,
   UseMutationResult
 } from '@tanstack/react-query'
 
@@ -63,8 +62,8 @@ const logout = () => client.delete<void, AxiosResponse<void>>('/api/users/sign_o
 
 const queryKey = ['currentUser']
 
-export const useCurrentUserQuery = (): UseQueryResult<CurrentUser> =>
-  useQuery({ queryKey, queryFn: getCurrentUser })
+export const useCurrentUserQuery = () =>
+  useSuspenseQuery<CurrentUser>({ queryKey, queryFn: getCurrentUser })
 
 export const useLoginMutation = (): UseMutationResult<
   AuthorizedUser,

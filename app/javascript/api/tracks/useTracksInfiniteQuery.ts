@@ -1,9 +1,9 @@
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 import { IndexParams } from './common'
 import { queryFn } from './useTracksQuery'
 
 const useTracksInfiniteQuery = ({ page, ...params }: IndexParams) =>
-  useInfiniteQuery({
+  useSuspenseInfiniteQuery({
     queryKey: ['infiniteTracks', params],
     queryFn: queryFn,
     initialPageParam: 1,

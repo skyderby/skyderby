@@ -119,12 +119,14 @@ const ResultCell = ({
           </button>
 
           {showResultModal && (
-            <ResultModal
-              event={event}
-              result={result}
-              deleteResult={deleteResult}
-              onHide={hideResultModal}
-            />
+            <React.Suspense fallback={null}>
+              <ResultModal
+                event={event}
+                result={result}
+                deleteResult={deleteResult}
+                onHide={hideResultModal}
+              />
+            </React.Suspense>
           )}
         </>
       ) : (

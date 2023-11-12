@@ -1,9 +1,4 @@
-import {
-  QueryFunction,
-  useQuery,
-  UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query'
+import { QueryFunction, UseQueryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { AxiosResponse } from 'axios'
 import client from 'api/client'
 import {
@@ -54,7 +49,7 @@ export const tracksQuery = (
   ...options
 })
 
-const useTracksQuery = (params: IndexParams): UseQueryResult<IndexResult, Error> =>
-  useQuery(tracksQuery(params, { keepPreviousData: true }))
+const useTracksQuery = (params: IndexParams) =>
+  useSuspenseQuery<IndexResult, Error, IndexResult, IndexQueryKey>(tracksQuery(params))
 
 export default useTracksQuery

@@ -1,9 +1,4 @@
-import {
-  QueryFunction,
-  useQuery,
-  UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query'
+import { useSuspenseQuery, QueryFunction, UseQueryOptions } from '@tanstack/react-query'
 import { AxiosError, AxiosResponse } from 'axios'
 import client from 'api/client'
 
@@ -43,7 +38,7 @@ export const trackQuery = (
   enabled: Boolean(id)
 })
 
-const useTrackQuery = (id: number): UseQueryResult<TrackRecord, AxiosError> =>
-  useQuery(trackQuery(id))
+const useTrackQuery = (id: number) =>
+  useSuspenseQuery<TrackRecord, AxiosError, TrackRecord, RecordQueryKey>(trackQuery(id))
 
 export default useTrackQuery

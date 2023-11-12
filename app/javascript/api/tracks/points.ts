@@ -1,16 +1,19 @@
 import {
   QueryClient,
   QueryFunction,
-  useQuery,
   UseQueryOptions,
-  UseQueryResult
+  useSuspenseQuery
 } from '@tanstack/react-query'
 import client, { AxiosResponse } from 'api/client'
 import parseISO from 'date-fns/parseISO'
 import { AxiosError } from 'axios'
 
 type RequestOptions = {
-  trimmed?: boolean | { secondsBeforeStart: number }
+  trimmed?:
+    | boolean
+    | {
+        secondsBeforeStart: number
+      }
   originalFrequency?: boolean
 }
 
@@ -29,7 +32,9 @@ export type PointRecord = {
   speedAccuracy: number
 }
 
-type RawPoint = Omit<PointRecord, 'gpsTime'> & { gpsTime: string }
+type RawPoint = Omit<PointRecord, 'gpsTime'> & {
+  gpsTime: string
+}
 
 type PointsQueryKey = ['trackPoints', number | undefined, RequestOptions]
 
@@ -100,5 +105,8 @@ export const useTrackPointsQuery = (
   id: number | undefined,
   requestOptions: RequestOptions = {},
   queryOptions: Omit<QueryOptions, 'queryKey' | 'queryFn'> = {}
-): UseQueryResult<PointRecord[]> =>
-  useQuery({ ...pointsQuery(id, requestOptions), ...queryOptions })
+) =>
+  useSuspenseQuery<PointRecord[], AxiosError, PointRecord[], PointsQueryKey>({
+    ...pointsQuery(id, requestOptions),
+    ...queryOptions
+  })
