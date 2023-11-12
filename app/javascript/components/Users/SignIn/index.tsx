@@ -1,12 +1,14 @@
 import React from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { Formik, Field, FormikHelpers } from 'formik'
+import toast from 'react-hot-toast'
 
 import { useLoginMutation } from 'api/sessions'
 import Separator from 'components/Users/Separator'
 import { useI18n } from 'components/TranslationsProvider'
 import validationSchema from './validationSchema'
 import styles from 'components/Users/styles.module.scss'
+import RequestErrorToast from 'components/RequestErrorToast'
 
 interface FormValues {
   email: string
@@ -20,19 +22,19 @@ const SignIn = (): JSX.Element => {
   const location = useLocation()
   const { t } = useI18n()
   const loginMutation = useLoginMutation()
-
   const returnTo = location.state?.returnTo ?? '/'
 
   const handleSubmit = async (
     values: FormValues,
     formikBag: FormikHelpers<FormValues>
-  ): Promise<void> => {
-    try {
-      await loginMutation.mutateAsync(values)
-      navigate(returnTo)
-    } catch (err) {
-      formikBag.setSubmitting(false)
-    }
+  ) => {
+    loginMutation.mutate(values, {
+      onSuccess: () => navigate(returnTo),
+      onSettled: () => formikBag.setSubmitting(false),
+      onError: error => {
+        toast.error(<RequestErrorToast response={error.response} />)
+      }
+    })
   }
 
   return (

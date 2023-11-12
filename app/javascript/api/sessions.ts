@@ -68,7 +68,7 @@ export const useCurrentUserQuery = (): UseQueryResult<CurrentUser> =>
 
 export const useLoginMutation = (): UseMutationResult<
   AuthorizedUser,
-  AxiosError<{ error: string }>,
+  AxiosError<Record<string, string[]>>,
   LoginData
 > => {
   const queryClient = useQueryClient()
@@ -77,7 +77,7 @@ export const useLoginMutation = (): UseMutationResult<
     mutationFn: login,
     onSuccess(data) {
       queryClient.setQueryData(queryKey, data)
-      return queryClient.resetQueries()
+      queryClient.resetQueries()
     }
   })
 }
