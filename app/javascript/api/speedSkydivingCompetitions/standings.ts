@@ -4,7 +4,7 @@ import {
   useQuery,
   UseQueryOptions,
   UseQueryResult
-} from 'react-query'
+} from '@tanstack/react-query'
 import client from 'api/client'
 
 import { CategoryStandings } from './types'
@@ -37,7 +37,7 @@ type OptionsType = UseQueryOptions<
 
 export const standingsQuery = (
   eventId: number,
-  options: OptionsType = {}
+  options: Omit<OptionsType, 'queryKey' | 'queryFn'> = {}
 ): OptionsType => ({
   queryKey: queryKey(eventId),
   queryFn,
@@ -51,5 +51,5 @@ export const preloadStandings = (
 
 export const useStandingsQuery = (
   eventId: number,
-  options: OptionsType = {}
+  options: Omit<OptionsType, 'queryKey' | 'queryFn'> = {}
 ): UseQueryResult<CategoryStandings[]> => useQuery(standingsQuery(eventId, options))

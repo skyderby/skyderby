@@ -7,7 +7,7 @@ import {
   QueryClient,
   UseQueryResult,
   UseMutationResult
-} from 'react-query'
+} from '@tanstack/react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
 import { parseISO } from 'date-fns'
 
@@ -83,7 +83,10 @@ const queryFn: QueryFunction<TeamRecord[], QueryKey> = ctx => {
 
 const teamsQuery = <Type = TeamRecord[]>(
   eventId: number,
-  options: UseQueryOptions<TeamRecord[], Error, Type, QueryKey> = {}
+  options: Omit<
+    UseQueryOptions<TeamRecord[], Error, Type, QueryKey>,
+    'queryKey' | 'queryFn'
+  > = {}
 ): UseQueryOptions<TeamRecord[], Error, Type, QueryKey> => ({
   queryKey: queryKey(eventId),
   queryFn,
@@ -95,7 +98,10 @@ export const preloadTeams = (eventId: number, queryClient: QueryClient): Promise
 
 export const useTeamsQuery = <Type = TeamRecord[]>(
   eventId: number,
-  options: UseQueryOptions<TeamRecord[], Error, Type, QueryKey> = {}
+  options: Omit<
+    UseQueryOptions<TeamRecord[], Error, Type, QueryKey>,
+    'queryKey' | 'queryFn'
+  > = {}
 ): UseQueryResult<Type> =>
   useQuery({
     ...teamsQuery<Type>(eventId),
@@ -113,9 +119,10 @@ export const useTeamQuery = (
 export const useNewTeamMutation = (eventId: number): NewTeamMutation => {
   const queryClient = useQueryClient()
 
-  const mutateFn = (team: TeamVariables) => createTeam(eventId, team)
+  const mutationFn = (team: TeamVariables) => createTeam(eventId, team)
 
-  return useMutation(mutateFn, {
+  return useMutation({
+    mutationFn,
     async onSuccess(response) {
       await Promise.all([
         queryClient.refetchQueries(teamStandingsQuery(eventId)),
@@ -132,9 +139,10 @@ export const useNewTeamMutation = (eventId: number): NewTeamMutation => {
 export const useEditTeamMutation = (eventId: number, id: number): EditTeamMutation => {
   const queryClient = useQueryClient()
 
-  const mutateFn = (team: TeamVariables) => updateTeam(eventId, id, team)
+  const mutationFn = (team: TeamVariables) => updateTeam(eventId, id, team)
 
-  return useMutation(mutateFn, {
+  return useMutation({
+    mutationFn,
     async onSuccess(response) {
       await Promise.all([
         queryClient.refetchQueries(teamStandingsQuery(eventId)),
@@ -158,7 +166,8 @@ export const useDeleteTeamMutation = (): UseMutationResult<
 > => {
   const queryClient = useQueryClient()
 
-  return useMutation(deleteTeam, {
+  return useMutation({
+    mutationFn: deleteTeam,
     async onSuccess(response, { eventId, id }) {
       await Promise.all([
         queryClient.refetchQueries(teamStandingsQuery(eventId)),

@@ -1,5 +1,5 @@
 import { CountryRecord, recordQueryKey } from 'api/countries'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { PlaceRecord } from 'api/places'
 
 const useCountriesWithPlaces = (

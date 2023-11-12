@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { ValueType } from 'react-select'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 
 import {
   Result,

@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosResponse, AxiosError } from 'axios'
 import client from 'api/client'
 import {
@@ -31,7 +31,8 @@ const useSetPenaltiesMutation = (eventId: number, resultId: number) => {
     AxiosResponse<SerializedResult>,
     AxiosError<Record<string, string[]>>,
     PenaltyVariables
-  >(mutationFn, {
+  >({
+    mutationFn,
     async onSuccess(response) {
       const data: Result[] = queryClient.getQueryData(queryKey(eventId)) ?? []
       const updatedResult = deserialize(response.data)
@@ -40,8 +41,9 @@ const useSetPenaltiesMutation = (eventId: number, resultId: number) => {
         data.map(record => (record.id === resultId ? updatedResult : record))
       )
 
-      return queryClient.invalidateQueries(standingsQuery(eventId).queryKey, {
-        refetchInactive: true
+      return queryClient.invalidateQueries({
+        queryKey: standingsQuery(eventId).queryKey,
+        refetchType: 'all'
       })
     }
   })

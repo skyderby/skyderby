@@ -1,4 +1,4 @@
-import { QueryFunction, useQuery } from 'react-query'
+import { QueryFunction, useQuery } from '@tanstack/react-query'
 import client from 'api/client'
 import { AxiosResponse } from 'axios'
 import { parseISO } from 'date-fns'

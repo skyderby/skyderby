@@ -6,7 +6,7 @@ import { PerformanceCompetition, Result } from 'api/performanceCompetitions'
 import { PointRecord, pointsQuery, useTrackPointsQuery } from 'api/tracks/points'
 
 import interpolateByAltitude from 'utils/interpolateByAltitude'
-import { QueryClient } from 'react-query'
+import { QueryClient } from '@tanstack/react-query'
 
 const getPointsAround = <TPoint>(
   points: TPoint[],
@@ -63,7 +63,10 @@ const fetchResultPoints = async (
 const useResultPoints = (
   event: PerformanceCompetition,
   result: Result,
-  queryOptions: Parameters<typeof useTrackPointsQuery>[2] = {}
+  queryOptions: Omit<
+    Parameters<typeof useTrackPointsQuery>[2],
+    'queryKey' | 'queryFn'
+  > = {}
 ) => {
   const { data: points = [], isLoading } = useTrackPointsQuery(
     result.trackId,

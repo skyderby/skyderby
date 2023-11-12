@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios'
-import { QueryFunction, useQuery } from 'react-query'
+import { QueryFunction, useQuery } from '@tanstack/react-query'
 import queryClient from 'components/queryClient'
 import client from 'api/client'
 import { cacheProfiles } from 'api/profiles'

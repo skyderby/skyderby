@@ -4,7 +4,7 @@ import {
   UseQueryResult,
   UseQueryOptions,
   QueryFunction
-} from 'react-query'
+} from '@tanstack/react-query'
 
 import client from 'api/client'
 import { loadIds, urlWithParams } from 'api/helpers'
@@ -58,7 +58,7 @@ const queryCountries: QueryFunction<CountriesIndex, [string, IndexParams]> = ctx
 const indexQueryKey = (params: IndexParams): IndexQueryKey => ['countries', params]
 
 const cacheOptions = {
-  cacheTime: Infinity,
+  gcTime: Infinity,
   staleTime: Infinity
 }
 
@@ -67,7 +67,7 @@ export const cacheCountries = (
   queryClient: QueryClient
 ): void =>
   countries?.forEach(country =>
-    queryClient.setQueryData(recordQueryKey(country.id), country)
+    queryClient.setQueryData<CountryRecord>(recordQueryKey(country.id), country)
   )
 
 export const preloadCountries = async (
@@ -108,7 +108,10 @@ export const countryQuery = (
 
 export const useCountryQuery = (
   id: number | undefined,
-  options: UseQueryOptions<CountryRecord, Error, CountryRecord, RecordQueryKey> = {}
+  options: Omit<
+    UseQueryOptions<CountryRecord, Error, CountryRecord, RecordQueryKey>,
+    'queryKey' | 'queryFn'
+  > = {}
 ): UseQueryResult<CountryRecord> =>
   useQuery({
     ...countryQuery(id),

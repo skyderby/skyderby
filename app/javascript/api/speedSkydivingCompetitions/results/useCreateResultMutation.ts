@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { AxiosResponse, AxiosError } from 'axios'
 import client from 'api/client'
 import { standingsQuery } from 'api/speedSkydivingCompetitions/standings'
@@ -46,7 +46,8 @@ const useCreateResultMutation = (eventId: number) => {
     AxiosResponse<SerializedResult>,
     AxiosError<Record<string, string[]>>,
     CreateVariables
-  >(mutationFn, {
+  >({
+    mutationFn,
     async onSuccess(response, { eventId }) {
       const data: Result[] = queryClient.getQueryData(queryKey(eventId)) ?? []
       const result = deserialize(response.data)

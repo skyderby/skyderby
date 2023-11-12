@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { Props } from 'react-select'
 import { AsyncPaginate as Select } from 'react-select-async-paginate'
 

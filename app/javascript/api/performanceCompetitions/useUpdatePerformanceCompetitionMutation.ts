@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { AxiosError, AxiosResponse } from 'axios'
 
 import client from 'api/client'
@@ -22,13 +22,14 @@ const updateEvent = (
 const useUpdatePerformanceCompetitionMutation = (eventId: number) => {
   const queryClient = useQueryClient()
 
-  const mutateFn = (data: PerformanceCompetitionVariables) => updateEvent(eventId, data)
+  const mutationFn = (data: PerformanceCompetitionVariables) => updateEvent(eventId, data)
 
   return useMutation<
     AxiosResponse<SerializedPerformanceCompetition>,
     AxiosError<Record<string, string[]>>,
     PerformanceCompetitionVariables
-  >(mutateFn, {
+  >({
+    mutationFn,
     onSuccess(response) {
       queryClient.setQueryData(queryKey(eventId), deserialize(response.data))
     }

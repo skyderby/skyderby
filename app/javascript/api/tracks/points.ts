@@ -4,7 +4,7 @@ import {
   useQuery,
   UseQueryOptions,
   UseQueryResult
-} from 'react-query'
+} from '@tanstack/react-query'
 import client, { AxiosResponse } from 'api/client'
 import parseISO from 'date-fns/parseISO'
 import { AxiosError } from 'axios'
@@ -99,6 +99,6 @@ export const preloadPoints = (
 export const useTrackPointsQuery = (
   id: number | undefined,
   requestOptions: RequestOptions = {},
-  queryOptions: QueryOptions = {}
+  queryOptions: Omit<QueryOptions, 'queryKey' | 'queryFn'> = {}
 ): UseQueryResult<PointRecord[]> =>
   useQuery({ ...pointsQuery(id, requestOptions), ...queryOptions })

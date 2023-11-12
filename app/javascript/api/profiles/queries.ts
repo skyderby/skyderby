@@ -6,7 +6,7 @@ import {
   useQueryClient,
   UseQueryOptions,
   UseQueryResult
-} from 'react-query'
+} from '@tanstack/react-query'
 import { preloadCountries } from 'api/countries'
 
 import { getProfiles, getProfilesById, getProfile } from './requests'
@@ -29,7 +29,9 @@ export const cacheProfiles = (
 ): void =>
   profiles
     .filter(profile => !queryClient.getQueryData(recordQueryKey(profile.id)))
-    .forEach(profile => queryClient.setQueryData(recordQueryKey(profile.id), profile))
+    .forEach(profile =>
+      queryClient.setQueryData<ProfileRecord>(recordQueryKey(profile.id), profile)
+    )
 
 const buildProfilesQueryFn = (
   queryClient: QueryClient
@@ -87,7 +89,7 @@ export const preloadProfiles = async (
 }
 
 const cacheOptions = {
-  cacheTime: 60 * 10 * 1000,
+  gcTime: 60 * 10 * 1000,
   staleTime: 60 * 10 * 1000
 }
 
@@ -122,7 +124,7 @@ export const profileQuery = (
 
 export const useProfileQuery = (
   id: number | null | undefined,
-  options: QueryOptions = {}
+  options: Omit<QueryOptions, 'queryKey' | 'queryFn'> = {}
 ): UseQueryResult<ProfileRecord> => {
   const queryClient = useQueryClient()
   return useQuery({ ...profileQuery(id, queryClient), ...options })
@@ -133,9 +135,7 @@ export const useProfileQuery = (
 export const useProfileQueries = (ids: number[]): UseQueryResult<ProfileRecord>[] => {
   const queryClient = useQueryClient()
 
-  const queries = ids.map(
-    id => profileQuery(id, queryClient) as unknown
-  ) as UseQueryOptions<unknown, unknown, unknown>[]
+  const queries = ids.map(id => profileQuery(id, queryClient))
 
-  return useQueries(queries) as UseQueryResult<ProfileRecord>[]
+  return useQueries({ queries }) as UseQueryResult<ProfileRecord>[]
 }

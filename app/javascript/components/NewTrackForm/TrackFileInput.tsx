@@ -21,7 +21,7 @@ const TrackFileInput = ({
   const [_field, meta] = useField(name)
   const [validationError, setValidationError] = useState<string | null>(null)
 
-  const { mutate, reset, isLoading, error: serverError } = useNewTrackFileMutation({
+  const { mutate, reset, isPending, error: serverError } = useNewTrackFileMutation({
     onMutate: () => onUploadStart(),
     onSettled: () => onUploadEnd(),
     onSuccess: record => onChange(record)
@@ -56,7 +56,7 @@ const TrackFileInput = ({
     <>
       <FileInput
         accept=".csv,.gpx,.kml,.tes"
-        loading={isLoading}
+        loading={isPending}
         isInvalid={Boolean(meta.touched && meta.error)}
         onChange={submitFile}
       />

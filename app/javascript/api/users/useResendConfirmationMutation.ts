@@ -1,6 +1,6 @@
 import client from 'api/client'
 import { AxiosResponse, AxiosError } from 'axios'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 
 interface Variables {
   email: string
@@ -23,6 +23,8 @@ const resendConfirmation = async (variables: Variables) => {
 }
 
 const useResendConfirmationMutation = () =>
-  useMutation<AxiosResponse, AxiosError<Errors>, Variables>(resendConfirmation)
+  useMutation<AxiosResponse, AxiosError<Errors>, Variables>({
+    mutationFn: resendConfirmation
+  })
 
 export default useResendConfirmationMutation

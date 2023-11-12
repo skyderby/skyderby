@@ -3,8 +3,9 @@ import {
   QueryFunction,
   useQuery,
   useQueryClient,
-  UseQueryResult
-} from 'react-query'
+  UseQueryResult,
+  keepPreviousData
+} from '@tanstack/react-query'
 import client from 'api/client'
 
 import { cachePlaces, PlaceRecord } from 'api/places'
@@ -134,6 +135,6 @@ export const useEventsQuery = (params: IndexParams = {}): UseQueryResult<EventsI
   return useQuery({
     queryKey: ['events', params],
     queryFn: buildQueryFn(queryClient),
-    keepPreviousData: true
+    placeholderData: keepPreviousData
   })
 }

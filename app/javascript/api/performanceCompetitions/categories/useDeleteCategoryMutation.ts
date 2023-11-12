@@ -1,6 +1,6 @@
 import client from 'api/client'
 
-import { useMutation, UseMutationResult, useQueryClient } from 'react-query'
+import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query'
 import { standingsQuery } from 'api/performanceCompetitions/useStandingsQuery'
 import { queryKey, categoryUrl, SerializedCategory } from './common'
 import { AxiosError, AxiosResponse } from 'axios'
@@ -16,9 +16,10 @@ const useDeleteCategoryMutation = (
 
   const mutationFn = () => deleteCategory(eventId, id)
 
-  return useMutation(mutationFn, {
+  return useMutation({
+    mutationFn,
     onSuccess() {
-      queryClient.invalidateQueries(queryKey(eventId))
+      queryClient.invalidateQueries({ queryKey: queryKey(eventId) })
       queryClient.refetchQueries(standingsQuery(eventId))
     }
   })

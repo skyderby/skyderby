@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { AxiosResponse, AxiosError } from 'axios'
 import client from 'api/client'
 
@@ -23,6 +23,6 @@ const confirmEmail = async (variables: Variables) => {
 }
 
 const useConfirmEmailMutation = () =>
-  useMutation<AxiosResponse, AxiosError<Errors>, Variables>(confirmEmail)
+  useMutation<AxiosResponse, AxiosError<Errors>, Variables>({ mutationFn: confirmEmail })
 
 export default useConfirmEmailMutation

@@ -1,4 +1,4 @@
-import { QueryFunction, useQuery, UseQueryOptions } from 'react-query'
+import { QueryFunction, useQuery, UseQueryOptions } from '@tanstack/react-query'
 import client from 'api/client'
 import { AxiosError, AxiosResponse } from 'axios'
 
@@ -26,11 +26,9 @@ const queryFn: QueryFunction<
 
 const useReferencePointAssignmentsQuery = <T = ReferencePointAssignment[]>(
   eventId: number,
-  options: UseQueryOptions<
-    ReferencePointAssignment[],
-    AxiosError,
-    T,
-    AssignmentsQueryKey
+  options: Omit<
+    UseQueryOptions<ReferencePointAssignment[], AxiosError, T, AssignmentsQueryKey>,
+    'queryKey' | 'queryFn'
   > = {}
 ) =>
   useQuery({

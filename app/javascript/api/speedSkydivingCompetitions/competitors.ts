@@ -8,7 +8,7 @@ import {
   UseQueryOptions,
   UseQueryResult,
   UseMutationResult
-} from 'react-query'
+} from '@tanstack/react-query'
 import { parseISO } from 'date-fns'
 
 import { cacheProfiles, ProfileRecord } from 'api/profiles'
@@ -108,7 +108,10 @@ export const preloadCompetitors = (
 
 export const useCompetitorsQuery = <Type = Competitor[]>(
   eventId: number,
-  options?: UseQueryOptions<Competitor[], Error, Type, QueryKey>
+  options?: Omit<
+    UseQueryOptions<Competitor[], Error, Type, QueryKey>,
+    'queryKey' | 'queryFn'
+  >
 ): UseQueryResult<Type> => {
   const queryClient = useQueryClient()
 
@@ -135,10 +138,11 @@ export const useNewCompetitorMutation = (
 ): NewCompetitorMutation => {
   const queryClient = useQueryClient()
 
-  const mutateFn = (variables: CompetitorVariables) =>
+  const mutationFn = (variables: CompetitorVariables) =>
     createCompetitor(eventId, variables)
 
-  return useMutation(mutateFn, {
+  return useMutation({
+    mutationFn,
     async onSuccess(response) {
       const data: Competitor[] = queryClient.getQueryData(collectionKey(eventId)) ?? []
       const competitor = deserialize(response.data)
@@ -162,10 +166,11 @@ export const useEditCompetitorMutation = (
 ): EditCompetitorMutation => {
   const queryClient = useQueryClient()
 
-  const mutateFn = (variables: CompetitorVariables) =>
+  const mutationFn = (variables: CompetitorVariables) =>
     updateCompetitor(eventId, competitorId, variables)
 
-  return useMutation(mutateFn, {
+  return useMutation({
+    mutationFn,
     async onSuccess(response) {
       const data: Competitor[] = queryClient.getQueryData(collectionKey(eventId)) ?? []
       const updatedCompetitor = deserialize(response.data)
@@ -188,8 +193,10 @@ export const useDeleteCompetitorMutation = (
 ): UseMutationResult<AxiosResponse<SerializedCompetitor>, AxiosError> => {
   const queryClient = useQueryClient()
 
-  const mutateFn = () => deleteCompetitor(eventId, competitorId)
-  return useMutation(mutateFn, {
+  const mutationFn = () => deleteCompetitor(eventId, competitorId)
+
+  return useMutation({
+    mutationFn,
     async onSuccess(response) {
       const data: Competitor[] = queryClient.getQueryData(collectionKey(eventId)) ?? []
       const competitor = deserialize(response.data)

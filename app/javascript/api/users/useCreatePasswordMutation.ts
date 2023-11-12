@@ -1,6 +1,6 @@
 import client from 'api/client'
 import { AxiosError, AxiosResponse } from 'axios'
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 interface Variables {
   password: string
@@ -28,7 +28,8 @@ const createPassword = async (variables: Variables) => {
 const useCreatePasswordMutation = () => {
   const queryClient = useQueryClient()
 
-  return useMutation<AxiosResponse, AxiosError<Errors>, Variables>(createPassword, {
+  return useMutation<AxiosResponse, AxiosError<Errors>, Variables>({
+    mutationFn: createPassword,
     onSuccess() {
       queryClient.resetQueries()
     }

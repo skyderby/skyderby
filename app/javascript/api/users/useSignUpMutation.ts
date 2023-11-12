@@ -1,4 +1,4 @@
-import { useMutation, UseMutationResult } from 'react-query'
+import { useMutation, UseMutationResult } from '@tanstack/react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
 import { User, ServerErrors } from './common'
 
@@ -27,7 +27,8 @@ const signUp = async (user: SignUpForm): Promise<User> => {
 }
 
 const useSignUpMutation = (options: MutationOptions = {}): SignUpMutation => {
-  return useMutation(signUp, {
+  return useMutation({
+    mutationFn: signUp,
     onSuccess() {
       options?.onSuccess?.()
     }

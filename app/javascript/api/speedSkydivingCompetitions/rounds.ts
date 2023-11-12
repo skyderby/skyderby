@@ -7,7 +7,7 @@ import {
   QueryClient,
   UseQueryResult,
   UseMutationResult
-} from 'react-query'
+} from '@tanstack/react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
 import { parseISO } from 'date-fns'
 
@@ -90,7 +90,10 @@ export const preloadRounds = (eventId: number, queryClient: QueryClient): Promis
 
 export const useRoundsQuery = <Type = Round[]>(
   eventId: number,
-  options: UseQueryOptions<Round[], Error, Type, QueryKey> = {}
+  options: Omit<
+    UseQueryOptions<Round[], Error, Type, QueryKey>,
+    'queryKey' | 'queryFn'
+  > = {}
 ): UseQueryResult<Type> => useQuery({ ...roundsQuery<Type>(eventId), ...options })
 
 export const useRoundQuery = (
@@ -108,7 +111,8 @@ export const useNewRoundMutation = (): UseMutationResult<
 > => {
   const queryClient = useQueryClient()
 
-  return useMutation(createRound, {
+  return useMutation({
+    mutationFn: createRound,
     onSuccess(response, eventId) {
       const data: Round[] = queryClient.getQueryData(queryKey(eventId)) ?? []
       const round = deserialize(response.data)
@@ -124,7 +128,8 @@ export const useEditRoundMutation = (): UseMutationResult<
 > => {
   const queryClient = useQueryClient()
 
-  return useMutation(updateRound, {
+  return useMutation({
+    mutationFn: updateRound,
     onSuccess(response, { eventId }) {
       const data: Round[] = queryClient.getQueryData(queryKey(eventId)) ?? []
       const updatedRound = deserialize(response.data)
@@ -134,14 +139,17 @@ export const useEditRoundMutation = (): UseMutationResult<
       )
 
       return Promise.all([
-        queryClient.invalidateQueries(standingsQuery(eventId).queryKey, {
-          refetchInactive: true
+        queryClient.invalidateQueries({
+          queryKey: standingsQuery(eventId).queryKey,
+          refetchType: 'all'
         }),
-        queryClient.invalidateQueries(openStandingsQuery(eventId).queryKey, {
-          refetchInactive: true
+        queryClient.invalidateQueries({
+          queryKey: openStandingsQuery(eventId).queryKey,
+          refetchType: 'all'
         }),
-        queryClient.invalidateQueries(teamStandingsQuery(eventId).queryKey, {
-          refetchInactive: true
+        queryClient.invalidateQueries({
+          queryKey: teamStandingsQuery(eventId).queryKey,
+          refetchType: 'all'
         })
       ])
     }
@@ -155,9 +163,10 @@ export const useDeleteRoundMutation = (): UseMutationResult<
 > => {
   const queryClient = useQueryClient()
 
-  return useMutation(deleteRound, {
+  return useMutation({
+    mutationFn: deleteRound,
     onSuccess(response, { eventId }) {
-      return queryClient.invalidateQueries(queryKey(eventId), { exact: true })
+      return queryClient.invalidateQueries({ queryKey: queryKey(eventId), exact: true })
     }
   })
 }

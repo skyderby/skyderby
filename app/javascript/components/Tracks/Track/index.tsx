@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 
 import { useTrackQuery } from 'api/tracks'

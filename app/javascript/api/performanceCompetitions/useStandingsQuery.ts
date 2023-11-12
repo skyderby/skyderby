@@ -1,4 +1,4 @@
-import { QueryFunction, useQuery, UseQueryOptions } from 'react-query'
+import { QueryFunction, useQuery, UseQueryOptions } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import client from 'api/client'
 
@@ -48,7 +48,9 @@ export const standingsQuery = (eventId: number): StandingsQueryOptions => ({
   queryFn
 })
 
-const useStandingsQuery = (eventId: number, options: StandingsQueryOptions = {}) =>
-  useQuery({ ...standingsQuery(eventId), ...options })
+const useStandingsQuery = (
+  eventId: number,
+  options: Omit<StandingsQueryOptions, 'queryKey' | 'queryFn'> = {}
+) => useQuery({ ...standingsQuery(eventId), ...options })
 
 export default useStandingsQuery

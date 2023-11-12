@@ -8,7 +8,7 @@ import validationSchema from './validationSchema'
 import styles from './styles.module.scss'
 import toast from 'react-hot-toast'
 import RequestErrorToast from 'components/RequestErrorToast'
-import { UseMutationResult } from 'react-query'
+import { UseMutationResult } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 
 interface FormData {

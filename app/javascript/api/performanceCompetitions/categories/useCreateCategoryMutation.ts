@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import client, { AxiosResponse } from 'api/client'
 import {
@@ -27,7 +27,8 @@ const useCreateCategoryMutation = (eventId: number) => {
     AxiosResponse<SerializedCategory>,
     AxiosError<Record<string, string[]>>,
     CategoryVariables
-  >(mutationFn, {
+  >({
+    mutationFn,
     async onSuccess(response) {
       const data: Category[] = queryClient.getQueryData(queryKey(eventId)) ?? []
       const category = deserialize(response.data)

@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
 import { pointsQuery } from './points'
 import {
@@ -21,18 +21,22 @@ const updateTrack = (id: number, track: TrackVariables) =>
 const useUpdateTrackMutation = (id: number) => {
   const queryClient = useQueryClient()
 
-  const mutateFn = (changes: TrackVariables) => updateTrack(id, changes)
+  const mutationFn = (changes: TrackVariables) => updateTrack(id, changes)
 
   return useMutation<
     AxiosResponse<SerializedTrack>,
     AxiosError<Record<string, string[]>>,
     TrackVariables
-  >(mutateFn, {
+  >({
+    mutationFn,
     onSuccess(response) {
       const track = deserialize(response.data)
 
       queryClient.setQueryData(recordQueryKey(id), track)
-      return queryClient.invalidateQueries(pointsQuery(id).queryKey, { exact: true })
+      return queryClient.invalidateQueries({
+        queryKey: pointsQuery(id).queryKey,
+        exact: true
+      })
     }
   })
 }

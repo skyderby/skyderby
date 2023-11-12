@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
 
 import { PlaceRecord, PlaceVariables, collectionEndpoint, recordQueryKey } from './common'
@@ -15,7 +15,8 @@ const useCreatePlaceMutation = () => {
     AxiosResponse<PlaceRecord>,
     AxiosError<Record<string, string[]>>,
     PlaceVariables
-  >(createPlace, {
+  >({
+    mutationFn: createPlace,
     onSuccess(response) {
       queryClient.setQueryData(recordQueryKey(response.data.id), response.data)
     }

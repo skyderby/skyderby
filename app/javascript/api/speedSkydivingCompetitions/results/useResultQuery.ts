@@ -1,4 +1,4 @@
-import { UseQueryResult } from 'react-query'
+import { UseQueryResult } from '@tanstack/react-query'
 import { Result } from './common'
 import useResultsQuery from './useResultsQuery'
 

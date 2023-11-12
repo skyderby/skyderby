@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import client from 'api/client'
 import { elementEndpoint, queryKey } from './common'
 
@@ -8,9 +8,12 @@ const deleteRound = (eventId: number, id: number) =>
 const useDeleteRoundMutation = (eventId: number, id: number) => {
   const queryClient = useQueryClient()
 
-  return useMutation(() => deleteRound(eventId, id), {
+  const mutationFn = () => deleteRound(eventId, id)
+
+  return useMutation({
+    mutationFn,
     onSuccess() {
-      return queryClient.invalidateQueries(queryKey(eventId), { exact: true })
+      return queryClient.invalidateQueries({ queryKey: queryKey(eventId), exact: true })
     }
   })
 }

@@ -4,7 +4,7 @@ import {
   useQueryClient,
   UseQueryOptions,
   UseQueryResult
-} from 'react-query'
+} from '@tanstack/react-query'
 import client from 'api/client'
 
 export interface SuitStatsRecord {
@@ -51,7 +51,10 @@ export const useSuitsStats = async (ids: number[]): Promise<void> => {
 
 export const useSuitStatsQuery = (
   id: number,
-  options: UseQueryOptions<SuitStatsRecord, Error, SuitStatsRecord, QueryKey>
+  options: Omit<
+    UseQueryOptions<SuitStatsRecord, Error, SuitStatsRecord, QueryKey>,
+    'queryKey' | 'queryFn'
+  >
 ): UseQueryResult<SuitStatsRecord | undefined> =>
   useQuery({
     queryKey: queryKey(id),

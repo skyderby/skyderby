@@ -1,4 +1,4 @@
-import { QueryFunction, useQuery, UseQueryOptions } from 'react-query'
+import { QueryFunction, useQuery, UseQueryOptions } from '@tanstack/react-query'
 import client from 'api/client'
 import { AxiosError } from 'axios'
 
@@ -35,13 +35,18 @@ type Options = UseQueryOptions<
   QueryKey
 >
 
-export const teamStandingsQuery = (eventId: number, options: Options = {}): Options => ({
+export const teamStandingsQuery = (
+  eventId: number,
+  options: Omit<Options, 'queryKey' | 'queryFn'> = {}
+): Options => ({
   queryKey: queryKey(eventId),
   queryFn,
   ...options
 })
 
-const useTeamStandingsQuery = (eventId: number, options: Options = {}) =>
-  useQuery(teamStandingsQuery(eventId, options))
+const useTeamStandingsQuery = (
+  eventId: number,
+  options: Omit<Options, 'queryKey' | 'queryFn'> = {}
+) => useQuery(teamStandingsQuery(eventId, options))
 
 export default useTeamStandingsQuery

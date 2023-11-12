@@ -7,7 +7,7 @@ import {
   useQueryClient,
   UseQueryOptions,
   UseQueryResult
-} from 'react-query'
+} from '@tanstack/react-query'
 
 import { trackQuery } from './useTrackQuery'
 import { TrackRecord } from './common'
@@ -64,7 +64,10 @@ const videoQuery = (
 
 export const useTrackVideoQuery = (
   id: number,
-  options: UseQueryOptions<VideoRecord, Error, VideoRecord, VideoQueryKey> = {}
+  options: Omit<
+    UseQueryOptions<VideoRecord, Error, VideoRecord, VideoQueryKey>,
+    'queryKey'
+  > = {}
 ): UseQueryResult<VideoRecord> => useQuery({ ...videoQuery(id), ...options })
 
 interface MutationOptions {
@@ -76,7 +79,8 @@ export const useEditVideoMutation = (
 ): UseMutationResult<AxiosResponse<VideoRecord>, AxiosError, VideoParams> => {
   const queryClient = useQueryClient()
 
-  return useMutation(updateVideo, {
+  return useMutation({
+    mutationFn: updateVideo,
     onSuccess(response, variables) {
       const trackId = variables.id
       const trackQueryKey = trackQuery(trackId).queryKey
@@ -102,9 +106,10 @@ export const useDeleteVideoMutation = (
 ): UseMutationResult<AxiosResponse<VideoRecord>, AxiosError, number> => {
   const queryClient = useQueryClient()
 
-  return useMutation(deleteVideo, {
+  return useMutation({
+    mutationFn: deleteVideo,
     onSuccess(_response, trackId) {
-      queryClient.removeQueries(queryKey(trackId), { exact: true })
+      queryClient.removeQueries({ queryKey: queryKey(trackId), exact: true })
       options?.onSuccess?.()
     }
   })

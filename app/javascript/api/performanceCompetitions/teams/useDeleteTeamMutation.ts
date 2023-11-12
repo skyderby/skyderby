@@ -1,5 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios'
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import client from 'api/client'
 import { competitorsQuery, teamStandingsQuery } from 'api/performanceCompetitions'
 import { elementUrl, queryKey, SerializedTeam, Team } from './common'
@@ -16,7 +16,8 @@ const useDeleteTeamMutation = (eventId: number, id: number) => {
     AxiosResponse<SerializedTeam>,
     AxiosError<Record<string, string[]>>,
     undefined
-  >(mutationFn, {
+  >({
+    mutationFn,
     async onSuccess() {
       await Promise.all([
         queryClient.refetchQueries(teamStandingsQuery(eventId)),

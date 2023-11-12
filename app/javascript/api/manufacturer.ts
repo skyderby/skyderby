@@ -4,7 +4,7 @@ import {
   useQuery,
   UseQueryOptions,
   UseQueryResult
-} from 'react-query'
+} from '@tanstack/react-query'
 import client, { AxiosResponse } from 'api/client'
 import { loadIds } from 'api/helpers'
 
@@ -64,7 +64,10 @@ export const cacheManufacturers = (
   queryClient: QueryClient
 ): void =>
   manufacturers.forEach(manufacturer =>
-    queryClient.setQueryData(recordQueryKey(manufacturer.id), manufacturer)
+    queryClient.setQueryData<ManufacturerRecord>(
+      recordQueryKey(manufacturer.id),
+      manufacturer
+    )
   )
 
 export const preloadManufacturers = async (
@@ -101,7 +104,7 @@ type QueryOptions = UseQueryOptions<
 >
 
 const cacheOptions = {
-  cacheTime: 60 * 60 * 1000,
+  gcTime: 60 * 60 * 1000,
   staleTime: 30 * 60 * 1000
 }
 
@@ -114,7 +117,7 @@ const manufacturerQuery = (id: number | undefined): QueryOptions => ({
 
 export const useManufacturerQuery = (
   id: number | undefined,
-  options: QueryOptions = {}
+  options: Omit<QueryOptions, 'queryKey' | 'queryFn'> = {}
 ): UseQueryResult<ManufacturerRecord> =>
   useQuery({ ...manufacturerQuery(id), ...options })
 
@@ -125,10 +128,13 @@ const manufacturersQuery = () => ({
 })
 
 export const useManufacturersQuery = (
-  options: UseQueryOptions<
-    ManufacturerRecord[],
-    Error,
-    ManufacturerRecord[],
-    CollectionQueryKey
+  options: Omit<
+    UseQueryOptions<
+      ManufacturerRecord[],
+      Error,
+      ManufacturerRecord[],
+      CollectionQueryKey
+    >,
+    'queryKey' | 'queryFn'
   > = {}
 ) => useQuery({ ...manufacturersQuery(), ...options })

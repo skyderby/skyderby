@@ -1,6 +1,6 @@
 import React from 'react'
 import { AxiosError } from 'axios'
-import { UseMutationResult, UseQueryResult } from 'react-query'
+import { UseMutationResult, UseQueryResult } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import { ValueType } from 'react-select'
 import { Formik, Field, FieldArray, FormikHelpers } from 'formik'

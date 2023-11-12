@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import client, { AxiosResponse } from 'api/client'
 import {
   TeamVariables,
@@ -20,13 +20,14 @@ const updateTeam = (eventId: number, id: number, team: TeamVariables) =>
 const useUpdateTeamMutation = (eventId: number, id: number) => {
   const queryClient = useQueryClient()
 
-  const mutateFn = (team: TeamVariables) => updateTeam(eventId, id, team)
+  const mutationFn = (team: TeamVariables) => updateTeam(eventId, id, team)
 
   return useMutation<
     AxiosResponse<SerializedTeam>,
     AxiosError<Record<string, string[]>>,
     TeamVariables
-  >(mutateFn, {
+  >({
+    mutationFn,
     async onSuccess(response) {
       await Promise.all([
         queryClient.refetchQueries(teamStandingsQuery(eventId)),
