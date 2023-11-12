@@ -42,6 +42,8 @@ Skyderby::Application.routes.draw do
   end
 
   namespace :api, module: :api, defaults: { format: :json } do
+    resource :csrf, only: :show, controller: :csrf
+
     namespace :v1, module: :v1 do
       resource :current_user, only: :show
       resources :contributions, only: :index do

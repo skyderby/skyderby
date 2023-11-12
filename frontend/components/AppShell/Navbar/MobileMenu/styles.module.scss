@@ -1,0 +1,97 @@
+@import 'styles/breakpoints';
+
+.mainHeaderItems {
+  display: flex;
+  margin-left: auto;
+
+  @include sm-screen {
+    display: none;
+  }
+}
+
+.titleMenu {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.sidebarContainer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.fade {
+  width: 100%;
+  height: 100%;
+
+  background-color: var(--grey-90);
+  opacity: 0;
+}
+
+.sidebar {
+  position: absolute;
+  top: 0;
+  right: -300px;
+  bottom: 0;
+
+  display: grid;
+  grid-template-rows: 4.5rem 1fr;
+
+  width: 300px;
+
+  border-top-left-radius: var(--border-radius-md);
+  border-bottom-left-radius: var(--border-radius-md);
+
+  overflow: hidden;
+
+  background-color: var(--blue-grey-90);
+  box-shadow: -2px 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.sidebarTitle {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0 1rem;
+
+  background-color: var(--blue-grey-80);
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0 3rem;
+}
+
+.menuItem {
+  padding: 0.5rem 1rem;
+
+  a {
+    display: block;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+    border-left: solid 3px transparent;
+
+    color: var(--white);
+    font-size: 1.25rem;
+  }
+
+  a:global(.active) {
+    border-left: solid 3px var(--blue-70);
+
+    color: var(--blue-70);
+  }
+}
+
+.menuAction {
+  align-self: center;
+  margin-top: auto;
+}
+
+.menuButton {
+  composes: button from '~styles/button.module.scss';
+  composes: sizeLg from '~styles/button.module.scss';
+}
