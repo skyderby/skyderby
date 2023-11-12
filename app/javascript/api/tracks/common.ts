@@ -7,7 +7,7 @@ import { cacheManufacturers, ManufacturerRecord } from 'api/manufacturer'
 import queryClient from 'components/queryClient'
 import { Serialized } from 'api/helpers'
 
-const allowedActivities = ['base', 'skydive', 'speed_skydiving'] as const
+export const allowedActivities = ['base', 'skydive', 'speed_skydiving'] as const
 const allowedVisibilities = ['public_track', 'unlisted_track', 'private_track'] as const
 export type TrackActivity = typeof allowedActivities[number]
 export type TrackVisibility = typeof allowedVisibilities[number]

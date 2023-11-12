@@ -14,7 +14,7 @@ import shuffle from 'utils/shuffle'
 import groupByJumpRun from 'utils/groupByJumpRun'
 import PlayIcon from 'icons/play.svg'
 import StopIcon from 'icons/stop.svg'
-import Player from './Player'
+import Player from 'components/WingsuitPerformancePlayer'
 import GroupSelect, { CompetitorRoundMapData } from './GroupSelect'
 import styles from './styles.module.scss'
 
@@ -126,7 +126,8 @@ const RoundReplay = ({ eventId, roundId }: RoundReplayProps) => {
 
       <Player
         task={round.task}
-        event={event}
+        windowStart={event.rangeFrom}
+        windowEnd={event.rangeTo}
         group={selectedCompetitors}
         playing={playing}
       />

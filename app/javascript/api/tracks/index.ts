@@ -10,7 +10,7 @@ export type {
   FilterTuple,
   FilterKey
 } from './common'
-export { isAllowedActivity, isAllowedSort } from './common'
+export { isAllowedActivity, isAllowedSort, allowedActivities } from './common'
 export * from './urlParams'
 export * from './files'
 
