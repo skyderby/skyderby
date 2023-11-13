@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, startTransition } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import {
   extractParamsFromUrl as extractTrackParamsFromUrl,
@@ -9,7 +9,9 @@ import {
 import isEqual from 'lodash.isequal'
 
 interface FlightProfilesURLParams {
-  tracksParams: Omit<IndexParams, 'filters'> & { filters: FilterTuple[] }
+  tracksParams: Omit<IndexParams, 'filters'> & {
+    filters: FilterTuple[]
+  }
   selectedTracks: number[]
   selectedTerrainProfile: number | null
   additionalTerrainProfiles: number[]
@@ -83,8 +85,10 @@ const usePageParams = () => {
 
   const updateFilters = useCallback(
     (filters: FilterTuple[]) =>
-      navigate(`${location.pathname}${buildUrl({ tracksParams: { filters } })}`, {
-        replace: true
+      startTransition(() => {
+        navigate(`${location.pathname}${buildUrl({ tracksParams: { filters } })}`, {
+          replace: true
+        })
       }),
     [buildUrl, navigate, location.pathname]
   )

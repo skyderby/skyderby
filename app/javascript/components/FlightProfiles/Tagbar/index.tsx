@@ -1,5 +1,4 @@
 import React from 'react'
-import { AnimatePresence } from 'framer-motion'
 
 import TerrainProfileTag from './TerrainProfileTag'
 import TrackTag from './TrackTag'
@@ -21,31 +20,27 @@ const Tagbar = (): JSX.Element => {
   return (
     <div className={styles.container}>
       <ul className={styles.tagList}>
-        <AnimatePresence>
-          {selectedTerrainProfile && (
-            <TerrainProfileTag
-              key="selected-terrain-profile"
-              terrainProfileId={selectedTerrainProfile}
-              onDelete={deleteTerrainProfile}
-            />
-          )}
+        {selectedTerrainProfile && (
+          <TerrainProfileTag
+            key="selected-terrain-profile"
+            terrainProfileId={selectedTerrainProfile}
+            onDelete={deleteTerrainProfile}
+          />
+        )}
 
-          {additionalTerrainProfiles.map(id => (
-            <TerrainProfileTag
-              key={`additional-terrain-profile-${id}`}
-              terrainProfileId={id}
-              onDelete={() => deleteAdditionalTerrainProfile(id)}
-            />
-          ))}
+        {additionalTerrainProfiles.map(id => (
+          <TerrainProfileTag
+            key={`additional-terrain-profile-${id}`}
+            terrainProfileId={id}
+            onDelete={() => deleteAdditionalTerrainProfile(id)}
+          />
+        ))}
 
-          {selectedTracks.map(trackId => (
-            <TrackTag
-              key={trackId}
-              trackId={trackId}
-              onDelete={() => deleteTrack(trackId)}
-            />
-          ))}
-        </AnimatePresence>
+        {selectedTracks.map(trackId => (
+          <React.Suspense fallback={null} key={`track-${trackId}`}>
+            <TrackTag trackId={trackId} onDelete={() => deleteTrack(trackId)} />
+          </React.Suspense>
+        ))}
       </ul>
     </div>
   )
