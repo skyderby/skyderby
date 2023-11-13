@@ -34,14 +34,15 @@ const TerrainClearanceChart = ({
         <>
           <Highchart.Series chart={chart} type="spline" data={[]} />
           {selectedTracks.map((trackId, idx) => (
-            <TerrainClearance
-              key={trackId}
-              chart={chart}
-              trackId={trackId}
-              terrainProfileId={selectedTerrainProfile}
-              color={colorByIndex(idx)}
-              straightLine={straightLine}
-            />
+            <React.Suspense fallback={null} key={trackId}>
+              <TerrainClearance
+                chart={chart}
+                trackId={trackId}
+                terrainProfileId={selectedTerrainProfile}
+                color={colorByIndex(idx)}
+                straightLine={straightLine}
+              />
+            </React.Suspense>
           ))}
         </>
       )}

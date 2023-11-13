@@ -9,7 +9,12 @@ import usePageParams from 'components/FlightProfiles/usePageParams'
 
 type FlightProfilesChartProps = {
   straightLine: boolean
-  onZoomChange: (zoom: { min: number; max: number } | null) => unknown
+  onZoomChange: (
+    zoom: {
+      min: number
+      max: number
+    } | null
+  ) => unknown
 }
 
 const FlightProfilesChart = ({
@@ -27,13 +32,14 @@ const FlightProfilesChart = ({
       {chart => (
         <>
           {selectedTracks.map((trackId, idx) => (
-            <FlightProfile
-              key={trackId}
-              chart={chart}
-              trackId={trackId}
-              straightLine={straightLine}
-              color={colorByIndex(idx)}
-            />
+            <React.Suspense fallback={null} key={trackId}>
+              <FlightProfile
+                chart={chart}
+                trackId={trackId}
+                straightLine={straightLine}
+                color={colorByIndex(idx)}
+              />
+            </React.Suspense>
           ))}
           {selectedTerrainProfile && (
             <TerrainProfile
