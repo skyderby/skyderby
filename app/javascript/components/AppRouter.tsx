@@ -25,26 +25,28 @@ const AppRouter = () => {
   }, [location])
 
   return (
-    <Routes>
-      <Route path="/" element={<AppShell />}>
-        <Route index element={<Landing />} />
-        <Route path="flight_profiles" element={<FlightProfiles />} />
-        <Route path="tracks/*" element={<Tracks />} />
-        <Route path="events/*" element={<Events />} />
-        <Route path="places/*" element={<Places />} />
-        <Route path="suits/*" element={<Suits />} />
-        <Route path="admin/*" element={<Admin />} />
+    <React.Suspense fallback={null}>
+      <Routes>
+        <Route path="/" element={<AppShell />}>
+          <Route index element={<Landing />} />
+          <Route path="flight_profiles" element={<FlightProfiles />} />
+          <Route path="tracks/*" element={<Tracks />} />
+          <Route path="events/*" element={<Events />} />
+          <Route path="places/*" element={<Places />} />
+          <Route path="suits/*" element={<Suits />} />
+          <Route path="admin/*" element={<Admin />} />
 
-        <Route path="*" element={<ErrorPage.NotFound />} />
-      </Route>
+          <Route path="*" element={<ErrorPage.NotFound />} />
+        </Route>
 
-      <Route
-        path="/iframes/events/speed_skydiving/:eventId/results/:resultId"
-        element={<ResultIframe />}
-      />
+        <Route
+          path="/iframes/events/speed_skydiving/:eventId/results/:resultId"
+          element={<ResultIframe />}
+        />
 
-      <Route path="/users/*" element={<Users />} />
-    </Routes>
+        <Route path="/users/*" element={<Users />} />
+      </Routes>
+    </React.Suspense>
   )
 }
 
