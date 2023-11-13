@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 import Item from 'components/TrackListItem'
 import Header from './Header'
@@ -19,19 +19,17 @@ const TrackList = ({ tracks }: TrackListProps): JSX.Element => {
       <div className={styles.table} aria-label="Tracks list">
         <Header />
 
-        <AnimatePresence exitBeforeEnter>
-          <motion.div className={styles.tbody} key={tracks.map(t => t.id).join('-')}>
-            {tracks.map((track, index) => (
-              <Item.Link
-                key={track.id}
-                track={track}
-                delayIndex={index}
-                to={`/tracks/${track.id}`}
-                state={{ returnTo: { ...location } }}
-              />
-            ))}
-          </motion.div>
-        </AnimatePresence>
+        <motion.div className={styles.tbody} key={tracks.map(t => t.id).join('-')}>
+          {tracks.map((track, index) => (
+            <Item.Link
+              key={track.id}
+              track={track}
+              delayIndex={index}
+              to={`/tracks/${track.id}`}
+              state={{ returnTo: { ...location } }}
+            />
+          ))}
+        </motion.div>
       </div>
     </div>
   )

@@ -1,5 +1,4 @@
 import React from 'react'
-import { AnimatePresence } from 'framer-motion'
 
 import { useTracksInfiniteQuery } from 'api/tracks'
 import Item from 'components/TrackListItem'
@@ -38,22 +37,20 @@ const TrackList = (): JSX.Element => {
         onChange={updateFilters}
       />
 
-      <AnimatePresence>
-        {pages.map(({ items: tracks }, idx) => (
-          <React.Fragment key={idx}>
-            {tracks.map((track, index) => (
-              <Item.Button
-                compact
-                key={track.id}
-                track={track}
-                delayIndex={pages.length === 1 ? index : 0}
-                active={selectedTracks.includes(track.id)}
-                onClick={() => toggleTrack(track.id)}
-              />
-            ))}
-          </React.Fragment>
-        ))}
-      </AnimatePresence>
+      {pages.map(({ items: tracks }, idx) => (
+        <React.Fragment key={idx}>
+          {tracks.map((track, index) => (
+            <Item.Button
+              compact
+              key={track.id}
+              track={track}
+              delayIndex={pages.length === 1 ? index : 0}
+              active={selectedTracks.includes(track.id)}
+              onClick={() => toggleTrack(track.id)}
+            />
+          ))}
+        </React.Fragment>
+      ))}
     </div>
   )
 }

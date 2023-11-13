@@ -19,11 +19,9 @@ const TracksIndex = (): JSX.Element => {
   const location = useLocation()
 
   const params = extractParamsFromUrl(location.search)
-  const { data, isLoading } = useTracksQuery(params)
-  const tracks = data?.items ?? []
-  const pagination = isLoading
-    ? null
-    : { page: data?.currentPage, totalPages: data?.totalPages }
+  const {
+    data: { items: tracks = [], currentPage, totalPages }
+  } = useTracksQuery(params)
 
   const buildUrl = (newParams: IndexParams) => mapParamsToUrl({ ...params, ...newParams })
 
@@ -38,7 +36,7 @@ const TracksIndex = (): JSX.Element => {
 
       <TrackList tracks={tracks} />
 
-      {pagination && <Pagination buildUrl={buildUrl} {...pagination} />}
+      <Pagination buildUrl={buildUrl} page={currentPage} totalPages={totalPages} />
     </div>
   )
 }

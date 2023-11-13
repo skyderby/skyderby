@@ -1,11 +1,10 @@
 import client, { AxiosResponse } from 'api/client'
 import parseISO from 'date-fns/parseISO'
 import {
+  useSuspenseQuery,
   QueryClient,
   QueryFunction,
-  useQuery,
-  UseQueryOptions,
-  UseQueryResult
+  UseQueryOptions
 } from '@tanstack/react-query'
 
 export type WindDataRecord = {
@@ -15,7 +14,9 @@ export type WindDataRecord = {
   windDirection: number
 }
 
-type RawRecord = Omit<WindDataRecord, 'actualOn'> & { actualOn: string }
+type RawRecord = Omit<WindDataRecord, 'actualOn'> & {
+  actualOn: string
+}
 type QueryKey = ['trackWindData', number | undefined]
 
 const normalize = (point: RawRecord): WindDataRecord => ({
@@ -55,6 +56,5 @@ export const preloadWindData = (
   id: number | undefined
 ): Promise<void> => queryClient.prefetchQuery(windDataQuery(id))
 
-export const useTrackWindDataQuery = (
-  id: number | undefined
-): UseQueryResult<WindDataRecord[]> => useQuery(windDataQuery(id))
+export const useTrackWindDataQuery = (id: number | undefined) =>
+  useSuspenseQuery<WindDataRecord[], Error, WindDataRecord[], QueryKey>(windDataQuery(id))

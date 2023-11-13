@@ -5,6 +5,7 @@ import ErrorBoundary from 'components/ErrorBoundary'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import styles from './styles.module.scss'
+import Loading from 'components/LoadingSpinner'
 
 const AppShell = (): JSX.Element => {
   return (
@@ -15,9 +16,11 @@ const AppShell = (): JSX.Element => {
 
       <div className={styles.container}>
         <Navbar />
-        <ErrorBoundary>
-          <Outlet />
-        </ErrorBoundary>
+        <React.Suspense fallback={<Loading />}>
+          <ErrorBoundary>
+            <Outlet />
+          </ErrorBoundary>
+        </React.Suspense>
         <Footer />
       </div>
     </>
