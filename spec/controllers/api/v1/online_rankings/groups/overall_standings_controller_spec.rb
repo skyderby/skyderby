@@ -10,8 +10,9 @@ describe Api::V1::OnlineRankings::Groups::OverallStandingsController do
       get :show, params: { group_id: group.id }, format: :json
 
       expect(response).to be_successful
-      expect(response.parsed_body.map { _1['category'] }).to contain_exactly('wingsuit', 'tracksuit')
-      wingsuit_standings = response.parsed_body.find { _1['category'] == 'wingsuit' }
+      standings = response.parsed_body['standings']
+      expect(standings.map { _1['category'] }).to contain_exactly('wingsuit', 'tracksuit')
+      wingsuit_standings = standings.find { _1['category'] == 'wingsuit' }
       expect(wingsuit_standings['rows'].size).to eq(1)
       wingsuit_first_place = wingsuit_standings['rows'].find { _1['rank'] == 1 }
       expect(wingsuit_first_place['profileId']).to eq(profiles(:maynard).id)
@@ -54,6 +55,7 @@ describe Api::V1::OnlineRankings::Groups::OverallStandingsController do
     def create_result(virtual_competition, pilot, suit, result)
       Track.create!(kind: :skydive, pilot:, suit:).then do |track|
         track.virtual_competition_results.create!(wind_cancelled: true, virtual_competition:, result:)
+        track.virtual_competition_results.create!(wind_cancelled: false, virtual_competition:, result:)
       end
     end
   end
