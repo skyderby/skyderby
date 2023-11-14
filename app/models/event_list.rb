@@ -26,7 +26,5 @@ class EventList < ApplicationRecord
 
   private
 
-  def read_only?
-    true
-  end
+  def readonly? = true
 end

@@ -5,6 +5,7 @@ import Landing from 'components/Landing'
 import Admin from 'components/Admin'
 import Tracks from 'components/Tracks'
 import Events from 'components/Events'
+import OnlineRankings from 'components/OnlineRankings'
 import FlightProfiles from 'components/FlightProfiles'
 import Places from 'components/Places'
 import Suits from 'components/Suits'
@@ -32,6 +33,7 @@ const AppRouter = () => {
           <Route path="flight_profiles" element={<FlightProfiles />} />
           <Route path="tracks/*" element={<Tracks />} />
           <Route path="events/*" element={<Events />} />
+          <Route path="online_rankings/*" element={<OnlineRankings />} />
           <Route path="places/*" element={<Places />} />
           <Route path="suits/*" element={<Suits />} />
           <Route path="admin/*" element={<Admin />} />

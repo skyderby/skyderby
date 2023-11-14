@@ -1,0 +1,29 @@
+@import 'styles/breakpoints';
+
+.container {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-rows: min-content min-content 1fr min-content;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+
+  @include lg-screen {
+    grid-template-rows: min-content min-content max-content min-content;
+    width: $bp-large;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  margin: 0;
+
+  font-weight: bold;
+  font-size: 2rem;
+  letter-spacing: 1px;
+}

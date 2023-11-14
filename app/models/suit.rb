@@ -12,9 +12,11 @@
 class Suit < ApplicationRecord
   include Popularity, Stats
 
+  TYPES = %w[wingsuit tracksuit slick monotrack].freeze
+
   attr_accessor :photo
 
-  enum kind: SuitTypes
+  enum kind: TYPES
 
   belongs_to :manufacturer
 

@@ -37,7 +37,7 @@ describe VirtualCompetition::IntervalTopScore do
     end
 
     describe 'when more is better (descending order)' do
-      let!(:competition) { virtual_competitions(:skydive_distance).tap(&:custom_intervals) }
+      let!(:competition) { virtual_competitions(:skydive_distance_wingsuit).tap(&:custom_intervals) }
       let!(:previous_interval) do
         competition.custom_intervals.create!(
           name: '1st month',
@@ -74,7 +74,7 @@ describe VirtualCompetition::IntervalTopScore do
   end
 
   describe 'with wind_cancellation enabled' do
-    let!(:competition) { virtual_competitions(:skydive_distance).tap(&:custom_intervals) }
+    let!(:competition) { virtual_competitions(:skydive_distance_wingsuit).tap(&:custom_intervals) }
     let!(:previous_interval) do
       competition.custom_intervals.create!(
         name: '1st month',

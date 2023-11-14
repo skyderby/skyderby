@@ -22,7 +22,7 @@ const LeftMenu = () => {
   const menuItems = [
     { href: '/tracks', text: t('application.header.tracks') },
     { href: '/events', text: t('application.header.competitions') },
-    { href: '/virtual_competitions', text: t('application.header.online_competitions') },
+    { href: '/online_rankings', text: t('application.header.online_competitions') },
     { href: '/flight_profiles', text: t('flight_profiles.title') }
   ]
 

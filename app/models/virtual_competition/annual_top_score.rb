@@ -26,7 +26,5 @@ class VirtualCompetition::AnnualTopScore < ApplicationRecord
 
   private
 
-  def readonly?
-    true
-  end
+  def readonly? = true
 end
