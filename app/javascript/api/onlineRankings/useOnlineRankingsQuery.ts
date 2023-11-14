@@ -1,10 +1,10 @@
 import {
   QueryClient,
   QueryFunction,
-  useQuery,
   useQueryClient,
-  UseQueryOptions
-} from 'react-query'
+  UseQueryOptions,
+  useSuspenseQuery
+} from '@tanstack/react-query'
 import { AxiosError, AxiosResponse } from 'axios'
 import client from 'api/client'
 import { cachePlaces } from 'api/places'
@@ -36,16 +36,14 @@ const buildQueryFn = (
 }
 
 const useOnlineRankingsQuery = <Type>(
-  options: UseQueryOptions<
-    QueryResult<OnlineRanking>,
-    AxiosError,
-    QueryResult<Type>,
-    QueryKey
+  options: Omit<
+    UseQueryOptions<QueryResult<OnlineRanking>, AxiosError, Type, QueryKey>,
+    'queryKey' | 'queryFn'
   >
 ) => {
   const queryClient = useQueryClient()
 
-  return useQuery<QueryResult<OnlineRanking>, AxiosError, QueryResult<Type>, QueryKey>({
+  return useSuspenseQuery<QueryResult<OnlineRanking>, AxiosError, Type, QueryKey>({
     ...options,
     queryKey,
     queryFn: buildQueryFn(queryClient)

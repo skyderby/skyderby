@@ -1,5 +1,5 @@
 import client, { AxiosResponse } from 'api/client'
-import { QueryFunction, useQuery } from 'react-query'
+import { QueryFunction, useSuspenseQuery } from '@tanstack/react-query'
 import { OnlineRankingGroup } from './common'
 
 type QueryKey = ['onlineRankingGroup', number]
@@ -17,7 +17,7 @@ const queryFn: QueryFunction<OnlineRankingGroup, QueryKey> = ctx => {
 }
 
 const useGroupStandingsQuery = (groupId: number) =>
-  useQuery({
+  useSuspenseQuery({
     queryKey: ['onlineRankingGroup', groupId],
     queryFn
   })

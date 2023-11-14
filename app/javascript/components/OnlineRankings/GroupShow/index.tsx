@@ -1,39 +1,51 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import { useGroupQuery, useGroupStandingsQuery } from 'api/onlineRankings/groups'
-import Loading from 'components/LoadingSpinner'
-import ErrorPage from 'components/ErrorPage'
 import styles from './styles.module.scss'
+import { useOnlineRankingsQuery, OnlineRanking } from 'api/onlineRankings'
+import StandingRow from 'components/OnlineRankings/GroupShow/StandingRow'
 
 const GroupShow = () => {
   const params = useParams()
   const id = Number(params.groupId)
-  const { data: group, isLoading: isGroupLoading } = useGroupQuery(id)
-  const {
-    data: standings,
-    isLoading: isScoresLoading,
-    isError,
-    error
-  } = useGroupStandingsQuery(id)
+  const { data: group } = useGroupQuery(id)
+  const { data: onlineRankings } = useOnlineRankingsQuery<OnlineRanking[]>({
+    select: data => data.items.filter(item => item.groupId === id)
+  })
+  const { data: standings } = useGroupStandingsQuery(id)
 
-  if (isScoresLoading || isGroupLoading) return <Loading />
-  if (isError) return ErrorPage.forError(error, { linkBack: '/online_rankings' })
-  if (!group || !standings) return null
+  const tasks = Array.from(new Set(onlineRankings.map(ranking => ranking.discipline)))
 
   return (
     <div>
       <h2>{group?.name}</h2>
       <table className={styles.scoreboardTable}>
         <thead>
-          <tr></tr>
+          <tr>
+            <th rowSpan={2}>#</th>
+            <th rowSpan={2}>Competitor</th>
+            {tasks.map(task => (
+              <th key={task} colSpan={2}>
+                {task}
+              </th>
+            ))}
+          </tr>
+          <tr>
+            {tasks.map(task => (
+              <React.Fragment key={task}>
+                <th>m</th>
+                <th>%</th>
+              </React.Fragment>
+            ))}
+          </tr>
         </thead>
         {standings.map(categoryStandings => (
           <tbody key={categoryStandings.category}>
-            <tr>{categoryStandings.category}</tr>
+            <tr>
+              <td>{categoryStandings.category}</td>
+            </tr>
             {categoryStandings.rows.map(row => (
-              <tr key={row.rank}>
-                <td>{row.rank}</td>
-              </tr>
+              <StandingRow key={row.rank} row={row} tasks={tasks} />
             ))}
           </tbody>
         ))}

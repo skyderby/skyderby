@@ -1,32 +1,56 @@
 import client, { AxiosResponse } from 'api/client'
-import { QueryFunction, useQuery } from 'react-query'
+import { QueryFunction, useSuspenseQuery } from '@tanstack/react-query'
+import { cacheProfiles, ProfileRecord } from 'api/profiles'
 import { SuitCategory } from 'api/suits'
+import queryClient from 'components/queryClient'
+import { OnlineRanking } from 'api/onlineRankings'
 
 type QueryKey = ['onlineRankingGroupStandings', number]
 
-type GroupStandings = {
-  category: SuitCategory
-  rows: {
-    rank: number
-    profileId: number
-  }[]
+export type GroupStandingsRow = {
+  rank: number
+  profileId: number
+  results: Record<
+    OnlineRanking['discipline'],
+    {
+      result: number
+      points: number
+      suitId: number
+    }
+  >
 }
+
+export type GroupStandings = {
+  category: SuitCategory
+  rows: GroupStandingsRow[]
+}
+
+type GroupStandingsResponse = AxiosResponse<{
+  standings: GroupStandings[]
+  relations: {
+    profiles: ProfileRecord[]
+  }
+}>
 
 const endpoint = (groupId: number) =>
   `/api/v1/online_rankings/groups/${groupId}/overall_standings`
 
 const getStandings = (groupId: number) =>
   client
-    .get<never, AxiosResponse<GroupStandings[]>>(endpoint(groupId))
+    .get<never, GroupStandingsResponse>(endpoint(groupId))
     .then(response => response.data)
 
-const queryFn: QueryFunction<GroupStandings[], QueryKey> = ctx => {
+const queryFn: QueryFunction<GroupStandings[], QueryKey> = async ctx => {
   const [_key, groupId] = ctx.queryKey
-  return getStandings(groupId)
+  const { standings, relations } = await getStandings(groupId)
+
+  cacheProfiles(relations.profiles, queryClient)
+
+  return standings
 }
 
 const useGroupStandingsQuery = (groupId: number) =>
-  useQuery({
+  useSuspenseQuery({
     queryKey: ['onlineRankingGroupStandings', groupId],
     queryFn
   })

@@ -1,5 +1,5 @@
 import { parseISO } from 'date-fns'
-import { QueryClient } from 'react-query'
+import { QueryClient } from '@tanstack/react-query'
 import { Serialized } from 'api/helpers'
 
 type RecordQueryKey = ['onlineRankingGroups', number]
@@ -32,5 +32,8 @@ export const cacheGroups = (
   groups
     .filter(group => !queryClient.getQueryData(recordQueryKey(group.id)))
     .forEach(group =>
-      queryClient.setQueryData(recordQueryKey(group.id), deserialize(group))
+      queryClient.setQueryData<OnlineRankingGroup>(
+        recordQueryKey(group.id),
+        deserialize(group)
+      )
     )

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import {
   useOnlineRankingsQuery,
   groupQueryKey,
@@ -10,21 +10,21 @@ import List from './List'
 import styles from './styles.module.scss'
 import { OnlineRanking } from 'api/onlineRankings/common'
 
-type OnlineRankingWithGroup = OnlineRanking & { group: OnlineRankingGroup }
+type OnlineRankingWithGroup = OnlineRanking & {
+  group: OnlineRankingGroup
+}
 
 const RankingsIndex = () => {
   const { t } = useI18n()
   const queryClient = useQueryClient()
-  const { data, isSuccess } = useOnlineRankingsQuery<OnlineRankingWithGroup>({
-    select: data => ({
-      ...data,
-      items: data.items
+  const { data: items } = useOnlineRankingsQuery<OnlineRankingWithGroup[]>({
+    select: data =>
+      data.items
         .map(item => ({
           ...item,
           group: queryClient.getQueryData(groupQueryKey(item.groupId))
         }))
         .filter((item): item is OnlineRankingWithGroup => Boolean(item.group))
-    })
   })
 
   return (
@@ -33,7 +33,7 @@ const RankingsIndex = () => {
         <h1 className={styles.title}>{t('application.header.online_competitions')}</h1>
       </div>
 
-      {isSuccess && <List items={data.items} />}
+      <List items={items} />
     </div>
   )
 }
