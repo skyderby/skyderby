@@ -19,7 +19,7 @@ describe Api::V1::OnlineRankings::Groups::OverallStandingsController do
         distance: {
           result: 3900,
           points: 100,
-          suitId: suits(:apache).id,
+          suitId: suits(:apache).id
         }
       }.deep_stringify_keys)
     end
