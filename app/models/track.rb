@@ -70,8 +70,10 @@ class Track < ApplicationRecord
 
   has_many :points, -> { order :gps_time_in_seconds }, dependent: :delete_all, inverse_of: :track
   has_many :results, dependent: :destroy
-  has_many :virtual_competition_results, class_name: 'VirtualCompetition::Result', inverse_of: :track
-  has_many :all_virtual_competition_results, class_name: 'VirtualCompetition::Result', dependent: :destroy
+  has_many :virtual_competition_results,
+           class_name: 'VirtualCompetition::Result',
+           inverse_of: :track,
+           dependent: :delete_all
 
   validates :name, presence: true, unless: :pilot
 
@@ -114,7 +116,7 @@ class Track < ApplicationRecord
 
   def delete_results = results.delete_all
 
-  def delete_online_competitions_results = all_virtual_competition_results.delete_all
+  def delete_online_competitions_results = virtual_competition_results.delete_all
 
   def altitude_bounds
     @altitude_bounds ||= begin

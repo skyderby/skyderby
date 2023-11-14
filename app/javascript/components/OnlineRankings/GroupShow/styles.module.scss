@@ -1,5 +1,9 @@
 .container {
+  composes: container from '~styles/scoreboard';
+}
 
+.tableWrapper {
+  composes: tableWrapper from '~styles/scoreboard';
 }
 
 .scoreboardTable {
