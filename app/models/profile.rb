@@ -71,6 +71,8 @@ class Profile < ApplicationRecord
 
   def participant_of_events = organizer_of_events + competitor_of_events
 
+  def contributor? = contribution_details.any?
+
   class << self
     def search(query)
       return all if query.blank?
