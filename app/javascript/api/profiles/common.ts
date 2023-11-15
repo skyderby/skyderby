@@ -9,9 +9,9 @@ export const profileSchema = z.object({
   countryId: z.number().nullable(),
   contributor: z.boolean(),
   photo: z.object({
-    original: z.string().nullable(),
-    medium: z.string().nullable(),
-    thumb: z.string().nullable()
+    original: z.string(),
+    medium: z.string(),
+    thumb: z.string()
   })
 })
 

@@ -30,7 +30,7 @@ type IndexParams = {
   perPage?: number
 }
 
-type RecordQueryKey = ['countries', number | undefined]
+type RecordQueryKey = ['countries', number | null | undefined]
 type IndexQueryKey = [string, IndexParams]
 
 const endpoint = '/api/v1/countries'
@@ -87,7 +87,7 @@ export const preloadCountries = async (
   return countries
 }
 
-export const recordQueryKey = (id: number | undefined): RecordQueryKey => [
+export const recordQueryKey = (id: number | null | undefined): RecordQueryKey => [
   'countries',
   id
 ]
@@ -101,7 +101,7 @@ export const countriesQuery = (
 })
 
 export const countryQuery = (
-  id: number | undefined
+  id: number | null | undefined
 ): UseQueryOptions<CountryRecord, Error, CountryRecord, RecordQueryKey> => ({
   queryKey: recordQueryKey(id),
   queryFn: queryCountry,
@@ -110,7 +110,7 @@ export const countryQuery = (
 })
 
 export const useCountryQuery = (
-  id: number | undefined,
+  id: number | null | undefined,
   options: Omit<
     UseQueryOptions<CountryRecord, Error, CountryRecord, RecordQueryKey>,
     'queryKey' | 'queryFn'
