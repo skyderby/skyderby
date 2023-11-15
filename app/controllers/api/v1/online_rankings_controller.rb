@@ -6,6 +6,12 @@ module Api
 
         @online_rankings = VirtualCompetition.includes(:group, place: :country)
       end
+
+      def show
+        authorize VirtualCompetition
+
+        @online_ranking = VirtualCompetition.find(params[:id])
+      end
     end
   end
 end

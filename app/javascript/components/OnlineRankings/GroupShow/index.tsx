@@ -10,7 +10,7 @@ const GroupShow = () => {
   const id = Number(params.groupId)
   const { data: group } = useGroupQuery(id)
   const { data: onlineRankings } = useOnlineRankingsQuery<OnlineRanking[]>({
-    select: data => data.items.filter(item => item.groupId === id)
+    select: data => data.filter(item => item.groupId === id)
   })
   const { data: standings } = useGroupStandingsQuery(id)
 

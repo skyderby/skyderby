@@ -19,7 +19,7 @@ const RankingsIndex = () => {
   const queryClient = useQueryClient()
   const { data: items } = useOnlineRankingsQuery<OnlineRankingWithGroup[]>({
     select: data =>
-      data.items
+      data
         .map(item => ({
           ...item,
           group: queryClient.getQueryData(groupQueryKey(item.groupId))

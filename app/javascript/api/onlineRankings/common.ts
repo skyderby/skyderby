@@ -1,61 +1,43 @@
-import { parseISO } from 'date-fns'
-import { TrackActivity } from 'api/tracks'
-import { SuitCategory } from 'api/suits'
-import { Serialized } from 'api/helpers'
-import { PlaceRecord } from 'api/places'
-import { CountryRecord } from 'api/countries'
-import { SerializedOnlineRankingGroup } from './groups'
+import { z } from 'zod'
+import { trackActivitiesEnum } from 'api/tracks'
+import { suitCategoriesEnum } from 'api/suits'
 
-type Discipline =
-  | 'time'
-  | 'distance'
-  | 'speed'
-  | 'distance_in_time'
-  | 'distance_in_altitude'
-  | 'flare'
-  | 'base_race'
+const tasks = [
+  'time',
+  'distance',
+  'speed',
+  'distance_in_time',
+  'distance_in_altitude',
+  'flare',
+  'base_race'
+] as const
+const tasksEnum = z.enum(tasks)
+const defaultView = z.enum(['default_overall', 'default_last_year'])
 
-type DefaultView = 'default_overall' | 'default_last_year'
+export const onlineRankingSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  featured: z.boolean(),
+  groupId: z.number(),
+  placeId: z.number().nullable(),
+  finishLineId: z.number().nullable(),
+  jumpsKind: trackActivitiesEnum,
+  suitsKind: suitCategoriesEnum.nullable(),
+  discipline: tasksEnum,
+  disciplineParameter: z.number().nullable(),
+  defaultView,
+  displayHighestSpeed: z.boolean(),
+  displayHighestGr: z.boolean(),
+  periodFrom: z.coerce.date(),
+  periodTo: z.coerce.date(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+  permissions: z.object({
+    canEdit: z.boolean()
+  })
+})
 
-export interface OnlineRanking {
-  id: number
-  name: string
-  featured: boolean
-  groupId: number
-  placeId: number
-  finishLineId: number
-  jumpsKind: TrackActivity
-  suitsKind: SuitCategory
-  discipline: Discipline
-  disciplineParameter: number
-  rangeFrom: number
-  rangeTo: number
-  displayHighestSpeed: boolean
-  displayHighestGr: boolean
-  defaultView: DefaultView
-  periodFrom: Date
-  periodTo: Date
-  createdAt: Date
-  updatedAt: Date
-}
-
-export type SerializedOnlineRanking = Serialized<OnlineRanking>
-
-export interface IndexResponse {
-  items: SerializedOnlineRanking[]
-  relations: {
-    places: PlaceRecord[]
-    countries: CountryRecord[]
-    groups: SerializedOnlineRankingGroup[]
-  }
-}
+export type OnlineRanking = z.infer<typeof onlineRankingSchema>
 
 export const collectionEndpoint = '/api/v1/online_rankings'
-
-export const deserialize = (record: SerializedOnlineRanking): OnlineRanking => ({
-  ...record,
-  periodFrom: parseISO(record.periodFrom),
-  periodTo: parseISO(record.periodFrom),
-  createdAt: parseISO(record.createdAt),
-  updatedAt: parseISO(record.updatedAt)
-})
+export const elementEndpoint = (id: number) => `${collectionEndpoint}/${id}`
