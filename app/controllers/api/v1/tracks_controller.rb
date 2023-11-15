@@ -71,7 +71,7 @@ module Api
             :distance,
             :speed,
             :time,
-            pilot: :country,
+            pilot: [:country, :contribution_details],
             place: [:country],
             suit: [:manufacturer]
       end

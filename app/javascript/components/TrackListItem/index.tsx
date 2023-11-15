@@ -5,9 +5,8 @@ import cx from 'clsx'
 
 import SuitLabel from 'components/SuitLabel'
 import PlaceLabel from 'components/PlaceLabel'
-
+import ProfileName from 'components/ProfileName'
 import { useManufacturerQuery } from 'api/manufacturer'
-import { useProfileQuery } from 'api/profiles'
 import { useSuitQuery } from 'api/suits'
 import { TrackIndexRecord } from 'api/tracks'
 import styles from './styles.module.scss'
@@ -19,15 +18,15 @@ type DetailsProps = {
 const ItemDetails = ({ track }: DetailsProps): JSX.Element => {
   const { data: suit } = useSuitQuery(track.suitId, { enabled: false })
   const { data: manufacturer } = useManufacturerQuery(suit?.makeId, { enabled: false })
-  const { data: profile } = useProfileQuery(track.profileId, { enabled: false })
 
   const suitName = suit?.name ?? track.missingSuitName
-  const name = profile?.name ?? track.pilotName
 
   return (
     <>
       <div className={styles.id}>{track.id}</div>
-      <div className={styles.pilot}>{name}</div>
+      <div className={styles.pilot}>
+        {track.profileId ? <ProfileName id={track.profileId} /> : track.pilotName}
+      </div>
       <div className={styles.suit}>
         <SuitLabel name={suitName} code={manufacturer?.code} />
       </div>

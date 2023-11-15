@@ -5,15 +5,18 @@ import {
   UseQueryOptions,
   QueryFunction
 } from '@tanstack/react-query'
+import { z } from 'zod'
 
 import client from 'api/client'
 import { loadIds, urlWithParams } from 'api/helpers'
 
-export type CountryRecord = {
-  id: number
-  name: string
-  code: string
-}
+export const countrySchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  code: z.string()
+})
+
+export type CountryRecord = z.infer<typeof countrySchema>
 
 type CountriesIndex = {
   items: CountryRecord[]

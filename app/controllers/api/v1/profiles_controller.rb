@@ -5,6 +5,7 @@ module Api
         @profiles =
           Profile
           .order(:name)
+          .includes(:country)
           .then { |relation| apply_filters(relation) }
           .paginate(page: current_page, per_page: rows_per_page)
       end

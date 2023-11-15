@@ -1,6 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-
+import ProfileName from 'components/ProfileName'
 import { useProfileQuery } from 'api/profiles'
 import styles from './styles.module.scss'
 
@@ -18,19 +17,14 @@ const Profile = ({
   const { data: profile } = useProfileQuery(profileId, { enabled: false })
   const photoUrl = profile?.photo?.thumb ?? defaultPhotoUrl
 
-  const pilotName = profileId ? profile?.name : userProvidedName
-
   return (
     <div className={styles.profile}>
       <img src={photoUrl} alt="profile photo" />
-      <div className={styles.pilot}>{pilotName}</div>
+      <div className={styles.pilot}>
+        {profileId ? <ProfileName id={profileId} /> : userProvidedName}
+      </div>
     </div>
   )
-}
-
-Profile.propTypes = {
-  profileId: PropTypes.number,
-  pilotName: PropTypes.string
 }
 
 export default Profile

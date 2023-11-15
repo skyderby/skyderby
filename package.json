@@ -180,7 +180,8 @@
     "webpack-cli": "4",
     "webpack-merge": "5",
     "webpack-virtual-modules": "^0.3.0",
-    "yup": "^0.32.8"
+    "yup": "^0.32.8",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
