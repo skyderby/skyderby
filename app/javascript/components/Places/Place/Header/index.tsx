@@ -1,13 +1,13 @@
 import React from 'react'
 
 import { useI18n } from 'components/TranslationsProvider'
-import { PlaceRecord } from 'api/places'
+import { Place } from 'api/places'
 import PlaceIcon from 'icons/location.svg'
 import Navbar from './Navbar'
 import styles from './styles.module.scss'
 
 type HeaderProps = {
-  place: PlaceRecord
+  place: Place
 }
 
 const Header = ({ place }: HeaderProps): JSX.Element => {

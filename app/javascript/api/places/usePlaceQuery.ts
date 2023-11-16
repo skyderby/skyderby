@@ -12,19 +12,19 @@ import {
   cacheOptions,
   elementEndpoint,
   recordQueryKey,
-  PlaceRecord,
+  Place,
   RecordQueryKey
 } from './common'
 import { preloadCountries } from 'api/countries'
 
-const getPlace = (id: number): Promise<PlaceRecord> =>
+const getPlace = (id: number): Promise<Place> =>
   client
-    .get<never, AxiosResponse<PlaceRecord>>(elementEndpoint(id))
+    .get<never, AxiosResponse<Place>>(elementEndpoint(id))
     .then(response => response.data)
 
 const buildQueryFn = (
   queryClient: QueryClient
-): QueryFunction<PlaceRecord, RecordQueryKey> => async ctx => {
+): QueryFunction<Place, RecordQueryKey> => async ctx => {
   const [_key, id] = ctx.queryKey
 
   if (typeof id !== 'number') {
@@ -38,7 +38,7 @@ const buildQueryFn = (
   return place
 }
 
-type QueryOptions = UseQueryOptions<PlaceRecord, AxiosError, PlaceRecord, RecordQueryKey>
+type QueryOptions = UseQueryOptions<Place, AxiosError, Place, RecordQueryKey>
 
 export const placeQuery = (
   id: number | null | undefined,
@@ -53,7 +53,7 @@ export const placeQuery = (
 const usePlaceQuery = (
   id: number | null | undefined,
   options: Omit<QueryOptions, 'queryKey' | 'queryFn'> = {}
-): UseQueryResult<PlaceRecord, AxiosError> => {
+): UseQueryResult<Place, AxiosError> => {
   const queryClient = useQueryClient()
 
   return useQuery({

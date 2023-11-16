@@ -1,6 +1,6 @@
 import { parseISO } from 'date-fns'
 import { z } from 'zod'
-import { cachePlaces, PlaceRecord } from 'api/places'
+import { cachePlaces, Place } from 'api/places'
 import { cacheSuits, SuitRecord } from 'api/suits'
 import { cacheProfiles, ProfileRecord } from 'api/profiles'
 import { cacheCountries, CountryRecord } from 'api/countries'
@@ -73,7 +73,7 @@ export type TrackVariables = Partial<{
 
 export interface TrackRelations {
   countries: CountryRecord[]
-  places: PlaceRecord[]
+  places: Place[]
   suits: SuitRecord[]
   manufacturers: ManufacturerRecord[]
   profiles: ProfileRecord[]

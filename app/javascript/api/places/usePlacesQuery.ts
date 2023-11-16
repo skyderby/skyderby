@@ -6,7 +6,7 @@ import {
 } from '@tanstack/react-query'
 import {
   IndexParams,
-  PlaceRecord,
+  Place,
   PlacesIndex,
   buildUrl,
   cacheOptions,
@@ -47,13 +47,11 @@ export const placesQuery = (
   ...cacheOptions
 })
 
-const usePlaces = (ids: number[]): PlaceRecord[] => {
+const usePlaces = (ids: number[]): Place[] => {
   const queryClient = useQueryClient()
   return ids
-    .map(id =>
-      id ? queryClient.getQueryData<PlaceRecord>(recordQueryKey(id)) : undefined
-    )
-    .filter((record): record is PlaceRecord => record !== undefined)
+    .map(id => (id ? queryClient.getQueryData<Place>(recordQueryKey(id)) : undefined))
+    .filter((record): record is Place => record !== undefined)
 }
 
 export default usePlaces

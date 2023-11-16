@@ -6,7 +6,7 @@ import type { ValueType } from 'react-select'
 import type { UseMutationResult } from '@tanstack/react-query'
 import type { AxiosError, AxiosResponse } from 'axios'
 
-import { PlaceRecord, PlaceVariables } from 'api/places'
+import { Place, PlaceVariables } from 'api/places'
 import ErrorText from 'components/ui/ErrorMessage'
 import { useI18n } from 'components/TranslationsProvider'
 import CountrySelect from 'components/CountrySelect'
@@ -18,12 +18,12 @@ import RequestErrorToast from 'components/RequestErrorToast'
 type FormProps = {
   initialValues: PlaceVariables
   mutation: UseMutationResult<
-    AxiosResponse<PlaceRecord>,
+    AxiosResponse<Place>,
     AxiosError<Record<string, string[]>>,
     PlaceVariables
   >
   deleteMutation?: UseMutationResult<
-    AxiosResponse<PlaceRecord>,
+    AxiosResponse<Place>,
     AxiosError<Record<string, string[]>>,
     void
   >

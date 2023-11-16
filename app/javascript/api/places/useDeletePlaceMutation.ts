@@ -1,24 +1,20 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
 
-import { PlaceRecord, elementEndpoint, recordQueryKey, allPlacesQueryKey } from './common'
+import { Place, elementEndpoint, recordQueryKey, allPlacesQueryKey } from './common'
 
-const deletePlace = (id: number): Promise<AxiosResponse<PlaceRecord>> =>
-  client.delete<never, AxiosResponse<PlaceRecord>>(elementEndpoint(id))
+const deletePlace = (id: number): Promise<AxiosResponse<Place>> =>
+  client.delete<never, AxiosResponse<Place>>(elementEndpoint(id))
 
-const useUpdatePlaceMutation = (placeId: number) => {
+const useDeletePlaceMutation = (placeId: number) => {
   const queryClient = useQueryClient()
 
   const mutationFn = () => deletePlace(placeId)
 
-  return useMutation<
-    AxiosResponse<PlaceRecord>,
-    AxiosError<Record<string, string[]>>,
-    void
-  >({
+  return useMutation<AxiosResponse<Place>, AxiosError<Record<string, string[]>>, void>({
     mutationFn,
     onSuccess() {
-      const places = queryClient.getQueryData<PlaceRecord[]>(allPlacesQueryKey) ?? []
+      const places = queryClient.getQueryData<Place[]>(allPlacesQueryKey) ?? []
       queryClient.setQueryData(
         allPlacesQueryKey,
         places.filter(place => place.id !== placeId)
@@ -28,4 +24,4 @@ const useUpdatePlaceMutation = (placeId: number) => {
   })
 }
 
-export default useUpdatePlaceMutation
+export default useDeletePlaceMutation
