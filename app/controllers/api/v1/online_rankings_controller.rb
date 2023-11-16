@@ -4,7 +4,7 @@ module Api
       def index
         authorize VirtualCompetition
 
-        @online_rankings = VirtualCompetition.includes(:group, place: :country)
+        @online_rankings = VirtualCompetition.includes(:group, :custom_intervals, place: :country)
       end
 
       def show

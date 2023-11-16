@@ -30,6 +30,14 @@ export const onlineRankingSchema = z.object({
   displayHighestGr: z.boolean(),
   periodFrom: z.coerce.date(),
   periodTo: z.coerce.date(),
+  intervalType: z.enum(['annual', 'custom_intervals']),
+  years: z.array(z.number()),
+  intervals: z.array(
+    z.object({
+      name: z.string(),
+      slug: z.string()
+    })
+  ),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
   permissions: z.object({

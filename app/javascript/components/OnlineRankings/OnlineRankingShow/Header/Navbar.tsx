@@ -26,6 +26,22 @@ const Navbar = ({ onlineRanking }: Props) => {
         </NavLink>
       </PageNavbar.Item>
 
+      {onlineRanking.intervalType === 'annual'
+        ? onlineRanking.years.map(year => (
+            <PageNavbar.Item key={year}>
+              <NavLink to={`${eventUrl}/year/${year}`}>
+                <span>{year}</span>
+              </NavLink>
+            </PageNavbar.Item>
+          ))
+        : onlineRanking.intervals.map(interval => (
+            <PageNavbar.Item key={interval.slug}>
+              <NavLink to={`${eventUrl}/interval/${interval.slug}`}>
+                <span>{interval.name}</span>
+              </NavLink>
+            </PageNavbar.Item>
+          ))}
+
       {onlineRanking.permissions.canEdit && (
         <>
           <PageNavbar.Spacer />

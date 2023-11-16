@@ -16,7 +16,13 @@ json.extract! online_ranking,
               :display_highest_speed,
               :display_highest_gr,
               :display_on_start_page,
-              :default_view
+              :default_view,
+              :interval_type,
+              :years
+
+json.intervals online_ranking.intervals do |interval|
+  json.extract! interval, :name, :slug
+end
 
 json.created_at online_ranking.created_at.iso8601
 json.updated_at online_ranking.updated_at.iso8601
