@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { OnlineRanking, OnlineRankingGroup } from 'api/onlineRankings'
+import { useI18n } from 'components/TranslationsProvider'
+import styles from './styles.module.scss'
 
 type OnlineRankingWithGroup = OnlineRanking & { group: OnlineRankingGroup }
 
@@ -23,6 +25,7 @@ const groupRankings = (
 }
 
 const List = ({ items }: ListProps) => {
+  const { t } = useI18n()
   const featured = items
     .filter(item => item.featured || item.group.featured)
     .reduce(groupRankings, new Map<OnlineRankingGroup, OnlineRankingWithGroup[]>())
@@ -33,43 +36,58 @@ const List = ({ items }: ListProps) => {
 
   return (
     <>
-      <h2>Featured</h2>
-      <ul>
+      <div className={styles.group}>
         {Array.from(featured).map(([group, rankings]) => (
-          <React.Fragment key={group.id}>
+          <React.Fragment key={`group-${group.id}`}>
             {group.cumulative ? (
-              <li key={group.id}>
-                <Link to={`/online_rankings/groups/${group.id}`}>
-                  {group.name}.
-                  <br />
+              <Link to={`/online_rankings/groups/${group.id}`} className={styles.card}>
+                <div className={styles.title}>⭐&nbsp;{group.name}</div>
+                <div className={styles.description}>
                   Cumulative scoreboard from {rankings.length} competitions
-                </Link>
-              </li>
+                </div>
+              </Link>
             ) : (
               <>
                 {rankings.map(ranking => (
-                  <li key={ranking.id}>
-                    <Link to={`/online_rankings/${ranking.id}`}>{ranking.name}</Link>
-                  </li>
+                  <Link
+                    to={`/online_rankings/${ranking.id}`}
+                    className={styles.card}
+                    key={ranking.id}
+                  >
+                    <div className={styles.title}>⭐&nbsp;{ranking.name}</div>
+                    <div className={styles.description}>
+                      {t(`virtual_competitions.tasks.${ranking.discipline}`, {
+                        parameter: ranking.disciplineParameter
+                      })}
+                    </div>
+                  </Link>
                 ))}
               </>
             )}
           </React.Fragment>
         ))}
-      </ul>
+      </div>
 
-      <h2>All</h2>
       {Array.from(groupedRankings).map(([group, rankings]) => (
-        <div key={group.id}>
+        <>
           <h3>{group.name}</h3>
-          <ul>
+          <div key={group.id} className={styles.group}>
             {rankings.map(ranking => (
-              <li key={ranking.id}>
-                <Link to={`/online_rankings/${ranking.id}`}>{ranking.name}</Link>
-              </li>
+              <Link
+                to={`/online_rankings/${ranking.id}`}
+                className={styles.card}
+                key={ranking.id}
+              >
+                <div className={styles.title}>{ranking.name}</div>
+                <div className={styles.description}>
+                  {t(`virtual_competitions.tasks.${ranking.discipline}`, {
+                    parameter: ranking.disciplineParameter
+                  })}
+                </div>
+              </Link>
             ))}
-          </ul>
-        </div>
+          </div>
+        </>
       ))}
     </>
   )
