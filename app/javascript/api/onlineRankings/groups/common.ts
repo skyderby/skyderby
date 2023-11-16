@@ -9,7 +9,10 @@ export const onlineRankingGroupSchema = z.object({
   cumulative: z.boolean(),
   featured: z.boolean(),
   createdAt: z.coerce.date(),
-  updatedAt: z.coerce.date()
+  updatedAt: z.coerce.date(),
+  permissions: z.object({
+    canEdit: z.boolean()
+  })
 })
 
 export type OnlineRankingGroup = z.infer<typeof onlineRankingGroupSchema>
