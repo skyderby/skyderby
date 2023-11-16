@@ -21,7 +21,7 @@ export const onlineRankingSchema = z.object({
   groupId: z.number(),
   placeId: z.number().nullable(),
   finishLineId: z.number().nullable(),
-  jumpsKind: trackActivitiesEnum,
+  jumpsKind: trackActivitiesEnum.nullable(),
   suitsKind: suitCategoriesEnum.nullable(),
   discipline: tasksEnum,
   disciplineParameter: z.number().nullable(),
