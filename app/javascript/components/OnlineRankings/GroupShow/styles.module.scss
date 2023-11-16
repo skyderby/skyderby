@@ -1,4 +1,10 @@
 .container {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-rows: min-content max-content;
+}
+
+.scoreboardContainer {
   composes: container from '~styles/scoreboard';
 }
 

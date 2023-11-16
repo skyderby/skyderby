@@ -3,10 +3,10 @@ import { NavLink } from 'react-router-dom'
 
 import PageNavbar from 'components/PageNavbar'
 import CogIcon from 'icons/cog.svg'
-import type { PlaceRecord } from 'api/places'
+import type { Place } from 'api/places'
 
 type NavbarProps = {
-  place: PlaceRecord
+  place: Place
 }
 
 const Navbar = ({ place }: NavbarProps): JSX.Element => {

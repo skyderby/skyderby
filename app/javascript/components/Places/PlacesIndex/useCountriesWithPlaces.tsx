@@ -1,9 +1,9 @@
 import { CountryRecord, recordQueryKey } from 'api/countries'
 import { useQueryClient } from '@tanstack/react-query'
-import { PlaceRecord } from 'api/places'
+import { Place } from 'api/places'
 
 const useCountriesWithPlaces = (
-  places: PlaceRecord[],
+  places: Place[],
   searchTerm: string,
   bounds: google.maps.LatLngBounds | null | undefined
 ) => {

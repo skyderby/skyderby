@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
 
-import { PlaceRecord, PlaceVariables, collectionEndpoint, recordQueryKey } from './common'
+import { Place, PlaceVariables, collectionEndpoint, recordQueryKey } from './common'
 
-const createPlace = (place: PlaceVariables): Promise<AxiosResponse<PlaceRecord>> =>
-  client.post<{ place: PlaceVariables }, AxiosResponse<PlaceRecord>>(collectionEndpoint, {
+const createPlace = (place: PlaceVariables): Promise<AxiosResponse<Place>> =>
+  client.post<{ place: PlaceVariables }, AxiosResponse<Place>>(collectionEndpoint, {
     place
   })
 
@@ -12,7 +12,7 @@ const useCreatePlaceMutation = () => {
   const queryClient = useQueryClient()
 
   return useMutation<
-    AxiosResponse<PlaceRecord>,
+    AxiosResponse<Place>,
     AxiosError<Record<string, string[]>>,
     PlaceVariables
   >({

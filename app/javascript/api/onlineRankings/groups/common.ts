@@ -1,39 +1,30 @@
-import { parseISO } from 'date-fns'
+import { z } from 'zod'
 import { QueryClient } from '@tanstack/react-query'
-import { Serialized } from 'api/helpers'
 
 type RecordQueryKey = ['onlineRankingGroups', number]
 
-export interface OnlineRankingGroup {
-  id: number
-  name: string
-  cumulative: boolean
-  featured: boolean
-  createdAt: Date
-  updatedAt: Date
-}
+export const onlineRankingGroupSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  cumulative: z.boolean(),
+  featured: z.boolean(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
+  permissions: z.object({
+    canEdit: z.boolean()
+  })
+})
 
-export type SerializedOnlineRankingGroup = Serialized<OnlineRankingGroup>
+export type OnlineRankingGroup = z.infer<typeof onlineRankingGroupSchema>
 
 export const recordQueryKey = (id: number): RecordQueryKey => ['onlineRankingGroups', id]
 
-export const deserialize = (
-  record: SerializedOnlineRankingGroup
-): OnlineRankingGroup => ({
-  ...record,
-  createdAt: parseISO(record.createdAt),
-  updatedAt: parseISO(record.updatedAt)
-})
-
 export const cacheGroups = (
-  groups: SerializedOnlineRankingGroup[],
+  groups: OnlineRankingGroup[],
   queryClient: QueryClient
 ): void =>
   groups
     .filter(group => !queryClient.getQueryData(recordQueryKey(group.id)))
     .forEach(group =>
-      queryClient.setQueryData<OnlineRankingGroup>(
-        recordQueryKey(group.id),
-        deserialize(group)
-      )
+      queryClient.setQueryData<OnlineRankingGroup>(recordQueryKey(group.id), group)
     )

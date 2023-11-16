@@ -8,7 +8,7 @@ import {
 } from '@tanstack/react-query'
 import client from 'api/client'
 
-import { cachePlaces, PlaceRecord } from 'api/places'
+import { cachePlaces, Place } from 'api/places'
 import { cacheCountries, CountryRecord } from 'api/countries'
 import parseISO from 'date-fns/parseISO'
 
@@ -65,7 +65,7 @@ type RawEventIndexRecord = Omit<
 }
 
 type EventRelations = {
-  places: PlaceRecord[]
+  places: Place[]
   countries: CountryRecord[]
 }
 

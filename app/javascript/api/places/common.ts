@@ -1,38 +1,43 @@
 import { QueryClient } from '@tanstack/react-query'
-import { CountryRecord } from 'api/countries'
+import { z } from 'zod'
+import { countrySchema } from 'api/countries'
 
 export const placeTypes = ['base', 'skydive'] as const
-export type PlaceKind = typeof placeTypes[number]
+const placeTypesEnum = z.enum(placeTypes)
+export type PlaceKind = z.infer<typeof placeTypesEnum>
 
-type PlacePhoto = {
-  id: number
-  large: string
-  thumb: string
-}
+const placePhotoSchema = z.object({
+  id: z.number(),
+  large: z.string(),
+  thumb: z.string()
+})
 
-export type PlaceRecord = {
-  id: number
-  name: string
-  countryId: number
-  msl: number | null
-  kind: PlaceKind
-  latitude: number
-  longitude: number
-  permissions: {
-    canEdit: boolean
-  }
-  cover?: string
-  photos?: PlacePhoto[]
-}
+export const placeSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  countryId: z.number(),
+  msl: z.number().nullable(),
+  kind: placeTypesEnum,
+  latitude: z.number(),
+  longitude: z.number(),
+  permissions: z.object({
+    canEdit: z.boolean()
+  }),
+  cover: z.string().optional(),
+  photos: z.array(placePhotoSchema).optional()
+})
 
-export interface PlacesIndex {
-  items: PlaceRecord[]
-  currentPage: number
-  totalPages: number
-  relations: {
-    countries: CountryRecord[]
-  }
-}
+export const placesIndexSchema = z.object({
+  items: z.array(placeSchema),
+  currentPage: z.number(),
+  totalPages: z.number(),
+  relations: z.object({
+    countries: z.array(countrySchema)
+  })
+})
+
+export type Place = z.infer<typeof placeSchema>
+export type PlacesIndex = z.infer<typeof placesIndexSchema>
 
 export type IndexParams = {
   search?: string
@@ -80,9 +85,7 @@ export const buildUrl = (params: IndexParams = {}): string => {
   return `${collectionEndpoint}?${urlParams.toString()}`
 }
 
-export const cachePlaces = (places: PlaceRecord[], queryClient: QueryClient): void =>
+export const cachePlaces = (places: Place[], queryClient: QueryClient): void =>
   places
     .filter(place => !queryClient.getQueryData(recordQueryKey(place.id)))
-    .forEach(place =>
-      queryClient.setQueryData<PlaceRecord>(recordQueryKey(place.id), place)
-    )
+    .forEach(place => queryClient.setQueryData<Place>(recordQueryKey(place.id), place))

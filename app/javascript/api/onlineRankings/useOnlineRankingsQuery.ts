@@ -1,53 +1,50 @@
-import {
-  QueryClient,
-  QueryFunction,
-  useQueryClient,
-  UseQueryOptions,
-  useSuspenseQuery
-} from '@tanstack/react-query'
-import { AxiosError, AxiosResponse } from 'axios'
+import { QueryFunction, UseQueryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import client from 'api/client'
-import { cachePlaces } from 'api/places'
-import { cacheCountries } from 'api/countries'
-import { IndexResponse, OnlineRanking, deserialize, collectionEndpoint } from './common'
-import { cacheGroups } from './groups'
+import queryClient from 'components/queryClient'
+import { cachePlaces, placeSchema } from 'api/places'
+import { cacheCountries, countrySchema } from 'api/countries'
+import { cacheGroups, onlineRankingGroupSchema } from './groups'
+import { OnlineRanking, collectionEndpoint, onlineRankingSchema } from './common'
+import { z } from 'zod'
 
 type QueryKey = ['onlineRankings']
 const queryKey: QueryKey = ['onlineRankings']
 
-type QueryResult<T = OnlineRanking> = Omit<IndexResponse, 'items' | 'relations'> & {
-  items: T[]
-}
+const indexResponseSchema = z.object({
+  data: z.array(onlineRankingSchema),
+  relations: z.object({
+    places: z.array(placeSchema),
+    countries: z.array(countrySchema),
+    groups: z.array(onlineRankingGroupSchema)
+  })
+})
+
 const getRankings = () =>
   client
-    .get<never, AxiosResponse<IndexResponse>>(collectionEndpoint)
-    .then(response => response.data)
+    .get(collectionEndpoint)
+    .then(response => indexResponseSchema.parse(response.data))
 
-const buildQueryFn = (
-  queryClient: QueryClient
-): QueryFunction<QueryResult, QueryKey> => async () => {
-  const { items, relations, ...rest } = await getRankings()
+const queryFn: QueryFunction<OnlineRanking[], QueryKey> = async () => {
+  const { data, relations } = await getRankings()
 
   cachePlaces(relations.places, queryClient)
   cacheCountries(relations.countries, queryClient)
   cacheGroups(relations.groups, queryClient)
 
-  return { items: items.map(deserialize), ...rest }
+  return data
 }
 
-const useOnlineRankingsQuery = <Type>(
+const useOnlineRankingsQuery = <Type = OnlineRanking[]>(
   options: Omit<
-    UseQueryOptions<QueryResult<OnlineRanking>, AxiosError, Type, QueryKey>,
+    UseQueryOptions<OnlineRanking[], AxiosError, Type, QueryKey>,
     'queryKey' | 'queryFn'
   >
-) => {
-  const queryClient = useQueryClient()
-
-  return useSuspenseQuery<QueryResult<OnlineRanking>, AxiosError, Type, QueryKey>({
+) =>
+  useSuspenseQuery<OnlineRanking[], AxiosError, Type, QueryKey>({
     ...options,
     queryKey,
-    queryFn: buildQueryFn(queryClient)
+    queryFn
   })
-}
 
 export default useOnlineRankingsQuery

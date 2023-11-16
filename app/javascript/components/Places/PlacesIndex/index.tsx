@@ -6,7 +6,7 @@ import debounce from 'lodash.debounce'
 
 import Map from 'components/Map'
 import useGoogleMapsApi from 'utils/useGoogleMapsApi'
-import { PlaceRecord, useAllPlacesQuery } from 'api/places'
+import { Place, useAllPlacesQuery } from 'api/places'
 import { useCurrentUserQuery } from 'api/sessions'
 import LocateIcon from 'icons/locate'
 import CompassIcon from 'icons/compass'
@@ -23,7 +23,7 @@ const PlacesIndex = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [bounds, setBounds] = useState<google.maps.LatLngBounds | null | undefined>()
   const [selectedPlace, setSelectedPlace] = useState<{
-    place: PlaceRecord
+    place: Place
     marker: google.maps.Marker
   } | null>(null)
   const google = useGoogleMapsApi()
@@ -98,7 +98,7 @@ const PlacesIndex = () => {
   }, [navigate])
 
   const zoomTo = useCallback(
-    (place: PlaceRecord) => {
+    (place: Place) => {
       if (!map || !google) return
       map.setZoom(10)
       map.panTo({ lat: place.latitude, lng: place.longitude })

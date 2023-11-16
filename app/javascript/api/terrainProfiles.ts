@@ -7,7 +7,7 @@ import {
   UseQueryResult
 } from '@tanstack/react-query'
 import client from 'api/client'
-import { cachePlaces, PlaceRecord } from 'api/places'
+import { cachePlaces, Place } from 'api/places'
 
 type TerrainProfileRecord = {
   id: number
@@ -18,7 +18,7 @@ type TerrainProfileRecord = {
 type TerrainProfilesIndex = {
   items: TerrainProfileRecord[]
   relations: {
-    places: PlaceRecord[]
+    places: Place[]
   }
 }
 

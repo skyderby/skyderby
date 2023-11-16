@@ -2,18 +2,15 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
 
 import {
-  PlaceRecord,
+  Place,
   PlaceVariables,
   elementEndpoint,
   recordQueryKey,
   allPlacesQueryKey
 } from './common'
 
-const updatePlace = (
-  id: number,
-  place: PlaceVariables
-): Promise<AxiosResponse<PlaceRecord>> =>
-  client.put<{ place: PlaceVariables }, AxiosResponse<PlaceRecord>>(elementEndpoint(id), {
+const updatePlace = (id: number, place: PlaceVariables): Promise<AxiosResponse<Place>> =>
+  client.put<{ place: PlaceVariables }, AxiosResponse<Place>>(elementEndpoint(id), {
     place
   })
 
@@ -23,13 +20,13 @@ const useUpdatePlaceMutation = (placeId: number) => {
   const mutationFn = (place: PlaceVariables) => updatePlace(placeId, place)
 
   return useMutation<
-    AxiosResponse<PlaceRecord>,
+    AxiosResponse<Place>,
     AxiosError<Record<string, string[]>>,
     PlaceVariables
   >({
     mutationFn,
     onSuccess(response) {
-      const places = queryClient.getQueryData<PlaceRecord[]>(allPlacesQueryKey) ?? []
+      const places = queryClient.getQueryData<Place[]>(allPlacesQueryKey) ?? []
       queryClient.setQueryData(
         allPlacesQueryKey,
         places.map(place => (place.id === placeId ? response.data : place))

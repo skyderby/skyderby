@@ -12,18 +12,18 @@ import {
   cacheOptions,
   cachePlaces,
   buildUrl,
-  PlaceRecord,
+  Place,
   PlacesIndex
 } from './common'
 import { cacheCountries } from 'api/countries'
 import { depaginate } from 'api/helpers'
 
 const getAllPlaces = async (): Promise<PlacesIndex[]> =>
-  depaginate<PlaceRecord, PlacesIndex['relations']>(buildUrl)
+  depaginate<Place, PlacesIndex['relations']>(buildUrl)
 
 const buildAllPlacesQueryFn = (
   queryClient: QueryClient
-): QueryFunction<PlaceRecord[], AllPlacesQueryKey> => async () => {
+): QueryFunction<Place[], AllPlacesQueryKey> => async () => {
   const chunks = await getAllPlaces()
   const places = chunks.map(chunk => chunk.items).flat()
   const countries = chunks.map(chunk => chunk.relations.countries).flat()
@@ -34,7 +34,7 @@ const buildAllPlacesQueryFn = (
   return places
 }
 
-const useAllPlacesQuery = (): UseQueryResult<PlaceRecord[]> => {
+const useAllPlacesQuery = (): UseQueryResult<Place[]> => {
   const queryClient = useQueryClient()
 
   return useQuery({

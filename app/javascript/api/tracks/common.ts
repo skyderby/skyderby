@@ -1,5 +1,6 @@
 import { parseISO } from 'date-fns'
-import { cachePlaces, PlaceRecord } from 'api/places'
+import { z } from 'zod'
+import { cachePlaces, Place } from 'api/places'
 import { cacheSuits, SuitRecord } from 'api/suits'
 import { cacheProfiles, ProfileRecord } from 'api/profiles'
 import { cacheCountries, CountryRecord } from 'api/countries'
@@ -9,8 +10,10 @@ import { Serialized } from 'api/helpers'
 
 const allowedActivities = ['base', 'skydive', 'speed_skydiving', 'swoop'] as const
 const allowedVisibilities = ['public_track', 'unlisted_track', 'private_track'] as const
-export type TrackActivity = typeof allowedActivities[number]
-export type TrackVisibility = typeof allowedVisibilities[number]
+export const trackActivitiesEnum = z.enum(allowedActivities)
+export const trackVisibilityEnum = z.enum(allowedVisibilities)
+export type TrackActivity = z.infer<typeof trackActivitiesEnum>
+export type TrackVisibility = z.infer<typeof trackVisibilityEnum>
 
 export interface TrackJumpRange {
   from: number
@@ -70,7 +73,7 @@ export type TrackVariables = Partial<{
 
 export interface TrackRelations {
   countries: CountryRecord[]
-  places: PlaceRecord[]
+  places: Place[]
   suits: SuitRecord[]
   manufacturers: ManufacturerRecord[]
   profiles: ProfileRecord[]

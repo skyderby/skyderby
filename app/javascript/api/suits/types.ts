@@ -1,6 +1,13 @@
+import { z } from 'zod'
 import { ManufacturerRecord } from 'api/manufacturer'
 
-export type SuitCategory = 'wingsuit' | 'tracksuit' | 'slick' | 'monotrack'
+export const suitCategoriesEnum = z.enum([
+  'wingsuit',
+  'tracksuit',
+  'slick',
+  'monotrack'
+] as const)
+export type SuitCategory = z.infer<typeof suitCategoriesEnum>
 
 export type SuitRecord = {
   id: number

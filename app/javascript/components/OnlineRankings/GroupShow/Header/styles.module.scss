@@ -1,0 +1,29 @@
+@import 'styles/breakpoints';
+
+.container {
+  display: grid;
+  grid-gap: 0.5rem;
+  padding: 1rem 1rem 0;
+  border-bottom: solid 1px var(--border-color);
+
+  background-color: var(--white);
+
+  @include lg-screen {
+    padding: 1rem calc((100vw - 1200px) / 2 + 1rem) 0;
+  }
+}
+
+.header {
+  padding: 0 0.5rem;
+  display: grid;
+  grid-gap: 0.5rem;
+}
+
+.eventName {
+  margin: 0;
+
+  color: var(--grey-80);
+  font-weight: 500;
+  font-size: 1.125rem;
+  text-transform: uppercase;
+}

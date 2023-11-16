@@ -1,27 +1,4 @@
-json.items @online_rankings do |ranking|
-  json.extract! ranking,
-                :id,
-                :name,
-                :featured,
-                :period_from,
-                :period_to,
-                :discipline,
-                :discipline_parameter,
-                :group_id,
-                :place_id,
-                :finish_line_id,
-                :suits_kind,
-                :jumps_kind,
-                :range_from,
-                :range_to,
-                :display_highest_speed,
-                :display_highest_gr,
-                :display_on_start_page,
-                :default_view
-
-  json.created_at ranking.created_at.iso8601
-  json.updated_at ranking.updated_at.iso8601
-end
+json.data @online_rankings, partial: 'online_ranking', as: :online_ranking
 
 json.relations do
   groups = @online_rankings.map(&:group).compact.uniq
