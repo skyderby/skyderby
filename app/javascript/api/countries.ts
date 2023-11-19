@@ -7,6 +7,7 @@ import {
 } from '@tanstack/react-query'
 import { z } from 'zod'
 
+import queryClient from 'components/queryClient'
 import client from 'api/client'
 import { loadIds, urlWithParams } from 'api/helpers'
 
@@ -65,10 +66,7 @@ const cacheOptions = {
   staleTime: Infinity
 }
 
-export const cacheCountries = (
-  countries: CountryRecord[],
-  queryClient: QueryClient
-): void =>
+export const cacheCountries = (countries: CountryRecord[]): void =>
   countries?.forEach(country =>
     queryClient.setQueryData<CountryRecord>(recordQueryKey(country.id), country)
   )
@@ -82,7 +80,7 @@ export const preloadCountries = async (
     .filter(id => !queryClient.getQueryData(recordQueryKey(id)))
 
   const { items: countries } = await getCountriesById(missingIds)
-  cacheCountries(countries, queryClient)
+  cacheCountries(countries)
 
   return countries
 }

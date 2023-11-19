@@ -1,7 +1,7 @@
 import React from 'react'
 import { components, OptionProps } from 'react-select'
 
-import SuitLabel from 'components/SuitLabel'
+import { SuitName } from 'components/SuitLabel'
 import { OptionType } from './types'
 
 const Option = (props: OptionProps<OptionType, boolean>): JSX.Element => {
@@ -14,7 +14,7 @@ const Option = (props: OptionProps<OptionType, boolean>): JSX.Element => {
 
   return (
     <components.Option {...props}>
-      <SuitLabel name={name} code={code} />
+      <SuitName name={name} code={code} />
     </components.Option>
   )
 }

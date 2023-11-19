@@ -4,13 +4,12 @@ import {
   useQueryClient,
   QueryFunction,
   UseQueryOptions,
-  QueryClient,
   UseQueryResult,
   UseMutationResult
 } from '@tanstack/react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
 import { parseISO } from 'date-fns'
-
+import queryClient from 'components/queryClient'
 import { competitorsQuery } from './competitors'
 import { teamStandingsQuery } from './teamStandings'
 import { TeamRecord } from './types'
@@ -93,7 +92,7 @@ const teamsQuery = <Type = TeamRecord[]>(
   ...options
 })
 
-export const preloadTeams = (eventId: number, queryClient: QueryClient): Promise<void> =>
+export const preloadTeams = (eventId: number): Promise<void> =>
   queryClient.prefetchQuery(teamsQuery(eventId))
 
 export const useTeamsQuery = <Type = TeamRecord[]>(
@@ -126,7 +125,7 @@ export const useNewTeamMutation = (eventId: number): NewTeamMutation => {
     async onSuccess(response) {
       await Promise.all([
         queryClient.refetchQueries(teamStandingsQuery(eventId)),
-        queryClient.refetchQueries(competitorsQuery(eventId, queryClient))
+        queryClient.refetchQueries(competitorsQuery(eventId))
       ])
 
       const team = deserialize(response.data)
@@ -146,7 +145,7 @@ export const useEditTeamMutation = (eventId: number, id: number): EditTeamMutati
     async onSuccess(response) {
       await Promise.all([
         queryClient.refetchQueries(teamStandingsQuery(eventId)),
-        queryClient.refetchQueries(competitorsQuery(eventId, queryClient))
+        queryClient.refetchQueries(competitorsQuery(eventId))
       ])
 
       const updatedTeam = deserialize(response.data)
@@ -168,10 +167,10 @@ export const useDeleteTeamMutation = (): UseMutationResult<
 
   return useMutation({
     mutationFn: deleteTeam,
-    async onSuccess(response, { eventId, id }) {
+    async onSuccess(_response, { eventId, id }) {
       await Promise.all([
         queryClient.refetchQueries(teamStandingsQuery(eventId)),
-        queryClient.refetchQueries(competitorsQuery(eventId, queryClient))
+        queryClient.refetchQueries(competitorsQuery(eventId))
       ])
 
       const data: TeamRecord[] = queryClient.getQueryData(queryKey(eventId)) ?? []

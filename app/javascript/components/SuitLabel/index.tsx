@@ -1,18 +1,18 @@
 import React from 'react'
+import { useSuitQuery } from 'api/suits'
+import { useManufacturerQuery } from 'api/manufacturer'
+import SuitName from './SuitName'
 
-import styles from './styles.module.scss'
-
-type SuitLabelProps = {
-  name?: string | null
-  code?: string
+type Props = {
+  suitId: number
 }
 
-const SuitLabel = ({ name, code }: SuitLabelProps): JSX.Element => (
-  <span>
-    {code && <span className={styles.manufacturerCode}>{code}</span>}
-    &nbsp;
-    {name && <span>{name}</span>}
-  </span>
-)
+const SuitLabel = ({ suitId }: Props) => {
+  const { data: suit } = useSuitQuery(suitId)
+  const { data: manufacturer } = useManufacturerQuery(suit?.makeId)
 
+  return <SuitName name={suit?.name} code={manufacturer?.code} />
+}
+
+export { SuitName }
 export default SuitLabel

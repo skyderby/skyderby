@@ -3,14 +3,13 @@ import {
   useMutation,
   useQueryClient,
   QueryFunction,
-  QueryClient,
   UseQueryOptions,
   UseQueryResult,
   UseMutationResult
 } from '@tanstack/react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
 import { parseISO } from 'date-fns'
-
+import queryClient from 'components/queryClient'
 import { standingsQuery } from './standings'
 import { Category } from './types'
 
@@ -103,10 +102,8 @@ const categoriesQuery = <Type = Category[]>(
   queryFn
 })
 
-export const preloadCategories = (
-  eventId: number,
-  queryClient: QueryClient
-): Promise<void> => queryClient.prefetchQuery(categoriesQuery(eventId))
+export const preloadCategories = (eventId: number): Promise<void> =>
+  queryClient.prefetchQuery(categoriesQuery(eventId))
 
 export const useCategoriesQuery = <Type = Category[]>(
   eventId: number,

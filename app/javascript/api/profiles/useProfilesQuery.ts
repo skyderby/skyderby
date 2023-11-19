@@ -7,7 +7,6 @@ import {
   IndexParams,
   ProfilesIndex
 } from './common'
-import queryClient from 'components/queryClient'
 import { cacheCountries } from 'api/countries'
 import { urlWithParams } from 'api/helpers'
 
@@ -24,8 +23,8 @@ const queryFn: QueryFunction<ProfilesIndex, IndexQueryKey> = async ctx => {
 
   const profiles = data.items
 
-  cacheProfiles(profiles, queryClient)
-  cacheCountries(data.relations.countries, queryClient)
+  cacheProfiles(profiles)
+  cacheCountries(data.relations.countries)
 
   return data
 }

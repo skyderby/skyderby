@@ -13,8 +13,6 @@ import TimesIcon from 'icons/times'
 import CompetitorForm from '../CompetitorForm'
 import styles from './styles.module.scss'
 import SuitLabel from 'components/SuitLabel'
-import { useSuitQuery } from 'api/suits'
-import { useManufacturerQuery } from 'api/manufacturer'
 
 type CompetitorCellsProps = {
   event: PerformanceCompetition
@@ -26,8 +24,6 @@ const CompetitorCells = ({ event, competitorId }: CompetitorCellsProps): JSX.Ele
   const { data: competitor } = useCompetitorQuery(event.id, competitorId)
   const { data: profile } = useProfileQuery(competitor?.profileId, { enabled: false })
   const { data: country } = useCountryQuery(profile?.countryId)
-  const { data: suit } = useSuitQuery(competitor?.suitId)
-  const { data: make } = useManufacturerQuery(suit?.makeId)
 
   const editMutation = useUpdateCompetitorMutation(event.id, competitorId)
   const deleteMutation = useDeleteCompetitorMutation(event.id, competitorId)
@@ -56,7 +52,7 @@ const CompetitorCells = ({ event, competitorId }: CompetitorCellsProps): JSX.Ele
           )}
         </div>
         <div className={styles.competitorAdditional}>
-          <SuitLabel name={suit?.name} code={make?.code} />
+          {competitor?.suitId && <SuitLabel suitId={competitor.suitId} />}
         </div>
       </td>
       <td>{country?.code}</td>

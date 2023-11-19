@@ -1,8 +1,6 @@
 import {
-  QueryClient,
   QueryFunction,
   useQuery,
-  useQueryClient,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
@@ -26,22 +24,20 @@ const getCompetitors = (eventId: number) =>
     .get<never, AxiosResponse<IndexResponse>>(collectionEndpoint(eventId))
     .then(response => response.data)
 
-const buildQueryFn = (
-  queryClient: QueryClient
-): QueryFunction<Competitor[], QueryKey> => async ctx => {
+const queryFn: QueryFunction<Competitor[], QueryKey> = async ctx => {
   const [_key, eventId] = ctx.queryKey
   const { items, relations } = await getCompetitors(eventId)
 
-  cacheProfiles(relations.profiles, queryClient)
-  cacheCountries(relations.countries, queryClient)
-  cacheSuits(relations.suits, queryClient)
+  cacheProfiles(relations.profiles)
+  cacheCountries(relations.countries)
+  cacheSuits(relations.suits)
 
   return items.map(deserialize)
 }
 
-export const competitorsQuery = (eventId: number, queryClient: QueryClient) => ({
+export const competitorsQuery = (eventId: number) => ({
   queryKey: queryKey(eventId),
-  queryFn: buildQueryFn(queryClient)
+  queryFn
 })
 
 const useCompetitorsQuery = <T = Competitor[]>(
@@ -50,10 +46,6 @@ const useCompetitorsQuery = <T = Competitor[]>(
     UseQueryOptions<Competitor[], AxiosError, T, QueryKey>,
     'queryKey' | 'queryFn'
   > = {}
-): UseQueryResult<T> => {
-  const queryClient = useQueryClient()
-
-  return useQuery({ ...competitorsQuery(eventId, queryClient), ...options })
-}
+): UseQueryResult<T> => useQuery({ ...competitorsQuery(eventId), ...options })
 
 export default useCompetitorsQuery

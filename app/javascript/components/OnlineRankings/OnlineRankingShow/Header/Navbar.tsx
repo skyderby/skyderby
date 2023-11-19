@@ -36,7 +36,7 @@ const Navbar = ({ onlineRanking }: Props) => {
           ))
         : onlineRanking.intervals.map(interval => (
             <PageNavbar.Item key={interval.slug}>
-              <NavLink to={`${eventUrl}/interval/${interval.slug}`}>
+              <NavLink to={`${eventUrl}/periods/${interval.slug}`}>
                 <span>{interval.name}</span>
               </NavLink>
             </PageNavbar.Item>

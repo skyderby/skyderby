@@ -34,12 +34,12 @@ const Show = () => {
     if (isLoading || isError) return
 
     Promise.all([
-      preloadCategories(eventId, queryClient),
-      preloadRounds(eventId, queryClient),
-      preloadCompetitors(eventId, queryClient),
-      preloadResults(eventId, queryClient),
-      preloadTeams(eventId, queryClient),
-      preloadStandings(eventId, queryClient)
+      preloadCategories(eventId),
+      preloadRounds(eventId),
+      preloadCompetitors(eventId),
+      preloadResults(eventId),
+      preloadTeams(eventId),
+      preloadStandings(eventId)
     ]).then(() => setAssociationsLoaded(true))
   }, [eventId, isLoading, isError, queryClient])
 

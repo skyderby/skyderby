@@ -3,7 +3,7 @@ import { Link, LinkProps as ReactRouterLinkProps } from 'react-router-dom'
 import { motion, MotionProps } from 'framer-motion'
 import cx from 'clsx'
 
-import SuitLabel from 'components/SuitLabel'
+import { SuitName } from 'components/SuitLabel'
 import PlaceLabel from 'components/PlaceLabel'
 import ProfileName from 'components/ProfileName'
 import { useManufacturerQuery } from 'api/manufacturer'
@@ -28,7 +28,7 @@ const ItemDetails = ({ track }: DetailsProps): JSX.Element => {
         {track.profileId ? <ProfileName id={track.profileId} /> : track.pilotName}
       </div>
       <div className={styles.suit}>
-        <SuitLabel name={suitName} code={manufacturer?.code} />
+        <SuitName name={suitName} code={manufacturer?.code} />
       </div>
       <div className={styles.place}>
         <PlaceLabel

@@ -1,12 +1,11 @@
 import {
-  QueryClient,
   QueryFunction,
   useQuery,
-  useQueryClient,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
 
+import queryClient from 'components/queryClient'
 import { cacheManufacturers, preloadManufacturers } from 'api/manufacturer'
 import { getAllSuits, getSuit, getSuits, getSuitsById } from './requests'
 import {
@@ -20,9 +19,7 @@ import {
 const indexQueryKey = (params: IndexParams): IndexQueryKey => ['suits', params]
 const recordQueryKey = (id: number | null | undefined): RecordQueryKey => ['suits', id]
 
-const buildQueryFn = (
-  queryClient: QueryClient
-): QueryFunction<SuitRecord, RecordQueryKey> => async ctx => {
+const queryFn: QueryFunction<SuitRecord, RecordQueryKey> = async ctx => {
   const [_key, id] = ctx.queryKey
 
   if (typeof id !== 'number') {
@@ -31,47 +28,40 @@ const buildQueryFn = (
 
   const data = await getSuit(id)
 
-  await preloadManufacturers([data.makeId], queryClient)
+  await preloadManufacturers([data.makeId])
 
   return data
 }
 
-const buildAllSuitsQueryFn = (
-  queryClient: QueryClient
-): QueryFunction<SuitRecord[], IndexQueryKey> => async ctx => {
+const allSuitsQueryFn: QueryFunction<SuitRecord[], IndexQueryKey> = async ctx => {
   const [_key, params] = ctx.queryKey
   const chunks = await getAllSuits(params)
   const suits = chunks.map(chunk => chunk.items).flat()
   const manufacturers = chunks.map(chunk => chunk.relations.manufacturers).flat()
 
-  cacheSuits(suits, queryClient)
-  cacheManufacturers(manufacturers, queryClient)
+  cacheSuits(suits)
+  cacheManufacturers(manufacturers)
 
   return suits
 }
 
-const buildSuitsQueryFn = (
-  queryClient: QueryClient
-): QueryFunction<SuitsIndex, IndexQueryKey> => async ctx => {
+const suitsQueryFn: QueryFunction<SuitsIndex, IndexQueryKey> = async ctx => {
   const [_key, params] = ctx.queryKey
   const data = await getSuits(params)
 
   const suits = data.items
-  cacheSuits(suits, queryClient)
-  cacheManufacturers(data.relations?.manufacturers, queryClient)
+  cacheSuits(suits)
+  cacheManufacturers(data.relations?.manufacturers)
 
   return data
 }
 
-export const cacheSuits = (suits: SuitRecord[], queryClient: QueryClient): void =>
+export const cacheSuits = (suits: SuitRecord[]): void =>
   suits
     .filter(suit => !queryClient.getQueryData(recordQueryKey(suit.id)))
     .forEach(suit => queryClient.setQueryData<SuitRecord>(recordQueryKey(suit.id), suit))
 
-export const preloadSuits = async (
-  ids: number[],
-  queryClient: QueryClient
-): Promise<SuitRecord[]> => {
+export const preloadSuits = async (ids: number[]): Promise<SuitRecord[]> => {
   const missingIds = ids
     .filter(Boolean)
     .filter(id => !queryClient.getQueryData(recordQueryKey(id)))
@@ -79,12 +69,9 @@ export const preloadSuits = async (
   if (missingIds.length === 0) return []
 
   const { items: suits } = await getSuitsById(missingIds)
-  cacheSuits(suits, queryClient)
+  cacheSuits(suits)
 
-  await preloadManufacturers(
-    suits.map(suit => suit.makeId),
-    queryClient
-  )
+  await preloadManufacturers(suits.map(suit => suit.makeId))
 
   return suits
 }
@@ -96,12 +83,9 @@ const cacheOptions = {
 
 type QueryOptions = UseQueryOptions<SuitRecord, Error, SuitRecord, RecordQueryKey>
 
-const suitQuery = (
-  id: number | null | undefined,
-  queryClient: QueryClient
-): QueryOptions => ({
+const suitQuery = (id: number | null | undefined): QueryOptions => ({
   queryKey: recordQueryKey(id),
-  queryFn: buildQueryFn(queryClient),
+  queryFn,
   enabled: !!id,
   gcTime: 60 * 30 * 1000,
   staleTime: 60 * 10 * 1000
@@ -110,28 +94,21 @@ const suitQuery = (
 export const useSuitQuery = (
   id: number | null | undefined,
   options: Omit<QueryOptions, 'queryKey' | 'queryFn'> = {}
-): UseQueryResult<SuitRecord> => {
-  const queryClient = useQueryClient()
-  return useQuery({ ...suitQuery(id, queryClient), ...options })
-}
+): UseQueryResult<SuitRecord> => useQuery({ ...suitQuery(id), ...options })
 
 export const suitsQuery = (
-  params: IndexParams = {},
-  queryClient: QueryClient
+  params: IndexParams = {}
 ): UseQueryOptions<SuitsIndex, Error, SuitsIndex, IndexQueryKey> => ({
   queryKey: indexQueryKey(params),
-  queryFn: buildSuitsQueryFn(queryClient),
+  queryFn: suitsQueryFn,
   ...cacheOptions
 })
 
 export const useAllSuitsQuery = (
   params: IndexParams = {}
-): UseQueryResult<SuitRecord[]> => {
-  const queryClient = useQueryClient()
-
-  return useQuery({
+): UseQueryResult<SuitRecord[]> =>
+  useQuery({
     queryKey: indexQueryKey(params),
-    queryFn: buildAllSuitsQueryFn(queryClient),
+    queryFn: allSuitsQueryFn,
     ...cacheOptions
   })
-}

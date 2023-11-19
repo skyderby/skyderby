@@ -5,7 +5,6 @@ import { cacheSuits, SuitRecord } from 'api/suits'
 import { cacheProfiles, ProfileRecord } from 'api/profiles'
 import { cacheCountries, CountryRecord } from 'api/countries'
 import { cacheManufacturers, ManufacturerRecord } from 'api/manufacturer'
-import queryClient from 'components/queryClient'
 import { Serialized } from 'api/helpers'
 
 const allowedActivities = ['base', 'skydive', 'speed_skydiving', 'swoop'] as const
@@ -133,11 +132,11 @@ export const elementEndpoint = (id: number) => `${collectionEndpoint}/${id}`
 export const recordQueryKey = (id: number): RecordQueryKey => ['tracks', id]
 
 export const cacheRelations = (relations: TrackRelations): void => {
-  cachePlaces(relations.places, queryClient)
-  cacheSuits(relations.suits, queryClient)
-  cacheProfiles(relations.profiles, queryClient)
-  cacheCountries(relations.countries, queryClient)
-  cacheManufacturers(relations.manufacturers, queryClient)
+  cachePlaces(relations.places)
+  cacheSuits(relations.suits)
+  cacheProfiles(relations.profiles)
+  cacheCountries(relations.countries)
+  cacheManufacturers(relations.manufacturers)
 }
 
 export const deserialize = <

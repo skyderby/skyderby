@@ -1,7 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-import SuitLabel from 'components/SuitLabel'
+import { SuitName } from 'components/SuitLabel'
 import SuitIcon from 'icons/suit.svg'
 
 import styles from './styles.module.scss'
@@ -22,14 +21,9 @@ const Suit = ({ suitId, suitName: userProvidedSuitName }: SuitProps): JSX.Elemen
   return (
     <div className={styles.suit}>
       <SuitIcon />
-      <SuitLabel name={suitName} code={make?.code} />
+      <SuitName name={suitName} code={make?.code} />
     </div>
   )
-}
-
-Suit.propTypes = {
-  suitId: PropTypes.number,
-  suitName: PropTypes.string
 }
 
 export default Suit

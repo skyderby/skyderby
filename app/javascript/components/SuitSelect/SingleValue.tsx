@@ -1,7 +1,7 @@
 import React from 'react'
 import { components, SingleValueProps } from 'react-select'
 
-import SuitLabel from 'components/SuitLabel'
+import { SuitName } from 'components/SuitLabel'
 import { OptionData } from './types'
 
 const SingleValue = (props: SingleValueProps<OptionData>): JSX.Element => {
@@ -14,7 +14,7 @@ const SingleValue = (props: SingleValueProps<OptionData>): JSX.Element => {
 
   return (
     <components.SingleValue {...props}>
-      <SuitLabel name={name} code={code} />
+      <SuitName name={name} code={code} />
     </components.SingleValue>
   )
 }

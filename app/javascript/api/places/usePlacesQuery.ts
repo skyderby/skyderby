@@ -1,9 +1,4 @@
-import {
-  QueryClient,
-  QueryFunction,
-  useQueryClient,
-  UseQueryOptions
-} from '@tanstack/react-query'
+import { QueryFunction, useQueryClient, UseQueryOptions } from '@tanstack/react-query'
 import {
   IndexParams,
   Place,
@@ -23,27 +18,24 @@ export const getPlaces = (params: IndexParams): Promise<PlacesIndex> =>
     .get<never, AxiosResponse<PlacesIndex>>(buildUrl(params))
     .then(response => response.data)
 
-const buildQueryFn = (
-  queryClient: QueryClient
-): QueryFunction<PlacesIndex, IndexQueryKey> => async ctx => {
+const queryFn: QueryFunction<PlacesIndex, IndexQueryKey> = async ctx => {
   const [_key, params] = ctx.queryKey
   const data = await getPlaces(params)
 
   const places = data.items
   const countries = data.relations.countries
 
-  cachePlaces(places, queryClient)
-  cacheCountries(countries, queryClient)
+  cachePlaces(places)
+  cacheCountries(countries)
 
   return data
 }
 
 export const placesQuery = (
-  params: IndexParams = {},
-  queryClient: QueryClient
+  params: IndexParams = {}
 ): UseQueryOptions<PlacesIndex, Error, PlacesIndex, IndexQueryKey> => ({
   queryKey: indexQueryKey(params),
-  queryFn: buildQueryFn(queryClient),
+  queryFn,
   ...cacheOptions
 })
 

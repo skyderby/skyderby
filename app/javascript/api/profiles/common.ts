@@ -1,7 +1,7 @@
-import { QueryClient } from '@tanstack/react-query'
 import { z } from 'zod'
 import { recordQueryKey } from './useProfileQuery'
 import { countrySchema } from 'api/countries'
+import queryClient from 'components/queryClient'
 
 export const profileSchema = z.object({
   id: z.number(),
@@ -37,10 +37,7 @@ export type IndexParams = {
 export const collectionEndpoint = '/api/v1/profiles'
 export const elementEndpoint = (id: number): string => `${collectionEndpoint}/${id}`
 
-export const cacheProfiles = (
-  profiles: ProfileRecord[],
-  queryClient: QueryClient
-): void =>
+export const cacheProfiles = (profiles: ProfileRecord[]): void =>
   profiles
     .filter(profile => !queryClient.getQueryData(recordQueryKey(profile.id)))
     .forEach(profile =>

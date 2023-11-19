@@ -1,5 +1,5 @@
 export { default as useProfileQuery, recordQueryKey } from './useProfileQuery'
 export { default as useProfilesQuery, profilesQuery } from './useProfilesQuery'
 export { default as useProfileQueries } from './useProfileQueries'
-export { cacheProfiles } from './common'
+export { cacheProfiles, profileSchema } from './common'
 export type { ProfileRecord } from './common'

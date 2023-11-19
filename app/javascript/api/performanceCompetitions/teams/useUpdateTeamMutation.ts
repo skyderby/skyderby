@@ -31,7 +31,7 @@ const useUpdateTeamMutation = (eventId: number, id: number) => {
     async onSuccess(response) {
       await Promise.all([
         queryClient.refetchQueries(teamStandingsQuery(eventId)),
-        queryClient.refetchQueries(competitorsQuery(eventId, queryClient))
+        queryClient.refetchQueries(competitorsQuery(eventId))
       ])
 
       const updatedTeam = deserialize(response.data)

@@ -4,13 +4,12 @@ import {
   useQueryClient,
   QueryFunction,
   UseQueryOptions,
-  QueryClient,
   UseQueryResult,
   UseMutationResult
 } from '@tanstack/react-query'
-import client, { AxiosError, AxiosResponse } from 'api/client'
 import { parseISO } from 'date-fns'
-
+import client, { AxiosError, AxiosResponse } from 'api/client'
+import queryClient from 'components/queryClient'
 import { Round } from './types'
 import { standingsQuery } from 'api/speedSkydivingCompetitions/standings'
 import { openStandingsQuery } from 'api/speedSkydivingCompetitions/openStandings'
@@ -85,7 +84,7 @@ const roundsQuery = <Type = Round[]>(
   queryFn
 })
 
-export const preloadRounds = (eventId: number, queryClient: QueryClient): Promise<void> =>
+export const preloadRounds = (eventId: number): Promise<void> =>
   queryClient.prefetchQuery(roundsQuery(eventId))
 
 export const useRoundsQuery = <Type = Round[]>(

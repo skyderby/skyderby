@@ -1,8 +1,6 @@
 import {
-  QueryClient,
   QueryFunction,
   useQuery,
-  useQueryClient,
   UseQueryResult,
   keepPreviousData
 } from '@tanstack/react-query'
@@ -109,14 +107,12 @@ const getEvents = ({
   return client.get(url).then(response => response.data)
 }
 
-const buildQueryFn = (
-  queryClient: QueryClient
-): QueryFunction<EventsIndex, EventsQueryKey> => async ctx => {
+const queryFn: QueryFunction<EventsIndex, EventsQueryKey> = async ctx => {
   const [_key, params] = ctx.queryKey
   const { items: rawItems, relations, ...rest } = await getEvents(params)
 
-  cachePlaces(relations.places, queryClient)
-  cacheCountries(relations.countries, queryClient)
+  cachePlaces(relations.places)
+  cacheCountries(relations.countries)
 
   const items = rawItems.map(record =>
     Object.assign(record, {
@@ -129,12 +125,9 @@ const buildQueryFn = (
   return { items, ...rest }
 }
 
-export const useEventsQuery = (params: IndexParams = {}): UseQueryResult<EventsIndex> => {
-  const queryClient = useQueryClient()
-
-  return useQuery({
+export const useEventsQuery = (params: IndexParams = {}): UseQueryResult<EventsIndex> =>
+  useQuery({
     queryKey: ['events', params],
-    queryFn: buildQueryFn(queryClient),
+    queryFn,
     placeholderData: keepPreviousData
   })
-}

@@ -1,6 +1,10 @@
 import { z } from 'zod'
 import { trackActivitiesEnum } from 'api/tracks'
-import { suitCategoriesEnum } from 'api/suits'
+import { suitCategoriesEnum, suitSchema } from 'api/suits'
+import { profileSchema } from 'api/profiles'
+import { countrySchema } from 'api/countries'
+import { placeSchema } from 'api/places'
+import { manufacturerSchema } from 'api/manufacturer'
 
 const tasks = [
   'time',
@@ -45,6 +49,34 @@ export const onlineRankingSchema = z.object({
   })
 })
 
+const rowSchema = z.object({
+  rank: z.number(),
+  profileId: z.number(),
+  suitId: z.number(),
+  placeId: z.number().nullable(),
+  userProvidedPlaceName: z.string().nullable(),
+  trackId: z.number(),
+  result: z.number(),
+  highestGr: z.number(),
+  highestSpeed: z.number(),
+  recordedAt: z.coerce.date()
+})
+
+export const standingsResponseSchema = z.object({
+  data: z.array(rowSchema),
+  currentPage: z.number(),
+  totalPages: z.number(),
+  relations: z.object({
+    profiles: z.array(profileSchema),
+    countries: z.array(countrySchema),
+    places: z.array(placeSchema),
+    suits: z.array(suitSchema),
+    manufacturers: z.array(manufacturerSchema)
+  })
+})
+
+export type StandingsRow = z.infer<typeof rowSchema>
+export type StandingsResponse = z.infer<typeof standingsResponseSchema>
 export type OnlineRanking = z.infer<typeof onlineRankingSchema>
 
 export const collectionEndpoint = '/api/v1/online_rankings'

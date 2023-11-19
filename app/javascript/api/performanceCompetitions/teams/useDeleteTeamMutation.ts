@@ -21,7 +21,7 @@ const useDeleteTeamMutation = (eventId: number, id: number) => {
     async onSuccess() {
       await Promise.all([
         queryClient.refetchQueries(teamStandingsQuery(eventId)),
-        queryClient.refetchQueries(competitorsQuery(eventId, queryClient))
+        queryClient.refetchQueries(competitorsQuery(eventId))
       ])
 
       const data: Team[] = queryClient.getQueryData(queryKey(eventId)) ?? []

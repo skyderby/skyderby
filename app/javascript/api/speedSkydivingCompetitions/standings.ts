@@ -1,12 +1,11 @@
 import {
-  QueryClient,
   QueryFunction,
   useQuery,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
 import client from 'api/client'
-
+import queryClient from 'components/queryClient'
 import { CategoryStandings } from './types'
 
 type QueryKey = ['speedSkydivingCompetitions', number, 'standings']
@@ -44,10 +43,8 @@ export const standingsQuery = (
   ...options
 })
 
-export const preloadStandings = (
-  eventId: number,
-  queryClient: QueryClient
-): Promise<void> => queryClient.prefetchQuery(standingsQuery(eventId))
+export const preloadStandings = (eventId: number): Promise<void> =>
+  queryClient.prefetchQuery(standingsQuery(eventId))
 
 export const useStandingsQuery = (
   eventId: number,
