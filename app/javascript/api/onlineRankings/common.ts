@@ -1,10 +1,10 @@
 import { z } from 'zod'
 import { trackActivitiesEnum } from 'api/tracks'
-import { suitCategoriesEnum, suitSchema } from 'api/suits'
-import { profileSchema } from 'api/profiles'
-import { countrySchema } from 'api/countries'
-import { placeSchema } from 'api/places'
-import { manufacturerSchema } from 'api/manufacturer'
+import { cacheSuits, suitCategoriesEnum, suitSchema } from 'api/suits'
+import { cacheProfiles, profileSchema } from 'api/profiles'
+import { cacheCountries, countrySchema } from 'api/countries'
+import { cachePlaces, placeSchema } from 'api/places'
+import { cacheManufacturers, manufacturerSchema } from 'api/manufacturer'
 
 const tasks = [
   'time',
@@ -81,3 +81,11 @@ export type OnlineRanking = z.infer<typeof onlineRankingSchema>
 
 export const collectionEndpoint = '/api/v1/online_rankings'
 export const elementEndpoint = (id: number) => `${collectionEndpoint}/${id}`
+
+export const cacheStandingRelations = (relations: StandingsResponse['relations']) => {
+  cacheProfiles(relations.profiles)
+  cacheCountries(relations.countries)
+  cacheSuits(relations.suits)
+  cachePlaces(relations.places)
+  cacheManufacturers(relations.manufacturers)
+}

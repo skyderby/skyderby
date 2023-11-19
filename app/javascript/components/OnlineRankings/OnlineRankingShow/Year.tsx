@@ -22,11 +22,11 @@ const Year = ({ onlineRanking }: Props) => {
     data: { data: standings, totalPages, currentPage }
   } = useAnnualStandingsQuery(onlineRanking.id, year, { page })
 
+  const showPodium = currentPage === 1 && standings.length >= 3
+
   return (
     <>
-      {currentPage === 1 && standings.length >= 3 && (
-        <Podium standings={standings} onlineRanking={onlineRanking} />
-      )}
+      {showPodium && <Podium standings={standings} onlineRanking={onlineRanking} />}
       <Scoreboard onlineRanking={onlineRanking} standings={standings} />
       <Pagination
         totalPages={totalPages}

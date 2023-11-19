@@ -1,11 +1,11 @@
 import client from 'api/client'
 import { QueryFunction, useSuspenseQuery } from '@tanstack/react-query'
-import { cacheProfiles } from 'api/profiles'
-import { cacheCountries } from 'api/countries'
-import { cacheSuits } from 'api/suits'
-import { cachePlaces } from 'api/places'
-import { cacheManufacturers } from 'api/manufacturer'
-import { elementEndpoint, standingsResponseSchema, StandingsResponse } from './common'
+import {
+  elementEndpoint,
+  standingsResponseSchema,
+  StandingsResponse,
+  cacheStandingRelations
+} from './common'
 
 type Params = { page?: number }
 type QueryKey = ['onlineRankingAnnualStandings', number, number, Params?]
@@ -27,11 +27,7 @@ const queryFn: QueryFunction<
   const [, id, year, params] = ctx.queryKey
   const { relations, ...data } = await getStandings(id, year, params)
 
-  cacheProfiles(relations.profiles)
-  cacheCountries(relations.countries)
-  cacheSuits(relations.suits)
-  cachePlaces(relations.places)
-  cacheManufacturers(relations.manufacturers)
+  cacheStandingRelations(relations)
 
   return data
 }
