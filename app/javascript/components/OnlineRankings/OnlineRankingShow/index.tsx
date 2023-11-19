@@ -33,7 +33,7 @@ const OnlineRankingShow = () => {
 
       <Routes>
         <Route path="/overall" element={<Overall onlineRanking={onlineRanking} />} />
-        <Route path="/year/:year" element={<Year />} />
+        <Route path="/year/:year" element={<Year onlineRanking={onlineRanking} />} />
         <Route path="/periods/:slug" element={<Interval />} />
         <Route path="*" element={<Navigate to={redirectPath(onlineRanking)} />} />
       </Routes>
