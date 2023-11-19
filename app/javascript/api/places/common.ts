@@ -1,5 +1,5 @@
-import { QueryClient } from '@tanstack/react-query'
 import { z } from 'zod'
+import queryClient from 'components/queryClient'
 import { countrySchema } from 'api/countries'
 
 export const placeTypes = ['base', 'skydive'] as const
@@ -85,7 +85,7 @@ export const buildUrl = (params: IndexParams = {}): string => {
   return `${collectionEndpoint}?${urlParams.toString()}`
 }
 
-export const cachePlaces = (places: Place[], queryClient: QueryClient): void =>
+export const cachePlaces = (places: Place[]): void =>
   places
     .filter(place => !queryClient.getQueryData(recordQueryKey(place.id)))
     .forEach(place => queryClient.setQueryData<Place>(recordQueryKey(place.id), place))

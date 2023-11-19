@@ -2,7 +2,6 @@ import client, { AxiosResponse } from 'api/client'
 import { QueryFunction, useSuspenseQuery } from '@tanstack/react-query'
 import { cacheProfiles, ProfileRecord } from 'api/profiles'
 import { SuitCategory } from 'api/suits'
-import queryClient from 'components/queryClient'
 import { OnlineRanking } from 'api/onlineRankings'
 
 type QueryKey = ['onlineRankingGroupStandings', number]
@@ -44,7 +43,7 @@ const queryFn: QueryFunction<GroupStandings[], QueryKey> = async ctx => {
   const [_key, groupId] = ctx.queryKey
   const { standings, relations } = await getStandings(groupId)
 
-  cacheProfiles(relations.profiles, queryClient)
+  cacheProfiles(relations.profiles)
 
   return standings
 }

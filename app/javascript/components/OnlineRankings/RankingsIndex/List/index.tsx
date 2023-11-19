@@ -69,7 +69,7 @@ const List = ({ items }: ListProps) => {
       </div>
 
       {Array.from(groupedRankings).map(([group, rankings]) => (
-        <>
+        <React.Fragment key={group.id}>
           <h3>{group.name}</h3>
           <div key={group.id} className={styles.group}>
             {rankings.map(ranking => (
@@ -87,7 +87,7 @@ const List = ({ items }: ListProps) => {
               </Link>
             ))}
           </div>
-        </>
+        </React.Fragment>
       ))}
     </>
   )

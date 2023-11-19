@@ -36,7 +36,7 @@ const Show = () => {
 
     Promise.all([
       queryClient.prefetchQuery(categoriesQuery(eventId)),
-      queryClient.prefetchQuery(competitorsQuery(eventId, queryClient)),
+      queryClient.prefetchQuery(competitorsQuery(eventId)),
       queryClient.prefetchQuery(roundsQuery(eventId)),
       queryClient.prefetchQuery(resultsQuery(eventId))
     ]).then(() => setAssociationsLoaded(true))

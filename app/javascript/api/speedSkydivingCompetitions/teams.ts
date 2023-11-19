@@ -4,13 +4,12 @@ import {
   useQueryClient,
   QueryFunction,
   UseQueryOptions,
-  QueryClient,
   UseQueryResult,
   UseMutationResult
 } from '@tanstack/react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
 import { parseISO } from 'date-fns'
-
+import queryClient from 'components/queryClient'
 import { competitorsQuery } from './competitors'
 import { teamStandingsQuery } from './teamStandings'
 import { TeamRecord } from './types'
@@ -93,7 +92,7 @@ const teamsQuery = <Type = TeamRecord[]>(
   ...options
 })
 
-export const preloadTeams = (eventId: number, queryClient: QueryClient): Promise<void> =>
+export const preloadTeams = (eventId: number): Promise<void> =>
   queryClient.prefetchQuery(teamsQuery(eventId))
 
 export const useTeamsQuery = <Type = TeamRecord[]>(

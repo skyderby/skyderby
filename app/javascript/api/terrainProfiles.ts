@@ -44,7 +44,7 @@ const buildIndexQueryFn = (
   const data = await getTerrainProfiles()
 
   cacheTerrainProfiles(data.items, queryClient)
-  cachePlaces(data.relations.places, queryClient)
+  cachePlaces(data.relations.places)
 
   return data.items
 }

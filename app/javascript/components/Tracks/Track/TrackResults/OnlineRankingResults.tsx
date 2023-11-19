@@ -1,8 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
 import { useI18n } from 'components/TranslationsProvider'
-import { formatResult } from './formatResult'
+import formatResult from 'utils/formatResult'
 
 import styles from './styles.module.scss'
 import { ResultsRecord } from 'api/tracks/results'
@@ -26,7 +25,7 @@ const OnlineRankingResults = ({ results }: OnlineRankingResults): JSX.Element | 
               {[record.groupName, record.rankingName].filter(Boolean).join(' - ')}
             </Link>
             :&nbsp;
-            {formatResult(record.result, record.task)}
+            {formatResult(record.result, record.task, { showUnits: true })}
           </li>
         ))}
       </ul>

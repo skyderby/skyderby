@@ -1,8 +1,7 @@
 import React from 'react'
-
 import { useI18n } from 'components/TranslationsProvider'
 import { ResultsRecord } from 'api/tracks/results'
-import { formatResult } from './formatResult'
+import formatResult from 'utils/formatResult'
 import styles from './styles.module.scss'
 
 type TotalResultsProps = {
@@ -22,7 +21,7 @@ const TotalResults = ({ results }: TotalResultsProps): JSX.Element | null => {
           <li key={task}>
             {t(`disciplines.${task}`)}
             :&nbsp;
-            {formatResult(result, task)}
+            {formatResult(result, task, { showUnits: true })}
           </li>
         ))}
       </ul>

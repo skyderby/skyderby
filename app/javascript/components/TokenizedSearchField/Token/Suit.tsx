@@ -3,7 +3,7 @@ import React, { useRef } from 'react'
 import { useSuitQuery } from 'api/suits'
 import { useManufacturerQuery } from 'api/manufacturer'
 import IconTimes from 'icons/times.svg'
-import SuitLabel from 'components/SuitLabel'
+import { SuitName } from 'components/SuitLabel'
 import styles from './styles.module.scss'
 
 type SuitProps = {
@@ -38,7 +38,7 @@ const Suit = ({ value, onClick, onDelete }: SuitProps): JSX.Element | null => {
     <li className={styles.suitContainer} onClick={handleTokenClick} title={title}>
       <div className={styles.type}>Suit</div>
       <div className={styles.value}>
-        <SuitLabel name={suit?.name} code={make?.code} />
+        <SuitName name={suit?.name} code={make?.code} />
         <button
           className={styles.deleteButton}
           title="Delete"

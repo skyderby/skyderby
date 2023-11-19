@@ -1,6 +1,5 @@
 import { AxiosResponse } from 'axios'
 import { QueryFunction, useQuery } from '@tanstack/react-query'
-import queryClient from 'components/queryClient'
 import client from 'api/client'
 import { cacheProfiles } from 'api/profiles'
 import { cacheCountries } from 'api/countries'
@@ -16,8 +15,8 @@ const queryFn: QueryFunction<Organizer[], QueryKey> = async ctx => {
   const [_key, eventType, eventId] = ctx.queryKey
   const data = await getOrganizers(eventType, eventId)
 
-  cacheProfiles(data.relations.profiles, queryClient)
-  cacheCountries(data.relations.countries, queryClient)
+  cacheProfiles(data.relations.profiles)
+  cacheCountries(data.relations.countries)
 
   return data.items.map(deserialize)
 }

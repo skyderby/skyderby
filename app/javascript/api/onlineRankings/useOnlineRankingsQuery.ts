@@ -1,7 +1,6 @@
 import { QueryFunction, UseQueryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import client from 'api/client'
-import queryClient from 'components/queryClient'
 import { cachePlaces, placeSchema } from 'api/places'
 import { cacheCountries, countrySchema } from 'api/countries'
 import { cacheGroups, onlineRankingGroupSchema } from './groups'
@@ -28,9 +27,9 @@ const getRankings = () =>
 const queryFn: QueryFunction<OnlineRanking[], QueryKey> = async () => {
   const { data, relations } = await getRankings()
 
-  cachePlaces(relations.places, queryClient)
-  cacheCountries(relations.countries, queryClient)
-  cacheGroups(relations.groups, queryClient)
+  cachePlaces(relations.places)
+  cacheCountries(relations.countries)
+  cacheGroups(relations.groups)
 
   return data
 }

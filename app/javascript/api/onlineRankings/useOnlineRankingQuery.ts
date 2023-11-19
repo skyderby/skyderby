@@ -4,7 +4,6 @@ import client from 'api/client'
 import { elementEndpoint, OnlineRanking, onlineRankingSchema } from './common'
 import { cachePlaces, placeSchema } from 'api/places'
 import { cacheGroups, onlineRankingGroupSchema } from './groups'
-import queryClient from 'components/queryClient'
 
 type QueryKey = ['onlineRanking', number]
 
@@ -22,8 +21,8 @@ const queryFn: QueryFunction<OnlineRanking, QueryKey> = async ctx => {
   const [, id] = ctx.queryKey
   const { data, relations } = await getRanking(id)
 
-  cacheGroups(relations.groups, queryClient)
-  cachePlaces(relations.places, queryClient)
+  cacheGroups(relations.groups)
+  cachePlaces(relations.places)
 
   return data
 }

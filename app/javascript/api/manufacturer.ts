@@ -5,15 +5,19 @@ import {
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
+import { z } from 'zod'
+import queryClient from 'components/queryClient'
 import client, { AxiosResponse } from 'api/client'
 import { loadIds } from 'api/helpers'
 
-export type ManufacturerRecord = {
-  id: number
-  name: string
-  code: string
-  active: boolean
-}
+export const manufacturerSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  code: z.string().nullable(),
+  active: z.boolean()
+})
+
+export type ManufacturerRecord = z.infer<typeof manufacturerSchema>
 
 type ManufacturersIndex = {
   items: ManufacturerRecord[]
@@ -59,10 +63,7 @@ const collectionQueryFn: QueryFunction<
   return items
 }
 
-export const cacheManufacturers = (
-  manufacturers: ManufacturerRecord[],
-  queryClient: QueryClient
-): void =>
+export const cacheManufacturers = (manufacturers: ManufacturerRecord[]): void =>
   manufacturers.forEach(manufacturer =>
     queryClient.setQueryData<ManufacturerRecord>(
       recordQueryKey(manufacturer.id),
@@ -71,8 +72,7 @@ export const cacheManufacturers = (
   )
 
 export const preloadManufacturers = async (
-  ids: number[],
-  queryClient: QueryClient
+  ids: number[]
 ): Promise<ManufacturerRecord[]> => {
   const missingIds = ids
     .filter(Boolean)
@@ -81,7 +81,7 @@ export const preloadManufacturers = async (
   if (missingIds.length === 0) return []
 
   const { items: manufacturers } = await getManufacturersById(missingIds)
-  cacheManufacturers(manufacturers, queryClient)
+  cacheManufacturers(manufacturers)
 
   return manufacturers
 }

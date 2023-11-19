@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import { useI18n } from 'components/TranslationsProvider'
 import { ResultsRecord } from 'api/tracks/results'
-import { formatResult } from './formatResult'
+import formatResult from 'utils/formatResult'
 import styles from './styles.module.scss'
 
 type CompetitionResultProps = {
@@ -24,7 +24,7 @@ const CompetitionResult = ({ result }: CompetitionResultProps): JSX.Element | nu
         <li>
           <Link to={eventPath}>{result.eventName}</Link>
           :&nbsp;
-          {formatResult(result.result, result.task)}
+          {formatResult(result.result, result.task, { showUnits: true })}
         </li>
       </ul>
     </div>

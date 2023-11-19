@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { QueryClient } from '@tanstack/react-query'
+import queryClient from 'components/queryClient'
 
 type RecordQueryKey = ['onlineRankingGroups', number]
 
@@ -19,10 +19,7 @@ export type OnlineRankingGroup = z.infer<typeof onlineRankingGroupSchema>
 
 export const recordQueryKey = (id: number): RecordQueryKey => ['onlineRankingGroups', id]
 
-export const cacheGroups = (
-  groups: OnlineRankingGroup[],
-  queryClient: QueryClient
-): void =>
+export const cacheGroups = (groups: OnlineRankingGroup[]): void =>
   groups
     .filter(group => !queryClient.getQueryData(recordQueryKey(group.id)))
     .forEach(group =>

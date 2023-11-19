@@ -4,13 +4,12 @@ import {
   useMutation,
   useQueryClient,
   QueryFunction,
-  QueryClient,
   UseQueryOptions,
   UseQueryResult,
   UseMutationResult
 } from '@tanstack/react-query'
 import { parseISO } from 'date-fns'
-
+import queryClient from 'components/queryClient'
 import { cacheProfiles, ProfileRecord } from 'api/profiles'
 import { cacheCountries, CountryRecord } from 'api/countries'
 import { standingsQuery } from './standings'
@@ -81,30 +80,25 @@ const collectionKey = (eventId: number): QueryKey => [
   'competitors'
 ]
 
-const buildQueryFn = (
-  queryClient: QueryClient
-): QueryFunction<Competitor[], QueryKey> => async ctx => {
+const queryFn: QueryFunction<Competitor[], QueryKey> = async ctx => {
   const [_key, eventId] = ctx.queryKey
   const { relations, items } = await getCompetitors(eventId)
 
-  cacheProfiles(relations.profiles, queryClient)
-  cacheCountries(relations.countries, queryClient)
+  cacheProfiles(relations.profiles)
+  cacheCountries(relations.countries)
 
   return items.map(deserialize)
 }
 
 export const competitorsQuery = <Type = Competitor[]>(
-  eventId: number,
-  queryClient: QueryClient
+  eventId: number
 ): UseQueryOptions<Competitor[], Error, Type, QueryKey> => ({
   queryKey: collectionKey(eventId),
-  queryFn: buildQueryFn(queryClient)
+  queryFn
 })
 
-export const preloadCompetitors = (
-  eventId: number,
-  queryClient: QueryClient
-): Promise<void> => queryClient.prefetchQuery(competitorsQuery(eventId, queryClient))
+export const preloadCompetitors = (eventId: number): Promise<void> =>
+  queryClient.prefetchQuery(competitorsQuery(eventId))
 
 export const useCompetitorsQuery = <Type = Competitor[]>(
   eventId: number,
@@ -112,11 +106,7 @@ export const useCompetitorsQuery = <Type = Competitor[]>(
     UseQueryOptions<Competitor[], Error, Type, QueryKey>,
     'queryKey' | 'queryFn'
   >
-): UseQueryResult<Type> => {
-  const queryClient = useQueryClient()
-
-  return useQuery({ ...competitorsQuery<Type>(eventId, queryClient), ...options })
-}
+): UseQueryResult<Type> => useQuery({ ...competitorsQuery<Type>(eventId), ...options })
 
 export const useCompetitorQuery = (
   eventId: number,

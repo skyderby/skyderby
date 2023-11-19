@@ -27,7 +27,7 @@ const SuitSelect = ({ value: suitId, ...props }: SuitSelectProps): JSX.Element =
   const loadOptions = useCallback(
     async (search: string, _loadedOptions: unknown, meta: unknown) => {
       const { page } = meta as { page: number }
-      const data = await queryClient.fetchQuery(suitsQuery({ page, search }, queryClient))
+      const data = await queryClient.fetchQuery(suitsQuery({ page, search }))
       const { items, currentPage, totalPages } = data
       const manufacturers = getCachedManufacturers(
         items.map(suit => suit.makeId),

@@ -9,13 +9,15 @@ export const suitCategoriesEnum = z.enum([
 ] as const)
 export type SuitCategory = z.infer<typeof suitCategoriesEnum>
 
-export type SuitRecord = {
-  id: number
-  name: string
-  makeId: number
-  category: SuitCategory
-  editable: boolean
-}
+export const suitSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  makeId: z.number(),
+  category: suitCategoriesEnum,
+  editable: z.boolean()
+})
+
+export type SuitRecord = z.infer<typeof suitSchema>
 
 export type SuitsIndex = {
   items: SuitRecord[]

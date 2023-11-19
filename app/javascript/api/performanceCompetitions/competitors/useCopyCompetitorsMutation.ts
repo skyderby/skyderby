@@ -24,7 +24,7 @@ const useCopyCompetitorsMutation = (
   return useMutation({
     mutationFn,
     async onSuccess() {
-      await queryClient.refetchQueries(competitorsQuery(eventId, queryClient))
+      await queryClient.refetchQueries(competitorsQuery(eventId))
       await queryClient.refetchQueries(standingsQuery(eventId))
     }
   })
