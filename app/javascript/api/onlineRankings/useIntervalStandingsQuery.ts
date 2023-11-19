@@ -8,14 +8,14 @@ import {
 } from './common'
 
 type Params = { page?: number }
-type QueryKey = ['onlineRankingStandings', number, Params?]
+type QueryKey = ['onlineRankingIntervalStandings', number, string, Params?]
 
-const getStandings = (id: number, params: Params = {}) => {
+const getStandings = (id: number, slug: string, params: Params = {}) => {
   const urlParams = new URLSearchParams()
   Object.entries(params).forEach(([key, value]) =>
     urlParams.append(key, value.toString())
   )
-  const url = `${elementEndpoint(id)}/overall_standings?${urlParams}`
+  const url = `${elementEndpoint(id)}/interval_standings/${slug}?${urlParams}`
 
   return client.get(url).then(response => standingsResponseSchema.parse(response.data))
 }
@@ -24,18 +24,18 @@ const queryFn: QueryFunction<
   Omit<StandingsResponse, 'relations'>,
   QueryKey
 > = async ctx => {
-  const [, id, params] = ctx.queryKey
-  const { relations, ...data } = await getStandings(id, params)
+  const [, id, slug, params] = ctx.queryKey
+  const { relations, ...data } = await getStandings(id, slug, params)
 
   cacheStandingRelations(relations)
 
   return data
 }
 
-const useOverallStandingsQuery = (id: number, params?: { page: number }) =>
+const useAnnualStandingsQuery = (id: number, slug: string, params?: { page: number }) =>
   useSuspenseQuery({
-    queryKey: ['onlineRankingStandings', id, params],
+    queryKey: ['onlineRankingIntervalStandings', id, slug, params],
     queryFn
   })
 
-export default useOverallStandingsQuery
+export default useAnnualStandingsQuery

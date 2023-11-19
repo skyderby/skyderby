@@ -18,11 +18,11 @@ const Overall = ({ onlineRanking }: Props) => {
     data: { data: standings, totalPages, currentPage }
   } = useOverallStandingsQuery(onlineRanking.id, { page })
 
+  const showPodium = currentPage === 1 && standings.length >= 3
+
   return (
     <>
-      {currentPage === 1 && standings.length >= 3 && (
-        <Podium standings={standings} onlineRanking={onlineRanking} />
-      )}
+      {showPodium && <Podium standings={standings} onlineRanking={onlineRanking} />}
       <Scoreboard onlineRanking={onlineRanking} standings={standings} />
       <Pagination
         totalPages={totalPages}
