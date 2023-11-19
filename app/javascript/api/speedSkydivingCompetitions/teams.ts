@@ -125,7 +125,7 @@ export const useNewTeamMutation = (eventId: number): NewTeamMutation => {
     async onSuccess(response) {
       await Promise.all([
         queryClient.refetchQueries(teamStandingsQuery(eventId)),
-        queryClient.refetchQueries(competitorsQuery(eventId, queryClient))
+        queryClient.refetchQueries(competitorsQuery(eventId))
       ])
 
       const team = deserialize(response.data)
@@ -145,7 +145,7 @@ export const useEditTeamMutation = (eventId: number, id: number): EditTeamMutati
     async onSuccess(response) {
       await Promise.all([
         queryClient.refetchQueries(teamStandingsQuery(eventId)),
-        queryClient.refetchQueries(competitorsQuery(eventId, queryClient))
+        queryClient.refetchQueries(competitorsQuery(eventId))
       ])
 
       const updatedTeam = deserialize(response.data)
@@ -167,10 +167,10 @@ export const useDeleteTeamMutation = (): UseMutationResult<
 
   return useMutation({
     mutationFn: deleteTeam,
-    async onSuccess(response, { eventId, id }) {
+    async onSuccess(_response, { eventId, id }) {
       await Promise.all([
         queryClient.refetchQueries(teamStandingsQuery(eventId)),
-        queryClient.refetchQueries(competitorsQuery(eventId, queryClient))
+        queryClient.refetchQueries(competitorsQuery(eventId))
       ])
 
       const data: TeamRecord[] = queryClient.getQueryData(queryKey(eventId)) ?? []
