@@ -19,7 +19,7 @@ type Options = {
 const formatResult = (result: number, task: Task, options: Options = {}) => {
   const units = I18n.t(taskUnits[task])
   return [
-    result.toFixed(['time', 'flare'].includes(task) ? 1 : 0),
+    result.toFixed(['time', 'flare', 'base_race'].includes(task) ? 1 : 0),
     options.showUnits ? units : ''
   ]
     .filter(Boolean)
