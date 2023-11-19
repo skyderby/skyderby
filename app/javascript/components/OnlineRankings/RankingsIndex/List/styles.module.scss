@@ -1,7 +1,7 @@
 .group {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 1rem;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .card {
@@ -16,13 +16,14 @@
 }
 
 .title {
-  font-size: 1.5rem;
-  font-weight: 500;
-  color: var(--grey-80);
   margin-bottom: 0.5rem;
+
+  color: var(--grey-80);
+  font-weight: 500;
+  font-size: 1.5rem;
 }
 
 .description {
-  font-size: 0.875rem;
   color: var(--grey-80);
+  font-size: 0.875rem;
 }
