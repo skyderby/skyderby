@@ -60,6 +60,7 @@ Skyderby::Application.routes.draw do
       resources :online_rankings, only: %i[index show] do
         scope module: :online_rankings do
           resource :overall_standings, only: :show
+          resources :annual_standings, only: :show, param: :year
 
           collection do
             resources :groups, only: :show do
