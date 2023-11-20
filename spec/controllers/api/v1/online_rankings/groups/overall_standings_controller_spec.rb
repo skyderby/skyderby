@@ -10,7 +10,7 @@ describe Api::V1::OnlineRankings::Groups::OverallStandingsController do
       get :show, params: { group_id: group.id }, format: :json
 
       expect(response).to be_successful
-      standings = response.parsed_body['standings']
+      standings = response.parsed_body['data']
       expect(standings.map { _1['category'] }).to contain_exactly('wingsuit', 'tracksuit')
       wingsuit_standings = standings.find { _1['category'] == 'wingsuit' }
       expect(wingsuit_standings['rows'].size).to eq(1)
@@ -18,9 +18,11 @@ describe Api::V1::OnlineRankings::Groups::OverallStandingsController do
       expect(wingsuit_first_place['profileId']).to eq(profiles(:maynard).id)
       expect(wingsuit_first_place['results']).to eq({
         distance: {
+          rank: 1,
           result: 3900,
           points: 100,
-          suitId: suits(:apache).id
+          suitId: suits(:apache).id,
+          trackId: Track.where(pilot: profiles(:maynard), suit: suits(:apache)).first.id
         }
       }.deep_stringify_keys)
     end
