@@ -1,7 +1,7 @@
 import React from 'react'
-import { useProfileQuery } from 'api/profiles'
 import { OnlineRanking } from 'api/onlineRankings'
 import { GroupStandingsRow } from 'api/onlineRankings/groups'
+import ProfileName from 'components/ProfileName'
 
 const formatResult = (result: number | undefined, task: OnlineRanking['discipline']) => {
   if (!result) return
@@ -15,12 +15,12 @@ type Props = {
 }
 
 const StandingRow = ({ row, tasks }: Props) => {
-  const { data: profile } = useProfileQuery(row.profileId, { enabled: false })
-
   return (
     <tr>
       <td>{row.rank}</td>
-      <td>{profile?.name}</td>
+      <td>
+        <ProfileName id={row.profileId} />
+      </td>
       {tasks.map(task => (
         <React.Fragment key={task}>
           <td>{formatResult(row.results[task]?.result, task)}</td>
