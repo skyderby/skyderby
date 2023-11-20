@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_14_082145) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_20_073405) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -755,7 +755,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_082145) do
                     GROUP BY competitors.event_id) participant_countries ON ((events_1.id = participant_countries.event_id)))
             GROUP BY events_1.id, participant_countries.country_ids
           UNION ALL
-           SELECT 'Tournament'::text,
+           SELECT 'Tournament'::text AS text,
               tournaments.id,
               tournaments.name,
               3 AS rules,
@@ -764,8 +764,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_082145) do
               0,
               tournaments.responsible_id,
               tournaments.place_id,
-              NULL::integer,
-              NULL::integer,
+              NULL::integer AS int4,
+              NULL::integer AS int4,
               true AS bool,
               json_build_object('Open', count(competitors.id)) AS json_build_object,
               COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS "coalesce",
@@ -776,17 +776,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_082145) do
                LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
             GROUP BY tournaments.id
           UNION ALL
-           SELECT 'SpeedSkydivingCompetition'::text,
+           SELECT 'SpeedSkydivingCompetition'::text AS text,
               events_1.id,
               events_1.name,
-              NULL::integer,
+              NULL::integer AS int4,
               events_1.starts_at,
               events_1.status,
               events_1.visibility,
               events_1.responsible_id,
               events_1.place_id,
-              NULL::integer,
-              NULL::integer,
+              NULL::integer AS int4,
+              NULL::integer AS int4,
               events_1.is_official,
               COALESCE(json_object_agg(COALESCE(competitors_count.category_name, ''::character varying), competitors_count.count) FILTER (WHERE (competitors_count.category_name IS NOT NULL)), '{}'::json) AS "coalesce",
               participant_countries.country_ids,
@@ -806,17 +806,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_082145) do
                     GROUP BY competitors.event_id) participant_countries ON ((events_1.id = participant_countries.event_id)))
             GROUP BY events_1.id, participant_countries.country_ids
           UNION ALL
-           SELECT 'PerformanceCompetitionSeries'::text,
+           SELECT 'PerformanceCompetitionSeries'::text AS text,
               series.id,
               series.name,
-              NULL::integer,
+              NULL::integer AS int4,
               min(events_1.starts_at) AS min,
               series.status,
               series.visibility,
               series.responsible_id,
-              NULL::bigint,
-              NULL::integer,
-              NULL::integer,
+              NULL::bigint AS int8,
+              NULL::integer AS int4,
+              NULL::integer AS int4,
               true AS bool,
               json_object_agg(events_1.name, competitors_count.count) FILTER (WHERE (events_1.name IS NOT NULL)) AS json_object_agg,
               participant_countries.country_ids,
@@ -838,17 +838,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_082145) do
                     GROUP BY included_competitions_1.performance_competition_series_id) participant_countries ON ((series.id = participant_countries.performance_competition_series_id)))
             GROUP BY series.id, participant_countries.country_ids
           UNION ALL
-           SELECT 'SpeedSkydivingCompetitionSeries'::text,
+           SELECT 'SpeedSkydivingCompetitionSeries'::text AS text,
               series.id,
               series.name,
-              NULL::integer,
+              NULL::integer AS int4,
               min(events_1.starts_at) AS min,
               series.status,
               series.visibility,
               series.responsible_id,
-              NULL::bigint,
-              NULL::integer,
-              NULL::integer,
+              NULL::bigint AS int8,
+              NULL::integer AS int4,
+              NULL::integer AS int4,
               true AS bool,
               json_object_agg(events_1.name, competitors_count.count) FILTER (WHERE (events_1.name IS NOT NULL)) AS json_object_agg,
               participant_countries.country_ids,
@@ -995,15 +995,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_082145) do
           END DESC;
   SQL
   create_view "virtual_competition_group_overall_standing_rows", sql_definition: <<-SQL
-      SELECT results_by_profile.group_id,
-      results_by_profile.suits_kind,
-      results_by_profile.profile_id,
-      results_by_profile.wind_cancelled,
-      rank() OVER (PARTITION BY results_by_profile.group_id, results_by_profile.suits_kind, results_by_profile.wind_cancelled ORDER BY (sum(results_by_profile.points)) DESC) AS rank,
-      json_object_agg(results_by_profile.discipline, json_build_object('suit_id', results_by_profile.suit_id, 'result', results_by_profile.result, 'points', results_by_profile.points)) AS results,
-      json_object_agg(results_by_profile.discipline, results_by_profile.competition_id) AS competitions,
-      sum(results_by_profile.points) AS total_points
-     FROM ( SELECT DISTINCT ON (virtual_competitions.suits_kind, tracks.profile_id, virtual_competitions.id, virtual_competition_results.wind_cancelled) virtual_competitions.suits_kind,
+      WITH results_by_profile AS (
+           SELECT DISTINCT ON (virtual_competitions.suits_kind, tracks.profile_id, virtual_competitions.id, virtual_competition_results.wind_cancelled) virtual_competitions.suits_kind,
               tracks.profile_id,
               tracks.suit_id,
               virtual_competition_results.wind_cancelled,
@@ -1011,11 +1004,34 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_082145) do
               virtual_competitions.group_id,
               virtual_competitions.discipline,
               virtual_competition_results.result,
-              ((virtual_competition_results.result / max(virtual_competition_results.result) OVER (PARTITION BY virtual_competitions.id)) * (100)::double precision) AS points
+              virtual_competition_results.track_id,
+              round((((virtual_competition_results.result / max(virtual_competition_results.result) OVER (PARTITION BY virtual_competitions.id, virtual_competition_results.wind_cancelled)) * (100)::double precision))::numeric, 1) AS points
              FROM ((virtual_competitions
                LEFT JOIN virtual_competition_results ON ((virtual_competition_results.virtual_competition_id = virtual_competitions.id)))
                LEFT JOIN tracks ON ((virtual_competition_results.track_id = tracks.id)))
-            ORDER BY virtual_competitions.suits_kind, tracks.profile_id, virtual_competitions.id, virtual_competition_results.wind_cancelled, virtual_competition_results.result DESC) results_by_profile
-    GROUP BY results_by_profile.group_id, results_by_profile.suits_kind, results_by_profile.profile_id, results_by_profile.wind_cancelled;
+            ORDER BY virtual_competitions.suits_kind, tracks.profile_id, virtual_competitions.id, virtual_competition_results.wind_cancelled, virtual_competition_results.result DESC
+          ), ranked_results_by_profile AS (
+           SELECT results_by_profile.suits_kind,
+              results_by_profile.profile_id,
+              results_by_profile.suit_id,
+              results_by_profile.wind_cancelled,
+              results_by_profile.competition_id,
+              results_by_profile.group_id,
+              results_by_profile.discipline,
+              results_by_profile.result,
+              results_by_profile.track_id,
+              results_by_profile.points,
+              rank() OVER (PARTITION BY results_by_profile.competition_id, results_by_profile.wind_cancelled ORDER BY results_by_profile.result DESC) AS rank
+             FROM results_by_profile
+          )
+   SELECT ranked_results_by_profile.group_id,
+      ranked_results_by_profile.suits_kind,
+      ranked_results_by_profile.profile_id,
+      ranked_results_by_profile.wind_cancelled,
+      rank() OVER (PARTITION BY ranked_results_by_profile.group_id, ranked_results_by_profile.suits_kind, ranked_results_by_profile.wind_cancelled ORDER BY (sum(ranked_results_by_profile.points)) DESC) AS rank,
+      json_object_agg(ranked_results_by_profile.discipline, json_build_object('rank', ranked_results_by_profile.rank, 'suit_id', ranked_results_by_profile.suit_id, 'track_id', ranked_results_by_profile.track_id, 'result', ranked_results_by_profile.result, 'points', ranked_results_by_profile.points)) AS results,
+      sum(ranked_results_by_profile.points) AS total_points
+     FROM ranked_results_by_profile
+    GROUP BY ranked_results_by_profile.group_id, ranked_results_by_profile.suits_kind, ranked_results_by_profile.profile_id, ranked_results_by_profile.wind_cancelled;
   SQL
 end

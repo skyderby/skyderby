@@ -15,3 +15,16 @@
 .scoreboardTable {
   composes: table from '~styles/scoreboard';
 }
+
+.category {
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.alignRight {
+  text-align: right;
+}
+
+.result {
+  color: var(--text-color);
+}

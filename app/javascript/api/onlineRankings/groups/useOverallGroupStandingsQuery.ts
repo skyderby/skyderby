@@ -12,11 +12,14 @@ export type GroupStandingsRow = {
   results: Record<
     OnlineRanking['discipline'],
     {
+      rank: number
       result: number
       points: number
       suitId: number
+      trackId: number
     }
   >
+  totalPoints: number
 }
 
 export type GroupStandings = {

@@ -10,7 +10,7 @@ type Props = {
   group: OnlineRankingGroup
   windCancellation: boolean
   tasks: OnlineRanking['discipline'][]
-  selectedTask: string | null
+  selectedTask: OnlineRanking['discipline'] | null
 }
 
 const Overall = ({ group, windCancellation, tasks, selectedTask }: Props) => {
@@ -19,7 +19,7 @@ const Overall = ({ group, windCancellation, tasks, selectedTask }: Props) => {
     selectedTask
   })
 
-  return <Scoreboard standings={standings} tasks={tasks} />
+  return <Scoreboard standings={standings} tasks={tasks} selectedTask={selectedTask} />
 }
 
 export default Overall
