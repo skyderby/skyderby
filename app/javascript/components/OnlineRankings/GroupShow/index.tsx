@@ -5,6 +5,7 @@ import { useOnlineRankingsQuery, OnlineRanking, tasksEnum } from 'api/onlineRank
 import Header from './Header'
 import ActionsBar from './ActionsBar'
 import Overall from './Overall'
+import Year from './Year'
 import styles from './styles.module.scss'
 
 const redirectPath = (groupId: number, lastYear: number | undefined) => {
@@ -61,7 +62,17 @@ const GroupShow = () => {
               />
             }
           />
-          <Route path="/year/:year" element={'Year'} />
+          <Route
+            path="/year/:year"
+            element={
+              <Year
+                group={group}
+                windCancellation={windCancellation}
+                tasks={tasks}
+                selectedTask={selectedTask}
+              />
+            }
+          />
           <Route
             path="*"
             element={<Navigate to={redirectPath(group.id, years[years.length - 1])} />}

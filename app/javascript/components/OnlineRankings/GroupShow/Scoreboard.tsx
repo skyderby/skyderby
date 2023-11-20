@@ -1,7 +1,7 @@
 import React from 'react'
 import { taskUnitsTranslationKey } from 'utils/formatResult'
 import { useI18n } from 'components/TranslationsProvider'
-import { GroupStandings } from 'api/onlineRankings/groups/useOverallGroupStandingsQuery'
+import { GroupStandings } from 'api/onlineRankings/groups'
 import { OnlineRanking } from 'api/onlineRankings'
 import StandingRow from './StandingRow'
 import styles from './styles.module.scss'

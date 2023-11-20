@@ -3,7 +3,7 @@ import { QueryFunction, useSuspenseQuery } from '@tanstack/react-query'
 import { cacheProfiles } from 'api/profiles'
 import { groupStandingsResponseSchema, GroupStandings } from './common'
 
-type QueryKey = ['onlineRankingOverallGroupStandings', number, Params]
+type QueryKey = ['onlineRankingAnnualGroupStandings', number, number, Params]
 
 type Params = {
   windCancellation?: boolean
@@ -11,14 +11,14 @@ type Params = {
 }
 
 const endpoint = (groupId: number) =>
-  `/api/v1/online_rankings/groups/${groupId}/overall_standings`
+  `/api/v1/online_rankings/groups/${groupId}/annual_standings`
 
-const getStandings = (groupId: number, params: Params) => {
+const getStandings = (groupId: number, year: number, params: Params) => {
   const urlParams = new URLSearchParams()
   urlParams.set('windCancellation', String(params.windCancellation))
   if (params.selectedTask) urlParams.set('selectedTask', params.selectedTask)
 
-  const url = `${endpoint(groupId)}?${urlParams.toString()}`
+  const url = `${endpoint(groupId)}/${year}?${urlParams.toString()}`
 
   return client
     .get(url)
@@ -26,18 +26,22 @@ const getStandings = (groupId: number, params: Params) => {
 }
 
 const queryFn: QueryFunction<GroupStandings[], QueryKey> = async ctx => {
-  const [, groupId, params] = ctx.queryKey
-  const { data, relations } = await getStandings(groupId, params)
+  const [, groupId, year, params] = ctx.queryKey
+  const { data, relations } = await getStandings(groupId, year, params)
 
   cacheProfiles(relations.profiles)
 
   return data
 }
 
-const useOverallGroupStandingsQuery = (groupId: number, params: Params = {}) =>
+const useAnnualGroupStandingsQuery = (
+  groupId: number,
+  year: number,
+  params: Params = {}
+) =>
   useSuspenseQuery({
-    queryKey: ['onlineRankingOverallGroupStandings', groupId, params],
+    queryKey: ['onlineRankingAnnualGroupStandings', groupId, year, params],
     queryFn
   })
 
-export default useOverallGroupStandingsQuery
+export default useAnnualGroupStandingsQuery

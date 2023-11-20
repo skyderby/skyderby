@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_20_073405) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_20_100723) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -1033,5 +1033,48 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_20_073405) do
       sum(ranked_results_by_profile.points) AS total_points
      FROM ranked_results_by_profile
     GROUP BY ranked_results_by_profile.group_id, ranked_results_by_profile.suits_kind, ranked_results_by_profile.profile_id, ranked_results_by_profile.wind_cancelled;
+  SQL
+  create_view "virtual_competition_group_annual_standing_rows", sql_definition: <<-SQL
+      WITH results_by_profile AS (
+           SELECT DISTINCT ON (virtual_competitions.suits_kind, tracks.profile_id, virtual_competitions.id, virtual_competition_results.wind_cancelled, (date_part('year'::text, tracks.recorded_at))) virtual_competitions.suits_kind,
+              tracks.profile_id,
+              tracks.suit_id,
+              virtual_competition_results.wind_cancelled,
+              virtual_competitions.id AS competition_id,
+              virtual_competitions.group_id,
+              virtual_competitions.discipline,
+              virtual_competition_results.result,
+              virtual_competition_results.track_id,
+              round((((virtual_competition_results.result / max(virtual_competition_results.result) OVER (PARTITION BY virtual_competitions.id, virtual_competition_results.wind_cancelled, (date_part('year'::text, tracks.recorded_at)))) * (100)::double precision))::numeric, 1) AS points,
+              date_part('year'::text, tracks.recorded_at) AS year
+             FROM ((virtual_competitions
+               LEFT JOIN virtual_competition_results ON ((virtual_competition_results.virtual_competition_id = virtual_competitions.id)))
+               LEFT JOIN tracks ON ((virtual_competition_results.track_id = tracks.id)))
+            ORDER BY virtual_competitions.suits_kind, tracks.profile_id, virtual_competitions.id, virtual_competition_results.wind_cancelled, (date_part('year'::text, tracks.recorded_at)), virtual_competition_results.result DESC
+          ), ranked_results_by_profile AS (
+           SELECT results_by_profile.suits_kind,
+              results_by_profile.profile_id,
+              results_by_profile.suit_id,
+              results_by_profile.wind_cancelled,
+              results_by_profile.competition_id,
+              results_by_profile.group_id,
+              results_by_profile.discipline,
+              results_by_profile.result,
+              results_by_profile.track_id,
+              results_by_profile.points,
+              results_by_profile.year,
+              rank() OVER (PARTITION BY results_by_profile.competition_id, results_by_profile.wind_cancelled, results_by_profile.year ORDER BY results_by_profile.result DESC) AS rank
+             FROM results_by_profile
+          )
+   SELECT ranked_results_by_profile.group_id,
+      ranked_results_by_profile.suits_kind,
+      ranked_results_by_profile.profile_id,
+      ranked_results_by_profile.wind_cancelled,
+      ranked_results_by_profile.year,
+      rank() OVER (PARTITION BY ranked_results_by_profile.group_id, ranked_results_by_profile.suits_kind, ranked_results_by_profile.wind_cancelled, ranked_results_by_profile.year ORDER BY (sum(ranked_results_by_profile.points)) DESC) AS rank,
+      json_object_agg(ranked_results_by_profile.discipline, json_build_object('rank', ranked_results_by_profile.rank, 'suit_id', ranked_results_by_profile.suit_id, 'track_id', ranked_results_by_profile.track_id, 'result', ranked_results_by_profile.result, 'points', ranked_results_by_profile.points)) AS results,
+      sum(ranked_results_by_profile.points) AS total_points
+     FROM ranked_results_by_profile
+    GROUP BY ranked_results_by_profile.group_id, ranked_results_by_profile.suits_kind, ranked_results_by_profile.profile_id, ranked_results_by_profile.wind_cancelled, ranked_results_by_profile.year;
   SQL
 end

@@ -30,8 +30,11 @@ const StandingRow = ({ row, tasks, selectedTask }: Props) => {
         <React.Fragment key={task}>
           <td className={styles.alignRight}>
             {row.results[task] && (
-              <Link to={`/tracks/${row.results[task].trackId}`} className={styles.result}>
-                {formatResult(row.results[task].result, task)}
+              <Link
+                to={`/tracks/${row.results[task]?.trackId}`}
+                className={styles.result}
+              >
+                {formatResult(row.results[task]?.result, task)}
               </Link>
             )}
           </td>

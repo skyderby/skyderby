@@ -1,4 +1,4 @@
-export type { OnlineRankingGroup } from './common'
+export type { OnlineRankingGroup, GroupStandingsRow, GroupStandings } from './common'
 export {
   cacheGroups,
   onlineRankingGroupSchema,
@@ -7,4 +7,4 @@ export {
 
 export { default as useGroupQuery } from './useGroupQuery'
 export { default as useOverallGroupStandingsQuery } from './useOverallGroupStandingsQuery'
-export type { GroupStandingsRow } from './useOverallGroupStandingsQuery'
+export { default as useAnnualGroupStandingsQuery } from './useAnnualGroupStandingsQuery'

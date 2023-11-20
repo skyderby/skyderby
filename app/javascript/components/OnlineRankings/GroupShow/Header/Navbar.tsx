@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 
 import { useI18n } from 'components/TranslationsProvider'
 import PageNavbar from 'components/PageNavbar'
@@ -15,11 +15,12 @@ type Props = {
 const Navbar = ({ onlineRankingGroup, years }: Props) => {
   const { t } = useI18n()
   const eventUrl = `/online_rankings/groups/${onlineRankingGroup.id}`
+  const location = useLocation()
 
   return (
     <PageNavbar>
       <PageNavbar.Item>
-        <NavLink end to={`${eventUrl}/overall`}>
+        <NavLink end to={{ pathname: `${eventUrl}/overall`, search: location.search }}>
           <span>
             <ListIcon />
             {t('virtual_competitions.navbar.overall')}
@@ -29,7 +30,7 @@ const Navbar = ({ onlineRankingGroup, years }: Props) => {
 
       {years.map(year => (
         <PageNavbar.Item key={year}>
-          <NavLink to={`${eventUrl}/year/${year}`}>
+          <NavLink to={{ pathname: `${eventUrl}/year/${year}`, search: location.search }}>
             <span>{year}</span>
           </NavLink>
         </PageNavbar.Item>
