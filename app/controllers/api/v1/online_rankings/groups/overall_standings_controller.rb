@@ -1,14 +1,14 @@
-module Api
-  module V1
-    module OnlineRankings
-      module Groups
-        class OverallStandingsController < ApplicationController
-          def show
-            @group = VirtualCompetition::Group.find(params[:group_id])
-            @standings = @group.overall_standing_rows.where(rank: 1..20, wind_cancelled: false).group_by(&:suits_kind)
-          end
-        end
-      end
-    end
+class Api::V1::OnlineRankings::Groups::OverallStandingsController < Api::ApplicationController
+  def show
+    @group = VirtualCompetition::Group.find(params[:group_id])
+    @standings = @group.overall_standing_rows
+                       .includes(profile: [:country, :contribution_details])
+                       .where(rank: 1..20, wind_cancelled:).group_by(&:suits_kind)
+  end
+
+  private
+
+  def wind_cancelled
+    params.key?(:wind_cancellation) ? ActiveModel::Type::Boolean.new.cast(params[:wind_cancellation]) : true
   end
 end

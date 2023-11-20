@@ -4,7 +4,7 @@ import { cacheProfiles, ProfileRecord } from 'api/profiles'
 import { SuitCategory } from 'api/suits'
 import { OnlineRanking } from 'api/onlineRankings'
 
-type QueryKey = ['onlineRankingGroupStandings', number]
+type QueryKey = ['onlineRankingOverallGroupStandings', number, Params]
 
 export type GroupStandingsRow = {
   rank: number
@@ -31,27 +31,37 @@ type GroupStandingsResponse = AxiosResponse<{
   }
 }>
 
+type Params = {
+  windCancellation?: boolean
+  selectedTask?: string | null
+}
+
 const endpoint = (groupId: number) =>
   `/api/v1/online_rankings/groups/${groupId}/overall_standings`
 
-const getStandings = (groupId: number) =>
-  client
-    .get<never, GroupStandingsResponse>(endpoint(groupId))
-    .then(response => response.data)
+const getStandings = (groupId: number, params: Params) => {
+  const urlParams = new URLSearchParams()
+  urlParams.set('windCancellation', String(params.windCancellation))
+  if (params.selectedTask) urlParams.set('selectedTask', params.selectedTask)
+
+  const url = `${endpoint(groupId)}?${urlParams.toString()}`
+
+  return client.get<never, GroupStandingsResponse>(url).then(response => response.data)
+}
 
 const queryFn: QueryFunction<GroupStandings[], QueryKey> = async ctx => {
-  const [_key, groupId] = ctx.queryKey
-  const { standings, relations } = await getStandings(groupId)
+  const [, groupId, params] = ctx.queryKey
+  const { standings, relations } = await getStandings(groupId, params)
 
   cacheProfiles(relations.profiles)
 
   return standings
 }
 
-const useGroupStandingsQuery = (groupId: number) =>
+const useOverallGroupStandingsQuery = (groupId: number, params: Params = {}) =>
   useSuspenseQuery({
-    queryKey: ['onlineRankingGroupStandings', groupId],
+    queryKey: ['onlineRankingOverallGroupStandings', groupId, params],
     queryFn
   })
 
-export default useGroupStandingsQuery
+export default useOverallGroupStandingsQuery

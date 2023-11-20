@@ -9,23 +9,31 @@ import { OnlineRankingGroup } from 'api/onlineRankings'
 
 type Props = {
   onlineRankingGroup: OnlineRankingGroup
+  years: number[]
 }
 
-const Navbar = ({ onlineRankingGroup }: Props) => {
+const Navbar = ({ onlineRankingGroup, years }: Props) => {
   const { t } = useI18n()
   const eventUrl = `/online_rankings/groups/${onlineRankingGroup.id}`
 
   return (
     <PageNavbar>
       <PageNavbar.Item>
-        <NavLink to={`${eventUrl}`}>
+        <NavLink end to={`${eventUrl}/overall`}>
           <span>
             <ListIcon />
-            Cumulative scoreboard
+            {t('virtual_competitions.navbar.overall')}
           </span>
         </NavLink>
       </PageNavbar.Item>
 
+      {years.map(year => (
+        <PageNavbar.Item key={year}>
+          <NavLink to={`${eventUrl}/year/${year}`}>
+            <span>{year}</span>
+          </NavLink>
+        </PageNavbar.Item>
+      ))}
       {onlineRankingGroup.permissions.canEdit && (
         <>
           <PageNavbar.Spacer />
