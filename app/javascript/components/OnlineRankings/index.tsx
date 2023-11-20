@@ -10,7 +10,7 @@ const OnlineRankings = () => {
     <Routes>
       <Route index element={<RankingsIndex />} />
       <Route path=":id/*" element={<OnlineRankingShow />} />
-      <Route path="groups/:groupId" element={<GroupShow />} />
+      <Route path="groups/:groupId/*" element={<GroupShow />} />
       <Route path="*" element={<ErrorPage.NotFound />} />
     </Routes>
   )

@@ -1,0 +1,70 @@
+@import 'styles/breakpoints';
+
+.container {
+  display: flex;
+
+  background-color: var(--white);
+
+  @include lg-screen {
+    border-radius: var(--border-radius-md);
+
+    box-shadow: var(--block-box-shadow);
+  }
+}
+
+.button {
+  composes: button from '~styles/button.module.scss';
+  composes: flat from '~styles/button.module.scss';
+
+  position: relative;
+
+  display: inline-flex;
+  padding: 0.5rem 0.75rem;
+  border-top: 0;
+
+  border-right: var(--default-border);
+  border-bottom: 0;
+  overflow: hidden;
+}
+
+.button:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.button:not(:first-child) {
+  border-radius: 0;
+}
+
+.button:global(.active)::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  height: 3px;
+
+  background-color: var(--blue-grey-60);
+
+  content: '';
+}
+
+.button:not(:disabled):hover {
+  border-right: var(--default-border);
+}
+
+.button.right {
+  margin-left: auto;
+  border-right: 0;
+  border-left: var(--default-border);
+}
+
+.button.right:last-child {
+  border-top-right-radius: var(--border-radius-md);
+  border-bottom-right-radius: var(--border-radius-md);
+}
+
+.button.right:hover {
+  border-right: 0;
+  border-left: var(--default-border);
+}
