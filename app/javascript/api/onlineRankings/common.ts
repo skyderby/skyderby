@@ -15,7 +15,7 @@ const tasks = [
   'flare',
   'base_race'
 ] as const
-const tasksEnum = z.enum(tasks)
+export const tasksEnum = z.enum(tasks)
 const defaultView = z.enum(['default_overall', 'default_last_year'])
 
 export const onlineRankingSchema = z.object({

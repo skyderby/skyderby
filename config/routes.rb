@@ -66,7 +66,7 @@ Skyderby::Application.routes.draw do
           collection do
             resources :groups, only: :show do
               resource :overall_standings, only: :show, module: :groups
-              resource :standings_by_year, only: :show, module: :groups
+              resources :annual_standings, only: :show, module: :groups, param: :year
             end
           end
         end

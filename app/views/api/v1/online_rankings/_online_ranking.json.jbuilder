@@ -17,11 +17,16 @@ json.extract! online_ranking,
               :display_highest_gr,
               :display_on_start_page,
               :default_view,
-              :interval_type,
-              :years
+              :interval_type
 
-json.intervals online_ranking.intervals do |interval|
-  json.extract! interval, :name, :slug
+if online_ranking.custom_intervals?
+  json.years []
+  json.intervals online_ranking.intervals do |interval|
+    json.extract! interval, :name, :slug
+  end
+else
+  json.years online_ranking.years
+  json.intervals []
 end
 
 json.created_at online_ranking.created_at.iso8601

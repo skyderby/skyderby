@@ -1,11 +1,11 @@
-class Api::V1::OnlineRankings::Groups::OverallStandingsController < Api::ApplicationController
+class Api::V1::OnlineRankings::Groups::AnnualStandingsController < Api::ApplicationController
   CATEGORIES_ORDER = %w[wingsuit monotrack tracksuit slick].freeze
 
   def show
     @group = VirtualCompetition::Group.find(params[:group_id])
-    @standings = @group.overall_standing_rows
+    @standings = @group.annual_standing_rows
                        .includes(profile: [:country, :contribution_details])
-                       .where(wind_cancelled:)
+                       .where(wind_cancelled:, year: params[:year])
                        .where("#{rank_column} <= 20")
                        .order(rank_column)
                        .group_by(&:suits_kind)

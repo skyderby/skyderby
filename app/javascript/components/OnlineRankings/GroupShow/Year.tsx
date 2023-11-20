@@ -2,9 +2,10 @@ import React from 'react'
 import {
   OnlineRanking,
   OnlineRankingGroup,
-  useOverallGroupStandingsQuery
+  useAnnualGroupStandingsQuery
 } from 'api/onlineRankings'
 import Scoreboard from './Scoreboard'
+import { useParams } from 'react-router-dom'
 
 type Props = {
   group: OnlineRankingGroup
@@ -13,8 +14,10 @@ type Props = {
   selectedTask: OnlineRanking['discipline'] | null
 }
 
-const Overall = ({ group, windCancellation, tasks, selectedTask }: Props) => {
-  const { data: standings } = useOverallGroupStandingsQuery(group.id, {
+const Year = ({ group, windCancellation, tasks, selectedTask }: Props) => {
+  const params = useParams()
+  const year = Number(params.year)
+  const { data: standings } = useAnnualGroupStandingsQuery(group.id, year, {
     windCancellation,
     selectedTask
   })
@@ -22,4 +25,4 @@ const Overall = ({ group, windCancellation, tasks, selectedTask }: Props) => {
   return <Scoreboard standings={standings} tasks={tasks} selectedTask={selectedTask} />
 }
 
-export default Overall
+export default Year
