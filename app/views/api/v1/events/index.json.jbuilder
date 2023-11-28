@@ -10,13 +10,13 @@ json.items @events do |record|
     :responsible_id,
     :place_id,
     :competitors_count,
-    :country_ids,
     :range_from,
     :range_to,
     :is_official,
     :updated_at,
     :created_at
 
+  json.country_ids record.country_ids || []
   type =
     if record.event_type == 'Event' && %w[speed_distance_time fai].include?(record.rules)
       'performance_competition'
