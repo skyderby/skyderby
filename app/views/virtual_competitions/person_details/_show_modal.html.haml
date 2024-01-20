@@ -9,7 +9,7 @@
             Close
       %h4.modal-title
         = t('virtual_competitions.person_details.modal_title')
- 
+
     .modal-body
       %table.table
         %thead
@@ -25,7 +25,12 @@
               %td= suit_presentation(record.suit)
               - if @details.competition.worldwide?
                 %td= track_place(record.track)
-              %td.text-right= format_result(record.result, @details.competition)
+              %td.text-right
+                = link_to format_result(record.result, @details.competition),
+                          record.track,
+                          'data-toggle' => 'tooltip',
+                          title: t('.show_details'),
+                          class: 'dotted-underline'
               %td.text-right= record.track.recorded_at&.strftime('%d.%m.%Y')
 
       #person-details__chart
