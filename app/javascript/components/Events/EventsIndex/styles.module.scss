@@ -2,6 +2,7 @@
 
 .container {
   display: grid;
+  grid-auto-rows: min-content;
   grid-gap: 1rem;
   width: 100%;
   margin: 0 auto;
@@ -18,6 +19,11 @@
   font-weight: bold;
   font-size: 2rem;
   letter-spacing: 1px;
+}
+
+.input {
+  composes: input from '~styles/input';
+  composes: outlined from '~styles/input';
 }
 
 @keyframes glow {
