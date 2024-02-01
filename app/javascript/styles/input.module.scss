@@ -47,6 +47,10 @@
   border: solid 1px var(--border-color);
 
   background-color: var(--white);
+
+  &:focus {
+    background-color: var(--white);
+  }
 }
 
 .sizeLg {

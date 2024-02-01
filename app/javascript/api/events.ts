@@ -10,10 +10,12 @@ const endpoint = '/api/v1/events'
 type IndexParams = {
   page?: number
   perPage?: number
+  searchTerm?: string
 }
 
 const eventTypes = [
   'speedSkydivingCompetition',
+  'speedSkydivingCompetitionSeries',
   'performanceCompetition',
   'hungaryBoogie',
   'tournament',
@@ -46,7 +48,7 @@ export const eventIndexRecordSchema = z.object({
   status: eventStatusesEnum,
   visibility: eventVisibilitiesEnum,
   responsibleId: z.number(),
-  placeId: z.number(),
+  placeId: z.number().nullable(),
   competitorsCount: z.record(z.number()),
   countryIds: z.array(z.number()),
   rangeFrom: z.number().nullable(),
@@ -89,10 +91,11 @@ export const extractParamsFromUrl = (urlSearch: string): IndexParams => {
   return { page }
 }
 
-const getEvents = ({ page = 1, perPage = 7 }: IndexParams) => {
+const getEvents = ({ page = 1, perPage = 7, searchTerm }: IndexParams) => {
   const urlParams = new URLSearchParams()
   urlParams.set('page', String(page))
   urlParams.set('perPage', String(perPage))
+  if (searchTerm) urlParams.set('term', searchTerm)
 
   const url = [endpoint, urlParams.toString()].join('?')
 

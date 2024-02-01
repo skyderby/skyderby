@@ -15,7 +15,8 @@ const types: Record<EventType, string> = {
   hungaryBoogie: 'Hungary Boogie',
   tournament: 'Single elimination',
   competitionSeries: 'Cumulative scoreboard',
-  speedSkydivingCompetition: 'Speed Skydiving'
+  speedSkydivingCompetition: 'Speed Skydiving',
+  speedSkydivingCompetitionSeries: 'Speed Skydiving Cumulative scoreboard'
 }
 
 const eventUrl = ({ type, id }: { type: EventType; id: number }) => {
@@ -24,7 +25,8 @@ const eventUrl = ({ type, id }: { type: EventType; id: number }) => {
     hungaryBoogie: 'boogie',
     tournament: 'tournament',
     competitionSeries: 'series',
-    speedSkydivingCompetition: 'speed_skydiving'
+    speedSkydivingCompetition: 'speed_skydiving',
+    speedSkydivingCompetitionSeries: 'speed_skydiving_series'
   }
 
   return `/events/${prefixes[type]}/${id}`
