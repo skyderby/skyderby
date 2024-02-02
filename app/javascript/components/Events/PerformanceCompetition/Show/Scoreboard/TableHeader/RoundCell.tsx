@@ -1,14 +1,22 @@
-import React, { useRef, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
+import cx from 'clsx'
+import { AxiosError } from 'axios'
+import Tippy from '@tippyjs/react'
+import toast from 'react-hot-toast'
 
 import {
   PerformanceCompetition,
   Round,
-  useDeleteRoundMutation
+  useDeleteRoundMutation,
+  useUpdateRoundMutation
 } from 'api/performanceCompetitions'
 import useClickOutside from 'hooks/useClickOutside'
 import { useI18n } from 'components/TranslationsProvider'
-import EllipsisIcon from 'icons/ellipsis-v'
 import Dropdown from 'components/Dropdown'
+import EllipsisIcon from 'icons/ellipsis-v'
+import CircleIcon from 'icons/circle'
+import CheckCircleIcon from 'icons/check-circle'
+import RequestErrorToast from 'components/RequestErrorToast'
 import styles from './styles.module.scss'
 
 type RoundProps = {
@@ -19,16 +27,47 @@ type RoundProps = {
 const RoundCell = ({ event, round }: RoundProps) => {
   const { t } = useI18n()
   const [showRoundActions, setShowRoundActions] = useState(false)
-  const actionsButtonRef = useRef<HTMLTableHeaderCellElement>(null)
+  const actionsButtonRef = useRef<HTMLTableCellElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
   const deleteMutation = useDeleteRoundMutation(event.id, round.id)
+  const updateMutation = useUpdateRoundMutation(event.id, round.id)
 
   useClickOutside([menuRef, actionsButtonRef], () => setShowRoundActions(false))
 
-  const deleteRound = () => deleteMutation.mutate()
+  const mutationOptions = useMemo(
+    () => ({
+      onSettled: () => setShowRoundActions(false),
+      onError: (error: AxiosError<Record<string, string[]>>) => {
+        toast.error(<RequestErrorToast response={error.response} />)
+      }
+    }),
+    []
+  )
+
+  const deleteRound = () => deleteMutation.mutate(undefined, mutationOptions)
+  const toggleCompleted = () =>
+    updateMutation.mutate(
+      {
+        completed: !round.completed
+      },
+      mutationOptions
+    )
 
   return (
     <th className={styles.round} ref={actionsButtonRef} colSpan={2}>
+      {(round.completed || event.permissions.canEdit) && (
+        <Tippy
+          content={
+            round.completed
+              ? 'Round results are final'
+              : 'Mark round as completed when results are final'
+          }
+        >
+          <div className={cx(styles.roundStatus, round.completed && styles.completed)}>
+            {round.completed ? <CheckCircleIcon /> : <CircleIcon />}
+          </div>
+        </Tippy>
+      )}
       {round.number}
       {event.permissions.canEdit && (
         <>
@@ -47,9 +86,12 @@ const RoundCell = ({ event, round }: RoundProps) => {
                 modifiers: [{ name: 'offset', options: { offset: [0, 10] } }]
               }}
             >
-              <button className={styles.actionButton} onClick={deleteRound}>
+              <Dropdown.Button onClick={toggleCompleted}>
+                {round.completed ? 'Mark uncompleted' : 'Mark complete'}
+              </Dropdown.Button>
+              <Dropdown.Button onClick={deleteRound}>
                 {t('general.delete')}
-              </button>
+              </Dropdown.Button>
             </Dropdown>
           )}
         </>

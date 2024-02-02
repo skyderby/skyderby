@@ -7,25 +7,20 @@ import {
 
 import {
   Round,
-  SerializedRound,
   QueryKey,
+  roundsIndexSchema,
   queryKey,
-  collectionEndpoint,
-  deserialize
+  collectionEndpoint
 } from './common'
 import client from 'api/client'
-import { AxiosError, AxiosResponse } from 'axios'
+import { AxiosError } from 'axios'
 
-const getRounds = (eventId: number) =>
-  client
-    .get<never, AxiosResponse<SerializedRound[]>>(collectionEndpoint(eventId))
-    .then(response => response.data)
+const getRounds = (eventId: number) => client.get<never>(collectionEndpoint(eventId))
 
 const queryFn: QueryFunction<Round[], QueryKey> = async ctx => {
   const [_key, eventId] = ctx.queryKey
-  const data = await getRounds(eventId)
-
-  return data.map(deserialize)
+  const response = await getRounds(eventId)
+  return roundsIndexSchema.parse(response.data)
 }
 
 type RoundsQueryOptions<T> = UseQueryOptions<Round[], AxiosError, T, QueryKey>

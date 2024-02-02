@@ -111,7 +111,7 @@ Skyderby::Application.routes.draw do
         scope module: :events do
           resource :scoreboard, only: :show
 
-          resources :rounds, only: [:index, :show] do
+          resources :rounds, only: %i[:index, :show] do
             scope module: :rounds do
               resources :reference_point_assignments, only: :create
             end
