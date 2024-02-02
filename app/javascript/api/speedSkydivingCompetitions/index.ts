@@ -1,4 +1,5 @@
 export * from './results'
+export * from './rounds'
 
 export type {
   SpeedSkydivingCompetitionMutation,
@@ -9,7 +10,6 @@ export type {
   SpeedSkydivingCompetition,
   Competitor,
   Category,
-  Round,
   CompetitorStandingRow,
   CategoryStandings
 } from './types'
@@ -20,15 +20,6 @@ export {
   useEditSpeedSkydivingCompetitionMutation,
   preloadSpeedSkydivingCompetition
 } from './speedSkydivingCompetition'
-
-export {
-  useRoundsQuery,
-  useRoundQuery,
-  useNewRoundMutation,
-  useEditRoundMutation,
-  useDeleteRoundMutation,
-  preloadRounds
-} from './rounds'
 
 export {
   useCategoriesQuery,

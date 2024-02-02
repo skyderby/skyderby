@@ -14,7 +14,7 @@ export {
 } from './usePerformanceCompetitionsQuery'
 export { default as useCreatePerformanceCompetitionMutation } from './useCreatePerformanceCompetitionMutation'
 export { default as useUpdatePerformanceCompetitionMutation } from './useUpdatePerformanceCompetitionMutation'
-export { default as useStandingsQuery } from './useStandingsQuery'
+export { default as useStandingsQuery, standingsQuery } from './useStandingsQuery'
 export {
   default as useTeamStandingsQuery,
   teamStandingsQuery

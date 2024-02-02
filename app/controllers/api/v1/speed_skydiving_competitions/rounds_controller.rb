@@ -1,5 +1,6 @@
 class Api::V1::SpeedSkydivingCompetitions::RoundsController < Api::ApplicationController
   before_action :set_event
+  before_action :set_round, only: %i[update destroy]
 
   def index
     authorize @event, :show?
@@ -24,8 +25,6 @@ class Api::V1::SpeedSkydivingCompetitions::RoundsController < Api::ApplicationCo
   def update
     authorize @event, :update?
 
-    @round = @event.rounds.find(params[:id])
-
     respond_to do |format|
       if @round.update(round_params)
         format.json
@@ -37,8 +36,6 @@ class Api::V1::SpeedSkydivingCompetitions::RoundsController < Api::ApplicationCo
 
   def destroy
     authorize @event, :update?
-
-    @round = @event.rounds.find(params[:id])
 
     respond_to do |format|
       if @round.destroy
@@ -53,6 +50,10 @@ class Api::V1::SpeedSkydivingCompetitions::RoundsController < Api::ApplicationCo
 
   def set_event
     @event = SpeedSkydivingCompetition.find(params[:speed_skydiving_competition_id])
+  end
+
+  def set_round
+    @round = @event.rounds.find(params[:id])
   end
 
   def round_params

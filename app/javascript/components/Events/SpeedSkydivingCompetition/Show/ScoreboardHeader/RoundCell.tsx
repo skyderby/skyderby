@@ -7,7 +7,7 @@ import cx from 'clsx'
 import { Round, SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions/types'
 import {
   useDeleteRoundMutation,
-  useEditRoundMutation
+  useUpdateRoundMutation
 } from 'api/speedSkydivingCompetitions'
 import useClickOutside from 'hooks/useClickOutside'
 import { useI18n } from 'components/TranslationsProvider'
@@ -28,8 +28,8 @@ const RoundCell = ({ event, round }: RoundProps): JSX.Element => {
   const [showRoundActions, setShowRoundActions] = useState(false)
   const actionsButtonRef = useRef<HTMLTableCellElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
-  const deleteMutation = useDeleteRoundMutation()
-  const editMutation = useEditRoundMutation()
+  const deleteMutation = useDeleteRoundMutation(event.id, round.id)
+  const editMutation = useUpdateRoundMutation(event.id, round.id)
 
   useClickOutside([menuRef, actionsButtonRef], () => setShowRoundActions(false))
 
@@ -43,14 +43,11 @@ const RoundCell = ({ event, round }: RoundProps): JSX.Element => {
     []
   )
 
-  const deleteRound = () =>
-    deleteMutation.mutate({ eventId: event.id, roundId: round.id }, mutationOptions)
+  const deleteRound = () => deleteMutation.mutate(undefined, mutationOptions)
 
   const toggleCompleted = () => {
     editMutation.mutate(
       {
-        eventId: event.id,
-        roundId: round.id,
         completed: !round.completed
       },
       mutationOptions
