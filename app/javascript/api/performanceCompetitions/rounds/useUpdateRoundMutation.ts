@@ -22,11 +22,11 @@ const useUpdateRoundMutation = (eventId: number, id: number) => {
 
   return useMutation<Round, AxiosError<Record<string, string[]>>, Variables>({
     mutationFn,
-    onSuccess(round) {
-      const rounds = queryClient.getQueryData<Round[]>(queryKey(eventId)) ?? []
+    onSuccess(updatedRound) {
+      const data = queryClient.getQueryData<Round[]>(queryKey(eventId)) ?? []
       queryClient.setQueryData(
         queryKey(eventId),
-        rounds.map(item => (item.id === round.id ? round : item))
+        data.map(round => (round.id === updatedRound.id ? updatedRound : round))
       )
 
       return Promise.all([

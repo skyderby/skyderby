@@ -1,20 +1,14 @@
+import { Round } from 'api/speedSkydivingCompetitions'
 import {
   QueryFunction,
   useQuery,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
-
-import {
-  Round,
-  QueryKey,
-  roundsIndexSchema,
-  queryKey,
-  collectionEndpoint
-} from './common'
-import client from 'api/client'
+import client, { AxiosResponse } from 'api/client'
+import queryClient from 'components/queryClient'
+import { collectionEndpoint, QueryKey, queryKey, roundsIndexSchema } from './common'
 import { AxiosError } from 'axios'
-import { response } from 'msw'
 
 const getRounds = (eventId: number) =>
   client
@@ -28,10 +22,13 @@ const queryFn: QueryFunction<Round[], QueryKey> = ctx => {
 
 type RoundsQueryOptions<T> = UseQueryOptions<Round[], AxiosError, T, QueryKey>
 
-export const roundsQuery = <T = Round[]>(eventId: number): RoundsQueryOptions<T> => ({
+const roundsQuery = <T = Round[]>(eventId: number): RoundsQueryOptions<T> => ({
   queryKey: queryKey(eventId),
   queryFn
 })
+
+export const preloadRounds = (eventId: number): Promise<void> =>
+  queryClient.prefetchQuery(roundsQuery(eventId))
 
 const useRoundsQuery = <T = Round[]>(
   eventId: number,

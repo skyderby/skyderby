@@ -4,7 +4,7 @@ import cx from 'clsx'
 
 import {
   useNewCategoryMutation,
-  useNewRoundMutation,
+  useCreateRoundMutation,
   useNewCompetitorMutation,
   useEditSpeedSkydivingCompetitionMutation
 } from 'api/speedSkydivingCompetitions'
@@ -24,7 +24,7 @@ const ActionsBar = ({ event }: ActionsBarProps): JSX.Element => {
   const [categoryFormShown, setCategoryFormShown] = useState(false)
   const [competitorFormShown, setCompetitorFormShown] = useState(false)
 
-  const newRoundMutation = useNewRoundMutation()
+  const newRoundMutation = useCreateRoundMutation(event.id)
   const newCategoryMutation = useNewCategoryMutation(event.id, {
     onSuccess: () => setCategoryFormShown(false)
   })
@@ -32,7 +32,7 @@ const ActionsBar = ({ event }: ActionsBarProps): JSX.Element => {
   const editEventMutation = useEditSpeedSkydivingCompetitionMutation(event.id)
 
   const addRound = () =>
-    newRoundMutation.mutate(event.id, {
+    newRoundMutation.mutate(undefined, {
       onError: error => {
         toast.error(<RequestErrorToast response={error.response} />)
       }
