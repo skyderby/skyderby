@@ -5,7 +5,7 @@ import {
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
-import client, { AxiosResponse } from 'api/client'
+import client from 'api/client'
 import queryClient from 'components/queryClient'
 import { collectionEndpoint, QueryKey, queryKey, roundsIndexSchema } from './common'
 import { AxiosError } from 'axios'

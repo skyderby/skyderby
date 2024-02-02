@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import client, { AxiosError, AxiosResponse } from 'api/client'
+import client, { AxiosError } from 'api/client'
 import { queryKey, recordEndpoint, roundSchema, Round } from './common'
 
 const deleteRound = (eventId: number, roundId: number) =>
@@ -13,7 +13,7 @@ const useDeleteRoundMutation = (eventId: number, roundId: number) => {
 
   return useMutation<Round, AxiosError<Record<string, string[]>>>({
     mutationFn,
-    onSuccess(response) {
+    onSuccess() {
       return queryClient.invalidateQueries({ queryKey: queryKey(eventId), exact: true })
     }
   })

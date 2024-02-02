@@ -14,7 +14,6 @@ import {
 } from './common'
 import client from 'api/client'
 import { AxiosError } from 'axios'
-import { response } from 'msw'
 
 const getRounds = (eventId: number) =>
   client

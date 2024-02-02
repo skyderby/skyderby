@@ -1,4 +1,4 @@
-import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import client, { AxiosError } from 'api/client'
 import { standingsQuery } from 'api/speedSkydivingCompetitions/standings'
 import { openStandingsQuery } from 'api/speedSkydivingCompetitions/openStandings'
