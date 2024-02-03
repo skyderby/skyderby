@@ -12,7 +12,6 @@ import { UseMutationResult } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 
 interface FormData {
-  id?: number
   name: string
 }
 

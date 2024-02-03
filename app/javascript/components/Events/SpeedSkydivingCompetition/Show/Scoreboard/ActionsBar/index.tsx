@@ -3,12 +3,12 @@ import toast from 'react-hot-toast'
 import cx from 'clsx'
 
 import {
-  useNewCategoryMutation,
+  useCreateCategoryMutation,
   useCreateRoundMutation,
   useNewCompetitorMutation,
-  useEditSpeedSkydivingCompetitionMutation
+  useEditSpeedSkydivingCompetitionMutation,
+  SpeedSkydivingCompetition
 } from 'api/speedSkydivingCompetitions'
-import { SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions/types'
 import PlusIcon from 'icons/plus.svg'
 import CategoryForm from 'components/CategoryForm'
 import RequestErrorToast from 'components/RequestErrorToast'
@@ -25,9 +25,7 @@ const ActionsBar = ({ event }: ActionsBarProps): JSX.Element => {
   const [competitorFormShown, setCompetitorFormShown] = useState(false)
 
   const newRoundMutation = useCreateRoundMutation(event.id)
-  const newCategoryMutation = useNewCategoryMutation(event.id, {
-    onSuccess: () => setCategoryFormShown(false)
-  })
+  const newCategoryMutation = useCreateCategoryMutation(event.id)
   const newCompetitorMutation = useNewCompetitorMutation(event.id)
   const editEventMutation = useEditSpeedSkydivingCompetitionMutation(event.id)
 
