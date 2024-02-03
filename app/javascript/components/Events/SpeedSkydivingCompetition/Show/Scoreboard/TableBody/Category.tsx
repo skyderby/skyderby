@@ -1,25 +1,22 @@
 import React, { useState } from 'react'
+import { AxiosError } from 'axios'
 import cx from 'clsx'
+import toast from 'react-hot-toast'
 
 import {
-  useEditCategoryMutation,
+  useUpdateCategoryMutation,
   useDeleteCategoryMutation,
-  useChangePositionMutation
+  useChangePositionMutation,
+  SpeedSkydivingCompetition,
+  Category as CategoryRecord
 } from 'api/speedSkydivingCompetitions'
 import CategoryForm from 'components/CategoryForm'
+import RequestErrorToast from 'components/RequestErrorToast'
 import PencilIcon from 'icons/pencil'
 import ChevronUpIcon from 'icons/chevron-up'
 import ChevronDownIcon from 'icons/chevron-down'
 import TimesIcon from 'icons/times'
 import styles from './styles.module.scss'
-
-import type {
-  SpeedSkydivingCompetition,
-  Category as CategoryRecord
-} from 'api/speedSkydivingCompetitions'
-import RequestErrorToast from 'components/RequestErrorToast'
-import toast from 'react-hot-toast'
-import { AxiosError } from 'axios'
 
 type CategoryProps = {
   event: SpeedSkydivingCompetition
@@ -35,24 +32,13 @@ const mutationOptions = {
 
 const Category = ({ event, category, colSpan }: CategoryProps): JSX.Element => {
   const [categoryFormShown, setCategoryFormShown] = useState(false)
-  const editMutation = useEditCategoryMutation(event.id, category.id, {
-    onSuccess: () => setCategoryFormShown(false)
-  })
-  const deleteMutation = useDeleteCategoryMutation()
-  const positionMutation = useChangePositionMutation()
+  const editMutation = useUpdateCategoryMutation(event.id, category.id)
+  const deleteMutation = useDeleteCategoryMutation(event.id, category.id)
+  const positionMutation = useChangePositionMutation(event.id, category.id)
 
-  const handleDelete = () =>
-    deleteMutation.mutate({ eventId: event.id, id: category.id }, mutationOptions)
-  const moveUp = () =>
-    positionMutation.mutate(
-      { eventId: event.id, id: category.id, direction: 'up' },
-      mutationOptions
-    )
-  const moveDown = () =>
-    positionMutation.mutate(
-      { eventId: event.id, id: category.id, direction: 'down' },
-      mutationOptions
-    )
+  const handleDelete = () => deleteMutation.mutate(undefined, mutationOptions)
+  const moveUp = () => positionMutation.mutate({ direction: 'up' }, mutationOptions)
+  const moveDown = () => positionMutation.mutate({ direction: 'down' }, mutationOptions)
 
   return (
     <tr>

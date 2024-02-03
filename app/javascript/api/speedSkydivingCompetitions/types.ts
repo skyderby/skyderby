@@ -26,14 +26,6 @@ export interface CategoryStandings {
   rows: CompetitorStandingRow[]
 }
 
-export interface Category {
-  id: number
-  name: string
-  position: number
-  createdAt: Date
-  updatedAt: Date
-}
-
 export interface Competitor {
   id: number
   profileId: number
