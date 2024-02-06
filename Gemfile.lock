@@ -204,9 +204,9 @@ GEM
     net-smtp (0.3.2)
       net-protocol
     nio4r (2.7.0)
-    nokogiri (1.15.5-arm64-darwin)
+    nokogiri (1.16.2-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.15.5-x86_64-linux)
+    nokogiri (1.16.2-x86_64-linux)
       racc (~> 1.4)
     oauth2 (2.0.7)
       faraday (>= 0.17.3, < 3.0)
@@ -411,7 +411,7 @@ DEPENDENCIES
   jbuilder (~> 2.6)
   kramdown
   matrix
-  nokogiri (~> 1.14)
+  nokogiri (~> 1.16)
   omniauth-facebook
   pg (~> 1.0)
   pluck_to_hash
