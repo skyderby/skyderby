@@ -1,4 +1,4 @@
-import { UseQueryResult } from '@tanstack/react-query'
+import { UseSuspenseQueryResult } from '@tanstack/react-query'
 
 import useResultsQuery from './useResultsQuery'
 import { Result } from './common'
@@ -6,7 +6,7 @@ import { Result } from './common'
 const useResultQuery = (
   eventId: number,
   id: number
-): UseQueryResult<Result | undefined> =>
+): UseSuspenseQueryResult<Result | undefined> =>
   useResultsQuery<Result | undefined>(eventId, {
     select: data => data.find(result => result.id === id)
   })

@@ -1,13 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { AxiosResponse, AxiosError } from 'axios'
+import type { AxiosError } from 'axios'
 import client from 'api/client'
-import {
-  elementEndpoint,
-  queryKey,
-  deserialize,
-  Result,
-  SerializedResult
-} from './common'
+import type { Result } from './common'
+import { elementEndpoint, queryKey, resultSchema } from './common'
 import { standingsQuery } from 'api/performanceCompetitions/useStandingsQuery'
 
 export type PenaltyVariables = Pick<Result, 'penalized' | 'penaltySize' | 'penaltyReason'>
@@ -16,10 +11,9 @@ const penaltiesEndpoint = (eventId: number, id: number) =>
   `${elementEndpoint(eventId, id)}/penalties`
 
 const updateResultPenalties = (eventId: number, id: number, penalty: PenaltyVariables) =>
-  client.put<{ penalty: PenaltyVariables }, AxiosResponse<SerializedResult>>(
-    penaltiesEndpoint(eventId, id),
-    { penalty }
-  )
+  client
+    .put<{ penalty: PenaltyVariables }>(penaltiesEndpoint(eventId, id), { penalty })
+    .then(response => resultSchema.parse(response.data))
 
 const useSetPenaltiesMutation = (eventId: number, resultId: number) => {
   const queryClient = useQueryClient()
@@ -27,15 +21,11 @@ const useSetPenaltiesMutation = (eventId: number, resultId: number) => {
   const mutationFn = (variables: PenaltyVariables) =>
     updateResultPenalties(eventId, resultId, variables)
 
-  return useMutation<
-    AxiosResponse<SerializedResult>,
-    AxiosError<Record<string, string[]>>,
-    PenaltyVariables
-  >({
+  return useMutation<Result, AxiosError<Record<string, string[]>>, PenaltyVariables>({
     mutationFn,
-    async onSuccess(response) {
-      const data: Result[] = queryClient.getQueryData(queryKey(eventId)) ?? []
-      const updatedResult = deserialize(response.data)
+    async onSuccess(updatedResult) {
+      const data = queryClient.getQueryData<Result[]>(queryKey(eventId)) ?? []
+
       queryClient.setQueryData(
         queryKey(eventId),
         data.map(record => (record.id === resultId ? updatedResult : record))

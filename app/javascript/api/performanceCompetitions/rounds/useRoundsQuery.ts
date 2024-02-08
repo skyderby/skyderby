@@ -1,8 +1,8 @@
 import {
   QueryFunction,
-  useQuery,
-  UseQueryOptions,
-  UseQueryResult
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult,
+  useSuspenseQuery
 } from '@tanstack/react-query'
 
 import {
@@ -25,7 +25,7 @@ const queryFn: QueryFunction<Round[], QueryKey> = ctx => {
   return getRounds(eventId)
 }
 
-type RoundsQueryOptions<T> = UseQueryOptions<Round[], AxiosError, T, QueryKey>
+type RoundsQueryOptions<T> = UseSuspenseQueryOptions<Round[], AxiosError, T, QueryKey>
 
 export const roundsQuery = <T = Round[]>(eventId: number): RoundsQueryOptions<T> => ({
   queryKey: queryKey(eventId),
@@ -35,6 +35,7 @@ export const roundsQuery = <T = Round[]>(eventId: number): RoundsQueryOptions<T>
 const useRoundsQuery = <T = Round[]>(
   eventId: number,
   options: Omit<RoundsQueryOptions<T>, 'queryKey' | 'queryFn'> = {}
-): UseQueryResult<T> => useQuery({ ...roundsQuery<T>(eventId), ...options })
+): UseSuspenseQueryResult<T> =>
+  useSuspenseQuery({ ...roundsQuery<T>(eventId), ...options })
 
 export default useRoundsQuery

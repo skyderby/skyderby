@@ -64,7 +64,9 @@ const WithResult = ({
           />
           <Mark color={competitor.color} />
           <span className={styles.name}>{profile?.name}</span>
-          <PenaltyLabel penalized={result.penalized} penaltySize={result.penaltySize} />
+          {result.penaltySize && (
+            <PenaltyLabel penalized={result.penalized} penaltySize={result.penaltySize} />
+          )}
         </label>
 
         <ReferencePoint event={event} roundId={result.roundId} competitor={competitor} />
@@ -92,8 +94,10 @@ const WithResult = ({
         )}
 
         <div className={styles.additionalInfo}>
-          <Direction direction={result.headingWithinWindow} />
-          <ExitAltitude altitude={result.exitAltitude} />
+          {result.headingWithinWindow && (
+            <Direction direction={result.headingWithinWindow} />
+          )}
+          {result.exitAltitude && <ExitAltitude altitude={result.exitAltitude} />}
         </div>
       </div>
     </div>

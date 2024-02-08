@@ -101,8 +101,7 @@
   align-items: flex-end;
   justify-content: center;
   width: 100%;
-  height: 3rem;
-  padding: 0 0.5rem;
+  padding: 0.75rem 0.5rem;
   border: 0;
 
   text-align: right;
@@ -135,6 +134,20 @@
   background-color: var(--blue-80);
 
   content: '';
+}
+
+.emptyResult {
+  padding: 0 0.5rem;
+}
+
+.totalScore {
+  font-weight: 500;
+  color: var(--grey-70);
+  text-align: right;
+}
+
+.roundScore, .taskScore {
+  text-align: right;
 }
 
 .resultCell:hover .newResult {

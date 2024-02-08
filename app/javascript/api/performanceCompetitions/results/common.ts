@@ -1,27 +1,27 @@
-import { Serialized } from 'api/helpers'
-import { parseISO } from 'date-fns'
+import { z } from 'zod'
 
 export type QueryKey = ['performanceCompetition', number, 'results']
 
-export interface Result {
-  id: number
-  competitorId: number
-  roundId: number
-  trackId: number
-  penalized: boolean
-  penaltyReason: string
-  penaltySize: number
-  result: number
-  resultNet: number
-  points: number
-  exitAltitude: number
-  exitedAt: Date
-  headingWithinWindow: number
-  createdAt: Date
-  updatedAt: Date
-}
+export const resultSchema = z.object({
+  id: z.number(),
+  competitorId: z.number(),
+  roundId: z.number(),
+  trackId: z.number(),
+  penalized: z.boolean(),
+  penaltyReason: z.string().nullable(),
+  penaltySize: z.number().nullable(),
+  result: z.number(),
+  resultNet: z.number().nullable(),
+  exitAltitude: z.number().nullable(),
+  exitedAt: z.coerce.date().nullable(),
+  headingWithinWindow: z.number().nullable(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date()
+})
 
-export type SerializedResult = Serialized<Result>
+export const resultsIndexSchema = z.array(resultSchema)
+
+export type Result = z.infer<typeof resultSchema>
 
 export const queryKey = (eventId: number): QueryKey => [
   'performanceCompetition',
@@ -34,10 +34,3 @@ export const collectionEndpoint = (eventId: number) =>
 
 export const elementEndpoint = (eventId: number, id: number) =>
   `${collectionEndpoint(eventId)}/${id}`
-
-export const deserialize = (result: SerializedResult): Result => ({
-  ...result,
-  exitedAt: parseISO(result.exitedAt),
-  createdAt: parseISO(result.createdAt),
-  updatedAt: parseISO(result.updatedAt)
-})

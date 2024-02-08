@@ -1,0 +1,6 @@
+en:
+  performance_competitions:
+    result_modal:
+      tabs:
+        charts: Charts
+        jump_range: Jump Range

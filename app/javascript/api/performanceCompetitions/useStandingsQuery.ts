@@ -1,29 +1,41 @@
-import { QueryFunction, useQuery, UseQueryOptions } from '@tanstack/react-query'
+import { QueryFunction, UseQueryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
+import { z } from 'zod'
 import client from 'api/client'
-
-import { Result } from './results'
 
 type QueryKey = ['performanceCompetition', number, 'standings']
 
-export interface StandingRow {
-  rank: number
-  totalPoints: number
-  competitorId: number
-  pointsInDisciplines: Record<string, number>
-  roundResults: Record<string, Result>
-}
+const roundResultSchema = z.object({
+  id: z.number(),
+  penalized: z.boolean(),
+  points: z.number(),
+  penaltyReason: z.string().nullable(),
+  penaltySize: z.number().nullable()
+})
 
-export interface CategoryStandings {
-  categoryId: number
-  rows: StandingRow[]
-}
+const standingRowSchema = z.object({
+  rank: z.number(),
+  totalPoints: z.number(),
+  competitorId: z.number(),
+  pointsInDisciplines: z.record(z.number()),
+  roundResults: z.record(roundResultSchema)
+})
+
+const categoryStandingsSchema = z.object({
+  categoryId: z.number(),
+  rows: z.array(standingRowSchema)
+})
+
+const standingsSchema = z.array(categoryStandingsSchema)
+
+export type StandingRow = z.infer<typeof standingRowSchema>
+export type CategoryStandings = z.infer<typeof categoryStandingsSchema>
 
 const endpoint = (eventId: number) =>
   `/api/v1/performance_competitions/${eventId}/standings`
 
 const getStandings = (eventId: number) =>
-  client.get(endpoint(eventId)).then(response => response.data)
+  client.get(endpoint(eventId)).then(response => standingsSchema.parse(response.data))
 
 const queryKey = (eventId: number): QueryKey => [
   'performanceCompetition',
@@ -51,6 +63,6 @@ export const standingsQuery = (eventId: number): StandingsQueryOptions => ({
 const useStandingsQuery = (
   eventId: number,
   options: Omit<StandingsQueryOptions, 'queryKey' | 'queryFn'> = {}
-) => useQuery({ ...standingsQuery(eventId), ...options })
+) => useSuspenseQuery({ ...standingsQuery(eventId), ...options })
 
 export default useStandingsQuery

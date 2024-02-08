@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import cx from 'clsx'
-import toast from 'react-hot-toast'
 import Tippy from '@tippyjs/react'
 
 import {
@@ -86,25 +85,12 @@ const ResultCell = ({
 }: ResultCellProps) => {
   const [showNewResultModal, setShowNewResultModal] = useState(false)
   const [showResultModal, setShowResultModal] = useState(false)
-  const deleteMutation = useDeleteResultMutation(event.id, result?.id)
   const { data: competitor } = useCompetitorQuery(event.id, competitorId)
   const { data: round } = useRoundQuery(event.id, roundId)
   const { data: profile } = useProfileQuery(competitor?.profileId, { enabled: false })
 
   const hideResultModal = () => setShowResultModal(false)
   const hideResultSubmissionModal = () => setShowNewResultModal(false)
-
-  const deleteResult = () => {
-    if (!result) return
-    if (!confirm('Are you sure you want delete this result?')) return
-
-    deleteMutation.mutate(undefined, {
-      onSuccess: () => hideResultModal(),
-      onError: error => {
-        toast.error(<RequestErrorToast response={error.response} />)
-      }
-    })
-  }
 
   return (
     <td className={cx(className, styles.resultCell)}>
@@ -120,12 +106,7 @@ const ResultCell = ({
 
           {showResultModal && (
             <React.Suspense fallback={null}>
-              <ResultModal
-                event={event}
-                result={result}
-                deleteResult={deleteResult}
-                onHide={hideResultModal}
-              />
+              <ResultModal event={event} result={result} onHide={hideResultModal} />
             </React.Suspense>
           )}
         </>
@@ -141,7 +122,7 @@ const ResultCell = ({
             </button>
           )}
 
-          {round?.completed && <span className={styles.emptyResult}>0.00</span>}
+          {round?.completed && <div className={styles.emptyResult}>0.00</div>}
 
           {!result && showNewResultModal && (
             <NewResultForm

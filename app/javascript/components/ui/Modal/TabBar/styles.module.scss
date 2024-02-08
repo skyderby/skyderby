@@ -1,0 +1,19 @@
+.tabBar {
+  display: flex;
+
+  > :not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}
+
+.tabBarButton {
+  composes: button from '~styles/button';
+  composes: flat from '~styles/button';
+}
+
+.activeTab {
+  --active-text-color: var(--white);
+  --active-background-color: var(--blue-grey-60);
+
+  composes: active from '~styles/button';
+}

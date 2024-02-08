@@ -38,10 +38,17 @@
 
 .table td,
 .table th {
-  padding: 0.5rem;
   border: 1px solid var(--border-color);
 
   vertical-align: middle;
+}
+
+.table td {
+  padding: 0.25rem 0.5rem;
+}
+
+.table th {
+  padding: 0.5rem;
 }
 
 .table thead th {

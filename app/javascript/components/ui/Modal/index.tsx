@@ -4,6 +4,7 @@ import cx from 'clsx'
 
 import useRoot from 'hooks/useRoot'
 import useDocumentBodyScroll from 'hooks/useDocumentBodyScroll'
+import TabBar from './TabBar'
 import styles from './styles.module.scss'
 
 type ModalSize = 'sm' | 'md' | 'lg'
@@ -84,6 +85,7 @@ const Footer = ({ children, className, spaceBetween }: FooterProps): JSX.Element
   </div>
 )
 
+Modal.TabBar = TabBar
 Modal.Body = Body
 Modal.Footer = Footer
 

@@ -3,63 +3,43 @@ import React, { useState } from 'react'
 import { useProfileQuery } from 'api/profiles'
 import {
   useCompetitorQuery,
-  useRoundQuery,
-  useDeleteResultMutation,
   Result,
   Round,
   PerformanceCompetition
 } from 'api/performanceCompetitions'
 import { useI18n } from 'components/TranslationsProvider'
 import ResultModal from 'components/Events/PerformanceCompetition/Show/ResultModal'
+import UploadIcon from 'icons/upload.svg'
 import styles from './styles.module.scss'
-import toast from 'react-hot-toast'
-import RequestErrorToast from 'components/RequestErrorToast'
 
-type ResultCellsProps = {
+type Props = {
   event: PerformanceCompetition
+  round: Round
   result: Result | undefined
   points: number | undefined
 }
 
-const formattedResult = (record: Result, task: Round['task']) => {
-  if (!record) return
-
-  const result = Number(record.result)
-  return result.toFixed(task === 'distance' ? 0 : 1)
-}
+const formattedResult = (result: number, task: Round['task']) =>
+  result.toFixed(task === 'distance' ? 0 : 1)
 
 const formattedPoints = (points: number | undefined) => {
-  if (!points) return
+  if (points === undefined) return
 
   const score = Number(points)
   return score.toFixed(1)
 }
 
-const ResultCells = ({ event, result, points }: ResultCellsProps) => {
+const ResultCells = ({ event, round, result, points }: Props) => {
   const { t } = useI18n()
   const [showResultModal, setShowResultModal] = useState(false)
   const hideResultModal = () => setShowResultModal(false)
   const { data: competitor } = useCompetitorQuery(event.id, result?.competitorId)
-  const { data: round } = useRoundQuery(event.id, result?.roundId)
   const { data: profile } = useProfileQuery(competitor?.profileId, { enabled: false })
-  const deleteMutation = useDeleteResultMutation(event.id, result?.id)
-
-  const deleteResult = () => {
-    if (!result) return
-    if (!confirm('Are you sure you want delete this result?')) return
-
-    deleteMutation.mutate(undefined, {
-      onSuccess: () => hideResultModal(),
-      onError: error => {
-        toast.error(<RequestErrorToast response={error.response} />)
-      }
-    })
-  }
 
   return (
     <React.Fragment>
       <td className={styles.resultCell}>
-        {result && round ? (
+        {result ? (
           <React.Fragment>
             <button
               className={styles.showResult}
@@ -68,21 +48,28 @@ const ResultCells = ({ event, result, points }: ResultCellsProps) => {
                 `disciplines.${round.task}`
               )} - ${round.number}`}
             >
-              {formattedResult(result, round.task)}
+              {formattedResult(result.result, round.task)}
             </button>
 
             {showResultModal && (
-              <ResultModal
-                event={event}
-                result={result}
-                deleteResult={deleteResult}
-                onHide={hideResultModal}
-              />
+              <React.Suspense fallback={null}>
+                <ResultModal event={event} result={result} onHide={hideResultModal} />
+              </React.Suspense>
             )}
           </React.Fragment>
         ) : (
           <>
-            {event.permissions.canEdit && <button className={styles.newResult}></button>}
+            {event.permissions.canEdit && !round.completed && (
+              <button
+                className={styles.newResult}
+                title={`Submit result for ${profile?.name} in round ${round.task}-${round.number}`}
+              >
+                <UploadIcon />
+              </button>
+            )}
+            {round.completed && (
+              <span className={styles.emptyResult}>{formattedResult(0, round.task)}</span>
+            )}
           </>
         )}
       </td>

@@ -32,6 +32,7 @@ const StandingRow = ({ event, row, roundsByTask }: StandingRowProps) => {
             <ResultCells
               key={round.slug}
               event={event}
+              round={round}
               result={results.find(
                 result => result.id === row.roundResults[round.slug]?.id
               )}

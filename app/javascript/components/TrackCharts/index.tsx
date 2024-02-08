@@ -12,7 +12,7 @@ type ChartsProps = {
   children?: (chart: Chart) => JSX.Element | null
 }
 
-const Charts = ({ points, zeroWindPoints, children }: ChartsProps): JSX.Element => {
+const Charts = ({ points, zeroWindPoints, children }: ChartsProps) => {
   const { viewPreferences } = useTrackViewPreferences()
   const ChartComponent =
     viewPreferences.chartMode === SINGLE_CHART ? CombinedChart : SplittedCharts

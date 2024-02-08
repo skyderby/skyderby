@@ -10,8 +10,10 @@ const splitByStartTime = <T extends { result: Result }>(jumpRunSeparation: numbe
   const lastGroup = acc[acc.length - 1]
   const lastRecord = lastGroup[lastGroup.length - 1]
   const nextJumpRun =
+    record.result.exitedAt &&
+    lastRecord.result.exitedAt &&
     differenceInSeconds(record.result.exitedAt, lastRecord.result.exitedAt) >=
-    jumpRunSeparation
+      jumpRunSeparation
 
   if (nextJumpRun) {
     acc.push([record])

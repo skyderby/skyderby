@@ -1,32 +1,28 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import client, { AxiosError, AxiosResponse } from 'api/client'
+import type { AxiosError } from 'axios'
+import client from 'api/client'
 import { standingsQuery } from 'api/performanceCompetitions/useStandingsQuery'
-import type { Result, SerializedResult } from './common'
-import { queryKey, elementEndpoint } from './common'
+import type { Result } from './common'
+import { queryKey, elementEndpoint, resultSchema } from './common'
 
 const deleteResult = (eventId: number, id: number) =>
-  client.delete<never, AxiosResponse<SerializedResult>>(elementEndpoint(eventId, id))
+  client
+    .delete<never>(elementEndpoint(eventId, id))
+    .then(response => resultSchema.parse(response.data))
 
-const useDeleteResultMutation = (eventId: number, id: number | undefined) => {
+const useDeleteResultMutation = (eventId: number, id: number) => {
   const queryClient = useQueryClient()
 
-  const mutationFn = () => {
-    if (!eventId || !id) throw new Error('Missing eventId or id')
+  const mutationFn = () => deleteResult(eventId, id)
 
-    return deleteResult(eventId, id)
-  }
-
-  return useMutation<
-    AxiosResponse<SerializedResult>,
-    AxiosError<Record<string, string[]>>
-  >({
+  return useMutation<Result, AxiosError<Record<string, string[]>>>({
     mutationFn,
-    async onSuccess() {
+    async onSuccess(deletedResult) {
       const data: Result[] = queryClient.getQueryData(queryKey(eventId)) ?? []
 
       queryClient.setQueryData(
         queryKey(eventId),
-        data.filter(result => result.id !== id)
+        data.filter(result => result.id !== deletedResult.id)
       )
       await queryClient.refetchQueries(standingsQuery(eventId))
     }
