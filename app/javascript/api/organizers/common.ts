@@ -1,6 +1,6 @@
 import { Serialized } from 'api/helpers'
 import { parseISO } from 'date-fns'
-import { ProfileRecord } from 'api/profiles'
+import { Profile } from 'api/profiles'
 import { CountryRecord } from 'api/countries'
 
 export interface Organizer {
@@ -16,7 +16,7 @@ export type SerializedOrganizer = Serialized<Organizer>
 export interface IndexResponse {
   items: SerializedOrganizer[]
   relations: {
-    profiles: ProfileRecord[]
+    profiles: Profile[]
     countries: CountryRecord[]
   }
 }

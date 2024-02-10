@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { usePerformanceCompetitionQuery } from 'api/performanceCompetitions'
+import { usePerformanceCompetitionSuspenseQuery } from 'api/performanceCompetitions'
 import ErrorPage from 'components/ErrorPage'
 import styles from './styles.module.scss'
 
@@ -9,9 +9,7 @@ type DownloadsProps = {
 }
 
 const Downloads = ({ eventId }: DownloadsProps) => {
-  const { data: event, isSuccess } = usePerformanceCompetitionQuery(eventId)
-
-  if (!isSuccess) return null
+  const { data: event } = usePerformanceCompetitionSuspenseQuery(eventId)
 
   if (!event.permissions.canDownload) return <ErrorPage.Forbidden />
 

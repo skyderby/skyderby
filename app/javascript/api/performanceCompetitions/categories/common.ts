@@ -1,17 +1,16 @@
-import { parseISO } from 'date-fns'
-import { Serialized } from 'api/helpers'
+import { z } from 'zod'
 
 export type QueryKey = ['performanceCompetition', number, 'categories']
 
-export interface Category {
-  id: number
-  name: string
-  position: number
-  createdAt: Date
-  updatedAt: Date
-}
+export const categorySchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  position: z.number()
+})
 
-export type SerializedCategory = Serialized<Category>
+export type Category = z.infer<typeof categorySchema>
+
+export const categoriesIndexSchema = z.array(categorySchema)
 
 export type CategoryVariables = {
   name: string
@@ -25,9 +24,3 @@ export const queryKey = (eventId: number) => [
   eventId,
   'categories'
 ]
-
-export const deserialize = (category: SerializedCategory): Category => ({
-  ...category,
-  createdAt: parseISO(category.createdAt),
-  updatedAt: parseISO(category.updatedAt)
-})

@@ -37,11 +37,10 @@ const teamCompetitorNames = (
 const StandingRow = ({ event, teamId, rank, total }: StandingRowProps): JSX.Element => {
   const [showEditModal, setShowEditModal] = useState(false)
   const { data: team } = useTeamQuery(event.id, teamId)
-  const { data: competitors = [] } = useCompetitorsQuery(event.id, {
-    select: data => data.filter(competitor => competitor.teamId === teamId)
-  })
+  const { data: competitors } = useCompetitorsQuery(event.id)
+  const teamCompetitors = competitors.filter(competitor => competitor.teamId === teamId)
   const profileQueries = useProfileQueries(
-    competitors.map(competitor => competitor.profileId)
+    teamCompetitors.map(competitor => competitor.profileId)
   )
   const editMutation = useEditTeamMutation(event.id, teamId)
   const deleteMutation = useDeleteTeamMutation()
@@ -54,7 +53,7 @@ const StandingRow = ({ event, teamId, rank, total }: StandingRowProps): JSX.Elem
   const showModal = () => setShowEditModal(true)
   const hideModal = () => setShowEditModal(false)
 
-  const names = teamCompetitorNames(competitors, profileQueries)
+  const names = teamCompetitorNames(teamCompetitors, profileQueries)
 
   return (
     <tr>
@@ -84,7 +83,7 @@ const StandingRow = ({ event, teamId, rank, total }: StandingRowProps): JSX.Elem
                 eventId={event.id}
                 onHide={hideModal}
                 mutation={editMutation}
-                competitorsQuery={useCompetitorsQuery}
+                competitors={competitors}
                 initialValues={team}
               />
             )}

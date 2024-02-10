@@ -1,16 +1,17 @@
 import client, { AxiosError, AxiosResponse } from 'api/client'
 import {
-  useQuery,
   useMutation,
   useQueryClient,
   QueryFunction,
   UseQueryOptions,
-  UseQueryResult,
-  UseMutationResult
+  UseMutationResult,
+  useSuspenseQuery,
+  UseSuspenseQueryResult,
+  UseSuspenseQueryOptions
 } from '@tanstack/react-query'
 import { parseISO } from 'date-fns'
 import queryClient from 'components/queryClient'
-import { cacheProfiles, ProfileRecord } from 'api/profiles'
+import { cacheProfiles, Profile } from 'api/profiles'
 import { cacheCountries, CountryRecord } from 'api/countries'
 import { standingsQuery } from './standings'
 import { Competitor } from './types'
@@ -22,7 +23,7 @@ type SerializedCompetitor = {
 interface IndexResponse {
   items: SerializedCompetitor[]
   relations: {
-    profiles: ProfileRecord[]
+    profiles: Profile[]
     countries: CountryRecord[]
   }
 }
@@ -103,15 +104,16 @@ export const preloadCompetitors = (eventId: number): Promise<void> =>
 export const useCompetitorsQuery = <Type = Competitor[]>(
   eventId: number,
   options?: Omit<
-    UseQueryOptions<Competitor[], Error, Type, QueryKey>,
+    UseSuspenseQueryOptions<Competitor[], Error, Type, QueryKey>,
     'queryKey' | 'queryFn'
   >
-): UseQueryResult<Type> => useQuery({ ...competitorsQuery<Type>(eventId), ...options })
+): UseSuspenseQueryResult<Type> =>
+  useSuspenseQuery({ ...competitorsQuery<Type>(eventId), ...options })
 
 export const useCompetitorQuery = (
   eventId: number,
   id: number
-): UseQueryResult<Competitor | undefined> =>
+): UseSuspenseQueryResult<Competitor | undefined> =>
   useCompetitorsQuery<Competitor | undefined>(eventId, {
     select: data => data.find(competitor => competitor.id === id)
   })

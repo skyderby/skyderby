@@ -3,10 +3,10 @@ import toast from 'react-hot-toast'
 import RequestErrorToast from 'components/RequestErrorToast'
 import {
   useCompetitorQuery,
-  useRoundQuery,
+  useDeleteResultMutation,
   PerformanceCompetition,
   Result,
-  useDeleteResultMutation
+  Round
 } from 'api/performanceCompetitions'
 import { useProfileQuery } from 'api/profiles'
 import { useI18n } from 'components/TranslationsProvider'
@@ -16,19 +16,24 @@ import JumpRange from './JumpRange'
 
 type Props = {
   event: PerformanceCompetition
+  round: Round
   result: Result
   onHide: () => void
 }
 
 const tabs = ['charts', 'jump_range'] as const
+const tabsRequireEditPermission = {
+  charts: false,
+  jump_range: true
+} as const
+
 type Tab = typeof tabs[number]
 
-const ResultModal = ({ event, result, onHide: hide }: Props) => {
+const ResultModal = ({ event, result, round, onHide: hide }: Props) => {
   const { t } = useI18n()
   const [currentTab, setCurrentTab] = useState<Tab>('charts')
   const { data: competitor } = useCompetitorQuery(event.id, result.competitorId)
   const { data: profile } = useProfileQuery(competitor?.profileId)
-  const { data: round } = useRoundQuery(event.id, result.roundId)
   const deleteMutation = useDeleteResultMutation(event.id, result.id)
   const deleteResult = () => {
     if (!result) return
@@ -49,20 +54,20 @@ const ResultModal = ({ event, result, onHide: hide }: Props) => {
     hide: hide,
     tabBar: (
       <Modal.TabBar>
-        {tabs.map(tab => (
-          <Modal.TabBar.Tab
-            key={tab}
-            active={currentTab === tab}
-            onClick={() => startTransition(() => setCurrentTab(tab))}
-          >
-            {t(`performance_competitions.result_modal.tabs.${tab}`)}
-          </Modal.TabBar.Tab>
-        ))}
+        {tabs
+          .filter(tab => !tabsRequireEditPermission[tab] || event.permissions.canEdit)
+          .map(tab => (
+            <Modal.TabBar.Tab
+              key={tab}
+              active={currentTab === tab}
+              onClick={() => startTransition(() => setCurrentTab(tab))}
+            >
+              {t(`performance_competitions.result_modal.tabs.${tab}`)}
+            </Modal.TabBar.Tab>
+          ))}
       </Modal.TabBar>
     )
   }
-
-  if (!round) return null
 
   return (
     <Modal

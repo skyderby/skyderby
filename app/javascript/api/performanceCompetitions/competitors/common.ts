@@ -1,36 +1,38 @@
-import { parseISO } from 'date-fns'
-import { Serialized, Nullable } from 'api/helpers'
-import { ProfileRecord } from 'api/profiles'
-import { CountryRecord } from 'api/countries'
-import { SuitRecord } from 'api/suits'
+import { Nullable } from 'api/helpers'
+import { z } from 'zod'
+import { profileSchema } from 'api/profiles'
+import { countrySchema } from 'api/countries'
+import { suitSchema } from 'api/suits'
 
 export type QueryKey = ['performanceCompetition', number, 'competitors']
 
-export interface Competitor {
-  id: number
-  profileId: number
-  categoryId: number
-  suitId: number
-  teamId: number
-  assignedNumber: number
-  createdAt: Date
-  updatedAt: Date
-}
+export const competitorSchema = z.object({
+  id: z.number(),
+  profileId: z.number(),
+  categoryId: z.number(),
+  suitId: z.number(),
+  teamId: z.number().nullable(),
+  assignedNumber: z.string().nullable(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date()
+})
 
-export type SerializedCompetitor = Serialized<Competitor>
+export type Competitor = z.infer<typeof competitorSchema>
+
+export const competitorsIndexSchema = z.object({
+  items: z.array(competitorSchema),
+  relations: z.object({
+    profiles: z.array(profileSchema),
+    suits: z.array(suitSchema),
+    countries: z.array(countrySchema)
+  })
+})
+
+export type CompetitorsIndex = z.infer<typeof competitorsIndexSchema>
 
 export type CompetitorVariables = Partial<
   Nullable<Omit<Competitor, 'id' | 'createdAt' | 'updatedAt'>>
 >
-
-export interface IndexResponse {
-  items: SerializedCompetitor[]
-  relations: {
-    profiles: ProfileRecord[]
-    suits: SuitRecord[]
-    countries: CountryRecord[]
-  }
-}
 
 export const queryKey = (eventId: number): QueryKey => [
   'performanceCompetition',
@@ -43,9 +45,3 @@ export const collectionEndpoint = (eventId: number) =>
 export const elementEndpoint = (eventId: number, id: number) =>
   `${collectionEndpoint(eventId)}/${id}`
 export const copyEndpoint = (eventId: number) => `${collectionEndpoint(eventId)}/copy`
-
-export const deserialize = (competitor: SerializedCompetitor): Competitor => ({
-  ...competitor,
-  createdAt: parseISO(competitor.createdAt),
-  updatedAt: parseISO(competitor.updatedAt)
-})

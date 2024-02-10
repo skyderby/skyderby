@@ -4,38 +4,43 @@ import {
   useMutation,
   UseMutationResult
 } from '@tanstack/react-query'
+import { z } from 'zod'
 
 import client, { AxiosError, AxiosResponse } from 'api/client'
 
-export type GuestUser = {
-  authorized: false
-  permissions: {
-    canAccessAdminPanel: false
-    canCreatePlace: false
-    canManageUsers: false
-  }
-}
+const guestUserSchema = z.object({
+  authorized: z.literal(false),
+  permissions: z.object({
+    canAccessAdminPanel: z.literal(false),
+    canCreatePlace: z.literal(false),
+    canManageUsers: z.literal(false)
+  })
+})
 
-export type AuthorizedUser = {
-  authorized: boolean
-  userId: number
-  profileId: number
-  email: string
-  name: string
-  countryId: number
-  photo: {
-    original: string
-    medium: string
-    thumb: string
-  }
-  permissions: {
-    canAccessAdminPanel: boolean
-    canCreatePlace: boolean
-    canManageUsers: boolean
-  }
-}
+const authorizedUserSchema = z.object({
+  authorized: z.literal(true),
+  userId: z.number(),
+  profileId: z.number(),
+  email: z.string(),
+  name: z.string().nullable(),
+  countryId: z.number().nullable(),
+  photo: z.object({
+    original: z.string(),
+    medium: z.string(),
+    thumb: z.string()
+  }),
+  permissions: z.object({
+    canAccessAdminPanel: z.boolean(),
+    canCreatePlace: z.boolean(),
+    canManageUsers: z.boolean()
+  })
+})
 
-export type CurrentUser = GuestUser | AuthorizedUser
+const currentUserSchema = authorizedUserSchema.or(guestUserSchema)
+
+export type GuestUser = z.infer<typeof guestUserSchema>
+export type AuthorizedUser = z.infer<typeof authorizedUserSchema>
+export type CurrentUser = z.infer<typeof currentUserSchema>
 
 export type LoginData = {
   email: string
@@ -47,7 +52,9 @@ const getCurrentUser = () =>
     method: 'GET',
     credentials: 'include',
     mode: 'no-cors'
-  }).then(response => response.json())
+  })
+    .then(response => response.json())
+    .then(data => currentUserSchema.parse(data))
 
 const login = async (user: LoginData) => {
   const { data } = await client.post<{ user: LoginData }, AxiosResponse<AuthorizedUser>>(

@@ -1,39 +1,37 @@
-import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 
 import { standingsQuery } from 'api/performanceCompetitions/useStandingsQuery'
-import client, { AxiosResponse, AxiosError } from 'api/client'
+import client from 'api/client'
 import {
   collectionEndpoint,
   queryKey,
   CompetitorVariables,
-  SerializedCompetitor,
   Competitor,
-  deserialize
+  competitorSchema
 } from './common'
 
 const createCompetitor = (eventId: number, competitor: CompetitorVariables) =>
-  client.post<{ competitor: CompetitorVariables }, AxiosResponse<SerializedCompetitor>>(
-    collectionEndpoint(eventId),
-    { competitor }
-  )
+  client
+    .post<{ competitor: CompetitorVariables }>(collectionEndpoint(eventId), {
+      competitor
+    })
+    .then(response => competitorSchema.parse(response.data))
 
-const useNewCompetitorMutation = (
-  eventId: number
-): UseMutationResult<
-  AxiosResponse<SerializedCompetitor>,
-  AxiosError,
-  CompetitorVariables
-> => {
+const useNewCompetitorMutation = (eventId: number) => {
   const queryClient = useQueryClient()
 
   const mutationFn = (competitor: CompetitorVariables) =>
     createCompetitor(eventId, competitor)
 
-  return useMutation({
+  return useMutation<
+    Competitor,
+    AxiosError<Record<string, string[]>>,
+    CompetitorVariables
+  >({
     mutationFn,
-    async onSuccess(response) {
-      const data: Competitor[] = queryClient.getQueryData(queryKey(eventId)) ?? []
-      const competitor = deserialize(response.data)
+    async onSuccess(competitor) {
+      const data = queryClient.getQueryData<Competitor[]>(queryKey(eventId)) ?? []
 
       queryClient.setQueryData(queryKey(eventId), [...data, competitor])
 

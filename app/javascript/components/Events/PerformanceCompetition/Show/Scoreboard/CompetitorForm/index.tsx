@@ -24,7 +24,7 @@ type FormData = {
   }
   suitId: null | number
   categoryId: null | number
-  assignedNumber: null | number
+  assignedNumber: null | string
   newProfile: 'true' | 'false'
 }
 

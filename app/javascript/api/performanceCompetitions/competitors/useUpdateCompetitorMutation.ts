@@ -7,16 +7,17 @@ import {
   Competitor,
   elementEndpoint,
   queryKey,
-  deserialize,
-  SerializedCompetitor
+  competitorSchema
 } from './common'
 import { AxiosError } from 'axios'
 
 const updateCompetitor = (eventId: number, id: number, competitor: CompetitorVariables) =>
-  client.put<{ competitor: CompetitorVariables }, AxiosResponse>(
-    elementEndpoint(eventId, id),
-    { competitor }
-  )
+  client
+    .put<{ competitor: CompetitorVariables }, AxiosResponse>(
+      elementEndpoint(eventId, id),
+      { competitor }
+    )
+    .then(response => competitorSchema.parse(response.data))
 
 const useUpdateCompetitorMutation = (eventId: number, id: number) => {
   const queryClient = useQueryClient()
@@ -25,14 +26,13 @@ const useUpdateCompetitorMutation = (eventId: number, id: number) => {
     updateCompetitor(eventId, id, competitor)
 
   return useMutation<
-    AxiosResponse<SerializedCompetitor>,
+    Competitor,
     AxiosError<Record<string, string[]>>,
     CompetitorVariables
   >({
     mutationFn,
-    async onSuccess(response) {
+    async onSuccess(updatedCompetitor) {
       const data: Competitor[] = queryClient.getQueryData(queryKey(eventId)) ?? []
-      const updatedCompetitor = deserialize(response.data)
 
       queryClient.setQueryData(
         queryKey(eventId),

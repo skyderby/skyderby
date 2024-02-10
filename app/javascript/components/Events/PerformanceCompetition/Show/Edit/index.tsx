@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {
-  usePerformanceCompetitionQuery,
+  usePerformanceCompetitionSuspenseQuery,
   useUpdatePerformanceCompetitionMutation
 } from 'api/performanceCompetitions'
 import Form from 'components/Events/SpeedSkydivingCompetition/Form'
@@ -13,12 +13,10 @@ type EditProps = {
   eventId: number
 }
 
-const Edit = ({ eventId }: EditProps): JSX.Element | null => {
+const Edit = ({ eventId }: EditProps) => {
   const { formatDate } = useI18n()
-  const { data: event, isLoading } = usePerformanceCompetitionQuery(eventId)
+  const { data: event } = usePerformanceCompetitionSuspenseQuery(eventId)
   const editMutation = useUpdatePerformanceCompetitionMutation(eventId)
-
-  if (isLoading || !event) return null
 
   if (!event.permissions.canEdit) return <ErrorPage.Forbidden />
 

@@ -1,17 +1,17 @@
 import {
-  QueryClient,
   QueryFunction,
   useQuery,
-  useQueryClient,
   UseQueryOptions,
-  UseQueryResult
+  UseQueryResult,
+  useSuspenseQuery
 } from '@tanstack/react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
-
+import queryClient from 'components/queryClient'
 import {
   cacheOptions,
   elementEndpoint,
   recordQueryKey,
+  placeSchema,
   Place,
   RecordQueryKey
 } from './common'
@@ -20,11 +20,9 @@ import { preloadCountries } from 'api/countries'
 const getPlace = (id: number): Promise<Place> =>
   client
     .get<never, AxiosResponse<Place>>(elementEndpoint(id))
-    .then(response => response.data)
+    .then(response => placeSchema.parse(response.data))
 
-const buildQueryFn = (
-  queryClient: QueryClient
-): QueryFunction<Place, RecordQueryKey> => async ctx => {
+const queryFn: QueryFunction<Place, RecordQueryKey> = async ctx => {
   const [_key, id] = ctx.queryKey
 
   if (typeof id !== 'number') {
@@ -40,26 +38,23 @@ const buildQueryFn = (
 
 type QueryOptions = UseQueryOptions<Place, AxiosError, Place, RecordQueryKey>
 
-export const placeQuery = (
-  id: number | null | undefined,
-  queryClient: QueryClient
-): QueryOptions => ({
+export const placeQuery = (id: number | null | undefined): QueryOptions => ({
   queryKey: recordQueryKey(id),
-  queryFn: buildQueryFn(queryClient),
+  queryFn,
   enabled: Boolean(id),
   ...cacheOptions
 })
 
-const usePlaceQuery = (
+export const usePlaceQuery = (
   id: number | null | undefined,
   options: Omit<QueryOptions, 'queryKey' | 'queryFn'> = {}
 ): UseQueryResult<Place, AxiosError> => {
-  const queryClient = useQueryClient()
-
   return useQuery({
-    ...placeQuery(id, queryClient),
+    ...placeQuery(id),
     ...options
   })
 }
 
-export default usePlaceQuery
+export const usePlaceSuspenseQuery = (id: number) => {
+  return useSuspenseQuery(placeQuery(id))
+}

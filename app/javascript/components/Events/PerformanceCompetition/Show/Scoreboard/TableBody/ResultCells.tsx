@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 
 import { useProfileQuery } from 'api/profiles'
 import {
-  useCompetitorQuery,
   Result,
   Round,
-  PerformanceCompetition
+  PerformanceCompetition,
+  Competitor
 } from 'api/performanceCompetitions'
 import { useI18n } from 'components/TranslationsProvider'
 import ResultModal from 'components/Events/PerformanceCompetition/Show/ResultModal'
@@ -15,6 +15,7 @@ import styles from './styles.module.scss'
 type Props = {
   event: PerformanceCompetition
   round: Round
+  competitor: Competitor
   result: Result | undefined
   points: number | undefined
 }
@@ -29,12 +30,11 @@ const formattedPoints = (points: number | undefined) => {
   return score.toFixed(1)
 }
 
-const ResultCells = ({ event, round, result, points }: Props) => {
+const ResultCells = ({ event, round, competitor, result, points }: Props) => {
   const { t } = useI18n()
   const [showResultModal, setShowResultModal] = useState(false)
   const hideResultModal = () => setShowResultModal(false)
-  const { data: competitor } = useCompetitorQuery(event.id, result?.competitorId)
-  const { data: profile } = useProfileQuery(competitor?.profileId, { enabled: false })
+  const { data: profile } = useProfileQuery(competitor.profileId, { enabled: false })
 
   return (
     <React.Fragment>
@@ -53,7 +53,12 @@ const ResultCells = ({ event, round, result, points }: Props) => {
 
             {showResultModal && (
               <React.Suspense fallback={null}>
-                <ResultModal event={event} result={result} onHide={hideResultModal} />
+                <ResultModal
+                  event={event}
+                  round={round}
+                  result={result}
+                  onHide={hideResultModal}
+                />
               </React.Suspense>
             )}
           </React.Fragment>

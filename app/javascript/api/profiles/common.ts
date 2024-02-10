@@ -15,7 +15,7 @@ export const profileSchema = z.object({
   })
 })
 
-export type ProfileRecord = z.infer<typeof profileSchema>
+export type Profile = z.infer<typeof profileSchema>
 
 export const profilesIndexSchema = z.object({
   items: z.array(profileSchema),
@@ -37,9 +37,9 @@ export type IndexParams = {
 export const collectionEndpoint = '/api/v1/profiles'
 export const elementEndpoint = (id: number): string => `${collectionEndpoint}/${id}`
 
-export const cacheProfiles = (profiles: ProfileRecord[]): void =>
+export const cacheProfiles = (profiles: Profile[]): void =>
   profiles
     .filter(profile => !queryClient.getQueryData(recordQueryKey(profile.id)))
     .forEach(profile =>
-      queryClient.setQueryData<ProfileRecord>(recordQueryKey(profile.id), profile)
+      queryClient.setQueryData<Profile>(recordQueryKey(profile.id), profile)
     )

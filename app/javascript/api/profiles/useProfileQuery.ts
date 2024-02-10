@@ -1,11 +1,11 @@
-import client, { AxiosResponse } from 'api/client'
+import client from 'api/client'
 import {
   useQuery,
   QueryFunction,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
-import { ProfileRecord, profileSchema, elementEndpoint } from './common'
+import { Profile, profileSchema, elementEndpoint } from './common'
 import { preloadCountries } from 'api/countries'
 import queryClient from 'components/queryClient'
 
@@ -16,14 +16,14 @@ export const recordQueryKey = (id: number | null | undefined): RecordQueryKey =>
   id
 ]
 
-export const getProfile = (id: number): Promise<ProfileRecord> =>
+export const getProfile = (id: number): Promise<Profile> =>
   client
-    .get<never, AxiosResponse<ProfileRecord>>(elementEndpoint(id))
+    .get<never>(elementEndpoint(id))
     .then(response => profileSchema.parse(response.data))
 
-type QueryOptions = UseQueryOptions<ProfileRecord, Error, ProfileRecord, RecordQueryKey>
+type QueryOptions = UseQueryOptions<Profile, Error, Profile, RecordQueryKey>
 
-const queryFn: QueryFunction<ProfileRecord, RecordQueryKey> = async ctx => {
+const queryFn: QueryFunction<Profile, RecordQueryKey> = async ctx => {
   const [_key, id] = ctx.queryKey
 
   if (typeof id !== 'number') {
@@ -50,6 +50,6 @@ export const profileQuery = (id: number | null | undefined): QueryOptions => ({
 const useProfileQuery = (
   id: number | null | undefined,
   options: Omit<QueryOptions, 'queryKey' | 'queryFn'> = {}
-): UseQueryResult<ProfileRecord> => useQuery({ ...profileQuery(id), ...options })
+): UseQueryResult<Profile> => useQuery({ ...profileQuery(id), ...options })
 
 export default useProfileQuery

@@ -1,24 +1,21 @@
 import React from 'react'
 import Select, { Props } from 'react-select'
-import { UseQueryResult } from '@tanstack/react-query'
 
 import { useProfileQueries } from 'api/profiles'
 import getSelectStyles from 'styles/selectStyles'
 
 type CompetitorSelectProps<TCompetitor> = Omit<Props, 'value'> & {
   eventId: number
-  competitorsQuery: (eventId: number) => UseQueryResult<TCompetitor[]>
+  competitors: TCompetitor[]
   value?: number | null
 }
 
 const CompetitorSelect = <TCompetitor extends { profileId: number; id: number }>({
   eventId,
-  competitorsQuery: useCompetitorsQuery,
+  competitors,
   value,
   ...props
 }: CompetitorSelectProps<TCompetitor>): JSX.Element => {
-  console.log(useCompetitorsQuery)
-  const { data: competitors = [] } = useCompetitorsQuery(eventId)
   const profileQueries = useProfileQueries(
     competitors.map(competitor => competitor.profileId)
   )

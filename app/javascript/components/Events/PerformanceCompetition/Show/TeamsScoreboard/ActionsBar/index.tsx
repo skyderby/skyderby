@@ -13,6 +13,7 @@ type ActionsBarProps = {
 const ActionsBar = ({ eventId }: ActionsBarProps): JSX.Element => {
   const [teamFormShown, setTeamFormShown] = useState(false)
   const newTeamMutation = useCreateTeamMutation(eventId)
+  const { data: competitors } = useCompetitorsQuery(eventId)
 
   const showTeamForm = () => setTeamFormShown(true)
   const hideTeamForm = () => setTeamFormShown(false)
@@ -28,7 +29,7 @@ const ActionsBar = ({ eventId }: ActionsBarProps): JSX.Element => {
           title="New team"
           eventId={eventId}
           mutation={newTeamMutation}
-          competitorsQuery={useCompetitorsQuery}
+          competitors={competitors}
           onHide={hideTeamForm}
         />
       )}

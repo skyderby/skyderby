@@ -5,20 +5,21 @@ import { useQueryClient } from '@tanstack/react-query'
 import {
   Result,
   useCompetitorsQuery,
-  usePerformanceCompetitionQuery,
+  usePerformanceCompetitionSuspenseQuery,
   useResultsQuery,
   useRoundQuery
 } from 'api/performanceCompetitions'
-import { ProfileRecord, recordQueryKey } from 'api/profiles'
+import { Profile, recordQueryKey } from 'api/profiles'
 import shuffle from 'utils/shuffle'
 import groupByJumpRun from 'utils/groupByJumpRun'
 import PlayIcon from 'icons/play.svg'
 import StopIcon from 'icons/stop.svg'
+import ErrorPage from 'components/ErrorPage'
 import Player from './Player'
 import GroupSelect, { CompetitorRoundMapData } from './GroupSelect'
 import styles from './styles.module.scss'
 
-const buildGroups = <T extends { profile: ProfileRecord; result: Result }>(
+const buildGroups = <T extends { profile: Profile; result: Result }>(
   competitorsWithResults: T[]
 ) => {
   const topResults = Array.from(competitorsWithResults)
@@ -52,7 +53,7 @@ type RoundReplayProps = {
 
 const RoundReplay = ({ eventId, roundId }: RoundReplayProps) => {
   const queryClient = useQueryClient()
-  const { data: event } = usePerformanceCompetitionQuery(eventId)
+  const { data: event } = usePerformanceCompetitionSuspenseQuery(eventId)
   const { data: round } = useRoundQuery(eventId, roundId)
   const { data: competitors = [] } = useCompetitorsQuery(eventId)
   const { data: results = [] } = useResultsQuery(eventId, {
@@ -70,7 +71,7 @@ const RoundReplay = ({ eventId, roundId }: RoundReplayProps) => {
           const result = results.find(
             ({ competitorId }) => competitor.id === competitorId
           )
-          const profile = queryClient.getQueryData<ProfileRecord>(
+          const profile = queryClient.getQueryData<Profile>(
             recordQueryKey(competitor.profileId)
           )
           return { ...competitor, result, profile }
@@ -79,9 +80,9 @@ const RoundReplay = ({ eventId, roundId }: RoundReplayProps) => {
           <
             TIn extends {
               result: Result | undefined
-              profile: ProfileRecord | undefined
+              profile: Profile | undefined
             },
-            TOut extends TIn & { result: Result; profile: ProfileRecord }
+            TOut extends TIn & { result: Result; profile: Profile }
           >(
             record: TIn
           ): record is TOut => record.result !== undefined && record.profile !== undefined
@@ -97,7 +98,7 @@ const RoundReplay = ({ eventId, roundId }: RoundReplayProps) => {
     setSelectedCompetitors([])
   }, [roundId])
 
-  if (!event || !round) return null
+  if (!round) return <ErrorPage.NotFound />
 
   const handleTriggerPlay = () => setPlaying(!playing)
 

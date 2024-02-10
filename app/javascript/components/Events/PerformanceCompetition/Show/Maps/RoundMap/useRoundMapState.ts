@@ -51,6 +51,7 @@ const useRoundMapState = (eventId: number, roundId: number) => {
 
   useEffect(() => {
     setSelectedCompetitors([])
+    setDesignatedLaneId(null)
   }, [roundId])
 
   const competitorsRoundMapData = useMemo(
@@ -90,7 +91,7 @@ const useRoundMapState = (eventId: number, roundId: number) => {
       (record: CompetitorRoundMapData): record is CompetitorWithResult =>
         record.result !== undefined
     )
-    .sort((a, b) => compareAsc(a.result.exitedAt, b.result.exitedAt))
+    .sort((a, b) => compareAsc(a.result.exitedAt ?? 0, b.result.exitedAt ?? 0))
     .map(
       (competitor, idx): CompetitorWithResultAndColor => ({
         ...competitor,

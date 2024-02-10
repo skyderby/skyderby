@@ -1,28 +1,27 @@
 import {
+  useSuspenseQuery,
   QueryFunction,
-  useQuery,
-  UseQueryOptions,
-  UseQueryResult
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult
 } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 
-import client, { AxiosResponse } from 'api/client'
+import client from 'api/client'
 import { cacheProfiles } from 'api/profiles'
 import { cacheCountries } from 'api/countries'
 import { cacheSuits } from 'api/suits'
 import {
   queryKey,
   collectionEndpoint,
-  IndexResponse,
+  competitorsIndexSchema,
   Competitor,
-  QueryKey,
-  deserialize
+  QueryKey
 } from './common'
 
 const getCompetitors = (eventId: number) =>
   client
-    .get<never, AxiosResponse<IndexResponse>>(collectionEndpoint(eventId))
-    .then(response => response.data)
+    .get<never>(collectionEndpoint(eventId))
+    .then(response => competitorsIndexSchema.parse(response.data))
 
 const queryFn: QueryFunction<Competitor[], QueryKey> = async ctx => {
   const [_key, eventId] = ctx.queryKey
@@ -32,7 +31,7 @@ const queryFn: QueryFunction<Competitor[], QueryKey> = async ctx => {
   cacheCountries(relations.countries)
   cacheSuits(relations.suits)
 
-  return items.map(deserialize)
+  return items
 }
 
 export const competitorsQuery = (eventId: number) => ({
@@ -43,9 +42,10 @@ export const competitorsQuery = (eventId: number) => ({
 const useCompetitorsQuery = <T = Competitor[]>(
   eventId: number,
   options: Omit<
-    UseQueryOptions<Competitor[], AxiosError, T, QueryKey>,
+    UseSuspenseQueryOptions<Competitor[], AxiosError, T, QueryKey>,
     'queryKey' | 'queryFn'
   > = {}
-): UseQueryResult<T> => useQuery({ ...competitorsQuery(eventId), ...options })
+): UseSuspenseQueryResult<T> =>
+  useSuspenseQuery({ ...competitorsQuery(eventId), ...options })
 
 export default useCompetitorsQuery

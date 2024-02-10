@@ -1,7 +1,7 @@
 export type { PlaceStats } from './usePlaceStatsQuery'
 export type { Place, PlaceVariables } from './common'
 
-export { default as usePlaceQuery, placeQuery } from './usePlaceQuery'
+export { usePlaceQuery, usePlaceSuspenseQuery, placeQuery } from './usePlaceQuery'
 export { default as usePlaces, placesQuery } from './usePlacesQuery'
 export { default as useAllPlacesQuery } from './useAllPlacesQuery'
 export { default as usePlaceStatsQuery } from './usePlaceStatsQuery'

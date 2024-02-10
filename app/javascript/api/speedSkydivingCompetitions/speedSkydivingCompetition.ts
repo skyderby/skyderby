@@ -77,7 +77,7 @@ const buildQueryFn = (
   const data = await getEvent(id)
 
   if (data.placeId) {
-    await queryClient.prefetchQuery(placeQuery(data.placeId, queryClient))
+    await queryClient.prefetchQuery(placeQuery(data.placeId))
   }
 
   return deserialize(data)

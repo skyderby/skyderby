@@ -1,6 +1,6 @@
 import React from 'react'
 import { AxiosError } from 'axios'
-import { UseMutationResult, UseQueryResult } from '@tanstack/react-query'
+import { UseMutationResult } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import { ValueType } from 'react-select'
 import { Formik, Field, FieldArray, FormikHelpers } from 'formik'
@@ -24,7 +24,7 @@ const defaultValues = {
   competitorIds: []
 }
 
-type TeamFormProps = {
+type TeamFormProps<TCompetitor> = {
   eventId: number
   title: string
   mutation: UseMutationResult<
@@ -32,19 +32,19 @@ type TeamFormProps = {
     AxiosError<Record<string, string[]>>,
     TeamVariables
   >
-  competitorsQuery: (eventId: number) => UseQueryResult
+  competitors: TCompetitor[]
   onHide: () => void
   initialValues?: TeamVariables
 }
 
-const TeamForm = ({
+function TeamForm<TCompetitor extends { id: number; profileId: number }>({
   eventId,
   title,
   mutation,
-  competitorsQuery,
+  competitors,
   onHide: hide,
   initialValues = defaultValues
-}: TeamFormProps): JSX.Element => {
+}: TeamFormProps<TCompetitor>) {
   const { t } = useI18n()
 
   const handleSubmit = async (
@@ -89,13 +89,13 @@ const TeamForm = ({
                       </button>
                     </div>
 
-                    {values.competitorIds.map((id: number, idx: number) => (
+                    {values.competitorIds.map((_id: number, idx: number) => (
                       <div className={styles.competitorRow} key={idx}>
                         <Field
                           as={CompetitorSelect}
                           name={`competitorIds[${idx}]`}
                           eventId={eventId}
-                          competitorsQuery={competitorsQuery}
+                          competitors={competitors}
                           menuPortalTarget={document.getElementById('dropdowns-root')}
                           onChange={(option: ValueType<{ value: number }, false>) => {
                             if (option === null) {

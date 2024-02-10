@@ -11,12 +11,12 @@ import debounce from 'lodash.debounce'
 
 import { drawCard, updateCardNumbers } from './utils'
 import styles from './styles.module.scss'
-import { ProfileRecord } from 'api/profiles'
+import { Profile } from 'api/profiles'
 import { Competitor, Result } from 'api/performanceCompetitions'
 import { PlayerPoint } from '../types'
 
 type CompetitorCardsProps = {
-  group: (Competitor & { profile: ProfileRecord; result: Result })[]
+  group: (Competitor & { profile: Profile; result: Result })[]
 }
 
 export type CompetitorCardsHandle = {

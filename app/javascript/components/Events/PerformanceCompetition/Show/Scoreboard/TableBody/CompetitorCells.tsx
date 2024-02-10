@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 
 import {
-  PerformanceCompetition,
-  useCompetitorQuery,
   useDeleteCompetitorMutation,
-  useUpdateCompetitorMutation
+  useUpdateCompetitorMutation,
+  Competitor,
+  PerformanceCompetition
 } from 'api/performanceCompetitions'
 import { useProfileQuery } from 'api/profiles'
 import { useCountryQuery } from 'api/countries'
@@ -16,17 +16,16 @@ import SuitLabel from 'components/SuitLabel'
 
 type CompetitorCellsProps = {
   event: PerformanceCompetition
-  competitorId: number
+  competitor: Competitor
 }
 
-const CompetitorCells = ({ event, competitorId }: CompetitorCellsProps): JSX.Element => {
+const CompetitorCells = ({ event, competitor }: CompetitorCellsProps): JSX.Element => {
   const [competitorFormShown, setCompetitorFormShown] = useState(false)
-  const { data: competitor } = useCompetitorQuery(event.id, competitorId)
   const { data: profile } = useProfileQuery(competitor?.profileId, { enabled: false })
   const { data: country } = useCountryQuery(profile?.countryId)
 
-  const editMutation = useUpdateCompetitorMutation(event.id, competitorId)
-  const deleteMutation = useDeleteCompetitorMutation(event.id, competitorId)
+  const editMutation = useUpdateCompetitorMutation(event.id, competitor.id)
+  const deleteMutation = useDeleteCompetitorMutation(event.id, competitor.id)
   const deleteCompetitor = () => deleteMutation.mutate(undefined)
 
   return (

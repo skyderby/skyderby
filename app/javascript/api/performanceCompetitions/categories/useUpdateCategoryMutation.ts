@@ -1,39 +1,29 @@
-import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import client, { AxiosError, AxiosResponse } from 'api/client'
+import client, { AxiosError } from 'api/client'
 import {
   categoryUrl,
   queryKey,
   Category,
-  SerializedCategory,
   CategoryVariables,
-  deserialize
+  categorySchema
 } from './common'
 
 const updateCategory = (eventId: number, id: number, category: CategoryVariables) =>
-  client.put<{ category: CategoryVariables }, AxiosResponse<SerializedCategory>>(
-    categoryUrl(eventId, id),
-    { category }
-  )
+  client
+    .put<{ category: CategoryVariables }>(categoryUrl(eventId, id), { category })
+    .then(response => categorySchema.parse(response.data))
 
-const useEditCategoryMutation = (
-  eventId: number,
-  id: number
-): UseMutationResult<
-  AxiosResponse<SerializedCategory>,
-  AxiosError,
-  CategoryVariables
-> => {
+const useEditCategoryMutation = (eventId: number, id: number) => {
   const queryClient = useQueryClient()
 
   const mutationFn = (category: CategoryVariables) =>
     updateCategory(eventId, id, category)
 
-  return useMutation({
+  return useMutation<Category, AxiosError<Record<string, string[]>>, CategoryVariables>({
     mutationFn,
-    onSuccess(response) {
+    onSuccess(updatedCategory) {
       const data: Category[] = queryClient.getQueryData(queryKey(eventId)) ?? []
-      const updatedCategory = deserialize(response.data)
 
       queryClient.setQueryData(
         queryKey(eventId),

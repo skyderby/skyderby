@@ -3,7 +3,8 @@ import {
   QueryFunction,
   useQuery,
   useQueryClient,
-  UseQueryOptions
+  useSuspenseQuery,
+  UseSuspenseQueryOptions
 } from '@tanstack/react-query'
 import { AxiosResponse, AxiosError } from 'axios'
 
@@ -31,7 +32,7 @@ const buildQueryFn = (
   const data = await getEvent(id)
 
   if (data.placeId) {
-    await queryClient.prefetchQuery(placeQuery(data.placeId, queryClient))
+    await queryClient.prefetchQuery(placeQuery(data.placeId))
   }
 
   return deserialize(data)
@@ -40,20 +41,23 @@ const buildQueryFn = (
 const performanceCompetitionQuery = (
   id: number | undefined,
   queryClient: QueryClient
-): UseQueryOptions<
+): UseSuspenseQueryOptions<
   PerformanceCompetition,
   AxiosError,
   PerformanceCompetition,
   QueryKey
 > => ({
   queryKey: queryKey(id),
-  queryFn: buildQueryFn(queryClient),
-  enabled: !!id
+  queryFn: buildQueryFn(queryClient)
 })
 
-const usePerformanceCompetitionQuery = (id: number | undefined) => {
+export const usePerformanceCompetitionQuery = (id: number | undefined) => {
   const queryClient = useQueryClient()
-  return useQuery(performanceCompetitionQuery(id, queryClient))
+  return useQuery({ ...performanceCompetitionQuery(id, queryClient), enabled: !!id })
 }
 
-export default usePerformanceCompetitionQuery
+export const usePerformanceCompetitionSuspenseQuery = (id: number) => {
+  const queryClient = useQueryClient()
+
+  return useSuspenseQuery(performanceCompetitionQuery(id, queryClient))
+}

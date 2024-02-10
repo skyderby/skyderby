@@ -24,6 +24,7 @@
 .table {
   width: 100%;
   border: var(--default-border);
+  border-bottom: 0;
   border-collapse: collapse;
   overflow: hidden;
 
@@ -45,6 +46,10 @@
 
 .table td {
   padding: 0.25rem 0.5rem;
+}
+
+.table tbody:last-child tr:last-child td {
+  border-bottom: 0;
 }
 
 .table th {

@@ -2,7 +2,7 @@ import { parseISO } from 'date-fns'
 import { z } from 'zod'
 import { cachePlaces, Place } from 'api/places'
 import { cacheSuits, SuitRecord } from 'api/suits'
-import { cacheProfiles, ProfileRecord } from 'api/profiles'
+import { cacheProfiles, Profile } from 'api/profiles'
 import { cacheCountries, CountryRecord } from 'api/countries'
 import { cacheManufacturers, ManufacturerRecord } from 'api/manufacturer'
 import { Serialized } from 'api/helpers'
@@ -75,7 +75,7 @@ export interface TrackRelations {
   places: Place[]
   suits: SuitRecord[]
   manufacturers: ManufacturerRecord[]
-  profiles: ProfileRecord[]
+  profiles: Profile[]
 }
 
 export interface TracksIndex<T> {

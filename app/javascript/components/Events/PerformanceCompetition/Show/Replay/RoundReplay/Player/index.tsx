@@ -11,7 +11,7 @@ import CompetitorCards, { CompetitorCardsHandle } from './CompetitorCards'
 import processPoints from './processPoints'
 import getPathsUntilTime from './getPathsUntilTime'
 import styles from './styles.module.scss'
-import { ProfileRecord } from 'api/profiles'
+import { Profile } from 'api/profiles'
 import { useQueryClient } from '@tanstack/react-query'
 import { fetchResultPoints } from 'components/Events/PerformanceCompetition/useResultPoints'
 import { PlayerPoint } from './types'
@@ -20,7 +20,7 @@ type PlayerProps = {
   event: PerformanceCompetition
   task: Round['task']
   playing: boolean
-  group: (Competitor & { result: Result; profile: ProfileRecord })[]
+  group: (Competitor & { result: Result; profile: Profile })[]
 }
 
 const Player = ({ event, task, group = [], playing }: PlayerProps) => {

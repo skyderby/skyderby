@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import useGoogleMapsApi from 'utils/useGoogleMapsApi'
 import { getBoundaries } from 'utils/getBoundaries'
@@ -48,22 +48,28 @@ const Map = (props: MapProps) => {
     onCenterChangedRef.current = onCenterChanged
   }, [onCenterChanged])
 
-  const registerCoordinates = (coordinates: Coordinate[]) => {
-    if (!autoFitBounds) return null
+  const registerCoordinates = useCallback(
+    (coordinates: Coordinate[]) => {
+      if (!autoFitBounds) return null
 
-    const id = objId.current++
-    setCoordinates(prev => ({ ...prev, [id]: coordinates }))
+      const id = objId.current++
+      setCoordinates(prev => ({ ...prev, [id]: coordinates }))
 
-    return id
-  }
+      return id
+    },
+    [setCoordinates, autoFitBounds]
+  )
 
-  const deregisterCoordinates = (id: number | null) => {
-    if (!autoFitBounds || !id) return
+  const deregisterCoordinates = useCallback(
+    (id: number | null) => {
+      if (!autoFitBounds || !id) return
 
-    setCoordinates(prev =>
-      Object.fromEntries(Object.entries(prev).filter(([key]) => key !== id.toString()))
-    )
-  }
+      setCoordinates(prev =>
+        Object.fromEntries(Object.entries(prev).filter(([key]) => key !== id.toString()))
+      )
+    },
+    [setCoordinates, autoFitBounds]
+  )
 
   const { minLatitude, minLongitude, maxLatitude, maxLongitude } =
     getBoundaries(Object.values(coordinates).flat()) ?? {}

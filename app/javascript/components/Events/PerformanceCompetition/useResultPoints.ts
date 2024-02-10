@@ -50,8 +50,9 @@ const fetchResultPoints = async (
     })
   )
 
+  const startTime = result.exitedAt ?? points[0].gpsTime
   const afterExitPoint = points.find(point =>
-    isEqual(point.gpsTime, addSeconds(result.exitedAt, 10))
+    isEqual(point.gpsTime, addSeconds(startTime, 10))
   )
 
   const startPoint = getPointForAltitude(points, event.rangeFrom)
@@ -74,8 +75,10 @@ const useResultPoints = (
     queryOptions
   )
 
+  const startTime = result.exitedAt ?? points[0].gpsTime
+
   const afterExitPoint = useMemo(
-    () => points.find(point => isEqual(point.gpsTime, addSeconds(result.exitedAt, 10))),
+    () => points.find(point => isEqual(point.gpsTime, addSeconds(startTime, 10))),
     [result, points]
   )
 

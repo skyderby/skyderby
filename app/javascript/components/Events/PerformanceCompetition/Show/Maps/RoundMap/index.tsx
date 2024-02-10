@@ -5,7 +5,7 @@ import MapLegend from './MapLegend'
 import Group from './Group'
 import CompetitorRow from './CompetitorRow'
 
-import { usePerformanceCompetitionQuery } from 'api/performanceCompetitions'
+import { usePerformanceCompetitionSuspenseQuery } from 'api/performanceCompetitions'
 import { I18n } from 'components/TranslationsProvider'
 import styles from './styles.module.scss'
 import FlightPath from 'components/Events/PerformanceCompetition/Show/Maps/RoundMap/FlightPath'
@@ -18,7 +18,7 @@ type RoundMapProps = {
 }
 
 const RoundMap = ({ eventId, roundId }: RoundMapProps) => {
-  const { data: event, isLoading } = usePerformanceCompetitionQuery(eventId)
+  const { data: event } = usePerformanceCompetitionSuspenseQuery(eventId)
   const {
     groups,
     competitorsWithResults,
@@ -29,8 +29,6 @@ const RoundMap = ({ eventId, roundId }: RoundMapProps) => {
     toggleCompetitor,
     toggleDL
   } = useRoundMapState(eventId, roundId)
-
-  if (isLoading || !event) return null
 
   return (
     <section className={styles.container}>

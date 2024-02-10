@@ -1,6 +1,5 @@
 import { differenceInMilliseconds, differenceInSeconds } from 'date-fns'
 import colors from 'utils/colors'
-import { ProfileRecord } from 'api/profiles'
 import { PlayerPoint } from '../types'
 
 const boxHeight = 250
@@ -88,11 +87,11 @@ export const updateCardNumbers = (ctx: CanvasRenderingContext2D, point: PlayerPo
   ctx.restore()
 }
 
-export const drawCard = (
+export function drawCard<TData extends { profile: { name: string } }>(
   ctx: CanvasRenderingContext2D,
-  el: { profile: ProfileRecord },
+  el: TData,
   idx = 0
-) => {
+) {
   const boxX = 0
   const boxY = 0
   const photoRadius = 30

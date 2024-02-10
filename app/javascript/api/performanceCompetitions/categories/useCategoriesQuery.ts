@@ -1,12 +1,13 @@
 import {
   QueryFunction,
-  useQuery,
   UseQueryOptions,
-  UseQueryResult
+  useSuspenseQuery,
+  UseSuspenseQueryOptions,
+  UseSuspenseQueryResult
 } from '@tanstack/react-query'
 
-import client, { AxiosResponse, AxiosError } from 'api/client'
-import { Category, SerializedCategory, QueryKey, deserialize } from './common'
+import client, { AxiosError } from 'api/client'
+import { Category, categoriesIndexSchema, QueryKey } from './common'
 
 const endpoint = (eventId: number) =>
   `/api/v1/performance_competitions/${eventId}/categories`
@@ -19,13 +20,12 @@ const queryKey = (eventId: number): QueryKey => [
 
 const getCategories = (eventId: number) =>
   client
-    .get<never, AxiosResponse<SerializedCategory[]>>(endpoint(eventId))
-    .then(response => response.data)
+    .get<never>(endpoint(eventId))
+    .then(response => categoriesIndexSchema.parse(response.data))
 
 const queryFn: QueryFunction<Category[], QueryKey> = async ctx => {
   const [_key, eventId] = ctx.queryKey
-  const categories = await getCategories(eventId)
-  return categories.map(deserialize)
+  return getCategories(eventId)
 }
 
 export const categoriesQuery = <T = Category[]>(
@@ -38,9 +38,10 @@ export const categoriesQuery = <T = Category[]>(
 const useCategoriesQuery = <T = Category[]>(
   eventId: number,
   options: Omit<
-    UseQueryOptions<Category[], AxiosError, T, QueryKey>,
+    UseSuspenseQueryOptions<Category[], AxiosError, T, QueryKey>,
     'queryKey' | 'queryFn'
   > = {}
-): UseQueryResult<T> => useQuery({ ...categoriesQuery<T>(eventId), ...options })
+): UseSuspenseQueryResult<T> =>
+  useSuspenseQuery({ ...categoriesQuery<T>(eventId), ...options })
 
 export default useCategoriesQuery
