@@ -1,7 +1,7 @@
 ruby '3.1.2'
 source 'https://rubygems.org'
 
-gem 'rails', '~> 7.0.3'
+gem 'rails', '~> 7.0.8'
 
 gem 'puma', '< 6'
 gem 'rack-attack'
