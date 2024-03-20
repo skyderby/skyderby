@@ -93,7 +93,6 @@ GEM
       msgpack (~> 1.2)
     browser (4.0.0)
     builder (3.2.4)
-    byebug (11.0.1)
     capybara (3.37.1)
       addressable
       matrix
@@ -233,7 +232,7 @@ GEM
     parallel (1.22.1)
     parser (3.1.2.1)
       ast (~> 2.4.1)
-    pg (1.1.4)
+    pg (1.5.6)
     pluck_to_hash (1.0.2)
       activerecord (>= 4.0.2)
       activesupport (>= 4.0.2)
@@ -393,6 +392,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
+  arm64-darwin-23
   x86_64-linux
 
 DEPENDENCIES
@@ -400,7 +400,6 @@ DEPENDENCIES
   aws-sdk-s3
   bootsnap
   browser
-  byebug
   capybara
   caxlsx
   caxlsx_rails
@@ -443,7 +442,7 @@ DEPENDENCIES
   will_paginate-bootstrap
 
 RUBY VERSION
-   ruby 3.1.2p20
+   ruby 3.2.3p157
 
 BUNDLED WITH
    2.3.20

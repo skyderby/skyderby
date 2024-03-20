@@ -7,7 +7,7 @@ class Track < ApplicationRecord
 
       weather_time = (start_time || recorded_at).beginning_of_hour
 
-      @weather_data ||= place.weather_data.for_time(weather_time)
+      @weather_data ||= place.weather_data.ordered.for_time(weather_time)
     end
   end
 end
