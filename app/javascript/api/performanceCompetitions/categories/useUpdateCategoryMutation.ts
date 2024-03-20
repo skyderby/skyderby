@@ -4,36 +4,27 @@ import client, { AxiosError, AxiosResponse } from 'api/client'
 import {
   categoryUrl,
   queryKey,
+  categorySchema,
   Category,
-  SerializedCategory,
-  CategoryVariables,
-  deserialize
+  CategoryVariables
 } from './common'
+import { Round } from 'api/performanceCompetitions'
 
 const updateCategory = (eventId: number, id: number, category: CategoryVariables) =>
-  client.put<{ category: CategoryVariables }, AxiosResponse<SerializedCategory>>(
-    categoryUrl(eventId, id),
-    { category }
-  )
+  client
+    .put<{ category: CategoryVariables }>(categoryUrl(eventId, id), { category })
+    .then(response => categorySchema.parse(response.data))
 
-const useEditCategoryMutation = (
-  eventId: number,
-  id: number
-): UseMutationResult<
-  AxiosResponse<SerializedCategory>,
-  AxiosError,
-  CategoryVariables
-> => {
+const useEditCategoryMutation = (eventId: number, id: number) => {
   const queryClient = useQueryClient()
 
   const mutationFn = (category: CategoryVariables) =>
     updateCategory(eventId, id, category)
 
-  return useMutation({
+  return useMutation<Category, AxiosError<Record<string, string[]>>, CategoryVariables>({
     mutationFn,
-    onSuccess(response) {
-      const data: Category[] = queryClient.getQueryData(queryKey(eventId)) ?? []
-      const updatedCategory = deserialize(response.data)
+    onSuccess(updatedCategory) {
+      const data = queryClient.getQueryData<Category[]>(queryKey(eventId)) ?? []
 
       queryClient.setQueryData(
         queryKey(eventId),

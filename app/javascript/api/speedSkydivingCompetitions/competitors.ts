@@ -118,7 +118,7 @@ export const useCompetitorQuery = (
 
 export type NewCompetitorMutation = UseMutationResult<
   AxiosResponse<SerializedCompetitor>,
-  AxiosError,
+  AxiosError<Record<string, string[]>>,
   CompetitorVariables
 >
 
@@ -145,7 +145,7 @@ export const useNewCompetitorMutation = (
 
 export type EditCompetitorMutation = UseMutationResult<
   AxiosResponse<SerializedCompetitor>,
-  AxiosError,
+  AxiosError<Record<string, string[]>>,
   CompetitorVariables
 >
 
@@ -180,12 +180,15 @@ export const useDeleteCompetitorMutation = (
   eventId: number,
   competitorId: number,
   options: MutationOptions = {}
-): UseMutationResult<AxiosResponse<SerializedCompetitor>, AxiosError> => {
+) => {
   const queryClient = useQueryClient()
 
   const mutationFn = () => deleteCompetitor(eventId, competitorId)
 
-  return useMutation({
+  return useMutation<
+    AxiosResponse<SerializedCompetitor>,
+    AxiosError<Record<string, string[]>>
+  >({
     mutationFn,
     async onSuccess(response) {
       const data: Competitor[] = queryClient.getQueryData(collectionKey(eventId)) ?? []

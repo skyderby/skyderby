@@ -24,7 +24,11 @@ const useUpdateResultMutation = (eventId: number, id: number) => {
 
   const mutationFn = (result: UpdateVariables) => updateResult(eventId, id, result)
 
-  return useMutation<AxiosResponse<SerializedResult>, AxiosError, UpdateVariables>({
+  return useMutation<
+    AxiosResponse<SerializedResult>,
+    AxiosError<Record<string, string[]>>,
+    UpdateVariables
+  >({
     mutationFn,
     async onSuccess(response) {
       const data: Result[] = queryClient.getQueryData(queryKey(eventId)) ?? []

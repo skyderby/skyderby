@@ -38,7 +38,7 @@ export type EventVariables = Partial<{
 
 export type SpeedSkydivingCompetitionMutation = UseMutationResult<
   AxiosResponse<SerializedData>,
-  AxiosError,
+  AxiosError<Record<string, string[]>>,
   EventVariables
 >
 

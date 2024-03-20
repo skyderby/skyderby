@@ -14,14 +14,12 @@ const copyCompetitors = (eventId: number, sourceEventId: number) =>
     sourceEventId
   })
 
-const useCopyCompetitorsMutation = (
-  eventId: number
-): UseMutationResult<AxiosResponse, AxiosError, Variables> => {
+const useCopyCompetitorsMutation = (eventId: number) => {
   const queryClient = useQueryClient()
   const mutationFn = ({ sourceEventId }: Variables) =>
     copyCompetitors(eventId, sourceEventId)
 
-  return useMutation({
+  return useMutation<AxiosResponse, AxiosError<Record<string, string[]>>, Variables>({
     mutationFn,
     async onSuccess() {
       await queryClient.refetchQueries(competitorsQuery(eventId))
