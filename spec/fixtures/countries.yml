@@ -9,3 +9,7 @@ russia:
 italy:
   name: Italy
   code: ITA
+
+usa:
+  name: United States
+  code: USA
