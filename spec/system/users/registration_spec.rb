@@ -21,6 +21,6 @@ describe 'User registration', type: :system, js: true do
 
     fill_in 'user[profile_attributes][last_name]', with: 'I am a robot'
 
-    expect { click_button I18n.t('devise.registrations.new.sign_up') }.not_to change { User.count }
+    expect { click_button I18n.t('devise.registrations.new.sign_up') }.not_to(change { User.count })
   end
 end
