@@ -3,7 +3,6 @@ module DeviseOverrides
 
   included do
     before_action :store_current_location, unless: :devise_controller?
-    before_action :configure_permitted_parameters, if: :devise_controller?
   end
 
   def current_user
@@ -12,10 +11,6 @@ module DeviseOverrides
 
   def user_signed_in?
     current_user.registered?
-  end
-
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [{ profile_attributes: :name }])
   end
 
   def store_current_location

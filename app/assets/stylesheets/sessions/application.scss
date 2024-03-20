@@ -1,2 +1,7 @@
 @import '../fonts/*';
 @import './*';
+
+input[name="user[profile_attributes][last_name]"] {
+  position: absolute;
+  top: -300px;
+}
