@@ -1,7 +1,7 @@
 import client from 'api/client'
 import { AxiosError } from 'axios'
 
-import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { standingsQuery } from 'api/performanceCompetitions/useStandingsQuery'
 import { queryKey, categoryUrl, categorySchema, Category } from './common'
 

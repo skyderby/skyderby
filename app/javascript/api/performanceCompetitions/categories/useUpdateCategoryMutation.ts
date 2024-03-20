@@ -1,6 +1,6 @@
-import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import client, { AxiosError, AxiosResponse } from 'api/client'
+import client, { AxiosError } from 'api/client'
 import {
   categoryUrl,
   queryKey,
@@ -8,7 +8,6 @@ import {
   Category,
   CategoryVariables
 } from './common'
-import { Round } from 'api/performanceCompetitions'
 
 const updateCategory = (eventId: number, id: number, category: CategoryVariables) =>
   client

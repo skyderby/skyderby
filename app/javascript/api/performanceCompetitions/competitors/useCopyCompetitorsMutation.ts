@@ -1,4 +1,4 @@
-import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import client, { AxiosError } from 'api/client'
 import { copyEndpoint } from './common'
 import { AxiosResponse } from 'axios'

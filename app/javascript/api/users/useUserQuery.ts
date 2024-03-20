@@ -9,7 +9,7 @@ import {
   UserWithDetails as User
 } from './common'
 
-type RecordQueryKey = readonly ['users', number]
+type RecordQueryKey = readonly ['user', number]
 
 const deserialize = (record: SerializedUser): User => ({
   ...record,
