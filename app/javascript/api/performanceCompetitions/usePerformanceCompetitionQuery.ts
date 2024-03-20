@@ -3,7 +3,8 @@ import {
   QueryFunction,
   useQuery,
   useQueryClient,
-  UseQueryOptions
+  UseQueryOptions,
+  useSuspenseQuery
 } from '@tanstack/react-query'
 import { AxiosResponse, AxiosError } from 'axios'
 
@@ -50,6 +51,11 @@ const performanceCompetitionQuery = (
   queryFn: buildQueryFn(queryClient),
   enabled: !!id
 })
+
+export const usePerformanceCompetitionSuspenseQuery = (id: number) => {
+  const queryClient = useQueryClient()
+  return useSuspenseQuery(performanceCompetitionQuery(id, queryClient))
+}
 
 const usePerformanceCompetitionQuery = (id: number | undefined) => {
   const queryClient = useQueryClient()

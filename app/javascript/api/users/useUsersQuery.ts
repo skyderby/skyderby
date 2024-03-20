@@ -1,9 +1,8 @@
-import { QueryFunction, useQuery, UseQueryResult } from '@tanstack/react-query'
-import { parseISO } from 'date-fns'
-import client, { AxiosResponse } from 'api/client'
-import { User } from './common'
+import { QueryFunctionContext, useSuspenseQuery } from '@tanstack/react-query'
+import { z } from 'zod'
+import client from 'api/client'
 
-type IndexQueryKey = ['users', IndexParams]
+type QueryKey = ['users', IndexParams]
 
 export interface IndexParams {
   page?: number
@@ -12,23 +11,21 @@ export interface IndexParams {
   sortBy?: 'id asc' | 'id desc' | 'name asc' | 'name desc'
 }
 
-export interface UserIndexRecord extends User {
-  name?: string
-  confirmed: boolean
-  createdAt: Date
-}
+const userSchema = z.object({
+  id: z.number(),
+  email: z.string(),
+  name: z.string().nullable(),
+  signInCount: z.number(),
+  oauth: z.boolean(),
+  confirmed: z.boolean(),
+  createdAt: z.coerce.date()
+})
 
-type SerializedUserIndexRecord = {
-  [K in keyof UserIndexRecord]: UserIndexRecord[K] extends Date
-    ? string
-    : UserIndexRecord[K]
-}
-
-interface IndexResponse<T = UserIndexRecord> {
-  items: T[]
-  currentPage: number
-  totalPages: number
-}
+const indexResponseSchema = z.object({
+  items: z.array(userSchema),
+  currentPage: z.number(),
+  totalPages: z.number()
+})
 
 const endpoint = '/api/v1/users'
 
@@ -43,29 +40,17 @@ export const mapParamsToUrl = (params: IndexParams): string => {
 
 const getUsers = (params: IndexParams) => {
   const url = `${endpoint}${mapParamsToUrl(params)}`
-  return client
-    .get<never, AxiosResponse<IndexResponse<SerializedUserIndexRecord>>>(url)
-    .then(response => response.data)
+  return client.get<never>(url).then(response => indexResponseSchema.parse(response.data))
 }
 
-const queryUsers: QueryFunction<IndexResponse, IndexQueryKey> = async ctx => {
+const queryFn = async (ctx: QueryFunctionContext<QueryKey>) => {
   const [_key, params] = ctx.queryKey
-  const response = await getUsers(params)
-
-  return {
-    ...response,
-    items: response.items.map(
-      (record: SerializedUserIndexRecord): UserIndexRecord => ({
-        ...record,
-        createdAt: parseISO(record.createdAt)
-      })
-    )
-  }
+  return getUsers(params)
 }
 
-const useUsersQuery = (params: IndexParams = {}): UseQueryResult<IndexResponse> =>
-  useQuery({
-    queryFn: queryUsers,
+const useUsersQuery = (params: IndexParams = {}) =>
+  useSuspenseQuery({
+    queryFn,
     queryKey: ['users', params]
   })
 

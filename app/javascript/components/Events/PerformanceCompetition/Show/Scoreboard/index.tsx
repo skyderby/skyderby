@@ -4,7 +4,7 @@ import {
   useRoundsQuery,
   useCategoriesQuery,
   useStandingsQuery,
-  usePerformanceCompetitionQuery,
+  usePerformanceCompetitionSuspenseQuery,
   Round
 } from 'api/performanceCompetitions'
 import ActionsBar from './ActionsBar'
@@ -26,7 +26,7 @@ const Scoreboard = ({ eventId }: ScoreboardProps) => {
   const { data: standings = [], isLoading } = useStandingsQuery(eventId)
   const { data: rounds = [] } = useRoundsQuery(eventId)
   const { data: categories = [] } = useCategoriesQuery(eventId)
-  const { data: event } = usePerformanceCompetitionQuery(eventId)
+  const { data: event } = usePerformanceCompetitionSuspenseQuery(eventId)
 
   if (isLoading || !event) return null
 

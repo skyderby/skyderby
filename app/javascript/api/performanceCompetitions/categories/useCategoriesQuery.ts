@@ -1,12 +1,12 @@
 import {
-  QueryFunction,
+  QueryFunctionContext,
   useQuery,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
 
-import client, { AxiosResponse, AxiosError } from 'api/client'
-import { Category, SerializedCategory, QueryKey, deserialize } from './common'
+import client, { AxiosError } from 'api/client'
+import { Category, QueryKey, indexSchema } from './common'
 
 const endpoint = (eventId: number) =>
   `/api/v1/performance_competitions/${eventId}/categories`
@@ -18,14 +18,11 @@ const queryKey = (eventId: number): QueryKey => [
 ]
 
 const getCategories = (eventId: number) =>
-  client
-    .get<never, AxiosResponse<SerializedCategory[]>>(endpoint(eventId))
-    .then(response => response.data)
+  client.get<never>(endpoint(eventId)).then(response => indexSchema.parse(response.data))
 
-const queryFn: QueryFunction<Category[], QueryKey> = async ctx => {
+const queryFn = async (ctx: QueryFunctionContext<QueryKey>) => {
   const [_key, eventId] = ctx.queryKey
-  const categories = await getCategories(eventId)
-  return categories.map(deserialize)
+  return getCategories(eventId)
 }
 
 export const categoriesQuery = <T = Category[]>(

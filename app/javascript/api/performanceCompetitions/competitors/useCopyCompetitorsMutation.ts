@@ -1,4 +1,4 @@
-import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import client, { AxiosError } from 'api/client'
 import { copyEndpoint } from './common'
 import { AxiosResponse } from 'axios'
@@ -14,14 +14,12 @@ const copyCompetitors = (eventId: number, sourceEventId: number) =>
     sourceEventId
   })
 
-const useCopyCompetitorsMutation = (
-  eventId: number
-): UseMutationResult<AxiosResponse, AxiosError, Variables> => {
+const useCopyCompetitorsMutation = (eventId: number) => {
   const queryClient = useQueryClient()
   const mutationFn = ({ sourceEventId }: Variables) =>
     copyCompetitors(eventId, sourceEventId)
 
-  return useMutation({
+  return useMutation<AxiosResponse, AxiosError<Record<string, string[]>>, Variables>({
     mutationFn,
     async onSuccess() {
       await queryClient.refetchQueries(competitorsQuery(eventId))

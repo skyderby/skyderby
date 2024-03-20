@@ -24,13 +24,13 @@ export type TeamVariables = {
 
 export type NewTeamMutation = UseMutationResult<
   AxiosResponse<SerializedTeam>,
-  AxiosError,
+  AxiosError<Record<string, string[]>>,
   TeamVariables
 >
 
 export type EditTeamMutation = UseMutationResult<
   AxiosResponse<SerializedTeam>,
-  AxiosError,
+  AxiosError<Record<string, string[]>>,
   TeamVariables
 >
 

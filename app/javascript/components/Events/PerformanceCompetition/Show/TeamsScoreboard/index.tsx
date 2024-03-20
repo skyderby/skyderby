@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import {
-  usePerformanceCompetitionQuery,
+  usePerformanceCompetitionSuspenseQuery,
   useTeamStandingsQuery
 } from 'api/performanceCompetitions'
 import useStickyTableHeader from 'hooks/useStickyTableHeader'
@@ -14,7 +14,7 @@ type TeamsScoreboardProps = {
 
 const TeamsScoreboard = ({ eventId }: TeamsScoreboardProps) => {
   const { data: teamStandings = [], isLoading } = useTeamStandingsQuery(eventId)
-  const { data: event } = usePerformanceCompetitionQuery(eventId)
+  const { data: event } = usePerformanceCompetitionSuspenseQuery(eventId)
 
   const tableRef = useRef<HTMLTableElement>(null)
   const stickyContainerRef = useRef<HTMLDivElement>(null)

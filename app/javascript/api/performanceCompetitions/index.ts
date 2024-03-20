@@ -7,7 +7,10 @@ export * from './results'
 export * from './referencePoints'
 export * from './teams'
 
-export { default as usePerformanceCompetitionQuery } from './usePerformanceCompetitionQuery'
+export {
+  default as usePerformanceCompetitionQuery,
+  usePerformanceCompetitionSuspenseQuery
+} from './usePerformanceCompetitionQuery'
 export {
   default as usePerformanceCompetitionsQuery,
   performanceCompetitionsQuery

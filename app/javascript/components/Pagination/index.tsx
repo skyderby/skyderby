@@ -26,9 +26,10 @@ const Pagination = ({
   const startIndex = Math.max(page - showAround, 1)
   const endIndex = Math.min(startIndex + showAround * 2, totalPages)
 
-  const pages = Array(endIndex - startIndex + 1)
-    .fill(undefined)
-    .map((_, idx) => startIndex + idx)
+  const pages = Array.from(
+    { length: endIndex - startIndex + 1 },
+    (_, idx) => startIndex + idx
+  )
 
   return (
     <div className={styles.container}>

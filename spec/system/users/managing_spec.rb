@@ -56,7 +56,7 @@ describe 'User management' do
       fill_in 'searchTerm', with: user.email
       expect(page).to have_css('[role="row"]', count: 1)
 
-      find('div[role="cell"]', text: user.email).ancestor('[role="row"]').click
+      find('div[role="cell"]', text: user.name).click
 
       accept_confirm do
         click_button 'Delete user only'

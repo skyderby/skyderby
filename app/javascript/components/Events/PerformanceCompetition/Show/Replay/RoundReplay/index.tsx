@@ -5,7 +5,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import {
   Result,
   useCompetitorsQuery,
-  usePerformanceCompetitionQuery,
+  usePerformanceCompetitionSuspenseQuery,
   useResultsQuery,
   useRoundQuery
 } from 'api/performanceCompetitions'
@@ -52,7 +52,7 @@ type RoundReplayProps = {
 
 const RoundReplay = ({ eventId, roundId }: RoundReplayProps) => {
   const queryClient = useQueryClient()
-  const { data: event } = usePerformanceCompetitionQuery(eventId)
+  const { data: event } = usePerformanceCompetitionSuspenseQuery(eventId)
   const { data: round } = useRoundQuery(eventId, roundId)
   const { data: competitors = [] } = useCompetitorsQuery(eventId)
   const { data: results = [] } = useResultsQuery(eventId, {

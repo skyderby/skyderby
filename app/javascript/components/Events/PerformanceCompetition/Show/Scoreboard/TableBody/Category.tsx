@@ -28,7 +28,7 @@ const Category = ({ event, category, colSpan }: CategoryProps): JSX.Element => {
   const deleteMutation = useDeleteCategoryMutation(event.id, category.id)
   const positionMutation = useUpdatePositionMutation(event.id, category.id)
 
-  const handleDelete = () => deleteMutation.mutate({ eventId: event.id, id: category.id })
+  const handleDelete = () => deleteMutation.mutate(undefined)
   const moveUp = () => positionMutation.mutate('up')
   const moveDown = () => positionMutation.mutate('down')
 
