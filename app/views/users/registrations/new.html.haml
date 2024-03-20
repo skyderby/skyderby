@@ -7,7 +7,7 @@
       = f.fields_for :profile_attributes do |fields|
         = fields.label :name
         = fields.text_field :name, class: 'form-control input-lg', value: '', required: true, autofocus: true
-        = fields.text_field :last_name, class: 'form-control input-lg', value: '', tabindex: -1
+        = fields.text_field :last_name, class: 'form-control input-lg', value: '', tabindex: -1, autocomplete: 'off'
 
     .form-group
       = f.label :email
