@@ -19,7 +19,7 @@ describe 'User registration', type: :system, js: true do
     fill_in 'user[password]', with: '123456'
     fill_in 'user[password_confirmation]', with: '123456'
 
-    fill_in 'user[profile_attributes][last_name]', with: 'I am a robot'
+    fill_in 'user[profile_attributes][last_name]', with: 'I am a robot', visible: false
 
     expect { click_button I18n.t('devise.registrations.new.sign_up') }.not_to(change { User.count })
   end
