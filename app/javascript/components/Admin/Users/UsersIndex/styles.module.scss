@@ -7,7 +7,7 @@
   max-width: $bp-large;
   margin: 0 auto 2rem;
 
-  >:not(:last-child) {
+  > :not(:last-child) {
     margin-bottom: 1rem;
   }
 }
@@ -19,6 +19,8 @@
 .input {
   composes: input from '~styles/input';
   composes: outlined from '~styles/input';
+
+  font-size: 1rem;
 }
 
 .tableWrapper {
@@ -57,9 +59,59 @@
 }
 
 .thead .cell {
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   border-bottom: solid 2px var(--border-color);
 
   color: var(--grey-70);
   white-space: nowrap;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--border-radius-md);
+
+  cursor: pointer;
+}
+
+.checkboxLabel input {
+  cursor: pointer;
+}
+
+.checkboxLabel:hover {
+  background-color: var(--grey-20);
+}
+
+.link {
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--border-radius-md);
+
+  color: var(--grey-80);
+}
+
+.link:hover {
+  background-color: var(--grey-20);
+}
+
+.batchActions {
+  display: flex;
+  width: 100%;
+  border-radius: var(--border-radius-md);
+
+  background-color: var(--grey-90);
+}
+
+.batchAction {
+  --background-color: transparent;
+  --border-color: transparent;
+  --text-color: var(--white);
+  --active-background-color: var(--grey-70);
+  --active-border-color: var(--grey-70);
+  --active-text-color: var(--white);
+
+  composes: button from '~styles/button';
+
+  padding: 0.5rem 0.75rem;
 }

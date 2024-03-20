@@ -12,6 +12,18 @@ const deleteUser = (id: number, destroyProfile: boolean) =>
     )
     .then(response => response.data)
 
+export const useBatchDeleteUsersMutation = () => {
+  const queryClient = useQueryClient()
+  const mutationFn = (ids: number[]) => Promise.all(ids.map(id => deleteUser(id, true)))
+
+  return useMutation<SerializedUser[], AxiosError<Record<string, string[]>>, number[]>({
+    mutationFn,
+    async onSuccess() {
+      await queryClient.invalidateQueries({ queryKey: ['users'], refetchType: 'active' })
+    }
+  })
+}
+
 const useDeleteUserMutation = (id: number) => {
   const queryClient = useQueryClient()
   const mutationFn = (variables: Variables) =>
@@ -21,7 +33,7 @@ const useDeleteUserMutation = (id: number) => {
     mutationFn,
     async onSuccess() {
       queryClient.removeQueries({ queryKey: recordQueryKey(id) })
-      await queryClient.invalidateQueries({ queryKey: ['users'] })
+      await queryClient.invalidateQueries({ queryKey: ['users'], refetchType: 'active' })
     }
   })
 }
