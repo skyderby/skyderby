@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { AxiosError, AxiosResponse } from 'axios'
 import client from 'api/client'
-import { elementEndpoint, recordQueryKey, SerializedUser } from './common'
+import { elementEndpoint, SerializedUser } from './common'
 
 type Variables = { destroyProfile: boolean } | undefined
 
@@ -32,8 +32,7 @@ const useDeleteUserMutation = (id: number) => {
   return useMutation<SerializedUser, AxiosError<Record<string, string[]>>, Variables>({
     mutationFn,
     async onSuccess() {
-      queryClient.removeQueries({ queryKey: recordQueryKey(id) })
-      await queryClient.invalidateQueries({ queryKey: ['users'], refetchType: 'active' })
+      await queryClient.invalidateQueries({ queryKey: ['users'] })
     }
   })
 }
