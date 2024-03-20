@@ -1,5 +1,5 @@
 import {
-  QueryFunction,
+  QueryFunctionContext,
   useQuery,
   UseQueryOptions,
   UseQueryResult
@@ -20,7 +20,7 @@ const queryKey = (eventId: number): QueryKey => [
 const getCategories = (eventId: number) =>
   client.get<never>(endpoint(eventId)).then(response => indexSchema.parse(response.data))
 
-const queryFn: QueryFunction<Category[], QueryKey> = async ctx => {
+const queryFn = async (ctx: QueryFunctionContext<QueryKey>) => {
   const [_key, eventId] = ctx.queryKey
   return getCategories(eventId)
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { usePerformanceCompetitionQuery } from 'api/performanceCompetitions'
+import { usePerformanceCompetitionSuspenseQuery } from 'api/performanceCompetitions'
 import ErrorPage from 'components/ErrorPage'
 import styles from './styles.module.scss'
 
@@ -9,7 +9,7 @@ type DownloadsProps = {
 }
 
 const Downloads = ({ eventId }: DownloadsProps) => {
-  const { data: event, isSuccess } = usePerformanceCompetitionQuery(eventId)
+  const { data: event, isSuccess } = usePerformanceCompetitionSuspenseQuery(eventId)
 
   if (!isSuccess) return null
 

@@ -3,11 +3,11 @@ import { Routes, Route, useParams } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 
 import {
-  usePerformanceCompetitionQuery,
   competitorsQuery,
   categoriesQuery,
   roundsQuery,
-  resultsQuery
+  resultsQuery,
+  usePerformanceCompetitionSuspenseQuery
 } from 'api/performanceCompetitions'
 
 import Header from './Header'
@@ -27,9 +27,12 @@ const Show = () => {
   const eventId = Number(params.eventId)
   const queryClient = useQueryClient()
   const [associationsLoaded, setAssociationsLoaded] = useState(false)
-  const { data: event, isLoading, isError, error } = usePerformanceCompetitionQuery(
-    eventId
-  )
+  const {
+    data: event,
+    isLoading,
+    isError,
+    error
+  } = usePerformanceCompetitionSuspenseQuery(eventId)
 
   useEffect(() => {
     if (isLoading || isError) return

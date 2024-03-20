@@ -5,9 +5,7 @@ export type QueryKey = ['performanceCompetition', number, 'categories']
 export const categorySchema = z.object({
   id: z.number(),
   name: z.string(),
-  position: z.number(),
-  createdAt: z.coerce.date(),
-  updatedAt: z.coerce.date()
+  position: z.number()
 })
 
 export const indexSchema = z.array(categorySchema)
