@@ -21,13 +21,13 @@ module Api
       def destroy
         authorize User
 
+        destroy_profile = params[:destroy_profile] == 'true'
         User.transaction do
-          destroy_profile = params[:destroy_profile] == 'true'
           @user.profile.destroy if destroy_profile
           @user.destroy if @user.profile.destroyed? || !destroy_profile
         end
 
-        if @user.destroyed? && @user.profile.destroyed?
+        if @user.destroyed? && (@user.profile.destroyed? || !destroy_profile)
           head :ok
         else
           @user.errors.merge!(@user.profile.errors)
