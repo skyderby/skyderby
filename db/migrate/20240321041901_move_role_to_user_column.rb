@@ -1,4 +1,4 @@
-class MoveRoleToUserColumn < ActiveRecord::Migration[7.0]
+class MoveRoleToUserColumn < ActiveRecord::Migration[6.0]
   def up
     add_column :users, :roles, :string, array: true, default: []
 
