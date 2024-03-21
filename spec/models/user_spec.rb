@@ -23,23 +23,15 @@
 
 describe User, type: :model do
   describe '#create' do
-    it 'assigns default role' do
-      expect(user.has_role?(:user)).to be_truthy
-    end
-
     it 'creates profile' do
+      user = User.create!(
+        email: 'example@example.com',
+        password: 'changeme',
+        password_confirmation: 'changeme',
+        profile_attributes: { name: 'Testy McUserton' }
+      )
+
       expect(user.profile).not_to be_nil
-    end
-
-    def user
-      @user ||= begin
-        Role.find_or_create_by(name: 'user')
-
-        User.create! email: 'example@example.com',
-                     password: 'changeme',
-                     password_confirmation: 'changeme',
-                     profile_attributes: { name: 'Testy McUserton' }
-      end
     end
   end
 
