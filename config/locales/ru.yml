@@ -1,6 +1,8 @@
 ru:
   errors:
     messages:
+      restrict_dependent_destroy:
+        has_many: "Не удалось удалить, так как есть связанные записи в таблице %{record}"
       duplicate_file: "Файл был использован при расчете результатов участника: %{pilot_name} в раунде: %{round}"
       not_saved:
         one: 'Не удалось записать по причине:'

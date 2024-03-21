@@ -89,5 +89,21 @@ describe 'User management' do
       expect(User.exists?(user.id)).to be_falsey
       expect(Profile.exists?(profile.id)).to be_falsey
     end
+
+    it 'does not delete user with associated profile if user has tracks' do
+      sign_in users(:admin)
+      user = users(:regular_user)
+      profile = user.profile
+      expect(profile.tracks).to exist
+
+      visit "/admin/users/#{user.id}"
+
+      accept_confirm do
+        click_button 'Delete user with associated profile'
+      end
+
+      expect(page).to have_current_path("/admin/users/#{user.id}")
+      expect(page).to have_text('Cannot delete record because dependent tracks exist')
+    end
   end
 end

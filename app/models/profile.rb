@@ -28,10 +28,7 @@ class Profile < ApplicationRecord
 
   belongs_to :country, optional: true
 
-  has_many :tracks, -> { order('recorded_at DESC') }, inverse_of: :pilot, dependent: :destroy
-  has_many :public_tracks,
-           -> { where(visibility: 0).order('created_at DESC') },
-           class_name: 'Track', inverse_of: false
+  has_many :tracks, -> { order('recorded_at DESC') }, inverse_of: :pilot, dependent: :restrict_with_error
   has_many :base_tracks, -> { base.order('created_at DESC') }, class_name: 'Track', inverse_of: false
   has_many :badges, -> { order(achieved_at: :desc) }, dependent: :delete_all, inverse_of: :profile
   has_many :performance_competition_participation,
