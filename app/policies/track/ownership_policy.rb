@@ -1,9 +1,5 @@
 class Track::OwnershipPolicy < ApplicationPolicy
-  def show?
-    admin?
-  end
+  def show? = admin?
 
-  def update?
-    admin?
-  end
+  def update? = admin?
 end

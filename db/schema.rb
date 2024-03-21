@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_23_051713) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_21_041901) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,12 +21,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_051713) do
     t.datetime "period_to", precision: nil, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "assignments", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "role_id"
-    t.index ["user_id"], name: "index_assignments_on_user_id"
   end
 
   create_table "badges", id: :serial, force: :cascade do |t|
@@ -321,10 +315,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_051713) do
     t.index ["tournament_id"], name: "index_qualification_rounds_on_tournament_id"
   end
 
-  create_table "roles", id: :serial, force: :cascade do |t|
-    t.string "name", limit: 510
-  end
-
   create_table "speed_skydiving_competition_categories", force: :cascade do |t|
     t.string "name", null: false
     t.integer "position", default: 0, null: false
@@ -605,6 +595,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_051713) do
     t.string "unconfirmed_email", limit: 510
     t.string "provider"
     t.string "uid"
+    t.string "roles", default: [], array: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["confirmation_token"], name: "users_confirmation_token_key", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -708,169 +699,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_051713) do
   add_foreign_key "tracks", "profiles"
   add_foreign_key "virtual_competitions", "place_finish_lines", column: "finish_line_id"
 
-  create_view "event_lists", sql_definition: <<-SQL
-      SELECT events.event_type,
-      events.event_id,
-      events.name,
-      events.rules,
-      events.starts_at,
-      events.status,
-      events.visibility,
-      events.responsible_id,
-      events.place_id,
-      events.range_from,
-      events.range_to,
-      events.is_official,
-      events.competitors_count,
-      events.country_ids,
-      events.updated_at,
-      events.created_at
-     FROM ( SELECT 'Event'::text AS event_type,
-              events_1.id AS event_id,
-              events_1.name,
-              events_1.rules,
-              events_1.starts_at,
-              events_1.status,
-              events_1.visibility,
-              events_1.responsible_id,
-              events_1.place_id,
-              events_1.range_from,
-              events_1.range_to,
-              events_1.is_official,
-              COALESCE(json_object_agg(COALESCE(competitors_count.section_name, ''::character varying), competitors_count.count) FILTER (WHERE (competitors_count.section_name IS NOT NULL)), '{}'::json) AS competitors_count,
-              participant_countries.country_ids,
-              events_1.updated_at,
-              events_1.created_at
-             FROM ((events events_1
-               LEFT JOIN ( SELECT sections.event_id,
-                      sections.name AS section_name,
-                      count(competitors.id) AS count
-                     FROM (event_sections sections
-                       LEFT JOIN event_competitors competitors ON (((sections.event_id = competitors.event_id) AND (sections.id = competitors.section_id))))
-                    GROUP BY sections.event_id, sections.name) competitors_count ON ((events_1.id = competitors_count.event_id)))
-               LEFT JOIN ( SELECT competitors.event_id,
-                      COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS country_ids
-                     FROM (event_competitors competitors
-                       LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
-                    GROUP BY competitors.event_id) participant_countries ON ((events_1.id = participant_countries.event_id)))
-            GROUP BY events_1.id, participant_countries.country_ids
-          UNION ALL
-           SELECT 'Tournament'::text AS text,
-              tournaments.id,
-              tournaments.name,
-              3 AS rules,
-              tournaments.starts_at,
-              1,
-              0,
-              tournaments.responsible_id,
-              tournaments.place_id,
-              NULL::integer AS int4,
-              NULL::integer AS int4,
-              true AS bool,
-              json_build_object('Open', count(competitors.id)) AS json_build_object,
-              COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS "coalesce",
-              tournaments.updated_at,
-              tournaments.created_at
-             FROM ((tournaments
-               LEFT JOIN tournament_competitors competitors ON ((tournaments.id = competitors.tournament_id)))
-               LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
-            GROUP BY tournaments.id
-          UNION ALL
-           SELECT 'SpeedSkydivingCompetition'::text AS text,
-              events_1.id,
-              events_1.name,
-              NULL::integer AS int4,
-              events_1.starts_at,
-              events_1.status,
-              events_1.visibility,
-              events_1.responsible_id,
-              events_1.place_id,
-              NULL::integer AS int4,
-              NULL::integer AS int4,
-              events_1.is_official,
-              COALESCE(json_object_agg(COALESCE(competitors_count.category_name, ''::character varying), competitors_count.count) FILTER (WHERE (competitors_count.category_name IS NOT NULL)), '{}'::json) AS "coalesce",
-              participant_countries.country_ids,
-              events_1.updated_at,
-              events_1.created_at
-             FROM ((speed_skydiving_competitions events_1
-               LEFT JOIN ( SELECT categories.event_id,
-                      categories.name AS category_name,
-                      count(competitors.id) AS count
-                     FROM (speed_skydiving_competition_categories categories
-                       LEFT JOIN speed_skydiving_competition_competitors competitors ON (((categories.event_id = competitors.event_id) AND (categories.id = competitors.category_id))))
-                    GROUP BY categories.event_id, categories.name) competitors_count ON ((events_1.id = competitors_count.event_id)))
-               LEFT JOIN ( SELECT competitors.event_id,
-                      COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS country_ids
-                     FROM (speed_skydiving_competition_competitors competitors
-                       LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
-                    GROUP BY competitors.event_id) participant_countries ON ((events_1.id = participant_countries.event_id)))
-            GROUP BY events_1.id, participant_countries.country_ids
-          UNION ALL
-           SELECT 'PerformanceCompetitionSeries'::text AS text,
-              series.id,
-              series.name,
-              NULL::integer AS int4,
-              min(events_1.starts_at) AS min,
-              series.status,
-              series.visibility,
-              series.responsible_id,
-              NULL::bigint AS int8,
-              NULL::integer AS int4,
-              NULL::integer AS int4,
-              true AS bool,
-              json_object_agg(events_1.name, competitors_count.count) FILTER (WHERE (events_1.name IS NOT NULL)) AS json_object_agg,
-              participant_countries.country_ids,
-              series.updated_at,
-              series.created_at
-             FROM ((((performance_competition_series series
-               LEFT JOIN performance_competition_series_included_competitions included_competitions ON ((series.id = included_competitions.performance_competition_series_id)))
-               LEFT JOIN events events_1 ON ((included_competitions.event_id = events_1.id)))
-               LEFT JOIN ( SELECT competitors.event_id,
-                      count(competitors.id) AS count
-                     FROM (event_competitors competitors
-                       JOIN performance_competition_series_included_competitions included_competitions_1 ON ((included_competitions_1.event_id = competitors.event_id)))
-                    GROUP BY competitors.event_id) competitors_count ON ((events_1.id = competitors_count.event_id)))
-               LEFT JOIN ( SELECT included_competitions_1.performance_competition_series_id,
-                      COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS country_ids
-                     FROM ((event_competitors competitors
-                       JOIN performance_competition_series_included_competitions included_competitions_1 ON ((included_competitions_1.event_id = competitors.event_id)))
-                       LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
-                    GROUP BY included_competitions_1.performance_competition_series_id) participant_countries ON ((series.id = participant_countries.performance_competition_series_id)))
-            GROUP BY series.id, participant_countries.country_ids
-          UNION ALL
-           SELECT 'SpeedSkydivingCompetitionSeries'::text AS text,
-              series.id,
-              series.name,
-              NULL::integer AS int4,
-              min(events_1.starts_at) AS min,
-              series.status,
-              series.visibility,
-              series.responsible_id,
-              NULL::bigint AS int8,
-              NULL::integer AS int4,
-              NULL::integer AS int4,
-              true AS bool,
-              json_object_agg(events_1.name, competitors_count.count) FILTER (WHERE (events_1.name IS NOT NULL)) AS json_object_agg,
-              participant_countries.country_ids,
-              series.updated_at,
-              series.created_at
-             FROM ((((speed_skydiving_competition_series series
-               LEFT JOIN speed_skydiving_competition_series_included_competitions included_competitions ON ((series.id = included_competitions.speed_skydiving_competition_series_id)))
-               LEFT JOIN speed_skydiving_competitions events_1 ON ((included_competitions.speed_skydiving_competition_id = events_1.id)))
-               LEFT JOIN ( SELECT competitors.event_id,
-                      count(competitors.id) AS count
-                     FROM (speed_skydiving_competition_competitors competitors
-                       JOIN speed_skydiving_competition_series_included_competitions included_competitions_1 ON ((included_competitions_1.speed_skydiving_competition_id = competitors.event_id)))
-                    GROUP BY competitors.event_id) competitors_count ON ((events_1.id = competitors_count.event_id)))
-               LEFT JOIN ( SELECT competitors.event_id,
-                      COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS country_ids
-                     FROM ((speed_skydiving_competition_competitors competitors
-                       JOIN speed_skydiving_competition_series_included_competitions included_competitions_1 ON ((included_competitions_1.speed_skydiving_competition_id = competitors.event_id)))
-                       LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
-                    GROUP BY competitors.event_id) participant_countries ON ((events_1.id = participant_countries.event_id)))
-            GROUP BY series.id, participant_countries.country_ids) events
-    ORDER BY events.starts_at DESC, events.created_at DESC;
-  SQL
   create_view "interval_top_scores", sql_definition: <<-SQL
       SELECT row_number() OVER (PARTITION BY entities.virtual_competition_id, entities.custom_interval_id, entities.wind_cancelled ORDER BY
           CASE
@@ -1076,5 +904,168 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_051713) do
       sum(ranked_results_by_profile.points) AS total_points
      FROM ranked_results_by_profile
     GROUP BY ranked_results_by_profile.group_id, ranked_results_by_profile.suits_kind, ranked_results_by_profile.profile_id, ranked_results_by_profile.wind_cancelled, ranked_results_by_profile.year;
+  SQL
+  create_view "event_lists", sql_definition: <<-SQL
+      SELECT events.event_type,
+      events.event_id,
+      events.name,
+      events.rules,
+      events.starts_at,
+      events.status,
+      events.visibility,
+      events.responsible_id,
+      events.place_id,
+      events.range_from,
+      events.range_to,
+      events.is_official,
+      events.competitors_count,
+      events.country_ids,
+      events.updated_at,
+      events.created_at
+     FROM ( SELECT 'Event'::text AS event_type,
+              events_1.id AS event_id,
+              events_1.name,
+              events_1.rules,
+              events_1.starts_at,
+              events_1.status,
+              events_1.visibility,
+              events_1.responsible_id,
+              events_1.place_id,
+              events_1.range_from,
+              events_1.range_to,
+              events_1.is_official,
+              COALESCE(json_object_agg(competitors_count.section_name, COALESCE(competitors_count.count, (0)::bigint)) FILTER (WHERE (competitors_count.section_name IS NOT NULL)), '{}'::json) AS competitors_count,
+              participant_countries.country_ids,
+              events_1.updated_at,
+              events_1.created_at
+             FROM ((events events_1
+               LEFT JOIN ( SELECT sections.event_id,
+                      sections.name AS section_name,
+                      count(competitors.id) AS count
+                     FROM (event_sections sections
+                       LEFT JOIN event_competitors competitors ON (((sections.event_id = competitors.event_id) AND (sections.id = competitors.section_id))))
+                    GROUP BY sections.event_id, sections.name) competitors_count ON ((events_1.id = competitors_count.event_id)))
+               LEFT JOIN ( SELECT competitors.event_id,
+                      COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS country_ids
+                     FROM (event_competitors competitors
+                       LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
+                    GROUP BY competitors.event_id) participant_countries ON ((events_1.id = participant_countries.event_id)))
+            GROUP BY events_1.id, participant_countries.country_ids
+          UNION ALL
+           SELECT 'Tournament'::text,
+              tournaments.id,
+              tournaments.name,
+              3 AS rules,
+              tournaments.starts_at,
+              1,
+              0,
+              tournaments.responsible_id,
+              tournaments.place_id,
+              NULL::integer,
+              NULL::integer,
+              true,
+              json_build_object('Open', count(competitors.id)) AS json_build_object,
+              COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS "coalesce",
+              tournaments.updated_at,
+              tournaments.created_at
+             FROM ((tournaments
+               LEFT JOIN tournament_competitors competitors ON ((tournaments.id = competitors.tournament_id)))
+               LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
+            GROUP BY tournaments.id
+          UNION ALL
+           SELECT 'SpeedSkydivingCompetition'::text,
+              events_1.id,
+              events_1.name,
+              NULL::integer,
+              events_1.starts_at,
+              events_1.status,
+              events_1.visibility,
+              events_1.responsible_id,
+              events_1.place_id,
+              NULL::integer,
+              NULL::integer,
+              events_1.is_official,
+              COALESCE(json_object_agg(competitors_count.category_name, COALESCE(competitors_count.count, (0)::bigint)) FILTER (WHERE (competitors_count.category_name IS NOT NULL)), '{}'::json) AS "coalesce",
+              participant_countries.country_ids,
+              events_1.updated_at,
+              events_1.created_at
+             FROM ((speed_skydiving_competitions events_1
+               LEFT JOIN ( SELECT categories.event_id,
+                      categories.name AS category_name,
+                      count(competitors.id) AS count
+                     FROM (speed_skydiving_competition_categories categories
+                       LEFT JOIN speed_skydiving_competition_competitors competitors ON (((categories.event_id = competitors.event_id) AND (categories.id = competitors.category_id))))
+                    GROUP BY categories.event_id, categories.name) competitors_count ON ((events_1.id = competitors_count.event_id)))
+               LEFT JOIN ( SELECT competitors.event_id,
+                      COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS country_ids
+                     FROM (speed_skydiving_competition_competitors competitors
+                       LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
+                    GROUP BY competitors.event_id) participant_countries ON ((events_1.id = participant_countries.event_id)))
+            GROUP BY events_1.id, participant_countries.country_ids
+          UNION ALL
+           SELECT 'PerformanceCompetitionSeries'::text,
+              series.id,
+              series.name,
+              NULL::integer,
+              min(events_1.starts_at) AS min,
+              series.status,
+              series.visibility,
+              series.responsible_id,
+              NULL::bigint,
+              NULL::integer,
+              NULL::integer,
+              true,
+              json_object_agg(events_1.name, COALESCE(competitors_count.count, (0)::bigint)) FILTER (WHERE (events_1.name IS NOT NULL)) AS json_object_agg,
+              participant_countries.country_ids,
+              series.updated_at,
+              series.created_at
+             FROM ((((performance_competition_series series
+               LEFT JOIN performance_competition_series_included_competitions included_competitions ON ((series.id = included_competitions.performance_competition_series_id)))
+               LEFT JOIN events events_1 ON ((included_competitions.event_id = events_1.id)))
+               LEFT JOIN ( SELECT competitors.event_id,
+                      count(competitors.id) AS count
+                     FROM (event_competitors competitors
+                       JOIN performance_competition_series_included_competitions included_competitions_1 ON ((included_competitions_1.event_id = competitors.event_id)))
+                    GROUP BY competitors.event_id) competitors_count ON ((events_1.id = competitors_count.event_id)))
+               LEFT JOIN ( SELECT included_competitions_1.performance_competition_series_id,
+                      COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS country_ids
+                     FROM ((event_competitors competitors
+                       JOIN performance_competition_series_included_competitions included_competitions_1 ON ((included_competitions_1.event_id = competitors.event_id)))
+                       LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
+                    GROUP BY included_competitions_1.performance_competition_series_id) participant_countries ON ((series.id = participant_countries.performance_competition_series_id)))
+            GROUP BY series.id, participant_countries.country_ids
+          UNION ALL
+           SELECT 'SpeedSkydivingCompetitionSeries'::text,
+              series.id,
+              series.name,
+              NULL::integer,
+              min(events_1.starts_at) AS min,
+              series.status,
+              series.visibility,
+              series.responsible_id,
+              NULL::bigint,
+              NULL::integer,
+              NULL::integer,
+              true,
+              json_object_agg(events_1.name, COALESCE(competitors_count.count, (0)::bigint)) FILTER (WHERE (events_1.name IS NOT NULL)) AS json_object_agg,
+              participant_countries.country_ids,
+              series.updated_at,
+              series.created_at
+             FROM ((((speed_skydiving_competition_series series
+               LEFT JOIN speed_skydiving_competition_series_included_competitions included_competitions ON ((series.id = included_competitions.speed_skydiving_competition_series_id)))
+               LEFT JOIN speed_skydiving_competitions events_1 ON ((included_competitions.speed_skydiving_competition_id = events_1.id)))
+               LEFT JOIN ( SELECT competitors.event_id,
+                      count(competitors.id) AS count
+                     FROM (speed_skydiving_competition_competitors competitors
+                       JOIN speed_skydiving_competition_series_included_competitions included_competitions_1 ON ((included_competitions_1.speed_skydiving_competition_id = competitors.event_id)))
+                    GROUP BY competitors.event_id) competitors_count ON ((events_1.id = competitors_count.event_id)))
+               LEFT JOIN ( SELECT competitors.event_id,
+                      COALESCE(array_agg(DISTINCT profiles.country_id) FILTER (WHERE (profiles.country_id IS NOT NULL)), ARRAY[]::integer[]) AS country_ids
+                     FROM ((speed_skydiving_competition_competitors competitors
+                       JOIN speed_skydiving_competition_series_included_competitions included_competitions_1 ON ((included_competitions_1.speed_skydiving_competition_id = competitors.event_id)))
+                       LEFT JOIN profiles profiles ON ((competitors.profile_id = profiles.id)))
+                    GROUP BY competitors.event_id) participant_countries ON ((events_1.id = participant_countries.event_id)))
+            GROUP BY series.id, participant_countries.country_ids) events
+    ORDER BY events.starts_at DESC, events.created_at DESC;
   SQL
 end

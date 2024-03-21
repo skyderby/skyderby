@@ -19,7 +19,7 @@
           = image_tag avatar, id: 'userpic-thumb', class: 'nav-profile'
 
         %ul.dropdown-menu.dropdown-menu-right
-          - if current_user.has_role? :admin
+          - if current_user.admin?
             %li
               = link_to t('application.header.admin_panel'), manage_path
           - if masquerading?

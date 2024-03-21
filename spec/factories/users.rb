@@ -28,15 +28,8 @@ FactoryBot.define do
     password_confirmation { 'secret' }
     confirmed_at { Time.current }
 
-    after :create do |user|
-      # create :profile, owner: user
-    end
-
     trait :admin do
-      after(:create) do |user|
-        admin_role = create(:role, :admin)
-        user.assignments.create(role: admin_role)
-      end
+      roles { ['admin'] }
     end
   end
 end

@@ -6,6 +6,6 @@ class ManagePolicy
   end
 
   def manage?
-    user&.has_role? :admin
+    user&.admin?
   end
 end

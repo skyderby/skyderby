@@ -1,27 +1,15 @@
 class PlacePolicy < ApplicationPolicy
-  def index?
-    true
-  end
+  def index? = true
 
-  def show?
-    true
-  end
+  def show? = true
 
-  def create?
-    can_edit? || admin?
-  end
+  def create? = can_edit? || admin?
 
-  def update?
-    can_edit? || admin?
-  end
+  def update? = can_edit? || admin?
 
-  def destroy?
-    can_edit? || admin?
-  end
+  def destroy? = can_edit? || admin?
 
   private
 
-  def can_edit?
-    user&.has_role? :edit_places
-  end
+  def can_edit? = user&.role? :edit_places
 end

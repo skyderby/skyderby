@@ -1,9 +1,5 @@
 class UserPolicy < ApplicationPolicy
-  def index?
-    admin?
-  end
+  def index? = admin?
 
-  def show?
-    admin?
-  end
+  def show? = admin?
 end

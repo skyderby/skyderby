@@ -1,15 +1,9 @@
 class TournamentPolicy < ApplicationPolicy
-  def index?
-    true
-  end
+  def index? = true
 
-  def show?
-    true
-  end
+  def show? = true
 
-  def update?
-    organizer? || admin?
-  end
+  def update? = organizer? || admin?
 
   def organizer?
     return false unless user.registered?
@@ -24,8 +18,6 @@ class TournamentPolicy < ApplicationPolicy
   end
 
   class Scope < Scope
-    def resolve
-      scope.all
-    end
+    def resolve = scope.all
   end
 end
