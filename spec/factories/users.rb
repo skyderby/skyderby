@@ -33,10 +33,7 @@ FactoryBot.define do
     end
 
     trait :admin do
-      after(:create) do |user|
-        admin_role = create(:role, :admin)
-        user.assignments.create(role: admin_role)
-      end
+      roles { ['admin'] }
     end
   end
 end
