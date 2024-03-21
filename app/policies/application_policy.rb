@@ -1,65 +1,39 @@
 class ApplicationPolicy
   attr_reader :user, :record
 
+  delegate :admin?, to: :user, allow_nil: true
+
   def initialize(user, record)
     @user = user
     @record = record
   end
 
-  def index?
-    admin?
-  end
+  def index? = admin?
 
-  def show?
-    scope.exists?(id: record.id)
-  end
+  def show? = scope.exists?(id: record.id)
 
-  def create?
-    admin?
-  end
+  def create? = admin?
 
-  def new?
-    create?
-  end
+  def new? = create?
 
-  def update?
-    admin?
-  end
+  def update? = admin?
 
-  def edit?
-    update?
-  end
+  def edit? = update?
 
-  def destroy?
-    admin?
-  end
+  def destroy? = admin?
 
-  def scope
-    Pundit.policy_scope!(user, record.class)
-  end
-
-  private
-
-  def admin?
-    user&.has_role? :admin
-  end
+  def scope = Pundit.policy_scope!(user, record.class)
 
   class Scope
     attr_reader :user, :scope
+
+    delegate :admin?, to: :user, allow_nil: true
 
     def initialize(user, scope)
       @user = user
       @scope = scope
     end
 
-    def resolve
-      scope
-    end
-
-    private
-
-    def admin?
-      user&.has_role? :admin
-    end
+    def resolve = scope
   end
 end

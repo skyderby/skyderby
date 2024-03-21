@@ -1,21 +1,11 @@
 class VirtualCompetitionPolicy < ApplicationPolicy
-  def index?
-    true
-  end
+  def index? = true
 
-  def create?
-    admin?
-  end
+  def create? = admin?
 
-  def show?
-    true
-  end
+  def show? = true
 
-  def update?
-    admin?
-  end
+  def update? = admin?
 
-  def destroy?
-    admin?
-  end
+  def destroy? = admin?
 end

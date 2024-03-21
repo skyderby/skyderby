@@ -25,16 +25,11 @@ class User < ApplicationRecord
   include ParticipantOfEvents
   include User::Omniauth
 
-  has_many :assignments, dependent: :destroy
-  has_many :roles, through: :assignments
-
   has_one :profile, as: :owner, dependent: :nullify, inverse_of: :owner
 
-  scope :admins, -> { joins(:assignments).where(assignments: { role: Role.admin }) }
+  scope :admins, -> { where('? = ANY(roles)', 'admin') }
 
   accepts_nested_attributes_for :profile
-
-  before_create :assign_default_role
 
   after_initialize do
     build_profile if new_record? && profile.blank?
@@ -43,14 +38,14 @@ class User < ApplicationRecord
   delegate :name, to: :profile, allow_nil: true
 
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
+  # :lockable, :timeoutable
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, omniauth_providers: %i[facebook]
 
-  def has_role?(role_sym) # rubocop:disable Naming/PredicateName
-    roles.any? { |r| r.name.underscore.to_sym == role_sym }
-  end
+  def role?(role) = roles.include? role.to_s
+
+  def admin? = role?(:admin)
 
   def registered? = true
 
@@ -60,10 +55,6 @@ class User < ApplicationRecord
   end
 
   private
-
-  def assign_default_role
-    assignments << Assignment.new(role: Role.find_by(name: 'user'))
-  end
 
   class << self
     def search(query)

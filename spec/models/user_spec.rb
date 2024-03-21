@@ -23,10 +23,6 @@
 
 describe User, type: :model do
   describe '#create' do
-    it 'assigns default role' do
-      expect(user.has_role?(:user)).to be_truthy
-    end
-
     it 'creates profile' do
       expect(user.profile).not_to be_nil
     end

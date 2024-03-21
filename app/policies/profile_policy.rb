@@ -1,26 +1,18 @@
 class ProfilePolicy < ApplicationPolicy
-  def index?
-    admin?
-  end
+  def index? = admin?
 
   def update?
     admin? || owner? ||
       (record.belongs_to_event? && organizer_of_event?)
   end
 
-  def masquerade?
-    admin?
-  end
+  def masquerade? = admin?
 
-  def merge?
-    admin?
-  end
+  def merge? = admin?
 
-  def owner?
-    user && record.owner == user
-  end
+  private
 
-  def organizer_of_event?
-    user.organizer_of_event?(record.owner)
-  end
+  def owner? = user && record.owner == user
+
+  def organizer_of_event? = user.organizer_of_event?(record.owner)
 end

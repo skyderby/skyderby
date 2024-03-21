@@ -46,7 +46,7 @@
                       rows: 3,
                       placeholder: t('static_pages.index.track_form.comment_plh')
 
-      - if current_user.has_role?(:admin)
+      - if current_user.admin?
         .form-group
           .checkbox
             %label
