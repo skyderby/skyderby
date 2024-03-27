@@ -1,30 +1,59 @@
 hellesylt:
   name: Hellesylt
   country: norway
+  kind: base
   latitude: 62.057917
   longitude: 6.971847
 
 hellesylt_wbr:
   name: Hellesylt(WBR)
   country: norway
+  kind: base
   latitude: 62.0578307
   longitude: 6.9715718
 
 loen:
   name: Loen
   country: norway
+  kind: base
   latitude: 61.88504129
   longitude: 6.83213621
 
 ravenna:
   name: DZ Ravenna
   country: italy
+  kind: skydive
   latitude: 44.36142261
   longitude: 12.21614242
 
 puschino:
   name: DZ Puschino
   country: russia
+  kind: skydive
   latitude: 54.789712
   longitude: 37.642467
   msl: 238
+
+kapowsin:
+  name: Kapowsin
+  country: usa
+  kind: skydive
+  latitude: 47.24178129
+  longitude: -123.14310193
+  msl: 83
+
+z_hills:
+  name: Zephyrhills
+  country: usa
+  kind: skydive
+  latitude: 28.21975954
+  longitude: -82.15107322
+  msl: 27
+
+paraclete_xp:
+  name: Paraclete XP
+  country: usa
+  kind: skydive
+  latitude: 35.02100849
+  longitude: -79.18919563
+  msl: 93

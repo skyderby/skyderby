@@ -1,4 +1,4 @@
-ruby '3.1.2'
+ruby '3.2.3'
 source 'https://rubygems.org'
 
 gem 'rails', '~> 7.0.8'
@@ -61,7 +61,6 @@ gem 'browser'
 gem 'shakapacker', '6.5.0'
 
 gem 'matrix'
-
 gem 'vincenty_distance'
 
 group :development do
@@ -72,7 +71,6 @@ group :development do
 end
 
 group :development, :test do
-  gem 'byebug'
   gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'rspec'
