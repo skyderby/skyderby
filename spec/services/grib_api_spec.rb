@@ -1,9 +1,9 @@
 describe GribApi do
-  let(:file) { GribApi.open(file_fixture('gfs.t00z.pgrb2.0p25-2.anl')) }
+  let(:file) { GribApi.open(file_fixture('2024_03_16_gfs.t00z.pgrb2.0p25.anl')) }
 
   describe GribApi::File do
     it '#time' do
-      expect(GribApi.open(file_fixture('gfs.t00z.pgrb2.0p25-2.anl')).timestamp)
+      expect(GribApi.open(file_fixture('2024_03_16_gfs.t00z.pgrb2.0p25.anl')).timestamp)
         .to eq(Time.new(2024, 3, 16, 0, 0, 0, '+00:00'))
       expect(GribApi.open(file_fixture('gfs.t18z.pgrb2.0p25.anl')).timestamp)
         .to eq(Time.new(2024, 3, 8, 18, 0, 0, '+00:00'))
@@ -65,17 +65,33 @@ describe GribApi do
   end
 
   describe GribApi::Message do
-    it '#nearest_points' do
+    let(:message) do
       message = file.messages.find do |message|
         message.level == GribApi::Level.new(900, 'isobaricInhPa') &&
           message.variable == 'geopotential_height'
       end
-      result = message.nearest_points(28.21975954, -82.15107322)
+    end
+
+    it '#nearest_point' do
+      nearest_point = message.nearest_point(28.21975954, -82.15107322)
+
+      expect(nearest_point.lat).to eq(28.25)
+      expect(nearest_point.lon).to eq(277.75)
+      expect(nearest_point.value).to eq(1053.007875)
+      expect(nearest_point.distance).to eq(10.258460571724717)
+    end
+
+    it '#surrounding_points' do
+      result = message.surrounding_points(28.21975954, -82.15107322)
 
       expect(result.lats).to eq([28.25, 28.25, 28.0, 28.0])
       expect(result.lons).to eq([278.0, 277.75, 278.0, 277.75])
       expect(result.values).to eq([1053.871875, 1053.007875, 1054.463875, 1053.855875])
       expect(result.distances).to eq([15.177542758974615, 10.258460571724717, 28.5784913417286, 26.292887228481522])
+    end
+
+    it '#surrounding_points outside of area' do
+      expect { message.surrounding_points(0, 0) }.to raise_error(GribApi::OutOfArea)
     end
   end
 end

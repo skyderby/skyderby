@@ -1,71 +1,98 @@
+require 'open-uri'
+require 'fileutils'
+
 class GfsForecast
-  def self.latest(actual_on = Time.current)
-    new(actual_on).download
+  Subregion = Data.define(:top_lat, :bottom_lat, :left_lon, :right_lon) do
+    def to_s = "Lat #{bottom_lat}..#{top_lat}, Lon: #{left_lon}..#{right_lon}"
+
+    def to_query
+      "subregion=&toplat=#{top_lat}&bottomlat=#{bottom_lat}&leftlon=#{left_lon}&rightlon=#{right_lon}"
+    end
   end
 
-  def initialize(actual_on)
-    @actual_on = actual_on
+  EntireWorld = Subregion.new(top_lat: 90, bottom_lat: -90, left_lon: 0, right_lon: 360)
+
+  Result = Data.define(:success, :errors)
+
+  def initialize(forecast_time, subregion: EntireWorld, fallback_cycles: 0)
+    @forecast_time = forecast_time
+    @subregion = subregion
+    @fallback_cycles = fallback_cycles
   end
 
-  def download
+  def download(&)
+    dataset, errors = available_dataset
 
+    if dataset
+      download_dataset(dataset, &)
+      success
+    else
+      failure(errors)
+    end
   end
 
-  def url
-    "https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25_1hr.pl?"
+  def download_dataset(dataset)
+    FileUtils.mkdir_p(Rails.root.join('tmp/gfs_forecasts/'))
+    path = "tmp/gfs_forecasts/#{dataset.file}"
+
+    io = URI.parse(dataset.url).open
+    case io
+    when StringIO
+      File.binwrite(path, io.read)
+    when Tempfile
+      io.close
+      FileUtils.mv(io.path, path)
+    end
+
+    yield(path)
+  ensure
+    FileUtils.rm_f(path)
   end
 
-  def params
+  def success = Result.new(success: true, errors: [])
+
+  def failure(errors) = Result.new(success: false, errors:)
+
+  ##
+  # @return [GfsForecast::Dataset | nil, Array<Hash>]
+  def available_dataset
+    errors = []
+    datasets.each do |dataset|
+      return [dataset, errors] if dataset.available?
+
+      errors << <<~ERROR
+        Dataset #{dataset.params} is not available. Server Response:
+        #{dataset.error}
+      ERROR
+    end
+
+    [nil, errors]
+  end
+
+  def datasets
+    @datasets ||= begin
+      params = [current_cycle_params] + previous_cycle_params
+      params.map { Dataset.new(_1[:date], _1[:cycle], _1[:forecast_hour], @subregion) }
+    end
+  end
+
+  def current_cycle_params
     {
-      dir: "/gfs.20240316/00/atmos",
-      file: "gfs.t00z.pgrb2.0p25.anl",
+      date: @forecast_time.to_date,
+      cycle: (@forecast_time.hour / 6 * 6).to_s.rjust(2, '0'),
+      forecast_hour: @forecast_time.hour % 6
     }
   end
 
-  def variables
-    {
-      var_HGT: 'on',
-      var_UGRD: 'on',
-      var_VGRD: 'on'
-    }
-  end
-
-  def levels
-    {
-      lev_1000_mb: 'on',
-      lev_975_mb: 'on',
-      lev_950_mb: 'on',
-      lev_925_mb: 'on',
-      lev_900_mb: 'on',
-      lev_850_mb: 'on',
-      lev_800_mb: 'on',
-      lev_750_mb: 'on',
-      lev_700_mb: 'on',
-      lev_650_mb: 'on',
-      lev_600_mb: 'on',
-      lev_550_mb: 'on',
-      lev_500_mb: 'on',
-      lev_450_mb: 'on',
-      lev_400_mb: 'on'
-    }
-  end
-
-  # TODO: test for leftlon, rightlon
-  # and convert to 0-360 from -180-180
-  def subregion
-    toplat, bottomlat, leftlon, rightlon = Place.pluck(
-      'ceil(max(latitude))',
-      'floor(min(latitude))',
-      'min(longitude)',
-      'max(longitude)'
-    )
-
-    {
-      subregion: '',
-      toplat:,
-      leftlon:,
-      rightlon:,
-      bottomlat:
-    }
+  def previous_cycle_params
+    Array.new(@fallback_cycles) do |i|
+      fallback_cycle = i + 1
+      fallback_time = @forecast_time - (fallback_cycle * 6).hours
+      {
+        date: fallback_time.to_date,
+        cycle: (fallback_time.hour / 6 * 6).to_s.rjust(2, '0'),
+        forecast_hour: fallback_time.hour % 6 + fallback_cycle * 6
+      }
+    end
   end
 end

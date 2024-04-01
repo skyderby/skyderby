@@ -89,6 +89,7 @@ GEM
     aws-sigv4 (1.5.2)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.18)
+    bigdecimal (3.1.7)
     bootsnap (1.13.0)
       msgpack (~> 1.2)
     browser (4.0.0)
@@ -115,6 +116,9 @@ GEM
     concurrent-ruby (1.2.3)
     connection_pool (2.4.1)
     content_disposition (1.0.0)
+    crack (1.0.0)
+      bigdecimal
+      rexml
     crass (1.0.6)
     cuprite (0.13)
       capybara (>= 2.1, < 4)
@@ -160,6 +164,7 @@ GEM
     haml (5.2.1)
       temple (>= 0.8.0)
       tilt
+    hashdiff (1.1.0)
     hashie (5.0.0)
     honeybadger (4.7.2)
     htmlentities (4.3.4)
@@ -375,10 +380,15 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.2.0)
+    vcr (6.2.0)
     version_gem (1.1.0)
     vincenty_distance (1.0.0)
     warden (1.2.9)
       rack (>= 2.0.9)
+    webmock (3.23.0)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
     websocket (1.2.9)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
@@ -437,7 +447,9 @@ DEPENDENCIES
   sidekiq-cron (~> 1.0)
   simplecov
   skylight
+  vcr
   vincenty_distance
+  webmock
   will_paginate
   will_paginate-bootstrap
 

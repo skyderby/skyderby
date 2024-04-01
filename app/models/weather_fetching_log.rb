@@ -1,0 +1,2 @@
+class WeatherFetchingLog < ApplicationRecord
+end

@@ -82,4 +82,6 @@ group :test do
   gem 'cuprite'
   gem 'selenium-webdriver', '>= 4.0.0'
   gem 'simplecov'
+  gem 'vcr'
+  gem 'webmock'
 end

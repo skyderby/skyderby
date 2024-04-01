@@ -1,0 +1,108 @@
+---
+http_interactions:
+- request:
+    method: head
+    uri: https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25_1hr.pl?bottomlat=-90&dir=/gfs.19900301/00/atmos&file=gfs.t00z.pgrb2.0p25.f003&leftlon=0&lev_1000_mb=on&lev_400_mb=on&lev_450_mb=on&lev_500_mb=on&lev_550_mb=on&lev_600_mb=on&lev_650_mb=on&lev_700_mb=on&lev_750_mb=on&lev_800_mb=on&lev_850_mb=on&lev_900_mb=on&lev_925_mb=on&lev_950_mb=on&lev_975_mb=on&rightlon=360&subregion=&toplat=90&var_HGT=on&var_UGRD=on&var_VGRD=on
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - nomads.ncep.noaa.gov
+  response:
+    status:
+      code: 403
+      message: Forbidden
+    headers:
+      Server:
+      - AkamaiGHost
+      Mime-Version:
+      - '1.0'
+      Content-Length:
+      - '680'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Pragma:
+      - no-cache
+      Expires:
+      - '0'
+      Content-Type:
+      - text/html
+      Date:
+      - Sun, 31 Mar 2024 03:48:44 GMT
+      Connection:
+      - keep-alive
+      Strict-Transport-Security:
+      - max-age=31536000 ; preload
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Sun, 31 Mar 2024 03:48:44 GMT
+- request:
+    method: get
+    uri: https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25_1hr.pl?bottomlat=-90&dir=/gfs.19900301/00/atmos&file=gfs.t00z.pgrb2.0p25.f003&leftlon=0&lev_1000_mb=on&lev_400_mb=on&lev_450_mb=on&lev_500_mb=on&lev_550_mb=on&lev_600_mb=on&lev_650_mb=on&lev_700_mb=on&lev_750_mb=on&lev_800_mb=on&lev_850_mb=on&lev_900_mb=on&lev_925_mb=on&lev_950_mb=on&lev_975_mb=on&rightlon=360&subregion=&toplat=90&var_HGT=on&var_UGRD=on&var_VGRD=on
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - nomads.ncep.noaa.gov
+  response:
+    status:
+      code: 403
+      message: Forbidden
+    headers:
+      Server:
+      - AkamaiGHost
+      Mime-Version:
+      - '1.0'
+      Content-Length:
+      - '680'
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Pragma:
+      - no-cache
+      Expires:
+      - '0'
+      Content-Type:
+      - text/html
+      Date:
+      - Sun, 31 Mar 2024 03:48:44 GMT
+      Connection:
+      - keep-alive
+      Strict-Transport-Security:
+      - max-age=31536000 ; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        <!doctype html>
+            <html>
+            <head>
+                <title>Request for Old Data</title>
+                <style type="text/css">body { text-align: center; padding: 150px; }h1 { font-size: 40px; }body { font: 16px Helvetica, sans-serif; color: #333; }#error { display: block; text-align: left; width: 650px; margin: 0 auto; }    </style>
+            </head>
+            <body>
+                <div id="error">
+                <h1>Request for old data nomads.ncep.noaa.gov</h1>
+                <div>
+                    <hr>
+                    <p>This data has expired and is no longer available. </p>
+                     <p> Reference ID 0.bc8a45cb.1711856924.eb07b8f connecting from IP 36.229.93.26 </p>
+                </div>
+                </div>
+            </body>
+            </html>
+  recorded_at: Sun, 31 Mar 2024 03:48:44 GMT
+recorded_with: VCR 6.2.0

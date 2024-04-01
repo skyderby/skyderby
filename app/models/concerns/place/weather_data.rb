@@ -35,13 +35,12 @@ module Place::WeatherData
   #   the variable, level, and value from the closest point.
   def weather_from_nearest_point(file)
     file.messages.map do |message|
-      data = message.nearest_points(latitude, longitude)
-      index_of_closest_point = data.distances.index(data.distances.min)
+      data = message.nearest_point(latitude, longitude)
 
       {
         variable: message.variable,
         level: message.level,
-        value: data.values[index_of_closest_point]
+        value: data.value
       }
     end
   end
