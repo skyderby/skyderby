@@ -27,7 +27,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-ruby-${{ hashFiles('./Gemfile.lock') }}
+          key: "${{ runner.os }}-ruby-${{ hashFiles('./Gemfile.lock') }}"
           restore-keys: |
             ${{ runner.os }}-ruby-
       - name: Install gems
@@ -49,7 +49,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
+          key: "${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}"
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install packages
@@ -69,7 +69,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
+          key: "${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}"
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install packages
@@ -89,7 +89,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
+          key: "${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}"
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install packages
@@ -138,16 +138,18 @@ jobs:
         uses: actions/cache@v4
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-ruby-${{ hashFiles('./Gemfile.lock') }}
+          key: "${{ runner.os }}-ruby-${{ hashFiles('./Gemfile.lock') }}"
           restore-keys: |
             ${{ runner.os }}-ruby-
       - name: Cache node modules
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
+          key: "${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}"
           restore-keys: |
             ${{ runner.os }}-yarn-
+      - name: Install libeccodes-dev
+        run: sudo apt-get update && sudo apt-get install -y libeccodes-dev
       - name: Install gems
         run: |
           bundle config path vendor/bundle
@@ -173,7 +175,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
+          key: "${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}"
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: Install packages
@@ -223,16 +225,18 @@ jobs:
         uses: actions/cache@v4
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-ruby-${{ hashFiles('./Gemfile.lock') }}
+          key: "${{ runner.os }}-ruby-${{ hashFiles('./Gemfile.lock') }}"
           restore-keys: |
             ${{ runner.os }}-ruby-
       - name: Cache node modules
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
+          key: "${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}"
           restore-keys: |
             ${{ runner.os }}-yarn-
+      - name: Install libeccodes-dev
+        run: sudo apt-get update && sudo apt-get install -y libeccodes-dev
       - name: Install gems
         run: |
           bundle config path vendor/bundle
@@ -265,7 +269,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          key: "${{ runner.os }}-buildx-${{ github.sha }}"
           restore-keys: |
             ${{ runner.os }}-buildx-
       - name: Login to Github Container Registry
