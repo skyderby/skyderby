@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_21_041901) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_31_093959) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -661,6 +661,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_21_041901) do
     t.boolean "featured", default: false, null: false
     t.index ["finish_line_id"], name: "index_virtual_competitions_on_finish_line_id"
     t.index ["place_id"], name: "index_virtual_competitions_on_place_id"
+  end
+
+  create_table "weather_fetching_logs", force: :cascade do |t|
+    t.datetime "time"
+    t.text "errors"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "badges", "profiles"
