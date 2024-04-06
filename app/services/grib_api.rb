@@ -321,21 +321,6 @@ module GribApi
   end
   attach_function :_grib_get_double, :grib_get_double, [:grib_handle_p, :string, :pointer], :int
 
-  # @!method grib_get_float
-  # Get a float value from a key, if several keys of the same name are present, the last one is returned
-  #
-  # @param handle [FFI::Pointer] the handle to get the data from
-  # @param key [String] the key to be searched
-  # @return [Float] the value of the key
-  # def self.grib_get_float(handle, key)
-  #   value = FFI::MemoryPointer.new(:float)
-  #   status = _grib_get_float(handle, key, value)
-  #   GribApi.assert_return_code(status, "Error getting float from key: #{key}")
-  #
-  #   value.read_float
-  # end
-  # attach_function :_grib_get_float, :grib_get_float, [:grib_handle_p, :string, :pointer], :int
-
   # @!method grib_get_string
   # Get a string value from a key. If several keys of the same name are present, the last one is returned.
   #
