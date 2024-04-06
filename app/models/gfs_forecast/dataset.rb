@@ -63,7 +63,7 @@ class GfsForecast::Dataset
       lev_900_mb: 'on',
       lev_925_mb: 'on',
       lev_950_mb: 'on',
-      lev_975_mb: 'on',
+      lev_975_mb: 'on'
     }
   end
 end

@@ -593,6 +593,10 @@ module GribApi
       ObjectSpace.define_finalizer(self, self.class.finalize(@handle))
     end
 
+    def self.finalize(handle)
+      proc { ::GribApi.grib_handle_delete(handle) }
+    end
+
     def timestamp
       date = read_string_parameter('validityDate')
       time = read_string_parameter('validityTime')
@@ -644,10 +648,6 @@ module GribApi
 
     def logger
       @logger ||= Logger.new($stdout)
-    end
-
-    def self.finalize(handle)
-      proc { ::GribApi.grib_handle_delete(handle) }
     end
   end
 end

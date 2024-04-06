@@ -13,7 +13,7 @@ module Place::WeatherData
   def weather_data_from_file(file)
     weather_from_nearest_point(file)
       .group_by { _1[:level] }
-      .map do |level, data_points|
+      .map do |_, data_points|
         data = data_points.map { [_1[:variable], _1[:value]] }.to_h
         altitude = data['geopotential_height']
         wind_speed = Math.sqrt(data['eastward_wind']**2 + data['northward_wind']**2)

@@ -61,7 +61,9 @@ describe GfsForecast, :vcr do
       expect(result.success).to eq(false)
       expect(result.errors.size).to eq(1)
       error = result.errors.first
-      expect(error).to include('Dataset {:dir=>"/gfs.19900301/00/atmos", :file=>"gfs.t00z.pgrb2.0p25.f003"} is not available.')
+      expect(error).to include(
+        'Dataset {:dir=>"/gfs.19900301/00/atmos", :file=>"gfs.t00z.pgrb2.0p25.f003"} is not available.'
+      )
       expect(error).to include('This data has expired and is no longer available.')
     end
   end
@@ -72,7 +74,9 @@ describe GfsForecast, :vcr do
       expect(result.success).to eq(false)
       expect(result.errors.size).to eq(1)
       error = result.errors.first
-      expect(error).to include('Dataset {:dir=>"/gfs.20550301/00/atmos", :file=>"gfs.t00z.pgrb2.0p25.f003"} is not available.')
+      expect(error).to include(
+        'Dataset {:dir=>"/gfs.20550301/00/atmos", :file=>"gfs.t00z.pgrb2.0p25.f003"} is not available.'
+      )
       expect(error).to include('data file is not present')
     end
   end

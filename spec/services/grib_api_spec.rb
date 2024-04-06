@@ -59,14 +59,14 @@ describe GribApi do
         ['geopotential_height', GribApi::Level.new(925, 'isobaricInhPa')],
         ['geopotential_height', GribApi::Level.new(950, 'isobaricInhPa')],
         ['geopotential_height', GribApi::Level.new(975, 'isobaricInhPa')],
-        ['geopotential_height', GribApi::Level.new(1000, 'isobaricInhPa')],
+        ['geopotential_height', GribApi::Level.new(1000, 'isobaricInhPa')]
       )
     end
   end
 
   describe GribApi::Message do
     let(:message) do
-      message = file.messages.find do |message|
+      file.messages.find do |message|
         message.level == GribApi::Level.new(900, 'isobaricInhPa') &&
           message.variable == 'geopotential_height'
       end
