@@ -5,6 +5,7 @@ describe GribApi do
     it '#time' do
       expect(GribApi.open(file_fixture('2024_03_16_gfs.t00z.pgrb2.0p25.anl')).timestamp)
         .to eq(Time.new(2024, 3, 16, 0, 0, 0, '+00:00'))
+      pp GribApi.open(file_fixture('gfs.t18z.pgrb2.0p25.anl')).messages.first.keys("time") # rubocop:disable Rails/Output
       expect(GribApi.open(file_fixture('gfs.t18z.pgrb2.0p25.anl')).timestamp)
         .to eq(Time.new(2024, 3, 8, 18, 0, 0, '+00:00'))
     end

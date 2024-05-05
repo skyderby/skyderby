@@ -585,7 +585,6 @@ module GribApi
     def timestamp
       date = read_string_parameter('validityDate')
       time = read_string_parameter('validityTime')
-      pp "#{date}#{time}" # rubocop:disable Rails/Output
       Time.zone.strptime("#{date}#{time}", '%Y%m%d%H%M')
     end
 
@@ -607,6 +606,24 @@ module GribApi
     # @return [NearestPoint]
     def nearest_point(lat, lon) = GribApi.grib_nearest_find_multiple(@handle, [lat], [lon], 0).first
 
+    # @param namespace [String] the namespace to filter the keys. Possible values are:
+    # [ls]
+    #   This is the namespace used by the grib_ls and bufr_ls tools and has the most commonly used keys e.g. centre, shortName, level, etc
+    # [parameter]
+    #   paramId, shortName, units which relate to the meteorological parameter
+    # [statistics]
+    #   statistics of the data values e.g. maximum, minimum, average, standard deviation, etc
+    # [time]
+    #   forecast runs e.g. forecast date, validity date, steps, etc
+    # [geography]
+    #   grid geometry e.g. bounding box of the grid, number of points along a parallel, etc
+    # [vertical]
+    #   levels and layers e.g. type of the level, list of coefficients of the vertical coordinate, etc
+    # [mars]
+    #   ECMWF's Meteorological Archive and Retrieval System keywords like class, stream, type, etc
+    # See: https://confluence.ecmwf.int/display/UDOC/What+are+namespaces+-+ecCodes+GRIB+FAQ
+    #
+    # @return [Array<Array<String, String>>] the keys
     def keys(namespace = nil)
       iterator = GribApi.grib_keys_iterator_new(@handle, 0, namespace)
       keys = []
