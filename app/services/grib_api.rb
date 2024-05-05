@@ -585,7 +585,7 @@ module GribApi
     def timestamp
       date = read_string_parameter('validityDate')
       time = read_string_parameter('validityTime')
-      pp "#{date}#{time}"
+      pp "#{date}#{time}" # rubocop:disable Rails/Output
       Time.zone.strptime("#{date}#{time}", '%Y%m%d%H%M')
     end
 
