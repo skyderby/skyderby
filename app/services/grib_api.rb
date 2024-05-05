@@ -608,7 +608,8 @@ module GribApi
 
     # @param namespace [String] the namespace to filter the keys. Possible values are:
     # [ls]
-    #   This is the namespace used by the grib_ls and bufr_ls tools and has the most commonly used keys e.g. centre, shortName, level, etc
+    #   This is the namespace used by the grib_ls and bufr_ls tools and has the most commonly used keys e.g. centre,
+    #   shortName, level, etc
     # [parameter]
     #   paramId, shortName, units which relate to the meteorological parameter
     # [statistics]
