@@ -585,6 +585,7 @@ module GribApi
     def timestamp
       date = read_string_parameter('validityDate')
       time = read_string_parameter('validityTime')
+      pp "#{date}#{time}"
       Time.zone.strptime("#{date}#{time}", '%Y%m%d%H%M')
     end
 
