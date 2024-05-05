@@ -13,7 +13,7 @@ module Place::WeatherData
   def weather_data_from_file(file) # rubocop:disable Metrics/AbcSize
     actual_on = file.timestamp
 
-    pp file.messages.first.keys('time') # rubocop:disable Rails/Output
+    pp file.messages.first.keys('time')
     weather_from_nearest_point(file)
       .group_by { _1[:level] }
       .map do |_, data_points|
