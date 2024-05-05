@@ -585,7 +585,7 @@ module GribApi
     def timestamp
       date = read_string_parameter('validityDate')
       time = read_string_parameter('validityTime')
-      DateTime.strptime("#{date}#{time}", '%Y%m%d%H%M')
+      Time.zone.strptime("#{date}#{time}", '%Y%m%d%H%M')
     end
 
     def number_of_points = read_int_parameter('numberOfPoints')

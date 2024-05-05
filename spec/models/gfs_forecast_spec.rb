@@ -104,7 +104,7 @@ describe GfsForecast, :vcr do
     VCR.use_cassette('gfs_forecast/valid_request_for_data') do
       GfsForecast.new(time, subregion:).download do |file_path|
         grib_file = GribApi.open(file_path)
-        expect(grib_file.timestamp).to eq(Time.zone.parse('2024-03-29T00:00:00Z'))
+        expect(grib_file.timestamp).to eq(Time.zone.parse('2024-03-29T03:00:00Z'))
       end
     end
   end
@@ -116,7 +116,7 @@ describe GfsForecast, :vcr do
     VCR.use_cassette('gfs_forecast/download_with_fallback') do
       result = GfsForecast.new(time, subregion:, fallback_cycles: 1).download do |file_path|
         grib_file = GribApi.open(file_path)
-        expect(grib_file.timestamp).to eq(Time.zone.parse('2024-03-30T18:00:00Z'))
+        expect(grib_file.timestamp).to eq(Time.zone.parse('2024-03-31T04:00:00Z'))
       end
 
       expect(result.success).to eq(true)
