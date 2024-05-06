@@ -575,6 +575,8 @@ module GribApi
     def initialize(handle)
       @handle = handle
 
+      pp '===================' # rubocop:disable Rails/Output
+      pp keys('time') # rubocop:disable Rails/Output
       ObjectSpace.define_finalizer(self, self.class.finalize(@handle))
     end
 
