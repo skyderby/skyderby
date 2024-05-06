@@ -544,9 +544,6 @@ module GribApi
       @file_path = file_path
       @file_pointer = Stdio.fopen(file_path.to_s, 'r')
 
-      pp '===================' # rubocop:disable Rails/Output
-      pp messages.first.keys('time') # rubocop:disable Rails/Output
-
       ObjectSpace.define_finalizer(self, self.class.finalize(@file_pointer))
     end
 

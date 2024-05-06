@@ -10,10 +10,9 @@ module Place::WeatherData
       .then { |records| weather_data.insert_all(records) } # rubocop:disable Rails/SkipsModelValidations
   end
 
-  def weather_data_from_file(file) # rubocop:disable Metrics/AbcSize
+  def weather_data_from_file(file)
     actual_on = file.timestamp
 
-    p file.messages.first.keys('time') # rubocop:disable Rails/Output
     weather_from_nearest_point(file)
       .group_by { _1[:level] }
       .map do |_, data_points|

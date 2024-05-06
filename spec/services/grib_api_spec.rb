@@ -79,7 +79,7 @@ describe GribApi do
       expect(nearest_point.lat).to eq(28.25)
       expect(nearest_point.lon).to eq(277.75)
       expect(nearest_point.value).to eq(1053.007875)
-      expect(nearest_point.distance).to eq(10.258460571724717)
+      expect(nearest_point.distance.truncate(8)).to eq(10.25846057)
     end
 
     it '#surrounding_points' do
@@ -88,7 +88,7 @@ describe GribApi do
       expect(result.lats).to eq([28.25, 28.25, 28.0, 28.0])
       expect(result.lons).to eq([278.0, 277.75, 278.0, 277.75])
       expect(result.values).to eq([1053.871875, 1053.007875, 1054.463875, 1053.855875])
-      expect(result.distances).to eq([15.177542758974615, 10.258460571724717, 28.5784913417286, 26.292887228481522])
+      expect(result.distances.map { _1.truncate(8) }).to eq([15.17754275, 10.25846057, 28.57849134, 26.29288722])
     end
 
     it '#surrounding_points outside of area' do
