@@ -71,5 +71,14 @@ class Place < ApplicationRecord
         .where("#{distance_statement} < :radius", radius: radius)
         .order('distance')
     end
+
+    def to_subregion
+      select(
+        'floor(min(latitude)) - 0.25 bottom_lat',
+        'ceil(max(latitude)) + 0.25 top_lat',
+        'floor(min(longitude)) - 0.25 left_lon',
+        'ceil(max(longitude)) + 0.25 right_lon'
+      ).take.attributes.except('id')
+    end
   end
 end

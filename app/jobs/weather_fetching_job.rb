@@ -25,16 +25,7 @@ class WeatherFetchingJob < ApplicationJob
   private
 
   def subregion
-    @subregion ||= begin
-      subregion_params = Place.skydive.select(
-        'floor(min(latitude)) - 0.25 bottom_lat',
-        'ceil(max(latitude)) + 0.25 top_lat',
-        'floor(min(longitude)) - 0.25 left_lon',
-        'ceil(max(longitude)) + 0.25 right_lon'
-      ).take.attributes.except('id')
-
-      GfsForecast::Subregion.new(**subregion_params)
-    end
+    @subregion ||= GfsForecast::Subregion.new(**Place.skydive.to_subregion)
   end
 end
 
