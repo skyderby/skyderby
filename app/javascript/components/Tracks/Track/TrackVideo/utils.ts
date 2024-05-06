@@ -1,5 +1,5 @@
 import { PointRecord } from 'api/tracks/points'
-import { VideoRecord } from 'api/tracks/video'
+import { TrackVideo } from 'api/tracks'
 import getPointsAroundTime from './getPointsAroundTime'
 
 const interpolateValue = (first: number, second: number, factor: number): number =>
@@ -26,7 +26,7 @@ const getInterpolatedPoint = (
 
 export const getDataForTime = (
   points: PointRecord[],
-  videoSettings: VideoRecord | undefined,
+  videoSettings: TrackVideo | undefined,
   time: number
 ): Partial<PointRecord> | null => {
   if (!videoSettings) return null

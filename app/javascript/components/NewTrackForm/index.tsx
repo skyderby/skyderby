@@ -1,4 +1,5 @@
 import React from 'react'
+import toast from 'react-hot-toast'
 import { Formik, Field, FieldProps } from 'formik'
 import { useNavigate } from 'react-router-dom'
 
@@ -12,7 +13,7 @@ import { useI18n } from 'components/TranslationsProvider'
 import Modal from 'components/ui/Modal'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
 import TrackSuitField from 'components/TrackSuitField'
-
+import RequestErrorToast from 'components/RequestErrorToast'
 import ErrorMessage from 'components/ui/ErrorMessage'
 import TrackFileInput from './TrackFileInput'
 import SegmentSelect from './SegmentSelect'
@@ -76,12 +77,12 @@ const NewTrackForm = ({ isShown, onHide }: NewTrackFormProps): JSX.Element => {
       ...(formSupportData.suitInputMode === 'select' ? { suitId } : { missingSuitName })
     }
 
-    try {
-      const { data: track } = await newTrackMutation.mutateAsync(params)
-      navigate(`/tracks/${track.id}`)
-    } catch (err) {
-      console.warn(err)
-    }
+    newTrackMutation.mutate(params, {
+      onSuccess: track => {
+        navigate(`/tracks/${track.id}`)
+      },
+      onError: error => toast.error(<RequestErrorToast response={error.response} />)
+    })
   }
 
   return (

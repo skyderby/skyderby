@@ -1,6 +1,6 @@
 import React from 'react'
 
-import useVideosQuery from 'api/videos'
+import useVideosQuery from 'api/useVideosQuery'
 import VideoThumbnail from 'components/VideoThumbnail'
 import styles from './styles.module.scss'
 

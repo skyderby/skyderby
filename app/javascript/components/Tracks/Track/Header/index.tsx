@@ -5,10 +5,10 @@ import Suit from './Suit'
 import Navbar from './Navbar'
 import styles from './styles.module.scss'
 import PlaceLabel from 'components/PlaceLabel'
-import { TrackRecord } from 'api/tracks'
+import { Track } from 'api/tracks'
 
 type HeaderProps = {
-  track: TrackRecord
+  track: Track
 }
 
 const Header = ({ track }: HeaderProps): JSX.Element => (

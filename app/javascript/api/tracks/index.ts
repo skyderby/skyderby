@@ -5,7 +5,7 @@ export type {
   TrackJumpRange,
   TrackVariables,
   TrackIndexRecord,
-  TrackRecord,
+  Track,
   TrackFilters,
   FilterTuple,
   FilterKey
@@ -18,6 +18,7 @@ export {
 } from './common'
 export * from './urlParams'
 export * from './files'
+export * from './videos'
 
 export { default as useTracksQuery, tracksQuery } from './useTracksQuery'
 export { default as useTracksInfiniteQuery } from './useTracksInfiniteQuery'

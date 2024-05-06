@@ -9,7 +9,7 @@ import Indicators from './Indicators'
 import { getDataForTime } from './utils'
 import { useTrackQuery } from 'api/tracks'
 import { PointRecord, useTrackPointsQuery } from 'api/tracks/points'
-import { useTrackVideoQuery } from 'api/tracks/video'
+import { useTrackVideoQuery } from 'api/tracks'
 import styles from './styles.module.scss'
 
 type VideoPlayerProps = {

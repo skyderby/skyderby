@@ -2,7 +2,7 @@ import React from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 
 import { useTrackWindDataQuery } from 'api/tracks/windData'
-import { TrackRecord } from 'api/tracks'
+import { Track } from 'api/tracks'
 import ChartIcon from 'icons/chart-bar.svg'
 import VideoIcon from 'icons/play-circle.svg'
 import MapsIcon from 'icons/compass.svg'
@@ -13,7 +13,7 @@ import { useI18n } from 'components/TranslationsProvider'
 import PageNavbar from 'components/PageNavbar'
 
 type NavbarProps = {
-  track: TrackRecord
+  track: Track
 }
 
 const Navbar = ({ track }: NavbarProps): JSX.Element => {
