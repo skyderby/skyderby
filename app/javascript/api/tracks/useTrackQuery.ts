@@ -1,5 +1,5 @@
 import { useSuspenseQuery, QueryFunction, UseQueryOptions } from '@tanstack/react-query'
-import { AxiosError, AxiosResponse } from 'axios'
+import { AxiosError } from 'axios'
 import client from 'api/client'
 
 import {
