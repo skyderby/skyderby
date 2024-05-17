@@ -26,9 +26,11 @@ json.has_video track.video.present?
 
 downloadable = policy(track).download?
 
-if downloadable && track.track_file
-  json.filename track.track_file.file.original_filename
-  json.download_url assets_track_file_path(track)
+json.track_file do
+  if downloadable && track.track_file
+    json.filename track.track_file.file.original_filename
+    json.download_url assets_track_file_path(track)
+  end
 end
 
 json.permissions do

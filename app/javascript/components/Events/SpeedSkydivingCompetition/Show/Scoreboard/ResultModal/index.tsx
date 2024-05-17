@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { startTransition, useState } from 'react'
 
 import {
   Result,
@@ -34,13 +34,15 @@ const ResultModal = ({
   const { data: profile } = useProfileQuery(competitor?.profileId)
   const { data: round } = useRoundQuery(event.id, result.roundId)
 
+  const changeTab = (tab: Tab) => startTransition(() => setCurrentTab(tab))
+
   const tabProps = {
     event: event,
     result: result,
     deleteResult: deleteResult,
     hide: hide,
     tabBar: event.permissions.canEdit ? (
-      <TabBar currentTab={currentTab} setCurrentTab={setCurrentTab} />
+      <TabBar currentTab={currentTab} setCurrentTab={changeTab} />
     ) : null
   }
 

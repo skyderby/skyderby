@@ -8,7 +8,7 @@ export type Tab = typeof tabs[number]
 
 type TagBarProps = {
   currentTab: Tab
-  setCurrentTab: React.Dispatch<React.SetStateAction<Tab>>
+  setCurrentTab: (tab: Tab) => void
 }
 
 const TabBar = ({ currentTab, setCurrentTab }: TagBarProps): JSX.Element => {
