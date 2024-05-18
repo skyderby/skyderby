@@ -34,14 +34,27 @@ const Modal = ({
     return () => enableScroll()
   }, [isShown, enableScroll, setScroll])
 
-  const handleOverlayClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) handleHide(e)
-  }
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        enableScroll()
+        onHide()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [onHide, enableScroll])
 
   const handleHide = (e: React.MouseEvent) => {
     e.preventDefault()
     onHide()
     setIsShown(false)
+  }
+
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) handleHide(e)
   }
 
   if (!internalIsShown) return ReactDOM.createPortal(null, modalRoot)
