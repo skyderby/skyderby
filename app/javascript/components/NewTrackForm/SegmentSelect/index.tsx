@@ -11,12 +11,7 @@ type SegmentSelectProps = Omit<Props<OptionType>, 'value'> & {
   onChange: (value: number | null) => unknown
 }
 
-const SegmentSelect = ({
-  value,
-  options,
-  onChange,
-  ...props
-}: SegmentSelectProps): JSX.Element => {
+const SegmentSelect = ({ value, options, onChange, ...props }: SegmentSelectProps) => {
   const selectedOption = (value && options?.[value]) || null
 
   return (

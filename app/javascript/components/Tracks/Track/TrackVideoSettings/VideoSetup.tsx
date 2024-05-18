@@ -12,7 +12,7 @@ type VideoSetup = {
   videoId?: string
 }
 
-const VideoSetup = ({ setFieldValue, videoId }: VideoSetup): JSX.Element => {
+const VideoSetup = ({ setFieldValue, videoId }: VideoSetup) => {
   const { t } = useI18n()
   const playerRef = useRef<{ getPlayerTime(): number | undefined }>()
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import toast from 'react-hot-toast'
 import { FormikHelpers } from 'formik'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -12,12 +13,13 @@ import { useI18n } from 'components/TranslationsProvider'
 import PageContainer from 'components/Tracks/Track/PageContainer'
 import Form from './Form'
 import { FormData } from './types'
+import RequestErrorToast from 'components/RequestErrorToast'
 
 type TrackEditProps = {
   trackId: number
 }
 
-const TrackEdit = ({ trackId }: TrackEditProps): JSX.Element | null => {
+const TrackEdit = ({ trackId }: TrackEditProps) => {
   const location = useLocation()
   const returnTo = location.state?.returnTo ?? '/tracks'
 
@@ -44,11 +46,13 @@ const TrackEdit = ({ trackId }: TrackEditProps): JSX.Element | null => {
         : { placeId: formValues.placeId, location: null })
     }
 
-    await editMutation.mutateAsync(values)
-
-    setSubmitting(false)
-
-    navigate(`/tracks/${trackId}`)
+    editMutation.mutate(values, {
+      onSettled: () => setSubmitting(false),
+      onSuccess: () => {
+        navigate(`/tracks/${trackId}`)
+      },
+      onError: error => toast.error(<RequestErrorToast response={error.response} />)
+    })
   }
 
   const handleDelete = async () => {

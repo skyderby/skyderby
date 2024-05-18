@@ -39,7 +39,7 @@ type ItemProps = {
   delayIndex: number
 }
 
-const Item = ({ event, delayIndex }: ItemProps): JSX.Element => {
+const Item = ({ event, delayIndex }: ItemProps) => {
   const { t, formatDate } = useI18n()
   const competitorsCount = Object.entries(event.competitorsCount)
 

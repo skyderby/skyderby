@@ -1,40 +1,31 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import client, { AxiosError, AxiosResponse } from 'api/client'
+import client, { AxiosError } from 'api/client'
 import { pointsQuery } from './points'
 import {
-  deserialize,
   elementEndpoint,
   recordQueryKey,
   TrackVariables,
-  TrackRecord
+  trackResponseSchema,
+  Track
 } from './common'
-import { Serialized } from 'api/helpers'
-
-type SerializedTrack = Serialized<TrackRecord>
 
 const updateTrack = (id: number, track: TrackVariables) =>
-  client.put<{ track: TrackVariables }, AxiosResponse<SerializedTrack>>(
-    elementEndpoint(id),
-    { track }
-  )
+  client
+    .put<{ track: TrackVariables }>(elementEndpoint(id), { track })
+    .then(response => trackResponseSchema.parse(response.data))
 
 const useUpdateTrackMutation = (id: number) => {
   const queryClient = useQueryClient()
 
   const mutationFn = (changes: TrackVariables) => updateTrack(id, changes)
 
-  return useMutation<
-    AxiosResponse<SerializedTrack>,
-    AxiosError<Record<string, string[]>>,
-    TrackVariables
-  >({
+  return useMutation<Track, AxiosError<Record<string, string[]>>, TrackVariables>({
     mutationFn,
-    onSuccess(response) {
-      const track = deserialize(response.data)
-
+    onSuccess(track) {
       queryClient.setQueryData(recordQueryKey(id), track)
       return queryClient.invalidateQueries({
         queryKey: pointsQuery(id).queryKey,
+        refetchType: 'all',
         exact: true
       })
     }

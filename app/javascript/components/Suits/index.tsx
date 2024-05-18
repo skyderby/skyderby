@@ -5,7 +5,7 @@ import Overview from './Overview'
 import MakeSuits from './MakeSuits'
 import Show from './Show'
 
-const Suits = (): JSX.Element => (
+const Suits = () => (
   <Routes>
     <Route index element={<Overview />} />
     <Route path="make/:id" element={<MakeSuits />} />

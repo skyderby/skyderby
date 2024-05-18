@@ -7,7 +7,7 @@ type OptionType = {
   icon: React.ReactNode
 }
 
-const Option = (props: OptionProps<OptionType, false>): JSX.Element => (
+const Option = (props: OptionProps<OptionType, false>) => (
   <components.Option {...props}>
     <span>{props.data.icon}</span>
     <span>{props.data.label}</span>

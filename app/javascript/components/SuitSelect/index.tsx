@@ -17,7 +17,7 @@ interface SuitSelectProps extends Omit<Props<OptionType, boolean>, 'value'> {
   isInvalid?: string | boolean
 }
 
-const SuitSelect = ({ value: suitId, ...props }: SuitSelectProps): JSX.Element => {
+const SuitSelect = ({ value: suitId, ...props }: SuitSelectProps) => {
   const queryClient = useQueryClient()
   const { data: suit } = useSuitQuery(suitId)
   const { data: make } = useManufacturerQuery(suit?.makeId)

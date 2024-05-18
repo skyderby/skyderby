@@ -1,6 +1,6 @@
 import React from 'react'
 
-import useVideosQuery from 'api/videos'
+import useVideosQuery from 'api/useVideosQuery'
 import VideoThumbnail from 'components/VideoThumbnail'
 import styles from './styles.module.scss'
 
@@ -8,7 +8,7 @@ type VideosProps = {
   placeId: number
 }
 
-const Videos = ({ placeId }: VideosProps): JSX.Element => {
+const Videos = ({ placeId }: VideosProps) => {
   const { data } = useVideosQuery({ placeId })
 
   const items = data?.items ?? []

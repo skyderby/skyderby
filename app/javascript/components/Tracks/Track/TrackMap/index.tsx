@@ -15,7 +15,7 @@ type TrackMapProps = {
   trackId: number
 }
 
-const TrackMap = ({ trackId }: TrackMapProps): JSX.Element => {
+const TrackMap = ({ trackId }: TrackMapProps) => {
   const mapElementRef = useRef<HTMLDivElement>(null)
   const [mapInstance, setMapInstance] = useState<google.maps.Map>()
   const google = useGoogleMapsApi()

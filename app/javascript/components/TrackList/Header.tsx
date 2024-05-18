@@ -4,7 +4,7 @@ import { useI18n } from 'components/TranslationsProvider'
 
 import styles from './styles.module.scss'
 
-const Header = (): JSX.Element => {
+const Header = () => {
   const { t } = useI18n()
 
   return (

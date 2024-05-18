@@ -52,11 +52,7 @@ const getInitialLocale = (): ApplicationLocale => {
   return defaultLocale
 }
 
-const TranslationsProvider = ({
-  children
-}: {
-  children: React.ReactNode
-}): JSX.Element | null => {
+const TranslationsProvider = ({ children }: { children: React.ReactNode }) => {
   const initialized = useRef(false)
   const [locale, setLocale] = useState<ApplicationLocale>(getInitialLocale)
 

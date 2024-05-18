@@ -21,7 +21,7 @@ const getStraightLineSavedSetting = () => {
   return localStorageValue.toLowerCase() === 'true'
 }
 
-const FlightProfiles = (): JSX.Element => {
+const FlightProfiles = () => {
   const { t } = useI18n()
   const [zoomLevel, setZoomLevel] = useState<{ min: number; max: number } | null>(null)
   const [showModal, setShowModal] = useState(false)

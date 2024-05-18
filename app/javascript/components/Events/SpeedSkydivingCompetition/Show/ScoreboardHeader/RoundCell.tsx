@@ -23,7 +23,7 @@ type RoundProps = {
   round: Round
 }
 
-const RoundCell = ({ event, round }: RoundProps): JSX.Element => {
+const RoundCell = ({ event, round }: RoundProps) => {
   const { t } = useI18n()
   const [showRoundActions, setShowRoundActions] = useState(false)
   const actionsButtonRef = useRef<HTMLTableCellElement>(null)

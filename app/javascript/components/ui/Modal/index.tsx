@@ -22,7 +22,7 @@ const Modal = ({
   onHide = () => undefined,
   title,
   children
-}: ModalProps): JSX.Element => {
+}: ModalProps) => {
   const [internalIsShown, setIsShown] = useState(isShown)
   const modalRoot = useRoot('modal-root')
   const { enableScroll, setScroll } = useDocumentBodyScroll()
@@ -34,14 +34,27 @@ const Modal = ({
     return () => enableScroll()
   }, [isShown, enableScroll, setScroll])
 
-  const handleOverlayClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) handleHide(e)
-  }
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        enableScroll()
+        onHide()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [onHide, enableScroll])
 
   const handleHide = (e: React.MouseEvent) => {
     e.preventDefault()
     onHide()
     setIsShown(false)
+  }
+
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) handleHide(e)
   }
 
   if (!internalIsShown) return ReactDOM.createPortal(null, modalRoot)
@@ -68,7 +81,7 @@ type BodyProps = {
   children: React.ReactNode | React.ReactNode[]
 }
 
-const Body = ({ children, className }: BodyProps): JSX.Element => (
+const Body = ({ children, className }: BodyProps) => (
   <div className={cx(styles.body, className)}>{children}</div>
 )
 
@@ -78,7 +91,7 @@ type FooterProps = {
   spaceBetween?: boolean
 }
 
-const Footer = ({ children, className, spaceBetween }: FooterProps): JSX.Element => (
+const Footer = ({ children, className, spaceBetween }: FooterProps) => (
   <div className={cx(styles.footer, spaceBetween && styles.spaceBetween, className)}>
     {children}
   </div>

@@ -20,7 +20,7 @@ const CustomRangeModal = ({
   minAltitude,
   maxAltitude,
   selectedAltitudeRange: [from, to]
-}: CustomRangeModalProps): JSX.Element => {
+}: CustomRangeModalProps) => {
   const { t } = useI18n()
   const handleSubmit = (values: { from: number; to: number }) =>
     onChange?.([values.from, values.to])

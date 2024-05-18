@@ -19,7 +19,7 @@ const CombinedChart = ({
   additionalSeries = [],
   children,
   ...props
-}: CombinedChartProps): JSX.Element => {
+}: CombinedChartProps) => {
   const { viewPreferences } = useTrackViewPreferences()
   const options = useChartOptions(
     points,

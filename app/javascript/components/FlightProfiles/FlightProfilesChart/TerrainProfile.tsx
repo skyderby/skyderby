@@ -13,11 +13,11 @@ import {
 
 const tooltip = {
   headerFormat: `
-    <span style="font-size: 14px">{series.name}</span><br/>
+    <span style='font-size: 14px'>{series.name}</span><br/>
   `,
   pointFormatter: function (this: Point) {
     return `
-    <span style="font-size: 16px">↓${this.y} ${I18n.t('units.m')}
+    <span style='font-size: 16px'>↓${this.y} ${I18n.t('units.m')}
       →${this.x} ${I18n.t('units.m')}
     </span><br/>`
   }
@@ -36,11 +36,7 @@ type TerrainProfileProps = {
   color: string
 }
 
-const TerrainProfile = ({
-  chart,
-  terrainProfileId,
-  color
-}: TerrainProfileProps): JSX.Element | null => {
+const TerrainProfile = ({ chart, terrainProfileId, color }: TerrainProfileProps) => {
   const { data: terrainProfile } = useTerrainProfileQuery(terrainProfileId)
   const { data: measurements = [] } = useTerrainProfileMeasurementQuery(terrainProfileId)
   const { data: place } = usePlaceQuery(terrainProfile?.placeId)

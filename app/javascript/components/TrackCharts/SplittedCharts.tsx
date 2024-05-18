@@ -16,11 +16,7 @@ interface ChartImperativeHandler {
   refreshTooltip: (e: React.MouseEvent | React.TouchEvent) => void
 }
 
-const SplittedCharts = ({
-  points,
-  zeroWindPoints,
-  children
-}: SplittedCharts): JSX.Element => {
+const SplittedCharts = ({ points, zeroWindPoints, children }: SplittedCharts) => {
   const glideRatioChartRef = useRef<ChartImperativeHandler>()
   const speedsChartRef = useRef<ChartImperativeHandler>()
 

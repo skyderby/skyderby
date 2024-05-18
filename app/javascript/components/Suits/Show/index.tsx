@@ -11,7 +11,7 @@ import Edit from './Edit'
 import Header from './Header'
 import styles from './styles.module.scss'
 
-const Show = (): JSX.Element | null => {
+const Show = () => {
   const params = useParams()
   const suitId = Number(params.id)
   const { data: suit } = useSuitQuery(suitId)

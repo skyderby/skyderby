@@ -17,7 +17,7 @@ type ScoreboardProps = {
   eventId: number
 }
 
-const Scoreboard = ({ eventId }: ScoreboardProps): JSX.Element | null => {
+const Scoreboard = ({ eventId }: ScoreboardProps) => {
   const { data: standings = [], isLoading } = useStandingsQuery(eventId)
   const { data: rounds = [] } = useRoundsQuery(eventId)
   const { data: categories = [] } = useCategoriesQuery(eventId)

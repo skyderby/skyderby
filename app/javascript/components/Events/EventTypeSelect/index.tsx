@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import styles from './styles.module.scss'
 
-const EventTypeSelect = (): JSX.Element => {
+const EventTypeSelect = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.pageTitle}>Choose event type</h1>

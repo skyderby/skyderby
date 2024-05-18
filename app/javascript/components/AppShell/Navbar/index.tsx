@@ -6,7 +6,7 @@ import DesktopMenu from './DesktopMenu'
 import MobileMenu from './MobileMenu'
 import styles from './styles.module.scss'
 
-const Navbar = (): JSX.Element => {
+const Navbar = () => {
   return (
     <nav className={styles.header}>
       <Link to="/" className={styles.home}>

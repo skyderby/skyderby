@@ -43,7 +43,7 @@ const NewResultForm = ({
   roundId,
   competitorId,
   onHide: hide
-}: NewResultFormProps): JSX.Element => {
+}: NewResultFormProps) => {
   const { t } = useI18n()
   const { data: competitor } = useCompetitorQuery(event.id, competitorId)
   const { data: profile } = useProfileQuery(competitor?.profileId)

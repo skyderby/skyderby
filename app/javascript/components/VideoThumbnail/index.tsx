@@ -5,7 +5,7 @@ import { useTrackQuery } from 'api/tracks'
 import { useProfileQuery } from 'api/profiles'
 import { useSuitQuery } from 'api/suits'
 import { usePlaceQuery } from 'api/places'
-import { VideoRecord } from 'api/tracks/video'
+import { TrackVideo } from 'api/tracks'
 import styles from './styles.module.scss'
 import { useI18n } from 'components/TranslationsProvider'
 import SuitIcon from 'icons/suit.svg'
@@ -15,10 +15,10 @@ const thumbnailUrl = (videoCode: string) =>
   `url(https://img.youtube.com/vi/${videoCode}/mqdefault.jpg)`
 
 type VideoThumbnailProps = {
-  video: VideoRecord
+  video: TrackVideo
 }
 
-const VideoThumbnail = ({ video }: VideoThumbnailProps): JSX.Element => {
+const VideoThumbnail = ({ video }: VideoThumbnailProps) => {
   const { formatDate } = useI18n()
   const { data: track } = useTrackQuery(video.trackId)
   const { data: profile } = useProfileQuery(track?.profileId, { enabled: false })

@@ -37,7 +37,7 @@ const menuVariants = {
   }
 }
 
-const Sidebar = ({ onToggle: toggle }: SidebarProps): JSX.Element | null => {
+const Sidebar = ({ onToggle: toggle }: SidebarProps) => {
   const { t } = useI18n()
   const sidebarRoot = useRoot('sidebar-root')
   const { enableScroll, disableScroll } = useDocumentBodyScroll()

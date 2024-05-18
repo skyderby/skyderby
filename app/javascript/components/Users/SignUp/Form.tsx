@@ -26,7 +26,7 @@ const initialValues = {
   profileAttributes: { name: '' }
 }
 
-const Form = ({ mutation }: FormProps): JSX.Element => {
+const Form = ({ mutation }: FormProps) => {
   const { t } = useI18n()
 
   const handleSubmit = async (

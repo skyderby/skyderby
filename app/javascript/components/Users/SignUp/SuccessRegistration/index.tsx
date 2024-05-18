@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useI18n } from 'components/TranslationsProvider'
 import styles from 'components/Users/styles.module.scss'
 
-const SuccessRegistration = (): JSX.Element => {
+const SuccessRegistration = () => {
   const { t } = useI18n()
 
   return (

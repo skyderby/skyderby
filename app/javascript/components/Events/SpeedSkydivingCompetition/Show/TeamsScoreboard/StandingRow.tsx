@@ -34,7 +34,7 @@ const teamCompetitorNames = (
     )
     .join(', ')
 
-const StandingRow = ({ event, teamId, rank, total }: StandingRowProps): JSX.Element => {
+const StandingRow = ({ event, teamId, rank, total }: StandingRowProps) => {
   const [showEditModal, setShowEditModal] = useState(false)
   const { data: team } = useTeamQuery(event.id, teamId)
   const { data: competitors = [] } = useCompetitorsQuery(event.id, {

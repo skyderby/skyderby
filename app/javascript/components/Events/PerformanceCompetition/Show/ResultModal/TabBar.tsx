@@ -11,7 +11,7 @@ type TagBarProps = {
   setCurrentTab: React.Dispatch<React.SetStateAction<Tab>>
 }
 
-const TabBar = ({ currentTab, setCurrentTab }: TagBarProps): JSX.Element => {
+const TabBar = ({ currentTab, setCurrentTab }: TagBarProps) => {
   const tabTitles = {
     charts: 'Charts',
     jumpRange: 'Jump Range',

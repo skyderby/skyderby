@@ -53,7 +53,7 @@ const CompetitorForm = ({
   initialValues = {},
   mutation,
   onHide: hide
-}: CompetitorFormProps): JSX.Element => {
+}: CompetitorFormProps) => {
   const { t } = useI18n()
 
   const handleSubmit = async (values: FormData, formikBag: FormikHelpers<FormData>) => {
@@ -94,7 +94,7 @@ const CompetitorForm = ({
                     field: { name, ...props },
                     form: { setFieldValue },
                     meta: { touched, error }
-                  }: FieldProps): JSX.Element => (
+                  }: FieldProps) => (
                     <>
                       <ProfileSelect
                         isInvalid={touched && error}
@@ -134,7 +134,7 @@ const CompetitorForm = ({
                       field: { name, ...props },
                       form: { setFieldValue },
                       meta: { touched, error }
-                    }: FieldProps): JSX.Element => (
+                    }: FieldProps) => (
                       <CountrySelect
                         isInvalid={touched && error}
                         {...props}
@@ -171,7 +171,7 @@ const CompetitorForm = ({
                     field: { name, ...props },
                     form: { setFieldValue },
                     meta: { touched, error }
-                  }: FieldProps): JSX.Element => (
+                  }: FieldProps) => (
                     <>
                       <CategorySelect
                         isInvalid={touched && error}

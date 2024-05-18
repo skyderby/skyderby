@@ -27,7 +27,7 @@ type SortSelectProps = {
   value?: IndexParams['sortBy']
 }
 
-const SortBySelect = ({ value, onChange }: SortSelectProps): JSX.Element => {
+const SortBySelect = ({ value, onChange }: SortSelectProps) => {
   const selectedOption = options.find(el => el.value === value) || options[0]
 
   return (

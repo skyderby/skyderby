@@ -13,7 +13,7 @@ import TrackVideoSettings from './TrackVideoSettings'
 import TrackEdit from './TrackEdit'
 import styles from './styles.module.scss'
 
-const Track = (): JSX.Element | null => {
+const Track = () => {
   const params = useParams()
   const trackId = Number(params.id)
   const { data: track } = useTrackQuery(trackId)

@@ -9,7 +9,7 @@ type TrackWindDataProps = {
   trackId: number
 }
 
-const TrackWindData = ({ trackId }: TrackWindDataProps): JSX.Element => {
+const TrackWindData = ({ trackId }: TrackWindDataProps) => {
   const { t } = useI18n()
   const { data: windData = [] } = useTrackWindDataQuery(trackId)
 

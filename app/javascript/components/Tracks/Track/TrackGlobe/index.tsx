@@ -12,7 +12,7 @@ type TrackGlobeProps = {
   trackId: number
 }
 
-const TrackGlobe = ({ trackId }: TrackGlobeProps): JSX.Element | null => {
+const TrackGlobe = ({ trackId }: TrackGlobeProps) => {
   const Cesium = useCesiumApi()
   const element = useRef<HTMLDivElement>(null)
   const [viewer, setViewer] = useState<Cesium.Viewer>()

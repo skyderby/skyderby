@@ -20,7 +20,7 @@ type LocaleSelectorProps = {
   className?: string
 }
 
-const LocaleSelector = ({ className }: LocaleSelectorProps): JSX.Element => {
+const LocaleSelector = ({ className }: LocaleSelectorProps) => {
   const { t, locale, changeLocale, supportedLocales } = useI18n()
   const [showDropdown, setShowDropdown] = useState(false)
   const referenceElement = useRef<HTMLLIElement>(null)

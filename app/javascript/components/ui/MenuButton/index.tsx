@@ -5,7 +5,7 @@ import styles from './styles.module.scss'
 
 type MenuButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & { active: boolean }
 
-const MenuButton = ({ className, active, ...props }: MenuButtonProps): JSX.Element => (
+const MenuButton = ({ className, active, ...props }: MenuButtonProps) => (
   <button
     className={cx(styles.menuButton, className, active && styles.active)}
     {...props}

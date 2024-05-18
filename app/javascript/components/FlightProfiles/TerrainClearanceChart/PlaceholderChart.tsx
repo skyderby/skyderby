@@ -8,7 +8,7 @@ type PlaceholderChartProps = {
   text: string
 }
 
-const PlaceholderChart = ({ text }: PlaceholderChartProps): JSX.Element => {
+const PlaceholderChart = ({ text }: PlaceholderChartProps) => {
   const options = useChartOptions()
 
   return (

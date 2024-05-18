@@ -24,7 +24,7 @@ const WindEffect = ({
   rawValue,
   zeroWindValue,
   valuePresenter = val => val
-}: WindEffectProps): JSX.Element => {
+}: WindEffectProps) => {
   const windEffect = rawValue - zeroWindValue
   const windEffectPercent =
     100 - (Math.min(rawValue, zeroWindValue) / Math.max(rawValue, zeroWindValue)) * 100

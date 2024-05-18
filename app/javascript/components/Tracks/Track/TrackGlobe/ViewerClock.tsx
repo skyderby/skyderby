@@ -7,11 +7,7 @@ type ViewerClockProps = {
   viewer: Cesium.Viewer | undefined
   points: PointRecord[]
 }
-const ViewerClock = ({
-  Cesium,
-  viewer,
-  points
-}: ViewerClockProps): JSX.Element | null => {
+const ViewerClock = ({ Cesium, viewer, points }: ViewerClockProps) => {
   const startTime = Cesium.JulianDate.fromDate(new Date(points[0].gpsTime))
   const stopTime = Cesium.JulianDate.fromDate(new Date(points[points.length - 1].gpsTime))
 

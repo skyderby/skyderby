@@ -12,12 +12,7 @@ type SimpleValueProps = {
   onClick?: (e?: React.MouseEvent) => unknown
 }
 
-const SimpleValue = ({
-  type,
-  value,
-  onClick,
-  onDelete
-}: SimpleValueProps): JSX.Element => {
+const SimpleValue = ({ type, value, onClick, onDelete }: SimpleValueProps) => {
   const deleteButtonRef = useRef<HTMLButtonElement>(null)
 
   const handleTokenClick = (e: React.MouseEvent) => {

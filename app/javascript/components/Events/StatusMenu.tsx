@@ -33,11 +33,7 @@ function fireConfetti() {
   })
 }
 
-const StatusMenu = ({
-  currentStatus,
-  className,
-  mutation
-}: StatusMenuProps): JSX.Element => {
+const StatusMenu = ({ currentStatus, className, mutation }: StatusMenuProps) => {
   const { t } = useI18n()
   const [showStatuses, setShowStatuses] = useState(false)
 

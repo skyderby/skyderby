@@ -8,7 +8,7 @@ import styles from './styles.module.scss'
 import { useSuitPopularityQuery } from 'api/suitsPopularity'
 import { useAllSuitsQuery } from 'api/suits'
 
-const SuitsOverview = (): JSX.Element => {
+const SuitsOverview = () => {
   const { data: suits } = useAllSuitsQuery()
   const { data: popularity } = useSuitPopularityQuery()
   const { data: allManufacturers } = useManufacturersQuery({ enabled: false })

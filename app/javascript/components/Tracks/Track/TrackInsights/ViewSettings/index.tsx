@@ -12,10 +12,7 @@ type ViewSettingsProps = {
   setStraightLine: (val: boolean) => void
 }
 
-const ViewSettings = ({
-  straightLine,
-  setStraightLine
-}: ViewSettingsProps): JSX.Element => {
+const ViewSettings = ({ straightLine, setStraightLine }: ViewSettingsProps) => {
   const { t } = useI18n()
   const { viewPreferences, setViewPreferences } = useTrackViewPreferences()
   const [showModal, setShowModal] = useState(false)

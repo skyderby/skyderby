@@ -21,7 +21,7 @@ type FormProps = {
   returnUrl: string
 }
 
-const Form = ({ initialValues, mutation, returnUrl }: FormProps): JSX.Element => {
+const Form = ({ initialValues, mutation, returnUrl }: FormProps) => {
   const { t } = useI18n()
 
   const handleSubmit = (values: EventVariables) => mutation.mutate(values)

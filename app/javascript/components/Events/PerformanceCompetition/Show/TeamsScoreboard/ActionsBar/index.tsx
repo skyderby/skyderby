@@ -10,7 +10,7 @@ type ActionsBarProps = {
   eventId: number
 }
 
-const ActionsBar = ({ eventId }: ActionsBarProps): JSX.Element => {
+const ActionsBar = ({ eventId }: ActionsBarProps) => {
   const [teamFormShown, setTeamFormShown] = useState(false)
   const newTeamMutation = useCreateTeamMutation(eventId)
 

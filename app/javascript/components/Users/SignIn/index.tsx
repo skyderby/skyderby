@@ -17,7 +17,7 @@ interface FormValues {
 
 const initialValues = { email: '', password: '' }
 
-const SignIn = (): JSX.Element => {
+const SignIn = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { t } = useI18n()

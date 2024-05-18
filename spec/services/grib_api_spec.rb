@@ -1,0 +1,98 @@
+describe GribApi do
+  let(:file) { GribApi.open(file_fixture('2024_03_16_gfs.t00z.pgrb2.0p25.anl')) }
+
+  describe GribApi::File do
+    it '#time' do
+      expect(GribApi.open(file_fixture('2024_03_16_gfs.t00z.pgrb2.0p25.anl')).timestamp)
+        .to eq(Time.new(2024, 3, 16, 0, 0, 0, '+00:00'))
+
+      expect(GribApi.open(file_fixture('gfs.t18z.pgrb2.0p25.anl')).timestamp)
+        .to eq(Time.new(2024, 3, 8, 18, 0, 0, '+00:00'))
+    end
+
+    it '#message_count' do
+      expect(file.message_count).to eq(45)
+    end
+
+    it '#messages' do
+      expect(file.messages.map { [_1.variable, _1.level] }).to contain_exactly(
+        ['eastward_wind', GribApi::Level.new(400, 'isobaricInhPa')],
+        ['eastward_wind', GribApi::Level.new(450, 'isobaricInhPa')],
+        ['eastward_wind', GribApi::Level.new(500, 'isobaricInhPa')],
+        ['eastward_wind', GribApi::Level.new(550, 'isobaricInhPa')],
+        ['eastward_wind', GribApi::Level.new(600, 'isobaricInhPa')],
+        ['eastward_wind', GribApi::Level.new(650, 'isobaricInhPa')],
+        ['eastward_wind', GribApi::Level.new(700, 'isobaricInhPa')],
+        ['eastward_wind', GribApi::Level.new(750, 'isobaricInhPa')],
+        ['eastward_wind', GribApi::Level.new(800, 'isobaricInhPa')],
+        ['eastward_wind', GribApi::Level.new(850, 'isobaricInhPa')],
+        ['eastward_wind', GribApi::Level.new(900, 'isobaricInhPa')],
+        ['eastward_wind', GribApi::Level.new(925, 'isobaricInhPa')],
+        ['eastward_wind', GribApi::Level.new(950, 'isobaricInhPa')],
+        ['eastward_wind', GribApi::Level.new(975, 'isobaricInhPa')],
+        ['eastward_wind', GribApi::Level.new(1000, 'isobaricInhPa')],
+        ['northward_wind', GribApi::Level.new(400, 'isobaricInhPa')],
+        ['northward_wind', GribApi::Level.new(450, 'isobaricInhPa')],
+        ['northward_wind', GribApi::Level.new(500, 'isobaricInhPa')],
+        ['northward_wind', GribApi::Level.new(550, 'isobaricInhPa')],
+        ['northward_wind', GribApi::Level.new(600, 'isobaricInhPa')],
+        ['northward_wind', GribApi::Level.new(650, 'isobaricInhPa')],
+        ['northward_wind', GribApi::Level.new(700, 'isobaricInhPa')],
+        ['northward_wind', GribApi::Level.new(750, 'isobaricInhPa')],
+        ['northward_wind', GribApi::Level.new(800, 'isobaricInhPa')],
+        ['northward_wind', GribApi::Level.new(850, 'isobaricInhPa')],
+        ['northward_wind', GribApi::Level.new(900, 'isobaricInhPa')],
+        ['northward_wind', GribApi::Level.new(925, 'isobaricInhPa')],
+        ['northward_wind', GribApi::Level.new(950, 'isobaricInhPa')],
+        ['northward_wind', GribApi::Level.new(975, 'isobaricInhPa')],
+        ['northward_wind', GribApi::Level.new(1000, 'isobaricInhPa')],
+        ['geopotential_height', GribApi::Level.new(400, 'isobaricInhPa')],
+        ['geopotential_height', GribApi::Level.new(450, 'isobaricInhPa')],
+        ['geopotential_height', GribApi::Level.new(500, 'isobaricInhPa')],
+        ['geopotential_height', GribApi::Level.new(550, 'isobaricInhPa')],
+        ['geopotential_height', GribApi::Level.new(600, 'isobaricInhPa')],
+        ['geopotential_height', GribApi::Level.new(650, 'isobaricInhPa')],
+        ['geopotential_height', GribApi::Level.new(700, 'isobaricInhPa')],
+        ['geopotential_height', GribApi::Level.new(750, 'isobaricInhPa')],
+        ['geopotential_height', GribApi::Level.new(800, 'isobaricInhPa')],
+        ['geopotential_height', GribApi::Level.new(850, 'isobaricInhPa')],
+        ['geopotential_height', GribApi::Level.new(900, 'isobaricInhPa')],
+        ['geopotential_height', GribApi::Level.new(925, 'isobaricInhPa')],
+        ['geopotential_height', GribApi::Level.new(950, 'isobaricInhPa')],
+        ['geopotential_height', GribApi::Level.new(975, 'isobaricInhPa')],
+        ['geopotential_height', GribApi::Level.new(1000, 'isobaricInhPa')]
+      )
+    end
+  end
+
+  describe GribApi::Message do
+    let(:message) do
+      file.messages.find do |message|
+        message.level == GribApi::Level.new(900, 'isobaricInhPa') &&
+          message.variable == 'geopotential_height'
+      end
+    end
+
+    it '#nearest_point' do
+      nearest_point = message.nearest_point(28.21975954, -82.15107322)
+
+      expect(nearest_point.lat).to eq(28.25)
+      expect(nearest_point.lon).to eq(277.75)
+      expect(nearest_point.value).to eq(1053.007875)
+      expect(nearest_point.distance.truncate(8)).to eq(10.25846057)
+    end
+
+    it '#surrounding_points' do
+      result = message.surrounding_points(28.21975954, -82.15107322)
+
+      expect(result.lats).to eq([28.25, 28.25, 28.0, 28.0])
+      expect(result.lons).to eq([278.0, 277.75, 278.0, 277.75])
+      expect(result.values).to eq([1053.871875, 1053.007875, 1054.463875, 1053.855875])
+      expect(result.distances.map { _1.truncate(8) }).to eq([15.17754275, 10.25846057, 28.57849134, 26.29288722])
+    end
+
+    it '#surrounding_points outside of area' do
+      expect { message.surrounding_points(0, 0) }.to raise_error(GribApi::OutOfArea)
+    end
+  end
+end

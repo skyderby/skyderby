@@ -14,7 +14,7 @@ const suitCategories = [
   { category: 'slick', label: 'Slick suits' }
 ]
 
-const MakeSuits = (): JSX.Element => {
+const MakeSuits = () => {
   const params = useParams()
   const makeId = Number(params.id)
   const { data: manufacturer } = useManufacturerQuery(makeId)

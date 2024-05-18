@@ -14,7 +14,7 @@ import ActivitySelect from './ActivitySelect'
 import Filters from './Filters'
 import styles from './styles.module.scss'
 
-const TracksIndex = (): JSX.Element => {
+const TracksIndex = () => {
   const { t } = useI18n()
   const location = useLocation()
 

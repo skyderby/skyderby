@@ -11,13 +11,13 @@ import { useTrackPointsQuery } from 'api/tracks/points'
 import { useTerrainProfileMeasurementQuery } from 'api/terrainProfileMeasurements'
 
 const headerFormat = `
-  <span style="font-size: 14px">{series.name}</span><br/>
-  <span style="font-size: 12px">{series.options.place}</span><br/>
+  <span style='font-size: 14px'>{series.name}</span><br/>
+  <span style='font-size: 12px'>{series.options.place}</span><br/>
 `
 
 const pointFormatter = function (this: Point): string {
   return `
-    <span style="margin-top: 10px"><b>${I18n.t('flight_profiles.distance_traveled')}:</b>
+    <span style='margin-top: 10px'><b>${I18n.t('flight_profiles.distance_traveled')}:</b>
       ${Math.round(this.x)} ${I18n.t('units.m')}</span><br/>
     <span><b>${I18n.t('flight_profiles.distance_to_terrain')}:</b>
       ${this.options.custom?.presentation} ${I18n.t('units.m')}</span><br/>
@@ -40,7 +40,7 @@ const TerrainClearance = ({
   terrainProfileId,
   straightLine,
   ...props
-}: TerrainClearanceProps): JSX.Element | null => {
+}: TerrainClearanceProps) => {
   const { data: track } = useTrackQuery(trackId)
   const { data: profile } = useProfileQuery(track?.profileId)
   const { data: place } = usePlaceQuery(track?.placeId)

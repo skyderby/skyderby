@@ -6,7 +6,7 @@ type SeparatorProps = {
   children: React.ReactNode
 }
 
-const Separator = ({ children }: SeparatorProps): JSX.Element => (
+const Separator = ({ children }: SeparatorProps) => (
   <div className={styles.separator}>
     <div className={styles.separatorLine} />
     <span>{children}</span>

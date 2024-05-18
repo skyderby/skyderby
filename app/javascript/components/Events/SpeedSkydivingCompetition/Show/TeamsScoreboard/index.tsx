@@ -13,7 +13,7 @@ type TeamsScoreboardProps = {
   eventId: number
 }
 
-const TeamsScoreboard = ({ eventId }: TeamsScoreboardProps): JSX.Element | null => {
+const TeamsScoreboard = ({ eventId }: TeamsScoreboardProps) => {
   const { data: teamStandings = [], isLoading } = useTeamStandingsQuery(eventId)
   const { data: event } = useSpeedSkydivingCompetitionQuery(eventId)
 

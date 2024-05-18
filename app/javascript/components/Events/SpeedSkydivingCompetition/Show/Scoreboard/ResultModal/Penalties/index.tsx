@@ -18,7 +18,7 @@ import styles from '../styles.module.scss'
 type PenaltiesProps = {
   event: SpeedSkydivingCompetition
   result: Result
-  tabBar: JSX.Element | null
+  tabBar: React.ReactNode
   hide: () => void
 }
 
@@ -26,7 +26,7 @@ type FormData = {
   penalties: Result['penalties']
 }
 
-const Penalties = ({ event, result, tabBar, hide }: PenaltiesProps): JSX.Element => {
+const Penalties = ({ event, result, tabBar, hide }: PenaltiesProps) => {
   const { t } = useI18n()
   const mutation = useSetResultPenaltiesMutation(event.id, result.id)
 

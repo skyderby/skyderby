@@ -13,7 +13,7 @@ type TimeProps = {
   value: number | null
 }
 
-const Time = ({ value }: TimeProps): JSX.Element => {
+const Time = ({ value }: TimeProps) => {
   const { t } = useI18n()
 
   return (

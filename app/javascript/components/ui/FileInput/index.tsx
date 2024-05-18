@@ -11,12 +11,7 @@ type FileInputProps = InputHTMLAttributes<HTMLInputElement> & {
   onChange?: (e: React.ChangeEvent) => unknown
 }
 
-const FileInput = ({
-  loading,
-  isInvalid,
-  onChange,
-  ...props
-}: FileInputProps): JSX.Element => {
+const FileInput = ({ loading, isInvalid, onChange, ...props }: FileInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleChange = (event: React.ChangeEvent) => {

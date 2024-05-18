@@ -17,7 +17,7 @@ const AltitudeChart = ({
   children,
   options: additionalOptions,
   ...props
-}: AltitudeChartProps): JSX.Element => {
+}: AltitudeChartProps) => {
   const options = useChartOptions(points, additionalOptions)
 
   return (

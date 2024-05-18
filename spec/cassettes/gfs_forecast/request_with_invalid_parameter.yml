@@ -1,0 +1,111 @@
+---
+http_interactions:
+- request:
+    method: head
+    uri: https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25_1hr.pl?bottomlat=bbb&dir=/gfs.20240325/00/atmos&file=gfs.t00z.pgrb2.0p25.f003&leftlon=10&lev_1000_mb=on&lev_400_mb=on&lev_450_mb=on&lev_500_mb=on&lev_550_mb=on&lev_600_mb=on&lev_650_mb=on&lev_700_mb=on&lev_750_mb=on&lev_800_mb=on&lev_850_mb=on&lev_900_mb=on&lev_925_mb=on&lev_950_mb=on&lev_975_mb=on&rightlon=40&subregion=&toplat=aa&var_HGT=on&var_UGRD=on&var_VGRD=on
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - nomads.ncep.noaa.gov
+  response:
+    status:
+      code: 500
+      message: Internal Server Error
+    headers:
+      Server:
+      - Apache
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      - 1; mode=block
+      Content-Security-Policy:
+      - default-src 'self'
+      - script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
+      Referrer-Policy:
+      - no-referrer
+      - no-referrer
+      Content-Type:
+      - text/html; charset=utf-8
+      Content-Length:
+      - '0'
+      Date:
+      - Sun, 31 Mar 2024 03:39:15 GMT
+      Connection:
+      - keep-alive
+      Strict-Transport-Security:
+      - max-age=31536000 ; preload
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Sun, 31 Mar 2024 03:39:15 GMT
+- request:
+    method: get
+    uri: https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_0p25_1hr.pl?bottomlat=bbb&dir=/gfs.20240325/00/atmos&file=gfs.t00z.pgrb2.0p25.f003&leftlon=10&lev_1000_mb=on&lev_400_mb=on&lev_450_mb=on&lev_500_mb=on&lev_550_mb=on&lev_600_mb=on&lev_650_mb=on&lev_700_mb=on&lev_750_mb=on&lev_800_mb=on&lev_850_mb=on&lev_900_mb=on&lev_925_mb=on&lev_950_mb=on&lev_975_mb=on&rightlon=40&subregion=&toplat=aa&var_HGT=on&var_UGRD=on&var_VGRD=on
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - nomads.ncep.noaa.gov
+  response:
+    status:
+      code: 500
+      message: Internal Server Error
+    headers:
+      Server:
+      - Apache
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      - nosniff
+      X-Xss-Protection:
+      - 1; mode=block
+      - 1; mode=block
+      Content-Security-Policy:
+      - default-src 'self'
+      - script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
+      Referrer-Policy:
+      - no-referrer
+      - no-referrer
+      Content-Type:
+      - text/html; charset=utf-8
+      Content-Length:
+      - '293'
+      Date:
+      - Sun, 31 Mar 2024 03:39:15 GMT
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - NSC_ESNS=c49e179d-dae3-1608-9678-00e0eddbf4e7_2057430270_2796998234_00000000016183101154;
+        Path=/; Expires=Sun, 31-Mar-2024 03:39:30 GMT
+      Strict-Transport-Security:
+      - max-age=31536000 ; preload
+    body:
+      encoding: UTF-8
+      string: |
+        <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN"><html><head><title>Error</title></head><body bgcolor="#ffffff"><font color=red><h2 align="center">Error</h2></font>
+        <p align="center"> toplat value is not numeric: aa
+        <p align=left><small>NCEP NOMADS Version 1.2<br></small></body></html>
+  recorded_at: Sun, 31 Mar 2024 03:39:15 GMT
+recorded_with: VCR 6.2.0

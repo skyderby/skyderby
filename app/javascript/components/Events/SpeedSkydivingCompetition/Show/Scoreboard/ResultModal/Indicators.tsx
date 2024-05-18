@@ -13,7 +13,7 @@ type IndicatorsProps = {
   resultWindow?: number[]
 }
 
-const Indicators = ({ result, resultWindow }: IndicatorsProps): JSX.Element => {
+const Indicators = ({ result, resultWindow }: IndicatorsProps) => {
   const { t } = useI18n()
 
   return (

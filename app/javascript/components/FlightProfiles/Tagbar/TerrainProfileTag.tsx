@@ -12,10 +12,7 @@ type TerrainProfileTagProps = {
   onDelete: (e: React.MouseEvent) => unknown
 }
 
-const TerrainProfile = ({
-  terrainProfileId,
-  onDelete
-}: TerrainProfileTagProps): JSX.Element | null => {
+const TerrainProfile = ({ terrainProfileId, onDelete }: TerrainProfileTagProps) => {
   const { data: terrainProfile } = useTerrainProfileQuery(terrainProfileId)
   const { data: place } = usePlaceQuery(terrainProfile?.placeId)
 

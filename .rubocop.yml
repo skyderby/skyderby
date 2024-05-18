@@ -3,7 +3,7 @@ require:
   - rubocop-performance
 
 AllCops:
-  TargetRubyVersion: 3.1
+  TargetRubyVersion: 3.2
   NewCops: enable
   Exclude:
     - bin/*
@@ -52,6 +52,9 @@ Style/HashSyntax:
 Lint/ShadowingOuterLocalVariable:
   Exclude:
     - app/views/**/*.json.jbuilder
+
+Lint/AmbiguousOperatorPrecedence:
+  Enabled: false
 
 Metrics/ClassLength:
   Description: 'Avoid classes longer than 100 lines of code.'

@@ -16,7 +16,7 @@ type StandingRowProps = {
   rounds: Round[]
 }
 
-const StandingRow = ({ event, row, rounds }: StandingRowProps): JSX.Element => {
+const StandingRow = ({ event, row, rounds }: StandingRowProps) => {
   const { data: results = [] } = useResultsQuery(event.id, {
     select: data => data.filter(result => result.competitorId === row.competitorId)
   })

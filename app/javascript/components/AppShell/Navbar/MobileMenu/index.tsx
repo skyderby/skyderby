@@ -5,7 +5,7 @@ import MenuButton from 'components/ui/MenuButton'
 import Sidebar from './Sidebar'
 import styles from './styles.module.scss'
 
-const Index = (): JSX.Element => {
+const Index = () => {
   const [active, setActive] = useState(false)
   const toggleSidebar = useCallback(() => setActive(prevState => !prevState), [setActive])
 

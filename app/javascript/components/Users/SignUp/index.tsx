@@ -4,7 +4,7 @@ import { useSignUpMutation } from 'api/users'
 import SuccessRegistration from './SuccessRegistration'
 import Form from './Form'
 
-const SignUp = (): JSX.Element => {
+const SignUp = () => {
   const [signedUp, setSignedUp] = useState(false)
   const mutation = useSignUpMutation({
     onSuccess: () => setSignedUp(true)

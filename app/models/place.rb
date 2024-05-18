@@ -12,7 +12,7 @@
 #
 
 class Place < ApplicationRecord
-  include Photos, Stats
+  include Photos, Stats, WeatherData
 
   enum kind: { skydive: 0, base: 1 }
 
@@ -21,7 +21,6 @@ class Place < ApplicationRecord
   has_many :tracks, dependent: :restrict_with_error
   has_many :pilots, -> { distinct }, through: :tracks
   has_many :events, dependent: :restrict_with_error
-  has_many :weather_data, dependent: :delete_all
   has_many :jump_lines, dependent: :destroy
   has_many :finish_lines, dependent: :destroy
 
@@ -58,19 +57,21 @@ class Place < ApplicationRecord
 
     def nearby(point, radius)
       distance_statement =
-        "SQRT(
+        Arel.sql("SQRT(
           POW(111 * (latitude - #{point[:latitude]}), 2) +
           POW(111 * (#{point[:longitude]} - longitude) * COS(latitude / (180/PI()) ), 2)
-        )"
+        )")
 
-      select(:id,
-             :name,
-             :latitude,
-             :longitude,
-             :msl,
-             "#{distance_statement} AS distance")
-        .where("#{distance_statement} < :radius", radius: radius)
-        .order('distance')
+      where("#{distance_statement} < :radius", radius: radius).order(distance_statement)
+    end
+
+    def to_subregion
+      select(
+        'floor(min(latitude)) - 0.25 bottom_lat',
+        'ceil(max(latitude)) + 0.25 top_lat',
+        'floor(min(longitude)) - 0.25 left_lon',
+        'ceil(max(longitude)) + 0.25 right_lon'
+      ).take.attributes.except('id')
     end
   end
 end

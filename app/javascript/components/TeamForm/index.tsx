@@ -44,7 +44,7 @@ const TeamForm = ({
   competitorsQuery,
   onHide: hide,
   initialValues = defaultValues
-}: TeamFormProps): JSX.Element => {
+}: TeamFormProps) => {
   const { t } = useI18n()
 
   const handleSubmit = async (

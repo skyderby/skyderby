@@ -10,7 +10,7 @@ type PlaceProps = {
   location?: string | null
 }
 
-const Place = ({ placeId, location: userProvidedPlaceName }: PlaceProps): JSX.Element => (
+const Place = ({ placeId, location: userProvidedPlaceName }: PlaceProps) => (
   <div className={styles.place}>
     <PlaceIcon />
     <PlaceLabel

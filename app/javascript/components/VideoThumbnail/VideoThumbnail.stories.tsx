@@ -3,10 +3,10 @@ import { rest } from 'msw'
 import type { Story } from '@storybook/react'
 
 import VideoThumbnail from './'
-import { VideoRecord } from 'api/tracks/video'
+import { TrackVideo } from 'api/tracks'
 import CoverImage from './stories/mqdefault.jpg'
 
-const video: VideoRecord = {
+const video: TrackVideo = {
   trackId: 1,
   url: 'https://www.youtube.com/watch?v=uYZjcIzv9CU',
   videoCode: 'uYZjcIzv9CU',

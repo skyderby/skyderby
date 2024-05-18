@@ -9,7 +9,7 @@ import CurrentUser from '../CurrentUser'
 import LogoutButton from '../LogoutButton'
 import styles from './styles.module.scss'
 
-const RightMenu = (): JSX.Element => {
+const RightMenu = () => {
   const { t } = useI18n()
   const location = useLocation()
   const [showModal, setShowModal] = useState(false)

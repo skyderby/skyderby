@@ -4,15 +4,9 @@ import type { Props } from 'react-select'
 import { useQueryClient } from '@tanstack/react-query'
 
 import getSelectStyles from 'styles/selectStyles'
-import {
-  tracksQuery,
-  trackQuery,
-  TrackIndexRecord,
-  TrackFilters,
-  TrackRecord
-} from 'api/tracks'
+import { tracksQuery, trackQuery, TrackFilters } from 'api/tracks'
 
-const buildOption = (track: TrackIndexRecord | TrackRecord) => ({
+const buildOption = <T extends { id: number; comment: string }>(track: T) => ({
   value: track.id,
   label: [`#${track.id}`, track.comment].filter(Boolean).join(' - ')
 })
@@ -22,11 +16,7 @@ type TrackSelectProps = Omit<Props, 'value'> & {
   filters: TrackFilters
 }
 
-const TrackSelect = ({
-  value: trackId,
-  filters,
-  ...props
-}: TrackSelectProps): JSX.Element => {
+const TrackSelect = ({ value: trackId, filters, ...props }: TrackSelectProps) => {
   const queryClient = useQueryClient()
   const [selectedOption, setSelectedOption] = useState<{
     value: number

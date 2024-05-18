@@ -11,7 +11,7 @@ type PlaceProps = {
   onClick?: (e?: React.MouseEvent) => unknown
 }
 
-const Place = ({ value, onClick, onDelete }: PlaceProps): JSX.Element | null => {
+const Place = ({ value, onClick, onDelete }: PlaceProps) => {
   const deleteButtonRef = useRef<HTMLButtonElement>(null)
   const placeId = Number(value)
   const { data: place, isLoading } = usePlaceQuery(placeId)

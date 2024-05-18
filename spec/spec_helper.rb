@@ -3,6 +3,7 @@ ENV['NODE_ENV'] ||= 'production'
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
 require 'capybara/rspec'
+require 'vcr'
 
 ActiveRecord::Migration.maintain_test_schema!
 
@@ -12,6 +13,13 @@ Capybara.default_max_wait_time = 5
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 I18n.locale = :en
+
+VCR.configure do |config|
+  config.cassette_library_dir = 'spec/cassettes'
+  config.hook_into :webmock
+  config.ignore_localhost = true
+  config.configure_rspec_metadata!
+end
 
 RSpec.configure do |config|
   config.include ActiveSupport::Testing::TimeHelpers

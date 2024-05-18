@@ -9,7 +9,7 @@ type HandleValuesProps = {
   handles: SliderItem[]
 }
 
-const HandleValues = ({ handles }: HandleValuesProps): JSX.Element => {
+const HandleValues = ({ handles }: HandleValuesProps) => {
   const handleRefs = handles.map(() => createRef<HTMLDivElement>())
   const mergedValuesRef = createRef<HTMLDivElement>()
 

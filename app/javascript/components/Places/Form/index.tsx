@@ -30,12 +30,7 @@ type FormProps = {
   returnUrl: string
 }
 
-const Form = ({
-  initialValues,
-  mutation,
-  deleteMutation,
-  returnUrl
-}: FormProps): JSX.Element => {
+const Form = ({ initialValues, mutation, deleteMutation, returnUrl }: FormProps) => {
   const { t } = useI18n()
   const navigate = useNavigate()
 
@@ -93,10 +88,7 @@ const Form = ({
             <label>{t('activerecord.attributes.place.country')}</label>
             <div>
               <Field name="countryId">
-                {({
-                  field: { name, ...props },
-                  form: { setFieldValue }
-                }: FieldProps): JSX.Element => (
+                {({ field: { name, ...props }, form: { setFieldValue } }: FieldProps) => (
                   <CountrySelect
                     {...props}
                     placeholder={t('views.places.placeholder')}

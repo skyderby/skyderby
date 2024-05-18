@@ -9,7 +9,7 @@ type BestResultsProps = {
   results: ResultsRecord['bestResults']
 }
 
-const BestResults = ({ results }: BestResultsProps): JSX.Element | null => {
+const BestResults = ({ results }: BestResultsProps) => {
   const { t } = useI18n()
 
   if (results.length === 0) return null

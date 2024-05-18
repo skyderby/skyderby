@@ -1,11 +1,9 @@
-import { parseISO } from 'date-fns'
 import { z } from 'zod'
-import { cachePlaces, Place } from 'api/places'
-import { cacheSuits, SuitRecord } from 'api/suits'
-import { cacheProfiles, ProfileRecord } from 'api/profiles'
-import { cacheCountries, CountryRecord } from 'api/countries'
-import { cacheManufacturers, ManufacturerRecord } from 'api/manufacturer'
-import { Serialized } from 'api/helpers'
+import { cachePlaces, placeSchema } from 'api/places'
+import { cacheSuits, suitSchema } from 'api/suits'
+import { cacheProfiles, profileSchema } from 'api/profiles'
+import { cacheCountries, countrySchema } from 'api/countries'
+import { cacheManufacturers, manufacturerSchema } from 'api/manufacturer'
 
 const allowedActivities = ['base', 'skydive', 'speed_skydiving', 'swoop'] as const
 const allowedVisibilities = ['public_track', 'unlisted_track', 'private_track'] as const
@@ -14,50 +12,77 @@ export const trackVisibilityEnum = z.enum(allowedVisibilities)
 export type TrackActivity = z.infer<typeof trackActivitiesEnum>
 export type TrackVisibility = z.infer<typeof trackVisibilityEnum>
 
-export interface TrackJumpRange {
-  from: number
-  to: number
-}
+export const trackJumpRangeSchema = z.object({
+  from: z.number(),
+  to: z.number()
+})
 
-export type SerializedTrackRecord = Serialized<TrackRecord>
+export type TrackJumpRange = z.infer<typeof trackJumpRangeSchema>
 
-export interface BaseTrackRecord {
-  id: number
-  kind: TrackActivity
-  visibility: TrackVisibility
-  comment: string
-  profileId: number | null
-  suitId: number | null
-  placeId: number | null
-  location: string | null
-  pilotName: string | null
-  missingSuitName: string | null
-  recordedAt: Date
-  createdAt: Date
-  updatedAt: Date
-}
+const trackRelationsSchema = z.object({
+  countries: z.array(countrySchema),
+  places: z.array(placeSchema),
+  suits: z.array(suitSchema),
+  manufacturers: z.array(manufacturerSchema),
+  profiles: z.array(profileSchema)
+})
 
-export interface TrackRecord extends BaseTrackRecord {
-  jumpRange: TrackJumpRange
-  hasVideo: boolean
-  trackFile?: {
-    filename: string
-    downloadUrl: string
-  }
-  permissions: {
-    canEdit: boolean
-    canEditOwnership: boolean
-    canDownload: boolean
-  }
-}
+type TrackRelations = z.infer<typeof trackRelationsSchema>
 
-interface BestResults {
-  distance: number | null
-  speed: number | null
-  time: number | null
-}
+const baseTrackRecordSchema = z.object({
+  id: z.number(),
+  kind: trackActivitiesEnum,
+  visibility: trackVisibilityEnum,
+  comment: z.string(),
+  profileId: z.number().nullable(),
+  suitId: z.number().nullable(),
+  placeId: z.number().nullable(),
+  location: z.string().nullable(),
+  pilotName: z.string().nullable(),
+  missingSuitName: z.string().nullable(),
+  recordedAt: z.coerce.date(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date()
+})
 
-export type TrackIndexRecord = BaseTrackRecord & BestResults
+export type BaseTrackRecord = z.infer<typeof baseTrackRecordSchema>
+
+export const trackSchema = baseTrackRecordSchema.merge(
+  z.object({
+    jumpRange: trackJumpRangeSchema,
+    hasVideo: z.boolean(),
+    trackFile: z
+      .object({
+        filename: z.string(),
+        downloadUrl: z.string()
+      })
+      .optional(),
+    permissions: z.object({
+      canEdit: z.boolean(),
+      canEditOwnership: z.boolean(),
+      canDownload: z.boolean()
+    })
+  })
+)
+
+export const trackResponseSchema = trackSchema.merge(
+  z.object({
+    relations: trackRelationsSchema
+  })
+)
+
+export type TrackResponseSchema = z.infer<typeof trackSchema>
+
+export type Track = z.infer<typeof trackSchema>
+
+const bestResultsSchema = z.object({
+  distance: z.number().nullable(),
+  speed: z.number().nullable(),
+  time: z.number().nullable()
+})
+
+const trackIndexRecordSchema = baseTrackRecordSchema.merge(bestResultsSchema)
+export type TrackIndexRecord = z.infer<typeof trackIndexRecordSchema>
 
 export type TrackVariables = Partial<{
   kind: TrackActivity
@@ -70,20 +95,19 @@ export type TrackVariables = Partial<{
   comment: string
 }>
 
-export interface TrackRelations {
-  countries: CountryRecord[]
-  places: Place[]
-  suits: SuitRecord[]
-  manufacturers: ManufacturerRecord[]
-  profiles: ProfileRecord[]
-}
+export const trackIndexSchema = z.object({
+  items: z.array(trackIndexRecordSchema),
+  currentPage: z.number(),
+  totalPages: z.number()
+})
 
-export interface TracksIndex<T> {
-  items: T[]
-  currentPage: number
-  totalPages: number
-  relations: TrackRelations
-}
+export const trackIndexResponseSchema = trackIndexSchema.merge(
+  z.object({
+    relations: trackRelationsSchema
+  })
+)
+
+export type TrackIndex = z.infer<typeof trackIndexSchema>
 
 export interface IndexParams {
   activity?: TrackActivity
@@ -138,14 +162,3 @@ export const cacheRelations = (relations: TrackRelations): void => {
   cacheCountries(relations.countries)
   cacheManufacturers(relations.manufacturers)
 }
-
-export const deserialize = <
-  TIn extends { createdAt: string; updatedAt: string; recordedAt: string }
->(
-  track: TIn
-) => ({
-  ...track,
-  createdAt: parseISO(track.createdAt),
-  updatedAt: parseISO(track.updatedAt),
-  recordedAt: parseISO(track.recordedAt)
-})

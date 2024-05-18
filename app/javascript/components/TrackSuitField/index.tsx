@@ -5,7 +5,7 @@ import { useI18n } from 'components/TranslationsProvider'
 import SuitSelect, { OptionType } from 'components/SuitSelect'
 import styles from './styles.module.scss'
 
-const TrackSuitField = (): JSX.Element => {
+const TrackSuitField = () => {
   const { t } = useI18n()
 
   return (

@@ -4,7 +4,7 @@ import { components, OptionProps } from 'react-select'
 import { SuitName } from 'components/SuitLabel'
 import { OptionType } from './types'
 
-const Option = (props: OptionProps<OptionType, boolean>): JSX.Element => {
+const Option = (props: OptionProps<OptionType, boolean>) => {
   const {
     data: {
       name,

@@ -14,7 +14,7 @@ const AltitudeRangeField = ({
   trackId,
   field: { name, value },
   form: { setFieldValue }
-}: AltitudeRangeFieldProps): JSX.Element => {
+}: AltitudeRangeFieldProps) => {
   const handleChange = useCallback(
     (newValue: TrackJumpRange) => setFieldValue(name, newValue),
     [name, setFieldValue]

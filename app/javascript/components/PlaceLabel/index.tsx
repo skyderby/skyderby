@@ -20,7 +20,7 @@ const PlaceLabel = ({
   withIcon = false,
   withMsl = false,
   refetchEnabled
-}: PlaceLabelProps): JSX.Element => {
+}: PlaceLabelProps) => {
   const { t } = useI18n()
   const enabled = refetchEnabled ?? true
   const { data: place } = usePlaceQuery(placeId, { enabled })

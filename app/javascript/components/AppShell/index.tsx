@@ -7,7 +7,7 @@ import Footer from './Footer'
 import styles from './styles.module.scss'
 import Loading from 'components/LoadingSpinner'
 
-const AppShell = (): JSX.Element => {
+const AppShell = () => {
   return (
     <>
       <a className={styles.skipLink} href="#maincontent">

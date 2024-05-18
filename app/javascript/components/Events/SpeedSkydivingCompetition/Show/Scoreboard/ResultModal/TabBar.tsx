@@ -8,10 +8,10 @@ export type Tab = typeof tabs[number]
 
 type TagBarProps = {
   currentTab: Tab
-  setCurrentTab: React.Dispatch<React.SetStateAction<Tab>>
+  setCurrentTab: (tab: Tab) => void
 }
 
-const TabBar = ({ currentTab, setCurrentTab }: TagBarProps): JSX.Element => {
+const TabBar = ({ currentTab, setCurrentTab }: TagBarProps) => {
   const tabTitles = {
     charts: 'Charts',
     jumpRange: 'Jump Range',
@@ -23,6 +23,7 @@ const TabBar = ({ currentTab, setCurrentTab }: TagBarProps): JSX.Element => {
       {tabs.map(tab => (
         <button
           key={tab}
+          type="button"
           className={cx(styles.tabBarButton, currentTab === tab && styles.activeTab)}
           onClick={() => setCurrentTab(tab)}
         >

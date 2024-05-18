@@ -9,14 +9,14 @@ import Indicators from './Indicators'
 import { getDataForTime } from './utils'
 import { useTrackQuery } from 'api/tracks'
 import { PointRecord, useTrackPointsQuery } from 'api/tracks/points'
-import { useTrackVideoQuery } from 'api/tracks/video'
+import { useTrackVideoQuery } from 'api/tracks'
 import styles from './styles.module.scss'
 
 type VideoPlayerProps = {
   trackId: number
 }
 
-const VideoPlayer = ({ trackId }: VideoPlayerProps): JSX.Element | null => {
+const VideoPlayer = ({ trackId }: VideoPlayerProps) => {
   const { t } = useI18n()
   const { data: track } = useTrackQuery(trackId)
   const { data: points = [] } = useTrackPointsQuery(trackId)

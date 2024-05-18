@@ -11,7 +11,7 @@ type TrackListProps = {
   tracks: TrackIndexRecord[]
 }
 
-const TrackList = ({ tracks }: TrackListProps): JSX.Element => {
+const TrackList = ({ tracks }: TrackListProps) => {
   const location = useLocation()
 
   return (

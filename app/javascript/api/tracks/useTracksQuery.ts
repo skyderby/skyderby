@@ -1,55 +1,47 @@
 import { QueryFunction, UseQueryOptions, useSuspenseQuery } from '@tanstack/react-query'
-import { AxiosResponse } from 'axios'
 import client from 'api/client'
 import {
-  TracksIndex,
-  TrackIndexRecord,
   IndexParams,
   IndexQueryKey,
   InfiniteIndexQueryKey,
-  deserialize,
+  TrackIndex,
+  trackIndexResponseSchema,
   collectionEndpoint,
   cacheRelations
 } from './common'
 import { mapParamsToUrl } from './urlParams'
-import { Serialized } from 'api/helpers'
-
-type IndexResponse = TracksIndex<Serialized<TrackIndexRecord>>
-type IndexResult = Omit<TracksIndex<TrackIndexRecord>, 'relations'>
 
 const getTracks = (params: IndexParams) =>
   client
-    .get<never, AxiosResponse<IndexResponse>>(
-      [collectionEndpoint, mapParamsToUrl(params)].join('')
-    )
-    .then(response => response.data)
+    .get<never>([collectionEndpoint, mapParamsToUrl(params)].join(''))
+    .then(response => trackIndexResponseSchema.parse(response.data))
 
 export const queryFn: QueryFunction<
-  IndexResult,
+  Omit<TrackIndex, 'relations'>,
   IndexQueryKey | InfiniteIndexQueryKey,
   number | never
 > = async ctx => {
   const [_key, params] = ctx.queryKey
-  const { items, relations, ...pagination } = await getTracks({
+  const { relations, ...data } = await getTracks({
     ...params,
     page: ctx.pageParam ?? params.page ?? 1
   })
 
   cacheRelations(relations)
 
-  return { items: items.map(deserialize), ...pagination }
+  return data
 }
 
 export const tracksQuery = (
   params: IndexParams = {},
   options = {}
-): UseQueryOptions<IndexResult, Error, IndexResult, IndexQueryKey> => ({
+): UseQueryOptions<TrackIndex, Error, TrackIndex, IndexQueryKey> => ({
   queryKey: ['tracks', params],
   queryFn,
   ...options
 })
 
 const useTracksQuery = (params: IndexParams) =>
-  useSuspenseQuery<IndexResult, Error, IndexResult, IndexQueryKey>(tracksQuery(params))
+  useSuspenseQuery<TrackIndex, Error, TrackIndex, IndexQueryKey>(tracksQuery(params))
 
 export default useTracksQuery

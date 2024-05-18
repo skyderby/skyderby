@@ -10,10 +10,7 @@ interface CountrySelectProps extends Omit<Props, 'value'> {
   value?: number
 }
 
-const CountrySelect = ({
-  value: countryId,
-  ...props
-}: CountrySelectProps): JSX.Element => {
+const CountrySelect = ({ value: countryId, ...props }: CountrySelectProps) => {
   const queryClient = useQueryClient()
   const { data: country } = useCountryQuery(countryId)
 

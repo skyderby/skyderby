@@ -37,7 +37,7 @@ const AltitudeRangeSelect = ({
   trackId,
   value: initialValue,
   onChange: onChangeCallback
-}: AltitudeRangeSelectProps): JSX.Element => {
+}: AltitudeRangeSelectProps) => {
   const [value, setValue] = useState(initialValue)
 
   const { data: points = [], isLoading } = useTrackPointsQuery(trackId, {

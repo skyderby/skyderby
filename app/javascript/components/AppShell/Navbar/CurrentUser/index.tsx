@@ -8,7 +8,7 @@ type CurrentUserProps = {
   user: AuthorizedUser
 }
 
-const CurrentUser = ({ user }: CurrentUserProps): JSX.Element => {
+const CurrentUser = ({ user }: CurrentUserProps) => {
   const {
     photo: { thumb },
     profileId

@@ -20,7 +20,7 @@ const TokenizedSearchField = ({
   initialValues = [],
   onChange,
   exclude
-}: TokenizedSearchFieldProps): JSX.Element => {
+}: TokenizedSearchFieldProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const [tokens, setTokens] = useState(initialValues)
   const [mode, setMode] = useState<Mode>('idle')

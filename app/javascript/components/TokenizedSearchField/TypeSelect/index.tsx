@@ -24,7 +24,7 @@ type OptionType = {
 
 type TypeSelectProps = Props<OptionType> & { exclude?: typeof allowedValueKeys[number] }
 
-const TypeSelect = ({ exclude, ...props }: TypeSelectProps): JSX.Element => {
+const TypeSelect = ({ exclude, ...props }: TypeSelectProps) => {
   const possibleOptions = options.filter(option => option.value !== exclude)
 
   return (

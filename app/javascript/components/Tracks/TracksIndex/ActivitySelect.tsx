@@ -9,10 +9,7 @@ type ActivitySelectProps = {
   currentActivity: TrackActivity | undefined
 }
 
-const ActivitySelect = ({
-  buildUrl,
-  currentActivity
-}: ActivitySelectProps): JSX.Element => {
+const ActivitySelect = ({ buildUrl, currentActivity }: ActivitySelectProps) => {
   const location = useLocation()
 
   return (

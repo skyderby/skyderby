@@ -27,7 +27,7 @@ const CategoryForm = ({
   initialValues = defaultInitialValues,
   mutation,
   onHide: hide
-}: FormProps): JSX.Element => {
+}: FormProps) => {
   const { t } = useI18n()
 
   const handleSubmit = async (values: FormData, formikBag: FormikHelpers<FormData>) => {

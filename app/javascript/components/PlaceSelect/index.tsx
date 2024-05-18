@@ -15,7 +15,7 @@ interface PlaceSelectProps extends Omit<Props<OptionType, boolean>, 'value'> {
   isInvalid?: string | boolean
 }
 
-const PlaceSelect = ({ value: placeId, ...props }: PlaceSelectProps): JSX.Element => {
+const PlaceSelect = ({ value: placeId, ...props }: PlaceSelectProps) => {
   const queryClient = useQueryClient()
   const { data: place } = usePlaceQuery(placeId)
 

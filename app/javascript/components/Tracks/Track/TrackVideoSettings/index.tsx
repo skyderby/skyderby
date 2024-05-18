@@ -5,37 +5,35 @@ import { Formik } from 'formik'
 import { useTrackQuery } from 'api/tracks'
 import {
   useDeleteVideoMutation,
-  useEditVideoMutation,
+  useUpdateVideoMutation,
   useTrackVideoQuery,
-  VideoRecord
-} from 'api/tracks/video'
+  TrackVideo
+} from 'api/tracks/videos'
 import { useI18n } from 'components/TranslationsProvider'
 import PageContainer from 'components/Tracks/Track/PageContainer'
 import VideoSetup from './VideoSetup'
 import TrackOffset from './TrackOffset'
 import styles from './styles.module.scss'
+import toast from 'react-hot-toast'
+import RequestErrorToast from 'components/RequestErrorToast'
 
-type FormData = Omit<VideoRecord, 'trackId'>
+type FormData = Omit<TrackVideo, 'trackId'>
 
 type TrackVideoSettingsProps = {
   trackId: number
 }
 
-const TrackVideoSettings = ({ trackId }: TrackVideoSettingsProps): JSX.Element | null => {
+const TrackVideoSettings = ({ trackId }: TrackVideoSettingsProps) => {
   const navigate = useNavigate()
   const { t } = useI18n()
-  const { data: track, isLoading: trackIsLoading } = useTrackQuery(trackId)
-  const { data: video, isLoading: videoIsLoading } = useTrackVideoQuery(trackId, {
+  const { data: track } = useTrackQuery(trackId)
+  const { data: video, isLoading } = useTrackVideoQuery(trackId, {
     enabled: track?.hasVideo
   })
-  const saveMutation = useEditVideoMutation({
-    onSuccess: () => navigate(`/tracks/${trackId}/video`)
-  })
-  const deleteMutation = useDeleteVideoMutation({
-    onSuccess: () => navigate(`/tracks/${trackId}`)
-  })
+  const saveMutation = useUpdateVideoMutation(trackId)
+  const deleteMutation = useDeleteVideoMutation(trackId)
 
-  if (videoIsLoading || trackIsLoading) return null
+  if (isLoading) return null
 
   const formValues = track?.hasVideo
     ? {
@@ -52,9 +50,16 @@ const TrackVideoSettings = ({ trackId }: TrackVideoSettingsProps): JSX.Element |
       }
 
   const handleSubmit = (values: FormData): void =>
-    saveMutation.mutate({ id: trackId, changes: values })
+    saveMutation.mutate(values, {
+      onSuccess: () => navigate(`/tracks/${trackId}/video`),
+      onError: error => toast.error(<RequestErrorToast response={error.response} />)
+    })
 
-  const handleDelete = () => deleteMutation.mutate(trackId)
+  const handleDelete = () =>
+    deleteMutation.mutate(trackId, {
+      onSuccess: () => navigate(`/tracks/${trackId}`),
+      onError: error => toast.error(<RequestErrorToast response={error.response} />)
+    })
 
   const handleCancel = () =>
     navigate(`/tracks/${trackId}${track?.hasVideo ? '/video' : ''}`)

@@ -7,7 +7,7 @@ type IndexLayoutProps = {
   children: React.ReactNode
 }
 
-const IndexLayout = ({ children }: IndexLayoutProps): JSX.Element => {
+const IndexLayout = ({ children }: IndexLayoutProps) => {
   return (
     <div className={styles.container}>
       <Sidebar />

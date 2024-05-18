@@ -16,26 +16,18 @@ import RequestErrorToast from 'components/RequestErrorToast'
 type JumpRangeProps = {
   event: SpeedSkydivingCompetition
   result: Result
-  tabBar: JSX.Element | null
+  tabBar: React.ReactNode
   deleteResult: () => unknown
   hide: () => void
 }
 
 type SelectedRange = { from: number; to: number } | undefined
 
-const JumpRange = ({
-  event,
-  result,
-  tabBar,
-  deleteResult,
-  hide
-}: JumpRangeProps): JSX.Element | null => {
+const JumpRange = ({ event, result, tabBar, deleteResult, hide }: JumpRangeProps) => {
   const { t } = useI18n()
-  const { data: track, isLoading } = useTrackQuery(result.trackId)
+  const { data: track } = useTrackQuery(result.trackId)
   const [selectedRange, setSelectedRange] = useState<SelectedRange>()
   const updateMutation = useUpdateResultMutation(event.id, result.id)
-
-  if (isLoading) return null
 
   const handleSave = async () => {
     if (!selectedRange) return hide()
@@ -63,13 +55,11 @@ const JumpRange = ({
 
         <hr />
 
-        {!isLoading && track && (
-          <AltitudeRangeSelect
-            trackId={track.id}
-            value={track.jumpRange}
-            onChange={setSelectedRange}
-          />
-        )}
+        <AltitudeRangeSelect
+          trackId={track.id}
+          value={track.jumpRange}
+          onChange={setSelectedRange}
+        />
       </Modal.Body>
       <Modal.Footer spaceBetween>
         <div>

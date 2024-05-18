@@ -20,7 +20,7 @@ type FlightProfilesChartProps = {
 const FlightProfilesChart = ({
   straightLine,
   onZoomChange
-}: FlightProfilesChartProps): JSX.Element => {
+}: FlightProfilesChartProps) => {
   const options = useChartOptions(onZoomChange)
 
   const {

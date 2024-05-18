@@ -17,7 +17,7 @@ const RangeShortcuts = ({
   altitudeRange: [minAltitude, maxAltitude] = [],
   selectedAltitudeRange,
   onChange
-}: RangeShortcutsProps): JSX.Element => {
+}: RangeShortcutsProps) => {
   const { t } = useI18n()
   const [modalShown, setModalShown] = useState(false)
 

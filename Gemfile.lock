@@ -89,11 +89,11 @@ GEM
     aws-sigv4 (1.5.2)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.18)
+    bigdecimal (3.1.7)
     bootsnap (1.13.0)
       msgpack (~> 1.2)
     browser (4.0.0)
     builder (3.2.4)
-    byebug (11.0.1)
     capybara (3.37.1)
       addressable
       matrix
@@ -116,6 +116,9 @@ GEM
     concurrent-ruby (1.2.3)
     connection_pool (2.4.1)
     content_disposition (1.0.0)
+    crack (1.0.0)
+      bigdecimal
+      rexml
     crass (1.0.6)
     cuprite (0.13)
       capybara (>= 2.1, < 4)
@@ -161,6 +164,7 @@ GEM
     haml (5.2.1)
       temple (>= 0.8.0)
       tilt
+    hashdiff (1.1.0)
     hashie (5.0.0)
     honeybadger (4.7.2)
     htmlentities (4.3.4)
@@ -233,7 +237,7 @@ GEM
     parallel (1.22.1)
     parser (3.1.2.1)
       ast (~> 2.4.1)
-    pg (1.1.4)
+    pg (1.5.6)
     pluck_to_hash (1.0.2)
       activerecord (>= 4.0.2)
       activesupport (>= 4.0.2)
@@ -378,10 +382,15 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.2.0)
+    vcr (6.2.0)
     version_gem (1.1.0)
     vincenty_distance (1.0.0)
     warden (1.2.9)
       rack (>= 2.0.9)
+    webmock (3.23.0)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
     websocket (1.2.9)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
@@ -395,6 +404,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-21
+  arm64-darwin-23
   x86_64-linux
 
 DEPENDENCIES
@@ -402,7 +412,6 @@ DEPENDENCIES
   aws-sdk-s3
   bootsnap
   browser
-  byebug
   capybara
   caxlsx
   caxlsx_rails
@@ -440,12 +449,14 @@ DEPENDENCIES
   sidekiq-cron (~> 1.0)
   simplecov
   skylight
+  vcr
   vincenty_distance
+  webmock
   will_paginate
   will_paginate-bootstrap
 
 RUBY VERSION
-   ruby 3.1.2p20
+   ruby 3.2.3p157
 
 BUNDLED WITH
    2.3.20

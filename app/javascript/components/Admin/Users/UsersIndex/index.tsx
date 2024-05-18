@@ -8,7 +8,7 @@ import { useI18n } from 'components/TranslationsProvider'
 import Pagination from 'components/Pagination'
 import styles from './styles.module.scss'
 
-const UsersIndex = (): JSX.Element => {
+const UsersIndex = () => {
   const { formatDate } = useI18n()
   const location = useLocation()
   const [searchParams, setSearchParams] = useSearchParams()

@@ -13,7 +13,7 @@ type WindAloftChartProps = {
   windData: WindDataRecord[]
 }
 
-const WindAloftChart = ({ windData }: WindAloftChartProps): JSX.Element => {
+const WindAloftChart = ({ windData }: WindAloftChartProps) => {
   const chartData = windData
     .filter(el => el.altitude <= 5000)
     .map(el => ({

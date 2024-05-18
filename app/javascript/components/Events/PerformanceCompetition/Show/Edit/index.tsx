@@ -13,7 +13,7 @@ type EditProps = {
   eventId: number
 }
 
-const Edit = ({ eventId }: EditProps): JSX.Element | null => {
+const Edit = ({ eventId }: EditProps) => {
   const { formatDate } = useI18n()
   const { data: event } = usePerformanceCompetitionSuspenseQuery(eventId)
   const editMutation = useUpdatePerformanceCompetitionMutation(eventId)

@@ -14,7 +14,7 @@ type OpenScoreboardProps = {
   eventId: number
 }
 
-const OpenScoreboard = ({ eventId }: OpenScoreboardProps): JSX.Element | null => {
+const OpenScoreboard = ({ eventId }: OpenScoreboardProps) => {
   const { data: standings = [], isLoading } = useOpenStandingsQuery(eventId)
   const { data: event } = useSpeedSkydivingCompetitionQuery(eventId)
   const { data: rounds = [] } = useRoundsQuery(eventId)

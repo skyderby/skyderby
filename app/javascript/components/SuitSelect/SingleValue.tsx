@@ -4,7 +4,7 @@ import { components, SingleValueProps } from 'react-select'
 import { SuitName } from 'components/SuitLabel'
 import { OptionData } from './types'
 
-const SingleValue = (props: SingleValueProps<OptionData>): JSX.Element => {
+const SingleValue = (props: SingleValueProps<OptionData>) => {
   const {
     data: {
       name,
