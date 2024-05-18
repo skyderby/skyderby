@@ -22,8 +22,8 @@ const windowHeight = 2256 // 7400 ft
 type Props = {
   event: SpeedSkydivingCompetition
   result: Result
-  deleteResult: () => void
-  hide: () => void
+  deleteResult?: () => void
+  hide?: () => void
   tabBar?: React.ReactNode
 }
 

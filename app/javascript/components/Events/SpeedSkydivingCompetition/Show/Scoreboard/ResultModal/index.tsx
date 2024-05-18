@@ -7,13 +7,11 @@ import {
   useRoundQuery
 } from 'api/speedSkydivingCompetitions'
 import { useProfileQuery } from 'api/profiles'
-import { useI18n } from 'components/TranslationsProvider'
 import Modal from 'components/ui/Modal'
 import Charts from './Charts'
 import JumpRange from './JumpRange'
 import Penalties from './Penalties'
 import TabBar, { Tab } from './TabBar'
-import styles from 'components/Events/SpeedSkydivingCompetition/Show/Scoreboard/ResultModal/styles.module.scss'
 
 type Props = {
   event: SpeedSkydivingCompetition
@@ -23,7 +21,6 @@ type Props = {
 }
 
 const ResultModal = ({ event, result, onHide: hide, deleteResult }: Props) => {
-  const { t } = useI18n()
   const [currentTab, setCurrentTab] = useState<Tab>('charts')
   const { data: competitor } = useCompetitorQuery(event.id, result.competitorId)
   const { data: profile } = useProfileQuery(competitor?.profileId)
