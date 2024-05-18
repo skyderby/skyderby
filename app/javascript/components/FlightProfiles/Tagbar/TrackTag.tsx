@@ -12,7 +12,7 @@ type TrackTagProps = {
   onDelete: (e: React.MouseEvent) => unknown
 }
 
-const TrackTag = ({ trackId, onDelete }: TrackTagProps): JSX.Element | null => {
+const TrackTag = ({ trackId, onDelete }: TrackTagProps) => {
   const { data: track, isLoading: trackIsLoading } = useTrackQuery(trackId)
   const { data: profile, isLoading: profileIsLoading } = useProfileQuery(track?.profileId)
 

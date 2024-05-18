@@ -35,7 +35,7 @@ const SettingsModal = ({
   formValues,
   isShown,
   onHide: handleHide
-}: SettingsModalProps): JSX.Element => {
+}: SettingsModalProps) => {
   const { t } = useI18n()
 
   const chartModeOptions = [

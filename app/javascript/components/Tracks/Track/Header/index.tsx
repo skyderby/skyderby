@@ -11,7 +11,7 @@ type HeaderProps = {
   track: Track
 }
 
-const Header = ({ track }: HeaderProps): JSX.Element => (
+const Header = ({ track }: HeaderProps) => (
   <div className={styles.container}>
     <div className={styles.content}>
       <div className={styles.row}>

@@ -16,7 +16,7 @@ type VideoPlayerProps = {
   trackId: number
 }
 
-const VideoPlayer = ({ trackId }: VideoPlayerProps): JSX.Element | null => {
+const VideoPlayer = ({ trackId }: VideoPlayerProps) => {
   const { t } = useI18n()
   const { data: track } = useTrackQuery(trackId)
   const { data: points = [] } = useTrackPointsQuery(trackId)

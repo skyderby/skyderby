@@ -17,7 +17,7 @@ const TrackFileInput = ({
   onUploadEnd,
   onChange,
   name
-}: TrackFileInputProps): JSX.Element => {
+}: TrackFileInputProps) => {
   const [_field, meta] = useField(name)
   const [validationError, setValidationError] = useState<string | null>(null)
 

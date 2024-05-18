@@ -27,7 +27,7 @@ type ElevationProps = {
   value: number | null
 }
 
-const Elevation = ({ value }: ElevationProps): JSX.Element => {
+const Elevation = ({ value }: ElevationProps) => {
   const { t } = useI18n()
   const {
     viewPreferences: { unitSystem }

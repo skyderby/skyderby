@@ -10,10 +10,7 @@ type ProfileProps = {
   pilotName?: string | null
 }
 
-const Profile = ({
-  profileId,
-  pilotName: userProvidedName
-}: ProfileProps): JSX.Element => {
+const Profile = ({ profileId, pilotName: userProvidedName }: ProfileProps) => {
   const { data: profile } = useProfileQuery(profileId, { enabled: false })
   const photoUrl = profile?.photo?.thumb ?? defaultPhotoUrl
 

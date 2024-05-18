@@ -15,7 +15,7 @@ type DetailsProps = {
   track: TrackIndexRecord
 }
 
-const ItemDetails = ({ track }: DetailsProps): JSX.Element => {
+const ItemDetails = ({ track }: DetailsProps) => {
   const { data: suit } = useSuitQuery(track.suitId, { enabled: false })
   const { data: manufacturer } = useManufacturerQuery(suit?.makeId, { enabled: false })
 
@@ -67,7 +67,7 @@ const ItemLink = ({
   compact = false,
   active = false,
   ...props
-}: LinkProps): JSX.Element => {
+}: LinkProps) => {
   const MotionLink = motion(Link)
 
   const animationVariants = {
@@ -98,7 +98,7 @@ const ItemButton = ({
   compact = false,
   active = false,
   ...props
-}: ButtonProps): JSX.Element => {
+}: ButtonProps) => {
   const animationVariants = {
     hidden: { opacity: 0 },
     show: { opacity: 1, transition: { duration: 0.4, delay: 0.02 * delayIndex } },

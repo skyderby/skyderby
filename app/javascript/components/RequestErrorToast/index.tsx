@@ -8,7 +8,7 @@ type RequestErrorToastProps = {
   response?: AxiosResponse<Record<string, string[]>>
 }
 
-const RequestErrorToast = ({ response }: RequestErrorToastProps): JSX.Element => {
+const RequestErrorToast = ({ response }: RequestErrorToastProps) => {
   const data = response?.data?.errors || {}
   const messages = Object.values(data).flat()
   const errors =

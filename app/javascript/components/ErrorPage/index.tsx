@@ -10,7 +10,7 @@ type ErrorPageProps = {
   linkBack?: string
 }
 
-const ErrorPage = ({ title, description, linkBack }: ErrorPageProps): JSX.Element => {
+const ErrorPage = ({ title, description, linkBack }: ErrorPageProps) => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>{title}</h1>
@@ -25,7 +25,7 @@ const ErrorPage = ({ title, description, linkBack }: ErrorPageProps): JSX.Elemen
   )
 }
 
-const Forbidden = (props: Omit<ErrorPageProps, 'title' | 'description'>): JSX.Element => (
+const Forbidden = (props: Omit<ErrorPageProps, 'title' | 'description'>) => (
   <ErrorPage
     title="🙈 Oops. 🙈"
     description="You're not allowed to view this page."
@@ -33,7 +33,7 @@ const Forbidden = (props: Omit<ErrorPageProps, 'title' | 'description'>): JSX.El
   />
 )
 
-const NotFound = (props: Omit<ErrorPageProps, 'title' | 'description'>): JSX.Element => (
+const NotFound = (props: Omit<ErrorPageProps, 'title' | 'description'>) => (
   <ErrorPage title="📡 #404" description="Page you're looking for not found" {...props} />
 )
 
@@ -47,7 +47,7 @@ interface PageParams {
   linkBack?: string
 }
 
-const forError = (error: AxiosError | null, { linkBack }: PageParams): JSX.Element => {
+const forError = (error: AxiosError | null, { linkBack }: PageParams) => {
   if (error?.response?.status === 403) return <Forbidden linkBack={linkBack} />
   if (error?.response?.status === 404) return <NotFound linkBack={linkBack} />
 

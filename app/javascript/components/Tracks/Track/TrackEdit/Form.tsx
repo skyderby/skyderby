@@ -1,6 +1,5 @@
 import React from 'react'
 import { Formik, Field, FastField, FieldProps, FormikHelpers } from 'formik'
-import PropTypes from 'prop-types'
 
 import { useI18n } from 'components/TranslationsProvider'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
@@ -17,7 +16,7 @@ type EditFormProps = {
   onDelete: () => unknown
 }
 
-const EditForm = ({ fields, onSubmit, onDelete }: EditFormProps): JSX.Element => {
+const EditForm = ({ fields, onSubmit, onDelete }: EditFormProps) => {
   const { t } = useI18n()
 
   return (
@@ -107,25 +106,6 @@ const EditForm = ({ fields, onSubmit, onDelete }: EditFormProps): JSX.Element =>
       )}
     </Formik>
   )
-}
-
-EditForm.propTypes = {
-  fields: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    suitId: PropTypes.number,
-    placeId: PropTypes.number,
-    comment: PropTypes.string,
-    jumpRange: PropTypes.shape({
-      from: PropTypes.number.isRequired,
-      to: PropTypes.number.isRequired
-    }).isRequired,
-    missingSuitName: PropTypes.string.isRequired,
-    location: PropTypes.string.isRequired,
-    visibility: PropTypes.oneOf(['public_track', 'unlisted_track', 'private_track']),
-    kind: PropTypes.oneOf(['skydive', 'base'])
-  }).isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired
 }
 
 export default EditForm

@@ -30,7 +30,7 @@ const mutationOptions = {
   }
 }
 
-const Category = ({ event, category, colSpan }: CategoryProps): JSX.Element => {
+const Category = ({ event, category, colSpan }: CategoryProps) => {
   const [categoryFormShown, setCategoryFormShown] = useState(false)
   const editMutation = useUpdateCategoryMutation(event.id, category.id)
   const deleteMutation = useDeleteCategoryMutation(event.id, category.id)

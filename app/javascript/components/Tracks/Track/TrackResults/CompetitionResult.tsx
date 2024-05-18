@@ -10,7 +10,7 @@ type CompetitionResultProps = {
   result: ResultsRecord['competitionResult']
 }
 
-const CompetitionResult = ({ result }: CompetitionResultProps): JSX.Element | null => {
+const CompetitionResult = ({ result }: CompetitionResultProps) => {
   const { t } = useI18n()
 
   if (!result) return null

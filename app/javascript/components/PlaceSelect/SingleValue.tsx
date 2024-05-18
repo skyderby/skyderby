@@ -4,7 +4,7 @@ import { components, SingleValueProps } from 'react-select'
 import PlaceLabel from 'components/PlaceLabel'
 import { OptionType } from './types'
 
-const SingleValue = (props: SingleValueProps<OptionType>): JSX.Element => {
+const SingleValue = (props: SingleValueProps<OptionType>) => {
   const {
     data: { value }
   } = props

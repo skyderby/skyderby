@@ -33,7 +33,7 @@ type VerticalSpeedProps = {
   }
 }
 
-const VerticalSpeed = ({ value }: VerticalSpeedProps): JSX.Element => {
+const VerticalSpeed = ({ value }: VerticalSpeedProps) => {
   const { t } = useI18n()
   const {
     viewPreferences: { unitSystem }

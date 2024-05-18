@@ -10,7 +10,7 @@ type HeaderProps = {
   make: ManufacturerRecord
 }
 
-const Header = ({ suit, make }: HeaderProps): JSX.Element => {
+const Header = ({ suit, make }: HeaderProps) => {
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>{suit.name}</h2>

@@ -14,7 +14,7 @@ const RangeSlider = ({
   values = [],
   step = 10,
   ...props
-}: Partial<SliderProps>): JSX.Element => (
+}: Partial<SliderProps>) => (
   <div className={styles.container}>
     <Slider
       className={styles.slider}

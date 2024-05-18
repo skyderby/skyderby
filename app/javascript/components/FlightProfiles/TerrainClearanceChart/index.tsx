@@ -21,7 +21,7 @@ const TerrainClearanceChart = ({
   selectedTerrainProfile,
   straightLine,
   zoomLevel
-}: TerrainClearanceChartProps): JSX.Element => {
+}: TerrainClearanceChartProps) => {
   const options = useChartOptions(zoomLevel)
 
   if (!selectedTerrainProfile) {

@@ -19,7 +19,7 @@ type TokenProps = {
   onDelete: (e?: React.MouseEvent) => unknown
 }
 
-const Token = (props: TokenProps): JSX.Element => {
+const Token = (props: TokenProps) => {
   const { type } = props
   const TokenComponent = componentByType[type]
 

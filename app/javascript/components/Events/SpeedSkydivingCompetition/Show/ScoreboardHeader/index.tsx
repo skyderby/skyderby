@@ -12,7 +12,7 @@ type TableHeaderProps = {
   rounds: RoundType[]
 }
 
-const TableHeader = ({ event, rounds }: TableHeaderProps): JSX.Element => {
+const TableHeader = ({ event, rounds }: TableHeaderProps) => {
   const { t } = useI18n()
 
   return (

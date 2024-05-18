@@ -8,7 +8,7 @@ type VideosProps = {
   placeId: number
 }
 
-const Videos = ({ placeId }: VideosProps): JSX.Element => {
+const Videos = ({ placeId }: VideosProps) => {
   const { data } = useVideosQuery({ placeId })
 
   const items = data?.items ?? []

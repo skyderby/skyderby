@@ -25,11 +25,7 @@ interface ValueSelectProps extends Omit<Props<OptionType>, 'onChange, value'> {
   onChange: (value: TokenTuple) => unknown
 }
 
-const ValueSelect = ({
-  type,
-  onChange,
-  ...props
-}: ValueSelectProps): JSX.Element | null => {
+const ValueSelect = ({ type, onChange, ...props }: ValueSelectProps) => {
   if (type === undefined) return null
 
   const ValueSelectComponent = componentByType[type]

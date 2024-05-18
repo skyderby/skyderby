@@ -4,7 +4,7 @@ import { components, OptionProps } from 'react-select'
 import { useI18n } from 'components/TranslationsProvider'
 import { OptionType } from './types'
 
-const Option = (props: OptionProps<OptionType, boolean>): JSX.Element => {
+const Option = (props: OptionProps<OptionType, boolean>) => {
   const { t } = useI18n()
 
   const {

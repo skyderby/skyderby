@@ -28,7 +28,7 @@ type SelectProps = Omit<Props<OptionType>, 'value'> & {
   options: readonly OptionType[]
 }
 
-const Select = ({ value, options, ...props }: SelectProps): JSX.Element => {
+const Select = ({ value, options, ...props }: SelectProps) => {
   const selectedOption = options.find(el => el.value === value) || null
 
   return (

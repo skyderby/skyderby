@@ -9,11 +9,7 @@ interface CategorySelectProps extends Omit<Props, 'value'> {
   value?: number
 }
 
-const CategorySelect = ({
-  eventId,
-  value,
-  ...props
-}: CategorySelectProps): JSX.Element => {
+const CategorySelect = ({ eventId, value, ...props }: CategorySelectProps) => {
   const { data: categories = [] } = useCategoriesQuery(eventId)
 
   const options = categories.map(category => ({

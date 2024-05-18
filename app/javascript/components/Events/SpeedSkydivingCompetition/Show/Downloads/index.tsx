@@ -6,7 +6,7 @@ type DownloadsProps = {
   eventId: number
 }
 
-const Downloads = ({ eventId: eventId }: DownloadsProps): JSX.Element => {
+const Downloads = ({ eventId: eventId }: DownloadsProps) => {
   return (
     <div className={styles.container}>
       <div className={styles.section}>

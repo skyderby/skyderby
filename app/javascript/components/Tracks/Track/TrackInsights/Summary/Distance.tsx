@@ -26,7 +26,7 @@ type DistanceProps = {
   zeroWindValue: number | null
 }
 
-const Distance = ({ value, zeroWindValue }: DistanceProps): JSX.Element => {
+const Distance = ({ value, zeroWindValue }: DistanceProps) => {
   const { t } = useI18n()
   const {
     viewPreferences: { unitSystem }

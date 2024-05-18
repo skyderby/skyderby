@@ -16,11 +16,7 @@ type SummaryProps = {
   straightLine: boolean
 }
 
-const Summary = ({
-  selectedPoints,
-  zeroWindPoints,
-  straightLine
-}: SummaryProps): JSX.Element => {
+const Summary = ({ selectedPoints, zeroWindPoints, straightLine }: SummaryProps) => {
   const summary = new RangeSummary(selectedPoints, { straightLine })
   const zeroWindSummary = new RangeSummary(zeroWindPoints, { straightLine })
 

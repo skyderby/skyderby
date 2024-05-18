@@ -6,7 +6,7 @@ import TokenizedSearchField from 'components/TokenizedSearchField'
 import usePageParams from 'components/FlightProfiles/usePageParams'
 import styles from './styles.module.scss'
 
-const TrackList = (): JSX.Element => {
+const TrackList = () => {
   const {
     params: { tracksParams, selectedTracks },
     updateFilters,

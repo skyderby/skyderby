@@ -4,13 +4,13 @@ import ChevronRight from 'icons/chevron-right.svg'
 
 import styles from './styles.module.scss'
 
-const Item = (props: HTMLAttributes<HTMLLIElement>): JSX.Element => <li {...props} />
+const Item = (props: HTMLAttributes<HTMLLIElement>) => <li {...props} />
 
 type BreadcrumbsProps = {
   children: React.ReactNode
 }
 
-const Breadcrumbs = ({ children }: BreadcrumbsProps): JSX.Element => {
+const Breadcrumbs = ({ children }: BreadcrumbsProps) => {
   const elements = [children].flat()
 
   return (

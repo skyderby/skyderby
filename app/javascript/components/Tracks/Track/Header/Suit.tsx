@@ -12,7 +12,7 @@ type SuitProps = {
   suitName?: string | null
 }
 
-const Suit = ({ suitId, suitName: userProvidedSuitName }: SuitProps): JSX.Element => {
+const Suit = ({ suitId, suitName: userProvidedSuitName }: SuitProps) => {
   const { data: suit } = useSuitQuery(suitId, { enabled: false })
   const { data: make } = useManufacturerQuery(suit?.makeId, { enabled: false })
 

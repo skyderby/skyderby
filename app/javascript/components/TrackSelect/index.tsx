@@ -16,11 +16,7 @@ type TrackSelectProps = Omit<Props, 'value'> & {
   filters: TrackFilters
 }
 
-const TrackSelect = ({
-  value: trackId,
-  filters,
-  ...props
-}: TrackSelectProps): JSX.Element => {
+const TrackSelect = ({ value: trackId, filters, ...props }: TrackSelectProps) => {
   const queryClient = useQueryClient()
   const [selectedOption, setSelectedOption] = useState<{
     value: number

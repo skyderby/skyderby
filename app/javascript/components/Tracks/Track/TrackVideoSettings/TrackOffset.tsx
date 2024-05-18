@@ -19,11 +19,7 @@ type TrackOffsetProps = {
   value: number | undefined
 }
 
-const TrackOffset = ({
-  trackId,
-  setFieldValue,
-  value
-}: TrackOffsetProps): JSX.Element => {
+const TrackOffset = ({ trackId, setFieldValue, value }: TrackOffsetProps) => {
   const { t } = useI18n()
   const { data: points = [] } = useTrackPointsQuery(trackId, { trimmed: false })
 

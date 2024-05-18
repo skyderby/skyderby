@@ -2,7 +2,7 @@ import React from 'react'
 
 import styles from './styles.module.scss'
 
-const LoadingIndicator = (): JSX.Element => {
+const LoadingIndicator = () => {
   return (
     <div className={styles.loadingContainer}>
       <span className={styles.loadingDot} />

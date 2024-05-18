@@ -11,7 +11,7 @@ type NavbarProps = {
   event: SpeedSkydivingCompetition
 }
 
-const Navbar = ({ event }: NavbarProps): JSX.Element => {
+const Navbar = ({ event }: NavbarProps) => {
   const { t } = useI18n()
   const eventUrl = `/events/speed_skydiving/${event.id}`
 

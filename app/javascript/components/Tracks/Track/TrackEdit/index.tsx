@@ -19,7 +19,7 @@ type TrackEditProps = {
   trackId: number
 }
 
-const TrackEdit = ({ trackId }: TrackEditProps): JSX.Element | null => {
+const TrackEdit = ({ trackId }: TrackEditProps) => {
   const location = useLocation()
   const returnTo = location.state?.returnTo ?? '/tracks'
 

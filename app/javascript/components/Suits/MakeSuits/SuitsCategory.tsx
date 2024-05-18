@@ -10,7 +10,7 @@ type SuitsCategoryProps = {
   category: string
 }
 
-const SuitsCategory = ({ suits, category }: SuitsCategoryProps): JSX.Element | null => {
+const SuitsCategory = ({ suits, category }: SuitsCategoryProps) => {
   useSuitsStats(suits.map(suit => suit.id))
 
   if (suits.length === 0) return null

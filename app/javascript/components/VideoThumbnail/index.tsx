@@ -18,7 +18,7 @@ type VideoThumbnailProps = {
   video: TrackVideo
 }
 
-const VideoThumbnail = ({ video }: VideoThumbnailProps): JSX.Element => {
+const VideoThumbnail = ({ video }: VideoThumbnailProps) => {
   const { formatDate } = useI18n()
   const { data: track } = useTrackQuery(video.trackId)
   const { data: profile } = useProfileQuery(track?.profileId, { enabled: false })

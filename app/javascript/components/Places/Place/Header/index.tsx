@@ -10,7 +10,7 @@ type HeaderProps = {
   place: Place
 }
 
-const Header = ({ place }: HeaderProps): JSX.Element => {
+const Header = ({ place }: HeaderProps) => {
   const { t } = useI18n()
   return (
     <div className={styles.container}>

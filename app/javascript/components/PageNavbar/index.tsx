@@ -8,7 +8,7 @@ type PageNavbarProps = {
   children: React.ReactNode | React.ReactNode[]
 }
 
-const PageNavbar = ({ children }: PageNavbarProps): JSX.Element => {
+const PageNavbar = ({ children }: PageNavbarProps) => {
   const menuRef = useRef<HTMLUListElement>(null)
   const fadeRef = useRef<HTMLDivElement>(null)
 

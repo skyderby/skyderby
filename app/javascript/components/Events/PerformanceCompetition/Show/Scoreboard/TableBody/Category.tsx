@@ -21,7 +21,7 @@ type CategoryProps = {
   colSpan: number
 }
 
-const Category = ({ event, category, colSpan }: CategoryProps): JSX.Element => {
+const Category = ({ event, category, colSpan }: CategoryProps) => {
   const [categoryFormShown, setCategoryFormShown] = useState(false)
   const editMutation = useUpdateCategoryMutation(event.id, category.id)
 

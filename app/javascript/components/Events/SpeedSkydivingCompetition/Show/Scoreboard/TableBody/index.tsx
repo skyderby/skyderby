@@ -17,12 +17,7 @@ type TableBodyProps = {
   standings: CategoryStandings[]
 }
 
-const TableBody = ({
-  event,
-  rounds,
-  categories,
-  standings
-}: TableBodyProps): JSX.Element => {
+const TableBody = ({ event, rounds, categories, standings }: TableBodyProps) => {
   return (
     <>
       {categories.map(category => (

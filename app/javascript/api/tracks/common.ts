@@ -56,7 +56,7 @@ export const trackSchema = baseTrackRecordSchema.merge(
         filename: z.string(),
         downloadUrl: z.string()
       })
-      .nullable(),
+      .optional(),
     permissions: z.object({
       canEdit: z.boolean(),
       canEditOwnership: z.boolean(),

@@ -20,7 +20,7 @@ type CompetitorCellsProps = {
   competitorId: number
 }
 
-const CompetitorCells = ({ event, competitorId }: CompetitorCellsProps): JSX.Element => {
+const CompetitorCells = ({ event, competitorId }: CompetitorCellsProps) => {
   const [competitorFormShown, setCompetitorFormShown] = useState(false)
   const { data: competitor } = useCompetitorQuery(event.id, competitorId)
   const { data: profile } = useProfileQuery(competitor?.profileId, { enabled: false })

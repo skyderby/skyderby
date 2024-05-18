@@ -14,10 +14,7 @@ type TerrainProfileSelectProps = Omit<Props<OptionType>, 'value'> & {
   value?: number | null
 }
 
-const TerrainProfileSelect = ({
-  value,
-  ...props
-}: TerrainProfileSelectProps): JSX.Element => {
+const TerrainProfileSelect = ({ value, ...props }: TerrainProfileSelectProps) => {
   const { data: terrainProfiles = [] } = useTerrainProfilesQuery()
   const places = usePlaces(terrainProfiles.map(el => el.placeId))
 

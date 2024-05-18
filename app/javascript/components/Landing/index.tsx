@@ -3,7 +3,7 @@ import React from 'react'
 import { useI18n } from 'components/TranslationsProvider'
 import styles from './styles.module.scss'
 
-const Home = (): JSX.Element => {
+const Home = () => {
   const { t } = useI18n()
 
   return (

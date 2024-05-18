@@ -11,7 +11,7 @@ type ProfileProps = {
   onClick?: (e?: React.MouseEvent) => unknown
 }
 
-const Profile = ({ value, onClick, onDelete }: ProfileProps): JSX.Element | null => {
+const Profile = ({ value, onClick, onDelete }: ProfileProps) => {
   const deleteButtonRef = useRef<HTMLButtonElement>(null)
   const profileId = Number(value)
   const { data: profile } = useProfileQuery(profileId)

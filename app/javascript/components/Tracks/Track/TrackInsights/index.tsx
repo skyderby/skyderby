@@ -19,7 +19,7 @@ type TrackInsightsProps = {
   trackId: number
 }
 
-const TrackInsights = ({ trackId }: TrackInsightsProps): JSX.Element => {
+const TrackInsights = ({ trackId }: TrackInsightsProps) => {
   const location = useLocation()
   const navigate = useNavigate()
   const { data: track } = useTrackQuery(trackId)

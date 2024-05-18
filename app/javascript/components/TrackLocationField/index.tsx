@@ -5,7 +5,7 @@ import { useI18n } from 'components/TranslationsProvider'
 import PlaceSelect, { OptionType } from 'components/PlaceSelect'
 import styles from './styles.module.scss'
 
-const TrackLocationField = (): JSX.Element => {
+const TrackLocationField = () => {
   const { t } = useI18n()
 
   return (

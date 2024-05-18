@@ -8,7 +8,7 @@ type TotalResultsProps = {
   results: ResultsRecord['totalResults']
 }
 
-const TotalResults = ({ results }: TotalResultsProps): JSX.Element | null => {
+const TotalResults = ({ results }: TotalResultsProps) => {
   const { t } = useI18n()
 
   if (results.length === 0) return null

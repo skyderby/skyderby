@@ -27,7 +27,7 @@ const SettingsModal = ({
   isShown,
   onHide: handleHide,
   initialValues
-}: SettingsModalProps): JSX.Element => {
+}: SettingsModalProps) => {
   const { t } = useI18n()
 
   return (

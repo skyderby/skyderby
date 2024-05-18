@@ -64,7 +64,7 @@ const Player = ({ event, task, group = [], playing }: PlayerProps) => {
 
   const drawFrame = useCallback(
     (time: number) => {
-      playerTime.current = playerTime.current + (time - prevFrameTime.current) / 1000
+      playerTime.current += (time - prevFrameTime.current) / 1000
 
       const paths = playerPoints.map(currentPoints =>
         getPathsUntilTime(currentPoints, playerTime.current, task)

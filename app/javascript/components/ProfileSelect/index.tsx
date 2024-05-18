@@ -15,10 +15,7 @@ interface ProfileSelectProps extends Omit<Props<OptionType, boolean>, 'value'> {
   value?: number
 }
 
-const ProfileSelect = ({
-  value: profileId,
-  ...props
-}: ProfileSelectProps): JSX.Element => {
+const ProfileSelect = ({ value: profileId, ...props }: ProfileSelectProps) => {
   const queryClient = useQueryClient()
   const { data: profile } = useProfileQuery(profileId)
 

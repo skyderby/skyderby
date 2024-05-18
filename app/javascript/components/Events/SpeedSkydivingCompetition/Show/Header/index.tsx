@@ -9,7 +9,7 @@ type HeaderProps = {
   event: SpeedSkydivingCompetition
 }
 
-const Header = ({ event }: HeaderProps): JSX.Element | null => {
+const Header = ({ event }: HeaderProps) => {
   if (!event) return null
 
   return (

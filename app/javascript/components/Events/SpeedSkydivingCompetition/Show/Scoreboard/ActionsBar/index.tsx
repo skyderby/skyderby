@@ -20,7 +20,7 @@ type ActionsBarProps = {
   event: SpeedSkydivingCompetition
 }
 
-const ActionsBar = ({ event }: ActionsBarProps): JSX.Element => {
+const ActionsBar = ({ event }: ActionsBarProps) => {
   const [categoryFormShown, setCategoryFormShown] = useState(false)
   const [competitorFormShown, setCompetitorFormShown] = useState(false)
 

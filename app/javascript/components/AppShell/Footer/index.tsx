@@ -3,7 +3,7 @@ import React from 'react'
 import { useI18n } from 'components/TranslationsProvider'
 import styles from './styles.module.scss'
 
-const Footer = (): JSX.Element => {
+const Footer = () => {
   const { t } = useI18n()
 
   return (

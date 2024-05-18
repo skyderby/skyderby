@@ -16,7 +16,7 @@ type NavbarProps = {
   track: Track
 }
 
-const Navbar = ({ track }: NavbarProps): JSX.Element => {
+const Navbar = ({ track }: NavbarProps) => {
   const { t } = useI18n()
   const location = useLocation()
   const {

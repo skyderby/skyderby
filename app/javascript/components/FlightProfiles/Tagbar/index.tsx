@@ -6,7 +6,7 @@ import TrackTag from './TrackTag'
 import styles from './styles.module.scss'
 import usePageParams from 'components/FlightProfiles/usePageParams'
 
-const Tagbar = (): JSX.Element => {
+const Tagbar = () => {
   const {
     params: { selectedTracks, selectedTerrainProfile, additionalTerrainProfiles },
     setSelectedTerrainProfile,

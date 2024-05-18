@@ -16,7 +16,7 @@ const CompetitorSelect = <TCompetitor extends { profileId: number; id: number }>
   competitorsQuery: useCompetitorsQuery,
   value,
   ...props
-}: CompetitorSelectProps<TCompetitor>): JSX.Element => {
+}: CompetitorSelectProps<TCompetitor>) => {
   console.log(useCompetitorsQuery)
   const { data: competitors = [] } = useCompetitorsQuery(eventId)
   const profileQueries = useProfileQueries(

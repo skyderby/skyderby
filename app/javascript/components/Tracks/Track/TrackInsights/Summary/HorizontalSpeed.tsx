@@ -35,7 +35,7 @@ type HorizontalSpeedProps = {
   zeroWindValue: number | null
 }
 
-const HorizontalSpeed = ({ value, zeroWindValue }: HorizontalSpeedProps): JSX.Element => {
+const HorizontalSpeed = ({ value, zeroWindValue }: HorizontalSpeedProps) => {
   const { t } = useI18n()
   const {
     viewPreferences: { unitSystem }

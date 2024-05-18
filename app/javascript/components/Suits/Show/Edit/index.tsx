@@ -7,7 +7,7 @@ type EditProps = {
   suitId: number
 }
 
-const Edit = ({ suitId }: EditProps): JSX.Element => {
+const Edit = ({ suitId }: EditProps) => {
   const { data: suit } = useSuitQuery(suitId)
   const { data: make } = useManufacturerQuery(suit?.makeId)
 

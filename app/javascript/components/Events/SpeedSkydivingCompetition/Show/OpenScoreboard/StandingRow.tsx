@@ -26,7 +26,7 @@ const StandingRow = ({
   competitorId,
   total,
   average
-}: StandingRowProps): JSX.Element => {
+}: StandingRowProps) => {
   const { data: competitor } = useCompetitorQuery(event.id, competitorId)
   const { data: category } = useCategoryQuery(event.id, competitor?.categoryId)
   const { data: profile } = useProfileQuery(competitor?.profileId)

@@ -12,7 +12,7 @@ type SuitProps = {
   onClick?: (e?: React.MouseEvent) => unknown
 }
 
-const Suit = ({ value, onClick, onDelete }: SuitProps): JSX.Element | null => {
+const Suit = ({ value, onClick, onDelete }: SuitProps) => {
   const deleteButtonRef = useRef<HTMLButtonElement>(null)
   const suitId = Number(value)
   const { data: suit, isLoading } = useSuitQuery(suitId)

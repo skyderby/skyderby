@@ -27,7 +27,7 @@ type GlideRatioProps = {
   zeroWindValue: number | null
 }
 
-const GlideRatio = ({ value, zeroWindValue }: GlideRatioProps): JSX.Element => {
+const GlideRatio = ({ value, zeroWindValue }: GlideRatioProps) => {
   const { t } = useI18n()
   const { min, max, avg } = value
   const showWindEffect = avg && zeroWindValue

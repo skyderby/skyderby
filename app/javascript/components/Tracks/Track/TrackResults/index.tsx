@@ -11,7 +11,7 @@ type TrackResultsProps = {
   trackId: number
 }
 
-const TrackResults = ({ trackId }: TrackResultsProps): JSX.Element | null => {
+const TrackResults = ({ trackId }: TrackResultsProps) => {
   const { data: results, isLoading } = useTrackResults(trackId)
 
   if (isLoading || !results) return null

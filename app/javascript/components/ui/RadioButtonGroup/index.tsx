@@ -15,7 +15,7 @@ const RadioButtonGroup = ({
   options,
   name,
   onChange
-}: RadioButtonGroupProps): JSX.Element => {
+}: RadioButtonGroupProps) => {
   return (
     <div>
       {options.map(({ label, value }, idx) => {

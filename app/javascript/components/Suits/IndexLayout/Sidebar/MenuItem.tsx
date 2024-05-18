@@ -8,7 +8,7 @@ type MenuItemProps = NavLinkProps & {
   subtitle?: string
 }
 
-const MenuItem = ({ title, subtitle, ...props }: MenuItemProps): JSX.Element => (
+const MenuItem = ({ title, subtitle, ...props }: MenuItemProps) => (
   <li>
     <NavLink className={styles.link} {...props}>
       <div className={styles.linkContent}>

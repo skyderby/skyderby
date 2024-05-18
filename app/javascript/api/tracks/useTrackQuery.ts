@@ -30,8 +30,7 @@ export const trackQuery = (
   id: number
 ): UseQueryOptions<Track, AxiosError, Track, RecordQueryKey> => ({
   queryKey: recordQueryKey(id),
-  queryFn,
-  enabled: Boolean(id)
+  queryFn
 })
 
 const useTrackQuery = (id: number) =>

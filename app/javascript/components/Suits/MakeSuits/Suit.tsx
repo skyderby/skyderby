@@ -9,7 +9,7 @@ type SuitProps = {
   suit: SuitRecord
 }
 
-const Suit = ({ suit }: SuitProps): JSX.Element => {
+const Suit = ({ suit }: SuitProps) => {
   const { data: stats } = useSuitStatsQuery(suit.id, { enabled: false })
   return (
     <Link className={styles.link} to={`/suits/${suit.id}`}>

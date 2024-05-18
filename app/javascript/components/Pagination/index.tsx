@@ -14,11 +14,7 @@ type PaginationProps = {
   buildUrl: (params: { page: number }) => string
 }
 
-const Pagination = ({
-  page = 1,
-  totalPages = 0,
-  buildUrl
-}: PaginationProps): JSX.Element | null => {
+const Pagination = ({ page = 1, totalPages = 0, buildUrl }: PaginationProps) => {
   const location = useLocation()
   if (Number(totalPages) < 2) return null
 

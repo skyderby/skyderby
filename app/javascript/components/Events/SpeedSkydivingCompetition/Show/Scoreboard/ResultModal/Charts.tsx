@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 
 import { useTrackPointsQuery } from 'api/tracks/points'
-import { Result } from 'api/speedSkydivingCompetitions'
+import { Result, SpeedSkydivingCompetition } from 'api/speedSkydivingCompetitions'
 import { useI18n } from 'components/TranslationsProvider'
 import TrackCharts from 'components/TrackCharts/CombinedChart'
 import Highchart from 'components/Highchart'
@@ -19,14 +19,17 @@ import styles from './styles.module.scss'
 const breakoffAltitude = 1707 // 5600 ft
 const windowHeight = 2256 // 7400 ft
 
-type ChartsProps = {
+type Props = {
+  event: SpeedSkydivingCompetition
   result: Result
-  tabBar?: JSX.Element | null
+  deleteResult: () => void
+  hide: () => void
+  tabBar?: React.ReactNode
 }
 
-const Charts = ({ result, tabBar = null }: ChartsProps): JSX.Element => {
+const Charts = ({ event, result, deleteResult, hide, tabBar = null }: Props) => {
   const { t } = useI18n()
-  const { data: points = [], isLoading } = useTrackPointsQuery(result.trackId, {
+  const { data: points = [] } = useTrackPointsQuery(result.trackId, {
     originalFrequency: true
   })
 
@@ -34,19 +37,15 @@ const Charts = ({ result, tabBar = null }: ChartsProps): JSX.Element => {
 
   const windowEndAltitude = Math.max(exitAltitude - windowHeight, breakoffAltitude)
 
-  const plotLineValue = isLoading
-    ? null
-    : findPositionForAltitude(points, windowEndAltitude)
+  const plotLineValue = findPositionForAltitude(points, windowEndAltitude)
 
-  const plotBandPosition =
-    isLoading || !Number.isFinite(result.result)
-      ? null
-      : findPlotbandPosition(points[0], result)
+  const plotBandPosition = !Number.isFinite(result.result)
+    ? null
+    : findPlotbandPosition(points[0], result)
 
   const resultWindow = useMemo(
-    () =>
-      isLoading ? undefined : findResultWindow(points, windowStartTime, windowEndTime),
-    [points, isLoading, windowStartTime, windowEndTime]
+    () => findResultWindow(points, windowStartTime, windowEndTime),
+    [points, windowStartTime, windowEndTime]
   )
 
   const accuracySeries = useMemo(() => buildAccuracySeries(points, windowEndAltitude), [
@@ -105,6 +104,16 @@ const Charts = ({ result, tabBar = null }: ChartsProps): JSX.Element => {
           </div>
         </TrackViewPreferencesProvider>
       </Modal.Body>
+      <Modal.Footer spaceBetween={event.permissions.canEdit}>
+        {event.permissions.canEdit && (
+          <button className={styles.deleteButton} onClick={deleteResult}>
+            {t('general.delete')}
+          </button>
+        )}
+        <button className={styles.defaultButton} onClick={hide}>
+          {t('general.back')}
+        </button>
+      </Modal.Footer>
     </>
   )
 }

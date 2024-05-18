@@ -9,7 +9,7 @@ import PlusIcon from 'icons/plus'
 import Item from './Item'
 import styles from './styles.module.scss'
 
-const EventsIndex = (): JSX.Element => {
+const EventsIndex = () => {
   const { t } = useI18n()
   const [searchParams, setSearchParams] = useSearchParams()
   const page = Number(searchParams.get('page') || 1)

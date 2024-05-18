@@ -10,7 +10,7 @@ type OnlineRankingResults = {
   results: ResultsRecord['onlineRankingResults']
 }
 
-const OnlineRankingResults = ({ results }: OnlineRankingResults): JSX.Element | null => {
+const OnlineRankingResults = ({ results }: OnlineRankingResults) => {
   const { t } = useI18n()
 
   if (results.length === 0) return null

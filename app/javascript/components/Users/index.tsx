@@ -10,7 +10,7 @@ import ResendConfirmation from './ResendConfirmation'
 import EmailConfirmation from './EmailConfirmation'
 import Layout from 'components/Users/Layout'
 
-const Users = (): JSX.Element | null => {
+const Users = () => {
   const { data: currentUser, isSuccess } = useCurrentUserQuery()
 
   if (!isSuccess) return null

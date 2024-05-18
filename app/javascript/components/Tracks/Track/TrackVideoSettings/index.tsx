@@ -23,7 +23,7 @@ type TrackVideoSettingsProps = {
   trackId: number
 }
 
-const TrackVideoSettings = ({ trackId }: TrackVideoSettingsProps): JSX.Element | null => {
+const TrackVideoSettings = ({ trackId }: TrackVideoSettingsProps) => {
   const navigate = useNavigate()
   const { t } = useI18n()
   const { data: track } = useTrackQuery(trackId)

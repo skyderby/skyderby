@@ -2,7 +2,7 @@ import React from 'react'
 
 import styles from './styles.module.scss'
 
-const YoutubeIcon = (): JSX.Element => (
+const YoutubeIcon = () => (
   <svg
     className={styles.icon}
     height="100%"

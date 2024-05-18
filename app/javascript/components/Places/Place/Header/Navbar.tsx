@@ -9,7 +9,7 @@ type NavbarProps = {
   place: Place
 }
 
-const Navbar = ({ place }: NavbarProps): JSX.Element => {
+const Navbar = ({ place }: NavbarProps) => {
   const placeUrl = `/places/${place.id}`
 
   return (

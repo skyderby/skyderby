@@ -14,7 +14,7 @@ interface YearSelectProps extends Omit<Props<OptionType, boolean>, 'value'> {
   value?: number
 }
 
-const YearSelect = ({ value, ...props }: YearSelectProps): JSX.Element => {
+const YearSelect = ({ value, ...props }: YearSelectProps) => {
   const options = allYears.map(year => ({ label: String(year), value: year }))
   const selectedOption = options.find(option => option.value === value)
 

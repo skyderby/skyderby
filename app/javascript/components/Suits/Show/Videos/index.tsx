@@ -1,6 +1,6 @@
 import React from 'react'
 
-const SuitVideos = (): JSX.Element => {
+const SuitVideos = () => {
   return <h1>Videos</h1>
 }
 

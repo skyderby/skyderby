@@ -74,7 +74,7 @@ type TrackViewPreferencesProviderProps = {
 const TrackViewPreferencesProvider = ({
   initialValues = {},
   children
-}: TrackViewPreferencesProviderProps): JSX.Element => {
+}: TrackViewPreferencesProviderProps) => {
   const [viewPreferences, setViewPreferences] = useState<ViewPreferences>(() => ({
     ...loadPreferences(),
     ...initialValues

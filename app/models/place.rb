@@ -57,19 +57,12 @@ class Place < ApplicationRecord
 
     def nearby(point, radius)
       distance_statement =
-        "SQRT(
+        Arel.sql("SQRT(
           POW(111 * (latitude - #{point[:latitude]}), 2) +
           POW(111 * (#{point[:longitude]} - longitude) * COS(latitude / (180/PI()) ), 2)
-        )"
+        )")
 
-      select(:id,
-             :name,
-             :latitude,
-             :longitude,
-             :msl,
-             "#{distance_statement} AS distance")
-        .where("#{distance_statement} < :radius", radius: radius)
-        .order('distance')
+      where("#{distance_statement} < :radius", radius: radius).order(distance_statement)
     end
 
     def to_subregion
