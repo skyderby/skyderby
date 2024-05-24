@@ -84,5 +84,8 @@ Metrics/BlockLength:
 Minitest/MultipleAssertions:
   Enabled: false
 
+Minitest/EmptyLineBeforeAssertionMethods:
+  Enabled: false
+
 Naming/VariableNumber:
   Enabled: false # TODO: Enable
