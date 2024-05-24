@@ -309,6 +309,8 @@ GEM
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.21.0)
       parser (>= 3.1.1.0)
+    rubocop-minitest (0.27.0)
+      rubocop (>= 0.90, < 2.0)
     rubocop-performance (1.9.2)
       rubocop (>= 0.90.0, < 2.0)
       rubocop-ast (>= 0.4.0)
@@ -415,6 +417,7 @@ DEPENDENCIES
   rack-cors
   rails (~> 7.0.8)
   rubocop
+  rubocop-minitest
   rubocop-performance
   rubocop-rails
   scenic

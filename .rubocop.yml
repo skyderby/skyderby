@@ -1,6 +1,7 @@
 require:
   - rubocop-rails
   - rubocop-performance
+  - rubocop-minitest
 
 AllCops:
   TargetRubyVersion: 3.2
@@ -17,7 +18,7 @@ Layout/LineLength:
 
 Rails/SkipsModelValidations:
   Exclude:
-    - spec/**/*
+    - test/**/*
 
 Style/Lambda:
   Enabled: false
@@ -78,7 +79,7 @@ Metrics/BlockLength:
     - app/views/**/*.json.jbuilder
     - app/views/**/*.xml.builder
     - config/**/*
-    - spec/**/*
+    - test/**/*
 
 Naming/VariableNumber:
   Enabled: false # TODO: Enable
