@@ -1,32 +1,28 @@
-describe Api::V1::Events::ReferencePointsController do
-  render_views
+require 'test_helper'
 
-  describe '#index' do
-    it 'happy path' do
-      event = events(:published_public)
-      event.reference_points.create!(name: 'R1', latitude: 20.0, longitude: 25.0)
-      event.reference_points.create!(name: 'R2', latitude: 30.0, longitude: 35.0)
+class Api::V1::Events::ReferencePointsControllerTest < ActionDispatch::IntegrationTest
+  test '#index - happy path' do
+    event = events(:published_public)
+    event.reference_points.create!(name: 'R1', latitude: 20.0, longitude: 25.0)
+    event.reference_points.create!(name: 'R2', latitude: 30.0, longitude: 35.0)
 
-      get :index, params: { event_id: event.id }, format: :json
+    get api_v1_event_reference_points_url(event_id: event.id)
 
-      aggregate_failures 'testing response' do
-        expect(response).to be_successful
+    assert_response :success
 
-        response_data = JSON.parse(response.body)
-        expect(response_data.map { |el| el['name'] }).to eq(%w[R1 R2])
-        expect(response_data.map { |el| el['latitude'] }).to eq(['20.0', '30.0'])
-        expect(response_data.map { |el| el['longitude'] }).to eq(['25.0', '35.0'])
-      end
-    end
+    response_data = JSON.parse(response.body)
+    assert_equal %w[R1 R2], response_data.map { |el| el['name'] }
+    assert_equal ['20.0', '30.0'], response_data.map { |el| el['latitude'] }
+    assert_equal ['25.0', '35.0'], response_data.map { |el| el['longitude'] }
+  end
 
-    it 'permissions required' do
-      event = events(:draft_public)
-      event.reference_points.create!(name: 'R1', latitude: 20.0, longitude: 25.0)
-      event.reference_points.create!(name: 'R2', latitude: 30.0, longitude: 35.0)
+  test '#index - permissions required' do
+    event = events(:draft_public)
+    event.reference_points.create!(name: 'R1', latitude: 20.0, longitude: 25.0)
+    event.reference_points.create!(name: 'R2', latitude: 30.0, longitude: 35.0)
 
-      get :index, params: { event_id: event.id }, format: :json
+    get api_v1_event_reference_points_url(event_id: event.id)
 
-      expect(response).to be_forbidden
-    end
+    assert_response :forbidden
   end
 end

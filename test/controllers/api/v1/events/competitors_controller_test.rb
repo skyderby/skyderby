@@ -1,12 +1,13 @@
-describe Api::V1::Events::CompetitorsController do
-  render_views
+require 'test_helper'
 
-  it '#index' do
-    get :index, params: { event_id: events(:published_public).id }, format: :json
-    expect(response.successful?).to be_truthy
+class Api::V1::Events::CompetitorsControllerTest < ActionDispatch::IntegrationTest
+  test '#index' do
+    get api_v1_event_competitors_path(events(:published_public))
+
+    assert_response :success
 
     response_json = JSON.parse(response.body)
-    expect(response_json).to match(JSON.parse(expected_response.to_json))
+    assert_equal JSON.parse(expected_response.to_json), response_json
   end
 
   def expected_response

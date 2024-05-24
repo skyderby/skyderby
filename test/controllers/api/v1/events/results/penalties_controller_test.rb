@@ -1,49 +1,40 @@
-describe Api::V1::Events::Results::PenaltiesController do
-  render_views
+require 'test_helper'
 
-  describe '#update' do
-    it 'when authorized' do
-      sign_in users(:event_responsible)
-      event = events(:published_public)
+class Api::V1::Events::Results::PenaltiesControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @event = events(:published_public)
+    @result = event_results(:distance_competitor_1)
+    @user = users(:event_responsible)
+  end
 
-      result = event_results(:distance_competitor_1)
+  test '#update - when authorized' do
+    sign_in @user
 
-      put :update, params: {
-        event_id: event.id,
-        result_id: result.id,
-        penalty: {
-          penalized: true,
-          penaltySize: 20,
-          penaltyReason: 'Reason'
-        }
+    put api_v1_event_result_penalty_url(@event.id, @result.id), params: {
+      penalty: {
+        penalized: true,
+        penaltySize: 20,
+        penaltyReason: 'Reason'
       }
+    }
 
-      result.reload
+    @result.reload
 
-      aggregate_failures 'testing result' do
-        expect(response.successful?).to be_truthy
-        expect(result.penalized).to be_truthy
-        expect(result.penalty_size).to eq(20)
-        expect(result.penalty_reason).to eq('Reason')
-      end
-    end
+    assert_response :success
+    assert @result.penalized
+    assert_equal 20, @result.penalty_size
+    assert_equal 'Reason', @result.penalty_reason
+  end
 
-    it 'when not authorized' do
-      event = events(:published_public)
-
-      result = event.results.first
-
-      put :update, params: {
-        event_id: event.id,
-        result_id: result.id,
-        penalty: {
-          penalized: true,
-          penaltySize: 20,
-          penaltyReason: 'Reason'
-        }
+  test '#update - when not authorized' do
+    put api_v1_event_result_penalty_url(@event.id, @result.id), params: {
+      penalty: {
+        penalized: true,
+        penaltySize: 20,
+        penaltyReason: 'Reason'
       }
+    }
 
-      expect(response.forbidden?).to be_truthy
-    end
+    assert_response :forbidden
   end
 end

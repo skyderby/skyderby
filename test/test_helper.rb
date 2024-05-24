@@ -1,51 +1,58 @@
 ENV['RAILS_ENV'] ||= 'test'
 ENV['NODE_ENV'] ||= 'production'
-require File.expand_path('../config/environment', __dir__)
-require 'rspec/rails'
-require 'capybara/rspec'
+require_relative '../config/environment'
+require 'rails/test_help'
 require 'vcr'
 
 ActiveRecord::Migration.maintain_test_schema!
 
-Capybara.ignore_hidden_elements = true
-Capybara.default_max_wait_time = 5
-
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('test/support/**/*.rb')].each { |f| require f }
 
 I18n.locale = :en
 
 VCR.configure do |config|
-  config.cassette_library_dir = 'spec/cassettes'
+  config.cassette_library_dir = 'test/cassettes'
   config.hook_into :webmock
   config.ignore_localhost = true
   config.configure_rspec_metadata!
 end
 
-RSpec.configure do |config|
-  config.include ActiveSupport::Testing::TimeHelpers
-  config.include ActiveJob::TestHelper
-  config.include FactoryBot::Syntax::Methods
-  config.include Features::UploadHelpers
-  config.include Devise::Test::ControllerHelpers, type: :controller
-  config.include Devise::Test::IntegrationHelpers, type: :request
-  config.include Devise::Test::IntegrationHelpers, type: :system
-  config.include CreateTrackHelper
+module ActiveSupport
+  class TestCase
+    include FactoryBot::Syntax::Methods
+    include CreateTrackHelper
 
-  config.infer_spec_type_from_file_location!
-
-  config.fixture_path = Rails.root.join('spec/fixtures')
-  config.global_fixtures = :all
-  config.use_transactional_fixtures = true
-
-  config.prepend_before(:each, type: :system) do
-    headless = ENV['SELENIUM_HEADLESS_CHROME'].present?
-    browser = headless ? :headless_chrome : :chrome
-
-    driven_by :selenium, using: browser do |options|
-      options.add_option('prefs', 'intl.accept_languages' => 'en-US')
-    end
+    fixtures :all
   end
-
-  config.order = :random
-  Kernel.srand config.seed
 end
+
+class ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+end
+
+# RSpec.configure do |config|
+#   config.include ActiveSupport::Testing::TimeHelpers
+#   config.include ActiveJob::TestHelper
+#   config.include Features::UploadHelpers
+#   config.include Devise::Test::ControllerHelpers, type: :controller
+#   config.include Devise::Test::IntegrationHelpers, type: :request
+#   config.include Devise::Test::IntegrationHelpers, type: :system
+#
+#   config.infer_spec_type_from_file_location!
+#
+#   config.fixture_path = Rails.root.join('spec/fixtures')
+#   config.global_fixtures = :all
+#   config.use_transactional_fixtures = true
+#
+#   config.prepend_before(:each, type: :system) do
+#     headless = ENV['SELENIUM_HEADLESS_CHROME'].present?
+#     browser = headless ? :headless_chrome : :chrome
+#
+#     driven_by :selenium, using: browser do |options|
+#       options.add_option('prefs', 'intl.accept_languages' => 'en-US')
+#     end
+#   end
+#
+#   config.order = :random
+#   Kernel.srand config.seed
+# end

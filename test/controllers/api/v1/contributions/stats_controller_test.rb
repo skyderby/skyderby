@@ -1,43 +1,43 @@
-describe Api::V1::Contributions::StatsController do
-  render_views
+require 'test_helper'
 
-  let(:profile) { profiles(:regular_user) }
-
-  it 'shows correct stats for admin' do
-    profile.contributions.create!(amount: 10, received_at: Time.current)
-    profile.contributions.create!(amount: 20, received_at: 2.months.ago)
-    profile.contributions.create!(amount: 30, received_at: 4.months.ago)
-    profile.contributions.create!(amount: 50, received_at: 2.years.ago)
-
-    sign_in users(:admin)
-
-    get :show, format: :json
-
-    expect(response.parsed_body).to match \
-      hash_including(
-        'thisMonthAmount' => 10,
-        'past90DaysAmount' => 30,
-        'pastYearAmount' => 60
-      )
+class Api::V1::Contributions::StatsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @profile = profiles(:regular_user)
+    @admin = users(:admin)
+    @regular_user = users(:regular_user)
   end
 
-  it 'returns 0 when no contributions' do
-    sign_in users(:admin)
+  test 'shows correct stats for admin' do
+    @profile.contributions.create!(amount: 10, received_at: Time.current)
+    @profile.contributions.create!(amount: 20, received_at: 2.months.ago)
+    @profile.contributions.create!(amount: 30, received_at: 4.months.ago)
+    @profile.contributions.create!(amount: 50, received_at: 2.years.ago)
 
-    get :show, format: :json
+    sign_in @admin
 
-    expect(response.parsed_body).to match \
-      hash_including(
-        'thisMonthAmount' => 0,
-        'past90DaysAmount' => 0,
-        'pastYearAmount' => 0
-      )
+    get api_v1_contributions_stats_url
+
+    assert_response :success
+    assert_equal 10, response.parsed_body['thisMonthAmount']
+    assert_equal 30, response.parsed_body['past90DaysAmount']
+    assert_equal 60, response.parsed_body['pastYearAmount']
   end
 
-  it 'forbidden for non-admin users' do
-    get :show, format: :json
+  test 'returns 0 when no contributions' do
+    sign_in @admin
 
-    expect(response).to be_forbidden
-    expect(response.parsed_body).to eq({ 'errors' => { 'base' => ['forbidden'] } })
+    get api_v1_contributions_stats_url
+
+    assert_equal 0, response.parsed_body['thisMonthAmount']
+    assert_equal 0, response.parsed_body['past90DaysAmount']
+    assert_equal 0, response.parsed_body['pastYearAmount']
+  end
+
+  test 'forbidden for non-admin users' do
+    sign_in @regular_user
+    get api_v1_contributions_stats_url
+
+    assert_response :forbidden
+    assert_equal({ 'errors' => { 'base' => ['forbidden'] } }, response.parsed_body)
   end
 end

@@ -46,7 +46,7 @@ Skyderby::Application.routes.draw do
       resource :current_user, only: :show
       resources :contributions, only: :index do
         collection do
-          resource :stats, only: :show, module: :contributions
+          resource :stats, only: :show, module: :contributions, as: :contributions_stats
         end
       end
       resources :users, only: %i[index show destroy]

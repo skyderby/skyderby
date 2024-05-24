@@ -1,44 +1,56 @@
-describe 'Create location page:' do
-  it 'regular user can not see + button' do
-    sign_in users(:regular_user)
-    visit '/places'
+require 'application_system_test_case'
 
-    expect(page).not_to have_link(href: '/places/new')
+class CreatePlaceTest < ApplicationSystemTestCase
+  setup do
+    @regular_user = users(:regular_user)
+    @admin = users(:admin)
+
+    I18n.locale = :en
   end
 
-  it 'regular user is redirected back to /places' do
-    sign_in users(:regular_user)
+  test 'regular user can not see + button' do
+    sign_in @regular_user
+    visit '/places'
+
+    assert_css 'h2', text: 'ITALY'
+    assert page.has_no_link?('/places/new')
+  end
+
+  test 'regular user is redirected back to /places' do
+    sign_in @regular_user
     visit '/places/new'
 
-    expect(page).to have_current_path('/places')
+    assert_current_path '/places'
   end
 
-  it 'admin user can see + button' do
-    sign_in users(:admin)
+  test 'admin user can see + button' do
+    sign_in @admin
     visit '/places'
 
-    expect(page).to have_link(href: '/places/new')
+    assert_link href: '/places/new'
   end
 
-  it 'admin user is not redirected back to /places' do
-    sign_in users(:admin)
+  test 'admin user is not redirected back to /places' do
+    sign_in @admin
     visit '/places'
     find("a[href='/places/new']").click
 
-    expect(page).to have_current_path('/places/new')
+    assert_current_path '/places/new'
   end
 
-  it 'cancel button navigates to place index' do
-    sign_in users(:admin)
+  test 'cancel button navigates to place index' do
+    I18n.with_locale(:en) do
+    sign_in @admin
     visit('/places/new')
 
     click_link I18n.t('general.cancel')
 
-    expect(page).to have_current_path('/places')
+    assert_current_path '/places'
+  end
   end
 
-  it 'admin user is able to fill the form and save new place' do
-    sign_in users(:admin)
+  test 'admin user is able to fill the form and save new place' do
+    sign_in @admin
     visit '/places'
     find("a[href='/places/new']").click
 
@@ -52,12 +64,12 @@ describe 'Create location page:' do
 
     click_button I18n.t('general.save')
 
-    expect(page).to have_css('h2', text: 'New test location')
+    assert_css 'h2', text: 'New test location'
 
     place_id = Place.find_by(name: 'New test location').id
-    expect(page).to have_current_path("/places/#{place_id}")
-    expect(page).to have_css('span', text: 'Overview')
-    expect(page).to have_css('span', text: 'Videos')
-    expect(page).to have_css('span', text: 'Track')
+    assert_current_path "/places/#{place_id}"
+    assert_css 'span', text: 'Overview'
+    assert_css 'span', text: 'Videos'
+    assert_css 'span', text: 'Track'
   end
 end
