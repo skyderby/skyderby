@@ -21,6 +21,7 @@ class Api::V1::Events::Rounds::ReferencePointAssignmentsControllerTest < ActionD
     assert_response :success
 
     assignment = @event.reference_point_assignments.find_by(competitor: @competitor, round: @round)
+
     assert_equal reference_point, assignment.reference_point
   end
 
@@ -37,6 +38,7 @@ class Api::V1::Events::Rounds::ReferencePointAssignmentsControllerTest < ActionD
     assert_response :success
 
     assignment = @event.reference_point_assignments.find_by(competitor: @competitor, round: @round)
+
     assert_nil assignment
   end
 

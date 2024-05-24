@@ -11,9 +11,9 @@ class Api::V1::Events::ReferencePointsControllerTest < ActionDispatch::Integrati
     assert_response :success
 
     response_data = JSON.parse(response.body)
-    assert_equal %w[R1 R2], response_data.map { |el| el['name'] }
-    assert_equal ['20.0', '30.0'], response_data.map { |el| el['latitude'] }
-    assert_equal ['25.0', '35.0'], response_data.map { |el| el['longitude'] }
+    assert_equal(%w[R1 R2], response_data.map { |el| el['name'] })
+    assert_equal(['20.0', '30.0'], response_data.map { |el| el['latitude'] })
+    assert_equal(['25.0', '35.0'], response_data.map { |el| el['longitude'] })
   end
 
   test '#index - permissions required' do

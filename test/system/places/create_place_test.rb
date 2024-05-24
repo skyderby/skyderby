@@ -39,14 +39,12 @@ class CreatePlaceTest < ApplicationSystemTestCase
   end
 
   test 'cancel button navigates to place index' do
-    I18n.with_locale(:en) do
     sign_in @admin
     visit('/places/new')
 
     click_link I18n.t('general.cancel')
 
     assert_current_path '/places'
-  end
   end
 
   test 'admin user is able to fill the form and save new place' do
@@ -67,6 +65,7 @@ class CreatePlaceTest < ApplicationSystemTestCase
     assert_css 'h2', text: 'New test location'
 
     place_id = Place.find_by(name: 'New test location').id
+
     assert_current_path "/places/#{place_id}"
     assert_css 'span', text: 'Overview'
     assert_css 'span', text: 'Videos'

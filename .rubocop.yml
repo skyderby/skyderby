@@ -1,7 +1,7 @@
 require:
+  - rubocop-minitest
   - rubocop-rails
   - rubocop-performance
-  - rubocop-minitest
 
 AllCops:
   TargetRubyVersion: 3.2
@@ -80,6 +80,9 @@ Metrics/BlockLength:
     - app/views/**/*.xml.builder
     - config/**/*
     - test/**/*
+
+Minitest/MultipleAssertions:
+  Enabled: false
 
 Naming/VariableNumber:
   Enabled: false # TODO: Enable
