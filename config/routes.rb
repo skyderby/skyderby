@@ -50,13 +50,7 @@ Skyderby::Application.routes.draw do
         end
       end
       resources :users, only: %i[index show destroy]
-      resources :profiles, only: %i[index show] do
-        scope module: :profiles do
-          collection do
-            resource :current, only: :show
-          end
-        end
-      end
+      resources :profiles, only: %i[index show]
       resources :online_rankings, only: %i[index show] do
         scope module: :online_rankings do
           resource :overall_standings, only: :show
