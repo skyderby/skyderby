@@ -1,32 +1,24 @@
-describe Api::V1::ContributionsController do
-  render_views
+require 'test_helper'
 
-  describe '#index' do
-    it 'forbidden for non-admin users' do
-      get :index, format: :json
+class Api::V1::ContributionsControllerTest < ActionDispatch::IntegrationTest
+  test '#index - forbidden for non-admin users' do
+    get api_v1_contributions_url
 
-      expect(response).to be_forbidden
-    end
+    assert_response :forbidden
+  end
 
-    it 'returns list of contributions for admin users' do
-      sign_in users(:admin)
+  test '#index - returns list of contributions for admin users' do
+    sign_in users(:admin)
+    profiles(:regular_user).contributions.create!(amount: '10.2', received_at: '2024-01-01')
 
-      get :index, format: :json
+    get api_v1_contributions_url
 
-      expect(response).to be_successful
-      expect(response.parsed_body).to(
-        match(
-          hash_including(
-            'currentPage',
-            'totalPages',
-            'items' => all(
-              match(
-                hash_including('id', 'receivedAt', 'amount')
-              )
-            )
-          )
-        )
-      )
-    end
+    assert_response :success
+    assert_equal 1, response.parsed_body['currentPage']
+    assert_equal 1, response.parsed_body['totalPages']
+    assert_equal 1, response.parsed_body['items'].count
+    contribution = response.parsed_body['items'][0]
+    assert_equal 10.2, contribution['amount']
+    assert_equal '2024-01-01', contribution['receivedAt']
   end
 end
