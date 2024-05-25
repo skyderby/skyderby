@@ -1,146 +1,140 @@
-describe Api::V1::SpeedSkydivingCompetitions::RoundsController do
-  render_views
+require 'test_helper'
 
-  let(:event) { speed_skydiving_competitions(:nationals) }
-  let(:user) { users(:regular_user) }
-  let(:round_attributes) do
-    hash_including(
-      'id',
-      'number',
-      'completed',
-      'createdAt',
-      'updatedAt'
+class Api::V1::SpeedSkydivingCompetitions::RoundsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @user = users(:regular_user)
+    @event = speed_skydiving_competitions(:nationals)
+    @round = @event.rounds.find_by(number: 1)
+    @last_round = @event.rounds.ordered.last
+    @round_attributes = %w[id number completed createdAt updatedAt].sort
+  end
+
+  test '#index - forbidden if user does not have access to event' do
+    @event.draft!
+
+    get api_v1_speed_skydiving_competition_rounds_url(@event)
+
+    assert_response :forbidden
+  end
+
+  test '#index - responds with rounds if user have access' do
+    sign_in @user
+
+    @event.published!
+    @event.competitors.create!(profile: @user.profile, category: @event.categories.first)
+
+    get api_v1_speed_skydiving_competition_rounds_url(@event)
+
+    assert_response :success
+    assert response.parsed_body.all? { _1.keys.sort == @round_attributes}
+  end
+
+
+  test '#create - forbidden if user does not have permissions' do
+    sign_in @user
+    rounds_count_before_request = @event.rounds.count
+
+    post api_v1_speed_skydiving_competition_rounds_url(@event)
+
+    assert_response :forbidden
+    assert_equal rounds_count_before_request, @event.rounds.count
+  end
+
+  test '#create - rejected if event finished' do
+    sign_in @event.responsible
+    @event.finished!
+
+    post api_v1_speed_skydiving_competition_rounds_url(@event)
+
+    assert_response :unprocessable_entity
+    assert_equal(
+      { 'errors' => { 'base' => ["Changes couldn't be made because event is finished."] } },
+      response.parsed_body
     )
   end
 
-  describe '#index' do
-    it 'forbidden if user does not have access to event' do
-      event.draft!
+  test '#create - responds with newly created round' do
+    sign_in @event.responsible
+    @event.rounds.delete_all
 
-      get :index, params: { speed_skydiving_competition_id: event.id }, format: :json
-
-      expect(response).to have_http_status(:forbidden)
+    assert_difference ->{ @event.rounds.count } => 1 do
+      post api_v1_speed_skydiving_competition_rounds_url(@event)
     end
 
-    it 'responds with rounds if user have access' do
-      sign_in user
-
-      event.published!
-      event.competitors.create!(profile: user.profile, category: event.categories.first)
-
-      get :index, params: { speed_skydiving_competition_id: event.id }, format: :json
-
-      expect(response).to have_http_status(:success)
-      expect(response.parsed_body).to all(match(round_attributes))
-    end
+    assert_response :success
+    assert_equal @round_attributes, response.parsed_body.keys.sort
+    assert_equal 1, response.parsed_body['number']
   end
 
-  describe '#create' do
-    subject do
-      post :create, params: { speed_skydiving_competition_id: event.id }, format: :json
+  test '#update - forbidden if user does not have permissions' do
+    sign_in @user
+
+    assert_no_changes -> { @round.reload.completed_at } do
+      put api_v1_speed_skydiving_competition_round_url(@event, @round), params: { round: { completed: true } }
     end
 
-    it 'forbidden if user does not have permissions' do
-      sign_in user
-
-      expect { subject }.not_to(change { event.rounds.count })
-
-      expect(response).to have_http_status(:forbidden)
-    end
-
-    it 'rejected if event finished' do
-      sign_in event.responsible
-      event.finished!
-
-      expect { subject }.not_to(change { event.rounds.count })
-
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body).to match(hash_including('errors' => hash_including('base')))
-    end
-
-    it 'responds with newly created round' do
-      sign_in event.responsible
-      event.rounds.delete_all
-
-      expect { subject }.to(change { event.rounds.count }.by(1))
-
-      expect(response).to have_http_status(:success)
-      expect(response.parsed_body).to match(round_attributes)
-      expect(response.parsed_body['number']).to eq(1)
-    end
+    assert_response :forbidden
   end
 
-  describe '#update' do
-    let(:round) { event.rounds.find_by(number: 1) }
-    let(:round_params) { { round: { completed: true } } }
-    let(:params) { { speed_skydiving_competition_id: event.id, id: round.id }.merge(round_params) }
+  test '#update - rejected if event finished' do
+    sign_in @event.responsible
+    @event.finished!
 
-    subject do
-      put :update, params: params, format: :json
+    assert_no_changes ->{ @round.reload.completed_at } do
+      put api_v1_speed_skydiving_competition_round_url(@event, @round), params: { round: { completed: true } }
     end
 
-    it 'forbidden if user does not have permissions' do
-      sign_in user
-
-      expect { subject }.not_to(change { round.reload.completed_at })
-
-      expect(response).to have_http_status(:forbidden)
-    end
-
-    it 'rejected if event finished' do
-      sign_in event.responsible
-      event.finished!
-
-      expect { subject }.not_to(change { round.reload.completed_at })
-
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body).to match(hash_including('errors' => hash_including('base')))
-    end
-
-    it 'responds with updated round' do
-      sign_in event.responsible
-
-      expect { subject }.to(change { round.reload.completed }.to(true))
-
-      expect(response).to have_http_status(:success)
-      expect(response.parsed_body).to match(round_attributes)
-      expect(response.parsed_body['completed']).to eq(true)
-    end
+    assert_response :unprocessable_entity
+    assert_equal(
+      { 'errors' => { 'base' => ["Changes couldn't be made because event is finished."] } },
+      response.parsed_body
+    )
   end
 
-  describe '#destroy' do
-    let(:round) { event.rounds.find_by(number: 7) }
-    let(:params) { { speed_skydiving_competition_id: event.id, id: round.id } }
+  test '#update - responds with updated round' do
+    sign_in @event.responsible
 
-    subject do
-      delete :destroy, params: params, format: :json
+    put api_v1_speed_skydiving_competition_round_url(@event, @round), params: { round: { completed: true } }
+
+    assert_response :success
+    assert_equal @round_attributes, response.parsed_body.keys.sort
+    assert response.parsed_body['completed']
+    assert_predicate @round.reload, :completed?
+  end
+
+  test '#destroy - forbidden if user does not have permissions' do
+    sign_in @user
+
+    assert_no_changes ->{ @event.rounds.count } do
+      delete api_v1_speed_skydiving_competition_round_url(@event, @last_round)
     end
 
-    it 'forbidden if user does not have permissions' do
-      sign_in user
+    assert_response :forbidden
+  end
 
-      expect { subject }.not_to(change { event.rounds.count })
+  test '#destroy - rejected if event finished' do
+    sign_in @event.responsible
+    @event.finished!
 
-      expect(response).to have_http_status(:forbidden)
+    assert_no_changes ->{ @event.rounds.count } do
+      delete api_v1_speed_skydiving_competition_round_url(@event, @last_round)
     end
 
-    it 'rejected if event finished' do
-      sign_in event.responsible
-      event.finished!
+    assert_response :unprocessable_entity
+    assert_equal(
+      { 'errors' => { 'base' => ["Changes couldn't be made because event is finished."] } },
+      response.parsed_body
+    )
+  end
 
-      expect { subject }.not_to(change { event.rounds.count })
+  test '#destroy - responds with deleted round' do
+    sign_in @event.responsible
 
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body).to match(hash_including('errors' => hash_including('base')))
+    assert_difference ->{ @event.rounds.count } => -1 do
+      delete api_v1_speed_skydiving_competition_round_url(@event, @last_round)
     end
-
-    it 'responds with updated round' do
-      sign_in event.responsible
-
-      expect { subject }.to(change { event.rounds.count }.by(-1))
-
-      expect(response).to have_http_status(:success)
-      expect(response.parsed_body).to match(round_attributes)
-    end
+    assert_response :success
+    assert_equal @round_attributes, response.parsed_body.keys.sort
+    assert_equal @last_round.id, response.parsed_body['id']
   end
 end

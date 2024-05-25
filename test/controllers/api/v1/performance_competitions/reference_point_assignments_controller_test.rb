@@ -1,78 +1,76 @@
-describe Api::V1::PerformanceCompetitions::ReferencePointAssignmentsController do
-  let(:event) { events(:published_public) }
-  let(:event_responsible) { users(:event_responsible) }
-  let(:random_user) { User.create!(email: 'some@example.com', password: '123456', confirmed_at: Time.zone.today) }
-  let(:competitor) { event_competitors(:competitor_1) }
-  let(:round) { event_rounds(:distance_round_1) }
+require 'test_helper'
 
-  describe '#create' do
-    it 'assign reference point', :aggregate_failures do
-      sign_in event_responsible
+class Api::V1::PerformanceCompetitions::ReferencePointAssignmentsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @event = events(:published_public)
+    @event_responsible = users(:event_responsible)
+    @random_user = User.create!(email: 'some@example.com', password: '123456', confirmed_at: Time.zone.today)
+    @competitor = event_competitors(:competitor_1)
+    @round = event_rounds(:distance_round_1)
+  end
 
-      reference_point = event.reference_points.create! \
-        name: 'R1',
-        latitude: 20,
-        longitude: 20
+  test '#create - assign reference point' do
+    sign_in @event_responsible
 
-      params = {
-        performance_competition_id: event.id,
-        reference_point_assignment: {
-          round_id: round.id,
-          competitor_id: competitor.id,
-          reference_point_id: reference_point.id
-        }
+    reference_point = @event.reference_points.create! \
+      name: 'R1',
+      latitude: 20,
+      longitude: 20
+
+    params = {
+      reference_point_assignment: {
+        round_id: @round.id,
+        competitor_id: @competitor.id,
+        reference_point_id: reference_point.id
       }
+    }
 
-      post :create, params: params, format: :json
+    post api_v1_performance_competition_reference_point_assignments_path(@event), params: params
 
-      expect(response).to be_successful
+    assert_response :success
 
-      assignment = event.reference_point_assignments.find_by(competitor: competitor, round: round)
-      expect(assignment.reference_point).to eq(reference_point)
-    end
+    assignment = @event.reference_point_assignments.find_by(competitor: @competitor, round: @round)
+    assert_equal reference_point, assignment.reference_point
+  end
 
-    it 'remove assignment', :aggregate_failures do
-      sign_in event_responsible
+  test '#create - remove assignment' do
+    sign_in @event_responsible
 
-      reference_point = event.reference_points.create! \
-        name: 'R1',
-        latitude: 20,
-        longitude: 20
-      assignment = event.reference_point_assignments.find_or_initialize_by(competitor: competitor, round: round)
-      assignment.update!(reference_point: reference_point)
+    reference_point = @event.reference_points.create! \
+      name: 'R1',
+      latitude: 20,
+      longitude: 20
+    assignment = @event.reference_point_assignments.find_or_initialize_by(competitor: @competitor, round: @round)
+    assignment.update!(reference_point: reference_point)
 
-      params = {
-        performance_competition_id: event.id,
-        reference_point_assignment: {
-          round_id: round.id,
-          competitor_id: competitor.id,
-          reference_point_id: nil
-        }
+    params = {
+      reference_point_assignment: {
+        round_id: @round.id,
+        competitor_id: @competitor.id,
+        reference_point_id: nil
       }
+    }
 
-      expect { post :create, params: params, format: :json }.to \
-        change { event.reference_point_assignments.count }.by(-1)
+    post api_v1_performance_competition_reference_point_assignments_path(@event), params: params
 
-      expect(response).to be_successful
-      expect(event.reference_point_assignments.find_by(competitor: competitor, round: round)).not_to be_present
-    end
+    assert_response :success
+    assert_nil @event.reference_point_assignments.find_by(competitor: @competitor, round: @round)
+  end
 
-    it 'verifies permissions', :aggregate_failures do
-      sign_in random_user
+  test '#create - verifies permissions' do
+    sign_in @random_user
 
-      params = {
-        performance_competition_id: event.id,
-        reference_point_assignment: {
-          round_id: round.id,
-          competitor_id: competitor.id,
-          reference_point_id: nil
-        }
+    params = {
+      reference_point_assignment: {
+        round_id: @round.id,
+        competitor_id: @competitor.id,
+        reference_point_id: nil
       }
+    }
 
-      post :create, params: params, format: :json
+    post api_v1_performance_competition_reference_point_assignments_path(@event), params: params
 
-      expect(response).to be_forbidden
-      expect(response.parsed_body).to eq({ 'errors' => { 'base' => ['forbidden'] } })
-    end
+    assert_response :forbidden
+    assert_equal({ 'errors' => { 'base' => ['forbidden'] } }, response.parsed_body)
   end
 end
