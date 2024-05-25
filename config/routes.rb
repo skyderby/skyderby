@@ -96,7 +96,7 @@ Skyderby::Application.routes.draw do
           resource :video, only: %i[create show destroy]
 
           collection do
-            resources :files, only: :create
+            resources :files, only: :create, as: :track_files
           end
         end
       end

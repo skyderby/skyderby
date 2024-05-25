@@ -1,56 +1,45 @@
-describe Api::V1::Tracks::FilesController do
-  render_views
+require 'test_helper'
 
-  describe '#create' do
-    it 'flysight file with one segment' do
-      params = {
-        file: fixture_file_upload('tracks/distance_2454.csv')
-      }
+class Api::V1::Tracks::FilesControllerTest < ActionDispatch::IntegrationTest
+  test '#create - flysight file with one segment' do
+    params = { file: fixture_file_upload('tracks/distance_2454.csv') }
 
-      post :create, params: params, format: :json
+    post api_v1_track_files_url, params: params
 
-      expect(response.successful?).to be_truthy
-      expect(response.parsed_body).to match(
-        hash_including(
-          'fileFormat' => 'flysight',
-          'segmentsCount' => 1,
-          'id' => kind_of(Numeric)
-        )
-      )
-    end
+    assert_response :success
+    assert_equal 'flysight', response.parsed_body['fileFormat']
+    assert_equal 1, response.parsed_body['segmentsCount']
+    assert_predicate response.parsed_body['id'], :positive?
+  end
 
-    it 'garmin file with multiple segments' do
-      params = {
-        file: fixture_file_upload('tracks/two_tracks.gpx')
-      }
+  test 'garmin file with multiple segments' do
+    params = { file: fixture_file_upload('tracks/two_tracks.gpx') }
 
-      post :create, params: params, format: :json
+    post api_v1_track_files_url, params: params
 
-      expect(response.successful?).to be_truthy
-      expect(response.parsed_body).to match(
-        hash_including(
-          'fileFormat' => 'gpx',
-          'segmentsCount' => 3,
-          'id' => kind_of(Numeric),
-          'segments' => array_including(
-            hash_including('name' => kind_of(String), 'hUp' => 561, 'hDown' => 3970, 'pointsCount' => 388),
-            hash_including('name' => kind_of(String), 'hUp' => 832, 'hDown' => 4002, 'pointsCount' => 428)
-          )
-        )
-      )
-    end
+    assert_response :success
+    assert_equal 'gpx', response.parsed_body['fileFormat']
+    assert_equal 3, response.parsed_body['segmentsCount']
+    assert_predicate response.parsed_body['id'], :positive?
+    assert_equal(
+      [
+        { 'name' => 'ACTIVE LOG: 20 SEP 2014 15:10', 'hUp' => 561, 'hDown' => 3970, 'pointsCount' => 388 },
+        { 'name' => 'ACTIVE LOG: 20 SEP 2014 16:57', 'hUp' => 832, 'hDown' => 4002, 'pointsCount' => 428 },
+        { 'name' => 'ACTIVE LOG- 2: 20 SEP 2014 15:10', 'hUp' => 557, 'hDown' => 3970, 'pointsCount' => 387 }
+      ],
+      response.parsed_body['segments']
+    )
+  end
 
-    it 'invalid file' do
-      params = {
-        file: fixture_file_upload('skyderby_logo.png')
-      }
+  test 'invalid file' do
+    params = { file: fixture_file_upload('skyderby_logo.png') }
 
-      post :create, params: params, format: :json
+    post api_v1_track_files_url, params: params
 
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body).to eq(
-        'errors' => { 'file' => ['extension must be one of: csv, gpx, tes, kml'] }
-      )
-    end
+    assert_response :unprocessable_entity
+    assert_equal(
+      { 'errors' => { 'file' => ['extension must be one of: csv, gpx, tes, kml'] } },
+      response.parsed_body
+    )
   end
 end
