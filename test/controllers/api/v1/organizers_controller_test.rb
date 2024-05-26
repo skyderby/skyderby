@@ -1,109 +1,74 @@
-describe Api::V1::OrganizersController, type: :request do
-  describe 'Speed skydiving competition' do
-    describe '#index' do
-      it 'when does not have permission' do
-        event = speed_skydiving_competitions(:nationals).tap(&:draft!)
+require 'test_helper'
 
-        get "/api/v1/speed_skydiving_competitions/#{event.id}/organizers"
+class Api::V1::OrganizersControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @event = speed_skydiving_competitions(:nationals)
+    @organizer = users(:regular_user)
+  end
 
-        expect(response).to have_http_status(:forbidden)
-      end
+  test 'Speed skydiving competition - #index - when does not have permission' do
+    @event.draft!
 
-      it 'when have permissions' do
-        organizer_user = users(:regular_user)
-        event = speed_skydiving_competitions(:nationals).tap(&:published!)
-        event.organizers.create!(user: organizer_user)
+    get api_v1_speed_skydiving_competition_organizers_url(@event)
 
-        get "/api/v1/speed_skydiving_competitions/#{event.id}/organizers"
+    assert_response :forbidden
+  end
 
-        expect(response).to have_http_status(:success)
-        expect(response.parsed_body).to match(
-          hash_including(
-            'items' => [
-              {
-                'id' => Integer,
-                'userId' => organizer_user.id,
-                'profileId' => organizer_user.profile.id,
-                'createdAt' => String,
-                'updatedAt' => String
-              }
-            ],
-            'relations' => {
-              'profiles' => [
-                hash_including(
-                  'id' => organizer_user.profile.id,
-                  'name' => organizer_user.profile.name
-                )
-              ],
-              'countries' => []
-            }
-          )
-        )
-      end
+  test 'Speed skydiving competition - #index - when have permissions' do
+    @event.published!
+    @event.organizers.create!(user: @organizer)
+
+    get api_v1_speed_skydiving_competition_organizers_url(@event)
+
+    assert_response :success
+    assert_equal 1, response.parsed_body['items'].size
+    assert_equal 1, response.parsed_body['relations']['profiles'].size
+    assert_equal @organizer.profile.id, response.parsed_body['items'].first['profileId']
+    assert_equal @organizer.profile.id, response.parsed_body['relations']['profiles'].first['id']
+  end
+
+  test 'Speed skydiving competition - #create - when not allowed' do
+    post api_v1_speed_skydiving_competition_organizers_url(@event), params: { user_id: @organizer.id }
+
+    assert_response :forbidden
+  end
+
+  test 'Speed skydiving competition - #create - adds organizer to event' do
+    @event.update!(responsible: users(:event_responsible))
+
+    sign_in @event.responsible
+
+    assert_changes -> { @event.organizers.count }, from: 0, to: 1 do
+      post api_v1_speed_skydiving_competition_organizers_url(@event),
+           params: { organizer: { user_id: @organizer.id } }
     end
 
-    describe '#create' do
-      it 'when not allowed' do
-        event = speed_skydiving_competitions(:nationals)
-        organizer_user = users(:regular_user)
+    assert_response :success
+    assert_equal @organizer.id, response.parsed_body['userId']
+    assert_equal @organizer.profile.id, response.parsed_body['profileId']
+  end
 
-        post "/api/v1/speed_skydiving_competitions/#{event.id}/organizers",
-             params: { user_id: organizer_user.id }
+  test 'Speed skydiving competition - #destroy - when not allowed' do
+    record = @event.organizers.create!(user: @organizer)
 
-        expect(response).to have_http_status(:forbidden)
-      end
-
-      it 'adds organizer to event' do
-        event = speed_skydiving_competitions(:nationals)
-        event.update!(responsible: users(:event_responsible))
-
-        new_organizer_user = users(:regular_user)
-
-        sign_in event.responsible
-
-        post "/api/v1/speed_skydiving_competitions/#{event.id}/organizers",
-             params: { organizer: { user_id: new_organizer_user.id } }
-
-        expect(response).to have_http_status(:success)
-        expect(response.parsed_body).to match(
-          hash_including(
-            'id' => Integer,
-            'userId' => new_organizer_user.id,
-            'profileId' => new_organizer_user.profile.id
-          )
-        )
-      end
+    assert_no_changes -> { @event.organizers.count } do
+      delete api_v1_speed_skydiving_competition_organizer_url(@event, record.id)
     end
 
-    describe '#destroy' do
-      it 'when not allowed' do
-        event = speed_skydiving_competitions(:nationals)
-        organizer_user = users(:regular_user)
-        organizer = event.organizers.create!(user: organizer_user)
+    assert_response :forbidden
+  end
 
-        delete "/api/v1/speed_skydiving_competitions/#{event.id}/organizers/#{organizer.id}"
+  test 'Speed skydiving competition - #destroy - remopves organizer from event' do
+    record = @event.organizers.create!(user: @organizer)
 
-        expect(response).to have_http_status(:forbidden)
-      end
+    sign_in @event.responsible
 
-      it 'remopves organizer from event' do
-        event = speed_skydiving_competitions(:nationals)
-        organizer_user = users(:regular_user)
-        organizer = event.organizers.create!(user: organizer_user)
-
-        sign_in event.responsible
-
-        delete "/api/v1/speed_skydiving_competitions/#{event.id}/organizers/#{organizer.id}"
-
-        expect(response).to have_http_status(:success)
-        expect(response.parsed_body).to match(
-          hash_including(
-            'id' => Integer,
-            'userId' => organizer.user_id,
-            'profileId' => organizer.user.profile.id
-          )
-        )
-      end
+    assert_difference -> { @event.organizers.count } => -1 do
+      delete api_v1_speed_skydiving_competition_organizer_url(@event, record.id)
     end
+
+    assert_response :success
+    assert_equal @organizer.id, response.parsed_body['userId']
+    assert_equal @organizer.profile.id, response.parsed_body['profileId']
   end
 end

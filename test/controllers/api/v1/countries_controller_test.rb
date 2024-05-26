@@ -1,27 +1,25 @@
-describe Api::V1::CountriesController do
-  render_views
+require 'test_helper'
 
-  describe '#index' do
-    it 'returns correct fields' do
-      get :index, format: :json
+class Api::V1::CountriesControllerTest < ActionDispatch::IntegrationTest
+  test '#index - returns correct fields' do
+    get api_v1_countries_url
 
-      fields = response.parsed_body['items'].map(&:keys).flatten.uniq
+    fields = response.parsed_body['items'].map(&:keys).flatten.uniq.sort
 
-      expect(fields).to match(%w[id name code])
-    end
+    assert_equal %w[code id name], fields
+  end
 
-    it 'filters by ids' do
-      norway = countries(:norway)
-      russia = countries(:russia)
+  test '#index - filters by ids' do
+    norway = countries(:norway)
+    russia = countries(:russia)
 
-      3.times { |idx| Country.create!(name: 'test', code: idx) }
+    3.times { |idx| Country.create!(name: 'test', code: idx) }
 
-      get :index, format: :json, params: { ids: [norway.id, russia.id] }
+    get api_v1_countries_url(ids: [norway.id, russia.id])
 
-      expect(response).to be_successful
+    assert_response :success
 
-      names = response.parsed_body.fetch('items').map { |el| el['name'] }
-      expect(names).to match_array([norway.name, russia.name])
-    end
+    names = response.parsed_body.fetch('items').map { |el| el['name'] }.sort
+    assert_equal [norway.name, russia.name].sort, names
   end
 end

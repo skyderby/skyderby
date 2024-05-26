@@ -1,153 +1,142 @@
-describe Api::V1::ManufacturersController do
-  render_views
+require 'test_helper'
 
-  describe '#index' do
-    it 'returns correct fields' do
-      get :index, format: :json
+class Api::V1::ManufacturersControllerTest < ActionDispatch::IntegrationTest
+  test '#index - returns correct fields' do
+    get api_v1_manufacturers_url
 
-      expect(response).to be_successful
-      fields = response.parsed_body['items'].map(&:keys).flatten.uniq
-
-      expect(fields).to match(%w[id name code active])
-    end
-
-    it 'filters by ids' do
-      tony = manufacturers(:tony)
-      rd = manufacturers(:rd)
-
-      3.times { |idx| Manufacturer.create!(name: 'test', code: idx) }
-
-      get :index, format: :json, params: { ids: [tony.id, rd.id] }
-
-      expect(response).to be_successful
-
-      codes = response.parsed_body.fetch('items').map { |el| el['code'] }
-      expect(codes).to match_array([tony.code, rd.code])
-    end
+    assert_response :success
+    fields = response.parsed_body['items'].map(&:keys).flatten.uniq
+    assert_equal %w[active code id name], fields.sort
   end
 
-  it '#show' do
+  test '#index - filters by ids' do
+    tony = manufacturers(:tony)
+    rd = manufacturers(:rd)
+
+    3.times { |idx| Manufacturer.create!(name: 'test', code: idx) }
+
+    get api_v1_manufacturers_url(ids: [tony.id, rd.id])
+
+    assert_response :success
+    codes = response.parsed_body.fetch('items').map { |el| el['code'] }
+    assert_equal [tony.code, rd.code].sort, codes.sort
+  end
+
+  test '#show' do
     manufacturer = manufacturers(:tony)
 
-    get :show, params: { id: manufacturer.id }, format: :json
+    get api_v1_manufacturer_url(manufacturer)
 
-    expect(response).to be_successful
-    expect(response.parsed_body).to eq(
+    assert_response :success
+    assert_equal(
       {
         id: manufacturer.id,
         active: false,
         name: manufacturer.name,
         code: manufacturer.code
-      }.stringify_keys
+      }.stringify_keys,
+      response.parsed_body
     )
   end
 
-  describe '#create' do
-    it 'without permissions' do
-      post :create, params: { manufacturer: { name: 'New maker', code: 'NM' } }, format: :json
-
-      expect(response).to be_forbidden
+  test '#create - without permissions' do
+    assert_no_changes -> { Manufacturer.count } do
+      post api_v1_manufacturers_url, params: { manufacturer: { name: 'New maker', code: 'NM' } }
     end
 
-    it 'with permissions' do
-      sign_in users(:admin)
-
-      post :create, params: { manufacturer: { name: 'New maker', code: 'NM' } }, format: :json
-
-      expect(response).to be_successful
-      expect(response.parsed_body).to match(
-        hash_including({
-          name: 'New maker',
-          code: 'NM'
-        }.stringify_keys)
-      )
-    end
-
-    it 'with invalid param' do
-      sign_in users(:admin)
-
-      post :create, params: { manufacturer: { code: 'NM' } }, format: :json
-
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body).to match(
-        hash_including('errors' => hash_including('name'))
-      )
-    end
+    assert_response :forbidden
   end
 
-  describe '#update' do
-    it 'without permissions' do
-      manufacturer = manufacturers(:tony)
+  test '#create - with permissions' do
+    sign_in users(:admin)
 
-      put :update, params: { id: manufacturer.id, manufacturer: { name: 'New maker' } }, format: :json
+    post api_v1_manufacturers_url, params: { manufacturer: { name: 'New maker', code: 'NM' } }
 
-      expect(response).to be_forbidden
-    end
-
-    it 'with permissions' do
-      sign_in users(:admin)
-
-      manufacturer = manufacturers(:tony)
-
-      put :update, params: { id: manufacturer.id, manufacturer: { name: 'New maker' } }, format: :json
-
-      expect(response).to be_successful
-      expect(response.parsed_body).to match(
-        hash_including(
-          'name' => 'New maker',
-          'code' => manufacturer.code
-        )
-      )
-    end
-
-    it 'with invalid param' do
-      sign_in users(:admin)
-
-      manufacturer = manufacturers(:tony)
-
-      put :update, params: { id: manufacturer.id, manufacturer: { name: '' } }, format: :json
-
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body).to match(
-        hash_including('errors' => hash_including('name'))
-      )
-    end
+    assert_response :success
+    assert_equal 'New maker', response.parsed_body['name']
+    assert_equal 'NM', response.parsed_body['code']
   end
 
-  describe '#destroy' do
-    it 'without permissions' do
-      manufacturer = Manufacturer.create!(name: 'Wrong', code: 'WR')
+  test '#create - with invalid param' do
+    sign_in users(:admin)
 
-      delete :destroy, params: { id: manufacturer.id }, format: :json
-
-      expect(response).to be_forbidden
+    assert_no_changes -> { Manufacturer.count } do
+      post api_v1_manufacturers_url, params: { manufacturer: { code: 'NM' } }
     end
 
-    it 'with permissions' do
-      sign_in users(:admin)
+    assert_response :unprocessable_entity
+    assert_equal({ 'errors' => { 'name' => ["can't be blank"] } }, response.parsed_body)
+  end
 
-      manufacturer = Manufacturer.create!(name: 'Wrong', code: 'WR')
+  test '#update - without permissions' do
+    manufacturer = manufacturers(:tony)
 
-      delete :destroy, params: { id: manufacturer.id }, format: :json
-
-      expect(response).to be_successful
+    assert_no_changes -> { manufacturer.reload.name } do
+      put api_v1_manufacturer_url(manufacturer), params: { manufacturer: { name: 'New maker' } }
     end
 
-    it 'when have suits' do
-      sign_in users(:admin)
+    assert_response :forbidden
+  end
 
-      manufacturer = manufacturers(:tony)
+  test '#update - with permissions' do
+    sign_in users(:admin)
 
-      delete :destroy, params: { id: manufacturer.id }, format: :json
+    manufacturer = Manufacturer.create!(name: 'Wrong', code: 'WR')
 
-      expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body).to match(
-        hash_including(
-          'errors' => hash_including(
-            'base' => ['Cannot delete record because dependent suits exist']
-          )
-        )
-      )
+    assert_changes -> { manufacturer.reload.name }, from: 'Wrong', to: 'New maker' do
+      put api_v1_manufacturer_url(manufacturer), params: { manufacturer: { name: 'New maker' } }
     end
+
+    assert_response :success
+    assert_equal 'New maker', response.parsed_body['name']
+    assert_equal 'WR', response.parsed_body['code']
+  end
+
+  test '#update - with invalid param' do
+    sign_in users(:admin)
+
+    manufacturer = Manufacturer.create!(name: 'Wrong', code: 'WR')
+
+    put api_v1_manufacturer_url(manufacturer), params: { manufacturer: { name: '' } }
+
+    assert_response :unprocessable_entity
+    assert_equal({ 'errors' => { 'name' => ["can't be blank"] } }, response.parsed_body)
+  end
+
+  test '#destroy - without permissions' do
+    manufacturer = Manufacturer.create!(name: 'Wrong', code: 'WR')
+
+    delete api_v1_manufacturer_url(manufacturer)
+
+    assert_response :forbidden
+  end
+
+  test '#destroy - with permissions' do
+    sign_in users(:admin)
+
+    manufacturer = Manufacturer.create!(name: 'Wrong', code: 'WR')
+
+    assert_difference -> { Manufacturer.count } => -1 do
+      delete api_v1_manufacturer_url(manufacturer)
+    end
+
+    assert_response :success
+  end
+
+  test '#destroy - when have suits' do
+    sign_in users(:admin)
+
+    manufacturer = Manufacturer.create!(name: 'Wrong', code: 'WR')
+    Suit.create!(name: 'Test', manufacturer: manufacturer, kind: :wingsuit)
+
+    assert_no_changes ->{ Manufacturer.count } do
+      delete api_v1_manufacturer_url(manufacturer)
+    end
+
+    assert_response :unprocessable_entity
+    assert_equal(
+      { 'errors' => { 'base' => ['Cannot delete record because dependent suits exist'] } },
+      response.parsed_body
+    )
   end
 end

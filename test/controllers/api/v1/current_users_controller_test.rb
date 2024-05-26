@@ -1,23 +1,25 @@
-describe Api::V1::CurrentUsersController do
-  render_views
+require 'test_helper'
 
-  let(:default_permissions) { { 'canAccessAdminPanel' => false, 'canCreatePlace' => false, 'canManageUsers' => false } }
+class Api::V1::CurrentUsersControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @default_permissions = { 'canAccessAdminPanel' => false, 'canCreatePlace' => false, 'canManageUsers' => false }
+  end
 
-  describe '#show' do
-    it 'when authorized' do
-      sign_in users(:regular_user)
+  it '#show - when authorized' do
+    sign_in users(:regular_user)
 
-      get :show, format: :json
+    get api_v1_current_user_url
 
-      expect(response.parsed_body['authorized']).to eq(true)
-      expect(response.parsed_body['permissions']).to eq(default_permissions)
-    end
+    assert_response :success
+    assert response.parsed_body['authorized']
+    assert_equal @default_permissions, response.parsed_body['permissions']
+  end
 
-    it 'when not authorized' do
-      get :show, format: :json
+  it '#show - when not authorized' do
+    get api_v1_current_user_url
 
-      expect(response.parsed_body['authorized']).to eq(false)
-      expect(response.parsed_body['permissions']).to eq(default_permissions)
-    end
+    assert_response :success
+    assert_not response.parsed_body['authorized']
+    assert_equal @default_permissions, response.parsed_body['permissions']
   end
 end
