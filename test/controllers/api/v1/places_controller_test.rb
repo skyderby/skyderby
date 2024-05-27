@@ -1,29 +1,24 @@
-describe Api::V1::PlacesController do
-  render_views
+require 'test_helper'
 
-  describe '#index' do
-    it 'returns correct fields' do
-      get :index, format: :json
+class Api::V1::PlacesControllerTest < ActionDispatch::IntegrationTest
+  test '#index - returns correct fields' do
+    get api_v1_places_url
 
-      response_json = JSON.parse(response.body)
-      fields = response_json['items'].map(&:keys).flatten.uniq
+    fields = response.parsed_body['items'].map(&:keys).flatten.uniq.sort
+    assert_equal %w[id name countryId kind latitude longitude msl permissions cover photos].sort, fields
+  end
 
-      expect(fields).to match(%w[id name countryId kind latitude longitude msl permissions cover photos])
-    end
+  test '#index - filters by ids' do
+    country = countries(:norway)
+    hellesylt = places(:hellesylt)
+    loen = places(:loen)
 
-    it 'filters by ids' do
-      country = countries(:norway)
-      hellesylt = places(:hellesylt)
-      loen = places(:loen)
+    3.times { Place.create!(name: 'test', latitude: 1, longitude: 1, country:) }
 
-      3.times { Place.create!(name: 'test', latitude: 1, longitude: 1, country: country) }
+    get api_v1_places_url(ids: [hellesylt.id, loen.id])
 
-      get :index, format: :json, params: { ids: [hellesylt.id, loen.id] }
-
-      expect(response).to be_successful
-
-      names = response.parsed_body.fetch('items').map { |el| el['name'] }
-      expect(names).to match_array([hellesylt.name, loen.name])
-    end
+    assert_response :success
+    names = response.parsed_body.fetch('items').map { |el| el['name'] }
+    assert_equal [hellesylt.name, loen.name].sort, names.sort
   end
 end

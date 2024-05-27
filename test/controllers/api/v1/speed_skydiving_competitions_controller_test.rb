@@ -1,38 +1,37 @@
-describe Api::V1::SpeedSkydivingCompetitionsController do
-  let(:event) { speed_skydiving_competitions(:nationals) }
+require 'test_helper'
 
-  describe '#show' do
-    it 'forbidden when user does not have access' do
-      user = create(:user)
-      sign_in user
-      event.draft!
-
-      get :show, params: { id: event.id }, format: :json
-
-      expect(response).to have_http_status(:forbidden)
-    end
+class Api::V1::SpeedSkydivingCompetitionsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @event = speed_skydiving_competitions(:nationals)
+    @form_data = { name: 'Test event', starts_at: Time.zone.today, place_id: places(:ravenna).id }
   end
 
-  describe '#create' do
-    let(:place) { places(:ravenna) }
-    let(:form_data) { { name: 'Test event', starts_at: Time.zone.today, place_id: place.id } }
-    let(:params) { { speed_skydiving_competition: form_data } }
+  test '#show - forbidden when user does not have access' do
+    user = create(:user)
+    sign_in user
+    @event.draft!
 
-    subject(:perform_request) { post :create, params: params, format: :json }
+    get api_v1_speed_skydiving_competition_url(@event)
 
-    it 'forbidden for guest users / not logged in' do
-      expect { perform_request }.not_to(change { SpeedSkydivingCompetition.count })
+    assert_response :forbidden
+  end
 
-      expect(response).to have_http_status(:forbidden)
+  test 'forbidden for guest users / not logged in' do
+    assert_no_changes -> { SpeedSkydivingCompetition.count } do
+      post api_v1_speed_skydiving_competitions_url, params: { speed_skydiving_competition: @form_data }
     end
 
-    it 'success when user is authorized' do
-      user = users(:regular_user)
-      sign_in user
+    assert_response :forbidden
+  end
 
-      expect { perform_request }.to(change { SpeedSkydivingCompetition.count }.by(1))
+  test 'success when user is authorized' do
+    user = users(:regular_user)
+    sign_in user
 
-      expect(response).to have_http_status(:success)
+    assert_difference -> { SpeedSkydivingCompetition.count } => 1 do
+      post api_v1_speed_skydiving_competitions_url, params: { speed_skydiving_competition: @form_data }
     end
+
+    assert_response :success
   end
 end

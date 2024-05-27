@@ -1,15 +1,17 @@
-describe Api::V1::ProfilesController, type: :controller do
-  render_views
+require 'test_helper'
 
-  it '#show' do
-    get :show, params: { id: profile.id }, format: :json
+class Api::V1::ProfilesControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @profile = profiles(:alex)
+  end
 
-    response_json = JSON.parse(response.body)
+  test '#show' do
+    get api_v1_profile_url(@profile)
 
     expected_json =
       {
-        id: profile.id,
-        name: profile.name,
+        id: @profile.id,
+        name: @profile.name,
         countryId: nil,
         contributor: false,
         photo: {
@@ -17,30 +19,20 @@ describe Api::V1::ProfilesController, type: :controller do
           medium: '/images/medium/missing.png',
           thumb: '/images/thumb/missing.png'
         }
-      }.with_indifferent_access
+      }.deep_stringify_keys
 
-    expect(response_json).to eq(expected_json)
+    assert_equal expected_json, response.parsed_body
   end
 
-  describe '#index' do
-    it 'returns none if no search term provided' do
-      get :index, format: :json
+  test '#index - returns none if no search term provided' do
+    get api_v1_profiles_path
 
-      response_json = JSON.parse(response.body)
-
-      expect(response_json['items']).to eq([])
-    end
-
-    it 'returns collection if search term specified' do
-      get :index, params: { search: 'ale' }, format: :json
-
-      response_json = JSON.parse(response.body)
-
-      expect(response_json['items']).to include(hash_including({ 'name' => 'Alex' }))
-    end
+    assert_empty response.parsed_body['items']
   end
 
-  def profile
-    @profile ||= profiles(:alex)
+  test '#index - returns collection if search term specified' do
+    get api_v1_profiles_path(search: 'ale')
+
+    assert_not_nil response.parsed_body['items'].find { _1['name'] == 'Alex'}
   end
 end

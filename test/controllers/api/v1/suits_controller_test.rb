@@ -1,29 +1,26 @@
-describe Api::V1::SuitsController do
-  render_views
+require 'test_helper'
 
-  describe '#index' do
-    it 'returns correct fields' do
-      get :index, format: :json
+class Api::V1::SuitsControllerTest < ActionDispatch::IntegrationTest
+  test '#index - returns correct fields' do
+    get api_v1_suits_url
 
-      response_json = JSON.parse(response.body)
-      fields = response_json['items'].map(&:keys).flatten.uniq
+    fields = response.parsed_body['items'].map(&:keys).flatten.uniq.sort
 
-      expect(fields).to match(%w[id name makeId category editable])
-    end
+    assert_equal %w[category editable id makeId name], fields
+  end
 
-    it 'filters by ids' do
-      manufacturer = manufacturers(:tony)
-      apache = suits(:apache)
-      nala = suits(:nala)
+  test '#index - filters by ids' do
+    manufacturer = manufacturers(:tony)
+    apache = suits(:apache)
+    nala = suits(:nala)
 
-      3.times { Suit.create!(name: 'test', manufacturer: manufacturer) }
+    3.times { Suit.create!(name: 'test', manufacturer: manufacturer) }
 
-      get :index, format: :json, params: { ids: [apache.id, nala.id] }
+    get api_v1_suits_url(ids: [apache.id, nala.id])
 
-      expect(response).to be_successful
+    assert_response :success
 
-      names = response.parsed_body.fetch('items').map { |el| el['name'] }
-      expect(names).to match_array([apache.name, nala.name])
-    end
+    names = response.parsed_body.fetch('items').map { |el| el['name'] }
+    assert_equal [apache.name, nala.name].sort, names.sort
   end
 end
