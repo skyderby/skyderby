@@ -1,5 +1,7 @@
-describe ManufacturerStatusJob do
-  it 'updates status for manufacturers', :aggregate_failures do
+require 'test_helper'
+
+class ManufacturerStatusJobTest < ActiveJob::TestCase
+  test 'updates status for manufacturers' do
     active_manufacturer = Manufacturer.create!(name: 'M1', code: 'M1')
     inactive_manufacturer = Manufacturer.create!(name: 'M2', code: 'M2')
 
@@ -7,9 +9,9 @@ describe ManufacturerStatusJob do
 
     create_list(:empty_track, 10, suit: suit)
 
-    described_class.perform_now
+    ManufacturerStatusJob.perform_now
 
-    expect(active_manufacturer.reload.active).to be_truthy
-    expect(inactive_manufacturer.reload.active).to be_falsey
+    assert active_manufacturer.reload.active
+    assert_not inactive_manufacturer.reload.active
   end
 end

@@ -1,8 +1,12 @@
-describe VirtualCompetition::SuitableFinder do
-  let(:place_comp) { create :online_event, :place_specific }
-  let(:last_year_comp) { create :online_event, :last_year }
+require 'test_helper'
 
-  it 'find worldwide comps' do
+class VirtualCompetition::SuitableFinderTest < ActiveSupport::TestCase
+  setup do
+    @place_comp = create :online_event, :place_specific
+    @last_year_comp = create :online_event, :last_year
+  end
+
+  test 'find worldwide comps' do
     worldwide_comp = create :online_event, jumps_kind: :skydive, place: nil
 
     place = create :place
@@ -14,12 +18,12 @@ describe VirtualCompetition::SuitableFinder do
 
     found_competitions = VirtualCompetition.suitable_for(track)
 
-    expect(found_competitions).to include(worldwide_comp)
-    expect(found_competitions).not_to include(place_comp)
-    expect(found_competitions).not_to include(last_year_comp)
+    assert_includes found_competitions, worldwide_comp
+    assert_not_includes found_competitions, @place_comp
+    assert_not_includes found_competitions, @last_year_comp
   end
 
-  it 'find worldwide and place specific' do
+  test 'find worldwide and place specific' do
     worldwide_comp = create :online_event, place: nil
 
     place = create :place
@@ -34,52 +38,52 @@ describe VirtualCompetition::SuitableFinder do
 
     found_competitions = VirtualCompetition.suitable_for(track)
 
-    expect(found_competitions).to include(worldwide_comp)
-    expect(found_competitions).to include(place_specific_comp)
-    expect(found_competitions).not_to include(last_year_comp)
+    assert_includes found_competitions, worldwide_comp
+    assert_includes found_competitions, place_specific_comp
+    assert_not_includes found_competitions, @last_year_comp
   end
 
-  it "returns blank array if track isn't public" do
+  test "returns blank array if track isn't public" do
     track = create(:empty_track)
     track.private_track!
 
     worldwide_comp = create :online_event
 
-    expect(VirtualCompetition.suitable_for(track)).not_to include(worldwide_comp)
+    assert_not_includes VirtualCompetition.suitable_for(track), worldwide_comp
   end
 
-  it 'returns blank array if track from unregistered user' do
+  test 'returns blank array if track from unregistered user' do
     track = create(:empty_track)
     track.pilot = nil
 
     worldwide_comp = create :online_event
 
-    expect(VirtualCompetition.suitable_for(track)).not_to include(worldwide_comp)
+    assert_not_includes VirtualCompetition.suitable_for(track), worldwide_comp
   end
 
-  it 'returns blank array if track in custom suit' do
+  test 'returns blank array if track in custom suit' do
     track = create(:empty_track)
     track.suit = nil
 
     worldwide_comp = create :online_event
 
-    expect(VirtualCompetition.suitable_for(track)).not_to include(worldwide_comp)
+    assert_not_includes VirtualCompetition.suitable_for(track), worldwide_comp
   end
 
-  it 'returns blank array if track is disqualified' do
+  test 'returns blank array if track is disqualified' do
     track = create(:empty_track)
     track.disqualified_from_online_competitions = true
 
     worldwide_comp = create :online_event
 
-    expect(VirtualCompetition.suitable_for(track)).not_to include(worldwide_comp)
+    assert_not_includes VirtualCompetition.suitable_for(track), worldwide_comp
   end
 
-  it 'returns array of competitions without specific jumps and suits kind' do
+  test 'returns array of competitions without specific jumps and suits kind' do
     track = create(:empty_track)
 
     worldwide_comp = create :online_event, jumps_kind: nil, suits_kind: nil
 
-    expect(VirtualCompetition.suitable_for(track)).to include(worldwide_comp)
+    assert_includes VirtualCompetition.suitable_for(track), worldwide_comp
   end
 end

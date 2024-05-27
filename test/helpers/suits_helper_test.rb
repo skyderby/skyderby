@@ -1,11 +1,16 @@
-describe SuitsHelper, type: :helper do
-  it 'returns suit presentation' do
+require 'test_helper'
+
+class SuitsHelperTest < ActionView::TestCase
+  test 'returns suit presentation' do
     suit = create :suit
-    expect(helper.suit_presentation(suit)).to eq([
-      "<span class=\"text-warning\" data-toggle=\"tooltip\" title=\"#{suit.manufacturer.name}\">",
-      suit.manufacturer.code,
-      '</span>',
-      "<span> #{suit.name}</span>"
-    ].join)
+    assert_equal(
+      [
+        "<span class=\"text-warning\" data-toggle=\"tooltip\" title=\"#{suit.manufacturer.name}\">",
+        suit.manufacturer.code,
+        '</span>',
+        "<span> #{suit.name}</span>"
+      ].join,
+      suit_presentation(suit)
+    )
   end
 end
