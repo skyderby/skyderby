@@ -1,5 +1,3 @@
-json.key_format! camelize: :lower
-
 json.extract! @track_file, :id, :file_format
 json.segments_count @track_file.segments.size
 

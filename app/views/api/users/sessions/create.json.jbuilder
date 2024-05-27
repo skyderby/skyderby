@@ -1,5 +1,3 @@
-json.key_format! camelize: :lower
-
 user = Current.user
 profile = Current.profile
 

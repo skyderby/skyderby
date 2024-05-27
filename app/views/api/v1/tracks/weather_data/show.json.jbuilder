@@ -1,5 +1,3 @@
-json.key_format! camelize: :lower
-
 json.array! @weather_data do |item|
   json.actual_on item.actual_on.iso8601(3)
   json.altitude item.altitude.to_f

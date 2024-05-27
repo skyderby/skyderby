@@ -1,7 +1,5 @@
 without_photos ||= false
 
-json.key_format! camelize: :lower
-
 json.extract! place, :id, :name, :country_id, :kind
 json.latitude place.latitude.to_f
 json.longitude place.longitude.to_f
