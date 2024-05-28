@@ -14,9 +14,7 @@ module Api
               format.json { @result = submission.result }
             else
               format.json do
-                render template: 'errors/api_errors',
-                       locals: { errors: submission.errors },
-                       status: :bad_request
+                respond_with_errors submission.errors
               end
             end
           end

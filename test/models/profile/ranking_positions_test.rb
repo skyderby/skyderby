@@ -1,78 +1,72 @@
-describe Profiles::RankingPositions do
-  describe '#by_competition' do
-    it 'when on first place' do
-      create_data
+require 'test_helper'
 
-      results = Profiles::RankingPositions.new(@vasya_profile).by_competition
+class Profiles::RankingPositionsTest < ActiveSupport::TestCase
+  setup do
+    @competition = virtual_competitions(:distance_in_time)
 
-      _competition, scores = results.first
+    @vasya_profile = create :profile, name: 'Vasya'
+    track = create :empty_track, pilot: @vasya_profile
+    create :virtual_competition_result,
+           virtual_competition: @competition,
+           track: track,
+           result: 100
 
-      profile_names = scores.map { |x| x.profile.name }
+    @petya_profile = create :profile, name: 'Petya'
+    track = create :empty_track, pilot: @petya_profile
+    create :virtual_competition_result,
+           virtual_competition: @competition,
+           track: track,
+           result: 90
 
-      expect(profile_names).to eq(%w[Vasya Petya Ilya])
-    end
+    @ilya_profile = create :profile, name: 'Ilya'
+    track = create :empty_track, pilot: @ilya_profile
+    create :virtual_competition_result,
+           virtual_competition: @competition,
+           track: track,
+           result: 90
 
-    it 'when on last place' do
-      create_data
+    @misha_profile = create :profile, name: 'Misha'
+    track = create :empty_track, pilot: @misha_profile
+    create :virtual_competition_result,
+           virtual_competition: @competition,
+           track: track,
+           result: 90
 
-      results = Profiles::RankingPositions.new(@kolya_profile).by_competition
+    @kolya_profile = create :profile, name: 'Kolya'
+    track = create :empty_track, pilot: @kolya_profile
+    create :virtual_competition_result,
+           virtual_competition: @competition,
+           track: track,
+           result: 80
+  end
 
-      _competition, scores = results.first
+  test 'when on first place' do
+    results = Profiles::RankingPositions.new(@vasya_profile).by_competition
 
-      profile_names = scores.map { |x| x.profile.name }
+    _competition, scores = results.first
 
-      expect(profile_names).to eq(%w[Ilya Misha Kolya])
-    end
+    profile_names = scores.map { |x| x.profile.name }
 
-    it 'when in the middle' do
-      create_data
+    assert_equal %w[Vasya Petya Ilya], profile_names
+  end
 
-      results = Profiles::RankingPositions.new(@ilya_profile).by_competition
+  test 'when on last place' do
+    results = Profiles::RankingPositions.new(@kolya_profile).by_competition
 
-      _competition, scores = results.first
+    _competition, scores = results.first
 
-      profile_names = scores.map { |x| x.profile.name }
+    profile_names = scores.map { |x| x.profile.name }
 
-      expect(profile_names).to eq(%w[Petya Ilya Misha])
-    end
+    assert_equal %w[Ilya Misha Kolya], profile_names
+  end
 
-    def create_data
-      competition = virtual_competitions(:distance_in_time)
+  test 'when in the middle' do
+    results = Profiles::RankingPositions.new(@ilya_profile).by_competition
 
-      @vasya_profile = create :profile, name: 'Vasya'
-      track = create :empty_track, pilot: @vasya_profile
-      create :virtual_competition_result,
-             virtual_competition: competition,
-             track: track,
-             result: 100
+    _competition, scores = results.first
 
-      @petya_profile = create :profile, name: 'Petya'
-      track = create :empty_track, pilot: @petya_profile
-      create :virtual_competition_result,
-             virtual_competition: competition,
-             track: track,
-             result: 90
+    profile_names = scores.map { |x| x.profile.name }
 
-      @ilya_profile = create :profile, name: 'Ilya'
-      track = create :empty_track, pilot: @ilya_profile
-      create :virtual_competition_result,
-             virtual_competition: competition,
-             track: track,
-             result: 90
-
-      @misha_profile = create :profile, name: 'Misha'
-      track = create :empty_track, pilot: @misha_profile
-      create :virtual_competition_result,
-             virtual_competition: competition,
-             track: track,
-             result: 90
-
-      @kolya_profile = create :profile, name: 'Kolya'
-      track = create :empty_track, pilot: @kolya_profile
-      create :virtual_competition_result,
-             virtual_competition: competition,
-             track: track,
-             result: 80
-    end
+    assert_equal %w[Petya Ilya Misha], profile_names
   end
 end

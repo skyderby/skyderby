@@ -1,87 +1,91 @@
-# == Schema Information
-#
-# Table name: sections
-#
-#  id       :integer          not null, primary key
-#  name     :string(510)
-#  order    :integer
-#  event_id :integer
-#
+require 'test_helper'
 
-require 'support/event_ongoing_validation'
+class Event::SectionTest < ActiveSupport::TestCase
+  setup do
+    @event = events(:nationals)
+  end
 
-describe Event::Section do
-  describe '#first_position?' do
-    it 'true for top section' do
-      section = event_sections(:speed_distance_time_advanced)
+  test 'can not be created for finished event' do
+    @event.finished!
 
-      expect(section.first_position?).to be_truthy
-    end
-
-    it 'false for others' do
-      section = event_sections(:speed_distance_time_intermediate)
-
-      expect(section.first_position?).to be_falsey
+    assert_raises(ActiveRecord::RecordInvalid) do
+      @event.sections.create!(name: 'Open')
     end
   end
 
-  describe '#last_position?' do
-    it 'true for last section' do
-      section = event_sections(:speed_distance_time_intermediate)
+  test 'can not be updated for finished event' do
+    category = @event.sections.create!(name: 'Open')
+    @event.finished!
 
-      expect(section.last_position?).to be_truthy
-    end
-
-    it 'false for others' do
-      section = event_sections(:speed_distance_time_advanced)
-
-      expect(section.last_position?).to be_falsey
+    assert_raises(ActiveRecord::RecordInvalid) do
+      category.update!(name: 'Rookie')
     end
   end
 
-  describe '#move_upper' do
-    it 'moves section upper' do
-      first_section  = event_sections(:speed_distance_time_advanced)
-      second_section = event_sections(:speed_distance_time_intermediate)
+  test 'can not be destroyed for finished event' do
+    category = @event.sections.create!(name: 'Open')
+    @event.finished!
 
-      first_section_order = first_section.order
-
-      second_section.move_upper
-      expect(second_section.order).to eq(first_section_order)
-    end
-
-    it 'not change top section' do
-      section = event_sections(:speed_distance_time_advanced)
-
-      section_order_before_call = section.order
-
-      section.move_upper
-      expect(section.order).to eq(section_order_before_call)
+    assert_raises(ActiveRecord::RecordNotDestroyed) do
+      category.destroy!
     end
   end
 
-  describe '#move_lower' do
-    it 'moves section lower' do
-      first_section  = event_sections(:speed_distance_time_advanced)
-      second_section = event_sections(:speed_distance_time_intermediate)
-
-      second_section_order = second_section.order
-
-      first_section.move_lower
-      expect(first_section.order).to eq(second_section_order)
-    end
-
-    it 'not change last section' do
-      section = event_sections(:speed_distance_time_intermediate)
-
-      section_order_before_call = section.order
-
-      section.move_lower
-      expect(section.order).to eq(section_order_before_call)
-    end
+  test '#first_position? - true for top section' do
+    section = event_sections(:advanced)
+    assert_predicate section, :first_position?
   end
 
-  it_should_behave_like 'event_ongoing_validation' do
-    let(:target) { event_sections(:speed_distance_time_advanced) }
+  test '#first_position? - false for others' do
+    section = event_sections(:intermediate)
+    assert_not section.first_position?
+  end
+
+  test '#last_position? - true for last section' do
+    section = event_sections(:intermediate)
+    assert_predicate section, :last_position?
+  end
+
+  test '#last_position? - false for others' do
+    section = event_sections(:advanced)
+    assert_not section.last_position?
+  end
+
+  test '#move_upper - moves section upper' do
+    first_section  = event_sections(:advanced)
+    second_section = event_sections(:intermediate)
+
+    first_section_order = first_section.order
+
+    second_section.move_upper
+    assert_equal first_section_order, second_section.order
+  end
+
+  test '#move_upper - not change top section' do
+    section = event_sections(:advanced)
+
+    section_order_before_call = section.order
+
+    section.move_upper
+    assert_equal section_order_before_call, section.order
+  end
+
+  test '#move_lower - moves section lower' do
+    first_section  = event_sections(:advanced)
+    second_section = event_sections(:intermediate)
+
+    second_section_order = second_section.order
+
+    first_section.move_lower
+    assert_equal second_section_order, first_section.order
+  end
+
+  test '#move_lower - not change last section' do
+    section = event_sections(:intermediate)
+
+    section_order_before_call = section.order
+
+    section.move_lower
+    assert_equal section_order_before_call, section.order
   end
 end

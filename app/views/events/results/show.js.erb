@@ -1,9 +1,0 @@
-$('#modal').html('<%= j render('show_modal') %>');
-
-<% if @track_presenter.separate_charts? %>
-  <%= render partial: 'tracks/separate_charts', locals: { presenter: @track_presenter } %>
-<% else %>
-  <%= render partial: 'tracks/single_chart', locals: { presenter: @track_presenter } %>
-<% end %>
-
-$('#modal').modal('show');

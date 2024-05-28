@@ -1,65 +1,63 @@
-describe Tournament::Match::Slot do
-  describe 'score calculation' do
-    let(:place) { places(:hellesylt_wbr) }
-    let(:responsible) { users(:event_responsible) }
-    let(:finish_line) do
-      place.finish_lines.create! \
-        name: 'wbr',
-        start_latitude: 62.053858,
-        start_longitude: 6.945123,
-        end_latitude: 62.056071,
-        end_longitude: 6.945568
-    end
-    let(:tournament) do
-      Tournament.create! \
-        name: 'WBR',
-        responsible: responsible,
-        place: place,
-        finish_line: finish_line
-    end
+require 'test_helper'
 
-    it 'Competitor intersected finish line' do
-      round = tournament.rounds.create!
-      match = round.matches.create!(start_time: '2015-07-02 11:45:38.185')
+class Tournament::Match::SlotTest < ActiveSupport::TestCase
+  setup do
+    @place = places(:hellesylt_wbr)
+    @responsible = users(:event_responsible)
+    @finish_line = @place.finish_lines.create!(
+      name: 'wbr',
+      start_latitude: 62.053858,
+      start_longitude: 6.945123,
+      end_latitude: 62.056071,
+      end_longitude: 6.945568
+    )
+    @tournament = Tournament.create!(
+      name: 'WBR',
+      responsible: @responsible,
+      place: @place,
+      finish_line: @finish_line
+    )
+    @competitor = @tournament.competitors.create!(
+      profile: profiles(:alex),
+      suit: suits(:apache)
+    )
+  end
 
-      match_competitor = match.slots.create!(
-        competitor: competitor,
-        track: create_track_from_file('WBR/11-40-01_Ratmir.CSV')
-      )
+  test 'competitor intersected finish line' do
+    round = @tournament.rounds.create!
+    match = round.matches.create!(start_time: '2015-07-02 11:45:38.185')
 
-      expect(match_competitor.result).to be_within(0.001).of(33.543)
-    end
+    match_competitor = match.slots.create!(
+      competitor: @competitor,
+      track: create_track_from_file('WBR/11-40-01_Ratmir.CSV')
+    )
 
-    it 'Another competitor intersected finish line' do
-      round = tournament.rounds.create!
-      match = round.matches.create!(start_time: '2015-07-02 13:46:11.447')
+    assert_in_delta 33.543, match_competitor.result, 0.001
+  end
 
-      match_competitor = match.slots.create!(
-        competitor: competitor,
-        track: create_track_from_file('WBR/13-35-43_Andreas.CSV')
-      )
+  test 'another competitor intersected finish line' do
+    round = @tournament.rounds.create!
+    match = round.matches.create!(start_time: '2015-07-02 13:46:11.447')
 
-      expect(match_competitor.result).to be_within(0.001).of(32.822)
-    end
+    match_competitor = match.slots.create!(
+      competitor: @competitor,
+      track: create_track_from_file('WBR/13-35-43_Andreas.CSV')
+    )
 
-    it 'Competitor did not intersect finish line' do
-      round = tournament.rounds.create!
-      match = round.matches.create!(start_time: '2015-07-03 11:10:30.450')
+    assert_in_delta 32.822, match_competitor.result, 0.001
+  end
 
-      match_competitor = match.slots.create!(
-        competitor: competitor,
-        track: create_track_from_file('WBR/11-05-01_Ratmir.CSV')
-      )
+  test 'competitor did not intersect finish line' do
+    round = @tournament.rounds.create!
+    match = round.matches.create!(start_time: '2015-07-03 11:10:30.450')
 
-      expect(match_competitor.result).to eq(0)
-      expect(match_competitor.is_disqualified).to be_truthy
-      expect(match_competitor.notes).to eq("Didn't intersected finish line")
-    end
+    match_competitor = match.slots.create!(
+      competitor: @competitor,
+      track: create_track_from_file('WBR/11-05-01_Ratmir.CSV')
+    )
 
-    def competitor
-      @competitor ||= tournament.competitors.create! \
-        profile: profiles(:alex),
-        suit: suits(:apache)
-    end
+    assert_equal 0, match_competitor.result
+    assert match_competitor.is_disqualified
+    assert_equal "Didn't intersected finish line", match_competitor.notes
   end
 end

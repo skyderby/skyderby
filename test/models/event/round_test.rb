@@ -1,55 +1,56 @@
-# == Schema Information
-#
-# Table name: rounds
-#
-#  id         :integer          not null, primary key
-#  name       :string(510)
-#  event_id   :integer
-#  created_at :datetime
-#  updated_at :datetime
-#  discipline :integer
-#  profile_id :integer
-#
+require 'test_helper'
 
-require 'support/event_ongoing_validation'
-
-describe Event::Round, type: :model do
-  let(:event) do
-    event = Event.new
-    event.save!(validate: false)
-    event
+class Event::RoundTest < ActiveSupport::TestCase
+  setup do
+    @event = Event.create!(
+      name: 'Test Event',
+      starts_at: Date.today,
+      place: places(:ravenna),
+      responsible: users(:event_responsible)
+    )
   end
 
-  it 'automatically set name as order within discipline' do
-    round = event.rounds.create!(discipline: 'time')
-    expect(round.number).to eql 1
+  test 'can not be created for finished event' do
+    @event.finished!
 
-    round = event.rounds.create!(discipline: 'time')
-    expect(round.number).to eql 2
-
-    round = event.rounds.create!(discipline: 'speed')
-    expect(round.number).to eql 1
-
-    round = event.rounds.create!(discipline: 'speed')
-    expect(round.number).to eql 2
+    assert_raises(ActiveRecord::RecordInvalid) do
+      @event.rounds.create!(discipline: 'time')
+    end
   end
 
-  it 'should require discipline' do
-    round = event.rounds.new(number: 1)
-    expect(round).not_to be_valid
+  test 'can not be updated for finished event' do
+    round = @event.rounds.create!(discipline: 'time')
+    @event.finished!
+
+    assert_raises(ActiveRecord::RecordInvalid) do
+      round.update!(discipline: 'speed')
+    end
   end
 
-  it 'should require event' do
-    round = Event::Round.new(number: 1, discipline: :time)
-    expect(round).not_to be_valid
+  test 'can not be destroyed for finished event' do
+    round = @event.rounds.create!(discipline: 'time')
+    @event.finished!
+
+    assert_raises(ActiveRecord::RecordNotDestroyed) do
+      round.destroy!
+    end
   end
 
-  it '.by_name' do
+  test 'automatically set number as order within discipline' do
+    assert_equal 1, @event.rounds.create!(discipline: 'time').number
+    assert_equal 2, @event.rounds.create!(discipline: 'time').number
+
+    assert_equal 1, @event.rounds.create!(discipline: 'speed').number
+    assert_equal 2, @event.rounds.create!(discipline: 'speed').number
+  end
+
+  test 'should require discipline' do
+    round = @event.rounds.new(number: 1)
+    assert_not round.valid?
+  end
+
+  test '.by_name' do
     event = events(:nationals)
-    expect(event.rounds.by_name('Distance-1')).to eq(event_rounds(:distance_round_1))
-  end
-
-  it_should_behave_like 'event_ongoing_validation' do
-    let(:target) { create :event_round }
+    assert_equal event_rounds(:distance_1), event.rounds.by_name('Distance-1')
   end
 end

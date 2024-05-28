@@ -109,7 +109,7 @@ module Skyderby
     end
 
     def latitude_to_merc_y(latitude)
-      latitude = latitude.clamp(-89.5, -89.5)
+      latitude = latitude.clamp(-89.5, 89.5)
       phi = deg_to_rad(latitude)
       sinphi = Math.sin(phi)
       con = ECCENT * sinphi

@@ -70,5 +70,11 @@ class User < ApplicationRecord
 
       left_outer_joins(:profile).where('LOWER(profiles.name) LIKE LOWER(?)', "%#{query}%")
     end
+
+    def emails
+      all.map do |user|
+        %("#{user.profile.name}" <#{user.email}>)
+      end
+    end
   end
 end
