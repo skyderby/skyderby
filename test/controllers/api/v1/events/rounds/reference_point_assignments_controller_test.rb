@@ -2,9 +2,9 @@ require 'test_helper'
 
 class Api::V1::Events::Rounds::ReferencePointAssignmentsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @event = events(:published_public)
-    @round = event_rounds(:distance_round_1)
-    @competitor = event_competitors(:competitor_1)
+    @event = events(:nationals)
+    @round = event_rounds(:distance_1)
+    @competitor = event_competitors(:john)
     @user = users(:event_responsible)
     @user_without_permissions = users(:regular_user)
   end

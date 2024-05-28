@@ -54,7 +54,7 @@ describe 'Scoring tracks in competitions', type: :system, skip: true do
   end
 
   def event
-    @event ||= events(:draft_public)
+    @event ||= events(:nationals).tap(:draft!)
   end
 
   def create_round(task)

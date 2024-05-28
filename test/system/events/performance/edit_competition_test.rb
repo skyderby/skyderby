@@ -1,6 +1,6 @@
 describe 'Edit performance competition event' do
   it 'updates event' do
-    event = events(:published_public)
+    event = events(:nationals)
     event.update!(name: 'OLD NAME')
     new_event_name = 'NEW EVENT NAME'
 
@@ -16,7 +16,7 @@ describe 'Edit performance competition event' do
   end
 
   it 'redirects to event on cancel' do
-    event = events(:published_public)
+    event = events(:nationals)
     event.update!(name: 'EVENT NAME')
 
     sign_in event.responsible
@@ -28,7 +28,7 @@ describe 'Edit performance competition event' do
   end
 
   it 'displays error when not allowed to access the page' do
-    event = events(:published_public)
+    event = events(:nationals)
 
     visit "/events/performance/#{event.id}/edit"
 

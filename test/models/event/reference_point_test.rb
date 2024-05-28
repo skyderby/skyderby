@@ -1,7 +1,7 @@
 describe Event::ReferencePoint do
   describe '.find_or_create' do
     it 'find when only name given' do
-      event = events(:published_public)
+      event = events(:nationals)
       created_point = event.reference_points.create!(name: 'R1', latitude: 20, longitude: 20)
 
       found_point = event.reference_points.find_or_create(name: 'R1')
@@ -10,7 +10,7 @@ describe Event::ReferencePoint do
     end
 
     it 'find when name and coordinates given' do
-      event = events(:published_public)
+      event = events(:nationals)
       created_point = event.reference_points.create!(name: 'R1', latitude: 20, longitude: 20)
 
       found_point = event.reference_points.find_or_create(name: 'R1', latitude: 20, longitude: 20)
@@ -19,7 +19,7 @@ describe Event::ReferencePoint do
     end
 
     it 'create when coordinates different' do
-      event = events(:published_public)
+      event = events(:nationals)
       event.reference_points.create!(name: 'R1', latitude: 20, longitude: 20)
 
       found_point = event.reference_points.find_or_create(name: 'R1', latitude: 30, longitude: 30)

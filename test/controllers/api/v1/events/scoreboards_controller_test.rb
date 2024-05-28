@@ -2,11 +2,14 @@ require 'test_helper'
 
 class Api::V1::Events::ScoreboardsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @event = events(:published_public)
-    @section_advanced = event_sections(:speed_distance_time_advanced)
-    @section_intermediate = event_sections(:speed_distance_time_intermediate)
-    @competitor1 = event_competitors(:competitor_1)
-    @competitor2 = event_competitors(:competitor_2)
+    @event = events(:nationals)
+    @section_advanced = event_sections(:advanced)
+    @section_intermediate = event_sections(:intermediate)
+    @john = event_competitors(:john)
+    @travis = event_competitors(:travis)
+    @alex = event_competitors(:alex)
+    @speed_round_1 = event_rounds(:speed_1)
+    @distance_round_1 = event_rounds(:distance_1)
   end
 
   test '#show, format: :json' do
@@ -31,12 +34,12 @@ class Api::V1::Events::ScoreboardsControllerTest < ActionDispatch::IntegrationTe
         order: @section_intermediate.order
       }],
       rounds: [
-        { id: 1, discipline: 'distance', number: 1 },
-        { id: 2, discipline: 'speed', number: 1 }
+        { id: @distance_round_1.id, discipline: 'distance', number: 1 },
+        { id: @speed_round_1.id, discipline: 'speed', number: 1 }
       ],
       teams: [],
       competitors: [{
-        id: @competitor2.id,
+        id: @travis.id,
         name: 'Travis',
         sectionId: @section_advanced.id,
         countryCode: 'NOR',
@@ -55,7 +58,7 @@ class Api::V1::Events::ScoreboardsControllerTest < ActionDispatch::IntegrationTe
           points: '100.0'
         }]
       }, {
-        id: @competitor1.id,
+        id: @john.id,
         name: 'John',
         sectionId: @section_advanced.id,
         countryCode: 'NOR',
@@ -73,6 +76,15 @@ class Api::V1::Events::ScoreboardsControllerTest < ActionDispatch::IntegrationTe
           result: '200.0',
           points: '74.1'
         }]
+      }, {
+        id: @alex.id,
+        name: 'Alex',
+        sectionId: @section_advanced.id,
+        countryCode: nil,
+        suitName: 'TS Nala',
+        teamId: nil,
+        totalPoints: 0.0,
+        results: []
       }]
     }
   end

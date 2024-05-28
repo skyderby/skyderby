@@ -1,6 +1,6 @@
 describe Events::Scoreboards::SpeedDistanceTime do
   it '#sections' do
-    event = events(:published_public)
+    event = events(:nationals)
     params = Events::Scoreboards::Params.new(event, {})
 
     scoreboard = Events::Scoreboards.for(event, params)

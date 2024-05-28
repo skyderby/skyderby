@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V1::Events::RoundsControllerTest < ActionDispatch::IntegrationTest
   test '#index' do
-    get api_v1_event_rounds_url(events(:published_public))
+    get api_v1_event_rounds_url(events(:nationals))
 
     assert_response :success
 

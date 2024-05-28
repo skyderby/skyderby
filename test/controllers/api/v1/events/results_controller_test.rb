@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V1::Events::ResultsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @event = events(:published_public)
+    @event = events(:nationals)
     @user = users(:event_responsible)
   end
 
@@ -16,7 +16,7 @@ class Api::V1::Events::ResultsControllerTest < ActionDispatch::IntegrationTest
     sign_in @user
 
     round = @event.rounds.create!(discipline: :distance)
-    competitor = event_competitors(:competitor_1)
+    competitor = event_competitors(:john)
 
     @event.reference_points.create!(name: 'Lane 1', latitude: 20, longitude: 20)
 

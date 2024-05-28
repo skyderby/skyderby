@@ -2,6 +2,7 @@ describe EventListPolicy::Scope do
   it 'public competitions visible to non-participants' do
     user = create :user
 
+    # TODO: create events with different visibility
     event_array = EventListPolicy::Scope.new(user, EventList.all).resolve.map(&:event)
     expect(event_array).to match_array [
       events(:finished_public),

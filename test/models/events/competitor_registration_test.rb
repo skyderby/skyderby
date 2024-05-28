@@ -73,7 +73,7 @@ describe Events::CompetitorRegistration do
   end
 
   def event
-    @event ||= events(:published_public)
+    @event ||= events(:nationals)
   end
 
   def section

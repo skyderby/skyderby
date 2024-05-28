@@ -45,7 +45,7 @@ describe Event::Round, type: :model do
   end
 
   it '.by_name' do
-    event = events(:published_public)
+    event = events(:nationals)
     expect(event.rounds.by_name('Distance-1')).to eq(event_rounds(:distance_round_1))
   end
 

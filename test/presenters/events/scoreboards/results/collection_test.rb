@@ -48,6 +48,6 @@ describe Events::Scoreboards::Results::Collection do
   end
 
   def event
-    events(:published_public)
+    events(:nationals)
   end
 end

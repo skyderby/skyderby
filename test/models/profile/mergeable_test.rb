@@ -13,7 +13,7 @@ describe Profile::Mergeable do
     subject do
       Profile.create!(
         name: 'Peter',
-        owner: events(:published_public)
+        owner: events(:nationals)
       ).tap { |profile| profile.merge_with(source) }
     end
 

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::V1::Events::ReferencePointsControllerTest < ActionDispatch::IntegrationTest
   test '#index - happy path' do
-    event = events(:published_public)
+    event = events(:nationals)
     event.reference_points.create!(name: 'R1', latitude: 20.0, longitude: 25.0)
     event.reference_points.create!(name: 'R2', latitude: 30.0, longitude: 35.0)
 
@@ -17,7 +17,8 @@ class Api::V1::Events::ReferencePointsControllerTest < ActionDispatch::Integrati
   end
 
   test '#index - permissions required' do
-    event = events(:draft_public)
+    event = events(:nationals)
+    event.draft!
     event.reference_points.create!(name: 'R1', latitude: 20.0, longitude: 25.0)
     event.reference_points.create!(name: 'R2', latitude: 30.0, longitude: 35.0)
 

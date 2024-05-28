@@ -2,11 +2,11 @@ require 'test_helper'
 
 class Api::V1::PerformanceCompetitions::ReferencePointAssignmentsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @event = events(:published_public)
+    @event = events(:nationals)
     @event_responsible = users(:event_responsible)
     @random_user = User.create!(email: 'some@example.com', password: '123456', confirmed_at: Time.zone.today)
-    @competitor = event_competitors(:competitor_1)
-    @round = event_rounds(:distance_round_1)
+    @competitor = event_competitors(:john)
+    @round = event_rounds(:distance_1)
   end
 
   test '#create - assign reference point' do

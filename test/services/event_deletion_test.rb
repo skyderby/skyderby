@@ -1,34 +1,34 @@
 describe EventDeletion do
   it 'deletes event' do
-    event = events(:published_public)
+    event = events(:nationals)
 
     EventDeletion.execute(event)
     expect(event.destroyed?).to be_truthy
   end
 
   it 'deletes categories' do
-    event = events(:published_public)
+    event = events(:nationals)
 
     EventDeletion.execute(event)
     expect(Event::Section.where(event: event)).to be_blank
   end
 
   it 'deletes competitors' do
-    event = events(:published_public)
+    event = events(:nationals)
 
     EventDeletion.execute(event)
     expect(Event::Competitor.where(event: event)).to be_blank
   end
 
   it 'deletes rounds' do
-    event = events(:published_public)
+    event = events(:nationals)
 
     EventDeletion.execute(event)
     expect(Event::Round.where(event: event)).to be_blank
   end
 
   it 'deletes event tracks' do
-    event = events(:published_public)
+    event = events(:nationals)
 
     EventDeletion.execute(event)
     expect(Event::Result.where(round: event.rounds)).to be_blank

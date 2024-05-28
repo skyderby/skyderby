@@ -2,8 +2,8 @@ require 'test_helper'
 
 class Api::V1::Events::Results::PenaltiesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @event = events(:published_public)
-    @result = event_results(:distance_competitor_1)
+    @event = events(:nationals)
+    @result = event_results(:john_distance_1)
     @user = users(:event_responsible)
   end
 
