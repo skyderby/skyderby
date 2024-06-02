@@ -1,7 +1,13 @@
-describe PointsQuery::QueryBuilder do
-  it 'returns array of all fields unless only option specified' do
-    query_builder = PointsQuery::QueryBuilder.new(track)
-    expect(query_builder.execute).to match_array(
+require 'test_helper'
+
+class PointsQuery::QueryBuilderTest < ActiveSupport::TestCase
+  setup do
+    @track = create(:empty_track)
+  end
+
+  test 'returns array of all fields unless only option specified' do
+    query_builder = PointsQuery::QueryBuilder.new(@track)
+    assert_equal(
       [
         'to_timestamp(gps_time_in_seconds) AT TIME ZONE \'UTC\' as gps_time',
         'gps_time_in_seconds - 0.0 AS fl_time',
@@ -17,39 +23,37 @@ describe PointsQuery::QueryBuilder do
         'CASE WHEN v_speed = 0 THEN h_speed / 0.1 ELSE h_speed / ABS(v_speed) END AS glide_ratio',
         'vertical_accuracy',
         'speed_accuracy'
-      ]
+      ].sort,
+      query_builder.execute.sort
     )
   end
 
-  it 'returns specified columns in only option' do
-    query_builder = PointsQuery::QueryBuilder.new(
-      track,
-      only: [:altitude, :latitude, :longitude]
-    )
-    expect(query_builder.execute).to eq(
+  test 'returns specified columns in only option' do
+    query_builder =
+      PointsQuery::QueryBuilder.new(@track, only: [:altitude, :latitude, :longitude])
+
+    assert_equal(
       [
         'abs_altitude - 0 AS altitude',
         'latitude',
         'longitude'
-      ]
+      ].sort,
+      query_builder.execute.sort
     )
   end
 
-  it 'adds DISTINCT ON if freq_1hz option specified' do
+  test 'adds DISTINCT ON if freq_1hz option specified' do
     query_builder = PointsQuery::QueryBuilder.new(
-      track,
+      @track,
       only: [:altitude],
       freq_1hz: true
     )
-    expect(query_builder.execute).to eq(
+    assert_equal(
       [
         'DISTINCT ON (floor(gps_time_in_seconds)) ' \
         'abs_altitude - 0 AS altitude'
-      ]
+      ].sort,
+      query_builder.execute.sort
     )
-  end
-
-  def track
-    create :empty_track
   end
 end

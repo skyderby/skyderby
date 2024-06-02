@@ -1,16 +1,16 @@
-describe CreateTrackService do
-  describe '#call' do
-    it 'saves track' do
-      track = CreateTrackService.call(valid_params)
-      expect(track.persisted?).to be_truthy
-    end
+require 'test_helper'
+
+class CreateTrackServiceTest < ActiveSupport::TestCase
+  include ActionDispatch::TestProcess
+
+  test '#call - saves track' do
+    track = CreateTrackService.call(valid_params)
+    assert_predicate track, :persisted?
   end
 
-  describe 'activity data validation' do
-    it 'marks track as require to review' do
-      track = CreateTrackService.call(with_missing_activity_data)
-      expect(track.require_range_review).to be_truthy
-    end
+  test 'activity data validation - marks track as require to review' do
+    track = CreateTrackService.call(with_missing_activity_data)
+    assert track.require_range_review
   end
 
   def valid_params

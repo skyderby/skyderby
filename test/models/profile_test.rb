@@ -1,60 +1,53 @@
-# == Schema Information
-#
-# Table name: profiles
-#
-#  id                   :integer          not null, primary key
-#  last_name            :string(510)
-#  first_name           :string(510)
-#  name                 :string(510)
-#  userpic_file_name    :string(510)
-#  userpic_content_type :string(510)
-#  userpic_file_size    :integer
-#  userpic_updated_at   :datetime
-#  default_units        :integer          default("metric")
-#  default_chart_view   :integer          default("multi")
-#  country_id           :integer
-#  owner_type           :string
-#  owner_id             :integer
-#
+require 'test_helper'
 
-describe Profile do
-  describe '#cropping?' do
-    it 'true if all attrs present' do
-      profile = Profile.new(crop_x: 1, crop_y: 1, crop_h: 1, crop_w: 1)
-      expect(profile.cropping?).to be_truthy
-    end
-
-    it 'false if none attr present' do
-      profile = Profile.new
-      expect(profile.cropping?).to be_falsey
-    end
-
-    it 'false if any attr is not present' do
-      profile = Profile.new(crop_x: 1, crop_y: 1, crop_h: 1)
-      expect(profile.cropping?).to be_falsey
-    end
+class ProfileTest < ActiveSupport::TestCase
+  test '#cropping? - true if all attrs present' do
+    profile = Profile.new(crop_x: 1, crop_y: 1, crop_h: 1, crop_w: 1)
+    assert_predicate profile, :cropping?
   end
 
-  describe '#belongs_to_user?' do
-    it 'true if belongs to user' do
-      user = create :user
-      expect(user.profile.belongs_to_user?).to be_truthy
-    end
+  test '#cropping? - false if none attr present' do
+    profile = Profile.new
+    assert_not_predicate profile, :cropping?
   end
 
-  describe '#belongs_to_event?' do
-    it 'true if belongs to event' do
-      event = create :event
-      profile = create :profile, owner: event
-      expect(profile.belongs_to_event?).to be_truthy
-    end
+  test '#cropping? - false if any attr is not present' do
+    profile = Profile.new(crop_x: 1, crop_y: 1, crop_h: 1)
+    assert_not_predicate profile, :cropping?
   end
 
-  describe '#belongs_to_tournament?' do
-    it 'true if belongs to tournament' do
-      tournament = tournaments(:world_base_race)
-      profile = create :profile, owner: tournament
-      expect(profile.belongs_to_tournament?).to be_truthy
-    end
+  test '#belongs_to_user?' do
+    user = create :user
+    assert_predicate user.profile, :belongs_to_user?
+  end
+
+  test '#belongs_to_event?' do
+    event = create :event
+    profile = create :profile, owner: event
+    assert_predicate profile, :belongs_to_event?
+  end
+
+  test '#belongs_to_tournament?' do
+    tournament = tournaments(:world_base_race)
+    profile = create :profile, owner: tournament
+    assert_predicate profile, :belongs_to_tournament?
+  end
+
+  test '#competitor_of_events' do
+    profile = Profile.create!(name: 'Piotr')
+    performance_event = events(:nationals)
+    category = performance_event.sections.first
+    performance_event.competitors.create!(profile:, suit: suits(:apache), section: category)
+
+    speed_event = speed_skydiving_competitions(:nationals)
+    category = speed_event.categories.first
+    speed_event.competitors.create!(profile:, category:)
+
+    non_participation_event = events(:nationals).dup.tap(&:save!)
+
+    participations = profile.competitor_of_events
+    assert_includes participations, performance_event
+    assert_includes participations, speed_event
+    assert_not_includes participations, non_participation_event
   end
 end

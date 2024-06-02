@@ -1,58 +1,33 @@
-describe EventDeletion do
-  it 'deletes event' do
-    event = events(:nationals)
+require 'test_helper'
 
-    EventDeletion.execute(event)
-    expect(event.destroyed?).to be_truthy
-  end
+class EventDeletionTest < ActiveSupport::TestCase
+  setup do
+    @event = events(:nationals)
+    section = @event.sections.first
+    round = @event.rounds.first
 
-  it 'deletes categories' do
-    event = events(:nationals)
-
-    EventDeletion.execute(event)
-    expect(Event::Section.where(event: event)).to be_blank
-  end
-
-  it 'deletes competitors' do
-    event = events(:nationals)
-
-    EventDeletion.execute(event)
-    expect(Event::Competitor.where(event: event)).to be_blank
-  end
-
-  it 'deletes rounds' do
-    event = events(:nationals)
-
-    EventDeletion.execute(event)
-    expect(Event::Round.where(event: event)).to be_blank
-  end
-
-  it 'deletes event tracks' do
-    event = events(:nationals)
-
-    EventDeletion.execute(event)
-    expect(Event::Result.where(round: event.rounds)).to be_blank
-  end
-
-  it 'deletes tracks if option specified' do
-    event = create :event
-    section = create :event_section, event: event
-    round = create :event_round, event: event
-
-    Array.new(3) do |_|
+    3.times do
       create(
         :event_result,
         round: round,
-        competitor: create(:event_competitor, event: event, section: section),
+        competitor: create(:event_competitor, event: @event, section: section),
         track: create(:empty_track)
       )
     end
+  end
 
-    EventDeletion.execute(event, delete_tracks: true)
+  test 'deletes event' do
+    EventDeletion.execute(@event)
+
+    assert_predicate @event, :destroyed?
+    assert_empty Event::Section.where(event: @event)
+    assert_empty Event::Competitor.where(event: @event)
+    assert_empty Event::Round.where(event: @event)
+    assert_empty Event::Result.where(round: @event.rounds)
 
     tracks = Track.includes(event_result: :round)
-                  .where(event_results: { event_rounds: { event_id: event.id } })
+                  .where(event_results: { event_rounds: { event_id: @event.id } })
 
-    expect(tracks).to be_blank
+    assert_empty tracks
   end
 end

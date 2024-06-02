@@ -41,15 +41,11 @@ module PointsPostprocessor
       time_between_points = window.last[:gps_time] - window.first[:gps_time]
 
       unless time_between_points.zero?
-        window[neighbors][:h_speed] = speed_in_units(distance_in_window(window) / time_between_points)
-        window[neighbors][:v_speed] = speed_in_units(altitude_changes_in_window(window) / time_between_points)
+        window[neighbors][:h_speed] = distance_in_window(window) / time_between_points
+        window[neighbors][:v_speed] = altitude_changes_in_window(window) / time_between_points
       end
 
       window[neighbors]
-    end
-
-    def speed_in_units(speed)
-      Velocity.new(speed).convert_to(speed_units).to_f
     end
 
     def distance_in_window(window)
