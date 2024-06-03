@@ -160,9 +160,9 @@ jobs:
       - run: bundle exec rails db:test:prepare
       - name: Run tests
         run: |
-          if [[ "${{ github.ref_name }}" == "dev" ]]; then
+          if [[ "${{ github.head_ref }}" == "dev" ]]; then
             bundle exec rspec spec --tag ~type:system
-          elif [[ "${{ github.ref_name }}" == "next" ]]; then
+          elif [[ "${{ github.head_ref }}" == "next" ]]; then
             bundle exec rake test TESTOPTS='--name=!/system/'
           fi
 
@@ -253,9 +253,9 @@ jobs:
       - run: bundle exec rails db:test:prepare
       - name: Run tests
         run: |
-          if [[ "${{ github.ref_name }}" == "dev" ]]; then
+          if [[ "${{ github.head_ref }}" == "dev" ]]; then
             bundle exec rspec spec --tag type:system
-          elif [[ "${{ github.ref_name }}" == "next" ]]; then
+          elif [[ "${{ github.head_ref }}" == "next" ]]; then
             bundle exec rake test TESTOPTS='--name=/system/'
           fi
       - name: Upload Artifacts
