@@ -5,7 +5,7 @@ class Api::V1::CurrentUsersControllerTest < ActionDispatch::IntegrationTest
     @default_permissions = { 'canAccessAdminPanel' => false, 'canCreatePlace' => false, 'canManageUsers' => false }
   end
 
-  it '#show - when authorized' do
+  test '#show - when authorized' do
     sign_in users(:regular_user)
 
     get api_v1_current_user_url
@@ -15,7 +15,7 @@ class Api::V1::CurrentUsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal @default_permissions, response.parsed_body['permissions']
   end
 
-  it '#show - when not authorized' do
+  test '#show - when not authorized' do
     get api_v1_current_user_url
 
     assert_response :success

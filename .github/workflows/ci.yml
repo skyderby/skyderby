@@ -163,7 +163,7 @@ jobs:
           if [[ "${{ github.base_ref }}" == "dev" ]] || [[ "${{ github.head_ref }}" == "dev" ]]; then
             bundle exec rspec spec --tag ~type:system
           elif [[ "${{ github.base_ref }}" == "next" ]] || [[ "${{ github.head_ref }}" == "next" ]]; then
-            bundle exec rake test TESTOPTS='--name=!/system/'
+            bundle exec rails test
           fi
 
   unit-test-js:
@@ -256,7 +256,7 @@ jobs:
           if [[ "${{ github.base_ref }}" == "dev" ]] || [[ "${{ github.head_ref }}" == "dev" ]]; then
             bundle exec rspec spec --tag type:system
           elif [[ "${{ github.base_ref }}" == "next" ]] || [[ "${{ github.head_ref }}" == "next" ]]; then
-            bundle exec rake test TESTOPTS='--name=/system/'
+            bundle exec rails test:system
           fi
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3

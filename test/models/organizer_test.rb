@@ -1,17 +1,34 @@
-require 'support/event_ongoing_validation'
+require 'test_helper'
 
-describe Organizer do
-  it_should_behave_like 'event_ongoing_validation' do
-    let(:target) { FactoryBot.create(:event_organizer) }
+class OrganizerTest < ActiveSupport::TestCase
+  setup do
+    @event = events(:nationals)
+    @user = users(:regular_user)
   end
 
-  it 'requires event' do
+  test 'can not be created for finished event' do
+    @event.finished!
+    assert_raises(ActiveRecord::RecordInvalid) do
+      @event.organizers.create!(user: @user)
+    end
+  end
+
+  test 'can not be destroyed for finished event' do
+    organizer = @event.organizers.create!(user: @user)
+    @event.finished!
+
+    assert_raises(ActiveRecord::RecordNotDestroyed) do
+      organizer.destroy!
+    end
+  end
+
+  test 'requires event' do
     user = create :user
-    expect(Organizer.create(user: user)).not_to be_valid
+    assert_not Organizer.new(user: user).valid?
   end
 
-  it 'requires user' do
+  test 'requires user' do
     event = create :event
-    expect(Organizer.create(organizable: event)).not_to be_valid
+    assert_not Organizer.new(organizable: event).valid?
   end
 end

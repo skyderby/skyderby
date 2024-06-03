@@ -14,23 +14,23 @@ class TrackSegmentTest < ActiveSupport::TestCase
     ]
   end
 
-  it '#size' do
+  test '#size' do
     assert_equal 8, TrackSegment.new(sample_points).size
   end
 
-  it '#start_altitude' do
+  test '#start_altitude' do
     assert_equal 3050, TrackSegment.new(sample_points).start_altitude
   end
 
-  it '#end_altitude' do
+  test '#end_altitude' do
     assert_equal 2350, TrackSegment.new(sample_points).end_altitude
   end
 
-  it '#vertical_speed' do
+  test '#vertical_speed' do
     assert_in_delta 109.5, TrackSegment.new(sample_points).vertical_speed, 0.5
   end
 
-  it '#time' do
+  test '#time' do
     assert_equal 23, TrackSegment.new(sample_points).time
   end
 end
