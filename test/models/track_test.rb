@@ -52,7 +52,6 @@ class TrackTest < ActiveSupport::TestCase
       online_competition.results.create!(track: track, result: 123, wind_cancelled: true)
     ]
 
-
     assert_changes -> { online_competition.results.where(id: results.map(&:id)).count }, from: 2, to: 0 do
       track.delete_online_competitions_results
     end
