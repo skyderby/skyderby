@@ -129,7 +129,7 @@ class Api::V1::ManufacturersControllerTest < ActionDispatch::IntegrationTest
     manufacturer = Manufacturer.create!(name: 'Wrong', code: 'WR')
     Suit.create!(name: 'Test', manufacturer: manufacturer, kind: :wingsuit)
 
-    assert_no_changes ->{ Manufacturer.count } do
+    assert_no_changes -> { Manufacturer.count } do
       delete api_v1_manufacturer_url(manufacturer)
     end
 

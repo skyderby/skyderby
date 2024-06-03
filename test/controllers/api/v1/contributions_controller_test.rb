@@ -18,7 +18,7 @@ class Api::V1::ContributionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 1, response.parsed_body['totalPages']
     assert_equal 1, response.parsed_body['items'].count
     contribution = response.parsed_body['items'][0]
-    assert_equal 10.2, contribution['amount']
+    assert_in_delta 10.2, contribution['amount']
     assert_equal '2024-01-01', contribution['receivedAt']
   end
 end

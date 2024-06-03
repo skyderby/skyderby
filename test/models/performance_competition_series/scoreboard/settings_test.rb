@@ -6,7 +6,7 @@ class PerformanceCompetitionSeries::Scoreboard::SettingsTest < ActiveSupport::Te
     assert_not settings.display_raw_results
   end
 
-  test "converts string input to boolean" do
+  test 'converts string input to boolean' do
     params = ActionController::Parameters.new.permit(:display_raw_results)
 
     params[:display_raw_results] = 'true'

@@ -4,7 +4,7 @@ class Event::RoundTest < ActiveSupport::TestCase
   setup do
     @event = Event.create!(
       name: 'Test Event',
-      starts_at: Date.today,
+      starts_at: Time.zone.today,
       place: places(:ravenna),
       responsible: users(:event_responsible)
     )

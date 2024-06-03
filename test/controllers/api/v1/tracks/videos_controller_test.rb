@@ -54,8 +54,8 @@ class Api::V1::Tracks::VideosControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal 'https://www.youtube.com/watch?v=RANDOM', response.parsed_body['url']
     assert_equal 'RANDOM', response.parsed_body['videoCode']
-    assert_equal 10.0, response.parsed_body['videoOffset']
-    assert_equal 225.0, response.parsed_body['trackOffset']
+    assert_in_delta 10.0, response.parsed_body['videoOffset']
+    assert_in_delta 225.0, response.parsed_body['trackOffset']
   end
 
   test '#create - without permissions to' do

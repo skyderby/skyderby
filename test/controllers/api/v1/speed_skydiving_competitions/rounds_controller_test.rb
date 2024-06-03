@@ -26,9 +26,8 @@ class Api::V1::SpeedSkydivingCompetitions::RoundsControllerTest < ActionDispatch
     get api_v1_speed_skydiving_competition_rounds_url(@event)
 
     assert_response :success
-    assert response.parsed_body.all? { _1.keys.sort == @round_attributes}
+    assert response.parsed_body.all? { _1.keys.sort == @round_attributes }
   end
-
 
   test '#create - forbidden if user does not have permissions' do
     sign_in @user
@@ -57,7 +56,7 @@ class Api::V1::SpeedSkydivingCompetitions::RoundsControllerTest < ActionDispatch
     sign_in @event.responsible
     @event.rounds.delete_all
 
-    assert_difference ->{ @event.rounds.count } => 1 do
+    assert_difference -> { @event.rounds.count } => 1 do
       post api_v1_speed_skydiving_competition_rounds_url(@event)
     end
 
@@ -80,7 +79,7 @@ class Api::V1::SpeedSkydivingCompetitions::RoundsControllerTest < ActionDispatch
     sign_in @event.responsible
     @event.finished!
 
-    assert_no_changes ->{ @round.reload.completed_at } do
+    assert_no_changes -> { @round.reload.completed_at } do
       put api_v1_speed_skydiving_competition_round_url(@event, @round), params: { round: { completed: true } }
     end
 
@@ -105,7 +104,7 @@ class Api::V1::SpeedSkydivingCompetitions::RoundsControllerTest < ActionDispatch
   test '#destroy - forbidden if user does not have permissions' do
     sign_in @user
 
-    assert_no_changes ->{ @event.rounds.count } do
+    assert_no_changes -> { @event.rounds.count } do
       delete api_v1_speed_skydiving_competition_round_url(@event, @last_round)
     end
 
@@ -116,7 +115,7 @@ class Api::V1::SpeedSkydivingCompetitions::RoundsControllerTest < ActionDispatch
     sign_in @event.responsible
     @event.finished!
 
-    assert_no_changes ->{ @event.rounds.count } do
+    assert_no_changes -> { @event.rounds.count } do
       delete api_v1_speed_skydiving_competition_round_url(@event, @last_round)
     end
 
@@ -130,7 +129,7 @@ class Api::V1::SpeedSkydivingCompetitions::RoundsControllerTest < ActionDispatch
   test '#destroy - responds with deleted round' do
     sign_in @event.responsible
 
-    assert_difference ->{ @event.rounds.count } => -1 do
+    assert_difference -> { @event.rounds.count } => -1 do
       delete api_v1_speed_skydiving_competition_round_url(@event, @last_round)
     end
     assert_response :success

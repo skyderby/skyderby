@@ -33,6 +33,6 @@ class Api::V1::ProfilesControllerTest < ActionDispatch::IntegrationTest
   test '#index - returns collection if search term specified' do
     get api_v1_profiles_path(search: 'ale')
 
-    assert_not_nil response.parsed_body['items'].find { _1['name'] == 'Alex'}
+    assert_not_nil response.parsed_body['items'].find { _1['name'] == 'Alex' }
   end
 end

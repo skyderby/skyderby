@@ -61,7 +61,10 @@ class GfsForecastTest < ActiveSupport::TestCase
       assert_not result.success
       assert_equal 1, result.errors.size
       error = result.errors.first
-      assert_includes error, 'Dataset {:dir=>"/gfs.19900301/00/atmos", :file=>"gfs.t00z.pgrb2.0p25.f003"} is not available.'
+      assert_includes(
+        error,
+        'Dataset {:dir=>"/gfs.19900301/00/atmos", :file=>"gfs.t00z.pgrb2.0p25.f003"} is not available.'
+      )
       assert_includes error, 'This data has expired and is no longer available.'
     end
   end
@@ -72,7 +75,10 @@ class GfsForecastTest < ActiveSupport::TestCase
       assert_not result.success
       assert_equal 1, result.errors.size
       error = result.errors.first
-      assert_includes error, 'Dataset {:dir=>"/gfs.20550301/00/atmos", :file=>"gfs.t00z.pgrb2.0p25.f003"} is not available.'
+      assert_includes(
+        error,
+        'Dataset {:dir=>"/gfs.20550301/00/atmos", :file=>"gfs.t00z.pgrb2.0p25.f003"} is not available.'
+      )
       assert_includes error, 'data file is not present'
     end
   end
@@ -86,7 +92,10 @@ class GfsForecastTest < ActiveSupport::TestCase
       assert_not result.success
       assert_equal 1, result.errors.size
       error = result.errors.first
-      assert_includes error, 'Dataset {:dir=>"/gfs.20240325/00/atmos", :file=>"gfs.t00z.pgrb2.0p25.f003"} is not available.'
+      assert_includes(
+        error,
+        'Dataset {:dir=>"/gfs.20240325/00/atmos", :file=>"gfs.t00z.pgrb2.0p25.f003"} is not available.'
+      )
       assert_includes error, 'toplat value is not numeric: aa'
     end
   end
