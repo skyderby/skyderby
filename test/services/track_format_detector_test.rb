@@ -1,4 +1,6 @@
-describe TrackFormatDetector do
+require 'test_helper'
+
+class TrackFormatDetectorTest < ActiveSupport::TestCase
   examples = {
     'two_tracks.gpx' => 'gpx',
     'dual_xgps160.kml' => 'kml',
@@ -9,19 +11,19 @@ describe TrackFormatDetector do
     'cyber_eye.csv' => 'cyber_eye'
   }.freeze
 
-  examples.each do |file_name, format|
-    it "determines #{format} format" do
-      extension = File.extname(file_name).delete('.').downcase
-      file = fixture_file_upload("tracks/#{file_name}")
-
-      file_mock = double('file').tap { |obj| allow(obj).to receive(:open).and_return(file) }
-      expect(TrackFormatDetector.call(file_mock, extension)).to eq format
-    end
+  test 'determines correct format' do
+    assert_equal 'gpx', TrackFormatDetector.call(fixture_file_upload('tracks/two_tracks.gpx'), 'gpx')
+    assert_equal 'kml', TrackFormatDetector.call(fixture_file_upload('tracks/dual_xgps160.kml'), 'kml')
+    assert_equal 'wintec', TrackFormatDetector.call(fixture_file_upload('tracks/wintec.tes'), 'tes')
+    assert_equal 'flysight', TrackFormatDetector.call(fixture_file_upload('tracks/flysight.csv'), 'csv')
+    assert_equal 'flysight2', TrackFormatDetector.call(fixture_file_upload('tracks/fs2-track.csv'), 'csv')
+    assert_equal 'columbus', TrackFormatDetector.call(fixture_file_upload('tracks/columbus.csv'), 'csv')
+    assert_equal 'cyber_eye', TrackFormatDetector.call(fixture_file_upload('tracks/cyber_eye.csv'), 'csv')
   end
 
-  it 'raises error for unknown format' do
-    file = fixture_file_upload('skyderby_logo.png')
-    expect { TrackFormatDetector.call(file, 'png') }
-      .to raise_exception(TrackFormatDetector::UnknownFormat)
+  test 'raises error for unknown format' do
+    assert_raises(TrackFormatDetector::UnknownFormat) do
+      TrackFormatDetector.call(fixture_file_upload('skyderby_logo.png'), 'png')
+    end
   end
 end

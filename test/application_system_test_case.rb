@@ -6,6 +6,7 @@ Capybara.default_max_wait_time = 5
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include FactoryBot::Syntax::Methods
   include Devise::Test::IntegrationHelpers
+  include ActionDispatch::TestProcess
 
   headless = ENV['SELENIUM_HEADLESS_CHROME'].present?
   browser = headless ? :headless_chrome : :chrome

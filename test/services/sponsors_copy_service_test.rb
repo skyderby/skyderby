@@ -1,25 +1,23 @@
-describe SponsorsCopyService do
-  it 'copy sponsors from source to target' do
-    event = create(:event)
-    3.times do |_|
-      create(:sponsor, sponsorable: event)
+require 'test_helper'
+
+class SponsorsCopyServiceTest < ActiveSupport::TestCase
+  setup do
+    @source_event = create(:event).tap do |event|
+      3.times do |idx|
+        logo = fixture_file_upload('skyderby_logo.png')
+        event.sponsors.create!(name: "Sponsor-#{idx}", website: 'www.example.com', logo:)
+      end
     end
-
-    target = create(:event)
-    SponsorsCopyService.new.call(source: event, target: target)
-
-    expect(target.sponsors.pluck(:name)).to match(event.sponsors.pluck(:name))
+    @target_event = create(:event)
   end
 
-  it 'does not change source sponsors' do
-    event = create(:event)
-    3.times do |_|
-      create(:sponsor, sponsorable: event)
-    end
+  test 'copy sponsors from source to target' do
+    SponsorsCopyService.new.call(source: @source_event, target: @target_event)
+    assert_equal @target_event.sponsors.pluck(:name), @source_event.sponsors.pluck(:name)
+  end
 
-    target = create(:event)
-    SponsorsCopyService.new.call(source: event, target: target)
-
-    expect(event.sponsors.size).to eq(3)
+  test 'does not change source sponsors' do
+    SponsorsCopyService.new.call(source: @source_event, target: @target_event)
+    assert_equal 3, @source_event.sponsors.size
   end
 end

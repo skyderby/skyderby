@@ -1,8 +1,6 @@
 require 'test_helper'
 
 class SegmentParser::GpxTest < ActiveSupport::TestCase
-  include ActionDispatch::TestProcess
-
   setup do
     @file = fixture_file_upload('tracks/two_tracks.gpx')
   end

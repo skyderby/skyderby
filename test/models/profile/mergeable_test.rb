@@ -1,8 +1,6 @@
 require 'test_helper'
 
 class Profile::MergeableTest < ActiveSupport::TestCase
-  include ActionDispatch::TestProcess
-
   setup do
     @country = countries(:norway)
     @source = Profile.create!(name: 'Ivan', owner: users(:regular_user), country: @country)

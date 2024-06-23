@@ -1,35 +1,37 @@
-describe OnlineCompetitionsService do
-  it 'Distance in time competition', :aggregate_failures do
+require 'test_helper'
+
+class OnlineCompetitionsServiceTest < ActiveSupport::TestCase
+  test 'Distance in time competition' do
     competition = virtual_competitions(:distance_in_time)
 
     track = create_track_from_file '06-38-21_SimonP.CSV', kind: :base
 
-    described_class.score_track(track)
+    OnlineCompetitionsService.score_track(track)
 
     results = competition.results.where(track: track)
-    expect(results.count).to eq(1)
+    assert_equal 1, results.count
 
     record = results.first
-    expect(record.result).to be_within(0.01).of(701.37)
-    expect(record.highest_gr).to be_within(0.01).of(2.09)
-    expect(record.highest_speed).to be_within(1).of(203)
+    assert_in_delta 701.37, record.result, 0.01
+    assert_in_delta 2.09, record.highest_gr, 0.01
+    assert_in_delta 203, record.highest_speed, 1
   end
 
-  it 'BASE Race', :aggregate_failures do
+  test 'BASE Race' do
     competition = virtual_competitions(:base_race)
 
     track = create_track_from_file 'WBR/Yegor_16_Round3.CSV', kind: :base, place: places(:hellesylt)
 
-    described_class.score_track(track)
+    OnlineCompetitionsService.score_track(track)
 
     results = competition.results.where(track: track)
-    expect(results.count).to eq(1)
+    assert_equal 1, results.count
 
     record = results.first
-    expect(record.result).to be_within(1).of(29.0)
+    assert_in_delta 28.5, record.result, 0.1
   end
 
-  it 'Skydive distance prior to 2020', :aggregate_failures do
+  test 'Skydive distance prior to 2020' do
     place = create :place, name: 'Ravenna', msl: 0
     competition = virtual_competitions(:skydive_distance_wingsuit)
 
@@ -39,17 +41,17 @@ describe OnlineCompetitionsService do
       kind: :skydive
     )
 
-    described_class.score_track(track)
+    OnlineCompetitionsService.score_track(track)
 
     results = competition.results.where(track: track)
-    expect(results.count).to eq(1)
+    assert_equal 1, results.count
 
     record = results.first
-    expect(record.wind_cancelled).to be_falsey
-    expect(record.result).to be_within(1).of(3410)
+    assert_not record.wind_cancelled
+    assert_in_delta 3410, record.result, 1
   end
 
-  it 'Skydive distance with wind cancellation', :aggregate_failures do
+  test 'Skydive distance with wind cancellation' do
     place = create :place, name: 'Ravenna', msl: 0
     competition = virtual_competitions(:skydive_distance_wingsuit)
     place.weather_data.create!(
@@ -65,18 +67,18 @@ describe OnlineCompetitionsService do
       kind: :skydive
     )
 
-    described_class.score_track(track)
+    OnlineCompetitionsService.score_track(track)
 
     results = competition.results.where(track: track)
-    expect(results.count).to eq(2)
+    assert_equal 2, results.count
 
     record = results.find { |result| !result.wind_cancelled }
-    expect(record.wind_cancelled).to be_falsey
-    expect(record.result).to be_within(1).of(3410)
+    assert_not record.wind_cancelled
+    assert_in_delta 3410, record.result, 1
 
     wind_cancelled_record = results.find(&:wind_cancelled)
-    expect(wind_cancelled_record.wind_cancelled).to be_truthy
-    expect(wind_cancelled_record.result).to be_within(1).of(3324)
+    assert wind_cancelled_record.wind_cancelled
+    assert_in_delta 3324, wind_cancelled_record.result, 1
   end
 
   # For current track results are
@@ -85,7 +87,7 @@ describe OnlineCompetitionsService do
   #
   # We set ground elevation to 500 meters to lower data by 500 meters
   # So 3000-2000 range should be chosen
-  it 'Skydive distance starting 2020', :aggregate_failures do
+  test 'Skydive distance starting 2020' do
     place = create :place, name: 'Ravenna', msl: 500
     competition = virtual_competitions(:skydive_distance_wingsuit)
 
@@ -96,17 +98,17 @@ describe OnlineCompetitionsService do
       recorded_at: Date.parse('2020-01-01')
     )
 
-    described_class.score_track(track)
+    OnlineCompetitionsService.score_track(track)
 
     results = competition.results.where(track: track)
-    expect(results.count).to eq(1)
+    assert_equal 1, results.count
 
     record = results.first
-    expect(record.wind_cancelled).to be_falsey
-    expect(record.result).to be_within(1).of(3410)
+    assert_not record.wind_cancelled
+    assert_in_delta 3410, record.result, 1
   end
 
-  it 'When one range out of data recorded' do
+  test 'When one range out of data recorded' do
     place = create :place, name: 'Ravenna', msl: 1000
     competition = virtual_competitions(:skydive_distance_wingsuit)
 
@@ -117,12 +119,12 @@ describe OnlineCompetitionsService do
       recorded_at: Date.parse('2020-01-01')
     )
 
-    described_class.score_track(track)
+    OnlineCompetitionsService.score_track(track)
 
     results = competition.results.where(track: track)
-    expect(results.count).to eq(1)
+    assert_equal 1, results.count
 
     record = results.first
-    expect(record.result).to be_within(1).of(2847)
+    assert_in_delta 2847, record.result, 1
   end
 end

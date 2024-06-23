@@ -19,6 +19,7 @@ end
 module ActiveSupport
   class TestCase
     include FactoryBot::Syntax::Methods
+    include ActionDispatch::TestProcess
     include CreateTrackHelper
 
     fixtures :all

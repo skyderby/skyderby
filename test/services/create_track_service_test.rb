@@ -1,8 +1,6 @@
 require 'test_helper'
 
 class CreateTrackServiceTest < ActiveSupport::TestCase
-  include ActionDispatch::TestProcess
-
   test '#call - saves track' do
     track = CreateTrackService.call(valid_params)
     assert_predicate track, :persisted?
