@@ -26,7 +26,7 @@ module WindCancellation
     end
 
     def filter_by_date(weather_data, date)
-      weather_data.select { |x| x[:actual_on] < date }
+      weather_data.select { |x| x[:actual_on] == date.beginning_of_hour }
     end
 
     def select_by_altitude(weather_data, altitude)
