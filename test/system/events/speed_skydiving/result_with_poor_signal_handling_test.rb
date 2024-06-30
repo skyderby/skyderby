@@ -1,26 +1,31 @@
-describe 'Handling recording with poor signal' do
-  let(:event) { speed_skydiving_competitions(:nationals) }
-  let(:competitor) { speed_skydiving_competition_competitors(:hinton) }
+require 'application_system_test_case'
 
-  before { event.place.update!(msl: 472) }
+class ResultWithPoorSignalHandlingTest < ApplicationSystemTestCase
+  def setup
+    @event = speed_skydiving_competitions(:nationals)
+    @competitor = speed_skydiving_competition_competitors(:hinton)
+    @event.place.update!(msl: 472)
+  end
 
-  it 'calculates result after jump range change' do
-    sign_in event.responsible
-    visit "/events/speed_skydiving/#{event.id}"
+  test 'calculates result after jump range change' do
+    sign_in @event.responsible
+    visit "/events/speed_skydiving/#{@event.id}"
 
-    submit_result(competitor, 2, file_fixture('tracks/speed_skydiving_poor_signal.csv'))
+    submit_result(@competitor, 2, file_fixture('tracks/speed_skydiving_poor_signal.csv'))
 
-    expect(page).to have_css('[title="Calculation error"]')
+    assert_selector '[title="Calculation error"]'
     find('[title="Calculation error"]').click
     click_button 'Jump Range'
 
-    expect(page).to have_css('[data-test-id="handle-1"]')
+    assert_selector '[data-test-id="handle-1"]'
     drag_by(find('[data-test-id="handle-1"]'), 575, 0)
     drag_by(find('[data-test-id="handle-0"]'), 620, 0)
     click_button I18n.t('general.save')
 
-    expect(page).to have_css('button', text: '361.91')
+    assert_selector 'button', text: '361.91'
   end
+
+  private
 
   def submit_result(competitor, round, file)
     find(

@@ -1,109 +1,109 @@
-describe 'User management' do
-  describe 'permissions' do
-    it 'admin user can see' do
-      sign_in users(:admin)
-      visit '/admin/users'
+require 'application_system_test_case'
 
-      expect(page).to have_css('h1', text: 'Users')
-    end
+class ManagingTest < ApplicationSystemTestCase
+  test 'admin user can see' do
+    sign_in users(:admin)
+    visit '/admin/users'
 
-    it 'redirects non-admin to main page' do
-      sign_in users(:regular_user)
-      visit '/admin/users'
-
-      expect(page).to have_text("You're not allowed to view this page.")
-    end
+    assert_selector 'h1', text: 'Users'
   end
 
-  describe 'filtering' do
-    before do
-      sign_in users(:admin)
-      visit '/admin/users'
-    end
+  test 'redirects non-admin to main page' do
+    sign_in users(:regular_user)
+    visit '/admin/users'
 
-    it 'search by name' do
-      fill_in 'searchTerm', with: users(:regular_user).name
-
-      expect(page).to have_css('div', text: users(:regular_user).email)
-      expect(page).not_to have_css('div', text: users(:admin).email)
-      expect(page).not_to have_css('div', text: users(:event_responsible).email)
-    end
-
-    it 'search by email' do
-      fill_in 'searchTerm', with: users(:admin).email
-
-      expect(page).to have_css('div', text: users(:admin).email)
-      expect(page).not_to have_css('div', text: users(:regular_user).email)
-      expect(page).not_to have_css('div', text: users(:event_responsible).email)
-    end
-
-    it 'search by id' do
-      fill_in 'searchTerm', with: users(:event_responsible).id
-
-      expect(page).to have_css('div', text: users(:event_responsible).email)
-      expect(page).not_to have_css('div', text: users(:admin).email)
-      expect(page).not_to have_css('div', text: users(:regular_user).email)
-    end
+    assert_text "You're not allowed to view this page."
   end
 
-  describe 'deleting user' do
-    it 'delete only user' do
-      sign_in users(:admin)
-      user = users(:regular_user)
-      profile = user.profile
+  test 'search by name' do
+    sign_in users(:admin)
+    visit '/admin/users'
 
-      visit '/admin/users'
-      fill_in 'searchTerm', with: user.email
-      expect(page).to have_css('[role="row"]', count: 1)
+    fill_in 'searchTerm', with: users(:regular_user).name
 
-      find('div[role="cell"]', text: user.name).click
+    assert_selector 'div', text: users(:regular_user).email
+    refute_selector 'div', text: users(:admin).email
+    refute_selector 'div', text: users(:event_responsible).email
+  end
 
-      accept_confirm do
-        click_button 'Delete user only'
-      end
+  test 'search by email' do
+    sign_in users(:admin)
+    visit '/admin/users'
 
-      expect(page).to have_text("User #{user.name} had been successfully deleted.")
-      expect(page).to have_current_path("/admin/users?searchTerm=#{user.email}")
-      expect(User.exists?(user.id)).to be_falsey
-      expect(Profile.exists?(profile.id)).to be_truthy
+    fill_in 'searchTerm', with: users(:admin).email
+
+    assert_selector 'div', text: users(:admin).email
+    refute_selector 'div', text: users(:regular_user).email
+    refute_selector 'div', text: users(:event_responsible).email
+  end
+
+  test 'search by id' do
+    sign_in users(:admin)
+    visit '/admin/users'
+
+    fill_in 'searchTerm', with: users(:event_responsible).id
+
+    assert_selector 'div', text: users(:event_responsible).email
+    refute_selector 'div', text: users(:admin).email
+    refute_selector 'div', text: users(:regular_user).email
+  end
+
+  test 'delete only user' do
+    sign_in users(:admin)
+    user = users(:regular_user)
+    profile = user.profile
+
+    visit '/admin/users'
+    fill_in 'searchTerm', with: user.email
+    assert_selector '[role="row"]', count: 1
+
+    find('div[role="cell"]', text: user.name).click
+
+    accept_confirm do
+      click_button 'Delete user only'
     end
 
-    it 'delete user with associated profile' do
-      sign_in users(:admin)
-      user = User.create! \
-        email: 'ab@ex.com',
-        password: 'password',
-        confirmed_at: Time.current,
-        profile_attributes: { name: 'Aleks' }
+    assert_text "User #{user.name} had been successfully deleted."
+    assert_current_path "/admin/users?searchTerm=#{user.email}"
+    assert_not User.exists?(user.id)
+    assert Profile.exists?(profile.id)
+  end
 
-      profile = user.profile
+  test 'delete user with associated profile' do
+    sign_in users(:admin)
+    user = User.create! \
+      email: 'ab@ex.com',
+      password: 'password',
+      confirmed_at: Time.current,
+      profile_attributes: { name: 'Aleks' }
 
-      visit "/admin/users/#{user.id}"
+    profile = user.profile
 
-      accept_confirm do
-        click_button 'Delete user with associated profile'
-      end
+    visit "/admin/users/#{user.id}"
 
-      expect(page).to have_current_path('/admin/users')
-      expect(page).to have_text("User #{user.name} had been successfully deleted.")
-      expect(User.exists?(user.id)).to be_falsey
-      expect(Profile.exists?(profile.id)).to be_falsey
+    accept_confirm do
+      click_button 'Delete user with associated profile'
     end
 
-    it 'does not delete user with associated profile if user has tracks' do
-      sign_in users(:admin)
-      user = users(:regular_user)
-      profile = user.profile
-      expect(profile.tracks).to exist
+    assert_current_path '/admin/users'
+    assert_text "User #{user.name} had been successfully deleted."
+    assert_not User.exists?(user.id)
+    assert_not Profile.exists?(profile.id)
+  end
 
-      visit "/admin/users/#{user.id}"
+  test 'does not delete user with associated profile if user has tracks' do
+    sign_in users(:admin)
+    user = users(:regular_user)
+    profile = user.profile
+    assert_predicate profile.tracks, :exists?
 
-      accept_confirm do
-        click_button 'Delete user with associated profile'
-      end
+    visit "/admin/users/#{user.id}"
 
-      expect(page).to have_current_path("/admin/users/#{user.id}")
-      expect(page).to have_text('Cannot delete record because dependent tracks exist')
+    accept_confirm do
+      click_button 'Delete user with associated profile'
     end
+
+    assert_current_path "/admin/users/#{user.id}"
+    assert_text 'Cannot delete record because dependent tracks exist'
   end
 end

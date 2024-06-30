@@ -7,11 +7,12 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include FactoryBot::Syntax::Methods
   include Devise::Test::IntegrationHelpers
   include ActionDispatch::TestProcess
+  include ActiveJob::TestHelper
 
   headless = ENV['SELENIUM_HEADLESS_CHROME'].present?
   browser = headless ? :headless_chrome : :chrome
   driven_by :selenium, using: browser do |options|
-    options.add_option('prefs', 'intl.accept_languages' => 'en-US')
+    options.add_preference('intl.accept_languages', 'en-US')
   end
 
   setup do

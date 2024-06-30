@@ -12,7 +12,6 @@ event_responsible:
 
 alex:
   name: Alex
-  owner: regular_user (User)
 
 john:
   name: John

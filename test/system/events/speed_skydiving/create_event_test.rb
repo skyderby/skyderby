@@ -1,5 +1,7 @@
-describe 'Create Speed Skydiving competition' do
-  it 'create new competition' do
+require 'application_system_test_case'
+
+class CreateEventTest < ApplicationSystemTestCase
+  test 'create new competition' do
     event_name = 'Speed Skydiving Competition'
     sign_in users(:regular_user)
     visit '/events/speed_skydiving/new'
@@ -11,8 +13,8 @@ describe 'Create Speed Skydiving competition' do
 
     click_button I18n.t('general.save')
 
-    expect(page).to have_css('h2', text: event_name.upcase)
-    expect(page).to have_css('span', text: 'Scoreboard')
-    expect(page).to have_css('span', text: 'Edit')
+    assert_selector 'h2', text: event_name.upcase
+    assert_selector 'span', text: 'Scoreboard'
+    assert_selector 'span', text: 'Edit'
   end
 end

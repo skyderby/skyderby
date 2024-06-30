@@ -1,41 +1,39 @@
-describe 'Edit place page:' do
-  let(:place) { places(:ravenna) }
+require 'application_system_test_case'
 
-  it 'regular user can not see edit button' do
+class UpdatePlaceTest < ApplicationSystemTestCase
+  test 'regular user can not see edit button' do
     sign_in users(:regular_user)
-    visit "/places/#{place.id}"
+    visit "/places/#{places(:ravenna).id}"
 
-    expect(page).not_to have_link(href: "/places/#{place.id}/edit")
+    refute_link href: "/places/#{places(:ravenna).id}/edit"
   end
 
-  it 'regular user is redirected back to /places' do
+  test 'regular user is redirected back to /places' do
     sign_in users(:regular_user)
-    visit "/places/#{place.id}/edit"
+    visit "/places/#{places(:ravenna).id}/edit"
 
-    expect(page).to have_current_path("/places/#{place.id}")
+    assert_current_path "/places/#{places(:ravenna).id}"
   end
 
-  it 'admin user can see edit button' do
+  test 'admin user can see edit button' do
     sign_in users(:admin)
-    visit "/places/#{place.id}"
+    visit "/places/#{places(:ravenna).id}"
 
-    expect(page).to have_link(href: "/places/#{place.id}/edit")
+    assert_link href: "/places/#{places(:ravenna).id}/edit"
   end
 
-  it 'cancel button navigates to overview tab' do
-    place = places(:ravenna)
-
+  test 'cancel button navigates to overview tab' do
     sign_in users(:admin)
-    visit("/places/#{place.id}/edit")
+    visit("/places/#{places(:ravenna).id}/edit")
 
     click_link I18n.t('general.cancel')
 
-    expect(page).to have_current_path("/places/#{place.id}")
+    assert_current_path "/places/#{places(:ravenna).id}"
   end
 
-  it 'admin user is able to fill the form and update place' do
+  test 'admin user is able to fill the form and update place' do
     sign_in users(:admin)
-    visit "/places/#{place.id}"
+    visit "/places/#{places(:ravenna).id}"
     click_link I18n.t('general.edit')
 
     fill_in 'name', with: 'New name'
@@ -48,14 +46,14 @@ describe 'Edit place page:' do
 
     click_button I18n.t('general.save')
 
-    expect(page).to have_current_path("/places/#{place.id}")
-    expect(page).to have_css('h2', text: 'New name')
-    expect(page).to have_text('Lat: 55.168499')
-    expect(page).to have_text('Lon: 38.689909')
-    expect(page).to have_text('MSL: 16.3 m')
+    assert_current_path "/places/#{places(:ravenna).id}"
+    assert_selector 'h2', text: 'New name'
+    assert_text 'Lat: 55.168499'
+    assert_text 'Lon: 38.689909'
+    assert_text 'MSL: 16.3 m'
   end
 
-  it 'admin user can delete' do
+  test 'admin user can delete' do
     place = Place.create! \
       name: 'Borki',
       country: countries(:russia),
@@ -68,27 +66,27 @@ describe 'Edit place page:' do
     click_link I18n.t('general.edit')
     click_button I18n.t('general.delete')
 
-    expect(page).to have_current_path('/places')
-    expect(page).to have_text('Place had been successfully deleted')
-    expect(Place.find_by(id: place.id)).to eq(nil)
+    assert_current_path '/places'
+    assert_text 'Place had been successfully deleted'
+    assert_not Place.exists?(place.id)
   end
 
-  it 'can not be deleted if track reference it', :aggregate_failures do
+  test 'can not be deleted if track reference it' do
     place = Place.create! \
       name: 'Borki',
       country: countries(:russia),
       latitude: 56.7983919982,
       longitude: 37.3312257975,
       msl: 127
-    create :empty_track, place: place
+    tracks(:track_with_video).update(place: place)
 
     sign_in users(:admin)
     visit "/places/#{place.id}"
     click_link I18n.t('general.edit')
     click_button I18n.t('general.delete')
 
-    expect(page).to have_current_path("/places/#{place.id}/edit")
-    expect(page).to have_text('Cannot delete record because dependent tracks exist')
-    expect(Place.find_by(id: place.id)).not_to eq(nil)
+    assert_current_path "/places/#{place.id}/edit"
+    assert_text 'Cannot delete record because dependent tracks exist'
+    assert Place.exists?(place.id)
   end
 end

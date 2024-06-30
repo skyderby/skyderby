@@ -1,5 +1,7 @@
-describe 'Create GPS Performance Competition Page' do
-  it 'create new competition' do
+require 'application_system_test_case'
+
+class CreateCompetitionTest < ApplicationSystemTestCase
+  test 'create new competition' do
     sign_in users(:regular_user)
     visit '/events/performance/new'
 
@@ -12,9 +14,9 @@ describe 'Create GPS Performance Competition Page' do
 
     click_button I18n.t('general.save')
 
-    expect(page).to have_css('h2', text: 'GPS Performance')
-    expect(page).to have_css('span', text: 'Scoreboard')
-    expect(page).to have_css('span', text: 'Reference points')
-    expect(page).to have_css('span', text: 'Edit')
+    assert_selector 'h2', text: 'GPS Performance'
+    assert_selector 'span', text: 'Scoreboard'
+    assert_selector 'span', text: 'Reference points'
+    assert_selector 'span', text: 'Edit'
   end
 end

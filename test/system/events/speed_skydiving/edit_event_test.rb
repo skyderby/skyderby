@@ -1,18 +1,19 @@
-describe 'Events - Speed Skydiving - Edit' do
-  let(:event) { speed_skydiving_competitions(:nationals) }
+require 'application_system_test_case'
 
-  it 'with valid values' do
+class EditEventTest < ApplicationSystemTestCase
+  def setup
+    @event = speed_skydiving_competitions(:nationals)
+  end
+
+  test 'with valid values' do
     new_event_name = 'Changed event name'
+    sign_in @event.responsible
 
-    sign_in event.responsible
-    visit "/events/speed_skydiving/#{event.id}"
-
+    visit "/events/speed_skydiving/#{@event.id}"
     click_link I18n.t('general.edit')
-
     fill_in 'name', with: new_event_name
-
     click_button I18n.t('general.save')
 
-    expect(page).to have_css('h2', text: new_event_name.upcase)
+    assert_selector 'h2', text: new_event_name.upcase
   end
 end

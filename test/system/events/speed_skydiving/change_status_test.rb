@@ -1,20 +1,26 @@
-describe 'Changing Speed Skydiving event status' do
-  let(:event) { speed_skydiving_competitions(:nationals) }
+require 'application_system_test_case'
 
-  it 'with valid values' do
-    sign_in event.responsible
-    event.draft!
-    visit "/events/speed_skydiving/#{event.id}"
+class ChangeStatusTest < ApplicationSystemTestCase
+  def setup
+    @event = speed_skydiving_competitions(:nationals)
+  end
 
-    expect(page).to have_css('h2', text: event.name.upcase)
+  test 'with valid values' do
+    sign_in @event.responsible
+    @event.draft!
+    visit "/events/speed_skydiving/#{@event.id}"
+
+    assert_selector 'h2', text: @event.name.upcase
 
     click_button status_button_text('draft')
 
     click_button I18n.t('event_status.finished')
 
-    expect(page).to have_css('button', text: status_button_text('finished'))
-    expect(event.reload.status).to eq('finished')
+    assert_selector 'button', text: status_button_text('finished')
+    assert_equal 'finished', @event.reload.status
   end
+
+  private
 
   def status_button_text(status)
     "#{I18n.t('activerecord.attributes.event.status')}: #{I18n.t("event_status.#{status}")}"
