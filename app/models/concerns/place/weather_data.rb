@@ -18,7 +18,7 @@ module Place::WeatherData
       .map do |_, data_points|
         data = data_points.map { [_1[:variable], _1[:value]] }.to_h
         altitude = data['geopotential_height']
-        wind_speed = Math.sqrt(data['eastward_wind']**2 + data['northward_wind']**2)
+        wind_speed = Math.hypot(data['eastward_wind'], data['northward_wind'])
         wind_direction = Math.atan2(data['northward_wind'], data['eastward_wind']) * 180 / Math::PI + 180
 
         { place_id: id, actual_on:, altitude:, wind_speed:, wind_direction: }

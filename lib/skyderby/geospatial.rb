@@ -56,7 +56,7 @@ module Skyderby
     end
 
     # Given a start point, initial bearing, and distance, this will calculate
-    # the destination point and final bearing travelling along a 
+    # the destination point and final bearing travelling along a
     # (shortest distance) great circle arc.
     # http://www.movable-type.co.uk/scripts/latlong.html
     def shift_position(orig_lat_deg, orig_lon_deg, distance, bearing)
@@ -66,7 +66,7 @@ module Skyderby
       bearing_rad = deg_to_rad(bearing.to_f)
 
       dest_lat_rad =
-        Math.asin( 
+        Math.asin(
           Math.sin(orig_lat_rad) * Math.cos(angular_dist) +
           Math.cos(orig_lat_rad) * Math.sin(angular_dist) * Math.cos(bearing_rad)
         )
@@ -109,7 +109,7 @@ module Skyderby
     end
 
     def latitude_to_merc_y(latitude)
-      latitude = [89.5, [latitude, -89.5].max].min
+      latitude = latitude.clamp(-89.5, 89.5)
       phi = deg_to_rad(latitude)
       sinphi = Math.sin(phi)
       con = ECCENT * sinphi

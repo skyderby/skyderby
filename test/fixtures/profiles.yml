@@ -1,0 +1,34 @@
+admin:
+  name: Admin profile
+  owner: admin (User)
+
+regular_user:
+  name: Regular user
+  owner: regular_user (User)
+
+event_responsible:
+  name: Organizer
+  owner: event_responsible (User)
+
+alex:
+  name: Alex
+
+john:
+  name: John
+  owner: nationals (Event)
+  country: norway
+
+travis:
+  name: Travis
+  owner: nationals (Event)
+  country: norway
+
+maynard:
+  name: Ingrid Maynard
+  owner: nationals (SpeedSkydivingCompetition)
+  country: norway
+
+hinton:
+  name: Nigel Hinton
+  owner: nationals (SpeedSkydivingCompetition)
+  country: norway

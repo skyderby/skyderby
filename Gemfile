@@ -26,7 +26,6 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 
 # Template engines
-gem 'haml'
 gem 'jbuilder', '~> 2.6'
 gem 'kramdown'
 
@@ -66,6 +65,7 @@ gem 'vincenty_distance'
 group :development do
   gem 'annotate'
   gem 'rubocop', require: false
+  gem 'rubocop-minitest', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
 end
@@ -73,8 +73,6 @@ end
 group :development, :test do
   gem 'dotenv-rails'
   gem 'factory_bot_rails'
-  gem 'rspec'
-  gem 'rspec-rails', '~> 5.0.0'
 end
 
 group :test do

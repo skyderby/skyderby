@@ -1,5 +1,3 @@
-json.key_format! camelize: :lower
-
 json.extract! @tracks, :current_page, :total_pages
 
 json.items @tracks do |track|

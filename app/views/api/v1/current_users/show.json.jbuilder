@@ -1,5 +1,3 @@
-json.key_format! camelize: :lower
-
 if @user.registered?
   json.authorized @user.present?
 

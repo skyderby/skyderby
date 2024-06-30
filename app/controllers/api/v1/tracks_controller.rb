@@ -32,14 +32,10 @@ module Api
       def update
         authorize @track
 
-        respond_to do |format|
-          if @track.update(update_params)
-            format.json
-          else
-            format.json do
-              render json: { errors: @track.errors }, status: :unprocessable_entity
-            end
-          end
+        if @track.update(update_params)
+          render :update
+        else
+          respond_with_errors @track.errors
         end
       end
 
@@ -47,9 +43,9 @@ module Api
         authorize @track
 
         if @track.destroy
-          head :no_content
+          render :destroy
         else
-          render json: { errors: @track.errors }, status: :unprocessable_entity
+          respond_with_errors @track.errors
         end
       end
 

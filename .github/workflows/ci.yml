@@ -158,7 +158,13 @@ jobs:
         run: yarn install
       - run: bundle exec rails webpacker:compile
       - run: bundle exec rails db:test:prepare
-      - run: bundle exec rspec spec --tag ~type:system
+      - name: Run tests
+        run: |
+          if [[ "${{ github.base_ref }}" == "dev" ]] || [[ "${{ github.head_ref }}" == "dev" ]]; then
+            bundle exec rspec spec --tag ~type:system
+          elif [[ "${{ github.base_ref }}" == "next" ]] || [[ "${{ github.head_ref }}" == "next" ]]; then
+            bundle exec rails test
+          fi
 
   unit-test-js:
     runs-on: ubuntu-latest
@@ -245,7 +251,13 @@ jobs:
         run: yarn install
       - run: bundle exec rails webpacker:compile
       - run: bundle exec rails db:test:prepare
-      - run: bundle exec rspec spec --tag type:system
+      - name: Run tests
+        run: |
+          if [[ "${{ github.base_ref }}" == "dev" ]] || [[ "${{ github.head_ref }}" == "dev" ]]; then
+            bundle exec rspec spec --tag type:system
+          elif [[ "${{ github.base_ref }}" == "next" ]] || [[ "${{ github.head_ref }}" == "next" ]]; then
+            bundle exec rails test:system
+          fi
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         if: failure()

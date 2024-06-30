@@ -1,7 +1,0 @@
-%ul.flight-profiles__tracks-list
-  = render partial: 'flight_profiles/track', collection: @tracks, as: :track
-
-.flight-profiles__load-more.text-center
-  = will_paginate @tracks,
-                  params: { controller: 'flight_profiles/tracks', action: 'index' },
-                  renderer: WillPaginateLoadMoreRenderer

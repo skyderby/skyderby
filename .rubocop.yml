@@ -1,4 +1,5 @@
 require:
+  - rubocop-minitest
   - rubocop-rails
   - rubocop-performance
 
@@ -17,7 +18,7 @@ Layout/LineLength:
 
 Rails/SkipsModelValidations:
   Exclude:
-    - spec/**/*
+    - test/**/*
 
 Style/Lambda:
   Enabled: false
@@ -78,7 +79,13 @@ Metrics/BlockLength:
     - app/views/**/*.json.jbuilder
     - app/views/**/*.xml.builder
     - config/**/*
-    - spec/**/*
+    - test/**/*
+
+Minitest/MultipleAssertions:
+  Enabled: false
+
+Minitest/EmptyLineBeforeAssertionMethods:
+  Enabled: false
 
 Naming/VariableNumber:
   Enabled: false # TODO: Enable

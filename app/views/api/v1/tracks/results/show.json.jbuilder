@@ -1,5 +1,3 @@
-json.key_format! camelize: :lower
-
 if @track.competitive?
   json.competition_result do
     event = @track.event_result.event

@@ -1,5 +1,5 @@
 class AdminMailer < ApplicationMailer
-  default to: proc { UserEmailsPresenter.call(User.includes(:profile).admins) }
+  default to: proc { User.includes(:profile).admins.emails }
 
   def verify_online_competition_result(track)
     @track = track

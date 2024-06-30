@@ -46,17 +46,11 @@ Skyderby::Application.routes.draw do
       resource :current_user, only: :show
       resources :contributions, only: :index do
         collection do
-          resource :stats, only: :show, module: :contributions
+          resource :stats, only: :show, module: :contributions, as: :contributions_stats
         end
       end
       resources :users, only: %i[index show destroy]
-      resources :profiles, only: %i[index show] do
-        scope module: :profiles do
-          collection do
-            resource :current, only: :show
-          end
-        end
-      end
+      resources :profiles, only: %i[index show]
       resources :online_rankings, only: %i[index show] do
         scope module: :online_rankings do
           resource :overall_standings, only: :show
@@ -102,7 +96,7 @@ Skyderby::Application.routes.draw do
           resource :video, only: %i[create show destroy]
 
           collection do
-            resources :files, only: :create
+            resources :files, only: :create, as: :track_files
           end
         end
       end
