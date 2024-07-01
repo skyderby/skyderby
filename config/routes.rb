@@ -101,24 +101,6 @@ Skyderby::Application.routes.draw do
         end
       end
 
-      resources :events, only: %i[index show] do
-        scope module: :events do
-          resource :scoreboard, only: :show
-
-          resources :rounds, only: %i[index show] do
-            scope module: :rounds do
-              resources :reference_point_assignments, only: :create
-            end
-          end
-          resources :competitors, only: :index
-          resources :results, only: %i[index create] do
-            resource :penalty, only: :update, module: :results
-          end
-          resources :reference_points, only: :index
-          resources :teams, only: %i[index create update destroy]
-        end
-      end
-
       resources :performance_competitions, only: %i[index show create update] do
         scope module: :performance_competitions do
           resources :rounds, only: %i[index create update destroy]
@@ -161,6 +143,8 @@ Skyderby::Application.routes.draw do
       namespace :stats, module: :stats do
         resources :registrations, only: :index
       end
+
+      resources :tournaments, only: %i[index show create update destroy]
     end
   end
 
