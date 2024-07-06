@@ -101,6 +101,7 @@ Skyderby::Application.routes.draw do
         end
       end
 
+      resources :events, only: :index
       resources :performance_competitions, only: %i[index show create update] do
         scope module: :performance_competitions do
           resources :rounds, only: %i[index create update destroy]
