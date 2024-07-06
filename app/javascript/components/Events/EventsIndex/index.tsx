@@ -41,6 +41,7 @@ const EventsIndex = () => {
 
       <input
         className={styles.input}
+        name="searchTerm"
         type="search"
         placeholder="Search competition by name..."
         defaultValue={searchTerm}
