@@ -4930,45 +4930,12 @@
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.9.tgz"
   integrity sha512-qcUXuemtEu+E5wZSJHNxUXeCZhAfXKQ41D+duX+VYPde7xyEVZci+/oXKJL13tnRs9lR2pr4fod59GT6/X1/yQ==
 
-"@types/lodash.debounce@^4.0.6":
-  version "4.0.6"
-  resolved "https://registry.npmjs.org/@types/lodash.debounce/-/lodash.debounce-4.0.6.tgz"
-  integrity sha512-4WTmnnhCfDvvuLMaF3KV4Qfki93KebocUF45msxhYyjMttZDQYzHkO639ohhk8+oco2cluAFL3t5+Jn4mleylQ==
-  dependencies:
-    "@types/lodash" "*"
-
-"@types/lodash.isequal@^4.5.5":
-  version "4.5.5"
-  resolved "https://registry.npmjs.org/@types/lodash.isequal/-/lodash.isequal-4.5.5.tgz"
-  integrity sha512-4IKbinG7MGP131wRfceK6W4E/Qt3qssEFLF30LnJbjYiSfHGGRU/Io8YxXrZX109ir+iDETC8hw8QsDijukUVg==
-  dependencies:
-    "@types/lodash" "*"
-
-"@types/lodash.merge@^4.6.6":
-  version "4.6.6"
-  resolved "https://registry.npmjs.org/@types/lodash.merge/-/lodash.merge-4.6.6.tgz"
-  integrity sha512-IB90krzMf7YpfgP3u/EvZEdXVvm4e3gJbUvh5ieuI+o+XqiNEt6fCzqNRaiLlPVScLI59RxIGZMQ3+Ko/DJ8vQ==
-  dependencies:
-    "@types/lodash" "*"
-
-"@types/lodash.throttle@^4.1.6":
-  version "4.1.6"
-  resolved "https://registry.npmjs.org/@types/lodash.throttle/-/lodash.throttle-4.1.6.tgz"
-  integrity sha512-/UIH96i/sIRYGC60NoY72jGkCJtFN5KVPhEMMMTjol65effe1gPn0tycJqV5tlSwMTzX8FqzB5yAj0rfGHTPNg==
-  dependencies:
-    "@types/lodash" "*"
-
-"@types/lodash@*":
-  version "4.14.172"
-  resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.172.tgz"
-  integrity sha512-/BHF5HAx3em7/KkzVKm3LrsD6HZAXuXO1AJZQ3cRRBZj4oHZDviWPYu0aEplAqDFNHZPW6d3G7KN+ONcCCC7pw==
-
 "@types/lodash@^4.14.165":
   version "4.14.167"
   resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.167.tgz"
   integrity sha512-w7tQPjARrvdeBkX/Rwg95S592JwxqOjmms3zWQ0XZgSyxSLdzWaYH3vErBhdVS/lRBX7F8aBYcYJYTr5TMGOzw==
 
-"@types/lodash@^4.14.167":
+"@types/lodash@^4.14.167", "@types/lodash@^4.17.6":
   version "4.17.6"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.17.6.tgz#193ced6a40c8006cfc1ca3f4553444fb38f0e543"
   integrity sha512-OpXEVoCKSS3lQqjx9GGGOapBeuW5eUboYHRlHP9urXPX25IKZ6AnP5ZRxtVf63iieUbsHxLn8NQ5Nlftc6yzAA==
