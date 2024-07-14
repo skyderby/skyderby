@@ -28,13 +28,9 @@ class Place < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: ->(attrs) { attrs['name'].blank? }
 
-  validates :name, presence: true
-  validates :country, presence: true
-  validates :latitude, presence: true
-  validates :longitude, presence: true
+  validates :name, :latitude, :longitude, presence: true
 
-  delegate :name, to: :country, prefix: true, allow_nil: true
-  delegate :code, to: :country, prefix: true, allow_nil: true
+  delegate :name, :code, to: :country, prefix: true, allow_nil: true
 
   def pilots_accessible_by(user)
     Profile.where(

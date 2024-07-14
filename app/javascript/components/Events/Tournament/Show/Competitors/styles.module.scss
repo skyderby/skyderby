@@ -19,14 +19,14 @@
   display: table-row;
 }
 
-.headerRow > .cell {
-  color: var(--grey-70);
-  font-weight: 500;
-}
-
 .cell {
   display: table-cell;
   padding: 0.25rem 0.5rem;
 
   vertical-align: middle;
+}
+
+.headerRow > .cell {
+  color: var(--grey-70);
+  font-weight: 500;
 }

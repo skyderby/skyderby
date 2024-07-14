@@ -2,7 +2,7 @@ import React from 'react'
 import { Field, FieldProps } from 'formik'
 
 import { useI18n } from 'components/TranslationsProvider'
-import SuitSelect, { OptionType } from 'components/SuitSelect'
+import SuitSelect from 'components/SuitSelect'
 import styles from './styles.module.scss'
 
 const TrackSuitField = () => {

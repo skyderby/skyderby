@@ -6,7 +6,7 @@ module Profiles
       @profile = profile
       @tracks = tracks
 
-      super @profile
+      super(@profile)
     end
 
     def tracks_by_month

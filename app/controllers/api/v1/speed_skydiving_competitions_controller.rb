@@ -1,6 +1,10 @@
 class Api::V1::SpeedSkydivingCompetitionsController < Api::ApplicationController
   before_action :set_event, only: %i[show update]
 
+  def show
+    authorize @event
+  end
+
   def create
     authorize SpeedSkydivingCompetition
     @event = SpeedSkydivingCompetition.new(event_params) do |event|
@@ -14,10 +18,6 @@ class Api::V1::SpeedSkydivingCompetitionsController < Api::ApplicationController
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def show
-    authorize @event
   end
 
   def update

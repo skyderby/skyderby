@@ -18,7 +18,7 @@ class Api::V1::PlacesControllerTest < ActionDispatch::IntegrationTest
     get api_v1_places_url(ids: [hellesylt.id, loen.id])
 
     assert_response :success
-    names = response.parsed_body.fetch('items').map { |el| el['name'] }
+    names = response.parsed_body.fetch('items').pluck('name')
     assert_equal [hellesylt.name, loen.name].sort, names.sort
   end
 end

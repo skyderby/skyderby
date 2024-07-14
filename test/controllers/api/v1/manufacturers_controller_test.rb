@@ -18,7 +18,7 @@ class Api::V1::ManufacturersControllerTest < ActionDispatch::IntegrationTest
     get api_v1_manufacturers_url(ids: [tony.id, rd.id])
 
     assert_response :success
-    codes = response.parsed_body.fetch('items').map { |el| el['code'] }
+    codes = response.parsed_body.fetch('items').pluck('code')
     assert_equal [tony.code, rd.code].sort, codes.sort
   end
 

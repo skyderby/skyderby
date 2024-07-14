@@ -10,7 +10,7 @@ class Api::V1::OnlineRankings::Groups::OverallStandingsControllerTest < ActionDi
 
     assert_response :success
     standings = response.parsed_body['data']
-    assert_equal %w[tracksuit wingsuit], standings.map { _1['category'] }.sort
+    assert_equal %w[tracksuit wingsuit], standings.pluck('category').sort
     wingsuit_standings = standings.find { _1['category'] == 'wingsuit' }
     assert_equal 1, wingsuit_standings['rows'].size
     wingsuit_first_place = wingsuit_standings['rows'].find { _1['rank'] == 1 }

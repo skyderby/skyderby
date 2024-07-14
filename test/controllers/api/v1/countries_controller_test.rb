@@ -19,7 +19,7 @@ class Api::V1::CountriesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
 
-    names = response.parsed_body.fetch('items').map { |el| el['name'] }.sort
+    names = response.parsed_body.fetch('items').pluck('name').sort
     assert_equal [norway.name, russia.name].sort, names
   end
 end

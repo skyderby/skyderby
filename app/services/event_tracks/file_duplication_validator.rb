@@ -1,7 +1,7 @@
 module EventTracks
   class FileDuplicationValidator
-    def self.call(*args)
-      new(*args).call
+    def self.call(...)
+      new(...).call
     end
 
     def initialize(result, track_file)

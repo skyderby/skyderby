@@ -73,11 +73,11 @@ class PointsQuery
   end
 
   class << self
-    def execute(*args) = new(*args).execute
+    def execute(...) = new(...).execute
   end
 
   class ScopeBuilder
-    def self.call(*args) = new(*args).call
+    def self.call(...) = new(...).call
 
     def initialize(track, trimmed, freq_1hz)
       @track = track

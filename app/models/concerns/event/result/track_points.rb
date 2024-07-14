@@ -10,7 +10,7 @@ class Event::Result < ApplicationRecord
         to_altitude: round.range_to
       )
     rescue WindowRangeFinder::ValueOutOfRange
-      Rails.logger.debug "Failed to get range data from track #{track_id}"
+      Rails.logger.debug { "Failed to get range data from track #{track_id}" }
       NullWindowPoints.new(points.first, points.last)
     end
 

@@ -14,6 +14,9 @@ module Api
           .then { |rel| paginate(rel) }
       end
 
+      def show
+        authorize @track
+      end
       def create
         authorize Track
 
@@ -25,9 +28,6 @@ module Api
         current_user.tracks << @track.id unless current_user.registered?
       end
 
-      def show
-        authorize @track
-      end
 
       def update
         authorize @track

@@ -28,7 +28,8 @@ class TrackOrder
   def apply(relation)
     return relation.order(default_order) unless order_valid
 
-    instance_exec(relation, attribute, direction, &(ORDERS[attribute] || ORDERS[:DEFAULT]))
+    order = ORDERS[attribute] || ORDERS[:DEFAULT]
+    instance_exec(relation, attribute, direction, &order)
   end
 
   private
