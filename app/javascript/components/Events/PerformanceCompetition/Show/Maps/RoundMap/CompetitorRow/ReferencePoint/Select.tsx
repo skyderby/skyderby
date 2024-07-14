@@ -1,9 +1,13 @@
 import React from 'react'
 import Select, { StylesConfig, Theme, Props } from 'react-select'
 import { ReferencePoint } from 'api/performanceCompetitions'
-import { OptionType } from 'components/SuitSelect'
 
-const styles: StylesConfig<{ value: number | null }, boolean> = {
+type Option = {
+  value: number | null
+  label: string
+}
+
+const styles: StylesConfig<Option, false> = {
   control: base => ({
     ...base,
     fontSize: '14px',
@@ -24,10 +28,10 @@ const theme = (theme: Theme): Theme => ({
   }
 })
 
-const placeholder = <>&mdash;</>
+const placeholder = '—'
 const blankOption = { value: null, label: placeholder }
 
-interface ReferencePointSelectProps extends Omit<Props<OptionType, boolean>, 'value'> {
+type ReferencePointSelectProps = Omit<Props<Option, false>, 'value'> & {
   value: ReferencePoint | null
   referencePoints: ReferencePoint[]
 }

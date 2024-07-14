@@ -24,11 +24,11 @@
 class Tournament < ApplicationRecord
   enum status: { draft: 0, published: 1, finished: 2, surprise: 3 }
   enum discipline: {
-    time: 0,
-    distance: 1,
-    speed: 2,
-    distance_in_time: 3,
-    time_until_intersection: 4
+    time_until_intersection: 0,
+    distance_in_time: 1,
+    time: 2,
+    distance: 3,
+    speed: 4,
   }
 
   belongs_to :responsible, class_name: 'User'

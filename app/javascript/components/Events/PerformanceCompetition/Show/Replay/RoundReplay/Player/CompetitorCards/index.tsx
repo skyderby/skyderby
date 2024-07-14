@@ -7,7 +7,7 @@ import React, {
   useMemo,
   useRef
 } from 'react'
-import debounce from 'lodash.debounce'
+import debounce from 'lodash/debounce'
 
 import { drawCard, updateCardNumbers } from './utils'
 import styles from './styles.module.scss'

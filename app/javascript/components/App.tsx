@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { BrowserRouter } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { Helmet } from 'react-helmet'
+import NiceModal from '@ebay/nice-modal-react'
 
 import TranslationsProvider from 'components/TranslationsProvider'
 import AppRouter from './AppRouter'
@@ -56,9 +57,11 @@ const App = () => {
       />
 
       <TranslationsProvider>
-        <BrowserRouter>
-          <AppRouter />
-        </BrowserRouter>
+        <NiceModal.Provider>
+          <BrowserRouter>
+            <AppRouter />
+          </BrowserRouter>
+        </NiceModal.Provider>
       </TranslationsProvider>
 
       <ReactQueryDevtools initialIsOpen={false} />

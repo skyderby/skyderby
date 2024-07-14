@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { OnlineRanking } from 'api/onlineRankings'
 import { GroupStandingsRow } from 'api/onlineRankings/groups'
-import ProfileName from 'components/ProfileName'
+import ProfileLabel from 'components/ProfileLabel'
 import styles from './styles.module.scss'
 
 const formatResult = (result: number | undefined, task: OnlineRanking['discipline']) => {
@@ -24,7 +24,7 @@ const StandingRow = ({ row, tasks, selectedTask }: Props) => {
     <tr>
       <td>{selectedTask ? row.results[selectedTask]?.rank : row.rank}</td>
       <td>
-        <ProfileName id={row.profileId} />
+        <ProfileLabel id={row.profileId} />
       </td>
       {tasksToShow.map(task => (
         <React.Fragment key={task}>

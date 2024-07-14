@@ -1,0 +1,32 @@
+@import 'styles/breakpoints';
+
+.container {
+  width: $bp-large;
+  margin: 0 auto;
+  padding: 1rem;
+  border: 1px solid var(--grey-40);
+  border-radius: var(--border-radius-lg);
+
+  background-color: var(--white);
+}
+
+.table {
+  display: table;
+}
+
+.headerRow,
+.row {
+  display: table-row;
+}
+
+.headerRow > .cell {
+  color: var(--grey-70);
+  font-weight: 500;
+}
+
+.cell {
+  display: table-cell;
+  padding: 0.25rem 0.5rem;
+
+  vertical-align: middle;
+}

@@ -23,7 +23,7 @@ const TrackSuitField = () => {
               placeholder={t('tracks.form.suit_select_placeholder')}
               aria-label={t('tracks.form.suit_select_placeholder')}
               {...props}
-              onChange={(option: OptionType) => {
+              onChange={option => {
                 if (option === null) {
                   setFieldValue(name, option)
                 } else if ('value' in option) {

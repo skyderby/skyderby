@@ -1,6 +1,22 @@
-import { StylesConfig, OptionTypeBase } from 'react-select'
+import { GroupBase, StylesConfig } from 'react-select'
+import type {} from 'react-select/base'
 
-const getSelectStyles = <T extends OptionTypeBase>(): StylesConfig<T, boolean> => ({
+declare module 'react-select/base' {
+  export interface Props<
+    Option,
+    IsMulti extends boolean, // eslint-disable-line @typescript-eslint/no-unused-vars
+    Group extends GroupBase<Option> // eslint-disable-line @typescript-eslint/no-unused-vars
+  > {
+    hide?: boolean
+    isInvalid?: string | boolean
+  }
+}
+
+const getSelectStyles = <
+  Option = unknown,
+  IsMulti extends boolean = false,
+  Group extends GroupBase<Option> = GroupBase<Option>
+>(): StylesConfig<Option, IsMulti, Group> => ({
   container: (base, state) => ({
     ...base,
     ...(state.selectProps?.hide ? { display: 'none' } : {}),

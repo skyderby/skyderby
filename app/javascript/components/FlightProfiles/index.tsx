@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { ValueType } from 'react-select'
 import { Helmet } from 'react-helmet'
 
 import { useI18n } from 'components/TranslationsProvider'
@@ -62,9 +61,7 @@ const FlightProfiles = () => {
         <div className={styles.terrainProfileSelect}>
           <TerrainProfileSelect
             value={selectedTerrainProfile}
-            onChange={(option: ValueType<{ value: number }, false>) =>
-              setSelectedTerrainProfile(option?.value || null)
-            }
+            onChange={option => setSelectedTerrainProfile(option?.value || null)}
           />
         </div>
       </aside>

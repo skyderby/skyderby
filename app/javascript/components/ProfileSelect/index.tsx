@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { Props } from 'react-select'
-import { AsyncPaginate as Select } from 'react-select-async-paginate'
+import { AsyncPaginate } from 'react-select-async-paginate'
 import { useQueryClient } from '@tanstack/react-query'
 
 import { profilesQuery, useProfileQuery } from 'api/profiles'
@@ -11,7 +11,7 @@ export interface OptionType {
   value: number
 }
 
-interface ProfileSelectProps extends Omit<Props<OptionType, boolean>, 'value'> {
+interface ProfileSelectProps extends Omit<Props<OptionType, false>, 'value'> {
   value?: number
 }
 
@@ -43,7 +43,7 @@ const ProfileSelect = ({ value: profileId, ...props }: ProfileSelectProps) => {
   )
 
   return (
-    <Select
+    <AsyncPaginate
       loadOptions={loadOptions}
       value={selectedOption}
       additional={{ page: 1 }}

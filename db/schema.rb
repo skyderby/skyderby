@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_31_093959) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_09_052444) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -470,6 +470,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_31_093959) do
     t.boolean "is_lucky_looser"
     t.string "notes", limit: 510
     t.integer "earn_medal"
+    t.datetime "start_time", precision: 3
   end
 
   create_table "tournament_matches", id: :serial, force: :cascade do |t|
@@ -597,11 +598,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_31_093959) do
     t.string "uid"
     t.string "roles", default: [], array: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-    t.index ["confirmation_token"], name: "users_confirmation_token_key", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["email"], name: "users_email_key", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["reset_password_token"], name: "users_reset_password_token_key", unique: true
+    t.unique_constraint ["confirmation_token"], name: "users_confirmation_token_key"
+    t.unique_constraint ["email"], name: "users_email_key"
+    t.unique_constraint ["reset_password_token"], name: "users_reset_password_token_key"
   end
 
   create_table "virtual_competition_custom_intervals", force: :cascade do |t|

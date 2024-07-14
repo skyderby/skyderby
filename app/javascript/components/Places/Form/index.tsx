@@ -2,7 +2,6 @@ import React from 'react'
 import { Formik, Field, ErrorMessage, FieldProps, FormikHelpers } from 'formik'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
-import type { ValueType } from 'react-select'
 import type { UseMutationResult } from '@tanstack/react-query'
 import type { AxiosError, AxiosResponse } from 'axios'
 
@@ -93,7 +92,7 @@ const Form = ({ initialValues, mutation, deleteMutation, returnUrl }: FormProps)
                     {...props}
                     placeholder={t('views.places.placeholder')}
                     aria-label="Select country"
-                    onChange={(option: ValueType<{ value: number }, false>) => {
+                    onChange={option => {
                       if (option === null) {
                         setFieldValue(name, null)
                       } else {

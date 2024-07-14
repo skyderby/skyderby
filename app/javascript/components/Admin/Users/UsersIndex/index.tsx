@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useLocation, Link, useSearchParams } from 'react-router-dom'
 import toast from 'react-hot-toast'
-import debounce from 'lodash.debounce'
+import debounce from 'lodash/debounce'
 
 import { useUsersQuery, useBatchDeleteUsersMutation } from 'api/users'
 import { useI18n } from 'components/TranslationsProvider'

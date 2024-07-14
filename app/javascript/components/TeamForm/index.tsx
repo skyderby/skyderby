@@ -2,7 +2,7 @@ import React from 'react'
 import { AxiosError } from 'axios'
 import { UseMutationResult, UseQueryResult } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
-import { ValueType } from 'react-select'
+import { OnChangeValue } from 'react-select'
 import { Formik, Field, FieldArray, FormikHelpers } from 'formik'
 
 import { useI18n } from 'components/TranslationsProvider'
@@ -89,7 +89,7 @@ const TeamForm = ({
                       </button>
                     </div>
 
-                    {values.competitorIds.map((id: number, idx: number) => (
+                    {values.competitorIds.map((_id: number, idx: number) => (
                       <div className={styles.competitorRow} key={idx}>
                         <Field
                           as={CompetitorSelect}
@@ -97,7 +97,7 @@ const TeamForm = ({
                           eventId={eventId}
                           competitorsQuery={competitorsQuery}
                           menuPortalTarget={document.getElementById('dropdowns-root')}
-                          onChange={(option: ValueType<{ value: number }, false>) => {
+                          onChange={(option: OnChangeValue<{ value: number }, false>) => {
                             if (option === null) {
                               setFieldValue(`competitorIds[${idx}]`, null)
                             } else {

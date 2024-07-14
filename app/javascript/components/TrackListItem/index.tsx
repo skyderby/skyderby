@@ -5,7 +5,7 @@ import cx from 'clsx'
 
 import { SuitName } from 'components/SuitLabel'
 import PlaceLabel from 'components/PlaceLabel'
-import ProfileName from 'components/ProfileName'
+import ProfileLabel from 'components/ProfileLabel'
 import { useManufacturerQuery } from 'api/manufacturer'
 import { useSuitQuery } from 'api/suits'
 import { TrackIndexRecord } from 'api/tracks'
@@ -25,7 +25,7 @@ const ItemDetails = ({ track }: DetailsProps) => {
     <>
       <div className={styles.id}>{track.id}</div>
       <div className={styles.pilot}>
-        {track.profileId ? <ProfileName id={track.profileId} /> : track.pilotName}
+        {track.profileId ? <ProfileLabel id={track.profileId} /> : track.pilotName}
       </div>
       <div className={styles.suit}>
         <SuitName name={suitName} code={manufacturer?.code} />

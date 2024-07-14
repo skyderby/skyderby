@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState, useCallback } from
 import { MarkerClusterer } from '@googlemaps/markerclusterer'
 import { Link, useNavigate } from 'react-router-dom'
 import cx from 'clsx'
-import debounce from 'lodash.debounce'
+import debounce from 'lodash/debounce'
 
 import Map from 'components/Map'
 import useGoogleMapsApi from 'utils/useGoogleMapsApi'

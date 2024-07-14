@@ -1,6 +1,5 @@
 import React from 'react'
 import { Formik, Field, FieldArray, FormikHelpers } from 'formik'
-import { ValueType } from 'react-select'
 
 import { useI18n } from 'components/TranslationsProvider'
 import IconTimes from 'icons/times.svg'
@@ -68,7 +67,7 @@ const SettingsModal = ({
                           value={id}
                           isClearable={false}
                           menuPortalTarget={document.getElementById('dropdowns-root')}
-                          onChange={(option: ValueType<{ value: number }, false>) => {
+                          onChange={option => {
                             setFieldValue(
                               `additionalTerrainProfiles[${idx}]`,
                               option ? option.value : option

@@ -1,6 +1,5 @@
 import React from 'react'
 import { Formik, Field, FormikHelpers, FieldProps, ErrorMessage } from 'formik'
-import { ValueType } from 'react-select'
 import toast from 'react-hot-toast'
 import { UseMutationResult } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
@@ -79,14 +78,7 @@ const CopyFromOtherEventForm = ({
                         isInvalid={touched && error}
                         {...props}
                         menuPortalTarget={document.getElementById('dropdowns-root')}
-                        onChange={(
-                          option: ValueType<
-                            {
-                              value: number
-                            },
-                            false
-                          >
-                        ) => {
+                        onChange={option => {
                           if (option === null) {
                             setFieldValue(name, null)
                           } else {

@@ -1,17 +1,22 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { AsyncPaginate as Select } from 'react-select-async-paginate'
-import type { Props } from 'react-select'
+import { AsyncPaginate } from 'react-select-async-paginate'
+import { GroupBase, Props } from 'react-select'
 import { useQueryClient } from '@tanstack/react-query'
 
 import getSelectStyles from 'styles/selectStyles'
 import { tracksQuery, trackQuery, TrackFilters } from 'api/tracks'
+
+type Option = {
+  value: number
+  label: string
+}
 
 const buildOption = <T extends { id: number; comment: string }>(track: T) => ({
   value: track.id,
   label: [`#${track.id}`, track.comment].filter(Boolean).join(' - ')
 })
 
-type TrackSelectProps = Omit<Props, 'value'> & {
+type TrackSelectProps = Omit<Props<Option, false>, 'value'> & {
   value: number
   filters: TrackFilters
 }
@@ -57,11 +62,11 @@ const TrackSelect = ({ value: trackId, filters, ...props }: TrackSelectProps) =>
   )
 
   return (
-    <Select
+    <AsyncPaginate<Option, GroupBase<Option>, { page: number }, false>
       loadOptions={loadOptions}
       value={selectedOption}
       additional={{ page: 1 }}
-      styles={getSelectStyles()}
+      styles={getSelectStyles<Option, false>()}
       menuPortalTarget={document.getElementById('dropdowns-root')}
       {...props}
     />

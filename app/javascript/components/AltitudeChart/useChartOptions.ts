@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import merge from 'lodash.merge'
+import merge from 'lodash/merge'
 
 import { I18n } from 'components/TranslationsProvider'
 import { restoreSeriesVisibility, saveSeriesVisibility } from 'components/Highchart'

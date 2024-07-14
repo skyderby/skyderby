@@ -5,12 +5,12 @@ const allYears = Array(new Date().getFullYear() - 2014 + 1)
   .fill(undefined)
   .map((_v, idx) => 2014 + idx)
 
-export interface OptionType {
-  label: string
+export type OptionType = {
   value: number
+  label: string
 }
 
-interface YearSelectProps extends Omit<Props<OptionType, boolean>, 'value'> {
+type YearSelectProps = Omit<Props<OptionType, false>, 'value'> & {
   value?: number
 }
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { Field, FieldProps } from 'formik'
 
 import { useI18n } from 'components/TranslationsProvider'
-import PlaceSelect, { OptionType } from 'components/PlaceSelect'
+import PlaceSelect from 'components/PlaceSelect'
 import styles from './styles.module.scss'
 
 const TrackLocationField = () => {
@@ -21,7 +21,7 @@ const TrackLocationField = () => {
               hide={values.formSupportData.placeInputMode === 'input'}
               isInvalid={touched && error}
               {...props}
-              onChange={(option: OptionType) => {
+              onChange={option => {
                 if (option === null) {
                   setFieldValue(name, option)
                 } else if ('value' in option) {

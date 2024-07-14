@@ -1,13 +1,16 @@
 class Api::V1::TournamentsController < Api::ApplicationController
-  before_action :set_tournament, only: %i[show]
-
   def show
+    @tournament =
+      Tournament
+      .preload(
+        rounds: { matches: :slots },
+        competitors: {
+          profile: [:contribution_details, :country],
+          suit: :manufacturer
+        }
+      )
+      .find(params[:id])
+
     authorize @tournament
-  end
-
-  private
-
-  def set_tournament
-    @tournament = Tournament.find(params[:id])
   end
 end

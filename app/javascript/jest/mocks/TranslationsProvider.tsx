@@ -4,7 +4,7 @@ import yaml from 'js-yaml'
 import path from 'path'
 import glob from 'glob'
 import fs from 'fs'
-import merge from 'lodash.merge'
+import merge from 'lodash/merge'
 
 const TranslationsContext = createContext<{ t: typeof I18n.t } | undefined>(undefined)
 

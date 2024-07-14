@@ -1,11 +1,15 @@
-import { StylesConfig } from 'react-select'
+import { GroupBase, StylesConfig } from 'react-select'
 
-interface OptionType {
-  value: string | number
+type OptionType = {
+  value: number
   label: string
 }
 
-const getSelectStyles = <T = OptionType>(): StylesConfig<T, boolean> => ({
+const getSelectStyles = <
+  Option extends { value: unknown; label: string } = OptionType,
+  IsMulti extends boolean = false,
+  Group extends GroupBase<Option> = GroupBase<Option>
+>(): StylesConfig<Option, IsMulti, Group> => ({
   container: base => ({
     ...base,
     minWidth: '220px'

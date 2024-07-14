@@ -1,5 +1,5 @@
 import React from 'react'
-import Select, { Props } from 'react-select'
+import Select, { components, OptionProps, Props } from 'react-select'
 
 import CalendarIcon from 'icons/calendar.svg'
 import PlaceIcon from 'icons/location.svg'
@@ -7,7 +7,6 @@ import SuitIcon from 'icons/suit.svg'
 import UserIcon from 'icons/user.svg'
 import getSelectStyles from '../selectStyles'
 import { allowedValueKeys } from '../types'
-import Option from './Option'
 
 const options = [
   { label: 'Profile', value: 'profileId', icon: <UserIcon /> },
@@ -22,17 +21,29 @@ type OptionType = {
   icon: React.ReactNode
 }
 
-type TypeSelectProps = Props<OptionType> & { exclude?: typeof allowedValueKeys[number] }
+type TypeSelectProps = {
+  exclude?: typeof allowedValueKeys[number]
+}
 
-const TypeSelect = ({ exclude, ...props }: TypeSelectProps) => {
+const OptionComponent = (props: OptionProps<OptionType, false>) => (
+  <components.Option {...props}>
+    <span>{props.data.icon}</span>
+    <span>{props.data.label}</span>
+  </components.Option>
+)
+
+const TypeSelect = ({
+  exclude,
+  ...props
+}: Props<OptionType, false> & TypeSelectProps) => {
   const possibleOptions = options.filter(option => option.value !== exclude)
 
   return (
     <Select<OptionType, false>
-      components={{ Option }}
+      components={{ Option: OptionComponent }}
       options={possibleOptions}
       placeholder="Search or filter tracks"
-      styles={getSelectStyles<OptionType>()}
+      styles={getSelectStyles<OptionType, false>()}
       {...props}
     />
   )

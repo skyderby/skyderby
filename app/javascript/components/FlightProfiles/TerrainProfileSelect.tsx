@@ -10,7 +10,7 @@ type OptionType = {
   label: string
 }
 
-type TerrainProfileSelectProps = Omit<Props<OptionType>, 'value'> & {
+type TerrainProfileSelectProps = Omit<Props<OptionType, false>, 'value'> & {
   value?: number | null
 }
 
@@ -30,7 +30,7 @@ const TerrainProfileSelect = ({ value, ...props }: TerrainProfileSelectProps) =>
   const selectedOption = value ? options.find(el => el.value === value) : null
 
   return (
-    <Select<OptionType>
+    <Select
       isClearable
       menuPlacement="auto"
       options={options}
