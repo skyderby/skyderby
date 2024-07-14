@@ -14,7 +14,13 @@ class Api::V1::Tournaments::CompetitorsController < Api::ApplicationController
   end
 
   def update
+    authorize @tournament, :update?
 
+    if @competitor.update(competitor_params)
+      render
+    else
+      respond_with_errors(@competitor)
+    end
   end
 
   def destroy
