@@ -50,7 +50,8 @@ class Profile < ApplicationRecord
   has_many :personal_top_scores,
            -> { wind_cancellation(false) },
            inverse_of: :profile,
-           class_name: 'VirtualCompetition::PersonalTopScore'
+           class_name: 'VirtualCompetition::PersonalTopScore',
+           dependent: :restrict_with_error
   has_many :contribution_details,
            class_name: 'Contribution::Detail',
            as: :contributor,
