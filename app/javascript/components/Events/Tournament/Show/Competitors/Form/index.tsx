@@ -39,7 +39,7 @@ const defaultInitialValues: FormData = {
 
 type Props = {
   initialValues?: Partial<Competitor>
-  id?: number
+  competitorId?: number
   mutation: UseMutationResult<
     unknown,
     AxiosError<Record<string, string[]>>,
@@ -47,7 +47,7 @@ type Props = {
   >
 }
 
-const Form = NiceModal.create(({ initialValues, id, mutation }: Props) => {
+const Form = NiceModal.create<Props>(({ initialValues, competitorId: id, mutation }) => {
   const { t } = useI18n()
   const modal = useModal()
 

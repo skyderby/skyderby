@@ -12,8 +12,14 @@ const Round = ({ tournament, round }: Props) => {
   return (
     <div className={styles.round}>
       <div className={styles.roundHeader}>Round {round.order}</div>
-      {round.brackets.map(bracket => (
-        <Bracket tournament={tournament} bracket={bracket} key={bracket.id} />
+      {round.brackets.map((bracket, idx) => (
+        <Bracket
+          tournament={tournament}
+          bracket={bracket}
+          key={bracket.id}
+          round={round}
+          position={idx + 1}
+        />
       ))}
     </div>
   )

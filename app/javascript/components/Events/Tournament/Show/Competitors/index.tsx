@@ -6,12 +6,12 @@ import {
   useUpdateCompetitorMutation,
   useDeleteCompetitorMutation
 } from 'api/tournaments'
-import styles from './styles.module.scss'
+import PlusIcon from 'icons/plus.svg'
 import { SuitName } from 'components/SuitLabel'
 import { ProfileName } from 'components/ProfileLabel'
 import ActionsBar from 'components/ActionsBar'
-import PlusIcon from 'icons/plus.svg'
 import Form from './Form'
+import styles from './styles.module.scss'
 
 type Props = {
   tournament: Tournament
@@ -21,6 +21,12 @@ const Competitors = ({ tournament }: Props) => {
   const createMutation = useCreateCompetitorMutation(tournament.id)
   const updateMutation = useUpdateCompetitorMutation(tournament.id)
   const deleteMutation = useDeleteCompetitorMutation(tournament.id)
+
+  const deleteCompetitor = (competitorId: number) => {
+    if (confirm('Are you sure you want to delete this competitor?')) {
+      deleteMutation.mutate(competitorId)
+    }
+  }
 
   return (
     <>
@@ -60,6 +66,7 @@ const Competitors = ({ tournament }: Props) => {
                     onClick={() =>
                       NiceModal.show(Form, {
                         mutation: updateMutation,
+                        competitorId: competitor.id,
                         initialValues: competitor
                       })
                     }
@@ -68,7 +75,7 @@ const Competitors = ({ tournament }: Props) => {
                   </button>
                   <button
                     className={styles.button}
-                    onClick={() => deleteMutation.mutate(competitor.id)}
+                    onClick={() => deleteCompetitor(competitor.id)}
                   >
                     Delete
                   </button>

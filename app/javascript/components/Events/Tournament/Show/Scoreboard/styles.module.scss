@@ -29,6 +29,7 @@
 }
 
 .bracket {
+  margin-top: calc(var(--margin) * 1rem);
   padding: 0.5rem;
   border: 1px solid var(--grey-40);
   border-radius: var(--border-radius-md);
@@ -36,6 +37,7 @@
 
 .slot {
   display: flex;
+  gap: 0.5rem;
   align-items: center;
   padding: 0.25rem 0.5rem;
   border-radius: var(--border-radius-md);
@@ -45,9 +47,44 @@
   }
 }
 
+.profile {
+  overflow: hidden;
+}
+
 .profilePhoto {
   width: 2rem;
   height: 2rem;
-  margin-right: 0.5rem;
   border-radius: 100%;
+}
+
+.profileName {
+  overflow: hidden;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.connectorLeft {
+  border-top: var(--default-border);
+  border-right: var(--default-border);
+  border-bottom: var(--default-border);
+}
+
+.connectorRight {
+
+}
+
+.suit {
+  display: block;
+
+  color: var(--grey-60);
+  font-weight: bold;
+  font-size: 0.625rem;
+  line-height: 1;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.result {
+  margin-left: auto;
 }

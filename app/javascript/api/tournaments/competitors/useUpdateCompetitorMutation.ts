@@ -46,7 +46,10 @@ const useUpdateCompetitorMutation = (tournamentId: number) => {
 
       queryClient.setQueryData(tournamentQueryKey(tournamentId), {
         ...data,
-        competitors: sortBy([...data.competitors, competitor], 'profile.name')
+        competitors: sortBy(
+          [...data.competitors.filter(record => record.id !== competitor.id), competitor],
+          'profile.name'
+        )
       })
     }
   })
