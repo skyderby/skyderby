@@ -11,9 +11,21 @@ type Props = {
 }
 
 const Bracket = ({ tournament, bracket, round, position }: Props) => {
-  const margin = round.order > 1 ? 3 : 0
+  const spacingUnits = round.order ** 2
+  const useBottomSpacing = round.order === tournament.rounds.length ? 0 : 1
+  const useTopSpacing = useBottomSpacing === 0 && position > 1 ? 0 : 1
   return (
-    <div className={styles.bracket} style={{ '--margin': margin } as React.CSSProperties}>
+    <div
+      className={styles.bracket}
+      style={
+        {
+          '--round': round.order,
+          '--spacing-units': spacingUnits,
+          '--use-bottom-spacing': useBottomSpacing,
+          '--use-top-spacing': useTopSpacing
+        } as React.CSSProperties
+      }
+    >
       {bracket.slots.map(slot => (
         <Slot key={slot.id} slot={slot} tournament={tournament} />
       ))}

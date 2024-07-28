@@ -29,7 +29,8 @@
 }
 
 .bracket {
-  margin-top: calc(var(--margin) * 1rem);
+  margin-top: calc(var(--use-top-spacing) * ((var(--spacing-units) - 1) * 20px + max(0, var(--round) - 2) * 0.5rem));
+  margin-bottom: calc(var(--use-bottom-spacing) * (var(--spacing-units) - 1) * 1rem);
   padding: 0.5rem;
   border: 1px solid var(--grey-40);
   border-radius: var(--border-radius-md);
@@ -68,10 +69,6 @@
   border-top: var(--default-border);
   border-right: var(--default-border);
   border-bottom: var(--default-border);
-}
-
-.connectorRight {
-
 }
 
 .suit {
