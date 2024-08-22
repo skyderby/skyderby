@@ -9,8 +9,8 @@ export const IMPERIAL = 'imperial' as const
 const allowedChartMode = [SINGLE_CHART, SEPARATE_CHARTS] as const
 const allowedUnitSystems = [METRIC, IMPERIAL] as const
 
-export type ChartMode = typeof allowedChartMode[number]
-export type UnitSystem = typeof allowedUnitSystems[number]
+export type ChartMode = (typeof allowedChartMode)[number]
+export type UnitSystem = (typeof allowedUnitSystems)[number]
 
 export interface ViewPreferences {
   chartMode: ChartMode

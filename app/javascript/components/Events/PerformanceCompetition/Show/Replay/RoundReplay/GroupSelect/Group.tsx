@@ -24,6 +24,7 @@ const Group = <Option extends OptionType, Group extends GroupBase<Option>>(
     // TS error comes from storybook dependency on emotion v10, while react-select uses v11
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
+    // eslint-disable-next-line react/no-unknown-property
     <div css={getStyles('group', props)}>
       <Heading
         {...headingProps}

@@ -70,18 +70,18 @@ const updateEvent = (id: number, speedSkydivingCompetition: EventVariables) =>
     AxiosResponse<SerializedData>
   >(`${endpoint}/${id}`, { speedSkydivingCompetition })
 
-const buildQueryFn = (
-  queryClient: QueryClient
-): QueryFunction<SpeedSkydivingCompetition, QueryKey> => async ctx => {
-  const [_key, id] = ctx.queryKey
-  const data = await getEvent(id)
+const buildQueryFn =
+  (queryClient: QueryClient): QueryFunction<SpeedSkydivingCompetition, QueryKey> =>
+  async ctx => {
+    const [_key, id] = ctx.queryKey
+    const data = await getEvent(id)
 
-  if (data.placeId) {
-    await queryClient.prefetchQuery(placeQuery(data.placeId, queryClient))
+    if (data.placeId) {
+      await queryClient.prefetchQuery(placeQuery(data.placeId, queryClient))
+    }
+
+    return deserialize(data)
   }
-
-  return deserialize(data)
-}
 
 export const speedSkydivingCompetitionQuery = (
   id: number,

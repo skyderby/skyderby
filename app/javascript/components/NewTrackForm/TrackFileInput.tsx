@@ -21,7 +21,12 @@ const TrackFileInput = ({
   const [_field, meta] = useField(name)
   const [validationError, setValidationError] = useState<string | null>(null)
 
-  const { mutate, reset, isPending, error: serverError } = useNewTrackFileMutation({
+  const {
+    mutate,
+    reset,
+    isPending,
+    error: serverError
+  } = useNewTrackFileMutation({
     onMutate: () => onUploadStart(),
     onSettled: () => onUploadEnd(),
     onSuccess: record => onChange(record)

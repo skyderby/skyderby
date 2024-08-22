@@ -88,7 +88,7 @@ const PlacesIndex = () => {
       if (target.matches('#infowindow-link')) {
         event.preventDefault()
         const href = target.getAttribute('href')
-        href && navigate(href)
+        if (href) navigate(href)
       }
     }
 

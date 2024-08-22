@@ -13,7 +13,7 @@ import styles from './styles.module.scss'
 type TokenizedSearchFieldProps = {
   initialValues?: TokenTuple[]
   onChange: (tokens: TokenTuple[]) => unknown
-  exclude?: typeof allowedValueKeys[number]
+  exclude?: (typeof allowedValueKeys)[number]
 }
 
 const TokenizedSearchField = ({

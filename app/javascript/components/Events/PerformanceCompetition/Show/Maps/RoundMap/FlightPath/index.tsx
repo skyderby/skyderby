@@ -14,10 +14,12 @@ type FlightPathProps = {
 }
 
 const FlightPath = ({ event, competitor }: FlightPathProps) => {
-  const { points = [], afterExitPoint, startPoint, endPoint } = useResultPoints(
-    event,
-    competitor.result
-  )
+  const {
+    points = [],
+    afterExitPoint,
+    startPoint,
+    endPoint
+  } = useResultPoints(event, competitor.result)
 
   return (
     <>

@@ -88,9 +88,10 @@ const RoundReplay = ({ eventId, roundId }: RoundReplayProps) => {
     [competitors, results, queryClient]
   )
 
-  const groups = useMemo(() => buildGroups(competitorsRoundMapData), [
-    competitorsRoundMapData
-  ])
+  const groups = useMemo(
+    () => buildGroups(competitorsRoundMapData),
+    [competitorsRoundMapData]
+  )
 
   useEffect(() => {
     setSelectedCompetitors([])

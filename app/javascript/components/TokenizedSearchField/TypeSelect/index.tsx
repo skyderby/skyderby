@@ -22,7 +22,7 @@ type OptionType = {
 }
 
 type TypeSelectProps = {
-  exclude?: typeof allowedValueKeys[number]
+  exclude?: (typeof allowedValueKeys)[number]
 }
 
 const OptionComponent = (props: OptionProps<OptionType, false>) => (

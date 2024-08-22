@@ -22,7 +22,7 @@ const Marker = ({ latitude, longitude, ...markerOptions }: MarkerProps) => {
     const coordinatesId = registerCoordinates([{ latitude, longitude }])
 
     return () => {
-      coordinatesId && deregisterCoordinates(coordinatesId)
+      if (coordinatesId) deregisterCoordinates(coordinatesId)
       marker.setMap(null)
     }
   }, [map, latitude, longitude])

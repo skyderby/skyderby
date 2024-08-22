@@ -46,8 +46,6 @@ function drawSpeedometer(
   ctx.stroke()
   ctx.closePath()
 
-  ctx.strokeStyle
-
   ctx.textBaseline = 'top'
   ctx.font = '50px Arial'
   ctx.fillText(String(point.vSpeed), speedometerX + textMargin, speedometerY + textMargin)

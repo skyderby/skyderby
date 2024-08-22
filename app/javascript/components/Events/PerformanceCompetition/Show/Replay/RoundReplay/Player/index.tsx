@@ -85,7 +85,7 @@ const Player = ({ event, task, group = [], playing }: PlayerProps) => {
       prevFrameTime.current = performance.now()
       requestId.current = requestAnimationFrame(drawFrame)
     } else {
-      requestId.current && cancelAnimationFrame(requestId.current)
+      if (requestId.current) cancelAnimationFrame(requestId.current)
     }
   }, [playing, drawFrame, rangeFrom, rangeTo, group])
 

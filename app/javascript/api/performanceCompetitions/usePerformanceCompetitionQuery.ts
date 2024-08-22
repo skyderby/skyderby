@@ -24,19 +24,19 @@ const getEvent = (id: number) =>
     .get<never, AxiosResponse<SerializedPerformanceCompetition>>(elementEndpoint(id))
     .then(response => response.data)
 
-const buildQueryFn = (
-  queryClient: QueryClient
-): QueryFunction<PerformanceCompetition, QueryKey> => async ctx => {
-  const [_key, id] = ctx.queryKey
-  if (!id) throw new Error('id is required')
-  const data = await getEvent(id)
+const buildQueryFn =
+  (queryClient: QueryClient): QueryFunction<PerformanceCompetition, QueryKey> =>
+  async ctx => {
+    const [_key, id] = ctx.queryKey
+    if (!id) throw new Error('id is required')
+    const data = await getEvent(id)
 
-  if (data.placeId) {
-    await queryClient.prefetchQuery(placeQuery(data.placeId, queryClient))
+    if (data.placeId) {
+      await queryClient.prefetchQuery(placeQuery(data.placeId, queryClient))
+    }
+
+    return deserialize(data)
   }
-
-  return deserialize(data)
-}
 
 const performanceCompetitionQuery = (
   id: number | undefined,

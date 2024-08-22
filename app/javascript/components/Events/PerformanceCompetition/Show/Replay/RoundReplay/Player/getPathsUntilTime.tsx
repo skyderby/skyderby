@@ -13,7 +13,7 @@ function interpolatedPoint(
     (time - first.playerTime) / (second.playerTime - first.playerTime)
 
   const interpolatedPoint = interpolatedAttrs.reduce(
-    (acc: PlayerPoint, key: typeof interpolatedAttrs[number]) => {
+    (acc: PlayerPoint, key: (typeof interpolatedAttrs)[number]) => {
       if (acc[key] === undefined || first[key] === undefined) return acc
       acc[key] = interpolate(first[key], second[key], interpolationFactor)
 

@@ -48,10 +48,10 @@ const Charts = ({ event, result, deleteResult, hide, tabBar = null }: Props) => 
     [points, windowStartTime, windowEndTime]
   )
 
-  const accuracySeries = useMemo(() => buildAccuracySeries(points, windowEndAltitude), [
-    points,
-    windowEndAltitude
-  ])
+  const accuracySeries = useMemo(
+    () => buildAccuracySeries(points, windowEndAltitude),
+    [points, windowEndAltitude]
+  )
 
   return (
     <>
