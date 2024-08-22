@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useState } from 'react'
-import isEqual from 'lodash/isequal'
+import isEqual from 'lodash/isEqual'
 
 import { useI18n } from 'components/TranslationsProvider'
 import styles from './styles.module.scss'

@@ -6,7 +6,7 @@ import {
   IndexParams,
   FilterTuple
 } from 'api/tracks'
-import isEqual from 'lodash/isequal'
+import isEqual from 'lodash/isEqual'
 
 interface FlightProfilesURLParams {
   tracksParams: Omit<IndexParams, 'filters'> & {
