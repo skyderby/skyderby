@@ -1,6 +1,6 @@
 import React, { startTransition, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import throttle from 'lodash.throttle'
+import throttle from 'lodash/throttle'
 
 import useEventsQuery, { mapParamsToUrl } from 'api/events'
 import { useI18n } from 'components/TranslationsProvider'

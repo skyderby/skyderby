@@ -4,5 +4,5 @@ export const isAllowedValueKey = (key: string): key is ValueKey => {
 }
 
 export type Mode = 'idle' | 'selectType' | 'selectValue'
-export type ValueKey = typeof allowedValueKeys[number]
+export type ValueKey = (typeof allowedValueKeys)[number]
 export type TokenTuple = readonly [ValueKey, string | number]

@@ -22,21 +22,21 @@ const getPlace = (id: number): Promise<Place> =>
     .get<never, AxiosResponse<Place>>(elementEndpoint(id))
     .then(response => response.data)
 
-const buildQueryFn = (
-  queryClient: QueryClient
-): QueryFunction<Place, RecordQueryKey> => async ctx => {
-  const [_key, id] = ctx.queryKey
+const buildQueryFn =
+  (queryClient: QueryClient): QueryFunction<Place, RecordQueryKey> =>
+  async ctx => {
+    const [_key, id] = ctx.queryKey
 
-  if (typeof id !== 'number') {
-    throw new Error(`Expected place id to be a number, received ${typeof id}`)
+    if (typeof id !== 'number') {
+      throw new Error(`Expected place id to be a number, received ${typeof id}`)
+    }
+
+    const place = await getPlace(id)
+
+    await preloadCountries([place.countryId], queryClient)
+
+    return place
   }
-
-  const place = await getPlace(id)
-
-  await preloadCountries([place.countryId], queryClient)
-
-  return place
-}
 
 type QueryOptions = UseQueryOptions<Place, AxiosError, Place, RecordQueryKey>
 

@@ -2,7 +2,7 @@ const path = require('path')
 const glob = require('glob')
 const fs = require('fs')
 const yaml = require('js-yaml')
-const merge = require('lodash.merge')
+const merge = require('lodash/merge')
 
 const localesPath = path.resolve(__dirname, '../locales')
 

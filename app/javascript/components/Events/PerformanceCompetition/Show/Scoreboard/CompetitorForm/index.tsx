@@ -1,7 +1,6 @@
 import React from 'react'
 import { Formik, Field, FieldProps, FormikHelpers } from 'formik'
 import toast from 'react-hot-toast'
-import type { ValueType } from 'react-select'
 import type { UseMutationResult } from '@tanstack/react-query'
 import type { AxiosError } from 'axios'
 
@@ -104,7 +103,7 @@ const CompetitorForm = ({
                         isInvalid={touched && error}
                         {...props}
                         menuPortalTarget={document.getElementById('dropdowns-root')}
-                        onChange={(option: ValueType<{ value: number }, false>) => {
+                        onChange={option => {
                           if (option === null) {
                             setFieldValue(name, null)
                           } else {
@@ -142,7 +141,7 @@ const CompetitorForm = ({
                       <CountrySelect
                         isInvalid={touched && error}
                         {...props}
-                        onChange={(option: ValueType<{ value: number }, false>) => {
+                        onChange={option => {
                           if (option === null) {
                             setFieldValue(name, null)
                           } else {
@@ -181,7 +180,7 @@ const CompetitorForm = ({
                         isInvalid={touched && error}
                         {...props}
                         menuPortalTarget={document.getElementById('dropdowns-root')}
-                        onChange={(option: ValueType<{ value: number }, false>) => {
+                        onChange={option => {
                           if (option === null) {
                             setFieldValue(name, null)
                           } else {
@@ -208,7 +207,7 @@ const CompetitorForm = ({
                         eventId={eventId}
                         {...props}
                         menuPortalTarget={document.getElementById('dropdowns-root')}
-                        onChange={(option: ValueType<{ value: number }, false>) => {
+                        onChange={option => {
                           if (option === null) {
                             setFieldValue(name, null)
                           } else {

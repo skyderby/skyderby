@@ -15,7 +15,7 @@ module Api
         def create
           authorize @track, :update?
 
-          @video = (@track.video || @track.build_video)
+          @video = @track.video || @track.build_video
           @video.assign_attributes(video_params)
 
           respond_to do |format|

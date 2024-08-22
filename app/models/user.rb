@@ -50,8 +50,8 @@ class User < ApplicationRecord
   def registered? = true
 
   # Using ActiveJob to deliver messages in background
-  def send_devise_notification(notification, *args)
-    devise_mailer.send(notification, self, *args).deliver_later
+  def send_devise_notification(notification, *)
+    devise_mailer.send(notification, self, *).deliver_later
   end
 
   class << self

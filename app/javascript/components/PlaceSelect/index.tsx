@@ -9,7 +9,7 @@ import Option from './Option'
 import SingleValue from './SingleValue'
 import { OptionType } from './types'
 
-interface PlaceSelectProps extends Omit<Props<OptionType, boolean>, 'value'> {
+interface PlaceSelectProps extends Omit<Props<OptionType, false>, 'value'> {
   value?: number
   hide?: boolean
   isInvalid?: string | boolean

@@ -1,7 +1,7 @@
 import React from 'react'
 import { OnlineRanking, StandingsRow } from 'api/onlineRankings'
 import styles from './styles.module.scss'
-import ProfileName from 'components/ProfileName'
+import ProfileLabel from 'components/ProfileLabel'
 import { useI18n } from 'components/TranslationsProvider'
 import PlaceLabel from 'components/PlaceLabel'
 import SuitLabel from 'components/SuitLabel'
@@ -37,7 +37,7 @@ const Scoreboard = ({ onlineRanking, standings }: Props) => {
               <tr key={row.rank}>
                 <td>{row.rank}</td>
                 <td>
-                  <ProfileName id={row.profileId} />
+                  <ProfileLabel id={row.profileId} />
                 </td>
                 <td>
                   <SuitLabel suitId={row.suitId} />

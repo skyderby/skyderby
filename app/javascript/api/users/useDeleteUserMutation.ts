@@ -7,9 +7,10 @@ type Variables = { destroyProfile: boolean } | undefined
 
 const deleteUser = (id: number, destroyProfile: boolean) =>
   client
-    .delete<never, AxiosResponse<SerializedUser>>(
-      elementEndpoint(id) + `?destroyProfile=${destroyProfile}`
-    )
+    .delete<
+      never,
+      AxiosResponse<SerializedUser>
+    >(elementEndpoint(id) + `?destroyProfile=${destroyProfile}`)
     .then(response => response.data)
 
 export const useBatchDeleteUsersMutation = () => {

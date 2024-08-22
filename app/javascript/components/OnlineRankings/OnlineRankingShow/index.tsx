@@ -16,7 +16,7 @@ const redirectPath = (onlineRanking: OnlineRanking) => {
   } else {
     const lastInterval = onlineRanking.intervals[onlineRanking.intervals.length - 1]
 
-    if (lastInterval) `${baseUrl}/periods/${lastInterval.slug}`
+    if (lastInterval) return `${baseUrl}/periods/${lastInterval.slug}`
   }
 
   return `${baseUrl}/overall`

@@ -2,7 +2,7 @@ import React from 'react'
 import { Field, FieldProps } from 'formik'
 
 import { useI18n } from 'components/TranslationsProvider'
-import SuitSelect, { OptionType } from 'components/SuitSelect'
+import SuitSelect from 'components/SuitSelect'
 import styles from './styles.module.scss'
 
 const TrackSuitField = () => {
@@ -23,7 +23,7 @@ const TrackSuitField = () => {
               placeholder={t('tracks.form.suit_select_placeholder')}
               aria-label={t('tracks.form.suit_select_placeholder')}
               {...props}
-              onChange={(option: OptionType) => {
+              onChange={option => {
                 if (option === null) {
                   setFieldValue(name, option)
                 } else if ('value' in option) {

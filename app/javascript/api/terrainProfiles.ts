@@ -38,16 +38,16 @@ const cacheTerrainProfiles = (
     queryClient.setQueryData<TerrainProfileRecord>(recordQueryKey(record.id), record)
   )
 
-const buildIndexQueryFn = (
-  queryClient: QueryClient
-): QueryFunction<TerrainProfileRecord[]> => async () => {
-  const data = await getTerrainProfiles()
+const buildIndexQueryFn =
+  (queryClient: QueryClient): QueryFunction<TerrainProfileRecord[]> =>
+  async () => {
+    const data = await getTerrainProfiles()
 
-  cacheTerrainProfiles(data.items, queryClient)
-  cachePlaces(data.relations.places)
+    cacheTerrainProfiles(data.items, queryClient)
+    cachePlaces(data.relations.places)
 
-  return data.items
-}
+    return data.items
+  }
 
 const options = {
   staleTime: 15 * 60 * 1000

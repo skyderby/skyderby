@@ -1,5 +1,5 @@
 import React from 'react'
-import ProfileName from 'components/ProfileName'
+import ProfileLabel from 'components/ProfileLabel'
 import { useProfileQuery } from 'api/profiles'
 import styles from './styles.module.scss'
 
@@ -18,7 +18,7 @@ const Profile = ({ profileId, pilotName: userProvidedName }: ProfileProps) => {
     <div className={styles.profile}>
       <img src={photoUrl} alt="profile photo" />
       <div className={styles.pilot}>
-        {profileId ? <ProfileName id={profileId} /> : userProvidedName}
+        {profileId ? <ProfileLabel id={profileId} /> : userProvidedName}
       </div>
     </div>
   )

@@ -4,8 +4,6 @@ class CreatePlaceTest < ApplicationSystemTestCase
   setup do
     @regular_user = users(:regular_user)
     @admin = users(:admin)
-
-    I18n.locale = :en
   end
 
   test 'regular user can not see + button' do

@@ -8,11 +8,11 @@ import { useI18n } from 'components/TranslationsProvider'
 import PageNavbar from 'components/PageNavbar'
 
 type Props = {
-  event: Tournament
+  tournament: Tournament
 }
 
-const Navbar = ({ event }: Props) => {
-  const eventUrl = `/events/tournament/${event.id}`
+const Navbar = ({ tournament }: Props) => {
+  const eventUrl = `/events/tournament/${tournament.id}`
   const { t } = useI18n()
 
   return (
@@ -35,7 +35,18 @@ const Navbar = ({ event }: Props) => {
         </NavLink>
       </PageNavbar.Item>
 
-      {event.permissions.canEdit && (
+      {tournament.permissions.canEdit && (
+        <PageNavbar.Item>
+          <NavLink to={`${eventUrl}/competitors`}>
+            <span>
+              <ListIcon />
+              Competitors
+            </span>
+          </NavLink>
+        </PageNavbar.Item>
+      )}
+
+      {tournament.permissions.canEdit && (
         <>
           <PageNavbar.Spacer />
 

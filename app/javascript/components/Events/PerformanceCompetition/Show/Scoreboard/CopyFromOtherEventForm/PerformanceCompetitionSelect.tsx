@@ -15,7 +15,7 @@ export interface OptionType {
 }
 
 interface PerformanceCompetitionSelectProps
-  extends Omit<Props<OptionType, boolean>, 'value'> {
+  extends Omit<Props<OptionType, false>, 'value'> {
   value?: number
 }
 

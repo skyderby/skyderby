@@ -1,32 +1,37 @@
 import React from 'react'
-import { GroupProps, GroupTypeBase } from 'react-select'
+import { GroupProps, GroupBase } from 'react-select'
 import styles from './styles.module.scss'
 
 import { OptionType } from './types'
 
-const Group = <Option extends OptionType, Group extends GroupTypeBase<Option>>(
+const Group = <Option extends OptionType, Group extends GroupBase<Option>>(
   props: GroupProps<Option, true, Group>
 ) => {
   const {
-    children,
-    className,
-    cx,
-    getStyles,
     Heading,
-    headingProps,
+    getStyles,
+    getClassNames,
+    children,
     label,
+    headingProps,
+    cx,
     theme,
     selectProps,
     setValue
   } = props
 
   return (
-    <div css={getStyles('group', props)} className={cx({ group: true }, className)}>
+    // TS error comes from storybook dependency on emotion v10, while react-select uses v11
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line react/no-unknown-property
+    <div css={getStyles('group', props)}>
       <Heading
         {...headingProps}
         selectProps={selectProps}
         theme={theme}
         getStyles={getStyles}
+        getClassNames={getClassNames}
         cx={cx}
       >
         {label}

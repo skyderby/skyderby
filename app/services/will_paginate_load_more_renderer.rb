@@ -18,6 +18,6 @@ class WillPaginateLoadMoreRenderer < WillPaginate::ActionView::LinkRenderer
     attributes[:'data-remote'] = true
     attributes[:'data-params'] = 'append=true'
 
-    super(name, value, attributes)
+    super
   end
 end

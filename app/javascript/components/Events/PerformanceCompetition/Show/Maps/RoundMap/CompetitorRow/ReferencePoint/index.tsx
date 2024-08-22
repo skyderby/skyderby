@@ -9,9 +9,7 @@ import {
   useUpdateReferencePointAssignmentMutation
 } from 'api/performanceCompetitions'
 import LocationIcon from 'icons/location.svg'
-
 import styles from './styles.module.scss'
-import { ValueType } from 'react-select'
 
 type ReferencePointProps = {
   event: PerformanceCompetition
@@ -36,7 +34,7 @@ const ReferencePoint = ({ event, roundId, competitor }: ReferencePointProps) => 
       <Select
         value={competitor.referencePoint}
         referencePoints={referencePoints}
-        onChange={(option: ValueType<{ value: number }, false>) => {
+        onChange={option => {
           if (option === null) {
             updateAssignment(null)
           } else {

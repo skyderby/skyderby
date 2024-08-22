@@ -11,10 +11,9 @@ type Variables = {
 
 const updateRound = (eventId: number, roundId: number, round: Variables) =>
   client
-    .put<{ round: Omit<Variables, 'eventId' | 'roundId'> }>(
-      recordEndpoint(eventId, roundId),
-      { round }
-    )
+    .put<{
+      round: Omit<Variables, 'eventId' | 'roundId'>
+    }>(recordEndpoint(eventId, roundId), { round })
     .then(response => roundSchema.parse(response.data))
 
 const useUpdateRoundMutation = (eventId: number, roundId: number) => {

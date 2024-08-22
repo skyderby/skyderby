@@ -79,14 +79,14 @@ const useResultPoints = (
     [result, points]
   )
 
-  const startPoint = useMemo(() => getPointForAltitude(points, event.rangeFrom), [
-    points,
-    event.rangeFrom
-  ])
-  const endPoint = useMemo(() => getPointForAltitude(points, event.rangeTo), [
-    points,
-    event.rangeTo
-  ])
+  const startPoint = useMemo(
+    () => getPointForAltitude(points, event.rangeFrom),
+    [points, event.rangeFrom]
+  )
+  const endPoint = useMemo(
+    () => getPointForAltitude(points, event.rangeTo),
+    [points, event.rangeTo]
+  )
 
   return { points, afterExitPoint, startPoint, endPoint, isLoading }
 }

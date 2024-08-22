@@ -1,32 +1,50 @@
 import React from 'react'
-import Select, { Props } from 'react-select'
-
+import Select, { components, OptionProps, Props } from 'react-select'
+import { Segment } from 'api/tracks'
 import getSelectStyles from 'styles/selectStyles'
 
-import Option from './Option'
-import { OptionType } from './types'
+import { useI18n } from 'components/TranslationsProvider'
 
-type SegmentSelectProps = Omit<Props<OptionType>, 'value'> & {
-  value?: number
-  onChange: (value: number | null) => unknown
+type OptionType = {
+  value: number
+  label: string
+  segment: Segment
 }
 
-const SegmentSelect = ({ value, options, onChange, ...props }: SegmentSelectProps) => {
-  const selectedOption = (value && options?.[value]) || null
+type SegmentSelectProps = Omit<Props<OptionType, false>, 'value' | 'options'> & {
+  value?: number
+  options: OptionType[]
+}
+
+const Option = (props: OptionProps<OptionType, false>) => {
+  const { t } = useI18n()
+
+  const {
+    data: {
+      segment: { name, pointsCount, hUp, hDown }
+    }
+  } = props
 
   return (
-    <Select<OptionType, boolean>
+    <components.Option {...props}>
+      <div>{name}</div>
+      <div>
+        {t('tracks.choose.pt_cnt')}: {pointsCount}; {t('tracks.choose.elev')}: {hUp}↑{' '}
+        {hDown}↓ {t('units.m')}
+      </div>
+    </components.Option>
+  )
+}
+
+const SegmentSelect = ({ value, options, ...props }: SegmentSelectProps) => {
+  const selectedOption = (value && options?.[value]) || undefined
+
+  return (
+    <Select
       value={selectedOption}
       options={options}
-      onChange={option => {
-        if (option === null) {
-          onChange(option)
-        } else if ('value' in option) {
-          onChange(option.value)
-        }
-      }}
       components={{ Option }}
-      styles={getSelectStyles<OptionType>()}
+      styles={getSelectStyles<OptionType, false>()}
       {...props}
     />
   )

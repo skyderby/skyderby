@@ -123,10 +123,10 @@ const useChartOptions = (
     popularity: suitsPopularity.find(el => el.suitId === suit.id)?.popularity ?? 0
   }))
 
-  const series = useMemo(() => buildSeries(suitsWithPopularity, manufacturers), [
-    suitsWithPopularity,
-    manufacturers
-  ])
+  const series = useMemo(
+    () => buildSeries(suitsWithPopularity, manufacturers),
+    [suitsWithPopularity, manufacturers]
+  )
 
   return useMemo(() => ({ ...baseOptions, series }), [series])
 }

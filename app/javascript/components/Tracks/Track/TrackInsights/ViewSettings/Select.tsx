@@ -23,7 +23,7 @@ const theme = (theme: Theme): Theme => ({
   }
 })
 
-type SelectProps = Omit<Props<OptionType>, 'value'> & {
+type SelectProps = Omit<Props<OptionType, false>, 'value' | 'options'> & {
   value: string
   options: readonly OptionType[]
 }

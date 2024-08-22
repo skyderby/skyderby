@@ -16,7 +16,6 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   end
 
   setup do
-    I18n.locale = :en
     ActionMailer::Base.deliveries.clear
   end
 end

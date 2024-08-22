@@ -4,7 +4,7 @@ import cx from 'clsx'
 import styles from './styles.module.scss'
 
 const tabs = ['charts', 'jumpRange', 'penalties'] as const
-export type Tab = typeof tabs[number]
+export type Tab = (typeof tabs)[number]
 
 type TagBarProps = {
   currentTab: Tab

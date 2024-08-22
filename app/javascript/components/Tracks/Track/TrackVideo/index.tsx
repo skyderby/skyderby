@@ -48,7 +48,7 @@ const VideoPlayer = ({ trackId }: VideoPlayerProps) => {
 
   useEffect(() => {
     return () => {
-      requestId.current && cancelAnimationFrame(requestId.current)
+      if (requestId.current) cancelAnimationFrame(requestId.current)
     }
   }, [])
 

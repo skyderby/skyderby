@@ -7,7 +7,7 @@ class PerformanceCompetitionSeries < ApplicationRecord
   has_many :included_competitions, dependent: :destroy
   has_many :competitions, through: :included_competitions, source: :event
 
-  validates :responsible, :name, presence: true
+  validates :name, presence: true
 
   def active? = started && !finished?
 

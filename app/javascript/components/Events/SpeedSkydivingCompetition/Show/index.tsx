@@ -26,9 +26,12 @@ const Show = () => {
   const eventId = Number(params.eventId)
   const queryClient = useQueryClient()
   const [associationsLoaded, setAssociationsLoaded] = useState(false)
-  const { data: event, isLoading, isError, error } = useSpeedSkydivingCompetitionQuery(
-    eventId
-  )
+  const {
+    data: event,
+    isLoading,
+    isError,
+    error
+  } = useSpeedSkydivingCompetitionQuery(eventId)
 
   useEffect(() => {
     if (isLoading || isError) return

@@ -6,7 +6,12 @@ import { useQueryClient } from '@tanstack/react-query'
 import { countriesQuery, useCountryQuery } from 'api/countries'
 import getSelectStyles from 'styles/selectStyles'
 
-interface CountrySelectProps extends Omit<Props, 'value'> {
+type Option = {
+  value: number
+  label: string
+}
+
+interface CountrySelectProps extends Omit<Props<Option, false>, 'value'> {
   value?: number
 }
 
@@ -42,7 +47,7 @@ const CountrySelect = ({ value: countryId, ...props }: CountrySelectProps) => {
       loadOptions={loadOptions}
       value={selectedOption}
       additional={{ page: 1 }}
-      styles={getSelectStyles()}
+      styles={getSelectStyles<Option>()}
       menuPortalTarget={document.getElementById('dropdowns-root')}
       {...props}
     />

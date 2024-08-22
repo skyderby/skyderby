@@ -1,5 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react'
-import { ValueType } from 'react-select'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 
 import {
@@ -89,9 +88,10 @@ const RoundReplay = ({ eventId, roundId }: RoundReplayProps) => {
     [competitors, results, queryClient]
   )
 
-  const groups = useMemo(() => buildGroups(competitorsRoundMapData), [
-    competitorsRoundMapData
-  ])
+  const groups = useMemo(
+    () => buildGroups(competitorsRoundMapData),
+    [competitorsRoundMapData]
+  )
 
   useEffect(() => {
     setSelectedCompetitors([])
@@ -101,23 +101,19 @@ const RoundReplay = ({ eventId, roundId }: RoundReplayProps) => {
 
   const handleTriggerPlay = () => setPlaying(!playing)
 
-  const handleGroupChange = (
-    options: ValueType<{ value: CompetitorRoundMapData }, true>
-  ) => {
-    if (options === null) {
-      setSelectedCompetitors([])
-    } else {
-      setSelectedCompetitors(options.map(option => option.value))
-    }
-  }
-
   return (
     <div className={styles.container}>
       <div className={styles.playerControls}>
         <GroupSelect
           value={selectedCompetitors}
           options={groups}
-          onChange={handleGroupChange}
+          onChange={options => {
+            if (options === null) {
+              setSelectedCompetitors([])
+            } else {
+              setSelectedCompetitors(options.map(option => option.value))
+            }
+          }}
         />
         <button className={styles.playButton} onClick={handleTriggerPlay}>
           {playing ? <StopIcon /> : <PlayIcon />}

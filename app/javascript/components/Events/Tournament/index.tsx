@@ -6,7 +6,7 @@ const Tournament = () => {
   return (
     <Routes>
       <Route path="new" element={<div>New Tournament Form</div>} />
-      <Route path=":id" element={<Show />} />
+      <Route path=":id/*" element={<Show />} />
     </Routes>
   )
 }

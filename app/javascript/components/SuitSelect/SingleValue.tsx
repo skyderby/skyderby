@@ -2,19 +2,16 @@ import React from 'react'
 import { components, SingleValueProps } from 'react-select'
 
 import { SuitName } from 'components/SuitLabel'
-import { OptionData } from './types'
+import { OptionType } from './types'
 
-const SingleValue = (props: SingleValueProps<OptionData>) => {
+const SingleValue = (props: SingleValueProps<OptionType>) => {
   const {
-    data: {
-      name,
-      make: { code }
-    }
+    data: { label, make: { code } = {} }
   } = props
 
   return (
     <components.SingleValue {...props}>
-      <SuitName name={name} code={code} />
+      <SuitName name={label} code={code} />
     </components.SingleValue>
   )
 }

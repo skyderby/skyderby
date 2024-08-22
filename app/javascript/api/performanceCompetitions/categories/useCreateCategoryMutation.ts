@@ -1,9 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-
-import client from 'api/client'
-import { endpoint, queryKey, categorySchema, CategoryVariables, Category } from './common'
-import { standingsQuery } from 'api/performanceCompetitions/useStandingsQuery'
 import { AxiosError } from 'axios'
+import client from 'api/client'
+import { standingsQuery } from 'api/performanceCompetitions/useStandingsQuery'
+import { endpoint, queryKey, categorySchema, CategoryVariables, Category } from './common'
 
 const createCategory = (eventId: number, category: CategoryVariables) =>
   client

@@ -7,7 +7,8 @@ import {
   useCreateTrackMutation,
   TrackActivity,
   TrackFileRecord,
-  TrackVisibility
+  TrackVisibility,
+  Segment
 } from 'api/tracks'
 import { useI18n } from 'components/TranslationsProvider'
 import Modal from 'components/ui/Modal'
@@ -25,10 +26,6 @@ type NewTrackFormProps = {
   onHide: () => unknown
 }
 
-type SegmentType = {
-  name: string
-}
-
 type FormData = {
   kind: TrackActivity
   visibility: TrackVisibility
@@ -40,7 +37,7 @@ type FormData = {
   comment: string
   formSupportData: {
     suitInputMode: 'input' | 'select'
-    segments: SegmentType[]
+    segments: Segment[]
     isUploading?: boolean
     segmentsCount?: number
   }

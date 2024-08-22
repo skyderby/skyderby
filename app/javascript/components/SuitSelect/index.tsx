@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { Props } from 'react-select'
-import { AsyncPaginate as Select } from 'react-select-async-paginate'
+import { AsyncPaginate } from 'react-select-async-paginate'
 
 import getSelectStyles from 'styles/selectStyles'
 import Option from './Option'
@@ -11,7 +11,7 @@ import { getCachedManufacturers, useManufacturerQuery } from 'api/manufacturer'
 
 import { OptionType } from './types'
 
-interface SuitSelectProps extends Omit<Props<OptionType, boolean>, 'value'> {
+interface SuitSelectProps extends Omit<Props<OptionType, false>, 'value'> {
   value?: number | undefined
   hide?: boolean
   isInvalid?: string | boolean
@@ -38,7 +38,6 @@ const SuitSelect = ({ value: suitId, ...props }: SuitSelectProps) => {
       const options = items.map(el => ({
         value: el.id,
         label: el.name,
-        ...el,
         make: manufacturers.find(manufacturer => manufacturer.id === el.makeId)
       }))
 
@@ -54,12 +53,12 @@ const SuitSelect = ({ value: suitId, ...props }: SuitSelectProps) => {
   )
 
   return (
-    <Select
+    <AsyncPaginate
       components={{ Option, SingleValue }}
       value={selectedOption}
       loadOptions={loadOptions}
       additional={{ page: 1 }}
-      styles={getSelectStyles<OptionType>()}
+      styles={getSelectStyles<OptionType, false>()}
       {...props}
     />
   )

@@ -145,7 +145,11 @@ Skyderby::Application.routes.draw do
         resources :registrations, only: :index
       end
 
-      resources :tournaments, only: %i[index show create update destroy]
+      resources :tournaments, only: %i[index show create update destroy] do
+        scope module: :tournaments do
+          resources :competitors, only: %i[create update destroy]
+        end
+      end
     end
   end
 

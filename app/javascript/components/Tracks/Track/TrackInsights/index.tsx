@@ -75,16 +75,15 @@ const TrackInsights = ({ trackId }: TrackInsightsProps) => {
     )
   }
 
-  const selectedPoints = useMemo(() => cropPoints(points, altitudeFrom, altitudeTo), [
-    points,
-    altitudeFrom,
-    altitudeTo
-  ])
+  const selectedPoints = useMemo(
+    () => cropPoints(points, altitudeFrom, altitudeTo),
+    [points, altitudeFrom, altitudeTo]
+  )
 
-  const zeroWindPoints = useMemo(() => subtractWind(selectedPoints, windData), [
-    selectedPoints,
-    windData
-  ])
+  const zeroWindPoints = useMemo(
+    () => subtractWind(selectedPoints, windData),
+    [selectedPoints, windData]
+  )
 
   return (
     <TrackViewPreferencesProvider>

@@ -16,8 +16,8 @@ class TrackFormatDetector
     'columbus' => ['INDEX', 'TAG', 'DATE', 'TIME', 'LATITUDE N/S', 'LONGITUDE E/W', 'HEIGHT', 'SPEED', 'HEADING', 'VOX']
   }.freeze
 
-  def self.call(*args)
-    new(*args).call
+  def self.call(...)
+    new(...).call
   end
 
   def initialize(file, extension)

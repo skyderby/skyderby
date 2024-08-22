@@ -56,17 +56,20 @@ class Track < ApplicationRecord
   has_one :time,
           -> { where(discipline: Result.disciplines[:time]) },
           class_name: 'Track::Result',
-          inverse_of: :track
+          inverse_of: :track,
+          dependent: :destroy
 
   has_one :distance,
           -> { where(discipline: Result.disciplines[:distance]) },
           class_name: 'Track::Result',
-          inverse_of: :track
+          inverse_of: :track,
+          dependent: :destroy
 
   has_one :speed,
           -> { where(discipline: Result.disciplines[:speed]) },
           class_name: 'Track::Result',
-          inverse_of: :track
+          inverse_of: :track,
+          dependent: :destroy
 
   has_many :points, -> { order :gps_time_in_seconds }, dependent: :delete_all, inverse_of: :track
   has_many :results, dependent: :destroy

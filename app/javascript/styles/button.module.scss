@@ -8,6 +8,7 @@
   --active-background-color: var(--white);
   --active-border-color: var(--blue-80);
   --active-text-color: var(--blue-80);
+  --border-radius: var(--border-radius-md);
 
   display: flex;
   flex-grow: 0;
@@ -15,7 +16,7 @@
   justify-content: center;
   padding: 0.25rem 0.75rem;
   border: solid 1px var(--border-color);
-  border-radius: var(--border-radius-md);
+  border-radius: var(--border-radius);
 
   color: var(--text-color);
   font-weight: normal;

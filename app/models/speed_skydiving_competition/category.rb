@@ -38,7 +38,7 @@ class SpeedSkydivingCompetition::Category < ApplicationRecord
     end
   end
 
-  def next_category = event.categories.where('position > ?', position).limit(1).order(:position).first
+  def next_category = event.categories.where(position: position..).limit(1).order(:position).first
 
-  def previous_category = event.categories.where('position < ?', position).limit(1).order(position: :desc).first
+  def previous_category = event.categories.where(position: ...position).limit(1).order(position: :desc).first
 end

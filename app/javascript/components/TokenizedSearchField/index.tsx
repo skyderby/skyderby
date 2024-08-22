@@ -1,19 +1,19 @@
 import React, { useRef, useState } from 'react'
+import { OnChangeValue } from 'react-select'
 
 import useClickOutside from 'hooks/useClickOutside'
 import IconTimes from 'icons/times.svg'
 import Token from './Token'
 import ValueSelect from './ValueSelect'
 import TypeSelect from './TypeSelect'
-import { Mode, TokenTuple, ValueKey, isAllowedValueKey, allowedValueKeys } from './types'
+import { allowedValueKeys, isAllowedValueKey, Mode, TokenTuple, ValueKey } from './types'
 
 import styles from './styles.module.scss'
-import { ValueType } from 'react-select'
 
 type TokenizedSearchFieldProps = {
   initialValues?: TokenTuple[]
   onChange: (tokens: TokenTuple[]) => unknown
-  exclude?: typeof allowedValueKeys[number]
+  exclude?: (typeof allowedValueKeys)[number]
 }
 
 const TokenizedSearchField = ({
@@ -42,7 +42,7 @@ const TokenizedSearchField = ({
     }
   }
 
-  const handleTypeSelect = (option: ValueType<{ value: string }, false>) => {
+  const handleTypeSelect = (option: OnChangeValue<{ value: string }, false>) => {
     if (!option) {
       setMode('idle')
       return
@@ -57,15 +57,6 @@ const TokenizedSearchField = ({
 
     setCurrentType(option.value)
     setMode('selectValue')
-  }
-
-  const handleValueSelect = (newToken: TokenTuple) => {
-    const newSetOfTokens = [...tokens, newToken]
-
-    setTokens(newSetOfTokens)
-    fireOnChange(newSetOfTokens)
-
-    setMode('idle')
   }
 
   const deleteAll = () => {
@@ -99,7 +90,14 @@ const TokenizedSearchField = ({
           {mode === 'selectValue' && (
             <ValueSelect
               type={currentType}
-              onChange={handleValueSelect}
+              onChange={option => {
+                const newSetOfTokens = [...tokens, option]
+
+                setTokens(newSetOfTokens)
+                fireOnChange(newSetOfTokens)
+
+                setMode('idle')
+              }}
               onBlur={handleBlur}
             />
           )}

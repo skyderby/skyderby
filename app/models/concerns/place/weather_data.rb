@@ -16,7 +16,7 @@ module Place::WeatherData
     weather_from_nearest_point(file)
       .group_by { _1[:level] }
       .map do |_, data_points|
-        data = data_points.map { [_1[:variable], _1[:value]] }.to_h
+        data = data_points.to_h { [_1[:variable], _1[:value]] }
         altitude = data['geopotential_height']
         wind_speed = Math.hypot(data['eastward_wind'], data['northward_wind'])
         wind_direction = Math.atan2(data['northward_wind'], data['eastward_wind']) * 180 / Math::PI + 180

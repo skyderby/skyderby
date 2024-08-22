@@ -3,7 +3,6 @@ import { AxiosError, AxiosResponse } from 'axios'
 import { UseMutationResult } from '@tanstack/react-query'
 import { Link, useNavigate } from 'react-router-dom'
 import { Formik, Field, ErrorMessage, FieldProps, FormikHelpers } from 'formik'
-import { ValueType } from 'react-select'
 import toast from 'react-hot-toast'
 
 import { PerformanceCompetitionVariables } from 'api/performanceCompetitions'
@@ -77,7 +76,7 @@ const Form = ({ initialValues, mutation, returnUrl }: FormProps) => {
                   <PlaceSelect
                     {...props}
                     aria-label="Select place"
-                    onChange={(option: ValueType<{ value: number }, false>) => {
+                    onChange={option => {
                       if (option === null) {
                         setFieldValue(name, null)
                       } else {

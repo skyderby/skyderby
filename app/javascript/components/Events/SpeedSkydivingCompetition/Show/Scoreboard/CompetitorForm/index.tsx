@@ -1,7 +1,6 @@
 import React from 'react'
 import { Formik, Field, FormikHelpers, FieldProps } from 'formik'
 import toast from 'react-hot-toast'
-import { ValueType } from 'react-select'
 
 import Modal from 'components/ui/Modal'
 import { useI18n } from 'components/TranslationsProvider'
@@ -100,7 +99,7 @@ const CompetitorForm = ({
                         isInvalid={touched && error}
                         {...props}
                         menuPortalTarget={document.getElementById('dropdowns-root')}
-                        onChange={(option: ValueType<{ value: number }, false>) => {
+                        onChange={option => {
                           if (option === null) {
                             setFieldValue(name, null)
                           } else {
@@ -138,7 +137,7 @@ const CompetitorForm = ({
                       <CountrySelect
                         isInvalid={touched && error}
                         {...props}
-                        onChange={(option: ValueType<{ value: number }, false>) => {
+                        onChange={option => {
                           if (option === null) {
                             setFieldValue(name, null)
                           } else {
@@ -178,7 +177,7 @@ const CompetitorForm = ({
                         eventId={eventId}
                         {...props}
                         menuPortalTarget={document.getElementById('dropdowns-root')}
-                        onChange={(option: ValueType<{ value: number }, false>) => {
+                        onChange={option => {
                           if (option === null) {
                             setFieldValue(name, null)
                           } else {

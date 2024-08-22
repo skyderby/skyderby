@@ -19,9 +19,10 @@ type IndexQueryKey = ['performance_competitions', IndexParams]
 
 const getPerformanceCompetitions = (params: IndexParams) =>
   client
-    .get<never, AxiosResponse<PerformanceCompetitionIndex>>(
-      urlWithParams(collectionEndpoint, params)
-    )
+    .get<
+      never,
+      AxiosResponse<PerformanceCompetitionIndex>
+    >(urlWithParams(collectionEndpoint, params))
     .then(response => response.data)
 
 const queryFn: QueryFunction<PerformanceCompetitionIndex, IndexQueryKey> = ctx => {

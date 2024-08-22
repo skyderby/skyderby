@@ -5,7 +5,7 @@ import { UseQueryResult } from '@tanstack/react-query'
 import { useProfileQueries } from 'api/profiles'
 import getSelectStyles from 'styles/selectStyles'
 
-type CompetitorSelectProps<TCompetitor> = Omit<Props, 'value'> & {
+type CompetitorSelectProps<TCompetitor> = Omit<Props<unknown, false>, 'value'> & {
   eventId: number
   competitorsQuery: (eventId: number) => UseQueryResult<TCompetitor[]>
   value?: number | null

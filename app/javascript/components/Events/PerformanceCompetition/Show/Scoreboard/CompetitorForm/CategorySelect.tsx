@@ -4,7 +4,12 @@ import Select, { Props } from 'react-select'
 import { useCategoriesQuery } from 'api/performanceCompetitions'
 import getSelectStyles from 'styles/selectStyles'
 
-interface CategorySelectProps extends Omit<Props, 'value'> {
+type Option = {
+  value: number
+  label: string
+}
+
+type CategorySelectProps = Omit<Props<Option, false>, 'value'> & {
   eventId: number
   value?: number
 }
@@ -24,7 +29,7 @@ const CategorySelect = ({ eventId, value, ...props }: CategorySelectProps) => {
       options={options}
       value={selectedOption}
       {...props}
-      styles={getSelectStyles()}
+      styles={getSelectStyles<Option>()}
       menuPortalTarget={document.getElementById('dropdowns-root')}
     />
   )

@@ -7,7 +7,7 @@ import React, {
   forwardRef
 } from 'react'
 import type { Chart, Options } from 'highcharts'
-import isEqual from 'lodash.isequal'
+import isEqual from 'lodash/isEqual'
 
 import { refreshTooltipHandler } from './utils'
 

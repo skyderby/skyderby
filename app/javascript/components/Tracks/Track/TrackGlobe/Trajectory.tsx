@@ -48,8 +48,8 @@ const Trajectory = ({ Cesium, viewer, points }: TrajectoryProps): null => {
         path: new Cesium.PathGraphics({
           resolution: 1,
           material: new Cesium.PolylineGlowMaterialProperty({
-            glowPower: (0.1 as unknown) as Cesium.Property,
-            color: (Cesium.Color.YELLOW as unknown) as Cesium.Property
+            glowPower: 0.1 as unknown as Cesium.Property,
+            color: Cesium.Color.YELLOW as unknown as Cesium.Property
           }),
           width: 10
         })

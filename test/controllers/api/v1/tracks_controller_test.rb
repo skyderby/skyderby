@@ -35,7 +35,7 @@ class Api::V1::TracksControllerTest < ActionDispatch::IntegrationTest
 
     get api_v1_tracks_url
 
-    track_ids = response.parsed_body['items'].map { |track| track['id'] }
+    track_ids = response.parsed_body['items'].pluck('id')
 
     assert_includes track_ids, visible_track.id
     assert_not_includes track_ids, hidden_track.id

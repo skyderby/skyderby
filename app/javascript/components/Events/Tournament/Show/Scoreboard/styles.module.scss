@@ -1,0 +1,87 @@
+@import 'styles/breakpoints';
+
+.container {
+  display: flex;
+  flex-direction: row;
+  width: $bp-large;
+  margin: 0 auto;
+  padding: 1.25rem;
+  border: 1px solid var(--grey-40);
+  border-radius: var(--border-radius-lg);
+
+  background-color: var(--white);
+}
+
+.round {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 16rem;
+  margin-right: 2rem;
+}
+
+.roundHeader {
+  color: var(--grey-70);
+  font-weight: 500;
+  font-size: 0.825rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.bracket {
+  margin-top: calc(var(--use-top-spacing) * ((var(--spacing-units) - 1) * 20px + max(0, var(--round) - 2) * 0.5rem));
+  margin-bottom: calc(var(--use-bottom-spacing) * (var(--spacing-units) - 1) * 1rem);
+  padding: 0.5rem;
+  border: 1px solid var(--grey-40);
+  border-radius: var(--border-radius-md);
+}
+
+.slot {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--border-radius-md);
+
+  &:hover {
+    background-color: var(--grey-20);
+  }
+}
+
+.profile {
+  overflow: hidden;
+}
+
+.profilePhoto {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 100%;
+}
+
+.profileName {
+  overflow: hidden;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.connectorLeft {
+  border-top: var(--default-border);
+  border-right: var(--default-border);
+  border-bottom: var(--default-border);
+}
+
+.suit {
+  display: block;
+
+  color: var(--grey-60);
+  font-weight: bold;
+  font-size: 0.625rem;
+  line-height: 1;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.result {
+  margin-left: auto;
+}

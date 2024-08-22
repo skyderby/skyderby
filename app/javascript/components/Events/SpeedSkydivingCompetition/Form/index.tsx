@@ -13,7 +13,6 @@ import PlaceSelect from 'components/PlaceSelect'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'
 import validationSchema from './validationSchema'
 import styles from './styles.module.scss'
-import { ValueType } from 'react-select'
 
 type FormProps = {
   initialValues: EventVariables
@@ -54,7 +53,7 @@ const Form = ({ initialValues, mutation, returnUrl }: FormProps) => {
                   <PlaceSelect
                     {...props}
                     aria-label="Select place"
-                    onChange={(option: ValueType<{ value: number }, false>) => {
+                    onChange={option => {
                       if (option === null) {
                         setFieldValue(name, null)
                       } else {

@@ -22,19 +22,11 @@ class Tournament::Competitor < ApplicationRecord
   has_many :match_slots, dependent: :restrict_with_error, class_name: 'Tournament::Match::Slot'
   has_many :qualification_jumps, dependent: :restrict_with_error
 
+  accepts_nested_attributes_for :profile
+
   delegate :name, to: :profile, allow_nil: true
   delegate :country_id, to: :profile, allow_nil: true
   delegate :country_name, to: :profile, allow_nil: true
   delegate :country_code, to: :profile, allow_nil: true
   delegate :name, to: :suit, prefix: true, allow_nil: true
-
-  before_validation :create_profile
-
-  private
-
-  def create_profile
-    return if profile || profile_mode.to_sym == :select
-
-    self.profile = Profile.create profile_attributes
-  end
 end

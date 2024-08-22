@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import merge from 'lodash.merge'
+import merge from 'lodash/merge'
 
 import { I18n } from 'components/TranslationsProvider'
 import { restoreSeriesVisibility, saveSeriesVisibility } from 'components/Highchart'
@@ -147,10 +147,10 @@ const buildSeries = (points: PointRecord[]) => {
 const useChartOptions = (points: PointRecord[], additionalOptions: Options): Options => {
   const series = useMemo(() => buildSeries(points), [points])
 
-  return useMemo(() => merge(baseOptions(), additionalOptions, series), [
-    additionalOptions,
-    series
-  ])
+  return useMemo(
+    () => merge(baseOptions(), additionalOptions, series),
+    [additionalOptions, series]
+  )
 }
 
 export default useChartOptions

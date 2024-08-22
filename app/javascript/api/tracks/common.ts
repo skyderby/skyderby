@@ -136,9 +136,9 @@ export const allowedSortByValues = [
   'time desc'
 ] as const
 
-export type FilterKey = typeof allowedFilters[number]
+export type FilterKey = (typeof allowedFilters)[number]
 export type FilterTuple = readonly [FilterKey, string | number]
-export type SortByValue = typeof allowedSortByValues[number]
+export type SortByValue = (typeof allowedSortByValues)[number]
 export type TrackFilters = FilterTuple[] | { [key in FilterKey]?: string | number }
 
 export const isAllowedActivity = (activity: string | null): activity is TrackActivity => {

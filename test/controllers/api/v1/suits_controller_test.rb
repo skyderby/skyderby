@@ -20,7 +20,7 @@ class Api::V1::SuitsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
 
-    names = response.parsed_body.fetch('items').map { |el| el['name'] }
+    names = response.parsed_body.fetch('items').pluck('name')
     assert_equal [apache.name, nala.name].sort, names.sort
   end
 end

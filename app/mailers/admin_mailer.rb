@@ -10,6 +10,6 @@ class AdminMailer < ApplicationMailer
       .where('rank <= 3')
       .group_by(&:virtual_competition)
 
-    mail(subject: 'New online competition result requires verification')
+    mail(subject: 'New online competition result requires verification') # rubocop:disable Rails/I18nLocaleTexts
   end
 end

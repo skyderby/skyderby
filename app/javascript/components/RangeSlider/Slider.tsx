@@ -7,8 +7,10 @@ const prfx = 'react-compound-slider:'
 
 type Comparator = (m: boolean | number, d: number, i: number) => boolean
 
-const compare = (b: readonly number[]): Comparator => (m, d, i) =>
-  m ? b[i] === d : false
+const compare =
+  (b: readonly number[]): Comparator =>
+  (m, d, i) =>
+    m ? b[i] === d : false
 
 const equal = (a: readonly number[], b: readonly number[]): boolean | number => {
   return a === b || (a.length === b.length && a.reduce(compare(b), true))

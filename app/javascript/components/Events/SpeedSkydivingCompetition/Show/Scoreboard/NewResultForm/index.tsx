@@ -14,7 +14,6 @@ import TrackSelect from 'components/TrackSelect'
 import ErrorText from 'components/ui/ErrorMessage'
 import validationSchema from './validationSchema'
 import styles from './styles.module.scss'
-import { ValueType } from 'react-select'
 import useCreateResultMutation from 'api/speedSkydivingCompetitions/results/useCreateResultMutation'
 import toast from 'react-hot-toast'
 import RequestErrorToast from 'components/RequestErrorToast'
@@ -135,7 +134,7 @@ const NewResultForm = ({
                       isInvalid={touched && error}
                       filters={{ profileId: competitor?.profileId }}
                       {...props}
-                      onChange={(option: ValueType<{ value: number }, false>) => {
+                      onChange={option => {
                         if (option === null) {
                           setFieldValue(name, null)
                         } else {
