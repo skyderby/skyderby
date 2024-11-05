@@ -30,7 +30,7 @@ export const queryKey = (eventId: number): QueryKey => [
 ]
 
 export const collectionEndpoint = (eventId: number) =>
-  `/api/v1/performance_competitions/${eventId}/results`
+  `/api/web/performance_competitions/${eventId}/results`
 
 export const elementEndpoint = (eventId: number, id: number) =>
   `${collectionEndpoint(eventId)}/${id}`

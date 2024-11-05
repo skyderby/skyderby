@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::SpeedSkydivingCompetitionsControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::SpeedSkydivingCompetitionsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @event = speed_skydiving_competitions(:nationals)
     @form_data = { name: 'Test event', starts_at: Time.zone.today, place_id: places(:ravenna).id }

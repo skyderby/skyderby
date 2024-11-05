@@ -49,7 +49,7 @@ const deserialize = (event: SerializedData): SpeedSkydivingCompetition => ({
   updatedAt: parseISO(event.updatedAt)
 })
 
-const endpoint = '/api/v1/speed_skydiving_competitions'
+const endpoint = '/api/web/speed_skydiving_competitions'
 
 const queryKey = (id: number): QueryKey => ['speedSkydivingCompetitions', id]
 

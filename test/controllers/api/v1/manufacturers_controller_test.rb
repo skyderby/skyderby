@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::ManufacturersControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::ManufacturersControllerTest < ActionDispatch::IntegrationTest
   test '#index - returns correct fields' do
     get api_v1_manufacturers_url
 

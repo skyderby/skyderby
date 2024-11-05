@@ -60,7 +60,7 @@ const getPoints = async (id: number, opts: RequestOptions): Promise<PointRecord[
     return acc
   }, new URLSearchParams())
 
-  const url = `/api/v1/tracks/${id}/points?${queryString.toString()}`
+  const url = `/api/web/tracks/${id}/points?${queryString.toString()}`
 
   const points = await client
     .get<never, AxiosResponse<RawPoint[]>>(url)

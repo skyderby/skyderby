@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::ProfilesControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::ProfilesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @profile = profiles(:alex)
   end

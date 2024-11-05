@@ -34,7 +34,7 @@ export type IndexParams = {
   perPage?: number
 }
 
-export const collectionEndpoint = '/api/v1/profiles'
+export const collectionEndpoint = '/api/web/profiles'
 export const elementEndpoint = (id: number): string => `${collectionEndpoint}/${id}`
 
 export const cacheProfiles = (profiles: ProfileRecord[]): void =>

@@ -8,7 +8,7 @@ export type ContributionStats = {
   pastYearAmount: number
 }
 
-const endpoint = 'api/v1/contributions/stats'
+const endpoint = 'api/web/contributions/stats'
 
 const getContributionStats = () =>
   client

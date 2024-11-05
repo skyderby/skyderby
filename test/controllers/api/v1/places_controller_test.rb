@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::PlacesControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::PlacesControllerTest < ActionDispatch::IntegrationTest
   test '#index - returns correct fields' do
     get api_v1_places_url
 

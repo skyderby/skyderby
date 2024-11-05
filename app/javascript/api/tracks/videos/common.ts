@@ -14,4 +14,4 @@ export type QueryKey = ['trackVideo', number]
 
 export const queryKey = (id: number): QueryKey => ['trackVideo', id]
 
-export const videoUrl = (id: number): string => `/api/v1/tracks/${id}/video`
+export const videoUrl = (id: number): string => `/api/web/tracks/${id}/video`

@@ -11,7 +11,7 @@ export interface ReferencePoint {
 
 type QueryKey = ['performanceCompetition', number, 'referencePoints']
 const endpoint = (eventId: number) =>
-  `/api/v1/performance_competitions/${eventId}/reference_points`
+  `/api/web/performance_competitions/${eventId}/reference_points`
 
 const getReferencePoints = (eventId: number) =>
   client

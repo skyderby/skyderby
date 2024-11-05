@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::CountriesControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::CountriesControllerTest < ActionDispatch::IntegrationTest
   test '#index - returns correct fields' do
     get api_v1_countries_url
 

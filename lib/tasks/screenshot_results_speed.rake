@@ -5,7 +5,7 @@ require "capybara/cuprite"
 desc 'Create screenshots from speed skydiving results'
 task :screenshot_results_speed, [:event_id] => [:environment] do |_task, args|
   host = "https://next.skyderby.ru"
-  competition_url = "#{host}/api/v1/speed_skydiving_competitions/#{args[:event_id]}"
+  competition_url = "#{host}/api/web/speed_skydiving_competitions/#{args[:event_id]}"
   results_url = URI("#{competition_url}/results.json")
   results = JSON.parse Net::HTTP.get(results_url)
 

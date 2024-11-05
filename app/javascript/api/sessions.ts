@@ -43,7 +43,7 @@ export type LoginData = {
 }
 
 const getCurrentUser = () =>
-  fetch('/api/v1/current_user', {
+  fetch('/api/web/current_user', {
     method: 'GET',
     credentials: 'include',
     mode: 'no-cors'
@@ -51,7 +51,7 @@ const getCurrentUser = () =>
 
 const login = async (user: LoginData) => {
   const { data } = await client.post<{ user: LoginData }, AxiosResponse<AuthorizedUser>>(
-    '/api/users/sign_in',
+    '/api/web/users/sign_in',
     { user }
   )
 

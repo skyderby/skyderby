@@ -24,7 +24,7 @@ export const competitorSchema = z.object({
 export type Competitor = z.infer<typeof competitorSchema>
 
 export const collectionEndpoint = (tournamentId: number) =>
-  `/api/v1/tournaments/${tournamentId}/competitors`
+  `/api/web/tournaments/${tournamentId}/competitors`
 
 export const elementEndpoint = (tournamentId: number, competitorId: number) =>
   `${collectionEndpoint(tournamentId)}/${competitorId}`

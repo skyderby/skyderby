@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::Tracks::VideosControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::Tracks::VideosControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:regular_user)
   end

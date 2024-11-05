@@ -9,7 +9,7 @@ export const queryKey = (eventId: number): QueryKey => [
 ]
 
 export const collectionEndpoint = (eventId: number) =>
-  `/api/v1/speed_skydiving_competitions/${eventId}/categories`
+  `/api/web/speed_skydiving_competitions/${eventId}/categories`
 export const elementEndpoint = (eventId: number, id: number) =>
   `${collectionEndpoint(eventId)}/${id}`
 

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { competitorSchema } from './competitors'
 
-export const elementEndpoint = (id: number) => `/api/v1/tournaments/${id}`
+export const elementEndpoint = (id: number) => `/api/web/tournaments/${id}`
 
 const slotSchema = z.object({
   id: z.number(),

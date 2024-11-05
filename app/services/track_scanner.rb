@@ -115,7 +115,7 @@ class TrackScanner
   end
 
   def uri
-    @uri ||= URI.parse("#{service_address}/api/v1/scan")
+    @uri ||= URI.parse("#{service_address}/api/web/scan")
   end
 
   def service_address

@@ -4,7 +4,7 @@ import { OnlineRankingGroup } from './common'
 
 type QueryKey = ['onlineRankingGroup', number]
 
-const endpoint = (groupId: number) => `/api/v1/online_rankings/groups/${groupId}`
+const endpoint = (groupId: number) => `/api/web/online_rankings/groups/${groupId}`
 
 const getGroup = (groupId: number) =>
   client

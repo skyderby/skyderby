@@ -35,7 +35,7 @@ export type EditTeamMutation = UseMutationResult<
 >
 
 const collectionUrl = (eventId: number) =>
-  `/api/v1/speed_skydiving_competitions/${eventId}/teams`
+  `/api/web/speed_skydiving_competitions/${eventId}/teams`
 const elementUrl = (eventId: number, id: number) => `${collectionUrl(eventId)}/${id}`
 
 const getTeams = (eventId: number): Promise<SerializedTeam[]> =>

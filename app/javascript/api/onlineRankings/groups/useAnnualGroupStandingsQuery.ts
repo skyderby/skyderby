@@ -11,7 +11,7 @@ type Params = {
 }
 
 const endpoint = (groupId: number) =>
-  `/api/v1/online_rankings/groups/${groupId}/annual_standings`
+  `/api/web/online_rankings/groups/${groupId}/annual_standings`
 
 const getStandings = (groupId: number, year: number, params: Params) => {
   const urlParams = new URLSearchParams()

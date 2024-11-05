@@ -34,7 +34,7 @@ type IndexParams = {
 type RecordQueryKey = ['countries', number | null | undefined]
 type IndexQueryKey = [string, IndexParams]
 
-const endpoint = '/api/v1/countries'
+const endpoint = '/api/web/countries'
 
 const getCountry = (id: number): Promise<CountryRecord> =>
   client.get(`${endpoint}/${id}`).then(response => response.data)

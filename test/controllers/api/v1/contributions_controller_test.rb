@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::ContributionsControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::ContributionsControllerTest < ActionDispatch::IntegrationTest
   test '#index - forbidden for non-admin users' do
     get api_v1_contributions_url
 

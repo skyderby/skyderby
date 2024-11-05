@@ -24,6 +24,6 @@ export const queryKey = (eventId: number): QueryKey => [
   'rounds'
 ]
 export const collectionEndpoint = (eventId: number) =>
-  `/api/v1/performance_competitions/${eventId}/rounds`
+  `/api/web/performance_competitions/${eventId}/rounds`
 export const elementEndpoint = (eventId: number, id: number) =>
   `${collectionEndpoint(eventId)}/${id}`

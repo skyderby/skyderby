@@ -11,7 +11,7 @@ interface TeamStandingRow {
 type QueryKey = ['performanceCompetition', number, 'teamStandings']
 
 const endpoint = (eventId: number) =>
-  `/api/v1/performance_competitions/${eventId}/team_standings`
+  `/api/web/performance_competitions/${eventId}/team_standings`
 
 const getStandings = (eventId: number) =>
   client.get(endpoint(eventId)).then(response => response.data)

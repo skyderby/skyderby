@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::UsersControllerTest < ActionDispatch::IntegrationTest
   test '#index - is not allowed for guest users' do
     get api_v1_users_url
 

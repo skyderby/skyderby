@@ -25,7 +25,7 @@ const normalize = (point: RawRecord): WindDataRecord => ({
 })
 
 const getWindData = async (id: number | undefined) => {
-  const dataUrl = `/api/v1/tracks/${id}/weather_data`
+  const dataUrl = `/api/web/tracks/${id}/weather_data`
 
   if (typeof id !== 'number') {
     throw new Error(`Expected track id to be a number, received ${typeof id}`)

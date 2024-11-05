@@ -20,7 +20,7 @@ export interface CategoryStandings {
 }
 
 const endpoint = (eventId: number) =>
-  `/api/v1/performance_competitions/${eventId}/standings`
+  `/api/web/performance_competitions/${eventId}/standings`
 
 const getStandings = (eventId: number) =>
   client.get(endpoint(eventId)).then(response => response.data)

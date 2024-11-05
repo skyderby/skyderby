@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::OrganizersControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::OrganizersControllerTest < ActionDispatch::IntegrationTest
   setup do
     @event = speed_skydiving_competitions(:nationals)
     @organizer = users(:regular_user)

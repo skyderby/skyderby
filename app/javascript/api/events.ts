@@ -5,7 +5,7 @@ import client from 'api/client'
 import { cachePlaces, placeSchema } from 'api/places'
 import { cacheCountries, countrySchema } from 'api/countries'
 
-const endpoint = '/api/v1/events'
+const endpoint = '/api/web/events'
 
 type IndexParams = {
   page?: number

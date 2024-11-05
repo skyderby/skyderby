@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::SuitsControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::SuitsControllerTest < ActionDispatch::IntegrationTest
   test '#index - returns correct fields' do
     get api_v1_suits_url
 

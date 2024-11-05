@@ -19,7 +19,7 @@ export type SignUpMutation = UseMutationResult<User, AxiosError<ServerErrors>, S
 
 const signUp = async (user: SignUpForm): Promise<User> => {
   const { data } = await client.post<{ user: SignUpForm }, AxiosResponse<User>>(
-    '/api/users',
+    '/api/web/users',
     { user }
   )
 

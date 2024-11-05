@@ -25,7 +25,7 @@ export const queryKey = (eventId: number): QueryKey => [
 ]
 
 export const collectionUrl = (eventId: number) =>
-  `/api/v1/performance_competitions/${eventId}/teams`
+  `/api/web/performance_competitions/${eventId}/teams`
 export const elementUrl = (eventId: number, id: number) =>
   `${collectionUrl(eventId)}/${id}`
 

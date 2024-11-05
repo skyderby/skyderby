@@ -14,7 +14,7 @@ export interface SuitStatsRecord {
   skydiveTracks: number
 }
 
-const endpoint = '/api/v1/suits/stats'
+const endpoint = '/api/web/suits/stats'
 
 type QueryKey = ['suitStats', number]
 

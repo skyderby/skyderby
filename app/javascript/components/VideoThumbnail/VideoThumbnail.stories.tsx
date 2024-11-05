@@ -30,7 +30,7 @@ export const Default = () => <VideoThumbnail video={video} />
 
 Default.parameters = {
   msw: [
-    rest.get('/api/v1/tracks/1', (req, res, ctx) =>
+    rest.get('/api/web/tracks/1', (req, res, ctx) =>
       res(
         ctx.json({
           placeId: 100,

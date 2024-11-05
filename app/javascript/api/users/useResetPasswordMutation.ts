@@ -15,7 +15,7 @@ interface Errors {
 
 const resetPassword = async (variables: Variables) => {
   const { data } = await client.post<{ user: Variables }, AxiosResponse>(
-    '/api/users/passwords',
+    '/api/web/users/passwords',
     { user: variables }
   )
 

@@ -34,7 +34,7 @@ export const queryKey = (eventId: number): QueryKey => [
 ]
 
 export const collectionEndpoint = (eventId: number) =>
-  `/api/v1/speed_skydiving_competitions/${eventId}/results`
+  `/api/web/speed_skydiving_competitions/${eventId}/results`
 export const elementEndpoint = (eventId: number, id: number) =>
   `${collectionEndpoint(eventId)}/${id}`
 export const penaltiesEndpoint = (eventId: number, id: number) =>

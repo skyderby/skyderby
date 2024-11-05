@@ -36,7 +36,7 @@ export const collectionUrl = (eventType: EventType, eventId: number) => {
     speedSkydiving: 'speed_skydiving_competitions'
   }
 
-  return `/api/v1/${pathByType[eventType]}/${eventId}/organizers`
+  return `/api/web/${pathByType[eventType]}/${eventId}/organizers`
 }
 
 export const deserialize = (organizer: SerializedOrganizer): Organizer => ({

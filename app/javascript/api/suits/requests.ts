@@ -3,7 +3,7 @@ import { loadIds, depaginate } from 'api/helpers'
 
 import { SuitRecord, SuitsIndex, IndexParams } from './types'
 
-const endpoint = '/api/v1/suits'
+const endpoint = '/api/web/suits'
 
 const buildUrl = (params: IndexParams = {}): string => {
   const urlParams = new URLSearchParams()

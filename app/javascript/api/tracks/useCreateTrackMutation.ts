@@ -5,7 +5,7 @@ import { TrackVariables, Track, recordQueryKey, trackSchema } from './common'
 
 const createTrack = (track: TrackVariables) =>
   client
-    .post<{ track: TrackVariables }>('/api/v1/tracks', { track })
+    .post<{ track: TrackVariables }>('/api/web/tracks', { track })
     .then(response => trackSchema.parse(response.data))
 
 const useCreateTrackMutation = () => {

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::Tracks::FilesControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::Tracks::FilesControllerTest < ActionDispatch::IntegrationTest
   test '#create - flysight file with one segment' do
     params = { file: fixture_file_upload('tracks/distance_2454.csv') }
 

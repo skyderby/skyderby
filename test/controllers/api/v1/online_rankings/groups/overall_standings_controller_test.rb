@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::OnlineRankings::Groups::OverallStandingsControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::OnlineRankings::Groups::OverallStandingsControllerTest < ActionDispatch::IntegrationTest
   test '#show - returns the overall standings for the group' do
     group = virtual_competition_groups(:cumulative)
     create_result(virtual_competitions(:skydive_distance_wingsuit), profiles(:maynard), suits(:apache), 3900)

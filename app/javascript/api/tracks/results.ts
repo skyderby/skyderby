@@ -46,7 +46,7 @@ export interface ResultsRecord {
 type ResultsQueryKey = ['trackResults', number | undefined]
 
 const getResults = async (id: number) => {
-  const { data } = await client.get(`/api/v1/tracks/${id}/results`)
+  const { data } = await client.get(`/api/web/tracks/${id}/results`)
   return data
 }
 

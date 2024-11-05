@@ -27,7 +27,7 @@ const indexResponseSchema = z.object({
   totalPages: z.number()
 })
 
-const endpoint = '/api/v1/users'
+const endpoint = '/api/web/users'
 
 export const mapParamsToUrl = (params: IndexParams): string => {
   const urlParams = new URLSearchParams()

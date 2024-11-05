@@ -6,7 +6,7 @@ export interface SuitsPopularityRecord {
   popularity: number
 }
 
-const endpoint = '/api/v1/suits/popularity'
+const endpoint = '/api/web/suits/popularity'
 
 const getPopularity = () => client.get(endpoint).then(response => response.data)
 

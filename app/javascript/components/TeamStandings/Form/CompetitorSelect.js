@@ -23,7 +23,7 @@ const CompetitorSelect = ({ value, onChange, ...props }) => {
   const selectedOption = options.find(el => el.value === value.toString())
 
   const loadOptions = useCallback(async () => {
-    const dataUrl = `/api/v1/events/${eventId}/competitors`
+    const dataUrl = `/api/web/events/${eventId}/competitors`
     const { data } = await client.get(dataUrl)
 
     setOptions(data.map(el => ({ value: el.id.toString(), label: el.name })))

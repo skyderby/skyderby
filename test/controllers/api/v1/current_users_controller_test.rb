@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::CurrentUsersControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::CurrentUsersControllerTest < ActionDispatch::IntegrationTest
   setup do
     @default_permissions = { 'canAccessAdminPanel' => false, 'canCreatePlace' => false, 'canManageUsers' => false }
   end

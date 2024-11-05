@@ -11,7 +11,7 @@ import { CategoryStandings } from './types'
 type QueryKey = ['speedSkydivingCompetitions', number, 'standings']
 
 const endpoint = (eventId: number) =>
-  `/api/v1/speed_skydiving_competitions/${eventId}/standings`
+  `/api/web/speed_skydiving_competitions/${eventId}/standings`
 
 const getStandings = (eventId: number) =>
   client.get(endpoint(eventId)).then(response => response.data)

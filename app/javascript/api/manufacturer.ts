@@ -28,7 +28,7 @@ type ManufacturersIndex = {
 export type CollectionQueryKey = readonly ['manufacturers']
 export type RecordQueryKey = readonly ['manufacturers', number | undefined]
 
-const endpoint = '/api/v1/manufacturers'
+const endpoint = '/api/web/manufacturers'
 
 const getManufacturer = (id: number) =>
   client

@@ -15,7 +15,7 @@ type RecordQueryKey = ['terrainProfileMeasurements', number | undefined]
 
 const getMeasurement = (id: number): Promise<MeasurementRecord[]> =>
   client
-    .get(`/api/v1/terrain_profiles/${id}/measurements`)
+    .get(`/api/web/terrain_profiles/${id}/measurements`)
     .then(response => response.data)
 
 const recordQueryKey = (id: number | undefined): RecordQueryKey => [

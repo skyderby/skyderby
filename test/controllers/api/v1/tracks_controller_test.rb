@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::TracksControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::TracksControllerTest < ActionDispatch::IntegrationTest
   test '#index - has correct keys in response' do
     get api_v1_tracks_url
 

@@ -22,7 +22,7 @@ type TerrainProfilesIndex = {
   }
 }
 
-const endpoint = '/api/v1/terrain_profiles'
+const endpoint = '/api/web/terrain_profiles'
 
 const getTerrainProfiles = (): Promise<TerrainProfilesIndex> =>
   client.get(endpoint).then(response => response.data)

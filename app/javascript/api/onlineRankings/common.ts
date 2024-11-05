@@ -79,7 +79,7 @@ export type StandingsRow = z.infer<typeof rowSchema>
 export type StandingsResponse = z.infer<typeof standingsResponseSchema>
 export type OnlineRanking = z.infer<typeof onlineRankingSchema>
 
-export const collectionEndpoint = '/api/v1/online_rankings'
+export const collectionEndpoint = '/api/web/online_rankings'
 export const elementEndpoint = (id: number) => `${collectionEndpoint}/${id}`
 
 export const cacheStandingRelations = (relations: StandingsResponse['relations']) => {

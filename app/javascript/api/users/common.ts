@@ -27,4 +27,4 @@ export interface ServerErrors {
 
 export const recordQueryKey = (id: number) => ['user', id] as const
 
-export const elementEndpoint = (id: number) => `/api/v1/users/${id}`
+export const elementEndpoint = (id: number) => `/api/web/users/${id}`

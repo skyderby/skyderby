@@ -4,7 +4,7 @@ import { z } from 'zod'
 import client from 'api/client'
 import { videoSchema } from './tracks'
 
-const endpoint = '/api/v1/videos'
+const endpoint = '/api/web/videos'
 
 type IndexParams = {
   placeId?: number

@@ -44,7 +44,7 @@ export const queryKey = (id: number | undefined): QueryKey => [
   id
 ]
 
-export const collectionEndpoint = '/api/v1/performance_competitions'
+export const collectionEndpoint = '/api/web/performance_competitions'
 export const elementEndpoint = (id: number) => `${collectionEndpoint}/${id}`
 
 export const deserialize = (

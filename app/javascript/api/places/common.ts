@@ -54,7 +54,7 @@ export type PlaceVariables = {
   longitude?: number | null
 }
 
-export const collectionEndpoint = '/api/v1/places'
+export const collectionEndpoint = '/api/web/places'
 export const elementEndpoint = (id: number) => `${collectionEndpoint}/${id}`
 
 export type RecordQueryKey = ['places', number | null | undefined]

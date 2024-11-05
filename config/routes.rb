@@ -22,14 +22,14 @@ Skyderby::Application.routes.draw do
              skip: [:sessions, :registrations, :passwords, :confirmations],
              controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   devise_scope :user do
-    post '/api/users/sign_in', to: 'api/users/sessions#create'
-    delete '/api/users/sign_out', to: 'api/users/sessions#destroy'
+    post '/api/web/users/sign_in', to: 'api/web/users/sessions#create'
+    delete '/api/web/users/sign_out', to: 'api/web/users/sessions#destroy'
 
-    post '/api/users', to: 'api/users/registrations#create'
-    post '/api/users/passwords', to: 'api/users/passwords#create'
-    put '/api/users/passwords', to: 'api/users/passwords#update'
-    post '/api/users/confirmations', to: 'api/users/confirmations#create'
-    put '/api/users/confirmations', to: 'api/users/confirmations#show'
+    post '/api/web/users', to: 'api/web/users/registrations#create'
+    post '/api/web/users/passwords', to: 'api/web/users/passwords#create'
+    put '/api/web/users/passwords', to: 'api/web/users/passwords#update'
+    post '/api/web/users/confirmations', to: 'api/web/users/confirmations#create'
+    put '/api/web/users/confirmations', to: 'api/web/users/confirmations#show'
 
     get '/users/new-password', to: 'react_app#show', as: :edit_user_password
     get '/users/email-confirmation', to: 'react_app#show', as: :user_confirmation
@@ -42,7 +42,7 @@ Skyderby::Application.routes.draw do
   end
 
   namespace :api, module: :api, defaults: { format: :json } do
-    namespace :v1, module: :v1 do
+    namespace :web, module: :web do
       resource :current_user, only: :show
       resources :contributions, only: :index do
         collection do

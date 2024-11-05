@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::Places::StatsControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::Places::StatsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @place = Place.create! \
       name: 'Borki',

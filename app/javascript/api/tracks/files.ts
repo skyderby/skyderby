@@ -1,7 +1,7 @@
 import { useMutation, UseMutationOptions, UseMutationResult } from '@tanstack/react-query'
 import client, { AxiosError, AxiosResponse } from 'api/client'
 
-const endpoint = '/api/v1/tracks/files'
+const endpoint = '/api/web/tracks/files'
 
 export type Segment = {
   name: string

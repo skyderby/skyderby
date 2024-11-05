@@ -12,7 +12,7 @@ import { TeamStandingRow } from './types'
 type QueryKey = ['speedSkydivingCompetitions', number, 'teamStandings']
 
 const endpoint = (eventId: number) =>
-  `/api/v1/speed_skydiving_competitions/${eventId}/team_standings`
+  `/api/web/speed_skydiving_competitions/${eventId}/team_standings`
 
 const getStandings = (eventId: number) =>
   client.get(endpoint(eventId)).then(response => response.data)

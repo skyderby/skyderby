@@ -17,7 +17,7 @@ export type CategoryVariables = {
 }
 
 export const endpoint = (eventId: number) =>
-  `/api/v1/performance_competitions/${eventId}/categories`
+  `/api/web/performance_competitions/${eventId}/categories`
 export const categoryUrl = (eventId: number, id: number) => `${endpoint(eventId)}/${id}`
 export const queryKey = (eventId: number) => [
   'performanceCompetition',

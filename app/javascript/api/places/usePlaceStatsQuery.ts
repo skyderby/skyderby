@@ -14,7 +14,7 @@ type SerializedStats = Omit<PlaceStats, 'lastTrackRecordedAt'> & {
 
 type QueryKey = ['place', number, 'stats']
 
-const endpoint = (placeId: number) => `/api/v1/places/${placeId}/stats`
+const endpoint = (placeId: number) => `/api/web/places/${placeId}/stats`
 
 const deserialize = (record: SerializedStats): PlaceStats => ({
   ...record,

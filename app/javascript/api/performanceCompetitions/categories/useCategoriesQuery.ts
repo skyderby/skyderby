@@ -9,7 +9,7 @@ import client, { AxiosError } from 'api/client'
 import { Category, QueryKey, indexSchema } from './common'
 
 const endpoint = (eventId: number) =>
-  `/api/v1/performance_competitions/${eventId}/categories`
+  `/api/web/performance_competitions/${eventId}/categories`
 
 const queryKey = (eventId: number): QueryKey => [
   'performanceCompetition',

@@ -6,7 +6,7 @@ export interface ReferencePointAssignment {
 }
 
 export const assignmentsEndpoint = (eventId: number) =>
-  `/api/v1/performance_competitions/${eventId}/reference_point_assignments`
+  `/api/web/performance_competitions/${eventId}/reference_point_assignments`
 
 export type AssignmentsQueryKey = [
   'performanceCompetition',

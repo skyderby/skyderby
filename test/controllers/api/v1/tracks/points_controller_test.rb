@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::Tracks::PointsControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::Tracks::PointsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @track = tracks(:hellesylt)
   end

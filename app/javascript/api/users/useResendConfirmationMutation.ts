@@ -15,7 +15,7 @@ interface Errors {
 
 const resendConfirmation = async (variables: Variables) => {
   const { data } = await client.post<{ user: Variables }, AxiosResponse>(
-    '/api/users/confirmations',
+    '/api/web/users/confirmations',
     { user: variables }
   )
 

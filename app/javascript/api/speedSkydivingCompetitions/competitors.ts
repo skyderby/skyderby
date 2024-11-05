@@ -50,7 +50,7 @@ const deserialize = (competitor: SerializedCompetitor): Competitor => ({
 })
 
 const collectionEndpoint = (eventId: number) =>
-  `/api/v1/speed_skydiving_competitions/${eventId}/competitors`
+  `/api/web/speed_skydiving_competitions/${eventId}/competitors`
 const elementEndpoint = (eventId: number, id: number) =>
   `${collectionEndpoint(eventId)}/${id}`
 

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::TerrainProfilesControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::TerrainProfilesControllerTest < ActionDispatch::IntegrationTest
   test '#index - returns terrain profile params' do
     get api_v1_terrain_profiles_url
 

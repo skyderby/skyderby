@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::Contributions::StatsControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::Contributions::StatsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @profile = profiles(:regular_user)
     @admin = users(:admin)

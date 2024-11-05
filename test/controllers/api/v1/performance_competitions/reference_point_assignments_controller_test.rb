@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Api::V1::PerformanceCompetitions::ReferencePointAssignmentsControllerTest < ActionDispatch::IntegrationTest
+class Api::Web::PerformanceCompetitions::ReferencePointAssignmentsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @event = events(:nationals)
     @event_responsible = users(:event_responsible)

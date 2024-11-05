@@ -151,7 +151,7 @@ export const isAllowedSort = (sortBy: string | null): sortBy is SortByValue => {
   return allowedSortByValues.includes(sortBy as SortByValue)
 }
 
-export const collectionEndpoint = '/api/v1/tracks'
+export const collectionEndpoint = '/api/web/tracks'
 export const elementEndpoint = (id: number) => `${collectionEndpoint}/${id}`
 export const recordQueryKey = (id: number): RecordQueryKey => ['tracks', id]
 

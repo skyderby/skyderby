@@ -15,7 +15,7 @@ interface Errors {
 
 const confirmEmail = async (variables: Variables) => {
   const { data } = await client.put<Variables, AxiosResponse>(
-    '/api/users/confirmations',
+    '/api/web/users/confirmations',
     variables
   )
 

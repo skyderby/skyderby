@@ -18,7 +18,7 @@ interface Errors {
 
 const createPassword = async (variables: Variables) => {
   const { data } = await client.put<{ user: Variables }, AxiosResponse>(
-    '/api/users/passwords',
+    '/api/web/users/passwords',
     { user: variables }
   )
 

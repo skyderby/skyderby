@@ -13,7 +13,7 @@ export default {
 
 const notAuthorizedParams = {
   msw: [
-    rest.get('/api/v1/current_user', (req, res, ctx) =>
+    rest.get('/api/web/current_user', (req, res, ctx) =>
       res(ctx.json({ authorized: false }))
     )
   ]
@@ -21,7 +21,7 @@ const notAuthorizedParams = {
 
 const authorizedParams = {
   msw: [
-    rest.get('/api/v1/current_user', (req, res, ctx) =>
+    rest.get('/api/web/current_user', (req, res, ctx) =>
       res(
         ctx.json({
           authorized: true,
