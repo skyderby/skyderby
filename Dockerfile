@@ -29,7 +29,7 @@ RUN mkdir -p /opt/app \
   && mkdir -p /tmp/sockets
 COPY ./ /opt/app
 
-RUN SECRET_KEY_BASE=just-for-precompilation \
+RUN SECRET_KEY_BASE_DUMMY=1 \
   i18n export && \
   /bin/sh -c 'bundle exec rails assets:precompile' && \
   rm -rf node_modules

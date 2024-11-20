@@ -31,7 +31,7 @@ class Track < ApplicationRecord
         type == possible_type && track.owner
       end
 
-      define_method "#{possible_type.downcase}_id" do
+      define_method :"#{possible_type.downcase}_id" do
         type == possible_type && track.owner_id
       end
     end

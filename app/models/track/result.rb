@@ -11,7 +11,7 @@
 #
 
 class Track::Result < ApplicationRecord
-  enum discipline: { time: 0, distance: 1, speed: 2 }
+  enum :discipline, { time: 0, distance: 1, speed: 2 }
 
   belongs_to :track
 

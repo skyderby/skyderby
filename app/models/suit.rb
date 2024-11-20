@@ -12,7 +12,7 @@
 class Suit < ApplicationRecord
   attr_accessor :photo
 
-  enum kind: SuitTypes
+  enum :kind, SuitTypes
 
   belongs_to :manufacturer
 

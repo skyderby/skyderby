@@ -58,13 +58,13 @@ class Place::WeatherDatum < ApplicationRecord
   end
 
   def altitude_present?
-    return if altitude.present? || altitude_in_units.present?
+    return false if altitude.present? || altitude_in_units.present?
 
     errors.add :altitude, :blank
   end
 
   def wind_speed_present?
-    return if wind_speed.present? || wind_speed_in_units.present?
+    return false if wind_speed.present? || wind_speed_in_units.present?
 
     errors.add :wind_speed, :blank
   end

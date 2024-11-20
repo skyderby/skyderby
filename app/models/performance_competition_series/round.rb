@@ -1,5 +1,5 @@
 class PerformanceCompetitionSeries::Round < ApplicationRecord
-  enum discipline: { time: 0, distance: 1, speed: 2, vertical_speed: 3 }
+  enum :discipline, { time: 0, distance: 1, speed: 2, vertical_speed: 3 }
 
   belongs_to :performance_competition_series
 
