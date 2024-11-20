@@ -40,7 +40,7 @@ jobs:
       - name: Setup Nodejs
         uses: actions/setup-node@v1
         with:
-          node-version: 14.16.0
+          node-version: 22.4.1
       - name: Cache node modules
         uses: actions/cache@v1
         with:
@@ -89,7 +89,7 @@ jobs:
       - name: Setup Nodejs
         uses: actions/setup-node@v1
         with:
-          node-version: 14.16.0
+          node-version: 22.4.1
       - name: Cache gems
         uses: actions/cache@v1
         with:
@@ -152,7 +152,7 @@ jobs:
       - name: Setup Nodejs
         uses: actions/setup-node@v1
         with:
-          node-version: 14.16.0
+          node-version: 22.4.1
       - name: Cache gems
         uses: actions/cache@v1
         with:
