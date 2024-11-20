@@ -2,6 +2,7 @@ class EventsController < ApplicationController
   include EventScoped
 
   before_action :set_event, only: %i[edit update destroy]
+  etag { display_event_params if action_name == 'show' }
 
   def index
     authorize Event
@@ -13,7 +14,7 @@ class EventsController < ApplicationController
       .includes(place: :country)
       .paginate(page: params[:page], per_page: rows_per_page)
 
-    fresh_when etags_for(@events)
+    fresh_when @events
 
     respond_to do |format|
       format.html
@@ -69,7 +70,7 @@ class EventsController < ApplicationController
 
     @scoreboard = Events::Scoreboards.for(@event, scoreboard_params(@event))
 
-    fresh_when etags_for(@event).push(display_event_params), last_modified: @event.updated_at
+    fresh_when @event
 
     respond_to do |format|
       format.html

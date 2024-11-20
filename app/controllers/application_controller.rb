@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 
   include SetCurrentRequestDetails
 
-  include Pundit
+  include Pundit::Authorization
   include MobileFormatOverride
   include ConditionalGet
 

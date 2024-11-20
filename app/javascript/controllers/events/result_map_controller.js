@@ -8,7 +8,7 @@ const AFTER_EXIT_POINT_COLOR = '#124E78'
 const LINE_COLOR = '#7cb5ec'
 
 const MAPS_API_FAIL_TEMPLATE = `
-  <i class="fa fa-3x fa-exclamation-triangle text-danger"></i>
+  <i class='fa fa-3x fa-exclamation-triangle text-danger'></i>
   <p>Failed to load Google Maps API.</p>
 `
 
@@ -80,12 +80,8 @@ export default class extends Controller {
   }
 
   draw_most_distant_point() {
-    const {
-      after_exit_point,
-      reference_point,
-      end_point,
-      path_coordinates
-    } = this.map_data
+    const { after_exit_point, reference_point, end_point, path_coordinates } =
+      this.map_data
 
     if (!reference_point) return
 

@@ -1,7 +1,9 @@
 module ConditionalGet
   extend ActiveSupport::Concern
 
-  def etags_for(record)
-    [record, Current.user.id, I18n.locale, mobile?].compact
+  included do
+    etag { Current.user.id }
+    etag { I18n.locale }
+    etag { mobile? }
   end
 end

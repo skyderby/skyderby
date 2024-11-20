@@ -9,6 +9,7 @@ import BackLink from 'components/ui/BackLink'
 import Map from './Map'
 import CompetitorsList from './CompetitorsList'
 import LoadingPlaceholder from './LoadingPlaceholder'
+import I18n from 'i18n'
 
 const RoundMap = ({ eventId, roundId }) => {
   const dispatch = useDispatch()

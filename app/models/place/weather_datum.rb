@@ -35,8 +35,8 @@ class Place::WeatherDatum < ApplicationRecord
                                              less_than: 360,
                                              allow_nil: true }
 
-  serialize :altitude, Distance
-  serialize :wind_speed, Velocity
+  serialize :altitude, coder: Distance
+  serialize :wind_speed, coder: Velocity
 
   scope :for_time, ->(time) { where(actual_on: time) }
   default_scope -> { order(:actual_on, :altitude) }

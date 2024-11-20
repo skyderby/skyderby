@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_21_041901) do
+ActiveRecord::Schema.define(version: 2024_07_09_052444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -471,6 +471,7 @@ ActiveRecord::Schema.define(version: 2024_03_21_041901) do
     t.boolean "is_lucky_looser"
     t.string "notes", limit: 510
     t.integer "earn_medal"
+    t.datetime "start_time", precision: 3
   end
 
   create_table "tournament_matches", id: :serial, force: :cascade do |t|
@@ -662,6 +663,13 @@ ActiveRecord::Schema.define(version: 2024_03_21_041901) do
     t.boolean "featured", default: false, null: false
     t.index ["finish_line_id"], name: "index_virtual_competitions_on_finish_line_id"
     t.index ["place_id"], name: "index_virtual_competitions_on_place_id"
+  end
+
+  create_table "weather_fetching_logs", force: :cascade do |t|
+    t.datetime "time", precision: 6
+    t.text "errors"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "badges", "profiles"

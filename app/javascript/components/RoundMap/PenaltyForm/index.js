@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useFormik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
+import I18n from 'i18n'
 
 import { updatePenalty } from 'redux/events/round'
 import RadioButtonGroup from 'components/ui/RadioButtonGroup'

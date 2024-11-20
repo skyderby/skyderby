@@ -1,4 +1,4 @@
-FROM ruby:3.1.2
+FROM ruby:3.2.3
 
 MAINTAINER Aleksandr Kunin <skyksandr@gmail.com>
 LABEL org.opencontainers.image.source=https://github.com/skyderby/skyderby
@@ -30,6 +30,7 @@ RUN mkdir -p /opt/app \
 COPY ./ /opt/app
 
 RUN SECRET_KEY_BASE=just-for-precompilation \
+  i18n export && \
   /bin/sh -c 'bundle exec rails assets:precompile' && \
   rm -rf node_modules
 

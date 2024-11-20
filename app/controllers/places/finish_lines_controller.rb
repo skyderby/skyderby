@@ -30,7 +30,7 @@ module Places
 
     def show
       authorize @finish_line
-      fresh_when etags_for(@finish_line)
+      fresh_when @finish_line
     end
 
     def edit

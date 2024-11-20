@@ -1,6 +1,7 @@
 import { Controller } from 'stimulus'
 import { initYoutubeApi, videoCodeFromUrl, defaultPlayerOptions } from 'utils/youtube'
 import smooth_scroll from 'utils/smooth_scroll'
+import I18n from 'i18n'
 
 const HEADER_HEIGHT = 71
 

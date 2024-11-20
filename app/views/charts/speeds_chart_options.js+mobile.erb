@@ -61,7 +61,7 @@
     }
   },
   series: [{
-    name: I18n.t('charts.spd.series.ground'),
+    name: '<%= I18n.t('charts.spd.series.ground') %>',
     code: 'ground_speed',
     color: '#52A964',
     tooltip: {
@@ -69,7 +69,7 @@
     }
   },
   {
-    name: I18n.t('charts.spd.series.vertical'),
+    name: '<%= I18n.t('charts.spd.series.vertical') %>',
     code: 'vertical_speed',
     color: '#A7414E',
     tooltip: {
@@ -77,7 +77,7 @@
     }
   },
   {
-    name: I18n.t('charts.spd.series.full'),
+    name: '<%= I18n.t('charts.spd.series.full') %>',
     code: 'full_speed',
     color: '#D6A184',
     visible: false,
@@ -87,7 +87,7 @@
   }
   <% if @track_presenter.wind_cancelation? %>
     ,{
-      name: I18n.t('charts.spd.series.wind_effect'),
+      name: '<%= I18n.t('charts.spd.series.wind_effect') %>',
       code: 'speed_wind_effect',
       type: 'arearange',
       color: 'rgba(178, 201, 171, 0.5)',
@@ -105,7 +105,7 @@
   <% end %>
   <% if display_raw %>
     ,{
-      name: I18n.t('charts.spd.series.raw_ground'),
+      name: '<%= I18n.t('charts.spd.series.raw_ground') %>',
       type: 'line',
       color: '#AAE3CC',
       enableMouseTracking: false,
@@ -116,7 +116,7 @@
       }
     },
     {
-          name: I18n.t('charts.spd.series.raw_vertical'),
+          name: '<%= I18n.t('charts.spd.series.raw_vertical') %>',
           type: 'line',
           color: '#DFAFAD',
           enableMouseTracking: false,
@@ -127,7 +127,7 @@
           }
         },
         {
-          name: I18n.t('charts.spd.series.raw_full'),
+          name: '<%= I18n.t('charts.spd.series.raw_full') %>',
           type: 'line',
           color: '#D6A184',
           enableMouseTracking: false,

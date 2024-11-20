@@ -7,10 +7,6 @@
 # Ignore bundler config.
 /.bundle
 
-# Ignore the default SQLite database.
-/db/*.sqlite3
-/db/*.sqlite3-journal
-
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
@@ -20,17 +16,10 @@
 
 /public/system
 /public/assets
-/public/javascripts/i18n.js
-/public/javascripts/translations.js
+/app/javascript/translations.json
 
 /.idea
-*.sw*
 /tags
-
-.tern-project
-
-*.swn
-*.swo
 
 .env
 

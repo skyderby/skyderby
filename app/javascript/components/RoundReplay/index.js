@@ -10,6 +10,7 @@ import Player from './Player'
 import GroupSelect from './GroupSelect'
 import { PlayerControls, PlayButton } from './elements'
 import shuffle from 'utils/shuffle'
+import I18n from 'i18n'
 
 const buildGroups = (groupedResultIds, results) => {
   const getNames = group => group.map(result => result.name).join(' - ')
