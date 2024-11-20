@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Ruby 3.1.2
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1.2
+          ruby-version: 3.2.3
       - name: Cache gems
         uses: actions/cache@v1
         with:
@@ -82,10 +82,10 @@ jobs:
           - 8000:80
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Ruby 3.1.2
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1.2
+          ruby-version: 3.2.3
       - name: Setup Nodejs
         uses: actions/setup-node@v1
         with:
@@ -110,6 +110,7 @@ jobs:
           bundle install --jobs 4 --retry 3
       - name: Install packages
         run: yarn install
+      - run: i18n export
       - run: bundle exec rails webpacker:compile
       - run: bundle exec rails db:test:prepare
       - run: bundle exec rspec spec --tag ~type:system
@@ -144,10 +145,10 @@ jobs:
           - 8000:80
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Ruby 3.1.2
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1.2
+          ruby-version: 3.2.3
       - name: Setup Nodejs
         uses: actions/setup-node@v1
         with:
@@ -172,6 +173,7 @@ jobs:
           bundle install --jobs 4 --retry 3
       - name: Install packages
         run: yarn install
+      - run: i18n export
       - run: bundle exec rails webpacker:compile
       - run: bundle exec rails db:test:prepare
       - run: bundle exec rspec spec --tag type:system
