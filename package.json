@@ -31,6 +31,7 @@
     "babel-loader": "^8.0.6",
     "bootstrap": "^3.4.1",
     "bootstrap-datepicker": "^1.7.1",
+    "compression-webpack-plugin": "^11.1.0",
     "core-js": "^3.6.5",
     "css-loader": "^2.1.1",
     "formik": "^2.0.1-rc.13",
