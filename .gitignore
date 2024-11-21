@@ -31,3 +31,5 @@
 yarn-debug.log*
 .yarn-integrity
 yarn-error.log
+
+/config/credentials/production.key

@@ -1,18 +1,18 @@
 FROM ruby:3.2.3
 
-MAINTAINER Aleksandr Kunin <skyksandr@gmail.com>
-LABEL org.opencontainers.image.source=https://github.com/skyderby/skyderby
+LABEL org.opencontainers.image.source=https://github.com/skyderby/skyderby \
+      org.opencontainers.image.authors="Aleksandr Kunin <skyksandr@gmail.com>"
 
 RUN apt-get update -qq && apt-get install -y -qq apt-transport-https ca-certificates \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
-    && curl -sL https://deb.nodesource.com/setup_14.x | bash - \
-    && apt-get install -y -qq --no-install-recommends postgresql-client nodejs yarn python2 \
+    && curl -sL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y -qq --no-install-recommends postgresql-client nodejs yarn libeccodes-dev \
     && rm -rf /var/lib/apt/lists/*
 
 RUN echo "gem: --no-rdoc --no-ri" >> ~/.gemrc
 
-ENV RAILS_ENV=production NODE_ENV=production
+ENV RAILS_ENV=production NODE_ENV=production NODE_OPTIONS=--openssl-legacy-provider
 
 WORKDIR /tmp
 COPY ./Gemfile Gemfile
@@ -29,7 +29,7 @@ RUN mkdir -p /opt/app \
   && mkdir -p /tmp/sockets
 COPY ./ /opt/app
 
-RUN SECRET_KEY_BASE_DUMMY=1 \
+RUN SECRET_KEY_BASE=just-for-precompilation \
   /bin/sh -c 'bundle exec i18n export' && \
   /bin/sh -c 'bundle exec rails assets:precompile' && \
   rm -rf node_modules
