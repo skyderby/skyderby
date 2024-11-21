@@ -9,20 +9,25 @@
   width: 100%;
   background-color: var(--white);
   border: var(--default-border);
+  border-left-width: 0;
+  border-right-width: 0;
   padding: 1rem;
-  border-radius: var(--border-radius-lg);
 
   @media (min-width: $bp-large) {
     width: $bp-large;
+    border-radius: var(--border-radius-lg);
+    border-left-width: 1px;
+    border-right-width: 1px;
   }
 }
 
 .track-page-header {
   background-color: var(--white);
   border-bottom: var(--default-border);
+  padding: 0 1rem;
 
   @media (min-width: $bp-large) {
-    padding: 0 calc((100vw - 1200px) / 2);
+    padding: 0 calc((100vw - 1200px) / 2 + 1rem);
   }
 }
 
