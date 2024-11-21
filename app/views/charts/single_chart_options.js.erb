@@ -152,7 +152,7 @@
   }
   <% if display_distance %>
   ,{
-    name: I18n.t('charts.all_data.series.distance'),
+    name: '<%= I18n.t('charts.all_data.series.distance') %>',
     code: 'distance',
     yAxis: 1,
     color: Highcharts.getOptions().colors[5],
@@ -165,7 +165,7 @@
   <% end %>
   <% if display_elevation %>
   ,{
-    name: I18n.t('charts.all_data.series.elevation'),
+    name: '<%= I18n.t('charts.all_data.series.elevation') %>',
     code: 'elevation',
     yAxis: 1,
     color: Highcharts.getOptions().colors[3],

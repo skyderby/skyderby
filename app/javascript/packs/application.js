@@ -5,11 +5,15 @@ import Rails from '@rails/ujs'
 import Turbolinks from 'turbolinks'
 import 'utils/googleAnalytics'
 
-import Honeybadger from 'honeybadger-js/honeybadger'
-Honeybadger.configure({
-  apiKey: window.HB_API_KEY,
-  environment: window.ENVIRONMENT_NAME
-})
+import Honeybadger from '@honeybadger-io/js'
+const currentEnv = document.querySelector('meta[name="current-env"]').content
+const honeybadgerApiKey = document.querySelector('meta[name="hb-api-key"]').content
+if (currentEnv === 'production') {
+  Honeybadger.configure({
+    apiKey: honeybadgerApiKey,
+    environment: currentEnv
+  })
+}
 
 import jQuery from 'jquery'
 

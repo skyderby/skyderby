@@ -14,7 +14,7 @@
 class Place < ApplicationRecord
   include Photos
 
-  enum kind: { skydive: 0, base: 1 }
+  enum :kind, { skydive: 0, base: 1 }
 
   belongs_to :country
 

@@ -1,4 +1,5 @@
 import { Controller } from 'stimulus'
+import I18n from 'i18n'
 
 export default class extends Controller {
   static targets = ['chart', 'select']

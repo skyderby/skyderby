@@ -19,7 +19,7 @@ class WindowRangeFinder
   end
 
   def execute(args)
-    args.each { |filter, _| raise UnknownFilter, filter unless ALLOWED_FILTERS.include? filter }
+    args.each_key { |filter| raise UnknownFilter, filter unless ALLOWED_FILTERS.include? filter }
 
     ALLOWED_FILTERS.each do |filter|
       send(filter, args[filter]) if args.key? filter

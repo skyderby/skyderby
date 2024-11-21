@@ -1,14 +1,14 @@
-ruby '3.1.2'
+ruby '3.2.3'
 source 'https://rubygems.org'
 
-gem 'rails', '~> 6.0.3'
+gem 'rails', '~> 7.1.5'
 
-gem 'puma', '< 6'
+gem 'puma', '< 7'
 gem 'rack-attack'
 gem 'rack-cors'
 
 # DB
-gem 'pg', '~> 1.0'
+gem 'pg', '~> 1.5'
 gem 'pluck_to_hash'
 gem 'scenic'
 
@@ -36,8 +36,7 @@ gem 'image_processing', '~> 1.12'
 gem 'shrine', '~> 3.0'
 
 # XML
-gem 'nokogiri', '~> 1.13'
-gem 'psych', '< 4'
+gem 'nokogiri', '~> 1.16'
 
 # Background jobs
 gem 'sidekiq', '< 7'
@@ -55,7 +54,8 @@ end
 
 # Internalization
 gem 'http_accept_language'
-gem 'i18n-js', '>= 3.0.0.rc8'
+gem 'i18n-js'
+gem 'listen'
 
 gem 'browser'
 
@@ -63,9 +63,9 @@ gem 'browser'
 gem 'bootstrap-sass', '~> 3.4.1'
 gem 'font-awesome-sass', '~> 5.8.1'
 gem 'sassc-rails'
+gem 'shakapacker', '6.5.0'
 gem 'turbolinks'
 gem 'uglifier', '>= 2.7.2'
-gem 'webpacker', '~> 4.0'
 
 gem 'matrix'
 gem 'vincenty_distance'
@@ -83,11 +83,10 @@ group :development do
 end
 
 group :development, :test do
-  gem 'byebug'
   gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'rspec'
-  gem 'rspec-rails', '~> 4.0.0'
+  gem 'rspec-rails'
 end
 
 group :test do

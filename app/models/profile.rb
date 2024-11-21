@@ -23,8 +23,8 @@ class Profile < ApplicationRecord
 
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
 
-  enum default_units: { metric: 0, imperial: 1 }
-  enum default_chart_view: { multi: 0, single: 1 }
+  enum :default_units, { metric: 0, imperial: 1 }
+  enum :default_chart_view, { multi: 0, single: 1 }
 
   belongs_to :country, optional: true
 

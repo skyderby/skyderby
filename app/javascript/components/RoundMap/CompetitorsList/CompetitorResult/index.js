@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 
 import { toggleResult, showDlForResult } from 'redux/events/round'
 import Modal from 'components/ui/Modal'
+import I18n from 'i18n'
 
 import Direction from './Direction'
 import Mark from './Mark'

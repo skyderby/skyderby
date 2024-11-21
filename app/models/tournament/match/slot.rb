@@ -19,7 +19,7 @@
 class Tournament::Match::Slot < ApplicationRecord
   include AcceptsNestedTrack, Tournament::SubmissionResult
 
-  enum earn_medal: { gold: 0, silver: 1, bronze: 2 }
+  enum :earn_medal, { gold: 0, silver: 1, bronze: 2 }
 
   belongs_to :competitor
   belongs_to :match

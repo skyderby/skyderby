@@ -65,7 +65,7 @@
     }
   },
   series: [{
-    name: I18n.t('charts.gr.series.gr'),
+    name: '<%= I18n.t('charts.gr.series.gr') %>',
     code: 'gr',
     tooltip: {
       valueSuffix: ''
@@ -84,7 +84,7 @@
   }
   <% if @track_presenter.wind_cancelation? %>
     ,{
-      name: I18n.t('charts.gr.series.wind_effect'),
+      name: '<%= I18n.t('charts.gr.series.wind_effect') %>',
       code: 'gr_wind_effect',
       type: 'arearange',
       color: 'rgba(63, 136, 167, 0.3)',
@@ -102,7 +102,7 @@
 
   <% if display_raw %>
       ,{
-    name: I18n.t('charts.gr.series.raw_gr'),
+    name: '<%= I18n.t('charts.gr.series.raw_gr') %>',
     type: 'line',
     color: '#A6CDCE',
     lineWidth: 7,

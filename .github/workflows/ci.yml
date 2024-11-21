@@ -14,13 +14,13 @@ jobs:
   rubocop:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup Ruby 3.1.2
+      - uses: actions/checkout@v4
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1.2
+          ruby-version: 3.2.3
       - name: Cache gems
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: vendor/bundle
           key: ${{ runner.os }}-ruby-v2-${{ hashFiles('./Gemfile.lock') }}
@@ -36,13 +36,13 @@ jobs:
   eslint:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup Nodejs
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 14.16.0
+          node-version: 22.4.1
       - name: Cache node modules
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
@@ -62,6 +62,7 @@ jobs:
       DATABASE_URL: postgres://skyderby:test-password@localhost/skyderby_test
       TRACK_SCANNER_URL: http://localhost:8000
       RAILS_ENV: test
+      NODE_OPTIONS: --openssl-legacy-provider
     services:
       postgres:
         image: postgres:14
@@ -81,24 +82,24 @@ jobs:
         ports:
           - 8000:80
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup Ruby 3.1.2
+      - uses: actions/checkout@v4
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1.2
+          ruby-version: 3.2.3
       - name: Setup Nodejs
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 14.16.0
+          node-version: 22.4.1
       - name: Cache gems
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: vendor/bundle
           key: ${{ runner.os }}-ruby-v2-${{ hashFiles('./Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-ruby-v2-
       - name: Cache node modules
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
@@ -110,6 +111,7 @@ jobs:
           bundle install --jobs 4 --retry 3
       - name: Install packages
         run: yarn install
+      - run: bundle exec i18n export
       - run: bundle exec rails webpacker:compile
       - run: bundle exec rails db:test:prepare
       - run: bundle exec rspec spec --tag ~type:system
@@ -124,6 +126,7 @@ jobs:
       TRACK_SCANNER_URL: http://localhost:8000
       RAILS_ENV: test
       SELENIUM_HEADLESS_CHROME: 'true'
+      NODE_OPTIONS: --openssl-legacy-provider
     services:
       postgres:
         image: postgres:14
@@ -143,24 +146,24 @@ jobs:
         ports:
           - 8000:80
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup Ruby 3.1.2
+      - uses: actions/checkout@v4
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1.2
+          ruby-version: 3.2.3
       - name: Setup Nodejs
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 14.16.0
+          node-version: 22.4.1
       - name: Cache gems
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: vendor/bundle
           key: ${{ runner.os }}-ruby-v2-${{ hashFiles('./Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-ruby-v2-
       - name: Cache node modules
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('./yarn.lock') }}
@@ -172,11 +175,12 @@ jobs:
           bundle install --jobs 4 --retry 3
       - name: Install packages
         run: yarn install
+      - run: bundle exec i18n export
       - run: bundle exec rails webpacker:compile
       - run: bundle exec rails db:test:prepare
       - run: bundle exec rspec spec --tag type:system
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: Failure screenshots
@@ -190,11 +194,11 @@ jobs:
     if: ${{ contains('dev next', github.ref_name) && github.event_name == 'push' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Cache Docker layers
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.ref_name }}-${{ github.sha }}

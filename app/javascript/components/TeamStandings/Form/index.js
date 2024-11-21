@@ -1,6 +1,7 @@
 import React from 'react'
 import { Formik, Field, FieldArray } from 'formik'
 import PropTypes from 'prop-types'
+import I18n from 'i18n'
 
 import { FormBody, FormGroup, Label, Input, Row, DeleteButton, Footer } from './elements'
 import CompetitorSelect from './CompetitorSelect'

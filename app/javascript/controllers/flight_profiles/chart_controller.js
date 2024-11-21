@@ -1,4 +1,5 @@
 import { Controller } from 'stimulus'
+import I18n from 'i18n'
 
 const TOOLTIP_HEADER = `
   <span style="font-size: 14px">{series.name}</span>

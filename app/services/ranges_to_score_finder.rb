@@ -5,7 +5,7 @@ module RangesToScoreFinder
   }.with_indifferent_access.freeze
 
   def self.for(activity)
-    (FINDER_BY_ACTIVITY[activity] || NullRangeFinder)
+    FINDER_BY_ACTIVITY[activity] || NullRangeFinder
   end
 
   class NullRangeFinder

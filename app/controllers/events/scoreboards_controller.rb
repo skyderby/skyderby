@@ -5,7 +5,7 @@ module Events
     before_action :set_event, :set_scoreboard
 
     def show
-      fresh_when etags_for(@event), last_modified: @event.updated_at
+      fresh_when @event
 
       respond_to do |format|
         format.js

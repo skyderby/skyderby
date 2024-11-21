@@ -1,3 +1,4 @@
+import I18n from 'i18n'
 import DualTypeFieldController from './dual_type_field_controller'
 
 export default class extends DualTypeFieldController {

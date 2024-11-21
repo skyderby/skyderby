@@ -35,9 +35,9 @@
 class Track < ApplicationRecord
   include Ownerable, WeatherData
 
-  enum kind:       { skydive: 0, base: 1 }
-  enum visibility: { public_track: 0, unlisted_track: 1, private_track: 2 }
-  enum gps_type:   { gpx: 0, flysight: 1, columbus: 2, wintec: 3, cyber_eye: 4, kml: 5, flysight2: 6 }
+  enum :kind, { skydive: 0, base: 1 }
+  enum :visibility, { public_track: 0, unlisted_track: 1, private_track: 2 }
+  enum :gps_type, { gpx: 0, flysight: 1, columbus: 2, wintec: 3, cyber_eye: 4, kml: 5, flysight2: 6 }
 
   belongs_to :track_file, class_name: 'Track::File', optional: true
 

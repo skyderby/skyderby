@@ -7,6 +7,7 @@ import { selectGroup } from 'redux/events/round'
 import List from './List'
 import CompetitorResult from './CompetitorResult'
 import FlatButton from 'components/ui/FlatButton'
+import I18n from 'i18n'
 
 const Group = ({ resultIds, number }) => {
   const dispatch = useDispatch()

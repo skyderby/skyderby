@@ -4,6 +4,7 @@ import 'bootstrap-datepicker/js/locales/bootstrap-datepicker.ru'
 import 'bootstrap-datepicker/js/locales/bootstrap-datepicker.de'
 import 'bootstrap-datepicker/js/locales/bootstrap-datepicker.es'
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css'
+import I18n from 'i18n'
 
 export default class extends Controller {
   connect() {

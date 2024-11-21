@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
+import I18n from 'i18n'
 
 import LegendItem from './LegendItem'
 import {

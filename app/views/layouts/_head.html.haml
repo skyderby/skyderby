@@ -2,21 +2,16 @@
 
 = action_cable_meta_tag
 
-= stylesheet_packs_with_chunks_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
 
-= javascript_include_tag 'translations/application', 'data-turbolinks-track': 'reload'
+%meta{ name: 'default-locale', content: I18n.default_locale }
+%meta{ name: 'locale', content: I18n.locale }
+%meta{ name: 'maps-api-key', content: ENV['MAPS_API_KEY'] }
+%meta{ name: 'cesium-api-key', content: ENV['CESIUM_API_TOKEN'] }
+%meta{ name: 'hb-api-key', content: ENV['HONEYBADGER_API_KEY'] }
+%meta{ name: 'current-env', content: ENV['RAILS_ENV'] }
 
-:javascript
-  var I18n = I18n || {};
-  I18n.defaultLocale = "#{I18n.default_locale}"
-  I18n.locale = "#{I18n.locale}"
-  MAPS_API_KEY = "#{ENV['MAPS_API_KEY']}"
-  CESIUM_API_TOKEN = "#{ENV['CESIUM_API_TOKEN']}"
-  HB_API_KEY = "#{ENV['HONEYBADGER_API_KEY']}"
-  ENVIRONMENT_NAME = "#{ENV['RAILS_ENV']}"
-
-= javascript_packs_with_chunks_tag 'application'
-= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: false
 
 = csrf_meta_tags
 
