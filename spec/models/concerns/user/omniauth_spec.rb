@@ -1,3 +1,5 @@
+require 'ostruct'
+
 describe User::Omniauth do
   it 'finds user by provider and uid' do
     user = User.create! \

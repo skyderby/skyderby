@@ -1,3 +1,5 @@
+require 'ostruct'
+
 describe Tracks::TrackView do
   it '#elevation' do
     stub_points_fetch(presenter)
