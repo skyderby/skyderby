@@ -1,3 +1,3 @@
-document.addEventListener('turbolinks:load', () => {
+document.addEventListener('turbo:load', () => {
   ga('send', 'pageview', window.location.pathname)
 })

@@ -7,7 +7,7 @@ export default class extends Controller {
     window.addEventListener('resize', this.on_resize_listener)
     window.addEventListener('scroll', this.on_scroll_listener)
     window.addEventListener('load', this.on_resize_listener, { once: true })
-    window.addEventListener('turbolinks:load', this.on_resize_listener, { once: true })
+    window.addEventListener('turbo:load', this.on_resize_listener, { once: true })
 
     this.init()
   }

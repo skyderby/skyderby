@@ -17,7 +17,7 @@ export default class extends Controller {
     })
 
     document.addEventListener(
-      'turbolinks:before-cache',
+      'turbo:before-cache',
       () => {
         $(this.element).ionRangeSlider('remove')
       },

@@ -17,7 +17,7 @@ $('.tracks-index .tracks-filters').replaceWith('<%= j render(partial: 'tracks/fi
 $('.pagination-list').html('<%= j will_paginate(@tracks, renderer: BootstrapPagination::Rails) %>');
 
 window.history.replaceState(
-  { turbolinks: {} },
+  { turbo: {} },
   document.title,
   "<%= url_for(index_params).html_safe %>"
 );

@@ -1,4 +1,4 @@
-$('.track-indicators').replaceWith("<%= j render(partial: 'tracks/indicators', 
+$('.track-indicators').replaceWith("<%= j render(partial: 'tracks/indicators',
                                                  locals: { presenter: @track_presenter }) %>");
 $('#track-charts').replaceWith("<%= j render(partial: 'tracks/charts', locals: { presenter: @track_presenter }) %>");
 $('.track-charts__settings-button').html("<%= j render(partial: 'tracks/view_settings_menu', locals: { presenter: @track_presenter}) %>");
@@ -18,7 +18,7 @@ $("#range-selector").ionRangeSlider('update', {
 });
 
 window.history.replaceState(
-  { turbolinks: {} },
+  { turbo: {} },
   document.title,
   "<%= url_for(params.permit(:id, :f, :t)).html_safe %>"
 );
