@@ -10,7 +10,6 @@ s3_options = {
   endpoint: "https://s3.#{ENV.fetch('AWS_REGION', nil)}.amazonaws.com"
 }
 
-
 Shrine.storages[:cache] = Shrine::Storage::FileSystem.new('public', prefix: 'system')
 Shrine.storages[:store] =
   if !Rails.env.test? && s3_options[:bucket].present?
