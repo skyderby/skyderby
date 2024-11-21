@@ -34,7 +34,7 @@
     "compression-webpack-plugin": "^11.1.0",
     "core-js": "^3.6.5",
     "css-loader": "^2.1.1",
-    "formik": "^2.0.1-rc.13",
+    "formik": "^2.4.6",
     "geodesy": "^2.2.0",
     "highcharts": "^6.0.7",
     "i18n-js": "^4.5.0",
