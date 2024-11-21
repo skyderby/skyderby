@@ -9,22 +9,20 @@ class TracksController < ApplicationController
 
     @tracks = policy_scope(Track.all)
 
-    @tracks = TrackFilter.new(index_params[:query]).apply(@tracks)
+    @tracks = TrackFilter.new(index_params).apply(@tracks)
     @tracks = TrackOrder.new(index_params[:order]).apply(@tracks)
-
-    rows_per_page = request.variant.include?(:mobile) ? 20 : 50
 
     @tracks = @tracks
               .left_outer_joins(:time, :distance, :speed)
               .includes(
                 :video,
-                :pilot,
                 :distance,
                 :speed,
                 :time,
                 place: [:country],
+                pilot: [:contributions],
                 suit: [:manufacturer]
-              ).paginate(page: params[:page], per_page: rows_per_page)
+              ).paginate(page: params[:page], per_page: 25)
 
     respond_to do |format|
       format.html
@@ -117,11 +115,7 @@ class TracksController < ApplicationController
   end
 
   def index_params
-    params.permit(
-      :order,
-      :page,
-      query: [:profile_id, :profile_name, :suit_id, :place_id, :kind, :term]
-    )
+    params.permit(:order, :page, :kind, :profile_id, :profile_name, :suit_id, :place_id, :term)
   end
   helper_method :index_params
 
