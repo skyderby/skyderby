@@ -62,6 +62,7 @@ jobs:
       DATABASE_URL: postgres://skyderby:test-password@localhost/skyderby_test
       TRACK_SCANNER_URL: http://localhost:8000
       RAILS_ENV: test
+      NODE_OPTIONS: --openssl-legacy-provider
     services:
       postgres:
         image: postgres:14
@@ -125,6 +126,7 @@ jobs:
       TRACK_SCANNER_URL: http://localhost:8000
       RAILS_ENV: test
       SELENIUM_HEADLESS_CHROME: 'true'
+      NODE_OPTIONS: --openssl-legacy-provider
     services:
       postgres:
         image: postgres:14
