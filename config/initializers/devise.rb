@@ -233,8 +233,8 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :facebook,
-                  Rails.application.credentials.facebook.app_id,
-                  Rails.application.credentials.facebook.app_secret,
+                  Rails.application.credentials.facebook_app_id,
+                  Rails.application.credentials.facebook_app_secret,
                   info_fields: 'first_name,last_name,email,picture',
                   image_size: 'large',
                   client_options: {
