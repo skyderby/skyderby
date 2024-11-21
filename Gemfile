@@ -48,7 +48,7 @@ gem 'caxlsx_rails'
 
 # Exception notifications and profiling
 group :production do
-  gem 'honeybadger', '~> 4.0'
+  gem 'honeybadger'
   gem 'skylight'
 end
 

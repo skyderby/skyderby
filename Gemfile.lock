@@ -184,7 +184,8 @@ GEM
       thor
       tilt
     hashie (5.0.0)
-    honeybadger (4.12.2)
+    honeybadger (5.23.0)
+      logger
     htmlentities (4.3.4)
     http_accept_language (2.1.1)
     i18n (1.14.6)
@@ -491,7 +492,7 @@ DEPENDENCIES
   factory_bot_rails
   font-awesome-sass (~> 5.8.1)
   haml
-  honeybadger (~> 4.0)
+  honeybadger
   http_accept_language
   i18n-js
   image_processing (~> 1.12)
