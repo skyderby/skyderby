@@ -29,10 +29,8 @@ RUN mkdir -p /opt/app \
   && mkdir -p /tmp/sockets
 COPY ./ /opt/app
 
-RUN SECRET_KEY_BASE=just-for-precompilation \
-  /bin/sh -c 'bundle exec i18n export' && \
-  /bin/sh -c 'bundle exec rails assets:precompile' && \
-  rm -rf node_modules
+RUN SECRET_KEY_BASE_DUMMY=1 bundle exec i18n export
+RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails assets:precompile && rm -rf node_modules
 
 VOLUME /opt/app/public/assets
 VOLUME /opt/app/public/packs
