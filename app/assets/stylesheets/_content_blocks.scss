@@ -14,21 +14,21 @@
   &> h2, > h3, > h4 {
     color: rgba(0, 0, 0, 0.6);
   }
+}
 
-  .card-action {
-    display: flex;
-    margin-left: auto;
-    text-align: right;
+.card-action {
+  display: flex;
+  justify-content: flex-end;
+  text-align: right;
 
-    &> .dropdown > button,
-    > button,
-    > a {
-      text-transform: uppercase;
-    }
-
-    & > *           { margin-right: 7px; }
-    & > :last-child { margin-right: 0px; }
+  &> .dropdown > button,
+  > button,
+  > a {
+    text-transform: uppercase;
   }
+
+  & > *           { margin-right: 7px; }
+  & > :last-child { margin-right: 0px; }
 }
 
 @media print {

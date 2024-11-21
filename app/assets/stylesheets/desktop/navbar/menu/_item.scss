@@ -1,21 +1,39 @@
 .nav-menu-item {
-  border-bottom: 3px solid transparent;
-  border-top: 3px solid transparent;
+  position: relative;
 
   a {
-    color: $white;
+    color: var(--white);
     display: flex;
     flex-direction: column;
     font-family: $pn-regular;
     flex-grow: 1;
-    font-size: 14px;
+    font-size: 0.875rem;
     justify-content: space-around;
     text-decoration: none;
     text-transform: uppercase;
+    padding: 0.5rem;
+    border-radius: var(--border-radius-md);
   }
 
-  &:hover {
-    border-bottom-color: $blue-light;
-    a { color: $blue-light; }
+  &:hover a {
+    background-color: var(--blue-grey-70);
+  }
+}
+
+.nav-menu-item--active {
+  a {
+    color: var(--blue-70);
+  }
+
+  &::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    height: 0.25rem;
+    background-color: var(--blue-70);
+    border-radius: 2px;
+    content: '';
   }
 }

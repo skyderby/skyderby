@@ -20,7 +20,9 @@ export function initCesiumApi() {
 function onLoad() {
   window.cesiumApiReady = true
 
-  Cesium.Ion.defaultAccessToken = document.querySelector('cesium-api-key').content
+  Cesium.Ion.defaultAccessToken = document.querySelector(
+    'meta[name="cesium-api-key"]'
+  ).content
   Cesium.BingMapsApi.defaultKey = BingMapsApi
 
   dispatchReady()

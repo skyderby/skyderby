@@ -1,7 +1,7 @@
-.container
+.track-show
   = render partial: 'tracks/header', locals: {track: @track}
 
-  .content-block.content-block--bordered
+  .track-show-content
     .row{'data-controller': 'tracks--globe',
          'data-url': url_for,
          'data-action': 'cesium_api:ready@window->tracks--globe#onCesiumReady cesium_api:failed@window->tracks--globe#onCesiumFailed'}

@@ -2,7 +2,7 @@
 @import './menu';
 @import './profile';
 
-.navbar {
+.app-navbar {
   background-color: $nav-background;
   box-shadow: 0 1px 2px 0 $box-shadow-dark;
   border-radius: 0;
@@ -18,13 +18,6 @@
   .navbar {
     display: none;
   }
-}
-
-.navbar--fixed {
-  left: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
 }
 
 .navbar--top {

@@ -1,0 +1,48 @@
+.page-nav {
+  display: flex;
+  white-space: nowrap;
+  overflow-x: scroll;
+  gap: 0.25rem;
+}
+
+.page-nav-right {
+  margin-left: auto;
+}
+
+.page-tab {
+  display: inline-block;
+  position: relative;
+  border-radius: var(--border-radius-md);
+  color: var(--grey-70);
+  font-family: $pn-semibold;
+  padding: .5rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.page-tab:focus {
+  outline: none;
+  color: var(--grey-70);
+}
+
+.page-tab:hover {
+  background-color: var(--grey-30);
+  color: var(--grey-70);
+}
+
+.page-tab-active {
+  color: var(--blue-grey-60);
+
+  &::after {
+    position: absolute;
+    background-color: var(--blue-grey-60);
+    bottom: -3px;
+    display: block;
+    height: 3px;
+    left: 0;
+    right: 0;
+    content: "";
+    border-radius: 2px;
+  }
+}
