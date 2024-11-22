@@ -2,5 +2,5 @@ it:
   will_paginate:
     previous_label: "&#8592; Precedente"
     next_label: "Successivo &#8594;"
-    page_gap: "&hellip;"
-    load_more: "Carica altre&hellip;"
+    page_gap: "..."
+    load_more: "Carica altre..."

@@ -1,0 +1,7 @@
+<%= turbo_stream.append 'tracks-list' do %>
+  <%= render @tracks %>
+<% end %>
+
+<%= turbo_stream.update 'tracks-pagination' do %>
+  <%= render 'tracks_pagination' %>
+<% end %>
