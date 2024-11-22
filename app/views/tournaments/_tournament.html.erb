@@ -1,5 +1,5 @@
-<% event = speed_skydiving_competition %>
-<%= link_to speed_skydiving_competition_path(event), class: 'comp-list-item' do %>
+<% event = tournament %>
+<%= link_to tournament_path(event), class: 'comp-list-item' do %>
   <div class="event-start-date text-center">
     <div class="start-date-day"><%= event.starts_at.strftime '%d' %></div>
     <div class="start-date-month"><%= event.starts_at.strftime '%b\'%y' %></div>
@@ -8,13 +8,8 @@
   <div class="event-details">
     <div class="event-name">
       <%= event.name %>
-      <% if event.unlisted_event? %>
-        <i class="fa fa-eye-slash" data-toggle="tooltip" title="<%= t('visibility.unlisted') %>"></i>
-      <% elsif event.private_event? %>
-        <i class="fa fa-lock" data-toggle="tooltip" title="<%= t('visibility.private') %>"></i>
-      <% end %>
 
-      <div class="pill pill-blue">Speed Skydiving</div>
+      <div class="pill pill-green">Tournament</div>
 
       <% if event.is_official %>
         <div class="pill pill-yellow">
@@ -35,13 +30,7 @@
 
       <div>
         <div class="comp-classes">
-          <% categories = event.categories.order(:position) %>
-          <% categories.each do |category| %>
-            <%= category.name %> - <%= category.competitors.count %>
-            <% unless category.equal? categories.last %>
-              &nbsp; | &nbsp;
-            <% end %>
-          <% end %>
+          Open - <%= event.competitors.count %>
         </div>
       </div>
     </div>

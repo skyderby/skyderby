@@ -1,5 +1,4 @@
-<% event = speed_skydiving_competition %>
-<%= link_to speed_skydiving_competition_path(event), class: 'comp-list-item' do %>
+<%= link_to event_path(event), class: 'comp-list-item' do %>
   <div class="event-start-date text-center">
     <div class="start-date-day"><%= event.starts_at.strftime '%d' %></div>
     <div class="start-date-month"><%= event.starts_at.strftime '%b\'%y' %></div>
@@ -14,7 +13,11 @@
         <i class="fa fa-lock" data-toggle="tooltip" title="<%= t('visibility.private') %>"></i>
       <% end %>
 
-      <div class="pill pill-blue">Speed Skydiving</div>
+      <% if event.speed_distance_time? %>
+        <div class="pill pill-blue-gray">GPS Performance</div>
+      <% else %>
+        <div class="pill pill-orange">Hungary Boogie</div>
+      <% end %>
 
       <% if event.is_official %>
         <div class="pill pill-yellow">
@@ -24,26 +27,31 @@
     </div>
 
     <div class="event-info">
-      <div class='text-muted'>
+      <div>
         <% if event.place %>
           <div class="comp-place text-muted">
             <i class="fa fa-map-marker-alt"></i>
             <%= place_presentation(event.place) %>
           </div>
         <% end %>
+
+        <div><%= "#{event.range_from} - #{event.range_to} #{t('units.m')}" %></div>
       </div>
 
       <div>
         <div class="comp-classes">
-          <% categories = event.categories.order(:position) %>
-          <% categories.each do |category| %>
-            <%= category.name %> - <%= category.competitors.count %>
-            <% unless category.equal? categories.last %>
-              &nbsp; | &nbsp;
+          <% sections = event.sections.order(:order) %>
+          <% if sections.count > 0 %>
+            <% sections.each do |section| %>
+              <%= section.name %> - <%= section.competitors.count %>
+              <%= '|' unless section.equal? sections.last %>
             <% end %>
+          <% else %>
+            Open - <%= event.competitors.count %>
           <% end %>
         </div>
       </div>
     </div>
   </div>
+
 <% end %>

@@ -11,8 +11,8 @@
  *= require select2-bootstrap
  *= require ion.rangeSlider
  *= require ion.rangeSlider.skinFlat
- *= require_self
  *= require normalize.min
+ *= require_self
  *= require jquery.Jcrop
 */
 
@@ -42,6 +42,11 @@
 html, body {
   height: 100%;
   background-color: #fafafa;
+  font-size: 16px;
+}
+
+*, input[type="search"] {
+  box-sizing: border-box;
 }
 
 a, button, label, span {

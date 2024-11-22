@@ -12,12 +12,15 @@ class EventsController < ApplicationController
     @events =
       policy_scope(EventList.all)
       .includes(place: :country)
+      .by_activity(index_params[:kind])
+      .search(index_params[:query])
       .paginate(page: params[:page], per_page: rows_per_page)
 
     fresh_when @events
 
     respond_to do |format|
       format.html
+      format.turbo_stream
     end
   end
 
@@ -83,6 +86,11 @@ class EventsController < ApplicationController
   end
 
   private
+
+  def index_params
+    params.permit(:kind, :query)
+  end
+  helper_method :index_params
 
   def set_event
     @event = Event.find(params[:id])

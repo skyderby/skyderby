@@ -55,6 +55,8 @@ class Tournament < ApplicationRecord
   # For compatibility with Event
   def finished? = false
 
+  def is_official = false # rubocop:disable Naming/PredicateName
+
   private
 
   def set_default_values

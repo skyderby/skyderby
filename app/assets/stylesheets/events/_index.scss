@@ -1,66 +1,112 @@
-ul.comp-list {
+.competitions-list {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--border-radius-md);
+  background-color: var(--white);
+  border: var(--default-border);
+  padding: 1rem;
+  gap: 1rem;
+}
 
-  padding-left: 0px;
+.comp-list-item {
+  display: flex;
+  border: var(--default-border);
+  border-radius: var(--border-radius-md);
+  padding: 1rem 1.5rem;
+  gap: 1rem;
+  transition-timing-function: ease-in-out;
+  transition-duration: 200;
+  transition-property: background-color;
 
-  .comp-list-item {
-    line-height: 18px;
-    list-style: {
-      image: none;
-      position: outside;
-      type: none;
+  position: relative;
+
+  &:hover {
+    background-color: var(--gray-10);
+  }
+
+  .event-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .event-name {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.5rem;
+    color: var(--gray-80);
+    font-family: $pn-semibold;
+  }
+
+  .event-info {
+    display: flex;
+    gap: 2rem;
+    color: var(--gray-70);
+  }
+
+  .event-labels {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .pill {
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    padding: 0.125rem 0.75rem;
+    font-family: $pn-semibold;
+    color: var(--white);
+  }
+
+  .pill-orange {
+    background-color: var(--orange-70);
+  }
+
+  .pill-yellow {
+    background-color: var(--yellow-70);
+  }
+
+  .pill-blue-gray {
+    background-color: var(--blue-gray-70);
+  }
+
+  .pill-blue {
+    background-color: var(--blue-70);
+  }
+
+  .pill-green {
+    background-color: var(--green-90);
+  }
+
+  .pill-red {
+    background-color: var(--red-70);
+  }
+
+  .event-list-details {
+    padding-left: 70px;
+  }
+
+  .event-start-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-right: 1.5rem;
+    border-right: var(--default-border);
+    color: var(--gray-70);
+
+    .start-date-day {
+      font-size: 30px;
+      font-family: $pn-regular;
     }
-    margin-top: 25px;
-    min-height: 60px;
-    position: relative;
-    border: {
-      color: rgb(238, 238, 238);
-      left-style: solid;
-      left-width: 5px;
-    }
 
-    &.active {
-      border-color: rgb(77, 197, 147);
-    }
-
-    .comp-list-title {
-      margin-bottom: 10px;
-      font-weight: 200;
-
-      .comp-name {
-        line-height: 24px;
-        font-size: 20px;
-        color: rgb(65, 131, 196);
-      }
-    }
-
-    .comp-list-params {
-      color: rgb(136, 136, 136);
-      float: right;
-      width: 35%;
-    }
-
-    .event-list-details {
-      padding-left: 70px;
-    }
-
-    .event-start-date { 
-
-      float: left;
-      position: absolute;
-      top: 8px;
-      left: 13px;
-
-      span {
-        font-size: 30px;
-        font-weight: 200;
-      }
-
-      em {
-        display: block;
-        font-weight: 500;
-        font-style: normal;
-      }
+    .start-date-month {
+      display: block;
+      font-family: $pn-semibold;
     }
   }
 
+  .comp-classes {
+    color: var(--gray-70);
+  }
 }

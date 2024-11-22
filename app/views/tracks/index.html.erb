@@ -1,24 +1,24 @@
-<div class="tracks-index">
-  <div class="tracks-index-header">
+<div class="index-page">
+  <div class="index-page-header">
     <h1><%= t('application.header.tracks') %></h1>
 
     <div>
       <% activity = index_params[:kind] %>
       <%= link_to t('tracks.index.all'),
                   index_params.except(:kind),
-                  class: ['tracks-index-activity-button', ('tracks-index-activity-button--active' unless activity)] %>
+                  class: ['activity-filter-button', ('activity-filter-button--active' unless activity)] %>
 
       <%= link_to 'Skydive',
                   index_params.merge(kind: 'skydive'),
-                  class: ['tracks-index-activity-button', ('tracks-index-activity-button--active' if activity == 'skydive')] %>
+                  class: ['activity-filter-button', ('activity-filter-button--active' if activity == 'skydive')] %>
 
       <%= link_to 'BASE',
                   index_params.merge(kind: 'base'),
-                  class: ['tracks-index-activity-button', ('tracks-index-activity-button--active' if activity == 'base')] %>
+                  class: ['activity-filter-button', ('activity-filter-button--active' if activity == 'base')] %>
 
       <%= link_to 'Speed',
                   index_params.merge(kind: 'speed_skydiving'),
-                  class: ['tracks-index-activity-button', ('tracks-index-activity-button--active' if activity == 'speed_skydiving')] %>
+                  class: ['activity-filter-button', ('activity-filter-button--active' if activity == 'speed_skydiving')] %>
     </div>
   </div>
 
