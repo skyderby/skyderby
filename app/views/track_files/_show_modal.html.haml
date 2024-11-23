@@ -32,7 +32,6 @@
               %td.text-info= item.points_count
               %td
                 = button_to track_file_track_path(@track_file),
-                            remote: true,
                             method: :post,
                             params: track_file_params.slice(:track_attributes).merge(segment: index).to_h,
                             class: 'btn-link' do

@@ -2,7 +2,7 @@
   <% if @tracks.next_page %>
     <%= button_to t('will_paginate.load_more', default: 'Load more...'),
                   tracks_path,
-                  params: { page: @tracks.next_page },
+                  params: index_params.merge(page: @tracks.next_page),
                   form: { data: { turbo: true, turbo_stream: true } },
                   method: :get,
                   class: 'btn btn-default' %>

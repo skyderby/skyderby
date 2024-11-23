@@ -1,25 +1,27 @@
-<div class="tracks-filters">
-  <%= select_tag 'profile_id',
-                 options_for_select([[profile_name_by_id(index_params[:profile_id]), index_params[:profile_id]]]),
-                 name: 'profile_id',
-                 class: 'form-control',
-                 placeholder: t('tracks.index.filter_by_pilot'),
-                 data: { remote: true, method: :GET, url: tracks_path, params: index_params.except(:profile_id).to_param },
-                 'data-controller': 'select2--profiles' %>
+<%= form_with url: tracks_path, params: index_params, class: 'tracks-filters', method: :get,
+              data: { controller: 'tracks--filters', action: 'change->tracks--filters#submit',
+                      turbo: true } do |f| %>
+  <%= f.select :profile_id,
+               options_for_select([[profile_name_by_id(index_params[:profile_id]), index_params[:profile_id]]]),
+               {},
+               name: 'profile_id',
+               class: 'form-control',
+               data: { controller: 'select2--profiles' },
+               placeholder: t('tracks.index.filter_by_pilot') %>
 
-  <%= select_tag 'suit_id',
-                 options_for_select([[suit_name_by_id(index_params[:suit_id]), index_params[:suit_id]]]),
-                 name: 'suit_id',
-                 class: 'form-control',
-                 placeholder: t('tracks.index.filter_by_suit'),
-                 data: { remote: true, method: :GET, url: tracks_path, params: index_params.except(:suit_id).to_param },
-                 'data-controller': 'select2--suits' %>
+  <%= f.select :suit_id,
+               options_for_select([[suit_name_by_id(index_params[:suit_id]), index_params[:suit_id]]]),
+               {},
+               name: 'suit_id',
+               class: 'form-control',
+               placeholder: t('tracks.index.filter_by_suit'),
+               'data-controller': 'select2--suits' %>
 
-  <%= select_tag 'place_id',
-                 options_for_select([[place_name_by_id(index_params[:place_id]), index_params[:place_id]]]),
-                 name: 'place_id',
-                 class: 'form-control',
-                 placeholder: t('tracks.index.filter_by_place'),
-                 data: { remote: true, method: :GET, url: tracks_path, params: index_params.except(:place_id).to_param },
-                 'data-controller': 'select2--places' %>
-</div>
+  <%= f.select :place_id,
+               options_for_select([[place_name_by_id(index_params[:place_id]), index_params[:place_id]]]),
+               {},
+               name: 'place_id',
+               class: 'form-control',
+               placeholder: t('tracks.index.filter_by_place'),
+               'data-controller': 'select2--places' %>
+<% end %>

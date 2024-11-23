@@ -1,0 +1,16 @@
+import { Controller } from 'stimulus'
+
+export default class extends Controller {
+  submit() {
+    const urlParams = new URLSearchParams(window.location.search)
+    const formData = new FormData(this.element)
+    const fields = ['suit_id', 'place_id', 'profile_id']
+    fields.forEach(key => urlParams.delete(key))
+
+    for (const [key, value] of formData) {
+      console.log(key, value)
+      if (value) urlParams.set(key, value)
+    }
+    Turbo.visit(['/tracks', urlParams.toString()].filter(Boolean).join('?'))
+  }
+}
