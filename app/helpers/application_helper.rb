@@ -24,18 +24,9 @@ module ApplicationHelper
     end
   end
 
-  def bootstrap_class_for(flash_type)
-    case flash_type
-    when 'success'
-      'alert-success' # Green
-    when 'error'
-      'alert-danger' # Red
-    when 'alert'
-      'alert-warning' # Yellow
-    when 'notice'
-      'alert-info' # Blue
-    else
-      flash_type.to_s
+  def svg_icon(name)
+    tag.svg(fill: 'currentColor', height: '100%', width: '100%') do
+      tag.use(href: "#{image_path("icons/#{name}.svg")}#icon")
     end
   end
 

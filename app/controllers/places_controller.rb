@@ -25,11 +25,11 @@ class PlacesController < ApplicationController
           .accessible_by(current_user)
           .order(recorded_at: :desc)
           .includes(
-            :pilot,
             :distance,
             :time,
             :speed,
             :video,
+            pilot: :contributions,
             suit: :manufacturer
           ).paginate(page: params[:page], per_page: 50)
       end

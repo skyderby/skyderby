@@ -1,4 +1,5 @@
-= form_for @finish_line, remote: true, html: { class: 'form-horizontal', 'data-controller': 'places--finish-line-map' } do |f|
+- url = @finish_line.new_record? ? place_finish_lines_path(@place) : place_finish_line_path(@place, @finish_line)
+= form_with model: @finish_line, url:, html: { class: 'form-horizontal', 'data-controller': 'places--finish-line-map' } do |f|
   .col-sm-7
     .form-group
       .col-sm-12

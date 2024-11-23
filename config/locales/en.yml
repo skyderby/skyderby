@@ -1,5 +1,9 @@
 en:
   errors:
+    attributes:
+      name:
+        blank: "Name can't be blank"
+        taken: "Name has already been taken"
     messages:
       duplicate_file: "File already used. Pilot: %{pilot_name}, round: %{round}"
   general:

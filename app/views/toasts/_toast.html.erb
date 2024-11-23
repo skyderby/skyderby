@@ -1,0 +1,27 @@
+<% type ||= 'info' %>
+<% errors ||= nil %>
+
+<div class="toast" data-controller="toast">
+  <% if type == 'error' %>
+    <div class="toast-icon icon-red">
+      <%= svg_icon 'circle-xmark-solid' %>
+    </div>
+  <% end %>
+
+  <div class="toast-message">
+    <%= message %>
+    <% if errors %>
+      <ul class="toast-errors">
+        <% errors.each do |error| %>
+          <li><%= error %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+
+  <div class="toast-actions">
+    <button class="toast-dismiss" data-action='toast#dismiss'>
+      <%= svg_icon 'xmark' %>
+    </button>
+  </div>
+</div>
