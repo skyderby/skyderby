@@ -9,14 +9,14 @@
       = render 'events/edit_sidebar'
 
     .event-edit__main-area
-      = form_for :event_deletion, url: event_deletion_path(@event), remote: true, html: { class: 'form-horizontal' } do |f|
+      = form_with scope: :event_deletion, url: event_deletion_path(@event), html: { class: 'form-horizontal' } do |f|
         %h2.text-danger Are you ABSOLUTELY sure?
 
         %p
           This action
           %b
             CANNOT
-          be undone. This will permanently delete the 
+          be undone. This will permanently delete the
           %b
             = @event.name
           \.

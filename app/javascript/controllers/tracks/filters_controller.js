@@ -8,7 +8,6 @@ export default class extends Controller {
     fields.forEach(key => urlParams.delete(key))
 
     for (const [key, value] of formData) {
-      console.log(key, value)
       if (value) urlParams.set(key, value)
     }
     Turbo.visit(['/tracks', urlParams.toString()].filter(Boolean).join('?'))

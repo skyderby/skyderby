@@ -11,7 +11,6 @@ export default class extends Controller {
     window.addEventListener('load', resizeHandler, { once: true })
     window.addEventListener('turbo:load', resizeHandler, { once: true })
 
-    console.log(this.containerTarget, this.tableTarget)
     this.init()
   }
 
@@ -29,7 +28,6 @@ export default class extends Controller {
   }
 
   onResize() {
-    console.log(this.tableTarget)
     const original_cells = this.tableTarget.querySelectorAll('th')
     this.fixed_header.style.width = this.tableTarget.offsetWidth + 'px'
 
