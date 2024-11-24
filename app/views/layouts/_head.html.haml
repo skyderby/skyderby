@@ -6,9 +6,9 @@
 
 %meta{ name: 'default-locale', content: I18n.default_locale }
 %meta{ name: 'locale', content: I18n.locale }
-%meta{ name: 'maps-api-key', content: Rails.application.credentials.maps_api_key }
-%meta{ name: 'cesium-api-key', content: Rails.application.credentials.cesium_api_key }
-%meta{ name: 'hb-api-key', content: Rails.application.credentials.honeybadger_api_key }
+%meta{ name: 'maps-api-key', content: ENV.fetch('MAPS_API_KEY') }
+%meta{ name: 'cesium-api-key', content: ENV.fetch('CESIUM_API_TOKEN') }
+%meta{ name: 'hb-api-key', content: ENV.fetch('HONEYBADGER_API_KEY', nil) }
 %meta{ name: 'current-env', content: Rails.env }
 
 = javascript_pack_tag 'application', 'data-turbo-track': 'reload', defer: false

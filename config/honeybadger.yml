@@ -1,2 +1,2 @@
 ---
-api_key: <%= Rails.application.credentials.honeybadger_api_key %>
+api_key: ENV.fetch('HONEYBADGER_API_KEY', nil)

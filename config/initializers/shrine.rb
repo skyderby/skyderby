@@ -5,8 +5,8 @@ require 'shrine/storage/s3'
 s3_options = {
   bucket: ENV.fetch('SHRINE_S3_BUCKET', nil),
   region: ENV.fetch('AWS_REGION', nil),
-  access_key_id: Rails.application.credentials.aws_access_key_id,
-  secret_access_key: Rails.application.credentials.aws_secret_access_key,
+  access_key_id: ENV.fetch('AWS_ACCESS_KEY_ID', nil),
+  secret_access_key: ENV.fetch('AWS_SECRET_ACCESS_KEY', nil),
   endpoint: "https://s3.#{ENV.fetch('AWS_REGION', nil)}.amazonaws.com"
 }
 

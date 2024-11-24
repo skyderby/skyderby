@@ -30,5 +30,5 @@ module ApplicationHelper
     end
   end
 
-  def maps_api_key = Rails.application.credentials.maps_api_key
+  def maps_api_key = ENV.fetch('MAPS_API_KEY')
 end

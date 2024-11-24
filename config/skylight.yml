@@ -1,2 +1,0 @@
----
-authentication: <%= Rails.application.credentials.skylight_api_key %>
