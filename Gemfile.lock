@@ -444,6 +444,8 @@ GEM
       sprockets (>= 3.0.0)
     stringio (3.1.2)
     temple (0.10.3)
+    terser (1.2.4)
+      execjs (>= 0.3.0, < 3)
     thor (1.3.2)
     tilt (2.4.0)
     timeout (0.4.2)
@@ -452,8 +454,6 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    uglifier (4.2.1)
-      execjs (>= 0.3.0, < 3)
     unicode-display_width (2.6.0)
     uniform_notifier (1.16.0)
     uri (1.0.2)
@@ -526,8 +526,8 @@ DEPENDENCIES
   sidekiq-cron (~> 1.0)
   simplecov
   skylight
+  terser
   turbo-rails
-  uglifier (>= 2.7.2)
   vincenty_distance
   will_paginate
   will_paginate-bootstrap
