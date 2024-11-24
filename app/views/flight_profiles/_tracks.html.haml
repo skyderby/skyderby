@@ -1,7 +1,10 @@
-%ul.flight-profiles__tracks-list
+%ul.flight-profiles__tracks-list#tracks-list
   = render partial: 'flight_profiles/track', collection: @tracks, as: :track
 
-.flight-profiles__load-more.text-center
-  = will_paginate @tracks,
-                  params: { controller: 'flight_profiles/tracks', action: 'index' },
-                  renderer: WillPaginateLoadMoreRenderer
+.flight-profiles__load-more.text-center#tracks-pagination
+  = button_to t('will_paginate.load_more', default: 'Load more...'),
+              polymorphic_path([@scope, :flight_profiles, :tracks]),
+              params: { page: @tracks.next_page },
+              form: { data: { turbo: true, turbo_stream: true } },
+              method: :get,
+              class: 'btn btn-default'
