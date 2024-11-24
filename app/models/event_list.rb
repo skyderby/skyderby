@@ -1,16 +1,3 @@
-# == Schema Information
-#
-# Table name: event_lists
-#
-#  event_type     :text
-#  event_id       :integer
-#  starts_at      :date
-#  status         :integer
-#  visibility     :integer
-#  responsible_id :integer
-#  created_at     :datetime
-#
-
 class EventList < ApplicationRecord
   belongs_to :event, polymorphic: true
   belongs_to :responsible, class_name: 'User'
@@ -24,9 +11,28 @@ class EventList < ApplicationRecord
     starts_at < Time.zone.now && !finished?
   end
 
+  def self.by_activity(activity)
+    speed_types = %w[SpeedSkydivingCompetition SpeedSkydivingCompetitionSeries]
+
+    case activity.to_s
+    when 'skydive', 'base'
+      left_joins(:place)
+        .where.not(event_type: speed_types)
+        .where(places: { kind: activity })
+    when 'speed_skydiving'
+      where(event_type: speed_types)
+    else
+      all
+    end
+  end
+
+  def self.search(term)
+    return all if term.blank?
+
+    where('event_lists.name ILIKE ?', "%#{term}%")
+  end
+
   private
 
-  def read_only?
-    true
-  end
+  def read_only? = true
 end

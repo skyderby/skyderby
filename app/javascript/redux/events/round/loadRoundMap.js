@@ -21,7 +21,6 @@ export function loadRoundMap(eventId, roundId, options = {}) {
       const { groups } = data
       if (groups.length > 0 && options.preselectGroup) dispatch(selectGroup(groups[0]))
     } catch (err) {
-      console.log(err)
       dispatch({ type: LOAD_ERROR, payload: err })
     }
   }

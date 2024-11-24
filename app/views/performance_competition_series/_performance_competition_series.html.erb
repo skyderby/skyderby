@@ -1,44 +1,37 @@
-<li class="comp-list-item <%= 'active' if performance_competition_series.active? %>">
-  <div class="comp-list-params">
-    <div class="comp-rules">
-      Rules: GPS Performance
-    </div>
-    <div class="event-start-date text-muted text-center">
-      <span>
-        <%= performance_competition_series.starts_at&.strftime '%d' %>
-      </span>
-      <em>
-        <%= performance_competition_series.starts_at&.strftime '%b\'%y'  %>
-      </em>
-    </div>
+<% event = performance_competition_series %>
+<%= link_to performance_competition_series_path(event), class: 'comp-list-item' do %>
+  <div class="event-start-date text-center">
+    <div class="start-date-day"><%= event.starts_at.strftime '%d' %></div>
+    <div class="start-date-month"><%= event.starts_at.strftime '%b\'%y' %></div>
   </div>
 
-  <div class="event-list-details">
-    <h3 class="comp-list-title">
-      <%= link_to performance_competition_series_path(performance_competition_series) do %>
-        <span class="comp-name">
-          <%= performance_competition_series.name %>
-        </span>
-      <% end %>
-
-      <% if performance_competition_series.unlisted_event? %>
+  <div class="event-details">
+    <div class="event-name">
+      <%= event.name %>
+      <% if event.unlisted_event? %>
         <i class="fa fa-eye-slash" data-toggle="tooltip" title="<%= t('visibility.unlisted') %>"></i>
-      <% elsif performance_competition_series.private_event? %>
+      <% elsif event.private_event? %>
         <i class="fa fa-lock" data-toggle="tooltip" title="<%= t('visibility.private') %>"></i>
       <% end %>
 
-      <small>Official</small>
-    </h3>
+      <div class="pill pill-blue-gray">GPS Performance</div>
+      <div class="pill pill-red">Cumulative</div>
+      <div class="pill pill-yellow">Official</div>
+    </div>
 
-    <% if performance_competition_series.competitions.any? %>
-      <div class="comp-classes text-muted">
-        Competitions:
-        <ul>
-          <% performance_competition_series.competitions.each do |competition| %>
-            <li><%= competition.name %></li>
-          <% end %>
-        </ul>
+    <div class="event-info">
+      <div>
+        <% if event.competitions.any? %>
+          <div class="comp-classes text-muted">
+            Competitions:
+            <ul>
+              <% event.competitions.each do |competition| %>
+                <li><%= competition.name %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
       </div>
-    <% end %>
+    </div>
   </div>
-</li>
+<% end %>

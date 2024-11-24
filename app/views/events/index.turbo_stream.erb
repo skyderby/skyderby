@@ -1,0 +1,13 @@
+<%= turbo_stream.update 'competitions-list' do %>
+  <% @events.each do |event_entity| %>
+    <%= render event_entity.event %>
+  <% end %>
+
+  <% if @events.total_pages > 1 %>
+    <div class="text-center">
+      <div class="pagination-list">
+        <%= will_paginate @events, renderer: BootstrapPagination::Rails %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

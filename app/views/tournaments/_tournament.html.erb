@@ -1,0 +1,38 @@
+<% event = tournament %>
+<%= link_to tournament_path(event), class: 'comp-list-item' do %>
+  <div class="event-start-date text-center">
+    <div class="start-date-day"><%= event.starts_at.strftime '%d' %></div>
+    <div class="start-date-month"><%= event.starts_at.strftime '%b\'%y' %></div>
+  </div>
+
+  <div class="event-details">
+    <div class="event-name">
+      <%= event.name %>
+
+      <div class="pill pill-green">Tournament</div>
+
+      <% if event.is_official %>
+        <div class="pill pill-yellow">
+          Official
+        </div>
+      <% end %>
+    </div>
+
+    <div class="event-info">
+      <div class='text-muted'>
+        <% if event.place %>
+          <div class="comp-place text-muted">
+            <i class="fa fa-map-marker-alt"></i>
+            <%= place_presentation(event.place) %>
+          </div>
+        <% end %>
+      </div>
+
+      <div>
+        <div class="comp-classes">
+          Open - <%= event.competitors.count %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

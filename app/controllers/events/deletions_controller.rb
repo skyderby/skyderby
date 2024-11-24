@@ -9,14 +9,10 @@ module Events
     end
 
     def create
-      if @event.name == deletion_params[:event_name]
-        EventDeletion.execute(@event, delete_tracks: delete_tracks_param)
-        redirect_to events_path
-      else
-        respond_to do |format|
-          format.js { head :no_content, status: :unprocessable_entity }
-        end
-      end
+      return if @event.name != deletion_params[:event_name]
+
+      EventDeletion.execute(@event, delete_tracks: delete_tracks_param)
+      redirect_to events_path(format: :html)
     end
 
     private

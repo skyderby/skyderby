@@ -1,32 +1,24 @@
-<div class="tracks-index">
-  <div class="tracks-index-header">
-    <h1>Tracks</h1>
+<div class="index-page">
+  <div class="index-page-header">
+    <h1><%= t('application.header.tracks') %></h1>
 
     <div>
-      <% activity = index_params.dig(:kind) %>
+      <% activity = index_params[:kind] %>
       <%= link_to t('tracks.index.all'),
                   index_params.except(:kind),
-                  remote: true,
-                  class: ['tracks-index-activity-button', ('tracks-index-activity-button--active' unless activity)],
-                  rel: 'nofollow' %>
+                  class: ['activity-filter-button', ('activity-filter-button--active' unless activity)] %>
 
       <%= link_to 'Skydive',
                   index_params.merge(kind: 'skydive'),
-                  remote: true,
-                  class: ['tracks-index-activity-button', ('tracks-index-activity-button--active' if activity == 'skydive')],
-                  rel: 'nofollow' %>
+                  class: ['activity-filter-button', ('activity-filter-button--active' if activity == 'skydive')] %>
 
       <%= link_to 'BASE',
                   index_params.merge(kind: 'base'),
-                  remote: true,
-                  class: ['tracks-index-activity-button', ('tracks-index-activity-button--active' if activity == 'base')],
-                  rel: 'nofollow' %>
+                  class: ['activity-filter-button', ('activity-filter-button--active' if activity == 'base')] %>
 
       <%= link_to 'Speed',
                   index_params.merge(kind: 'speed_skydiving'),
-                  remote: true,
-                  class: ['tracks-index-activity-button', ('tracks-index-activity-button--active' if activity == 'speed_skydiving')],
-                  rel: 'nofollow' %>
+                  class: ['activity-filter-button', ('activity-filter-button--active' if activity == 'speed_skydiving')] %>
     </div>
   </div>
 
@@ -39,20 +31,15 @@
           <div class="thead">
             <%= render 'table_header' %>
           </div>
-          <div class="tbody tracks-list">
+          <turbo-frame id="tracks-list" class="tbody" target="_top">
             <%= render @tracks %>
-          </div>
+          </turbo-frame>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="text-center top-buffer">
-    <div class="pagination-load-more">
-      <%= will_paginate @tracks, renderer: WillPaginateLoadMoreRenderer %>
-    </div>
-    <div class="pagination-list">
-      <%= will_paginate @tracks, renderer: BootstrapPagination::Rails %>
-    </div>
+  <div id="tracks-pagination">
+    <%= render 'tracks_pagination' %>
   </div>
 </div>

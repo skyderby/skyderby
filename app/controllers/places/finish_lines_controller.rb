@@ -19,12 +19,10 @@ module Places
 
       finish_line = @place.finish_lines.new(finish_line_params)
 
-      respond_to do |format|
-        if finish_line.save
-          format.js { redirect_to place_finish_lines_path(@place) }
-        else
-          format.js { render 'errors/ajax_errors', locals: { errors: finish_line.errors } }
-        end
+      if finish_line.save
+        redirect_to place_finish_lines_path(@place)
+      else
+        respond_with_errors(finish_line)
       end
     end
 
@@ -40,24 +38,20 @@ module Places
     def update
       authorize @finish_line
 
-      respond_to do |format|
-        if @finish_line.update(finish_line_params)
-          format.js { redirect_to place_finish_lines_path(@place) }
-        else
-          format.js { render 'errors/ajax_errors', locals: { errors: @finish_line.errors } }
-        end
+      if @finish_line.update(finish_line_params)
+        redirect_to place_finish_lines_path(@place)
+      else
+        respond_with_errors(@finish_line)
       end
     end
 
     def destroy
       authorize @finish_line
 
-      respond_to do |format|
-        if @finish_line.destroy
-          format.js { redirect_to place_finish_lines_path(@place) }
-        else
-          format.js { render 'errors/ajax_errors', locals: { errors: @finish_line.errors } }
-        end
+      if @finish_line.destroy
+        redirect_to place_finish_lines_path(@place)
+      else
+        respond_with_errors(@finish_line)
       end
     end
 

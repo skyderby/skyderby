@@ -1,0 +1,36 @@
+.activity-filter-button {
+  display: inline-block;
+  position: relative;
+  border-radius: var(--border-radius-md);
+  color: var(--gray-70);
+  font-family: $pn-semibold;
+  padding: .5rem;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.activity-filter-button:focus {
+  outline: none;
+  color: var(--gray-70);
+}
+
+.activity-filter-button:hover {
+  background-color: var(--gray-30);
+  color: var(--gray-70);
+}
+
+.activity-filter-button--active {
+  color: var(--blue-gray-60);
+
+  &::after {
+    position: absolute;
+    background-color: var(--blue-gray-60);
+    bottom: 0;
+    display: block;
+    height: 3px;
+    left: 0;
+    right: 0;
+    content: "";
+    border-radius: 2px;
+  }
+}

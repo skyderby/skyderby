@@ -20,7 +20,7 @@ describe 'Place finish lines' do
     expect(page).to have_css('input#place_finish_line_name')
   end
 
-  it '#create', js: true do
+  it '#create' do
     sign_in users(:admin)
 
     place = places(:hellesylt)
@@ -87,7 +87,7 @@ describe 'Place finish lines' do
     )
 
     visit place_finish_line_path(place, finish_line)
-    click_link I18n.t('general.delete')
+    click_button I18n.t('general.delete')
 
     expect(page).not_to have_css('.finish-line-card', text: finish_line.name)
   end

@@ -18,7 +18,7 @@ export default class extends Controller {
         this.dispatchChange()
       })
 
-    $(document).one('turbolinks:before-cache', () => this.teardown())
+    $(document).one('turbo:before-cache', () => this.teardown())
   }
 
   dispatchChange() {

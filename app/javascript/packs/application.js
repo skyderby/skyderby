@@ -2,7 +2,7 @@ import '@stimulus/polyfills'
 import { Application } from 'stimulus'
 import { definitionsFromContext } from 'stimulus/webpack-helpers'
 import Rails from '@rails/ujs'
-import Turbolinks from 'turbolinks'
+import '@hotwired/turbo-rails'
 import 'utils/googleAnalytics'
 
 import Honeybadger from '@honeybadger-io/js'
@@ -53,7 +53,6 @@ application.load(definitionsFromContext(context))
 import { createConsumer } from '@rails/actioncable'
 window.cable = createConsumer()
 
-Turbolinks.start()
 Rails.start()
 
 if (window.parent !== window) {

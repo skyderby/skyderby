@@ -2,7 +2,7 @@
 
 = action_cable_meta_tag
 
-= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+= stylesheet_pack_tag 'application', media: 'all', 'data-turbo-track': 'reload'
 
 %meta{ name: 'default-locale', content: I18n.default_locale }
 %meta{ name: 'locale', content: I18n.locale }
@@ -11,7 +11,7 @@
 %meta{ name: 'hb-api-key', content: Rails.application.credentials.honeybadger_api_key }
 %meta{ name: 'current-env', content: Rails.env }
 
-= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: false
+= javascript_pack_tag 'application', 'data-turbo-track': 'reload', defer: false
 
 = csrf_meta_tags
 

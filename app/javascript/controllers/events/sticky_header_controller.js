@@ -4,10 +4,12 @@ export default class extends Controller {
   static targets = ['container', 'table']
 
   connect() {
-    window.addEventListener('resize', this.on_resize_listener)
-    window.addEventListener('scroll', this.on_scroll_listener)
-    window.addEventListener('load', this.on_resize_listener, { once: true })
-    window.addEventListener('turbolinks:load', this.on_resize_listener, { once: true })
+    const resizeHandler = this.onResize.bind(this)
+    const scrollHandler = this.onScroll.bind(this)
+    window.addEventListener('resize', resizeHandler)
+    window.addEventListener('scroll', scrollHandler)
+    window.addEventListener('load', resizeHandler, { once: true })
+    window.addEventListener('turbo:load', resizeHandler, { once: true })
 
     this.init()
   }
@@ -15,17 +17,17 @@ export default class extends Controller {
   disconnect() {
     this.header_container.remove()
 
-    window.removeEventListener('resize', this.on_resize_listener)
-    window.removeEventListener('scroll', this.on_scroll_listener)
+    window.removeEventListener('resize', this.onResize)
+    window.removeEventListener('scroll', this.onScroll)
   }
 
   init() {
     this.containerTarget.insertAdjacentElement('afterbegin', this.header_container)
 
-    this.on_resize()
+    this.onResize()
   }
 
-  on_resize() {
+  onResize() {
     const original_cells = this.tableTarget.querySelectorAll('th')
     this.fixed_header.style.width = this.tableTarget.offsetWidth + 'px'
 
@@ -34,7 +36,7 @@ export default class extends Controller {
     })
   }
 
-  on_scroll() {
+  onScroll() {
     if (
       this.offset_top < this.table_offset_top ||
       this.offset_top > this.table_offset_bottom
@@ -46,7 +48,7 @@ export default class extends Controller {
     ) {
       if (this.container_display_mode === 'block') return
 
-      this.on_resize()
+      this.onResize()
       this.container_display_mode = 'block'
     }
   }
@@ -56,7 +58,7 @@ export default class extends Controller {
   }
 
   get offset_top() {
-    return document.scrollingElement.scrollTop + this.page_header_height
+    return document.scrollingElement.scrollTop
   }
 
   get table_offset_top() {
@@ -67,31 +69,6 @@ export default class extends Controller {
     return (
       this.element.getBoundingClientRect().bottom + pageYOffset - this.table_header_height
     )
-  }
-
-  get on_resize_listener() {
-    if (!this._on_resize_listener) {
-      this._on_resize_listener = () => {
-        this.on_resize()
-      }
-    }
-
-    return this._on_resize_listener
-  }
-
-  get on_scroll_listener() {
-    if (!this._on_scroll_listener) {
-      this._on_scroll_listener = () => {
-        this.on_scroll()
-      }
-    }
-
-    return this._on_scroll_listener
-  }
-
-  get page_header_height() {
-    return (document.querySelector('.navbar') || document.querySelector('.header'))
-      .offsetHeight
   }
 
   get container_display_mode() {
@@ -105,7 +82,7 @@ export default class extends Controller {
   get header_container() {
     if (!this._header_container) {
       this._header_container = document.createElement('div')
-      this._header_container.style.top = `${this.page_header_height}px`
+      this._header_container.style.top = 0
       this._header_container.style.position = 'fixed'
       this._header_container.style.display = 'none'
       this._header_container.style.zIndex = 10

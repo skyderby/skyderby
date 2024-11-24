@@ -5,7 +5,7 @@ export default class extends Controller {
     const url = this.element.getAttribute('data-url')
 
     this.element.addEventListener('click', () => {
-      Turbolinks.visit(url)
+      Turbo.visit(url)
     })
   }
 }

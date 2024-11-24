@@ -3,8 +3,8 @@
   %head
     = render 'layouts/head'
 
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = stylesheet_link_tag 'desktop/application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload'
+    = stylesheet_link_tag 'desktop/application', media: 'all', 'data-turbo-track': 'reload'
 
   %body
     #modal-root
@@ -12,15 +12,9 @@
       = render 'layouts/header'
       = render template: 'announcements/active'
 
-      - if flash.count > 0
-        .container.top-buffer
-          .row
-            .col-md-7
-              - flash.each do |type, message|
-                .alert.alert-dismissable.fade-in{:class => bootstrap_class_for(type)}
-                  %button.close{type: 'button', data: {dismiss: 'alert'}, aria: {hidden: 'true'}}
-                    &times;
-                  = message
+      .toast-container#toasts
+        - flash.each do |type, message|
+          = render 'toasts/toast', type: type, message: message
 
       = yield
       -# Modal for Backbone Views

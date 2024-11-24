@@ -64,7 +64,7 @@ gem 'bootstrap-sass', '~> 3.4.1'
 gem 'font-awesome-sass', '~> 5.8.1'
 gem 'sassc-rails'
 gem 'shakapacker', '6.5.0'
-gem 'turbolinks'
+gem 'turbo-rails'
 gem 'uglifier', '>= 2.7.2'
 
 gem 'matrix'

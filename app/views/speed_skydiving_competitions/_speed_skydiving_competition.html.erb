@@ -1,49 +1,49 @@
 <% event = speed_skydiving_competition %>
-<li class="comp-list-item <%= 'active' if event.active? %>">
-  <div class="comp-list-params">
-    <div class="comp-rules">Rules: Speed Skydiving</div>
+<%= link_to speed_skydiving_competition_path(event), class: 'comp-list-item' do %>
+  <div class="event-start-date text-center">
+    <div class="start-date-day"><%= event.starts_at.strftime '%d' %></div>
+    <div class="start-date-month"><%= event.starts_at.strftime '%b\'%y' %></div>
   </div>
 
-  <div class="event-start-date text-muted text-center">
-    <span><%= event.starts_at.strftime '%d' %></span>
-    <em><%= event.starts_at.strftime '%b\'%y' %></em>
-  </div>
-
-  <div class="event-list-details">
-    <h3 class="comp-list-title">
-      <%= link_to speed_skydiving_competition_path(event) do %>
-        <span class="comp-name"><%= event.name %></span>
-      <% end %>
-
+  <div class="event-details">
+    <div class="event-name">
+      <%= event.name %>
       <% if event.unlisted_event? %>
         <i class="fa fa-eye-slash" data-toggle="tooltip" title="<%= t('visibility.unlisted') %>"></i>
       <% elsif event.private_event? %>
         <i class="fa fa-lock" data-toggle="tooltip" title="<%= t('visibility.private') %>"></i>
       <% end %>
 
-      <% if event.is_official %>
-        <small>Official</small>
-      <% end %>
-    </h3>
-    <% if event.place %>
-      <div class="comp-place text-muted">
-        <i class="fa fa-map-marker-alt"></i>
-        <%= place_presentation(event.place) %>
-      </div>
-    <% end %>
+      <div class="pill pill-blue">Speed Skydiving</div>
 
-    <% categories = event.categories.order(:position) %>
-    <% if categories.any? %>
-      <div class="comp-classes text-muted">
-        Classes:
-        <% categories.each do |category| %>
-          <%= category.name %> - <%= category.competitors.count %>
-          <i class="fa fa-user"></i>
-          <% unless category.equal? categories.last %>
-            &nbsp; | &nbsp;
-          <% end %>
+      <% if event.is_official %>
+        <div class="pill pill-yellow">
+          Official
+        </div>
+      <% end %>
+    </div>
+
+    <div class="event-info">
+      <div class='text-muted'>
+        <% if event.place %>
+          <div class="comp-place text-muted">
+            <i class="fa fa-map-marker-alt"></i>
+            <%= place_presentation(event.place) %>
+          </div>
         <% end %>
       </div>
-    <% end %>
+
+      <div>
+        <div class="comp-classes">
+          <% categories = event.categories.order(:position) %>
+          <% categories.each do |category| %>
+            <%= category.name %> - <%= category.competitors.count %>
+            <% unless category.equal? categories.last %>
+              &nbsp; | &nbsp;
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
-</li>
+<% end %>

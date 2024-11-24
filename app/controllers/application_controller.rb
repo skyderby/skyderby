@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   include DeviseOverrides
-  include AuthorizationErrorHandling
+  include ErrorHandling
 
   include SetCurrentRequestDetails
 

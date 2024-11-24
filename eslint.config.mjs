@@ -36,7 +36,7 @@ export default [
         Rails: false,
         google: false,
         Cesium: false,
-        Turbolinks: false,
+        Turbo: false,
         Highcharts: false,
         ga: false,
         module: false,

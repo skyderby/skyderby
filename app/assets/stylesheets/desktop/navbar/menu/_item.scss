@@ -16,13 +16,13 @@
   }
 
   &:hover a {
-    background-color: var(--blue-grey-70);
+    background-color: var(--blue-gray-70);
   }
 }
 
 .nav-menu-item--active {
   a {
-    color: var(--blue-70);
+    color: var(--blue-30);
   }
 
   &::after {
@@ -32,7 +32,7 @@
     left: 0;
     display: block;
     height: 0.25rem;
-    background-color: var(--blue-70);
+    background-color: var(--blue-30);
     border-radius: 2px;
     content: '';
   }

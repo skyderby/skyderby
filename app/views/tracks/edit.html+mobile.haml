@@ -56,7 +56,7 @@
       - if @track.track_file
         .form-group
           Download file:
-          = link_to @track.track_file.file_file_name, track_download_path(@track), 'data-turbolinks': false
+          = link_to @track.track_file.file_file_name, track_download_path(@track), 'data-turbo': false
 
     .text-center
       = f.submit t('general.save'), class: 'btn btn-lg btn-success'

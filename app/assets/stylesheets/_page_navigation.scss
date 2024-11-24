@@ -13,7 +13,7 @@
   display: inline-block;
   position: relative;
   border-radius: var(--border-radius-md);
-  color: var(--grey-70);
+  color: var(--gray-70);
   font-family: $pn-semibold;
   padding: .5rem;
   text-decoration: none;
@@ -23,20 +23,20 @@
 
 .page-tab:focus {
   outline: none;
-  color: var(--grey-70);
+  color: var(--gray-70);
 }
 
 .page-tab:hover {
-  background-color: var(--grey-30);
-  color: var(--grey-70);
+  background-color: var(--gray-30);
+  color: var(--gray-70);
 }
 
 .page-tab-active {
-  color: var(--blue-grey-60);
+  color: var(--blue-gray-60);
 
   &::after {
     position: absolute;
-    background-color: var(--blue-grey-60);
+    background-color: var(--blue-gray-60);
     bottom: -3px;
     display: block;
     height: 3px;
