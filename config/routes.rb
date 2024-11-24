@@ -16,10 +16,15 @@ Skyderby::Application.routes.draw do
       locale: /#{I18n.available_locales.join('|')}/,
       format: false
 
-  get '/track/:id', to: 'tracks#show'
-  get '/tracks/:track_id/google_maps', to: 'tracks/maps#show'
-  get '/tracks/:track_id/google_earth', to: 'tracks/globe#show'
-  get '/tracks/:track_id/replay', to: 'tracks/videos#show'
+  get '/events/:id/*path', to: redirect('/events/performance_competitions/%{id}/%{path}'), constraints: { id: /\d+/ }
+  get '/events/:id', to: redirect('/events/performance_competitions/%{id}'), constraints: { id: /\d+/ }
+  get '/tournaments/:id/*path', to: redirect('/events/tournaments/%{id}/%{path}'), constraints: { id: /\d+/ }
+  get '/tournaments/:id', to: redirect('/events/tournaments/%{id}'), constraints: { id: /\d+/ }
+
+  get '/track/:id', to: redirect('/tracks/%{id}'), constraints: { id: /\d+/ }
+  get '/tracks/:id/google_maps', to: redirect('/tracks/%{id}/map'), constraints: { id: /\d+/ }
+  get '/tracks/:id/google_earth', to: redirect('/tracks/%{id}/globe'), constraints: { id: /\d+/ }
+  get '/tracks/:id/replay', to: redirect('/tracks/%{id}/video'), constraints: { id: /\d+/ }
 
   get '/user_profiles/:id', to: 'profiles#show'
 
@@ -28,7 +33,6 @@ Skyderby::Application.routes.draw do
 
   get '/manage', to: 'manage/dashboards#show'
 
-  get '/competitions', to: 'static_pages#competitions', as: :competitions
   get '/about', to: 'static_pages#about', as: :about
   get '/ping' => 'static_pages#ping'
 
@@ -114,7 +118,8 @@ Skyderby::Application.routes.draw do
     end
   end
 
-  resources :events, concerns: %i[sponsorable organizable] do
+  resources :events, only: :index
+  resources :events, path: 'events/performance_competitions', concerns: %i[sponsorable organizable], except: :index do
     scope module: :events do
       resource :scoreboard, only: :show
       resource :team_scoreboard, only: :show
@@ -154,6 +159,8 @@ Skyderby::Application.routes.draw do
       end
     end
   end
+
+  resources :speed_skydiving_competitions, path: '/events/speed_skydiving', except: :index
 
   resources :track_files, only: [:create, :show] do
     scope module: :track_files do
@@ -251,7 +258,7 @@ Skyderby::Application.routes.draw do
   end
   resources :virtual_comp_results
 
-  resources :tournaments, concerns: [:sponsorable, :organizable] do
+  resources :tournaments, path: 'events/tournaments', concerns: [:sponsorable, :organizable], except: :index do
     scope module: :tournaments do
       resource :qualification, only: :show do
         scope module: :qualifications do
@@ -291,7 +298,7 @@ Skyderby::Application.routes.draw do
   get '/competition_series(*path)', to: redirect('/performance_competition_series%{path}'), defaults: { path: '' }
 
   resources :performance_competition_series, only: :show
-  resources :speed_skydiving_competition_series, only: :show
+  resources :speed_skydiving_competition_series,  only: :show
 
   root 'static_pages#index'
 end
