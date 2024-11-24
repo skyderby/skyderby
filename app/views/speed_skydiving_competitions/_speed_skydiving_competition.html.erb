@@ -26,8 +26,8 @@
     <div class="event-info">
       <div class='text-muted'>
         <% if event.place %>
-          <div class="comp-place text-muted">
-            <i class="fa fa-map-marker-alt"></i>
+          <div class="comp-place">
+            <%= svg_icon 'location-dot-solid' %>
             <%= place_presentation(event.place) %>
           </div>
         <% end %>

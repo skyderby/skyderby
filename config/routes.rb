@@ -40,7 +40,7 @@ Skyderby::Application.routes.draw do
              controllers: { omniauth_callbacks: 'users/omniauth_callbacks',
                             registrations: 'users/registrations' }
 
-  authenticate :user, lambda { |u| u.has_role? :admin } do
+  authenticate :user, lambda { |u| u.admin? } do
     mount Sidekiq::Web => '/manage/sidekiq'
   end
 
