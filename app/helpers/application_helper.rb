@@ -30,5 +30,5 @@ module ApplicationHelper
     end
   end
 
-  def maps_api_key = ENV.fetch('MAPS_API_KEY')
+  def maps_api_key = ENV.fetch('MAPS_API_KEY', nil)
 end
